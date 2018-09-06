@@ -8,6 +8,7 @@ import {VerificationComponent} from './verification/verification.component';
 import {ViewComponent} from './view/view.component';
 import {SettingsRoutingModule} from './settings-routing.module';
 import {CommonModule} from '@angular/common';
+import {SettingsService} from './settings.service';
 
 @NgModule({
   imports: [
@@ -24,7 +25,7 @@ import {CommonModule} from '@angular/common';
     ViewComponent
   ],
   providers: [
-
+    SettingsService
   ]
 })
 export class SettingsModule {

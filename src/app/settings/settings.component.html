@@ -1,4 +1,46 @@
-<p>
-  settings works!
-</p>
-g
+<table>
+  <tr>
+    <td>
+      <a [routerLink]="['/settings/two-factor-auth']">Two-Factor Authentication</a><br>
+    </td>
+    <td>
+      <router-outlet></router-outlet>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a [routerLink]="['/settings/password']">Password</a><br>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>
+      <a [routerLink]="['/settings/session']">Session time</a><br>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>
+      <a [routerLink]="['/settings/nickname']">Add nickname</a><br>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>
+      <a [routerLink]="['/settings/verification']">Identify verification</a><br>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>
+      <a [routerLink]="['/settings/e-notification']">Email notification</a><br>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>
+      <a [routerLink]="['/settings/view']">View</a><br>
+    </td>
+    <td></td>
+  </tr>
+</table>

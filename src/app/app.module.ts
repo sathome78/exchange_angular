@@ -5,9 +5,11 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { SettingsComponent } from './settings/settings.component';
-import {AppRoutingModule} from './app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import {SettingsModule} from './settings/settings.module';
+import { SettingsModule } from './settings/settings.module';
+import {AuthGuard} from './services/auth.guard';
+import { TestComponentComponent } from './test-component/test-component.component';
 
 @NgModule({
   declarations: [
@@ -15,14 +17,17 @@ import {SettingsModule} from './settings/settings.module';
     HeaderComponent,
     FooterComponent,
     SettingsComponent,
-    DashboardComponent
+    DashboardComponent,
+    TestComponentComponent
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     SettingsModule
   ],
-  providers: [],
+  providers: [
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {SettingsComponent} from './settings/settings.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 
 const routes: Routes = [
@@ -8,7 +7,7 @@ const routes: Routes = [
   { path: 'dashboard',      component: DashboardComponent, },
   // { path: 'funds',      component: DashboardComponent, },
   // { path: 'orders',      component: DashboardComponent, },
-  { path: 'settings',      component: SettingsComponent, },
+  { path: 'settings',      loadChildren: 'app/settings/settings.module#SettingsModule' },
 
 
 
