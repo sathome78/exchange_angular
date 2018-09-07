@@ -9,6 +9,7 @@ import {ViewComponent} from './view/view.component';
 import {SettingsRoutingModule} from './settings-routing.module';
 import {CommonModule} from '@angular/common';
 import {SettingsService} from './settings.service';
+import {SettingsComponent} from './settings.component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import {SettingsService} from './settings.service';
     NicknameComponent,
     PasswordComponent,
     SessionComponent,
+    SettingsComponent,
     TwoFactorAuthenticatonComponent,
     VerificationComponent,
     ViewComponent

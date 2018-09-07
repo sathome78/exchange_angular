@@ -9,16 +9,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SettingsModule } from './settings/settings.module';
 import {AuthGuard} from './services/auth.guard';
-import { TestComponentComponent } from './test-component/test-component.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    SettingsComponent,
-    DashboardComponent,
-    TestComponentComponent
+    DashboardComponent
   ],
   imports: [
     AppRoutingModule,
