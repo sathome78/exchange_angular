@@ -1,0 +1,213 @@
+.wrap-input {
+  position: relative;
+
+  &--error {
+    animation: shake 0.82s cubic-bezier(0.36,0.07,0.19,0.97) both;
+  }
+  &--230{
+    width: 100%;
+    max-width: 230px;
+  }
+  &--mb32{
+    margin-bottom: 32px;
+  }
+}
+
+.wrap-input__label {
+  position: absolute;
+  top: 15px;
+  left: 12px;
+  color: $grey;
+  font-size: 14px;
+  line-height: 16px;
+  -webkit-transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+  pointer-events: none;
+
+  &--with-icon {
+    left: 32px;
+  }
+
+  &--white {
+    color: #fff;
+  }
+}
+
+.wrap-input__icon {
+  display: inline-block;
+  position: absolute;
+  top: 14px;
+  left: 10px;
+  width: 18px;
+  height: 18px;
+  img{
+    width: 100%;
+  }
+}
+
+.wrap-input__line {
+  height: 1px;
+  background-color: $grey;
+
+  &--bd-dark-blue {
+    background-color: #23243e;
+  }
+}
+
+.input {
+  display: block;
+  box-sizing: border-box;
+  width: calc(100% - 5px);
+  height: 45px;
+  margin: 0 auto;
+  padding: 0 12px;
+  border: 1px solid $grey;
+  border-bottom: none;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  font-size: 14px;
+
+  &:focus {
+    border-color: $darker-blue;
+    outline: none;
+
+    ~ .wrap-input__label {
+      top: -5px;
+      padding: 0 2px;
+      color: $darker-blue;
+      background-color: #fff;
+      font-size: 10px;
+      line-height: 12px;
+
+      &--with-icon {
+        left: 12px;
+      }
+
+      &--white {
+        color: #fff;
+        background-color: transparent;
+      }
+    }
+
+    ~ .wrap-input__line {
+      background-color: $darker-blue;
+
+      &--bd-dark-blue {
+        background-color: #23243e;
+      }
+    }
+  }
+
+  &:valid {
+    ~ .wrap-input__label {
+      top: -5px;
+      padding: 0 2px;
+      background-color: #fff;
+      font-size: 10px;
+      line-height: 12px;
+
+      &--search {
+        left: 12px;
+      }
+      &--white{
+        background-color: transparent;
+      }
+    }
+  }
+
+  &--error {
+    border-color: $red;
+
+    ~ .wrap-input__label {
+      top: -5px;
+      padding: 0 2px;
+      color: $red;
+      background-color: #fff;
+      font-size: 10px;
+      line-height: 12px;
+    }
+
+    ~ .wrap-input__line {
+      background-color: $red;
+    }
+
+    &:focus {
+      border-color: $red;
+
+      ~ .wrap-input__label {
+        top: -5px;
+        padding: 0 2px;
+        color: $red;
+        background-color: #fff;
+        font-size: 10px;
+        line-height: 12px;
+      }
+
+      ~ .wrap-input__line {
+        background-color: $red;
+      }
+    }
+  }
+
+  &--with-icon {
+    padding-left: 28px;
+  }
+
+  &--transparent {
+    background-color: transparent;
+    color: #fff;
+  }
+
+  &--bd-dark-blue {
+    border: 1px solid #23243e;
+
+    &:focus {
+      border: 1px solid #23243e;
+    }
+  }
+}
+
+.input[type="password"] {
+  padding: 0 33px 0 12px;
+}
+
+.wrap-input__show-password {
+  position: absolute;
+  top: 16px;
+  right: 10px;
+  width: 23px;
+  height: 13px;
+  background-image: url("../img/eye-line.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &--active {
+    background-image: url("../img/eye.svg");
+  }
+}
+
+.wrap-input__valid {
+  display: none;
+  // position: absolute;
+  bottom: -20px;
+  color: $red;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: left;
+
+  &--grey {
+    display: block;
+    color: $light-grey;
+  }
+
+  &--reg {
+    position: relative;
+    bottom: 0;
+  }
+}

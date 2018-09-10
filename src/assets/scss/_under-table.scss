@@ -1,0 +1,33 @@
+.under-table {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px;
+  @media (min-width:900px) {
+    flex-direction: row;
+  }
+  @media (min-width:1200px) {
+    padding: 0;
+  }
+}
+
+.under-table__show-items {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  color: $grey;
+  font-size: 14px;
+  line-height: 16px;
+  order: 2;
+  @media (min-width:900px) {
+    order: 1;
+  }
+}
+
+.under-table__dropdown {
+  margin: 0 4px;
+}

@@ -1,0 +1,36 @@
+.request-revoke-notif {
+  display: none;
+  position: absolute;
+  top: 50%;
+  width: calc(100% - 40px);
+  height: 47px;
+  border: 1px solid $darker-blue;
+  color: $darker-blue;
+  background-color: #fff;
+  font-size: 18px;
+  align-items: center;
+  justify-content: center;
+}
+
+.request-revoke-notif__icon {
+  margin-right: 20px;
+}
+
+.request-revoke-notif__request-num {
+  padding: 0 4px;
+  font-weight: 700;
+}
+
+.request-revoke-notif__amount {
+  padding: 0 4px;
+  font-weight: 700;
+}
+
+.request-revoke-notif__close {
+  position: absolute;
+  right: 32px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

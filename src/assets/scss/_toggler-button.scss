@@ -1,0 +1,34 @@
+.toggler-button {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  position: relative;
+  width: 26px;
+  height: 15px;
+  border-radius: 10px;
+  background-color: $light-grey;
+  align-items: center;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &--active {
+    background-color: $darker-blue;
+  }
+}
+
+.toggler-button__indicate {
+  display: inline-block;
+  position: absolute;
+  left: 1px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background-color: #fff;
+
+  &--active {
+    right: 1px;
+    left: auto;
+  }
+}

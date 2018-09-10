@@ -1,0 +1,40 @@
+.radio {
+  position: relative;
+  display: inline-block;
+
+  &__input {
+    position: absolute;
+    margin: 0;
+    opacity: 0;
+
+    &:checked {
+      ~.radio__icon {
+        &:after {
+          display: block;
+        }
+      }
+    }
+  }
+
+  &__icon {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    width: 14px;
+    height: 14px;
+    border: 1px solid $darker-blue;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+
+    &:after {
+      display: none;
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: $darker-blue;
+      content: "";
+    }
+  }
+}
