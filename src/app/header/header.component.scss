@@ -307,6 +307,154 @@
   height: 12px;
   vertical-align: middle;
 }
+.holdings-mob {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: #fff;
+  background-color: #393a51;
+
+  &__info {
+    position: relative;
+    height: 40px;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+
+    &:after {
+      display: block;
+      position: absolute;
+      right: 14px;
+      width: 9px;
+      height: 9px;
+      background-image: url("../../assets/img/arr-toggler-down-blue.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 100%;
+      content: "";
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__title {
+    display: block;
+    color: #94c2ff;
+    font-size: 10px;
+    line-height: 12px;
+  }
+
+  &__info-item {
+    display: inline-block;
+    margin-right: 4px;
+    font-size: 14px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__pairs {
+    padding: 0 14px;
+    color: #fff;
+    display: none;
+
+    &--active {
+      display: block;
+    }
+  }
+
+  &__pairs-row {
+    margin-top: 16px;
+    margin-bottom: 16px;
+
+    &:first-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__pairs-row-title {
+    display: block;
+    font-size: 14px;
+    opacity: 0.5;
+    margin-bottom: 12px;
+  }
+
+  &__radio-row {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-column-gap: 12px;
+    grid-row-gap: 8px;
+    // @media (min-width:600px) {
+    //   grid-template-columns: repeat(4, auto);
+    // }
+    // @media (min-width:900px) {
+    //   grid-template-columns: repeat(5, auto);
+    // }
+  }
+
+  &__radio-item {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    padding-left: 24px;
+    font-size: 14px;
+    cursor: pointer;
+    align-items: center;
+  }
+
+  &__radio-img {
+    width: auto;
+    height: 14px;
+    margin-right: 8px;
+  }
+
+  &__radio-input {
+    position: absolute;
+    opacity: 0;
+
+    &:checked {
+      ~.holdings-mob__radio-icon {
+        &:after {
+          display: block;
+        }
+      }
+    }
+  }
+
+  &__radio-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    border: 1px solid;
+    border-color: #fff;
+    border-radius: 14px;
+    background-color: transparent;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:after {
+      display: none;
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 8px;
+      background-color: #237bef;
+      content: "";
+    }
+  }
+}
 
 .header__logout {
   display: -webkit-flex;

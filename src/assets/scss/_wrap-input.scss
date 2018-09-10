@@ -178,7 +178,7 @@
   right: 10px;
   width: 23px;
   height: 13px;
-  background-image: url("../img/eye-line.svg");
+  background-image: url("assets/img/eye-line.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;
@@ -188,7 +188,7 @@
   }
 
   &--active {
-    background-image: url("../img/eye.svg");
+    background-image: url("assets/img/eye.svg");
   }
 }
 
