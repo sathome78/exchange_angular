@@ -1,60 +1,62 @@
-<div class="settings-sidebar">
-  <div class="page-title settings-sidebar__title">
-    <h1 class="page-title__text">Settings     </h1>
+<div class="content-settings">
+  <div class="settings-sidebar">
+    <div class="page-title settings-sidebar__title">
+      <h1 class="page-title__text">Settings     </h1>
+    </div>
+    <ul class="settings-menu">
+      <li class="settings-menu__item">
+        <a class="settings-menu__link"
+           [routerLinkActive]="['settings-menu__link--active']"
+           [routerLink]="['/settings/two-factor-auth']">
+          Two-Factor Authentication
+        </a>
+      </li>
+      <li class="settings-menu__item">
+        <a class="settings-menu__link"
+           [routerLinkActive]="['settings-menu__link--active']"
+           [routerLink]="['/settings/password']">
+          Password
+        </a>
+      </li>
+      <li class="settings-menu__item">
+        <a class="settings-menu__link"
+           [routerLinkActive]="['settings-menu__link--active']"
+           [routerLink]="['/settings/session']">
+          Session Time
+        </a>
+      </li>
+      <li class="settings-menu__item">
+        <a class="settings-menu__link"
+           [routerLinkActive]="['settings-menu__link--active']"
+           [routerLink]="['/settings/nickname']">
+          Add Nickname
+        </a>
+      </li>
+      <li class="settings-menu__item">
+        <a class="settings-menu__link"
+           [routerLinkActive]="['settings-menu__link--active']"
+           [routerLink]="['/settings/verification']">
+          Identity verification
+        </a>
+      </li>
+      <li class="settings-menu__item">
+        <a class="settings-menu__link"
+           [routerLinkActive]="['settings-menu__link--active']"
+           [routerLink]="['/settings/e-notification']">
+          Email Notifications
+        </a>
+      </li>
+      <li class="settings-menu__item">
+        <a class="settings-menu__link"
+           [routerLinkActive]="['settings-menu__link--active']"
+           [routerLink]="['/settings/view']">
+          View
+        </a>
+      </li>
+    </ul>
   </div>
-  <ul class="settings-menu">
-    <li class="settings-menu__item">
-      <a class="settings-menu__link"
-         [routerLinkActive]="['settings-menu__link--active']"
-         [routerLink]="['/settings/two-factor-auth']">
-        Two-Factor Authentication
-      </a>
-    </li>
-    <li class="settings-menu__item">
-      <a class="settings-menu__link"
-         [routerLinkActive]="['settings-menu__link--active']"
-         [routerLink]="['/settings/password']">
-        Password
-      </a>
-    </li>
-    <li class="settings-menu__item">
-      <a class="settings-menu__link"
-         [routerLinkActive]="['settings-menu__link--active']"
-         [routerLink]="['/settings/session']">
-        Session Time
-      </a>
-    </li>
-    <li class="settings-menu__item">
-      <a class="settings-menu__link"
-         [routerLinkActive]="['settings-menu__link--active']"
-         [routerLink]="['/settings/nickname']">
-        Add Nickname
-      </a>
-    </li>
-    <li class="settings-menu__item">
-      <a class="settings-menu__link"
-         [routerLinkActive]="['settings-menu__link--active']"
-         [routerLink]="['/settings/verification']">
-        Identity verification
-      </a>
-    </li>
-    <li class="settings-menu__item">
-      <a class="settings-menu__link"
-         [routerLinkActive]="['settings-menu__link--active']"
-         [routerLink]="['/settings/e-notification']">
-        Email Notifications
-      </a>
-    </li>
-    <li class="settings-menu__item">
-      <a class="settings-menu__link"
-         [routerLinkActive]="['settings-menu__link--active']"
-         [routerLink]="['/settings/view']">
-        View
-      </a>
-    </li>
-  </ul>
-</div>
+  <div style="width:100%">
+    <router-outlet></router-outlet>
+  </div>
 
-<div>
-  <router-outlet></router-outlet>
 </div>

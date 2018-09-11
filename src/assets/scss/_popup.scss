@@ -52,7 +52,7 @@
   right: 12px;
   width: 15px;
   height: 15px;
-  background-image: url("../img/close-blue.svg");
+  background-image: url("assets/img/close-blue.svg");
   background-position: center;
   background-size: cover;
   @media (min-width:600px) {
@@ -62,7 +62,7 @@
   @media (min-width:1200px) {
     top: 7px;
     right: -35px;
-    background-image: url("../img/close.svg");
+    background-image: url("assets/img/close.svg");
   }
 
   &:hover {
@@ -203,7 +203,7 @@
   top: -1px;
   width: 14px;
   height: 14px;
-  background-image: url("../img/check.svg");
+  background-image: url("assets/img/check.svg");
   background-repeat: no-repeat;
   content: "";
 }
