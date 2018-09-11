@@ -127,9 +127,10 @@
 </header>
 <!-- HEADER END-->
 <!-- HEADER START-->
-<header class="header-mob">
-  <div class="heder-mob__top">
-    <div class="header-mob__burger-content">
+<!--<header class="header-mob" [ngStyle]="{'height': isMobileMenuOpen ? '100%': 'auto' }">-->
+<header class="header-mob" [ngClass]="{'header-mob--open': isMobileMenuOpen }">
+  <div class="header-mob__top" >
+    <div [ngClass]="{'header-mob__burger-content': !isMobileMenuOpen, 'header-mob__burger-content--open': isMobileMenuOpen }">
       <div class="header-mob__controls-row"><a class="header-mob__controls-btn" href="#"><img class="header-mob__controls-icon" src="../../assets/img/header-mob-lamp.svg"></a><a class="header-mob__controls-btn" href="#"><img class="header-mob__controls-icon" src="../../assets/img/header-mob-notification.svg"></a>
         <a
           class="header-mob__controls-btn" href="#"><img class="header-mob__controls-icon" src="../../assets/img/header-mob-settings.svg"></a>
@@ -164,7 +165,7 @@
             class="header-mob__submenu-link"><img class="header-mob__submenu-link-img" src="../../assets/img/header-sumbenu-link3.svg"><span class="header-mob__submenu-link-text">Book</span></a><a class="header-mob__submenu-link"><img class="header-mob__submenu-link-img" src="../../assets/img/header-sumbenu-link6.svg"><span class="header-mob__submenu-link-text">Chat</span></a></div>
     <a
       class="header-mob__link header-mob__link-burger" >
-      <div class="header-mob__link-inner"><img class="header-mob__link-img" src="../../assets/img/header-mob-burger.svg"></div>
+      <div class="header-mob__link-inner" (click)="openMenu()"><img class="header-mob__link-img" src="../../assets/img/header-mob-burger.svg"></div>
       </a>
   </div>
 </header>
