@@ -1,3 +1,22 @@
-<p>
-  session works!
-</p>
+<!-- <div class="settings-content session-time"> -->
+  <h3 class="settings-content__title">Session Time</h3>
+  <div class="settings-content__subtitle">Time period, when you stayed logged in system after the last action</div>
+  <form class="settings-form">
+    <div class="input-range settings__time-range">
+      <input class="input-range__input" type="range" min="5" max="24" value="5"><span class="input-range__min">5min</span><span class="input-range__max">24h</span>
+    </div>
+    <div class="settings-form__row settings-form__row--time">
+      <div class="wrap-input">
+        <input class="input" type="text" required="">
+        <label class="wrap-input__label">Hours</label>
+        <div class="wrap-input__line"></div>
+      </div><span class="colon">:</span>
+      <div class="wrap-input">
+        <input class="input" type="text" required="">
+        <label class="wrap-input__label">Minutes</label>
+        <div class="wrap-input__line"></div>
+      </div>
+    </div>
+    <button class="button settings-form__button settings-form__button--mt32">Save</button>
+  </form>
+<!-- </div> -->

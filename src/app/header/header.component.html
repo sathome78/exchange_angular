@@ -126,8 +126,7 @@
   </div>
 </header>
 <!-- HEADER END-->
-<!-- HEADER START-->
-<!--<header class="header-mob" [ngStyle]="{'height': isMobileMenuOpen ? '100%': 'auto' }">-->
+<!-- HEADER MOBILE START-->
 <header class="header-mob" [ngClass]="{'header-mob--open': isMobileMenuOpen }">
   <div class="header-mob__top" >
     <div [ngClass]="{'header-mob__burger-content': !isMobileMenuOpen, 'header-mob__burger-content--open': isMobileMenuOpen }">
@@ -169,3 +168,4 @@
       </a>
   </div>
 </header>
+<!-- HEADER MOBILE END-->

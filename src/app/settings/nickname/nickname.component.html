@@ -1,3 +1,37 @@
-<p>
-  nickname works!
-</p>
+<!-- <div class="content content--settings"> -->
+  <div class="settings-sidebar">
+    <div class="page-title settings-sidebar__title">
+      <h1 class="page-title__text">Settings     </h1>
+    </div>
+    <ul class="settings-menu">
+      <li class="settings-menu__item"><a class="settings-menu__link" href="settings-2fa.html">Two-Factor Authentication</a></li>
+      <li class="settings-menu__item"><a class="settings-menu__link" href="settings-pass.html">Password</a></li>
+      <li class="settings-menu__item"><a class="settings-menu__link" href="settings-time.html">Session Time</a></li>
+      <li class="settings-menu__item"><a class="settings-menu__link settings-menu__link--active" href="settings-nickname.html">Add Nickname</a></li>
+      <li class="settings-menu__item"><a class="settings-menu__link" href="settings-identity.html">Identity verification</a></li>
+      <li class="settings-menu__item"><a class="settings-menu__link" href="settings-email-notif.html">Email Notifications</a></li>
+      <li class="settings-menu__item"><a class="settings-menu__link" href="settings-view.html">View</a></li>
+    </ul>
+  </div>
+  <div class="settings-content">
+    <h3 class="settings-content__title">Nickname</h3>
+    <div class="settings-content__subtitle">For inner transactions users could use your nickname instead of email.</div>
+    <form class="settings-form">
+      <div class="settings-form__row">
+        <div class="wrap-input settings-form__wrap-input">
+          <input class="input" type="text" required="">
+          <label class="wrap-input__label">Nickname</label>
+          <div class="wrap-input__line"></div><span class="wrap-input__valid">This nickname already taken. Please take another one</span>
+        </div><span class="settings-form__input-notice">– use only (A-z), (–), (=) symbols, </span>
+      </div>
+      <button class="button settings-form__button settings-form__button--mt32">Save</button>
+    </form>
+    <div class="settings__note">
+      <div class="settings__note-title">Please note:</div>
+      <ul class="settings__note-list">
+        <li class="settings__note-list-item">Nickname can be specified only 1 time</li>
+        <li class="settings__note-list-item">After creating a nickname, it will not be possible to change it</li>
+      </ul>
+    </div>
+  </div>
+<!-- </div> -->
