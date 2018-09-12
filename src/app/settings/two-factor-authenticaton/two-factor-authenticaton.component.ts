@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-two-factor-authenticaton',
@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TwoFactorAuthenticatonComponent implements OnInit {
 
-  constructor() { }
+  @Output() providerSettingsEmitter: EventEmitter<any> = new EventEmitter();
+
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+  updateAuthProviderSettings(value: string) {
+    console.log(value);
+    this.providerSettingsEmitter.emit(value);
   }
 
 }
