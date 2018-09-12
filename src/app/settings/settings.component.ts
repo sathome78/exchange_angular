@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
 @Component({
@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
   host: {'class': 'app-settings'}
 })
 export class SettingsComponent implements OnInit {
+
 
   constructor(private router: Router) {
     this.router.navigate(['/settings/two-factor-auth']);

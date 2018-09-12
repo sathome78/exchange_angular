@@ -3,7 +3,7 @@ import {EmailNotificationComponent} from './email-notification/email-notificatio
 import {NicknameComponent} from './nickname/nickname.component';
 import {PasswordComponent} from './password/password.component';
 import {SessionComponent} from './session/session.component';
-import {TwoFactorAuthenticatonComponent} from './two-factor-authenticaton/two-factor-authenticaton.component';
+import {TwoFactorAuthenticationComponent} from './two-factor-authenticaton/two-factor-authentication.component';
 import {VerificationComponent} from './verification/verification.component';
 import {ViewComponent} from './view/view.component';
 import {SettingsRoutingModule} from './settings-routing.module';
@@ -22,7 +22,7 @@ import {SettingsComponent} from './settings.component';
     PasswordComponent,
     SessionComponent,
     SettingsComponent,
-    TwoFactorAuthenticatonComponent,
+    TwoFactorAuthenticationComponent,
     VerificationComponent,
     ViewComponent
   ],
