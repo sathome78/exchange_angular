@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
-  host: {'class': 'app-settings'}
+  // host: {'class': 'app-settings'}
 })
 export class SettingsComponent implements OnInit {
 
