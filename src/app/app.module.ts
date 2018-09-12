@@ -10,8 +10,9 @@ import {FooterComponent} from './footer/footer.component';
 import {AppRoutingModule} from './app-routing.module';
 import {DashboardModule} from './dashboard/dashboard.module';
 import {SettingsModule} from './settings/settings.module';
-import { TwoFactorPopupComponent } from './popups/two-factor-popup/two-factor-popup.component';
 import {PopupService} from './services/popup.service';
+import {TwoFactorPopupModule} from './popups/two-factor-popup/two-factor-popup.module';
+import {TwoFactorPopupComponent} from './popups/two-factor-popup/two-factor-popup.component';
 
 @NgModule({
   declarations: [
@@ -19,13 +20,14 @@ import {PopupService} from './services/popup.service';
     HeaderComponent,
     DropdownDirective,
     FooterComponent,
-    TwoFactorPopupComponent
+    TwoFactorPopupComponent,
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     DashboardModule,
-    SettingsModule
+    TwoFactorPopupModule,
+    SettingsModule,
 
   ],
   providers: [

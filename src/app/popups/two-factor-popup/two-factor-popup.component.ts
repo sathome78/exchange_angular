@@ -9,16 +9,13 @@ import {Subscription} from 'rxjs';
 })
 export class TwoFactorPopupComponent implements OnInit, OnDestroy {
 
-  subscription: Subscription;
 
   constructor(private popupService: PopupService) { }
 
   ngOnInit() {
-    // this.subscription = this.popupService.getTfaProviderUpdateListener().subscribe(provider => console.log(provider));
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
 }
