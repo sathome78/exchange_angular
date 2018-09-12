@@ -11,6 +11,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {DashboardModule} from './dashboard/dashboard.module';
 import {SettingsModule} from './settings/settings.module';
 import { TwoFactorPopupComponent } from './popups/two-factor-popup/two-factor-popup.component';
+import {PopupService} from './services/popup.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TwoFactorPopupComponent } from './popups/two-factor-popup/two-factor-po
   ],
   providers: [
     AuthGuard,
-    AuthService
+    AuthService,
+    PopupService,
   ],
   bootstrap: [AppComponent]
 })

@@ -16,8 +16,4 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
   }
 
-  onUpdateProviderSetting(event: string) {
-    console.log('event: ' + event);
-  }
-
 }

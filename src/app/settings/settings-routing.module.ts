@@ -1,7 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {SettingsComponent} from './settings.component';
-import {TwoFactorAuthenticatonComponent} from './two-factor-authenticaton/two-factor-authenticaton.component';
+import {TwoFactorAuthenticationComponent} from './two-factor-authenticaton/two-factor-authentication.component';
 import {PasswordComponent} from './password/password.component';
 import {SessionComponent} from './session/session.component';
 import {NicknameComponent} from './nickname/nickname.component';
@@ -14,7 +14,7 @@ const settingsRoutes: Routes = [
     component: SettingsComponent,
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'two-factor-auth'},
-      { path: 'two-factor-auth', component: TwoFactorAuthenticatonComponent },
+      { path: 'two-factor-auth', component: TwoFactorAuthenticationComponent },
       { path: 'password', component: PasswordComponent },
       { path: 'session', component: SessionComponent },
       { path: 'nickname', component: NicknameComponent },

@@ -2,9 +2,14 @@
   <app-header></app-header>
   <div class="content">
 
-    <!--<app-two-factor-popup></app-two-factor-popup>-->
+    <div *ngIf="isTfaPopupOpen">
+      <app-two-factor-popup></app-two-factor-popup>
+    </div>
+
     <router-outlet></router-outlet>
     <a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>
   </div>
+
+  {{'isOpen: ' + isTfaPopupOpen}}
   <app-footer></app-footer>
 </div>
