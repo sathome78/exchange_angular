@@ -6,7 +6,8 @@
   background-color: $dark-indigo;
   @media (min-width:1200px) {
     display: block;
-    margin-top: -75px;
+    flex-grow: 0;
+    // margin-top: -75px;
     height: 75px;
   }
 }
