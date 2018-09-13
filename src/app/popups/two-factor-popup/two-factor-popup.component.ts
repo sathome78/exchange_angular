@@ -14,6 +14,7 @@ export class TwoFactorPopupComponent implements OnInit {
   sms = 'SMS';
   telegram = 'TELEGRAM';
   provider: string;
+  step = 1;
 
   constructor(private popupService: PopupService,
               private logger: LoggingService) {

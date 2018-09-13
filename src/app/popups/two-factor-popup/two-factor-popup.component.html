@@ -57,20 +57,53 @@
           </a>
         </li>
       </ul>
-      <div class="steps__counter">step <span class="steps__counter-val">4</span>/4</div>
+      <div class="steps__counter">step <span class="steps__counter-val">{{step}}</span>/4</div>
     </div>
     <!-- modal header end -->
     <div class="modal__content" [ngSwitch]="provider">
-      <div *ngSwitchCase="google">
-        <p>Google</p>
+      <div *ngSwitchCase="google" [ngSwitch]="step">
+        <div *ngSwitchCase="1">
+          <app-google-step-one></app-google-step-one>
+        </div>
+        <div *ngSwitchCase="2">
+          <app-google-step-two></app-google-step-two>
+        </div>
+        <div *ngSwitchCase="3">
+          <app-google-step-three></app-google-step-three>
+        </div>
+        <div *ngSwitchCase="4">
+          <app-google-step-three></app-google-step-three>
+        </div>
       </div>
 
-      <div *ngSwitchCase="sms">
-        <p>Sms</p>
+      <div *ngSwitchCase="sms" [ngSwitch]="step">
+        <div *ngSwitchCase="1">
+          <app-sms-step-one></app-sms-step-one>
+        </div>
+        <div *ngSwitchCase="2">
+          <app-sms-step-two></app-sms-step-two>
+        </div>
+        <div *ngSwitchCase="3">
+          <app-sms-step-three></app-sms-step-three>
+        </div>
+        <div *ngSwitchCase="4">
+          <app-sms-step-four></app-sms-step-four>
+        </div>
       </div>
 
-      <div *ngSwitchCase="telegram">
-        <p>Telegram</p>
+      <div *ngSwitchCase="telegram" [ngSwitch]="step">
+        <div *ngSwitchCase="1">
+          <app-telegram-step-one></app-telegram-step-one>
+        </div>
+        <div *ngSwitchCase="2">
+          <app-telegram-step-two></app-telegram-step-two>
+        </div>
+        <div *ngSwitchCase="3">
+          <app-telegram-step-three></app-telegram-step-three>
+        </div>
+        <div *ngSwitchCase="4">
+          <app-telegram-step-four></app-telegram-step-four>
+        </div>
       </div>
 
     </div>
