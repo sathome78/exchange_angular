@@ -48,6 +48,9 @@
       right: 100%;
       bottom: 0;
     }
+    &:hover{
+      cursor: pointer;
+    }
   }
 
   &__button {
@@ -496,7 +499,7 @@
         right: 0;
         width: 13px;
         height: 10px;
-        background-image: url("../img/step-valid.svg");
+        background-image: url("assets/img/step-valid.svg");
         background-repeat: no-repeat;
         background-position: center;
         background-size: 100%;

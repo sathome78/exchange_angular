@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PopupService} from '../../services/popup.service';
-import {Subscription} from 'rxjs';
-import {v} from '@angular/core/src/render3';
+import {LoggingService} from '../../services/logging.service';
 
 @Component({
   selector: 'app-two-factor-authentication',
@@ -10,14 +9,16 @@ import {v} from '@angular/core/src/render3';
 })
 export class TwoFactorAuthenticationComponent implements OnInit {
 
-  constructor(private popupService: PopupService) {
+  constructor(private popupService: PopupService,
+              private logger: LoggingService) {
   }
 
   ngOnInit() {
+
   }
 
   updateAuthProviderSettings(value: string) {
-    console.log(value);
+    this.logger.debug(this, 'Provider settings is invoked for ' + value);
     this.popupService.showTFAPopup(value);
   }
 

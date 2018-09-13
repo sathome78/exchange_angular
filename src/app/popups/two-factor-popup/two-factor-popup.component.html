@@ -1,12 +1,112 @@
+<div class="modal-wrap">
+  <div class="modal">
+    <!-- btn modal close -->
+    <div class="modal__controls modal__controls--top">
+      <a class="modal__button modal__button--close" (click)="closePopup()">
+        <span>close</span>
+        <img class="modal__button-icon" src="../../../assets/img/close.svg">
+      </a>
+    </div>
+    <!-- btn modal minimize -->
+    <div class="modal__controls modal__controls--bottom">
+      <a class="modal__button">
+        <span> </span>
+        <img class="modal__button-icon" src="../../../assets/img/minimize.svg">
+      </a>
+    </div>
+    <!-- modal header start -->
+    <div class="modal__header-mob">
+      <div class="steps__counter steps__counter--mob">step
+        <span class="steps__counter-val">4</span>/4</div>
+      <div class="modal__header-mob-controls">
+        <a class="modal__control-mob" href="#">
+          <img class="modal__control-icon" src="../../../assets/img/minimize-mob-blue.svg"></a>
+        <a class="modal__control-mob" href="#">
+          <img class="modal__control-icon" src="../../../assets/img/learn-blue.svg"></a>
+        <a class="modal__control-mob" href="#">
+          <img class="modal__control-icon" src="../../../assets/img/close-blue.svg"></a>
+      </div>
+    </div>
+    <div class="modal__header">
+      <ul class="steps">
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 1}"  (click)="moveNext()">
+          <a class="steps__link">
+            <span class="steps__number" [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
+            <span class="steps__number-mob-current">1. By passport</span>
+            <span class="steps__title">{{ getStepName(1) }}</span>
+          </a>
+        </li>
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 2}" (click)="moveNext()">
+          <a class="steps__link">
+            <span class="steps__number" [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }">2</span>
+            <span class="steps__number-mob-current">2. Submit ID</span>
+            <span class="steps__title">{{ getStepName(2) }}</span>
+          </a>
+        </li>
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 3}" (click)="moveNext()">
+          <a class="steps__link">
+            <span class="steps__number" [ngClass]="{'steps__number--current': step === 3, 'steps__number--valid': step != 3 }">3</span>
+            <span class="steps__number-mob-current">3. Capture by camera</span>
+            <span class="steps__title">{{ getStepName(3) }}</span>
+          </a>
+        </li>
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 4}" (click)="moveNext()">
+          <a class="steps__link">
+            <span class="steps__number" [ngClass]="{'steps__number--current': step === 4, 'steps__number--valid': step != 4 }">4</span>
+            <span class="steps__number-mob-current">4. By nick with pass</span>
+            <span class="steps__title">{{ getStepName(4) }}</span>
+          </a>
+        </li>
+      </ul>
+      <div class="steps__counter">step <span class="steps__counter-val">{{step}}</span>/4</div>
+    </div>
+    <!-- modal header end -->
+    <div class="modal__content" [ngSwitch]="provider">
+      <div *ngSwitchCase="google" [ngSwitch]="step">
+        <div *ngSwitchCase="1">
+          <app-google-step-one></app-google-step-one>
+        </div>
+        <div *ngSwitchCase="2">
+          <app-google-step-two></app-google-step-two>
+        </div>
+        <div *ngSwitchCase="3">
+          <app-google-step-three></app-google-step-three>
+        </div>
+        <div *ngSwitchCase="4">
+          <app-google-step-three></app-google-step-three>
+        </div>
+      </div>
 
+      <div *ngSwitchCase="sms" [ngSwitch]="step">
+        <div *ngSwitchCase="1">
+          <app-sms-step-one></app-sms-step-one>
+        </div>
+        <div *ngSwitchCase="2">
+          <app-sms-step-two></app-sms-step-two>
+        </div>
+        <div *ngSwitchCase="3">
+          <app-sms-step-three></app-sms-step-three>
+        </div>
+        <div *ngSwitchCase="4">
+          <app-sms-step-four></app-sms-step-four>
+        </div>
+      </div>
 
-<div>
-  Here will be 5 cells with steps and info
-  test 2
+      <div *ngSwitchCase="telegram" [ngSwitch]="step">
+        <div *ngSwitchCase="1">
+          <app-telegram-step-one></app-telegram-step-one>
+        </div>
+        <div *ngSwitchCase="2">
+          <app-telegram-step-two></app-telegram-step-two>
+        </div>
+        <div *ngSwitchCase="3">
+          <app-telegram-step-three></app-telegram-step-three>
+        </div>
+        <div *ngSwitchCase="4">
+          <app-telegram-step-four></app-telegram-step-four>
+        </div>
+      </div>
 
-</div>
-
-<div>
-  <!--Here all child pages will be loaded-->
-  <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
