@@ -1,12 +1,68 @@
-
-
-<div>
-  Here will be 5 cells with steps and info
-  test 2
-
-</div>
-
-<div>
-  <!--Here all child pages will be loaded-->
-  <router-outlet></router-outlet>
+<div class="modal-wrap">
+  <div class="modal">
+    <!-- btn modal close -->
+    <div class="modal__controls modal__controls--top">
+      <a class="modal__button modal__button--close">
+        <span>close</span>
+        <img class="modal__button-icon" src="../../../assets/img/close.svg">
+      </a>
+    </div>
+    <!-- btn modal minimize -->
+    <div class="modal__controls modal__controls--bottom">
+      <a class="modal__button">
+        <span> </span>
+        <img class="modal__button-icon" src="../../../assets/img/minimize.svg">
+      </a>
+    </div>
+    <!-- modal header start -->
+    <div class="modal__header-mob">
+      <div class="steps__counter steps__counter--mob">step
+        <span class="steps__counter-val">4</span>/4</div>
+      <div class="modal__header-mob-controls">
+        <a class="modal__control-mob" href="#">
+          <img class="modal__control-icon" src="../../../assets/img/minimize-mob-blue.svg"></a>
+        <a class="modal__control-mob" href="#">
+          <img class="modal__control-icon" src="../../../img/learn-blue.svg"></a>
+        <a class="modal__control-mob" href="#">
+          <img class="modal__control-icon" src="../../../img/close-blue.svg"></a>
+      </div>
+    </div>
+    <div class="modal__header">
+      <ul class="steps">
+        <li class="steps__item">
+          <a class="steps__link" href="#">
+            <span class="steps__number steps__number--valid">1</span>
+            <span class="steps__number-mob-current">1. By pasport</span>
+            <span class="steps__title">By pasport</span>
+          </a>
+        </li>
+        <li class="steps__item">
+          <a class="steps__link" href="#">
+            <span class="steps__number steps__number--valid">2</span>
+            <span class="steps__number-mob-current">2. Submit ID</span>
+            <span class="steps__title">Submit ID</span>
+          </a>
+        </li>
+        <li class="steps__item">
+          <a class="steps__link" href="#">
+            <span class="steps__number steps__number--valid">3</span>
+            <span class="steps__number-mob-current">3. Capture by camera</span>
+            <span class="steps__title">Capture by camera</span>
+          </a>
+        </li>
+        <li class="steps__item steps__item--current">
+          <a class="steps__link" href="#"><span class="steps__number steps__number--current">4</span>
+            <span class="steps__number-mob-current">4. By nick with pass</span>
+            <span class="steps__title">By nick with pass</span>
+          </a>
+        </li>
+      </ul>
+      <div class="steps__counter">step <span class="steps__counter-val">4</span>/4</div>
+    </div>
+    <!-- modal header end -->
+    <div class="modal__content">
+      <!--Here all child pages will be loaded-->
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
