@@ -13,6 +13,7 @@ import {SettingsModule} from './settings/settings.module';
 import {PopupService} from './services/popup.service';
 import {TwoFactorPopupModule} from './popups/two-factor-popup/two-factor-popup.module';
 import {TwoFactorPopupComponent} from './popups/two-factor-popup/two-factor-popup.component';
+import {LoggingService} from './services/logging.service';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {TwoFactorPopupComponent} from './popups/two-factor-popup/two-factor-popu
   providers: [
     AuthGuard,
     AuthService,
+    LoggingService,
     PopupService,
   ],
   bootstrap: [AppComponent]

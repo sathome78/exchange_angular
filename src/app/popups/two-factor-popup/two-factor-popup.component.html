@@ -2,7 +2,7 @@
   <div class="modal">
     <!-- btn modal close -->
     <div class="modal__controls modal__controls--top">
-      <a class="modal__button modal__button--close">
+      <a class="modal__button modal__button--close" (click)="closePopup()">
         <span>close</span>
         <img class="modal__button-icon" src="../../../assets/img/close.svg">
       </a>
@@ -22,9 +22,9 @@
         <a class="modal__control-mob" href="#">
           <img class="modal__control-icon" src="../../../assets/img/minimize-mob-blue.svg"></a>
         <a class="modal__control-mob" href="#">
-          <img class="modal__control-icon" src="../../../img/learn-blue.svg"></a>
+          <img class="modal__control-icon" src="../../../assets/img/learn-blue.svg"></a>
         <a class="modal__control-mob" href="#">
-          <img class="modal__control-icon" src="../../../img/close-blue.svg"></a>
+          <img class="modal__control-icon" src="../../../assets/img/close-blue.svg"></a>
       </div>
     </div>
     <div class="modal__header">
@@ -60,9 +60,19 @@
       <div class="steps__counter">step <span class="steps__counter-val">4</span>/4</div>
     </div>
     <!-- modal header end -->
-    <div class="modal__content">
-      <!--Here all child pages will be loaded-->
-      <router-outlet></router-outlet>
+    <div class="modal__content" [ngSwitch]="provider">
+      <div *ngSwitchCase="google">
+        <p>Google</p>
+      </div>
+
+      <div *ngSwitchCase="sms">
+        <p>Sms</p>
+      </div>
+
+      <div *ngSwitchCase="telegram">
+        <p>Telegram</p>
+      </div>
+
     </div>
   </div>
 </div>

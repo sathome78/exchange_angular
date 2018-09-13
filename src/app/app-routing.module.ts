@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {SettingsModule} from './settings/settings.module';
 import {SettingsComponent} from './settings/settings.component';
+import {TwoFactorPopupComponent} from './popups/two-factor-popup/two-factor-popup.component';
 
 
 const routes: Routes = [
@@ -10,7 +11,8 @@ const routes: Routes = [
   { path: 'dashboard',      component: DashboardComponent },
   // { path: 'funds',      component: DashboardComponent, },ç
   // { path: 'orders',      component: DashboardComponent, },
-  { path: 'settings',  component: SettingsComponent},
+  { path: 'settings',  component: SettingsComponent },
+  { path: 'tfa-popup', component: TwoFactorPopupComponent },
   // { path: 'settings',  component: SettingsComponent,    loadChildren: 'app/settings/settings.module#SettingsModule' },
 
 
