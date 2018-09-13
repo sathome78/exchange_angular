@@ -29,31 +29,32 @@
     </div>
     <div class="modal__header">
       <ul class="steps">
-        <li class="steps__item">
-          <a class="steps__link" href="#">
-            <span class="steps__number steps__number--valid">1</span>
-            <span class="steps__number-mob-current">1. By pasport</span>
-            <span class="steps__title">By pasport</span>
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 1}"  (click)="moveNext()">
+          <a class="steps__link">
+            <span class="steps__number" [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
+            <span class="steps__number-mob-current">1. By passport</span>
+            <span class="steps__title">{{ getStepName(1) }}</span>
           </a>
         </li>
-        <li class="steps__item">
-          <a class="steps__link" href="#">
-            <span class="steps__number steps__number--valid">2</span>
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 2}" (click)="moveNext()">
+          <a class="steps__link">
+            <span class="steps__number" [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }">2</span>
             <span class="steps__number-mob-current">2. Submit ID</span>
-            <span class="steps__title">Submit ID</span>
+            <span class="steps__title">{{ getStepName(2) }}</span>
           </a>
         </li>
-        <li class="steps__item">
-          <a class="steps__link" href="#">
-            <span class="steps__number steps__number--valid">3</span>
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 3}" (click)="moveNext()">
+          <a class="steps__link">
+            <span class="steps__number" [ngClass]="{'steps__number--current': step === 3, 'steps__number--valid': step != 3 }">3</span>
             <span class="steps__number-mob-current">3. Capture by camera</span>
-            <span class="steps__title">Capture by camera</span>
+            <span class="steps__title">{{ getStepName(3) }}</span>
           </a>
         </li>
-        <li class="steps__item steps__item--current">
-          <a class="steps__link" href="#"><span class="steps__number steps__number--current">4</span>
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 4}" (click)="moveNext()">
+          <a class="steps__link">
+            <span class="steps__number" [ngClass]="{'steps__number--current': step === 4, 'steps__number--valid': step != 4 }">4</span>
             <span class="steps__number-mob-current">4. By nick with pass</span>
-            <span class="steps__title">By nick with pass</span>
+            <span class="steps__title">{{ getStepName(4) }}</span>
           </a>
         </li>
       </ul>

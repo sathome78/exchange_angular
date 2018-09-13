@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PopupService} from '../../services/popup.service';
 import {generate, Subscription} from 'rxjs';
 import {LoggingService} from '../../services/logging.service';
+import {e} from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-two-factor-popup',
@@ -34,6 +35,18 @@ export class TwoFactorPopupComponent implements OnInit {
     this.logger.debug(this, 'By TFA subscription received: ' + value);
     if (value === this.google || value === this.sms || value === this.telegram) {
       this.provider = value;
+    }
+  }
+
+  getStepName(number: number): string {
+    return this.popupService.stepsMap.get(number);
+  }
+
+  moveNext() {
+    if (this.step < 4) {
+      this.step++;
+    } else {
+      this.step = 1;
     }
   }
 }
