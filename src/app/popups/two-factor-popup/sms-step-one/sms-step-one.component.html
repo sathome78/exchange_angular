@@ -1,3 +1,24 @@
-<p>
-  sms-step-one works!
-</p>
+<div class="modal__title">Two-Factor authentication by phone number</div>
+<div class="modal__subtitle">
+  <p>Enter the phone number</p>
+</div>
+<div class="modal__row modal__row--mb32 modal__row--mob-600-column">
+  <div class="select select--flex modal__select-in-row">
+    <div class="select__value select__value--active"></div>
+    <div class="select__label">Inner transfer</div>
+    <div class="select__line"></div>
+    <div class="select__triangle"></div>
+    <ul class="select__list">
+      <li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-pl.svg">Ukraine</li>
+      <li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-ru.svg">Russia</li>
+      <li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-en.svg">USA</li>
+      <li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-cn.svg">China</li>
+    </ul>
+  </div>
+  <div class="wrap-input wrap-input--230">
+    <input class="input" type="text" required="">
+    <label class="wrap-input__label" for="">Phone number</label>
+    <div class="wrap-input__line"></div>
+    <span class="wrap-input__valid">Please enter the phone number.</span>
+  </div>
+</div><a class="button button--center" (click)="onNextStep()">Get verification code</a>

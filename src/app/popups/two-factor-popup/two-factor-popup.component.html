@@ -7,13 +7,6 @@
         <img class="modal__button-icon" src="../../../assets/img/close.svg">
       </a>
     </div>
-    <!-- btn modal minimize -->
-    <div class="modal__controls modal__controls--bottom">
-      <a class="modal__button">
-        <span> </span>
-        <img class="modal__button-icon" src="../../../assets/img/minimize.svg">
-      </a>
-    </div>
     <!-- modal header start -->
     <div class="modal__header-mob">
       <div class="steps__counter steps__counter--mob">step
@@ -29,28 +22,28 @@
     </div>
     <div class="modal__header">
       <ul class="steps">
-        <li class="steps__item" [ngClass]="{'steps__item--current': step === 1}"  (click)="moveNext()">
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 1}"  (click)="moveNext(1)"*ngIf="step > 0">
           <a class="steps__link">
             <span class="steps__number" [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
             <span class="steps__number-mob-current">1. By passport</span>
             <span class="steps__title">{{ getStepName(1) }}</span>
           </a>
         </li>
-        <li class="steps__item" [ngClass]="{'steps__item--current': step === 2}" (click)="moveNext()">
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 2}" (click)="moveNext(2)" *ngIf="step > 1">
           <a class="steps__link">
             <span class="steps__number" [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }">2</span>
             <span class="steps__number-mob-current">2. Submit ID</span>
             <span class="steps__title">{{ getStepName(2) }}</span>
           </a>
         </li>
-        <li class="steps__item" [ngClass]="{'steps__item--current': step === 3}" (click)="moveNext()">
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 3}" (click)="moveNext(3)" *ngIf="step > 2">
           <a class="steps__link">
             <span class="steps__number" [ngClass]="{'steps__number--current': step === 3, 'steps__number--valid': step != 3 }">3</span>
             <span class="steps__number-mob-current">3. Capture by camera</span>
             <span class="steps__title">{{ getStepName(3) }}</span>
           </a>
         </li>
-        <li class="steps__item" [ngClass]="{'steps__item--current': step === 4}" (click)="moveNext()">
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 4}" (click)="moveNext(4)" *ngIf="step > 3">
           <a class="steps__link">
             <span class="steps__number" [ngClass]="{'steps__number--current': step === 4, 'steps__number--valid': step != 4 }">4</span>
             <span class="steps__number-mob-current">4. By nick with pass</span>
@@ -83,12 +76,6 @@
         </div>
         <div *ngSwitchCase="2">
           <app-sms-step-two></app-sms-step-two>
-        </div>
-        <div *ngSwitchCase="3">
-          <app-sms-step-three></app-sms-step-three>
-        </div>
-        <div *ngSwitchCase="4">
-          <app-sms-step-four></app-sms-step-four>
         </div>
       </div>
 

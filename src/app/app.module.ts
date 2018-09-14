@@ -19,8 +19,6 @@ import {GoogleStepThreeComponent} from './popups/two-factor-popup/google-step-th
 import {GoogleStepFourComponent} from './popups/two-factor-popup/google-step-four/google-step-four.component';
 import {SmsStepOneComponent} from './popups/two-factor-popup/sms-step-one/sms-step-one.component';
 import {SmsStepTwoComponent} from './popups/two-factor-popup/sms-step-two/sms-step-two.component';
-import {SmsStepThreeComponent} from './popups/two-factor-popup/sms-step-three/sms-step-three.component';
-import {SmsStepFourComponent} from './popups/two-factor-popup/sms-step-four/sms-step-four.component';
 import {TelegramStepOneComponent} from './popups/two-factor-popup/telegram-step-one/telegram-step-one.component';
 import {TelegramStepTwoComponent} from './popups/two-factor-popup/telegram-step-two/telegram-step-two.component';
 import {TelegramStepThreeComponent} from './popups/two-factor-popup/telegram-step-three/telegram-step-three.component';
@@ -41,8 +39,6 @@ import {TelegramStepFourComponent} from './popups/two-factor-popup/telegram-step
     GoogleStepFourComponent,
     SmsStepOneComponent,
     SmsStepTwoComponent,
-    SmsStepThreeComponent,
-    SmsStepFourComponent,
     TelegramStepOneComponent,
     TelegramStepTwoComponent,
     TelegramStepThreeComponent,

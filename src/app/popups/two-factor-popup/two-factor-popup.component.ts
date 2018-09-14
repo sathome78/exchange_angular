@@ -9,13 +9,15 @@ import {e} from '@angular/core/src/render3';
   templateUrl: './two-factor-popup.component.html',
   styleUrls: ['./two-factor-popup.component.scss']
 })
-export class TwoFactorPopupComponent implements OnInit {
+export class TwoFactorPopupComponent implements OnInit, OnDestroy {
 
   google = 'GOOGLE';
   sms = 'SMS';
   telegram = 'TELEGRAM';
   provider: string;
   step = 1;
+
+  private currentStepSubscription: Subscription;
 
   constructor(private popupService: PopupService,
               private logger: LoggingService) {
@@ -24,6 +26,9 @@ export class TwoFactorPopupComponent implements OnInit {
   ngOnInit() {
     this.provider = this.popupService.getTFAProvider();
     this.logger.debug(this, 'Provider on init is: ' + this.provider);
+    this.currentStepSubscription = this.popupService
+      .getCurrentStepListener()
+      .subscribe(currentStep => this.step = currentStep);
   }
 
   closePopup() {
@@ -42,11 +47,11 @@ export class TwoFactorPopupComponent implements OnInit {
     return this.popupService.stepsMap.get(number);
   }
 
-  moveNext() {
-    if (this.step < 4) {
-      this.step++;
-    } else {
-      this.step = 1;
-    }
+  moveNext(step: number) {
+    this.popupService.movePreviousStep(step);
+  }
+
+  ngOnDestroy() {
+    this.currentStepSubscription.unsubscribe();
   }
 }
