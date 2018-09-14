@@ -24,6 +24,7 @@ export class PopupService {
     if (provider === 'GOOGLE' || provider === 'SMS' || provider === 'TELEGRAM') {
       this.tfaProvider = provider;
     }
+    this.stepsMap = this.getStepsMap(provider);
   }
 
   closeTFAPopup() {
@@ -59,6 +60,38 @@ export class PopupService {
       this.currentStep = step;
       this.logger.debug(this, 'Moved to previous step: ' + step);
     }
+  }
+
+  getStepsMap(provider: string) {
+    switch (provider) {
+      case 'GOOGLE': return this.getGoogleStepsMap();
+      case 'SMS': return this.getSmsStepsMap();
+      case 'TELEGRAM': return this.getTelegramStepsMap();
+      default: return new Map<number, string>();
+    }
+  }
+
+  getGoogleStepsMap(): Map<number, string> {
+    const map = new Map<number, string>();
+    map.set(1, 'Download App');
+    map.set(2, 'Scan QR-code');
+    map.set(3, 'Save backup code');
+    map.set(4, 'Enter the code');
+    return map;
+  }
+
+  getSmsStepsMap(): Map<number, string> {
+    const map = new Map<number, string>();
+    map.set(1, 'Get verification code');
+    map.set(2, 'Pay and connect');
+    return map;
+  }
+
+  getTelegramStepsMap(): Map<number, string> {
+    const map = new Map<number, string>();
+    map.set(1, 'Step #1');
+    map.set(2, 'Step #2');
+    return map;
   }
 
 }
