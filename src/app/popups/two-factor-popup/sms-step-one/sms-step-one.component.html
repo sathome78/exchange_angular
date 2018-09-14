@@ -3,16 +3,23 @@
   <p>Enter the phone number</p>
 </div>
 <div class="modal__row modal__row--mb32 modal__row--mob-600-column">
-  <div class="select select--flex modal__select-in-row">
-    <div class="select__value select__value--active"></div>
+  <div class="select select--flex modal__select-in-row" (click)="openDropdown()">
+    <div class="select__value select__value--active">
+      <img [src]="region.iconPath" class="select__list-item-icon">
+      {{ region.country }}
+    </div>
     <div class="select__label">Inner transfer</div>
     <div class="select__line"></div>
     <div class="select__triangle"></div>
-    <ul class="select__list" appDropdown="">
-      <li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-pl.svg">Ukraine</li>
-      <li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-ru.svg">Russia</li>
-      <li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-en.svg">USA</li>
-      <li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-cn.svg">China</li>
+    <ul class="select__list--open" [ngClass]="{'select__list': !dropDownOpen, 'select__list--open': dropDownOpen }">
+      <li *ngFor="let reg of getRegions()" class="select__list-item" (click)="onSelect(reg)">
+        <img [src]="reg.iconPath" class="select__list-item-icon">
+        {{ reg.country }}
+      </li>
+      <!--<li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-pl.svg">Ukraine</li>-->
+      <!--<li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-ru.svg">Russia</li>-->
+      <!--<li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-en.svg">USA</li>-->
+      <!--<li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-cn.svg">China</li>-->
     </ul>
   </div>
   <div class="wrap-input wrap-input--230">
