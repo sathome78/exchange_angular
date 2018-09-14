@@ -20,7 +20,7 @@
       <div class="select__line"></div>
       <div class="select__triangle"></div>
       <ul [ngClass]="{'select__list': !isWithdrawalOpen, 'select__list--open': isWithdrawalOpen }">
-        <li *ngFor="let opt of getSelectOptions()" class="select__list-item">{{opt}}</li>
+        <li *ngFor="let opt of getSelectOptions()" class="select__list-item" >{{opt}}</li>
         <!--<li class="select__list-item">By Google</li>-->
         <!--<li class="select__list-item">By SMS</li>-->
         <!--<li class="select__list-item">Telegram</li>-->

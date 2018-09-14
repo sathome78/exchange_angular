@@ -6,7 +6,6 @@
     <ul class="settings-menu">
       <li class="settings-menu__item">
         <a class="settings-menu__link"
-           (providerSettingsEmitter) = "onUpdateProviderSetting($event)"
            [routerLinkActive]="['settings-menu__link--active']"
            [routerLink]="['/settings/two-factor-auth']">
           Two-Factor Authentication
