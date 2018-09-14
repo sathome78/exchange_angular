@@ -94,6 +94,10 @@ export class PopupService {
     return map;
   }
 
+  loadDefault() {
+    this.movePreviousStep(1);
+  }
+
 }
 
 export interface OnNextStep {

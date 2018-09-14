@@ -16,6 +16,7 @@ export class TwoFactorPopupComponent implements OnInit, OnDestroy {
   telegram = 'TELEGRAM';
   provider: string;
   step = 1;
+  stepsSize = 1;
 
   private currentStepSubscription: Subscription;
 
@@ -26,6 +27,8 @@ export class TwoFactorPopupComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.provider = this.popupService.getTFAProvider();
     this.logger.debug(this, 'Provider on init is: ' + this.provider);
+    this.popupService.loadDefault();
+    this.stepsSize = this.popupService.getStepsMap(this.provider).size;
     this.currentStepSubscription = this.popupService
       .getCurrentStepListener()
       .subscribe(currentStep => this.step = currentStep);
