@@ -11,7 +11,7 @@
     <div class="select__label">Inner transfer</div>
     <div class="select__line"></div>
     <div class="select__triangle"></div>
-    <ul class="select__list--open" [ngClass]="{'select__list': !dropDownOpen, 'select__list--open': dropDownOpen }">
+    <ul [ngClass]="{'select__list': !dropDownOpen, 'select__list--open': dropDownOpen }">
       <li *ngFor="let reg of getRegions()" class="select__list-item" (click)="onSelect(reg)">
         <img [src]="reg.iconPath" class="select__list-item-icon">
         {{ reg.country }}

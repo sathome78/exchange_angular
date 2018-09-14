@@ -1,40 +1,43 @@
 <div class="settings-content settings">
   <h3 class="settings-content__title">Two-Factor authentication</h3>
   <div class="settings-content__2fa-mob">
-    <div class="select select--mb20">
+    <div class="select select--mb20" (click)="openLogin()">
       <div class="select__value select__value--active"></div>
       <div class="select__label">Log in</div>
       <div class="select__line"></div>
       <div class="select__triangle"></div>
-      <ul class="select__list">
-        <li class="select__list-item">By Google</li>
-        <li class="select__list-item">By SMS</li>
-        <li class="select__list-item">Telegram</li>
-        <li class="select__list-item">Disable</li>
+      <ul [ngClass]="{'select__list': !isLoginOpen, 'select__list--open': isLoginOpen }">
+        <li *ngFor="let opt of getSelectOptions()" class="select__list-item">{{opt}}</li>
+        <!--<li class="select__list-item">By Google</li>-->
+        <!--<li class="select__list-item">By SMS</li>-->
+        <!--<li class="select__list-item">Telegram</li>-->
+        <!--<li class="select__list-item">Disable</li>-->
       </ul>
     </div>
-    <div class="select select--mb20">
+    <div class="select select--mb20"  (click)="openWithdrawal()">
       <div class="select__value select__value--active"></div>
       <div class="select__label">Withdrawal</div>
       <div class="select__line"></div>
       <div class="select__triangle"></div>
-      <ul class="select__list">
-        <li class="select__list-item">By Google</li>
-        <li class="select__list-item">By SMS</li>
-        <li class="select__list-item">Telegram</li>
-        <li class="select__list-item">Disable</li>
+      <ul [ngClass]="{'select__list': !isWithdrawalOpen, 'select__list--open': isWithdrawalOpen }">
+        <li *ngFor="let opt of getSelectOptions()" class="select__list-item">{{opt}}</li>
+        <!--<li class="select__list-item">By Google</li>-->
+        <!--<li class="select__list-item">By SMS</li>-->
+        <!--<li class="select__list-item">Telegram</li>-->
+        <!--<li class="select__list-item">Disable</li>-->
       </ul>
     </div>
-    <div class="select select--mb20">
+    <div class="select select--mb20" (click)="openTransfer()">
       <div class="select__value select__value--active"></div>
       <div class="select__label">Inner transfer</div>
       <div class="select__line"></div>
       <div class="select__triangle"></div>
-      <ul class="select__list">
-        <li class="select__list-item">By Google</li>
-        <li class="select__list-item">By SMS</li>
-        <li class="select__list-item">Telegram</li>
-        <li class="select__list-item">Disable</li>
+      <ul [ngClass]="{'select__list': !isTransferOpen, 'select__list--open': isTransferOpen }">
+        <li *ngFor="let opt of getSelectOptions()" class="select__list-item">{{opt}}</li>
+        <!--<li class="select__list-item">By Google</li>-->
+        <!--<li class="select__list-item">By SMS</li>-->
+        <!--<li class="select__list-item">Telegram</li>-->
+        <!--<li class="select__list-item">Disable</li>-->
       </ul>
     </div>
   </div>
