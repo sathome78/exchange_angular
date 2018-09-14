@@ -3,22 +3,37 @@
   <p>Enter the phone number</p>
 </div>
 <div class="modal__row modal__row--mb32 modal__row--mob-600-column">
-  <div class="select select--flex modal__select-in-row">
-    <div class="select__value select__value--active"></div>
+  <div class="select select--flex modal__select-in-row" (click)="openDropdown()">
+    <div class="select__value select__value--active">
+      <img [src]="region.iconPath" class="select__list-item-icon">
+      {{ region.country }}
+    </div>
     <div class="select__label">Inner transfer</div>
     <div class="select__line"></div>
     <div class="select__triangle"></div>
-    <ul class="select__list">
-      <li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-pl.svg">Ukraine</li>
-      <li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-ru.svg">Russia</li>
-      <li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-en.svg">USA</li>
-      <li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-cn.svg">China</li>
+    <ul [ngClass]="{'select__list': !dropDownOpen, 'select__list--open': dropDownOpen }">
+      <li *ngFor="let reg of getRegions()" class="select__list-item" (click)="onSelect(reg)">
+        <img [src]="reg.iconPath" class="select__list-item-icon">
+        {{ reg.country }}
+      </li>
+      <!--<li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-pl.svg">Ukraine</li>-->
+      <!--<li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-ru.svg">Russia</li>-->
+      <!--<li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-en.svg">USA</li>-->
+      <!--<li class="select__list-item"><img class="select__list-item-icon" src="../../../../assets/img/flag-cn.svg">China</li>-->
     </ul>
   </div>
-  <div class="wrap-input wrap-input--230">
-    <input class="input" type="text" required="">
-    <label class="wrap-input__label" for="">Phone number</label>
-    <div class="wrap-input__line"></div>
-    <span class="wrap-input__valid">Please enter the phone number.</span>
-  </div>
+  <form [formGroup]="form">
+    <div class="wrap-input wrap-input--230">
+      <input class="input" type="text" formControlName="phone">
+      <label class="wrap-input__label" for="">Phone number</label>
+      <div class="wrap-input__line"></div>
+      <span class="wrap-input__valid">Please enter the phone number.</span>
+    </div>
+    <!--Input error section -->
+    <div class="input--error" *ngIf="!form.get('phone').valid && form.get('phone').touched">
+      <div *ngIf="form.get('phone').errors != null && form.get('phone').errors['required']">This field is required</div>
+      <div *ngIf="form.get('phone').errors != null && form.get('phone').invalid">Only numbers are allowed</div>
+    </div>
+  </form>
+
 </div><a class="button button--center" (click)="onNextStep()">Get verification code</a>

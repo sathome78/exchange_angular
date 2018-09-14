@@ -10,10 +10,13 @@ import {SettingsRoutingModule} from './settings-routing.module';
 import {CommonModule} from '@angular/common';
 import {SettingsService} from './settings.service';
 import {SettingsComponent} from './settings.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     SettingsRoutingModule
   ],
   declarations: [

@@ -8,22 +8,22 @@ export class LoggingService {
   private LEVEL_ERROR = 3;
 
   private isLoggingEnabled = true;
-  private loggerLevel = this.LEVEL_INFO;
+  private loggerLevel = this.LEVEL_DEBUG;
 
   error(clazz: Object, message: string) {
-    if (this.isLoggingEnabled && this.loggerLevel > this.LEVEL_INFO) {
+    if (this.isLoggingEnabled && this.loggerLevel <= this.LEVEL_ERROR) {
       console.log(clazz.constructor.name + 'ERROR ==> ' + message);
     }
   }
 
   info(clazz: Object, message: string) {
-    if (this.isLoggingEnabled && this.loggerLevel > this.LEVEL_DEBUG) {
+    if (this.isLoggingEnabled && this.loggerLevel <= this.LEVEL_INFO) {
       console.log(clazz.constructor.name + ': INFO ==> ' + message);
     }
   }
 
   debug(clazz: Object, message: string) {
-    if (this.isLoggingEnabled && this.loggerLevel > 0) {
+    if (this.isLoggingEnabled && this.loggerLevel <= this.LEVEL_DEBUG) {
       console.log(clazz.constructor.name + ': DEBUG ==> ' + message);
     }
   }
