@@ -21,6 +21,7 @@ import {SmsStepOneComponent} from './popups/two-factor-popup/sms-step-one/sms-st
 import {SmsStepTwoComponent} from './popups/two-factor-popup/sms-step-two/sms-step-two.component';
 import {TelegramStepOneComponent} from './popups/two-factor-popup/telegram-step-one/telegram-step-one.component';
 import {TelegramStepTwoComponent} from './popups/two-factor-popup/telegram-step-two/telegram-step-two.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import {TelegramStepTwoComponent} from './popups/two-factor-popup/telegram-step-
     AppRoutingModule,
     BrowserModule,
     DashboardModule,
+    ReactiveFormsModule,
     SettingsModule,
 
   ],
