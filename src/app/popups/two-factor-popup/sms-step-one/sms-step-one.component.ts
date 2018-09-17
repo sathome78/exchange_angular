@@ -12,7 +12,7 @@ export class SmsStepOneComponent implements OnInit, OnNextStep {
   dropDownOpen: boolean;
   region: {country: string, iconPath: string};
   form: FormGroup;
-  private phoneRegex = '/^\\d+$/';
+  private phoneRegex = '^\\d+$';
 
   constructor(private popupService: PopupService) {
 
