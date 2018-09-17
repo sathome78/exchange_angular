@@ -1,10 +1,22 @@
   <div class="settings-content">
     <h3 class="settings-content__title">Nickname</h3>
     <div class="settings-content__subtitle">For inner transactions users could use your nickname instead of email.</div>
-    <form class="settings-form">
+    <form class="settings-form" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="settings-form__row">
         <div class="wrap-input settings-form__wrap-input">
-          <input class="input" type="text" required="">
+          <input
+            class="input"
+            type="text"
+            formControlName="nickname"
+          >
+
+          <!--ERROR PART-->
+          <div class="input--error" *ngIf="!form.get('nickname').valid && form.get('nickname').touched">
+            <div *ngIf="form.get('nickname').errors != null && form.get('nickname').errors['required']">This field is required</div>
+            <div *ngIf="form.get('nickname').errors != null && form.get('nickname').invalid">Only (A-z), (–), (=) are allowed</div>
+          </div>
+
+
           <label class="wrap-input__label">Nickname</label>
           <div class="wrap-input__line"></div><span class="wrap-input__valid">This nickname already taken. Please take another one</span>
         </div><span class="settings-form__input-notice">– use only (A-z), (–), (=) symbols, </span>
