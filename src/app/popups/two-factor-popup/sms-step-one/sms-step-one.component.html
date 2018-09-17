@@ -30,14 +30,18 @@
         type="text" formControlName="phone">
       <label class="wrap-input__label" for="">Phone number</label>
       <div class="wrap-input__line"></div>
-      <span
-        *ngIf="form.get('phone').errors != null && form.get('phone').errors['required']" class="wrap-input__valid">
-        Please enter the phone number.
-      </span>
-      <span
-        *ngIf="form.get('phone').errors != null && form.get('phone').invalid" class="wrap-input__valid">
-        Only numbers are allowed.
-      </span>
+      <div *ngIf="form.get('phone').errors != null && form.get('phone').touched">
+         <span
+           *ngIf="form.get('phone').errors['required']"
+           class="wrap-input__valid--show">
+          Please enter the phone number.
+        </span>
+        <span
+          *ngIf="form.get('phone').invalid && !form.get('phone').errors['required']"
+          class="wrap-input__valid--show">
+          Only numbers are allowed.
+        </span>
+      </div>
     </div>
     <!--Input error section -->
     <!--<div class="input&#45;&#45;error" *ngIf="!form.get('phone').valid && form.get('phone').touched">-->
