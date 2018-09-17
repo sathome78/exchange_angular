@@ -6,6 +6,7 @@ import {LoggingService} from './logging.service';
 export class PopupService {
 
   private onOpenTFAPopupListener = new Subject<string>();
+  private onOpenIdentityPopupListener = new Subject<string>();
   private stepListener = new Subject<number>();
   private currentStep = 1;
   private tfaProvider = '';
@@ -17,6 +18,10 @@ export class PopupService {
     this.stepsMap.set(2, 'Submit ID');
     this.stepsMap.set(3, 'Capture by camera');
     this.stepsMap.set(4, 'By nick with pass');
+  }
+
+  showIdentityPopup(mode: string) {
+    this.onOpenIdentityPopupListener.next(mode);
   }
 
   showTFAPopup(provider: string) {
@@ -34,6 +39,10 @@ export class PopupService {
 
   public getTFAPopupListener(): Subject<string> {
     return this.onOpenTFAPopupListener;
+  }
+
+  public getIdentityPopupListener(): Subject<string> {
+    return this.onOpenIdentityPopupListener;
   }
 
   public getCurrentStepListener(): Subject<number> {
@@ -64,10 +73,14 @@ export class PopupService {
 
   getStepsMap(provider: string) {
     switch (provider) {
-      case 'GOOGLE': return this.getGoogleStepsMap();
-      case 'SMS': return this.getSmsStepsMap();
-      case 'TELEGRAM': return this.getTelegramStepsMap();
-      default: return new Map<number, string>();
+      case 'GOOGLE':
+        return this.getGoogleStepsMap();
+      case 'SMS':
+        return this.getSmsStepsMap();
+      case 'TELEGRAM':
+        return this.getTelegramStepsMap();
+      default:
+        return new Map<number, string>();
     }
   }
 

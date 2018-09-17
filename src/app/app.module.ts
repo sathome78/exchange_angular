@@ -22,6 +22,11 @@ import {SmsStepTwoComponent} from './popups/two-factor-popup/sms-step-two/sms-st
 import {TelegramStepOneComponent} from './popups/two-factor-popup/telegram-step-one/telegram-step-one.component';
 import {TelegramStepTwoComponent} from './popups/two-factor-popup/telegram-step-two/telegram-step-two.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import { IdentityPopupComponent } from './popups/identity-popup/identity-popup.component';
+import { StepOneComponent } from './popups/identity-popup/step-one/step-one.component';
+import { StepTwoComponent } from './popups/identity-popup/step-two/step-two.component';
+import { StepThreeComponent } from './popups/identity-popup/step-three/step-three.component';
+import { StepFourComponent } from './popups/identity-popup/step-four/step-four.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +45,11 @@ import {ReactiveFormsModule} from '@angular/forms';
     SmsStepTwoComponent,
     TelegramStepOneComponent,
     TelegramStepTwoComponent,
+    IdentityPopupComponent,
+    StepOneComponent,
+    StepTwoComponent,
+    StepThreeComponent,
+    StepFourComponent,
     // TWO FACTOR POPUP END
 
 
