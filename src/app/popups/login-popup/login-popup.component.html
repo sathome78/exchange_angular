@@ -2,18 +2,57 @@
   <div class="popup popup-login">
     <div class="popup__close" (click)="closeMe()"></div>
     <h6 class="popup__title">Log in</h6>
-    <form class="popup__form" id="login-form" action="#">
+    <form class="popup__form" [formGroup]="form">
       <div class="wrap-input popup__wrap-input">
-        <input class="input" id="login-email" type="text" required="">
+        <input
+          class="input"
+          type="text"
+          formControlName="email"
+          [ngClass]="{'input--error': !form.get('email').valid && form.get('email').touched}"
+        >
         <label class="wrap-input__label" for="">Email</label>
-        <div class="wrap-input__line"></div><span class="wrap-input__valid">Incorrect email.</span>
+        <div class="wrap-input__line"></div>
+        <!--Input error section starts-->
+        <div *ngIf="form.get('email').touched && form.get('email').errors != null">
+          <span
+            *ngIf="form.get('email').errors['required']"
+            class="wrap-input__valid">
+            This field is required.
+          </span>
+          <span
+            *ngIf="form.get('email').invalid && !form.get('email').errors['required']"
+            class="wrap-input__valid">
+            Please, enter valid email address.
+          </span>
+        </div>
+        <!--Input error section ends-->
       </div>
       <div class="wrap-input popup__wrap-input">
-        <input class="input" id="login-password" type="password" required="">
+        <input
+          class="input"
+          [type]="getInputType()"
+          formControlName="password"
+          [ngClass]="{'input--error': !form.get('password').valid && form.get('password').touched}"
+        >
         <label class="wrap-input__label" for="">Password</label>
-        <div class="wrap-input__line"></div><span class="wrap-input__show-password"></span><span class="wrap-input__valid">Incorrect password.</span>
+        <div class="wrap-input__line"></div>
+        <span
+          class="wrap-input__show-password"
+          (click)="togglePasswordVisibility()"
+          [ngClass]="{'wrap-input__show-password--active': isPasswordVisible}"
+        >
+        </span>
+        <!--Input error section starts-->
+        <div *ngIf="form.get('password').touched && form.get('password').errors != null">
+          <span
+            *ngIf="form.get('password').errors['required']"
+            class="wrap-input__valid">
+            This field is required.
+          </span>
+        </div>
+        <!--Input error section ends-->
       </div>
-      <button class="button popup__button" type="button" name="button" disabled="">Authorise me</button>
+      <button class="button popup__button" (click)="onSubmit()">Authorise me</button>
     </form>
     <div class="popup__links-wrap"><a class="popup__link popup__link--hidden-sm" href="reg-email.html">Go to registration form</a><a class="popup__link" href="fgt.html">Forgot password?</a></div><a class="popup__link-sm" href="#">Registration</a>
   </div>

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {PopupService} from '../../services/popup.service';
 
 @Component({
@@ -9,17 +9,39 @@ import {PopupService} from '../../services/popup.service';
 })
 export class LoginPopupComponent implements OnInit {
 
-  constructor(private popupService: PopupService) { }
-
   form: FormGroup;
+  emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
+  isPasswordVisible = false;
+
+  constructor(private popupService: PopupService) {
+  }
 
   ngOnInit() {
     this.form = new FormGroup({
-      'email': new FormControl()
+      'email': new FormControl(null, {
+        validators: [Validators.required, Validators.pattern(this.emailRegex)],
+        updateOn: 'blur'
+      }),
+      'password': new FormControl(null, {
+        validators: [Validators.required],
+        updateOn: 'blur'
+      }),
     });
   }
 
   closeMe() {
     this.popupService.closeLoginPopup();
+  }
+
+  onSubmit() {
+
+  }
+
+  togglePasswordVisibility() {
+    this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  getInputType(): string {
+    return this.isPasswordVisible ? 'text' : 'password';
   }
 }
