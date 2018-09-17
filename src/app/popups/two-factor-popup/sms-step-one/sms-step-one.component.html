@@ -32,7 +32,7 @@
       <div class="wrap-input__line"></div>
 
       <!--Input error section starts-->
-      <div *ngIf="form.get('phone').errors != null && form.get('phone').touched">
+      <div *ngIf="form.get('phone').touched && form.get('phone').errors != null">
          <span
            *ngIf="form.get('phone').errors['required']"
            class="wrap-input__valid">
@@ -50,4 +50,4 @@
   </form>
 
 </div>
-<a class="button button--center" (click)="onNextStep()">Get verification code</a>
+<button class="button button--center" (click)="onNextStep()" [disabled]="form.invalid">Get verification code</button>

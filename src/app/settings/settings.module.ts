@@ -11,11 +11,13 @@ import {CommonModule} from '@angular/common';
 import {SettingsService} from './settings.service';
 import {SettingsComponent} from './settings.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {Ng5SliderModule} from 'ng5-slider';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    Ng5SliderModule,
     ReactiveFormsModule,
     SettingsRoutingModule
   ],
