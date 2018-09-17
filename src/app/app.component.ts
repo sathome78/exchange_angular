@@ -14,8 +14,9 @@ export class AppComponent implements OnInit, OnDestroy {
   isTfaPopupOpen = false;
   tfaSubscription: Subscription;
   identitySubscription: Subscription;
+  loginSubscription: Subscription;
   isIdentityPopupOpen = false;
-
+  isLoginPopupOpen = false;
 
   constructor(private popupService: PopupService,
               private router: Router) {
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
+    this.subscribeForLoginEvent();
   }
 
   subscribeForTfaEvent() {
@@ -32,6 +34,14 @@ export class AppComponent implements OnInit, OnDestroy {
       .getTFAPopupListener()
       .subscribe(value => {
         this.isTfaPopupOpen = value ? true : false;
+      });
+  }
+
+  subscribeForLoginEvent() {
+    this.loginSubscription = this.popupService
+      .getLoginPopupListener()
+      .subscribe(value => {
+        this.isLoginPopupOpen = value;
       });
   }
 
@@ -46,5 +56,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.tfaSubscription.unsubscribe();
     this.identitySubscription.unsubscribe();
+    this.loginSubscription.unsubscribe();
   }
 }

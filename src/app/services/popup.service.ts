@@ -7,6 +7,7 @@ export class PopupService {
 
   private onOpenTFAPopupListener = new Subject<string>();
   private onOpenIdentityPopupListener = new Subject<string>();
+  private onLoginPopupListener = new Subject<boolean>();
   private stepListener = new Subject<number>();
   private currentStep = 1;
   private tfaProvider = '';
@@ -22,6 +23,10 @@ export class PopupService {
 
   showIdentityPopup(mode: string) {
     this.onOpenIdentityPopupListener.next(mode);
+  }
+
+  showLoginPopup(state: boolean) {
+    this.onLoginPopupListener.next(state);
   }
 
   showTFAPopup(provider: string) {
@@ -43,6 +48,10 @@ export class PopupService {
 
   public getIdentityPopupListener(): Subject<string> {
     return this.onOpenIdentityPopupListener;
+  }
+
+  public getLoginPopupListener(): Subject<boolean> {
+    return this.onLoginPopupListener;
   }
 
   public getCurrentStepListener(): Subject<number> {
