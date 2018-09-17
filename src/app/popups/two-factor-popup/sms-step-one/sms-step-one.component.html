@@ -11,7 +11,7 @@
     <div class="select__label">Inner transfer</div>
     <div class="select__line"></div>
     <div class="select__triangle"></div>
-    <ul [ngClass]="{'select__list': !dropDownOpen, 'select__list--open': dropDownOpen }">
+    <ul class="select__list" [ngClass]="{'select__list--open': dropDownOpen }">
       <li *ngFor="let reg of getRegions()" class="select__list-item" (click)="onSelect(reg)">
         <img [src]="reg.iconPath" class="select__list-item-icon">
         {{ reg.country }}
@@ -24,16 +24,30 @@
   </div>
   <form [formGroup]="form">
     <div class="wrap-input wrap-input--230">
-      <input class="input" type="text" formControlName="phone">
+      <input
+        class="input"
+        [ngClass]="{'input--error': !form.get('phone').valid && form.get('phone').touched }"
+        type="text" formControlName="phone">
       <label class="wrap-input__label" for="">Phone number</label>
       <div class="wrap-input__line"></div>
-      <span class="wrap-input__valid">Please enter the phone number.</span>
-    </div>
-    <!--Input error section -->
-    <div class="input--error" *ngIf="!form.get('phone').valid && form.get('phone').touched">
-      <div *ngIf="form.get('phone').errors != null && form.get('phone').errors['required']">This field is required</div>
-      <div *ngIf="form.get('phone').errors != null && form.get('phone').invalid">Only numbers are allowed</div>
+
+      <!--Input error section starts-->
+      <div *ngIf="form.get('phone').touched && form.get('phone').errors != null">
+         <span
+           *ngIf="form.get('phone').errors['required']"
+           class="wrap-input__valid">
+          Please enter the phone number.
+        </span>
+        <span
+          *ngIf="form.get('phone').invalid && !form.get('phone').errors['required']"
+          class="wrap-input__valid">
+          Only numbers are allowed.
+        </span>
+      </div>
+      <!--Input error section ends-->
+
     </div>
   </form>
 
-</div><a class="button button--center" (click)="onNextStep()">Get verification code</a>
+</div>
+<button class="button button--center" (click)="onNextStep()" [disabled]="form.invalid">Get verification code</button>

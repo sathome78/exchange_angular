@@ -2,9 +2,17 @@
   <h3 class="settings-content__title">Session Time</h3>
   <div class="settings-content__subtitle">Time period, when you stayed logged in system after the last action</div>
   <form class="settings-form">
-    <div class="input-range settings__time-range">
-      <input class="input-range__input" type="range" min="5" max="24" value="5"><span class="input-range__min">5min</span><span class="input-range__max">24h</span>
-    </div>
+    <!--<div class="input-range settings__time-range">-->
+      <!--<input class="input-range__input" type="range" min="1" max="100" value="24">-->
+      <!--<span class="input-range__min">5min</span>-->
+      <!--<span class="input-range__max">24h</span>-->
+    <!--</div>-->
+
+    <ng5-slider [(value)]="value" [options]="options">
+
+
+    </ng5-slider>
+
     <div class="settings-form__row settings-form__row--time">
       <div class="wrap-input">
         <input class="input" type="text" required="">
