@@ -120,6 +120,9 @@ export class PopupService {
     this.movePreviousStep(1);
   }
 
+  closeLoginPopup() {
+    this.onLoginPopupListener.next(false);
+  }
 }
 
 export interface OnNextStep {
