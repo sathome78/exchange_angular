@@ -33,12 +33,12 @@
       <div *ngIf="form.get('phone').errors != null && form.get('phone').touched">
          <span
            *ngIf="form.get('phone').errors['required']"
-           class="wrap-input__valid--show">
+           class="wrap-input__valid">
           Please enter the phone number.
         </span>
         <span
           *ngIf="form.get('phone').invalid && !form.get('phone').errors['required']"
-          class="wrap-input__valid--show">
+          class="wrap-input__valid">
           Only numbers are allowed.
         </span>
       </div>
