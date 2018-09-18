@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-step-one',
@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StepOneComponent implements OnInit {
 
+  @Output() onNextStep = new EventEmitter<number>();
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  moveNext() {
+    this.onNextStep.emit(2);
+  }
+
+  onSubmit() {
+    this.moveNext();
   }
 
 }
