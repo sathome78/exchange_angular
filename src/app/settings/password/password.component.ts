@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {LoggingService} from '../../services/logging.service';
 
 @Component({
   selector: 'app-password',
@@ -12,7 +13,7 @@ export class PasswordComponent implements OnInit {
   passwordFirst: FormControl;
   isPasswordVisible: boolean;
 
-  constructor() { }
+  constructor(private logger: LoggingService) { }
 
   ngOnInit() {
     this.passwordFirst = new FormControl(null, {
@@ -40,7 +41,7 @@ export class PasswordComponent implements OnInit {
   }
 
   onSubmit() {
-
+    this.logger.debug(this, 'Attempt to submit login and password');
   }
 
 

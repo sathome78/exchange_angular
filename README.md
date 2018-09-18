@@ -29,3 +29,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ng slider home page:
 https://github.com/angular-slider/ng5-slider
+
+jwt token home page:
+https://www.npmjs.com/package/ng-jwt

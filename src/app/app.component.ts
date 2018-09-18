@@ -12,8 +12,11 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
 
   isTfaPopupOpen = false;
-  subscription: Subscription;
-
+  tfaSubscription: Subscription;
+  identitySubscription: Subscription;
+  loginSubscription: Subscription;
+  isIdentityPopupOpen = false;
+  isLoginPopupOpen = false;
 
   constructor(private popupService: PopupService,
               private router: Router) {
@@ -21,14 +24,38 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.popupService
+    this.subscribeForTfaEvent();
+    this.subscribeForIdentityEvent();
+    this.subscribeForLoginEvent();
+  }
+
+  subscribeForTfaEvent() {
+    this.tfaSubscription = this.popupService
       .getTFAPopupListener()
       .subscribe(value => {
         this.isTfaPopupOpen = value ? true : false;
       });
   }
 
+  subscribeForLoginEvent() {
+    this.loginSubscription = this.popupService
+      .getLoginPopupListener()
+      .subscribe(value => {
+        this.isLoginPopupOpen = value;
+      });
+  }
+
+  subscribeForIdentityEvent() {
+    this.identitySubscription = this.popupService
+      .getIdentityPopupListener()
+      .subscribe(value => {
+        this.isIdentityPopupOpen = value ? true : false;
+      });
+  }
+
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.tfaSubscription.unsubscribe();
+    this.identitySubscription.unsubscribe();
+    this.loginSubscription.unsubscribe();
   }
 }
