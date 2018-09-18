@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {PopupService} from '../../services/popup.service';
 
 @Component({
   selector: 'app-verification',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VerificationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private popupService: PopupService) { }
 
   ngOnInit() {
+  }
+
+  onOpenIdentityPopup(mode: string) {
+    this.popupService.showIdentityPopup(mode);
   }
 
 }

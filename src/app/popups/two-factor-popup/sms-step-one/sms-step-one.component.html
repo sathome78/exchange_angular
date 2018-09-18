@@ -30,7 +30,9 @@
         type="text" formControlName="phone">
       <label class="wrap-input__label" for="">Phone number</label>
       <div class="wrap-input__line"></div>
-      <div *ngIf="form.get('phone').errors != null && form.get('phone').touched">
+
+      <!--Input error section starts-->
+      <div *ngIf="form.get('phone').touched && form.get('phone').errors != null">
          <span
            *ngIf="form.get('phone').errors['required']"
            class="wrap-input__valid">
@@ -42,14 +44,14 @@
           Only numbers are allowed.
         </span>
       </div>
+      <!--Input error section ends-->
+
     </div>
-    <!--Input error section -->
-    <!--<div class="input&#45;&#45;error" *ngIf="!form.get('phone').valid && form.get('phone').touched">-->
-      <!--<div *ngIf="form.get('phone').errors != null && form.get('phone').errors['required']">This field is required</div>-->
-      <!--<div *ngIf="form.get('phone').errors != null && form.get('phone').invalid">Only numbers are allowed</div>-->
-    <!--</div>-->
   </form>
 
 </div>
+
 <!--<a class="button button&#45;&#45;center" (click)="onNextStep()">Get verification code</a>-->
-<button class="button button--center" (click)="onNextStep()">Get verification code</button>
+
+<button class="button button--center" (click)="onNextStep()" [disabled]="form.invalid">Get verification code</button>
+

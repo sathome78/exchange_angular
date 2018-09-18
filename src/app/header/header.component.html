@@ -109,7 +109,15 @@
           </div>
         </div>
       </li>
-    </ul><a class="header__logout" href="#">Log out</a>
+    </ul>
+
+    <div *ngIf="isAuthenticated(); else alien">
+      <a class="header__logout" (click)="onLogout()">Log out</a>
+    </div>
+    <ng-template #alien>
+      <a class="header__logout" (click)="onLogin()">Log in</a>
+    </ng-template>
+
     <ul class="menu">
       <li class="menu__item menu__item--with-submenu"><a class="menu__link language" href="#"><img class="language__flag" src="../../assets/img/flag-ru.svg" alt="ru"><span class="language__abbr">ru</span></a>
         <div class="submenu submenu--language">

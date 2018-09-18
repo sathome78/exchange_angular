@@ -40,7 +40,7 @@ export class TwoFactorPopupComponent implements OnInit, OnDestroy {
   }
 
   getValue(value: any) {
-    this.logger.debug(this, 'By TFA subscription received: ' + value);
+    this.logger.debug(this, 'By TFA tfaSubscription received: ' + value);
     if (value === this.google || value === this.sms || value === this.telegram) {
       this.provider = value;
     }

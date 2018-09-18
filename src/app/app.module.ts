@@ -21,7 +21,13 @@ import {SmsStepOneComponent} from './popups/two-factor-popup/sms-step-one/sms-st
 import {SmsStepTwoComponent} from './popups/two-factor-popup/sms-step-two/sms-step-two.component';
 import {TelegramStepOneComponent} from './popups/two-factor-popup/telegram-step-one/telegram-step-one.component';
 import {TelegramStepTwoComponent} from './popups/two-factor-popup/telegram-step-two/telegram-step-two.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { IdentityPopupComponent } from './popups/identity-popup/identity-popup.component';
+import { StepOneComponent } from './popups/identity-popup/step-one/step-one.component';
+import { StepTwoComponent } from './popups/identity-popup/step-two/step-two.component';
+import { StepThreeComponent } from './popups/identity-popup/step-three/step-three.component';
+import { StepFourComponent } from './popups/identity-popup/step-four/step-four.component';
+import { LoginPopupComponent } from './popups/login-popup/login-popup.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +46,12 @@ import {ReactiveFormsModule} from '@angular/forms';
     SmsStepTwoComponent,
     TelegramStepOneComponent,
     TelegramStepTwoComponent,
+    IdentityPopupComponent,
+    StepOneComponent,
+    StepTwoComponent,
+    StepThreeComponent,
+    StepFourComponent,
+    LoginPopupComponent,
     // TWO FACTOR POPUP END
 
 
@@ -48,6 +60,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     AppRoutingModule,
     BrowserModule,
     DashboardModule,
+    FormsModule,
     ReactiveFormsModule,
     SettingsModule,
 
