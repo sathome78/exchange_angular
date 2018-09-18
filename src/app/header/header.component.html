@@ -138,11 +138,19 @@
 <header class="header-mob" [ngClass]="{'header-mob--open': isMobileMenuOpen }">
   <div class="header-mob__top" >
     <div [ngClass]="{'header-mob__burger-content': !isMobileMenuOpen, 'header-mob__burger-content--open': isMobileMenuOpen }">
-      <div class="header-mob__controls-row"><a class="header-mob__controls-btn" href="#"><img class="header-mob__controls-icon" src="../../assets/img/header-mob-lamp.svg"></a><a class="header-mob__controls-btn" href="#"><img class="header-mob__controls-icon" src="../../assets/img/header-mob-notification.svg"></a>
-        <a
-          class="header-mob__controls-btn" href="#"><img class="header-mob__controls-icon" src="../../assets/img/header-mob-settings.svg"></a>
+      <div class="header-mob__controls-row">
+        <a class="header-mob__controls-btn" href="#">
+          <img class="header-mob__controls-icon" src="../../assets/img/header-mob-lamp.svg">
+        </a>
+        <a class="header-mob__controls-btn" href="#">
+          <img class="header-mob__controls-icon" src="../../assets/img/header-mob-notification.svg">
+        </a>
+        <a class="header-mob__controls-btn" (click)="navigateToSettings()">
+          <img class="header-mob__controls-icon" src="../../assets/img/header-mob-settings.svg">
+        </a>
       </div>
-      <div class="account-info"><img class="account-info__img" src="../../assets/img/user-photo.png">
+      <div class="account-info">
+        <img class="account-info__img" src="../../assets/img/user-photo.png">
         <div class="account-info__text">
           <div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a>
         </div>
