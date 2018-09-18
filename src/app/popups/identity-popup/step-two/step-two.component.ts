@@ -28,6 +28,8 @@ export class StepTwoComponent implements OnInit {
   // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
   private nextWebcam: Subject<boolean|string> = new Subject<boolean|string>();
 
+  fileToUpload: File = null;
+
   constructor() { }
 
   ngOnInit() {
@@ -78,4 +80,7 @@ export class StepTwoComponent implements OnInit {
     return this.nextWebcam.asObservable();
   }
 
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+  }
 }

@@ -28,28 +28,28 @@
     <div class="modal__header">
       <ul class="steps">
         <li class="steps__item" [ngClass]="{'steps__item--current': step === 1}"  (click)="moveNext(1)"*ngIf="step > 0">
-          <a class="steps__link" href="#">
+          <a class="steps__link" (click)="moveNext(2)">
             <span class="steps__number"  [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
             <span class="steps__number-mob-current">1. Enter info</span>
             <span class="steps__title">Enter info</span>
           </a>
         </li>
-        <li class="steps__item" [ngClass]="{'steps__item--current': step === 2}"  (click)="moveNext(2)"*ngIf="step > 1">
-          <a class="steps__link" href="#">
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 2}" *ngIf="step > 1">
+          <a class="steps__link" (click)="moveNext(3)">
             <span class="steps__number"  [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }">2</span>
             <span class="steps__number-mob-current">2. Document photo</span>
             <span class="steps__title">Document photo</span>
           </a>
         </li>
-        <li class="steps__item" [ngClass]="{'steps__item--current': step === 3}"  (click)="moveNext(3)"*ngIf="step > 2">
-          <a class="steps__link" href="#">
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 3}"  *ngIf="step > 2">
+          <a class="steps__link" (click)="moveNext(4)">
             <span class="steps__number"  [ngClass]="{'steps__number--current': step === 3, 'steps__number--valid': step != 3 }">3</span>
             <span class="steps__number-mob-current">3. Your photo</span>
             <span class="steps__title">Your photo</span>
           </a>
         </li>
         <li class="steps__item"  [ngClass]="{'steps__item--current': step === 4}"  (click)="moveNext(4)"*ngIf="step > 3">
-          <a class="steps__link" href="#">
+          <a class="steps__link">
             <span class="steps__number"  [ngClass]="{'steps__number--current': step === 4, 'steps__number--valid': step != 4 }">4</span>
             <span class="steps__number-mob-current">4. Progress</span>
             <span class="steps__title">Progress</span>
@@ -76,17 +76,17 @@
       </div>
 
 
-      <div class="modal__title">Submission received!</div>
-      <div class="modal__subtitle">
-        <p>You can check status of your verification on your <a class="link" href="#">profile page</a>. </p>
-      </div>
-      <div class="modal__row modal__row--mb32 txt-grey">Please note that it can take a few minutes to auto-verify your account. If more
-        information is needed to verify your account, our support team will reach out
-        via email to guide you through the process.
-      </div>
-      <div class="modal__row">
-        <a href="#" class="button"> Ok</a>
-      </div>
+      <!--<div class="modal__title">Submission received!</div>-->
+      <!--<div class="modal__subtitle">-->
+        <!--<p>You can check status of your verification on your <a class="link" href="#">profile page</a>. </p>-->
+      <!--</div>-->
+      <!--<div class="modal__row modal__row&#45;&#45;mb32 txt-grey">Please note that it can take a few minutes to auto-verify your account. If more-->
+        <!--information is needed to verify your account, our support team will reach out-->
+        <!--via email to guide you through the process.-->
+      <!--</div>-->
+      <!--<div class="modal__row">-->
+        <!--<a href="#" class="button"> Ok</a>-->
+      <!--</div>-->
     </div>
   </div>
 </div>

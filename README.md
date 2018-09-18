@@ -38,3 +38,6 @@ https://www.npmjs.com/package/ngx-webcam
 
 datepicker :
 https://github.com/kekeh/mydatepicker
+
+file uploader
+https://stackoverflow.com/questions/47936183/angular-file-upload

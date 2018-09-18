@@ -54,5 +54,9 @@
       </div>
       <span class="button__text" (click)="onSubmit()">Download image from computer</span>
     </a>
+
+    <input type="file"
+           id="file"
+           (change)="handleFileInput($event.target.files)">
   </div>
 </div>
