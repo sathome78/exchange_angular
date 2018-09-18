@@ -32,3 +32,9 @@ https://github.com/angular-slider/ng5-slider
 
 jwt token home page:
 https://www.npmjs.com/package/ng-jwt
+
+web cam support:
+https://www.npmjs.com/package/ngx-webcam
+
+datepicker :
+https://github.com/kekeh/mydatepicker

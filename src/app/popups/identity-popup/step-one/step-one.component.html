@@ -2,49 +2,78 @@
 <div class="modal__subtitle">
   <p>Please fill this form below</p>
 </div>
-<form class="pasport-form">
+<form class="pasport-form" [formGroup]="form">
   <div class="pasport-form__content-row">
     <div class="wrap-input pasport-form__input">
-      <input class="input" type="text" required="">
+      <input
+        class="input"
+        type="text"
+        formControlName="firstName">
       <label class="wrap-input__label">First name</label>
       <div class="wrap-input__line"></div>
     </div>
     <div class="wrap-input pasport-form__input">
-      <input class="input" type="text" required="">
+      <input
+        class="input"
+        type="text"
+        formControlName="lastName"
+      >
       <label class="wrap-input__label">Last name</label>
       <div class="wrap-input__line"></div>
     </div>
     <div class="wrap-input pasport-form__input">
-      <input class="input input--with-icon" type="text" required=""><span class="wrap-input__icon"><img src="../../../../assets/img/calendar.svg"></span>
+      <input class="input input--with-icon" type="text" required="">
+      <span class="wrap-input__icon">
+        <img src="../../../../assets/img/calendar.svg">
+      </span>
       <label class="wrap-input__label wrap-input__label--with-icon">Date of birth</label>
       <div class="wrap-input__line"></div>
     </div>
     <div class="wrap-input pasport-form__input pasport-form__input--mob-only">
-      <input class="input" type="text" required="">
+      <input
+        class="input"
+        type="text"
+        formControlName="address"
+      >
       <label class="wrap-input__label">Residental address</label>
       <div class="wrap-input__line"></div>
     </div>
   </div>
   <div class="pasport-form__content-row">
     <div class="wrap-input pasport-form__input pasport-form__input--big">
-      <input class="input" type="text" required="">
+      <input
+        class="input"
+        type="text"
+        formControlName="address"
+      >
       <label class="wrap-input__label">Residental address</label>
       <div class="wrap-input__line"></div>
     </div>
     <div class="wrap-input pasport-form__input">
-      <input class="input" type="text" required="">
+      <input
+        class="input"
+        type="text"
+        formControlName="postalCode">
       <label class="wrap-input__label">Postal code</label>
       <div class="wrap-input__line"></div>
     </div>
   </div>
   <div class="pasport-form__content-row pasport-form__content-row--no-wrap">
     <div class="wrap-input pasport-form__input pasport-form__input--half">
-      <input class="input" type="text" required="">
+      <input
+        class="input"
+        type="text"
+        formControlName="country"
+      >
       <label class="wrap-input__label">Country</label>
       <div class="wrap-input__line"></div>
     </div>
     <div class="wrap-input pasport-form__input pasport-form__input--half">
-      <input class="input" type="text" required="">
+      <input
+        class="input"
+        type="text"
+        formControlName="city"
+      >
       <label class="wrap-input__label">City</label>
       <div class="wrap-input__line"></div>
     </div>
