@@ -22,7 +22,19 @@
       <div class="wrap-input__line"></div>
     </div>
     <div class="wrap-input pasport-form__input">
-      <input class="input input--with-icon" type="text" required="">
+      <input
+        class="input input--with-icon"
+        type="text"
+        formControlName="born">
+
+      <my-date-picker
+        name="born"
+        [options]="myDatePickerOptions"
+
+        formControlName="born">
+
+      </my-date-picker>
+
       <span class="wrap-input__icon">
         <img src="../../../../assets/img/calendar.svg">
       </span>

@@ -28,6 +28,7 @@ import { StepTwoComponent } from './popups/identity-popup/step-two/step-two.comp
 import { StepThreeComponent } from './popups/identity-popup/step-three/step-three.component';
 import { StepFourComponent } from './popups/identity-popup/step-four/step-four.component';
 import { LoginPopupComponent } from './popups/login-popup/login-popup.component';
+import { MyDatePickerModule } from 'mydatepicker';
 import {WebcamModule} from 'ngx-webcam';
 
 @NgModule({
@@ -61,6 +62,7 @@ import {WebcamModule} from 'ngx-webcam';
     AppRoutingModule,
     BrowserModule,
     DashboardModule,
+    MyDatePickerModule,
     FormsModule,
     ReactiveFormsModule,
     SettingsModule,
