@@ -67,6 +67,9 @@
 
   &__button-icon {
     padding-left: 12px;
+    width: 15px;
+    box-sizing: content-box;
+    //height: 15px;
   }
 
   &__header {
