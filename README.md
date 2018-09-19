@@ -41,3 +41,6 @@ https://github.com/kekeh/mydatepicker
 
 file uploader
 https://stackoverflow.com/questions/47936183/angular-file-upload
+
+file upload preview
+https://stackblitz.com/edit/angular-file-upload-preview?file=app%2Fapp.component.ts

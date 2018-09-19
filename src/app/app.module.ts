@@ -30,6 +30,8 @@ import { StepFourComponent } from './popups/identity-popup/step-four/step-four.c
 import { LoginPopupComponent } from './popups/login-popup/login-popup.component';
 import { MyDatePickerModule } from 'mydatepicker';
 import {WebcamModule} from 'ngx-webcam';
+import { WebcamComponent } from './popups/identity-popup/webcam/webcam.component';
+import { DocUploadComponent } from './popups/identity-popup/doc-upload/doc-upload.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import {WebcamModule} from 'ngx-webcam';
     StepThreeComponent,
     StepFourComponent,
     LoginPopupComponent,
+    WebcamComponent,
+    DocUploadComponent,
     // TWO FACTOR POPUP END
 
 

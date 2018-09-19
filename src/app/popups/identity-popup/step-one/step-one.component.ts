@@ -15,6 +15,7 @@ export class StepOneComponent implements OnInit {
   public myDatePickerOptions: IMyDpOptions = {
     // other options...
     dateFormat: 'dd.mm.yyyy',
+    // height: '45px'
   };
   public model: any = { date: { year: 2018, month: 10, day: 9 } };
 

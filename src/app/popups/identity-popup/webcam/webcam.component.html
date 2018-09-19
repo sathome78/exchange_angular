@@ -1,0 +1,27 @@
+<webcam [height]="136" [width]="244" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+        [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
+        [videoOptions]="videoOptions"
+        (cameraSwitched)="cameraWasSwitched($event)"
+        (initError)="handleInitError($event)"
+></webcam>
+
+<!--<button (click)="triggerSnapshot();">Take A Snapshot</button>-->
+<!--<br/>-->
+<!--<button class="actionBtn" (click)="showNextWebcam(true);" [disabled]="!multipleWebcamsAvailable">Next Webcam</button>-->
+
+<!--<input id="cameraSwitchCheckbox" type="checkbox" [(ngModel)]="allowCameraSwitch">-->
+<!--<label for="cameraSwitchCheckbox">Allow Camera Switch</label>-->
+
+<!--DeviceId: <input id="deviceId" type="text" [(ngModel)]="deviceId" style="width: 500px">-->
+
+<!--<button (click)="showNextWebcam(deviceId);">Activate</button>-->
+
+<!--<div class="snapshot" *ngIf="webcamImage">-->
+  <!--<h2>Nice one!</h2>-->
+  <!--<img [src]="webcamImage.imageAsDataUrl"/>-->
+<!--</div>-->
+
+<!--<h4 *ngIf="errors.length > 0">Messages:</h4>-->
+<!--<ul *ngFor="let error of errors">-->
+  <!--<li>{{error | json}}</li>-->
+<!--</ul>-->

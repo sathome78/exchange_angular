@@ -1,0 +1,12 @@
+<p>
+  doc-upload works!
+</p>
+
+<input type='file' (change)="onSelectFile($event)">
+
+<div *ngIf="isFileValid(); else nonvalid">
+  <img [src]="url" height="200"> <br/>
+</div>
+<ng-template #nonvalid>
+  <p *ngIf="fileToUpload != null">File not valid</p>
+</ng-template>
