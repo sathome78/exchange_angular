@@ -9,14 +9,19 @@
     <p>Make photo of document</p>
   </div>
   <div class="modal__identity-block">
-    <div class="modal__document-row">
+    <div class="modal__documents-row">
       <div class="modal__example-block">
-        Example
+        <div class="txt-center modal__documents-title">Example</div>
+        <img src="../../../../assets/img/example-doc.png" alt="" class="modal__example-img">
       </div>
       <div class="modal__user-block">
+        <div class="txt-center modal__documents-title">Your cam</div>
         <app-webcam *ngIf="isWebcamEnabled" (onWebcamVisible)="isWebcamEnabled = false"></app-webcam>
       </div>
     </div>
+  </div>
+  <div class="modal__row">
+    <button class="button button--active">Submit</button>
   </div>
 
 </div>

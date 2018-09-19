@@ -218,18 +218,35 @@
       line-height: 21px;
     }
   }
-  &__document-row{
+  &__documents-row{
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 32px;
+    @media (min-width:1200px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
   }
   &__example-block{
     width: 100%;
     max-width: 244px;
+    margin-bottom: 24px;
+    @media (min-width:1200px){
+      margin-bottom: 0;
+    }
+  }
+  &__example-img{
+    display: block;
+  }
+  &__documents-title{
+    margin-bottom: 16px;
   }
   &__user-block{
     width: 100%;
     max-width: 244px;
+
   }
   // &__store-wrap {
   //   display: -webkit-flex;

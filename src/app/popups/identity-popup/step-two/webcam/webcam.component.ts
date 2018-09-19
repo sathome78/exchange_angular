@@ -14,8 +14,8 @@ export class WebcamComponent implements OnInit {
   public multipleWebcamsAvailable = false;
   public deviceId: string;
   public videoOptions: MediaTrackConstraints = {
-    // width: {ideal: 1024},
-    // height: {ideal: 576}
+    width: {ideal: 244},
+    height: {ideal: 136}
   };
   public errors: WebcamInitError[] = [];
 
