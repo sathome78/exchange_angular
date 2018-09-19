@@ -1,0 +1,38 @@
+.mydp {
+  display: block;
+  box-sizing: border-box;
+  width: calc(100% - 5px) !important;
+  height: 45px;
+  margin: 0 2.5px !important;
+  padding: 0 12px;
+  border: 1px solid #A0A0A0 !important;
+  border-bottom: none !important;
+  border-radius: 0px !important;
+  border-top-left-radius: 4px !important;
+  border-top-right-radius: 4px !important;
+  font-size: 14px;
+}
+
+.selectiongroup {
+  height: 100%;
+}
+
+.mydp .selection {
+  height: 45px !important;
+  padding: 0 !important;
+}
+
+.btnclear, .btnpicker {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.icon-mydpcalendar {
+  &:before {
+    content: '' !important;
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-image: url("assets/img/calendar.svg");
+  }
+}
