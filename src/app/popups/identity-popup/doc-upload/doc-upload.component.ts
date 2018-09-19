@@ -9,26 +9,12 @@ export class DocUploadComponent implements OnInit {
 
   @Output() showFile = new EventEmitter<boolean>();
   fileToUpload: File = null;
-  fileUrl: any;
   url = '';
 
   constructor() {
   }
 
   ngOnInit() {
-  }
-
-  handleFileInput(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-
-      reader.readAsDataURL(event.target.files[0]);
-
-      reader.onload = (ev: any) => {
-        this.fileUrl = event.target.result;
-
-      };
-    }
   }
 
   onSelectFile(event) {
