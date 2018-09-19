@@ -9,10 +9,13 @@ import {Observable, Subject} from 'rxjs';
 })
 export class StepTwoComponent implements OnInit {
 
-  @Output() onNextStep = new EventEmitter<number>();
-  isWebcamEnabled = false;
+  WEBCAM = 'WEBCAM';
+  FILE = 'FILE';
+  STEP = 'STEP';
 
-  fileToUpload: File = null;
+  @Output() onNextStep = new EventEmitter<number>();
+
+  displayMode = this.STEP;
 
   constructor() { }
 
@@ -24,10 +27,13 @@ export class StepTwoComponent implements OnInit {
   }
 
   toggleWebcam() {
-    this.isWebcamEnabled = !this.isWebcamEnabled;
+    this.displayMode = this.WEBCAM;
+    console.log(this.displayMode);
   }
 
-  handleFileInput(files: FileList) {
-    this.fileToUpload = files.item(0);
+  toggleFile() {
+    this.displayMode = this.FILE;
+    console.log(this.displayMode);
   }
+
 }

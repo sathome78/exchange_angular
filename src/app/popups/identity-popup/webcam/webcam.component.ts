@@ -9,7 +9,7 @@ import {Observable, Subject} from 'rxjs';
 })
 export class WebcamComponent implements OnInit {
 
-  @Output() onWebcamVisible = new EventEmitter<boolean>();
+  @Output() showWebcam = new EventEmitter<boolean>();
   public allowCameraSwitch = true;
   public multipleWebcamsAvailable = false;
   public deviceId: string;
@@ -41,7 +41,7 @@ export class WebcamComponent implements OnInit {
   }
 
   onSubmit() {
-    this.onWebcamVisible.emit(false);
+    this.showWebcam.emit(false);
   }
 
   public handleInitError(error: WebcamInitError): void {
