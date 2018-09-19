@@ -218,6 +218,19 @@
       line-height: 21px;
     }
   }
+  &__document-row{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__example-block{
+    width: 100%;
+    max-width: 244px;
+  }
+  &__user-block{
+    width: 100%;
+    max-width: 244px;
+  }
   // &__store-wrap {
   //   display: -webkit-flex;
   //   display: -ms-flex;
