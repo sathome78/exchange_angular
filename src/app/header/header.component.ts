@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PopupService} from '../services/popup.service';
 import {AuthService} from '../services/auth.service';
 import {LoggingService} from '../services/logging.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,9 @@ export class HeaderComponent implements OnInit {
 
   constructor(private popupService: PopupService,
               private authService: AuthService,
-              private logger: LoggingService) { }
+              private logger: LoggingService,
+              private router: Router) {
+  }
 
   ngOnInit() {
   }
@@ -22,6 +25,11 @@ export class HeaderComponent implements OnInit {
   public openMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
     console.log('Open mobile menu');
+  }
+
+  public navigateToSettings() {
+    this.isMobileMenuOpen = false;
+    this.router.navigate(['/settings']);
   }
 
 

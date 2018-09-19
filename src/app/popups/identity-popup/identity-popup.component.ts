@@ -8,9 +8,20 @@ import {PopupService} from '../../services/popup.service';
 })
 export class IdentityPopupComponent implements OnInit {
 
+  step = 1;
+  stepsSize = 1;
+
   constructor(private popupService: PopupService) { }
 
   ngOnInit() {
+  }
+
+  closeMe() {
+    this.popupService.closeIdentityPopup();
+  }
+
+  moveNext(step: number) {
+    this.step = step;
   }
 
 }

@@ -41,6 +41,9 @@ export class PopupService {
     this.onOpenTFAPopupListener.next(undefined);
   }
 
+  closeIdentityPopup() {
+    this.onOpenIdentityPopupListener.next(undefined);
+  }
 
   public getTFAPopupListener(): Subject<string> {
     return this.onOpenTFAPopupListener;
