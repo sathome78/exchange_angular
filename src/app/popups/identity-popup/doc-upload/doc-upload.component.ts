@@ -1,13 +1,18 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Observable, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-doc-upload',
   templateUrl: './doc-upload.component.html',
   styleUrls: ['./doc-upload.component.scss']
 })
-export class DocUploadComponent implements OnInit {
+export class DocUploadComponent implements OnInit, OnDestroy {
 
   @Output() showFile = new EventEmitter<boolean>();
+  @Output() submitResult = new EventEmitter<number>();
+
+  @Input() events: Observable<string>;
+  private submitSubscription: Subscription;
   fileToUpload: File = null;
   url = '';
 
@@ -15,6 +20,12 @@ export class DocUploadComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.submitSubscription = this.events.subscribe(mode => {
+      if (mode === 'FILE') {
+        // todo smth useful
+        console.log('submit clicked for file');
+      }
+    });
   }
 
   onSelectFile(event) {
@@ -47,4 +58,11 @@ export class DocUploadComponent implements OnInit {
       || fileName.endsWith('.gif'.toLowerCase());
   }
 
+  notifyResult() {
+    this.submitResult.next(55);
+  }
+
+  ngOnDestroy() {
+    this.submitSubscription.unsubscribe();
+  }
 }
