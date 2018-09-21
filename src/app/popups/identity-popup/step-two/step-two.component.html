@@ -1,9 +1,7 @@
-<div class="modal__title">Identity Verification</div>
-<!--<div class="modal__subtitle">-->
-<!--<p>Choose how to submit your ID</p>-->
-<!--</div>-->
-<!--<div class="modal__identity-block">-->
-<!--<div class="modal__identity-action">-->
+<div class="modal__title">
+  Identity Verification
+</div>
+
 <div *ngIf="displayMode === WEBCAM">
   <div class="modal__subtitle">
     <p>Make photo of document</p>
@@ -12,39 +10,51 @@
     <div class="modal__documents-row">
       <div class="modal__example-block">
         <div class="txt-center modal__documents-title">Example</div>
-        <img src="../../../../assets/img/example-doc.png" alt="" class="modal__example-img">
+        <img src="../../../../assets/img/upload_example.svg" alt="" class="modal__example-img">
       </div>
       <div class="modal__user-block">
         <div class="txt-center modal__documents-title">Your cam</div>
-        <app-webcam *ngIf="displayMode === WEBCAM" (showWebcam)="displayMode = STEP"></app-webcam>
+        <app-webcam
+          *ngIf="displayMode === WEBCAM"
+          (showWebcam)="displayMode = STEP"
+          (submitResult)="processSubmitResult($event)"
+          [events]="submitEventSubject.asObservable()"
+        >
+        </app-webcam>
       </div>
     </div>
   </div>
   <div class="modal__row">
-    <button class="button button--active">Submit</button>
+    <button class="button button--active" (click)="onSubmit(WEBCAM)">Submit</button>
   </div>
 </div>
 <div *ngIf="displayMode === FILE">
   <div class="modal__subtitle">
-    <p>Make photo of document</p>
+    <p>Download photo of document</p>
   </div>
   <div class="modal__identity-block">
     <div class="modal__documents-row">
       <div class="modal__example-block">
         <div class="txt-center modal__documents-title">Example</div>
-        <img src="../../../../assets/img/example-doc.png" alt="" class="modal__example-img">
+        <img src="../../../../assets/img/upload_example.svg" alt="" class="modal__example-img">
       </div>
       <div class="modal__user-block">
         <div class="txt-center modal__documents-title">Your cam</div>
         <!--<app-webcam *ngIf="isWebcamEnabled" (onWebcamVisible)="isWebcamEnabled = false"></app-webcam>-->
         <!--<app-webcam *ngIf="displayMode === WEBCAM" (showWebcam)="displayMode = STEP"></app-webcam>-->
-        <div class="modal__upload-img"></div>
-        <app-doc-upload *ngIf="displayMode === FILE" (showFile)="displayMode = STEP"></app-doc-upload>
+        <div class="modal__upload-img">
+          <app-doc-upload
+            *ngIf="displayMode === FILE"
+            (showFile)="displayMode = STEP"
+            (submitResult)="processSubmitResult($event)"
+            [events]="submitEventSubject.asObservable()"
+          ></app-doc-upload>
+        </div>
       </div>
     </div>
   </div>
   <div class="modal__row">
-    <button class="button button--active">Submit</button>
+    <button class="button button--active" (click)="onSubmit(FILE)">Submit</button>
   </div>
 </div>
 
