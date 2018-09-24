@@ -1,0 +1,120 @@
+.btn {
+  display: block;
+  width: 100%;
+  max-width: 230px;
+  padding: 0;
+  -webkit-transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+  color: $darker-blue;
+  border: 1px solid $darker-blue;
+  border-radius: 100px;
+  background-color: transparent;
+  font-size: 14px;
+  line-height: 43px;
+  white-space: nowrap;
+
+  &:hover {
+    cursor: pointer;
+    color: #fff;
+    border-color: transparent;
+    background-color: $blue;
+
+    .btn__icon--hover-white {
+      svg {
+        fill: #fff;
+      }
+    }
+  }
+
+  &:focus {
+    color: #fff;
+    outline: none;
+    background-color: $darker-blue;
+
+    .btn__icon--hover-white {
+      svg {
+        fill: #fff;
+      }
+    }
+  }
+  /*--- modificators start ---*/
+  // states
+  &--active {
+    color: #fff;
+    border-color: transparent;
+    background-color: $darker-blue;
+  }
+
+  &--error {
+    color: #fff;
+    border-color: transparent;
+    background-color: $red;
+
+    &:hover {
+      background-color: $red;
+    }
+
+    &:focus {
+      border-color: transparent;
+      background-color: $red;
+    }
+  }
+  // positions
+  &--center {
+    margin: 0 auto;
+  }
+  &--mt32{
+    margin-top: 32px;
+  }
+  &--mb32{
+    margin-bottom: 32px;
+  }
+  // sizes
+  &--small {
+    width: auto;
+    padding: 0 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  &--auto {
+    padding: 0 32px;
+    width: auto;
+    max-width: none;
+  }
+  /*--- modificators end ---*/
+  /*--- elements start ---*/
+  &__icon {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    vertical-align: middle;
+
+    svg {
+      vertical-align: top;
+      width: 100%;
+    }
+
+    &--blue {
+      svg {
+        fill: $darker-blue;
+      }
+    }
+  }
+  /*--- elements end ---*/
+}
+/*--- media start ---*/
+@media only screen and (max-width: 599px) {
+  .btn {
+    line-height: 34px;
+
+    &--small {
+      line-height: 20px;
+    }
+  }
+}
+/*--- media end ---*/

@@ -1,0 +1,234 @@
+.popup {
+  position: relative;
+  z-index: 10;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  border-radius: 4px;
+  background-color: #fff;
+  /*--- modificators start ---*/
+  /*--- modificators end ---*/
+  /*--- elements start ---*/
+  &__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 15px;
+    height: 15px;
+    background-image: url("assets/img/close-blue.svg");
+    background-position: center;
+    background-size: cover;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__title {
+    margin-bottom: 28px;
+    text-align: center;
+    color: $dark-indigo;
+    font-size: 24px;
+    line-height: 130%;
+  }
+
+  &__subtitle {
+    margin-bottom: 12px;
+    text-align: center;
+    color: $dark-indigo;
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  &__form {
+    width: 100%;
+    max-width: 230px;
+    margin: 0 auto;
+  }
+
+  &__wrap-input {
+    margin-bottom: 24px;
+
+  }
+
+  &__btn {
+    margin: 0px auto ;
+  }
+
+  &__links-wrap {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 230px;
+    margin: 32px auto 0;
+
+    &--left {
+      justify-content: flex-start;
+    }
+  }
+
+  &__link {
+    text-decoration: none;
+    color: $darker-blue;
+    font-size: 12px;
+    line-height: 14px;
+
+    &:hover {
+      color: $darker-blue;
+    }
+
+    &--hidden-mob {
+      display: none;
+    }
+  }
+
+  &__link-mob {
+    position: absolute;
+    bottom: 0;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+    text-decoration: none;
+    color: #fff;
+    background-color: $darker-blue;
+    font-size: 14px;
+  }
+  &__captcha{
+    display: block;
+    max-width: 244px;
+    margin: 0 auto;
+  }
+  &__txt-row{
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    // magrin
+    &--mt32{
+      margin-top: 32px;
+    }
+    &--mt20{
+      margin-top: 20px;
+    }
+    &--mt4{
+      margin-top: 4px;
+    }
+    // fonts-sizes
+    &--fz14{
+      font-size: 14px;
+      line-height: 16px;
+    }
+    // show-hidden
+    &--hidden-mob{
+      display: none;
+    }
+  }
+  &__check-wrap{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  &__agree-check{
+    display: none;
+    &:checked + .popup__custom-check:before {
+      display: block;
+      position: absolute;
+      top: -4px;
+      width: 12px;
+      height: 10px;
+      background-image: url("assets/img/check.svg");
+      background-repeat: no-repeat;
+      content: "";
+    }
+  }
+  &__custom-check{
+    display: inline-block;
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border: 1px solid $grey;
+    border-radius: 1px;
+  }
+  &__line {
+    height: 1px;
+    margin: 20px 36px;
+    background-color: $darker-white;
+  }
+  &__back-to{
+    display: block;
+    width: 100%;
+    max-width: 230px;
+    margin: 32px auto 0;
+  }
+  /*--- elements end ---*/
+}
+/*--- media start ---*/
+@media (min-width:600px) {
+  .popup {
+    &__close {
+      top: 16px;
+      right: 16px;
+    }
+
+    &__form {
+      max-width: 330px;
+    }
+
+    &__links-wrap {
+      max-width: 330px;
+    }
+    &__back-to{
+      max-width: 330px;
+    }
+  }
+}
+@media (min-width:1200px) {
+  .popup {
+    max-width: 404px;
+    height: auto;
+    margin: 0 auto;
+    padding: 32px 0;
+
+    &__close {
+      top: 7px;
+      right: -35px;
+      background-image: url("assets/img/close.svg");
+    }
+    &__btn{
+      margin-top: 32px;
+    }
+    &__links-wrap {
+      margin-top: 24px;
+      justify-content: space-between;
+    }
+
+    &__link {
+      &--hidden-mob {
+        display: inline-block;
+      }
+    }
+
+    &__link-mob {
+      display: none;
+    }
+    &__txt-row{
+      &--hidden-mob{
+        display: block;
+      }
+    }
+  }
+}
+/*--- media end ---*/

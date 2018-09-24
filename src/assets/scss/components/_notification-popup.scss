@@ -1,0 +1,72 @@
+.notification-popup {
+  // display: none;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  position: absolute;
+  bottom: 105px;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 32px;
+  padding: 6px 12px;
+  color: $grey;
+  border: 1px solid $grey;
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  /*--- elements start ---*/
+  &__icon {
+    display: none;
+    margin-right: 20px;
+  }
+
+  &__close {
+    position: absolute;
+    right: 32px;
+    display: none;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__close-mob {
+    position: relative;
+    right: auto;
+    display: block;
+    width: 10px;
+    margin-right: 16px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+/*--- elements end ---*/
+/*--- media start ---*/
+@media (min-width:1200px) {
+  .notification-popup {
+    bottom: 10%;
+    width: 100%;
+    height: 47px;
+    color: $darker-blue;
+    border: 1px solid $darker-blue;
+    box-shadow: none;
+    font-size: 18px;
+
+    &__icon {
+      display: block;
+    }
+
+    &__close {
+      display: block;
+    }
+
+    &__close-mob {
+      display: none;
+    }
+  }
+}
+/*--- media end ---*/

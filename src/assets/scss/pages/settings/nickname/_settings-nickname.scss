@@ -1,0 +1,24 @@
+.nickname-set {
+  width: 100%;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0;
+  flex-grow: 1;
+
+  &__text {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 20px;
+    @media (min-width:1200px) {
+      font-size: 24px;
+    }
+
+    span {
+      font-weight: 600;
+    }
+  }
+}

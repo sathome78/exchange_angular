@@ -1,0 +1,25 @@
+.subtitle {
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  /*--- modificators start ---*/
+  &--hide-mob {
+    display: none;
+  }
+  /*--- modificators end ---*/
+  /*--- elements start ---*/
+  /*--- elements end ---*/
+}
+/*--- media start ---*/
+@media (min-width:600px) {}
+@media (min-width:900px) {}
+@media (min-width:1200px) {
+  .subtitle {
+    text-align: left;
+
+    &--hide-mob {
+      display: block;
+    }
+  }
+}
+/*--- media end ---*/

@@ -1,33 +1,33 @@
-  <div class="settings-content">
-    <h3 class="settings-content__title">Nickname</h3>
-    <div class="settings-content__subtitle">For inner transactions users could use your nickname instead of email.</div>
+  <div class="settings__content">
+    <h3 class="title settings__content-title">Nickname</h3>
+    <div class="subtitle settings__content-subtitle">For inner transactions users could use your nickname instead of email.</div>
     <form class="settings-form" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="settings-form__row">
-        <div class="wrap-input settings-form__wrap-input">
+      <div class="settings__form-row">
+        <div class="wrap-input wrap-input--fix230">
           <input
-            class="input"
+            class="wrap-input__input"
             type="text"
             formControlName="nickname"
           >
-
           <!--ERROR PART-->
           <div class="input--error" *ngIf="!form.get('nickname').valid && form.get('nickname').touched">
             <div *ngIf="form.get('nickname').errors != null && form.get('nickname').errors['required']">This field is required</div>
             <div *ngIf="form.get('nickname').errors != null && form.get('nickname').invalid">Only (A-z), (–), (=) are allowed</div>
           </div>
 
-
-          <label class="wrap-input__label">Nickname</label>
-          <div class="wrap-input__line"></div><span class="wrap-input__valid">This nickname already taken. Please take another one</span>
-        </div><span class="settings-form__input-notice">– use only (A-z), (–), (=) symbols, </span>
+          <label class="wrap-input__label" for="">Nickname</label>
+          <div class="wrap-input__line"></div>
+          <span class="wrap-input__message">WThis nickname already taken. Please take another one.</span>
+        </div>
+        <span class="settings__form-notice">– use only (A-z), (–), (=) symbols, </span>
       </div>
-      <button class="button settings-form__button settings-form__button--mt32">Save</button>
+      <button class="btn settings__form-btn">Save</button>
     </form>
-    <div class="settings__note">
-      <div class="settings__note-title">Please note:</div>
-      <ul class="settings__note-list">
-        <li class="settings__note-list-item">Nickname can be specified only 1 time</li>
-        <li class="settings__note-list-item">After creating a nickname, it will not be possible to change it</li>
+    <div class="note settings__note">
+      <div class="note__title">Please note:</div>
+      <ul class="note__list">
+        <li class="note__list-item">Nickname can be specified only 1 time</li>
+        <li class="note__list-item">After creating a nickname, it will not be possible to change it</li>
       </ul>
     </div>
   </div>
