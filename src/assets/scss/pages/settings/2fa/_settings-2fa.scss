@@ -1,0 +1,65 @@
+.tfa{
+  /*--- modificators start ---*/
+  /*--- modificators end ---*/
+  /*--- elements start ---*/
+  &__table {
+    thead {
+      border-bottom: 1px solid $darker-white;
+    }
+
+    tbody {
+      border-bottom: 1px solid $darker-white;
+    }
+
+    th {
+      padding: 12px;
+      font-weight: 400;
+      vertical-align: bottom;
+
+      .sms-price {
+        color: $grey;
+        font-size: 12px;
+        line-height: 14px;
+        display: block;
+        text-align: right;
+      }
+
+      .by-sms {
+        display: -webkit-flex;
+        display: -ms-flex;
+        display: flex;
+        justify-content: flex-end;
+
+        .link {
+          margin-left: 4px;
+        }
+      }
+    }
+
+    td {
+      padding: 15px;
+    }
+  }
+  &__select-type{
+    padding: 0 12px;
+    max-width: 500px;
+    margin: 24px auto 28px;
+
+  }
+  /*--- elements end ---*/
+}
+/*--- media start ---*/
+@media (min-width:600px) {
+  .select-country {
+    margin-right: 8px;
+  }
+}
+@media (min-width:900px) {}
+@media (min-width:1200px) {
+  .tfa{
+    &__select-type{
+      display: none;
+    }
+  }
+}
+/*--- media end ---*/

@@ -1,0 +1,143 @@
+.table {
+  display: none;
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 16px;
+  /*--- modificators start ---*/
+  &--mob {
+    display: table;
+  }
+
+  &--more-info {
+    border-left: 4px solid $darker-blue;
+    border-bottom: 1px solid $darker-blue;
+    margin-bottom: 0;
+  }
+  /*--- modificators end ---*/
+  /*--- elements start ---*/
+  &__cell-head {
+    padding: 20px 10px;
+    color: #000;
+    font-weight: 700;
+
+    &--tal {
+      text-align: left;
+    }
+
+    &--tar {
+      text-align: right;
+    }
+
+    &--tac {
+      text-align: center;
+    }
+
+    &--hide-mob {
+      display: none;
+    }
+
+    &--p8 {
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+  }
+
+  &__cell-head-arr {
+    margin-right: 4px;
+  }
+
+  &__body {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+
+    &--none-shadow {
+      box-shadow: none;
+    }
+  }
+
+  &__row {
+    display: none;
+    position: relative;
+
+    &:nth-of-type(odd) {
+      background-color: #f4f8fe;
+    }
+
+    &:hover {
+      background-color: #deebfd;
+      cursor: pointer;
+
+      .table__cell-button {
+        display: -webkit-flex;
+        display: -ms-flex;
+        display: flex;
+      }
+    }
+
+    &--mob {
+      display: table-row;
+
+      &:hover {
+        background-color: #deebfd;
+        cursor: pointer;
+      }
+    }
+  }
+  &__cell {
+    position: relative;
+    padding: 8px 10px;
+    vertical-align: middle;
+
+    &--tal {
+      text-align: left;
+    }
+
+    &--tar {
+      text-align: right;
+    }
+
+    &--tac {
+      text-align: center;
+    }
+
+    &--arr-mob {
+      width: 17px;
+      height: 17px;
+      padding-right: 20px;
+      padding-left: 2px;
+    }
+
+    &--p8 {
+      padding: 8px;
+    }
+  }
+
+  /*--- elements end ---*/
+}
+/*--- media start ---*/
+@media (min-width:600px) {}
+@media (min-width:900px) {}
+@media (min-width:1200px) {
+  .table {
+    display: table;
+
+    &--mob {
+      display: none;
+    }
+
+    &__cell-head {
+      &--hide-mob {
+        display: table-cell;
+      }
+    }
+
+    &__row {
+      display: table-row;
+
+      &--mob {
+        display: none;
+      }
+    }
+  }
+}
+/*--- media end ---*/

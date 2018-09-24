@@ -1,19 +1,17 @@
-<div class="modal__title">
-  Identity Verification
-</div>
+<div class="title modal__title">Identity Verification</div>
 
 <div *ngIf="displayMode === WEBCAM">
-  <div class="modal__subtitle">
+  <div class="subtitle modal__subtitle">
     <p>Make photo of document</p>
   </div>
-  <div class="modal__identity-block">
-    <div class="modal__documents-row">
-      <div class="modal__example-block">
-        <div class="txt-center modal__documents-title">Example</div>
-        <img src="../../../../assets/img/upload_example.svg" alt="" class="modal__example-img">
+  <div class="kyc__identity-block">
+    <div class="kyc__documents-row">
+      <div class="kyc__example-block">
+        <div class="txt-center kyc__documents-title">Example</div>
+        <img src="../../../../assets/img/upload_example.svg" alt="" class="kyc__example-img">
       </div>
-      <div class="modal__user-block">
-        <div class="txt-center modal__documents-title">Your cam</div>
+      <div class="kyc__user-block">
+        <div class="txt-center kyc__documents-title">Your cam</div>
         <app-webcam
           *ngIf="displayMode === WEBCAM"
           (showWebcam)="displayMode = STEP"
@@ -25,24 +23,24 @@
     </div>
   </div>
   <div class="modal__row">
-    <button class="button button--active" (click)="onSubmit(WEBCAM)">Submit</button>
+    <button class="btn btn--active" (click)="onSubmit(WEBCAM)">Submit</button>
   </div>
 </div>
 <div *ngIf="displayMode === FILE">
-  <div class="modal__subtitle">
+  <div class="subtitle modal__subtitle">
     <p>Download photo of document</p>
   </div>
-  <div class="modal__identity-block">
-    <div class="modal__documents-row">
-      <div class="modal__example-block">
-        <div class="txt-center modal__documents-title">Example</div>
-        <img src="../../../../assets/img/upload_example.svg" alt="" class="modal__example-img">
+  <div class="kyc__identity-block">
+    <div class="kyc__documents-row">
+      <div class="kyc__example-block">
+        <div class="txt-center kyc__documents-title">Example</div>
+        <img src="../../../../assets/img/upload_example.svg" alt="" class="kyc__example-img">
       </div>
-      <div class="modal__user-block">
-        <div class="txt-center modal__documents-title">Your cam</div>
+      <div class="kyc__user-block">
+        <div class="txt-center kyc__documents-title">Your cam</div>
         <!--<app-webcam *ngIf="isWebcamEnabled" (onWebcamVisible)="isWebcamEnabled = false"></app-webcam>-->
         <!--<app-webcam *ngIf="displayMode === WEBCAM" (showWebcam)="displayMode = STEP"></app-webcam>-->
-        <div class="modal__upload-img">
+        <div class="kyc__upload-img">
           <app-doc-upload
             *ngIf="displayMode === FILE"
             (showFile)="displayMode = STEP"
@@ -54,19 +52,19 @@
     </div>
   </div>
   <div class="modal__row">
-    <button class="button button--active" (click)="onSubmit(FILE)">Submit</button>
+    <button class="btn btn--active" (click)="onSubmit(FILE)">Submit</button>
   </div>
 </div>
 
 
 <div *ngIf="displayMode !== WEBCAM && displayMode !== FILE">
-  <div class="modal__subtitle">
+  <div class="subtitle modal__subtitle">
     <p>Choose how to submit your ID</p>
   </div>
-  <div class="modal__identity-block">
-    <div class="modal__identity-action">
-      <a class="button modal__identity-btn" (click)="toggleWebcam()">
-        <div class="button__icon button__icon--blue button__icon--hover-white">
+  <div class="kyc__identity-block">
+    <div class="kyc__identity-action">
+      <button class="btn kyc__identity-btn" (click)="toggleWebcam()">
+        <div class="btn__icon btn__icon--blue btn__icon--hover-white">
           <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="18" height="19" fill="black" fill-opacity="0"/>
             <path
@@ -77,13 +75,13 @@
               d="M17.8871 17.3356L16.3981 13.8403C16.1236 13.196 15.3848 12.6806 14.6535 12.5951C15.9731 11.2565 16.7836 9.45134 16.7836 7.46784C16.7836 3.35007 13.2918 0 9 0C4.70817 0 1.21636 3.35007 1.21636 7.46777C1.21636 9.45127 2.0268 11.2564 3.34637 12.5951C2.61517 12.6805 1.87637 13.196 1.60188 13.8403L0.112889 17.3356C-0.0621109 17.7463 -0.032547 18.1674 0.193911 18.4909C0.420368 18.8145 0.815497 19 1.27802 19H16.722C17.1845 19 17.5797 18.8145 17.8062 18.4909C18.0325 18.1675 18.0621 17.7463 17.8871 17.3356ZM9 1.0717C12.676 1.0717 15.6665 3.94101 15.6665 7.46777C15.6665 10.9945 12.6759 13.8638 9 13.8638C5.3241 13.8638 2.33338 10.9945 2.33338 7.46777C2.33338 3.94101 5.32402 1.0717 9 1.0717ZM16.8787 17.8935C16.8747 17.8992 16.8313 17.9284 16.722 17.9284H1.27794C1.16862 17.9284 1.12521 17.8992 1.12119 17.8935C1.11717 17.8877 1.1054 17.8381 1.14681 17.741L2.6358 14.2457C2.76798 13.9355 3.20645 13.6529 3.55578 13.6529H4.64279C5.88685 14.4623 7.38687 14.9355 8.99992 14.9355C10.613 14.9355 12.1129 14.4623 13.3571 13.6529H14.4441C14.7935 13.6529 15.232 13.9355 15.3642 14.2457L16.8532 17.741C16.8944 17.8382 16.8828 17.8878 16.8787 17.8935Z"/>
           </svg>
         </div>
-        <span class="button__text">Capture image form camera</span>
-      </a>
+        <span class="btn__text">Capture image form camera</span>
+      </button>
 
       <span class="modal__or">or</span>
 
-      <a class="button modal__identity-btn" (click)="toggleFile()">
-        <div class="button__icon button__icon--blue button__icon--hover-white">
+      <button class="btn kyc__identity-btn" (click)="toggleFile()">
+        <div class="btn__icon btn__icon--blue btn__icon--hover-white">
           <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="13" height="14" fill="black" fill-opacity="0"/>
             <path
@@ -92,8 +90,8 @@
               d="M6.3347 0.123405L3.75075 3.37612C3.75075 3.37612 3.3576 3.76281 3.78393 3.76281C4.21025 3.76281 5.23998 3.76281 5.23998 3.76281C5.23998 3.76281 5.23998 4.02293 5.23998 4.42409C5.23998 5.5678 5.23998 7.64926 5.23998 8.49781C5.23998 8.49781 5.18215 8.72852 5.51568 8.72852C5.8519 8.72852 7.32453 8.72852 7.56526 8.72852C7.80555 8.72852 7.80017 8.53424 7.80017 8.53424C7.80017 7.71137 7.80017 5.55799 7.80017 4.45165C7.80017 4.09298 7.80017 3.86041 7.80017 3.86041C7.80017 3.86041 8.62592 3.86041 9.14415 3.86041C9.66147 3.86041 9.27191 3.45552 9.27191 3.45552C9.27191 3.45552 7.07349 0.415286 6.76686 0.0963192C6.5463 -0.134851 6.3347 0.123405 6.3347 0.123405Z"/>
           </svg>
         </div>
-        <span class="button__text">Download image from computer</span>
-      </a>
+        <span class="btn__text">Download image from computer</span>
+      </button>
     </div>
   </div>
 </div>

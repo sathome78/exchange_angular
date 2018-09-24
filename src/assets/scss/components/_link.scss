@@ -1,0 +1,13 @@
+.link {
+  text-decoration: none;
+  word-wrap: break-word;
+
+  color: $darker-blue;
+
+  font-weight: 400;
+  /*--- modificators start ---*/
+  &--underline {
+    text-decoration: underline;
+  }
+  /*--- modificators end ---*/
+}

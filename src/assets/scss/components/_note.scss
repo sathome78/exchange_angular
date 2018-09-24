@@ -1,0 +1,44 @@
+.note {
+  position: relative;
+  bottom: 0;
+  left: -12px;
+  width: 100%;
+  padding: 12px;
+  background-color: #E9F2FF;
+  /*--- modificators start ---*/
+  /*--- modificators end ---*/
+  /*--- elements start ---*/
+  &__title {
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  &__list-item {
+    display: block;
+    margin-bottom: 4px;
+    line-height: 21px;
+
+    &:before {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      margin-right: 8px;
+      content: '';
+      vertical-align: middle;
+      border-radius: 50%;
+      background-color: $darker-blue;
+    }
+  }
+  /*--- elements end ---*/
+}
+/*--- media start ---*/
+@media (min-width:600px) {}
+@media (min-width:900px) {}
+@media (min-width:1200px) {
+  .note {
+    position: relative;
+    left: 0;
+    padding: 32px;
+  }
+}
+/*--- media end ---*/
