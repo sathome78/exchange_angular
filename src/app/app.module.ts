@@ -32,6 +32,9 @@ import { MyDatePickerModule } from 'mydatepicker';
 import {WebcamModule} from 'ngx-webcam';
 import { WebcamComponent } from './popups/identity-popup/webcam/webcam.component';
 import { DocUploadComponent } from './popups/identity-popup/doc-upload/doc-upload.component';
+import { HttpClientModule} from '@angular/common/http';
+import {LangService} from './services/lang.service';
+import {UserService} from './services/user.service';
 import {ThemeService} from './services/theme.service';
 
 @NgModule({
@@ -67,8 +70,9 @@ import {ThemeService} from './services/theme.service';
     AppRoutingModule,
     BrowserModule,
     DashboardModule,
-    MyDatePickerModule,
+    HttpClientModule,
     FormsModule,
+    MyDatePickerModule,
     ReactiveFormsModule,
     SettingsModule,
     WebcamModule
@@ -77,8 +81,10 @@ import {ThemeService} from './services/theme.service';
   providers: [
     AuthGuard,
     AuthService,
+    LangService,
     LoggingService,
     PopupService,
+    UserService,
     ThemeService,
   ],
   bootstrap: [AppComponent]
