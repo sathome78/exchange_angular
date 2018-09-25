@@ -5,7 +5,7 @@
     <form class="popup__form" [formGroup]="form">
       <div class="wrap-input popup__wrap-input">
         <input
-          class="input"
+          class="wrap-input__input"
           type="text"
           formControlName="email"
           [ngClass]="{'input--error': !form.get('email').valid && form.get('email').touched}"
@@ -16,12 +16,12 @@
         <div *ngIf="form.get('email').touched && form.get('email').errors != null">
           <span
             *ngIf="form.get('email').errors['required']"
-            class="wrap-input__valid">
+            class="wrap-input__message">
             This field is required.
           </span>
           <span
             *ngIf="form.get('email').invalid && !form.get('email').errors['required']"
-            class="wrap-input__valid">
+            class="wrap-input__message">
             Please, enter valid email address.
           </span>
         </div>
@@ -29,7 +29,7 @@
       </div>
       <div class="wrap-input popup__wrap-input">
         <input
-          class="input"
+          class="wrap-input__input"
           [type]="getInputType()"
           formControlName="password"
           [ngClass]="{'input--error': !form.get('password').valid && form.get('password').touched}"
@@ -46,14 +46,18 @@
         <div *ngIf="form.get('password').touched && form.get('password').errors != null">
           <span
             *ngIf="form.get('password').errors['required']"
-            class="wrap-input__valid">
+            class="wrap-input__message">
             This field is required.
           </span>
         </div>
         <!--Input error section ends-->
       </div>
-      <button class="button popup__button" (click)="onSubmit()">Authorise me</button>
+      <button class="btn popup__btn" (click)="onSubmit()">Authorise me</button>
     </form>
-    <div class="popup__links-wrap"><a class="popup__link popup__link--hidden-sm" href="reg-email.html">Go to registration form</a><a class="popup__link" href="fgt.html">Forgot password?</a></div><a class="popup__link-sm" href="#">Registration</a>
+    <div class="popup__links-wrap">
+      <a class="popup__link popup__link--hidden-mob" href="reg-email.html">Go to registration form</a>
+      <a class="popup__link" href="fgt.html">Forgot password?</a>
+    </div>
+    <a class="popup__link-mob" href="#">Registration</a>
   </div>
 </div>
