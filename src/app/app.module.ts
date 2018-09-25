@@ -34,6 +34,7 @@ import { WebcamComponent } from './popups/identity-popup/webcam/webcam.component
 import { DocUploadComponent } from './popups/identity-popup/doc-upload/doc-upload.component';
 import { HttpClientModule} from '@angular/common/http';
 import {LangService} from './services/lang.service';
+import {UserService} from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import {LangService} from './services/lang.service';
     LangService,
     LoggingService,
     PopupService,
+    UserService,
   ],
   bootstrap: [AppComponent]
 })

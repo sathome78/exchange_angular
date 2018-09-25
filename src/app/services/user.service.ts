@@ -42,7 +42,7 @@ export class UserService {
     return this.http.get<string[]>(url, httpOptions);
   }
 
-  getIfConnectionSuccessful(): Observable<boolean> {
+  public getIfConnectionSuccessful(): Observable<boolean> {
     const url = this.HOST + '/info/public/test';
     const httpOptions = {
       headers: MEDIA_TYPE_JSON
@@ -50,7 +50,7 @@ export class UserService {
     return this.http.get<boolean>(url, httpOptions);
   }
 
-  createNewUser(username: string, email: string,
+  public createNewUser(username: string, email: string,
                 password: string, language: string,
                 sponsor?: string): Promise<number> {
 
@@ -71,21 +71,23 @@ export class UserService {
       .catch(this.handleErrorPromise);
   }
 
-  authenticateUser(email: string, password: string, pin?: string): Observable<{} | TokenHolder> {
+  public authenticateUser(email: string, password: string, pin?: string): Observable<{} | TokenHolder> {
     const authCandidate = new AuthCandidate(email, password);
     this.logger.debug(this, 'User password ' + password + ' is encrypted to ' + authCandidate.password);
-    const url = this.HOST + '/info/public/authenticate';
-    const mHeaders = MEDIA_TYPE_JSON.append('X-Forwarded-For', localStorage.getItem('client_ip'));
+    const url = this.HOST + '/info/public/users/authenticate';
+    // const mHeaders = MEDIA_TYPE_JSON.append('X-Forwarded-For', localStorage.getItem('client_ip'));
     const mParams = new HttpParams();
 
+    // AgAGAVYEAw5M
     if (pin) {
       mParams.set('checkPin', pin);
     }
     const httpOptions = {
-      headers: mHeaders,
+      headers: MEDIA_TYPE_JSON,
       params: mParams
     };
 
+    console.log(JSON.stringify(authCandidate));
     return this.http.post<TokenHolder>(url, JSON.stringify(authCandidate), httpOptions);
   }
 
