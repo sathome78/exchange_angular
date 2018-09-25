@@ -39,9 +39,11 @@
           <div class="menu__link-icon-wrap"><img class="header-button__img" src="../../assets/img/header-learn.svg" alt="learn"></div>
         </a>
       </li>
-      <li class="menu__item">
-        <a class="menu__link" href="#">
-          <div class="menu__link-icon-wrap"><img class="header-button__img" src="../../assets/img/header-lamp.svg" alt="Theme"></div>
+      <li class="menu__item" (click)="toggleTheme()">
+        <a class="menu__link" (click)="toggleTheme()">
+          <div class="menu__link-icon-wrap" (click)="toggleTheme()">
+            <img class="header-button__img" src="../../assets/img/header-lamp.svg" alt="Theme" (click)="toggleTheme()">
+          </div>
         </a>
       </li>
     </ul>
