@@ -89,37 +89,37 @@ export class UserService {
     return this.http.post<TokenHolder>(url, JSON.stringify(authCandidate), httpOptions);
   }
 
-  restorePassword(email: string, password: string): Observable<any> {
-    const encodedPassword = this.authService.encodePassword(password);
-    const url = this.HOST + '/rest/user/restorePassword';
-    const mHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-
-    const httpOptions = {
-      headers: mHeaders
-    };
-
-    return this.http.post<User>(url, {email: email, password: encodedPassword}, httpOptions)
-      .pipe(catchError(this.resetPasswordFailureHandler.bind(this)));
-  }
-
-  updateUserLanguage(lang: string) {
-    const url = this.HOST + '/info/private/settings/userLanguage/update';
-    return this.httpClient.put(url, {lang: lang}, {observe: 'events'});
-  }
-
-  getUserLanguage(): Observable<string> {
-    return this.http.get<Map<string, string>>(this.HOST + '/info/private/settings/userLanguage')
-      .map(map => {
-        return map['lang'];
-      });
-  }
-
-  isAuthenticated(user: User) {
-    if (user) {
-      this.authService.setCurrentUser(user);
-    }
-    return user;
-  }
+  // restorePassword(email: string, password: string): Observable<any> {
+  //     const encodedPassword = this.authService.encodePassword(password);
+  //   const url = this.HOST + '/rest/user/restorePassword';
+  //   const mHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+  //
+  //   const httpOptions = {
+  //     headers: mHeaders
+  //   };
+  //
+  //   return this.http.post<User>(url, {email: email, password: encodedPassword}, httpOptions)
+  //     .pipe(catchError(this.resetPasswordFailureHandler.bind(this)));
+  // }
+  //
+  //   updateUserLanguage(lang: string) {
+  //     const url = this.HOST + '/info/private/settings/userLanguage/update';
+  //     return this.httpClient.put(url, {lang: lang}, {observe: 'events'});
+  //   }
+  //
+  //   getUserLanguage(): Observable<string> {
+  //     return this.http.get<Map<string, string>>(this.HOST + '/info/private/settings/userLanguage')
+  //       .map(map => {
+  //         return map['lang'];
+  //       });
+  // }
+  //
+  //   isAuthenticated(user: User) {
+  //     if (user) {
+  //       this.authService.setCurrentUser(user);
+  //     }
+  //     return user;
+  // }
 
   extractId(body: number) {
     return body;
