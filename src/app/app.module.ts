@@ -32,6 +32,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import {WebcamModule} from 'ngx-webcam';
 import { WebcamComponent } from './popups/identity-popup/webcam/webcam.component';
 import { DocUploadComponent } from './popups/identity-popup/doc-upload/doc-upload.component';
+import {ThemeService} from './services/theme.service';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { DocUploadComponent } from './popups/identity-popup/doc-upload/doc-uploa
     AuthService,
     LoggingService,
     PopupService,
+    ThemeService,
   ],
   bootstrap: [AppComponent]
 })
