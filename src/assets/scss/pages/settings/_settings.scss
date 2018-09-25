@@ -1,0 +1,208 @@
+.settings {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  padding-top: 0;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  /*--- elements start ---*/
+  &__sidebar {
+    order: 2;
+    width: 100%;
+    padding: 8px;
+    border-top: 1px solid $darker-white;
+  }
+
+  &__sidebar-title {
+    display: none;
+  }
+
+  &__content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 16px 12px 42px;
+    box-sizing: border-box;
+    flex-grow: 1;
+  }
+
+  &__content-title {
+    margin-bottom: 12px;
+  }
+
+  &__content-subtitle {
+    margin-bottom: 24px;
+  }
+
+  &__buttons-row {
+    flex-direction: column;
+    margin-top: 40px;
+    align-items: center;
+  }
+
+  &__btn {
+    margin-bottom: 24px;
+  }
+
+  &__form {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  &__form-row {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 24px;
+    margin-bottom: 24px;
+
+    &--time {
+      justify-content: center;
+      flex-direction: row;
+    }
+  }
+
+  &__form-notice {
+    margin-top: 4px;
+    max-width: 230px;
+    margin: 4px auto 0;
+    text-align: center;
+  }
+
+  &__form-btn {
+    margin: 0 auto;
+  }
+
+  &__note {
+    //position: absolute;
+    bottom: 0;
+    left: -12px;
+    margin-top: 32px;
+     width: calc(100% + 24px);
+  }
+
+  &__toggler-row {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 20px 12px;
+  }
+
+  &__toggler-text {
+    order: 0;
+    font-size: 18px;
+    color: $grey;
+
+    &--active {
+      color: $darker-blue;
+    }
+  }
+  /*--- elements end ---*/
+  /*--- modificators start ---*/
+  /*--- modificators end ---*/
+}
+/*--- media start ---*/
+@media (min-width:600px) {
+  .settings {
+    padding-left: 0;
+    padding-right: 0;
+    // margin-left: -12px;
+    // margin-right: -12px;
+    &__note {
+      width: calc(100% + 48px);
+      left: -24px;
+    }
+  }
+}
+@media (min-width:1200px) {
+  .settings {
+    flex-direction: row;
+    justify-content: flex-start;
+    margin: 0;
+
+    &__sidebar {
+      order: 0;
+      max-width: 315px;
+      padding: 32px 0 0;
+      border-top: none;
+      border-right: 1px solid $darker-white;
+    }
+
+    &__sidebar-title {
+      display: block;
+      margin-bottom: 32px;
+    }
+
+    &__content {
+      padding: 32px 0 0 32px;
+    }
+
+    &__content-title {
+      margin-bottom: 24px;
+    }
+
+    &__content-subtitle {
+      margin-bottom: 32px;
+    }
+
+    &__buttons-row {
+      margin-top: 32px;
+      flex-direction: row;
+    }
+
+    &__btn {
+      margin-bottom: 0;
+      margin-right: 32px;
+    }
+
+    &__form {
+      max-width: none;
+      margin-left: 0;
+    }
+
+    &__form-row {
+      flex-direction: row;
+
+      &--time {
+        max-width: 230px;
+      }
+    }
+
+    &__form-notice {
+      max-width: none;
+      text-align: left;
+      align-self: flex-start;
+      margin-left: 20px;
+      margin-top: 20px;
+    }
+
+    &__form-btn {
+      margin-left: 0;
+    }
+
+    &__note {
+      //position: absolute;
+      bottom: 0;
+      left: 0px;
+      width: calc(100% - 32px);
+    }
+
+    &__toggler-row {
+      justify-content: flex-start;
+      margin: 0 0 12px;
+    }
+
+    &__toggler-text {
+      order: 2;
+      margin-right: 0;
+      margin-left: 32px;
+    }
+  }
+}
+/*--- media end ---*/

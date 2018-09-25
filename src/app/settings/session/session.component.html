@@ -1,6 +1,6 @@
-<div class="settings-content">
-  <h3 class="settings-content__title">Session Time</h3>
-  <div class="settings-content__subtitle">Time period, when you stayed logged in system after the last action</div>
+<div class="settings__content">
+  <h3 class="title settings__content-title">Session Time</h3>
+  <div class="subtitle settings__content-subtitle">Time period, when you stayed logged in system after the last action</div>
   <form class="settings-form">
     <!--<div class="input-range settings__time-range">-->
       <!--<input class="input-range__input" type="range" min="1" max="100" value="24">-->
@@ -13,18 +13,21 @@
 
     </ng5-slider>
 
-    <div class="settings-form__row settings-form__row--time">
+    <div class="settings__form-row settings__form-row--time">
       <div class="wrap-input">
-        <input class="input" type="text" required="">
-        <label class="wrap-input__label">Hours</label>
+        <input class="wrap-input__input" type="text" required="">
+        <label class="wrap-input__label" for="">Hours</label>
         <div class="wrap-input__line"></div>
-      </div><span class="colon">:</span>
+      </div>
+
+      <span class="colon">:</span>
+
       <div class="wrap-input">
-        <input class="input" type="text" required="">
-        <label class="wrap-input__label">Minutes</label>
+        <input class="wrap-input__input" type="text" required="">
+        <label class="wrap-input__label" for="">Minutes</label>
         <div class="wrap-input__line"></div>
       </div>
     </div>
-    <button class="button settings-form__button settings-form__button--mt32">Save</button>
+    <button class="btn settings__form-btn">Save</button>
   </form>
 </div>

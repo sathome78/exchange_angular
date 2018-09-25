@@ -1,31 +1,31 @@
-<div class="modal__title">Identity Verification</div>
-<div class="modal__subtitle">
+<div class="title modal__title">Identity Verification</div>
+<div class="subtitle modal__subtitle">
   <p>Please fill this form below</p>
 </div>
-<form class="pasport-form" [formGroup]="form">
-  <div class="pasport-form__content-row">
-    <div class="wrap-input pasport-form__input">
+<form class="passport-form" [formGroup]="form">
+  <div class="passport-form__content-row">
+    <div class="wrap-input passport-form__input">
       <input
-        class="input"
+        class="wrap-input__input"
         type="text"
         formControlName="firstName">
       <label class="wrap-input__label">First name</label>
       <div class="wrap-input__line"></div>
     </div>
-    <div class="wrap-input pasport-form__input">
+    <div class="wrap-input passport-form__input">
       <input
-        class="input"
+        class="wrap-input__input"
         type="text"
         formControlName="lastName"
       >
       <label class="wrap-input__label">Last name</label>
       <div class="wrap-input__line"></div>
     </div>
-    <div class="wrap-input pasport-form__input">
+    <div class="wrap-input passport-form__input">
       <!--<input-->
-        <!--class="input input&#45;&#45;with-icon"-->
-        <!--type="text"-->
-        <!--formControlName="born">-->
+      <!--class="input input&#45;&#45;with-icon"-->
+      <!--type="text"-->
+      <!--formControlName="born">-->
 
       <my-date-picker
         name="born"
@@ -38,14 +38,14 @@
 
       </style>
       <!--<span class="wrap-input__icon">-->
-        <!--<img src="../../../../assets/img/calendar.svg">-->
+      <!--<img src="../../../../assets/img/calendar.svg">-->
       <!--</span>-->
       <!--<label class="wrap-input__label wrap-input__label&#45;&#45;with-icon">Date of birth</label>-->
-      <div class="wrap-input__line" style="position: absolute; bottom: 1px;"></div>
+      <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
     </div>
-    <div class="wrap-input pasport-form__input pasport-form__input--mob-only">
+    <div class="wrap-input passport-form__input passport-form__input--mob-only">
       <input
-        class="input"
+        class="wrap-input__input"
         type="text"
         formControlName="address"
       >
@@ -53,38 +53,38 @@
       <div class="wrap-input__line"></div>
     </div>
   </div>
-  <div class="pasport-form__content-row">
-    <div class="wrap-input pasport-form__input pasport-form__input--big">
+  <div class="passport-form__content-row">
+    <div class="wrap-input passport-form__input passport-form__input--big">
       <input
-        class="input"
+        class="wrap-input__input"
         type="text"
         formControlName="address"
       >
       <label class="wrap-input__label">Residental address</label>
       <div class="wrap-input__line"></div>
     </div>
-    <div class="wrap-input pasport-form__input">
+    <div class="wrap-input passport-form__input">
       <input
-        class="input"
+        class="wrap-input__input"
         type="text"
         formControlName="postalCode">
       <label class="wrap-input__label">Postal code</label>
       <div class="wrap-input__line"></div>
     </div>
   </div>
-  <div class="pasport-form__content-row pasport-form__content-row--no-wrap">
-    <div class="wrap-input pasport-form__input pasport-form__input--half">
+  <div class="passport-form__content-row passport-form__content-row--no-wrap">
+    <div class="wrap-input passport-form__input passport-form__input--half">
       <input
-        class="input"
+        class="wrap-input__input"
         type="text"
         formControlName="country"
       >
       <label class="wrap-input__label">Country</label>
       <div class="wrap-input__line"></div>
     </div>
-    <div class="wrap-input pasport-form__input pasport-form__input--half">
+    <div class="wrap-input passport-form__input passport-form__input--half">
       <input
-        class="input"
+        class="wrap-input__input"
         type="text"
         formControlName="city"
       >
@@ -92,5 +92,5 @@
       <div class="wrap-input__line"></div>
     </div>
   </div>
-  <button class="button pasport-form__button" (click)="onSubmit()">Submit</button>
+  <button class="btn btn--center" (click)="onSubmit()">Submit</button>
 </form>

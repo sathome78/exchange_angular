@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PopupService} from './services/popup.service';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
+import {ThemeService} from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoginPopupOpen = false;
 
   constructor(private popupService: PopupService,
-              private router: Router) {
+              private router: Router,
+              private themeService: ThemeService) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
   }
 
@@ -51,6 +53,10 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(value => {
         this.isIdentityPopupOpen = value ? true : false;
       });
+  }
+
+  isCurrentThemeDark(): boolean {
+    return this.themeService.isCurrentThemeDark();
   }
 
   ngOnDestroy(): void {
