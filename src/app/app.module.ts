@@ -35,6 +35,7 @@ import { DocUploadComponent } from './popups/identity-popup/doc-upload/doc-uploa
 import { HttpClientModule} from '@angular/common/http';
 import {LangService} from './services/lang.service';
 import {UserService} from './services/user.service';
+import {ThemeService} from './services/theme.service';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import {UserService} from './services/user.service';
     LoggingService,
     PopupService,
     UserService,
+    ThemeService,
   ],
   bootstrap: [AppComponent]
 })
