@@ -47,7 +47,7 @@
 
     &__link {
       height: 45px;
-      padding: 0 12px;
+      padding: 0 15px 0 21px;
       border-radius: 0;
       font-size: 18px;
 
@@ -81,3 +81,37 @@
   }
 }
 /*--- media end ---*/
+/*--- DARK THEME START---*/
+.dark-theme{
+  .sidebar-menu{
+    &__link{
+      color: $darker-blue;
+      &:hover{
+        background-color: $darker-blue;
+        color: #fff;
+      }
+      &--active{
+        background-color: $darker-blue;
+        color: #fff;
+      }
+    }
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{
+    .sidebar-menu{
+      &__link{
+        color:#fff;
+        &:hover{
+          background-color: #24253F;
+          color: #fff;
+        }
+        &--active{
+          background-color: #24253F;
+          color:#fff;
+        }
+      }
+    }
+  }
+}
+/*--- DARK THEME END---*/
