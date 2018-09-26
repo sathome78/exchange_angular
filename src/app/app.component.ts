@@ -3,8 +3,8 @@ import {PopupService} from './services/popup.service';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {ThemeService} from './services/theme.service';
-import {UserService} from './services/user.service';
-import {IP_USER_KEY} from './services/http.utils';
+import {IpAddress, UserService} from './services/user.service';
+import {IP_CHECKER_URL, IP_USER_KEY} from './services/http.utils';
 import {LoggingService} from './services/logging.service';
 import {HttpClient} from '@angular/common/http';
 
@@ -30,6 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
               private logger: LoggingService,
               private http: HttpClient) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
+    this.setIp();
   }
 
   ngOnInit(): void {
@@ -71,5 +72,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.tfaSubscription.unsubscribe();
     this.identitySubscription.unsubscribe();
     this.loginSubscription.unsubscribe();
+  }
+
+  private setIp() {
+    this.http.get<IpAddress>(IP_CHECKER_URL)
+      .subscribe( response => {
+        this.logger.debug(this, 'Client IP: ' + response.ip);
+        localStorage.setItem(IP_USER_KEY, response.ip);
+      });
   }
 }

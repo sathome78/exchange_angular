@@ -1,13 +1,13 @@
 import {HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {EXRATES_REST_TOKEN, IP_USER_HEADER, TOKEN, X_AUTH_TOKEN} from '../services/http.utils';
+import {EXRATES_REST_TOKEN, IP_CHECKER_URL, IP_USER_HEADER, TOKEN, X_AUTH_TOKEN} from '../services/http.utils';
 
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor() { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (localStorage.getItem(TOKEN)) {
+    if (localStorage.getItem(TOKEN) && req.url !== IP_CHECKER_URL) {
       const token = localStorage.getItem(TOKEN);
       const clientIp = localStorage.getItem(IP_USER_HEADER) ? localStorage.getItem(IP_USER_HEADER) : '192.168.0.1';
       const headers = req.headers

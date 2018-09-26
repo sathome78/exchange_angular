@@ -37,8 +37,6 @@ export class HeaderComponent implements OnInit {
 
   onLogin() {
     this.logger.debug(this, 'Sign in attempt');
-    // todo remove after applied
-    this.authService.onLogIn();
     this.popupService.showLoginPopup(true);
   }
 
