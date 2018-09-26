@@ -63,3 +63,11 @@
   }
 }
 /*--- media end ---*/
+
+.dark-theme{
+  .page-title{
+    &__text{
+      color:#fff;
+    }
+  }
+}

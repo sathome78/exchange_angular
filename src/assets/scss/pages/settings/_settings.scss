@@ -206,3 +206,11 @@
   }
 }
 /*--- media end ---*/
+
+.dark-theme{
+  .settings{
+    &__sidebar{
+      border-color: #24253F;
+    }
+  }
+}
