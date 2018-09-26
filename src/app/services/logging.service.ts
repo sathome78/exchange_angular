@@ -27,4 +27,17 @@ export class LoggingService {
       console.log(clazz.constructor.name + ': DEBUG ==> ' + message);
     }
   }
+
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // months are zero indexed
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
+    const hourFormatted = hour % 12 || 12; // hour returned in 24 hour format
+    const minuteFormatted = minute < 10 ? '0' + minute : minute;
+
+    return day + '.' + month + '.' + year + ' ' + hourFormatted + '.' + minuteFormatted + '.' + second;
+  }
 }

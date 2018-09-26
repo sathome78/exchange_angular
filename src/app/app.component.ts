@@ -3,6 +3,10 @@ import {PopupService} from './services/popup.service';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {ThemeService} from './services/theme.service';
+import {UserService} from './services/user.service';
+import {IP_USER_KEY} from './services/http.utils';
+import {LoggingService} from './services/logging.service';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +25,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private popupService: PopupService,
               private router: Router,
-              private themeService: ThemeService) {
+              private themeService: ThemeService,
+              private userService: UserService,
+              private logger: LoggingService,
+              private http: HttpClient) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
   }
 
@@ -29,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
     this.subscribeForLoginEvent();
+    // this.setClientIp();
   }
 
   subscribeForTfaEvent() {
