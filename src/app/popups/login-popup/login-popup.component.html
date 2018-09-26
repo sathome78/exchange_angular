@@ -2,6 +2,10 @@
   <div class="popup popup-login">
     <div class="popup__close" (click)="closeMe()"></div>
     <h6 class="popup__title">Log in</h6>
+
+    <!--TODO this message is shown when user provided invalid credentials Or backEndDied-->
+    <h4>{{ statusMessage }}</h4>
+
     <form class="popup__form" [formGroup]="form">
       <div class="wrap-input popup__wrap-input">
         <input
