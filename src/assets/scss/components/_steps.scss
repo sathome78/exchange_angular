@@ -104,6 +104,7 @@
 @media (min-width:1200px) {
   .steps {
     &__item {
+      border-left: 1px solid $darker-white;
       &--current {
         color: #fff;
         background-color: $darker-blue;
@@ -125,7 +126,7 @@
     }
 
     &__number {
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       font-size: 18px;
       line-height: 18px;
 
@@ -145,3 +146,52 @@
   }
 }
 /*--- media end ---*/
+/*--- DARK THEME START---*/
+.dark-theme{
+  .steps{
+    &__number {
+      &--valid {
+        color: $light-blue;
+        border-color: $light-blue;
+        &:after {
+          background-image: url("assets/img/step-valid--dark-theme.svg");
+        }
+      }
+    }
+    &__counter {
+      color: $light-blue;
+    }
+    &__counter-val {
+      color: #fff;
+    }
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{
+    .steps {
+      &__item {
+        border-color: rgba(160, 160, 160,.1);
+        &--current {
+          color: #fff;
+          background-color: transparent;
+          .steps__title{
+            color: #fff;
+          }
+          .steps__link{
+            background: radial-gradient(50% 3px at center 93%, #237BEF 10%, #24253F 80%);
+          }
+        }
+      }
+      &__number {
+        &--current {
+          border-color: $darker-blue;
+          color: $darker-blue;
+        }
+      }
+      &__title{
+        color:$light-blue;
+      }
+    }
+  }
+}
+/*--- DARK THEME END---*/

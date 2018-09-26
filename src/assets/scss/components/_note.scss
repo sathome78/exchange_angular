@@ -42,3 +42,18 @@
   }
 }
 /*--- media end ---*/
+/*--- DARK THEME START---*/
+.dark-theme{
+  .note{
+    background: -moz-linear-gradient(left, rgba(33,65,125,1) 0%, rgba(25,26,57,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(33,65,125,1)), color-stop(100%, rgba(25,26,57,1)));
+    background: -webkit-linear-gradient(left, rgba(33,65,125,1) 0%, rgba(25,26,57,1) 100%);
+    background: -o-linear-gradient(left, rgba(33,65,125,1) 0%, rgba(25,26,57,1) 100%);
+    background: -ms-linear-gradient(left, rgba(33,65,125,1) 0%, rgba(25,26,57,1) 100%);
+    background: linear-gradient(to right, rgba(33,65,125,1) 0%, rgba(25,26,57,1) 100%);
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{}
+}
+/*--- DARK THEME END---*/

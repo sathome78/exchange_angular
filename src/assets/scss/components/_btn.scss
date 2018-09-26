@@ -119,3 +119,21 @@
   }
 }
 /*--- media end ---*/
+/*--- DARK THEME START---*/
+.dark-theme{
+  .btn{
+    color: #fff;
+    background-color: $darker-blue;
+    &__icon{
+      &--blue {
+        svg {
+          fill: #fff;
+        }
+      }
+    }
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{}
+}
+/*--- DARK THEME END---*/

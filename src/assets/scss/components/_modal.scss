@@ -297,3 +297,20 @@
   }
 }
 /*--- media end ---*/
+/*--- DARK THEME START---*/
+.dark-theme{
+  .modal{
+    background-color: $dark-indigo;
+    &__header{
+      border-color: rgba(160, 160, 160,.1);
+    }
+    &__code-grey-field {
+      background-color: transparent;
+      border: 1px solid $light-blue;
+    }
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{}
+}
+/*--- DARK THEME END---*/

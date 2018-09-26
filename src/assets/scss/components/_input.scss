@@ -53,7 +53,7 @@
   &--password {
     padding: 0 33px 0 12px;
   }
-  &--fix230{
+  &--fix230 {
     width: 100%;
     max-width: 230px;
   }
@@ -196,8 +196,9 @@
   }
   /*--- elements end ---*/
 }
+
 /*--- media start ---*/
-@media (min-width:600px) {
+@media (min-width: 600px) {
   .wrap-input {
     &__label {
       top: 15px;
@@ -212,4 +213,60 @@
     }
   }
 }
+
 /*--- media end ---*/
+/*--- DARK THEME START---*/
+.dark-theme {
+  .wrap-input {
+    &__label {
+      color: $light-blue;
+    }
+    &__line {
+      background-color: $light-blue;
+    }
+    &__show-password {
+      background-image: url("assets/img/eye-line--dark-theme.svg");
+      &--active {
+        background-image: url("assets/img/eye--dark-theme.svg");
+      }
+    }
+    &__input {
+      border-color: $light-blue;
+      background-color: transparent;
+      color:#fff;
+
+      &:focus {
+        border-color: $light-blue;
+        ~ .wrap-input__label {
+          color: $light-blue;
+          background-color: $dark-indigo;
+
+          &--white {
+            color: #fff;
+            background-color: transparent;
+          }
+        }
+        ~ .wrap-input__line {
+          background-color: $light-blue;
+        }
+      }
+
+      &:valid {
+        ~ .wrap-input__label {
+          color: $light-blue;
+          background-color: $dark-indigo;
+          &--white {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .dark-theme {
+  }
+}
+
+/*--- DARK THEME END---*/

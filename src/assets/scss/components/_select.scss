@@ -5,14 +5,14 @@
     cursor: pointer;
   }
   /*--- modificators start ---*/
-  &--fix230{
+  &--fix230 {
     width: 100%;
     max-width: 230px;
   }
-  &--country{
+  &--country {
     margin-bottom: 24px;
   }
-  &--mb20{
+  &--mb20 {
     margin-bottom: 20px;
   }
   /*--- modificators end ---*/
@@ -57,7 +57,7 @@
         background-color: $darker-blue;
       }
 
-      ~.select__triangle {
+      ~ .select__triangle {
         border-top-color: $darker-blue;
       }
     }
@@ -123,7 +123,16 @@
     background-color: #fff;
 
     &--open {
+      position: absolute;
+      z-index: 5;
+      top: 100%;
+
       display: block;
+
+      width: 100%;
+
+      border: 1px solid $darker-white;
+      background-color: #fff;
     }
   }
 
@@ -147,31 +156,83 @@
   }
   /*--- elements end ---*/
 }
+
 /*--- media start ---*/
-@media (min-width:600px) {
-  .select{
-    &--country{
+@media (min-width: 600px) {
+  .select {
+    &--country {
       margin-right: 8px;
       margin-bottom: 0;
     }
-    &__value{
+    &__value {
       height: 45px;
     }
-    &__label{
+    &__label {
       top: 15px;
 
     }
-    &__icon{
+    &__icon {
       top: 14px;
     }
-    &__triangle{
+    &__triangle {
       top: 20px;
     }
-    &__list-item{
+    &__list-item {
       padding: 12px;
     }
   }
 }
-@media (min-width:900px) {}
-@media (min-width:1200px) {}
+
+@media (min-width: 900px) {
+}
+
+@media (min-width: 1200px) {
+}
+
 /*--- media end ---*/
+
+/*--- DARK THEME START---*/
+.dark-theme {
+  .select {
+    &__value {
+      border-color: $light-blue;
+      &--active {
+        border-color: $light-blue;
+        ~ .select__label {
+          color: $light-blue;
+        }
+
+        ~ .select__line {
+          background-color: $light-blue;
+        }
+
+        ~ .select__triangle {
+          border-top-color: $light-blue;
+        }
+      }
+    }
+    &__label {
+      color: $light-blue;
+      background-color: $dark-indigo;
+    }
+    &__line {
+      color: $light-blue;
+    }
+    &__triangle {
+      border-top-color: $light-blue;
+    }
+    &__list {
+      &--open {
+        border-color: $light-blue;
+        background-color: $dark-indigo;
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .dark-theme {
+  }
+}
+
+/*--- DARK THEME END---*/

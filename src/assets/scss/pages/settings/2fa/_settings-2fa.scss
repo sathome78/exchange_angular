@@ -16,28 +16,29 @@
       font-weight: 400;
       vertical-align: bottom;
 
-      .sms-price {
-        color: $grey;
-        font-size: 12px;
-        line-height: 14px;
-        display: block;
-        text-align: right;
-      }
 
-      .by-sms {
-        display: -webkit-flex;
-        display: -ms-flex;
-        display: flex;
-        justify-content: flex-end;
-
-        .link {
-          margin-left: 4px;
-        }
-      }
     }
 
     td {
       padding: 15px;
+    }
+    .sms-price {
+      color: $grey;
+      font-size: 12px;
+      line-height: 14px;
+      display: block;
+      text-align: right;
+    }
+
+    .by-sms {
+      display: -webkit-flex;
+      display: -ms-flex;
+      display: flex;
+      justify-content: flex-end;
+
+      .link {
+        margin-left: 4px;
+      }
     }
   }
   &__select-type{
@@ -63,3 +64,20 @@
   }
 }
 /*--- media end ---*/
+/*--- DARK THEME START---*/
+.dark-theme{
+  .tfa{
+    &__table{
+      .sms-price{
+        color:$light-blue;
+      }
+    }
+    &__method{
+      color: $light-blue;
+    }
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{}
+}
+/*--- DARK THEME END---*/
