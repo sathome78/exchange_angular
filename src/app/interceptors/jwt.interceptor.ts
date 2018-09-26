@@ -1,12 +1,13 @@
 import 'rxjs/add/operator/do';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Router} from '@angular/router';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { TOKEN } from '../services/http.utils';
 
 
 export class JwtInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) {}
+  // constructor(private router: Router) {}
 
   // found out that the only possible way to avoid to cyclic dependencies
   // is not making it injectable or inject others services here
@@ -24,11 +25,11 @@ export class JwtInterceptor implements HttpInterceptor {
         if (err.status === 401) {
           // redirect to the login route
           // or show a modal
-          this.router.navigate(['/']);
+          // this.router.navigate(['/']);
         } else if (err.status === 403) {
           // cause: "TokenException"   detail:"Token not found" - happens when token expires
           // clear token remove user from local storage to log out user
-          localStorage.removeItem('token');
+          localStorage.removeItem(TOKEN);
         }
       }
     });

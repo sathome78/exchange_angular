@@ -37,6 +37,7 @@ import {LangService} from './services/lang.service';
 import {UserService} from './services/user.service';
 import {ThemeService} from './services/theme.service';
 import {JwtInterceptor} from './interceptors/jwt.interceptor';
+import {AuthInterceptor} from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [

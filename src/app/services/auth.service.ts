@@ -4,7 +4,7 @@ import {TokenHolder} from '../model/token-holder.model';
 import {LoggingService} from './logging.service';
 
 import * as jwt_decode from 'jwt-decode';
-import {t} from '@angular/core/src/render3';
+import {TOKEN} from './http.utils';
 
 declare var encodePassword: Function;
 
@@ -14,14 +14,13 @@ export class AuthService {
   ENCODE_KEY = environment.encodeKey;
 
   private tokenHolder: TokenHolder;
-  public TOKEN = 'token';
   public simpleToken: {expiration: number, token_id: number, username: string, value: string};
 
   constructor(private logger: LoggingService) {}
 
 
   public isAuthenticated(): boolean {
-    const token = localStorage.getItem(this.TOKEN);
+    const token = localStorage.getItem(TOKEN);
     if (token) {
       this.logger.debug(this, 'Token from local storage: ' + token.substring(0, 6));
       this.parseToken(token);
@@ -32,7 +31,7 @@ export class AuthService {
 
   onLogOut() {
     this.simpleToken = {expiration: 0, username: '', token_id: 0, value: ''};
-    localStorage.removeItem(this.TOKEN);
+    localStorage.removeItem(TOKEN);
   }
 
   encodePassword(password: string) {
@@ -42,7 +41,7 @@ export class AuthService {
   public setTokenHolder(tokenHolder: TokenHolder) {
     this.tokenHolder = tokenHolder;
     if (tokenHolder.token) {
-      localStorage.setItem(this.TOKEN, tokenHolder.token);
+      localStorage.setItem(TOKEN, tokenHolder.token);
     }
   }
 
@@ -54,7 +53,7 @@ export class AuthService {
   private isTokenExpired() {
     if (this.simpleToken.expiration) {
       const tokenExpiresAt = new Date(this.simpleToken.expiration);
-      this.logger.debug(this, 'Token expires at: ' + tokenExpiresAt);
+      this.logger.debug(this, 'Token expires at: ' + this.logger.formatDate(tokenExpiresAt));
       return tokenExpiresAt >= new Date();
     }
     return false;

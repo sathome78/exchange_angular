@@ -1,15 +1,13 @@
 import {Injectable} from '@angular/core';
-import {User} from '../model/user.model';
 import {environment} from '../../environments/environment';
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {AuthService} from './auth.service';
-import {MEDIA_TYPE_JSON} from './http.utils';
+import {IP_USER_HEADER, MEDIA_TYPE_JSON} from './http.utils';
 import {LangService} from './lang.service';
 import {AuthCandidate} from '../model/auth-candidate.model';
 import {LoggingService} from './logging.service';
 import {TokenHolder} from '../model/token-holder.model';
-import {catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
 
 @Injectable()
@@ -75,10 +73,9 @@ export class UserService {
     const authCandidate = new AuthCandidate(email, password);
     this.logger.debug(this, 'User password ' + password + ' is encrypted to ' + authCandidate.password);
     const url = this.HOST + '/info/public/users/authenticate';
-    // const mHeaders = MEDIA_TYPE_JSON.append('X-Forwarded-For', localStorage.getItem('client_ip'));
+    // const mHeaders = MEDIA_TYPE_JSON.append(IP_USER_HEADER, localStorage.getItem('client_ip'));
     const mParams = new HttpParams();
 
-    // AgAGAVYEAw5M
     if (pin) {
       mParams.set('checkPin', pin);
     }
@@ -90,6 +87,10 @@ export class UserService {
     console.log(JSON.stringify(authCandidate));
     return this.http.post<TokenHolder>(url, JSON.stringify(authCandidate), httpOptions);
   }
+
+  // public getUserIp(): Observable<IpAddress> {
+  //   return this.http.get<IpAddress>('http://gd.geobytes.com/GetCityDetails');
+  // }
 
   // restorePassword(email: string, password: string): Observable<any> {
   //     const encodedPassword = this.authService.encodePassword(password);
@@ -131,4 +132,8 @@ export class UserService {
     console.error(error.message || error);
     return Promise.reject(error.message || error);
   }
+}
+
+export interface IpAddress {
+  geobytesremoteip: string;
 }
