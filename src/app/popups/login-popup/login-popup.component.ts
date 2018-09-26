@@ -6,6 +6,7 @@ import {LoggingService} from '../../services/logging.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {TokenHolder} from '../../model/token-holder.model';
+import {st} from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-login-popup',
@@ -17,6 +18,8 @@ export class LoginPopupComponent implements OnInit {
   form: FormGroup;
   emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
   isPasswordVisible = false;
+
+  statusMessage = '';
 
   constructor(private popupService: PopupService,
               private userService: UserService,
@@ -51,13 +54,26 @@ export class LoginPopupComponent implements OnInit {
         .subscribe((tokenHolder: TokenHolder) => {
             console.log(tokenHolder);
             this.authService.setTokenHolder(tokenHolder);
-            // this.popupService.closeLoginPopup();
-            // this.router.navigate(['/']);
+            this.popupService.closeLoginPopup();
+            this.router.navigate(['/']);
           },
-          error1 => {
-
-            console.log(error1);
-            this.form.reset('');
+          err => {
+          const status = err['status'];
+          if (status === 401) {
+            this.logger.info(this, 'Attempt to sign in with invalid credentials: { login: ' + email + ', pass: ' + password + '}');
+            this.statusMessage = 'Your email and/or password are invalid!';
+          } else if (status >= 500) {
+            this.logger.error(this, 'Sever failure when sigh in with credentials: { login: ' + email + ', pass: ' + password + '}');
+            // redirect to 500 page
+            this.statusMessage = 'Sorry we died!';
+          } else if (status === 426) {
+            this.logger.info(this, 'Attempt to sign in by unconfirmed user: { login: ' + email + ', pass: ' + password + '}');
+            this.statusMessage = 'It seems you didn\'t completed your registration';
+          } else if (status === 410) {
+            this.logger.info(this, 'Attempt to sign in by inactive (deleted) user: { login: ' + email + ', pass: ' + password + '}');
+            this.statusMessage = 'Sorry, but we thought you died. Fuck off, stupid zombie!';
+          }
+            // this.form.reset('');
           });
     }
   }
