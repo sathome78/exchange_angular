@@ -141,7 +141,7 @@
   <div class="header-mob__top" >
     <div [ngClass]="{'header-mob__burger-content': !isMobileMenuOpen, 'header-mob__burger-content--open': isMobileMenuOpen }">
       <div class="header-mob__controls-row">
-        <a class="header-mob__controls-btn" href="#">
+        <a class="header-mob__controls-btn" (click)="toggleTheme()">
           <img class="header-mob__controls-icon" src="../../assets/img/header-mob-lamp.svg">
         </a>
         <a class="header-mob__controls-btn" href="#">
