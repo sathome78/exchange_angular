@@ -32,9 +32,10 @@ import { MyDatePickerModule } from 'mydatepicker';
 import {WebcamModule} from 'ngx-webcam';
 import { WebcamComponent } from './popups/identity-popup/webcam/webcam.component';
 import { DocUploadComponent } from './popups/identity-popup/doc-upload/doc-upload.component';
-import { HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {LangService} from './services/lang.service';
 import {UserService} from './services/user.service';
+import {JwtInterceptor} from './interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,9 @@ import {UserService} from './services/user.service';
     LoggingService,
     PopupService,
     UserService,
+
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

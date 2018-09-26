@@ -12,7 +12,6 @@ declare var encodePassword: Function;
 export class AuthService {
 
   ENCODE_KEY = environment.encodeKey;
-  isAuthenticatedUser: boolean;
 
   private tokenHolder: TokenHolder;
   public TOKEN = 'token';
@@ -32,13 +31,9 @@ export class AuthService {
   }
 
   onLogOut() {
-    this.isAuthenticatedUser = false;
+    this.simpleToken = {expiration: 0, username: '', token_id: 0, value: ''};
+    localStorage.removeItem(this.TOKEN);
   }
-
-  onLogIn() {
-    this.isAuthenticatedUser = true;
-  }
-
 
   encodePassword(password: string) {
     return encodePassword(password, this.ENCODE_KEY);
@@ -63,5 +58,9 @@ export class AuthService {
       return tokenExpiresAt >= new Date();
     }
     return false;
+  }
+
+  public getUsername(): string {
+     return this.simpleToken.username;
   }
 }

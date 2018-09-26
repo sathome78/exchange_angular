@@ -30,8 +30,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ng slider home page:
 https://github.com/angular-slider/ng5-slider
 
-jwt token home page:
+jwt token home page: (oauth2)
 https://www.npmjs.com/package/ng-jwt
+
+simple jwt parser:
+https://stackoverflow.com/questions/48075688/how-to-decode-the-jwt-encoded-token-payload-on-client-side-in-angular-5
 
 web cam support:
 https://www.npmjs.com/package/ngx-webcam
