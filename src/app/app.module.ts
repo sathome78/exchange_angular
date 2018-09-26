@@ -35,6 +35,7 @@ import { DocUploadComponent } from './popups/identity-popup/doc-upload/doc-uploa
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {LangService} from './services/lang.service';
 import {UserService} from './services/user.service';
+import {ThemeService} from './services/theme.service';
 import {JwtInterceptor} from './interceptors/jwt.interceptor';
 
 @NgModule({
@@ -85,6 +86,7 @@ import {JwtInterceptor} from './interceptors/jwt.interceptor';
     LoggingService,
     PopupService,
     UserService,
+    ThemeService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}

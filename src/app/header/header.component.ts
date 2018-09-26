@@ -3,6 +3,7 @@ import {PopupService} from '../services/popup.service';
 import {AuthService} from '../services/auth.service';
 import {LoggingService} from '../services/logging.service';
 import {Router} from '@angular/router';
+import {ThemeService} from '../services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,8 @@ export class HeaderComponent implements OnInit {
   constructor(private popupService: PopupService,
               private authService: AuthService,
               private logger: LoggingService,
-              private router: Router) {
+              private router: Router,
+              private themeService: ThemeService) {
   }
 
   ngOnInit() {
@@ -47,5 +49,9 @@ export class HeaderComponent implements OnInit {
   onLogout() {
     this.logger.debug(this, 'User clicked log out');
     this.authService.onLogOut();
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
   }
 }
