@@ -47,18 +47,18 @@ export class LoginPopupComponent implements OnInit {
       const email = this.form.get('email').value;
       const password = this.form.get('password').value;
       this.logger.debug(this, 'attempt to authenticate with email: ' + email + ' and password: ' + password);
-      this.userService.authenticateUser(email, password).subscribe((tokenHolder: TokenHolder) => {
+      this.userService.authenticateUser(email, password)
+        .subscribe((tokenHolder: TokenHolder) => {
+            console.log(tokenHolder);
+            this.authService.setTokenHolder(tokenHolder);
+            // this.popupService.closeLoginPopup();
+            // this.router.navigate(['/']);
+          },
+          error1 => {
 
-        console.log(tokenHolder);
-        this.authService.setTokenHolder(tokenHolder);
-          // this.popupService.closeLoginPopup();
-          // this.router.navigate(['/']);
-        },
-        error1 => {
-
-          console.log(error1);
-          this.form.reset('');
-        });
+            console.log(error1);
+            this.form.reset('');
+          });
     }
   }
 

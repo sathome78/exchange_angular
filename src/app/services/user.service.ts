@@ -22,7 +22,7 @@ export class UserService {
               private router: Router) {
   }
 
-  getIfEmailExists(email: string): Observable<boolean> {
+   checkIfEmailExists(email: string): Observable<boolean> {
     const url = this.HOST + '/info/public/if_email_exists';
     const httpOptions = {
       headers: MEDIA_TYPE_JSON,
@@ -31,7 +31,7 @@ export class UserService {
     return this.http.get<boolean>(url, httpOptions);
   }
 
-  getIfUsernameExists(username: string): Observable<any> {
+  checkIfUsernameExists(username: string): Observable<any> {
     const url = this.HOST + '/info/public/if_username_exists';
     const httpOptions = {
       headers: MEDIA_TYPE_JSON,
@@ -135,5 +135,5 @@ export class UserService {
 }
 
 export interface IpAddress {
-  geobytesremoteip: string;
+  ip: string;
 }
