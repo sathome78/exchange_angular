@@ -1,0 +1,167 @@
+.currency-pair-info {
+  width: 100%;
+  height: 52px;
+
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+  /*--- modificators start ---*/
+  /*--- modificators end ---*/
+  /*--- elements start ---*/
+  &__inner {
+    display: flex;
+    align-items: center;
+    max-width: 1400px;
+    width: 100%;
+    height: 100%;
+    padding: 0 16px;
+    margin: 0 auto;
+  }
+  &__pair {
+    display: flex;
+    align-items: center;
+  }
+  &__dropdown {
+    .dropdown__btn {
+      font-size: 18px;
+      color: #000;
+      &:after {
+        border-top: 4px solid #000;
+      }
+    }
+  }
+  &__change-pair {
+    width: 16px;
+    height: 16px;
+    margin: 0 8px;
+    background-image: url('assets/img/arrows-change.svg');
+    -webkit-background-size: 100%;
+    background-size: 100%;
+    background-position: center;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &__info {
+    display: flex;
+    align-self: stretch;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 0 0 8px;
+    margin-left: auto;
+    &--up {
+      background: radial-gradient(circle at 0% 50%, rgba(0, 180, 60, .2) 0%, rgba(0, 180, 60, 0) 100%);
+      color: $green;
+      .currency-pair-info__arr-down{
+        display: none;
+      }
+    }
+    &--down {
+      background: radial-gradient(circle at 0% 50%, rgba(235, 87, 87, 0.2) 0%, rgba(235, 87, 87, 0) 100%);
+      color: $red;
+      .currency-pair-info__arr-up{
+        display: none;
+      }
+    }
+  }
+  &__change{
+    margin-bottom: 8px;
+  }
+  &__arr-down, &__arr-up{
+    margin-left: 4px;
+    margin-right: 12px;
+  }
+  &__price{
+    font-size: 18px;
+  }
+  &__item{
+    display: none;
+  }
+  /*--- elements end ---*/
+}
+
+/*--- media start ---*/
+@media (min-width: 600px) {
+}
+
+@media (min-width: 900px) {
+  .currency-pair-info{
+
+  }
+}
+
+@media (min-width: 1200px) {
+  .currency-pair-info {
+    height: 80px;
+    &__inner {
+      padding: 0 20px;
+    }
+    &__dropdown {
+      .dropdown__btn {
+        font-size: 24px;
+      }
+    }
+    &__change-pair {
+      margin: 0 20px;
+    }
+    &__info{
+      padding: 0 16px;
+      margin-left:  64px;
+      margin-right: 12px;
+    }
+    &__price{
+      font-size: 24px;
+    }
+    &__item{
+      display: block;
+      padding: 0 20px;
+    }
+    &__item-title{
+      color:$grey;
+      margin-bottom: 8px;
+    }
+    &__you-have{
+      display: flex;
+      align-items: center;
+    }
+    &__vertical-line{
+      display: inline-block;
+      height: 17px;
+      width: 1px;
+      background-color: $grey;
+      margin: 0 16px;
+    }
+  }
+}
+
+/*--- media end ---*/
+
+/*--- DARK THEME START---*/
+.dark-theme {
+  .currency-pair-info {
+    box-shadow: none;
+    background-color: #252543;
+    &__dropdown {
+      .dropdown__btn {
+        color: #fff;
+        &:after {
+          border-top: 4px solid #fff;
+        }
+      }
+    }
+    &__change-pair {
+      background-image: url('assets/img/arrows-change--dark-theme.svg');
+    }
+    &__item-value{
+      color:#fff;
+    }
+    &__vertical-line{
+      background-color: $grey;
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .dark-theme {
+  }
+}
+
+/*--- DARK THEME END---*/
