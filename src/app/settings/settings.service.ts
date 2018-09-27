@@ -24,6 +24,11 @@ export class SettingsService {
     return this.http.get<any>(url, {headers: MEDIA_TYPE_JSON});
   }
 
+  updateNickname(nickname: string) {
+    const url = this.apiUrl + '/info/private/settings/nickname';
+    return this.http.put(url, {nickname: nickname}, {observe: 'events', headers: MEDIA_TYPE_JSON});
+  }
+
 
 }
 

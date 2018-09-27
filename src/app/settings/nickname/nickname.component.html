@@ -23,7 +23,7 @@
         </div>
         <span class="settings__form-notice">– use only (A-z), (–), (=) symbols, </span>
       </div>
-      <button class="btn settings__form-btn">Save</button>
+      <button class="btn settings__form-btn" [disabled]="isUpdateDisabled">Save</button>
     </form>
     <div class="note settings__note">
       <div class="note__title">Please note:</div>
