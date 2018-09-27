@@ -1,6 +1,8 @@
   <div class="settings__content">
     <h3 class="title settings__content-title">Nickname</h3>
     <div class="subtitle settings__content-subtitle">For inner transactions users could use your nickname instead of email.</div>
+
+    <h4>{{statusMessage}}</h4>
     <form class="settings-form" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="settings__form-row">
         <div class="wrap-input wrap-input--fix230">

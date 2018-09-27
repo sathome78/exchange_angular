@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoggingService} from '../../services/logging.service';
+import {SettingsService} from '../settings.service';
+import {HttpEvent, HttpEventType} from '@angular/common/http';
 
 @Component({
   selector: 'app-password',
@@ -13,9 +15,14 @@ export class PasswordComponent implements OnInit {
   passwordFirst: FormControl;
   isPasswordVisible: boolean;
 
-  constructor(private logger: LoggingService) { }
+  statusMessage: string;
+
+  constructor(private logger: LoggingService,
+              private settingsService: SettingsService) {
+  }
 
   ngOnInit() {
+    this.statusMessage = '';
     this.passwordFirst = new FormControl(null, {
       validators: [Validators.required, Validators.pattern('^((?=.*\\d)(?=.*[a-zA-Z]).{8,20})$')],
       updateOn: 'blur'
@@ -23,17 +30,16 @@ export class PasswordComponent implements OnInit {
     this.form = new FormGroup({
       'password_1': this.passwordFirst,
       'password_2': new FormControl(null, {
-        validators: [Validators.required, this.unmatchingPasswords.bind(this)],
-        updateOn: 'blur'
+        validators: [Validators.required, this.unmatchingPasswords.bind(this)]
       }),
     });
   }
 
-  unmatchingPasswords(password_2: FormControl): {[s: string]: boolean} {
+  unmatchingPasswords(password_2: FormControl): { [s: string]: boolean } {
     if (this.passwordFirst.value === password_2.value) {
       return null;
     }
-    return { 'passwordsDiffer': true };
+    return {'passwordsDiffer': true};
   }
 
   togglePasswordVisibility() {
@@ -41,9 +47,27 @@ export class PasswordComponent implements OnInit {
   }
 
   onSubmit() {
-    this.logger.debug(this, 'Attempt to submit login and password');
+    console.log(this.form);
+    if (this.form.valid) {
+      const password = this.passwordFirst.value;
+      this.logger.debug(this, 'Attempt to submit new password: ' + password);
+      this.settingsService.updateMainPassword(password)
+        .subscribe((event: HttpEvent<Object>) => {
+            if (event.type === HttpEventType.Sent) {
+              this.logger.debug(this, 'Password is successfully updated: ' + password);
+              this.statusMessage = 'Your password is successfully updated!';
+              this.form.reset();
+            }
+          },
+          err => {
+            const status = err['status'];
+            if (status >= 400) {
+              this.logger.info(this, 'Failed to update user password: ' + password);
+              this.statusMessage = 'Failed to update your password!';
+            }
+          });
+    }
   }
-
 
   getInputType() {
     return this.isPasswordVisible ? 'text' : 'password';

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {SettingsService} from '../settings.service';
+import {LoggingService} from '../../services/logging.service';
 
 @Component({
   selector: 'app-nickname',
@@ -10,8 +12,12 @@ export class NicknameComponent implements OnInit {
 
   form: FormGroup;
   private nameRegex = '^[\\A-Za-z-=]+$';
+  nickname = '';
+  statusMessage = '';
 
-  constructor() { }
+  constructor(private settingsService: SettingsService,
+              private logger: LoggingService) {
+  }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -20,6 +26,23 @@ export class NicknameComponent implements OnInit {
         updateOn: 'blur'
       })
     });
+    this.loadNickname();
+  }
+
+  loadNickname() {
+    this.settingsService.getNickname()
+      .subscribe(res => {
+          const nickname = res['nickname'];
+          this.nickname = nickname;
+          if (nickname) {
+            this.form.get('nickname').patchValue(nickname);
+          }
+        },
+        err => {
+          this.logger.info(this, err);
+          // this.statusMessage = 'Failed to update your nickname!';
+        });
+
   }
 
   onSubmit() {

@@ -48,7 +48,7 @@
       </li>
     </ul>
     <ul class="menu">
-      <li class="menu__item menu__item--with-submenu">
+      <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated()">
         <a class="menu__link" href="">
           <div class="holdings"><span class="holdings__title">Estimated Holdings</span>
             <div class="holdings__info">
