@@ -1,21 +1,25 @@
 <div class="settings__content">
   <h3 class="title settings__content-title">Session Time</h3>
   <div class="subtitle settings__content-subtitle">Time period, when you stayed logged in system after the last action</div>
-  <form class="settings-form">
+  <form class="settings-form" [formGroup]="form" (ngSubmit)="onSubmit()">
     <!--<div class="input-range settings__time-range">-->
       <!--<input class="input-range__input" type="range" min="1" max="100" value="24">-->
       <!--<span class="input-range__min">5min</span>-->
       <!--<span class="input-range__max">24h</span>-->
     <!--</div>-->
 
-    <ng5-slider [(value)]="value" [options]="options">
+    <ng5-slider [(value)]="value" [options]="options" (valueChange)="update()">
 
 
     </ng5-slider>
 
     <div class="settings__form-row settings__form-row--time">
       <div class="wrap-input">
-        <input class="wrap-input__input" type="text" required="">
+        <input
+          class="wrap-input__input"
+          type="number"
+          formControlName="hours"
+        >
         <label class="wrap-input__label" for="">Hours</label>
         <div class="wrap-input__line"></div>
       </div>
@@ -23,7 +27,11 @@
       <span class="colon">:</span>
 
       <div class="wrap-input">
-        <input class="wrap-input__input" type="text" required="">
+        <input
+          class="wrap-input__input"
+          type="number"
+          formControlName="minutes"
+        >
         <label class="wrap-input__label" for="">Minutes</label>
         <div class="wrap-input__line"></div>
       </div>

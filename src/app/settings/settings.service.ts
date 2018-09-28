@@ -9,25 +9,35 @@ import {Observable} from 'rxjs';
 export class SettingsService {
 
   apiUrl = environment.apiUrl;
+  NICKNAME = 'nickname';
+  SESSION = 'sessionInterval';
 
   constructor(private authService: AuthService,
               private http: HttpClient) {}
 
   updateMainPassword(pass: string) {
-    const url = this.apiUrl + '/info/private/settings/updateMainPassword';
     const encodedPassword = this.authService.encodePassword(pass);
-    return this.http.put(url, {password: encodedPassword}, {observe: 'events', headers: MEDIA_TYPE_JSON});
+    return this.http.put(this.getUrl('updateMainPassword'), {password: encodedPassword}, {observe: 'events', headers: MEDIA_TYPE_JSON});
   }
 
   getNickname(): Observable<any> {
-    const url = this.apiUrl + '/info/private/settings/nickname';
-    return this.http.get<any>(url, {headers: MEDIA_TYPE_JSON});
+    return this.http.get<any>(this.getUrl(this.NICKNAME), {headers: MEDIA_TYPE_JSON});
   }
 
   updateNickname(nickname: string) {
-    const url = this.apiUrl + '/info/private/settings/nickname';
-    return this.http.put(url, {nickname: nickname}, {observe: 'events', headers: MEDIA_TYPE_JSON});
+    return this.http.put(this.getUrl(this.NICKNAME), {nickname: nickname}, {observe: 'events', headers: MEDIA_TYPE_JSON});
   }
+
+  getSessionInterval(): Observable<number> {
+    return this.http.get<number>(this.getUrl(this.SESSION), {headers: MEDIA_TYPE_JSON});
+  }
+
+  private getUrl(end: string) {
+    return this.apiUrl + '/info/private/settings/' + end;
+  }
+
+
+
 
 
 }
