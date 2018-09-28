@@ -1,15 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Options} from 'ng5-slider';
 import {SettingsService} from '../settings.service';
 import {LoggingService} from '../../services/logging.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Observable, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-session',
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.css']
 })
-export class SessionComponent implements OnInit {
+export class SessionComponent implements OnInit, OnDestroy {
 
   value = 0;
   options: Options = {
@@ -21,6 +22,10 @@ export class SessionComponent implements OnInit {
   MINUTES = 0;
   form: FormGroup;
   hoursInput: FormControl;
+  minutesInput: FormControl;
+
+  hoursInputSubscription: Observable<string>;
+  minutesInputSubscription: Observable<string>;
 
   constructor(private settingsService: SettingsService,
               private logger: LoggingService) {
@@ -29,8 +34,7 @@ export class SessionComponent implements OnInit {
   ngOnInit() {
     this.loadSessionInterval();
     this.setForm();
-    this.subscribeForHoursUpdate();
-    this.subscribeForMinutesUpdate();
+    this.subscribeForInputChanges();
   }
 
   onSubmit() {
@@ -38,15 +42,15 @@ export class SessionComponent implements OnInit {
   }
 
   setForm() {
-    this.hoursInput = new FormControl(0, {
-      validators: [Validators.min(0), Validators.max(24)],
-      updateOn: 'blur'
+    this.hoursInput = new FormControl(this.getHours(), {
+      validators: [Validators.min(0), Validators.max(24)]
+    });
+    this.minutesInput = new FormControl(this.getMinutes(), {
+      validators: [Validators.min(0), Validators.max(59), this.minutesRangeMatch.bind(this)]
     });
     this.form = new FormGroup({
       'hours': this.hoursInput,
-      'minutes': new FormControl(this.getMinutes(), {
-        validators: [Validators.min(0), Validators.max(59), this.minutesRangeMatch.bind(this)]
-      }),
+      'minutes': this.minutesInput,
     });
   }
 
@@ -54,7 +58,7 @@ export class SessionComponent implements OnInit {
     this.settingsService.getSessionInterval().subscribe(
       interval => {
         this.value = interval;
-        this.form.get('minutes').patchValue(this.getMinutes());
+        this.minutesInput.patchValue(this.getMinutes());
         this.hoursInput.patchValue(this.getHours());
       },
       err => {
@@ -63,14 +67,16 @@ export class SessionComponent implements OnInit {
   }
 
   minutesRangeMatch(minutes: FormControl): { [s: string]: boolean } {
-    if (this.hoursInput.value > 23 && minutes.value > 0) {
-      return null;
+    const h = +this.hoursInput.value;
+    const m = +minutes.value;
+    if (h > 23 && m > 0) {
+      return {'24hoursLimit': true};
     }
-    return {'24hoursLimit': true};
+    return null;
   }
 
   subscribeForHoursUpdate() {
-    this.hoursInput.valueChanges.subscribe(h => {
+   this.hoursInputSubscription.subscribe(h => {
       const hours = +h;
       if (hours >= 0 && hours <= 24) {
         this.HOURS = hours;
@@ -80,7 +86,7 @@ export class SessionComponent implements OnInit {
   }
 
   subscribeForMinutesUpdate() {
-    this.form.get('minutes').valueChanges.subscribe(m => {
+    this.minutesInputSubscription.subscribe(m => {
       const minutes = +m;
       if (minutes >= 0 && minutes < 60) {
         this.MINUTES = minutes;
@@ -94,14 +100,13 @@ export class SessionComponent implements OnInit {
   }
 
   update() {
+    this.ngOnDestroy();
     this.HOURS = parseInt((this.value / 60) + '', 0);
-    this.hoursInput.patchValue(this.HOURS);
-    // console.log('%: ' + (this.value % 60) + ' val: ' + this.value);
     this.MINUTES = parseInt((this.value % 60) + '', 0);
     this.MINUTES = this.HOURS === 24 ? 0 : this.MINUTES;
-    this.form.get('minutes').patchValue(this.MINUTES);
-    // console.log('H: ' + this.HOURS);
-    // console.log('M: ' + this.MINUTES);
+    this.hoursInput.patchValue(this.HOURS);
+    this.minutesInput.patchValue(this.MINUTES);
+    // this.subscribeForInputChanges();
   }
 
   getMinutes() {
@@ -112,5 +117,17 @@ export class SessionComponent implements OnInit {
   getHours() {
     this.HOURS = parseInt((this.value / 60) + '', 0);
     return this.HOURS;
+  }
+
+  private subscribeForInputChanges() {
+    this.hoursInputSubscription = this.hoursInput.valueChanges;
+    this.subscribeForHoursUpdate();
+    this.minutesInputSubscription = this.form.get('minutes').valueChanges;
+    this.subscribeForMinutesUpdate();
+  }
+
+  ngOnDestroy(): void {
+    this.hoursInputSubscription = undefined;
+    this.minutesInputSubscription = undefined;
   }
 }

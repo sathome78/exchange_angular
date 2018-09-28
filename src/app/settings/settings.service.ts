@@ -32,6 +32,10 @@ export class SettingsService {
     return this.http.get<number>(this.getUrl(this.SESSION), {headers: MEDIA_TYPE_JSON});
   }
 
+  updateSessionInterval(interval: number): Observable<number> {
+    return this.http.put<number>(this.getUrl(this.SESSION), {sessionInterval: interval}, {headers: MEDIA_TYPE_JSON});
+  }
+
   private getUrl(end: string) {
     return this.apiUrl + '/info/private/settings/' + end;
   }
