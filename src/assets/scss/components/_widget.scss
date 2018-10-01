@@ -1,8 +1,90 @@
-.dashboard{
+.widget{
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
   /*--- modificators start ---*/
+
   /*--- modificators end ---*/
   /*--- elements start ---*/
   &__header{
+    position: relative;
+    display: none;
+    align-items: center;
+    height: 28px;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+  }
+  &__name{
+    margin: 0 20px;
+  }
+  &__question-img{
+    svg{
+      fill: #000;
+    }
+  }
+  &__dots{
+    position: absolute;
+    left: calc(50% - 11px);
+    display:block;
+    width: 22px;
+    height: 9px;
+    background-image: url('assets/img/widget-dots.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+  &__controls{
+    display: flex;
+    margin-left: auto;
+  }
+  &__controls-horizontal{
+    display: flex;
+    align-items: center;
+    svg{
+      fill:#000;
+    }
+  }
+  &__controls-vertical{
+    display: flex;
+    align-items: center;
+    margin-left: 28px;
+    svg{
+      fill:#000;
+    }
+  }
+  &__controls-plus, &__controls-minus{
+    &:hover{
+      cursor: pointer;
+    }
+  }
+  &__controls-horizontal-img,&__controls-vertical-img{
+    margin: 0 12px;
+  }
+  &__controls-close{
+    margin-left: 40px;
+    margin-right: 12px;
+    svg{
+      fill:#000;
+    }
+  }
+  &__content{
+  }
+  &__tabs{
+    margin-top: 16px;
+    margin-left: 20px;
+    margin-right: 20px;
+    .tabs__item{
+      margin-right: 20px;
+    }
+  }
+  &__table{
+    display: none;
+    &--mob{
+      display: table;
+    }
+    .table__body{
+
+    }
   }
   /*--- elements end ---*/
 }
@@ -10,9 +92,74 @@
 @media (min-width:600px) {}
 @media (min-width:900px) {}
 @media (min-width:1200px) {
-  .dashboard{
+  .widget{
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    /*--- elements start ---*/
+    &__header{
+      display: flex;
+    }
+    &__table{
+      margin-top: 4px;
+      display: table;
+      &--mob{
+        display: none;
+      }
+      .table__row{
+        height: 24px;
+        background-color: unset;
+        &:hover{
+          background-color: rgba(35, 123, 239, 0.1);
+        }
+      }
+      .table__cell{
+        padding: 2px 4px;
+      }
+
+    }
+    /*--- elements end ---*/
   }
 }
 /*--- media end ---*/
-
-
+/*--- DARK THEME START---*/
+.dark-theme{
+  .widget{
+    box-shadow: none;
+    &--markets{
+      background: linear-gradient(to bottom, rgba(246,41,12,1) 0%, rgba(48,49,77,1) 0%, rgba(35,123,239,.3) 100%);
+    }
+    &__header{
+      background-color: #3A3D5B;
+    }
+    &__name{
+      color: $grey;
+    }
+    &__question-img{
+      svg{
+        fill: #fff;
+      }
+    }
+    &__controls-horizontal,&__controls-vertical{
+      svg{
+        fill:#fff;
+      }
+    }
+    &__controls-close{
+      svg{
+        fill:#fff;
+      }
+    }
+    &__table{
+      .table__row{
+        &:hover{
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{}
+}
+/*--- DARK THEME END---*/

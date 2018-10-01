@@ -3,6 +3,12 @@
   /*--- modificators start ---*/
   /*--- modificators end ---*/
   /*--- elements start ---*/
+  &__widget-wrap{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
   /*--- elements end ---*/
 }
 /*--- media start ---*/
@@ -10,7 +16,28 @@
 @media (min-width:900px) {}
 @media (min-width:1200px) {
   .dashboard{
-
+    &__item{
+      //height: 220px;
+      margin: 0 16px 20px;
+      &--width1{
+        width: calc(100% / 3 - 32px);
+      }
+      &--width2{
+        width: calc((100% / 3) * 2 - 32px);
+      }
+      &--width3{
+        width: 100%;
+      }
+      &--height1{
+        height: 420px;
+      }
+      &--height2{
+        height: 520px;
+      }
+      &--height3{
+        height: 620px;
+      }
+    }
   }
 }
 /*--- media end ---*/
@@ -25,4 +52,3 @@
   .dark-theme{}
 }
 /*--- DARK THEME END---*/
-
