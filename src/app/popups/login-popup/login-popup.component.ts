@@ -19,6 +19,7 @@ export class LoginPopupComponent implements OnInit {
   isPasswordVisible = false;
 
   statusMessage = '';
+  inPineCodeMode = false;
 
   constructor(private popupService: PopupService,
               private userService: UserService,
@@ -37,6 +38,7 @@ export class LoginPopupComponent implements OnInit {
         validators: [Validators.required],
         updateOn: 'blur'
       }),
+      'pin' : new FormControl(null, {validators: this.requiredPincode.bind(this)})
     });
   }
 
@@ -44,7 +46,11 @@ export class LoginPopupComponent implements OnInit {
     this.popupService.closeLoginPopup();
   }
 
-  onSubmit() {
+  onProcess() {
+    this.inPineCodeMode = !this.inPineCodeMode;
+  }
+
+  onProcess1() {
     if (this.form.valid) {
       const email = this.form.get('email').value;
       const password = this.form.get('password').value;
@@ -83,5 +89,12 @@ export class LoginPopupComponent implements OnInit {
 
   getInputType(): string {
     return this.isPasswordVisible ? 'text' : 'password';
+  }
+
+  requiredPincode(pin: FormControl): { [s: string]: boolean } {
+    if (this.inPineCodeMode && (pin.value === undefined ||  pin.value === '')) {
+      return {'pinRequired': true};
+    }
+    return null;
   }
 }
