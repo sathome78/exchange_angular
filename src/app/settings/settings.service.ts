@@ -37,7 +37,7 @@ export class SettingsService {
   }
 
   private getUrl(end: string) {
-    return this.apiUrl + '/info/private/settings/' + end;
+    return this.apiUrl + '/info/private/v2/settings/' + end;
   }
 
 

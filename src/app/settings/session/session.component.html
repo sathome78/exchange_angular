@@ -1,5 +1,6 @@
 <div class="settings__content">
   <h3 class="title settings__content-title">Session Time</h3>
+  <h4> {{ statusMessage }}</h4>
   <div class="subtitle settings__content-subtitle">Time period, when you stayed logged in system after the last action
   </div>
   <form class="settings-form" [formGroup]="form" (ngSubmit)="onSubmit()">

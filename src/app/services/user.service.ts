@@ -15,6 +15,7 @@ export class UserService {
 
   HOST = environment.apiUrl;
 
+
   constructor(private http: HttpClient,
               private authService: AuthService,
               private langService: LangService,
@@ -23,36 +24,32 @@ export class UserService {
   }
 
    checkIfEmailExists(email: string): Observable<boolean> {
-    const url = this.HOST + '/info/public/if_email_exists';
     const httpOptions = {
       headers: MEDIA_TYPE_JSON,
       params:  new HttpParams().set('email', email)
     };
-    return this.http.get<boolean>(url, httpOptions);
+    return this.http.get<boolean>(this.getUrl('if_email_exists'), httpOptions);
   }
 
   checkIfUsernameExists(username: string): Observable<any> {
-    const url = this.HOST + '/info/public/if_username_exists';
     const httpOptions = {
       headers: MEDIA_TYPE_JSON,
       params:  new HttpParams().set('username', username)
     };
-    return this.http.get<string[]>(url, httpOptions);
+    return this.http.get<string[]>(this.getUrl('if_username_exists'), httpOptions);
   }
 
   public getIfConnectionSuccessful(): Observable<boolean> {
-    const url = this.HOST + '/info/public/test';
     const httpOptions = {
       headers: MEDIA_TYPE_JSON
     };
-    return this.http.get<boolean>(url, httpOptions);
+    return this.http.get<boolean>(this.getUrl('test'), httpOptions);
   }
 
   public createNewUser(username: string, email: string,
                 password: string, language: string,
                 sponsor?: string): Promise<number> {
 
-    const url = this.HOST + '/info/public/register';
     const registrate = {
       'nickname': username,
       'email': email,
@@ -63,16 +60,22 @@ export class UserService {
     const httpOptions = {
       headers: MEDIA_TYPE_JSON
     };
-    return this.http.post<number>(url, JSON.stringify(registrate), httpOptions)
+    return this.http.post<number>(this.getUrl('register'), JSON.stringify(registrate), httpOptions)
       .toPromise()
       .then(this.extractId)
       .catch(this.handleErrorPromise);
   }
 
   public authenticateUser(email: string, password: string, pin?: string): Observable<{} | TokenHolder> {
-    const authCandidate = new AuthCandidate(email, password);
+    const authCandidate = AuthCandidate
+      .builder()
+      .withEmail(email)
+      .withPassword(password)
+      .withPinCode(pin)
+      .withClientIp()
+      .build();
+
     this.logger.debug(this, 'User password ' + password + ' is encrypted to ' + authCandidate.password);
-    const url = this.HOST + '/info/public/users/authenticate';
     // const mHeaders = MEDIA_TYPE_JSON.append(IP_USER_HEADER, localStorage.getItem('client_ip'));
     const mParams = new HttpParams();
 
@@ -85,7 +88,7 @@ export class UserService {
     };
 
     console.log(JSON.stringify(authCandidate));
-    return this.http.post<TokenHolder>(url, JSON.stringify(authCandidate), httpOptions);
+    return this.http.post<TokenHolder>(this.getUrl('users/authenticate'), JSON.stringify(authCandidate), httpOptions);
   }
 
   // public getUserIp(): Observable<IpAddress> {
@@ -131,6 +134,10 @@ export class UserService {
   handleErrorPromise (error: Response | any) {
     console.error(error.message || error);
     return Promise.reject(error.message || error);
+  }
+
+  getUrl(end: string) {
+    return this.HOST + '/info/public/v2/' + end;
   }
 }
 
