@@ -8,7 +8,7 @@ export class LoggingService {
   private LEVEL_ERROR = 3;
 
   private isLoggingEnabled = true;
-  private loggerLevel = this.LEVEL_INFO;
+  private loggerLevel = this.LEVEL_DEBUG;
 
   error(clazz: Object, message: string) {
     if (this.isLoggingEnabled && this.loggerLevel <= this.LEVEL_ERROR) {
