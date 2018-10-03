@@ -15,7 +15,7 @@
   /*--- modificators end ---*/
   /*--- elements start ---*/
   &__item{
-    padding: 0 0 4px 0;
+    padding: 8px 0;
     display: block;
     border: none;
     outline: 0;
@@ -58,6 +58,15 @@
         border-color: #fff transparent transparent transparent;
       }
     }
+    &--small{
+      padding: 0 0 4px;
+    }
+    &--big{
+      width: 100%;
+      margin: 0;
+      padding: 8px 0;
+      font-size: 24px;
+    }
   }
   /*--- elements end ---*/
 }
@@ -77,6 +86,9 @@
       color:$grey;
       &:after{
         border-color: #2B3961 transparent transparent transparent;
+      }
+      &--active{
+        color:#fff;
       }
     }
   }

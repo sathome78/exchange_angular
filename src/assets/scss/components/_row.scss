@@ -2,4 +2,13 @@
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
+
+  /*--- modificators start ---*/
+  &--jcsb{
+    justify-content: space-between;
+  }
+  &--aic{
+    align-items: center;
+  }
+  /*--- modificators end ---*/
 }
