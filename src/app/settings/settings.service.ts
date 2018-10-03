@@ -4,6 +4,7 @@ import {AuthService} from '../services/auth.service';
 import {MEDIA_TYPE_JSON} from '../services/http.utils';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {NotificationOption} from './email-notification/email-notification.component';
 
 @Injectable()
 export class SettingsService {
@@ -11,6 +12,7 @@ export class SettingsService {
   apiUrl = environment.apiUrl;
   NICKNAME = 'nickname';
   SESSION = 'sessionInterval';
+  NOTIFICATIONS = 'notifications';
 
   constructor(private authService: AuthService,
               private http: HttpClient) {}
@@ -36,14 +38,29 @@ export class SettingsService {
     return this.http.put<number>(this.getUrl(this.SESSION), {sessionInterval: interval}, {headers: MEDIA_TYPE_JSON});
   }
 
-  private getUrl(end: string) {
-    return this.apiUrl + '/info/private/settings/' + end;
+  getEmailNotifications(): Observable<Map<string, boolean>> {
+    return this.http.get<Map<string, boolean>>(this.getUrl(this.NOTIFICATIONS), {headers: MEDIA_TYPE_JSON});
   }
 
+  updateEmailNotifications(options: NotificationOption[]): Observable<number> {
+    return this.http.put<number>(this.getUrl(this.NOTIFICATIONS), options, {headers: MEDIA_TYPE_JSON});
+  }
 
-
-
+  private getUrl(end: string) {
+    return this.apiUrl + '/info/private/v2/settings/' + end;
+  }
 
 }
+
+interface INotificationOption {
+
+  event: string;
+  userId: number;
+  sendNotification: boolean;
+  sendEmail: boolean;
+  eventLocalized: string;
+
+}
+
 
 

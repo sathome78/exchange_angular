@@ -2,35 +2,50 @@
   <h3 class="title settings__content-title">Email Notifications</h3>
   <div class="settings__toggler-row">
     <label for="" class="toggler settings__toggler">
-      <input type="checkbox" name="" value="">
+      <input type="checkbox" name=""
+             [(ngModel)]="isInOutNotificationEnabled"
+             (click)="updateInOuts()"
+      >
       <span class="toggler__indicate"></span>
     </label>
     <span class="settings__toggler-text">Input / output</span>
   </div>
   <div class="settings__toggler-row">
     <label for="" class="toggler settings__toggler">
-      <input type="checkbox" name="" value="">
+      <input type="checkbox" name=""
+             [(ngModel)]="isOrdersNotificationEnabled"
+             (click)="updateOrders()"
+      >
       <span class="toggler__indicate"></span>
     </label>
     <span class="settings__toggler-text">Orders</span>
   </div>
   <div class="settings__toggler-row">
     <label for="" class="toggler settings__toggler">
-      <input type="checkbox" name="" value="">
+      <input type="checkbox" name=""
+             [(ngModel)]="isAccountChangesEnabled"
+             (click)="updateAccount()"
+      >
       <span class="toggler__indicate"></span>
     </label>
     <span class="settings__toggler-text">Account changes</span>
   </div>
   <div class="settings__toggler-row">
     <label for="" class="toggler settings__toggler">
-      <input type="checkbox" name="" value="">
+      <input type="checkbox" name=""
+             [(ngModel)]="isAdminNotificationEnabled"
+             (click)="updateAdmin()"
+      >
       <span class="toggler__indicate"></span>
     </label>
     <span class="settings__toggler-text">Notifications from administrators</span>
   </div>
   <div class="settings__toggler-row">
     <label for="" class="toggler settings__toggler">
-      <input type="checkbox" name="" value="">
+      <input type="checkbox" name=""
+             [(ngModel)]="isOtherMessagesEnabled"
+             (click)="updateCustom()"
+      >
       <span class="toggler__indicate"></span>
     </label>
     <span class="settings__toggler-text">Other messages</span>

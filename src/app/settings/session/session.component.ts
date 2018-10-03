@@ -13,11 +13,14 @@ import {Observable, Subscription} from 'rxjs';
 export class SessionComponent implements OnInit, OnDestroy {
 
   value = 0;
+  MIN_VALUE = 5;
+  MAX_VALUE = 1440;
   options: Options = {
-    floor: 0,
-    ceil: 1440
+    floor: this.MIN_VALUE,
+    ceil: this.MAX_VALUE
   };
 
+  statusMessage = '';
   HOURS = 0;
   MINUTES = 0;
   form: FormGroup;
@@ -38,14 +41,27 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-
+    if (this.value >= this.MIN_VALUE && this.value < this.MAX_VALUE) {
+      this.settingsService.updateSessionInterval(this.value)
+        .subscribe(resp => {
+            this.statusMessage = 'Session period is updated!';
+          },
+          err => {
+            const status = err['status'];
+            if (status >= 400) {
+              this.statusMessage = 'Session period is not updated!';
+            }
+          });
+    } else {
+      this.statusMessage = 'Session must within 5 and 1440 mins (24 hours)';
+    }
   }
 
   setForm() {
-    this.hoursInput = new FormControl(this.getHours(), {
+    this.hoursInput = new FormControl(this.getHours(this.value), {
       validators: [Validators.min(0), Validators.max(24)]
     });
-    this.minutesInput = new FormControl(this.getMinutes(), {
+    this.minutesInput = new FormControl(this.getMinutes(this.value), {
       validators: [Validators.min(0), Validators.max(59), this.minutesRangeMatch.bind(this)]
     });
     this.form = new FormGroup({
@@ -57,9 +73,9 @@ export class SessionComponent implements OnInit, OnDestroy {
   private loadSessionInterval() {
     this.settingsService.getSessionInterval().subscribe(
       interval => {
+        this.minutesInput.patchValue(this.getMinutes(interval));
+        this.hoursInput.patchValue(this.getHours(interval));
         this.value = interval;
-        this.minutesInput.patchValue(this.getMinutes());
-        this.hoursInput.patchValue(this.getHours());
       },
       err => {
         this.logger.info(this, 'Failed to load session time: ' + err);
@@ -76,7 +92,7 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   subscribeForHoursUpdate() {
-   this.hoursInputSubscription.subscribe(h => {
+    this.hoursInputSubscription.subscribe(h => {
       const hours = +h;
       if (hours >= 0 && hours <= 24) {
         this.HOURS = hours;
@@ -107,15 +123,16 @@ export class SessionComponent implements OnInit, OnDestroy {
     this.hoursInput.patchValue(this.HOURS);
     this.minutesInput.patchValue(this.MINUTES);
     // this.subscribeForInputChanges();
+    this.statusMessage = '';
   }
 
-  getMinutes() {
-    this.MINUTES = parseInt((this.value % 60) + '', 0);
+  getMinutes(interval: number) {
+    this.MINUTES = parseInt((interval % 60) + '', 0);
     return this.MINUTES;
   }
 
-  getHours() {
-    this.HOURS = parseInt((this.value / 60) + '', 0);
+  getHours(interval: number) {
+    this.HOURS = parseInt((interval / 60) + '', 0);
     return this.HOURS;
   }
 

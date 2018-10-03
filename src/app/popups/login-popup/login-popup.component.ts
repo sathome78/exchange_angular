@@ -17,6 +17,7 @@ export class LoginPopupComponent implements OnInit {
   form: FormGroup;
   emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
   isPasswordVisible = false;
+  pincodeAttempts = 0;
 
   statusMessage = '';
   inPineCodeMode = false;
@@ -40,6 +41,7 @@ export class LoginPopupComponent implements OnInit {
       }),
       'pin' : new FormControl(null, {validators: this.requiredPincode.bind(this)})
     });
+    this.inPineCodeMode = false;
   }
 
   closeMe() {
@@ -47,15 +49,16 @@ export class LoginPopupComponent implements OnInit {
   }
 
   onProcess() {
-    this.inPineCodeMode = !this.inPineCodeMode;
-  }
-
-  onProcess1() {
     if (this.form.valid) {
       const email = this.form.get('email').value;
       const password = this.form.get('password').value;
+      let pin;
+      if (this.inPineCodeMode) {
+        pin = this.form.get('pin').value;
+        this.pincodeAttempts++;
+      }
       this.logger.debug(this, 'attempt to authenticate with email: ' + email + ' and password: ' + password);
-      this.userService.authenticateUser(email, password)
+      this.userService.authenticateUser(email, password, pin)
         .subscribe((tokenHolder: TokenHolder) => {
             this.logger.debug(this, 'User { login: ' + email + ', pass: ' + password + '}' + ' signed in and obtained' + tokenHolder);
             this.authService.setTokenHolder(tokenHolder);
@@ -64,6 +67,7 @@ export class LoginPopupComponent implements OnInit {
           },
           err => {
             const status = err['status'];
+            console.log('status: ' + status);
             if (status === 401) {
               this.logger.info(this, 'Attempt to sign in with invalid credentials: { login: ' + email + ', pass: ' + password + '}');
               this.statusMessage = 'Your email and/or password are invalid!';
@@ -77,6 +81,16 @@ export class LoginPopupComponent implements OnInit {
             } else if (status === 410) {
               this.logger.info(this, 'Attempt to sign in by inactive (deleted) user: { login: ' + email + ', pass: ' + password + '}');
               this.statusMessage = 'Sorry, but we thought you died. Fuck off, stupid zombie!';
+            } else if (status === 419) {
+              this.statusMessage = 'Your ip is blocked!';
+            } else if (status === 418) {
+              this.inPineCodeMode = true;
+              if (this.pincodeAttempts > 0) {
+                this.statusMessage = 'Wrong pincode, new pincode is sent!';
+                this.form.get('pin').patchValue('');
+              } else {
+                this.statusMessage = 'Pin code is required!';
+              }
             }
             // this.form.reset('');
           });
