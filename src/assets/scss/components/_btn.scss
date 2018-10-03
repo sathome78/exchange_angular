@@ -18,7 +18,7 @@
     cursor: pointer;
     color: #fff;
     border-color: transparent;
-    background-color: $blue;
+    background-color: $darker-blue;
 
     .btn__icon--hover-white {
       svg {
@@ -58,6 +58,27 @@
     &:focus {
       border-color: transparent;
       background-color: $red;
+    }
+  }
+  &--empty-red{
+    color: $red;
+    border-color: $red;
+    background-color: transparent;
+    &:hover {
+      color:#fff;
+      background-color: $red;
+    }
+    &:focus {
+      color:#fff;
+      background-color: $red;
+    }
+  }
+  &--empty-blue{
+    background-color: transparent;
+    border-color: $darker-blue;
+    color:$darker-blue;
+    &:hover{
+      background-color: $darker-blue;
     }
   }
   // positions
@@ -124,6 +145,34 @@
   .btn{
     color: #fff;
     background-color: $darker-blue;
+    &--empty-red{
+      color: $red;
+      border-color: $red;
+      background-color: transparent;
+      &:hover {
+        color:#fff;
+        border-color: $red;
+        background-color: $red;
+      }
+      &:focus {
+        color:#fff;
+        border-color: $red;
+        background-color: $red;
+      }
+    }
+    &--empty-blue{
+      background-color: transparent;
+      color: $light-blue;
+      border-color: $light-blue;
+      &:hover{
+        color:#fff;
+        background-color: $light-blue;
+      }
+      &:focus{
+        color:#fff;
+        background-color: $light-blue;
+      }
+    }
     &__icon{
       &--blue {
         svg {

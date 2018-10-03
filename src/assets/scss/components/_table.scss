@@ -47,7 +47,7 @@
 
   &__cell-head-arr {
     margin-right: 4px;
-    fill:#000;
+    fill: #000;
   }
 
   &__body {
@@ -56,7 +56,9 @@
       box-shadow: none;
     }
   }
-
+  &__row-btn {
+    display: none;
+  }
   &__row {
     display: none;
     position: relative;
@@ -69,13 +71,12 @@
       background-color: #deebfd;
       cursor: pointer;
 
-      .table__cell-button {
-        display: -webkit-flex;
-        display: -ms-flex;
-        display: flex;
+      .table__row-btn {
+        display: inline-block;
       }
-      .table__row-star{
-        svg{
+
+      .table__row-star {
+        svg {
           display: inline-block;
         }
       }
@@ -83,27 +84,27 @@
 
     &--mob {
       display: table-row;
-
       &:hover {
         background-color: #deebfd;
         cursor: pointer;
       }
     }
   }
-  &__row-star{
+  &__row-star {
     display: inline-block;
     width: 16px;
     height: 16px;
-    svg{
+    svg {
       display: none;
-      fill:$dark-indigo;
+      fill: $dark-indigo;
     }
-    &:hover{
-      svg{
-        fill:#FFB74C;
+    &:hover {
+      svg {
+        fill: #FFB74C;
       }
     }
   }
+
   &__cell {
     position: relative;
     padding: 8px 10px;
@@ -132,13 +133,24 @@
       padding: 8px;
     }
   }
-
+  &__date-time {
+    div:nth-child(2) {
+      color: $grey;
+      font-size: 10px;
+      line-height: 12px;
+    }
+  }
   /*--- elements end ---*/
 }
+
 /*--- media start ---*/
-@media (min-width:600px) {}
-@media (min-width:900px) {}
-@media (min-width:1200px) {
+@media (min-width: 600px) {
+}
+
+@media (min-width: 900px) {
+}
+
+@media (min-width: 1200px) {
   .table {
     display: table;
 
@@ -161,20 +173,29 @@
     }
   }
 }
+
 /*--- media end ---*/
 /*--- DARK THEME START---*/
-.dark-theme{
-  .table{
+.dark-theme {
+  .table {
     color: #fff;
-    &__cell-head{
-      color:#90A0BE;
+    &__cell-head {
+      color: #90A0BE;
     }
     &__cell-head-arr {
-      fill:#90A0BE;;
+      fill: #90A0BE;;
+    }
+    &__row {
+      &:nth-of-type(odd) {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
     }
   }
 }
-@media (min-width:1200px) {
-  .dark-theme{}
+
+@media (min-width: 1200px) {
+  .dark-theme {
+  }
 }
+
 /*--- DARK THEME END---*/
