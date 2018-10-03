@@ -2,5 +2,8 @@
 <div class="subtitle modal__subtitle">
   <p>Use Google Authenticator to scan the QRCode</p>
 </div>
-<img class="modal__qr-code" src="../../../../assets/img/qr-code.svg">
+<div class="modal__qr-code">
+  <qr-code [value]="'All QR Code data goes here!'" [size]="150"></qr-code>
+</div>
+<!--<img class="modal__qr-code" src="../../../../assets/img/qr-code.svg">-->
 <button class="btn btn--active btn--center" (click)="onNextStep()">Ok, I did it</button>

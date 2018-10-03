@@ -35,7 +35,6 @@ export class EmailNotificationComponent implements OnInit {
         err => {
           console.log(err);
         });
-
   }
 
   updateInOuts() {

@@ -38,6 +38,7 @@ import {UserService} from './services/user.service';
 import {ThemeService} from './services/theme.service';
 import {JwtInterceptor} from './interceptors/jwt.interceptor';
 import {AuthInterceptor} from './interceptors/auth.interceptor';
+import {QRCodeModule} from 'angular2-qrcode';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import {AuthInterceptor} from './interceptors/auth.interceptor';
     HttpClientModule,
     FormsModule,
     MyDatePickerModule,
+    QRCodeModule,
     ReactiveFormsModule,
     SettingsModule,
     WebcamModule
