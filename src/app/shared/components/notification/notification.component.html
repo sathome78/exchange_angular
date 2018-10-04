@@ -1,0 +1,7 @@
+<!-- NOTIFICATION_POPUP -->
+<div class="notification-popup">
+  <img class="notification-popup__icon" src="{{ notification.iconLink }}" alt="del">
+  <img class="notification-popup__close-mob" src="/assets/img/close-grey.svg" (click)="onNotificationClose()" alt="close">
+  <div>{{ notification.message }}</div>
+  <img class="notification-popup__close" src="/assets/img/close-blue.svg" (click)="onNotificationClose()" alt="close">
+</div>

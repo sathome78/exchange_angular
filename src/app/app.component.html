@@ -72,5 +72,12 @@
       <a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>
     </div>
   </div>
+
+  <app-notification
+    *ngFor="let notification of notificationMessages; let i = index;"
+    [notification]="notification"
+    (notificationClosed)="onNotificationMessageClose(i)">
+  </app-notification>
+
   <app-footer></app-footer>
 </div>
