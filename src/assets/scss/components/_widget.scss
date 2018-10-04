@@ -162,7 +162,8 @@
     align-items: center;
     justify-content: center;
     text-transform: uppercase;
-    width: 28px;
+    width: 100%;
+    max-width: 28px;
     height: 28px;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -313,6 +314,8 @@
       display: flex;
     }
     &__table-wrap {
+      position: relative;
+      height: 100%;
       margin-right: 24px;
       &--ml16 {
         margin-left: 16px;
@@ -359,10 +362,7 @@
           background: -ms-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
           background: linear-gradient(to left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
         }
-        td:nth-child(3){
-          color:$green;
-        }
-        td:nth-child(4){
+        .txt-indicate{
           color:$green;
         }
       }
@@ -382,10 +382,7 @@
           background: -ms-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
           background: linear-gradient(to left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
         }
-        td:nth-child(3){
-          color:$red;
-        }
-        td:nth-child(4){
+        .txt-indicate{
           color:$red;
         }
       }
@@ -437,14 +434,17 @@
     }
     &__scroll {
       position: absolute;
-      top: 60px;
-      right: 16px;
+      top: 0;
+      right: -6px;
       width: 3px;
-      height: calc(100% - 30%);
+      height: 100%;
       background-color: $darker-white;
       text-align: center;
     }
     &__scroll-inner {
+      position: absolute;
+      top: 5px;
+      left: 1px;
       display: inline-block;
       background-color: $dark-indigo;
       -webkit-border-radius: 4px;
