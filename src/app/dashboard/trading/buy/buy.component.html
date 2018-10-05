@@ -1,3 +1,73 @@
-<p>
-  buy works!
-</p>
+<form class="widget__trading-form" action="">
+  <div class="row row--jcsb row--aic widget__trading-row">
+    <div class="dropdown widget__limit-dropdown">
+      <div class="dropdown__btn">Limit order</div>
+      <ul class="dropdown__list">
+        <li class="dropdown__item">Limit order</li>
+        <li class="dropdown__item">Stop limit</li>
+        <li class="dropdown__item">ICO order</li>
+      </ul>
+    </div>
+    <div class="row row-jcsb">
+      <label class="radio radio--mr16">
+        <input class="radio__input" type="radio" name="radio-procent">
+        <span class="radio__text">
+          5%
+        </span>
+      </label>
+      <label class="radio radio--mr16">
+        <input class="radio__input" type="radio" name="radio-procent">
+        <span class="radio__text">
+          25%
+        </span>
+      </label>
+      <label class="radio radio--mr16">
+        <input class="radio__input" type="radio" name="radio-procent">
+        <span class="radio__text">
+          50%
+        </span>
+      </label>
+      <label class="radio">
+        <input class="radio__input" type="radio" name="radio-procent">
+        <span class="radio__text">
+          100%
+        </span>
+      </label>
+    </div>
+  </div>
+  <div class="row row--jcsb widget__trading-row">
+    <div class="wrap-input widget__input widget__input--mr32">
+      <input class="wrap-input__input" type="text" required>
+      <label class="wrap-input__label" for="">Quantity of BTC</label>
+      <div class="wrap-input__line"></div>
+    </div>
+    <div class="wrap-input widget__input">
+      <input class="wrap-input__input" type="text" required>
+      <label class="wrap-input__label" for="">Price in USDT</label>
+      <div class="wrap-input__line"></div>
+    </div>
+  </div>
+  <div class="row row--jcsb widget__trading-row">
+    <div class="wrap-input widget__input">
+      <input class="wrap-input__input" type="text" required>
+      <label class="wrap-input__label" for="">Total in USDT</label>
+      <div class="wrap-input__line"></div>
+    </div>
+  </div>
+  <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
+    <div>
+      Avaliable: <a href="#">300 000 000 USD</a>
+    </div>
+    <div>
+      Fee: 0.45 USD
+    </div>
+  </div>
+  <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
+    <div style="margin-left: auto;">
+      Pay no fees:
+      <img src="../../assets/img/fire.svg" style="margin: 0 4px;">
+      <a href="#">Become VIP</a>
+    </div>
+  </div>
+  <button class="btn btn--active widget__trading-btn">Buy BTC</button>
+</form>

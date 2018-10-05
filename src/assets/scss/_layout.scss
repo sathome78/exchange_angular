@@ -25,8 +25,11 @@ b {
 
 .txt-red {
   color: $red;
-}
 
+}
+.txt-grey{
+  color:$grey;
+}
 .txt-light-grey {
   color: $light-grey;
 }
@@ -91,10 +94,9 @@ b {
     padding: 0 20px 0;
   }
   &--dashboard{
-    max-width: none;
+    max-width: 1480px;
     @media (min-width:1200px) {
-      //padding: 0 32px 0;
-      padding: 0 16px;
+      padding: 0;
     }
   }
 }

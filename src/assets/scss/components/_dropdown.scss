@@ -1,6 +1,13 @@
 .dropdown {
   position: relative;
   display: inline-block;
+  /*--- modificators start ---*/
+  &--open{
+    .dropdown__list{
+      display: block;
+    }
+  }
+  /*--- modificators end ---*/
   /*--- elements start ---*/
   &__btn {
     position: relative;

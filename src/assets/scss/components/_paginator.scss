@@ -10,8 +10,7 @@
     width: 28px;
     height: 28px;
     margin-right: 8px;
-    border: 1px solid $darker-blue;
-    border-radius: 4px;
+
 
     &:last-child {
       margin-right: 0;
@@ -35,6 +34,8 @@
     color: $darker-blue;
     font-size: 14px;
     line-height: 16px;
+    border: 1px solid $darker-blue;
+    border-radius: 4px;
 
     &--arr {
       background-color: $darker-blue;
@@ -50,3 +51,20 @@
   }
 }
 /*--- media end ---*/
+/*--- DARK THEME START---*/
+.dark-theme{
+  .paginator{
+    &__link{
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: transparent;
+      color:#fff;
+      &--arr{
+        background-color: transparent;
+      }
+    }
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{}
+}
+/*--- DARK THEME END---*/

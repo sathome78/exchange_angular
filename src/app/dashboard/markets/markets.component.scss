@@ -1,0 +1,10 @@
+.widget{
+  &__table-row {
+    &:nth-of-type(odd) {
+      background-color: unset;
+    }
+    &:hover {
+      background-color: rgba(35, 123, 239, 0.1);
+    }
+  }
+}

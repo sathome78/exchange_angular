@@ -8,6 +8,9 @@
     flex-wrap: wrap;
     justify-content: space-between;
   }
+  &__item{
+    width: 100%;
+  }
 
   /*--- elements end ---*/
 }
@@ -17,7 +20,7 @@
 @media (min-width:1200px) {
   .dashboard{
     &__item{
-      height: 420px;
+      height: 450px;
       margin: 0 16px 20px;
       &--width1{
         width: calc(100% / 3 - 32px);
