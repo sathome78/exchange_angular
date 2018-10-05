@@ -12,7 +12,7 @@ export class SettingsService {
   apiUrl = environment.apiUrl;
   NICKNAME = 'nickname';
   SESSION = 'sessionInterval';
-  NOTIFICATIONS = 'notifications';
+  NOTIFICATIONS = 'notification';
 
   constructor(private authService: AuthService,
               private http: HttpClient) {}

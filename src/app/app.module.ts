@@ -40,6 +40,7 @@ import {JwtInterceptor} from './interceptors/jwt.interceptor';
 import {AuthInterceptor} from './interceptors/auth.interceptor';
 import {QRCodeModule} from 'angular2-qrcode';
 import {GoogleAuthenticatorService} from './popups/two-factor-popup/google/google-authenticator.service';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -80,8 +81,8 @@ import {GoogleAuthenticatorService} from './popups/two-factor-popup/google/googl
     QRCodeModule,
     ReactiveFormsModule,
     SettingsModule,
-    WebcamModule
-
+    WebcamModule,
+    SharedModule
   ],
   providers: [
     AuthGuard,
