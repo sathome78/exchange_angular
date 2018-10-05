@@ -13,14 +13,14 @@ import {SettingsModule} from './settings/settings.module';
 import {PopupService} from './services/popup.service';
 import {TwoFactorPopupComponent} from './popups/two-factor-popup/two-factor-popup.component';
 import {LoggingService} from './services/logging.service';
-import {GoogleStepOneComponent} from './popups/two-factor-popup/google-step-one/google-step-one.component';
-import {GoogleStepTwoComponent} from './popups/two-factor-popup/google-step-two/google-step-two.component';
-import {GoogleStepThreeComponent} from './popups/two-factor-popup/google-step-three/google-step-three.component';
-import {GoogleStepFourComponent} from './popups/two-factor-popup/google-step-four/google-step-four.component';
-import {SmsStepOneComponent} from './popups/two-factor-popup/sms-step-one/sms-step-one.component';
-import {SmsStepTwoComponent} from './popups/two-factor-popup/sms-step-two/sms-step-two.component';
-import {TelegramStepOneComponent} from './popups/two-factor-popup/telegram-step-one/telegram-step-one.component';
-import {TelegramStepTwoComponent} from './popups/two-factor-popup/telegram-step-two/telegram-step-two.component';
+import {GoogleStepOneComponent} from './popups/two-factor-popup/google/google-step-one/google-step-one.component';
+import {GoogleStepTwoComponent} from './popups/two-factor-popup/google/google-step-two/google-step-two.component';
+import {GoogleStepThreeComponent} from './popups/two-factor-popup/google/google-step-three/google-step-three.component';
+import {GoogleStepFourComponent} from './popups/two-factor-popup/google/google-step-four/google-step-four.component';
+import {SmsStepOneComponent} from './popups/two-factor-popup/sms/sms-step-one/sms-step-one.component';
+import {SmsStepTwoComponent} from './popups/two-factor-popup/sms/sms-step-two/sms-step-two.component';
+import {TelegramStepOneComponent} from './popups/two-factor-popup/telegram/telegram-step-one/telegram-step-one.component';
+import {TelegramStepTwoComponent} from './popups/two-factor-popup/telegram/telegram-step-two/telegram-step-two.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { IdentityPopupComponent } from './popups/identity-popup/identity-popup.component';
 import { StepOneComponent } from './popups/identity-popup/step-one/step-one.component';
@@ -39,6 +39,7 @@ import {ThemeService} from './services/theme.service';
 import {JwtInterceptor} from './interceptors/jwt.interceptor';
 import {AuthInterceptor} from './interceptors/auth.interceptor';
 import {QRCodeModule} from 'angular2-qrcode';
+import {GoogleAuthenticatorService} from './popups/two-factor-popup/google/google-authenticator.service';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import {QRCodeModule} from 'angular2-qrcode';
   providers: [
     AuthGuard,
     AuthService,
+    GoogleAuthenticatorService,
     LangService,
     LoggingService,
     PopupService,

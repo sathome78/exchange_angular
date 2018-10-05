@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {OnNextStep, PopupService} from '../../../services/popup.service';
+import {OnNextStep, PopupService} from '../../../../services/popup.service';
 
 @Component({
   selector: 'app-google-step-three',
@@ -7,6 +7,7 @@ import {OnNextStep, PopupService} from '../../../services/popup.service';
   styleUrls: ['./google-step-three.component.scss']
 })
 export class GoogleStepThreeComponent implements OnInit, OnNextStep {
+
 
   constructor(private popupService: PopupService) { }
 
