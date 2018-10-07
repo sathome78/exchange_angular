@@ -32,4 +32,8 @@ export class ThemeService {
   isCurrentThemeDark(): boolean {
     return this.isDarkTheme;
   }
+
+  public getColorScheme(): string {
+    return this.isDarkTheme ? 'DARK' : 'LIGHT';
+  }
 }

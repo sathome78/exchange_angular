@@ -9,7 +9,7 @@ import {AuthGuard} from './services/auth.guard';
 
 const routes: Routes = [
   // permit all
-  { path: 'dashboard',      component: DashboardComponent },
+  // { path: 'dashboard',      component: DashboardComponent },
   // { path: 'funds',      component: DashboardComponent, },ç
   // { path: 'orders',      component: DashboardComponent, },
   { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
@@ -28,7 +28,8 @@ const routes: Routes = [
   // // { path: 'referral',       component: ReferralComponent },
   // // {path: 'test', component: TestComponent },
 
-  {path: '', pathMatch: 'full', redirectTo: '/dashboard'}
+  {path: '', pathMatch: 'full', redirectTo: '/settings'} // remove after demo
+  // {path: '', pathMatch: 'full', redirectTo: '/dashboard'}
 ];
 
 @NgModule({

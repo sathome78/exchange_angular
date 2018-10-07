@@ -91,6 +91,16 @@ export class UserService {
     return this.http.post<TokenHolder>(this.getUrl('users/authenticate'), JSON.stringify(authCandidate), httpOptions);
   }
 
+  public getUserColorScheme(): Observable<string> {
+    const url = this.HOST + '/info/private/v2/settings/color-schema';
+    return this.http.get<string>(url, {headers: MEDIA_TYPE_JSON});
+  }
+
+  public getUserColorEnabled(): Observable<boolean> {
+    const url = this.HOST + '/info/private/v2/settings/isLowColorEnabled';
+    return this.http.get<boolean>(url, {headers: MEDIA_TYPE_JSON});
+  }
+
   // public getUserIp(): Observable<IpAddress> {
   //   return this.http.get<IpAddress>('http://gd.geobytes.com/GetCityDetails');
   // }

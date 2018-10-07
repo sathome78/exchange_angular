@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {OnNextStep, PopupService} from '../../../../services/popup.service';
 import {GoogleAuthenticatorService} from '../google-authenticator.service';
-import {TwoFaResponseDto} from '../2fa-response-dto.model';
+import {ITwoFaResponseDto, TwoFaResponseDto} from '../2fa-response-dto.model';
+import {AuthService} from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-google-step-two',
@@ -10,19 +11,18 @@ import {TwoFaResponseDto} from '../2fa-response-dto.model';
 })
 export class GoogleStepTwoComponent implements OnInit, OnNextStep {
 
-  googleUrl = '';
+  secretCode = '';
   statusMessage = '';
 
   constructor(private popupService: PopupService,
-              private googleService: GoogleAuthenticatorService) {
+              private googleService: GoogleAuthenticatorService,
+              private authService: AuthService) {
   }
 
   ngOnInit() {
-    this.googleService.getGoogleTwoFaUrl().subscribe((dto: TwoFaResponseDto) => {
-      // console.log(dto);
-        if (dto.message) {
-          this.googleUrl = dto.message;
-        }
+    this.googleService.getGoogleTwoFaSecretHash().subscribe((dto: TwoFaResponseDto) => {
+        // console.log(dto);
+        this.secretCode = dto.message;
         if (dto.error) {
           this.statusMessage = dto.error;
         }
@@ -37,7 +37,10 @@ export class GoogleStepTwoComponent implements OnInit, OnNextStep {
     this.popupService.moveNextStep();
   }
 
-  getGoogleUrl() {
-    return this.googleUrl;
+  getGoogleAuthenticatorUrl(): string {
+    return 'https://zxing.org/w/chart?cht=qr&chs=250x250&chld=M&choe=UTF-8&chl=otpauth://totp/Exrates:'
+      + this.authService.getUsername()
+      + '?secret=' + this.secretCode;
+    // return 'otpauth://totp/%s:%s?secret=%s&issuer=%s'
   }
 }

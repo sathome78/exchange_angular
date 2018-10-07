@@ -2,7 +2,10 @@
   <h3 class="title settings__content-title">View</h3>
   <div class="settings__toggler-row">
     <label for="" class="toggler settings__toggler">
-      <input type="checkbox" name="" value="">
+      <input type="checkbox"
+             name=""
+             [(ngModel)]="isLowColorModeEnabled"
+             (click)="toggleLowColorMode()">
       <span class="toggler__indicate"></span>
     </label>
     <span class="settings__toggler-text">Inable colors for color-blinds</span>

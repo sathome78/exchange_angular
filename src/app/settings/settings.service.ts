@@ -46,6 +46,16 @@ export class SettingsService {
     return this.http.put<number>(this.getUrl(this.NOTIFICATIONS), options, {headers: MEDIA_TYPE_JSON});
   }
 
+  public updateUserColorScheme(colorScheme: string): Observable<number> {
+    const body = {'SCHEME': colorScheme};
+    return this.http.put<number>(this.getUrl('color-schema'), body, {headers: MEDIA_TYPE_JSON});
+  }
+
+  public updateUserColorDepth(isLowColorEnabled: boolean): Observable<number> {
+    const body = {'STATE': isLowColorEnabled};
+    return this.http.put<number>(this.getUrl('isLowColorEnabled'), body, {headers: MEDIA_TYPE_JSON});
+  }
+
   private getUrl(end: string) {
     return this.apiUrl + '/info/private/v2/settings/' + end;
   }

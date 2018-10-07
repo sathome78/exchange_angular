@@ -4,13 +4,13 @@
 </div>
 <h3>{{statusMessage}}</h3>
 <!--<div class="modal__qr-code">-->
-  <!--<qr-code [value]="getGoogleUrl()" [size]="150"></qr-code>-->
+  <!--<qr-code [value]="getTestUrl()" [size]="150"></qr-code>-->
 <!--</div>-->
-<img class="modal__qr-code" [src]="getGoogleUrl()">
+<img class="modal__qr-code" [src]="getGoogleAuthenticatorUrl()">
 
 <!--SECRET HASH-->
 <div class="modal__row">
-  <div class="modal__code-grey-field">ghmxPw14AFcByz</div>
+  <div class="modal__code-grey-field">{{ secretCode }}</div>
 </div>
 
 <button class="btn btn--active btn--center" (click)="onNextStep()">Ok, I did it</button>
