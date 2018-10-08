@@ -50,18 +50,25 @@
         <!--<div class="by-sms">By SMS: <a class="link" href="#">+62 (123) 785-23-98</a></div>-->
       <!--</th>-->
       <!--<th class="table__cell-head" style="width:200px"><span>Telegram</span></th>-->
-      <th class="table__cell-head" style="width:200px"><span>Disabled</span></th>
+      <!--<th class="table__cell-head" style="width:200px"><span>Disabled</span></th>-->
     </tr>
     </thead>
     <tr>
       <td class="table__cell"><span class="tfa__method">Log in</span></td>
       <td class="table__cell" style="text-align:center">
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-login"
-                 [(ngModel)]="isLoginGoogleNotificationEnabled"
-                 (click)="enableLoginGoogleNotification()">
-          <span class="radio__icon"></span>
+        <label for="" class="toggler settings__toggler">
+          <input type="checkbox" name=""
+                 [(ngModel)]="isOrdersNotificationEnabled"
+                 (click)="updateOrders()"
+          >
+          <span class="toggler__indicate"></span>
         </label>
+        <!--<label class="radio">-->
+          <!--<input class="radio__input" type="radio" name="radio-login"-->
+                 <!--[(ngModel)]="isLoginGoogleNotificationEnabled"-->
+                 <!--(click)="enableLoginGoogleNotification()">-->
+          <!--<span class="radio__icon"></span>-->
+        <!--</label>-->
       </td>
       <!--<td class="table__cell" style="text-align:center">-->
         <!--<label class="radio">-->
@@ -73,24 +80,31 @@
           <!--<input class="radio__input" type="radio" name="radio-login"><span class="radio__icon"></span>-->
         <!--</label>-->
       <!--</td>-->
-      <td class="table__cell" style="text-align:center">
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-login"
-                 [(ngModel)]="isLoginNotificationDisabled"
-                 (click)="disableLoginNotification()">
-          <span class="radio__icon"></span>
-        </label>
-      </td>
+      <!--<td class="table__cell" style="text-align:center">-->
+        <!--<label class="radio">-->
+          <!--<input class="radio__input" type="radio" name="radio-login"-->
+                 <!--[(ngModel)]="isLoginNotificationDisabled"-->
+                 <!--(click)="disableLoginNotification()">-->
+          <!--<span class="radio__icon"></span>-->
+        <!--</label>-->
+      <!--</td>-->
     </tr>
     <tr>
       <td class="table__cell"><span class="tfa__method">Withdrawal</span></td>
       <td class="table__cell" style="text-align:center">
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-Withdrawal"
-                 [(ngModel)]="isWithdrawalGoogleNotificationEnabled"
-                 (click)="enableWithdrawGoogleNotification()">
-          <span class="radio__icon"></span>
+        <label for="" class="toggler settings__toggler">
+          <input type="checkbox" name=""
+                 [(ngModel)]="isOrdersNotificationEnabled"
+                 (click)="updateOrders()"
+          >
+          <span class="toggler__indicate"></span>
         </label>
+        <!--<label class="radio">-->
+          <!--<input class="radio__input" type="radio" name="radio-Withdrawal"-->
+                 <!--[(ngModel)]="isWithdrawalGoogleNotificationEnabled"-->
+                 <!--(click)="enableWithdrawGoogleNotification()">-->
+          <!--<span class="radio__icon"></span>-->
+        <!--</label>-->
       </td>
       <!--<td class="table__cell" style="text-align:center">-->
         <!--<label class="radio">-->
@@ -102,23 +116,30 @@
           <!--<input class="radio__input" type="radio" name="radio-Withdrawal"><span class="radio__icon"></span>-->
         <!--</label>-->
       <!--</td>-->
-      <td class="table__cell" style="text-align:center">
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-Withdrawal"
-                 [(ngModel)]="isWithdrawalNotificationDisabled"
-                 (click)="disableWithdrawNotification()">
-          <span class="radio__icon"></span>
-        </label>
-      </td>
+      <!--<td class="table__cell" style="text-align:center">-->
+        <!--<label class="radio">-->
+          <!--<input class="radio__input" type="radio" name="radio-Withdrawal"-->
+                 <!--[(ngModel)]="isWithdrawalNotificationDisabled"-->
+                 <!--(click)="disableWithdrawNotification()">-->
+          <!--<span class="radio__icon"></span>-->
+        <!--</label>-->
+      <!--</td>-->
     </tr>
     <tr>
       <td class="table__cell"><span class="tfa__method">Inner transfer</span></td>
       <td class="table__cell" style="text-align:center">
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-inner-transfer"
-                 [(ngModel)]="isTransferGoogleNotificationEnabled"
-                 (click)="enableTransferGoogleNotification()"><span class="radio__icon"></span>
+        <label for="" class="toggler settings__toggler">
+          <input type="checkbox" name=""
+                 [(ngModel)]="isOrdersNotificationEnabled"
+                 (click)="updateOrders()"
+          >
+          <span class="toggler__indicate"></span>
         </label>
+        <!--<label class="radio">-->
+          <!--<input class="radio__input" type="radio" name="radio-inner-transfer"-->
+                 <!--[(ngModel)]="isTransferGoogleNotificationEnabled"-->
+                 <!--(click)="enableTransferGoogleNotification()"><span class="radio__icon"></span>-->
+        <!--</label>-->
       </td>
       <!--<td class="table__cell" style="text-align:center">-->
         <!--<label class="radio">-->
@@ -130,13 +151,13 @@
           <!--<input class="radio__input" type="radio" name="radio-inner-transfer"><span class="radio__icon"></span>-->
         <!--</label>-->
       <!--</td>-->
-      <td class="table__cell" style="text-align:center">
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-inner-transfer"
-                 [(ngModel)]="isTransferNotificationDisabled"
-                 (click)="disableTransferNotification()"><span class="radio__icon"></span>
-        </label>
-      </td>
+      <!--<td class="table__cell" style="text-align:center">-->
+        <!--<label class="radio">-->
+          <!--<input class="radio__input" type="radio" name="radio-inner-transfer"-->
+                 <!--[(ngModel)]="isTransferNotificationDisabled"-->
+                 <!--(click)="disableTransferNotification()"><span class="radio__icon"></span>-->
+        <!--</label>-->
+      <!--</td>-->
     </tr>
   </table>
 

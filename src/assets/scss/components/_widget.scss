@@ -12,7 +12,7 @@
     margin-bottom: 16px;
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
-    &--mob{
+    &--mob {
       display: flex;
       height: 44px;
       justify-content: space-between;
@@ -23,29 +23,31 @@
     margin: 0 16px;
     padding-top: 8px;
   }
-  &__name-mob{
+  &__name-mob {
     font-size: 24px;
     display: flex;
     align-items: center;
-    img{
+    margin-left: 12px;
+    img {
       width: 21px;
       height: 21px;
       margin: 0 8px;
     }
   }
-  &__trade-title{
-    &--green{
+  &__trade-title {
+    margin-left: 0;
+    &--green {
       border-left: 4px solid $green;
       background: rgba(0, 180, 60, .1);
       background: linear-gradient(to right, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 30%, rgba(0, 180, 60, 0) 100%);
     }
-    &--red{
+    &--red {
       border-left: 4px solid $red;
       background: rgba(235, 87, 87, .1);
       background: linear-gradient(to right, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 30%, rgba(235, 87, 87, 0) 100%);
     }
   }
-  &__question{
+  &__question {
     display: none;
     padding-top: 8px;
   }
@@ -113,19 +115,19 @@
     height: calc(100% - 45px);
     overflow-x: hidden;
     overflow-y: scroll;
-    &--mob{
+    &--mob {
       display: block;
     }
   }
   &__tabs {
     margin: 0 16px;
-    &--hide-mob{
+    &--hide-mob {
       display: none;
     }
     .tabs__item {
       margin-right: 20px;
     }
-    .tabs__item--big{
+    .tabs__item--big {
       margin: 0;
     }
   }
@@ -136,17 +138,71 @@
     }
     .table__cell {
       z-index: 2;
+      padding: 2px 4px;
+      border: none;
+      background-color: transparent;
+    }
+  }
+  &__table-row {
+    display: table-row;
+    position: relative;
+    height: 24px;
+    &:nth-of-type(odd) {
+      background-color: unset;
+    }
+    &:hover {
+      background-color: rgba(35, 123, 239, 0.1);
+    }
+    &--green {
+      &:after {
+        position: absolute;
+        content: "";
+        left: 0;
+        width: 100%;
+        height: 24px;
+        z-index: 0;
+        background: rgba(0, 180, 60, .1);
+        background: -moz-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(0, 180, 60, .1)), color-stop(88%, rgba(0, 180, 60, .1)), color-stop(100%, rgba(0, 180, 60, 0)));
+        background: -webkit-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+        background: -o-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+        background: -ms-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+        background: linear-gradient(to left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+      }
+      .txt-indicate {
+        color: $green;
+      }
+    }
+    &--red {
+      &:after {
+        position: absolute;
+        content: "";
+        left: 0;
+        width: 100%;
+        height: 24px;
+        z-index: 0;
+        background: rgba(235, 87, 87, .1);
+        background: -moz-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(235, 87, 87, .1)), color-stop(88%, rgba(235, 87, 87, .1)), color-stop(100%, rgba(235, 87, 87, 0)));
+        background: -webkit-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+        background: -o-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+        background: -ms-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+        background: linear-gradient(to left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+      }
+      .txt-indicate {
+        color: $red;
+      }
     }
   }
   //trading
-  &__buy-sell-btn-wrap{
+  &__buy-sell-btn-wrap {
     display: flex;
     align-items: center;
     width: 100%;
     position: absolute;
     bottom: 0;
   }
-  &__buy-sell-btn{
+  &__buy-sell-btn {
     display: flex;
     width: 100%;
     height: 40px;
@@ -154,24 +210,32 @@
     justify-content: center;
     font-size: 18px;
     text-decoration: none;
-    &:hover{
+    &:hover {
       text-decoration: none;
     }
-    &--green{
-      color:$green;
+    &--green {
+      color: $green;
       background-color: rgba(0, 180, 61, 0.1);
       border-left: 4px solid;
       border-color: $green;
     }
-    &--red{
-      color:$red;
+    &--red {
+      color: $red;
       background-color: rgba(235, 87, 87, 0.1);
       border-right: 4px solid;
       border-color: $red;
     }
-    &--single{
-      border-left: 4px solid;
-      border-right: 4px solid;
+    &--single-green {
+      color: $green;
+      border-left: 4px solid $green;
+      border-right: 4px solid $green;
+      background-color: rgba(0, 180, 61, 0.1);
+    }
+    &--single-red {
+      color: $red;
+      border-left: 4px solid $red;
+      border-right: 4px solid $red;
+      background-color: rgba(235, 87, 87, 0.1);
     }
   }
   //chat start
@@ -320,6 +384,8 @@
   &__trading-form {
     display: none;
     &--mob {
+      max-width: 400px;
+      margin: 0 auto;
       display: block;
       padding: 0 16px;
     }
@@ -356,17 +422,17 @@
       text-align: left;
     }
   }
-  &__trading-row{
+  &__trading-row {
     margin-top: 24px;
   }
   &__trading-row-txt {
     margin-top: 8px;
     font-size: 12px;
     line-height: 14px;
-    .avaliable{
+    .avaliable {
       margin-top: 12px;
-      svg{
-        fill:$darker-blue;
+      svg {
+        fill: $darker-blue;
         vertical-align: middle;
         margin-right: 8px;
       }
@@ -378,11 +444,11 @@
       border-bottom: 1px dashed $darker-blue;
       text-decoration: none;
     }
-    .fee{
+    .fee {
       margin: 4px auto 0;
     }
   }
-  &__percent-row{
+  &__percent-row {
     margin-top: 8px;
     max-width: 304px;
     justify-content: space-between;
@@ -394,12 +460,13 @@
     }
 
   }
-  &__trading-btn{
+  &__trading-btn {
     width: 100%;
-    height: 53px;
+    max-width: 220px;
+    height: 40px;
     font-size: 18px;
-    max-width: none;
-    margin: 28px 0 0;
+    line-height: 40px;
+    margin: 28px auto 0;
   }
   //trading end
   /*--- elements end ---*/
@@ -419,7 +486,7 @@
     /*--- elements start ---*/
     &__header {
       display: flex;
-      &--mob{
+      &--mob {
         display: none;
       }
     }
@@ -430,12 +497,12 @@
     }
     &__content {
       display: block;
-      &--mob{
+      &--mob {
         display: none;
       }
     }
-    &__tabs{
-      &--hide-mob{
+    &__tabs {
+      &--hide-mob {
         display: flex;
       }
     }
@@ -456,63 +523,8 @@
         display: none;
       }
 
-      .table__cell {
-        padding: 2px 4px;
-        border: none;
-        background-color: transparent;
-      }
+    }
 
-    }
-    &__table-row {
-      position: relative;
-      height: 24px;
-      &:nth-of-type(odd) {
-        background-color: unset;
-      }
-      &:hover {
-        background-color: rgba(35, 123, 239, 0.1);
-      }
-      &--green {
-        &:after {
-          position: absolute;
-          content: "";
-          left: 0;
-          width: 100%;
-          height: 24px;
-          z-index: 0;
-          background: rgba(0, 180, 60, .1);
-          background: -moz-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
-          background: -webkit-gradient(left top, right top, color-stop(0%, rgba(0, 180, 60, .1)), color-stop(88%, rgba(0, 180, 60, .1)), color-stop(100%, rgba(0, 180, 60, 0)));
-          background: -webkit-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
-          background: -o-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
-          background: -ms-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
-          background: linear-gradient(to left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
-        }
-        .txt-indicate{
-          color:$green;
-        }
-      }
-      &--red {
-        &:after {
-          position: absolute;
-          content: "";
-          left: 0;
-          width: 100%;
-          height: 24px;
-          z-index: 0;
-          background: rgba(235, 87, 87, .1);
-          background: -moz-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
-          background: -webkit-gradient(left top, right top, color-stop(0%, rgba(235, 87, 87, .1)), color-stop(88%, rgba(235, 87, 87, .1)), color-stop(100%, rgba(235, 87, 87, 0)));
-          background: -webkit-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
-          background: -o-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
-          background: -ms-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
-          background: linear-gradient(to left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
-        }
-        .txt-indicate{
-          color:$red;
-        }
-      }
-    }
     &__search, &__send-message {
       position: absolute;
       bottom: 0;
@@ -586,15 +598,17 @@
         display: none;
       }
     }
-    &__limit-dropdown{
+    &__limit-dropdown {
       margin-right: 8px;
     }
     &__trading-row {
       margin-top: 24px;
     }
-    &__trading-btn{
+    &__trading-btn {
+      max-width: none;
+      height: 53px;
       font-size: 24px;
-        margin: 44px 0 0;
+      margin: 44px 0 0;
     }
 
     /*--- elements end ---*/
@@ -623,8 +637,8 @@
     &__name {
       color: $grey;
     }
-    &__name-mob{
-      color:#fff;
+    &__name-mob {
+      color: #fff;
     }
     &__question-img {
       svg {
@@ -711,16 +725,17 @@
     }
     &__trading-row-txt {
       .avaliable{
-        svg{
-          fill:$light-blue;
+        color:$light-blue;
+        svg {
+          fill: $light-blue;
         }
       }
       a {
         color: #fff;
         border-bottom: 1px dashed #fff;
       }
-      .fee{
-        color:$light-blue;
+      .fee {
+        color: $light-blue;
       }
     }
     /*--- elements end ---*/
@@ -729,7 +744,7 @@
 
 @media (min-width: 1200px) {
   .dark-theme {
-    .widget{
+    .widget {
       &--gradient {
         background: linear-gradient(to bottom, rgba(48, 49, 77, 1) 0%, rgba(35, 123, 239, .3) 100%);
       }
