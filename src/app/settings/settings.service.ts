@@ -12,7 +12,7 @@ export class SettingsService {
   apiUrl = environment.apiUrl;
   NICKNAME = 'nickname';
   SESSION = 'sessionInterval';
-  NOTIFICATIONS = 'notifications';
+  NOTIFICATIONS = 'notification';
 
   constructor(private authService: AuthService,
               private http: HttpClient) {}
@@ -44,6 +44,16 @@ export class SettingsService {
 
   updateEmailNotifications(options: NotificationOption[]): Observable<number> {
     return this.http.put<number>(this.getUrl(this.NOTIFICATIONS), options, {headers: MEDIA_TYPE_JSON});
+  }
+
+  public updateUserColorScheme(colorScheme: string): Observable<number> {
+    const body = {'SCHEME': colorScheme};
+    return this.http.put<number>(this.getUrl('color-schema'), body, {headers: MEDIA_TYPE_JSON});
+  }
+
+  public updateUserColorDepth(isLowColorEnabled: boolean): Observable<number> {
+    const body = {'STATE': isLowColorEnabled};
+    return this.http.put<number>(this.getUrl('isLowColorEnabled'), body, {headers: MEDIA_TYPE_JSON});
   }
 
   private getUrl(end: string) {

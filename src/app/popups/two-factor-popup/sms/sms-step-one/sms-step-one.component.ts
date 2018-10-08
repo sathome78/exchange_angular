@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {OnNextStep, PopupService} from '../../../services/popup.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {validate} from 'codelyzer/walkerFactory/walkerFn';
+import {OnNextStep, PopupService} from '../../../../services/popup.service';
 
 @Component({
   selector: 'app-sms-step-one',

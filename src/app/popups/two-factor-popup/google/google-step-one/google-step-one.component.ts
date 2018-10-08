@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {OnNextStep, PopupService} from '../../../services/popup.service';
+import {OnNextStep, PopupService} from '../../../../services/popup.service';
+
 
 @Component({
   selector: 'app-google-step-one',

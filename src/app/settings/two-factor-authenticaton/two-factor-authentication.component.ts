@@ -13,6 +13,11 @@ export class TwoFactorAuthenticationComponent implements OnInit {
   private isWithdrawalOpen: boolean;
   private isTransferOpen: boolean;
 
+
+  private isLoginNotificationEnabled: boolean;
+  private isWithdrawalNotificationEnabled: boolean;
+  private isTransferNotificationEnabled: boolean;
+
   constructor(private popupService: PopupService,
               private logger: LoggingService) {
   }
@@ -26,21 +31,52 @@ export class TwoFactorAuthenticationComponent implements OnInit {
     this.popupService.showTFAPopup(value);
   }
 
-  openLogin() {
-    this.isLoginOpen = !this.isLoginOpen;
-  }
 
   getSelectOptions(): string [] {
     const array: string[] = [];
-    array.push('By Google', 'By SMS', 'Telegram', 'Disable');
+    array.push('By Google', 'Disabled');
     return array;
   }
 
+  openLogin() {
+    this.closeDropdowns();
+    this.isLoginOpen = !this.isLoginOpen;
+  }
+
   openWithdrawal() {
+    this.closeDropdowns();
     this.isWithdrawalOpen = !this.isWithdrawalOpen;
   }
 
   openTransfer() {
+    this.closeDropdowns();
     this.isTransferOpen = !this.isTransferOpen;
+  }
+
+  closeDropdowns() {
+  this.isLoginOpen = false;
+  this.isWithdrawalOpen = false;
+  this.isTransferOpen = false;
+  }
+
+  toggleLoginNotification(provider: string, state: boolean) {
+    this.isLoginNotificationEnabled = state;
+    if (provider === 'GOOGLE') {
+
+    }
+  }
+
+  toggleWithdrawalNotification(provider: string, state: boolean) {
+    this.isWithdrawalNotificationEnabled = state;
+    if (provider === 'GOOGLE') {
+
+    }
+  }
+
+  toggleInnerTransferNotification(provider: string, state: boolean) {
+    this.isTransferNotificationEnabled = state;
+    if (provider === 'GOOGLE') {
+
+    }
   }
 }

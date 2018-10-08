@@ -7,6 +7,8 @@ import {IpAddress, UserService} from './services/user.service';
 import {IP_CHECKER_URL, IP_USER_KEY} from './services/http.utils';
 import {LoggingService} from './services/logging.service';
 import {HttpClient} from '@angular/common/http';
+import {NotificationsService} from './shared/components/notification/notifications.service';
+import {NotificationMessage} from './shared/models/notification-message.model';
 
 @Component({
   selector: 'app-root',
@@ -22,13 +24,16 @@ export class AppComponent implements OnInit, OnDestroy {
   loginSubscription: Subscription;
   isIdentityPopupOpen = false;
   isLoginPopupOpen = false;
+  /** notification messages array */
+  notificationMessages: NotificationMessage[];
 
   constructor(private popupService: PopupService,
               private router: Router,
               private themeService: ThemeService,
               private userService: UserService,
               private logger: LoggingService,
-              private http: HttpClient) {
+              private http: HttpClient,
+              private notificationService: NotificationsService) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
     this.setIp();
   }
@@ -38,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForIdentityEvent();
     this.subscribeForLoginEvent();
     // this.setClientIp();
+    this.subscribeForNotifications();
   }
 
   subscribeForTfaEvent() {
@@ -68,6 +74,10 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.themeService.isCurrentThemeDark();
   }
 
+  onNotificationMessageClose(index: number): void {
+    this.notificationMessages.splice(index, 1);
+  }
+
   ngOnDestroy(): void {
     this.tfaSubscription.unsubscribe();
     this.identitySubscription.unsubscribe();
@@ -79,6 +89,16 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe( response => {
         this.logger.debug(this, 'Client IP: ' + response.ip);
         localStorage.setItem(IP_USER_KEY, response.ip);
+      });
+  }
+
+  /**
+   * Subscription for app notifications
+   */
+  private subscribeForNotifications(): void {
+    this.notificationService.message
+      .subscribe((message: NotificationMessage) => {
+        this.notificationMessages.push(message);
       });
   }
 }
