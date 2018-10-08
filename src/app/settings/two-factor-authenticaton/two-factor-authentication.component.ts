@@ -14,9 +14,13 @@ export class TwoFactorAuthenticationComponent implements OnInit {
   private isTransferOpen: boolean;
 
 
-  private isLoginNotificationEnabled: boolean;
-  private isWithdrawalNotificationEnabled: boolean;
-  private isTransferNotificationEnabled: boolean;
+  isLoginNotificationDisabled = true;
+  isWithdrawalNotificationDisabled = true;
+  isTransferNotificationDisabled = true;
+
+  isLoginGoogleNotificationEnabled = false;
+  isWithdrawalGoogleNotificationEnabled = false;
+  isTransferGoogleNotificationEnabled = false;
 
   constructor(private popupService: PopupService,
               private logger: LoggingService) {
@@ -60,23 +64,58 @@ export class TwoFactorAuthenticationComponent implements OnInit {
   }
 
   toggleLoginNotification(provider: string, state: boolean) {
-    this.isLoginNotificationEnabled = state;
+    this.isLoginNotificationDisabled = !state;
     if (provider === 'GOOGLE') {
+      this.isLoginGoogleNotificationEnabled = state;
 
     }
   }
 
   toggleWithdrawalNotification(provider: string, state: boolean) {
-    this.isWithdrawalNotificationEnabled = state;
+    this.isWithdrawalNotificationDisabled = state;
     if (provider === 'GOOGLE') {
-
+      this.isWithdrawalGoogleNotificationEnabled = state;
     }
   }
 
   toggleInnerTransferNotification(provider: string, state: boolean) {
-    this.isTransferNotificationEnabled = state;
+    this.isTransferNotificationDisabled = state;
     if (provider === 'GOOGLE') {
+      this.isTransferGoogleNotificationEnabled = state;
 
     }
+  }
+
+  enableLoginGoogleNotification() {
+    this.isLoginNotificationDisabled = false;
+    this.isLoginGoogleNotificationEnabled = true;
+  }
+
+  disableLoginNotification() {
+    this.isLoginNotificationDisabled = true;
+    // todo disable google notification
+    this.isLoginGoogleNotificationEnabled = false;
+  }
+
+  enableWithdrawGoogleNotification() {
+    this.isWithdrawalNotificationDisabled = false;
+    this.isWithdrawalGoogleNotificationEnabled = true;
+  }
+
+  disableWithdrawNotification() {
+    this.isWithdrawalNotificationDisabled = true;
+    // todo disable google notification
+    this.isWithdrawalGoogleNotificationEnabled = false;
+  }
+
+  enableTransferGoogleNotification() {
+    this.isTransferNotificationDisabled = false;
+    this.isTransferGoogleNotificationEnabled = true;
+  }
+
+  disableTransferNotification() {
+    this.isTransferNotificationDisabled = true;
+    // todo disable google notification
+    this.isTransferGoogleNotificationEnabled = false;
   }
 }
