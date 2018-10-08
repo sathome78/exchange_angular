@@ -58,7 +58,8 @@
       <td class="table__cell" style="text-align:center">
         <label class="radio">
           <input class="radio__input" type="radio" name="radio-login"
-                 (click)="toggleLoginNotification('GOOGLE', false)">
+                 [(ngModel)]="isLoginGoogleNotificationEnabled"
+                 (click)="enableLoginGoogleNotification()">
           <span class="radio__icon"></span>
         </label>
       </td>
@@ -75,7 +76,8 @@
       <td class="table__cell" style="text-align:center">
         <label class="radio">
           <input class="radio__input" type="radio" name="radio-login"
-                 (click)="toggleLoginNotification('GOOGLE', false)">
+                 [(ngModel)]="isLoginNotificationDisabled"
+                 (click)="disableLoginNotification()">
           <span class="radio__icon"></span>
         </label>
       </td>
@@ -85,7 +87,8 @@
       <td class="table__cell" style="text-align:center">
         <label class="radio">
           <input class="radio__input" type="radio" name="radio-Withdrawal"
-                 (click)="toggleWithdrawalNotification('GOOGLE', true)">
+                 [(ngModel)]="isWithdrawalGoogleNotificationEnabled"
+                 (click)="enableWithdrawGoogleNotification()">
           <span class="radio__icon"></span>
         </label>
       </td>
@@ -102,7 +105,8 @@
       <td class="table__cell" style="text-align:center">
         <label class="radio">
           <input class="radio__input" type="radio" name="radio-Withdrawal"
-                 (click)="toggleWithdrawalNotification('GOOGLE', false)">
+                 [(ngModel)]="isWithdrawalNotificationDisabled"
+                 (click)="disableWithdrawNotification()">
           <span class="radio__icon"></span>
         </label>
       </td>
@@ -112,7 +116,8 @@
       <td class="table__cell" style="text-align:center">
         <label class="radio">
           <input class="radio__input" type="radio" name="radio-inner-transfer"
-                 (click)="toggleInnerTransferNotification('GOOGLE', true)"><span class="radio__icon"></span>
+                 [(ngModel)]="isTransferGoogleNotificationEnabled"
+                 (click)="enableTransferGoogleNotification()"><span class="radio__icon"></span>
         </label>
       </td>
       <!--<td class="table__cell" style="text-align:center">-->
@@ -128,7 +133,8 @@
       <td class="table__cell" style="text-align:center">
         <label class="radio">
           <input class="radio__input" type="radio" name="radio-inner-transfer"
-                 (click)="toggleInnerTransferNotification('GOOGLE', false)"><span class="radio__icon"></span>
+                 [(ngModel)]="isTransferNotificationDisabled"
+                 (click)="disableTransferNotification()"><span class="radio__icon"></span>
         </label>
       </td>
     </tr>
@@ -136,7 +142,7 @@
 
   <div class="subtitle settings__content-subtitle">Choose authentification method</div>
   <div class="row settings__buttons-row">
-    <div *ngIf="!isLoginNotificationEnabled && !isWithdrawalNotificationEnabled && !isTransferNotificationEnabled">
+    <div *ngIf="isLoginGoogleNotificationEnabled || isWithdrawalGoogleNotificationEnabled || isTransferGoogleNotificationEnabled">
         <button class="btn settings__btn" (click)="updateAuthProviderSettings('GOOGLE')">
           <span class="btn__icon btn__icon--blue btn__icon--hover-white">
             <svg width="22"  viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
