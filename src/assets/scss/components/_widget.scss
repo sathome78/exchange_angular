@@ -662,6 +662,9 @@
         }
       }
     }
+    &__table-row{
+      background-color: unset;
+    }
     &__scroll {
       background-color: rgba(255, 255, 255, .1);
     }
