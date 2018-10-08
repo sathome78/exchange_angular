@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoggingService} from '../../services/logging.service';
 import {SettingsService} from '../settings.service';
 import {HttpEvent, HttpEventType} from '@angular/common/http';
+import {NotificationsService} from '../../shared/components/notification/notifications.service';
 
 @Component({
   selector: 'app-password',
@@ -18,6 +19,7 @@ export class PasswordComponent implements OnInit {
   statusMessage: string;
 
   constructor(private logger: LoggingService,
+              private notificationService: NotificationsService,
               private settingsService: SettingsService) {
   }
 
@@ -45,7 +47,7 @@ export class PasswordComponent implements OnInit {
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
-
+  // TODO: refactor after api.
   onSubmit() {
     console.log(this.form);
     if (this.form.valid) {
@@ -66,6 +68,17 @@ export class PasswordComponent implements OnInit {
               this.statusMessage = 'Failed to update your password!';
             }
           });
+      this.notificationService.message.emit({
+        iconLink: './assets/img/shield.svg',
+        type: 'primary',
+        message: 'Your password is successfully updated!'
+      });
+    } else {
+      this.notificationService.message.emit({
+        iconLink: './assets/img/shield.svg',
+        type: 'error',
+        message: 'Failed to update your password!'
+      });
     }
   }
 
