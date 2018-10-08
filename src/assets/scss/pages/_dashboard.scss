@@ -6,10 +6,11 @@
   &__widget-wrap{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    //justify-content: space-between;
   }
   &__item{
     width: 100%;
+    min-height: calc(100vh - 60px);
   }
 
   /*--- elements end ---*/
@@ -20,6 +21,7 @@
 @media (min-width:1200px) {
   .dashboard{
     &__item{
+      min-height: auto;
       height: 450px;
       margin: 0 16px 20px;
       &--width1{

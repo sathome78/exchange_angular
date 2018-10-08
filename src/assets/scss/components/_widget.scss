@@ -1,24 +1,49 @@
 .widget {
+  height: 100%;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
   /*--- modificators start ---*/
-  &--gradient {
-    background: linear-gradient(to bottom, #F5F5F5 0%, #FDFDFD 50%, #F5F5F5 100%);
-  }
+
   /*--- modificators end ---*/
   /*--- elements start ---*/
   &__header {
     position: relative;
     display: none;
-    //align-items: center;
-    //padding-top: 8px;
     height: 29px;
     margin-bottom: 16px;
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
+    &--mob{
+      display: flex;
+      height: 44px;
+      justify-content: space-between;
+    }
   }
   &__name {
+    font-size: 14px;
     margin: 0 16px;
     padding-top: 8px;
+  }
+  &__name-mob{
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    img{
+      width: 21px;
+      height: 21px;
+      margin: 0 8px;
+    }
+  }
+  &__trade-title{
+    &--green{
+      border-left: 4px solid $green;
+      background: rgba(0, 180, 60, .1);
+      background: linear-gradient(to right, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 30%, rgba(0, 180, 60, 0) 100%);
+    }
+    &--red{
+      border-left: 4px solid $red;
+      background: rgba(235, 87, 87, .1);
+      background: linear-gradient(to right, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 30%, rgba(235, 87, 87, 0) 100%);
+    }
   }
   &__question{
     display: none;
@@ -49,7 +74,6 @@
   }
   &__controls-horizontal {
     display: none;
-    //align-items: center;
     padding-top: 8px;
     svg {
       fill: #000;
@@ -57,7 +81,6 @@
   }
   &__controls-vertical {
     display: none;
-    //align-items: center;
     margin-left: 28px;
     padding-top: 8px;
     svg {
@@ -85,14 +108,20 @@
     }
   }
   &__content {
+    display: none;
     position: relative;
-    height: calc(100% - 44px);
+    height: calc(100% - 45px);
     overflow-x: hidden;
     overflow-y: scroll;
+    &--mob{
+      display: block;
+    }
   }
   &__tabs {
-    //margin-top: 16px;
     margin: 0 16px;
+    &--hide-mob{
+      display: none;
+    }
     .tabs__item {
       margin-right: 20px;
     }
@@ -107,6 +136,42 @@
     }
     .table__cell {
       z-index: 2;
+    }
+  }
+  //trading
+  &__buy-sell-btn-wrap{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+  }
+  &__buy-sell-btn{
+    display: flex;
+    width: 100%;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    text-decoration: none;
+    &:hover{
+      text-decoration: none;
+    }
+    &--green{
+      color:$green;
+      background-color: rgba(0, 180, 61, 0.1);
+      border-left: 4px solid;
+      border-color: $green;
+    }
+    &--red{
+      color:$red;
+      background-color: rgba(235, 87, 87, 0.1);
+      border-right: 4px solid;
+      border-color: $red;
+    }
+    &--single{
+      border-left: 4px solid;
+      border-right: 4px solid;
     }
   }
   //chat start
@@ -259,6 +324,8 @@
     }
   }
   &__limit-dropdown {
+    align-self: center;
+    margin-right: 12px;
     .dropdown__btn {
       color: #000;
       padding-right: 16px;
@@ -288,9 +355,31 @@
       text-align: left;
     }
   }
+  &__trading-row{
+    margin-top: 24px;
+  }
+  &__trading-row-txt {
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 14px;
+    a {
+      color: $darker-blue;
+      padding-bottom: 1px;
+      display: inline-block;
+      border-bottom: 1px dashed $darker-blue;
+      text-decoration: none;
+    }
+  }
+  &__input {
+    width: 100%;
+    &--mr32 {
+      margin-right: 32px;
+    }
+  }
   &__trading-btn{
     width: 100%;
     height: 53px;
+    font-size: 18px;
     max-width: none;
     margin: 44px 0 0;
   }
@@ -299,9 +388,6 @@
 }
 
 /*--- media start ---*/
-@media (min-width: 600px) {
-}
-
 @media (min-width: 1200px) {
   .widget {
     -webkit-border-radius: 4px;
@@ -309,9 +395,31 @@
     border-radius: 4px;
     padding-bottom: 8px;
     height: 100%;
+    &--gradient {
+      background: linear-gradient(to bottom, #F5F5F5 0%, #FDFDFD 50%, #F5F5F5 100%);
+    }
     /*--- elements start ---*/
     &__header {
       display: flex;
+      &--mob{
+        display: none;
+      }
+    }
+    &__name {
+      font-size: 14px;
+      margin: 0 16px;
+      padding-top: 8px;
+    }
+    &__content {
+      display: block;
+      &--mob{
+        display: none;
+      }
+    }
+    &__tabs{
+      &--hide-mob{
+        display: flex;
+      }
     }
     &__table-wrap {
       position: relative;
@@ -460,27 +568,11 @@
         display: none;
       }
     }
+    &__limit-dropdown{
+      margin-right: 0;
+    }
     &__trading-row {
       margin-top: 24px;
-    }
-    &__trading-row-txt {
-      margin-top: 8px;
-      font-size: 12px;
-      line-height: 14px;
-      a {
-        color: $darker-blue;
-        padding-bottom: 1px;
-        display: inline-block;
-        border-bottom: 1px dashed $darker-blue;
-        text-decoration: none;
-
-      }
-    }
-    &__input {
-      width: 100%;
-      &--mr32 {
-        margin-right: 32px;
-      }
     }
     &__trading-btn{
       font-size: 24px;
@@ -504,15 +596,16 @@
 .dark-theme {
   .widget {
     box-shadow: none;
-    &--gradient {
-      background: linear-gradient(to bottom, rgba(246, 41, 12, 1) 0%, rgba(48, 49, 77, 1) 0%, rgba(35, 123, 239, .3) 100%);
-    }
+    background-color: $dark-indigo;
     /*--- elements start ---*/
     &__header {
       background-color: #3A3D5B;
     }
     &__name {
       color: $grey;
+    }
+    &__name-mob{
+      color:#fff;
     }
     &__question-img {
       svg {
@@ -609,6 +702,12 @@
 
 @media (min-width: 1200px) {
   .dark-theme {
+    .widget{
+      &--gradient {
+        background: linear-gradient(to bottom, rgba(48, 49, 77, 1) 0%, rgba(35, 123, 239, .3) 100%);
+      }
+    }
+
   }
 }
 
