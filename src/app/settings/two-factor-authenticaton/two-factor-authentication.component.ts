@@ -14,6 +14,10 @@ export class TwoFactorAuthenticationComponent implements OnInit {
   private isTransferOpen: boolean;
 
 
+  isLoginChecked = false;
+  isWithdrawalChecked = false;
+  isInnerTransferChecked = false;
+
   isLoginNotificationDisabled = true;
   isWithdrawalNotificationDisabled = true;
   isTransferNotificationDisabled = true;
@@ -28,6 +32,18 @@ export class TwoFactorAuthenticationComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  loginChoice() {
+    this.isLoginChecked = !this.isLoginChecked;
+  }
+
+  withdrawalChoice() {
+    this.isWithdrawalChecked = !this.isWithdrawalChecked;
+  }
+
+  innerTransferChoice() {
+    this.isInnerTransferChecked = !this.isInnerTransferChecked;
   }
 
   updateAuthProviderSettings(value: string) {
