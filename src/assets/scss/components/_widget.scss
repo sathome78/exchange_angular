@@ -321,6 +321,7 @@
     display: none;
     &--mob {
       display: block;
+      padding: 0 16px;
     }
   }
   &__limit-dropdown {
@@ -362,6 +363,14 @@
     margin-top: 8px;
     font-size: 12px;
     line-height: 14px;
+    .avaliable{
+      margin-top: 12px;
+      svg{
+        fill:$darker-blue;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+    }
     a {
       color: $darker-blue;
       padding-bottom: 1px;
@@ -369,19 +378,28 @@
       border-bottom: 1px dashed $darker-blue;
       text-decoration: none;
     }
+    .fee{
+      margin: 4px auto 0;
+    }
+  }
+  &__percent-row{
+    margin-top: 8px;
+    max-width: 304px;
+    justify-content: space-between;
   }
   &__input {
     width: 100%;
     &--mr32 {
       margin-right: 32px;
     }
+
   }
   &__trading-btn{
     width: 100%;
     height: 53px;
     font-size: 18px;
     max-width: none;
-    margin: 44px 0 0;
+    margin: 28px 0 0;
   }
   //trading end
   /*--- elements end ---*/
@@ -569,13 +587,14 @@
       }
     }
     &__limit-dropdown{
-      margin-right: 0;
+      margin-right: 8px;
     }
     &__trading-row {
       margin-top: 24px;
     }
     &__trading-btn{
       font-size: 24px;
+        margin: 44px 0 0;
     }
 
     /*--- elements end ---*/
@@ -691,9 +710,17 @@
       }
     }
     &__trading-row-txt {
+      .avaliable{
+        svg{
+          fill:$light-blue;
+        }
+      }
       a {
         color: #fff;
         border-bottom: 1px dashed #fff;
+      }
+      .fee{
+        color:$light-blue;
       }
     }
     /*--- elements end ---*/
