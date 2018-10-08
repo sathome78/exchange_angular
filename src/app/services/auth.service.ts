@@ -20,7 +20,7 @@ export class AuthService {
 
 
   public isAuthenticated(): boolean {
-    // localStorage.setItem(TOKEN, 'eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlbl9pZCI6MTQsImNsaWVudF9pcCI6IjA6MDowOjA6MDowOjA6MSIsImV4cGlyYXRpb24iOjE1Mzg3MjYwNDAyODMsInZhbHVlIjoiYWVhNDkyNDItNDA4Zi00MjkyLTkxOTItOGI2M2FjMzVkOTQ2IiwidXNlcm5hbWUiOiJvbGVnX3BvZG9saWFuQHVrci5uZXQifQ.O3U0kCcsk3WIaNF6QaQ_9RBhxKHmcmZn-A64W9lr7CJbPyLGctaieKWzkMM_R3c3k1j0AfGj_fbZ691aRSaKAw');
+    localStorage.setItem(TOKEN, 'eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlbl9pZCI6MjQsImNsaWVudF9pcCI6IjA6MDowOjA6MDowOjA6MSIsImV4cGlyYXRpb24iOjE1MzkwNzUzMTEyMTgsInZhbHVlIjoiOWNjOWY4MDMtMGQ1MC00ODkzLWI4MGYtMWE2YzJiNzBjMWJhIiwidXNlcm5hbWUiOiJvbGVnX3BvZG9saWFuQHVrci5uZXQifQ.GkkgSI_VsHtBiMn1sRVKfZiIQ5hvvOQuTz7OSdK7LCOJP_l72gh0FFP6xizTQDJ3z6DV_O0zitt7DTLS7BL0rg');
     const token = localStorage.getItem(TOKEN);
     if (token) {
       this.logger.debug(this, 'Token from local storage: ' + token.substring(0, 6));
