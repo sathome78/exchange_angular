@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'dashboard',      component: DashboardComponent },
   // { path: 'funds',      component: DashboardComponent, },ç
   // { path: 'orders',      component: DashboardComponent, },
-  { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
+  { path: 'settings',  component: SettingsComponent, /*canActivate: [AuthGuard], canActivateChild: [AuthGuard]*/},
   // { path: 'tfa-popup', component: TwoFactorPopupComponent },
   // { path: 'settings',  component: SettingsComponent,    loadChildren: 'app/settings/settings.module#SettingsModule' },
 
