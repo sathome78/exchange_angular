@@ -33,9 +33,16 @@ export class TwoFactorAuthenticationComponent implements OnInit {
               private settingsService: SettingsService) {
   }
 
+  // LOGIN: false
+  // TRANSFER: true
+  // WITHDRAW: true
   ngOnInit() {
     this.settingsService.getUserTwoFaNotificationSettings()
-      .subscribe(settings => console.log(settings),
+      .subscribe(settings => {
+          this.isLoginGoogleNotificationEnabled = settings['LOGIN'];
+          this.isWithdrawalGoogleNotificationEnabled = settings['WITHDRAW'];
+          this.isTransferGoogleNotificationEnabled = settings['TRANSFER'];
+      },
         err => console.log(err));
 
   }

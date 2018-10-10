@@ -6,6 +6,7 @@ import {LoggingService} from '../../services/logging.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {TokenHolder} from '../../model/token-holder.model';
+import {SettingsService} from '../../settings/settings.service';
 
 @Component({
   selector: 'app-login-popup',
@@ -21,11 +22,14 @@ export class LoginPopupComponent implements OnInit {
 
   statusMessage = '';
   inPineCodeMode = false;
+  twoFaAuthModeMessage = 'Pincode is sent to your email';
+
 
   constructor(private popupService: PopupService,
               private userService: UserService,
               private logger: LoggingService,
               private authService: AuthService,
+              private settingsService: SettingsService,
               private router: Router) {
   }
 
@@ -39,7 +43,7 @@ export class LoginPopupComponent implements OnInit {
         validators: [Validators.required],
         updateOn: 'blur'
       }),
-      'pin' : new FormControl(null, {validators: this.requiredPincode.bind(this)})
+      'pin': new FormControl(null, {validators: this.requiredPincode.bind(this)})
     });
     this.inPineCodeMode = false;
   }
@@ -84,6 +88,7 @@ export class LoginPopupComponent implements OnInit {
             } else if (status === 419) {
               this.statusMessage = 'Your ip is blocked!';
             } else if (status === 418) {
+              this.checkGoogleLoginEnabled(email);
               this.inPineCodeMode = true;
               if (this.pincodeAttempts > 0) {
                 this.statusMessage = 'Wrong pincode, new pincode is sent!';
@@ -97,6 +102,16 @@ export class LoginPopupComponent implements OnInit {
     }
   }
 
+  checkGoogleLoginEnabled(email: string): void {
+    this.userService.getUserGoogleLoginEnabled(email)
+      .subscribe(result => {
+          if (result) {
+            this.twoFaAuthModeMessage = 'Use google authenticator to generate pincode';
+          }
+        },
+        err => console.log(err));
+  }
+
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
@@ -106,7 +121,7 @@ export class LoginPopupComponent implements OnInit {
   }
 
   requiredPincode(pin: FormControl): { [s: string]: boolean } {
-    if (this.inPineCodeMode && (pin.value === undefined ||  pin.value === '')) {
+    if (this.inPineCodeMode && (pin.value === undefined || pin.value === '')) {
       return {'pinRequired': true};
     }
     return null;
