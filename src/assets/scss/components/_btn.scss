@@ -18,7 +18,7 @@
     cursor: pointer;
     color: #fff;
     border-color: transparent;
-    background-color: $blue;
+    background-color: $darker-blue;
 
     .btn__icon--hover-white {
       svg {
@@ -60,6 +60,27 @@
       background-color: $red;
     }
   }
+  &--empty-red{
+    color: $red;
+    border-color: $red;
+    background-color: transparent;
+    &:hover {
+      color:#fff;
+      background-color: $red;
+    }
+    &:focus {
+      color:#fff;
+      background-color: $red;
+    }
+  }
+  &--empty-blue{
+    background-color: transparent;
+    border-color: $darker-blue;
+    color:$darker-blue;
+    &:hover{
+      background-color: $darker-blue;
+    }
+  }
   // positions
   &--center {
     margin: 0 auto;
@@ -97,6 +118,7 @@
     svg {
       vertical-align: top;
       width: 100%;
+      height: 100%;
     }
 
     &--blue {
@@ -118,3 +140,49 @@
   }
 }
 /*--- media end ---*/
+/*--- DARK THEME START---*/
+.dark-theme{
+  .btn{
+    color: #fff;
+    background-color: $darker-blue;
+    &--empty-red{
+      color: $red;
+      border-color: $red;
+      background-color: transparent;
+      &:hover {
+        color:#fff;
+        border-color: $red;
+        background-color: $red;
+      }
+      &:focus {
+        color:#fff;
+        border-color: $red;
+        background-color: $red;
+      }
+    }
+    &--empty-blue{
+      background-color: transparent;
+      color: $light-blue;
+      border-color: $light-blue;
+      &:hover{
+        color:#fff;
+        background-color: $light-blue;
+      }
+      &:focus{
+        color:#fff;
+        background-color: $light-blue;
+      }
+    }
+    &__icon{
+      &--blue {
+        svg {
+          fill: #fff;
+        }
+      }
+    }
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{}
+}
+/*--- DARK THEME END---*/

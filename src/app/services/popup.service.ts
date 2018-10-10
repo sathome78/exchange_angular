@@ -101,7 +101,7 @@ export class PopupService {
     map.set(1, 'Download App');
     map.set(2, 'Scan QR-code');
     map.set(3, 'Save backup code');
-    map.set(4, 'Enter the code');
+    // map.set(4, 'Enter the code');
     return map;
   }
 

@@ -47,3 +47,6 @@ https://stackoverflow.com/questions/47936183/angular-file-upload
 
 file upload preview
 https://stackblitz.com/edit/angular-file-upload-preview?file=app%2Fapp.component.ts
+
+qr code:
+https://www.npmjs.com/package/angular2-qrcode

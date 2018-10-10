@@ -1,0 +1,759 @@
+.widget {
+  height: 100%;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+  /*--- modificators start ---*/
+
+  /*--- modificators end ---*/
+  /*--- elements start ---*/
+  &__header {
+    position: relative;
+    display: none;
+    height: 29px;
+    margin-bottom: 16px;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    &--mob {
+      display: flex;
+      height: 44px;
+      justify-content: space-between;
+    }
+  }
+  &__name {
+    font-size: 14px;
+    margin: 0 16px;
+    padding-top: 8px;
+  }
+  &__name-mob {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    margin-left: 12px;
+    img {
+      width: 21px;
+      height: 21px;
+      margin: 0 8px;
+    }
+  }
+  &__trade-title {
+    margin-left: 0;
+    &--green {
+      border-left: 4px solid $green;
+      background: rgba(0, 180, 60, .1);
+      background: linear-gradient(to right, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 30%, rgba(0, 180, 60, 0) 100%);
+    }
+    &--red {
+      border-left: 4px solid $red;
+      background: rgba(235, 87, 87, .1);
+      background: linear-gradient(to right, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 30%, rgba(235, 87, 87, 0) 100%);
+    }
+  }
+  &__question {
+    display: none;
+    padding-top: 8px;
+  }
+  &__question-img {
+    svg {
+      fill: #000;
+    }
+  }
+  &__dots {
+    position: absolute;
+    left: calc(50% - 11px);
+    display: block;
+    top: 12px;
+    width: 22px;
+    height: 9px;
+    background-image: url('assets/img/widget-dots.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &__controls {
+    display: flex;
+    margin-left: auto;
+  }
+  &__controls-horizontal {
+    display: none;
+    padding-top: 8px;
+    svg {
+      fill: #000;
+    }
+  }
+  &__controls-vertical {
+    display: none;
+    margin-left: 28px;
+    padding-top: 8px;
+    svg {
+      fill: #000;
+    }
+  }
+  &__controls-plus, &__controls-minus {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &__controls-horizontal-img, &__controls-vertical-img {
+    margin: 0 12px;
+  }
+  &__controls-close {
+    margin-left: 36px;
+    margin-right: 16px;
+    padding-top: 11px;
+    &:hover {
+      cursor: pointer;
+    }
+    svg {
+      vertical-align: top;
+      fill: #000;
+    }
+  }
+  &__content {
+    display: none;
+    position: relative;
+    height: calc(100% - 45px);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    &--mob {
+      display: block;
+    }
+  }
+  &__tabs {
+    margin: 0 16px;
+    &--hide-mob {
+      display: none;
+    }
+    .tabs__item {
+      margin-right: 20px;
+    }
+    .tabs__item--big {
+      margin: 0;
+    }
+  }
+  &__table {
+    display: none;
+    &--mob {
+      display: table;
+    }
+    .table__cell {
+      z-index: 2;
+      padding: 2px 4px;
+      border: none;
+      background-color: transparent;
+    }
+  }
+  &__table-row {
+    display: table-row;
+    position: relative;
+    height: 24px;
+    &:nth-of-type(odd) {
+      background-color: unset;
+    }
+    &:hover {
+      background-color: rgba(35, 123, 239, 0.1);
+    }
+    &--green {
+      &:after {
+        position: absolute;
+        content: "";
+        left: 0;
+        width: 100%;
+        height: 24px;
+        z-index: 0;
+        background: rgba(0, 180, 60, .1);
+        background: -moz-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(0, 180, 60, .1)), color-stop(88%, rgba(0, 180, 60, .1)), color-stop(100%, rgba(0, 180, 60, 0)));
+        background: -webkit-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+        background: -o-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+        background: -ms-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+        background: linear-gradient(to left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+      }
+      .txt-indicate {
+        color: $green;
+      }
+    }
+    &--red {
+      &:after {
+        position: absolute;
+        content: "";
+        left: 0;
+        width: 100%;
+        height: 24px;
+        z-index: 0;
+        background: rgba(235, 87, 87, .1);
+        background: -moz-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(235, 87, 87, .1)), color-stop(88%, rgba(235, 87, 87, .1)), color-stop(100%, rgba(235, 87, 87, 0)));
+        background: -webkit-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+        background: -o-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+        background: -ms-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+        background: linear-gradient(to left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+      }
+      .txt-indicate {
+        color: $red;
+      }
+    }
+  }
+  //trading
+  &__buy-sell-btn-wrap {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+  }
+  &__buy-sell-btn {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    text-decoration: none;
+    &:hover {
+      text-decoration: none;
+    }
+    &--green {
+      color: $green;
+      background-color: rgba(0, 180, 61, 0.1);
+      border-left: 4px solid;
+      border-color: $green;
+    }
+    &--red {
+      color: $red;
+      background-color: rgba(235, 87, 87, 0.1);
+      border-right: 4px solid;
+      border-color: $red;
+    }
+    &--single-green {
+      color: $green;
+      border-left: 4px solid $green;
+      border-right: 4px solid $green;
+      background-color: rgba(0, 180, 61, 0.1);
+    }
+    &--single-red {
+      color: $red;
+      border-left: 4px solid $red;
+      border-right: 4px solid $red;
+      background-color: rgba(235, 87, 87, 0.1);
+    }
+  }
+  //chat start
+  &__chat-wrap {
+    margin-right: 32px;
+    margin-left: 16px;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-bottom: 60px;
+  }
+  &__message-wrap {
+    display: flex;
+    margin-bottom: 4px;
+    &--left {
+      .widget__message-icon {
+        margin-right: 8px;
+      }
+      .widget__message {
+        text-align: left;
+        margin-right: 28px;
+        background-color: $darker-white;
+        &:after {
+          left: -4px;
+          border-right: 4px solid $darker-white;
+        }
+      }
+      .widget__message-time {
+        margin-left: auto;
+      }
+    }
+    &--right {
+      .widget__message-icon {
+        margin-left: 8px;
+      }
+      .widget__message {
+        text-align: right;
+        margin-left: auto;
+        background-color: $light-aqua;
+        &:after {
+          right: -4px;
+          border-left: 4px solid $darker-white;
+        }
+      }
+      .widget__message-time {
+        margin-left: 8px;
+      }
+    }
+  }
+  &__message-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    width: 100%;
+    max-width: 28px;
+    height: 28px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background-color: #94C2FF;
+    img {
+      width: 100%;
+    }
+    span {
+      position: absolute;
+      font-size: 18px;
+      color: #fff
+    }
+  }
+  &__message {
+    position: relative;
+    padding: 8px 12px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    &:after {
+      content: "";
+      position: absolute;
+      display: inline-block;
+      top: 8px;
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+    }
+  }
+  &__message-nickname {
+    font-size: 12px;
+    line-height: 14px;
+    color: $darker-blue;
+    &--hide {
+      display: none;
+    }
+  }
+  &__message-text {
+    line-height: 16px;
+  }
+  &__message-time {
+    font-size: 12px;
+    line-height: 14px;
+    color: $grey;
+    opacity: .5;
+    margin-top: 12px;
+  }
+  &__message-day {
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-size: 18px;
+    color: $grey;
+    text-align: center;
+  }
+  &__send-message {
+    position: relative;
+    position: absolute;
+    bottom: 0;
+    width: calc(100% - 32px);
+    margin: 0 16px;
+    background-color: #fff;
+    border: 1px solid $grey;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
+  }
+  &__send-input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    height: 36px;
+    padding: 0 12px;
+    padding-right: 30px;
+    border: none;
+    font-size: 14px;
+    &:focus {
+      outline: none;
+    }
+  }
+  &__input-img {
+    &--hide-mob {
+      display: none;
+    }
+
+  }
+  //chat end
+  //trading start
+  &__trading-form {
+    display: none;
+    &--mob {
+      max-width: 400px;
+      margin: 0 auto;
+      display: block;
+      padding: 0 16px;
+    }
+  }
+  &__limit-dropdown {
+    align-self: center;
+    margin-right: 12px;
+    .dropdown__btn {
+      color: #000;
+      padding-right: 16px;
+      &:before {
+        content: "";
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        margin-right: 8px;
+        background-image: url('assets/img/limit-order.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        -webkit-background-size: 100%;
+        background-size: 100%;
+      }
+      &:after {
+        border-top-color: #000;
+      }
+
+    }
+    .dropdown__list {
+      border: none;
+    }
+    .dropdown__item {
+      color: #000;
+      padding: 8px;
+      text-align: left;
+    }
+  }
+  &__trading-row {
+    margin-top: 24px;
+  }
+  &__trading-row-txt {
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 14px;
+    .avaliable {
+      margin-top: 12px;
+      svg {
+        fill: $darker-blue;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+    }
+    a {
+      color: $darker-blue;
+      padding-bottom: 1px;
+      display: inline-block;
+      border-bottom: 1px dashed $darker-blue;
+      text-decoration: none;
+    }
+    .fee {
+      margin: 4px auto 0;
+    }
+  }
+  &__percent-row {
+    margin-top: 8px;
+    max-width: 304px;
+    justify-content: space-between;
+  }
+  &__input {
+    width: 100%;
+    &--mr32 {
+      margin-right: 32px;
+    }
+
+  }
+  &__trading-btn {
+    width: 100%;
+    max-width: 220px;
+    height: 40px;
+    font-size: 18px;
+    line-height: 40px;
+    margin: 28px auto 0;
+  }
+  //trading end
+  /*--- elements end ---*/
+}
+
+/*--- media start ---*/
+@media (min-width: 1200px) {
+  .widget {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    padding-bottom: 8px;
+    height: 100%;
+    &--gradient {
+      background: linear-gradient(to bottom, #F5F5F5 0%, #FDFDFD 50%, #F5F5F5 100%);
+    }
+    /*--- elements start ---*/
+    &__header {
+      display: flex;
+      &--mob {
+        display: none;
+      }
+    }
+    &__name {
+      font-size: 14px;
+      margin: 0 16px;
+      padding-top: 8px;
+    }
+    &__content {
+      display: block;
+      &--mob {
+        display: none;
+      }
+    }
+    &__tabs {
+      &--hide-mob {
+        display: flex;
+      }
+    }
+    &__table-wrap {
+      position: relative;
+      height: 100%;
+      margin-right: 24px;
+      &--ml16 {
+        margin-left: 16px;
+      }
+    }
+    &__table {
+      margin-top: 4px;
+      display: table;
+      border-collapse: collapse;
+      position: relative;
+      &--mob {
+        display: none;
+      }
+
+    }
+
+    &__search, &__send-message {
+      position: absolute;
+      bottom: 0;
+      width: calc(100% - 32px);
+      margin: 0 16px 0 16px;
+      background-color: #fff;
+      border: 1px solid $grey;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
+    }
+    &__search-input {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      height: 36px;
+      padding: 0 12px;
+      padding-right: 30px;
+      border: none;
+      font-size: 14px;
+      &:focus {
+        outline: none;
+      }
+    }
+    &__send-input {
+      padding-right: 68px;
+    }
+    &__input-img {
+      position: absolute;
+      right: 12px;
+      top: 10px;
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      &--hide-mob {
+        display: inline-block;
+      }
+      &--second-icon {
+        right: 42px;
+      }
+      img {
+        width: 100%;
+      }
+    }
+    &__scroll {
+      position: absolute;
+      top: 0;
+      right: -6px;
+      width: 3px;
+      height: 100%;
+      background-color: $darker-white;
+      text-align: center;
+    }
+    &__scroll-inner {
+      position: absolute;
+      top: 5px;
+      left: 1px;
+      display: inline-block;
+      background-color: $dark-indigo;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+      width: 1px;
+      height: 60%;
+    }
+    &__trading-form {
+      display: block;
+      margin: 0 16px;
+      &--mob {
+        display: none;
+      }
+    }
+    &__limit-dropdown {
+      margin-right: 8px;
+    }
+    &__trading-row {
+      margin-top: 24px;
+    }
+    &__trading-btn {
+      max-width: none;
+      height: 53px;
+      font-size: 24px;
+      margin: 44px 0 0;
+    }
+
+    /*--- elements end ---*/
+  }
+}
+
+@media (min-width: 1440px) {
+  .widget {
+    &__controls-horizontal, &__controls-vertical {
+      display: flex;
+      //display: none;
+    }
+  }
+}
+
+/*--- media end ---*/
+/*--- DARK THEME START---*/
+.dark-theme {
+  .widget {
+    box-shadow: none;
+    background-color: $dark-indigo;
+    /*--- elements start ---*/
+    &__header {
+      background-color: #3A3D5B;
+    }
+    &__name {
+      color: $grey;
+    }
+    &__name-mob {
+      color: #fff;
+    }
+    &__question-img {
+      svg {
+        fill: #fff;
+      }
+    }
+    &__controls-horizontal, &__controls-vertical {
+      svg {
+        fill: #fff;
+      }
+    }
+    &__controls-close {
+      svg {
+        fill: #fff;
+      }
+    }
+    &__table {
+      .table__row {
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+    &__table-row{
+      background-color: unset;
+    }
+    &__scroll {
+      background-color: rgba(255, 255, 255, .1);
+    }
+
+    &__message-wrap {
+      &--left {
+        .widget__message {
+          background-color: rgba(25, 26, 57, 0.5);
+          &:after {
+            border-right: 4px solid rgba(25, 26, 57, 0.5);
+          }
+        }
+        .widget__message-text {
+          color: #fff;
+        }
+      }
+      &--right {
+        .widget__message {
+          background-color: $darker-white;
+          &:after {
+            border-left: 4px solid $darker-white;
+          }
+        }
+        .widget__message-text {
+          color: #000;
+        }
+      }
+    }
+    &__limit-dropdown {
+      .dropdown__btn {
+        color: #fff;
+        &:after {
+          border-top-color: #fff;
+        }
+      }
+      .dropdown__list {
+        border: none;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        background-color: $dark-indigo;
+      }
+      .dropdown__item {
+        color: #fff;
+        &:hover {
+          background-color: $darker-blue;
+        }
+      }
+    }
+    .wrap-input__input {
+      &:focus {
+        ˜.wrap-input__label {
+          background-color: #253E71;
+        }
+      }
+      &:valid {
+        ~ .wrap-input__label {
+          background-color: #253E71;
+        }
+      }
+    }
+    &__trading-row-txt {
+      .avaliable{
+        color:$light-blue;
+        svg {
+          fill: $light-blue;
+        }
+      }
+      a {
+        color: #fff;
+        border-bottom: 1px dashed #fff;
+      }
+      .fee {
+        color: $light-blue;
+      }
+    }
+    /*--- elements end ---*/
+  }
+}
+
+@media (min-width: 1200px) {
+  .dark-theme {
+    .widget {
+      &--gradient {
+        background: linear-gradient(to bottom, rgba(48, 49, 77, 1) 0%, rgba(35, 123, 239, .3) 100%);
+      }
+    }
+
+  }
+}
+
+/*--- DARK THEME END---*/

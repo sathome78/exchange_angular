@@ -137,6 +137,7 @@
     &__sidebar-title {
       display: block;
       margin-bottom: 32px;
+      margin-left: 21px;
     }
 
     &__content {
@@ -206,3 +207,14 @@
   }
 }
 /*--- media end ---*/
+
+.dark-theme{
+  .settings{
+    &__sidebar{
+      border-color: #24253F;
+    }
+    &__toggler-text{
+      color:$light-blue;
+    }
+  }
+}

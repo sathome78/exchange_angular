@@ -4,6 +4,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {SettingsModule} from './settings/settings.module';
 import {SettingsComponent} from './settings/settings.component';
 import {TwoFactorPopupComponent} from './popups/two-factor-popup/two-factor-popup.component';
+import {AuthGuard} from './services/auth.guard';
 
 
 const routes: Routes = [
@@ -11,8 +12,8 @@ const routes: Routes = [
   { path: 'dashboard',      component: DashboardComponent },
   // { path: 'funds',      component: DashboardComponent, },ç
   // { path: 'orders',      component: DashboardComponent, },
-  { path: 'settings',  component: SettingsComponent },
-  { path: 'tfa-popup', component: TwoFactorPopupComponent },
+  { path: 'settings',  component: SettingsComponent, /*canActivate: [AuthGuard], canActivateChild: [AuthGuard]*/},
+  // { path: 'tfa-popup', component: TwoFactorPopupComponent },
   // { path: 'settings',  component: SettingsComponent,    loadChildren: 'app/settings/settings.module#SettingsModule' },
 
 
@@ -27,6 +28,7 @@ const routes: Routes = [
   // // { path: 'referral',       component: ReferralComponent },
   // // {path: 'test', component: TestComponent },
 
+  // {path: '', pathMatch: 'full', redirectTo: '/settings'} // remove after demo
   {path: '', pathMatch: 'full', redirectTo: '/dashboard'}
 ];
 

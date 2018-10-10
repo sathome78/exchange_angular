@@ -19,7 +19,7 @@
   &__cell-head {
     padding: 20px 10px;
     color: #000;
-    font-weight: 700;
+    font-weight: 400;
 
     &--tal {
       text-align: left;
@@ -38,23 +38,27 @@
     }
 
     &--p8 {
-      padding-top: 8px;
-      padding-bottom: 8px;
+      padding: 8px 0;
+    }
+    &--p4 {
+      padding: 4px;
     }
   }
 
   &__cell-head-arr {
     margin-right: 4px;
+    fill: #000;
   }
 
   &__body {
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
-
     &--none-shadow {
       box-shadow: none;
     }
   }
-
+  &__row-btn {
+    display: none;
+  }
   &__row {
     display: none;
     position: relative;
@@ -67,22 +71,40 @@
       background-color: #deebfd;
       cursor: pointer;
 
-      .table__cell-button {
-        display: -webkit-flex;
-        display: -ms-flex;
-        display: flex;
+      .table__row-btn {
+        display: inline-block;
+      }
+
+      .table__row-star {
+        svg {
+          display: inline-block;
+        }
       }
     }
 
     &--mob {
       display: table-row;
-
       &:hover {
         background-color: #deebfd;
         cursor: pointer;
       }
     }
   }
+  &__row-star {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    svg {
+      display: none;
+      fill: $dark-indigo;
+    }
+    &:hover {
+      svg {
+        fill: #FFB74C;
+      }
+    }
+  }
+
   &__cell {
     position: relative;
     padding: 8px 10px;
@@ -111,13 +133,24 @@
       padding: 8px;
     }
   }
-
+  &__date-time {
+    div:nth-child(2) {
+      color: $grey;
+      font-size: 10px;
+      line-height: 12px;
+    }
+  }
   /*--- elements end ---*/
 }
+
 /*--- media start ---*/
-@media (min-width:600px) {}
-@media (min-width:900px) {}
-@media (min-width:1200px) {
+@media (min-width: 600px) {
+}
+
+@media (min-width: 900px) {
+}
+
+@media (min-width: 1200px) {
   .table {
     display: table;
 
@@ -140,4 +173,29 @@
     }
   }
 }
+
 /*--- media end ---*/
+/*--- DARK THEME START---*/
+.dark-theme {
+  .table {
+    color: #fff;
+    &__cell-head {
+      color: #90A0BE;
+    }
+    &__cell-head-arr {
+      fill: #90A0BE;;
+    }
+    &__row {
+      &:nth-of-type(odd) {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .dark-theme {
+  }
+}
+
+/*--- DARK THEME END---*/

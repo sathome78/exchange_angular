@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {PopupService} from '../../services/popup.service';
 import {LoggingService} from '../../services/logging.service';
+import {SettingsService} from '../settings.service';
+import {NotificationUserSetting} from './notification-user-setting.model';
 
 @Component({
   selector: 'app-two-factor-authentication',
@@ -13,12 +15,74 @@ export class TwoFactorAuthenticationComponent implements OnInit {
   private isWithdrawalOpen: boolean;
   private isTransferOpen: boolean;
 
+
+  // isLoginChecked = false;
+  // isWithdrawalChecked = false;
+  // isInnerTransferChecked = false;
+  //
+  // isLoginNotificationDisabled = true;
+  // isWithdrawalNotificationDisabled = true;
+  // isTransferNotificationDisabled = true;
+
+  isLoginGoogleNotificationEnabled = false;
+  isWithdrawalGoogleNotificationEnabled = false;
+  isTransferGoogleNotificationEnabled = false;
+
   constructor(private popupService: PopupService,
-              private logger: LoggingService) {
+              private logger: LoggingService,
+              private settingsService: SettingsService) {
   }
 
   ngOnInit() {
+    this.settingsService.getUserTwoFaNotificationSettings()
+      .subscribe(settings => console.log(settings),
+        err => console.log(err));
 
+  }
+
+  toggleLoginGoogleNotification() {
+    this.isLoginGoogleNotificationEnabled = !this.isLoginGoogleNotificationEnabled;
+    const settings = NotificationUserSetting
+      .builder()
+      .withLogin().build();
+    if (this.isLoginGoogleNotificationEnabled) {
+      settings.byGoogle();
+    } else {
+      settings.disable();
+    }
+    this.update(settings);
+  }
+
+  toggleWithdrawalGoogleNotification() {
+    this.isWithdrawalGoogleNotificationEnabled = !this.isWithdrawalGoogleNotificationEnabled;
+    const settings = NotificationUserSetting
+      .builder()
+      .withWithdraw()
+      .build();
+    if (this.isWithdrawalGoogleNotificationEnabled) {
+      settings.byGoogle();
+    } else {
+      settings.disable();
+    }
+    this.update(settings);
+  }
+
+  toggleTransferGoogleNotification() {
+    this.isTransferGoogleNotificationEnabled = !this.isTransferGoogleNotificationEnabled;
+    const settings = NotificationUserSetting
+      .builder()
+      .withTransfer().build();
+    if (this.isTransferGoogleNotificationEnabled) {
+      settings.byGoogle();
+    } else {
+      settings.disable();
+    }
+    this.update(settings);
+  }
+
+  private update(setting: NotificationUserSetting): void {
+    this.settingsService.updateUserNotificationSettings(setting).subscribe(resp => console.log(resp),
+      err => console.log(err));
   }
 
   updateAuthProviderSettings(value: string) {
@@ -26,21 +90,32 @@ export class TwoFactorAuthenticationComponent implements OnInit {
     this.popupService.showTFAPopup(value);
   }
 
-  openLogin() {
-    this.isLoginOpen = !this.isLoginOpen;
-  }
 
   getSelectOptions(): string [] {
     const array: string[] = [];
-    array.push('By Google', 'By SMS', 'Telegram', 'Disable');
+    array.push('By Google', 'Disabled');
     return array;
   }
 
+  openLogin() {
+    this.closeDropdowns();
+    this.isLoginOpen = !this.isLoginOpen;
+  }
+
   openWithdrawal() {
+    this.closeDropdowns();
     this.isWithdrawalOpen = !this.isWithdrawalOpen;
   }
 
   openTransfer() {
+    this.closeDropdowns();
     this.isTransferOpen = !this.isTransferOpen;
   }
+
+  closeDropdowns() {
+  this.isLoginOpen = false;
+  this.isWithdrawalOpen = false;
+  this.isTransferOpen = false;
+  }
+
 }

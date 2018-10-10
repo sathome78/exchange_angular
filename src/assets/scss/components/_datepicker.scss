@@ -15,16 +15,20 @@
 
 .selectiongroup {
   height: 100%;
+  background-color: transparent !important;
 }
 
 .mydp .selection {
   height: 45px !important;
   padding: 0 !important;
+  background-color: transparent !important;
+  color: #000 !important;
 }
 
 .btnclear, .btnpicker {
   display: inline-block;
   vertical-align: middle;
+  background-color: transparent !important;
 }
 
 .icon-mydpcalendar {
@@ -46,3 +50,18 @@
 @media (min-width:900px) {}
 @media (min-width:1200px) {}
 /*--- media end ---*/
+/*--- DARK THEME START---*/
+.dark-theme{
+  .mydp {
+    border: 1px solid $light-blue !important;
+    border-bottom: none !important;
+  }
+  .mydp .selection {
+    color:#fff !important;
+    //background-color: $dark-indigo !important;
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{}
+}
+/*--- DARK THEME END---*/

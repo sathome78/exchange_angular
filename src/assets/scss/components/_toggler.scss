@@ -56,3 +56,15 @@
   }
   /*--- elements end ---*/
 }
+/*--- DARK THEME START---*/
+.dark-theme{
+  .toggler{
+    &__indicate{
+      background-color: #525F73;
+    }
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{}
+}
+/*--- DARK THEME END---*/

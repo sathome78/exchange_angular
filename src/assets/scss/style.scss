@@ -7,12 +7,14 @@
 @import "components/page-title";
 @import "components/title";
 @import "components/subtitle";
-@import "components/table";
 @import "components/btn";
+@import "components/arrow";
+@import "components/table";
 @import "components/input";
 @import "components/input-file";
 @import "components/select";
 @import "components/datepicker";
+@import "components/dropdown";
 @import "components/row";
 @import "components/link";
 @import "components/toggler";
@@ -21,15 +23,19 @@
 @import "components/paginator";
 @import "components/notification-popup";
 @import "components/steps";
+@import "components/tabs";
 @import "components/chat-btn";
 @import "components/back-to";
 @import "components/overlay";
 @import "components/sidebar-menu";
 @import "components/note";
+@import "components/widget";
+@import "components/currency-pair-info";
 //@import "components/footer";
 @import "components/modal";
 /*--- PAGES ---*/
 @import "pages/login-registration";
+@import "pages/dashboard";
 @import "pages/settings/settings";
 @import "pages/settings/2fa/settings-2fa";
 @import "pages/settings/nickname/settings-nickname";

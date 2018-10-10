@@ -1,10 +1,10 @@
 .chat {
   display: none;
   @media (min-width:1200px) {
-    position: absolute;
+    position: fixed;
     z-index: 950;
     right: 32px;
-    bottom: 20%;
+    bottom: 15%;
     display: -webkit-flex;
     display: -ms-flex;
     display: flex;

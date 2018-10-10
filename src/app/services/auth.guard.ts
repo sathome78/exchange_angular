@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
 import {AuthService} from './auth.service';
+import {TOKEN} from './http.utils';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
@@ -11,14 +12,15 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean>|Promise<boolean>|boolean {
-    if (localStorage.getItem('currentUser')
+    if (localStorage.getItem(TOKEN)
         && this.authService.isAuthenticated()) {
       // logged in - threfore access granted
       return true;
     }
 
     // otherwise redirected to login page
-    this.router.navigate(['/']);
+    // this.router.navigate(['/']);
+    this.router.navigate(['/settings']);
     return false;
   }
 
@@ -26,7 +28,8 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     if (this.authService.isAuthenticated()) {
       return true;
     }
-    this.router.navigate(['/dashboard']);
+    // this.router.navigate(['/dashboard']); // todo remove after demo
+    this.router.navigate(['/settings']);
     return false;
   }
 

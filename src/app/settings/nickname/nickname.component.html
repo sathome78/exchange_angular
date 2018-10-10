@@ -1,6 +1,8 @@
   <div class="settings__content">
     <h3 class="title settings__content-title">Nickname</h3>
     <div class="subtitle settings__content-subtitle">For inner transactions users could use your nickname instead of email.</div>
+
+    <h4>{{statusMessage}}</h4>
     <form class="settings-form" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="settings__form-row">
         <div class="wrap-input wrap-input--fix230">
@@ -21,7 +23,7 @@
         </div>
         <span class="settings__form-notice">– use only (A-z), (–), (=) symbols, </span>
       </div>
-      <button class="btn settings__form-btn">Save</button>
+      <button class="btn settings__form-btn" [disabled]="isUpdateDisabled">Save</button>
     </form>
     <div class="note settings__note">
       <div class="note__title">Please note:</div>

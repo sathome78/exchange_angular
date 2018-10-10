@@ -4,6 +4,8 @@ import {AuthService} from '../services/auth.service';
 import {LoggingService} from '../services/logging.service';
 import {Router} from '@angular/router';
 import {ThemeService} from '../services/theme.service';
+import {UserService} from '../services/user.service';
+import {SettingsService} from '../settings/settings.service';
 
 @Component({
   selector: 'app-header',
@@ -18,10 +20,20 @@ export class HeaderComponent implements OnInit {
               private authService: AuthService,
               private logger: LoggingService,
               private router: Router,
-              private themeService: ThemeService) {
+              private themeService: ThemeService,
+              private settingsService: SettingsService,
+              private userService: UserService) {
   }
 
   ngOnInit() {
+    if (this.authService.isAuthenticated()) {
+      this.userService.getUserColorScheme()
+        .subscribe(scheme => {
+          if (scheme && scheme === 'DARK') {
+            this.themeService.setDarkTheme();
+          }
+        });
+    }
   }
 
   public openMenu() {
@@ -37,8 +49,6 @@ export class HeaderComponent implements OnInit {
 
   onLogin() {
     this.logger.debug(this, 'Sign in attempt');
-    // todo remove after applied
-    this.authService.onLogIn();
     this.popupService.showLoginPopup(true);
   }
 
@@ -53,5 +63,15 @@ export class HeaderComponent implements OnInit {
 
   toggleTheme() {
     this.themeService.toggleTheme();
+    if (this.authService.isAuthenticated()) {
+      console.log('Hi: ' + this.themeService.getColorScheme());
+      this.settingsService.updateUserColorScheme(this.themeService.getColorScheme())
+        .subscribe(result => {
+            console.log(result);
+          },
+          err => {
+            console.log(err);
+          });
+    }
   }
 }

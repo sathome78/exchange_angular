@@ -23,3 +23,13 @@
   }
 }
 /*--- media end ---*/
+/*--- DARK THEME START---*/
+.dark-theme{
+  .subtitle{
+    color:#fff;
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{}
+}
+/*--- DARK THEME END---*/
