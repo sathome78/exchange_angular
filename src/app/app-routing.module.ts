@@ -28,8 +28,8 @@ const routes: Routes = [
   // // { path: 'referral',       component: ReferralComponent },
   // // {path: 'test', component: TestComponent },
 
-  {path: '', pathMatch: 'full', redirectTo: '/settings'} // remove after demo
-  // {path: '', pathMatch: 'full', redirectTo: '/dashboard'}
+  // {path: '', pathMatch: 'full', redirectTo: '/settings'} // remove after demo
+  {path: '', pathMatch: 'full', redirectTo: '/dashboard'}
 ];
 
 @NgModule({

@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {PopupService} from '../../services/popup.service';
 import {LoggingService} from '../../services/logging.service';
+import {SettingsService} from '../settings.service';
+import {NotificationUserSetting} from './notification-user-setting.model';
 
 @Component({
   selector: 'app-two-factor-authentication',
@@ -14,36 +16,73 @@ export class TwoFactorAuthenticationComponent implements OnInit {
   private isTransferOpen: boolean;
 
 
-  isLoginChecked = false;
-  isWithdrawalChecked = false;
-  isInnerTransferChecked = false;
-
-  isLoginNotificationDisabled = true;
-  isWithdrawalNotificationDisabled = true;
-  isTransferNotificationDisabled = true;
+  // isLoginChecked = false;
+  // isWithdrawalChecked = false;
+  // isInnerTransferChecked = false;
+  //
+  // isLoginNotificationDisabled = true;
+  // isWithdrawalNotificationDisabled = true;
+  // isTransferNotificationDisabled = true;
 
   isLoginGoogleNotificationEnabled = false;
   isWithdrawalGoogleNotificationEnabled = false;
   isTransferGoogleNotificationEnabled = false;
 
   constructor(private popupService: PopupService,
-              private logger: LoggingService) {
+              private logger: LoggingService,
+              private settingsService: SettingsService) {
   }
 
   ngOnInit() {
+    this.settingsService.getUserTwoFaNotificationSettings()
+      .subscribe(settings => console.log(settings),
+        err => console.log(err));
 
   }
 
-  loginChoice() {
-    this.isLoginChecked = !this.isLoginChecked;
+  toggleLoginGoogleNotification() {
+    this.isLoginGoogleNotificationEnabled = !this.isLoginGoogleNotificationEnabled;
+    const settings = NotificationUserSetting
+      .builder()
+      .withLogin().build();
+    if (this.isLoginGoogleNotificationEnabled) {
+      settings.byGoogle();
+    } else {
+      settings.disable();
+    }
+    this.update(settings);
   }
 
-  withdrawalChoice() {
-    this.isWithdrawalChecked = !this.isWithdrawalChecked;
+  toggleWithdrawalGoogleNotification() {
+    this.isWithdrawalGoogleNotificationEnabled = !this.isWithdrawalGoogleNotificationEnabled;
+    const settings = NotificationUserSetting
+      .builder()
+      .withWithdraw()
+      .build();
+    if (this.isWithdrawalGoogleNotificationEnabled) {
+      settings.byGoogle();
+    } else {
+      settings.disable();
+    }
+    this.update(settings);
   }
 
-  innerTransferChoice() {
-    this.isInnerTransferChecked = !this.isInnerTransferChecked;
+  toggleTransferGoogleNotification() {
+    this.isTransferGoogleNotificationEnabled = !this.isTransferGoogleNotificationEnabled;
+    const settings = NotificationUserSetting
+      .builder()
+      .withTransfer().build();
+    if (this.isTransferGoogleNotificationEnabled) {
+      settings.byGoogle();
+    } else {
+      settings.disable();
+    }
+    this.update(settings);
+  }
+
+  private update(setting: NotificationUserSetting): void {
+    this.settingsService.updateUserNotificationSettings(setting).subscribe(resp => console.log(resp),
+      err => console.log(err));
   }
 
   updateAuthProviderSettings(value: string) {
@@ -79,59 +118,4 @@ export class TwoFactorAuthenticationComponent implements OnInit {
   this.isTransferOpen = false;
   }
 
-  toggleLoginNotification(provider: string, state: boolean) {
-    this.isLoginNotificationDisabled = !state;
-    if (provider === 'GOOGLE') {
-      this.isLoginGoogleNotificationEnabled = state;
-
-    }
-  }
-
-  toggleWithdrawalNotification(provider: string, state: boolean) {
-    this.isWithdrawalNotificationDisabled = state;
-    if (provider === 'GOOGLE') {
-      this.isWithdrawalGoogleNotificationEnabled = state;
-    }
-  }
-
-  toggleInnerTransferNotification(provider: string, state: boolean) {
-    this.isTransferNotificationDisabled = state;
-    if (provider === 'GOOGLE') {
-      this.isTransferGoogleNotificationEnabled = state;
-
-    }
-  }
-
-  enableLoginGoogleNotification() {
-    this.isLoginNotificationDisabled = false;
-    this.isLoginGoogleNotificationEnabled = true;
-  }
-
-  disableLoginNotification() {
-    this.isLoginNotificationDisabled = true;
-    // todo disable google notification
-    this.isLoginGoogleNotificationEnabled = false;
-  }
-
-  enableWithdrawGoogleNotification() {
-    this.isWithdrawalNotificationDisabled = false;
-    this.isWithdrawalGoogleNotificationEnabled = true;
-  }
-
-  disableWithdrawNotification() {
-    this.isWithdrawalNotificationDisabled = true;
-    // todo disable google notification
-    this.isWithdrawalGoogleNotificationEnabled = false;
-  }
-
-  enableTransferGoogleNotification() {
-    this.isTransferNotificationDisabled = false;
-    this.isTransferGoogleNotificationEnabled = true;
-  }
-
-  disableTransferNotification() {
-    this.isTransferNotificationDisabled = true;
-    // todo disable google notification
-    this.isTransferGoogleNotificationEnabled = false;
-  }
 }

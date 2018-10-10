@@ -58,8 +58,8 @@
       <td class="table__cell" style="text-align:center">
         <label for="" class="toggler settings__toggler">
           <input type="checkbox" name=""
-                 [(ngModel)]="isLoginChecked"
-                 (click)="loginChoice()"
+                 [(ngModel)]="isLoginGoogleNotificationEnabled"
+                 (click)="toggleLoginGoogleNotification()"
           >
           <span class="toggler__indicate"></span>
         </label>
@@ -94,8 +94,8 @@
       <td class="table__cell" style="text-align:center">
         <label for="" class="toggler settings__toggler">
           <input type="checkbox" name=""
-                 [(ngModel)]="isWithdrawalChecked"
-                 (click)="withdrawalChoice()"
+                 [(ngModel)]="isWithdrawalGoogleNotificationEnabled"
+                 (click)="toggleWithdrawalGoogleNotification()"
           >
           <span class="toggler__indicate"></span>
         </label>
@@ -130,8 +130,8 @@
       <td class="table__cell" style="text-align:center">
         <label for="" class="toggler settings__toggler">
           <input type="checkbox" name=""
-                 [(ngModel)]="isInnerTransferChecked"
-                 (click)="innerTransferChoice()"
+                 [(ngModel)]="isTransferGoogleNotificationEnabled"
+                 (click)="toggleTransferGoogleNotification()"
           >
           <span class="toggler__indicate"></span>
         </label>
@@ -163,7 +163,7 @@
 
   <!--<div class="subtitle settings__content-subtitle">Choose authentification method</div>-->
   <div class="row settings__buttons-row">
-    <div *ngIf="isLoginChecked || isWithdrawalChecked || isInnerTransferChecked">
+    <div *ngIf="isLoginGoogleNotificationEnabled || isTransferGoogleNotificationEnabled || isWithdrawalGoogleNotificationEnabled">
         <button class="btn settings__btn" (click)="updateAuthProviderSettings('GOOGLE')">
           <span class="btn__icon btn__icon--blue btn__icon--hover-white">
             <svg width="22"  viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
