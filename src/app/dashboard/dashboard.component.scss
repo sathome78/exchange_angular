@@ -1,1 +1,12 @@
+.dashboard__widget-wrap{
+  padding: 15px 0;
+}
+
+// TODO: remove border in production
+ngx-gridster-item {
+  padding: 10px 15px;
+  border: 1px dashed #dce4f1;
+  overflow: hidden;
+}
+
 

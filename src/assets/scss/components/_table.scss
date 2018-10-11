@@ -8,7 +8,6 @@
   &--mob {
     display: table;
   }
-
   &--more-info {
     border-left: 4px solid $darker-blue;
     border-bottom: 1px solid $darker-blue;
@@ -44,12 +43,10 @@
       padding: 4px;
     }
   }
-
   &__cell-head-arr {
     margin-right: 4px;
     fill: #000;
   }
-
   &__body {
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
     &--none-shadow {
@@ -95,7 +92,6 @@
     width: 16px;
     height: 16px;
     svg {
-      display: none;
       fill: $dark-indigo;
     }
     &:hover {
@@ -103,8 +99,12 @@
         fill: #FFB74C;
       }
     }
+    &--select{
+      svg {
+        fill: #FFB74C;
+      }
+    }
   }
-
   &__cell {
     position: relative;
     padding: 8px 10px;
@@ -144,11 +144,6 @@
 }
 
 /*--- media start ---*/
-@media (min-width: 600px) {
-}
-
-@media (min-width: 900px) {
-}
 
 @media (min-width: 1200px) {
   .table {
@@ -169,6 +164,16 @@
 
       &--mob {
         display: none;
+      }
+    }
+    &__row-star {
+      svg {
+        display: none;
+      }
+      &--select{
+        svg {
+          display: inline-block;
+        }
       }
     }
   }

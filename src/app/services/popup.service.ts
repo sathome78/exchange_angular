@@ -11,6 +11,7 @@ export class PopupService {
   private stepListener = new Subject<number>();
   private currentStep = 1;
   private tfaProvider = '';
+  private identityDocumentType = 'PASSPORT';
   stepsMap: Map<number, string> = new Map<number, string>();
 
 
@@ -22,7 +23,8 @@ export class PopupService {
   }
 
   showIdentityPopup(mode: string) {
-    this.onOpenIdentityPopupListener.next(mode);
+    this.identityDocumentType = mode;
+    this.onOpenIdentityPopupListener.next(this.identityDocumentType);
   }
 
   showLoginPopup(state: boolean) {
@@ -63,6 +65,11 @@ export class PopupService {
 
   public getTFAProvider(): string {
     return this.tfaProvider;
+  }
+
+
+  public getIdentityDocumentType(): string {
+    return this.identityDocumentType;
   }
 
   public moveNextStep() {

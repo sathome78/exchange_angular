@@ -10,7 +10,11 @@
   }
   &__item{
     width: 100%;
-    min-height: calc(100vh - 60px);
+    height: 100vh;
+    max-height: calc(100vh - 60px);
+    &--hide-mob{
+      display: none;
+    }
   }
 
   /*--- elements end ---*/
@@ -41,6 +45,9 @@
       }
       &--height3{
         height: 620px;
+      }
+      &--hide-mob{
+        display: block;
       }
     }
   }

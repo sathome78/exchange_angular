@@ -3,7 +3,7 @@ import {environment} from '../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {AuthService} from './auth.service';
-import {IP_USER_HEADER, MEDIA_TYPE_JSON} from './http.utils';
+import {IP_USER_HEADER, IP_USER_KEY, MEDIA_TYPE_JSON} from './http.utils';
 import {LangService} from './lang.service';
 import {AuthCandidate} from '../model/auth-candidate.model';
 import {LoggingService} from './logging.service';
@@ -99,6 +99,14 @@ export class UserService {
   public getUserColorEnabled(): Observable<boolean> {
     const url = this.HOST + '/info/private/v2/settings/isLowColorEnabled';
     return this.http.get<boolean>(url, {headers: MEDIA_TYPE_JSON});
+  }
+
+  public getUserGoogleLoginEnabled(email: string): Observable<boolean> {
+    const httpOptions = {
+      headers: MEDIA_TYPE_JSON,
+      params:  new HttpParams().set('email', email)
+    };
+    return this.http.get<boolean>(this.getUrl('is_google_2fa_enabled'), httpOptions);
   }
 
   // public getUserIp(): Observable<IpAddress> {
