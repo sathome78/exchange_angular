@@ -60,6 +60,15 @@
       </div>
     </div>
   </div>
+  <div class="widget__header--mob">
+    <div class="widget__name-mob">Markets</div>
+    <div class="widget__search-btn">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.22222 13.6444C8.78354 13.6444 10.2149 13.0869 11.3278 12.1605L14.1947 15.0275C14.4247 15.2575 14.7975 15.2575 15.0275 15.0275C15.2575 14.7975 15.2575 14.4247 15.0275 14.1947L12.1605 11.3278C13.0869 10.2149 13.6444 8.78354 13.6444 7.22222C13.6444 3.67557 10.7689 0.8 7.22222 0.8C3.67557 0.8 0.8 3.67557 0.8 7.22222C0.8 10.7689 3.67557 13.6444 7.22222 13.6444ZM12.4667 7.22222C12.4667 10.1188 10.1188 12.4667 7.22222 12.4667C4.32563 12.4667 1.97778 10.1188 1.97778 7.22222C1.97778 4.32563 4.32563 1.97778 7.22222 1.97778C10.1188 1.97778 12.4667 4.32563 12.4667 7.22222Z"stroke-width="0.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      Search
+    </div>
+  </div>
   <div class="widget__content">
     <div class="tabs widget__tabs">
       <button class="tabs__item tabs__item--small tabs__item--active">BTC</button>
@@ -68,19 +77,6 @@
       <button class="tabs__item tabs__item--small">FIAT</button>
       <button class="tabs__item tabs__item--small">Favorites</button>
     </div>
-    <!--table mob start-->
-    <table class="table widget__table widget__table--mob">
-      <thead>
-      <tr>
-        <th class="table__cell-head table__cell-head--p4">s</th>
-        <th class="table__cell-head table__cell-head--p4">Pair / <span>Vol</span></th>
-        <th class="table__cell-head table__cell-head--p4">Last price</th>
-        <th class="table__cell-head table__cell-head--p4">24h chg</th>
-      </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    <!--table mob end-->
     <!--table start-->
     <div class="widget__table-wrap">
       <table class="table widget__table">
@@ -159,7 +155,7 @@
         <tr style="height: 4px;"></tr>
         <tr class="table__row widget__table-row">
           <td class="table__cell table__cell--tac">
-    <span class="table__row-star">
+    <span class="table__row-star table__row-star--select">
     <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
@@ -371,5 +367,318 @@
     </div>
 
     <!--table end-->
+  </div>
+  <div class="widget__content widget__content--mob">
+    <!--table mob start-->
+    <table class="table widget__table widget__table--mob widget__table-markets-mob">
+      <thead>
+      <tr>
+        <th class="table__cell-head table__cell-head--p4">
+          <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"
+              fill="#191A39"/>
+          </svg>
+        </th>
+        <th class="table__cell-head table__cell-head--tal table__cell-head--p4">Pair / <span>Vol</span></th>
+        <th class="table__cell-head table__cell-head--tal table__cell-head--p4">Last price</th>
+        <th class="table__cell-head table__cell-head--tar table__cell-head--p4"><span style="margin-right: 16px;">24h chg</span></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="table__row widget__table-row">
+        <td class="table__cell table__cell--tac">
+    <span class="table__row-star">
+    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+    </svg>
+    </span>
+        </td>
+        <td class="table__cell">
+          <span>MFT</span>
+          <span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>
+          <div class="txt-small txt-light-grey">Vol 6 854.87</div>
+        </td>
+        <td class="table__cell">
+          <span class="txt-indicate">0.055364</span>
+          <div class="txt-small txt-light-grey">$ 417.00</div>
+        </td>
+        <td class="table__cell table__cell--tar">
+          <span class="change-indicate--red">-0.24 <span>%</span></span>
+        </td>
+      </tr>
+      <tr style="height: 4px;"></tr>
+      <tr class="table__row widget__table-row">
+        <td class="table__cell table__cell--tac">
+    <span class="table__row-star">
+    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+    </svg>
+    </span>
+        </td>
+        <td class="table__cell">
+          <span>EOS</span>
+          <span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>
+          <div class="txt-small txt-light-grey">Vol 4 703.29</div>
+        </td>
+        <td class="table__cell">
+          <span class="txt-indicate">0.055364</span>
+          <div class="txt-small txt-light-grey">$ 417.00</div>
+        </td>
+        <td class="table__cell table__cell--tar">
+          <span class="change-indicate--green">+2.24 <span>%</span></span>
+        </td>
+      </tr>
+      <tr style="height: 4px;"></tr>
+      <tr class="table__row widget__table-row">
+        <td class="table__cell table__cell--tac">
+    <span class="table__row-star">
+    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+    </svg>
+    </span>
+        </td>
+        <td class="table__cell">
+          <span>XLM</span>
+          <span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>
+          <div class="txt-small txt-light-grey">Vol 6 854.87</div>
+        </td>
+        <td class="table__cell">
+          <span class="txt-indicate">0.055364</span>
+          <div class="txt-small txt-light-grey">$ 417.00</div>
+        </td>
+        <td class="table__cell table__cell--tar">
+          <span class="change-indicate--red">-1.73 <span>%</span></span>
+        </td>
+      </tr>
+      <tr style="height: 4px;"></tr>
+      <tr class="table__row widget__table-row">
+        <td class="table__cell table__cell--tac">
+    <span class="table__row-star">
+    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+    </svg>
+    </span>
+        </td>
+        <td class="table__cell">
+          <span>MFT</span>
+          <span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>
+          <div class="txt-small txt-light-grey">Vol 6 854.87</div>
+        </td>
+        <td class="table__cell">
+          <span class="txt-indicate">0.055364</span>
+          <div class="txt-small txt-light-grey">$ 417.00</div>
+        </td>
+        <td class="table__cell table__cell--tar">
+          <span class="change-indicate--red">-0.24 <span>%</span></span>
+        </td>
+      </tr>
+      <tr style="height: 4px;"></tr>
+      <tr class="table__row widget__table-row">
+        <td class="table__cell table__cell--tac">
+    <span class="table__row-star">
+    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+    </svg>
+    </span>
+        </td>
+        <td class="table__cell">
+          <span>EOS</span>
+          <span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>
+          <div class="txt-small txt-light-grey">Vol 4 703.29</div>
+        </td>
+        <td class="table__cell">
+          <span class="txt-indicate">0.055364</span>
+          <div class="txt-small txt-light-grey">$ 417.00</div>
+        </td>
+        <td class="table__cell table__cell--tac">
+          <span class="change-indicate--green">+2.24 <span>%</span></span>
+        </td>
+      </tr>
+      <tr style="height: 4px;"></tr>
+      <tr class="table__row widget__table-row">
+        <td class="table__cell table__cell--tac">
+    <span class="table__row-star">
+    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+    </svg>
+    </span>
+        </td>
+        <td class="table__cell">
+          <span>XLM</span>
+          <span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>
+          <div class="txt-small txt-light-grey">Vol 6 854.87</div>
+        </td>
+        <td class="table__cell">
+          <span class="txt-indicate">0.055364</span>
+          <div class="txt-small txt-light-grey">$ 417.00</div>
+        </td>
+        <td class="table__cell table__cell--tac">
+          <span class="change-indicate--red">-1.73 <span>%</span></span>
+        </td>
+      </tr>
+      <tr style="height: 4px;"></tr>
+      <tr class="table__row widget__table-row">
+        <td class="table__cell table__cell--tac">
+    <span class="table__row-star">
+    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+    </svg>
+    </span>
+        </td>
+        <td class="table__cell">
+          <span>MFT</span>
+          <span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>
+          <div class="txt-small txt-light-grey">Vol 6 854.87</div>
+        </td>
+        <td class="table__cell">
+          <span class="txt-indicate">0.055364</span>
+          <div class="txt-small txt-light-grey">$ 417.00</div>
+        </td>
+        <td class="table__cell table__cell--tac">
+          <span class="change-indicate--red">-0.24 <span>%</span></span>
+        </td>
+      </tr>
+      <tr style="height: 4px;"></tr>
+      <tr class="table__row widget__table-row">
+        <td class="table__cell table__cell--tac">
+    <span class="table__row-star">
+    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+    </svg>
+    </span>
+        </td>
+        <td class="table__cell">
+          <span>EOS</span>
+          <span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>
+          <div class="txt-small txt-light-grey">Vol 4 703.29</div>
+        </td>
+        <td class="table__cell">
+          <span class="txt-indicate">0.055364</span>
+          <div class="txt-small txt-light-grey">$ 417.00</div>
+        </td>
+        <td class="table__cell table__cell--tac">
+          <span class="change-indicate--green">+2.24 <span>%</span></span>
+        </td>
+      </tr>
+      <tr style="height: 4px;"></tr>
+      <tr class="table__row widget__table-row">
+        <td class="table__cell table__cell--tac">
+    <span class="table__row-star">
+    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+    </svg>
+    </span>
+        </td>
+        <td class="table__cell">
+          <span>XLM</span>
+          <span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>
+          <div class="txt-small txt-light-grey">Vol 6 854.87</div>
+        </td>
+        <td class="table__cell">
+          <span class="txt-indicate">0.055364</span>
+          <div class="txt-small txt-light-grey">$ 417.00</div>
+        </td>
+        <td class="table__cell table__cell--tac">
+          <span class="change-indicate--red">-1.73 <span>%</span></span>
+        </td>
+      </tr>
+      <tr style="height: 4px;"></tr>
+      <tr class="table__row widget__table-row">
+        <td class="table__cell table__cell--tac">
+    <span class="table__row-star">
+    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+    </svg>
+    </span>
+        </td>
+        <td class="table__cell">
+          <span>MFT</span>
+          <span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>
+          <div class="txt-small txt-light-grey">Vol 6 854.87</div>
+        </td>
+        <td class="table__cell">
+          <span class="txt-indicate">0.055364</span>
+          <div class="txt-small txt-light-grey">$ 417.00</div>
+        </td>
+        <td class="table__cell table__cell--tac">
+          <span class="change-indicate--red">-0.24 <span>%</span></span>
+        </td>
+      </tr>
+      <tr style="height: 4px;"></tr>
+      <tr class="table__row widget__table-row">
+        <td class="table__cell table__cell--tac">
+    <span class="table__row-star">
+    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+    </svg>
+    </span>
+        </td>
+        <td class="table__cell">
+          <span>EOS</span>
+          <span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>
+          <div class="txt-small txt-light-grey">Vol 4 703.29</div>
+        </td>
+        <td class="table__cell">
+          <span class="txt-indicate">0.055364</span>
+          <div class="txt-small txt-light-grey">$ 417.00</div>
+        </td>
+        <td class="table__cell table__cell--tac">
+          <span class="change-indicate--green">+2.24 <span>%</span></span>
+        </td>
+      </tr>
+      <tr style="height: 4px;"></tr>
+      <tr class="table__row widget__table-row">
+        <td class="table__cell table__cell--tac">
+    <span class="table__row-star">
+    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+    </svg>
+    </span>
+        </td>
+        <td class="table__cell">
+          <span>XLM</span>
+          <span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>
+          <div class="txt-small txt-light-grey">Vol 6 854.87</div>
+        </td>
+        <td class="table__cell">
+          <span class="txt-indicate">0.055364</span>
+          <div class="txt-small txt-light-grey">$ 417.00</div>
+        </td>
+        <td class="table__cell table__cell--tac">
+          <span class="change-indicate--red">-1.73 <span>%</span></span>
+        </td>
+      </tr>
+      <tr style="height: 4px;"></tr>
+      </tbody>
+    </table>
+    <!--table mob end-->
+    <div class="tabs widget__tabs widget__markets-tabs">
+      <button class="tabs__item  tabs__item--active">BTC</button>
+      <button class="tabs__item">ETH</button>
+      <button class="tabs__item">ATH</button>
+      <button class="tabs__item">FIAT</button>
+      <button class="tabs__item">
+        <span>
+          <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+      d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z" fill="#E5E5E5"/>
+          </svg>
+        </span>
+        Fav
+      </button>
+    </div>
   </div>
 </div>

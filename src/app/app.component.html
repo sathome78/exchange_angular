@@ -54,23 +54,76 @@
         <!--</div>-->
       <!--</div>-->
     <!--</div>-->
-    <div class="container container--dashboard">
-      <div *ngIf="isTfaPopupOpen">
-        <app-two-factor-popup></app-two-factor-popup>
+
+    <div style="position: relative; width: 100%; flex-grow: 1;">
+      <div class="dashboard-tools">
+        <div class="dashboard-tools__header">
+          Tools
+        </div>
+        <div class="dashboard-tools__item">
+          <div class="dashboard-tools__item-icon">
+            <img class="" src="../../assets/img/graph.svg">
+          </div>
+          <span>Graph</span>
+        </div>
+        <div class="dashboard-tools__item">
+          <div class="dashboard-tools__item-icon">
+            <img class="" src="../../assets/img/markets.svg">
+          </div>
+          <span>Markets</span>
+        </div>
+        <div class="dashboard-tools__item">
+          <div class="dashboard-tools__item-icon">
+            <img class="" src="../../assets/img/trade.svg">
+          </div>
+          <span>Trading</span>
+        </div>
+        <div class="dashboard-tools__item">
+          <div class="dashboard-tools__item-icon">
+            <img class="" src="../../assets/img/order-book.svg">
+          </div>
+          <span>Order book</span>
+        </div>
+        <div class="dashboard-tools__item">
+          <div class="dashboard-tools__item-icon">
+            <img class="" src="../../assets/img/history.svg">
+          </div>
+          <span>Trade history</span>
+        </div>
+        <div class="dashboard-tools__item">
+          <div class="dashboard-tools__item-icon">
+            <img class="" src="../../assets/img/orders.svg">
+          </div>
+          <span>My orders</span>
+        </div>
+        <div class="dashboard-tools__item">
+          <div class="dashboard-tools__item-icon">
+            <img class="" src="../../assets/img/header-sumbenu-link6.svg">
+          </div>
+          <span>Chat</span>
+        </div>
       </div>
+      <!--<div class="container">-->
+      <div class="container container--dashboard">
 
-      <div *ngIf="isIdentityPopupOpen">
-        <app-identity-popup></app-identity-popup>
+        <div *ngIf="isTfaPopupOpen">
+          <app-two-factor-popup></app-two-factor-popup>
+        </div>
+
+        <div *ngIf="isIdentityPopupOpen">
+          <app-identity-popup></app-identity-popup>
+        </div>
+
+        <div *ngIf="isLoginPopupOpen">
+          <app-login-popup></app-login-popup>
+        </div>
+
+        <router-outlet></router-outlet>
+
+        <a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>
       </div>
-
-      <div *ngIf="isLoginPopupOpen">
-        <app-login-popup></app-login-popup>
-      </div>
-
-      <router-outlet></router-outlet>
-
-      <a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>
     </div>
+
   </div>
 
   <app-notification
