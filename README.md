@@ -50,3 +50,10 @@ https://stackblitz.com/edit/angular-file-upload-preview?file=app%2Fapp.component
 
 qr code:
 https://www.npmjs.com/package/angular2-qrcode
+
+run with another env:
+https://stackoverflow.com/questions/50174584/how-to-set-environment-via-ng-serve-in-angular-6/50174679#50174679
+
+
+build with another env:
+https://github.com/angular/angular-cli/blob/master/docs/documentation/stories/application-environments.md
