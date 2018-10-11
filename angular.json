@@ -68,6 +68,9 @@
           "configurations": {
             "production": {
               "browserTarget": "exrates-front-new:build:production"
+            },
+            "staging": {
+              "browserTarget": "exrates-front-new:build:staging"
             }
           }
         },
