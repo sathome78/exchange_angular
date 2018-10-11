@@ -14,6 +14,7 @@ export class VerificationComponent implements OnInit {
   }
 
   onOpenIdentityPopup(mode: string) {
+
     this.popupService.showIdentityPopup(mode);
   }
 
