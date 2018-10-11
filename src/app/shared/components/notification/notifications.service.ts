@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { NotificationMessage } from '../../models/notification-message.model';
+import { NotificationMessage } from '../../models/notification-message-model';
 
 /**
  * Notification service which is used by components to show message

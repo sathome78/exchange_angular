@@ -69,7 +69,7 @@ b {
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
-  flex-direction: column;
+  //flex-direction: column;
   flex-grow: 1;
   box-sizing: border-box;
   width: 100%;
@@ -96,6 +96,7 @@ b {
     flex-grow: 1;
     max-width: 1480px;
     padding: 0;
+    height: 100%;
     @media (min-width:1200px) {
     }
   }
@@ -107,3 +108,4 @@ b {
 app-settings, app-dashboard{
   width: 100%;
 }
+

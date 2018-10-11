@@ -8,7 +8,7 @@ import {IP_CHECKER_URL, IP_USER_KEY} from './services/http.utils';
 import {LoggingService} from './services/logging.service';
 import {HttpClient} from '@angular/common/http';
 import {NotificationsService} from './shared/components/notification/notifications.service';
-import {NotificationMessage} from './shared/models/notification-message.model';
+import {NotificationMessage} from './shared/models/notification-message-model';
 
 @Component({
   selector: 'app-root',
