@@ -18,6 +18,7 @@ import {ActivePairComponent} from './active-pair/active-pair.component';
 import {SharedModule} from '../shared/shared.module';
 import {GridsterModule} from 'angular2gridster';
 import {DashboardDataService} from './dashboard-data.service';
+import { IcoSearchComponent } from './ico-search/ico-search.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {DashboardDataService} from './dashboard-data.service';
     TradingComponent,
     OpenOrdersComponent,
     OrdersHistoryComponent,
+    IcoSearchComponent,
   ],
   imports: [
     SharedModule,
