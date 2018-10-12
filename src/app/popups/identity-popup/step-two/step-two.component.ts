@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
 import {Observable, Subject} from 'rxjs';
 
@@ -16,12 +16,16 @@ export class StepTwoComponent implements OnInit {
   submitEventSubject: Subject<string> = new Subject<string>();
   @Output() onNextStep = new EventEmitter<number>();
 
+  @Input('formEntity') formEntity;
+
   displayMode = this.STEP;
 
   constructor() {
   }
 
   ngOnInit() {
+
+    console.log('entity: ' + JSON.stringify(this.formEntity));
   }
 
   toggleWebcam() {

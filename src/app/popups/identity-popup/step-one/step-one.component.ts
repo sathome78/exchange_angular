@@ -1,7 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {IMyDpOptions, IMyDateModel} from 'mydatepicker';
-import {UserVerificationModel} from '../../../settings/verification/user-verification.model';
+import {IMyDpOptions} from 'mydatepicker';
+import {UserVerificationModel} from '../user-verification.model';
+import {PopupService} from '../../../services/popup.service';
 
 @Component({
   selector: 'app-step-one',
@@ -21,7 +22,7 @@ export class StepOneComponent implements OnInit {
   };
   public model: any = { date: { year: 2018, month: 10, day: 9 } };
 
-  constructor() { }
+  constructor(private popupService: PopupService) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -33,13 +34,34 @@ export class StepOneComponent implements OnInit {
       'country': new FormControl('', {validators: [Validators.required]}),
       'city': new FormControl('', {validators: [Validators.required]}),
     });
+
+    // todo remove after testing
+    this.patchTestData();
   }
 
   moveNext() {
     this.nextStep.emit(2);
+    const entity = UserVerificationModel
+      .builder()
+      .withFormFroup(this.form)
+      .withDocumentType(this.popupService.getIdentityDocumentType())
+      .build();
+    this.createVerificationEntity.emit(entity);
   }
 
   onSubmit() {
     this.moveNext();
+  }
+
+
+  // todo remove
+  private patchTestData() {
+    this.form.get('firstName').patchValue('FirstName');
+    this.form.get('lastName').patchValue('LastName');
+    this.form.get('born').patchValue('12.11.1976');
+    this.form.get('address').patchValue('Residential Address');
+    this.form.get('postalCode').patchValue('7546743');
+    this.form.get('country').patchValue('Kazahstan');
+    this.form.get('city').patchValue('Astana');
   }
 }

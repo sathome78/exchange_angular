@@ -1,4 +1,4 @@
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 export class UserVerificationModel {
 
