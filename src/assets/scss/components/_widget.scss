@@ -640,10 +640,13 @@
       }
     }
     &__search, &__send-message {
-      position: absolute;
-      bottom: 0;
-      width: calc(100% - 32px);
-      margin: 0 16px 0 16px;
+      //position: absolute;
+      position: fixed;
+      bottom: 28px;
+      width: calc(100% - 64px);
+      //margin: 0 16px 0 16px;
+      margin: 0;
+      left: 32px;
       background-color: #fff;
       border: 1px solid $grey;
       -webkit-border-radius: 4px;
@@ -695,7 +698,7 @@
     }
     &__trading-form {
       display: block;
-      margin: 0 16px;
+      margin: 0 24px;
       &--mob {
         display: none;
       }

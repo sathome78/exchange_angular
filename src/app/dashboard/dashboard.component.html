@@ -11,7 +11,7 @@
           [(xMd)]="widget.xMd" [(yMd)]="widget.yMd" [(wMd)]="widget.wMd" [(hMd)]="widget.hMd"
           [(xLg)]="widget.xLg" [(yLg)]="widget.yLg" [(wLg)]="widget.wLg" [(hLg)]="widget.hLg"
           [(xXl)]="widget.xXl" [(yXl)]="widget.yXl" [(wXl)]="widget.wXl" [(hXl)]="widget.hXl"
-          [(dragAndDrop)]="widget.dragAndDrop" [(resizable)]="widget.resizable">
+          [(dragAndDrop)]="widget.dragAndDrop" [(resizable)]="widget.resizable" class="gridster-item">
           <ng-template [ngTemplateOutlet]="loadWidgetTemplate(widget.type)" [ngTemplateOutletContext]="{ $implicit: index}">
         </ng-template>
       </ngx-gridster-item>
