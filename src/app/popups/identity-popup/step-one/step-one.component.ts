@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {IMyDpOptions, IMyDateModel} from 'mydatepicker';
+import {UserVerificationModel} from '../../../settings/verification/user-verification.model';
 
 @Component({
   selector: 'app-step-one',
@@ -9,7 +10,8 @@ import {IMyDpOptions, IMyDateModel} from 'mydatepicker';
 })
 export class StepOneComponent implements OnInit {
 
-  @Output() onNextStep = new EventEmitter<number>();
+  @Output() nextStep = new EventEmitter<number>();
+  @Output() createVerificationEntity = new EventEmitter<UserVerificationModel>();
   form: FormGroup;
 
   public myDatePickerOptions: IMyDpOptions = {
@@ -34,26 +36,10 @@ export class StepOneComponent implements OnInit {
   }
 
   moveNext() {
-    this.onNextStep.emit(2);
+    this.nextStep.emit(2);
   }
 
   onSubmit() {
     this.moveNext();
-  }
-
-  setDate(): void {
-    // Set today date using the patchValue function
-    const date = new Date();
-    this.form.patchValue({'born': {
-        date: {
-          year: date.getFullYear(),
-          month: date.getMonth() + 1,
-          day: date.getDate()}
-      }});
-  }
-
-  clearDate(): void {
-    // Clear the date using the patchValue function
-    this.form.patchValue({'born': null});
   }
 }

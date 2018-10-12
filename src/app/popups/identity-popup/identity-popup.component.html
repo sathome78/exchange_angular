@@ -54,7 +54,7 @@
 
       <div [ngSwitch]="step">
         <div *ngSwitchCase="1">
-          <app-step-one (onNextStep)="moveNext(2)"></app-step-one>
+          <app-step-one (nextStep)="moveNext(2)"></app-step-one>
         </div>
         <div *ngSwitchCase="2">
           <app-step-two (onNextStep)="moveNext(3)"></app-step-two>
