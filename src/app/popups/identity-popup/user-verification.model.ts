@@ -24,7 +24,7 @@ export class UserVerificationModel {
   public withFormFroup(form: FormGroup): UserVerificationModel {
     this.firstName = form.get('firstName').value;
     this.lastName = form.get('lastName').value;
-    this.born = new Date(form.get('born').value);
+    this.born = form.get('born').value.formatted;
     this.residentialAddress = form.get('address').value;
     this.postalCode = form.get('postalCode').value;
     this.country = form.get('country').value;
