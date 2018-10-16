@@ -57,3 +57,6 @@ https://stackoverflow.com/questions/50174584/how-to-set-environment-via-ng-serve
 
 build with another env:
 https://github.com/angular/angular-cli/blob/master/docs/documentation/stories/application-environments.md
+
+gridster info:
+https://github.com/swiety85/angular2gridster

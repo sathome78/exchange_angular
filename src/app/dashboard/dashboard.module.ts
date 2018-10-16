@@ -20,6 +20,7 @@ import {GridsterModule} from 'angular2gridster';
 import {DashboardDataService} from './dashboard-data.service';
 import { IcoSearchComponent } from './ico-search/ico-search.component';
 import { MarketSearchComponent } from './market-search/market-search.component';
+import { ToolsComponent } from './tools/tools.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,11 @@ import { MarketSearchComponent } from './market-search/market-search.component';
     OpenOrdersComponent,
     OrdersHistoryComponent,
     IcoSearchComponent,
+<<<<<<< HEAD
     MarketSearchComponent,
+=======
+    ToolsComponent,
+>>>>>>> 0ba094c25df71ea4970e3ff0a57a1b7060f78f72
   ],
   imports: [
     SharedModule,

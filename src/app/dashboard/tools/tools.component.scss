@@ -1,0 +1,20 @@
+.dashboard-tools{
+  z-index: 100;
+}
+
+
+.overlay{
+  z-index: 99;
+  visibility: hidden;
+  transition: opacity .4s ease;
+}
+
+.overlay-hide{
+  visibility: hidden;
+  opacity: 0;
+}
+
+.overlay-show{
+  visibility: visible;
+  opacity: 1;
+}
