@@ -54,10 +54,10 @@
 
       <div [ngSwitch]="step">
         <div *ngSwitchCase="1">
-          <app-step-one (nextStep)="moveNext(2)" (createVerificationEntity)="saveVerificationEntity($event)"></app-step-one>
+          <app-step-one (nextStep)="moveNext(2)"></app-step-one>
         </div>
         <div *ngSwitchCase="2">
-          <app-step-two (onNextStep)="moveNext(3)" [formEntity]="verificationEntity"></app-step-two>
+          <app-step-two (onNextStep)="moveNext(3)"></app-step-two>
         </div>
         <div *ngSwitchCase="3">
           <app-step-three (onNextStep)="moveNext(4)"></app-step-three>

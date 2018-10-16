@@ -15,16 +15,14 @@
         <app-webcam
           *ngIf="displayMode === WEBCAM"
           (showWebcam)="displayMode = STEP"
-          (submitResult)="processSubmitResult($event)"
-          [events]="submitEventSubject.asObservable()"
         >
         </app-webcam>
       </div>
     </div>
   </div>
-  <div class="modal__row">
-    <button class="btn btn--active" (click)="onSubmit(WEBCAM)">Submit</button>
-  </div>
+  <!--<div class="modal__row">-->
+    <!--<button class="btn btn&#45;&#45;active" (click)="onSubmit(WEBCAM)">Submit</button>-->
+  <!--</div>-->
 </div>
 <div *ngIf="displayMode === FILE">
   <div class="subtitle modal__subtitle">

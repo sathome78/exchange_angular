@@ -1,30 +1,29 @@
 import { FormGroup } from '@angular/forms';
 
-export class UserVerificationModel {
+export class UserInfoVerificationModel {
 
   userId: number;
-  documentType: string;
   firstName: string;
   lastName: string;
-  born: Date;
+  born: string;
   residentialAddress: string;
   postalCode: string;
   country: string;
   city: string;
-  filePath: string;
 
   constructor(userId: number) {
     this.userId = userId;
   }
 
-  public static builder(): UserVerificationModel {
-    return new UserVerificationModel(0);
+  public static builder(): UserInfoVerificationModel {
+    return new UserInfoVerificationModel(0);
   }
 
-  public withFormFroup(form: FormGroup): UserVerificationModel {
+  public withFormGroup(form: FormGroup): UserInfoVerificationModel {
     this.firstName = form.get('firstName').value;
     this.lastName = form.get('lastName').value;
-    this.born = form.get('born').value.formatted;
+    // this.born = new Date(form.get('born').value.formatted).toISOString().split('T')[0];
+    this.born = new Date().toISOString();
     this.residentialAddress = form.get('address').value;
     this.postalCode = form.get('postalCode').value;
     this.country = form.get('country').value;
@@ -32,17 +31,7 @@ export class UserVerificationModel {
     return this;
   }
 
-  public withDocumentType(type: string): UserVerificationModel {
-    this.documentType = type;
-    return this;
-  }
-
-  public withFilePath(filePath: string): UserVerificationModel {
-    this.filePath = filePath;
-    return this;
-  }
-
-  public build(): UserVerificationModel {
+  public build(): UserInfoVerificationModel {
     return this;
   }
 }

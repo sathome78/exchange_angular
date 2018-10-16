@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
 import {Observable, Subject, Subscription} from 'rxjs';
+import {UserVerificationService} from '../../../services/user-verification.service';
+import {UserDocVerificationModel} from '../user-doc-verification.model';
 
 @Component({
   selector: 'app-webcam',
@@ -10,9 +12,9 @@ import {Observable, Subject, Subscription} from 'rxjs';
 export class WebcamComponent implements OnInit, OnDestroy {
 
   @Output() showWebcam = new EventEmitter<boolean>();
-  @Output() submitResult = new EventEmitter<number>();
 
-  @Input() events: Observable<string>;
+  @Input() step: Observable<string>;
+
   public allowCameraSwitch = true;
   public multipleWebcamsAvailable = false;
   public deviceId: string;
@@ -32,7 +34,7 @@ export class WebcamComponent implements OnInit, OnDestroy {
 
   private submitSubscription: Subscription;
 
-  constructor() {
+  constructor(private verificationService: UserVerificationService) {
   }
 
   ngOnInit() {
@@ -40,12 +42,6 @@ export class WebcamComponent implements OnInit, OnDestroy {
       .then((mediaDevices: MediaDeviceInfo[]) => {
         this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
       });
-    this.submitSubscription = this.events.subscribe(mode => {
-      if (mode === 'WEBCAM') {
-          // todo smth useful
-        console.log('submit clicked');
-      }
-    });
   }
 
   public triggerSnapshot(): void {
@@ -54,6 +50,20 @@ export class WebcamComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.showWebcam.emit(false);
+    console.log('On Submut');
+    const entity = UserDocVerificationModel
+      .builder()
+      .withDocumentType(this.verificationService.getVerificationMode())
+      .withEncoded(this.webcamImage.imageAsBase64)
+      .build();
+
+    this.verificationService.uploadVerificationDoc(entity).subscribe(ok => {
+        console.log('OK: fail to upload file');
+      },
+      err => {
+        console.log(err);
+      });
+
   }
 
   public handleInitError(error: WebcamInitError): void {
@@ -85,11 +95,37 @@ export class WebcamComponent implements OnInit, OnDestroy {
     return this.nextWebcam.asObservable();
   }
 
-  notifyResult() {
-    this.submitResult.next(44);
+  private uploadImageFromWebCam(): File {
+    const base64 = this.webcamImage.imageAsBase64;
+    if (!base64) {
+      return null;
+    }
+    const date = new Date().valueOf();
+    let text = '';
+    const allowableCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (let i = 0; i < 5; i++) {
+      text += allowableCharacters.charAt(Math.floor(Math.random() * allowableCharacters.length));
+    }
+    const imageName = date + '.' + text + '.jpeg';
+    const imageBlob = this.dataURItoBlob(base64);
+    return new File([imageBlob], imageName, {type: 'image/jpeg'});
+  }
+
+  private dataURItoBlob(dataURI: string) {
+    const byteString = atob(dataURI);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([arrayBuffer], {type: 'image/jpeg'});
+    return blob;
   }
 
   ngOnDestroy() {
     this.submitSubscription.unsubscribe();
   }
+
+
 }

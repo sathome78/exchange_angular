@@ -41,6 +41,7 @@ import {AuthInterceptor} from './interceptors/auth.interceptor';
 import {QRCodeModule} from 'angular2-qrcode';
 import {GoogleAuthenticatorService} from './popups/two-factor-popup/google/google-authenticator.service';
 import { SharedModule } from './shared/shared.module';
+import {UserVerificationService} from './services/user-verification.service';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { SharedModule } from './shared/shared.module';
     LoggingService,
     PopupService,
     UserService,
+    UserVerificationService,
     ThemeService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
