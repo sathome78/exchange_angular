@@ -19,6 +19,7 @@ import {SharedModule} from '../shared/shared.module';
 import {GridsterModule} from 'angular2gridster';
 import {DashboardDataService} from './dashboard-data.service';
 import { IcoSearchComponent } from './ico-search/ico-search.component';
+import { MarketSearchComponent } from './market-search/market-search.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { IcoSearchComponent } from './ico-search/ico-search.component';
     OpenOrdersComponent,
     OrdersHistoryComponent,
     IcoSearchComponent,
+    MarketSearchComponent,
   ],
   imports: [
     SharedModule,
