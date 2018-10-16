@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 
 import {gridsterItemOptions, gridsterOptions} from '../shared/configs/gridster-options';
 import {DashboardDataService} from './dashboard-data.service';
@@ -9,7 +9,7 @@ import {DashboardItemChangeSize} from '../shared/models/dashboard-item-change-si
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
 
   /** retrieve gridster container*/
   @ViewChild('gridsterContainer') gridsterContainer;
@@ -37,6 +37,11 @@ export class DashboardComponent implements OnInit {
     this.defauldWidgets = [...this.widgets];
     this.gridsterOptions = gridsterOptions;
     this.gridsterItemOptions = gridsterItemOptions;
+    this.dataService.toolsToDashboard$.subscribe(res => this.addItemToDashboard(res));
+  }
+
+  ngAfterViewInit() {
+    this.changeRatioByWidth();
   }
 
   /**
@@ -71,15 +76,14 @@ export class DashboardComponent implements OnInit {
     const widget = this.widgets.filter( item => item.type === event.itemName);
     if (event.widthOrHeight === 'height') {
       event.isIncrement ?
-        widget[0].hLg === this.gridsterItemOptions.maxHeight ? widget[0].hLg = this.gridsterItemOptions.maxHeight : widget[0].hLg++ :
-        widget[0].hLg === this.gridsterItemOptions.minHeight ? widget[0].hLg = this.gridsterItemOptions.minHeight : widget[0].hLg--;
-      this.gridsterContainer.reload();
+        widget[0].hLg === this.gridsterItemOptions.maxHeight ? widget[0].hLg = this.gridsterItemOptions.maxHeight : widget[0].hLg += 3 :
+        widget[0].hLg === this.gridsterItemOptions.minHeight ? widget[0].hLg = this.gridsterItemOptions.minHeight : widget[0].hLg -= 3;
     } else {
       event.isIncrement ?
-        widget[0].wLg === this.gridsterItemOptions.maxWidth ? widget[0].wLg = this.gridsterItemOptions.maxWidth : widget[0].wLg++ :
-        widget[0].wLg === this.gridsterItemOptions.minWidth ? widget[0].wLg = this.gridsterItemOptions.minWidth : widget[0].wLg--;
-      this.gridsterContainer.reload();
+        widget[0].wLg === this.gridsterItemOptions.maxWidth ? widget[0].wLg = this.gridsterItemOptions.maxWidth : widget[0].wLg += 4 :
+        widget[0].wLg === this.gridsterItemOptions.minWidth ? widget[0].wLg = this.gridsterItemOptions.minWidth : widget[0].wLg -= 4;
     }
+    this.gridsterContainer.reload();
   }
 
   /**
@@ -88,5 +92,51 @@ export class DashboardComponent implements OnInit {
    */
   removeItem(index): void {
     this.widgets.splice(index, 1);
+    this.dataService.dashboardToTools$.next(this.widgets);
   }
+
+  /**
+   * add item to dashboard
+   * @param itemType
+   */
+  addItemToDashboard(itemType): void {
+    const widget = this.defauldWidgets.find( item => item.type === itemType);
+    this.widgets.push(widget);
+    this.gridsterContainer.reload();
+  }
+
+  /**
+   * check window width for ratio
+   */
+  changeRatioByWidth(): void {
+    const winWidth = window.innerWidth;
+    if (winWidth > 1200 && winWidth < 1230) {
+      this.changeRatio(.78);
+    } else if (winWidth > 1230 && winWidth < 1260) {
+      this.changeRatio(.80);
+    } else if (winWidth > 1260 && winWidth < 1290) {
+      this.changeRatio(.82);
+    } else if (winWidth > 1290 && winWidth < 1310) {
+      this.changeRatio(.84);
+    } else if (winWidth > 1310 && winWidth < 1340) {
+      this.changeRatio(.86);
+    } else if (winWidth > 1340 && winWidth < 1370) {
+      this.changeRatio(.88);
+    } else if (winWidth > 1370 && winWidth < 1400) {
+      this.changeRatio(.91);
+    } else if (winWidth > 1400 && winWidth < 1430) {
+      this.changeRatio(.94);
+    } else if (winWidth > 1430 ) {
+      this.changeRatio(.97);
+    }
+  }
+
+  /**
+   * change ration
+   * @param {number} value
+   */
+  private changeRatio(value: number) {
+    this.gridsterContainer.setOption('widthHeightRatio', value ).reload();
+  }
+
 }

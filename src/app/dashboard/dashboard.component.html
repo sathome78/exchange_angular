@@ -1,4 +1,4 @@
-<div class="dashboard">
+<div class="dashboard" (window:resize)="changeRatioByWidth()">
   <div class="dashboard__widget-wrap">
 
     <ngx-gridster #gridsterContainer
@@ -17,7 +17,6 @@
       </ngx-gridster-item>
 
     </ngx-gridster>
-
 
     <ng-template #graph let-index>
        <app-graph (changeItemSize)="changeItemSize($event)"
@@ -69,3 +68,6 @@
   </div>
 </div>
 
+<app-tools [dashboardItems]="widgets">
+
+</app-tools>
