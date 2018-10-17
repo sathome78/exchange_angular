@@ -5,11 +5,15 @@ import {SettingsModule} from './settings/settings.module';
 import {SettingsComponent} from './settings/settings.component';
 import {TwoFactorPopupComponent} from './popups/two-factor-popup/two-factor-popup.component';
 import {AuthGuard} from './services/auth.guard';
+import {OrdersHistoryComponent} from './orders/orders-history/orders-history.component';
+import {OpenOrdersComponent} from './orders/open-orders/open-orders.component';
 
 
 const routes: Routes = [
   // permit all
   { path: 'dashboard',      component: DashboardComponent },
+  { path: 'open-orders', component: OpenOrdersComponent },
+  { path: 'orders-history', component: OrdersHistoryComponent },
   // { path: 'funds',      component: DashboardComponent, },ç
   // { path: 'orders',      component: DashboardComponent, },
   { path: 'settings',  component: SettingsComponent, /*canActivate: [AuthGuard], canActivateChild: [AuthGuard]*/},
