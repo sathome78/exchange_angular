@@ -6,7 +6,7 @@ export const gridsterOptions = {
   direction: 'vertical', // floating top - vertical, left - horizontal
   floating: true,
   dragAndDrop: true, // enable/disable drag and drop for all items in grid
-  resizable: true, // enable/disable resizing by drag and drop for all items in grid
+  resizable: false, // enable/disable resizing by drag and drop for all items in grid
   resizeHandles: {
     s: true,
     e: true,
