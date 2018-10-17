@@ -26,8 +26,8 @@
   .dashboard{
     &__item{
       min-height: auto;
-      height: 450px;
-      margin: 0 16px 20px;
+
+
       &--width1{
         width: calc(100% / 3 - 32px);
       }
@@ -49,6 +49,14 @@
       &--hide-mob{
         display: block;
       }
+    }
+    .gridster-item{
+      border: none;
+      height: 480px;
+      padding: 0 16px 20px;
+    }
+    .gridster-item-inner{
+      height: 100%;
     }
   }
 }

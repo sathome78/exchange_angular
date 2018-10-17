@@ -1,0 +1,16 @@
+<div class="dashboard-tools" style="min-width: 103px" (mouseenter)="showOverlay()" (mouseleave)="hideOverlay()">
+  <div class="dashboard-tools__header">
+    Tools
+  </div>
+
+  <div class="dashboard-tools__item" *ngFor="let item of visibleToolsItems"
+  (click)="addToDashboard(item.type)">
+    <div class="dashboard-tools__item-icon">
+      <img class="" src="{{item.imgUrl}}">
+    </div>
+    <span>{{item.name}}</span>
+  </div>
+
+</div>
+
+<div class="overlay overlay-hide" #overlay [ngClass]="{'overlay-show': overlayShow}"></div>

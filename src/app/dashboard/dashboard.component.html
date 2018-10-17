@@ -1,4 +1,4 @@
-<div class="dashboard">
+<div class="dashboard" (window:resize)="changeRatioByWidth()">
   <div class="dashboard__widget-wrap">
 
     <ngx-gridster #gridsterContainer
@@ -11,13 +11,12 @@
           [(xMd)]="widget.xMd" [(yMd)]="widget.yMd" [(wMd)]="widget.wMd" [(hMd)]="widget.hMd"
           [(xLg)]="widget.xLg" [(yLg)]="widget.yLg" [(wLg)]="widget.wLg" [(hLg)]="widget.hLg"
           [(xXl)]="widget.xXl" [(yXl)]="widget.yXl" [(wXl)]="widget.wXl" [(hXl)]="widget.hXl"
-          [(dragAndDrop)]="widget.dragAndDrop" [(resizable)]="widget.resizable">
+          [(dragAndDrop)]="widget.dragAndDrop" [(resizable)]="widget.resizable" class="gridster-item">
           <ng-template [ngTemplateOutlet]="loadWidgetTemplate(widget.type)" [ngTemplateOutletContext]="{ $implicit: index}">
         </ng-template>
       </ngx-gridster-item>
 
     </ngx-gridster>
-
 
     <ng-template #graph let-index>
        <app-graph (changeItemSize)="changeItemSize($event)"
@@ -61,11 +60,15 @@
       </app-orders>
     </ng-template>
 
-
     <!--<div class="dashboard__item dashboard__item&#45;&#45;width2">-->
     <!--<app-active-pair></app-active-pair>-->
     <!--</div>-->
 
   </div>
+  <app-ico-search></app-ico-search>
+  <app-market-search></app-market-search>
 </div>
 
+<app-tools [dashboardItems]="widgets">
+
+</app-tools>

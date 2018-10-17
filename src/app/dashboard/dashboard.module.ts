@@ -19,6 +19,9 @@ import {ActivePairComponent} from './active-pair/active-pair.component';
 import {SharedModule} from '../shared/shared.module';
 import {GridsterModule} from 'angular2gridster';
 import {DashboardDataService} from './dashboard-data.service';
+import { IcoSearchComponent } from './ico-search/ico-search.component';
+import { MarketSearchComponent } from './market-search/market-search.component';
+import { ToolsComponent } from './tools/tools.component';
 import {StompConfig, StompService} from '@stomp/ng2-stompjs';
 import {environment} from '../../environments/environment';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
@@ -69,6 +72,9 @@ const stompConfig: StompConfig = {
     TradingComponent,
     OpenOrdersComponent,
     OrdersHistoryComponent,
+    IcoSearchComponent,
+    MarketSearchComponent,
+    ToolsComponent,
   ],
   imports: [
     SharedModule,

@@ -40,6 +40,21 @@
     background-image: url("assets/img/calendar.svg");
   }
 }
+.icon-mydpremove{
+  &:before {
+    content: '' !important;
+    display: block;
+    width: 10px;
+    height: 10px;
+    margin: 0 auto;
+    background-image: url("assets/img/close-grey.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-background-size: cover;
+    background-size: cover;
+    //background-image: url("assets/img/calendar.svg");
+  }
+}
 
 /*--- media start ---*/
 @media (min-width:600px) {
