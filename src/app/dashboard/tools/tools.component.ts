@@ -17,9 +17,9 @@ export class ToolsComponent implements OnInit {
   /** get overlay */
   @ViewChild('overlay') overlay: ElementRef;
 
-  public allWidgets;
-  public allToolsItems;
-  public visibleToolsItems;
+  public allWidgets: DashboardWidgetItemModel[];
+  public allToolsItems: DashboardToolsItemModel[];
+  public visibleToolsItems: DashboardToolsItemModel[];
   public overlayShow = false;
 
   constructor(
@@ -30,7 +30,7 @@ export class ToolsComponent implements OnInit {
     this.allWidgets = [...this.dataService.getWidgetPositions()];
     this.allToolsItems = [...this.dataService.getToolsItems()];
     this.dataService.dashboardToTools$.subscribe( res => {
-      this.updateVisibleToolsItems(res);
+      this.updateVisibleToolsItems(res as DashboardWidgetItemModel[]);
     });
   }
 
@@ -38,7 +38,7 @@ export class ToolsComponent implements OnInit {
    * Get difference between dashboard and tools items
    * @param widgets
    */
-  updateVisibleToolsItems(widgets: DashboardWidgetItemModel): void {
+  updateVisibleToolsItems(widgets: DashboardWidgetItemModel[]): void {
     const difference = _difference(this.allWidgets , widgets);
     const differenceTools = _differenceBy(this.allToolsItems, difference, 'type');
     this.visibleToolsItems = _difference( this.allToolsItems, differenceTools);

@@ -1,3 +1,4 @@
+
 .widget{
   &__table-row {
     &:nth-of-type(odd) {
@@ -8,3 +9,52 @@
     }
   }
 }
+
+//---------
+
+.widget--gradient{
+  padding-bottom: 50px;
+}
+
+.tab-no-active{
+  border-bottom: 2px solid transparent;
+}
+
+tbody {
+  display: block;
+  height: 400px;
+  overflow-y: scroll;
+}
+
+thead, tbody tr {
+  display:table;
+  width:100%;
+  table-layout:fixed;/* even columns width , fix width of table too*/
+}
+
+.widget__content{
+  overflow-y: hidden;
+}
+
+//scrollbar  styles
+/* width */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #E5E5E5;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+//----------

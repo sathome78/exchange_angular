@@ -81,7 +81,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     } else {
       event.isIncrement ?
         widget[0].wLg === this.gridsterItemOptions.maxWidth ? widget[0].wLg = this.gridsterItemOptions.maxWidth : widget[0].wLg += 4 :
-        widget[0].wLg === this.gridsterItemOptions.minWidth ? widget[0].wLg = this.gridsterItemOptions.minWidth : widget[0].wLg -= 4;
+        widget[0].wLg === 8 ? widget[0].wLg = 8 : widget[0].wLg -= 4;
     }
     this.gridsterContainer.reload();
   }
@@ -111,23 +111,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   changeRatioByWidth(): void {
     const winWidth = window.innerWidth;
     if (winWidth > 1200 && winWidth < 1230) {
-      this.changeRatio(.78);
+      this.changeRatio(.76);
     } else if (winWidth > 1230 && winWidth < 1260) {
-      this.changeRatio(.80);
+      this.changeRatio(.78);
     } else if (winWidth > 1260 && winWidth < 1290) {
-      this.changeRatio(.82);
+      this.changeRatio(.80);
     } else if (winWidth > 1290 && winWidth < 1310) {
-      this.changeRatio(.84);
+      this.changeRatio(.82);
     } else if (winWidth > 1310 && winWidth < 1340) {
-      this.changeRatio(.86);
+      this.changeRatio(.83);
     } else if (winWidth > 1340 && winWidth < 1370) {
-      this.changeRatio(.88);
+      this.changeRatio(.86);
     } else if (winWidth > 1370 && winWidth < 1400) {
-      this.changeRatio(.91);
+      this.changeRatio(.89);
     } else if (winWidth > 1400 && winWidth < 1430) {
-      this.changeRatio(.94);
+      this.changeRatio(.91);
     } else if (winWidth > 1430 ) {
-      this.changeRatio(.97);
+      this.changeRatio(.84);
     }
   }
 
