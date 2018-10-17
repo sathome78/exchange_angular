@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IcoSearchComponent } from './ico-search.component';
+import { CurrencySearchComponent } from './currency-search.component';
 
-describe('IcoSearchComponent', () => {
-  let component: IcoSearchComponent;
-  let fixture: ComponentFixture<IcoSearchComponent>;
+describe('CurrencySearchComponent', () => {
+  let component: CurrencySearchComponent;
+  let fixture: ComponentFixture<CurrencySearchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IcoSearchComponent ]
+      declarations: [ CurrencySearchComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IcoSearchComponent);
+    fixture = TestBed.createComponent(CurrencySearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

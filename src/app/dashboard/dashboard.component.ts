@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.defauldWidgets = [...this.widgets];
     this.gridsterOptions = gridsterOptions;
     this.gridsterItemOptions = gridsterItemOptions;
+    // TODO: takeUntil
     this.dataService.toolsToDashboard$.subscribe(res => this.addItemToDashboard(res));
   }
 
