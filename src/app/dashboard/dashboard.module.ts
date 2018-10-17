@@ -38,11 +38,8 @@ import { ToolsComponent } from './tools/tools.component';
     OpenOrdersComponent,
     OrdersHistoryComponent,
     IcoSearchComponent,
-<<<<<<< HEAD
     MarketSearchComponent,
-=======
     ToolsComponent,
->>>>>>> 0ba094c25df71ea4970e3ff0a57a1b7060f78f72
   ],
   imports: [
     SharedModule,
