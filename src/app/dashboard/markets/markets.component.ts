@@ -21,7 +21,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   volumeOrderDirection = 'NONE';
   selectedCurrencyPair: CurrencyPair;
   showSelectedOnly = false;
-  host = environment.apiUrl;
 
   constructor(private marketService: MarketService) {
     super();

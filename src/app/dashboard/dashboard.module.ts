@@ -30,6 +30,7 @@ import {MarketService} from './markets/market.service';
 
 export function socketProvider() {
   return new SockJS(environment.apiUrl + '/public_socket');
+  // return new SockJS('http://localhost:5555/jsa-stomp-endpoint');
 }
 
 const stompConfig: StompConfig = {
@@ -39,8 +40,8 @@ const stompConfig: StompConfig = {
   // Headers
   // Typical keys: login, passcode, host
   headers: {
-    login: 'guest',
-    passcode: 'guest'
+    // login: 'guest',
+    // passcode: 'guest'
   },
 
   // How often to heartbeat?
@@ -54,7 +55,7 @@ const stompConfig: StompConfig = {
   reconnect_delay: 5000,
 
   // Will log diagnostics on console
-  debug: true
+  debug: false
 };
 
 @NgModule({

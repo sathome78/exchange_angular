@@ -3,7 +3,7 @@ import {Subject} from 'rxjs/Subject';
 import {StompService} from '@stomp/ng2-stompjs';
 import {CurrencyPair} from './currency-pair.model';
 import {Message} from '@stomp/stompjs';
-import {map} from 'rxjs/internal/operators';
+import {map, catchError} from 'rxjs/internal/operators';
 
 
 @Injectable()
@@ -20,15 +20,13 @@ export class MarketService {
     this.activeCurrencyListener = new Subject<CurrencyPair>();
   }
 
-  setStompSubscription() {
-    this.stompSubscription = this.stompService
-      .subscribe('/app/info/statistics')
-      .pipe(map((message: Message) => {
-        const items: CurrencyPair [] = [];
-        items.push(... JSON.parse(message.body));
-        // console.log(items);
+  setStompSubscription(): any {
+    return this.stompSubscription = this.stompService
+      .subscribe('/app/statisticsNew')
+      .pipe( map((message: Message) => JSON.parse(JSON.parse(message.body))))
+      .subscribe((items) => {
         this.processCurrencyPairs(items);
-      }));
+      });
   }
 
   private processCurrencyPairs(array: CurrencyPair[]) {
@@ -39,6 +37,7 @@ export class MarketService {
     if (this.currencyPairs.length > 0) {
       this.activeCurrencyListener.next(this.currencyPairs[0]);
     }
+    console.log(array);
   }
 
   unsubscribe() {
