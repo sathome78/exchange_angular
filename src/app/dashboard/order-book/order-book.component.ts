@@ -16,7 +16,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   ngOnInit() {
-    this.itemName = 'markets';
+    this.itemName = 'order-book';
   }
 
 }

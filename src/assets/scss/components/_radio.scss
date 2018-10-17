@@ -3,6 +3,10 @@
   display: inline-block;
   &:hover{
     cursor: pointer;
+    .radio__text {
+      background-color: $darker-blue;
+      color:#fff;
+    }
   }
   /*--- modificators start ---*/
   &--mr12{
@@ -21,10 +25,7 @@
           display: block;
         }
       }
-      ~.radio__text {
-        background-color: $darker-blue;
-        color:#fff;
-      }
+
     }
   }
 

@@ -78,7 +78,7 @@
 
   &__icon {
     position: absolute;
-    top: 14px;
+    top: 9px;
     left: 10px;
     display: inline-block;
     width: 18px;
@@ -170,7 +170,11 @@
           background-color: transparent;
         }
       }
-
+      ~.wrap-input__icon{
+        svg{
+          fill:$darker-blue;
+        }
+      }
       ~ .wrap-input__line {
         background-color: $darker-blue;
       }
@@ -207,7 +211,9 @@
     &__input {
       height: 45px;
     }
-
+    &__icon {
+      top: 14px;
+    }
     &__show-password {
       top: 15px;
     }
@@ -246,6 +252,9 @@
             background-color: transparent;
           }
         }
+        ~ .wrap-input__icon {
+         fill: $light-blue;
+        }
         ~ .wrap-input__line {
           background-color: $light-blue;
         }
@@ -260,6 +269,8 @@
           }
         }
       }
+    }
+    &__icon {
     }
   }
 }

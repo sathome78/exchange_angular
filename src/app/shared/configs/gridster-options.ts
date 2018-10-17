@@ -6,7 +6,7 @@ export const gridsterOptions = {
   direction: 'vertical', // floating top - vertical, left - horizontal
   floating: true,
   dragAndDrop: true, // enable/disable drag and drop for all items in grid
-  resizable: true, // enable/disable resizing by drag and drop for all items in grid
+  resizable: false, // enable/disable resizing by drag and drop for all items in grid
   resizeHandles: {
     s: true,
     e: true,
@@ -14,9 +14,11 @@ export const gridsterOptions = {
     sw: true,
     w: true,
   },
-  widthHeightRatio: 1, // proportion between item width and height
+    // widthHeightRatio: .97
+    widthHeightRatio: .78
+  , // proportion between item width and height
   lines: {
-    visible: true,
+    visible: false,
     color: '#9f7f6d',
     width: 1
   },
@@ -38,10 +40,14 @@ export const gridsterOptions = {
     {
       breakpoint: 'md',
       minWidth: 768,
+      minHeight: 500,
+      widthHeightRatio: 0.5
     },
     {
       breakpoint: 'lg',
-      minWidth: 1200,
+      minWidth: 1180,
+      minHeight: 500,
+      celWidth: '30px'
     }
   ]
 };
@@ -51,5 +57,5 @@ export const gridsterItemOptions = {
   minWidth: 4,
   minHeight: 4,
   maxWidth: 12,
-  maxHeight: 6
+  maxHeight: 7
 };
