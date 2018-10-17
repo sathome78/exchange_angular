@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {PopupService} from '../../services/popup.service';
-import {UserVerificationModel} from './user-verification.model';
+import {UserVerificationService} from '../../services/user-verification.service';
 
 @Component({
   selector: 'app-identity-popup',
@@ -11,7 +11,6 @@ export class IdentityPopupComponent implements OnInit {
 
   step = 1;
   stepsSize = 1;
-  verificationEntity: UserVerificationModel
 
 
   constructor(private popupService: PopupService) { }
@@ -25,9 +24,5 @@ export class IdentityPopupComponent implements OnInit {
 
   moveNext(step: number) {
     this.step = step;
-  }
-
-  saveVerificationEntity(data: UserVerificationModel) {
-    this.verificationEntity = data;
   }
 }

@@ -1,5 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Subject} from 'rxjs';
+import {UserVerificationService} from '../../../services/user-verification.service';
 
 @Component({
   selector: 'app-step-three',
@@ -16,10 +17,11 @@ export class StepThreeComponent implements OnInit {
   @Output() onNextStep = new EventEmitter<number>();
   displayMode = this.STEP;
 
-  constructor() {
+  constructor(private verificationService: UserVerificationService) {
   }
 
   ngOnInit() {
+    this.verificationService.setVerificationMode('PHOTO');
   }
 
   toggleWebcam() {

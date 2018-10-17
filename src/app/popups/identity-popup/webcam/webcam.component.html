@@ -1,9 +1,16 @@
-<webcam [height]="136" [width]="244" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
-        [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
+<webcam [height]="136" [width]="244"
+        [trigger]="triggerObservable"
+        (imageCapture)="handleImage($event)"
+        [allowCameraSwitch]="allowCameraSwitch"
+        [switchCamera]="nextWebcamObservable"
         [videoOptions]="videoOptions"
         (cameraSwitched)="cameraWasSwitched($event)"
         (initError)="handleInitError($event)"
 ></webcam>
+
+<div class="modal__row">
+  <button class="btn btn--active" (click)="onSubmit()">Submit</button>
+</div>
 
 <!--<button (click)="triggerSnapshot();">Take A Snapshot</button>-->
 <!--<br/>-->
