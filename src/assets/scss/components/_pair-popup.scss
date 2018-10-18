@@ -1,6 +1,8 @@
 .pair-popup{
   position: relative;
+  z-index: 5;
   padding: 0 12px 0;
+  background: linear-gradient(to bottom, #F5F5F5 0%, #FDFDFD 50%, #F5F5F5 100%);
   /*--- modificators start ---*/
   /*--- modificators end ---*/
   /*--- elements start ---*/
@@ -40,14 +42,17 @@
   &__input{
     .wrap-input__input{
       padding-left: 32px;
+      background-color: transparent;
       &:focus{
         ~.wrap-input__label{
           left: 12px;
+          background-color: #f5f5f5;
         }
       }
       &:valid{
         ~.wrap-input__label{
           left: 12px;
+          background-color: #f5f5f5;
         }
       }
     }
@@ -188,6 +193,8 @@
 .dark-theme{
   .pair-popup{
     border-color: $light-blue;
+    background: none;
+    background-color: $dark-indigo;
     &__close-mob{
       svg{
         fill: $light-blue;

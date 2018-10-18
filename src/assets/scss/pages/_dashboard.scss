@@ -6,6 +6,8 @@
   &__widget-wrap{
     display: flex;
     flex-wrap: wrap;
+    max-width: 1464px;
+    margin: 0 auto;
     //justify-content: space-between;
   }
   &__item{
