@@ -23,6 +23,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('chat') chatTemplate: TemplateRef<any>;
   @ViewChild('orders') ordersTemplate: TemplateRef<any>;
 
+  /** variables for resize method */
+  public minWidth = 1200;
+  public maxWidth = 1500;
+  public minRatio = 0.77;
+  public maxRatio = 0.94;
+  public widthStep = 5;
+  /** ---------------------- */
+
   public widgets;
   public defauldWidgets;
   public gridsterOptions;
@@ -37,6 +45,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.defauldWidgets = [...this.widgets];
     this.gridsterOptions = gridsterOptions;
     this.gridsterItemOptions = gridsterItemOptions;
+    // TODO: takeUntil
     this.dataService.toolsToDashboard$.subscribe(res => this.addItemToDashboard(res));
   }
 
@@ -104,30 +113,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.widgets.push(widget);
     this.gridsterContainer.reload();
   }
-
   /**
-   * check window width for ratio
+   * check window width for ratio (static height for dashboard items)
    */
   changeRatioByWidth(): void {
     const winWidth = window.innerWidth;
-    if (winWidth > 1200 && winWidth < 1230) {
-      this.changeRatio(.76);
-    } else if (winWidth > 1230 && winWidth < 1260) {
-      this.changeRatio(.78);
-    } else if (winWidth > 1260 && winWidth < 1290) {
-      this.changeRatio(.80);
-    } else if (winWidth > 1290 && winWidth < 1310) {
-      this.changeRatio(.82);
-    } else if (winWidth > 1310 && winWidth < 1340) {
-      this.changeRatio(.83);
-    } else if (winWidth > 1340 && winWidth < 1370) {
-      this.changeRatio(.86);
-    } else if (winWidth > 1370 && winWidth < 1400) {
-      this.changeRatio(.89);
-    } else if (winWidth > 1400 && winWidth < 1430) {
-      this.changeRatio(.91);
-    } else if (winWidth > 1430 ) {
-      this.changeRatio(.84);
+    const countWidthSteps = (this.maxWidth - this.minWidth) / this.widthStep;
+    const ratioStep = (this.maxRatio - this.minRatio) / countWidthSteps;
+    if (winWidth <= this.minWidth) {
+      this.changeRatio(this.minRatio);
+    } else if (winWidth > this.maxWidth) {
+      this.changeRatio(this.maxRatio);
+    } else {
+      const ratio = (((winWidth - this.minWidth) / this.widthStep) * ratioStep) + this.minRatio;
+      this.changeRatio(ratio);
     }
   }
 

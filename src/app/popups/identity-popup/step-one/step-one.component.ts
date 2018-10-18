@@ -1,8 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {IMyDpOptions} from 'mydatepicker';
-import {UserVerificationModel} from '../user-verification.model';
 import {PopupService} from '../../../services/popup.service';
+import {UserVerificationService} from '../../../services/user-verification.service';
+import {UserInfoVerificationModel} from '../user-info-verification.model';
 
 @Component({
   selector: 'app-step-one',
@@ -12,7 +13,6 @@ import {PopupService} from '../../../services/popup.service';
 export class StepOneComponent implements OnInit {
 
   @Output() nextStep = new EventEmitter<number>();
-  @Output() createVerificationEntity = new EventEmitter<UserVerificationModel>();
   form: FormGroup;
 
   public myDatePickerOptions: IMyDpOptions = {
@@ -22,7 +22,8 @@ export class StepOneComponent implements OnInit {
   };
   public model: any = { date: { year: 2018, month: 10, day: 9 } };
 
-  constructor(private popupService: PopupService) { }
+  constructor(private popupService: PopupService,
+              private verificationService: UserVerificationService) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -40,13 +41,20 @@ export class StepOneComponent implements OnInit {
   }
 
   moveNext() {
-    this.nextStep.emit(2);
-    const entity = UserVerificationModel
+    // this.nextStep.emit(2);
+
+    const entity = UserInfoVerificationModel
       .builder()
-      .withFormFroup(this.form)
-      .withDocumentType(this.popupService.getIdentityDocumentType())
+      .withFormGroup(this.form)
       .build();
-    this.createVerificationEntity.emit(entity);
+    console.log(JSON.stringify(entity));
+    this.verificationService.uploadVerificationInfo(entity).subscribe(res => {
+      console.log(res);
+        this.nextStep.emit(2);
+    },
+    error1 => {
+      console.log(error1);
+    });
   }
 
   onSubmit() {
@@ -58,7 +66,7 @@ export class StepOneComponent implements OnInit {
   private patchTestData() {
     this.form.get('firstName').patchValue('FirstName');
     this.form.get('lastName').patchValue('LastName');
-    this.form.get('born').patchValue('12.11.1976');
+    this.form.get('born').patchValue(new Date());
     this.form.get('address').patchValue('Residential Address');
     this.form.get('postalCode').patchValue('7546743');
     this.form.get('country').patchValue('Kazahstan');

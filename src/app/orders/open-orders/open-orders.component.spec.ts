@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IcoSearchComponent } from './ico-search.component';
+import { OpenOrdersComponent } from './open-orders.component';
 
-describe('IcoSearchComponent', () => {
-  let component: IcoSearchComponent;
-  let fixture: ComponentFixture<IcoSearchComponent>;
+describe('OpenOrdersComponent', () => {
+  let component: OpenOrdersComponent;
+  let fixture: ComponentFixture<OpenOrdersComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IcoSearchComponent ]
+      declarations: [ OpenOrdersComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IcoSearchComponent);
+    fixture = TestBed.createComponent(OpenOrdersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

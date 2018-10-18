@@ -20,7 +20,6 @@
           *ngIf="displayMode === WEBCAM"
           (showWebcam)="displayMode = STEP"
           (submitResult)="processSubmitResult($event)"
-          [events]="submitEventSubject.asObservable()"
         >
         </app-webcam>
       </div>

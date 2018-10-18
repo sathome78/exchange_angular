@@ -1,0 +1,59 @@
+<div class="currency-pair-info" *ngIf="pair">
+  <div class="currency-pair-info__inner">
+    <div class="currency-pair-info__pair">
+      <div class="dropdown currency-pair-info__dropdown">
+        <div class="dropdown__btn" (click)="toggleCurrencySearch()">{{pair.currencyPairName}}</div>
+        <ul class="dropdown__list">
+          <li class="dropdown__item">ETH</li>
+          <li class="dropdown__item">LTC</li>
+          <li class="dropdown__item">DASH</li>
+        </ul>
+      </div>
+      <div class="currency-pair-info__change-pair"></div>
+      <div class="dropdown currency-pair-info__dropdown">
+        <div class="dropdown__btn" (click)="toggleCurrencySearch()">{{pair.market}}</div>
+        <ul class="dropdown__list">
+          <li class="dropdown__item">ETH</li>
+          <li class="dropdown__item">LTC</li>
+          <li class="dropdown__item">DASH</li>
+        </ul>
+      </div>
+    </div>
+    <div class="currency-pair-info__info currency-pair-info__info--up">
+      <div class="currency-pair-info__change">
+        <span>+0.8%</span>
+        <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="">
+        <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="">
+        <span>(+49,816 USD)</span>
+      </div>
+      <div class="currency-pair-info__price">6 227 USD</div>
+    </div>
+    <div class="currency-pair-info__item">
+      <div class="currency-pair-info__item-title">24h hight</div>
+      <span class="currency-pair-info__item-value">6 327 USD</span>
+    </div>
+    <div class="currency-pair-info__item">
+      <div class="currency-pair-info__item-title">24h low</div>
+      <span class="currency-pair-info__item-value">6 162 USD</span>
+    </div>
+    <div class="currency-pair-info__item">
+      <div class="currency-pair-info__item-title">24h volume</div>
+      <span class="currency-pair-info__item-value">{{pair.volume}} million  USD</span>
+    </div>
+    <div class="currency-pair-info__item">
+      <div class="currency-pair-info__item-title">You have</div>
+      <div class="currency-pair-info__you-have">
+        <span class="currency-pair-info__item-value">43 522 764  USD</span>
+        <span class="currency-pair-info__vertical-line"></span>
+        <span class="currency-pair-info__item-value">1.22764 BTC</span>
+      </div>
+    </div>
+  </div>
+
+  <app-currency-search
+    *ngIf="showCurrencySearch"
+    [currencies]="currencies"
+    (closeCurrencySearch)="toggleCurrencySearch()"
+    (selectCurrency)="onSelectCurrency($event)">
+  </app-currency-search>
+</div>

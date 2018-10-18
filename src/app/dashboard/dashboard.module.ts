@@ -18,9 +18,10 @@ import {ActivePairComponent} from './active-pair/active-pair.component';
 import {SharedModule} from '../shared/shared.module';
 import {GridsterModule} from 'angular2gridster';
 import {DashboardDataService} from './dashboard-data.service';
-import { IcoSearchComponent } from './ico-search/ico-search.component';
+import { CurrencySearchComponent } from './currency-pair-info/currency-search/currency-search.component';
 import { MarketSearchComponent } from './market-search/market-search.component';
 import { ToolsComponent } from './tools/tools.component';
+import { CurrencyPairInfoComponent } from './currency-pair-info/currency-pair-info.component';
 
 @NgModule({
   declarations: [
@@ -37,9 +38,10 @@ import { ToolsComponent } from './tools/tools.component';
     TradingComponent,
     OpenOrdersComponent,
     OrdersHistoryComponent,
-    IcoSearchComponent,
+    CurrencySearchComponent,
     MarketSearchComponent,
     ToolsComponent,
+    CurrencyPairInfoComponent,
   ],
   imports: [
     SharedModule,

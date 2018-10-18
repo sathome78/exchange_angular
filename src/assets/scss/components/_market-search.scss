@@ -69,12 +69,36 @@
 /*--- DARK THEME START---*/
 .dark-theme{
   .market-search{
+    &__input{
+      .wrap-input__input{
+        &:focus{
+          ~.wrap-input__icon{
+            svg{
+              fill:$light-blue;
+            }
+          }
+        }
+        &:valid{
+          ~.wrap-input__icon{
+            svg{
+              fill:$light-blue;
+            }
+          }
+        }
+      }
+      .wrap-input__icon{
+        svg{
+          fill:$light-blue;
+        }
+      }
+    }
     .table__row{
       background-color: transparent;
     }
   }
 }
 @media (min-width:1200px) {
-  .dark-theme{}
+  .dark-theme{
+  }
 }
 /*--- DARK THEME END---*/

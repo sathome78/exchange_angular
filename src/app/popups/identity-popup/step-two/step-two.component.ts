@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
-import {Observable, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
+import {UserVerificationService} from '../../../services/user-verification.service';
 
 @Component({
   selector: 'app-step-two',
@@ -16,16 +16,13 @@ export class StepTwoComponent implements OnInit {
   submitEventSubject: Subject<string> = new Subject<string>();
   @Output() onNextStep = new EventEmitter<number>();
 
-  @Input('formEntity') formEntity;
-
   displayMode = this.STEP;
 
-  constructor() {
+  constructor(private verificationService: UserVerificationService) {
   }
 
   ngOnInit() {
 
-    console.log('entity: ' + JSON.stringify(this.formEntity));
   }
 
   toggleWebcam() {
@@ -51,6 +48,6 @@ export class StepTwoComponent implements OnInit {
 
 
   processSubmitResult(code: any) {
-
+     console.log(code);
   }
 }

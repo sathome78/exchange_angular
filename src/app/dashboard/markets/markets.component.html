@@ -98,7 +98,6 @@
       </button>
       <button class="tabs__item tabs__item--small"
               [ngClass]="{'tabs__item--active': activeTab === 'Favorites','tab-no-active': activeTab !== 'Favorites'}"
-              (click)="selectedTab('Favorites')"
       >
         Favorites
       </button>
@@ -119,7 +118,7 @@
 
           </th>
           <th class="table__cell-head table__cell-head--tal table__cell-head--p4" width="15%">Pair</th>
-          <th class="table__cell-head table__cell-head--tal table__cell-head--p4" width="20%">Price in <span>BTC</span></th>
+          <th class="table__cell-head table__cell-head--tal table__cell-head--p4" width="20%">Price in <span>{{this.activeTab}}</span></th>
           <th class="table__cell-head table__cell-head--tal table__cell-head--p4" width="16%">Change %</th>
           <th class="table__cell-head table__cell-head--tar table__cell-head--p4" width="28%">
             <svg class="table__cell-head-arr" width="6" height="8" viewBox="0 0 6 8" fill="none"
@@ -133,8 +132,10 @@
         </thead>
         <tbody class="table__body table__body--none-shadow">
 
-        <ng-container *ngFor="let pair of marketsData">
-          <tr class="table__row widget__table-row" [ngClass]="{'widget__table-row--green': pair.changeUp, 'widget__table-row--red': !pair.changeUp}">
+        <ng-container *ngFor="let pair of showMarketsData | sort:'pairA'">
+          <tr class="table__row widget__table-row"
+              [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}"
+          (click)="selectPair(pair)">
             <td class="table__cell table__cell--tac" width="7%">
             <span class="table__row-star" [ngClass]="{'table__row-star--select': pair.favorite}" (click)="addToFaborites(pair)">
               <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -144,15 +145,15 @@
             </span>
             </td>
             <td class="table__cell" width="19%">
-              <span>{{pair.pairA}}</span>
-              <span style="font-size: 10px; color:#A0A0A0">/ <span>{{pair.pairB}}</span></span>
+              <span>{{pair.currencyPairName}}</span>
+              <span style="font-size: 10px; color:#A0A0A0">/ <span>{{pair.market}}</span></span>
             </td>
             <td class="table__cell" width="25%">
-              <span class="txt-indicate">{{pair.priceIn}}</span>
+              <span class="txt-indicate">{{pair.lastOrderRate}}</span>
             </td>
             <td class="table__cell" width="19%">
-              <span style="margin-right: 2px;" [ngClass]="{'txt-green': pair.changeUp, 'txt-red': !pair.changeUp}">{{pair.changePercent}}</span>
-              <span class="arr" [ngClass]="{'arr--green': pair.changeUp, 'arr--red': !pair.changeUp}"></span>
+              <span style="margin-right: 2px;" [ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}">{{pair.percentChange}}</span>
+              <span class="arr" [ngClass]="{'arr--green': isChangePositive(pair), 'arr--red': !isChangePositive(pair)}"></span>
             </td>
             <td class="table__cell table__cell--tar" width="32%">
               <span style="font-size: 10px; color:#A0A0A0">{{pair.volume}}</span>
@@ -399,7 +400,7 @@
 
   </div>
   <div class="widget__search">
-    <input class="widget__search-input" type="text" required="" placeholder="Search">
+    <input class="widget__search-input" type="text" required="" placeholder="Search" (input)="searchPair($event.target.value)">
     <span class="widget__input-img"><img src="../../assets/img/search.svg"></span>
   </div>
 
