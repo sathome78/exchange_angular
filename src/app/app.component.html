@@ -3,10 +3,10 @@
 
   <div class="content">
 
-    <div style="position: relative; width: 100%; flex-grow: 1;">
+    <div style="flex-grow: 1;">
 
       <!--<div class="container">-->
-      <div class="container container--dashboard">
+      <!--<div class="container container&#45;&#45;dashboard">-->
 
         <div *ngIf="isTfaPopupOpen">
           <app-two-factor-popup></app-two-factor-popup>
@@ -23,9 +23,8 @@
         <router-outlet></router-outlet>
 
         <a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>
-      </div>
+      <!--</div>-->
     </div>
-
   </div>
 
   <app-notification
