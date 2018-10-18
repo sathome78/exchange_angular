@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/internal/operators'
 
 import { DashboardDataService } from '../dashboard-data.service';
 import { Currency } from './currency-search/currency.model';
+import {MockDataService} from '../../services/mock-data.service';
 
 /**
  * Dashboard currency pair information component
@@ -19,13 +20,21 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   showCurrencySearch: boolean;
   /** available currencies */
   currencies: Currency[];
+  /** current active pair */
+  public pair;
 
-  constructor(private dashboardService: DashboardDataService) { }
+  constructor(
+    private dashboardService: DashboardDataService,
+    private mockData: MockDataService,
+  ) { }
 
   ngOnInit() {
     this.dashboardService.getCurrencies()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value: Currency[]) => this.currencies = value);
+
+    this.pair = this.mockData.getMarketsData()[0];
+    this.dashboardService.choosedPair$.subscribe( res => this.pair = res);
   }
 
   ngOnDestroy() {
