@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {StompService} from '@stomp/ng2-stompjs';
 import {CurrencyPair} from '../markets/currency-pair.model';
-import {map} from 'rxjs/internal/operators';
+import {catchError, map} from 'rxjs/internal/operators';
 import {Message} from '@stomp/stompjs';
 
 @Injectable()
@@ -23,37 +23,56 @@ export class OrderBookService {
 
   subscribeStompForSellOrders(pair: CurrencyPair) {
     this.sellOrdersSubscription = this.stompService
-      .subscribe('/app/trade_orders/' + pair.pairId)
-      .pipe(map(this.extractOrderItems))
-      .subscribe(items => {
-        this.sellOrdersListener.next(items.filter(function (item) {
-          return item.orderType === 'SELL';
+      .subscribe('/app/trade_orders/' + pair.currencyPairId)
+      .subscribe((data: Message) => {
+        console.log(JSON.parse(data.body));
+      },
+        catchError(err => {
+          console.log(err);
+          return err;
         }));
-      });
+
+
+
+
+      // .pipe(map(this.extractOrderItems))
+      // .subscribe(items => {
+      //   this.sellOrdersListener.next(items.filter(function (item) {
+      //     return item.orderType === 'SELL';
+      //   }));
+      // });
   }
 
   subscribeStompForBuyOrders(pair: CurrencyPair) {
     this.buyOrdersSubscriptionDynamic = this.stompService
-      .subscribe('/app/trade_orders/' + pair.pairId)
-      .pipe(map(this.extractOrderItems))
-      .subscribe(items => {
-        this.sellOrdersListener.next(items.filter(function (item) {
-          return item.orderType === 'BUY';
+      .subscribe('/app/trade_orders/' + pair.currencyPairId)
+      .subscribe((data: Message) => {
+          console.log(JSON.parse(data.body));
+        },
+        catchError(err => {
+          console.log(err);
+          return err;
         }));
-      });
+
+      // .pipe(map(this.extractOrderItems))
+      // .subscribe(items => {
+      //   this.sellOrdersListener.next(items.filter(function (item) {
+      //     return item.orderType === 'BUY';
+      //   }));
+      // });
   }
 
   private extractOrderItems(message: Message): OrderItem [] {
     const items: OrderItem [] = [];
+    console.log(items);
     items.push(...JSON.parse(JSON.parse(message.body)));
-    // console.log(items);
     return items;
   }
 
   // todo for private use
   subscribeStompForSellOrdersDynamic(pair: CurrencyPair) {
     this.buyOrdersSubscriptionDynamic = this.stompService
-      .subscribe('/app/queue/trade_orders/f/' + pair.pairId)
+      .subscribe('/app/queue/trade_orders/f/' + pair.currencyPairId)
       .pipe(map(this.extractDynamicItems))
       .subscribe(items => {
         this.buyOrdersListener.next(items.filter(function (item) {
@@ -65,7 +84,7 @@ export class OrderBookService {
   // todo for private use
   subscribeStompForBuyOrdersDynamic(pair: CurrencyPair) {
     this.buyOrdersSubscription = this.stompService
-      .subscribe('/app/queue/trade_orders/f/' + pair.pairId)
+      .subscribe('/app/queue/trade_orders/f/' + pair.currencyPairId)
       .pipe(map(this.extractDynamicItems))
       .subscribe(items => {
         this.buyOrdersListener.next(items.filter(function (item) {

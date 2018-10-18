@@ -19,7 +19,7 @@ export class TradeHistoryService {
 
   subscribeStompForTrades(pair: CurrencyPair) {
     this.tradesStompSubscription = this.stompService
-      .subscribe('/app/info/trades/' + pair.pairId)
+      .subscribe('/app/info/trades/' + pair.currencyPairId)
       .pipe(map(message => {
         const wrapper: TradesWrapper = JSON.parse(message.body);
         // console.log(wrapper);

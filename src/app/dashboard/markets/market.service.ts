@@ -27,7 +27,7 @@ export class MarketService {
       .subscribe('/app/statisticsNew')
       .pipe( map((message: Message) => JSON.parse(JSON.parse(message.body))))
       .subscribe((items) => {
-        this.processCurrencyPairs(items);
+        this.processCurrencyPairs(items.data);
       });
   }
 
@@ -39,7 +39,7 @@ export class MarketService {
     if (this.currencyPairs.length > 0) {
       this.activeCurrencyListener.next(this.currencyPairs[0]);
     }
-    console.log(array);
+    // console.log(array);
   }
 
   unsubscribe() {
@@ -49,7 +49,7 @@ export class MarketService {
   addOrUpdate(currencyPair: CurrencyPair) {
     let found = false;
     this.currencyPairs.forEach(item => {
-      if (currencyPair.pairId === item.pairId) {
+      if (currencyPair.currencyPairId === item.currencyPairId) {
         found = true;
         item = CurrencyPair.fromJSON(currencyPair);
       }

@@ -14,14 +14,16 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   /** dashboard item name (field for base class)*/
   public itemName: string;
 
-  orderItems: OrderItem [] = [];
-  private orderItemsSubscription: any;
+  sellOrders: OrderItem [] = [];
+  buyOrders: OrderItem [] = [];
+  private buyOrdersSubscription: any;
+  private sellOrdersSubscription: any;
   activeCurrencyPair: CurrencyPair;
   currencySubscription: any;
 
   refreshedIds: number[] = [];
 
-  constructor(private orderStatisticsService: OrderBookService,
+  constructor(private orderBookService: OrderBookService,
               private marketService: MarketService) {
     super();
   }
@@ -31,23 +33,35 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.refreshedIds = [];
     this.currencySubscription = this.marketService.activeCurrencyListener
       .subscribe(pair => {
-        console.log(pair)
+        console.log(pair);
         this.activeCurrencyPair = pair;
-        this.orderStatisticsService.unsubscribeStompForSellOrders();
-        this.orderStatisticsService.subscribeStompForSellOrders(pair);
-        this.orderItems = [];
+        this.updateSubscription(pair);
+        this.sellOrders = [];
+        this.buyOrders = [];
       });
-    this.orderItemsSubscription = this.orderStatisticsService.sellOrdersListener
+    this.buyOrdersSubscription = this.orderBookService.sellOrdersListener
       .subscribe(items => {
-        this.addOrUpdate(items);
+        this.addOrUpdate(this.sellOrders, items);
+        console.log(items);
+      });
+    this.buyOrdersSubscription = this.orderBookService.sellOrdersListener
+      .subscribe(items => {
+        this.addOrUpdate(this.sellOrders, items);
+        console.log(items);
+      });
+    this.sellOrdersSubscription = this.orderBookService.buyOrdersListener
+      .subscribe(items => {
+        this.addOrUpdate(this.buyOrders, items);
         console.log(items);
       });
   }
 
   ngOnDestroy() {
     this.currencySubscription.unsubscribe();
-    this.orderStatisticsService.unsubscribeStompForSellOrders();
-    this.orderItemsSubscription.unsubscribe();
+    this.orderBookService.unsubscribeStompForSellOrders();
+    this.orderBookService.unsubscribeStompForBuyOrders();
+    this.buyOrdersSubscription.unsubscribe();
+    this.sellOrdersSubscription.unsubscribe();
   }
 
   // to check which item was recently refreshed
@@ -60,21 +74,32 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     return false;
   }
 
-  addOrUpdate(newItems: OrderItem[]) {
-    if (this.orderItems.length === 0) {
-      this.orderItems.push(...newItems);
+  /**
+   * When currency pair is updated we need to load orders for new pair
+   * @param {CurrencyPair} pair - active pair
+   */
+  updateSubscription(pair: CurrencyPair) {
+    this.orderBookService.unsubscribeStompForSellOrders();
+    this.orderBookService.unsubscribeStompForBuyOrders();
+    this.orderBookService.subscribeStompForSellOrders(pair);
+    this.orderBookService.subscribeStompForBuyOrders(pair);
+  }
+
+  addOrUpdate(orders: OrderItem[], newItems: OrderItem[]) {
+    if (orders.length === 0) {
+      orders.push(...newItems);
       return;
     }
     newItems.forEach(newItem => {
       let found = false;
-      this.orderItems.forEach(oldItem => {
+      orders.forEach(oldItem => {
         if (oldItem.id === newItem.id) {
           oldItem = OrderItem.deepCopy(newItem);
           found = true;
         }
       });
       if (!found) {
-        this.orderItems.push(newItem);
+        orders.push(newItem);
       }
     });
   }

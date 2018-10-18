@@ -35,10 +35,11 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.marketService.setStompSubscription();
     /** for mock data */
     this.currencyPairs =  this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
-    this.pairs = this.choosePair(this.currencyDisplayMode);
+    // this.pairs = this.choosePair(this.currencyDisplayMode);
     /** ------------------------ */
     this.marketSubscription = this.marketService.marketListener
       .subscribe(freshPairs => {
+        // console.log(freshPairs);
         if (this.currencyPairs.length === 0) {
           this.currencyPairs = freshPairs;
         } else {
@@ -47,6 +48,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
           });
         }
         this.pairs = this.choosePair(this.currencyDisplayMode);
+        // console.log(this.pairs);
         this.emitWhenSelectedPairIsUpdated(freshPairs);
       });
   }
@@ -63,7 +65,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   addOrUpdate(newPair: CurrencyPair) {
     let found = false;
     this.currencyPairs.forEach(elm => {
-      if (newPair.pairId === elm.pairId) {
+      if (newPair.currencyPairId === elm.currencyPairId) {
         found = true;
         const chosen = elm.isSelected;
         elm = newPair;
@@ -91,7 +93,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   emitWhenSelectedPairIsUpdated(pairs: CurrencyPair []): void {
     if (null != this.selectedCurrencyPair) {
       pairs.forEach(elm => {
-        if (this.selectedCurrencyPair.pairId === elm.pairId) {
+        if (this.selectedCurrencyPair.currencyPairId === elm.currencyPairId) {
           this.selectedCurrencyPair = CurrencyPair.deepCopy(elm);
           this.onSelectCurrencyPair(this.selectedCurrencyPair);
         }
@@ -114,7 +116,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    * @returns {CurrencyPair[]}
    */
   choosePair(market: string): CurrencyPair[] {
-    return this.currencyPairs.filter(f => f.market.toLowerCase() === market.toLowerCase());
+    return this.currencyPairs.filter(f => f.market && f.market.toLowerCase() === market.toLowerCase());
   }
 
   /** Filter markets data by search-data*/
