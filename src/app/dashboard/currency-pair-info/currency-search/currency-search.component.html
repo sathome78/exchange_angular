@@ -1,12 +1,12 @@
 <div class="pair-popup">
   <div class="pair-popup__top">
     <div class="pair-popup__title">Select currency</div>
-    <div class="pair-popup__close-mob">
+    <div class="pair-popup__close-mob" (click)="onClose()">
       <svg width="15" height="17" viewBox="0 0 15 17" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M1.73781 0.627721C1.36501 0.220243 0.732466 0.192129 0.324987 0.564928C-0.0824919 0.937728 -0.110605 1.57027 0.262194 1.97775L1.73781 0.627721ZM13.2622 16.187C13.635 16.5945 14.2675 16.6226 14.675 16.2498C15.0825 15.877 15.1106 15.2445 14.7378 14.837L13.2622 16.187ZM14.7378 1.97775C15.1106 1.57027 15.0825 0.937728 14.675 0.564928C14.2675 0.192129 13.635 0.220243 13.2622 0.627721L14.7378 1.97775ZM0.262219 14.837C-0.110581 15.2445 -0.0824672 15.877 0.325012 16.2498C0.732491 16.6226 1.36503 16.5945 1.73783 16.187L0.262219 14.837ZM0.262194 1.97775L6.7622 9.08241L8.23781 7.73239L1.73781 0.627721L0.262194 1.97775ZM6.7622 9.08241L13.2622 16.187L14.7378 14.837L8.23781 7.73239L6.7622 9.08241ZM13.2622 0.627721L6.7622 7.73239L8.23781 9.08241L14.7378 1.97775L13.2622 0.627721ZM6.7622 7.73239L0.262219 14.837L1.73783 16.187L8.23781 9.08241L6.7622 7.73239Z"/>
       </svg>
     </div>
-    <div class="pair-popup__close">
+    <div class="pair-popup__close" (click)="onClose()">
       <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z" />
       </svg>
@@ -38,9 +38,12 @@
       <div class="pair-popup__group-title">A</div>
       <div class="pair-popup__group-content">
         <div class="pair-popup__currency">AAA</div>
-        <div class="pair-popup__currency">
-          <img src="../../assets/img/fire-green.svg">
-          AMA
+        <div class="pair-popup__currency"
+             *ngFor="let currency of currencies"
+             (click)="onCurrencyClick(currency.name)">
+          <img src="../../assets/img/fire-green.svg" *ngIf="currency.isToBeOpened">
+          <img src="../../assets/img/fire-red.svg" *ngIf="currency.isToBeClosed">
+          {{ currency.name }}
         </div>
         <div class="pair-popup__currency">ADR</div>
         <div class="pair-popup__currency">AERT</div>

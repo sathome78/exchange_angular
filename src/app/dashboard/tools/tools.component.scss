@@ -1,10 +1,10 @@
 .dashboard-tools{
-  z-index: 100;
+  z-index: 1110;
 }
 
 
 .overlay{
-  z-index: 99;
+  z-index: 1100;
   visibility: hidden;
   transition: opacity .4s ease;
 }

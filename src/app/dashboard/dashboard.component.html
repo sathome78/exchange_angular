@@ -1,4 +1,6 @@
 <div class="dashboard" (window:resize)="changeRatioByWidth()">
+  <app-currency-pair-info></app-currency-pair-info>
+
   <div class="dashboard__widget-wrap">
 
     <ngx-gridster #gridsterContainer
@@ -65,10 +67,9 @@
     <!--</div>-->
 
   </div>
-  <app-ico-search></app-ico-search>
   <app-market-search></app-market-search>
+  <app-tools [dashboardItems]="widgets">
+  </app-tools>
 </div>
 
-<app-tools [dashboardItems]="widgets">
 
-</app-tools>

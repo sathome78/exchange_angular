@@ -29,6 +29,7 @@ export class ToolsComponent implements OnInit {
   ngOnInit() {
     this.allWidgets = [...this.dataService.getWidgetPositions()];
     this.allToolsItems = [...this.dataService.getToolsItems()];
+    // TODO: takeUntil
     this.dataService.dashboardToTools$.subscribe( res => {
       this.updateVisibleToolsItems(res);
     });

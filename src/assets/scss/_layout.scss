@@ -78,7 +78,7 @@ b {
     padding: 0 0 60px;
   }
   @media (min-width:1200px) {
-    padding: 75px 0 0;
+    //padding: 75px 0 0;
   }
 }
 .container{
@@ -94,7 +94,7 @@ b {
   }
   &--dashboard{
     flex-grow: 1;
-    max-width: 1464px;
+    max-width: none;
     padding: 0;
     height: 100%;
     @media (min-width:1200px) {

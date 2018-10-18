@@ -1,12 +1,20 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Subject, Observable, BehaviorSubject} from 'rxjs';
+
+import {Currency} from './currency-pair-info/currency-search/currency.model';
+import {mockPairs} from './currency-pair-info/currency-search/currency.model';
 
 @Injectable()
 export class DashboardDataService {
 
+  public dashboardToTools$ = new Subject();
+  public toolsToDashboard$ = new Subject();
+  /** current selected currency pair */
+  public selectedCurrency$ = new Subject<string>();
 
-   public dashboardToTools$ = new Subject();
-   public toolsToDashboard$ = new Subject();
+  /** mock data for currencies which used at currency-pair-info/currency-search */
+  currencies: BehaviorSubject<Currency[]> = new BehaviorSubject<Currency[]>(mockPairs);
 
   /** Array of dashboard item options*/
   public widgetPositions = [
@@ -167,9 +175,9 @@ export class DashboardDataService {
       name: 'Chat',
       type: 'chat'
     },
-  ]
+  ];
 
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
   /**
@@ -188,5 +196,20 @@ export class DashboardDataService {
    */
   getToolsItems() {
     return this.dashboardToolsItems;
+  }
+
+  /**
+   * Get available currencies for trading (mock data for now)
+   *
+   * @returns {Observable<T>}
+   */
+  getCurrencies(): Observable<Currency[]> {
+    return this.currencies.asObservable();
+  }
+
+  // TODO define type
+  getCurrencyPair(ISO1: string, ISO2: string) {
+    //return this.isoMockData();
+    //return this.http.get(`${ISO1}/${ISO2}`)
   }
 }

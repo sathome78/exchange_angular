@@ -42,6 +42,8 @@ import {QRCodeModule} from 'angular2-qrcode';
 import {GoogleAuthenticatorService} from './popups/two-factor-popup/google/google-authenticator.service';
 import { SharedModule } from './shared/shared.module';
 import {UserVerificationService} from './services/user-verification.service';
+import { OpenOrdersComponent } from './orders/open-orders/open-orders.component';
+import { OrdersHistoryComponent } from './orders/orders-history/orders-history.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,8 @@ import {UserVerificationService} from './services/user-verification.service';
     LoginPopupComponent,
     WebcamComponent,
     DocUploadComponent,
+    OpenOrdersComponent,
+    OrdersHistoryComponent,
     // TWO FACTOR POPUP END
 
 
