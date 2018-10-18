@@ -15,7 +15,9 @@ export class MarketService {
 
   private stompSubscription: any;
 
-  constructor(private stompService: StompService) {
+  constructor(
+    private stompService: StompService,
+  ) {
     this.marketListener = new Subject<CurrencyPair[]>();
     this.activeCurrencyListener = new Subject<CurrencyPair>();
   }
@@ -58,11 +60,14 @@ export class MarketService {
   }
 
   setActiveCurrency(pair: CurrencyPair) {
-    this.currencyPairs.forEach(elm => {
-      if (pair.pairId === elm.pairId) {
-        this.activeCurrencyListener.next(elm);
-      }
-    });
+    // this.currencyPairs.forEach(elm => {
+    //   if (pair.pairId === elm.pairId) {
+    //     this.activeCurrencyListener.next(elm);
+    //   }
+    // });
+    /** for mock data */
+    this.activeCurrencyListener.next(pair);
+    /** ---------------- */
   }
 
 }

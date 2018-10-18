@@ -80,7 +80,7 @@ export class MockDataService {
       needRefresh: false,
       page: 1,
       pairId: 1,
-      currencyPairName: 'KHG',
+      currencyPairName: 'AHG',
       lastOrderRate: 0.0000022,
       predLastOrderRate: 0.0000099,
       percentChange: '1.3',

@@ -74,30 +74,30 @@
   <div class="widget__content">
     <div class="tabs widget__tabs">
       <button class="tabs__item tabs__item--small"
-              [ngClass]="{'tabs__item--active': activeTab === 'BTC','tab-no-active': activeTab !== 'BTC'}"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'BTC','tab-no-active': currencyDisplayMode !== 'BTC'}"
               (click)="selectedTab('BTC')">
         BTC
       </button>
       <button class="tabs__item tabs__item--small"
-              [ngClass]="{'tabs__item--active': activeTab === 'ETH','tab-no-active': activeTab !== 'ETH'}"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'ETH','tab-no-active': currencyDisplayMode !== 'ETH'}"
               (click)="selectedTab('ETH')"
       >
         ETH
       </button>
       <button class="tabs__item tabs__item--small"
-              [ngClass]="{'tabs__item--active': activeTab === 'LOC','tab-no-active': activeTab !== 'LOC'}"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
               (click)="selectedTab('LOC')"
       >
         LOC
       </button>
       <button class="tabs__item tabs__item--small"
-              [ngClass]="{'tabs__item--active': activeTab === 'USD','tab-no-active': activeTab !== 'USD'}"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USD','tab-no-active': currencyDisplayMode !== 'USD'}"
               (click)="selectedTab('USD')"
       >
         USD
       </button>
       <button class="tabs__item tabs__item--small"
-              [ngClass]="{'tabs__item--active': activeTab === 'Favorites','tab-no-active': activeTab !== 'Favorites'}"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'Favorites','tab-no-active': currencyDisplayMode !== 'Favorites'}"
       >
         Favorites
       </button>
@@ -118,7 +118,7 @@
 
           </th>
           <th class="table__cell-head table__cell-head--tal table__cell-head--p4" width="15%">Pair</th>
-          <th class="table__cell-head table__cell-head--tal table__cell-head--p4" width="20%">Price in <span>{{this.activeTab}}</span></th>
+          <th class="table__cell-head table__cell-head--tal table__cell-head--p4" width="20%">Price in <span>{{currencyDisplayMode}}</span></th>
           <th class="table__cell-head table__cell-head--tal table__cell-head--p4" width="16%">Change %</th>
           <th class="table__cell-head table__cell-head--tar table__cell-head--p4" width="28%">
             <svg class="table__cell-head-arr" width="6" height="8" viewBox="0 0 6 8" fill="none"
@@ -132,12 +132,12 @@
         </thead>
         <tbody class="table__body table__body--none-shadow">
 
-        <ng-container *ngFor="let pair of showMarketsData | sort:'pairA'">
+        <ng-container *ngFor="let pair of pairs | sort:'currencyPairName'">
           <tr class="table__row widget__table-row"
               [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}"
-          (click)="selectPair(pair)">
+          (click)="onSelectCurrencyPair(pair)">
             <td class="table__cell table__cell--tac" width="7%">
-            <span class="table__row-star" [ngClass]="{'table__row-star--select': pair.favorite}" (click)="addToFaborites(pair)">
+            <span class="table__row-star" [ngClass]="{'table__row-star--select': pair}">
               <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
@@ -161,240 +161,8 @@
           </tr>
           <tr style="height: 4px;"></tr>
         </ng-container>
-
-
-        <!--<tr class="table__row widget__table-row widget__table-row&#45;&#45;green">-->
-        <!--<td class="table__cell table__cell&#45;&#45;tac">-->
-        <!--<span class="table__row-star ">-->
-        <!--<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-        <!--<path-->
-        <!--d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>-->
-        <!--</svg>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span>ETH</span>-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-indicate">0.000041</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-green" style="margin-right: 2px;">1.2</span>-->
-        <!--<span class="arr arr&#45;&#45;green"></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell table__cell&#45;&#45;tar">-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">7 386.22491554</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr style="height: 4px;"></tr>-->
-        <!--<tr class="table__row widget__table-row">-->
-        <!--<td class="table__cell table__cell&#45;&#45;tac">-->
-        <!--<span class="table__row-star table__row-star&#45;&#45;select">-->
-        <!--<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-        <!--<path-->
-        <!--d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>-->
-        <!--</svg>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span>EOS</span>-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-indicate">0.00000142</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-red" style="margin-right: 2px;">0.3</span>-->
-        <!--<span class="arr arr&#45;&#45;red"></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell table__cell&#45;&#45;tar">-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">535.16809811</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr style="height: 4px;"></tr>-->
-        <!--<tr class="table__row widget__table-row widget__table-row&#45;&#45;red">-->
-        <!--<td class="table__cell table__cell&#45;&#45;tac">-->
-        <!--<span class="table__row-star">-->
-        <!--<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-        <!--<path-->
-        <!--d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>-->
-        <!--</svg>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span>ETC</span>-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-indicate">0.00000290</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-red" style="margin-right: 2px;">0.8</span>-->
-        <!--<span class="arr arr&#45;&#45;red"></span>-->
-
-        <!--</td>-->
-        <!--<td class="table__cell table__cell&#45;&#45;tar">-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">9 511.31660052</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr style="height: 4px;"></tr>-->
-        <!--<tr class="table__row widget__table-row">-->
-        <!--<td class="table__cell table__cell&#45;&#45;tac">-->
-        <!--<span class="table__row-star">-->
-        <!--<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-        <!--<path-->
-        <!--d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>-->
-        <!--</svg>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span>IOTA</span>-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-indicate">0.00000371</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-green" style="margin-right: 2px;">3.2</span>-->
-        <!--<span class="arr arr&#45;&#45;green"></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell table__cell&#45;&#45;tar">-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">1 231.33470052</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr style="height: 4px;"></tr>-->
-        <!--<tr class="table__row widget__table-row">-->
-        <!--<td class="table__cell table__cell&#45;&#45;tac">-->
-        <!--<span class="table__row-star">-->
-        <!--<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-        <!--<path-->
-        <!--d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>-->
-        <!--</svg>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span>MFT</span>-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-indicate">0.00000290</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-green" style="margin-right: 2px;">0.8</span>-->
-        <!--<span class="arr arr&#45;&#45;green"></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell table__cell&#45;&#45;tar">-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">9 511.31660052</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr style="height: 4px;"></tr>-->
-        <!--<tr class="table__row widget__table-row widget__table-row&#45;&#45;green">-->
-        <!--<td class="table__cell table__cell&#45;&#45;tac">-->
-        <!--<span class="table__row-star">-->
-        <!--<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-        <!--<path-->
-        <!--d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>-->
-        <!--</svg>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span>ETH</span>-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-indicate">0.000041</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-green" style="margin-right: 2px;">1.2</span>-->
-        <!--<span class="arr arr&#45;&#45;green"></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell table__cell&#45;&#45;tar">-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">7 386.22491554</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr style="height: 4px;"></tr>-->
-        <!--<tr class="table__row widget__table-row">-->
-        <!--<td class="table__cell table__cell&#45;&#45;tac">-->
-        <!--<span class="table__row-star">-->
-        <!--<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-        <!--<path-->
-        <!--d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>-->
-        <!--</svg>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span>EOS</span>-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-indicate">0.00000142</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-red" style="margin-right: 2px;">0.3</span>-->
-        <!--<span class="arr arr&#45;&#45;red"></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell table__cell&#45;&#45;tar">-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">535.16809811</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr style="height: 4px;"></tr>-->
-        <!--<tr class="table__row widget__table-row widget__table-row&#45;&#45;red">-->
-        <!--<td class="table__cell table__cell&#45;&#45;tac">-->
-        <!--<span class="table__row-star">-->
-        <!--<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-        <!--<path-->
-        <!--d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>-->
-        <!--</svg>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span>ETC</span>-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-indicate">0.00000290</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-red" style="margin-right: 2px;">0.8</span>-->
-        <!--<span class="arr arr&#45;&#45;red"></span>-->
-
-        <!--</td>-->
-        <!--<td class="table__cell table__cell&#45;&#45;tar">-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">9 511.31660052</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr style="height: 4px;"></tr>-->
-        <!--<tr class="table__row widget__table-row">-->
-        <!--<td class="table__cell table__cell&#45;&#45;tac">-->
-        <!--<span class="table__row-star">-->
-        <!--<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-        <!--<path-->
-        <!--d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>-->
-        <!--</svg>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span>IOTA</span>-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">/ <span>BTC</span></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-indicate">0.00000371</span>-->
-        <!--</td>-->
-        <!--<td class="table__cell">-->
-        <!--<span class="txt-green" style="margin-right: 2px;">3.2</span>-->
-        <!--<span class="arr arr&#45;&#45;green"></span>-->
-        <!--</td>-->
-        <!--<td class="table__cell table__cell&#45;&#45;tar">-->
-        <!--<span style="font-size: 10px; color:#A0A0A0">1 231.33470052</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr style="height: 4px;"></tr>-->
         </tbody>
       </table>
-      <!--<div class="widget__scroll">-->
-      <!--<span class="widget__scroll-inner"></span>-->
-      <!--</div>-->
     </div>
     <!--table end-->
 
