@@ -28,6 +28,7 @@ import {environment} from '../../environments/environment';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
 import {MarketService} from './markets/market.service';
 import {OrderBookService} from './order-book/order-book.service';
+import {TradeHistoryService} from './trade-history/trade-history.service';
 
 
 export function socketProvider() {
@@ -95,6 +96,7 @@ const stompConfig: StompConfig = {
     MarketService,
     OrderBookService,
     StompService,
+    TradeHistoryService,
     { provide: StompConfig, useValue: stompConfig },
   ]
 })
