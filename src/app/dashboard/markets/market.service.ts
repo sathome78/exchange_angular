@@ -3,7 +3,7 @@ import {Subject} from 'rxjs/Subject';
 import {StompService} from '@stomp/ng2-stompjs';
 import {CurrencyPair} from './currency-pair.model';
 import {Message} from '@stomp/stompjs';
-import {map, catchError} from 'rxjs/internal/operators';
+import {map} from 'rxjs/internal/operators';
 
 
 @Injectable()
