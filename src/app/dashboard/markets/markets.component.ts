@@ -1,9 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import {AbstractDashboardItems} from '../abstract-dashboard-items';
+<<<<<<< HEAD
+import {MockDataService} from '../../services/mock-data.service';
+import {DashboardDataService} from '../dashboard-data.service';
+import {CurrencyPair} from '../../shared/models/currency-pair.model';
+=======
 import {MarketService} from './market.service';
 import {CurrencyPair} from './currency-pair.model';
 import {environment} from '../../../environments/environment';
+>>>>>>> dd5779efb085636e6daa564591212659f4b6e360
 
 @Component({
   selector: 'app-markets',
@@ -13,7 +19,19 @@ import {environment} from '../../../environments/environment';
 export class MarketsComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   /** dashboard item name (field for base class)*/
   public itemName: string;
+  /** Markets data from server */
+  public marketsData;
+  /** Markets data by active tab */
+  public showMarketsData;
+  /** active tab pair */
+  public activeTab = 'BTC';
 
+<<<<<<< HEAD
+  constructor(
+    public mockData: MockDataService,
+    public dashboardService: DashboardDataService
+  ) {
+=======
   currencyPairs: CurrencyPair[] = [];
   pairs: CurrencyPair[] = [];
   marketSubscription: any;
@@ -23,10 +41,13 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   showSelectedOnly = false;
 
   constructor(private marketService: MarketService) {
+>>>>>>> dd5779efb085636e6daa564591212659f4b6e360
     super();
   }
 
   ngOnInit() {
+    this.marketsData = this.mockData.getMarketsData();
+    this.showMarketsData = this.choosePair(this.activeTab);
     this.itemName = 'markets';
     this.volumeOrderDirection = 'NONE';
     this.marketService.setStompSubscription();
@@ -133,6 +154,42 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     });
   }
 
+<<<<<<< HEAD
+  /**
+   * Filter data on select tab
+   * @param {string} value
+   */
+  selectedTab(value: string): void {
+    this.activeTab = value;
+    this.showMarketsData = this.choosePair(value);
+  }
+
+  /**
+   * Return array by market
+   * @param {string} market
+   * @returns {CurrencyPair[]}
+   */
+  choosePair(market: string): CurrencyPair[] {
+    return this.marketsData.filter(f => f.market.toLowerCase() === market.toLowerCase());
+  }
+
+  /**
+   * Talk about change current pair
+   * @param {CurrencyPair} pair
+   */
+  selectPair(pair: CurrencyPair): void {
+    this.dashboardService.choosedPair$.next(pair);
+  }
+
+  /** Filter markets data by search-data*/
+  searchPair(event: string): void {
+    this.showMarketsData = this.choosePair(this.activeTab).filter(f => f.currencyPairName.toLowerCase().match(event.toLowerCase()));
+  }
+
+  isChangePositive(pair: CurrencyPair): boolean {
+      return pair.lastOrderRate > pair.predLastOrderRate;
+  }
+=======
   onSearch(value: string) {
     this.removeSort();
     if (value.length > 1) {
@@ -189,4 +246,5 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
 
 
 
+>>>>>>> dd5779efb085636e6daa564591212659f4b6e360
 }

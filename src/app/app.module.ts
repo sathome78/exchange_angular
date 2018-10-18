@@ -44,6 +44,7 @@ import { SharedModule } from './shared/shared.module';
 import {UserVerificationService} from './services/user-verification.service';
 import { OpenOrdersComponent } from './orders/open-orders/open-orders.component';
 import { OrdersHistoryComponent } from './orders/orders-history/orders-history.component';
+import {MockDataService} from './services/mock-data.service';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { OrdersHistoryComponent } from './orders/orders-history/orders-history.c
     UserService,
     UserVerificationService,
     ThemeService,
+    MockDataService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}

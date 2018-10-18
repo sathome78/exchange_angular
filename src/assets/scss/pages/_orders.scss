@@ -11,6 +11,27 @@
 @media (min-width:1200px) {
   .orders{
     padding-top: 32px;
+    &__filter{
+      margin-top: 28px;
+    }
+    &__search{
+      width: 110px;
+      margin-right: 24px;
+    }
+    &__datepicker{
+      width: 175px;
+      margin-right: 24px;
+      .wrap-input__label{
+        left: 17px;
+      }
+      my-date-picker{
+        .mydp{
+          input{
+            //background-color: #fff !important;
+          }
+        }
+      }
+    }
   }
 }
 /*--- media end ---*/

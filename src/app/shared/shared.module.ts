@@ -3,10 +3,12 @@ import { NotificationComponent } from './components/notification/notification.co
 import { NotificationsService } from './components/notification/notifications.service';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
+import {SortPipe} from './pipes/sort.pipe';
 
 @NgModule({
   declarations: [
-    NotificationComponent
+    NotificationComponent,
+    SortPipe
   ],
   imports: [
     FormsModule,
@@ -14,6 +16,7 @@ import {CommonModule} from '@angular/common';
   ],
   exports: [
     NotificationComponent,
+    SortPipe
   ],
   providers: [
     NotificationsService
