@@ -7,7 +7,7 @@
   background-color: $dark-indigo;
   @media (min-width:1200px) {
     display: block;
-    position: fixed;
+    position: relative;
     width: 100%;
     z-index: 1000;
   }

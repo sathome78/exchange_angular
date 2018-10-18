@@ -1,0 +1,31 @@
+.orders{
+
+  /*--- modificators start ---*/
+  /*--- modificators end ---*/
+  /*--- elements start ---*/
+  /*--- elements end ---*/
+}
+/*--- media start ---*/
+@media (min-width:600px) {}
+@media (min-width:900px) {}
+@media (min-width:1200px) {
+  .orders{
+    padding-top: 32px;
+  }
+}
+/*--- media end ---*/
+
+/*--- DARK THEME START---*/
+.dark-theme{
+  .orders{
+
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{
+    .orders{
+
+    }
+  }
+}
+/*--- DARK THEME END---*/
