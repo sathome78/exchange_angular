@@ -187,4 +187,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     return this.selectedCurrencyPair && pair.pairId === this.selectedCurrencyPair.pairId;
   }
 
+
+
 }

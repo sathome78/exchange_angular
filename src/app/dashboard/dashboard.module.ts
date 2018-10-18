@@ -26,6 +26,7 @@ import {StompConfig, StompService} from '@stomp/ng2-stompjs';
 import {environment} from '../../environments/environment';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
 import {MarketService} from './markets/market.service';
+import {OrderBookService} from './order-book/order-book.service';
 
 
 export function socketProvider() {
@@ -90,6 +91,7 @@ const stompConfig: StompConfig = {
     DashboardDataService,
     DashboardWebSocketService,
     MarketService,
+    OrderBookService,
     StompService,
     { provide: StompConfig, useValue: stompConfig },
   ]

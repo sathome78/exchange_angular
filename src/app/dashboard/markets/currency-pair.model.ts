@@ -27,9 +27,15 @@ export class CurrencyPair {
                                                   object['volume']);
     return pair;
   }
+
   static deepCopy(pair: CurrencyPair) {
     const out: CurrencyPair = CurrencyPair.fromJSON(pair);
     out.isSelected = pair.isSelected;
     return out;
   }
+
+  isChangePositive(): boolean {
+    return this.lastOrderRate > this.predLastOrderRate;
+  }
+
 }
