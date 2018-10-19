@@ -35,7 +35,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.marketService.setStompSubscription();
     /** for mock data */
     this.currencyPairs =  this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
-    // this.pairs = this.choosePair(this.currencyDisplayMode);
+    this.pairs = this.choosePair(this.currencyDisplayMode);
     /** ------------------------ */
     this.marketSubscription = this.marketService.marketListener
       .subscribe(freshPairs => {
@@ -116,12 +116,21 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    * @returns {CurrencyPair[]}
    */
   choosePair(market: string): CurrencyPair[] {
-    return this.currencyPairs.filter(f => f.market && f.market.toLowerCase() === market.toLowerCase());
+    return this.currencyPairs.filter(f => f.market && f.market.toUpperCase() === market.toUpperCase());
   }
 
   /** Filter markets data by search-data*/
   searchPair(event: string): void {
-    this.pairs = this.choosePair(this.currencyDisplayMode).filter(f => f.currencyPairName.toLowerCase().match(event.toLowerCase()));
+    this.pairs = this.choosePair(this.currencyDisplayMode).filter(f => f.currencyPairName.toUpperCase().match(event.toUpperCase()));
+  }
+
+  /**
+   * Split currency pair name
+   * @param {CurrencyPair} pair
+   * @returns {string[]}
+   */
+  splitPairName(pair: CurrencyPair): string[] {
+    return pair.currencyPairName.split('/');
   }
 
   isChangePositive(pair: CurrencyPair): boolean {
