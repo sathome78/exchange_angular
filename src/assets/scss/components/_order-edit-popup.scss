@@ -1,0 +1,91 @@
+.order-edit-popup{
+  /*--- modificators start ---*/
+  /*--- modificators end ---*/
+  /*--- elements start ---*/
+  &__content{
+    display: none;
+    &--mob{
+      display: block;
+    }
+  }
+  /*--- elements end ---*/
+}
+/*--- media start ---*/
+@media (min-width:600px) {}
+@media (min-width:900px) {}
+@media (min-width:1200px) {
+  .order-edit-popup{
+    position: absolute;
+    z-index: 30;
+    width: auto;
+    padding: 16px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    top: 50%;
+    left: 50%;
+    bottom: auto;
+    transform: translate(-50%,-50%);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(to bottom, #F5F5F5 0%, #FDFDFD 50%, #F5F5F5 100%);
+    &__content{
+      display: block;
+      &--mob{
+        display: none;
+      }
+    }
+    &__close{
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      width: 8px;
+      height: 8px;
+      &:hover{
+        cursor: pointer;
+      }
+      svg{
+        vertical-align: top;
+        fill: #000;
+      }
+    }
+    &__title{
+      color:$grey;
+    }
+    &__form{
+    }
+    &__btns-wrap{
+      display: flex;
+      .btn--empty-red{
+        margin-right: 8px;
+      }
+    }
+  }
+}
+/*--- media end ---*/
+
+/*--- DARK THEME START---*/
+.dark-theme{
+  .order-edit-popup{}
+}
+@media (min-width:1200px) {
+  .dark-theme{
+    .order-edit-popup{
+      background: linear-gradient(to bottom, #30314D 0%, #237BEF 100%);
+      border: 1px solid $darker-blue;
+      &__close{
+        svg{
+          fill: #fff;
+        }
+      }
+      .wrap-input__input{
+        &:focus{
+          ~.wrap-input__label{
+            background-color: #30406C;
+          }
+        }
+      }
+
+    }
+  }
+}
+/*--- DARK THEME END---*/

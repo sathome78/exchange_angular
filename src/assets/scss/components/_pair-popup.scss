@@ -69,7 +69,7 @@
     display: none;
   }
   &__content{
-    margin-top: 12px;
+    padding-top: 12px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -174,7 +174,7 @@
       }
     }
     &__content{
-      margin-top: 24px;
+      padding-top: 24px;
     }
     &__group{
       width: 200px;

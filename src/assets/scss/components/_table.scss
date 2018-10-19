@@ -19,7 +19,7 @@
     padding: 20px 10px;
     color: #000;
     font-weight: 400;
-
+    display: table-cell;
     &--tal {
       text-align: left;
     }
@@ -109,7 +109,7 @@
     position: relative;
     padding: 8px 10px;
     vertical-align: middle;
-
+    display: table-cell;
     &--tal {
       text-align: left;
     }
@@ -190,9 +190,15 @@
     &__cell-head-arr {
       fill: #90A0BE;;
     }
+    &__body {
+        box-shadow: none;
+    }
     &__row {
       &:nth-of-type(odd) {
         background-color: rgba(255, 255, 255, 0.02);
+      }
+      &:hover{
+        background-color: rgba(255, 255, 255, 0.1);
       }
     }
   }

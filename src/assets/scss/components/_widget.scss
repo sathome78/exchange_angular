@@ -462,7 +462,7 @@
         width: 13px;
         height: 13px;
         margin-right: 8px;
-        background-image: url('assets/img/limit-order.svg');
+        background-image: url('assets/img/limit-order-blue.svg');
         background-repeat: no-repeat;
         background-position: center;
         -webkit-background-size: 100%;
@@ -818,6 +818,9 @@
     &__limit-dropdown {
       .dropdown__btn {
         color: #fff;
+        &:before {
+          background-image: url('assets/img/limit-order-white.svg');
+        }
         &:after {
           border-top-color: #fff;
         }
@@ -850,6 +853,7 @@
     }
     &__trading-row-txt {
       .avaliable{
+        margin-top: 0;
         color:$light-blue;
         svg {
           fill: $light-blue;
