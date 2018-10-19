@@ -12,12 +12,17 @@ export abstract class AbstractDashboardItems {
   @Output() removeItem = new EventEmitter();
   /** dashboard item name */
   protected abstract itemName: string;
+  /** can make width more */
+  protected makeWidth = true;
+  /** can make height more */
+  protected makeHeight = true;
 
   /**
    * send event for height resize item container
    * @param {boolean} value
    */
   heightChange(value: boolean): void {
+    this.makeHeight = !value;
     this.changeItemSize.emit(new DashboardItemChangeSize(this.itemName, 'height', value));
   }
 
@@ -26,6 +31,7 @@ export abstract class AbstractDashboardItems {
    * @param {boolean} value
    */
   widthChange(value: boolean): void {
+    this.makeWidth = !value;
     this.changeItemSize.emit(new DashboardItemChangeSize(this.itemName, 'width', value));
   }
 

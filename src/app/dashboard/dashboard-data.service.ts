@@ -13,8 +13,12 @@ export class DashboardDataService {
   /** current selected currency pair */
   public selectedCurrency$ = new Subject<string>();
 
+  public choosedPair$ = new Subject();
+
   /** mock data for currencies which used at currency-pair-info/currency-search */
   currencies: BehaviorSubject<Currency[]> = new BehaviorSubject<Currency[]>(mockPairs);
+
+
 
   /** Array of dashboard item options*/
   public widgetPositions = [

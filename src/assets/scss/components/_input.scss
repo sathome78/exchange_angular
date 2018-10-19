@@ -42,9 +42,8 @@
 
   &--with-icon {
     .wrap-input__input {
-      padding-left: 28px;
+      padding-left: 32px;
     }
-
     .wrap-input__label {
       left: 32px;
     }
@@ -70,10 +69,6 @@
     color: $grey;
     font-size: 14px;
     line-height: 16px;
-
-    &--white {
-      color: #fff;
-    }
   }
 
   &__icon {
@@ -86,6 +81,9 @@
 
     img {
       width: 100%;
+    }
+    svg{
+      fill:$grey;
     }
   }
 
@@ -112,10 +110,6 @@
   &__line {
     height: 1px;
     background-color: $grey;
-
-    &--bd-dark-blue {
-      background-color: #23243e;
-    }
   }
 
   &__message {
@@ -155,20 +149,12 @@
 
       ~ .wrap-input__label {
         top: -5px;
+        left: 12px;
         padding: 0 2px;
         color: $darker-blue;
         background-color: #fff;
         font-size: 10px;
         line-height: 12px;
-
-        &--with-icon {
-          left: 12px;
-        }
-
-        &--white {
-          color: #fff;
-          background-color: transparent;
-        }
       }
       ~.wrap-input__icon{
         svg{
@@ -183,18 +169,11 @@
     &:valid {
       ~ .wrap-input__label {
         top: -5px;
+        left: 12px;
         padding: 0 2px;
         background-color: #fff;
         font-size: 10px;
         line-height: 12px;
-
-        &--with-icon {
-          left: 12px;
-        }
-
-        &--white {
-          background-color: transparent;
-        }
       }
     }
   }
@@ -224,6 +203,11 @@
 /*--- DARK THEME START---*/
 .dark-theme {
   .wrap-input {
+    &__icon{
+      svg{
+        fill:$light-blue;
+      }
+    }
     &__label {
       color: $light-blue;
     }
@@ -253,7 +237,9 @@
           }
         }
         ~ .wrap-input__icon {
-         fill: $light-blue;
+          svg{
+            fill: $light-blue;
+          }
         }
         ~ .wrap-input__line {
           background-color: $light-blue;

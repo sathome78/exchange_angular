@@ -2,6 +2,7 @@ import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 
+import * as SockJS from 'sockjs-client';
 import {DashboardComponent} from './dashboard.component';
 import {MarketsComponent} from './markets/markets.component';
 import {TradingComponent} from './trading/trading.component';
@@ -22,6 +23,43 @@ import { CurrencySearchComponent } from './currency-pair-info/currency-search/cu
 import { MarketSearchComponent } from './market-search/market-search.component';
 import { ToolsComponent } from './tools/tools.component';
 import { CurrencyPairInfoComponent } from './currency-pair-info/currency-pair-info.component';
+import {StompConfig, StompService} from '@stomp/ng2-stompjs';
+import {environment} from '../../environments/environment';
+import {DashboardWebSocketService} from './dashboard-websocket.service';
+import {MarketService} from './markets/market.service';
+import {OrderBookService} from './order-book/order-book.service';
+import {TradeHistoryService} from './trade-history/trade-history.service';
+
+
+export function socketProvider() {
+  return new SockJS(environment.apiUrl + '/public_socket');
+  // return new SockJS('http://localhost:5555/jsa-stomp-endpoint');
+}
+
+const stompConfig: StompConfig = {
+  // Which server?
+  url: socketProvider(),
+
+  // Headers
+  // Typical keys: login, passcode, host
+  headers: {
+    // login: 'guest',
+    // passcode: 'guest'
+  },
+
+  // How often to heartbeat?
+  // Interval in milliseconds, set to 0 to disable
+  heartbeat_in: 0, // Typical value 0 - disabled
+  heartbeat_out: 20000, // Typical value 20000 - every 20 seconds
+
+  // Wait in milliseconds before attempting auto reconnect
+  // Set to 0 to disable
+  // Typical value 5000 (5 seconds)
+  reconnect_delay: 5000,
+
+  // Will log diagnostics on console
+  debug: false
+};
 
 @NgModule({
   declarations: [
@@ -53,7 +91,13 @@ import { CurrencyPairInfoComponent } from './currency-pair-info/currency-pair-in
 
   ],
   providers: [
-    DashboardDataService
+    DashboardDataService,
+    DashboardWebSocketService,
+    MarketService,
+    OrderBookService,
+    StompService,
+    TradeHistoryService,
+    { provide: StompConfig, useValue: stompConfig },
   ]
 })
 export class DashboardModule {
