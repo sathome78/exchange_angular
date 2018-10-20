@@ -91,4 +91,12 @@ export class MarketService {
     /** ---------------- */
   }
 
+  findPairByID(id) {
+    this.currencyPairs.forEach( elm => {
+      if (elm.currencyPairId === id) {
+        return elm;
+      }
+    });
+  }
+
 }

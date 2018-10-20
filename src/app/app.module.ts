@@ -45,6 +45,7 @@ import {UserVerificationService} from './services/user-verification.service';
 import { OpenOrdersComponent } from './orders/open-orders/open-orders.component';
 import { OrdersHistoryComponent } from './orders/orders-history/orders-history.component';
 import {MockDataService} from './services/mock-data.service';
+import {TradingService} from './dashboard/trading/trading.service';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import {MockDataService} from './services/mock-data.service';
     UserVerificationService,
     ThemeService,
     MockDataService,
+    TradingService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}

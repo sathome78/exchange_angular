@@ -7,7 +7,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 1,
+      currencyPairId: 1,
       currencyPairName: 'JHG/BTC',
       lastOrderRate: 0.0000044,
       predLastOrderRate: 0.0000033,
@@ -19,7 +19,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 1,
+      currencyPairId: 1,
       currencyPairName: 'LUY/BTC',
       lastOrderRate: 0.0000055,
       predLastOrderRate: 0.0000033,
@@ -31,10 +31,10 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 1,
-      currencyPairName: 'DRR/BTC',
-      lastOrderRate: 0.0000022,
-      predLastOrderRate: 0.0000099,
+      currencyPairId: 122,
+      currencyPairName: 'USD/BTC',
+      lastOrderRate: 0.5,
+      predLastOrderRate: 0.6,
       percentChange: '1.3',
       market: 'BTC',
       description: 'description',
@@ -43,7 +43,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 1,
+      currencyPairId: 1,
       currencyPairName: 'MFT/ETH',
       lastOrderRate: 0.0000022,
       predLastOrderRate: 0.0000011,
@@ -55,7 +55,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 2,
+      currencyPairId: 2,
       currencyPairName: 'KJH/ETH',
       lastOrderRate: 0.0000044,
       predLastOrderRate: 0.0000033,
@@ -67,7 +67,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 1,
+      currencyPairId: 1,
       currencyPairName: 'UYI/ETH',
       lastOrderRate: 0.0000055,
       predLastOrderRate: 0.0000033,
@@ -79,7 +79,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 1,
+      currencyPairId: 1,
       currencyPairName: 'AHG/ETH',
       lastOrderRate: 0.0000022,
       predLastOrderRate: 0.0000099,
@@ -91,7 +91,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 1,
+      currencyPairId: 1,
       currencyPairName: 'JYF/ETH',
       lastOrderRate: 0.0000022,
       predLastOrderRate: 0.0000011,
@@ -103,7 +103,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 1,
+      currencyPairId: 1,
       currencyPairName: 'JHG/LOC',
       lastOrderRate: 0.0000044,
       predLastOrderRate: 0.0000033,
@@ -115,7 +115,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 1,
+      currencyPairId: 1,
       currencyPairName: 'LUY/LOC',
       lastOrderRate: 0.0000055,
       predLastOrderRate: 0.0000033,
@@ -127,7 +127,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 1,
+      currencyPairId: 1,
       currencyPairName: 'DRR/LOC',
       lastOrderRate: 0.0000022,
       predLastOrderRate: 0.0000099,
@@ -139,7 +139,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 1,
+      currencyPairId: 1,
       currencyPairName: 'MFT/LOC',
       lastOrderRate: 0.0000022,
       predLastOrderRate: 0.0000011,
@@ -151,7 +151,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 2,
+      currencyPairId: 2,
       currencyPairName: 'KJH/USD',
       lastOrderRate: 0.0000044,
       predLastOrderRate: 0.0000033,
@@ -163,7 +163,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 1,
+      currencyPairId: 1,
       currencyPairName: 'UYI/USD',
       lastOrderRate: 0.0000055,
       predLastOrderRate: 0.0000033,
@@ -175,7 +175,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 1,
+      currencyPairId: 1,
       currencyPairName: 'KHG/USD',
       lastOrderRate: 0.0000022,
       predLastOrderRate: 0.0000099,
@@ -187,7 +187,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      pairId: 1,
+      currencyPairId: 1,
       currencyPairName: 'JYF/USD',
       lastOrderRate: 0.0000022,
       predLastOrderRate: 0.0000011,
