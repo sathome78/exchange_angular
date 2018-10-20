@@ -59,7 +59,28 @@ export class MarketService {
     }
   }
 
-  setActiveCurrency(pair: CurrencyPair) {
+  /**
+   * find pair by currency-pair-name and emit  ((( delete pair argument when data will come from server)))
+   * @param {string} pairName
+   * @param pair
+   */
+  findPairByCurrencyPairName(pairName: string, pair): void {
+    // this.currencyPairs.forEach(elm => {
+    //   if (pairName === elm.currencyPairName) {
+    //     this.activeCurrencyListener.next(elm);
+    //   }
+    // });
+    /** for mock data */
+    pair.currencyPairName = pairName
+    this.activeCurrencyListener.next(pair);
+    /** ---------------- */
+  }
+
+  /**
+   * check pair and emit
+   * @param {CurrencyPair} pair
+   */
+  setActiveCurrency(pair: CurrencyPair): void {
     // this.currencyPairs.forEach(elm => {
     //   if (pair.pairId === elm.pairId) {
     //     this.activeCurrencyListener.next(elm);

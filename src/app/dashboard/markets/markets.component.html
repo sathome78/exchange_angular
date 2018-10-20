@@ -145,8 +145,8 @@
             </span>
             </td>
             <td class="table__cell" width="19%">
-              <span>{{pair.currencyPairName}}</span>
-              <span style="font-size: 10px; color:#A0A0A0">/ <span>{{pair.market}}</span></span>
+              <span>{{splitPairName(pair)[0]}}</span>
+              <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
             </td>
             <td class="table__cell" width="25%">
               <span class="txt-indicate">{{pair.lastOrderRate}}</span>
@@ -171,7 +171,6 @@
     <input class="widget__search-input" type="text" required="" placeholder="Search" (input)="searchPair($event.target.value)">
     <span class="widget__input-img"><img src="../../assets/img/search.svg"></span>
   </div>
-
 
   <div class="widget__content widget__content--mob">
     <!--table mob start-->

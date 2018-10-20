@@ -50,16 +50,17 @@
 @media (min-width:900px) {
   .page-title {
     flex-direction: row;
-    &__text{
-      font-size: 36px;
-      line-height: 42px;
-      margin-bottom: 0;
-    }
+
   }
 }
 @media (min-width:1200px) {
   .page-title {
     padding: 0;
+    &__text{
+      font-size: 36px;
+      line-height: 42px;
+      margin-bottom: 0;
+    }
   }
 }
 /*--- media end ---*/

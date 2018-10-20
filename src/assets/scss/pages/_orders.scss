@@ -1,8 +1,41 @@
 .orders{
-
+  display: none;
   /*--- modificators start ---*/
+  &--mob{
+    display: block;
+  }
   /*--- modificators end ---*/
   /*--- elements start ---*/
+  &__header-mob{
+    display: flex;
+    align-items: center;
+    margin:12px;
+  }
+  &__page-title{
+    font-size: 24px;
+    line-height: 28px;
+  }
+  &__amount{
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px;
+    line-height: 16px;
+    min-width: 26px;
+    margin-left: 4px;
+    text-align: center;
+    color:#fff;
+    background-color: $darker-blue;
+  }
+  &__filter-btn{
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    color: $darker-blue;
+    svg{
+      fill: $darker-blue;
+      margin-right: 4px;
+    }
+  }
   /*--- elements end ---*/
 }
 /*--- media start ---*/
@@ -10,9 +43,24 @@
 @media (min-width:900px) {}
 @media (min-width:1200px) {
   .orders{
+    display: block;
     padding-top: 32px;
+    &--mob{
+      display: none;
+    }
     &__filter{
+      position: relative;
       margin-top: 28px;
+      &:after{
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: 1px;
+        z-index: -1;
+        width: 100%;
+        height: 1px;
+        background-color: $grey;
+      }
     }
     &__search{
       width: 110px;
@@ -24,13 +72,19 @@
       .wrap-input__label{
         left: 17px;
       }
-      my-date-picker{
-        .mydp{
-          input{
-            //background-color: #fff !important;
-          }
-        }
-      }
+    }
+    &__market{
+      display: inline-block;
+      padding-bottom: 1px;
+      color: $darker-blue;
+      text-transform: uppercase;
+      border-bottom: 1px solid $darker-blue;
+    }
+    &__for{
+      color:$grey;
+    }
+    &__comission-usd{
+      color:$grey;
     }
   }
 }
@@ -39,13 +93,41 @@
 /*--- DARK THEME START---*/
 .dark-theme{
   .orders{
-
+    &__filter-btn{
+      margin-left: auto;
+      color: #fff;
+      svg{
+        fill: #fff;
+      }
+    }
   }
 }
 @media (min-width:1200px) {
   .dark-theme{
     .orders{
-
+      &__filter{
+        &:after{
+          z-index: 0;
+          background-color: $light-blue;
+        }
+      }
+      .table__date-time{
+        div:nth-child(2){
+          color:$light-blue;
+        }
+      }
+      &__type-buy{
+        color:$green;
+      }
+      &__type-sell{
+        color:$red;
+      }
+      &__for{
+        color:$light-blue;
+      }
+      &__comission-usd{
+        color:$light-blue;
+      }
     }
   }
 }

@@ -59,7 +59,63 @@
       </div>
     </div>
   </div>
-  <div class="widget__content">
-    <img src="../../assets/img/order-book.png" alt="" style="width: 100%; height: 100%;">
+  <div class="widget__content" id="order_book" #orderBook>
+    <!-- <img src="../../assets/img/order-book.png" alt="" style="width: 100%; height: 100%;"> -->
+    <!-- <div class="chartContainer" id="chartContainer">
+
+    </div> -->
+    <div class="order-table">
+      <div class="head">
+        <div class="order">
+          <span>
+            Order
+          </span>
+        </div>
+        <div class="info">
+          <span>
+                      
+          </span>
+        </div>
+        <div class="price">
+          <span>
+            Price
+          </span>
+        </div>
+        <div class="total">
+          <span>
+            Total
+          </span>
+        </div>
+      </div>
+      <div class="items">
+
+        <div class="visualization">
+          <div class="visual-item" [ngClass]="{'green': isBuy, 'red': !isBuy}" *ngFor="let item of data" [style.width]="getPercentageOfTheNumber(item.total)" [style.height]="(400/data.length) + 'px'"></div>
+        </div>
+        
+        <div class="item" *ngFor="let item of data; let i = index" (click)="onSelectOrder(i, item)">
+          <div class="order" [style.lineHeight]="(400/data.length) + 'px'">
+            <span>
+              {{i+1}}
+            </span>
+          </div>
+          <div class="info" [style.lineHeight]="(400/data.length) + 'px'">
+            <span>
+              {{item.price}}
+            </span>
+          </div>
+          <div class="price" [style.lineHeight]="(400/data.length) + 'px'">
+            <span>
+              {{item.price}}
+            </span>
+          </div>
+          <div class="total" [style.lineHeight]="(400/data.length) + 'px'">
+            <span>
+              {{item.total}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
