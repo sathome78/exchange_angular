@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BuyComponent implements OnInit {
 
+  public isDpropdownOpen = false;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  toggleLimitDropdown() {
+    this.isDpropdownOpen = !this.isDpropdownOpen;
   }
 
 }

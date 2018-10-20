@@ -15,6 +15,8 @@ export class DashboardDataService {
 
   public choosedPair$ = new Subject();
 
+  public selectedOrderTrading$ = new Subject();
+
   /** mock data for currencies which used at currency-pair-info/currency-search */
   currencies: BehaviorSubject<Currency[]> = new BehaviorSubject<Currency[]>(mockPairs);
 

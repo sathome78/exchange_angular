@@ -1,6 +1,10 @@
 .radio {
   position: relative;
   display: inline-block;
+  .radio__text__checked{
+    background-color: $darker-blue;
+    color:#fff;
+  }
   &:hover{
     cursor: pointer;
     .radio__text {
@@ -68,10 +72,14 @@
 /*--- DARK THEME START---*/
 .dark-theme{
   .radio{
+    .radio__text__checked{
+      background-color: $darker-blue;
+      color:#fff;
+    }
     &__input {
       &:checked {
         ~.radio__text {
-          border: none;
+          //border: none;
         }
       }
     }

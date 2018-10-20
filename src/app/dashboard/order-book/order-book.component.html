@@ -68,7 +68,7 @@
       <div class="head">
         <div class="order">
           <span>
-            Order
+            Amount
           </span>
         </div>
         <div class="info">
@@ -90,28 +90,28 @@
       <div class="items">
 
         <div class="visualization">
-          <div class="visual-item" [ngClass]="{'green': isBuy, 'red': !isBuy}" *ngFor="let item of data" [style.width]="getPercentageOfTheNumber(item.total)" [style.height]="(400/data.length) + 'px'"></div>
+          <div class="visual-item" [ngClass]="{'green': isBuy, 'red': !isBuy}" *ngFor="let item of data" [style.width]="getPercentageOfTheNumber(item.exrate)" [style.height]="(400/data.length) + 'px'"></div>
         </div>
         
         <div class="item" *ngFor="let item of data; let i = index" (click)="onSelectOrder(i, item)">
-          <div class="order" [style.lineHeight]="(400/data.length) + 'px'">
+          <div class="order" [style.lineHeight]="(400/data.length) + 'px'" [style.height]="(400/data.length) + 'px'">
             <span>
-              {{i+1}}
+              {{item.amountBase | number:'1.1-8'}}
             </span>
           </div>
-          <div class="info" [style.lineHeight]="(400/data.length) + 'px'">
+          <div class="info" [style.lineHeight]="(400/data.length) + 'px'" [style.height]="(400/data.length) + 'px'">
             <span>
-              {{item.price}}
+              {{item.exrate | number:'1.1-8'}}
             </span>
           </div>
-          <div class="price" [style.lineHeight]="(400/data.length) + 'px'">
+          <div class="price" [style.lineHeight]="(400/data.length) + 'px'" [style.height]="(400/data.length) + 'px'">
             <span>
-              {{item.price}}
+              {{item.exrate | number:'1.1-8'}}
             </span>
           </div>
-          <div class="total" [style.lineHeight]="(400/data.length) + 'px'">
+          <div class="total" [style.lineHeight]="(400/data.length) + 'px'" [style.height]="(400/data.length) + 'px'">
             <span>
-              {{item.total}}
+              {{item.amountConvert | number:'1.1-8'}}
             </span>
           </div>
         </div>
