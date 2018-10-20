@@ -3,6 +3,7 @@ import {Subject} from 'rxjs';
 import {StompService} from '@stomp/ng2-stompjs';
 import {map} from 'rxjs/internal/operators';
 import {CurrencyPair} from '../markets/currency-pair.model';
+import {Message} from '@stomp/stompjs';
 
 @Injectable()
 export class TradeHistoryService {
@@ -19,20 +20,26 @@ export class TradeHistoryService {
 
   subscribeStompForTrades(pair: CurrencyPair) {
     this.tradesStompSubscription = this.stompService
-      .subscribe('/app/info/trades/' + pair.currencyPairId)
-      .pipe(map(message => {
-        const wrapper: TradesWrapper = JSON.parse(message.body);
-        // console.log(wrapper);
-        return wrapper;
-      }))
-      .subscribe(wrapper => {
-        if (wrapper.ALL) {
-          this.allTradesListener.next(wrapper.ALL);
-        }
-        if (wrapper.MY) {
-          this.personalTradesListener.next(wrapper.MY);
-        }
-      });
+      .subscribe('/app/trades/' + pair.currencyPairId)
+      .subscribe((message) => console.log(JSON.parse(JSON.parse(message.body))));
+
+
+
+
+
+      // .pipe(map(message => {
+      //   const wrapper: TradesWrapper = JSON.parse(message.body);
+      //   console.log(wrapper);
+      //   return wrapper;
+      // }))
+      // .subscribe(wrapper => {
+      //   if (wrapper.ALL) {
+      //     this.allTradesListener.next(wrapper.ALL);
+      //   }
+      //   if (wrapper.MY) {
+      //     this.personalTradesListener.next(wrapper.MY);
+      //   }
+      // });
   }
 
   unsubscribeStompForTrades() {

@@ -24,13 +24,10 @@ export class OrderBookService {
   subscribeStompForSellOrders(pair: CurrencyPair) {
     this.sellOrdersSubscription = this.stompService
       .subscribe('/app/trade_orders/' + pair.currencyPairId)
-      .subscribe((data: Message) => {
-        console.log(JSON.parse(data.body));
-      },
-        catchError(err => {
-          console.log(err);
-          return err;
-        }));
+      .pipe( map((message: Message) => JSON.parse(message.body)))
+      .subscribe((orders: OrderItemsWrapper []) => {
+        this.processOrderItems(orders, 'SELL');
+      });
 
 
 
@@ -43,9 +40,26 @@ export class OrderBookService {
       // });
   }
 
+  processOrderItems(wrappers: OrderItemsWrapper[], mode: string) {
+    console.log(wrappers);
+    let wrapper: OrderItemsWrapper;
+    wrappers.forEach(wr => {
+        console.log(wr);
+      if (wr['type'] === mode) {
+        console.log(wr);
+        wrapper = wr;
+      }
+    });
+    // console.log(wrapper);
+    // this.sellOrdersListener.next(wrapper.data);
+    // console.log(wrapper.data);
+  }
+
+
+
   subscribeStompForBuyOrders(pair: CurrencyPair) {
     this.buyOrdersSubscriptionDynamic = this.stompService
-      .subscribe('/app/trade_orders/' + pair.currencyPairId)
+      .subscribe('/app/trade_orders/' + 58)
       .subscribe((data: Message) => {
           console.log(JSON.parse(data.body));
         },
@@ -65,7 +79,7 @@ export class OrderBookService {
   private extractOrderItems(message: Message): OrderItem [] {
     const items: OrderItem [] = [];
     console.log(items);
-    items.push(...JSON.parse(JSON.parse(message.body)));
+    items.push(...JSON.parse(message.body));
     return items;
   }
 
@@ -117,6 +131,13 @@ export class OrderBookService {
       this.sellOrdersSubscriptionDynamic.unsubscribe();
     }
   }
+}
+
+export class OrderItemsWrapper {
+
+  constructor(public data: OrderItem[],
+              public type: string,
+              public currencyPairId: number) {}
 }
 
 export class OrderItem {
