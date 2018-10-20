@@ -4,6 +4,7 @@ import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {OrderBookService, OrderItem} from './order-book.service';
 import {MarketService} from '../markets/market.service';
 import {DashboardDataService} from '../dashboard-data.service';
+import {TradingService} from '../trading/trading.service';
 import {CurrencyPair} from '../markets/currency-pair.model';
 import { setHostBindings } from '@angular/core/src/render3/instructions';
 import { forEach } from '@angular/router/src/utils/collection';
@@ -416,7 +417,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   constructor(private orderBookService: OrderBookService,
               private marketService: MarketService,
-              private dashboardDataService: DashboardDataService) {
+              private dashboardDataService: DashboardDataService,
+              private tradingService: TradingService) {
     super();
   }
 
@@ -427,6 +429,16 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.setMockData();
 
     this.isBuy = true;
+
+    this.tradingService.tradingChangeSellBuy$.subscribe((data) => {
+      if (data === 'SELL') {
+        this.isBuy = false;
+      } else if (data === 'BUY') {
+        this.isBuy = true;
+      }
+
+      this.setData();
+    });
 
     this.setData();
 
