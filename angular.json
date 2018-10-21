@@ -80,7 +80,7 @@
               "browserTarget": "exrates-front-new:build:staging"
             },
             "dev": {
-              "browserTarget": "exrates-front-new:build:staging"
+              "browserTarget": "exrates-front-new:build:dev"
             }
           }
         },
