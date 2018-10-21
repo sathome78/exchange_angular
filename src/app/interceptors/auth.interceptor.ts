@@ -12,8 +12,8 @@ export class AuthInterceptor implements HttpInterceptor {
       const clientIp = localStorage.getItem(IP_USER_HEADER) ? localStorage.getItem(IP_USER_HEADER) : '192.168.0.1';
       const headers = req.headers
                                 .append(X_AUTH_TOKEN, token)
-                                .append(EXRATES_REST_TOKEN, token)
-                                .append(IP_USER_HEADER, clientIp);
+                                .append(EXRATES_REST_TOKEN, token);
+                                // .append(IP_USER_HEADER, clientIp);
 
       const copiedReq = req.clone({
         headers: headers
