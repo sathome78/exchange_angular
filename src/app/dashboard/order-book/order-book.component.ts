@@ -186,6 +186,33 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         'needRefresh': true,
         'page': 0, 'id': 0, 'userId': 0,
         'orderType': 'BUY',
+        'exrate': '0.02948956',
+        'amountBase': '0.005403912',
+        'amountConvert': '0.000170166',
+        'ordersIds': '9788788 9789299'
+      },
+      {
+        'needRefresh': true,
+        'page': 0, 'id': 0, 'userId': 0,
+        'orderType': 'BUY',
+        'exrate': '0.02948956',
+        'amountBase': '0.005403912',
+        'amountConvert': '0.000170166',
+        'ordersIds': '9788788 9789299'
+      },
+      {
+        'needRefresh': true,
+        'page': 0, 'id': 0, 'userId': 0,
+        'orderType': 'BUY',
+        'exrate': '0.02948956',
+        'amountBase': '0.005403912',
+        'amountConvert': '0.000170166',
+        'ordersIds': '9788788 9789299'
+      },
+      {
+        'needRefresh': true,
+        'page': 0, 'id': 0, 'userId': 0,
+        'orderType': 'BUY',
         'exrate': '0.02148961',
         'amountBase': '0.005579976',
         'amountConvert': '0.000175712',

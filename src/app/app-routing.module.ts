@@ -12,8 +12,8 @@ import {OpenOrdersComponent} from './orders/open-orders/open-orders.component';
 const routes: Routes = [
   // permit all
   { path: 'dashboard',      component: DashboardComponent },
-  // { path: 'open-orders', component: OpenOrdersComponent },
-  // { path: 'orders-history', component: OrdersHistoryComponent },
+  { path: 'open-orders', component: OpenOrdersComponent },
+  { path: 'orders-history', component: OrdersHistoryComponent },
   // { path: 'funds',      component: DashboardComponent, },ç
   // { path: 'orders',      component: DashboardComponent, },
   { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},

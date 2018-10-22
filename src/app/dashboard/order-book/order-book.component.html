@@ -1,4 +1,6 @@
 <div class="widget widget--gradient">
+  <div class="order-book-bg order-book-bg--green"></div>
+  <div class="order-book-bg order-book-bg--red"></div>
   <div class="widget__header">
     <span class="widget__name">Order book</span>
     <a href="#" class="widget__question">
@@ -60,28 +62,28 @@
     </div>
   </div>
   <div class="widget__content" id="order_book" #orderBook>
-    <!-- <img src="../../assets/img/order-book.png" alt="" style="width: 100%; height: 100%;"> -->
+
     <!-- <div class="chartContainer" id="chartContainer">
 
     </div> -->
     <div class="order-table">
       <div class="head">
-        <div class="order">
+        <div class="order table__cell-head table__cell-head--tal table__cell-head--p4">
           <span>
             Amount
           </span>
         </div>
-        <div class="info">
+        <div class="info table__cell-head table__cell-head--tal table__cell-head--p4">
           <span>
                       
           </span>
         </div>
-        <div class="price">
+        <div class="price table__cell-head table__cell-head--tal table__cell-head--p4">
           <span>
             Price
           </span>
         </div>
-        <div class="total">
+        <div class="total table__cell-head table__cell-head--tal table__cell-head--p4">
           <span>
             Total
           </span>
@@ -90,30 +92,34 @@
       <div class="items">
 
         <div class="visualization">
-          <div class="visual-item" [ngClass]="{'green': isBuy, 'red': !isBuy}" *ngFor="let item of data" [style.width]="getPercentageOfTheNumber(item.exrate)" [style.height]="(400/data.length) + 'px'"></div>
+          <div class="visual-item" [ngClass]="{'green': isBuy, 'red': !isBuy}" *ngFor="let item of data" [style.width]="getPercentageOfTheNumber(item.exrate)" [style.height]="(422/data.length) + 'px'"></div>
         </div>
         
         <div class="item" *ngFor="let item of data; let i = index" (click)="onSelectOrder(i, item)">
-          <div class="order" [style.lineHeight]="(400/data.length) + 'px'" [style.height]="(400/data.length) + 'px'">
+          <div class="order" [style.lineHeight]="(422/data.length) + 'px'" [style.height]="(422/data.length) + 'px'">
             <span>
               {{item.amountBase | number:'1.1-8'}}
             </span>
           </div>
-          <div class="info" [style.lineHeight]="(400/data.length) + 'px'" [style.height]="(400/data.length) + 'px'">
+
+          <div class="info" [style.lineHeight]="(422/data.length) + 'px'" [style.height]="(422/data.length) + 'px'">
             <span>
               {{item.exrate | number:'1.1-8'}}
             </span>
           </div>
-          <div class="price" [style.lineHeight]="(400/data.length) + 'px'" [style.height]="(400/data.length) + 'px'">
+
+          <div class="price" [style.lineHeight]="(422/data.length) + 'px'" [style.height]="(422/data.length) + 'px'">
             <span>
               {{item.exrate | number:'1.1-8'}}
             </span>
           </div>
-          <div class="total" [style.lineHeight]="(400/data.length) + 'px'" [style.height]="(400/data.length) + 'px'">
+
+          <div class="total" [style.lineHeight]="(422/data.length) + 'px'" [style.height]="(422/data.length) + 'px'">
             <span>
               {{item.amountConvert | number:'1.1-8'}}
             </span>
           </div>
+
         </div>
       </div>
     </div>
