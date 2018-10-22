@@ -61,10 +61,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
     this.itemName = 'trading';
     this.order = {...this.defaultOrder};
     this.currentPair = this.mockData.getMarketsData()[2];
-    this.splitPairName(this.currentPair);
+    this.splitPairName();
     this.marketService.activeCurrencyListener.subscribe(pair => {
       this.currentPair = pair;
-      this.splitPairName(this.currentPair.currencyPairName);
+      this.splitPairName();
     });
     this.dashboardDataService.selectedOrderTrading$.subscribe(order => {
       this.orderFromOrderBook(order);
@@ -139,7 +139,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
     this.percents = null;
   }
 
-  private splitPairName(pairName) {
+  private splitPairName() {
     this.arrPairName = this.currentPair.currencyPairName.split('/');
   }
 
