@@ -571,6 +571,9 @@
     }
   }
   //trading end
+  .order-book-bg{
+    display: none;
+  }
   /*--- elements end ---*/
 }
 
@@ -710,12 +713,19 @@
     &__trading-row {
       margin-top: 24px;
     }
+    &__trading-row-txt {
+      .avaliable{
+        margin-top: 0;
+      }
+
+    }
     &__trading-btn {
       max-width: none;
       height: 53px;
       font-size: 24px;
       margin: 44px 0 0;
     }
+
     /*--- elements end ---*/
   }
 }
@@ -842,12 +852,12 @@
     .wrap-input__input {
       &:focus {
         ˜.wrap-input__label {
-          background-color: #253E71;
+          background-color: #2B3256;
         }
       }
       &:valid {
         ~ .wrap-input__label {
-          background-color: #253E71;
+          background-color: #2B3256;
         }
       }
     }
@@ -886,6 +896,9 @@
           }
         }
       }
+    }
+    .order-book-bg{
+      display: block;
     }
     /*--- elements end ---*/
   }

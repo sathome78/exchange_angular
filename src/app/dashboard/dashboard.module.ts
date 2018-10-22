@@ -29,6 +29,7 @@ import {DashboardWebSocketService} from './dashboard-websocket.service';
 import {MarketService} from './markets/market.service';
 import {OrderBookService} from './order-book/order-book.service';
 import {TradeHistoryService} from './trade-history/trade-history.service';
+import {ChatService} from './chat/chat.service';
 
 
 export function socketProvider() {
@@ -92,6 +93,7 @@ const stompConfig: StompConfig = {
 
   ],
   providers: [
+    ChatService,
     DashboardDataService,
     DashboardWebSocketService,
     MarketService,

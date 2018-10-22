@@ -1,19 +1,34 @@
 @import './../../../assets/scss/_variables';
-
+@import './../../../assets/scss/_layout.scss';
+.widget__header{
+  background-color: transparent;
+}
 .widget__content {
   position: relative;
 }
-
-.dark-theme .order , .dark-theme .head  {
-  color: #A0A0A0;
+.order-book-bg{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: .1;
+  &--green{
+    background: linear-gradient(to bottom, #00B43D 0%, #00B43D 51%, #00B43D 100%);
+  }
+  &--red{
+    background: linear-gradient(to bottom, #EB5757 0%, #EB5757 51%, #EB5757 100%);
+  }
 }
-
+.order-table{
+  height: 100%;
+}
 .items {
   min-height: 381px;
-  max-height: 420px;
+  max-height: 422px;
   overflow: auto;
   position: relative;
   z-index: 100;
+  height: calc(100% - 24px);
 }
 
 .visualization {
@@ -21,6 +36,7 @@
   top: 0;
   z-index: 99;
   width: 100%;
+  height: 100%;
   max-width: 100%;
   display: flex;
   flex-wrap: nowrap;
@@ -47,6 +63,8 @@
 }
 
 .order-table {
+  position: relative;
+  z-index: 2;
   max-width: 100%;
   margin-left: 16px;
 
@@ -56,7 +74,7 @@
     flex-wrap: nowrap;
     position: relative;
     z-index: 100;
-    font-size: 11px;
+    //font-size: 11px;
   }
 
   .item:hover {
@@ -76,7 +94,10 @@
   }
 
   .order, .price, .total {
-    padding-left: 5px;
+    //padding-left: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    line-height: 16px;
   }
 
   .order {

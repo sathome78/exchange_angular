@@ -12,11 +12,11 @@ import {OpenOrdersComponent} from './orders/open-orders/open-orders.component';
 const routes: Routes = [
   // permit all
   { path: 'dashboard',      component: DashboardComponent },
-  // { path: 'open-orders', component: OpenOrdersComponent },
-  // { path: 'orders-history', component: OrdersHistoryComponent },
+  { path: 'open-orders', component: OpenOrdersComponent },
+  { path: 'orders-history', component: OrdersHistoryComponent },
   // { path: 'funds',      component: DashboardComponent, },ç
   // { path: 'orders',      component: DashboardComponent, },
-  { path: 'settings',  component: SettingsComponent, /*canActivate: [AuthGuard], canActivateChild: [AuthGuard]*/},
+  // { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   // { path: 'tfa-popup', component: TwoFactorPopupComponent },
   // { path: 'settings',  component: SettingsComponent,    loadChildren: 'app/settings/settings.module#SettingsModule' },
 
@@ -33,7 +33,7 @@ const routes: Routes = [
   // // {path: 'test', component: TestComponent },
 
   // {path: '', pathMatch: 'full', redirectTo: '/settings'} // remove after demo
-  {path: '', pathMatch: 'full', redirectTo: '/dashboard'}
+  {path: '', pathMatch: 'full', redirectTo: 'dashboard'}
 ];
 
 @NgModule({

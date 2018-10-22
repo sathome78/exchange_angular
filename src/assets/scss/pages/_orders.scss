@@ -16,13 +16,15 @@
     line-height: 28px;
   }
   &__amount{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     -webkit-border-radius: 100px;
     -moz-border-radius: 100px;
     border-radius: 100px;
-    line-height: 16px;
+    height: 16px;
     min-width: 26px;
     margin-left: 4px;
-    text-align: center;
     color:#fff;
     background-color: $darker-blue;
   }
@@ -36,6 +38,7 @@
       margin-right: 4px;
     }
   }
+
   /*--- elements end ---*/
 }
 /*--- media start ---*/
