@@ -12,72 +12,225 @@
     <span class="widget__dots panel-heading"></span>
     <div class="widget__controls">
       <!--<div class="widget__controls-horizontal">-->
-        <!--<span class="widget__controls-plus" (click)="heightChange(true)">-->
-          <!--<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-            <!--<path-->
-              <!--d="M1 3.38889C0.723858 3.38889 0.5 3.61275 0.5 3.88889C0.5 4.16503 0.723858 4.38889 1 4.38889V3.38889ZM7.12826 4.38889C7.4044 4.38889 7.62826 4.16503 7.62826 3.88889C7.62826 3.61275 7.4044 3.38889 7.12826 3.38889V4.38889ZM4.5638 1C4.5638 0.723858 4.33994 0.5 4.0638 0.5C3.78766 0.5 3.5638 0.723858 3.5638 1H4.5638ZM3.5638 6.77778C3.5638 7.05392 3.78766 7.27778 4.0638 7.27778C4.33994 7.27778 4.5638 7.05392 4.5638 6.77778H3.5638ZM1 4.38889H7.12826V3.38889H1V4.38889ZM4.5638 6.77778V1H3.5638V6.77778H4.5638Z"/>-->
-          <!--</svg>-->
-        <!--</span>-->
-        <!--<span class="widget__controls-horizontal-img">-->
-          <!--<svg width="12" height="16" viewBox="0 0 12 16"  xmlns="http://www.w3.org/2000/svg">-->
-            <!--<rect width="12" height="9"/>-->
-            <!--<rect y="11" width="12" height="5"  fill-opacity="0.5"/>-->
-          <!--</svg>-->
-        <!--</span>-->
-        <!--<span class="widget__controls-minus" (click)="heightChange(false)">-->
-          <!--<svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-            <!--<path-->
-              <!--d="M1 4C0.723858 4 0.5 4.22386 0.5 4.5C0.5 4.77614 0.723858 5 1 5V4ZM6.65685 5C6.933 5 7.15685 4.77614 7.15685 4.5C7.15685 4.22386 6.933 4 6.65685 4V5ZM1 5L6.65685 5V4L1 4V5Z"/>-->
-          <!--</svg>-->
-        <!--</span>-->
+      <!--<span class="widget__controls-plus" (click)="heightChange(true)">-->
+      <!--<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+      <!--<path-->
+      <!--d="M1 3.38889C0.723858 3.38889 0.5 3.61275 0.5 3.88889C0.5 4.16503 0.723858 4.38889 1 4.38889V3.38889ZM7.12826 4.38889C7.4044 4.38889 7.62826 4.16503 7.62826 3.88889C7.62826 3.61275 7.4044 3.38889 7.12826 3.38889V4.38889ZM4.5638 1C4.5638 0.723858 4.33994 0.5 4.0638 0.5C3.78766 0.5 3.5638 0.723858 3.5638 1H4.5638ZM3.5638 6.77778C3.5638 7.05392 3.78766 7.27778 4.0638 7.27778C4.33994 7.27778 4.5638 7.05392 4.5638 6.77778H3.5638ZM1 4.38889H7.12826V3.38889H1V4.38889ZM4.5638 6.77778V1H3.5638V6.77778H4.5638Z"/>-->
+      <!--</svg>-->
+      <!--</span>-->
+      <!--<span class="widget__controls-horizontal-img">-->
+      <!--<svg width="12" height="16" viewBox="0 0 12 16"  xmlns="http://www.w3.org/2000/svg">-->
+      <!--<rect width="12" height="9"/>-->
+      <!--<rect y="11" width="12" height="5"  fill-opacity="0.5"/>-->
+      <!--</svg>-->
+      <!--</span>-->
+      <!--<span class="widget__controls-minus" (click)="heightChange(false)">-->
+      <!--<svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+      <!--<path-->
+      <!--d="M1 4C0.723858 4 0.5 4.22386 0.5 4.5C0.5 4.77614 0.723858 5 1 5V4ZM6.65685 5C6.933 5 7.15685 4.77614 7.15685 4.5C7.15685 4.22386 6.933 4 6.65685 4V5ZM1 5L6.65685 5V4L1 4V5Z"/>-->
+      <!--</svg>-->
+      <!--</span>-->
       <!--</div>-->
       <!--<div class="widget__controls-vertical">-->
-        <!--<span class="widget__controls-plus" (click)="widthChange(true)">-->
-          <!--<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-            <!--<path-->
-              <!--d="M1 3.38889C0.723858 3.38889 0.5 3.61275 0.5 3.88889C0.5 4.16503 0.723858 4.38889 1 4.38889V3.38889ZM7.12826 4.38889C7.4044 4.38889 7.62826 4.16503 7.62826 3.88889C7.62826 3.61275 7.4044 3.38889 7.12826 3.38889V4.38889ZM4.5638 1C4.5638 0.723858 4.33994 0.5 4.0638 0.5C3.78766 0.5 3.5638 0.723858 3.5638 1H4.5638ZM3.5638 6.77778C3.5638 7.05392 3.78766 7.27778 4.0638 7.27778C4.33994 7.27778 4.5638 7.05392 4.5638 6.77778H3.5638ZM1 4.38889H7.12826V3.38889H1V4.38889ZM4.5638 6.77778V1H3.5638V6.77778H4.5638Z"/>-->
-          <!--</svg>-->
-        <!--</span>-->
-        <!--<span class="widget__controls-vertical-img">-->
-          <!--<svg width="13" height="16" viewBox="0 0 13 16"  xmlns="http://www.w3.org/2000/svg">-->
-            <!--<rect y="16" width="15.7946" height="7.38544" transform="rotate(-90 0 16)" />-->
-            <!--<rect x="9" y="16" width="16" height="4" transform="rotate(-90 9 16)" fill-opacity="0.5"/>-->
-          <!--</svg>-->
-        <!--</span>-->
-        <!--<span class="widget__controls-minus" (click)="widthChange(false)">-->
-          <!--<svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-            <!--<path-->
-              <!--d="M1 4C0.723858 4 0.5 4.22386 0.5 4.5C0.5 4.77614 0.723858 5 1 5V4ZM6.65685 5C6.933 5 7.15685 4.77614 7.15685 4.5C7.15685 4.22386 6.933 4 6.65685 4V5ZM1 5L6.65685 5V4L1 4V5Z"/>-->
-          <!--</svg>-->
-        <!--</span>-->
+      <!--<span class="widget__controls-plus" (click)="widthChange(true)">-->
+      <!--<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+      <!--<path-->
+      <!--d="M1 3.38889C0.723858 3.38889 0.5 3.61275 0.5 3.88889C0.5 4.16503 0.723858 4.38889 1 4.38889V3.38889ZM7.12826 4.38889C7.4044 4.38889 7.62826 4.16503 7.62826 3.88889C7.62826 3.61275 7.4044 3.38889 7.12826 3.38889V4.38889ZM4.5638 1C4.5638 0.723858 4.33994 0.5 4.0638 0.5C3.78766 0.5 3.5638 0.723858 3.5638 1H4.5638ZM3.5638 6.77778C3.5638 7.05392 3.78766 7.27778 4.0638 7.27778C4.33994 7.27778 4.5638 7.05392 4.5638 6.77778H3.5638ZM1 4.38889H7.12826V3.38889H1V4.38889ZM4.5638 6.77778V1H3.5638V6.77778H4.5638Z"/>-->
+      <!--</svg>-->
+      <!--</span>-->
+      <!--<span class="widget__controls-vertical-img">-->
+      <!--<svg width="13" height="16" viewBox="0 0 13 16"  xmlns="http://www.w3.org/2000/svg">-->
+      <!--<rect y="16" width="15.7946" height="7.38544" transform="rotate(-90 0 16)" />-->
+      <!--<rect x="9" y="16" width="16" height="4" transform="rotate(-90 9 16)" fill-opacity="0.5"/>-->
+      <!--</svg>-->
+      <!--</span>-->
+      <!--<span class="widget__controls-minus" (click)="widthChange(false)">-->
+      <!--<svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+      <!--<path-->
+      <!--d="M1 4C0.723858 4 0.5 4.22386 0.5 4.5C0.5 4.77614 0.723858 5 1 5V4ZM6.65685 5C6.933 5 7.15685 4.77614 7.15685 4.5C7.15685 4.22386 6.933 4 6.65685 4V5ZM1 5L6.65685 5V4L1 4V5Z"/>-->
+      <!--</svg>-->
+      <!--</span>-->
       <!--</div>-->
       <div class="widget__controls-close" (click)="remove()">
         <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z" />
+          <path
+            d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"/>
         </svg>
 
       </div>
     </div>
   </div>
   <div class="tabs widget__tabs widget__tabs--hide-mob" style="margin: 0 24px;">
-    <button class="tabs__item tabs__item--big tabs__item--active">Buy BTC</button>
-    <button class="tabs__item tabs__item--big">Sell BTC</button>
+    <button class="tabs__item tabs__item--big "
+            [ngClass]="{'tabs__item--active': mainTab === 'BUY', 'tab-no-active': mainTab !== 'BUY'}"
+            (click)="toggleMainTab('BUY')">Buy {{currentPair.market}}
+    </button>
+    <button class="tabs__item tabs__item--big"
+            [ngClass]="{'tabs__item--active': mainTab === 'SELL', 'tab-no-active': mainTab !== 'SELL'}"
+            (click)="toggleMainTab('SELL')">Sell {{currentPair.market}}
+    </button>
   </div>
-    <!--<app-buy></app-buy>-->
 
-    <app-sell></app-sell>
+
+  <div class="widget__content">
+    <div class="widget__trading-form">
+      <div class="row row--jcsb row--aic widget__trading-row">
+        <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
+             (click)="toggleLimitDropdown()">
+          <div class="dropdown__btn">{{dropdownLimitValue}}</div>
+          <ul class="dropdown__list">
+            <li class="dropdown__item" (click)="selectedLimit(limit)" *ngFor="let limit of limitsData">{{limit}}</li>
+          </ul>
+        </div>
+        <div class="row row-jcsb">
+          <label class="radio radio--mr12">
+            <input class="radio__input" type="radio" name="radio-procent">
+            <span class="radio__text " [ngClass]="{'radio__text__checked': percents === 5}"
+                  (click)="selectedPercent(5)">
+          5%
+        </span>
+          </label>
+          <label class="radio radio--mr12">
+            <input class="radio__input" type="radio" name="radio-procent">
+            <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 25}"
+                  (click)="selectedPercent(25)">
+          25%
+        </span>
+          </label>
+          <label class="radio radio--mr12">
+            <input class="radio__input" type="radio" name="radio-procent">
+            <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 50}"
+                  (click)="selectedPercent(50)">
+          50%
+        </span>
+          </label>
+          <label class="radio">
+            <input class="radio__input" type="radio" name="radio-procent">
+            <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 100}"
+                  (click)="selectedPercent(100)">
+          100%
+        </span>
+          </label>
+        </div>
+      </div>
+      <form [formGroup]="limitForm" *ngIf="this.dropdownLimitValue === 'Limit' || this.dropdownLimitValue === 'ICO' ">
+
+        <div class="row row--jcsb widget__trading-row">
+
+          <div class="wrap-input widget__input widget__input--mr32">
+            <input class="wrap-input__input" type="text"
+                   [(ngModel)]="order.amount"
+                   formControlName="quantityOf"
+                   (input)="quantityIput($event)"
+                   name="quantityOf">
+            <label class="wrap-input__label" for="">Quantity of {{currentPair.market}}</label>
+            <div class="wrap-input__line"></div>
+          </div>
+
+          <div class="wrap-input widget__input">
+            <input class="wrap-input__input" type="text"
+                   [value]="currentPair.lastOrderRate"
+                   formControlName="priceIn"
+                   name="priceIn">
+            <label class="wrap-input__label" for="">Price in {{arrPairName[0]}}</label>
+            <div class="wrap-input__line"></div>
+          </div>
+
+        </div>
+
+        <div class="row row--jcsb widget__trading-row">
+          <div class="wrap-input widget__input">
+            <input class="wrap-input__input" type="text"
+                   [(ngModel)]="order.total"
+                   formControlName="totalIn"
+                   name="totalIn">
+            <label class="wrap-input__label" for="">Total in {{arrPairName[0]}}</label>
+            <div class="wrap-input__line"></div>
+          </div>
+        </div>
+
+      </form>
+      <form [formGroup]="stopForm" *ngIf="this.dropdownLimitValue === 'Stop limit'">
+        <div class="row row--jcsb widget__trading-row">
+          <div class="wrap-input widget__input widget__input--mr32">
+            <input class="wrap-input__input" type="text"
+                   [(ngModel)]="orderStop"
+                   formControlName="stop"
+                   name="stop">
+            <label class="wrap-input__label" for="">Stop</label>
+            <div class="wrap-input__line"></div>
+          </div>
+          <div class="wrap-input widget__input">
+            <input class="wrap-input__input" type="text"
+                   [(ngModel)]="order.rate"
+                   formControlName="limit"
+                   name="limit">
+            <label class="wrap-input__label" for="">Limit</label>
+            <div class="wrap-input__line"></div>
+          </div>
+        </div>
+        <div class="row row--jcsb widget__trading-row">
+          <div class="wrap-input widget__input widget__input--mr32">
+            <input class="wrap-input__input" type="text"
+                   [(ngModel)]="order.amount"
+                   formControlName="quantityOf"
+                   (input)="quantityIput($event)"
+                   name="quantityOf">
+            <label class="wrap-input__label" for="">Quantity of {{currentPair.market}}</label>
+            <div class="wrap-input__line"></div>
+          </div>
+          <div class="wrap-input widget__input">
+            <input class="wrap-input__input" type="text"
+                   [(ngModel)]="order.total"
+                   formControlName="totalIn"
+                   name="totalIn">
+            <label class="wrap-input__label" for="">Total in {{arrPairName[0]}}</label>
+            <div class="wrap-input__line"></div>
+          </div>
+        </div>
+      </form>
+
+      <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
+        <div class="avaliable">
+        <span>
+          <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M7.23181 6.84126V8.72983C7.23181 9.08029 7.41189 9.35214 7.56677 9.35214H12V6.21888H7.56677C7.41189 6.21888 7.23181 6.4908 7.23181 6.84126ZM9.05815 7.05851C9.43365 7.05851 9.73913 7.38464 9.73913 7.78551C9.73913 8.18639 9.43365 8.51251 9.05815 8.51251C8.68266 8.51251 8.37718 8.18639 8.37718 7.78551C8.37718 7.38464 8.68266 7.05851 9.05815 7.05851ZM7.56677 10.3633C6.85985 10.3633 6.2847 9.63047 6.2847 8.72983V6.84126C6.2847 5.94062 6.85979 5.20783 7.56677 5.20783H12V3.97574C12 3.35222 11.6172 2.82286 11.0894 2.63991L10.2623 0.325323C10.2155 0.194484 10.12 0.0902034 9.99851 0.0373555C9.87702 -0.0154251 9.74051 -0.0121895 9.6213 0.046523L4.49908 2.57102H1.31579C0.590302 2.57102 0 3.20122 0 3.97574V11.5952C0 12.3698 0.590302 13 1.31579 13H10.6842C11.4097 13 12 12.3698 12 11.5952V10.3633H7.56677ZM9.5581 1.19138L10.0511 2.57109H6.75876L9.5581 1.19138Z"/>
+          </svg>
+        </span>
+          <span style="vertical-align: middle;">Avaliable: </span>
+          Avaliable: <a href="#">{{userMoney}} USD</a>
+        </div>
+        <div>
+          Fee: 0.45 USD
+        </div>
+      </div>
+      <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
+        <div style="margin-left: auto;">
+          Pay no fees:
+          <img src="../../assets/img/fire.svg" style="margin: 0 4px;">
+          <a href="#">Become VIP</a>
+        </div>
+      </div>
+      <button class="btn btn--active widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'BUY'">Buy {{currentPair.market}} </button>
+      <button class="btn btn--active widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'SELL'">Sell {{currentPair.market}} </button>
+    </div>
+  </div>
+
 
   <!--notif success start-->
-  <div class="trading-notification trading-notification--success">
+  <div class="trading-notification trading-notification--success" *ngIf="false">
     <div class="trading-notification__close">
       <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z" />
+        <path
+          d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"/>
       </svg>
     </div>
     <div class="trading-notification__content">
       <div class="trading-notification__icon trading-notification__icon--success">
-        <svg  viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path class="icon-center" d="M27.4876 11.9846C27.1385 11.6354 26.5723 11.6354 26.2231 11.9846L15.5104 22.6973L11.3927 18.5796C11.0435 18.2303 10.4774 18.2304 10.1281 18.5796C9.77891 18.9287 9.77891 19.4949 10.1281 19.8441L14.8782 24.594C15.2272 24.9432 15.7938 24.943 16.1427 24.594L27.4876 13.2491C27.8369 12.8999 27.8368 12.3338 27.4876 11.9846Z"/>
+        <svg viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="icon-center"
+                d="M27.4876 11.9846C27.1385 11.6354 26.5723 11.6354 26.2231 11.9846L15.5104 22.6973L11.3927 18.5796C11.0435 18.2303 10.4774 18.2304 10.1281 18.5796C9.77891 18.9287 9.77891 19.4949 10.1281 19.8441L14.8782 24.594C15.2272 24.9432 15.7938 24.943 16.1427 24.594L27.4876 13.2491C27.8369 12.8999 27.8368 12.3338 27.4876 11.9846Z"/>
           <circle class="icon-circle" cx="18.5" cy="18.5" r="17.5" stroke-width="2"/>
         </svg>
       </div>
@@ -89,17 +242,19 @@
   </div>
   <!--notif success end-->
   <!--notif error stat-->
-  <div class="trading-notification trading-notification--error">
+  <div class="trading-notification trading-notification--error" *ngIf="false">
     <div class="trading-notification__close">
       <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z" />
+        <path
+          d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"/>
       </svg>
     </div>
     <div class="trading-notification__content">
       <div class="trading-notification__icon trading-notification__icon--error">
         <svg viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle class="icon-circle" cx="18.5" cy="18.5" r="17.5" stroke-width="2"/>
-          <path class="icon-center" d="M11.729 10.3155C11.351 9.91289 10.7182 9.89294 10.3155 10.271C9.91289 10.649 9.89294 11.2818 10.271 11.6845L11.729 10.3155ZM25.2709 27.6608C25.649 28.0634 26.2818 28.0834 26.6845 27.7054C27.0871 27.3273 27.107 26.6945 26.729 26.2919L25.2709 27.6608ZM26.729 11.6845C27.1071 11.2818 27.0871 10.649 26.6845 10.271C26.2818 9.89294 25.649 9.91289 25.271 10.3155L26.729 11.6845ZM10.271 26.2919C9.89297 26.6945 9.91292 27.3273 10.3155 27.7054C10.7182 28.0834 11.351 28.0634 11.7291 27.6608L10.271 26.2919ZM10.271 11.6845L17.771 19.6727L19.229 18.3037L11.729 10.3155L10.271 11.6845ZM17.771 19.6727L25.2709 27.6608L26.729 26.2919L19.229 18.3037L17.771 19.6727ZM25.271 10.3155L17.771 18.3037L19.229 19.6727L26.729 11.6845L25.271 10.3155ZM17.771 18.3037L10.271 26.2919L11.7291 27.6608L19.229 19.6727L17.771 18.3037Z"/>
+          <path class="icon-center"
+                d="M11.729 10.3155C11.351 9.91289 10.7182 9.89294 10.3155 10.271C9.91289 10.649 9.89294 11.2818 10.271 11.6845L11.729 10.3155ZM25.2709 27.6608C25.649 28.0634 26.2818 28.0834 26.6845 27.7054C27.0871 27.3273 27.107 26.6945 26.729 26.2919L25.2709 27.6608ZM26.729 11.6845C27.1071 11.2818 27.0871 10.649 26.6845 10.271C26.2818 9.89294 25.649 9.91289 25.271 10.3155L26.729 11.6845ZM10.271 26.2919C9.89297 26.6945 9.91292 27.3273 10.3155 27.7054C10.7182 28.0834 11.351 28.0634 11.7291 27.6608L10.271 26.2919ZM10.271 11.6845L17.771 19.6727L19.229 18.3037L11.729 10.3155L10.271 11.6845ZM17.771 19.6727L25.2709 27.6608L26.729 26.2919L19.229 18.3037L17.771 19.6727ZM25.271 10.3155L17.771 18.3037L19.229 19.6727L26.729 11.6845L25.271 10.3155ZM17.771 18.3037L10.271 26.2919L11.7291 27.6608L19.229 19.6727L17.771 18.3037Z"/>
         </svg>
       </div>
       <div class="trading-notification__text">

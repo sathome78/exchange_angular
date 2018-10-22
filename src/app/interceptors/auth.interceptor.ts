@@ -1,6 +1,6 @@
 import {HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {EXRATES_REST_TOKEN, IP_CHECKER_URL, IP_USER_HEADER, TOKEN, X_AUTH_TOKEN} from '../services/http.utils';
+import {CORS_HEADER, EXRATES_REST_TOKEN, IP_CHECKER_URL, IP_USER_HEADER, TOKEN, X_AUTH_TOKEN} from '../services/http.utils';
 
 export class AuthInterceptor implements HttpInterceptor {
 
@@ -13,6 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
       const headers = req.headers
                                 .append(X_AUTH_TOKEN, token)
                                 .append(EXRATES_REST_TOKEN, token)
+                                // .append(CORS_HEADER, '*');
                                 .append(IP_USER_HEADER, clientIp);
 
       const copiedReq = req.clone({

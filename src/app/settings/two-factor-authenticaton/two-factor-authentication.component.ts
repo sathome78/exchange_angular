@@ -11,9 +11,9 @@ import {NotificationUserSetting} from './notification-user-setting.model';
 })
 export class TwoFactorAuthenticationComponent implements OnInit {
 
-  private isLoginOpen: boolean;
-  private isWithdrawalOpen: boolean;
-  private isTransferOpen: boolean;
+  public isLoginOpen: boolean;
+  public isWithdrawalOpen: boolean;
+  public isTransferOpen: boolean;
 
 
   // isLoginChecked = false;

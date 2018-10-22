@@ -2,7 +2,7 @@
 /** options for dashboard gridster container */
 export const gridsterOptions = {
   // core configuration is default one - for smallest view. It has hidden minWidth: 0.
-  lanes: 12, // amount of lanes (cells) in the grid
+  lanes: 3, // amount of lanes (cells) in the grid
   direction: 'vertical', // floating top - vertical, left - horizontal
   floating: true,
   dragAndDrop: true, // enable/disable drag and drop for all items in grid
@@ -54,8 +54,8 @@ export const gridsterOptions = {
 
 /** size limits for all dashboard gidster items */
 export const gridsterItemOptions = {
-  minWidth: 4,
-  minHeight: 4,
-  maxWidth: 12,
-  maxHeight: 7
+  minWidth: 1,
+  minHeight: 1,
+  maxWidth: 3,
+  maxHeight: 3
 };

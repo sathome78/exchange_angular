@@ -6,6 +6,7 @@ import {Order} from './order.model';
 import {TradingService} from './trading.service';
 import {MarketService} from '../markets/market.service';
 import {MockDataService} from '../../services/mock-data.service';
+import {DashboardDataService} from '../dashboard-data.service';
 
 @Component({
   selector: 'app-trading',
@@ -33,11 +34,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
   public userMoney = 3000000000;
   public orderStop;
   public currentPair;
+  public arrPairName: string[];
 
   constructor(
     public tradingService: TradingService,
     private marketService: MarketService,
     private mockData: MockDataService,
+    private dashboardDataService: DashboardDataService,
   ) {
     super();
   }
@@ -58,7 +61,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
     this.itemName = 'trading';
     this.order = {...this.defaultOrder};
     this.currentPair = this.mockData.getMarketsData()[2];
-    this.marketService.activeCurrencyListener.subscribe(pair => this.currentPair = pair);
+    this.splitPairName();
+    this.marketService.activeCurrencyListener.subscribe(pair => {
+      this.currentPair = pair;
+      this.splitPairName();
+    });
+    this.dashboardDataService.selectedOrderTrading$.subscribe(order => {
+      this.orderFromOrderBook(order);
+      console.log(order);
+    })
     this.initForms();
   }
 
@@ -128,6 +139,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
     this.percents = null;
   }
 
+  private splitPairName() {
+    this.arrPairName = this.currentPair.currencyPairName.split('/');
+  }
+
+  orderFromOrderBook(order) {
+    this.order.orderId = order.id;
+    this.order.amount = order.amountBase;
+    this.order.total = order.amountBase * this.currentPair.lastOrderRate;
+  }
 
   onSubmit() {
     this.order.currencyPairId = this.currentPair.currencyPairId;

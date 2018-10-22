@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   /** variables for resize method */
   public minWidth = 1200;
   public maxWidth = 1500;
-  public minRatio = 0.77;
+  public minRatio = 0.76;
   public maxRatio = 0.94;
   public widthStep = 5;
   /** ---------------------- */
@@ -85,12 +85,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     const widget = this.widgets.filter( item => item.type === event.itemName);
     if (event.widthOrHeight === 'height') {
       event.isIncrement ?
-        widget[0].hLg === this.gridsterItemOptions.maxHeight ? widget[0].hLg = this.gridsterItemOptions.maxHeight : widget[0].hLg += 3 :
-        widget[0].hLg === this.gridsterItemOptions.minHeight ? widget[0].hLg = this.gridsterItemOptions.minHeight : widget[0].hLg -= 3;
+        widget[0].hLg === this.gridsterItemOptions.maxHeight ? widget[0].hLg = this.gridsterItemOptions.maxHeight : widget[0].hLg += 1 :
+        widget[0].hLg === this.gridsterItemOptions.minHeight ? widget[0].hLg = this.gridsterItemOptions.minHeight : widget[0].hLg -= 1;
     } else {
       event.isIncrement ?
-        widget[0].wLg === this.gridsterItemOptions.maxWidth ? widget[0].wLg = this.gridsterItemOptions.maxWidth : widget[0].wLg += 4 :
-        widget[0].wLg === 8 ? widget[0].wLg = 8 : widget[0].wLg -= 4;
+        widget[0].wLg === this.gridsterItemOptions.maxWidth ? widget[0].wLg = this.gridsterItemOptions.maxWidth : widget[0].wLg += 1 :
+        widget[0].wLg === 2 ? widget[0].wLg = 2 : widget[0].wLg -= 1;
     }
     this.gridsterContainer.reload();
   }
@@ -128,6 +128,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       const ratio = (((winWidth - this.minWidth) / this.widthStep) * ratioStep) + this.minRatio;
       this.changeRatio(ratio);
     }
+
   }
 
   /**
