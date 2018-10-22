@@ -397,7 +397,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     'type': 'SELL',
     'currencyPairId': 1
   };
-  private data;
+  public data;
   private isBuy: boolean;
 
   /** maximum value from the array 'dataForVisualization'*/

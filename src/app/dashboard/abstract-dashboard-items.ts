@@ -13,9 +13,9 @@ export abstract class AbstractDashboardItems {
   /** dashboard item name */
   protected abstract itemName: string;
   /** can make width more */
-  protected makeWidth = true;
+  public makeWidth = true;
   /** can make height more */
-  protected makeHeight = true;
+  public makeHeight = true;
 
   /**
    * send event for height resize item container
