@@ -28,7 +28,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       {
         'needRefresh': true,
         'page': 0,
-        'id': 0,
+        'id': 12,
         'userId': 0,
         'orderType': 'BUY',
         'exrate': '0.00290479',

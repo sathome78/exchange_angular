@@ -9,13 +9,25 @@ import {AbstractDashboardItems} from '../abstract-dashboard-items';
 export class OrdersComponent extends AbstractDashboardItems implements OnInit {
   /** dashboard item name (field for base class)*/
   public itemName: string;
+  public mainTab = 'open';
+  public openOrdersCount = 0;
 
-  constructor() {
+  constructor(
+  ) {
     super();
   }
 
   ngOnInit() {
     this.itemName = 'orders';
+  }
+
+  toggleMainTab(tabName: string) {
+    this.mainTab = tabName;
+    console.log(this.mainTab);
+  }
+
+  setCountOpenOrders(e: number) {
+    this.openOrdersCount = e;
   }
 
 }

@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080',
+  // apiUrl: 'http://exrates_domain.me/',
+  apiUrl: 'http://dev5.exrates.tech/',
+  // apiUrl: 'http://localhost:8080',
   encodeKey: '3255c246-4b9f-43a5-b2dd-63524f959953',
 };
 

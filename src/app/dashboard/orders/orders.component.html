@@ -60,14 +60,34 @@
       </div>
     </div>
   </div>
+
   <div class="widget__content">
     <div class="tabs widget__tabs">
-      <button class="tabs__item  tabs__item--active">Open orders (<span>3</span>)</button>
-      <button class="tabs__item ">History</button>
+      <button class="tabs__item "
+              (click)="toggleMainTab('open')"
+              [ngClass]="{'tabs__item--active': mainTab === 'open', 'tab-no-active': mainTab !== 'open'}">
+        Open orders (<span >{{openOrdersCount}}</span>)
+      </button>
+      <button class="tabs__item "
+              (click)="toggleMainTab('history')"
+              [ngClass]="{'tabs__item--active': mainTab === 'history', 'tab-no-active': mainTab !== 'history'}">
+        History
+      </button>
     </div>
-    <app-open-orders></app-open-orders>
 
-    <!--<app-orders-history></app-orders-history>-->
+
+
+
+    <app-open-orders
+      *ngIf="mainTab === 'open'"
+      (countOpenOrders)="setCountOpenOrders($event)"
+    ></app-open-orders>
+
+    <app-orders-history *ngIf="mainTab === 'history'" ></app-orders-history>
+
+
+
+
   </div>
   <!--popup start-->
   <div class="order-edit-popup" *ngIf="false">

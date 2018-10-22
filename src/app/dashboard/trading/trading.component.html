@@ -113,7 +113,7 @@
           </label>
         </div>
       </div>
-      <form [formGroup]="limitForm" *ngIf="this.dropdownLimitValue === 'Limit' || this.dropdownLimitValue === 'ICO' ">
+      <form [formGroup]="limitForm" *ngIf="dropdownLimitValue === 'Limit' || dropdownLimitValue === 'ICO' ">
 
         <div class="row row--jcsb widget__trading-row">
 
@@ -129,7 +129,7 @@
 
           <div class="wrap-input widget__input">
             <input class="wrap-input__input" type="text"
-                   [value]="currentPair.lastOrderRate"
+                   [(ngModel)]="order.rate"
                    formControlName="priceIn"
                    name="priceIn">
             <label class="wrap-input__label" for="">Price in {{arrPairName[0]}}</label>
@@ -150,7 +150,7 @@
         </div>
 
       </form>
-      <form [formGroup]="stopForm" *ngIf="this.dropdownLimitValue === 'Stop limit'">
+      <form [formGroup]="stopForm" *ngIf="dropdownLimitValue === 'Stop limit'">
         <div class="row row--jcsb widget__trading-row">
           <div class="wrap-input widget__input widget__input--mr32">
             <input class="wrap-input__input" type="text"
@@ -202,7 +202,7 @@
           Avaliable: <a href="#">{{userMoney}} USD</a>
         </div>
         <div>
-          Fee: 0.45 USD
+          Fee: {{commission}} USD
         </div>
       </div>
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
