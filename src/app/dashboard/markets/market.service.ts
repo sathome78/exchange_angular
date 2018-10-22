@@ -4,21 +4,24 @@ import {StompService} from '@stomp/ng2-stompjs';
 import {CurrencyPair} from './currency-pair.model';
 import {Message} from '@stomp/stompjs';
 import {map} from 'rxjs/internal/operators';
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 
 
 @Injectable()
 export class MarketService {
 
   currencyPairs: CurrencyPair [] = [];
-  marketListener: Subject<CurrencyPair[]>;
+  marketListener$: Subject<CurrencyPair[]>;
   activeCurrencyListener: Subject<CurrencyPair>;
 
   private stompSubscription: any;
 
   constructor(
     private stompService: StompService,
+    private http: HttpClient,
   ) {
-    this.marketListener = new Subject<CurrencyPair[]>();
+    this.marketListener$ = new Subject<CurrencyPair[]>();
     this.activeCurrencyListener = new Subject<CurrencyPair>();
   }
 
@@ -35,7 +38,7 @@ export class MarketService {
     for (let i = 0; i < array.length; i++) {
       this.addOrUpdate(array[i]);
     }
-    this.marketListener.next(this.currencyPairs);
+    this.marketListener$.next(this.currencyPairs);
     if (this.currencyPairs.length > 0) {
       this.activeCurrencyListener.next(this.currencyPairs[0]);
     }
@@ -97,6 +100,10 @@ export class MarketService {
         return elm;
       }
     });
+  }
+
+  currencyPairInfo(pairId): Observable<any> {
+    return this.http.get(`/info/private/v2/dashboard/info/${pairId}`);
   }
 
 }

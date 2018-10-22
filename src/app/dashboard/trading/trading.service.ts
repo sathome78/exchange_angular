@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Order} from './order.model';
 import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class TradingService {
@@ -10,20 +11,27 @@ export class TradingService {
   public tradingChangeSellBuy$ = new Subject();
   /** emit order when created in trading-component */
   public tradingCreateOrder$ = new Subject();
+  private apiUrl;
 
   constructor(
     private http: HttpClient
-  ) {}
-
-  createOrder(order: Order) {
-     return this.http.post(`/info/private/v2/dashboard/order`, order );
+  ) {
+    this.apiUrl = environment.apiUrl;
   }
 
-  updateOrder(order: Order) {
-    return this.http.put(`/info/private/v2/dashboard/order`, order);
+  createOrder(order: Order): Observable<any> {
+     return this.http.post(`${this.apiUrl}info/private/v2/dashboard/order`, order );
   }
 
-  deleteOrder(orderId: number) {
-    return this.http.delete(`/info/private/v2/dashboard/order/${orderId}`);
+  getCommission(orderType: string, currencyPairId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}info/private/v2/dashboard/commission/${orderType}/${currencyPairId}`);
+  }
+
+  updateOrder(order: Order): Observable<any> {
+    return this.http.put(`${this.apiUrl}info/private/v2/dashboard/order`, order);
+  }
+
+  deleteOrder(orderId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}info/private/v2/dashboard/order/${orderId}`);
   }
 }

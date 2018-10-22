@@ -3,6 +3,8 @@ import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {MockDataService} from '../../services/mock-data.service';
 import {MarketService} from './market.service';
 import {CurrencyPair} from './currency-pair.model';
+import {Subject} from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-markets',
@@ -10,6 +12,7 @@ import {CurrencyPair} from './currency-pair.model';
   styleUrls: ['./markets.component.scss']
 })
 export class MarketsComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
   public itemName: string;
   /** active tab pair */
@@ -19,7 +22,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   /** Markets data by active tab */
   pairs: CurrencyPair[] = [];
 
-  marketSubscription: any;
   volumeOrderDirection = 'NONE';
   selectedCurrencyPair: CurrencyPair;
 
@@ -37,9 +39,10 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.currencyPairs =  this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
     this.pairs = this.choosePair(this.currencyDisplayMode);
     /** ------------------------ */
-    this.marketSubscription = this.marketService.marketListener
+    this.marketService.marketListener$
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(freshPairs => {
-        // console.log(freshPairs);
+        console.log(freshPairs);
         if (this.currencyPairs.length === 0) {
           this.currencyPairs = freshPairs;
         } else {
@@ -54,7 +57,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   ngOnDestroy(): void {
-    this.marketSubscription.unsubscribe();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
     this.marketService.unsubscribe();
   }
 
