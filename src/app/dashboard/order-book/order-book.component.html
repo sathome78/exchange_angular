@@ -1,6 +1,6 @@
 <div class="widget widget--gradient">
-  <div class="order-book-bg order-book-bg--green"></div>
-  <div class="order-book-bg order-book-bg--red"></div>
+  <div class="order-book-bg order-book-bg--green" [ngClass]="{'show': isBuy}"></div>
+  <div class="order-book-bg order-book-bg--red" [ngClass]="{'show': !isBuy}"></div>
   <div class="widget__header">
     <span class="widget__name">Order book</span>
     <a href="#" class="widget__question">

@@ -44,7 +44,14 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       'withdateranges': true,
       'hide_side_toolbar': false,
       'allow_symbol_change': true,
-      'container_id': 'tradingview_afc29'
+      'container_id': 'tradingview_afc29',
+      'time_frames': [
+        {text: '8m', resolution: 'D'},
+        {text: '2m', resolution: 'D'},
+        {text: '7d', resolution: '60'},
+        {text: '5d', resolution: '30'},
+        {text: '3d', resolution: '30'},
+    ]
     });
   }
 }
