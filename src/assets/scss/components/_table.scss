@@ -18,7 +18,7 @@
   &__cell-head {
     padding: 20px 10px;
     color: #000;
-    font-weight: 400;
+    font-weight: 600;
     display: table-cell;
     &--tal {
       text-align: left;
@@ -87,6 +87,7 @@
       }
     }
   }
+
   &__row-star {
     display: inline-block;
     width: 16px;
@@ -125,8 +126,8 @@
     &--arr-mob {
       width: 17px;
       height: 17px;
-      padding-right: 20px;
-      padding-left: 2px;
+      padding-right: 16px;
+      padding-left: 6px;
     }
 
     &--p8 {
@@ -139,6 +140,48 @@
       font-size: 10px;
       line-height: 12px;
     }
+  }
+  //details-row
+  &__details{}
+  &__details-cell{
+    position: relative;
+    padding: 6px 16px;
+    overflow: hidden;
+    &:before{
+      content:'';
+      display: block;
+      position: absolute;
+      height: 100%;
+      width: 4px;
+      left: 4px;
+      top: 0;
+      background-color: #237BEF;
+    }
+    &:after{
+      content:'';
+      display: block;
+      position: absolute;
+      height: 1px;
+      width: 100%;
+      left: 8px;
+      bottom: 0;
+      background-color: #237BEF;
+    }
+  }
+  &__details-item{
+    display: flex;
+    display: table-row;
+    padding: 6px 0;
+  }
+  &__details-item-title{
+    color:$grey;
+    display: table-cell;
+    padding: 6px 0;
+
+  }
+  &__details-item-value{
+    display: table-cell;
+    padding: 6px 0 6px 18px;
   }
   /*--- elements end ---*/
 }
@@ -185,6 +228,7 @@
   .table {
     color: #fff;
     &__cell-head {
+      font-weight: 400;
       color: #90A0BE;
     }
     &__cell-head-arr {
