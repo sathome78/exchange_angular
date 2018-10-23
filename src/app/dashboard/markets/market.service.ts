@@ -40,7 +40,8 @@ export class MarketService {
     }
     this.marketListener$.next(this.currencyPairs);
     if (this.currencyPairs.length > 0) {
-      this.activeCurrencyListener.next(this.currencyPairs[0]);
+      // this.activeCurrencyListener.next(this.currencyPairs[0]);
+      this.activeCurrencyListener.next(this.getActiveCurrencyPair());
     }
     // console.log(array);
   }
@@ -74,7 +75,7 @@ export class MarketService {
     //   }
     // });
     /** for mock data */
-    pair.currencyPairName = pairName
+    pair.currencyPairName = pairName;
     this.activeCurrencyListener.next(pair);
     /** ---------------- */
   }
@@ -106,4 +107,13 @@ export class MarketService {
     return this.http.get(`/info/private/v2/dashboard/info/${pairId}`);
   }
 
+  private getActiveCurrencyPair(): CurrencyPair {
+    this.currencyPairs.forEach(pair => {
+      if (pair.currencyPairId === 1) {
+        // console.log(JSON.stringify(pair));
+        return pair;
+      }
+    });
+    return this.currencyPairs[0];
+  }
 }
