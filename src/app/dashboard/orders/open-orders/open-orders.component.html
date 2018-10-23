@@ -407,7 +407,7 @@
     <a href="#">300 000 000 USD</a>
     </div>
     <div>
-    Fee: 0.45 USD
+    Fee: {{order.commission}} {{arrPairName[0]}}
     </div>
     </div>
     <div class="row row--jcsb row--aic widget__trading-row">
@@ -419,7 +419,7 @@
     </ul>
     </div>
     <div class="order-edit-popup__btns-wrap">
-    <button class="btn btn--small btn--empty-red" (click)="deleteOrder()">Delete</button>
+    <button class="btn btn--small btn--empty-red" (click)="deleteOrder(order)">Delete</button>
     <button class="btn btn--small btn--empty-blue" (click)="saveOrder()">Save</button>
     </div>
     </div>

@@ -205,7 +205,8 @@ export class MockDataService {
       averagePrice: '4500',
       amount: '0.005',
       commission: '0.02',
-      total: 6000
+      total: 6000,
+      status: 'OPENED'
     },
     {
       orderId: 215487885451,
@@ -214,7 +215,8 @@ export class MockDataService {
       averagePrice: '4700',
       amount: '0.105',
       commission: '0.052',
-      total: 800
+      total: 800,
+      status: 'OPENED'
     },
     {
       orderId: 215487885451,
@@ -223,7 +225,8 @@ export class MockDataService {
       averagePrice: '4500',
       amount: '0.005',
       commission: '0.02',
-      total: 6000
+      total: 6000,
+      status: 'OPENED'
     },
     {
       orderId: 215487885451,
@@ -232,7 +235,8 @@ export class MockDataService {
       averagePrice: '4700',
       amount: '0.105',
       commission: '0.052',
-      total: 800
+      total: 800,
+      status: 'OPENED'
     },
     {
       orderId: 215487885451,
@@ -241,7 +245,8 @@ export class MockDataService {
       averagePrice: '4500',
       amount: '0.005',
       commission: '0.02',
-      total: 6000
+      total: 6000,
+      status: 'OPENED'
     },
     {
       orderId: 215487885451,
@@ -250,7 +255,8 @@ export class MockDataService {
       averagePrice: '4500',
       amount: '0.005',
       commission: '0.02',
-      total: 6000
+      total: 6000,
+      status: 'OPENED'
     },
     {
       orderId: 215487885451,
@@ -259,7 +265,8 @@ export class MockDataService {
       averagePrice: '4700',
       amount: '0.105',
       commission: '0.052',
-      total: 800
+      total: 800,
+      status: 'OPENED'
     }
   ]
 
