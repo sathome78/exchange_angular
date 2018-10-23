@@ -205,8 +205,10 @@
         content: "";
         left: 0;
         width: 100%;
-        height: 24px;
+        height: 100%;
         z-index: 0;
+        opacity: 0;
+        animation: markets-row 1s ease-in-out;
         background: rgba(0, 180, 60, .1);
         background: -moz-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
         background: -webkit-gradient(left top, right top, color-stop(0%, rgba(0, 180, 60, .1)), color-stop(88%, rgba(0, 180, 60, .1)), color-stop(100%, rgba(0, 180, 60, 0)));
@@ -225,8 +227,10 @@
         content: "";
         left: 0;
         width: 100%;
-        height: 24px;
+        height: 100%;
         z-index: 0;
+        opacity: 0;
+        animation: markets-row 1s ease-in-out;
         background: rgba(235, 87, 87, .1);
         background: -moz-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
         background: -webkit-gradient(left top, right top, color-stop(0%, rgba(235, 87, 87, .1)), color-stop(88%, rgba(235, 87, 87, .1)), color-stop(100%, rgba(235, 87, 87, 0)));
@@ -617,7 +621,7 @@
     }
     &__table-wrap {
       position: relative;
-      height: 100%;
+      //height: 100%;
       margin-right: 24px;
       &--ml16 {
         margin-left: 16px;
@@ -625,6 +629,7 @@
     }
     &__table {
       margin-top: 4px;
+      margin-bottom: 0;
       display: table;
       border-collapse: collapse;
       position: relative;
@@ -898,7 +903,17 @@
       }
     }
     .order-book-bg{
-      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: .1;
+      &--green{
+        background: linear-gradient(to bottom, #00B43D 0%, #00B43D 51%, #00B43D 100%);
+      }
+      &--red{
+        background: linear-gradient(to bottom, #EB5757 0%, #EB5757 51%, #EB5757 100%);
+      }
     }
     /*--- elements end ---*/
   }

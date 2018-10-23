@@ -15,3 +15,11 @@
     transform: translate3d(4px, 0, 0);
   }
 }
+@keyframes markets-row {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
