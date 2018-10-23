@@ -9,6 +9,6 @@ export class OpenOrders {
     public amount: string,
     public commission: string,
     public total: number,
-    public status: string,
+    public status: string
   ) {}
 }

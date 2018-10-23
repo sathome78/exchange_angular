@@ -15,36 +15,40 @@
     <th class="table__cell-head table__cell-head--tal">Amount</th>
     <th class="table__cell-head table__cell-head--tal">Fee</th>
     <th class="table__cell-head table__cell-head--tal">Total</th>
+    <th class="table__cell-head table__cell-head--tal">Status of order</th>
   </tr>
   </thead>
-  <tbody class="table__body table__body--none-shadow">
-  <tr class="table__row">
+  <tbody class="table__body table__body--none-shadow" *ngIf="data">
+  <tr *ngFor="let item of data.slice(page-1, page-1+7)">
     <td class="table__cell">
-      <span>234566113434</span>
+      <span>{{item.orderId}}</span>
     </td>
     <td class="table__cell">
       <div class="table__date-time">
-        <div>Th 13.06.2018</div>
-        <div>10:59:41</div>
+        <div>{{item.created | date:"dd/MM/yyyy"}}</div>
+        <!-- <div>10:59:41</div> -->
       </div>
     </td>
     <td class="table__cell">
-      <span>Buy <span>(Limit)</span></span>
+      <span><span>{{item.type}}</span></span>
     </td>
     <td class="table__cell">
-      <span>4500 USD</span>
+      <span>{{item.averagePrice}} USD</span>
     </td>
     <td class="table__cell">
-      <span>0.005 BTC</span>
+      <span>{{item.amount}} BTC</span>
     </td>
     <td class="table__cell txt-grey">
-      <span>0.02%</span>
+      <span>{{item.commission}}</span>
     </td>
     <td class="table__cell">
-      <span>6000 USD</span>
+      <span>{{item.total}}USD</span>
+    </td>
+    <td>
+      <span>{{item.status}}</span>
     </td>
   </tr>
-  <tr class="table__row">
+  <!-- <tr class="table__row">
     <td class="table__cell">
       <span>234566113434</span>
     </td>
@@ -55,126 +59,154 @@
       </div>
     </td>
     <td class="table__cell">
-      <span>Buy <span>(Limit)</span></span>
-    </td>
-    <td class="table__cell">
-      <span>4500 USD</span>
-    </td>
-    <td class="table__cell">
-      <span>0.005 BTC</span>
-    </td>
-    <td class="table__cell txt-grey">
-      <span>0.42%</span>
-    </td>
-    <td class="table__cell">
-      <span>6000 USD</span>
-    </td>
-  </tr>
-  <tr class="table__row">
-    <td class="table__cell">
-      <span>234566113434</span>
-    </td>
-    <td class="table__cell">
-      <div class="table__date-time">
-        <div>Th 13.06.2018</div>
-        <div>10:59:41</div>
-      </div>
-    </td>
-    <td class="table__cell">
-      <span>Buy <span>(Limit)</span></span>
-    </td>
-    <td class="table__cell">
-      <span>4500 USD</span>
-    </td>
-    <td class="table__cell">
-      <span>0.005 BTC</span>
-    </td>
-    <td class="table__cell txt-grey">
-      <span>0.34%</span>
-    </td>
-    <td class="table__cell">
-      <span>6000 USD</span>
-    </td>
-  </tr>
-  <tr class="table__row">
-    <td class="table__cell">
-      <span>234566113434</span>
-    </td>
-    <td class="table__cell">
-      <div class="table__date-time">
-        <div>Th 13.06.2018</div>
-        <div>10:59:41</div>
-      </div>
-    </td>
-    <td class="table__cell">
-      <span>Sell <span>(Limit)</span></span>
-    </td>
+      <span class="orders__type-buy">Buy <span>(Limit)</span></span>
+      <!--<span class="orders__type-sell">Sell <span>(Limit)</span></span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>4500 USD</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>0.005 BTC</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell txt-grey">-->
+      <!--<span>0.02%</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>6000 USD</span>-->
+    <!--</td>-->
+  <!--</tr>-->
+  <!--<tr class="table__row">-->
+    <!--<td class="table__cell">-->
+      <!--<span>234566113434</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<div class="table__date-time">-->
+        <!--<div>Th 13.06.2018</div>-->
+        <!--<div>10:59:41</div>-->
+      <!--</div>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span class="orders__type-buy">Buy <span>(Limit)</span></span>-->
+      <!--&lt;!&ndash;<span class="orders__type-sell">Sell <span>(Limit)</span></span>&ndash;&gt;-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>4500 USD</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>0.005 BTC</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell txt-grey">-->
+      <!--<span>0.42%</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>6000 USD</span>-->
+    <!--</td>-->
+  <!--</tr>-->
+  <!--<tr class="table__row">-->
+    <!--<td class="table__cell">-->
+      <!--<span>234566113434</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<div class="table__date-time">-->
+        <!--<div>Th 13.06.2018</div>-->
+        <!--<div>10:59:41</div>-->
+      <!--</div>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>Buy <span>(Limit)</span></span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>4500 USD</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>0.005 BTC</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell txt-grey">-->
+      <!--<span>0.34%</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>6000 USD</span>-->
+    <!--</td>-->
+  <!--</tr>-->
+  <!--<tr class="table__row">-->
+    <!--<td class="table__cell">-->
+      <!--<span>234566113434</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<div class="table__date-time">-->
+        <!--<div>Th 13.06.2018</div>-->
+        <!--<div>10:59:41</div>-->
+      <!--</div>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>Sell <span>(Limit)</span></span>-->
+    <!--</td>-->
 
-    <td class="table__cell">
-      <span>4500 USD</span>
-    </td>
-    <td class="table__cell">
-      <span>0.005 BTC</span>
-    </td>
-    <td class="table__cell txt-grey">
-      <span>0.53%</span>
-    </td>
-    <td class="table__cell">
-      <span>6000 USD</span>
-    </td>
-  </tr>
-  <tr class="table__row">
-    <td class="table__cell">
-      <span>234566113434</span>
-    </td>
-    <td class="table__cell">
-      <div class="table__date-time">
-        <div>Th 13.06.2018</div>
-        <div>10:59:41</div>
-      </div>
-    </td>
-    <td class="table__cell">
-      <span>Sell <span>(Limit)</span></span>
-    </td>
-    <td class="table__cell">
-      <span>4500 USD</span>
-    </td>
-    <td class="table__cell">
-      <span>0.005 BTC</span>
-    </td>
-    <td class="table__cell txt-grey">
-      <span>0.12%</span>
-    </td>
-    <td class="table__cell">
-      <span>6000 USD</span>
-    </td>
-  </tr>
-  <tr class="table__row">
-    <td class="table__cell">
-      <span>234566113434</span>
-    </td>
-    <td class="table__cell">
-      <div class="table__date-time">
-        <div>Th 13.06.2018</div>
-        <div>10:59:41</div>
-      </div>
-    </td>
-    <td class="table__cell">
-      <span>Buy <span>(Limit)</span></span>
-    </td>
-    <td class="table__cell">
-      <span>4500 USD</span>
-    </td>
-    <td class="table__cell">
-      <span>0.005 BTC</span>
-    </td>
-    <td class="table__cell txt-grey">
-      <span>0.02%</span>
-    </td>
-    <td class="table__cell">
-      <span>6 USD</span>
-    </td>
-  </tr>
+    <!--<td class="table__cell">-->
+      <!--<span>4500 USD</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>0.005 BTC</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell txt-grey">-->
+      <!--<span>0.53%</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>6000 USD</span>-->
+    <!--</td>-->
+  <!--</tr>-->
+  <!--<tr class="table__row">-->
+    <!--<td class="table__cell">-->
+      <!--<span>234566113434</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<div class="table__date-time">-->
+        <!--<div>Th 13.06.2018</div>-->
+        <!--<div>10:59:41</div>-->
+      <!--</div>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>Sell <span>(Limit)</span></span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>4500 USD</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>0.005 BTC</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell txt-grey">-->
+      <!--<span>0.12%</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>6000 USD</span>-->
+    <!--</td>-->
+  <!--</tr>-->
+  <!--<tr class="table__row">-->
+    <!--<td class="table__cell">-->
+      <!--<span>234566113434</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<div class="table__date-time">-->
+        <!--<div>Th 13.06.2018</div>-->
+        <!--<div>10:59:41</div>-->
+      <!--</div>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>Buy <span>(Limit)</span></span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>4500 USD</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>0.005 BTC</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell txt-grey">-->
+      <!--<span>0.02%</span>-->
+    <!--</td>-->
+    <!--<td class="table__cell">-->
+      <!--<span>6 USD</span>-->
+    <!--</td>-->
+  <!--</tr> -->
 
   </tbody>
 
@@ -187,19 +219,19 @@
       </a>
     </li>
     <li class="paginator__item">
-      <a class="paginator__link" href="#">1</a>
+      <span class="paginator__link pag-btn" (click)="clickByLeft(left)">{{left}}</span>
     </li>
     <li class="paginator__item">
-      <a class="paginator__link" href="#">3</a>
+      <span class="paginator__link pag-btn" (click)="clickByMiddle(middle)">{{middle}}</span>
     </li>
     <li class="paginator__item">
-      <a class="paginator__link" href="#">4</a>
+      <span class="paginator__link pag-btn" (click)="clickByRight(right)">{{right}}</span>
     </li>
     <li class="paginator__item">
-      <a class="paginator__link" href="#">...</a>
+      <span class="paginator__link pag-btn">...</span>
     </li>
     <li class="paginator__item">
-      <a class="paginator__link" href="#">8</a>
+      <span class="paginator__link pag-btn" (click)="clickByLast()">{{maxPage}}</span>
     </li>
     <li class="paginator__item">
       <a class="paginator__link paginator__link--arr" href="#">
