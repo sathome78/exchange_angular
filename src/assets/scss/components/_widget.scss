@@ -218,7 +218,7 @@
         background: linear-gradient(to left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
       }
       .txt-indicate {
-        color: $green;
+        animation: indicate-green 1s ease-in-out;
       }
     }
     &--red {
@@ -240,7 +240,7 @@
         background: linear-gradient(to left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
       }
       .txt-indicate {
-        color: $red;
+        animation: indicate-red 1s ease-in-out;
       }
     }
     .change-indicate{
