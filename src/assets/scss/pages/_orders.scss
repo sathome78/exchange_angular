@@ -51,6 +51,9 @@
     &--mob{
       display: none;
     }
+    &__title-btn{
+      margin-left: 32px;
+    }
     &__filter{
       position: relative;
       margin-top: 28px;
@@ -88,6 +91,23 @@
     }
     &__comission-usd{
       color:$grey;
+    }
+    &__pair-wrap{
+      display: flex;
+      align-items: center;
+    }
+    &__pair{
+      display: flex;
+      align-items: center;
+    }
+    &__pair-icon{
+      width: 25px;
+      height: 25px;
+      background-color: #fff;
+      margin-right: 8px;
+      img{
+        width: 100%;
+      }
     }
   }
 }
