@@ -31,7 +31,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      currencyPairId: 122,
+      currencyPairId: 1,
       currencyPairName: 'USD/BTC',
       lastOrderRate: 0.5,
       predLastOrderRate: 0.6,

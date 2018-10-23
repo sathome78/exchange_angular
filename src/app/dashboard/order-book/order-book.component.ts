@@ -478,8 +478,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         console.log(pair);
         this.activeCurrencyPair = pair;
         this.updateSubscription(pair);
-        this.sellOrders = [];
-        this.buyOrders = [];
+        // this.sellOrders = [];
+        // this.buyOrders = [];
       });
     this.buyOrdersSubscription = this.orderBookService.sellOrdersListener
       .subscribe(items => {
@@ -573,7 +573,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private onSelectOrder(orderIndex, item: OrderItem): void {
-    const index = (parseInt(orderIndex, 10) - 1);
+    const index = (parseInt(orderIndex + 1, 10) - 1);
     if (this.isBuy) {
       this.sortBuyData();
       this.data = this.buyOrders.slice(index, 20);
