@@ -8,3 +8,4 @@ export const X_AUTH_TOKEN = 'x-auth-token';
 export const EXRATES_REST_TOKEN = 'Exrates-Rest-Token';
 export const IP_CHECKER_URL = 'https://jsonip.com';
 export const CORS_HEADER = 'Access-Control-Allow-Origin';
+export const DEV_HOST = 'http://dev5.exrates.tech';
