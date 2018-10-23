@@ -89,6 +89,8 @@ export class OrderBookService {
       .subscribe('/app/queue/trade_orders/f/' + pair.currencyPairId)
       .pipe(map(this.extractDynamicItems))
       .subscribe(items => {
+         console.log('dinamics: SELL');
+         console.log(items);
         this.buyOrdersListener.next(items.filter(function (item) {
           return item.orderType === 'SELL';
         }));
@@ -101,6 +103,8 @@ export class OrderBookService {
       .subscribe('/app/queue/trade_orders/f/' + pair.currencyPairId)
       .pipe(map(this.extractDynamicItems))
       .subscribe(items => {
+        console.log('dinamics: SELL');
+        console.log(items);
         this.buyOrdersListener.next(items.filter(function (item) {
           return item.orderType === 'BUY';
         }));
