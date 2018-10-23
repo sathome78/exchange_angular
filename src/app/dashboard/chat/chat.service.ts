@@ -10,12 +10,24 @@ import {StompService} from '@stomp/ng2-stompjs';
 import {MEDIA_TYPE_JSON, TOKEN} from '../../services/http.utils';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/internal/operators';
+import {SimpleChat } from './simple-chat.model';
 
 @Injectable()
 export class ChatService {
 
+  /**
+   * for private chats
+   * @type {any[]}
+   */
   chatItems: ChatItem [] = [];
+  /**
+   * for public chat - simple model
+   * @type {any[]}
+   */
+  simpleChatItems: SimpleChat [] = [];
   chatListener: Subject<ChatItem[]> = new Subject<ChatItem[]>();
+
+  simpleChatListener: Subject<SimpleChat[]> = new Subject<SimpleChat[]>();
 
   private stompSubscription: any;
 
@@ -37,14 +49,14 @@ export class ChatService {
   setStompSubscription(lang: string) {
     this.findAllChatMessages();
     this.stompSubscription = this.stompService
-      .subscribe('/app/topic/chat/' + lang)
+      .subscribe('/topic/chat/' + lang)
       .pipe(map((message: Message) => {
-        console.log(message);
+        // console.log(message);
         return message.body;
       }))
       .subscribe((message: string) => {
         if (this.isValidChatItem(message)) {
-          this.chatItems.push(ChatItem.fromString(message));
+          // this.chatItems.push(ChatItem.fromString(message));
           this.chatListener.next(this.chatItems.sort(chatItemComp));
         }
       });
@@ -72,19 +84,19 @@ export class ChatService {
    * @returns void
    *
    */
-  findAllChatMessages() {
+  findAllChatMessages(): Observable<SimpleChat[]> {
     const url = this.HOST + '/info/public/v2/chat/history';
     const lang = this.langService.getLanguage().toLowerCase();
     const params = {
       params: new HttpParams().append('lang', lang),
       headers: MEDIA_TYPE_JSON
     };
-    this.httpClient.get<ChatItem[]>(url, params)
-      .subscribe(
-      (messages: ChatItem[]) => {
-        this.chatItems = messages;
-        this.chatListener.next(this.chatItems.sort(this.chatItemComp));
-      });
+    return this.httpClient.get<SimpleChat[]>(url, params);
+      // .subscribe(
+      // (messages: SimpleChat[]) => {
+      //   this.simpleChatItems = messages;
+      //   this.simpleChatListener.next(messages);
+      // });
   }
 
   /**
