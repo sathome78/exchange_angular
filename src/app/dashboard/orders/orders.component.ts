@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractDashboardItems} from '../abstract-dashboard-items';
 
 @Component({
@@ -6,7 +6,7 @@ import {AbstractDashboardItems} from '../abstract-dashboard-items';
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })
-export class OrdersComponent extends AbstractDashboardItems implements OnInit {
+export class OrdersComponent extends AbstractDashboardItems implements OnInit{
   /** dashboard item name (field for base class)*/
   public itemName: string;
   public mainTab = 'open';

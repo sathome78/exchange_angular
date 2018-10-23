@@ -8,3 +8,8 @@ export class AuthInreceptor implements HttpInterceptor {
   }
 
 }
+// token = this.auth.getToken() // auth is provided via constructor.
+// if (token) {
+//   req.setHeader('Authorization', 'Bearer ' + token)
+// }
+// return next.handle(req);

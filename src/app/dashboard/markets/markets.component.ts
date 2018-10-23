@@ -36,8 +36,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.volumeOrderDirection = 'NONE';
     this.marketService.setStompSubscription();
     /** for mock data */
-    this.currencyPairs =  this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
-    this.pairs = this.choosePair(this.currencyDisplayMode);
+    // this.currencyPairs =  this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
+    // this.pairs = this.choosePair(this.currencyDisplayMode);
     /** ------------------------ */
     this.marketService.marketListener$
       .pipe(takeUntil(this.ngUnsubscribe))

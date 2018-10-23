@@ -1,4 +1,3 @@
-
 .widget{
   &__table-row {
     &:nth-of-type(odd) {
@@ -12,19 +11,15 @@
 
 //---------
 
-.widget--gradient{
-  padding-bottom: 50px;
-}
-
 .tab-no-active{
   border-bottom: 2px solid transparent;
 }
 
 tbody {
   display: block;
-  height: 400px;
+  height: 350px;
   overflow-y: scroll;
-  padding-bottom: 90px;
+  //padding-bottom: 90px;
 }
 
 thead, tbody tr {
@@ -32,7 +27,7 @@ thead, tbody tr {
   width:100%;
   table-layout:fixed;/* even columns width , fix width of table too*/
 }
-
+//TODO: delete after fix all layout
 .widget__content{
   overflow-y: hidden;
 }
