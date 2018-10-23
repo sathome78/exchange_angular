@@ -7,6 +7,7 @@ import {TradingService} from './trading.service';
 import {MarketService} from '../markets/market.service';
 import {MockDataService} from '../../services/mock-data.service';
 import {DashboardDataService} from '../dashboard-data.service';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'app-trading',
@@ -35,6 +36,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
   public orderStop;
   public currentPair;
   public arrPairName: string[];
+  public commission = 0;
 
   constructor(
     public tradingService: TradingService,
@@ -132,11 +134,20 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
       this.limitForm.controls['quantityOf'].setValue(quantityOf) :
       this.stopForm.controls['quantityOf'].setValue(quantityOf);
     this.order.total = quantityOf * this.currentPair.lastOrderRate;
+    this.getCommission();
   }
 
   quantityIput(e) {
     this.order.total = e.target.value * this.currentPair.lastOrderRate;
     this.percents = null;
+    this.getCommission();
+  }
+
+  private getCommission() {
+    this.commission = 0.25;
+    this.tradingService.getCommission(this.mainTab, this.currentPair.currencyPairId).subscribe(res => {
+      this.commission = 0.25;
+    });
   }
 
   private splitPairName() {
@@ -145,8 +156,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
 
   orderFromOrderBook(order) {
     this.order.orderId = order.id;
-    this.order.amount = order.amountBase;
-    this.order.total = order.amountBase * this.currentPair.lastOrderRate;
+    this.order.amount = order.amountConvert;
+    this.order.total = order.amountBase;
+    this.order.rate = order.exrate;
   }
 
   onSubmit() {
@@ -162,12 +174,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
   createNewOrder() {
     this.tradingService.createOrder(this.order).subscribe(res => console.log(res));
     console.log(this.order);
+    console.log('new');
     this.percents = null;
     this.order = {...this.defaultOrder};
   }
 
   updateOrder() {
-
+     console.log(this.order);
+     this.tradingService.updateOrder(this.order).subscribe(res => console.log(res));
+     console.log('existing');
   }
 
 }

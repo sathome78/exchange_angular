@@ -6,6 +6,11 @@
 .widget__content {
   position: relative;
 }
+
+.order-book-bg.show {
+  display: block;
+}
+
 .order-book-bg{
   position: absolute;
   width: 100%;

@@ -197,9 +197,87 @@ export class MockDataService {
       volume: '9 511.052'
     }
   ];
+  private openOrdersData = [
+    {
+      orderId: 215487885451,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000
+    },
+    {
+      orderId: 215487885451,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4700',
+      amount: '0.105',
+      commission: '0.052',
+      total: 800
+    },
+    {
+      orderId: 215487885451,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000
+    },
+    {
+      orderId: 215487885451,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4700',
+      amount: '0.105',
+      commission: '0.052',
+      total: 800
+    },
+    {
+      orderId: 215487885451,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000
+    },
+    {
+      orderId: 215487885451,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4700',
+      amount: '0.105',
+      commission: '0.052',
+      total: 800
+    },
+    {
+      orderId: 215487885451,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000
+    },
+    {
+      orderId: 215487885451,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4700',
+      amount: '0.105',
+      commission: '0.052',
+      total: 800
+    }
+  ]
 
   getMarketsData() {
     return this.marketsData;
+  }
+
+  getOpenOrders() {
+    return this.openOrdersData;
   }
 
 }

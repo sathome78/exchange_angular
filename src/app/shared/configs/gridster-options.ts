@@ -57,5 +57,5 @@ export const gridsterItemOptions = {
   minWidth: 1,
   minHeight: 1,
   maxWidth: 3,
-  maxHeight: 3
+  maxHeight: 2
 };
