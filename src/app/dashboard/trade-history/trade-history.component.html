@@ -74,7 +74,23 @@
         </tr>
         </thead>
         <tbody class="table__body table__body--none-shadow">
-        <tr class="table__row widget__table-row widget__table-row-hover--red">
+        <tr *ngFor="let item of allTrades" class="table__row widget__table-row" [ngClass]="{'widget__table-row-hover--red': item.operationType === 'SELL', 'widget__table-row-hover--green': item.operationType === 'BUY'}">
+          <td class="table__cell table__cell--tal">
+            <!-- {{item.dateAcceptionTime | date:"dd/MM/yyyy"}} -->
+            {{item.dateAcceptionTime}}
+          </td>
+          <td class="table__cell table__cell--tal">
+            <span class="txt-indicate">
+              {{item.rate | number:'1.1-8'}}
+            </span>
+          </td>
+          <td class="table__cell table__cell--tar">
+            <span [ngClass]="{'txt-red': item.operationType === 'SELL', 'txt-green': item.operationType === 'BUY'}">
+              {{item.amountBase | number:'1.1-8'}}
+            </span>
+          </td>
+        </tr>
+        <!-- <tr class="table__row widget__table-row widget__table-row-hover--red">
           <td class="table__cell table__cell--tal">
             17:36:04
           </td>
@@ -180,13 +196,13 @@
           <td class="table__cell table__cell--tar">
             <span class="txt-green">0.646970000</span>
           </td>
-        </tr>
+        </tr> -->
         <tr style="height: 4px;"></tr>
         </tbody>
       </table>
-      <div class="widget__scroll">
+      <!-- <div class="widget__scroll">
         <span class="widget__scroll-inner"></span>
-      </div>
+      </div> -->
     </div>
     <!--table end-->
   </div>

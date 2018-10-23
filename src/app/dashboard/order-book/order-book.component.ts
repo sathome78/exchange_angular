@@ -573,7 +573,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private onSelectOrder(orderIndex, item: OrderItem): void {
-    const index = (parseInt(orderIndex, 10) - 1);
+    const index = (parseInt(orderIndex + 1, 10) - 1);
     if (this.isBuy) {
       this.sortBuyData();
       this.data = this.buyOrders.slice(index, 20);
