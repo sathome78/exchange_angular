@@ -30,10 +30,12 @@ export class ThemeService {
   }
 
   isCurrentThemeDark(): boolean {
-    return this.isDarkTheme;
+    return true;
+    // return this.isDarkTheme;
   }
 
   public getColorScheme(): string {
-    return this.isDarkTheme ? 'DARK' : 'LIGHT';
+    return 'DARK';
+    // return this.isDarkTheme ? 'DARK' : 'LIGHT';
   }
 }
