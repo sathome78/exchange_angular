@@ -20,18 +20,18 @@ export class TradingService {
   }
 
   createOrder(order: Order): Observable<any> {
-     return this.http.post(`${this.apiUrl}info/private/v2/dashboard/order`, order );
+     return this.http.post(`${this.apiUrl}/info/private/v2/dashboard/order`, order );
   }
 
   getCommission(orderType: string, currencyPairId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}info/private/v2/dashboard/commission/${orderType}/${currencyPairId}`);
+    return this.http.get(`${this.apiUrl}/info/private/v2/dashboard/commission/${orderType}/${currencyPairId}`);
   }
 
   updateOrder(order: Order): Observable<any> {
-    return this.http.put(`${this.apiUrl}info/private/v2/dashboard/order`, order);
+    return this.http.put(`${this.apiUrl}/info/private/v2/dashboard/order`, order);
   }
 
   deleteOrder(orderId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}info/private/v2/dashboard/order/${orderId}`);
+    return this.http.delete(`${this.apiUrl}/info/private/v2/dashboard/order/${orderId}`);
   }
 }

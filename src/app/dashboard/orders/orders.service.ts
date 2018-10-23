@@ -5,16 +5,14 @@ import {Observable} from 'rxjs';
 
 @Injectable()
 export class OrdersService {
-  private apiUrl;
 
   constructor(
     private http: HttpClient
   ) {
-    this.apiUrl = environment.apiUrl;
   }
 
   getOpenOrders(currencyPairId): Observable<any> {
-    return this.http.get(`${this.apiUrl}info/private/v2/dashboard/open_orders/${currencyPairId}`);
+    return this.http.get(`/info/private/v2/dashboard/open_orders/${currencyPairId}`);
   }
 
 }

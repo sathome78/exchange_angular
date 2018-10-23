@@ -113,7 +113,7 @@
           </label>
         </div>
       </div>
-      <form [formGroup]="limitForm" *ngIf="dropdownLimitValue === 'Limit' || dropdownLimitValue === 'ICO' ">
+      <form [formGroup]="limitForm" *ngIf="dropdownLimitValue === 'LIMIT' || dropdownLimitValue === 'ICO' ">
 
         <div class="row row--jcsb widget__trading-row">
 
@@ -130,6 +130,7 @@
           <div class="wrap-input widget__input">
             <input class="wrap-input__input" type="text"
                    [(ngModel)]="order.rate"
+                   (input)="rateInput($event)"
                    formControlName="priceIn"
                    name="priceIn">
             <label class="wrap-input__label" for="">Price in {{arrPairName[0]}}</label>
@@ -150,7 +151,7 @@
         </div>
 
       </form>
-      <form [formGroup]="stopForm" *ngIf="dropdownLimitValue === 'Stop limit'">
+      <form [formGroup]="stopForm" *ngIf="dropdownLimitValue === 'STOP_LIMIT'">
         <div class="row row--jcsb widget__trading-row">
           <div class="wrap-input widget__input widget__input--mr32">
             <input class="wrap-input__input" type="text"
@@ -163,6 +164,7 @@
           <div class="wrap-input widget__input">
             <input class="wrap-input__input" type="text"
                    [(ngModel)]="order.rate"
+                   (input)="rateInput($event)"
                    formControlName="limit"
                    name="limit">
             <label class="wrap-input__label" for="">Limit</label>
@@ -199,10 +201,10 @@
           </svg>
         </span>
           <span style="vertical-align: middle;">Avaliable: </span>
-          Avaliable: <a href="#">{{userMoney}} USD</a>
+          Avaliable: <a href="#">{{userMoney}} {{arrPairName[0]}}</a>
         </div>
         <div>
-          Fee: {{commission}} USD
+          Fee: {{order.commission}} {{arrPairName[0]}}
         </div>
       </div>
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
@@ -219,7 +221,7 @@
 
 
   <!--notif success start-->
-  <div class="trading-notification trading-notification--success" *ngIf="false">
+  <div class="trading-notification trading-notification--success" *ngIf="notifySuccess">
     <div class="trading-notification__close">
       <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -236,13 +238,14 @@
       </div>
       <div class="trading-notification__text">
         <div class="trading-notification__title">Limit Sell Order Created!</div>
-        <p>Submitted exchange limit sell order for 9 ZRX by using BTC</p>
+        <p>Status: {{message}}</p>
+        <!--<p>Submitted exchange limit sell order for 9 ZRX by using BTC</p>-->
       </div>
     </div>
   </div>
   <!--notif success end-->
   <!--notif error stat-->
-  <div class="trading-notification trading-notification--error" *ngIf="false">
+  <div class="trading-notification trading-notification--error" *ngIf="notifyFail">
     <div class="trading-notification__close">
       <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -258,8 +261,9 @@
         </svg>
       </div>
       <div class="trading-notification__text">
-        <div class="trading-notification__title">Limit Sell Order Created!</div>
-        <p>Submitted exchange limit sell order for 9 ZRX by using BTC</p>
+        <div class="trading-notification__title">Limit Sell Order not created!</div>
+        <p> Status: {{message}}</p>
+        <!--<p>Submitted exchange limit sell order for 9 ZRX by using BTC</p>-->
       </div>
     </div>
   </div>

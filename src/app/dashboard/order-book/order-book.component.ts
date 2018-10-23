@@ -478,8 +478,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         console.log(pair);
         this.activeCurrencyPair = pair;
         this.updateSubscription(pair);
-        this.sellOrders = [];
-        this.buyOrders = [];
+        // this.sellOrders = [];
+        // this.buyOrders = [];
       });
     this.buyOrdersSubscription = this.orderBookService.sellOrdersListener
       .subscribe(items => {
