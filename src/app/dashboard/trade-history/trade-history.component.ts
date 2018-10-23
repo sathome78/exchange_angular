@@ -3,6 +3,7 @@ import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {TradeHistoryService, TradeItem} from './trade-history.service';
 import {MarketService} from '../markets/market.service';
 import {CurrencyPair} from '../markets/currency-pair.model';
+import { PARENT } from '@angular/core/src/render3/interfaces/view';
 
 
 @Component({
@@ -23,6 +24,10 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   allTradesSubscription: any;
   personalTradesSubscription: any;
 
+  userInSystem: boolean;
+  private mockData: TradeItem [];
+  private data;
+
   constructor(private tradeService: TradeHistoryService,
               private marketService: MarketService) {
     super();
@@ -40,6 +45,14 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
     this.allTradesSubscription = this.tradeService.allTradesListener
       .subscribe(orders => {
         this.addOrUpdate(this.allTrades, orders);
+        /** sort items */
+        this.allTrades.sort((a, b) => {
+          let timeA, timeB;
+          timeA = parseInt(a.acceptionTime, 10);
+          timeB = parseInt(b.acceptionTime, 10);
+
+          return timeA - timeB;
+        });
       });
   }
 
@@ -61,5 +74,4 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
       }
     });
   }
-
 }

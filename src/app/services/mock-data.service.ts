@@ -31,7 +31,7 @@ export class MockDataService {
     {
       needRefresh: false,
       page: 1,
-      currencyPairId: 122,
+      currencyPairId: 1,
       currencyPairName: 'USD/BTC',
       lastOrderRate: 0.5,
       predLastOrderRate: 0.6,
@@ -242,15 +242,6 @@ export class MockDataService {
       amount: '0.005',
       commission: '0.02',
       total: 6000
-    },
-    {
-      orderId: 215487885451,
-      created: new Date(),
-      type: 'Buy (Limit)',
-      averagePrice: '4700',
-      amount: '0.105',
-      commission: '0.052',
-      total: 800
     },
     {
       orderId: 215487885451,

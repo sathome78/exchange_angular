@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -8,13 +8,16 @@ import {MarketService} from '../markets/market.service';
 import {MockDataService} from '../../services/mock-data.service';
 import {DashboardDataService} from '../dashboard-data.service';
 import {debounceTime} from 'rxjs/operators';
+import {Subject} from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-trading',
   templateUrl: './trading.component.html',
   styleUrls: ['./trading.component.scss']
 })
-export class TradingComponent extends AbstractDashboardItems implements OnInit {
+export class TradingComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
   public itemName: string;
   /** active sell/buy tab */
@@ -22,7 +25,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dpropdown limit data */
-  public limitsData = ['Limit', 'Stop limit', 'ICO'];
+  public limitsData = ['LIMIT', 'STOP_LIMIT', 'ICO'];
   /** selected limit */
   public dropdownLimitValue = this.limitsData[0];
   /** selected percent */
@@ -32,11 +35,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
   /** form for limit-order */
   stopForm: FormGroup;
 
-  public userMoney = 3000000000;
+  public userMoney = 300000;
   public orderStop;
   public currentPair;
   public arrPairName: string[];
+  private commissionIndex = 0;
   public commission = 0;
+  public notifySuccess = false;
+  public notifyFail = false;
+  public message = '';
 
   constructor(
     public tradingService: TradingService,
@@ -53,7 +60,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
     currencyPairId: null,
     amount: null,
     rate: null,
-    commission: null,
+    commission: 0,
     baseType: this.dropdownLimitValue,
     total: null,
   };
@@ -63,16 +70,23 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
     this.itemName = 'trading';
     this.order = {...this.defaultOrder};
     this.currentPair = this.mockData.getMarketsData()[2];
+    this.getCommissionIndex();
     this.splitPairName();
-    this.marketService.activeCurrencyListener.subscribe(pair => {
+    this.marketService.activeCurrencyListener.pipe(takeUntil(this.ngUnsubscribe)).subscribe(pair => {
       this.currentPair = pair;
       this.splitPairName();
+      this.getCommissionIndex();
     });
-    this.dashboardDataService.selectedOrderTrading$.subscribe(order => {
+    this.dashboardDataService.selectedOrderTrading$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(order => {
       this.orderFromOrderBook(order);
       console.log(order);
     })
     this.initForms();
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   /**
@@ -87,7 +101,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
 
     this.stopForm = new FormGroup({
       quantityOf: new FormControl('', Validators.required ),
-      stop: new FormControl('', [Validators.required]),
+      stop: new FormControl('', ),
       limit: new FormControl('', Validators.required ),
       totalIn: new FormControl('', Validators.required ),
     });
@@ -105,6 +119,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
       this.mainTab = 'SELL';
       this.tradingService.tradingChangeSellBuy$.next('SELL');
     }
+    this.getCommissionIndex();
   }
 
   /**
@@ -133,21 +148,33 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
     this.dropdownLimitValue === this.limitsData[0] ?
       this.limitForm.controls['quantityOf'].setValue(quantityOf) :
       this.stopForm.controls['quantityOf'].setValue(quantityOf);
-    this.order.total = quantityOf * this.currentPair.lastOrderRate;
     this.getCommission();
+    this.getTotalIn();
   }
 
   quantityIput(e) {
-    this.order.total = e.target.value * this.currentPair.lastOrderRate;
     this.percents = null;
     this.getCommission();
+    this.getTotalIn();
   }
 
+   rateInput($event) {
+     this.getTotalIn();
+   }
+
   private getCommission() {
-    this.commission = 0.25;
-    this.tradingService.getCommission(this.mainTab, this.currentPair.currencyPairId).subscribe(res => {
-      this.commission = 0.25;
-    });
+    this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
+    this.order.total += this.order.commission;
+    console.log(this.order.commission)
+    console.log(this.order.amount);
+    console.log(this.commissionIndex);
+  }
+
+  private getTotalIn() {
+    if (this.order.rate > 0) {
+      this.order.total = this.order.amount * this.order.rate;
+    }
+    this.getCommission();
   }
 
   private splitPairName() {
@@ -159,30 +186,63 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit {
     this.order.amount = order.amountConvert;
     this.order.total = order.amountBase;
     this.order.rate = order.exrate;
+    this.getCommission();
   }
 
   onSubmit() {
-    this.order.currencyPairId = this.currentPair.currencyPairId;
-    this.order.baseType = this.dropdownLimitValue;
-    this.order.orderType = this.mainTab;
-    if (this.dropdownLimitValue === 'Stop limit') {
-      this.order.stop = this.orderStop;
-    }
-   this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
+    console.log(this.limitForm.valid && this.stopForm.valid);
+    // if (this.limitForm.valid && this.stopForm.valid) {
+      this.order.currencyPairId = this.currentPair.currencyPairId;
+      this.order.baseType = this.dropdownLimitValue;
+      this.order.orderType = this.mainTab;
+      if (this.dropdownLimitValue === 'STOP_LIMIT') {
+        this.order.stop = this.orderStop;
+      }
+      this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
+    // }
   }
 
   createNewOrder() {
-    this.tradingService.createOrder(this.order).subscribe(res => console.log(res));
+    this.tradingService.createOrder(this.order)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+      console.log(res);
+      this.notifySuccess = true;
+      setTimeout(() => {this.notifySuccess = false; }, 5000);
+    }, err => {
+        this.notifyFail = true;
+        setTimeout(() => {this.notifyFail = false; }, 5000);
+      });
     console.log(this.order);
     console.log('new');
     this.percents = null;
+    this.orderStop = '';
     this.order = {...this.defaultOrder};
   }
 
   updateOrder() {
-     console.log(this.order);
-     this.tradingService.updateOrder(this.order).subscribe(res => console.log(res));
-     console.log('existing');
+    console.log(this.order);
+    this.tradingService.updateOrder(this.order)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        console.log(res);
+        this.notifySuccess = true;
+        setTimeout(() => {this.notifySuccess = false; }, 5000);
+      }, err => {
+        this.notifyFail = true;
+        setTimeout(() => {this.notifyFail = false; }, 5000);
+      });
+    this.orderStop = '';
   }
 
+  getCommissionIndex() {
+    if (this.mainTab && this.currentPair.currencyPairId) {
+      const subscription = this.tradingService.getCommission(this.mainTab, this.currentPair.currencyPairId).subscribe(res => {
+        this.commissionIndex = res.commissionValue;
+        this.getTotalIn();
+        console.log(this.commissionIndex);
+        // subscription.unsubscribe();
+      });
+    }
+  }
 }
