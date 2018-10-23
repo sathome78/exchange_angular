@@ -14,6 +14,8 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
   /** dashboard item name (field for base class)*/
   public itemName: string;
 
+
+  // todo please implement sorting as backend returns sorted by date ascending with limit of 50 messages
   public simpleChatItems: SimpleChat [] = [];
 
   private newMessagesSubscription: Subscription;
