@@ -70,6 +70,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.itemName = 'trading';
     this.order = {...this.defaultOrder};
     this.currentPair = this.mockData.getMarketsData()[2];
+    console.log(this.currentPair)
     this.getCommissionIndex();
     this.splitPairName();
     this.marketService.activeCurrencyListener.pipe(takeUntil(this.ngUnsubscribe)).subscribe(pair => {
@@ -171,7 +172,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private getTotalIn() {
-    if (this.order.rate > 0) {
+    if (this.order.rate >= 0) {
       this.order.total = this.order.amount * this.order.rate;
     }
     this.getCommission();

@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, Input, ApplicationRef} from '@angular/core';
 
 import {Currency} from './currency.model';
 
@@ -21,17 +21,18 @@ export class CurrencySearchComponent implements OnInit {
   get currencies() {
     return this._groupedCurrencies;
   }
+  defaultCurrencies;
   /** close currency search bar */
   @Output() closeCurrencySearch = new EventEmitter();
   /** emit selected currency */
   @Output() selectCurrency = new EventEmitter<string>();
 
   _groupedCurrencies: Currency[];
-
+  public alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
   constructor() { }
 
   ngOnInit() {
-
+    this.defaultCurrencies = [...this.currencies];
   }
 
   /**
@@ -39,6 +40,12 @@ export class CurrencySearchComponent implements OnInit {
    */
   onClose(): void {
     this.closeCurrencySearch.emit();
+  }
+
+  searchCoin(e) {
+    this.currencies = this.defaultCurrencies.filter(f => f.name.toUpperCase().match(e.target.value.toUpperCase()));
+    this.alphabet = [...this.alphabet];
+    console.log('search');
   }
 
   /**

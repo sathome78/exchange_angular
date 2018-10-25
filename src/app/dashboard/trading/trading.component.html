@@ -63,11 +63,11 @@
   <div class="tabs widget__tabs widget__tabs--hide-mob" style="margin: 0 24px;">
     <button class="tabs__item tabs__item--big "
             [ngClass]="{'tabs__item--active': mainTab === 'BUY', 'tab-no-active': mainTab !== 'BUY'}"
-            (click)="toggleMainTab('BUY')">Buy {{currentPair.market}}
+            (click)="toggleMainTab('BUY')">Buy {{arrPairName[0]}}
     </button>
     <button class="tabs__item tabs__item--big"
             [ngClass]="{'tabs__item--active': mainTab === 'SELL', 'tab-no-active': mainTab !== 'SELL'}"
-            (click)="toggleMainTab('SELL')">Sell {{currentPair.market}}
+            (click)="toggleMainTab('SELL')">Sell {{arrPairName[0]}}
     </button>
   </div>
 
@@ -123,7 +123,7 @@
                    formControlName="quantityOf"
                    (input)="quantityIput($event)"
                    name="quantityOf">
-            <label class="wrap-input__label" for="">Quantity of {{currentPair.market}}</label>
+            <label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>
             <div class="wrap-input__line"></div>
           </div>
 
@@ -133,7 +133,7 @@
                    (input)="rateInput($event)"
                    formControlName="priceIn"
                    name="priceIn">
-            <label class="wrap-input__label" for="">Price in {{arrPairName[0]}}</label>
+            <label class="wrap-input__label" for="">Price in {{arrPairName[1]}}</label>
             <div class="wrap-input__line"></div>
           </div>
 
@@ -145,7 +145,7 @@
                    [(ngModel)]="order.total"
                    formControlName="totalIn"
                    name="totalIn">
-            <label class="wrap-input__label" for="">Total in {{arrPairName[0]}}</label>
+            <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
             <div class="wrap-input__line"></div>
           </div>
         </div>
@@ -178,7 +178,7 @@
                    formControlName="quantityOf"
                    (input)="quantityIput($event)"
                    name="quantityOf">
-            <label class="wrap-input__label" for="">Quantity of {{currentPair.market}}</label>
+            <label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>
             <div class="wrap-input__line"></div>
           </div>
           <div class="wrap-input widget__input">
@@ -186,7 +186,7 @@
                    [(ngModel)]="order.total"
                    formControlName="totalIn"
                    name="totalIn">
-            <label class="wrap-input__label" for="">Total in {{arrPairName[0]}}</label>
+            <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
             <div class="wrap-input__line"></div>
           </div>
         </div>
@@ -214,8 +214,8 @@
           <a href="#">Become VIP</a>
         </div>
       </div>
-      <button class="btn btn--active widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'BUY'">Buy {{currentPair.market}} </button>
-      <button class="btn btn--active widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'SELL'">Sell {{currentPair.market}} </button>
+      <button class="btn btn--active widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'BUY'">Buy {{arrPairName[0]}} </button>
+      <button class="btn btn--active widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'SELL'">Sell {{arrPairName[0]}} </button>
     </div>
   </div>
 

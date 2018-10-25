@@ -14,7 +14,7 @@ export class MockDataService {
       percentChange: '0.3',
       market: 'BTC',
       description: 'description',
-      volume: '9 511.31660052'
+      volume: '951'
     },
     {
       needRefresh: false,
@@ -26,7 +26,7 @@ export class MockDataService {
       percentChange: '0.3',
       market: 'BTC',
       description: 'description',
-      volume: '9 511.31660052'
+      volume: '9511'
     },
     {
       needRefresh: false,
@@ -38,7 +38,223 @@ export class MockDataService {
       percentChange: '1.3',
       market: 'BTC',
       description: 'description',
-      volume: '9 511.3166'
+      volume: '95188'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'JHG/BTC',
+      lastOrderRate: 0.0000044,
+      predLastOrderRate: 0.0000033,
+      percentChange: '0.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '951'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'LUY/BTC',
+      lastOrderRate: 0.0000055,
+      predLastOrderRate: 0.0000033,
+      percentChange: '0.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '9511'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'USD/BTC',
+      lastOrderRate: 0.5,
+      predLastOrderRate: 0.6,
+      percentChange: '1.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '95188'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'JHG/BTC',
+      lastOrderRate: 0.0000044,
+      predLastOrderRate: 0.0000033,
+      percentChange: '0.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '951'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'LUY/BTC',
+      lastOrderRate: 0.0000055,
+      predLastOrderRate: 0.0000033,
+      percentChange: '0.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '9511'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'USD/BTC',
+      lastOrderRate: 0.5,
+      predLastOrderRate: 0.6,
+      percentChange: '1.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '95188'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'JHG/BTC',
+      lastOrderRate: 0.0000044,
+      predLastOrderRate: 0.0000033,
+      percentChange: '0.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '951'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'LUY/BTC',
+      lastOrderRate: 0.0000055,
+      predLastOrderRate: 0.0000033,
+      percentChange: '0.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '9511'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'USD/BTC',
+      lastOrderRate: 0.5,
+      predLastOrderRate: 0.6,
+      percentChange: '1.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '95188'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'JHG/BTC',
+      lastOrderRate: 0.0000044,
+      predLastOrderRate: 0.0000033,
+      percentChange: '0.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '951'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'LUY/BTC',
+      lastOrderRate: 0.0000055,
+      predLastOrderRate: 0.0000033,
+      percentChange: '0.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '9511'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'USD/BTC',
+      lastOrderRate: 0.5,
+      predLastOrderRate: 0.6,
+      percentChange: '1.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '95188'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'JHG/BTC',
+      lastOrderRate: 0.0000044,
+      predLastOrderRate: 0.0000033,
+      percentChange: '0.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '951'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'LUY/BTC',
+      lastOrderRate: 0.0000055,
+      predLastOrderRate: 0.0000033,
+      percentChange: '0.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '9511'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'USD/BTC',
+      lastOrderRate: 0.5,
+      predLastOrderRate: 0.6,
+      percentChange: '1.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '95188'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'JHG/BTC',
+      lastOrderRate: 0.0000044,
+      predLastOrderRate: 0.0000033,
+      percentChange: '0.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '951'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'LUY/BTC',
+      lastOrderRate: 0.0000055,
+      predLastOrderRate: 0.0000033,
+      percentChange: '0.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '9511'
+    },
+    {
+      needRefresh: false,
+      page: 1,
+      currencyPairId: 1,
+      currencyPairName: 'USD/BTC',
+      lastOrderRate: 0.5,
+      predLastOrderRate: 0.6,
+      percentChange: '1.3',
+      market: 'BTC',
+      description: 'description',
+      volume: '95188'
     },
     {
       needRefresh: false,
@@ -50,7 +266,7 @@ export class MockDataService {
       percentChange: '0.4',
       market: 'ETH',
       description: 'description',
-      volume: '9 511.360052'
+      volume: '9444'
     },
     {
       needRefresh: false,
@@ -62,7 +278,7 @@ export class MockDataService {
       percentChange: '0.3',
       market: 'ETH',
       description: 'description',
-      volume: '9 511.3152'
+      volume: '9575'
     },
     {
       needRefresh: false,
@@ -74,7 +290,7 @@ export class MockDataService {
       percentChange: '0.3',
       market: 'ETH',
       description: 'description',
-      volume: '9 511.3152'
+      volume: '78657'
     },
     {
       needRefresh: false,
@@ -86,7 +302,7 @@ export class MockDataService {
       percentChange: '1.3',
       market: 'ETH',
       description: 'description',
-      volume: '9 511.31052'
+      volume: '45564'
     },
     {
       needRefresh: false,
@@ -98,7 +314,7 @@ export class MockDataService {
       percentChange: '0.4',
       market: 'ETH',
       description: 'description',
-      volume: '9 511.30052'
+      volume: '6886'
     },
     {
       needRefresh: false,
@@ -110,7 +326,7 @@ export class MockDataService {
       percentChange: '0.3',
       market: 'LOC',
       description: 'description',
-      volume: '9 511.3166'
+      volume: '838834'
     },
     {
       needRefresh: false,
@@ -122,7 +338,7 @@ export class MockDataService {
       percentChange: '0.3',
       market: 'LOC',
       description: 'description',
-      volume: '9 51.3100'
+      volume: '5256'
     },
     {
       needRefresh: false,
@@ -134,7 +350,7 @@ export class MockDataService {
       percentChange: '1.3',
       market: 'LOC',
       description: 'description',
-      volume: '9 511.31652'
+      volume: '45546'
     },
     {
       needRefresh: false,
@@ -146,7 +362,7 @@ export class MockDataService {
       percentChange: '0.4',
       market: 'LOC',
       description: 'description',
-      volume: '9 511.3052'
+      volume: '864'
     },
     {
       needRefresh: false,
@@ -158,7 +374,7 @@ export class MockDataService {
       percentChange: '0.3',
       market: 'USD',
       description: 'description',
-      volume: '9 511.3152'
+      volume: '8524'
     },
     {
       needRefresh: false,
@@ -170,7 +386,7 @@ export class MockDataService {
       percentChange: '0.3',
       market: 'USD',
       description: 'description',
-      volume: '9 511.60052'
+      volume: '922885'
     },
     {
       needRefresh: false,
@@ -182,7 +398,7 @@ export class MockDataService {
       percentChange: '1.3',
       market: 'USD',
       description: 'description',
-      volume: '9 511.316'
+      volume: '58585'
     },
     {
       needRefresh: false,
@@ -194,7 +410,7 @@ export class MockDataService {
       percentChange: '0.4',
       market: 'USD',
       description: 'description',
-      volume: '9 511.052'
+      volume: '2222'
     }
   ];
   private openOrdersData = [
@@ -209,7 +425,57 @@ export class MockDataService {
       status: 'OPENED'
     },
     {
-      orderId: 215487885451,
+      orderId: 215487885452,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4700',
+      amount: '0.105',
+      commission: '0.052',
+      total: 800,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885453,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885454,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4700',
+      amount: '0.105',
+      commission: '0.052',
+      total: 800,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885455,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885456,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885457,
       created: new Date(),
       type: 'Buy (Limit)',
       averagePrice: '4700',
@@ -229,7 +495,7 @@ export class MockDataService {
       status: 'OPENED'
     },
     {
-      orderId: 215487885451,
+      orderId: 215487885452,
       created: new Date(),
       type: 'Buy (Limit)',
       averagePrice: '4700',
@@ -239,7 +505,37 @@ export class MockDataService {
       status: 'OPENED'
     },
     {
-      orderId: 215487885451,
+      orderId: 215487885453,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885454,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4700',
+      amount: '0.105',
+      commission: '0.052',
+      total: 800,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885455,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885456,
       created: new Date(),
       type: 'Buy (Limit)',
       averagePrice: '4500',
@@ -259,7 +555,7 @@ export class MockDataService {
       status: 'OPENED'
     },
     {
-      orderId: 215487885451,
+      orderId: 215487885452,
       created: new Date(),
       type: 'Buy (Limit)',
       averagePrice: '4700',
@@ -267,7 +563,107 @@ export class MockDataService {
       commission: '0.052',
       total: 800,
       status: 'OPENED'
-    }
+    },
+    {
+      orderId: 215487885453,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885454,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4700',
+      amount: '0.105',
+      commission: '0.052',
+      total: 800,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885455,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885456,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885451,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885452,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4700',
+      amount: '0.105',
+      commission: '0.052',
+      total: 800,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885453,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885454,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4700',
+      amount: '0.105',
+      commission: '0.052',
+      total: 800,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885455,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000,
+      status: 'OPENED'
+    },
+    {
+      orderId: 215487885456,
+      created: new Date(),
+      type: 'Buy (Limit)',
+      averagePrice: '4500',
+      amount: '0.005',
+      commission: '0.02',
+      total: 6000,
+      status: 'OPENED'
+    },
   ]
 
   getMarketsData() {

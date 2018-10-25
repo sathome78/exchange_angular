@@ -20,3 +20,13 @@
   }
 }
 
+.paginator{
+  position: absolute;
+  right: 30px;
+  bottom: 10px;
+}
+
+a.active{
+  background-color: #237BEF !important;
+  cursor: pointer;
+}

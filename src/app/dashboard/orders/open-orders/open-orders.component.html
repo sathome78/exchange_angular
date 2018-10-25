@@ -27,8 +27,8 @@
     </td>
     <td class="table__cell">
       <div class="table__date-time">
-        <div>Th 13.06.2018</div>
-        <div>10:59:41</div>
+        <div>{{item.created | date:"EEEEEE"}} {{item.created | date:"dd.MM.yyyy"}}</div>
+        <div>{{item.created | date:"HH:mm:ss"}}</div>
       </div>
     </td>
     <td class="table__cell">
@@ -229,27 +229,17 @@
 <div class="row" style="margin: 0 16px;">
   <ul class="paginator" style="margin-left: auto;">
     <li class="paginator__item">
-      <a class="paginator__link paginator__link--arr" href="#">
+      <a class="paginator__link paginator__link--arr" (click)="filterOpenOrders(pager.currentPage - 1)">
         <img class="paginator__arr-prev" src="../../assets/img/paginator-prev.svg" alt="prev">
       </a>
     </li>
-    <li class="paginator__item">
-      <a class="paginator__link" href="#">1</a>
+
+    <li class="paginator__item" *ngFor="let page of pager.pages" >
+      <a class="paginator__link" (click)="filterOpenOrders(page)" [ngClass]="{'active':pager.currentPage === page}">{{page}}</a>
     </li>
+
     <li class="paginator__item">
-      <a class="paginator__link" href="#">2</a>
-    </li>
-    <li class="paginator__item">
-      <a class="paginator__link" href="#">3</a>
-    </li>
-    <li class="paginator__item">
-      <a class="paginator__link" href="#">...</a>
-    </li>
-    <li class="paginator__item">
-      <a class="paginator__link" href="#">8</a>
-    </li>
-    <li class="paginator__item">
-      <a class="paginator__link paginator__link--arr" href="#">
+      <a class="paginator__link paginator__link--arr" (click)="filterOpenOrders(pager.currentPage + 1)">
         <img class="paginator__arr-next" src="../../assets/img/paginator-next.svg" alt="next">
       </a>
     </li>
@@ -327,7 +317,7 @@
                  formControlName="quantityOf"
                  (input)="quantityIput($event)"
                  name="quantityOf">
-          <label class="wrap-input__label" for="">Quantity of {{currentPair.market}}</label>
+          <label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>
           <div class="wrap-input__line"></div>
         </div>
 
@@ -337,7 +327,7 @@
                  (input)="rateInput($event)"
                  formControlName="priceIn"
                  name="priceIn">
-          <label class="wrap-input__label" for="">Price in {{arrPairName[0]}}</label>
+          <label class="wrap-input__label" for="">Price in {{arrPairName[1]}}</label>
           <div class="wrap-input__line"></div>
         </div>
 
@@ -349,7 +339,7 @@
                  [(ngModel)]="order.total"
                  formControlName="totalIn"
                  name="totalIn">
-          <label class="wrap-input__label" for="">Total in {{arrPairName[0]}}</label>
+          <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
           <div class="wrap-input__line"></div>
         </div>
       </div>
@@ -382,7 +372,7 @@
                  formControlName="quantityOf"
                  (input)="quantityIput($event)"
                  name="quantityOf">
-          <label class="wrap-input__label" for="">Quantity of {{currentPair.market}}</label>
+          <label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
@@ -390,7 +380,7 @@
                  [(ngModel)]="order.total"
                  formControlName="totalIn"
                  name="totalIn">
-          <label class="wrap-input__label" for="">Total in {{arrPairName[0]}}</label>
+          <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
           <div class="wrap-input__line"></div>
         </div>
       </div>
@@ -404,7 +394,7 @@
     </svg>
     </span>
     <span style="vertical-align: middle; color:#A0A0A0;">Avaliable: </span>
-    <a href="#">300 000 000 USD</a>
+    <a href="#">300 000 000 {{arrPairName[0]}}</a>
     </div>
     <div>
     Fee: {{order.commission}} {{arrPairName[0]}}

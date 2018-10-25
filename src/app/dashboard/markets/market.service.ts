@@ -69,15 +69,15 @@ export class MarketService {
    * @param pair
    */
   findPairByCurrencyPairName(pairName: string, pair): void {
-    // this.currencyPairs.forEach(elm => {
-    //   if (pairName === elm.currencyPairName) {
-    //     this.activeCurrencyListener.next(elm);
-    //   }
-    // });
     /** for mock data */
     pair.currencyPairName = pairName;
     this.activeCurrencyListener.next(pair);
     /** ---------------- */
+    this.currencyPairs.forEach(elm => {
+      if (pairName === elm.currencyPairName) {
+        this.activeCurrencyListener.next(elm);
+      }
+    });
   }
 
   /**
@@ -85,14 +85,14 @@ export class MarketService {
    * @param {CurrencyPair} pair
    */
   setActiveCurrency(pair: CurrencyPair): void {
-    // this.currencyPairs.forEach(elm => {
-    //   if (pair.pairId === elm.pairId) {
-    //     this.activeCurrencyListener.next(elm);
-    //   }
-    // });
     /** for mock data */
     this.activeCurrencyListener.next(pair);
     /** ---------------- */
+    this.currencyPairs.forEach(elm => {
+      if (pair.currencyPairId === elm.currencyPairId) {
+        this.activeCurrencyListener.next(elm);
+      }
+    });
   }
 
   findPairByID(id) {

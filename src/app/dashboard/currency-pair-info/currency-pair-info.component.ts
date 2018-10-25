@@ -27,6 +27,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   public firstCurrency: string;
   public secondCurrency: string;
   public activeCurrency: number;
+  public currentCurrencyInfo;
 
   constructor(
     private dashboardService: DashboardDataService,
@@ -45,8 +46,27 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     // this.dashboardService.choosedPair$.subscribe( res => this.pair = res);
     this.marketService.activeCurrencyListener.subscribe(data => {
       this.pair = data;
+      this.marketService.currencyPairInfo(this.pair.currencyPairId).subscribe(res => {
+        this.currentCurrencyInfo = res;
+      } )
+
       this.splitPairName(this.pair);
     });
+    /** mock data */
+    this.currentCurrencyInfo = {
+      "balanceByCurrency1": 0,
+      "balanceByCurrency2": 0,
+      "currencyRate": "516.01600000",
+      "percentChange": "0.00",
+      "changedValue": "0E-9",
+      "lastCurrencyRate": "515.019160000",
+      "volume24h": "5083.200000000",
+      "rateHigh": "0.008214410",
+      "rateLow": "0.008040000",
+      "dailyStatistic": null,
+      "statistic": null
+    };
+    /** ----------------- */
   }
 
   ngOnDestroy() {
@@ -66,10 +86,10 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    * Toggle show/hide currency search bar
    */
   toggleCurrencySearch(): void {
-    // this.showCurrencySearch = !this.showCurrencySearch;
-    /** make no active currency search popup */
-    this.showCurrencySearch = false;
-    /** ------------------- */
+    this.showCurrencySearch = !this.showCurrencySearch;
+    // /** make no active currency search popup */
+    // this.showCurrencySearch = false;
+    // /** ------------------- */
   }
 
   /**
