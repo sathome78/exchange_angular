@@ -30,3 +30,63 @@ a.active{
   background-color: #237BEF !important;
   cursor: pointer;
 }
+
+::ng-deep .ngx-pagination a {
+  color: #E5E5E5 !important;
+  &:hover{
+    background-color: #237BEF !important;
+  }
+}
+
+::ng-deep li{
+  &.current{
+    display: flex;
+    background-color: #237BEF !important;
+    height: 26px;
+    width: 26px;
+    border-radius: 4px !important;
+    span{
+      margin-top: 5px !important;
+    }
+  }
+}
+
+::ng-deep .ngx-pagination a{
+  background: rgba(255,255,255,.1);
+  height: 26px;
+  width: 26px;
+  margin: 3px;
+  border-radius: 4px !important;
+}
+
+::ng-deep li.pagination-next a {
+  background: transparent;
+  &:hover{
+    background: transparent;
+  }
+}
+::ng-deep li.pagination-previous a{
+  &:before {
+    content: url('../../../../assets/img/paginator-prev.svg') !important;
+    margin-top: 3px !important;
+    display: block;
+  }
+}
+
+::ng-deep li.pagination-previous.disabled:before{
+  content:url('../../../../assets/img/paginator-prev.svg') !important;
+  margin-top: 3px !important;
+  display: block;
+}
+
+::ng-deep li.pagination-next a:after{
+  content:url('../../../../assets/img/paginator-next.svg') !important;
+  margin-top: 3px !important;
+  display: block;
+}
+
+::ng-deep li.pagination-next.disabled:after{
+  content:url('../../../../assets/img/paginator-next.svg') !important;
+  margin-top: 3px !important;
+  display: block;
+}

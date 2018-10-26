@@ -1,3 +1,38 @@
 .widget__scroll{
   right: 6px;
 }
+
+ng-scrollbar{
+  display: block;
+  width: 100%;
+  //height: auto;
+  height: 400px;
+  margin: auto;
+  padding: 5px;
+}
+
+li{
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+::ng-deep .ng-scrollbar.-vertical.bar-class{
+  background: rgba(255,255,255, .2);;
+  width: 8px;
+}
+
+::ng-deep .ng-scrollbar-thumb.thumb2 {
+  background-color: #2a2a2a ;
+  margin-left: 1px;
+  width: 6px;
+}
+
+.widget__chat-wrap{
+  padding: 0;
+  margin: 0px;
+  overflow: auto;
+}
+
+
+.widget__message-wrap{
+  margin: 0 20px 4px 0;
+}

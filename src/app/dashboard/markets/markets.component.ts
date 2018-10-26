@@ -22,14 +22,15 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   currencyPairs: CurrencyPair[] = [];
   /** Markets data by active tab */
   pairs: CurrencyPair[] = [];
-  public sortPoint = 'asc'
+  public sortPoint = 'asc';
+
 
   volumeOrderDirection = 'NONE';
   selectedCurrencyPair: CurrencyPair;
 
   constructor(
-      private marketService: MarketService,
-      public mockData: MockDataService) {
+    private marketService: MarketService,
+    public mockData: MockDataService) {
     super();
   }
 
@@ -38,8 +39,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.volumeOrderDirection = 'NONE';
     this.marketService.setStompSubscription();
     /** for mock data */
-    this.currencyPairs =  this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
-    this.pairs = this.choosePair(this.currencyDisplayMode);
+    // this.currencyPairs = this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
+    // this.pairs = this.choosePair(this.currencyDisplayMode);
     /** ------------------------ */
     this.marketService.marketListener$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -78,7 +79,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         elm.isSelected = chosen;
       }
     });
-    if (! found) {
+    if (!found) {
       this.currencyPairs.push(newPair);
     }
   }
@@ -87,9 +88,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   sortVolume() {
     this.sortPoint === 'asc' ? this.sortPoint = 'desc' : this.sortPoint = 'asc';
     if (this.sortPoint === 'asc') {
-      this.pairs = this.pairs.sort((a, b ) => a.volume - b.volume);
+      this.pairs = this.pairs.sort((a, b) => a.volume - b.volume);
     } else {
-      this.pairs = this.pairs.sort((a, b ) => b.volume - a.volume);
+      this.pairs = this.pairs.sort((a, b) => b.volume - a.volume);
     }
 
     console.log(this.pairs);

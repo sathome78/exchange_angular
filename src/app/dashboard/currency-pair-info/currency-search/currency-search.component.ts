@@ -1,5 +1,5 @@
-import {Component, OnInit, Output, EventEmitter, Input, ApplicationRef} from '@angular/core';
-
+import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
+import * as _chain from 'lodash/chain';
 import {Currency} from './currency.model';
 
 @Component({
@@ -44,8 +44,13 @@ export class CurrencySearchComponent implements OnInit {
 
   searchCoin(e) {
     this.currencies = this.defaultCurrencies.filter(f => f.name.toUpperCase().match(e.target.value.toUpperCase()));
-    this.alphabet = [...this.alphabet];
-    console.log('search');
+    const temp = [];
+    this.currencies.forEach(order => temp.push(order.name[0]));
+
+    const unique = (value, index, self) => {
+      return self.indexOf(value) === index;
+    }
+    this.alphabet = temp.filter(unique);
   }
 
   /**
@@ -57,5 +62,4 @@ export class CurrencySearchComponent implements OnInit {
     this.selectCurrency.emit(ISO);
     this.closeCurrencySearch.emit();
   }
-
 }

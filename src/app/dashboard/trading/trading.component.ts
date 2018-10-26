@@ -7,7 +7,6 @@ import {TradingService} from './trading.service';
 import {MarketService} from '../markets/market.service';
 import {MockDataService} from '../../services/mock-data.service';
 import {DashboardDataService} from '../dashboard-data.service';
-import {debounceTime} from 'rxjs/operators';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 
@@ -69,19 +68,18 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   ngOnInit() {
     this.itemName = 'trading';
     this.order = {...this.defaultOrder};
-    this.currentPair = this.mockData.getMarketsData()[2];
-    console.log(this.currentPair)
-    this.getCommissionIndex();
-    this.splitPairName();
+
+
     this.marketService.activeCurrencyListener.pipe(takeUntil(this.ngUnsubscribe)).subscribe(pair => {
       this.currentPair = pair;
       this.splitPairName();
       this.getCommissionIndex();
     });
+
     this.dashboardDataService.selectedOrderTrading$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(order => {
       this.orderFromOrderBook(order);
-      console.log(order);
-    })
+    });
+
     this.initForms();
   }
 
@@ -146,43 +144,60 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   selectedPercent(percent: number) {
     this.percents = percent;
     const quantityOf = this.userMoney * this.percents / 100;
-    this.dropdownLimitValue === this.limitsData[0] ?
+    this.dropdownLimitValue === 'LIMIT' || this.dropdownLimitValue === 'ICO' ?
       this.limitForm.controls['quantityOf'].setValue(quantityOf) :
       this.stopForm.controls['quantityOf'].setValue(quantityOf);
     this.getCommission();
     this.getTotalIn();
   }
 
-  quantityIput(e) {
+  /**
+   * on input in field quantity
+   * @param e
+   */
+  quantityIput(e): void {
     this.percents = null;
-    this.getCommission();
     this.getTotalIn();
   }
 
-   rateInput($event) {
+  /**
+   * on input in field price in
+   * @param e
+   */
+   rateInput(e): void {
      this.getTotalIn();
    }
 
-  private getCommission() {
+  /**
+   * calculate commission
+   */
+  private getCommission(): void {
     this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
     this.order.total += this.order.commission;
-    console.log(this.order.commission)
-    console.log(this.order.amount);
-    console.log(this.commissionIndex);
   }
 
-  private getTotalIn() {
+  /**
+   * calculate total field
+   */
+  private getTotalIn(): void {
     if (this.order.rate >= 0) {
       this.order.total = this.order.amount * this.order.rate;
     }
     this.getCommission();
   }
 
+  /**
+   * split pair name for showing
+   */
   private splitPairName() {
     this.arrPairName = this.currentPair.currencyPairName.split('/');
   }
 
-  orderFromOrderBook(order) {
+  /**
+   * fill model according to order-book order
+   * @param order
+   */
+  orderFromOrderBook(order): void {
     this.order.orderId = order.id;
     this.order.amount = order.amountConvert;
     this.order.total = order.amountBase;
@@ -190,9 +205,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.getCommission();
   }
 
-  onSubmit() {
-    console.log(this.limitForm.valid && this.stopForm.valid);
-    // if (this.limitForm.valid && this.stopForm.valid) {
+  /**
+   * on click submit button
+   */
+  onSubmit(): void {
       this.order.currencyPairId = this.currentPair.currencyPairId;
       this.order.baseType = this.dropdownLimitValue;
       this.order.orderType = this.mainTab;
@@ -200,29 +216,32 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.order.stop = this.orderStop;
       }
       this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
-    // }
   }
 
-  createNewOrder() {
+  /**
+   * on create new order
+   */
+  createNewOrder(): void {
     this.tradingService.createOrder(this.order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-      console.log(res);
+        console.log(res);
       this.notifySuccess = true;
       setTimeout(() => {this.notifySuccess = false; }, 5000);
     }, err => {
+        console.log(err);
         this.notifyFail = true;
         setTimeout(() => {this.notifyFail = false; }, 5000);
       });
-    console.log(this.order);
-    console.log('new');
     this.percents = null;
     this.orderStop = '';
     this.order = {...this.defaultOrder};
   }
 
-  updateOrder() {
-    console.log(this.order);
+  /**
+   * on update order from order-book
+   */
+  updateOrder(): void {
     this.tradingService.updateOrder(this.order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -230,19 +249,22 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.notifySuccess = true;
         setTimeout(() => {this.notifySuccess = false; }, 5000);
       }, err => {
+        console.log(err);
         this.notifyFail = true;
         setTimeout(() => {this.notifyFail = false; }, 5000);
       });
     this.orderStop = '';
   }
 
+  /**
+   * get commission index (send request)
+   */
   getCommissionIndex() {
     if (this.mainTab && this.currentPair.currencyPairId) {
       const subscription = this.tradingService.getCommission(this.mainTab, this.currentPair.currencyPairId).subscribe(res => {
         this.commissionIndex = res.commissionValue;
         this.getTotalIn();
-        console.log(this.commissionIndex);
-        // subscription.unsubscribe();
+        subscription.unsubscribe();
       });
     }
   }

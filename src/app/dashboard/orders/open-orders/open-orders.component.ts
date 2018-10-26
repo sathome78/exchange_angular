@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {MockDataService} from '../../../services/mock-data.service';
 import {OpenOrders} from '../open-orders.model';
 import {OrdersService} from '../orders.service';
@@ -8,19 +8,18 @@ import {takeUntil} from 'rxjs/internal/operators';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {TradingService} from '../../trading/trading.service';
 import {Order} from '../../trading/order.model';
-import {PaginationService} from '../pagination.service';
 
 @Component({
   selector: 'app-open-orders',
   templateUrl: './open-orders.component.html',
   styleUrls: ['./open-orders.component.scss']
 })
-export class OpenOrdersComponent implements OnInit, OnDestroy {
+export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
   @Output() countOpenOrders: EventEmitter<number> = new EventEmitter();
-  @Input() smalHeighy;
+  @Input() makeHeight ;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public allOrders: OpenOrders[];
-  public openOrders: OpenOrders[];
+  @Input() allOrders;
+  public openOrders: any;
 
   public currentPair;
   public commissionIndex;
@@ -33,7 +32,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public orderStop;
   limitForm: FormGroup;
   stopForm: FormGroup;
-  public pager: any = [];
+
   public currentPage = 1;
   public countPerPage = 7;
 
@@ -55,30 +54,34 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     private ordersService: OrdersService,
     private marketService: MarketService,
     public tradingService: TradingService,
-    private paginationService: PaginationService,
-  ) { }
-
+  ) {
+  }
 
   ngOnInit() {
     this.order = {...this.defaultOrder};
 
-    this.allOrders = this.mockData.getOpenOrders();
     this.filterOpenOrders(this.currentPage);
 
+     /** mock data */
     this.currentPair = this.mockData.getMarketsData()[2];
     this.splitPairName();
+    /** ---------------------- */
+
      this.marketService.activeCurrencyListener
        .pipe(takeUntil(this.ngUnsubscribe))
        .subscribe(pair => {
        this.currentPair = pair;
        this.splitPairName();
+
        this.ordersService.getOpenOrders(this.currentPair.currencyPairId)
          .pipe(takeUntil(this.ngUnsubscribe))
          .subscribe(res => {
          this.allOrders = res;
          this.filterOpenOrders(this.currentPage);
        });
+
      });
+
     this.tradingService.tradingChangeSellBuy$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(type => {
@@ -88,32 +91,49 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     this.initForms();
   }
 
-
   /**
    * filter open orders
    */
-  filterOpenOrders(page: number) {
+  filterOpenOrders(page: number): void {
     this.currentPage = page;
     const filteredOrders = this.allOrders.filter(order => order.status === 'OPENED');
     this.countOpenOrders.emit(filteredOrders.length);
-    this.pager = this.paginationService.getPager(filteredOrders.length, page, this.countPerPage);
-    this.openOrders = filteredOrders.slice(this.pager.startIndex, this.pager.endIndex + 1);
-    console.log(this.pager.pages)
+    this.openOrders = filteredOrders;
+  }
+
+  /**
+   * change cout items when we make height biggestbiggest
+   * @param changes
+   */
+  ngOnChanges(changes): void {
+    /** change count orders perPage */
+    if (changes.makeHeight.currentValue === true) {
+      this.countPerPage = 7;
+      this.filterOpenOrders(this.currentPage);
+    } else {
+      this.countPerPage = 18;
+      this.filterOpenOrders(this.currentPage);
+    }
   }
 
   /**
    * show edit popup with selected order
    * @param order
    */
-  showEditOrderPopup(order) {
+  showEditOrderPopup(order): void {
     this.editOrderPopup = true;
-    this.order.orderId = order.orderId;
-    this.order.amount = order.amount;
-    this.order.total = order.total;
-    this.order.orderType = order.type;
-    this.order.currencyPairId = this.currentPair.currencyPairId;
-    this.order.rate = order.total / order.amount;
-    this.order.commission = order.commission;
+
+    if (order.orderBaseType === 'STOP_LIMIT') {
+      this.orderStop = order.stopRate;
+    }
+    this.order.rate = order.amountWithCommission / order.amountConvert;
+    this.order.amount = order.amountConvert;
+    this.order.total  = order.amountWithCommission;
+    this.order.orderType = order.operationType;
+    this.order.orderId = order.id;
+    this.order.currencyPairId = order.currencyPairId;
+    this.dropdownLimitValue = order.orderBaseType;
+    this.order.commission = order.commissionFixedAmount;
     this.getCommissionIndex();
     this.filterOpenOrders(this.currentPage);
   }
@@ -122,13 +142,12 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
    * set status order canceled
    * @param order
    */
-  cancelOrder(order) {
-   this.setStatusOrder(order, 'CANCELED');
-    this.filterOpenOrders(this.currentPage);
-   this.tradingService.updateOrder(order)
-     .pipe(takeUntil(this.ngUnsubscribe))
-     .subscribe(res => console.log(res));
+  cancelOrder(order): void {
+   const editedOrder = this.setStatusOrder(order, 'CANCELED');
+   this.ordersService.updateOrder(editedOrder).subscribe(res => {
 
+   })
+    this.filterOpenOrders(this.currentPage);
   }
 
   /**
@@ -137,40 +156,60 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
    * @param {string} status
    */
   setStatusOrder(order, status: string) {
-    const foundOrder = this.allOrders.filter(item => item.orderId === order.orderId);
+    const foundOrder = this.allOrders.filter(item =>  order.id ? item.id === order.id : item.id === order.orderId);
     if (foundOrder[0]) {
       foundOrder[0].status = status;
     }
+    return foundOrder[0];
   }
 
   /**
    * set order status 'Canceled' and create new
    */
-  saveOrder() {
+  saveOrder(): void {
     if (this.order.baseType === 'STOP_LIMIT') {
       this.order.stop = this.orderStop;
     }
 
-    this.cancelOrder(this.order);
-    this.order.orderId = 0;
-    this.tradingService.createOrder(this.order)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => console.log(res));
-    this.order.status = 'OPENED';
-    this.allOrders.push(this.order);
-    console.log(this.order);
-    this.order = {...this.defaultOrder};
-    this.filterOpenOrders(this.currentPage);
+    const foundOrder = this.setStatusOrder(this.order, 'CANCELED');
 
+    this.ordersService.updateOrder(foundOrder).subscribe(res => {
+      this.createNewOrder();
+    });
+
+
+    // delete
+    this.createNewOrder();
+    //
+  }
+
+  /**
+   * create new order after set status CANCELED
+   */
+  createNewOrder(): void {
+    this.order.orderId = 0;
+    this.order.status = 'OPENED';
+
+    this.ordersService.createOrder(this.order).subscribe(res => {
+      this.order = {...this.defaultOrder};
+      this.orderStop = '';
+      this.editOrderPopup = false;
+      this.filterOpenOrders(this.currentPage);
+    });
+
+    // delete
+    this.order = {...this.defaultOrder};
     this.orderStop = '';
     this.editOrderPopup = false;
+    this.filterOpenOrders(this.currentPage);
+    //
   }
 
   /**
    * on delete order
    * @param order
    */
-  deleteOrder (order) {
+  deleteOrder (order): void {
     this.setStatusOrder(order, 'DELETED');
     this.tradingService.deleteOrder(order.orderId)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -187,7 +226,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   /**
    * clsose edit popup
    */
-  closePopup() {
+  closePopup(): void {
     this.editOrderPopup = false;
   }
 
@@ -195,7 +234,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
    * recalculate on quantity input
    * @param $event
    */
-  quantityIput($event) {
+  quantityIput($event): void {
     this.getTotalIn();
   }
 
@@ -203,11 +242,11 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
    * recalculate on rate input
    * @param $event
    */
-  rateInput($event) {
+  rateInput($event): void {
     this.getTotalIn();
   }
 
-  private getTotalIn() {
+  private getTotalIn(): void {
     if (this.order.rate >= 0) {
       this.order.total = this.order.amount * this.order.rate;
     }
@@ -218,7 +257,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
    * set limit from dropdown-limit
    * @param limit
    */
-  selectedLimit(limit) {
+  selectedLimit(limit): void {
     this.dropdownLimitValue = limit;
   }
 
@@ -237,7 +276,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   /**
    * calculation commission and update model
    */
-  private getCommission() {
+  private getCommission(): void {
     this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
     this.order.total += this.order.commission;
   }
@@ -264,7 +303,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   /**
    * get commissionIndex from server
    */
-  getCommissionIndex() {
+  getCommissionIndex(): void {
     this.commissionIndex = 0.02;
     if (this.orderType && this.currentPair.currencyPairId) {
       const subscription = this.tradingService.getCommission(this.orderType, this.currentPair.currencyPairId).subscribe(res => {

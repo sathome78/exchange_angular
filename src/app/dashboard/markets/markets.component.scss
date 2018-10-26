@@ -23,42 +23,68 @@ tbody.table__body {
   border-bottom: 2px solid transparent;
 }
 
-tbody {
-  display: block;
-  height: 350px;
-  overflow-y: scroll;
-  //padding-bottom: 90px;
-}
-
-thead, tbody tr {
-  display:table;
-  width:100%;
-  table-layout:fixed;/* even columns width , fix width of table too*/
-}
-//TODO: delete after fix all layout
 .widget__content{
-  overflow-y: hidden;
+
+}
+ng-scrollbar{
+  display: block;
+  width: 100%;
+  //height: auto;
+  height: 380px;
+  margin: auto;
+  padding: 5px;
 }
 
-//scrollbar  styles
-/* width */
-::-webkit-scrollbar {
+li{
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+::ng-deep .ng-scrollbar.-vertical.bar-class{
+  background: rgba(255,255,255, .2);;
   width: 8px;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: rgba(255,255,255, .2);
+::ng-deep .ng-scrollbar-thumb.thumb2 {
+  background-color: #2a2a2a ;
+  width: 6px;
 }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #2a2a2a;
-}
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #2a2a2a;
-}
+//tbody {
+//  display: block;
+//  height: 350px;
+//  overflow-y: scroll;
+//}
+//
+//thead, tbody tr {
+//  display:table;
+//  width:100%;
+//  table-layout:fixed;/* even columns width , fix width of table too*/
+//}
+////TODO: delete after fix all layout
+//.widget__content{
+//  overflow-y: hidden;
+//}
+//
+//scrollbar  styles
+/* width */
+//::-webkit-scrollbar {
+//  width: 8px;
+//}
+//
+///* Track */
+//::-webkit-scrollbar-track {
+//  background: rgba(255,255,255, .2);
+//}
+//
+///* Handle */
+//::-webkit-scrollbar-thumb {
+//  background: #2a2a2a;
+//}
+//
+///* Handle on hover */
+//::-webkit-scrollbar-thumb:hover {
+//  background: #2a2a2a;
+//}
 
 //----------

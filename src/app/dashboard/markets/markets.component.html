@@ -105,7 +105,9 @@
 
 
     <!--table start-->
+    <ng-scrollbar [autoHide]="false" [barClass]="'bar-class'" [thumbClass]="'thumb2'">
     <div class="widget__table-wrap">
+
       <table class="table widget__table">
         <thead>
         <tr style="margin-right: 30px;">
@@ -130,8 +132,8 @@
           </th>
         </tr>
         </thead>
+
         <tbody class="table__body table__body--none-shadow">
-          <ng-scrollbar>
             <!-- Content -->
             <ng-container *ngFor="let pair of pairs | sort:'currencyPairName'">
               <tr class="table__row widget__table-row"
@@ -162,10 +164,12 @@
               </tr>
               <tr style="height: 4px;"></tr>
             </ng-container>
-          </ng-scrollbar>
         </tbody>
+
       </table>
+
     </div>
+    </ng-scrollbar>
     <!--table end-->
     <div class="widget__search">
       <input class="widget__search-input" type="text" required="" placeholder="Search" (input)="searchPair($event.target.value)">

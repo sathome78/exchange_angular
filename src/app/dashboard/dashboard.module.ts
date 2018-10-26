@@ -30,7 +30,8 @@ import {MarketService} from './markets/market.service';
 import {OrderBookService} from './order-book/order-book.service';
 import {TradeHistoryService} from './trade-history/trade-history.service';
 import {ChatService} from './chat/chat.service';
-import { ScrollbarModule } from 'ngx-scrollbar';
+import {ScrollbarModule} from 'ngx-scrollbar';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 export function socketProvider() {
@@ -89,7 +90,8 @@ const stompConfig: StompConfig = {
     FormsModule,
     ReactiveFormsModule,
     GridsterModule.forRoot(),
-    ScrollbarModule
+    ScrollbarModule,
+    NgxPaginationModule
   ],
   exports: [
 
