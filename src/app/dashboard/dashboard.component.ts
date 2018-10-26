@@ -3,6 +3,7 @@ import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular
 import {gridsterItemOptions, gridsterOptions} from '../shared/configs/gridster-options';
 import {DashboardDataService} from './dashboard-data.service';
 import {DashboardItemChangeSize} from '../shared/models/dashboard-item-change-size-model';
+import {MarketService} from './markets/market.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,7 +38,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   public gridsterItemOptions;
 
   constructor(
-    private dataService: DashboardDataService
+    private dataService: DashboardDataService,
+    private marketsService: MarketService,
   ) { }
 
   ngOnInit() {
@@ -47,6 +49,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.gridsterItemOptions = gridsterItemOptions;
     // TODO: takeUntil
     this.dataService.toolsToDashboard$.subscribe(res => this.addItemToDashboard(res));
+
+    this.marketsService.activeCurrencyListener.subscribe(res => {
+      this.changeRatioByWidth();
+    });
   }
 
   ngAfterViewInit() {

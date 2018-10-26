@@ -36,37 +36,57 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+
     this.dashboardService.getCurrencies()
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((value: Currency[]) => this.currencies = value);
+      .subscribe((value: Currency[]) => {
+        this.currencies = value;
+      } );
+
+
     /** for mock data*/
-    this.pair = this.mockData.getMarketsData()[0];
-    this.splitPairName(this.pair);
+    // this.pair = this.mockData.getMarketsData()[0];
+    // this.splitPairName(this.pair);
     /** ----------------------- */
-    // this.dashboardService.choosedPair$.subscribe( res => this.pair = res);
+    // this.dashboardService.choosedPair$.subscribe( res => {
+    //   this.pair = res;
+    //   // const infoSub = this.marketService.currencyPairInfo(this.pair.currencyPairId).subscribe(info => {
+    //   //   this.currentCurrencyInfo = info;
+    //   // });
+    //
+    // });
+
+    // const infoSub1 = this.marketService.currencyPairInfo(this.pair.currencyPairId).subscribe(info => {
+    //   this.currentCurrencyInfo = info;
+    //     infoSub1.unsubscribe();
+    // });
+
     this.marketService.activeCurrencyListener.subscribe(data => {
       this.pair = data;
-      this.marketService.currencyPairInfo(this.pair.currencyPairId).subscribe(res => {
+
+      const infoSub = this.marketService.currencyPairInfo(this.pair.currencyPairId).subscribe(res => {
         this.currentCurrencyInfo = res;
-      } )
+        infoSub.unsubscribe();
+      });
 
       this.splitPairName(this.pair);
     });
-    /** mock data */
-    this.currentCurrencyInfo = {
-      "balanceByCurrency1": 0,
-      "balanceByCurrency2": 0,
-      "currencyRate": "516.01600000",
-      "percentChange": "0.00",
-      "changedValue": "0E-9",
-      "lastCurrencyRate": "515.019160000",
-      "volume24h": "5083.200000000",
-      "rateHigh": "0.008214410",
-      "rateLow": "0.008040000",
-      "dailyStatistic": null,
-      "statistic": null
-    };
-    /** ----------------- */
+    // console.log(this.currentCurrencyInfo)
+    // /** mock data */
+    // this.currentCurrencyInfo = {
+    //   "balanceByCurrency1": 0,
+    //   "balanceByCurrency2": 0,
+    //   "currencyRate": "516.01600000",
+    //   "percentChange": "0.00",
+    //   "changedValue": "0E-9",
+    //   "lastCurrencyRate": "515.019160000",
+    //   "volume24h": "5083.200000000",
+    //   "rateHigh": "0.008214410",
+    //   "rateLow": "0.008040000",
+    //   "dailyStatistic": null,
+    //   "statistic": null
+    // };
+    // /** ----------------- */
   }
 
   ngOnDestroy() {
@@ -87,9 +107,6 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    */
   toggleCurrencySearch(): void {
     this.showCurrencySearch = !this.showCurrencySearch;
-    // /** make no active currency search popup */
-    // this.showCurrencySearch = false;
-    // /** ------------------- */
   }
 
   /**

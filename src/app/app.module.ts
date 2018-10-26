@@ -47,7 +47,6 @@ import { OrdersHistoryComponent } from './orders/orders-history/orders-history.c
 import {MockDataService} from './services/mock-data.service';
 import {TradingService} from './dashboard/trading/trading.service';
 import {OrdersService} from './dashboard/orders/orders.service';
-import {PaginationService} from './dashboard/orders/pagination.service';
 
 @NgModule({
   declarations: [
@@ -106,7 +105,6 @@ import {PaginationService} from './dashboard/orders/pagination.service';
     MockDataService,
     TradingService,
     OrdersService,
-    PaginationService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}

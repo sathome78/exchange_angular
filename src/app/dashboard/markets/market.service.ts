@@ -6,6 +6,7 @@ import {Message} from '@stomp/stompjs';
 import {map} from 'rxjs/internal/operators';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
 
 
 @Injectable()
@@ -14,6 +15,7 @@ export class MarketService {
   currencyPairs: CurrencyPair [] = [];
   marketListener$: Subject<CurrencyPair[]>;
   activeCurrencyListener: Subject<CurrencyPair>;
+  private baseUrl = environment.apiUrl;
 
   private stompSubscription: any;
 
@@ -104,7 +106,7 @@ export class MarketService {
   }
 
   currencyPairInfo(pairId): Observable<any> {
-    return this.http.get(`/info/private/v2/dashboard/info/${pairId}`);
+    return this.http.get(`${this.baseUrl}/info/private/v2/dashboard/info/${pairId}`);
   }
 
   private getActiveCurrencyPair(): CurrencyPair {

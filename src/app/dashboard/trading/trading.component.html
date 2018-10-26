@@ -60,7 +60,7 @@
       </div>
     </div>
   </div>
-  <div class="tabs widget__tabs widget__tabs--hide-mob" style="margin: 0 24px;">
+  <div class="tabs widget__tabs widget__tabs--hide-mob" style="margin: 0 24px;" *ngIf="currentPair">
     <button class="tabs__item tabs__item--big "
             [ngClass]="{'tabs__item--active': mainTab === 'BUY', 'tab-no-active': mainTab !== 'BUY'}"
             (click)="toggleMainTab('BUY')">Buy {{arrPairName[0]}}
@@ -72,7 +72,7 @@
   </div>
 
 
-  <div class="widget__content">
+  <div class="widget__content" *ngIf="currentPair">
     <div class="widget__trading-form">
       <div class="row row--jcsb row--aic widget__trading-row">
         <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
