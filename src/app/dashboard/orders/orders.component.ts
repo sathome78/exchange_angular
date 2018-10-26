@@ -39,6 +39,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
     /** mock data */
     this.allOpenOrders = this.mockData.getOpenOrders().items;
     this.historyOrders = this.mockData.getOpenOrders().items;
+    this.activeCurrencyPair = this.mockData.getMarketsData()[2];
     /** ---------------------------------------------- */
 
     this.marketService.activeCurrencyListener
@@ -54,22 +55,33 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
     this.ngUnsubscribe.complete();
   }
 
-  toggleMainTab(tabName: string) {
+  /**
+   * switch main tab
+   * @param {string} tabName
+   */
+  toggleMainTab(tabName: string): void {
     this.mainTab = tabName;
     this.mainTab === 'open' ?
       this.toOpenOrders() :
       this.toHistory();
   }
 
-  toOpenOrders() {
+  /**
+   * request to get open-orders data
+   */
+  toOpenOrders(): void {
     const sub = this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
       .subscribe(data => {
         this.allOpenOrders = data.items;
+        this.openOrdersCount = data.count;
         sub.unsubscribe();
       });
   }
 
-  toHistory() {
+  /**
+   * request to get history data with status (CLOSED and CANCELED)
+   */
+  toHistory(): void {
     const forkSubscription = forkJoin(
       this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CLOSED'),
       this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CANCELED')
@@ -81,6 +93,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
 
   }
 
+  // TODO: delete this method when will delete mockData and delete in Html
   setCountOpenOrders(e: number) {
     this.openOrdersCount = e;
   }

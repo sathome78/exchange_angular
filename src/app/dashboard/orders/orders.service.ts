@@ -22,4 +22,12 @@ export class OrdersService {
     return this.http.get(`${this.baseUrl}/info/private/v2/dashboard/orders/${status}`,
       {params: {status: status, currencyPairId: currencyPairId }});
   }
+
+  updateOrder(order): Observable<any> {
+    return this.http.put(`api from update`, order);
+  }
+
+  createOrder(order): Observable<any> {
+    return this.http.post(`api from create`, order);
+  }
 }

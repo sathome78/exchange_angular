@@ -143,12 +143,11 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
    * @param order
    */
   cancelOrder(order): void {
-   this.setStatusOrder(order, 'CANCELED');
-    this.filterOpenOrders(this.currentPage);
-   this.tradingService.updateOrder(order)
-     .pipe(takeUntil(this.ngUnsubscribe))
-     .subscribe(res => console.log(res));
+   const editedOrder = this.setStatusOrder(order, 'CANCELED');
+   this.ordersService.updateOrder(editedOrder).subscribe(res => {
 
+   })
+    this.filterOpenOrders(this.currentPage);
   }
 
   /**
@@ -156,11 +155,12 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
    * @param order
    * @param {string} status
    */
-  setStatusOrder(order, status: string): void {
-    const foundOrder = this.allOrders.filter(item => item.orderId === order.orderId);
+  setStatusOrder(order, status: string) {
+    const foundOrder = this.allOrders.filter(item =>  order.id ? item.id === order.id : item.id === order.orderId);
     if (foundOrder[0]) {
       foundOrder[0].status = status;
     }
+    return foundOrder[0];
   }
 
   /**
@@ -171,19 +171,38 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
       this.order.stop = this.orderStop;
     }
 
-    this.cancelOrder(this.order);
-    this.order.orderId = 0;
-    this.tradingService.createOrder(this.order)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => console.log(res));
-    this.order.status = 'OPENED';
-    this.allOrders.push(this.order);
-    console.log(this.order);
-    this.order = {...this.defaultOrder};
-    this.filterOpenOrders(this.currentPage);
+    const foundOrder = this.setStatusOrder(this.order, 'CANCELED');
 
+    this.ordersService.updateOrder(foundOrder).subscribe(res => {
+      this.createNewOrder();
+    });
+
+
+    // delete
+    this.createNewOrder();
+    //
+  }
+
+  /**
+   * create new order after set status CANCELED
+   */
+  createNewOrder(): void {
+    this.order.orderId = 0;
+    this.order.status = 'OPENED';
+
+    this.ordersService.createOrder(this.order).subscribe(res => {
+      this.order = {...this.defaultOrder};
+      this.orderStop = '';
+      this.editOrderPopup = false;
+      this.filterOpenOrders(this.currentPage);
+    });
+
+    // delete
+    this.order = {...this.defaultOrder};
     this.orderStop = '';
     this.editOrderPopup = false;
+    this.filterOpenOrders(this.currentPage);
+    //
   }
 
   /**
