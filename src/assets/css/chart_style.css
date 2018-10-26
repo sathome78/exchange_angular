@@ -1,0 +1,20 @@
+#header-toolbar-indicators, #header-toolbar-compare, #header-toolbar-chart-styles, #header-toolbar-intervals, #header-toolbar-undo-redo, .group-wWM3zP_M-, .wrap-18oKCBRc-,
+.apply-common-tooltip{
+    background-color: #191A39;
+    color: #A0A0A0;
+}
+
+.chart-container {
+    border: none !important;
+}
+
+#header-toolbar-indicators:hover span {
+    color: #fff !important;
+}
+.group-wWM3zP_M:hover, .apply-common-tooltip:hover {
+    color: #fff !important;
+}
+
+.layout__area--center {
+    background-color: rgba(27, 55, 112, 0);
+}
