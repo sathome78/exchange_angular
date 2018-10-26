@@ -179,9 +179,9 @@
     <div class="row row--jcsb row--aic widget__trading-row">
     <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
          (click)="toggleLimitDropdown()">
-    <div class="dropdown__btn">{{dropdownLimitValue}}</div>
+    <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
     <ul class="dropdown__list">
-    <li class="dropdown__item" *ngFor="let limit of limitsData" (click)="selectedLimit(limit)">{{limit}}</li>
+    <li class="dropdown__item" *ngFor="let limit of limitsData" (click)="selectedLimit(limit)">{{showLimit(limit)}}</li>
     </ul>
     </div>
     <div class="order-edit-popup__btns-wrap">

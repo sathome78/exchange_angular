@@ -71,7 +71,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
 
       this.splitPairName(this.pair);
     });
-    // console.log(this.currentCurrencyInfo)
+
     // /** mock data */
     // this.currentCurrencyInfo = {
     //   "balanceByCurrency1": 0,
