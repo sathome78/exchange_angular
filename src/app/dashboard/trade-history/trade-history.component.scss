@@ -85,26 +85,26 @@ thead, tbody tr {
 }
 
 //scrollbar  styles
-/* width */
-::-webkit-scrollbar {
-  width: 2px;
-  border: 1px solid #364A78;
-}
+// /* width */
+// ::-webkit-scrollbar {
+//   width: 2px;
+//   border: 1px solid #364A78;
+// }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #191A39;
-}
+// /* Track */
+// ::-webkit-scrollbar-track {
+//   background: #191A39;
+// }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #364A78;
-}
+// /* Handle */
+// ::-webkit-scrollbar-thumb {
+//   background: #364A78;
+// }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #364A78;
-}
+// /* Handle on hover */
+// ::-webkit-scrollbar-thumb:hover {
+//   background: #364A78;
+// }
 
 @media (min-width: 1200px){
   .widget{
