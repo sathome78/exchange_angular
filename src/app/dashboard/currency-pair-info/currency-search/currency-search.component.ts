@@ -1,5 +1,5 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
-
+import * as _chain from 'lodash/chain';
 import {Currency} from './currency.model';
 
 @Component({
@@ -21,17 +21,18 @@ export class CurrencySearchComponent implements OnInit {
   get currencies() {
     return this._groupedCurrencies;
   }
+  defaultCurrencies;
   /** close currency search bar */
   @Output() closeCurrencySearch = new EventEmitter();
   /** emit selected currency */
   @Output() selectCurrency = new EventEmitter<string>();
 
   _groupedCurrencies: Currency[];
-
+  public alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
   constructor() { }
 
   ngOnInit() {
-
+    this.defaultCurrencies = [...this.currencies];
   }
 
   /**
@@ -39,6 +40,17 @@ export class CurrencySearchComponent implements OnInit {
    */
   onClose(): void {
     this.closeCurrencySearch.emit();
+  }
+
+  searchCoin(e) {
+    this.currencies = this.defaultCurrencies.filter(f => f.name.toUpperCase().match(e.target.value.toUpperCase()));
+    const temp = [];
+    this.currencies.forEach(order => temp.push(order.name[0]));
+
+    const unique = (value, index, self) => {
+      return self.indexOf(value) === index;
+    }
+    this.alphabet = temp.filter(unique);
   }
 
   /**
@@ -50,5 +62,4 @@ export class CurrencySearchComponent implements OnInit {
     this.selectCurrency.emit(ISO);
     this.closeCurrencySearch.emit();
   }
-
 }

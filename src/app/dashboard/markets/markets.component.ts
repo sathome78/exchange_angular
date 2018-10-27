@@ -5,6 +5,7 @@ import {MarketService} from './market.service';
 import {CurrencyPair} from './currency-pair.model';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-markets',
@@ -21,13 +22,15 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   currencyPairs: CurrencyPair[] = [];
   /** Markets data by active tab */
   pairs: CurrencyPair[] = [];
+  public sortPoint = 'asc';
+
 
   volumeOrderDirection = 'NONE';
   selectedCurrencyPair: CurrencyPair;
 
   constructor(
-      private marketService: MarketService,
-      public mockData: MockDataService) {
+    private marketService: MarketService,
+    public mockData: MockDataService) {
     super();
   }
 
@@ -36,7 +39,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.volumeOrderDirection = 'NONE';
     this.marketService.setStompSubscription();
     /** for mock data */
-    // this.currencyPairs =  this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
+    // this.currencyPairs = this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
     // this.pairs = this.choosePair(this.currencyDisplayMode);
     /** ------------------------ */
     this.marketService.marketListener$
@@ -76,9 +79,21 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         elm.isSelected = chosen;
       }
     });
-    if (! found) {
+    if (!found) {
       this.currencyPairs.push(newPair);
     }
+  }
+
+
+  sortVolume() {
+    this.sortPoint === 'asc' ? this.sortPoint = 'desc' : this.sortPoint = 'asc';
+    if (this.sortPoint === 'asc') {
+      this.pairs = this.pairs.sort((a, b) => a.volume - b.volume);
+    } else {
+      this.pairs = this.pairs.sort((a, b) => b.volume - a.volume);
+    }
+
+    console.log(this.pairs);
   }
 
   /**

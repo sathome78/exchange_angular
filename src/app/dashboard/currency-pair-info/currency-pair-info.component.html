@@ -21,24 +21,24 @@
     </div>
     <div class="currency-pair-info__info currency-pair-info__info--up">
       <div class="currency-pair-info__change">
-        <span>+0.8%</span>
+        <span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{currentCurrencyInfo.percentChange}}%</span>
         <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="">
         <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="">
-        <span>(+49,816 USD)</span>
+        <span style="margin-left: 10px;">({{currentCurrencyInfo.currencyRate - currentCurrencyInfo.lastCurrencyRate}} USD)</span>
       </div>
-      <div class="currency-pair-info__price">6 227 USD</div>
+      <div class="currency-pair-info__price">{{currentCurrencyInfo.currencyRate}} USD</div>
     </div>
     <div class="currency-pair-info__item">
       <div class="currency-pair-info__item-title">24h hight</div>
-      <span class="currency-pair-info__item-value">6 327 USD</span>
+      <span class="currency-pair-info__item-value">{{currentCurrencyInfo.rateHigh}}</span>
     </div>
     <div class="currency-pair-info__item">
       <div class="currency-pair-info__item-title">24h low</div>
-      <span class="currency-pair-info__item-value">6 162 USD</span>
+      <span class="currency-pair-info__item-value">{{currentCurrencyInfo.rateLow}}</span>
     </div>
     <div class="currency-pair-info__item">
       <div class="currency-pair-info__item-title">24h volume</div>
-      <span class="currency-pair-info__item-value">{{pair.volume}} million  USD</span>
+      <span class="currency-pair-info__item-value">{{currentCurrencyInfo.volume24h | number:'1.0-0'}} million  USD</span>
     </div>
     <div class="currency-pair-info__item">
       <div class="currency-pair-info__item-title">You have</div>

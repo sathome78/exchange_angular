@@ -6,6 +6,7 @@ import {Message} from '@stomp/stompjs';
 import {map} from 'rxjs/internal/operators';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
 
 
 @Injectable()
@@ -14,6 +15,7 @@ export class MarketService {
   currencyPairs: CurrencyPair [] = [];
   marketListener$: Subject<CurrencyPair[]>;
   activeCurrencyListener: Subject<CurrencyPair>;
+  private baseUrl = environment.apiUrl;
 
   private stompSubscription: any;
 
@@ -69,15 +71,15 @@ export class MarketService {
    * @param pair
    */
   findPairByCurrencyPairName(pairName: string, pair): void {
-    // this.currencyPairs.forEach(elm => {
-    //   if (pairName === elm.currencyPairName) {
-    //     this.activeCurrencyListener.next(elm);
-    //   }
-    // });
     /** for mock data */
     pair.currencyPairName = pairName;
     this.activeCurrencyListener.next(pair);
     /** ---------------- */
+    this.currencyPairs.forEach(elm => {
+      if (pairName === elm.currencyPairName) {
+        this.activeCurrencyListener.next(elm);
+      }
+    });
   }
 
   /**
@@ -85,14 +87,14 @@ export class MarketService {
    * @param {CurrencyPair} pair
    */
   setActiveCurrency(pair: CurrencyPair): void {
-    // this.currencyPairs.forEach(elm => {
-    //   if (pair.pairId === elm.pairId) {
-    //     this.activeCurrencyListener.next(elm);
-    //   }
-    // });
     /** for mock data */
     this.activeCurrencyListener.next(pair);
     /** ---------------- */
+    this.currencyPairs.forEach(elm => {
+      if (pair.currencyPairId === elm.currencyPairId) {
+        this.activeCurrencyListener.next(elm);
+      }
+    });
   }
 
   findPairByID(id) {
@@ -104,7 +106,7 @@ export class MarketService {
   }
 
   currencyPairInfo(pairId): Observable<any> {
-    return this.http.get(`/info/private/v2/dashboard/info/${pairId}`);
+    return this.http.get(`${this.baseUrl}/info/private/v2/dashboard/info/${pairId}`);
   }
 
   private getActiveCurrencyPair(): CurrencyPair {

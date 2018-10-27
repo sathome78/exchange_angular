@@ -4,11 +4,14 @@ import { NotificationsService } from './components/notification/notifications.se
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {SortPipe} from './pipes/sort.pipe';
+import {GroupCoinPipe} from './pipes/group-coin.pipe';
+
 
 @NgModule({
   declarations: [
     NotificationComponent,
-    SortPipe
+    SortPipe,
+    GroupCoinPipe,
   ],
   imports: [
     FormsModule,
@@ -16,7 +19,8 @@ import {SortPipe} from './pipes/sort.pipe';
   ],
   exports: [
     NotificationComponent,
-    SortPipe
+    SortPipe,
+    GroupCoinPipe,
   ],
   providers: [
     NotificationsService
