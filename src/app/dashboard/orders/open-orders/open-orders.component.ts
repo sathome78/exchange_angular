@@ -15,7 +15,7 @@ import {Order} from '../../trading/order.model';
   styleUrls: ['./open-orders.component.scss']
 })
 export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
-  @Output() countOpenOrders: EventEmitter<number> = new EventEmitter();
+  // @Output() countOpenOrders: EventEmitter<number> = new EventEmitter();
   @Input() makeHeight ;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   @Input() allOrders;
@@ -97,7 +97,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
   filterOpenOrders(page: number): void {
     this.currentPage = page;
     const filteredOrders = this.allOrders.filter(order => order.status === 'OPENED');
-    this.countOpenOrders.emit(filteredOrders.length);
+    // this.countOpenOrders.emit(filteredOrders.length);
     this.openOrders = filteredOrders;
   }
 
@@ -146,7 +146,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
    const editedOrder = this.setStatusOrder(order, 'CANCELED');
    this.ordersService.updateOrder(editedOrder).subscribe(res => {
 
-   })
+   });
     this.filterOpenOrders(this.currentPage);
   }
 
@@ -210,10 +210,10 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
    * @param order
    */
   deleteOrder (order): void {
-    this.setStatusOrder(order, 'DELETED');
-    this.tradingService.deleteOrder(order.orderId)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => console.log(res));
+    const foundOrder = this.setStatusOrder(order, 'DELETED');
+    this.ordersService.updateOrder(foundOrder).subscribe(res => {
+      console.log(res);
+    });
     this.filterOpenOrders(this.currentPage);
     this.editOrderPopup = false;
   }
@@ -228,6 +228,20 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
    */
   closePopup(): void {
     this.editOrderPopup = false;
+  }
+
+  showLimit(value: string) {
+    switch (value) {
+      case 'LIMIT': {
+        return 'Limit';
+      }
+      case 'STOP_LIMIT': {
+        return 'Stop limit';
+      }
+      case 'ICO': {
+        return 'ICO';
+      }
+    }
   }
 
   /**

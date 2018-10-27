@@ -121,6 +121,20 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.getCommissionIndex();
   }
 
+  showLimit(value: string) {
+    switch (value) {
+      case 'LIMIT': {
+        return 'Limit';
+      }
+      case 'STOP_LIMIT': {
+        return 'Stop limit';
+      }
+      case 'ICO': {
+        return 'ICO';
+      }
+    }
+  }
+
   /**
    * Toggle limit dropdown
    */
@@ -173,8 +187,11 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   private getCommission(): void {
     this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
-    this.order.total += this.order.commission;
+    this.mainTab === 'BUY' ?
+      this.order.total += this.order.commission :
+      this.order.total -= this.order.commission;
   }
+
 
   /**
    * calculate total field
