@@ -10,7 +10,7 @@ import {
   ChartingLibraryWidgetOptions,
   LanguageCode,
 } from '../../../assets/js/charting_library/charting_library.min';
-import { environment } from 'src/environments/environment.prod';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-graph',
@@ -22,14 +22,16 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   public itemName: string;
   public widgetOptions: object;
 
+   currencyPairName = 'BTC/USD';
+
 
   private lang;
 
-  private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'AAPL';
-  private _interval: ChartingLibraryWidgetOptions['interval'] = 'D';
+  private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
+  private _interval: ChartingLibraryWidgetOptions['interval'] = 'E';
   // BEWARE: no trailing slash is expected in feed URL
-  private _datafeedUrl = 'https://demo_feed.tradingview.com';
-  // private _datafeedUrl = environment.apiUrl + 'info/private/v2/dashboard/history';
+  // private _datafeedUrl = 'https://demo_feed.tradingview.com';
+  private _datafeedUrl = environment.apiUrl + '/info/public/v2/graph';
   private _libraryPath: ChartingLibraryWidgetOptions['library_path'] = 'assets/js/charting_library/';
   private _chartsStorageUrl: ChartingLibraryWidgetOptions['charts_storage_url'] = 'https://saveload.tradingview.com';
   private _chartsStorageApiVersion: ChartingLibraryWidgetOptions['charts_storage_api_version'] = '1.1';
