@@ -20,73 +20,102 @@
   }
 }
 
-.paginator{
+.paginator {
   position: absolute;
   right: 30px;
   bottom: 10px;
 }
 
-a.active{
+a.active {
   background-color: #237BEF !important;
   cursor: pointer;
 }
 
-::ng-deep .ngx-pagination a {
-  color: #E5E5E5 !important;
-  &:hover{
-    background-color: #237BEF !important;
-  }
+::ng-deep .ngx-pagination {
+  margin-bottom: 0 !important;
+  display: flex;
 }
 
-::ng-deep li{
-  &.current{
-    display: flex;
+::ng-deep .ngx-pagination li {
+  width: 28px;
+  height: 28px;
+  margin-right: 8px !important;
+  padding: 0;
+  &.current {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     background-color: #237BEF !important;
-    height: 26px;
-    width: 26px;
+    padding: 0 !important;
     border-radius: 4px !important;
-    span{
-      margin-top: 5px !important;
+  }
+  &.pagination-previous.disabled {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    &:before {
+      display: none;
+    }
+    span {
+      display: none;
     }
   }
+  &.pagination-next.disabled {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    &:after {
+      display: none;
+    }
+    span {
+      display: none;
+    }
+  }
+  &:hover {
+    position: relative;
+    bottom: 2px;
+  }
 }
 
-::ng-deep .ngx-pagination a{
-  background: rgba(255,255,255,.1);
-  height: 26px;
-  width: 26px;
-  margin: 3px;
+::ng-deep .ngx-pagination a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100%;
+  height: 100%;
+  padding: 0 !important;
+  font-size: 14px;
+  line-height: 16px;
+  //border: 1px solid #237BEF;
   border-radius: 4px !important;
+  color: #fff !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: transparent;
+  &:hover {
+    background-color: #237BEF !important;
+  }
 }
 
 ::ng-deep li.pagination-next a {
-  background: transparent;
-  &:hover{
-    background: transparent;
+  &:after {
+    content: url('../../../../assets/img/paginator-next.svg') !important;
+    margin-left: 0 !important;
+    display: block;
+    width: 13px;
+    height: 13px;
   }
 }
-::ng-deep li.pagination-previous a{
+
+::ng-deep li.pagination-previous a {
   &:before {
     content: url('../../../../assets/img/paginator-prev.svg') !important;
-    margin-top: 3px !important;
+    margin-right: 0 !important;
     display: block;
+    width: 13px;
+    height: 13px;
   }
+
 }
 
-::ng-deep li.pagination-previous.disabled:before{
-  content:url('../../../../assets/img/paginator-prev.svg') !important;
-  margin-top: 3px !important;
-  display: block;
-}
-
-::ng-deep li.pagination-next a:after{
-  content:url('../../../../assets/img/paginator-next.svg') !important;
-  margin-top: 3px !important;
-  display: block;
-}
-
-::ng-deep li.pagination-next.disabled:after{
-  content:url('../../../../assets/img/paginator-next.svg') !important;
-  margin-top: 3px !important;
-  display: block;
-}
