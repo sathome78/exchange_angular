@@ -1,10 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/internal/operators'
 
 import { DashboardDataService } from '../dashboard-data.service';
 import { Currency } from './currency-search/currency.model';
-import {MockDataService} from '../../services/mock-data.service';
 import {MarketService} from '../markets/market.service';
 import {CurrencyPair} from '../markets/currency-pair.model';
 
@@ -32,16 +31,14 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   constructor(
     private dashboardService: DashboardDataService,
     private marketService: MarketService,
-    private mockData: MockDataService,
+    private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
 
     this.dashboardService.getCurrencies()
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((value: Currency[]) => {
-        this.currencies = value;
-      } );
+      .subscribe((value: Currency[]) => this.currencies = value);
 
 
     /** for mock data*/
@@ -61,15 +58,18 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     //     infoSub1.unsubscribe();
     // });
 
-    this.marketService.activeCurrencyListener.subscribe(data => {
-      this.pair = data;
-
-      const infoSub = this.marketService.currencyPairInfo(this.pair.currencyPairId).subscribe(res => {
-        this.currentCurrencyInfo = res;
-        infoSub.unsubscribe();
-      });
-
-      this.splitPairName(this.pair);
+    this.marketService.activeCurrencyListener
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(pair => {
+        const infoSub = this.marketService.currencyPairInfo(pair.currencyPairId)
+          .subscribe(res => {
+            this.currentCurrencyInfo = res;
+            this.pair = pair;
+            this.splitPairName(this.pair);
+            // TODO: remove after dashboard init load time issue is solved
+            this.ref.detectChanges();
+            infoSub.unsubscribe();
+        });
     });
 
     // /** mock data */
@@ -137,9 +137,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    * @param {CurrencyPair} pair
    */
   splitPairName(pair: CurrencyPair) {
-    const splitName = this.pair.currencyPairName.split('/');
-    this.firstCurrency = splitName[0];
-    this.secondCurrency = splitName[1];
+    [ this.firstCurrency, this.secondCurrency ] = this.pair.currencyPairName.split('/');
   }
 
 }
