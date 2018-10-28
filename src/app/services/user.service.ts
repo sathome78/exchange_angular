@@ -3,7 +3,7 @@ import {environment} from '../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {AuthService} from './auth.service';
-import {IP_USER_HEADER, IP_USER_KEY, MEDIA_TYPE_JSON} from './http.utils';
+import {IP_USER_HEADER, IP_USER_KEY} from './http.utils';
 import {LangService} from './lang.service';
 import {AuthCandidate} from '../model/auth-candidate.model';
 import {LoggingService} from './logging.service';
@@ -25,7 +25,6 @@ export class UserService {
 
    checkIfEmailExists(email: string): Observable<boolean> {
     const httpOptions = {
-      headers: MEDIA_TYPE_JSON,
       params:  new HttpParams().set('email', email)
     };
     return this.http.get<boolean>(this.getUrl('if_email_exists'), httpOptions);
@@ -33,17 +32,13 @@ export class UserService {
 
   checkIfUsernameExists(username: string): Observable<any> {
     const httpOptions = {
-      headers: MEDIA_TYPE_JSON,
       params:  new HttpParams().set('username', username)
     };
     return this.http.get<string[]>(this.getUrl('if_username_exists'), httpOptions);
   }
 
   public getIfConnectionSuccessful(): Observable<boolean> {
-    const httpOptions = {
-      headers: MEDIA_TYPE_JSON
-    };
-    return this.http.get<boolean>(this.getUrl('test'), httpOptions);
+    return this.http.get<boolean>(this.getUrl('test'));
   }
 
   public createNewUser(username: string, email: string,
@@ -57,10 +52,7 @@ export class UserService {
       'language': this.langService.getLanguage(),
       'sponsor': (sponsor) ? sponsor : ''
     };
-    const httpOptions = {
-      headers: MEDIA_TYPE_JSON
-    };
-    return this.http.post<number>(this.getUrl('register'), JSON.stringify(registrate), httpOptions)
+    return this.http.post<number>(this.getUrl('register'), JSON.stringify(registrate))
       .toPromise()
       .then(this.extractId)
       .catch(this.handleErrorPromise);
@@ -83,7 +75,6 @@ export class UserService {
       mParams.set('checkPin', pin);
     }
     const httpOptions = {
-      headers: MEDIA_TYPE_JSON,
       params: mParams
     };
 
@@ -93,16 +84,15 @@ export class UserService {
 
   public getUserColorScheme(): Observable<string> {
     const url = this.HOST + '/info/private/v2/settings/color-schema';
-    return this.http.get<string>(url, {headers: MEDIA_TYPE_JSON});
+    return this.http.get<string>(url);
   }
   public getUserColorEnabled(): Observable<boolean> {
     const url = this.HOST + '/info/private/v2/settings/isLowColorEnabled';
-    return this.http.get<boolean>(url, {headers: MEDIA_TYPE_JSON});
+    return this.http.get<boolean>(url);
   }
 
   public getUserGoogleLoginEnabled(email: string): Observable<boolean> {
     const httpOptions = {
-      headers: MEDIA_TYPE_JSON,
       params:  new HttpParams().set('email', email)
     };
     return this.http.get<boolean>(this.getUrl('is_google_2fa_enabled'), httpOptions);
