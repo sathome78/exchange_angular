@@ -95,7 +95,6 @@ export class UserService {
     const url = this.HOST + '/info/private/v2/settings/color-schema';
     return this.http.get<string>(url, {headers: MEDIA_TYPE_JSON});
   }
-
   public getUserColorEnabled(): Observable<boolean> {
     const url = this.HOST + '/info/private/v2/settings/isLowColorEnabled';
     return this.http.get<boolean>(url, {headers: MEDIA_TYPE_JSON});
