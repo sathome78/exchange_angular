@@ -7,7 +7,7 @@ import {LangService} from '../../services/lang.service';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from 'ng-jwt';
 import {StompService} from '@stomp/ng2-stompjs';
-import {MEDIA_TYPE_JSON, TOKEN} from '../../services/http.utils';
+import {TOKEN} from '../../services/http.utils';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/internal/operators';
 import {SimpleChat } from './simple-chat.model';
@@ -89,7 +89,6 @@ export class ChatService {
     const lang = this.langService.getLanguage().toLowerCase();
     const params = {
       params: new HttpParams().append('lang', lang),
-      headers: MEDIA_TYPE_JSON
     };
     return this.httpClient.get<SimpleChat[]>(url, params);
       // .subscribe(
@@ -115,7 +114,7 @@ export class ChatService {
       'LANG': this.langService.getLanguage().toUpperCase(),
       'MESSAGE': message
     };
-    return this.httpClient.post<ChatItem>(url, body, {headers: MEDIA_TYPE_JSON});
+    return this.httpClient.post<ChatItem>(url, body);
   }
 
   isValidChatItem(message: string): boolean {
