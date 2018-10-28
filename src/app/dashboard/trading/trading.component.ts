@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ChangeDetectorRef} from '@angular/core';
 
 import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -23,7 +23,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public mainTab = 'BUY';
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
-  /** dpropdown limit data */
+  /** dropdown limit data */
   public limitsData = ['LIMIT', 'STOP_LIMIT', 'ICO'];
   /** selected limit */
   public dropdownLimitValue = this.limitsData[0];
@@ -46,8 +46,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
   constructor(
     public tradingService: TradingService,
-    private marketService: MarketService,
-    private mockData: MockDataService,
+    public marketService: MarketService,
+    private ref: ChangeDetectorRef,
     private dashboardDataService: DashboardDataService,
   ) {
     super();
@@ -69,16 +69,21 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.itemName = 'trading';
     this.order = {...this.defaultOrder};
 
+    this.marketService.activeCurrencyListener
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(pair => {
+        this.currentPair = pair;
+        this.splitPairName();
+        this.getCommissionIndex();
+        // TODO: remove after dashboard init load time issue is solved
+        this.ref.detectChanges();
+      });
 
-    this.marketService.activeCurrencyListener.pipe(takeUntil(this.ngUnsubscribe)).subscribe(pair => {
-      this.currentPair = pair;
-      this.splitPairName();
-      this.getCommissionIndex();
-    });
-
-    this.dashboardDataService.selectedOrderTrading$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(order => {
-      this.orderFromOrderBook(order);
-    });
+    this.dashboardDataService.selectedOrderTrading$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(order => {
+        this.orderFromOrderBook(order);
+      });
 
     this.initForms();
   }
