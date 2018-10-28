@@ -22,7 +22,7 @@ const routes: Routes = [
 
 
 
-  { path: 'login',          loadChildren: 'app/user/login/login.module#LoginModule' },
+  // { path: 'login',          loadChildren: 'app/user/login/login.module#LoginModule' },
   //
   // // secure
   // { path: 'settings',  loadChildren: () => SettingsModule },
