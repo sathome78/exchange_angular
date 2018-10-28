@@ -1,6 +1,9 @@
-import { Component, OnInit, AfterContentInit, Input } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy, Input } from '@angular/core';
+import {takeUntil} from 'rxjs/internal/operators';
 
 import { AbstractDashboardItems } from '../abstract-dashboard-items';
+import {MarketService} from '../markets/market.service';
+import {Subject} from 'rxjs/Subject';
 
 declare const TradingView: any;
 
@@ -17,12 +20,13 @@ import {environment} from '../../../environments/environment';
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.scss']
 })
-export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit {
+export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit, OnDestroy {
   /** dashboard item name (field for base class)*/
   public itemName: string;
   public widgetOptions: object;
 
-   currencyPairName = 'BTC/USD';
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  currencyPairName = 'BTC/USD';
 
 
   private lang;
@@ -98,7 +102,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
 
-  constructor() {
+  constructor(private marketService: MarketService) {
     super();
   }
 
@@ -150,8 +154,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       },
       overrides: {
         'paneProperties.background': '#191A39',
-        'paneProperties.vertGridProperties.color': 'rgba(27, 55, 112, 1)',
-        'paneProperties.horzGridProperties.color': 'rgba(27, 55, 112, 1)',
+        'paneProperties.vertGridProperties.color': 'rgba(27, 55, 112, 0)',
+        'paneProperties.horzGridProperties.color': 'rgba(27, 55, 112, 0)',
         'symbolWatermarkProperties.transparency': 90,
         'scalesProperties.textColor': '#aaa',
         'scalesProperties.backgroundColor': '#191A39',
@@ -164,6 +168,10 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     const tvWidget = new widget(widgetOptions);
     this._tvWidget = tvWidget;
 
+    /** getting current currency pair */
+    this.marketService.activeCurrencyListener.pipe(takeUntil(this.ngUnsubscribe)).subscribe(pair => {
+      this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
+    });
 
     tvWidget.onChartReady(() => {
       const button = tvWidget.createButton()
@@ -178,6 +186,11 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         }));
       button[0].innerHTML = 'Check API';
     });
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   ngAfterContentInit() {
