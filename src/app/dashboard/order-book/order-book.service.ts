@@ -21,13 +21,16 @@ export class OrderBookService {
     this.buyOrdersListener = new Subject<OrderItem[]>();
   }
 
-  subscribeStompForSellOrders(pair: CurrencyPair) {
-    this.sellOrdersSubscription = this.stompService
+  subscribeStompOrders(pair: CurrencyPair) {
+    return this.stompService
       .subscribe('/app/trade_orders/' + pair.currencyPairId)
-      .pipe( map((message: Message) => JSON.parse(message.body)))
-      .subscribe((orders: OrderItemsWrapper []) => {
-        this.processOrderItems(orders, 'SELL');
-      });
+      .pipe(map((message: Message) => JSON.parse(message.body)))
+      .pipe(map(orders => orders.map ? orders.map(order => JSON.parse(order)) : orders));
+    /*.subscribe((orders: OrderItemsWrapper []) => {
+      console.log(orders)
+      this.processOrderItems(orders, 'SELL');
+      return orders;
+    });*/
 
 
 
@@ -58,15 +61,21 @@ export class OrderBookService {
 
 
   subscribeStompForBuyOrders(pair: CurrencyPair) {
-    this.buyOrdersSubscriptionDynamic = this.stompService
+    return this.stompService
       .subscribe('/app/trade_orders/' + 58)
+      .pipe( map((message: Message) => JSON.parse(message.body)))
+      /*.subscribe((orders: OrderItemsWrapper []) => {
+        console.log(orders)
+        this.processOrderItems(orders, 'SELL');
+        return orders;
+      });
       .subscribe((data: Message) => {
           console.log(JSON.parse(data.body));
         },
         catchError(err => {
           console.log(err);
           return err;
-        }));
+        }));*/
 
       // .pipe(map(this.extractOrderItems))
       // .subscribe(items => {

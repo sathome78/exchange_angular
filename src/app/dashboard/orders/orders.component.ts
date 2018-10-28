@@ -22,7 +22,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
   public openOrdersCount = 0;
   public activeCurrencyPair;
   public historyOrders;
-  public allOpenOrders ;
+  public openOrders;
 
 
   constructor(
@@ -37,16 +37,16 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
     this.itemName = 'orders';
 
     /** mock data */
-    this.allOpenOrders = this.mockData.getOpenOrders().items;
-    this.historyOrders = this.mockData.getOpenOrders().items;
+    //this.allOpenOrders = this.mockData.getOpenOrders().items;
+    //this.historyOrders = this.mockData.getOpenOrders().items;
     this.activeCurrencyPair = this.mockData.getMarketsData()[2];
     /** ---------------------------------------------- */
 
     this.marketService.activeCurrencyListener
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-      this.activeCurrencyPair = res;
-      this.toOpenOrders();
+        this.activeCurrencyPair = res;
+        this.toOpenOrders();
     });
   }
 
@@ -72,7 +72,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
   toOpenOrders(): void {
     const sub = this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
       .subscribe(data => {
-        this.allOpenOrders = data.items;
+        this.openOrders = data.items;
         this.openOrdersCount = data.count;
         sub.unsubscribe();
       });
@@ -84,10 +84,11 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
   toHistory(): void {
     const forkSubscription = forkJoin(
       this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CLOSED'),
-      this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CANCELED')
+      this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CANCELLED')
     )
       .subscribe(([res1, res2]) => {
         this.historyOrders = [...res1.items, ...res2.items];
+        console.log(this.historyOrders)
         forkSubscription.unsubscribe();
       });
 
