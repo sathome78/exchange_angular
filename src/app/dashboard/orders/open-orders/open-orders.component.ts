@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ChangeDetectorRef} from '@angular/core';
 import {MockDataService} from '../../../services/mock-data.service';
 import {OpenOrders} from '../open-orders.model';
 import {OrdersService} from '../orders.service';
@@ -52,7 +52,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
     private mockData: MockDataService,
     private ordersService: OrdersService,
     private marketService: MarketService,
-    public tradingService: TradingService,
+    public tradingService: TradingService
   ) {
   }
 
@@ -235,7 +235,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
    * recalculate on quantity input
    * @param $event
    */
-  quantityIput($event): void {
+  quantityInput($event): void {
     this.getTotalIn();
   }
 

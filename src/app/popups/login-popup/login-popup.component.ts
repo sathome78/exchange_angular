@@ -69,6 +69,8 @@ export class LoginPopupComponent implements OnInit {
             this.authService.setTokenHolder(tokenHolder);
             this.popupService.closeLoginPopup();
             this.router.navigate(['/']);
+            // TODO: just for promo state, remove after
+            location.reload();
           },
           err => {
             const status = err['status'];
