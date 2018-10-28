@@ -32,6 +32,7 @@ import {TradeHistoryService} from './trade-history/trade-history.service';
 import {ChatService} from './chat/chat.service';
 import {ScrollbarModule} from 'ngx-scrollbar';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { LangService } from '../services/lang.service';
 
 
 export function socketProvider() {
@@ -104,6 +105,7 @@ const stompConfig: StompConfig = {
     OrderBookService,
     StompService,
     TradeHistoryService,
+    LangService,
     { provide: StompConfig, useValue: stompConfig },
   ]
 })
