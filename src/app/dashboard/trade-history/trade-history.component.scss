@@ -69,8 +69,9 @@
 
 tbody {
   display: block;
+  width: 418px;
   height: 430px;
-  overflow-y: scroll;
+  overflow-y: hidden;
   //padding-bottom: 90px;
 }
 

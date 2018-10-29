@@ -440,6 +440,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   private sellOrdersSubscription: any;
   activeCurrencyPair: CurrencyPair;
   currencySubscription: any;
+  private orderTypeClass: string;
 
   refreshedIds: number[] = [];
 
@@ -453,7 +454,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   ngOnInit() {
     this.itemName = 'order-book';
-
+    this.orderTypeClass = 'order-table--buy';
     /** create test mock data */
     //this.setMockData();
 
@@ -462,8 +463,10 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.tradingService.tradingChangeSellBuy$.subscribe((data) => {
       if (data === 'SELL') {
         this.isBuy = false;
+        this.orderTypeClass = 'order-teble--sell';
       } else if (data === 'BUY') {
         this.isBuy = true;
+        this.orderTypeClass = 'order-table--buy';
       }
 
       this.setData();
@@ -531,7 +534,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.buyOrders = orders;
         this.setData();
         // TODO: remove after dashboard init load time issue is solved
-        this.ref.detectChanges();
+        // this.ref.detectChanges();
       });
   }
 
