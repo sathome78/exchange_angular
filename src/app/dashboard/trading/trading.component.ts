@@ -76,7 +76,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.splitPairName();
         this.getCommissionIndex();
         // TODO: remove after dashboard init load time issue is solved
-        this.ref.detectChanges();
+        // this.ref.detectChanges();
       });
 
     this.dashboardDataService.selectedOrderTrading$
