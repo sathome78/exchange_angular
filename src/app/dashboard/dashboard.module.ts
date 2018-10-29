@@ -32,6 +32,7 @@ import {TradeHistoryService} from './trade-history/trade-history.service';
 import {ChatService} from './chat/chat.service';
 import {ScrollbarModule} from 'ngx-scrollbar';
 import {NgxPaginationModule} from 'ngx-pagination';
+import {CurrencySortingPipe} from './markets/currency-sorting.pipe';
 
 
 export function socketProvider() {
@@ -69,6 +70,7 @@ const stompConfig: StompConfig = {
     ActivePairComponent,
     BuyComponent,
     ChatComponent,
+    CurrencySortingPipe,
     DashboardComponent,
     GraphComponent,
     MarketsComponent,

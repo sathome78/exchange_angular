@@ -135,7 +135,7 @@
 
         <tbody class="table__body table__body--none-shadow">
             <!-- Content -->
-            <ng-container *ngFor="let pair of pairs | sort:'currencyPairName'">
+            <ng-container *ngFor="let pair of pairs | currencySort :'volume'">
               <tr class="table__row widget__table-row"
                   [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}"
               (click)="onSelectCurrencyPair(pair)">
