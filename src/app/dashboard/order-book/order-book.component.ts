@@ -9,7 +9,7 @@ import {CurrencyPair} from '../markets/currency-pair.model';
 import { setHostBindings } from '@angular/core/src/render3/instructions';
 import { forEach } from '@angular/router/src/utils/collection';
 import { ChildActivationStart } from '@angular/router';
-import {map} from "rxjs/internal/operators";
+import {map} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-order-book',
@@ -425,17 +425,26 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     'type': 'SELL',
     'currencyPairId': 1
   };
-  public data;
+
+  public dataForSell: OrderItem [];
+  public dataBurBuy: OrderItem [];
   public isBuy: boolean;
 
   /** maximum value from the array 'dataForVisualization'*/
-  private max: number;
+  private maxSell: number;
+  private maxBuy: number;
+
+  /** height for orderbook item */
+  private elementHeight: number;
+  private elementHeightMobile: number;
 
   /** data array for data visualization for order book  */
-  private dataForVisualization: [number];
+  private dataForVisualizationSellOrders: [number];
+  private dataForVisualizationBuyOrders: [number];
 
-  sellOrders: OrderItem [] = [];
-  buyOrders: OrderItem [] = [];
+  private sellOrders: OrderItem [] = [];
+  private buyOrders: OrderItem [] = [];
+
   private buyOrdersSubscription: any;
   private sellOrdersSubscription: any;
   activeCurrencyPair: CurrencyPair;
@@ -455,8 +464,12 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   ngOnInit() {
     this.itemName = 'order-book';
     this.orderTypeClass = 'order-table--buy';
+
+    this.elementHeight = 200;
+    this.elementHeightMobile = 400;
+
     /** create test mock data */
-    //this.setMockData();
+    this.setMockData();
 
     this.isBuy = true;
 
@@ -473,9 +486,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     });
 
     this.setData();
-
-    // this.data = this.getBestMockItem(20, this.isBuy);
-    // this.max = this.getMaxDataOfArray(this.dataForVisualization);
 
     this.refreshedIds = [];
     this.currencySubscription = this.marketService.activeCurrencyListener
@@ -558,26 +568,23 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private sortBuyData(): void {
-    if (!this.buyOrders) return;
     this.buyOrders.sort((a, b) => a.exrate - b.exrate);
   }
 
   private sortSellData(): void {
-    if (!this.sellOrders) return;
     this.sellOrders.sort((a, b) => b.exrate - a.exrate);
+
   }
 
-  private getBestitems(isBuy: boolean, count: number = 20) {
-    if (isBuy) {
-      this.data = this.buyOrders.slice(0, count);
-    } else {
-      this.data = this.sellOrders.slice(0, count);
-    }
+  private getBestitems(isBuy: boolean, count: number = 10) {
+    this.dataBurBuy = this.buyOrders.slice(0, count);
+    this.dataForSell = this.sellOrders.slice(0, count);
+
     this.setDataForVisualization();
   }
 
-  private getPercentageOfTheNumber(number: number): string {
-    const coefficient: number = (this.max / number);
+  private getPercentageOfTheNumber(number: number, isBuy: boolean): string {
+    const coefficient = isBuy ?  (this.maxBuy / number) : (this.maxSell / number);
     return ((100 / coefficient) + '%');
   }
 
@@ -586,28 +593,39 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private onSelectOrder(orderIndex, item: OrderItem): void {
-    const index = (parseInt(orderIndex + 1, 10) - 1);
-    if (this.isBuy) {
-      this.sortBuyData();
-      this.data = this.buyOrders.slice(index, 20);
-      this.setDataForVisualization();
-    } else {
-      this.sortSellData();
-      this.data = this.sellOrders.slice(index, 20);
-      this.setDataForVisualization();
-    }
+    // const index = (parseInt(orderIndex + 1, 10) - 1);
+    // if (this.isBuy) {
+    //   this.sortBuyData();
+    //   this.data = this.buyOrders.slice(index, 20);
+    //   this.setDataForVisualization();
+    // } else {
+    //   this.sortSellData();
+    //   this.data = this.sellOrders.slice(index, 20);
+    //   this.setDataForVisualization();
+    // }
 
     /** sends the data in to trading */
     this.dashboardDataService.selectedOrderTrading$.next(item);
   }
 
   private setDataForVisualization(): void {
-    this.dataForVisualization = [null];
-    this.data.forEach((element, index) => {
-      console.log(element)
-      this.dataForVisualization.push(element.exrate);
+    this.dataForVisualizationBuyOrders = [null];
+    this.dataForVisualizationSellOrders = [null];
+    this.maxBuy = 0;
+    this.maxSell = 0;
+
+    /** Buy */
+    this.dataBurBuy.forEach((element, index) => {
+      this.dataForVisualizationBuyOrders.push(element.exrate);
     });
-    this.max = this.getMaxDataOfArray(this.dataForVisualization);
+
+    this.maxBuy = this.getMaxDataOfArray(this.dataForVisualizationBuyOrders);
+
+    /** Sell */
+    this.dataForSell.forEach((element, index) => {
+      this.dataForVisualizationSellOrders.push(element.exrate);
+    });
+    this.maxSell = this.getMaxDataOfArray(this.dataForVisualizationSellOrders);
   }
 
   private setMockData(): void {
@@ -616,12 +634,10 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private setData(): void {
-    if (this.isBuy) {
-      this.sortBuyData();
-      this.getBestitems(this.isBuy);
-    } else {
-      this.sortSellData();
-      this.getBestitems(this.isBuy);
-    }
+    this.sortBuyData();
+    this.getBestitems(true);
+
+    this.sortSellData();
+    this.getBestitems(false);
   }
 }

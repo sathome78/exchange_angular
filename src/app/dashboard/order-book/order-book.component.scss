@@ -15,11 +15,17 @@
   height: 100%;
 }
 .items {
-  //min-height: 381px;
-  max-height: 432px;
+  min-height: 200px;
+  max-height: 200px;
   overflow: auto;
   position: relative;
   z-index: 100;
+  height: calc(100% - 24px);
+}
+
+.items.mobile {
+  min-height: 400px;
+  max-height: 600px;
 }
 
 .visualization {
@@ -36,7 +42,6 @@
   .visual-item {
     max-width: 100%;
     margin-left: auto;
-    height: 24px;
     // background: linear-gradient(270deg, rgba(0,180,61,0.15) 0%, rgba(0,180,61,0.15) 51%, rgba(0,180,61,1) 100%);
     opacity: 0.5;
   }
@@ -48,6 +53,10 @@
   .green {
     background: rgba(0,180,61,0.6) !important;
   }
+}
+
+.dark-theme .head .price {
+  color: #A0A0A0 !important;
 }
 
 .order-table {
@@ -62,7 +71,7 @@
     flex-wrap: nowrap;
     position: relative;
     z-index: 100;
-    height: 24px;
+    //font-size: 11px;
   }
 
   .item:hover {
@@ -82,13 +91,10 @@
   }
 
   .order, .price, .total {
+    //padding-left: 4px;
     padding-left: 4px;
     padding-right: 4px;
-  }
-  .order, .info, .price, .total {
-    span{
-      line-height: 24px;
-    }
+    line-height: 16px;
   }
 
   .order {
@@ -126,5 +132,25 @@
   span {
     margin: 2px 5px;
     cursor: pointer;
+  }
+}
+
+
+.separator {
+  height: 22px;
+  position: relative;
+  .hr {
+    max-width: 75%;
+    width: 75%;
+    margin-left: 25%;
+    position: relative;
+    top: -3px;
+    border-bottom: 1px solid #779BD1;
+  }
+  span {
+    margin-left: 28%;
+  }
+  span:first-child {
+    margin-bottom: 1px;
   }
 }
