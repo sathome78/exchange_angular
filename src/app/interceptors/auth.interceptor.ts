@@ -1,6 +1,14 @@
 import {HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {CORS_HEADER, EXRATES_REST_TOKEN, IP_CHECKER_URL, IP_USER_HEADER, TOKEN, X_AUTH_TOKEN} from '../services/http.utils';
+import {
+  CORS_HEADER,
+  EXRATES_REST_TOKEN,
+  IP_CHECKER_URL,
+  IP_USER_HEADER,
+  MEDIA_TYPE_JSON,
+  TOKEN,
+  X_AUTH_TOKEN
+} from '../services/http.utils';
 
 export class AuthInterceptor implements HttpInterceptor {
 
@@ -24,7 +32,10 @@ export class AuthInterceptor implements HttpInterceptor {
       // console.log(copiedReq);
       return next.handle(copiedReq);
     } else {
-      return next.handle(req);
+      const copiedReq = req.clone({
+        headers: MEDIA_TYPE_JSON
+      });
+      return next.handle(copiedReq);
     }
   }
 

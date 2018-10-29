@@ -4,6 +4,9 @@ import {StompService} from '@stomp/ng2-stompjs';
 import {CurrencyPair} from '../markets/currency-pair.model';
 import {catchError, map} from 'rxjs/internal/operators';
 import {Message} from '@stomp/stompjs';
+import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class OrderBookService {
@@ -16,7 +19,8 @@ export class OrderBookService {
   private buyOrdersSubscriptionDynamic: any;
   private sellOrdersSubscriptionDynamic: any;
 
-  constructor(private stompService: StompService) {
+  constructor(private stompService: StompService,
+              private http: HttpClient) {
     this.sellOrdersListener = new Subject<OrderItem[]>();
     this.buyOrdersListener = new Subject<OrderItem[]>();
   }
@@ -58,6 +62,11 @@ export class OrderBookService {
     // console.log(wrapper.data);
   }
 
+  // example at: https://api.myjson.com/bins/h0f3m
+  getMinAndMaxDayOrders(currencyPairId: number): Observable<Map<String, OrderItem>> {
+    const url = environment.apiUrl + '/info/public/v2/currencies/min-max/' + currencyPairId;
+    return this.http.get<Map<String, OrderItem>>(url);
+  }
 
 
   subscribeStompForBuyOrders(pair: CurrencyPair) {
@@ -163,6 +172,8 @@ export class OrderItem {
               public exrate: number,
               public amountBase: number,
               public amountConvert: number,
+              public created: Date,
+              public accepted: Date,
               public ordersIds: string) { }
 
   static deepCopy(other: OrderItem) {
@@ -174,6 +185,8 @@ export class OrderItem {
       other.exrate,
       other.amountBase,
       other.amountConvert,
+      other.created,
+      other.accepted,
       other.ordersIds);
   }
 }
