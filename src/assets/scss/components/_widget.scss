@@ -205,7 +205,7 @@
         content: "";
         left: 0;
         width: 100%;
-        height: fit-content;
+        height: 24px;
         z-index: 0;
         opacity: 0;
         animation: markets-row 1s ease-in-out;
@@ -227,7 +227,7 @@
         content: "";
         left: 0;
         width: 100%;
-        height: fit-content;
+        height: 24px;
         z-index: 0;
         opacity: 0;
         animation: markets-row 1s ease-in-out;
@@ -294,7 +294,7 @@
     margin-right: 16px;
     margin-left: 16px;
     height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     padding-bottom: 60px;
   }
@@ -646,6 +646,9 @@
         .widget__message {
           margin-right: 28px;
         }
+      }
+      &--right{
+        margin-right: 32px;
       }
     }
     &__search, &__send-message {
