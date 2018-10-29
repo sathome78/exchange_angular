@@ -7,13 +7,16 @@ import {TwoFactorPopupComponent} from './popups/two-factor-popup/two-factor-popu
 import {AuthGuard} from './services/auth.guard';
 import {OrdersHistoryComponent} from './orders/orders-history/orders-history.component';
 import {OpenOrdersComponent} from './orders/open-orders/open-orders.component';
-
+import {ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
+import {ReferralChargesComponent} from './referral/referral-charges/referral-charges.component'
 
 const routes: Routes = [
   // permit all
   { path: 'dashboard',      component: DashboardComponent },
   { path: 'open-orders', component: OpenOrdersComponent },
   { path: 'orders-history', component: OrdersHistoryComponent },
+  { path: 'referral-structure', component: ReferralStructureComponent },
+  { path: 'referral-charges', component: ReferralChargesComponent },
   // { path: 'funds',      component: DashboardComponent, },ç
   // { path: 'orders',      component: DashboardComponent, },
   // { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},

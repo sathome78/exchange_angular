@@ -21,7 +21,14 @@
         </div>
       </li>
       <li class="menu__item"><a class="menu__link" routerLink="/settings"><span class="menu__link-text">Settings</span></a></li>
-      <li class="menu__item"><a class="menu__link" href="#"><span class="menu__link-text">Referral</span></a></li>
+      <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop"><span class="menu__link-text">Referral</span></a>
+        <div class="submenu">
+          <ul class="menu submenu__list">
+            <li class="submenu__item"><a class="submenu__link" href="#" routerLink="referral-structure"><span class="menu__link-text">Referral structure</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" href="#" routerLink="referral-charges"><span class="menu__link-text">Referral charges</span></a></li>
+          </ul>
+        </div>
+      </li>
       <li class="menu__item"><a class="menu__link" href="https://exrates.me/dashboard"><span class="menu__link-text">News</span></a></li>
     </ul>
     <ul class="menu">
