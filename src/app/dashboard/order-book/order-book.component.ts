@@ -531,7 +531,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.buyOrders = orders;
         this.setData();
         // TODO: remove after dashboard init load time issue is solved
-        this.ref.detectChanges();
+        // this.ref.detectChanges();
       });
   }
 
