@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ElementRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ElementRef, ViewChild, ChangeDetectorRef} from '@angular/core';
 
 import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {OrderBookService, OrderItem} from './order-book.service';
@@ -9,6 +9,7 @@ import {CurrencyPair} from '../markets/currency-pair.model';
 import { setHostBindings } from '@angular/core/src/render3/instructions';
 import { forEach } from '@angular/router/src/utils/collection';
 import { ChildActivationStart } from '@angular/router';
+import {map} from "rxjs/internal/operators";
 
 @Component({
   selector: 'app-order-book',
@@ -445,7 +446,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   constructor(private orderBookService: OrderBookService,
               private marketService: MarketService,
               private dashboardDataService: DashboardDataService,
-              private tradingService: TradingService) {
+              private tradingService: TradingService,
+              private ref: ChangeDetectorRef) {
     super();
   }
 
@@ -453,7 +455,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.itemName = 'order-book';
 
     /** create test mock data */
-    this.setMockData();
+    //this.setMockData();
 
     this.isBuy = true;
 
@@ -480,11 +482,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.updateSubscription(pair);
         // this.sellOrders = [];
         // this.buyOrders = [];
-      });
-    this.buyOrdersSubscription = this.orderBookService.sellOrdersListener
-      .subscribe(items => {
-        this.addOrUpdate(this.sellOrders, items);
-        console.log(items);
       });
     this.buyOrdersSubscription = this.orderBookService.sellOrdersListener
       .subscribe(items => {
@@ -523,8 +520,19 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   updateSubscription(pair: CurrencyPair) {
     this.orderBookService.unsubscribeStompForSellOrders();
     this.orderBookService.unsubscribeStompForBuyOrders();
-    this.orderBookService.subscribeStompForSellOrders(pair);
-    this.orderBookService.subscribeStompForBuyOrders(pair);
+    this.orderBookService.subscribeStompOrders(pair)
+      .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'SELL') : orders.type === 'SELL'))
+      .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
+      .subscribe(orders => this.sellOrders = orders);
+    this.orderBookService.subscribeStompOrders(pair)
+      .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'BUY') : orders.type === 'BUY'))
+      .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
+      .subscribe(orders => {
+        this.buyOrders = orders;
+        this.setData();
+        // TODO: remove after dashboard init load time issue is solved
+        this.ref.detectChanges();
+      });
   }
 
   addOrUpdate(orders: OrderItem[], newItems: OrderItem[]) {
@@ -547,10 +555,12 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private sortBuyData(): void {
+    if (!this.buyOrders) return;
     this.buyOrders.sort((a, b) => a.exrate - b.exrate);
   }
 
   private sortSellData(): void {
+    if (!this.sellOrders) return;
     this.sellOrders.sort((a, b) => b.exrate - a.exrate);
   }
 
@@ -591,6 +601,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   private setDataForVisualization(): void {
     this.dataForVisualization = [null];
     this.data.forEach((element, index) => {
+      console.log(element)
       this.dataForVisualization.push(element.exrate);
     });
     this.max = this.getMaxDataOfArray(this.dataForVisualization);

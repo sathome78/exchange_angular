@@ -80,13 +80,13 @@
       *ngIf="mainTab === 'open'"
       (countOpenOrders)="setCountOpenOrders($event)"
       [makeHeight]="makeHeight"
-      [allOrders]="allOpenOrders">
+      [openOrders]="openOrders">
     </app-open-orders>
 
     <app-orders-history
       *ngIf="mainTab === 'history'"
       [makeHeight]="makeHeight"
-      [data]="historyOrders">
+      [historyOrders]="historyOrders">
     </app-orders-history>
 
 
