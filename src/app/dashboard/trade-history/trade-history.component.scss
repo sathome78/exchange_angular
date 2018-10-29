@@ -67,45 +67,20 @@
   }
 }
 
-tbody {
-  display: block;
-  width: 418px;
-  height: 430px;
-  overflow-y: hidden;
-  //padding-bottom: 90px;
-}
+//tbody {
+//  display: block;
+//  width: 418px;
+//  height: 430px;
+//  overflow-y: hidden;
+//  //padding-bottom: 90px;
+//}
 
-thead, tbody tr {
-  display:table;
-  width:100%;
-  table-layout:fixed;/* even columns width , fix width of table too*/
-}
-//TODO: delete after fix all layout
-.widget__content{
-  overflow-y: hidden;
-}
+//thead, tbody tr {
+//  display:table;
+//  width:100%;
+//  table-layout:fixed;/* even columns width , fix width of table too*/
+//}
 
-//scrollbar  styles
-// /* width */
-// ::-webkit-scrollbar {
-//   width: 2px;
-//   border: 1px solid #364A78;
-// }
-
-// /* Track */
-// ::-webkit-scrollbar-track {
-//   background: #191A39;
-// }
-
-// /* Handle */
-// ::-webkit-scrollbar-thumb {
-//   background: #364A78;
-// }
-
-// /* Handle on hover */
-// ::-webkit-scrollbar-thumb:hover {
-//   background: #364A78;
-// }
 
 @media (min-width: 1200px){
   .widget{
