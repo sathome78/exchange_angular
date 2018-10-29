@@ -6,6 +6,7 @@ import {CurrencyPair} from './currency-pair.model';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 import * as _ from 'lodash';
+import {CurrencySortingPipe} from './currency-sorting.pipe';
 
 @Component({
   selector: 'app-markets',
