@@ -9,6 +9,6 @@ export const EXRATES_REST_TOKEN = 'Exrates-Rest-Token';
 export const IP_CHECKER_URL = 'https://jsonip.com';
 export const CORS_HEADER = 'Access-Control-Allow-Origin';
 // export const DEV_HOST = 'http://dev5.exrates.tech';
-export const PROD_HOST = 'http://dev5.exrates.tech';
+export const PROD_HOST = 'http://dev7.exrates.tech';
 export const STAGING_HOST = 'http://dev7.exrates.tech';
 // export const STAGING_HOST = 'http://172.10.10.123:8080';

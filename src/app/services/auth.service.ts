@@ -20,7 +20,7 @@ export class AuthService {
 
 
   public isAuthenticated(): boolean {
-     localStorage.setItem(TOKEN, 'eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlbl9pZCI6MjQsImNsaWVudF9pcCI6IjA6MDowOjA6MDowOjA6MSIsImV4cGlyYXRpb24iOjE1MzkwNzUzMTEyMTgsInZhbHVlIjoiOWNjOWY4MDMtMGQ1MC00ODkzLWI4MGYtMWE2YzJiNzBjMWJhIiwidXNlcm5hbWUiOiJvbGVnX3BvZG9saWFuQHVrci5uZXQifQ.GkkgSI_VsHtBiMn1sRVKfZiIQ5hvvOQuTz7OSdK7LCOJP_l72gh0FFP6xizTQDJ3z6DV_O0zitt7DTLS7BL0rg');
+    //localStorage.setItem(TOKEN, 'eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlbl9pZCI6MjQsImNsaWVudF9pcCI6IjA6MDowOjA6MDowOjA6MSIsImV4cGlyYXRpb24iOjE1MzkwNzUzMTEyMTgsInZhbHVlIjoiOWNjOWY4MDMtMGQ1MC00ODkzLWI4MGYtMWE2YzJiNzBjMWJhIiwidXNlcm5hbWUiOiJvbGVnX3BvZG9saWFuQHVrci5uZXQifQ.GkkgSI_VsHtBiMn1sRVKfZiIQ5hvvOQuTz7OSdK7LCOJP_l72gh0FFP6xizTQDJ3z6DV_O0zitt7DTLS7BL0rg');
     const token = localStorage.getItem(TOKEN);
     if (token) {
       this.logger.debug(this, 'Token from local storage: ' + token.substring(0, 6));
@@ -41,6 +41,7 @@ export class AuthService {
 
   public setTokenHolder(tokenHolder: TokenHolder) {
     this.tokenHolder = tokenHolder;
+    console.log(tokenHolder)
     if (tokenHolder.token) {
       localStorage.setItem(TOKEN, tokenHolder.token);
     }

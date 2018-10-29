@@ -15,19 +15,24 @@ export class OrdersService {
   }
 
   getOpenOrders(currencyPairId): Observable<any> {
-    return this.http.get(`${this.baseUrl}/info/private/v2/dashboard/open_orders/${currencyPairId}`);
+    return this.http.get(`${this.baseUrl}/info/private/v2/dashboard/orders/OPENED`,
+      { params: { currencyPairId: currencyPairId, scope: 'ALL' }});
   }
 
   getHistory(currencyPairId, status: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/info/private/v2/dashboard/orders/${status}`,
-      {params: {status: status, currencyPairId: currencyPairId }});
+      { params: { currencyPairId, limit: '100', scope: 'ALL' }});
   }
 
   updateOrder(order): Observable<any> {
-    return this.http.put(`api from update`, order);
+    return this.http.put(`${this.baseUrl}/info/private/v2/dashboard/order`, order);
+  }
+
+  deleteOrder(order): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/info/private/v2/dashboard/order/${order.orderId}`);
   }
 
   createOrder(order): Observable<any> {
-    return this.http.post(`api from create`, order);
+    return this.http.post(`${this.baseUrl}/info/private/v2/dashboard/order`, order);
   }
 }

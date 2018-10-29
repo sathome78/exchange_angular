@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, ChangeDetectorRef} from '@angular/core';
 import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {MockDataService} from '../../services/mock-data.service';
 import {OrdersService} from './orders.service';
@@ -22,13 +22,14 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
   public openOrdersCount = 0;
   public activeCurrencyPair;
   public historyOrders;
-  public allOpenOrders ;
+  public openOrders;
 
 
   constructor(
     private mockData: MockDataService,
     private ordersService: OrdersService,
     private marketService: MarketService,
+    private ref: ChangeDetectorRef
   ) {
     super();
   }
@@ -37,16 +38,16 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
     this.itemName = 'orders';
 
     /** mock data */
-    this.allOpenOrders = this.mockData.getOpenOrders().items;
-    this.historyOrders = this.mockData.getOpenOrders().items;
+    //this.allOpenOrders = this.mockData.getOpenOrders().items;
+    //this.historyOrders = this.mockData.getOpenOrders().items;
     this.activeCurrencyPair = this.mockData.getMarketsData()[2];
     /** ---------------------------------------------- */
 
     this.marketService.activeCurrencyListener
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-      this.activeCurrencyPair = res;
-      this.toOpenOrders();
+        this.activeCurrencyPair = res;
+        this.toOpenOrders();
     });
   }
 
@@ -72,9 +73,12 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
   toOpenOrders(): void {
     const sub = this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
       .subscribe(data => {
-        this.allOpenOrders = data.items;
+        this.openOrders = data.items;
         this.openOrdersCount = data.count;
         sub.unsubscribe();
+
+        // TODO: remove after dashboard init load time issue is solved
+        this.ref.detectChanges();
       });
   }
 
@@ -84,7 +88,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
   toHistory(): void {
     const forkSubscription = forkJoin(
       this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CLOSED'),
-      this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CANCELED')
+      this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CANCELLED')
     )
       .subscribe(([res1, res2]) => {
         this.historyOrders = [...res1.items, ...res2.items];

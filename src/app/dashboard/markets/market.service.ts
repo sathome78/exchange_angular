@@ -3,8 +3,9 @@ import {Subject} from 'rxjs/Subject';
 import {StompService} from '@stomp/ng2-stompjs';
 import {CurrencyPair} from './currency-pair.model';
 import {Message} from '@stomp/stompjs';
-import {map} from 'rxjs/internal/operators';
+import {map, tap} from 'rxjs/internal/operators';
 import {Observable} from 'rxjs';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 
@@ -15,6 +16,7 @@ export class MarketService {
   currencyPairs: CurrencyPair [] = [];
   marketListener$: Subject<CurrencyPair[]>;
   activeCurrencyListener: Subject<CurrencyPair>;
+  currencyPairsInfo$ = new BehaviorSubject({});
   private baseUrl = environment.apiUrl;
 
   private stompSubscription: any;
@@ -106,7 +108,8 @@ export class MarketService {
   }
 
   currencyPairInfo(pairId): Observable<any> {
-    return this.http.get(`${this.baseUrl}/info/private/v2/dashboard/info/${pairId}`);
+    return this.http.get(`${this.baseUrl}/info/private/v2/dashboard/info/${pairId}`)
+      .pipe(tap(info => this.currencyPairsInfo$.next(info)));
   }
 
   private getActiveCurrencyPair(): CurrencyPair {

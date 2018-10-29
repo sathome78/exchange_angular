@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ChangeDetectorRef} from '@angular/core';
 import {MockDataService} from '../../../services/mock-data.service';
 import {OpenOrders} from '../open-orders.model';
 import {OrdersService} from '../orders.service';
@@ -18,8 +18,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
   // @Output() countOpenOrders: EventEmitter<number> = new EventEmitter();
   @Input() makeHeight ;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  @Input() allOrders;
-  public openOrders: any;
+  @Input() openOrders;
 
   public currentPair;
   public commissionIndex;
@@ -53,7 +52,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
     private mockData: MockDataService,
     private ordersService: OrdersService,
     private marketService: MarketService,
-    public tradingService: TradingService,
+    public tradingService: TradingService
   ) {
   }
 
@@ -70,23 +69,15 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
      this.marketService.activeCurrencyListener
        .pipe(takeUntil(this.ngUnsubscribe))
        .subscribe(pair => {
-       this.currentPair = pair;
-       this.splitPairName();
-
-       this.ordersService.getOpenOrders(this.currentPair.currencyPairId)
-         .pipe(takeUntil(this.ngUnsubscribe))
-         .subscribe(res => {
-         this.allOrders = res;
-         this.filterOpenOrders(this.currentPage);
-       });
-
+         this.currentPair = pair;
+         this.splitPairName();
      });
 
     this.tradingService.tradingChangeSellBuy$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(type => {
-      this.orderType = type as string;
-      this.getCommissionIndex();
+        this.orderType = type as string;
+        this.getCommissionIndex();
     });
     this.initForms();
   }
@@ -96,24 +87,20 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
    */
   filterOpenOrders(page: number): void {
     this.currentPage = page;
-    const filteredOrders = this.allOrders.filter(order => order.status === 'OPENED');
+    //const filteredOrders = this.allOrders.filter(order => order.status === 'OPENED');
     // this.countOpenOrders.emit(filteredOrders.length);
-    this.openOrders = filteredOrders;
+    //this.openOrders = filteredOrders;
   }
 
   /**
-   * change cout items when we make height biggestbiggest
+   * Change count items when we make height bigger
+   *
    * @param changes
    */
   ngOnChanges(changes): void {
-    /** change count orders perPage */
-    if (changes.makeHeight.currentValue === true) {
-      this.countPerPage = 7;
-      this.filterOpenOrders(this.currentPage);
-    } else {
-      this.countPerPage = 18;
-      this.filterOpenOrders(this.currentPage);
-    }
+    if (!changes.makeHeight) return;
+    // change count orders perPage
+    this.countPerPage = changes.makeHeight.currentValue === true ? 7 : 18;
   }
 
   /**
@@ -156,7 +143,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
    * @param {string} status
    */
   setStatusOrder(order, status: string) {
-    const foundOrder = this.allOrders.filter(item =>  order.id ? item.id === order.id : item.id === order.orderId);
+    const foundOrder = this.openOrders.filter(item =>  order.id ? item.id === order.id : item.id === order.orderId);
     if (foundOrder[0]) {
       foundOrder[0].status = status;
     }
@@ -209,9 +196,9 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
    * on delete order
    * @param order
    */
-  deleteOrder (order): void {
-    const foundOrder = this.setStatusOrder(order, 'DELETED');
-    this.ordersService.updateOrder(foundOrder).subscribe(res => {
+  deleteOrder(order): void {
+    //const foundOrder = this.setStatusOrder(order, 'DELETED');
+    this.ordersService.deleteOrder(order).subscribe(res => {
       console.log(res);
     });
     this.filterOpenOrders(this.currentPage);
@@ -248,7 +235,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
    * recalculate on quantity input
    * @param $event
    */
-  quantityIput($event): void {
+  quantityInput($event): void {
     this.getTotalIn();
   }
 
