@@ -585,7 +585,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   private getPercentageOfTheNumber(number: number, isBuy: boolean): string {
     const coefficient = isBuy ?  (this.maxBuy / number) : (this.maxSell / number);
-    return ((100 / coefficient) + '%');
+    return (((100 / coefficient) - 40) + '%');
   }
 
   private getMaxDataOfArray(array: [number]): number {
