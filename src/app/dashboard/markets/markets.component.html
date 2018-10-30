@@ -167,7 +167,7 @@
                       [ngClass]="{'arr--green': isChangePositive(pair), 'arr--red': !isChangePositive(pair)}"></span>
               </td>
               <td class="table__cell table__cell--tar" width="30%">
-                <span style="font-size: 10px; color:#A0A0A0">{{pair.volume | number: '1.0'}}</span>
+                <span style="font-size: 10px; color:#A0A0A0">{{ +pair.volume | number: '1.0-0'}}</span>
               </td>
             </tr>
             <tr style="height: 4px;"></tr>
