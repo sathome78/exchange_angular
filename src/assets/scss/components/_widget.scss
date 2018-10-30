@@ -917,6 +917,10 @@
       &--red{
         background: linear-gradient(to bottom, #EB5757 0%, #EB5757 51%, #EB5757 100%);
       }
+      &--main{
+        display: block;
+        background: linear-gradient(to bottom, #EB5757 0%,#EB5757 20%, rgba(0,0,0,0) 56%, rgba(0,0,0,0) 56%, #00B43D 80%, #00B43D 100%);
+      }
     }
     /*--- elements end ---*/
   }
