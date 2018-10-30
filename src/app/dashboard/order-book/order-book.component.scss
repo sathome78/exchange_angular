@@ -26,7 +26,7 @@
 
 .items.mobile {
   min-height: 400px;
-  max-height: 600px;
+  max-height: 400px;
 }
 
 .visualization {
@@ -156,4 +156,12 @@
   span:first-child {
     bottom: 5px;
   }
+}
+
+.mobile {
+  height: 100%;
+}
+
+:host {
+  width: 100%;
 }

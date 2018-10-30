@@ -34,7 +34,7 @@
 <div class="container container--dashboard" *ngIf="breackPoint === 'mobile'">
 
 
-  <div class="dashboard__widget-wrap">
+  <div class="dashboard__widget-wrap mobile">
     <!--<app-markets></app-markets>-->
     <ng-template [ngTemplateOutlet]="loadWidgetTemplate(activeMobileWidget)" [ngTemplateOutletContext]="{ $implicit: 1}">
     </ng-template>
