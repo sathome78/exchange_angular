@@ -129,6 +129,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   selectedTab(value: string): void {
     this.currencyDisplayMode = value;
     this.pairs = this.choosePair(value);
+    console.log(this.pairs);
   }
 
   /**
