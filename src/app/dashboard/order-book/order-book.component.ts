@@ -472,7 +472,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.elementHeightMobile = 400;
 
     /** create test mock data */
-
+    this.maxExrate = '0';
+    this.minExrate = '0';
     this.setMockData();
 
 
@@ -504,12 +505,16 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       });
     this.buyOrdersSubscription = this.orderBookService.sellOrdersListener
       .subscribe(items => {
-        this.addOrUpdate(this.sellOrders, items);
+        if (items.length) {
+          this.addOrUpdate(this.sellOrders, items);
+        }
         console.log(items);
       });
     this.sellOrdersSubscription = this.orderBookService.buyOrdersListener
       .subscribe(items => {
-        this.addOrUpdate(this.buyOrders, items);
+        if (items.length) {
+          this.addOrUpdate(this.buyOrders, items);
+        }
         console.log(items);
       });
   }
