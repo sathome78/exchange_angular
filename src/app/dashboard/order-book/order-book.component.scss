@@ -7,14 +7,11 @@
 
 .widget__content {
   position: relative;
+  overflow: hidden;
 }
 
 .order-book-bg.show {
   display: block;
-}
-
-.order-table {
-  height: 100%;
 }
 
 .items {
@@ -91,28 +88,29 @@
     background: rgba(0, 180, 61, 0.6) !important;
   }
 }
-
-.dark-theme .head .price {
-  color: #A0A0A0 !important;
+.item {
+  display: flex;
+  flex-wrap: nowrap;
+  position: relative;
+  z-index: 100;
 }
-
 .order-table {
   position: relative;
   z-index: 2;
   max-width: 100%;
   margin-left: 16px;
-
-  .head, .item {
+  height: 100%;
+  .head{
     display: flex;
     flex-wrap: nowrap;
     position: relative;
     z-index: 100;
-  }
-
-  .order, .price, .total {
-    padding-left: 4px;
-    padding-right: 4px;
-    line-height: 16px;
+    .order, .info, .price, .total {
+      border-bottom: none;
+      span {
+        line-height: 16px;
+      }
+    }
   }
   .order, .info, .price, .total {
     border-bottom: 1px dashed transparent;
@@ -123,6 +121,9 @@
   .order {
     width: 23%;
     max-width: 100%;
+    padding-left: 4px;
+    padding-right: 4px;
+    line-height: 16px;
   }
 
   .info {
@@ -137,11 +138,17 @@
   .price {
     width: 25%;
     max-width: 100%;
+    padding-left: 4px;
+    padding-right: 4px;
+    line-height: 16px;
   }
 
   .total {
     width: 25%;
     max-width: 100%;
+    padding-left: 4px;
+    padding-right: 4px;
+    line-height: 16px;
   }
 }
 
