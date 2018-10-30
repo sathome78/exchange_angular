@@ -216,7 +216,7 @@
         <td class="table__cell">
           <span>{{splitPairName(pair)[0]}}</span>
           <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
-          <div class="txt-small txt-light-grey">Vol {{pair.volume | number: '1.0-0'}}</div>
+          <div class="txt-small txt-light-grey">Vol {{+ pair.volume | number: '1.0-0'}}</div>
         </td>
         <td class="table__cell">
           <span class="txt-indicate">{{pair.lastOrderRate}}</span>
