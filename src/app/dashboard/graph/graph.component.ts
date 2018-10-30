@@ -1,9 +1,10 @@
 import { Component, OnInit, AfterContentInit, OnDestroy, Input } from '@angular/core';
-import {takeUntil} from 'rxjs/internal/operators';
+import { LangService } from '../../services/lang.service';
+import { takeUntil } from 'rxjs/internal/operators';
 
 import { AbstractDashboardItems } from '../abstract-dashboard-items';
-import {MarketService} from '../markets/market.service';
-import {Subject} from 'rxjs/Subject';
+import { MarketService } from '../markets/market.service';
+import { Subject } from 'rxjs/Subject';
 
 declare const TradingView: any;
 
@@ -45,6 +46,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private _autosize: ChartingLibraryWidgetOptions['autosize'] = true;
   private _containerId: ChartingLibraryWidgetOptions['container_id'] = 'tv_chart_container';
   private _tvWidget: IChartingLibraryWidget | null = null;
+
 
   @Input()
   set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
@@ -102,20 +104,14 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
 
-  constructor(private marketService: MarketService) {
+  constructor(private marketService: MarketService, private langService: LangService) {
     super();
   }
 
   ngOnInit() {
     this.itemName = 'graph';
 
-    console.log('window.location.href:', environment.apiUrl + 'info/private/v2/dashboard/history');
-    function getLanguageFromURL(): LanguageCode | null {
-      const regex = new RegExp('[\\?&]lang=([^&#]*)');
-      const results = regex.exec(location.search);
-
-      return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' ')) as LanguageCode;
-    }
+    this.lang = this.langService.getLanguage();
 
     const widgetOptions: ChartingLibraryWidgetOptions = {
       symbol: this._symbol,
@@ -124,7 +120,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       container_id: this._containerId,
       timezone: 'Etc/UTC',
       library_path: this._libraryPath,
-      locale: getLanguageFromURL() || 'en',
+      locale: (this.lang as LanguageCode) || 'en',
       disabled_features: [
         'use_localstorage_for_settings',
         'cl_feed_return_all_data',

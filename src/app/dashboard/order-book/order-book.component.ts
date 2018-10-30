@@ -9,7 +9,7 @@ import {CurrencyPair} from '../markets/currency-pair.model';
 import { setHostBindings } from '@angular/core/src/render3/instructions';
 import { forEach } from '@angular/router/src/utils/collection';
 import { ChildActivationStart } from '@angular/router';
-import {map} from "rxjs/internal/operators";
+import {map} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-order-book',
@@ -440,6 +440,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   private sellOrdersSubscription: any;
   activeCurrencyPair: CurrencyPair;
   currencySubscription: any;
+  orderTypeClass: string;
 
   refreshedIds: number[] = [];
 
@@ -453,17 +454,19 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   ngOnInit() {
     this.itemName = 'order-book';
-
+    this.orderTypeClass = 'order-table--buy';
     /** create test mock data */
-    //this.setMockData();
+    // this.setMockData();
 
     this.isBuy = true;
 
     this.tradingService.tradingChangeSellBuy$.subscribe((data) => {
       if (data === 'SELL') {
         this.isBuy = false;
+        this.orderTypeClass = 'order-teble--sell';
       } else if (data === 'BUY') {
         this.isBuy = true;
+        this.orderTypeClass = 'order-table--buy';
       }
 
       this.setData();
@@ -555,12 +558,16 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private sortBuyData(): void {
-    if (!this.buyOrders) return;
+    if (!this.buyOrders) {
+      return;
+    }
     this.buyOrders.sort((a, b) => a.exrate - b.exrate);
   }
 
   private sortSellData(): void {
-    if (!this.sellOrders) return;
+    if (!this.sellOrders) {
+      return;
+    }
     this.sellOrders.sort((a, b) => b.exrate - a.exrate);
   }
 
@@ -601,7 +608,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   private setDataForVisualization(): void {
     this.dataForVisualization = [null];
     this.data.forEach((element, index) => {
-      console.log(element)
+      console.log(element);
       this.dataForVisualization.push(element.exrate);
     });
     this.max = this.getMaxDataOfArray(this.dataForVisualization);

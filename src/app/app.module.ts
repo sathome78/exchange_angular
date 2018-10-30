@@ -47,6 +47,9 @@ import { OrdersHistoryComponent } from './orders/orders-history/orders-history.c
 import {MockDataService} from './services/mock-data.service';
 import {TradingService} from './dashboard/trading/trading.service';
 import {OrdersService} from './dashboard/orders/orders.service';
+import { ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
+import { ReferralChargesComponent } from './referral/referral-charges/referral-charges.component';
+
 
 @NgModule({
   declarations: [
@@ -75,6 +78,8 @@ import {OrdersService} from './dashboard/orders/orders.service';
     DocUploadComponent,
     OpenOrdersComponent,
     OrdersHistoryComponent,
+    ReferralStructureComponent,
+    ReferralChargesComponent,
     // TWO FACTOR POPUP END
 
 
