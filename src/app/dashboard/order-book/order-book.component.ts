@@ -430,8 +430,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   public dataBurBuy: OrderItem [];
   public isBuy: boolean;
 
-  private maxExrate: string;
-  private minExrate: string;
+  public maxExrate: string;
+  public minExrate: string;
 
   /** maximum value from the array 'dataForVisualization'*/
   private maxSell: number;
