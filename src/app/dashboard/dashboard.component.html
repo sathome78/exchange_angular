@@ -35,7 +35,10 @@
 
 
   <div class="dashboard__widget-wrap">
-    <app-markets></app-markets>
+    <!--<app-markets></app-markets>-->
+    <ng-template [ngTemplateOutlet]="loadWidgetTemplate(activeMobileWidget)" [ngTemplateOutletContext]="{ $implicit: 1}">
+    </ng-template>
+
   </div>
 
 

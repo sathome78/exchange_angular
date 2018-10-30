@@ -10,10 +10,14 @@ export class DashboardDataService {
 
   public dashboardToTools$ = new Subject();
   public toolsToDashboard$ = new Subject();
-  /** current selected currency pair */
-  public selectedCurrency$ = new Subject<string>();
 
-  public choosedPair$ = new Subject();
+  /** talking between dashboard mobile and mobile menu */
+  public activeMobileWidget = new Subject<string>();
+
+  // /** current selected currency pair */
+  // public selectedCurrency$ = new Subject<string>();
+  //
+  // public choosedPair$ = new Subject();
 
   public selectedOrderTrading$ = new Subject();
 

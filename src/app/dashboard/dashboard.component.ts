@@ -5,13 +5,18 @@ import {DashboardDataService} from './dashboard-data.service';
 import {DashboardItemChangeSize} from '../shared/models/dashboard-item-change-size-model';
 import {MarketService} from './markets/market.service';
 import {BreakpointService} from '../services/breackpoint.service';
+import {Subject} from 'rxjs';
+import {OnDestroy} from '@angular/core';
+import {takeUntil} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   /** retrieve gridster container*/
   @ViewChild('gridsterContainer') gridsterContainer;
@@ -38,6 +43,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   public gridsterOptions;
   public gridsterItemOptions;
 
+  public activeMobileWidget =  'markets';
+
   public breackPoint;
 
   constructor(
@@ -47,9 +54,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.breackPointService.breakpoint.subscribe(res => {
+    this.breackPointService.breakpoint
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
       this.breackPoint = res;
     });
+
+    this.dataService.activeMobileWidget
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => this.activeMobileWidget = res);
 
     this.widgets = this.dataService.getWidgetPositions();
     this.defauldWidgets = [...this.widgets];
@@ -65,6 +78,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.changeRatioByWidth();
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   /**
