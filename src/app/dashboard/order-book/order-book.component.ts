@@ -449,7 +449,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   private sellOrdersSubscription: any;
   activeCurrencyPair: CurrencyPair;
   currencySubscription: any;
-  private orderTypeClass: string;
+  orderTypeClass: string;
 
   refreshedIds: number[] = [];
 
@@ -469,7 +469,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.elementHeightMobile = 400;
 
     /** create test mock data */
-    this.setMockData();
+    // this.setMockData();
 
     this.isBuy = true;
 
@@ -568,10 +568,16 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private sortBuyData(): void {
+    if (!this.buyOrders) {
+      return;
+    }
     this.buyOrders.sort((a, b) => a.exrate - b.exrate);
   }
 
   private sortSellData(): void {
+    if (!this.sellOrders) {
+      return;
+    }
     this.sellOrders.sort((a, b) => b.exrate - a.exrate);
 
   }
@@ -625,6 +631,12 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.dataForSell.forEach((element, index) => {
       this.dataForVisualizationSellOrders.push(element.exrate);
     });
+
+    // this.dataForVisualization = [null];
+    // this.data.forEach((element, index) => {
+    //   console.log(element);
+    //   this.dataForVisualization.push(element.exrate);
+    // });
     this.maxSell = this.getMaxDataOfArray(this.dataForVisualizationSellOrders);
   }
 
