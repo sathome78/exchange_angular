@@ -119,7 +119,6 @@
 
           <div class="wrap-input widget__input widget__input--mr32">
             <input class="wrap-input__input" type="text"
-                   [(ngModel)]="order.amount"
                    formControlName="quantityOf"
                    (input)="quantityIput($event)"
                    name="quantityOf">
@@ -129,7 +128,6 @@
 
           <div class="wrap-input widget__input">
             <input class="wrap-input__input" type="text"
-                   [(ngModel)]="order.rate"
                    (input)="rateInput($event)"
                    formControlName="priceIn"
                    name="priceIn">
@@ -142,8 +140,8 @@
         <div class="row row--jcsb widget__trading-row">
           <div class="wrap-input widget__input">
             <input class="wrap-input__input" type="text"
-                   [(ngModel)]="order.total"
                    formControlName="totalIn"
+                   (input)="totalInput($event)"
                    name="totalIn">
             <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
             <div class="wrap-input__line"></div>
@@ -155,7 +153,6 @@
         <div class="row row--jcsb widget__trading-row">
           <div class="wrap-input widget__input widget__input--mr32">
             <input class="wrap-input__input" type="text"
-                   [(ngModel)]="orderStop"
                    formControlName="stop"
                    name="stop">
             <label class="wrap-input__label" for="">Stop</label>
@@ -163,7 +160,6 @@
           </div>
           <div class="wrap-input widget__input">
             <input class="wrap-input__input" type="text"
-                   [(ngModel)]="order.rate"
                    (input)="rateInput($event)"
                    formControlName="limit"
                    name="limit">
@@ -174,7 +170,6 @@
         <div class="row row--jcsb widget__trading-row">
           <div class="wrap-input widget__input widget__input--mr32">
             <input class="wrap-input__input" type="text"
-                   [(ngModel)]="order.amount"
                    formControlName="quantityOf"
                    (input)="quantityIput($event)"
                    name="quantityOf">
@@ -183,8 +178,8 @@
           </div>
           <div class="wrap-input widget__input">
             <input class="wrap-input__input" type="text"
-                   [(ngModel)]="order.total"
                    formControlName="totalIn"
+                   (input)="totalInput($event)"
                    name="totalIn">
             <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
             <div class="wrap-input__line"></div>

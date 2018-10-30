@@ -9,7 +9,7 @@ import {CurrencyPair} from '../markets/currency-pair.model';
 import { setHostBindings } from '@angular/core/src/render3/instructions';
 import { forEach } from '@angular/router/src/utils/collection';
 import { ChildActivationStart } from '@angular/router';
-import {map} from "rxjs/internal/operators";
+import {map} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-order-book',
@@ -456,7 +456,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.itemName = 'order-book';
     this.orderTypeClass = 'order-table--buy';
     /** create test mock data */
-    //this.setMockData();
+    // this.setMockData();
 
     this.isBuy = true;
 

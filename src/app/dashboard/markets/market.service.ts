@@ -16,7 +16,7 @@ export class MarketService {
   currencyPairs: CurrencyPair [] = [];
   marketListener$: Subject<CurrencyPair[]>;
   activeCurrencyListener: Subject<CurrencyPair>;
-  currencyPairsInfo$ = new BehaviorSubject({});
+  currencyPairsInfo$ = new BehaviorSubject({balanceByCurrency1: 30000, rate: 1.227});
   private baseUrl = environment.apiUrl;
 
   private stompSubscription: any;

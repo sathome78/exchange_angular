@@ -36,16 +36,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
   public countPerPage = 7;
 
 
-  public defaultOrder: Order = {
-    orderType: '',
-    orderId: 0,
-    currencyPairId: null,
-    amount: null,
-    rate: null,
-    commission: 0,
-    baseType: this.dropdownLimitValue,
-    total: null,
-  };
+  public defaultOrder: OpenOrders = new OpenOrders('', '', 0 , 0 , 0 , 0 , 0 , 0 , '');
   public order;
 
   constructor(
@@ -130,8 +121,19 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
    * @param order
    */
   cancelOrder(order): void {
-   const editedOrder = this.setStatusOrder(order, 'CANCELED');
-   this.ordersService.updateOrder(editedOrder).subscribe(res => {
+    const orderToCancel = {
+      orderType: order.operationType,
+      baseType: order.amountBase,
+      orderId: order.id,
+      currencyPairId: order.currencyPairId,
+      amount: order.amountConvert,
+      rate: order.exExchangeRate,
+      commission: order.commissionFixedAmount,
+      total: order.amountWithCommission,
+      status: 'CANCELLED',
+    };
+
+   this.ordersService.updateOrder(orderToCancel).subscribe(res => {
 
    });
     this.filterOpenOrders(this.currentPage);
@@ -142,13 +144,13 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
    * @param order
    * @param {string} status
    */
-  setStatusOrder(order, status: string) {
-    const foundOrder = this.openOrders.filter(item =>  order.id ? item.id === order.id : item.id === order.orderId);
-    if (foundOrder[0]) {
-      foundOrder[0].status = status;
-    }
-    return foundOrder[0];
-  }
+  // setStatusOrder(order, status: string) {
+  //   const foundOrder = this.openOrders.filter(item =>  order.id ? item.id === order.id : item.id === order.orderId);
+  //   if (foundOrder[0]) {
+  //     foundOrder[0].status = status;
+  //   }
+  //   return foundOrder[0];
+  // }
 
   /**
    * set order status 'Canceled' and create new
@@ -158,9 +160,10 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
       this.order.stop = this.orderStop;
     }
 
-    const foundOrder = this.setStatusOrder(this.order, 'CANCELED');
+    const tempOrder = {...this.order};
+    tempOrder.status = 'CANCELED';
 
-    this.ordersService.updateOrder(foundOrder).subscribe(res => {
+    this.ordersService.updateOrder(tempOrder).subscribe(res => {
       this.createNewOrder();
     });
 

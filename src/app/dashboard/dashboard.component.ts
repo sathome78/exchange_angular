@@ -37,6 +37,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   public gridsterOptions;
   public gridsterItemOptions;
 
+  public isMob = false;
+
   constructor(
     private dataService: DashboardDataService,
     private marketsService: MarketService,
