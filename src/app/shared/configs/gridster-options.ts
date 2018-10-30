@@ -41,7 +41,7 @@ export const gridsterOptions = {
       breakpoint: 'md',
       minWidth: 768,
       minHeight: 500,
-      widthHeightRatio: 0.5
+      widthHeightRatio: 0.5,
     },
     {
       breakpoint: 'lg',

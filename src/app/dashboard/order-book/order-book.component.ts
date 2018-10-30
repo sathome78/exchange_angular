@@ -472,7 +472,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.elementHeightMobile = 400;
 
     /** create test mock data */
+
     this.setMockData();
+
 
     this.isBuy = true;
 
