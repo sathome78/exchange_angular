@@ -145,6 +145,7 @@
                 [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}"
                 (click)="onSelectCurrencyPair(pair)">
               <td class="table__cell table__cell--tac" width="7%">
+
                 <span class="table__row-star" [ngClass]="{'table__row-star--select': pair}">
                   <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path

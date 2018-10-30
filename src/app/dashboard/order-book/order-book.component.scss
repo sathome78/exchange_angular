@@ -15,12 +15,18 @@
   height: 100%;
 }
 .items {
-  min-height: 381px;
-  max-height: 422px;
+  min-height: 200px;
+  max-height: 200px;
   overflow: auto;
   position: relative;
   z-index: 100;
   height: calc(100% - 24px);
+  overflow: hidden;
+}
+
+.items.mobile {
+  min-height: 400px;
+  max-height: 600px;
 }
 
 .visualization {
@@ -127,5 +133,27 @@
   span {
     margin: 2px 5px;
     cursor: pointer;
+  }
+}
+
+
+.separator {
+  height: 22px;
+  position: relative;
+  .hr {
+    max-width: 75%;
+    width: 75%;
+    margin-left: 25%;
+    position: relative;
+    top: -3px;
+    border-bottom: 1px solid #779BD1;
+  }
+  span {
+    margin-left: 28%;
+    position: relative;
+    z-index: 1001;
+  }
+  span:first-child {
+    bottom: 5px;
   }
 }

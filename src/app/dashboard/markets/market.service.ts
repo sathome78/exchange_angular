@@ -40,6 +40,11 @@ export class MarketService {
 
   private processCurrencyPairs(array: CurrencyPair[]) {
     for (let i = 0; i < array.length; i++) {
+      array = array.filter(function (pair) {
+        return pair.predLastOrderRate > 0
+          && pair.lastOrderRate > 0
+        && pair.volume > 0;
+      });
       this.addOrUpdate(array[i]);
     }
     this.marketListener$.next(this.currencyPairs);
