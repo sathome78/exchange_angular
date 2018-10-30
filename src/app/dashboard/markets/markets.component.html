@@ -203,7 +203,7 @@
       </thead>
       <tbody>
 
-      <ng-container *ngFor="let pair of pairs | sort:'currencyPairName'">
+      <ng-container *ngFor="let pair of pairs | currencySort:'volume'">
       <tr class="table__row widget__table-row" (click)="onSelectCurrencyPair(pair)">
         <td class="table__cell table__cell--tac">
     <span class="table__row-star">
