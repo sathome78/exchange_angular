@@ -1,8 +1,10 @@
 @import './../../../assets/scss/_variables';
 @import './../../../assets/scss/_layout.scss';
-.widget__header{
+
+.widget__header {
   background-color: transparent;
 }
+
 .widget__content {
   position: relative;
 }
@@ -11,17 +13,51 @@
   display: block;
 }
 
-.order-table{
+.order-table {
   height: 100%;
 }
+
 .items {
   min-height: 200px;
   max-height: 200px;
   overflow: auto;
   position: relative;
   z-index: 100;
-  height: calc(100% - 24px);
   overflow: hidden;
+  &--sell {
+    .item:hover {
+      background-color: rgba(160, 160, 160, 0.2);
+      cursor: pointer;
+
+      .info, .price, .total {
+        border-bottom: 1px dashed #EB5757;
+      }
+
+      .info {
+        span {
+          display: inline-block;
+          color: #EB5757;
+        }
+      }
+    }
+  }
+  &--buy {
+    .item:hover {
+      background-color: rgba(160, 160, 160, 0.2);
+      cursor: pointer;
+
+      .info, .price, .total {
+        border-bottom: 1px dashed #00B43D;
+      }
+
+      .info {
+        span {
+          display: inline-block;
+          color: #00B43D;
+        }
+      }
+    }
+  }
 }
 
 .items.mobile {
@@ -39,20 +75,20 @@
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
-  
+
   .visual-item {
     max-width: 100%;
     margin-left: auto;
-    // background: linear-gradient(270deg, rgba(0,180,61,0.15) 0%, rgba(0,180,61,0.15) 51%, rgba(0,180,61,1) 100%);
+    height: 20px;
     opacity: 0.5;
   }
 
   .red {
-    background-color: rgba(235,87,87, 0.6);
+    background-color: rgba(235, 87, 87, 0.6);
   }
 
   .green {
-    background: rgba(0,180,61,0.6) !important;
+    background: rgba(0, 180, 61, 0.6) !important;
   }
 }
 
@@ -66,38 +102,24 @@
   max-width: 100%;
   margin-left: 16px;
 
-
   .head, .item {
     display: flex;
     flex-wrap: nowrap;
     position: relative;
     z-index: 100;
-    //font-size: 11px;
-  }
-
-  .item:hover {
-    background-color: rgba(160, 160, 160, 0.2);
-    cursor: pointer;
-    
-    .info, .price, .total {
-      border-bottom: 1px dashed #00B43D;
-    }
-
-    .info {
-      span {
-        display: inline-block;
-        color: #00B43D;
-      }
-    }
   }
 
   .order, .price, .total {
-    //padding-left: 4px;
     padding-left: 4px;
     padding-right: 4px;
     line-height: 16px;
   }
-
+  .order, .info, .price, .total {
+    border-bottom: 1px dashed transparent;
+    span {
+      line-height: 19px;
+    }
+  }
   .order {
     width: 23%;
     max-width: 100%;
@@ -135,7 +157,6 @@
     cursor: pointer;
   }
 }
-
 
 .separator {
   height: 22px;
