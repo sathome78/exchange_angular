@@ -29,7 +29,9 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
     this.chatService.setStompSubscription('en');
     this.chatService.findAllChatMessages().subscribe(messages => {
       console.log(messages);
-      this.simpleChatItems = messages;
+      if (messages.length) {
+        this.simpleChatItems = messages;
+      }
     });
     this.newMessagesSubscription = this.chatService.simpleChatListener.subscribe(newMessages => {
       this.simpleChatItems.push(...newMessages);
