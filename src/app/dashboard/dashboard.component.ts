@@ -4,6 +4,7 @@ import {gridsterItemOptions, gridsterOptions} from '../shared/configs/gridster-o
 import {DashboardDataService} from './dashboard-data.service';
 import {DashboardItemChangeSize} from '../shared/models/dashboard-item-change-size-model';
 import {MarketService} from './markets/market.service';
+import {BreakpointService} from '../services/breackpoint.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,14 +38,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   public gridsterOptions;
   public gridsterItemOptions;
 
-  public isMob = false;
+  public breackPoint;
 
   constructor(
+    public breackPointService: BreakpointService,
     private dataService: DashboardDataService,
     private marketsService: MarketService,
   ) { }
 
   ngOnInit() {
+    this.breackPointService.breakpoint.subscribe(res => {
+      this.breackPoint = res;
+    });
+
     this.widgets = this.dataService.getWidgetPositions();
     this.defauldWidgets = [...this.widgets];
     this.gridsterOptions = gridsterOptions;
@@ -125,18 +131,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
    * check window width for ratio (static height for dashboard items)
    */
   changeRatioByWidth(): void {
-    const winWidth = window.innerWidth;
-    const countWidthSteps = (this.maxWidth - this.minWidth) / this.widthStep;
-    const ratioStep = (this.maxRatio - this.minRatio) / countWidthSteps;
-    if (winWidth <= this.minWidth) {
-      this.changeRatio(this.minRatio);
-    } else if (winWidth > this.maxWidth) {
-      this.changeRatio(this.maxRatio);
-    } else {
-      const ratio = (((winWidth - this.minWidth) / this.widthStep) * ratioStep) + this.minRatio;
-      this.changeRatio(ratio);
+    if (this.breackPoint === 'desktop') {
+      const winWidth = window.innerWidth;
+      const countWidthSteps = (this.maxWidth - this.minWidth) / this.widthStep;
+      const ratioStep = (this.maxRatio - this.minRatio) / countWidthSteps;
+      if (winWidth <= this.minWidth) {
+        this.changeRatio(this.minRatio);
+      } else if (winWidth > this.maxWidth) {
+        this.changeRatio(this.maxRatio);
+      } else {
+        const ratio = (((winWidth - this.minWidth) / this.widthStep) * ratioStep) + this.minRatio;
+        this.changeRatio(ratio);
+      }
     }
-
   }
 
   /**
