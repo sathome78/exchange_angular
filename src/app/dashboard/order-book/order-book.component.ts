@@ -430,6 +430,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   public dataBurBuy: OrderItem [];
   public isBuy: boolean;
 
+  private maxExrate: string;
+  private minExrate: string;
+
   /** maximum value from the array 'dataForVisualization'*/
   private maxSell: number;
   private maxBuy: number;
@@ -469,7 +472,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.elementHeightMobile = 400;
 
     /** create test mock data */
-    // this.setMockData();
+    this.setMockData();
 
     this.isBuy = true;
 
@@ -517,6 +520,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.orderBookService.getMinAndMaxDayOrders(this.activeCurrencyPair.currencyPairId)
       .subscribe(res => {
           console.log(res);
+          this.maxExrate =  res['MAX'];
+          this.minExrate = res['MIN'];
         },
         error1 => {
           console.log(error1);
@@ -606,7 +611,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   private getPercentageOfTheNumber(number: number, isBuy: boolean): string {
     const coefficient = isBuy ?  (this.maxBuy / number) : (this.maxSell / number);
-    return (((100 / coefficient) - 40) + '%');
+    return ((60 / coefficient) + '%');
   }
 
   private getMaxDataOfArray(array: [number]): number {

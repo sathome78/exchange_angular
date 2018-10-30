@@ -123,9 +123,9 @@
         </div>
       </div>
       <div class="separator">
-        <span>6000</span>
+        <span *ngIf="maxExrate">{{maxExrate.exrate | number:'1.1-8'}}</span>
         <div class="hr"></div>
-        <span>5000</span>
+        <span *ngIf="minExrate">{{minExrate.exrate | number:'1.1-8'}}</span>
       </div>
       <div class="items">
 
