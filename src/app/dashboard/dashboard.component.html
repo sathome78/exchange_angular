@@ -1,4 +1,4 @@
-<div class="container container--dashboard">
+<div class="container container--dashboard" *ngIf="breackPoint === 'desktop'">
 <div class="dashboard" (window:resize)="changeRatioByWidth()">
 
     <app-currency-pair-info></app-currency-pair-info>
@@ -22,51 +22,6 @@
 
       </ngx-gridster>
 
-      <ng-template #graph let-index>
-        <app-graph (changeItemSize)="changeItemSize($event)"
-                   (removeItem)="removeItem(index)">
-        </app-graph>
-      </ng-template>
-
-      <ng-template #markets let-index>
-        <app-markets (changeItemSize)="changeItemSize($event)"
-                     (removeItem)="removeItem(index)">
-        </app-markets>
-      </ng-template>
-
-      <ng-template #trading let-index>
-        <app-trading (changeItemSize)="changeItemSize($event)"
-                     (removeItem)="removeItem(index)">
-        </app-trading>
-      </ng-template>
-
-      <ng-template #orderBook let-index>
-        <app-order-book (changeItemSize)="changeItemSize($event)"
-                        (removeItem)="removeItem(index)" class="dashboard-item">
-        </app-order-book>
-      </ng-template>
-
-      <ng-template #tradeHistory let-index>
-        <app-trade-history (changeItemSize)="changeItemSize($event)"
-                           (removeItem)="removeItem(index)">
-        </app-trade-history>
-      </ng-template>
-
-      <ng-template #chat let-index>
-        <app-chat (changeItemSize)="changeItemSize($event)"
-                  (removeItem)="removeItem(index)">
-        </app-chat>
-      </ng-template>
-
-      <ng-template #orders let-index>
-        <app-orders (changeItemSize)="changeItemSize($event)"
-                    (removeItem)="removeItem(index)">
-        </app-orders>
-      </ng-template>
-
-      <!--<div class="dashboard__item dashboard__item&#45;&#45;width2">-->
-      <!--<app-active-pair></app-active-pair>-->
-      <!--</div>-->
 
     </div>
     <app-market-search></app-market-search>
@@ -76,3 +31,55 @@
 </div>
 
 
+<div class="container container--dashboard" *ngIf="breackPoint === 'mobile'">
+
+
+  <div class="dashboard__widget-wrap">
+    <app-markets></app-markets>
+  </div>
+
+
+</div>
+
+
+<ng-template #graph let-index>
+  <app-graph (changeItemSize)="changeItemSize($event)"
+             (removeItem)="removeItem(index)">
+  </app-graph>
+</ng-template>
+
+<ng-template #markets let-index>
+  <app-markets (changeItemSize)="changeItemSize($event)"
+               (removeItem)="removeItem(index)">
+  </app-markets>
+</ng-template>
+
+<ng-template #trading let-index>
+  <app-trading (changeItemSize)="changeItemSize($event)"
+               (removeItem)="removeItem(index)">
+  </app-trading>
+</ng-template>
+
+<ng-template #orderBook let-index>
+  <app-order-book (changeItemSize)="changeItemSize($event)"
+                  (removeItem)="removeItem(index)" class="dashboard-item">
+  </app-order-book>
+</ng-template>
+
+<ng-template #tradeHistory let-index>
+  <app-trade-history (changeItemSize)="changeItemSize($event)"
+                     (removeItem)="removeItem(index)">
+  </app-trade-history>
+</ng-template>
+
+<ng-template #chat let-index>
+  <app-chat (changeItemSize)="changeItemSize($event)"
+            (removeItem)="removeItem(index)">
+  </app-chat>
+</ng-template>
+
+<ng-template #orders let-index>
+  <app-orders (changeItemSize)="changeItemSize($event)"
+              (removeItem)="removeItem(index)">
+  </app-orders>
+</ng-template>
