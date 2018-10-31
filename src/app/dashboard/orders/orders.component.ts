@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnDestroy, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit} from '@angular/core';
 import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {MockDataService} from '../../services/mock-data.service';
 import {OrdersService} from './orders.service';
@@ -28,8 +28,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
   constructor(
     private mockData: MockDataService,
     private ordersService: OrdersService,
-    private marketService: MarketService,
-    private ref: ChangeDetectorRef
+    private marketService: MarketService
   ) {
     super();
   }
@@ -76,9 +75,6 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
         this.openOrders = data.items;
         this.openOrdersCount = data.count;
         sub.unsubscribe();
-
-        // TODO: remove after dashboard init load time issue is solved
-        this.ref.detectChanges();
       });
   }
 

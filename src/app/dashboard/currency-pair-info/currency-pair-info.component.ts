@@ -30,8 +30,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
 
   constructor(
     private dashboardService: DashboardDataService,
-    private marketService: MarketService,
-    private ref: ChangeDetectorRef
+    private marketService: MarketService
   ) { }
 
   ngOnInit() {
@@ -66,8 +65,6 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
             this.currentCurrencyInfo = res;
             this.pair = pair;
             this.splitPairName(this.pair);
-            // TODO: remove after dashboard init load time issue is solved
-            this.ref.detectChanges();
             infoSub.unsubscribe();
         });
     });
