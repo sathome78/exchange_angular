@@ -9,6 +9,7 @@ import {MockDataService} from '../../services/mock-data.service';
 import {DashboardDataService} from '../dashboard-data.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
+import {BreakpointService} from '../../services/breakpoint.service';
 
 @Component({
   selector: 'app-trading',
@@ -45,6 +46,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public message = '';
 
   constructor(
+    public breakPointService: BreakpointService,
     public tradingService: TradingService,
     public marketService: MarketService,
     private ref: ChangeDetectorRef,
@@ -61,6 +63,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     rate: null,
     commission: 0,
     baseType: this.dropdownLimitValue,
+    status: '',
     total: null,
   };
   public order;
@@ -214,15 +217,17 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * calculate commission
    */
   private getCommission(): void {
-    this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
-    if (this.mainTab === 'BUY') {
-      const total = this.order.total + this.order.commission;
-      this.order.total = total;
-      this.setTotalInValue(total);
-    } else {
-      const total = this.order.total - this.order.commission;
-      this.order.total = total;
-      this.setTotalInValue(total);
+    if (this.order.rate) {
+      this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
+      if (this.mainTab === 'BUY') {
+        const total = this.order.total + this.order.commission;
+        this.order.total = total;
+        this.setTotalInValue(total);
+      } else {
+        const total = this.order.total - this.order.commission;
+        this.order.total = total;
+        this.setTotalInValue(total);
+      }
     }
   }
 
@@ -231,7 +236,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * calculate total field
    */
   private getTotalIn(): void {
-    if (this.order.rate >= 0) {
+    if (this.order.rate >= 0 ) {
       this.order.total = this.order.amount * this.order.rate;
       this.setTotalInValue(this.order.total);
     }
@@ -288,6 +293,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.setPriceInValue(this.order.rate);
     this.mainTab = order.orderType;
     this.getCommission();
+    // this.order.commission = this.order.total / (this.order.amount * this.order.price);
+    // this.getCommission();
+
   }
 
   /**

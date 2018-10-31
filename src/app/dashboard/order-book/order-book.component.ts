@@ -625,7 +625,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     return Math.max.apply(null, array);
   }
 
-  private onSelectOrder(orderIndex, item: OrderItem): void {
+  private onSelectOrder(orderIndex, item: OrderItem, widgetName: string): void {
     // const index = (parseInt(orderIndex + 1, 10) - 1);
     // if (this.isBuy) {
     //   this.sortBuyData();
@@ -639,6 +639,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
     /** sends the data in to trading */
     this.dashboardDataService.selectedOrderTrading$.next(item);
+    this.dashboardDataService.activeMobileWidget.next(widgetName);
   }
 
   private setDataForVisualization(): void {
