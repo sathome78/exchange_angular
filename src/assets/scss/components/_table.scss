@@ -86,6 +86,9 @@
         cursor: pointer;
       }
     }
+    &--more-info{
+      background-color: unset;
+    }
   }
 
   &__row-star {
@@ -191,6 +194,7 @@
 @media (min-width: 1200px) {
   .table {
     display: table;
+    margin-bottom: 0;
 
     &--mob {
       display: none;
@@ -244,6 +248,9 @@
       &:hover{
         background-color: rgba(255, 255, 255, 0.1);
       }
+      &--more-info{
+        background-color: unset !important;
+      }
     }
   }
 }
@@ -254,3 +261,4 @@
 }
 
 /*--- DARK THEME END---*/
+
