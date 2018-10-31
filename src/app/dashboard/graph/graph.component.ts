@@ -108,9 +108,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     super();
   }
 
-  ngOnInit() {}
-
-  ngOnInit1() {
+  ngOnInit() {
     this.itemName = 'graph';
 
     this.lang = this.langService.getLanguage();
