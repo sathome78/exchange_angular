@@ -57,7 +57,7 @@
         <!--<div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)"-->
             <!--[style.height]="(elementHeight/dataForSell.length) + 'px'"></div>-->
         <!--</div>-->
-        <div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item)">
+        <div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
               {{item.amountBase | number:'1.1-8'}}
@@ -122,14 +122,10 @@
           <!--<div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)"-->
                <!--[style.height]="(200/dataBurBuy.length) + 'px'"></div>-->
         </div>
-<<<<<<< HEAD
-        <div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item)">
-          <div class="order">
-=======
 
         <div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order" [style.lineHeight]="(elementHeight/dataBurBuy.length) + 'px'" [style.height]="(elementHeight/dataBurBuy.length) + 'px'">
->>>>>>> f6b957c575c6e5bffa62ff179fe649a49bbee641
+
             <span>
               {{item.amountBase | number:'1.1-8'}}
             </span>
@@ -216,7 +212,7 @@
             <!--[style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
           <!--</div>-->
         </div>
-        <div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item)">
+        <div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
               {{item.amountBase | number:'1.1-8'}}
@@ -283,7 +279,7 @@
             <!--[style.height]="(elementHeightMobile/dataBurBuy.length) + 'px'">-->
           <!--</div>-->
         </div>
-        <div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item)">
+        <div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
               {{item.amountBase | number:'1.1-8'}}
