@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ChangeDetectorRef} from '@angular/core';
 
 import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -9,6 +9,7 @@ import {MockDataService} from '../../services/mock-data.service';
 import {DashboardDataService} from '../dashboard-data.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
+import {BreakpointService} from '../../services/breakpoint.service';
 
 @Component({
   selector: 'app-trading',
@@ -20,7 +21,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   /** dashboard item name (field for base class)*/
   public itemName: string;
   /** active sell/buy tab */
-  public mainTab = 'BUY';
+  public mainTab;
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dropdown limit data */
@@ -45,8 +46,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public message = '';
 
   constructor(
+    public breakPointService: BreakpointService,
     public tradingService: TradingService,
     public marketService: MarketService,
+    private ref: ChangeDetectorRef,
     private dashboardDataService: DashboardDataService,
   ) {
     super();
@@ -60,12 +63,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     rate: null,
     commission: 0,
     baseType: this.dropdownLimitValue,
+    status: '',
     total: null,
   };
   public order;
 
   ngOnInit() {
     this.itemName = 'trading';
+    this.mainTab = 'BUY';
     this.order = {...this.defaultOrder};
     this.initForms();
 
@@ -75,6 +80,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.currentPair = pair;
         this.splitPairName();
         this.getCommissionIndex();
+        // TODO: remove after dashboard init load time issue is solved
+        this.ref.detectChanges();
+
       });
 
       this.marketService.currencyPairsInfo$.subscribe(res => {
@@ -132,13 +140,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   showLimit(value: string) {
     switch (value) {
       case 'LIMIT': {
-        return 'Limit';
+        return 'Limit order';
       }
       case 'STOP_LIMIT': {
         return 'Stop limit';
       }
       case 'ICO': {
-        return 'ICO';
+        return 'ICO order';
       }
     }
   }
@@ -209,15 +217,17 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * calculate commission
    */
   private getCommission(): void {
-    this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
-    if (this.mainTab === 'BUY') {
-      const total = this.order.total + this.order.commission;
-      this.order.total = total;
-      this.setTotalInValue(total);
-    } else {
-      const total = this.order.total - this.order.commission;
-      this.order.total = total;
-      this.setTotalInValue(total);
+    if (this.order.rate) {
+      this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
+      if (this.mainTab === 'BUY') {
+        const total = this.order.total + this.order.commission;
+        this.order.total = total;
+        this.setTotalInValue(total);
+      } else {
+        const total = this.order.total - this.order.commission;
+        this.order.total = total;
+        this.setTotalInValue(total);
+      }
     }
   }
 
@@ -226,7 +236,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * calculate total field
    */
   private getTotalIn(): void {
-    if (this.order.rate >= 0) {
+    if (this.order.rate >= 0 ) {
       this.order.total = this.order.amount * this.order.rate;
       this.setTotalInValue(this.order.total);
     }
@@ -283,6 +293,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.setPriceInValue(this.order.rate);
     this.mainTab = order.orderType;
     this.getCommission();
+    // this.order.commission = this.order.total / (this.order.amount * this.order.price);
+    // this.getCommission();
+
   }
 
   /**

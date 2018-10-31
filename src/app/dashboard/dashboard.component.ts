@@ -4,14 +4,19 @@ import {gridsterItemOptions, gridsterOptions} from '../shared/configs/gridster-o
 import {DashboardDataService} from './dashboard-data.service';
 import {DashboardItemChangeSize} from '../shared/models/dashboard-item-change-size-model';
 import {MarketService} from './markets/market.service';
-import {BreakpointService} from '../services/breackpoint.service';
+import {BreakpointService} from '../services/breakpoint.service';
+import {Subject} from 'rxjs';
+import {OnDestroy} from '@angular/core';
+import {takeUntil} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   /** retrieve gridster container*/
   @ViewChild('gridsterContainer') gridsterContainer;
@@ -38,18 +43,25 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   public gridsterOptions;
   public gridsterItemOptions;
 
-  public breackPoint;
+  public activeMobileWidget =  'markets';
+
+  public breakPoint;
 
   constructor(
-    public breackPointService: BreakpointService,
+    public breakPointService: BreakpointService,
     private dataService: DashboardDataService,
     private marketsService: MarketService,
   ) { }
 
   ngOnInit() {
-    this.breackPointService.breakpoint.subscribe(res => {
-      this.breackPoint = res;
-    });
+
+    this.breakPointService.breakpoint$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => this.breakPoint = res)
+
+    this.dataService.activeMobileWidget
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => this.activeMobileWidget = res);
 
     this.widgets = this.dataService.getWidgetPositions();
     this.defauldWidgets = [...this.widgets];
@@ -65,6 +77,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.changeRatioByWidth();
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   /**
@@ -131,7 +148,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
    * check window width for ratio (static height for dashboard items)
    */
   changeRatioByWidth(): void {
-    if (this.breackPoint === 'desktop') {
+    if (this.breakPoint === 'desktop') {
       const winWidth = window.innerWidth;
       const countWidthSteps = (this.maxWidth - this.minWidth) / this.widthStep;
       const ratioStep = (this.maxRatio - this.minRatio) / countWidthSteps;

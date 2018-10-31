@@ -11,23 +11,14 @@ import {TOKEN} from '../../services/http.utils';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/internal/operators';
 import {SimpleChat } from './simple-chat.model';
+import {DateChatItem} from './date-chat-item.model';
 
 @Injectable()
 export class ChatService {
 
-  /**
-   * for private chats
-   * @type {any[]}
-   */
-  // chatItems: ChatItem [] = [];
-  /**
-   * for public chat - simple model
-   * @type {any[]}
-   */
-  simpleChatItems: SimpleChat [] = [];
-  // chatListener: Subject<ChatItem> = new Subject<ChatItem>();
+  chatListener: Subject<ChatItem> = new Subject<ChatItem>();
 
-  simpleChatListener: Subject<SimpleChat[]> = new Subject<SimpleChat[]>();
+  simpleChatListener: Subject<SimpleChat> = new Subject<SimpleChat>();
 
   private stompSubscription: any;
 
@@ -54,10 +45,8 @@ export class ChatService {
         return message.body;
       }))
       .subscribe((message: string) => {
-        // if (this.isValidChatItem(message)) {
           // this.chatItems.push(ChatItem.fromString(message));
-          this.simpleChatListener.next(JSON.parse(message));
-        // }
+          this.simpleChatListener.next(SimpleChat.fromChatItem(ChatItem.fromString(message)));
       });
   }
 
@@ -83,13 +72,13 @@ export class ChatService {
    * @returns void
    *
    */
-  findAllChatMessages(): Observable<SimpleChat[]> {
+  findAllChatMessages(): Observable<IDateChat[]> {
     const url = this.HOST + '/info/public/v2/chat/history';
     const lang = this.langService.getLanguage().toLowerCase();
     const params = {
       params: new HttpParams().append('lang', lang),
     };
-    return this.httpClient.get<SimpleChat[]>(url, params);
+    return this.httpClient.get<IDateChat[]>(url, params);
       // .subscribe(
       // (messages: SimpleChat[]) => {
       //   this.simpleChatItems = messages;
@@ -116,13 +105,14 @@ export class ChatService {
     return this.httpClient.post<ChatItem>(url, body);
   }
 
-  chatItemComp(left: ChatItem, right: ChatItem) {
-    return left.id > right.id ? 1 : -1;
+  isValidChatItem(message: string): boolean {
+    return JSON.parse(message).nickname;
   }
 
 }
 
-export function chatItemComp(left: ChatItem, right: ChatItem) {
-  return left.id > right.id ? 1 : -1;
+export interface IDateChat {
+   date: Date;
+   messages: SimpleChat[];
 }
 

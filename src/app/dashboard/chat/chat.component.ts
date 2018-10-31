@@ -1,59 +1,63 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
 import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {ChatService} from './chat.service';
 import {SimpleChat} from './simple-chat.model';
 import {Subscription} from 'rxjs';
+import {DateChatItem} from './date-chat-item.model';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
+export class ChatComponent extends AbstractDashboardItems implements OnInit {
   /** dashboard item name (field for base class)*/
   public itemName: string;
 
-
   // todo please implement sorting as backend returns sorted by date ascending with limit of 50 messages
-  public simpleChatItems: SimpleChat [] = [];
+  dateChatItems: DateChatItem [];
 
-  private newMessagesSubscription: Subscription;
-
-  constructor(private chatService: ChatService) {
+  constructor(private chatService: ChatService,
+              private authService: AuthService) {
     super();
   }
 
   ngOnInit() {
-
-  }
-  ngOnInit1() {
     this.itemName = 'chat';
-    this.chatService.setStompSubscription('en');
     this.chatService.findAllChatMessages().subscribe(messages => {
       // console.log(messages);
       if (messages.length) {
-        this.simpleChatItems = messages;
+        this.dateChatItems = messages;
+        this.addTodayIfNecessary();
       }
     });
-    this.newMessagesSubscription = this.chatService.simpleChatListener.subscribe(newMessages => {
-      this.simpleChatItems.push(...newMessages);
-    });
+    // console.log(this.dateChatItems);
   }
 
-  ngOnDestroy() {
-    this.chatService.unsubscribeStomp();
-    this.newMessagesSubscription.unsubscribe();
+  /**
+   * to work properly we must be sure we have today wrapper to accept socket messages
+   */
+  addTodayIfNecessary() {
+    const index = this.dateChatItems.length - 1;
+    if (this.dateChatItems[index].date !== new Date()) {
+      this.dateChatItems.push(new DateChatItem(new Date()));
+    }
   }
 
-  onSendChatMessage(message: string) {
-    this.chatService.sendNewMessage(message)
-      .subscribe(res => {
-          console.log(res);
-        },
-        error1 => {
-          console.log(error1);
-        });
+  onSendChatMessage(message: HTMLInputElement) {
+    const body = message.value;
+    const email = this.authService.getUsername();
+    if (body) {
+      this.chatService.sendNewMessage(body, email)
+        .subscribe(res => {
+            console.log(res);
+            message.value = '';
+          },
+          error1 => {
+            console.log(error1);
+          });
+    }
   }
-
 }
