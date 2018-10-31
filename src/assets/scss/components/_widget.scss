@@ -120,10 +120,18 @@
       vertical-align: bottom;
     }
   }
+  &__graph {
+    position: relative;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    &--mob {
+      display: block;
+    }
+  }
   &__content {
     display: none;
     position: relative;
-    height: calc(100% - 45px);
     overflow-x: hidden;
     overflow-y: auto;
     &--mob {
@@ -604,13 +612,21 @@
       margin: 0 16px;
       padding-top: 8px;
     }
+    &__graph {
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: auto;
+      height: calc(100% - 45px);
+      &--mob {
+        display: none;
+      }
+    }
     &__content {
       display: block;
       &--mob {
         display: none;
       }
       &--show-all{
-        //height: calc(100% - 45px);
         display: block;
       }
     }

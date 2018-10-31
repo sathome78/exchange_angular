@@ -20,7 +20,7 @@ export class MarketSearchComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.showPairs = [...this.pairs];
+    this.showPairs = [...this.pairs || []];
   }
 
   splitPairName(name: string): string[] {
