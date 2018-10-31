@@ -33,7 +33,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private lang;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
-  private _interval: ChartingLibraryWidgetOptions['interval'] = 'E';
+  private _interval: ChartingLibraryWidgetOptions['interval'] = '3';
   // BEWARE: no trailing slash is expected in feed URL
   // private _datafeedUrl = 'https://demo_feed.tradingview.com';
   private _datafeedUrl = environment.apiUrl + '/info/public/v2/graph';
