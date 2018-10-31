@@ -24,9 +24,7 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
     super();
   }
 
-  ngOnInit(){ }
-
-  ngOnInit1() {
+  ngOnInit() {
     this.itemName = 'chat';
     this.chatService.setStompSubscription('en');
     this.chatService.findAllChatMessages().subscribe(messages => {
