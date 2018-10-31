@@ -5,6 +5,7 @@ import {ChatService} from './chat.service';
 import {SimpleChat} from './simple-chat.model';
 import {Subscription} from 'rxjs';
 import {DateChatItem} from './date-chat-item.model';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-chat',
@@ -21,7 +22,8 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
   // todo please implement sorting as backend returns sorted by date ascending with limit of 50 messages
   dateChatItems: DateChatItem [];
 
-  constructor(private chatService: ChatService) {
+  constructor(private chatService: ChatService,
+              private authService: AuthService) {
     super();
   }
 
@@ -47,14 +49,18 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
     }
   }
 
-  onSendChatMessage(message: string) {
-    this.chatService.sendNewMessage(message)
-      .subscribe(res => {
-          console.log(res);
-        },
-        error1 => {
-          console.log(error1);
-        });
+  onSendChatMessage(message: HTMLInputElement) {
+    const body = message.value;
+    const email = this.authService.getUsername();
+    if (body) {
+      this.chatService.sendNewMessage(body, email)
+        .subscribe(res => {
+            console.log(res);
+          },
+          error1 => {
+            console.log(error1);
+          });
+    }
   }
 
 

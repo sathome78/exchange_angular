@@ -210,9 +210,9 @@
     </div>
 
     <div class="widget__send-message">
-      <input class="widget__send-input" type="text" required="" placeholder="Text your message here">
+      <input class="widget__send-input" type="text" required="" placeholder="Text your message here" #chatInput>
       <span class="widget__input-img widget__input-img--hide-mob widget__input-img--second-icon"><img src="../../assets/img/smiley.svg"></span>
-      <span class="widget__input-img" (click)="onSendChatMessage('test message')"><img src="../../assets/img/send-message.svg"></span>
+      <span class="widget__input-img" (click)="onSendChatMessage(chatInput)"><img src="../../assets/img/send-message.svg"></span>
     </div>
 
   </div>
