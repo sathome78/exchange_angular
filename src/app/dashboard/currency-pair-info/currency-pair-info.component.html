@@ -2,7 +2,7 @@
   <div class="currency-pair-info__inner">
     <div class="currency-pair-info__pair">
       <div class="dropdown currency-pair-info__dropdown">
-        <div class="dropdown__btn" (click)="openSearchBar(0)">{{firstCurrency}}</div>
+        <div class="dropdown__btn" (click)="openSearchBar(1)">{{secondCurrency}}</div>
         <ul class="dropdown__list">
           <li class="dropdown__item">ETH</li>
           <li class="dropdown__item">LTC</li>
@@ -11,7 +11,7 @@
       </div>
       <div class="currency-pair-info__change-pair"></div>
       <div class="dropdown currency-pair-info__dropdown">
-        <div class="dropdown__btn" (click)="openSearchBar(1)">{{secondCurrency}}</div>
+        <div class="dropdown__btn" (click)="openSearchBar(0)">{{ firstCurrency}}</div>
         <ul class="dropdown__list">
           <li class="dropdown__item">ETH</li>
           <li class="dropdown__item">LTC</li>
@@ -24,17 +24,17 @@
         <span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{currentCurrencyInfo.percentChange}}%</span>
         <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="">
         <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="">
-        <span style="margin-left: 10px;">({{currentCurrencyInfo.currencyRate - currentCurrencyInfo.lastCurrencyRate}} {{ firstCurrency }})</span>
+        <span style="margin-left: 10px;">({{currentCurrencyInfo.currencyRate - currentCurrencyInfo.lastCurrencyRate}} {{ secondCurrency }})</span>
       </div>
-      <div class="currency-pair-info__price">{{currentCurrencyInfo.currencyRate}} {{ firstCurrency }}</div>
+      <div class="currency-pair-info__price">{{currentCurrencyInfo.currencyRate | number:'1.0'}} {{ secondCurrency }}</div>
     </div>
     <div class="currency-pair-info__item">
       <div class="currency-pair-info__item-title">24h hight</div>
-      <span class="currency-pair-info__item-value">{{currentCurrencyInfo.rateHigh}}</span>
+      <span class="currency-pair-info__item-value">{{currentCurrencyInfo.rateHigh | number:'1.0'}}</span>
     </div>
     <div class="currency-pair-info__item">
       <div class="currency-pair-info__item-title">24h low</div>
-      <span class="currency-pair-info__item-value">{{currentCurrencyInfo.rateLow}}</span>
+      <span class="currency-pair-info__item-value">{{currentCurrencyInfo.rateLow | number:'1.0'}}</span>
     </div>
     <div class="currency-pair-info__item">
       <div class="currency-pair-info__item-title">24h volume</div>

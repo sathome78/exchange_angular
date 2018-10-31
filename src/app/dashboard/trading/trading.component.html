@@ -257,7 +257,7 @@
           </svg>
         </span>
           <span style="vertical-align: middle;">Avaliable: </span>
-          <a href="#">300 000 000 USD</a>
+          <a href="#">{{ (marketService.currencyPairsInfo$ | async).balanceByCurrency1 }} {{arrPairName[0]}}</a>
         </div>
       </div>
       <div class="row widget__percent-row">
@@ -312,13 +312,18 @@
     <form class="widget__trading-form--mob" [formGroup]="stopForm" *ngIf="dropdownLimitValue === 'STOP_LIMIT'">
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input widget__input--mr32">
-          <input class="wrap-input__input" type="text" required>
-          <label class="wrap-input__label" for="">Quantity of BTC</label>
+          <input class="wrap-input__input" type="text"
+                 formControlName="stop"
+                 name="stop">
+          <label class="wrap-input__label" for="">Stop</label>
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
-          <input class="wrap-input__input" type="text" required>
-          <label class="wrap-input__label" for="">Price in USDT</label>
+          <input class="wrap-input__input" type="text"
+                 (input)="rateInput($event)"
+                 formControlName="limit"
+                 name="limit">
+          <label class="wrap-input__label" for="">Limit</label>
           <div class="wrap-input__line"></div>
         </div>
       </div>
@@ -332,37 +337,42 @@
           </svg>
         </span>
           <span style="vertical-align: middle;">Avaliable: </span>
-          <a href="#">300 000 000 USD</a>
+          <a href="#">{{ (marketService.currencyPairsInfo$ | async).balanceByCurrency1 }} {{arrPairName[0]}}</a>
         </div>
       </div>
       <div class="row widget__percent-row">
         <label class="radio">
           <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 5}"
+                (click)="selectedPercent(5)">
           5%
         </span>
         </label>
         <label class="radio">
           <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 25}"
+                (click)="selectedPercent(25)">
           25%
         </span>
         </label>
         <label class="radio">
           <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 50}"
+                (click)="selectedPercent(50)">
           50%
         </span>
         </label>
         <label class="radio">
           <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 75}"
+                (click)="selectedPercent(75)">
           75%
         </span>
         </label>
         <label class="radio">
           <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 100}"
+                (click)="selectedPercent(100)">
           100%
         </span>
         </label>
@@ -371,23 +381,29 @@
 
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input widget__input--mr32">
-          <input class="wrap-input__input" type="text" required>
-          <label class="wrap-input__label" for="">Quantity of BTC</label>
+          <input class="wrap-input__input" type="text"
+                 formControlName="quantityOf"
+                 (input)="quantityIput($event)"
+                 name="quantityOf">
+          <label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
-          <input class="wrap-input__input" type="text" required>
-          <label class="wrap-input__label" for="">Price in USDT</label>
+          <input class="wrap-input__input" type="text"
+                 formControlName="totalIn"
+                 (input)="totalInput($event)"
+                 name="totalIn">
+          <label class="wrap-input__label" for="">Price in {{arrPairName[1]}}</label>
           <div class="wrap-input__line"></div>
         </div>
       </div>
     </form>
 
 
-      <button class="btn btn--active widget__trading-btn">{{mainTab === 'BUY' ? 'Buy' : 'Sell'}} BTC</button>
+      <button class="btn btn--active widget__trading-btn" (click)="onSubmit()" >{{mainTab === 'BUY' ? 'Buy' : 'Sell'}} BTC</button>
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div class="fee">
-          Fee: 0.465 USD
+          Fee: {{order.commission}} {{arrPairName[0]}}
         </div>
       </div>
 
