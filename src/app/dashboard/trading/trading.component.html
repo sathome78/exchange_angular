@@ -241,7 +241,8 @@
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
-          <input class="wrap-input__input" type="text" (input)="rateInput($event)"
+          <input class="wrap-input__input" type="text"
+                 (input)="rateInput($event)"
                  formControlName="priceIn"
                  name="priceIn">
           <label class="wrap-input__label" for="">Price in {{arrPairName[1]}}</label>
@@ -301,7 +302,7 @@
           <input class="wrap-input__input" type="text" formControlName="totalIn"
                  (input)="totalInput($event)"
                  name="totalIn">
-          <label class="wrap-input__label" for="">Total in USDT</label>
+          <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
           <div class="wrap-input__line"></div>
         </div>
       </div>
@@ -386,7 +387,7 @@
       <button class="btn btn--active widget__trading-btn">{{mainTab === 'BUY' ? 'Buy' : 'Sell'}} BTC</button>
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div class="fee">
-          Fee: 0.45 USD
+          Fee: 0.465 USD
         </div>
       </div>
 
