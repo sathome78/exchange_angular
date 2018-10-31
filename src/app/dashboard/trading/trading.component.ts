@@ -136,13 +136,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   showLimit(value: string) {
     switch (value) {
       case 'LIMIT': {
-        return 'Limit';
+        return 'Limit order';
       }
       case 'STOP_LIMIT': {
         return 'Stop limit';
       }
       case 'ICO': {
-        return 'ICO';
+        return 'ICO order';
       }
     }
   }

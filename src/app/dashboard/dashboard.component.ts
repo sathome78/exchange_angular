@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public gridsterOptions;
   public gridsterItemOptions;
 
-  public activeMobileWidget =  'markets';
+  public activeMobileWidget =  'trading';
 
   public breakPoint;
 
