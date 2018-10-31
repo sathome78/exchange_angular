@@ -4,6 +4,12 @@
 .dropdown__item{
   white-space: nowrap;
 }
+.widget__tabs{
+  margin-bottom: 12px;
+  @media (min-width:1200px){
+    margin-bottom: 0;
+  }
+}
 :host{
   width: 100%;
 }
