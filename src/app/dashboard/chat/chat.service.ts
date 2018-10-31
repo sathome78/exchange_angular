@@ -47,7 +47,7 @@ export class ChatService {
       }))
       .subscribe((message: string) => {
           // this.chatItems.push(ChatItem.fromString(message));
-          this.chatListener.next(ChatItem.fromString(message));
+          this.simpleChatListener.next(SimpleChat.fromChatItem(ChatItem.fromString(message)));
       });
   }
 

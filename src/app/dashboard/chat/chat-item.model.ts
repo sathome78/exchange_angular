@@ -19,8 +19,4 @@ export class ChatItem {
                                         );
     return item;
   }
-
-  static toSimpleMessage(item: ChatItem): SimpleChat {
-    return new SimpleChat(item.nickname, item.body, item.time);
-  }
 }
