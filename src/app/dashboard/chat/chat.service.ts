@@ -47,7 +47,6 @@ export class ChatService {
    * @param lang - current language must be set to lower case
    */
   setStompSubscription(lang: string) {
-    this.findAllChatMessages();
     this.stompSubscription = this.stompService
       .subscribe('/topic/chat/' + lang)
       .pipe(map((message: Message) => {
