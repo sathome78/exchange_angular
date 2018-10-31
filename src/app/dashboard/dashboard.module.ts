@@ -33,6 +33,8 @@ import {ChatService} from './chat/chat.service';
 import {ScrollbarModule} from 'ngx-scrollbar';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {CurrencySortingPipe} from './markets/currency-sorting.pipe';
+import { DayChatComponent } from './chat/day-chat/day-chat.component';
+import { ChatMessageComponent } from './chat/chat-message/chat-message.component';
 
 
 export function socketProvider() {
@@ -70,8 +72,10 @@ const stompConfig: StompConfig = {
     ActivePairComponent,
     BuyComponent,
     ChatComponent,
+    ChatMessageComponent,
     CurrencySortingPipe,
     DashboardComponent,
+    DayChatComponent,
     GraphComponent,
     MarketsComponent,
     OrderBookComponent,
@@ -85,6 +89,8 @@ const stompConfig: StompConfig = {
     MarketSearchComponent,
     ToolsComponent,
     CurrencyPairInfoComponent,
+    DayChatComponent,
+    ChatMessageComponent,
   ],
   imports: [
     SharedModule,
