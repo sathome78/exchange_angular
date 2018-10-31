@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {MockDataService} from '../../services/mock-data.service';
 import {MarketService} from './market.service';
@@ -29,9 +29,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   volumeOrderDirection = 'NONE';
   selectedCurrencyPair: CurrencyPair;
 
-  constructor(
-    private marketService: MarketService,
-    private ref: ChangeDetectorRef) {
+  constructor(private marketService: MarketService) {
     super();
   }
 
@@ -56,8 +54,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         }
         this.pairs = this.choosePair(this.currencyDisplayMode);
         this.emitWhenSelectedPairIsUpdated(freshPairs);
-        // TODO: remove after dashboard init load time issue is solved
-        this.ref.detectChanges();
       });
   }
 
