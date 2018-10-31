@@ -22,17 +22,17 @@ export class DayChatComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.messages = this.dateChatItem.messages;
     if (this.dateChatItem.date === new Date()) {
-      this.chatService.setStompSubscription('en');
-      this.newMessagesSubscription = this.chatService.simpleChatListener.subscribe(msg => {
-        this.messages.push(msg);
-      });
+      // this.chatService.setStompSubscription('en');
+      // this.newMessagesSubscription = this.chatService.simpleChatListener.subscribe(msg => {
+      //   this.messages.push(msg);
+      // });
     }
   }
 
   ngOnDestroy(): void {
-     if (this.newMessagesSubscription) {
-       this.newMessagesSubscription.unsubscribe();
-     }
+     // if (this.newMessagesSubscription) {
+     //   this.newMessagesSubscription.unsubscribe();
+     // }
   }
 
 
