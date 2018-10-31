@@ -20,7 +20,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   /** dashboard item name (field for base class)*/
   public itemName: string;
   /** active sell/buy tab */
-  public mainTab = 'BUY';
+  public mainTab;
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dropdown limit data */
@@ -67,6 +67,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
   ngOnInit() {
     this.itemName = 'trading';
+    this.mainTab = 'BUY';
     this.order = {...this.defaultOrder};
     this.initForms();
 
@@ -136,13 +137,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   showLimit(value: string) {
     switch (value) {
       case 'LIMIT': {
-        return 'Limit';
+        return 'Limit order';
       }
       case 'STOP_LIMIT': {
         return 'Stop limit';
       }
       case 'ICO': {
-        return 'ICO';
+        return 'ICO order';
       }
     }
   }
