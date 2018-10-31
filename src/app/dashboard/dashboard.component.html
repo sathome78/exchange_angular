@@ -1,4 +1,4 @@
-<div class="container container--dashboard" *ngIf="breackPoint === 'desktop'">
+<div class="container container--dashboard" *ngIf="breakPoint === 'desktop'">
 <div class="dashboard" (window:resize)="changeRatioByWidth()">
 
     <app-currency-pair-info></app-currency-pair-info>
@@ -31,11 +31,11 @@
 </div>
 
 
-<div class="container container--dashboard" *ngIf="breackPoint === 'mobile'">
+<div class="container container--dashboard" *ngIf="breakPoint === 'mobile'">
 
 
   <div class="dashboard__widget-wrap">
-    <!--<app-markets></app-markets>-->
+
     <ng-template [ngTemplateOutlet]="loadWidgetTemplate(activeMobileWidget)" [ngTemplateOutletContext]="{ $implicit: 1}">
     </ng-template>
 

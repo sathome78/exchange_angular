@@ -4,7 +4,7 @@ import {gridsterItemOptions, gridsterOptions} from '../shared/configs/gridster-o
 import {DashboardDataService} from './dashboard-data.service';
 import {DashboardItemChangeSize} from '../shared/models/dashboard-item-change-size-model';
 import {MarketService} from './markets/market.service';
-import {BreakpointService} from '../services/breackpoint.service';
+import {BreakpointService} from '../services/breakpoint.service';
 import {Subject} from 'rxjs';
 import {OnDestroy} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
@@ -45,20 +45,19 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public activeMobileWidget =  'markets';
 
-  public breackPoint;
+  public breakPoint;
 
   constructor(
-    public breackPointService: BreakpointService,
+    public breakPointService: BreakpointService,
     private dataService: DashboardDataService,
     private marketsService: MarketService,
   ) { }
 
   ngOnInit() {
-    this.breackPointService.breakpoint
+
+    this.breakPointService.breakpoint$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-      this.breackPoint = res;
-    });
+      .subscribe(res => this.breakPoint = res)
 
     this.dataService.activeMobileWidget
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -149,7 +148,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
    * check window width for ratio (static height for dashboard items)
    */
   changeRatioByWidth(): void {
-    if (this.breackPoint === 'desktop') {
+    if (this.breakPoint === 'desktop') {
       const winWidth = window.innerWidth;
       const countWidthSteps = (this.maxWidth - this.minWidth) / this.widthStep;
       const ratioStep = (this.maxRatio - this.minRatio) / countWidthSteps;
