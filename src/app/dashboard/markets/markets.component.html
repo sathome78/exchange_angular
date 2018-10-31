@@ -73,8 +73,6 @@
       Search
     </div>
   </div>
-
-
   <div class="widget__content">
     <div class="tabs widget__tabs">
       <button class="tabs__item tabs__item--small"
@@ -138,14 +136,13 @@
           </tr>
           </thead>
 
-          <tbody class="table__body table__body--none-shadow">
-          <!-- Content -->
-          <ng-container *ngFor="let pair of pairs | sort:'currencyPairName'">
-            <tr class="table__row widget__table-row"
-                [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}"
-                (click)="onSelectCurrencyPair(pair)">
-              <td class="table__cell table__cell--tac" width="7%">
-
+        <tbody class="table__body table__body--none-shadow">
+            <!-- Content -->
+            <ng-container *ngFor="let pair of pairs | currencySort :'volume'">
+              <tr class="table__row widget__table-row"
+                  [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}"
+              (click)="onSelectCurrencyPair(pair)">
+                <td class="table__cell table__cell--tac" width="7%">
                 <span class="table__row-star" [ngClass]="{'table__row-star--select': pair}">
                   <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -167,7 +164,7 @@
                       [ngClass]="{'arr--green': isChangePositive(pair), 'arr--red': !isChangePositive(pair)}"></span>
               </td>
               <td class="table__cell table__cell--tar" width="30%">
-                <span style="font-size: 10px; color:#A0A0A0">{{pair.volume}}</span>
+                <span style="font-size: 10px; color:#A0A0A0">{{ +pair.volume | number: '1.0-0'}}</span>
               </td>
             </tr>
             <tr style="height: 4px;"></tr>
@@ -209,7 +206,7 @@
       </thead>
       <tbody>
 
-      <ng-container *ngFor="let pair of pairs | sort:'currencyPairName'">
+      <ng-container *ngFor="let pair of pairs | currencySort:'volume'">
       <tr class="table__row widget__table-row" (click)="onSelectCurrencyPair(pair)">
         <td class="table__cell table__cell--tac">
     <span class="table__row-star">
@@ -222,7 +219,7 @@
         <td class="table__cell">
           <span>{{splitPairName(pair)[0]}}</span>
           <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
-          <div class="txt-small txt-light-grey">Vol {{pair.volume}}</div>
+          <div class="txt-small txt-light-grey">Vol {{ +pair.volume | number: '1.0-0'}}</div>
         </td>
         <td class="table__cell">
           <span class="txt-indicate">{{pair.lastOrderRate}}</span>
