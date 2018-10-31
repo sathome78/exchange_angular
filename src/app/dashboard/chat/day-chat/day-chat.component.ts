@@ -3,6 +3,7 @@ import {DateChatItem} from '../date-chat-item.model';
 import {ChatItem} from '../chat-item.model';
 import {ChatService} from '../chat.service';
 import {Subscription} from 'rxjs';
+import {SimpleChat} from '../simple-chat.model';
 
 @Component({
   selector: 'app-day-chat',
@@ -13,7 +14,7 @@ export class DayChatComponent implements OnInit, OnDestroy {
 
   @Input () dateChatItem: DateChatItem;
 
-  messages: ChatItem[];
+  messages: SimpleChat[];
   newMessagesSubscription: Subscription;
 
   constructor(private chatService: ChatService) { }
@@ -22,8 +23,8 @@ export class DayChatComponent implements OnInit, OnDestroy {
     this.messages = this.dateChatItem.messages;
     if (this.dateChatItem.date === new Date()) {
       this.chatService.setStompSubscription('en');
-      this.newMessagesSubscription = this.chatService.simpleChatListener.subscribe(newMessages => {
-        this.messages.push(...newMessages);
+      this.newMessagesSubscription = this.chatService.simpleChatListener.subscribe(msg => {
+        this.messages.push(ChatItem.toSimpleMessage(msg));
       });
     }
   }
@@ -33,5 +34,7 @@ export class DayChatComponent implements OnInit, OnDestroy {
        this.newMessagesSubscription.unsubscribe();
      }
   }
+
+
 
 }

@@ -16,19 +16,9 @@ import {DateChatItem} from './date-chat-item.model';
 @Injectable()
 export class ChatService {
 
-  /**
-   * for private chats
-   * @type {any[]}
-   */
-  // chatItems: ChatItem [] = [];
-  /**
-   * for public chat - simple model
-   * @type {any[]}
-   */
-  simpleChatItems: SimpleChat [] = [];
   chatListener: Subject<ChatItem> = new Subject<ChatItem>();
 
-  simpleChatListener: Subject<SimpleChat[]> = new Subject<SimpleChat[]>();
+  simpleChatListener: Subject<SimpleChat> = new Subject<SimpleChat>();
 
   private stompSubscription: any;
 
@@ -125,6 +115,6 @@ export class ChatService {
 
 export interface IDateChat {
    date: Date;
-   messages: ChatItem[];
+   messages: SimpleChat[];
 }
 
