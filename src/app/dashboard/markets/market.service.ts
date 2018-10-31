@@ -4,7 +4,7 @@ import {StompService} from '@stomp/ng2-stompjs';
 import {CurrencyPair} from './currency-pair.model';
 import {Message} from '@stomp/stompjs';
 import {map, tap} from 'rxjs/internal/operators';
-import {Observable} from 'rxjs';
+import {Observable, ReplaySubject} from 'rxjs';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
@@ -15,7 +15,7 @@ export class MarketService {
 
   currencyPairs: CurrencyPair [] = [];
   marketListener$: Subject<CurrencyPair[]>;
-  activeCurrencyListener: Subject<CurrencyPair>;
+  activeCurrencyListener: ReplaySubject<CurrencyPair>;
   currencyPairsInfo$ = new BehaviorSubject({balanceByCurrency1: 30000, rate: 1.227});
   private baseUrl = environment.apiUrl;
 
@@ -26,7 +26,7 @@ export class MarketService {
     private http: HttpClient,
   ) {
     this.marketListener$ = new Subject<CurrencyPair[]>();
-    this.activeCurrencyListener = new Subject<CurrencyPair>();
+    this.activeCurrencyListener = new ReplaySubject<CurrencyPair>();
   }
 
   setStompSubscription(): any {

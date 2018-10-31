@@ -1,9 +1,9 @@
-// TODO: поправить моб стили
+
 .trading-notification{
   position: absolute;
   width: 100%;
   padding: 8px;
-  bottom: 45px;
+  bottom: 0px;
   /*--- modificators start ---*/
   &--success{
     background-color: $green;
@@ -31,6 +31,7 @@
   &__content{
     display: flex;
     align-items: center;
+    justify-content: center;
   }
   &__icon{
     width: 100%;
@@ -102,6 +103,7 @@
     &__content{
       margin-top: 14px;
       align-items: stretch;
+      justify-content: flex-start;
     }
     &__text{
       line-height: 21px;

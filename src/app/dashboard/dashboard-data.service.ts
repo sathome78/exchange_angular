@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Subject, Observable, BehaviorSubject} from 'rxjs';
+import {Subject, Observable, BehaviorSubject, ReplaySubject} from 'rxjs';
 
 import {Currency} from './currency-pair-info/currency-search/currency.model';
 import {mockPairs} from './currency-pair-info/currency-search/currency.model';
@@ -10,12 +10,16 @@ export class DashboardDataService {
 
   public dashboardToTools$ = new Subject();
   public toolsToDashboard$ = new Subject();
-  /** current selected currency pair */
-  public selectedCurrency$ = new Subject<string>();
 
-  public choosedPair$ = new Subject();
+  /** talking between dashboard mobile and mobile menu */
+  public activeMobileWidget = new Subject<string>();
 
-  public selectedOrderTrading$ = new Subject();
+  // /** current selected currency pair */
+  // public selectedCurrency$ = new Subject<string>();
+  //
+  // public choosedPair$ = new Subject();
+
+  public selectedOrderTrading$ = new ReplaySubject();
 
   /** mock data for currencies which used at currency-pair-info/currency-search */
   currencies: BehaviorSubject<Currency[]> = new BehaviorSubject<Currency[]>(mockPairs);

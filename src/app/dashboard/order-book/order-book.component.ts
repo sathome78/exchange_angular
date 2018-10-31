@@ -504,14 +504,14 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       });
     this.buyOrdersSubscription = this.orderBookService.sellOrdersListener
       .subscribe(items => {
-        if (items.length) {
+        if (items.length >= 1) {
           this.addOrUpdate(this.sellOrders, items);
         }
         console.log(items);
       });
     this.sellOrdersSubscription = this.orderBookService.buyOrdersListener
       .subscribe(items => {
-        if (items.length) {
+        if (items.length >= 1) {
           this.addOrUpdate(this.buyOrders, items);
         }
         console.log(items);
@@ -622,7 +622,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     return Math.max.apply(null, array);
   }
 
-  private onSelectOrder(orderIndex, item: OrderItem): void {
+  private onSelectOrder(orderIndex, item: OrderItem, widgetName: string): void {
     // const index = (parseInt(orderIndex + 1, 10) - 1);
     // if (this.isBuy) {
     //   this.sortBuyData();
@@ -636,6 +636,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
     /** sends the data in to trading */
     this.dashboardDataService.selectedOrderTrading$.next(item);
+    this.dashboardDataService.activeMobileWidget.next(widgetName);
   }
 
   private setDataForVisualization(): void {

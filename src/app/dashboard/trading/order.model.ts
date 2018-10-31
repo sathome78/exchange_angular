@@ -8,6 +8,7 @@ export class Order {
                public commission: number,
                public baseType: string,
                public total: number,
+               public status: string,
                public stop?: number
   ) { }
 
@@ -20,6 +21,7 @@ export class Order {
       other.commission,
       other.baseType,
       other.total,
+      other.status,
       other.stop);
   }
 }

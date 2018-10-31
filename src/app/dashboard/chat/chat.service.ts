@@ -11,6 +11,7 @@ import {TOKEN} from '../../services/http.utils';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/internal/operators';
 import {SimpleChat } from './simple-chat.model';
+import {DateChatItem} from './date-chat-item.model';
 
 @Injectable()
 export class ChatService {
@@ -83,13 +84,13 @@ export class ChatService {
    * @returns void
    *
    */
-  findAllChatMessages(): Observable<SimpleChat[]> {
+  findAllChatMessages(): Observable<IDateChat[]> {
     const url = this.HOST + '/info/public/v2/chat/history';
     const lang = this.langService.getLanguage().toLowerCase();
     const params = {
       params: new HttpParams().append('lang', lang),
     };
-    return this.httpClient.get<SimpleChat[]>(url, params);
+    return this.httpClient.get<IDateChat[]>(url, params);
       // .subscribe(
       // (messages: SimpleChat[]) => {
       //   this.simpleChatItems = messages;
@@ -120,6 +121,11 @@ export class ChatService {
     return left.id > right.id ? 1 : -1;
   }
 
+}
+
+export interface IDateChat {
+   date: Date;
+   messages: ChatItem[];
 }
 
 export function chatItemComp(left: ChatItem, right: ChatItem) {
