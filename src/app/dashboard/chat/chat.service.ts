@@ -19,13 +19,13 @@ export class ChatService {
    * for private chats
    * @type {any[]}
    */
-  chatItems: ChatItem [] = [];
+  // chatItems: ChatItem [] = [];
   /**
    * for public chat - simple model
    * @type {any[]}
    */
   simpleChatItems: SimpleChat [] = [];
-  chatListener: Subject<ChatItem[]> = new Subject<ChatItem[]>();
+  // chatListener: Subject<ChatItem> = new Subject<ChatItem>();
 
   simpleChatListener: Subject<SimpleChat[]> = new Subject<SimpleChat[]>();
 
@@ -54,10 +54,10 @@ export class ChatService {
         return message.body;
       }))
       .subscribe((message: string) => {
-        if (this.isValidChatItem(message)) {
+        // if (this.isValidChatItem(message)) {
           // this.chatItems.push(ChatItem.fromString(message));
-          this.chatListener.next(this.chatItems.sort(chatItemComp));
-        }
+          this.simpleChatListener.next(JSON.parse(message));
+        // }
       });
   }
 
@@ -114,10 +114,6 @@ export class ChatService {
       'MESSAGE': message
     };
     return this.httpClient.post<ChatItem>(url, body);
-  }
-
-  isValidChatItem(message: string): boolean {
-    return JSON.parse(message).nickname;
   }
 
   chatItemComp(left: ChatItem, right: ChatItem) {
