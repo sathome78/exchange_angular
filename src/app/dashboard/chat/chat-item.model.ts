@@ -1,20 +1,16 @@
 
 export class ChatItem {
 
-  constructor( public id: number,
-               public userId: number,
-               public nickname: string,
+  constructor( public email: string,
                public body: string,
-               public time: string) { }
+               public messageTime: string) { }
 
 
   static fromString(massage: string) {
     const item: ChatItem = new ChatItem(
-                                          JSON.parse(massage).id,
-                                          JSON.parse(massage).userId,
-                                          JSON.parse(massage).nickname,
+                                          JSON.parse(massage).email,
                                           JSON.parse(massage).body,
-                                          JSON.parse(massage).time
+                                          JSON.parse(massage).messageTime
                                         );
     return item;
   }

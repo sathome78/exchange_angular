@@ -20,13 +20,13 @@ export class ChatService {
    * for private chats
    * @type {any[]}
    */
-  chatItems: ChatItem [] = [];
+  // chatItems: ChatItem [] = [];
   /**
    * for public chat - simple model
    * @type {any[]}
    */
   simpleChatItems: SimpleChat [] = [];
-  chatListener: Subject<ChatItem[]> = new Subject<ChatItem[]>();
+  chatListener: Subject<ChatItem> = new Subject<ChatItem>();
 
   simpleChatListener: Subject<SimpleChat[]> = new Subject<SimpleChat[]>();
 
@@ -56,10 +56,8 @@ export class ChatService {
         return message.body;
       }))
       .subscribe((message: string) => {
-        if (this.isValidChatItem(message)) {
           // this.chatItems.push(ChatItem.fromString(message));
-          this.chatListener.next(this.chatItems.sort(chatItemComp));
-        }
+          this.chatListener.next(ChatItem.fromString(message));
       });
   }
 
@@ -110,6 +108,7 @@ export class ChatService {
    */
   sendNewMessage(message: string, email?: string): Observable<ChatItem> {
     const url = this.HOST + '/info/public/v2/chat';
+    console.log('msg: ' + message + ', email: ' + email);
     const body = {
       'EMAIL': email ? email : '',
       'LANG': this.langService.getLanguage().toUpperCase(),
@@ -122,18 +121,10 @@ export class ChatService {
     return JSON.parse(message).nickname;
   }
 
-  chatItemComp(left: ChatItem, right: ChatItem) {
-    return left.id > right.id ? 1 : -1;
-  }
-
 }
 
 export interface IDateChat {
    date: Date;
    messages: ChatItem[];
-}
-
-export function chatItemComp(left: ChatItem, right: ChatItem) {
-  return left.id > right.id ? 1 : -1;
 }
 

@@ -35,6 +35,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {CurrencySortingPipe} from './markets/currency-sorting.pipe';
 import { DayChatComponent } from './chat/day-chat/day-chat.component';
 import { ChatMessageComponent } from './chat/chat-message/chat-message.component';
+import {NicknamePipe} from './chat/chat-message/nickname.pipe';
 
 
 export function socketProvider() {
@@ -78,6 +79,7 @@ const stompConfig: StompConfig = {
     DayChatComponent,
     GraphComponent,
     MarketsComponent,
+    NicknamePipe,
     OrderBookComponent,
     OrdersComponent,
     SellComponent,
