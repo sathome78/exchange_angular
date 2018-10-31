@@ -122,14 +122,8 @@
           <!--<div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)"-->
                <!--[style.height]="(200/dataBurBuy.length) + 'px'"></div>-->
         </div>
-<<<<<<< HEAD
         <div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item)">
           <div class="order">
-=======
-
-        <div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item, 'trading')">
-          <div class="order" [style.lineHeight]="(elementHeight/dataBurBuy.length) + 'px'" [style.height]="(elementHeight/dataBurBuy.length) + 'px'">
->>>>>>> f6b957c575c6e5bffa62ff179fe649a49bbee641
             <span>
               {{item.amountBase | number:'1.1-8'}}
             </span>
