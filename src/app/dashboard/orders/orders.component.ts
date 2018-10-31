@@ -38,8 +38,8 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
     this.itemName = 'orders';
 
     /** mock data */
-    //this.allOpenOrders = this.mockData.getOpenOrders().items;
-    //this.historyOrders = this.mockData.getOpenOrders().items;
+    // this.openOrders = this.mockData.getOpenOrders().items;
+    // this.historyOrders = this.mockData.getOpenOrders().items;
     this.activeCurrencyPair = this.mockData.getMarketsData()[2];
     /** ---------------------------------------------- */
 

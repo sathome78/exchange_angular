@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Subject, Observable, BehaviorSubject} from 'rxjs';
+import {Subject, Observable, BehaviorSubject, ReplaySubject} from 'rxjs';
 
 import {Currency} from './currency-pair-info/currency-search/currency.model';
 import {mockPairs} from './currency-pair-info/currency-search/currency.model';
@@ -10,12 +10,16 @@ export class DashboardDataService {
 
   public dashboardToTools$ = new Subject();
   public toolsToDashboard$ = new Subject();
-  /** current selected currency pair */
-  public selectedCurrency$ = new Subject<string>();
 
-  public choosedPair$ = new Subject();
+  /** talking between dashboard mobile and mobile menu */
+  public activeMobileWidget = new Subject<string>();
 
-  public selectedOrderTrading$ = new Subject();
+  // /** current selected currency pair */
+  // public selectedCurrency$ = new Subject<string>();
+  //
+  // public choosedPair$ = new Subject();
+
+  public selectedOrderTrading$ = new ReplaySubject();
 
   /** mock data for currencies which used at currency-pair-info/currency-search */
   currencies: BehaviorSubject<Currency[]> = new BehaviorSubject<Currency[]>(mockPairs);
@@ -27,12 +31,12 @@ export class DashboardDataService {
     {
       x: 0,
       y: 0,
-      w: 12,
-      h: 7,
+      w: 3,
+      h: 3,
       xMd: 0,
       yMd: 0,
-      wMd: 12,
-      hMd: 6,
+      wMd: 3,
+      hMd: 1,
       xLg: 0,
       yLg: 0,
       wLg: 2,
@@ -43,13 +47,13 @@ export class DashboardDataService {
     },
     {
       x: 1,
-      y: 0,
-      w: 12,
-      h: 7,
+      y: 1,
+      w: 3,
+      h: 3,
       xMd: 0,
-      yMd: 4,
-      wMd: 12,
-      hMd: 6,
+      yMd: 1,
+      wMd: 3,
+      hMd: 1,
       xLg: 2,
       yLg: 0,
       wLg: 1,
@@ -61,11 +65,11 @@ export class DashboardDataService {
     {
       x: 1,
       y: 0,
-      w: 12,
-      h: 7,
+      w: 3,
+      h: 3,
       xMd: 0,
-      yMd: 8,
-      wMd: 12,
+      yMd: 1,
+      wMd: 3,
       hMd: 1,
       xLg: 0,
       yLg: 1,
@@ -78,12 +82,12 @@ export class DashboardDataService {
     {
       x: 1,
       y: 0,
-      w: 12,
-      h: 7,
+      w: 3,
+      h: 1,
       xMd: 0,
-      yMd: 12,
-      wMd: 12,
-      hMd: 6,
+      yMd: 1,
+      wMd: 3,
+      hMd: 1,
       xLg: 1,
       yLg: 1,
       wLg: 1,
@@ -95,12 +99,12 @@ export class DashboardDataService {
     {
       x: 1,
       y: 0,
-      w: 12,
-      h: 7,
+      w: 3,
+      h: 2,
       xMd: 0,
-      yMd: 16,
-      wMd: 12,
-      hMd: 6,
+      yMd: 1,
+      wMd: 3,
+      hMd: 1,
       xLg: 2,
       yLg: 1,
       wLg: 1,
@@ -112,12 +116,12 @@ export class DashboardDataService {
     {
       x: 1,
       y: 0,
-      w: 12,
-      h: 7,
+      w: 3,
+      h: 1,
       xMd: 0,
-      yMd: 20,
-      wMd: 12,
-      hMd: 6,
+      yMd: 1,
+      wMd: 3,
+      hMd: 1,
       xLg: 0,
       yLg: 2,
       wLg: 2,
@@ -129,12 +133,12 @@ export class DashboardDataService {
     {
       x: 1,
       y: 0,
-      w: 12,
-      h: 7,
+      w: 3,
+      h: 2,
       xMd: 0,
-      yMd: 24,
-      wMd: 12,
-      hMd: 6,
+      yMd: 1,
+      wMd: 3,
+      hMd: 1,
       xLg: 2,
       yLg: 2,
       wLg: 1,

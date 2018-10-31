@@ -430,8 +430,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   public dataBurBuy: OrderItem [];
   public isBuy: boolean;
 
-  private maxExrate: string;
-  private minExrate: string;
+  public maxExrate: string;
+  public minExrate: string;
 
   /** maximum value from the array 'dataForVisualization'*/
   private maxSell: number;
@@ -472,7 +472,10 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.elementHeightMobile = 400;
 
     /** create test mock data */
+    this.maxExrate = '0';
+    this.minExrate = '0';
     this.setMockData();
+
 
     this.isBuy = true;
 
@@ -502,12 +505,16 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       });
     this.buyOrdersSubscription = this.orderBookService.sellOrdersListener
       .subscribe(items => {
-        this.addOrUpdate(this.sellOrders, items);
+        if (items.length) {
+          this.addOrUpdate(this.sellOrders, items);
+        }
         console.log(items);
       });
     this.sellOrdersSubscription = this.orderBookService.buyOrdersListener
       .subscribe(items => {
-        this.addOrUpdate(this.buyOrders, items);
+        if (items.length) {
+          this.addOrUpdate(this.buyOrders, items);
+        }
         console.log(items);
       });
   }
@@ -618,7 +625,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     return Math.max.apply(null, array);
   }
 
-  private onSelectOrder(orderIndex, item: OrderItem): void {
+  private onSelectOrder(orderIndex, item: OrderItem, widgetName: string): void {
     // const index = (parseInt(orderIndex + 1, 10) - 1);
     // if (this.isBuy) {
     //   this.sortBuyData();
@@ -632,6 +639,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
     /** sends the data in to trading */
     this.dashboardDataService.selectedOrderTrading$.next(item);
+    this.dashboardDataService.activeMobileWidget.next(widgetName);
   }
 
   private setDataForVisualization(): void {

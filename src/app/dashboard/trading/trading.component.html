@@ -11,46 +11,6 @@
     </a>
     <span class="widget__dots panel-heading"></span>
     <div class="widget__controls">
-      <!--<div class="widget__controls-horizontal">-->
-      <!--<span class="widget__controls-plus" (click)="heightChange(true)">-->
-      <!--<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-      <!--<path-->
-      <!--d="M1 3.38889C0.723858 3.38889 0.5 3.61275 0.5 3.88889C0.5 4.16503 0.723858 4.38889 1 4.38889V3.38889ZM7.12826 4.38889C7.4044 4.38889 7.62826 4.16503 7.62826 3.88889C7.62826 3.61275 7.4044 3.38889 7.12826 3.38889V4.38889ZM4.5638 1C4.5638 0.723858 4.33994 0.5 4.0638 0.5C3.78766 0.5 3.5638 0.723858 3.5638 1H4.5638ZM3.5638 6.77778C3.5638 7.05392 3.78766 7.27778 4.0638 7.27778C4.33994 7.27778 4.5638 7.05392 4.5638 6.77778H3.5638ZM1 4.38889H7.12826V3.38889H1V4.38889ZM4.5638 6.77778V1H3.5638V6.77778H4.5638Z"/>-->
-      <!--</svg>-->
-      <!--</span>-->
-      <!--<span class="widget__controls-horizontal-img">-->
-      <!--<svg width="12" height="16" viewBox="0 0 12 16"  xmlns="http://www.w3.org/2000/svg">-->
-      <!--<rect width="12" height="9"/>-->
-      <!--<rect y="11" width="12" height="5"  fill-opacity="0.5"/>-->
-      <!--</svg>-->
-      <!--</span>-->
-      <!--<span class="widget__controls-minus" (click)="heightChange(false)">-->
-      <!--<svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-      <!--<path-->
-      <!--d="M1 4C0.723858 4 0.5 4.22386 0.5 4.5C0.5 4.77614 0.723858 5 1 5V4ZM6.65685 5C6.933 5 7.15685 4.77614 7.15685 4.5C7.15685 4.22386 6.933 4 6.65685 4V5ZM1 5L6.65685 5V4L1 4V5Z"/>-->
-      <!--</svg>-->
-      <!--</span>-->
-      <!--</div>-->
-      <!--<div class="widget__controls-vertical">-->
-      <!--<span class="widget__controls-plus" (click)="widthChange(true)">-->
-      <!--<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-      <!--<path-->
-      <!--d="M1 3.38889C0.723858 3.38889 0.5 3.61275 0.5 3.88889C0.5 4.16503 0.723858 4.38889 1 4.38889V3.38889ZM7.12826 4.38889C7.4044 4.38889 7.62826 4.16503 7.62826 3.88889C7.62826 3.61275 7.4044 3.38889 7.12826 3.38889V4.38889ZM4.5638 1C4.5638 0.723858 4.33994 0.5 4.0638 0.5C3.78766 0.5 3.5638 0.723858 3.5638 1H4.5638ZM3.5638 6.77778C3.5638 7.05392 3.78766 7.27778 4.0638 7.27778C4.33994 7.27778 4.5638 7.05392 4.5638 6.77778H3.5638ZM1 4.38889H7.12826V3.38889H1V4.38889ZM4.5638 6.77778V1H3.5638V6.77778H4.5638Z"/>-->
-      <!--</svg>-->
-      <!--</span>-->
-      <!--<span class="widget__controls-vertical-img">-->
-      <!--<svg width="13" height="16" viewBox="0 0 13 16"  xmlns="http://www.w3.org/2000/svg">-->
-      <!--<rect y="16" width="15.7946" height="7.38544" transform="rotate(-90 0 16)" />-->
-      <!--<rect x="9" y="16" width="16" height="4" transform="rotate(-90 9 16)" fill-opacity="0.5"/>-->
-      <!--</svg>-->
-      <!--</span>-->
-      <!--<span class="widget__controls-minus" (click)="widthChange(false)">-->
-      <!--<svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-      <!--<path-->
-      <!--d="M1 4C0.723858 4 0.5 4.22386 0.5 4.5C0.5 4.77614 0.723858 5 1 5V4ZM6.65685 5C6.933 5 7.15685 4.77614 7.15685 4.5C7.15685 4.22386 6.933 4 6.65685 4V5ZM1 5L6.65685 5V4L1 4V5Z"/>-->
-      <!--</svg>-->
-      <!--</span>-->
-      <!--</div>-->
       <div class="widget__controls-close" (click)="remove()">
         <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -60,7 +20,7 @@
       </div>
     </div>
   </div>
-  <div class="tabs widget__tabs widget__tabs--hide-mob" style="margin: 0 24px;" *ngIf="currentPair">
+  <div class="tabs widget__tabs " style="margin: 0 24px;" *ngIf="currentPair">
     <button class="tabs__item tabs__item--big "
             [ngClass]="{'tabs__item--active': mainTab === 'BUY', 'tab-no-active': mainTab !== 'BUY'}"
             (click)="toggleMainTab('BUY')">Buy {{arrPairName[0]}}
@@ -119,7 +79,6 @@
 
           <div class="wrap-input widget__input widget__input--mr32">
             <input class="wrap-input__input" type="text"
-                   [(ngModel)]="order.amount"
                    formControlName="quantityOf"
                    (input)="quantityIput($event)"
                    name="quantityOf">
@@ -129,7 +88,6 @@
 
           <div class="wrap-input widget__input">
             <input class="wrap-input__input" type="text"
-                   [(ngModel)]="order.rate"
                    (input)="rateInput($event)"
                    formControlName="priceIn"
                    name="priceIn">
@@ -142,8 +100,8 @@
         <div class="row row--jcsb widget__trading-row">
           <div class="wrap-input widget__input">
             <input class="wrap-input__input" type="text"
-                   [(ngModel)]="order.total"
                    formControlName="totalIn"
+                   (input)="totalInput($event)"
                    name="totalIn">
             <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
             <div class="wrap-input__line"></div>
@@ -155,7 +113,6 @@
         <div class="row row--jcsb widget__trading-row">
           <div class="wrap-input widget__input widget__input--mr32">
             <input class="wrap-input__input" type="text"
-                   [(ngModel)]="orderStop"
                    formControlName="stop"
                    name="stop">
             <label class="wrap-input__label" for="">Stop</label>
@@ -163,7 +120,6 @@
           </div>
           <div class="wrap-input widget__input">
             <input class="wrap-input__input" type="text"
-                   [(ngModel)]="order.rate"
                    (input)="rateInput($event)"
                    formControlName="limit"
                    name="limit">
@@ -174,7 +130,6 @@
         <div class="row row--jcsb widget__trading-row">
           <div class="wrap-input widget__input widget__input--mr32">
             <input class="wrap-input__input" type="text"
-                   [(ngModel)]="order.amount"
                    formControlName="quantityOf"
                    (input)="quantityIput($event)"
                    name="quantityOf">
@@ -183,8 +138,8 @@
           </div>
           <div class="wrap-input widget__input">
             <input class="wrap-input__input" type="text"
-                   [(ngModel)]="order.total"
                    formControlName="totalIn"
+                   (input)="totalInput($event)"
                    name="totalIn">
             <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
             <div class="wrap-input__line"></div>
@@ -204,7 +159,7 @@
           <a href="#">{{ (marketService.currencyPairsInfo$ | async).balanceByCurrency1 }} {{arrPairName[0]}}</a>
         </div>
         <div>
-          Fee: {{order.commission}} {{arrPairName[0]}}
+          Fee: {{order.commission | number:'1.1-8'}} {{arrPairName[0]}}
         </div>
       </div>
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
@@ -218,6 +173,208 @@
       <button class="btn btn--active widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'SELL'">Sell {{arrPairName[0]}} </button>
     </div>
   </div>
+
+
+
+
+  <div class="widget__content widget__content--mob" *ngIf="(breakPointService.breakpoint$ | async) === 'mobile'" style="height: 100%">
+    <div class="widget__header--mob">
+      <!--<div class="widget__name-mob widget__trade-title widget__trade-title&#45;&#45;green" *ngIf="mainTab === 'BUY'" ><img src="../../assets/img/btc-icon.svg" alt="">Buy BTC</div>-->
+      <!--<div class="widget__name-mob widget__trade-title widget__trade-title&#45;&#45;red" *ngIf="mainTab === 'SELL'" ><img src="../../assets/img/btc-icon.svg" alt="">Sell BTC</div>-->
+      <!--<div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown&#45;&#45;open': isDropdownOpen}"-->
+           <!--(click)="toggleLimitDropdown()">-->
+        <!--<div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>-->
+        <!--<ul class="dropdown__list">-->
+          <!--<li class="dropdown__item" (click)="selectedLimit(limit)" *ngFor="let limit of limitsData">{{showLimit(limit)}}</li>-->
+        <!--</ul>-->
+      <!--</div>-->
+    </div>
+
+
+    <form  [formGroup]="limitForm" class="widget__trading-form--mob" *ngIf="dropdownLimitValue !== 'STOP_LIMIT'">
+      <div class="row row--jcsb widget__trading-row">
+        <div class="wrap-input widget__input widget__input--mr32">
+          <input class="wrap-input__input" type="text"
+                 formControlName="quantityOf"
+                 (input)="quantityIput($event)"
+                 name="quantityOf">
+          <label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>
+          <div class="wrap-input__line"></div>
+        </div>
+        <div class="wrap-input widget__input">
+          <input class="wrap-input__input" type="text"
+                 (input)="rateInput($event)"
+                 formControlName="priceIn"
+                 name="priceIn">
+          <label class="wrap-input__label" for="">Price in {{arrPairName[1]}}</label>
+          <div class="wrap-input__line"></div>
+        </div>
+      </div>
+      <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
+        <div class="avaliable">
+        <span>
+          <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.23181 6.84126V8.72983C7.23181 9.08029 7.41189 9.35214 7.56677 9.35214H12V6.21888H7.56677C7.41189 6.21888 7.23181 6.4908 7.23181 6.84126ZM9.05815 7.05851C9.43365 7.05851 9.73913 7.38464 9.73913 7.78551C9.73913 8.18639 9.43365 8.51251 9.05815 8.51251C8.68266 8.51251 8.37718 8.18639 8.37718 7.78551C8.37718 7.38464 8.68266 7.05851 9.05815 7.05851ZM7.56677 10.3633C6.85985 10.3633 6.2847 9.63047 6.2847 8.72983V6.84126C6.2847 5.94062 6.85979 5.20783 7.56677 5.20783H12V3.97574C12 3.35222 11.6172 2.82286 11.0894 2.63991L10.2623 0.325323C10.2155 0.194484 10.12 0.0902034 9.99851 0.0373555C9.87702 -0.0154251 9.74051 -0.0121895 9.6213 0.046523L4.49908 2.57102H1.31579C0.590302 2.57102 0 3.20122 0 3.97574V11.5952C0 12.3698 0.590302 13 1.31579 13H10.6842C11.4097 13 12 12.3698 12 11.5952V10.3633H7.56677ZM9.5581 1.19138L10.0511 2.57109H6.75876L9.5581 1.19138Z"/>
+          </svg>
+        </span>
+          <span style="vertical-align: middle;">Avaliable: </span>
+          <a href="#">{{ (marketService.currencyPairsInfo$ | async).balanceByCurrency1 }} {{arrPairName[0]}}</a>
+        </div>
+      </div>
+      <div class="row widget__percent-row">
+        <label class="radio">
+          <input class="radio__input" type="radio" name="radio-procent">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 5}"
+                (click)="selectedPercent(5)">
+          5%
+        </span>
+        </label>
+        <label class="radio">
+          <input class="radio__input" type="radio" name="radio-procent">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 25}"
+                (click)="selectedPercent(25)">
+          25%
+        </span>
+        </label>
+        <label class="radio">
+          <input class="radio__input" type="radio" name="radio-procent">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 100}"
+                (click)="selectedPercent(50)">
+          50%
+        </span>
+        </label>
+        <label class="radio">
+          <input class="radio__input" type="radio" name="radio-procent">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 75}"
+                (click)="selectedPercent(75)">
+          75%
+        </span>
+        </label>
+        <label class="radio">
+          <input class="radio__input" type="radio" name="radio-procent">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 100}"
+                (click)="selectedPercent(100)">
+          100%
+        </span>
+        </label>
+      </div>
+      <div class="row row--jcsb widget__trading-row">
+        <div class="wrap-input widget__input">
+          <input class="wrap-input__input" type="text" formControlName="totalIn"
+                 (input)="totalInput($event)"
+                 name="totalIn">
+          <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
+          <div class="wrap-input__line"></div>
+        </div>
+      </div>
+    </form>
+
+
+    <form class="widget__trading-form--mob" [formGroup]="stopForm" *ngIf="dropdownLimitValue === 'STOP_LIMIT'">
+      <div class="row row--jcsb widget__trading-row">
+        <div class="wrap-input widget__input widget__input--mr32">
+          <input class="wrap-input__input" type="text"
+                 formControlName="stop"
+                 name="stop">
+          <label class="wrap-input__label" for="">Stop</label>
+          <div class="wrap-input__line"></div>
+        </div>
+        <div class="wrap-input widget__input">
+          <input class="wrap-input__input" type="text"
+                 (input)="rateInput($event)"
+                 formControlName="limit"
+                 name="limit">
+          <label class="wrap-input__label" for="">Limit</label>
+          <div class="wrap-input__line"></div>
+        </div>
+      </div>
+
+
+      <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
+        <div class="avaliable">
+        <span>
+          <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.23181 6.84126V8.72983C7.23181 9.08029 7.41189 9.35214 7.56677 9.35214H12V6.21888H7.56677C7.41189 6.21888 7.23181 6.4908 7.23181 6.84126ZM9.05815 7.05851C9.43365 7.05851 9.73913 7.38464 9.73913 7.78551C9.73913 8.18639 9.43365 8.51251 9.05815 8.51251C8.68266 8.51251 8.37718 8.18639 8.37718 7.78551C8.37718 7.38464 8.68266 7.05851 9.05815 7.05851ZM7.56677 10.3633C6.85985 10.3633 6.2847 9.63047 6.2847 8.72983V6.84126C6.2847 5.94062 6.85979 5.20783 7.56677 5.20783H12V3.97574C12 3.35222 11.6172 2.82286 11.0894 2.63991L10.2623 0.325323C10.2155 0.194484 10.12 0.0902034 9.99851 0.0373555C9.87702 -0.0154251 9.74051 -0.0121895 9.6213 0.046523L4.49908 2.57102H1.31579C0.590302 2.57102 0 3.20122 0 3.97574V11.5952C0 12.3698 0.590302 13 1.31579 13H10.6842C11.4097 13 12 12.3698 12 11.5952V10.3633H7.56677ZM9.5581 1.19138L10.0511 2.57109H6.75876L9.5581 1.19138Z"/>
+          </svg>
+        </span>
+          <span style="vertical-align: middle;">Avaliable: </span>
+          <a href="#">{{ (marketService.currencyPairsInfo$ | async).balanceByCurrency1 }} {{arrPairName[0]}}</a>
+        </div>
+      </div>
+      <div class="row widget__percent-row">
+        <label class="radio">
+          <input class="radio__input" type="radio" name="radio-procent">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 5}"
+                (click)="selectedPercent(5)">
+          5%
+        </span>
+        </label>
+        <label class="radio">
+          <input class="radio__input" type="radio" name="radio-procent">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 25}"
+                (click)="selectedPercent(25)">
+          25%
+        </span>
+        </label>
+        <label class="radio">
+          <input class="radio__input" type="radio" name="radio-procent">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 50}"
+                (click)="selectedPercent(50)">
+          50%
+        </span>
+        </label>
+        <label class="radio">
+          <input class="radio__input" type="radio" name="radio-procent">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 75}"
+                (click)="selectedPercent(75)">
+          75%
+        </span>
+        </label>
+        <label class="radio">
+          <input class="radio__input" type="radio" name="radio-procent">
+          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 100}"
+                (click)="selectedPercent(100)">
+          100%
+        </span>
+        </label>
+      </div>
+
+
+      <div class="row row--jcsb widget__trading-row">
+        <div class="wrap-input widget__input widget__input--mr32">
+          <input class="wrap-input__input" type="text"
+                 formControlName="quantityOf"
+                 (input)="quantityIput($event)"
+                 name="quantityOf">
+          <label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>
+          <div class="wrap-input__line"></div>
+        </div>
+        <div class="wrap-input widget__input">
+          <input class="wrap-input__input" type="text"
+                 formControlName="totalIn"
+                 (input)="totalInput($event)"
+                 name="totalIn">
+          <label class="wrap-input__label" for="">Price in {{arrPairName[1]}}</label>
+          <div class="wrap-input__line"></div>
+        </div>
+      </div>
+    </form>
+
+
+      <button class="btn btn--active widget__trading-btn" (click)="onSubmit()" >{{mainTab === 'BUY' ? 'Buy' : 'Sell'}} BTC</button>
+      <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
+        <div class="fee">
+          Fee: {{order.commission}} {{arrPairName[0]}}
+        </div>
+      </div>
+
+    <!--<div class="widget__buy-sell-btn-wrap">-->
+      <!--<a class="widget__buy-sell-btn widget__buy-sell-btn&#45;&#45;single-red" *ngIf="mainTab === 'BUY'" (click)="toggleMainTab('SELL')" >Sell BTC</a>-->
+      <!--<a class="widget__buy-sell-btn widget__buy-sell-btn&#45;&#45;single-green" *ngIf="mainTab === 'SELL'" (click)="toggleMainTab('BUY')" >Buy BTC</a>-->
+    <!--</div>-->
+  </div>
+
+
 
 
   <!--notif success start-->
