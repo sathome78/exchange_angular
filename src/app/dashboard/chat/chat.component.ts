@@ -26,13 +26,13 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
 
   ngOnInit() {
     this.itemName = 'chat';
-    this.chatService.findAllChatMessages().subscribe(messages => {
-      // console.log(messages);
-      if (messages.length) {
-        this.dateChatItems = messages;
-        this.addTodayIfNecessary();
-      }
-    });
+    // this.chatService.findAllChatMessages().subscribe(messages => {
+    //   // console.log(messages);
+    //   if (messages.length) {
+    //     this.dateChatItems = messages;
+    //     this.addTodayIfNecessary();
+    //   }
+    // });
     // console.log(this.dateChatItems);
   }
 
