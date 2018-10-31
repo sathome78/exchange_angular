@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 import { AbstractDashboardItems } from '../abstract-dashboard-items';
 import { MarketService } from '../markets/market.service';
+import { DashboardDataService } from '../../dashboard/dashboard-data.service';
 import { Subject } from 'rxjs/Subject';
 
 declare const TradingView: any;
@@ -29,6 +30,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   currencyPairName = 'BTC/USD';
 
+  firstCurrency: string;
+  secondCurrency: string;
 
   private lang;
 
@@ -104,7 +107,11 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
 
-  constructor(private marketService: MarketService, private langService: LangService) {
+  constructor(
+    private marketService: MarketService,
+    private langService: LangService,
+    private dashboardService: DashboardDataService
+    ) {
     super();
   }
 
@@ -112,6 +119,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.itemName = 'graph';
 
     this.lang = this.langService.getLanguage();
+    this.formattingCurrentPairName(this.currencyPairName);
 
     const widgetOptions: ChartingLibraryWidgetOptions = {
       symbol: this._symbol,
@@ -166,6 +174,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
     /** getting current currency pair */
     this.marketService.activeCurrencyListener.pipe(takeUntil(this.ngUnsubscribe)).subscribe(pair => {
+      this.currencyPairName = pair.currencyPairName as string;
+      this.formattingCurrentPairName(pair.currencyPairName as string);
       this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
     });
 
@@ -192,4 +202,16 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   ngAfterContentInit() {
   }
 
+  formattingCurrentPairName(currentPair: string): void {
+    /** search slash position */
+    let index: number;
+    index = currentPair.match(/\+|-|\/|\*/).index;
+
+    this.firstCurrency = currentPair.slice(0, index);
+    this.secondCurrency = currentPair.slice(index + 1);
+  }
+
+  setMobileWidget(widgetName: string) {
+    this.dashboardService.activeMobileWidget.next(widgetName);
+  }
 }
