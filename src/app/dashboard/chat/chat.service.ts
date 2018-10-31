@@ -74,7 +74,7 @@ export class ChatService {
    */
   findAllChatMessages(): Observable<IDateChat[]> {
     const url = this.HOST + '/info/public/v2/chat/history';
-    const lang = this.langService.getLanguage().toLowerCase();
+    const lang = 'en';
     const params = {
       params: new HttpParams().append('lang', lang),
     };
