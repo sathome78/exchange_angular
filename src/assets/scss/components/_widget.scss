@@ -299,17 +299,14 @@
   }
   //chat start
   &__chat-wrap {
-    margin-right: 16px;
-    margin-left: 16px;
     height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-bottom: 60px;
+   overflow: auto;
   }
   &__message-wrap {
     display: flex;
     margin-bottom: 4px;
     &--left {
+      margin: 0 20px 4px 16px;
       .widget__message-icon {
         margin-right: 8px;
       }
@@ -327,6 +324,7 @@
       }
     }
     &--right {
+      margin: 0 20px 4px 16px;
       .widget__message-icon {
         margin-left: 8px;
       }
@@ -654,25 +652,22 @@
       }
 
     }
-    &__chat-wrap {
-      margin-right: 32px;
-    }
+
     &__message-wrap {
       &--left {
+        margin: 0 32px 4px 16px;
         .widget__message {
           margin-right: 28px;
         }
       }
       &--right{
-        margin-right: 32px;
+        margin: 0 32px 4px 16px;
       }
     }
     &__search, &__send-message {
-      //position: absolute;
       position: fixed;
       bottom: 28px;
       width: calc(100% - 64px);
-      //margin: 0 16px 0 16px;
       margin: 0;
       left: 32px;
       background-color: #fff;

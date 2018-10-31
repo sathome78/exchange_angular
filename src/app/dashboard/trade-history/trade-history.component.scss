@@ -1,6 +1,7 @@
 @import "../../../assets/scss/variables";
 .widget{
   &__table{
+    margin-top: 0;
     td,th{
       &:first-of-type{
         padding-left: 12px;
