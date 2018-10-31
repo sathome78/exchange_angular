@@ -33,9 +33,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     super();
   }
 
-  ngOnInit() {}
-
-  ngOnInit1() {
+  ngOnInit() {
     this.itemName = 'markets';
     this.volumeOrderDirection = 'NONE';
     this.marketService.setStompSubscription();
