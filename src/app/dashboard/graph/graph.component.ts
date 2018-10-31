@@ -211,7 +211,20 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.secondCurrency = currentPair.slice(index + 1);
   }
 
-  setMobileWidget(widgetName: string) {
+  setMobileWidget(widgetName: string, type: string) {
+    const item = {
+      'needRefresh': true,
+      'page': 0,
+      'id': 0,
+      'userId': 0,
+      'orderType': type,
+      'exrate': '0',
+      'amountBase': '0',
+      'amountConvert': '0',
+      'ordersIds': '0'
+    };
+
+    this.dashboardService.selectedOrderTrading$.next(item);
     this.dashboardService.activeMobileWidget.next(widgetName);
   }
 }
