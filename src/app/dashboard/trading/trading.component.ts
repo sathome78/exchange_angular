@@ -73,7 +73,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.mainTab = 'BUY';
     this.order = {...this.defaultOrder};
     this.initForms();
-
     this.marketService.activeCurrencyListener
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(pair => {

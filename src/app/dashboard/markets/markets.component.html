@@ -107,7 +107,7 @@
 
 
     <!--table start-->
-    <ng-scrollbar [autoHide]="false" [barClass]="'bar-class'" [thumbClass]="'thumb2'">
+    <perfect-scrollbar style="max-width: 600px; max-height: 385px;" [config]="config">
       <div class="widget__table-wrap">
 
         <table class="table widget__table">
@@ -174,7 +174,7 @@
         </table>
 
       </div>
-    </ng-scrollbar>
+    </perfect-scrollbar>
     <!--table end-->
     <div class="widget__search">
       <input class="widget__search-input" type="text" required="" placeholder="Search"
@@ -187,7 +187,7 @@
 
   <div class="widget__content widget__content--mob" *ngIf="!marketSearch">
     <!--table mob start-->
-    <ng-scrollbar [autoHide]="false" [barClass]="'bar-class'" [thumbClass]="'thumb2'">
+    <perfect-scrollbar style="max-width: 600px; height: 80vh" [config]="config">
     <table class="table widget__table widget__table--mob widget__table-markets-mob">
       <thead>
       <tr>
@@ -238,7 +238,7 @@
       </tbody>
     </table>
 
-  </ng-scrollbar>
+    </perfect-scrollbar>
     <!--table mob end-->
     <div class="tabs widget__tabs widget__markets-tabs">
       <button class="tabs__item  tabs__item--active"
