@@ -70,7 +70,7 @@
     bottom: auto;
     transform: translate(-50%,-50%);
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
-    background-color: #264479;
+    background: linear-gradient(to bottom, #F5F5F5 0%, #FDFDFD 50%, #F5F5F5 100%);
     &__close{
       display: block;
     }
@@ -124,7 +124,7 @@
 @media (min-width:1200px) {
   .dark-theme{
     .trading-notification{
-      background: linear-gradient(to bottom, #30314D 0%, #237BEF 100%);
+      background: #264479;
       border: 1px solid $darker-blue;
       &__close{
         svg{
