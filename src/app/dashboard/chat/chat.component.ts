@@ -19,6 +19,13 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
   // todo please implement sorting as backend returns sorted by date ascending with limit of 50 messages
   dateChatItems: DateChatItem [];
 
+  static isToday(date: Date): boolean {
+    const today = new Date();
+    return today.getFullYear() === date.getFullYear()
+      && today.getMonth() === date.getMonth()
+      && today.getDate() === date.getDate();
+  }
+
   constructor(private chatService: ChatService,
               private authService: AuthService) {
     super();
@@ -27,7 +34,7 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
   ngOnInit() {
     this.itemName = 'chat';
     this.chatService.findAllChatMessages().subscribe(messages => {
-      // console.log(messages);
+      console.log(messages);
       if (messages.length) {
         this.dateChatItems = messages;
         this.addTodayIfNecessary();
@@ -41,7 +48,8 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
    */
   addTodayIfNecessary() {
     const index = this.dateChatItems.length - 1;
-    if (this.dateChatItems[index].date !== new Date()) {
+
+    if (!ChatComponent.isToday(new Date(this.dateChatItems[index].date))) {
       this.dateChatItems.push(new DateChatItem(new Date()));
     }
   }

@@ -16,8 +16,6 @@ import {DateChatItem} from './date-chat-item.model';
 @Injectable()
 export class ChatService {
 
-  chatListener: Subject<ChatItem> = new Subject<ChatItem>();
-
   simpleChatListener: Subject<SimpleChat> = new Subject<SimpleChat>();
 
   private stompSubscription: any;
@@ -27,6 +25,7 @@ export class ChatService {
   constructor(private langService: LangService,
               private httpClient: HttpClient,
               private stompService: StompService) {
+    // this.setStompSubscription('en');
   }
 
   /**
@@ -40,13 +39,9 @@ export class ChatService {
   setStompSubscription(lang: string) {
     this.stompSubscription = this.stompService
       .subscribe('/topic/chat/' + lang)
-      .pipe(map((message: Message) => {
-        // console.log(message);
-        return message.body;
-      }))
-      .subscribe((message: string) => {
-          // this.chatItems.push(ChatItem.fromString(message));
-          this.simpleChatListener.next(SimpleChat.fromChatItem(ChatItem.fromString(message)));
+      .subscribe(msg => {
+        // console.log(JSON.parse(msg.body));
+        this.simpleChatListener.next(JSON.parse(msg.body));
       });
   }
 

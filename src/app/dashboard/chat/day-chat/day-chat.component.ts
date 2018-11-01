@@ -4,6 +4,7 @@ import {ChatItem} from '../chat-item.model';
 import {ChatService} from '../chat.service';
 import {Subscription} from 'rxjs';
 import {SimpleChat} from '../simple-chat.model';
+import {ChatComponent} from '../chat.component';
 
 @Component({
   selector: 'app-day-chat',
@@ -15,13 +16,13 @@ export class DayChatComponent implements OnInit, OnDestroy {
   @Input () dateChatItem: DateChatItem;
 
   messages: SimpleChat[];
-  newMessagesSubscription: Subscription;
+  newMessagesSubscription = new Subscription();
 
   constructor(private chatService: ChatService) { }
 
   ngOnInit() {
     this.messages = this.dateChatItem.messages;
-    if (this.dateChatItem.date === new Date()) {
+    if (ChatComponent.isToday(new Date(this.dateChatItem.date))) {
       this.chatService.setStompSubscription('en');
       this.newMessagesSubscription = this.chatService.simpleChatListener.subscribe(msg => {
         this.messages.push(msg);
