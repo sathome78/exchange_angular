@@ -1,3 +1,4 @@
+import {SimpleChat} from './simple-chat.model';
 
 export class ChatItem {
 
@@ -18,5 +19,4 @@ export class ChatItem {
                                         );
     return item;
   }
-
 }

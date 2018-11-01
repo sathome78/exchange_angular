@@ -6,7 +6,7 @@ import {BehaviorSubject, Subject} from 'rxjs';
   providedIn: 'root'
 })
 export class BreakpointService {
-  breakpoint: BehaviorSubject<string>;
+  breakpoint$: BehaviorSubject<string>;
 
   constructor(public breakpointObserver: BreakpointObserver) {
     // Breakpoints
@@ -14,16 +14,16 @@ export class BreakpointService {
       .observe(['(min-width: 1200px)'])
   .subscribe((state: BreakpointState) => {
       if (state.matches) {
-        if (!this.breakpoint) {
-          this.breakpoint = new BehaviorSubject<string>('desktop');
+        if (!this.breakpoint$) {
+          this.breakpoint$ = new BehaviorSubject<string>('desktop');
         } else {
-          this.breakpoint.next('desktop');
+          this.breakpoint$.next('desktop');
         }
       } else {
-        if (!this.breakpoint) {
-          this.breakpoint = new BehaviorSubject<string>('mobile');
+        if (!this.breakpoint$) {
+          this.breakpoint$ = new BehaviorSubject<string>('mobile');
         } else {
-          this.breakpoint.next('mobile');
+          this.breakpoint$.next('mobile');
         }
       }
     });

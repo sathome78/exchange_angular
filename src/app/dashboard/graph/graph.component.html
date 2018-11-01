@@ -1,6 +1,6 @@
 <div class="widget widget--gradient">
   <div class="widget__header">
-    <span class="widget__name">Graph <span>BTC / USD</span></span>
+    <span class="widget__name">Graph <span>{{firstCurrency}} / {{secondCurrency}}</span></span>
     <a href="#" class="widget__question">
       <span class="widget__question-img">
         <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,7 +64,7 @@
       <div class="currency-pair-info__inner">
         <div class="currency-pair-info__pair">
           <div class="dropdown currency-pair-info__dropdown">
-            <div class="dropdown__btn">BTC</div>
+            <div class="dropdown__btn">{{firstCurrency}}</div>
             <ul class="dropdown__list">
               <li class="dropdown__item">ETH</li>
               <li class="dropdown__item">LTC</li>
@@ -73,7 +73,7 @@
           </div>
           <div class="currency-pair-info__change-pair"></div>
           <div class="dropdown currency-pair-info__dropdown">
-            <div class="dropdown__btn">USD</div>
+            <div class="dropdown__btn">{{secondCurrency}}</div>
             <ul class="dropdown__list">
               <li class="dropdown__item">ETH</li>
               <li class="dropdown__item">LTC</li>
@@ -93,17 +93,16 @@
       </div>
     </div>
   </div>
-  <div class="widget__content">
-    <!-- <div style="background-image: url('../assets/img/Graph.png'); background-repeat: no-repeat;
-     -webkit-background-size: cover;background-size: 100% 100%; background-position: center; height: 400px;"></div> -->
+  <div class="widget__graph">
+
      <div class="amcharts-stock_chart_div" id="tv_chart_container"></div>
-  </div>
-  <div class="widget__content widget__content--mob" style="padding-bottom: 40px;">
-    <div style="background-image: url('../assets/img/Graph.png'); background-repeat: no-repeat;
-     -webkit-background-size: cover;background-size: 100% 100%; background-position: center; height: 100%;"></div>
-    <div class="widget__buy-sell-btn-wrap">
-      <a href="#" class="widget__buy-sell-btn widget__buy-sell-btn--green">Buy BTC</a>
-      <a href="#" class="widget__buy-sell-btn widget__buy-sell-btn--red">Sell BTC</a>
+     <div class="widget__graph--mob">
+      <!-- <div class="amcharts-stock_chart_div" id="tv_chart_container"></div> -->
+      <div class="widget__buy-sell-btn-wrap">
+        <a class="widget__buy-sell-btn widget__buy-sell-btn--green" (click)="setMobileWidget('trading', 'BUY')">Buy BTC</a>
+        <a class="widget__buy-sell-btn widget__buy-sell-btn--red" (click)="setMobileWidget('trading', 'SELL')">Sell BTC</a>
+      </div>
     </div>
   </div>
+
 </div>

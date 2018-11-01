@@ -36,7 +36,20 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
   public countPerPage = 7;
 
 
-  public defaultOrder: OpenOrders = new OpenOrders('', '', 0 , 0 , 0 , 0 , 0 , 0 , '');
+
+  // public defaultOrder: OpenOrders = new OpenOrders('', '', 0 , 0 , 0 , 0 , 0 , 0 , '');
+  public defaultOrder: Order = {
+    orderType: '',
+    orderId: 0,
+    currencyPairId: null,
+    amount: null,
+    rate: null,
+    commission: 0,
+    baseType: this.dropdownLimitValue,
+    total: null,
+    status: ''
+  };
+
   public order;
 
   constructor(
@@ -107,7 +120,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
     this.order.rate = order.amountWithCommission / order.amountConvert;
     this.order.amount = order.amountConvert;
     this.order.total  = order.amountWithCommission;
-    this.order.orderType = order.operationType;
+    this.order.orderType = order.operationTypeEnum;
     this.order.orderId = order.id;
     this.order.currencyPairId = order.currencyPairId;
     this.dropdownLimitValue = order.orderBaseType;
@@ -121,21 +134,39 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
    * @param order
    */
   cancelOrder(order): void {
-    const orderToCancel = {
-      orderType: order.operationType,
-      baseType: order.amountBase,
-      orderId: order.id,
-      currencyPairId: order.currencyPairId,
-      amount: order.amountConvert,
-      rate: order.exExchangeRate,
-      commission: order.commissionFixedAmount,
-      total: order.amountWithCommission,
-      status: 'CANCELLED',
-    };
 
-   this.ordersService.updateOrder(orderToCancel).subscribe(res => {
+   //  const orderToCancel = {
+   //    orderType: order.operationType,
+   //    baseType: order.amountBase,
+   //    orderId: order.id,
+   //    currencyPairId: order.currencyPairId,
+   //    amount: order.amountConvert,
+   //    rate: order.exExchangeRate,
+   //    commission: order.commissionFixedAmount,
+   //    total: order.amountWithCommission,
+   //    status: 'CANCELLED',
+   //  };
+   //
+   // this.ordersService.updateOrder(orderToCancel).subscribe(res => {
 
-   });
+   // const editedOrder = this.setStatusOrder(order, 'CANCELED');
+   const editedOrder = {
+     orderId: order.id,
+     amount: order.amountConvert,
+     baseType: order.orderBaseType,
+     commission: order.commissionValue,
+     currencyPairId: order.currencyPairId,
+     orderType: order.operationTypeEnum,
+     rate: order.exExchangeRate,
+     total: order.amountWithCommission,
+     status: 'CANCELLED'
+   };
+
+   if (order.stopRate) {
+     editedOrder.rate = order.stopRate;
+   }
+
+   this.ordersService.updateOrder(editedOrder).subscribe(res => {});
     this.filterOpenOrders(this.currentPage);
   }
 
@@ -161,7 +192,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     const tempOrder = {...this.order};
-    tempOrder.status = 'CANCELED';
+    tempOrder.status = 'CANCELLED';
 
     this.ordersService.updateOrder(tempOrder).subscribe(res => {
       this.createNewOrder();

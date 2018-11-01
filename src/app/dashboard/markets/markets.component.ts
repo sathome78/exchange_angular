@@ -24,12 +24,14 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   /** Markets data by active tab */
   pairs: CurrencyPair[] = [];
   public sortPoint = 'asc';
+  public marketSearch = false;
 
 
   volumeOrderDirection = 'NONE';
   selectedCurrencyPair: CurrencyPair;
 
   constructor(
+    private mockData: MockDataService,
     private marketService: MarketService,
     private ref: ChangeDetectorRef) {
     super();
@@ -86,6 +88,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     }
   }
 
+  toggleSearchModal(event) {
+    this.marketSearch = !this.marketSearch;
+  }
 
   sortVolume() {
     this.sortPoint === 'asc' ? this.sortPoint = 'desc' : this.sortPoint = 'asc';
@@ -94,8 +99,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     } else {
       this.pairs = this.pairs.sort((a, b) => b.volume - a.volume);
     }
-
-    console.log(this.pairs);
   }
 
   /**

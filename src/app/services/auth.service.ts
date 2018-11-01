@@ -41,7 +41,6 @@ export class AuthService {
 
   public setTokenHolder(tokenHolder: TokenHolder) {
     this.tokenHolder = tokenHolder;
-    console.log(tokenHolder)
     if (tokenHolder.token) {
       localStorage.setItem(TOKEN, tokenHolder.token);
     }
@@ -62,7 +61,10 @@ export class AuthService {
   }
 
   public getUsername(): string {
-     return this.simpleToken.username;
+    if (this.simpleToken) {
+      return this.simpleToken.username;
+    }
+    return undefined;
   }
 
   public onLogIn() {}

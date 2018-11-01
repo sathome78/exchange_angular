@@ -1,6 +1,7 @@
 @import "../../../assets/scss/variables";
 .widget{
   &__table{
+    margin-top: 0;
     td,th{
       &:first-of-type{
         padding-left: 12px;
@@ -15,7 +16,9 @@
       background-color: unset;
     }
   }
-
+  ng-scrollbar{
+    height: 444px;
+  }
 
   &__table-row-hover{
     &--green{
@@ -67,20 +70,9 @@
   }
 }
 
-//tbody {
-//  display: block;
-//  width: 418px;
-//  height: 430px;
-//  overflow-y: hidden;
-//  //padding-bottom: 90px;
-//}
-
-//thead, tbody tr {
-//  display:table;
-//  width:100%;
-//  table-layout:fixed;/* even columns width , fix width of table too*/
-//}
-
+:host {
+  width: 100%;
+}
 
 @media (min-width: 1200px){
   .widget{

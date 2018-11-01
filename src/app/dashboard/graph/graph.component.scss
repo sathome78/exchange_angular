@@ -3,6 +3,14 @@
 }
 
 .amcharts-stock_chart_div {
-  height: 100%;
+  height: calc(100% - 40px);
   overflow: hidden;
+  @media (min-width: 1200px) { 
+    height: 100%;
+  }
  }
+
+ :host {
+   width: 100%;
+ }
+
