@@ -70,7 +70,7 @@
 @media (min-width:1200px) {
   .dark-theme{
     .order-edit-popup{
-      background: linear-gradient(to bottom, #30314D 0%, #237BEF 100%);
+      background: #264479;
       border: 1px solid $darker-blue;
       &__close{
         svg{
@@ -80,7 +80,7 @@
       .wrap-input__input{
         &:focus{
           ~.wrap-input__label{
-            background-color: #30406C;
+            background-color: #264479;
           }
         }
       }
