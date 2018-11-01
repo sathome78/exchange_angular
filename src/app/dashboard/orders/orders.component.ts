@@ -78,7 +78,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
         sub.unsubscribe();
 
         // TODO: remove after dashboard init load time issue is solved
-        this.ref.detectChanges();
+        // this.ref.detectChanges();
       });
   }
 
