@@ -133,7 +133,12 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         'use_localstorage_for_settings',
         'cl_feed_return_all_data',
         'header_settings',
-        'header_symbol_search'
+        'header_symbol_search',
+        'header_compare',
+        'header_undo_redo',
+        'header_indicators',
+        'save_chart_properties_to_local_storage',
+        'header_saveload'
       ],
       charts_storage_url: this._chartsStorageUrl,
       charts_storage_api_version: this._chartsStorageApiVersion,
@@ -157,12 +162,12 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         // 'bollinger bands.upper.linewidth': 7
       },
       overrides: {
-        'paneProperties.background': '#191A39',
+        'paneProperties.background': 'rgba(0, 0, 0, 0)',
         'paneProperties.vertGridProperties.color': 'rgba(27, 55, 112, 0)',
         'paneProperties.horzGridProperties.color': 'rgba(27, 55, 112, 0)',
         'symbolWatermarkProperties.transparency': 90,
         'scalesProperties.textColor': '#aaa',
-        'scalesProperties.backgroundColor': '#191A39',
+        'scalesProperties.backgroundColor': 'rgba(0, 0, 0, 0)',
 
         'mainSeriesProperties.areaStyle.color1': 'rgba(35, 123, 239, 1)',
         'mainSeriesProperties.areaStyle.color2': 'rgba(35, 123, 239, 0)',
