@@ -162,7 +162,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         // 'bollinger bands.upper.linewidth': 7
       },
       overrides: {
-        'paneProperties.background': 'rgba(0, 0, 0, 0)',
+        'paneProperties.background': '#243563',
         'paneProperties.vertGridProperties.color': 'rgba(27, 55, 112, 0)',
         'paneProperties.horzGridProperties.color': 'rgba(27, 55, 112, 0)',
         'symbolWatermarkProperties.transparency': 90,
