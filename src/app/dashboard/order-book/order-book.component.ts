@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ElementRef, ViewChild, ChangeDetectorRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, ElementRef, ViewChild} from '@angular/core';
 
 import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {OrderBookService, OrderItem} from './order-book.service';
@@ -459,8 +459,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   constructor(private orderBookService: OrderBookService,
               private marketService: MarketService,
               private dashboardDataService: DashboardDataService,
-              private tradingService: TradingService,
-              private ref: ChangeDetectorRef) {
+              private tradingService: TradingService) {
     super();
   }
 
@@ -505,14 +504,14 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       });
     this.buyOrdersSubscription = this.orderBookService.sellOrdersListener
       .subscribe(items => {
-        if (items.length) {
+        if (items.length >= 1) {
           this.addOrUpdate(this.sellOrders, items);
         }
         console.log(items);
       });
     this.sellOrdersSubscription = this.orderBookService.buyOrdersListener
       .subscribe(items => {
-        if (items.length) {
+        if (items.length >= 1) {
           this.addOrUpdate(this.buyOrders, items);
         }
         console.log(items);
@@ -570,8 +569,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       .subscribe(orders => {
         this.buyOrders = orders;
         this.setData();
-        // TODO: remove after dashboard init load time issue is solved
-        // this.ref.detectChanges();
       });
   }
 

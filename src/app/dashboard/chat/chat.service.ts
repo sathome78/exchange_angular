@@ -11,23 +11,12 @@ import {TOKEN} from '../../services/http.utils';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/internal/operators';
 import {SimpleChat } from './simple-chat.model';
+import {DateChatItem} from './date-chat-item.model';
 
 @Injectable()
 export class ChatService {
 
-  /**
-   * for private chats
-   * @type {any[]}
-   */
-  chatItems: ChatItem [] = [];
-  /**
-   * for public chat - simple model
-   * @type {any[]}
-   */
-  simpleChatItems: SimpleChat [] = [];
-  chatListener: Subject<ChatItem[]> = new Subject<ChatItem[]>();
-
-  simpleChatListener: Subject<SimpleChat[]> = new Subject<SimpleChat[]>();
+  simpleChatListener: Subject<SimpleChat> = new Subject<SimpleChat>();
 
   private stompSubscription: any;
 
@@ -36,6 +25,7 @@ export class ChatService {
   constructor(private langService: LangService,
               private httpClient: HttpClient,
               private stompService: StompService) {
+    // this.setStompSubscription('en');
   }
 
   /**
@@ -47,18 +37,11 @@ export class ChatService {
    * @param lang - current language must be set to lower case
    */
   setStompSubscription(lang: string) {
-    this.findAllChatMessages();
     this.stompSubscription = this.stompService
       .subscribe('/topic/chat/' + lang)
-      .pipe(map((message: Message) => {
-        // console.log(message);
-        return message.body;
-      }))
-      .subscribe((message: string) => {
-        if (this.isValidChatItem(message)) {
-          // this.chatItems.push(ChatItem.fromString(message));
-          this.chatListener.next(this.chatItems.sort(chatItemComp));
-        }
+      .subscribe(msg => {
+        // console.log(JSON.parse(msg.body));
+        this.simpleChatListener.next(JSON.parse(msg.body));
       });
   }
 
@@ -84,13 +67,13 @@ export class ChatService {
    * @returns void
    *
    */
-  findAllChatMessages(): Observable<SimpleChat[]> {
+  findAllChatMessages(): Observable<IDateChat[]> {
     const url = this.HOST + '/info/public/v2/chat/history';
-    const lang = this.langService.getLanguage().toLowerCase();
+    const lang = 'en';
     const params = {
       params: new HttpParams().append('lang', lang),
     };
-    return this.httpClient.get<SimpleChat[]>(url, params);
+    return this.httpClient.get<IDateChat[]>(url, params);
       // .subscribe(
       // (messages: SimpleChat[]) => {
       //   this.simpleChatItems = messages;
@@ -121,13 +104,10 @@ export class ChatService {
     return JSON.parse(message).nickname;
   }
 
-  chatItemComp(left: ChatItem, right: ChatItem) {
-    return left.id > right.id ? 1 : -1;
-  }
-
 }
 
-export function chatItemComp(left: ChatItem, right: ChatItem) {
-  return left.id > right.id ? 1 : -1;
+export interface IDateChat {
+   date: Date;
+   messages: SimpleChat[];
 }
 

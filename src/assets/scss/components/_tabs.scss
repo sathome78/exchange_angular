@@ -80,20 +80,34 @@
 .dark-theme{
   .tabs{
     &:after{
-      background-color: $dark-indigo ;
+      background-color: $grey ;
     }
     &__item{
       color:$grey;
-      &:after{
-        border-color: #2B3961 transparent transparent transparent;
-      }
       &--active{
         color:#fff;
+        &:after{
+          border-color: $dark-indigo transparent transparent transparent;
+        }
       }
     }
   }
 }
 @media (min-width:1200px) {
-  .dark-theme{}
+  .dark-theme{
+    .tabs{
+      &:after{
+        background-color: $dark-indigo ;
+      }
+      &__item{
+        &--active{
+          color:#fff;
+          &:after{
+            border-color: #2B3961 transparent transparent transparent;
+          }
+        }
+      }
+    }
+  }
 }
 /*--- DARK THEME END---*/

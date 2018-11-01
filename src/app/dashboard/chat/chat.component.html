@@ -27,186 +27,192 @@
 
     <div class="widget__chat-wrap">
       <ng-scrollbar [autoHide]="false" [barClass]="'bar-class'" [thumbClass]="'thumb2'">
-        <div class="widget__message-wrap widget__message-wrap--left" *ngFor="let message of simpleChatItems">
-          <div class="widget__message-icon">
-            <img src="../../assets/img/chat-icon1.svg" alt="">
-          </div>
-          <div class="widget__message">
-            <div class="widget__message-nickname">{{ message.email }}</div>
-            <p class="widget__message-text">{{ message.body }}</p>
-          </div>
-          <div class="widget__message-time">{{ message.messageTime }}</div>
+
+        <div class="" *ngFor="let dateChatItem of dateChatItems">
+          <app-day-chat [dateChatItem]="dateChatItem"></app-day-chat>
         </div>
 
-        <div class="widget__message-day">
-          <span>24</span> of <span>july</span>
-        </div>
+
+
+
+        <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;left">-->
+          <!--<div class="widget__message-icon">-->
+            <!--<img src="../../assets/img/chat-icon1.svg" alt="">-->
+          <!--</div>-->
+          <!--<div class="widget__message">-->
+            <!--<div class="widget__message-nickname">{{ message.email }}</div>-->
+            <!--<p class="widget__message-text">{{ message.body }}</p>-->
+          <!--</div>-->
+          <!--<div class="widget__message-time">{{ message.messageTime }}</div>-->
+        <!--</div>-->
+
+
 
         <!--Mock if we fail to retrieve messages-->
-        <div *ngIf="simpleChatItems.length == 0">
-          <div class="widget__message-wrap widget__message-wrap--right">
-            <div class="widget__message">
-              <div class="widget__message-nickname">Igor</div>
-              <p class="widget__message-text">it's too soon to say it as scam guys</p>
-            </div>
-            <div class="widget__message-icon">
-              <img src="" alt="">
-              <span>I</span>
-            </div>
-            <div class="widget__message-time">10:32</div>
-          </div>
-          <div class="widget__message-wrap widget__message-wrap--right">
-            <div class="widget__message">
-              <div class="widget__message-nickname"></div>
-              <p class="widget__message-text">it's too soon to say it as scam guys</p>
-            </div>
-            <div class="widget__message-icon">
-              <img src="" alt="">
-              <span>I</span>
-            </div>
-            <div class="widget__message-time">10:32</div>
-          </div>
-          <div class="widget__message-wrap widget__message-wrap--right">
-            <div class="widget__message">
-              <div class="widget__message-nickname">Igor</div>
-              <p class="widget__message-text">it's too soon to say it as scam guys</p>
-            </div>
-            <div class="widget__message-icon">
-              <img src="" alt="">
-              <span>I</span>
-            </div>
-            <div class="widget__message-time">10:32</div>
-          </div>
-          <div class="widget__message-wrap widget__message-wrap--right">
-            <div class="widget__message">
-              <div class="widget__message-nickname"></div>
-              <p class="widget__message-text">it's too soon to say it as scam guys</p>
-            </div>
-            <div class="widget__message-icon">
-              <img src="" alt="">
-              <span>I</span>
-            </div>
-            <div class="widget__message-time">10:32</div>
-          </div>
-          <div class="widget__message-wrap widget__message-wrap--right">
-            <div class="widget__message">
-              <div class="widget__message-nickname">Igor</div>
-              <p class="widget__message-text">it's too soon to say it as scam guys</p>
-            </div>
-            <div class="widget__message-icon">
-              <img src="" alt="">
-              <span>I</span>
-            </div>
-            <div class="widget__message-time">10:32</div>
-          </div>
-          <div class="widget__message-wrap widget__message-wrap--right">
-            <div class="widget__message">
-              <div class="widget__message-nickname"></div>
-              <p class="widget__message-text">it's too soon to say it as scam guys</p>
-            </div>
-            <div class="widget__message-icon">
-              <img src="" alt="">
-              <span>I</span>
-            </div>
-            <div class="widget__message-time">10:32</div>
-          </div>
-          <div class="widget__message-wrap widget__message-wrap--right">
-            <div class="widget__message">
-              <div class="widget__message-nickname">Igor</div>
-              <p class="widget__message-text">it's too soon to say it as scam guys</p>
-            </div>
-            <div class="widget__message-icon">
-              <img src="" alt="">
-              <span>I</span>
-            </div>
-            <div class="widget__message-time">10:32</div>
-          </div>
-          <div class="widget__message-wrap widget__message-wrap--right">
-            <div class="widget__message">
-              <div class="widget__message-nickname"></div>
-              <p class="widget__message-text">it's too soon to say it as scam guys</p>
-            </div>
-            <div class="widget__message-icon">
-              <img src="" alt="">
-              <span>I</span>
-            </div>
-            <div class="widget__message-time">10:32</div>
-          </div>
-          <div class="widget__message-wrap widget__message-wrap--right">
-            <div class="widget__message">
-              <div class="widget__message-nickname">Igor</div>
-              <p class="widget__message-text">it's too soon to say it as scam guys</p>
-            </div>
-            <div class="widget__message-icon">
-              <img src="" alt="">
-              <span>I</span>
-            </div>
-            <div class="widget__message-time">10:32</div>
-          </div>
-          <div class="widget__message-wrap widget__message-wrap--right">
-            <div class="widget__message">
-              <div class="widget__message-nickname"></div>
-              <p class="widget__message-text">it's too soon to say it as scam guys</p>
-            </div>
-            <div class="widget__message-icon">
-              <img src="" alt="">
-              <span>I</span>
-            </div>
-            <div class="widget__message-time">10:32</div>
-          </div>
-          <div class="widget__message-wrap widget__message-wrap--right">
-            <div class="widget__message">
-              <div class="widget__message-nickname">Igor</div>
-              <p class="widget__message-text">it's too soon to say it as scam guys</p>
-            </div>
-            <div class="widget__message-icon">
-              <img src="" alt="">
-              <span>I</span>
-            </div>
-            <div class="widget__message-time">10:32</div>
-          </div>
-          <div class="widget__message-wrap widget__message-wrap--right">
-            <div class="widget__message">
-              <div class="widget__message-nickname"></div>
-              <p class="widget__message-text">it's too soon to say it as scam guys</p>
-            </div>
-            <div class="widget__message-icon">
-              <img src="" alt="">
-              <span>I</span>
-            </div>
-            <div class="widget__message-time">10:32</div>
-          </div>
-          <div class="widget__message-wrap widget__message-wrap--right">
-            <div class="widget__message">
-              <div class="widget__message-nickname">Igor</div>
-              <p class="widget__message-text">it's too soon to say it as scam guys</p>
-            </div>
-            <div class="widget__message-icon">
-              <img src="" alt="">
-              <span>I</span>
-            </div>
-            <div class="widget__message-time">10:32</div>
-          </div>
-          <div class="widget__message-wrap widget__message-wrap--right">
-            <div class="widget__message">
-              <div class="widget__message-nickname"></div>
-              <p class="widget__message-text">it's too soon to say it as scam guys</p>
-            </div>
-            <div class="widget__message-icon">
-              <img src="" alt="">
-              <span>I</span>
-            </div>
-            <div class="widget__message-time">10:32</div>
-          </div>
-        </div>
+        <!--<div *ngIf="simpleChatItems.length == 0">-->
+          <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;right">-->
+            <!--<div class="widget__message">-->
+              <!--<div class="widget__message-nickname">Igor</div>-->
+              <!--<p class="widget__message-text">it's too soon to say it as scam guys</p>-->
+            <!--</div>-->
+            <!--<div class="widget__message-icon">-->
+              <!--<img src="" alt="">-->
+              <!--<span>I</span>-->
+            <!--</div>-->
+            <!--<div class="widget__message-time">10:32</div>-->
+          <!--</div>-->
+          <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;right">-->
+            <!--<div class="widget__message">-->
+              <!--<div class="widget__message-nickname"></div>-->
+              <!--<p class="widget__message-text">it's too soon to say it as scam guys</p>-->
+            <!--</div>-->
+            <!--<div class="widget__message-icon">-->
+              <!--<img src="" alt="">-->
+              <!--<span>I</span>-->
+            <!--</div>-->
+            <!--<div class="widget__message-time">10:32</div>-->
+          <!--</div>-->
+          <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;right">-->
+            <!--<div class="widget__message">-->
+              <!--<div class="widget__message-nickname">Igor</div>-->
+              <!--<p class="widget__message-text">it's too soon to say it as scam guys</p>-->
+            <!--</div>-->
+            <!--<div class="widget__message-icon">-->
+              <!--<img src="" alt="">-->
+              <!--<span>I</span>-->
+            <!--</div>-->
+            <!--<div class="widget__message-time">10:32</div>-->
+          <!--</div>-->
+          <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;right">-->
+            <!--<div class="widget__message">-->
+              <!--<div class="widget__message-nickname"></div>-->
+              <!--<p class="widget__message-text">it's too soon to say it as scam guys</p>-->
+            <!--</div>-->
+            <!--<div class="widget__message-icon">-->
+              <!--<img src="" alt="">-->
+              <!--<span>I</span>-->
+            <!--</div>-->
+            <!--<div class="widget__message-time">10:32</div>-->
+          <!--</div>-->
+          <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;right">-->
+            <!--<div class="widget__message">-->
+              <!--<div class="widget__message-nickname">Igor</div>-->
+              <!--<p class="widget__message-text">it's too soon to say it as scam guys</p>-->
+            <!--</div>-->
+            <!--<div class="widget__message-icon">-->
+              <!--<img src="" alt="">-->
+              <!--<span>I</span>-->
+            <!--</div>-->
+            <!--<div class="widget__message-time">10:32</div>-->
+          <!--</div>-->
+          <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;right">-->
+            <!--<div class="widget__message">-->
+              <!--<div class="widget__message-nickname"></div>-->
+              <!--<p class="widget__message-text">it's too soon to say it as scam guys</p>-->
+            <!--</div>-->
+            <!--<div class="widget__message-icon">-->
+              <!--<img src="" alt="">-->
+              <!--<span>I</span>-->
+            <!--</div>-->
+            <!--<div class="widget__message-time">10:32</div>-->
+          <!--</div>-->
+          <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;right">-->
+            <!--<div class="widget__message">-->
+              <!--<div class="widget__message-nickname">Igor</div>-->
+              <!--<p class="widget__message-text">it's too soon to say it as scam guys</p>-->
+            <!--</div>-->
+            <!--<div class="widget__message-icon">-->
+              <!--<img src="" alt="">-->
+              <!--<span>I</span>-->
+            <!--</div>-->
+            <!--<div class="widget__message-time">10:32</div>-->
+          <!--</div>-->
+          <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;right">-->
+            <!--<div class="widget__message">-->
+              <!--<div class="widget__message-nickname"></div>-->
+              <!--<p class="widget__message-text">it's too soon to say it as scam guys</p>-->
+            <!--</div>-->
+            <!--<div class="widget__message-icon">-->
+              <!--<img src="" alt="">-->
+              <!--<span>I</span>-->
+            <!--</div>-->
+            <!--<div class="widget__message-time">10:32</div>-->
+          <!--</div>-->
+          <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;right">-->
+            <!--<div class="widget__message">-->
+              <!--<div class="widget__message-nickname">Igor</div>-->
+              <!--<p class="widget__message-text">it's too soon to say it as scam guys</p>-->
+            <!--</div>-->
+            <!--<div class="widget__message-icon">-->
+              <!--<img src="" alt="">-->
+              <!--<span>I</span>-->
+            <!--</div>-->
+            <!--<div class="widget__message-time">10:32</div>-->
+          <!--</div>-->
+          <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;right">-->
+            <!--<div class="widget__message">-->
+              <!--<div class="widget__message-nickname"></div>-->
+              <!--<p class="widget__message-text">it's too soon to say it as scam guys</p>-->
+            <!--</div>-->
+            <!--<div class="widget__message-icon">-->
+              <!--<img src="" alt="">-->
+              <!--<span>I</span>-->
+            <!--</div>-->
+            <!--<div class="widget__message-time">10:32</div>-->
+          <!--</div>-->
+          <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;right">-->
+            <!--<div class="widget__message">-->
+              <!--<div class="widget__message-nickname">Igor</div>-->
+              <!--<p class="widget__message-text">it's too soon to say it as scam guys</p>-->
+            <!--</div>-->
+            <!--<div class="widget__message-icon">-->
+              <!--<img src="" alt="">-->
+              <!--<span>I</span>-->
+            <!--</div>-->
+            <!--<div class="widget__message-time">10:32</div>-->
+          <!--</div>-->
+          <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;right">-->
+            <!--<div class="widget__message">-->
+              <!--<div class="widget__message-nickname"></div>-->
+              <!--<p class="widget__message-text">it's too soon to say it as scam guys</p>-->
+            <!--</div>-->
+            <!--<div class="widget__message-icon">-->
+              <!--<img src="" alt="">-->
+              <!--<span>I</span>-->
+            <!--</div>-->
+            <!--<div class="widget__message-time">10:32</div>-->
+          <!--</div>-->
+          <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;right">-->
+            <!--<div class="widget__message">-->
+              <!--<div class="widget__message-nickname">Igor</div>-->
+              <!--<p class="widget__message-text">it's too soon to say it as scam guys</p>-->
+            <!--</div>-->
+            <!--<div class="widget__message-icon">-->
+              <!--<img src="" alt="">-->
+              <!--<span>I</span>-->
+            <!--</div>-->
+            <!--<div class="widget__message-time">10:32</div>-->
+          <!--</div>-->
+          <!--<div class="widget__message-wrap widget__message-wrap&#45;&#45;right">-->
+            <!--<div class="widget__message">-->
+              <!--<div class="widget__message-nickname"></div>-->
+              <!--<p class="widget__message-text">it's too soon to say it as scam guys</p>-->
+            <!--</div>-->
+            <!--<div class="widget__message-icon">-->
+              <!--<img src="" alt="">-->
+              <!--<span>I</span>-->
+            <!--</div>-->
+            <!--<div class="widget__message-time">10:32</div>-->
+          <!--</div>-->
+        <!--</div>-->
 
       </ng-scrollbar>
     </div>
 
     <div class="widget__send-message">
-      <input class="widget__send-input" type="text" required="" placeholder="Text your message here">
+      <input class="widget__send-input" type="text" required="" placeholder="Text your message here" #chatInput>
       <span class="widget__input-img widget__input-img--hide-mob widget__input-img--second-icon"><img src="../../assets/img/smiley.svg"></span>
-      <span class="widget__input-img" (click)="onSendChatMessage('test message')"><img src="../../assets/img/send-message.svg"></span>
+      <span class="widget__input-img" (click)="onSendChatMessage(chatInput)"><img src="../../assets/img/send-message.svg"></span>
     </div>
 
   </div>

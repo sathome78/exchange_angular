@@ -2,14 +2,15 @@
   position: relative;
   display: inline-block;
   .radio__text__checked{
-    background-color: $darker-blue;
-    color:#fff;
+    //background-color: transparent;
+    //color:#fff;
   }
   &:hover{
     cursor: pointer;
     .radio__text {
       background-color: $darker-blue;
       color:#fff;
+      border-color: transparent;
     }
   }
   /*--- modificators start ---*/
@@ -73,15 +74,8 @@
 .dark-theme{
   .radio{
     .radio__text__checked{
-      background-color: $darker-blue;
-      color:#fff;
-    }
-    &__input {
-      &:checked {
-        ~.radio__text {
-          //border: none;
-        }
-      }
+      //background-color: $darker-blue;
+      //color:#fff;
     }
     &__text{
       border: 1px solid $light-blue;

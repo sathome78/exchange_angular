@@ -16,7 +16,9 @@
       background-color: unset;
     }
   }
-
+  ng-scrollbar{
+    height: 444px;
+  }
 
   &__table-row-hover{
     &--green{
@@ -71,20 +73,6 @@
 :host {
   width: 100%;
 }
-//tbody {
-//  display: block;
-//  width: 418px;
-//  height: 430px;
-//  overflow-y: hidden;
-//  //padding-bottom: 90px;
-//}
-
-//thead, tbody tr {
-//  display:table;
-//  width:100%;
-//  table-layout:fixed;/* even columns width , fix width of table too*/
-//}
-
 
 @media (min-width: 1200px){
   .widget{
