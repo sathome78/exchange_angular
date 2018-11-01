@@ -1,4 +1,4 @@
-<div class="widget widget--gradient">
+<div class="widget widget--gradient" >
   <div class="widget__header">
     <span class="widget__name">Trading</span>
     <a href="#" class="widget__question">
@@ -20,7 +20,7 @@
       </div>
     </div>
   </div>
-  <div class="tabs widget__tabs" *ngIf="currentPair">
+  <div class="tabs widget__tabs" *ngIf="currentPair" >
     <button class="tabs__item tabs__item--big "
             [ngClass]="{'tabs__item--active': mainTab === 'BUY', 'tab-no-active': mainTab !== 'BUY'}"
             (click)="toggleMainTab('BUY')">Buy {{arrPairName[0]}}
