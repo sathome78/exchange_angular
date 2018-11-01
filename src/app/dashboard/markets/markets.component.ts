@@ -59,7 +59,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         this.pairs = this.choosePair(this.currencyDisplayMode);
         this.emitWhenSelectedPairIsUpdated(freshPairs);
         // TODO: remove after dashboard init load time issue is solved
-        this.ref.detectChanges();
+        // this.ref.detectChanges();
       });
   }
 
