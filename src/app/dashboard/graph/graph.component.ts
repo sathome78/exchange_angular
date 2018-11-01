@@ -233,7 +233,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.secondCurrency = currentPair.slice(index + 1);
   }
 
-  setMobileWidget(widgetName: string, type: string) {
+  setMobileWidget(widgetName: string, type: string): void {
     const item = {
       'needRefresh': true,
       'page': 0,
