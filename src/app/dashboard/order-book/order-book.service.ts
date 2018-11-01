@@ -28,7 +28,7 @@ export class OrderBookService {
   subscribeStompOrders(pair: CurrencyPair) {
     return this.stompService
       .subscribe('/app/trade_orders/' + pair.currencyPairId)
-      .pipe(map((message: Message) =>  {
+      .pipe(map((message: Message) => {
         console.log(JSON.parse(message.body));
         return JSON.parse(message.body);
       }))
@@ -75,7 +75,10 @@ export class OrderBookService {
   subscribeStompForBuyOrders(pair: CurrencyPair) {
     return this.stompService
       .subscribe('/app/trade_orders/' + 58)
-      .pipe( map((message: Message) => JSON.parse(message.body)))
+      .pipe( map((message: Message) => {
+        console.log(JSON.parse(message.body));
+        return JSON.parse(message.body);
+      }));
       /*.subscribe((orders: OrderItemsWrapper []) => {
         console.log(orders)
         this.processOrderItems(orders, 'SELL');

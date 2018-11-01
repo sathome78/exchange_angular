@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {TradeHistoryService, TradeItem} from './trade-history.service';
 import {MarketService} from '../markets/market.service';
@@ -29,8 +29,7 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   private data;
 
   constructor(private tradeService: TradeHistoryService,
-              private marketService: MarketService,
-              private ref: ChangeDetectorRef) {
+              private marketService: MarketService) {
     super();
   }
 
@@ -54,9 +53,6 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
 
           return timeA - timeB;
         });
-
-        // TODO: remove after dashboard init load time issue is solved
-        this.ref.detectChanges();
       });
   }
 
