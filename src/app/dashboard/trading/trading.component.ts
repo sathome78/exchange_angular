@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, ChangeDetectorRef, HostListener} from '@angular/core';
 
 import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -45,6 +45,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public notifyFail = false;
   public message = '';
 
+  @HostListener('document:click') clickout() {
+    this.notifyFail = false;
+    this.notifySuccess = false;
+    // this.isDropdownOpen = false;
+  }
+
+
   constructor(
     public breakPointService: BreakpointService,
     public tradingService: TradingService,
@@ -81,7 +88,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.splitPairName();
         this.getCommissionIndex();
         // TODO: remove after dashboard init load time issue is solved
-        this.ref.detectChanges();
+        // this.ref.detectChanges();
 
       });
 
