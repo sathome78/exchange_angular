@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
 import { LangService } from '../../services/lang.service';
 import { takeUntil } from 'rxjs/internal/operators';
 
@@ -32,6 +32,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   firstCurrency: string;
   secondCurrency: string;
+
+  currentCurrencyInfo;
 
   private lang;
 
@@ -110,7 +112,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   constructor(
     private marketService: MarketService,
     private langService: LangService,
-    private dashboardService: DashboardDataService
+    private dashboardService: DashboardDataService,
+    private ref: ChangeDetectorRef
     ) {
     super();
   }
@@ -192,6 +195,20 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         }));
       button[0].innerHTML = 'Check API';
     });
+
+    this.marketService.activeCurrencyListener
+    .pipe(takeUntil(this.ngUnsubscribe))
+    .subscribe(pair => {
+      const infoSub = this.marketService.currencyPairInfo(pair.currencyPairId)
+        .subscribe(res => {
+          this.currentCurrencyInfo = res;
+          // this.pair = pair;
+          // this.splitPairName(this.pair);
+          // TODO: remove after dashboard init load time issue is solved
+          this.ref.detectChanges();
+          infoSub.unsubscribe();
+      });
+  });
   }
 
   ngOnDestroy(): void {
