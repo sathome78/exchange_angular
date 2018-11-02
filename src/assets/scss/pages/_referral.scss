@@ -147,16 +147,11 @@
     }
     /*--- elements end ---*/
   }
-  //popup start
-  &__summary-popup {
+  .summary-popup {
     position: relative;
     background-color: #2E304D;
     border-radius: 2px;
     max-width: 440px;
-  }
-
-  /*--- elements end ---*/
-  .summary-popup {
     &__triangle {
       position: absolute;
       top: 20px;
