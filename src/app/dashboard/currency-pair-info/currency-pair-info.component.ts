@@ -134,7 +134,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    * @param {CurrencyPair} pair
    */
   splitPairName(pair: CurrencyPair) {
-    [ this.firstCurrency, this.secondCurrency ] = this.pair.currencyPairName.split('/');
+    [ this.secondCurrency, this.firstCurrency ] = this.pair.currencyPairName.split('/');
   }
 
 }
