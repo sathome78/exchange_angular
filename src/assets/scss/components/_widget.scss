@@ -695,6 +695,9 @@
       padding: 0 12px;
       padding-right: 30px;
       border: none;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
       font-size: 14px;
       &:focus {
         outline: none;
@@ -702,6 +705,9 @@
     }
     &__send-input {
       padding-right: 68px;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
     }
     &__input-img {
       &--hide-mob {
@@ -954,6 +960,9 @@
       &--main{
         display: block;
         background: linear-gradient(to bottom, #EB5757 0%,#EB5757 20%, rgba(0,0,0,0) 56%, rgba(0,0,0,0) 56%, #00B43D 80%, #00B43D 100%);
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
       }
     }
     /*--- elements end ---*/
