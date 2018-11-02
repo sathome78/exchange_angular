@@ -237,6 +237,12 @@
 .dark-theme{
   .popup{
     background-color: $dark-indigo;
+    &__title {
+      color: #fff;
+    }
+    &__subtitle {
+      color: #fff;
+    }
   }
 }
 @media (min-width:1200px) {
