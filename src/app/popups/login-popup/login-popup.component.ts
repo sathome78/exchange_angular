@@ -75,19 +75,21 @@ export class LoginPopupComponent implements OnInit {
           err => {
             const status = err['status'];
             console.log('status: ' + status);
-            if (status === 401) {
+            if (status === 401 || status === 422) {
               this.logger.info(this, 'Attempt to sign in with invalid credentials: { login: ' + email + ', pass: ' + password + '}');
               this.statusMessage = 'Your email and/or password are invalid!';
             } else if (status >= 500) {
               this.logger.error(this, 'Sever failure when sigh in with credentials: { login: ' + email + ', pass: ' + password + '}');
               // redirect to 500 page
-              this.statusMessage = 'Sorry we died!';
+              this.statusMessage = 'Service temporary unavailable';
             } else if (status === 426) {
               this.logger.info(this, 'Attempt to sign in by unconfirmed user: { login: ' + email + ', pass: ' + password + '}');
               this.statusMessage = 'It seems you didn\'t completed your registration';
+            } else if (status === 403) {
+              this.statusMessage = 'You are not allowed to access';
             } else if (status === 410) {
               this.logger.info(this, 'Attempt to sign in by inactive (deleted) user: { login: ' + email + ', pass: ' + password + '}');
-              this.statusMessage = 'Sorry, but we thought you died. Fuck off, stupid zombie!';
+              this.statusMessage = 'User inactive(deleted)';
             } else if (status === 419) {
               this.statusMessage = 'Your ip is blocked!';
             } else if (status === 418) {
