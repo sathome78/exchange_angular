@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
 import { LangService } from '../../services/lang.service';
 import { takeUntil } from 'rxjs/internal/operators';
 
@@ -32,6 +32,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   firstCurrency: string;
   secondCurrency: string;
+
+  currentCurrencyInfo;
 
   private lang;
 
@@ -110,7 +112,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   constructor(
     private marketService: MarketService,
     private langService: LangService,
-    private dashboardService: DashboardDataService
+    private dashboardService: DashboardDataService,
+    private ref: ChangeDetectorRef
     ) {
     super();
   }
@@ -138,7 +141,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         'header_undo_redo',
         'header_indicators',
         'save_chart_properties_to_local_storage',
-        'header_saveload'
+        'header_saveload',
+        'border_around_the_chart'
       ],
       charts_storage_url: this._chartsStorageUrl,
       charts_storage_api_version: this._chartsStorageApiVersion,
@@ -146,7 +150,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       user_id: this._userId,
       fullscreen: this._fullscreen,
       autosize: this._autosize,
-      toolbar_bg: '#191A39',
+      toolbar_bg: '#2c375d',
       custom_css_url: '/assets/css/chart_style.css',
       // favorites: {
       //   chartTypes: ['Area'],
@@ -162,7 +166,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         // 'bollinger bands.upper.linewidth': 7
       },
       overrides: {
-        'paneProperties.background': 'rgba(0, 0, 0, 0)',
+        'paneProperties.background': '#2c375d',
         'paneProperties.vertGridProperties.color': 'rgba(27, 55, 112, 0)',
         'paneProperties.horzGridProperties.color': 'rgba(27, 55, 112, 0)',
         'symbolWatermarkProperties.transparency': 90,
@@ -197,6 +201,20 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         }));
       button[0].innerHTML = 'Check API';
     });
+
+    this.marketService.activeCurrencyListener
+    .pipe(takeUntil(this.ngUnsubscribe))
+    .subscribe(pair => {
+      const infoSub = this.marketService.currencyPairInfo(pair.currencyPairId)
+        .subscribe(res => {
+          this.currentCurrencyInfo = res;
+          // this.pair = pair;
+          // this.splitPairName(this.pair);
+          // TODO: remove after dashboard init load time issue is solved
+          this.ref.detectChanges();
+          infoSub.unsubscribe();
+      });
+  });
   }
 
   ngOnDestroy(): void {
@@ -216,7 +234,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.secondCurrency = currentPair.slice(index + 1);
   }
 
-  setMobileWidget(widgetName: string, type: string) {
+  setMobileWidget(widgetName: string, type: string): void {
     const item = {
       'needRefresh': true,
       'page': 0,
