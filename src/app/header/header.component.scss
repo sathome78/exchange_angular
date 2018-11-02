@@ -463,13 +463,13 @@
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
-  max-width: 112px;
+  margin: 0 32px;
   color: #fff;
   text-decoration: none;
   justify-content: center;
-  flex-grow: 1;
 
   &:hover {
+    cursor: pointer;
     text-decoration: none;
   }
 }
