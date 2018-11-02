@@ -79,8 +79,8 @@ export class MarketService {
    */
   findPairByCurrencyPairName(pairName: string, pair): void {
     /** for mock data */
-    pair.currencyPairName = pairName;
-    this.activeCurrencyListener.next(pair);
+    //pair.currencyPairName = pairName;
+    //this.activeCurrencyListener.next(pair);
     /** ---------------- */
     this.currencyPairs.forEach(elm => {
       if (pairName === elm.currencyPairName) {
@@ -97,11 +97,11 @@ export class MarketService {
     /** for mock data */
     this.activeCurrencyListener.next(pair);
     /** ---------------- */
-    this.currencyPairs.forEach(elm => {
+    /*this.currencyPairs.forEach(elm => {
       if (pair.currencyPairId === elm.currencyPairId) {
         this.activeCurrencyListener.next(elm);
       }
-    });
+    });*/
   }
 
   findPairByID(id) {
