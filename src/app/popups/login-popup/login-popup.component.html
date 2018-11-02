@@ -4,7 +4,7 @@
     <h6 class="popup__title">Log in</h6>
 
     <!--TODO this message is shown when user provided invalid credentials Or backEndDied-->
-    <h4>{{ statusMessage }}</h4>
+    <h4 class="popup__subtitle">{{ statusMessage }}</h4>
 
     <form class="popup__form" [formGroup]="form">
 
@@ -64,7 +64,8 @@
         <!--Pin Code -->
         <ng-template #showPinCode>
           <!--TODO this method displays which method is used-->
-          <h3>{{ twoFaAuthModeMessage }}</h3>
+          <h6 class="popup__title">Log in</h6>
+          <h4 class="popup__subtitle">{{ twoFaAuthModeMessage }}</h4>
           <div class="wrap-input popup__wrap-input">
             <input
               class="wrap-input__input"
