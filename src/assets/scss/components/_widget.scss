@@ -604,6 +604,7 @@
     border-radius: 4px;
     padding-bottom: 8px;
     height: 100%;
+    
     &--gradient {
       background: linear-gradient(to bottom, #F5F5F5 0%, #FDFDFD 50%, #F5F5F5 100%);
     }
@@ -963,6 +964,9 @@
 @media (min-width: 1200px) {
   .dark-theme {
     .widget {
+      &--graph-color {
+        background-color: #2c375d;
+      }
       &--gradient {
         background: -webkit-gradient(linear, left top, left bottom, from(rgb(48, 49, 77)), to(rgb(24, 52, 103)));
         background: -webkit-linear-gradient(top, rgb(48, 49, 77) 0%, rgb(24, 52, 103) 100%);
