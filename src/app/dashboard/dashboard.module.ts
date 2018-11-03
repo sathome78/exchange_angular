@@ -33,6 +33,7 @@ import {ChatService} from './chat/chat.service';
 import {ScrollbarModule} from 'ngx-scrollbar';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {CurrencySortingPipe} from './markets/currency-sorting.pipe';
+import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import { DayChatComponent } from './chat/day-chat/day-chat.component';
 import { ChatMessageComponent } from './chat/chat-message/chat-message.component';
 import {NicknamePipe} from './chat/chat-message/nickname.pipe';
@@ -42,6 +43,12 @@ export function socketProvider() {
   return new SockJS(environment.apiUrl + '/public_socket');
   // return new SockJS('http://localhost:5555/jsa-stomp-endpoint');
 }
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true,
+  swipeEasing: true,
+  wheelSpeed: 0.2
+};
 
 const stompConfig: StompConfig = {
   // Which server?
@@ -101,7 +108,8 @@ const stompConfig: StompConfig = {
     ReactiveFormsModule,
     GridsterModule.forRoot(),
     ScrollbarModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    PerfectScrollbarModule
   ],
   exports: [
 
@@ -115,6 +123,7 @@ const stompConfig: StompConfig = {
     StompService,
     TradeHistoryService,
     { provide: StompConfig, useValue: stompConfig },
+    {provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG}
   ]
 })
 export class DashboardModule {
