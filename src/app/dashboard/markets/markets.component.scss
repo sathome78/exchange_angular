@@ -53,3 +53,7 @@ ng-scrollbar{
     height: 75vh;
   }
 }
+
+::ng-deep .ps__rail-y{
+  background: #bd3820;
+}
