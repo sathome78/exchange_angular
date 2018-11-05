@@ -2,8 +2,6 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 
 import {AbstractDashboardItems} from '../abstract-dashboard-items';
 import {ChatService} from './chat.service';
-import {SimpleChat} from './simple-chat.model';
-import {Subscription} from 'rxjs';
 import {DateChatItem} from './date-chat-item.model';
 import {AuthService} from '../../services/auth.service';
 

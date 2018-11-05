@@ -6,6 +6,8 @@ import {MarketService} from '../markets/market.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 import { forkJoin} from 'rxjs';
+import {AuthService} from '../../services/auth.service';
+import {Subscription} from 'rxjs/index';
 
 @Component({
   selector: 'app-orders',
@@ -17,6 +19,8 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
   public itemName: string;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  refreshOrdersSubscription = new Subscription();
+
 
   public mainTab = 'open';
   public openOrdersCount = 0;
@@ -27,6 +31,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
 
 
   constructor(
+    private authService: AuthService,
     private mockData: MockDataService,
     private ordersService: OrdersService,
     private marketService: MarketService,
@@ -52,11 +57,19 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
         this.splitPairName();
         this.toOpenOrders();
     });
+    if (this.authService.isAuthenticated()) {
+      this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
+      this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
+        this.toOpenOrders();
+      });
+    }
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.ordersService.unsubscribeStomp();
+    this.refreshOrdersSubscription.unsubscribe();
   }
 
   /**
