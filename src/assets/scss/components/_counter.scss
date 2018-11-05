@@ -1,0 +1,27 @@
+.counter{
+  display: inline-block;
+  padding:  2px 4px;
+  border: 1px solid $darker-blue;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  span{
+    &:first-child{
+      color:$darker-blue;
+    }
+  }
+  /*--- modificators start ---*/
+  /*--- modificators end ---*/
+  /*--- elements start ---*/
+  /*--- elements end ---*/
+}
+/*--- media start ---*/
+@media (min-width:1200px) {}
+/*--- media end ---*/
+
+/*--- DARK THEME START---*/
+.dark-theme{}
+@media (min-width:1200px) {
+  .dark-theme{}
+}
+/*--- DARK THEME END---*/

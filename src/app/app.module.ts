@@ -49,6 +49,7 @@ import {TradingService} from './dashboard/trading/trading.service';
 import {OrdersService} from './dashboard/orders/orders.service';
 import { ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
 import { ReferralChargesComponent } from './referral/referral-charges/referral-charges.component';
+import { BalanceComponent } from './balance/balance.component';
 
 
 @NgModule({
@@ -80,6 +81,7 @@ import { ReferralChargesComponent } from './referral/referral-charges/referral-c
     OrdersHistoryComponent,
     ReferralStructureComponent,
     ReferralChargesComponent,
+    BalanceComponent,
     // TWO FACTOR POPUP END
 
 
