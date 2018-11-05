@@ -371,15 +371,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     if (this.order.rate >= 0) {
       this.order.total = this.order.amount * this.order.rate;
       this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
-      if (this.mainTab === 'BUY') {
-        const total = this.order.total + this.order.commission;
-        this.order.total = total;
-        this.setTotalInValue(total);
-      } else {
-        const total = this.order.total - this.order.commission;
-        this.order.total = total;
-        this.setTotalInValue(total);
-      }
+      let total;
+      this.mainTab === 'BUY' ?
+        total = this.order.total + this.order.commission :
+        total = this.order.total - this.order.commission;
+      this.order.total = total;
+      this.setTotalInValue(total);
     }
   }
 }
