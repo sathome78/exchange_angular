@@ -49,6 +49,8 @@ import {TradingService} from './dashboard/trading/trading.service';
 import {OrdersService} from './dashboard/orders/orders.service';
 import { ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
 import { ReferralChargesComponent } from './referral/referral-charges/referral-charges.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 
 @NgModule({
@@ -95,7 +97,8 @@ import { ReferralChargesComponent } from './referral/referral-charges/referral-c
     ReactiveFormsModule,
     SettingsModule,
     WebcamModule,
-    SharedModule
+    SharedModule,
+    NgxPaginationModule
   ],
   providers: [
     AuthGuard,

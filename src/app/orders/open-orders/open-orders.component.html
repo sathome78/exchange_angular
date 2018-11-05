@@ -28,7 +28,7 @@
       </thead>
       <tbody class="table__body table__body--none-shadow">
       <!-- t-row start-->
-      <tr class="table__row--mob">
+      <tr class="table__row--mob" data-id="234566113434" (click)="toggleDetails($event)">
         <td class="table__cell table__cell--tal">
           <div>BTC / ETH</div>
           <div class="table__date-time">
@@ -48,7 +48,7 @@
         </td>
       <!-- t-row end-->
       <!-- t-row start-->
-      <tr class="table__details">
+      <tr id="234566113434" class="table__details">
         <td class="table__details-cell" colspan="4">
           <!--<div class="table__details-left-line"></div>-->
           <!--<div class="table__details-bottom-line"></div>-->
@@ -103,21 +103,25 @@
         <div class="wrap-input orders__datepicker">
           <label class="wrap-input__label" for="">From</label>
 
-          <!--<my-date-picker-->
-            <!--name="from"-->
-            <!--[options]="myDatePickerOptions"-->
+          <my-date-picker
+            name="from"
+            [options]="myDatePickerOptions"
+            [(ngModel)]="modelDateFrom"
+            (inputFieldChanged)="onFromInputFieldChanged($event)">
           <!--&gt;-->
-          <!--</my-date-picker>-->
+          </my-date-picker>
           <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
         </div>
         <div class="wrap-input orders__datepicker">
           <label class="wrap-input__label" for="">To</label>
 
-          <!--<my-date-picker-->
-            <!--name="to"-->
-            <!--[options]="myDatePickerOptions"-->
-          <!--&gt;-->
-          <!--</my-date-picker>-->
+          <my-date-picker
+            name="to"
+            [options]="myDatePickerOptions"
+            [(ngModel)]="modelDateTo"
+            (inputFieldChanged)="onToInputFieldChanged($event)">
+          &gt;
+          </my-date-picker>
           <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
         </div>
       </div>
@@ -140,159 +144,44 @@
       </tr>
       </thead>
       <tbody class="table__body">
-      <tr class="table__row">
-        <td class="table__cell">
-          <span>234566113434</span>
-        </td>
-        <td class="table__cell">
-          <div class="table__date-time">
-            <div>Th 13.06.2018</div>
-            <div>10:59:41</div>
-          </div>
-        </td>
-        <td class="table__cell">
-          <a class="orders__market">BTC/USD</a>
-        </td>
-        <td class="table__cell">
-          <span class="orders__type-buy">Buy (limit)</span>
-        </td>
-        <td class="table__cell">
-          <span>4500 USD</span>
-        </td>
-        <td class="table__cell">
-          <span class="orders__for">for</span>
-        </td>
-        <td class="table__cell">
-          <span>0.005 BTC</span>
-        </td>
-        <td class="table__cell">
-          <span class="orders__comission">30% </span><span class="orders__comission-usd">~<span> 0.00015 USD</span></span>
-        </td>
-        <td class="table__cell">
-          <span>6000 USD</span>
-        </td>
-        <td class="table__cell">
-          <button class="btn btn--small btn--empty-red table__row-btn" style="width: 100%; max-width: 58px;">Cancel</button>
-        </td>
-        <td class="table__cell">
-          <button class="btn btn--small btn--empty-blue table__row-btn" style="width: 100%; max-width: 58px;">Edit</button>
-        </td>
-      </tr>
-      <tr class="table__row">
-        <td class="table__cell">
-          <span>234566113434</span>
-        </td>
-        <td class="table__cell">
-          <div class="table__date-time">
-            <div>Th 13.06.2018</div>
-            <div>10:59:41</div>
-          </div>
-        </td>
-        <td class="table__cell">
-          <a class="orders__market">BTC/USD</a>
-        </td>
-        <td class="table__cell">
-          <span class="orders__type-sell">Sell (limit)</span>
-        </td>
-        <td class="table__cell">
-          <span>4500 USD</span>
-        </td>
-        <td class="table__cell">
-          <span class="orders__for">for</span>
-        </td>
-        <td class="table__cell">
-          <span>0.005 BTC</span>
-        </td>
-        <td class="table__cell">
-          <span class="orders__comission">30% </span><span class="orders__comission-usd">~<span> 0.00015 USD</span></span>
-        </td>
-        <td class="table__cell">
-          <span>6000 USD</span>
-        </td>
-        <td class="table__cell">
-          <button class="btn btn--small btn--empty-red table__row-btn" style="width: 100%; max-width: 58px;">Cancel</button>
-        </td>
-        <td class="table__cell">
-          <button class="btn btn--small btn--empty-blue table__row-btn" style="width: 100%; max-width: 58px;">Edit</button>
-        </td>
-      </tr>
-      <tr class="table__row">
-        <td class="table__cell">
-          <span>234566113434</span>
-        </td>
-        <td class="table__cell">
-          <div class="table__date-time">
-            <div>Th 13.06.2018</div>
-            <div>10:59:41</div>
-          </div>
-        </td>
-        <td class="table__cell">
-          <a class="orders__market">BTC/USD</a>
-        </td>
-        <td class="table__cell">
-          <span class="orders__type-buy">Buy (limit)</span>
-        </td>
-        <td class="table__cell">
-          <span>4500 USD</span>
-        </td>
-        <td class="table__cell">
-          <span class="orders__for">for</span>
-        </td>
-        <td class="table__cell">
-          <span>0.005 BTC</span>
-        </td>
-        <td class="table__cell">
-          <span class="orders__comission">30% </span><span class="orders__comission-usd">~<span> 0.00015 USD</span></span>
-        </td>
-        <td class="table__cell">
-          <span>6000 USD</span>
-        </td>
-        <td class="table__cell">
-          <button class="btn btn--small btn--empty-red table__row-btn" style="width: 100%; max-width: 58px;">Cancel</button>
-        </td>
-        <td class="table__cell">
-          <button class="btn btn--small btn--empty-blue table__row-btn" style="width: 100%; max-width: 58px;">Edit</button>
-        </td>
-      </tr>
-      <tr class="table__row">
-        <td class="table__cell">
-          <span>234566113434</span>
-        </td>
-        <td class="table__cell">
-          <div class="table__date-time">
-            <div>Th 13.06.2018</div>
-            <div>10:59:41</div>
-          </div>
-        </td>
-        <td class="table__cell">
-          <a class="orders__market">BTC/USD</a>
-        </td>
-        <td class="table__cell">
-          <span class="orders__type-sell">Sell (limit)</span>
-        </td>
-        <td class="table__cell">
-          <span>4500 USD</span>
-        </td>
-        <td class="table__cell">
-          <span class="orders__for">for</span>
-        </td>
-        <td class="table__cell">
-          <span>0.005 BTC</span>
-        </td>
-        <td class="table__cell">
-          <span class="orders__comission">30% </span><span class="orders__comission-usd">~<span> 0.00015 USD</span></span>
-        </td>
-        <td class="table__cell">
-          <span>6000 USD</span>
-        </td>
-        <td class="table__cell">
-          <button class="btn btn--small btn--empty-red table__row-btn" style="width: 100%; max-width: 58px;">Cancel</button>
-        </td>
-        <td class="table__cell">
-          <button class="btn btn--small btn--empty-blue table__row-btn" style="width: 100%; max-width: 58px;">Edit</button>
-        </td>
-      </tr>
-
+        <tr class="table__row" *ngFor="let item of openOrders | paginate: { itemsPerPage: countPerPage, currentPage: currentPage }">
+            <td class="table__cell">
+              <span>{{item.id}}</span>
+            </td>
+            <td class="table__cell">
+              <div class="table__date-time">
+                <div>{{item.dateCreation | date:"EEEEEE"}} {{item.dateCreation | date:"dd.MM.yyyy"}}</div>
+                <div>{{item.dateCreation | date:"HH:mm:ss"}}</div>
+              </div>
+            </td>
+            <td class="table__cell">
+              <a class="orders__market">{{item.currencyPairName}}</a>
+            </td>
+            <td class="table__cell">
+              <span class="orders__type-buy">{{item.operationType}}</span>
+            </td>
+            <td class="table__cell">
+              <span>{{item.exExchangeRate}} BTC</span>
+            </td>
+            <td class="table__cell">
+              <span class="orders__for">for</span>
+            </td>
+            <td class="table__cell">
+              <span>{{item.amountConvert}} USD</span>
+            </td>
+            <td class="table__cell">
+              <span class="orders__comission">{{item.commissionValue}}% </span><span class="orders__comission-usd">~<span> 0.00015 USD</span></span>
+            </td>
+            <td class="table__cell">
+              <span>{{item.amountWithCommission}} USD</span>
+            </td>
+            <td class="table__cell">
+              <button class="btn btn--small btn--empty-red table__row-btn" style="width: 100%; max-width: 58px;" (click)="cancelOrder(item)">Cancel</button>
+            </td>
+            <td class="table__cell">
+              <button class="btn btn--small btn--empty-blue table__row-btn" style="width: 100%; max-width: 58px;" (click)="showEditOrderPopup(item)">Edit</button>
+            </td>
+        </tr>
       </tbody>
     </table>
     <!--table end-->
@@ -300,47 +189,146 @@
     <div class="row row--aic" style="margin: 0 16px;">
       <div class="show-filter">
         Showing <span>1</span> to
-        <div class="dropdown">
+        <div class="dropdown" #dropdown (click)="toggleDropdown($event)">
           <div class="dropdown__btn">14</div>
           <ul class="dropdown__list">
-            <li class="dropdown__item">24</li>
-            <li class="dropdown__item">34</li>
-            <li class="dropdown__item">44</li>
+            <li class="dropdown__item" (click)="changeItemsPerPage($event)">24</li>
+            <li class="dropdown__item" (click)="changeItemsPerPage($event)">34</li>
+            <li class="dropdown__item" (click)="changeItemsPerPage($event)">44</li>
           </ul>
         </div>
         of <span>192</span> entries.
       </div>
       <ul class="paginator" style="margin-left: auto;">
-        <li class="paginator__item">
-          <a class="paginator__link paginator__link--arr" href="#">
-            <img class="paginator__arr-prev" src="../../assets/img/paginator-prev.svg" alt="prev">
-          </a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">1</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">3</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">4</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">...</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">8</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link paginator__link--arr" href="#">
-            <img class="paginator__arr-next" src="../../assets/img/paginator-next.svg" alt="next">
-          </a>
-        </li>
+          <pagination-controls (pageChange)="filterOpenOrders($event)" [previousLabel]="''" [nextLabel]="''"></pagination-controls>
       </ul>
     </div>
     <!--paginator end-->
   </div>
   <!--orders-desktop end-->
 </div>
+
+<!--popup start-->
+<div class="order-edit-popup" *ngIf="editOrderPopup">
+    <div class="order-edit-popup__content order-edit-popup__content--mob"></div>
+    <div class="order-edit-popup__content">
+      <div class="order-edit-popup__title">Edit order <span>#{{order.orderId}}</span></div>
+      <div class="order-edit-popup__close" (click)="closePopup()">
+        <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"/>
+        </svg>
+      </div>
+  
+  
+      <form [formGroup]="limitForm" *ngIf="dropdownLimitValue === 'LIMIT' || dropdownLimitValue === 'ICO' ">
+  
+        <div class="row row--jcsb widget__trading-row">
+  
+          <div class="wrap-input widget__input widget__input--mr32">
+            <input class="wrap-input__input" type="text"
+                   [(ngModel)]="order.amount"
+                   formControlName="quantityOf"
+                   (input)="quantityInput($event)"
+                   name="quantityOf">
+            <label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>
+            <div class="wrap-input__line"></div>
+          </div>
+  
+          <div class="wrap-input widget__input">
+            <input class="wrap-input__input" type="text"
+                   [(ngModel)]="order.rate"
+                   (input)="rateInput($event)"
+                   formControlName="priceIn"
+                   name="priceIn">
+            <label class="wrap-input__label" for="">Price in {{arrPairName[1]}}</label>
+            <div class="wrap-input__line"></div>
+          </div>
+  
+        </div>
+  
+        <div class="row row--jcsb widget__trading-row">
+          <div class="wrap-input widget__input">
+            <input class="wrap-input__input" type="text"
+                   [(ngModel)]="order.total"
+                   formControlName="totalIn"
+                   name="totalIn">
+            <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
+            <div class="wrap-input__line"></div>
+          </div>
+        </div>
+  
+      </form>
+      <form [formGroup]="stopForm" *ngIf="dropdownLimitValue === 'STOP_LIMIT'">
+        <div class="row row--jcsb widget__trading-row">
+          <div class="wrap-input widget__input widget__input--mr32">
+            <input class="wrap-input__input" type="text"
+                   [(ngModel)]="orderStop"
+                   formControlName="stop"
+                   name="stop">
+            <label class="wrap-input__label" for="">Stop</label>
+            <div class="wrap-input__line"></div>
+          </div>
+          <div class="wrap-input widget__input">
+            <input class="wrap-input__input" type="text"
+                   [(ngModel)]="order.rate"
+                   (input)="rateInput($event)"
+                   formControlName="limit"
+                   name="limit">
+            <label class="wrap-input__label" for="">Limit</label>
+            <div class="wrap-input__line"></div>
+          </div>
+        </div>
+        <div class="row row--jcsb widget__trading-row">
+          <div class="wrap-input widget__input widget__input--mr32">
+            <input class="wrap-input__input" type="text"
+                   [(ngModel)]="order.amount"
+                   formControlName="quantityOf"
+                   (input)="quantityInput($event)"
+                   name="quantityOf">
+            <label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>
+            <div class="wrap-input__line"></div>
+          </div>
+          <div class="wrap-input widget__input">
+            <input class="wrap-input__input" type="text"
+                   [(ngModel)]="order.total"
+                   formControlName="totalIn"
+                   name="totalIn">
+            <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
+            <div class="wrap-input__line"></div>
+          </div>
+        </div>
+      </form>
+  
+      <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
+      <div class="avaliable" style="margin-top: 0;">
+      <span>
+      <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M7.23181 6.84126V8.72983C7.23181 9.08029 7.41189 9.35214 7.56677 9.35214H12V6.21888H7.56677C7.41189 6.21888 7.23181 6.4908 7.23181 6.84126ZM9.05815 7.05851C9.43365 7.05851 9.73913 7.38464 9.73913 7.78551C9.73913 8.18639 9.43365 8.51251 9.05815 8.51251C8.68266 8.51251 8.37718 8.18639 8.37718 7.78551C8.37718 7.38464 8.68266 7.05851 9.05815 7.05851ZM7.56677 10.3633C6.85985 10.3633 6.2847 9.63047 6.2847 8.72983V6.84126C6.2847 5.94062 6.85979 5.20783 7.56677 5.20783H12V3.97574C12 3.35222 11.6172 2.82286 11.0894 2.63991L10.2623 0.325323C10.2155 0.194484 10.12 0.0902034 9.99851 0.0373555C9.87702 -0.0154251 9.74051 -0.0121895 9.6213 0.046523L4.49908 2.57102H1.31579C0.590302 2.57102 0 3.20122 0 3.97574V11.5952C0 12.3698 0.590302 13 1.31579 13H10.6842C11.4097 13 12 12.3698 12 11.5952V10.3633H7.56677ZM9.5581 1.19138L10.0511 2.57109H6.75876L9.5581 1.19138Z"/>
+      </svg>
+      </span>
+      <span style="vertical-align: middle; color:#A0A0A0;">Avaliable: </span>
+      <a href="#">300 000 000 {{arrPairName[0]}}</a>
+      </div>
+      <div>
+      Fee: {{order.commission}} {{arrPairName[0]}}
+      </div>
+      </div>
+      <div class="row row--jcsb row--aic widget__trading-row">
+      <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
+           (click)="toggleLimitDropdown()">
+      <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
+      <ul class="dropdown__list">
+      <li class="dropdown__item" *ngFor="let limit of limitsData" (click)="selectedLimit(limit)">{{showLimit(limit)}}</li>
+      </ul>
+      </div>
+      <div class="order-edit-popup__btns-wrap">
+      <button class="btn btn--small btn--empty-red" (click)="deleteOrder(order)">Delete</button>
+      <button class="btn btn--small btn--empty-blue" (click)="saveOrder()">Save</button>
+      </div>
+      </div>
+    </div>
+  </div>
+  <!--popup end-->
 
 

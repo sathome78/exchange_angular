@@ -19,6 +19,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
   @Input() makeHeight ;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   @Input() openOrders;
+  @Input() countPerPage = 7;
 
   public currentPair;
   public commissionIndex;
@@ -33,7 +34,6 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
   stopForm: FormGroup;
 
   public currentPage = 1;
-  public countPerPage = 7;
 
 
 
