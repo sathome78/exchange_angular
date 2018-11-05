@@ -8,4 +8,30 @@
 <div class="modal__row">
   <div class="modal__code-grey-field">{{ secretCode }}</div>
 </div>
-<button class="btn btn--active btn--center " (click)="onNextStep()">Yes I saved it</button>
+
+<form class="passport-form" [formGroup]="form">
+  <div class="passport-form__content-row">
+    <div class="wrap-input passport-form__input">
+      <input
+        class="wrap-input__input"
+        type="text"
+        formControlName="password">
+      <label class="wrap-input__label">Your password</label>
+      <div class="wrap-input__line"></div>
+    </div>
+  </div>
+  <div class="passport-form__content-row">
+    <div class="wrap-input passport-form__input">
+      <input
+        class="wrap-input__input"
+        type="text"
+        formControlName="pincode"
+      >
+      <label class="wrap-input__label">Pincode</label>
+      <div class="wrap-input__line"></div>
+    </div>
+  </div>
+
+    <button class="btn btn--active btn--center " (click)="onNextStep()">Confirm</button>
+   <!--todo here we should fire popup if time of 5 minutes expires or smth went wrong-->
+</form>
