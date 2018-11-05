@@ -54,6 +54,10 @@ export class HeaderComponent implements OnInit {
     this.popupService.showLoginPopup(true);
   }
 
+  onMobileLogin() {
+    this.popupService.showMobileLoginPopup(true);
+  }
+
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
   }

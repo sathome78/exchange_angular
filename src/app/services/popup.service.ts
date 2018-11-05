@@ -8,6 +8,8 @@ export class PopupService {
   private onOpenTFAPopupListener = new Subject<string>();
   private onOpenIdentityPopupListener = new Subject<string>();
   private onLoginPopupListener = new Subject<boolean>();
+  private onMobileLoginPopupListener = new Subject<boolean>();
+  private onMobileRegistrationPopupListener = new Subject<boolean>();
   private stepListener = new Subject<number>();
   private currentStep = 1;
   private tfaProvider = '';
@@ -29,6 +31,14 @@ export class PopupService {
 
   showLoginPopup(state: boolean) {
     this.onLoginPopupListener.next(state);
+  }
+
+  showMobileLoginPopup(state: boolean) {
+    this.onMobileLoginPopupListener.next(state);
+  }
+
+  showMobileRegistrationPopup(state: boolean) {
+    this.onMobileRegistrationPopupListener.next(state);
   }
 
   showTFAPopup(provider: string) {
@@ -57,6 +67,13 @@ export class PopupService {
 
   public getLoginPopupListener(): Subject<boolean> {
     return this.onLoginPopupListener;
+  }
+  public getLoginMobilePopupListener(): Subject<boolean> {
+    return this.onMobileLoginPopupListener;
+  }
+
+  public getRegistrationMobilePopupListener(): Subject<boolean> {
+    return this.onMobileRegistrationPopupListener;
   }
 
   public getCurrentStepListener(): Subject<number> {
@@ -132,7 +149,17 @@ export class PopupService {
 
   closeLoginPopup() {
     this.onLoginPopupListener.next(false);
+
   }
+
+  closeMobileLoginPopup() {
+    this.onMobileLoginPopupListener.next(false);
+  }
+
+  closeRegistrationPopup() {
+    this.onMobileRegistrationPopupListener.next(false);
+  }
+
 }
 
 export interface OnNextStep {

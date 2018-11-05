@@ -22,8 +22,12 @@ export class AppComponent implements OnInit, OnDestroy {
   tfaSubscription: Subscription;
   identitySubscription: Subscription;
   loginSubscription: Subscription;
+  loginMobileSubscription: Subscription;
+  registrationMobileSubscription: Subscription;
   isIdentityPopupOpen = false;
   isLoginPopupOpen = false;
+  isLoginMobilePopupOpen = false;
+  isRegistrationMobilePopupOpen = false;
   /** notification messages array */
   notificationMessages: NotificationMessage[];
 
@@ -42,6 +46,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
     this.subscribeForLoginEvent();
+    this.subscribeForMobileLoginEvent()
+    this.subscribeForMobileRegistrationEvent();
     // this.setClientIp();
     this.subscribeForNotifications();
   }
@@ -51,6 +57,22 @@ export class AppComponent implements OnInit, OnDestroy {
       .getTFAPopupListener()
       .subscribe(value => {
         this.isTfaPopupOpen = value ? true : false;
+      });
+  }
+
+  subscribeForMobileLoginEvent() {
+    this.loginMobileSubscription = this.popupService
+      .getLoginMobilePopupListener()
+      .subscribe(value => {
+        this.isLoginMobilePopupOpen = value;
+      });
+  }
+
+  subscribeForMobileRegistrationEvent() {
+    this.registrationMobileSubscription = this.popupService
+      .getRegistrationMobilePopupListener()
+      .subscribe(value => {
+        this.isRegistrationMobilePopupOpen = value;
       });
   }
 
@@ -82,6 +104,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.tfaSubscription.unsubscribe();
     this.identitySubscription.unsubscribe();
     this.loginSubscription.unsubscribe();
+    this.loginMobileSubscription.unsubscribe();
   }
 
   private setIp() {
