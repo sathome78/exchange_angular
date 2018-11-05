@@ -35,11 +35,11 @@ export class LoginPopupComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      'email': new FormControl('test@exrates.me', {
+      'email': new FormControl(null, {
         validators: [Validators.required, Validators.pattern(this.emailRegex)],
         updateOn: 'blur'
       }),
-      'password': new FormControl('test1234', {
+      'password': new FormControl(null, {
         validators: [Validators.required],
         updateOn: 'blur'
       }),

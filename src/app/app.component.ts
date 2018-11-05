@@ -87,7 +87,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private setIp() {
     this.http.get<IpAddress>(IP_CHECKER_URL)
       .subscribe( response => {
-        this.logger.debug(this, 'Client IP: ' + response.ip);
+        // this.logger.debug(this, 'Client IP: ' + response.ip);
         localStorage.setItem(IP_USER_KEY, response.ip);
       });
   }
