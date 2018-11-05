@@ -5,7 +5,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Order} from './order.model';
 import {TradingService} from './trading.service';
 import {MarketService} from '../markets/market.service';
-import {MockDataService} from '../../services/mock-data.service';
 import {DashboardDataService} from '../dashboard-data.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
@@ -28,8 +27,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public limitsData = ['LIMIT', 'STOP_LIMIT', 'ICO'];
   /** selected limit */
   public dropdownLimitValue = this.limitsData[0];
-  /** selected percent */
-  public percents;
   /** form for limit-order */
   limitForm: FormGroup;
   /** form for limit-order */
@@ -38,12 +35,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public userBalance = 300000;
   public orderStop;
   public currentPair;
-  public arrPairName: string[];
+  public arrPairName = ['', ''];
   private commissionIndex = 0.002;
-  public commission = 0;
   public notifySuccess = false;
   public notifyFail = false;
   public message = '';
+  public currencyPairInfo;
   public order;
 
   public defaultOrder: Order = {
@@ -54,7 +51,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     rate: null,
     commission: 0,
     baseType: this.dropdownLimitValue,
-    status: '',
+    status: 'OPENED',
     total: null,
   };
 
@@ -70,7 +67,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     public breakPointService: BreakpointService,
     public tradingService: TradingService,
     public marketService: MarketService,
-    private ref: ChangeDetectorRef,
     private dashboardDataService: DashboardDataService,
   ) {
     super();
@@ -89,16 +85,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.currentPair = pair;
         this.splitPairName();
         this.getCommissionIndex();
-        // TODO: remove after dashboard init load time issue is solved
-        // this.ref.detectChanges();
-
       });
 
       this.marketService.currencyPairsInfo$.subscribe(res => {
         this.userBalance = res.balanceByCurrency1;
         this.order.rate = res.rate;
+        this.currencyPairInfo = res;
         this.setPriceInValue(res.rate);
-      })
+      });
 
     this.dashboardDataService.selectedOrderTrading$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -147,8 +141,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
 
-
-  showLimit(value: string) {
+  /**
+   * Get readable limit string
+   * @param {string} value
+   * @returns {string}
+   */
+  showLimit(value: string): string {
     switch (value) {
       case 'LIMIT': {
         return 'Limit order';
@@ -175,7 +173,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   selectedLimit(limit: string): void {
     this.dropdownLimitValue = limit;
-    this.percents = null;
   }
 
   /**
@@ -183,13 +180,11 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param {number} percent
    */
   selectedPercent(percent: number) {
-    this.percents = percent;
-    const quantityOf = this.userBalance * this.percents / 100;
+    const quantityOf = this.userBalance * percent / 100;
     this.order.amount = quantityOf;
     this.setQuantityValue(quantityOf);
 
     this.getCommission();
-    this.getTotalIn();
   }
 
   /**
@@ -198,8 +193,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   quantityIput(e): void {
     this.order.amount = e.target.value;
-    this.percents = null;
-    this.getTotalIn();
+    this.setQuantityValue(e.target.value);
+    this.getCommission();
   }
 
   /**
@@ -208,9 +203,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
    rateInput(e): void {
        this.order.rate = e.target.value;
-       this.getTotalIn();
+       this.getCommission();
    }
 
+  stopInput(e) {
+     this.orderStop = e.target.value;
+  }
    totalInput(e): void {
      this.order.total = e.target.value;
      if (this.order.total > this.userBalance) {
@@ -222,36 +220,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
          this.setQuantityValue(this.order.amount);
        }
    }
-
-  /**
-   * calculate commission
-   */
-  private getCommission(): void {
-    if (this.order.rate) {
-      this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
-      if (this.mainTab === 'BUY') {
-        const total = this.order.total + this.order.commission;
-        this.order.total = total;
-        this.setTotalInValue(total);
-      } else {
-        const total = this.order.total - this.order.commission;
-        this.order.total = total;
-        this.setTotalInValue(total);
-      }
-    }
-  }
-
-
-  /**
-   * calculate total field
-   */
-  private getTotalIn(): void {
-    if (this.order.rate >= 0 ) {
-      this.order.total = this.order.amount * this.order.rate;
-      this.setTotalInValue(this.order.total);
-    }
-    this.getCommission();
-  }
 
   /**
    * split pair name for showing
@@ -269,24 +237,35 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.limitForm.controls['quantityOf'].setValue(value);
   }
 
+  /**
+   * set form value (priceIn/limit)
+   * @param value
+   */
   setPriceInValue(value): void {
     this.stopForm.controls['limit'].setValue(value);
     this.limitForm.controls['priceIn'].setValue(value);
   }
 
+  /**
+   * set form value (totalIn)
+   * @param value
+   */
   setTotalInValue(value): void {
     this.stopForm.controls['totalIn'].setValue(value);
     this.limitForm.controls['totalIn'].setValue(value);
   }
 
+  /**
+   * set form value (stop)
+   * @param value
+   */
   setStopValue(value): void {
     this.stopForm.controls['stop'].setValue(value);
   }
 
-  getTotalValue() {
-   return this.stopForm.controls['totalIn'].value;
-  }
-
+  /**
+   * Reset forms
+   */
   resetForms(): void {
     this.limitForm.reset();
     this.stopForm.reset();
@@ -297,7 +276,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param order
    */
   orderFromOrderBook(order): void {
-    console.log(order)
     this.order.orderId = order.id;
     this.order.amount = order.amountConvert;
     this.setQuantityValue(this.order.amount);
@@ -307,15 +285,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.setPriceInValue(this.order.rate);
     this.mainTab = order.orderType;
     this.getCommission();
-    // this.order.commission = this.order.total / (this.order.amount * this.order.price);
-    // this.getCommission();
-
-  }
+    }
 
   /**
    * on click submit button
    */
   onSubmit(): void {
+    if ( (this.stopForm.valid && this.orderStop && this.dropdownLimitValue === 'STOP_LIMIT') ||
+      (this.limitForm.valid && this.dropdownLimitValue === 'LIMIT' || this.dropdownLimitValue === 'ICO')) {
+
       this.order.currencyPairId = this.currentPair.currencyPairId;
       this.order.baseType = this.dropdownLimitValue;
       this.order.orderType = this.mainTab;
@@ -323,6 +301,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.order.stop = this.orderStop;
       }
       this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
+    }
   }
 
   /**
@@ -340,10 +319,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.notifyFail = true;
         setTimeout(() => {this.notifyFail = false; }, 5000);
       });
-    this.percents = null;
     this.orderStop = '';
     this.order = {...this.defaultOrder};
     this.resetForms();
+    if (this.currencyPairInfo) {
+      this.order.rate = this.currencyPairInfo.rate;
+      this.setPriceInValue(this.currencyPairInfo.rate);
+    }
   }
 
   /**
@@ -363,6 +345,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       });
     this.orderStop = '';
     this.resetForms();
+    if (this.currencyPairInfo) {
+      this.order.rate = this.currencyPairInfo.rate;
+      this.setPriceInValue(this.currencyPairInfo.rate);
+    }
   }
 
   /**
@@ -372,9 +358,28 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     if (this.mainTab && this.currentPair.currencyPairId) {
       const subscription = this.tradingService.getCommission(this.mainTab, this.currentPair.currencyPairId).subscribe(res => {
         this.commissionIndex = res.commissionValue;
-        this.getTotalIn();
+        this.getCommission();
         subscription.unsubscribe();
       });
+    }
+  }
+
+  /**
+   * calculate commission
+   */
+  private getCommission(): void {
+    if (this.order.rate >= 0) {
+      this.order.total = this.order.amount * this.order.rate;
+      this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
+      if (this.mainTab === 'BUY') {
+        const total = this.order.total + this.order.commission;
+        this.order.total = total;
+        this.setTotalInValue(total);
+      } else {
+        const total = this.order.total - this.order.commission;
+        this.order.total = total;
+        this.setTotalInValue(total);
+      }
     }
   }
 }
