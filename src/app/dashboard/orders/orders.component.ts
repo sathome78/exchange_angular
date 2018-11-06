@@ -27,7 +27,6 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
   public activeCurrencyPair;
   public historyOrders;
   public openOrders;
-  public arrPairName;
 
 
   constructor(
@@ -44,17 +43,15 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
     this.itemName = 'orders';
 
     /** mock data */
-    this.openOrders = this.mockData.getOpenOrders().items;
-    this.historyOrders = this.mockData.getOpenOrders().items;
+    // this.openOrders = this.mockData.getOpenOrders().items;
+    // this.historyOrders = this.mockData.getOpenOrders().items;
     this.activeCurrencyPair = this.mockData.getMarketsData()[2];
-    this.splitPairName();
     /** ---------------------------------------------- */
 
     this.marketService.activeCurrencyListener
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.activeCurrencyPair = res;
-        this.splitPairName();
         this.toOpenOrders();
     });
     if (this.authService.isAuthenticated()) {
@@ -84,40 +81,38 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
   }
 
   /**
-   * split pair name method
-   */
-  private splitPairName(): void {
-    this.arrPairName = this.activeCurrencyPair.currencyPairName.split('/');
-  }
-
-  /**
    * request to get open-orders data
    */
   toOpenOrders(): void {
-    if (this.activeCurrencyPair) {
-      const sub = this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
-        .subscribe(data => {
-          this.openOrders = data.items;
-          this.openOrdersCount = data.count;
-          sub.unsubscribe();
-        });
-    }
+    const sub = this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
+      .subscribe(data => {
+        this.openOrders = data.items;
+        this.openOrdersCount = data.count;
+        sub.unsubscribe();
+
+        // TODO: remove after dashboard init load time issue is solved
+        // this.ref.detectChanges();
+      });
   }
 
   /**
    * request to get history data with status (CLOSED and CANCELED)
    */
   toHistory(): void {
-    if (this.activeCurrencyPair) {
-      const forkSubscription = forkJoin(
-        this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CLOSED'),
-        this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CANCELLED')
-      )
-        .subscribe(([res1, res2]) => {
-          this.historyOrders = [...res1.items, ...res2.items];
-          forkSubscription.unsubscribe();
-        });
-    }
+    const forkSubscription = forkJoin(
+      this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CLOSED'),
+      this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CANCELLED')
+    )
+      .subscribe(([res1, res2]) => {
+        this.historyOrders = [...res1.items, ...res2.items];
+        forkSubscription.unsubscribe();
+      });
+
+  }
+
+  // TODO: delete this method when will delete mockData and delete in Html
+  setCountOpenOrders(e: number) {
+    this.openOrdersCount = e;
   }
 
 }
