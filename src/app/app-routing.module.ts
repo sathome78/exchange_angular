@@ -5,14 +5,16 @@ import {SettingsModule} from './settings/settings.module';
 import {SettingsComponent} from './settings/settings.component';
 import {TwoFactorPopupComponent} from './popups/two-factor-popup/two-factor-popup.component';
 import {AuthGuard} from './services/auth.guard';
+import {BalanceComponent} from './balance/balance.component';
 import {OrdersHistoryComponent} from './orders/orders-history/orders-history.component';
 import {OpenOrdersComponent} from './orders/open-orders/open-orders.component';
 import {ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
-import {ReferralChargesComponent} from './referral/referral-charges/referral-charges.component'
+import {ReferralChargesComponent} from './referral/referral-charges/referral-charges.component';
 
 const routes: Routes = [
   // permit all
   { path: 'dashboard',      component: DashboardComponent },
+  { path: 'balance',      component: BalanceComponent },
   { path: 'open-orders', component: OpenOrdersComponent },
   { path: 'orders-history', component: OrdersHistoryComponent },
   { path: 'referral-structure', component: ReferralStructureComponent },
