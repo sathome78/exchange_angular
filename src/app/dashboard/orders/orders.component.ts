@@ -31,7 +31,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
 
   constructor(
     private authService: AuthService,
-    private mockData: MockDataService,
+    // private mockData: MockDataService,
     private ordersService: OrdersService,
     private marketService: MarketService,
     private ref: ChangeDetectorRef
@@ -45,7 +45,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
     /** mock data */
     // this.openOrders = this.mockData.getOpenOrders().items;
     // this.historyOrders = this.mockData.getOpenOrders().items;
-    this.activeCurrencyPair = this.mockData.getMarketsData()[2];
+    // this.activeCurrencyPair = this.mockData.getMarketsData()[2];
     /** ---------------------------------------------- */
 
     this.marketService.activeCurrencyListener
@@ -108,11 +108,6 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
         forkSubscription.unsubscribe();
       });
 
-  }
-
-  // TODO: delete this method when will delete mockData and delete in Html
-  setCountOpenOrders(e: number) {
-    this.openOrdersCount = e;
   }
 
 }
