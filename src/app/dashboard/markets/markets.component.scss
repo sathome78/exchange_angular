@@ -45,15 +45,25 @@ ng-scrollbar{
 :host {
   position: relative;
   width: 100%;
-  height: 90vh;
+  height: auto;
 }
 
 .widget__content.widget__content--mob{
-  ng-scrollbar{
-    height: 75vh;
+  perfect-scrollbar{
+    height: calc(100vh - 139px);
   }
 }
 
 ::ng-deep .ps__rail-y{
   background: #bd3820;
+}
+
+.widget__content{
+  height: 100%;
+}
+.widget__markets-tabs{
+position: fixed;
+  bottom: 60px;
+  width: 100%;
+  z-index: 1000;
 }
