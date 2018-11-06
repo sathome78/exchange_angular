@@ -51,6 +51,8 @@ import { ReferralStructureComponent } from './referral/referral-structure/referr
 import { ReferralChargesComponent } from './referral/referral-charges/referral-charges.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 
+import { LoginPopupMobileComponent } from './popups/login-popup-mobile/login-popup-mobile.component';
+import { RegistrationMobilePopupComponent } from './popups/registration-mobile-popup/registration-mobile-popup.component';
 
 
 @NgModule({
@@ -82,6 +84,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     OrdersHistoryComponent,
     ReferralStructureComponent,
     ReferralChargesComponent,
+    LoginPopupMobileComponent,
+    RegistrationMobilePopupComponent,
     // TWO FACTOR POPUP END
 
 

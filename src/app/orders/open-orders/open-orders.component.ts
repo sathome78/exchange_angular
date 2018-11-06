@@ -75,20 +75,20 @@ export class OpenOrdersComponent implements OnInit {
     this.countPerPage = parseInt(element.innerText, 10);
   }
 
-  filterOpenOrders(page: number): void {
+  changePage(page: number): void {
     this.currentPage = page;
   }
 
   onFromInputFieldChanged(event: IMyInputFieldChanged): void {
     const date = new Date();
     this.dateFrom = new Date(date.setTime(Date.parse(this.formarDate(event.value))));
-    this.filterByDate();
+    // this.filterByDate();
   }
 
   onToInputFieldChanged(event: IMyInputFieldChanged): void {
     const date = new Date();
     this.dateTo = new Date(date.setTime(Date.parse(this.formarDate(event.value))));
-    this.filterByDate();
+    // this.filterByDate();
   }
 
     /**
@@ -107,15 +107,17 @@ export class OpenOrdersComponent implements OnInit {
     // todo: delete for prod
     this.openOrders = this.mockData.getOpenOrders().items;
 
-    const timestampFrom = this.dateFrom.getTime();
-    const timestampTo = this.dateTo.getTime();
+    if (this.dateFrom && this.dateTo) {
+      const timestampFrom = this.dateFrom.getTime();
+      const timestampTo = this.dateTo.getTime();
 
-    if (timestampFrom && timestampTo) {
-      this.openOrders = this.openOrders.filter((item) => {
-        const currentTimestamp = new Date(item.dateCreation).getTime();
-        const res = (currentTimestamp > timestampFrom) && (currentTimestamp < timestampTo);
-        return res;
-      });
+      if (timestampFrom && timestampTo) {
+        this.openOrders = this.openOrders.filter((item) => {
+          const currentTimestamp = new Date(item.dateCreation).getTime();
+          const res = (currentTimestamp > timestampFrom) && (currentTimestamp < timestampTo);
+          return res;
+        });
+      }
     }
   }
 
@@ -149,7 +151,7 @@ export class OpenOrdersComponent implements OnInit {
     this.dropdownLimitValue = order.orderBaseType;
     this.order.commission = order.commissionFixedAmount;
     this.getCommissionIndex();
-    this.filterOpenOrders(this.currentPage);
+    this.changePage(this.currentPage);
   }
 
   initDate(): void {
@@ -193,7 +195,7 @@ export class OpenOrdersComponent implements OnInit {
     this.ordersService.deleteOrder(order).subscribe(res => {
       console.log(res);
     });
-    this.filterOpenOrders(this.currentPage);
+    this.changePage(this.currentPage);
     this.editOrderPopup = false;
   }
 
@@ -208,14 +210,14 @@ export class OpenOrdersComponent implements OnInit {
       this.order = { ...this.defaultOrder };
       this.orderStop = '';
       this.editOrderPopup = false;
-      this.filterOpenOrders(this.currentPage);
+      this.changePage(this.currentPage);
     });
 
     // delete
     this.order = { ...this.defaultOrder };
     this.orderStop = '';
     this.editOrderPopup = false;
-    this.filterOpenOrders(this.currentPage);
+    this.changePage(this.currentPage);
     //
   }
 

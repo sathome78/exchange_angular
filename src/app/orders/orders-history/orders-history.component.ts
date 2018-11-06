@@ -11,7 +11,7 @@ export class OrdersHistoryComponent implements OnInit {
   @ViewChild('dropdown')
   dropdownElement: ElementRef;
 
-
+  orderHistory;
 
   currentPage = 1;
   countPerPage = 14;
@@ -40,13 +40,24 @@ export class OrdersHistoryComponent implements OnInit {
     this.dropdownElement.nativeElement.classList.toggle('dropdown--open');
   }
 
+  toggleDetails(event: MouseEvent): void {
+    const element: HTMLElement = <HTMLElement>event.currentTarget;
+    const idDetails = element.dataset.id;
+    if (idDetails) {
+      const detailsElement = document.getElementById(idDetails + '');
+      if (detailsElement) {
+        detailsElement.classList.toggle('table__details-show');
+      }
+    }
+  }
+
   changeItemsPerPage(e: MouseEvent) {
     const element: HTMLElement = <HTMLElement>e.currentTarget;
 
     this.countPerPage = parseInt(element.innerText, 10);
   }
 
-  filterOpenOrders(page: number): void {
+  changePage(page: number): void {
     this.currentPage = page;
   }
 
@@ -76,18 +87,32 @@ export class OrdersHistoryComponent implements OnInit {
   /** filter by date */
   filterByDate(): void {
 
+    if (this.dateFrom && this.dateTo) {
+      const timestampFrom = this.dateFrom.getTime();
+      const timestampTo = this.dateTo.getTime();
 
-    const timestampFrom = this.dateFrom.getTime();
-    const timestampTo = this.dateTo.getTime();
+      if (timestampFrom && timestampTo) {
 
-    if (timestampFrom && timestampTo) {
-
+      }
     }
   }
 
   initDate() {
     /** Initialized to current date */
     const currentDate = new Date();
+
+    const mock = [
+      {
+        'id': 1203034,
+        'date': new Date,
+        'currencyPairName': 'BTC/ETH',
+        'operationTypeEnum': 'Buy',
+        'exrate': '4500',
+        'amountConvert': '0.005',
+        'commissionAmountForAcceptor': '30',
+        'amountWithCommissionForAcceptor': '0,00005303869'
+      }
+    ];
 
     this.modelDateTo = {
       date: {

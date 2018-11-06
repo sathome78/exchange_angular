@@ -21,6 +21,14 @@
           <app-login-popup></app-login-popup>
         </div>
 
+        <div *ngIf="isLoginMobilePopupOpen">
+          <app-login-popup-mobile></app-login-popup-mobile>
+        </div>
+
+        <div *ngIf="isRegistrationMobilePopupOpen">
+          <app-registration-mobile-popup></app-registration-mobile-popup>
+        </div>
+
         <router-outlet></router-outlet>
 
         <a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>
