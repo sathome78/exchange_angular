@@ -2,8 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {PopupService} from '../../services/popup.service';
 import {LoggingService} from '../../services/logging.service';
 import {SettingsService} from '../settings.service';
-import {NotificationUserSetting} from './notification-user-setting.model';
-import {GoogleAuthenticatorService} from '../../popups/two-factor-popup/google/google-authenticator.service';
 import {UserService} from '../../services/user.service';
 import {AuthService} from '../../services/auth.service';
 
@@ -61,8 +59,8 @@ export class TwoFactorAuthenticationComponent implements OnInit {
   }
 
   private update(state: boolean): void {
-    this.settingsService.updateUserNotificationSettings(state).subscribe(resp => console.log(resp),
-      err => console.log(err));
+    // this.settingsService.updateUserNotificationSettings(state).subscribe(resp => console.log(resp),
+    //   err => console.log(err));
   }
 
   updateAuthProviderSettings(value: string) {

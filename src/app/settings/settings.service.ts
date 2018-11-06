@@ -56,11 +56,6 @@ export class SettingsService {
     return this.http.put<number>(this.getUrl('isLowColorEnabled'), body);
   }
 
-  public updateUserNotificationSettings(enabled: boolean): Observable<number> {
-    const body: {'STATE': boolean} = {'STATE': enabled};
-    return this.http.put<number>(this.apiUrl + '/info/private/v2/2FaOptions/google2fa', body);
-  }
-
   private getUrl(end: string) {
     return this.apiUrl + '/info/private/v2/settings/' + end;
   }
