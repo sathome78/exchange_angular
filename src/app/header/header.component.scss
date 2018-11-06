@@ -463,13 +463,13 @@
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
-  max-width: 112px;
+  margin: 0 32px;
   color: #fff;
   text-decoration: none;
   justify-content: center;
-  flex-grow: 1;
 
   &:hover {
+    cursor: pointer;
     text-decoration: none;
   }
 }
@@ -533,7 +533,7 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 1001;
   background-color: $dark-indigo;
   @media (min-width:1200px) {
     display: none;
@@ -747,7 +747,7 @@
   flex-direction: column;
 
   &__wrap-hidden-links {
-    display: none;
+    display: block;
 
     &--show {
       display: block;
