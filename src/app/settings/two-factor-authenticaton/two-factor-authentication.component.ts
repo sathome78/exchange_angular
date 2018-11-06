@@ -3,6 +3,9 @@ import {PopupService} from '../../services/popup.service';
 import {LoggingService} from '../../services/logging.service';
 import {SettingsService} from '../settings.service';
 import {NotificationUserSetting} from './notification-user-setting.model';
+import {GoogleAuthenticatorService} from '../../popups/two-factor-popup/google/google-authenticator.service';
+import {UserService} from '../../services/user.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-two-factor-authentication',
@@ -30,6 +33,8 @@ export class TwoFactorAuthenticationComponent implements OnInit {
 
   constructor(private popupService: PopupService,
               private logger: LoggingService,
+              private userService: UserService,
+              private authService: AuthService,
               private settingsService: SettingsService) {
   }
 
@@ -37,58 +42,26 @@ export class TwoFactorAuthenticationComponent implements OnInit {
   // TRANSFER: true
   // WITHDRAW: true
   ngOnInit() {
-    this.settingsService.getUserTwoFaNotificationSettings()
-      .subscribe(settings => {
-          this.isLoginGoogleNotificationEnabled = settings['LOGIN'];
-          this.isWithdrawalGoogleNotificationEnabled = settings['WITHDRAW'];
-          this.isTransferGoogleNotificationEnabled = settings['TRANSFER'];
-      },
-        err => console.log(err));
-
-  }
-
-  toggleLoginGoogleNotification() {
-    this.isLoginGoogleNotificationEnabled = !this.isLoginGoogleNotificationEnabled;
-    const settings = NotificationUserSetting
-      .builder()
-      .withLogin().build();
-    if (this.isLoginGoogleNotificationEnabled) {
-      settings.byGoogle();
-    } else {
-      settings.disable();
+    if (this.authService.isAuthenticated()) {
+      this.userService.getUserGoogleLoginEnabled(this.authService.getUsername())
+        .subscribe(result => {
+            this.isLoginGoogleNotificationEnabled = result;
+            this.isWithdrawalGoogleNotificationEnabled = result;
+            this.isTransferGoogleNotificationEnabled = result;
+          },
+          err => console.log(err));
     }
-    this.update(settings);
   }
 
-  toggleWithdrawalGoogleNotification() {
-    this.isWithdrawalGoogleNotificationEnabled = !this.isWithdrawalGoogleNotificationEnabled;
-    const settings = NotificationUserSetting
-      .builder()
-      .withWithdraw()
-      .build();
-    if (this.isWithdrawalGoogleNotificationEnabled) {
-      settings.byGoogle();
-    } else {
-      settings.disable();
-    }
-    this.update(settings);
-  }
-
-  toggleTransferGoogleNotification() {
+  toggle2FaNotification() {
     this.isTransferGoogleNotificationEnabled = !this.isTransferGoogleNotificationEnabled;
-    const settings = NotificationUserSetting
-      .builder()
-      .withTransfer().build();
-    if (this.isTransferGoogleNotificationEnabled) {
-      settings.byGoogle();
-    } else {
-      settings.disable();
-    }
-    this.update(settings);
+    this.isLoginGoogleNotificationEnabled = !this.isLoginGoogleNotificationEnabled;
+    this.isWithdrawalGoogleNotificationEnabled = !this.isWithdrawalGoogleNotificationEnabled;
+    this.update(this.isWithdrawalGoogleNotificationEnabled);
   }
 
-  private update(setting: NotificationUserSetting): void {
-    this.settingsService.updateUserNotificationSettings(setting).subscribe(resp => console.log(resp),
+  private update(state: boolean): void {
+    this.settingsService.updateUserNotificationSettings(state).subscribe(resp => console.log(resp),
       err => console.log(err));
   }
 
