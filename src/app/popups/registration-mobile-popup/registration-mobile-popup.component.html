@@ -36,12 +36,12 @@
       <button class="btn popup__btn" >Create an account</button>
     </form>
     <div class="popup__links-wrap">
-      <a class="popup__link" href="#"><span>By registering you agree with</span> Terms of Use</a>
+      <a class="popup__link" ><span>By registering you agree with</span> Terms of Use</a>
     </div>
 
   <a (click)="setTemplate('nameInputTemplate')">next</a>
 
-    <a class="popup__link-mob" >Log in</a>
+    <a class="popup__link-mob" (click)="openLogIn()">Log in</a>
   </ng-template>
 
     <ng-template #nameInputTemplate>

@@ -38,6 +38,7 @@ export class PopupService {
   }
 
   showMobileRegistrationPopup(state: boolean) {
+    console.log('open 2')
     this.onMobileRegistrationPopupListener.next(state);
   }
 

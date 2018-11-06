@@ -1,5 +1,6 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {PopupService} from '../../services/popup.service';
+import {convertValueToOutputAst} from '@angular/compiler/src/output/value_util';
 
 @Component({
   selector: 'app-registration-mobile-popup',
@@ -47,4 +48,9 @@ export class RegistrationMobilePopupComponent implements OnInit {
     this.popupService.closeRegistrationPopup();
   }
 
+  openLogIn() {
+    console.log('L1')
+    this.popupService.showMobileLoginPopup(true);
+    this.closeMe();
+  }
 }

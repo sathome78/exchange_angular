@@ -46,7 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
     this.subscribeForLoginEvent();
-    this.subscribeForMobileLoginEvent()
+    this.subscribeForMobileLoginEvent();
     this.subscribeForMobileRegistrationEvent();
     // this.setClientIp();
     this.subscribeForNotifications();
@@ -72,7 +72,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.registrationMobileSubscription = this.popupService
       .getRegistrationMobilePopupListener()
       .subscribe(value => {
+        console.log('3')
         this.isRegistrationMobilePopupOpen = value;
+        console.log(this.isRegistrationMobilePopupOpen)
       });
   }
 
@@ -105,6 +107,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.identitySubscription.unsubscribe();
     this.loginSubscription.unsubscribe();
     this.loginMobileSubscription.unsubscribe();
+    this.registrationMobileSubscription.unsubscribe();
   }
 
   private setIp() {

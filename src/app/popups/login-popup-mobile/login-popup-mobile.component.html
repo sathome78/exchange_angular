@@ -1,27 +1,29 @@
 <div class="overlay">
   <div class="popup popup-login">
     <div class="popup__close" (click)="closeMe()"></div>
-    <h6 class="popup__title">Log in</h6>
 
-    <!--TODO this message is shown when user provided invalid credentials Or backEndDied-->
+    <ng-template [ngTemplateOutlet]="currentTemplate">
+    </ng-template>
+
+    <ng-template #logInTemplate>
+    <h6 class="popup__title">Log in</h6>
     <h4 class="popup__subtitle"></h4>
 
-    <form class="popup__form">
-
+    <form class="popup__form" [formGroup]="loginForm">
       <div >
         <div class="wrap-input popup__wrap-input">
-          <input
-            class="wrap-input__input"
-            type="text"
+          <input class="wrap-input__input" type="text"
+                 formControlName="email"
+                 [ngClass]="{'input--error': !loginForm.get('email').valid && loginForm.get('email').touched}"
           >
           <label class="wrap-input__label" for="">Email</label>
           <div class="wrap-input__line"></div>
           <!--Input error section starts-->
-          <div>
-            <span class="wrap-input__message">
+          <div *ngIf="loginForm.get('email').touched && loginForm.get('email').errors != null">
+            <span class="wrap-input__message" *ngIf="loginForm.get('email').errors['required']">
               This field is required.
             </span>
-            <span
+            <span  *ngIf="loginForm.get('email').invalid && !loginForm.get('email').errors['required']"
               class="wrap-input__message">
               Please, enter valid email address.
             </span>
@@ -30,55 +32,75 @@
         </div>
 
         <div class="wrap-input popup__wrap-input">
-          <input
-            class="wrap-input__input"
+          <input class="wrap-input__input"
+                 [type]="getInputType()"
+                 formControlName="password"
+                 [ngClass]="{'input--error': !loginForm.get('password').valid && loginForm.get('password').touched}"
           >
           <label class="wrap-input__label" for="">Password</label>
           <div class="wrap-input__line"></div>
           <span
             class="wrap-input__show-password"
+            (click)="togglePasswordVisibility()"
+            [ngClass]="{'wrap-input__show-password--active': isPasswordVisible}"
           >
           </span>
           <!--Input error section starts-->
-          <div>
-            <span class="wrap-input__message">
+          <div *ngIf="loginForm.get('password').touched && loginForm.get('password').errors != null">
+            <span class="wrap-input__message"
+                  *ngIf="loginForm.get('password').errors['required']">
               This field is required.
             </span>
           </div>
           <!--Input error section ends-->
         </div>
       </div>
-
-      <!--&lt;!&ndash;Pin Code &ndash;&gt;-->
-      <!--<ng-template #showPinCode>-->
-        <!--&lt;!&ndash;TODO this method displays which method is used&ndash;&gt;-->
-        <!--<h6 class="popup__title">Log in</h6>-->
-        <!--<h4 class="popup__subtitle">{{ twoFaAuthModeMessage }}</h4>-->
-        <!--<div class="wrap-input popup__wrap-input">-->
-          <!--<input-->
-            <!--class="wrap-input__input"-->
-            <!--type="text"-->
-            <!--formControlName="pin"-->
-            <!--[ngClass]="{'input&#45;&#45;error': !form.get('pin').valid}"-->
-          <!--&gt;-->
-          <!--<label class="wrap-input__label" for="">Pincode</label>-->
-          <!--<div class="wrap-input__line"></div>-->
-          <!--&lt;!&ndash;Input error section starts&ndash;&gt;-->
-          <!--<div >-->
-            <!--<span class="wrap-input__message">-->
-              <!--This field is required.-->
-            <!--</span>-->
-          <!--</div>-->
-          <!--&lt;!&ndash;Input error section ends&ndash;&gt;-->
-        <!--</div>-->
-      <!--</ng-template>-->
-
-      <button class="btn popup__btn" >Authorise me</button>
+      <button class="btn popup__btn" (click)="onSubmit()">Authorise me</button>
     </form>
     <div class="popup__links-wrap">
       <a class="popup__link popup__link--hidden-mob" href="reg-email.html">Go to registration form</a>
       <a class="popup__link" href="fgt.html">Forgot password?</a>
     </div>
-    <a class="popup__link-mob" (click)="openRegistration()">Registration</a>
+    <a class="popup__link-mob">Registration</a>
+    <!--<a class="popup__link-mob" (click)="openRegistration()">Registration</a>-->
+    </ng-template>
+
+    <!--Pin Code -->
+    <ng-template #pinCodeTemplate>
+      <h6 class="popup__title">Log in</h6>
+      <!--TODO this message is shown when user provided invalid credentials Or backEndDied-->
+      <h4 class="popup__subtitle" [innerHTML]="twoFaAuthModeMessage"></h4>
+
+      <form class="popup__form" [formGroup]="pinForm">
+        <div >
+
+          <div class="wrap-input popup__wrap-input">
+            <input
+              class="wrap-input__input"
+              type="text"
+              formControlName="pin"
+              [ngClass]="{'input--error': !pinForm.get('pin').valid}"
+            >
+            <label class="wrap-input__label" for="">Autehntification code</label>
+            <div class="wrap-input__line"></div>
+            <!--Input error section starts-->
+            <div>
+            <span *ngIf="(pinForm.get('pin').touched && pinForm.get('pin').errors != null)"
+              class="wrap-input__message">
+              This field is required.
+            </span>
+            </div>
+            <!--Input error section ends-->
+          </div>
+
+        </div>
+        <button class="btn popup__btn" (click)="onSubmit()">Authorise me</button>
+      </form>
+      <div class="popup__links-wrap">
+        <a class="popup__link popup__link--hidden-mob" href="reg-email.html">Go to registration form</a>
+        <a class="popup__link" href="fgt.html">Forgot password?</a>
+      </div>
+    </ng-template>
+
   </div>
 </div>
