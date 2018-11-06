@@ -29,7 +29,7 @@ export class OrderBookService {
     return this.stompService
       .subscribe('/app/trade_orders/' + pair.currencyPairId)
       .pipe(map((message: Message) => {
-        console.log(JSON.parse(message.body));
+        // console.log(JSON.parse(message.body));
         return JSON.parse(message.body);
       }))
       .pipe(map(orders => orders.map ? orders.map(order => JSON.parse(order)) : orders));
