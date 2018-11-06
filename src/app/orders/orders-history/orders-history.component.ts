@@ -11,7 +11,7 @@ export class OrdersHistoryComponent implements OnInit {
   @ViewChild('dropdown')
   dropdownElement: ElementRef;
 
-  openOrders;
+  orderHistory;
 
   currentPage = 1;
   countPerPage = 14;
@@ -40,27 +40,79 @@ export class OrdersHistoryComponent implements OnInit {
     this.dropdownElement.nativeElement.classList.toggle('dropdown--open');
   }
 
+  toggleDetails(event: MouseEvent): void {
+    const element: HTMLElement = <HTMLElement>event.currentTarget;
+    const idDetails = element.dataset.id;
+    if (idDetails) {
+      const detailsElement = document.getElementById(idDetails + '');
+      if (detailsElement) {
+        detailsElement.classList.toggle('table__details-show');
+      }
+    }
+  }
+
   changeItemsPerPage(e: MouseEvent) {
     const element: HTMLElement = <HTMLElement>e.currentTarget;
 
     this.countPerPage = parseInt(element.innerText, 10);
   }
 
-  filterOpenOrders(page: number): void {
+  changePage(page: number): void {
     this.currentPage = page;
   }
 
   onFromInputFieldChanged(event: IMyInputFieldChanged): void {
-    this.dateFrom = new Date(event.value);
+    const date = new Date();
+    this.dateFrom = new Date(date.setTime(Date.parse(this.formarDate(event.value))));
+    this.filterByDate();
   }
 
   onToInputFieldChanged(event: IMyInputFieldChanged): void {
-    this.dateTo = new Date(event.value);
+    const date = new Date();
+    this.dateTo = new Date(date.setTime(Date.parse(this.formarDate(event.value))));
+    this.filterByDate();
+  }
+
+  /**
+* format date string
+* @param { string } date m.d.y exmaple 09.25.2018;
+* @returns { string } returns string in format d.m.y: exmaple 25.09.2018
+*/
+  formarDate(date: string): string {
+    const strArray: string[] = date.split('.');
+    strArray.splice(0, 2, strArray[1], strArray[0]);
+    return strArray.join('.');
+  }
+
+  /** filter by date */
+  filterByDate(): void {
+
+    if (this.dateFrom && this.dateTo) {
+      const timestampFrom = this.dateFrom.getTime();
+      const timestampTo = this.dateTo.getTime();
+
+      if (timestampFrom && timestampTo) {
+
+      }
+    }
   }
 
   initDate() {
     /** Initialized to current date */
     const currentDate = new Date();
+
+    const mock = [
+      {
+        'id': 1203034,
+        'date': new Date,
+        'currencyPairName': 'BTC/ETH',
+        'operationTypeEnum': 'Buy',
+        'exrate': '4500',
+        'amountConvert': '0.005',
+        'commissionAmountForAcceptor': '30',
+        'amountWithCommissionForAcceptor': '0,00005303869'
+      }
+    ];
 
     this.modelDateTo = {
       date: {

@@ -27,6 +27,50 @@
       </thead>
       <tbody class="table__body table__body--none-shadow">
       <!-- t-row start-->
+      <!-- <ng-container *ngFor="let item of orderHistory">
+        <tr class="table__row--mob" [attr.data-id]="item.id" (click)="toggleDetails($event)">
+          <td class="table__cell table__cell--tal">
+            <div>BTC / ETH</div>
+            <div class="table__date-time">
+              <div>Th 13.06.2018</div>
+              <div>10:59:41</div>
+            </div>
+          </td>
+          <td class="table__cell table__cell--tal">
+            <span class="orders__type-buy">Buy (limit)</span>
+          </td>
+          <td class="table__cell table__cell--tar">
+            <div>1.1068069</div>
+          </td>
+          <td class="table__cell table__cell--arr-mob">
+            <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
+          </td>
+        </tr>
+        <tr class="table__details" [id]="item.id">
+          <td class="table__details-cell" colspan="4">
+            <div class="table__details-item">
+              <div class="table__details-item-title">Amount</div>
+              <div class="table__details-item-value">227.7 BTC</div>
+            </div>
+            <div class="table__details-item">
+              <div class="table__details-item-title">Trading price</div>
+              <div class="table__details-item-value">0.001221 ETH</div>
+            </div>
+            <div class="table__details-item">
+              <div class="table__details-item-title">Filled</div>
+              <div class="table__details-item-value">0.001221 ETH</div>
+            </div>
+            <div class="table__details-item">
+              <div class="table__details-item-title">Fee</div>
+              <div class="table__details-item-value">0.2%</div>
+            </div>
+            <div class="table__details-item">
+              <div class="table__details-item-title">In total</div>
+              <div class="table__details-item-value">0.000004 ETH</div>
+            </div>
+          </td>
+        </tr>
+      </ng-container> -->
       <tr class="table__row--mob">
         <td class="table__cell table__cell--tal">
           <div>BTC / ETH</div>
@@ -411,31 +455,7 @@
         of <span>192</span> entries.
       </div>
       <ul class="paginator" style="margin-left: auto;">
-        <li class="paginator__item">
-          <a class="paginator__link paginator__link--arr" href="#">
-            <img class="paginator__arr-prev" src="../../assets/img/paginator-prev.svg" alt="prev">
-          </a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">1</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">3</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">4</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">...</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">8</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link paginator__link--arr" href="#">
-            <img class="paginator__arr-next" src="../../assets/img/paginator-next.svg" alt="next">
-          </a>
-        </li>
+          <pagination-controls (pageChange)="changePage($event)" [previousLabel]="''" [nextLabel]="''"></pagination-controls>
       </ul>
     </div>
     <!--paginator end-->

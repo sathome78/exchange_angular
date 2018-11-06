@@ -6,6 +6,7 @@ import { Order } from '../../dashboard/trading/order.model';
 import { OrdersService } from '../../dashboard/orders/orders.service';
 import { MockDataService } from '../../services/mock-data.service';
 import { TradingService } from '../../dashboard/trading/trading.service';
+import { timestamp } from 'rxjs/internal/operators';
 @Component({
   selector: 'app-open-orders',
   templateUrl: './open-orders.component.html',
@@ -74,16 +75,50 @@ export class OpenOrdersComponent implements OnInit {
     this.countPerPage = parseInt(element.innerText, 10);
   }
 
-  filterOpenOrders(page: number): void {
+  changePage(page: number): void {
     this.currentPage = page;
   }
 
   onFromInputFieldChanged(event: IMyInputFieldChanged): void {
-    this.dateFrom = new Date(event.value);
+    const date = new Date();
+    this.dateFrom = new Date(date.setTime(Date.parse(this.formarDate(event.value))));
+    // this.filterByDate();
   }
 
   onToInputFieldChanged(event: IMyInputFieldChanged): void {
-    this.dateTo = new Date(event.value);
+    const date = new Date();
+    this.dateTo = new Date(date.setTime(Date.parse(this.formarDate(event.value))));
+    // this.filterByDate();
+  }
+
+    /**
+   * format date string
+   * @param { string } date m.d.y exmaple 09.25.2018;
+   * @returns { string } returns string in format d.m.y: exmaple 25.09.2018
+   */
+  formarDate(date: string): string {
+    const strArray: string[] = date.split('.');
+    strArray.splice(0, 2, strArray[1], strArray[0]);
+    return strArray.join('.');
+  }
+
+  /** filter openOrders by date */
+  filterByDate(): void {
+    // todo: delete for prod
+    this.openOrders = this.mockData.getOpenOrders().items;
+
+    if (this.dateFrom && this.dateTo) {
+      const timestampFrom = this.dateFrom.getTime();
+      const timestampTo = this.dateTo.getTime();
+
+      if (timestampFrom && timestampTo) {
+        this.openOrders = this.openOrders.filter((item) => {
+          const currentTimestamp = new Date(item.dateCreation).getTime();
+          const res = (currentTimestamp > timestampFrom) && (currentTimestamp < timestampTo);
+          return res;
+        });
+      }
+    }
   }
 
   toggleDetails(event: MouseEvent) {
@@ -116,7 +151,7 @@ export class OpenOrdersComponent implements OnInit {
     this.dropdownLimitValue = order.orderBaseType;
     this.order.commission = order.commissionFixedAmount;
     this.getCommissionIndex();
-    this.filterOpenOrders(this.currentPage);
+    this.changePage(this.currentPage);
   }
 
   initDate(): void {
@@ -160,7 +195,7 @@ export class OpenOrdersComponent implements OnInit {
     this.ordersService.deleteOrder(order).subscribe(res => {
       console.log(res);
     });
-    this.filterOpenOrders(this.currentPage);
+    this.changePage(this.currentPage);
     this.editOrderPopup = false;
   }
 
@@ -175,14 +210,14 @@ export class OpenOrdersComponent implements OnInit {
       this.order = { ...this.defaultOrder };
       this.orderStop = '';
       this.editOrderPopup = false;
-      this.filterOpenOrders(this.currentPage);
+      this.changePage(this.currentPage);
     });
 
     // delete
     this.order = { ...this.defaultOrder };
     this.orderStop = '';
     this.editOrderPopup = false;
-    this.filterOpenOrders(this.currentPage);
+    this.changePage(this.currentPage);
     //
   }
 
