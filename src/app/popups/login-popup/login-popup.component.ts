@@ -23,6 +23,7 @@ export class LoginPopupComponent implements OnInit {
   statusMessage = '';
   inPineCodeMode = false;
   twoFaAuthModeMessage = 'Pincode is sent to your email';
+  isGoogleAuthEnabled = false;
 
 
   constructor(private popupService: PopupService,
@@ -53,7 +54,7 @@ export class LoginPopupComponent implements OnInit {
   }
 
   onProcess() {
-    console.log(this.form.valid)
+    console.log(this.form.valid);
     if (this.form.valid) {
       const email = this.form.get('email').value;
       const password = this.form.get('password').value;

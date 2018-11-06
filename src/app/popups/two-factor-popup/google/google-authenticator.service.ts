@@ -19,6 +19,10 @@ export class GoogleAuthenticatorService {
     return this.http.get<ITwoFaResponseDto>(this.getUrl('google2fa/hash'));
   }
 
+  sendMePincode(): Observable<number> {
+    return this.http.get<number>(this.getUrl('google2fa/pin'));
+  }
+
   submitGoogleAuthSecret(secret: string, password: string, pin: string): Observable<number> {
     const encodedPassword = encodePassword(password, this.ENCODE_KEY);
     const body: { 'SECRET': string, 'PASSWORD': string, 'PINCODE': string }

@@ -35,6 +35,7 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep {
       'password': new FormControl('', {validators: [Validators.required]}),
       'pincode': new FormControl('', {validators: [Validators.required]})
     });
+    this.sendMePincode();
   }
 
   onNextStep() {
@@ -48,9 +49,18 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep {
           this.popupService.closeTFAPopup();
         },
         error1 => {
-        this.statusMessage = 'Failed to set your google auth code';
+          this.statusMessage = 'Failed to set your google auth code';
           console.log(error1);
         });
+  }
+
+  sendMePincode() {
+    this.googleService.sendMePincode().subscribe(res => {
+        console.log(res);
+      },
+      error1 => {
+        console.log(error1);
+      });
   }
 
 }
