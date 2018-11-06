@@ -53,7 +53,7 @@ export class LoginPopupComponent implements OnInit {
   }
 
   onProcess() {
-    console.log(this.form.valid)
+    console.log(this.form.valid);
     if (this.form.valid) {
       const email = this.form.get('email').value;
       const password = this.form.get('password').value;

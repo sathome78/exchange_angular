@@ -1,6 +1,6 @@
 <div class="widget widget--gradient">
   <div class="widget__header">
-    <span class="widget__name">My <span>BTC / USD</span> orders</span>
+    <span class="widget__name" *ngIf="arrPairName" >My <span>{{arrPairName[0]}} / {{arrPairName[1]}}</span> orders</span>
     <a href="#" class="widget__question">
       <span class="widget__question-img">
         <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +78,7 @@
 
     <app-open-orders
       *ngIf="mainTab === 'open'"
-      (countOpenOrders)="setCountOpenOrders($event)"
+      (refreshOpenOrders)="toOpenOrders()"
       [makeHeight]="makeHeight"
       [openOrders]="openOrders">
     </app-open-orders>
