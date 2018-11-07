@@ -2,15 +2,22 @@
 <div class="subtitle modal__subtitle">
   <p>Use Google Authenticator to scan the QRCode</p>
 </div>
-<h3>{{statusMessage}}</h3>
-<!--<div class="modal__qr-code">-->
-  <!--<qr-code [value]="getTestUrl()" [size]="150"></qr-code>-->
-<!--</div>-->
-<img class="modal__qr-code" [src]="getGoogleAuthenticatorUrl()">
+<!--<h3>{{statusMessage}}</h3>-->
 
-<!--SECRET HASH-->
-<div class="modal__row">
-  <div class="modal__code-grey-field">{{ secretCode }}</div>
+<div class="modal__code-wrap">
+<img class="modal__qr-code" [src]="getGoogleAuthenticatorUrl()">
+<div class="modal__code-2fa">
+  <!--SECRET HASH-->
+  <h6>LSYVQZUJ6S2MRPA4 {{ secretCode }}</h6>
+  <span>Please save a backup of your <br> recovery key</span>
+</div>
 </div>
 
 <button class="btn btn--active btn--center" (click)="onNextStep()">Ok, I did it</button>
+
+<div class="note modal__note">
+  <div class="note__title">Please note:</div>
+  <ul class="note__list">
+    <li class="note__list-item">This code changes each time you enable 2FA. If you disable 2FA this code will no longer be valid.</li>
+  </ul>
+</div>

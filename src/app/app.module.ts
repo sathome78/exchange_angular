@@ -52,6 +52,7 @@ import { ReferralChargesComponent } from './referral/referral-charges/referral-c
 import { BalanceComponent } from './balance/balance.component';
 import { LoginPopupMobileComponent } from './popups/login-popup-mobile/login-popup-mobile.component';
 import { RegistrationMobilePopupComponent } from './popups/registration-mobile-popup/registration-mobile-popup.component';
+import { GoogleDisableComponent } from './popups/two-factor-popup/google/google-disable/google-disable.component';
 
 
 @NgModule({
@@ -86,6 +87,7 @@ import { RegistrationMobilePopupComponent } from './popups/registration-mobile-p
     BalanceComponent,
     LoginPopupMobileComponent,
     RegistrationMobilePopupComponent,
+    GoogleDisableComponent,
     // TWO FACTOR POPUP END
 
 

@@ -1,45 +1,34 @@
 <div class="settings__content">
   <h3 class="title settings__content-title">Two-Factor authentication</h3>
   <div class="tfa__select-type">
-    <div class="select select--mb20" (click)="openLogin()">
-      <div class="select__value select__value--active"></div>
-      <div class="select__label">Log in</div>
-      <div class="select__line"></div>
-      <div class="select__triangle"></div>
-      <ul [ngClass]="{'select__list': !isLoginOpen, 'select__list--open': isLoginOpen }">
-        <li *ngFor="let opt of getSelectOptions()" class="select__list-item">{{opt}}</li>
-        <!--<li class="select__list-item">By Google</li>-->
-        <!--<li class="select__list-item">By SMS</li>-->
-        <!--<li class="select__list-item">Telegram</li>-->
-        <!--<li class="select__list-item">Disable</li>-->
-      </ul>
-    </div>
-    <div class="select select--mb20"  (click)="openWithdrawal()">
-      <div class="select__value select__value--active"></div>
-      <div class="select__label">Withdrawal</div>
-      <div class="select__line"></div>
-      <div class="select__triangle"></div>
-      <ul [ngClass]="{'select__list': !isWithdrawalOpen, 'select__list--open': isWithdrawalOpen }">
-        <li *ngFor="let opt of getSelectOptions()" class="select__list-item" >{{opt}}</li>
-        <!--<li class="select__list-item">By Google</li>-->
-        <!--<li class="select__list-item">By SMS</li>-->
-        <!--<li class="select__list-item">Telegram</li>-->
-        <!--<li class="select__list-item">Disable</li>-->
-      </ul>
-    </div>
-    <div class="select select--mb20" (click)="openTransfer()">
-      <div class="select__value select__value--active"></div>
-      <div class="select__label">Inner transfer</div>
-      <div class="select__line"></div>
-      <div class="select__triangle"></div>
-      <ul [ngClass]="{'select__list': !isTransferOpen, 'select__list--open': isTransferOpen }">
-        <li *ngFor="let opt of getSelectOptions()" class="select__list-item">{{opt}}</li>
-        <!--<li class="select__list-item">By Google</li>-->
-        <!--<li class="select__list-item">By SMS</li>-->
-        <!--<li class="select__list-item">Telegram</li>-->
-        <!--<li class="select__list-item">Disable</li>-->
-      </ul>
-    </div>
+    <div class="subtitle settings__content-subtitle"> Log in, Withdrawal, Inner transfer</div>
+    <!--<div class="select select&#45;&#45;mb20" (click)="openLogin()">-->
+      <!--<div class="select__value select__value&#45;&#45;active"></div>-->
+      <!--<div class="select__label">Log in</div>-->
+      <!--<div class="select__line"></div>-->
+      <!--<div class="select__triangle"></div>-->
+      <!--<ul [ngClass]="{'select__list': !isLoginOpen, 'select__list&#45;&#45;open': isLoginOpen }">-->
+        <!--<li *ngFor="let opt of getSelectOptions()" class="select__list-item">{{opt}}</li>-->
+      <!--</ul>-->
+    <!--</div>-->
+    <!--<div class="select select&#45;&#45;mb20"  (click)="openWithdrawal()">-->
+      <!--<div class="select__value select__value&#45;&#45;active"></div>-->
+      <!--<div class="select__label">Withdrawal</div>-->
+      <!--<div class="select__line"></div>-->
+      <!--<div class="select__triangle"></div>-->
+      <!--<ul [ngClass]="{'select__list': !isWithdrawalOpen, 'select__list&#45;&#45;open': isWithdrawalOpen }">-->
+        <!--<li *ngFor="let opt of getSelectOptions()" class="select__list-item" >{{opt}}</li>-->
+      <!--</ul>-->
+    <!--</div>-->
+    <!--<div class="select select&#45;&#45;mb20" (click)="openTransfer()">-->
+      <!--<div class="select__value select__value&#45;&#45;active"></div>-->
+      <!--<div class="select__label">Inner transfer</div>-->
+      <!--<div class="select__line"></div>-->
+      <!--<div class="select__triangle"></div>-->
+      <!--<ul [ngClass]="{'select__list': !isTransferOpen, 'select__list&#45;&#45;open': isTransferOpen }">-->
+        <!--<li *ngFor="let opt of getSelectOptions()" class="select__list-item">{{opt}}</li>-->
+      <!--</ul>-->
+    <!--</div>-->
   </div>
   <table class="table tfa__table">
     <thead>
@@ -54,7 +43,7 @@
     </tr>
     </thead>
     <tr>
-      <td class="table__cell"><span class="tfa__method">Log in</span></td>
+      <td class="table__cell"><span class="tfa__method">Log in, Withdrawal, Inner transfer</span></td>
       <td class="table__cell" style="text-align:center">
         <label for="" class="toggler settings__toggler">
           <input type="checkbox" name=""
@@ -89,82 +78,82 @@
         <!--</label>-->
       <!--</td>-->
     </tr>
-    <tr>
-      <td class="table__cell"><span class="tfa__method">Withdrawal</span></td>
-      <td class="table__cell" style="text-align:center">
-        <label for="" class="toggler settings__toggler">
-          <input type="checkbox" name=""
-                 [(ngModel)]="isWithdrawalGoogleNotificationEnabled"
-                 (click)="toggleWithdrawalGoogleNotification()"
-          >
-          <span class="toggler__indicate"></span>
-        </label>
-        <!--<label class="radio">-->
-          <!--<input class="radio__input" type="radio" name="radio-Withdrawal"-->
+    <!--<tr>-->
+      <!--<td class="table__cell"><span class="tfa__method">Withdrawal</span></td>-->
+      <!--<td class="table__cell" style="text-align:center">-->
+        <!--<label for="" class="toggler settings__toggler">-->
+          <!--<input type="checkbox" name=""-->
                  <!--[(ngModel)]="isWithdrawalGoogleNotificationEnabled"-->
-                 <!--(click)="enableWithdrawGoogleNotification()">-->
-          <!--<span class="radio__icon"></span>-->
+                 <!--(click)="toggleWithdrawalGoogleNotification()"-->
+          <!--&gt;-->
+          <!--<span class="toggler__indicate"></span>-->
         <!--</label>-->
-      </td>
-      <!--<td class="table__cell" style="text-align:center">-->
-        <!--<label class="radio">-->
-          <!--<input class="radio__input" type="radio" name="radio-Withdrawal"><span class="radio__icon"></span>-->
-        <!--</label>-->
+        <!--&lt;!&ndash;<label class="radio">&ndash;&gt;-->
+          <!--&lt;!&ndash;<input class="radio__input" type="radio" name="radio-Withdrawal"&ndash;&gt;-->
+                 <!--&lt;!&ndash;[(ngModel)]="isWithdrawalGoogleNotificationEnabled"&ndash;&gt;-->
+                 <!--&lt;!&ndash;(click)="enableWithdrawGoogleNotification()">&ndash;&gt;-->
+          <!--&lt;!&ndash;<span class="radio__icon"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;</label>&ndash;&gt;-->
       <!--</td>-->
+      <!--&lt;!&ndash;<td class="table__cell" style="text-align:center">&ndash;&gt;-->
+        <!--&lt;!&ndash;<label class="radio">&ndash;&gt;-->
+          <!--&lt;!&ndash;<input class="radio__input" type="radio" name="radio-Withdrawal"><span class="radio__icon"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;</label>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td class="table__cell" style="text-align:center">&ndash;&gt;-->
+        <!--&lt;!&ndash;<label class="radio">&ndash;&gt;-->
+          <!--&lt;!&ndash;<input class="radio__input" type="radio" name="radio-Withdrawal"><span class="radio__icon"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;</label>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td class="table__cell" style="text-align:center">&ndash;&gt;-->
+        <!--&lt;!&ndash;<label class="radio">&ndash;&gt;-->
+          <!--&lt;!&ndash;<input class="radio__input" type="radio" name="radio-Withdrawal"&ndash;&gt;-->
+                 <!--&lt;!&ndash;[(ngModel)]="isWithdrawalNotificationDisabled"&ndash;&gt;-->
+                 <!--&lt;!&ndash;(click)="disableWithdrawNotification()">&ndash;&gt;-->
+          <!--&lt;!&ndash;<span class="radio__icon"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;</label>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+    <!--</tr>-->
+    <!--<tr>-->
+      <!--<td class="table__cell"><span class="tfa__method">Inner transfer</span></td>-->
       <!--<td class="table__cell" style="text-align:center">-->
-        <!--<label class="radio">-->
-          <!--<input class="radio__input" type="radio" name="radio-Withdrawal"><span class="radio__icon"></span>-->
-        <!--</label>-->
-      <!--</td>-->
-      <!--<td class="table__cell" style="text-align:center">-->
-        <!--<label class="radio">-->
-          <!--<input class="radio__input" type="radio" name="radio-Withdrawal"-->
-                 <!--[(ngModel)]="isWithdrawalNotificationDisabled"-->
-                 <!--(click)="disableWithdrawNotification()">-->
-          <!--<span class="radio__icon"></span>-->
-        <!--</label>-->
-      <!--</td>-->
-    </tr>
-    <tr>
-      <td class="table__cell"><span class="tfa__method">Inner transfer</span></td>
-      <td class="table__cell" style="text-align:center">
-        <label for="" class="toggler settings__toggler">
-          <input type="checkbox" name=""
-                 [(ngModel)]="isTransferGoogleNotificationEnabled"
-                 (click)="toggleTransferGoogleNotification()"
-          >
-          <span class="toggler__indicate"></span>
-        </label>
-        <!--<label class="radio">-->
-          <!--<input class="radio__input" type="radio" name="radio-inner-transfer"-->
+        <!--<label for="" class="toggler settings__toggler">-->
+          <!--<input type="checkbox" name=""-->
                  <!--[(ngModel)]="isTransferGoogleNotificationEnabled"-->
-                 <!--(click)="enableTransferGoogleNotification()"><span class="radio__icon"></span>-->
+                 <!--(click)="toggleTransferGoogleNotification()"-->
+          <!--&gt;-->
+          <!--<span class="toggler__indicate"></span>-->
         <!--</label>-->
-      </td>
-      <!--<td class="table__cell" style="text-align:center">-->
-        <!--<label class="radio">-->
-          <!--<input class="radio__input" type="radio" name="radio-inner-transfer"><span class="radio__icon"></span>-->
-        <!--</label>-->
+        <!--&lt;!&ndash;<label class="radio">&ndash;&gt;-->
+          <!--&lt;!&ndash;<input class="radio__input" type="radio" name="radio-inner-transfer"&ndash;&gt;-->
+                 <!--&lt;!&ndash;[(ngModel)]="isTransferGoogleNotificationEnabled"&ndash;&gt;-->
+                 <!--&lt;!&ndash;(click)="enableTransferGoogleNotification()"><span class="radio__icon"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;</label>&ndash;&gt;-->
       <!--</td>-->
-      <!--<td class="table__cell" style="text-align:center">-->
-        <!--<label class="radio">-->
-          <!--<input class="radio__input" type="radio" name="radio-inner-transfer"><span class="radio__icon"></span>-->
-        <!--</label>-->
-      <!--</td>-->
-      <!--<td class="table__cell" style="text-align:center">-->
-        <!--<label class="radio">-->
-          <!--<input class="radio__input" type="radio" name="radio-inner-transfer"-->
-                 <!--[(ngModel)]="isTransferNotificationDisabled"-->
-                 <!--(click)="disableTransferNotification()"><span class="radio__icon"></span>-->
-        <!--</label>-->
-      <!--</td>-->
-    </tr>
+      <!--&lt;!&ndash;<td class="table__cell" style="text-align:center">&ndash;&gt;-->
+        <!--&lt;!&ndash;<label class="radio">&ndash;&gt;-->
+          <!--&lt;!&ndash;<input class="radio__input" type="radio" name="radio-inner-transfer"><span class="radio__icon"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;</label>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td class="table__cell" style="text-align:center">&ndash;&gt;-->
+        <!--&lt;!&ndash;<label class="radio">&ndash;&gt;-->
+          <!--&lt;!&ndash;<input class="radio__input" type="radio" name="radio-inner-transfer"><span class="radio__icon"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;</label>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td class="table__cell" style="text-align:center">&ndash;&gt;-->
+        <!--&lt;!&ndash;<label class="radio">&ndash;&gt;-->
+          <!--&lt;!&ndash;<input class="radio__input" type="radio" name="radio-inner-transfer"&ndash;&gt;-->
+                 <!--&lt;!&ndash;[(ngModel)]="isTransferNotificationDisabled"&ndash;&gt;-->
+                 <!--&lt;!&ndash;(click)="disableTransferNotification()"><span class="radio__icon"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;</label>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+    <!--</tr>-->
   </table>
 
   <!--<div class="subtitle settings__content-subtitle">Choose authentification method</div>-->
   <div class="row settings__buttons-row">
-    <div *ngIf="isLoginGoogleNotificationEnabled || isTransferGoogleNotificationEnabled || isWithdrawalGoogleNotificationEnabled">
-        <button class="btn settings__btn" (click)="updateAuthProviderSettings('GOOGLE')">
+    <!--<div >-->
+        <button class="btn settings__btn" (click)="updateAuthProviderSettings('GOOGLE')" *ngIf="isLoginGoogleNotificationEnabled || isTransferGoogleNotificationEnabled || isWithdrawalGoogleNotificationEnabled">
           <span class="btn__icon btn__icon--blue btn__icon--hover-white">
             <svg width="22"  viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
               <path d="M11 8.8V13.2H17.2238C16.3152 15.7608 13.8688 17.6 11 17.6C7.3612 17.6 4.4 14.6388 4.4 11C4.4 7.3612 7.3612 4.4 11 4.4C12.5774 4.4 14.0954 4.9654 15.2746 5.9928L18.1654 2.6752C16.1854 0.9504 13.6422 0 11 0C4.9346 0 0 4.9346 0 11C0 17.0654 4.9346 22 11 22C17.0654 22 22 17.0654 22 11V8.8H11Z"/>
@@ -172,7 +161,17 @@
           </span>
           <span class="button__text">By Google</span>
         </button>
-    </div>
+    <!--</div>-->
+    <!--<div >-->
+      <button class="btn btn--error settings__btn" (click)="updateAuthProviderSettings('GOOGLE')" *ngIf="isLoginGoogleNotificationEnabled || isTransferGoogleNotificationEnabled || isWithdrawalGoogleNotificationEnabled">
+          <span class="btn__icon btn__icon--blue btn__icon--hover-white">
+            <svg width="22"  viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 8.8V13.2H17.2238C16.3152 15.7608 13.8688 17.6 11 17.6C7.3612 17.6 4.4 14.6388 4.4 11C4.4 7.3612 7.3612 4.4 11 4.4C12.5774 4.4 14.0954 4.9654 15.2746 5.9928L18.1654 2.6752C16.1854 0.9504 13.6422 0 11 0C4.9346 0 0 4.9346 0 11C0 17.0654 4.9346 22 11 22C17.0654 22 22 17.0654 22 11V8.8H11Z"/>
+            </svg>
+          </span>
+        <span class="button__text">Disable Google 2FA</span>
+      </button>
+    <!--</div>-->
     <!--<button class="btn settings__btn" (click)="updateAuthProviderSettings('SMS')">-->
                     <!--<span class="btn__icon btn__icon&#45;&#45;blue btn__icon&#45;&#45;hover-white">-->
                       <!--<svg width="14"  viewBox="0 0 14 21" xmlns="http://www.w3.org/2000/svg">-->
