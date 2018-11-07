@@ -5,7 +5,7 @@
       <div class=" orders__page-title">
         Orders history
       </div>
-      <div class="orders__filter-btn">
+      <div class="orders__filter-btn" (click)="openFilterPopup()">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M15.9317 0.44323C15.8028 0.147863 15.5799 0.000159206 15.2618 0H0.737807C0.420134 0 0.196893 0.147863 0.0682816 0.44323C-0.0602502 0.753723 -0.00735105 1.01904 0.227217 1.23867L5.82145 6.84086V12.3635C5.82145 12.5607 5.89335 12.731 6.03702 12.8751L8.9417 15.784C9.07798 15.9278 9.24813 16 9.45245 16C9.54315 16 9.63766 15.9809 9.73602 15.9431C10.0312 15.8142 10.1788 15.5908 10.1788 15.2726V6.8409L15.7728 1.2387C16.0075 1.01908 16.0602 0.753842 15.9317 0.44323Z" />
         </svg>
@@ -27,146 +27,60 @@
       </thead>
       <tbody class="table__body table__body--none-shadow">
         <!-- t-row start-->
-       <ng-container *ngFor="let item of orderHistory">
-         <tr class="table__row--mob" [attr.data-id]="item.id" (click)="toggleDetails($event)">
-          <td class="table__cell table__cell--tal">
-            <div>{{item.currencyPairName}}</div>
-            <div class="table__date-time">
-              <div>{{item.dateCreation | date:"EEEEEE"}} {{item.dateCreation | date:"dd.MM.yyyy"}}</div>
-              <div>{{item.dateCreation | date:"HH:mm:ss"}}</div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType}}</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>{{item.exExchangeRate}} USD</div>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
-          </td>
-        </tr>
-        <tr class="table__details" [id]="item.id">
-          <td class="table__details-cell" colspan="4">
-            <div class="table__details-item">
-              <div class="table__details-item-title">Amount</div>
-              <div class="table__details-item-value">{{item.amountConvert}} {{arrPairName[0]}}</div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">Trading price</div>
-              <div class="table__details-item-value">0.001221 {{arrPairName[1]}}</div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">Filled</div>
-              <div class="table__details-item-value">0.001221 {{arrPairName[1]}}</div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">Fee</div>
-              <div class="table__details-item-value">{{item.commissionValue}}%</div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">In total</div>
-              <div class="table__details-item-value">{{item.arrPairName}} {{arrPairName[1]}}</div>
-            </div>
-          </td>
-        </tr>
-      </ng-container>
-          <tr class="table__row--mob">
+        <ng-container *ngFor="let item of orderHistory">
+          <tr class="table__row--mob" [attr.data-id]="item.id" (click)="toggleDetails($event)">
             <td class="table__cell table__cell--tal">
-              <div>BTC / ETH</div>
+              <div>{{item.currencyPairName}}</div>
               <div class="table__date-time">
-                <div>Th 13.06.2018</div>
-                <div>10:59:41</div>
+                <div>{{item.dateCreation | date:"EEEEEE"}} {{item.dateCreation | date:"dd.MM.yyyy"}}</div>
+                <div>{{item.dateCreation | date:"HH:mm:ss"}}</div>
               </div>
             </td>
             <td class="table__cell table__cell--tal">
-              <span>BTC / ETH</span>
+              <span [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType}}</span>
             </td>
             <td class="table__cell table__cell--tar">
-              <div>1.1068069</div>
+              <div>{{item.exExchangeRate}} USD</div>
             </td>
             <td class="table__cell table__cell--arr-mob">
               <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
             </td>
           </tr>
-          <!-- t-row end-->
-          <!-- t-row start-->
-          <tr class="table__details">
+          <tr class="table__details" [id]="item.id">
             <td class="table__details-cell" colspan="4">
-              <!--<div class="table__details-left-line"></div>-->
-              <!--<div class="table__details-bottom-line"></div>-->
               <div class="table__details-item">
                 <div class="table__details-item-title">Amount</div>
-                <div class="table__details-item-value">227.7 BTC</div>
+                <div class="table__details-item-value">{{item.amountConvert}} {{arrPairName[0]}}</div>
               </div>
               <div class="table__details-item">
                 <div class="table__details-item-title">Trading price</div>
-                <div class="table__details-item-value">0.001221 ETH</div>
+                <div class="table__details-item-value">0.001221 {{arrPairName[1]}}</div>
               </div>
               <div class="table__details-item">
                 <div class="table__details-item-title">Filled</div>
-                <div class="table__details-item-value">0.001221 ETH</div>
+                <div class="table__details-item-value">0.001221 {{arrPairName[1]}}</div>
               </div>
               <div class="table__details-item">
                 <div class="table__details-item-title">Fee</div>
-                <div class="table__details-item-value">0.2%</div>
+                <div class="table__details-item-value">{{item.commissionValue}}%</div>
               </div>
               <div class="table__details-item">
                 <div class="table__details-item-title">In total</div>
-                <div class="table__details-item-value">0.000004 ETH</div>
+                <div class="table__details-item-value">{{item.arrPairName}} {{arrPairName[1]}}</div>
               </div>
             </td>
           </tr>
-          <!-- t-row end-->
-          <!-- t-row start-->
-          <tr class="table__row--mob">
-            <td class="table__cell table__cell--tal">
-              <div>BTC / ETH</div>
-              <div class="table__date-time">
-                <div>Th 13.06.2018</div>
-                <div>10:59:41</div>
-              </div>
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span class="orders__type-sell">Sell (limit)</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <div>1.1068069</div>
-            </td>
-            <td class="table__cell table__cell--arr-mob">
-              <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
-            </td>
-          </tr>
-          <!-- t-row end-->
-          <!-- t-row start-->
-          <tr class="table__row--mob">
-            <td class="table__cell table__cell--tal">
-              <div>BTC / ETH</div>
-              <div class="table__date-time">
-                <div>Th 13.06.2018</div>
-                <div>10:59:41</div>
-              </div>
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span class="orders__type-stop">Stop (limit)</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <div>1.1068069</div>
-            </td>
-            <td class="table__cell table__cell--arr-mob">
-              <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
-            </td>
-          </tr>
-          <!-- t-row end-->
+        </ng-container>
+        <!-- t-row end-->
       </tbody>
     </table>
     <!--filter-popup start-->
-    <div class="filters-popup">
+    <div class="filters-popup" [ngClass]="{'show-filter-popup': showFilterPopup}">
       <div class="filters-popup__header">
         <div class=" filters-popup__title">
           Order filters
         </div>
-        <div class="filters-popup__close">
+        <div class="filters-popup__close" (click)="closeFilterPopup()">
           <svg width="15" height="17" viewBox="0 0 15 17" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.73781 0.627721C1.36501 0.220243 0.732466 0.192129 0.324987 0.564928C-0.0824919 0.937728 -0.110605 1.57027 0.262194 1.97775L1.73781 0.627721ZM13.2622 16.187C13.635 16.5945 14.2675 16.6226 14.675 16.2498C15.0825 15.877 15.1106 15.2445 14.7378 14.837L13.2622 16.187ZM14.7378 1.97775C15.1106 1.57027 15.0825 0.937728 14.675 0.564928C14.2675 0.192129 13.635 0.220243 13.2622 0.627721L14.7378 1.97775ZM0.262219 14.837C-0.110581 15.2445 -0.0824672 15.877 0.325012 16.2498C0.732491 16.6226 1.36503 16.5945 1.73783 16.187L0.262219 14.837ZM0.262194 1.97775L6.7622 9.08241L8.23781 7.73239L1.73781 0.627721L0.262194 1.97775ZM6.7622 9.08241L13.2622 16.187L14.7378 14.837L8.23781 7.73239L6.7622 9.08241ZM13.2622 0.627721L6.7622 7.73239L8.23781 9.08241L14.7378 1.97775L13.2622 0.627721ZM6.7622 7.73239L0.262219 14.837L1.73783 16.187L8.23781 9.08241L6.7622 7.73239Z"
               fill="#237BEF" />
@@ -186,27 +100,19 @@
         </div>
         <div class="row row--jcsb">
           <div class="wrap-input filters-popup__datepicker">
-            <label class="wrap-input__label" for="">From</label>
+            <label class="wrap-input__label" [ngClass]="{'select-input_label': dateFrom}" for="">From</label>
 
-            <!--<my-date-picker-->
-            <!--name="from"-->
-            <!--[options]="myDatePickerOptions"-->
-            <!--&gt;-->
-            <!--</my-date-picker>-->
+            <my-date-picker name="from" [options]="myDatePickerOptions" [(ngModel)]="modelDateFrom" (inputFieldChanged)="onFromInputFieldChanged($event)"></my-date-picker>
             <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
           </div>
           <div class="wrap-input filters-popup__datepicker">
-            <label class="wrap-input__label" for="">To</label>
+            <label class="wrap-input__label" [ngClass]="{'select-input_label': dateFrom}" for="">To</label>
 
-            <!--<my-date-picker-->
-            <!--name="to"-->
-            <!--[options]="myDatePickerOptions"-->
-            <!--&gt;-->
-            <!--</my-date-picker>-->
+            <my-date-picker name="to" [options]="myDatePickerOptions" [(ngModel)]="modelDateTo" (inputFieldChanged)="onToInputFieldChanged($event)">></my-date-picker>
             <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
           </div>
         </div>
-        <button class="btn filters-popup__btn">See <span>543</span> results</button>
+        <button (click)="closeFilterPopup()" class="btn filters-popup__btn">See <span>{{countOfEntries}}</span> results</button>
       </form>
     </div>
     <!--filter-popup end-->
@@ -303,7 +209,8 @@
             <span>{{item.amountConvert}} {{arrPairName[0]}}</span>
           </td>
           <td class="table__cell">
-            <span class="orders__comission">{{item.commissionAmountForAcceptor}}% </span><span class="orders__comission-usd">~<span> 0.00015 USD</span></span>
+            <span class="orders__comission">{{item.commissionAmountForAcceptor}}% </span><span class="orders__comission-usd">~<span>
+                0.00015 USD</span></span>
           </td>
           <td class="table__cell table__cell--tar">
             <span>{{item.amountWithCommission}}<span> {{arrPairName[1]}}</span></span>

@@ -34,6 +34,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public modelDateTo: any;
 
 
+  showFilterPopup = false;
   public dateFrom: Date;
   public dateTo: Date;
 
@@ -58,10 +59,11 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     /** mock */
-    this.orderHistory = this.mockData.getOpenOrders().items;
-    this.activeCurrencyPair = 'USD/BTC';
-    this.arrPairName = this.activeCurrencyPair.split('/');
-    this.countOfEntries = this.orderHistory.length;
+    // TODO: delete in prod
+    // this.orderHistory = this.mockData.getOpenOrders().items;
+    // this.activeCurrencyPair = 'USD/BTC';
+    // this.arrPairName = this.activeCurrencyPair.split('/');
+    // this.countOfEntries = this.orderHistory.length;
     /** end mock */
 
     this.marketService.activeCurrencyListener
@@ -89,6 +91,10 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.dropdownElement.nativeElement.classList.toggle('dropdown--open');
   }
 
+  /**
+   * open submenu in the mobile version of the table
+   * @param event
+   */
   toggleDetails(event: MouseEvent): void {
     const element: HTMLElement = <HTMLElement>event.currentTarget;
     const idDetails = element.dataset.id;
@@ -210,8 +216,16 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     };
   }
 
-    /** split pair name for show */
-    private splitPairName(): void {
-      this.arrPairName = this.activeCurrencyPair.currencyPairName.split('/');
-    }
+  /** split pair name for show */
+  private splitPairName(): void {
+    this.arrPairName = this.activeCurrencyPair.currencyPairName.split('/');
+  }
+
+  openFilterPopup() {
+    this.showFilterPopup = true;
+  }
+
+  closeFilterPopup() {
+    this.showFilterPopup = false;
+  }
 }

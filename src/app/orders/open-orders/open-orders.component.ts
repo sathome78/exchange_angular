@@ -26,6 +26,8 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   refreshOrdersSubscription = new Subscription();
 
+  showFilterPopup = false;
+
   public activeCurrencyPair;
   public arrPairName: string[];
 
@@ -51,15 +53,6 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public dateFrom: Date;
   public dateTo: Date;
 
-  public currentPair;
-  public commissionIndex;
-  public orderType = 'BUY';
-  public order;
-  public orderStop;
-  public cancelOrderPopup = false;
-  public limitsData = ['LIMIT', 'STOP_LIMIT', 'ICO'];
-  public dropdownLimitValue = this.limitsData[0];
-
   constructor(
     private mockData: MockDataService,
     public tradingService: TradingService,
@@ -71,10 +64,11 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     /** start mock */
-    this.openOrders = this.mockData.getOpenOrders().items;
-    this.activeCurrencyPair = 'USD/BTC';
-    this.arrPairName = this.activeCurrencyPair.split('/');
-    this.countOfEntries = this.openOrders.length;
+    // TODO: delete in prod
+    // this.openOrders = this.mockData.getOpenOrders().items;
+    // this.activeCurrencyPair = 'USD/BTC';
+    // this.arrPairName = this.activeCurrencyPair.split('/');
+    // this.countOfEntries = this.openOrders.length;
     /** end mock */
 
     /** get open orders data */
@@ -161,6 +155,10 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * open submenu in the mobile version of the table
+   * @param event
+   */
   toggleDetails(event: MouseEvent): void {
     const element: HTMLElement = <HTMLElement>event.currentTarget;
     const idDetails = element.dataset.id;
@@ -237,17 +235,26 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   * clsose cancel popup
   */
   closePopup(): void {
-    this.cancelOrderPopup = false;
+    const targetPopup: HTMLElement = document.getElementById('popup-' + this.orderId);
+    console.log(targetPopup);
+    if (targetPopup) {
+      targetPopup.style.display = 'none';
+    }
+
     this.orderId = null;
+    this.selectedOrder = null;
   }
 
   /**
   * open cancel popup
   */
   openPopup(orderItem): void {
-    this.cancelOrderPopup = true;
     this.orderId = orderItem.id;
     this.selectedOrder = orderItem;
+    const targetPopup: HTMLElement = document.getElementById('popup-' + this.orderId);
+    if (targetPopup) {
+      targetPopup.style.display = 'block';
+    }
   }
 
   /**
@@ -278,5 +285,13 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     }
 
    this.closePopup();
+  }
+
+  openFilterPopup() {
+    this.showFilterPopup = true;
+  }
+
+  closeFilterPopup() {
+    this.showFilterPopup = false;
   }
 }
