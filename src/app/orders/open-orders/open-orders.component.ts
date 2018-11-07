@@ -70,8 +70,8 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     // this.arrPairName = this.activeCurrencyPair.split('/');
     // this.countOfEntries = this.openOrders.length;
     /** end mock */
-
     /** get open orders data */
+    this.marketService.setStompSubscription();
     this.marketService.activeCurrencyListener
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -83,7 +83,6 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
       this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
         this.toOpenOrders();
-        this.splitPairName();
       });
     }
     /** end get open orders data */
@@ -215,14 +214,12 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
    * request to get open-orders data
    */
   toOpenOrders(): void {
-    if (this.activeCurrencyPair) {
-      const sub = this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
-        .subscribe(data => {
-          this.openOrders = data.items;
-          this.openOrdersCount = data.count;
-          sub.unsubscribe();
-        });
-    }
+    const sub = this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
+      .subscribe(data => {
+        this.openOrders = data.items;
+        this.openOrdersCount = data.count;
+        sub.unsubscribe();
+      }, (error) => console.log(error));
   }
 
 
