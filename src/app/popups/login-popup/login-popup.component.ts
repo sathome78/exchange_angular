@@ -23,6 +23,7 @@ export class LoginPopupComponent implements OnInit {
   statusMessage = '';
   inPineCodeMode = false;
   twoFaAuthModeMessage = 'Pincode is sent to your email';
+  isGoogleAuthEnabled = false;
 
 
   constructor(private popupService: PopupService,
