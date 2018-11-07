@@ -15,6 +15,7 @@ import {DashboardDataService} from '../dashboard/dashboard-data.service';
 })
 export class HeaderComponent implements OnInit {
 
+  public userInfo;
   public isMobileMenuOpen = false;
 
   constructor(private popupService: PopupService,
@@ -35,7 +36,15 @@ export class HeaderComponent implements OnInit {
             this.themeService.setDarkTheme();
           }
         });
+      this.userInfo = this.authService.simpleToken;
     }
+    this.authService.onLoginLogoutListener$.subscribe(res => {
+      if (res.username !== '') {
+        this.userInfo.username = res.username;
+      } else {
+        this.userInfo = null;
+      }
+    });
   }
 
   public openMenu() {

@@ -26,7 +26,6 @@ export class LoginPopupMobileComponent implements OnInit {
   @ViewChild('pinCodeTemplate') pinCodeTemplate: TemplateRef<any>;
   public loginForm: FormGroup;
   public pinForm: FormGroup;
-  isPinEmpty;
 
 
 
@@ -140,7 +139,6 @@ export class LoginPopupMobileComponent implements OnInit {
   }
 
   sendToServer() {
-    console.log(this.email, this.password, this.pin);
     this.logger.debug(this, 'attempt to authenticate with email: ' + this.email + ' and password: ' + this.password);
     this.userService.authenticateUser(this.email, this.password, this.pin)
       .subscribe((tokenHolder: TokenHolder) => {
