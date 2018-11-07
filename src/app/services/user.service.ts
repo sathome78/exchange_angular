@@ -83,6 +83,11 @@ export class UserService {
     return this.http.post<TokenHolder>(this.getUrl('users/authenticate'), JSON.stringify(authCandidate), httpOptions);
   }
 
+  sendToEmailConfirmation(email: string) {
+    const data = {'email': email}
+    return this.http.post<TokenHolder>(this.getUrl('users/authenticate'), data);
+  }
+
   public getUserColorScheme(): Observable<string> {
     const url = this.HOST + '/info/private/v2/settings/color-schema';
     return this.http.get<string>(url);

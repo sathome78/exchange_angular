@@ -1,0 +1,75 @@
+
+<div class="overlay">
+  <div class="popup popup-login">
+<h6 class="popup__title">Email confirmed</h6>
+<h4 class="popup__subtitle">Now, we need to create strong password.</h4>
+<form class="popup__form" [formGroup]="passwordForm">
+
+    <div class="wrap-input popup__wrap-input">
+      <input
+        class="wrap-input__input"
+        [(ngModel)]="password"
+        [type]="getInputType()"
+        formControlName="password"
+        [ngClass]="{'input--error': !passwordForm.controls['password'].valid && passwordForm.controls['password'].touched}"
+      >
+      <label class="wrap-input__label" for="">Password</label>
+      <div class="wrap-input__line"></div>
+      <span
+        class="wrap-input__show-password"
+        (click)="togglePasswordVisibility()"
+        [ngClass]="{'wrap-input__show-password--active': isPasswordVisible}"
+      >
+          </span>
+      <!--Input error section starts-->
+      <div *ngIf="passwordForm.controls['password'].touched && passwordForm.controls['password'].errors != null">
+            <span
+              *ngIf="passwordForm.get('password').errors['required']"
+              class="wrap-input__message">
+              This field is required.
+            </span>
+        <span
+          *ngIf="passwordForm.controls['password'].errors['minlength']"
+          class="wrap-input__message">
+              Should have 8 chars at least, symbols and numbers.
+            </span>
+      </div>
+      <!--Input error section ends-->
+    </div>
+
+
+    <div class="wrap-input popup__wrap-input">
+      <input
+        class="wrap-input__input"
+        [type]="getInputType()"
+        formControlName="confirmPassword"
+        [ngClass]="{'input--error': !passwordForm.controls['confirmPassword'].valid && passwordForm.controls['confirmPassword'].touched}"
+      >
+      <label class="wrap-input__label" for="">Password</label>
+      <div class="wrap-input__line"></div>
+      <span
+        class="wrap-input__show-password"
+        (click)="togglePasswordVisibility()"
+        [ngClass]="{'wrap-input__show-password--active': isPasswordVisible}"
+      >
+          </span>
+      <!--Input error section starts-->
+      <div *ngIf="passwordForm.controls['confirmPassword'].touched && passwordForm.controls['confirmPassword'].errors != null">
+            <span
+              *ngIf="passwordForm.controls['confirmPassword'].errors['required']"
+              class="wrap-input__message">
+              This field is required.
+            </span>
+        <span
+          *ngIf="passwordForm.controls['confirmPassword'].errors['passwordConfirm']"
+          class="wrap-input__message">
+              Password is not matches.
+            </span>
+      </div>
+      <!--Input error section ends-->
+    </div>
+
+  <button class="btn popup__btn" (click)="createUser()">Finish registration</button>
+</form>
+</div>
+</div>

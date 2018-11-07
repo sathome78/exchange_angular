@@ -126,6 +126,11 @@ export class LoginPopupComponent implements OnInit {
     return this.isPasswordVisible ? 'text' : 'password';
   }
 
+  openRegistration() {
+    this.popupService.showMobileRegistrationPopup(true);
+    this.closeMe();
+  }
+
   requiredPincode(pin: FormControl): { [s: string]: boolean } {
     if (this.inPineCodeMode && (pin.value === undefined || pin.value === '')) {
       return {'pinRequired': true};

@@ -51,6 +51,8 @@ import { ReferralStructureComponent } from './referral/referral-structure/referr
 import { ReferralChargesComponent } from './referral/referral-charges/referral-charges.component';
 import { LoginPopupMobileComponent } from './popups/login-popup-mobile/login-popup-mobile.component';
 import { RegistrationMobilePopupComponent } from './popups/registration-mobile-popup/registration-mobile-popup.component';
+import { RegistrationComponent } from './auth/registration/registration.component';
+import {RecaptchaModule} from 'ng-recaptcha';
 
 
 @NgModule({
@@ -84,6 +86,7 @@ import { RegistrationMobilePopupComponent } from './popups/registration-mobile-p
     ReferralChargesComponent,
     LoginPopupMobileComponent,
     RegistrationMobilePopupComponent,
+    RegistrationComponent,
     // TWO FACTOR POPUP END
 
 
@@ -99,7 +102,8 @@ import { RegistrationMobilePopupComponent } from './popups/registration-mobile-p
     ReactiveFormsModule,
     SettingsModule,
     WebcamModule,
-    SharedModule
+    SharedModule,
+    RecaptchaModule,
   ],
   providers: [
     AuthGuard,

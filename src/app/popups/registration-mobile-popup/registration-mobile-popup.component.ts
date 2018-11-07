@@ -23,6 +23,8 @@ export class RegistrationMobilePopupComponent implements OnInit {
   public passwordForm: FormGroup;
   public nameForm: FormGroup;
   public nameSubmited = false;
+  public agreeTerms = false;
+  public recaptchaKey = '6LcyFkMUAAAAAH3mt-7FJlipkIQg03qt5jCUJOW9';
   emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
 
   public email;
@@ -63,6 +65,13 @@ export class RegistrationMobilePopupComponent implements OnInit {
     this.popupService.closeRegistrationPopup();
   }
 
+  resolvedCaptcha(event) {
+    this.userService.sendToEmailConfirmation(this.email).subscribe(res => {
+      console.log(res);
+    });
+    this.setTemplate('emailConfirmLinkTemplate');
+  }
+
   openLogIn() {
     this.popupService.showMobileLoginPopup(true);
     this.closeMe();
@@ -81,13 +90,15 @@ export class RegistrationMobilePopupComponent implements OnInit {
   }
 
   emailSubmit() {
+    this.setTemplate('captchaTemplate');
     this.emailSubmited = true;
     if (this.emailForm.valid) {
       const email = this.emailForm.get('email').value;
+      this.email = email;
       this.userService.checkIfEmailExists(email).subscribe(res => {
         if (!res) {
           this.email = email;
-          this.setTemplate('nameInputTemplate');
+          this.setTemplate('captchaTemplate');
           this.emailMessage = '';
         } else {
           this.emailMessage = 'this email is already used';

@@ -58,7 +58,7 @@
       <button class="btn popup__btn" (click)="onSubmit()">Authorise me</button>
     </form>
     <div class="popup__links-wrap">
-      <a class="popup__link popup__link--hidden-mob" href="reg-email.html">Go to registration form</a>
+      <a class="popup__link popup__link--hidden-mob" (click)="openRegistration()">Go to registration form</a>
       <a class="popup__link" href="fgt.html">Forgot password?</a>
     </div>
     <a class="popup__link-mob" (click)="openRegistration()">Registration</a>

@@ -1,5 +1,24 @@
 .popup__link{
   span{
-    color: #ffffff;
+    color: #8C8C9C;
   }
+}
+
+.popup__btn.btn {
+  background-color: transparent !important;
+}
+
+.popup__btn.btn.bg-none{
+  background-color: #237BEF !important;
+}
+
+@media (min-width: 1200px){
+  .popup__links-wrap {
+    margin-top: 24px;
+    justify-content: center;
+  }
+}
+
+re-captcha{
+  margin: auto;
 }
