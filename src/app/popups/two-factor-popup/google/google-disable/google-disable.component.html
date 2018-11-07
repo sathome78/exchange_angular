@@ -1,0 +1,40 @@
+<div class="title modal__title">Two-Factor authentication by google authentificator</div>
+<div class="subtitle modal__subtitle">
+  <p>Сonfirm your details</p>
+</div>
+
+<form [formGroup]="form">
+  <div class="row row--jcc">
+    <div class="wrap-input modal__input-2fa">
+      <input
+        class="wrap-input__input"
+        type="email"
+        formControlName="email">
+      <label class="wrap-input__label">Email</label>
+      <div class="wrap-input__line"></div>
+    </div>
+  </div>
+  <div class="row row--jcc">
+    <div class="wrap-input modal__input-2fa">
+      <input
+        class="wrap-input__input"
+        type="password"
+        formControlName="password">
+      <label class="wrap-input__label">Password</label>
+      <div class="wrap-input__line"></div>
+    </div>
+  </div>
+  <div class="row row--jcc">
+    <div class="wrap-input modal__input-2fa">
+      <input
+        class="wrap-input__input"
+        type="text"
+        formControlName="pincode">
+      <label class="wrap-input__label">GA Security Code</label>
+      <div class="wrap-input__line"></div>
+    </div>
+  </div>
+
+  <button class="btn btn--error btn--center " (click)="onNextStep()">Disable GA</button>
+  <!--todo here we should fire popup if time of 5 minutes expires or smth went wrong-->
+</form>
