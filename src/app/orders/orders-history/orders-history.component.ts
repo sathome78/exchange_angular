@@ -1,17 +1,31 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import {IMyDpOptions, IMyInputFieldChanged} from 'mydatepicker';
 
+import { MockDataService } from '../../services/mock-data.service';
+import { TradingService } from '../../dashboard/trading/trading.service';
+import { MarketService } from '../../dashboard/markets/market.service';
+import { AuthService } from '../../services/auth.service';
+import { OrdersService } from '../../dashboard/orders/orders.service';
+
+import { timestamp, takeUntil } from 'rxjs/internal/operators';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/index';
+import { forkJoin} from 'rxjs';
 @Component({
   selector: 'app-orders-history',
   templateUrl: './orders-history.component.html',
   styleUrls: ['./orders-history.component.scss']
 })
-export class OrdersHistoryComponent implements OnInit {
+export class OrdersHistoryComponent implements OnInit, OnDestroy {
 
   @ViewChild('dropdown')
   dropdownElement: ElementRef;
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  refreshOrdersSubscription = new Subscription();
+
   orderHistory;
+  countOfEntries: number;
 
   currentPage = 1;
   countPerPage = 14;
@@ -23,6 +37,9 @@ export class OrdersHistoryComponent implements OnInit {
   public dateFrom: Date;
   public dateTo: Date;
 
+  arrPairName: string[];
+  activeCurrencyPair;
+
   public myDatePickerOptions: IMyDpOptions = {
     // other options...
     dateFormat: 'dd.mm.yyyy',
@@ -30,10 +47,42 @@ export class OrdersHistoryComponent implements OnInit {
 
   public model: any = { date: { year: 2018, month: 10, day: 9 } };
 
-  constructor() { }
+  constructor(
+    private mockData: MockDataService,
+    public tradingService: TradingService,
+    private ordersService: OrdersService,
+    private marketService: MarketService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
+
+    /** mock */
+    this.orderHistory = this.mockData.getOpenOrders().items;
+    this.activeCurrencyPair = 'USD/BTC';
+    this.arrPairName = this.activeCurrencyPair.split('/');
+    this.countOfEntries = this.orderHistory.length;
+    /** end mock */
+
+    this.marketService.activeCurrencyListener
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.activeCurrencyPair = res;
+        this.splitPairName();
+        this.toHistory();
+      });
+    if (this.authService.isAuthenticated()) {
+      this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
+      this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
+      });
+    }
+
     this.initDate();
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   toggleDropdown(e: MouseEvent) {
@@ -64,13 +113,13 @@ export class OrdersHistoryComponent implements OnInit {
   onFromInputFieldChanged(event: IMyInputFieldChanged): void {
     const date = new Date();
     this.dateFrom = new Date(date.setTime(Date.parse(this.formarDate(event.value))));
-    this.filterByDate();
+    // this.filterByDate();
   }
 
   onToInputFieldChanged(event: IMyInputFieldChanged): void {
     const date = new Date();
     this.dateTo = new Date(date.setTime(Date.parse(this.formarDate(event.value))));
-    this.filterByDate();
+    // this.filterByDate();
   }
 
   /**
@@ -86,33 +135,59 @@ export class OrdersHistoryComponent implements OnInit {
 
   /** filter by date */
   filterByDate(): void {
+    // todo: delete for prod
+    this.orderHistory = this.mockData.getOpenOrders().items;
 
     if (this.dateFrom && this.dateTo) {
       const timestampFrom = this.dateFrom.getTime();
       const timestampTo = this.dateTo.getTime();
 
       if (timestampFrom && timestampTo) {
-
+        this.orderHistory = this.orderHistory.filter((item) => {
+          const currentTimestamp = new Date(item.dateCreation).getTime();
+          const res = (currentTimestamp >= timestampFrom) && (currentTimestamp <= timestampTo);
+          return res;
+        });
+        this.countOfEntries = this.orderHistory.length;
       }
+    }
+  }
+
+  /**
+   * sets class for order type field
+   * @param {string} type ordert type: examples: 'buy', 'sell', 'stop'
+   * @returns {string}
+   */
+  setClassForOrderTypeField (type: string): string {
+    let className: string;
+    if (type) {
+      className = 'orders__type-' + type.toLocaleLowerCase();
+    } else {
+      className = '';
+    }
+
+    return className;
+  }
+
+  /**
+ * request to get history data with status (CLOSED and CANCELED)
+ */
+  toHistory(): void {
+    if (this.activeCurrencyPair) {
+      const forkSubscription = forkJoin(
+        this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CLOSED'),
+        this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CANCELLED')
+      )
+        .subscribe(([res1, res2]) => {
+          this.orderHistory = [...res1.items, ...res2.items];
+          forkSubscription.unsubscribe();
+        });
     }
   }
 
   initDate() {
     /** Initialized to current date */
     const currentDate = new Date();
-
-    const mock = [
-      {
-        'id': 1203034,
-        'date': new Date,
-        'currencyPairName': 'BTC/ETH',
-        'operationTypeEnum': 'Buy',
-        'exrate': '4500',
-        'amountConvert': '0.005',
-        'commissionAmountForAcceptor': '30',
-        'amountWithCommissionForAcceptor': '0,00005303869'
-      }
-    ];
 
     this.modelDateTo = {
       date: {
@@ -134,16 +209,9 @@ export class OrdersHistoryComponent implements OnInit {
       }
     };
   }
-}
 
-// {
-//   'date': Date(),
-//   'dateTimestamp': 486846359, // number
-//   'currencyPairName': 'BTC/ETH',
-//   'orderType': 'sell',
-//   'orderBaseType': 'STOP_LIMIT',  // values: LIMIT, STOP_LIMIT, ICO
-//   'exrate:' 0.001219, //number
-//   'amountConvert': 0.04351, //number/string
-//   'commissionAmountForAcceptor': 0.02 //number/string
-//   'amountWithCommissionForAcceptor': '6015', //number /string
-// }
+    /** split pair name for show */
+    private splitPairName(): void {
+      this.arrPairName = this.activeCurrencyPair.currencyPairName.split('/');
+    }
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IMyDpOptions, IMyInputFieldChanged } from 'mydatepicker';
 
@@ -6,18 +6,37 @@ import { Order } from '../../dashboard/trading/order.model';
 import { OrdersService } from '../../dashboard/orders/orders.service';
 import { MockDataService } from '../../services/mock-data.service';
 import { TradingService } from '../../dashboard/trading/trading.service';
-import { timestamp } from 'rxjs/internal/operators';
+import { MarketService } from '../../dashboard/markets/market.service';
+import { AuthService } from '../../services/auth.service';
+
+import { timestamp, takeUntil } from 'rxjs/internal/operators';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/index';
+
 @Component({
   selector: 'app-open-orders',
   templateUrl: './open-orders.component.html',
   styleUrls: ['./open-orders.component.scss']
 })
-export class OpenOrdersComponent implements OnInit {
+export class OpenOrdersComponent implements OnInit, OnDestroy {
 
   @ViewChild('dropdown')
   dropdownElement: ElementRef;
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  refreshOrdersSubscription = new Subscription();
+
+  public activeCurrencyPair;
+  public arrPairName: string[];
+
+  public openOrdersCount = 0;
+
+  /** this id showing order id in popup window */
+  orderId: number;
+  selectedOrder;
+
   openOrders;
+  countOfEntries: number;
 
   currentPage = 1;
   countPerPage = 14;
@@ -37,32 +56,52 @@ export class OpenOrdersComponent implements OnInit {
   public orderType = 'BUY';
   public order;
   public orderStop;
-  public editOrderPopup = false;
+  public cancelOrderPopup = false;
   public limitsData = ['LIMIT', 'STOP_LIMIT', 'ICO'];
   public dropdownLimitValue = this.limitsData[0];
-
-  // public defaultOrder: OpenOrders = new OpenOrders('', '', 0 , 0 , 0 , 0 , 0 , 0 , '');
-  public defaultOrder: Order = {
-    orderType: '',
-    orderId: 0,
-    currencyPairId: null,
-    amount: null,
-    rate: null,
-    commission: 0,
-    baseType: this.dropdownLimitValue,
-    total: null,
-    status: ''
-  };
 
   constructor(
     private mockData: MockDataService,
     public tradingService: TradingService,
     private ordersService: OrdersService,
+    private marketService: MarketService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+
+    /** start mock */
     this.openOrders = this.mockData.getOpenOrders().items;
+    this.activeCurrencyPair = 'USD/BTC';
+    this.arrPairName = this.activeCurrencyPair.split('/');
+    this.countOfEntries = this.openOrders.length;
+    /** end mock */
+
+    /** get open orders data */
+    this.marketService.activeCurrencyListener
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.activeCurrencyPair = res;
+        this.toOpenOrders();
+        this.splitPairName();
+      });
+    if (this.authService.isAuthenticated()) {
+      this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
+      this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
+        this.toOpenOrders();
+        this.splitPairName();
+      });
+    }
+    /** end get open orders data */
+
     this.initDate();
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    this.ordersService.unsubscribeStomp();
+    this.refreshOrdersSubscription.unsubscribe();
   }
 
   toggleDropdown(e: MouseEvent) {
@@ -114,14 +153,15 @@ export class OpenOrdersComponent implements OnInit {
       if (timestampFrom && timestampTo) {
         this.openOrders = this.openOrders.filter((item) => {
           const currentTimestamp = new Date(item.dateCreation).getTime();
-          const res = (currentTimestamp > timestampFrom) && (currentTimestamp < timestampTo);
+          const res = (currentTimestamp >= timestampFrom) && (currentTimestamp <= timestampTo);
           return res;
         });
+        this.countOfEntries = this.openOrders.length;
       }
     }
   }
 
-  toggleDetails(event: MouseEvent) {
+  toggleDetails(event: MouseEvent): void {
     const element: HTMLElement = <HTMLElement>event.currentTarget;
     const idDetails = element.dataset.id;
     if (idDetails) {
@@ -130,28 +170,6 @@ export class OpenOrdersComponent implements OnInit {
         detailsElement.classList.toggle('table__details-show');
       }
     }
-  }
-
-  /**
- * show edit popup with selected order
- * @param order
- */
-  showEditOrderPopup(order): void {
-    this.editOrderPopup = true;
-
-    if (order.orderBaseType === 'STOP_LIMIT') {
-      this.orderStop = order.stopRate;
-    }
-    this.order.rate = order.amountWithCommission / order.amountConvert;
-    this.order.amount = order.amountConvert;
-    this.order.total = order.amountWithCommission;
-    this.order.orderType = order.operationTypeEnum;
-    this.order.orderId = order.id;
-    this.order.currencyPairId = order.currencyPairId;
-    this.dropdownLimitValue = order.orderBaseType;
-    this.order.commission = order.commissionFixedAmount;
-    this.getCommissionIndex();
-    this.changePage(this.currentPage);
   }
 
   initDate(): void {
@@ -180,57 +198,85 @@ export class OpenOrdersComponent implements OnInit {
   }
 
   /**
-  * clsose edit popup
+ * sets class for order type field
+ * @param {string} type ordert type: examples: 'buy', 'sell', 'stop'
+ * @returns {string}
+ */
+  setClassForOrderTypeField(type: string): string {
+    let className: string;
+    if (type) {
+      className = 'orders__type-' + type.toLocaleLowerCase();
+    } else {
+      className = '';
+    }
+
+    return className;
+  }
+
+  /**
+   * request to get open-orders data
+   */
+  toOpenOrders(): void {
+    if (this.activeCurrencyPair) {
+      const sub = this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
+        .subscribe(data => {
+          this.openOrders = data.items;
+          this.openOrdersCount = data.count;
+          sub.unsubscribe();
+        });
+    }
+  }
+
+
+  /** split pair name for show */
+  private splitPairName(): void {
+    this.arrPairName = this.activeCurrencyPair.currencyPairName.split('/');
+  }
+
+  /**
+  * clsose cancel popup
   */
   closePopup(): void {
-    this.editOrderPopup = false;
+    this.cancelOrderPopup = false;
+    this.orderId = null;
   }
 
   /**
-   * on delete order
+  * open cancel popup
+  */
+  openPopup(orderItem): void {
+    this.cancelOrderPopup = true;
+    this.orderId = orderItem.id;
+    this.selectedOrder = orderItem;
+  }
+
+  /**
+   * set status order canceled
    * @param order
    */
-  deleteOrder(order): void {
-    // const foundOrder = this.setStatusOrder(order, 'DELETED');
-    this.ordersService.deleteOrder(order).subscribe(res => {
-      console.log(res);
-    });
-    this.changePage(this.currentPage);
-    this.editOrderPopup = false;
-  }
+  cancelOrder(): void {
+    if (this.selectedOrder) {
+      const editedOrder = {
+        orderId: this.selectedOrder.id,
+        amount: this.selectedOrder.amountConvert,
+        baseType: this.selectedOrder.orderBaseType,
+        commission: this.selectedOrder.commissionValue,
+        currencyPairId: this.selectedOrder.currencyPairId,
+        orderType: this.selectedOrder.operationTypeEnum,
+        rate: this.selectedOrder.exExchangeRate,
+        total: this.selectedOrder.amountWithCommission,
+        status: 'CANCELLED'
+      };
 
-  /**
-   * create new order after set status CANCELED
-   */
-  createNewOrder(): void {
-    this.order.orderId = 0;
-    this.order.status = 'OPENED';
-
-    this.ordersService.createOrder(this.order).subscribe(res => {
-      this.order = { ...this.defaultOrder };
-      this.orderStop = '';
-      this.editOrderPopup = false;
-      this.changePage(this.currentPage);
-    });
-
-    // delete
-    this.order = { ...this.defaultOrder };
-    this.orderStop = '';
-    this.editOrderPopup = false;
-    this.changePage(this.currentPage);
-    //
-  }
-
-  /**
-  * get commissionIndex from server
-  */
-  getCommissionIndex(): void {
-    this.commissionIndex = 0.02;
-    if (this.orderType && this.currentPair.currencyPairId) {
-      const subscription = this.tradingService.getCommission(this.orderType, this.currentPair.currencyPairId).subscribe(res => {
-        this.commissionIndex = res.commissionValue;
-        subscription.unsubscribe();
+      if (this.selectedOrder.stopRate) {
+        editedOrder.rate = this.selectedOrder.stopRate;
+      }
+      console.log(editedOrder);
+      this.ordersService.updateOrder(editedOrder).subscribe(res => {
+        this.toOpenOrders();
       });
     }
+
+   this.closePopup();
   }
 }

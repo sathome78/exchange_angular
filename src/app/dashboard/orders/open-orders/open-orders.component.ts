@@ -69,8 +69,8 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
     this.order = {...this.defaultOrder};
 
      /** mock data */
-    this.currentPair = this.mockData.getMarketsData()[2];
-    this.splitPairName();
+    // this.currentPair = this.mockData.getMarketsData()[2];
+    // this.splitPairName();
     /** ---------------------- */
 
      this.marketService.activeCurrencyListener
