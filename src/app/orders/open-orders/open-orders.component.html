@@ -167,6 +167,14 @@
           </td>
           <td class="table__cell">
             <button class="btn btn--small btn--empty-red table__row-btn" style="width: 100%; max-width: 58px;" (click)="cancelOrder(item)">Cancel</button>
+            <div class="revoke-request">
+              <div class="revoke-request__title">Are you sure you want to revoke this request?</div>
+              <div class="revoke-request__button-wrap">
+                <button class="btn btn--small">Yes</button>
+                <button class="btn btn--small">No</button>
+              </div>
+              <div class="revoke-request__triangle"></div>
+            </div>
           </td>
         </tr>
       </tbody>
