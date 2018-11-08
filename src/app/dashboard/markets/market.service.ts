@@ -29,28 +29,36 @@ export class MarketService {
     this.activeCurrencyListener = new ReplaySubject<CurrencyPair>();
   }
 
-  setStompSubscription(): any {
+  setStompSubscription(authenticated: boolean): any {
     return this.stompSubscription = this.stompService
       .subscribe('/app/statisticsNew')
       .pipe( map((message: Message) => JSON.parse(JSON.parse(message.body))))
       .subscribe((items) => {
-        this.processCurrencyPairs(items.data);
+        this.processCurrencyPairs(items.data, authenticated);
       });
   }
 
-  private processCurrencyPairs(array: CurrencyPair[]) {
-    this.getUserFavouriteCurrencyPairIds().subscribe(rs => {
-      this.trimZeroedAndRemainFavourite(array, rs);
-      array.forEach(item => {
-        this.addOrUpdate(item, rs);
+  private processCurrencyPairs(array: CurrencyPair[], authenticated: boolean) {
+    if (authenticated) {
+      this.getUserFavouriteCurrencyPairIds().subscribe(rs => {
+        this.managePairs(array, rs);
       });
-      this.marketListener$.next(this.currencyPairs);
-      if (this.currencyPairs.length > 0) {
-        // this.activeCurrencyListener.next(this.currencyPairs[0]);
-        this.activeCurrencyListener.next(this.getActiveCurrencyPair());
-      }
-    });
+    } else {
+      this.managePairs(array, []);
+    }
     // console.log(array);
+  }
+
+  managePairs(array: CurrencyPair[], ids: number[]) {
+    this.trimZeroedAndRemainFavourite(array, ids);
+    array.forEach(item => {
+      this.addOrUpdate(item, ids);
+    });
+    this.marketListener$.next(this.currencyPairs);
+    if (this.currencyPairs.length > 0) {
+      // this.activeCurrencyListener.next(this.currencyPairs[0]);
+      this.activeCurrencyListener.next(this.getActiveCurrencyPair());
+    }
   }
 
   unsubscribe() {
