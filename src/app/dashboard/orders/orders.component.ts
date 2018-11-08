@@ -112,7 +112,18 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
   }
 
   public pairNames(): string [] {
-    return this.activeCurrencyPair.currencyPairName.split('/');
+    if (this.activeCurrencyPair && this.activeCurrencyPair.currencyPairName) {
+      return this.activeCurrencyPair.currencyPairName.split('/');
+    }
+    return ['BTC', 'USD'];
   }
+
+  public pairName(): string {
+    if (this.activeCurrencyPair) {
+      return this.activeCurrencyPair.currencyPairName;
+    }
+    return 'BTC/USD';
+  }
+
 
 }
