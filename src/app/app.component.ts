@@ -18,12 +18,12 @@ import {NotificationMessage} from './shared/models/notification-message-model';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
 
-  isTfaPopupOpen = false;
   tfaSubscription: Subscription;
   identitySubscription: Subscription;
   loginSubscription: Subscription;
   loginMobileSubscription: Subscription;
   registrationMobileSubscription: Subscription;
+  isTfaPopupOpen = false;
   isIdentityPopupOpen = false;
   isLoginPopupOpen = false;
   isLoginMobilePopupOpen = false;
@@ -72,9 +72,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.registrationMobileSubscription = this.popupService
       .getRegistrationMobilePopupListener()
       .subscribe(value => {
-        console.log('3')
+        console.log('3');
         this.isRegistrationMobilePopupOpen = value;
-        console.log(this.isRegistrationMobilePopupOpen)
+        console.log(this.isRegistrationMobilePopupOpen);
       });
   }
 

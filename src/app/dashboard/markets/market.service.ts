@@ -39,19 +39,17 @@ export class MarketService {
   }
 
   private processCurrencyPairs(array: CurrencyPair[]) {
-    for (let i = 0; i < array.length; i++) {
-      array = array.filter(function (pair) {
-        return pair.predLastOrderRate > 0
-          && pair.lastOrderRate > 0
-        && pair.volume > 0;
+    this.getUserFavouriteCurrencyPairIds().subscribe(rs => {
+      this.trimZeroedAndRemainFavourite(array, rs);
+      array.forEach(item => {
+        this.addOrUpdate(item, rs);
       });
-      this.addOrUpdate(array[i]);
-    }
-    this.marketListener$.next(this.currencyPairs);
-    if (this.currencyPairs.length > 0) {
-      // this.activeCurrencyListener.next(this.currencyPairs[0]);
-      this.activeCurrencyListener.next(this.getActiveCurrencyPair());
-    }
+      this.marketListener$.next(this.currencyPairs);
+      if (this.currencyPairs.length > 0) {
+        // this.activeCurrencyListener.next(this.currencyPairs[0]);
+        this.activeCurrencyListener.next(this.getActiveCurrencyPair());
+      }
+    });
     // console.log(array);
   }
 
@@ -59,7 +57,7 @@ export class MarketService {
     this.stompSubscription.unsubscribe();
   }
 
-  addOrUpdate(currencyPair: CurrencyPair) {
+  addOrUpdate(currencyPair: CurrencyPair, favouritePairsId: number[]) {
     let found = false;
     this.currencyPairs.forEach(item => {
       if (currencyPair.currencyPairId === item.currencyPairId) {
@@ -72,6 +70,27 @@ export class MarketService {
     }
   }
 
+  trimZeroedAndRemainFavourite(pairs: CurrencyPair[], ids: number[]) {
+    pairs = pairs.filter(pair =>  this.isFavourite(pair, ids) || this.isNotZeroed(pair));
+  }
+
+  private isFavourite(pair: CurrencyPair, ids: number[]) {
+    let found = false;
+    ids.forEach(id => {
+      if (id === pair.currencyPairId) {
+        pair.isFavourite = true;
+        found = true;
+      }
+    });
+    return found;
+  }
+
+  private isNotZeroed(pair: CurrencyPair) {
+    return pair.predLastOrderRate > 0
+      && pair.lastOrderRate > 0
+      && pair.volume > 0;
+  }
+
   /**
    * find pair by currency-pair-name and emit  ((( delete pair argument when data will come from server)))
    * @param {string} pairName
@@ -79,8 +98,8 @@ export class MarketService {
    */
   findPairByCurrencyPairName(pairName: string, pair): void {
     /** for mock data */
-    //pair.currencyPairName = pairName;
-    //this.activeCurrencyListener.next(pair);
+    // pair.currencyPairName = pairName;
+    // this.activeCurrencyListener.next(pair);
     /** ---------------- */
     this.currencyPairs.forEach(elm => {
       if (pairName === elm.currencyPairName) {
@@ -110,6 +129,17 @@ export class MarketService {
         return elm;
       }
     });
+  }
+
+  getUserFavouriteCurrencyPairIds(): Observable<number[]> {
+    const url = this.baseUrl + '/info/private/v2/settings/currency_pair/favourites';
+    return this.http.get<number[]>(url);
+  }
+
+  manageUserFavouriteCurrencyPair(cp: CurrencyPair): Observable<number> {
+    const data: {'PAIR_ID': string, 'TO_DELETE': string} = {'PAIR_ID': cp.currencyPairId + '', 'TO_DELETE': !cp.isFavourite + ''};
+    const url = this.baseUrl + '/info/private/v2/settings/currency_pair/favourites';
+    return this.http.put<number>(url, data);
   }
 
   currencyPairInfo(pairId): Observable<any> {
