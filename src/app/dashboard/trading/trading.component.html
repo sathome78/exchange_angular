@@ -150,14 +150,14 @@
 
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div class="avaliable">
-          <span style="vertical-align: middle;">Available: </span>
-          <a href="#"> {{ (marketService.currencyPairsInfo$ | async).balanceByCurrency1 }} {{arrPairName[0]}}</a>
+          <span style="vertical-align: middle; margin-right: 4px;">Available: </span>
+          <a href="#"> {{ ( marketService.currencyPairsInfo$ | async).balanceByCurrency1 }} {{ arrPairName[0]}}</a>
         </div>
         <div>
           Fee: {{order.commission | number:'1.1-11'}} {{arrPairName[0]}}
         </div>
       </div>
-      <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
+      <div class="row row--jcsb txt-light-grey widget__trading-row-txt" style="margin-top: 4px;">
         <div style="margin-left: auto;">
           Pay no fees:
           <img src="../../assets/img/fire.svg" style="margin: 0 4px;">

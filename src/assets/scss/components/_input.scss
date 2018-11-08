@@ -143,16 +143,16 @@
     border-top-right-radius: 4px;
     font-size: 14px;
     background-color: transparent;
-    &:not([value=""]){
-      ~ .wrap-input__label {
-        top: -5px;
-        left: 12px;
-        padding: 0 2px;
-        background-color: #fff;
-        font-size: 10px;
-        line-height: 12px;
-      }
-    }
+    //&:not([value=""]){
+    //  ~ .wrap-input__label {
+    //    top: -5px;
+    //    left: 12px;
+    //    padding: 0 2px;
+    //    background-color: #fff;
+    //    font-size: 10px;
+    //    line-height: 12px;
+    //  }
+    //}
     &:focus {
       border-color: $darker-blue;
       outline: none;
@@ -234,11 +234,11 @@
       border-color: $light-blue;
       background-color: transparent;
       color:#fff;
-      &:not([value=""]){
-        ~ .wrap-input__label {
-          background-color: $dark-indigo;
-        }
-      }
+      //&:not([value=""]){
+      //  ~ .wrap-input__label {
+      //    background-color: $dark-indigo;
+      //  }
+      //}
       &:focus {
         border-color: $light-blue;
         ~ .wrap-input__label {
