@@ -7,6 +7,7 @@ import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 import * as _ from 'lodash';
 import {CurrencySortingPipe} from './currency-sorting.pipe';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-markets',
@@ -32,6 +33,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
 
   constructor(
     private marketService: MarketService,
+    private authService: AuthService,
     private ref: ChangeDetectorRef) {
     super();
   }
@@ -39,7 +41,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   ngOnInit() {
     this.itemName = 'markets';
     this.volumeOrderDirection = 'NONE';
-    this.marketService.setStompSubscription();
+    this.marketService.setStompSubscription(this.authService.isAuthenticated());
     this.marketService.marketListener$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(freshPairs => {
