@@ -218,6 +218,9 @@
       &--hide-mob {
         display: table-cell;
       }
+      &--p4 {
+        padding: 4px;
+      }
     }
     &__row {
       display: table-row;
@@ -246,10 +249,10 @@
     color: #fff;
     &__cell-head {
       font-weight: 400;
-      color: #90A0BE;
+      color: #959BA5;
     }
     &__cell-head-arr {
-      fill: #90A0BE;;
+      fill: #959BA5;;
     }
     &__body {
       box-shadow: none;
