@@ -38,11 +38,16 @@ export class PopupService {
   }
 
   showMobileRegistrationPopup(state: boolean) {
-    console.log('open 2')
+    console.log('open 2');
     this.onMobileRegistrationPopupListener.next(state);
   }
 
   showTFAPopup(provider: string) {
+    if (provider === 'GOOGLE_DISABLED') {
+
+
+      return;
+    }
     this.onOpenTFAPopupListener.next(provider);
     if (provider === 'GOOGLE' || provider === 'SMS' || provider === 'TELEGRAM') {
       this.tfaProvider = provider;
