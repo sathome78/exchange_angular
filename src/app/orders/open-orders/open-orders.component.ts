@@ -62,7 +62,6 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public dateTo: Date;
 
   constructor(
-    private mockData: MockDataService,
     public tradingService: TradingService,
     private ordersService: OrdersService,
     private marketService: MarketService,
@@ -81,9 +80,8 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     /** end mock */
 
     /** get open orders data */
-    this.marketService.setStompSubscription();
+    // this.marketService.setStompSubscription();
 
-    this.currencyPairs = this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
     /** get currencyPairs */
     this.marketService.marketListener$
       .pipe(takeUntil(this.ngUnsubscribe))

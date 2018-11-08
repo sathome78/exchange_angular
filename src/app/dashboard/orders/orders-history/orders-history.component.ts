@@ -20,8 +20,8 @@ export class OrdersHistoryComponent implements OnInit, OnChanges {
 
   filterOpenOrders(page) {
     this.currentPage = page;
-    //const filteredOrders = this.data.filter(order => order.status !== 'OPENED');
-    //this.showOrders = filteredOrders;
+    // const filteredOrders = this.data.filter(order => order.status !== 'OPENED');
+    // this.showOrders = filteredOrders;
   }
 
   /**
@@ -30,7 +30,7 @@ export class OrdersHistoryComponent implements OnInit, OnChanges {
    * @param changes
    */
   ngOnChanges(changes): void {
-    if (!changes.makeHeight) return;
+    if (!changes.makeHeight) { return; }
     // change count orders perPage
     this.countPerPage = changes.makeHeight.currentValue === true ? 7 : 18;
   }

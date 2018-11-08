@@ -73,9 +73,9 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     // this.countOfEntries = this.orderHistory.length;
     /** end mock */
 
-    this.marketService.setStompSubscription();
+    // this.marketService.setStompSubscription();
 
-    this.currencyPairs = this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
+    // this.currencyPairs = this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
     /** get currencyPairs */
     this.marketService.marketListener$
       .pipe(takeUntil(this.ngUnsubscribe))
