@@ -19,6 +19,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
   @Input() makeHeight ;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   @Input() openOrders;
+  @Input() countPerPage = 7;
 
   public currentPair;
   public commissionIndex = 0.002;
@@ -36,7 +37,6 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
   public currencyPairInfo;
 
   public currentPage = 1;
-  public countPerPage = 7;
 
 
   public defaultOrder: Order = {
@@ -69,8 +69,8 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
     this.order = {...this.defaultOrder};
 
      /** mock data */
-    this.currentPair = this.mockData.getMarketsData()[2];
-    this.splitPairName();
+    // this.currentPair = this.mockData.getMarketsData()[2];
+    // this.splitPairName();
     /** ---------------------- */
 
      this.marketService.activeCurrencyListener
