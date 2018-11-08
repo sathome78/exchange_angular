@@ -12,22 +12,7 @@ import {AuthService} from '../../services/auth.service';
 })
 export class TwoFactorAuthenticationComponent implements OnInit {
 
-  public isLoginOpen: boolean;
-  public isWithdrawalOpen: boolean;
-  public isTransferOpen: boolean;
-
-
-  // isLoginChecked = false;
-  // isWithdrawalChecked = false;
-  // isInnerTransferChecked = false;
-  //
-  // isLoginNotificationDisabled = true;
-  // isWithdrawalNotificationDisabled = true;
-  // isTransferNotificationDisabled = true;
-
-  isLoginGoogleNotificationEnabled = false;
-  isWithdrawalGoogleNotificationEnabled = false;
-  isTransferGoogleNotificationEnabled = false;
+  public isGoogleTwoFaEnabled = false;
 
   constructor(private popupService: PopupService,
               private logger: LoggingService,
@@ -36,26 +21,15 @@ export class TwoFactorAuthenticationComponent implements OnInit {
               private settingsService: SettingsService) {
   }
 
-  // LOGIN: false
-  // TRANSFER: true
-  // WITHDRAW: true
   ngOnInit() {
     if (this.authService.isAuthenticated()) {
       this.userService.getUserGoogleLoginEnabled(this.authService.getUsername())
         .subscribe(result => {
-            this.isLoginGoogleNotificationEnabled = result;
-            this.isWithdrawalGoogleNotificationEnabled = result;
-            this.isTransferGoogleNotificationEnabled = result;
+            console.log(result);
+            this.isGoogleTwoFaEnabled = result;
           },
           err => console.log(err));
     }
-  }
-
-  toggle2FaNotification() {
-    this.isTransferGoogleNotificationEnabled = !this.isTransferGoogleNotificationEnabled;
-    this.isLoginGoogleNotificationEnabled = !this.isLoginGoogleNotificationEnabled;
-    this.isWithdrawalGoogleNotificationEnabled = !this.isWithdrawalGoogleNotificationEnabled;
-    this.update(this.isWithdrawalGoogleNotificationEnabled);
   }
 
   private update(state: boolean): void {
@@ -63,37 +37,13 @@ export class TwoFactorAuthenticationComponent implements OnInit {
     //   err => console.log(err));
   }
 
-  updateAuthProviderSettings(value: string) {
-    this.logger.debug(this, 'Provider settings is invoked for ' + value);
-    this.popupService.showTFAPopup(value);
-  }
-
-
-  getSelectOptions(): string [] {
-    const array: string[] = [];
-    array.push('By Google', 'Disabled');
-    return array;
-  }
-
-  openLogin() {
-    this.closeDropdowns();
-    this.isLoginOpen = !this.isLoginOpen;
-  }
-
-  openWithdrawal() {
-    this.closeDropdowns();
-    this.isWithdrawalOpen = !this.isWithdrawalOpen;
-  }
-
-  openTransfer() {
-    this.closeDropdowns();
-    this.isTransferOpen = !this.isTransferOpen;
-  }
-
-  closeDropdowns() {
-  this.isLoginOpen = false;
-  this.isWithdrawalOpen = false;
-  this.isTransferOpen = false;
+  updateAuthProviderSettings(enabled: boolean) {
+    this.logger.debug(this, 'Provider settings is invoked for GOOGLE');
+    if (enabled) {
+      this.popupService.showTFAPopup('GOOGLE');
+    } else {
+      this.popupService.showTFAPopup('GOOGLE');
+    }
   }
 
 }

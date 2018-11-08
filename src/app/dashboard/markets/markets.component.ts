@@ -31,7 +31,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   selectedCurrencyPair: CurrencyPair;
 
   constructor(
-    private mockData: MockDataService,
     private marketService: MarketService,
     private ref: ChangeDetectorRef) {
     super();
@@ -41,14 +40,10 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.itemName = 'markets';
     this.volumeOrderDirection = 'NONE';
     this.marketService.setStompSubscription();
-    /** for mock data */
-    this.currencyPairs = this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
-    this.pairs = this.choosePair(this.currencyDisplayMode);
-    /** ------------------------ */
     this.marketService.marketListener$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(freshPairs => {
-        console.log(freshPairs);
+        // console.log(freshPairs);
         if (this.currencyPairs.length === 0) {
           this.currencyPairs = freshPairs;
         } else {
@@ -132,7 +127,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   selectedTab(value: string): void {
     this.currencyDisplayMode = value;
     this.pairs = this.choosePair(value);
-    console.log(this.pairs);
+    // console.log(this.pairs);
   }
 
   /**
@@ -141,6 +136,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    * @returns {CurrencyPair[]}
    */
   choosePair(market: string): CurrencyPair[] {
+    if (market === 'FAVOURITE') {
+      return this.currencyPairs.filter(pair => pair.isFavourite);
+    }
     return this.currencyPairs.filter(f => f.market && f.market.toUpperCase() === market.toUpperCase());
   }
 
@@ -160,5 +158,16 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
 
   isChangePositive(pair: CurrencyPair): boolean {
     return pair.lastOrderRate > pair.predLastOrderRate;
+  }
+
+  toggleFavourite(pair: CurrencyPair) {
+    pair.isFavourite = !pair.isFavourite;
+    this.marketService.manageUserFavouriteCurrencyPair(pair)
+      .subscribe(res => console.log(res), error1 => console.log(error1));
+    this.pairs = this.choosePair(this.currencyDisplayMode);
+  }
+
+  isFavourite(pair: CurrencyPair): boolean {
+    return pair.isFavourite;
   }
 }
