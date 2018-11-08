@@ -85,8 +85,9 @@
     &--mob {
       display: table-row;
       &:hover {
-        background-color: #deebfd;
-        cursor: pointer;
+        background-color: unset;
+        //background-color: #deebfd;
+        //cursor: pointer;
       }
     }
   }
@@ -108,6 +109,12 @@
         fill: #FFB74C;
       }
     }
+  }
+  &__row-mob-line{
+    width: calc(100% - 24px);
+    height: 1px;
+    margin-left: 12px;
+    background: $darker-white;
   }
   &__cell {
     position: relative;
@@ -132,6 +139,10 @@
       text-align: right;
       img{
         width: 10px;
+      }
+      svg{
+        stroke: $darker-blue;
+        //fill:$darker-blue;
       }
     }
 
@@ -251,11 +262,22 @@
         background-color: rgba(255, 255, 255, 0.1);
       }
     }
+    &__cell{
+      &--arr-mob {
+        svg{
+          stroke: $light-blue;
+          //fill:$light-blue;
+        }
+      }
+    }
     &__details-item-title {
       color: $light-blue;
       .counter{
         color: #fff;
       }
+    }
+    &__row-mob-line{
+      background: linear-gradient(to right,#21417D 0%, #191A39 100%);
     }
   }
 }

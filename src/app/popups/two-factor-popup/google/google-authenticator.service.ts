@@ -12,7 +12,8 @@ export class GoogleAuthenticatorService {
   HOST = environment.apiUrl;
   ENCODE_KEY = environment.encodeKey;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getGoogleTwoFaSecretHash(): Observable<ITwoFaResponseDto> {
     return this.http.get<ITwoFaResponseDto>(this.getUrl('google2fa/hash'));

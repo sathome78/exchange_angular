@@ -60,7 +60,7 @@
     line-height: 12px;
     color: $grey;
   }
-  &__request-mob{
+  &__request-mob-link{
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -91,7 +91,7 @@
       display: flex;
       align-items: center;
       height: 42px;
-      padding-left: 14px;
+      padding-left: 12px;
       color: $darker-blue;
       box-shadow: 0 0px 4px rgba(0, 0, 0, 0.25);
       svg{
@@ -153,6 +153,112 @@
     }
   }
   //open-mob-balance end
+  //request-mob start
+  &__request-mob{
+    overflow: scroll;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+  }
+  &__request-mob-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 42px;
+    padding: 0 12px;
+    font-size: 18px;
+    box-shadow: 0 0px 4px rgba(0, 0, 0, 0.25);
+    svg{
+      fill: $darker-blue;
+    }
+  }
+  &__request-mob-date{
+    font-size: 10px;
+    line-height: 12px;
+    color:$grey;
+  }
+  //request-mob end
+  //open-mob-request start
+  .open-mob-request{
+    overflow: scroll;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    &__header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 42px;
+      padding: 0 12px;
+      color: $darker-blue;
+      box-shadow: 0 0px 4px rgba(0, 0, 0, 0.25);
+      svg{
+        fill: $darker-blue;
+        margin-right: 4px;
+      }
+    }
+    &__item{
+      display: flex;
+      width: 100%;
+      padding: 0 12px;
+      margin-top: 12px;
+    }
+    &__item-title{
+      width: 50%;
+      color:$grey;
+    }
+    &__btn-wrap{
+      display: flex;
+      justify-content: center;
+      margin: 44px 12px 0;
+      .btn{
+        &:first-of-type{
+          margin-right: 16px;
+        }
+      }
+    }
+  }
+  //open-mob-request end
+  //request-status-info start
+  .request-status-info{
+    overflow: scroll;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    &__header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 42px;
+      padding: 0 12px;
+      color: $darker-blue;
+      box-shadow: 0 0px 4px rgba(0, 0, 0, 0.25);
+      svg{
+        fill: $darker-blue;
+        margin-right: 4px;
+      }
+    }
+    &__text{
+      margin: 32px 12px 48px;
+    }
+    &__note{
+      left: 0;
+    }
+    &__link{
+      display: flex;
+      text-decoration: underline;
+    }
+  }
+  //request-status-info end
   /*--- elements end ---*/
 
 }
@@ -314,7 +420,7 @@
     &__currency-name{
       color: $light-blue;
     }
-    &__request-mob{
+    &__request-mob-link{
       box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.25);
       color:inherit;
       background: linear-gradient(to right,#21417D 0%, #191A39 100%);
@@ -346,6 +452,44 @@
       }
     }
     //open-mob-balance end
+    //request-mob start
+    &__request-mob{
+      background-color: $dark-indigo;
+    }
+    &__request-mob-header{
+      svg{
+        fill:$light-blue;
+      }
+    }
+    &__request-mob-date{
+      color:$light-blue;
+    }
+    //request-mob end
+    //open-mob-request start
+    .open-mob-request{
+      background-color: $dark-indigo;
+      &__header{
+        color: $light-blue;
+        svg{
+          fill: $light-blue;
+        }
+      }
+      &__item-title{
+        color:$light-blue;
+      }
+    }
+    //open-mob-request end
+    //request-status-info start
+    .request-status-info{
+      background-color: $dark-indigo;
+      &__header{
+        color: $light-blue;
+        svg{
+          fill: $light-blue;
+        }
+      }
+    }
+    //request-status-info end
   }
 }
 @media (min-width:1200px) {
