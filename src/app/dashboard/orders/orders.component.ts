@@ -8,6 +8,7 @@ import {takeUntil} from 'rxjs/internal/operators';
 import { forkJoin} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 import {Subscription} from 'rxjs/index';
+import {CurrencyPair} from '../markets/currency-pair.model';
 
 @Component({
   selector: 'app-orders',
@@ -24,7 +25,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
 
   public mainTab = 'open';
   public openOrdersCount = 0;
-  public activeCurrencyPair;
+  public activeCurrencyPair: CurrencyPair;
   public historyOrders;
   public openOrders;
 
@@ -109,5 +110,20 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
       });
 
   }
+
+  public pairNames(): string [] {
+    if (this.activeCurrencyPair && this.activeCurrencyPair.currencyPairName) {
+      return this.activeCurrencyPair.currencyPairName.split('/');
+    }
+    return ['BTC', 'USD'];
+  }
+
+  public pairName(): string {
+    if (this.activeCurrencyPair) {
+      return this.activeCurrencyPair.currencyPairName;
+    }
+    return 'BTC/USD';
+  }
+
 
 }

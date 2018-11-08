@@ -106,7 +106,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.refreshedIds = [];
     this.currencySubscription = this.marketService.activeCurrencyListener
       .subscribe(pair => {
-        console.log(pair);
+        // console.log(pair);
         this.activeCurrencyPair = pair;
         this.updateSubscription(pair);
         this.loadMinAndMaxValues(pair);
@@ -134,15 +134,15 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
      * this method returns min and max rate for active currency pair
      * see example in service implementation
      */
-    this.orderBookService.getMinAndMaxDayOrders(this.activeCurrencyPair.currencyPairId)
-      .subscribe(res => {
-          console.log(res);
-          this.maxExrate =  res['MAX'];
-          this.minExrate = res['MIN'];
-        },
-        error1 => {
-          console.log(error1);
-        });
+    this.orderBookService.getMinAndMaxDayOrders(this.activeCurrencyPair.currencyPairId);
+      // .subscribe(res => {
+      //     // console.log(res);
+      //     this.maxExrate =  res['MAX'];
+      //     this.minExrate = res['MIN'];
+      //   },
+      //   error1 => {
+      //     console.log(error1);
+      //   });
   }
 
   ngOnDestroy() {

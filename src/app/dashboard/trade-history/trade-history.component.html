@@ -80,7 +80,7 @@
           </thead>
           <tbody class="table__body table__body--none-shadow">
             <tr *ngFor="let item of allTrades" class="table__row widget__table-row" [ngClass]="{'widget__table-row-hover--red': item.operationType === 'SELL', 'widget__table-row-hover--green': item.operationType === 'BUY'}">
-              <td class="table__cell table__cell--tal">
+              <td class="table__cell table__cell--tal trade-history-time">
                 <!-- {{item.dateAcceptionTime | date:"dd/MM/yyyy"}} -->
                 {{item.dateAcceptionTime}}
               </td>

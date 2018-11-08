@@ -2,6 +2,7 @@
 export class CurrencyPair {
 
   public isSelected = false;
+  public isFavourite = false;
 
   constructor(public needRefresh: boolean,
               public page: number,
