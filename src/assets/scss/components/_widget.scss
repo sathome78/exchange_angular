@@ -485,7 +485,7 @@
     margin-top: 24px;
   }
   &__trading-row-txt {
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 14px;
     line-height: 16px;
     .type{
@@ -703,6 +703,9 @@
       &:focus {
         outline: none;
       }
+      &::placeholder{
+        color: #A0A0A0;
+      }
     }
     &__send-input {
       padding-right: 68px;
@@ -713,6 +716,9 @@
     &__input-img {
       &--hide-mob {
         display: inline-block;
+      }
+      svg{
+        fill:#A0A0A0;
       }
     }
     &__scroll {
@@ -982,6 +988,22 @@
         background: -o-linear-gradient(top, rgb(48, 49, 77) 0%, rgb(24, 52, 103) 100%);
         background: linear-gradient(to bottom, rgb(48, 49, 77) 0%, rgb(24, 52, 103) 100%);
       };
+      &__search{
+        border: none;
+        background-color: transparent;
+      }
+      &__search-input{
+        background-color: #304A7A;
+        color:#fff;
+        &::placeholder{
+          color: #7F8FAE;
+        }
+      }
+      &__input-img{
+        svg{
+          fill:#7F8FAE;
+        }
+      }
       &__message-wrap {
         &--left {
           .widget__message {
