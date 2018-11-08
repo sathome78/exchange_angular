@@ -107,7 +107,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
    * @param changes
    */
   ngOnChanges(changes): void {
-    if (!changes.makeHeight) return;
+    if (!changes.makeHeight) { return; }
     // change count orders perPage
     this.countPerPage = changes.makeHeight.currentValue === true ? 7 : 18;
   }
