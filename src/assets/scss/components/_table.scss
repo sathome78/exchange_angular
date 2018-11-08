@@ -1,7 +1,7 @@
 .table {
   display: none;
   width: 100%;
-  margin-bottom: 20px;
+  //margin-bottom: 20px;
   font-size: 14px;
   line-height: 16px;
   /*--- modificators start ---*/
@@ -16,7 +16,7 @@
   /*--- modificators end ---*/
   /*--- elements start ---*/
   &__cell-head {
-    padding: 20px 10px;
+    padding: 8px 10px;
     color: #000;
     font-weight: 600;
     display: table-cell;
@@ -66,8 +66,11 @@
 
     &:hover {
       background-color: #deebfd;
-      cursor: pointer;
-
+      //cursor: pointer;
+      .btn--hidden{
+        visibility: visible;
+        transition: none;
+      }
       .table__row-btn {
         display: inline-block;
       }
@@ -82,8 +85,9 @@
     &--mob {
       display: table-row;
       &:hover {
-        background-color: #deebfd;
-        cursor: pointer;
+        background-color: unset;
+        //background-color: #deebfd;
+        //cursor: pointer;
       }
     }
   }
@@ -100,11 +104,17 @@
         fill: #FFB74C;
       }
     }
-    &--select{
+    &--select {
       svg {
         fill: #FFB74C;
       }
     }
+  }
+  &__row-mob-line{
+    width: calc(100% - 24px);
+    height: 1px;
+    margin-left: 12px;
+    background: $darker-white;
   }
   &__cell {
     position: relative;
@@ -124,10 +134,16 @@
     }
 
     &--arr-mob {
-      width: 17px;
-      height: 17px;
       padding-right: 16px;
       padding-left: 6px;
+      text-align: right;
+      img{
+        width: 10px;
+      }
+      svg{
+        stroke: $darker-blue;
+        //fill:$darker-blue;
+      }
     }
 
     &--p8 {
@@ -142,13 +158,14 @@
     }
   }
   //details-row
-  &__details{}
-  &__details-cell{
+  &__details {
+  }
+  &__details-cell {
     position: relative;
     padding: 6px 16px;
     overflow: hidden;
-    &:before{
-      content:'';
+    &:before {
+      content: '';
       display: block;
       position: absolute;
       height: 100%;
@@ -157,8 +174,8 @@
       top: 0;
       background-color: #237BEF;
     }
-    &:after{
-      content:'';
+    &:after {
+      content: '';
       display: block;
       position: absolute;
       height: 1px;
@@ -168,18 +185,20 @@
       background-color: #237BEF;
     }
   }
-  &__details-item{
+  &__details-item {
     display: flex;
     display: table-row;
     padding: 6px 0;
   }
-  &__details-item-title{
-    color:$grey;
+  &__details-item-title {
+    color: $grey;
     display: table-cell;
     padding: 6px 0;
-
+    .counter{
+      color: #000;
+    }
   }
-  &__details-item-value{
+  &__details-item-value {
     display: table-cell;
     padding: 6px 0 6px 18px;
   }
@@ -191,17 +210,18 @@
 @media (min-width: 1200px) {
   .table {
     display: table;
-
     &--mob {
       display: none;
     }
-
     &__cell-head {
+      padding: 20px 10px;
       &--hide-mob {
         display: table-cell;
       }
+      &--p4 {
+        padding: 4px;
+      }
     }
-
     &__row {
       display: table-row;
 
@@ -213,7 +233,7 @@
       svg {
         display: none;
       }
-      &--select{
+      &--select {
         svg {
           display: inline-block;
         }
@@ -229,21 +249,38 @@
     color: #fff;
     &__cell-head {
       font-weight: 400;
-      color: #90A0BE;
+      color: #959BA5;
     }
     &__cell-head-arr {
-      fill: #90A0BE;;
+      fill: #959BA5;;
     }
     &__body {
-        box-shadow: none;
+      box-shadow: none;
     }
     &__row {
       &:nth-of-type(odd) {
         background-color: rgba(255, 255, 255, 0.02);
       }
-      &:hover{
+      &:hover {
         background-color: rgba(255, 255, 255, 0.1);
       }
+    }
+    &__cell{
+      &--arr-mob {
+        svg{
+          stroke: $light-blue;
+          //fill:$light-blue;
+        }
+      }
+    }
+    &__details-item-title {
+      color: $light-blue;
+      .counter{
+        color: #fff;
+      }
+    }
+    &__row-mob-line{
+      background: linear-gradient(to right,#21417D 0%, #191A39 100%);
     }
   }
 }

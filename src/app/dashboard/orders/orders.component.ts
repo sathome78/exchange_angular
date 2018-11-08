@@ -7,7 +7,7 @@ import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 import { forkJoin} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
-import {Subscription} from 'rxjs/index';
+import {Subscription} from 'rxjs';
 import {CurrencyPair} from '../markets/currency-pair.model';
 
 @Component({

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import {IMyDpOptions, IMyInputFieldChanged} from 'mydatepicker';
 
 import { MockDataService } from '../../services/mock-data.service';
@@ -6,6 +6,7 @@ import { TradingService } from '../../dashboard/trading/trading.service';
 import { MarketService } from '../../dashboard/markets/market.service';
 import { AuthService } from '../../services/auth.service';
 import { OrdersService } from '../../dashboard/orders/orders.service';
+import { CurrencyPair } from '../../dashboard/markets/currency-pair.model';
 
 import { timestamp, takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
@@ -26,23 +27,28 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
 
   orderHistory;
   countOfEntries: number;
+  filteredOrderHistory;
 
   currentPage = 1;
   countPerPage = 14;
 
-  public modelDateFrom: any;
-  public modelDateTo: any;
-
+  /** all currency pair */
+  currencyPairs: CurrencyPair[] = [];
+  /** filtered currency pair */
+  pairs: CurrencyPair[] = [];
 
   showFilterPopup = false;
   public dateFrom: Date;
   public dateTo: Date;
+  public modelDateFrom: any;
+  public modelDateTo: any;
+
+  currency: string;
 
   arrPairName: string[];
-  activeCurrencyPair;
+  activeCurrencyPair: CurrencyPair;
 
   public myDatePickerOptions: IMyDpOptions = {
-    // other options...
     dateFormat: 'dd.mm.yyyy',
   };
 
@@ -53,7 +59,8 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     public tradingService: TradingService,
     private ordersService: OrdersService,
     private marketService: MarketService,
-    private authService: AuthService
+    private authService: AuthService,
+    private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -66,10 +73,23 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     // this.countOfEntries = this.orderHistory.length;
     /** end mock */
 
+    this.marketService.setStompSubscription();
+
+    this.currencyPairs = this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
+    /** get currencyPairs */
+    this.marketService.marketListener$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(pairs => {
+        this.currencyPairs = pairs;
+        console.log('marketServices', this.currencyPairs);
+        this.ref.detectChanges();
+      });
+
     this.marketService.activeCurrencyListener
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.activeCurrencyPair = res;
+        this.currency = this.activeCurrencyPair.currencyPairName;
         this.splitPairName();
         this.toHistory();
       });
@@ -85,6 +105,8 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.ordersService.unsubscribeStomp();
+    this.refreshOrdersSubscription.unsubscribe();
   }
 
   toggleDropdown(e: MouseEvent) {
@@ -116,16 +138,18 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.currentPage = page;
   }
 
+  /** tracks input changes in a my-date-picker component */
   onFromInputFieldChanged(event: IMyInputFieldChanged): void {
     const date = new Date();
     this.dateFrom = new Date(date.setTime(Date.parse(this.formarDate(event.value))));
-    // this.filterByDate();
+    this.filterByDate();
   }
 
+  /** tracks input changes in a my-date-picker component */
   onToInputFieldChanged(event: IMyInputFieldChanged): void {
     const date = new Date();
     this.dateTo = new Date(date.setTime(Date.parse(this.formarDate(event.value))));
-    // this.filterByDate();
+    this.filterByDate();
   }
 
   /**
@@ -139,24 +163,30 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     return strArray.join('.');
   }
 
+  filterByCurrency(value: string) {
+    this.pairs = this.currencyPairs.filter(f => f.currencyPairName.toUpperCase().match(value.toUpperCase()));
+  }
+
   /** filter by date */
   filterByDate(): void {
-    // todo: delete for prod
-    this.orderHistory = this.mockData.getOpenOrders().items;
-
     if (this.dateFrom && this.dateTo) {
       const timestampFrom = this.dateFrom.getTime();
       const timestampTo = this.dateTo.getTime();
 
-      if (timestampFrom && timestampTo) {
-        this.orderHistory = this.orderHistory.filter((item) => {
+      if (timestampFrom && timestampTo && this.orderHistory) {
+        this.filteredOrderHistory = this.orderHistory.filter((item) => {
           const currentTimestamp = new Date(item.dateCreation).getTime();
           const res = (currentTimestamp >= timestampFrom) && (currentTimestamp <= timestampTo);
           return res;
         });
-        this.countOfEntries = this.orderHistory.length;
+        this.countOfEntries = this.filteredOrderHistory.length;
       }
     }
+  }
+
+  selctNewActiveCurrencyPair(pair: CurrencyPair) {
+    this.activeCurrencyPair = pair;
+    this.currency = pair.currencyPairName;
   }
 
   /**
@@ -186,6 +216,9 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       )
         .subscribe(([res1, res2]) => {
           this.orderHistory = [...res1.items, ...res2.items];
+          this.filteredOrderHistory = this.orderHistory;
+          this.countOfEntries = this.orderHistory.length;
+          this.ref.detectChanges();
           forkSubscription.unsubscribe();
         });
     }
