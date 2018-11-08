@@ -19,12 +19,19 @@ import {map} from 'rxjs/internal/operators';
 export class OrderBookComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   /** dashboard item name (field for base class)*/
   public itemName: string;
+  public lastOrder;
+  public lastOrderUp = true;
+  public currencyPairInfo;
+
 
   @ViewChild('orderBook')
   orderbookConainer: ElementRef;
 
   public dataForSell: OrderItem [];
   public dataBurBuy: OrderItem [];
+
+  // public dataForSell: OrderItem [];
+  // public dataBurBuy: OrderItem [];
   public isBuy: boolean;
 
   public maxExrate: string;
@@ -72,6 +79,15 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.minExrate = '0';
 
     this.isBuy = true;
+
+    this.marketService.currentCurrencyInfoListener$.subscribe(res => {
+      this.currencyPairInfo = res;
+      if (!this.lastOrder) {
+        this.lastOrder = {};
+        this.lastOrder.exrate = this.currencyPairInfo.volume24h;
+        this.lastOrder.amountBase = this.currencyPairInfo.lastCurrencyRate;
+      }
+    })
 
     this.tradingService.tradingChangeSellBuy$.subscribe((data) => {
       if (data === 'SELL') {
@@ -170,6 +186,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   addOrUpdate(orders: OrderItem[], newItems: OrderItem[]) {
     if (orders.length === 0) {
       orders.push(...newItems);
+      this.getLastOrder(newItems);
       return;
     }
     newItems.forEach(newItem => {
@@ -184,6 +201,21 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         orders.push(newItem);
       }
     });
+    this.getLastOrder(newItems);
+  }
+
+  getLastOrder(orders) {
+    const tempData = orders.sort((a, b) => {
+      const dateA = new Date(a.created).getTime();
+      const dateB = new Date(b.created).getTime();
+      return dateA - dateB;
+    });
+    if (this.lastOrder) {
+      this.lastOrderUp = tempData[tempData.length - 1].exrate > this.lastOrder.exrate;
+    } else {
+      this.lastOrder = false;
+    }
+    this.lastOrder = {...tempData[tempData.length - 1]};
   }
 
   private sortBuyData(): void {

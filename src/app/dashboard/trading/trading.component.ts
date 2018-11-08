@@ -32,7 +32,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   /** form for limit-order */
   stopForm: FormGroup;
 
-  public userBalance = 300000;
+  public userBalance = 0;
   public orderStop;
   public currentPair;
   public arrPairName = ['', ''];
@@ -58,9 +58,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   @HostListener('document:click', ['$event']) clickout($event) {
     this.notifyFail = false;
     this.notifySuccess = false;
-    if ($event.target.className !== 'dropdown__btn') {
-      this.isDropdownOpen = false;
-    }
+    // if ($event.target.className !== 'dropdown__btn') {
+    //   this.isDropdownOpen = false;
+    // }
   }
 
   constructor(
@@ -85,10 +85,21 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.currentPair = pair;
         this.splitPairName();
         this.getCommissionIndex();
+        const balanceSub = this.marketService.userBalanceInfo(pair.currencyPairId).subscribe(data => {
+          if (data.balanceByCurrency1) {
+            this.userBalance = data.balanceByCurrency1;
+          } else {
+            this.userBalance = 0;
+          }
+          balanceSub.unsubscribe();
+        });
       });
 
+    this.marketService.userBalanceListener$.subscribe(res => {
+      this.userBalance = res.balanceByCurrency1;
+    })
+
       this.marketService.currencyPairsInfo$.subscribe(res => {
-        this.userBalance = res.balanceByCurrency1;
         this.order.rate = res.rate;
         this.currencyPairInfo = res;
         this.setPriceInValue(res.rate);
@@ -173,6 +184,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   selectedLimit(limit: string): void {
     this.dropdownLimitValue = limit;
+    this.toggleLimitDropdown();
   }
 
   /**

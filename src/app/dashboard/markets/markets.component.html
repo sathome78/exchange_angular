@@ -1,5 +1,5 @@
 <div class="widget widget--gradient">
-  <div class="widget__header" >
+  <div class="widget__header panel-heading" >
     <span class="widget__name">Markets</span>
     <a href="#" class="widget__question">
       <span class="widget__question-img">
@@ -9,7 +9,7 @@
         </svg>
       </span>
     </a>
-    <span class="widget__dots panel-heading"></span>
+    <span class="widget__dots "></span>
     <div class="widget__controls">
       <!--<div class="widget__controls-horizontal">-->
       <!--<span class="widget__controls-plus" (click)="heightChange(true)">-->
@@ -160,7 +160,7 @@
               </td>
               <td class="table__cell" width="17%">
                 <span style="margin-right: 2px;"
-                      [ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}">{{pair.percentChange}}</span>
+                      [ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}">{{pair.percentChange < 0 ? pair.percentChange*-1 : pair.percentChange}}</span>
                 <span class="arr"
                       [ngClass]="{'arr--green': isChangePositive(pair), 'arr--red': !isChangePositive(pair)}"></span>
               </td>
