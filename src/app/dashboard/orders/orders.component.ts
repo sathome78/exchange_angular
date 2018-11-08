@@ -51,6 +51,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
     this.marketService.activeCurrencyListener
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
+        console.log('current', res);
         this.activeCurrencyPair = res;
         this.toOpenOrders();
     });

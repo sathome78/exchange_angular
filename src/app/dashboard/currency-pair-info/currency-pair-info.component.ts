@@ -112,7 +112,6 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    */
   onSelectCurrency(ISO: string): void {
     const pairName = this.createCurrencyPairName(ISO);
-    console.log('pairName:', pairName, 'pair', this.pair);
     this.marketService.findPairByCurrencyPairName(pairName, this.pair);
   }
 

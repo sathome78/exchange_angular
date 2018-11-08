@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IMyDpOptions, IMyInputFieldChanged } from 'mydatepicker';
 
@@ -8,6 +8,7 @@ import { MockDataService } from '../../services/mock-data.service';
 import { TradingService } from '../../dashboard/trading/trading.service';
 import { MarketService } from '../../dashboard/markets/market.service';
 import { AuthService } from '../../services/auth.service';
+import { CurrencyPair } from '../../dashboard/markets/currency-pair.model';
 
 import { timestamp, takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
@@ -16,7 +17,8 @@ import { Subscription } from 'rxjs/index';
 @Component({
   selector: 'app-open-orders',
   templateUrl: './open-orders.component.html',
-  styleUrls: ['./open-orders.component.scss']
+  styleUrls: ['./open-orders.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpenOrdersComponent implements OnInit, OnDestroy {
 
@@ -28,16 +30,22 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
 
   showFilterPopup = false;
 
-  public activeCurrencyPair;
+  public activeCurrencyPair: CurrencyPair;
   public arrPairName: string[];
 
-  public openOrdersCount = 0;
+  /** all currency pair */
+  currencyPairs: CurrencyPair[] = [];
+  /** filtered currency pair */
+  pairs: CurrencyPair[] = [];
+
+  currency: string;
 
   /** this id showing order id in popup window */
   orderId: number;
   selectedOrder;
 
   openOrders;
+  filteredOpenOrders;
   countOfEntries: number;
 
   currentPage = 1;
@@ -58,7 +66,8 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     public tradingService: TradingService,
     private ordersService: OrdersService,
     private marketService: MarketService,
-    private authService: AuthService
+    private authService: AuthService,
+    private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -70,12 +79,24 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     // this.arrPairName = this.activeCurrencyPair.split('/');
     // this.countOfEntries = this.openOrders.length;
     /** end mock */
+
     /** get open orders data */
     this.marketService.setStompSubscription();
+
+    this.currencyPairs = this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
+    /** get currencyPairs */
+    this.marketService.marketListener$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(pairs => {
+        this.currencyPairs = pairs;
+        this.ref.detectChanges();
+      });
+
     this.marketService.activeCurrencyListener
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.activeCurrencyPair = res;
+        this.currency = this.activeCurrencyPair.currencyPairName;
         this.toOpenOrders();
         this.splitPairName();
       });
@@ -111,16 +132,18 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     this.currentPage = page;
   }
 
+  /** tracks input changes in a my-date-picker component */
   onFromInputFieldChanged(event: IMyInputFieldChanged): void {
     const date = new Date();
     this.dateFrom = new Date(date.setTime(Date.parse(this.formarDate(event.value))));
-    // this.filterByDate();
+    this.filterByDate();
   }
 
+  /** tracks input changes in a my-date-picker component */
   onToInputFieldChanged(event: IMyInputFieldChanged): void {
     const date = new Date();
     this.dateTo = new Date(date.setTime(Date.parse(this.formarDate(event.value))));
-    // this.filterByDate();
+    this.filterByDate();
   }
 
     /**
@@ -134,22 +157,24 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     return strArray.join('.');
   }
 
+  filterByCurrency(value: string) {
+    this.pairs = this.currencyPairs.filter(f => f.currencyPairName.toUpperCase().match(value.toUpperCase()));
+  }
+
   /** filter openOrders by date */
   filterByDate(): void {
-    // todo: delete for prod
-    this.openOrders = this.mockData.getOpenOrders().items;
-
     if (this.dateFrom && this.dateTo) {
       const timestampFrom = this.dateFrom.getTime();
       const timestampTo = this.dateTo.getTime();
 
-      if (timestampFrom && timestampTo) {
-        this.openOrders = this.openOrders.filter((item) => {
+      if (timestampFrom && timestampTo && this.openOrders) {
+        this.filteredOpenOrders = this.openOrders.filter((item) => {
           const currentTimestamp = new Date(item.dateCreation).getTime();
           const res = (currentTimestamp >= timestampFrom) && (currentTimestamp <= timestampTo);
           return res;
         });
-        this.countOfEntries = this.openOrders.length;
+        this.countOfEntries = this.filteredOpenOrders.length;
+        this.ref.detectChanges();
       }
     }
   }
@@ -217,11 +242,17 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     const sub = this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
       .subscribe(data => {
         this.openOrders = data.items;
-        this.openOrdersCount = data.count;
+        console.log('openOrders', this.openOrders);
+        this.countOfEntries = data.count;
+        this.ref.detectChanges();
         sub.unsubscribe();
       }, (error) => console.log(error));
   }
 
+  selctNewActiveCurrencyPair(pair: CurrencyPair) {
+    this.activeCurrencyPair = pair;
+    this.currency = pair.currencyPairName;
+  }
 
   /** split pair name for show */
   private splitPairName(): void {
