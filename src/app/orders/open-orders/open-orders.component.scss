@@ -146,3 +146,28 @@
   .show-filter-popup {
     display: block;
   }
+
+  .revoke-request {
+    display: none;
+  }
+
+  // search dropdown
+
+  .orders__search {
+    .search-results {
+      left: 60px;
+      .dropdown__list {
+        max-height: 170px;
+        overflow-x: unset;
+        overflow-y: scroll;
+      }
+    }
+
+    &:hover {
+      .search-results {
+        .dropdown__list {
+          display: block;
+        }
+      }
+    }
+  }

@@ -61,7 +61,7 @@
         content: '';
         display: block;
         position: absolute;
-        bottom: 1px;
+        bottom: 0px;
         z-index: -1;
         width: 100%;
         height: 1px;
@@ -188,7 +188,7 @@
 @media (min-width:1200px) {
   .dark-theme{
     .orders{
-      &__filter{
+      &__filters{
         &:after{
           z-index: 0;
           background-color: $light-blue;
@@ -204,6 +204,9 @@
         color:$light-blue;
       }
       &__comission-usd{
+        color:$light-blue;
+      }
+      .show-filter{
         color:$light-blue;
       }
       // popup yes\no start
