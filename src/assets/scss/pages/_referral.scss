@@ -152,6 +152,7 @@
     background-color: #2E304D;
     border-radius: 2px;
     max-width: 440px;
+    padding-bottom: 20px;
     &__triangle {
       position: absolute;
       top: 20px;
@@ -188,6 +189,30 @@
       bottom: -1px;
     }
     &__body {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 16px;
+      max-height: 130px;
+      overflow: scroll;
+    }
+    &__item{
+      display: flex;
+      align-items: center;
+      width: 45%;
+      margin-bottom: 8px;
+    }
+    &__item-icon{
+      width: 21px;
+      height: 21px;
+      margin-right: 8px;
+      background-color: #fff;
+    }
+    &__item-name{
+      text-transform: uppercase;
+      margin-right: 8px;
+    }
+    &__item-value{
+      color:$darker-blue;
     }
   }
 }
@@ -224,6 +249,11 @@
         svg {
           fill: $light-blue;
         }
+      }
+    }
+    .summary-popup{
+      &__item-value{
+        color:$light-blue;
       }
     }
   }
