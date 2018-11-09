@@ -23,25 +23,25 @@ tbody.table__body {
   border-bottom: 2px solid transparent;
 }
 
-ng-scrollbar{
-  display: block;
-  width: 100%;
-  //height: auto;
-  height: 380px;
-  margin: auto;
-  //padding: 5px;
-}
-::ng-deep .ng-scrollbar.-vertical.bar-class{
-  background: rgba(255,255,255, .2);
-  width: 3px !important;
-  right: 16px !important;
-}
-
-::ng-deep .ng-scrollbar-thumb.thumb2 {
-  background-color: #2a2a2a ;
-  width: 1px !important;
-}
-
+//ng-scrollbar{
+//  display: block;
+//  width: 100%;
+//  //height: auto;
+//  height: 380px;
+//  margin: auto;
+//  //padding: 5px;
+//}
+//::ng-deep .ng-scrollbar.-vertical.bar-class{
+//  background: rgba(255,255,255, .2);
+//  width: 3px !important;
+//  right: 16px !important;
+//}
+//
+//::ng-deep .ng-scrollbar-thumb.thumb2 {
+//  background-color: #2a2a2a ;
+//  width: 1px !important;
+//}
+//
 :host {
   position: relative;
   width: 100%;
@@ -60,6 +60,14 @@ ng-scrollbar{
 
 .widget__content{
   height: 100%;
+  ::ng-deep.ps__rail-y {
+    margin-right: 16px;
+  }
+}
+.widget__tabs{
+  @media (min-width: 1200px){
+    margin: 0 16px;
+  }
 }
 .widget__markets-tabs{
 position: fixed;

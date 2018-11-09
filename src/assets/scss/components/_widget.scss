@@ -419,12 +419,11 @@
   &__chat-btn{
     position: absolute;
     bottom: 0;
-    width: calc(100% - 32px);
-    max-width: none;
-    margin: 0 16px;
+    left: 50%;
+    transform: translate(-50%,0);
     font-size: 14px;
-    height: 36px;
-    line-height: 36px;
+    height: 41px;
+    line-height: 41px;
   }
   &__send-input {
     display: block;
@@ -722,9 +721,7 @@
       border-radius: 4px;
     }
     &__chat-btn{
-      font-size: 24px;
-      height: 53px;
-      bottom: 4px;
+      bottom: 24px;
     }
     &__input-img {
       &--hide-mob {
@@ -839,9 +836,24 @@
         fill: #fff;
       }
     }
+    &__controls-plus,&__controls-minus{
+      svg{
+        fill:$grey;
+      }
+      &:hover{
+        svg {
+          fill: #fff;
+        }
+      }
+    }
     &__controls-close {
-      svg {
-        fill: #fff;
+      svg{
+        fill:$grey;
+      }
+      &:hover{
+        svg {
+          fill: #fff;
+        }
       }
     }
     &__search-btn{
@@ -1011,6 +1023,13 @@
         color:#fff;
         &::placeholder{
           color: #7F8FAE;
+        }
+        &:focus{
+          ~.widget__input-img{
+            svg{
+              fill:#fff;
+            }
+          }
         }
       }
       &__input-img{
