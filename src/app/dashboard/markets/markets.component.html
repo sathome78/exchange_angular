@@ -159,12 +159,12 @@
               <td class="table__cell" width="25%" (click)="onSelectCurrencyPair(pair)">
                 <span class="txt-indicate">{{pair.lastOrderRate}}</span>
               </td>
-              <td class="table__cell" width="17%" (click)="onSelectCurrencyPair(pair)">
+                <td class="table__cell" width="17%" (click)="onSelectCurrencyPair(pair)">
                 <span style="margin-right: 2px;"
-                      [ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}">{{pair.percentChange < 0 ? pair.percentChange*-1 : pair.percentChange}}</span>
-                <span class="arr"
-                      [ngClass]="{'arr--green': isChangePositive(pair), 'arr--red': !isChangePositive(pair)}"></span>
-              </td>
+                      [ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}">{{pair.percentChange | positivePipe }}</span>
+                  <span class="arr"
+                        [ngClass]="{'arr--green': isChangePositive(pair), 'arr--red': !isChangePositive(pair)}"></span>
+                </td>
               <td class="table__cell table__cell--tar" width="30%"(click)="onSelectCurrencyPair(pair)">
                 <span style="font-size: 10px; color:#A0A0A0">{{ +pair.volume | number: '1.0-0'}}</span>
               </td>
