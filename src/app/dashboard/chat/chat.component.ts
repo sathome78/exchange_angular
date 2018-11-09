@@ -66,4 +66,10 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
           });
     }
   }
+
+  welcomeToOurChannel() {
+    window.open('https://t.me/exrates_official', '_blank');
+  }
+
+
 }
