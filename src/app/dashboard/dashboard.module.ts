@@ -37,6 +37,7 @@ import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScroll
 import { DayChatComponent } from './chat/day-chat/day-chat.component';
 import { ChatMessageComponent } from './chat/chat-message/chat-message.component';
 import {NicknamePipe} from './chat/chat-message/nickname.pipe';
+import {PositivePipe} from './markets/positive.pipe';
 
 
 export function socketProvider() {
@@ -89,6 +90,7 @@ const stompConfig: StompConfig = {
     NicknamePipe,
     OrderBookComponent,
     OrdersComponent,
+    PositivePipe,
     SellComponent,
     TradeHistoryComponent,
     TradingComponent,
