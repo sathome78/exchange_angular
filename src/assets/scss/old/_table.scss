@@ -269,6 +269,21 @@
   display: -ms-flex;
   display: flex;
 }
+
+.table__details {
+  height: 0;
+  transition: 0.4s;
+  display: none !important;
+
+  &-show {
+    // display: table-cell;
+    height: auto;
+  }
+  td {
+    height: 0;
+    transition: 0.4s;
+  }
+}
 // .table__cell-button {
 //   display: none;
 //   height: 22px;

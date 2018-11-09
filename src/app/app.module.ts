@@ -50,6 +50,7 @@ import {OrdersService} from './dashboard/orders/orders.service';
 import { ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
 import { ReferralChargesComponent } from './referral/referral-charges/referral-charges.component';
 import { BalanceComponent } from './balance/balance.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { LoginPopupMobileComponent } from './popups/login-popup-mobile/login-popup-mobile.component';
 import { RegistrationMobilePopupComponent } from './popups/registration-mobile-popup/registration-mobile-popup.component';
 
@@ -101,7 +102,8 @@ import { RegistrationMobilePopupComponent } from './popups/registration-mobile-p
     ReactiveFormsModule,
     SettingsModule,
     WebcamModule,
-    SharedModule
+    SharedModule,
+    NgxPaginationModule
   ],
   providers: [
     AuthGuard,

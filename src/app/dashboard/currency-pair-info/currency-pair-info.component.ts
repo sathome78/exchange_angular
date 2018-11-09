@@ -6,6 +6,8 @@ import { DashboardDataService } from '../dashboard-data.service';
 import { Currency } from './currency-search/currency.model';
 import {MarketService} from '../markets/market.service';
 import {CurrencyPair} from '../markets/currency-pair.model';
+import {UserBalance} from '../../model/user.model';
+import {ReplaySubject} from 'rxjs';
 
 /**
  * Dashboard currency pair information component
@@ -27,14 +29,14 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   public secondCurrency: string;
   public activeCurrency: number;
   public currentCurrencyInfo;
+  public userBalanceInfo: UserBalance;
 
   constructor(
     private dashboardService: DashboardDataService,
-    private marketService: MarketService
+    private marketService: MarketService,
   ) { }
 
   ngOnInit() {
-
     this.dashboardService.getCurrencies()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value: Currency[]) => this.currencies = value);
@@ -62,10 +64,21 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .subscribe(pair => {
         const infoSub = this.marketService.currencyPairInfo(pair.currencyPairId)
           .subscribe(res => {
+            console.log(res)
             this.currentCurrencyInfo = res;
+            this.marketService.currentCurrencyInfoListener$.next(res);
             this.pair = pair;
+            console.log(this.currentCurrencyInfo)
             this.splitPairName(this.pair);
             infoSub.unsubscribe();
+        });
+        const balanceSub = this.marketService.userBalanceInfo(pair.currencyPairId).subscribe(data => {
+          if (data.balanceByCurrency1) {
+            this.userBalanceInfo = data;
+          } else {
+            this.userBalanceInfo = null;
+          }
+          balanceSub.unsubscribe();
         });
     });
 
