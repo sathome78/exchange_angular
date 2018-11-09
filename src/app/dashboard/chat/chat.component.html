@@ -26,13 +26,13 @@
   <div class="widget__content widget__content--show-all">
 
     <div class="widget__chat-wrap">
-      <ng-scrollbar [autoHide]="false" [barClass]="'bar-class'" [thumbClass]="'thumb2'">
-
+      <!--<ng-scrollbar [autoHide]="false" [barClass]="'bar-class'" [thumbClass]="'thumb2'">-->
+      <perfect-scrollbar style="max-width: 600px; max-height: 385px;">
         <div class="" *ngFor="let dateChatItem of dateChatItems">
           <app-day-chat [dateChatItem]="dateChatItem"></app-day-chat>
         </div>
-
-      </ng-scrollbar>
+      </perfect-scrollbar>
+      <!--</ng-scrollbar>-->
     </div>
     <button class="btn widget__chat-btn">
       <span class="btn__icon btn__icon--blue">
