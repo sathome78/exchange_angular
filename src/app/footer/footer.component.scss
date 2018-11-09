@@ -1,7 +1,7 @@
 @import '../../assets/scss/old/variables';
 .footer {
   position: relative;
-  z-index: 900;
+  z-index: 50;
   display: none;
   background-color: $dark-indigo;
   @media (min-width:1200px) {
@@ -9,6 +9,7 @@
     flex-grow: 0;
     // margin-top: -75px;
     height: 75px;
+    margin-top: 100px;
   }
 }
 

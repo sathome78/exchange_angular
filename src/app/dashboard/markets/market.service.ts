@@ -8,6 +8,7 @@ import {Observable, ReplaySubject} from 'rxjs';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {UserBalance} from '../../model/user.model';
 
 
 @Injectable()
@@ -15,7 +16,9 @@ export class MarketService {
 
   currencyPairs: CurrencyPair [] = [];
   marketListener$: Subject<CurrencyPair[]>;
+  userBalanceListener$: ReplaySubject<UserBalance>;
   activeCurrencyListener: ReplaySubject<CurrencyPair>;
+  public currentCurrencyInfoListener$: ReplaySubject<any>;
   currencyPairsInfo$ = new BehaviorSubject({balanceByCurrency1: 30000, rate: 1.227});
   private baseUrl = environment.apiUrl;
 
@@ -25,8 +28,10 @@ export class MarketService {
     private stompService: StompService,
     private http: HttpClient,
   ) {
+    this.currentCurrencyInfoListener$ = new ReplaySubject<any>();
     this.marketListener$ = new Subject<CurrencyPair[]>();
     this.activeCurrencyListener = new ReplaySubject<CurrencyPair>();
+    this.userBalanceListener$ = new ReplaySubject<UserBalance>();
   }
 
   setStompSubscription(authenticated: boolean): any {
@@ -151,8 +156,13 @@ export class MarketService {
   }
 
   currencyPairInfo(pairId): Observable<any> {
-    return this.http.get(`${this.baseUrl}/info/private/v2/dashboard/info/${pairId}`)
+    return this.http.get(`${this.baseUrl}/info/public/v2/info/${pairId}`)
       .pipe(tap(info => this.currencyPairsInfo$.next(info)));
+  }
+
+  userBalanceInfo(pairId): Observable<any> {
+    return this.http.get(`${this.baseUrl}/info/private/v2/dashboard/info/${pairId}`)
+      .pipe(tap(info => this.userBalanceListener$.next(info)));
   }
 
   private getActiveCurrencyPair(): CurrencyPair {

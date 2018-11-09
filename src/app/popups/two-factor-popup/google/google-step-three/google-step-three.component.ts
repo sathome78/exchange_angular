@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {OnNextStep, PopupService} from '../../../../services/popup.service';
 import {TwoFaResponseDto} from '../2fa-response-dto.model';
 import {GoogleAuthenticatorService} from '../google-authenticator.service';
@@ -16,7 +16,8 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep {
   form: FormGroup;
 
   constructor(private popupService: PopupService,
-              private googleService: GoogleAuthenticatorService) { }
+              private googleService: GoogleAuthenticatorService) {
+  }
 
   ngOnInit() {
     this.googleService.getGoogleTwoFaSecretHash().subscribe((dto: TwoFaResponseDto) => {

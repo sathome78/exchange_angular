@@ -15,6 +15,12 @@
   display: block;
 }
 
+@media (min-width: 1200px){
+  .table__cell-head{
+    padding: 5px 10px;
+  }
+}
+
 .items {
   min-height: 200px;
   max-height: 200px;
@@ -26,9 +32,8 @@
     .item:hover {
       background-color: rgba(160, 160, 160, 0.2);
       cursor: pointer;
-
       .info, .price, .total {
-        border-bottom: 1px dashed #EB5757;
+        //border-bottom: 1px dashed #EB5757;
       }
 
       .info {
@@ -45,7 +50,7 @@
       cursor: pointer;
 
       .info, .price, .total {
-        border-bottom: 1px dashed #00B43D;
+        //border-bottom: 1px dashed #00B43D;
       }
 
       .info {
@@ -61,6 +66,17 @@
 .items.mobile {
   min-height: calc(50% - 23px);
   max-height: calc(50% - 23px);
+}
+
+.currency-pair-info__arr-up,.currency-pair-info__arr-down{
+  margin-bottom: 4px;
+}
+
+.color-green{
+  color: #00B43D;
+}
+.color-red{
+  color: #EB5757;
 }
 
 .visualization {
@@ -82,11 +98,12 @@
   }
 
   .red {
-    background-color: rgba(235, 87, 87, 0.6);
+    background-color: rgba(235, 87, 87, 0.4);
   }
 
   .green {
-    background: rgba(0, 180, 61, 0.6) !important;
+    background: rgba(0, 180, 61, 0.4) !important;
+
   }
 }
 .item {
@@ -100,7 +117,7 @@
   position: relative;
   z-index: 2;
   max-width: 100%;
-  margin-left: 16px;
+  //margin-left: 16px;
   height: 100%;
   .head{
     display: flex;
@@ -122,6 +139,7 @@
   }
   .order {
     width: 23%;
+    margin-left: 16px;
     max-width: 100%;
     padding-left: 4px;
     padding-right: 4px;

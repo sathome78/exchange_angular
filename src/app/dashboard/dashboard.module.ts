@@ -48,7 +48,7 @@ export function socketProvider() {
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   swipeEasing: true,
-  wheelSpeed: 0.2
+  wheelSpeed: 1
 };
 
 const stompConfig: StompConfig = {
