@@ -35,7 +35,7 @@ export class MockDataService {
       currencyPairName: 'USD/BTC',
       lastOrderRate: 0.5,
       predLastOrderRate: 0.6,
-      percentChange: '1.3',
+      percentChange: -1.3,
       market: 'BTC',
       description: 'description',
       volume: '95188'
@@ -71,7 +71,7 @@ export class MockDataService {
       currencyPairName: 'USD/BTC',
       lastOrderRate: 0.5,
       predLastOrderRate: 0.6,
-      percentChange: '1.3',
+      percentChange: -1.3,
       market: 'BTC',
       description: 'description',
       volume: '95188'
@@ -107,7 +107,7 @@ export class MockDataService {
       currencyPairName: 'USD/BTC',
       lastOrderRate: 0.5,
       predLastOrderRate: 0.6,
-      percentChange: '1.3',
+      percentChange: -1.3,
       market: 'BTC',
       description: 'description',
       volume: '95188'
