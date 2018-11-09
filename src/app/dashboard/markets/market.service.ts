@@ -172,6 +172,7 @@ export class MarketService {
         return pair;
       }
     });
+    console.log('getActiveCurrencyPair', this.currencyPairInfo[0]);
     return this.currencyPairs[0];
   }
 }

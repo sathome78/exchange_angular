@@ -207,13 +207,6 @@
         color:$light-blue;
       }
 
-
-      .show-filter{
-        color:$light-blue;
-      }
-
-
-
       // popup yes\no start
       .revoke-request{
         background-color: #2B3961;
@@ -222,6 +215,11 @@
         }
       }
       // popup yes\no end
+
+      .show-filter{
+        color:$light-blue;
+      }
+
     }
   }
 }
