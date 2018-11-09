@@ -86,12 +86,12 @@
               </td>
               <td class="table__cell table__cell--tal">
                 <span class="txt-indicate">
-                  {{item.rate | number:'1.1-8'}}
+                  {{item.rate | number:'1.1-8' | replaceNumber}}
                 </span>
               </td>
               <td class="table__cell table__cell--tar">
                 <span [ngClass]="{'txt-red': item.operationType === 'SELL', 'txt-green': item.operationType === 'BUY'}">
-                  {{item.amountBase | number:'1.8-8'}}
+                  {{item.amountBase | number:'1.8-8' | replaceNumber}}
                 </span>
               </td>
             </tr>

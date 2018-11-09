@@ -114,7 +114,7 @@
         <img *ngIf="lastOrderUp" class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="">
         <img *ngIf="!lastOrderUp" class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="">
         <div class="hr"></div>
-        <span *ngIf="minExrate">{{lastOrder.amountBase | number:'1.1-8'}}</span>
+        <span *ngIf="minExrate">{{lastOrder.amountBase | number:'1.1-8' | replaceNumber}}</span>
       </div>
       <div class="items items--buy" style="padding-top: 20px;">
 
