@@ -60,6 +60,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   refreshedIds: number[] = [];
 
+
   constructor(private orderBookService: OrderBookService,
               private marketService: MarketService,
               private dashboardDataService: DashboardDataService,
@@ -163,6 +164,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     return false;
   }
 
+
   /**
    * When currency pair is updated we need to load orders for new pair
    * @param {CurrencyPair} pair - active pair
@@ -173,12 +175,16 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.orderBookService.subscribeStompOrders(pair)
       .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'SELL') : orders.type === 'SELL'))
       .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
-      .subscribe(orders => this.sellOrders = orders);
+      .subscribe(orders => {
+        this.sellOrders = orders;
+        this.getLastOrder(orders);
+      });
     this.orderBookService.subscribeStompOrders(pair)
       .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'BUY') : orders.type === 'BUY'))
       .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
       .subscribe(orders => {
         this.buyOrders = orders;
+        this.getLastOrder(orders);
         this.setData();
       });
   }
@@ -212,8 +218,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     });
     if (this.lastOrder) {
       this.lastOrderUp = tempData[tempData.length - 1].exrate > this.lastOrder.exrate;
-    } else {
-      this.lastOrder = false;
     }
     this.lastOrder = {...tempData[tempData.length - 1]};
   }
@@ -233,7 +237,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   }
 
-  private getBestitems(isBuy: boolean, count: number = 10) {
+  private getBestitems(isBuy: boolean, count: number = 9) {
     this.dataBurBuy = this.buyOrders.slice(0, count);
     this.dataForSell = this.sellOrders.slice(0, count);
 

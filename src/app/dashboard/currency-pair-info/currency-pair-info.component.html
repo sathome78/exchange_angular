@@ -26,28 +26,28 @@
         <span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{currentCurrencyInfo.percentChange}}%</span>
         <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="">
         <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="">
-        <span style="margin-left: 10px;">({{(currentCurrencyInfo.currencyRate - currentCurrencyInfo.lastCurrencyRate) | number:'1.1-8'}} {{ secondCurrency }})</span>
+        <span style="margin-left: 10px;">({{(currentCurrencyInfo.currencyRate - currentCurrencyInfo.lastCurrencyRate) | number:'1.1-8' | replaceNumber}} {{ secondCurrency }})</span>
       </div>
-      <div class="currency-pair-info__price">{{currentCurrencyInfo.currencyRate | number:'1.0'}} {{ secondCurrency }}</div>
+      <div class="currency-pair-info__price">{{currentCurrencyInfo.currencyRate | number:'1.0' | replaceNumber}} {{ secondCurrency }}</div>
     </div>
     <div class="currency-pair-info__item">
       <div class="currency-pair-info__item-title">24h hight</div>
-      <span class="currency-pair-info__item-value">{{currentCurrencyInfo.rateHigh | number:'1.0'}}</span>
+      <span class="currency-pair-info__item-value">{{currentCurrencyInfo.rateHigh | number:'1.0' | replaceNumber}}</span>
     </div>
     <div class="currency-pair-info__item">
       <div class="currency-pair-info__item-title">24h low</div>
-      <span class="currency-pair-info__item-value">{{currentCurrencyInfo.rateLow | number:'1.0'}}</span>
+      <span class="currency-pair-info__item-value">{{currentCurrencyInfo.rateLow | number:'1.0' | replaceNumber}}</span>
     </div>
     <div class="currency-pair-info__item">
       <div class="currency-pair-info__item-title">24h volume</div>
-      <span class="currency-pair-info__item-value">{{currentCurrencyInfo.volume24h | number:'1.0-0'}} million  {{ firstCurrency }}</span>
+      <span class="currency-pair-info__item-value">{{currentCurrencyInfo.volume24h | number:'1.0-0' | replaceNumber}} million  {{ firstCurrency }}</span>
     </div>
     <div class="currency-pair-info__item" *ngIf="userBalanceInfo">
       <div class="currency-pair-info__item-title">You have</div>
       <div class="currency-pair-info__you-have">
-        <span class="currency-pair-info__item-value">{{ userBalanceInfo.balanceByCurrency1 | number:'1.0-0' }} {{ firstCurrency }}</span>
+        <span class="currency-pair-info__item-value">{{ userBalanceInfo.balanceByCurrency1 | number:'1.0-0' | replaceNumber }} {{ firstCurrency }}</span>
         <span class="currency-pair-info__vertical-line"></span>
-        <span class="currency-pair-info__item-value">{{ userBalanceInfo.balanceByCurrency2 | number:'1.0-0' }} {{ secondCurrency }}</span>
+        <span class="currency-pair-info__item-value">{{ userBalanceInfo.balanceByCurrency2 | number:'1.0-0' | replaceNumber }} {{ secondCurrency }}</span>
       </div>
     </div>
   </div>

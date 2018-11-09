@@ -36,16 +36,16 @@
       <!--<span class="orders__type-sell">Sell <span>(Limit)</span></span>-->
     </td>
     <td class="table__cell">
-      <span>{{item.exExchangeRate}} </span>
+      <span>{{item.exExchangeRate  | replaceNumber}} </span>
     </td>
     <td class="table__cell">
-      <span>{{item.amountConvert}} BTC</span>
+      <span>{{item.amountConvert | replaceNumber}} BTC</span>
     </td>
     <td class="table__cell txt-grey">
-      <span>{{item.commissionValue}}%</span>
+      <span>{{item.commissionValue | replaceNumber}}%</span>
     </td>
     <td class="table__cell">
-      <span>{{item.amountWithCommission}} USD</span>
+      <span>{{item.amountWithCommission | replaceNumber}} USD</span>
     </td>
     <td class="table__cell">
       <button class="btn btn--small btn--empty-red table__row-btn"
@@ -167,10 +167,10 @@
     </svg>
     </span>
     <span style="vertical-align: middle; color:#A0A0A0;">Avaliable: </span>
-    <a href="#">{{userBalance}} {{arrPairName[0]}}</a>
+    <a href="#">{{userBalance | replaceNumber}} {{arrPairName[0]}}</a>
     </div>
     <div>
-    Fee: {{order.commission | number:'1.1-11'}} {{arrPairName[0]}}
+    Fee: {{order.commission | number:'1.1-11' | replaceNumber}} {{arrPairName[0]}}
     </div>
     </div>
     <div class="row row--jcsb row--aic widget__trading-row">

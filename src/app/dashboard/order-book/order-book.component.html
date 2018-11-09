@@ -52,7 +52,7 @@
       <div class="items items--sell">
 
         <div class="visualization">
-          <div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)"></div>
+          <div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)"  ></div>
         </div>
         <!--<div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)"-->
             <!--[style.height]="(elementHeight/dataForSell.length) + 'px'"></div>-->
@@ -60,7 +60,7 @@
         <div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
-              {{item.amountBase | number:'1.1-8'}}
+              {{item.amountBase | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
@@ -71,13 +71,13 @@
 
           <div class="price">
             <span>
-              {{item.exrate | number:'1.1-8'}}
+              {{item.exrate | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="total">
             <span>
-              {{item.amountConvert | number:'1.1-8'}}
+              {{item.amountConvert | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
@@ -116,17 +116,17 @@
         <div class="hr"></div>
         <span *ngIf="minExrate">{{lastOrder.amountBase | number:'1.1-8'}}</span>
       </div>
-      <div class="items items--buy">
+      <div class="items items--buy" style="padding-top: 20px;">
 
-        <div class="visualization">
-          <div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)"></div>
+        <div class="visualization" style="margin-top: 20px;">
+          <div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)" ></div>
           <!--<div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)"-->
                <!--[style.height]="(200/dataBurBuy.length) + 'px'"></div>-->
         </div>
         <div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item)">
           <div class="order">
             <span>
-              {{item.amountBase | number:'1.1-8'}}
+              {{item.amountBase | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
@@ -138,13 +138,13 @@
 
           <div class="price">
             <span>
-              {{item.exrate | number:'1.1-8'}}
+              {{item.exrate | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="total">
             <span>
-              {{item.amountConvert | number:'1.1-8'}}
+              {{item.amountConvert | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
@@ -205,7 +205,7 @@
       <div class="items mobile">
 
         <div class="visualization">
-          <div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)">
+          <div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)" >
           </div>
           <!--<div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)"-->
             <!--[style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
@@ -214,25 +214,25 @@
         <div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
-              {{item.amountBase | number:'1.1-8'}}
+              {{item.amountBase | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="info">
             <span>
-              {{item.exrate | number:'1.1-8'}}
+              {{item.exrate | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="price">
             <span>
-              {{item.exrate | number:'1.1-8'}}
+              {{item.exrate | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="total">
             <span>
-              {{item.amountConvert | number:'1.1-8'}}
+              {{item.amountConvert | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
@@ -271,7 +271,7 @@
       </div>
       <div class="items mobile">
 
-        <div class="visualization">
+        <div class="visualization" >
           <div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)">
           </div>
           <!--<div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)"-->
@@ -281,25 +281,25 @@
         <div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
-              {{item.amountBase | number:'1.1-8'}}
+              {{item.amountBase | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="info">
             <span>
-              {{item.exrate | number:'1.1-8'}}
+              {{item.exrate | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="price">
             <span>
-              {{item.exrate | number:'1.1-8'}}
+              {{item.exrate | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="total">
             <span>
-              {{item.amountConvert | number:'1.1-8'}}
+              {{item.amountConvert | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 

@@ -140,7 +140,7 @@
 
         <tbody class="table__body table__body--none-shadow">
             <!-- Content -->
-            <ng-container *ngFor="let pair of pairs | currencySort :'volume'">
+            <ng-container *ngFor="let pair of pairs | currencySort :'volume' ">
               <tr class="table__row widget__table-row"
                   [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
                 <td class="table__cell table__cell--tac" width="7%">
@@ -157,16 +157,16 @@
                 <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
               </td>
               <td class="table__cell" width="25%" (click)="onSelectCurrencyPair(pair)">
-                <span class="txt-indicate">{{pair.lastOrderRate}}</span>
+                <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber}}</span>
               </td>
                 <td class="table__cell" width="17%" (click)="onSelectCurrencyPair(pair)">
                 <span style="margin-right: 2px;"
-                      [ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}">{{pair.percentChange | positivePipe }}</span>
+                      [ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}">{{pair.percentChange | positivePipe | replaceNumber}}</span>
                   <span class="arr"
                         [ngClass]="{'arr--green': isChangePositive(pair), 'arr--red': !isChangePositive(pair)}"></span>
                 </td>
               <td class="table__cell table__cell--tar" width="30%"(click)="onSelectCurrencyPair(pair)">
-                <span style="font-size: 10px; color:#A0A0A0">{{ +pair.volume | number: '1.0-0'}}</span>
+                <span style="font-size: 10px; color:#A0A0A0">{{ +pair.volume | number: '1.0-0' | replaceNumber}}</span>
               </td>
 
             </tr>
@@ -226,16 +226,16 @@
         <td class="table__cell">
           <span>{{splitPairName(pair)[0]}}</span>
           <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
-          <div class="txt-small txt-light-grey">Vol {{ +pair.volume | number: '1.0-0'}}</div>
+          <div class="txt-small txt-light-grey">Vol {{ +pair.volume | number: '1.0-0' | replaceNumber}}</div>
         </td>
         <td class="table__cell">
-          <span class="txt-indicate">{{pair.lastOrderRate}}</span>
+          <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber}}</span>
           <div class="txt-small txt-light-grey">$ 417.00</div>
         </td>
         <td class="table__cell table__cell--tar">
           <span class=""
                 [ngClass]="{'change-indicate--green': isChangePositive(pair), 'change-indicate--red': !isChangePositive(pair)}">
-            {{pair.percentChange >= 0 ? '+' : ''}}{{pair.percentChange}} <span>%</span></span>
+            {{pair.percentChange >= 0 ? '+' : ''}}{{pair.percentChange | replaceNumber}} <span>%</span></span>
         </td>
       </tr>
       <tr style="height: 4px;"></tr>
