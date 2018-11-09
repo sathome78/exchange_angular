@@ -8,6 +8,7 @@ import {BreakpointService} from '../services/breakpoint.service';
 import {Subject} from 'rxjs';
 import {OnDestroy} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -51,13 +52,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     public breakPointService: BreakpointService,
     private dataService: DashboardDataService,
     private marketsService: MarketService,
-  ) { }
+    private authService: AuthService) { }
 
   ngOnInit() {
 
     this.breakPointService.breakpoint$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => this.breakPoint = res)
+      .subscribe(res => this.breakPoint = res);
 
     this.dataService.activeMobileWidget
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -171,4 +172,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.gridsterContainer.setOption('widthHeightRatio', value ).reload();
   }
 
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
 }
