@@ -160,7 +160,7 @@
           <a href="#"> {{ userBalance }} {{arrPairName[0]}}</a>
         </div>
         <div>
-          Fee: {{order.commission | number:'1.1-11'}} {{arrPairName[0]}}
+          Fee: {{order.commission | number:'1.1-11' | replaceNumber}} {{arrPairName[0]}}
         </div>
       </div>
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">

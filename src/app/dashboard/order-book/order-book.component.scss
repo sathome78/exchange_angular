@@ -94,12 +94,13 @@
     max-width: 100%;
     margin-left: auto;
     height: calc(100% / 10);
-    opacity: 0.5;
+    //opacity: 0.5;
   }
 
   .red {
     background-color: rgba(235, 87, 87, 0.4);
   }
+
 
   .green {
     background: rgba(0, 180, 61, 0.4) !important;
