@@ -612,7 +612,7 @@
     border-radius: 4px;
     padding-bottom: 8px;
     height: 100%;
-    
+
     &--gradient {
       background: linear-gradient(to bottom, #F5F5F5 0%, #FDFDFD 50%, #F5F5F5 100%);
     }
@@ -1055,6 +1055,10 @@
       }
     }
   }
+}
+
+.panel-heading{
+  cursor: pointer;
 }
 
 /*--- DARK THEME END---*/
