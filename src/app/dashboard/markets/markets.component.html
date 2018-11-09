@@ -161,7 +161,7 @@
               </td>
               <td class="table__cell" width="17%" (click)="onSelectCurrencyPair(pair)">
                 <span style="margin-right: 2px;"
-                      [ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}">{{pair.percentChange}}</span>
+                      [ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}">{{pair.percentChange | positivePipe }}</span>
                 <span class="arr"
                       [ngClass]="{'arr--green': isChangePositive(pair), 'arr--red': !isChangePositive(pair)}"></span>
               </td>
