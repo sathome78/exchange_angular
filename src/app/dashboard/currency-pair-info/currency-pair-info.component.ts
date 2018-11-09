@@ -42,6 +42,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .subscribe((value: Currency[]) => this.currencies = value);
 
 
+
     /** for mock data*/
     // this.pair = this.mockData.getMarketsData()[0];
     // this.splitPairName(this.pair);
