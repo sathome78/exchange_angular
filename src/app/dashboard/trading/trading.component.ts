@@ -141,15 +141,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param {string} tab
    */
   toggleMainTab(tab: string) {
-    window.open('https://exrates.me/dashboard', '_blank');
-    // if (tab === 'BUY') {
-    //   this.mainTab = 'BUY';
-    //   this.tradingService.tradingChangeSellBuy$.next('BUY');
-    // } else  {
-    //   this.mainTab = 'SELL';
-    //   this.tradingService.tradingChangeSellBuy$.next('SELL');
-    // }
-    // this.getCommissionIndex();
+    if (tab === 'BUY') {
+      this.mainTab = 'BUY';
+      this.tradingService.tradingChangeSellBuy$.next('BUY');
+    } else  {
+      this.mainTab = 'SELL';
+      this.tradingService.tradingChangeSellBuy$.next('SELL');
+    }
+    this.getCommissionIndex();
   }
 
 
@@ -304,17 +303,18 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on click submit button
    */
   onSubmit(): void {
-    if ( (this.stopForm.valid && this.orderStop && this.dropdownLimitValue === 'STOP_LIMIT') ||
-      (this.limitForm.valid && this.dropdownLimitValue === 'LIMIT' || this.dropdownLimitValue === 'ICO')) {
-
-      this.order.currencyPairId = this.currentPair.currencyPairId;
-      this.order.baseType = this.dropdownLimitValue;
-      this.order.orderType = this.mainTab;
-      if (this.dropdownLimitValue === 'STOP_LIMIT') {
-        this.order.stop = this.orderStop;
-      }
-      this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
-    }
+    window.open('https://exrates.me/dashboard', '_blank');
+    // if ( (this.stopForm.valid && this.orderStop && this.dropdownLimitValue === 'STOP_LIMIT') ||
+    //   (this.limitForm.valid && this.dropdownLimitValue === 'LIMIT' || this.dropdownLimitValue === 'ICO')) {
+    //
+    //   this.order.currencyPairId = this.currentPair.currencyPairId;
+    //   this.order.baseType = this.dropdownLimitValue;
+    //   this.order.orderType = this.mainTab;
+    //   if (this.dropdownLimitValue === 'STOP_LIMIT') {
+    //     this.order.stop = this.orderStop;
+    //   }
+    //   this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
+    // }
   }
 
   /**
