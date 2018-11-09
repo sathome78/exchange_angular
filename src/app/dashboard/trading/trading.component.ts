@@ -97,7 +97,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
     this.marketService.userBalanceListener$.subscribe(res => {
       this.userBalance = res.balanceByCurrency1;
-    })
+    });
 
       this.marketService.currencyPairsInfo$.subscribe(res => {
         this.order.rate = res.rate;
@@ -141,14 +141,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param {string} tab
    */
   toggleMainTab(tab: string) {
-    if (tab === 'BUY') {
-      this.mainTab = 'BUY';
-      this.tradingService.tradingChangeSellBuy$.next('BUY');
-    } else  {
-      this.mainTab = 'SELL';
-      this.tradingService.tradingChangeSellBuy$.next('SELL');
-    }
-    this.getCommissionIndex();
+    window.open('https://exrates.me/dashboard', '_blank');
+    // if (tab === 'BUY') {
+    //   this.mainTab = 'BUY';
+    //   this.tradingService.tradingChangeSellBuy$.next('BUY');
+    // } else  {
+    //   this.mainTab = 'SELL';
+    //   this.tradingService.tradingChangeSellBuy$.next('SELL');
+    // }
+    // this.getCommissionIndex();
   }
 
 
