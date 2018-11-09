@@ -117,6 +117,8 @@ export class PopupService {
     switch (provider) {
       case 'GOOGLE':
         return this.getGoogleStepsMap();
+      case 'GOOGLE_DISABLE':
+        return this.getGoogleDisableStepsMap();
       case 'SMS':
         return this.getSmsStepsMap();
       case 'TELEGRAM':
@@ -132,6 +134,12 @@ export class PopupService {
     map.set(2, 'Scan QR-code');
     map.set(3, 'Save backup code');
     // map.set(4, 'Enter the code');
+    return map;
+  }
+
+  getGoogleDisableStepsMap(): Map<number, string> {
+    const map = new Map<number, string>();
+    map.set(1, 'Disable');
     return map;
   }
 

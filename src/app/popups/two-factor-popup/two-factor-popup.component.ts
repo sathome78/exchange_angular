@@ -14,6 +14,7 @@ export class TwoFactorPopupComponent implements OnInit, OnDestroy {
   google = 'GOOGLE';
   sms = 'SMS';
   telegram = 'TELEGRAM';
+  google_disable = 'GOOGLE_DISABLE';
   provider: string;
   step = 1;
   stepsSize = 1;
@@ -41,7 +42,7 @@ export class TwoFactorPopupComponent implements OnInit, OnDestroy {
 
   getValue(value: any) {
     this.logger.debug(this, 'By TFA tfaSubscription received: ' + value);
-    if (value === this.google || value === this.sms || value === this.telegram) {
+    if (value === this.google || value === this.sms || value === this.telegram || value === this.google_disable) {
       this.provider = value;
     }
   }
