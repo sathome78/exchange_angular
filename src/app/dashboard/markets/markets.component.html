@@ -140,7 +140,8 @@
 
         <tbody class="table__body table__body--none-shadow">
             <!-- Content -->
-            <ng-container *ngFor="let pair of pairs | currencySort :'volume' ">
+            <ng-container *ngFor="let pair of pairs | currencySort :'volume'">
+              <tr style="height: 4px;"></tr>
               <tr class="table__row widget__table-row"
                   [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
                 <td class="table__cell table__cell--tac" width="7%">
@@ -170,7 +171,6 @@
               </td>
 
             </tr>
-            <tr style="height: 4px;"></tr>
           </ng-container>
           </tbody>
 
