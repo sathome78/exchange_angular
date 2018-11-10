@@ -38,7 +38,6 @@ import { DayChatComponent } from './chat/day-chat/day-chat.component';
 import { ChatMessageComponent } from './chat/chat-message/chat-message.component';
 import {NicknamePipe} from './chat/chat-message/nickname.pipe';
 import {PositivePipe} from './markets/positive.pipe';
-import {ReplaceNumberPipe} from '../shared/pipes/number-replace.pipe';
 
 
 export function socketProvider() {
@@ -92,7 +91,6 @@ const stompConfig: StompConfig = {
     OrderBookComponent,
     OrdersComponent,
     PositivePipe,
-    ReplaceNumberPipe,
     SellComponent,
     TradeHistoryComponent,
     TradingComponent,
