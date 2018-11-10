@@ -41,6 +41,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   ngOnInit() {
     this.itemName = 'markets';
     this.volumeOrderDirection = 'NONE';
+    this.marketService.makeItFast();
     this.marketService.setStompSubscription(this.authService.isAuthenticated());
     this.marketService.marketListener$
       .pipe(takeUntil(this.ngUnsubscribe))
