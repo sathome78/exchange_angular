@@ -34,7 +34,9 @@ export class MarketService {
     this.userBalanceListener$ = new ReplaySubject<UserBalance>();
   }
 
-
+  /**
+   * this method simply gets pairs from cache and when subscription is on we should drop data
+   */
   makeItFast() {
     const url = this.baseUrl + '/info/public/v2/currencies/fast';
     this.http.get<CurrencyPair []>(url).subscribe(items => {
@@ -48,6 +50,10 @@ export class MarketService {
       .subscribe('/app/statisticsNew')
       .pipe( map((message: Message) => JSON.parse(JSON.parse(message.body))))
       .subscribe((items) => {
+        if (items) {
+          // clean cached data
+          this.currencyPairs = [];
+        }
         this.processCurrencyPairs(items.data, authenticated);
       });
   }
