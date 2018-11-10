@@ -1,7 +1,15 @@
 .cursorDisable {
   cursor: default;
 }
-
+.currency-pair-info--mob{
+  max-height: 64px;
+}
+.dropdown__btn{
+  padding-right: 0;
+  &:after{
+    display: none;
+  }
+}
 .amcharts-stock_chart_div {
   height: calc(100% - 40px);
   overflow: hidden;
