@@ -52,36 +52,43 @@
       <div class="items items--sell">
 
         <div class="visualization">
-          <div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)"  ></div>
+            <ng-container *ngFor="let item of dataForSell; let i = index">
+                <div class="visual-item" [ngClass]="'red'" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, false) + '%'">
+                  <div class="border-container" *ngIf="i < 8 && withForChartLineElements && withForChartLineElements.sell.length">
+                    <div class="border-border sell" [style.width]="withForChartLineElements.sell[i]">
+                    </div>
+                  </div>
+                </div>
+            </ng-container>
         </div>
-        <!--<div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)"-->
-            <!--[style.height]="(elementHeight/dataForSell.length) + 'px'"></div>-->
-        <!--</div>-->
         <div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
               {{item.amountBase | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
-
+        
           <div class="info">
             <span>
             </span>
           </div>
-
+        
           <div class="price">
             <span>
               {{item.exrate | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
-
+        
           <div class="total">
             <span>
               {{item.amountConvert | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
-
+        
         </div>
+        <!--<div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, false)"-->
+            <!--[style.height]="(elementHeight/dataForSell.length) + 'px'"></div>-->
+        <!--</div>-->
         <!--<div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item)">-->
           <!--<div class="order" [style.lineHeight]="(elementHeight/dataForSell.length) + 'px'" [style.height]="(elementHeight/dataForSell.length) + 'px'">-->
             <!--<span>-->
@@ -119,36 +126,47 @@
       <div class="items items--buy" style="padding-top: 20px;">
 
         <div class="visualization" style="margin-top: 20px;">
-          <div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)" ></div>
-          <!--<div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)"-->
+          <ng-container *ngFor="let item of dataBurBuy; let i = index">
+            <div class="visual-item" [ngClass]="'green'" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, true) + '%'">
+              <div class="border-container" *ngIf="i > 0 && withForChartLineElements && withForChartLineElements.buy.length">
+                <div class="border-border buy" [style.width]="withForChartLineElements.buy[i-1]">
+            
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <!--<div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, true)"-->
                <!--[style.height]="(200/dataBurBuy.length) + 'px'"></div>-->
         </div>
+
         <div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item)">
           <div class="order">
             <span>
               {{item.amountBase | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
-
+        
           <div class="info">
             <!--<span>-->
-              <!--{{item.exrate | number:'1.1-8'}}-->
+            <!--{{item.exrate | number:'1.1-8'}}-->
             <!--</span>-->
           </div>
-
+        
           <div class="price">
             <span>
               {{item.exrate | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
-
+        
           <div class="total">
             <span>
               {{item.amountConvert | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
-
+        
         </div>
+
         <!--<div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item)">-->
           <!--<div class="order" [style.lineHeight]="(elementHeight/dataBurBuy.length) + 'px'" [style.height]="(elementHeight/dataBurBuy.length) + 'px'">-->
             <!--<span>-->
@@ -205,9 +223,9 @@
       <div class="items mobile">
 
         <div class="visualization">
-          <div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)" >
+          <div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, false) + '%'" >
           </div>
-          <!--<div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)"-->
+          <!--<div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, false)"-->
             <!--[style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
           <!--</div>-->
         </div>
@@ -272,9 +290,9 @@
       <div class="items mobile">
 
         <div class="visualization" >
-          <div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)">
+          <div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy; let i = index" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, true) + '%'">
           </div>
-          <!--<div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)"-->
+          <!--<div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, true)"-->
             <!--[style.height]="(elementHeightMobile/dataBurBuy.length) + 'px'">-->
           <!--</div>-->
         </div>

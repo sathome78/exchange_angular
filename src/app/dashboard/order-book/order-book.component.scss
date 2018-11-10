@@ -94,17 +94,46 @@
     max-width: 100%;
     margin-left: auto;
     height: calc(100% / 10);
+    display: flex; 
     //opacity: 0.5;
+  }
+
+  // border-border buy
+
+  .border-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .border-border {
+    position: absolute;
+    left: 0;
+    height: 1px;
+    &.buy {
+      background-color: #00B43D;
+      top: 0;
+    }
+    &.sell {
+      bottom: 0;
+      background-color: #f44242;
+    }
   }
 
   .red {
     background-color: rgba(235, 87, 87, 0.4);
+    border-left: 1px solid #f44242;
+    &:last-child {
+      border-bottom: 1px solid #f44242;
+    }
   }
 
 
   .green {
     background: rgba(0, 180, 61, 0.4) !important;
-
+    border-left: 1px solid #00B43D;
+    &:first-child {
+      border-top: #00B43D;
+    }
   }
 }
 .item {
