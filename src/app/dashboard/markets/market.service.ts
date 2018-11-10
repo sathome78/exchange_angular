@@ -34,6 +34,15 @@ export class MarketService {
     this.userBalanceListener$ = new ReplaySubject<UserBalance>();
   }
 
+
+  makeItFast() {
+    const url = this.baseUrl + '/info/public/v2/currencies/fast';
+    this.http.get<CurrencyPair []>(url).subscribe(items => {
+      this.processCurrencyPairs(items, false);
+    });
+  }
+
+
   setStompSubscription(authenticated: boolean): any {
     return this.stompSubscription = this.stompService
       .subscribe('/app/statisticsNew')
