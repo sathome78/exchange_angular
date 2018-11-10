@@ -9,8 +9,15 @@
   }
 }
 
-.widget__table-wrap{
-  //margin-right: 10px !important;
+.tabs{
+  &:after{
+    display: none;
+  }
+  @media (min-width: 1200px){
+    &:after{
+      display: block;
+    }
+  }
 }
 
 //---------
@@ -60,8 +67,10 @@ tbody.table__body {
 
 .widget__content{
   height: 100%;
-  ::ng-deep.ps__rail-y {
-    margin-right: 16px;
+  @media (min-width: 1200px){
+    ::ng-deep.ps__rail-y {
+      margin-right: 16px;
+    }
   }
 }
 .widget__tabs{
