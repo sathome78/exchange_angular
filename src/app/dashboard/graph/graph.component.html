@@ -59,7 +59,7 @@
       </div>
     </div>
   </div>
-  <div class="widget__header--mob">
+  <div class="">
     <div class="currency-pair-info--mob">
       <div class="currency-pair-info__inner">
         <div class="currency-pair-info__pair">
@@ -86,7 +86,7 @@
             <span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{currentCurrencyInfo.percentChange}}%</span>
             <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="">
             <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="">
-            <span style="margin-left: 10px;">({{(currentCurrencyInfo.currencyRate - currentCurrencyInfo.lastCurrencyRate) | number:'1.1-8'}} {{ secondCurrency }})</span>
+            <span>({{(currentCurrencyInfo.currencyRate - currentCurrencyInfo.lastCurrencyRate) | number:'1.1-8'}} {{ secondCurrency }})</span>
           </div>
         <div class="currency-pair-info__price">{{currentCurrencyInfo.currencyRate | number:'1.0'}} {{ secondCurrency }}</div>
         </div>
