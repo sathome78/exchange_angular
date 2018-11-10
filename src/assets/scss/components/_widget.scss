@@ -296,6 +296,11 @@
         fill:#E5E5E5;
       }
     }
+    .table__row-star--select{
+      svg {
+        fill: #FFB74C;
+      }
+    }
   }
   //chat start
   &__chat-wrap {
@@ -967,6 +972,11 @@
       .table__row-star{
         svg{
           fill:#4A5D88;
+        }
+      }
+      .table__row-star--select{
+        svg {
+          fill: #FFB74C;
         }
       }
     }
