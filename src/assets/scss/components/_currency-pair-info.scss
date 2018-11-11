@@ -97,6 +97,9 @@
     display: block;
     height: 80px;
     margin-bottom: 20px;
+    &--mob{
+      display: none;
+    }
     &__inner {
       padding: 0 32px;
     }
