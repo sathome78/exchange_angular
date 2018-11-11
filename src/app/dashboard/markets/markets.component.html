@@ -230,7 +230,7 @@
         </td>
         <td class="table__cell" (click)="onSelectCurrencyPair(pair)">
           <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber}}</span>
-          <div class="txt-small txt-light-grey">$ 417.00</div>
+          <div class="txt-small txt-light-grey">$ {{ +pair.priceInUSD | number: '1.0-2'}}</div>
         </td>
         <td class="table__cell table__cell--tar" (click)="onSelectCurrencyPair(pair)">
           <span class=""
