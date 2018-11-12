@@ -10,6 +10,7 @@ import { setHostBindings } from '@angular/core/src/render3/instructions';
 import { forEach } from '@angular/router/src/utils/collection';
 import { ChildActivationStart } from '@angular/router';
 import {map} from 'rxjs/internal/operators';
+import { renderDetachView } from '@angular/core/src/view/view_attach';
 
 @Component({
   selector: 'app-order-book',
@@ -24,7 +25,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   public currencyPairInfo;
 
 
-  @ViewChild('orderBook')
+  @ViewChild('mainContent')
   orderbookConainer: ElementRef;
 
   public dataForSell: OrderItem [];
@@ -477,6 +478,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   ngOnInit() {
+
     this.itemName = 'order-book';
     this.orderTypeClass = 'order-table--buy';
     this.withForChartLineElements = {
@@ -723,19 +725,23 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.withForChartLineElements.buy = [];
     this.withForChartLineElements.sell = [];
 
-    for (let i = 0; i < 9; i++) {
-      /** for buy */
-      const tempElementBuy = this.getPercentageOfTheMuxBuyOrSell(this.buyOrders[i].exrate, true);
-      const nextElementBuy = this.getPercentageOfTheMuxBuyOrSell(this.buyOrders[i + 1].exrate, true);
-      const valueForBuy = nextElementBuy - tempElementBuy;
-      this.withForChartLineElements.buy[i] = ((389 / 100) * valueForBuy) + 'px';
+    if (this.orderbookConainer) {
+      const containerWidth = parseInt(this.orderbookConainer.nativeElement.clientWidth, 10);
 
-      /** for sell */
-      const tempElementSell = this.getPercentageOfTheMuxBuyOrSell(this.sellOrders[i].exrate, false);
-      const nextElementSell = this.getPercentageOfTheMuxBuyOrSell(this.sellOrders[i + 1].exrate, false);
-      const valueforSell = tempElementSell - nextElementSell;
+      for (let i = 0; i < 9; i++) {
+        /** for buy */
+        const tempElementBuy = this.getPercentageOfTheMuxBuyOrSell(this.buyOrders[i].exrate, true);
+        const nextElementBuy = this.getPercentageOfTheMuxBuyOrSell(this.buyOrders[i + 1].exrate, true);
+        const valueForBuy = nextElementBuy - tempElementBuy;
+        this.withForChartLineElements.buy[i] = ((containerWidth / 100) * valueForBuy) + 'px';
 
-      this.withForChartLineElements.sell[i] = ((389 / 100) * valueforSell) + 'px';
+        /** for sell */
+        const tempElementSell = this.getPercentageOfTheMuxBuyOrSell(this.sellOrders[i].exrate, false);
+        const nextElementSell = this.getPercentageOfTheMuxBuyOrSell(this.sellOrders[i + 1].exrate, false);
+        const valueforSell = tempElementSell - nextElementSell;
+
+        this.withForChartLineElements.sell[i] = ((containerWidth / 100) * valueforSell) + 'px';
+      }
     }
   }
 
