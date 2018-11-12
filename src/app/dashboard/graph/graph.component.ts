@@ -25,7 +25,6 @@ import {environment} from '../../../environments/environment';
 export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit, OnDestroy {
   /** dashboard item name (field for base class)*/
   public itemName: string;
-  public widgetOptions: object;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   currencyPairName = 'BTC/USD';
@@ -108,6 +107,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this._containerId = containerId || this._containerId;
   }
 
+  private widgetOptions: ChartingLibraryWidgetOptions;
+
 
   constructor(
     private marketService: MarketService,
@@ -124,7 +125,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.lang = this.langService.getLanguage();
     this.formattingCurrentPairName(this.currencyPairName);
 
-    const widgetOptions: ChartingLibraryWidgetOptions = {
+    this.widgetOptions = {
       symbol: this._symbol,
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
       interval: this._interval,
@@ -178,13 +179,14 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       },
     };
 
-    const tvWidget = new widget(widgetOptions);
+    const tvWidget = new widget(this.widgetOptions);
     this._tvWidget = tvWidget;
 
     /** getting current currency pair */
     this.marketService.activeCurrencyListener.subscribe(pair => {
       this.currencyPairName = pair.currencyPairName as string;
       if (this.currencyPairName) {
+        // this._tvWidget = new widget(this.widgetOptions);
         this.formattingCurrentPairName(pair.currencyPairName as string);
         this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
       }
