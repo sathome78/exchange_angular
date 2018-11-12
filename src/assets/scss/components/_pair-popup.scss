@@ -213,6 +213,7 @@
         border-color: $light-blue;
         &:valid{
           ~.wrap-input__label{
+            background-color: $dark-indigo;
             color: $light-blue;
           }
         }
