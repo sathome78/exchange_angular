@@ -725,22 +725,28 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.withForChartLineElements.buy = [];
     this.withForChartLineElements.sell = [];
 
-    if (this.orderbookConainer && this.buyOrders.length && this.sellOrders.length) {
+    if (this.orderbookConainer) {
       const containerWidth = parseInt(this.orderbookConainer.nativeElement.clientWidth, 10);
+      console.log('sell', this.sellOrders);
+      console.log('buy', this.buyOrders);
 
       for (let i = 0; i < 9; i++) {
         /** for buy */
-        const tempElementBuy = this.getPercentageOfTheMuxBuyOrSell(this.buyOrders[i].exrate, true);
-        const nextElementBuy = this.getPercentageOfTheMuxBuyOrSell(this.buyOrders[i + 1].exrate, true);
-        const valueForBuy = nextElementBuy - tempElementBuy;
-        this.withForChartLineElements.buy[i] = ((containerWidth / 100) * valueForBuy) + 'px';
+        if (this.buyOrders[i]) {
+          const tempElementBuy = this.getPercentageOfTheMuxBuyOrSell(this.buyOrders[i].exrate, true);
+          const nextElementBuy = this.getPercentageOfTheMuxBuyOrSell(this.buyOrders[i + 1].exrate, true);
+          const valueForBuy = nextElementBuy - tempElementBuy;
+          this.withForChartLineElements.buy[i] = ((containerWidth / 100) * valueForBuy) + 'px';
+        }
 
         /** for sell */
-        const tempElementSell = this.getPercentageOfTheMuxBuyOrSell(this.sellOrders[i].exrate, false);
-        const nextElementSell = this.getPercentageOfTheMuxBuyOrSell(this.sellOrders[i + 1].exrate, false);
-        const valueforSell = tempElementSell - nextElementSell;
+        if (this.sellOrders[i]) {
+          const tempElementSell = this.getPercentageOfTheMuxBuyOrSell(this.sellOrders[i].exrate, false);
+          const nextElementSell = this.getPercentageOfTheMuxBuyOrSell(this.sellOrders[i + 1].exrate, false);
+          const valueforSell = tempElementSell - nextElementSell;
 
-        this.withForChartLineElements.sell[i] = ((containerWidth / 100) * valueforSell) + 'px';
+          this.withForChartLineElements.sell[i] = ((containerWidth / 100) * valueforSell) + 'px';
+        }
       }
     }
   }

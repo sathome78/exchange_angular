@@ -183,10 +183,11 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
     /** getting current currency pair */
     this.marketService.activeCurrencyListener.subscribe(pair => {
-      console.log(pair)
       this.currencyPairName = pair.currencyPairName as string;
-      this.formattingCurrentPairName(pair.currencyPairName as string);
-      this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
+      if (this.currencyPairName) {
+        this.formattingCurrentPairName(pair.currencyPairName as string);
+        this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
+      }
     });
 
     tvWidget.onChartReady(() => {
