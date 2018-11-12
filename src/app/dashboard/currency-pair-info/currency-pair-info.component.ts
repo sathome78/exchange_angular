@@ -6,7 +6,7 @@ import { DashboardDataService } from '../dashboard-data.service';
 import { Currency } from './currency-search/currency.model';
 import {MarketService} from '../markets/market.service';
 import {CurrencyPair} from '../markets/currency-pair.model';
-import {UserBalance} from '../../model/user.model';
+import {UserBalance} from '../../model/user-balance.model';
 import {ReplaySubject} from 'rxjs';
 
 /**
