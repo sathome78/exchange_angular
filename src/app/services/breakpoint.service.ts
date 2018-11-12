@@ -12,20 +12,14 @@ export class BreakpointService {
     // Breakpoints
     this.breakpointObserver
       .observe(['(min-width: 1200px)'])
-  .subscribe((state: BreakpointState) => {
-      if (state.matches) {
+      .subscribe((state: BreakpointState) => {
+        const breakpoint = state.matches ? 'desktop' : 'mobile';
+
         if (!this.breakpoint$) {
-          this.breakpoint$ = new BehaviorSubject<string>('desktop');
+          this.breakpoint$ = new BehaviorSubject<string>(breakpoint);
         } else {
-          this.breakpoint$.next('desktop');
+          this.breakpoint$.next(breakpoint);
         }
-      } else {
-        if (!this.breakpoint$) {
-          this.breakpoint$ = new BehaviorSubject<string>('mobile');
-        } else {
-          this.breakpoint$.next('mobile');
-        }
-      }
-    });
+      });
   }
 }

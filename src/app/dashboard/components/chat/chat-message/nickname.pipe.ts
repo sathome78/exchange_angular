@@ -6,8 +6,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class NicknamePipe implements PipeTransform {
 
   transform(value: string): any {
-    const words = value.split('@');
-    return words[0];
+    return value.split('@')[0];
   }
 
 }
