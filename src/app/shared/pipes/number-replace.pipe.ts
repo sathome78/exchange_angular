@@ -8,10 +8,13 @@ export class ReplaceNumberPipe implements PipeTransform {
 
 
   transform(value: number | string ): string {
-    const replaceMask = ' ';
-    const searchMask = ',';
-    const regex = new RegExp(searchMask, 'ig');
+    if (value) {
+      const replaceMask = ' ';
+      const searchMask = ',';
+      const regex = new RegExp(searchMask, 'ig');
 
-    return value.toString().replace(regex, replaceMask);
+      return value.toString().replace(regex, replaceMask);
+    }
+    return '';
   }
 }

@@ -237,7 +237,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * split pair name for showing
    */
   private splitPairName() {
-    this.arrPairName = this.currentPair.currencyPairName.split('/');
+    if (this.currentPair.currencyPairName) {
+      this.arrPairName = this.currentPair.currencyPairName.split('/');
+    }
   }
 
   /**

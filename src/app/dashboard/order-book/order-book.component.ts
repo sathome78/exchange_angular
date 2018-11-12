@@ -631,7 +631,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       const dateB = new Date(b.created).getTime();
       return dateA - dateB;
     });
-    if (this.lastOrder) {
+    if (this.lastOrder && tempData[tempData.length - 1]) {
       this.lastOrderUp = tempData[tempData.length - 1].exrate > this.lastOrder.exrate;
     }
     this.lastOrder = {...tempData[tempData.length - 1]};
@@ -725,7 +725,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.withForChartLineElements.buy = [];
     this.withForChartLineElements.sell = [];
 
-    if (this.orderbookConainer) {
+    if (this.orderbookConainer && this.buyOrders.length && this.sellOrders.length) {
       const containerWidth = parseInt(this.orderbookConainer.nativeElement.clientWidth, 10);
 
       for (let i = 0; i < 9; i++) {
