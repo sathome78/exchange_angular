@@ -110,6 +110,24 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
+   * hide widget if no authenticate
+   * @param {string} widget
+   * @returns {boolean}
+   */
+  showWidget(widget: string): boolean {
+    if (!this.isAuthenticated()) {
+      switch (widget) {
+        case 'trade-history':
+        case 'orders':
+          return false;
+      }
+    } else {
+      return true;
+    }
+    return true;
+  }
+
+  /**
    * change dashboard item size by coming data
    * @param event
    */

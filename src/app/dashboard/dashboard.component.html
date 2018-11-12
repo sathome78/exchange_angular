@@ -9,7 +9,8 @@
                     [options]="gridsterOptions"
                     [draggableOptions]="{ handlerClass: 'panel-heading' }">
 
-        <ngx-gridster-item *ngFor="let widget of widgets; let index = index" [options]="gridsterItemOptions"
+        <ng-template ngFor let-widget [ngForOf]="widgets" , let-index = index>
+        <ngx-gridster-item   [options]="gridsterItemOptions" *ngIf="showWidget(widget.type)"
                            [(x)]="widget.x" [(y)]="widget.y" [(w)]="widget.w" [(h)]="widget.h"
                            [(xSm)]="widget.xSm" [(ySm)]="widget.ySm" [(wSm)]="widget.wSm" [(hSm)]="widget.hSm"
                            [(xMd)]="widget.xMd" [(yMd)]="widget.yMd" [(wMd)]="widget.wMd" [(hMd)]="widget.hMd"
@@ -19,6 +20,7 @@
           <ng-template [ngTemplateOutlet]="loadWidgetTemplate(widget.type)" [ngTemplateOutletContext]="{ $implicit: index}">
           </ng-template>
         </ngx-gridster-item>
+        </ng-template>
 
       </ngx-gridster>
 
@@ -52,6 +54,7 @@
 </ng-template>
 
 <ng-template #markets let-index>
+  <!--<button (click)="cl = true">+</button>-->
   <app-markets (changeItemSize)="changeItemSize($event)"
                (removeItem)="removeItem(index)">
   </app-markets>
@@ -81,7 +84,7 @@
   </app-chat>
 </ng-template>
 
-<ng-template #orders let-index  *ngIf="isAuthenticated()">
+<ng-template #orders let-index>
   <app-orders (changeItemSize)="changeItemSize($event)"
               (removeItem)="removeItem(index)">
   </app-orders>
