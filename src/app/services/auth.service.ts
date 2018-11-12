@@ -33,7 +33,7 @@ export class AuthService {
   onLogOut() {
     this.simpleToken = {expiration: 0, username: '', token_id: 0, value: ''};
     localStorage.removeItem(TOKEN);
-    location.reload();
+    // location.reload();
   }
 
   encodePassword(password: string) {
