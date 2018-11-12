@@ -498,6 +498,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
     this.marketService.currentCurrencyInfoListener$.subscribe(res => {
       this.currencyPairInfo = res;
+      console.log(res)
       if (!this.lastOrder) {
         this.lastOrder = {};
         this.lastOrder.exrate = this.currencyPairInfo.volume24h;
@@ -626,15 +627,17 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   getLastOrder(orders) {
-    const tempData = orders.sort((a, b) => {
-      const dateA = new Date(a.created).getTime();
-      const dateB = new Date(b.created).getTime();
-      return dateA - dateB;
-    });
-    if (this.lastOrder) {
-      this.lastOrderUp = tempData[tempData.length - 1].exrate > this.lastOrder.exrate;
+    if (orders) {
+      const tempData = orders.sort((a, b) => {
+        const dateA = new Date(a.created).getTime();
+        const dateB = new Date(b.created).getTime();
+        return dateA - dateB;
+      });
+      if (this.lastOrder && tempData[tempData.length - 1]) {
+        this.lastOrderUp = tempData[tempData.length - 1].exrate > this.lastOrder.exrate;
+      }
+      this.lastOrder = {...tempData[tempData.length - 1]};
     }
-    this.lastOrder = {...tempData[tempData.length - 1]};
   }
 
   private sortBuyData(): void {
@@ -725,22 +728,28 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.withForChartLineElements.buy = [];
     this.withForChartLineElements.sell = [];
 
-    if (this.orderbookConainer) {
+    if (this.orderbookConainer ) {
       const containerWidth = parseInt(this.orderbookConainer.nativeElement.clientWidth, 10);
+      console.log('sell', this.sellOrders);
+      console.log('buy', this.buyOrders);
 
       for (let i = 0; i < 9; i++) {
         /** for buy */
-        const tempElementBuy = this.getPercentageOfTheMuxBuyOrSell(this.buyOrders[i].exrate, true);
-        const nextElementBuy = this.getPercentageOfTheMuxBuyOrSell(this.buyOrders[i + 1].exrate, true);
-        const valueForBuy = nextElementBuy - tempElementBuy;
-        this.withForChartLineElements.buy[i] = ((containerWidth / 100) * valueForBuy) + 'px';
+        if (this.buyOrders[i] && this.buyOrders[i + 1]) {
+          const tempElementBuy = this.getPercentageOfTheMuxBuyOrSell(this.buyOrders[i].exrate, true);
+          const nextElementBuy = this.getPercentageOfTheMuxBuyOrSell(this.buyOrders[i + 1].exrate, true);
+          const valueForBuy = nextElementBuy - tempElementBuy;
+          this.withForChartLineElements.buy[i] = ((containerWidth / 100) * valueForBuy) + 'px';
+        }
 
         /** for sell */
-        const tempElementSell = this.getPercentageOfTheMuxBuyOrSell(this.sellOrders[i].exrate, false);
-        const nextElementSell = this.getPercentageOfTheMuxBuyOrSell(this.sellOrders[i + 1].exrate, false);
-        const valueforSell = tempElementSell - nextElementSell;
+        if (this.sellOrders[i] && this.sellOrders[i + 1]) {
+          const tempElementSell = this.getPercentageOfTheMuxBuyOrSell(this.sellOrders[i].exrate, false);
+          const nextElementSell = this.getPercentageOfTheMuxBuyOrSell(this.sellOrders[i + 1].exrate, false);
+          const valueforSell = tempElementSell - nextElementSell;
 
-        this.withForChartLineElements.sell[i] = ((containerWidth / 100) * valueforSell) + 'px';
+          this.withForChartLineElements.sell[i] = ((containerWidth / 100) * valueforSell) + 'px';
+        }
       }
     }
   }
