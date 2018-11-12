@@ -186,7 +186,10 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       console.log(pair)
       this.currencyPairName = pair.currencyPairName as string;
       this.formattingCurrentPairName(pair.currencyPairName as string);
-      this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
+      if (pair.currencyPairName) {
+        this._tvWidget.setSymbol(pair.currencyPairName, '5', () => {
+        });
+      }
     });
 
     tvWidget.onChartReady(() => {

@@ -498,6 +498,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
     this.marketService.currentCurrencyInfoListener$.subscribe(res => {
       this.currencyPairInfo = res;
+      console.log(res)
       if (!this.lastOrder) {
         this.lastOrder = {};
         this.lastOrder.exrate = this.currencyPairInfo.volume24h;
