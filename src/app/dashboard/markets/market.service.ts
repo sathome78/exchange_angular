@@ -8,7 +8,7 @@ import {Observable, ReplaySubject} from 'rxjs';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {UserBalance} from '../../model/user.model';
+import {UserBalance} from '../../model/user-balance.model';
 
 
 @Injectable()
