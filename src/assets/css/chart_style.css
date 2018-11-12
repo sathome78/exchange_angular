@@ -1,7 +1,11 @@
 #header-toolbar-indicators, #header-toolbar-compare, #header-toolbar-chart-styles, #header-toolbar-intervals, #header-toolbar-undo-redo, .group-wWM3zP_M-, .wrap-18oKCBRc-,
 .apply-common-tooltip{
-    background-color: #191A39;
+    background-color: rgba(0, 0, 0, 0);
     color: #A0A0A0;
+}
+
+html body, div.chart-controls-bar, #footer-chart-panel {
+  background-color: rgba(0, 0, 0, 0) !important;
 }
 
 .chart-container {
@@ -17,4 +21,8 @@
 
 .layout__area--center {
     background-color: rgba(27, 55, 112, 0);
+}
+
+body > div.js-rootresizer__contents > div.layout__area--center > div {
+  background-color: rgba(27, 55, 112, 0);
 }

@@ -1,0 +1,173 @@
+//.table {
+//    margin-top: 16px;
+//    th {
+//      padding: 0 8px 12px;
+//      &:first-child {
+//        padding-left: 16px;
+//      }
+//      &:last-child {
+//        padding-right: 16px;
+//      }
+//    }
+//    td {
+//      padding: 8px;
+//      &:first-child {
+//        padding-left: 16px;
+//      }
+//      &:last-child {
+//        padding-right: 16px;
+//      }
+//    }
+//  }
+  
+  .paginator {
+    //position: absolute;
+    //right: 16px;
+    //bottom: 12px;
+  }
+  
+  a.active {
+    background-color: #237BEF !important;
+    cursor: pointer;
+  }
+  
+  ::ng-deep .ngx-pagination {
+    margin-bottom: 0 !important;
+    display: flex;
+  }
+  
+  ::ng-deep .ngx-pagination li {
+    width: 28px;
+    height: 28px;
+    margin-right: 8px !important;
+    padding: 0;
+    &.current {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background-color: #237BEF !important;
+      padding: 0 !important;
+      border-radius: 4px !important;
+    }
+    &.pagination-previous.disabled {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      padding: 0 !important;
+      &:before {
+        display: none;
+      }
+      span {
+        display: none;
+      }
+    }
+    &.pagination-next.disabled {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      padding: 0 !important;
+      &:after {
+        display: none;
+      }
+      span {
+        display: none;
+      }
+    }
+    &:hover {
+      position: relative;
+      bottom: 2px;
+    }
+  }
+  
+  ::ng-deep .ngx-pagination a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100%;
+    height: 100%;
+    padding: 0 !important;
+    font-size: 14px;
+    line-height: 16px;
+    //border: 1px solid #237BEF;
+    border-radius: 4px !important;
+    color: #fff !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-color: transparent;
+    &:hover {
+      background-color: #237BEF !important;
+    }
+  }
+  
+  ::ng-deep li.pagination-next a {
+    &:after {
+      content: url('./../../../assets/img/paginator-next.svg') !important;
+      margin-left: 0 !important;
+      display: block;
+      width: 13px;
+      height: 13px;
+    }
+  }
+  
+  ::ng-deep li.pagination-previous a {
+    &:before {
+      content: url('./../../../assets/img/paginator-prev.svg') !important;
+      margin-right: 0 !important;
+      display: block;
+      width: 13px;
+      height: 13px;
+    }
+  }
+
+  .table__details {
+    height: 0;
+    transition: 0.4s;
+    display: none;
+  
+    &-show {
+      display: table-row;
+      height: auto;
+    }
+    td {
+      height: 0;
+      transition: 0.4s;
+    }
+  }
+
+  .select-input_label {
+    top: -5px;
+    padding: 0 2px;
+    font-size: 10px;
+    line-height: 12px;
+    z-index: 100;
+    background-color: #191A39;
+  }
+
+
+  .show-filter-popup {
+    display: block;
+  }
+
+  .revoke-request {
+    display: none;
+  }
+
+  // search dropdown
+
+  .orders__search {
+    .search-results {
+      left: 60px;
+      .dropdown__list {
+        max-height: 170px;
+        overflow-x: unset;
+        overflow-y: scroll;
+      }
+    }
+
+    &:hover {
+      .search-results {
+        .dropdown__list {
+          display: block;
+        }
+      }
+    }
+  }

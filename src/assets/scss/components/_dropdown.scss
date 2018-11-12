@@ -1,6 +1,7 @@
 .dropdown {
   position: relative;
   display: inline-block;
+  z-index: 60;
   /*--- modificators start ---*/
   &--open{
     .dropdown__list{
@@ -42,7 +43,7 @@
     top: 100%;
     right: 0;
     display: none;
-    margin-top: 2px;
+    margin-top: 0px;
     border: 1px solid $light-blue;
     background-color: #fff;
   }

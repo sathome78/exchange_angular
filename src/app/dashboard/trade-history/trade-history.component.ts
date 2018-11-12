@@ -1,8 +1,11 @@
-import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
-import {AbstractDashboardItems} from '../abstract-dashboard-items';
-import {TradeHistoryService, TradeItem} from './trade-history.service';
-import {MarketService} from '../markets/market.service';
-import {CurrencyPair} from '../markets/currency-pair.model';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { takeUntil } from 'rxjs/internal/operators';
+import { Subject } from 'rxjs/Subject';
+
+import { AbstractDashboardItems } from '../abstract-dashboard-items';
+import { TradeHistoryService, TradeItem } from './trade-history.service';
+import { MarketService } from '../markets/market.service';
+import { CurrencyPair } from '../markets/currency-pair.model';
 import { PARENT } from '@angular/core/src/render3/interfaces/view';
 
 
@@ -23,6 +26,11 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
 
   allTradesSubscription: any;
   personalTradesSubscription: any;
+
+  secondCurrency;
+  firstCurrency;
+
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   userInSystem: boolean;
   private mockData: TradeItem [];
@@ -56,8 +64,13 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
         });
 
         // TODO: remove after dashboard init load time issue is solved
-        this.ref.detectChanges();
+        // this.ref.detectChanges();
       });
+
+    /** getting current currency pair */
+    this.marketService.activeCurrencyListener.pipe(takeUntil(this.ngUnsubscribe)).subscribe(pair => {
+      this.formattingCurrentPairName(pair.currencyPairName as string);
+    });
   }
 
   addOrUpdate(oldItems: TradeItem[], newItems: TradeItem[]) {
@@ -77,5 +90,14 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
         oldItems.push(newItem);
       }
     });
+  }
+
+  formattingCurrentPairName(currentPair: string): void {
+    /** search slash position */
+    let index: number;
+    index = currentPair.match(/\+|-|\/|\*/).index;
+
+    this.firstCurrency = currentPair.slice(0, index);
+    this.secondCurrency = currentPair.slice(index + 1);
   }
 }

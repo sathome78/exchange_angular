@@ -2,7 +2,7 @@
   <!--<div class="order-book-bg order-book-bg&#45;&#45;green" [ngClass]="{'show': isBuy}"></div>-->
   <!--<div class="order-book-bg order-book-bg&#45;&#45;red" [ngClass]="{'show': !isBuy}"></div>-->
   <div class="order-book-bg order-book-bg--main" [ngClass]="{'show': !isBuy}"></div>
-  <div class="widget__header">
+  <div class="widget__header panel-heading">
     <span class="widget__name">Order book</span>
     <a href="#" class="widget__question">
       <span class="widget__question-img">
@@ -11,7 +11,7 @@
         </svg>
       </span>
     </a>
-    <span class="widget__dots panel-heading"></span>
+    <span class="widget__dots "></span>
     <div class="widget__controls">
       <div class="widget__controls-close" (click)="remove()">
         <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -28,7 +28,7 @@
     </div> -->
     <div class="order-table" [ngClass]="orderTypeClass">
       <div class="head">
-        <div class="order table__cell-head table__cell-head--tal table__cell-head--p4">
+        <div class="order table__cell-head table__cell-head--tal table__cell-head--p4 table__cell-head--blue">
           <span>
             Amount
           </span>
@@ -66,7 +66,6 @@
 
           <div class="info">
             <span>
-              {{item.exrate | number:'1.1-8'}}
             </span>
           </div>
 
@@ -110,10 +109,12 @@
 
         <!--</div>-->
       </div>
-      <div class="separator">
-        <span *ngIf="maxExrate">{{maxExrate.exrate | number:'1.1-8'}}</span>
+      <div class="separator" *ngIf="lastOrder">
+        <span *ngIf="maxExrate" [ngClass]="{'color-red': !lastOrderUp, 'color-green': lastOrderUp}">{{lastOrder.exrate | number:'1.1-8'}}</span>
+        <img *ngIf="lastOrderUp" class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="">
+        <img *ngIf="!lastOrderUp" class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="">
         <div class="hr"></div>
-        <span *ngIf="minExrate">{{minExrate.exrate | number:'1.1-8'}}</span>
+        <span *ngIf="minExrate">{{lastOrder.amountBase | number:'1.1-8'}}</span>
       </div>
       <div class="items items--buy">
 
@@ -130,9 +131,9 @@
           </div>
 
           <div class="info">
-            <span>
-              {{item.exrate | number:'1.1-8'}}
-            </span>
+            <!--<span>-->
+              <!--{{item.exrate | number:'1.1-8'}}-->
+            <!--</span>-->
           </div>
 
           <div class="price">

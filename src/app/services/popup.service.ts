@@ -8,6 +8,8 @@ export class PopupService {
   private onOpenTFAPopupListener = new Subject<string>();
   private onOpenIdentityPopupListener = new Subject<string>();
   private onLoginPopupListener = new Subject<boolean>();
+  private onMobileLoginPopupListener = new Subject<boolean>();
+  private onMobileRegistrationPopupListener = new Subject<boolean>();
   private stepListener = new Subject<number>();
   private currentStep = 1;
   private tfaProvider = '';
@@ -31,7 +33,21 @@ export class PopupService {
     this.onLoginPopupListener.next(state);
   }
 
+  showMobileLoginPopup(state: boolean) {
+    this.onMobileLoginPopupListener.next(state);
+  }
+
+  showMobileRegistrationPopup(state: boolean) {
+    console.log('open 2');
+    this.onMobileRegistrationPopupListener.next(state);
+  }
+
   showTFAPopup(provider: string) {
+    if (provider === 'GOOGLE_DISABLED') {
+
+
+      return;
+    }
     this.onOpenTFAPopupListener.next(provider);
     if (provider === 'GOOGLE' || provider === 'SMS' || provider === 'TELEGRAM') {
       this.tfaProvider = provider;
@@ -57,6 +73,13 @@ export class PopupService {
 
   public getLoginPopupListener(): Subject<boolean> {
     return this.onLoginPopupListener;
+  }
+  public getLoginMobilePopupListener(): Subject<boolean> {
+    return this.onMobileLoginPopupListener;
+  }
+
+  public getRegistrationMobilePopupListener(): Subject<boolean> {
+    return this.onMobileRegistrationPopupListener;
   }
 
   public getCurrentStepListener(): Subject<number> {
@@ -94,6 +117,8 @@ export class PopupService {
     switch (provider) {
       case 'GOOGLE':
         return this.getGoogleStepsMap();
+      case 'GOOGLE_DISABLE':
+        return this.getGoogleDisableStepsMap();
       case 'SMS':
         return this.getSmsStepsMap();
       case 'TELEGRAM':
@@ -109,6 +134,12 @@ export class PopupService {
     map.set(2, 'Scan QR-code');
     map.set(3, 'Save backup code');
     // map.set(4, 'Enter the code');
+    return map;
+  }
+
+  getGoogleDisableStepsMap(): Map<number, string> {
+    const map = new Map<number, string>();
+    map.set(1, 'Disable');
     return map;
   }
 
@@ -132,7 +163,17 @@ export class PopupService {
 
   closeLoginPopup() {
     this.onLoginPopupListener.next(false);
+
   }
+
+  closeMobileLoginPopup() {
+    this.onMobileLoginPopupListener.next(false);
+  }
+
+  closeRegistrationPopup() {
+    this.onMobileRegistrationPopupListener.next(false);
+  }
+
 }
 
 export interface OnNextStep {

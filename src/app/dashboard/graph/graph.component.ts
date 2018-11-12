@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
 import { LangService } from '../../services/lang.service';
 import { takeUntil } from 'rxjs/internal/operators';
 
@@ -33,10 +33,12 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   firstCurrency: string;
   secondCurrency: string;
 
+  currentCurrencyInfo;
+
   private lang;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
-  private _interval: ChartingLibraryWidgetOptions['interval'] = 'E';
+  private _interval: ChartingLibraryWidgetOptions['interval'] = '3';
   // BEWARE: no trailing slash is expected in feed URL
   // private _datafeedUrl = 'https://demo_feed.tradingview.com';
   private _datafeedUrl = environment.apiUrl + '/info/public/v2/graph';
@@ -110,7 +112,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   constructor(
     private marketService: MarketService,
     private langService: LangService,
-    private dashboardService: DashboardDataService
+    private dashboardService: DashboardDataService,
+    private ref: ChangeDetectorRef
     ) {
     super();
   }
@@ -133,7 +136,13 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         'use_localstorage_for_settings',
         'cl_feed_return_all_data',
         'header_settings',
-        'header_symbol_search'
+        'header_symbol_search',
+        'header_compare',
+        'header_undo_redo',
+        'header_indicators',
+        'save_chart_properties_to_local_storage',
+        'header_saveload',
+        'border_around_the_chart'
       ],
       charts_storage_url: this._chartsStorageUrl,
       charts_storage_api_version: this._chartsStorageApiVersion,
@@ -141,7 +150,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       user_id: this._userId,
       fullscreen: this._fullscreen,
       autosize: this._autosize,
-      toolbar_bg: '#191A39',
+      toolbar_bg: '#2c375d',
       custom_css_url: '/assets/css/chart_style.css',
       // favorites: {
       //   chartTypes: ['Area'],
@@ -157,12 +166,12 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         // 'bollinger bands.upper.linewidth': 7
       },
       overrides: {
-        'paneProperties.background': '#191A39',
+        'paneProperties.background': '#2c375d',
         'paneProperties.vertGridProperties.color': 'rgba(27, 55, 112, 0)',
         'paneProperties.horzGridProperties.color': 'rgba(27, 55, 112, 0)',
         'symbolWatermarkProperties.transparency': 90,
         'scalesProperties.textColor': '#aaa',
-        'scalesProperties.backgroundColor': '#191A39',
+        'scalesProperties.backgroundColor': 'rgba(0, 0, 0, 0)',
 
         'mainSeriesProperties.areaStyle.color1': 'rgba(35, 123, 239, 1)',
         'mainSeriesProperties.areaStyle.color2': 'rgba(35, 123, 239, 0)',
@@ -192,6 +201,20 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         }));
       button[0].innerHTML = 'Check API';
     });
+
+    this.marketService.activeCurrencyListener
+    .pipe(takeUntil(this.ngUnsubscribe))
+    .subscribe(pair => {
+      const infoSub = this.marketService.currencyPairInfo(pair.currencyPairId)
+        .subscribe(res => {
+          this.currentCurrencyInfo = res;
+          // this.pair = pair;
+          // this.splitPairName(this.pair);
+          // TODO: remove after dashboard init load time issue is solved
+          this.ref.detectChanges();
+          infoSub.unsubscribe();
+      });
+  });
   }
 
   ngOnDestroy(): void {
@@ -211,7 +234,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.secondCurrency = currentPair.slice(index + 1);
   }
 
-  setMobileWidget(widgetName: string, type: string) {
+  setMobileWidget(widgetName: string, type: string): void {
     const item = {
       'needRefresh': true,
       'page': 0,

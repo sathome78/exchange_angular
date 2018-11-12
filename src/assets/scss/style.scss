@@ -24,6 +24,7 @@
 @import "components/notification-popup";
 @import "components/steps";
 @import "components/tabs";
+@import "components/counter";
 @import "components/chat-btn";
 @import "components/back-to";
 @import "components/overlay";
@@ -37,11 +38,13 @@
 @import "components/trading-notification";
 @import "components/order-edit-popup";
 @import "components/filters-popup";
+@import "components/scroll";
 //@import "components/footer";
 @import "components/modal";
 /*--- PAGES ---*/
 @import "pages/login-registration";
 @import "pages/dashboard";
+@import "pages/balance";
 @import "pages/orders";
 @import "pages/referral";
 @import "pages/settings/settings";

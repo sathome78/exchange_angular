@@ -7,8 +7,8 @@
       <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" href="#"><span class="menu__link-text">Funds</span></a>
         <div class="submenu">
           <ul class="menu submenu__list">
-            <li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">Lorem asdfgh</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">Lorem asdfgh</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" routerLink="balance"><span class="menu__link-text">Balance</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">Transaction history</span></a></li>
           </ul>
         </div>
       </li>
@@ -131,7 +131,8 @@
       <a class="header__logout" (click)="onLogout()">Log out</a>
     </div>
     <ng-template #alien>
-      <a class="header__logout" (click)="onLogin()">Log in</a>
+      <!--<a class="header__logout" (click)="onLogin()">Log in</a>-->
+      <a class="header__logout" href="https://exrates.me/dashboards" target="_blank">Log in</a>
     </ng-template>
 
     <ul class="menu">
@@ -154,6 +155,8 @@
   </div>
 </header>
 <!-- HEADER END-->
+
+
 <!-- HEADER MOBILE START-->
 <header class="header-mob" [ngClass]="{'header-mob--open': isMobileMenuOpen }">
   <div class="header-mob__top" >
@@ -172,16 +175,17 @@
       <div class="account-info">
         <img class="account-info__img" src="../../assets/img/user-photo.png">
         <div class="account-info__text">
-          <div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a>
-        </div>
+          <div class="account-info__title">New user</div><a class="account-info__email" (click)="onMobileLogin()">login</a></div>
+          <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
       </div>
       <nav class="menu-mob"><a class="menu-mob__link menu-mob__link--next-page" href="#"><img class="menu-mob__link-icon" src="../../assets/img/money-bag.svg"><span class="menu-mob__link-text">Estimated holdings</span><span class="menu-mob__link-holdings-inf">~ $43 522 764</span></a>
         <a
           class="menu-mob__link" href="#"><img class="menu-mob__link-icon" src="../../assets/img/trade.svg"><span class="menu-mob__link-text">Trade</span></a>
-          <div class="menu-mob__drop-wrap"><a class="menu-mob__link menu-mob__link--drop" href="#"><img class="menu-mob__link-icon" src="../../assets/img/piggy-bank.svg"><span class="menu-mob__link-text">Funds</span></a>
+          <div class="menu-mob__drop-wrap"><a class="menu-mob__link menu-mob__link--drop"><img class="menu-mob__link-icon" src="../../assets/img/piggy-bank.svg"><span class="menu-mob__link-text">Funds</span></a>
             <div class="menu-mob__wrap-hidden-links">
               <a class="menu-mob__link" href="#">Transaction history</a>
-              <a class="menu-mob__link" href="#">Income/Outcome</a></div>
+              <a class="menu-mob__link" href="#">Income/Outcome</a>
+            </div>
           </div>
           <div class="menu-mob__drop-wrap"><a class="menu-mob__link menu-mob__link--drop" href="#"><img class="menu-mob__link-icon" src="../../assets/img/orders.svg"><span class="menu-mob__link-text">Orders</span></a>
             <div class="menu-mob__wrap-hidden-links"><a class="menu-mob__link" href="#">Open orders</a><a class="menu-mob__link" href="#">Orders history</a></div>

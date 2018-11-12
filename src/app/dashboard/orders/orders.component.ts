@@ -6,6 +6,9 @@ import {MarketService} from '../markets/market.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 import { forkJoin} from 'rxjs';
+import {AuthService} from '../../services/auth.service';
+import {Subscription} from 'rxjs';
+import {CurrencyPair} from '../markets/currency-pair.model';
 
 @Component({
   selector: 'app-orders',
@@ -17,16 +20,19 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
   public itemName: string;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  refreshOrdersSubscription = new Subscription();
+
 
   public mainTab = 'open';
   public openOrdersCount = 0;
-  public activeCurrencyPair;
+  public activeCurrencyPair: CurrencyPair;
   public historyOrders;
   public openOrders;
 
 
   constructor(
-    private mockData: MockDataService,
+    private authService: AuthService,
+    // private mockData: MockDataService,
     private ordersService: OrdersService,
     private marketService: MarketService,
     private ref: ChangeDetectorRef
@@ -40,7 +46,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
     /** mock data */
     // this.openOrders = this.mockData.getOpenOrders().items;
     // this.historyOrders = this.mockData.getOpenOrders().items;
-    this.activeCurrencyPair = this.mockData.getMarketsData()[2];
+    // this.activeCurrencyPair = this.mockData.getMarketsData()[2];
     /** ---------------------------------------------- */
 
     this.marketService.activeCurrencyListener
@@ -49,11 +55,19 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
         this.activeCurrencyPair = res;
         this.toOpenOrders();
     });
+    if (this.authService.isAuthenticated()) {
+      this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
+      this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
+        this.toOpenOrders();
+      });
+    }
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.ordersService.unsubscribeStomp();
+    this.refreshOrdersSubscription.unsubscribe();
   }
 
   /**
@@ -78,7 +92,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
         sub.unsubscribe();
 
         // TODO: remove after dashboard init load time issue is solved
-        this.ref.detectChanges();
+        // this.ref.detectChanges();
       });
   }
 
@@ -97,9 +111,19 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
 
   }
 
-  // TODO: delete this method when will delete mockData and delete in Html
-  setCountOpenOrders(e: number) {
-    this.openOrdersCount = e;
+  public pairNames(): string [] {
+    if (this.activeCurrencyPair && this.activeCurrencyPair.currencyPairName) {
+      return this.activeCurrencyPair.currencyPairName.split('/');
+    }
+    return ['BTC', 'USD'];
   }
+
+  public pairName(): string {
+    if (this.activeCurrencyPair) {
+      return this.activeCurrencyPair.currencyPairName;
+    }
+    return 'BTC/USD';
+  }
+
 
 }

@@ -16,8 +16,6 @@ import {DateChatItem} from './date-chat-item.model';
 @Injectable()
 export class ChatService {
 
-  chatListener: Subject<ChatItem> = new Subject<ChatItem>();
-
   simpleChatListener: Subject<SimpleChat> = new Subject<SimpleChat>();
 
   private stompSubscription: any;
@@ -27,6 +25,7 @@ export class ChatService {
   constructor(private langService: LangService,
               private httpClient: HttpClient,
               private stompService: StompService) {
+    // this.setStompSubscription('en');
   }
 
   /**
@@ -38,16 +37,11 @@ export class ChatService {
    * @param lang - current language must be set to lower case
    */
   setStompSubscription(lang: string) {
-    this.findAllChatMessages();
     this.stompSubscription = this.stompService
       .subscribe('/topic/chat/' + lang)
-      .pipe(map((message: Message) => {
-        // console.log(message);
-        return message.body;
-      }))
-      .subscribe((message: string) => {
-          // this.chatItems.push(ChatItem.fromString(message));
-          this.simpleChatListener.next(SimpleChat.fromChatItem(ChatItem.fromString(message)));
+      .subscribe(msg => {
+        // console.log(JSON.parse(msg.body));
+        this.simpleChatListener.next(JSON.parse(msg.body));
       });
   }
 
@@ -75,7 +69,7 @@ export class ChatService {
    */
   findAllChatMessages(): Observable<IDateChat[]> {
     const url = this.HOST + '/info/public/v2/chat/history';
-    const lang = this.langService.getLanguage().toLowerCase();
+    const lang = 'en';
     const params = {
       params: new HttpParams().append('lang', lang),
     };
@@ -98,7 +92,6 @@ export class ChatService {
    */
   sendNewMessage(message: string, email?: string): Observable<ChatItem> {
     const url = this.HOST + '/info/public/v2/chat';
-    console.log('msg: ' + message + ', email: ' + email);
     const body = {
       'EMAIL': email ? email : '',
       'LANG': this.langService.getLanguage().toUpperCase(),

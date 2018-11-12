@@ -64,9 +64,10 @@
 
   </tbody>
 </table>
+<ng-content></ng-content>
 <div class="row" style="margin: 0 16px;">
   <ul class="paginator" style="margin-left: auto;">
-    <pagination-controls (pageChange)="filterOpenOrders($event)" [previousLabel]="''" [nextLabel]="''"></pagination-controls>
+    <pagination-controls (pageChange)="changePage($event)" [previousLabel]="''" [nextLabel]="''"></pagination-controls>
   </ul>
 </div>
 
@@ -88,8 +89,7 @@
       <div class="row row--jcsb widget__trading-row">
 
         <div class="wrap-input widget__input widget__input--mr32">
-          <input class="wrap-input__input" type="text"
-                 [(ngModel)]="order.amount"
+          <input class="wrap-input__input no-spinners" type="number"
                  formControlName="quantityOf"
                  (input)="quantityInput($event)"
                  name="quantityOf">
@@ -98,8 +98,7 @@
         </div>
 
         <div class="wrap-input widget__input">
-          <input class="wrap-input__input" type="text"
-                 [(ngModel)]="order.rate"
+          <input class="wrap-input__input no-spinners" type="number"
                  (input)="rateInput($event)"
                  formControlName="priceIn"
                  name="priceIn">
@@ -111,9 +110,9 @@
 
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input">
-          <input class="wrap-input__input" type="text"
-                 [(ngModel)]="order.total"
+          <input class="wrap-input__input no-spinners" type="number"
                  formControlName="totalIn"
+                 (input)="totalInput($event)"
                  name="totalIn">
           <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
           <div class="wrap-input__line"></div>
@@ -124,16 +123,15 @@
     <form [formGroup]="stopForm" *ngIf="dropdownLimitValue === 'STOP_LIMIT'">
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input widget__input--mr32">
-          <input class="wrap-input__input" type="text"
-                 [(ngModel)]="orderStop"
+          <input class="wrap-input__input no-spinners" type="number"
+                 (input)="stopInput($event)"
                  formControlName="stop"
                  name="stop">
           <label class="wrap-input__label" for="">Stop</label>
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
-          <input class="wrap-input__input" type="text"
-                 [(ngModel)]="order.rate"
+          <input class="wrap-input__input no-spinners" type="number"
                  (input)="rateInput($event)"
                  formControlName="limit"
                  name="limit">
@@ -143,8 +141,7 @@
       </div>
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input widget__input--mr32">
-          <input class="wrap-input__input" type="text"
-                 [(ngModel)]="order.amount"
+          <input class="wrap-input__input no-spinners" type="number"
                  formControlName="quantityOf"
                  (input)="quantityInput($event)"
                  name="quantityOf">
@@ -152,9 +149,9 @@
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
-          <input class="wrap-input__input" type="text"
-                 [(ngModel)]="order.total"
+          <input class="wrap-input__input no-spinners" type="number"
                  formControlName="totalIn"
+                 (input)="totalInput($event)"
                  name="totalIn">
           <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
           <div class="wrap-input__line"></div>
@@ -170,10 +167,10 @@
     </svg>
     </span>
     <span style="vertical-align: middle; color:#A0A0A0;">Avaliable: </span>
-    <a href="#">300 000 000 {{arrPairName[0]}}</a>
+    <a href="#">{{userBalance}} {{arrPairName[0]}}</a>
     </div>
     <div>
-    Fee: {{order.commission}} {{arrPairName[0]}}
+    Fee: {{order.commission | number:'1.1-11'}} {{arrPairName[0]}}
     </div>
     </div>
     <div class="row row--jcsb row--aic widget__trading-row">

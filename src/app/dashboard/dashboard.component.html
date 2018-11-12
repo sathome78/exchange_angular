@@ -81,7 +81,7 @@
   </app-chat>
 </ng-template>
 
-<ng-template #orders let-index>
+<ng-template #orders let-index  *ngIf="isAuthenticated()">
   <app-orders (changeItemSize)="changeItemSize($event)"
               (removeItem)="removeItem(index)">
   </app-orders>

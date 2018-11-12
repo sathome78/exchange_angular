@@ -40,6 +40,10 @@
   }
   /*--- modificators start ---*/
   // states
+  &--hidden{
+    visibility: hidden;
+    transition: none;
+  }
   &--active {
     color: #fff;
     border-color: transparent;

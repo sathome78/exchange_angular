@@ -18,12 +18,16 @@ import {NotificationMessage} from './shared/models/notification-message-model';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
 
-  isTfaPopupOpen = false;
   tfaSubscription: Subscription;
   identitySubscription: Subscription;
   loginSubscription: Subscription;
+  loginMobileSubscription: Subscription;
+  registrationMobileSubscription: Subscription;
+  isTfaPopupOpen = false;
   isIdentityPopupOpen = false;
   isLoginPopupOpen = false;
+  isLoginMobilePopupOpen = false;
+  isRegistrationMobilePopupOpen = false;
   /** notification messages array */
   notificationMessages: NotificationMessage[];
 
@@ -42,6 +46,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
     this.subscribeForLoginEvent();
+    this.subscribeForMobileLoginEvent();
+    this.subscribeForMobileRegistrationEvent();
     // this.setClientIp();
     this.subscribeForNotifications();
   }
@@ -51,6 +57,24 @@ export class AppComponent implements OnInit, OnDestroy {
       .getTFAPopupListener()
       .subscribe(value => {
         this.isTfaPopupOpen = value ? true : false;
+      });
+  }
+
+  subscribeForMobileLoginEvent() {
+    this.loginMobileSubscription = this.popupService
+      .getLoginMobilePopupListener()
+      .subscribe(value => {
+        this.isLoginMobilePopupOpen = value;
+      });
+  }
+
+  subscribeForMobileRegistrationEvent() {
+    this.registrationMobileSubscription = this.popupService
+      .getRegistrationMobilePopupListener()
+      .subscribe(value => {
+        console.log('3');
+        this.isRegistrationMobilePopupOpen = value;
+        console.log(this.isRegistrationMobilePopupOpen);
       });
   }
 
@@ -82,12 +106,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.tfaSubscription.unsubscribe();
     this.identitySubscription.unsubscribe();
     this.loginSubscription.unsubscribe();
+    this.loginMobileSubscription.unsubscribe();
+    this.registrationMobileSubscription.unsubscribe();
   }
 
   private setIp() {
     this.http.get<IpAddress>(IP_CHECKER_URL)
       .subscribe( response => {
-        this.logger.debug(this, 'Client IP: ' + response.ip);
+        // this.logger.debug(this, 'Client IP: ' + response.ip);
         localStorage.setItem(IP_USER_KEY, response.ip);
       });
   }

@@ -1,5 +1,5 @@
-<div class="widget widget--gradient">
-  <div class="widget__header">
+<div class="widget widget--graph-color">
+  <div class="widget__header panel-heading">
     <span class="widget__name">Graph <span>{{firstCurrency}} / {{secondCurrency}}</span></span>
     <a href="#" class="widget__question">
       <span class="widget__question-img">
@@ -59,7 +59,7 @@
       </div>
     </div>
   </div>
-  <div class="widget__header--mob">
+  <div class="">
     <div class="currency-pair-info--mob">
       <div class="currency-pair-info__inner">
         <div class="currency-pair-info__pair">
@@ -81,14 +81,14 @@
             </ul>
           </div>
         </div>
-        <div class="currency-pair-info__info currency-pair-info__info--up">
+        <div class="currency-pair-info__info currency-pair-info__info--up" *ngIf="currentCurrencyInfo">
           <div class="currency-pair-info__change">
-            <span>+0.8%</span>
+            <span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{currentCurrencyInfo.percentChange}}%</span>
             <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="">
             <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="">
-            <span>(+49,816 USD)</span>
+            <span>({{(currentCurrencyInfo.currencyRate - currentCurrencyInfo.lastCurrencyRate) | number:'1.1-8'}} {{ secondCurrency }})</span>
           </div>
-          <div class="currency-pair-info__price">6 227 USD</div>
+        <div class="currency-pair-info__price">{{currentCurrencyInfo.currencyRate | number:'1.0'}} {{ secondCurrency }}</div>
         </div>
       </div>
     </div>

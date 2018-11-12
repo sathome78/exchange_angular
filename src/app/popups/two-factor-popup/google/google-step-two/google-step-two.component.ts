@@ -21,7 +21,7 @@ export class GoogleStepTwoComponent implements OnInit, OnNextStep {
 
   ngOnInit() {
     this.googleService.getGoogleTwoFaSecretHash().subscribe((dto: TwoFaResponseDto) => {
-        // console.log(dto);
+        console.log(dto);
         this.secretCode = dto.message;
         if (dto.error) {
           this.statusMessage = dto.error;

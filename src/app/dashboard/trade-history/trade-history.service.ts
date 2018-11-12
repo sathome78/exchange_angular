@@ -22,7 +22,7 @@ export class TradeHistoryService {
     this.tradesStompSubscription = this.stompService
       .subscribe('/app/trades/' + pair.currencyPairId)
         .subscribe((message) => {
-          console.log(JSON.parse(JSON.parse(message.body)));
+          // console.log(JSON.parse(JSON.parse(message.body)));
           this.allTradesListener.next(JSON.parse(JSON.parse(message.body)).data);
         });
 

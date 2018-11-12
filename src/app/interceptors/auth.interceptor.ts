@@ -23,8 +23,8 @@ export class AuthInterceptor implements HttpInterceptor {
                                 .append(X_AUTH_TOKEN, token)
                                 .append(EXRATES_REST_TOKEN, token)
                                 // .append(CORS_HEADER, '*');
-                                // .append(IP_USER_HEADER, clientIp);
-                                .append(IP_USER_HEADER, '192.168.0.1');
+                                .append(IP_USER_HEADER, clientIp);
+                                // .append(IP_USER_HEADER, '192.168.0.1');
 
       const copiedReq = req.clone({
         headers: headers
