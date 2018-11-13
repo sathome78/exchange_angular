@@ -3,7 +3,7 @@ import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular
 import {gridsterItemOptions, gridsterOptions} from '../shared/configs/gridster-options';
 import {DashboardDataService} from './dashboard-data.service';
 import {DashboardItemChangeSize} from '../shared/models/dashboard-item-change-size-model';
-import {MarketService} from './markets/market.service';
+import {MarketService} from './components/markets/market.service';
 import {BreakpointService} from '../services/breakpoint.service';
 import {Subject} from 'rxjs';
 import {OnDestroy} from '@angular/core';
