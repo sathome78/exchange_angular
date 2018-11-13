@@ -117,12 +117,12 @@
         <!--</div>-->
       </div>
       <div class="separator" *ngIf="lastOrder">
-        <span *ngIf="maxExrate" [ngClass]="{'color-red': !lastOrderUp, 'color-green': lastOrderUp}">{{!lastOrder.exrate ? 0 : lastOrder.exrate
+        <span *ngIf="maxExrate" [ngClass]="{'color-red': !lastOrderUp, 'color-green': lastOrderUp}">{{!lastOrder.amountBase ? 0 : lastOrder.amountBase
           | number:'1.1-8' | replaceNumber}}</span>
         <img *ngIf="lastOrderUp" class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="">
         <img *ngIf="!lastOrderUp" class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="">
         <div class="hr"></div>
-        <span *ngIf="minExrate">{{!lastOrder.amountBase ? 0 :lastOrder.amountBase | number:'1.1-8' | replaceNumber}}</span>
+        <span *ngIf="minExrate">{{!lastOrder.exrate ? 0 :lastOrder.exrate | number:'1.1-8' | replaceNumber}}</span>
       </div>
       <div class="items items--buy" style="padding-top: 20px;">
 
