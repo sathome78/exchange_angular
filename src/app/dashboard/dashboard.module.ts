@@ -18,7 +18,7 @@ import {GraphComponent} from './components/graph/graph.component';
 import {ActivePairComponent} from './components/active-pair/active-pair.component';
 import {SharedModule} from '../shared/shared.module';
 import {GridsterModule} from 'angular2gridster';
-import {DashboardDataService} from './dashboard-data.service';
+import {DashboardService} from './dashboard.service';
 import { CurrencySearchComponent } from './components/currency-pair-info/currency-search/currency-search.component';
 import { MarketSearchComponent } from './components/market-search/market-search.component';
 import { ToolsComponent } from './components/tools/tools.component';
@@ -118,7 +118,7 @@ const stompConfig: StompConfig = {
   ],
   providers: [
     ChatService,
-    DashboardDataService,
+    DashboardService,
     DashboardWebSocketService,
     MarketService,
     OrderBookService,

@@ -6,7 +6,7 @@ import {Currency} from './components/currency-pair-info/currency-search/currency
 import {mockPairs} from './components/currency-pair-info/currency-search/currency.model';
 
 @Injectable()
-export class DashboardDataService {
+export class DashboardService {
 
   public dashboardToTools$ = new Subject();
   public toolsToDashboard$ = new Subject();

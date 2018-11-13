@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { LangService } from 'app/services/lang.service';
 import { AbstractDashboardItems } from '../../abstract-dashboard-items';
 import { MarketService } from '../markets/market.service';
-import { DashboardDataService } from '../../../dashboard/dashboard-data.service';
+import { DashboardService } from '../../dashboard.service';
 
 declare const TradingView: any;
 
@@ -113,7 +113,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   constructor(
     private marketService: MarketService,
     private langService: LangService,
-    private dashboardService: DashboardDataService,
+    private dashboardService: DashboardService,
     private ref: ChangeDetectorRef
     ) {
     super();

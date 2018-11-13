@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/internal/operators'
 
-import { DashboardDataService } from '../../dashboard-data.service';
+import { DashboardService } from '../../dashboard.service';
 import { Currency } from './currency-search/currency.model';
 import {MarketService} from '../markets/market.service';
 import {CurrencyPair} from '../markets/currency-pair.model';
@@ -32,7 +32,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   public userBalanceInfo: UserBalance;
 
   constructor(
-    private dashboardService: DashboardDataService,
+    private dashboardService: DashboardService,
     private marketService: MarketService,
   ) { }
 

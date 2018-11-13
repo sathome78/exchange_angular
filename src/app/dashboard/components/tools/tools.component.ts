@@ -2,7 +2,7 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import * as _difference from 'lodash/difference';
 import * as _differenceBy from 'lodash/differenceBy';
 
-import {DashboardDataService} from '../../dashboard-data.service';
+import {DashboardService} from '../../dashboard.service';
 import {ToolsItem} from 'app/shared/interfaces/dashboard-tools-interface';
 import {DashboardWidgetItemModel} from 'app/shared/models/dashboard-widget-item.model';
 import {DashboardToolsItemModel} from 'app/shared/models/dashboard-tools-item.model';
@@ -23,9 +23,7 @@ export class ToolsComponent implements OnInit {
   public visibleToolsItems: DashboardToolsItemModel[];
   public overlayShow = false;
 
-  constructor(
-    private dataService: DashboardDataService
-  ) { }
+  constructor(private dataService: DashboardService) { }
 
   ngOnInit() {
     this.allWidgets = [...this.dataService.getWidgetPositions()];

@@ -7,7 +7,7 @@ import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {Order} from './order.model';
 import {TradingService} from './trading.service';
 import {MarketService} from '../markets/market.service';
-import {DashboardDataService} from '../../dashboard-data.service';
+import {DashboardService} from '../../dashboard.service';
 import {BreakpointService} from 'app/services/breakpoint.service';
 import {OrderBookService} from '../order-book/order-book.service';
 import {CurrencyPipe} from 'app/shared/pipes/currency.pipe';
@@ -70,7 +70,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     public breakPointService: BreakpointService,
     public tradingService: TradingService,
     public marketService: MarketService,
-    private dashboardDataService: DashboardDataService,
+    private dashboardService: DashboardService,
     private orderBookService: OrderBookService,
     // private currencyUsdPipe: CurrencyPipe
   ) {
@@ -113,7 +113,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         // this.setPriceInValue(res.rateHigh);
       });
 
-    this.dashboardDataService.selectedOrderTrading$
+    this.dashboardService.selectedOrderTrading$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(order => {
         this.orderFromOrderBook(order);

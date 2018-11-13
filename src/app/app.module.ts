@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {LOCALE_ID, NgModule} from '@angular/core';
+import {StoreModule} from '@ngrx/store';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import {DropdownDirective} from './directives/dropdown.directive';
 import {AuthGuard} from './services/auth.guard';
 import {AuthService} from './services/auth.service';
 import {FooterComponent} from './footer/footer.component';
@@ -54,13 +54,14 @@ import { BalanceComponent } from './balance/balance.component';
 import { LoginPopupMobileComponent } from './popups/login-popup-mobile/login-popup-mobile.component';
 import { RegistrationMobilePopupComponent } from './popups/registration-mobile-popup/registration-mobile-popup.component';
 import {CurrencyPipe} from './shared/pipes/currency.pipe';
+import {CoreModule} from './core/core.module';
+import {reducers} from './core/reducers/index';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    DropdownDirective,
     FooterComponent,
     TwoFactorPopupComponent,
 
@@ -93,6 +94,8 @@ import {CurrencyPipe} from './shared/pipes/currency.pipe';
 
   ],
   imports: [
+    StoreModule.forRoot(reducers),
+    CoreModule,
     AppRoutingModule,
     BrowserModule,
     DashboardModule,
