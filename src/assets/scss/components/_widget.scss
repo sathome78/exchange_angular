@@ -10,7 +10,7 @@
     position: relative;
     display: none;
     height: 29px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
     &--mob {
@@ -429,8 +429,11 @@
     left: 50%;
     transform: translate(-50%,0);
     font-size: 14px;
-    height: 41px;
-    line-height: 41px;
+    height: 40px;
+    line-height: 40px;
+    .btn__icon{
+      margin-right: 6px;
+    }
   }
   &__send-input {
     display: block;
@@ -638,7 +641,7 @@
       position: relative;
       overflow-x: hidden;
       overflow-y: auto;
-      height: calc(100% - 45px);
+      height: calc(100% - 41px);
       &--mob {
         display: none;
       }
@@ -728,7 +731,7 @@
       border-radius: 4px;
     }
     &__chat-btn{
-      bottom: 24px;
+      bottom: 16px;
     }
     &__input-img {
       &--hide-mob {
