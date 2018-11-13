@@ -20,6 +20,7 @@
     color: #000;
     font-weight: 600;
     display: table-cell;
+    white-space: nowrap;
     &--tal {
       text-align: left;
     }
@@ -124,6 +125,7 @@
     padding: 8px 10px;
     vertical-align: middle;
     display: table-cell;
+    white-space: nowrap;
     &--tal {
       text-align: left;
     }
