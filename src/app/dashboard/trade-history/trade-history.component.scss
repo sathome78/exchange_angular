@@ -76,6 +76,9 @@
 
 @media (min-width: 1200px){
   .widget{
+    &__header{
+      background-color: transparent;
+    }
     &__table{
       td,th{
         &:first-of-type{

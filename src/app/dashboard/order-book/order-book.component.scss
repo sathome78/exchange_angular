@@ -19,6 +19,34 @@
   .table__cell-head{
     padding: 5px 10px;
   }
+  .order-book__controls{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 4px;
+    .plus, .minus{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 21px;
+      height: 21px;
+      border: 1px solid $grey;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      color:$grey;
+      svg{
+        fill:$grey;
+      }
+    }
+    span{
+      color:$grey;
+      margin: 0 20px;
+    }
+  }
+  .widget__content{
+    height: auto;
+  }
 }
 
 .items {
@@ -120,19 +148,29 @@
   }
 
   .red {
-    background-color: rgba(235, 87, 87, 0.4);
-    border-left: 1px solid #f44242;
+    //background-color: rgba(235, 87, 87, 0.4);
+    background: -moz-linear-gradient(right, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+    background: -webkit-linear-gradient(right, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+    background: -o-linear-gradient(right, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+    background: -ms-linear-gradient(right, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+    background: linear-gradient(to right, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
+    border-left: 1px solid rgba(235,87,87,.7);
     &:last-child {
-      border-bottom: 1px solid #f44242;
+      border-bottom: 1px solid rgba(235,87,87,.7);
     }
   }
 
 
   .green {
-    background: rgba(0, 180, 61, 0.4) !important;
-    border-left: 1px solid #00B43D;
+    //background: rgba(0, 180, 61, 0.4) !important;
+    background: -moz-linear-gradient(right, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+    background: -webkit-linear-gradient(right, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+    background: -o-linear-gradient(right, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+    background: -ms-linear-gradient(right, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+    background: linear-gradient(to right, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
+    border-left: 1px solid rgba(0,180,61,.7);
     &:first-child {
-      border-top: #00B43D;
+      border-top: rgba(0,180,61,.7);
     }
   }
 }
@@ -156,6 +194,7 @@
     z-index: 100;
     .order, .info, .price, .total {
       border-bottom: none;
+      white-space: nowrap;
       span {
         line-height: 16px;
       }
@@ -163,6 +202,7 @@
   }
   .order, .info, .price, .total {
     border-bottom: 1px dashed transparent;
+    white-space: nowrap;
     span {
       line-height: 19px;
     }
@@ -176,7 +216,7 @@
   }
 
   .info {
-    width: 27%;
+    width: 25%;
     max-width: 100%;
     span {
       padding-left: 5px;
@@ -185,7 +225,7 @@
   }
 
   .price {
-    width: 25%;
+    width: 27%;
     max-width: 100%;
     padding-left: 4px;
     padding-right: 4px;
