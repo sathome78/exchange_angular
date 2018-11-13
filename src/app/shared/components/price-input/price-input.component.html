@@ -1,0 +1,14 @@
+<input appOnlyNumbers
+       class="wrap-input__input"
+       [(ngModel)]='value'
+       [class.dirty]="price.dirty"
+       type="text"
+       #price="ngModel"
+       name="price"
+       required
+       #inputEl
+       (input)="onInput($event)"
+       (blur)="onBlur($event)"
+       (focus)="onFocus()"
+      >
+<label class="wrap-input__label" for="">{{placeholder}}</label>
