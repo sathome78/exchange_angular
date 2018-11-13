@@ -42,8 +42,6 @@
   /*--- elements end ---*/
 }
 /*--- media start ---*/
-@media (min-width:600px) {}
-@media (min-width:900px) {}
 @media (min-width:1200px) {
   .orders{
     display: block;
@@ -163,9 +161,9 @@
   .orders{
     &__filter-btn{
       margin-left: auto;
-      color: #fff;
+      color: $light-blue;
       svg{
-        fill: #fff;
+        fill: $light-blue;
       }
     }
     &__type-buy{
