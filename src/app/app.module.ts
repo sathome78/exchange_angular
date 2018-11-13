@@ -53,6 +53,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { BalanceComponent } from './balance/balance.component';
 import { LoginPopupMobileComponent } from './popups/login-popup-mobile/login-popup-mobile.component';
 import { RegistrationMobilePopupComponent } from './popups/registration-mobile-popup/registration-mobile-popup.component';
+import {CurrencyPipe} from './shared/pipes/currency.pipe';
 
 
 @NgModule({

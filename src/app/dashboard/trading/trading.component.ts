@@ -9,6 +9,8 @@ import {DashboardDataService} from '../dashboard-data.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 import {BreakpointService} from '../../services/breakpoint.service';
+import {OrderBookService} from '../order-book/order-book.service';
+import {CurrencyPipe} from '../../shared/pipes/currency.pipe';
 
 @Component({
   selector: 'app-trading',
@@ -24,7 +26,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dropdown limit data */
-  public limitsData = ['LIMIT', 'STOP_LIMIT', 'ICO'];
+  public limitsData = ['LIMIT', 'MARKET_PRICE', 'STOP_LIMIT', 'ICO'];
   /** selected limit */
   public dropdownLimitValue = this.limitsData[0];
   /** form for limit-order */
@@ -42,6 +44,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public message = '';
   public currencyPairInfo;
   public order;
+  public lastSellOrder;
 
   public defaultOrder: Order = {
     orderType: this.mainTab,
@@ -68,6 +71,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     public tradingService: TradingService,
     public marketService: MarketService,
     private dashboardDataService: DashboardDataService,
+    private orderBookService: OrderBookService,
+    // private currencyUsdPipe: CurrencyPipe
   ) {
     super();
   }
@@ -86,9 +91,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.splitPairName();
         this.getCommissionIndex();
         const balanceSub = this.marketService.userBalanceInfo(pair.currencyPairId).subscribe(data => {
-          if (data.balanceByCurrency1) {
-            this.userBalance = data.balanceByCurrency1;
-          } else {
+          this.userBalance = data.balanceByCurrency1 ? data.balanceByCurrency1 : 0
+          if (this.userBalance < 0) {
             this.userBalance = 0;
           }
           balanceSub.unsubscribe();
@@ -96,13 +100,17 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       });
 
     this.marketService.userBalanceListener$.subscribe(res => {
-      this.userBalance = res.balanceByCurrency1;
+      this.userBalance = res.balanceByCurrency1 ? res.balanceByCurrency1 : 0
+      if (this.userBalance < 0) {
+        this.userBalance = 0;
+      }
     });
 
       this.marketService.currencyPairsInfo$.subscribe(res => {
-        this.order.rate = res.rate;
+        // this.order.rate = res.rate;
         this.currencyPairInfo = res;
-        this.setPriceInValue(res.rate);
+        // console.log(res)
+        // this.setPriceInValue(res.rateHigh);
       });
 
     this.dashboardDataService.selectedOrderTrading$
@@ -110,6 +118,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe(order => {
         this.orderFromOrderBook(order);
       });
+
+    this.orderBookService.lastOrderListener$.subscribe(res => {
+      this.lastSellOrder = res;
+    });
 
   }
 
@@ -162,6 +174,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       case 'LIMIT': {
         return 'Limit order';
       }
+      case 'MARKET_PRICE': {
+        return 'Market price';
+      }
       case 'STOP_LIMIT': {
         return 'Stop limit';
       }
@@ -184,6 +199,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   selectedLimit(limit: string): void {
     this.dropdownLimitValue = limit;
+    if (limit === 'MARKET_PRICE') {
+      if (this.lastSellOrder) {
+        this.order.rate = this.lastSellOrder.exrate ? this.lastSellOrder.exrate : 0;
+        this.setPriceInValue(this.lastSellOrder.exrate ? this.lastSellOrder.exrate : 0);
+        this.getCommission();
+      }
+    }
     this.toggleLimitDropdown();
   }
 
@@ -247,6 +269,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param value
    */
   setQuantityValue(value): void {
+    value = typeof value === 'string' ? value : value.toString();
     this.stopForm.controls['quantityOf'].setValue(value);
     this.limitForm.controls['quantityOf'].setValue(value);
   }
@@ -256,6 +279,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param value
    */
   setPriceInValue(value): void {
+    value = typeof value === 'string' ? value : value.toString();
     this.stopForm.controls['limit'].setValue(value);
     this.limitForm.controls['priceIn'].setValue(value);
   }
@@ -265,6 +289,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param value
    */
   setTotalInValue(value): void {
+    value = typeof value === 'string' ? value : value.toString();
     this.stopForm.controls['totalIn'].setValue(value);
     this.limitForm.controls['totalIn'].setValue(value);
   }
@@ -290,6 +315,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param order
    */
   orderFromOrderBook(order): void {
+    this.dropdownLimitValue = this.limitsData[0];
     this.order.orderId = order.id;
     this.order.amount = order.amountConvert;
     this.setQuantityValue(this.order.amount);
@@ -305,18 +331,21 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on click submit button
    */
   onSubmit(): void {
-    window.open('https://exrates.me/dashboard', '_blank');
-    // if ( (this.stopForm.valid && this.orderStop && this.dropdownLimitValue === 'STOP_LIMIT') ||
-    //   (this.limitForm.valid && this.dropdownLimitValue === 'LIMIT' || this.dropdownLimitValue === 'ICO')) {
-    //
-    //   this.order.currencyPairId = this.currentPair.currencyPairId;
-    //   this.order.baseType = this.dropdownLimitValue;
-    //   this.order.orderType = this.mainTab;
-    //   if (this.dropdownLimitValue === 'STOP_LIMIT') {
-    //     this.order.stop = this.orderStop;
-    //   }
-    //   this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
-    // }
+    // window.open('https://exrates.me/dashboard', '_blank');
+
+
+    if ( (this.stopForm.valid && this.orderStop && this.dropdownLimitValue === 'STOP_LIMIT') ||
+      (this.limitForm.valid && this.dropdownLimitValue === 'LIMIT' || this.dropdownLimitValue === 'ICO' || this.dropdownLimitValue === 'MARKET_PRICE')) {
+
+      this.order.currencyPairId = this.currentPair.currencyPairId;
+      this.order.baseType = this.dropdownLimitValue;
+      this.order.orderType = this.mainTab;
+      if (this.dropdownLimitValue === 'STOP_LIMIT') {
+        this.order.stop = this.orderStop;
+      }
+      // this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
+      console.log(this.order);
+    }
   }
 
   /**

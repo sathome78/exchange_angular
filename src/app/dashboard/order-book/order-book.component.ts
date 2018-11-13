@@ -20,7 +20,7 @@ import { renderDetachView } from '@angular/core/src/view/view_attach';
 export class OrderBookComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   /** dashboard item name (field for base class)*/
   public itemName: string;
-  public lastOrder;
+  public lastOrder = {exrate: null, amountBase: null};
   public lastOrderUp = true;
   public currencyPairInfo;
 
@@ -500,7 +500,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       this.currencyPairInfo = res;
       console.log(res)
       if (!this.lastOrder) {
-        this.lastOrder = {};
+        this.lastOrder = {exrate: null, amountBase: null};
         this.lastOrder.exrate = this.currencyPairInfo.volume24h;
         this.lastOrder.amountBase = this.currencyPairInfo.lastCurrencyRate;
       }
@@ -637,6 +637,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.lastOrderUp = tempData[tempData.length - 1].exrate > this.lastOrder.exrate;
       }
       this.lastOrder = {...tempData[tempData.length - 1]};
+      this.orderBookService.lastOrderListener$.next({...tempData[tempData.length - 1]});
     }
   }
 

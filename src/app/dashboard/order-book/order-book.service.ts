@@ -13,6 +13,7 @@ export class OrderBookService {
 
   buyOrdersListener: Subject<OrderItem[]>;
   sellOrdersListener: Subject<OrderItem[]>;
+  lastOrderListener$: Subject<OrderItem>;
 
   private buyOrdersSubscription: any;
   private sellOrdersSubscription: any;
@@ -23,6 +24,7 @@ export class OrderBookService {
               private http: HttpClient) {
     this.sellOrdersListener = new Subject<OrderItem[]>();
     this.buyOrdersListener = new Subject<OrderItem[]>();
+    this.lastOrderListener$ = new Subject<OrderItem>();
   }
 
   subscribeStompOrders(pair: CurrencyPair) {
