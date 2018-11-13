@@ -1,7 +1,7 @@
 <div class="widget widget--gradient">
   <!--<div class="order-book-bg order-book-bg&#45;&#45;green" [ngClass]="{'show': isBuy}"></div>-->
   <!--<div class="order-book-bg order-book-bg&#45;&#45;red" [ngClass]="{'show': !isBuy}"></div>-->
-  <div class="order-book-bg order-book-bg--main" [ngClass]="{'show': !isBuy}"></div>
+  <div class="order-book-bg order-book-bg--main" #mainContent [ngClass]="{'show': !isBuy}"></div>
   <div class="widget__header panel-heading">
     <span class="widget__name">Order book</span>
     <a href="#" class="widget__question">
@@ -52,15 +52,19 @@
       <div class="items items--sell">
 
         <div class="visualization">
-          <div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)"></div>
+          <ng-container *ngFor="let item of dataForSell; let i = index">
+            <div class="visual-item" [ngClass]="'red'" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, false) + '%'">
+              <div class="border-container" *ngIf="i < 8 && withForChartLineElements && withForChartLineElements.sell.length">
+                <div class="border-border sell" [style.width]="withForChartLineElements.sell[i]">
+                </div>
+              </div>
+            </div>
+          </ng-container>
         </div>
-        <!--<div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)"-->
-            <!--[style.height]="(elementHeight/dataForSell.length) + 'px'"></div>-->
-        <!--</div>-->
         <div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
-              {{item.amountBase | number:'1.1-8'}}
+              {{item.amountBase | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
@@ -71,108 +75,123 @@
 
           <div class="price">
             <span>
-              {{item.exrate | number:'1.1-8'}}
+              {{item.exrate | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="total">
             <span>
-              {{item.amountConvert | number:'1.1-8'}}
+              {{item.amountConvert | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
         </div>
+        <!--<div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, false)"-->
+        <!--[style.height]="(elementHeight/dataForSell.length) + 'px'"></div>-->
+        <!--</div>-->
         <!--<div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item)">-->
-          <!--<div class="order" [style.lineHeight]="(elementHeight/dataForSell.length) + 'px'" [style.height]="(elementHeight/dataForSell.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.amountBase | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="order" [style.lineHeight]="(elementHeight/dataForSell.length) + 'px'" [style.height]="(elementHeight/dataForSell.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.amountBase | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
-          <!--<div class="info" [style.lineHeight]="(elementHeight/dataForSell.length) + 'px'" [style.height]="(elementHeight/dataForSell.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.exrate | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="info" [style.lineHeight]="(elementHeight/dataForSell.length) + 'px'" [style.height]="(elementHeight/dataForSell.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.exrate | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
-          <!--<div class="price" [style.lineHeight]="(elementHeight/dataForSell.length) + 'px'" [style.height]="(elementHeight/dataForSell.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.exrate | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="price" [style.lineHeight]="(elementHeight/dataForSell.length) + 'px'" [style.height]="(elementHeight/dataForSell.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.exrate | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
-          <!--<div class="total" [style.lineHeight]="(elementHeight/dataForSell.length) + 'px'" [style.height]="(elementHeight/dataForSell.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.amountConvert | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="total" [style.lineHeight]="(elementHeight/dataForSell.length) + 'px'" [style.height]="(elementHeight/dataForSell.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.amountConvert | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
         <!--</div>-->
       </div>
       <div class="separator" *ngIf="lastOrder">
-        <span *ngIf="maxExrate" [ngClass]="{'color-red': !lastOrderUp, 'color-green': lastOrderUp}">{{lastOrder.exrate | number:'1.1-8'}}</span>
+        <span *ngIf="maxExrate" [ngClass]="{'color-red': !lastOrderUp, 'color-green': lastOrderUp}">{{!lastOrder.exrate ? 0 : lastOrder.exrate
+          | number:'1.1-8' | replaceNumber}}</span>
         <img *ngIf="lastOrderUp" class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="">
         <img *ngIf="!lastOrderUp" class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="">
         <div class="hr"></div>
-        <span *ngIf="minExrate">{{lastOrder.amountBase | number:'1.1-8'}}</span>
+        <span *ngIf="minExrate">{{!lastOrder.amountBase ? 0 :lastOrder.amountBase | number:'1.1-8' | replaceNumber}}</span>
       </div>
-      <div class="items items--buy">
+      <div class="items items--buy" style="padding-top: 20px;">
 
-        <div class="visualization">
-          <div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)"></div>
-          <!--<div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)"-->
-               <!--[style.height]="(200/dataBurBuy.length) + 'px'"></div>-->
+        <div class="visualization" style="margin-top: 20px;">
+          <ng-container *ngFor="let item of dataBurBuy; let i = index">
+            <div class="visual-item" [ngClass]="'green'" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, true) + '%'">
+              <div class="border-container" *ngIf="i > 0 && withForChartLineElements && withForChartLineElements.buy.length">
+                <div class="border-border buy" [style.width]="withForChartLineElements.buy[i-1]">
+
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <!--<div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, true)"-->
+          <!--[style.height]="(200/dataBurBuy.length) + 'px'"></div>-->
         </div>
+
         <div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item)">
           <div class="order">
             <span>
-              {{item.amountBase | number:'1.1-8'}}
+              {{item.amountBase | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="info">
             <!--<span>-->
-              <!--{{item.exrate | number:'1.1-8'}}-->
+            <!--{{item.exrate | number:'1.1-8'}}-->
             <!--</span>-->
           </div>
 
           <div class="price">
             <span>
-              {{item.exrate | number:'1.1-8'}}
+              {{item.exrate | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="total">
             <span>
-              {{item.amountConvert | number:'1.1-8'}}
+              {{item.amountConvert | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
         </div>
+
         <!--<div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item)">-->
-          <!--<div class="order" [style.lineHeight]="(elementHeight/dataBurBuy.length) + 'px'" [style.height]="(elementHeight/dataBurBuy.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.amountBase | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="order" [style.lineHeight]="(elementHeight/dataBurBuy.length) + 'px'" [style.height]="(elementHeight/dataBurBuy.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.amountBase | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
-          <!--<div class="info" [style.lineHeight]="(elementHeight/dataBurBuy.length) + 'px'" [style.height]="(elementHeight/dataBurBuy.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.exrate | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="info" [style.lineHeight]="(elementHeight/dataBurBuy.length) + 'px'" [style.height]="(elementHeight/dataBurBuy.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.exrate | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
-          <!--<div class="price" [style.lineHeight]="(elementHeight/dataBurBuy.length) + 'px'" [style.height]="(elementHeight/dataBurBuy.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.exrate | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="price" [style.lineHeight]="(elementHeight/dataBurBuy.length) + 'px'" [style.height]="(elementHeight/dataBurBuy.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.exrate | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
-          <!--<div class="total" [style.lineHeight]="(elementHeight/dataBurBuy.length) + 'px'" [style.height]="(elementHeight/dataBurBuy.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.amountConvert | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="total" [style.lineHeight]="(elementHeight/dataBurBuy.length) + 'px'" [style.height]="(elementHeight/dataBurBuy.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.amountConvert | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
         <!--</div>-->
       </div>
@@ -205,62 +224,68 @@
       <div class="items mobile">
 
         <div class="visualization">
-          <div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)">
-          </div>
-          <!--<div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheNumber(item.exrate, false)"-->
-            <!--[style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
+          <ng-container *ngFor="let item of dataForSell; let i = index">
+            <div class="visual-item" [ngClass]="'red'" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, false) + '%'">
+              <div class="border-container" *ngIf="i < 8 && withForChartLineElements && withForChartLineElements.sell.length">
+                <div class="border-border sell" [style.width]="withForChartLineElements.sell[i]">
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <!--<div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, false)"-->
+          <!--[style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
           <!--</div>-->
         </div>
         <div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
-              {{item.amountBase | number:'1.1-8'}}
+              {{item.amountBase | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="info">
             <span>
-              {{item.exrate | number:'1.1-8'}}
+              {{item.exrate | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="price">
             <span>
-              {{item.exrate | number:'1.1-8'}}
+              {{item.exrate | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="total">
             <span>
-              {{item.amountConvert | number:'1.1-8'}}
+              {{item.amountConvert | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
         </div>
         <!--<div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item)">-->
-          <!--<div class="order" [style.lineHeight]="(elementHeightMobile/dataForSell.length) + 'px'" [style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.amountBase | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="order" [style.lineHeight]="(elementHeightMobile/dataForSell.length) + 'px'" [style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.amountBase | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
-          <!--<div class="info" [style.lineHeight]="(elementHeightMobile/dataForSell.length) + 'px'" [style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.exrate | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="info" [style.lineHeight]="(elementHeightMobile/dataForSell.length) + 'px'" [style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.exrate | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
-          <!--<div class="price" [style.lineHeight]="(elementHeightMobile/dataForSell.length) + 'px'" [style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.exrate | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="price" [style.lineHeight]="(elementHeightMobile/dataForSell.length) + 'px'" [style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.exrate | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
-          <!--<div class="total" [style.lineHeight]="(elementHeightMobile/dataForSell.length) + 'px'" [style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.amountConvert | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="total" [style.lineHeight]="(elementHeightMobile/dataForSell.length) + 'px'" [style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.amountConvert | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
         <!--</div>-->
       </div>
@@ -272,62 +297,69 @@
       <div class="items mobile">
 
         <div class="visualization">
-          <div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)">
-          </div>
-          <!--<div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheNumber(item.exrate, true)"-->
-            <!--[style.height]="(elementHeightMobile/dataBurBuy.length) + 'px'">-->
+          <ng-container *ngFor="let item of dataBurBuy; let i = index">
+            <div class="visual-item" [ngClass]="'green'" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, true) + '%'">
+              <div class="border-container" *ngIf="i > 0 && withForChartLineElements && withForChartLineElements.buy.length">
+                <div class="border-border buy" [style.width]="withForChartLineElements.buy[i-1]">
+
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <!--<div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, true)"-->
+          <!--[style.height]="(elementHeightMobile/dataBurBuy.length) + 'px'">-->
           <!--</div>-->
         </div>
         <div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
-              {{item.amountBase | number:'1.1-8'}}
+              {{item.amountBase | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="info">
             <span>
-              {{item.exrate | number:'1.1-8'}}
+              {{item.exrate | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="price">
             <span>
-              {{item.exrate | number:'1.1-8'}}
+              {{item.exrate | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
           <div class="total">
             <span>
-              {{item.amountConvert | number:'1.1-8'}}
+              {{item.amountConvert | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
         </div>
         <!--<div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item)">-->
-          <!--<div class="order" [style.lineHeight]="(elementHeightMobile/dataBurBuy.length) + 'px'" [style.height]="(elementHeightMobile/dataBurBuy.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.amountBase | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="order" [style.lineHeight]="(elementHeightMobile/dataBurBuy.length) + 'px'" [style.height]="(elementHeightMobile/dataBurBuy.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.amountBase | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
-          <!--<div class="info" [style.lineHeight]="(elementHeightMobile/dataBurBuy.length) + 'px'" [style.height]="(elementHeightMobile/dataBurBuy.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.exrate | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="info" [style.lineHeight]="(elementHeightMobile/dataBurBuy.length) + 'px'" [style.height]="(elementHeightMobile/dataBurBuy.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.exrate | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
-          <!--<div class="price" [style.lineHeight]="(elementHeightMobile/dataBurBuy.length) + 'px'" [style.height]="(elementHeightMobile/dataBurBuy.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.exrate | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="price" [style.lineHeight]="(elementHeightMobile/dataBurBuy.length) + 'px'" [style.height]="(elementHeightMobile/dataBurBuy.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.exrate | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
-          <!--<div class="total" [style.lineHeight]="(elementHeightMobile/dataBurBuy.length) + 'px'" [style.height]="(elementHeightMobile/dataBurBuy.length) + 'px'">-->
-            <!--<span>-->
-              <!--{{item.amountConvert | number:'1.1-8'}}-->
-            <!--</span>-->
-          <!--</div>-->
+        <!--<div class="total" [style.lineHeight]="(elementHeightMobile/dataBurBuy.length) + 'px'" [style.height]="(elementHeightMobile/dataBurBuy.length) + 'px'">-->
+        <!--<span>-->
+        <!--{{item.amountConvert | number:'1.1-8'}}-->
+        <!--</span>-->
+        <!--</div>-->
 
         <!--</div>-->
       </div>

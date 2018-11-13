@@ -94,10 +94,12 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
 
   formattingCurrentPairName(currentPair: string): void {
     /** search slash position */
-    let index: number;
-    index = currentPair.match(/\+|-|\/|\*/).index;
+    if (currentPair) {
+      let index: number;
+      index = currentPair.match(/\+|-|\/|\*/).index;
 
-    this.firstCurrency = currentPair.slice(0, index);
-    this.secondCurrency = currentPair.slice(index + 1);
+      this.firstCurrency = currentPair.slice(0, index);
+      this.secondCurrency = currentPair.slice(index + 1);
+    }
   }
 }

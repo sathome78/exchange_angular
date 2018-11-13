@@ -296,6 +296,11 @@
         fill:#E5E5E5;
       }
     }
+    .table__row-star--select{
+      svg {
+        fill: #FFB74C;
+      }
+    }
   }
   //chat start
   &__chat-wrap {
@@ -613,7 +618,7 @@
     border-radius: 4px;
     padding-bottom: 8px;
     height: 100%;
-    
+
     &--gradient {
       background: linear-gradient(to bottom, #F5F5F5 0%, #FDFDFD 50%, #F5F5F5 100%);
     }
@@ -969,6 +974,11 @@
           fill:#4A5D88;
         }
       }
+      .table__row-star--select{
+        svg {
+          fill: #FFB74C;
+        }
+      }
     }
     &__markets-tabs{
       background-color: #21417D;
@@ -1076,6 +1086,10 @@
       }
     }
   }
+}
+
+.panel-heading{
+  cursor: pointer;
 }
 
 /*--- DARK THEME END---*/

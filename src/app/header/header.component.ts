@@ -16,6 +16,7 @@ import {DashboardDataService} from '../dashboard/dashboard-data.service';
 export class HeaderComponent implements OnInit {
 
   public isMobileMenuOpen = false;
+  public mobileView = 'markets';
 
   constructor(private popupService: PopupService,
               private authService: AuthService,
@@ -82,6 +83,7 @@ export class HeaderComponent implements OnInit {
   }
 
   setMobileWidget(widget: string) {
+    this.mobileView = widget;
     this.dashboardService.activeMobileWidget.next(widget);
   }
 }

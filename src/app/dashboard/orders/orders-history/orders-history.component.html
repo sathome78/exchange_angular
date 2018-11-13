@@ -69,16 +69,16 @@
       <!--<span class="orders__type-sell">Sell <span>(Limit)</span></span>-->
     </td>
     <td class="table__cell">
-      <span>{{item.exExchangeRate}} USD</span>
+      <span>{{item.exExchangeRate | replaceNumber}} USD</span>
     </td>
     <td class="table__cell">
-      <span>{{item.amountConvert}} BTC</span>
+      <span>{{item.amountConvert | replaceNumber}} BTC</span>
     </td>
     <td class="table__cell txt-grey">
-      <span>{{item.commissionValue}}%</span>
+      <span>{{item.commissionValue | replaceNumber}}%</span>
     </td>
     <td class="table__cell">
-      <span>{{item.amountWithCommission}} USD</span>
+      <span>{{item.amountWithCommission | replaceNumber}} USD</span>
     </td>
     <td class="table__cell">
       <span>{{item.status}}</span>

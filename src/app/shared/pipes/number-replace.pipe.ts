@@ -5,11 +5,16 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class ReplaceNumberPipe implements PipeTransform {
 
-  transform(value: number | string ): string {
-    const replaceMask = ' ';
-    const searchMask = ',';
-    const regex = new RegExp(searchMask, 'ig');
 
-    return value.toString().replace(regex, replaceMask);
+
+  transform(value: number | string ): string {
+    if (value) {
+      const replaceMask = ' ';
+      const searchMask = ',';
+      const regex = new RegExp(searchMask, 'ig');
+
+      return value.toString().replace(regex, replaceMask);
+    }
+    return '';
   }
 }
