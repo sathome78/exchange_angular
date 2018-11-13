@@ -19,22 +19,32 @@
   .table__cell-head{
     padding: 5px 10px;
   }
+  .order-book__controls-wrap{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
   .order-book__controls{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 4px;
+    height: 30px;
     .plus, .minus{
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 21px;
-      height: 21px;
+      width: 20px;
+      height: 20px;
       border: 1px solid $grey;
       -webkit-border-radius: 50%;
       -moz-border-radius: 50%;
       border-radius: 50%;
       color:$grey;
+      &:hover{
+        cursor: pointer;
+      }
       svg{
         fill:$grey;
       }
@@ -45,13 +55,18 @@
     }
   }
   .widget__content{
-    height: auto;
+    height: calc(100% - 33px);
+  }
+  .order-table{
+    padding-bottom: 30px;
   }
 }
 
 .items {
-  min-height: 200px;
-  max-height: 200px;
+  //min-height: 190px;
+  //max-height: 190px;
+  //height: 190px;
+  height: calc(50% - 32px);
   overflow: auto;
   position: relative;
   z-index: 100;
@@ -92,8 +107,8 @@
 }
 
 .items.mobile {
-  min-height: calc(50% - 23px);
-  max-height: calc(50% - 23px);
+  //min-height: calc(50% - 23px);
+  //max-height: calc(50% - 23px);
 }
 
 .currency-pair-info__arr-up,.currency-pair-info__arr-down{
@@ -121,7 +136,7 @@
   .visual-item {
     max-width: 100%;
     margin-left: auto;
-    height: calc(100% / 10);
+    height: calc(100% / 8);
     display: flex; 
     //opacity: 0.5;
   }
@@ -138,12 +153,12 @@
     left: 0;
     height: 1px;
     &.buy {
-      background-color: #00B43D;
+      background-color: rgba(0,180,61,.7);
       top: 0;
     }
     &.sell {
       bottom: 0;
-      background-color: #f44242;
+      background-color: rgba(235,87,87,.7);
     }
   }
 
@@ -179,7 +194,7 @@
   flex-wrap: nowrap;
   position: relative;
   z-index: 100;
-  height: calc(100% / 10);
+  height: calc(100% / 8);
 }
 .order-table {
   position: relative;
@@ -201,7 +216,7 @@
     }
   }
   .order, .info, .price, .total {
-    border-bottom: 1px dashed transparent;
+    //border-bottom: 1px dashed transparent;
     white-space: nowrap;
     span {
       line-height: 19px;
@@ -213,6 +228,7 @@
     max-width: 100%;
     padding-left: 4px;
     padding-right: 4px;
+    color: #959BA5;
   }
 
   .info {
@@ -253,14 +269,16 @@
 }
 
 .separator {
-  height: 22px;
+  //height: 26px;
+  margin: 2px 0;
   position: relative;
   .hr {
     max-width: 75%;
     width: 75%;
     margin-left: 25%;
+    margin: 2px 0 2px 25%;
     position: relative;
-    top: -3px;
+    //top: -3px;
     border-bottom: 1px solid #779BD1;
   }
   span {
@@ -268,13 +286,6 @@
     position: relative;
     z-index: 1001;
   }
-  span:first-child {
-    bottom: 5px;
-  }
-}
-
-.mobile {
-  height: 100%;
 }
 
 :host {

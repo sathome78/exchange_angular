@@ -655,7 +655,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   }
 
-  private getBestitems(isBuy: boolean, count: number = 9) {
+  private getBestitems(isBuy: boolean, count: number = 8) {
     this.dataBurBuy = this.buyOrders.slice(0, count);
     this.dataForSell = this.sellOrders.slice(0, count);
 
