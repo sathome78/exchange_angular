@@ -234,7 +234,7 @@
             Order type
           </span>
           <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
-               (mouseenter)="isDropdownOpen = true" (mouseleave)="isDropdownOpen = false">
+               (click)="isDropdownOpen = true">
             <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
             <ul class="dropdown__list">
               <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
@@ -252,7 +252,7 @@
         </span>
           <span style="vertical-align: middle;">Avaliable: </span>
         </span>
-          <a href="#">{{ (marketService.currencyPairsInfo$ | async).balanceByCurrency1 }} {{arrPairName[0]}}</a>
+          <a href="#">{{ userBalance  | number:'1.1-8' | replaceNumber}} {{arrPairName[0]}}</a>
         </div>
       </div>
       <div class="row widget__percent-row">
@@ -339,7 +339,7 @@
             Order type
           </span>
           <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
-               (mouseenter)="isDropdownOpen = true" (mouseleave)="isDropdownOpen = false">
+               (click)="isDropdownOpen = true" >
             <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
             <ul class="dropdown__list">
               <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
