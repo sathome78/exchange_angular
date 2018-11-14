@@ -63,6 +63,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     this.marketService.activeCurrencyListener
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(pair => {
+        console.log(pair)
         const infoSub = this.marketService.currencyPairInfo(pair.currencyPairId)
           .subscribe(res => {
             console.log(res)
@@ -111,6 +112,14 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   openSearchBar(currencyOrder: number): void {
     this.activeCurrency = currencyOrder;
     this.toggleCurrencySearch();
+  }
+
+  flarForArrow(s: string) {
+    if (s === 'up') {
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate > 0 :  false;
+    } else {
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate < 0 : false;
+    }
   }
 
   /**

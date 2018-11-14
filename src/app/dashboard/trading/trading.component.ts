@@ -61,9 +61,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   @HostListener('document:click', ['$event']) clickout($event) {
     this.notifyFail = false;
     this.notifySuccess = false;
-    // if ($event.target.className !== 'dropdown__btn') {
-    //   this.isDropdownOpen = false;
-    // }
+    if ($event.target.className !== 'dropdown__btn') {
+      this.isDropdownOpen = false;
+    }
   }
 
   constructor(
@@ -200,13 +200,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   selectedLimit(limit: string): void {
     this.dropdownLimitValue = limit;
     if (limit === 'MARKET_PRICE') {
-      if (this.lastSellOrder) {
-        this.order.rate = this.lastSellOrder.exrate ? this.lastSellOrder.exrate : 0;
-        this.setPriceInValue(this.lastSellOrder.exrate ? this.lastSellOrder.exrate : 0);
+      // if (this.lastSellOrder) {
+        this.order.rate = this.lastSellOrder ? this.lastSellOrder.exrate : 0;
+        this.setPriceInValue(this.lastSellOrder ? this.lastSellOrder.exrate : 0);
         this.getCommission();
-      }
+      // }
     }
-    this.toggleLimitDropdown();
+    this.isDropdownOpen = false;
   }
 
   /**
@@ -226,9 +226,20 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param e
    */
   quantityIput(e): void {
-    this.order.amount = e.target.value;
+    this.order.amount = parseFloat(this.deleteSpace(e.target.value.toString()));
     this.setQuantityValue(e.target.value);
     this.getCommission();
+  }
+
+  deleteSpace(value) {
+    if (value) {
+      const replaceMask = '';
+      const searchMask = ' ';
+      const regex = new RegExp(searchMask, 'ig');
+
+      return value.toString().replace(regex, replaceMask);
+    }
+    return '';
   }
 
   /**
@@ -236,7 +247,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param e
    */
    rateInput(e): void {
-       this.order.rate = e.target.value;
+       this.order.rate = parseFloat(this.deleteSpace(e.target.value.toString()));
        this.getCommission();
    }
 
@@ -244,7 +255,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
      this.orderStop = e.target.value;
   }
    totalInput(e): void {
-     this.order.total = e.target.value;
+     this.order.total = parseFloat(this.deleteSpace(e.target.value.toString()));
      if (this.order.total > this.userBalance) {
        this.order.total = this.userBalance;
        this.setTotalInValue(this.userBalance);
@@ -331,21 +342,20 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on click submit button
    */
   onSubmit(): void {
-    // window.open('https://exrates.me/dashboard', '_blank');
+    window.open('https://exrates.me/dashboard', '_blank');
 
 
-    if ( (this.stopForm.valid && this.orderStop && this.dropdownLimitValue === 'STOP_LIMIT') ||
-      (this.limitForm.valid && this.dropdownLimitValue === 'LIMIT' || this.dropdownLimitValue === 'ICO' || this.dropdownLimitValue === 'MARKET_PRICE')) {
-
-      this.order.currencyPairId = this.currentPair.currencyPairId;
-      this.order.baseType = this.dropdownLimitValue;
-      this.order.orderType = this.mainTab;
-      if (this.dropdownLimitValue === 'STOP_LIMIT') {
-        this.order.stop = this.orderStop;
-      }
+    // if ( (this.stopForm.valid && this.orderStop && this.dropdownLimitValue === 'STOP_LIMIT') ||
+    //   (this.limitForm.valid && this.dropdownLimitValue === 'LIMIT' || this.dropdownLimitValue === 'ICO' || this.dropdownLimitValue === 'MARKET_PRICE')) {
+    //
+    //   this.order.currencyPairId = this.currentPair.currencyPairId;
+    //   this.order.baseType = this.dropdownLimitValue;
+    //   this.order.orderType = this.mainTab;
+    //   if (this.dropdownLimitValue === 'STOP_LIMIT') {
+    //     this.order.stop = this.orderStop;
+    //   }
       // this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
-      console.log(this.order);
-    }
+    // }
   }
 
   /**
@@ -413,12 +423,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   private getCommission(): void {
     if (this.order.rate >= 0) {
-      this.order.total = this.order.amount * this.order.rate;
+      this.order.total = parseFloat(this.order.amount) * parseFloat(this.order.rate);
       this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
       let total;
       this.mainTab === 'BUY' ?
-        total = this.order.total + this.order.commission :
-        total = this.order.total - this.order.commission;
+        total = this.order.total + parseFloat(this.order.commission) :
+        total = this.order.total - parseFloat(this.order.commission);
       this.order.total = total;
       this.setTotalInValue(total);
     }

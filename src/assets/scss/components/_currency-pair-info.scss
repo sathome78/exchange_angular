@@ -55,14 +55,14 @@
       background: radial-gradient(circle at 0% 50%, rgba(0, 180, 60, .2) 0%, rgba(0, 180, 60, 0) 100%);
       color: $green;
       .currency-pair-info__arr-down{
-        display: none;
+        //display: none;
       }
     }
     &--down {
       background: radial-gradient(circle at 0% 50%, rgba(235, 87, 87, 0.2) 0%, rgba(235, 87, 87, 0) 100%);
       color: $red;
       .currency-pair-info__arr-up{
-        display: none;
+        //display: none;
       }
     }
   }

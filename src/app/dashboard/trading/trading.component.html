@@ -39,7 +39,9 @@
              (mouseenter)="isDropdownOpen = true" (mouseleave)="isDropdownOpen = false">
           <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
           <ul class="dropdown__list">
-            <li class="dropdown__item" (click)="selectedLimit(limit)" *ngFor="let limit of limitsData">{{showLimit(limit)}}</li>
+            <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
+            <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
+            </ng-template>
           </ul>
         </div>
         <div class="row row-jcsb">
@@ -199,19 +201,21 @@
     <form  [formGroup]="limitForm" class="widget__trading-form--mob" *ngIf="dropdownLimitValue !== 'STOP_LIMIT'">
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input widget__input--mr32">
-          <input class="wrap-input__input" type="text"
-                 formControlName="quantityOf"
-                 (input)="quantityIput($event)"
-                 name="quantityOf">
-          <label class="wrap-input__label" for="" >Quantity of {{arrPairName[0]}}</label>
+          <!--<input class="wrap-input__input" type="text"-->
+                 <!--formControlName="quantityOf"-->
+                 <!--(input)="quantityIput($event)"-->
+                 <!--name="quantityOf">-->
+          <!--<label class="wrap-input__label" for="" >Quantity of {{arrPairName[0]}}</label>-->
+          <app-price-input [placeholder]="'Quantity of ' + arrPairName[0]" (customInput)="quantityIput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
-          <input class="wrap-input__input" type="text"
-                 (input)="rateInput($event)"
-                 formControlName="priceIn"
-                 name="priceIn">
-          <label class="wrap-input__label" for="">Price in {{arrPairName[1]}}</label>
+          <!--<input class="wrap-input__input" type="text"-->
+                 <!--(input)="rateInput($event)"-->
+                 <!--formControlName="priceIn"-->
+                 <!--name="priceIn">-->
+          <!--<label class="wrap-input__label" for="">Price in {{arrPairName[1]}}</label>-->
+          <app-price-input [placeholder]="'Price in ' + arrPairName[1]" (customInput)="rateInput($event)" name="priceIn" formControlName="priceIn"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
       </div>
@@ -230,10 +234,12 @@
             Order type
           </span>
           <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
-               (click)="toggleLimitDropdown()">
+               (click)="isDropdownOpen = true">
             <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
             <ul class="dropdown__list">
-              <li class="dropdown__item" (click)="selectedLimit(limit)" *ngFor="let limit of limitsData">{{showLimit(limit)}}</li>
+              <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
+                <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
+              </ng-template>
             </ul>
           </div>
         </div>
@@ -246,7 +252,7 @@
         </span>
           <span style="vertical-align: middle;">Avaliable: </span>
         </span>
-          <a href="#">{{ (marketService.currencyPairsInfo$ | async).balanceByCurrency1 }} {{arrPairName[0]}}</a>
+          <a href="#">{{ userBalance  | number:'1.1-8' | replaceNumber}} {{arrPairName[0]}}</a>
         </div>
       </div>
       <div class="row widget__percent-row">
@@ -288,10 +294,11 @@
       </div>
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input" style="max-width: 220px; margin: 4px auto;">
-          <input class="wrap-input__input" type="text" formControlName="totalIn"
-                 (input)="totalInput($event)"
-                 name="totalIn">
-          <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
+          <!--<input class="wrap-input__input" type="text" formControlName="totalIn"-->
+                 <!--(input)="totalInput($event)"-->
+                 <!--name="totalIn">-->
+          <!--<label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>-->
+          <app-price-input [placeholder]="'Total in ' + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
       </div>
@@ -301,18 +308,19 @@
     <form class="widget__trading-form--mob" [formGroup]="stopForm" *ngIf="dropdownLimitValue === 'STOP_LIMIT'">
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input widget__input--mr32">
-          <input class="wrap-input__input" type="text"
+          <input class="wrap-input__input" type="number" appOnlyNumbers
                  formControlName="stop"
                  name="stop">
           <label class="wrap-input__label" for="">Stop</label>
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
-          <input class="wrap-input__input" type="text"
-                 (input)="rateInput($event)"
-                 formControlName="limit"
-                 name="limit">
-          <label class="wrap-input__label" for="">Limit</label>
+          <!--<input class="wrap-input__input" type="text"-->
+                 <!--(input)="rateInput($event)"-->
+                 <!--formControlName="limit"-->
+                 <!--name="limit">-->
+          <!--<label class="wrap-input__label" for="">Limit</label>-->
+          <app-price-input [placeholder]="'Limit ' + arrPairName[1]" (customInput)="rateInput($event)" name="limit" formControlName="limit"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
       </div>
@@ -331,10 +339,12 @@
             Order type
           </span>
           <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
-               (click)="toggleLimitDropdown()">
+               (click)="isDropdownOpen = true" >
             <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
             <ul class="dropdown__list">
-              <li class="dropdown__item" (click)="selectedLimit(limit)" *ngFor="let limit of limitsData">{{showLimit(limit)}}</li>
+              <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
+                <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
+              </ng-template>
             </ul>
           </div>
         </div>
@@ -389,29 +399,31 @@
       </div>
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input widget__input--mr32">
-          <input class="wrap-input__input" type="text"
-                 formControlName="quantityOf"
-                 (input)="quantityIput($event)"
-                 name="quantityOf">
-          <label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>
+          <!--<input class="wrap-input__input" type="text"-->
+                 <!--formControlName="quantityOf"-->
+                 <!--(input)="quantityIput($event)"-->
+                 <!--name="quantityOf">-->
+          <!--<label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>-->
+          <app-price-input [placeholder]="'Quantity of ' + arrPairName[0]" (customInput)="quantityIput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
-          <input class="wrap-input__input" type="text"
-                 formControlName="totalIn"
-                 (input)="totalInput($event)"
-                 name="totalIn">
-          <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
+          <!--<input class="wrap-input__input" type="text"-->
+                 <!--formControlName="totalIn"-->
+                 <!--(input)="totalInput($event)"-->
+                 <!--name="totalIn">-->
+          <!--<label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>-->
+          <app-price-input [placeholder]="'Total in ' + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
       </div>
     </form>
 
 
-      <button class="btn btn--active widget__trading-btn" (click)="onSubmit()" >{{mainTab === 'BUY' ? 'Buy' : 'Sell'}} BTC</button>
+      <button class="btn btn--active widget__trading-btn" (click)="onSubmit()" >{{mainTab === 'BUY' ? 'Buy' : 'Sell'}} {{arrPairName[0]}}</button>
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div class="fee">
-          Fee: {{order.commission}} {{arrPairName[0]}}
+          Fee: {{order.commission | number:'1.1-8' | replaceNumber}} {{arrPairName[0]}}
         </div>
       </div>
 
