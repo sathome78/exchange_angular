@@ -45,6 +45,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public currencyPairInfo;
   public order;
   public lastSellOrder;
+  public lastSellBuyOrder;
 
   public defaultOrder: Order = {
     orderType: this.mainTab,
@@ -88,6 +89,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(pair => {
         this.currentPair = pair;
+
+        this.order = {...this.defaultOrder};
+        this.resetForms();
+
         this.splitPairName();
         this.getCommissionIndex();
         const balanceSub = this.marketService.userBalanceInfo(pair.currencyPairId).subscribe(data => {
@@ -121,6 +126,11 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
     this.orderBookService.lastOrderListener$.subscribe(res => {
       this.lastSellOrder = res;
+    });
+
+    this.dashboardDataService.lastBuySellOrderListener$.subscribe(res => {
+      this.lastSellBuyOrder = res;
+      console.log(this.lastSellBuyOrder);
     });
 
   }
@@ -186,6 +196,20 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     }
   }
 
+  setRateOnSelectTypeOrder() {
+    if (this.mainTab === 'BUY') {
+     const tempData = !this.lastSellBuyOrder[0] ? 0 : this.lastSellBuyOrder[0].exrate;
+      this.order.rate = parseFloat(tempData);
+      this.setPriceInValue(this.order.rate);
+      this.getCommission();
+    } else {
+      const tempData = !this.lastSellBuyOrder[1] ? 0 : this.lastSellBuyOrder[1].exrate;
+      this.order.rate = parseFloat(tempData);
+      this.setPriceInValue(this.order.rate);
+      this.getCommission();
+    }
+  }
+
   /**
    * Toggle limit dropdown
    */
@@ -199,13 +223,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   selectedLimit(limit: string): void {
     this.dropdownLimitValue = limit;
-    if (limit === 'MARKET_PRICE') {
-      // if (this.lastSellOrder) {
-        this.order.rate = this.lastSellOrder ? this.lastSellOrder.exrate : 0;
-        this.setPriceInValue(this.lastSellOrder ? this.lastSellOrder.exrate : 0);
-        this.getCommission();
-      // }
-    }
+    // if (limit === 'MARKET_PRICE') {
+    //   // if (this.lastSellOrder) {
+    //     this.order.rate = this.lastSellOrder ? this.lastSellOrder.exrate : 0;
+    //     this.setPriceInValue(this.lastSellOrder ? this.lastSellOrder.exrate : 0);
+    //     this.getCommission();
+    //   // }
+    // }
+    this.setRateOnSelectTypeOrder()
     this.isDropdownOpen = false;
   }
 
@@ -255,15 +280,21 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
      this.orderStop = e.target.value;
   }
    totalInput(e): void {
+     // this.order.total = parseFloat(this.deleteSpace(e.target.value.toString()));
+     // if (this.order.total > this.userBalance) {
+     //   this.order.total = this.userBalance;
+     //   this.setTotalInValue(this.userBalance);
+     // }
+     //   if (this.order.rate > 0) {
+     //     this.order.amount = this.order.total / this.order.rate;
+     //     this.setQuantityValue(this.order.amount);
+     //   }
+
      this.order.total = parseFloat(this.deleteSpace(e.target.value.toString()));
-     if (this.order.total > this.userBalance) {
-       this.order.total = this.userBalance;
-       this.setTotalInValue(this.userBalance);
-     }
-       if (this.order.rate > 0) {
-         this.order.amount = this.order.total / this.order.rate;
-         this.setQuantityValue(this.order.amount);
-       }
+     // const commission = this.order.total * (this.commissionIndex)
+     // console.log(commission)
+     this.order.rate = this.order.total   / this.order.amount;
+     this.setPriceInValue(this.order.rate);
    }
 
   /**
@@ -290,6 +321,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param value
    */
   setPriceInValue(value): void {
+    // console.log(value)
     value = typeof value === 'string' ? value : value.toString();
     this.stopForm.controls['limit'].setValue(value);
     this.limitForm.controls['priceIn'].setValue(value);
