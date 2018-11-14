@@ -59,6 +59,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   currencySubscription: any;
   orderTypeClass: string;
 
+  public lastSellOrder;
+  public lastBuyOrder;
+
   refreshedIds: number[] = [];
 
   /** stores data for drawing a border for a chart */
@@ -592,14 +595,18 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'SELL') : orders.type === 'SELL'))
       .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
       .subscribe(orders => {
+        console.log(orders)
         this.sellOrders = orders;
+        this.setLastSellOrder(orders);
         this.getLastOrder(orders);
       });
     this.orderBookService.subscribeStompOrders(pair)
       .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'BUY') : orders.type === 'BUY'))
       .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
       .subscribe(orders => {
+        console.log(orders)
         this.buyOrders = orders;
+        this.setLastBuyOrder(orders);
         this.getLastOrder(orders);
         this.setData();
       });
@@ -638,6 +645,40 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       }
       this.lastOrder = {...tempData[tempData.length - 1]};
       this.orderBookService.lastOrderListener$.next({...tempData[tempData.length - 1]});
+    }
+  }
+
+  setLastBuyOrder(orders) {
+    const tempData = this.sortOrders(orders);
+    if (tempData.length) {
+      this.lastBuyOrder = tempData[tempData.length - 1];
+      this.nextLastSellBuyOrders();
+    }
+  }
+
+  setLastSellOrder(orders) {
+    const tempData = this.sortOrders(orders);
+    if (tempData.length) {
+      this.lastSellOrder = tempData[tempData.length - 1];
+      this.nextLastSellBuyOrders();
+    }
+  }
+
+  nextLastSellBuyOrders() {
+    const tempData = [this.lastBuyOrder, this.lastSellOrder];
+    this.dashboardDataService.lastBuySellOrderListener$.next(tempData);
+  }
+
+  sortOrders(orders) {
+    if (orders) {
+      const tempData = orders.sort((a, b) => {
+        const dateA = new Date(a.created).getTime();
+        const dateB = new Date(b.created).getTime();
+        return dateA - dateB;
+      });
+      return tempData;
+    } else {
+      return [];
     }
   }
 

@@ -25,7 +25,7 @@
     [ngClass]="{'currency-pair-info__info--up': flarForArrow('up'),
                 'currency-pair-info__info--down': flarForArrow('down')}">
       <div class="currency-pair-info__change">
-        <span>{{!currentCurrencyInfo || !currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange}}%</span>
+        <span>{{!currentCurrencyInfo || !currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange | number:'1.0-2' | replaceNumber}}%</span>
         <!--<span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{!currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange}}%</span>-->
         <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="" *ngIf="flarForArrow('up')">
         <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="" *ngIf="flarForArrow('down')">
