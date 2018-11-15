@@ -9,6 +9,8 @@ import {LoggingService} from './services/logging.service';
 import {HttpClient} from '@angular/common/http';
 import {NotificationsService} from './shared/components/notification/notifications.service';
 import {NotificationMessage} from './shared/models/notification-message-model';
+import {DashboardWebSocketService} from './dashboard/dashboard-websocket.service';
+import {AuthService} from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +36,9 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private popupService: PopupService,
               private router: Router,
               private themeService: ThemeService,
+              private dashboardWebsocketService: DashboardWebSocketService,
+              private authService: AuthService,
+
               private userService: UserService,
               private logger: LoggingService,
               private http: HttpClient,
@@ -43,6 +48,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
+
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
     this.subscribeForLoginEvent();

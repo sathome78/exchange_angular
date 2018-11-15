@@ -7,7 +7,9 @@ import {MockDataService} from 'app/services/mock-data.service';
 import {OrdersService} from './orders.service';
 import {MarketService} from '../markets/market.service';
 import {AuthService} from 'app/services/auth.service';
-import {CurrencyPair} from '../markets/currency-pair.model';
+import {CurrencyPair} from '../../../model/currency-pair.model';
+import {select, Store} from '@ngrx/store';
+import {State, getCurrencyPair} from 'app/core/reducers/index';
 
 @Component({
   selector: 'app-orders',
@@ -30,6 +32,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
 
 
   constructor(
+    private store: Store<State>,
     private authService: AuthService,
     // private mockData: MockDataService,
     private ordersService: OrdersService,
@@ -48,18 +51,19 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
     // this.activeCurrencyPair = this.mockData.getMarketsData()[2];
     /** ---------------------------------------------- */
 
-    this.marketService.activeCurrencyListener
+    this.store
+      .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.activeCurrencyPair = res;
-        this.toOpenOrders();
-    });
-    if (this.authService.isAuthenticated()) {
-      this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
-      this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
+      .subscribe( (pair: CurrencyPair) => {
+        this.activeCurrencyPair = pair;
         this.toOpenOrders();
       });
-    }
+      if (this.authService.isAuthenticated()) {
+        this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
+        this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
+        this.toOpenOrders();
+        });
+      }
   }
 
   ngOnDestroy() {

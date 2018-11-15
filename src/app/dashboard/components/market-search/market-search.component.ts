@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-import {CurrencyPair} from '../markets/currency-pair.model';
+import {CurrencyPair} from '../../../model/currency-pair.model';
 import {MarketService} from '../markets/market.service';
 
 @Component({

@@ -1,14 +1,16 @@
 import {Component, OnDestroy, OnInit, ChangeDetectorRef} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs/Subject';
+import {Store, select} from '@ngrx/store';
 
-import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {MockDataService} from 'app/services/mock-data.service';
-import {MarketService} from './market.service';
-import {CurrencyPair} from './currency-pair.model';
-import * as _ from 'lodash';
-import {CurrencySortingPipe} from './currency-sorting.pipe';
+import {getCurrencyPairArray, State} from 'app/core/reducers/index';
 import {AuthService} from 'app/services/auth.service';
+import {CurrencyPair} from '../../../model/currency-pair.model';
+import {AbstractDashboardItems} from '../../abstract-dashboard-items';
+import {MarketService} from './market.service';
+import {CurrencySortingPipe} from './currency-sorting.pipe';
+import {ChangeCurrencyPairAction} from '../../actions/dashboard.actions';
+
 
 @Component({
   selector: 'app-markets',
@@ -34,6 +36,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
 
   constructor(
     private marketService: MarketService,
+    private store: Store<State>,
     private authService: AuthService,
     private ref: ChangeDetectorRef) {
     super();
@@ -43,22 +46,11 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.itemName = 'markets';
     this.volumeOrderDirection = 'NONE';
     this.marketService.makeItFast();
-    this.marketService.setStompSubscription(this.authService.isAuthenticated());
-    this.marketService.marketListener$
+    this.store
+      .pipe(select(getCurrencyPairArray))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(freshPairs => {
-        // console.log(freshPairs);
-        if (this.currencyPairs.length === 0) {
-          this.currencyPairs = freshPairs;
-        } else {
-          freshPairs.forEach(item => {
-            this.addOrUpdate(item);
-          });
-        }
-        this.pairs = this.choosePair(this.currencyDisplayMode);
-        this.emitWhenSelectedPairIsUpdated(freshPairs);
-        // TODO: remove after dashboard init load time issue is solved
-        // this.ref.detectChanges();
+      .subscribe( (currencyPairs: CurrencyPair[]) => {
+        this.onGetCurrencyPairs(currencyPairs);
       });
   }
 
@@ -67,6 +59,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.ngUnsubscribe.complete();
     this.marketService.unsubscribe();
   }
+
+
 
   /**
    * Add or update pair
@@ -106,7 +100,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    */
   onSelectCurrencyPair(pair: CurrencyPair): void {
     this.selectedCurrencyPair = pair;
-    this.marketService.setActiveCurrency(pair);
+    // console.log(pair)
+    this.store.dispatch(new ChangeCurrencyPairAction(pair));
+    // this.marketService.setActiveCurrency(pair);
   }
 
   /**
@@ -173,5 +169,17 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
 
   isFavourite(pair: CurrencyPair): boolean {
     return pair.isFavourite;
+  }
+
+  private onGetCurrencyPairs(currencyPairs: CurrencyPair[]) {
+    if (this.currencyPairs.length === 0) {
+      this.currencyPairs = currencyPairs;
+    } else {
+      currencyPairs.forEach(item => {
+        this.addOrUpdate(item);
+      });
+    }
+    this.pairs = this.choosePair(this.currencyDisplayMode);
+    this.emitWhenSelectedPairIsUpdated(currencyPairs);
   }
 }

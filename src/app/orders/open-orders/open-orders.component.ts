@@ -8,7 +8,7 @@ import { MockDataService } from '../../services/mock-data.service';
 import { TradingService } from '../../dashboard/components/trading/trading.service';
 import { MarketService } from '../../dashboard/components/markets/market.service';
 import { AuthService } from '../../services/auth.service';
-import { CurrencyPair } from '../../dashboard/components/markets/currency-pair.model';
+import { CurrencyPair } from '../../model/currency-pair.model';
 
 import { timestamp, takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';

@@ -6,7 +6,7 @@ import {catchError, map} from 'rxjs/internal/operators';
 import {Subject, Observable} from 'rxjs';
 
 import {environment} from 'environments/environment';
-import {CurrencyPair} from '../markets/currency-pair.model';
+import {CurrencyPair} from '../../../model/currency-pair.model';
 
 @Injectable()
 export class OrderBookService {

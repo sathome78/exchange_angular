@@ -1,16 +1,19 @@
 import {Component, OnDestroy, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {map} from 'rxjs/internal/operators';
+import {map, takeUntil} from 'rxjs/internal/operators';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {OrderBookService, OrderItem} from './order-book.service';
 import {MarketService} from '../markets/market.service';
 import {DashboardService} from '../../dashboard.service';
 import {TradingService} from '../trading/trading.service';
-import {CurrencyPair} from '../markets/currency-pair.model';
+import {CurrencyPair} from '../../../model/currency-pair.model';
+import {State, getCurrencyPair} from 'app/core/reducers/index';
 import { setHostBindings } from '@angular/core/src/render3/instructions';
 import { forEach } from '@angular/router/src/utils/collection';
 import { ChildActivationStart } from '@angular/router';
 import { renderDetachView } from '@angular/core/src/view/view_attach';
+import {select, Store} from '@ngrx/store';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'app-order-book',
@@ -18,6 +21,8 @@ import { renderDetachView } from '@angular/core/src/view/view_attach';
   styleUrls: ['order-book.component.scss']
 })
 export class OrderBookComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+
   /** dashboard item name (field for base class)*/
   public itemName: string;
   public lastOrder = {exrate: null, amountBase: null};
@@ -470,12 +475,15 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     'currencyPairId': 1
   };
 
-  constructor(private orderBookService: OrderBookService,
-              private marketService: MarketService,
-              private dashboardService: DashboardService,
-              private tradingService: TradingService) {
+  constructor(
+    private store: Store<State>,
+    private orderBookService: OrderBookService,
+    private marketService: MarketService,
+    private dashboardService: DashboardService,
+    private tradingService: TradingService) {
     super();
   }
+
 
   ngOnInit() {
 
@@ -496,15 +504,12 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
     this.isBuy = true;
 
-    this.marketService.currentCurrencyInfoListener$.subscribe(res => {
-      this.currencyPairInfo = res;
-      console.log(res)
-      if (!this.lastOrder) {
-        this.lastOrder = {exrate: null, amountBase: null};
-        this.lastOrder.exrate = this.currencyPairInfo.volume24h;
-        this.lastOrder.amountBase = this.currencyPairInfo.lastCurrencyRate;
-      }
-    });
+    this.store
+      .pipe(select(getCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPair) => {
+        this.onGetCurrentCurrencyPair(pair);
+      });
 
     this.tradingService.tradingChangeSellBuy$.subscribe((data) => {
       if (data === 'SELL') {
@@ -517,6 +522,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
       this.setData();
     });
+
+
 
     this.setData();
 
@@ -546,6 +553,16 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       });
   }
 
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    this.currencySubscription.unsubscribe();
+    this.orderBookService.unsubscribeStompForSellOrders();
+    this.orderBookService.unsubscribeStompForBuyOrders();
+    this.buyOrdersSubscription.unsubscribe();
+    this.sellOrdersSubscription.unsubscribe();
+  }
+
   loadMinAndMaxValues(pair: CurrencyPair) {
     /**
      * this method returns min and max rate for active currency pair
@@ -562,13 +579,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       //   });
   }
 
-  ngOnDestroy() {
-    this.currencySubscription.unsubscribe();
-    this.orderBookService.unsubscribeStompForSellOrders();
-    this.orderBookService.unsubscribeStompForBuyOrders();
-    this.buyOrdersSubscription.unsubscribe();
-    this.sellOrdersSubscription.unsubscribe();
-  }
 
   // to check which item was recently refreshed
   isRefreshed(id: number) {
@@ -752,6 +762,15 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
           this.withForChartLineElements.sell[i] = ((containerWidth / 100) * valueforSell) + 'px';
         }
       }
+    }
+  }
+
+  private onGetCurrentCurrencyPair(pair) {
+    this.currencyPairInfo = pair;
+    if (!this.lastOrder) {
+      this.lastOrder = {exrate: null, amountBase: null};
+      this.lastOrder.exrate = this.currencyPairInfo.volume24h;
+      this.lastOrder.amountBase = this.currencyPairInfo.lastCurrencyRate;
     }
   }
 

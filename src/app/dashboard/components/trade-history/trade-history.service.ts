@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {StompService} from '@stomp/ng2-stompjs';
 import {map} from 'rxjs/internal/operators';
-import {CurrencyPair} from '../markets/currency-pair.model';
+import {CurrencyPair} from '../../../model/currency-pair.model';
 import {Message} from '@stomp/stompjs';
 
 @Injectable()

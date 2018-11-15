@@ -16,6 +16,9 @@ import {
   LanguageCode,
 } from 'assets/js/charting_library/charting_library.min';
 import {environment} from 'environments/environment';
+import {select, Store} from '@ngrx/store';
+import {getCurrencyPair, State} from 'app/core/reducers/index';
+import {CurrencyPair} from '../../../model/currency-pair.model';
 
 @Component({
   selector: 'app-graph',
@@ -111,6 +114,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
 
   constructor(
+    private store: Store<State>,
     private marketService: MarketService,
     private langService: LangService,
     private dashboardService: DashboardService,
@@ -124,6 +128,18 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
     this.lang = this.langService.getLanguage();
     this.formattingCurrentPairName(this.currencyPairName);
+
+    this.store
+      .pipe(select(getCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPair) => {
+         this.currencyPairName = pair.currencyPairName as string;
+        if (this.currencyPairName) {
+          // this._tvWidget = new widget(this.widgetOptions);
+          this.formattingCurrentPairName(pair.currencyPairName as string);
+          this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
+        }
+      });
 
     this.widgetOptions = {
       symbol: this._symbol,
@@ -182,15 +198,15 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     const tvWidget = new widget(this.widgetOptions);
     this._tvWidget = tvWidget;
 
-    /** getting current currency pair */
-    this.marketService.activeCurrencyListener.subscribe(pair => {
-      this.currencyPairName = pair.currencyPairName as string;
-      if (this.currencyPairName) {
-        // this._tvWidget = new widget(this.widgetOptions);
-        this.formattingCurrentPairName(pair.currencyPairName as string);
-        this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
-      }
-    });
+    // /** getting current currency pair */
+    // this.marketService.activeCurrencyListener.subscribe(pair => {
+    //   this.currencyPairName = pair.currencyPairName as string;
+    //   if (this.currencyPairName) {
+    //     // this._tvWidget = new widget(this.widgetOptions);
+    //     this.formattingCurrentPairName(pair.currencyPairName as string);
+    //     this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
+    //   }
+    // });
 
     tvWidget.onChartReady(() => {
       const button = tvWidget.createButton()

@@ -9,6 +9,11 @@ import {AuthCandidate} from '../model/auth-candidate.model';
 import {LoggingService} from './logging.service';
 import {TokenHolder} from '../model/token-holder.model';
 import {Router} from '@angular/router';
+import {CurrencyPair} from '../model/currency-pair.model';
+import {tap} from 'rxjs/internal/operators';
+import {Store} from '@ngrx/store';
+import {State} from '../dashboard/reducers/dashboard.reducer';
+import {RefreshUserBalanceAction} from '../dashboard/actions/dashboard.actions';
 
 @Injectable()
 export class UserService {
@@ -16,11 +21,13 @@ export class UserService {
   HOST = environment.apiUrl;
 
 
-  constructor(private http: HttpClient,
-              private authService: AuthService,
-              private langService: LangService,
-              private logger: LoggingService,
-              private router: Router) {
+  constructor(
+    private store: Store<State>,
+    private http: HttpClient,
+    private authService: AuthService,
+    private langService: LangService,
+    private logger: LoggingService,
+    private router: Router) {
   }
 
    checkIfEmailExists(email: string): Observable<boolean> {
@@ -35,6 +42,13 @@ export class UserService {
       params:  new HttpParams().set('username', username)
     };
     return this.http.get<string[]>(this.getUrl('if_username_exists'), httpOptions);
+  }
+
+  public getUserBalance(pair: CurrencyPair) {
+    if (this.authService.isAuthenticated()) {
+      return this.http.get(`${this.HOST}/info/private/v2/dashboard/info/${pair.currencyPairId}`)
+        .pipe(tap(info => this.store.dispatch(new RefreshUserBalanceAction(info))));
+    }
   }
 
   public getIfConnectionSuccessful(): Observable<boolean> {

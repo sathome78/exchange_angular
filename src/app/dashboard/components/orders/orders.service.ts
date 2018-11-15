@@ -5,7 +5,7 @@ import {map} from 'rxjs/internal/operators';
 import {Observable, Subject} from 'rxjs';
 
 import {environment} from 'environments/environment';
-import {CurrencyPair} from '../markets/currency-pair.model';
+import {CurrencyPair} from '../../../model/currency-pair.model';
 import {SimpleChat} from '../chat/simple-chat.model';
 
 @Injectable()

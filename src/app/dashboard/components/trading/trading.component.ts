@@ -11,6 +11,9 @@ import {DashboardService} from '../../dashboard.service';
 import {BreakpointService} from 'app/services/breakpoint.service';
 import {OrderBookService} from '../order-book/order-book.service';
 import {CurrencyPipe} from 'app/shared/pipes/currency.pipe';
+import {select, Store} from '@ngrx/store';
+import {State, getCurrencyPair} from 'app/core/reducers/index';
+import {CurrencyPair} from '../../../model/currency-pair.model';
 
 @Component({
   selector: 'app-trading',
@@ -67,6 +70,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   constructor(
+    private store: Store<State>,
     public breakPointService: BreakpointService,
     public tradingService: TradingService,
     public marketService: MarketService,
@@ -78,25 +82,17 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
 
-
   ngOnInit() {
     this.itemName = 'trading';
     this.mainTab = 'BUY';
     this.order = {...this.defaultOrder};
     this.initForms();
-    this.marketService.activeCurrencyListener
+
+    this.store
+      .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(pair => {
-        this.currentPair = pair;
-        this.splitPairName();
-        this.getCommissionIndex();
-        const balanceSub = this.marketService.userBalanceInfo(pair.currencyPairId).subscribe(data => {
-          this.userBalance = data.balanceByCurrency1 ? data.balanceByCurrency1 : 0
-          if (this.userBalance < 0) {
-            this.userBalance = 0;
-          }
-          balanceSub.unsubscribe();
-        });
+      .subscribe( (pair: CurrencyPair) => {
+        this.onGetCurrentCurrencyPair(pair);
       });
 
     this.marketService.userBalanceListener$.subscribe(res => {
@@ -422,5 +418,23 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.order.total = total;
       this.setTotalInValue(total);
     }
+  }
+
+
+  private onGetCurrentCurrencyPair(pair) {
+    this.currentPair = pair;
+    this.splitPairName();
+    this.getCommissionIndex();
+    this.getUserBalance(pair);
+  }
+
+  private getUserBalance(pair) {
+    const balanceSub = this.marketService.userBalanceInfo(pair.currencyPairId).subscribe(data => {
+      this.userBalance = data.balanceByCurrency1 ? data.balanceByCurrency1 : 0
+      if (this.userBalance < 0) {
+        this.userBalance = 0;
+      }
+      balanceSub.unsubscribe();
+    });
   }
 }

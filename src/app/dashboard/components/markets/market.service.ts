@@ -6,7 +6,7 @@ import {Observable, ReplaySubject, Subject, BehaviorSubject} from 'rxjs';
 import {map, tap} from 'rxjs/internal/operators';
 
 import {environment} from 'environments/environment';
-import {CurrencyPair} from './currency-pair.model';
+import {CurrencyPair} from '../../../model/currency-pair.model';
 import {UserBalance} from 'app/model/user-balance.model';
 
 

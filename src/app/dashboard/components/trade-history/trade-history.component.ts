@@ -5,7 +5,9 @@ import { Subject } from 'rxjs/Subject';
 import { AbstractDashboardItems } from '../../abstract-dashboard-items';
 import { TradeHistoryService, TradeItem } from './trade-history.service';
 import { MarketService } from '../markets/market.service';
-import { CurrencyPair } from '../markets/currency-pair.model';
+import { CurrencyPair } from '../../../model/currency-pair.model';
+import {select, Store} from '@ngrx/store';
+import {State, getCurrencyPair} from 'app/core/reducers/index';
 
 
 @Component({
@@ -35,21 +37,25 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   private mockData: TradeItem [];
   private data;
 
-  constructor(private tradeService: TradeHistoryService,
-              private marketService: MarketService,
-              private ref: ChangeDetectorRef) {
+  constructor(
+    private store: Store<State>,
+    private tradeService: TradeHistoryService,
+    private marketService: MarketService,
+    private ref: ChangeDetectorRef) {
     super();
   }
 
+
+
   ngOnInit() {
     this.itemName = 'trade-history';
-    this.currencySubscription = this.marketService.activeCurrencyListener
-      .subscribe(pair => {
-        this.activeCurrencyPair = pair;
-        this.tradeService.subscribeStompForTrades(pair);
-        this.allTrades = [];
-        this.personalTrades = [];
+    this.store
+      .pipe(select(getCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPair) => {
+        this.onGetCurrentCurrencyPair(pair);
       });
+
     this.allTradesSubscription = this.tradeService.allTradesListener
       .subscribe(orders => {
         this.addOrUpdate(this.allTrades, orders);
@@ -65,11 +71,6 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
         // TODO: remove after dashboard init load time issue is solved
         // this.ref.detectChanges();
       });
-
-    /** getting current currency pair */
-    this.marketService.activeCurrencyListener.pipe(takeUntil(this.ngUnsubscribe)).subscribe(pair => {
-      this.formattingCurrentPairName(pair.currencyPairName as string);
-    });
   }
 
   addOrUpdate(oldItems: TradeItem[], newItems: TradeItem[]) {
@@ -100,5 +101,13 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
       this.firstCurrency = currentPair.slice(0, index);
       this.secondCurrency = currentPair.slice(index + 1);
     }
+  }
+
+  private onGetCurrentCurrencyPair(pair) {
+    this.activeCurrencyPair = pair;
+    this.tradeService.subscribeStompForTrades(pair);
+    this.allTrades = [];
+    this.personalTrades = [];
+    this.formattingCurrentPairName(pair.currencyPairName as string);
   }
 }

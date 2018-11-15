@@ -8,6 +8,10 @@ import {OrdersService} from '../orders.service';
 import {MarketService} from '../../markets/market.service';
 import {TradingService} from '../../trading/trading.service';
 import {Order} from '../../trading/order.model';
+import {select, Store} from '@ngrx/store';
+import {State, getCurrencyPair} from 'app/core/reducers/index';
+import {CurrencyPair} from '../../../../model/currency-pair.model';
+
 
 @Component({
   selector: 'app-open-orders',
@@ -58,6 +62,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   constructor(
+    private store: Store<State>,
     private mockData: MockDataService,
     private ordersService: OrdersService,
     private marketService: MarketService,
@@ -73,12 +78,13 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
     // this.splitPairName();
     /** ---------------------- */
 
-     this.marketService.activeCurrencyListener
-       .pipe(takeUntil(this.ngUnsubscribe))
-       .subscribe(pair => {
-         this.currentPair = pair;
-         this.splitPairName();
-     });
+    this.store
+      .pipe(select(getCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPair) => {
+        this.currentPair = pair;
+        this.splitPairName();
+      });
 
     this.marketService.currencyPairsInfo$.subscribe(res => {
       this.userBalance = res.balanceByCurrency1;
