@@ -628,6 +628,7 @@
     /*--- elements start ---*/
     &__header {
       display: flex;
+      cursor: pointer;
       &--mob {
         display: none;
       }
@@ -1029,6 +1030,13 @@
         background: -o-linear-gradient(top, rgb(48, 49, 77) 0%, rgb(24, 52, 103) 100%);
         background: linear-gradient(to bottom, rgb(48, 49, 77) 0%, rgb(24, 52, 103) 100%);
       };
+      &__header{
+        &:hover{
+          .widget__name{
+            color:#fff;
+          }
+        }
+      }
       &__search{
         border: none;
         background-color: transparent;
@@ -1089,10 +1097,6 @@
       }
     }
   }
-}
-
-.panel-heading{
-  cursor: pointer;
 }
 
 /*--- DARK THEME END---*/

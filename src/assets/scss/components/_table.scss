@@ -44,6 +44,17 @@
       padding: 4px;
     }
   }
+  &__cell-head-star{
+    svg{
+      fill:$dark-indigo;
+    }
+    &:hover{
+      cursor: pointer;
+      svg{
+        fill:#fff;
+      }
+    }
+  }
   &__cell-head-arr {
     margin-right: 4px;
     fill: #000;
@@ -104,6 +115,7 @@
       fill: $dark-indigo;
     }
     &:hover {
+      cursor: pointer;
       svg {
         fill: #FFB74C;
       }
