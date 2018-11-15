@@ -110,11 +110,11 @@
       fill: #000;
     }
   }
-  &__search-btn{
+  &__search-btn {
     align-self: center;
     margin-right: 12px;
     color: $darker-blue;
-    svg{
+    svg {
       fill: $darker-blue;
       margin-right: 4px;
       vertical-align: bottom;
@@ -136,7 +136,7 @@
       display: block;
       //height: 100%;
     }
-    &--show-all{
+    &--show-all {
       //height: 100%;
       display: block;
     }
@@ -153,32 +153,32 @@
       margin: 0;
     }
   }
-  &__markets-tabs{
+  &__markets-tabs {
     margin: 0;
     padding: 0 8px;
     .tabs__item {
-      &--active{
+      &--active {
         border-top: 2px solid $darker-blue;
         border-bottom: 0;
-        &:before,&:after{
+        &:before, &:after {
           content: '';
           display: block;
           position: absolute;
           top: 0;
           left: 50%;
-          -webkit-transform: translate(-50%,-100%);
-          -ms-transform: translate(-50%,-100%);
-          transform: translate(-50%,-100%);
+          -webkit-transform: translate(-50%, -100%);
+          -ms-transform: translate(-50%, -100%);
+          transform: translate(-50%, -100%);
           width: 0;
           height: 0;
           border-style: solid;
           border-width: 0px 9px 6px 9px;
-          border-color: transparent transparent $darker-blue  transparent;
+          border-color: transparent transparent $darker-blue transparent;
         }
-        &:after{
+        &:after {
           bottom: 1px;
-          border-width:  0px 6px 4px 6px;
-          border-color:  transparent transparent #fff transparent;
+          border-width: 0px 6px 4px 6px;
+          border-color: transparent transparent #fff transparent;
         }
       }
     }
@@ -249,8 +249,8 @@
         animation: indicate-red 1s ease-in-out;
       }
     }
-    .change-indicate{
-      &--green{
+    .change-indicate {
+      &--green {
         display: inline-block;
         text-align: center;
         line-height: 25px;
@@ -260,14 +260,14 @@
         margin-left: auto;
         margin-right: 16px;
         color: $green;
-        span{
+        span {
           font-size: 10px;
           opacity: .5;
           padding-top: 4px;
           margin-left: 2px;
         }
       }
-      &--red{
+      &--red {
         display: inline-block;
         text-align: center;
         line-height: 25px;
@@ -276,8 +276,8 @@
         max-width: 100px;
         margin-left: auto;
         margin-right: 16px;
-        color:$red;
-        span{
+        color: $red;
+        span {
           font-size: 10px;
           opacity: .5;
           padding-top: 4px;
@@ -286,17 +286,17 @@
       }
     }
   }
-  &__table-markets-mob{
-    .table__cell-head{
+  &__table-markets-mob {
+    .table__cell-head {
       padding-top: 8px;
       padding-bottom: 8px;
     }
-    .table__row-star{
-      svg{
-        fill:#E5E5E5;
+    .table__row-star {
+      svg {
+        fill: #E5E5E5;
       }
     }
-    .table__row-star--select{
+    .table__row-star--select {
       svg {
         fill: #FFB74C;
       }
@@ -305,7 +305,7 @@
   //chat start
   &__chat-wrap {
     height: 100%;
-   overflow: auto;
+    overflow: auto;
   }
   &__message-wrap {
     display: flex;
@@ -423,15 +423,15 @@
     border-radius: 4px;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
   }
-  &__chat-btn{
+  &__chat-btn {
     position: absolute;
     bottom: 0;
     left: 50%;
-    transform: translate(-50%,0);
+    transform: translate(-50%, 0);
     font-size: 14px;
     height: 40px;
     line-height: 40px;
-    .btn__icon{
+    .btn__icon {
       margin-right: 6px;
     }
   }
@@ -505,11 +505,11 @@
     margin-top: 10px;
     font-size: 14px;
     line-height: 16px;
-    .type{
+    .type {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      &-title{
+      &-title {
         margin-bottom: 4px;
       }
       svg {
@@ -524,7 +524,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      &-title{
+      &-title {
         margin-bottom: 4px;
       }
       svg {
@@ -607,7 +607,7 @@
     }
   }
   //trading end
-  .order-book-bg{
+  .order-book-bg {
     display: none;
   }
   /*--- elements end ---*/
@@ -652,7 +652,7 @@
       &--mob {
         display: none;
       }
-      &--show-all{
+      &--show-all {
         display: block;
       }
     }
@@ -689,7 +689,7 @@
           margin-right: 28px;
         }
       }
-      &--right{
+      &--right {
         margin: 0 32px 4px 16px;
       }
     }
@@ -720,8 +720,11 @@
       font-size: 14px;
       &:focus {
         outline: none;
+        &::placeholder {
+          opacity: 0;
+        }
       }
-      &::placeholder{
+      &::placeholder {
         color: #A0A0A0;
       }
     }
@@ -731,15 +734,15 @@
       -moz-border-radius: 4px;
       border-radius: 4px;
     }
-    &__chat-btn{
+    &__chat-btn {
       bottom: 16px;
     }
     &__input-img {
       &--hide-mob {
         display: inline-block;
       }
-      svg{
-        fill:#A0A0A0;
+      svg {
+        fill: #A0A0A0;
       }
     }
     &__scroll {
@@ -793,7 +796,7 @@
     &__trading-row-txt {
       font-size: 12px;
       line-height: 14px;
-      .avaliable{
+      .avaliable {
         flex-direction: row;
         align-items: center;
         margin-top: 0;
@@ -806,6 +809,12 @@
       line-height: 53px;
       font-size: 24px;
       margin: 44px 0 0;
+      background-color: #264F92;
+      border-color: rgba(35, 123, 239, 0.5);
+      &:hover {
+        background-color: $darker-blue;
+        border-color: transparent;
+      }
     }
 
     /*--- elements end ---*/
@@ -847,29 +856,29 @@
         fill: #fff;
       }
     }
-    &__controls-plus,&__controls-minus{
-      svg{
-        fill:$grey;
+    &__controls-plus, &__controls-minus {
+      svg {
+        fill: $grey;
       }
-      &:hover{
+      &:hover {
         svg {
           fill: #fff;
         }
       }
     }
     &__controls-close {
-      svg{
-        fill:$grey;
+      svg {
+        fill: $grey;
       }
-      &:hover{
+      &:hover {
         svg {
           fill: #fff;
         }
       }
     }
-    &__search-btn{
+    &__search-btn {
       color: #fff;
-      svg{
+      svg {
         fill: #fff;
       }
     }
@@ -880,17 +889,17 @@
         }
       }
     }
-    &__table-row{
+    &__table-row {
       background-color: unset;
-      .change-indicate{
-        &--green{
+      .change-indicate {
+        &--green {
           background-color: $green;
-          color:#fff;
+          color: #fff;
           border-radius: 1px;
         }
-        &--red{
+        &--red {
           background-color: $red;
-          color:#fff;
+          color: #fff;
           border-radius: 1px;
         }
       }
@@ -948,15 +957,15 @@
     }
 
     &__trading-row-txt {
-      .type{
-        color:$light-blue;
+      .type {
+        color: $light-blue;
         svg {
           fill: $light-blue;
         }
       }
-      .avaliable{
+      .avaliable {
         margin-top: 0;
-        color:$light-blue;
+        color: $light-blue;
         svg {
           fill: $light-blue;
         }
@@ -969,46 +978,55 @@
         color: $light-blue;
       }
     }
-    &__table-markets-mob{
-      thead{
-        background-color: rgba(255,255,255,.1);
+    &__trading-btn {
+      background-color: #264F92;
+      border-color: rgba(35, 123, 239, 0.5);
+      &:hover {
+        background-color: $darker-blue;
+        border-color: transparent;
       }
-      .table__row-star{
-        svg{
-          fill:#4A5D88;
+
+    }
+    &__table-markets-mob {
+      thead {
+        background-color: rgba(255, 255, 255, .1);
+      }
+      .table__row-star {
+        svg {
+          fill: #4A5D88;
         }
       }
-      .table__row-star--select{
+      .table__row-star--select {
         svg {
           fill: #FFB74C;
         }
       }
     }
-    &__markets-tabs{
+    &__markets-tabs {
       background-color: #21417D;
       .tabs__item {
-        &--active{
-          &:after{
-            border-color:  transparent transparent #21417D transparent;
+        &--active {
+          &:after {
+            border-color: transparent transparent #21417D transparent;
           }
         }
       }
     }
-    .order-book-bg{
+    .order-book-bg {
       position: absolute;
       width: 100%;
       height: 100%;
       z-index: 0;
       opacity: .1;
-      &--green{
+      &--green {
         background: linear-gradient(to bottom, #00B43D 0%, #00B43D 51%, #00B43D 100%);
       }
-      &--red{
+      &--red {
         background: linear-gradient(to bottom, #EB5757 0%, #EB5757 51%, #EB5757 100%);
       }
-      &--main{
+      &--main {
         display: block;
-        background: linear-gradient(to bottom, #EB5757 0%,#EB5757 20%, rgba(0,0,0,0) 56%, rgba(0,0,0,0) 56%, #00B43D 80%, #00B43D 100%);
+        background: linear-gradient(to bottom, #EB5757 0%, #EB5757 20%, rgba(0, 0, 0, 0) 56%, rgba(0, 0, 0, 0) 56%, #00B43D 80%, #00B43D 100%);
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
         border-radius: 4px;
@@ -1029,35 +1047,36 @@
         background: -webkit-linear-gradient(top, rgb(48, 49, 77) 0%, rgb(24, 52, 103) 100%);
         background: -o-linear-gradient(top, rgb(48, 49, 77) 0%, rgb(24, 52, 103) 100%);
         background: linear-gradient(to bottom, rgb(48, 49, 77) 0%, rgb(24, 52, 103) 100%);
-      };
-      &__header{
-        &:hover{
-          .widget__name{
-            color:#fff;
+      }
+    ;
+      &__header {
+        &:hover {
+          .widget__name {
+            color: #fff;
           }
         }
       }
-      &__search{
+      &__search {
         border: none;
         background-color: transparent;
       }
-      &__search-input{
+      &__search-input {
         background-color: #304A7A;
-        color:#fff;
-        &::placeholder{
+        color: #fff;
+        &::placeholder {
           color: #7F8FAE;
         }
-        &:focus{
-          ~.widget__input-img{
-            svg{
-              fill:#fff;
+        &:focus {
+          ~ .widget__input-img {
+            svg {
+              fill: #fff;
             }
           }
         }
       }
-      &__input-img{
-        svg{
-          fill:#7F8FAE;
+      &__input-img {
+        svg {
+          fill: #7F8FAE;
         }
       }
       &__message-wrap {
@@ -1071,7 +1090,7 @@
         }
       }
       .wrap-input__input {
-        &:not([value=""]){
+        &:not([value=""]) {
           ~ .wrap-input__label {
             background-color: #2B3256;
           }
@@ -1087,13 +1106,13 @@
           }
         }
       }
-      &__table-markets-mob{
-        thead{
+      &__table-markets-mob {
+        thead {
           background-color: transparent;
         }
       }
-      .trade-history-time{
-        color:#959BA5;
+      .trade-history-time {
+        color: #959BA5;
       }
     }
   }
