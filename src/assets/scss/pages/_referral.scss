@@ -276,6 +276,9 @@
     }
   }
   //open structure end
+  .charges-type{
+    color:$darker-blue;
+  }
   /*--- elements end ---*/
 }
 
@@ -305,9 +308,21 @@
         background-color: $grey;
       }
     }
+    &__search{
+      width: 110px;
+      margin-right: 24px;
+    }
     &__select {
       width: 130px;
       margin-right: 24px;
+    }
+    &__datepicker{
+      width: 175px;
+      margin-right: 24px;
+      margin-bottom: -1px;
+      .wrap-input__label{
+        left: 17px;
+      }
     }
     &__earned-wrap {
       display: flex;
@@ -611,6 +626,9 @@
       svg{
         fill:$light-blue;
       }
+    }
+    .charges-type{
+      color:$light-blue;
     }
     .open-structure{
       &__back-to{
