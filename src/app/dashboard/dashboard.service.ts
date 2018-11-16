@@ -4,6 +4,7 @@ import {Subject, Observable, BehaviorSubject, ReplaySubject} from 'rxjs';
 
 import {Currency} from './components/currency-pair-info/currency-search/currency.model';
 import {mockPairs} from './components/currency-pair-info/currency-search/currency.model';
+import {OrderItem} from '../model/order-item.model';
 
 @Injectable()
 export class DashboardService {
@@ -14,10 +15,7 @@ export class DashboardService {
   /** talking between dashboard mobile and mobile menu */
   public activeMobileWidget = new Subject<string>();
 
-  // /** current selected currency pair */
-  // public selectedCurrency$ = new Subject<string>();
-  //
-  // public choosedPair$ = new Subject();
+  public lastBuySellOrderListener$ = new ReplaySubject<OrderItem[]>();
 
   public selectedOrderTrading$ = new ReplaySubject();
 

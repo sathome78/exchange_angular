@@ -52,6 +52,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public currencyPairInfo;
   public order;
   public lastSellOrder;
+  public lastSellBuyOrder;
 
   public defaultOrder: Order = {
     orderType: this.mainTab,
@@ -134,6 +135,11 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.lastSellOrder = res;
     });
 
+    this.dashboardService.lastBuySellOrderListener$.subscribe(res => {
+      this.lastSellBuyOrder = res;
+      console.log(this.lastSellBuyOrder);
+    });
+
   }
 
   ngOnDestroy() {
@@ -197,6 +203,21 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     }
   }
 
+
+  setRateOnSelectTypeOrder() {
+    if (this.mainTab === 'BUY') {
+      const tempData = !this.lastSellBuyOrder[0] ? 0 : this.lastSellBuyOrder[0].exrate;
+      this.order.rate = parseFloat(tempData);
+      this.setPriceInValue(this.order.rate);
+      this.getCommission();
+    } else {
+      const tempData = !this.lastSellBuyOrder[1] ? 0 : this.lastSellBuyOrder[1].exrate;
+      this.order.rate = parseFloat(tempData);
+      this.setPriceInValue(this.order.rate);
+      this.getCommission();
+    }
+  }
+
   /**
    * Toggle limit dropdown
    */
@@ -210,13 +231,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   selectedLimit(limit: string): void {
     this.dropdownLimitValue = limit;
-    if (limit === 'MARKET_PRICE') {
-      if (this.lastSellOrder) {
-        this.order.rate = this.lastSellOrder ? this.lastSellOrder.exrate : 0;
-        this.setPriceInValue(this.lastSellOrder ? this.lastSellOrder.exrate : 0);
-        this.getCommission();
-      }
-    }
+    // if (limit === 'MARKET_PRICE') {
+    //   if (this.lastSellOrder) {
+    //     this.order.rate = this.lastSellOrder ? this.lastSellOrder.exrate : 0;
+    //     this.setPriceInValue(this.lastSellOrder ? this.lastSellOrder.exrate : 0);
+    //     this.getCommission();
+    //   }
+    // }
+    this.setRateOnSelectTypeOrder();
     this.isDropdownOpen = false;
   }
 
@@ -266,14 +288,17 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
    totalInput(e): void {
      this.order.total = parseFloat(this.deleteSpace(e.target.value.toString()));
-     if (this.order.total > this.userBalance) {
-       this.order.total = this.userBalance;
-       this.setTotalInValue(this.userBalance);
-     }
-       if (this.order.rate > 0) {
-         this.order.amount = this.order.total / this.order.rate;
-         this.setQuantityValue(this.order.amount);
-       }
+     // if (this.order.total > this.userBalance) {
+     //   this.order.total = this.userBalance;
+     //   this.setTotalInValue(this.userBalance);
+     // }
+     //   if (this.order.rate > 0) {
+     //     this.order.amount = this.order.total / this.order.rate;
+     //     this.setQuantityValue(this.order.amount);
+     //   }
+
+     this.order.rate = this.order.total   / this.order.amount;
+     this.setPriceInValue(this.order.rate);
    }
 
   /**
@@ -451,6 +476,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   private onGetCurrentCurrencyPair(pair) {
     this.mainTab = 'BUY';
     this.currentPair = pair;
+    this.order = {...this.defaultOrder};
+    this.resetForms();
     this.splitPairName();
     this.getCommissionIndex();
   }
