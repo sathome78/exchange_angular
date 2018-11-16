@@ -21,6 +21,7 @@
   }
   .order-book__controls-wrap{
     position: absolute;
+    z-index: 3;
     bottom: 0px;
     width: 100%;
     display: flex;
