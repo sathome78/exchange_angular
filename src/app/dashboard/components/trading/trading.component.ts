@@ -12,8 +12,12 @@ import {BreakpointService} from 'app/services/breakpoint.service';
 import {OrderBookService} from '../order-book/order-book.service';
 import {CurrencyPipe} from 'app/shared/pipes/currency.pipe';
 import {select, Store} from '@ngrx/store';
-import {State, getCurrencyPair} from 'app/core/reducers/index';
-import {CurrencyPair} from '../../../model/currency-pair.model';
+import {State, getCurrencyPair, getSelectedOrderBookOrder} from 'app/core/reducers/index';
+import {CurrencyPair} from 'app/model/currency-pair.model';
+import {getUserBalance} from 'app/core/reducers';
+import {UserBalance} from 'app/model/user-balance.model';
+import {OrderItem} from '../../../model/order-item.model';
+import {UserService} from '../../../services/user.service';
 
 @Component({
   selector: 'app-trading',
@@ -25,7 +29,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   /** dashboard item name (field for base class)*/
   public itemName: string;
   /** active sell/buy tab */
-  public mainTab;
+  public mainTab ;
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dropdown limit data */
@@ -76,6 +80,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     public marketService: MarketService,
     private dashboardService: DashboardService,
     private orderBookService: OrderBookService,
+    private userService: UserService,
     // private currencyUsdPipe: CurrencyPipe
   ) {
     super();
@@ -95,18 +100,28 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.onGetCurrentCurrencyPair(pair);
       });
 
-    this.marketService.userBalanceListener$.subscribe(res => {
-      this.userBalance = res.balanceByCurrency1 ? res.balanceByCurrency1 : 0
-      if (this.userBalance < 0) {
-        this.userBalance = 0;
-      }
-    });
+    this.store
+      .pipe(select(getUserBalance))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (balance: UserBalance) => {
+        this.userBalance = balance.balanceByCurrency1 ? balance.balanceByCurrency1 : 0;
+        this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
+      });
 
-      this.marketService.currencyPairsInfo$.subscribe(res => {
-        // this.order.rate = res.rate;
-        this.currencyPairInfo = res;
-        // console.log(res)
-        // this.setPriceInValue(res.rateHigh);
+      // this.marketService.currencyPairsInfo$.subscribe(res => {
+      //   // this.order.rate = res.rate;
+      //   this.currencyPairInfo = res;
+      //   // console.log(res)
+      //   // this.setPriceInValue(res.rateHigh);
+      // });
+
+
+    this.store
+      .pipe(select(getSelectedOrderBookOrder))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (order) => {
+         console.log(order)
+        this.orderFromOrderBook(order);
       });
 
     this.dashboardService.selectedOrderTrading$
@@ -339,8 +354,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       if (this.dropdownLimitValue === 'STOP_LIMIT') {
         this.order.stop = this.orderStop;
       }
-      // this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
-      console.log(this.order);
+      this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
+      // console.log(this.order);
     }
   }
 
@@ -351,6 +366,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.tradingService.createOrder(this.order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
+        this.userService.getUserBalance(this.currentPair);
         console.log(res);
       this.notifySuccess = true;
       setTimeout(() => {this.notifySuccess = false; }, 5000);
@@ -375,6 +391,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.tradingService.updateOrder(this.order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
+        this.userService.getUserBalance(this.currentPair);
         console.log(res);
         this.notifySuccess = true;
         setTimeout(() => {this.notifySuccess = false; }, 5000);
@@ -422,19 +439,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
 
   private onGetCurrentCurrencyPair(pair) {
+    this.mainTab = 'BUY';
     this.currentPair = pair;
     this.splitPairName();
     this.getCommissionIndex();
-    this.getUserBalance(pair);
-  }
-
-  private getUserBalance(pair) {
-    const balanceSub = this.marketService.userBalanceInfo(pair.currencyPairId).subscribe(data => {
-      this.userBalance = data.balanceByCurrency1 ? data.balanceByCurrency1 : 0
-      if (this.userBalance < 0) {
-        this.userBalance = 0;
-      }
-      balanceSub.unsubscribe();
-    });
   }
 }

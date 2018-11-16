@@ -1,15 +1,16 @@
-import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { takeUntil } from 'rxjs/internal/operators'
+import { takeUntil } from 'rxjs/internal/operators';
+import {select, Store} from '@ngrx/store';
 
 import { DashboardService } from '../../dashboard.service';
 import { Currency } from './currency-search/currency.model';
 import {MarketService} from '../markets/market.service';
-import {CurrencyPair} from '../../../model/currency-pair.model';
+import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserBalance} from 'app/model/user-balance.model';
-import {State, getCurrencyPair, getUserBalance} from 'app/core/reducers/index';
-import {ReplaySubject} from 'rxjs';
-import {select, Store} from '@ngrx/store';
+import {State, getCurrencyPair, getUserBalance, getCurrencyPairInfo} from 'app/core/reducers/index';
+import {DashboardWebSocketService} from '../../dashboard-websocket.service';
+import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 
 /**
  * Dashboard currency pair information component
@@ -36,6 +37,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<State>,
     private dashboardService: DashboardService,
+    private dashboardWebsocketService: DashboardWebSocketService,
     private marketService: MarketService,
   ) { }
 
@@ -44,30 +46,19 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value: Currency[]) => this.currencies = value);
 
-
-
-    /** for mock data*/
-    // this.pair = this.mockData.getMarketsData()[0];
-    // this.splitPairName(this.pair);
-    /** ----------------------- */
-    // this.dashboardService.choosedPair$.subscribe( res => {
-    //   this.pair = res;
-    //   // const infoSub = this.marketService.currencyPairInfo(this.pair.currencyPairId).subscribe(info => {
-    //   //   this.currentCurrencyInfo = info;
-    //   // });
-    //
-    // });
-
-    // const infoSub1 = this.marketService.currencyPairInfo(this.pair.currencyPairId).subscribe(info => {
-    //   this.currentCurrencyInfo = info;
-    //     infoSub1.unsubscribe();
-    // });
-
     this.store
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair) => {
-        this.getCurrencyPairInfo(pair);
+        this.pair = pair;
+        this.splitPairName(this.pair);
+      });
+
+    this.store
+      .pipe(select(getCurrencyPairInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPairInfo) => {
+        this.currentCurrencyInfo = pair;
       });
 
     this.store
@@ -108,7 +99,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    */
   onSelectCurrency(ISO: string): void {
     const pairName = this.createCurrencyPairName(ISO);
-    this.marketService.findPairByCurrencyPairName(pairName, this.pair);
+    this.dashboardWebsocketService.findPairByCurrencyPairName(pairName);
   }
 
   /**
@@ -130,20 +121,20 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    * @param {CurrencyPair} pair
    */
   splitPairName(pair: CurrencyPair) {
-    [ this.firstCurrency, this.secondCurrency ] = this.pair.currencyPairName.split('/');
+    if (pair.currencyPairId) {
+      [ this.firstCurrency, this.secondCurrency ] = this.pair.currencyPairName.split('/');
+    }
   }
 
-  private getCurrencyPairInfo(pair) {
-    const infoSubscription = this.marketService.currencyPairInfo(pair.currencyPairId)
-      .subscribe(res => {
-        this.currentCurrencyInfo = res;
-        this.marketService.currentCurrencyInfoListener$.next(res);
-        this.pair = pair;
-        this.splitPairName(this.pair);
-        infoSubscription.unsubscribe();
-      });
+  private getCurrencyPairInfo(pair): void {
+    if (pair.currencyPairId) {
+      const infoSubscription = this.marketService.currencyPairInfo(pair.currencyPairId)
+        .subscribe(res => {
+          this.currentCurrencyInfo = res;
+          this.marketService.currentCurrencyInfoListener$.next(res);
+          console.log(res)
+          infoSubscription.unsubscribe();
+        });
+    }
   }
-
-
-
 }

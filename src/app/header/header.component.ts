@@ -66,6 +66,7 @@ export class HeaderComponent implements OnInit {
   onLogout() {
     this.logger.debug(this, 'User clicked log out');
     this.authService.onLogOut();
+    this.userService.getUserBalance(null);
   }
 
   toggleTheme() {

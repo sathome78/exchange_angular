@@ -2,7 +2,9 @@ import {Action} from '@ngrx/store';
 
 export const CHANGE_CURRENCY_PAIR = '[Dashboard] Change currency pair';
 export const LOAD_CURRENCY_PAIRS = '[Dashboard] Load currency pair';
-export const REFRASH_USER_BALANCE = '[Dashboard] Load currency pair';
+export const REFRESH_USER_BALANCE = '[Dashboard] Refresh user balance';
+export const REFRESH_CURRENCY_PAIR_INFO = '[Dashboard] Refresh currency pair info';
+export const SELECTED_ORDERBOOK_ORDER = '[Dashboard] Selected order-book order';
 
 /**
  * Change currency pair 'BTC/USD'
@@ -17,6 +19,9 @@ export class ChangeCurrencyPairAction implements Action {
   constructor(public payload) {}
 }
 
+/**
+ * Load all currency pairs for market
+ */
 export class LoadCurrencyPairsAction implements Action {
   readonly type = LOAD_CURRENCY_PAIRS;
 
@@ -27,8 +32,37 @@ export class LoadCurrencyPairsAction implements Action {
   constructor(public payload) {}
 }
 
+/**
+ * Refresh user balance
+ */
 export class RefreshUserBalanceAction implements Action {
-  readonly type = REFRASH_USER_BALANCE;
+  readonly type = REFRESH_USER_BALANCE;
+
+  /**
+   * Default constructor
+   * @param payload
+   */
+  constructor(public payload) {}
+}
+
+/**
+ * Refresh currency pair info
+ */
+export class RefreshCurrencyPairInfoAction implements Action {
+  readonly type = REFRESH_CURRENCY_PAIR_INFO;
+
+  /**
+   * Default constructor
+   * @param payload
+   */
+  constructor(public payload) {}
+}
+
+/**
+ * When selected order in order-book
+ */
+export class SelectedOrderBookOrderAction implements Action {
+  readonly type = SELECTED_ORDERBOOK_ORDER;
 
   /**
    * Default constructor
@@ -43,4 +77,6 @@ export class RefreshUserBalanceAction implements Action {
 export type Actions
   = ChangeCurrencyPairAction
   | LoadCurrencyPairsAction
-  | RefreshUserBalanceAction;
+  | RefreshUserBalanceAction
+  | RefreshCurrencyPairInfoAction
+  | SelectedOrderBookOrderAction;

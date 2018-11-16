@@ -7,6 +7,7 @@ import {Subject, Observable} from 'rxjs';
 
 import {environment} from 'environments/environment';
 import {CurrencyPair} from '../../../model/currency-pair.model';
+import {OrderItem} from '../../../model/order-item.model';
 
 @Injectable()
 export class OrderBookService {
@@ -34,7 +35,7 @@ export class OrderBookService {
         // console.log(JSON.parse(message.body));
         return JSON.parse(message.body);
       }))
-      .pipe(map(orders => orders.map ? orders.map(order => JSON.parse(order)) : orders));
+      .pipe(map(orders => orders.map ? orders.map(order => order) : orders));
     /*.subscribe((orders: OrderItemsWrapper []) => {
       console.log(orders)
       this.processOrderItems(orders, 'SELL');
@@ -170,32 +171,5 @@ export class OrderItemsWrapper {
               public currencyPairId: number) {}
 }
 
-export class OrderItem {
 
-  constructor(public needRefresh: boolean,
-              public page: number,
-              public id: number,
-              public userId: number,
-              public orderType: string,
-              public exrate: number,
-              public amountBase: number,
-              public amountConvert: number,
-              public created: Date,
-              public accepted: Date,
-              public ordersIds: string) { }
-
-  static deepCopy(other: OrderItem) {
-    return new OrderItem( other.needRefresh,
-      other.page,
-      other.id,
-      other.userId,
-      other.orderType,
-      other.exrate,
-      other.amountBase,
-      other.amountConvert,
-      other.created,
-      other.accepted,
-      other.ordersIds);
-  }
-}
 

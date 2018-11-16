@@ -33,3 +33,5 @@ export const getDashboardState = (state: State) => state.dashboard;
 export const getCurrencyPair = createSelector(getDashboardState, fromDashboard.getCurrencyPair);
 export const getCurrencyPairArray = createSelector(getDashboardState, fromDashboard.getCurrencyPairArray);
 export const getUserBalance = createSelector(getDashboardState, fromDashboard.getUserBalance);
+export const getSelectedOrderBookOrder = createSelector(getDashboardState, fromDashboard.getSelectedOrderBookOrder);
+export const getCurrencyPairInfo = createSelector(getDashboardState, fromDashboard.getCurrencyPairInfo);

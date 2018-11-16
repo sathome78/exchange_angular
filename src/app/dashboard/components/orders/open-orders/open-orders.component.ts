@@ -263,10 +263,10 @@ export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
 
   /** split pair name for show */
   private splitPairName() {
-    this.arrPairName = this.currentPair.currencyPairName.split('/');
+    if (this.currentPair.currencyPairName) {
+      this.arrPairName = this.currentPair.currencyPairName.split('/');
+    }
   }
-
-
 
   // calculate
 

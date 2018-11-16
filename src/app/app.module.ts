@@ -56,6 +56,7 @@ import { RegistrationMobilePopupComponent } from './popups/registration-mobile-p
 import {CurrencyPipe} from './shared/pipes/currency.pipe';
 import {CoreModule} from './core/core.module';
 import {reducers} from './core/reducers/index';
+import {CurrencyPairInfoService} from './dashboard/components/currency-pair-info/currency-pair-info.service';
 
 
 @NgModule({
@@ -122,6 +123,7 @@ import {reducers} from './core/reducers/index';
     MockDataService,
     TradingService,
     OrdersService,
+    CurrencyPairInfoService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

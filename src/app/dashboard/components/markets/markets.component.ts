@@ -10,6 +10,8 @@ import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {MarketService} from './market.service';
 import {CurrencySortingPipe} from './currency-sorting.pipe';
 import {ChangeCurrencyPairAction} from '../../actions/dashboard.actions';
+import {UserService} from '../../../services/user.service';
+import {CurrencyPairInfoService} from '../currency-pair-info/currency-pair-info.service';
 
 
 @Component({
@@ -37,6 +39,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   constructor(
     private marketService: MarketService,
     private store: Store<State>,
+    private userService: UserService,
+    private currencyPairInfoService: CurrencyPairInfoService,
     private authService: AuthService,
     private ref: ChangeDetectorRef) {
     super();
@@ -100,9 +104,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    */
   onSelectCurrencyPair(pair: CurrencyPair): void {
     this.selectedCurrencyPair = pair;
-    // console.log(pair)
     this.store.dispatch(new ChangeCurrencyPairAction(pair));
-    // this.marketService.setActiveCurrency(pair);
+    this.currencyPairInfoService.getCurrencyPairInfo(pair);
+    this.userService.getUserBalance(pair);
   }
 
   /**

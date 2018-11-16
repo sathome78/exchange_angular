@@ -3,5 +3,4 @@ export class UserBalance {
     public balanceByCurrency1: number,
     public balanceByCurrency2: number,
   ) {}
-
 }

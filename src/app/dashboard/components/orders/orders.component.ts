@@ -29,6 +29,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
   public activeCurrencyPair: CurrencyPair;
   public historyOrders;
   public openOrders;
+  public arrPairName = ['', ''];
 
 
   constructor(
@@ -127,6 +128,4 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
     }
     return 'BTC/USD';
   }
-
-
 }

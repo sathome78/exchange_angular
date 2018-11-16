@@ -1,19 +1,22 @@
 import {Component, OnDestroy, OnInit, ElementRef, ViewChild} from '@angular/core';
+import { setHostBindings } from '@angular/core/src/render3/instructions';
+import { forEach } from '@angular/router/src/utils/collection';
+import { renderDetachView } from '@angular/core/src/view/view_attach';
+import { ChildActivationStart } from '@angular/router';
+import {select, Store} from '@ngrx/store';
 import {map, takeUntil} from 'rxjs/internal/operators';
+import {Subject} from 'rxjs/Subject';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {OrderBookService, OrderItem} from './order-book.service';
+import {OrderBookService} from './order-book.service';
 import {MarketService} from '../markets/market.service';
 import {DashboardService} from '../../dashboard.service';
 import {TradingService} from '../trading/trading.service';
-import {CurrencyPair} from '../../../model/currency-pair.model';
+import {CurrencyPair} from 'app/model/currency-pair.model';
 import {State, getCurrencyPair} from 'app/core/reducers/index';
-import { setHostBindings } from '@angular/core/src/render3/instructions';
-import { forEach } from '@angular/router/src/utils/collection';
-import { ChildActivationStart } from '@angular/router';
-import { renderDetachView } from '@angular/core/src/view/view_attach';
-import {select, Store} from '@ngrx/store';
-import {Subject} from 'rxjs/Subject';
+import {OrderItem} from 'app/model/order-item.model';
+import {MockDataService} from '../../../services/mock-data.service';
+import {ChangeCurrencyPairAction, SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
 
 @Component({
   selector: 'app-order-book',
@@ -72,413 +75,11 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     buy: string[];
   };
 
-  /** test json data */
-  private buyJson: object = {
-    'data': [
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 12,
-        'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.00290479',
-        'amountBase': '241.753653444',
-        'amountConvert': '0.001158000',
-        'ordersIds': '9788753 9789264'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.006005',
-        'amountBase': '307.313187848',
-        'amountConvert': '0.001536566',
-        'ordersIds': '9788748 9789259'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.006005557',
-        'amountBase': '3182.000000000',
-        'amountConvert': '0.017682374',
-        'ordersIds': '9788456 9788967'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0,
-        'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.00806979',
-        'amountBase': '0.000200000',
-        'amountConvert': '0.000000014',
-        'ordersIds': '9788589 9789100'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.03148956',
-        'amountBase': '0.005403912',
-        'amountConvert': '0.000170166',
-        'ordersIds': '9788788 9789299'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.03148961',
-        'amountBase': '0.005579976',
-        'amountConvert': '0.000175712',
-        'ordersIds': '9788771 9789282'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.03000479',
-        'amountBase': '241.753653444',
-        'amountConvert': '0.001158000',
-        'ordersIds': '9788753 9789264'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0,
-        'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.002005',
-        'amountBase': '307.313187848',
-        'amountConvert': '0.001536566',
-        'ordersIds': '9788748 9789259'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.0170005557',
-        'amountBase': '3182.000000000',
-        'amountConvert': '0.017682374',
-        'ordersIds': '9788456 9788967'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.016006979',
-        'amountBase': '0.000200000',
-        'amountConvert': '0.000000014',
-        'ordersIds': '9788589 9789100'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.03148956',
-        'amountBase': '0.005403912',
-        'amountConvert': '0.000170166',
-        'ordersIds': '9788788 9789299'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.03148961',
-        'amountBase': '0.005579976',
-        'amountConvert': '0.000175712',
-        'ordersIds': '9788771 9789282'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.009900479',
-        'amountBase': '241.753653444',
-        'amountConvert': '0.001158000',
-        'ordersIds': '9788753 9789264'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.002005',
-        'amountBase': '307.313187848',
-        'amountConvert': '0.001536566',
-        'ordersIds': '9788748 9789259'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.018005557',
-        'amountBase': '3182.000000000',
-        'amountConvert': '0.017682374',
-        'ordersIds': '9788456 9788967'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.00006979',
-        'amountBase': '0.009200000',
-        'amountConvert': '0.000000014',
-        'ordersIds': '9788589 9789100'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.02948956',
-        'amountBase': '0.005403912',
-        'amountConvert': '0.000170166',
-        'ordersIds': '9788788 9789299'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.02948956',
-        'amountBase': '0.005403912',
-        'amountConvert': '0.000170166',
-        'ordersIds': '9788788 9789299'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.02948956',
-        'amountBase': '0.005403912',
-        'amountConvert': '0.000170166',
-        'ordersIds': '9788788 9789299'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.02948956',
-        'amountBase': '0.005403912',
-        'amountConvert': '0.000170166',
-        'ordersIds': '9788788 9789299'
-      },
-      {
-        'needRefresh': true,
-        'page': 0, 'id': 0, 'userId': 0,
-        'orderType': 'BUY',
-        'exrate': '0.02148961',
-        'amountBase': '0.005579976',
-        'amountConvert': '0.000175712',
-        'ordersIds': '9788771 9789282'
-      }], 'type': 'BUY', 'currencyPairId': 1
-  };
-
-  private sellJson: object = {
-    'data': [
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.00050479',
-        'amountBase': '241.753653444',
-        'amountConvert': '0.001158000',
-        'ordersIds': '9788753 9789264'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.005005',
-        'amountBase': '307.313187848',
-        'amountConvert': '0.001536566',
-        'ordersIds': '9788748 9789259'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.005405557',
-        'amountBase': '3182.000000000',
-        'amountConvert': '0.017682374',
-        'ordersIds': '9788456 9788967'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.02006979',
-        'amountBase': '0.000200000',
-        'amountConvert': '0.000000014',
-        'ordersIds': '9788589 9789100'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.03148956',
-        'amountBase': '0.005403912',
-        'amountConvert': '0.000170166',
-        'ordersIds': '9788788 9789299'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.03148961',
-        'amountBase': '0.005579976',
-        'amountConvert': '0.000175712',
-        'ordersIds': '9788771 9789282'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.01000479',
-        'amountBase': '241.753653444',
-        'amountConvert': '0.001158000',
-        'ordersIds': '9788753 9789264'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.009005',
-        'amountBase': '307.313187848',
-        'amountConvert': '0.001536566',
-        'ordersIds': '9788748 9789259'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.020005557',
-        'amountBase': '3182.000000000',
-        'amountConvert': '0.017682374',
-        'ordersIds': '9788456 9788967'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.01956979',
-        'amountBase': '0.000200000',
-        'amountConvert': '0.000000014',
-        'ordersIds': '9788589 9789100'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.03048956',
-        'amountBase': '0.005403912',
-        'amountConvert': '0.000170166',
-        'ordersIds': '9788788 9789299'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.03148961',
-        'amountBase': '0.005579976',
-        'amountConvert': '0.000175712',
-        'ordersIds': '9788771 9789282'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.00200479',
-        'amountBase': '241.753653444',
-        'amountConvert': '0.001158000',
-        'ordersIds': '9788753 9789264'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.000005',
-        'amountBase': '307.313187848',
-        'amountConvert': '0.001536566',
-        'ordersIds': '9788748 9789259'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.00205557',
-        'amountBase': '3182.000000000',
-        'amountConvert': '0.017682374',
-        'ordersIds': '9788456 9788967'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.00506979',
-        'amountBase': '0.000200000',
-        'amountConvert': '0.000000014',
-        'ordersIds': '9788589 9789100'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.03148956',
-        'amountBase': '0.005403912',
-        'amountConvert': '0.000170166',
-        'ordersIds': '9788788 9789299'
-      },
-      {
-        'needRefresh': true,
-        'page': 0,
-        'id': 0,
-        'userId': 0,
-        'orderType': 'SELL',
-        'exrate': '0.02748961',
-        'amountBase': '0.005579976',
-        'amountConvert': '0.000175712',
-        'ordersIds': '9788771 9789282'
-      }
-    ],
-    'type': 'SELL',
-    'currencyPairId': 1
-  };
-
   constructor(
     private store: Store<State>,
     private orderBookService: OrderBookService,
     private marketService: MarketService,
+    private mockDataService: MockDataService,
     private dashboardService: DashboardService,
     private tradingService: TradingService) {
     super();
@@ -699,7 +300,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     // }
 
     /** sends the data in to trading */
-    this.dashboardService.selectedOrderTrading$.next(item);
+    // this.dashboardService.selectedOrderTrading$.next(item);
+    this.store.dispatch(new SelectedOrderBookOrderAction(item));
+
     this.dashboardService.activeMobileWidget.next(widgetName);
   }
 
@@ -731,8 +334,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private setMockData(): void {
-    this.addOrUpdate(this.sellOrders, this.sellJson['data']);
-    this.addOrUpdate(this.buyOrders, this.buyJson['data']);
+    this.addOrUpdate(this.sellOrders, this.mockDataService.getSellJson()['data']);
+    this.addOrUpdate(this.buyOrders, this.mockDataService.getBuyJson()['data']);
   }
 
   setWidthForChartBorder() {
