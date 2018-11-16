@@ -276,6 +276,20 @@
     }
   }
   //open structure end
+  .charges-type{
+    color:$darker-blue;
+  }
+  &__charges-mob-row{
+    position: relative;
+    .table__cell{
+      z-index: 2;
+    }
+    &--open{
+      .table__cell--arr-mob{
+        transform: rotate(180deg);
+      }
+    }
+  }
   /*--- elements end ---*/
 }
 
@@ -305,9 +319,21 @@
         background-color: $grey;
       }
     }
+    &__search{
+      width: 110px;
+      margin-right: 24px;
+    }
     &__select {
       width: 130px;
       margin-right: 24px;
+    }
+    &__datepicker{
+      width: 175px;
+      margin-right: 24px;
+      margin-bottom: -1px;
+      .wrap-input__label{
+        left: 17px;
+      }
     }
     &__earned-wrap {
       display: flex;
@@ -610,6 +636,24 @@
     &__step-img{
       svg{
         fill:$light-blue;
+      }
+    }
+    .charges-type{
+      color:$light-blue;
+    }
+    &__charges-mob-row{
+      &--open{
+        &:after{
+          content:"";
+          position: absolute;
+          z-index: 0;
+          //top: 0;
+          left: 0;
+          display: block;
+          width: 100%;
+          height: 60px;
+          background: linear-gradient(to right,#21417D 0%, #191A39 100%);
+        }
       }
     }
     .open-structure{
