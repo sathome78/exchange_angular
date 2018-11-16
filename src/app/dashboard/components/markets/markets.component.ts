@@ -142,7 +142,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    * @returns {CurrencyPair[]}
    */
   choosePair(market: string): CurrencyPair[] {
-    if (market === 'FAVOURITE') {
+    if (market === 'Favorites') {
       return this.currencyPairs.filter(pair => pair.isFavourite);
     }
     return this.currencyPairs.filter(f => f.market && f.market.toUpperCase() === market.toUpperCase());

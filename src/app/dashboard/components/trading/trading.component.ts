@@ -137,7 +137,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
     this.dashboardService.lastBuySellOrderListener$.subscribe(res => {
       this.lastSellBuyOrder = res;
-      console.log(this.lastSellBuyOrder);
     });
 
   }

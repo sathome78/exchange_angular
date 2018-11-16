@@ -11,56 +11,14 @@
     </a>
     <span class="widget__dots "></span>
     <div class="widget__controls">
-      <!--<div class="widget__controls-horizontal">-->
-      <!--<span class="widget__controls-plus" (click)="heightChange(true)">-->
-      <!--<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-      <!--<path-->
-      <!--d="M1 3.38889C0.723858 3.38889 0.5 3.61275 0.5 3.88889C0.5 4.16503 0.723858 4.38889 1 4.38889V3.38889ZM7.12826 4.38889C7.4044 4.38889 7.62826 4.16503 7.62826 3.88889C7.62826 3.61275 7.4044 3.38889 7.12826 3.38889V4.38889ZM4.5638 1C4.5638 0.723858 4.33994 0.5 4.0638 0.5C3.78766 0.5 3.5638 0.723858 3.5638 1H4.5638ZM3.5638 6.77778C3.5638 7.05392 3.78766 7.27778 4.0638 7.27778C4.33994 7.27778 4.5638 7.05392 4.5638 6.77778H3.5638ZM1 4.38889H7.12826V3.38889H1V4.38889ZM4.5638 6.77778V1H3.5638V6.77778H4.5638Z"/>-->
-      <!--</svg>-->
-      <!--</span>-->
-      <!--<span class="widget__controls-horizontal-img">-->
-      <!--<svg width="12" height="16" viewBox="0 0 12 16" xmlns="http://www.w3.org/2000/svg">-->
-      <!--<rect width="12" height="9"/>-->
-      <!--<rect y="11" width="12" height="5" fill-opacity="0.5"/>-->
-      <!--</svg>-->
-      <!--</span>-->
-      <!--<span class="widget__controls-minus" (click)="heightChange(false)">-->
-      <!--<svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-      <!--<path-->
-      <!--d="M1 4C0.723858 4 0.5 4.22386 0.5 4.5C0.5 4.77614 0.723858 5 1 5V4ZM6.65685 5C6.933 5 7.15685 4.77614 7.15685 4.5C7.15685 4.22386 6.933 4 6.65685 4V5ZM1 5L6.65685 5V4L1 4V5Z"/>-->
-      <!--</svg>-->
-      <!--</span>-->
-      <!--</div>-->
-      <!--<div class="widget__controls-vertical">-->
-      <!--<span class="widget__controls-plus" (click)="widthChange(true)">-->
-      <!--<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-      <!--<path-->
-      <!--d="M1 3.38889C0.723858 3.38889 0.5 3.61275 0.5 3.88889C0.5 4.16503 0.723858 4.38889 1 4.38889V3.38889ZM7.12826 4.38889C7.4044 4.38889 7.62826 4.16503 7.62826 3.88889C7.62826 3.61275 7.4044 3.38889 7.12826 3.38889V4.38889ZM4.5638 1C4.5638 0.723858 4.33994 0.5 4.0638 0.5C3.78766 0.5 3.5638 0.723858 3.5638 1H4.5638ZM3.5638 6.77778C3.5638 7.05392 3.78766 7.27778 4.0638 7.27778C4.33994 7.27778 4.5638 7.05392 4.5638 6.77778H3.5638ZM1 4.38889H7.12826V3.38889H1V4.38889ZM4.5638 6.77778V1H3.5638V6.77778H4.5638Z"/>-->
-      <!--</svg>-->
-      <!--</span>-->
-      <!--<span class="widget__controls-vertical-img">-->
-      <!--<svg width="13" height="16" viewBox="0 0 13 16" xmlns="http://www.w3.org/2000/svg">-->
-      <!--<rect y="16" width="15.7946" height="7.38544" transform="rotate(-90 0 16)"/>-->
-      <!--<rect x="9" y="16" width="16" height="4" transform="rotate(-90 9 16)" fill-opacity="0.5"/>-->
-      <!--</svg>-->
-      <!--</span>-->
-      <!--<span class="widget__controls-minus" (click)="widthChange(false)">-->
-      <!--<svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-      <!--<path-->
-      <!--d="M1 4C0.723858 4 0.5 4.22386 0.5 4.5C0.5 4.77614 0.723858 5 1 5V4ZM6.65685 5C6.933 5 7.15685 4.77614 7.15685 4.5C7.15685 4.22386 6.933 4 6.65685 4V5ZM1 5L6.65685 5V4L1 4V5Z"/>-->
-      <!--</svg>-->
-      <!--</span>-->
-      <!--</div>-->
       <div class="widget__controls-close" (click)="remove()">
         <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"/>
         </svg>
-
       </div>
     </div>
   </div>
-
 
   <div class="widget__header--mob" *ngIf="!marketSearch">
     <div class="widget__name-mob">Markets</div>
@@ -100,15 +58,13 @@
       </button>
       <button class="tabs__item tabs__item--small"
               [ngClass]="{'tabs__item--active': currencyDisplayMode === 'Favorites','tab-no-active': currencyDisplayMode !== 'Favorites'}"
-              (click)="selectedTab('FAVOURITE')"
+              (click)="selectedTab('Favorites')"
       >
         Favorites
       </button>
     </div>
 
 
-    <!--table start-->
-    <!--<perfect-scrollbar style="max-width: 600px; max-height: 385px;" [config]="config">-->
     <perfect-scrollbar style="max-width: 600px; max-height: 380px;">
       <div class="widget__table-wrap">
 
@@ -116,15 +72,15 @@
           <thead>
           <tr style="margin-right: 30px;">
             <th class="table__cell-head table__cell-head--p4" width="7%">
-              <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <span class="table__cell-head-star">
+                <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
-                  d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"
-                  fill="#191A39"/>
+                  d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
               </svg>
-
+</span>
             </th>
             <th class="table__cell-head table__cell-head--tal table__cell-head--p4" width="21%">Pair</th>
-            <th class="table__cell-head table__cell-head--tal table__cell-head--p4" width="25%">Price in <span>{{currencyDisplayMode}}</span>
+            <th class="table__cell-head table__cell-head--tal table__cell-head--p4" width="25%">Price
             </th>
             <th class="table__cell-head table__cell-head--tal table__cell-head--p4" width="17%">Change %</th>
             <th class="table__cell-head table__cell-head--tar table__cell-head--p4" width="30%" (click)="sortVolume()">
@@ -140,7 +96,8 @@
             <tr class="table__row widget__table-row"
                 [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
               <td class="table__cell table__cell--tac" width="7%">
-                <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavourite(pair)}" (click)="toggleFavourite(pair)">
+                <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavourite(pair)}"
+                      (click)="toggleFavourite(pair)">
                   <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
@@ -212,7 +169,8 @@
         <ng-container *ngFor="let pair of pairs | currencySort:'volume'">
           <tr class="table__row widget__table-row">
             <td class="table__cell table__cell--tac">
-    <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavourite(pair)}" (click)="toggleFavourite(pair)">
+    <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavourite(pair)}"
+          (click)="toggleFavourite(pair)">
     <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
