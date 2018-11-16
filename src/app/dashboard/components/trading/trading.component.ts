@@ -212,12 +212,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.dropdownLimitValue = limit;
     if (limit === 'MARKET_PRICE') {
       if (this.lastSellOrder) {
-        this.order.rate = this.lastSellOrder.exrate ? this.lastSellOrder.exrate : 0;
-        this.setPriceInValue(this.lastSellOrder.exrate ? this.lastSellOrder.exrate : 0);
+        this.order.rate = this.lastSellOrder ? this.lastSellOrder.exrate : 0;
+        this.setPriceInValue(this.lastSellOrder ? this.lastSellOrder.exrate : 0);
         this.getCommission();
       }
     }
-    this.toggleLimitDropdown();
+    this.isDropdownOpen = false;
   }
 
   /**
@@ -237,9 +237,19 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param e
    */
   quantityIput(e): void {
-    this.order.amount = e.target.value;
+    this.order.amount = parseFloat(this.deleteSpace(e.target.value.toString()));
     this.setQuantityValue(e.target.value);
     this.getCommission();
+  }
+
+  deleteSpace(value) {
+    if (value) {
+      const replaceMask = '';
+      const searchMask = ' ';
+      const regex = new RegExp(searchMask, 'ig');
+      return value.toString().replace(regex, replaceMask);
+    }
+    return '';
   }
 
   /**
@@ -247,7 +257,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param e
    */
    rateInput(e): void {
-       this.order.rate = e.target.value;
+       this.order.rate = parseFloat(this.deleteSpace(e.target.value.toString()));
        this.getCommission();
    }
 
@@ -255,7 +265,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
      this.orderStop = e.target.value;
   }
    totalInput(e): void {
-     this.order.total = e.target.value;
+     this.order.total = parseFloat(this.deleteSpace(e.target.value.toString()));
      if (this.order.total > this.userBalance) {
        this.order.total = this.userBalance;
        this.setTotalInValue(this.userBalance);
@@ -426,12 +436,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   private getCommission(): void {
     if (this.order.rate >= 0) {
-      this.order.total = this.order.amount * this.order.rate;
+      this.order.total = parseFloat(this.order.amount) * parseFloat(this.order.rate);
       this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
       let total;
       this.mainTab === 'BUY' ?
-        total = this.order.total + this.order.commission :
-        total = this.order.total - this.order.commission;
+        total = this.order.total + parseFloat(this.order.commission) :
+        total = this.order.total - parseFloat(this.order.commission);
       this.order.total = total;
       this.setTotalInValue(total);
     }

@@ -21,23 +21,25 @@
         </ul>
       </div>
     </div>
-    <div class="currency-pair-info__info currency-pair-info__info--up">
+    <div class="currency-pair-info__info"
+         [ngClass]="{'currency-pair-info__info--up': flarForArrow('up'),
+                     'currency-pair-info__info--down': flarForArrow('down')}">
       <div class="currency-pair-info__change">
-        <span>{{!currentCurrencyInfo ? 0 : currentCurrencyInfo.percentChange}}%</span>
+        <span>{{!currentCurrencyInfo || !currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange | number:'1.0-2' | replaceNumber}}%</span>
         <!--<span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{!currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange}}%</span>-->
-        <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="">
-        <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="">
-        <span style="margin-left: 10px;">({{(!currentCurrencyInfo ? 0 :currentCurrencyInfo.currencyRate - currentCurrencyInfo.lastCurrencyRate) | number:'1.1-8' | replaceNumber }} {{ secondCurrency }})</span>
+        <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="" *ngIf="flarForArrow('up')">
+        <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="" *ngIf="flarForArrow('down')">
+        <span style="margin-left: 10px;">({{(!currentCurrencyInfo || !currentCurrencyInfo.changedValue ? 0 :currentCurrencyInfo.changedValue) | number:'1.1-8' | replaceNumber }} {{ secondCurrency }})</span>
       </div>
-      <div class="currency-pair-info__price">{{!currentCurrencyInfo ? 0 :currentCurrencyInfo.currencyRate | number:'1.0' | replaceNumber }} {{ secondCurrency }}</div>
+      <div class="currency-pair-info__price">{{!currentCurrencyInfo || !currentCurrencyInfo.currencyRate ? 0 :currentCurrencyInfo.currencyRate | number:'1.0-8' | replaceNumber }} {{ secondCurrency }}</div>
     </div>
     <div class="currency-pair-info__item">
       <div class="currency-pair-info__item-title">24h hight</div>
-      <span class="currency-pair-info__item-value">{{!currentCurrencyInfo ? 0 :currentCurrencyInfo.rateHigh | number:'1.0' | replaceNumber }}</span>
+      <span class="currency-pair-info__item-value">{{!currentCurrencyInfo ? 0 :currentCurrencyInfo.rateHigh | number:'1.0-8' | replaceNumber }}</span>
     </div>
     <div class="currency-pair-info__item">
       <div class="currency-pair-info__item-title">24h low</div>
-      <span class="currency-pair-info__item-value">{{ !currentCurrencyInfo ? 0 :currentCurrencyInfo.rateLow | number:'1.0' | replaceNumber}}</span>
+      <span class="currency-pair-info__item-value">{{ !currentCurrencyInfo ? 0 :currentCurrencyInfo.rateLow | number:'1.0-8' | replaceNumber}}</span>
     </div>
     <div class="currency-pair-info__item">
       <div class="currency-pair-info__item-title">24h volume</div>

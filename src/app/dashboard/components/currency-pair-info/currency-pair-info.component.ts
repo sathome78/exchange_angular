@@ -126,15 +126,23 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getCurrencyPairInfo(pair): void {
-    if (pair.currencyPairId) {
-      const infoSubscription = this.marketService.currencyPairInfo(pair.currencyPairId)
-        .subscribe(res => {
-          this.currentCurrencyInfo = res;
-          this.marketService.currentCurrencyInfoListener$.next(res);
-          console.log(res)
-          infoSubscription.unsubscribe();
-        });
+  flarForArrow(s: string) {
+    if (s === 'up') {
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate > 0 :  false;
+    } else {
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate < 0 : false;
     }
   }
+
+  // private getCurrencyPairInfo(pair): void {
+  //   if (pair.currencyPairId) {
+  //     const infoSubscription = this.marketService.currencyPairInfo(pair.currencyPairId)
+  //       .subscribe(res => {
+  //         this.currentCurrencyInfo = res;
+  //         this.marketService.currentCurrencyInfoListener$.next(res);
+  //         console.log(res)
+  //         infoSubscription.unsubscribe();
+  //       });
+  //   }
+  // }
 }

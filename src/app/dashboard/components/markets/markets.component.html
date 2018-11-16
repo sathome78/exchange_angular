@@ -175,7 +175,7 @@
     </perfect-scrollbar>
     <!--table end-->
     <div class="widget__search">
-      <input class="widget__search-input" type="text" required="" placeholder="Search"
+      <input class="widget__search-input" type="text" required="" placeholder="Search" [(ngModel)]="searchInput"
              (input)="searchPair($event.target.value)">
       <span class="widget__input-img">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">

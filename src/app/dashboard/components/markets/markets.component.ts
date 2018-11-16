@@ -31,6 +31,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   pairs: CurrencyPair[] = [];
   public sortPoint = 'asc';
   public marketSearch = false;
+  public searchInput;
 
 
   volumeOrderDirection = 'NONE';
@@ -131,6 +132,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   selectedTab(value: string): void {
     this.currencyDisplayMode = value;
     this.pairs = this.choosePair(value);
+    this.searchInput = '';
     // console.log(this.pairs);
   }
 
