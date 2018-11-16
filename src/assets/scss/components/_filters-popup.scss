@@ -14,15 +14,21 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-top: 12px;
     margin-bottom: 16px;
   }
   &__title{
     font-size: 24px;
   }
-  &__search{
+  &__close{
+    svg{
+      fill:$darker-blue;
+    }
+  }
+  &__search,&__input{
     margin-bottom: 24px;
   }
-  &__datepicker{
+  &__datepicker,&__select{
     width: 100%;
     &:first-child{
       margin-right: 28px;
@@ -49,6 +55,11 @@
 .dark-theme{
   .filters-popup{
     background-color: $dark-indigo;
+    &__close{
+      svg{
+        fill:$darker-blue;
+      }
+    }
   }
 }
 @media (min-width:1200px) {
