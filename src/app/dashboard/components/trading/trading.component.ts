@@ -68,9 +68,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   @HostListener('document:click', ['$event']) clickout($event) {
     this.notifyFail = false;
     this.notifySuccess = false;
-    // if ($event.target.className !== 'dropdown__btn') {
-    //   this.isDropdownOpen = false;
-    // }
+    if ($event.target.className !== 'dropdown__btn') {
+      this.isDropdownOpen = false;
+    }
   }
 
   constructor(
