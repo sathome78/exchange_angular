@@ -8,7 +8,6 @@ import {AuthService} from 'app/services/auth.service';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {MarketService} from './market.service';
-import {CurrencySortingPipe} from './currency-sorting.pipe';
 import {ChangeCurrencyPairAction} from '../../actions/dashboard.actions';
 import {UserService} from '../../../services/user.service';
 import {CurrencyPairInfoService} from '../currency-pair-info/currency-pair-info.service';
@@ -41,9 +40,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     private marketService: MarketService,
     private store: Store<State>,
     private userService: UserService,
-    private currencyPairInfoService: CurrencyPairInfoService,
-    private authService: AuthService,
-    private ref: ChangeDetectorRef) {
+    private currencyPairInfoService: CurrencyPairInfoService) {
     super();
   }
 

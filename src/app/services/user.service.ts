@@ -80,7 +80,7 @@ export class UserService {
   }
 
   public authenticateUser(email: string, password: string, pin?: string): Observable<{} | TokenHolder> {
-    console.log(email, password, pin)
+    // console.log(email, password, pin);
     const authCandidate = AuthCandidate
       .builder()
       .withEmail(email)
