@@ -16,7 +16,9 @@ export class AuthService {
   private tokenHolder: TokenHolder;
   public simpleToken: {expiration: number, token_id: number, username: string, value: string};
 
-  constructor(private logger: LoggingService) {}
+  constructor(
+    private logger: LoggingService,
+  ) {}
 
 
   public isAuthenticated(): boolean {
@@ -33,6 +35,7 @@ export class AuthService {
   onLogOut() {
     this.simpleToken = {expiration: 0, username: '', token_id: 0, value: ''};
     localStorage.removeItem(TOKEN);
+
     // location.reload();
   }
 

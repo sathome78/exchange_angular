@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {LOCALE_ID, NgModule} from '@angular/core';
+import {StoreModule} from '@ngrx/store';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import {DropdownDirective} from './directives/dropdown.directive';
 import {AuthGuard} from './services/auth.guard';
 import {AuthService} from './services/auth.service';
 import {FooterComponent} from './footer/footer.component';
@@ -45,8 +45,8 @@ import {UserVerificationService} from './services/user-verification.service';
 import { OpenOrdersComponent } from './orders/open-orders/open-orders.component';
 import { OrdersHistoryComponent } from './orders/orders-history/orders-history.component';
 import {MockDataService} from './services/mock-data.service';
-import {TradingService} from './dashboard/trading/trading.service';
-import {OrdersService} from './dashboard/orders/orders.service';
+import {TradingService} from './dashboard/components/trading/trading.service';
+import {OrdersService} from './dashboard/components/orders/orders.service';
 import { ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
 import { ReferralChargesComponent } from './referral/referral-charges/referral-charges.component';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -54,13 +54,15 @@ import { BalanceComponent } from './balance/balance.component';
 import { LoginPopupMobileComponent } from './popups/login-popup-mobile/login-popup-mobile.component';
 import { RegistrationMobilePopupComponent } from './popups/registration-mobile-popup/registration-mobile-popup.component';
 import {CurrencyPipe} from './shared/pipes/currency.pipe';
+import {CoreModule} from './core/core.module';
+import {reducers} from './core/reducers/index';
+import {CurrencyPairInfoService} from './dashboard/components/currency-pair-info/currency-pair-info.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    DropdownDirective,
     FooterComponent,
     TwoFactorPopupComponent,
 
@@ -93,6 +95,8 @@ import {CurrencyPipe} from './shared/pipes/currency.pipe';
 
   ],
   imports: [
+    StoreModule.forRoot(reducers),
+    CoreModule,
     AppRoutingModule,
     BrowserModule,
     DashboardModule,
@@ -119,6 +123,7 @@ import {CurrencyPipe} from './shared/pipes/currency.pipe';
     MockDataService,
     TradingService,
     OrdersService,
+    CurrencyPairInfoService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

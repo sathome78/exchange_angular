@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
-import { NotificationComponent } from './components/notification/notification.component';
-import { NotificationsService } from './components/notification/notifications.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
+
+import { NotificationComponent } from './components/notification/notification.component';
+import { NotificationsService } from './components/notification/notifications.service';
 import {SortPipe} from './pipes/sort.pipe';
 import {GroupCoinPipe} from './pipes/group-coin.pipe';
 import {ReplaceNumberPipe} from './pipes/number-replace.pipe';
 import {CurrencyPipe} from './pipes/currency.pipe';
-import {OnlyNumbersDirective} from './derectives/only-numbers.directive';
+import {DropdownDirective} from './directives/dropdown.directive';
+import {OnlyNumbersDirective} from './directives/only-numbers.directive';
 import {PriceInputComponent} from './components/price-input/price-input.component';
 
 
@@ -19,6 +21,7 @@ import {PriceInputComponent} from './components/price-input/price-input.componen
     ReplaceNumberPipe,
     GroupCoinPipe,
     CurrencyPipe,
+    DropdownDirective,
     OnlyNumbersDirective,
   ],
   imports: [
@@ -29,6 +32,7 @@ import {PriceInputComponent} from './components/price-input/price-input.componen
   exports: [
     NotificationComponent,
     PriceInputComponent,
+    DropdownDirective,
     OnlyNumbersDirective,
     SortPipe,
     ReplaceNumberPipe,

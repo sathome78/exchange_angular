@@ -638,6 +638,30 @@
     }
   }
 }
+.open-structure{
+  &__back-to{
+    font-size: 14px;
+    color:$light-blue;
+    svg{
+      fill: $light-blue;
+    }
+  }
+  &__close{
+    svg{
+      fill:$light-blue;
+    }
+  }
+  &__row{
+    &:before{
+      background: linear-gradient(to right,#21417D 0%, #191A39 100%);
+    }
+  }
+  &__arr{
+    svg{
+      stroke: $light-blue;
+    }
+  }
+}
 
 @media (min-width: 1200px) {
   .dark-theme {
