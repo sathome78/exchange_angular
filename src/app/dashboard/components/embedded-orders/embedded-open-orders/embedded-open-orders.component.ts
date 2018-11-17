@@ -4,7 +4,7 @@ import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 
 import {MockDataService} from 'app/services/mock-data.service';
-import {OrdersService} from '../orders.service';
+import {OrdersService} from '../../embedded-orders/orders.service';
 import {MarketService} from '../../markets/market.service';
 import {TradingService} from '../../trading/trading.service';
 import {Order} from '../../trading/order.model';
@@ -14,11 +14,11 @@ import {CurrencyPair} from '../../../../model/currency-pair.model';
 
 
 @Component({
-  selector: 'app-open-orders',
-  templateUrl: 'open-orders.component.html',
-  styleUrls: ['open-orders.component.scss']
+  selector: 'app-embedded-open-orders',
+  templateUrl: './embedded-open-orders.component.html',
+  styleUrls: ['./embedded-open-orders.component.scss']
 })
-export class OpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
+export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
   @Output() refreshOpenOrders: EventEmitter<boolean> = new EventEmitter();
   @Input() makeHeight ;
   private ngUnsubscribe: Subject<void> = new Subject<void>();

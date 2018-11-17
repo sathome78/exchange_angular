@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OpenOrdersComponent } from './open-orders.component';
+import { EmbeddedOpenOrdersComponent } from './embedded-open-orders.component';
 
-describe('OpenOrdersComponent', () => {
-  let component: OpenOrdersComponent;
-  let fixture: ComponentFixture<OpenOrdersComponent>;
+describe('EmbeddedOpenOrdersComponent', () => {
+  let component: EmbeddedOpenOrdersComponent;
+  let fixture: ComponentFixture<EmbeddedOpenOrdersComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OpenOrdersComponent ]
+      declarations: [ EmbeddedOpenOrdersComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OpenOrdersComponent);
+    fixture = TestBed.createComponent(EmbeddedOpenOrdersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

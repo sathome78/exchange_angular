@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IMyDpOptions, IMyInputFieldChanged } from 'mydatepicker';
 
 import { Order } from '../../dashboard/components/trading/order.model';
-import { OrdersService } from '../../dashboard/components/orders/orders.service';
+import { OrdersService } from '../../dashboard/components/embedded-orders/orders.service';
 import { MockDataService } from '../../services/mock-data.service';
 import { TradingService } from '../../dashboard/components/trading/trading.service';
 import { MarketService } from '../../dashboard/components/markets/market.service';

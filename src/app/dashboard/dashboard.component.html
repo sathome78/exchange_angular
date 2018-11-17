@@ -85,7 +85,7 @@
 </ng-template>
 
 <ng-template #orders let-index>
-  <app-orders (changeItemSize)="changeItemSize($event)"
+  <app-embedded-orders (changeItemSize)="changeItemSize($event)"
               (removeItem)="removeItem(index)">
-  </app-orders>
+  </app-embedded-orders>
 </ng-template>

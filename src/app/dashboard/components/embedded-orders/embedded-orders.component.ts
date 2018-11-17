@@ -1,22 +1,20 @@
-import {Component, EventEmitter, OnDestroy, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit} from '@angular/core';
 import {Subject, forkJoin, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/internal/operators';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {MockDataService} from 'app/services/mock-data.service';
-import {OrdersService} from './orders.service';
-import {MarketService} from '../markets/market.service';
 import {AuthService} from 'app/services/auth.service';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {select, Store} from '@ngrx/store';
 import {State, getCurrencyPair} from 'app/core/reducers/index';
+import {OrdersService} from './orders.service';
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: 'orders.component.html',
-  styleUrls: ['orders.component.scss']
+  selector: 'app-embedded-orders',
+  templateUrl: './embedded-orders.component.html',
+  styleUrls: ['./embedded-orders.component.scss']
 })
-export class OrdersComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
+export class EmbeddedOrdersComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   /** dashboard item name (field for base class)*/
   public itemName: string;
 
@@ -36,9 +34,7 @@ export class OrdersComponent extends AbstractDashboardItems implements OnInit, O
     private store: Store<State>,
     private authService: AuthService,
     // private mockData: MockDataService,
-    private ordersService: OrdersService,
-    private marketService: MarketService,
-    private ref: ChangeDetectorRef
+    private ordersService: OrdersService
   ) {
     super();
   }

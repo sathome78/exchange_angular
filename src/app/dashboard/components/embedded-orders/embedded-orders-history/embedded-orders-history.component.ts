@@ -1,12 +1,11 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import { OpenOrders } from '../open-orders.model';
 
 @Component({
-  selector: 'app-orders-history',
-  templateUrl: 'orders-history.component.html',
-  styleUrls: ['orders-history.component.scss']
+  selector: 'app-embedded-orders-history',
+  templateUrl: './embedded-orders-history.component.html',
+  styleUrls: ['./embedded-orders-history.component.scss']
 })
-export class OrdersHistoryComponent implements OnInit, OnChanges {
+export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
 
   @Input() historyOrders;
   @Input() makeHeight;

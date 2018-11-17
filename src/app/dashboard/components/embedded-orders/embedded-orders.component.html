@@ -76,18 +76,18 @@
     </div>
 
 
-    <app-open-orders
+    <app-embedded-open-orders
       *ngIf="mainTab === 'open'"
       (refreshOpenOrders)="toOpenOrders()"
       [makeHeight]="makeHeight"
       [openOrders]="openOrders">
-    </app-open-orders>
+    </app-embedded-open-orders>
 
-    <app-orders-history
+    <app-embedded-orders-history
       *ngIf="mainTab === 'history'"
       [makeHeight]="makeHeight"
       [historyOrders]="historyOrders">
-    </app-orders-history>
+    </app-embedded-orders-history>
 
 
   </div>

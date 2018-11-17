@@ -10,9 +10,6 @@ import {BuyComponent} from './components/trading/buy/buy.component';
 import {SellComponent} from './components/trading/sell/sell.component';
 import {OrderBookComponent} from './components/order-book/order-book.component';
 import {TradeHistoryComponent} from './components/trade-history/trade-history.component';
-import {OrdersComponent} from './components/orders/orders.component';
-import {OpenOrdersComponent} from './components/orders/open-orders/open-orders.component';
-import {OrdersHistoryComponent} from './components/orders/orders-history/orders-history.component';
 import {ChatComponent} from './components/chat/chat.component';
 import {GraphComponent} from './components/graph/graph.component';
 import {SharedModule} from '../shared/shared.module';
@@ -38,6 +35,9 @@ import { ChatMessageComponent } from './components/chat/chat-message/chat-messag
 import {NicknamePipe} from './components/chat/chat-message/nickname.pipe';
 import {PositivePipe} from './components/markets/positive.pipe';
 import {ActivePairComponent} from './components/active-pair/active-pair.component';
+import { EmbeddedOrdersComponent } from './components/embedded-orders/embedded-orders.component';
+import { EmbeddedOrdersHistoryComponent } from './components/embedded-orders/embedded-orders-history/embedded-orders-history.component';
+import { EmbeddedOpenOrdersComponent } from './components/embedded-orders/embedded-open-orders/embedded-open-orders.component';
 
 
 export function socketProvider() {
@@ -89,19 +89,19 @@ const stompConfig: StompConfig = {
     MarketsComponent,
     NicknamePipe,
     OrderBookComponent,
-    OrdersComponent,
     PositivePipe,
     SellComponent,
     TradeHistoryComponent,
     TradingComponent,
-    OpenOrdersComponent,
-    OrdersHistoryComponent,
     CurrencySearchComponent,
     MarketSearchComponent,
     ToolsComponent,
     CurrencyPairInfoComponent,
     DayChatComponent,
     ChatMessageComponent,
+    EmbeddedOrdersComponent,
+    EmbeddedOrdersHistoryComponent,
+    EmbeddedOpenOrdersComponent,
   ],
   imports: [
     SharedModule,

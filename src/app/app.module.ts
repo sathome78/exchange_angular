@@ -46,7 +46,7 @@ import { OpenOrdersComponent } from './orders/open-orders/open-orders.component'
 import { OrdersHistoryComponent } from './orders/orders-history/orders-history.component';
 import {MockDataService} from './services/mock-data.service';
 import {TradingService} from './dashboard/components/trading/trading.service';
-import {OrdersService} from './dashboard/components/orders/orders.service';
+import {OrdersService} from './dashboard/components/embedded-orders/orders.service';
 import { ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
 import { ReferralChargesComponent } from './referral/referral-charges/referral-charges.component';
 import { NgxPaginationModule } from 'ngx-pagination';

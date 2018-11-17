@@ -5,7 +5,7 @@ import { MockDataService } from '../../services/mock-data.service';
 import { TradingService } from '../../dashboard/components/trading/trading.service';
 import { MarketService } from '../../dashboard/components/markets/market.service';
 import { AuthService } from '../../services/auth.service';
-import { OrdersService } from '../../dashboard/components/orders/orders.service';
+import { OrdersService } from '../../dashboard/components/embedded-orders/orders.service';
 import { CurrencyPair } from '../../model/currency-pair.model';
 
 import { timestamp, takeUntil } from 'rxjs/internal/operators';
