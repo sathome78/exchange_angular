@@ -103,7 +103,6 @@ const stompConfig: StompConfig = {
     NicknamePipe,
     PositivePipe,
 
-
     // PIPES END
   ],
   imports: [
@@ -117,7 +116,32 @@ const stompConfig: StompConfig = {
     PerfectScrollbarModule
   ],
   exports: [
+    ActivePairComponent,
+    BuyComponent,
+    ChatComponent,
+    ChatMessageComponent,
+    CurrencyPairInfoComponent,
+    CurrencySearchComponent,
+    DashboardComponent,
+    DayChatComponent,
+    EmbeddedOrdersComponent,
+    EmbeddedOrdersHistoryComponent,
+    EmbeddedOpenOrdersComponent,
+    GraphComponent,
+    MarketsComponent,
+    MarketSearchComponent,
+    OrderBookComponent,
+    SellComponent,
+    TradeHistoryComponent,
+    TradingComponent,
+    ToolsComponent,
 
+    // PIPES START
+    CurrencySortingPipe,
+    NicknamePipe,
+    PositivePipe,
+
+    // PIPES END
   ],
   providers: [
     ChatService,

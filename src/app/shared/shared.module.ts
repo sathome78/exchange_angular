@@ -32,12 +32,12 @@ import {PriceInputComponent} from './components/price-input/price-input.componen
   exports: [
     NotificationComponent,
     PriceInputComponent,
-    DropdownDirective,
-    OnlyNumbersDirective,
     SortPipe,
     ReplaceNumberPipe,
     GroupCoinPipe,
     CurrencyPipe,
+    DropdownDirective,
+    OnlyNumbersDirective,
   ],
   providers: [
     NotificationsService
