@@ -6,6 +6,7 @@ import {SettingsComponent} from './settings/settings.component';
 import {TwoFactorPopupComponent} from './popups/two-factor-popup/two-factor-popup.component';
 import {AuthGuard} from './services/auth.guard';
 import {BalanceComponent} from './balance/balance.component';
+import {RefillMoneyComponent} from './popups/refill-money/refill-money.component';
 import {OrdersHistoryComponent} from './orders/orders-history/orders-history.component';
 import {OpenOrdersComponent} from './orders/open-orders/open-orders.component';
 import {ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
@@ -15,15 +16,17 @@ const routes: Routes = [
   // permit all
   { path: 'dashboard',      component: DashboardComponent },
   { path: 'balance',      component: BalanceComponent },
+  { path: 'refill-money',      component: RefillMoneyComponent },
   { path: 'open-orders', component: OpenOrdersComponent },
   { path: 'orders-history', component: OrdersHistoryComponent },
   { path: 'referral-structure', component: ReferralStructureComponent },
   { path: 'referral-charges', component: ReferralChargesComponent },
   // { path: 'funds',      component: DashboardComponent, },ç
   // { path: 'orders',      component: DashboardComponent, },
-  // { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   // { path: 'tfa-popup', component: TwoFactorPopupComponent },
+  // { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   // { path: 'settings',  component: SettingsComponent,    loadChildren: 'app/settings/settings.module#SettingsModule' },
+
 
 
 

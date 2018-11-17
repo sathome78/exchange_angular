@@ -54,6 +54,7 @@ import { BalanceComponent } from './balance/balance.component';
 import { LoginPopupMobileComponent } from './popups/login-popup-mobile/login-popup-mobile.component';
 import { RegistrationMobilePopupComponent } from './popups/registration-mobile-popup/registration-mobile-popup.component';
 import {CurrencyPipe} from './shared/pipes/currency.pipe';
+import { RefillMoneyComponent } from './popups/refill-money/refill-money.component';
 
 
 @NgModule({
@@ -88,6 +89,7 @@ import {CurrencyPipe} from './shared/pipes/currency.pipe';
     BalanceComponent,
     LoginPopupMobileComponent,
     RegistrationMobilePopupComponent,
+    RefillMoneyComponent,
     // TWO FACTOR POPUP END
 
 
