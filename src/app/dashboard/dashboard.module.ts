@@ -12,7 +12,6 @@ import {ChatComponent} from './components/chat/chat.component';
 import {ChatMessageComponent} from './components/chat/chat-message/chat-message.component';
 import {CurrencyPairInfoComponent} from './components/currency-pair-info/currency-pair-info.component';
 import {CurrencySearchComponent} from './components/currency-pair-info/currency-search/currency-search.component';
-import {CurrencySortingPipe} from './components/markets/currency-sorting.pipe';
 import {DashboardComponent} from './dashboard.component';
 import {DayChatComponent} from './components/chat/day-chat/day-chat.component';
 import {EmbeddedOrdersComponent} from './components/embedded-orders/embedded-orders.component';
@@ -20,9 +19,7 @@ import {EmbeddedOrdersHistoryComponent} from './components/embedded-orders/embed
 import {EmbeddedOpenOrdersComponent} from './components/embedded-orders/embedded-open-orders/embedded-open-orders.component';
 import {GraphComponent} from './components/graph/graph.component';
 import {MarketsComponent} from './components/markets/markets.component';
-import {NicknamePipe} from './components/chat/chat-message/nickname.pipe';
 import {OrderBookComponent} from './components/order-book/order-book.component';
-import {PositivePipe} from './components/markets/positive.pipe';
 import {SellComponent} from './components/trading/sell/sell.component';
 import {TradeHistoryComponent} from './components/trade-history/trade-history.component';
 import {TradingComponent} from './components/trading/trading.component';
@@ -84,7 +81,6 @@ const stompConfig: StompConfig = {
     ChatMessageComponent,
     CurrencyPairInfoComponent,
     CurrencySearchComponent,
-    CurrencySortingPipe,
     DashboardComponent,
     DayChatComponent,
     EmbeddedOrdersComponent,
@@ -93,9 +89,7 @@ const stompConfig: StompConfig = {
     GraphComponent,
     MarketsComponent,
     MarketSearchComponent,
-    NicknamePipe,
     OrderBookComponent,
-    PositivePipe,
     SellComponent,
     TradeHistoryComponent,
     TradingComponent,

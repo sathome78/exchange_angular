@@ -37,7 +37,6 @@ import {LangService} from './services/lang.service';
 import {UserService} from './services/user.service';
 import {ThemeService} from './services/theme.service';
 import {JwtInterceptor} from './interceptors/jwt.interceptor';
-import {AuthInterceptor} from './interceptors/auth.interceptor';
 import {QRCodeModule} from 'angular2-qrcode';
 import {GoogleAuthenticatorService} from './popups/two-factor-popup/google/google-authenticator.service';
 import { SharedModule } from './shared/shared.module';
@@ -57,6 +56,10 @@ import {CurrencyPipe} from './shared/pipes/currency.pipe';
 import {CoreModule} from './core/core.module';
 import {reducers} from './core/reducers/index';
 import {CurrencyPairInfoService} from './dashboard/components/currency-pair-info/currency-pair-info.service';
+import {CurrencySortingPipe} from './dashboard/components/markets/currency-sorting.pipe';
+import {AuthInterceptor} from './core/interceptors/auth.interceptor';
+import {NicknamePipe} from './dashboard/components/chat/chat-message/nickname.pipe';
+import {PositivePipe} from './dashboard/components/markets/positive.pipe';
 
 
 @NgModule({
@@ -92,6 +95,13 @@ import {CurrencyPairInfoService} from './dashboard/components/currency-pair-info
     RegistrationMobilePopupComponent,
     // TWO FACTOR POPUP END
 
+    // PIPES START
+    CurrencySortingPipe,
+    NicknamePipe,
+    PositivePipe,
+
+
+    // PIPES END
 
   ],
   imports: [
