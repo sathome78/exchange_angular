@@ -32,9 +32,6 @@ import {ReferralChargesComponent} from './referral/referral-charges/referral-cha
 import {RegistrationMobilePopupComponent} from './popups/registration-mobile-popup/registration-mobile-popup.component';
 import {LoginPopupMobileComponent} from './popups/login-popup-mobile/login-popup-mobile.component';
 import {BalanceComponent} from './balance/balance.component';
-import {CurrencySortingPipe} from './dashboard/components/markets/currency-sorting.pipe';
-import {NicknamePipe} from './dashboard/components/chat/chat-message/nickname.pipe';
-import {PositivePipe} from './dashboard/components/markets/positive.pipe';
 import {reducers} from './core/reducers';
 import {CoreModule} from './core/core.module';
 import {AppRoutingModule} from './app-routing.module';
@@ -94,14 +91,6 @@ import {AuthInterceptor} from './core/interceptors/auth.interceptor';
     LoginPopupMobileComponent,
     RegistrationMobilePopupComponent,
     // TWO FACTOR POPUP END
-
-    // PIPES START
-    CurrencySortingPipe,
-    NicknamePipe,
-    PositivePipe,
-
-
-    // PIPES END
 
   ],
   imports: [

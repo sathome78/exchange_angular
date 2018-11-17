@@ -1,1 +1,1 @@
-ng build --aot -c production
+ng build --configuration=production --aot

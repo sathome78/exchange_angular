@@ -35,6 +35,9 @@ import {DashboardWebSocketService} from './dashboard-websocket.service';
 import {MarketService} from './components/markets/market.service';
 import {OrderBookService} from './components/order-book/order-book.service';
 import {TradeHistoryService} from './components/trade-history/trade-history.service';
+import {PositivePipe} from './components/markets/positive.pipe';
+import {CurrencySortingPipe} from './components/markets/currency-sorting.pipe';
+import {NicknamePipe} from './components/chat/chat-message/nickname.pipe';
 
 
 export function socketProvider() {
@@ -94,6 +97,14 @@ const stompConfig: StompConfig = {
     TradeHistoryComponent,
     TradingComponent,
     ToolsComponent,
+
+    // PIPES START
+    CurrencySortingPipe,
+    NicknamePipe,
+    PositivePipe,
+
+
+    // PIPES END
   ],
   imports: [
     SharedModule,
