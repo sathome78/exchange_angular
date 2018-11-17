@@ -3,41 +3,41 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 
 import * as SockJS from 'sockjs-client';
-import {DashboardComponent} from './dashboard.component';
-import {MarketsComponent} from './components/markets/markets.component';
-import {TradingComponent} from './components/trading/trading.component';
-import {BuyComponent} from './components/trading/buy/buy.component';
-import {SellComponent} from './components/trading/sell/sell.component';
-import {OrderBookComponent} from './components/order-book/order-book.component';
-import {TradeHistoryComponent} from './components/trade-history/trade-history.component';
-import {ChatComponent} from './components/chat/chat.component';
-import {GraphComponent} from './components/graph/graph.component';
-import {SharedModule} from '../shared/shared.module';
-import {GridsterModule} from 'angular2gridster';
-import {DashboardService} from './dashboard.service';
-import { CurrencySearchComponent } from './components/currency-pair-info/currency-search/currency-search.component';
-import { MarketSearchComponent } from './components/market-search/market-search.component';
-import { ToolsComponent } from './components/tools/tools.component';
-import { CurrencyPairInfoComponent } from './components/currency-pair-info/currency-pair-info.component';
-import {StompConfig, StompService} from '@stomp/ng2-stompjs';
+import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {environment} from '../../environments/environment';
+import {StompConfig, StompService} from '@stomp/ng2-stompjs';
+import {ActivePairComponent} from './components/active-pair/active-pair.component';
+import {BuyComponent} from './components/trading/buy/buy.component';
+import {ChatComponent} from './components/chat/chat.component';
+import {ChatMessageComponent} from './components/chat/chat-message/chat-message.component';
+import {CurrencyPairInfoComponent} from './components/currency-pair-info/currency-pair-info.component';
+import {CurrencySearchComponent} from './components/currency-pair-info/currency-search/currency-search.component';
+import {CurrencySortingPipe} from './components/markets/currency-sorting.pipe';
+import {DashboardComponent} from './dashboard.component';
+import {DayChatComponent} from './components/chat/day-chat/day-chat.component';
+import {EmbeddedOrdersComponent} from './components/embedded-orders/embedded-orders.component';
+import {EmbeddedOrdersHistoryComponent} from './components/embedded-orders/embedded-orders-history/embedded-orders-history.component';
+import {EmbeddedOpenOrdersComponent} from './components/embedded-orders/embedded-open-orders/embedded-open-orders.component';
+import {GraphComponent} from './components/graph/graph.component';
+import {MarketsComponent} from './components/markets/markets.component';
+import {NicknamePipe} from './components/chat/chat-message/nickname.pipe';
+import {OrderBookComponent} from './components/order-book/order-book.component';
+import {PositivePipe} from './components/markets/positive.pipe';
+import {SellComponent} from './components/trading/sell/sell.component';
+import {TradeHistoryComponent} from './components/trade-history/trade-history.component';
+import {TradingComponent} from './components/trading/trading.component';
+import {ToolsComponent} from './components/tools/tools.component';
+import {SharedModule} from '../shared/shared.module';
+import {MarketSearchComponent} from './components/market-search/market-search.component';
+import {GridsterModule} from 'angular2gridster';
+import {ScrollbarModule} from 'ngx-scrollbar';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {ChatService} from './components/chat/chat.service';
+import {DashboardService} from './dashboard.service';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
 import {MarketService} from './components/markets/market.service';
 import {OrderBookService} from './components/order-book/order-book.service';
 import {TradeHistoryService} from './components/trade-history/trade-history.service';
-import {ChatService} from './components/chat/chat.service';
-import {ScrollbarModule} from 'ngx-scrollbar';
-import {NgxPaginationModule} from 'ngx-pagination';
-import {CurrencySortingPipe} from './components/markets/currency-sorting.pipe';
-import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
-import { DayChatComponent } from './components/chat/day-chat/day-chat.component';
-import { ChatMessageComponent } from './components/chat/chat-message/chat-message.component';
-import {NicknamePipe} from './components/chat/chat-message/nickname.pipe';
-import {PositivePipe} from './components/markets/positive.pipe';
-import {ActivePairComponent} from './components/active-pair/active-pair.component';
-import { EmbeddedOrdersComponent } from './components/embedded-orders/embedded-orders.component';
-import { EmbeddedOrdersHistoryComponent } from './components/embedded-orders/embedded-orders-history/embedded-orders-history.component';
-import { EmbeddedOpenOrdersComponent } from './components/embedded-orders/embedded-open-orders/embedded-open-orders.component';
 
 
 export function socketProvider() {
@@ -82,26 +82,24 @@ const stompConfig: StompConfig = {
     BuyComponent,
     ChatComponent,
     ChatMessageComponent,
+    CurrencyPairInfoComponent,
+    CurrencySearchComponent,
     CurrencySortingPipe,
     DashboardComponent,
     DayChatComponent,
+    EmbeddedOrdersComponent,
+    EmbeddedOrdersHistoryComponent,
+    EmbeddedOpenOrdersComponent,
     GraphComponent,
     MarketsComponent,
+    MarketSearchComponent,
     NicknamePipe,
     OrderBookComponent,
     PositivePipe,
     SellComponent,
     TradeHistoryComponent,
     TradingComponent,
-    CurrencySearchComponent,
-    MarketSearchComponent,
     ToolsComponent,
-    CurrencyPairInfoComponent,
-    DayChatComponent,
-    ChatMessageComponent,
-    EmbeddedOrdersComponent,
-    EmbeddedOrdersHistoryComponent,
-    EmbeddedOpenOrdersComponent,
   ],
   imports: [
     SharedModule,
