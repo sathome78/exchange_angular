@@ -15,7 +15,6 @@ import {OpenOrdersComponent} from './components/orders/open-orders/open-orders.c
 import {OrdersHistoryComponent} from './components/orders/orders-history/orders-history.component';
 import {ChatComponent} from './components/chat/chat.component';
 import {GraphComponent} from './components/graph/graph.component';
-import {ActivePairComponent} from './components/active-pair/active-pair.component';
 import {SharedModule} from '../shared/shared.module';
 import {GridsterModule} from 'angular2gridster';
 import {DashboardService} from './dashboard.service';
@@ -38,6 +37,7 @@ import { DayChatComponent } from './components/chat/day-chat/day-chat.component'
 import { ChatMessageComponent } from './components/chat/chat-message/chat-message.component';
 import {NicknamePipe} from './components/chat/chat-message/nickname.pipe';
 import {PositivePipe} from './components/markets/positive.pipe';
+import {ActivePairComponent} from './components/active-pair/active-pair.component';
 
 
 export function socketProvider() {

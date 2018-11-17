@@ -18,7 +18,6 @@ export class DashboardService {
   public lastBuySellOrderListener$ = new ReplaySubject<OrderItem[]>();
 
   public selectedOrderTrading$ = new ReplaySubject();
-  public lastBuySellOrderListener$ = new ReplaySubject<OrderItem[]>();
 
 
   /** mock data for currencies which used at currency-pair-info/currency-search */
@@ -219,7 +218,7 @@ export class DashboardService {
 
   // TODO define type
   getCurrencyPair(ISO1: string, ISO2: string) {
-    //return this.isoMockData();
-    //return this.http.get(`${ISO1}/${ISO2}`)
+    // return this.isoMockData();
+    // return this.http.get(`${ISO1}/${ISO2}`)
   }
 }
