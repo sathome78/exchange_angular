@@ -206,7 +206,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'SELL') : orders.type === 'SELL'))
       .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
       .subscribe(orders => {
-        this.sellOrders = orders;
+        this.sellOrders = orders || [];
         this.setLastSellOrder(orders);
         this.getLastOrder(orders);
       });
@@ -214,7 +214,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'BUY') : orders.type === 'BUY'))
       .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
       .subscribe(orders => {
-        this.buyOrders = orders;
+        this.buyOrders = orders || [];
         this.setLastBuyOrder(orders);
         this.getLastOrder(orders);
         this.setData();
@@ -222,7 +222,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   addOrUpdate(orders: OrderItem[], newItems: OrderItem[]) {
-    console.log(newItems)
     if (orders.length === 0) {
       orders.push(...newItems);
       this.getLastOrder(newItems);
@@ -406,6 +405,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private onGetCurrentCurrencyPair(pair) {
+    this.updateSubscription(pair);
     this.currencyPairInfo = pair;
     if (!this.lastOrder) {
       this.lastOrder = {exrate: null, amountBase: null};

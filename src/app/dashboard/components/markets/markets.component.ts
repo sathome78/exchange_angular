@@ -24,6 +24,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   public itemName: string;
   /** active tab pair */
   public currencyDisplayMode = 'BTC';
+  public isFiat = false;  // must be defined for correct pipe work
   /** Markets data from server */
   currencyPairs: CurrencyPair[] = [];
   /** Markets data by active tab */
@@ -128,9 +129,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    */
   selectedTab(value: string): void {
     this.currencyDisplayMode = value;
+    this.isFiat = value === 'USD';
     this.pairs = this.choosePair(value);
     this.searchInput = '';
-    // console.log(this.pairs);
   }
 
   /**
@@ -147,7 +148,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
 
   /** Filter markets data by search-data*/
   searchPair(event: string): void {
-    this.pairs = this.choosePair(this.currencyDisplayMode).filter(f => f.currencyPairName.toUpperCase().match(event.toUpperCase()));
+    this.pairs = this.choosePair(this.currencyDisplayMode)
+      .filter(f => f.currencyPairName.toUpperCase().match(event.toUpperCase()));
   }
 
   /**

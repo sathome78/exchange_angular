@@ -31,19 +31,8 @@ export class OrderBookService {
   subscribeStompOrders(pair: CurrencyPair) {
     return this.stompService
       .subscribe('/app/trade_orders/' + pair.currencyPairId)
-      .pipe(map((message: Message) => {
-        // console.log(JSON.parse(message.body));
-        return JSON.parse(message.body);
-      }))
+      .pipe(map((message: Message) => JSON.parse(message.body)))
       .pipe(map(orders => orders.map ? orders.map(order => order) : orders));
-    /*.subscribe((orders: OrderItemsWrapper []) => {
-      console.log(orders)
-      this.processOrderItems(orders, 'SELL');
-      return orders;
-    });*/
-
-
-
 
       // .pipe(map(this.extractOrderItems))
       // .subscribe(items => {
