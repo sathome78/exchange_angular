@@ -63,7 +63,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
 
-
   /**
    * Add or update pair
    * @param {CurrencyPair} newPair
@@ -131,6 +130,15 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.pairs = this.choosePair(value);
     this.searchInput = '';
     // console.log(this.pairs);
+  }
+
+  /**
+   * Removes mark as selection for all currency pairs
+   * @param no param
+   */
+  uncheckFavourites() {
+    this.pairs.forEach(pair => pair.isFavourite = false);
+    this.marketService.removeFavourites();
   }
 
   /**
