@@ -109,7 +109,7 @@
                 <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
               </td>
               <td class="table__cell" width="25%" (click)="onSelectCurrencyPair(pair)">
-                <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber}}</span>
+                <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
               </td>
               <td class="table__cell" width="17%" (click)="onSelectCurrencyPair(pair)">
                 <span style="margin-right: 2px;"
@@ -182,7 +182,7 @@
               <div class="txt-small txt-light-grey">Vol {{ +pair.volume | number: '1.0-0' | replaceNumber}}</div>
             </td>
             <td class="table__cell" (click)="onSelectCurrencyPair(pair)">
-              <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber}}</span>
+              <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
               <div class="txt-small txt-light-grey">$ {{ +pair.priceInUSD | number: '1.0-2'}}</div>
             </td>
             <td class="table__cell table__cell--tar" (click)="onSelectCurrencyPair(pair)">

@@ -33,6 +33,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   public activeCurrency: number;
   public currentCurrencyInfo;
   public userBalanceInfo: UserBalance;
+  public isFiat = false; // must be defined for correct pipe work
 
   constructor(
     private store: Store<State>,
@@ -50,6 +51,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair) => {
+        this.isFiat = pair.market === 'USD';
         this.pair = pair;
         this.splitPairName(this.pair);
       });
