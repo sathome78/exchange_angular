@@ -103,6 +103,9 @@ const stompConfig: StompConfig = {
     DayChatComponent,
     ChatMessageComponent,
   ],
+  exports: [
+
+  ],
   imports: [
     SharedModule,
     CommonModule,
@@ -112,9 +115,6 @@ const stompConfig: StompConfig = {
     ScrollbarModule,
     NgxPaginationModule,
     PerfectScrollbarModule
-  ],
-  exports: [
-
   ],
   providers: [
     ChatService,
