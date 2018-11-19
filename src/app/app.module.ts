@@ -54,7 +54,12 @@ import { BalanceComponent } from './balance/balance.component';
 import { LoginPopupMobileComponent } from './popups/login-popup-mobile/login-popup-mobile.component';
 import { RegistrationMobilePopupComponent } from './popups/registration-mobile-popup/registration-mobile-popup.component';
 import {CurrencyPipe} from './shared/pipes/currency.pipe';
-import { RefillMoneyComponent } from './popups/refill-money/refill-money.component';
+import { RefillMoneyComponent } from './balance/refill-money/refill-money.component';
+import { RefillStepOneComponent } from './balance/refill-money/refill-step-one/refill-step-one.component';
+import { RefillStepTwoComponent } from './balance/refill-money/refill-step-two/refill-step-two.component';
+import { RefillStepThreeComponent } from './balance/refill-money/refill-step-three/refill-step-three.component';
+import { RefillCryptoComponent } from './balance/refill-money/refill-step-two/refill-crypto/refill-crypto.component';
+
 
 
 @NgModule({
@@ -90,6 +95,10 @@ import { RefillMoneyComponent } from './popups/refill-money/refill-money.compone
     LoginPopupMobileComponent,
     RegistrationMobilePopupComponent,
     RefillMoneyComponent,
+    RefillStepOneComponent,
+    RefillStepTwoComponent,
+    RefillStepThreeComponent,
+    RefillCryptoComponent,
     // TWO FACTOR POPUP END
 
 
