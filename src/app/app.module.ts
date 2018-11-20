@@ -90,6 +90,7 @@ import {AuthInterceptor} from './core/interceptors/auth.interceptor';
     BalanceComponent,
     LoginPopupMobileComponent,
     RegistrationMobilePopupComponent,
+    GoogleDisableComponent,
     // TWO FACTOR POPUP END
 
   ],
