@@ -19,18 +19,23 @@
     margin-bottom: 28px;
   }
   &__crypto-title{
-    margin-bottom: 8px;
+    margin-bottom: 4px;
+    color:#A0A0A0;
   }
   &__crypto-hash{
     font-weight: bold;
     margin-bottom: 8px;
   }
   &__crypto-copy-btn{
-    margin-bottom: 8px;
+    margin-bottom: 20px;
   }
   &__crypto-comission{
     font-size: 12px;
     line-height: 14px;
+    color:#A0A0A0;
+  }
+  &__crypto-memo{
+    margin-top: 20px;
   }
   &__qr-code{
     display: none;
@@ -51,18 +56,37 @@
   .refill{
     &__inputs-wrap{
       flex-direction: row;
-      justify-content: space-between;
+      align-items: center;
     }
     &__select{
       width: 100%;
       max-width: 240px;
       margin-bottom: 0;
+      margin-right: 32px;
+    }
+    &__crypto-refill-info{
+      display: flex;
+      //justify-content: center;
+    }
+    &__qr-code{
+      display: block;
+      width: 100%;
+      max-width: 240px;
+      text-align: center;
+      margin-right: 32px;
+      img{
+        max-width: 140px;
+        max-height: 140px;
+      }
+    }
+    &__crypto-address{
+      margin-top: 33px;
     }
     &__crypto-memo{
       margin-top: 24px;
     }
     &__crypto-title{
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     &__crypto-hash{
       margin-bottom: 12px;
@@ -75,9 +99,7 @@
       font-size: 12px;
       line-height: 14px;
     }
-    &__qr-code{
-      display: block;
-    }
+
   }
   .title{
     margin-bottom: 32px;

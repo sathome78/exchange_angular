@@ -175,11 +175,13 @@
       border-color: $light-blue;
       &:hover{
         color:#fff;
-        background-color: $light-blue;
+        background-color: $darker-blue;
+        border-color: $darker-blue;
       }
       &:focus{
         color:#fff;
-        background-color: $light-blue;
+        background-color: $darker-blue;
+        border-color: $darker-blue;
       }
     }
     &__icon{
