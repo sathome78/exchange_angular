@@ -251,9 +251,8 @@
     font-weight: 600;
   }
   &__note {
-    position: absolute;
-    width: 100%;
-    left: 0;
+    width: calc(100% + 24px);
+    left: -12px;
   }
   &__input-2fa{
     margin-bottom: 16px;
