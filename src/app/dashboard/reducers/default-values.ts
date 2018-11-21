@@ -18,17 +18,11 @@ export const defaultUserBalance = {
 }
 
 export const defaultOrderItem = {
-  needRefresh: false,
-  page: 0,
-  id: 0,
-  userId: 0,
+  amount: '0',
+  currencyPairId: 1,
+  exrate: '0',
   orderType: '',
-  exrate: 0,
-  amountBase: 0,
-  amountConvert: 0,
-  created: new Date('1/1/1990'),
-  accepted: new Date('1/1/1990'),
-  ordersIds: ''
+  total: '0'
 }
 
 export const defaultCurrencyPairInfo = {

@@ -10,12 +10,21 @@ import {TradingService} from './trading.service';
 import {DashboardService} from '../../dashboard.service';
 import {BreakpointService} from 'app/services/breakpoint.service';
 import {OrderBookService} from '../order-book/order-book.service';
-import {State, getCurrencyPair, getSelectedOrderBookOrder, getLastSellBuyOrder} from 'app/core/reducers/index';
+import {
+  State,
+  getCurrencyPair,
+  getSelectedOrderBookOrder,
+  getLastSellBuyOrder,
+  getDashboardState,
+  getCurrencyPairInfo
+} from 'app/core/reducers/index';
 import {CurrencyPair} from 'app/model/currency-pair.model';
+import {CurrencyPipe} from 'app/shared/pipes/currency.pipe';
 import {getUserBalance} from 'app/core/reducers';
 import {UserBalance} from 'app/model/user-balance.model';
 import {UserService} from 'app/services/user.service';
 import {LastSellBuyOrder} from 'app/model/last-sell-buy-order.model';
+import {CurrencyPairInfo, OrderItem} from '../../../model';
 
 @Component({
   selector: 'app-trading',
@@ -91,6 +100,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.initForms();
 
     this.store
+      .pipe(select(getDashboardState))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(state => {
+        console.log(state, "STATE")
+      });
+
+    this.store
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair) => {
@@ -104,6 +120,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.userBalance = balance.balanceByCurrency1 ? balance.balanceByCurrency1 : 0;
         this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
       });
+
+    this.store
+      .pipe(select(getCurrencyPairInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPairInfo) => {
+        this.limitForm.patchValue({'priceIn': pair.currencyRate});
+      });
+
 
     this.store
       .pipe(select(getSelectedOrderBookOrder))
@@ -123,7 +147,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.dashboardService.selectedOrderTrading$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(order => {
-        this.orderFromOrderBook(order);
+        this.orderFromOrderBook(order as OrderItem);
       });
 
     this.orderBookService.lastOrderListener$.subscribe(res => {
@@ -251,7 +275,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on input in field quantity
    * @param e
    */
-  quantityIput(e): void {
+  quantityInput(e): void {
     this.order.amount = parseFloat(this.deleteSpace(e.target.value.toString()));
     this.setQuantityValue(e.target.value);
     this.getCommission();
@@ -367,14 +391,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * fill model according to order-book order
    * @param order
    */
-  orderFromOrderBook(order): void {
+  orderFromOrderBook(order: OrderItem): void {
     this.dropdownLimitValue = this.limitsData[0];
-    this.order.orderId = order.id;
-    this.order.amount = order.amountConvert;
+    this.order.amount = +order.amount;
     this.setQuantityValue(this.order.amount);
-    this.order.total = order.amountBase;
+    this.order.total = +order.total;
     this.setTotalInValue(this.order.total);
-    this.order.rate = order.exrate;
+    this.order.rate = +order.exrate;
     this.setPriceInValue(this.order.rate);
     this.mainTab = order.orderType;
     this.getCommission();
@@ -465,7 +488,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * calculate commission
    */
   private getCommission(): void {
-    if (this.order.rate >= 0) {
+    if (this.order.rate && this.order.rate >= 0) {
       this.order.total = parseFloat(this.order.amount) * parseFloat(this.order.rate);
       this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
       let total;
