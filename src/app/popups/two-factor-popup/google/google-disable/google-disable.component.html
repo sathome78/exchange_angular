@@ -3,35 +3,69 @@
   <p>Сonfirm your details</p>
 </div>
 
-<form>
+<form [formGroup]="form">
   <div class="row row--jcc">
-    <div class="wrap-input modal__input-2fa">
+    <div class="wrap-input modal__input-2fa"
+         [ngClass]="{'wrap-input--error': !form.get('email').valid && form.get('email').touched}"
+    >
       <input
+        required
         class="wrap-input__input"
         type="email"
         formControlName="email">
       <label class="wrap-input__label">Email</label>
       <div class="wrap-input__line"></div>
+      <div *ngIf="form.get('email').touched && form.get('email').errors != null">
+            <span
+              *ngIf="form.get('email').errors['required']"
+              class="wrap-input__message">
+              This field is required.
+            </span>
+        <span
+          *ngIf="form.get('email').invalid && !form.get('email').errors['required']"
+          class="wrap-input__message">
+              Please, enter valid email address.
+            </span>
+      </div>
     </div>
   </div>
   <div class="row row--jcc">
-    <div class="wrap-input modal__input-2fa">
+    <div
+      class="wrap-input modal__input-2fa"
+      [ngClass]="{'wrap-input--error': !form.get('password').valid && form.get('password').touched}" >
       <input
+        required
         class="wrap-input__input"
         type="password"
         formControlName="password">
       <label class="wrap-input__label">Password</label>
       <div class="wrap-input__line"></div>
+      <div *ngIf="form.get('password').touched && form.get('password').errors != null">
+            <span
+              *ngIf="form.get('password').errors['required']"
+              class="wrap-input__message">
+              This field is required.
+            </span>
+      </div>
     </div>
   </div>
   <div class="row row--jcc">
-    <div class="wrap-input modal__input-2fa">
+    <div class="wrap-input modal__input-2fa"
+         [ngClass]="{'wrap-input--error': !form.get('pincode').valid && form.get('pincode').touched}" >
       <input
+        required
         class="wrap-input__input"
         type="text"
         formControlName="pincode">
       <label class="wrap-input__label">Pin code</label>
       <div class="wrap-input__line"></div>
+      <div *ngIf="form.get('pincode').touched && form.get('pincode').errors != null">
+            <span
+              *ngIf="form.get('pincode').errors['required']"
+              class="wrap-input__message">
+              This field is required.
+            </span>
+      </div>
       <span style="display: inline-block; margin-top: 4px;">Check pin-code in your email</span>
     </div>
   </div>
