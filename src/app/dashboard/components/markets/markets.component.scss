@@ -20,7 +20,7 @@
 //scroll style start
 .widget__content.widget__content--mob{
   perfect-scrollbar{
-    height: calc(100vh - 175px);
+    height: calc(100vh - 210px);
   }
 }
 
@@ -76,6 +76,9 @@ position: fixed;
     &__table{
       position: relative;
       margin-top: 4px;
+      .widget__table-row{
+        height: 24px;
+      }
     }
     &__thead{
       display: flex;
