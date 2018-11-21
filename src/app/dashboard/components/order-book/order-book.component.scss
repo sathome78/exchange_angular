@@ -55,6 +55,10 @@
       }
     }
     span{
+      user-select: none;
+      text-align: center;
+      min-width: 50px;
+      display: inline-block;
       color:$grey;
       margin: 0 20px;
     }

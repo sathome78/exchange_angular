@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {StompService} from '@stomp/ng2-stompjs';
+import {Message} from '@stomp/stompjs';
 import {map} from 'rxjs/internal/operators';
 import {Observable, Subject} from 'rxjs';
 
 import {environment} from 'environments/environment';
-import {CurrencyPair} from '../../../model/currency-pair.model';
-import {SimpleChat} from '../chat/simple-chat.model';
 
 @Injectable()
 export class OrdersService {
@@ -44,13 +43,11 @@ export class OrdersService {
     return this.http.post(`${this.baseUrl}/info/private/v2/dashboard/order`, order);
   }
 
-  setFreshOpenOrdersSubscription(email: string) {
+  setFreshOpenOrdersSubscription(currencyPairId: number, precision?: number = 1) {
     this.stompSubscription = this.stompService
-      .subscribe('/topic/myorders/' + email)
-      .subscribe(msg => {
-        console.log(JSON.parse(msg.body));
-        this.personalOrderListener.next(JSON.parse(msg.body));
-      });
+      .subscribe(`/topic/open-orders/${currencyPairId}/${precision}`)
+      .pipe(map((message: Message) => JSON.parse(message.body)))
+      .subscribe(orders => this.personalOrderListener.next(orders));
   }
 
   unsubscribeStomp() {

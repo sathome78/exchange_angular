@@ -39,6 +39,7 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
       return {...state, selectedOrderBookOrder: action.payload};
     case dashboard.REFRESH_CURRENCY_PAIR_INFO:
       return {...state, currencyPairInfo: action.payload};
+
     default :
       return state;
   }

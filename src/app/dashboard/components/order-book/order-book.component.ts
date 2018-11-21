@@ -78,6 +78,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     buy: string[];
   };
 
+  /** precision value for orders */
+  public precision = 0.1;
+
   constructor(
     private store: Store<State>,
     private orderBookService: OrderBookService,
@@ -127,8 +130,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       this.setData();
     });
 
-
-
     this.setData();
 
     this.refreshedIds = [];
@@ -141,30 +142,12 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         // this.sellOrders = [];
         // this.buyOrders = [];
       });
-    this.buyOrdersSubscription = this.orderBookService.sellOrdersListener
-      .subscribe(items => {
-        if (items.length >= 1) {
-          this.addOrUpdate(this.sellOrders, items);
-        }
-        console.log(items);
-      });
-    this.sellOrdersSubscription = this.orderBookService.buyOrdersListener
-      .subscribe(items => {
-        if (items.length >= 1) {
-          this.addOrUpdate(this.buyOrders, items);
-        }
-        console.log(items);
-      });
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
     this.currencySubscription.unsubscribe();
-    this.orderBookService.unsubscribeStompForSellOrders();
-    this.orderBookService.unsubscribeStompForBuyOrders();
-    this.buyOrdersSubscription.unsubscribe();
-    this.sellOrdersSubscription.unsubscribe();
   }
 
   loadMinAndMaxValues(pair: CurrencyPair) {
@@ -200,9 +183,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
    * @param {CurrencyPair} pair - active pair
    */
   updateSubscription(pair: CurrencyPair) {
-    this.orderBookService.unsubscribeStompForSellOrders();
-    this.orderBookService.unsubscribeStompForBuyOrders();
-    this.orderBookService.subscribeStompOrders(pair)
+    this.orderBookService.subscribeStompOrders(pair, this.precision)
       .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'SELL') : orders.type === 'SELL'))
       .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
       .subscribe(orders => {
@@ -210,7 +191,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.setLastSellOrder(orders);
         this.getLastOrder(orders);
       });
-    this.orderBookService.subscribeStompOrders(pair)
+    this.orderBookService.subscribeStompOrders(pair, this.precision)
       .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'BUY') : orders.type === 'BUY'))
       .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
       .subscribe(orders => {
@@ -288,6 +269,24 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     }
   }
 
+  /**
+   * decrement precision with accuracy step 0.1
+   */
+  decPrecision(): void {
+    if (this.precision <= 0.01) {
+      this.precision *= 10;
+    }
+  }
+
+  /**
+   * increment precision with accuracy step 0.1
+   */
+  incPrecision(): void {
+    if (this.precision >= 0.0001) {
+      this.precision /= 10;
+    }
+  }
+
   private sortBuyData(): void {
     if (!this.buyOrders) {
       return;
@@ -323,20 +322,15 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     return Math.max.apply(null, array);
   }
 
-  private onSelectOrder(orderIndex, item: OrderItem, widgetName: string): void {
-    // const index = (parseInt(orderIndex + 1, 10) - 1);
-    // if (this.isBuy) {
-    //   this.sortBuyData();
-    //   this.data = this.buyOrders.slice(index, 20);
-    //   this.setDataForVisualization();
-    // } else {
-    //   this.sortSellData();
-    //   this.data = this.sellOrders.slice(index, 20);
-    //   this.setDataForVisualization();
-    // }
-
+  /**
+   * Select or
+   *
+   * @param orderIndex
+   * @param item
+   * @param widgetName
+   */
+  onSelectOrder(orderIndex: number, item: OrderItem, widgetName: string): void {
     /** sends the data in to trading */
-    // this.dashboardService.selectedOrderTrading$.next(item);
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
 
     this.dashboardService.activeMobileWidget.next(widgetName);

@@ -12,7 +12,7 @@ import {DashboardService} from '../../dashboard.service';
 import {BreakpointService} from 'app/services/breakpoint.service';
 import {OrderBookService} from '../order-book/order-book.service';
 import {CurrencyPipe} from 'app/shared/pipes/currency.pipe';
-import {State, getCurrencyPair, getSelectedOrderBookOrder, getCurrencyPairInfo} from 'app/core/reducers/index';
+import {State, getCurrencyPair, getSelectedOrderBookOrder, getCurrencyPairInfo, getDashboardState} from 'app/core/reducers/index';
 import {CurrencyPair, CurrencyPairInfo} from 'app/model';
 import {getUserBalance} from 'app/core/reducers';
 import {UserBalance} from 'app/model/user-balance.model';
@@ -92,6 +92,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.mainTab = 'BUY';
     this.order = {...this.defaultOrder};
     this.initForms();
+
+    this.store
+      .pipe(select(getDashboardState))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(state => {
+        console.log(state, "STATE")
+      });
 
     this.store
       .pipe(select(getCurrencyPair))
@@ -255,7 +262,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on input in field quantity
    * @param e
    */
-  quantityIput(e): void {
+  quantityInput(e): void {
 
     this.order.amount = parseFloat(this.deleteSpace(e.target.value.toString()));
     this.setQuantityValue(e.target.value);
