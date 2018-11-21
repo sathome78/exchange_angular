@@ -131,8 +131,8 @@ export class PopupService {
   getGoogleStepsMap(): Map<number, string> {
     const map = new Map<number, string>();
     map.set(1, 'Download App');
-    map.set(2, 'Scan QR-code');
-    map.set(3, 'Save backup code');
+    map.set(2, 'Activate');
+    map.set(3, 'Enable GA');
     // map.set(4, 'Enter the code');
     return map;
   }

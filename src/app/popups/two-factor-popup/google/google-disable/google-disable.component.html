@@ -3,7 +3,7 @@
   <p>Сonfirm your details</p>
 </div>
 
-<form [formGroup]="form">
+<form>
   <div class="row row--jcc">
     <div class="wrap-input modal__input-2fa">
       <input
@@ -36,6 +36,5 @@
     </div>
   </div>
 
-    <button class="btn btn--active btn--center " (click)="onNextStep()">Enable GA</button>
-   <!--todo here we should fire popup if time of 5 minutes expires or smth went wrong-->
+  <button class="btn btn--error btn--center ">Disable GA</button>
 </form>
