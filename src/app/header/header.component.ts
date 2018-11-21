@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {ThemeService} from '../services/theme.service';
 import {UserService} from '../services/user.service';
 import {SettingsService} from '../settings/settings.service';
-import {DashboardDataService} from '../dashboard/dashboard-data.service';
+import {DashboardService} from '../dashboard/dashboard.service';
 
 @Component({
   selector: 'app-header',
@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
               private router: Router,
               private themeService: ThemeService,
               private settingsService: SettingsService,
-              private dashboardService: DashboardDataService,
+              private dashboardService: DashboardService,
               private userService: UserService) {
   }
 
@@ -66,6 +66,7 @@ export class HeaderComponent implements OnInit {
   onLogout() {
     this.logger.debug(this, 'User clicked log out');
     this.authService.onLogOut();
+    this.userService.getUserBalance(null);
   }
 
   toggleTheme() {

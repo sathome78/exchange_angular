@@ -96,17 +96,17 @@
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input referral__datepicker">
-          <label class="wrap-input__label" [ngClass]="{'select-input_label': dateFrom}" for="">From</label>
+          <label class="wrap-input__label select-input_label" for="">From</label>
 
-          <my-date-picker name="from" [options]="myDatePickerOptions" [(ngModel)]="modelDateFrom" (inputFieldChanged)="onFromInputFieldChanged($event)">
+          <my-date-picker name="from" >
             <!--&gt;-->
           </my-date-picker>
           <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
         </div>
         <div class="wrap-input referral__datepicker">
-          <label class="wrap-input__label" [ngClass]="{'select-input_label': dateTo}" for="">To</label>
+          <label class="wrap-input__label select-input_label" for="">To</label>
 
-          <my-date-picker  name="to" [options]="myDatePickerOptions" [(ngModel)]="modelDateTo" (inputFieldChanged)="onToInputFieldChanged($event)">
+          <my-date-picker  name="to">
             &gt;
           </my-date-picker>
           <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>

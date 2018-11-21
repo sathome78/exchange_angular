@@ -2,13 +2,13 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectionStr
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IMyDpOptions, IMyInputFieldChanged } from 'mydatepicker';
 
-import { Order } from '../../dashboard/trading/order.model';
-import { OrdersService } from '../../dashboard/orders/orders.service';
+import { Order } from '../../dashboard/components/trading/order.model';
+import { OrdersService } from '../../dashboard/components/embedded-orders/orders.service';
 import { MockDataService } from '../../services/mock-data.service';
-import { TradingService } from '../../dashboard/trading/trading.service';
-import { MarketService } from '../../dashboard/markets/market.service';
+import { TradingService } from '../../dashboard/components/trading/trading.service';
+import { MarketService } from '../../dashboard/components/markets/market.service';
 import { AuthService } from '../../services/auth.service';
-import { CurrencyPair } from '../../dashboard/markets/currency-pair.model';
+import { CurrencyPair } from '../../model/currency-pair.model';
 
 import { timestamp, takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
