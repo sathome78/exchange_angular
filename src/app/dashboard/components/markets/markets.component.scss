@@ -1,16 +1,8 @@
-.widget{
-  &__table-row {
-    cursor: pointer;
-
-    &:nth-of-type(odd) {
-      background-color: unset;
-    }
-    &:hover {
-      background-color: rgba(35, 123, 239, 0.1);
-    }
-  }
+:host {
+  position: relative;
+  width: 100%;
+  height: auto;
 }
-
 .tabs{
   &:after{
     display: none;
@@ -22,41 +14,10 @@
   }
 }
 
-//---------
-
-tbody.table__body {
-  overflow: hidden;
-}
-
 .tab-no-active{
   border-bottom: 2px solid transparent;
 }
-
-//ng-scrollbar{
-//  display: block;
-//  width: 100%;
-//  //height: auto;
-//  height: 380px;
-//  margin: auto;
-//  //padding: 5px;
-//}
-//::ng-deep .ng-scrollbar.-vertical.bar-class{
-//  background: rgba(255,255,255, .2);
-//  width: 3px !important;
-//  right: 16px !important;
-//}
-//
-//::ng-deep .ng-scrollbar-thumb.thumb2 {
-//  background-color: #2a2a2a ;
-//  width: 1px !important;
-//}
-//
-:host {
-  position: relative;
-  width: 100%;
-  height: auto;
-}
-
+//scroll style start
 .widget__content.widget__content--mob{
   perfect-scrollbar{
     height: calc(100vh - 175px);
@@ -75,6 +36,7 @@ tbody.table__body {
     }
   }
 }
+//scroll style end
 .widget__tabs{
   @media (min-width: 1200px){
     margin: 0 16px;
@@ -86,3 +48,55 @@ position: fixed;
   width: 100%;
   z-index: 1000;
 }
+.markets{
+  &__table{
+    position: relative;
+    .table__cell {
+      z-index: 2;
+    }
+    .widget__table-row{
+      height: auto;
+    }
+  }
+  &__thead{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  &__tbody{
+  }
+  &__row{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+@media (min-width: 1200px){
+  .markets{
+    &__table{
+      position: relative;
+      margin-top: 4px;
+    }
+    &__thead{
+      display: flex;
+      width: calc(100% - 24px);
+      margin-right: 24px;
+    }
+    &__tbody{
+      //margin-right: 24px;
+    }
+    &__row{
+      display: flex;
+      width: 100%;
+      &:hover{
+          background-color: rgba(35, 123, 239, 0.1);
+        .table__row-star{
+          svg {
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+}
+
