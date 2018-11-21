@@ -133,9 +133,6 @@ const stompConfig: StompConfig = {
 
     // PIPES END
   ],
-  exports: [
-
-  ],
   imports: [
     SharedModule,
     CommonModule,
