@@ -32,7 +32,7 @@ export class OrderBookService {
     return this.stompService
       .subscribe('/app/trade_orders/' + pair.currencyPairId)
       .pipe(map((message: Message) => {
-        // console.log(JSON.parse(message.body));
+        // console.log(JSON.parse(JSON.parse(message.body)[0]));
         return JSON.parse(message.body);
       }))
       .pipe(map(orders => orders.map ? orders.map(order => order) : orders));

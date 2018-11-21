@@ -15,8 +15,6 @@ export class DashboardService {
   /** talking between dashboard mobile and mobile menu */
   public activeMobileWidget = new Subject<string>();
 
-  public lastBuySellOrderListener$ = new ReplaySubject<OrderItem[]>();
-
   public selectedOrderTrading$ = new ReplaySubject();
 
 

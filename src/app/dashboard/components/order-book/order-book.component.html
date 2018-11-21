@@ -52,7 +52,7 @@
       <div class="items items--sell">
 
         <div class="visualization">
-          <ng-container *ngFor="let item of dataForSell; let i = index">
+          <ng-container *ngFor="let item of dataForSell.reverse(); let i = index">
             <div class="visual-item" [ngClass]="'red'" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, false) + '%'">
               <div class="border-container" *ngIf="i < 8 && withForChartLineElements && withForChartLineElements.sell.length">
                 <div class="border-border sell" [style.width]="withForChartLineElements.sell[i]">
@@ -64,7 +64,7 @@
         <div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
-              {{item.amountConvert | number:'1.1-8' | replaceNumber}}
+              {{forSellTotalCalculate | sellTotalCalculate:i  | number:'1.1-' + showFraction | replaceNumber}}
             </span>
           </div>
 
@@ -75,13 +75,13 @@
 
           <div class="price">
             <span>
-              {{item.exrate | number:'1.1-8' | replaceNumber}}
+              {{item.exrate | number:'1.1-' + showFraction | replaceNumber}}
             </span>
           </div>
 
           <div class="total">
             <span>
-              {{item.amountBase | number:'1.1-8' | replaceNumber}}
+              {{item.amountBase | number:'1.1-' + showFraction | replaceNumber}}
             </span>
           </div>
 
@@ -116,14 +116,24 @@
 
         <!--</div>-->
       </div>
-      <div class="separator" *ngIf="lastOrder">
-        <span *ngIf="maxExrate" [ngClass]="{'color-red': !lastOrderUp, 'color-green': lastOrderUp}">{{!lastOrder.amountBase ? 0 : lastOrder.amountBase
-          | number:'1.1-8' | replaceNumber}}</span>
+      <div class="separator">
+        <span  [ngClass]="{'color-red': !lastOrderUp, 'color-green': lastOrderUp}">{{lastSellBuyOrders.lastOrder.rate | number:'1.1-8' | replaceNumber}}</span>
         <img *ngIf="lastOrderUp" class="arr arr--ml4" src="../assets/img/arr-up-green.svg">
         <img *ngIf="!lastOrderUp" class="arr arr--ml4" src="../assets/img/arr-down-red.svg">
         <div class="hr"></div>
-        <span *ngIf="minExrate">{{!lastOrder.exrate ? 0 :lastOrder.exrate | number:'1.1-8' | replaceNumber}}</span>
+        <span >{{lastSellBuyOrders.lastOrder.amountBase | number:'1.1-8' | replaceNumber}}</span>
       </div>
+
+      <!--<div class="separator" *ngIf="lastOrder">-->
+        <!--<span *ngIf="maxExrate" [ngClass]="{'color-red': !lastOrderUp, 'color-green': lastOrderUp}">{{!lastOrder.amountBase ? 0 : lastOrder.amountBase-->
+          <!--| number:'1.1-8' | replaceNumber}}</span>-->
+        <!--<img *ngIf="lastOrderUp" class="arr arr&#45;&#45;ml4" src="../assets/img/arr-up-green.svg">-->
+        <!--<img *ngIf="!lastOrderUp" class="arr arr&#45;&#45;ml4" src="../assets/img/arr-down-red.svg">-->
+        <!--<div class="hr"></div>-->
+        <!--<span *ngIf="minExrate">{{!lastOrder.exrate ? 0 :lastOrder.exrate | number:'1.1-8' | replaceNumber}}</span>-->
+      <!--</div>-->
+      <!---->
+
       <div class="items items--buy">
 
         <div class="visualization">
@@ -141,10 +151,10 @@
           <!--[style.height]="(200/dataBurBuy.length) + 'px'"></div>-->
         </div>
 
-        <div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item)">
+        <div class="item" *ngFor="let item of dataBurBuy.reverse(); let i = index" (click)="onSelectOrder(i, item)">
           <div class="order">
             <span>
-              {{item.amountConvert | number:'1.1-8' | replaceNumber}}
+              {{forBuyTotalCalculate | buyTotalCalculate:i | number:'1.1-' + showFraction | replaceNumber}}
             </span>
           </div>
 
@@ -156,13 +166,13 @@
 
           <div class="price">
             <span>
-              {{item.exrate | number:'1.1-8' | replaceNumber}}
+              {{item.exrate | number:'1.1-' + showFraction | replaceNumber}}
             </span>
           </div>
 
           <div class="total">
             <span>
-              {{item.amountBase | number:'1.1-8' | replaceNumber}}
+              {{item.amountBase | number:'1.1-' + showFraction | replaceNumber}}
             </span>
           </div>
 
@@ -171,13 +181,13 @@
     </div>
     <div class="order-book__controls-wrap">
       <div class="order-book__controls">
-        <div class="minus">
+        <div class="minus" (click)="incrementFraction(false)">
           <svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 4C0.723858 4 0.5 4.22386 0.5 4.5C0.5 4.77614 0.723858 5 1 5V4ZM6.65685 5C6.933 5 7.15685 4.77614 7.15685 4.5C7.15685 4.22386 6.933 4 6.65685 4V5ZM1 5L6.65685 5V4L1 4V5Z"/>
           </svg>
         </div>
-        <span>0.1</span>
-        <div class="plus">
+        <span>{{showFraction}}</span>
+        <div class="plus" (click)="incrementFraction(true)">
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 3.38889C0.723858 3.38889 0.5 3.61275 0.5 3.88889C0.5 4.16503 0.723858 4.38889 1 4.38889V3.38889ZM7.12826 4.38889C7.4044 4.38889 7.62826 4.16503 7.62826 3.88889C7.62826 3.61275 7.4044 3.38889 7.12826 3.38889V4.38889ZM4.5638 1C4.5638 0.723858 4.33994 0.5 4.0638 0.5C3.78766 0.5 3.5638 0.723858 3.5638 1H4.5638ZM3.5638 6.77778C3.5638 7.05392 3.78766 7.27778 4.0638 7.27778C4.33994 7.27778 4.5638 7.05392 4.5638 6.77778H3.5638ZM1 4.38889H7.12826V3.38889H1V4.38889ZM4.5638 6.77778V1H3.5638V6.77778H4.5638Z"/>
           </svg>
