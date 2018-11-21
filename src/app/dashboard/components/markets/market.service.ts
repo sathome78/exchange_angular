@@ -6,7 +6,6 @@ import {map, tap} from 'rxjs/internal/operators';
 
 import {environment} from 'environments/environment';
 import {CurrencyPair} from '../../../model/currency-pair.model';
-import {UserBalance} from 'app/model/user-balance.model';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 
 
@@ -42,6 +41,11 @@ export class MarketService {
     this.http.get<CurrencyPair []>(url).subscribe(items => {
       this.dashboardWebsocketService.processCurrencyPairs(items, false);
     });
+  }
+
+  removeFavourites() {
+    const url = this.baseUrl + '/info/private/v2/settings/currency_pair/favourites';
+    return this.http.delete<number>(url);
   }
 
   unsubscribe() {

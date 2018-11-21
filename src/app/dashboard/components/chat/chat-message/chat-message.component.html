@@ -1,9 +1,13 @@
 <div class="widget__message-wrap " [ngClass]="{'widget__message-wrap--left': isMine}">
   <div class="widget__message-icon">
-    <img src="../../assets/img/chat-icon1.svg" alt="">
+    <img src="../../assets/img/chat-icon1.svg">
   </div>
   <div class="widget__message">
     <div class="widget__message-nickname">{{ message.email | nickname}}</div>
+    <div class="widget__message-reply" *ngIf="message.messageReplyText">
+      <div class="widget__message-nickname">{{ message.messageReplyUsername }}</div>
+      <p class="widget__message-text">{{ message.messageReplyText}}</p>
+    </div>
     <p class="widget__message-text">{{ message.body }}</p>
   </div>
   <div class="widget__message-time">{{ message.messageTime | date:'hh:ss'}}</div>

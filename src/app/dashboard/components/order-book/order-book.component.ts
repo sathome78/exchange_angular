@@ -154,6 +154,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     });
 
 
+
     this.setData();
 
     this.refreshedIds = [];

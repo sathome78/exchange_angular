@@ -105,16 +105,6 @@ const stompConfig: StompConfig = {
 
     // PIPES END
   ],
-  imports: [
-    SharedModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    GridsterModule.forRoot(),
-    ScrollbarModule,
-    NgxPaginationModule,
-    PerfectScrollbarModule
-  ],
   exports: [
     ActivePairComponent,
     BuyComponent,
@@ -142,6 +132,16 @@ const stompConfig: StompConfig = {
     PositivePipe,
 
     // PIPES END
+  ],
+  imports: [
+    SharedModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    GridsterModule.forRoot(),
+    ScrollbarModule,
+    NgxPaginationModule,
+    PerfectScrollbarModule
   ],
   providers: [
     ChatService,

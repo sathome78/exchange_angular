@@ -457,66 +457,66 @@
       </button>
     </div>
     <!--request start-->
-    <div class="balance__requests">
-      <div class="balance__requests-header">
-        <button class="btn btn--center"><span>5</span> Pending requests</button>
-      </div>
-      <!--table start-->
-      <table class="table">
-        <thead>
-        <tr>
-          <th class="table__cell-head table__cell-head--tal">Date</th>
-          <th class="table__cell-head table__cell-head--tal">Currency</th>
-          <th class="table__cell-head table__cell-head--tar">Amount</th>
-          <th class="table__cell-head table__cell-head--tar">Comission</th>
-          <th class="table__cell-head table__cell-head--tar">Payment system</th>
-          <th class="table__cell-head table__cell-head--tar">Status</th>
-          <th class="table__cell-head table__cell-head--tac"></th>
-          <th class="table__cell-head table__cell-head--tac"></th>
-        </tr>
-        </thead>
-        <tbody class="table__body">
-        <tr class="table__row">
-          <td class="table__cell">
-            <div class="table__date-time">
-              <div>Th 13.06.2018</div>
-              <div>10:59:41</div>
-            </div>
-          </td>
-          <td class="table__cell">
-            <span>IDR</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <span>0.01</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <span>0</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <span>CIMB NAGA</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <span>Awaits payment</span>
-          </td>
-          <td class="table__cell">
-            <button class="btn btn--center btn--small btn--hidden">I paid</button>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <button class="btn btn--center btn--small btn--hidden">Revoke</button>
-            <div class="revoke-request">
-              <div class="revoke-request__title">Are you sure you want to revoke this request?</div>
-              <div class="revoke-request__button-wrap">
-                <button class="btn btn--small">Yes</button>
-                <button class="btn btn--small">No</button>
-              </div>
-              <div class="revoke-request__triangle"></div>
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <!--table end-->
-    </div>
+    <!--<div class="balance__requests">-->
+      <!--<div class="balance__requests-header">-->
+        <!--<button class="btn btn&#45;&#45;center"><span>5</span> Pending requests</button>-->
+      <!--</div>-->
+      <!--&lt;!&ndash;table start&ndash;&gt;-->
+      <!--<table class="table">-->
+        <!--<thead>-->
+        <!--<tr>-->
+          <!--<th class="table__cell-head table__cell-head&#45;&#45;tal">Date</th>-->
+          <!--<th class="table__cell-head table__cell-head&#45;&#45;tal">Currency</th>-->
+          <!--<th class="table__cell-head table__cell-head&#45;&#45;tar">Amount</th>-->
+          <!--<th class="table__cell-head table__cell-head&#45;&#45;tar">Comission</th>-->
+          <!--<th class="table__cell-head table__cell-head&#45;&#45;tar">Payment system</th>-->
+          <!--<th class="table__cell-head table__cell-head&#45;&#45;tar">Status</th>-->
+          <!--<th class="table__cell-head table__cell-head&#45;&#45;tac"></th>-->
+          <!--<th class="table__cell-head table__cell-head&#45;&#45;tac"></th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody class="table__body">-->
+        <!--<tr class="table__row">-->
+          <!--<td class="table__cell">-->
+            <!--<div class="table__date-time">-->
+              <!--<div>Th 13.06.2018</div>-->
+              <!--<div>10:59:41</div>-->
+            <!--</div>-->
+          <!--</td>-->
+          <!--<td class="table__cell">-->
+            <!--<span>IDR</span>-->
+          <!--</td>-->
+          <!--<td class="table__cell table__cell&#45;&#45;tar">-->
+            <!--<span>0.01</span>-->
+          <!--</td>-->
+          <!--<td class="table__cell table__cell&#45;&#45;tar">-->
+            <!--<span>0</span>-->
+          <!--</td>-->
+          <!--<td class="table__cell table__cell&#45;&#45;tar">-->
+            <!--<span>CIMB NAGA</span>-->
+          <!--</td>-->
+          <!--<td class="table__cell table__cell&#45;&#45;tar">-->
+            <!--<span>Awaits payment</span>-->
+          <!--</td>-->
+          <!--<td class="table__cell">-->
+            <!--<button class="btn btn&#45;&#45;center btn&#45;&#45;small btn&#45;&#45;hidden">I paid</button>-->
+          <!--</td>-->
+          <!--<td class="table__cell table__cell&#45;&#45;tar">-->
+            <!--<button class="btn btn&#45;&#45;center btn&#45;&#45;small btn&#45;&#45;hidden">Revoke</button>-->
+            <!--<div class="revoke-request">-->
+              <!--<div class="revoke-request__title">Are you sure you want to revoke this request?</div>-->
+              <!--<div class="revoke-request__button-wrap">-->
+                <!--<button class="btn btn&#45;&#45;small">Yes</button>-->
+                <!--<button class="btn btn&#45;&#45;small">No</button>-->
+              <!--</div>-->
+              <!--<div class="revoke-request__triangle"></div>-->
+            <!--</div>-->
+          <!--</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+      <!--</table>-->
+      <!--&lt;!&ndash;table end&ndash;&gt;-->
+    <!--</div>-->
     <!--request end-->
     <!--filters start-->
     <form action="">
@@ -531,6 +531,17 @@
             </svg>
           </div>
           <div class="wrap-input__line"></div>
+        </div>
+        <div class="balance__table-tabs">
+          <div class="balance__table-tabs-item balance__table-tabs-item--active">Main Balance</div>
+          <div class="balance__table-tabs-item">Pending requests <span class="indicate">5</span></div>
+        </div>
+        <div class="balance__hide-zero">
+          <label for="" class="toggler">
+            <input type="checkbox" name="">
+            <span class="toggler__indicate"></span>
+          </label>
+          <span>Hide zero balances</span>
         </div>
         <div class="balance__show-all">
           <label  class="toggler">
@@ -612,6 +623,61 @@
       </tbody>
     </table>
     <!--table end-->
+    <!--table requests start-->
+    <table class="table">
+      <thead>
+      <tr>
+        <th class="table__cell-head table__cell-head--tal">Date</th>
+        <th class="table__cell-head table__cell-head--tal">Currency</th>
+        <th class="table__cell-head table__cell-head--tar">Amount</th>
+        <th class="table__cell-head table__cell-head--tar">Comission</th>
+        <th class="table__cell-head table__cell-head--tar">Payment system</th>
+        <th class="table__cell-head table__cell-head--tar">Status</th>
+        <th class="table__cell-head table__cell-head--tac"></th>
+        <th class="table__cell-head table__cell-head--tac"></th>
+      </tr>
+      </thead>
+      <tbody class="table__body">
+      <tr class="table__row">
+        <td class="table__cell">
+          <div class="table__date-time">
+            <div>Th 13.06.2018</div>
+            <div>10:59:41</div>
+          </div>
+        </td>
+        <td class="table__cell">
+          <span>IDR</span>
+        </td>
+        <td class="table__cell table__cell--tar">
+          <span>0.01</span>
+        </td>
+        <td class="table__cell table__cell--tar">
+          <span>0</span>
+        </td>
+        <td class="table__cell table__cell--tar">
+          <span>CIMB NAGA</span>
+        </td>
+        <td class="table__cell table__cell--tar">
+          <span>Awaits payment</span>
+        </td>
+        <td class="table__cell">
+          <button class="btn btn--center btn--small btn--hidden">I paid</button>
+        </td>
+        <td class="table__cell table__cell--tar">
+          <button class="btn btn--center btn--small btn--hidden">Revoke</button>
+          <div class="revoke-request">
+            <div class="revoke-request__title">Are you sure you want to revoke this request?</div>
+            <div class="revoke-request__button-wrap">
+              <button class="btn btn--small">Yes</button>
+              <button class="btn btn--small">No</button>
+            </div>
+            <div class="revoke-request__triangle"></div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <!--table requests end-->
     <!--paginator start-->
     <div class="row row--aic" style="margin: 20px 16px 0;">
       <div class="show-filter">

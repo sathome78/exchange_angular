@@ -396,6 +396,12 @@
     line-height: 16px;
     font-size: 14px;
   }
+  &__message-reply{
+    background-color: rgba(25, 26, 57, 0.5);
+    border-left: 1px solid $darker-blue;
+    padding: 6px 12px;
+    margin: 4px 0;
+  }
   &__message-time {
     font-size: 12px;
     line-height: 14px;
