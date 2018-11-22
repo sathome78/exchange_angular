@@ -42,7 +42,7 @@ export class TwoFactorAuthenticationComponent implements OnInit {
     if (enabled) {
       this.popupService.showTFAPopup('GOOGLE');
     } else {
-      this.popupService.showTFAPopup('GOOGLE_DISABLE');
+      this.popupService.showTFAPopup('GOOGLE_DISABLED');
     }
   }
 

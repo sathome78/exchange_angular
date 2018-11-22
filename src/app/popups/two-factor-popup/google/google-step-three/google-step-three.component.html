@@ -1,37 +1,44 @@
 <div class="title modal__title">Two-Factor authentication by google authentificator</div>
 <div class="subtitle modal__subtitle">
-  <p>Back up your Secret Key.</p>
-</div>
-<div class="modal__row">
-  <p>Reseting your two - factor authentication requires opening a support ticket and may take up to 48 hours to address.</p>
-</div>
-<div class="modal__row">
-  <div class="modal__code-grey-field">{{ secretCode }}</div>
+  <p>Сonfirm your details</p>
 </div>
 
-<form class="passport-form" [formGroup]="form">
-  <div class="passport-form__content-row">
-    <div class="wrap-input passport-form__input">
+<form [formGroup]="form">
+  <div class="row row--jcc">
+    <div class="wrap-input modal__input-2fa">
       <input
+        required
+        class="wrap-input__input"
+        type="email"
+        formControlName="email">
+      <label class="wrap-input__label">Email</label>
+      <div class="wrap-input__line"></div>
+    </div>
+  </div>
+  <div class="row row--jcc">
+    <div class="wrap-input modal__input-2fa">
+      <input
+        required
         class="wrap-input__input"
         type="password"
         formControlName="password">
-      <label class="wrap-input__label">Your password</label>
+      <label class="wrap-input__label">Password</label>
       <div class="wrap-input__line"></div>
     </div>
   </div>
-  <div class="passport-form__content-row">
-    <div class="wrap-input passport-form__input">
+  <div class="row row--jcc">
+    <div class="wrap-input modal__input-2fa">
       <input
+        required
         class="wrap-input__input"
         type="text"
-        formControlName="pincode"
-      >
-      <label class="wrap-input__label">Pincode</label>
+        formControlName="pincode">
+      <label class="wrap-input__label">Pin code</label>
       <div class="wrap-input__line"></div>
+      <span style="display: inline-block; margin-top: 4px;">Check pin-code in your email</span>
     </div>
   </div>
 
-    <button class="btn btn--active btn--center " (click)="onNextStep()">Confirm</button>
+    <button class="btn btn--active btn--center " (click)="onNextStep()">Enable GA</button>
    <!--todo here we should fire popup if time of 5 minutes expires or smth went wrong-->
 </form>

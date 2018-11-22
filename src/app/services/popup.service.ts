@@ -43,16 +43,11 @@ export class PopupService {
   }
 
   showTFAPopup(provider: string) {
-    if (provider === 'GOOGLE_DISABLED') {
-
-
-      return;
-    }
-    this.onOpenTFAPopupListener.next(provider);
-    if (provider === 'GOOGLE' || provider === 'SMS' || provider === 'TELEGRAM') {
+    if (provider === 'GOOGLE' || provider === 'SMS' || provider === 'TELEGRAM' || provider === 'GOOGLE_DISABLED') {
       this.tfaProvider = provider;
     }
     this.stepsMap = this.getStepsMap(provider);
+    this.onOpenTFAPopupListener.next(provider);
   }
 
   closeTFAPopup() {
@@ -117,7 +112,7 @@ export class PopupService {
     switch (provider) {
       case 'GOOGLE':
         return this.getGoogleStepsMap();
-      case 'GOOGLE_DISABLE':
+      case 'GOOGLE_DISABLED':
         return this.getGoogleDisableStepsMap();
       case 'SMS':
         return this.getSmsStepsMap();

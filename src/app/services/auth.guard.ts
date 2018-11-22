@@ -14,7 +14,8 @@ export class AuthGuard implements CanActivate, CanActivateChild {
               state: RouterStateSnapshot): Observable<boolean>|Promise<boolean>|boolean {
     if (localStorage.getItem(TOKEN)
         && this.authService.isAuthenticated()) {
-      // logged in - threfore access granted
+      // logged in - therefore access granted
+      console.log('this.authService.isAuthenticated()');
       return true;
     }
 
@@ -26,6 +27,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (this.authService.isAuthenticated()) {
+      console.log('this.authService.isAuthenticated()');
       return true;
     }
     this.router.navigate(['/dashboard']);
