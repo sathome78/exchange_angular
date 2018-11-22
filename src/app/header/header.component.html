@@ -127,11 +127,17 @@
       <!--</li>-->
     <!--</ul>-->
 
+    <div *ngIf="isAuthenticated(); else reg">
+      <a class="header__auth" (click)="onLogout()">Nickname</a>
+    </div>
+    <ng-template #reg>
+      <a class="header__auth" (click)="onLogin()">Registration</a>
+    </ng-template>
     <div *ngIf="isAuthenticated(); else alien">
-      <a class="header__logout" (click)="onLogout()">Log out</a>
+      <a class="header__auth header__auth--log" (click)="onLogout()">Log out</a>
     </div>
     <ng-template #alien>
-      <a class="header__logout" (click)="onLogin()">Log in</a>
+      <a class="header__auth header__auth--log" (click)="onLogin()">Log in</a>
       <!--<a class="header__logout" href="https://exrates.me/dashboards" target="_blank">Log in</a>-->
     </ng-template>
 
