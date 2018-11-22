@@ -40,6 +40,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   public forSellTotalCalculate;
 
   public lastExrate;
+  public preLastExrate;
   public isExratePositive = true;
 
 
@@ -207,6 +208,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) :  this.setSellOrders(orders[1]);
         orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) :  this.setBuyOrders(orders[1]);
         this.lastExrate = orders[0].lastExrate !== '0' ? orders[0].lastExrate : 0;
+        this.preLastExrate = orders[0].preLastExrate !== '0' ? orders[0].preLastExrate : 0;
         this.isExratePositive = orders[0].positive;
         console.log(this.isExratePositive)
         this.setData();

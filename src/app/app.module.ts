@@ -58,6 +58,8 @@ import {OrdersService} from './dashboard/components/embedded-orders/orders.servi
 import {CurrencyPairInfoService} from './dashboard/components/currency-pair-info/currency-pair-info.service';
 import {JwtInterceptor} from './core/interceptors/jwt.interceptor';
 import {AuthInterceptor} from './core/interceptors/auth.interceptor';
+import {RecaptchaModule} from 'ng-recaptcha';
+import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
 
 
 @NgModule({
@@ -92,6 +94,7 @@ import {AuthInterceptor} from './core/interceptors/auth.interceptor';
     LoginPopupMobileComponent,
     RegistrationMobilePopupComponent,
     GoogleDisableComponent,
+    FinalRegistrationComponent,
     // TWO FACTOR POPUP END
 
   ],
@@ -109,7 +112,8 @@ import {AuthInterceptor} from './core/interceptors/auth.interceptor';
     SettingsModule,
     WebcamModule,
     SharedModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    RecaptchaModule,
   ],
   providers: [
     AuthGuard,

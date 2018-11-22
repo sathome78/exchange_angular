@@ -10,12 +10,14 @@ import {OrdersHistoryComponent} from './orders/orders-history/orders-history.com
 import {OpenOrdersComponent} from './orders/open-orders/open-orders.component';
 import {ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
 import {ReferralChargesComponent} from './referral/referral-charges/referral-charges.component';
+import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
 
 const routes: Routes = [
   // permit all
   { path: 'dashboard',      component: DashboardComponent },
   { path: 'balance',      component: BalanceComponent },
   { path: 'open-orders', component: OpenOrdersComponent },
+  { path: 'final-registration/token', component: FinalRegistrationComponent },
   { path: 'orders-history', component: OrdersHistoryComponent },
   { path: 'referral-structure', component: ReferralStructureComponent },
   { path: 'referral-charges', component: ReferralChargesComponent },

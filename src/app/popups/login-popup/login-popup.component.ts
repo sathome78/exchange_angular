@@ -122,6 +122,11 @@ export class LoginPopupComponent implements OnInit {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
+  openRegistration() {
+    this.popupService.showMobileRegistrationPopup(true);
+    this.closeMe();
+  }
+
   getInputType(): string {
     return this.isPasswordVisible ? 'text' : 'password';
   }
