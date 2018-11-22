@@ -92,6 +92,10 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  openRegistration() {
+    this.popupService.showMobileRegistrationPopup(true);
+  }
+
   setMobileWidget(widget: string) {
     this.mobileView = widget;
     this.dashboardService.activeMobileWidget.next(widget);
