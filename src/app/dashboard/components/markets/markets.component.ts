@@ -145,15 +145,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   /**
-   * Removes mark as selection for all currency pairs
-   * @param no param
-   */
-  uncheckFavourites() {
-    this.pairs.forEach(pair => pair.isFavourite = false);
-    this.marketService.removeFavourites();
-  }
-
-  /**
    * Return array by market
    * @param {string} market
    * @returns {CurrencyPair[]}
