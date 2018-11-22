@@ -6,6 +6,9 @@
   }
   /*--- modificators end ---*/
   /*--- elements start ---*/
+  &__content-mob{
+    padding-bottom: 40px;
+  }
   &__header-mob {
     margin: 0 12px 24px;
     padding-top: 12px;
@@ -76,6 +79,57 @@
     svg {
       margin-left: 4px;
       stroke: $darker-blue;
+    }
+  }
+  &__tabs-mob {
+    width: 100%;
+    position: fixed;
+    bottom: 60px;
+    padding: 0 16px;
+    padding: 0 8px;
+    background-color: #E9F2FD;
+    .tabs__item {
+      margin-right: 20px;
+      &--active {
+        border-top: 2px solid $darker-blue;
+        border-bottom: 0;
+        &:before, &:after {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 50%;
+          -webkit-transform: translate(-50%, -100%);
+          -ms-transform: translate(-50%, -100%);
+          transform: translate(-50%, -100%);
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-width: 0px 9px 6px 9px;
+          border-color: transparent transparent $darker-blue transparent;
+        }
+        &:after {
+          bottom: 1px;
+          border-width: 0px 6px 4px 6px;
+          border-color: transparent transparent #E9F2FD transparent;
+        }
+      }
+      .indicate {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        margin-left: 4px;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        background-color: $darker-blue;
+        font-size: 12px;
+        line-height: 18px;
+        color: #fff;
+      }
+    }
+    &:after{
+      display: none;
     }
   }
   //open-mob-balance start
@@ -277,8 +331,8 @@
     &__your-active {
       margin-left: 40px;
       position: relative;
-      &:before{
-        content:"";
+      &:before {
+        content: "";
         position: absolute;
         left: -20px;
         display: block;
@@ -297,10 +351,9 @@
       &:first-child {
         margin-right: 20px;
       }
-      img {
+      svg {
         margin-right: 4px;
-        width: 8px;
-        height: 14px;
+        fill: #000;
       }
     }
     &__title-btn {
@@ -309,7 +362,7 @@
     &__filters {
       margin-top: 28px;
       align-items: stretch;
-      &:after{
+      &:after {
         content: '';
         display: block;
         position: absolute;
@@ -479,6 +532,16 @@
 /*--- DARK THEME START---*/
 .dark-theme {
   .balance {
+    &__tabs-mob {
+      background-color: #21417D;
+      .tabs__item {
+        &--active {
+          &:after {
+            border-color: transparent transparent #21417D transparent;
+          }
+        }
+      }
+    }
     &__currency-name {
       color: $light-blue;
     }
@@ -565,8 +628,13 @@
         }
       }
       &__your-active {
-        &:before{
+        &:before {
           background-color: #fff;
+        }
+      }
+      &__your-active-item {
+        svg {
+          fill: #fff;
         }
       }
       &__filters {
