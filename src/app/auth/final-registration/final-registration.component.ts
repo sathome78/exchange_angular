@@ -4,6 +4,9 @@ import {UserService} from '../../services/user.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {TokenHolder} from '../../model';
 import {AuthService} from '../../services/auth.service';
+import {environment} from '../../../environments/environment';
+
+declare var encodePassword: Function;
 
 @Component({
   selector: 'app-final-registration',
@@ -28,7 +31,7 @@ export class FinalRegistrationComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.message = 'Now, we need to create strong password.';
-    this.token = this.activatedRoute.snapshot.queryParamMap.get('token');
+    this.token = this.activatedRoute.snapshot.queryParamMap.get('t');
   }
 
   getInputType(): string {
@@ -54,7 +57,7 @@ export class FinalRegistrationComponent implements OnInit {
     console.log(this.passwordForm)
     const sendData = {
       tempToken: this.token,
-      password: this.passwordForm.controls['password'].value,
+      password: this.encryptPass(this.passwordForm.controls['password'].value),
     };
     this.userService.finalRegistration(sendData).subscribe(res => {
      const tokenHolder = {
@@ -71,7 +74,7 @@ export class FinalRegistrationComponent implements OnInit {
     }, err => {
       this.message = 'Server error. Try again.';
     });
-    console.log(sendData);
+    // console.log(sendData);
   }
 
   confirmPassword(password: FormControl): { [s: string]: boolean } {
@@ -79,5 +82,8 @@ export class FinalRegistrationComponent implements OnInit {
       return {'passwordConfirm': true};
     }
     return null;
+  }
+  private encryptPass(pass: string): string {
+    return encodePassword(pass, environment.encodeKey);
   }
 }

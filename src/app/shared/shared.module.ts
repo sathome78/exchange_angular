@@ -26,7 +26,7 @@ import {SellTotalCalculatePipe} from './pipes/sell-total-calculate.pipe';
     DropdownDirective,
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
-    SellTotalCalculatePipe
+    SellTotalCalculatePipe,
   ],
   imports: [
     FormsModule,
@@ -43,7 +43,7 @@ import {SellTotalCalculatePipe} from './pipes/sell-total-calculate.pipe';
     DropdownDirective,
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
-    SellTotalCalculatePipe
+    SellTotalCalculatePipe,
   ],
   providers: [
     NotificationsService
