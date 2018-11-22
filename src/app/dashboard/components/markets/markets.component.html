@@ -104,7 +104,7 @@
                   <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
                 </div>
                 <div class="table__cell table__cell--p4" style="width: 25%;" (click)="onSelectCurrencyPair(pair)">
-                  <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
+                  <span class="txt-indicate">{{pair.lastOrderRate | number: '1.0-2' }}</span>
                 </div>
                 <div class="table__cell table__cell--p4" style="width: 17%;" (click)="onSelectCurrencyPair(pair)">
                 <span style="margin-right: 2px;"
@@ -205,7 +205,7 @@
                   <div class="txt-small txt-light-grey">Vol {{ +pair.volume | number: '1.0-0' | replaceNumber}}</div>
                 </div>
                 <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
-                  <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
+                  <span class="txt-indicate">{{pair.lastOrderRate | number: '1.0-2'}}</span>
                   <div class="txt-small txt-light-grey">$ {{ +pair.priceInUSD | number: '1.0-2'}}</div>
                 </div>
                 <div class="table__cell table__cell--p4 table__cell--tar" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
