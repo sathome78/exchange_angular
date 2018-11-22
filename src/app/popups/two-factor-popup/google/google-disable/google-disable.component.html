@@ -70,5 +70,5 @@
     </div>
   </div>
 
-  <button class="btn btn--error btn--center ">Disable GA</button>
+  <button class="btn btn--error btn--center " [disabled]="!form.valid" (click)="disableGoogleAuth()">Disable GA</button>
 </form>

@@ -23,15 +23,34 @@ export class GoogleDisableComponent implements OnInit {
       'password': new FormControl('', {validators: [Validators.required]}),
       'pincode': new FormControl('', {validators: [Validators.required]})
     });
-    this.sendMePincode();
+    // this.sendMePincode();
   }
 
-  sendMePincode() {
-    this.googleService.sendMePincode().subscribe(res => {
-        console.log(res);
-      },
-      error1 => {
-        console.log(error1);
-      });
+  // sendMePincode() {
+  //   this.googleService.sendMePincode().subscribe(res => {
+  //       // console.log(res);
+  //     },
+  //     error1 => {
+  //       console.log(error1);
+  //     });
+  // }
+
+  disableGoogleAuth() {
+    if (this.form.valid) {
+      const email = this.form.get('email').value;
+      const password = this.form.get('password').value;
+      const pincode = this.form.get('pincode').value;
+      this.googleService.disableGoogleAuthenticationt(email, password, pincode)
+        .subscribe(res => {
+          // console.log(res);
+          this.popupService.closeTFAPopup();
+        },
+        error1 => {
+          console.log(error1);
+        });
+    } else {
+      console.log('2FaGoogle Disable form is invalid');
+    }
   }
+
 }
