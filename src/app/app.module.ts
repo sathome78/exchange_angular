@@ -9,6 +9,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {HeaderComponent} from './header/header.component';
 import {TwoFactorPopupComponent} from './popups/two-factor-popup/two-factor-popup.component';
 import {FooterComponent} from './footer/footer.component';
+import {GoogleDisableComponent} from './popups/two-factor-popup/google/google-disable/google-disable.component';
 import {GoogleStepOneComponent} from './popups/two-factor-popup/google/google-step-one/google-step-one.component';
 import {GoogleStepTwoComponent} from './popups/two-factor-popup/google/google-step-two/google-step-two.component';
 import {GoogleStepThreeComponent} from './popups/two-factor-popup/google/google-step-three/google-step-three.component';
@@ -90,6 +91,7 @@ import {AuthInterceptor} from './core/interceptors/auth.interceptor';
     BalanceComponent,
     LoginPopupMobileComponent,
     RegistrationMobilePopupComponent,
+    GoogleDisableComponent,
     // TWO FACTOR POPUP END
 
   ],

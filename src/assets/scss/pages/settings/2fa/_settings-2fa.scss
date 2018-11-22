@@ -45,7 +45,9 @@
     padding: 0 12px;
     max-width: 500px;
     margin: 24px auto 28px;
-
+    .subtitle{
+      color:$darker-blue;
+    }
   }
   /*--- elements end ---*/
 }
@@ -74,6 +76,11 @@
     }
     &__method{
       color: $light-blue;
+    }
+    &__select-type{
+      .subtitle{
+        color:$light-blue;
+      }
     }
   }
 }

@@ -70,18 +70,6 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
-    /** start mock */
-    // TODO: delete in prod
-    // this.openOrders = this.mockData.getOpenOrders().items;
-    // this.activeCurrencyPair = 'USD/BTC';
-    // this.arrPairName = this.activeCurrencyPair.split('/');
-    // this.countOfEntries = this.openOrders.length;
-    /** end mock */
-
-    /** get open orders data */
-    // this.marketService.setStompSubscription();
-
     /** get currencyPairs */
     this.marketService.marketListener$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -98,8 +86,9 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
         this.toOpenOrders();
         this.splitPairName();
       });
+
     if (this.authService.isAuthenticated()) {
-      this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
+      // this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
       this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
         this.toOpenOrders();
       });
@@ -247,7 +236,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       }, (error) => console.log(error));
   }
 
-  selctNewActiveCurrencyPair(pair: CurrencyPair) {
+  selectNewActiveCurrencyPair(pair: CurrencyPair) {
     this.activeCurrencyPair = pair;
     this.currency = pair.currencyPairName;
   }

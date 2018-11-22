@@ -55,12 +55,12 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
         this.activeCurrencyPair = pair;
         this.toOpenOrders();
       });
-      if (this.authService.isAuthenticated()) {
-        this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
-        this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
-        this.toOpenOrders();
-        });
-      }
+      // if (this.authService.isAuthenticated()) {
+      //   this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
+      //   this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
+      //   this.toOpenOrders();
+      //   });
+      // }
   }
 
   ngOnDestroy() {
