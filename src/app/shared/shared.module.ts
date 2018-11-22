@@ -11,6 +11,8 @@ import {CurrencyPipe} from './pipes/currency.pipe';
 import {DropdownDirective} from './directives/dropdown.directive';
 import {OnlyNumbersDirective} from './directives/only-numbers.directive';
 import {PriceInputComponent} from './components/price-input/price-input.component';
+import {BuyTotalCalculatePipe} from './pipes/buy-total-calculate.pipe';
+import {SellTotalCalculatePipe} from './pipes/sell-total-calculate.pipe';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import {PriceInputComponent} from './components/price-input/price-input.componen
     CurrencyPipe,
     DropdownDirective,
     OnlyNumbersDirective,
+    BuyTotalCalculatePipe,
+    SellTotalCalculatePipe
   ],
   imports: [
     FormsModule,
@@ -38,6 +42,8 @@ import {PriceInputComponent} from './components/price-input/price-input.componen
     CurrencyPipe,
     DropdownDirective,
     OnlyNumbersDirective,
+    BuyTotalCalculatePipe,
+    SellTotalCalculatePipe
   ],
   providers: [
     NotificationsService
