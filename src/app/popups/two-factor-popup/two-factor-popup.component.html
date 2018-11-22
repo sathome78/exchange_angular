@@ -71,6 +71,10 @@
         </div>
       </div>
 
+      <div *ngSwitchCase="google_disable" [ngSwitch]="step">
+        <app-google-disable></app-google-disable>
+      </div>
+
       <div *ngSwitchCase="sms" [ngSwitch]="step">
         <div *ngSwitchCase="1">
           <app-sms-step-one></app-sms-step-one>

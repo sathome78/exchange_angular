@@ -20,6 +20,7 @@
 
       ~ .wrap-input__message {
         display: inline-block;
+        color:$red;
       }
       // &:focus {
       //   border-color: $red;
@@ -217,6 +218,40 @@
 /*--- DARK THEME START---*/
 .dark-theme {
   .wrap-input {
+    &--error {
+      .wrap-input__input {
+        border-color: $red;
+
+        ~ .wrap-input__label {
+          color: $red;
+          background-color: $dark-indigo;
+        }
+
+        ~ .wrap-input__line {
+          background-color: $red;
+        }
+
+        ~ .wrap-input__message {
+          display: inline-block;
+        }
+        // &:focus {
+        //   border-color: $red;
+        //
+        //   ~ .input__label {
+        //     top: -5px;
+        //     padding: 0 2px;
+        //     color: $red;
+        //     background-color: #fff;
+        //     font-size: 10px;
+        //     line-height: 12px;
+        //   }
+        //
+        //   ~ .input__line {
+        //     background-color: $red;
+        //   }
+        // }
+      }
+    }
     &__icon{
       svg{
         fill:$light-blue;

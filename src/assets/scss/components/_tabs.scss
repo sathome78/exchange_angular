@@ -103,7 +103,7 @@
         &--active{
           color:#fff;
           &:after{
-            border-color: #2B3961 transparent transparent transparent;
+            border-color: $dark-indigo transparent transparent transparent;
           }
         }
         &:hover{

@@ -14,7 +14,7 @@ export class TwoFactorPopupComponent implements OnInit, OnDestroy {
   google = 'GOOGLE';
   sms = 'SMS';
   telegram = 'TELEGRAM';
-  google_disable = 'GOOGLE_DISABLE';
+  google_disable = 'GOOGLE_DISABLED';
   provider: string;
   step = 1;
   stepsSize = 1;

@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {SettingsModule} from './settings/settings.module';
-import {SettingsComponent} from './settings/settings.component';
-import {TwoFactorPopupComponent} from './popups/two-factor-popup/two-factor-popup.component';
 import {AuthGuard} from './services/auth.guard';
 import {BalanceComponent} from './balance/balance.component';
 import {OrdersHistoryComponent} from './orders/orders-history/orders-history.component';
@@ -15,15 +12,15 @@ import {FinalRegistrationComponent} from './auth/final-registration/final-regist
 const routes: Routes = [
   // permit all
   { path: 'dashboard',      component: DashboardComponent },
-  { path: 'balance',      component: BalanceComponent },
-  { path: 'open-orders', component: OpenOrdersComponent },
+  { path: 'balance',      component: BalanceComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
+  { path: 'open-orders', component: OpenOrdersComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   { path: 'final-registration/token', component: FinalRegistrationComponent },
-  { path: 'orders-history', component: OrdersHistoryComponent },
-  { path: 'referral-structure', component: ReferralStructureComponent },
-  { path: 'referral-charges', component: ReferralChargesComponent },
+  { path: 'orders-history', component: OrdersHistoryComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
+  { path: 'referral-structure', component: ReferralStructureComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
+  { path: 'referral-charges', component: ReferralChargesComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
+  { path: 'settings', loadChildren: './settings/settings.module#SettingsModule'},
   // { path: 'funds',      component: DashboardComponent, },ç
   // { path: 'orders',      component: DashboardComponent, },
-  // { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   // { path: 'tfa-popup', component: TwoFactorPopupComponent },
   // { path: 'settings',  component: SettingsComponent,    loadChildren: 'app/settings/settings.module#SettingsModule' },
 
@@ -39,7 +36,6 @@ const routes: Routes = [
   // // { path: 'referral',       component: ReferralComponent },
   // // {path: 'test', component: TestComponent },
 
-  // {path: '', pathMatch: 'full', redirectTo: '/settings'} // remove after demo
   {path: '', pathMatch: 'full', redirectTo: 'dashboard'}
 ];
 
