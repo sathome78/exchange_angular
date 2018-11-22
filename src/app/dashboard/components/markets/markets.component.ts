@@ -94,22 +94,10 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   sortVolume() {
     this.sortPoint === 'asc' ? this.sortPoint = 'desc' : this.sortPoint = 'asc';
     if (this.sortPoint === 'asc') {
-      this.pairs = this.pairs.sort((a, b) => this.prefSorting(a, b));
+      this.pairs = this.pairs.sort((a, b) => a.volume - b.volume);
     } else {
-      this.pairs = this.pairs.sort((a, b) => this.prefSorting(b, a));
+      this.pairs = this.pairs.sort((a, b) => b.volume - a.volume);
     }
-  }
-
-  prefSorting(left: CurrencyPair, right: CurrencyPair): number {
-    if (left.market !== 'USD' || (!this.isPreferable(left) && !this.isPreferable(right))) {
-      return left.volume - right.volume;
-    } else {
-      return left.currencyPairName === 'BTC/USD' ? 1 : -1;
-    }
-  }
-
-  private isPreferable(pair: CurrencyPair): boolean {
-    return pair.currencyPairName === 'BTC/USD' || pair.currencyPairName === 'ETH/USD';
   }
 
   /**
