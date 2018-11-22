@@ -17,8 +17,7 @@ const routes: Routes = [
   { path: 'orders-history', component: OrdersHistoryComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
   { path: 'referral-structure', component: ReferralStructureComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
   { path: 'referral-charges', component: ReferralChargesComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
-  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
-  // { path: 'settings', loadChildren: './settings/settings.module#SettingsModule'},
+  { path: 'settings', loadChildren: './settings/settings.module#SettingsModule'},
   // { path: 'funds',      component: DashboardComponent, },ç
   // { path: 'orders',      component: DashboardComponent, },
   // { path: 'tfa-popup', component: TwoFactorPopupComponent },
