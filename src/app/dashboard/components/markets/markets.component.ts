@@ -8,9 +8,11 @@ import {AuthService} from 'app/services/auth.service';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {MarketService} from './market.service';
-import {ChangeCurrencyPairAction} from '../../actions/dashboard.actions';
+import {ChangeCurrencyPairAction, SetLastSellBuyOrderAction} from '../../actions/dashboard.actions';
 import {UserService} from '../../../services/user.service';
 import {CurrencyPairInfoService} from '../currency-pair-info/currency-pair-info.service';
+import {LastSellBuyOrder} from '../../../model/last-sell-buy-order.model';
+import {defaultLastSellBuyOrder} from '../../reducers/default-values';
 
 
 @Component({

@@ -133,7 +133,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair) => {
-         this.currencyPairName = pair.currencyPairName as string;
+        this.currencyPairName = pair.currencyPairName as string;
         if (this.currencyPairName) {
           // this._tvWidget = new widget(this.widgetOptions);
           this.formattingCurrentPairName(pair.currencyPairName as string);
@@ -198,16 +198,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     const tvWidget = new widget(this.widgetOptions);
     this._tvWidget = tvWidget;
 
-    // /** getting current currency pair */
-    // this.marketService.activeCurrencyListener.subscribe(pair => {
-    //   this.currencyPairName = pair.currencyPairName as string;
-    //   if (this.currencyPairName) {
-    //     // this._tvWidget = new widget(this.widgetOptions);
-    //     this.formattingCurrentPairName(pair.currencyPairName as string);
-    //     this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
-    //   }
-    // });
-
     tvWidget.onChartReady(() => {
       const button = tvWidget.createButton()
         .attr('title', 'Click to show a notification popup')
@@ -248,11 +238,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   formattingCurrentPairName(currentPair: string): void {
     /** search slash position */
     if (currentPair) {
-      let index: number;
-      index = currentPair.match(/\+|-|\/|\*/).index;
-
-      this.firstCurrency = currentPair.slice(0, index);
-      this.secondCurrency = currentPair.slice(index + 1);
+      [ this.firstCurrency, this.secondCurrency ] = currentPair.split('/');
     }
   }
 
