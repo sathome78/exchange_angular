@@ -58,6 +58,7 @@ import {OrdersService} from './dashboard/components/embedded-orders/orders.servi
 import {CurrencyPairInfoService} from './dashboard/components/currency-pair-info/currency-pair-info.service';
 import {JwtInterceptor} from './core/interceptors/jwt.interceptor';
 import {AuthInterceptor} from './core/interceptors/auth.interceptor';
+import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.component';
 
 
 @NgModule({
@@ -92,6 +93,7 @@ import {AuthInterceptor} from './core/interceptors/auth.interceptor';
     LoginPopupMobileComponent,
     RegistrationMobilePopupComponent,
     GoogleDisableComponent,
+    RecoveryPassComponent,
     // TWO FACTOR POPUP END
 
   ],
