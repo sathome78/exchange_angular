@@ -13,6 +13,8 @@ export class SettingsComponent implements OnInit {
 
   constructor(private router: Router,
               private authService: AuthService) {
+    const path = authService.isAuthenticated() ? '/settings/two-factor-auth' : '/';
+    this.router.navigate([path]);
   }
 
   ngOnInit() {
