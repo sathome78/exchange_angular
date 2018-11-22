@@ -83,6 +83,9 @@ export class LoginPopupComponent implements OnInit {
               this.logger.error(this, 'Sever failure when sigh in with credentials: { login: ' + email + ', pass: ' + password + '}');
               // redirect to 500 page
               this.statusMessage = 'Service temporary unavailable';
+            } else if (status === 416) {
+              this.logger.info(this, 'Attempt to sign in by unconfirmed user: { login: ' + email + ', pass: ' + password + '}');
+              this.statusMessage = 'Attention! Security issue! Please, immediately contact our support!';
             } else if (status === 426) {
               this.logger.info(this, 'Attempt to sign in by unconfirmed user: { login: ' + email + ', pass: ' + password + '}');
               this.statusMessage = 'It seems you didn\'t completed your registration';
