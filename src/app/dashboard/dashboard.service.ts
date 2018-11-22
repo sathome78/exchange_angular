@@ -2,8 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Subject, Observable, BehaviorSubject, ReplaySubject} from 'rxjs';
 
-import {Currency} from './components/currency-pair-info/currency-search/currency.model';
-import {mockPairs} from './components/currency-pair-info/currency-search/currency.model';
+// import {Currency} from './components/currency-pair-info/currency-search/currency.model';
 import {OrderItem} from '../model/order-item.model';
 
 @Injectable()
@@ -19,7 +18,7 @@ export class DashboardService {
 
 
   /** mock data for currencies which used at currency-pair-info/currency-search */
-  currencies: BehaviorSubject<Currency[]> = new BehaviorSubject<Currency[]>(mockPairs);
+  // currencies: BehaviorSubject<Currency[]> = new BehaviorSubject<Currency[]>(mockPairs);
 
 
 
@@ -205,14 +204,14 @@ export class DashboardService {
     return this.dashboardToolsItems;
   }
 
-  /**
-   * Get available currencies for trading (mock data for now)
-   *
-   * @returns {Observable<T>}
-   */
-  getCurrencies(): Observable<Currency[]> {
-    return this.currencies.asObservable();
-  }
+  // /**
+  //  * Get available currencies for trading (mock data for now)
+  //  *
+  //  * @returns {Observable<T>}
+  //  */
+  // getCurrencies(): Observable<Currency[]> {
+  //   return this.currencies.asObservable();
+  // }
 
   // TODO define type
   getCurrencyPair(ISO1: string, ISO2: string) {

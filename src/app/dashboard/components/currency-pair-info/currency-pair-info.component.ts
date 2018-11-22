@@ -51,11 +51,11 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.dashboardService.getCurrencies()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((value: Currency[]) => {
-        this.currencies = value;
-      });
+    // this.dashboardService.getCurrencies()
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe((value: Currency[]) => {
+    //     this.currencies = value;
+    //   });
 
     this.store
       .pipe(select(getCurrencyPair))
