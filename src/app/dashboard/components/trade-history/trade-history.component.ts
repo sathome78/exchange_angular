@@ -3,11 +3,15 @@ import { takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
 
 import { AbstractDashboardItems } from '../../abstract-dashboard-items';
-import { TradeHistoryService, TradeItem } from './trade-history.service';
+import { TradeHistoryService } from './trade-history.service';
 import { MarketService } from '../markets/market.service';
 import { CurrencyPair } from '../../../model/currency-pair.model';
 import {select, Store} from '@ngrx/store';
-import {State, getCurrencyPair} from 'app/core/reducers/index';
+import {State, getCurrencyPair, getAllTrades} from 'app/core/reducers/index';
+import {TradeItem} from '../../../model/trade-item.model';
+import {SetLastSellBuyOrderAction} from '../../actions/dashboard.actions';
+import {OrderItem} from '../../../model/order-item.model';
+import {LastSellBuyOrder} from '../../../model/last-sell-buy-order.model';
 
 
 @Component({
@@ -56,21 +60,35 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
         this.onGetCurrentCurrencyPair(pair);
       });
 
-    this.allTradesSubscription = this.tradeService.allTradesListener
-      .subscribe(orders => {
+    this.store
+      .pipe(select(getAllTrades))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( orders => {
         this.addOrUpdate(this.allTrades, orders);
         /** sort items */
         this.allTrades.sort((a, b) => {
           let timeA, timeB;
           timeA = parseInt(a.acceptionTime, 10);
           timeB = parseInt(b.acceptionTime, 10);
-
-          return timeA - timeB;
+          return timeB - timeA ;
         });
-
-        // TODO: remove after dashboard init load time issue is solved
-        // this.ref.detectChanges();
       });
+
+    // this.allTradesSubscription = this.tradeService.allTradesListener
+    //   .subscribe(orders => {
+    //     this.addOrUpdate(this.allTrades, orders);
+    //     /** sort items */
+    //     this.allTrades.sort((a, b) => {
+    //       let timeA, timeB;
+    //       timeA = parseInt(a.acceptionTime, 10);
+    //       timeB = parseInt(b.acceptionTime, 10);
+    //
+    //       return timeA - timeB;
+    //     });
+    //
+    //     // TODO: remove after dashboard init load time issue is solved
+    //     // this.ref.detectChanges();
+    //   });
   }
 
   addOrUpdate(oldItems: TradeItem[], newItems: TradeItem[]) {
@@ -110,4 +128,5 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
     this.personalTrades = [];
     this.formattingCurrentPairName(pair.currencyPairName as string);
   }
+
 }

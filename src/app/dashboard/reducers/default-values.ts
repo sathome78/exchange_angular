@@ -1,3 +1,5 @@
+import {OrderItem} from '../../model/order-item.model';
+
 export const defaultValues = {
   page: 0,
   currencyPairId: 0,
@@ -16,17 +18,11 @@ export const defaultUserBalance = {
 }
 
 export const defaultOrderItem = {
-  needRefresh: false,
-  page: 0,
-  id: 0,
-  userId: 0,
+  amount: '0',
+  currencyPairId: 1,
+  exrate: '0',
   orderType: '',
-  exrate: 0,
-  amountBase: 0,
-  amountConvert: 0,
-  created: new Date,
-  accepted: new Date,
-  ordersIds: ''
+  total: '0'
 }
 
 export const defaultCurrencyPairInfo = {
@@ -38,3 +34,21 @@ export const defaultCurrencyPairInfo = {
   rateLow: 0,
   volume24h: 0,
 }
+
+export const defaultTradeItem = {
+  acceptionTime: '0',
+  amountBase: '0',
+  dateAcceptionTime: '12:05:03',
+  needRefresh: true,
+  operationType: 'SELL',
+  orderId: 0,
+  page: 0,
+  rate: '0'
+}
+
+export const defaultLastSellBuyOrder = {
+  lastOrder: defaultTradeItem,
+  lastSellOrder: defaultTradeItem,
+  lastBuyOrder: defaultTradeItem
+}
+

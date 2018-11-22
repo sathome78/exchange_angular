@@ -55,6 +55,10 @@
       }
     }
     span{
+      user-select: none;
+      text-align: center;
+      min-width: 50px;
+      display: inline-block;
       color:$grey;
       margin: 0 20px;
     }
@@ -178,6 +182,9 @@
     &:last-child {
       border-bottom: 1px solid rgba(235,87,87,.7);
     }
+    &:first-child {
+      border-top: 1px solid rgba(235,87,87,.7);
+    }
   }
 
 
@@ -190,7 +197,10 @@
     background: linear-gradient(to right, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
     border-left: 1px solid rgba(0,180,61,.7);
     &:first-child {
-      border-top: rgba(0,180,61,.7);
+      border-top: 1px solid rgba(0,180,61,.7);
+    }
+    &:last-child {
+      border-bottom: 1px solid rgba(0,180,61,.7);
     }
   }
 }
