@@ -1054,11 +1054,17 @@
         background: -o-linear-gradient(top, rgb(48, 49, 77) 0%, rgb(24, 52, 103) 100%);
         background: linear-gradient(to bottom, rgb(48, 49, 77) 0%, rgb(24, 52, 103) 100%);
       }
-    ;
       &__header {
         &:hover {
           .widget__name {
             color: #fff;
+          }
+        }
+      }
+      &__tabs{
+        .tabs__item--active{
+          &:after{
+            border-color: #2E3150 transparent transparent transparent;
           }
         }
       }
