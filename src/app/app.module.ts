@@ -61,6 +61,7 @@ import {AuthInterceptor} from './core/interceptors/auth.interceptor';
 import {RecaptchaModule} from 'ng-recaptcha';
 import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
 import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.component';
+import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 
 
 @NgModule({
@@ -97,6 +98,7 @@ import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.comp
     GoogleDisableComponent,
     FinalRegistrationComponent,
     RecoveryPassComponent,
+    TransactionHistoryComponent,
     // TWO FACTOR POPUP END
 
   ],

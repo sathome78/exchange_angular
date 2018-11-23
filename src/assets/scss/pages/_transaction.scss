@@ -1,0 +1,151 @@
+.transaction{
+  display: none;
+  /*--- modificators start ---*/
+  &--mob{
+    display: block;
+  }
+  /*--- modificators end ---*/
+  /*--- elements start ---*/
+  &__header-mob{
+    display: flex;
+    align-items: center;
+    margin:0 12px 12px;
+    padding-top: 12px;
+  }
+  &__page-title{
+    font-size: 24px;
+    line-height: 28px;
+  }
+  &__filter-btn{
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    color: $darker-blue;
+    svg{
+      fill: $darker-blue;
+      margin-right: 4px;
+    }
+  }
+  .table__date-time{
+    color:$grey;
+    font-size: 10px;
+  }
+  &__currency-type{
+    color:$grey;
+    font-size: 10px;
+  }
+  /*--- elements end ---*/
+}
+/*--- media start ---*/
+@media (min-width:1200px) {
+  .transaction{
+    display: block;
+    padding-top: 32px;
+    &--mob{
+      display: none;
+    }
+    &__title-btn{
+      margin-left: 32px;
+    }
+    &__filters {
+      position: relative;
+      margin-top: 28px;
+      align-items: stretch;
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: 1px;
+        left: 0px;
+        z-index: -1;
+        width: 100%;
+        height: 1px;
+        background-color: $grey;
+      }
+    }
+    &__search {
+      width: 152px;
+      margin-right: 32px;
+    }
+    &__datepicker{
+      width: 175px;
+      margin-right: 24px;
+      .wrap-input__label{
+        //left: 17px;
+        z-index: 1;
+        top: -5px;
+        left: 12px;
+        font-size: 10px;
+        line-height: 12px;
+        color: $grey;
+        background-color: #fff;
+      }
+    }
+    &__confirm{
+      display: flex;
+      align-items: center;
+      .counter{
+        margin-left: 8px;
+        padding: 0 2px;
+        border: 1px solid #000;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        letter-spacing: 1px;
+        span{
+          color:$darker-blue;
+        }
+      }
+    }
+    .table__date-time{
+      color:inherit;
+      font-size: inherit;
+    }
+  }
+}
+/*--- media end ---*/
+
+/*--- DARK THEME START---*/
+.dark-theme{
+  .transaction{
+    .table__date-time{
+      color:$light-blue;
+      div:nth-child(2) {
+        color: $light-blue;
+      }
+    }
+    &__currency-type{
+      color:$light-blue;
+    }
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{
+    .transaction{
+      &__filters {
+        &:after {
+          z-index: 1;
+          background-color: $light-blue;
+        }
+      }
+      &__datepicker{
+        .wrap-input__label{
+          color: #94C2FF;
+          background-color: #191A39;
+        }
+      }
+      &__confirm{
+        .counter{
+          border: 1px solid $darker-blue;
+        }
+      }
+      .table__date-time{
+        color:inherit;
+        div:nth-child(2) {
+          color: $light-blue;
+        }
+      }
+    }
+  }
+}
+/*--- DARK THEME END---*/
