@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
 
   public isMobileMenuOpen = false;
   public mobileView = 'markets';
+  public userInfo;
 
   constructor(private popupService: PopupService,
               private authService: AuthService,
@@ -36,7 +37,15 @@ export class HeaderComponent implements OnInit {
             this.themeService.setDarkTheme();
           }
         });
+      this.userInfo = this.authService.simpleToken;
     }
+    this.authService.onLoginLogoutListener$.subscribe(res => {
+      if (res.username !== '') {
+        this.userInfo.username = res.username;
+      } else {
+        this.userInfo = null;
+      }
+    });
   }
 
   public openMenu() {
@@ -81,6 +90,10 @@ export class HeaderComponent implements OnInit {
             console.log(err);
           });
     }
+  }
+
+  openRegistration() {
+    this.popupService.showMobileRegistrationPopup(true);
   }
 
   setMobileWidget(widget: string) {

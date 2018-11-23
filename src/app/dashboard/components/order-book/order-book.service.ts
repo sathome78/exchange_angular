@@ -21,7 +21,7 @@ export class OrderBookService {
 
   // /info/public/v2/open-orders/{pairId}/{precision}
   subscribeStompOrders(pair: CurrencyPair, precision: number) {
-    console.log('tt')
+    // console.log('tt')
     return this.stompService
       .subscribe(`/app/open_orders/${pair.currencyPairId}/${precision}`)
       .pipe(map(res => {

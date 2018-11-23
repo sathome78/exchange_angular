@@ -58,6 +58,8 @@ import {OrdersService} from './dashboard/components/embedded-orders/orders.servi
 import {CurrencyPairInfoService} from './dashboard/components/currency-pair-info/currency-pair-info.service';
 import {JwtInterceptor} from './core/interceptors/jwt.interceptor';
 import {AuthInterceptor} from './core/interceptors/auth.interceptor';
+import {RecaptchaModule} from 'ng-recaptcha';
+import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
 import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.component';
 
 
@@ -93,6 +95,7 @@ import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.comp
     LoginPopupMobileComponent,
     RegistrationMobilePopupComponent,
     GoogleDisableComponent,
+    FinalRegistrationComponent,
     RecoveryPassComponent,
     // TWO FACTOR POPUP END
 
@@ -111,7 +114,8 @@ import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.comp
     SettingsModule,
     WebcamModule,
     SharedModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    RecaptchaModule,
   ],
   providers: [
     AuthGuard,

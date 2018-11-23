@@ -5,6 +5,7 @@ import {LoggingService} from './logging.service';
 
 import * as jwt_decode from 'jwt-decode';
 import {TOKEN} from './http.utils';
+import {Subject} from 'rxjs';
 
 declare var encodePassword: Function;
 
@@ -15,6 +16,7 @@ export class AuthService {
 
   private tokenHolder: TokenHolder;
   public simpleToken: {expiration: number, token_id: number, username: string, value: string};
+  public onLoginLogoutListener$ = new Subject<{expiration: number, token_id: number, username: string, value: string}>()
 
   constructor(
     private logger: LoggingService,
@@ -34,6 +36,7 @@ export class AuthService {
 
   onLogOut() {
     this.simpleToken = {expiration: 0, username: '', token_id: 0, value: ''};
+    this.onLoginLogoutListener$.next(this.simpleToken);
     localStorage.removeItem(TOKEN);
 
     // location.reload();

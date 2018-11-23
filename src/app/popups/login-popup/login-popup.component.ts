@@ -71,7 +71,7 @@ export class LoginPopupComponent implements OnInit {
             this.popupService.closeLoginPopup();
             this.router.navigate(['/']);
             // TODO: just for promo state, remove after
-            location.reload();
+            // location.reload();
           },
           err => {
             const status = err['status'];
@@ -120,6 +120,11 @@ export class LoginPopupComponent implements OnInit {
 
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  openRegistration() {
+    this.popupService.showMobileRegistrationPopup(true);
+    this.closeMe();
   }
 
   getInputType(): string {

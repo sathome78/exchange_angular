@@ -18,6 +18,9 @@ export class CurrencySearchComponent implements OnInit {
       console.log(this._groupedCurrencies[value.name[0]])
     })*/
   };
+
+  public marketName = 'USD';
+
   get currencies() {
     return this._groupedCurrencies;
   }
@@ -33,6 +36,7 @@ export class CurrencySearchComponent implements OnInit {
 
   ngOnInit() {
     this.defaultCurrencies = [...this.currencies];
+    this.prepareAlphabet();
   }
 
   /**
@@ -44,6 +48,10 @@ export class CurrencySearchComponent implements OnInit {
 
   searchCoin(e) {
     this.currencies = this.defaultCurrencies.filter(f => f.name.toUpperCase().match(e.target.value.toUpperCase()));
+    this.prepareAlphabet();
+  }
+
+  prepareAlphabet() {
     const temp = [];
     this.currencies.forEach(order => temp.push(order.name[0]));
 

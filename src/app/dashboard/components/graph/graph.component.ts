@@ -133,6 +133,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair) => {
+        console.log(pair);
         this.currencyPairName = pair.currencyPairName as string;
         if (this.currencyPairName) {
           // this._tvWidget = new widget(this.widgetOptions);

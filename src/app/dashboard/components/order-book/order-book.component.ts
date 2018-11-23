@@ -40,6 +40,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   public forSellTotalCalculate;
 
   public lastExrate;
+  public preLastExrate;
   public isExratePositive = true;
 
 
@@ -71,6 +72,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   private sellOrders: OrderItem [] = [];
   private buyOrders: OrderItem [] = [];
 
+  public sellVisualizationArray = [];
+  public buyVisualizationArray = [];
+
   private buyOrdersSubscription: any;
   private sellOrdersSubscription: any;
   activeCurrencyPair: CurrencyPair;
@@ -81,7 +85,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   // public lastSellOrder;
   // public lastBuyOrder;
-  public lastSellBuyOrders: LastSellBuyOrder;
+  // public lastSellBuyOrders: LastSellBuyOrder;
 
   refreshedIds: number[] = [];
 
@@ -122,7 +126,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   ngOnInit() {
     this.lastExrate = 0;
-    this.lastSellBuyOrders = defaultLastSellBuyOrder;
+    // this.lastSellBuyOrders = defaultLastSellBuyOrder;
     this.itemName = 'order-book';
     this.orderTypeClass = 'order-table--buy';
     this.withForChartLineElements = {
@@ -158,13 +162,13 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.loadMinAndMaxValues(pair);
       });
 
-    this.store
-      .pipe(select(getLastSellBuyOrder))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((orders) => {
-        this.lastSellBuyOrders = orders;
-        this.lastOrderUp = orders.lastOrder.operationType === 'SELL';
-      });
+    // this.store
+    //   .pipe(select(getLastSellBuyOrder))
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe((orders) => {
+    //     this.lastSellBuyOrders = orders;
+    //     this.lastOrderUp = orders.lastOrder.operationType === 'SELL';
+    //   });
 
     this.tradingService.tradingChangeSellBuy$.subscribe((data) => {
       if (data === 'SELL') {
@@ -207,11 +211,25 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) :  this.setSellOrders(orders[1]);
         orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) :  this.setBuyOrders(orders[1]);
         this.lastExrate = orders[0].lastExrate !== '0' ? orders[0].lastExrate : 0;
+        this.preLastExrate = orders[0].preLastExrate !== '0' ? orders[0].preLastExrate : 0;
         this.isExratePositive = orders[0].positive;
-        console.log(this.isExratePositive)
         this.setData();
-        // console.log(orders);
       });
+  }
+
+  sellCalculateVisualization() {
+    for (let i = 0; i < this.dataForSell.length; i++) {
+      const coefficient = (+this.commonSellTotal / +this.dataForSell[i].total);
+      this.sellVisualizationArray.push(98 / coefficient);
+    }
+    this.sellVisualizationArray = [...this.sellVisualizationArray.reverse()];
+  }
+
+  buyCalculateVisualization() {
+    for (let i = 0; i < this.dataBurBuy.length; i++) {
+      const coefficient = (+this.commonBuyTotal / +this.dataBurBuy[i].total);
+      this.buyVisualizationArray.push(98 / coefficient);
+    }
   }
 
   private setBuyOrders(orders) {
@@ -268,7 +286,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'SELL') : orders.type === 'SELL'))
       .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
       .subscribe(orders => {
-        console.log(orders)
         this.sellOrders = orders;
       });
     this.orderBookService.subscribeStompOrders(pair, this.precision)
@@ -288,10 +305,10 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     newItems.forEach(newItem => {
       let found = false;
       orders.forEach(oldItem => {
-        // if (oldItem.id === newItem.id) {
-        //   oldItem = {...newItem};
-        //   found = true;
-        // }
+        if (oldItem.id === newItem.id) {
+          oldItem = {...newItem};
+          found = true;
+        }
       });
       if (!found) {
         orders.push(newItem);
@@ -309,7 +326,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       this.precision *= 10;
       this.precisionOut --;
       this.initData(this.activeCurrencyPair);
-      console.log(this.precisionOut);
     }
   }
 
@@ -321,7 +337,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       this.precision /= 10;
       this.precisionOut ++;
       this.initData(this.activeCurrencyPair);
-      console.log(this.precisionOut);
     }
   }
 
@@ -341,15 +356,12 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private getBestitems(isBuy: boolean, count: number = 8) {
-    // this.dataBurBuy = this.sortOrders(this.buyOrders).reverse().slice(0, count);
-    // this.dataForSell = this.sortOrders(this.sellOrders).reverse().slice(0, count);
     if (this.buyOrders) {
       this.dataBurBuy = this.buyOrders.slice(0, count);
       this.forBuyTotalCalculate = [...this.dataBurBuy];
       this.dataForSell = this.sellOrders.slice(0, count);
       this.forSellTotalCalculate = [...this.dataForSell];
       this.forSellTotalCalculate = this.forSellTotalCalculate.reverse();
-
       this.setDataForVisualization();
     }
   }
@@ -403,6 +415,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     // });
     // this.maxSell = this.getMaxDataOfArray(this.dataForVisualizationSellOrders);
     this.setWidthForChartBorder();
+    this.sellCalculateVisualization();
+    this.buyCalculateVisualization();
   }
 
   // private setMockData(): void {
@@ -414,12 +428,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.withForChartLineElements.buy = [];
     this.withForChartLineElements.sell = [];
 
-    console.log('setWidthForChartBorder');
-
     if (this.orderbookConainer) {
       const containerWidth = parseInt(this.orderbookConainer.nativeElement.clientWidth, 10);
-      console.log('sell', this.sellOrders);
-      console.log('buy', this.buyOrders);
 
       for (let i = 0; i < 7; i++) {
         /** for buy */

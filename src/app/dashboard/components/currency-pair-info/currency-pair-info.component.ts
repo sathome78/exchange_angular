@@ -8,7 +8,7 @@ import { Currency } from './currency-search/currency.model';
 import {MarketService} from '../markets/market.service';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserBalance} from 'app/model/user-balance.model';
-import {State, getCurrencyPair, getUserBalance, getCurrencyPairInfo} from 'app/core/reducers/index';
+import {State, getCurrencyPair, getUserBalance, getCurrencyPairInfo, getCurrencyPairArray} from 'app/core/reducers/index';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 
@@ -34,6 +34,14 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   public currentCurrencyInfo;
   public userBalanceInfo: UserBalance;
   public isFiat = false; // must be defined for correct pipe work
+  public showDropdownMarkets = false;
+  public allCurrencyPairs;
+
+  public marketsArray = [
+    {name: 'USD'},
+    {name: 'ETH'},
+    {name: 'BTC'},
+    ];
 
   constructor(
     private store: Store<State>,
@@ -43,9 +51,11 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.dashboardService.getCurrencies()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((value: Currency[]) => this.currencies = value);
+    // this.dashboardService.getCurrencies()
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe((value: Currency[]) => {
+    //     this.currencies = value;
+    //   });
 
     this.store
       .pipe(select(getCurrencyPair))
@@ -61,6 +71,13 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPairInfo) => {
         this.currentCurrencyInfo = pair;
+      });
+
+    this.store
+      .pipe(select(getCurrencyPairArray))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPair[]) => {
+        this.allCurrencyPairs = pair;
       });
 
     this.store
@@ -85,13 +102,26 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    */
   openSearchBar(currencyOrder: number): void {
     this.activeCurrency = currencyOrder;
-    this.toggleCurrencySearch();
+    currencyOrder === 1 ?
+      this.toggleMarketDropdown() :
+      this.toggleCurrencySearch();
+  }
+
+  toggleMarketDropdown() {
+    this.currencies = this.marketsArray;
+    this.showCurrencySearch = !this.showCurrencySearch;
   }
 
   /**
    * Toggle show/hide currency search bar
    */
   toggleCurrencySearch(): void {
+    const temp = this.allCurrencyPairs.filter(pair => pair.market === this.secondCurrency);
+    this.currencies = [];
+    for (let i = 0; i < temp.length; i++) {
+      const name = temp[i].currencyPairName.split('/')[0];
+      this.currencies.push({name: name});
+    }
     this.showCurrencySearch = !this.showCurrencySearch;
   }
 

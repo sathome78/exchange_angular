@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {AuthGuard} from './services/auth.guard';
 import {BalanceComponent} from './balance/balance.component';
 import {OrdersHistoryComponent} from './orders/orders-history/orders-history.component';
 import {OpenOrdersComponent} from './orders/open-orders/open-orders.component';
 import {ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
 import {ReferralChargesComponent} from './referral/referral-charges/referral-charges.component';
-import {AuthGuard} from './services/auth.guard';
+import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
 import {SettingsComponent} from './settings/settings.component';
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'dashboard',      component: DashboardComponent },
   { path: 'balance',      component: BalanceComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
   { path: 'open-orders', component: OpenOrdersComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
+  { path: 'final-registration/token', component: FinalRegistrationComponent },
   { path: 'orders-history', component: OrdersHistoryComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
   { path: 'referral-structure', component: ReferralStructureComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
   { path: 'referral-charges', component: ReferralChargesComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },

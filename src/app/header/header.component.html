@@ -131,7 +131,7 @@
       <a class="header__auth" (click)="onLogout()">Nickname</a>
     </div>
     <ng-template #reg>
-      <a class="header__auth" (click)="onLogin()">Registration</a>
+      <a class="header__auth" (click)="openRegistration()">Registration</a>
     </ng-template>
     <div *ngIf="isAuthenticated(); else alien">
       <a class="header__auth header__auth--log" (click)="onLogout()">Log out</a>
@@ -178,12 +178,23 @@
           <img class="header-mob__controls-icon" src="../../assets/img/header-mob-settings.svg">
         </a>
       </div>
-      <div class="account-info">
-        <img class="account-info__img" src="../../assets/img/user-photo.png">
+
+
+      <div class="account-info" *ngIf="!userInfo">
+        <div class="account-info__img"><span class="info__img-empty">?</span></div>
         <div class="account-info__text">
           <div class="account-info__title">New user</div><a class="account-info__email" (click)="onMobileLogin()">login</a></div>
-          <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
+        <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
       </div>
+
+      <div class="account-info" *ngIf="userInfo">
+        <img class="account-info__img" src="../../assets/img/user-photo.png">
+        <div class="account-info__text">
+          <div class="account-info__title">{{userInfo.username}}</div><a class="account-info__email" (click)="onLogout()">logout</a></div>
+        <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
+      </div>
+
+
       <nav class="menu-mob"><a class="menu-mob__link menu-mob__link--next-page" href="#"><img class="menu-mob__link-icon" src="../../assets/img/money-bag.svg"><span class="menu-mob__link-text">Estimated holdings</span><span class="menu-mob__link-holdings-inf">~ $43 522 764</span></a>
         <a
           class="menu-mob__link" href="#"><img class="menu-mob__link-icon" src="../../assets/img/trade.svg"><span class="menu-mob__link-text">Trade</span></a>
