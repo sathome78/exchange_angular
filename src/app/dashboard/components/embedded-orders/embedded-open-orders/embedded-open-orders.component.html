@@ -39,13 +39,13 @@
       <span>{{item.exExchangeRate  | replaceNumber}} </span>
     </td>
     <td class="table__cell">
-      <span>{{item.amountConvert | replaceNumber}} BTC</span>
+      <span>{{item.amountConvert | replaceNumber}} {{arrPairName[0]}}</span>
     </td>
     <td class="table__cell txt-grey">
       <span>{{item.commissionValue | replaceNumber}}%</span>
     </td>
     <td class="table__cell">
-      <span>{{item.amountWithCommission | replaceNumber}} USD</span>
+      <span>{{item.amountWithCommission | replaceNumber}} {{arrPairName[1]}}</span>
     </td>
     <td class="table__cell">
       <button class="btn btn--small btn--empty-red table__row-btn"
@@ -84,27 +84,27 @@
     </div>
 
 
-    <form [formGroup]="limitForm" *ngIf="dropdownLimitValue === 'LIMIT' || dropdownLimitValue === 'ICO' ">
+    <form [formGroup]="limitForm" *ngIf="dropdownLimitValue === 'LIMIT' || dropdownLimitValue === 'ICO'">
 
       <div class="row row--jcsb widget__trading-row">
 
         <div class="wrap-input widget__input widget__input--mr32">
-          <input class="wrap-input__input no-spinners" type="number"
-                 formControlName="quantityOf"
-                 (input)="quantityInput($event)"
-                 name="quantityOf">
-          <label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>
-          <!--<app-price-input [placeholder]="'Quantity of ' + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>-->
+          <!--<input class="wrap-input__input no-spinners" type="number"-->
+                 <!--formControlName="quantityOf"-->
+                 <!--(input)="quantityInput($event)"-->
+                 <!--name="quantityOf">-->
+          <!--<label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>-->
+          <app-price-input [placeholder]="'Quantity of ' + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
 
         <div class="wrap-input widget__input">
-          <input class="wrap-input__input no-spinners" type="number"
-                 (input)="rateInput($event)"
-                 formControlName="priceIn"
-                 name="priceIn">
-          <label class="wrap-input__label" for="">Price in {{arrPairName[1]}}</label>
-          <!--<app-price-input [placeholder]="'Price in ' + arrPairName[1]" (customInput)="rateInput($event)" name="priceIn" formControlName="priceIn"></app-price-input>-->
+          <!--<input class="wrap-input__input no-spinners" type="number"-->
+                 <!--(input)="rateInput($event)"-->
+                 <!--formControlName="priceIn"-->
+                 <!--name="priceIn">-->
+          <!--<label class="wrap-input__label" for="">Price in {{arrPairName[1]}}</label>-->
+          <app-price-input [placeholder]="'Price in ' + arrPairName[1]" (customInput)="rateInput($event)" name="priceIn" formControlName="priceIn"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
 
@@ -112,11 +112,12 @@
 
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input">
-          <input class="wrap-input__input no-spinners" type="number"
-                 formControlName="totalIn"
-                 (input)="totalInput($event)"
-                 name="totalIn">
-          <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
+          <!--<input class="wrap-input__input no-spinners" type="number"-->
+                 <!--formControlName="totalIn"-->
+                 <!--(input)="totalInput($event)"-->
+                 <!--name="totalIn">-->
+          <!--<label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>-->
+          <app-price-input [placeholder]="'Total in ' + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
       </div>
@@ -133,31 +134,32 @@
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
-          <input class="wrap-input__input no-spinners" type="number"
-                 (input)="rateInput($event)"
-                 formControlName="limit"
-                 name="limit">
-          <label class="wrap-input__label" for="">Limit</label>
-          <!--<app-price-input [placeholder]="'Limit ' + arrPairName[1]" (customInput)="rateInput($event)" name="limit" formControlName="limit"></app-price-input>-->
+          <!--<input class="wrap-input__input no-spinners" type="number"-->
+                 <!--(input)="rateInput($event)"-->
+                 <!--formControlName="limit"-->
+                 <!--name="limit">-->
+          <!--<label class="wrap-input__label" for="">Limit</label>-->
+          <app-price-input [placeholder]="'Limit ' + arrPairName[1]" (customInput)="rateInput($event)" name="limit" formControlName="limit"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
       </div>
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input widget__input--mr32">
-          <input class="wrap-input__input no-spinners" type="number"
-                 formControlName="quantityOf"
-                 (input)="quantityInput($event)"
-                 name="quantityOf">
-          <label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>
-          <!--<app-price-input [placeholder]="'Quantity of ' + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>-->
+          <!--<input class="wrap-input__input no-spinners" type="number"-->
+                 <!--formControlName="quantityOf"-->
+                 <!--(input)="quantityInput($event)"-->
+                 <!--name="quantityOf">-->
+          <!--<label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>-->
+          <app-price-input [placeholder]="'Quantity of ' + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
-          <input class="wrap-input__input no-spinners" type="number"
-                 formControlName="totalIn"
-                 (input)="totalInput($event)"
-                 name="totalIn">
-          <label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>
+          <!--<input class="wrap-input__input no-spinners" type="number"-->
+                 <!--formControlName="totalIn"-->
+                 <!--(input)="totalInput($event)"-->
+                 <!--name="totalIn">-->
+          <!--<label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>-->
+          <app-price-input [placeholder]="'Total in ' + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
       </div>
@@ -182,7 +184,9 @@
          (click)="toggleLimitDropdown()">
     <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
     <ul class="dropdown__list">
-    <li class="dropdown__item" *ngFor="let limit of limitsData" (click)="selectedLimit(limit)">{{showLimit(limit)}}</li>
+      <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
+        <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
+      </ng-template>
     </ul>
     </div>
     <div class="order-edit-popup__btns-wrap">

@@ -5,12 +5,14 @@ import {takeUntil} from 'rxjs/internal/operators';
 
 import {MockDataService} from 'app/services/mock-data.service';
 import {OrdersService} from '../../embedded-orders/orders.service';
-import {MarketService} from '../../markets/market.service';
 import {TradingService} from '../../trading/trading.service';
 import {Order} from '../../trading/order.model';
 import {select, Store} from '@ngrx/store';
 import {State, getCurrencyPair} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../../model/currency-pair.model';
+import {AbstractOrderCalculate} from '../../../../shared/components/abstract-order-calculate';
+import {UserBalance} from '../../../../model/user-balance.model';
+import {getUserBalance} from '../../../../core/reducers';
 
 
 @Component({
@@ -18,26 +20,22 @@ import {CurrencyPair} from '../../../../model/currency-pair.model';
   templateUrl: './embedded-open-orders.component.html',
   styleUrls: ['./embedded-open-orders.component.scss']
 })
-export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
+export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implements OnInit, OnDestroy, OnChanges {
   @Output() refreshOpenOrders: EventEmitter<boolean> = new EventEmitter();
   @Input() makeHeight ;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   @Input() openOrders;
   @Input() countPerPage = 7;
 
-  public currentPair;
+  // public currentPair;
   public commissionIndex = 0.002;
   public orderType = 'BUY';
   public editOrderPopup = false;
-  public limitsData = ['LIMIT', 'STOP_LIMIT', 'ICO'];
   public dropdownLimitValue = this.limitsData[0];
   public isDropdownOpen = false;
-  public arrPairName: string[];
   public orderStop;
-  public limitForm: FormGroup;
-  public stopForm: FormGroup;
   public order;
-  public userBalance = 300000;
+  public userBalance = 0;
   public currencyPairInfo;
 
   public currentPage = 1;
@@ -65,18 +63,13 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
     private store: Store<State>,
     private mockData: MockDataService,
     private ordersService: OrdersService,
-    private marketService: MarketService,
     public tradingService: TradingService
   ) {
+    super();
   }
 
   ngOnInit() {
     this.order = {...this.defaultOrder};
-
-     /** mock data */
-    // this.currentPair = this.mockData.getMarketsData()[2];
-    // this.splitPairName();
-    /** ---------------------- */
 
     this.store
       .pipe(select(getCurrencyPair))
@@ -86,11 +79,13 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
         this.splitPairName();
       });
 
-    this.marketService.currencyPairsInfo$.subscribe(res => {
-      this.userBalance = res.balanceByCurrency1;
-      this.order.rate = res.rate;
-      this.currencyPairInfo = res;
-    });
+    this.store
+      .pipe(select(getUserBalance))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (balance: UserBalance) => {
+        this.userBalance = balance.balanceByCurrency1 ? balance.balanceByCurrency1 : 0;
+        this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
+      });
 
     this.tradingService.tradingChangeSellBuy$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -123,13 +118,14 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
    * @param order
    */
   showEditOrderPopup(order): void {
+    this.orderType = order.operationTypeEnum;
     this.editOrderPopup = true;
 
     if (order.orderBaseType === 'STOP_LIMIT') {
       this.orderStop = order.stopRate;
       this.setStopValue(this.orderStop);
     }
-    this.order.rate = order.amountWithCommission / order.amountConvert;
+    this.order.rate = order.exExchangeRate;
     this.setPriceInValue(this.order.rate);
     this.order.amount = order.amountConvert;
     this.setQuantityValue(this.order.amount);
@@ -182,8 +178,10 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
 
       if (this.dropdownLimitValue === 'STOP_LIMIT') {
         this.order.stop = this.stopForm.controls['stop'].value;
-        this.order.baseType = this.dropdownLimitValue;
       }
+
+      this.order.baseType = this.dropdownLimitValue;
+      this.order.orderType = this.orderType;
 
       const tempOrder = {...this.order};
       tempOrder.status = 'CANCELLED';
@@ -240,75 +238,6 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
   }
 
   /**
-   * Show readable limit value
-   * @param {string} value
-   * @returns {string}
-   */
-  showLimit(value: string): string {
-    switch (value) {
-      case 'LIMIT': {
-        return 'Limit order';
-      }
-      case 'STOP_LIMIT': {
-        return 'Stop limit';
-      }
-      case 'ICO': {
-        return 'ICO order';
-      }
-    }
-  }
-
-
-
-
-  /** split pair name for show */
-  private splitPairName() {
-    if (this.currentPair.currencyPairName) {
-      this.arrPairName = this.currentPair.currencyPairName.split('/');
-    }
-  }
-
-  // calculate
-
-  /**
-   * recalculate on quantity input
-   * @param $event
-   */
-  quantityInput(e): void {
-    this.order.amount = e.target.value;
-    this.getCommission();
-  }
-
-  stopInput(e) {
-    this.orderStop = e.target.value;
-  }
-
-  /**
-   * recalculate on rate input
-   * @param $event
-   */
-  rateInput(e): void {
-    this.order.rate = e.target.value;
-    this.getCommission();
-  }
-
-  /**
-   * on Total field input
-   * @param e
-   */
-  totalInput(e): void {
-    this.order.total = e.target.value;
-    if (this.order.total > this.userBalance) {
-      this.order.total = this.userBalance;
-      this.setTotalInValue(this.userBalance);
-    }
-    if (this.order.rate > 0) {
-      this.order.amount = this.order.total / this.order.rate;
-      this.setQuantityValue(this.order.amount);
-    }
-  }
-
-  /**
    * set limit from dropdown-limit
    * @param limit
    */
@@ -324,87 +253,16 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
   }
 
   /**
-   * calculation commission and update model
-   */
-  private getCommission(): void {
-    if (this.order.rate >= 0) {
-      this.order.total = this.order.amount * this.order.rate;
-      this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
-      if (this.order.orderType === 'BUY') {
-        const total = this.order.total + this.order.commission;
-        this.order.total = total;
-        this.setTotalInValue(total);
-      } else {
-        const total = this.order.total - this.order.commission;
-        this.order.total = total;
-        this.setTotalInValue(total);
-      }
-    }
-  }
-
-
-  /**
-   * init edit forms
-   */
-  initForms(): void {
-    this.limitForm = new FormGroup({
-      quantityOf: new FormControl('', Validators.required ),
-      priceIn: new FormControl('', Validators.required ),
-      totalIn: new FormControl('', Validators.required ),
-    });
-
-    this.stopForm = new FormGroup({
-      quantityOf: new FormControl('', Validators.required ),
-      stop: new FormControl('', [Validators.required]),
-      limit: new FormControl('', Validators.required ),
-      totalIn: new FormControl('', Validators.required ),
-    });
-  }
-
-  /**
    * get commissionIndex from server
    */
   getCommissionIndex(): void {
     if (this.orderType && this.currentPair.currencyPairId) {
       const subscription = this.tradingService.getCommission(this.orderType, this.currentPair.currencyPairId).subscribe(res => {
         this.commissionIndex = res.commissionValue;
-        this.getCommission();
+        this.getCommission(this.orderType);
         subscription.unsubscribe();
       });
     }
-
-    // delete
-    this.getCommission();
-    // ----------------
   }
 
-
-
-  /**
-   * set forms value (quantityOf)
-   * @param value
-   */
-  setQuantityValue(value): void {
-    this.stopForm.controls['quantityOf'].setValue(value);
-    this.limitForm.controls['quantityOf'].setValue(value);
-  }
-
-  setPriceInValue(value): void {
-    this.stopForm.controls['limit'].setValue(value);
-    this.limitForm.controls['priceIn'].setValue(value);
-  }
-
-  setTotalInValue(value): void {
-    this.stopForm.controls['totalIn'].setValue(value);
-    this.limitForm.controls['totalIn'].setValue(value);
-  }
-
-  setStopValue(value): void {
-    this.stopForm.controls['stop'].setValue(value);
-  }
-
-  resetForms(): void {
-    this.limitForm.reset();
-    this.stopForm.reset();
-  }
 }
