@@ -60,6 +60,7 @@ import {JwtInterceptor} from './core/interceptors/jwt.interceptor';
 import {AuthInterceptor} from './core/interceptors/auth.interceptor';
 import {RecaptchaModule} from 'ng-recaptcha';
 import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
+import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.component';
 
 
 @NgModule({
@@ -95,6 +96,7 @@ import {FinalRegistrationComponent} from './auth/final-registration/final-regist
     RegistrationMobilePopupComponent,
     GoogleDisableComponent,
     FinalRegistrationComponent,
+    RecoveryPassComponent,
     // TWO FACTOR POPUP END
 
   ],
