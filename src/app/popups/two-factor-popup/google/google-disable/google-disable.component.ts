@@ -40,7 +40,7 @@ export class GoogleDisableComponent implements OnInit {
       const email = this.form.get('email').value;
       const password = this.form.get('password').value;
       const pincode = this.form.get('pincode').value;
-      this.googleService.disableGoogleAuthenticationt(email, password, pincode)
+      this.googleService.disableGoogleAuthentication(email, password, pincode)
         .subscribe(res => {
           // console.log(res);
           this.popupService.closeTFAPopup();
