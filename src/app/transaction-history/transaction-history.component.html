@@ -1,0 +1,301 @@
+<div class="container">
+  <!--orders-mob start-->
+  <div class="transaction transaction--mob">
+    <div class="transaction__header-mob">
+      <div class=" orders__page-title">
+        Transaction history
+      </div>
+      <div class="orders__filter-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.9317 0.44323C15.8028 0.147863 15.5799 0.000159206 15.2618 0H0.737807C0.420134 0 0.196893 0.147863 0.0682816 0.44323C-0.0602502 0.753723 -0.00735105 1.01904 0.227217 1.23867L5.82145 6.84086V12.3635C5.82145 12.5607 5.89335 12.731 6.03702 12.8751L8.9417 15.784C9.07798 15.9278 9.24813 16 9.45245 16C9.54315 16 9.63766 15.9809 9.73602 15.9431C10.0312 15.8142 10.1788 15.5908 10.1788 15.2726V6.8409L15.7728 1.2387C16.0075 1.01908 16.0602 0.753842 15.9317 0.44323Z" />
+        </svg>
+        Filters
+      </div>
+    </div>
+    <table class="table table--mob">
+      <thead class="table__head">
+      <tr class="table__head-row">
+        <th class="table__cell-head table__cell-head--tal">Date / Type</th>
+        <th class="table__cell-head table__cell-head--tal">Currency</th>
+        <th class="table__cell-head table__cell-head--tar">Amount</th>
+      </tr>
+      </thead>
+      <tbody class="table__body table__body--none-shadow">
+      <!-- t-row start-->
+        <tr class="table__row--mob">
+          <td class="table__cell table__cell--tal">
+            <div>Withdraw</div>
+            <div class="table__date-time">
+              <div>Th 13.06.2018</div>
+              <div>10:59:41</div>
+            </div>
+          </td>
+          <td class="table__cell table__cell--tal">
+            <div>IDR</div>
+            <div class="transaction__currency-type">
+              Fiat
+            </div>
+          </td>
+          <td class="table__cell table__cell--tar">
+            <div class="txt-red">-100 000 000</div>
+          </td>
+          <td class="table__cell table__cell--arr-mob">
+            <svg width="10" height="6" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.7272 1.36396L7.36328 7.72792L0.99932 1.36396" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </td>
+        </tr>
+      <tr>
+        <td colspan="4">
+          <div class="table__row-mob-line"></div>
+        </td>
+      </tr>
+      <tr class="table__row--mob">
+        <td class="table__cell table__cell--tal">
+          <div>Withdraw</div>
+          <div class="table__date-time">
+            <div>Th 13.06.2018</div>
+            <div>10:59:41</div>
+          </div>
+        </td>
+        <td class="table__cell table__cell--tal">
+          <div>IDR</div>
+          <div class="transaction__currency-type">
+            Fiat
+          </div>
+        </td>
+        <td class="table__cell table__cell--tar">
+          <div class="txt-green">+100 000 000</div>
+        </td>
+        <td class="table__cell table__cell--arr-mob">
+          <svg width="10" height="6" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.7272 1.36396L7.36328 7.72792L0.99932 1.36396" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4">
+          <div class="table__row-mob-line"></div>
+        </td>
+      </tr>
+        <tr class="table__details">
+          <td class="table__details-cell" colspan="4">
+            <div class="table__details-item">
+              <div class="table__details-item-title">Comission</div>
+              <div class="table__details-item-value">0.02% ~ 200 000</div>
+            </div>
+            <div class="table__details-item">
+              <div class="table__details-item-title">Payment system</div>
+              <div class="table__details-item-value">CIMB NAGA</div>
+            </div>
+            <div class="table__details-item">
+              <div class="table__details-item-title">Transaction id</div>
+              <div class="table__details-item-value">324</div>
+            </div>
+            <div class="table__details-item">
+              <div class="table__details-item-title">Transaction hash</div>
+              <div class="table__details-item-value">1adasJSA2141saDln
+                sadK3124sad</div>
+            </div>
+            <div class="table__details-item">
+              <div class="row">
+                <button class="btn btn--small btn--empty-blue">I paid</button>
+                <button class="btn btn--small btn--empty-blue" style="margin-left: 20px;">Revoke</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      <!-- t-row end-->
+      </tbody>
+    </table>
+    <!--filter-popup start-->
+    <div class="filters-popup">
+      <div class="filters-popup__header">
+        <div class=" filters-popup__title">
+          Transactions filters
+        </div>
+        <div class="filters-popup__close">
+          <svg width="15" height="17" viewBox="0 0 15 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.73781 0.627721C1.36501 0.220243 0.732466 0.192129 0.324987 0.564928C-0.0824919 0.937728 -0.110605 1.57027 0.262194 1.97775L1.73781 0.627721ZM13.2622 16.187C13.635 16.5945 14.2675 16.6226 14.675 16.2498C15.0825 15.877 15.1106 15.2445 14.7378 14.837L13.2622 16.187ZM14.7378 1.97775C15.1106 1.57027 15.0825 0.937728 14.675 0.564928C14.2675 0.192129 13.635 0.220243 13.2622 0.627721L14.7378 1.97775ZM0.262219 14.837C-0.110581 15.2445 -0.0824672 15.877 0.325012 16.2498C0.732491 16.6226 1.36503 16.5945 1.73783 16.187L0.262219 14.837ZM0.262194 1.97775L6.7622 9.08241L8.23781 7.73239L1.73781 0.627721L0.262194 1.97775ZM6.7622 9.08241L13.2622 16.187L14.7378 14.837L8.23781 7.73239L6.7622 9.08241ZM13.2622 0.627721L6.7622 7.73239L8.23781 9.08241L14.7378 1.97775L13.2622 0.627721ZM6.7622 7.73239L0.262219 14.837L1.73783 16.187L8.23781 9.08241L6.7622 7.73239Z"
+                  fill="#237BEF" />
+          </svg>
+        </div>
+      </div>
+      <form action="#">
+        <div class="wrap-input wrap-input--with-icon filters-popup__search">
+          <input class="wrap-input__input" name="currency"type="text" required>
+          <label class="wrap-input__label" for="">Search</label>
+          <div class="wrap-input__icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z" />
+            </svg>
+          </div>
+          <div class="wrap-input__line"></div>
+        </div>
+        <div class="row row--jcsb">
+          <div class="wrap-input filters-popup__datepicker">
+            <label class="wrap-input__label">From</label>
+
+            <my-date-picker name="from"></my-date-picker>
+            <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
+          </div>
+          <div class="wrap-input filters-popup__datepicker">
+            <label class="wrap-input__label">To</label>
+
+            <my-date-picker name="to"></my-date-picker>
+            <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
+          </div>
+        </div>
+        <button class="btn filters-popup__btn">See <span>5</span> results</button>
+      </form>
+    </div>
+    <!--filter-popup end-->
+  </div>
+  <!--orders-mob end-->
+  <!--transaction-history-desktop start-->
+  <div class="transaction">
+    <div class="page-title">
+      <h1 class="page-title__text">
+        Transaction history
+      </h1>
+      <button class="btn transaction__title-btn">
+        <span class="btn__icon btn__icon--blue">
+          <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.1952 8.92188V12.12H1.80482V8.92188H0V13.06C0 13.5789 0.403462 13.9997 0.903755 13.9997H12.0962C12.5961 13.9997 13 13.5794 13 13.06V8.92188H11.1952Z" />
+            <path d="M6.33519 8.60511L3.75124 5.35239C3.75124 5.35239 3.35809 4.96571 3.78442 4.96571C4.21074 4.96571 5.24047 4.96571 5.24047 4.96571C5.24047 4.96571 5.24047 4.70558 5.24047 4.30442C5.24047 3.16072 5.24047 1.07926 5.24047 0.230703C5.24047 0.230703 5.18264 0 5.51616 0C5.85238 0 7.32502 0 7.56575 0C7.80604 0 7.80066 0.194276 7.80066 0.194276C7.80066 1.01715 7.80066 3.17053 7.80066 4.27687C7.80066 4.63553 7.80066 4.8681 7.80066 4.8681C7.80066 4.8681 8.62641 4.8681 9.14463 4.8681C9.66196 4.8681 9.2724 5.273 9.2724 5.273C9.2724 5.273 7.07398 8.31323 6.76735 8.6322C6.54679 8.86337 6.33519 8.60511 6.33519 8.60511Z" />
+          </svg>
+        </span>
+        Download in excell
+      </button>
+    </div>
+    <form action="">
+      <div class="row transaction__filters">
+        <div class="wrap-input wrap-input--with-icon transaction__search">
+          <input class="wrap-input__input" name="currency" type="text" required>
+          <label class="wrap-input__label" for="">Currency</label>
+          <div class="wrap-input__icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z" />
+            </svg>
+          </div>
+          <div class="wrap-input__line"></div>
+        </div>
+        <div class="wrap-input transaction__datepicker">
+          <label class="wrap-input__label">From</label>
+
+          <my-date-picker name="from"></my-date-picker>
+
+          <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
+        </div>
+        <div class="wrap-input transaction__datepicker">
+          <label class="wrap-input__label">To</label>
+
+          <my-date-picker name="to"></my-date-picker>
+          <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
+        </div>
+      </div>
+    </form>
+    <!--table start-->
+    <table class="table">
+      <thead>
+      <tr>
+        <th class="table__cell-head table__cell-head--tal">Status</th>
+        <th class="table__cell-head table__cell-head--tal">Date</th>
+        <th class="table__cell-head table__cell-head--tal">Currency</th>
+        <th class="table__cell-head table__cell-head--tal">Amount</th>
+        <th class="table__cell-head table__cell-head--tal">Type</th>
+        <th class="table__cell-head table__cell-head--tal">Address</th>
+      </tr>
+      </thead>
+      <tbody class="table__body">
+      <tr class="table__row">
+        <td class="table__cell">
+          Completed
+        </td>
+        <td class="table__cell">
+          <div class="table__date-time">
+            <div>Th 13.06.2018</div>
+            <div>10:59:41</div>
+          </div>
+        </td>
+        <td class="table__cell">
+          <div class="orders__pair-wrap">
+            <div class="orders__pair">
+              <div class="orders__pair-icon">
+                 <img src="../../assets/img/btc-icon.svg">
+              </div>
+              <span>BTC</span>
+            </div>
+          </div>
+        </td>
+        <td class="table__cell">
+          <span> 0.00000001 </span>
+        </td>
+        <td class="table__cell">
+          <span class="txt-green">Input</span>
+        </td>
+        <td class="table__cell">
+          <span>1LUaz5g9xSM4W3zBZQFnghmxPw14AFcByz</span>
+        </td>
+      </tr>
+      <tr class="table__row">
+        <td class="table__cell">
+          <div class="transaction__confirm">
+            On confirmation
+            <div class="counter">
+              <span>4</span>/5
+            </div>
+          </div>
+        </td>
+        <td class="table__cell">
+          <div class="table__date-time">
+            <div>Th 13.06.2018</div>
+            <div>10:59:41</div>
+          </div>
+        </td>
+        <td class="table__cell">
+          <div class="orders__pair-wrap">
+            <div class="orders__pair">
+              <div class="orders__pair-icon">
+                 <img src="../../assets/img/btc-icon.svg">
+              </div>
+              <span>BTC</span>
+            </div>
+          </div>
+        </td>
+        <td class="table__cell">
+          <span> 0.00000001 </span>
+        </td>
+        <td class="table__cell">
+          <span class="txt-red">Output</span>
+        </td>
+        <td class="table__cell">
+          <span>1LUaz5g9xSM4W3zBZQFnghmxPw14AFcByz</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <!--table end-->
+    <!--paginator start-->
+    <div class="row row--aic" style="margin: 0 16px;">
+      <div class="show-filter">
+        Showing <span>1</span> to
+        <div class="dropdown" #dropdown>
+          <div class="dropdown__btn">14</div>
+          <ul class="dropdown__list">
+            <li class="dropdown__item">14</li>
+            <li class="dropdown__item">24</li>
+            <li class="dropdown__item">34</li>
+            <li class="dropdown__item">44</li>
+          </ul>
+        </div>
+        of <span>192</span> entries.
+      </div>
+      <!--<ul class="paginator" style="margin-left: auto;">-->
+        <!--<pagination-controls (pageChange)="changePage($event)" [previousLabel]="''" [nextLabel]="''"></pagination-controls>-->
+      <!--</ul>-->
+    </div>
+    <!--paginator end-->
+  </div>
+  <!--transaction-history-desktop end-->
+</div>

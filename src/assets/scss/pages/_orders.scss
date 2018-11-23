@@ -53,7 +53,7 @@
     &__title-btn{
       margin-left: 32px;
     }
-    &__filter{
+    &__filters{
       position: relative;
       margin-top: 28px;
       &:after{
@@ -194,6 +194,7 @@
         }
       }
       .table__date-time{
+        color:inherit;
         div:nth-child(2){
           color:$light-blue;
         }
