@@ -26,7 +26,7 @@
   <div class="widget__content widget__content--show-all">
 
     <div class="widget__chat-wrap">
-      <perfect-scrollbar style="max-height: 380px;">
+      <perfect-scrollbar style="max-height: 380px;" #chat>
         <div class="" *ngFor="let dateChatItem of dateChatItems">
           <app-day-chat [dateChatItem]="dateChatItem"></app-day-chat>
         </div>
@@ -46,6 +46,6 @@
       <!--<a class="widget__input-img" href="https://t.me/exrates_official" target="_blank"><img src="../../assets/img/send-message.svg"></a>-->
       <!--&lt;!&ndash;<span class="widget__input-img" (click)="onSendChatMessage(chatInput)"><img src="../../assets/img/send-message.svg"></span>&ndash;&gt;-->
     <!--</div>-->
-
+      
   </div>
 </div>
