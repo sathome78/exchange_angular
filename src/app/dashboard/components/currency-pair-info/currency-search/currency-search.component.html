@@ -15,7 +15,7 @@
 
   <div class="pair-popup__header">
     <div class="wrap-input pair-popup__input">
-      <input class="wrap-input__input" type="text" (input)="searchCoin($event)">
+      <input class="wrap-input__input" type="text" (input)="searchCoin($event)" required>
       <label class="wrap-input__label" for="">Keyword of the coin</label>
       <div class="wrap-input__icon">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,13 +24,24 @@
       </div>
       <div class="wrap-input__line"></div>
     </div>
-    <div class="pair-popup__header-txt">
-      <img src="../../assets/img/fire-green.svg">
-      - Opened ICOs in which you can invest
-    </div>
-    <div class="pair-popup__header-txt">
-      <img src="../../assets/img/fire-red.svg">
-      - ICOs to be closed
+    <!--<div class="pair-popup__header-txt">-->
+      <!--<img src="../../assets/img/fire-green.svg">-->
+      <!-- - Opened ICOs in which you can invest-->
+    <!--</div>-->
+    <!--<div class="pair-popup__header-txt">-->
+      <!--<img src="../../assets/img/fire-red.svg">-->
+      <!-- - ICOs to be closed-->
+    <!--</div>-->
+    <div class="tabs pair-popup__tabs">
+      <button class="tabs__item tabs__item--active">
+        Crypto coins
+      </button>
+      <button class="tabs__item">
+        Fiat
+      </button>
+      <button class="tabs__item">
+        ICO
+      </button>
     </div>
   </div>
   <div class="pair-popup__content">
