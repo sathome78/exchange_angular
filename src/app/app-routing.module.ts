@@ -10,6 +10,7 @@ import {ReferralStructureComponent} from './referral/referral-structure/referral
 import {ReferralChargesComponent} from './referral/referral-charges/referral-charges.component';
 import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
 import {SettingsComponent} from './settings/settings.component';
+import {FinalStepRecoveryPasswordComponent} from './auth/final-step-recovery-password/final-step-recovery-password.component';
 
 const routes: Routes = [
   // permit all
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: 'transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'open-orders', component: OpenOrdersComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'final-registration/token', component: FinalRegistrationComponent},
+  {path: 'recovery-password', component: FinalStepRecoveryPasswordComponent},
   {path: 'orders-history', component: OrdersHistoryComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'referral-structure', component: ReferralStructureComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'referral-charges', component: ReferralChargesComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},

@@ -1,30 +1,57 @@
 <div class="overlay">
   <div class="popup popup-registration">
-    <div class="popup__close"></div>
+    <div class="popup__close" (click)="closeMe()"></div>
+
+
+    <ng-template [ngTemplateOutlet]="currentTemplate">
+    </ng-template>
+
+
+    <ng-template #emailInputTemplate>
     <h6 class="popup__title">Forgot password?</h6>
-    <form class="popup__form" id="fgt-pass" action="#">
+    <form class="popup__form" id="fgt-pass" [formGroup]="emailForm">
       <div class="wrap-input popup__wrap-input">
         <input
-          required
           class="wrap-input__input"
-          type="text"
+          formControlName="email"
+          [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched}"
         >
         <label class="wrap-input__label" for="">Email</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
-        <!--<div>-->
-            <!--<span class="wrap-input__message">-->
-              <!--This field is required.-->
-            <!--</span>-->
-          <!--<span-->
-            <!--class="wrap-input__message">-->
-              <!--Please, enter valid email address.-->
-            <!--</span>-->
-        <!--</div>-->
+        <div *ngIf="!emailForm.valid && emailSubmited">
+            <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required']">
+              This field is required.
+            </span>
+          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['pattern']">
+              Please, enter valid email address.
+            </span>
+        </div>
         <!--Input error section ends-->
       </div>
-      <button class="btn popup__btn" type="button" name="button" disabled="">Reset password</button>
+      <button class="btn popup__btn" (click)="emailSubmit()"
+              [ngClass]="{'bg-none': !emailForm.valid}" >Reset password</button>
     </form>
-    <div class="popup__links-wrap popup__links-wrap--left"><a class="popup__link" href="log.html"><img class="popup__arr-left" src="../../assets/img/arr-left-blue.svg">Back to log in</a></div>
+    <div class="popup__links-wrap popup__links-wrap--left"><a class="popup__link" (click)="backToLogin()"><img class="popup__arr-left" src="../../assets/img/arr-left-blue.svg">Back to log in</a></div>
+    </ng-template>
+
+    <ng-template #captchaTemplate>
+      <h6 class="popup__title">Registration</h6>
+      <re-captcha (resolved)="resolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
+      <div class="popup__links-wrap">
+        <a class="popup__link" (click)="setTemplate('emailInputTemplate')">Go to registration form</a>
+      </div>
+    </ng-template>
+
+    <ng-template #emailConfirmLinkTemplate>
+      <h6 class="popup__title">Confirm the email</h6>
+      <h4 class="popup__subtitle" [innerHtml]="afterCaptchaMessage"></h4>
+      <hr style="width: 70%;">
+      <div class="popup__links-wrap">
+        <a class="popup__link"><span>If you haven't received the email, do the following:</span><br><span>Check spam or other folders.<br>Set email address whitelist.</span>
+          How to set?<span><br>Check the mail client works normally.</span></a>
+      </div>
+    </ng-template>
+
   </div>
 </div>

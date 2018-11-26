@@ -130,6 +130,11 @@ export class LoginPopupComponent implements OnInit {
     this.closeMe();
   }
 
+  openRecoveryPasswordPopup() {
+    this.popupService.showRecoveryPasswordPopup(true);
+    this.closeMe();
+  }
+
   getInputType(): string {
     return this.isPasswordVisible ? 'text' : 'password';
   }

@@ -109,6 +109,11 @@ export class UserService {
     return this.http.post<TokenHolder>(this.getUrl('users/register'), data);
   }
 
+  sendToEmailForRecovery(email: string) {
+    const data = {'email': email};
+    return this.http.post<TokenHolder>(this.getUrl('users/recoveryPassword'), data);
+  }
+
   public getUserColorScheme(): Observable<string> {
     const url = this.HOST + '/info/private/v2/settings/color-schema';
     return this.http.get<string>(url);
@@ -118,8 +123,13 @@ export class UserService {
     return this.http.get<boolean>(url);
   }
 
-  public finalRegistration(data): Observable<any>{
+  public finalRegistration(data): Observable<any> {
     const url = `${this.HOST}/info/public/v2/users/createPassword`;
+    return this.http.post(url, data);
+  }
+
+  public recoveryPassword(data): Observable<any> {
+    const url = `${this.HOST}/info/public/v2/users/createRecoveryPassword`;
     return this.http.post(url, data);
   }
 

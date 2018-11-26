@@ -62,6 +62,7 @@ import {RecaptchaModule} from 'ng-recaptcha';
 import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
 import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.component';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
+import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-password/final-step-recovery-password.component';
 
 
 @NgModule({
@@ -99,6 +100,7 @@ import { TransactionHistoryComponent } from './transaction-history/transaction-h
     FinalRegistrationComponent,
     RecoveryPassComponent,
     TransactionHistoryComponent,
+    FinalStepRecoveryPasswordComponent,
     // TWO FACTOR POPUP END
 
   ],
