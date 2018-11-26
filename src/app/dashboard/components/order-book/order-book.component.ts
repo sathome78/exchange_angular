@@ -74,6 +74,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   public sellVisualizationArray = [];
   public buyVisualizationArray = [];
+  public showSellDataRverse = [];
+  public showBuyDataRverse = [];
 
   private buyOrdersSubscription: any;
   private sellOrdersSubscription: any;
@@ -82,6 +84,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   orderTypeClass: string;
   public commonSellTotal = 0;
   public commonBuyTotal = 0;
+  public lastCoefficient;
 
   // public lastSellOrder;
   // public lastBuyOrder;
@@ -96,8 +99,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   };
 
   /** precision value for orders */
-  public precision = 0.1;
-  public precisionOut = 1;
+  public precision = 0.00001;
+  public precisionOut = 5;
 
   constructor(
     private store: Store<State>,
@@ -218,22 +221,28 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   sellCalculateVisualization() {
-    for (let i = 0; i < this.dataForSell.length; i++) {
-      const coefficient = (+this.commonSellTotal / +this.dataForSell[i].total);
+    this.sellVisualizationArray = [];
+    for (let i = 0; i < this.sellOrders.length; i++) {
+      const coefficient = (+this.commonSellTotal / +this.sellOrders[i].total);
       this.sellVisualizationArray.push(98 / coefficient);
     }
     this.sellVisualizationArray = [...this.sellVisualizationArray.reverse()];
   }
 
   buyCalculateVisualization() {
-    for (let i = 0; i < this.dataBurBuy.length; i++) {
-      const coefficient = (+this.commonBuyTotal / +this.dataBurBuy[i].total);
-      this.buyVisualizationArray.push(98 / coefficient);
+    this.buyVisualizationArray = [];
+    if (this.buyOrders[this.buyOrders.length - 1]) {
+      this.lastCoefficient = 98 - (98 - (98 / (+this.commonBuyTotal / +this.buyOrders[this.buyOrders.length - 1].total)));
+    }
+    for (let i = 0; i < this.buyOrders.length; i++) {
+        const coefficient = (+this.commonBuyTotal / +this.buyOrders[i].total);
+        this.buyVisualizationArray.push((98 - (98 / coefficient)) + this.lastCoefficient);
     }
   }
 
   private setBuyOrders(orders) {
     this.buyOrders = orders.orderBookItems;
+    this.showBuyDataRverse = [...this.buyOrders];
     // this.buyOrders.push({
     //   amount: "6500",
     //   currencyPairId: 59,
@@ -242,11 +251,15 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     //   total: "50000",
     // })
     this.commonBuyTotal = +orders.total;
+    this.buyCalculateVisualization();
   }
 
   private setSellOrders(orders) {
     this.sellOrders = orders.orderBookItems;
+    this.showSellDataRverse = [...this.sellOrders];
+    this.showSellDataRverse.reverse();
     this.commonSellTotal = orders.total;
+    this.sellCalculateVisualization();
   }
 
   loadMinAndMaxValues(pair: CurrencyPair) {
@@ -415,8 +428,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     // });
     // this.maxSell = this.getMaxDataOfArray(this.dataForVisualizationSellOrders);
     this.setWidthForChartBorder();
-    this.sellCalculateVisualization();
-    this.buyCalculateVisualization();
+    // this.sellCalculateVisualization();
+    // this.buyCalculateVisualization();
   }
 
   // private setMockData(): void {
@@ -450,6 +463,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         }
       }
       this.withForChartLineElements.sell.reverse();
+      this.withForChartLineElements.buy.reverse();
     }
   }
 

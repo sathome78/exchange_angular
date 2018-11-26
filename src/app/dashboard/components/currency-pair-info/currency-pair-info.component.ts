@@ -145,8 +145,15 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     }if (this.activeCurrency === 1) {
       this.secondCurrency = newCurrency;
     }
-    return `${this.firstCurrency}/${this.secondCurrency}`;
+    return `${this.firstCurrency}/${this.secondCurrency}` ;
   }
+
+  // findPairByCurrecy (place: number) {
+  //    let pairName;
+  //    this.allCurrencyPairs.forEach(pair => {
+  //
+  //    })
+  // }
 
   /**
    * split pair name by '/'

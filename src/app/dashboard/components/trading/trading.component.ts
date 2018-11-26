@@ -103,30 +103,36 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(select(getDashboardState))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(state => {
-        console.log(state, "STATE")
-      });
-
-    this.store
-      .pipe(select(getCurrencyPair))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair) => {
-        this.onGetCurrentCurrencyPair(pair);
-      });
-
-    this.store
-      .pipe(select(getUserBalance))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (balance: UserBalance) => {
-        this.userBalance = balance.balanceByCurrency1 ? balance.balanceByCurrency1 : 0;
+        this.userBalance = state.userBalance.balanceByCurrency1 ? state.userBalance.balanceByCurrency1 : 0;
         this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
+        this.onGetCurrentCurrencyPair(state.currencyPair);
+        // this.orderFromOrderBook(state.selectedOrderBookOrder);
+        this.setPriceInValue(state.currencyPairInfo.currencyRate);
+        this.order.rate = state.currencyPairInfo.currencyRate;
       });
 
-    this.store
-      .pipe(select(getCurrencyPairInfo))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPairInfo) => {
-        this.limitForm.patchValue({'priceIn': pair.currencyRate});
-      });
+    // this.store
+    //   .pipe(select(getCurrencyPair))
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe( (pair: CurrencyPair) => {
+    //     this.onGetCurrentCurrencyPair(pair);
+    //   });
+
+    // this.store
+    //   .pipe(select(getUserBalance))
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe( (balance: UserBalance) => {
+    //     this.userBalance = balance.balanceByCurrency1 ? balance.balanceByCurrency1 : 0;
+    //     this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
+    //   });
+
+    // this.store
+    //   .pipe(select(getCurrencyPairInfo))
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe( (pair: CurrencyPairInfo) => {
+    //     this.setPriceInValue(pair.currencyRate);
+    //     this.order.rate = pair.currencyRate;
+    //   });
 
 
     this.store
@@ -140,19 +146,18 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(select(getLastSellBuyOrder))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (lastOrders) => {
-        console.log(lastOrders)
         this.lastSellBuyOrders = lastOrders;
       });
 
-    this.dashboardService.selectedOrderTrading$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(order => {
-        this.orderFromOrderBook(order as OrderItem);
-      });
+    // this.dashboardService.selectedOrderTrading$
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe(order => {
+    //     this.orderFromOrderBook(order as OrderItem);
+    //   });
 
-    this.orderBookService.lastOrderListener$.subscribe(res => {
-      this.lastSellOrder = res;
-    });
+    // this.orderBookService.lastOrderListener$.subscribe(res => {
+    //   this.lastSellOrder = res;
+    // });
 
   }
 
@@ -186,6 +191,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   toggleMainTab(tab: string) {
     if (tab === 'BUY') {
       this.mainTab = 'BUY';
+
       this.tradingService.tradingChangeSellBuy$.next('BUY');
     } else  {
       this.mainTab = 'SELL';
@@ -221,7 +227,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * Set rate on select type order (depending on operation type)
    */
   setRateOnSelectTypeOrder(): void {
-    console.log(this.lastSellBuyOrders)
     if (this.mainTab === 'BUY') {
       const tempData = this.lastSellBuyOrders.lastBuyOrder.rate.toString();
       this.order.rate = parseFloat(tempData);
@@ -356,7 +361,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param value
    */
   setPriceInValue(value): void {
-    value = typeof value === 'string' ? value : value.toString();
+    value = typeof value === 'string' ? value : !value ? '0' : value.toString();
     this.stopForm.controls['limit'].setValue(value);
     this.limitForm.controls['priceIn'].setValue(value);
   }
@@ -410,8 +415,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     // window.open('https://exrates.me/dashboard', '_blank');
 
 
-    if ( (this.stopForm.valid && this.orderStop && this.dropdownLimitValue === 'STOP_LIMIT') ||
-      (this.limitForm.valid && this.dropdownLimitValue === 'LIMIT' || this.dropdownLimitValue === 'ICO' || this.dropdownLimitValue === 'MARKET_PRICE')) {
+    if ( (this.stopForm.valid
+      && this.orderStop
+      && this.dropdownLimitValue === 'STOP_LIMIT')
+      || (this.limitForm.valid
+        && this.dropdownLimitValue === 'LIMIT'
+        || this.dropdownLimitValue === 'ICO'
+        || this.dropdownLimitValue === 'MARKET_PRICE')) {
       this.order.currencyPairId = this.currentPair.currencyPairId;
       this.order.baseType = this.dropdownLimitValue;
       this.order.orderType = this.mainTab;

@@ -11,6 +11,8 @@ import {NotificationsService} from './shared/components/notification/notificatio
 import {NotificationMessage} from './shared/models/notification-message-model';
 import {DashboardWebSocketService} from './dashboard/dashboard-websocket.service';
 import {AuthService} from './services/auth.service';
+import {Subject} from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-root',
@@ -19,17 +21,21 @@ import {AuthService} from './services/auth.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   tfaSubscription: Subscription;
   identitySubscription: Subscription;
   loginSubscription: Subscription;
   loginMobileSubscription: Subscription;
-  registrationMobileSubscription: Subscription;
+  // registrationMobileSubscription: Subscription;
+  recoveryPasswordSubscription: Subscription;
+
   isTfaPopupOpen = false;
   isIdentityPopupOpen = false;
   isLoginPopupOpen = false;
   isLoginMobilePopupOpen = false;
   isRegistrationMobilePopupOpen = false;
+  isRecoveryPasswordOpen = false;
   /** notification messages array */
   notificationMessages: NotificationMessage[];
 
@@ -76,8 +82,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   subscribeForMobileRegistrationEvent() {
-    this.registrationMobileSubscription = this.popupService
+    this.popupService
       .getRegistrationMobilePopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
         console.log('3');
         this.isRegistrationMobilePopupOpen = value;
@@ -110,11 +117,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
     this.tfaSubscription.unsubscribe();
     this.identitySubscription.unsubscribe();
     this.loginSubscription.unsubscribe();
     this.loginMobileSubscription.unsubscribe();
-    this.registrationMobileSubscription.unsubscribe();
+    // this.registrationMobileSubscription.unsubscribe();
   }
 
   private setIp() {
