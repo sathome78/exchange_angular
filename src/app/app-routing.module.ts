@@ -14,8 +14,8 @@ import {SettingsComponent} from './settings/settings.component';
 const routes: Routes = [
   // permit all
   {path: 'dashboard', component: DashboardComponent},
-  {path: 'balance', component: BalanceComponent},
-  // {path: 'balance', component: BalanceComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
+  // {path: 'balance', component: BalanceComponent},
+  {path: 'balance', component: BalanceComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'open-orders', component: OpenOrdersComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'final-registration/token', component: FinalRegistrationComponent},
