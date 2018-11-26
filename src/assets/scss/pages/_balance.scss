@@ -26,18 +26,18 @@
     display: flex;
     align-items: center;
     position: relative;
+    padding: 0 10px;
     .dropdown {
       margin-left: 4px;
     }
     .toggler {
-      margin-left: 20px;
+      margin-left: auto;
       margin-right: 4px;
     }
   }
   &__search-mob {
     width: 74px;
     margin-right: 20px;
-    margin-left: 8px;
     .wrap-input__input {
       padding-left: 12px;
     }
