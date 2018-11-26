@@ -4,6 +4,7 @@ import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {ChatService} from './chat.service';
 import {DateChatItem} from './date-chat-item.model';
 import {AuthService} from 'app/services/auth.service';
+import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-chat',
@@ -16,6 +17,9 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
 
   // todo please implement sorting as backend returns sorted by date ascending with limit of 50 messages
   dateChatItems: DateChatItem [];
+
+  // retrive Element to handle scroll in chat
+  @ViewChild('chat') chat: PerfectScrollbarComponent;
 
   static isToday(date: Date): boolean {
     const today = new Date();
@@ -32,10 +36,12 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
   ngOnInit() {
     this.itemName = 'chat';
     this.chatService.findAllChatMessages().subscribe(messages => {
-      console.log(messages);
       if (messages.length) {
         this.dateChatItems = messages;
         this.addTodayIfNecessary();
+        setTimeout(() => {
+          this.onScrollToBottom();
+        }, 0)
       }
     });
     // console.log(this.dateChatItems);
@@ -60,6 +66,7 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
         .subscribe(res => {
             console.log(res);
             message.value = '';
+            this.onScrollToBottom();
           },
           error1 => {
             console.log(error1);
@@ -69,6 +76,10 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
 
   welcomeToOurChannel() {
     window.open('https://t.me/exrates_official', '_blank');
+  }
+
+  onScrollToBottom() {
+    this.chat.directiveRef.scrollToBottom();
   }
 
 
