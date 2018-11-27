@@ -154,20 +154,26 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    * @returns {string}
    */
   createCurrencyPairName(newCurrency: string): string {
+    let Pair;
     if (this.activeCurrency === 0) {
       this.firstCurrency = newCurrency;
-    }if (this.activeCurrency === 1) {
-      this.secondCurrency = newCurrency;
+      Pair = `${this.firstCurrency}/${this.secondCurrency}`;
     }
-    return `${this.firstCurrency}/${this.secondCurrency}` ;
-  }
+    if (this.activeCurrency === 1) {
+      this.secondCurrency = newCurrency;
+      this.allCurrencyPairs.forEach((pair, index) => {
+        if (pair.market === this.secondCurrency) {
+          Pair = pair.currencyPairName;
+        }
 
-  // findPairByCurrecy (place: number) {
-  //    let pairName;
-  //    this.allCurrencyPairs.forEach(pair => {
-  //
-  //    })
-  // }
+          if (pair.currencyPairName === `${this.firstCurrency}/${this.secondCurrency}`) {
+            Pair = `${this.firstCurrency}/${this.secondCurrency}`;
+          }
+
+      });
+    }
+    return Pair ;
+  }
 
   /**
    * split pair name by '/'
