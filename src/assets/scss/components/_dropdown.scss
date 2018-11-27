@@ -61,3 +61,27 @@
   }
   /*--- elements end ---*/
 }
+/*--- DARK THEME START---*/
+.dark-theme{
+  .dropdown{
+    &__list{
+      background-color: $dark-indigo;
+      border: none;
+    }
+    &__item {
+      color:#fff;
+      &:hover {
+        cursor: pointer;
+        background-color: rgba(255,255,255,.1);
+      }
+    }
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{
+    .dropdown{
+
+    }
+  }
+}
+/*--- DARK THEME END---*/
