@@ -19,9 +19,6 @@
           <ng-template ngFor let-currency [ngForOf]="marketsArray" , let-index = index>
             <li  class="dropdown__item" (click)="onSelectCurrency(currency.name)" *ngIf="currency.name !== secondCurrency">{{currency.name}}</li>
           </ng-template>
-          <!--<li class="dropdown__item">ETH</li>-->
-          <!--<li class="dropdown__item">LOC</li>-->
-          <!--<li class="dropdown__item">USD</li>-->
         </ul>
       </div>
     </div>
