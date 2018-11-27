@@ -9,6 +9,8 @@ import {Subject} from 'rxjs';
 import {OnDestroy} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {AuthService} from '../services/auth.service';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -52,6 +54,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     public breakPointService: BreakpointService,
     private dataService: DashboardService,
     private marketsService: MarketService,
+    private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthService) { }
 
   ngOnInit() {
@@ -73,6 +77,15 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.marketsService.activeCurrencyListener.subscribe(res => {
       this.changeRatioByWidth();
+    });
+
+    this.route.params.subscribe(params => {
+      if (params && params['currency-pair']) {
+        let currencyPair: string = params['currency-pair'];
+        currencyPair = currencyPair.replace('-', '/');
+        // TODO find currency pair by name and set it as default for dashboard
+        
+      }
     });
   }
 
