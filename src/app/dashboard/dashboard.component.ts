@@ -9,6 +9,8 @@ import {Subject} from 'rxjs';
 import {OnDestroy} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {AuthService} from '../services/auth.service';
+import {PopupService} from '../services/popup.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,6 +45,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public defauldWidgets;
   public gridsterOptions;
   public gridsterItemOptions;
+  public showRecoveryPassPopup = false;
 
   public activeMobileWidget =  'markets';
 
@@ -50,11 +53,21 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     public breakPointService: BreakpointService,
+    private popupService: PopupService,
+    private route: ActivatedRoute,
+    private router: Router,
     private dataService: DashboardService,
     private marketsService: MarketService,
     private authService: AuthService) { }
 
   ngOnInit() {
+
+    this.route.queryParams.subscribe(params => {
+      const param = params['recoveryPassword'];
+      if (param) {
+         this.showRecoveryPassPopup = true;
+      }
+    });
 
     this.breakPointService.breakpoint$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -192,5 +205,16 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
+  }
+
+  closeRecoveryPassPopup() {
+    this.showRecoveryPassPopup = false;
+    this.router.navigate(['/']);
+  }
+
+  goToLogin() {
+    this.router.navigate(['/']);
+    this.popupService.showLoginPopup(true);
+    this.showRecoveryPassPopup = false;
   }
 }

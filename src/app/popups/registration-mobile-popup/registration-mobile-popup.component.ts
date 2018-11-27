@@ -3,6 +3,7 @@ import {PopupService} from '../../services/popup.service';
 import {convertValueToOutputAst} from '@angular/compiler/src/output/value_util';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../services/user.service';
+import {keys} from '../../core/keys';
 
 @Component({
   selector: 'app-registration-mobile-popup',
@@ -24,7 +25,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
   public nameForm: FormGroup;
   public nameSubmited = false;
   public agreeTerms = false;
-  public recaptchaKey = '6LcyFkMUAAAAAH3mt-7FJlipkIQg03qt5jCUJOW9';
+  public recaptchaKey = keys.recaptchaKey;
   emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
 
   public email;

@@ -51,6 +51,8 @@ export class OrdersService {
   // }
 
   unsubscribeStomp() {
-    this.stompSubscription.unsubscribe();
+    if (this.stompSubscription) {
+      this.stompSubscription.unsubscribe();
+    }
   }
 }

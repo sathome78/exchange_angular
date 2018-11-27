@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoginPopupOpen = false;
   isLoginMobilePopupOpen = false;
   isRegistrationMobilePopupOpen = false;
-  isRecoveryPasswordOpen = false;
+  isRecoveryPasswordPopupOpen = false;
   /** notification messages array */
   notificationMessages: NotificationMessage[];
 
@@ -61,6 +61,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForLoginEvent();
     this.subscribeForMobileLoginEvent();
     this.subscribeForMobileRegistrationEvent();
+    this.subscribeForRecoveryPasswordEvent();
     // this.setClientIp();
     this.subscribeForNotifications();
   }
@@ -89,6 +90,15 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log('3');
         this.isRegistrationMobilePopupOpen = value;
         console.log(this.isRegistrationMobilePopupOpen);
+      });
+  }
+
+  subscribeForRecoveryPasswordEvent() {
+    this.popupService
+      .getRecoveryPasswordListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(value => {
+        this.isRecoveryPasswordPopupOpen = value;
       });
   }
 
