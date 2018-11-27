@@ -14,6 +14,7 @@ import {switchMap} from 'rxjs/operators';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
 import {getCurrencyPairArray, State} from '../core/reducers';
 import {CurrencyPair} from '../model/currency-pair.model';
+import {PopupService} from '../services/popup.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -48,6 +49,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public defauldWidgets;
   public gridsterOptions;
   public gridsterItemOptions;
+  public showRecoveryPassPopup = false;
 
   public activeMobileWidget =  'markets';
 
@@ -56,6 +58,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     public breakPointService: BreakpointService,
     public dashboardWebsocketService: DashboardWebSocketService,
+    private popupService: PopupService,
     private dataService: DashboardService,
     private marketsService: MarketService,
     private route: ActivatedRoute,
@@ -63,6 +66,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private authService: AuthService) { }
 
   ngOnInit() {
+
+    this.route.queryParams.subscribe(params => {
+      const param = params['recoveryPassword'];
+      if (param) {
+         this.showRecoveryPassPopup = true;
+      }
+    });
 
     this.breakPointService.breakpoint$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -210,15 +220,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.authService.isAuthenticated();
   }
 
-  // setCurrentCurrencyPairByRouteParam() {
-  //   this.route.paramMap
-  //     .pipe(takeUntil(this.ngUnsubscribe))
-  //     .subscribe((params: ParamMap) =>  {
-  //       const pair = params.get('currency-pair');
-  //       if (pair) {
-  //         const splitName = pair.split('-');
-  //         this.dashboardWebsocketService.findPairByCurrencyPairName(`${splitName[0]}/${splitName[1]}`);
-  //       }
-  //     });
-  // }
+  closeRecoveryPassPopup() {
+    this.showRecoveryPassPopup = false;
+    this.router.navigate(['/']);
+  }
+
+  goToLogin() {
+    this.router.navigate(['/']);
+    this.popupService.showLoginPopup(true);
+    this.showRecoveryPassPopup = false;
+  }
 }

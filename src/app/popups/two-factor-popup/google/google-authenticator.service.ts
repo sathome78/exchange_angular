@@ -30,7 +30,7 @@ export class GoogleAuthenticatorService {
     return this.http.post<number>(this.getUrl('google2fa/submit'), body);
   }
 
-  disableGoogleAuthenticationt(email: string, password: string, pin: string): Observable<number> {
+  disableGoogleAuthentication(email: string, password: string, pin: string): Observable<number> {
     const encodedPassword = encodePassword(password, this.ENCODE_KEY);
     const body: { 'EMAIL': string, 'PASSWORD': string, 'PINCODE': string }
       = {'EMAIL': email, 'PASSWORD': encodedPassword, 'PINCODE': pin};
