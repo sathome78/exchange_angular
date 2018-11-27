@@ -246,12 +246,13 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   buyCalculateVisualization() {
     this.buyVisualizationArray = [];
     if (this.buyOrders[this.buyOrders.length - 1]) {
-      this.lastCoefficient = 98 - (98 - (98 / (11 / +this.buyOrders[this.buyOrders.length - 1].total)));
+      this.lastCoefficient = 98 - (98 - (98 / (+this.commonBuyTotal / +this.buyOrders[this.buyOrders.length - 1].total)));
     }
     for (let i = 0; i < this.buyOrders.length; i++) {
-        const coefficient = (11 / +this.buyOrders[i].total);
+        const coefficient = (+this.commonBuyTotal / +this.buyOrders[i].total);
         this.buyVisualizationArray.push(((98 / coefficient)));
     }
+    console.log(this.buyVisualizationArray)
     this.buyVisualizationArray = [...this.buyVisualizationArray];
   }
 
@@ -269,8 +270,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   private setBuyOrders(orders) {
     this.buyOrders = orders.orderBookItems;
-    this.showBuyDataRverse = [...this.buyOrders.reverse()];
-    console.log(this.showBuyDataRverse);
+    this.showBuyDataRverse = [...this.buyOrders];
     // this.buyOrders.push({
     //   amount: "6500",
     //   currencyPairId: 59,
@@ -479,8 +479,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
           const tempElementBuy = this.getPercentageOfTheMuxBuyOrSell(+this.buyOrders[i].total, true);
           const nextElementBuy = this.getPercentageOfTheMuxBuyOrSell(+this.buyOrders[i + 1].total, true);
           const valueForBuy = nextElementBuy - tempElementBuy;
-          this.withForChartLineElements.buy[i] = (((containerWidth / 110) * valueForBuy) * -1) + 'px';
-          console.log(this.withForChartLineElements.buy);
+          this.withForChartLineElements.buy[i] = (((containerWidth / 100) * valueForBuy)) + 'px';
+          this.withForChartLineElements.buy.reverse();
         }
 
         /** for sell */
