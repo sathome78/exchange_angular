@@ -20,7 +20,7 @@
 //scroll style start
 .widget__content.widget__content--mob{
   perfect-scrollbar{
-    height: calc(100vh - 210px);
+    height: calc(100vh - 174px);
   }
 }
 
@@ -29,8 +29,9 @@
 }
 
 .widget__content{
-  height: 100%;
+  height: calc(100% - 44px);
   @media (min-width: 1200px){
+    height: 100%;
     ::ng-deep.ps__rail-y {
       margin-right: 16px;
     }
