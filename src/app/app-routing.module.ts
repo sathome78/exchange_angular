@@ -10,9 +10,11 @@ import {ReferralStructureComponent} from './referral/referral-structure/referral
 import {ReferralChargesComponent} from './referral/referral-charges/referral-charges.component';
 import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
 import {SettingsComponent} from './settings/settings.component';
+import {FinalStepRecoveryPasswordComponent} from './auth/final-step-recovery-password/final-step-recovery-password.component';
 
 const routes: Routes = [
   // permit all
+  {path: 'dashboard/markets/:currency-pair', component: DashboardComponent},
   {path: 'dashboard', component: DashboardComponent},
   // {path: 'balance', component: BalanceComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   // {path: 'transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
@@ -23,6 +25,7 @@ const routes: Routes = [
   // {path: 'referral-charges', component: ReferralChargesComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   // {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
 
+  {path: 'recovery-password', component: FinalStepRecoveryPasswordComponent},
   {path: 'balance', component: BalanceComponent },
   {path: 'transaction-history', component: TransactionHistoryComponent },
   {path: 'open-orders', component: OpenOrdersComponent },

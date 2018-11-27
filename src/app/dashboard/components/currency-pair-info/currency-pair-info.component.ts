@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, HostListener} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
@@ -29,6 +29,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   /** current active pair */
   public pair;
   public firstCurrency: string;
+  public marketDropdown = false;
   public secondCurrency: string;
   public activeCurrency: number;
   public currentCurrencyInfo;
@@ -42,6 +43,14 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     {name: 'ETH'},
     {name: 'BTC'},
     ];
+
+  /** Are listening click in document */
+  @HostListener('document:click', ['$event']) clickout($event) {
+    if ($event.target.className !== 'dropdown__btn') {
+      this.marketDropdown = false;
+    }
+
+  }
 
   constructor(
     private store: Store<State>,
@@ -101,16 +110,19 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    * Show currency search bar
    */
   openSearchBar(currencyOrder: number): void {
-    this.activeCurrency = currencyOrder;
-    currencyOrder === 1 ?
-      this.toggleMarketDropdown() :
-      this.toggleCurrencySearch();
+    this.activeCurrency = 0;
+    this.toggleCurrencySearch();
   }
 
-  toggleMarketDropdown() {
-    this.currencies = this.marketsArray;
-    this.showCurrencySearch = !this.showCurrencySearch;
+  openDropdown() {
+    this.activeCurrency = 1;
+    this.marketDropdown = true;
   }
+
+  // toggleMarketDropdown() {
+  //   this.currencies = this.marketsArray;
+  //   this.showCurrencySearch = !this.showCurrencySearch;
+  // }
 
   /**
    * Toggle show/hide currency search bar
@@ -122,6 +134,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       const name = temp[i].currencyPairName.split('/')[0];
       this.currencies.push({name: name});
     }
+    this.marketDropdown = false;
     this.showCurrencySearch = !this.showCurrencySearch;
   }
 
@@ -130,6 +143,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    * @param ISO
    */
   onSelectCurrency(ISO: string): void {
+    this.marketDropdown = false;
     const pairName = this.createCurrencyPairName(ISO);
     this.dashboardWebsocketService.findPairByCurrencyPairName(pairName);
   }

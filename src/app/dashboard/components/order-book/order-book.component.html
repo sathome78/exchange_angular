@@ -119,8 +119,8 @@
       </div>
       <div class="separator">
         <span  [ngClass]="{'color-red': !isExratePositive, 'color-green': isExratePositive}">{{!+lastExrate ? 0 : +lastExrate | replaceNumber}}</span>
-        <img *ngIf="isExratePositive" class="arr arr--ml4" src="../assets/img/arr-up-green.svg">
-        <img *ngIf="!isExratePositive" class="arr arr--ml4" src="../assets/img/arr-down-red.svg">
+        <img *ngIf="+preLastExrate < +lastExrate" class="arr arr--ml4" src="../assets/img/arr-up-green.svg">
+        <img *ngIf="+preLastExrate > +lastExrate" class="arr arr--ml4" src="../assets/img/arr-down-red.svg">
         <div class="hr"></div>
         <span >{{!+preLastExrate ? 0 : +preLastExrate | number:'1.1-8' | replaceNumber}}</span>
       </div>
