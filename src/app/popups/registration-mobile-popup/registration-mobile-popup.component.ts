@@ -42,7 +42,10 @@ export class RegistrationMobilePopupComponent implements OnInit {
     this.setTemplate('emailInputTemplate');
     this.afterCaptchaMessage = `We sent the confirmation link to
         <br>
-        ${this.email} <br> Please check your email and
+        <span class="popup__email-link">
+        ${this.email}
+        </span>
+        <br> Please check your email and
         follow instructions.`
     this.initForm();
   }

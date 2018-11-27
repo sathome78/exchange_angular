@@ -43,6 +43,11 @@
     font-size: 18px;
     line-height: 24px;
   }
+  &__email-link {
+    color: $darker-blue;
+    text-decoration: none;
+    word-wrap: break-word;
+  }
   &__form {
     width: 100%;
     max-width: 230px;
@@ -70,7 +75,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 230px;
+    //max-width: 230px;
     margin: 32px auto 0;
     white-space: nowrap;
     font-size: 12px;
@@ -92,6 +97,9 @@
     &:hover {
       cursor: pointer;
       color: $darker-blue;
+    }
+    &--hidden-mob {
+      display: none;
     }
   }
   &__link-mob {
@@ -188,7 +196,7 @@
   }
   &__line {
     height: 1px;
-    margin: 20px 36px;
+    margin: 20px 32px;
     background-color: $darker-white;
   }
   &__back-to {
@@ -196,6 +204,12 @@
     width: 100%;
     max-width: 230px;
     margin: 32px auto 0;
+  }
+  &__arr-left {
+    margin-right: 4px;
+    svg{
+      fill:$darker-blue;
+    }
   }
   /*--- elements end ---*/
 }
@@ -207,12 +221,15 @@
     max-width: 404px;
     height: auto;
     margin: 0 auto;
-    padding: 32px 0;
+    padding: 32px;
 
     &__close {
       top: 7px;
       right: -35px;
       background-image: url("assets/img/close.svg");
+    }
+    &__form{
+      max-width: none;
     }
     &__btn {
       margin-top: 32px;
@@ -223,8 +240,16 @@
         display: flex;
       }
     }
+    &__link{
+      &--hidden-mob {
+        display: inline-block;
+      }
+    }
     &__link-mob {
       display: none;
+    }
+    &__line{
+      margin: 20px 0;
     }
     &__txt-row {
       &--hidden-mob {
@@ -245,6 +270,9 @@
     &__subtitle {
       color: #fff;
     }
+    &__email-link {
+      color: $light-blue;
+    }
     &__btn{
       background-color: transparent;
       color: $light-blue;
@@ -260,6 +288,11 @@
     }
     &__link-mob{
       background-color: #21417D;
+    }
+    &__arr-left {
+      svg{
+        fill:$light-blue;
+      }
     }
   }
 }
