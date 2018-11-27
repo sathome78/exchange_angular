@@ -131,7 +131,7 @@
     <!--</ul>-->
 
     <div *ngIf="isAuthenticated(); else reg">
-      <a class="header__auth" (click)="onLogout()">Nickname</a>
+      <a class="header__auth" >{{ getUsername() }}</a>
     </div>
     <ng-template #reg>
       <a class="header__auth" (click)="openRegistration()">Registration</a>
