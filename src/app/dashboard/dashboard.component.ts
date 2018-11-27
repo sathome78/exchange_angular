@@ -11,6 +11,9 @@ import {takeUntil} from 'rxjs/internal/operators';
 import {AuthService} from '../services/auth.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
+import {DashboardWebSocketService} from './dashboard-websocket.service';
+import {getCurrencyPairArray, State} from '../core/reducers';
+import {CurrencyPair} from '../model/currency-pair.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -52,6 +55,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     public breakPointService: BreakpointService,
+    public dashboardWebsocketService: DashboardWebSocketService,
     private dataService: DashboardService,
     private marketsService: MarketService,
     private route: ActivatedRoute,
@@ -81,10 +85,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.route.params.subscribe(params => {
       if (params && params['currency-pair']) {
-        let currencyPair: string = params['currency-pair'];
-        currencyPair = currencyPair.replace('-', '/');
+        const currencyPair: string = params['currency-pair'];
+        this.dashboardWebsocketService.pairFromDashboard = currencyPair.replace('-', '/');
         // TODO find currency pair by name and set it as default for dashboard
-        
       }
     });
   }
@@ -206,4 +209,16 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
   }
+
+  // setCurrentCurrencyPairByRouteParam() {
+  //   this.route.paramMap
+  //     .pipe(takeUntil(this.ngUnsubscribe))
+  //     .subscribe((params: ParamMap) =>  {
+  //       const pair = params.get('currency-pair');
+  //       if (pair) {
+  //         const splitName = pair.split('-');
+  //         this.dashboardWebsocketService.findPairByCurrencyPairName(`${splitName[0]}/${splitName[1]}`);
+  //       }
+  //     });
+  // }
 }
