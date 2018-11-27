@@ -20,6 +20,7 @@ export class DashboardWebSocketService {
   currencyPairs: CurrencyPair [] = [];
   private stompSubscription: any;
   private baseUrl = environment.apiUrl;
+  public pairFromDashboard = '';
 
   constructor(
     private stompService: StompService,
@@ -79,11 +80,20 @@ export class DashboardWebSocketService {
       this.addOrUpdate(item, ids);
     });
     this.store.dispatch(new LoadCurrencyPairsAction(this.currencyPairs));
-    if (this.currencyPairs.length > 0) {
+    if (this.currencyPairs.length > 0 && this.pairFromDashboard === '') {
       const activePair = this.getActiveCurrencyPair();
       this.store.dispatch(new ChangeCurrencyPairAction(activePair));
       this.userService.getUserBalance(activePair);
       this.currencyPairInfoService.getCurrencyPairInfo(activePair);
+    }
+    if (this.pairFromDashboard !== '') {
+      this.currencyPairs.forEach(pair => {
+        if (pair.currencyPairName === this.pairFromDashboard) {
+          this.store.dispatch(new ChangeCurrencyPairAction(pair));
+          this.userService.getUserBalance(pair);
+          this.currencyPairInfoService.getCurrencyPairInfo(pair);
+        }
+      });
     }
   }
 

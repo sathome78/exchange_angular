@@ -14,6 +14,7 @@ import {FinalStepRecoveryPasswordComponent} from './auth/final-step-recovery-pas
 
 const routes: Routes = [
   // permit all
+  {path: 'dashboard/markets/:currency-pair', component: DashboardComponent},
   {path: 'dashboard', component: DashboardComponent},
   // {path: 'balance', component: BalanceComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   // {path: 'transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},

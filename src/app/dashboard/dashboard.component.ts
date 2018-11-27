@@ -9,8 +9,12 @@ import {Subject} from 'rxjs';
 import {OnDestroy} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {AuthService} from '../services/auth.service';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {switchMap} from 'rxjs/operators';
+import {DashboardWebSocketService} from './dashboard-websocket.service';
+import {getCurrencyPairArray, State} from '../core/reducers';
+import {CurrencyPair} from '../model/currency-pair.model';
 import {PopupService} from '../services/popup.service';
-import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -53,11 +57,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     public breakPointService: BreakpointService,
+    public dashboardWebsocketService: DashboardWebSocketService,
     private popupService: PopupService,
-    private route: ActivatedRoute,
-    private router: Router,
     private dataService: DashboardService,
     private marketsService: MarketService,
+    private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthService) { }
 
   ngOnInit() {
@@ -86,6 +91,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.marketsService.activeCurrencyListener.subscribe(res => {
       this.changeRatioByWidth();
+    });
+
+    this.route.params.subscribe(params => {
+      if (params && params['currency-pair']) {
+        const currencyPair: string = params['currency-pair'];
+        this.dashboardWebsocketService.pairFromDashboard = currencyPair.replace('-', '/');
+        // TODO find currency pair by name and set it as default for dashboard
+      }
     });
   }
 
