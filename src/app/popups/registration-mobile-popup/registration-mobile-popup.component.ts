@@ -41,6 +41,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
   ngOnInit() {
     this.setTemplate('emailInputTemplate');
     this.afterCaptchaMessage = `We sent the confirmation link to
+        <br>
         ${this.email} <br> Please check your email and
         follow instructions.`
     this.initForm();

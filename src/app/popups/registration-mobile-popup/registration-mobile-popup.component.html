@@ -157,6 +157,7 @@
         <div >
           <div class="wrap-input popup__wrap-input">
             <input
+              required
               class="wrap-input__input"
               formControlName="email"
               [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched}"
@@ -177,15 +178,17 @@
         </div>
 
         <button class="btn popup__btn" (click)="emailSubmit()"
-                [ngClass]="{'bg-none': emailForm.valid && agreeTerms}" [disabled]="!emailForm.valid && !agreeTerms"
+                [ngClass]="{'popup__btn--active': emailForm.valid && agreeTerms}" [disabled]="!emailForm.valid && !agreeTerms"
         >Create an account</button>
       </form>
       <div class="popup__links-wrap">
         <input type="checkbox" [(ngModel)]="agreeTerms" [disabled]="!emailForm.valid">
-        <a class="popup__link" ><span>By registering you agree with</span> Terms of Use</a>
+        <span>By registering you agree with</span>
+        <a class="popup__link" >Terms of Use</a>
       </div>
-      <div class="popup__links-wrap">
-        <a class="popup__link" ><span>Already have an account?</span> Log in</a>
+      <div class="popup__links-wrap popup__links-wrap--hidden-mob">
+        <span>Already have an account?</span>
+        <a class="popup__link" >Log in</a>
       </div>
 
       <a class="popup__link-mob" (click)="openLogIn()">Log in</a>
@@ -203,11 +206,9 @@
     <ng-template #emailConfirmLinkTemplate>
       <h6 class="popup__title">Confirm the email</h6>
       <h4 class="popup__subtitle" [innerHtml]="afterCaptchaMessage"></h4>
-      <hr style="width: 70%;">
-      <div class="popup__links-wrap">
-        <a class="popup__link"><span>If you haven't received the email, do the following:</span><br><span>Check spam or other folders.<br>Set email address whitelist.</span>
-          How to set?<span><br>Check the mail client works normally.</span></a>
-      </div>
+      <div class="popup__line"></div>
+      <div class="popup__text--light">If you haven't received the email, do the following:</div>
+      <div class="popup__text--light">Check spam or other folders. <br> Set email address whitelist. <a class="popup__link" href="">How to set?</a><br> Check the mail client works normally.</div>
     </ng-template>
 
   </div>
