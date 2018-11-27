@@ -58,6 +58,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/settings']);
   }
 
+  public getUsername() {
+    return this.authService.getUsername();
+  }
+
 
   onLogin() {
     this.logger.debug(this, 'Sign in attempt');
