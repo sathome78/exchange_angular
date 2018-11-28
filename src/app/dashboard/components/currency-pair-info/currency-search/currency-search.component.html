@@ -44,22 +44,22 @@
       </button>
     </div>
   </div>
-  <div class="pair-popup__content">
-
-    <div class="pair-popup__group" *ngFor="let letter of alphabet" >
-      <div class="pair-popup__group-title">{{letter.toUpperCase()}}</div>
-      <div class="pair-popup__group-content">
-        <div class="pair-popup__currency"
-             *ngFor="let currency of currencies | groupCoin:letter"
-             (click)="onCurrencyClick(currency.name)">
-          <img src="../../assets/img/fire-green.svg" *ngIf="currency.isToBeOpened">
-          <img src="../../assets/img/fire-red.svg" *ngIf="currency.isToBeClosed">
-          {{ currency.name }}
+  <div class="pair-popup__content-wrap">
+    <perfect-scrollbar>
+      <div class="pair-popup__content">
+        <div class="pair-popup__group" *ngFor="let letter of alphabet" >
+          <div class="pair-popup__group-title">{{letter.toUpperCase()}}</div>
+          <div class="pair-popup__group-content">
+            <div class="pair-popup__currency"
+                 *ngFor="let currency of currencies | groupCoin:letter"
+                 (click)="onCurrencyClick(currency.name)">
+              <img src="../../assets/img/fire-green.svg" *ngIf="currency.isToBeOpened">
+              <img src="../../assets/img/fire-red.svg" *ngIf="currency.isToBeClosed">
+              {{ currency.name }}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-
-
+    </perfect-scrollbar>
   </div>
-
 </div>
