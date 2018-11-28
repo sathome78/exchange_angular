@@ -1,3 +1,3 @@
 export const keys = {
-  recaptchaKey: '6LcyFkMUAAAAAH3mt-7FJlipkIQg03qt5jCUJOW9',
+  recaptchaKey: '6LdNln0UAAAAAH4nyBX7Wh4YKpqujc0-a66xssjp',
 }
