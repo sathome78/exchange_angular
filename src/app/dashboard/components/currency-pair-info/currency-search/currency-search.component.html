@@ -46,6 +46,7 @@
   </div>
   <div class="pair-popup__content">
 
+    <perfect-scrollbar>
     <div class="pair-popup__group" *ngFor="let letter of alphabet" >
       <div class="pair-popup__group-title">{{letter.toUpperCase()}}</div>
       <div class="pair-popup__group-content">
@@ -58,7 +59,7 @@
         </div>
       </div>
     </div>
-
+    </perfect-scrollbar>
 
   </div>
 
