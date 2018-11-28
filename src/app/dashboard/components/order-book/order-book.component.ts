@@ -359,7 +359,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   private setBuyOrders(orders) {
     this.buyOrders = orders.orderBookItems;
-    this.showBuyDataRverse = [...this.buyOrders.reverse()];
+    this.showBuyDataRverse = [...this.buyOrders];
     // this.buyOrders.push({
     //   amount: "6500",
     //   currencyPairId: 59,

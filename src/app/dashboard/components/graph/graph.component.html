@@ -63,13 +63,13 @@
     <div class="currency-pair-info--mob">
       <div class="currency-pair-info__inner">
         <div class="currency-pair-info__pair">
-          <div class="dropdown currency-pair-info__dropdown">
-            <div class="dropdown__btn">{{firstCurrency}}</div>
-            <ul class="dropdown__list">
-              <li class="dropdown__item">ETH</li>
-              <li class="dropdown__item">LTC</li>
-              <li class="dropdown__item">DASH</li>
-            </ul>
+          <div class="dropdown currency-pair-info__dropdown" (click)="openSearchBar(0)">
+            <div class="dropdown__btn">{{!firstCurrency ? 'BTC' : firstCurrency}}</div>
+            <!--<ul class="dropdown__list">-->
+              <!--<li class="dropdown__item">ETH</li>-->
+              <!--<li class="dropdown__item">LTC</li>-->
+              <!--<li class="dropdown__item">DASH</li>-->
+            <!--</ul>-->
           </div>
           <div class="currency-pair-info__change-pair"></div>
           <div class="dropdown currency-pair-info__dropdown">
@@ -106,3 +106,12 @@
   </div>
 
 </div>
+
+
+<!--<app-currency-search-->
+  <!--*ngIf="showCurrencySearch"-->
+  <!--[currencies]="currencies"-->
+  <!--(closeCurrencySearch)="toggleCurrencySearch()"-->
+  <!--(selectCurrency)="onSelectCurrency($event)">-->
+<!--</app-currency-search>-->
+

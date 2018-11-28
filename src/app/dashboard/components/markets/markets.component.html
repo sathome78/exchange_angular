@@ -44,12 +44,12 @@
       >
         ETH
       </button>
-      <button class="tabs__item tabs__item--small"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
-              (click)="selectedTab('LOC')"
-      >
-        LOC
-      </button>
+      <!--<button class="tabs__item tabs__item&#45;&#45;small"-->
+              <!--[ngClass]="{'tabs__item&#45;&#45;active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"-->
+              <!--(click)="selectedTab('LOC')"-->
+      <!--&gt;-->
+        <!--LOC-->
+      <!--</button>-->
       <button class="tabs__item tabs__item--small"
               [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USD','tab-no-active': currencyDisplayMode !== 'USD'}"
               (click)="selectedTab('USD')"
@@ -94,7 +94,7 @@
             <ng-container *ngFor="let pair of prefPairs | currencySort :'volume'">
               <div style="height: 4px;"></div>
               <div class="markets__row widget__table-row"
-                   [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
+                   [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)} ">
                 <div class="table__cell table__cell--p4 table__cell--tac" style="width: 7%;">
                 <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavourite(pair)}"
                       (click)="toggleFavourite(pair)">
@@ -127,7 +127,10 @@
             <ng-container *ngFor="let pair of pairs | currencySort :'volume'">
               <div style="height: 4px;"></div>
               <div class="markets__row widget__table-row"
-                   [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
+                   [ngClass]="{
+                   'widget__table-row--green': isChangePositive(pair),
+                    'widget__table-row--red': !isChangePositive(pair),
+                    'selected-currency-pair': pair.currencyPairId === currentCurrencyPair.currencyPairId}">
                 <div class="table__cell table__cell--p4 table__cell--tac" style="width: 7%;">
                 <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavourite(pair)}"
                       (click)="toggleFavourite(pair)">

@@ -13,6 +13,7 @@ import {UserService} from '../../../services/user.service';
 import {CurrencyPairInfoService} from '../currency-pair-info/currency-pair-info.service';
 import {LastSellBuyOrder} from '../../../model/last-sell-buy-order.model';
 import {defaultLastSellBuyOrder} from '../../reducers/default-values';
+import {getCurrencyPair} from '../../../core/reducers';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   prefPairs: CurrencyPair[] = [];
   /** Markets data by active tab */
   pairs: CurrencyPair[] = [];
+  public currentCurrencyPair: CurrencyPair;
   public sortPoint = 'asc';
   public marketSearch = false;
   public searchInput;
@@ -59,6 +61,13 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe( (currencyPairs: CurrencyPair[]) => {
         this.onGetCurrencyPairs(currencyPairs);
       });
+
+    this.store
+      .pipe(select(getCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((pair: CurrencyPair) => {
+        this.currentCurrencyPair = pair;
+      });
   }
 
   ngOnDestroy(): void {
@@ -66,7 +75,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.ngUnsubscribe.complete();
     this.marketService.unsubscribe();
   }
-
 
   /**
    * Add or update pair
