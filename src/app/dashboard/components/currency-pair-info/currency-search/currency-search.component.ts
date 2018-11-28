@@ -13,7 +13,11 @@ export class CurrencySearchComponent implements OnInit {
     // TODO
     // http://www.competa.com/blog/custom-groupby-pipe-angular-4/
     // we need to filter by group and by currency name (pipe or filter function in component)
-    this._groupedCurrencies = values;
+    this._groupedCurrencies = values.sort((a, b) => {
+      if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
+      else if (a.name.toUpperCase() > b.name.toUpperCase()) return 1;
+      return 0;
+    });
     /*values.forEach(value => {
       console.log(this._groupedCurrencies[value.name[0]])
     })*/
