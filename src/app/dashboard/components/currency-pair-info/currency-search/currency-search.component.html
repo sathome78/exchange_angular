@@ -50,7 +50,7 @@
       <div class="pair-popup__group-title">{{letter.toUpperCase()}}</div>
       <div class="pair-popup__group-content">
         <div class="pair-popup__currency"
-             *ngFor="let currency of currencies | groupCoin:letter | sort:'name'"
+             *ngFor="let currency of currencies | groupCoin:letter"
              (click)="onCurrencyClick(currency.name)">
           <img src="../../assets/img/fire-green.svg" *ngIf="currency.isToBeOpened">
           <img src="../../assets/img/fire-red.svg" *ngIf="currency.isToBeClosed">
