@@ -73,13 +73,13 @@
   &__header-txt{
     display: none;
   }
-  &__content{
+  &__content-wrap{
     padding-top: 12px;
+  }
+  &__content{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    overflow-y: scroll;
-    overflow-x: hidden;
   }
   &__group{
     width: 100%;
@@ -188,9 +188,14 @@
         margin-right: 4px;
       }
     }
-    &__content{
+    &__content-wrap{
       padding-top: 24px;
+      padding-bottom: 12px;
       max-height: 300px;
+      position: relative;
+    }
+    &__content{
+      height: 100%;
       overflow: hidden;
     }
     &__group{
