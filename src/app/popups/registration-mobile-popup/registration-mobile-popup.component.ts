@@ -40,13 +40,6 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   ngOnInit() {
     this.setTemplate('emailInputTemplate');
-    this.afterCaptchaMessage = `We sent the confirmation link to
-        <br>
-        <span class="popup__email-link">
-        ${this.email}
-        </span>
-        <br> Please check your email and
-        follow instructions.`
     this.initForm();
   }
 
@@ -76,10 +69,17 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   resolvedCaptcha(event) {
     this.userService.sendToEmailConfirmation(this.email).subscribe(res => {
-      console.log(res);
+      // console.log(res);
+      this.afterCaptchaMessage = `We sent the confirmation link to
+        <br>
+        <span class="popup__email-link">
+        ${this.email}
+        </span>
+        <br> Please check your email and
+        follow instructions.`
       this.setTemplate('emailConfirmLinkTemplate');
     }, error => {
-      this.afterCaptchaMessage = `server error`;
+      this.afterCaptchaMessage =`server error`;
       this.setTemplate('emailConfirmLinkTemplate');
     });
 
