@@ -13,12 +13,12 @@
       </div>
       <div class="currency-pair-info__change-pair"></div>
       <div class="dropdown currency-pair-info__dropdown">
-        <div class="dropdown__btn" (click)="openSearchBar(1)">{{ !secondCurrency ? 'USD' : secondCurrency}}</div>
+        <div class="dropdown__btn" (click)="openDropdown()">{{ !secondCurrency ? 'USD' : secondCurrency}}</div>
         <!--<div class="dropdown__btn" (click)="openSearchBar(1)">{{ secondCurrency}}</div>-->
-        <ul class="dropdown__list">
-          <li class="dropdown__item">ETH</li>
-          <li class="dropdown__item">LOC</li>
-          <li class="dropdown__item">USD</li>
+        <ul class="dropdown__list" *ngIf="marketDropdown">
+          <ng-template ngFor let-currency [ngForOf]="marketsArray" , let-index = index>
+            <li  class="dropdown__item" (click)="onSelectCurrency(currency.name)" *ngIf="currency.name !== secondCurrency">{{currency.name}}</li>
+          </ng-template>
         </ul>
       </div>
     </div>

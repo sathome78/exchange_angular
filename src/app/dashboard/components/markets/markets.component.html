@@ -44,12 +44,12 @@
       >
         ETH
       </button>
-      <button class="tabs__item tabs__item--small"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
-              (click)="selectedTab('LOC')"
-      >
-        LOC
-      </button>
+      <!--<button class="tabs__item tabs__item&#45;&#45;small"-->
+              <!--[ngClass]="{'tabs__item&#45;&#45;active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"-->
+              <!--(click)="selectedTab('LOC')"-->
+      <!--&gt;-->
+        <!--LOC-->
+      <!--</button>-->
       <button class="tabs__item tabs__item--small"
               [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USD','tab-no-active': currencyDisplayMode !== 'USD'}"
               (click)="selectedTab('USD')"
@@ -60,6 +60,12 @@
               [ngClass]="{'tabs__item--active': currencyDisplayMode === 'Favorites','tab-no-active': currencyDisplayMode !== 'Favorites'}"
               (click)="selectedTab('Favorites')"
       >
+        <span>
+          <svg width="14" height="13" class="fav" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+          </svg>
+        </span>
         Favorites
       </button>
     </div>
@@ -82,13 +88,13 @@
         </div>
       </div>
       <div class="markets__tbody">
-        <perfect-scrollbar style="max-height: 370px;">
+        <perfect-scrollbar style="max-height: 360px;">
           <div style="margin-right: 24px;">
             <!--Preferred Currency Pairs-->
             <ng-container *ngFor="let pair of prefPairs | currencySort :'volume'">
               <div style="height: 4px;"></div>
               <div class="markets__row widget__table-row"
-                   [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
+                   [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)} ">
                 <div class="table__cell table__cell--p4 table__cell--tac" style="width: 7%;">
                 <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavourite(pair)}"
                       (click)="toggleFavourite(pair)">
@@ -121,7 +127,10 @@
             <ng-container *ngFor="let pair of pairs | currencySort :'volume'">
               <div style="height: 4px;"></div>
               <div class="markets__row widget__table-row"
-                   [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
+                   [ngClass]="{
+                   'widget__table-row--green': isChangePositive(pair),
+                    'widget__table-row--red': !isChangePositive(pair),
+                    'selected-currency-pair': pair.currencyPairId === currentCurrencyPair.currencyPairId}">
                 <div class="table__cell table__cell--p4 table__cell--tac" style="width: 7%;">
                 <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavourite(pair)}"
                       (click)="toggleFavourite(pair)">
@@ -153,7 +162,6 @@
           </div>
         </perfect-scrollbar>
       </div>
-
     </div>
     <div class="widget__search">
       <input class="widget__search-input" type="text" required="" placeholder="Search" [(ngModel)]="searchInput"
@@ -185,12 +193,12 @@
           <span style="margin-right: 16px;">24h chg</span>
         </div>
       </div>
-        <div class="markets__tbody">
-          <perfect-scrollbar>
-            <ng-container *ngFor="let pair of prefPairs | currencySort :'volume'">
-              <div class="markets__row widget__table-row"
-                   [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
-                <div class="table__cell table__cell--p4 table__cell--tac" style="width: 20%;  display: flex; align-items: center; justify-content: center;">
+      <div class="markets__tbody">
+        <perfect-scrollbar>
+          <ng-container *ngFor="let pair of prefPairs | currencySort :'volume'">
+            <div class="markets__row widget__table-row"
+                 [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
+              <div class="table__cell table__cell--p4 table__cell--tac" style="width: 20%;  display: flex; align-items: center; justify-content: center;">
                 <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavourite(pair)}"
                       (click)="toggleFavourite(pair)">
                   <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -198,28 +206,28 @@
                       d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
                   </svg>
                 </span>
-                </div>
-                <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
-                  <span>{{splitPairName(pair)[0]}}</span>
-                  <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
-                  <div class="txt-small txt-light-grey">Vol {{ +pair.volume | number: '1.0-0' | replaceNumber}}</div>
-                </div>
-                <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
-                  <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:!isFiat }}</span>
-                  <div class="txt-small txt-light-grey">$ {{ +pair.priceInUSD | number: '1.0-2'}}</div>
-                </div>
-                <div class="table__cell table__cell--p4 table__cell--tar" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
+              </div>
+              <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
+                <span>{{splitPairName(pair)[0]}}</span>
+                <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
+                <div class="txt-small txt-light-grey">Vol {{ +pair.volume | number: '1.0-0' | replaceNumber}}</div>
+              </div>
+              <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
+                <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:!isFiat }}</span>
+                <div class="txt-small txt-light-grey">$ {{ +pair.priceInUSD | number: '1.0-2'}}</div>
+              </div>
+              <div class="table__cell table__cell--p4 table__cell--tar" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
                 <span class=""
                       [ngClass]="{'change-indicate--green': isChangePositive(pair), 'change-indicate--red': !isChangePositive(pair)}">
             {{pair.percentChange >= 0 ? '+' : ''}}{{pair.percentChange | replaceNumber}} <span>%</span></span>
-                </div>
               </div>
-              <div style="height: 4px;"></div>
-            </ng-container>
-            <ng-container *ngFor="let pair of pairs | currencySort :'volume'">
-              <div class="markets__row widget__table-row"
-                   [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
-                <div class="table__cell table__cell--p4 table__cell--tac" style="width: 20%;  display: flex; align-items: center; justify-content: center;">
+            </div>
+            <div style="height: 4px;"></div>
+          </ng-container>
+          <ng-container *ngFor="let pair of pairs | currencySort :'volume'">
+            <div class="markets__row widget__table-row"
+                 [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
+              <div class="table__cell table__cell--p4 table__cell--tac" style="width: 20%;  display: flex; align-items: center; justify-content: center;">
                   <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavourite(pair)}"
                         (click)="toggleFavourite(pair)">
                     <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -227,27 +235,26 @@
                         d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
                     </svg>
                   </span>
-                </div>
-                <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
-                  <span>{{splitPairName(pair)[0]}}</span>
-                  <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
-                  <div class="txt-small txt-light-grey">Vol {{ +pair.volume | number: '1.0-0' | replaceNumber}}</div>
-                </div>
-                <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
-                  <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
-                  <div class="txt-small txt-light-grey">$ {{ +pair.priceInUSD | number: '1.0-2'}}</div>
-                </div>
-                <div class="table__cell table__cell--p4 table__cell--tar" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
+              </div>
+              <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
+                <span>{{splitPairName(pair)[0]}}</span>
+                <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
+                <div class="txt-small txt-light-grey">Vol {{ +pair.volume | number: '1.0-0' | replaceNumber}}</div>
+              </div>
+              <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
+                <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
+                <div class="txt-small txt-light-grey">$ {{ +pair.priceInUSD | number: '1.0-2'}}</div>
+              </div>
+              <div class="table__cell table__cell--p4 table__cell--tar" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
                   <span class=""
                         [ngClass]="{'change-indicate--green': isChangePositive(pair), 'change-indicate--red': !isChangePositive(pair)}">
               {{pair.percentChange >= 0 ? '+' : ''}}{{pair.percentChange | replaceNumber}} <span>%</span></span>
-                </div>
               </div>
-              <div style="height: 4px;"></div>
-            </ng-container>
-          </perfect-scrollbar>
-        </div>
-
+            </div>
+            <div style="height: 4px;"></div>
+          </ng-container>
+        </perfect-scrollbar>
+      </div>
     </div>
 
     <div class="tabs widget__tabs widget__markets-tabs">

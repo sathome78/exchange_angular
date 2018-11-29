@@ -3,6 +3,7 @@ import {PopupService} from '../../services/popup.service';
 import {convertValueToOutputAst} from '@angular/compiler/src/output/value_util';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../services/user.service';
+import {keys} from '../../core/keys';
 
 @Component({
   selector: 'app-registration-mobile-popup',
@@ -24,7 +25,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
   public nameForm: FormGroup;
   public nameSubmited = false;
   public agreeTerms = false;
-  public recaptchaKey = '6LcyFkMUAAAAAH3mt-7FJlipkIQg03qt5jCUJOW9';
+  public recaptchaKey = keys.recaptchaKey;
   emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
 
   public email;
@@ -39,9 +40,6 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   ngOnInit() {
     this.setTemplate('emailInputTemplate');
-    this.afterCaptchaMessage = `We sent the confirmation link to
-        ${this.email} <br> Please check your email and
-        follow instructions.`
     this.initForm();
   }
 
@@ -71,17 +69,28 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   resolvedCaptcha(event) {
     this.userService.sendToEmailConfirmation(this.email).subscribe(res => {
-      console.log(res);
+      // console.log(res);
+      this.afterCaptchaMessage = `We sent the confirmation link to
+        <br>
+        <span class="popup__email-link">
+        ${this.email}
+        </span>
+        <br> Please check your email and
+        follow instructions.`
       this.setTemplate('emailConfirmLinkTemplate');
     }, error => {
-      this.afterCaptchaMessage = `server error`;
+      this.afterCaptchaMessage =`server error`;
       this.setTemplate('emailConfirmLinkTemplate');
     });
 
   }
 
-  openLogIn() {
+  openLogInMobile() {
     this.popupService.showMobileLoginPopup(true);
+    this.closeMe();
+  }
+  openLogIn() {
+    this.popupService.showLoginPopup(true);
     this.closeMe();
   }
 

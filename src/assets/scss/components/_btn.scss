@@ -38,6 +38,9 @@
       }
     }
   }
+  &:disabled{
+    cursor: default;
+  }
   /*--- modificators start ---*/
   // states
   &--hidden{

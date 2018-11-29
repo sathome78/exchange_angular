@@ -5,6 +5,7 @@ import {ChatService} from '../chat.service';
 import {Subscription} from 'rxjs';
 import {SimpleChat} from '../simple-chat.model';
 import {ChatComponent} from '../chat.component';
+import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-day-chat',
@@ -14,6 +15,7 @@ import {ChatComponent} from '../chat.component';
 export class DayChatComponent implements OnInit, OnDestroy {
 
   @Input () dateChatItem: DateChatItem;
+  @Input () scrollWrapper: PerfectScrollbarComponent;
 
   messages: SimpleChat[];
   newMessagesSubscription = new Subscription();
@@ -26,8 +28,15 @@ export class DayChatComponent implements OnInit, OnDestroy {
       this.chatService.setStompSubscription('en');
       this.newMessagesSubscription = this.chatService.simpleChatListener.subscribe(msg => {
         this.messages.push(msg);
+        setTimeout(() => {
+          this.onScrollToBottom();
+        }, 0);
       });
     }
+  }
+
+  onScrollToBottom() {
+    this.scrollWrapper.directiveRef.scrollToBottom();
   }
 
   ngOnDestroy(): void {

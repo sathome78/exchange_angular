@@ -11,6 +11,7 @@
         <div *ngIf="!inPineCodeMode; else showPinCode">
           <div class="wrap-input popup__wrap-input">
             <input
+              required
               class="wrap-input__input"
               type="text"
               formControlName="email"
@@ -36,6 +37,7 @@
 
           <div class="wrap-input popup__wrap-input">
             <input
+              required
               class="wrap-input__input"
               [type]="getInputType()"
               formControlName="password"
@@ -66,10 +68,10 @@
         <!--Pin Code -->
         <ng-template #showPinCode>
           <!--TODO this method displays which method is used-->
-          <h6 class="popup__title">Log in</h6>
           <h4 class="popup__subtitle">{{ twoFaAuthModeMessage }}</h4>
           <div class="wrap-input popup__wrap-input">
             <input
+              required
               class="wrap-input__input"
               type="text"
               formControlName="pin"
@@ -93,7 +95,7 @@
     </form>
     <div class="popup__links-wrap">
       <a class="popup__link popup__link--hidden-mob" (click)="openRegistration()">Go to registration form</a>
-      <a class="popup__link" href="fgt.html">Forgot password?</a>
+      <a class="popup__link" (click)="openRecoveryPasswordPopup()">Forgot password?</a>
     </div>
     <a class="popup__link-mob" href="#">Registration</a>
   </div>

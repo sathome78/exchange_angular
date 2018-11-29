@@ -211,7 +211,8 @@
         content: "";
         left: 0;
         width: 100%;
-        height: 24px;
+        //height: 24px;
+        height: 100%;
         z-index: 0;
         opacity: 0;
         animation: markets-row 1s ease-in-out;
@@ -233,7 +234,8 @@
         content: "";
         left: 0;
         width: 100%;
-        height: 24px;
+        //height: 24px;
+        height: 100%;
         z-index: 0;
         opacity: 0;
         animation: markets-row 1s ease-in-out;
@@ -288,8 +290,8 @@
   }
   &__table-markets-mob {
     .table__cell-head {
-      padding-top: 8px;
-      padding-bottom: 8px;
+      padding-top: 10px;
+      padding-bottom: 10px;
     }
     .table__row-star {
       svg {
@@ -771,6 +773,22 @@
       border-radius: 4px;
       width: 1px;
       height: 60%;
+    }
+    &__table-markets-mob {
+      .table__cell-head {
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
+      .table__row-star {
+        svg {
+          fill: #E5E5E5;
+        }
+      }
+      .table__row-star--select {
+        svg {
+          fill: #FFB74C;
+        }
+      }
     }
     &__trading-form {
       display: block;
