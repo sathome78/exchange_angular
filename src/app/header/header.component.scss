@@ -99,7 +99,14 @@
           }
         }
       }
-
+      &--active{
+        color: rgba(255, 255, 255, 1);
+        .menu__link-text {
+          &:after {
+            opacity: 1;
+          }
+        }
+      }
       &--drop {
         &:after {
           display: inline-block;

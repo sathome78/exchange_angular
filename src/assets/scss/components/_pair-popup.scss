@@ -1,11 +1,13 @@
 .pair-popup{
   position: relative;
   z-index: 10000;
-  padding: 0 12px 0;
-  background: linear-gradient(to bottom, #F5F5F5 0%, #FDFDFD 50%, #F5F5F5 100%);
   /*--- modificators start ---*/
   /*--- modificators end ---*/
   /*--- elements start ---*/
+  &__inner{
+    padding: 0 12px 0;
+    background: linear-gradient(to bottom, #F5F5F5 0%, #FDFDFD 50%, #F5F5F5 100%);
+  }
   &__top {
     display: flex;
     justify-content: space-between;
@@ -124,16 +126,18 @@
   /*--- elements end ---*/
 }
 /*--- media start ---*/
-@media (min-width:600px) {}
-@media (min-width:900px) {}
 @media (min-width:1200px) {
   .pair-popup{
-    margin: 0 32px;
-    padding: 0 16px;
-    border: 1px solid $grey;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+    max-width: 1464px;
+    margin: 0 auto;
+    &__inner{
+      margin: 0 16px;
+      padding: 0 16px;
+      border: 1px solid $grey;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+    }
     &__close-mob{
       display: none;
     }
@@ -214,9 +218,10 @@
 /*--- DARK THEME START---*/
 .dark-theme{
   .pair-popup{
-    border-color: $light-blue;
-    background: none;
-    background-color: $dark-indigo;
+    &__inner{
+      border-color: $light-blue;
+      background: $dark-indigo none;
+    }
     &__close-mob{
       svg{
         fill: $light-blue;
