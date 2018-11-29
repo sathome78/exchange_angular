@@ -22,7 +22,6 @@
   &__pair {
     display: flex;
     align-items: center;
-    min-width: 200px;
   }
   &__dropdown {
     .dropdown__btn {
@@ -95,6 +94,9 @@
     }
     &__inner {
       padding: 0 32px;
+    }
+    &__pair {
+      min-width: 225px;
     }
     &__dropdown {
       .dropdown__btn {
