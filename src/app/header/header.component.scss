@@ -1,5 +1,9 @@
 @import '../../assets/scss/variables';
 
+//.menu__link--active {
+//  border-bottom: 1px solid #E5E5E5;
+//}
+
 .header {
   display: none;
   /*--- modificators start ---*/
@@ -101,6 +105,30 @@
           &:after {
             opacity: 1;
           }
+        }
+        .submenu{
+          .menu__link--active{
+            .menu__link-text {
+              &:after {
+                opacity: 1;
+              }
+            }
+          }
+          &__link{
+            .menu__link-text{
+              &:after {
+                opacity: 0;
+              }
+            }
+            &:hover{
+              .menu__link-text{
+                &:after {
+                  opacity: 1;
+                }
+              }
+            }
+          }
+
         }
       }
       &--drop {

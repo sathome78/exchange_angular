@@ -70,9 +70,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair) => {
-        this.isFiat = pair.market === 'USD';
         this.pair = pair;
-        this.splitPairName(this.pair);
       });
 
     this.store
@@ -80,6 +78,8 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPairInfo) => {
         this.currentCurrencyInfo = pair;
+        this.isFiat = this.pair.market === 'USD';
+        this.splitPairName(this.pair);
       });
 
     this.store

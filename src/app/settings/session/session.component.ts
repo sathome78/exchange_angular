@@ -17,7 +17,8 @@ export class SessionComponent implements OnInit, OnDestroy {
   MAX_VALUE = 1440;
   options: Options = {
     floor: this.MIN_VALUE,
-    ceil: this.MAX_VALUE
+    ceil: this.MAX_VALUE,
+    showSelectionBar: true
   };
 
   statusMessage = '';

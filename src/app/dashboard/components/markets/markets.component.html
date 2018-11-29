@@ -130,7 +130,7 @@
                    [ngClass]="{
                    'widget__table-row--green': isChangePositive(pair),
                     'widget__table-row--red': !isChangePositive(pair),
-                    'selected-currency-pair': pair.currencyPairId === currentCurrencyPair.currencyPairId}">
+                    'markets__selected-pair': pair.currencyPairId === currentCurrencyPair.currencyPairId}">
                 <div class="table__cell table__cell--p4 table__cell--tac" style="width: 7%;">
                 <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavourite(pair)}"
                       (click)="toggleFavourite(pair)">
@@ -268,12 +268,12 @@
               (click)="selectedTab('ETH')">
         ETH
       </button>
-      <button class="tabs__item"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
-              (click)="selectedTab('LOC')"
-      >
-        LOC
-      </button>
+      <!--<button class="tabs__item"-->
+              <!--[ngClass]="{'tabs__item&#45;&#45;active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"-->
+              <!--(click)="selectedTab('LOC')"-->
+      <!--&gt;-->
+        <!--LOC-->
+      <!--</button>-->
       <button class="tabs__item"
               [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USD','tab-no-active': currencyDisplayMode !== 'USD'}"
               (click)="selectedTab('USD')"
