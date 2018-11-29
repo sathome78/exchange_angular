@@ -9,11 +9,10 @@
     <!--<span class="input-range__min">5min</span>-->
     <!--<span class="input-range__max">24h</span>-->
     <!--</div>-->
-
-    <ng5-slider [(value)]="value" [options]="options" (valueChange)="update()">
-
-
-    </ng5-slider>
+    <div class="settings__time-range">
+      <ng5-slider [(value)]="value" [options]="options" (valueChange)="update()">
+      </ng5-slider>
+    </div>
 
     <div class="settings__form-row settings__form-row--time">
       <div class="wrap-input">
