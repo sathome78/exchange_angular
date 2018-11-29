@@ -2,15 +2,16 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {AuthGuard} from './services/auth.guard';
-import {BalanceComponent} from './balance/balance.component';
+import {BalanceComponent} from './funds/balance/balance.component';
 import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
 import {OrdersHistoryComponent} from './orders/orders-history/orders-history.component';
-import {OpenOrdersComponent} from './orders/open-orders/open-orders.component';
 import {ReferralStructureComponent} from './referral/referral-structure/referral-structure.component';
 import {ReferralChargesComponent} from './referral/referral-charges/referral-charges.component';
 import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
 import {SettingsComponent} from './settings/settings.component';
 import {FinalStepRecoveryPasswordComponent} from './auth/final-step-recovery-password/final-step-recovery-password.component';
+import {FundsComponent} from './funds/funds.component';
+import {OrdersComponent} from './orders/orders.component';
 
 const routes: Routes = [
   // permit all
@@ -26,9 +27,9 @@ const routes: Routes = [
   // {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
 
   {path: 'recovery-password', component: FinalStepRecoveryPasswordComponent},
-  {path: 'balance', component: BalanceComponent },
+  {path: 'funds', component: FundsComponent },
   {path: 'transaction-history', component: TransactionHistoryComponent },
-  {path: 'open-orders', component: OpenOrdersComponent },
+  {path: 'orders', component: OrdersComponent, loadChildren: 'app/orders/orders.module#OrdersModule'  },
   {path: 'final-registration/token', component: FinalRegistrationComponent},
   {path: 'orders-history', component: OrdersHistoryComponent },
   {path: 'referral-structure', component: ReferralStructureComponent },

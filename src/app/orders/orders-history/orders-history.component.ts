@@ -5,7 +5,7 @@ import { MockDataService } from '../../services/mock-data.service';
 import { TradingService } from '../../dashboard/components/trading/trading.service';
 import { MarketService } from '../../dashboard/components/markets/market.service';
 import { AuthService } from '../../services/auth.service';
-import { OrdersService } from '../../dashboard/components/embedded-orders/orders.service';
+import { EmbeddedOrdersService } from '../../dashboard/components/embedded-orders/embedded-orders.service';
 import { CurrencyPair } from '../../model/currency-pair.model';
 
 import { timestamp, takeUntil } from 'rxjs/internal/operators';
@@ -57,7 +57,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   constructor(
     private mockData: MockDataService,
     public tradingService: TradingService,
-    private ordersService: OrdersService,
+    private ordersService: EmbeddedOrdersService,
     private marketService: MarketService,
     private authService: AuthService,
     private ref: ChangeDetectorRef
