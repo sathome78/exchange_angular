@@ -39,7 +39,6 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
     case dashboard.CHANGE_CURRENCY_PAIR:
       return {...state, currencyPair: action.payload};
     case dashboard.LOAD_CURRENCY_PAIRS:
-      console.log(action.payload)
       return {...state, currencyPairArray: action.payload};
     case  dashboard.REFRESH_USER_BALANCE:
       return {...state, userBalance: action.payload};
