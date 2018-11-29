@@ -90,6 +90,9 @@ position: fixed;
     justify-content: space-between;
     align-items: center;
   }
+  &__selected-pair{
+    background-color: rgba(35, 123, 239, 0.1);
+  }
 }
 @media (min-width: 1200px){
   .markets{
