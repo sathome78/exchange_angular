@@ -106,6 +106,30 @@
             opacity: 1;
           }
         }
+        .submenu{
+          .menu__link--active{
+            .menu__link-text {
+              &:after {
+                opacity: 1;
+              }
+            }
+          }
+          &__link{
+            .menu__link-text{
+              &:after {
+                opacity: 0;
+              }
+            }
+            &:hover{
+              .menu__link-text{
+                &:after {
+                  opacity: 1;
+                }
+              }
+            }
+          }
+
+        }
       }
       &--drop {
         &:after {
