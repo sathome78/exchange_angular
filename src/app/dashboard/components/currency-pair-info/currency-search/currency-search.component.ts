@@ -1,6 +1,7 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import * as _chain from 'lodash/chain';
 import {Currency} from './currency.model';
+import * as _uniq from 'lodash/uniq';
 
 @Component({
   selector: 'app-currency-search',
@@ -35,7 +36,8 @@ export class CurrencySearchComponent implements OnInit {
   @Output() selectCurrency = new EventEmitter<string>();
 
   _groupedCurrencies: Currency[];
-  public alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+  public defaultAlphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+  public alphabet;
   constructor() { }
 
   ngOnInit() {
@@ -57,12 +59,16 @@ export class CurrencySearchComponent implements OnInit {
 
   prepareAlphabet() {
     const temp = [];
-    this.currencies.forEach(order => temp.push(order.name[0]));
+    this.currencies.forEach(order => {
+      const letter = order.name.toUpperCase()[0];
+      temp.push(letter);
+    });
 
     const unique = (value, index, self) => {
       return self.indexOf(value) === index;
     }
-    this.alphabet = temp.filter(unique);
+    // this.alphabet = _uniq(temp.sort());
+    this.alphabet = _uniq(temp.filter(unique).sort());
   }
 
   /**
