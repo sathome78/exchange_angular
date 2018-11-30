@@ -36,7 +36,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   /** dashboard item name (field for base class)*/
   public itemName: string;
   /** active sell/buy tab */
-  public mainTab ;
+  public mainTab = 'BUY';
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dropdown limit data */

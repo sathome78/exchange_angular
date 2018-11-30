@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public gridsterItemOptions;
   public showRecoveryPassPopup = false;
 
-  public activeMobileWidget =  'markets';
+  public activeMobileWidget = 'markets';
 
   public breakPoint;
 
@@ -63,16 +63,23 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private marketsService: MarketService,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService) { }
+    private authService: AuthService) {
+  }
 
   ngOnInit() {
 
-    this.route.queryParams.subscribe(params => {
-      const param = params['recoveryPassword'];
-      if (param) {
-         this.showRecoveryPassPopup = true;
-      }
-    });
+    this.route.queryParams
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(params => {
+        const param = params['recoveryPassword'];
+        const widget = params['widget'];
+        if (param) {
+          this.showRecoveryPassPopup = true;
+        }
+        if (widget) {
+          this.activeMobileWidget = widget;
+        }
+      });
 
     this.breakPointService.breakpoint$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -158,7 +165,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param event
    */
   changeItemSize(event: DashboardItemChangeSize): void {
-    const widget = this.widgets.filter( item => item.type === event.itemName);
+    const widget = this.widgets.filter(item => item.type === event.itemName);
     if (event.widthOrHeight === 'height') {
       event.isIncrement ?
         widget[0].hLg === this.gridsterItemOptions.maxHeight ? widget[0].hLg = this.gridsterItemOptions.maxHeight : widget[0].hLg += 1 :
@@ -185,10 +192,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param itemType
    */
   addItemToDashboard(itemType): void {
-    const widget = this.defauldWidgets.find( item => item.type === itemType);
+    const widget = this.defauldWidgets.find(item => item.type === itemType);
     this.widgets.push(widget);
     this.gridsterContainer.reload();
   }
+
   /**
    * check window width for ratio (static height for dashboard items)
    */
@@ -213,7 +221,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param {number} value
    */
   private changeRatio(value: number) {
-    this.gridsterContainer.setOption('widthHeightRatio', value ).reload();
+    this.gridsterContainer.setOption('widthHeightRatio', value).reload();
   }
 
   isAuthenticated(): boolean {

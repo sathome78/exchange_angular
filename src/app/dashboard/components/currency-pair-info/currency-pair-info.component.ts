@@ -119,11 +119,6 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     this.marketDropdown = true;
   }
 
-  // toggleMarketDropdown() {
-  //   this.currencies = this.marketsArray;
-  //   this.showCurrencySearch = !this.showCurrencySearch;
-  // }
-
   /**
    * Toggle show/hide currency search bar
    */
@@ -154,23 +149,23 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    * @returns {string}
    */
   createCurrencyPairName(newCurrency: string): string {
-    let Pair;
+    let tempPair;
     if (this.activeCurrency === 0) {
       this.firstCurrency = newCurrency;
-      Pair = `${this.firstCurrency}/${this.secondCurrency}`;
+      tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
     }
     if (this.activeCurrency === 1) {
       this.secondCurrency = newCurrency;
       this.allCurrencyPairs.forEach((pair, index) => {
         if (pair.market === this.secondCurrency) {
-          Pair = pair.currencyPairName;
+          tempPair = pair.currencyPairName;
         }
         if (pair.currencyPairName === `${this.firstCurrency}/${this.secondCurrency}`) {
-          Pair = `${this.firstCurrency}/${this.secondCurrency}`;
+          tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
         }
       });
     }
-    return Pair ;
+    return tempPair ;
   }
 
   /**
@@ -190,16 +185,4 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate < 0 : false;
     }
   }
-
-  // private getCurrencyPairInfo(pair): void {
-  //   if (pair.currencyPairId) {
-  //     const infoSubscription = this.marketService.currencyPairInfo(pair.currencyPairId)
-  //       .subscribe(res => {
-  //         this.currentCurrencyInfo = res;
-  //         this.marketService.currentCurrencyInfoListener$.next(res);
-  //         console.log(res)
-  //         infoSubscription.unsubscribe();
-  //       });
-  //   }
-  // }
 }
