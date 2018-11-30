@@ -34,7 +34,7 @@ export class TradeHistoryService {
       .subscribe('/app/trades/' + pair.currencyPairId)
         .subscribe((message) => {
           // console.log(JSON.parse(JSON.parse(message.body)));
-          console.log(pair.currencyPairName)
+          console.log('kdj')
           this.setLastBuyOrder(JSON.parse(JSON.parse(message.body)).data);
           this.setLastSellOrder(JSON.parse(JSON.parse(message.body)).data);
           this.store.dispatch(new SetAllTradesAction(JSON.parse(JSON.parse(message.body)).data));

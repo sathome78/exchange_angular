@@ -67,6 +67,11 @@
       color:#fff;
       border-color: transparent;
     }
+    &--error {
+      background-color: $red !important;
+      border-color: $red !important;
+      color: #fff !important;
+    }
   }
   &__links-wrap {
     display: -webkit-flex;
