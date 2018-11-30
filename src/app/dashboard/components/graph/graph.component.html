@@ -63,21 +63,16 @@
     <div class="currency-pair-info--mob">
       <div class="currency-pair-info__inner">
         <div class="currency-pair-info__pair">
-          <div class="dropdown currency-pair-info__dropdown">
-            <div class="dropdown__btn">{{firstCurrency}}</div>
-            <ul class="dropdown__list">
-              <li class="dropdown__item">ETH</li>
-              <li class="dropdown__item">LTC</li>
-              <li class="dropdown__item">DASH</li>
-            </ul>
+          <div class="dropdown currency-pair-info__dropdown" (click)="openSearchBar(0)">
+            <div class="dropdown__btn">{{!firstCurrency ? 'BTC' : firstCurrency}}</div>
           </div>
           <div class="currency-pair-info__change-pair"></div>
           <div class="dropdown currency-pair-info__dropdown">
-            <div class="dropdown__btn">{{secondCurrency}}</div>
-            <ul class="dropdown__list">
-              <li class="dropdown__item">ETH</li>
-              <li class="dropdown__item">LTC</li>
-              <li class="dropdown__item">DASH</li>
+            <div class="dropdown__btn" (click)="openDropdown()">{{secondCurrency}}</div>
+            <ul class="dropdown__list" *ngIf="marketDropdown">
+              <ng-template ngFor let-currency [ngForOf]="marketsArray" , let-index = index>
+                <li  class="dropdown__item" (click)="onSelectCurrency(currency.name)" *ngIf="currency.name !== secondCurrency">{{currency.name}}</li>
+              </ng-template>
             </ul>
           </div>
         </div>
@@ -105,4 +100,12 @@
     </div>
   </div>
 
+</div>
+
+<div class="currency-search-container" *ngIf="showCurrencySearch">
+<app-currency-search
+  [currencies]="currencies"
+  (closeCurrencySearch)="toggleCurrencySearch()"
+  (selectCurrency)="onSelectCurrency($event)">
+</app-currency-search>
 </div>

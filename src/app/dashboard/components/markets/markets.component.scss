@@ -8,11 +8,30 @@
     display: none;
   }
   @media (min-width: 1200px){
+    &__item{
+      .fav{
+        -webkit-transition: .2s ease-in-out;
+        -o-transition: .2s ease-in-out;
+        transition: .2s ease-in-out;
+        fill:#A0A0A0;
+      }
+      &--active{
+        .fav{
+          fill:#fff;
+        }
+      }
+      &:hover{
+        .fav{
+          fill:#fff;
+        }
+      }
+    }
     &:after{
       display: block;
     }
   }
 }
+
 
 .tab-no-active{
   border-bottom: 2px solid transparent;
@@ -20,7 +39,7 @@
 //scroll style start
 .widget__content.widget__content--mob{
   perfect-scrollbar{
-    height: calc(100vh - 174px);
+    height: calc(100vh - 178px);
   }
 }
 
@@ -58,18 +77,21 @@ position: fixed;
     .widget__table-row{
       height: auto;
     }
+
   }
   &__thead{
     display: flex;
     width: 100%;
     justify-content: space-between;
   }
-  &__tbody{
-  }
   &__row{
     display: flex;
     width: 100%;
     justify-content: space-between;
+    align-items: center;
+  }
+  &__selected-pair{
+    background-color: rgba(35, 123, 239, 0.1);
   }
 }
 @media (min-width: 1200px){
@@ -78,7 +100,11 @@ position: fixed;
       position: relative;
       margin-top: 4px;
       .widget__table-row{
-        height: 24px;
+        //height: 24px;
+      }
+      .table__cell{
+        line-height: 16px;
+        white-space: normal;
       }
     }
     &__thead{
@@ -90,11 +116,15 @@ position: fixed;
       //margin-right: 24px;
     }
     &__row{
-      display: flex;
       width: 100%;
+      min-height: 27px;
       &:hover{
           background-color: rgba(35, 123, 239, 0.1);
         .table__row-star{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto;
           svg {
             display: inline-block;
           }

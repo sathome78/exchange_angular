@@ -1,0 +1,11 @@
+perfect-scrollbar{
+  height: 264px;
+}
+.pair-popup{
+  ::ng-deep .ps__thumb-y {
+    background-color: #94C2FF !important;
+  }
+  ::ng-deep .ps__rail-y {
+    margin-right: 0;
+  }
+}

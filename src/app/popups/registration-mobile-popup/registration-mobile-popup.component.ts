@@ -85,10 +85,11 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   }
 
-  openLogIn() {
+  openLogInMobile() {
     this.popupService.showMobileLoginPopup(true);
     this.closeMe();
   }
+
 
   initForm() {
     this.emailForm = new FormGroup({

@@ -112,34 +112,141 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     super();
   }
 
+
   /** mock data*/
-  // public mock = {
-  //   lastExrate: "555",
-  //   orderBookItems: [
-  //     {currencyPairId: 5, orderType: "SELL", exrate: "60", amount: "4", total: "10"},
-  //     {currencyPairId: 5, orderType: "SELL", exrate: "50", amount: "3", total: "6"},
-  //     {currencyPairId: 5, orderType: "SELL", exrate: "20", amount: "2", total: "3"},
-  //     {currencyPairId: 5, orderType: "SELL", exrate: "10", amount: "1", total: "1"},
-  //   ],
-  //   orderType: "SELL",
-  //   positive: false,
-  //   total: "10",
-  // }
-  //
-  // public mockBuy = {
-  //   lastExrate: "555",
-  //   orderBookItems: [
-  //     {currencyPairId: 5, orderType: "Buy", exrate: "1", amount: "1", total: "11"},
-  //     {currencyPairId: 5, orderType: "Buy", exrate: "10", amount: "1", total: "10"},
-  //     {currencyPairId: 5, orderType: "Buy", exrate: "20", amount: "2", total: "6"},
-  //     {currencyPairId: 5, orderType: "Buy", exrate: "50", amount: "3", total: "3"},
-  //     {currencyPairId: 5, orderType: "Buy", exrate: "60", amount: "4", total: "1"},
-  //   ],
-  //   orderType: "BUY",
-  //   positive: false,
-  //   total: "10",
-  // }
-   /** --------------- */
+  public mock = {
+    lastExrate: '3688.846264',
+    orderBookItems: [
+      {
+        amount: '0.007',
+        currencyPairId: 1,
+        exrate: '3921',
+        orderType: 'SELL',
+        total: '0.007'
+      },
+      {
+        amount: '0.01',
+        currencyPairId: 1,
+        exrate: '3950',
+        orderType: 'SELL',
+        total: '0.017'
+      },
+      {
+        amount: '0.011672798',
+        currencyPairId: 1,
+        exrate: '3990',
+        orderType: 'SELL',
+        total: '0.028672798'
+      },
+      {
+        amount: '0.0014',
+        currencyPairId: 1,
+        exrate: '3999',
+        orderType: 'SELL',
+        total: '0.030072798'
+      },
+      {
+        amount: '0.003374606',
+        currencyPairId: 1,
+        exrate: '4000',
+        orderType: 'SELL',
+        total: '0.033447404'
+      },
+      {
+        amount: '0.00711624',
+        currencyPairId: 1,
+        exrate: '4199',
+        orderType: 'SELL',
+        total: '0.040563644'
+      },
+      {
+        amount: '0.000105319',
+        currencyPairId: 1,
+        exrate: '4234.7',
+        orderType: 'SELL',
+        total: '0.040668963'
+      },
+      {
+        amount: '0.000105319',
+        currencyPairId: 1,
+        exrate: '4284.5',
+        orderType: 'SELL',
+        total: '0.040774282'
+      },
+    ],
+    orderType: 'SELL',
+    positive: false,
+    preLastExrate: '4148.20215',
+    total: '0.040774282',
+  };
+
+  public mockBuy = {
+    lastExrate: '3688.846264',
+    orderBookItems: [
+      {
+        amount: '0.000281716',
+        currencyPairId: 1,
+        exrate: '3686.7',
+        orderType: 'BUY',
+        total: '0.000281716',
+      },
+      {
+        amount: '0.000114923',
+        currencyPairId: 1,
+        exrate: '3682.7',
+        orderType: 'BUY',
+        total: '0.000396639',
+      },
+      {
+        amount: '0.0048573',
+        currencyPairId: 1,
+        exrate: '3644',
+        orderType: 'BUY',
+        total: '0.005253939',
+      },
+      {
+        amount: '0.000114922',
+        currencyPairId: 1,
+        exrate: '3638.9',
+        orderType: 'BUY',
+        total: '0.005368861',
+      },
+      {
+        amount: '0.000112576',
+        currencyPairId: 1,
+        exrate: '3595',
+        orderType: 'BUY',
+        total: '0.005481437',
+      },
+      {
+        amount: '0.000285629',
+        currencyPairId: 1,
+        exrate: '3501.1',
+        orderType: 'BUY',
+        total: '0.005767066',
+      },
+      {
+        amount: '0.003713204',
+        currencyPairId: 1,
+        exrate: '3501',
+        orderType: 'BUY',
+        total: '0.00948027',
+      },
+      {
+        amount: '0.000004571',
+        currencyPairId: 1,
+        exrate: '3500',
+        orderType: 'BUY',
+        total: '0.009484841',
+      }
+    ],
+    orderType: 'BUY',
+    positive: false,
+    preLastExrate: '4148.20215',
+    total: '0.009484841',
+  };
+
+  /** --------------- */
 
   ngOnInit() {
     this.lastExrate = 0;
@@ -212,21 +319,43 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     }
   }
 
+  /**
+   * Method transform exponent format to number
+   * @param x
+   * @returns {any}
+   */
+  exponentToNumber(x) {
+    if (Math.abs(x) < 1.0) {
+      let e = parseInt(x.toString().split('e-')[1]);
+      if (e) {
+        x *= Math.pow(10, e - 1);
+        x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
+      }
+    } else {
+      let e = parseInt(x.toString().split('+')[1]);
+      if (e > 20) {
+        e -= 20;
+        x /= Math.pow(10, e);
+        x += (new Array(e + 1)).join('0');
+      }
+    }
+    return x;
+  }
+
   private initData(pair: CurrencyPair) {
     /** mock data*/
-    // this.setSellOrders(this.mock);
-    // this.lastExrate = this.mock.lastExrate;
-    // this.isExratePositive = this.mock.positive;
-    // this.commonSellTotal = +this.mock.total;
-    //
-    // this.setBuyOrders(this.mockBuy);
-    // this.commonBuyTotal = +this.mock.total;
+    // const orders = [this.mock, this.mockBuy]
+    // orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) :  this.setSellOrders(orders[1]);
+    // orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) :  this.setBuyOrders(orders[1]);
+    // this.lastExrate = orders[0].lastExrate !== '0' ? orders[0].lastExrate : 0;
+    // this.preLastExrate = orders[0].preLastExrate !== '0' ? orders[0].preLastExrate : 0;
+    // this.isExratePositive = orders[0].positive;
     // this.setData();
     /** ------------------ */
     this.orderBookService.getOrderbookDateOnInit(pair, this.precisionOut)
       .subscribe(orders => {
-        orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) :  this.setSellOrders(orders[1]);
-        orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) :  this.setBuyOrders(orders[1]);
+        orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) : this.setSellOrders(orders[1]);
+        orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : this.setBuyOrders(orders[1]);
         this.lastExrate = orders[0].lastExrate !== '0' ? orders[0].lastExrate : 0;
         this.preLastExrate = orders[0].preLastExrate !== '0' ? orders[0].preLastExrate : 0;
         this.isExratePositive = orders[0].positive;
@@ -249,10 +378,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       this.lastCoefficient = 98 - (98 - (98 / (+this.commonBuyTotal / +this.buyOrders[this.buyOrders.length - 1].total)));
     }
     for (let i = 0; i < this.buyOrders.length; i++) {
-        const coefficient = (+this.commonBuyTotal / +this.buyOrders[i].total);
-        this.buyVisualizationArray.push(((98 / coefficient)));
+      const coefficient = (+this.commonBuyTotal / +this.buyOrders[i].total);
+      this.buyVisualizationArray.push(((98 / coefficient)));
     }
-    console.log(this.buyVisualizationArray)
     this.buyVisualizationArray = [...this.buyVisualizationArray];
   }
 
@@ -358,14 +486,13 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
 
-
   /**
    * decrement precision with accuracy step 0.1
    */
   decPrecision(): void {
     if (this.precision <= 0.01) {
       this.precision *= 10;
-      this.precisionOut --;
+      this.precisionOut--;
       this.initData(this.activeCurrencyPair);
     }
   }
@@ -376,7 +503,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   incPrecision(): void {
     if (this.precision >= 0.0001) {
       this.precision /= 10;
-      this.precisionOut ++;
+      this.precisionOut++;
       this.initData(this.activeCurrencyPair);
     }
   }
@@ -475,12 +602,10 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       for (let i = 0; i < 7; i++) {
         /** for buy */
         if (this.buyOrders[i] && this.buyOrders[i + 1]) {
-          console.log(this.buyOrders)
           const tempElementBuy = this.getPercentageOfTheMuxBuyOrSell(+this.buyOrders[i].total, true);
           const nextElementBuy = this.getPercentageOfTheMuxBuyOrSell(+this.buyOrders[i + 1].total, true);
-          const valueForBuy = nextElementBuy - tempElementBuy;
+          const valueForBuy = tempElementBuy - nextElementBuy;
           this.withForChartLineElements.buy[i] = (((containerWidth / 100) * valueForBuy)) + 'px';
-          this.withForChartLineElements.buy.reverse();
         }
 
         /** for sell */
