@@ -6,6 +6,7 @@ import {UserService} from '../../services/user.service';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {LoggingService} from '../../services/logging.service';
+import {keys} from '../../core/keys';
 
 @Component({
   selector: 'app-login-popup-mobile',
@@ -15,19 +16,21 @@ import {LoggingService} from '../../services/logging.service';
 export class LoginPopupMobileComponent implements OnInit {
 
   emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
+  public recaptchaKey = keys.recaptchaKey;
   isPasswordVisible = false;
   twoFaAuthModeMessage = 'Please enter two-factor <br> authentication code';
   pincodeAttempts = 0;
   public statusMessage = '';
   public inPineCodeMode;
+  public afterCaptchaMessage;
 
   public currentTemplate: TemplateRef<any>;
   @ViewChild('logInTemplate') logInTemplate: TemplateRef<any>;
   @ViewChild('pinCodeTemplate') pinCodeTemplate: TemplateRef<any>;
+  @ViewChild('captchaTemplate') captchaTemplate: TemplateRef<any>;
   public loginForm: FormGroup;
   public pinForm: FormGroup;
   isPinEmpty;
-
 
 
   private email;
@@ -51,11 +54,11 @@ export class LoginPopupMobileComponent implements OnInit {
   initForm() {
     this.loginForm = new FormGroup({
       email: new FormControl('', {validators: [Validators.required, Validators.pattern(this.emailRegex)], updateOn: 'blur'}),
-      password: new FormControl('', { validators: Validators.required, updateOn: 'blur'})
+      password: new FormControl('', {validators: Validators.required, updateOn: 'blur'})
     });
     this.pinForm = new FormGroup({
       pin: new FormControl('', {validators: Validators.required})
-    })
+    });
     this.inPineCodeMode = false;
   }
 
@@ -66,6 +69,9 @@ export class LoginPopupMobileComponent implements OnInit {
         break;
       case 'pinCodeTemplate':
         this.currentTemplate = this.pinCodeTemplate;
+        break;
+      case 'captchaTemplate':
+        this.currentTemplate = this.captchaTemplate;
         break;
     }
   }
@@ -96,7 +102,7 @@ export class LoginPopupMobileComponent implements OnInit {
   setStatusMessage(status) {
     switch (status) {
       case 401:
-      case 4022:
+      case 422:
         this.statusMessage = 'Your email and/or password are invalid!';
         break;
       case 426:
@@ -111,22 +117,27 @@ export class LoginPopupMobileComponent implements OnInit {
       case 419:
         this.statusMessage = 'Your ip is blocked!';
         break;
-        case 418:
-          this.checkGoogleLoginEnabled(this.email);
-          this.inPineCodeMode = true;
-          this.setTemplate('pinCodeTemplate')
-          if (this.pincodeAttempts > 0) {
-            this.twoFaAuthModeMessage = 'Wrong pincode, new pincode is sent!';
-            this.pinForm.get('pin').patchValue('');
-          } else {
-            this.statusMessage = 'Pin code is required!';
-          }
+      case 418:
+        this.checkGoogleLoginEnabled(this.email);
+        this.inPineCodeMode = true;
+        this.setTemplate('pinCodeTemplate');
+        if (this.pincodeAttempts > 0) {
+          this.twoFaAuthModeMessage = 'Wrong pincode, new pincode is sent!';
+          this.pinForm.get('pin').patchValue('');
+        } else {
+          this.statusMessage = 'Pin code is required!';
+        }
     }
   }
 
   onSubmit() {
+    this.setTemplate('captchaTemplate');
+  }
+
+  resolvedCaptcha(event) {
+    // this.setTemplate('logInTemplate');
     if (this.loginForm.valid) {
-       this.email = this.loginForm.get('email').value;
+      this.email = this.loginForm.get('email').value;
       this.password = this.loginForm.get('password').value;
       if (this.inPineCodeMode) {
         this.pin = this.pinForm.get('pin').value;
@@ -138,6 +149,17 @@ export class LoginPopupMobileComponent implements OnInit {
       this.sendToServer();
     }
   }
+
+  // resolvedCaptcha(event) {
+  //   this.userService.sendToEmailConfirmation(this.email).subscribe(res => {
+  //     console.log(res);
+  //     this.setTemplate('emailConfirmLinkTemplate');
+  //   }, error => {
+  //     this.afterCaptchaMessage = `server error`;
+  //     this.setTemplate('emailConfirmLinkTemplate');
+  //   });
+  //
+  // }
 
   sendToServer() {
     // console.log(this.email, this.password, this.pin);
@@ -153,11 +175,17 @@ export class LoginPopupMobileComponent implements OnInit {
         },
         err => {
           const status = err['status'];
+          this.setTemplate('logInTemplate');
           this.setStatusMessage(status);
         });
   }
 
   getInputType(): string {
     return this.isPasswordVisible ? 'text' : 'password';
+  }
+
+  openRecoveryPasswordPopup() {
+    this.popupService.showRecoveryPasswordPopup(true);
+    this.closeMe();
   }
 }

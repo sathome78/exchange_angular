@@ -15,7 +15,6 @@ export class MarketSearchComponent implements OnInit {
 
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-
   constructor(
     private marketService: MarketService,
   ) { }

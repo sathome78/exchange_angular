@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import {Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef, HostListener} from '@angular/core';
 import { takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
 
@@ -19,6 +19,9 @@ import {environment} from 'environments/environment';
 import {select, Store} from '@ngrx/store';
 import {getCurrencyPair, State} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../model/currency-pair.model';
+import {getCurrencyPairArray} from '../../../core/reducers';
+import {Currency} from '../currency-pair-info/currency-search/currency.model';
+import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 
 @Component({
   selector: 'app-graph',
@@ -31,12 +34,21 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   currencyPairName = 'BTC/USD';
-
   firstCurrency: string;
   secondCurrency: string;
-
+  /** show currency search bar */
+  public showCurrencySearch: boolean;
+  public marketDropdown = false;
+  public activeCurrency: number;
+  /** available currencies */
+  public currencies: Currency[];
+  public marketsArray = [
+    {name: 'USD'},
+    {name: 'ETH'},
+    {name: 'BTC'},
+  ];
+  public allCurrencyPairs;
   currentCurrencyInfo;
-
   private lang;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
@@ -118,6 +130,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     private marketService: MarketService,
     private langService: LangService,
     private dashboardService: DashboardService,
+    private dashboardWebsocketService: DashboardWebSocketService,
     private ref: ChangeDetectorRef
     ) {
     super();
@@ -126,6 +139,13 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   ngOnInit() {
     this.itemName = 'graph';
 
+    this.store
+      .pipe(select(getCurrencyPairArray))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPair[]) => {
+        this.allCurrencyPairs = pair;
+      });
+
     this.lang = this.langService.getLanguage();
     this.formattingCurrentPairName(this.currencyPairName);
 
@@ -133,7 +153,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair) => {
-        console.log(pair);
         this.currencyPairName = pair.currencyPairName as string;
         if (this.currencyPairName) {
           // this._tvWidget = new widget(this.widgetOptions);
@@ -263,4 +282,71 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.dashboardService.selectedOrderTrading$.next(item);
     this.dashboardService.activeMobileWidget.next(widgetName);
   }
+
+  /** Are listening click in document */
+  @HostListener('document:click', ['$event']) clickout($event) {
+    if ($event.target.className !== 'dropdown__btn') {
+      this.marketDropdown = false;
+    }
+  }
+
+  openSearchBar(currencyOrder: number): void {
+    this.activeCurrency = 0;
+    this.toggleCurrencySearch();
+  }
+
+  openDropdown() {
+    this.activeCurrency = 1;
+    this.marketDropdown = true;
+  }
+
+  /**
+   * Toggle show/hide currency search bar
+   */
+  toggleCurrencySearch(): void {
+    const temp = this.allCurrencyPairs.filter(pair => pair.market === this.secondCurrency);
+    this.currencies = [];
+    for (let i = 0; i < temp.length; i++) {
+      const name = temp[i].currencyPairName.split('/')[0];
+      this.currencies.push({name: name});
+    }
+    this.marketDropdown = false;
+    this.showCurrencySearch = !this.showCurrencySearch;
+  }
+
+  /**
+   * Selected currency
+   * @param ISO
+   */
+  onSelectCurrency(ISO: string): void {
+    this.marketDropdown = false;
+    const pairName = this.createCurrencyPairName(ISO);
+    this.dashboardWebsocketService.findPairByCurrencyPairName(pairName);
+  }
+
+  /**
+   * create currency pair name
+   * @param {string} newCurrency
+   * @returns {string}
+   */
+  createCurrencyPairName(newCurrency: string): string {
+    let tempPair;
+    if (this.activeCurrency === 0) {
+      this.firstCurrency = newCurrency;
+      tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
+    }
+    if (this.activeCurrency === 1) {
+      this.secondCurrency = newCurrency;
+      this.allCurrencyPairs.forEach((pair, index) => {
+        if (pair.market === this.secondCurrency) {
+          tempPair = pair.currencyPairName;
+        }
+        if (pair.currencyPairName === `${this.firstCurrency}/${this.secondCurrency}`) {
+          tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
+        }
+      });
+    }
+    return tempPair ;
+  }
+
 }

@@ -50,7 +50,62 @@
     max-width: 600px;
     margin: 0 auto;
   }
-
+  &__time-range {
+    max-width: 540px;
+    margin: 0 auto;
+    .ng5-slider {
+      margin-top: 16px;
+      .ng5-slider-bar {
+        height: 1px;
+        background-color: $darker-white;
+      }
+      .ng5-slider-selection {
+        background-color: $darker-blue;
+      }
+      .ng5-slider-ceil {
+        bottom: 16px;
+        color: $grey;
+      }
+      .ng5-slider-floor {
+        bottom: 16px;
+        color: $grey;
+      }
+      .ng5-slider-model-value {
+        color: $darker-blue;
+      }
+      .ng5-slider-pointer {
+        width: 22px;
+        height: 22px;
+        top: -11px;
+        background-color: #fff;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        box-shadow: 0 0 1px rgba(0, 0, 0, .3);
+        &:after {
+          background-color: $darker-blue;
+          width: 12px;
+          height: 12px;
+          top: 5px;
+          left: 5px;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+          border-radius: 50%;
+        }
+        &:hover {
+          &:after {
+            background-color: $darker-blue;
+          }
+        }
+        &:focus {
+          outline: none;
+          &:after {
+            background-color: $darker-blue;
+          }
+        }
+      }
+    }
+  }
   &__form-row {
     display: -webkit-flex;
     display: -ms-flex;
@@ -82,7 +137,7 @@
     bottom: 0;
     left: -12px;
     margin-top: 32px;
-     width: calc(100% + 24px);
+    width: calc(100% + 24px);
   }
 
   &__toggler-row {
@@ -107,20 +162,18 @@
   /*--- modificators start ---*/
   /*--- modificators end ---*/
 }
+
 /*--- media start ---*/
-@media (min-width:600px) {
+@media (min-width: 600px) {
   .settings {
     padding-left: 0;
     padding-right: 0;
-    // margin-left: -12px;
-    // margin-right: -12px;
     &__note {
-      //width: calc(100% + 48px);
-      //left: -24px;
     }
   }
 }
-@media (min-width:1200px) {
+
+@media (min-width: 1200px) {
   .settings {
     flex-direction: row;
     justify-content: flex-start;
@@ -166,7 +219,33 @@
       max-width: none;
       margin-left: 0;
     }
-
+    &__time-range {
+      margin-left: 0;
+      .ng5-slider {
+        margin-top: 8px;
+        &:before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 1px;
+          width: 1px;
+          height: 5px;
+          background-color: $darker-blue;
+        }
+        &:after {
+          content: "";
+          position: absolute;
+          right: 0;
+          top: 1px;
+          width: 1px;
+          height: 5px;
+          background-color: $darker-white;
+        }
+        .ng5-slider-ceil, .ng5-slider-floor {
+          bottom: -20px;
+        }
+      }
+    }
     &__form-row {
       flex-direction: row;
 
@@ -206,15 +285,29 @@
     }
   }
 }
+
 /*--- media end ---*/
 
-.dark-theme{
-  .settings{
-    &__sidebar{
+.dark-theme {
+  .settings {
+    &__sidebar {
       border-color: #24253F;
     }
-    &__toggler-text{
-      color:$light-blue;
+    &__toggler-text {
+      color: $light-blue;
+    }
+    &__time-range {
+      .ng5-slider {
+        &:before {
+          background-color: $light-blue;
+        }
+        .ng5-slider-ceil, .ng5-slider-floor, .ng5-slider-model-value {
+          color: $light-blue;
+        }
+        .ng5-slider-selection {
+          background-color: $light-blue;
+        }
+      }
     }
   }
 }

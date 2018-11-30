@@ -46,6 +46,9 @@ export class HeaderComponent implements OnInit {
         this.userInfo = null;
       }
     });
+    this.dashboardService.activeMobileWidget.subscribe(res => {
+      this.mobileView = res;
+    });
   }
 
   public openMenu() {

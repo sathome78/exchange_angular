@@ -7,24 +7,28 @@
 
     <ng-template #logInTemplate>
     <h6 class="popup__title">Log in</h6>
-    <h4 class="popup__subtitle"></h4>
+    <h4 class="popup__subtitle">{{statusMessage}}</h4>
 
     <form class="popup__form" [formGroup]="loginForm">
       <div >
         <div class="wrap-input popup__wrap-input">
           <input class="wrap-input__input" type="text"
                  formControlName="email"
-                 [ngClass]="{'input--error': !loginForm.get('email').valid && loginForm.get('email').touched}"
+                 [ngClass]="{'wrap-input__input--error': !loginForm.get('email').valid && loginForm.get('email').touched}"
           >
-          <label class="wrap-input__label" for="">Email</label>
-          <div class="wrap-input__line"></div>
+          <label class="wrap-input__label" for=""
+                 [ngClass]="{'wrap-input__label--error': !loginForm.get('email').valid && loginForm.get('email').touched}"
+          >Email</label>
+          <div class="wrap-input__line"
+               [ngClass]="{'wrap-input__line--error': !loginForm.get('email').valid && loginForm.get('email').touched}"
+          ></div>
           <!--Input error section starts-->
           <div *ngIf="loginForm.get('email').touched && loginForm.get('email').errors != null">
-            <span class="wrap-input__message" *ngIf="loginForm.get('email').errors['required']">
+            <span class="wrap-input__message--error" *ngIf="loginForm.get('email').errors['required']">
               This field is required.
             </span>
             <span  *ngIf="loginForm.get('email').invalid && !loginForm.get('email').errors['required']"
-              class="wrap-input__message">
+              class="wrap-input__message--error">
               Please, enter valid email address.
             </span>
           </div>
@@ -35,10 +39,14 @@
           <input class="wrap-input__input"
                  [type]="getInputType()"
                  formControlName="password"
-                 [ngClass]="{'input--error': !loginForm.get('password').valid && loginForm.get('password').touched}"
+                 [ngClass]="{'wrap-input__input--error': !loginForm.get('password').valid && loginForm.get('password').touched}"
           >
-          <label class="wrap-input__label" for="">Password</label>
-          <div class="wrap-input__line"></div>
+          <label class="wrap-input__label" for=""
+                 [ngClass]="{'wrap-input__label--error': !loginForm.get('password').valid && loginForm.get('password').touched}"
+          >Password</label>
+          <div class="wrap-input__line"
+               [ngClass]="{'wrap-input__line--error': !loginForm.get('password').valid && loginForm.get('password').touched}"
+          ></div>
           <span
             class="wrap-input__show-password"
             (click)="togglePasswordVisibility()"
@@ -47,7 +55,7 @@
           </span>
           <!--Input error section starts-->
           <div *ngIf="loginForm.get('password').touched && loginForm.get('password').errors != null">
-            <span class="wrap-input__message"
+            <span class="wrap-input__message--error"
                   *ngIf="loginForm.get('password').errors['required']">
               This field is required.
             </span>
@@ -55,14 +63,29 @@
           <!--Input error section ends-->
         </div>
       </div>
-      <button class="btn popup__btn" (click)="onSubmit()">Authorise me</button>
+      <button class="btn popup__btn"
+              (click)="onSubmit()"
+              [disabled]="!loginForm.valid"
+              [ngClass]="{'popup__btn--active': loginForm.valid,
+              'popup__btn--error': (!loginForm.get('password').valid && loginForm.get('password').touched) || ( !loginForm.get('email').valid && loginForm.get('email').touched)}"
+      >
+        Authorise me
+      </button>
     </form>
     <div class="popup__links-wrap">
-      <a class="popup__link popup__link--hidden-mob" href="reg-email.html">Go to registration form</a>
-      <a class="popup__link" href="fgt.html">Forgot password?</a>
+      <a class="popup__link popup__link--hidden-mob" (click)="openRegistration()">Go to registration form</a>
+      <a class="popup__link" (click)="openRecoveryPasswordPopup()">Forgot password?</a>
     </div>
-    <a class="popup__link-mob">Registration</a>
+    <a class="popup__link-mob" (click)="openRegistration()" >Registration</a>
     <!--<a class="popup__link-mob" (click)="openRegistration()">Registration</a>-->
+    </ng-template>
+
+    <ng-template #captchaTemplate>
+      <h6 class="popup__title">Enter the captcha</h6>
+      <re-captcha (resolved)="resolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
+      <div class="popup__links-wrap">
+        <a class="popup__link" (click)="openRegistration()">Go to registration form</a>
+      </div>
     </ng-template>
 
     <!--Pin Code -->
@@ -79,14 +102,18 @@
               class="wrap-input__input"
               type="text"
               formControlName="pin"
-              [ngClass]="{'input--error': !pinForm.get('pin').valid}"
+              [ngClass]="{'wrap-input__input--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}"
             >
-            <label class="wrap-input__label" for="">Autehntification code</label>
-            <div class="wrap-input__line"></div>
+            <label class="wrap-input__label" for=""
+                   [ngClass]="{'wrap-input__label--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}"
+            >Autehntification code</label>
+            <div class="wrap-input__line"
+                 [ngClass]="{'wrap-input__line--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}"
+            ></div>
             <!--Input error section starts-->
             <div>
             <span *ngIf="(pinForm.get('pin').touched && pinForm.get('pin').errors != null)"
-              class="wrap-input__message">
+              class="wrap-input__message--error">
               This field is required.
             </span>
             </div>
@@ -94,11 +121,15 @@
           </div>
 
         </div>
-        <button class="btn popup__btn" (click)="onSubmit()">Authorise me</button>
+        <button class="btn popup__btn"
+                (click)="resolvedCaptcha()"
+                [disabled]="!pinForm.valid"
+                [ngClass]="{'popup__btn--active': pinForm.valid,
+                'popup__btn--error': !pinForm.valid && pinForm.get('pin').touched}">Authorise me</button>
       </form>
       <div class="popup__links-wrap">
-        <a class="popup__link popup__link--hidden-mob" href="reg-email.html">Go to registration form</a>
-        <a class="popup__link" href="fgt.html">Forgot password?</a>
+        <a class="popup__link popup__link--hidden-mob" href="reg-email.html" (click)="openRegistration()">Go to registration form</a>
+        <a class="popup__link" (click)="openRecoveryPasswordPopup()">Forgot password?</a>
       </div>
     </ng-template>
 

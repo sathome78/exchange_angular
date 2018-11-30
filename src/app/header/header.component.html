@@ -1,137 +1,150 @@
 <!-- HEADER START-->
 <header class="header">
   <div class="header__inner">
-    <div class="logo"><a class="logo__link" href="#"><img class="logo__img" src="../../assets/img/logo.svg" alt="logo"></a></div>
+    <div class="logo"><a class="logo__link" href="#"><img class="logo__img" src="../../assets/img/logo.svg" alt="logo"></a>
+    </div>
     <ul class="menu menu--header-menu">
-      <li class="menu__item"><a class="menu__link" href="https://exrates.me/dashboard"><span class="menu__link-text">Trade</span></a></li>
-      <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated()"><a class="menu__link menu__link&#45;&#45;drop"><span class="menu__link-text">Funds</span></a>
-      <!-- <li class="menu__item menu__item--with-submenu" ><a class="menu__link menu__link--drop"><span class="menu__link-text">Funds</span></a> -->
+      <li class="menu__item" routerLinkActive="menu__link--active"><a class="menu__link"
+                                                                      href="https://exrates.me/dashboard"><span
+        class="menu__link-text">Trade</span></a></li>
+      <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated()"
+          routerLinkActive="menu__link--active"><a class="menu__link menu__link&#45;&#45;drop"><span
+        class="menu__link-text">Funds</span></a>
+        <!-- <li class="menu__item menu__item--with-submenu" ><a class="menu__link menu__link--drop"><span class="menu__link-text">Funds</span></a> -->
         <div class="submenu">
           <ul class="menu submenu__list">
-            <li class="submenu__item"><a class="submenu__link" routerLink="balance"><span class="menu__link-text">Balance</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" routerLink="transaction-history"><span class="menu__link-text">Transaction history</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" routerLink="balance" routerLinkActive="menu__link--active"><span class="menu__link-text">Balance</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" routerLink="transaction-history" routerLinkActive="menu__link--active"><span class="menu__link-text">Transaction history</span></a></li>
           </ul>
         </div>
       </li>
-      <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated()"><a class="menu__link menu__link&#45;&#45;drop" ><span class="menu__link-text">Orders</span></a>
-      <!-- <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" ><span class="menu__link-text">Orders</span></a> -->
+      <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated()"
+          routerLinkActive="menu__link--active"><a class="menu__link menu__link&#45;&#45;drop"><span
+        class="menu__link-text">Orders</span></a>
+        <!-- <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" ><span class="menu__link-text">Orders</span></a> -->
         <div class="submenu">
           <ul class="menu submenu__list">
-            <li class="submenu__item"><a class="submenu__link"  routerLink="open-orders"><span class="menu__link-text">Open orders</span></a></li>
-            <li class="submenu__item"><a class="submenu__link"  routerLink="orders-history"><span class="menu__link-text">Orders history</span></a></li>
+            <li class="submenu__item" ><a class="submenu__link"  routerLink="open-orders" routerLinkActive="menu__link--active"><span class="menu__link-text">Open orders</span></a></li>
+            <li class="submenu__item" ><a class="submenu__link"  routerLink="orders-history" routerLinkActive="menu__link--active"><span class="menu__link-text">Orders history</span></a></li>
           </ul>
         </div>
       </li>
-      <li class="menu__item"><a class="menu__link" routerLink="/settings" *ngIf="isAuthenticated()"><span class="menu__link-text">Settings</span></a></li>
+      <li class="menu__item" routerLinkActive="menu__link--active"><a class="menu__link" routerLink="/settings"
+                                                                      *ngIf="isAuthenticated()"><span
+        class="menu__link-text">Settings</span></a></li>
       <!-- <li class="menu__item"><a class="menu__link" routerLink="/settings"><span class="menu__link-text">Settings</span></a></li> -->
-      <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated()"><a class="menu__link menu__link--drop"><span class="menu__link-text">Referral</span></a>
+      <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated()" routerLinkActive="menu__link--active"><a
+        class="menu__link menu__link--drop" routerLinkActive="menu__link--active"><span
+        class="menu__link-text">Referral</span></a>
         <div class="submenu">
           <ul class="menu submenu__list">
-            <li class="submenu__item"><a class="submenu__link" routerLink="referral-structure"><span class="menu__link-text">Referral structure</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" routerLink="referral-charges"><span class="menu__link-text">Referral charges</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" routerLink="referral-structure" routerLinkActive="menu__link--active"><span class="menu__link-text">Referral structure</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" routerLink="referral-charges" routerLinkActive="menu__link--active"><span class="menu__link-text">Referral charges</span></a></li>
           </ul>
         </div>
       </li>
-      <li class="menu__item"><a class="menu__link" href="https://exrates.me/dashboard"><span class="menu__link-text">News</span></a></li>
+      <li class="menu__item" routerLinkActive="menu__link--active"><a class="menu__link"
+                                                                      href="https://exrates.me/dashboard"><span
+        class="menu__link-text">News</span></a></li>
     </ul>
     <!--<ul class="menu">-->
-      <!--<li class="menu__item menu__item&#45;&#45;with-submenu">-->
-        <!--<a class="menu__link" href="#">-->
-          <!--<div class="menu__link-icon-wrap"><img class="header-button__img" src="../../assets/img/header-notification.svg" alt="notification"><span class="header-button__notification-label">1</span></div>-->
-        <!--</a>-->
-        <!--<div class="submenu submenu&#45;&#45;notification">-->
-          <!--<ul class="menu submenu__list">-->
-            <!--<li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">You received 0.01 BTC by inner transfer</span></a></li>-->
-            <!--<li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">You received 0.01 BTC by inner transfer</span></a></li>-->
-            <!--<li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">You get new message from support for your ticket #45173</span></a></li>-->
-            <!--<li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">You received 0.01 BTC by inner transfer</span></a></li>-->
-            <!--<li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">You received 0.01 BTC by inner transfer</span></a></li>-->
-            <!--<li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">You received 0.01 BTC by inner transfer</span></a></li>-->
-            <!--<li class="submenu__item submenu__item&#45;&#45;last"><a class="submenu__link submenu__link&#45;&#45;center" href="#"><span class="menu__link-text">See all notifications</span></a></li>-->
-          <!--</ul>-->
-        <!--</div>-->
-      <!--</li>-->
-      <!--<li class="menu__item">-->
-        <!--<a class="menu__link" href="#">-->
-          <!--<div class="menu__link-icon-wrap"><img class="header-button__img" src="../../assets/img/header-learn.svg" alt="learn"></div>-->
-        <!--</a>-->
-      <!--</li>-->
-      <!--<li class="menu__item" >-->
-        <!--<a class="menu__link" (click)="toggleTheme()">-->
-          <!--<div class="menu__link-icon-wrap">-->
-            <!--<img class="header-button__img" src="../../assets/img/header-lamp.svg" alt="Theme" >-->
-          <!--</div>-->
-        <!--</a>-->
-      <!--</li>-->
+    <!--<li class="menu__item menu__item&#45;&#45;with-submenu">-->
+    <!--<a class="menu__link" href="#">-->
+    <!--<div class="menu__link-icon-wrap"><img class="header-button__img" src="../../assets/img/header-notification.svg" alt="notification"><span class="header-button__notification-label">1</span></div>-->
+    <!--</a>-->
+    <!--<div class="submenu submenu&#45;&#45;notification">-->
+    <!--<ul class="menu submenu__list">-->
+    <!--<li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">You received 0.01 BTC by inner transfer</span></a></li>-->
+    <!--<li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">You received 0.01 BTC by inner transfer</span></a></li>-->
+    <!--<li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">You get new message from support for your ticket #45173</span></a></li>-->
+    <!--<li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">You received 0.01 BTC by inner transfer</span></a></li>-->
+    <!--<li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">You received 0.01 BTC by inner transfer</span></a></li>-->
+    <!--<li class="submenu__item"><a class="submenu__link" href="#"><span class="menu__link-text">You received 0.01 BTC by inner transfer</span></a></li>-->
+    <!--<li class="submenu__item submenu__item&#45;&#45;last"><a class="submenu__link submenu__link&#45;&#45;center" href="#"><span class="menu__link-text">See all notifications</span></a></li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--</li>-->
+    <!--<li class="menu__item">-->
+    <!--<a class="menu__link" href="#">-->
+    <!--<div class="menu__link-icon-wrap"><img class="header-button__img" src="../../assets/img/header-learn.svg" alt="learn"></div>-->
+    <!--</a>-->
+    <!--</li>-->
+    <!--<li class="menu__item" >-->
+    <!--<a class="menu__link" (click)="toggleTheme()">-->
+    <!--<div class="menu__link-icon-wrap">-->
+    <!--<img class="header-button__img" src="../../assets/img/header-lamp.svg" alt="Theme" >-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--</li>-->
     <!--</ul>-->
     <!--<ul class="menu">-->
-      <!--<li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated()">-->
-        <!--<a class="menu__link" href="">-->
-          <!--<div class="holdings"><span class="holdings__title">Estimated Holdings</span>-->
-            <!--<div class="holdings__info">-->
-              <!--<div class="holdings__info-item"><img class="holdings__info-item-icon" src="../../assets/img/btc-icon-small.svg" alt="btc"> 1.22764</div>-->
-              <!--<div class="holdings__info-item"><img class="holdings__info-item-icon" src="../../assets/img/dollar-icon-small.svg" alt="dollar"> 43 522 764</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</a>-->
-        <!--<div class="submenu">-->
-          <!--<div class="holdings-mob__pairs holdings-mob__pairs&#45;&#45;active">-->
-            <!--<div class="holdings-mob__pairs-row"><span class="holdings-mob__pairs-row-title">Fiat</span>-->
-              <!--<div class="holdings-mob__radio-row">-->
-                <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/dollar-icon-small.svg">USD-->
-                  <!--<input class="holdings-mob__radio-input" type="radio" value="USD" name="radio-input-fiat"><span class="holdings-mob__radio-icon"></span>-->
-                <!--</label>-->
-                <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/dollar-icon-small.svg">EUR-->
-                  <!--<input class="holdings-mob__radio-input" type="radio" value="EUR" name="radio-input-fiat"><span class="holdings-mob__radio-icon"></span>-->
-                <!--</label>-->
-                <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/dollar-icon-small.svg">IDR-->
-                  <!--<input class="holdings-mob__radio-input" type="radio" value="IDR" name="radio-input-fiat"><span class="holdings-mob__radio-icon"></span>-->
-                <!--</label>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="holdings-mob__pairs-row"><span class="holdings-mob__pairs-row-title">Altcoins</span>-->
-              <!--<div class="holdings-mob__radio-row">-->
-                <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/btc-icon.svg">BTC-->
-                  <!--<input class="holdings-mob__radio-input" type="radio" value="BTC" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
-                <!--</label>-->
-                <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/eth-icon.svg">ETH-->
-                  <!--<input class="holdings-mob__radio-input" type="radio" value="ETH" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
-                <!--</label>-->
-                <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/zec-icon.svg">ZEC-->
-                  <!--<input class="holdings-mob__radio-input" type="radio" value="ZEC" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
-                <!--</label>-->
-                <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/btc-icon.svg">BTC-->
-                  <!--<input class="holdings-mob__radio-input" type="radio" value="BTC" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
-                <!--</label>-->
-                <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/eth-icon.svg">ETH-->
-                  <!--<input class="holdings-mob__radio-input" type="radio" value="ETH" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
-                <!--</label>-->
-                <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/zec-icon.svg">ZEC-->
-                  <!--<input class="holdings-mob__radio-input" type="radio" value="ZEC" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
-                <!--</label>-->
-                <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/btc-icon.svg">BTC-->
-                  <!--<input class="holdings-mob__radio-input" type="radio" value="BTC" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
-                <!--</label>-->
-                <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/eth-icon.svg">ETH-->
-                  <!--<input class="holdings-mob__radio-input" type="radio" value="ETH" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
-                <!--</label>-->
-                <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/zec-icon.svg">ZEC-->
-                  <!--<input class="holdings-mob__radio-input" type="radio" value="ZEC" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
-                <!--</label>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="wrap-input wrap-input&#45;&#45;search">-->
-              <!--<input class="input input&#45;&#45;with-icon input&#45;&#45;transparent input&#45;&#45;bd-dark-blue" id="search-currency" type="text" required=""><span class="wrap-input__icon wrap-input__icon&#45;&#45;white"><img src="../../assets/img/search-white.svg"></span>-->
-              <!--<label class="wrap-input__label wrap-input__label&#45;&#45;with-icon wrap-input__label&#45;&#45;white">Currency</label>-->
-              <!--<div class="wrap-input__line wrap-input__line&#45;&#45;bd-dark-blue"></div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</li>-->
+    <!--<li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated()">-->
+    <!--<a class="menu__link" href="">-->
+    <!--<div class="holdings"><span class="holdings__title">Estimated Holdings</span>-->
+    <!--<div class="holdings__info">-->
+    <!--<div class="holdings__info-item"><img class="holdings__info-item-icon" src="../../assets/img/btc-icon-small.svg" alt="btc"> 1.22764</div>-->
+    <!--<div class="holdings__info-item"><img class="holdings__info-item-icon" src="../../assets/img/dollar-icon-small.svg" alt="dollar"> 43 522 764</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<div class="submenu">-->
+    <!--<div class="holdings-mob__pairs holdings-mob__pairs&#45;&#45;active">-->
+    <!--<div class="holdings-mob__pairs-row"><span class="holdings-mob__pairs-row-title">Fiat</span>-->
+    <!--<div class="holdings-mob__radio-row">-->
+    <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/dollar-icon-small.svg">USD-->
+    <!--<input class="holdings-mob__radio-input" type="radio" value="USD" name="radio-input-fiat"><span class="holdings-mob__radio-icon"></span>-->
+    <!--</label>-->
+    <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/dollar-icon-small.svg">EUR-->
+    <!--<input class="holdings-mob__radio-input" type="radio" value="EUR" name="radio-input-fiat"><span class="holdings-mob__radio-icon"></span>-->
+    <!--</label>-->
+    <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/dollar-icon-small.svg">IDR-->
+    <!--<input class="holdings-mob__radio-input" type="radio" value="IDR" name="radio-input-fiat"><span class="holdings-mob__radio-icon"></span>-->
+    <!--</label>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="holdings-mob__pairs-row"><span class="holdings-mob__pairs-row-title">Altcoins</span>-->
+    <!--<div class="holdings-mob__radio-row">-->
+    <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/btc-icon.svg">BTC-->
+    <!--<input class="holdings-mob__radio-input" type="radio" value="BTC" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
+    <!--</label>-->
+    <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/eth-icon.svg">ETH-->
+    <!--<input class="holdings-mob__radio-input" type="radio" value="ETH" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
+    <!--</label>-->
+    <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/zec-icon.svg">ZEC-->
+    <!--<input class="holdings-mob__radio-input" type="radio" value="ZEC" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
+    <!--</label>-->
+    <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/btc-icon.svg">BTC-->
+    <!--<input class="holdings-mob__radio-input" type="radio" value="BTC" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
+    <!--</label>-->
+    <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/eth-icon.svg">ETH-->
+    <!--<input class="holdings-mob__radio-input" type="radio" value="ETH" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
+    <!--</label>-->
+    <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/zec-icon.svg">ZEC-->
+    <!--<input class="holdings-mob__radio-input" type="radio" value="ZEC" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
+    <!--</label>-->
+    <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/btc-icon.svg">BTC-->
+    <!--<input class="holdings-mob__radio-input" type="radio" value="BTC" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
+    <!--</label>-->
+    <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/eth-icon.svg">ETH-->
+    <!--<input class="holdings-mob__radio-input" type="radio" value="ETH" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
+    <!--</label>-->
+    <!--<label class="holdings-mob__radio-item"><img class="holdings-mob__radio-img" src="../../assets/img/zec-icon.svg">ZEC-->
+    <!--<input class="holdings-mob__radio-input" type="radio" value="ZEC" name="radio-input-alt"><span class="holdings-mob__radio-icon"></span>-->
+    <!--</label>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="wrap-input wrap-input&#45;&#45;search">-->
+    <!--<input class="input input&#45;&#45;with-icon input&#45;&#45;transparent input&#45;&#45;bd-dark-blue" id="search-currency" type="text" required=""><span class="wrap-input__icon wrap-input__icon&#45;&#45;white"><img src="../../assets/img/search-white.svg"></span>-->
+    <!--<label class="wrap-input__label wrap-input__label&#45;&#45;with-icon wrap-input__label&#45;&#45;white">Currency</label>-->
+    <!--<div class="wrap-input__line wrap-input__line&#45;&#45;bd-dark-blue"></div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</li>-->
     <!--</ul>-->
 
     <div *ngIf="isAuthenticated(); else reg">
-      <a class="header__auth" >{{ getUsername() }}</a>
+      <a class="header__auth">{{ getUsername() }}</a>
     </div>
     <ng-template #reg>
       <a class="header__auth" (click)="openRegistration()">Registration</a>
@@ -140,7 +153,7 @@
       <a class="header__auth header__auth--log" (click)="onLogout()">Log out</a>
     </div>
     <ng-template #alien>
-      <a class="header__auth header__auth--log" (click)="onLogin()">Log in</a>
+      <a class="header__auth header__auth--log" (click)="onMobileLogin()">Log in</a>
       <!--<a class="header__logout" href="https://exrates.me/dashboards" target="_blank">Log in</a>-->
     </ng-template>
 
@@ -152,11 +165,26 @@
         </a>
         <div class="submenu submenu--language">
           <ul class="menu__list submenu__list submenu__list--language">
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag" src="../../assets/img/flag-ru.svg" alt=""><span class="language__text">Russian</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag" src="../../assets/img/flag-cn.svg" alt=""><span class="language__text">Chinese</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag" src="../../assets/img/flag-pl.svg" alt=""><span class="language__text">Polish</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag" src="../../assets/img/flag-en.svg" alt=""><span class="language__text">Hindi</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag" src="../../assets/img/flag-cn.svg" alt=""><span class="language__text">Ukraininan</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
+                                                                             src="../../assets/img/flag-ru.svg"
+                                                                             alt=""><span
+              class="language__text">Russian</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
+                                                                             src="../../assets/img/flag-cn.svg"
+                                                                             alt=""><span
+              class="language__text">Chinese</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
+                                                                             src="../../assets/img/flag-pl.svg"
+                                                                             alt=""><span
+              class="language__text">Polish</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
+                                                                             src="../../assets/img/flag-en.svg"
+                                                                             alt=""><span
+              class="language__text">Hindi</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
+                                                                             src="../../assets/img/flag-cn.svg"
+                                                                             alt=""><span class="language__text">Ukraininan</span></a>
+            </li>
           </ul>
         </div>
       </li>
@@ -168,8 +196,9 @@
 
 <!-- HEADER MOBILE START-->
 <header class="header-mob" [ngClass]="{'header-mob--open': isMobileMenuOpen }">
-  <div class="header-mob__top" >
-    <div [ngClass]="{'header-mob__burger-content': !isMobileMenuOpen, 'header-mob__burger-content--open': isMobileMenuOpen }">
+  <div class="header-mob__top">
+    <div
+      [ngClass]="{'header-mob__burger-content': !isMobileMenuOpen, 'header-mob__burger-content--open': isMobileMenuOpen }">
       <div class="header-mob__controls-row">
         <a class="header-mob__controls-btn" (click)="toggleTheme()">
           <img class="header-mob__controls-icon" src="../../assets/img/header-mob-lamp.svg">
@@ -186,75 +215,108 @@
       <div class="account-info" *ngIf="!userInfo">
         <div class="account-info__img"><span class="info__img-empty">?</span></div>
         <div class="account-info__text">
-          <div class="account-info__title">New user</div><a class="account-info__email" (click)="onMobileLogin()">login</a></div>
+          <div class="account-info__title">New user</div>
+          <a class="account-info__email" (click)="onMobileLogin()">login</a></div>
         <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
       </div>
 
       <div class="account-info" *ngIf="userInfo">
         <img class="account-info__img" src="../../assets/img/user-photo.png">
         <div class="account-info__text">
-          <div class="account-info__title">{{userInfo.username}}</div><a class="account-info__email" (click)="onLogout()">logout</a></div>
+          <div class="account-info__title">{{userInfo.username}}</div>
+          <a class="account-info__email" (click)="onLogout()">logout</a></div>
         <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
       </div>
 
 
-      <nav class="menu-mob"><a class="menu-mob__link menu-mob__link--next-page" href="#"><img class="menu-mob__link-icon" src="../../assets/img/money-bag.svg"><span class="menu-mob__link-text">Estimated holdings</span><span class="menu-mob__link-holdings-inf">~ $43 522 764</span></a>
+      <nav class="menu-mob"><a class="menu-mob__link menu-mob__link--next-page" href="#"><img
+        class="menu-mob__link-icon" src="../../assets/img/money-bag.svg"><span class="menu-mob__link-text">Estimated holdings</span><span
+        class="menu-mob__link-holdings-inf">~ $43 522 764</span></a>
         <a
-          class="menu-mob__link" href="#"><img class="menu-mob__link-icon" src="../../assets/img/trade.svg"><span class="menu-mob__link-text">Trade</span></a>
-          <div class="menu-mob__drop-wrap"><a class="menu-mob__link menu-mob__link--drop"><img class="menu-mob__link-icon" src="../../assets/img/piggy-bank.svg"><span class="menu-mob__link-text">Funds</span></a>
-            <div class="menu-mob__wrap-hidden-links">
-              <a class="menu-mob__link" href="#">Transaction history</a>
-              <a class="menu-mob__link" href="#">Income/Outcome</a>
-            </div>
+          class="menu-mob__link" href="#"><img class="menu-mob__link-icon" src="../../assets/img/trade.svg"><span
+          class="menu-mob__link-text">Trade</span></a>
+        <div class="menu-mob__drop-wrap"><a class="menu-mob__link menu-mob__link--drop"><img class="menu-mob__link-icon"
+                                                                                             src="../../assets/img/piggy-bank.svg"><span
+          class="menu-mob__link-text">Funds</span></a>
+          <div class="menu-mob__wrap-hidden-links">
+            <a class="menu-mob__link" href="#">Transaction history</a>
+            <a class="menu-mob__link" href="#">Income/Outcome</a>
           </div>
-          <div class="menu-mob__drop-wrap"><a class="menu-mob__link menu-mob__link--drop" href="#"><img class="menu-mob__link-icon" src="../../assets/img/orders.svg"><span class="menu-mob__link-text">Orders</span></a>
-            <div class="menu-mob__wrap-hidden-links"><a class="menu-mob__link" href="#">Open orders</a><a class="menu-mob__link" href="#">Orders history</a></div>
+        </div>
+        <div class="menu-mob__drop-wrap"><a class="menu-mob__link menu-mob__link--drop" href="#"><img
+          class="menu-mob__link-icon" src="../../assets/img/orders.svg"><span class="menu-mob__link-text">Orders</span></a>
+          <div class="menu-mob__wrap-hidden-links"><a class="menu-mob__link" href="#">Open orders</a><a
+            class="menu-mob__link" href="#">Orders history</a></div>
+        </div>
+        <div class="menu-mob__drop-wrap"><a class="menu-mob__link menu-mob__link--drop" href="#"><img
+          class="menu-mob__link-icon" src="../../assets/img/referral.svg"><span
+          class="menu-mob__link-text">Referral</span></a>
+          <div class="menu-mob__wrap-hidden-links"><a class="menu-mob__link" href="#">Lorem</a><a class="menu-mob__link"
+                                                                                                  href="#">Lorem</a>
           </div>
-          <div class="menu-mob__drop-wrap"><a class="menu-mob__link menu-mob__link--drop" href="#"><img class="menu-mob__link-icon" src="../../assets/img/referral.svg"><span class="menu-mob__link-text">Referral</span></a>
-            <div class="menu-mob__wrap-hidden-links"><a class="menu-mob__link" href="#">Lorem</a><a class="menu-mob__link" href="#">Lorem</a></div>
-          </div><a class="menu-mob__link" href="#"><img class="menu-mob__link-icon" src="../../assets/img/newspaper.svg"><span class="menu-mob__link-text">News</span></a>
+        </div>
+        <a class="menu-mob__link" href="#"><img class="menu-mob__link-icon" src="../../assets/img/newspaper.svg"><span
+          class="menu-mob__link-text">News</span></a>
       </nav>
     </div>
   </div>
   <div class="header-mob__inner">
     <div class="header-mob__submenu">
-      <a class="header-mob__submenu-link"
+      <a class="header-mob__submenu-link" [routerLink]="['dashboard']" [queryParams]="{widget: 'graph'}"
          [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'graph' }"
          (click)="setMobileWidget('graph')">
         <img class="header-mob__submenu-link-img" src="../../assets/img/graph.svg">
         <span class="header-mob__submenu-link-text">Graph</span>
       </a>
-      <a class="header-mob__submenu-link"
+      <a class="header-mob__submenu-link" [routerLink]="['dashboard']" [queryParams]="{widget: 'trading'}"
          [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'trading' }"
          (click)="setMobileWidget('trading')">
         <img class="header-mob__submenu-link-img" src="../../assets/img/trade.svg">
         <span class="header-mob__submenu-link-text">Trade</span>
       </a>
-     <!-- <a class="header-mob__submenu-link" >
+
+
+      <a class="header-mob__submenu-link" routerLink="balance" routerLinkActive="header-mob__submenu-link--active"
+         (click)="setMobileWidget('balance')">
         <img class="header-mob__submenu-link-img" src="../../assets/img/wallet.svg">
         <span class="header-mob__submenu-link-text">Balances</span>
       </a>
-      <a class="header-mob__submenu-link" (click)="setMobileWidget('trade-history')">
+      <a class="header-mob__submenu-link"
+         [routerLink]="['dashboard']"
+         [queryParams]="{widget: 'trade-history'}"
+         [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'trade-history' }"
+         (click)="setMobileWidget('trade-history')">
         <img class="header-mob__submenu-link-img" src="../../assets/img/history.svg">
         <span class="header-mob__submenu-link-text">History</span>
       </a>
-        <a class="header-mob__submenu-link" (click)="setMobileWidget('orders')">
-          <img class="header-mob__submenu-link-img" src="../../assets/img/orders.svg">
-          <span class="header-mob__submenu-link-text">Open</span>
-        </a>-->
       <a class="header-mob__submenu-link"
+         [routerLink]="['open-orders']"
+         routerLinkActive="header-mob__submenu-link--active"
+         (click)="setMobileWidget('open')">
+        <img class="header-mob__submenu-link-img" src="../../assets/img/orders.svg">
+        <span class="header-mob__submenu-link-text">Open</span>
+      </a>
+
+
+      <a class="header-mob__submenu-link"
+         [routerLink]="['dashboard']"
+         [queryParams]="{widget: 'markets'}"
          [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'markets' }"
          (click)="setMobileWidget('markets')">
         <img class="header-mob__submenu-link-img" src="../../assets/img/markets.svg">
         <span class="header-mob__submenu-link-text">Markets</span>
       </a>
       <a class="header-mob__submenu-link"
+         [routerLink]="['dashboard']"
+         [queryParams]="{widget: 'order-book'}"
          [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'order-book' }"
          (click)="setMobileWidget('order-book')">
         <img class="header-mob__submenu-link-img" src="../../assets/img/order-book.svg">
         <span class="header-mob__submenu-link-text">Book</span>
       </a>
       <a class="header-mob__submenu-link"
+         [routerLink]="['dashboard']"
+         [queryParams]="{widget: 'chat'}"
          [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'chat' }"
          (click)="setMobileWidget('chat')">
         <img class="header-mob__submenu-link-img" src="../../assets/img/header-sumbenu-link6.svg">
