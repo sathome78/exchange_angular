@@ -4,6 +4,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {AuthGuard} from './services/auth.guard';
 import {BalanceComponent} from './balance/balance.component';
 import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
+import {RefillMoneyComponent} from './balance/refill-money/refill-money.component';
 import {OrdersHistoryComponent} from './orders/orders-history/orders-history.component';
 import {OpenOrdersComponent} from './orders/open-orders/open-orders.component';
 import {ReferralStructureComponent} from './referral/referral-structure/referral-structure.component';
@@ -36,6 +37,13 @@ const routes: Routes = [
   // {path: 'settings', component: SettingsComponent},
 
   // { path: 'settings', loadChildren: './settings/settings.module#SettingsModule'},
+  { path: 'dashboard',      component: DashboardComponent },
+  { path: 'balance',      component: BalanceComponent },
+  { path: 'refill-money',      component: RefillMoneyComponent },
+  { path: 'open-orders', component: OpenOrdersComponent },
+  { path: 'orders-history', component: OrdersHistoryComponent },
+  { path: 'referral-structure', component: ReferralStructureComponent },
+  { path: 'referral-charges', component: ReferralChargesComponent },
   // { path: 'funds',      component: DashboardComponent, },ç
   // { path: 'orders',      component: DashboardComponent, },
   // { path: 'tfa-popup', component: TwoFactorPopupComponent },

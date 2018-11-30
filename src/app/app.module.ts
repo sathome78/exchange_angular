@@ -63,7 +63,13 @@ import {FinalRegistrationComponent} from './auth/final-registration/final-regist
 import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.component';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-password/final-step-recovery-password.component';
-
+import { RefillMoneyComponent } from './balance/refill-money/refill-money.component';
+import { RefillStepOneComponent } from './balance/refill-money/refill-step-one/refill-step-one.component';
+import { RefillStepTwoComponent } from './balance/refill-money/refill-step-two/refill-step-two.component';
+import { RefillStepThreeComponent } from './balance/refill-money/refill-step-three/refill-step-three.component';
+import { RefillCryptoComponent } from './balance/refill-money/refill-step-two/refill-crypto/refill-crypto.component';
+import { RefillFiatComponent } from './balance/refill-money/refill-step-two/refill-fiat/refill-fiat.component';
+import { RefillInnerTransferComponent } from './balance/refill-money/refill-step-two/refill-inner-transfer/refill-inner-transfer.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +107,13 @@ import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-p
     RecoveryPassComponent,
     TransactionHistoryComponent,
     FinalStepRecoveryPasswordComponent,
+    RefillMoneyComponent,
+    RefillStepOneComponent,
+    RefillStepTwoComponent,
+    RefillStepThreeComponent,
+    RefillCryptoComponent,
+    RefillFiatComponent,
+    RefillInnerTransferComponent,
     // TWO FACTOR POPUP END
 
   ],
