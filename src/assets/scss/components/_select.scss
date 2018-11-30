@@ -23,40 +23,31 @@
     display: -ms-flex;
     display: flex;
     align-items: center;
-
     box-sizing: border-box;
     width: calc(100% - 5px);
     height: 36px;
     margin: 0 auto;
     padding: 0 12px;
-
     border: 1px solid $grey;
     border-bottom: none;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-
     font-size: 14px;
     line-height: 45px;
 
     &--active {
       border-color: $darker-blue;
-
       ~ .select__label {
         top: -5px;
-
         padding: 0 2px;
-
         color: $darker-blue;
         background-color: #fff;
-
         font-size: 10px;
         line-height: 12px;
       }
-
       ~ .select__line {
         background-color: $darker-blue;
       }
-
       ~ .select__triangle {
         border-top-color: $darker-blue;
       }
@@ -67,14 +58,11 @@
     position: absolute;
     top: 10px;
     left: 12px;
-
     -webkit-transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;
     transition: 0.2s ease all;
     pointer-events: none;
-
     color: $grey;
-
     font-size: 14px;
     line-height: 16px;
   }
@@ -83,12 +71,9 @@
     position: absolute;
     top: 9px;
     left: 10px;
-
     display: inline-block;
-
     width: 18px;
     height: 18px;
-
     img {
       width: 100%;
     }
@@ -96,7 +81,6 @@
 
   &__line {
     height: 1px;
-
     background-color: $grey;
   }
 
@@ -104,7 +88,6 @@
     position: absolute;
     top: 16px;
     right: 16px;
-
     border-top: 5px solid $grey;
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
@@ -114,23 +97,16 @@
     position: absolute;
     z-index: 5;
     top: 100%;
-
     display: none;
-
     width: 100%;
-
     border: 1px solid $darker-white;
     background-color: #fff;
-
     &--open {
       position: absolute;
       z-index: 5;
       top: 100%;
-
       display: block;
-
       width: 100%;
-
       border: 1px solid $darker-white;
       background-color: #fff;
     }
@@ -140,11 +116,8 @@
     position: absolute;
     z-index: 5;
     top: 100%;
-
     display: none;
-
     width: 100%;
-
     border: 1px solid $darker-blue;
     background-color: #fff;
     &--open {
@@ -156,7 +129,7 @@
     width: 100%;
     position: relative;
   }
-  &__search-input{
+  &__search-input {
     width: 100%;
     height: 36px;
     padding: 0 30px 0 12px;
@@ -164,7 +137,7 @@
     font-size: 14px;
     border-bottom: 1px solid $darker-blue;
     background-color: transparent;
-    &:focus{
+    &:focus {
       outline: none;
       &::placeholder {
         opacity: 0;
@@ -174,34 +147,34 @@
       color: $darker-blue;
     }
   }
-  &__search-icon{
+  &__search-icon {
     position: absolute;
     right: 12px;
     top: 10px;
     display: inline-block;
     width: 14px;
     height: 14px;
-    svg{
-      fill:$darker-blue;
+    svg {
+      fill: $darker-blue;
     }
   }
-  &__list-searching-body{
+  &__list-searching-body {
     padding-top: 12px;
     padding-left: 12px;
     max-height: 190px;
     overflow-x: hidden;
     overflow-y: scroll;
   }
-  &__searching-items-title{
+  &__searching-items-title {
     font-size: 12px;
     line-height: 14px;
     color: $light-grey;
   }
-  &__searching-items-wrap{
+  &__searching-items-wrap {
     display: flex;
     flex-wrap: wrap;
   }
-  &__searching-item{
+  &__searching-item {
     margin-right: 12px;
     margin-bottom: 8px;
   }
@@ -210,9 +183,7 @@
     display: -ms-flex;
     display: flex;
     align-items: center;
-
     padding: 8px 12px;
-
     text-align: left;
   }
 
@@ -220,7 +191,6 @@
     width: 21px;
     height: 21px;
     margin-right: 8px;
-
     vertical-align: middle;
   }
   /*--- elements end ---*/
@@ -238,7 +208,6 @@
     }
     &__label {
       top: 15px;
-
     }
     &__icon {
       top: 14px;
@@ -250,9 +219,6 @@
       padding: 12px;
     }
   }
-}
-
-@media (min-width: 900px) {
 }
 
 @media (min-width: 1200px) {
@@ -270,11 +236,9 @@
         ~ .select__label {
           color: $light-blue;
         }
-
         ~ .select__line {
           background-color: $light-blue;
         }
-
         ~ .select__triangle {
           border-top-color: $light-blue;
         }
@@ -302,16 +266,16 @@
         background-color: $dark-indigo;
       }
     }
-    &__search-input{
-      color:#fff;
+    &__search-input {
+      color: #fff;
       border-bottom: 1px solid $light-blue;
       &::placeholder {
         color: $light-blue;
       }
     }
-    &__search-icon{
-      svg{
-        fill:$light-blue;
+    &__search-icon {
+      svg {
+        fill: $light-blue;
       }
     }
   }

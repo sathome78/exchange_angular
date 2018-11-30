@@ -7,6 +7,10 @@
   display: none;
 }
 .refill{
+  &__title{
+    text-align: center;
+    margin-bottom: 28px;
+  }
   &__inputs-wrap{
     display: flex;
     flex-direction: column;
@@ -41,9 +45,6 @@
     display: none;
   }
 }
-.title{
-  margin-bottom: 28px;
-}
 .modal__note{
   width: calc(100% + 24px);
   left: -12px;
@@ -54,6 +55,9 @@
     display: block;
   }
   .refill{
+    &__title{
+      margin-bottom: 32px;
+    }
     &__inputs-wrap{
       flex-direction: row;
       align-items: center;
@@ -100,9 +104,6 @@
       line-height: 14px;
     }
 
-  }
-  .title{
-    margin-bottom: 32px;
   }
   .btn{
     max-width: 200px;
