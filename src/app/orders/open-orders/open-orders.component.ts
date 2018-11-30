@@ -2,13 +2,13 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectionStr
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IMyDpOptions, IMyInputFieldChanged } from 'mydatepicker';
 
-import { Order } from '../../dashboard/trading/order.model';
-import { OrdersService } from '../../dashboard/orders/orders.service';
+import { Order } from '../../dashboard/components/trading/order.model';
+import { OrdersService } from '../../dashboard/components/embedded-orders/orders.service';
 import { MockDataService } from '../../services/mock-data.service';
-import { TradingService } from '../../dashboard/trading/trading.service';
-import { MarketService } from '../../dashboard/markets/market.service';
+import { TradingService } from '../../dashboard/components/trading/trading.service';
+import { MarketService } from '../../dashboard/components/markets/market.service';
 import { AuthService } from '../../services/auth.service';
-import { CurrencyPair } from '../../dashboard/markets/currency-pair.model';
+import { CurrencyPair } from '../../model/currency-pair.model';
 
 import { timestamp, takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
@@ -70,18 +70,6 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
-    /** start mock */
-    // TODO: delete in prod
-    // this.openOrders = this.mockData.getOpenOrders().items;
-    // this.activeCurrencyPair = 'USD/BTC';
-    // this.arrPairName = this.activeCurrencyPair.split('/');
-    // this.countOfEntries = this.openOrders.length;
-    /** end mock */
-
-    /** get open orders data */
-    // this.marketService.setStompSubscription();
-
     /** get currencyPairs */
     this.marketService.marketListener$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -98,8 +86,9 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
         this.toOpenOrders();
         this.splitPairName();
       });
+
     if (this.authService.isAuthenticated()) {
-      this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
+      // this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
       this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
         this.toOpenOrders();
       });
@@ -247,7 +236,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       }, (error) => console.log(error));
   }
 
-  selctNewActiveCurrencyPair(pair: CurrencyPair) {
+  selectNewActiveCurrencyPair(pair: CurrencyPair) {
     this.activeCurrencyPair = pair;
     this.currency = pair.currencyPairName;
   }

@@ -3,41 +3,41 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 
 import * as SockJS from 'sockjs-client';
-import {DashboardComponent} from './dashboard.component';
-import {MarketsComponent} from './markets/markets.component';
-import {TradingComponent} from './trading/trading.component';
-import {BuyComponent} from './trading/buy/buy.component';
-import {SellComponent} from './trading/sell/sell.component';
-import {OrderBookComponent} from './order-book/order-book.component';
-import {TradeHistoryComponent} from './trade-history/trade-history.component';
-import {OrdersComponent} from './orders/orders.component';
-import {OpenOrdersComponent} from './orders/open-orders/open-orders.component';
-import {OrdersHistoryComponent} from './orders/orders-history/orders-history.component';
-import {ChatComponent} from './chat/chat.component';
-import {GraphComponent} from './graph/graph.component';
-import {ActivePairComponent} from './active-pair/active-pair.component';
-import {SharedModule} from '../shared/shared.module';
-import {GridsterModule} from 'angular2gridster';
-import {DashboardDataService} from './dashboard-data.service';
-import { CurrencySearchComponent } from './currency-pair-info/currency-search/currency-search.component';
-import { MarketSearchComponent } from './market-search/market-search.component';
-import { ToolsComponent } from './tools/tools.component';
-import { CurrencyPairInfoComponent } from './currency-pair-info/currency-pair-info.component';
-import {StompConfig, StompService} from '@stomp/ng2-stompjs';
+import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {environment} from '../../environments/environment';
-import {DashboardWebSocketService} from './dashboard-websocket.service';
-import {MarketService} from './markets/market.service';
-import {OrderBookService} from './order-book/order-book.service';
-import {TradeHistoryService} from './trade-history/trade-history.service';
-import {ChatService} from './chat/chat.service';
+import {StompConfig, StompService} from '@stomp/ng2-stompjs';
+import {ActivePairComponent} from './components/active-pair/active-pair.component';
+import {BuyComponent} from './components/trading/buy/buy.component';
+import {ChatComponent} from './components/chat/chat.component';
+import {ChatMessageComponent} from './components/chat/chat-message/chat-message.component';
+import {CurrencyPairInfoComponent} from './components/currency-pair-info/currency-pair-info.component';
+import {CurrencySearchComponent} from './components/currency-pair-info/currency-search/currency-search.component';
+import {DashboardComponent} from './dashboard.component';
+import {DayChatComponent} from './components/chat/day-chat/day-chat.component';
+import {EmbeddedOrdersComponent} from './components/embedded-orders/embedded-orders.component';
+import {EmbeddedOrdersHistoryComponent} from './components/embedded-orders/embedded-orders-history/embedded-orders-history.component';
+import {EmbeddedOpenOrdersComponent} from './components/embedded-orders/embedded-open-orders/embedded-open-orders.component';
+import {GraphComponent} from './components/graph/graph.component';
+import {MarketsComponent} from './components/markets/markets.component';
+import {OrderBookComponent} from './components/order-book/order-book.component';
+import {SellComponent} from './components/trading/sell/sell.component';
+import {TradeHistoryComponent} from './components/trade-history/trade-history.component';
+import {TradingComponent} from './components/trading/trading.component';
+import {ToolsComponent} from './components/tools/tools.component';
+import {SharedModule} from '../shared/shared.module';
+import {MarketSearchComponent} from './components/market-search/market-search.component';
+import {GridsterModule} from 'angular2gridster';
 import {ScrollbarModule} from 'ngx-scrollbar';
 import {NgxPaginationModule} from 'ngx-pagination';
-import {CurrencySortingPipe} from './markets/currency-sorting.pipe';
-import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
-import { DayChatComponent } from './chat/day-chat/day-chat.component';
-import { ChatMessageComponent } from './chat/chat-message/chat-message.component';
-import {NicknamePipe} from './chat/chat-message/nickname.pipe';
-import {PositivePipe} from './markets/positive.pipe';
+import {ChatService} from './components/chat/chat.service';
+import {DashboardService} from './dashboard.service';
+import {DashboardWebSocketService} from './dashboard-websocket.service';
+import {MarketService} from './components/markets/market.service';
+import {OrderBookService} from './components/order-book/order-book.service';
+import {TradeHistoryService} from './components/trade-history/trade-history.service';
+import {PositivePipe} from './components/markets/positive.pipe';
+import {CurrencySortingPipe} from './components/markets/currency-sorting.pipe';
+import {NicknamePipe} from './components/chat/chat-message/nickname.pipe';
 
 
 export function socketProvider() {
@@ -82,26 +82,56 @@ const stompConfig: StompConfig = {
     BuyComponent,
     ChatComponent,
     ChatMessageComponent,
-    CurrencySortingPipe,
+    CurrencyPairInfoComponent,
+    CurrencySearchComponent,
     DashboardComponent,
     DayChatComponent,
+    EmbeddedOrdersComponent,
+    EmbeddedOrdersHistoryComponent,
+    EmbeddedOpenOrdersComponent,
     GraphComponent,
     MarketsComponent,
-    NicknamePipe,
+    MarketSearchComponent,
     OrderBookComponent,
-    OrdersComponent,
-    PositivePipe,
     SellComponent,
     TradeHistoryComponent,
     TradingComponent,
-    OpenOrdersComponent,
-    OrdersHistoryComponent,
-    CurrencySearchComponent,
-    MarketSearchComponent,
     ToolsComponent,
-    CurrencyPairInfoComponent,
-    DayChatComponent,
+
+    // PIPES START
+    CurrencySortingPipe,
+    NicknamePipe,
+    PositivePipe,
+
+    // PIPES END
+  ],
+  exports: [
+    ActivePairComponent,
+    BuyComponent,
+    ChatComponent,
     ChatMessageComponent,
+    CurrencyPairInfoComponent,
+    CurrencySearchComponent,
+    DashboardComponent,
+    DayChatComponent,
+    EmbeddedOrdersComponent,
+    EmbeddedOrdersHistoryComponent,
+    EmbeddedOpenOrdersComponent,
+    GraphComponent,
+    MarketsComponent,
+    MarketSearchComponent,
+    OrderBookComponent,
+    SellComponent,
+    TradeHistoryComponent,
+    TradingComponent,
+    ToolsComponent,
+
+    // PIPES START
+    CurrencySortingPipe,
+    NicknamePipe,
+    PositivePipe,
+
+    // PIPES END
   ],
   imports: [
     SharedModule,
@@ -113,12 +143,9 @@ const stompConfig: StompConfig = {
     NgxPaginationModule,
     PerfectScrollbarModule
   ],
-  exports: [
-
-  ],
   providers: [
     ChatService,
-    DashboardDataService,
+    DashboardService,
     DashboardWebSocketService,
     MarketService,
     OrderBookService,

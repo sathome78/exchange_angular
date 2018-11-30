@@ -9,6 +9,10 @@ import {LoggingService} from './services/logging.service';
 import {HttpClient} from '@angular/common/http';
 import {NotificationsService} from './shared/components/notification/notifications.service';
 import {NotificationMessage} from './shared/models/notification-message-model';
+import {DashboardWebSocketService} from './dashboard/dashboard-websocket.service';
+import {AuthService} from './services/auth.service';
+import {Subject} from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-root',
@@ -17,23 +21,30 @@ import {NotificationMessage} from './shared/models/notification-message-model';
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   tfaSubscription: Subscription;
   identitySubscription: Subscription;
   loginSubscription: Subscription;
   loginMobileSubscription: Subscription;
-  registrationMobileSubscription: Subscription;
+  // registrationMobileSubscription: Subscription;
+  recoveryPasswordSubscription: Subscription;
+
   isTfaPopupOpen = false;
   isIdentityPopupOpen = false;
   isLoginPopupOpen = false;
   isLoginMobilePopupOpen = false;
   isRegistrationMobilePopupOpen = false;
+  isRecoveryPasswordPopupOpen = false;
   /** notification messages array */
   notificationMessages: NotificationMessage[];
 
   constructor(private popupService: PopupService,
               private router: Router,
               private themeService: ThemeService,
+              private dashboardWebsocketService: DashboardWebSocketService,
+              private authService: AuthService,
+
               private userService: UserService,
               private logger: LoggingService,
               private http: HttpClient,
@@ -43,11 +54,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
+
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
     this.subscribeForLoginEvent();
     this.subscribeForMobileLoginEvent();
     this.subscribeForMobileRegistrationEvent();
+    this.subscribeForRecoveryPasswordEvent();
     // this.setClientIp();
     this.subscribeForNotifications();
   }
@@ -69,12 +83,22 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   subscribeForMobileRegistrationEvent() {
-    this.registrationMobileSubscription = this.popupService
+    this.popupService
       .getRegistrationMobilePopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
         console.log('3');
         this.isRegistrationMobilePopupOpen = value;
         console.log(this.isRegistrationMobilePopupOpen);
+      });
+  }
+
+  subscribeForRecoveryPasswordEvent() {
+    this.popupService
+      .getRecoveryPasswordListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(value => {
+        this.isRecoveryPasswordPopupOpen = value;
       });
   }
 
@@ -103,11 +127,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
     this.tfaSubscription.unsubscribe();
     this.identitySubscription.unsubscribe();
     this.loginSubscription.unsubscribe();
     this.loginMobileSubscription.unsubscribe();
-    this.registrationMobileSubscription.unsubscribe();
+    // this.registrationMobileSubscription.unsubscribe();
   }
 
   private setIp() {

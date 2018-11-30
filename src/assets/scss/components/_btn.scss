@@ -38,6 +38,9 @@
       }
     }
   }
+  &:disabled{
+    cursor: default;
+  }
   /*--- modificators start ---*/
   // states
   &--hidden{
@@ -154,6 +157,20 @@
   .btn{
     color: #fff;
     background-color: $darker-blue;
+    &--error {
+      color: #fff;
+      border-color: transparent;
+      background-color: $red;
+
+      &:hover {
+        background-color: $red;
+      }
+
+      &:focus {
+        border-color: transparent;
+        background-color: $red;
+      }
+    }
     &--empty-red{
       color: $red;
       border-color: $red;

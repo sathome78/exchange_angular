@@ -1,6 +1,9 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {PopupService} from '../../services/popup.service';
 import {convertValueToOutputAst} from '@angular/compiler/src/output/value_util';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UserService} from '../../services/user.service';
+import {keys} from '../../core/keys';
 
 @Component({
   selector: 'app-registration-mobile-popup',
@@ -16,12 +19,35 @@ export class RegistrationMobilePopupComponent implements OnInit {
   @ViewChild('emailConfirmLinkTemplate') emailConfirmLinkTemplate: TemplateRef<any>;
   @ViewChild('passwordTemplate') passwordTemplate: TemplateRef<any>;
 
+  public emailForm: FormGroup;
+  public emailSubmited = false;
+  public passwordForm: FormGroup;
+  public nameForm: FormGroup;
+  public nameSubmited = false;
+  public agreeTerms = false;
+  public recaptchaKey = keys.recaptchaKey;
+  emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
+
+  public email;
+  public firstName;
+  public emailMessage = '';
+  public afterCaptchaMessage;
+
   constructor(
     private popupService: PopupService,
+    private userService: UserService,
   ) { }
 
   ngOnInit() {
     this.setTemplate('emailInputTemplate');
+    this.afterCaptchaMessage = `We sent the confirmation link to
+        <br>
+        <span class="popup__email-link">
+        ${this.email}
+        </span>
+        <br> Please check your email and
+        follow instructions.`
+    this.initForm();
   }
 
   setTemplate(template: string) {
@@ -48,9 +74,65 @@ export class RegistrationMobilePopupComponent implements OnInit {
     this.popupService.closeRegistrationPopup();
   }
 
-  openLogIn() {
-    console.log('L1')
+  resolvedCaptcha(event) {
+    this.userService.sendToEmailConfirmation(this.email).subscribe(res => {
+      console.log(res);
+      this.setTemplate('emailConfirmLinkTemplate');
+    }, error => {
+      this.afterCaptchaMessage = `server error`;
+      this.setTemplate('emailConfirmLinkTemplate');
+    });
+
+  }
+
+  openLogInMobile() {
     this.popupService.showMobileLoginPopup(true);
     this.closeMe();
   }
+  openLogIn() {
+    this.popupService.showLoginPopup(true);
+    this.closeMe();
+  }
+
+  initForm() {
+    this.emailForm = new FormGroup({
+      email: new FormControl('', {validators: [Validators.required, Validators.pattern(this.emailRegex)]}),
+    });
+    this.passwordForm = new FormGroup({
+      password: new FormControl('', {validators: [Validators.required]}),
+    });
+    this.nameForm = new FormGroup({
+      username: new FormControl('', {validators: Validators.required}),
+    });
+  }
+
+  emailSubmit() {
+    this.emailSubmited = true;
+    if (this.emailForm.valid && this.agreeTerms) {
+      const email = this.emailForm.get('email').value;
+      this.email = email;
+      this.userService.checkIfEmailExists(email).subscribe(res => {
+        if (!res) {
+          this.email = email;
+          this.setTemplate('captchaTemplate');
+          this.emailMessage = '';
+        } else {
+          this.emailMessage = 'this email is already used';
+        }
+      }, err => {
+        this.emailMessage = 'server error';
+      });
+    }
+  }
+
+  nameSubmit() {
+    this.nameSubmited = true;
+    if (this.nameForm.valid) {
+      this.firstName = this.nameForm.get('username').valid;
+      // this.userService.checkIfUsernameExists(this.firstName).subscribe(res => console.log(res));
+      this.setTemplate('captchaTemplate');
+    }
+  }
+
+
 }

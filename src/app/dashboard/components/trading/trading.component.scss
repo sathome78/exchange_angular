@@ -1,0 +1,39 @@
+:host {
+  width: 100%;
+}
+
+.widget__header {
+  background-color: transparent;
+}
+
+.tab-no-active {
+  border-bottom: 2px solid transparent;
+}
+
+.dropdown__item {
+  white-space: nowrap;
+}
+
+.dropdown__list {
+  left: 0;
+  right: auto;
+}
+
+.widget__tabs {
+  margin-bottom: 12px;
+  @media (min-width: 1200px) {
+    margin-bottom: 0;
+  }
+}
+
+.no-spinners::-webkit-inner-spin-button,
+.no-spinners::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@media (min-width: 1200px) {
+  .dropdown__list {
+    left: 21px;
+  }
+}

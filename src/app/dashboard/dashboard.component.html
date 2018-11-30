@@ -1,5 +1,5 @@
 <div class="container container--dashboard" *ngIf="breakPoint === 'desktop'">
-<div class="dashboard" (window:resize)="changeRatioByWidth()">
+  <div class="dashboard" (window:resize)="changeRatioByWidth()">
 
     <app-currency-pair-info></app-currency-pair-info>
 
@@ -9,17 +9,19 @@
                     [options]="gridsterOptions"
                     [draggableOptions]="{ handlerClass: 'panel-heading' }">
 
-        <ng-template ngFor let-widget [ngForOf]="widgets" , let-index = index>
-        <ngx-gridster-item   [options]="gridsterItemOptions" *ngIf="showWidget(widget.type)"
-                           [(x)]="widget.x" [(y)]="widget.y" [(w)]="widget.w" [(h)]="widget.h"
-                           [(xSm)]="widget.xSm" [(ySm)]="widget.ySm" [(wSm)]="widget.wSm" [(hSm)]="widget.hSm"
-                           [(xMd)]="widget.xMd" [(yMd)]="widget.yMd" [(wMd)]="widget.wMd" [(hMd)]="widget.hMd"
-                           [(xLg)]="widget.xLg" [(yLg)]="widget.yLg" [(wLg)]="widget.wLg" [(hLg)]="widget.hLg"
-                           [(xXl)]="widget.xXl" [(yXl)]="widget.yXl" [(wXl)]="widget.wXl" [(hXl)]="widget.hXl"
-                           [(dragAndDrop)]="widget.dragAndDrop" [(resizable)]="widget.resizable" class="gridster-item">
-          <ng-template [ngTemplateOutlet]="loadWidgetTemplate(widget.type)" [ngTemplateOutletContext]="{ $implicit: index}">
-          </ng-template>
-        </ngx-gridster-item>
+        <ng-template ngFor let-widget [ngForOf]="widgets" , let-index=index>
+          <ngx-gridster-item [options]="gridsterItemOptions" *ngIf="showWidget(widget.type)"
+                             [(x)]="widget.x" [(y)]="widget.y" [(w)]="widget.w" [(h)]="widget.h"
+                             [(xSm)]="widget.xSm" [(ySm)]="widget.ySm" [(wSm)]="widget.wSm" [(hSm)]="widget.hSm"
+                             [(xMd)]="widget.xMd" [(yMd)]="widget.yMd" [(wMd)]="widget.wMd" [(hMd)]="widget.hMd"
+                             [(xLg)]="widget.xLg" [(yLg)]="widget.yLg" [(wLg)]="widget.wLg" [(hLg)]="widget.hLg"
+                             [(xXl)]="widget.xXl" [(yXl)]="widget.yXl" [(wXl)]="widget.wXl" [(hXl)]="widget.hXl"
+                             [(dragAndDrop)]="widget.dragAndDrop" [(resizable)]="widget.resizable"
+                             class="gridster-item">
+            <ng-template [ngTemplateOutlet]="loadWidgetTemplate(widget.type)"
+                         [ngTemplateOutletContext]="{ $implicit: index}">
+            </ng-template>
+          </ngx-gridster-item>
         </ng-template>
 
       </ngx-gridster>
@@ -38,7 +40,8 @@
 
   <div class="dashboard__widget-wrap">
 
-    <ng-template [ngTemplateOutlet]="loadWidgetTemplate(activeMobileWidget)" [ngTemplateOutletContext]="{ $implicit: 1}">
+    <ng-template [ngTemplateOutlet]="loadWidgetTemplate(activeMobileWidget)"
+                 [ngTemplateOutletContext]="{ $implicit: 1}">
     </ng-template>
 
   </div>
@@ -85,7 +88,19 @@
 </ng-template>
 
 <ng-template #orders let-index>
-  <app-orders (changeItemSize)="changeItemSize($event)"
-              (removeItem)="removeItem(index)">
-  </app-orders>
+  <app-embedded-orders (changeItemSize)="changeItemSize($event)"
+                       (removeItem)="removeItem(index)">
+  </app-embedded-orders>
 </ng-template>
+
+
+
+  <div class="overlay" *ngIf="showRecoveryPassPopup">
+    <div class="popup popup-registration">
+      <div class="popup__close" (click)="closeRecoveryPassPopup()"></div>
+      <h6 class="popup__title">Thank you!</h6>
+      <h4 class="popup__subtitle">Now you can login <br> with your new password</h4>
+      <button class="btn popup__btn" (click)="goToLogin()">Login</button>
+    </div>
+  </div>
+

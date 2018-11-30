@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef 
 import {IMyDpOptions, IMyInputFieldChanged} from 'mydatepicker';
 
 import { MockDataService } from '../../services/mock-data.service';
-import { TradingService } from '../../dashboard/trading/trading.service';
-import { MarketService } from '../../dashboard/markets/market.service';
+import { TradingService } from '../../dashboard/components/trading/trading.service';
+import { MarketService } from '../../dashboard/components/markets/market.service';
 import { AuthService } from '../../services/auth.service';
-import { OrdersService } from '../../dashboard/orders/orders.service';
-import { CurrencyPair } from '../../dashboard/markets/currency-pair.model';
+import { OrdersService } from '../../dashboard/components/embedded-orders/orders.service';
+import { CurrencyPair } from '../../model/currency-pair.model';
 
 import { timestamp, takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
@@ -64,24 +64,11 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
-    /** mock */
-    // TODO: delete in prod
-    // this.orderHistory = this.mockData.getOpenOrders().items;
-    // this.activeCurrencyPair = 'USD/BTC';
-    // this.arrPairName = this.activeCurrencyPair.split('/');
-    // this.countOfEntries = this.orderHistory.length;
-    /** end mock */
-
-    // this.marketService.setStompSubscription();
-
-    // this.currencyPairs = this.mockData.getMarketsData().map(item => CurrencyPair.fromJSON(item));
     /** get currencyPairs */
     this.marketService.marketListener$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(pairs => {
         this.currencyPairs = pairs;
-        console.log('marketServices', this.currencyPairs);
         this.ref.detectChanges();
       });
 
@@ -94,9 +81,9 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
         this.toHistory();
       });
     if (this.authService.isAuthenticated()) {
-      this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
+      // this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
       this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
-      });
+    });
     }
 
     this.initDate();

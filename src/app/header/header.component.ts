@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {ThemeService} from '../services/theme.service';
 import {UserService} from '../services/user.service';
 import {SettingsService} from '../settings/settings.service';
-import {DashboardDataService} from '../dashboard/dashboard-data.service';
+import {DashboardService} from '../dashboard/dashboard.service';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
 
   public isMobileMenuOpen = false;
   public mobileView = 'markets';
+  public userInfo;
 
   constructor(private popupService: PopupService,
               private authService: AuthService,
@@ -24,7 +25,7 @@ export class HeaderComponent implements OnInit {
               private router: Router,
               private themeService: ThemeService,
               private settingsService: SettingsService,
-              private dashboardService: DashboardDataService,
+              private dashboardService: DashboardService,
               private userService: UserService) {
   }
 
@@ -36,7 +37,18 @@ export class HeaderComponent implements OnInit {
             this.themeService.setDarkTheme();
           }
         });
+      this.userInfo = this.authService.simpleToken;
     }
+    this.authService.onLoginLogoutListener$.subscribe(res => {
+      if (res.username !== '') {
+        this.userInfo.username = res.username;
+      } else {
+        this.userInfo = null;
+      }
+    });
+    this.dashboardService.activeMobileWidget.subscribe(res => {
+      this.mobileView = res;
+    });
   }
 
   public openMenu() {
@@ -47,6 +59,10 @@ export class HeaderComponent implements OnInit {
   public navigateToSettings() {
     this.isMobileMenuOpen = false;
     this.router.navigate(['/settings']);
+  }
+
+  public getUsername() {
+    return this.authService.getUsername();
   }
 
 
@@ -66,6 +82,7 @@ export class HeaderComponent implements OnInit {
   onLogout() {
     this.logger.debug(this, 'User clicked log out');
     this.authService.onLogOut();
+    this.userService.getUserBalance(null);
   }
 
   toggleTheme() {
@@ -80,6 +97,10 @@ export class HeaderComponent implements OnInit {
             console.log(err);
           });
     }
+  }
+
+  openRegistration() {
+    this.popupService.showMobileRegistrationPopup(true);
   }
 
   setMobileWidget(widget: string) {

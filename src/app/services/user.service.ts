@@ -1,14 +1,21 @@
-import {Injectable} from '@angular/core';
-import {environment} from '../../environments/environment';
+import {Router} from '@angular/router';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+
+import {tap} from 'rxjs/internal/operators';
+import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
+import {environment} from '../../environments/environment';
 import {AuthService} from './auth.service';
 import {IP_USER_HEADER, IP_USER_KEY} from './http.utils';
 import {LangService} from './lang.service';
 import {AuthCandidate} from '../model/auth-candidate.model';
 import {LoggingService} from './logging.service';
 import {TokenHolder} from '../model/token-holder.model';
-import {Router} from '@angular/router';
+import {CurrencyPair} from '../model/currency-pair.model';
+import {State} from '../dashboard/reducers/dashboard.reducer';
+import {RefreshUserBalanceAction} from '../dashboard/actions/dashboard.actions';
+import {defaultUserBalance} from '../dashboard/reducers/default-values';
 
 @Injectable()
 export class UserService {
@@ -16,11 +23,13 @@ export class UserService {
   HOST = environment.apiUrl;
 
 
-  constructor(private http: HttpClient,
-              private authService: AuthService,
-              private langService: LangService,
-              private logger: LoggingService,
-              private router: Router) {
+  constructor(
+    private store: Store<State>,
+    private http: HttpClient,
+    private authService: AuthService,
+    private langService: LangService,
+    private logger: LoggingService,
+    private router: Router) {
   }
 
    checkIfEmailExists(email: string): Observable<boolean> {
@@ -35,6 +44,18 @@ export class UserService {
       params:  new HttpParams().set('username', username)
     };
     return this.http.get<string[]>(this.getUrl('if_username_exists'), httpOptions);
+  }
+
+  public getUserBalance(pair: CurrencyPair) {
+    if (this.authService.isAuthenticated() && pair.currencyPairId) {
+      const sub = this.http.get(`${this.HOST}/info/private/v2/dashboard/info/${pair.currencyPairId}`)
+        .subscribe(info => {
+          this.store.dispatch(new RefreshUserBalanceAction(info));
+          sub.unsubscribe();
+        });
+    } else {
+      this.store.dispatch(new RefreshUserBalanceAction(defaultUserBalance));
+    }
   }
 
   public getIfConnectionSuccessful(): Observable<boolean> {
@@ -59,7 +80,7 @@ export class UserService {
   }
 
   public authenticateUser(email: string, password: string, pin?: string): Observable<{} | TokenHolder> {
-    console.log(email, password, pin)
+    // console.log(email, password, pin);
     const authCandidate = AuthCandidate
       .builder()
       .withEmail(email)
@@ -83,6 +104,16 @@ export class UserService {
     return this.http.post<TokenHolder>(this.getUrl('users/authenticate'), JSON.stringify(authCandidate), httpOptions);
   }
 
+  sendToEmailConfirmation(email: string) {
+    const data = {'email': email};
+    return this.http.post<TokenHolder>(this.getUrl('users/register'), data);
+  }
+
+  sendToEmailForRecovery(email: string) {
+    const data = {'email': email};
+    return this.http.post<TokenHolder>(this.getUrl('users/recoveryPassword'), data);
+  }
+
   public getUserColorScheme(): Observable<string> {
     const url = this.HOST + '/info/private/v2/settings/color-schema';
     return this.http.get<string>(url);
@@ -90,6 +121,16 @@ export class UserService {
   public getUserColorEnabled(): Observable<boolean> {
     const url = this.HOST + '/info/private/v2/settings/isLowColorEnabled';
     return this.http.get<boolean>(url);
+  }
+
+  public finalRegistration(data): Observable<any> {
+    const url = `${this.HOST}/info/public/v2/users/createPassword`;
+    return this.http.post(url, data);
+  }
+
+  public recoveryPassword(data): Observable<any> {
+    const url = `${this.HOST}/info/public/v2/users/createRecoveryPassword`;
+    return this.http.post(url, data);
   }
 
   public getUserGoogleLoginEnabled(email: string): Observable<boolean> {

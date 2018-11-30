@@ -8,6 +8,7 @@ export class PopupService {
   private onOpenTFAPopupListener = new Subject<string>();
   private onOpenIdentityPopupListener = new Subject<string>();
   private onLoginPopupListener = new Subject<boolean>();
+  private onRecoveryPasswordListener = new Subject<boolean>();
   private onMobileLoginPopupListener = new Subject<boolean>();
   private onMobileRegistrationPopupListener = new Subject<boolean>();
   private stepListener = new Subject<number>();
@@ -37,22 +38,21 @@ export class PopupService {
     this.onMobileLoginPopupListener.next(state);
   }
 
+  showRecoveryPasswordPopup(state: boolean) {
+    this.onRecoveryPasswordListener.next(state);
+  }
+
   showMobileRegistrationPopup(state: boolean) {
     console.log('open 2');
     this.onMobileRegistrationPopupListener.next(state);
   }
 
   showTFAPopup(provider: string) {
-    if (provider === 'GOOGLE_DISABLED') {
-
-
-      return;
-    }
-    this.onOpenTFAPopupListener.next(provider);
-    if (provider === 'GOOGLE' || provider === 'SMS' || provider === 'TELEGRAM') {
+    if (provider === 'GOOGLE' || provider === 'SMS' || provider === 'TELEGRAM' || provider === 'GOOGLE_DISABLED') {
       this.tfaProvider = provider;
     }
     this.stepsMap = this.getStepsMap(provider);
+    this.onOpenTFAPopupListener.next(provider);
   }
 
   closeTFAPopup() {
@@ -74,6 +74,11 @@ export class PopupService {
   public getLoginPopupListener(): Subject<boolean> {
     return this.onLoginPopupListener;
   }
+
+  public getRecoveryPasswordListener(): Subject<boolean> {
+    return this.onRecoveryPasswordListener;
+  }
+
   public getLoginMobilePopupListener(): Subject<boolean> {
     return this.onMobileLoginPopupListener;
   }
@@ -117,7 +122,7 @@ export class PopupService {
     switch (provider) {
       case 'GOOGLE':
         return this.getGoogleStepsMap();
-      case 'GOOGLE_DISABLE':
+      case 'GOOGLE_DISABLED':
         return this.getGoogleDisableStepsMap();
       case 'SMS':
         return this.getSmsStepsMap();
@@ -163,7 +168,10 @@ export class PopupService {
 
   closeLoginPopup() {
     this.onLoginPopupListener.next(false);
+  }
 
+  closeRecoveryPasswordPopup() {
+    this.onRecoveryPasswordListener.next(false);
   }
 
   closeMobileLoginPopup() {

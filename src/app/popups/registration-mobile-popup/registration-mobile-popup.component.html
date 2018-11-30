@@ -1,3 +1,146 @@
+<!--<div class="overlay">-->
+<!--<div class="popup popup-login">-->
+<!--<div class="popup__close" (click)="closeMe()"></div>-->
+
+
+<!--<ng-template [ngTemplateOutlet]="currentTemplate">-->
+<!--</ng-template>-->
+
+
+<!--<ng-template #emailInputTemplate>-->
+<!--<h6 class="popup__title">Registration</h6>-->
+<!--<h4 class="popup__subtitle"></h4>-->
+<!--<form class="popup__form">-->
+<!--<div >-->
+<!--<div class="wrap-input popup__wrap-input">-->
+<!--<input-->
+<!--class="wrap-input__input"-->
+<!--type="text"-->
+<!--&gt;-->
+<!--<label class="wrap-input__label" for="">Email</label>-->
+<!--<div class="wrap-input__line"></div>-->
+<!--&lt;!&ndash;Input error section starts&ndash;&gt;-->
+<!--<div>-->
+<!--<span class="wrap-input__message">-->
+<!--This field is required.-->
+<!--</span>-->
+<!--<span-->
+<!--class="wrap-input__message">-->
+<!--Please, enter valid email address.-->
+<!--</span>-->
+<!--</div>-->
+<!--&lt;!&ndash;Input error section ends&ndash;&gt;-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<button class="btn popup__btn" >Create an account</button>-->
+<!--</form>-->
+<!--<div class="popup__links-wrap">-->
+<!--<a class="popup__link" ><span>By registering you agree with</span> Terms of Use</a>-->
+<!--</div>-->
+
+<!--<a (click)="setTemplate('nameInputTemplate')">next</a>-->
+
+<!--<a class="popup__link-mob" (click)="openLogIn()">Log in</a>-->
+<!--</ng-template>-->
+
+<!--<ng-template #nameInputTemplate>-->
+<!--<h6 class="popup__title">Registration</h6>-->
+<!--<h4 class="popup__subtitle"></h4>-->
+<!--<form class="popup__form">-->
+<!--<div >-->
+<!--<div class="wrap-input popup__wrap-input">-->
+<!--<input-->
+<!--class="wrap-input__input"-->
+<!--type="text"-->
+<!--&gt;-->
+<!--<label class="wrap-input__label" for="">First name</label>-->
+<!--<div class="wrap-input__line"></div>-->
+<!--&lt;!&ndash;Input error section starts&ndash;&gt;-->
+<!--<div>-->
+<!--<span class="wrap-input__message">-->
+<!--This field is required.-->
+<!--</span>-->
+<!--<span-->
+<!--class="wrap-input__message">-->
+<!--Please, enter valid name.-->
+<!--</span>-->
+<!--</div>-->
+<!--&lt;!&ndash;Input error section ends&ndash;&gt;-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<button class="btn popup__btn" >Create an account</button>-->
+<!--</form>-->
+<!--<div class="popup__links-wrap">-->
+<!--<a class="popup__link" href="#"><span>By registering you agree with</span> Terms of Use</a>-->
+<!--</div>-->
+<!--<a (click)="setTemplate('captchaTemplate')">next</a>-->
+<!--<a class="popup__link-mob" >Log in</a>-->
+<!--</ng-template>-->
+
+<!--<ng-template #captchaTemplate>-->
+<!--<h6 class="popup__title">Enter the captcha</h6>-->
+<!--<div class="captcha">captcha</div>-->
+<!--<div class="popup__links-wrap">-->
+<!--<a class="popup__link" href="#">Go to registration form</a>-->
+<!--</div>-->
+<!--<a (click)="setTemplate('emailConfirmLinkTemplate')">next</a>-->
+<!--</ng-template>-->
+
+<!--<ng-template #emailConfirmLinkTemplate>-->
+<!--<h6 class="popup__title">Confirm the email</h6>-->
+<!--<h4 class="popup__subtitle">We sent the confirmation link to-->
+<!--very_beautifull_email@gmail.com <br> Please check your email and-->
+<!--follow instructions.</h4>-->
+<!--<hr>-->
+<!--<div class="popup__links-wrap">-->
+<!--<a class="popup__link"><span>If you haven't received the email, do the following:</span><br><span>Check spam or other folders.<br>Set email address whitelist.</span>-->
+<!--How to set?<span><br>Check the mail client works normally.</span></a>-->
+<!--</div>-->
+<!--<a (click)="setTemplate('passwordTemplate')">next</a>-->
+<!--</ng-template>-->
+
+
+<!--<ng-template #passwordTemplate>-->
+<!--<h6 class="popup__title">Email confirmed</h6>-->
+<!--<h4 class="popup__subtitle">Now, we need to create <br> strong password.</h4>-->
+<!--<form class="popup__form">-->
+<!--<div >-->
+<!--<div class="wrap-input popup__wrap-input">-->
+<!--<input-->
+<!--class="wrap-input__input"-->
+<!--type="password"-->
+<!--&gt;-->
+<!--<label class="wrap-input__label" for="">Password</label>-->
+<!--<div class="wrap-input__line">Should have 8 chars at least, symbols-->
+<!--and numbers</div>-->
+<!--&lt;!&ndash;Input error section starts&ndash;&gt;-->
+<!--<div>-->
+<!--<span class="wrap-input__message">-->
+<!--This field is required.-->
+<!--</span>-->
+<!--<span-->
+<!--class="wrap-input__message">-->
+<!--Please, enter valid email address.-->
+<!--</span>-->
+<!--</div>-->
+<!--&lt;!&ndash;Input error section ends&ndash;&gt;-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<button class="btn popup__btn" >Create an account</button>-->
+<!--</form>-->
+<!--<div class="popup__links-wrap">-->
+<!--<a class="popup__link" href="#"><span>By registering you agree with</span> Terms of Use</a>-->
+<!--</div>-->
+<!--</ng-template>-->
+
+<!--</div>-->
+
+<!--</div>-->
+
+
 <div class="overlay">
   <div class="popup popup-login">
     <div class="popup__close" (click)="closeMe()"></div>
@@ -7,133 +150,65 @@
     </ng-template>
 
 
-<ng-template #emailInputTemplate>
-    <h6 class="popup__title">Registration</h6>
-    <h4 class="popup__subtitle"></h4>
-    <form class="popup__form">
-      <div >
-        <div class="wrap-input popup__wrap-input">
-          <input
-            class="wrap-input__input"
-            type="text"
-          >
-          <label class="wrap-input__label" for="">Email</label>
-          <div class="wrap-input__line"></div>
-          <!--Input error section starts-->
-          <div>
-            <span class="wrap-input__message">
-              This field is required.
-            </span>
-            <span
-              class="wrap-input__message">
-              Please, enter valid email address.
-            </span>
-          </div>
-          <!--Input error section ends-->
-        </div>
-      </div>
-
-      <button class="btn popup__btn" >Create an account</button>
-    </form>
-    <div class="popup__links-wrap">
-      <a class="popup__link" ><span>By registering you agree with</span> Terms of Use</a>
-    </div>
-
-  <a (click)="setTemplate('nameInputTemplate')">next</a>
-
-    <a class="popup__link-mob" (click)="openLogIn()">Log in</a>
-  </ng-template>
-
-    <ng-template #nameInputTemplate>
+    <ng-template #emailInputTemplate>
       <h6 class="popup__title">Registration</h6>
-      <h4 class="popup__subtitle"></h4>
-      <form class="popup__form">
+      <h4 class="popup__subtitle">{{emailMessage}}</h4>
+      <form class="popup__form" [formGroup]="emailForm">
         <div >
           <div class="wrap-input popup__wrap-input">
             <input
+              required
               class="wrap-input__input"
-              type="text"
+              formControlName="email"
+              [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched}"
             >
-            <label class="wrap-input__label" for="">First name</label>
+            <label class="wrap-input__label" for="">Email</label>
             <div class="wrap-input__line"></div>
             <!--Input error section starts-->
-            <div>
-            <span class="wrap-input__message">
+            <div *ngIf="!emailForm.valid && emailSubmited">
+            <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required']">
               This field is required.
             </span>
-              <span
-                class="wrap-input__message">
-              Please, enter valid name.
+              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['pattern']">
+              Please, enter valid email address.
             </span>
             </div>
             <!--Input error section ends-->
           </div>
         </div>
 
-        <button class="btn popup__btn" >Create an account</button>
+        <button class="btn popup__btn" (click)="emailSubmit()"
+                [ngClass]="{'popup__btn--active': emailForm.valid && agreeTerms}" [disabled]="!emailForm.valid && !agreeTerms"
+        >Create an account</button>
       </form>
       <div class="popup__links-wrap">
-        <a class="popup__link" href="#"><span>By registering you agree with</span> Terms of Use</a>
+        <input type="checkbox" [(ngModel)]="agreeTerms" [disabled]="!emailForm.valid">
+        <span>By registering you agree with</span>
+        <a class="popup__link" >Terms of Use</a>
       </div>
-      <a (click)="setTemplate('captchaTemplate')">next</a>
-      <a class="popup__link-mob" >Log in</a>
+      <div class="popup__links-wrap popup__links-wrap--hidden-mob">
+        <span>Already have an account?</span>
+        <a class="popup__link" (click)="openLogIn()">Log in</a>
+      </div>
+
+      <a class="popup__link-mob" (click)="openLogInMobile()">Log in</a>
     </ng-template>
 
+
     <ng-template #captchaTemplate>
-      <h6 class="popup__title">Enter the captcha</h6>
-      <div class="captcha">captcha</div>
+      <h6 class="popup__title">Registration</h6>
+      <re-captcha (resolved)="resolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
       <div class="popup__links-wrap">
-        <a class="popup__link" href="#">Go to registration form</a>
+        <a class="popup__link" (click)="setTemplate('emailInputTemplate')">Go to registration form</a>
       </div>
-      <a (click)="setTemplate('emailConfirmLinkTemplate')">next</a>
     </ng-template>
 
     <ng-template #emailConfirmLinkTemplate>
       <h6 class="popup__title">Confirm the email</h6>
-      <h4 class="popup__subtitle">We sent the confirmation link to
-        very_beautifull_email@gmail.com <br> Please check your email and
-        follow instructions.</h4>
-      <hr>
-      <div class="popup__links-wrap">
-        <a class="popup__link"><span>If you haven't received the email, do the following:</span><br><span>Check spam or other folders.<br>Set email address whitelist.</span>
-          How to set?<span><br>Check the mail client works normally.</span></a>
-      </div>
-      <a (click)="setTemplate('passwordTemplate')">next</a>
-    </ng-template>
-
-
-    <ng-template #passwordTemplate>
-      <h6 class="popup__title">Email confirmed</h6>
-      <h4 class="popup__subtitle">Now, we need to create <br> strong password.</h4>
-      <form class="popup__form">
-        <div >
-          <div class="wrap-input popup__wrap-input">
-            <input
-              class="wrap-input__input"
-              type="password"
-            >
-            <label class="wrap-input__label" for="">Password</label>
-            <div class="wrap-input__line">Should have 8 chars at least, symbols
-              and numbers</div>
-            <!--Input error section starts-->
-            <div>
-            <span class="wrap-input__message">
-              This field is required.
-            </span>
-              <span
-                class="wrap-input__message">
-              Please, enter valid email address.
-            </span>
-            </div>
-            <!--Input error section ends-->
-          </div>
-        </div>
-
-        <button class="btn popup__btn" >Create an account</button>
-      </form>
-      <div class="popup__links-wrap">
-        <a class="popup__link" href="#"><span>By registering you agree with</span> Terms of Use</a>
-      </div>
+      <h4 class="popup__subtitle" [innerHtml]="afterCaptchaMessage"></h4>
+      <div class="popup__line"></div>
+      <div class="popup__text--light">If you haven't received the email, do the following:</div>
+      <div class="popup__text--light">Check spam or other folders. <br> Set email address whitelist. <a class="popup__link" href="">How to set?</a><br> Check the mail client works normally.</div>
     </ng-template>
 
   </div>

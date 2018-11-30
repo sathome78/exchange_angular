@@ -16,7 +16,7 @@ export class LoginPopupMobileComponent implements OnInit {
 
   emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
   isPasswordVisible = false;
-  twoFaAuthModeMessage = 'Please enter two-factor <br> autentification code';
+  twoFaAuthModeMessage = 'Please enter two-factor <br> authentication code';
   pincodeAttempts = 0;
   public statusMessage = '';
   public inPineCodeMode;
@@ -149,7 +149,7 @@ export class LoginPopupMobileComponent implements OnInit {
           this.popupService.closeMobileLoginPopup();
           this.router.navigate(['/']);
           // TODO: just for promo state, remove after
-          // location.reload();
+          location.reload();
         },
         err => {
           const status = err['status'];

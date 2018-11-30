@@ -1,11 +1,13 @@
 .pair-popup{
   position: relative;
   z-index: 10000;
-  padding: 0 12px 0;
-  background: linear-gradient(to bottom, #F5F5F5 0%, #FDFDFD 50%, #F5F5F5 100%);
   /*--- modificators start ---*/
   /*--- modificators end ---*/
   /*--- elements start ---*/
+  &__inner{
+    padding: 0 12px 0;
+    background: linear-gradient(to bottom, #F5F5F5 0%, #FDFDFD 50%, #F5F5F5 100%);
+  }
   &__top {
     display: flex;
     justify-content: space-between;
@@ -48,6 +50,11 @@
           left: 12px;
           background-color: #f5f5f5;
         }
+        ~.wrap-input__icon{
+          svg{
+            fill:$darker-blue;
+          }
+        }
       }
       &:valid{
         ~.wrap-input__label{
@@ -68,14 +75,13 @@
   &__header-txt{
     display: none;
   }
-  &__content{
+  &__content-wrap{
     padding-top: 12px;
+  }
+  &__content{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    max-height: 237px;
-    overflow-y: scroll;
-    overflow-x: hidden;
   }
   &__group{
     width: 100%;
@@ -120,16 +126,18 @@
   /*--- elements end ---*/
 }
 /*--- media start ---*/
-@media (min-width:600px) {}
-@media (min-width:900px) {}
 @media (min-width:1200px) {
   .pair-popup{
-    margin: 0 32px;
-    padding: 0 16px;
-    border: 1px solid $grey;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+    max-width: 1464px;
+    margin: 0 auto;
+    &__inner{
+      margin: 0 16px;
+      padding: 0 16px;
+      border: 1px solid $grey;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+    }
     &__close-mob{
       display: none;
     }
@@ -140,28 +148,39 @@
       display: block;
     }
     &__header{
+      position: relative;
       flex-direction: row;
-      align-items: center;
       margin-top: 20px;
-      border-bottom: 1px solid $darker-blue;
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: 0px;
+        left: 292px;
+        z-index: -1;
+        width: calc(100% - 292px);
+        height: 1px;
+        background-color: $grey;
+      }
     }
     &__input{
       width: 260px;
       margin-right: 32px;
       .wrap-input__input{
-        border-color: $darker-blue;
         &:valid{
           ~.wrap-input__label{
             color: $darker-blue;
           }
         }
       }
-      .wrap-input__icon{
-        svg{
-          fill: $darker-blue;
-        }
+    }
+    &__tabs {
+      .tabs__item {
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
       }
-      .wrap-input__line{
+      &:after{
         display: none;
       }
     }
@@ -173,8 +192,15 @@
         margin-right: 4px;
       }
     }
-    &__content{
+    &__content-wrap{
       padding-top: 24px;
+      padding-bottom: 12px;
+      max-height: 300px;
+      position: relative;
+    }
+    &__content{
+      height: 100%;
+      overflow: hidden;
     }
     &__group{
       width: 200px;
@@ -192,9 +218,10 @@
 /*--- DARK THEME START---*/
 .dark-theme{
   .pair-popup{
-    border-color: $light-blue;
-    background: none;
-    background-color: $dark-indigo;
+    &__inner{
+      border-color: $light-blue;
+      background: $dark-indigo none;
+    }
     &__close-mob{
       svg{
         fill: $light-blue;
@@ -216,6 +243,21 @@
             background-color: $dark-indigo;
             color: $light-blue;
           }
+          ~.wrap-input__icon{
+            svg{
+              fill:$light-blue;
+            }
+          }
+        }
+        &:focus{
+          ~.wrap-input__label{
+            background-color: $dark-indigo;
+          }
+          ~.wrap-input__icon{
+            svg{
+              fill:$light-blue;
+            }
+          }
         }
       }
       .wrap-input__icon{
@@ -233,6 +275,25 @@
   }
 }
 @media (min-width:1200px) {
-  .dark-theme{}
+  .dark-theme{
+    .pair-popup{
+      &__header{
+        &:after {
+          z-index: 1;
+          background-color: $light-grey;
+        }
+      }
+      &__tabs {
+        .tabs__item {
+          &--active{
+            border-bottom-color: $light-blue;
+            &:before{
+              border-color: $light-blue transparent transparent transparent;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 /*--- DARK THEME END---*/

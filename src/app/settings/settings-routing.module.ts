@@ -8,6 +8,7 @@ import {NicknameComponent} from './nickname/nickname.component';
 import {VerificationComponent} from './verification/verification.component';
 import {EmailNotificationComponent} from './email-notification/email-notification.component';
 import {ViewComponent} from './view/view.component';
+import {AuthGuard} from '../services/auth.guard';
 
 const settingsRoutes: Routes = [
   { path: 'settings',
@@ -18,7 +19,7 @@ const settingsRoutes: Routes = [
       { path: 'password', component: PasswordComponent },
       { path: 'session', component: SessionComponent },
       { path: 'nickname', component: NicknameComponent },
-      { path: 'verification', component: VerificationComponent },
+      // { path: 'verification', component: VerificationComponent },
       { path: 'e-notification', component: EmailNotificationComponent },
       { path: 'view', component: ViewComponent },
       { path: '**', redirectTo: 'two-factor-auth'}

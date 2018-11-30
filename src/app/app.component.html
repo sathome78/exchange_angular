@@ -30,6 +30,10 @@
         </div>
         <app-refill-money></app-refill-money>
 
+      <div *ngIf="isRecoveryPasswordPopupOpen">
+        <app-recovery-pass></app-recovery-pass>
+      </div>
+
         <router-outlet></router-outlet>
 
         <!--<a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>-->

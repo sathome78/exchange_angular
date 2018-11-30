@@ -1,0 +1,10 @@
+.currency-pair-info__btn{
+  padding: 0;
+  &:after{
+    display: none;
+  }
+}
+
+.dropdown__list{
+  display: block;
+}
