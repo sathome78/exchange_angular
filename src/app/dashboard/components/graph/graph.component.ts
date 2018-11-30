@@ -34,13 +34,21 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   currencyPairName = 'BTC/USD';
-
   firstCurrency: string;
   secondCurrency: string;
+  /** show currency search bar */
+  public showCurrencySearch: boolean;
+  public marketDropdown = false;
+  public activeCurrency: number;
+  /** available currencies */
+  public currencies: Currency[];
+  public marketsArray = [
+    {name: 'USD'},
+    {name: 'ETH'},
+    {name: 'BTC'},
+  ];
   public allCurrencyPairs;
-
   currentCurrencyInfo;
-
   private lang;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
@@ -145,7 +153,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair) => {
-        console.log(pair);
         this.currencyPairName = pair.currencyPairName as string;
         if (this.currencyPairName) {
           // this._tvWidget = new widget(this.widgetOptions);
@@ -276,19 +283,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.dashboardService.activeMobileWidget.next(widgetName);
   }
 
-  /**  methods for pair info  **/
-  /** show currency search bar */
-  public showCurrencySearch: boolean;
-  public marketDropdown = false;
-  public activeCurrency: number;
-  /** available currencies */
-  public currencies: Currency[];
-  public marketsArray = [
-    {name: 'USD'},
-    {name: 'ETH'},
-    {name: 'BTC'},
-  ];
-
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
     if ($event.target.className !== 'dropdown__btn') {
@@ -336,24 +330,23 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
    * @returns {string}
    */
   createCurrencyPairName(newCurrency: string): string {
-    let Pair;
+    let tempPair;
     if (this.activeCurrency === 0) {
       this.firstCurrency = newCurrency;
-      Pair = `${this.firstCurrency}/${this.secondCurrency}`;
+      tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
     }
     if (this.activeCurrency === 1) {
       this.secondCurrency = newCurrency;
       this.allCurrencyPairs.forEach((pair, index) => {
         if (pair.market === this.secondCurrency) {
-          Pair = pair.currencyPairName;
+          tempPair = pair.currencyPairName;
         }
         if (pair.currencyPairName === `${this.firstCurrency}/${this.secondCurrency}`) {
-          Pair = `${this.firstCurrency}/${this.secondCurrency}`;
+          tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
         }
       });
     }
-    return Pair ;
+    return tempPair ;
   }
 
-  /** -------------------- **/
 }
