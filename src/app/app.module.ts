@@ -59,6 +59,7 @@ import { RefillStepOneComponent } from './balance/refill-money/refill-step-one/r
 import { RefillStepTwoComponent } from './balance/refill-money/refill-step-two/refill-step-two.component';
 import { RefillStepThreeComponent } from './balance/refill-money/refill-step-three/refill-step-three.component';
 import { RefillCryptoComponent } from './balance/refill-money/refill-step-two/refill-crypto/refill-crypto.component';
+import { RefillFiatComponent } from './balance/refill-money/refill-step-two/refill-fiat/refill-fiat.component';
 
 
 
@@ -99,6 +100,7 @@ import { RefillCryptoComponent } from './balance/refill-money/refill-step-two/re
     RefillStepTwoComponent,
     RefillStepThreeComponent,
     RefillCryptoComponent,
+    RefillFiatComponent,
     // TWO FACTOR POPUP END
 
 
