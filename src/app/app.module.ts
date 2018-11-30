@@ -63,7 +63,9 @@ import { TransactionHistoryComponent } from './transaction-history/transaction-h
 import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-password/final-step-recovery-password.component';
 import { FundsComponent } from './funds/funds.component';
 import {BalanceService} from './shared/balance.service';
-import { OrdersComponent } from './orders/orders.component';
+import {OrdersComponent} from './orders/orders.component';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {environment} from 'environments/environment';
 
 
 @NgModule({
@@ -107,6 +109,10 @@ import { OrdersComponent } from './orders/orders.component';
   ],
   imports: [
     StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: !environment.production,
+    }),
     CoreModule,
     AppRoutingModule,
     BrowserModule,

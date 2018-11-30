@@ -5,12 +5,12 @@ import {OpenOrdersComponent} from './open-orders/open-orders.component';
 import {OrdersHistoryComponent} from './orders-history/orders-history.component';
 
 const ordersRoutes: Routes = [
-  { path: 'orders',
+  { path: '',
     component: OrdersComponent,
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'open'},
       { path: 'open', component: OpenOrdersComponent },
       { path: 'closed', component: OrdersHistoryComponent },
+      { path: '', pathMatch: 'full', redirectTo: '/orders/open'},
       { path: '**', redirectTo: 'open'}
     ]
   }

@@ -171,7 +171,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  selctNewActiveCurrencyPair(pair: CurrencyPair) {
+  selectNewActiveCurrencyPair(pair: CurrencyPair) {
     this.activeCurrencyPair = pair;
     this.currency = pair.currencyPairName;
   }

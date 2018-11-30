@@ -15,8 +15,15 @@ export class OrdersService {
   }
 
   // from and to - dates
-  getOpenOrders(from?: string, to?: string): Observable<OrderWrapper> {
-    return this.http.get<OrderWrapper>(`${this.apiUrl}/info/private/v2/dashboard/orders/OPENED`);
+  getOpenOrders(page: number, limit: number, from?: string, to?: string): Observable<OrderWrapper> {
+    const params = {
+      page: page + '',
+      limit: limit + '',
+      from,
+      to,
+    }
+
+    return this.http.get<OrderWrapper>(`${this.apiUrl}/info/private/v2/dashboard/orders/OPENED`, {params});
   }
 
   getClosedOrders(from?: string, to?: string): Observable<OrderWrapper> {

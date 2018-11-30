@@ -1,8 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy} from '@angular/core';
-import { IMyDpOptions, IMyInputFieldChanged } from 'mydatepicker';
+import {Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy} from '@angular/core';
+import {IMyDpOptions, IMyInputFieldChanged, IMyDate, IMyDateModel} from 'mydatepicker';
+import {Store, select} from '@ngrx/store';
 
 import {OrderItem} from '../order-item.model';
-import {OrdersService} from '../orders.service';
+import * as ordersReducer from '../store/reducers/orders.reducer';
+import * as ordersAction from '../store/actions/orders.actions';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-open-orders',
@@ -15,8 +18,8 @@ export class OpenOrdersComponent implements OnInit {
   @ViewChild('dropdown')
   dropdownElement: ElementRef;
 
-  public orderItems: OrderItem []  = [];
-  public countOfEntries = 0;
+  public orderItems$: Observable<OrderItem[]>;
+  public countOfEntries$: Observable<number>;
 
   currentPage = 1;
   countPerPage = 14;
@@ -28,22 +31,29 @@ export class OpenOrdersComponent implements OnInit {
   public modelDateFrom: any;
   public modelDateTo: any;
 
-  public dateFrom: Date;
-  public dateTo: Date;
+  public currency: string = '';
+  public showFilterPopup: boolean = false;
 
-  constructor( private ordersService: OrdersService) { }
+  constructor(
+    private store: Store<ordersReducer.State>
+  ) { 
+    this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr, {currency: this.currency}));
+    this.countOfEntries$ = store.select(ordersReducer.getOpenOrdersCount);
+  }
 
   ngOnInit() {
-
-    this.ordersService.getOpenOrders()
-      .subscribe(wrapper => {
-        this.countOfEntries = wrapper.count;
-        this.orderItems = wrapper.items;
-        console.log(this.orderItems );
-        console.log(this.countOfEntries );
-      });
-
     this.initDate();
+    this.loadOrders();
+  }
+
+  loadOrders() {
+    const params = {
+      page: this.currentPage, 
+      limit:this.countPerPage,
+      from: this.formatDate(this.modelDateFrom.date),
+      to: this.formatDate(this.modelDateTo.date),
+    }
+    this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
   }
 
   toggleDropdown(e: MouseEvent) {
@@ -52,59 +62,59 @@ export class OpenOrdersComponent implements OnInit {
 
   changeItemsPerPage(e: MouseEvent) {
     const element: HTMLElement = <HTMLElement>e.currentTarget;
-
     this.countPerPage = parseInt(element.innerText, 10);
+    this.loadOrders();
   }
 
   changePage(page: number): void {
     this.currentPage = page;
+    this.loadOrders();
   }
 
   /** tracks input changes in a my-date-picker component */
-  onFromInputFieldChanged(event: IMyInputFieldChanged): void {
-    const date = new Date();
-    this.dateFrom = new Date(date.setTime(Date.parse(this.formarDate(event.value))));
-    this.filterByDate();
+  dateFromChanged(event: IMyDateModel): void {
+
+    this.modelDateFrom.date = event.date;
+    if (!this.isDateRangeValid()) {
+      this.modelDateTo = {date: event.date};
+    }
+    this.loadOrders()
+  }
+  /** tracks input changes in a my-date-picker component */
+  dateToChanged(event: IMyDateModel): void {
+    debugger
+    this.modelDateTo.date = event.date;
+    if (!this.isDateRangeValid() && !(event.date.year === 0 && event.date.day === 0)) {
+      this.modelDateFrom = {date: event.date};
+    }
+    this.loadOrders()
   }
 
-  /** tracks input changes in a my-date-picker component */
-  onToInputFieldChanged(event: IMyInputFieldChanged): void {
-    const date = new Date();
-    this.dateTo = new Date(date.setTime(Date.parse(this.formarDate(event.value))));
-    this.filterByDate();
+  /**
+   * check is date To is bigger than date From 
+   * @returns { boolean }
+   */
+  isDateRangeValid(): boolean {
+    const dateFrom = new Date(this.modelDateFrom.date.year, this.modelDateFrom.date.month - 1, this.modelDateFrom.date.day);
+    const dateTo = new Date(this.modelDateTo.date.year, this.modelDateTo.date.month - 1, this.modelDateTo.date.day);
+    const diff = dateTo.getTime() - dateFrom.getTime();
+    return diff >= 0;
   }
 
     /**
    * format date string
-   * @param { string } date m.d.y exmaple 09.25.2018;
-   * @returns { string } returns string in format d.m.y: exmaple 25.09.2018
+   * @param { IMyDate } date
+   * @returns { string } returns string in format yyyy-mm-dd: example 2018-09-28
    */
-  formarDate(date: string): string {
-    const strArray: string[] = date.split('.');
-    strArray.splice(0, 2, strArray[1], strArray[0]);
-    return strArray.join('.');
+  formatDate(date: IMyDate): string {
+    if(date.year === 0 && date.day === 0) {
+      return null;
+    }
+    return `${date.year}-${date.month}-${date.day}`
   }
 
   filterByCurrency(value: string) {
-    // this.pairs = this.currencyPairs.filter(f => f.currencyPairName.toUpperCase().match(value.toUpperCase()));
-  }
-
-  /** filter openOrders by date */
-  filterByDate(): void {
-    if (this.dateFrom && this.dateTo) {
-      const timestampFrom = this.dateFrom.getTime();
-      const timestampTo = this.dateTo.getTime();
-
-      // if (timestampFrom && timestampTo && this.openOrders) {
-      //   this.filteredOpenOrders = this.openOrders.filter((item) => {
-      //     const currentTimestamp = new Date(item.dateCreation).getTime();
-      //     const res = (currentTimestamp >= timestampFrom) && (currentTimestamp <= timestampTo);
-      //     return res;
-      //   });
-      //   this.countOfEntries = this.filteredOpenOrders.length;
-      //   this.ref.detectChanges();
-      // }
-    }
+    this.orderItems$ = this.store.pipe(select(ordersReducer.getOpenOrdersFilterCurr, {currency: value}));
   }
 
   /**
@@ -129,20 +139,20 @@ export class OpenOrdersComponent implements OnInit {
     this.modelDateTo = {
       date: {
         year: currentDate.getFullYear(),
-        month: (currentDate.getMonth() !== 0) ? currentDate.getMonth() + 1 : 1,
+        month: currentDate.getMonth() + 1,
         day: currentDate.getDate()
       }
     };
 
     /** get yesterday's date */
-    const yesterdayTimestamp = currentDate.setDate(currentDate.getDate() - 1);
-    const yesterdayDate = new Date(yesterdayTimestamp);
+    const dateFromTimestamp = currentDate.setDate(currentDate.getDate() - 10);
+    const dateFrom = new Date(dateFromTimestamp);
 
     this.modelDateFrom = {
       date: {
-        year: yesterdayDate.getFullYear(),
-        month: (yesterdayDate.getMonth() !== 0) ? yesterdayDate.getMonth() + 1 : 1,
-        day: yesterdayDate.getDate()
+        year: dateFrom.getFullYear(),
+        month: dateFrom.getMonth() + 1,
+        day: dateFrom.getDate()
       }
     };
   }
@@ -195,10 +205,10 @@ export class OpenOrdersComponent implements OnInit {
   // }
 
   openFilterPopup() {
-    // this.showFilterPopup = true;
+    this.showFilterPopup = true;
   }
 
   closeFilterPopup() {
-    // this.showFilterPopup = false;
+    this.showFilterPopup = false;
   }
 }
