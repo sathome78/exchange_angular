@@ -214,7 +214,7 @@
               </div>
               <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
                 <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:!isFiat }}</span>
-                <div class="txt-small txt-light-grey">$ {{ +pair.priceInUSD | number: '1.0-2'}}</div>
+                <!--<div class="txt-small txt-light-grey">$ {{ +pair.priceInUsd | number: '1.0-2' | replaceNumber}}</div>-->
               </div>
               <div class="table__cell table__cell--p4 table__cell--tar" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
                 <span class=""
@@ -243,7 +243,7 @@
               </div>
               <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
                 <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
-                <div class="txt-small txt-light-grey">$ {{ +pair.priceInUSD | number: '1.0-2'}}</div>
+                <div class="txt-small txt-light-grey" *ngIf="pair.market !== 'USD'">$ {{ pair.priceInUsd | number: '1.0-2' | replaceNumber:true}}</div>
               </div>
               <div class="table__cell table__cell--p4 table__cell--tar" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
                   <span class=""
