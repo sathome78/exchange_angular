@@ -1,0 +1,50 @@
+<div class="overlay--modal">
+  <div class="modal">
+    <!-- btn modal close -->
+    <div class="modal__controls modal__controls--top">
+      <a class="modal__button modal__button--close">
+        <span>close</span>
+        <img class="modal__button-icon" src="../../../assets/img/close.svg">
+      </a>
+    </div>
+    <!-- modal header start -->
+    <div class="modal__header-mob">
+      <div class="steps__counter steps__counter--mob">step
+        <span class="steps__counter-val">1</span>/3</div>
+      <div class="modal__header-mob-controls">
+        <!--<a class="modal__control-mob" href="#">-->
+        <!--<img class="modal__control-icon" src="../../../assets/img/minimize-mob-blue.svg">-->
+        <!--</a>-->
+        <a class="modal__control-mob" href="#">
+          <img class="modal__control-icon" src="../../../assets/img/learn-blue.svg"></a>
+        <a class="modal__control-mob">
+          <img class="modal__control-icon" src="../../../assets/img/close-blue.svg"></a>
+      </div>
+    </div>
+    <div class="modal__header">
+      <ul class="steps">
+        <li class="steps__item">
+          <a class="steps__link">
+            <span class="steps__number  steps__number--valid">1</span>
+            <span class="steps__number-mob-current">1. Send money</span>
+            <span class="steps__title">Send money</span>
+          </a>
+        </li>
+        <li class="steps__item steps__item--current">
+          <a class="steps__link">
+            <span class="steps__number steps__number--current">2</span>
+            <span class="steps__number-mob-current">2. Crypto Withdrawal</span>
+            <span class="steps__title">Crypto Withdrawal</span>
+          </a>
+        </li>
+      </ul>
+      <div class="steps__counter">step <span class="steps__counter-val">1</span>/ 3</div>
+    </div>
+    <!-- modal header end -->
+    <div class="modal__content">
+      <!--<app-send-step-one></app-send-step-one>-->
+      <app-send-step-two></app-send-step-two>
+      <!--<app-send-step-three></app-send-step-three>-->
+    </div>
+  </div>
+</div>

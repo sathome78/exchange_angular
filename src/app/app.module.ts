@@ -70,6 +70,13 @@ import { RefillStepThreeComponent } from './balance/refill-money/refill-step-thr
 import { RefillCryptoComponent } from './balance/refill-money/refill-step-two/refill-crypto/refill-crypto.component';
 import { RefillFiatComponent } from './balance/refill-money/refill-step-two/refill-fiat/refill-fiat.component';
 import { RefillInnerTransferComponent } from './balance/refill-money/refill-step-two/refill-inner-transfer/refill-inner-transfer.component';
+import { SendMoneyComponent } from './balance/send-money/send-money.component';
+import { SendStepOneComponent } from './balance/send-money/send-step-one/send-step-one.component';
+import { SendStepTwoComponent } from './balance/send-money/send-step-two/send-step-two.component';
+import { SendStepThreeComponent } from './balance/send-money/send-step-three/send-step-three.component';
+import { SendCryptoComponent } from './balance/send-money/send-step-two/send-crypto/send-crypto.component';
+import { SendFiatComponent } from './balance/send-money/send-step-two/send-fiat/send-fiat.component';
+import { SendInnerTransferComponent } from './balance/send-money/send-step-two/send-inner-transfer/send-inner-transfer.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +121,13 @@ import { RefillInnerTransferComponent } from './balance/refill-money/refill-step
     RefillCryptoComponent,
     RefillFiatComponent,
     RefillInnerTransferComponent,
+    SendMoneyComponent,
+    SendStepOneComponent,
+    SendStepTwoComponent,
+    SendStepThreeComponent,
+    SendCryptoComponent,
+    SendFiatComponent,
+    SendInnerTransferComponent,
     // TWO FACTOR POPUP END
 
   ],
