@@ -169,9 +169,9 @@ export class LoginPopupMobileComponent implements OnInit {
           this.logger.debug(this, 'User { login: ' + this.email + ', pass: ' + this.password + '}' + ' signed in and obtained' + tokenHolder);
           this.authService.setTokenHolder(tokenHolder);
           this.popupService.closeMobileLoginPopup();
-          this.router.navigate(['/']);
+          // this.router.navigate(['/']);
           // TODO: just for promo state, remove after
-          location.reload();
+          // location.reload();
         },
         err => {
           const status = err['status'];

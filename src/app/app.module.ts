@@ -63,6 +63,7 @@ import {FinalRegistrationComponent} from './auth/final-registration/final-regist
 import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.component';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-password/final-step-recovery-password.component';
+import {BalanceModule} from './balance/balance.module';
 
 
 @NgModule({
@@ -93,7 +94,6 @@ import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-p
     OrdersHistoryComponent,
     ReferralStructureComponent,
     ReferralChargesComponent,
-    BalanceComponent,
     LoginPopupMobileComponent,
     RegistrationMobilePopupComponent,
     GoogleDisableComponent,
@@ -120,6 +120,7 @@ import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-p
     SharedModule,
     NgxPaginationModule,
     RecaptchaModule,
+    BalanceModule
   ],
   providers: [
     AuthGuard,

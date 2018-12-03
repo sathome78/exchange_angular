@@ -827,11 +827,11 @@
       </button>
     </div>
     <!--filters start-->
-    <form action="">
+    <!--<form action="">-->
       <div class="balance__filters">
         <div class="wrap-input wrap-input--with-icon balance__search">
           <input class="wrap-input__input" type="text" required>
-          <label class="wrap-input__label">Search</label>
+          <label class="wrap-input__label" for="">Search</label>
           <div class="wrap-input__icon">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd"
@@ -841,16 +841,32 @@
           <div class="wrap-input__line"></div>
         </div>
         <div class="tabs balance__tabs">
-          <button class="tabs__item">
+
+
+          <button class="tabs__item"
+                  [ngClass]="{'tabs__item--active': balanceTab === 'crypto-tab',
+                  'border-transparent': !(balanceTab === 'crypto-tab')}"
+                  (click)="toggleBalanceTab('crypto-tab')"
+          >
             Crypto Balances
           </button>
-          <button class="tabs__item">
+
+          <button class="tabs__item"
+                  [ngClass]="{'tabs__item--active': balanceTab === 'fiat-tab',
+                  'border-transparent': !(balanceTab === 'fiat-tab')}"
+
+                  (click)="toggleBalanceTab('fiat-tab')">
             Fiat Balances
           </button>
-          <button class="tabs__item tabs__item--active">
+
+          <button class="tabs__item"
+                  [ngClass]="{'tabs__item--active': balanceTab === 'pending-tab',
+                  'border-transparent': !(balanceTab === 'pending-tab')}"
+                  (click)="toggleBalanceTab('pending-tab')">
             <span>Pending requests</span>
             <span class="indicate">5</span>
           </button>
+
         </div>
         <div class="balance__hide-zero">
           <label for="" class="toggler">
@@ -876,10 +892,22 @@
         <!--</div>-->
 
       </div>
-    </form>
+    <!--</form>-->
     <!--filters end-->
     <!--table start-->
 
+
+    <app-crypto-balances
+    *ngIf="isShowBalanceTab('crypto-tab')"
+    ></app-crypto-balances>
+
+    <app-fiat-balances
+      *ngIf="isShowBalanceTab('fiat-tab')"
+    ></app-fiat-balances>
+
+    <app-pending-request
+      *ngIf="isShowBalanceTab('pending-tab')"
+    ></app-pending-request>
 
 
     <!--<table class="table">-->
