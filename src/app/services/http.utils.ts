@@ -6,7 +6,7 @@ export const IP_USER_HEADER = 'X-Forwarded-For';
 export const IP_USER_KEY = 'client_ip';
 export const X_AUTH_TOKEN = 'x-auth-token';
 export const EXRATES_REST_TOKEN = 'Exrates-Rest-Token';
-export const IP_CHECKER_URL = 'https://jsonip.com';
+export const IP_CHECKER_URL = 'http://api.ipify.org/?format=json';
 export const CORS_HEADER = 'Access-Control-Allow-Origin';
 // export const DEV_HOST = 'http://dev5.exrates.tech';
 export const PROD_HOST = 'http://dev5.exrates.tech';

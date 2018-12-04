@@ -1,6 +1,5 @@
 
 export class OrderItem {
-
   public id: number;
   public userId: number;
   public operationType: string;

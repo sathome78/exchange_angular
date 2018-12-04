@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy} from '@angular/core';
-import {IMyDpOptions, IMyInputFieldChanged, IMyDate, IMyDateModel} from 'mydatepicker';
+import {IMyDpOptions, IMyDate, IMyDateModel} from 'mydatepicker';
 import {Store, select} from '@ngrx/store';
 
-import {OrderItem} from '../order-item.model';
+import {OrderItem} from '../models/order-item.model';
 import * as ordersReducer from '../store/reducers/orders.reducer';
 import * as ordersAction from '../store/actions/orders.actions';
 import {Observable} from 'rxjs';
+import { OrderCurrencyPair } from '../models/order-currency-pair';
 
 @Component({
   selector: 'app-open-orders',
@@ -15,21 +16,26 @@ import {Observable} from 'rxjs';
 })
 export class OpenOrdersComponent implements OnInit {
 
-  @ViewChild('dropdown')
-  dropdownElement: ElementRef;
+  @ViewChild('dropdown') dropdownElement: ElementRef;
 
   public orderItems$: Observable<OrderItem[]>;
   public countOfEntries$: Observable<number>;
-
-  currentPage = 1;
-  countPerPage = 14;
+  public currencyPairs$: Observable<OrderCurrencyPair[]>;
+  public currentPage = 1;
+  public countPerPage = 15;
 
   public myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'dd.mm.yyyy',
+    disableSince: {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate()
+    }
   };
 
   public modelDateFrom: any;
   public modelDateTo: any;
+  public currencyPairId: string = null;
 
   public currency: string = '';
   public showFilterPopup: boolean = false;
@@ -37,8 +43,9 @@ export class OpenOrdersComponent implements OnInit {
   constructor(
     private store: Store<ordersReducer.State>
   ) { 
-    this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr, {currency: this.currency}));
+    this.orderItems$ = store.select(ordersReducer.getOpenOrdersFilterCurr);
     this.countOfEntries$ = store.select(ordersReducer.getOpenOrdersCount);
+    this.currencyPairs$ = store.select(ordersReducer.getAllCurrencyPairsSelector);
   }
 
   ngOnInit() {
@@ -46,17 +53,21 @@ export class OpenOrdersComponent implements OnInit {
     this.loadOrders();
   }
 
+  /**
+   * dispatching action to load the list of the open orders
+   */
   loadOrders() {
     const params = {
       page: this.currentPage, 
       limit:this.countPerPage,
       from: this.formatDate(this.modelDateFrom.date),
       to: this.formatDate(this.modelDateTo.date),
+      currencyPairId: this.currencyPairId,
     }
     this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
   }
 
-  toggleDropdown(e: MouseEvent) {
+  toggleDropdown() {
     this.dropdownElement.nativeElement.classList.toggle('dropdown--open');
   }
 
@@ -71,23 +82,29 @@ export class OpenOrdersComponent implements OnInit {
     this.loadOrders();
   }
 
+   /**
+   * filter history orders by clicking on Filter button
+   */
+  onFilterOrders() {
+    if(this.isDateRangeValid()) {
+      this.currentPage = 1;
+      this.loadOrders();
+    }
+  }
+
   /** tracks input changes in a my-date-picker component */
   dateFromChanged(event: IMyDateModel): void {
-
-    this.modelDateFrom.date = event.date;
-    if (!this.isDateRangeValid()) {
+    this.modelDateFrom = {date: event.date};
+    if (!this.isDateRangeValid() && !(event.date.year === 0 && event.date.day === 0)) {
       this.modelDateTo = {date: event.date};
     }
-    this.loadOrders()
   }
   /** tracks input changes in a my-date-picker component */
   dateToChanged(event: IMyDateModel): void {
-    debugger
-    this.modelDateTo.date = event.date;
+    this.modelDateTo = {date: event.date};
     if (!this.isDateRangeValid() && !(event.date.year === 0 && event.date.day === 0)) {
       this.modelDateFrom = {date: event.date};
     }
-    this.loadOrders()
   }
 
   /**
@@ -101,7 +118,7 @@ export class OpenOrdersComponent implements OnInit {
     return diff >= 0;
   }
 
-    /**
+  /**
    * format date string
    * @param { IMyDate } date
    * @returns { string } returns string in format yyyy-mm-dd: example 2018-09-28
@@ -113,9 +130,9 @@ export class OpenOrdersComponent implements OnInit {
     return `${date.year}-${date.month}-${date.day}`
   }
 
-  filterByCurrency(value: string) {
-    this.orderItems$ = this.store.pipe(select(ordersReducer.getOpenOrdersFilterCurr, {currency: value}));
-  }
+  // filterByCurrency(value: string) {
+  //   this.orderItems$ = this.store.pipe(select(ordersReducer.getOpenOrdersFilterCurr, {currency: value}));
+  // }
 
   /**
    * open submenu in the mobile version of the table
@@ -145,7 +162,7 @@ export class OpenOrdersComponent implements OnInit {
     };
 
     /** get yesterday's date */
-    const dateFromTimestamp = currentDate.setDate(currentDate.getDate() - 10);
+    const dateFromTimestamp = currentDate.setDate(currentDate.getDate() - 1);
     const dateFrom = new Date(dateFromTimestamp);
 
     this.modelDateFrom = {

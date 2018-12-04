@@ -17,6 +17,8 @@ import {JwtInterceptor} from 'app/core/interceptors/jwt.interceptor';
 import {EffectsModule} from '@ngrx/effects';
 import {OrdersEffects} from './store/effects/orders.effects';
 import {reducer} from './store/reducers/orders.reducer';
+import {SplitCurrencyPipe} from 'app/shared/pipes/split-currency.pipe';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -29,11 +31,13 @@ import {reducer} from './store/reducers/orders.reducer';
     MyDatePickerModule,
     EffectsModule.forRoot([OrdersEffects]),
     StoreModule.forFeature('orders', reducer),
+    NgSelectModule,
     OrdersRoutingModule
   ],
   declarations: [
     OpenOrdersComponent,
-    OrdersHistoryComponent
+    OrdersHistoryComponent,
+    SplitCurrencyPipe,
   ],
   providers: [
     EmbeddedOrdersService,

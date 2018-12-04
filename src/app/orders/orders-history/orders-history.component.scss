@@ -1,3 +1,14 @@
+
+.ng-select.custom {
+  color: white;
+  border:0px;
+  min-height: 0px;
+  border-radius: 0;
+}
+.ng-select.custom .ng-select-container  {            
+  min-height: 0px;
+  border-radius: 0;
+}
 .table {
     margin-top: 16px;
     th {
@@ -23,7 +34,7 @@
   .paginator {
     position: absolute;
     right: 16px;
-    bottom: 12px;
+    // bottom: 12px;
   }
 
   a.active {
@@ -150,7 +161,7 @@
 
     .orders__search {
       .search-results {
-        left: 60px;
+        left: 160px;
         .dropdown__list {
           max-height: 170px;
           overflow-x: unset;
