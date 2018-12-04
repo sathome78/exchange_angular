@@ -1,0 +1,46 @@
+.refill{
+  /*--- modificators start ---*/
+  /*--- modificators end ---*/
+  /*--- elements start ---*/
+  //&__fiat-successful-icon{
+  //  svg{
+  //    circle{
+  //      stroke: $darker-blue;
+  //    }
+  //    path{
+  //      fill:$darker-blue;
+  //    }
+  //  }
+  //}
+  /*--- elements end ---*/
+}
+/*--- media start ---*/
+@media (min-width:1200px) {
+  .refill{}
+}
+/*--- media end ---*/
+
+/*--- DARK THEME START---*/
+.dark-theme{
+  //.refill{
+  //  &__fiat-successful-icon{
+  //    svg{
+  //      circle{
+  //        stroke: $light-blue;
+  //      }
+  //      path{
+  //        fill:$light-blue;
+  //      }
+  //    }
+  //  }
+  //  &__fiat-successful-subtitle{
+  //    .link{
+  //      color:$light-blue;
+  //    }
+  //  }
+  //}
+}
+@media (min-width:1200px) {
+  .dark-theme{}
+}
+/*--- DARK THEME END---*/

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {BalanceService} from '../balance.service';
+import {MockDataService} from '../../services/mock-data.service';
 
 @Component({
   selector: 'app-crypto-balances',
@@ -7,7 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CryptoBalancesComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+  ) { }
 
   ngOnInit() {
   }

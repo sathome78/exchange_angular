@@ -64,6 +64,7 @@ import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.comp
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-password/final-step-recovery-password.component';
 import {BalanceModule} from './balance/balance.module';
+import {BalanceService} from './balance/balance.service';
 
 
 @NgModule({
@@ -127,6 +128,7 @@ import {BalanceModule} from './balance/balance.module';
     AuthService,
     GoogleAuthenticatorService,
     LangService,
+    BalanceService,
     LoggingService,
     PopupService,
     UserService,

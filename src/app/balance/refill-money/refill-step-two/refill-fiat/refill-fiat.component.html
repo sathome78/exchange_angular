@@ -1,0 +1,98 @@
+<div style="display: block;">
+  <div class="title refill__title" *ngIf="!submitSuccess">Make fiat deposit in <span>{{activeFiat.name}}</span></div>
+  <div class="refill__inputs-wrap" *ngIf="!submitSuccess">
+    <div class="select refill__select">
+      <div class="select__value select__value--active" (click)="toggleCurrencyDropdown()">
+        <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
+        {{activeFiat.name}}
+      </div>
+      <div class="select__label">Currency</div>
+      <div class="select__line"></div>
+      <div class="select__triangle"></div>
+      <!--add select__list--open for looking open state-->
+      <ul class="select__list" *ngIf="openCurrencyDropdown">
+
+        <li class="select__list-item" *ngFor="let currency of fiatNames"  (click)="selectCurrency(currency)">
+          <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
+          {{currency.name}}
+        </li>
+      </ul>
+    </div>
+    <div class="select refill__select">
+      <div class="select__value select__value--active"
+      (click)="togglePaymentSystemDropdown()"
+      >
+        <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
+        {{selectedMerchant.name}}
+      </div>
+      <div class="select__label">Payment system</div>
+      <div class="select__line"></div>
+      <div class="select__triangle"></div>
+      <!--add select__list-searching--open for looking open state-->
+      <div class="select__list-searching" *ngIf="openPaymentSystemDropdown">
+        <div class="select__search">
+          <input class="select__search-input" type="text" placeholder="Search" (input)="searchMerchant($event)">
+          <div class="select__search-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
+            </svg>
+          </div>
+        </div>
+        <ul class="select__list select__list--open">
+          <li class="select__list-item"
+              *ngFor="let merchant of merchants"
+              (click)="selectMerchant(merchant)"
+          >
+            <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
+            {{merchant.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <form [formGroup]="form">
+    <div class="wrap-input refill__wrap-input"
+    [ngClass]="{'wrap-input--error': !form.valid && isSubmited}"
+    >
+
+      <app-price-input [placeholder]="'Amount'" (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
+      <!--Input error section starts-->
+      <span class="wrap-input__message"
+      *ngIf="!form.valid && isSubmited"
+      >Should be at least {{fiatDataByName.minRefillSum}}</span>
+      <!--Input error section ends-->
+    </div>
+    </form>
+  </div>
+  <button class="btn btn--center btn--empty-blue" *ngIf="!submitSuccess"
+  (click)="submitRefill()"
+  >Refill</button>
+
+
+  <!-- показывать после успешного создания заявки-->
+  <div class="refill__fiat-successful" *ngIf="submitSuccess">
+    <div class="refill__fiat-successful-icon">
+      <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="30" cy="30" r="29" fill="transparent" stroke="#237BEF" stroke-width="2"/>
+        <path d="M44.5753 19.4247C44.0091 18.8584 43.091 18.8584 42.5247 19.4247L25.1528 36.7968L18.4753 30.1193C17.9091 29.553 16.9911 29.5531 16.4247 30.1193C15.8584 30.6855 15.8584 31.6036 16.4247 32.1699L24.1275 39.8725C24.6936 40.4388 25.6123 40.4384 26.1781 39.8725L44.5753 21.4753C45.1416 20.9091 45.1415 19.991 44.5753 19.4247Z" fill="#237BEF"/>
+      </svg>
+    </div>
+    <div class="title refill__fiat-successful-title">Request was created!</div>
+    <div class="subtitle refill__fiat-successful-subtitle">
+      Please go to <a href="#" class="link">{{selectedMerchant.name}}</a> to make a payment <b>{{amount}} {{activeFiat.name}}</b>
+    </div>
+    <div class="subtitle refill__fiat-successful-subtitle">
+      You can track the progress in history section on <a href="#" class="link">funds</a> page
+    </div>
+  </div>
+
+
+
+  <div class="note modal__note">
+    <div class="note__title">Please note:</div>
+    <ul class="note__list">
+      <li class="note__list-item">We have good news for you! It’s more then 24 currencies available for deposit right now:</li>
+    </ul>
+  </div>
+</div>
+

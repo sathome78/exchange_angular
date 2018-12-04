@@ -9,7 +9,7 @@
           </h1>
         </div>
         <div class="balance__header-btn-wrap">
-          <button class="btn btn--active balance__title-btn">
+          <button class="btn btn--active balance__title-btn" (click)="openRefillBalancePopup(true)">
             Refill balance
           </button>
           <button class="btn btn--empty-blue balance__title-btn">
@@ -819,7 +819,7 @@
           </div>
         </div>
       </div>
-      <button class="btn btn--active balance__title-btn">
+      <button class="btn btn--active balance__title-btn" (click)="openRefillBalancePopup(true)">
         Refill balance
       </button>
       <button class="btn btn--empty-blue balance__title-btn" style="margin-left: 32px;">
@@ -1086,3 +1086,9 @@
   </div>
   <!--balance-desktop end-->
 </div>
+
+
+<app-refill-money
+  *ngIf="showRefillBalancePopup"
+  (closeRefillBalancePopup)="openRefillBalancePopup(false)"
+></app-refill-money>
