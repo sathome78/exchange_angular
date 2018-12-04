@@ -70,9 +70,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair) => {
-        this.isFiat = pair.market === 'USD';
         this.pair = pair;
-        this.splitPairName(this.pair);
       });
 
     this.store
@@ -80,6 +78,8 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPairInfo) => {
         this.currentCurrencyInfo = pair;
+        this.isFiat = this.pair.market === 'USD';
+        this.splitPairName(this.pair);
       });
 
     this.store
@@ -119,11 +119,6 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     this.marketDropdown = true;
   }
 
-  // toggleMarketDropdown() {
-  //   this.currencies = this.marketsArray;
-  //   this.showCurrencySearch = !this.showCurrencySearch;
-  // }
-
   /**
    * Toggle show/hide currency search bar
    */
@@ -154,20 +149,24 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    * @returns {string}
    */
   createCurrencyPairName(newCurrency: string): string {
+    let tempPair;
     if (this.activeCurrency === 0) {
       this.firstCurrency = newCurrency;
-    }if (this.activeCurrency === 1) {
-      this.secondCurrency = newCurrency;
+      tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
     }
-    return `${this.firstCurrency}/${this.secondCurrency}` ;
+    if (this.activeCurrency === 1) {
+      this.secondCurrency = newCurrency;
+      this.allCurrencyPairs.forEach((pair, index) => {
+        if (pair.market === this.secondCurrency) {
+          tempPair = pair.currencyPairName;
+        }
+        if (pair.currencyPairName === `${this.firstCurrency}/${this.secondCurrency}`) {
+          tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
+        }
+      });
+    }
+    return tempPair ;
   }
-
-  // findPairByCurrecy (place: number) {
-  //    let pairName;
-  //    this.allCurrencyPairs.forEach(pair => {
-  //
-  //    })
-  // }
 
   /**
    * split pair name by '/'
@@ -186,16 +185,4 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate < 0 : false;
     }
   }
-
-  // private getCurrencyPairInfo(pair): void {
-  //   if (pair.currencyPairId) {
-  //     const infoSubscription = this.marketService.currencyPairInfo(pair.currencyPairId)
-  //       .subscribe(res => {
-  //         this.currentCurrencyInfo = res;
-  //         this.marketService.currentCurrencyInfoListener$.next(res);
-  //         console.log(res)
-  //         infoSubscription.unsubscribe();
-  //       });
-  //   }
-  // }
 }

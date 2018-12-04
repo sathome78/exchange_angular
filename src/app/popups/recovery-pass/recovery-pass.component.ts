@@ -47,7 +47,7 @@ export class RecoveryPassComponent implements OnInit {
   }
 
   backToLogin() {
-    this.popupService.showLoginPopup(true);
+    this.popupService.showMobileLoginPopup(true);
     this.closeMe();
   }
 

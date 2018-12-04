@@ -115,11 +115,6 @@
   }
 }
 
-.items.mobile {
-  //min-height: calc(50% - 23px);
-  //max-height: calc(50% - 23px);
-}
-
 .currency-pair-info__arr-up,.currency-pair-info__arr-down{
   margin-bottom: 4px;
 }
@@ -215,7 +210,6 @@
   position: relative;
   z-index: 2;
   max-width: 100%;
-  //margin-left: 16px;
   height: 100%;
   .head{
     display: flex;
@@ -231,11 +225,9 @@
     }
   }
   .order, .info, .price, .total {
-    //border-bottom: 1px dashed transparent;
+    display: flex;
+    align-items: center;
     white-space: nowrap;
-    span {
-      line-height: 19px;
-    }
   }
   .order {
     width: 23%;

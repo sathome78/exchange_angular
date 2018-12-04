@@ -9,7 +9,7 @@
           <!--<li class="dropdown__item">LTC</li>-->
           <!--<li class="dropdown__item">DASH</li>-->
         <!--</ul>-->
-        <div class="dropdown__btn currency-pair-info__btn" (click)="openSearchBar(0)">{{!firstCurrency ? 'BTC' : firstCurrency}}</div>
+        <div class="dropdown__btn currency-pair-info__btn" (click)="openSearchBar(0)" style="min-width: 65px;">{{!firstCurrency ? 'BTC' : firstCurrency}}</div>
       </div>
       <div class="currency-pair-info__change-pair"></div>
       <div class="dropdown currency-pair-info__dropdown">
@@ -19,13 +19,10 @@
           <ng-template ngFor let-currency [ngForOf]="marketsArray" , let-index = index>
             <li  class="dropdown__item" (click)="onSelectCurrency(currency.name)" *ngIf="currency.name !== secondCurrency">{{currency.name}}</li>
           </ng-template>
-          <!--<li class="dropdown__item">ETH</li>-->
-          <!--<li class="dropdown__item">LOC</li>-->
-          <!--<li class="dropdown__item">USD</li>-->
         </ul>
       </div>
     </div>
-    <div class="currency-pair-info__info"
+    <div class="currency-pair-info__info" style="min-width: 224px;"
          [ngClass]="{'currency-pair-info__info--up': flarForArrow('up'),
                      'currency-pair-info__info--down': flarForArrow('down')}">
       <div class="currency-pair-info__change">
@@ -37,15 +34,15 @@
       </div>
       <div class="currency-pair-info__price">{{!currentCurrencyInfo || !currentCurrencyInfo.currencyRate ? 0 :currentCurrencyInfo.currencyRate | replaceNumber:isFiat }} {{ secondCurrency }}</div>
     </div>
-    <div class="currency-pair-info__item">
+    <div class="currency-pair-info__item" style="min-width: 130px;">
       <div class="currency-pair-info__item-title">24h hight</div>
       <span class="currency-pair-info__item-value">{{!currentCurrencyInfo ? 0 :currentCurrencyInfo.rateHigh | number:'1.0-8' | replaceNumber }}</span>
     </div>
-    <div class="currency-pair-info__item">
+    <div class="currency-pair-info__item" style="min-width: 130px;">
       <div class="currency-pair-info__item-title">24h low</div>
       <span class="currency-pair-info__item-value">{{ !currentCurrencyInfo ? 0 :currentCurrencyInfo.rateLow | number:'1.0-8' | replaceNumber}}</span>
     </div>
-    <div class="currency-pair-info__item">
+    <div class="currency-pair-info__item" style="min-width: 180px;">
       <div class="currency-pair-info__item-title">24h volume</div>
       <span class="currency-pair-info__item-value"> {{!currentCurrencyInfo ?  0  : currentCurrencyInfo.volume24h | number:'1.0-0' | replaceNumber}} million  {{ firstCurrency }}</span>
     </div>

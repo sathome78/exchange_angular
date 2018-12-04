@@ -70,6 +70,9 @@
     color: $grey;
     font-size: 14px;
     line-height: 16px;
+    &--error {
+      color: $red !important;
+    }
   }
 
   &__icon {
@@ -111,10 +114,13 @@
   &__line {
     height: 1px;
     background-color: $grey;
+    &--error {
+      background-color: $red !important;
+    }
   }
 
   &__message {
-    display: block;
+    display: none;
     margin-top: 4px;
     text-align: left;
     font-size: 12px;
@@ -178,6 +184,9 @@
       }
       ~ .wrap-input__line {
         background-color: $darker-blue;
+        &--error {
+          background-color: $red !important;
+        }
       }
     }
 
@@ -190,6 +199,9 @@
         font-size: 10px;
         line-height: 12px;
       }
+    }
+    &--error {
+      border-color: $red !important;
     }
   }
   /*--- elements end ---*/

@@ -6,37 +6,34 @@
 
     <div style="flex-grow: 1; width: 100%;">
 
-      <!--<div class="container">-->
-      <!--<div class="container container&#45;&#45;dashboard">-->
+      <div *ngIf="isTfaPopupOpen">
+        <app-two-factor-popup></app-two-factor-popup>
+      </div>
 
-        <div *ngIf="isTfaPopupOpen">
-          <app-two-factor-popup></app-two-factor-popup>
-        </div>
+      <div *ngIf="isIdentityPopupOpen">
+        <app-identity-popup></app-identity-popup>
+      </div>
 
-        <div *ngIf="isIdentityPopupOpen">
-          <app-identity-popup></app-identity-popup>
-        </div>
+      <div *ngIf="isLoginPopupOpen">
+        <app-login-popup></app-login-popup>
+      </div>
 
-        <div *ngIf="isLoginPopupOpen">
-          <app-login-popup></app-login-popup>
-        </div>
+      <div *ngIf="isLoginMobilePopupOpen">
+        <app-login-popup-mobile></app-login-popup-mobile>
+      </div>
 
-        <div *ngIf="isLoginMobilePopupOpen">
-          <app-login-popup-mobile></app-login-popup-mobile>
-        </div>
-
-        <div *ngIf="isRegistrationMobilePopupOpen">
-          <app-registration-mobile-popup></app-registration-mobile-popup>
-        </div>
+      <div *ngIf="isRegistrationMobilePopupOpen">
+        <app-registration-mobile-popup></app-registration-mobile-popup>
+      </div>
 
       <div *ngIf="isRecoveryPasswordPopupOpen">
         <app-recovery-pass></app-recovery-pass>
       </div>
+      <!--<app-refill-money></app-refill-money>-->
+      <router-outlet></router-outlet>
 
-        <router-outlet></router-outlet>
+      <!--<a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>-->
 
-        <!--<a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>-->
-      <!--</div>-->
     </div>
   </div>
 

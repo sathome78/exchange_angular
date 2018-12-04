@@ -13,12 +13,31 @@
 .amcharts-stock_chart_div {
   height: calc(100% - 40px);
   overflow: hidden;
-  @media (min-width: 1200px) { 
+  @media (min-width: 1200px) {
     height: 100%;
   }
  }
 
+.dropdown__list{
+  display: block !important;
+}
+
  :host {
    width: 100%;
+
  }
 
+@media (max-width: 1200px) {
+  ::ng-deep .pair-popup__top {
+    margin-top: 0 !important;
+  }
+}
+
+.currency-search-container {
+  background: #191A39;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

@@ -36,7 +36,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   /** dashboard item name (field for base class)*/
   public itemName: string;
   /** active sell/buy tab */
-  public mainTab ;
+  public mainTab = 'BUY';
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dropdown limit data */
@@ -412,24 +412,24 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on click submit button
    */
   onSubmit(): void {
-    // window.open('https://exrates.me/dashboard', '_blank');
+    window.open('https://exrates.me/dashboard', '_blank');
 
 
-    if ( (this.stopForm.valid
-      && this.orderStop
-      && this.dropdownLimitValue === 'STOP_LIMIT')
-      || (this.limitForm.valid
-        && this.dropdownLimitValue === 'LIMIT'
-        || this.dropdownLimitValue === 'ICO'
-        || this.dropdownLimitValue === 'MARKET_PRICE')) {
-      this.order.currencyPairId = this.currentPair.currencyPairId;
-      this.order.baseType = this.dropdownLimitValue;
-      this.order.orderType = this.mainTab;
-      if (this.dropdownLimitValue === 'STOP_LIMIT') {
-        this.order.stop = this.orderStop;
-      }
-      this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
-    }
+    // if ( (this.stopForm.valid
+    //   && this.orderStop
+    //   && this.dropdownLimitValue === 'STOP_LIMIT')
+    //   || (this.limitForm.valid
+    //     && this.dropdownLimitValue === 'LIMIT'
+    //     || this.dropdownLimitValue === 'ICO'
+    //     || this.dropdownLimitValue === 'MARKET_PRICE')) {
+    //   this.order.currencyPairId = this.currentPair.currencyPairId;
+    //   this.order.baseType = this.dropdownLimitValue;
+    //   this.order.orderType = this.mainTab;
+    //   if (this.dropdownLimitValue === 'STOP_LIMIT') {
+    //     this.order.stop = this.orderStop;
+    //   }
+    //   this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
+    // }
   }
 
   /**

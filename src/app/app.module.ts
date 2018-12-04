@@ -67,6 +67,13 @@ import {OrdersComponent} from './orders/orders.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from 'environments/environment';
 
+import { RefillMoneyComponent } from './balance/refill-money/refill-money.component';
+import { RefillStepOneComponent } from './balance/refill-money/refill-step-one/refill-step-one.component';
+import { RefillStepTwoComponent } from './balance/refill-money/refill-step-two/refill-step-two.component';
+import { RefillStepThreeComponent } from './balance/refill-money/refill-step-three/refill-step-three.component';
+import { RefillCryptoComponent } from './balance/refill-money/refill-step-two/refill-crypto/refill-crypto.component';
+import { RefillFiatComponent } from './balance/refill-money/refill-step-two/refill-fiat/refill-fiat.component';
+import { RefillInnerTransferComponent } from './balance/refill-money/refill-step-two/refill-inner-transfer/refill-inner-transfer.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +111,13 @@ import {environment} from 'environments/environment';
     FinalStepRecoveryPasswordComponent,
     FundsComponent,
     OrdersComponent,
+    RefillMoneyComponent,
+    RefillStepOneComponent,
+    RefillStepTwoComponent,
+    RefillStepThreeComponent,
+    RefillCryptoComponent,
+    RefillFiatComponent,
+    RefillInnerTransferComponent,
     // TWO FACTOR POPUP END
 
   ],
