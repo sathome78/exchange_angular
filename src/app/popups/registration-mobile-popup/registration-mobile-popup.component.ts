@@ -41,7 +41,11 @@ export class RegistrationMobilePopupComponent implements OnInit {
   ngOnInit() {
     this.setTemplate('emailInputTemplate');
     this.afterCaptchaMessage = `We sent the confirmation link to
-        ${this.email} <br> Please check your email and
+        <br>
+        <span class="popup__email-link">
+        ${this.email}
+        </span>
+        <br> Please check your email and
         follow instructions.`
     this.initForm();
   }
@@ -81,10 +85,11 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   }
 
-  openLogIn() {
+  openLogInMobile() {
     this.popupService.showMobileLoginPopup(true);
     this.closeMe();
   }
+
 
   initForm() {
     this.emailForm = new FormGroup({

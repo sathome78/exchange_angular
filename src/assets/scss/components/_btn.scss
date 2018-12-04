@@ -19,8 +19,7 @@
     color: #fff;
     border-color: transparent;
     background-color: $darker-blue;
-
-    .btn__icon--hover-white {
+    .btn__icon--hover-white,.btn__icon--light-blue {
       svg {
         fill: #fff;
       }
@@ -31,12 +30,14 @@
     color: #fff;
     outline: none;
     background-color: $darker-blue;
-
-    .btn__icon--hover-white {
+    .btn__icon--hover-white,.btn__icon--light-blue {
       svg {
         fill: #fff;
       }
     }
+  }
+  &:disabled{
+    cursor: default;
   }
   /*--- modificators start ---*/
   // states
@@ -130,6 +131,11 @@
         fill: $darker-blue;
       }
     }
+    &--light-blue {
+      svg {
+        fill: $darker-blue;
+      }
+    }
   }
   /*--- elements end ---*/
 }
@@ -184,17 +190,24 @@
       border-color: $light-blue;
       &:hover{
         color:#fff;
-        background-color: $light-blue;
+        background-color: $darker-blue;
+        border-color: $darker-blue;
       }
       &:focus{
         color:#fff;
-        background-color: $light-blue;
+        background-color: $darker-blue;
+        border-color: $darker-blue;
       }
     }
     &__icon{
       &--blue {
         svg {
           fill: #fff;
+        }
+      }
+      &--light-blue {
+        svg {
+          fill: $light-blue;
         }
       }
     }

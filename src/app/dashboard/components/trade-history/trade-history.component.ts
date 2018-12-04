@@ -1,11 +1,11 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { takeUntil } from 'rxjs/internal/operators';
-import { Subject } from 'rxjs/Subject';
+import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import {takeUntil} from 'rxjs/internal/operators';
+import {Subject} from 'rxjs/Subject';
 
-import { AbstractDashboardItems } from '../../abstract-dashboard-items';
-import { TradeHistoryService } from './trade-history.service';
-import { MarketService } from '../markets/market.service';
-import { CurrencyPair } from '../../../model/currency-pair.model';
+import {AbstractDashboardItems} from '../../abstract-dashboard-items';
+import {TradeHistoryService} from './trade-history.service';
+import {MarketService} from '../markets/market.service';
+import {CurrencyPair} from '../../../model/currency-pair.model';
 import {select, Store} from '@ngrx/store';
 import {State, getCurrencyPair, getAllTrades} from 'app/core/reducers/index';
 import {TradeItem} from '../../../model/trade-item.model';
@@ -50,27 +50,26 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   }
 
 
-
   ngOnInit() {
     this.itemName = 'trade-history';
     this.store
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair) => {
+      .subscribe((pair: CurrencyPair) => {
         this.onGetCurrentCurrencyPair(pair);
       });
 
     this.store
       .pipe(select(getAllTrades))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( orders => {
+      .subscribe(orders => {
         this.addOrUpdate(this.allTrades, orders);
         /** sort items */
         this.allTrades.sort((a, b) => {
           let timeA, timeB;
           timeA = parseInt(a.acceptionTime, 10);
           timeB = parseInt(b.acceptionTime, 10);
-          return timeB - timeA ;
+          return timeB - timeA;
         });
       });
 
