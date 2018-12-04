@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080',
+  apiUrl: DEV_,
   encodeKey: '3255c246-4b9f-43a5-b2dd-63524f959953',
 };
 
