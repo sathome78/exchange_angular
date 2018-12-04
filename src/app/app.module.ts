@@ -77,6 +77,9 @@ import { SendStepThreeComponent } from './balance/send-money/send-step-three/sen
 import { SendCryptoComponent } from './balance/send-money/send-step-two/send-crypto/send-crypto.component';
 import { SendFiatComponent } from './balance/send-money/send-step-two/send-fiat/send-fiat.component';
 import { SendInnerTransferComponent } from './balance/send-money/send-step-two/send-inner-transfer/send-inner-transfer.component';
+import { TransferInstantComponent } from './balance/send-money/send-step-three/transfer-instant/transfer-instant.component';
+import { TransferProtectedCodeComponent } from './balance/send-money/send-step-three/transfer-protected-code/transfer-protected-code.component';
+import { TransferProtectedEmailCodeComponent } from './balance/send-money/send-step-three/transfer-protected-email-code/transfer-protected-email-code.component';
 
 @NgModule({
   declarations: [
@@ -128,6 +131,9 @@ import { SendInnerTransferComponent } from './balance/send-money/send-step-two/s
     SendCryptoComponent,
     SendFiatComponent,
     SendInnerTransferComponent,
+    TransferInstantComponent,
+    TransferProtectedCodeComponent,
+    TransferProtectedEmailCodeComponent,
     // TWO FACTOR POPUP END
 
   ],
