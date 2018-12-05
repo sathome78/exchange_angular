@@ -11,7 +11,7 @@
     <!-- modal header start -->
     <div class="modal__header-mob">
       <div class="steps__counter steps__counter--mob">step
-        <span class="steps__counter-val">1</span>/3</div>
+        <span class="steps__counter-val">1</span>/2</div>
       <div class="modal__header-mob-controls">
         <!--<a class="modal__control-mob" href="#">-->
         <!--<img class="modal__control-icon" src="../../../assets/img/minimize-mob-blue.svg">-->
@@ -35,17 +35,24 @@
           <a class="steps__link">
             <span class="steps__number steps__number--current">2</span>
             <span class="steps__number-mob-current">2. Crypto Withdrawal</span>
-            <span class="steps__title">Crypto Withdrawal</span>
+            <span class="steps__title">{{stepTwoName}}</span>
           </a>
         </li>
       </ul>
-      <div class="steps__counter">step <span class="steps__counter-val">1</span>/ 3</div>
+      <div class="steps__counter">step <span class="steps__counter-val">1</span>/ 2</div>
     </div>
     <!-- modal header end -->
     <div class="modal__content">
-      <!--<app-send-step-one></app-send-step-one>-->
-      <!--<app-send-step-two></app-send-step-two>-->
-      <app-send-step-three></app-send-step-three>
+      <app-send-step-one
+        *ngIf="step === 1"
+        (chooseSend)="chooseSend($event)"
+      ></app-send-step-one>
+
+      <app-send-step-two
+        *ngIf="step === 2"
+        [choosedName]="stepTwoName"
+      ></app-send-step-two>
+      <!--<app-send-step-three></app-send-step-three>-->
     </div>
   </div>
 </div>

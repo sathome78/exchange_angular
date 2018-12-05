@@ -8,6 +8,8 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 export class SendMoneyComponent implements OnInit {
 
   @Output() closeSendMoneyPopup = new EventEmitter<boolean>();
+  public stepTwoName: string;
+  public step: number;
 
   constructor() { }
 
@@ -16,6 +18,17 @@ export class SendMoneyComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initFields();
+  }
+
+  chooseSend(event: string) {
+    this.step = 2;
+    this.stepTwoName = event;
+  }
+
+  private initFields() {
+    this.step = 1;
+    this.stepTwoName = '';
   }
 
 }

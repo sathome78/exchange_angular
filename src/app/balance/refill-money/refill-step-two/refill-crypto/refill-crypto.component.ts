@@ -59,7 +59,6 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   }
 
   currencyDropdownToggle() {
-    console.log('dd')
     this.openCurrencyDropdown = !this.openCurrencyDropdown;
     this.cryptoNames = this.defaultCryptoNames;
     this.prepareAlphabet();
@@ -82,7 +81,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     this.currencyDropdownToggle();
     this.getDataByCurrency(currency.name);
   }
-  
+
   private getDataByCurrency(currencyName) {
     this.balanceService.getCurrencyData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -144,6 +143,4 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         break;
     }
   }
-
-
 }

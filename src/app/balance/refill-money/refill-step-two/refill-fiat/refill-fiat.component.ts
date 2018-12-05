@@ -141,4 +141,3 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 }
 
-// refillData.redirectionUrl

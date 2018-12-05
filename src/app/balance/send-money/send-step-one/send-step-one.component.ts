@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-send-step-one',
@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SendStepOneComponent implements OnInit {
 
+  @Output() chooseSend = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onChooseSend(name: string) {
+    this.chooseSend.emit(name);
   }
 
 }

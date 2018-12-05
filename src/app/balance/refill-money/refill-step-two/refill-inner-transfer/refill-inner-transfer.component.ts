@@ -29,15 +29,14 @@ export class RefillInnerTransferComponent implements OnInit {
 
   sendTransferCode() {
     if (this.form.valid) {
-      const data = {
-        code: this.form.controls['code'].value
-      }
+      const data = this.form.controls['code'].value;
       this.form.reset();
-      console.log(data);
-      this.balanceService.sendTransferCode().subscribe(res => {
-
+      this.balanceService.sendTransferCode(data).subscribe(res => {
         this.isSendTransferCodeSuccess = true;
+        console.log(res['status']);
       }, error => {
+        const status = error['status'];
+        console.log('status: ' + status);
         this.isSendTransferCodeFail = true;
       });
     }

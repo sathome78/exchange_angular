@@ -37,8 +37,11 @@ export class BalanceService {
     return this.http.post(url, data);
   }
 
-  sendTransferCode() {
-    const url = `${this.baseUrl}`;
-    return this.http.get(url);
+
+
+  sendTransferCode(code: string) {
+    const data = {CODE: code}
+    const url = `${this.baseUrl}/info/private/v2/balances/transfer/accept`;
+    return this.http.post(url, data);
   }
 }
