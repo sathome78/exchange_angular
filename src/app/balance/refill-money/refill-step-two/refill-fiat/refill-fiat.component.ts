@@ -25,17 +25,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public merchants;
   public openCurrencyDropdown = false;
   public openPaymentSystemDropdown = false;
-  public activeFiat = {
-    id: 1,
-    name: 'USD',
-    description: 'USD',
-  };
+  public refillData;
+  public activeFiat;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
-    // if ($event.target.className !== 'select__value select__value--active') {
-    //   this.openCurrencyDropdown = false;
-    // }
     if ($event.target.className !== 'select__value select__value--active' && $event.target.className !== 'select__search-input') {
       this.openPaymentSystemDropdown = false;
       this.openCurrencyDropdown = false;
@@ -49,11 +43,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     /**-------mock data------**/
-    this.defaultFiatNames = this.mockData.getFiatNames();
-    this.fiatNames = this.defaultFiatNames;
-    this.fiatDataByName = this.mockData.getCryptoData();
-    this.merchants = this.fiatDataByName.merchantCurrencyData;
-    this.selectedMerchant = this.fiatDataByName.merchantCurrencyData[0];
+    // this.defaultFiatNames = this.mockData.getFiatNames();
+    // this.fiatNames = this.defaultFiatNames;
+    // this.fiatDataByName = this.mockData.getCryptoData();
+    // this.merchants = this.fiatDataByName.merchantCurrencyData;
+    // this.selectedMerchant = this.fiatDataByName.merchantCurrencyData[0];
     /** --------------------------*/
     this.initForm();
     this.balanceService.getFiatNames()
@@ -62,6 +56,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       this.defaultFiatNames = res;
       this.fiatNames = this.defaultFiatNames;
       this.activeFiat = this.fiatNames[0];
+      this.getDataByCurrency(this.activeFiat.name);
     });
   }
 
@@ -83,12 +78,16 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   selectCurrency(currency) {
     this.activeFiat = currency;
     this.toggleCurrencyDropdown();
-    this.balanceService.getCurrencyData(currency.name)
+    this.getDataByCurrency(currency.name);
+  }
+
+  private getDataByCurrency(currencyName) {
+    this.balanceService.getCurrencyData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.fiatDataByName = res;
         this.merchants = this.fiatDataByName.merchantCurrencyData;
-        this.selectedMerchant = this.merchants[0];
+        this.selectedMerchant = this.merchants.length ? this.merchants[0] : {};
         console.log(res);
       });
   }
@@ -108,7 +107,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   submitRefill() {
     this.isSubmited = true;
-    if (this.form.valid) {
+    if (this.form.valid && this.selectedMerchant.name) {
+      this.isSubmited = false;
       this.amount = this.form.controls['amount'].value
       const data = {
         operationType: this.fiatDataByName.payment.operationType,
@@ -117,10 +117,15 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         sum: this.amount
       };
       this.balanceService.refill(data).subscribe(res => {
-        console.log(res);
+        this.refillData = res;
+        console.log(res)
+        this.submitSuccess = true;
       });
-      this.submitSuccess = true;
-      console.log(data);
+      console.log(this.selectedMerchant)
+      /** -------mock ---------*/
+      // this.submitSuccess = true;
+      // console.log(data);
+      /** -------------------- */
     }
   }
 
@@ -129,9 +134,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   private minCheck(amount: FormControl) {
-      if (this.fiatDataByName.minRefillSum > amount.value) {
+      if (this.fiatDataByName && this.fiatDataByName.minRefillSum > amount.value) {
         return {'minThen': true};
       }
       return null;
   }
 }
+
+// refillData.redirectionUrl

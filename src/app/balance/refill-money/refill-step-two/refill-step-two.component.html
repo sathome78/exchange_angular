@@ -1,6 +1,5 @@
 <app-refill-crypto
 *ngIf="choosedName === 'Crypto deposit'"
-
 ></app-refill-crypto>
 
 
@@ -9,4 +8,6 @@
 ></app-refill-fiat>
 
 
-<!--<app-refill-inner-transfer></app-refill-inner-transfer>-->
+<app-refill-inner-transfer
+  *ngIf="choosedName === 'Inner Transfer'"
+></app-refill-inner-transfer>

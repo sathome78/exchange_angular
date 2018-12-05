@@ -9,10 +9,12 @@
           </h1>
         </div>
         <div class="balance__header-btn-wrap">
-          <button class="btn btn--active balance__title-btn" (click)="openRefillBalancePopup(true)">
+          <button class="btn btn--active balance__title-btn"
+                  (click)="openRefillBalancePopup(true)">
             Refill balance
           </button>
-          <button class="btn btn--empty-blue balance__title-btn">
+          <button class="btn btn--empty-blue balance__title-btn"
+                  (click)="openSendMoneyPopup(true)">
             Send money
           </button>
         </div>
@@ -822,7 +824,7 @@
       <button class="btn btn--active balance__title-btn" (click)="openRefillBalancePopup(true)">
         Refill balance
       </button>
-      <button class="btn btn--empty-blue balance__title-btn" style="margin-left: 32px;">
+      <button class="btn btn--empty-blue balance__title-btn" style="margin-left: 32px;" (click)="openSendMoneyPopup(true)">
         Send money
       </button>
     </div>
@@ -1092,3 +1094,8 @@
   *ngIf="showRefillBalancePopup"
   (closeRefillBalancePopup)="openRefillBalancePopup(false)"
 ></app-refill-money>
+
+<app-send-money
+  *ngIf="showSendMoneyPopup"
+  (closeSendMoneyPopup)="openSendMoneyPopup(false)"
+></app-send-money>

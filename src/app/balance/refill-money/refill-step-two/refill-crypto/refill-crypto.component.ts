@@ -18,11 +18,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public cryptoDataByName;
   public isSowCopyAddress = false;
   public isSowCopyMemoId = false;
-  public activeCrypto = {
-    id: 4,
-    name: 'BTC',
-    description: 'Bitcoin',
-  };
+  public activeCrypto;
   public openCurrencyDropdown = false;
   public alphabet;
 
@@ -40,16 +36,19 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     /**-------mock data------**/
-    this.defaultCryptoNames = this.mockDataService.getCryptoName();
-    this.cryptoNames = this.defaultCryptoNames;
-    this.cryptoDataByName = this.mockDataService.getCryptoData();
-    this.prepareAlphabet();
+    // this.defaultCryptoNames = this.mockDataService.getCryptoName();
+    // this.cryptoNames = this.defaultCryptoNames;
+    // this.cryptoDataByName = this.mockDataService.getCryptoData();
+    // this.prepareAlphabet();
     /**----------------------**/
     this.balanceService.getCryptoNames()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
       this.defaultCryptoNames = res;
       this.cryptoNames = this.defaultCryptoNames;
+      this.activeCrypto = this.cryptoNames[0];
+      this.getDataByCurrency(this.activeCrypto.name);
+      console.log(this.cryptoNames)
         this.prepareAlphabet();
     });
   }
@@ -60,7 +59,10 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   }
 
   currencyDropdownToggle() {
+    console.log('dd')
     this.openCurrencyDropdown = !this.openCurrencyDropdown;
+    this.cryptoNames = this.defaultCryptoNames;
+    this.prepareAlphabet();
   }
 
   prepareAlphabet() {
@@ -78,12 +80,16 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   selectCurrency(currency) {
     this.activeCrypto = currency;
     this.currencyDropdownToggle();
-    this.balanceService.getCurrencyData(currency.name)
+    this.getDataByCurrency(currency.name);
+  }
+  
+  private getDataByCurrency(currencyName) {
+    this.balanceService.getCurrencyData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-      this.cryptoDataByName = res;
-      console.log(res);
-    });
+        this.cryptoDataByName = res;
+        console.log(res);
+      });
   }
 
   searchCoin(e) {
@@ -95,8 +101,8 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     if (this.cryptoDataByName && this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable) {
       const data = {
         operationType: this.cryptoDataByName.payment.operationType,
-        currency: this.cryptoDataByName.merchantCurrencyData.currencyId,
-        merchant: this.cryptoDataByName.merchantCurrencyData.merchantId,
+        currency: this.cryptoDataByName.merchantCurrencyData[0].currencyId,
+        merchant: this.cryptoDataByName.merchantCurrencyData[0].merchantId,
         sum: 0
       };
       this.balanceService.refill(data)

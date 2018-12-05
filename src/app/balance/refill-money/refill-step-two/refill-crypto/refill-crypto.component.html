@@ -1,5 +1,5 @@
-<div class="title refill__title">Make crypto deposit in <span>{{activeCrypto.name}}</span></div>
-<div class="refill__inputs-wrap">
+<div class="title refill__title" *ngIf="activeCrypto">Make crypto deposit in <span>{{activeCrypto.name}}</span></div>
+<div class="refill__inputs-wrap" *ngIf="cryptoDataByName">
   <div class="select refill__select">
     <div class="select__value select__value--active" (click)="currencyDropdownToggle()">
       <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
@@ -26,18 +26,20 @@
             <h6 class="select__searching-items-title">{{letter.toUpperCase()}}</h6>
             <div class="select__searching-items-wrap">
               <div class="select__searching-item" *ngFor="let name of cryptoNames | groupCoin:letter" (click)="selectCurrency(name)">
-                <img src="../../assets/img/eth-icon.svg" class="select__list-item-icon">
+                <!--<img src="../../assets/img/eth-icon.svg" class="select__list-item-icon">-->
                 <span>{{name.name}}</span>
               </div>
             </div>
           </ng-container>
         </perfect-scrollbar>
-
       </div>
     </div>
   </div>
+
   <button class="btn btn--empty-blue"
-          *ngIf ="this.cryptoDataByName && this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable"
+          *ngIf ="this.cryptoDataByName
+           && this.cryptoDataByName.merchantCurrencyData[0]
+           && this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable"
           (click)="generateNewAddress()"
   >
     <span class="btn__icon btn__icon--light-blue">
@@ -50,13 +52,13 @@
     Generate new address
   </button>
 </div>
-<div class="refill__crypto-refill-info">
+<div class="refill__crypto-refill-info" *ngIf="cryptoDataByName && cryptoDataByName.merchantCurrencyData[0]">
   <div class="refill__qr-code">
     <!--<img src="../../assets/img/qr-code.svg">-->
     <qr-code [value]="cryptoDataByName.merchantCurrencyData[0].mainAddress" [size]="150"></qr-code>
   </div>
   <div>
-    <div class="refill__crypto-address">
+    <div class="refill__crypto-address" *ngIf="cryptoDataByName.merchantCurrencyData[0].mainAddress">
       <h6 class="refill__crypto-title"><span>BTC</span> address</h6>
       <div class="refill__crypto-hash">{{cryptoDataByName.merchantCurrencyData[0].mainAddress}}</div>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="!isSowCopyAddress"
@@ -65,11 +67,11 @@
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="isSowCopyAddress"
       >Copied</button>
     </div>
-    <div class="refill__crypto-memo">
+    <div class="refill__crypto-memo" *ngIf="cryptoDataByName.merchantCurrencyData[0].additionalFieldName">
       <h6 class="refill__crypto-title">Memo id</h6>
-      <div class="refill__crypto-hash">15943147</div>
+      <div class="refill__crypto-hash">{{cryptoDataByName.merchantCurrencyData[0].additionalFieldName}}</div>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="!isSowCopyMemoId"
-      (click)="copyToBuffer('15943147', 'Copy id')"
+      (click)="copyToBuffer(cryptoDataByName.merchantCurrencyData[0].additionalFieldName, 'Copy id')"
       >Copy id</button>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="isSowCopyMemoId"
       >Copied</button>

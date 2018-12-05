@@ -15,12 +15,12 @@ export class BalanceService {
   }
 
   getCryptoNames(): Observable<any[]> {
-    const url = `${this.baseUrl}/info/private/v2/balances/refill/hash-pair-names`;
+    const url = `${this.baseUrl}/info/private/v2/balances/refill/crypto-currencies`;
     return this.http.get<string[]>(url);
   }
 
   getFiatNames(): Observable<any[]> {
-    const url = `${this.baseUrl}/info/private/v2/balances/refill/fiat-names`;
+    const url = `${this.baseUrl}/info/private/v2/balances/refill/fiat-currencies`;
     return this.http.get<string[]>(url);
   }
 
@@ -37,4 +37,8 @@ export class BalanceService {
     return this.http.post(url, data);
   }
 
+  sendTransferCode() {
+    const url = `${this.baseUrl}`;
+    return this.http.get(url);
+  }
 }

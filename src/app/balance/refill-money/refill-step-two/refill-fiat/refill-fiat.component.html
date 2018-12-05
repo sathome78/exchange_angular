@@ -1,4 +1,4 @@
-<div style="display: block;">
+<div style="display: block;" *ngIf="activeFiat">
   <div class="title refill__title" *ngIf="!submitSuccess">Make fiat deposit in <span>{{activeFiat.name}}</span></div>
   <div class="refill__inputs-wrap" *ngIf="!submitSuccess">
     <div class="select refill__select">
@@ -18,7 +18,7 @@
         </li>
       </ul>
     </div>
-    <div class="select refill__select">
+    <div class="select refill__select" *ngIf="selectedMerchant">
       <div class="select__value select__value--active"
       (click)="togglePaymentSystemDropdown()"
       >
@@ -64,8 +64,10 @@
     </div>
     </form>
   </div>
-  <button class="btn btn--center btn--empty-blue" *ngIf="!submitSuccess"
-  (click)="submitRefill()"
+  <button class="btn btn--center btn--empty-blue"
+          *ngIf="!submitSuccess"
+          [ngClass]="{'btn-active': form.valid && selectedMerchant.name}"
+          (click)="submitRefill()"
   >Refill</button>
 
 
@@ -79,7 +81,7 @@
     </div>
     <div class="title refill__fiat-successful-title">Request was created!</div>
     <div class="subtitle refill__fiat-successful-subtitle">
-      Please go to <a href="#" class="link">{{selectedMerchant.name}}</a> to make a payment <b>{{amount}} {{activeFiat.name}}</b>
+      Please go to <a href="{{refillData.redirectionUrl}}" class="link">{{selectedMerchant.name}}</a> to make a payment <b>{{refillData.params.ok_item_1_price}} {{refillData.params.ok_currency}}</b>
     </div>
     <div class="subtitle refill__fiat-successful-subtitle">
       You can track the progress in history section on <a href="#" class="link">funds</a> page

@@ -14,6 +14,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public balanceTab: string;
   public showRefillBalancePopup: boolean;
+  public showSendMoneyPopup: boolean;
   public cryptoBalances: BalanceCrypto[];
 
   constructor(
@@ -45,8 +46,13 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.showRefillBalancePopup = flag;
   }
 
+  public openSendMoneyPopup(flag: boolean) {
+    this.showSendMoneyPopup = flag;
+  }
+
   private setFields() {
     this.balanceTab = 'crypto-tab';
     this.showRefillBalancePopup = false;
+    this.showSendMoneyPopup = false;
   }
 }

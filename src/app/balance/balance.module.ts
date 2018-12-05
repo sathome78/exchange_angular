@@ -15,6 +15,16 @@ import {RefillStepOneComponent} from './refill-money/refill-step-one/refill-step
 import {RefillMoneyComponent} from './refill-money/refill-money.component';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {QRCodeModule} from 'angular2-qrcode';
+import {SendInnerTransferComponent} from './send-money/send-step-two/send-inner-transfer/send-inner-transfer.component';
+import {SendStepOneComponent} from './send-money/send-step-one/send-step-one.component';
+import {SendStepThreeComponent} from './send-money/send-step-three/send-step-three.component';
+import {SendMoneyComponent} from './send-money/send-money.component';
+import {SendCryptoComponent} from './send-money/send-step-two/send-crypto/send-crypto.component';
+import {SendFiatComponent} from './send-money/send-step-two/send-fiat/send-fiat.component';
+import {SendStepTwoComponent} from './send-money/send-step-two/send-step-two.component';
+import {TransferProtectedEmailCodeComponent} from './send-money/send-step-three/transfer-protected-email-code/transfer-protected-email-code.component';
+import {TransferProtectedCodeComponent} from './send-money/send-step-three/transfer-protected-code/transfer-protected-code.component';
+import {TransferInstantComponent} from './send-money/send-step-three/transfer-instant/transfer-instant.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +39,16 @@ import {QRCodeModule} from 'angular2-qrcode';
     RefillCryptoComponent,
     RefillFiatComponent,
     RefillInnerTransferComponent,
+    SendMoneyComponent,
+    SendStepOneComponent,
+    SendStepTwoComponent,
+    SendStepThreeComponent,
+    SendCryptoComponent,
+    SendFiatComponent,
+    SendInnerTransferComponent,
+    TransferInstantComponent,
+    TransferProtectedCodeComponent,
+    TransferProtectedEmailCodeComponent,
   ],
   exports: [
   ],

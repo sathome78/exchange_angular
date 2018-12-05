@@ -1,13 +1,20 @@
 <div class="title refill__title">Get inner transfer</div>
 <div class="subtitle refill__subtitle">Please enter the transfer code to get money</div>
-<div class="wrap-input refill__wrap-input">
-  <input class="wrap-input__input" required>
-  <label class="wrap-input__label">Transfer code</label>
-  <div class="wrap-input__line"></div>
-</div>
-<button class="btn btn--center btn--empty-blue">Receive transfer</button>
+<form [formGroup]="form">
+  <div class="wrap-input refill__wrap-input">
+    <input class="wrap-input__input" name="code" formControlName="code">
+    <label class="wrap-input__label">Transfer code</label>
+    <div class="wrap-input__line"></div>
+  </div>
+</form>
+<button class="btn btn--center btn--empty-blue"
+[ngClass]="{'btn-active': form.valid}"
+        (click)="sendTransferCode()"
+>Receive transfer</button>
+
+
 <!--message successful-->
-<div class="refill__transfer-message" style="display: none;">
+<div class="refill__transfer-message" *ngIf="isSendTransferCodeSuccess">
   <div class="refill__transfer-message-icon">
     <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="30" cy="30" r="29" fill="transparent" stroke="#237BEF" stroke-width="2"/>
@@ -19,8 +26,10 @@
     <span>You successfuly got <b>35 BTC!</b></span>
   </div>
 </div>
+
+
 <!--message error-->
-<div class="refill__transfer-message" style="display: none;">
+<div class="refill__transfer-message"  *ngIf="isSendTransferCodeFail">
   <div class="refill__transfer-message-icon">
     <svg width="60" height="60" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="22.5" cy="22.5" r="21" fill="transparent" stroke="#EB5757" stroke-width="3"/>
