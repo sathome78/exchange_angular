@@ -9,7 +9,7 @@ export const EXRATES_REST_TOKEN = 'Exrates-Rest-Token';
 export const IP_CHECKER_URL = 'http://api.ipify.org/?format=json';
 export const CORS_HEADER = 'Access-Control-Allow-Origin';
 // export const PROD_HOST = 'https://dev5.exrates.tech';
-export const PROD_HOST = 'http://172.10.10.121:8080';
+export const PROD_HOST = 'https://172.10.10.121:8080';
 export const STAGING_HOST = 'http://172.10.10.121:8080';
 // export const LOCAL_HOST = 'http://dev7.exrates.tech';
 export const LOCAL_HOST = 'http://172.10.10.123:8080';
