@@ -182,8 +182,8 @@
         >Create an account</button>
       </form>
       <div class="popup__links-wrap">
-        <input type="checkbox" [(ngModel)]="agreeTerms" [disabled]="!emailForm.valid">
-        <span>By registering you agree with</span>
+        <input id="agreeTerms" type="checkbox" [(ngModel)]="agreeTerms" [disabled]="!emailForm.valid">
+        <label for="agreeTerms">By registering you agree with</label>
         <a class="popup__link" >Terms of Use</a>
       </div>
       <div class="popup__links-wrap popup__links-wrap--hidden-mob">
