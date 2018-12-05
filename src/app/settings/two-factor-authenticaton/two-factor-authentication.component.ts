@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {PopupService} from '../../services/popup.service';
-import {LoggingService} from '../../services/logging.service';
+import {PopupService} from '../../shared/services/popup.service';
+import {LoggingService} from '../../shared/services/logging.service';
 import {SettingsService} from '../settings.service';
-import {UserService} from '../../services/user.service';
-import {AuthService} from '../../services/auth.service';
+import {UserService} from '../../shared/services/user.service';
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-two-factor-authentication',

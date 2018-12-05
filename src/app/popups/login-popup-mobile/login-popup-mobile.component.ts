@@ -1,11 +1,11 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {PopupService} from '../../services/popup.service';
+import {PopupService} from '../../shared/services/popup.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {TokenHolder} from '../../model/token-holder.model';
-import {UserService} from '../../services/user.service';
-import {AuthService} from '../../services/auth.service';
+import {UserService} from '../../shared/services/user.service';
+import {AuthService} from '../../shared/services/auth.service';
 import {Router} from '@angular/router';
-import {LoggingService} from '../../services/logging.service';
+import {LoggingService} from '../../shared/services/logging.service';
 import {keys} from '../../core/keys';
 
 @Component({

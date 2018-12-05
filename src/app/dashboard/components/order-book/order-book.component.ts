@@ -16,7 +16,7 @@ import {TradingService} from '../trading/trading.service';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {State, getCurrencyPair, getLastSellBuyOrder, getCurrencyPairInfo} from 'app/core/reducers/index';
 import {OrderItem} from 'app/model/order-item.model';
-import {MockDataService} from '../../../services/mock-data.service';
+import {MockDataService} from '../../../shared/services/mock-data.service';
 import {ChangeCurrencyPairAction, SelectedOrderBookOrderAction, SetLastSellBuyOrderAction} from '../../actions/dashboard.actions';
 import {LastSellBuyOrder} from '../../../model/last-sell-buy-order.model';
 import {defaultLastSellBuyOrder} from '../../reducers/default-values';

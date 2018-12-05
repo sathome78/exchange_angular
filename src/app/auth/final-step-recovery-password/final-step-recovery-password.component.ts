@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../shared/services/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {UserService} from '../../services/user.service';
+import {UserService} from '../../shared/services/user.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {environment} from '../../../environments/environment';
 declare var encodePassword: Function;

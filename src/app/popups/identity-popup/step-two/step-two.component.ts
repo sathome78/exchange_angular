@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Subject} from 'rxjs';
-import {UserVerificationService} from '../../../services/user-verification.service';
+import {UserVerificationService} from '../../../shared/services/user-verification.service';
 
 @Component({
   selector: 'app-step-two',

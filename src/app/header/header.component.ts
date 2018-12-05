@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {PopupService} from '../services/popup.service';
-import {AuthService} from '../services/auth.service';
-import {LoggingService} from '../services/logging.service';
+import {PopupService} from '../shared/services/popup.service';
+import {AuthService} from '../shared/services/auth.service';
+import {LoggingService} from '../shared/services/logging.service';
 import {Router} from '@angular/router';
-import {ThemeService} from '../services/theme.service';
-import {UserService} from '../services/user.service';
+import {ThemeService} from '../shared/services/theme.service';
+import {UserService} from '../shared/services/user.service';
 import {SettingsService} from '../settings/settings.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 
