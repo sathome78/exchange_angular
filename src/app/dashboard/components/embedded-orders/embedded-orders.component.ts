@@ -7,7 +7,7 @@ import {AuthService} from 'app/services/auth.service';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {select, Store} from '@ngrx/store';
 import {State, getCurrencyPair} from 'app/core/reducers/index';
-import {OrdersService} from './orders.service';
+import {EmbeddedOrdersService} from './embedded-orders.service';
 
 @Component({
   selector: 'app-embedded-orders',
@@ -34,7 +34,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
     private store: Store<State>,
     private authService: AuthService,
     // private mockData: MockDataService,
-    private ordersService: OrdersService
+    private ordersService: EmbeddedOrdersService
   ) {
     super();
   }
