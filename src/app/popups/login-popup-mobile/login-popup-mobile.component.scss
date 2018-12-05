@@ -4,5 +4,8 @@ re-captcha{
 @media (min-width: 1200px){
   .popup__links-wrap{
     justify-content: space-between;
+    &--center{
+      justify-content: center;
+    }
   }
 }

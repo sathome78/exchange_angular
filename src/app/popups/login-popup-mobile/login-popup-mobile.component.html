@@ -84,7 +84,7 @@
     <ng-template #captchaTemplate>
       <h6 class="popup__title">Enter the captcha</h6>
       <re-captcha (resolved)="resolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
-      <div class="popup__links-wrap">
+      <div class="popup__links-wrap popup__links-wrap--center">
         <a class="popup__link" (click)="openRegistration()">Go to registration form</a>
       </div>
     </ng-template>
