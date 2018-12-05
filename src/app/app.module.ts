@@ -26,13 +26,11 @@ import {StepFourComponent} from './popups/identity-popup/step-four/step-four.com
 import {LoginPopupComponent} from './popups/login-popup/login-popup.component';
 import {WebcamComponent} from './popups/identity-popup/webcam/webcam.component';
 import {DocUploadComponent} from './popups/identity-popup/doc-upload/doc-upload.component';
-import {OpenOrdersComponent} from './orders/open-orders/open-orders.component';
-import {OrdersHistoryComponent} from './orders/orders-history/orders-history.component';
 import {ReferralStructureComponent} from './referral/referral-structure/referral-structure.component';
 import {ReferralChargesComponent} from './referral/referral-charges/referral-charges.component';
 import {RegistrationMobilePopupComponent} from './popups/registration-mobile-popup/registration-mobile-popup.component';
 import {LoginPopupMobileComponent} from './popups/login-popup-mobile/login-popup-mobile.component';
-import {BalanceComponent} from './balance/balance.component';
+import {BalanceComponent} from './funds/balance/balance.component';
 import {reducers} from './core/reducers';
 import {CoreModule} from './core/core.module';
 import {AppRoutingModule} from './app-routing.module';
@@ -54,7 +52,7 @@ import {UserVerificationService} from './services/user-verification.service';
 import {ThemeService} from './services/theme.service';
 import {MockDataService} from './services/mock-data.service';
 import {TradingService} from './dashboard/components/trading/trading.service';
-import {OrdersService} from './dashboard/components/embedded-orders/orders.service';
+import {EmbeddedOrdersService} from './dashboard/components/embedded-orders/embedded-orders.service';
 import {CurrencyPairInfoService} from './dashboard/components/currency-pair-info/currency-pair-info.service';
 import {JwtInterceptor} from './core/interceptors/jwt.interceptor';
 import {AuthInterceptor} from './core/interceptors/auth.interceptor';
@@ -63,6 +61,11 @@ import {FinalRegistrationComponent} from './auth/final-registration/final-regist
 import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.component';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-password/final-step-recovery-password.component';
+import { FundsComponent } from './funds/funds.component';
+import {BalanceService} from './shared/balance.service';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {environment} from 'environments/environment';
+
 import { RefillMoneyComponent } from './balance/refill-money/refill-money.component';
 import { RefillStepOneComponent } from './balance/refill-money/refill-step-one/refill-step-one.component';
 import { RefillStepTwoComponent } from './balance/refill-money/refill-step-two/refill-step-two.component';
@@ -105,8 +108,6 @@ import { TransferProtectedEmailCodeComponent } from './balance/send-money/send-s
     LoginPopupComponent,
     WebcamComponent,
     DocUploadComponent,
-    OpenOrdersComponent,
-    OrdersHistoryComponent,
     ReferralStructureComponent,
     ReferralChargesComponent,
     BalanceComponent,
@@ -117,6 +118,7 @@ import { TransferProtectedEmailCodeComponent } from './balance/send-money/send-s
     RecoveryPassComponent,
     TransactionHistoryComponent,
     FinalStepRecoveryPasswordComponent,
+    FundsComponent,
     RefillMoneyComponent,
     RefillStepOneComponent,
     RefillStepTwoComponent,
@@ -139,6 +141,10 @@ import { TransferProtectedEmailCodeComponent } from './balance/send-money/send-s
   ],
   imports: [
     StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: !environment.production,
+    }),
     CoreModule,
     AppRoutingModule,
     BrowserModule,
@@ -157,6 +163,7 @@ import { TransferProtectedEmailCodeComponent } from './balance/send-money/send-s
   providers: [
     AuthGuard,
     AuthService,
+    BalanceService,
     GoogleAuthenticatorService,
     LangService,
     LoggingService,
@@ -166,7 +173,7 @@ import { TransferProtectedEmailCodeComponent } from './balance/send-money/send-s
     ThemeService,
     MockDataService,
     TradingService,
-    OrdersService,
+    EmbeddedOrdersService,
     CurrencyPairInfoService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
