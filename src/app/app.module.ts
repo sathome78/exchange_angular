@@ -63,7 +63,6 @@ import { TransactionHistoryComponent } from './transaction-history/transaction-h
 import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-password/final-step-recovery-password.component';
 import { FundsComponent } from './funds/funds.component';
 import {BalanceService} from './shared/balance.service';
-import {OrdersComponent} from './orders/orders.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from 'environments/environment';
 
@@ -110,7 +109,6 @@ import { RefillInnerTransferComponent } from './balance/refill-money/refill-step
     TransactionHistoryComponent,
     FinalStepRecoveryPasswordComponent,
     FundsComponent,
-    OrdersComponent,
     RefillMoneyComponent,
     RefillStepOneComponent,
     RefillStepTwoComponent,

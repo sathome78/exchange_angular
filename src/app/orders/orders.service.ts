@@ -26,7 +26,7 @@ export class OrdersService {
       limit: limit + '',
       from,
       to,
-      currencyPairId,
+      currencyPairId: currencyPairId || '',
     }
 
     return this.http.get<OrderWrapper>(`${this.apiUrl}/info/private/v2/dashboard/orders/OPENED`, {params});
@@ -45,7 +45,7 @@ export class OrdersService {
       from,
       to,
       hideCanceled: hideCanceled.toString(),
-      currencyPairId,
+      currencyPairId: currencyPairId || '',
     }
     return this.http.get<OrderWrapper>(`${this.apiUrl}/info/private/v2/dashboard/orders/CLOSED`, {params});
   }

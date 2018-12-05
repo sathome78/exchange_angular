@@ -12,7 +12,6 @@ import {FinalRegistrationComponent} from './auth/final-registration/final-regist
 import {SettingsComponent} from './settings/settings.component';
 import {FinalStepRecoveryPasswordComponent} from './auth/final-step-recovery-password/final-step-recovery-password.component';
 import {FundsComponent} from './funds/funds.component';
-import {OrdersComponent} from './orders/orders.component';
 
 const routes: Routes = [
   // permit all
@@ -26,7 +25,7 @@ const routes: Routes = [
   {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
   {path: 'recovery-password', component: FinalStepRecoveryPasswordComponent},
   {path: 'funds', component: FundsComponent },
-  {path: 'orders', component: OrdersComponent, loadChildren: 'app/orders/orders.module#OrdersModule'  },
+  {path: 'orders', loadChildren: 'app/orders/orders.module#OrdersModule'  },
 
   { path: 'settings', loadChildren: './settings/settings.module#SettingsModule'},
   // { path: 'dashboard',      component: DashboardComponent },
