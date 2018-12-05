@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {StompService} from '@stomp/ng2-stompjs';
-import {Message} from '@stomp/stompjs';
-import {map} from 'rxjs/internal/operators';
 import {Observable, Subject} from 'rxjs';
 
 import {environment} from 'environments/environment';
+import {OrderWrapper} from '../../../orders/models/order-wrapper.model';
 
 @Injectable()
-export class OrdersService {
+export class EmbeddedOrdersService {
 
   private baseUrl;
   private stompSubscription: any;
