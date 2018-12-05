@@ -1,0 +1,13 @@
+.modal__content{
+  padding: 32px 12px;
+}
+@media (min-width:600px){
+  .modal__content{
+    padding: 32px 12px;
+  }
+}
+@media (min-width:1200px){
+  .modal__content{
+    padding: 32px;
+  }
+}
