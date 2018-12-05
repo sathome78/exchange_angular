@@ -45,9 +45,9 @@ export class OrdersHistoryComponent implements OnInit {
     private store: Store<ordersReducer.State>,
 
   ) { 
-    this.orderItems$ = store.select(ordersReducer.getHistoryOrdersFilterCurr);
-    this.countOfEntries$ = store.select(ordersReducer.getHistoryOrdersCount);
-    this.currencyPairs$ = store.select(ordersReducer.getAllCurrencyPairsSelector);
+    this.orderItems$ = store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr));
+    this.countOfEntries$ = store.pipe(select(ordersReducer.getHistoryOrdersCount));
+    this.currencyPairs$ = store.pipe(select(ordersReducer.getAllCurrencyPairsSelector));
   }
 
   ngOnInit() {

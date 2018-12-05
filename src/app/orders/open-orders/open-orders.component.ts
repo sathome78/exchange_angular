@@ -43,9 +43,9 @@ export class OpenOrdersComponent implements OnInit {
   constructor(
     private store: Store<ordersReducer.State>
   ) { 
-    this.orderItems$ = store.select(ordersReducer.getOpenOrdersFilterCurr);
-    this.countOfEntries$ = store.select(ordersReducer.getOpenOrdersCount);
-    this.currencyPairs$ = store.select(ordersReducer.getAllCurrencyPairsSelector);
+    this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr));
+    this.countOfEntries$ = store.pipe(select(ordersReducer.getOpenOrdersCount));
+    this.currencyPairs$ = store.pipe(select(ordersReducer.getAllCurrencyPairsSelector));
   }
 
   ngOnInit() {
