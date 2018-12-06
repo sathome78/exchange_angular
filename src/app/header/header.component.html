@@ -262,7 +262,7 @@
 
 
       <a class="header-mob__submenu-link" routerLink="balance" routerLinkActive="header-mob__submenu-link--active"
-         (click)="setMobileWidget('balance')">
+         (click)="setMobileWidget('balance')" *ngIf="isAuthenticated()">
         <img class="header-mob__submenu-link-img" src="../../assets/img/wallet.svg">
         <span class="header-mob__submenu-link-text">Balances</span>
       </a>
@@ -270,14 +270,14 @@
          [routerLink]="['dashboard']"
          [queryParams]="{widget: 'trade-history'}"
          [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'trade-history' }"
-         (click)="setMobileWidget('trade-history')">
+         (click)="setMobileWidget('trade-history')" *ngIf="isAuthenticated()">
         <img class="header-mob__submenu-link-img" src="../../assets/img/history.svg">
         <span class="header-mob__submenu-link-text">History</span>
       </a>
       <a class="header-mob__submenu-link"
          [routerLink]="['open-orders']"
          routerLinkActive="header-mob__submenu-link--active"
-         (click)="setMobileWidget('open')">
+         (click)="setMobileWidget('open')" *ngIf="isAuthenticated()">
         <img class="header-mob__submenu-link-img" src="../../assets/img/orders.svg">
         <span class="header-mob__submenu-link-text">Open</span>
       </a>
