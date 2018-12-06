@@ -93,9 +93,9 @@
             <!--<span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{!currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange}}%</span>-->
             <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="" *ngIf="flarForArrow('up')">
             <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="" *ngIf="flarForArrow('down')">
-            <span style="margin-left: 10px;">({{(!currentCurrencyInfo || !currentCurrencyInfo.changedValue ? 0 :currentCurrencyInfo.changedValue) | replaceNumber:isFiat }} {{ secondCurrency }})</span>
+            <span style="margin-left: 10px;">({{(!currentCurrencyInfo || !currentCurrencyInfo.changedValue ? 0 :currentCurrencyInfo.changedValue) | number:'1.1-8' }} {{ secondCurrency }})</span>
           </div>
-          <div class="currency-pair-info__price">{{!currentCurrencyInfo || !currentCurrencyInfo.currencyRate ? 0 :currentCurrencyInfo.currencyRate | replaceNumber:isFiat }} {{ secondCurrency }}</div>
+          <div class="currency-pair-info__price">{{!currentCurrencyInfo || !currentCurrencyInfo.currencyRate ? 0 :currentCurrencyInfo.currencyRate | number:'1.0' }} {{ secondCurrency }}</div>
         </div>
       </div>
     </div>

@@ -30,7 +30,6 @@ import {ReferralStructureComponent} from './referral/referral-structure/referral
 import {ReferralChargesComponent} from './referral/referral-charges/referral-charges.component';
 import {RegistrationMobilePopupComponent} from './popups/registration-mobile-popup/registration-mobile-popup.component';
 import {LoginPopupMobileComponent} from './popups/login-popup-mobile/login-popup-mobile.component';
-import {BalanceComponent} from './funds/balance/balance.component';
 import {reducers} from './core/reducers';
 import {CoreModule} from './core/core.module';
 import {AppRoutingModule} from './app-routing.module';
@@ -83,6 +82,7 @@ import { SendInnerTransferComponent } from './balance/send-money/send-step-two/s
 import { TransferInstantComponent } from './balance/send-money/send-step-three/transfer-instant/transfer-instant.component';
 import { TransferProtectedCodeComponent } from './balance/send-money/send-step-three/transfer-protected-code/transfer-protected-code.component';
 import { TransferProtectedEmailCodeComponent } from './balance/send-money/send-step-three/transfer-protected-email-code/transfer-protected-email-code.component';
+import {BalanceComponent} from './funds/balance/balance.component';
 
 @NgModule({
   declarations: [
