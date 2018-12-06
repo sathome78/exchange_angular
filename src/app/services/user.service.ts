@@ -80,7 +80,6 @@ export class UserService {
   }
 
   public authenticateUser(email: string, password: string, pin?: string): Observable<{} | TokenHolder> {
-    // console.log(email, password, pin);
     const authCandidate = AuthCandidate
       .builder()
       .withEmail(email)
@@ -88,6 +87,7 @@ export class UserService {
       .withPinCode(pin)
       .withClientIp()
       .build();
+    // alert('encoded: ' +  authCandidate.password);
 
     this.logger.debug(this, 'User password ' + password + ' is encrypted to ' + authCandidate.password);
     // const mHeaders = MEDIA_TYPE_JSON.append(IP_USER_HEADER, localStorage.getItem('client_ip'));
