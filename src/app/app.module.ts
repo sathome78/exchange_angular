@@ -30,7 +30,6 @@ import {ReferralStructureComponent} from './referral/referral-structure/referral
 import {ReferralChargesComponent} from './referral/referral-charges/referral-charges.component';
 import {RegistrationMobilePopupComponent} from './popups/registration-mobile-popup/registration-mobile-popup.component';
 import {LoginPopupMobileComponent} from './popups/login-popup-mobile/login-popup-mobile.component';
-import {BalanceComponent} from './funds/balance/balance.component';
 import {reducers} from './core/reducers';
 import {CoreModule} from './core/core.module';
 import {AppRoutingModule} from './app-routing.module';
@@ -61,7 +60,6 @@ import {FinalRegistrationComponent} from './auth/final-registration/final-regist
 import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.component';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-password/final-step-recovery-password.component';
-import { FundsComponent } from './funds/funds.component';
 import {BalanceService} from './shared/balance.service';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from 'environments/environment';
@@ -110,7 +108,6 @@ import { TransferProtectedEmailCodeComponent } from './balance/send-money/send-s
     DocUploadComponent,
     ReferralStructureComponent,
     ReferralChargesComponent,
-    BalanceComponent,
     LoginPopupMobileComponent,
     RegistrationMobilePopupComponent,
     GoogleDisableComponent,
@@ -118,7 +115,7 @@ import { TransferProtectedEmailCodeComponent } from './balance/send-money/send-s
     RecoveryPassComponent,
     TransactionHistoryComponent,
     FinalStepRecoveryPasswordComponent,
-    FundsComponent,
+    // FundsComponent,
     RefillMoneyComponent,
     RefillStepOneComponent,
     RefillStepTwoComponent,
