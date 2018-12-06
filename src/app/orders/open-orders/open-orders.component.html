@@ -270,8 +270,13 @@
             </div>
           </td>
         </tr>
-        <tr class="table__row" colspan="10" *ngIf="!(orderItems$ | async).length">
-          No matching records found
+        <tr class="table__row" *ngIf="!(orderItems$ | async).length">
+          <td class="table__cell table__cell--tac" colspan="10">
+            No matching records found
+          </td>
+          <!--<div class="empty-data">-->
+            <!---->
+          <!--</div>-->
         </tr>
       </tbody>
     </table>
