@@ -41,7 +41,13 @@ export class BalanceService {
     return this.http.post(url, data);
   }
 
-
+  getCryptoMerchants(cryptoName) {
+    const httpOptions = {
+      params:  new HttpParams().set('currency', cryptoName)
+    };
+    const url = `${this.apiUrl}/info/private/v2/balances/withdraw/merchants/output`;
+    return this.http.get(url, httpOptions);
+  }
 
   sendTransferCode(code: string) {
     const data = {CODE: code}

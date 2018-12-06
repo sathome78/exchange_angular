@@ -4074,8 +4074,57 @@ export class MockDataService {
 },
   ]
 
+  private sendCryptoInfo = {
+    activeBalance: 9857442175.750013,
+    balanceAndName: null,
+    userId: 0,
+    operationType: "OUTPUT",
+    minWithdrawSum: 0.0001,
+    scaleForCurrency: 8,
+    currenciesId: [
+      4
+    ],
+    merchantCurrencyData: [
+      {
+        merchantId: 3,
+        currencyId: 4,
+        name: "Bitcoin",
+        description: "Bitcoin",
+        minSum: 1e-8,
+        inputCommission: 0,
+        outputCommission: 0.5,
+        fixedMinCommission: 0.0008,
+        listMerchantImage: [
+          {
+            merchantId: 3,
+            currencyId: 4,
+            image_name: "Bitcoin",
+            image_path: "/client/img/merchants/bitcoin.png",
+            id: 61,
+          }
+        ],
+        processType: "CRYPTO",
+        mainAddress: null,
+        address: null,
+        additionalTagForWithdrawAddressIsUsed: null,
+        additionalFieldName: null,
+        generateAdditionalRefillAddressAvailable: null,
+        recipientUserIsNeeded: null,
+        comissionDependsOnDestinationTag: null,
+        specMerchantComission: null,
+      }
+    ],
+    warningCodeList: [ ],
+    balance: null,
+    processType: null,
+  }
+
   getBuyJson() {
     return this.buyJson;
+  }
+
+  getSendCrypto() {
+    return this.sendCryptoInfo;
   }
 
   getCryptoData() {

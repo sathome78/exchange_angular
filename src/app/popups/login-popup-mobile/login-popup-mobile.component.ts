@@ -7,6 +7,7 @@ import {AuthService} from '../../shared/services/auth.service';
 import {Router} from '@angular/router';
 import {LoggingService} from '../../shared/services/logging.service';
 import {keys} from '../../core/keys';
+import {isCombinedNodeFlagSet} from 'tslint';
 
 @Component({
   selector: 'app-login-popup-mobile',
@@ -134,7 +135,7 @@ export class LoginPopupMobileComponent implements OnInit {
     this.setTemplate('captchaTemplate');
   }
 
-  resolvedCaptcha(event) {
+  afterResolvedCaptcha(event) {
     // this.setTemplate('logInTemplate');
     if (this.loginForm.valid) {
       this.email = this.loginForm.get('email').value;
@@ -150,7 +151,7 @@ export class LoginPopupMobileComponent implements OnInit {
     }
   }
 
-  // resolvedCaptcha(event) {
+  // afterResolvedCaptcha(event) {
   //   this.userService.sendToEmailConfirmation(this.email).subscribe(res => {
   //     console.log(res);
   //     this.setTemplate('emailConfirmLinkTemplate');
@@ -166,14 +167,16 @@ export class LoginPopupMobileComponent implements OnInit {
     this.logger.debug(this, 'attempt to authenticate with email: ' + this.email + ' and password: ' + this.password);
     this.userService.authenticateUser(this.email, this.password, this.pin)
       .subscribe((tokenHolder: TokenHolder) => {
+          console.log(tokenHolder, 'tokenholder1')
           this.logger.debug(this, 'User { login: ' + this.email + ', pass: ' + this.password + '}' + ' signed in and obtained' + tokenHolder);
           this.authService.setTokenHolder(tokenHolder);
           this.popupService.closeMobileLoginPopup();
-          // this.router.navigate(['/']);
+          this.router.navigate(['/']);
           // TODO: just for promo state, remove after
           // location.reload();
         },
         err => {
+          console.log(err, 'sendToServerError')
           const status = err['status'];
           this.setTemplate('logInTemplate');
           this.setStatusMessage(status);

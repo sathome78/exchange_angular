@@ -95,6 +95,11 @@
       label {
         color: #EB5757 !important;
       }
+      input:focus {
+        &+label{
+          color: #94C2FF !important;
+        }
+      }
     }
   }
 }

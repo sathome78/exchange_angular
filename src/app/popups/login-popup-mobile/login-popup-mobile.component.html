@@ -82,7 +82,7 @@
 
     <ng-template #captchaTemplate>
       <h6 class="popup__title">Enter the captcha</h6>
-      <re-captcha (resolved)="resolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
+      <re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
       <div class="popup__links-wrap">
         <a class="popup__link" (click)="openRegistration()">Go to registration form</a>
       </div>
@@ -122,7 +122,7 @@
 
         </div>
         <button class="btn popup__btn"
-                (click)="resolvedCaptcha()"
+                (click)="afterResolvedCaptcha()"
                 [disabled]="!pinForm.valid"
                 [ngClass]="{'popup__btn--active': pinForm.valid,
                 'popup__btn--error': !pinForm.valid && pinForm.get('pin').touched}">Authorise me</button>

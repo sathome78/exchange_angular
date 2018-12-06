@@ -5,6 +5,12 @@ import {takeUntil} from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
 import {BalanceService} from '../../../../../shared/services/balance.service';
 
+interface RefreshAddress {
+  address: string;
+  qr: string;
+  message: string;
+}
+
 @Component({
   selector: 'app-refill-crypto',
   templateUrl: './refill-crypto.component.html',
@@ -20,6 +26,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public isSowCopyMemoId = false;
   public activeCrypto;
   public openCurrencyDropdown = false;
+  public address;
   public alphabet;
 
   /** Are listening click in document */
@@ -87,6 +94,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.cryptoDataByName = res;
+        this.address = this.cryptoDataByName.merchantCurrencyData[0].mainAddress;
         console.log(res);
       });
   }
@@ -107,7 +115,9 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
       this.balanceService.refill(data)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
-        this.cryptoDataByName = res;
+          const temp = res as RefreshAddress;
+          this.address = temp.address;
+          console.log(this.address);
       });
     }
   }

@@ -55,14 +55,14 @@
 <div class="refill__crypto-refill-info" *ngIf="cryptoDataByName && cryptoDataByName.merchantCurrencyData[0]">
   <div class="refill__qr-code">
     <!--<img src="../../assets/img/qr-code.svg">-->
-    <qr-code [value]="cryptoDataByName.merchantCurrencyData[0].mainAddress" [size]="150"></qr-code>
+    <qr-code [value]="address" [size]="150"></qr-code>
   </div>
   <div>
-    <div class="refill__crypto-address" *ngIf="cryptoDataByName.merchantCurrencyData[0].mainAddress">
+    <div class="refill__crypto-address" *ngIf="address">
       <h6 class="refill__crypto-title"><span>BTC</span> address</h6>
-      <div class="refill__crypto-hash">{{cryptoDataByName.merchantCurrencyData[0].mainAddress}}</div>
+      <div class="refill__crypto-hash">{{address}}</div>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="!isSowCopyAddress"
-      (click)="copyToBuffer(cryptoDataByName.merchantCurrencyData[0].mainAddress, 'Copy address')"
+      (click)="copyToBuffer(address, 'Copy address')"
       >Copy address</button>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="isSowCopyAddress"
       >Copied</button>
