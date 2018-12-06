@@ -348,5 +348,12 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     }
     return tempPair ;
   }
+  flarForArrow(s: string) {
+    if (s === 'up') {
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate >= 0 :  false;
+    } else {
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate < 0 : false;
+    }
+  }
 
 }

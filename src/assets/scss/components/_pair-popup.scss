@@ -38,10 +38,11 @@
   &__header{
     display: flex;
     flex-direction: column;
-    margin-top: 18px;
+    margin-top: 20px;
 
   }
   &__input{
+    margin-bottom: 12px;
     .wrap-input__input{
       padding-left: 32px;
       background-color: transparent;
@@ -72,11 +73,20 @@
       }
     }
   }
+  &__tabs {
+    height: 36px;
+    .tabs__item {
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+    }
+  }
   &__header-txt{
     display: none;
   }
   &__content-wrap{
     padding-top: 12px;
+    padding-bottom: 12px;
   }
   &__content{
     display: flex;
@@ -166,6 +176,7 @@
     &__input{
       width: 260px;
       margin-right: 32px;
+      margin-bottom: 0;
       .wrap-input__input{
         &:valid{
           ~.wrap-input__label{
@@ -175,11 +186,7 @@
       }
     }
     &__tabs {
-      .tabs__item {
-        display: flex;
-        align-items: center;
-        padding: 0 16px;
-      }
+      height: auto;
       &:after{
         display: none;
       }
@@ -194,7 +201,6 @@
     }
     &__content-wrap{
       padding-top: 24px;
-      padding-bottom: 12px;
       max-height: 300px;
       position: relative;
     }
