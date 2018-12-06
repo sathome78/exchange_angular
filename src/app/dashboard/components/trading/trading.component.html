@@ -20,7 +20,7 @@
       </div>
     </div>
   </div>
-  <div class="tabs widget__tabs" *ngIf="currentPair" *ngIf="isAuthenticated()">
+  <div class="tabs widget__tabs" *ngIf="currentPair && isAuthenticated()">
     <button class="tabs__item tabs__item--big "
             [ngClass]="{'tabs__item--active': mainTab === 'BUY', 'tab-no-active': mainTab !== 'BUY'}"
             (click)="toggleMainTab('BUY')">Buy {{arrPairName[0]}}
