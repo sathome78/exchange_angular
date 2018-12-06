@@ -20,7 +20,7 @@
       </div>
     </div>
   </div>
-  <div class="tabs widget__tabs" *ngIf="currentPair" >
+  <div class="tabs widget__tabs" *ngIf="currentPair" *ngIf="isAuthenticated()">
     <button class="tabs__item tabs__item--big "
             [ngClass]="{'tabs__item--active': mainTab === 'BUY', 'tab-no-active': mainTab !== 'BUY'}"
             (click)="toggleMainTab('BUY')">Buy {{arrPairName[0]}}
@@ -142,8 +142,8 @@
           <a href="#">Become VIP</a>
         </div>
       </div>
-      <button class="btn  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'BUY'">Buy {{arrPairName[0]}} </button>
-      <button class="btn  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'SELL'">Sell {{arrPairName[0]}} </button>
+      <button class="btn  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'BUY' && isAuthenticated()">Buy {{arrPairName[0]}} </button>
+      <button class="btn  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'SELL' && isAuthenticated()">Sell {{arrPairName[0]}} </button>
     </div>
   </div>
 

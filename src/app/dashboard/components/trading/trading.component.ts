@@ -25,6 +25,7 @@ import {UserBalance} from 'app/model/user-balance.model';
 import {UserService} from 'app/services/user.service';
 import {LastSellBuyOrder} from 'app/model/last-sell-buy-order.model';
 import {CurrencyPairInfo, OrderItem} from '../../../model';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-trading',
@@ -83,6 +84,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
   constructor(
     private store: Store<State>,
+    public authService: AuthService,
     public breakPointService: BreakpointService,
     public tradingService: TradingService,
     private dashboardService: DashboardService,
@@ -238,6 +240,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.setPriceInValue(this.order.rate);
       this.getCommission();
     }
+  }
+
+  /**
+   * determines if user is logged in
+   */
+  isAuthenticated() {
+    return this.authService.isAuthenticated();
   }
 
   // /**
