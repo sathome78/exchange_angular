@@ -30,8 +30,22 @@
       text-decoration:underline;
     }
   }
+  &__code{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    b{
+      flex-grow: 0;
+    }
+    .btn{
+      flex-grow: 0;
+      margin-top: 8px;
+    }
+  }
 }
-
+.btn{
+  margin-top: 8px;
+}
 @media (min-width: 1200px) {
   .send {
     &__successful-title{
@@ -41,5 +55,8 @@
       text-align: center;
       margin-bottom: 16px;
     }
+  }
+  .btn{
+    margin-top: 16px;
   }
 }
