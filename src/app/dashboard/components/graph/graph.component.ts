@@ -19,9 +19,10 @@ import {environment} from 'environments/environment';
 import {select, Store} from '@ngrx/store';
 import {getCurrencyPair, State} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../model/currency-pair.model';
-import {getCurrencyPairArray} from '../../../core/reducers';
+import {getCurrencyPairArray, getCurrencyPairInfo} from '../../../core/reducers';
 import {Currency} from '../currency-pair-info/currency-search/currency.model';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
+import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 
 @Component({
   selector: 'app-graph',
@@ -42,6 +43,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   public activeCurrency: number;
   /** available currencies */
   public currencies: Currency[];
+  public isFiat = false;
   public marketsArray = [
     {name: 'USD'},
     {name: 'ETH'},
@@ -50,6 +52,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   public allCurrencyPairs;
   currentCurrencyInfo;
   private lang;
+  /** current active pair */
+  public pair;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
   private _interval: ChartingLibraryWidgetOptions['interval'] = '3';
@@ -140,11 +144,29 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.itemName = 'graph';
 
     this.store
+      .pipe(select(getCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPair) => {
+        this.pair = pair;
+      });
+
+    this.store
+      .pipe(select(getCurrencyPairInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPairInfo) => {
+        this.currentCurrencyInfo = pair;
+        this.isFiat = this.pair.market === 'USD';
+        this.splitPairName(this.pair);
+      });
+
+    this.store
       .pipe(select(getCurrencyPairArray))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair[]) => {
         this.allCurrencyPairs = pair;
       });
+
+
 
     this.lang = this.langService.getLanguage();
     this.formattingCurrentPairName(this.currencyPairName);
@@ -157,6 +179,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         if (this.currencyPairName) {
           // this._tvWidget = new widget(this.widgetOptions);
           this.formattingCurrentPairName(pair.currencyPairName as string);
+          // this.isFiat = pair.market === 'USD';
           try {
             this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
           } catch (e) {
@@ -348,6 +371,17 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     }
     return tempPair ;
   }
+
+  /**
+   * split pair name by '/'
+   * @param {CurrencyPair} pair
+   */
+  splitPairName(pair: CurrencyPair) {
+    if (pair.currencyPairId) {
+      [ this.firstCurrency, this.secondCurrency ] = this.pair.currencyPairName.split('/');
+    }
+  }
+
   flarForArrow(s: string) {
     if (s === 'up') {
       return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate >= 0 :  false;
