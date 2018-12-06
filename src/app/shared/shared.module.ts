@@ -13,6 +13,7 @@ import {OnlyNumbersDirective} from './directives/only-numbers.directive';
 import {PriceInputComponent} from './components/price-input/price-input.component';
 import {BuyTotalCalculatePipe} from './pipes/buy-total-calculate.pipe';
 import {SellTotalCalculatePipe} from './pipes/sell-total-calculate.pipe';
+import { PageItemDropdownComponent } from './components/page-item-dropdown/page-item-dropdown.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import {SellTotalCalculatePipe} from './pipes/sell-total-calculate.pipe';
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
+    PageItemDropdownComponent,
   ],
   imports: [
     FormsModule,
@@ -44,6 +46,7 @@ import {SellTotalCalculatePipe} from './pipes/sell-total-calculate.pipe';
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
+    PageItemDropdownComponent,
   ],
   providers: [
     NotificationsService
