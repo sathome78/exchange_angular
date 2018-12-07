@@ -74,9 +74,11 @@
           </tr>
         </ng-container>
 
-        <tr class="table__row--mob" colspan="4" *ngIf="!(orderItems$ | async).length">
+        <tr class="table__row--mob"  *ngIf="!(orderItems$ | async).length">
+          <td class="table__cell table__cell--tac" colspan="4">
             No matching records found
-          </tr>
+          </td>
+        </tr>
         <!-- t-row end-->
       </tbody>
     </table>
@@ -129,7 +131,6 @@
             <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date}" >To</label>
 
             <my-date-picker 
-              class="input-el" 
               name="to"
               [options]="myDatePickerOptions" 
               [(ngModel)]="modelDateTo"
