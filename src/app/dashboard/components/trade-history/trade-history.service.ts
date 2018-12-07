@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Subject, Observable} from 'rxjs';
 import {StompService} from '@stomp/ng2-stompjs';
 import {map} from 'rxjs/internal/operators';
 import {CurrencyPair} from '../../../model/currency-pair.model';
@@ -10,6 +10,8 @@ import {State} from '../../reducers/dashboard.reducer';
 import {SetAllTradesAction, SetLastSellBuyOrderAction} from '../../actions/dashboard.actions';
 import {LastSellBuyOrder} from '../../../model/last-sell-buy-order.model';
 import {defaultLastSellBuyOrder} from '../../reducers/default-values';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../../environments/environment';
 
 @Injectable()
 export class TradeHistoryService {
@@ -22,7 +24,8 @@ export class TradeHistoryService {
 
   constructor(
     private stompService: StompService,
-    private store: Store<State>
+    private store: Store<State>,
+    private http: HttpClient,
   ) {
     // this.allTradesListener = new Subject<TradeItem[]>();
     this.personalTradesListener = new Subject<TradeItem[]>();
@@ -34,18 +37,13 @@ export class TradeHistoryService {
       .subscribe('/app/trades/' + pair.currencyPairId)
         .subscribe((message) => {
           // console.log(JSON.parse(JSON.parse(message.body)));
-          console.log('kdj')
+          // console.log('kdj')
           this.setLastBuyOrder(JSON.parse(JSON.parse(message.body)).data);
           this.setLastSellOrder(JSON.parse(JSON.parse(message.body)).data);
           this.store.dispatch(new SetAllTradesAction(JSON.parse(JSON.parse(message.body)).data));
 
           // this.allTradesListener.next(JSON.parse(JSON.parse(message.body)).data);
         });
-
-
-
-
-
       // .pipe(map(message => {
       //   const wrapper: TradesWrapper = JSON.parse(message.body);
       //   console.log(wrapper);
@@ -59,6 +57,13 @@ export class TradeHistoryService {
       //     this.personalTradesListener.next(wrapper.MY);
       //   }
       // });
+  }
+
+  public getFirstTrades(currencyPairId?: number): Observable<TradeItem[]> {
+    const params = {
+      pairId: currencyPairId + '' || '1',
+    }
+    return this.http.get<TradeItem[]>(environment.apiUrl + '/info/public/v2/accepted-orders/fast', {params})
   }
 
   unsubscribeStompForTrades() {

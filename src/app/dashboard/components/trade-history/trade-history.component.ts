@@ -9,12 +9,7 @@ import {CurrencyPair} from '../../../model/currency-pair.model';
 import {select, Store} from '@ngrx/store';
 import {State, getCurrencyPair, getAllTrades} from 'app/core/reducers/index';
 import {TradeItem} from '../../../model/trade-item.model';
-import {SetLastSellBuyOrderAction} from '../../actions/dashboard.actions';
-import {OrderItem} from '../../../model/order-item.model';
-import {LastSellBuyOrder} from '../../../model/last-sell-buy-order.model';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs/Rx';
-import {environment} from '../../../../environments/environment';
 
 
 @Component({
@@ -41,30 +36,29 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   userInSystem: boolean;
-  private mockData: TradeItem [];
-  private data;
 
   constructor(
     private store: Store<State>,
     private tradeService: TradeHistoryService,
-    private http: HttpClient,
-    private marketService: MarketService,
-    private ref: ChangeDetectorRef) {
-    super();
+) {
+  super();
   }
 
 
   ngOnInit() {
     this.itemName = 'trade-history';
     // todo move ro store
-    this.http
-      .get<TradeItem[]>(environment.apiUrl + '/info/public/v2/accepted-orders/fast?pairId=1')
-      .subscribe(items => this.allTrades = items);
     this.store
-      .pipe(select(getCurrencyPair))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair: CurrencyPair) => {
+    .pipe(select(getCurrencyPair))
+    .pipe(takeUntil(this.ngUnsubscribe))
+    .subscribe((pair: CurrencyPair) => {
+      if (pair.currencyPairId) {
+        this.tradeService
+          .getFirstTrades(pair.currencyPairId)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(items => this.allTrades = items);
         this.onGetCurrentCurrencyPair(pair);
+      }
       });
 
     this.store
