@@ -12,6 +12,9 @@ import {TradeItem} from '../../../model/trade-item.model';
 import {SetLastSellBuyOrderAction} from '../../actions/dashboard.actions';
 import {OrderItem} from '../../../model/order-item.model';
 import {LastSellBuyOrder} from '../../../model/last-sell-buy-order.model';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/Rx';
+import {environment} from '../../../../environments/environment';
 
 
 @Component({
@@ -44,6 +47,7 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   constructor(
     private store: Store<State>,
     private tradeService: TradeHistoryService,
+    private http: HttpClient,
     private marketService: MarketService,
     private ref: ChangeDetectorRef) {
     super();
@@ -52,6 +56,10 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
 
   ngOnInit() {
     this.itemName = 'trade-history';
+    // todo move ro store
+    this.http
+      .get<TradeItem[]>(environment.apiUrl + '/info/public/v2/accepted-orders/fast?pairId=1')
+      .subscribe(items => this.allTrades = items);
     this.store
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
