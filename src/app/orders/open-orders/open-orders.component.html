@@ -208,7 +208,7 @@
           </my-date-picker>
           <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
         </div>
-        <button (click)="onFilterOrders()">
+        <button class="btn btn--auto btn--empty-blue" (click)="onFilterOrders()">
           Search
         </button>
       </div>
@@ -274,8 +274,10 @@
             </div>
           </td>
         </tr>
-        <tr class="table__row" colspan="10" *ngIf="!(orderItems$ | async).length">
-          No matching records found
+        <tr class="table__row" *ngIf="!(orderItems$ | async).length">
+          <td class="table__cell table__cell--tac" colspan="10">
+            No matching records found
+          </td>
         </tr>
       </tbody>
     </table>
