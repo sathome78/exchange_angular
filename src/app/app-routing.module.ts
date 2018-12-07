@@ -17,14 +17,14 @@ const routes: Routes = [
   // permit all
   {path: 'markets/:currency-pair', component: DashboardComponent},
   {path: 'dashboard', component: DashboardComponent},
+  {path: 'final-registration/token', component: FinalRegistrationComponent},
+  {path: 'recovery-password', component: FinalStepRecoveryPasswordComponent},
   // uncomment after demo
   // {path: 'balance', component: BalanceComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   // {path: 'transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
-  // {path: 'final-registration/token', component: FinalRegistrationComponent},
   // {path: 'referral-structure', component: ReferralStructureComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   // {path: 'referral-charges', component: ReferralChargesComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   // {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
-  // {path: 'recovery-password', component: FinalStepRecoveryPasswordComponent},
   // {path: 'funds', component: FundsComponent },
   // {path: 'orders', loadChildren: 'app/orders/orders.module#OrdersModule'  },
   //
@@ -52,7 +52,8 @@ const routes: Routes = [
   // // { path: 'referral',       component: ReferralComponent },
   // // {path: 'test', component: TestComponent },
 
-  {path: '', pathMatch: 'full', redirectTo: 'dashboard'}
+  {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
+  {path: '**', redirectTo: 'dashboard'}
 ];
 
 @NgModule({
