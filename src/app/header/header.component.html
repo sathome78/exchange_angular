@@ -29,9 +29,12 @@
           </ul>
         </div>
       </li>
-      <li class="menu__item" routerLinkActive="menu__link--active"><a class="menu__link" routerLink="/settings"
-                                                                      *ngIf="isAuthenticated()"><span
-        class="menu__link-text">Settings</span></a></li>
+      <li class="menu__item" routerLinkActive="menu__link--active" *ngIf="isAuthenticated()">
+      <!--<li class="menu__item" routerLink="/settings" routerLinkActive="menu__link&#45;&#45;active"><a class="menu__link" *ngIf="isAuthenticated()">-->
+        <a class="menu__link" *ngIf="isAuthenticated()">
+          <span class="menu__link-text">Settings </span>
+        </a>
+      </li>
       <!-- <li class="menu__item"><a class="menu__link" routerLink="/settings"><span class="menu__link-text">Settings</span></a></li> -->
       <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated()" routerLinkActive="menu__link--active"><a
         class="menu__link menu__link--drop" routerLinkActive="menu__link--active"><span

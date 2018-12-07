@@ -50,9 +50,8 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
     // todo move ro store
     this.tradeService
       .getFirstTrades(1)
-      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(items => this.allTrades = items);
-    
+
     this.store
     .pipe(select(getCurrencyPair))
     .pipe(takeUntil(this.ngUnsubscribe))
