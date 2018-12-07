@@ -1,16 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PopupService} from './services/popup.service';
+import {PopupService} from './shared/services/popup.service';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {ThemeService} from './services/theme.service';
-import {IpAddress, UserService} from './services/user.service';
-import {IP_CHECKER_URL, IP_USER_KEY} from './services/http.utils';
-import {LoggingService} from './services/logging.service';
+import {ThemeService} from './shared/services/theme.service';
+import {IpAddress, UserService} from './shared/services/user.service';
+import {IP_CHECKER_URL, IP_USER_KEY} from './shared/services/http.utils';
+import {LoggingService} from './shared/services/logging.service';
 import {HttpClient} from '@angular/common/http';
 import {NotificationsService} from './shared/components/notification/notifications.service';
 import {NotificationMessage} from './shared/models/notification-message-model';
 import {DashboardWebSocketService} from './dashboard/dashboard-websocket.service';
-import {AuthService} from './services/auth.service';
+import {AuthService} from './shared/services/auth.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 

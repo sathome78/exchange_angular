@@ -10,7 +10,7 @@ import {CurrencyPair} from '../model/currency-pair.model';
 import {environment} from '../../environments/environment';
 import {State} from './reducers/dashboard.reducer';
 import {ChangeCurrencyPairAction, LoadCurrencyPairsAction} from './actions/dashboard.actions';
-import {UserService} from '../services/user.service';
+import {UserService} from '../shared/services/user.service';
 import {CurrencyPairInfoService} from './components/currency-pair-info/currency-pair-info.service';
 
 

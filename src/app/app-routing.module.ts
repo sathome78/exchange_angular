@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {AuthGuard} from './services/auth.guard';
+import {AuthGuard} from './shared/services/auth.guard';
 import {BalanceComponent} from './funds/balance/balance.component';
 import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
-import {RefillMoneyComponent} from './balance/refill-money/refill-money.component';
+// import {RefillMoneyComponent} from './balance/refill-money/refill-money.component';
 import {OrdersHistoryComponent} from './orders/orders-history/orders-history.component';
 import {ReferralStructureComponent} from './referral/referral-structure/referral-structure.component';
 import {ReferralChargesComponent} from './referral/referral-charges/referral-charges.component';

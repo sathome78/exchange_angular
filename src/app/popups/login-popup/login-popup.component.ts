@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {PopupService} from '../../services/popup.service';
-import {UserService} from '../../services/user.service';
-import {LoggingService} from '../../services/logging.service';
+import {PopupService} from '../../shared/services/popup.service';
+import {UserService} from '../../shared/services/user.service';
+import {LoggingService} from '../../shared/services/logging.service';
 import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../shared/services/auth.service';
 import {TokenHolder} from '../../model/token-holder.model';
 import {SettingsService} from '../../settings/settings.service';
 

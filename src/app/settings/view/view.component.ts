@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SettingsService} from '../settings.service';
-import {UserService} from '../../services/user.service';
+import {UserService} from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-view',

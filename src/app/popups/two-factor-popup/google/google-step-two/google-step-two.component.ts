@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {OnNextStep, PopupService} from '../../../../services/popup.service';
+import {OnNextStep, PopupService} from '../../../../shared/services/popup.service';
 import {GoogleAuthenticatorService} from '../google-authenticator.service';
 import {ITwoFaResponseDto, TwoFaResponseDto} from '../2fa-response-dto.model';
-import {AuthService} from '../../../../services/auth.service';
+import {AuthService} from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-google-step-two',

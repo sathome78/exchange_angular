@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PopupService} from '../../services/popup.service';
+import {PopupService} from '../../shared/services/popup.service';
 import {generate, Subscription} from 'rxjs';
-import {LoggingService} from '../../services/logging.service';
+import {LoggingService} from '../../shared/services/logging.service';
 import {e} from '@angular/core/src/render3';
 
 @Component({
