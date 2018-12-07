@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {BalanceItem} from './balance-item.model';
-import {BalanceService} from '../../shared/balance.service';
+import {Component, OnInit} from '@angular/core';
+import {BalanceItem} from '../models/balance-item.model';
+import {FundsService} from '../funds.service';
 
 @Component({
   selector: 'app-balance',
@@ -9,16 +9,24 @@ import {BalanceService} from '../../shared/balance.service';
 })
 export class BalanceComponent implements OnInit {
 
-  balanceItems: BalanceItem [] = [];
+  /** */
+  public Tab = {
+    CRYPTO: 'CRYPTO',
+    FIAT: 'FIAT',
+    PR: 'PR',
+  }
 
-  constructor(private balanceService: BalanceService) { }
+  public balanceItems: BalanceItem [] = [];
+  public currTab: string = this.Tab.CRYPTO;
+
+  constructor(private balanceService: FundsService) { }
 
   ngOnInit() {
 
-    this.balanceService.getBalanceItems().subscribe(items => {
-      this.balanceItems = items;
-      console.log(this.balanceItems);
-    });
   }
 
+  public onSelectTab(tab: string): void {
+    this.currTab = tab;
+  }
+ 
 }

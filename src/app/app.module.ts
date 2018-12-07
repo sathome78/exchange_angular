@@ -60,7 +60,6 @@ import {FinalRegistrationComponent} from './auth/final-registration/final-regist
 import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.component';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-password/final-step-recovery-password.component';
-import {BalanceService} from './shared/balance.service';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from 'environments/environment';
 
@@ -160,7 +159,6 @@ import { TransferProtectedEmailCodeComponent } from './balance/send-money/send-s
   providers: [
     AuthGuard,
     AuthService,
-    BalanceService,
     GoogleAuthenticatorService,
     LangService,
     LoggingService,

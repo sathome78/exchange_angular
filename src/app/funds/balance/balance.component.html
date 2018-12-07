@@ -423,13 +423,13 @@
     <!--</svg>-->
     <!--</div>-->
     <div class="tabs balance__tabs-mob">
-      <button class="tabs__item tabs__item--active">
+      <button class="tabs__item" [ngClass]="{'tabs__item--active': currTab === Tab.CRYPTO}">
         Crypto
       </button>
-      <button class="tabs__item">
+      <button class="tabs__item" [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}">
         Fiat
       </button>
-      <button class="tabs__item">
+      <button class="tabs__item" [ngClass]="{'tabs__item--active': currTab === Tab.PR}">
         Pending<span class="indicate">5</span>
       </button>
     </div>
@@ -839,20 +839,32 @@
           <div class="wrap-input__line"></div>
         </div>
         <div class="tabs balance__tabs">
-          <button class="tabs__item">
+          <button 
+            class="tabs__item" 
+            [ngClass]="{'tabs__item--active': currTab === Tab.CRYPTO}"
+            (click)="onSelectTab(Tab.CRYPTO)"  
+          >
             Crypto Balances
           </button>
-          <button class="tabs__item">
+          <button 
+            class="tabs__item" 
+            [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}"
+            (click)="onSelectTab(Tab.FIAT)"  
+          >
             Fiat Balances
           </button>
-          <button class="tabs__item tabs__item--active">
+          <button 
+            class="tabs__item" 
+            [ngClass]="{'tabs__item--active': currTab === Tab.PR}"
+            (click)="onSelectTab(Tab.PR)"  
+          >
             <span>Pending requests</span>
             <span class="indicate">5</span>
           </button>
         </div>
         <div class="balance__hide-zero">
           <label for="" class="toggler">
-            <input type="checkbox" name="">
+            <input type="checkbox" name="hideZero">
             <span class="toggler__indicate"></span>
           </label>
           <span>Hide zero balances</span>
@@ -877,7 +889,20 @@
     </form>
     <!--filters end-->
     <!--table start-->
-    <table class="table">
+    <div [ngSwitch]="currTab">
+      <app-crypto-balance-table 
+        *ngSwitchCase="Tab.CRYPTO"
+      ></app-crypto-balance-table>
+      <app-fiat-balance-table 
+        *ngSwitchCase="Tab.FIAT"
+      ></app-fiat-balance-table>
+      <app-pending-request-table 
+        *ngSwitchCase="Tab.PR"
+      ></app-pending-request-table>
+
+    </div>
+
+    <!-- <table class="table">
       <thead>
       <tr>
         <th class="table__cell-head table__cell-head--tal">Currency</th>
@@ -939,10 +964,10 @@
         </td>
       </tr>
       </tbody>
-    </table>
+    </table> -->
     <!--table end-->
     <!--table requests start-->
-    <table class="table">
+    <!-- <table class="table">
       <thead>
       <tr>
         <th class="table__cell-head table__cell-head--tal">Date</th>
@@ -994,10 +1019,10 @@
         </td>
       </tr>
       </tbody>
-    </table>
+    </table> -->
     <!--table requests end-->
     <!--paginator start-->
-    <div class="row row--aic" style="margin: 20px 16px 0;">
+    <!-- <div class="row row--aic" style="margin: 20px 16px 0;">
       <div class="show-filter">
         Showing <span>1</span> to
         <div class="dropdown">
@@ -1037,8 +1062,9 @@
           </a>
         </li>
       </ul>
-    </div>
+    </div> -->
     <!--paginator end-->
+    
   </div>
   <!--balance-desktop end-->
 </div>

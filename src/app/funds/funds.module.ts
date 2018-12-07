@@ -3,43 +3,46 @@ import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {Ng5SliderModule} from 'ng5-slider';
-// import {SettingsService} from '../settings/settings.service';
-// import {OpenOrdersComponent} from './open-orders/open-orders.component';
-// import {OrdersHistoryComponent} from './orders-history/orders-history.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {MyDatePickerModule} from 'mydatepicker';
-import {AuthInterceptor} from 'app/core/interceptors/auth.interceptor';
-import {JwtInterceptor} from 'app/core/interceptors/jwt.interceptor';
-// import {EffectsModule} from '@ngrx/effects';
-// import {OrdersEffects} from './store/effects/orders.effects';
-// import {reducer} from './store/reducers/orders.reducer';
-import {SplitCurrencyPipe} from 'app/shared/pipes/split-currency.pipe';
+import {EffectsModule} from '@ngrx/effects';
 import {NgSelectModule} from '@ng-select/ng-select';
+import {AuthInterceptor} from '../core/interceptors/auth.interceptor';
+import {JwtInterceptor} from '../core/interceptors/jwt.interceptor';
+import {FundsEffects} from './store/effects/funds.effects';
+import {reducer} from './store/reducers/funds.reducer';
 import {FundsComponent} from './funds.component';
 import {FundsRoutingModule} from './funds.routing';
 import {BalanceComponent} from './balance/balance.component';
+import {CryptoBalanceTableComponent} from './crypto-balance-table/crypto-balance-table.component';
+import {FiatBalanceTableComponent} from './fiat-balance-table/fiat-balance-table.component';
+import {PendingRequestTableComponent} from './pending-request-table/pending-request-table.component';
+import {SharedModule} from '../shared/shared.module';
+import {FundsService} from './funds.service';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    Ng5SliderModule,
     HttpClientModule,
     ReactiveFormsModule,
     NgxPaginationModule,
     MyDatePickerModule,
-    // EffectsModule.forRoot([FundsEffects]),
-    // StoreModule.forFeature('orders', reducer),
+    SharedModule,
+    EffectsModule.forRoot([FundsEffects]),
+    StoreModule.forFeature('funds', reducer),
     NgSelectModule,
     FundsRoutingModule,
   ],
   declarations: [
     FundsComponent,
     BalanceComponent,
+    CryptoBalanceTableComponent,
+    FiatBalanceTableComponent,
+    PendingRequestTableComponent,
   ],
   providers: [
-    // OrdersService,
+    FundsService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
