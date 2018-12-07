@@ -1,9 +1,5 @@
 @import '../../assets/scss/variables';
 
-//.menu__link--active {
-//  border-bottom: 1px solid #E5E5E5;
-//}
-
 .header {
   display: none;
   /*--- modificators start ---*/
@@ -100,29 +96,29 @@
           }
         }
       }
-      &--active{
+      &--active {
         color: rgba(255, 255, 255, 1);
         .menu__link-text {
           &:after {
             opacity: 1;
           }
         }
-        .submenu{
-          .menu__link--active{
+        .submenu {
+          .menu__link--active {
             .menu__link-text {
               &:after {
                 opacity: 1;
               }
             }
           }
-          &__link{
-            .menu__link-text{
+          &__link {
+            .menu__link-text {
               &:after {
                 opacity: 0;
               }
             }
-            &:hover{
-              .menu__link-text{
+            &:hover {
+              .menu__link-text {
                 &:after {
                   opacity: 1;
                 }
@@ -173,7 +169,7 @@
     height: 0;
     overflow: hidden;
     position: absolute;
-    top: 16px;
+    top: 19px;
     left: 16px;
     z-index: 4;
     background-color: #2E304D;
@@ -343,7 +339,7 @@
       cursor: pointer;
       text-decoration: none;
     }
-    &--log{
+    &--log {
       &:before {
         content: "";
         display: inline-block;
@@ -395,6 +391,7 @@
   /*--- elements end ---*/
 }
 
+//header-mob start
 .header-mob {
   position: fixed;
   bottom: 0;
@@ -532,7 +529,7 @@
       border: 1px solid $light-blue;
       margin-right: 8px;
       position: relative;
-      .info__img-empty{
+      .info__img-empty {
         font-size: 20px;
         position: absolute;
         left: 20px;
