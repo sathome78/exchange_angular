@@ -13,6 +13,9 @@
   .ng-value-container {
     height: 100% !important;
   }
+  .ng-has-value .ng-placeholder{
+    display: block !important;
+  }
   .ng-placeholder {
     position: absolute;
     top: -7px;
@@ -23,6 +26,9 @@
     z-index: 100;
     background-color: #191A39;
     color: #94C2FF !important;
+  }
+  .ng-value{
+    color: #fff !important;
   }
   .ng-input {
     height: 100%;
@@ -37,8 +43,36 @@
   .ng-arrow {
     border-color: #94C2FF transparent transparent !important;
   }
-  &.ng-select-opened > .ng-select-container .ng-arrow {
+  .ng-select-opened > .ng-select-container .ng-arrow {
     border-color: transparent transparent #94C2FF !important;
+  }
+  .ng-dropdown-panel{
+    border-color: #94C2FF;
+    background-color: #191A39;
+    margin-bottom: 0 !important;
+  }
+  .ng-option{
+    background-color: transparent !important;
+    color: #fff !important;
+    &-marked{
+      background-color: rgba(255,255,255,.1) !important;
+    }
+  }
+  .ng-clear-wrapper{
+    width: 10px !important;
+  }
+  .ng-clear{
+    content: '' !important;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 auto;
+    font-size: 0 !important;
+    vertical-align: middle;
+    background-image: url("assets/img/close-light-blue.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
   }
 }
 

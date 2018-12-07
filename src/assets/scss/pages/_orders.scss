@@ -67,6 +67,9 @@
         height: 1px;
         background-color: $grey;
       }
+      .btn{
+        align-self: center;
+      }
     }
     &__search{
       width: 175px;
@@ -77,6 +80,15 @@
       margin-right: 24px;
       .wrap-input__label{
         left: 17px;
+      }
+    }
+    &__hide-toggler{
+      margin-left: auto;
+      align-self: center;
+      display: flex;
+      align-items: center;
+      .toggler{
+        margin-right: 8px;
       }
     }
     &__market{
