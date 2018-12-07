@@ -48,15 +48,16 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   ngOnInit() {
     this.itemName = 'trade-history';
     // todo move ro store
+    this.tradeService
+      .getFirstTrades(1)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(items => this.allTrades = items);
+    
     this.store
     .pipe(select(getCurrencyPair))
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe((pair: CurrencyPair) => {
       if (pair.currencyPairId) {
-        this.tradeService
-          .getFirstTrades(pair.currencyPairId)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(items => this.allTrades = items);
         this.onGetCurrentCurrencyPair(pair);
       }
       });
