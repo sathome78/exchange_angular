@@ -24,8 +24,8 @@
         <!-- <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" ><span class="menu__link-text">Orders</span></a> -->
         <div class="submenu">
           <ul class="menu submenu__list">
-            <li class="submenu__item" ><a class="submenu__link"  routerLink="open-orders" routerLinkActive="menu__link--active"><span class="menu__link-text">Open orders</span></a></li>
-            <li class="submenu__item" ><a class="submenu__link"  routerLink="orders-history" routerLinkActive="menu__link--active"><span class="menu__link-text">Orders history</span></a></li>
+            <li class="submenu__item"><a class="submenu__link"  routerLink="/orders/open" routerLinkActive="menu__link--active"><span class="menu__link-text">Open orders</span></a></li>
+            <li class="submenu__item"><a class="submenu__link"  routerLink="/orders/closed" routerLinkActive="menu__link--active"><span class="menu__link-text">Orders history</span></a></li>
           </ul>
         </div>
       </li>
@@ -165,26 +165,11 @@
         </a>
         <div class="submenu submenu--language">
           <ul class="menu__list submenu__list submenu__list--language">
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-ru.svg"
-                                                                             alt=""><span
-              class="language__text">Russian</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-cn.svg"
-                                                                             alt=""><span
-              class="language__text">Chinese</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-pl.svg"
-                                                                             alt=""><span
-              class="language__text">Polish</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-en.svg"
-                                                                             alt=""><span
-              class="language__text">Hindi</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-cn.svg"
-                                                                             alt=""><span class="language__text">Ukraininan</span></a>
-            </li>
+            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag" src="../../assets/img/flag-ru.svg" alt=""><span class="language__text">Russian</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag" src="../../assets/img/flag-cn.svg" alt=""><span class="language__text">Chinese</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag" src="../../assets/img/flag-pl.svg" alt=""><span class="language__text">Polish</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag" src="../../assets/img/flag-en.svg" alt=""><span class="language__text">Hindi</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag" src="../../assets/img/flag-cn.svg" alt=""><span class="language__text">Ukrainian</span></a></li>
           </ul>
         </div>
       </li>
@@ -277,7 +262,7 @@
 
 
       <a class="header-mob__submenu-link" routerLink="balance" routerLinkActive="header-mob__submenu-link--active"
-         (click)="setMobileWidget('balance')">
+         (click)="setMobileWidget('balance')" *ngIf="isAuthenticated()">
         <img class="header-mob__submenu-link-img" src="../../assets/img/wallet.svg">
         <span class="header-mob__submenu-link-text">Balances</span>
       </a>
@@ -285,14 +270,14 @@
          [routerLink]="['dashboard']"
          [queryParams]="{widget: 'trade-history'}"
          [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'trade-history' }"
-         (click)="setMobileWidget('trade-history')">
+         (click)="setMobileWidget('trade-history')" *ngIf="isAuthenticated()">
         <img class="header-mob__submenu-link-img" src="../../assets/img/history.svg">
         <span class="header-mob__submenu-link-text">History</span>
       </a>
       <a class="header-mob__submenu-link"
          [routerLink]="['open-orders']"
          routerLinkActive="header-mob__submenu-link--active"
-         (click)="setMobileWidget('open')">
+         (click)="setMobileWidget('open')" *ngIf="isAuthenticated()">
         <img class="header-mob__submenu-link-img" src="../../assets/img/orders.svg">
         <span class="header-mob__submenu-link-text">Open</span>
       </a>

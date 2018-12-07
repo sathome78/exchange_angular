@@ -1,0 +1,44 @@
+.send{
+  &__title{
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  &__row{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 28px;
+    .btn{
+      margin-bottom: 16px;
+    }
+  }
+  &__transfer-description{
+    text-align: center;
+    .small{
+      font-size: 12px;
+      line-height: 14px;
+      color:#A0A0A0;
+    }
+  }
+}
+@media (min-width:1200px){
+  .send{
+    &__title {
+      margin-bottom: 32px;
+    }
+    &__row{
+      flex-direction: row;
+      justify-content: center;
+      margin-bottom: 32px;
+      .btn{
+        width: 50%;
+        max-width: none;
+        margin-bottom: 0;
+      }
+    }
+    &__transfer-description{
+      width: 50%;
+      margin-left: 22px;
+    }
+  }
+}
