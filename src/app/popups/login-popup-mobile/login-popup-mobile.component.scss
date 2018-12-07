@@ -1,5 +1,11 @@
 re-captcha{
   margin: 0 auto;
 }
-
-
+@media (min-width: 1200px){
+  .popup__links-wrap{
+    justify-content: space-between;
+    &--center{
+      justify-content: center;
+    }
+  }
+}

@@ -5,6 +5,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../../shared/services/balance.service';
 import {takeUntil} from 'rxjs/operators';
 import {MockDataService} from '../../../../../shared/services/mock-data.service';
+import {keys} from '../../../../../core/keys';
 
 @Component({
   selector: 'app-send-fiat',
@@ -15,13 +16,31 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public fiatNames: CurrencyBalanceModel[] = [];
+  public recaptchaKey = keys.recaptchaKey;
   public openCurrencyDropdown = false;
   public openPaymentSystemDropdown = false;
   public fiatInfoByName;
+  public minWithdrawSum = 0;
   public merchants;
+  public isEnterData = true;
+  public activeBalance = 0;
+  public isSubmited = false;
   public selectedMerchant;
   public activeFiat;
   public form: FormGroup;
+
+
+  public calculateData = {
+    amount: 0,
+    percentExchange: 0,
+    fixedMinCommissiom: 0,
+    exchangeSum: 0,
+    percentMerchant: 0,
+    merchantSum: 0,
+    totalCommission: 0,
+    totalCommissionSum: 0,
+    amountWithCommission: 0,
+  };
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
@@ -58,11 +77,21 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   selectCurrency(currency) {
+    this.form.reset();
     this.activeFiat = currency;
     this.currencyDropdownToggle();
+    this.getFiatInfoByName(this.activeFiat.name);
   }
+
   selectMerchant(merchant) {
-    this.selectedMerchant = merchant;
+    this.form.reset();
+    if (merchant !== {}) {
+      this.selectedMerchant = merchant;
+      this.minWithdrawSum = merchant.minSum;
+      this.calculateData.percentMerchant = this.fiatInfoByName.merchantCurrencyData[0] ? this.fiatInfoByName.merchantCurrencyData[0].outputCommission : 0;
+      this.calculateData.fixedMinCommissiom = this.fiatInfoByName.merchantCurrencyData[0] ? this.fiatInfoByName.merchantCurrencyData[0].fixedMinCommission : 0;
+      this.calculateData.totalCommission = this.calculateData.percentMerchant + this.calculateData.percentExchange;
+    }
   }
 
   currencyDropdownToggle() {
@@ -70,10 +99,27 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.openPaymentSystemDropdown = false;
   }
 
+  balanceClick() {
+    if (this.activeBalance > this.minWithdrawSum) {
+      this.form.controls['amount'].setValue(this.activeBalance.toString());
+      this.calculateCommission(this.activeBalance);
+    }
+  }
+
   togglePaymentSystemDropdown() {
     this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
     this.openCurrencyDropdown = false;
   }
+
+ onSubmitWithdrawal() {
+    this.isSubmited = true;
+    if (this.form.valid && this.selectedMerchant.name) {
+      this.isSubmited = false;
+      this.isEnterData = false;
+      console.log(this.form);
+      console.log(this.selectedMerchant);
+    }
+ }
 
   private getFiatInfoByName(name: string) {
     this.balanceService.getCurrencyData(name)
@@ -81,25 +127,51 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.fiatInfoByName = res;
         this.merchants = this.fiatInfoByName.merchantCurrencyData;
-        this.selectedMerchant = this.merchants.length ? this.merchants[0] : {};
+        this.selectMerchant(this.merchants.length ? this.merchants[0] : {});
+        this.activeBalance = this.fiatInfoByName.activeBalance || 10000000;
         console.log(res);
       });
+  }
+
+
+  calculateCommission(amount) {
+    this.calculateData.amount = amount;
+    this.calculateData.merchantSum = amount * ( this.calculateData.percentMerchant / 100);
+    this.calculateData.totalCommissionSum = this.calculateData.merchantSum + this.calculateData.exchangeSum;
+    this.calculateData.amountWithCommission = amount - this.calculateData.totalCommissionSum;
+  }
+
+  amountInput(event) {
+    this.calculateCommission(event.target.value);
+  }
+  afterResolvedCaptcha(event) {
   }
 
   searchMerchant(e) {
     this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(f => f.name.toUpperCase().match(e.target.value.toUpperCase()));
   }
 
+  goToWithdrawal() {
+    this.isEnterData = true;
+  }
+
   private initForm() {
     this.form = new FormGroup({
       address: new FormControl('', [Validators.required] ),
-      amount: new FormControl('', [Validators.required, this.minCheck.bind(this)] ),
+      amount: new FormControl('', [Validators.required, this.minCheck.bind(this), this.maxCheck.bind(this)]),
     });
   }
 
   private minCheck(amount: FormControl) {
-    if (this.fiatInfoByName && this.fiatInfoByName.minRefillSum > amount.value) {
+    if (this.minWithdrawSum > amount.value) {
       return {'minThen': true};
+    }
+    return null;
+  }
+
+  private maxCheck(amount: FormControl) {
+    if (this.activeBalance < amount.value) {
+      return {'maxThen': true};
     }
     return null;
   }

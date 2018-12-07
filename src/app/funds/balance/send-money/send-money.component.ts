@@ -1,4 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {BalanceService} from '../../../shared/services/balance.service';
 
 @Component({
   selector: 'app-send-money',
@@ -9,9 +10,14 @@ export class SendMoneyComponent implements OnInit {
 
   @Output() closeSendMoneyPopup = new EventEmitter<boolean>();
   public stepTwoName: string;
+  public stepThreeName: string;
+  public stepThreeData;
+  public stepFourData;
   public step: number;
 
-  constructor() { }
+  constructor(
+   public balanceService: BalanceService
+  ) { }
 
   onCloseSendMoneyPopup() {
     this.closeSendMoneyPopup.emit(true);
@@ -19,6 +25,14 @@ export class SendMoneyComponent implements OnInit {
 
   ngOnInit() {
     this.initFields();
+    this.balanceService.goToPinCode$.subscribe(res => {
+      this.activeStepThree('With code', res);
+    });
+
+    this.balanceService.goToSendMoneySuccess$.subscribe(res => {
+      console.log(res);
+      this.activeSendSuccess(res);
+    });
   }
 
   chooseSend(event: string) {
@@ -29,6 +43,18 @@ export class SendMoneyComponent implements OnInit {
   private initFields() {
     this.step = 1;
     this.stepTwoName = '';
+  }
+
+  activeStepThree(name, data = {}) {
+    this.step = 3;
+    this.stepThreeName = name;
+    this.stepThreeData = data;
+  }
+
+
+  activeSendSuccess(data) {
+    this.step = 4;
+    this.stepFourData = data;
   }
 
 }

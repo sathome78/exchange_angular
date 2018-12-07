@@ -1,3 +1,13 @@
 <!--<app-transfer-instant></app-transfer-instant>-->
-<app-transfer-protected-email-code></app-transfer-protected-email-code>
+<!--<app-transfer-protected-email-code></app-transfer-protected-email-code>-->
 <!--<app-transfer-protected-code></app-transfer-protected-code>-->
+<app-send-tfa
+  *ngIf="choosedName === 'With code'"
+  (sendSuccess)="onSendSuccess($event)"
+  [data]="data"
+></app-send-tfa>
+
+<!--<app-send-successful-->
+<!--*ngIf="choosedName === 'Send Success'"-->
+ <!--[data]="responseData"-->
+<!--&gt;</app-send-successful>-->

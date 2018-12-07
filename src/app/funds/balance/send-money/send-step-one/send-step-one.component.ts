@@ -15,6 +15,7 @@ export class SendStepOneComponent implements OnInit {
   }
 
   onChooseSend(name: string) {
+    console.log(name)
     this.chooseSend.emit(name);
   }
 

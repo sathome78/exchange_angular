@@ -6,6 +6,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CurrencyBalanceModel} from '../../../../../model/index';
 import {BalanceService} from '../../../../../shared/services/balance.service';
 import {MockDataService} from '../../../../../shared/services/mock-data.service';
+import {keys} from '../../../../../core/keys';
 
 @Component({
   selector: 'app-send-crypto',
@@ -15,6 +16,7 @@ import {MockDataService} from '../../../../../shared/services/mock-data.service'
 export class SendCryptoComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public recaptchaKey = keys.recaptchaKey;
   public cryptoNames: CurrencyBalanceModel[] = [];
   public defaultCryptoNames: CurrencyBalanceModel[] = [];
   public openCurrencyDropdown = false;
@@ -22,6 +24,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public activeBalance = 0;
   public minWithdrawSum = 0;
   public isSubmited = false;
+  public isEnterData = true;
   public alphabet;
   public isMemo;
   public activeCrypto;
@@ -39,7 +42,8 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     recipientBankCode: '',
     userFullName: '',
     remark: '',
-    walletNumber: ''
+    walletNumber: '',
+    securityCode: ''
   };
 
   public calculateData = {
@@ -70,13 +74,13 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // this.initForm();
     this.initFormWithMemo();
-    // /**-------mock data------**/
-    // this.defaultCryptoNames = this.mockDataService.getCryptoName();
-    // this.cryptoNames = this.defaultCryptoNames;
-    // this.cryptoInfoByName = this.mockDataService.getCryptoData();
-    // this.activeCrypto = this.cryptoNames[0];
-    // this.prepareAlphabet();
-    // /**----------------------**/
+    /**-------mock data------**/
+    this.defaultCryptoNames = this.mockDataService.getCryptoName();
+    this.cryptoNames = this.defaultCryptoNames;
+    this.cryptoInfoByName = this.mockDataService.getCryptoData();
+    this.activeCrypto = this.cryptoNames[0];
+    this.prepareAlphabet();
+    /**----------------------**/
     this.balanceService.getCryptoNames()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -96,11 +100,36 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   onSubmitWithdrawal() {
     this.isSubmited = true;
     if (this.form.valid) {
-
-
+      this.isEnterData = false;
     }
   }
 
+  afterResolvedCaptcha(event) {
+    this.model.currency = this.cryptoInfoByName.merchantCurrencyData[0].currencyId;
+    this.model.merchant = this.cryptoInfoByName.merchantCurrencyData[0].merchantId;
+    this.model.recipientBankName = this.cryptoInfoByName.merchantCurrencyData[0].description;
+    this.model.merchantImage = this.cryptoInfoByName.merchantCurrencyData[0].listMerchantImage[0].image_path;
+    this.model.operationType = this.cryptoInfoByName.operationType;
+    this.model.sum = this.form.controls['amount'].value;
+    this.model.walletNumber = this.form.controls['address'].value;
+    this.model.destinationTag = this.form.controls['memo'] ? this.form.controls['memo'].value : '';
+
+    const data = {
+      operation: 'Send Crypto',
+      data: this.model
+    }
+      // /** mock */
+      // console.log(data)
+      // this.balanceService.goToPinCode$.next(data);
+      // /** ____________ **/
+      this.balanceService.sendPinCode().subscribe(res => {
+      this.balanceService.goToPinCode$.next(data);
+    });
+  }
+
+  goToWithdrawal() {
+    this.isEnterData = true;
+  }
   searchCoin(e) {
     this.cryptoNames = this.defaultCryptoNames.filter(f => f.name.toUpperCase().match(e.target.value.toUpperCase()));
     this.prepareAlphabet();
@@ -169,13 +198,12 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   private getCryptoInfoByName(name: string) {
-    // /** mock*/
+    /** mock*/
     // this.cryptoInfoByName = this.mockDataService.getSendCrypto();
     // this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;
-    // this.isMemo ? this.initFormWithMemo() : this.initForm();
     // this.activeBalance = this.cryptoInfoByName.activeBalance;
     // this.minWithdrawSum = this.cryptoInfoByName.merchantCurrencyData[0].minSum;
-    // /**-------------*/
+    /**-------------*/
     this.balanceService.getCryptoMerchants(name).subscribe(res => {
       this.cryptoInfoByName = res;
       this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;

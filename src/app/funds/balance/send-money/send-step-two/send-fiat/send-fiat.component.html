@@ -1,9 +1,11 @@
-<div class="title send__title">Make Fiat Withdrawal in <span>USD</span></div>
+<div class="title send__title">Make Fiat Withdrawal in <span>{{activeFiat ? activeFiat.name : ''}}</span></div>
+<div class="formWraper" *ngIf="isEnterData">
+<form [formGroup]="form">
 <div class="send__inputs-wrap">
   <div class="select send__select send__select--custom" >
     <div class="select__value select__value--active" (click)="currencyDropdownToggle()">
       <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
-      {{activeFiat.name}}
+      {{activeFiat ? activeFiat.name : ''}}
     </div>
     <div class="select__label">Currency</div>
     <div class="select__line"></div>
@@ -18,13 +20,18 @@
 
     </ul>
   </div>
-  <div class="wrap-input wrap-input--error send__wrap-input">
-    <div class="avaliable">Avaliable: <a href="#" class="link">123 USD</a></div>
-    <input class="wrap-input__input" required>
-    <label class="wrap-input__label"><span>USD </span>Amount</label>
-    <div class="wrap-input__line"></div>
+  <div class="wrap-input send__wrap-input"
+       [ngClass]="{'wrap-input--error': !form.controls['amount'].valid && isSubmited}">
+    <div class="avaliable">Avaliable: <a (click)="balanceClick()" class="link">{{activeBalance}} {{activeFiat ? activeFiat.name : ''}}</a></div>
+    <!--<input class="wrap-input__input" required>-->
+    <!--<label class="wrap-input__label"><span> </span>Amount</label>-->
+    <app-price-input  [placeholder]="(activeFiat ? activeFiat.name : '') + ' Amount'" (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
+    <!--<div class="wrap-input__line"></div>-->
     <!--Input error section starts-->
-    <span class="wrap-input__message wrap-input__message--show">Day limit for withdrawal is 30 000 USD</span>
+    <span class="wrap-input__message wrap-input__message--show"
+          *ngIf="!form.controls['amount'].valid && isSubmited">
+      Minimum sum for withdrawal 30 000 {{activeFiat ? activeFiat.name : ''}}</span>
+    <!--<span class="wrap-input__message wrap-input__message&#45;&#45;show">Day limit for withdrawal is 30 000 USD</span>-->
     <!--Input error section ends-->
   </div>
 </div>
@@ -33,8 +40,8 @@
     <div class="select__value select__value--active"
          (click)="togglePaymentSystemDropdown()"
     >
-      <img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">
-      Сотовый мир
+      <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
+      {{selectedMerchant ? selectedMerchant.name : ''}}
     </div>
     <div class="select__label">Payment system</div>
     <div class="select__line"></div>
@@ -63,39 +70,50 @@
       </ul>
     </div>
   </div>
-  <div class="wrap-input send__wrap-input">
-    <input class="wrap-input__input" required>
-    <label class="wrap-input__label">Payment system <span>USD</span> address</label>
+  <div class="wrap-input send__wrap-input"
+       [ngClass]="{'wrap-input--error': !form.controls['address'].valid && isSubmited}">
+    <input class="wrap-input__input" name="address" formControlName="address">
+    <label class="wrap-input__label">Payment system <span>{{activeFiat ? activeFiat.name : ''}}</span> address</label>
     <div class="wrap-input__line"></div>
     <!--Input error section starts-->
-    <span class="wrap-input__message wrap-input__message--show">Set merchant adress for withdrawal</span>
+    <span class="wrap-input__message wrap-input__message--show"
+          *ngIf="!form.controls['address'].valid && isSubmited">
+      Set merchant adress for withdrawal</span>
     <!--Input error section ends-->
   </div>
 </div>
+</form>
 <div class="send__line"></div>
 <div class="send__info">
   <div class="send__info-row">
     <div class="send__info-title">You want to withdraw:</div>
-    <div class="send__info-value">0 BTC</div>
+    <div class="send__info-value">{{calculateData.amount}} {{activeFiat ? activeFiat.name : ''}}</div>
   </div>
   <div class="send__info-row">
     <div class="send__info-title">Exchange comission:</div>
-    <div class="send__info-value">12% = 0 BTC</div>
+    <div class="send__info-value">12% = 0 {{activeFiat ? activeFiat.name : ''}}</div>
   </div>
   <div class="send__info-row">
     <div class="send__info-title">Merchant comission:</div>
-    <div class="send__info-value">12% = 0.000005 BTC <span class="send__merchant-comission">(but not less than 0.000005)</span></div>
+    <div class="send__info-value">{{calculateData.percentMerchant}}% = {{calculateData.merchantSum}} {{activeFiat ? activeFiat.name : ''}} <span class="send__merchant-comission">(but not less than {{calculateData.fixedMinCommissiom}})</span></div>
   </div>
   <div class="send__info-row">
     <div class="send__info-title">Total comission:</div>
-    <div class="send__info-value">24% = 0.000005 BTC</div>
+    <div class="send__info-value">{{calculateData.totalCommission}}% = {{calculateData.totalCommissionSum}} {{activeFiat ? activeFiat.name : ''}}</div>
   </div>
   <div class="send__info-row">
     <div class="send__info-title">Total with comission:</div>
-    <div class="send__info-value">0.000005 BTC</div>
+    <div class="send__info-value">{{calculateData.amountWithCommission }} {{activeFiat ? activeFiat.name : ''}}</div>
   </div>
 </div>
-<button class="btn btn--center btn--empty-blue">Withdraw <span class="value">123.000000</span> <span> USD</span></button>
+<button class="btn btn--center "
+        [ngClass]="{
+        'btn--empty-blue': !form.valid && !isSubmited ,
+        'btn--error': !form.valid && isSubmited
+        }"
+        (click)="onSubmitWithdrawal()">Withdraw
+  <span class="value">{{calculateData.amountWithCommission}}</span>
+  <span> {{activeFiat ? activeFiat.name : ''}}</span></button>
 <div class="send__line"></div>
 <div class="note modal__note">
   <div class="note__title">Please note:</div>
@@ -105,4 +123,13 @@
     <li class="note__list-item">Do not withdraw directly to a crowdfund or ICO. We will not credit your account with tokens from that sale.
     </li>
   </ul>
+</div>
+</div>
+
+<div *ngIf="!isEnterData" class="captcha-wrapper">
+  <h6 class="popup__title">Enter the captcha</h6>
+  <re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
+  <div class="popup__links-wrap  popup__links-wrap--center">
+    <a class="popup__link" (click)="goToWithdrawal()">Back to withdrawal form</a>
+  </div>
 </div>

@@ -86,6 +86,9 @@ import {SendCryptoComponent} from './funds/balance/send-money/send-step-two/send
 import {SendMoneyComponent} from './funds/balance/send-money/send-money.component';
 import {SendStepOneComponent} from './funds/balance/send-money/send-step-one/send-step-one.component';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
+import {SendTfaComponent} from './funds/balance/send-money/send-step-three/send-tfa/send-tfa.component';
+import {SendSuccessfulComponent} from './funds/balance/send-money/send-successful/send-successful.component';
+import {RefillSuccessfulComponent} from './balance/refill-money/refill-successful/refill-successful.component';
 
 
 @NgModule({
@@ -114,6 +117,7 @@ import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
     DocUploadComponent,
     ReferralStructureComponent,
     ReferralChargesComponent,
+    BalanceComponent,
     LoginPopupMobileComponent,
     RegistrationMobilePopupComponent,
     GoogleDisableComponent,
@@ -143,6 +147,9 @@ import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
     TransferInstantComponent,
     TransferProtectedCodeComponent,
     TransferProtectedEmailCodeComponent,
+    SendTfaComponent,
+    SendSuccessfulComponent,
+    RefillSuccessfulComponent,
     // TWO FACTOR POPUP END
 
   ],

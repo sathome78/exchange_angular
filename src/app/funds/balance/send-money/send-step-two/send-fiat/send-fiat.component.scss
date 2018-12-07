@@ -118,3 +118,40 @@
   display: block;
   color: #ccc;
 }
+
+.captcha-wrapper{
+  display: flex;
+  flex-direction: column;
+  re-captcha{
+    margin: 0 auto;
+  }
+}
+
+
+::ng-deep div.wrap-input.send__wrap-input {
+  .wrap-input__message{
+    color: #EB5757 !important;
+  }
+  app-price-input {
+    label {
+      background: #191A39 !important;
+    }
+  }
+  &.wrap-input--error {
+    app-price-input {
+      label {
+        color: #EB5757 !important;
+      }
+      input:focus {
+        &+label{
+          color: #94C2FF !important;
+        }
+      }
+    }
+  }
+}
+
+.btn-active {
+  background-color: #237BEF;
+  color: #fff;
+}

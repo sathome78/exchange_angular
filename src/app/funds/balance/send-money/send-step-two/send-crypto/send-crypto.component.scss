@@ -119,6 +119,14 @@
   }
 }
 
+.captcha-wrapper{
+  display: flex;
+  flex-direction: column;
+  re-captcha{
+    margin: 0 auto;
+  }
+
+}
 
 .select__search-input {
   color: #ccc !important;

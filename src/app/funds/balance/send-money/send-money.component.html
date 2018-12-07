@@ -24,22 +24,45 @@
     </div>
     <div class="modal__header">
       <ul class="steps">
-        <li class="steps__item">
+        <li class="steps__item"
+        [ngClass]="{'steps__item--current': step === 1}"
+        >
           <a class="steps__link">
             <span class="steps__number  steps__number--valid">1</span>
             <span class="steps__number-mob-current">1. Send money</span>
             <span class="steps__title">Send money</span>
           </a>
         </li>
-        <li class="steps__item steps__item--current">
+        <li class="steps__item" *ngIf="step >= 2"
+        [ngClass]="{'steps__item--current': step === 2}"
+        >
           <a class="steps__link">
-            <span class="steps__number steps__number--current">2</span>
+            <span class="steps__number steps__number--valid">2</span>
             <span class="steps__number-mob-current">2. Crypto Withdrawal</span>
             <span class="steps__title">{{stepTwoName}}</span>
           </a>
         </li>
+        <li class="steps__item" *ngIf="step >= 3"
+        [ngClass]="{'steps__item--current': step === 3}"
+        >
+          <a class="steps__link">
+            <span class="steps__number steps__number--valid">3</span>
+            <span class="steps__number-mob-current">3. Name</span>
+            <span class="steps__title">{{stepThreeName}}</span>
+          </a>
+        </li>
+        <li class="steps__item "
+            *ngIf="step === 4"
+        [ngClass]="{'steps__item--current': step >= 4}"
+        >
+          <a class="steps__link">
+            <span class="steps__number steps__number--current">4</span>
+            <span class="steps__number-mob-current">4. Accepted</span>
+            <span class="steps__title">Accepted</span>
+          </a>
+        </li>
       </ul>
-      <div class="steps__counter">step <span class="steps__counter-val">1</span>/ 2</div>
+      <div class="steps__counter">step <span class="steps__counter-val">1</span>/ 4</div>
     </div>
     <!-- modal header end -->
     <div class="modal__content">
@@ -52,7 +75,20 @@
         *ngIf="step === 2"
         [choosedName]="stepTwoName"
       ></app-send-step-two>
-      <!--<app-send-step-three></app-send-step-three>-->
+
+      <app-send-step-three
+        *ngIf="step === 3"
+        [choosedName]="stepThreeName"
+        [data]="stepThreeData"
+      ></app-send-step-three>
+
+      <app-send-successful
+      *ngIf="step === 4"
+      [data]="stepFourData"
+      (closeMe)="onCloseSendMoneyPopup()"
+      >
+      </app-send-successful>
+
     </div>
   </div>
 </div>
