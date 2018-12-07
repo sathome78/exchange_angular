@@ -216,6 +216,7 @@ export class OrdersHistoryComponent implements OnInit {
   }
 
   closeFilterPopup() {
+    this.onFilterOrders();
     this.showFilterPopup = false;
   }
 }
