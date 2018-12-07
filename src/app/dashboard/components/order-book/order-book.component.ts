@@ -635,4 +635,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.sortSellData();
     this.getBestitems(false);
   }
+
+  public isFiat(market: string): boolean { 
+    const fiatCurrencies = ['USD', 'EUR'];
+    return fiatCurrencies.indexOf(market) > -1;
+  }
 }

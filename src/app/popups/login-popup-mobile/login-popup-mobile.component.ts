@@ -53,8 +53,8 @@ export class LoginPopupMobileComponent implements OnInit {
 
   initForm() {
     this.loginForm = new FormGroup({
-      email: new FormControl('', {validators: [Validators.required, Validators.pattern(this.emailRegex)], updateOn: 'blur'}),
-      password: new FormControl('', {validators: Validators.required, updateOn: 'blur'})
+      email: new FormControl('', {validators: [Validators.required]}),
+      password: new FormControl('', {validators: Validators.required})
     });
     this.pinForm = new FormGroup({
       pin: new FormControl('', {validators: Validators.required})
