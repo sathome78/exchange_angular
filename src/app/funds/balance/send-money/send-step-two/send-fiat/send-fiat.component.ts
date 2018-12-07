@@ -29,6 +29,21 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public activeFiat;
   public form: FormGroup;
 
+  public model = {
+    currency: 0,
+    merchant: 0,
+    sum: '',
+    destination: '',
+    destinationTag: '',
+    merchantImage: '',
+    operationType: '',
+    recipientBankName: '',
+    recipientBankCode: '',
+    userFullName: '',
+    remark: '',
+    walletNumber: '',
+    securityCode: ''
+  };
 
   public calculateData = {
     amount: 0,
@@ -128,7 +143,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         this.fiatInfoByName = res;
         this.merchants = this.fiatInfoByName.merchantCurrencyData;
         this.selectMerchant(this.merchants.length ? this.merchants[0] : {});
-        this.activeBalance = this.fiatInfoByName.activeBalance || 10000000;
+        this.activeBalance = this.fiatInfoByName.activeBalance || 0;
         console.log(res);
       });
   }
@@ -144,7 +159,29 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   amountInput(event) {
     this.calculateCommission(event.target.value);
   }
+
   afterResolvedCaptcha(event) {
+    if (this.selectedMerchant.name) {
+      this.model.currency = this.selectedMerchant.currencyId;
+      this.model.merchant = this.selectedMerchant.merchantId;
+      this.model.recipientBankName = this.selectedMerchant.description;
+      this.model.merchantImage = this.selectedMerchant.listMerchantImage[0].image_path;
+      this.model.sum = this.form.controls['amount'].value;
+      this.model.walletNumber = this.form.controls['address'].value;
+
+      const data = {
+        operation: 'Send Fiat',
+        data: this.model
+      }
+
+      /** mock */
+      // console.log(data)
+      this.balanceService.goToPinCode$.next(data);
+      /** ----------- **/
+      this.balanceService.sendPinCode().subscribe(res => {
+        this.balanceService.goToPinCode$.next(data);
+      });
+    }
   }
 
   searchMerchant(e) {

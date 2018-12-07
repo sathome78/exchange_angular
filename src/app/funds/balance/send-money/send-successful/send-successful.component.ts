@@ -11,6 +11,7 @@ export class SendSuccessfulComponent implements OnInit {
   @Input() choosedName: string;
   @Output() closeMe = new EventEmitter();
   public operationName;
+  public isSowCopyAddress = false;
   constructor() { }
 
   ngOnInit() {
@@ -24,4 +25,31 @@ export class SendSuccessfulComponent implements OnInit {
     this.closeMe.emit();
   }
 
+  /**
+   * copy data to buffer
+   * @param {string} val
+   */
+  copyToBuffer(val: string, btn: string) {
+    this.changeCopyBtn(btn);
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+  }
+
+  private changeCopyBtn (name: string) {
+    switch (name) {
+      case 'Copy address':
+        this.isSowCopyAddress = true;
+        setTimeout(() => this.isSowCopyAddress = false, 1000);
+        break;
+    }
+  }
 }

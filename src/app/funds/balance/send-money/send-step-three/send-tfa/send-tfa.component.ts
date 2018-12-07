@@ -30,10 +30,11 @@ export class SendTfaComponent implements OnInit {
   onSubmit() {
     // /** mock */
     // const data1 = {
-    //   operationName: 'Send Crypto',
+    //   operationName: this.data.operation,
     //   successData: {}
     // };
     // console.log(this.form)
+    // console.log(this.data)
     // this.balanceService.goToSendMoneySuccess$.next(data1)
     // /** --------------------*/
     if (this.form.valid) {
@@ -41,7 +42,7 @@ export class SendTfaComponent implements OnInit {
       console.log(this.data)
       this.balanceService.withdrawRequest(this.data.data).subscribe( res => {
        const data = {
-         operationName: 'Send Crypto',
+         operationName: this.data.operation,
          successData: res
        }
         this.balanceService.goToSendMoneySuccess$.next(data);
