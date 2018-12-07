@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, Input, TestabilityRegistry} from '@angular/core';
 import * as _chain from 'lodash/chain';
 import {Currency} from './currency.model';
 import * as _uniq from 'lodash/uniq';
@@ -24,7 +24,14 @@ export class CurrencySearchComponent implements OnInit {
     })*/
   };
 
+  public Tabs = {
+    CRYPTO: 'CRYPTO',
+    FIAT: 'FIAT',
+    ICO: 'ICO',
+  }
+
   public marketName = 'USD';
+  public currentTab = this.Tabs.CRYPTO
 
   get currencies() {
     return this._groupedCurrencies;
@@ -79,5 +86,9 @@ export class CurrencySearchComponent implements OnInit {
   onCurrencyClick(ISO: string): void {
     this.selectCurrency.emit(ISO);
     this.closeCurrencySearch.emit();
+  }
+
+  onChangeTab(tab: string): void {
+    this.currentTab = tab;
   }
 }

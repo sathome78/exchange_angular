@@ -33,13 +33,13 @@
       <!-- - ICOs to be closed-->
       <!--</div>-->
       <div class="tabs pair-popup__tabs">
-        <button class="tabs__item tabs__item--active">
+        <button class="tabs__item" (click)="onChangeTab(Tabs.CRYPTO)" [ngClass]="{'tabs__item--active': currentTab === Tabs.CRYPTO}">
           Crypto coins
         </button>
-        <button class="tabs__item">
+        <button class="tabs__item" (click)="onChangeTab(Tabs.FIAT)" [ngClass]="{'tabs__item--active': currentTab === Tabs.FIAT}">
           Fiat
         </button>
-        <button class="tabs__item">
+        <button class="tabs__item" (click)="onChangeTab(Tabs.ICO)" [ngClass]="{'tabs__item--active': currentTab === Tabs.ICO}">
           ICO
         </button>
       </div>
