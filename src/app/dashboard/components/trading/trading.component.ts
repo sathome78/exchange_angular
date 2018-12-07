@@ -246,7 +246,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * determines if user is logged in
    */
   isAuthenticated() {
-    return this.authService.isAuthenticated();
+    return false; // remove after everybody will be happy with demo
+    // return this.authService.isAuthenticated();
   }
 
   // /**

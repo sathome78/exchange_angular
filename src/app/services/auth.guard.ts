@@ -12,12 +12,12 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean>|Promise<boolean>|boolean {
-    if (localStorage.getItem(TOKEN)
-        && this.authService.isAuthenticated()) {
-      // logged in - therefore access granted
-      console.log('this.authService.isAuthenticated()');
-      return true;
-    }
+    // if (localStorage.getItem(TOKEN)
+    //     && this.authService.isAuthenticated()) {
+    //   // logged in - therefore access granted
+    //   console.log('this.authService.isAuthenticated()');
+    //   return true;
+    // }
 
     // otherwise redirected to login page
     this.router.navigate(['/dashboard']);
@@ -26,10 +26,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.authService.isAuthenticated()) {
-      console.log('this.authService.isAuthenticated()');
-      return true;
-    }
+    // if (this.authService.isAuthenticated()) {
+    //   console.log('this.authService.isAuthenticated()');
+    //   return true;
+    // }
     this.router.navigate(['/dashboard']);
     // this.router.navigate(['/settings']);
     return false;
