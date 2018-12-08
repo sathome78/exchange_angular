@@ -16,19 +16,21 @@ export class BalanceService {
     private http: HttpClient
   ) { }
 
-  // request to get crypto balances
-  getCryptoBalances({offset, 
-    limit,
-    excludeZero}): Observable<BalanceWrapper> {
+  // request to get balances
+  getBalances({type,
+               offset, 
+               limit,
+               excludeZero}): Observable<BalanceWrapper> {
     
     const params = {
-    offset: offset + '',
-    limit: limit + '',
-    currencyType: 'CRYPTO',
-    excludeZero: (!!excludeZero).toString(),
-  }
+      currencyType: type,
+      offset: offset + '',
+      limit: limit + '',
+      excludeZero: (!!excludeZero).toString(),
+    }
     return this.http.get<BalanceWrapper>(`${this.apiUrl}/info/private/v2/balances`, {params});
   }
+  
 
   getBalanceItems(): Observable<BalanceItem[]> {
     const url = this.apiUrl + '/info/private/v2/balances/';

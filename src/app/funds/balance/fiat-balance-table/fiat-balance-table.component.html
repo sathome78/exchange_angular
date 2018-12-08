@@ -1,3 +1,88 @@
-<p>
-  fiat-balance-table works!
-</p>
+<table class="table">
+  <thead>
+  <tr>
+    <th class="table__cell-head table__cell-head--tal">Currency</th>
+    <th class="table__cell-head table__cell-head--tar">Total balance</th>
+    <th class="table__cell-head table__cell-head--tar">Available balance</th>
+    <th class="table__cell-head table__cell-head--tar">Pending</th>
+    <th class="table__cell-head table__cell-head--tar">In Withdraw</th>
+    <th class="table__cell-head table__cell-head--tar">In Orders</th>
+    <!-- <th class="table__cell-head table__cell-head--tar">Change %</th> -->
+    <th class="table__cell-head table__cell-head--tac">Deposit</th>
+    <th class="table__cell-head table__cell-head--tac">Transfer</th>
+    <th class="table__cell-head table__cell-head--tac">Trade</th>
+    <th class="table__cell-head table__cell-head--tac">Withdraw</th>
+  </tr>
+  </thead>
+  <tbody class="table__body">
+  <tr 
+    class="table__row balance__table-row"
+    *ngFor="let item of balances$ | async | paginate: {
+      itemsPerPage: countPerPage, 
+      currentPage: currentPage, 
+      totalItems: countOfEntries$ | async
+    }" 
+  >
+    <td class="table__cell">
+      <div class="balance__currency">
+        <div class="balance__currency-icon">
+          <img src="../../../assets/img/btc-icon.svg">
+        </div>
+        <span>{{item.currencyName}}</span>
+        <span class="balance__currency-name">{{item.currencyDescription}}</span>
+      </div>
+    </td>
+    <td class="table__cell table__cell--tar">
+      <span>{{+item.activeBalance + +item.reservedByOrders}}</span>
+    </td>
+    <td class="table__cell table__cell--tar">
+      <span>{{item.activeBalance}}</span>
+    </td>
+    <td class="table__cell table__cell--tar">
+      <span>{{item.onConfirmation}}</span>
+    </td>
+    <td class="table__cell table__cell--tar">
+      <span>{{item.reservedByMerchant}}</span>
+    </td>
+    <td class="table__cell table__cell--tar">
+      <span>{{item.reservedByOrders}}</span>
+    </td>
+    <!-- <td class="table__cell table__cell--tar">
+      <div class="balance__change">
+        <span class="txt-green">7.8</span>
+        <span class="arr arr--green"></span>
+      </div>
+    </td> -->
+    <td class="table__cell">
+      <button class="btn btn--center btn--small btn--hidden">Deposit</button>
+    </td>
+    <td class="table__cell">
+      <button class="btn btn--center btn--small btn--hidden">Transfer</button>
+    </td>
+    <td class="table__cell">
+      <button class="btn btn--center btn--small btn--hidden">Trade</button>
+    </td>
+    <td class="table__cell">
+      <button class="btn btn--center btn--small btn--hidden">Withdraw</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<!--paginator start-->
+<div class="row row--aic" style="margin: 0 16px;">
+  <app-page-items-dropdown
+    [countPerPage]="countPerPage"
+    [countOfEntries]="countOfEntries$ | async"
+    (onChange)="onChangeItemsPerPage($event)"
+  ></app-page-items-dropdown>
+  <ul class="paginator" style="margin-left: auto;">
+    <pagination-controls 
+      maxSize="6" 
+      [previousLabel]="''" 
+      [nextLabel]="''"
+      (pageChange)="changePage($event)"
+    ></pagination-controls>
+  </ul>
+</div>
+<!--paginator end-->

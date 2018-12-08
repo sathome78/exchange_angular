@@ -49,10 +49,10 @@ import {BalanceService} from './services/balance.service';
     ReactiveFormsModule,
     NgxPaginationModule,
     MyDatePickerModule,
+    NgSelectModule,
     SharedModule,
     EffectsModule.forRoot([FundsEffects]),
     StoreModule.forFeature('funds', reducer),
-    NgSelectModule,
     FundsRoutingModule,
   ],
   declarations: [

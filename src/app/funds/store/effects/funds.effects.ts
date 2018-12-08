@@ -25,13 +25,27 @@ export class FundsEffects {
    * Load crypto balances
    */
   @Effect()
-  loadOpenOrders$: Observable<Action> = this.actions$
+  loadCryptoBalances$: Observable<Action> = this.actions$
     .pipe(ofType<fundsActions.LoadCryptoBalAction>(fundsActions.LOAD_CRYPTO_BAL))
     .pipe(switchMap((action) => {
-      return this.balanceService.getCryptoBalances(action.payload)
+      return this.balanceService.getBalances(action.payload)
         .pipe(
           map(bal => (new fundsActions.SetCryptoBalAction({items: bal.items, count: bal.count}))),
           catchError(error => of(new fundsActions.FailLoadCryptoBalAction(error)))
+        )
+    }))
+
+  /**
+   * Load fiat balances
+   */
+  @Effect()
+  loadFiatBalances$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadFiatBalAction>(fundsActions.LOAD_FIAT_BAL))
+    .pipe(switchMap((action) => {
+      return this.balanceService.getBalances(action.payload)
+        .pipe(
+          map(bal => (new fundsActions.SetFiatBalAction({items: bal.items, count: bal.count}))),
+          catchError(error => of(new fundsActions.FailLoadFiatBalAction(error)))
         )
     }))
 

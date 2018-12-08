@@ -2,11 +2,12 @@
   <thead>
   <tr>
     <th class="table__cell-head table__cell-head--tal">Currency</th>
+    <th class="table__cell-head table__cell-head--tar">Total balance</th>
     <th class="table__cell-head table__cell-head--tar">Available balance</th>
     <th class="table__cell-head table__cell-head--tar">Pending</th>
-    <th class="table__cell-head table__cell-head--tar">On Withdraw</th>
-    <th class="table__cell-head table__cell-head--tar">On orders</th>
-    <th class="table__cell-head table__cell-head--tar">Change %</th>
+    <th class="table__cell-head table__cell-head--tar">In Withdraw</th>
+    <th class="table__cell-head table__cell-head--tar">In Orders</th>
+    <!-- <th class="table__cell-head table__cell-head--tar">Change %</th> -->
     <th class="table__cell-head table__cell-head--tac">Deposit</th>
     <th class="table__cell-head table__cell-head--tac">Transfer</th>
     <th class="table__cell-head table__cell-head--tac">Trade</th>
@@ -16,35 +17,42 @@
   <tbody class="table__body">
   <tr 
     class="table__row balance__table-row"
-    *ngFor="let item of cryptoBalances$ | async | paginate: {itemsPerPage: countPerPage, currentPage: currentPage, totalItems: countOfEntries$ | async}" 
+    *ngFor="let item of balances$ | async | paginate: {
+      itemsPerPage: countPerPage, 
+      currentPage: currentPage, 
+      totalItems: countOfEntries$ | async
+    }" 
   >
     <td class="table__cell">
       <div class="balance__currency">
         <div class="balance__currency-icon">
           <img src="../../../assets/img/btc-icon.svg">
         </div>
-        <span>BTC</span>
-        <span class="balance__currency-name">Bitcoin</span>
+        <span>{{item.currencyName}}</span>
+        <span class="balance__currency-name">{{item.currencyDescription}}</span>
       </div>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>0</span>
+      <span>{{+item.activeBalance + +item.reservedByOrders}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>0</span>
+      <span>{{item.activeBalance}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>0</span>
+      <span>{{item.onConfirmation}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>0</span>
+      <span>{{item.reservedByMerchant}}</span>
     </td>
     <td class="table__cell table__cell--tar">
+      <span>{{item.reservedByOrders}}</span>
+    </td>
+    <!-- <td class="table__cell table__cell--tar">
       <div class="balance__change">
         <span class="txt-green">7.8</span>
         <span class="arr arr--green"></span>
       </div>
-    </td>
+    </td> -->
     <td class="table__cell">
       <button class="btn btn--center btn--small btn--hidden">Deposit</button>
     </td>
@@ -73,8 +81,8 @@
       maxSize="7" 
       [previousLabel]="''" 
       [nextLabel]="''"
+      (pageChange)="changePage($event)"
     ></pagination-controls>
-      <!-- (pageChange)="changePage($event)" -->
   </ul>
 </div>
 <!--paginator end-->

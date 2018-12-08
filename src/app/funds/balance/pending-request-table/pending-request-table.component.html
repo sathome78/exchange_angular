@@ -1,3 +1,53 @@
-<p>
-  pending-request-table works!
-</p>
+<table class="table">
+  <thead>
+  <tr>
+    <th class="table__cell-head table__cell-head--tal">Date</th>
+    <th class="table__cell-head table__cell-head--tal">Currency</th>
+    <th class="table__cell-head table__cell-head--tar">Amount</th>
+    <th class="table__cell-head table__cell-head--tar">Comission</th>
+    <th class="table__cell-head table__cell-head--tar">Payment system</th>
+    <th class="table__cell-head table__cell-head--tar">Status</th>
+    <th class="table__cell-head table__cell-head--tac"></th>
+    <th class="table__cell-head table__cell-head--tac"></th>
+  </tr>
+  </thead>
+  <tbody class="table__body">
+  <tr class="table__row">
+    <td class="table__cell">
+      <div class="table__date-time">
+        <div>Th 13.06.2018</div>
+        <div>10:59:41</div>
+      </div>
+    </td>
+    <td class="table__cell">
+      <span>IDR</span>
+    </td>
+    <td class="table__cell table__cell--tar">
+      <span>0.01</span>
+    </td>
+    <td class="table__cell table__cell--tar">
+      <span>0</span>
+    </td>
+    <td class="table__cell table__cell--tar">
+      <span>CIMB NAGA</span>
+    </td>
+    <td class="table__cell table__cell--tar">
+      <span>Awaits payment</span>
+    </td>
+    <td class="table__cell">
+      <button class="btn btn--center btn--small btn--hidden">I paid</button>
+    </td>
+    <td class="table__cell table__cell--tar">
+      <button class="btn btn--center btn--small btn--hidden">Revoke</button>
+      <div class="revoke-request">
+        <div class="revoke-request__title">Are you sure you want to revoke this request?</div>
+        <div class="revoke-request__button-wrap">
+          <button class="btn btn--small">Yes</button>
+          <button class="btn btn--small">No</button>
+        </div>
+        <div class="revoke-request__triangle"></div>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>

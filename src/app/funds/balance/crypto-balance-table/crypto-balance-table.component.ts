@@ -12,14 +12,14 @@ import {BalanceItem} from '../../models/balance-item.model';
 })
 export class CryptoBalanceTableComponent implements OnInit {
 
-  public cryptoBalances$: Observable<BalanceItem[]>;
+  public balances$: Observable<BalanceItem[]>;
   public countOfEntries$: Observable<number>;
 
   public currentPage = 1;
   public countPerPage = 15; 
 
   constructor(private store: Store<fundsReducer.State>) {
-    this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
+    this.balances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
     this.countOfEntries$ = store.pipe(select(fundsReducer.getCountCryptoBalSelector));
   }
   @Input('excludeZero') public excludeZero: boolean;
@@ -29,16 +29,18 @@ export class CryptoBalanceTableComponent implements OnInit {
   }
 
   public onChangeItemsPerPage(items) {
-    //
+    this.countPerPage = items;
+    this.loadBalances();
   }
 
   changePage(page: number): void {
     this.currentPage = page;
-    // this.loadOrders();
+    this.loadBalances(); 
   }
 
   loadBalances() {
     const params = {
+      type: 'CRYPTO',
       offset: (this.currentPage - 1) * this.countPerPage, 
       limit: this.countPerPage,
       hideCanceled: this.excludeZero,
