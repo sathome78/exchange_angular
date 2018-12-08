@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
-import {BalanceItem} from '../../funds/balance/balance-item.model';
 import {environment} from '../../../environments/environment';
+import {BalanceWrapper} from '../models/balance-wrapper.model';
+import {BalanceItem} from '../models/balance-item.model';
 
 @Injectable()
 export class BalanceService {
@@ -14,6 +15,20 @@ export class BalanceService {
   constructor(
     private http: HttpClient
   ) { }
+
+  // request to get crypto balances
+  getCryptoBalances({offset, 
+    limit,
+    excludeZero}): Observable<BalanceWrapper> {
+    
+    const params = {
+    offset: offset + '',
+    limit: limit + '',
+    currencyType: 'CRYPTO',
+    excludeZero: (!!excludeZero).toString(),
+  }
+    return this.http.get<BalanceWrapper>(`${this.apiUrl}/info/private/v2/balances`, {params});
+  }
 
   getBalanceItems(): Observable<BalanceItem[]> {
     const url = this.apiUrl + '/info/private/v2/balances/';

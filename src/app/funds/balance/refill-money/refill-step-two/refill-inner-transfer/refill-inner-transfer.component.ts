@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BalanceService} from '../../../../../shared/services/balance.service';
+import {BalanceService} from '../../../../services/balance.service';
 
 
 @Component({

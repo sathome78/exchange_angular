@@ -2,7 +2,7 @@ import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {CurrencyBalanceModel} from '../../../../../model';
 import {Subject} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BalanceService} from '../../../../../shared/services/balance.service';
+import {BalanceService} from '../../../../services/balance.service';
 import {takeUntil} from 'rxjs/operators';
 import {MockDataService} from '../../../../../shared/services/mock-data.service';
 import {keys} from '../../../../../core/keys';

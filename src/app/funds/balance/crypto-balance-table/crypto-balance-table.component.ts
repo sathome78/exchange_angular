@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import * as fundsReducer from '../store/reducers/funds.reducer';
-import * as fundsAction from '../store/actions/funds.actions';
-import { Observable } from 'rxjs';
-import { BalanceItem } from '../models/balance-item.model';
+import {Component, OnInit, Input} from '@angular/core';
+import {Store, select} from '@ngrx/store';
+import * as fundsReducer from '../../store/reducers/funds.reducer';
+import * as fundsAction from '../../store/actions/funds.actions';
+import {Observable} from 'rxjs';
+import {BalanceItem} from '../../models/balance-item.model';
 
 @Component({
   selector: 'app-crypto-balance-table',
