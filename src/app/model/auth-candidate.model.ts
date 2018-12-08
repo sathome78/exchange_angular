@@ -1,5 +1,5 @@
 import {environment} from '../../environments/environment';
-import {IP_USER_KEY} from '../services/http.utils';
+import {IP_USER_KEY} from '../shared/services/http.utils';
 
 declare var encodePassword: Function;
 

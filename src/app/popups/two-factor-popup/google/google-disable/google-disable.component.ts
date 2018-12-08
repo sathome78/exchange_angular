@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {GoogleAuthenticatorService} from '../google-authenticator.service';
-import {PopupService} from '../../../../services/popup.service';
+import {PopupService} from '../../../../shared/services/popup.service';
 
 @Component({
   selector: 'app-google-disable',

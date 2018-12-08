@@ -2,7 +2,7 @@ import 'rxjs/add/operator/do';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { TOKEN } from 'app/services/http.utils';
+import { TOKEN } from 'app/shared/services/http.utils';
 
 
 export class JwtInterceptor implements HttpInterceptor {

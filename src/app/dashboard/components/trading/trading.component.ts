@@ -8,7 +8,7 @@ import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {Order} from './order.model';
 import {TradingService} from './trading.service';
 import {DashboardService} from '../../dashboard.service';
-import {BreakpointService} from 'app/services/breakpoint.service';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import {OrderBookService} from '../order-book/order-book.service';
 import {
   State,
@@ -22,7 +22,7 @@ import {CurrencyPair} from 'app/model/currency-pair.model';
 import {CurrencyPipe} from 'app/shared/pipes/currency.pipe';
 import {getUserBalance} from 'app/core/reducers';
 import {UserBalance} from 'app/model/user-balance.model';
-import {UserService} from 'app/services/user.service';
+import {UserService} from 'app/shared/services/user.service';
 import {LastSellBuyOrder} from 'app/model/last-sell-buy-order.model';
 import {CurrencyPairInfo, OrderItem} from '../../../model';
 

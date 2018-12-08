@@ -4,7 +4,7 @@
 // ng build --configuration=staging
 
 // test
-import {STAGING_HOST} from '../app/services/http.utils';
+import {STAGING_HOST} from '../app/shared/services/http.utils';
 
 export const environment = {
   production: false,

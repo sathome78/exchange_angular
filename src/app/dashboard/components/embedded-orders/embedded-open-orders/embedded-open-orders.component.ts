@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 
-import {MockDataService} from 'app/services/mock-data.service';
+import {MockDataService} from 'app/shared/services/mock-data.service';
 import {EmbeddedOrdersService} from '../embedded-orders.service';
 import {TradingService} from '../../trading/trading.service';
 import {Order} from '../../trading/order.model';

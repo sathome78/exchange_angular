@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {OnNextStep, PopupService} from '../../../../services/popup.service';
+import {OnNextStep, PopupService} from '../../../../shared/services/popup.service';
 import {TwoFaResponseDto} from '../2fa-response-dto.model';
 import {GoogleAuthenticatorService} from '../google-authenticator.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';

@@ -4,12 +4,12 @@ import {Subject} from 'rxjs/Subject';
 import {Store, select} from '@ngrx/store';
 
 import {getCurrencyPairArray, State} from 'app/core/reducers/index';
-import {AuthService} from 'app/services/auth.service';
+import {AuthService} from 'app/shared/services/auth.service';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {MarketService} from './market.service';
 import {ChangeCurrencyPairAction, SetLastSellBuyOrderAction} from '../../actions/dashboard.actions';
-import {UserService} from '../../../services/user.service';
+import {UserService} from '../../../shared/services/user.service';
 import {CurrencyPairInfoService} from '../currency-pair-info/currency-pair-info.service';
 import {LastSellBuyOrder} from '../../../model/last-sell-buy-order.model';
 import {defaultLastSellBuyOrder} from '../../reducers/default-values';

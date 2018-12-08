@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ChatItem} from '../chat-item.model';
-import {AuthService} from '../../../../services/auth.service';
+import {AuthService} from '../../../../shared/services/auth.service';
 import {SimpleChat} from '../simple-chat.model';
 
 @Component({
