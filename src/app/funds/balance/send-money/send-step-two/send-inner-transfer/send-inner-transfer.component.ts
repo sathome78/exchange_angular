@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {BalanceService} from '../../../../../shared/services/balance.service';
 
 @Component({
   selector: 'app-send-inner-transfer',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SendInnerTransferComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public balanceServce: BalanceService
+  ) { }
 
   ngOnInit() {
+  }
+
+  chooseTransfer(name: string) {
+    this.balanceServce.goToSendMoneyInnerTransfer$.next(name);
   }
 
 }

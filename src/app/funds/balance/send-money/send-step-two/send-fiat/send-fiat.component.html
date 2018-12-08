@@ -21,7 +21,7 @@
     </ul>
   </div>
   <div class="wrap-input send__wrap-input"
-       [ngClass]="{'wrap-input--error': !form.controls['amount'].valid && isSubmited}">
+       [ngClass]="{'wrap-input--error': isSubmited && (isAmountMax || isAmountMin || form.controls['amount'].value === '0')}">
     <div class="avaliable">Avaliable: <a (click)="balanceClick()" class="link">{{activeBalance}} {{activeFiat ? activeFiat.name : ''}}</a></div>
     <!--<input class="wrap-input__input" required>-->
     <!--<label class="wrap-input__label"><span> </span>Amount</label>-->
@@ -29,8 +29,11 @@
     <!--<div class="wrap-input__line"></div>-->
     <!--Input error section starts-->
     <span class="wrap-input__message wrap-input__message--show"
-          *ngIf="!form.controls['amount'].valid && isSubmited">
-      Minimum sum for withdrawal 30 000 {{activeFiat ? activeFiat.name : ''}}</span>
+          *ngIf="(isAmountMin || form.controls['amount'].value === '0') && isSubmited">
+      Minimum sum for withdrawal {{minWithdrawSum}} {{activeFiat ? activeFiat.name : ''}}</span>
+    <span class="wrap-input__message wrap-input__message--show"
+          *ngIf="isAmountMax && isSubmited">
+      Max sum for withdrawal {{activeBalance}}</span>
     <!--<span class="wrap-input__message wrap-input__message&#45;&#45;show">Day limit for withdrawal is 30 000 USD</span>-->
     <!--Input error section ends-->
   </div>

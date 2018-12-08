@@ -15,12 +15,12 @@
         >
         <label class="wrap-input__label" for="">Password</label>
         <div class="wrap-input__line"></div>
-        <span
-          class="wrap-input__show-password"
-          (click)="togglePasswordVisibility()"
-          [ngClass]="{'wrap-input__show-password--active': isPasswordVisible}"
-        >
-          </span>
+        <!--<span-->
+          <!--class="wrap-input__show-password"-->
+          <!--(click)="togglePasswordVisibility()"-->
+          <!--[ngClass]="{'wrap-input__show-password&#45;&#45;active': isPasswordVisible}"-->
+        <!--&gt;-->
+          <!--</span>-->
         <!--Input error section starts-->
         <div *ngIf="passwordForm.controls['password'].touched && passwordForm.controls['password'].errors != null">
             <span
@@ -46,14 +46,14 @@
           formControlName="confirmPassword"
           [ngClass]="{'input--error': !passwordForm.controls['confirmPassword'].valid && passwordForm.controls['confirmPassword'].touched}"
         >
-        <label class="wrap-input__label" for="">Password</label>
+        <label class="wrap-input__label" for="">Repeat password</label>
         <div class="wrap-input__line"></div>
-        <span
-          class="wrap-input__show-password"
-          (click)="togglePasswordVisibility()"
-          [ngClass]="{'wrap-input__show-password--active': isPasswordVisible}"
-        >
-          </span>
+        <!--<span-->
+          <!--class="wrap-input__show-password"-->
+          <!--(click)="togglePasswordVisibility()"-->
+          <!--[ngClass]="{'wrap-input__show-password&#45;&#45;active': isPasswordVisible}"-->
+        <!--&gt;-->
+          <!--</span>-->
         <!--Input error section starts-->
         <div *ngIf="passwordForm.controls['confirmPassword'].touched && passwordForm.controls['confirmPassword'].errors != null">
             <span

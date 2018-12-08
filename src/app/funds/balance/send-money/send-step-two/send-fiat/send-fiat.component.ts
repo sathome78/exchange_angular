@@ -7,6 +7,15 @@ import {takeUntil} from 'rxjs/operators';
 import {MockDataService} from '../../../../../shared/services/mock-data.service';
 import {keys} from '../../../../../core/keys';
 
+interface IAllBalances {
+  activeBalance: string;
+  currencyName: string;
+  description: string;
+  needRefresh: boolean;
+  page: number;
+  totalBalance: string;
+}
+
 @Component({
   selector: 'app-send-fiat',
   templateUrl: './send-fiat.component.html',
@@ -27,6 +36,8 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public isSubmited = false;
   public selectedMerchant;
   public activeFiat;
+  public isAmountMax;
+  public isAmountMin;
   public form: FormGroup;
 
   public model = {
@@ -83,6 +94,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         this.fiatNames = res;
         this.activeFiat = this.fiatNames[0];
         this.getFiatInfoByName(this.activeFiat.name);
+        this.getBalance(this.activeFiat.name);
       });
   }
 
@@ -96,13 +108,14 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.activeFiat = currency;
     this.currencyDropdownToggle();
     this.getFiatInfoByName(this.activeFiat.name);
+    this.getBalance(this.activeFiat.name);
   }
 
   selectMerchant(merchant) {
     this.form.reset();
     if (merchant !== {}) {
       this.selectedMerchant = merchant;
-      this.minWithdrawSum = merchant.minSum;
+      this.minWithdrawSum = merchant.minSum || 0;
       this.calculateData.percentMerchant = this.fiatInfoByName.merchantCurrencyData[0] ? this.fiatInfoByName.merchantCurrencyData[0].outputCommission : 0;
       this.calculateData.fixedMinCommissiom = this.fiatInfoByName.merchantCurrencyData[0] ? this.fiatInfoByName.merchantCurrencyData[0].fixedMinCommission : 0;
       this.calculateData.totalCommission = this.calculateData.percentMerchant + this.calculateData.percentExchange;
@@ -128,12 +141,20 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
  onSubmitWithdrawal() {
     this.isSubmited = true;
-    if (this.form.valid && this.selectedMerchant.name) {
+    if (this.form.valid && !this.isAmountMin && this.form.controls['amount'].value !== '0' && !this.isAmountMax && this.selectedMerchant.name) {
       this.isSubmited = false;
       this.isEnterData = false;
-      console.log(this.form);
-      console.log(this.selectedMerchant);
     }
+ }
+
+ getBalance(name: string) {
+   const subscribtion = this.balanceService.getTotalBalance().subscribe(res => {
+     const allBalances = res as {sumTotalUSD: any, mapWallets: any};
+     const needBalance = allBalances.mapWallets.filter(item => item.currencyName === name);
+     console.log(needBalance)
+     this.activeBalance = needBalance[0].activeBalance;
+     subscribtion.unsubscribe();
+   });
  }
 
   private getFiatInfoByName(name: string) {
@@ -143,7 +164,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         this.fiatInfoByName = res;
         this.merchants = this.fiatInfoByName.merchantCurrencyData;
         this.selectMerchant(this.merchants.length ? this.merchants[0] : {});
-        this.activeBalance = this.fiatInfoByName.activeBalance || 0;
+        // this.activeBalance = this.fiatInfoByName.activeBalance || 0;
         console.log(res);
       });
   }
@@ -158,6 +179,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   amountInput(event) {
     this.calculateCommission(event.target.value);
+    this.amountValidator(event.target.value);
   }
 
   afterResolvedCaptcha(event) {
@@ -176,7 +198,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
       /** mock */
       // console.log(data)
-      this.balanceService.goToPinCode$.next(data);
+      // this.balanceService.goToPinCode$.next(data);
       /** ----------- **/
       this.balanceService.sendPinCode().subscribe(res => {
         this.balanceService.goToPinCode$.next(data);
@@ -195,22 +217,13 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   private initForm() {
     this.form = new FormGroup({
       address: new FormControl('', [Validators.required] ),
-      amount: new FormControl('', [Validators.required, this.minCheck.bind(this), this.maxCheck.bind(this)]),
+      amount: new FormControl('0', [Validators.required]),
     });
   }
 
-  private minCheck(amount: FormControl) {
-    if (this.minWithdrawSum > amount.value) {
-      return {'minThen': true};
-    }
-    return null;
-  }
-
-  private maxCheck(amount: FormControl) {
-    if (this.activeBalance < amount.value) {
-      return {'maxThen': true};
-    }
-    return null;
+  amountValidator(sum) {
+   this.isAmountMax = +sum > +this.activeBalance ? true : false;
+   this.isAmountMin = +sum < +this.minWithdrawSum ? true : false;
   }
 
 }

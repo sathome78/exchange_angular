@@ -26,8 +26,13 @@ export class SendMoneyComponent implements OnInit {
   ngOnInit() {
     this.initFields();
     this.balanceService.goToPinCode$.subscribe(res => {
+      console.log(res)
       this.activeStepThree('With code', res);
     });
+
+    this.balanceService.goToSendMoneyInnerTransfer$.subscribe(res => {
+      this.activeStepThreeInnerTransfer(res as string);
+    })
 
     this.balanceService.goToSendMoneySuccess$.subscribe(res => {
       console.log(res);
@@ -43,6 +48,10 @@ export class SendMoneyComponent implements OnInit {
   private initFields() {
     this.step = 1;
     this.stepTwoName = '';
+  }
+  activeStepThreeInnerTransfer(name: string) {
+    this.step = 3;
+    this.stepThreeName = name;
   }
 
   activeStepThree(name, data = {}) {
