@@ -3,7 +3,7 @@ import {MockDataService} from '../../../../../shared/services/mock-data.service'
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
-import {BalanceService} from '../../../../../shared/services/balance.service';
+import {BalanceService} from '../../../../services/balance.service';
 
 interface RefreshAddress {
   address: string;
