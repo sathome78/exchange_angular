@@ -1,12 +1,13 @@
-.banner{
+.banner {
   display: none;
 }
+
 /*--- modificators start ---*/
 /*--- modificators end ---*/
 /*--- elements start ---*/
 /*--- elements end ---*/
 /*--- media start ---*/
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
   .banner {
     display: flex;
     align-items: center;
@@ -57,7 +58,7 @@
       font-family: 'Montserrat';
       background-color: transparent;
       border: none;
-      &:hover{
+      &:hover {
         cursor: pointer;
       }
       span {
@@ -70,11 +71,16 @@
     }
   }
 }
+
 /*--- media end ---*/
 
 /*--- DARK THEME START---*/
-.dark-theme{}
-@media (min-width:1200px) {
-  .dark-theme{}
+.dark-theme {
 }
+
+@media (min-width: 1200px) {
+  .dark-theme {
+  }
+}
+
 /*--- DARK THEME END---*/
