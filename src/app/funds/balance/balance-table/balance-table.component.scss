@@ -1,4 +1,12 @@
 // pagination styles start
+.pagination {
+  display: block;
+}
+
+.pagination--mob {
+  display: none;
+}
+
 ::ng-deep .ngx-pagination {
   margin-bottom: 0 !important;
   display: flex;
@@ -85,4 +93,5 @@
     height: 13px;
   }
 }
+
 // pagination styles end
