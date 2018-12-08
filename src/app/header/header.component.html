@@ -7,7 +7,7 @@
       <li class="menu__item" routerLinkActive="menu__link--active"><a class="menu__link"
                                                                       href="https://exrates.me/dashboard"><span
         class="menu__link-text">Trade</span></a></li>
-      <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated()"
+      <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isVisible()"
           routerLinkActive="menu__link--active"><a class="menu__link menu__link&#45;&#45;drop"><span
         class="menu__link-text">Funds</span></a>
         <!-- <li class="menu__item menu__item--with-submenu" ><a class="menu__link menu__link--drop"><span class="menu__link-text">Funds</span></a> -->
@@ -18,7 +18,7 @@
           </ul>
         </div>
       </li>
-      <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated()"
+      <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isVisible()"
           routerLinkActive="menu__link--active"><a class="menu__link menu__link&#45;&#45;drop"><span
         class="menu__link-text">Orders</span></a>
         <!-- <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" ><span class="menu__link-text">Orders</span></a> -->
@@ -29,14 +29,13 @@
           </ul>
         </div>
       </li>
-      <li class="menu__item" routerLinkActive="menu__link--active" *ngIf="isAuthenticated()">
-      <!--<li class="menu__item" routerLink="/settings" routerLinkActive="menu__link&#45;&#45;active"><a class="menu__link" *ngIf="isAuthenticated()">-->
-        <a class="menu__link" *ngIf="isAuthenticated()">
+      <li class="menu__item" routerLinkActive="menu__link--active" routerLink="/settings" *ngIf="isVisible()">
+        <a class="menu__link">
           <span class="menu__link-text">Settings </span>
         </a>
       </li>
       <!-- <li class="menu__item"><a class="menu__link" routerLink="/settings"><span class="menu__link-text">Settings</span></a></li> -->
-      <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated()" routerLinkActive="menu__link--active"><a
+      <li class="menu__item menu__item--with-submenu" *ngIf="isVisible()" routerLinkActive="menu__link--active"><a
         class="menu__link menu__link--drop" routerLinkActive="menu__link--active"><span
         class="menu__link-text">Referral</span></a>
         <div class="submenu">

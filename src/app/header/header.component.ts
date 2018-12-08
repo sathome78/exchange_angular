@@ -7,6 +7,7 @@ import {ThemeService} from '../services/theme.service';
 import {UserService} from '../services/user.service';
 import {SettingsService} from '../settings/settings.service';
 import {DashboardService} from '../dashboard/dashboard.service';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -77,6 +78,10 @@ export class HeaderComponent implements OnInit {
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
+  }
+
+  isVisible(): boolean {
+    return this.isAuthenticated() && !environment.production;
   }
 
   onLogout() {
