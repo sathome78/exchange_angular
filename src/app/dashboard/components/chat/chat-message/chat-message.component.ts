@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ChatItem} from '../chat-item.model';
 import {AuthService} from '../../../../services/auth.service';
 import {SimpleChat} from '../simple-chat.model';
 
@@ -21,4 +20,10 @@ export class ChatMessageComponent implements OnInit {
     return this.message.email === this.authService.getUsername();
   }
 
+  getDate(value: string): Date {
+    if (value) {
+      return new Date(value.replace(/-/g, '/'));
+    }
+    return new Date();
+  }
 }
