@@ -50,6 +50,7 @@ export class OpenOrdersComponent implements OnInit {
 
   ngOnInit() {
     this.initDate();
+    this.store.dispatch(new ordersAction.LoadCurrencyPairsAction());
     this.loadOrders();
   }
 
@@ -226,6 +227,7 @@ export class OpenOrdersComponent implements OnInit {
   }
 
   closeFilterPopup() {
+    this.onFilterOrders()
     this.showFilterPopup = false;
   }
 }
