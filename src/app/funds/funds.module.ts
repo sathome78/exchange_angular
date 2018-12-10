@@ -40,6 +40,7 @@ import {SendSuccessfulComponent} from './balance/send-money/send-successful/send
 import {BalanceService} from './services/balance.service';
 import {BalanceTableComponent} from './balance/balance-table/balance-table.component';
 import {BalanceMobComponent} from './balance/balance-mob/balance-mob.component';
+import {PendingRequestMobComponent} from './balance/pending-request-mob/pending-request-mob.component';
 
 @NgModule({
   imports: [
@@ -81,6 +82,7 @@ import {BalanceMobComponent} from './balance/balance-mob/balance-mob.component';
     SendSuccessfulComponent,
     BalanceTableComponent,
     BalanceMobComponent,
+    PendingRequestMobComponent,
   ],
   providers: [
     BalanceService,

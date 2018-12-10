@@ -8,6 +8,9 @@ export const LOAD_FIAT_BAL = '[Funds] Load fiat balances';
 export const FAIL_LOAD_FIAT_BAL = '[Funds] Fail load fiat balances';
 export const SET_FIAT_BAL = '[Funds] Set fiat balances';
 
+export const LOAD_PENDING_REQ = '[Funds] Load pending requests';
+export const FAIL_LOAD_PENDING_REQ = '[Funds] Fail load pending requests';
+export const SET_PENDING_REQ = '[Funds] Set pending requests';
 
 
 
@@ -42,6 +45,22 @@ export class FailLoadFiatBalAction implements Action {
   constructor(public payload?) {}
 }
 
+/**
+ * Loading fiat balances
+ */
+export class LoadPendingReqAction implements Action {
+  readonly type = LOAD_PENDING_REQ;
+  constructor(public payload?) {}
+}
+export class SetPendingReqAction implements Action {
+  readonly type = SET_PENDING_REQ;
+  constructor(public payload?) {}
+}
+export class FailLoadPendingReqAction implements Action {
+  readonly type = FAIL_LOAD_PENDING_REQ;
+  constructor(public payload?) {}
+}
+
 
 /**
  * Exports possible action types
@@ -53,6 +72,6 @@ export type Actions
   | LoadFiatBalAction
   | SetFiatBalAction
   | FailLoadFiatBalAction
-  // | LoadCurrencyPairsAction
-  // | SetCurrencyPairsAction
-  // | FailLoadCurrencyPairsAction
+  | LoadPendingReqAction
+  | SetPendingReqAction
+  | FailLoadPendingReqAction

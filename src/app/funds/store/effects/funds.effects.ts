@@ -5,16 +5,11 @@ import {map, switchMap, catchError} from 'rxjs/internal/operators';
 import {of} from 'rxjs';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import * as fundsActions from '../actions/funds.actions';
-import {BalanceService} from 'app/funds/services/balance.service';
+import {BalanceService} from '../../services/balance.service';
 
 @Injectable()
 export class FundsEffects {
 
-  /**
-  * Default constructor
-  *
-  * @param actions$
-  */
   constructor(
     private actions$: Actions,
     private balanceService: BalanceService,
@@ -46,6 +41,20 @@ export class FundsEffects {
         .pipe(
           map(bal => (new fundsActions.SetFiatBalAction({items: bal.items, count: bal.count}))),
           catchError(error => of(new fundsActions.FailLoadFiatBalAction(error)))
+        )
+    }))
+
+   /**
+   * Load pending requests
+   */
+  @Effect()
+  loadPendingRequests$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadPendingReqAction>(fundsActions.LOAD_PENDING_REQ))
+    .pipe(switchMap((action) => {
+      return this.balanceService.getPendingRequests(action.payload)
+        .pipe(
+          map(bal => (new fundsActions.SetPendingReqAction({items: bal.items, count: bal.count}))),
+          catchError(error => of(new fundsActions.FailLoadPendingReqAction(error)))
         )
     }))
 

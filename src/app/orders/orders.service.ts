@@ -18,14 +18,14 @@ export class OrdersService {
   // request to get open orders
   getOpenOrders(page: number, 
                 limit: number, 
-                from?: string, 
-                to?: string, 
+                dateFrom?: string, 
+                dateTo?: string, 
                 currencyPairId?: string): Observable<OrderWrapper> {
     const params = {
       page: page + '',
       limit: limit + '',
-      from,
-      to,
+      dateFrom,
+      dateTo,
       currencyPairId: currencyPairId || '',
     }
 

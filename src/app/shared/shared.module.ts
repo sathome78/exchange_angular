@@ -17,6 +17,7 @@ import {PageItemsDropdownComponent} from './components/page-items-dropdown/page-
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {QRCodeModule} from 'angular2-qrcode';
 import {RecaptchaModule} from 'ng-recaptcha';
+import {DateWrapper} from './pipes/dateWrapper.pipe';
 @NgModule({
   declarations: [
     NotificationComponent,
@@ -30,6 +31,7 @@ import {RecaptchaModule} from 'ng-recaptcha';
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     PageItemsDropdownComponent,
+    DateWrapper,
   ],
   imports: [
     FormsModule,
@@ -54,6 +56,7 @@ import {RecaptchaModule} from 'ng-recaptcha';
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     PageItemsDropdownComponent,
+    DateWrapper,
   ],
   providers: [
     NotificationsService

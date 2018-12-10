@@ -5,6 +5,7 @@ import {Store, select} from '@ngrx/store';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
 import {BalanceItem} from '../models/balance-item.model';
+import {PendingRequestsItem} from '../models/pending-requests-item.model';
 
 @Component({
   selector: 'app-balance',
@@ -30,6 +31,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public countOfCryptoEntries$: Observable<number>;
   public fiatBalances$: Observable<BalanceItem[]>;
   public countOfFiatEntries$: Observable<number>;
+  public pendingRequests$: Observable<PendingRequestsItem[]>;
+  public countOfPendingRequests$: Observable<number>;
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -40,10 +43,13 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.countOfCryptoEntries$ = store.pipe(select(fundsReducer.getCountCryptoBalSelector));
     this.fiatBalances$ = store.pipe(select(fundsReducer.getFiatBalancesSelector));
     this.countOfFiatEntries$ = store.pipe(select(fundsReducer.getCountFiatBalSelector));
+    this.pendingRequests$ = store.pipe(select(fundsReducer.getPendingRequestsSelector));
+    this.countOfPendingRequests$ = store.pipe(select(fundsReducer.getCountPendingReqSelector));
   }
 
   ngOnInit() {
     this.loadBalances(this.currTab);
+    this.loadBalances(this.Tab.PR); 
   }
 
   public onSelectTab(tab: string): void {
@@ -67,7 +73,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
           limit: this.countPerPage,
           hideCanceled: this.excludeZero,
         }
-        this.store.dispatch(new fundsAction.LoadCryptoBalAction(paramsC));
+        return this.store.dispatch(new fundsAction.LoadCryptoBalAction(paramsC));
       case this.Tab.FIAT :
         const paramsF = {
           type,
@@ -75,9 +81,13 @@ export class BalanceComponent implements OnInit, OnDestroy {
           limit: this.countPerPage,
           hideCanceled: this.excludeZero,
         }
-        this.store.dispatch(new fundsAction.LoadFiatBalAction(paramsF));
+        return this.store.dispatch(new fundsAction.LoadFiatBalAction(paramsF));
       case this.Tab.PR :
-        // return this.countOfCryptoEntries$;
+        const paramsP = {
+          offset: (this.currentPage - 1) * this.countPerPage, 
+          limit: this.countPerPage,
+        }
+        return this.store.dispatch(new fundsAction.LoadPendingReqAction(paramsP));
     }
     
   }
@@ -89,7 +99,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
       case this.Tab.FIAT :
         return this.countOfFiatEntries$;
       case this.Tab.PR :
-        return this.countOfCryptoEntries$;
+        return this.countOfPendingRequests$;
       default:
         return this.countOfCryptoEntries$;
     }

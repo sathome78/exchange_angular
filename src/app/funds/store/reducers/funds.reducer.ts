@@ -1,14 +1,16 @@
 import * as fromActions from '../actions/funds.actions';
 import {defaultValues} from './default-values';
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {OrderCurrencyPair} from 'app/orders/models/order-currency-pair';
 import {BalanceItem} from 'app/funds/models/balance-item.model';
+import {PendingRequestsItem} from 'app/funds/models/pending-requests-item.model';
 
 export interface State {
   cryptoBal: BalanceItem[];
   countCryptoBal: number;
   fiatBal: BalanceItem[];
   countFiatBal: number;
+  pendingRequests: PendingRequestsItem[];
+  countPendingRequests: number;
   loading: boolean;
 }
 
@@ -17,6 +19,8 @@ export const INIT_STATE: State = {
   countCryptoBal: defaultValues.countCryptoBal,
   fiatBal: defaultValues.fiatBal,
   countFiatBal: defaultValues.countFiatBal,
+  pendingRequests: defaultValues.pendingRequests,
+  countPendingRequests: defaultValues.countPendingRequests,
   loading: false,
 };
 
@@ -57,6 +61,21 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         loading: false, 
       };
 
+    case fromActions.LOAD_PENDING_REQ:
+      return {...state, loading: true};
+    case fromActions.SET_PENDING_REQ:
+      return {
+        ...state, 
+        loading: false, 
+        pendingRequests: action.payload.items, 
+        countPendingRequests: action.payload.count,
+      };
+    case fromActions.FAIL_LOAD_PENDING_REQ:
+      return {
+        ...state, 
+        loading: false, 
+      };
+
     default :
       return state;
   }
@@ -79,4 +98,12 @@ export const getCountFiatBal = (state: State): number => state.countFiatBal;
 
 export const getFiatBalancesSelector = createSelector(getOrdersState, getFiatBalances);
 export const getCountFiatBalSelector = createSelector(getOrdersState, getCountFiatBal);
+
+/** Pending requests */
+
+export const getPendingRequests = (state: State): PendingRequestsItem[] => state.pendingRequests;
+export const getCountPendingReq = (state: State): number => state.countPendingRequests;
+
+export const getPendingRequestsSelector = createSelector(getOrdersState, getPendingRequests);
+export const getCountPendingReqSelector = createSelector(getOrdersState, getCountPendingReq);
 

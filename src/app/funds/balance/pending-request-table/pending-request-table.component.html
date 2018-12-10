@@ -7,47 +7,78 @@
     <th class="table__cell-head table__cell-head--tar">Comission</th>
     <th class="table__cell-head table__cell-head--tar">Payment system</th>
     <th class="table__cell-head table__cell-head--tar">Status</th>
-    <th class="table__cell-head table__cell-head--tac"></th>
+    <!-- <th class="table__cell-head table__cell-head--tac"></th> -->
     <th class="table__cell-head table__cell-head--tac"></th>
   </tr>
   </thead>
   <tbody class="table__body">
-  <tr class="table__row">
+  <tr 
+    class="table__row" 
+    *ngFor="let item of pendingRequests | paginate: {
+      itemsPerPage: countPerPage, 
+      currentPage: currentPage, 
+      totalItems: countOfEntries
+    }; let i = index" 
+  >
     <td class="table__cell">
       <div class="table__date-time">
-        <div>Th 13.06.2018</div>
-        <div>10:59:41</div>
+        <div>{{item.date | dateWrapper | date: 'EEEEEE dd.MM.yyyy'}}</div>
+        <div>{{item.date | dateWrapper | date: 'HH:mm:ss'}}</div>
       </div>
     </td>
     <td class="table__cell">
-      <span>IDR</span>
+      <span>{{item.currency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>0.01</span>
+      <span>{{item.amount}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>0</span>
+      <span>{{item.commission}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>CIMB NAGA</span>
+      <span>{{item.system}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>Awaits payment</span>
+      <span>{{pendingRequestsItem.statusMap[item.status]}}</span>
     </td>
-    <td class="table__cell">
+    <!-- <td class="table__cell">
       <button class="btn btn--center btn--small btn--hidden">I paid</button>
-    </td>
+    </td> -->
     <td class="table__cell table__cell--tar">
-      <button class="btn btn--center btn--small btn--hidden">Revoke</button>
-      <div class="revoke-request">
+      <button 
+        class="btn btn--center btn--small btn--hidden"
+        (click)="toggleRevokeModal(true, i)"
+      >Revoke</button>
+
+      <!-- revoke modal start-->
+      <div class="revoke-request" *ngIf="showRevokeModal && revokeModalId == i">
         <div class="revoke-request__title">Are you sure you want to revoke this request?</div>
         <div class="revoke-request__button-wrap">
-          <button class="btn btn--small">Yes</button>
-          <button class="btn btn--small">No</button>
+          <button class="btn btn--small" (click)="toggleRevokeModal(false, i)">Yes</button>
+          <button class="btn btn--small" (click)="onRevoke(item)">No</button>
         </div>
         <div class="revoke-request__triangle"></div>
       </div>
+      <!-- revoke modal end -->
     </td>
   </tr>
   </tbody>
 </table>
+
+ <!--paginator start-->
+ <div class="row row--aic" style="margin: 0 16px;">
+  <app-page-items-dropdown
+    [countPerPage]="countPerPage"
+    [countOfEntries]="countOfEntries"
+    (onChange)="changeItemsPerPage($event)"
+  ></app-page-items-dropdown>
+  <ul class="paginator" style="margin-left: auto;">
+    <pagination-controls 
+      maxSize="7" 
+      [previousLabel]="''" 
+      [nextLabel]="''"
+      (pageChange)="changePage($event)"
+    ></pagination-controls>
+  </ul>
+</div>
+<!--paginator end-->

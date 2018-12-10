@@ -3,5 +3,6 @@ export const defaultValues = {
   countCryptoBal: 0,
   fiatBal: [],
   countFiatBal: 0,
-
+  pendingRequests: [],
+  countPendingRequests: 0,
 };
