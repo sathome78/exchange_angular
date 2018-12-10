@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PendingRequestComponent } from './pending-request.component';
+import { FiatBalanceTableComponent } from './fiat-balance-table.component';
 
-describe('PendingRequestComponent', () => {
-  let component: PendingRequestComponent;
-  let fixture: ComponentFixture<PendingRequestComponent>;
+describe('FiatBalanceTableComponent', () => {
+  let component: FiatBalanceTableComponent;
+  let fixture: ComponentFixture<FiatBalanceTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PendingRequestComponent ]
+      declarations: [ FiatBalanceTableComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PendingRequestComponent);
+    fixture = TestBed.createComponent(FiatBalanceTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,8 +1,9 @@
+
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {BalanceItem} from './balance-item.model';
-import {BalanceService} from '../../shared/services/balance.service';
+import {BalanceItem} from '../models/balance-item.model';
 import {Subject} from 'rxjs';
 import {BalanceCrypto} from '../../model';
+import { BalanceService } from '../services/balance.service';
 
 @Component({
   selector: 'app-balance',
@@ -11,34 +12,32 @@ import {BalanceCrypto} from '../../model';
 })
 export class BalanceComponent implements OnInit, OnDestroy {
 
-  balanceItems: BalanceItem [] = [];
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public balanceTab: string;
-  public showRefillBalancePopup: boolean;
-  public showSendMoneyPopup: boolean;
-  public cryptoBalances: BalanceCrypto[];
-
-  constructor(private balanceService: BalanceService) { }
-
-  ngOnInit() {
-    this.setFields();
-    this.balanceService.getBalanceItems().subscribe(items => {
-      this.balanceItems = items;
-      console.log(this.balanceItems);
-    });
+  /** */
+  public Tab = {
+    CRYPTO: 'CRYPTO',
+    FIAT: 'FIAT',
+    PR: 'PR',
   }
 
+  public balanceItems: BalanceItem [] = [];
+  public currTab: string = this.Tab.CRYPTO;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public showRefillBalancePopup: boolean = false;
+  public showSendMoneyPopup: boolean = false;
+  public cryptoBalances: BalanceCrypto[];
+
+  constructor() { }
+
+  ngOnInit() {
+
+  }
+
+  public onSelectTab(tab: string): void {
+    this.currTab = tab;
+  }
   ngOnDestroy(): void {
     // this.ngUnsubscribe.next();
     // this.ngUnsubscribe.complete();
-  }
-
-  public toggleBalanceTab(tab: string) {
-    this.balanceTab = tab;
-  }
-
-  public isShowBalanceTab(tab: string): boolean {
-    return this.balanceTab === tab;
   }
 
   public openRefillBalancePopup(flag: boolean) {
@@ -49,9 +48,4 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.showSendMoneyPopup = flag;
   }
 
-  private setFields() {
-    this.balanceTab = 'crypto-tab';
-    this.showRefillBalancePopup = false;
-    this.showSendMoneyPopup = false;
-  }
 }

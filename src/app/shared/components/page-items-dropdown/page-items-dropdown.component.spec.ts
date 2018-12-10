@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FiatBalancesComponent } from './fiat-balances.component';
+import { PageItemsDropdownComponent } from './page-items-dropdown.component';
 
-describe('FiatBalancesComponent', () => {
-  let component: FiatBalancesComponent;
-  let fixture: ComponentFixture<FiatBalancesComponent>;
+describe('PageItemDropdownComponent', () => {
+  let component: PageItemsDropdownComponent;
+  let fixture: ComponentFixture<PageItemsDropdownComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FiatBalancesComponent ]
+      declarations: [ PageItemsDropdownComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FiatBalancesComponent);
+    fixture = TestBed.createComponent(PageItemsDropdownComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

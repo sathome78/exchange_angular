@@ -4,7 +4,7 @@ import * as _uniq from 'lodash/uniq';
 import {Subject} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CurrencyBalanceModel} from '../../../../../model/index';
-import {BalanceService} from '../../../../../shared/services/balance.service';
+import {BalanceService} from '../../../../services/balance.service';
 import {MockDataService} from '../../../../../shared/services/mock-data.service';
 import {keys} from '../../../../../core/keys';
 
