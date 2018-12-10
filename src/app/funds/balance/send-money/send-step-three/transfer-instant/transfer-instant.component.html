@@ -63,6 +63,8 @@
         <!--Input error section starts-->
         <span class="wrap-input__message"
               *ngIf="!form.controls['email'].valid && isSubmited">Enter valid email to transfer</span>
+        <span class="wrap-input__message"
+              *ngIf="emailErrorMessage">{{emailErrorMessage}}</span>
         <!--Input error section ends-->
       </div>
     </div>
@@ -79,10 +81,6 @@
         {{responseCommission.totalCommissionAmount}} {{activeCrypto ? activeCrypto.name : ''}}
       </div>
     </div>
-    <!--<div class="send__info-row">-->
-    <!--<div class="send__info-title">Total comission:</div>-->
-    <!--<div class="send__info-value">24% = 0.000005 BTC</div>-->
-    <!--</div>-->
     <div class="send__info-row">
       <div class="send__info-title">Total with comission:</div>
       <div class="send__info-value">{{responseCommission.resultAmount}} {{activeCrypto ? activeCrypto.name : ''}}</div>
@@ -94,8 +92,7 @@
         'btn--error': (!form.valid || isAmountMin || isAmountMax )&& isSubmited
         }"
   (click)="submitTransfer()"
-  >Transfer <span class="value">{{responseCommission.amount}}</span>
-    <span> {{activeCrypto ? activeCrypto.name : ''}}</span></button>
+  >Transfer</button>
   <div class="send__line"></div>
   <div class="note modal__note">
     <div class="note__title">Please note:</div>

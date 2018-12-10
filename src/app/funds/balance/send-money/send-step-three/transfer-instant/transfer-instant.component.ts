@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {BalanceService} from '../../../../../shared/services/balance.service';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
 import {Subject} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {keys} from '../../../../../core/keys';
+import {BalanceService} from '../../../../services/balance.service';
 
 @Component({
   selector: 'app-transfer-instant',
@@ -13,8 +13,8 @@ import {keys} from '../../../../../core/keys';
 })
 export class TransferInstantComponent implements OnInit, OnDestroy {
 
-  public cryptoNames = [];
-  public defaultCryptoNames = [];
+  public cryptoNames ;
+  public defaultCryptoNames ;
   public openCurrencyDropdown = false;
   public recaptchaKey = keys.recaptchaKey;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -22,6 +22,7 @@ export class TransferInstantComponent implements OnInit, OnDestroy {
   public isSubmited = false;
   public activeBalance;
   public isEnterData = true;
+  public emailErrorMessage = '';
   public alphabet;
   public minWithdrawSum = 0.01;
   public responseCommission;
@@ -64,18 +65,18 @@ export class TransferInstantComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         if (!this.isAmountMax && !this.isAmountMin) {
           this.getCommissionInfo(res);
-        }
-        ;
+        };
       });
 
-    this.balanceService.getCryptoNames()
+    this.balanceService.getCryptoFiatNames()
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.defaultCryptoNames = res;
+      .subscribe(res  => {
+        this.defaultCryptoNames = res.data;
         this.cryptoNames = this.defaultCryptoNames;
         this.activeCrypto = this.cryptoNames[0];
         this.prepareAlphabet();
         this.getBalance(this.activeCrypto.name);
+        this.getMinSum(this.activeCrypto);
       });
   }
 
@@ -113,6 +114,7 @@ export class TransferInstantComponent implements OnInit, OnDestroy {
     this.responseCommission = this.responseDefaultCommission;
     this.activeCrypto = currency;
     this.getBalance(this.activeCrypto.name);
+    this.getMinSum(this.activeCrypto);
     this.currencyDropdownToggle();
   }
 
@@ -121,6 +123,15 @@ export class TransferInstantComponent implements OnInit, OnDestroy {
       this.form.controls['amount'].setValue(this.activeBalance.toString());
       this.getCommissionInfo(this.activeBalance);
     }
+  }
+
+  getMinSum(currency) {
+    const subscribtion = this.balanceService
+      .getMinSumInnerTranfer(currency.id, 'TRANSFER')
+      .subscribe((res: {data: string, error: string}) => {
+      this.minWithdrawSum = +res.data;
+      subscribtion.unsubscribe();
+    });
   }
 
   prepareAlphabet() {
@@ -145,30 +156,39 @@ export class TransferInstantComponent implements OnInit, OnDestroy {
   }
 
   submitTransfer() {
+    /** mock **/
+    // this.isEnterData = false;
+    /** ----- **/
     this.isSubmited = true;
-    // todo: validate email via server
     if (this.form.valid && !this.isAmountMax && !this.isAmountMin) {
-      this.isEnterData = false;
+      this.balanceService.checkEmail(this.form.controls['email'].value).subscribe( res => {
+        const data = res as {data: boolean, error: any}
+        if (data.data) {
+          this.isSubmited = false;
+          this.isEnterData = false;
+        } else {
+          this.emailErrorMessage = data.error.message;
+        }
+      });
+
     }
   }
 
   afterResolvedCaptcha(event) {
-    console.log('resolve');
     this.model.recipient = this.form.controls['email'].value;
     this.model.currency = this.activeCrypto.id;
     this.model.sum = this.form.controls['amount'].value;
     const data = {
-      operation: 'Authentification',
+      operation: 'Transfer Instant',
       data: this.model
     };
 
-    /** mock */
     this.balanceService.goToPinCode$.next(data);
-    /** ----------- **/
     this.balanceService.sendPinCode().subscribe(res => {
-      this.balanceService.goToPinCode$.next(data);
+      // this.balanceService.goToPinCode$.next(data);
     });
   }
+
 
   amountInput(event) {
     this.amountValidator(event.target.value);

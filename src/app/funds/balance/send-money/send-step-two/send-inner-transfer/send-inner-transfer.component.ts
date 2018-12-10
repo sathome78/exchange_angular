@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {BalanceService} from '../../../../../shared/services/balance.service';
+import {BalanceService} from '../../../../services/balance.service';
 
 @Component({
   selector: 'app-send-inner-transfer',

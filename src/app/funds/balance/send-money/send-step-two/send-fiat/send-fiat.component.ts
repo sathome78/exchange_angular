@@ -164,8 +164,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         this.fiatInfoByName = res;
         this.merchants = this.fiatInfoByName.merchantCurrencyData;
         this.selectMerchant(this.merchants.length ? this.merchants[0] : {});
-        // this.activeBalance = this.fiatInfoByName.activeBalance || 0;
-        console.log(res);
       });
   }
 
@@ -196,12 +194,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         data: this.model
       }
 
-      /** mock */
-      // console.log(data)
-      // this.balanceService.goToPinCode$.next(data);
-      /** ----------- **/
+      this.balanceService.goToPinCode$.next(data);
       this.balanceService.sendPinCode().subscribe(res => {
-        this.balanceService.goToPinCode$.next(data);
+        // this.balanceService.goToPinCode$.next(data);
       });
     }
   }

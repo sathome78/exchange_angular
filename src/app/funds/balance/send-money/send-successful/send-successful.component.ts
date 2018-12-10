@@ -15,10 +15,7 @@ export class SendSuccessfulComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.choosedName);
     console.log(this.data)
-    this.operationName = this.data.operationName;
-    console.log(this.operationName);
   }
 
   onClose() {

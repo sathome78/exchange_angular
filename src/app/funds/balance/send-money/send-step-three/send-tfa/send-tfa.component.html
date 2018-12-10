@@ -23,6 +23,7 @@
     <div class="wrap-input__line"></div>
     <!--Input error section starts-->
     <span class="wrap-input__message" *ngIf="!form.valid && form.controls['pin'].touched">Invalid code</span>
+    <span class="wrap-input__message">{{message}}</span>
     <!--<span class="wrap-input__message">Invalid code</span>-->
     <!--Input error section ends-->
   </div>

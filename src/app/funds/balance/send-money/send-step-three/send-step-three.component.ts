@@ -10,17 +10,10 @@ export class SendStepThreeComponent implements OnInit {
   @Input() choosedName: string;
   @Input() data;
 
-  // public responseData;
-
   constructor() { }
 
   ngOnInit() {
 
-  }
-
-  onSendSuccess(data) {
-    // this.choosedName = 'Send Success';
-    // this.responseData = data;
   }
 
 }

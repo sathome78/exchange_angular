@@ -118,12 +118,9 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       operation: 'Send Crypto',
       data: this.model
     }
-      // /** mock */
-      // console.log(data)
-      // this.balanceService.goToPinCode$.next(data);
-      // /** ____________ **/
+    this.balanceService.goToPinCode$.next(data);
       this.balanceService.sendPinCode().subscribe(res => {
-      this.balanceService.goToPinCode$.next(data);
+      // this.balanceService.goToPinCode$.next(data);
     });
   }
 

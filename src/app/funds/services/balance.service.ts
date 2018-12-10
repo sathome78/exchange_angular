@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {BalanceWrapper} from '../models/balance-wrapper.model';
 import {BalanceItem} from '../models/balance-item.model';
+import {type} from 'os';
 
 @Injectable()
 export class BalanceService {
@@ -19,16 +20,18 @@ export class BalanceService {
   }
 
   // request to get crypto balances
-  getCryptoBalances({offset, 
-    limit,
-    excludeZero}): Observable<BalanceWrapper> {
-    
+  getCryptoBalances({
+                      offset,
+                      limit,
+                      excludeZero
+                    }): Observable<BalanceWrapper> {
+
     const params = {
-    offset: offset + '',
-    limit: limit + '',
-    currencyType: 'CRYPTO',
-    excludeZero: (!!excludeZero).toString(),
-  }
+      offset: offset + '',
+      limit: limit + '',
+      currencyType: 'CRYPTO',
+      excludeZero: (!!excludeZero).toString(),
+    };
     return this.http.get<BalanceWrapper>(`${this.apiUrl}/info/private/v2/balances`, {params});
   }
 
@@ -40,6 +43,11 @@ export class BalanceService {
   getCryptoNames(): Observable<any[]> {
     const url = `${this.apiUrl}/info/private/v2/balances/refill/crypto-currencies`;
     return this.http.get<string[]>(url);
+  }
+
+  getCryptoFiatNames(): Observable<{data: any[], error: any}> {
+    const url = `${this.apiUrl}/info/private/v2/balances/transfer/currencies`;
+    return this.http.get<{data: any[], error: any}>(url);
   }
 
   getFiatNames(): Observable<any[]> {
@@ -89,14 +97,36 @@ export class BalanceService {
     return this.http.get(url);
   }
 
-  getCommisionInfo(currency: string, amount: string, type: string) {
+  getCommisionInfo(currency: string, amount: string, ty: string) {
+
     let httpOptions = new HttpParams();
     httpOptions = httpOptions.append('currency', currency);
     httpOptions = httpOptions.append('amount', amount);
-    httpOptions = httpOptions.append('type', type);
-    {
-      const url = `${this.apiUrl}/info/private/v2/balances/transfer/voucher/commission`;
-      return this.http.get(url, {params: httpOptions});
-    }
+    httpOptions = httpOptions.append('type', ty);
+
+    const url = `${this.apiUrl}/info/private/v2/balances/transfer/voucher/commission`;
+    return this.http.get(url, {params: httpOptions});
+  }
+
+  checkEmail(email: string) {
+    const httpOptions = {
+      params: new HttpParams().set('email', email)
+    };
+    const url = `${this.apiUrl}/info/private/v2/balances/transfer/check_email`;
+    return this.http.get(url, httpOptions);
+  }
+
+  getMinSumInnerTranfer(currency_id: string, typ: string) {
+    let httpOptions = new HttpParams();
+    httpOptions = httpOptions.append('currency_id', currency_id);
+    httpOptions = httpOptions.append('type', typ);
+
+    const url = `${this.apiUrl}/info/private/v2/balances/transfer/get_minimal_sum`;
+    return this.http.get(url, {params: httpOptions});
+  }
+
+  createTransferInstant(data) {
+    const url = `${this.apiUrl}/info/private/v2/balances/transfer/voucher/request/create`;
+    return this.http.post(url, data);
   }
 }
