@@ -25,6 +25,8 @@ export class BalanceMobComponent{
   @Input('countOfEntries') public countOfEntries: number;
   @Input('Tab') public Tab;
   @Input('currTab') public currTab;
+  @Input('hideAllZero') public hideAllZero;
+  @Output('onToggleAllZero') public onToggleAllZero: EventEmitter<any> = new EventEmitter();
   @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();
   @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
   @Output('openRefillBalancePopup') public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();

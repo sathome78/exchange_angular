@@ -26,6 +26,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public showRefillBalancePopup: boolean = false;
   public showSendMoneyPopup: boolean = false;
+  public hideAllZero: boolean = false;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
   public countOfCryptoEntries$: Observable<number>;
@@ -116,6 +117,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public openSendMoneyPopup(flag: boolean) {
     this.showSendMoneyPopup = flag;
+  }
+
+  public onToggleAllZero(): void {
+    this.loadBalances(this.currTab);
   }
 
 }

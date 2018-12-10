@@ -34,7 +34,7 @@
         <!--</ul>-->
       <!--</div>-->
       <label class="toggler">
-        <input type="checkbox" name="">
+        <input type="checkbox" name="togglerZero" [(ngModel)]="hideAllZero" (click)="onToggleAllZero.emit()">
         <span class="toggler__indicate"></span>
       </label>
       <span>Show zero</span>
