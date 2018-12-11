@@ -29,7 +29,7 @@
       <tbody class="table__body table__body--none-shadow"
         infiniteScroll
         [infiniteScrollDistance]="2"
-        [infiniteScrollDisabled]="(orderItems$ | async).length === (countOfEntries$ | async)"
+        [infiniteScrollDisabled]="!isMobile || (orderItems$ | async).length === (countOfEntries$ | async)"
         (scrolled)="changePage(currentPage + 1)"
       >
         <!-- t-row start-->
@@ -68,7 +68,7 @@
               </div>
               <div class="table__details-item">
                 <div class="table__details-item-title">Fee</div>
-                <div class="table__details-item-value">{{item.commissionValue}}%</div>
+                <div class="table__details-item-value">{{item.commissionValue}}% ~ {{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
               </div>
               <div class="table__details-item">
                 <div class="table__details-item-title">In total</div>
@@ -301,7 +301,7 @@
           </td>
           <td class="table__cell">
             <span class="orders__comission">{{item.commissionValue}}% </span><span class="orders__comission-usd">~<span>
-                {{item.commissionFixedAmount}} USD</span></span>
+                {{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</span></span>
           </td>
           <td class="table__cell table__cell--tar">
             <span>{{item.amountWithCommission}}<span> {{item.currencyPairName | splitCurrency: 2}}</span></span>
