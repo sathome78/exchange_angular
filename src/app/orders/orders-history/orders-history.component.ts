@@ -1,20 +1,21 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, OnDestroy} from '@angular/core';
 import {IMyDpOptions, IMyDateModel, IMyDate} from 'mydatepicker';
 import {Store, select} from '@ngrx/store';
 
 import {OrderItem} from '../models/order-item.model';
 import * as ordersReducer from '../store/reducers/orders.reducer';
 import * as ordersAction from '../store/actions/orders.actions';
-import {Observable} from 'rxjs';
-import { CurrencyPair } from '../../model/currency-pair.model';
-import { OrderCurrencyPair } from '../models/order-currency-pair';
+import {Observable, Subject} from 'rxjs';
+import {OrderCurrencyPair} from '../models/order-currency-pair';
+import {OrdersService} from '../orders.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-orders-history',
   templateUrl: './orders-history.component.html',
   styleUrls: ['./orders-history.component.scss']
 })
-export class OrdersHistoryComponent implements OnInit {
+export class OrdersHistoryComponent implements OnInit, OnDestroy {
 
   @ViewChild('dropdown') dropdownElement: ElementRef;
 
@@ -29,6 +30,8 @@ export class OrdersHistoryComponent implements OnInit {
   public modelDateTo: any;
   public currencyPairId: string = null;
   public hideAllCanceled: boolean = false;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public isMobile: boolean = false;
 
   public showFilterPopup = false;
 
@@ -43,7 +46,7 @@ export class OrdersHistoryComponent implements OnInit {
 
   constructor(
     private store: Store<ordersReducer.State>,
-
+    private ordersService: OrdersService,
   ) { 
     this.orderItems$ = store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getHistoryOrdersCount));
@@ -51,6 +54,7 @@ export class OrdersHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isMobile = window.innerWidth < 1200;
     this.initDate();
     this.store.dispatch(new ordersAction.LoadCurrencyPairsAction());
     this.loadOrders();
@@ -60,10 +64,11 @@ export class OrdersHistoryComponent implements OnInit {
     const params = {
       page: this.currentPage, 
       limit:this.countPerPage,
-      from: this.formatDate(this.modelDateFrom.date),
-      to: this.formatDate(this.modelDateTo.date),
+      dateFrom: this.formatDate(this.modelDateFrom.date),
+      dateTo: this.formatDate(this.modelDateTo.date),
       hideCanceled: this.hideAllCanceled,
       currencyPairId: this.currencyPairId,
+      isMobile: this.isMobile,
     }
     this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
   }
@@ -84,14 +89,6 @@ export class OrdersHistoryComponent implements OnInit {
   onHideAllCanceled() {
     this.loadOrders();
   }
-
-  // /**
-  //  * select currency pair for filtering
-  //  */
-  // onSelectCurrencyPair(item) {
-  //   this.currencyPair = item.id;
-  //   this.currency = item.name;
-  // }
 
   toggleDropdown(e: MouseEvent) {
     this.dropdownElement.nativeElement.classList.toggle('dropdown--open');
@@ -158,7 +155,9 @@ export class OrdersHistoryComponent implements OnInit {
     if(date.year === 0 && date.day === 0) {
       return null;
     }
-    return `${date.year}-${date.month}-${date.day}`
+    const day = date.day < 10 ? '0' + date.day : date.day;
+    const month = date.month < 10 ? '0' + date.month : date.month;
+    return `${date.year}-${month}-${day}`
   }
 
   // /**
@@ -217,5 +216,26 @@ export class OrdersHistoryComponent implements OnInit {
 
   closeFilterPopup() {
     this.showFilterPopup = false;
+    this.loadOrders();
+  }
+
+  downloadExcel() {
+    const params = {
+      dateFrom: this.formatDate(this.modelDateFrom.date),
+      dateTo: this.formatDate(this.modelDateTo.date),
+      hideCanceled: this.hideAllCanceled,
+      currencyPairId: this.currencyPairId,
+    }
+    this.ordersService.downloadExcel(params)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(value => {
+        console.log(value);
+      });
+  }
+
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

@@ -26,7 +26,12 @@
           <th class="table__cell-head table__cell-head--tar">Avg.Price</th>
         </tr>
       </thead>
-      <tbody class="table__body table__body--none-shadow">
+      <tbody class="table__body table__body--none-shadow"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollDisabled]="(orderItems$ | async).length === (countOfEntries$ | async)"
+        (scrolled)="changePage(currentPage + 1)"
+      >
         <!-- t-row start-->
         <ng-container *ngFor="let item of orderItems$ | async">
           <tr class="table__row--mob" [attr.data-id]="item.id" (click)="toggleDetails($event)">
@@ -166,14 +171,14 @@
       <h1 class="page-title__text">
         Orders history
       </h1>
-      <button class="btn orders__title-btn">
+      <button class="btn orders__title-btn" (click)="downloadExcel()">
         <span class="btn__icon btn__icon--blue">
           <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M11.1952 8.92188V12.12H1.80482V8.92188H0V13.06C0 13.5789 0.403462 13.9997 0.903755 13.9997H12.0962C12.5961 13.9997 13 13.5794 13 13.06V8.92188H11.1952Z" />
             <path d="M6.33519 8.60511L3.75124 5.35239C3.75124 5.35239 3.35809 4.96571 3.78442 4.96571C4.21074 4.96571 5.24047 4.96571 5.24047 4.96571C5.24047 4.96571 5.24047 4.70558 5.24047 4.30442C5.24047 3.16072 5.24047 1.07926 5.24047 0.230703C5.24047 0.230703 5.18264 0 5.51616 0C5.85238 0 7.32502 0 7.56575 0C7.80604 0 7.80066 0.194276 7.80066 0.194276C7.80066 1.01715 7.80066 3.17053 7.80066 4.27687C7.80066 4.63553 7.80066 4.8681 7.80066 4.8681C7.80066 4.8681 8.62641 4.8681 9.14463 4.8681C9.66196 4.8681 9.2724 5.273 9.2724 5.273C9.2724 5.273 7.07398 8.31323 6.76735 8.6322C6.54679 8.86337 6.33519 8.60511 6.33519 8.60511Z" />
           </svg>
         </span>
-        Download in excell
+        Download in excel
       </button>
     </div>
     <form action="">

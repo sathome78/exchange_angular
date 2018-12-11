@@ -32,10 +32,16 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
     case ordersActions.LOAD_OPEN_ORDERS:
       return {...state, loading: true};
     case ordersActions.SET_OPEN_ORDERS:
+      let openOrders;
+      if(action.payload.isMobile) {
+        openOrders = [...state.openOrders, ...action.payload.openOrders];
+      } else {
+        openOrders = action.payload.openOrders;
+      }
       return {
         ...state, 
         loading: false, 
-        openOrders: action.payload.openOrders, 
+        openOrders, 
         countOpenOrders: action.payload.count,
       };
     case ordersActions.FAIL_LOAD_OPEN_ORDERS:
@@ -47,10 +53,16 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
     case ordersActions.LOAD_HISTORY_ORDERS:
       return {...state, loading: true};
     case ordersActions.SET_HISTORY_ORDERS:
+      let historyOrders;
+      if(action.payload.isMobile) {
+        historyOrders = [...state.historyOrders, ...action.payload.historyOrders];
+      } else {
+        historyOrders = action.payload.historyOrders;
+      }
       return {
         ...state, 
         loading: false, 
-        historyOrders: action.payload.historyOrders, 
+        historyOrders, 
         countHistoryOrders: action.payload.count,
       };
     case ordersActions.FAIL_LOAD_HISTORY_ORDERS:
