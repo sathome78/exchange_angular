@@ -9,6 +9,7 @@ import {Observable, Subject} from 'rxjs';
 import {OrderCurrencyPair} from '../models/order-currency-pair';
 import {OrdersService} from '../orders.service';
 import {takeUntil} from 'rxjs/operators';
+import saveAs from 'file-saver';
 
 @Component({
   selector: 'app-orders-history',
@@ -228,8 +229,9 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     }
     this.ordersService.downloadExcel(params)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        console.log(value);
+      .subscribe(data => {
+        const blob = new Blob([data], {type: 'text/ms-excel'});
+        saveAs(blob, 'history-orders.xlsx');
       });
   }
 

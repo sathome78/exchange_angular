@@ -61,7 +61,7 @@ export class OrdersService {
       hideCanceled: hideCanceled.toString(),
       currencyPairId: currencyPairId || '',
     }
-    return this.http.get<any>(`${this.apiUrl}/info/private/v2/dashboard/orders/CLOSED/export`, { params});
+    return this.http.get(`${this.apiUrl}/info/private/v2/dashboard/orders/CLOSED/export`, {params, responseType: 'blob'});
   }
 
   // request to get currency pairs
