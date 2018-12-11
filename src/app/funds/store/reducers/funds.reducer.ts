@@ -34,6 +34,14 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
     case fromActions.LOAD_CRYPTO_BAL:
       return {...state, loading: true};
     case fromActions.SET_CRYPTO_BAL:
+      if(action.payload.isMobile) {
+        return {
+          ...state, 
+          loading: false, 
+          cryptoBal: [...state.cryptoBal, ...action.payload.items], 
+          countCryptoBal: action.payload.count,
+        };
+      }
       return {
         ...state, 
         loading: false, 

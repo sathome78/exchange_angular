@@ -27,6 +27,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public showRefillBalancePopup: boolean = false;
   public showSendMoneyPopup: boolean = false;
   public hideAllZero: boolean = false;
+  public isMobile: boolean = false;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
   public countOfCryptoEntries$: Observable<number>;
@@ -37,7 +38,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public currentPage = 1;
   public countPerPage = 15;
-  public excludeZero: boolean = false;
  
   constructor(private store: Store<fundsReducer.State>) {
     this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
@@ -49,6 +49,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isMobile = window.innerWidth <= 1200
     this.loadBalances(this.currTab);
     this.loadBalances(this.Tab.PR); 
   }
@@ -69,22 +70,25 @@ export class BalanceComponent implements OnInit, OnDestroy {
     switch(type) {
       case this.Tab.CRYPTO :
         const paramsC = {
+          isMobile: this.isMobile,
           type,
           offset: (this.currentPage - 1) * this.countPerPage, 
           limit: this.countPerPage,
-          hideCanceled: this.excludeZero,
+          excludeZero: this.hideAllZero,
         }
         return this.store.dispatch(new fundsAction.LoadCryptoBalAction(paramsC));
       case this.Tab.FIAT :
         const paramsF = {
+          isMobile: this.isMobile,
           type,
           offset: (this.currentPage - 1) * this.countPerPage, 
           limit: this.countPerPage,
-          hideCanceled: this.excludeZero,
+          excludeZero: this.hideAllZero,
         }
         return this.store.dispatch(new fundsAction.LoadFiatBalAction(paramsF));
       case this.Tab.PR :
         const paramsP = {
+          isMobile: this.isMobile,
           offset: (this.currentPage - 1) * this.countPerPage, 
           limit: this.countPerPage,
         }
@@ -122,5 +126,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public onToggleAllZero(): void {
     this.loadBalances(this.currTab);
   }
+
+  
 
 }

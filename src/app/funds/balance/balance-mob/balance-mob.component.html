@@ -24,15 +24,15 @@
         <label class="wrap-input__label">Search</label>
         <div class="wrap-input__line"></div>
       </div>
-      <!--<span>Price in</span>-->
-      <!--<div class="dropdown">-->
-        <!--<div class="dropdown__btn">USD</div>-->
-        <!--<ul class="dropdown__list">-->
-          <!--<li class="dropdown__item">RUB</li>-->
-          <!--<li class="dropdown__item">EUR</li>-->
-          <!--<li class="dropdown__item">UAH</li>-->
-        <!--</ul>-->
-      <!--</div>-->
+      <span>Price in</span>
+      <div class="dropdown" #dropdown (click)="onToggleDropdown()">
+        <div class="dropdown__btn">USD</div>
+        <ul class="dropdown__list">
+          <li class="dropdown__item">RUB</li>
+          <li class="dropdown__item">EUR</li>
+          <li class="dropdown__item">UAH</li>
+        </ul>
+      </div>
       <label class="toggler">
         <input type="checkbox" name="togglerZero" [(ngModel)]="hideAllZero" (click)="onToggleAllZero.emit()">
         <span class="toggler__indicate"></span>
@@ -44,50 +44,69 @@
 
   <ng-container>
     <!--table-mob start-->
-    <table class="table table--mob" >
-      <thead class="table__head">
-        <tr class="table__head-row">
-          <th class="table__cell-head table__cell-head--tal">Currency</th>
-          <th class="table__cell-head table__cell-head--tal">Available balance</th>
-          <th class="table__cell-head table__cell-head--tar">Price</th>
-        </tr>
-      </thead>
-      <tbody class="table__body table__body--none-shadow">
-        <ng-container *ngFor="let item of balances">
-          <tr class="table__row--mob" (click)="onShowMobDetails(true)">
-            <td class="table__cell table__cell--tal">
-              <div class="balance__currency">
-                <div class="balance__currency-icon">
-                  <img src="../../../assets/img/btc-icon.svg">
-                </div>
-                <div>
-                  <span>{{item.currencyName}}</span>
-                  <span class="balance__currency-name">{{item.currencyDescription}}</span>
-                </div>
-              </div>
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span>{{item.activeBalance}}</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <div>$ 3750</div>
-              <span class="txt-small txt-red">–0.24%</span>
-            </td>
-            <td class="table__cell table__cell--arr-mob">
-              <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </td>
+    <!-- <perfect-scrollbar style="max-height: 450px;" #scrollWrapper> -->
+      <table class="table table--mob"  #scrollContainer>
+        <thead class="table__head">
+          <tr class="table__head-row">
+            <th class="table__cell-head table__cell-head--tal">Currency</th>
+            <th class="table__cell-head table__cell-head--tal">Available balance</th>
+            <th class="table__cell-head table__cell-head--tar">Price</th>
           </tr>
-          <tr>
+        </thead>
+        <tbody 
+          
+          class="table__body table__body--none-shadow" 
+          style="max-height: 300px !important; overflow: scroll !important;"
+          infiniteScroll
+          [infiniteScrollDistance]="2"
+          [infiniteScrollThrottle]="50"
+          [infiniteScrollContainer]="scrollContainer.nativeElement"
+          [fromRoot]="false"
+          (scrolled)="onLoadMore()"
+        >
+          <ng-container *ngFor="let item of balances">
+            <tr class="table__row--mob" (click)="onShowMobDetails(true)">
+              <td class="table__cell table__cell--tal">
+                <div class="balance__currency">
+                  <div class="balance__currency-icon">
+                    <img src="../../../assets/img/btc-icon.svg">
+                  </div>
+                  <div>
+                    <span>{{item.currencyName}}</span>
+                    <span class="balance__currency-name">{{item.currencyDescription}}</span>
+                  </div>
+                </div>
+              </td>
+              <td class="table__cell table__cell--tal">
+                <span>{{item.activeBalance}}</span>
+              </td>
+              <td class="table__cell table__cell--tar">
+                <div>$ 3750</div>
+                <!-- <span class="txt-small txt-red">–0.24%</span> -->
+              </td>
+              <td class="table__cell table__cell--arr-mob">
+                <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4">
+                <div class="table__row-mob-line"></div>
+              </td>
+            </tr>
+          </ng-container>
+          <!-- <tr>
             <td colspan="4">
-              <div class="table__row-mob-line"></div>
+              <button 
+                (click)="onLoadMore()"
+                [disabled]="balances.length === countOfEntries"
+              >Load more</button>
             </td>
-          </tr>
-        </ng-container>
-      
-      </tbody>
+          </tr> -->
+        </tbody>
     </table>
+    <!-- </perfect-scrollbar> -->
     <!-- table-mob end -->
   </ng-container>
   <!--<div class="balance__request-mob-link">-->

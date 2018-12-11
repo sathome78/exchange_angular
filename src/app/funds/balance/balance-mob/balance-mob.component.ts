@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output} from '@angular/core';
+import {Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef} from '@angular/core';
 import {BalanceItem} from '../../models/balance-item.model';
 
 @Component({
@@ -7,9 +7,11 @@ import {BalanceItem} from '../../models/balance-item.model';
   styleUrls: ['./balance-mob.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BalanceMobComponent{
+export class BalanceMobComponent implements OnInit{
 
-  constructor() {}
+  constructor() { }
+  @ViewChild('dropdown') dropdownElement: ElementRef;
+  @ViewChild('scrollContainer') public scrollContainer: ElementRef;
 
   public screen = {
     MAIN: 'MAIN',
@@ -18,6 +20,7 @@ export class BalanceMobComponent{
   public currScreen: string = this.screen.MAIN;
   public showOnConfirmation: boolean = false;
   public showReserve: boolean = false;
+  public loadModeDisabled: boolean = false;
 
   @Input('balances') public balances: BalanceItem[] = [];
   @Input('countPerPage') public countPerPage: number;
@@ -33,11 +36,10 @@ export class BalanceMobComponent{
   @Output('openSendMoneyPopup') public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
   // @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();
 
-  public changeItemsPerPage(items: number) {
-    this.onPaginate.emit({currentPage: this.currentPage, countPerPage: items});
-  }
-  public changePage(page: number): void {
-    this.onPaginate.emit({currentPage: page, countPerPage: this.countPerPage}); 
+  public onLoadMore(): void {
+    if(this.balances.length !== this.countOfEntries){
+      this.onPaginate.emit({currentPage: +this.currentPage + 1, countPerPage: this.countPerPage}); 
+    }
   }
   public onShowMobDetails(res: boolean): void {
     res ? this.currScreen = this.screen.DETAILS : this.currScreen = this.screen.MAIN;
@@ -52,6 +54,13 @@ export class BalanceMobComponent{
         this.showReserve = !this.showReserve;
         break;
     }
+  }
+  public onToggleDropdown(): void {
+    this.dropdownElement.nativeElement.classList.toggle('dropdown--open');
+  }
+
+  ngOnInit() {
+    // debugger
   }
 
 }

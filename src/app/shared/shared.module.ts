@@ -18,6 +18,7 @@ import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {QRCodeModule} from 'angular2-qrcode';
 import {RecaptchaModule} from 'ng-recaptcha';
 import {DateWrapper} from './pipes/dateWrapper.pipe';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 @NgModule({
   declarations: [
     NotificationComponent,
@@ -39,12 +40,14 @@ import {DateWrapper} from './pipes/dateWrapper.pipe';
     ReactiveFormsModule,
     PerfectScrollbarModule,
     QRCodeModule,
+    InfiniteScrollModule,
     RecaptchaModule
   ],
   exports: [
     PerfectScrollbarModule,
     QRCodeModule,
     RecaptchaModule,
+    InfiniteScrollModule,
     NotificationComponent,
     PriceInputComponent,
     SortPipe,
