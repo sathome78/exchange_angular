@@ -48,7 +48,7 @@ export class EmbeddedOrdersService {
   //     .pipe(map((message: Message) => JSON.parse(message.body)))
   //     .subscribe(orders => this.personalOrderListener.next(orders));
   // }
-
+  
   unsubscribeStomp() {
     if (this.stompSubscription) {
       this.stompSubscription.unsubscribe();

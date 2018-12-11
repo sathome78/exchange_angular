@@ -23,6 +23,7 @@ export class OpenOrdersComponent implements OnInit {
   public currencyPairs$: Observable<OrderCurrencyPair[]>;
   public currentPage = 1;
   public countPerPage = 15;
+  public isMobile: boolean = false;
 
   public myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'dd.mm.yyyy',
@@ -49,6 +50,7 @@ export class OpenOrdersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isMobile = window.innerWidth < 1200;
     this.initDate();
     this.loadOrders();
   }
@@ -60,9 +62,10 @@ export class OpenOrdersComponent implements OnInit {
     const params = {
       page: this.currentPage, 
       limit:this.countPerPage,
-      from: this.formatDate(this.modelDateFrom.date),
-      to: this.formatDate(this.modelDateTo.date),
+      dateFrom: this.formatDate(this.modelDateFrom.date),
+      dateTo: this.formatDate(this.modelDateTo.date),
       currencyPairId: this.currencyPairId,
+      isMobile: this.isMobile,
     }
     this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
   }
@@ -127,7 +130,9 @@ export class OpenOrdersComponent implements OnInit {
     if(date.year === 0 && date.day === 0) {
       return null;
     }
-    return `${date.year}-${date.month}-${date.day}`
+    const day = date.day < 10 ? '0' + date.day : date.day;
+    const month = date.month < 10 ? '0' + date.month : date.month;
+    return `${date.year}-${month}-${day}`
   }
 
   // filterByCurrency(value: string) {
@@ -227,5 +232,6 @@ export class OpenOrdersComponent implements OnInit {
 
   closeFilterPopup() {
     this.showFilterPopup = false;
+    this.loadOrders();
   }
 }
