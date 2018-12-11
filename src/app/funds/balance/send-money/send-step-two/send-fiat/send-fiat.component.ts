@@ -3,9 +3,14 @@ import {CurrencyBalanceModel} from '../../../../../model';
 import {Subject} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
-import {takeUntil} from 'rxjs/operators';
+import {debounceTime, takeUntil} from 'rxjs/operators';
 import {MockDataService} from '../../../../../shared/services/mock-data.service';
 import {keys} from '../../../../../core/keys';
+import {getFiatCurrenciesForChoose, State} from '../../../../../core/reducers';
+import {select, Store} from '@ngrx/store';
+import {SEND_FIAT} from '../../send-money-constants';
+import {CommissionData} from '../../../../models/commission-data.model';
+import {defaultCommissionData} from '../../../../store/reducers/default-values';
 
 interface IAllBalances {
   activeBalance: string;
@@ -39,6 +44,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public isAmountMax;
   public isAmountMin;
   public form: FormGroup;
+  public calculateData: CommissionData = defaultCommissionData;
 
   public model = {
     currency: 0,
@@ -56,18 +62,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     securityCode: ''
   };
 
-  public calculateData = {
-    amount: 0,
-    percentExchange: 0,
-    fixedMinCommissiom: 0,
-    exchangeSum: 0,
-    percentMerchant: 0,
-    merchantSum: 0,
-    totalCommission: 0,
-    totalCommissionSum: 0,
-    amountWithCommission: 0,
-  };
-
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
     if ($event.target.className !== 'select__value select__value--active' && $event.target.className !== 'select__search-input') {
@@ -78,7 +72,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   constructor(
     public balanceService: BalanceService,
-    public mockDataService: MockDataService,
+    private store: Store<State>,
   ) { }
 
   ngOnInit() {
@@ -88,10 +82,21 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     // this.fiatInfoByName = this.mockDataService.getCryptoData();
     // this.activeFiat = this.fiatNames[0];
     // /**----------------------**/
-    this.balanceService.getFiatNames()
+
+    this.form.controls['amount'].valueChanges
+      .pipe(debounceTime(1000))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.fiatNames = res;
+        if (res !== '0') {
+          this.calculateCommission(res);
+        }
+      });
+
+    this.store
+      .pipe(select(getFiatCurrenciesForChoose))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(currencies => {
+        this.fiatNames = currencies;
         this.activeFiat = this.fiatNames[0];
         this.getFiatInfoByName(this.activeFiat.name);
         this.getBalance(this.activeFiat.name);
@@ -116,9 +121,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     if (merchant !== {}) {
       this.selectedMerchant = merchant;
       this.minWithdrawSum = merchant.minSum || 0;
-      this.calculateData.percentMerchant = this.fiatInfoByName.merchantCurrencyData[0] ? this.fiatInfoByName.merchantCurrencyData[0].outputCommission : 0;
-      this.calculateData.fixedMinCommissiom = this.fiatInfoByName.merchantCurrencyData[0] ? this.fiatInfoByName.merchantCurrencyData[0].fixedMinCommission : 0;
-      this.calculateData.totalCommission = this.calculateData.percentMerchant + this.calculateData.percentExchange;
     }
   }
 
@@ -151,7 +153,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
    const subscribtion = this.balanceService.getTotalBalance().subscribe(res => {
      const allBalances = res as {sumTotalUSD: any, mapWallets: any};
      const needBalance = allBalances.mapWallets.filter(item => item.currencyName === name);
-     console.log(needBalance)
      this.activeBalance = needBalance[0].activeBalance;
      subscribtion.unsubscribe();
    });
@@ -169,14 +170,18 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
 
   calculateCommission(amount) {
-    this.calculateData.amount = amount;
-    this.calculateData.merchantSum = amount * ( this.calculateData.percentMerchant / 100);
-    this.calculateData.totalCommissionSum = this.calculateData.merchantSum + this.calculateData.exchangeSum;
-    this.calculateData.amountWithCommission = amount - this.calculateData.totalCommissionSum;
+    if (this.selectedMerchant.merchantId) {
+      this.balanceService
+        .getCommissionToWithdraw(amount, this.activeFiat.id, this.fiatInfoByName.merchantCurrencyData[0].merchantId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.calculateData = res as CommissionData;
+        });
+    }
   }
 
   amountInput(event) {
-    this.calculateCommission(event.target.value);
+    // this.calculateCommission(event.target.value);
     this.amountValidator(event.target.value);
   }
 
@@ -190,12 +195,14 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       this.model.walletNumber = this.form.controls['address'].value;
 
       const data = {
-        operation: 'Send Fiat',
+        operation: SEND_FIAT,
         data: this.model
       }
 
       this.balanceService.goToPinCode$.next(data);
-      this.balanceService.sendPinCode().subscribe(res => {
+      this.balanceService.sendPinCode()
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
         // this.balanceService.goToPinCode$.next(data);
       });
     }

@@ -5,17 +5,21 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import * as _uniq from 'lodash/uniq';
 import {BalanceService} from '../../../../services/balance.service';
 import {debounceTime, takeUntil} from 'rxjs/operators';
+import {getAllCurrenciesForChoose, State} from '../../../../../core/reducers';
+import {select, Store} from '@ngrx/store';
+import {BY_PRIVATE_CODE} from '../../send-money-constants';
+import {AbstractTransfer} from '../abstract-transfer';
 
 @Component({
   selector: 'app-transfer-protected-code',
   templateUrl: './transfer-protected-code.component.html',
   styleUrls: ['./transfer-protected-code.component.scss']
 })
-export class TransferProtectedCodeComponent implements OnInit, OnDestroy {
+export class TransferProtectedCodeComponent extends AbstractTransfer implements OnInit, OnDestroy {
 
-  public cryptoNames = [];
-  public defaultCryptoNames = [];
-  public openCurrencyDropdown = false;
+  // public cryptoNames = [];
+  // public defaultCryptoNames = [];
+  // public openCurrencyDropdown = false;
   public recaptchaKey = keys.recaptchaKey;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public activeCrypto;
@@ -50,7 +54,10 @@ export class TransferProtectedCodeComponent implements OnInit, OnDestroy {
 
   constructor(
     public balanceService: BalanceService,
-  ) { }
+    private store: Store<State>,
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.initForm();
@@ -61,13 +68,14 @@ export class TransferProtectedCodeComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         if (!this.isAmountMax && !this.isAmountMin) {
           this.getCommissionInfo(res);
-        };
+        }
       });
 
-    this.balanceService.getCryptoFiatNames()
+    this.store
+      .pipe(select(getAllCurrenciesForChoose))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.defaultCryptoNames = res.data;
+      .subscribe(currencies => {
+        this.defaultCryptoNames = currencies;
         this.cryptoNames = this.defaultCryptoNames;
         this.activeCrypto = this.cryptoNames[0];
         this.prepareAlphabet();
@@ -166,12 +174,14 @@ export class TransferProtectedCodeComponent implements OnInit, OnDestroy {
     this.model.currency = this.activeCrypto.id;
     this.model.sum = this.form.controls['amount'].value;
     const data = {
-      operation: 'By private code',
+      operation: BY_PRIVATE_CODE,
       data: this.model
     };
 
     this.balanceService.goToPinCode$.next(data);
-    this.balanceService.sendPinCode().subscribe(res => {
+    this.balanceService.sendPinCode()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
       // this.balanceService.goToPinCode$.next(data);
     });
   }

@@ -76,6 +76,16 @@ export class BalanceService {
     return this.http.get(url, httpOptions);
   }
 
+  getCommissionToWithdraw(amount: string, currency: string, merchant: string) {
+    let httpOptions = new HttpParams();
+    httpOptions = httpOptions.append('amount', amount);
+    httpOptions = httpOptions.append('currency', currency);
+    httpOptions = httpOptions.append('merchant', merchant);
+
+    const url = `${this.apiUrl}/info/private/v2/balances/withdraw/commission`;
+    return this.http.get(url, {params: httpOptions});
+  }
+
   sendTransferCode(code: string) {
     const data = {CODE: code};
     const url = `${this.apiUrl}/info/private/v2/balances/transfer/accept`;
@@ -129,4 +139,6 @@ export class BalanceService {
     const url = `${this.apiUrl}/info/private/v2/balances/transfer/voucher/request/create`;
     return this.http.post(url, data);
   }
+
+
 }

@@ -1,28 +1,37 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {BY_PRIVATE_CODE, SEND_CRYPTO, SEND_FIAT, TRANSFER_INSTANT} from '../../send-money-constants';
 
 @Component({
   selector: 'app-send-tfa',
   templateUrl: './send-tfa.component.html',
   styleUrls: ['./send-tfa.component.scss']
 })
-export class SendTfaComponent implements OnInit {
+export class SendTfaComponent implements OnInit, OnDestroy {
 
   @Input() data;
-  public form: FormGroup;
   @Output() sendSuccess = new EventEmitter();
+  public form: FormGroup;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   public message = '';
+
   constructor(
     public balanceService: BalanceService
   ) {
   }
 
   ngOnInit() {
-    console.log(this.data);
     this.form = new FormGroup({
       pin: new FormControl('', [Validators.required]),
     });
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 
@@ -43,12 +52,12 @@ export class SendTfaComponent implements OnInit {
 
   chooseSubmitMethod(operation: string) {
     switch (operation) {
-      case 'Send Fiat':
-      case 'Send Crypto':
+      case SEND_FIAT:
+      case SEND_CRYPTO:
         this.sendWithdaraw();
         break;
-      case 'Transfer Instant':
-      case 'By private code':
+      case TRANSFER_INSTANT:
+      case BY_PRIVATE_CODE:
         this.sendTransferInstant();
         break;
     }
@@ -57,8 +66,9 @@ export class SendTfaComponent implements OnInit {
 
   sendWithdaraw() {
     this.data.data.securityCode = this.form.controls['pin'].value;
-    console.log(this.data);
-    this.balanceService.withdrawRequest(this.data.data).subscribe(res => {
+    this.balanceService.withdrawRequest(this.data.data)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
       const data = {
         operation: this.data.operation,
         successData: res
@@ -79,7 +89,9 @@ export class SendTfaComponent implements OnInit {
     // console.log(this.data);
     // this.balanceService.goToSendMoneySuccess$.next(data1);
     /** ------------ **/
-    this.balanceService.createTransferInstant(this.data.data).subscribe(res => {
+    this.balanceService.createTransferInstant(this.data.data)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
       const data = {
         operation: this.data.operation,
         successData: res

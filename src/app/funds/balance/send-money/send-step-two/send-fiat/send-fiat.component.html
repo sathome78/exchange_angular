@@ -94,19 +94,19 @@
   </div>
   <div class="send__info-row">
     <div class="send__info-title">Exchange comission:</div>
-    <div class="send__info-value">12% = 0 {{activeFiat ? activeFiat.name : ''}}</div>
+    <div class="send__info-value">{{calculateData.companyCommissionRate}} = {{calculateData.companyCommissionAmount}} {{activeFiat ? activeFiat.name : ''}}</div>
   </div>
   <div class="send__info-row">
     <div class="send__info-title">Merchant comission:</div>
-    <div class="send__info-value">{{calculateData.percentMerchant}}% = {{calculateData.merchantSum}} {{activeFiat ? activeFiat.name : ''}} <span class="send__merchant-comission">(but not less than {{calculateData.fixedMinCommissiom}})</span></div>
+    <div class="send__info-value">{{calculateData.merchantCommissionRate}} = {{calculateData.merchantCommissionAmount}} {{activeFiat ? activeFiat.name : ''}}</div>
   </div>
   <div class="send__info-row">
     <div class="send__info-title">Total comission:</div>
-    <div class="send__info-value">{{calculateData.totalCommission}}% = {{calculateData.totalCommissionSum}} {{activeFiat ? activeFiat.name : ''}}</div>
+    <div class="send__info-value">{{calculateData.commission_rates_sum}}% = {{calculateData.totalCommissionAmount}} {{activeFiat ? activeFiat.name : ''}}</div>
   </div>
   <div class="send__info-row">
     <div class="send__info-title">Total with comission:</div>
-    <div class="send__info-value">{{calculateData.amountWithCommission }} {{activeFiat ? activeFiat.name : ''}}</div>
+    <div class="send__info-value">{{calculateData.resultAmount}} {{activeFiat ? activeFiat.name : ''}}</div>
   </div>
 </div>
 <button class="btn btn--center "
@@ -115,7 +115,7 @@
         'btn--error': !form.valid && isSubmited
         }"
         (click)="onSubmitWithdrawal()">Withdraw
-  <span class="value">{{calculateData.amountWithCommission}}</span>
+  <span class="value">{{calculateData.resultAmount}}</span>
   <span> {{activeFiat ? activeFiat.name : ''}}</span></button>
 <div class="send__line"></div>
 <div class="note modal__note">

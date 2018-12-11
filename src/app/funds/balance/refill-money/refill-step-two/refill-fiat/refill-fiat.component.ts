@@ -5,6 +5,8 @@ import {MockDataService} from '../../../../../shared/services/mock-data.service'
 import {CurrencyBalanceModel} from '../../../../../model/currency-balance.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
+import {select, Store} from '@ngrx/store';
+import {getCryptoCurrenciesForChoose, getFiatCurrenciesForChoose, State} from 'app/core/reducers';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -38,7 +40,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   constructor(
     public balanceService: BalanceService,
-    public mockData: MockDataService,
+    private store: Store<State>,
   ) { }
 
   ngOnInit() {
@@ -50,14 +52,16 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     // this.selectedMerchant = this.fiatDataByName.merchantCurrencyData[0];
     /** --------------------------*/
     this.initForm();
-    this.balanceService.getFiatNames()
+
+    this.store
+      .pipe(select(getFiatCurrenciesForChoose))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-      this.defaultFiatNames = res;
-      this.fiatNames = this.defaultFiatNames;
-      this.activeFiat = this.fiatNames[0];
-      this.getDataByCurrency(this.activeFiat.name);
-    });
+      .subscribe(currencies => {
+        this.defaultFiatNames = currencies;
+        this.fiatNames = this.defaultFiatNames;
+        this.activeFiat = this.fiatNames[0];
+        this.getDataByCurrency(this.activeFiat.name);
+      });
   }
 
   ngOnDestroy(): void {

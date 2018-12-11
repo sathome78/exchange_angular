@@ -5,17 +5,21 @@ import {Subject} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {keys} from '../../../../../core/keys';
 import {BalanceService} from '../../../../services/balance.service';
+import {select, Store} from '@ngrx/store';
+import {getAllCurrenciesForChoose, getFiatCurrenciesForChoose, State} from '../../../../../core/reducers';
+import {TRANSFER_INSTANT} from '../../send-money-constants';
+import {AbstractTransfer} from '../abstract-transfer';
 
 @Component({
   selector: 'app-transfer-instant',
   templateUrl: './transfer-instant.component.html',
   styleUrls: ['./transfer-instant.component.scss']
 })
-export class TransferInstantComponent implements OnInit, OnDestroy {
+export class TransferInstantComponent extends AbstractTransfer implements OnInit, OnDestroy {
 
-  public cryptoNames ;
-  public defaultCryptoNames ;
-  public openCurrencyDropdown = false;
+  // public cryptoNames ;
+  // public defaultCryptoNames ;
+  // public openCurrencyDropdown = false;
   public recaptchaKey = keys.recaptchaKey;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public activeCrypto;
@@ -33,7 +37,9 @@ export class TransferInstantComponent implements OnInit, OnDestroy {
 
   constructor(
     public balanceService: BalanceService,
+    private store: Store<State>,
   ) {
+    super();
   }
 
   public model = {
@@ -65,13 +71,14 @@ export class TransferInstantComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         if (!this.isAmountMax && !this.isAmountMin) {
           this.getCommissionInfo(res);
-        };
+        }
       });
 
-    this.balanceService.getCryptoFiatNames()
+    this.store
+      .pipe(select(getAllCurrenciesForChoose))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res  => {
-        this.defaultCryptoNames = res.data;
+      .subscribe(currencies => {
+        this.defaultCryptoNames = currencies;
         this.cryptoNames = this.defaultCryptoNames;
         this.activeCrypto = this.cryptoNames[0];
         this.prepareAlphabet();
@@ -161,7 +168,10 @@ export class TransferInstantComponent implements OnInit, OnDestroy {
     /** ----- **/
     this.isSubmited = true;
     if (this.form.valid && !this.isAmountMax && !this.isAmountMin) {
-      this.balanceService.checkEmail(this.form.controls['email'].value).subscribe( res => {
+      this.balanceService
+        .checkEmail(this.form.controls['email'].value)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe( res => {
         const data = res as {data: boolean, error: any}
         if (data.data) {
           this.isSubmited = false;
@@ -179,12 +189,14 @@ export class TransferInstantComponent implements OnInit, OnDestroy {
     this.model.currency = this.activeCrypto.id;
     this.model.sum = this.form.controls['amount'].value;
     const data = {
-      operation: 'Transfer Instant',
+      operation: TRANSFER_INSTANT,
       data: this.model
     };
 
     this.balanceService.goToPinCode$.next(data);
-    this.balanceService.sendPinCode().subscribe(res => {
+    this.balanceService.sendPinCode()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
       // this.balanceService.goToPinCode$.next(data);
     });
   }

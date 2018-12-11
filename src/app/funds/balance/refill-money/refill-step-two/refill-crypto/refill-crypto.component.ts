@@ -4,6 +4,10 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
 import {BalanceService} from '../../../../services/balance.service';
+import {select, Store} from '@ngrx/store';
+import { State, getCryptoCurrenciesForChoose} from 'app/core/reducers';
+import {CurrencyPair} from '../../../../../model/currency-pair.model';
+import {COPY_ADDRESS} from '../../../send-money/send-money-constants';
 
 interface RefreshAddress {
   address: string;
@@ -37,7 +41,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    public mockDataService: MockDataService,
+    private store: Store<State>,
     public balanceService: BalanceService,
   ) { }
 
@@ -48,16 +52,17 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     // this.cryptoDataByName = this.mockDataService.getCryptoData();
     // this.prepareAlphabet();
     /**----------------------**/
-    this.balanceService.getCryptoNames()
+
+    this.store
+      .pipe(select(getCryptoCurrenciesForChoose))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-      this.defaultCryptoNames = res;
-      this.cryptoNames = this.defaultCryptoNames;
-      this.activeCrypto = this.cryptoNames[0];
-      this.getDataByCurrency(this.activeCrypto.name);
-      console.log(this.cryptoNames)
+      .subscribe(currencies => {
+        this.defaultCryptoNames = currencies;
+        this.cryptoNames = this.defaultCryptoNames;
+        this.activeCrypto = this.cryptoNames[0];
+        this.getDataByCurrency(this.activeCrypto.name);
         this.prepareAlphabet();
-    });
+      });
   }
 
   ngOnDestroy(): void {
@@ -79,7 +84,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     });
     const unique = (value, index, self) => {
       return self.indexOf(value) === index;
-    }
+    };
     this.alphabet = _uniq(temp.filter(unique).sort());
   }
 
@@ -143,7 +148,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
 
   private changeCopyBtn (name: string) {
     switch (name) {
-      case 'Copy address':
+      case COPY_ADDRESS:
         this.isSowCopyAddress = true;
         setTimeout(() => this.isSowCopyAddress = false, 1000);
         break;

@@ -5,19 +5,23 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
+import {getAllCurrenciesForChoose, State} from '../../../../../core/reducers';
+import {select, Store} from '@ngrx/store';
+import {BY_PRIVATE_CODE} from '../../send-money-constants';
+import {AbstractTransfer} from '../abstract-transfer';
 
 @Component({
   selector: 'app-transfer-protected-email-code',
   templateUrl: './transfer-protected-email-code.component.html',
   styleUrls: ['./transfer-protected-email-code.component.scss']
 })
-export class TransferProtectedEmailCodeComponent implements OnInit, OnDestroy {
+export class TransferProtectedEmailCodeComponent extends AbstractTransfer implements OnInit, OnDestroy {
 
   public recaptchaKey = keys.recaptchaKey;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public cryptoNames = [];
-  public defaultCryptoNames = [];
-  public openCurrencyDropdown = false;
+  // public cryptoNames = [];
+  // public defaultCryptoNames = [];
+  // public openCurrencyDropdown = false;
   public activeCrypto;
   public isSubmited = false;
   public activeBalance;
@@ -53,7 +57,10 @@ export class TransferProtectedEmailCodeComponent implements OnInit, OnDestroy {
 
   constructor(
     public balanceService: BalanceService,
-  ) { }
+    private store: Store<State>,
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.responseCommission = this.responseDefaultCommission;
@@ -64,13 +71,14 @@ export class TransferProtectedEmailCodeComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         if (!this.isAmountMax && !this.isAmountMin) {
           this.getCommissionInfo(res);
-        };
+        }
       });
 
-    this.balanceService.getCryptoFiatNames()
+    this.store
+      .pipe(select(getAllCurrenciesForChoose))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.defaultCryptoNames = res.data;
+      .subscribe(currencies => {
+        this.defaultCryptoNames = currencies;
         this.cryptoNames = this.defaultCryptoNames;
         this.activeCrypto = this.cryptoNames[0];
         this.prepareAlphabet();
@@ -172,17 +180,18 @@ export class TransferProtectedEmailCodeComponent implements OnInit, OnDestroy {
   }
 
   afterResolvedCaptcha(event) {
-    console.log('resolve');
     this.model.recipient = this.form.controls['email'].value;
     this.model.currency = this.activeCrypto.id;
     this.model.sum = this.form.controls['amount'].value;
     const data = {
-      operation: 'By private code',
+      operation: BY_PRIVATE_CODE,
       data: this.model
     };
 
     this.balanceService.goToPinCode$.next(data);
-    this.balanceService.sendPinCode().subscribe(res => {
+    this.balanceService.sendPinCode()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
       // this.balanceService.goToPinCode$.next(data);
     });
   }

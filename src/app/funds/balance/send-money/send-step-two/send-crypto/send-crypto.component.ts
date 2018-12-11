@@ -1,5 +1,5 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {takeUntil} from 'rxjs/operators';
+import {debounceTime, takeUntil} from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
 import {Subject} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -7,6 +7,11 @@ import {CurrencyBalanceModel} from '../../../../../model/index';
 import {BalanceService} from '../../../../services/balance.service';
 import {MockDataService} from '../../../../../shared/services/mock-data.service';
 import {keys} from '../../../../../core/keys';
+import {select, Store} from '@ngrx/store';
+import {getCryptoCurrenciesForChoose, State} from 'app/core/reducers';
+import {SEND_CRYPTO} from '../../send-money-constants';
+import {CommissionData} from '../../../../models/commission-data.model';
+import {defaultCommissionData} from '../../../../store/reducers/default-values';
 
 @Component({
   selector: 'app-send-crypto',
@@ -29,6 +34,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public isMemo;
   public activeCrypto;
   public form: FormGroup;
+  public calculateData: CommissionData = defaultCommissionData;
 
   public model = {
     currency: 0,
@@ -46,17 +52,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     securityCode: ''
   };
 
-  public calculateData = {
-    amount: 0,
-    percentExchange: 0,
-    fixedMinCommissiom: 0,
-    exchangeSum: 0,
-    percentMerchant: 0,
-    merchantSum: 0,
-    totalCommission: 0,
-    totalCommissionSum: 0,
-    amountWithCommission: 0,
-  };
+
 
 
   /** Are listening click in document */
@@ -68,23 +64,34 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
 
   constructor(
     public balanceService: BalanceService,
-    public mockDataService: MockDataService,
+    private store: Store<State>,
   ) { }
 
   ngOnInit() {
     // this.initForm();
     this.initFormWithMemo();
     /**-------mock data------**/
-    this.defaultCryptoNames = this.mockDataService.getCryptoName();
-    this.cryptoNames = this.defaultCryptoNames;
-    this.cryptoInfoByName = this.mockDataService.getCryptoData();
-    this.activeCrypto = this.cryptoNames[0];
-    this.prepareAlphabet();
+    // this.defaultCryptoNames = this.mockDataService.getCryptoName();
+    // this.cryptoNames = this.defaultCryptoNames;
+    // this.cryptoInfoByName = this.mockDataService.getCryptoData();
+    // this.activeCrypto = this.cryptoNames[0];
+    // this.prepareAlphabet();
     /**----------------------**/
-    this.balanceService.getCryptoNames()
+
+    this.form.controls['amount'].valueChanges
+      .pipe(debounceTime(1000))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.defaultCryptoNames = res;
+        if (res !== '0') {
+          this.calculateCommission(res);
+        }
+      });
+
+    this.store
+      .pipe(select(getCryptoCurrenciesForChoose))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(currencies => {
+        this.defaultCryptoNames = currencies;
         this.cryptoNames = this.defaultCryptoNames;
         this.activeCrypto = this.cryptoNames[0];
         this.prepareAlphabet();
@@ -115,7 +122,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     this.model.destinationTag = this.form.controls['memo'] ? this.form.controls['memo'].value : '';
 
     const data = {
-      operation: 'Send Crypto',
+      operation: SEND_CRYPTO,
       data: this.model
     }
     this.balanceService.goToPinCode$.next(data);
@@ -133,7 +140,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   amountInput(event) {
-    this.calculateCommission(event.target.value);
+    // this.calculateCommission(event.target.value);
   }
 
   balanceClick() {
@@ -144,10 +151,12 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   calculateCommission(amount) {
-    this.calculateData.amount = amount;
-    this.calculateData.merchantSum = amount * ( this.calculateData.percentMerchant / 100);
-    this.calculateData.totalCommissionSum = this.calculateData.merchantSum + this.calculateData.exchangeSum;
-    this.calculateData.amountWithCommission = amount - this.calculateData.totalCommissionSum;
+    this.balanceService
+      .getCommissionToWithdraw(amount, this.activeCrypto.id, this.cryptoInfoByName.merchantCurrencyData[0].merchantId)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.calculateData = res as CommissionData;
+    });
   }
 
   /**
@@ -206,9 +215,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;
       this.activeBalance = this.cryptoInfoByName.activeBalance;
       this.minWithdrawSum = this.cryptoInfoByName.merchantCurrencyData[0].minSum;
-      this.calculateData.percentMerchant = this.cryptoInfoByName.merchantCurrencyData[0].outputCommission;
-      this.calculateData.fixedMinCommissiom = this.cryptoInfoByName.merchantCurrencyData[0].fixedMinCommission;
-      this.calculateData.totalCommission = this.calculateData.percentMerchant + this.calculateData.percentExchange;
     });
   }
 
