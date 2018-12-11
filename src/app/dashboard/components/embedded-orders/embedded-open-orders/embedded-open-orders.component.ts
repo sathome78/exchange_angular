@@ -162,7 +162,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
      editedOrder.rate = order.stopRate;
    }
    console.log(editedOrder);
-   this.ordersService.updateOrder(editedOrder).subscribe(res => {
+   this.ordersService.deleteOrder(editedOrder).subscribe(res => {
      this.refreshOpenOrders.emit(true);
    });
 
