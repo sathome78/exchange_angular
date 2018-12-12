@@ -29,10 +29,11 @@ export class OrdersEffects {
   loadOpenOrders$: Observable<Action> = this.actions$
     .pipe(ofType<ordersActions.LoadOpenOrdersAction>(ordersActions.LOAD_OPEN_ORDERS))
     .pipe(switchMap((action) => {
-      const {page, limit, from, to, currencyPairId} = action.payload;
-      return this.ordersService.getOpenOrders(page, limit, from, to, currencyPairId)
+      return this.ordersService.getOpenOrders(action.payload)
         .pipe(
-          map(orders => (new ordersActions.SetOpenOrdersAction({openOrders: orders.items, count: orders.count}))),
+          map(orders => (new ordersActions.SetOpenOrdersAction(
+            {openOrders: orders.items, count: orders.count, isMobile: action.payload.isMobile}
+          ))),
           catchError(error => of(new ordersActions.FailLoadOpenOrdersAction(error)))
         )
     }))
@@ -43,10 +44,11 @@ export class OrdersEffects {
   loadHistoryOrders$: Observable<Action> = this.actions$
     .pipe(ofType<ordersActions.LoadHistoryOrdersAction>(ordersActions.LOAD_HISTORY_ORDERS))
     .pipe(switchMap((action) => {
-      const {page, limit, from, to, hideCanceled, currencyPairId} = action.payload;
-      return this.ordersService.getClosedOrders(page, limit, from, to, hideCanceled, currencyPairId)
+      return this.ordersService.getClosedOrders(action.payload)
         .pipe(
-          map(orders => (new ordersActions.SetHistoryOrdersAction({historyOrders: orders.items, count: orders.count}))),
+          map(orders => (new ordersActions.SetHistoryOrdersAction(
+            {historyOrders: orders.items, count: orders.count, isMobile: action.payload.isMobile}
+          ))),
           catchError(error => of(new ordersActions.FailLoadHistoryOrdersAction(error)))
         )
     }))

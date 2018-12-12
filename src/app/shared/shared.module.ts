@@ -17,6 +17,7 @@ import {PageItemsDropdownComponent} from './components/page-items-dropdown/page-
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {QRCodeModule} from 'angular2-qrcode';
 import {RecaptchaModule} from 'ng-recaptcha';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 @NgModule({
   declarations: [
     NotificationComponent,
@@ -37,9 +38,11 @@ import {RecaptchaModule} from 'ng-recaptcha';
     ReactiveFormsModule,
     PerfectScrollbarModule,
     QRCodeModule,
-    RecaptchaModule
+    RecaptchaModule,
+    InfiniteScrollModule,
   ],
   exports: [
+    InfiniteScrollModule,
     PerfectScrollbarModule,
     QRCodeModule,
     RecaptchaModule,

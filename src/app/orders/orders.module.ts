@@ -20,6 +20,7 @@ import {reducer} from './store/reducers/orders.reducer';
 import {SplitCurrencyPipe} from 'app/shared/pipes/split-currency.pipe';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {OrdersComponent} from './orders.component';
+import {SharedModule} from 'app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import {OrdersComponent} from './orders.component';
     EffectsModule.forRoot([OrdersEffects]),
     StoreModule.forFeature('orders', reducer),
     NgSelectModule,
-    OrdersRoutingModule
+    OrdersRoutingModule,
+    SharedModule,
   ],
   declarations: [
     OpenOrdersComponent,
