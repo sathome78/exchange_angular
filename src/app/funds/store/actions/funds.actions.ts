@@ -1,4 +1,5 @@
 import {Action} from '@ngrx/store';
+import {CHANGE_CURRENCY_PAIR} from '../../../dashboard/actions/dashboard.actions';
 
 export const LOAD_CRYPTO_BAL = '[Funds] Load crypto balances';
 export const FAIL_LOAD_CRYPTO_BAL = '[Funds] Fail load crypto balances';
@@ -12,6 +13,9 @@ export const SET_CRYPTO_BAL = '[Funds] Set crypto balances';
 // export const FAIL_LOAD_CURRENCY_PAIRS_ORDERS = '[Funds] Fail load currency pairs orders';
 // export const SET_CURRENCY_PAIRS_ORDERS = '[Funds] Set currency pairs orders';
 
+export const SET_ALL_CURRENCIES_FOR_CHOOSE = '[Funds] Set all currencies for choose';
+export const SET_CRYPTO_CURRENCIES_FOR_CHOOSE = '[Funds] Set crypto currencies for choose';
+export const SET_FIAT_CURRENCIES_FOR_CHOOSE = '[Funds] Set fiat currencies for choose';
 
 /**
  * Loading crypto balances
@@ -106,6 +110,35 @@ export class FailLoadCryptoBalAction implements Action {
 //   constructor(public payload?) {}
 // }
 
+/**
+ * Change currency pair 'BTC/USD'
+ */
+export class SetAllCurrenciesForChoose implements Action {
+  readonly type = SET_ALL_CURRENCIES_FOR_CHOOSE;
+  /**
+   * Default constructor
+   * @param payload
+   */
+  constructor(public payload) {}
+}
+
+export class SetCryptoCurrenciesForChoose implements Action {
+  readonly type = SET_CRYPTO_CURRENCIES_FOR_CHOOSE;
+  /**
+   * Default constructor
+   * @param payload
+   */
+  constructor(public payload) {}
+}
+
+export class SetFiatCurrenciesForChoose implements Action {
+  readonly type = SET_FIAT_CURRENCIES_FOR_CHOOSE;
+  /**
+   * Default constructor
+   * @param payload
+   */
+  constructor(public payload) {}
+}
 
 
 /**
@@ -115,6 +148,9 @@ export type Actions
   = LoadCryptoBalAction
   | SetCryptoBalAction
   | FailLoadCryptoBalAction
+  | SetAllCurrenciesForChoose
+  | SetCryptoCurrenciesForChoose
+  | SetFiatCurrenciesForChoose
   // | LoadHistoryOrdersAction
   // | SetHistoryOrdersAction
   // | FailLoadHistoryOrdersAction

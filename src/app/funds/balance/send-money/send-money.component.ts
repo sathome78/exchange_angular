@@ -1,14 +1,19 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {BalanceService} from '../../services/balance.service';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {WITH_CODE} from './send-money-constants';
 
 @Component({
   selector: 'app-send-money',
   templateUrl: './send-money.component.html',
   styleUrls: ['./send-money.component.scss']
 })
-export class SendMoneyComponent implements OnInit {
+export class SendMoneyComponent implements OnInit, OnDestroy {
 
   @Output() closeSendMoneyPopup = new EventEmitter<boolean>();
+  @Input() optionData;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   public stepTwoName: string;
   public stepThreeName: string;
   public stepThreeData;
@@ -16,8 +21,9 @@ export class SendMoneyComponent implements OnInit {
   public step: number;
 
   constructor(
-   public balanceService: BalanceService
-  ) { }
+    public balanceService: BalanceService
+  ) {
+  }
 
   onCloseSendMoneyPopup() {
     this.closeSendMoneyPopup.emit(true);
@@ -25,14 +31,29 @@ export class SendMoneyComponent implements OnInit {
 
   ngOnInit() {
     this.initFields();
-    this.balanceService.goToPinCode$.subscribe(res => {
-      this.activeStepThree('With code', res);
-    });
+    this.balanceService.goToPinCode$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.activeStepThree(WITH_CODE, res);
+      });
 
-    this.balanceService.goToSendMoneySuccess$.subscribe(res => {
-      console.log(res);
-      this.activeSendSuccess(res);
-    });
+    this.balanceService.goToSendMoneyInnerTransfer$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.activeStepThreeInnerTransfer(res as string);
+      });
+
+    this.balanceService.goToSendMoneySuccess$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.activeSendSuccess(res);
+      });
+
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   chooseSend(event: string) {
@@ -41,8 +62,13 @@ export class SendMoneyComponent implements OnInit {
   }
 
   private initFields() {
-    this.step = 1;
-    this.stepTwoName = '';
+    this.step = this.optionData.step ? this.optionData.step : 1;
+    this.stepTwoName = this.optionData.stepName ? this.optionData.stepName : '';
+  }
+
+  activeStepThreeInnerTransfer(name: string) {
+    this.step = 3;
+    this.stepThreeName = name;
   }
 
   activeStepThree(name, data = {}) {
@@ -50,7 +76,6 @@ export class SendMoneyComponent implements OnInit {
     this.stepThreeName = name;
     this.stepThreeData = data;
   }
-
 
   activeSendSuccess(data) {
     this.step = 4;

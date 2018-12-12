@@ -1,9 +1,12 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {MockDataService} from '../../../../../shared/services/mock-data.service';
+import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
 import {BalanceService} from '../../../../services/balance.service';
+import {select, Store} from '@ngrx/store';
+import { State, getCryptoCurrenciesForChoose} from 'app/core/reducers';
+import {COPY_ADDRESS} from '../../../send-money/send-money-constants';
+import {BalanceItem} from '../../../../models/balance-item.model';
 
 interface RefreshAddress {
   address: string;
@@ -18,6 +21,7 @@ interface RefreshAddress {
 })
 export class RefillCryptoComponent implements OnInit, OnDestroy {
 
+  @Input() refillData: BalanceItem;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public cryptoNames = [];
   public defaultCryptoNames = [];
@@ -37,27 +41,22 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    public mockDataService: MockDataService,
+    private store: Store<State>,
     public balanceService: BalanceService,
   ) { }
 
   ngOnInit() {
-    /**-------mock data------**/
-    // this.defaultCryptoNames = this.mockDataService.getCryptoName();
-    // this.cryptoNames = this.defaultCryptoNames;
-    // this.cryptoDataByName = this.mockDataService.getCryptoData();
-    // this.prepareAlphabet();
-    /**----------------------**/
-    this.balanceService.getCryptoNames()
+    console.log(this.refillData)
+    this.store
+      .pipe(select(getCryptoCurrenciesForChoose))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-      this.defaultCryptoNames = res;
-      this.cryptoNames = this.defaultCryptoNames;
-      this.activeCrypto = this.cryptoNames[0];
-      this.getDataByCurrency(this.activeCrypto.name);
-      console.log(this.cryptoNames)
+      .subscribe(currencies => {
+        this.defaultCryptoNames = currencies;
+        this.cryptoNames = this.defaultCryptoNames;
+        this.activeCrypto = this.cryptoNames[0];
+        this.getDataByCurrency(this.activeCrypto.name);
         this.prepareAlphabet();
-    });
+      });
   }
 
   ngOnDestroy(): void {
@@ -79,7 +78,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     });
     const unique = (value, index, self) => {
       return self.indexOf(value) === index;
-    }
+    };
     this.alphabet = _uniq(temp.filter(unique).sort());
   }
 
@@ -143,7 +142,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
 
   private changeCopyBtn (name: string) {
     switch (name) {
-      case 'Copy address':
+      case COPY_ADDRESS:
         this.isSowCopyAddress = true;
         setTimeout(() => this.isSowCopyAddress = false, 1000);
         break;

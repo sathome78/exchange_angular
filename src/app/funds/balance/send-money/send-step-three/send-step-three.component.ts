@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {WITH_CODE, BY_PRIVATE_CODE, BY_CODE, BY_EMAIL} from '../send-money-constants';
 
 @Component({
   selector: 'app-send-step-three',
@@ -9,18 +10,15 @@ export class SendStepThreeComponent implements OnInit {
 
   @Input() choosedName: string;
   @Input() data;
-
-  // public responseData;
+  public WITH_CODE = WITH_CODE;
+  public BY_PRIVATE_CODE = BY_PRIVATE_CODE;
+  public BY_CODE = BY_CODE;
+  public BY_EMAIL = BY_EMAIL;
 
   constructor() { }
 
   ngOnInit() {
 
-  }
-
-  onSendSuccess(data) {
-    // this.choosedName = 'Send Success';
-    // this.responseData = data;
   }
 
 }

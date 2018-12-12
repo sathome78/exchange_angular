@@ -843,24 +843,24 @@
           <div class="wrap-input__line"></div>
         </div>
         <div class="tabs balance__tabs">
-          <button 
-            class="tabs__item" 
+          <button
+            class="tabs__item"
             [ngClass]="{'tabs__item--active': currTab === Tab.CRYPTO}"
-            (click)="onSelectTab(Tab.CRYPTO)"  
+            (click)="onSelectTab(Tab.CRYPTO)"
           >
             Crypto Balances
           </button>
-          <button 
-            class="tabs__item" 
+          <button
+            class="tabs__item"
             [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}"
-            (click)="onSelectTab(Tab.FIAT)"  
+            (click)="onSelectTab(Tab.FIAT)"
           >
             Fiat Balances
           </button>
-          <button 
-            class="tabs__item" 
+          <button
+            class="tabs__item"
             [ngClass]="{'tabs__item--active': currTab === Tab.PR}"
-            (click)="onSelectTab(Tab.PR)"  
+            (click)="onSelectTab(Tab.PR)"
           >
             <span>Pending requests</span>
             <span class="indicate">5</span>
@@ -895,13 +895,15 @@
     <!--filters end-->
     <!--table start-->
     <div [ngSwitch]="currTab">
-      <app-crypto-balance-table 
+      <app-crypto-balance-table
         *ngSwitchCase="Tab.CRYPTO"
+        (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+        (cryptoDepositOut)="goToCryptoDepositPopup($event)"
       ></app-crypto-balance-table>
-      <app-fiat-balance-table 
+      <app-fiat-balance-table
         *ngSwitchCase="Tab.FIAT"
       ></app-fiat-balance-table>
-      <app-pending-request-table 
+      <app-pending-request-table
         *ngSwitchCase="Tab.PR"
       ></app-pending-request-table>
 
@@ -1076,10 +1078,12 @@
 
 <app-refill-money
   *ngIf="showRefillBalancePopup"
+  [optionData]="refillBalanceData"
   (closeRefillBalancePopup)="openRefillBalancePopup(false)"
 ></app-refill-money>
 
 <app-send-money
   *ngIf="showSendMoneyPopup"
+  [optionData]="sendMoneyData"
   (closeSendMoneyPopup)="openSendMoneyPopup(false)"
 ></app-send-money>
