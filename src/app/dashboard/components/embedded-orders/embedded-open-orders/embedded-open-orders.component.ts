@@ -39,6 +39,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
   public currencyPairInfo;
 
   public currentPage = 1;
+  public showCancelOrderConfirm = null
 
 
   public defaultOrder: Order = {
@@ -166,6 +167,13 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
      this.refreshOpenOrders.emit(true);
    });
 
+  }
+  /**
+   * set status order canceled
+   * @param order
+   */
+  onShowCancelOrderConfirm(orderId: string | null): void {
+    this.showCancelOrderConfirm = orderId;
   }
 
 
