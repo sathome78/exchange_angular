@@ -62,26 +62,26 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   loadOrders() {
-    const params = {
-      page: this.currentPage, 
-      limit:this.countPerPage,
-      dateFrom: this.formatDate(this.modelDateFrom.date),
-      dateTo: this.formatDate(this.modelDateTo.date),
-      hideCanceled: this.hideAllCanceled,
-      currencyPairId: this.currencyPairId,
-      isMobile: this.isMobile,
+    if(this.isDateRangeValid()){
+      const params = {
+        page: this.currentPage, 
+        limit:this.countPerPage,
+        dateFrom: this.formatDate(this.modelDateFrom.date),
+        dateTo: this.formatDate(this.modelDateTo.date),
+        hideCanceled: this.hideAllCanceled,
+        currencyPairId: this.currencyPairId,
+        isMobile: this.isMobile,
+      }
+      this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
     }
-    this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
   }
 
   /**
    * filter history orders by clicking on Filter button
    */
   onFilterOrders() {
-    if(this.isDateRangeValid()) {
-      this.currentPage = 1;
-      this.loadOrders();
-    }
+    this.currentPage = 1;
+    this.loadOrders();
   }
 
   /**
@@ -141,6 +141,9 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
    * @returns { boolean }
    */
   isDateRangeValid(): boolean {
+    if(!this.modelDateFrom || !this.modelDateFrom.date || !this.modelDateTo || !this.modelDateTo.date) {
+      return false;
+    }
     const dateFrom = new Date(this.modelDateFrom.date.year, this.modelDateFrom.date.month - 1, this.modelDateFrom.date.day);
     const dateTo = new Date(this.modelDateTo.date.year, this.modelDateTo.date.month - 1, this.modelDateTo.date.day);
     const diff = dateTo.getTime() - dateFrom.getTime();
@@ -160,14 +163,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     const month = date.month < 10 ? '0' + date.month : date.month;
     return `${date.year}-${month}-${day}`
   }
-
-  // /**
-  //  * filter currency pairs list by entered value
-  //  */
-  // filterByCurrency() {
-  //   this.currencyPair = '';
-  //   this.currencyPairs$ = this.store.select(ordersReducer.getAllCurrencyPairsSelector, {currency: this.currency});
-  // }
 
   /**
    * sets class for order type field
@@ -216,8 +211,10 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   closeFilterPopup() {
-    this.showFilterPopup = false;
-    this.loadOrders();
+    if(this.isDateRangeValid()) {
+      this.showFilterPopup = false;
+      this.loadOrders();
+    }
   }
 
   downloadExcel() {

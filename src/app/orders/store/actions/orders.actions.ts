@@ -12,6 +12,9 @@ export const LOAD_CURRENCY_PAIRS_ORDERS = '[Orders] Load currency pairs orders';
 export const FAIL_LOAD_CURRENCY_PAIRS_ORDERS = '[Orders] Fail load currency pairs orders';
 export const SET_CURRENCY_PAIRS_ORDERS = '[Orders] Set currency pairs orders';
 
+export const CANCEL_OPEN_ORDER = '[Orders] Cancel open order';
+export const CROP_CANCELED_ORDER = '[Orders] Crop canceled order for mobile screens';
+export const FAIL_ORDERS = '[Orders] Fail of loading in orders';
 
 /**
  * Load open orders
@@ -127,6 +130,34 @@ export class FailLoadCurrencyPairsAction implements Action {
    */
   constructor(public payload?) {}
 }
+export class FailAction implements Action {
+  readonly type = FAIL_ORDERS;
+
+  /**
+   * Default constructor
+   * @param payload
+   */
+  constructor(public payload?) {}
+}
+export class CancelOrderAction implements Action {
+  readonly type = CANCEL_OPEN_ORDER;
+
+  /**
+   * Default constructor
+   * @param payload
+   */
+  constructor(public payload?) {}
+}
+
+export class CropCanceledOrderAction implements Action {
+  readonly type = CROP_CANCELED_ORDER;
+
+  /**
+   * Default constructor
+   * @param payload
+   */
+  constructor(public payload?) {}
+}
 
 
 
@@ -143,3 +174,6 @@ export type Actions
   | LoadCurrencyPairsAction
   | SetCurrencyPairsAction
   | FailLoadCurrencyPairsAction
+  | CancelOrderAction
+  | FailAction
+  | CropCanceledOrderAction

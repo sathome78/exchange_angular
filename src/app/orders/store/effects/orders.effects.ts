@@ -68,4 +68,23 @@ export class OrdersEffects {
         )
     }))
 
+  /**
+   * Load open orders
+   */
+  @Effect()
+  cancelOpenOrder$: Observable<Action> = this.actions$
+    .pipe(ofType<ordersActions.CancelOrderAction>(ordersActions.CANCEL_OPEN_ORDER))
+    .pipe(switchMap((action) => {
+      return this.ordersService.deleteOrder(action.payload.order)
+        .pipe(
+          map(() => {
+            if (action.payload.loadOrders.isMobile) {
+              return new ordersActions.CropCanceledOrderAction(action.payload.order.id);
+            }
+            return new ordersActions.LoadOpenOrdersAction(action.payload.loadOrders)
+          }),
+          catchError(error => of(new ordersActions.FailLoadOpenOrdersAction(error)))
+        )
+    }))
+
 }
