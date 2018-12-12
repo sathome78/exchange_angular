@@ -7,6 +7,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
 import {select, Store} from '@ngrx/store';
 import {getCryptoCurrenciesForChoose, getFiatCurrenciesForChoose, State} from 'app/core/reducers';
+import {environment} from '../../../../../../environments/environment';
+import {PopupService} from '../../../../../shared/services/popup.service';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -40,6 +42,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   constructor(
     public balanceService: BalanceService,
+    public popupService: PopupService,
     private store: Store<State>,
   ) { }
 
@@ -111,26 +114,31 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   submitRefill() {
     this.isSubmited = true;
-    if (this.form.valid && this.selectedMerchant.name) {
-      this.isSubmited = false;
-      this.amount = this.form.controls['amount'].value
-      const data = {
-        operationType: this.fiatDataByName.payment.operationType,
-        currency: this.fiatDataByName.currency.id,
-        merchant: this.selectedMerchant.merchantId,
-        sum: this.amount
-      };
-      this.balanceService.refill(data).subscribe(res => {
-        this.refillData = res;
-        console.log(res)
-        this.submitSuccess = true;
-      });
-      console.log(this.selectedMerchant)
-      /** -------mock ---------*/
-      // this.submitSuccess = true;
-      // console.log(data);
-      /** -------------------- */
+    if (environment.production) {
+      // todo while insecure
+      this.popupService.showDemoTradingPopup(true);
+      this.balanceService.closeRefillMoneyPopup$.next(false);
+    } else {
+      if (this.form.valid && this.selectedMerchant.name) {
+        this.isSubmited = false;
+        this.amount = this.form.controls['amount'].value
+        const data = {
+          operationType: this.fiatDataByName.payment.operationType,
+          currency: this.fiatDataByName.currency.id,
+          merchant: this.selectedMerchant.merchantId,
+          sum: this.amount
+        };
+        this.balanceService.refill(data).subscribe(res => {
+          this.refillData = res;
+          this.submitSuccess = true;
+        });
+        /** -------mock ---------*/
+        // this.submitSuccess = true;
+        // console.log(data);
+        /** -------------------- */
+      }
     }
+
   }
 
   searchMerchant(e) {

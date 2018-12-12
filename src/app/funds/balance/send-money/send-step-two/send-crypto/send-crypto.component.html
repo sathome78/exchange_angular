@@ -39,13 +39,19 @@
     </div>
   </div>
   <div class="wrap-input send__wrap-input"
-       [ngClass]="{'wrap-input--error': !form.controls['amount'].valid && isSubmited}">
+       [ngClass]="{'wrap-input--error': isSubmited && (isAmountMax || isAmountMin || form.controls['amount'].value === '0')}">
     <div class="avaliable">Avaliable: <a (click)="balanceClick()" class="link">{{activeBalance}} {{activeCrypto.name}}</a></div>
     <app-price-input  [placeholder]="'Amount'" (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
     <!--Input error section starts-->
+    <!--<span class="wrap-input__message wrap-input__message&#45;&#45;show"-->
+          <!--*ngIf="!form.controls['amount'].valid && isSubmited">-->
+      <!--Day limit for withdrawal is {{minWithdrawSum}} {{activeCrypto.name}}</span>-->
     <span class="wrap-input__message wrap-input__message--show"
-          *ngIf="!form.controls['amount'].valid && isSubmited">
-      Day limit for withdrawal is {{minWithdrawSum}} {{activeCrypto.name}}</span>
+          *ngIf="(isAmountMin || form.controls['amount'].value === '0') && isSubmited">
+      Minimum sum for withdrawal {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
+    <span class="wrap-input__message wrap-input__message--show"
+          *ngIf="isAmountMax && isSubmited">
+      Max sum for withdrawal {{activeBalance}}</span>
     <!--Input error section ends-->
   </div>
 </div>
@@ -102,7 +108,7 @@
 <button class="btn btn--center  "
         [ngClass]="{
         'btn--empty-blue': !form.valid && !isSubmited,
-        'btn--error': !form.valid && isSubmited
+        'btn--error': (!form.valid || isAmountMin || isAmountMax ) && isSubmited
         }"
         (click)="onSubmitWithdrawal()"
 >Withdraw

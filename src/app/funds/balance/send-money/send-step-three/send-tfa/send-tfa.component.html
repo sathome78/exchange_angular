@@ -1,19 +1,24 @@
-<div class="title send__title">Two factor autentification</div>
-<!--if google 2fa enabled start-->
-<div style="display: none;">
-  <div class="subtitle send__subtitle">Put the code from Google Authentificator</div>
-  <div class="wrap-input send__wrap-input">
-    <input class="wrap-input__input" required>
-    <label class="wrap-input__label">Authorisation code</label>
-    <div class="wrap-input__line"></div>
-    <!--Input error section starts-->
-    <span class="wrap-input__message">Invalid code</span>
-    <!--Input error section ends-->
-  </div>
+<div *ngIf="!isSentPin">
+  <div class="title send__title">Two factor autentification</div>
+  <!--if google 2fa enabled start-->
+  <form [formGroup]="form">
+    <div class="subtitle send__subtitle">Put the code from Google Authentificator</div>
+    <div class="wrap-input send__wrap-input"
+         [ngClass]="{'wrap-input--error': !form.valid && form.controls['pin'].touched}">
+      <input class="wrap-input__input" name="pin" formControlName="pin">
+      <label class="wrap-input__label">Authorisation code</label>
+      <div class="wrap-input__line"></div>
+      <!--Input error section starts-->
+      <span class="wrap-input__message" *ngIf="!form.valid && form.controls['pin'].touched">Invalid code</span>
+      <span class="wrap-input__message">{{message}}</span>
+      <!--<span class="wrap-input__message">Invalid code</span>-->
+      <!--Input error section ends-->
+    </div>
+  </form>
 </div>
 <!--if google 2fa enabled end-->
 <!--pin code from email start-->
-<div >
+<div *ngIf="isSentPin">
   <div class="subtitle send__subtitle">Put the pincode from your email</div>
   <form [formGroup]="form">
   <div class="wrap-input send__wrap-input"

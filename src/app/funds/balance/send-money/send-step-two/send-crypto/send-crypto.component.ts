@@ -12,6 +12,8 @@ import {getCryptoCurrenciesForChoose, State} from 'app/core/reducers';
 import {SEND_CRYPTO} from '../../send-money-constants';
 import {CommissionData} from '../../../../models/commission-data.model';
 import {defaultCommissionData} from '../../../../store/reducers/default-values';
+import {environment} from '../../../../../../environments/environment';
+import {PopupService} from '../../../../../shared/services/popup.service';
 
 @Component({
   selector: 'app-send-crypto',
@@ -32,6 +34,8 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public isEnterData = true;
   public alphabet;
   public isMemo;
+  public isAmountMax;
+  public isAmountMin;
   public activeCrypto;
   public form: FormGroup;
   public calculateData: CommissionData = defaultCommissionData;
@@ -64,6 +68,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
 
   constructor(
     public balanceService: BalanceService,
+    public popupService: PopupService,
     private store: Store<State>,
   ) { }
 
@@ -106,8 +111,14 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
 
   onSubmitWithdrawal() {
     this.isSubmited = true;
-    if (this.form.valid) {
-      this.isEnterData = false;
+    if (environment.production) {
+      // todo while insecure
+      this.popupService.showDemoTradingPopup(true);
+      this.balanceService.closeSendMoneyPopup$.next(false);
+    } else {
+      if (this.form.valid && !this.isAmountMax && !this.isAmountMin) {
+        this.isEnterData = false;
+      }
     }
   }
 
@@ -122,13 +133,11 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     this.model.destinationTag = this.form.controls['memo'] ? this.form.controls['memo'].value : '';
 
     const data = {
+      isSentPin: false,
       operation: SEND_CRYPTO,
       data: this.model
     }
     this.balanceService.goToPinCode$.next(data);
-      this.balanceService.sendPinCode().subscribe(res => {
-      // this.balanceService.goToPinCode$.next(data);
-    });
   }
 
   goToWithdrawal() {
@@ -141,6 +150,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
 
   amountInput(event) {
     // this.calculateCommission(event.target.value);
+    this.amountValidator(event.target.value);
   }
 
   balanceClick() {
@@ -199,7 +209,8 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       memo: new FormControl('', [this.isRequired.bind(this)] ),
       address: new FormControl('', [Validators.required] ),
-      amount: new FormControl('', [Validators.required, this.minCheck.bind(this), this.maxCheck.bind(this)] ),
+      amount: new FormControl('', [Validators.required] ),
+      // amount: new FormControl('', [Validators.required, this.minCheck.bind(this), this.maxCheck.bind(this)] ),
     });
   }
 
@@ -230,23 +241,16 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     this.alphabet = _uniq(temp.filter(unique).sort());
   }
 
-  private minCheck(amount: FormControl) {
-    if (this.minWithdrawSum > amount.value) {
-      return {'minThen': true};
-    }
-    return null;
-  }
 
-  private maxCheck(amount: FormControl) {
-    if (this.activeBalance < amount.value) {
-      return {'maxThen': true};
-    }
-    return null;
-  }
   private isRequired(memo: FormControl) {
     if (this.isMemo && !memo.value) {
       return {'required': true};
     }
     return null;
+  }
+
+  amountValidator(sum) {
+    this.isAmountMax = +sum >= +this.activeBalance ? true : false;
+    this.isAmountMin = +sum <= +this.minWithdrawSum ? true : false;
   }
 }

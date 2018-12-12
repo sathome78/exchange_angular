@@ -63,6 +63,7 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from 'environments/environment';
 
 import {RefillSuccessfulComponent} from './balance/refill-money/refill-successful/refill-successful.component';
+import { DemoTradingPopupComponent } from './popups/demo-trading-popup/demo-trading-popup.component';
 
 
 @NgModule({
@@ -100,6 +101,8 @@ import {RefillSuccessfulComponent} from './balance/refill-money/refill-successfu
     FinalStepRecoveryPasswordComponent,
 
     RefillSuccessfulComponent,
+
+    DemoTradingPopupComponent,
     // TWO FACTOR POPUP END
 
   ],

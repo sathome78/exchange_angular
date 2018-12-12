@@ -56,6 +56,17 @@ export class BalanceComponent implements OnInit, OnDestroy {
         this.store.dispatch(new SetFiatCurrenciesForChoose(res));
       });
 
+    this.balanceService.closeRefillMoneyPopup$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.openRefillBalancePopup(res);
+      });
+
+    this.balanceService.closeSendMoneyPopup$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.openSendMoneyPopup(res);
+      });
   }
 
   public onSelectTab(tab: string): void {

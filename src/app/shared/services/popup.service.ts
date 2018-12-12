@@ -8,6 +8,7 @@ export class PopupService {
   private onOpenTFAPopupListener = new Subject<string>();
   private onOpenIdentityPopupListener = new Subject<string>();
   private onLoginPopupListener = new Subject<boolean>();
+  private onDemoTradingPopupListener = new Subject<boolean>();
   private onRecoveryPasswordListener = new Subject<boolean>();
   private onMobileLoginPopupListener = new Subject<boolean>();
   private onMobileRegistrationPopupListener = new Subject<boolean>();
@@ -32,6 +33,10 @@ export class PopupService {
 
   showLoginPopup(state: boolean) {
     this.onLoginPopupListener.next(state);
+  }
+
+  showDemoTradingPopup(state: boolean) {
+    this.onDemoTradingPopupListener.next(state);
   }
 
   showMobileLoginPopup(state: boolean) {
@@ -81,6 +86,10 @@ export class PopupService {
 
   public getLoginMobilePopupListener(): Subject<boolean> {
     return this.onMobileLoginPopupListener;
+  }
+
+  public getDemoTradingPopupListener(): Subject<boolean> {
+    return this.onDemoTradingPopupListener;
   }
 
   public getRegistrationMobilePopupListener(): Subject<boolean> {
@@ -168,6 +177,10 @@ export class PopupService {
 
   closeLoginPopup() {
     this.onLoginPopupListener.next(false);
+  }
+
+  closeDemoTradingPopup() {
+    this.onDemoTradingPopupListener.next(false);
   }
 
   closeRecoveryPasswordPopup() {

@@ -17,6 +17,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   public form: FormGroup;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public message = '';
+  public isSentPin: boolean;
 
   constructor(
     public balanceService: BalanceService
@@ -24,6 +25,11 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.balanceService.sendPinCode()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res: Response) => {
+      this.isSentPin = res.status === 201 ? true : false;
+    });
     this.form = new FormGroup({
       pin: new FormControl('', [Validators.required]),
     });

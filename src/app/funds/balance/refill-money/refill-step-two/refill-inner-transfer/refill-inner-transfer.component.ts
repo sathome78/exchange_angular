@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {environment} from '../../../../../../environments/environment';
+import {PopupService} from '../../../../../shared/services/popup.service';
 
 
 @Component({
@@ -19,6 +21,7 @@ export class RefillInnerTransferComponent implements OnInit, OnDestroy {
 
   constructor(
     private balanceService: BalanceService,
+    public popupService: PopupService,
   ) { }
 
   ngOnInit() {
@@ -36,19 +39,26 @@ export class RefillInnerTransferComponent implements OnInit, OnDestroy {
   }
 
   sendTransferCode() {
-    if (this.form.valid) {
-      const data = this.form.controls['code'].value;
-      this.form.reset();
-      this.balanceService.sendTransferCode(data)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(res => {
-        this.isSendTransferCodeSuccess = true;
-        console.log(res['status']);
-      }, error => {
-        const status = error['status'];
-        console.log('status: ' + status);
-        this.isSendTransferCodeFail = true;
-      });
+    if (environment.production) {
+      // todo while insecure
+      this.popupService.showDemoTradingPopup(true);
+      this.balanceService.closeSendMoneyPopup$.next(false);
+    } else {
+      if (this.form.valid) {
+        const data = this.form.controls['code'].value;
+        this.form.reset();
+        this.balanceService.sendTransferCode(data)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(res => {
+            this.isSendTransferCodeSuccess = true;
+            console.log(res['status']);
+          }, error => {
+            const status = error['status'];
+            console.log('status: ' + status);
+            this.isSendTransferCodeFail = true;
+          });
+      }
     }
+
   }
 }

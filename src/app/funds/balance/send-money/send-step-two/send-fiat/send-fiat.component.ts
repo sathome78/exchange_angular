@@ -11,6 +11,8 @@ import {select, Store} from '@ngrx/store';
 import {SEND_FIAT} from '../../send-money-constants';
 import {CommissionData} from '../../../../models/commission-data.model';
 import {defaultCommissionData} from '../../../../store/reducers/default-values';
+import {environment} from '../../../../../../environments/environment';
+import {PopupService} from '../../../../../shared/services/popup.service';
 
 interface IAllBalances {
   activeBalance: string;
@@ -72,6 +74,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   constructor(
     public balanceService: BalanceService,
+    public popupService: PopupService,
     private store: Store<State>,
   ) { }
 
@@ -143,10 +146,17 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
  onSubmitWithdrawal() {
     this.isSubmited = true;
-    if (this.form.valid && !this.isAmountMin && this.form.controls['amount'].value !== '0' && !this.isAmountMax && this.selectedMerchant.name) {
-      this.isSubmited = false;
-      this.isEnterData = false;
-    }
+
+   if (environment.production) {
+     // todo while insecure
+     this.popupService.showDemoTradingPopup(true);
+     this.balanceService.closeSendMoneyPopup$.next(false);
+   } else {
+     if (this.form.valid && !this.isAmountMin && this.form.controls['amount'].value !== '0' && !this.isAmountMax && this.selectedMerchant.name) {
+       this.isSubmited = false;
+       this.isEnterData = false;
+     }
+   }
  }
 
  getBalance(name: string) {
@@ -200,11 +210,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       }
 
       this.balanceService.goToPinCode$.next(data);
-      this.balanceService.sendPinCode()
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(res => {
-        // this.balanceService.goToPinCode$.next(data);
-      });
     }
   }
 

@@ -9,7 +9,7 @@
   </div>
   <!--send crypto/fiat start-->
 
-  <div class="send-crypto" *ngIf="data.operation === SEND_CRYPTO">
+  <div class="send-crypto" *ngIf="data.operation === SEND_CRYPTO || data.operation === SEND_FIAT">
     <div class="title send__successful-title">Request was created!</div>
     <div class="subtitle send__successful-subtitle">
       You can track the progress in Pending requests table on <a routerLink="/transaction-history"
@@ -37,7 +37,7 @@
       <div class="send__code">{{data.successData.hash}}</div>
       <button class="btn btn--small btn--center btn--empty-blue" *ngIf="!isSowCopyAddress"
               (click)="copyToBuffer(data.successData.hash, COPY_ADDRESS)">
-        Copy
+        Copy address
       </button>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="isSowCopyAddress"
       >Copied
@@ -52,7 +52,7 @@
   <!--send protected email-code-transfer end-->
   <!--send protected code-transfer start-->
 
-  <div *ngIf="data.operation === SEND_FIAT">
+  <div *ngIf="false">
   <div class="title send__successful-title">Code was created successfully!</div>
   <div class="send__code-wrap">
     <div class="send__code-title">Use this code to get the transfer</div>
