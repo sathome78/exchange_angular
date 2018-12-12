@@ -29,6 +29,7 @@
     "angular2-qrcode": "^2.0.1",
     "angular2gridster": "^6.0.4",
     "core-js": "^2.5.4",
+    "file-saver": "^2.0.0",
     "geetest": "^4.1.2",
     "jwt-decode": "^2.2.0",
     "mydatepicker": "^2.6.5",

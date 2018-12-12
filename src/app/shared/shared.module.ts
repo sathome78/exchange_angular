@@ -44,6 +44,7 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
     RecaptchaModule
   ],
   exports: [
+    InfiniteScrollModule,
     PerfectScrollbarModule,
     QRCodeModule,
     RecaptchaModule,
