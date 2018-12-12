@@ -1,11 +1,10 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
 import {Subject} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CurrencyBalanceModel} from '../../../../../model/index';
 import {BalanceService} from '../../../../services/balance.service';
-import {MockDataService} from '../../../../../shared/services/mock-data.service';
 import {keys} from '../../../../../core/keys';
 import {select, Store} from '@ngrx/store';
 import {getCryptoCurrenciesForChoose, State} from 'app/core/reducers';
@@ -14,6 +13,7 @@ import {CommissionData} from '../../../../models/commission-data.model';
 import {defaultCommissionData} from '../../../../store/reducers/default-values';
 import {environment} from '../../../../../../environments/environment';
 import {PopupService} from '../../../../../shared/services/popup.service';
+import {BalanceItem} from '../../../../models/balance-item.model';
 
 @Component({
   selector: 'app-send-crypto',
@@ -22,6 +22,7 @@ import {PopupService} from '../../../../../shared/services/popup.service';
 })
 export class SendCryptoComponent implements OnInit, OnDestroy {
 
+  @Input() balanceData: BalanceItem;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public recaptchaKey = keys.recaptchaKey;
   public cryptoNames: CurrencyBalanceModel[] = [];
@@ -39,7 +40,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public activeCrypto;
   public form: FormGroup;
   public calculateData: CommissionData = defaultCommissionData;
-
   public model = {
     currency: 0,
     merchant: 0,
@@ -56,9 +56,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     securityCode: ''
   };
 
-
-
-
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
     if ($event.target.className !== 'select__value select__value--active' && $event.target.className !== 'select__search-input') {
@@ -70,18 +67,12 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     public balanceService: BalanceService,
     public popupService: PopupService,
     private store: Store<State>,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
-    // this.initForm();
+    console.log(this.balanceData);
     this.initFormWithMemo();
-    /**-------mock data------**/
-    // this.defaultCryptoNames = this.mockDataService.getCryptoName();
-    // this.cryptoNames = this.defaultCryptoNames;
-    // this.cryptoInfoByName = this.mockDataService.getCryptoData();
-    // this.activeCrypto = this.cryptoNames[0];
-    // this.prepareAlphabet();
-    /**----------------------**/
 
     this.form.controls['amount'].valueChanges
       .pipe(debounceTime(1000))
@@ -98,7 +89,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       .subscribe(currencies => {
         this.defaultCryptoNames = currencies;
         this.cryptoNames = this.defaultCryptoNames;
-        this.activeCrypto = this.cryptoNames[0];
+        this.setActiveCrypto();
         this.prepareAlphabet();
         this.getCryptoInfoByName(this.activeCrypto.name);
       });
@@ -122,6 +113,14 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     }
   }
 
+  setActiveCrypto() {
+    let currency;
+    if (this.balanceData && this.balanceData.currencyId) {
+      currency = this.cryptoNames.filter(item => +item.id === +this.balanceData.currencyId);
+    }
+    this.activeCrypto = (currency && currency.length) ? currency[0] : this.cryptoNames[0];
+  }
+
   afterResolvedCaptcha(event) {
     this.model.currency = this.cryptoInfoByName.merchantCurrencyData[0].currencyId;
     this.model.merchant = this.cryptoInfoByName.merchantCurrencyData[0].merchantId;
@@ -131,18 +130,18 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     this.model.sum = this.form.controls['amount'].value;
     this.model.walletNumber = this.form.controls['address'].value;
     this.model.destinationTag = this.form.controls['memo'] ? this.form.controls['memo'].value : '';
-
     const data = {
       isSentPin: false,
       operation: SEND_CRYPTO,
       data: this.model
-    }
+    };
     this.balanceService.goToPinCode$.next(data);
   }
 
   goToWithdrawal() {
     this.isEnterData = true;
   }
+
   searchCoin(e) {
     this.cryptoNames = this.defaultCryptoNames.filter(f => f.name.toUpperCase().match(e.target.value.toUpperCase()));
     this.prepareAlphabet();
@@ -166,7 +165,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.calculateData = res as CommissionData;
-    });
+      });
   }
 
   /**
@@ -207,20 +206,14 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
 
   private initFormWithMemo() {
     this.form = new FormGroup({
-      memo: new FormControl('', [this.isRequired.bind(this)] ),
-      address: new FormControl('', [Validators.required] ),
-      amount: new FormControl('', [Validators.required] ),
-      // amount: new FormControl('', [Validators.required, this.minCheck.bind(this), this.maxCheck.bind(this)] ),
+      memo: new FormControl('', [this.isRequired.bind(this)]),
+      address: new FormControl('', [Validators.required]),
+      amount: new FormControl('', [Validators.required]),
     });
   }
 
   private getCryptoInfoByName(name: string) {
-    /** mock*/
-    // this.cryptoInfoByName = this.mockDataService.getSendCrypto();
-    // this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;
-    // this.activeBalance = this.cryptoInfoByName.activeBalance;
-    // this.minWithdrawSum = this.cryptoInfoByName.merchantCurrencyData[0].minSum;
-    /**-------------*/
+    this.calculateData = defaultCommissionData;
     this.balanceService.getCryptoMerchants(name).subscribe(res => {
       this.cryptoInfoByName = res;
       this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;
@@ -237,10 +230,9 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     });
     const unique = (value, index, self) => {
       return self.indexOf(value) === index;
-    }
+    };
     this.alphabet = _uniq(temp.filter(unique).sort());
   }
-
 
   private isRequired(memo: FormControl) {
     if (this.isMemo && !memo.value) {

@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {Store, select} from '@ngrx/store';
 import * as fundsReducer from '../../store/reducers/funds.reducer';
 import * as fundsAction from '../../store/actions/funds.actions';
@@ -12,11 +12,13 @@ import {BalanceItem} from '../../models/balance-item.model';
 })
 export class CryptoBalanceTableComponent implements OnInit {
 
+  @Output() cryptoWithdrawOut = new EventEmitter<BalanceItem>()
+  @Output() cryptoDepositOut = new EventEmitter<number>()
   public cryptoBalances$: Observable<BalanceItem[]>;
   public countOfEntries$: Observable<number>;
 
   public currentPage = 1;
-  public countPerPage = 15; 
+  public countPerPage = 15;
 
   constructor(private store: Store<fundsReducer.State>) {
     this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
@@ -39,11 +41,19 @@ export class CryptoBalanceTableComponent implements OnInit {
 
   loadBalances() {
     const params = {
-      offset: (this.currentPage - 1) * this.countPerPage, 
+      offset: (this.currentPage - 1) * this.countPerPage,
       limit: this.countPerPage,
       hideCanceled: this.excludeZero,
     }
     this.store.dispatch(new fundsAction.LoadCryptoBalAction(params));
+  }
+
+  cryptoWithdraw(balance: BalanceItem): void {
+    this.cryptoWithdrawOut.emit(balance);
+  }
+
+  cryptoDeposit(currencyId: number) {
+    this.cryptoDepositOut.emit(currencyId);
   }
 
 }

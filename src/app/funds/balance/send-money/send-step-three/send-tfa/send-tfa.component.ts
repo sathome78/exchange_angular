@@ -28,8 +28,8 @@ export class SendTfaComponent implements OnInit, OnDestroy {
     this.balanceService.sendPinCode()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: Response) => {
-      this.isSentPin = res.status === 201 ? true : false;
-    });
+        this.isSentPin = res.status === 201 ? true : false;
+      });
     this.form = new FormGroup({
       pin: new FormControl('', [Validators.required]),
     });
@@ -42,15 +42,6 @@ export class SendTfaComponent implements OnInit, OnDestroy {
 
 
   onSubmit() {
-    /** mock */
-    // const data1 = {
-    //   operationName: this.data.operation,
-    //   successData: {}
-    // };
-    // console.log(this.form)
-    // console.log(this.data)
-    // this.balanceService.goToSendMoneySuccess$.next(data1)
-    /** --------------------*/
     if (this.form.valid) {
       this.chooseSubmitMethod(this.data.operation);
     }
@@ -75,37 +66,29 @@ export class SendTfaComponent implements OnInit, OnDestroy {
     this.balanceService.withdrawRequest(this.data.data)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-      const data = {
-        operation: this.data.operation,
-        successData: res
-      };
-      this.balanceService.goToSendMoneySuccess$.next(data);
-    }, error => {
-      this.message = 'Server error';
-    });
+        const data = {
+          operation: this.data.operation,
+          successData: res
+        };
+        this.balanceService.goToSendMoneySuccess$.next(data);
+      }, error => {
+        this.message = 'Server error';
+      });
   }
 
   sendTransferInstant() {
     this.data.data.pin = this.form.controls['pin'].value;
-    /** mock **/
-    // const data1 = {
-    //   operation: this.data.operation,
-    //   successData: {}
-    // };
-    // console.log(this.data);
-    // this.balanceService.goToSendMoneySuccess$.next(data1);
-    /** ------------ **/
     this.balanceService.createTransferInstant(this.data.data)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-      const data = {
-        operation: this.data.operation,
-        successData: res
-      };
-      this.balanceService.goToSendMoneySuccess$.next(data);
-    }, error => {
-      this.message = 'Server error';
-    });
+        const data = {
+          operation: this.data.operation,
+          successData: res
+        };
+        this.balanceService.goToSendMoneySuccess$.next(data);
+      }, error => {
+        this.message = 'Server error';
+      });
   }
 
 }

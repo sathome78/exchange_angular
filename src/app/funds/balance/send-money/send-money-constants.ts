@@ -10,4 +10,6 @@ export const FIAT_WITHDRAWAL = 'Fiat Withdrawal';
 export const INNER_TRANSFER = 'Inner Transfer';
 export const BY_CODE = 'By code';
 export const BY_EMAIL = 'By email';
+export const CRYPTO_DEPOSIT = 'Crypto deposit';
+export const FIAT_DEPOSIT = 'Fiat deposit';
 

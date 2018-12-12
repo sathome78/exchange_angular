@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {BalanceService} from '../../services/balance.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -12,6 +12,7 @@ import {WITH_CODE} from './send-money-constants';
 export class SendMoneyComponent implements OnInit, OnDestroy {
 
   @Output() closeSendMoneyPopup = new EventEmitter<boolean>();
+  @Input() optionData;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public stepTwoName: string;
   public stepThreeName: string;
@@ -20,8 +21,9 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
   public step: number;
 
   constructor(
-   public balanceService: BalanceService
-  ) { }
+    public balanceService: BalanceService
+  ) {
+  }
 
   onCloseSendMoneyPopup() {
     this.closeSendMoneyPopup.emit(true);
@@ -32,20 +34,20 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
     this.balanceService.goToPinCode$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-      this.activeStepThree(WITH_CODE, res);
-    });
+        this.activeStepThree(WITH_CODE, res);
+      });
 
     this.balanceService.goToSendMoneyInnerTransfer$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-      this.activeStepThreeInnerTransfer(res as string);
-    })
+        this.activeStepThreeInnerTransfer(res as string);
+      });
 
     this.balanceService.goToSendMoneySuccess$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-      this.activeSendSuccess(res);
-    });
+        this.activeSendSuccess(res);
+      });
 
   }
 
@@ -60,9 +62,10 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
   }
 
   private initFields() {
-    this.step = 1;
-    this.stepTwoName = '';
+    this.step = this.optionData.step ? this.optionData.step : 1;
+    this.stepTwoName = this.optionData.stepName ? this.optionData.stepName : '';
   }
+
   activeStepThreeInnerTransfer(name: string) {
     this.step = 3;
     this.stepThreeName = name;
@@ -73,7 +76,6 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
     this.stepThreeName = name;
     this.stepThreeData = data;
   }
-
 
   activeSendSuccess(data) {
     this.step = 4;

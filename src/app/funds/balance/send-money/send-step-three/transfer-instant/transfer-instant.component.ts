@@ -57,8 +57,8 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
         this.balanceService
           .checkEmail(this.form.controls['email'].value)
           .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe( res => {
-            const data = res as {data: boolean, error: any}
+          .subscribe(res => {
+            const data = res as { data: boolean, error: any };
             if (data.data) {
               this.isSubmited = false;
               this.isEnterData = false;

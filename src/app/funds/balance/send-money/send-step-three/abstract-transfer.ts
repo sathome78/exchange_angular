@@ -10,8 +10,8 @@ import {getAllCurrenciesForChoose} from '../../../../core/reducers';
 
 export abstract class AbstractTransfer {
 
-  public cryptoNames ;
-  public defaultCryptoNames ;
+  public cryptoNames;
+  public defaultCryptoNames;
   public openCurrencyDropdown = false;
   public recaptchaKey = keys.recaptchaKey;
   protected ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -42,15 +42,12 @@ export abstract class AbstractTransfer {
     addition: '0'
   };
 
-
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
     if ($event.target.className !== 'select__value select__value--active' && $event.target.className !== 'select__search-input') {
       this.openCurrencyDropdown = false;
     }
   }
-
-
 
   getCommissionDebonce() {
     this.form.controls['amount'].valueChanges
@@ -80,10 +77,10 @@ export abstract class AbstractTransfer {
   getMinSum(currency) {
     const subscribtion = this.balanceService
       .getMinSumInnerTranfer(currency.id.toString(), this.model.type)
-      .subscribe((res: {data: string, error: string}) => {
-      this.minWithdrawSum = +res.data;
-      subscribtion.unsubscribe();
-    });
+      .subscribe((res: { data: string, error: string }) => {
+        this.minWithdrawSum = +res.data;
+        subscribtion.unsubscribe();
+      });
   }
 
   getBalance(name: string) {

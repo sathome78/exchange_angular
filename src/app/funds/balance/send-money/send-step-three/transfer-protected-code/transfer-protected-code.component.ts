@@ -65,7 +65,6 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
       operation: BY_PRIVATE_CODE,
       data: this.model
     };
-
     this.balanceService.goToPinCode$.next(data);
   }
 

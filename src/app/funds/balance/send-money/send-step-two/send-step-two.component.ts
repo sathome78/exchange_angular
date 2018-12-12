@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FIAT_WITHDRAWAL, CRYPTO_WITHDRAWAL, INNER_TRANSFER} from '../send-money-constants';
+import {BalanceItem} from '../../../models/balance-item.model';
 
 @Component({
   selector: 'app-send-step-two',
@@ -9,11 +10,14 @@ import {FIAT_WITHDRAWAL, CRYPTO_WITHDRAWAL, INNER_TRANSFER} from '../send-money-
 export class SendStepTwoComponent implements OnInit {
 
   @Input() choosedName: string;
+  @Input() balanceData: BalanceItem;
+
   public CRYPTO_WITHDRAWAL = CRYPTO_WITHDRAWAL;
   public FIAT_WITHDRAWAL = FIAT_WITHDRAWAL;
   public INNER_TRANSFER = INNER_TRANSFER;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

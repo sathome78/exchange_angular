@@ -1,13 +1,12 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {MockDataService} from '../../../../../shared/services/mock-data.service';
+import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
 import {BalanceService} from '../../../../services/balance.service';
 import {select, Store} from '@ngrx/store';
 import { State, getCryptoCurrenciesForChoose} from 'app/core/reducers';
-import {CurrencyPair} from '../../../../../model/currency-pair.model';
 import {COPY_ADDRESS} from '../../../send-money/send-money-constants';
+import {BalanceItem} from '../../../../models/balance-item.model';
 
 interface RefreshAddress {
   address: string;
@@ -22,6 +21,7 @@ interface RefreshAddress {
 })
 export class RefillCryptoComponent implements OnInit, OnDestroy {
 
+  @Input() refillData: BalanceItem;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public cryptoNames = [];
   public defaultCryptoNames = [];
@@ -46,13 +46,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    /**-------mock data------**/
-    // this.defaultCryptoNames = this.mockDataService.getCryptoName();
-    // this.cryptoNames = this.defaultCryptoNames;
-    // this.cryptoDataByName = this.mockDataService.getCryptoData();
-    // this.prepareAlphabet();
-    /**----------------------**/
-
+    console.log(this.refillData)
     this.store
       .pipe(select(getCryptoCurrenciesForChoose))
       .pipe(takeUntil(this.ngUnsubscribe))

@@ -14,9 +14,9 @@
   </tr>
   </thead>
   <tbody class="table__body">
-  <tr 
+  <tr
     class="table__row balance__table-row"
-    *ngFor="let item of cryptoBalances$ | async | paginate: {itemsPerPage: countPerPage, currentPage: currentPage, totalItems: countOfEntries$ | async}" 
+    *ngFor="let item of cryptoBalances$ | async | paginate: {itemsPerPage: countPerPage, currentPage: currentPage, totalItems: countOfEntries$ | async}"
   >
     <td class="table__cell">
       <div class="balance__currency">
@@ -46,7 +46,7 @@
       </div>
     </td>
     <td class="table__cell">
-      <button class="btn btn--center btn--small btn--hidden">Deposit</button>
+      <button class="btn btn--center btn--small btn--hidden" (click)="cryptoDeposit(item)">Deposit</button>
     </td>
     <td class="table__cell">
       <button class="btn btn--center btn--small btn--hidden">Transfer</button>
@@ -55,7 +55,7 @@
       <button class="btn btn--center btn--small btn--hidden">Trade</button>
     </td>
     <td class="table__cell">
-      <button class="btn btn--center btn--small btn--hidden">Withdraw</button>
+      <button class="btn btn--center btn--small btn--hidden" (click)="cryptoWithdraw(item)">Withdraw</button>
     </td>
   </tr>
   </tbody>
@@ -69,9 +69,9 @@
     (onChange)="onChangeItemsPerPage($event)"
   ></app-page-items-dropdown>
   <ul class="paginator" style="margin-left: auto;">
-    <pagination-controls 
-      maxSize="7" 
-      [previousLabel]="''" 
+    <pagination-controls
+      maxSize="7"
+      [previousLabel]="''"
       [nextLabel]="''"
     ></pagination-controls>
       <!-- (pageChange)="changePage($event)" -->

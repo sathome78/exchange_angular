@@ -52,8 +52,8 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
       this.balanceService.closeSendMoneyPopup$.next(false);
     } else {
       if (this.form.valid && !this.isAmountMax && !this.isAmountMin) {
-        this.balanceService.checkEmail(this.form.controls['email'].value).subscribe( res => {
-          const data = res as {data: boolean, error: any}
+        this.balanceService.checkEmail(this.form.controls['email'].value).subscribe(res => {
+          const data = res as { data: boolean, error: any };
           if (data.data) {
             this.isSubmited = false;
             this.isEnterData = false;
@@ -63,7 +63,6 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
         });
       }
     }
-
   }
 
   afterResolvedCaptcha(event) {

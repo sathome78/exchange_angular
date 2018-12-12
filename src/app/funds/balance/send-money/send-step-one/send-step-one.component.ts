@@ -13,7 +13,8 @@ export class SendStepOneComponent implements OnInit {
   public FIAT_WITHDRAWAL = FIAT_WITHDRAWAL;
   public CRYPTO_WITHDRAWAL = CRYPTO_WITHDRAWAL;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

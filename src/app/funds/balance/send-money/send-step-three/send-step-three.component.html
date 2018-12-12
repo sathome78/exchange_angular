@@ -1,15 +1,15 @@
 <app-transfer-instant
-*ngIf="choosedName === 'By email'"
+  *ngIf="choosedName === BY_EMAIL"
 >
 </app-transfer-instant>
 
 <app-transfer-protected-email-code
-*ngIf="choosedName === BY_CODE"
+  *ngIf="choosedName === BY_CODE"
 >
 </app-transfer-protected-email-code>
 
 <app-transfer-protected-code
-*ngIf="choosedName === BY_PRIVATE_CODE"
+  *ngIf="choosedName === BY_PRIVATE_CODE"
 >
 </app-transfer-protected-code>
 
@@ -21,5 +21,5 @@
 
 <!--<app-send-successful-->
 <!--*ngIf="choosedName === 'Send Success'"-->
- <!--[data]="responseData"-->
+<!--[data]="responseData"-->
 <!--&gt;</app-send-successful>-->

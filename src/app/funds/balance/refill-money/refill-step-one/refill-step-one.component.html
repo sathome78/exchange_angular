@@ -3,13 +3,16 @@
   <p>How would you like to refill the balance?</p>
 </div>
 <button class="btn btn--center btn--empty-blue"
-(click)="onChooseRefill('Crypto deposit')"
->Crypto deposit</button>
+        (click)="onChooseRefill(CRYPTO_DEPOSIT)">
+  Crypto deposit
+</button>
 
 <button class="btn btn--center btn--empty-blue"
-        (click)="onChooseRefill('Fiat deposit')"
->Fiat deposit</button>
+        (click)="onChooseRefill(FIAT_DEPOSIT)">
+  Fiat deposit
+</button>
 
 <button class="btn btn--center btn--empty-blue"
-        (click)="onChooseRefill('Inner Transfer')"
->Get inner transfer</button>
+        (click)="onChooseRefill(INNER_TRANSFER)">
+  Get inner transfer
+</button>

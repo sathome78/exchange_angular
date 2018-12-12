@@ -47,13 +47,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    /**-------mock data------**/
-    // this.defaultFiatNames = this.mockData.getFiatNames();
-    // this.fiatNames = this.defaultFiatNames;
-    // this.fiatDataByName = this.mockData.getCryptoData();
-    // this.merchants = this.fiatDataByName.merchantCurrencyData;
-    // this.selectedMerchant = this.fiatDataByName.merchantCurrencyData[0];
-    /** --------------------------*/
     this.initForm();
 
     this.store
@@ -132,10 +125,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
           this.refillData = res;
           this.submitSuccess = true;
         });
-        /** -------mock ---------*/
-        // this.submitSuccess = true;
-        // console.log(data);
-        /** -------------------- */
       }
     }
 

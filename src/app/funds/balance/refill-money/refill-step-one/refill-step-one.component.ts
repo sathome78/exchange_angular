@@ -1,4 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {CRYPTO_DEPOSIT, FIAT_DEPOSIT, INNER_TRANSFER} from '../../send-money/send-money-constants';
 
 @Component({
   selector: 'app-refill-step-one',
@@ -8,6 +9,9 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 export class RefillStepOneComponent implements OnInit {
 
   @Output() chooseRefill = new EventEmitter();
+  public CRYPTO_DEPOSIT = CRYPTO_DEPOSIT;
+  public FIAT_DEPOSIT = FIAT_DEPOSIT;
+  public INNER_TRANSFER = INNER_TRANSFER;
 
   constructor() { }
 

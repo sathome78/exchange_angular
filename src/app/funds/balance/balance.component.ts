@@ -9,6 +9,7 @@ import {Store} from '@ngrx/store';
 import {State} from 'app/core/reducers';
 import {ChangeCurrencyPairAction} from '../../dashboard/actions/dashboard.actions';
 import {SetAllCurrenciesForChoose, SetCryptoCurrenciesForChoose, SetFiatCurrenciesForChoose} from '../store/actions/funds.actions';
+import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL} from './send-money/send-money-constants';
 
 @Component({
   selector: 'app-balance',
@@ -30,6 +31,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public showRefillBalancePopup: boolean = false;
   public showSendMoneyPopup: boolean = false;
   public cryptoBalances: BalanceCrypto[];
+  public sendMoneyData = {};
+  public refillBalanceData = {};
 
   constructor(
     public balanceService: BalanceService,
@@ -78,11 +81,31 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public openRefillBalancePopup(flag: boolean) {
+    this.refillBalanceData = {};
     this.showRefillBalancePopup = flag;
   }
 
   public openSendMoneyPopup(flag: boolean) {
+    this.sendMoneyData = {};
     this.showSendMoneyPopup = flag;
+  }
+
+  goToCryptoWithdrawPopup(balance: BalanceItem): void {
+    this.showSendMoneyPopup = true;
+    this.sendMoneyData = {
+      step: 2,
+      stepName: CRYPTO_WITHDRAWAL,
+      balance: balance
+    };
+  }
+
+  goToCryptoDepositPopup(balance: BalanceItem) {
+    this.showRefillBalancePopup = true;
+    this.refillBalanceData = {
+      step: 2,
+      stepName: CRYPTO_DEPOSIT,
+      balance: balance
+    };
   }
 
 }
