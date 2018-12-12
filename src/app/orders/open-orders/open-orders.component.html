@@ -73,7 +73,21 @@
                 <div class="table__details-item-value">{{item.commissionValue}}% ~ {{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
               </div>
               <div class="table__details-item">
-                <div class="table__details-item-title"><button class="btn btn--small">Cancel</button></div>
+                <div class="table__details-item-title">
+                  <button 
+                    class="btn btn--small btn--empty-red"
+                    style="width: 100%; max-width: 58px;"
+                    (click)="onShowCancelOrderConfirm(item.id)"
+                  >Cancel</button>
+                  <div class="revoke-request" *ngIf="showCancelOrderConfirm === item.id">
+                    <div class="revoke-request__title">Are you sure you want to cancel selected order?</div>
+                    <div class="revoke-request__button-wrap">
+                      <button class="btn btn&#45;&#45;small" (click)="cancelOrder(item)">Yes</button>
+                      <button class="btn btn&#45;&#45;small" (click)="onShowCancelOrderConfirm(null)">No</button>
+                    </div>
+                    <div class="revoke-request__triangle"></div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -269,12 +283,15 @@
             <span>{{item.amountWithCommission}} {{item.currencyPairName | splitCurrency: 2}}</span>
           </td>
           <td class="table__cell">
-            <!--<button class="btn btn&#45;&#45;small btn&#45;&#45;empty-red table__row-btn" style="width: 100%; max-width: 58px;" (click)="openPopup(item)">Cancel</button>-->
-            <div class="revoke-request" [id]="'popup-' + item.id">
+            <button class="btn btn&#45;&#45;small btn&#45;&#45;empty-red table__row-btn" 
+              style="width: 100%; max-width: 58px;" 
+              (click)="onShowCancelOrderConfirm(item.id)"
+            >Cancel</button>
+            <div class="revoke-request" *ngIf="showCancelOrderConfirm === item.id">
               <div class="revoke-request__title">Are you sure you want to cancel selected order?</div>
               <div class="revoke-request__button-wrap">
-                <!--<button class="btn btn&#45;&#45;small" (click)="cancelOrder()">Yes</button>-->
-                <!--<button class="btn btn&#45;&#45;small" (click)="closePopup()">No</button>-->
+                <button class="btn btn&#45;&#45;small" (click)="cancelOrder(item)">Yes</button>
+                <button class="btn btn&#45;&#45;small" (click)="onShowCancelOrderConfirm(null)">No</button>
               </div>
               <div class="revoke-request__triangle"></div>
             </div>

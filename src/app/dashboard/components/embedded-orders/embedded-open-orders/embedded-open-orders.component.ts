@@ -146,32 +146,13 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
    * @param order
    */
   cancelOrder(order): void {
-    console.log(order);
-   const editedOrder = {
-     orderId: order.id,
-     amount: order.amountConvert,
-     baseType: order.orderBaseType,
-     commission: order.commissionValue,
-     currencyPairId: order.currencyPairId,
-     orderType: order.operationTypeEnum,
-     rate: order.exExchangeRate,
-     total: order.amountWithCommission,
-     status: 'CANCELLED'
-   };
-
-   if (order.stopRate) {
-     editedOrder.rate = order.stopRate;
-   }
-   console.log(editedOrder);
-   this.ordersService.deleteOrder(editedOrder).subscribe(res => {
-     this.refreshOpenOrders.emit(true);
-   });
-
+    this.ordersService.deleteOrder(order)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.refreshOpenOrders.emit(true);
+      });
   }
-  /**
-   * set status order canceled
-   * @param order
-   */
+ 
   onShowCancelOrderConfirm(orderId: string | null): void {
     this.showCancelOrderConfirm = orderId;
   }

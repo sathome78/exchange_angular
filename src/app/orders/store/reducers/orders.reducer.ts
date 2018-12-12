@@ -78,6 +78,17 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
         currencyPairs: action.payload.currencyPairs, 
       };
 
+    case ordersActions.CROP_CANCELED_ORDER:
+      return {
+        ...state, 
+        openOrders: state.openOrders.filter((item) => item.id !== action.payload)
+      };
+    case ordersActions.FAIL_ORDERS:
+      return {
+        ...state, 
+        loading: false, 
+      };
+
     default :
       return state;
   }
