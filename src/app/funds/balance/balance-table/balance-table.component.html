@@ -54,7 +54,7 @@
           </div>
         </td> -->
         <td class="table__cell">
-          <button class="btn btn--center btn--small btn--hidden">Deposit</button>
+          <button class="btn btn--center btn--small btn--hidden" (click)="cryptoDepositOut.emit(item)">Deposit</button>
         </td>
         <td class="table__cell">
           <button class="btn btn--center btn--small btn--hidden">Transfer</button>
@@ -63,7 +63,7 @@
           <button class="btn btn--center btn--small btn--hidden">Trade</button>
         </td>
         <td class="table__cell">
-          <button class="btn btn--center btn--small btn--hidden">Withdraw</button>
+          <button class="btn btn--center btn--small btn--hidden" (click)="cryptoWithdrawOut.emit(item)">Withdraw</button>
         </td>
       </tr>
     </tbody>

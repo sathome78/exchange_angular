@@ -20,9 +20,16 @@
   <form action="">
     <div class="balance__filters">
       <div class="wrap-input wrap-input--with-icon balance__search-mob">
-        <input class="wrap-input__input" type="text" required>
-        <label class="wrap-input__label">Search</label>
-        <div class="wrap-input__line"></div>
+        <ng-select 
+          class="custom"
+          [items]="currTab === Tab.CRYPTO ? cryptoCurrenciesForChoose : fiatCurrenciesForChoose"
+          bindLabel="name"
+          placeholder="Search"
+          bindValue="name"
+          name="currency"
+          [(ngModel)]="currencyForChoose"
+          (ngModelChange)="filterByCurrencyForMobile.emit({currTab: this.currTab, currency: this.currencyForChoose})"
+        ></ng-select>
       </div>
       <span>Price in</span>
       <div class="dropdown" #dropdown (click)="onToggleDropdown()">
@@ -32,7 +39,7 @@
         </ul>
       </div>
       <label class="toggler">
-        <input type="checkbox" name="togglerZero" [(ngModel)]="hideAllZero" (change)="onToggleAllZero.emit()">
+        <input type="checkbox" name="togglerZero" [(ngModel)]="hideAllZero" (change)="onToggleAllZeroTrigger()">
         <span class="toggler__indicate"></span>
       </label>
       <span>Show zero</span>
@@ -40,7 +47,16 @@
   </form>
   <!--filters end-->
 
-  <ng-container>
+  <div
+    #scrollContainer
+    [ngStyle]="tableScrollStyles"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50"
+    [scrollWindow]="false"
+    [horizontal]="false"
+    (scrolled)="onLoadMoreTrigger()"
+  >
     <!--table-mob start-->
     <!-- <perfect-scrollbar style="max-height: 450px;" #scrollWrapper> -->
       <table class="table table--mob">
@@ -53,10 +69,6 @@
         </thead>
         <tbody 
           class="table__body table__body--none-shadow" 
-          infiniteScroll
-          [infiniteScrollDistance]="2"
-          [infiniteScrollThrottle]="50"
-          (scrolled)="onLoadMore()"
         >
           <ng-container *ngFor="let item of balances">
             <tr class="table__row--mob" (click)="onShowMobDetails(item)">
@@ -91,19 +103,11 @@
               </td>
             </tr>
           </ng-container>
-          <!-- <tr>
-            <td colspan="4">
-              <button 
-                (click)="onLoadMore()"
-                [disabled]="balances.length === countOfEntries"
-              >Load more</button>
-            </td>
-          </tr> -->
         </tbody>
     </table>
     <!-- </perfect-scrollbar> -->
     <!-- table-mob end -->
-  </ng-container>
+  </div>
   <!--<div class="balance__request-mob-link">-->
   <!--<span>5</span>Pending requests-->
   <!--<svg width="11" height="10" viewBox="0 0 11 10" fill="none" xmlns="http://www.w3.org/2000/svg">-->
@@ -292,12 +296,10 @@
   </div> -->
   <div class="open-mob-balance__btn-wrap">
     <a class="widget__buy-sell-btn widget__buy-sell-btn--green"
-      [routerLink]="['/markets/', selectedItem.currencyName + '-' + priceIn]"
-      [queryParams]="{widget: 'trading'}" 
+      (click)="onBuyCurrency.emit(getMarketPair)"
     >Buy BTC</a>
     <a class="widget__buy-sell-btn widget__buy-sell-btn--red"
-      [routerLink]="['/markets/' + selectedItem.currencyName + '-' + priceIn]"
-      [queryParams]="{widget: 'trading'}"
+      (click)="onBuyCurrency.emit(getMarketPair)"
     >Sell BTC</a>
   </div>
 </div>

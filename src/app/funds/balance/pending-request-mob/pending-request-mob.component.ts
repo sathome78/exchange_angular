@@ -9,7 +9,10 @@ import {PendingRequestsItem} from 'app/funds/models/pending-requests-item.model'
 })
 export class PendingRequestMobComponent implements OnInit {
 
-  constructor() { }
+  constructor() { 
+    const componentHeight = window.innerHeight;
+    this.tableScrollStyles = {'height': (componentHeight - 102) + 'px', 'overflow': 'scrollY'}
+  }
 
   public pendingRequestsItem = PendingRequestsItem;
   public screen = {
@@ -19,6 +22,8 @@ export class PendingRequestMobComponent implements OnInit {
   }
   public currScreen: string = this.screen.MAIN;
   public detailsItem: PendingRequestsItem = null;
+  public tableScrollStyles: any = {};
+  public showRevokeModal: boolean = false;
 
   @Input('pendingRequests') public pendingRequests: PendingRequestsItem[] = [];
   @Input('countPerPage') public countPerPage: number;
@@ -26,12 +31,18 @@ export class PendingRequestMobComponent implements OnInit {
   @Input('countOfEntries') public countOfEntries: number;
   @Input('Tab') public Tab;
   @Input('currTab') public currTab;
-  @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();
+  @Output('onLoadMore') public onLoadMore: EventEmitter<any> = new EventEmitter();
   @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
   @Output('openRefillBalancePopup') public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
   @Output('openSendMoneyPopup') public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
 
   ngOnInit() {
+  }
+
+  public onLoadMoreTrigger(): void {
+    if(this.pendingRequests.length !== this.countOfEntries){
+      this.onLoadMore.emit({currentPage: +this.currentPage + 1, countPerPage: this.countPerPage, concat: true}); 
+    }
   }
 
   public onShowDetails(item: PendingRequestsItem): void {
@@ -47,6 +58,12 @@ export class PendingRequestMobComponent implements OnInit {
   }
   public onHideInfo(): void {
     this.currScreen = this.screen.DETAILS;
+  }
+  public toggleRevokeModal(val: boolean): void {
+    this.showRevokeModal = val;
+  }
+  public onRevoke(): void {
+    this.showRevokeModal = false;
   }
 
 }

@@ -50,18 +50,17 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
     case fromActions.LOAD_CRYPTO_BAL:
       return {...state, loading: true};
     case fromActions.SET_CRYPTO_BAL:
-      if(action.payload.isMobile) {
-        return {
-          ...state, 
-          loading: false, 
-          cryptoBal: [...state.cryptoBal, ...action.payload.items], 
-          countCryptoBal: action.payload.count,
-        };
-      }
       return {
         ...state,
         loading: false,
         cryptoBal: action.payload.items,
+        countCryptoBal: action.payload.count,
+      };
+    case fromActions.SET_MORE_CRYPTO_BAL:
+      return {
+        ...state,
+        loading: false,
+        cryptoBal: [...state.cryptoBal, ...action.payload.items],
         countCryptoBal: action.payload.count,
       };
     case fromActions.FAIL_LOAD_CRYPTO_BAL:
@@ -70,7 +69,6 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         loading: false,
       };
     case fromActions.SET_ALL_CURRENCIES_FOR_CHOOSE:
-      console.log(action.payload)
       return {...state, allCurrenciesForChoose: action.payload};
     case fromActions.SET_CRYPTO_CURRENCIES_FOR_CHOOSE:
       return {...state, cryptoCurrenciesForChoose: action.payload};
@@ -86,12 +84,19 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         fiatBal: action.payload.items, 
         countFiatBal: action.payload.count,
       };
+    case fromActions.SET_MORE_FIAT_BAL:
+      return {
+        ...state,
+        loading: false,
+        fiatBal: [...state.fiatBal, ...action.payload.items],
+        countFiatBal: action.payload.count,
+      };
     case fromActions.FAIL_LOAD_FIAT_BAL:
       return {
         ...state, 
         loading: false, 
       };
-
+      
     case fromActions.LOAD_PENDING_REQ:
       return {...state, loading: true};
     case fromActions.SET_PENDING_REQ:
@@ -99,6 +104,13 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         ...state, 
         loading: false, 
         pendingRequests: action.payload.items, 
+        countPendingRequests: action.payload.count,
+      };
+    case fromActions.SET_MORE_FIAT_BAL:
+      return {
+        ...state,
+        loading: false,
+        pendingRequests: [...state.pendingRequests, ...action.payload.items],
         countPendingRequests: action.payload.count,
       };
     case fromActions.FAIL_LOAD_PENDING_REQ:
@@ -120,27 +132,6 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         ...state, 
         loading: false, 
       };
-    // case ordersActions.LOAD_HISTORY_ORDERS:
-    //   return {...state, loading: true};
-    // case ordersActions.SET_HISTORY_ORDERS:
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     historyOrders: action.payload.historyOrders,
-    //     countHistoryOrders: action.payload.count,
-    //   };
-    // case ordersActions.FAIL_LOAD_HISTORY_ORDERS:
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //   };
-
-
-    // case ordersActions.SET_CURRENCY_PAIRS_ORDERS:
-    //   return {
-    //     ...state,
-    //     currencyPairs: action.payload.currencyPairs,
-    //   };
 
     default :
       return state;

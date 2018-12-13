@@ -9,7 +9,11 @@ import {BalanceItem} from '../../models/balance-item.model';
 })
 export class BalanceMobComponent implements OnInit{
 
-  constructor() { }
+  constructor() { 
+    const componentHeight = window.innerHeight;
+    this.tableScrollStyles = {'height': (componentHeight - 270) + 'px', 'overflow': 'scroll'}
+
+  }
   @ViewChild('dropdown') dropdownElement: ElementRef;
   @ViewChild('scrollContainer') public scrollContainer: ElementRef;
 
@@ -21,6 +25,8 @@ export class BalanceMobComponent implements OnInit{
     BTC: 'BTC',
     USD: 'USD',
   }
+
+  public tableScrollStyles: any = {};
   public get currenciesArr() {
     return Object.keys(this.currencies);
   }
@@ -30,6 +36,7 @@ export class BalanceMobComponent implements OnInit{
   public loadModeDisabled: boolean = false;
   public priceIn: string = this.currencies.USD;
   public selectedItem: BalanceItem = null;
+  public currencyForChoose: string = '';
 
   @Input('balances') public balances: BalanceItem[] = [];
   @Input('countPerPage') public countPerPage: number;
@@ -38,17 +45,24 @@ export class BalanceMobComponent implements OnInit{
   @Input('Tab') public Tab;
   @Input('currTab') public currTab;
   @Input('hideAllZero') public hideAllZero;
+  @Input('cryptoCurrenciesForChoose') public cryptoCurrenciesForChoose;
+  @Input('fiatCurrenciesForChoose') public fiatCurrenciesForChoose;
   @Output('onToggleAllZero') public onToggleAllZero: EventEmitter<any> = new EventEmitter();
-  @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();
+  @Output('onLoadMore') public onLoadMore: EventEmitter<any> = new EventEmitter();
   @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
   @Output('openRefillBalancePopup') public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
   @Output('openSendMoneyPopup') public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
-  // @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();
+  @Output('filterByCurrencyForMobile') public filterByCurrencyForMobile: EventEmitter<any> = new EventEmitter();
+  @Output('onBuyCurrency') public onBuyCurrency: EventEmitter<any> = new EventEmitter();
 
-  public onLoadMore(): void {
+  public onLoadMoreTrigger(): void {
     if(this.balances.length !== this.countOfEntries){
-      this.onPaginate.emit({currentPage: +this.currentPage + 1, countPerPage: this.countPerPage}); 
+      this.onLoadMore.emit({currentPage: +this.currentPage + 1, countPerPage: this.countPerPage, concat: true}); 
     }
+  }
+  public onToggleAllZeroTrigger(): void {
+    this.scrollContainer.nativeElement.scrollTop = 0;
+    this.onToggleAllZero.emit()
   }
   public onShowMobDetails(item: BalanceItem): void {
     this.selectedItem = item;
@@ -83,6 +97,14 @@ export class BalanceMobComponent implements OnInit{
       this.priceIn = this.currencies.USD
     } else {
       this.priceIn = this.currencies.BTC
+    }
+  }
+
+  public get getMarketPair(): string {
+    if (this.selectedItem.currencyName === 'BTC') {
+      return 'BTC-USD';
+    } else {
+      return `${this.selectedItem.currencyName}-BTC`
     }
   }
 

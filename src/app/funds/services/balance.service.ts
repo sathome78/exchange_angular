@@ -24,12 +24,14 @@ export class BalanceService {
 
   // request to get balances
   getBalances({type,
+               currencyName,
                offset, 
                limit,
                excludeZero}): Observable<BalanceWrapper> {
     
     const params = {
       currencyType: type,
+      currencyName: currencyName || '',
       offset: offset + '',
       limit: limit + '',
       excludeZero: (!!excludeZero).toString(),

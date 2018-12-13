@@ -15,6 +15,8 @@ export class BalanceTableComponent {
   @Input('currentPage') public currentPage: number;
   @Input('countOfEntries') public countOfEntries: number;
   @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();
+  @Output('cryptoWithdrawOut') public cryptoWithdrawOut: EventEmitter<any> = new EventEmitter();
+  @Output('cryptoDepositOut') public cryptoDepositOut: EventEmitter<any> = new EventEmitter();
 
   public changeItemsPerPage(items: number) {
     this.onPaginate.emit({currentPage: this.currentPage, countPerPage: items});

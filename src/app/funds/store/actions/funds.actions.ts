@@ -4,14 +4,17 @@ import {CHANGE_CURRENCY_PAIR} from '../../../dashboard/actions/dashboard.actions
 export const LOAD_CRYPTO_BAL = '[Funds] Load crypto balances';
 export const FAIL_LOAD_CRYPTO_BAL = '[Funds] Fail load crypto balances';
 export const SET_CRYPTO_BAL = '[Funds] Set crypto balances';
+export const SET_MORE_CRYPTO_BAL = '[Funds] Concat crypto balances';
 
 export const LOAD_FIAT_BAL = '[Funds] Load fiat balances';
 export const FAIL_LOAD_FIAT_BAL = '[Funds] Fail load fiat balances';
 export const SET_FIAT_BAL = '[Funds] Set fiat balances';
+export const SET_MORE_FIAT_BAL = '[Funds] Concat fiat balances';
 
 export const LOAD_PENDING_REQ = '[Funds] Load pending requests';
 export const FAIL_LOAD_PENDING_REQ = '[Funds] Fail load pending requests';
 export const SET_PENDING_REQ = '[Funds] Set pending requests';
+export const SET_MORE_PENDING_REQ = '[Funds] Concat pending requests';
 
 export const LOAD_MY_BALANCES = '[Funds] Load my balances';
 export const FAIL_LOAD_MY_BALANCES = '[Funds] Fail load my balances';
@@ -32,6 +35,10 @@ export class SetCryptoBalAction implements Action {
   readonly type = SET_CRYPTO_BAL;
   constructor(public payload?) {}
 }
+export class SetMoreCryptoBalAction implements Action {
+  readonly type = SET_MORE_CRYPTO_BAL;
+  constructor(public payload?) {}
+}
 export class FailLoadCryptoBalAction implements Action {
   readonly type = FAIL_LOAD_CRYPTO_BAL;
   constructor(public payload?) {}
@@ -45,6 +52,10 @@ export class LoadFiatBalAction implements Action {
 }
 export class SetFiatBalAction implements Action {
   readonly type = SET_FIAT_BAL;
+  constructor(public payload?) {}
+}
+export class SetMoreFiatBalAction implements Action {
+  readonly type = SET_MORE_FIAT_BAL;
   constructor(public payload?) {}
 }
 export class FailLoadFiatBalAction implements Action {
@@ -61,6 +72,10 @@ export class LoadPendingReqAction implements Action {
 }
 export class SetPendingReqAction implements Action {
   readonly type = SET_PENDING_REQ;
+  constructor(public payload?) {}
+}
+export class SetMorePendingReqAction implements Action {
+  readonly type = SET_MORE_PENDING_REQ;
   constructor(public payload?) {}
 }
 export class FailLoadPendingReqAction implements Action {
@@ -120,12 +135,15 @@ export class SetFiatCurrenciesForChoose implements Action {
 export type Actions
   = LoadCryptoBalAction
   | SetCryptoBalAction
+  | SetMoreCryptoBalAction
   | FailLoadCryptoBalAction
   | LoadFiatBalAction
   | SetFiatBalAction
+  | SetMoreFiatBalAction
   | FailLoadFiatBalAction
   | LoadPendingReqAction
   | SetPendingReqAction
+  | SetMorePendingReqAction
   | FailLoadPendingReqAction
   | LoadMyBalancesAction
   | SetMyBalancesAction

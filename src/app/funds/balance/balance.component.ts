@@ -4,13 +4,15 @@ import {Subject, Observable} from 'rxjs';
 import {Store, select} from '@ngrx/store';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
+import * as fromDashboardActions from '../../dashboard/actions/dashboard.actions';
 import {BalanceItem} from '../models/balance-item.model';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
 import {MyBalanceItem} from '../models/my-balance-item.model';
-import {BalanceCrypto} from '../../model';
 import {BalanceService} from '../services/balance.service';
 import {takeUntil} from 'rxjs/operators';
 import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL} from './send-money/send-money-constants';
+import {CurrencyChoose} from '../models/currency-choose.model';
+import * as fromCore from '../../core/reducers'
 
 @Component({
   selector: 'app-balance',
@@ -41,16 +43,18 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public pendingRequests$: Observable<PendingRequestsItem[]>;
   public countOfPendingRequests$: Observable<number>;
   public myBalances$: Observable<MyBalanceItem>;
-  public cryptoBalances: BalanceCrypto[];
+  public cryptoCurrenciesForChoose$: Observable<CurrencyChoose[]>;
+  public fiatCurrenciesForChoose$: Observable<CurrencyChoose[]>;
   public sendMoneyData = {};
   public refillBalanceData = {};
+  public currencyForChoose: string = '';
 
   public currentPage = 1;
   public countPerPage = 15;
     
   constructor(
     public balanceService: BalanceService,
-    private store: Store<fundsReducer.State>
+    private store: Store<fromCore.State>
   ) {
     this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
     this.countOfCryptoEntries$ = store.pipe(select(fundsReducer.getCountCryptoBalSelector));
@@ -59,12 +63,18 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.pendingRequests$ = store.pipe(select(fundsReducer.getPendingRequestsSelector));
     this.countOfPendingRequests$ = store.pipe(select(fundsReducer.getCountPendingReqSelector));
     this.myBalances$ = store.pipe(select(fundsReducer.getMyBalancesSelector));
+    this.cryptoCurrenciesForChoose$ = store.pipe(select(fromCore.getCryptoCurrenciesForChoose));
+    this.fiatCurrenciesForChoose$ = store.pipe(select(fromCore.getFiatCurrenciesForChoose));
   }
 
   ngOnInit() {
     this.isMobile = window.innerWidth <= 1200
+    if(this.isMobile) {
+      this.countPerPage = 30;
+    }
+
     this.loadBalances(this.currTab);
-    this.loadBalances(this.Tab.PR); 
+    this.loadBalances(this.Tab.PR);     
     this.store.dispatch(new fundsAction.LoadMyBalancesAction())
     this.balanceService.getCryptoFiatNames()
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -109,31 +119,33 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.loadBalances(this.currTab);
   }
 
-  public loadBalances(type) {
+  public loadBalances(type: string, concat?: boolean) {
     switch(type) {
       case this.Tab.CRYPTO :
         const paramsC = {
-          isMobile: this.isMobile,
           type,
+          currencyName: this.currencyForChoose || '',
           offset: (this.currentPage - 1) * this.countPerPage, 
           limit: this.countPerPage,
           excludeZero: this.hideAllZero,
+          concat: concat || false,
         }
         return this.store.dispatch(new fundsAction.LoadCryptoBalAction(paramsC));
       case this.Tab.FIAT :
         const paramsF = {
-          isMobile: this.isMobile,
           type,
+          currencyName: this.currencyForChoose || '',
           offset: (this.currentPage - 1) * this.countPerPage, 
           limit: this.countPerPage,
           excludeZero: this.hideAllZero,
+          concat: concat || false,
         }
         return this.store.dispatch(new fundsAction.LoadFiatBalAction(paramsF));
       case this.Tab.PR :
         const paramsP = {
-          isMobile: this.isMobile,
           offset: (this.currentPage - 1) * this.countPerPage, 
           limit: this.countPerPage,
+          concat: concat || false,
         }
         return this.store.dispatch(new fundsAction.LoadPendingReqAction(paramsP));
     }
@@ -169,6 +181,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public onToggleAllZero(): void {
+    this.currentPage = 1;
     this.loadBalances(this.currTab);
   }
 
@@ -190,5 +203,23 @@ export class BalanceComponent implements OnInit, OnDestroy {
       balance: balance
     };
   }
+  
+  public filterByCurrencyForMobile({currency, currTab}): void {
+    this.currencyForChoose = currency;
+    this.currentPage = 1;
+    this.loadBalances(this.currTab);
+  }
+
+  public loadMoreBalancesForMobile({currentPage, countPerPage, concat}): void {
+    this.countPerPage = countPerPage;
+    this.currentPage = currentPage;
+    this.loadBalances(this.currTab, concat);
+  }
+
+  public onBuyCurrency(marketPair) {
+    
+  }
+
+  
 
 }

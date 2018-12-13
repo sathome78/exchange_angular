@@ -26,9 +26,12 @@ export class FundsEffects {
     .pipe(switchMap((action) => {
       return this.balanceService.getBalances(action.payload)
         .pipe(
-          map(bal => (new fundsActions.SetCryptoBalAction(
-            {items: bal.items, count: bal.count, isMobile: action.payload.isMobile}
-          ))),
+          map(bal => {
+            if(action.payload.concat) {
+              return new fundsActions.SetMoreCryptoBalAction({items: bal.items, count: bal.count})
+            }
+            return new fundsActions.SetCryptoBalAction({items: bal.items, count: bal.count})
+          }),
           catchError(error => of(new fundsActions.FailLoadCryptoBalAction(error)))
         )
     }))
@@ -42,9 +45,12 @@ export class FundsEffects {
     .pipe(switchMap((action) => {
       return this.balanceService.getBalances(action.payload)
         .pipe(
-          map(bal => (new fundsActions.SetFiatBalAction(
-            {items: bal.items, count: bal.count, isMobile: action.payload.isMobile}
-          ))),
+          map(bal => {
+            if(action.payload.concat) {
+              return new fundsActions.SetMoreFiatBalAction({items: bal.items, count: bal.count})
+            }
+            return new fundsActions.SetFiatBalAction({items: bal.items, count: bal.count})
+          }),
           catchError(error => of(new fundsActions.FailLoadFiatBalAction(error)))
         )
     }))
@@ -58,9 +64,12 @@ export class FundsEffects {
     .pipe(switchMap((action) => {
       return this.balanceService.getPendingRequests(action.payload)
         .pipe(
-          map(bal => (new fundsActions.SetPendingReqAction(
-            {items: bal.items, count: bal.count, isMobile: action.payload.isMobile}
-          ))),
+          map(bal => {
+            if(action.payload.concat) {
+              return new fundsActions.SetMorePendingReqAction({items: bal.items, count: bal.count})
+            }
+            return new fundsActions.SetPendingReqAction({items: bal.items, count: bal.count})
+          }),
           catchError(error => of(new fundsActions.FailLoadPendingReqAction(error)))
         )
     }))
