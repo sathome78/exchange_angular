@@ -6,6 +6,7 @@ import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
 import {BalanceItem} from '../models/balance-item.model';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
+import {MyBalanceItem} from '../models/my-balance-item.model';
 
 @Component({
   selector: 'app-balance',
@@ -35,6 +36,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public countOfFiatEntries$: Observable<number>;
   public pendingRequests$: Observable<PendingRequestsItem[]>;
   public countOfPendingRequests$: Observable<number>;
+  public myBalances$: Observable<MyBalanceItem>;
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -46,12 +48,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.countOfFiatEntries$ = store.pipe(select(fundsReducer.getCountFiatBalSelector));
     this.pendingRequests$ = store.pipe(select(fundsReducer.getPendingRequestsSelector));
     this.countOfPendingRequests$ = store.pipe(select(fundsReducer.getCountPendingReqSelector));
+    this.myBalances$ = store.pipe(select(fundsReducer.getMyBalancesSelector));
   }
 
   ngOnInit() {
     this.isMobile = window.innerWidth <= 1200
     this.loadBalances(this.currTab);
     this.loadBalances(this.Tab.PR); 
+    this.store.dispatch(new fundsAction.LoadMyBalancesAction())
   }
 
   public onSelectTab(tab: string): void {

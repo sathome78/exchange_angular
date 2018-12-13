@@ -5,4 +5,8 @@ export const defaultValues = {
   countFiatBal: 0,
   pendingRequests: [],
   countPendingRequests: 0,
+  myBalances: {
+    'BTC': 0,
+    'USD': 0,
+  },
 };

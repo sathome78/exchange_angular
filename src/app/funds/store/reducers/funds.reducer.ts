@@ -3,6 +3,7 @@ import {defaultValues} from './default-values';
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {BalanceItem} from 'app/funds/models/balance-item.model';
 import {PendingRequestsItem} from 'app/funds/models/pending-requests-item.model';
+import { MyBalanceItem } from 'app/funds/models/my-balance-item.model';
 
 export interface State {
   cryptoBal: BalanceItem[];
@@ -11,6 +12,7 @@ export interface State {
   countFiatBal: number;
   pendingRequests: PendingRequestsItem[];
   countPendingRequests: number;
+  myBalances: MyBalanceItem, 
   loading: boolean;
 }
 
@@ -21,6 +23,7 @@ export const INIT_STATE: State = {
   countFiatBal: defaultValues.countFiatBal,
   pendingRequests: defaultValues.pendingRequests,
   countPendingRequests: defaultValues.countPendingRequests,
+  myBalances: defaultValues.myBalances,
   loading: false,
 };
 
@@ -84,6 +87,20 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         loading: false, 
       };
 
+    case fromActions.LOAD_MY_BALANCES:
+      return {...state, loading: true};
+    case fromActions.SET_MY_BALANCES:
+      return {
+        ...state, 
+        loading: false, 
+        myBalances: action.payload, 
+      };
+    case fromActions.FAIL_LOAD_MY_BALANCES:
+      return {
+        ...state, 
+        loading: false, 
+      };
+
     default :
       return state;
   }
@@ -114,4 +131,10 @@ export const getCountPendingReq = (state: State): number => state.countPendingRe
 
 export const getPendingRequestsSelector = createSelector(getOrdersState, getPendingRequests);
 export const getCountPendingReqSelector = createSelector(getOrdersState, getCountPendingReq);
+
+/** My Balances */
+
+export const getMyBalances = (state: State): any => state.myBalances;
+export const getMyBalancesSelector = createSelector(getOrdersState, getMyBalances);
+
 

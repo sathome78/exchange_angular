@@ -6,6 +6,7 @@ import {of} from 'rxjs';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import * as fundsActions from '../actions/funds.actions';
 import {BalanceService} from '../../services/balance.service';
+import { MyBalanceItem } from 'app/funds/models/my-balance-item.model';
 
 @Injectable()
 export class FundsEffects {
@@ -61,6 +62,20 @@ export class FundsEffects {
             {items: bal.items, count: bal.count, isMobile: action.payload.isMobile}
           ))),
           catchError(error => of(new fundsActions.FailLoadPendingReqAction(error)))
+        )
+    }))
+
+   /**
+   * Load pending requests
+   */
+  @Effect()
+  loadMyBalances$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadMyBalancesAction>(fundsActions.LOAD_MY_BALANCES))
+    .pipe(switchMap(() => {
+      return this.balanceService.getMyBalances()
+        .pipe(
+          map((res: MyBalanceItem) => (new fundsActions.SetMyBalancesAction(res))),
+          catchError(error => of(new fundsActions.FailLoadMyBalancesAction(error)))
         )
     }))
 

@@ -12,6 +12,9 @@ export const LOAD_PENDING_REQ = '[Funds] Load pending requests';
 export const FAIL_LOAD_PENDING_REQ = '[Funds] Fail load pending requests';
 export const SET_PENDING_REQ = '[Funds] Set pending requests';
 
+export const LOAD_MY_BALANCES = '[Funds] Load my balances';
+export const FAIL_LOAD_MY_BALANCES = '[Funds] Fail load my balances';
+export const SET_MY_BALANCES = '[Funds] Set my balances';
 
 
 /**
@@ -61,6 +64,22 @@ export class FailLoadPendingReqAction implements Action {
   constructor(public payload?) {}
 }
 
+/**
+ * Loading my balances
+ */
+export class LoadMyBalancesAction implements Action {
+  readonly type = LOAD_MY_BALANCES;
+  constructor(public payload?) {}
+}
+export class SetMyBalancesAction implements Action {
+  readonly type = SET_MY_BALANCES;
+  constructor(public payload?) {}
+}
+export class FailLoadMyBalancesAction implements Action {
+  readonly type = FAIL_LOAD_MY_BALANCES;
+  constructor(public payload?) {}
+}
+
 
 /**
  * Exports possible action types
@@ -75,3 +94,6 @@ export type Actions
   | LoadPendingReqAction
   | SetPendingReqAction
   | FailLoadPendingReqAction
+  | LoadMyBalancesAction
+  | SetMyBalancesAction
+  | FailLoadMyBalancesAction

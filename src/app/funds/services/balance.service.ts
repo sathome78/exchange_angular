@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {PendingRequestsWrapper} from '../models/pending-requests-wrapper.model';
 import {BalanceWrapper} from '../models/balance-wrapper.model';
 import {BalanceItem} from '../models/balance-item.model';
+import {MyBalanceItem} from '../models/my-balance-item.model';
 
 @Injectable()
 export class BalanceService {
@@ -92,5 +93,9 @@ export class BalanceService {
   withdrawRequest(data) {
     const url = `${this.apiUrl}/info/private/v2/balances/withdraw/request/create`;
     return this.http.post(url, data);
+  }
+
+  getMyBalances(): Observable<MyBalanceItem> {
+    return this.http.get<MyBalanceItem>(this.apiUrl + '/info/private/v2/balances/myBalances')
   }
 }

@@ -17,10 +17,19 @@ export class BalanceMobComponent implements OnInit{
     MAIN: 'MAIN',
     DETAILS: 'DETAILS',
   }
+  public currencies = {
+    BTC: 'BTC',
+    USD: 'USD',
+  }
+  public get currenciesArr() {
+    return Object.keys(this.currencies);
+  }
   public currScreen: string = this.screen.MAIN;
   public showOnConfirmation: boolean = false;
   public showReserve: boolean = false;
   public loadModeDisabled: boolean = false;
+  public priceIn: string = this.currencies.USD;
+  public selectedItem: BalanceItem = null;
 
   @Input('balances') public balances: BalanceItem[] = [];
   @Input('countPerPage') public countPerPage: number;
@@ -41,9 +50,9 @@ export class BalanceMobComponent implements OnInit{
       this.onPaginate.emit({currentPage: +this.currentPage + 1, countPerPage: this.countPerPage}); 
     }
   }
-  public onShowMobDetails(res: boolean): void {
-    res ? this.currScreen = this.screen.DETAILS : this.currScreen = this.screen.MAIN;
-    
+  public onShowMobDetails(item: BalanceItem): void {
+    this.selectedItem = item;
+    this.currScreen = this.screen.DETAILS;
   }
   public onTogglePanels(panel): void {
     switch(panel){
@@ -55,12 +64,26 @@ export class BalanceMobComponent implements OnInit{
         break;
     }
   }
+
+  public onSetScreen(screen: string): void {
+    this.currScreen = screen;
+  }
+
   public onToggleDropdown(): void {
     this.dropdownElement.nativeElement.classList.toggle('dropdown--open');
   }
 
+  public onSelectCurrency(e): void {
+    const element: HTMLElement = <HTMLElement>e.target;
+    this.priceIn = this.currencies[element.innerText];
+  }
+
   ngOnInit() {
-    // debugger
+    if(this.currTab === this.Tab.CRYPTO){
+      this.priceIn = this.currencies.USD
+    } else {
+      this.priceIn = this.currencies.BTC
+    }
   }
 
 }
