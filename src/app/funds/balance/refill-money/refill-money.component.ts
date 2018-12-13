@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-refill-money',
@@ -8,6 +8,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 export class RefillMoneyComponent implements OnInit {
 
   @Output() closeRefillBalancePopup = new EventEmitter<boolean>();
+  @Input() optionData;
   public stepTwoName: string;
   public step: number;
 
@@ -28,8 +29,8 @@ export class RefillMoneyComponent implements OnInit {
   }
 
   private initFields() {
-    this.step = 1;
-    this.stepTwoName = '';
+    this.step = this.optionData.step ? this.optionData.step : 1;
+    this.stepTwoName = this.optionData.stepName ? this.optionData.stepName : '';
   }
 
 }

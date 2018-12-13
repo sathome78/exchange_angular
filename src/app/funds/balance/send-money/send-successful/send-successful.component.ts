@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {BY_PRIVATE_CODE, COPY_ADDRESS, TRANSFER_INSTANT, SEND_CRYPTO, SEND_FIAT} from '../send-money-constants';
 
 @Component({
   selector: 'app-send-successful',
@@ -10,15 +11,17 @@ export class SendSuccessfulComponent implements OnInit {
   @Input() data;
   @Input() choosedName: string;
   @Output() closeMe = new EventEmitter();
+  public BY_PRIVATE_CODE = BY_PRIVATE_CODE;
+  public TRANSFER_INSTANT = TRANSFER_INSTANT;
+  public COPY_ADDRESS = COPY_ADDRESS;
+  public SEND_CRYPTO = SEND_CRYPTO;
+  public SEND_FIAT = SEND_FIAT;
   public operationName;
   public isSowCopyAddress = false;
   constructor() { }
 
   ngOnInit() {
-    console.log(this.choosedName);
-    console.log(this.data)
-    this.operationName = this.data.operationName;
-    console.log(this.operationName);
+    console.log(this.data);
   }
 
   onClose() {
@@ -46,7 +49,7 @@ export class SendSuccessfulComponent implements OnInit {
 
   private changeCopyBtn (name: string) {
     switch (name) {
-      case 'Copy address':
+      case COPY_ADDRESS:
         this.isSowCopyAddress = true;
         setTimeout(() => this.isSowCopyAddress = false, 1000);
         break;

@@ -1,13 +1,25 @@
-<!--<app-transfer-instant></app-transfer-instant>-->
-<!--<app-transfer-protected-email-code></app-transfer-protected-email-code>-->
-<!--<app-transfer-protected-code></app-transfer-protected-code>-->
+<app-transfer-instant
+  *ngIf="choosedName === BY_EMAIL"
+>
+</app-transfer-instant>
+
+<app-transfer-protected-email-code
+  *ngIf="choosedName === BY_CODE"
+>
+</app-transfer-protected-email-code>
+
+<app-transfer-protected-code
+  *ngIf="choosedName === BY_PRIVATE_CODE"
+>
+</app-transfer-protected-code>
+
 <app-send-tfa
-  *ngIf="choosedName === 'With code'"
-  (sendSuccess)="onSendSuccess($event)"
+  *ngIf="choosedName === WITH_CODE"
   [data]="data"
-></app-send-tfa>
+>
+</app-send-tfa>
 
 <!--<app-send-successful-->
 <!--*ngIf="choosedName === 'Send Success'"-->
- <!--[data]="responseData"-->
+<!--[data]="responseData"-->
 <!--&gt;</app-send-successful>-->

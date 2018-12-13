@@ -9,55 +9,65 @@
   </div>
   <!--send crypto/fiat start-->
 
-<div class="send-crypto" *ngIf="operationName === 'Send Crypto'">
-  <div class="title send__successful-title">Request was created!</div>
-  <div class="subtitle send__successful-subtitle">
-    You can track the progress in Pending requests table on <a routerLink="/transaction-history" class="link">Funds</a> page.
+  <div class="send-crypto" *ngIf="data.operation === SEND_CRYPTO || data.operation === SEND_FIAT">
+    <div class="title send__successful-title">Request was created!</div>
+    <div class="subtitle send__successful-subtitle">
+      You can track the progress in Pending requests table on <a routerLink="/transaction-history"
+                                                                 class="link">Funds</a> page.
+    </div>
   </div>
-</div>
 
   <!--send crypto/fiat end-->
   <!--send instant-transfer start-->
 
-  <!--<div class="title send__successful-title">Funds were sent!</div>-->
-  <!--<div class="subtitle send__successful-subtitle">-->
-    <!--You can check the status of completed transfer in the <a href="#" class="link">Transaction history</a> table.-->
-  <!--</div>-->
+  <div *ngIf="data.operation === TRANSFER_INSTANT">
+    <div class="title send__successful-title">Funds were sent!</div>
+    <div class="subtitle send__successful-subtitle">
+      You can check the status of completed transfer in the <a routerLink="/transaction-history" class="link">Transaction
+      history</a> table.
+    </div>
+  </div>
 
   <!--send instant-transfer end-->
   <!--send protected email-code-transfer start-->
-  <div class="send-fiat" *ngIf="operationName === 'Send Fiat'">
-  <div class="title send__successful-title">Private code was created successfully!</div>
-  <div class="send__code-wrap">
-    <div class="send__code-title">Use this code to get the transfer</div>
-    <div class="send__code">01d098ddce5b467c1987eee435a8457bd7a4e95ad1bc30213e1c6525250527c7</div>
-    <button class="btn btn--small btn--center btn--empty-blue" *ngIf="!isSowCopyAddress"
-            (click)="copyToBuffer('01d098ddce5b467c1987eee435a8457bd7a4e95ad1bc30213e1c6525250527c7', 'Copy address')">
-      Copy</button>
-    <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="isSowCopyAddress"
-    >Copied</button>
+  <div class="send-fiat" *ngIf="data.operation === BY_PRIVATE_CODE">
+    <div class="title send__successful-title">Private code was created successfully!</div>
+    <div class="send__code-wrap">
+      <div class="send__code-title">Use this code to get the transfer</div>
+      <div class="send__code">{{data.successData.hash}}</div>
+      <button class="btn btn--small btn--center btn--empty-blue" *ngIf="!isSowCopyAddress"
+              (click)="copyToBuffer(data.successData.hash, COPY_ADDRESS)">
+        Copy address
+      </button>
+      <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="isSowCopyAddress"
+      >Copied
+      </button>
+    </div>
+    <div class="subtitle send__successful-subtitle">
+      You can track the progress in Pending requests table on <a routerLink="/transaction-history"
+                                                                 class="link">Funds</a> page.
+    </div>
   </div>
-  <div class="subtitle send__successful-subtitle">
-    You can track the progress in Pending requests table on <a routerLink="/transaction-history" class="link">Funds</a> page.
-  </div>
-</div>
 
   <!--send protected email-code-transfer end-->
   <!--send protected code-transfer start-->
 
-  <!--<div class="title send__successful-title">Code was created successfully!</div>-->
-  <!--<div class="send__code-wrap">-->
-    <!--<div class="send__code-title">Use this code to get the transfer</div>-->
-    <!--<div class="send__code">01d098ddce5b467c1987eee435a8457bd7a4e95ad1bc30213e1c6525250527c7</div>-->
-    <!--<button class="btn btn&#45;&#45;small btn&#45;&#45;center btn&#45;&#45;empty-blue">Copy</button>-->
-  <!--</div>-->
-  <!--<div class="subtitle send__successful-subtitle">-->
-    <!--You can track the progress in Pending requests table on <a href="#" class="link">Funds</a> page.-->
-  <!--</div>-->
+  <div *ngIf="false">
+    <div class="title send__successful-title">Code was created successfully!</div>
+    <div class="send__code-wrap">
+      <div class="send__code-title">Use this code to get the transfer</div>
+      <div class="send__code">01d098ddce5b467c1987eee435a8457bd7a4e95ad1bc30213e1c6525250527c7</div>
+      <button class="btn btn--small btn--center btn--empty-blue">Copy</button>
+    </div>
+    <div class="subtitle send__successful-subtitle">
+      You can track the progress in Pending requests table on <a routerLink="/transaction-history"
+                                                                 class="link">Funds</a> page.
+    </div>
+  </div>
 
   <!--send protected code-transfer end-->
 
 
-  <button class="btn btn--center btn--empty-blue" (click)="onClose()" >Ok</button>
+  <button class="btn btn--center btn--empty-blue" (click)="onClose()">Ok</button>
 
 </div>

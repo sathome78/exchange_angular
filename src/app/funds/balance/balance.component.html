@@ -101,24 +101,24 @@
           <div class="wrap-input__line"></div>
         </div>
         <div class="tabs balance__tabs">
-          <button 
-            class="tabs__item" 
+          <button
+            class="tabs__item"
             [ngClass]="{'tabs__item--active': currTab === Tab.CRYPTO}"
-            (click)="onSelectTab(Tab.CRYPTO)"  
+            (click)="onSelectTab(Tab.CRYPTO)"
           >
             Crypto Balances
           </button>
-          <button 
-            class="tabs__item" 
+          <button
+            class="tabs__item"
             [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}"
-            (click)="onSelectTab(Tab.FIAT)"  
+            (click)="onSelectTab(Tab.FIAT)"
           >
             Fiat Balances
           </button>
-          <button 
-            class="tabs__item" 
+          <button
+            class="tabs__item"
             [ngClass]="{'tabs__item--active': currTab === Tab.PR}"
-            (click)="onSelectTab(Tab.PR)"  
+            (click)="onSelectTab(Tab.PR)"
           >
             <span>Pending requests</span>
             <span class="indicate">{{countOfPendingRequests$ | async}}</span>
@@ -159,6 +159,8 @@
         [countOfEntries]="getCountOfEntries() | async"  
         [currentPage]="currentPage"  
         (onPaginate)="onPageChanged($event)"
+        (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+        (cryptoDepositOut)="goToCryptoDepositPopup($event)"
       ></app-balance-table>
       <app-balance-table 
         *ngSwitchCase="Tab.FIAT"
@@ -185,10 +187,12 @@
 
 <app-refill-money
   *ngIf="showRefillBalancePopup"
+  [optionData]="refillBalanceData"
   (closeRefillBalancePopup)="openRefillBalancePopup(false)"
 ></app-refill-money>
 
 <app-send-money
   *ngIf="showSendMoneyPopup"
+  [optionData]="sendMoneyData"
   (closeSendMoneyPopup)="openSendMoneyPopup(false)"
 ></app-send-money>

@@ -1,11 +1,17 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {CurrencyBalanceModel} from '../../../../../model';
+import {CurrencyBalanceModel} from 'app/model';
 import {Subject} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
-import {takeUntil} from 'rxjs/operators';
-import {MockDataService} from '../../../../../shared/services/mock-data.service';
-import {keys} from '../../../../../core/keys';
+import {debounceTime, takeUntil} from 'rxjs/operators';
+import {keys} from 'app/core/keys';
+import {getFiatCurrenciesForChoose, State} from 'app/core/reducers';
+import {select, Store} from '@ngrx/store';
+import {SEND_FIAT} from '../../send-money-constants';
+import {CommissionData} from '../../../../models/commission-data.model';
+import {defaultCommissionData} from '../../../../store/reducers/default-values';
+import {environment} from '../../../../../../environments/environment';
+import {PopupService} from 'app/shared/services/popup.service';
 
 @Component({
   selector: 'app-send-fiat',
@@ -27,7 +33,10 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public isSubmited = false;
   public selectedMerchant;
   public activeFiat;
+  public isAmountMax;
+  public isAmountMin;
   public form: FormGroup;
+  public calculateData: CommissionData = defaultCommissionData;
 
   public model = {
     currency: 0,
@@ -45,18 +54,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     securityCode: ''
   };
 
-  public calculateData = {
-    amount: 0,
-    percentExchange: 0,
-    fixedMinCommissiom: 0,
-    exchangeSum: 0,
-    percentMerchant: 0,
-    merchantSum: 0,
-    totalCommission: 0,
-    totalCommissionSum: 0,
-    amountWithCommission: 0,
-  };
-
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
     if ($event.target.className !== 'select__value select__value--active' && $event.target.className !== 'select__search-input') {
@@ -67,22 +64,30 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   constructor(
     public balanceService: BalanceService,
-    public mockDataService: MockDataService,
-  ) { }
+    public popupService: PopupService,
+    private store: Store<State>,
+  ) {
+  }
 
   ngOnInit() {
     this.initForm();
-    // /**-------mock data------**/
-    // this.fiatNames = this.mockDataService.getFiatNames();
-    // this.fiatInfoByName = this.mockDataService.getCryptoData();
-    // this.activeFiat = this.fiatNames[0];
-    // /**----------------------**/
-    this.balanceService.getFiatNames()
+    this.form.controls['amount'].valueChanges
+      .pipe(debounceTime(1000))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.fiatNames = res;
+        if (res !== '0') {
+          this.calculateCommission(res);
+        }
+      });
+
+    this.store
+      .pipe(select(getFiatCurrenciesForChoose))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(currencies => {
+        this.fiatNames = currencies;
         this.activeFiat = this.fiatNames[0];
         this.getFiatInfoByName(this.activeFiat.name);
+        this.getBalance(this.activeFiat.name);
       });
   }
 
@@ -96,16 +101,14 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.activeFiat = currency;
     this.currencyDropdownToggle();
     this.getFiatInfoByName(this.activeFiat.name);
+    this.getBalance(this.activeFiat.name);
   }
 
   selectMerchant(merchant) {
     this.form.reset();
     if (merchant !== {}) {
       this.selectedMerchant = merchant;
-      this.minWithdrawSum = merchant.minSum;
-      this.calculateData.percentMerchant = this.fiatInfoByName.merchantCurrencyData[0] ? this.fiatInfoByName.merchantCurrencyData[0].outputCommission : 0;
-      this.calculateData.fixedMinCommissiom = this.fiatInfoByName.merchantCurrencyData[0] ? this.fiatInfoByName.merchantCurrencyData[0].fixedMinCommission : 0;
-      this.calculateData.totalCommission = this.calculateData.percentMerchant + this.calculateData.percentExchange;
+      this.minWithdrawSum = merchant.minSum || 0;
     }
   }
 
@@ -126,38 +129,55 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.openCurrencyDropdown = false;
   }
 
- onSubmitWithdrawal() {
+  onSubmitWithdrawal() {
     this.isSubmited = true;
-    if (this.form.valid && this.selectedMerchant.name) {
-      this.isSubmited = false;
-      this.isEnterData = false;
-      console.log(this.form);
-      console.log(this.selectedMerchant);
+
+    if (environment.production) {
+      // todo while insecure
+      this.popupService.showDemoTradingPopup(true);
+      this.balanceService.closeSendMoneyPopup$.next(false);
+    } else {
+      if (this.form.valid && !this.isAmountMin && this.form.controls['amount'].value !== '0' && !this.isAmountMax && this.selectedMerchant.name) {
+        this.isSubmited = false;
+        this.isEnterData = false;
+      }
     }
- }
+  }
+
+  getBalance(name: string) {
+    const subscribtion = this.balanceService.getTotalBalance().subscribe(res => {
+      const allBalances = res as { sumTotalUSD: any, mapWallets: any };
+      const needBalance = allBalances.mapWallets.filter(item => item.currencyName === name);
+      this.activeBalance = needBalance[0].activeBalance;
+      subscribtion.unsubscribe();
+    });
+  }
 
   private getFiatInfoByName(name: string) {
+    this.calculateData = defaultCommissionData;
     this.balanceService.getCurrencyData(name)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.fiatInfoByName = res;
         this.merchants = this.fiatInfoByName.merchantCurrencyData;
         this.selectMerchant(this.merchants.length ? this.merchants[0] : {});
-        this.activeBalance = this.fiatInfoByName.activeBalance || 0;
-        console.log(res);
       });
   }
 
 
   calculateCommission(amount) {
-    this.calculateData.amount = amount;
-    this.calculateData.merchantSum = amount * ( this.calculateData.percentMerchant / 100);
-    this.calculateData.totalCommissionSum = this.calculateData.merchantSum + this.calculateData.exchangeSum;
-    this.calculateData.amountWithCommission = amount - this.calculateData.totalCommissionSum;
+    if (this.selectedMerchant.merchantId) {
+      this.balanceService
+        .getCommissionToWithdraw(amount, this.activeFiat.id, this.fiatInfoByName.merchantCurrencyData[0].merchantId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.calculateData = res as CommissionData;
+        });
+    }
   }
 
   amountInput(event) {
-    this.calculateCommission(event.target.value);
+    this.amountValidator(event.target.value);
   }
 
   afterResolvedCaptcha(event) {
@@ -170,17 +190,11 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       this.model.walletNumber = this.form.controls['address'].value;
 
       const data = {
-        operation: 'Send Fiat',
+        operation: SEND_FIAT,
         data: this.model
-      }
+      };
 
-      /** mock */
-      // console.log(data)
       this.balanceService.goToPinCode$.next(data);
-      /** ----------- **/
-      this.balanceService.sendPinCode().subscribe(res => {
-        this.balanceService.goToPinCode$.next(data);
-      });
     }
   }
 
@@ -194,23 +208,14 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   private initForm() {
     this.form = new FormGroup({
-      address: new FormControl('', [Validators.required] ),
-      amount: new FormControl('', [Validators.required, this.minCheck.bind(this), this.maxCheck.bind(this)]),
+      address: new FormControl('', [Validators.required]),
+      amount: new FormControl('0', [Validators.required]),
     });
   }
 
-  private minCheck(amount: FormControl) {
-    if (this.minWithdrawSum > amount.value) {
-      return {'minThen': true};
-    }
-    return null;
-  }
-
-  private maxCheck(amount: FormControl) {
-    if (this.activeBalance < amount.value) {
-      return {'maxThen': true};
-    }
-    return null;
+  amountValidator(sum) {
+    this.isAmountMax = +sum > +this.activeBalance ? true : false;
+    this.isAmountMin = +sum < +this.minWithdrawSum ? true : false;
   }
 
 }

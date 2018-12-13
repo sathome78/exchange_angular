@@ -7,6 +7,10 @@ import * as fundsAction from '../store/actions/funds.actions';
 import {BalanceItem} from '../models/balance-item.model';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
 import {MyBalanceItem} from '../models/my-balance-item.model';
+import {BalanceCrypto} from '../../model';
+import {BalanceService} from '../services/balance.service';
+import {takeUntil} from 'rxjs/operators';
+import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL} from './send-money/send-money-constants';
 
 @Component({
   selector: 'app-balance',
@@ -37,11 +41,17 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public pendingRequests$: Observable<PendingRequestsItem[]>;
   public countOfPendingRequests$: Observable<number>;
   public myBalances$: Observable<MyBalanceItem>;
+  public cryptoBalances: BalanceCrypto[];
+  public sendMoneyData = {};
+  public refillBalanceData = {};
 
   public currentPage = 1;
   public countPerPage = 15;
- 
-  constructor(private store: Store<fundsReducer.State>) {
+    
+  constructor(
+    public balanceService: BalanceService,
+    private store: Store<fundsReducer.State>
+  ) {
     this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
     this.countOfCryptoEntries$ = store.pipe(select(fundsReducer.getCountCryptoBalSelector));
     this.fiatBalances$ = store.pipe(select(fundsReducer.getFiatBalancesSelector));
@@ -56,6 +66,35 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.loadBalances(this.currTab);
     this.loadBalances(this.Tab.PR); 
     this.store.dispatch(new fundsAction.LoadMyBalancesAction())
+    this.balanceService.getCryptoFiatNames()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.store.dispatch(new fundsAction.SetAllCurrenciesForChoose(res.data));
+    });
+
+    this.balanceService.getCryptoNames()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.store.dispatch(new fundsAction.SetCryptoCurrenciesForChoose(res));
+      });
+
+    this.balanceService.getFiatNames()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.store.dispatch(new fundsAction.SetFiatCurrenciesForChoose(res));
+      });
+
+    this.balanceService.closeRefillMoneyPopup$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.openRefillBalancePopup(res);
+      });
+
+    this.balanceService.closeSendMoneyPopup$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.openSendMoneyPopup(res);
+      });
   }
 
   public onSelectTab(tab: string): void {
@@ -115,15 +154,17 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // this.ngUnsubscribe.next();
-    // this.ngUnsubscribe.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   public openRefillBalancePopup(flag: boolean) {
+    this.refillBalanceData = {};
     this.showRefillBalancePopup = flag;
   }
 
   public openSendMoneyPopup(flag: boolean) {
+    this.sendMoneyData = {};
     this.showSendMoneyPopup = flag;
   }
 
@@ -132,5 +173,22 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   
+  public goToCryptoWithdrawPopup(balance: BalanceItem): void {
+    this.showSendMoneyPopup = true;
+    this.sendMoneyData = {
+      step: 2,
+      stepName: CRYPTO_WITHDRAWAL,
+      balance: balance
+    };
+  }
+
+  public goToCryptoDepositPopup(balance: BalanceItem) {
+    this.showRefillBalancePopup = true;
+    this.refillBalanceData = {
+      step: 2,
+      stepName: CRYPTO_DEPOSIT,
+      balance: balance
+    };
+  }
 
 }

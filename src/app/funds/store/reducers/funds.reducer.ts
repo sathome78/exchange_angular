@@ -3,7 +3,13 @@ import {defaultValues} from './default-values';
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {BalanceItem} from 'app/funds/models/balance-item.model';
 import {PendingRequestsItem} from 'app/funds/models/pending-requests-item.model';
-import { MyBalanceItem } from 'app/funds/models/my-balance-item.model';
+import {MyBalanceItem} from 'app/funds/models/my-balance-item.model';
+import {CurrencyChoose} from '../../models/currency-choose.model';
+import * as dashboard from '../../../dashboard/actions/dashboard.actions';
+import {SET_ALL_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
+import {SET_CRYPTO_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
+import {SET_FIAT_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
+import {CurrencyPair} from '../../../model/currency-pair.model';
 
 export interface State {
   cryptoBal: BalanceItem[];
@@ -14,6 +20,9 @@ export interface State {
   countPendingRequests: number;
   myBalances: MyBalanceItem, 
   loading: boolean;
+  cryptoCurrenciesForChoose: CurrencyChoose[];
+  fiatCurrenciesForChoose: CurrencyChoose[];
+  allCurrenciesForChoose: CurrencyChoose[];
 }
 
 export const INIT_STATE: State = {
@@ -24,6 +33,10 @@ export const INIT_STATE: State = {
   pendingRequests: defaultValues.pendingRequests,
   countPendingRequests: defaultValues.countPendingRequests,
   myBalances: defaultValues.myBalances,
+  cryptoCurrenciesForChoose: [],
+  fiatCurrenciesForChoose: [],
+  allCurrenciesForChoose: [],
+
   loading: false,
 };
 
@@ -46,16 +59,23 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         };
       }
       return {
-        ...state, 
-        loading: false, 
-        cryptoBal: action.payload.items, 
+        ...state,
+        loading: false,
+        cryptoBal: action.payload.items,
         countCryptoBal: action.payload.count,
       };
     case fromActions.FAIL_LOAD_CRYPTO_BAL:
       return {
-        ...state, 
-        loading: false, 
+        ...state,
+        loading: false,
       };
+    case fromActions.SET_ALL_CURRENCIES_FOR_CHOOSE:
+      console.log(action.payload)
+      return {...state, allCurrenciesForChoose: action.payload};
+    case fromActions.SET_CRYPTO_CURRENCIES_FOR_CHOOSE:
+      return {...state, cryptoCurrenciesForChoose: action.payload};
+    case fromActions.SET_FIAT_CURRENCIES_FOR_CHOOSE:
+      return {...state, fiatCurrenciesForChoose: action.payload};
 
     case fromActions.LOAD_FIAT_BAL:
       return {...state, loading: true};
@@ -100,6 +120,27 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         ...state, 
         loading: false, 
       };
+    // case ordersActions.LOAD_HISTORY_ORDERS:
+    //   return {...state, loading: true};
+    // case ordersActions.SET_HISTORY_ORDERS:
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     historyOrders: action.payload.historyOrders,
+    //     countHistoryOrders: action.payload.count,
+    //   };
+    // case ordersActions.FAIL_LOAD_HISTORY_ORDERS:
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //   };
+
+
+    // case ordersActions.SET_CURRENCY_PAIRS_ORDERS:
+    //   return {
+    //     ...state,
+    //     currencyPairs: action.payload.currencyPairs,
+    //   };
 
     default :
       return state;
@@ -138,3 +179,11 @@ export const getMyBalances = (state: State): any => state.myBalances;
 export const getMyBalancesSelector = createSelector(getOrdersState, getMyBalances);
 
 
+// /** Orders currencies pairs finish */
+
+/** Selector returns crypto and fiat currencies for choose in dropdown*/
+export const getAllCurrenciesForChoose = (state: State): CurrencyChoose[] => state.allCurrenciesForChoose;
+/** Selector returns crypto and fiat currencies for choose in dropdown*/
+export const getCryptoCurrenciesForChoose = (state: State): CurrencyChoose[] => state.cryptoCurrenciesForChoose;
+/** Selector returns crypto and fiat currencies for choose in dropdown*/
+export const getFiatCurrenciesForChoose = (state: State): CurrencyChoose[] => state.fiatCurrenciesForChoose;
