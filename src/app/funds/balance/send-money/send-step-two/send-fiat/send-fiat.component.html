@@ -77,7 +77,7 @@
       </div>
       <div class="wrap-input send__wrap-input"
            [ngClass]="{'wrap-input--error': !form.controls['address'].valid && isSubmited}">
-        <input class="wrap-input__input" name="address" formControlName="address">
+        <input class="wrap-input__input" name="address" formControlName="address" required>
         <label class="wrap-input__label">Payment system <span>{{activeFiat ? activeFiat.name : ''}}</span>
           address</label>
         <div class="wrap-input__line"></div>
