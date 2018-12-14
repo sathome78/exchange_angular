@@ -22,6 +22,10 @@
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
         (onBuyCurrency)="onBuyCurrency($event)"
         (onLoadBalanceConfirmInfo)="onLoadBalanceConfirmInfo($event)"
+        (onResetBalanceConfirmInfo)="onResetBalanceConfirmInfo($event)"
+        (transferOut)="goToTransferPopup($event)"
+        (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+        (cryptoDepositOut)="goToCryptoDepositPopup($event)"
       ></app-balance-mob>
       <app-balance-mob
         *ngSwitchCase="Tab.FIAT"
@@ -43,6 +47,10 @@
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
         (onBuyCurrency)="onBuyCurrency($event)"
         (onLoadBalanceConfirmInfo)="onLoadBalanceConfirmInfo($event)"
+        (onResetBalanceConfirmInfo)="onResetBalanceConfirmInfo($event)"
+        (transferOut)="goToTransferPopup($event)"
+        (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+        (cryptoDepositOut)="goToCryptoDepositPopup($event)"
       ></app-balance-mob>
       <app-pending-request-mob
         *ngSwitchCase="Tab.PR"
@@ -101,7 +109,10 @@
     </div>
     <!--filters start-->
     <!--<form action="">-->
-      <div class="balance__filters">
+      <div 
+        class="balance__filters" 
+        [ngClass]="{'balance__filter--pending-open': currTab === Tab.PR}"
+      >
         <div class="wrap-input wrap-input&#45;&#45;with-icon " *ngIf="currTab !== Tab.PR">
           <ng-select
             class="custom"
@@ -185,6 +196,7 @@
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         (onPaginate)="onPageChanged($event)"
+        (transferOut)="goToTransferPopup($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
         (cryptoDepositOut)="goToCryptoDepositPopup($event)"
       ></app-balance-table>

@@ -57,6 +57,10 @@ export class BalanceMobComponent implements OnInit{
   @Output('filterByCurrencyForMobile') public filterByCurrencyForMobile: EventEmitter<any> = new EventEmitter();
   @Output('onBuyCurrency') public onBuyCurrency: EventEmitter<any> = new EventEmitter();
   @Output('onLoadBalanceConfirmInfo') public onLoadBalanceConfirmInfo: EventEmitter<any> = new EventEmitter();
+  @Output('onResetBalanceConfirmInfo') public onResetBalanceConfirmInfo: EventEmitter<any> = new EventEmitter();
+  @Output('transferOut') public transferOut: EventEmitter<any> = new EventEmitter();
+  @Output('cryptoWithdrawOut') public cryptoWithdrawOut: EventEmitter<any> = new EventEmitter();
+  @Output('cryptoDepositOut') public cryptoDepositOut: EventEmitter<any> = new EventEmitter();
 
   public onLoadMoreTrigger(): void {
     if(this.balances.length !== this.countOfEntries){
@@ -70,6 +74,10 @@ export class BalanceMobComponent implements OnInit{
   public onShowMobDetails(item: BalanceItem): void {
     this.onLoadBalanceConfirmInfo.emit(item.currencyId);
     this.currScreen = this.screen.DETAILS;
+  }
+  public onGoBackToMain(): void {
+    this.onResetBalanceConfirmInfo.emit();
+    this.currScreen = this.screen.MAIN;
   }
   public onTogglePanels(panel): void {
     switch(panel){

@@ -54,7 +54,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public selectedBalance$: Observable<BalanceDetailsItem>;
   public sendMoneyData = {};
   public refillBalanceData = {};
-  public currencyForChoose: string = '';
+  public currencyForChoose: string = null;
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -191,7 +191,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     };
   }
 
-  goToCryptoDepositPopup(balance: BalanceItem): void {
+  public goToCryptoDepositPopup(balance: BalanceItem): void {
     this.showRefillBalancePopup = true;
     this.refillBalanceData = {
       step: 2,
@@ -206,7 +206,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.loadBalances(this.currTab);
   }
 
-  goToTransferPopup(balance: BalanceItem): void {
+  public goToTransferPopup(balance: BalanceItem): void {
     this.showSendMoneyPopup = true;
     this.sendMoneyData = {
       step: 2,
@@ -227,8 +227,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.dashboardWS.findPairByCurrencyPairName(`${splitName[0]}/${splitName[1]}`);
     this.router.navigate(['/'], {queryParams: {widget: 'trading'}});
   }
-  
-  public onRevokePendingRequest({requestId, operation}) {
+
+  public onRevokePendingRequest({requestId, operation}): void {
     this.currentPage = 1;
     const params = {
       revoke: {
@@ -247,6 +247,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public onLoadBalanceConfirmInfo(currencyId) {
     this.store.dispatch(new fundsAction.LoadBalanceDetailsAction(currencyId))
+  }
+
+  public onResetBalanceConfirmInfo() {
+    this.store.dispatch(new fundsAction.SetBalanceDetailsAction(null))
   }
 
 
