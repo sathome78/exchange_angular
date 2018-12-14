@@ -111,9 +111,9 @@
     <!--<form action="">-->
       <div 
         class="balance__filters" 
-        [ngClass]="{'balance__filter--pending-open': currTab === Tab.PR}"
+        [ngClass]="{'balance__filters--pending-open': currTab === Tab.PR}"
       >
-        <div class="wrap-input wrap-input&#45;&#45;with-icon " *ngIf="currTab !== Tab.PR">
+        <div class="wrap-input wrap-input&#45;&#45;with-icon balance__search" *ngIf="currTab !== Tab.PR">
           <ng-select
             class="custom"
             [items]="currTab === Tab.CRYPTO ? (cryptoCurrenciesForChoose$ | async) : (fiatCurrenciesForChoose$ | async)"
