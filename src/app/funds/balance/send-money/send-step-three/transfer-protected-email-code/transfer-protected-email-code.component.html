@@ -12,7 +12,9 @@
         <div class="select__line"></div>
         <div class="select__triangle"></div>
         <!--add select__list-searching--open for looking open state-->
-        <div class="select__list-searching" *ngIf="openCurrencyDropdown">
+        <div class="select__list-searching"
+             [ngClass]="{'select__list-searching--open': openCurrencyDropdown}"
+             *ngIf="openCurrencyDropdown">
           <div class="select__search">
             <input class="select__search-input" type="text" placeholder="Search" (input)="searchCoin($event)">
             <div class="select__search-icon">

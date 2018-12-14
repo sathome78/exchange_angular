@@ -10,7 +10,9 @@
       <div class="select__line"></div>
       <div class="select__triangle"></div>
       <!--add select__list--open for looking open state-->
-      <ul class="select__list" *ngIf="openCurrencyDropdown">
+      <ul class="select__list"
+          [ngClass]="{'select__list--open': openCurrencyDropdown}"
+          *ngIf="openCurrencyDropdown">
 
         <li class="select__list-item" *ngFor="let currency of fiatNames"  (click)="selectCurrency(currency)">
           <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
@@ -29,7 +31,9 @@
       <div class="select__line"></div>
       <div class="select__triangle"></div>
       <!--add select__list-searching--open for looking open state-->
-      <div class="select__list-searching" *ngIf="openPaymentSystemDropdown">
+      <div class="select__list-searching"
+           [ngClass]="{'select__list-searching--open': openPaymentSystemDropdown}"
+           *ngIf="openPaymentSystemDropdown">
         <div class="select__search">
           <input class="select__search-input" type="text" placeholder="Search" (input)="searchMerchant($event)">
           <div class="select__search-icon">

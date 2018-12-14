@@ -30,6 +30,7 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log(this.optionData)
     this.initFields();
     this.balanceService.goToPinCode$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -48,7 +49,10 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.activeSendSuccess(res);
       });
+  }
 
+  setStep(step: number) {
+    this.step = step;
   }
 
   ngOnDestroy(): void {
@@ -64,6 +68,7 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
   private initFields() {
     this.step = this.optionData.step ? this.optionData.step : 1;
     this.stepTwoName = this.optionData.stepName ? this.optionData.stepName : '';
+    this.stepThreeData = this.optionData.stepThreeData ? this.optionData.stepThreeData : null;
   }
 
   activeStepThreeInnerTransfer(name: string) {

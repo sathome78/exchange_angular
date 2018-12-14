@@ -11,6 +11,9 @@ import {SET_CRYPTO_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
 import {SET_FIAT_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {BalanceDetailsItem} from '../../models/balance-details-item.model';
+import {FAIL_LOAD_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
+import {LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
+import {LOAD_FIAT_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
 
 export interface State {
   cryptoBal: BalanceItem[];
@@ -70,20 +73,28 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         ...state,
         loading: false,
       };
-    case fromActions.SET_ALL_CURRENCIES_FOR_CHOOSE:
+    case fromActions.LOAD_ALL_CURRENCIES_FOR_CHOOSE:
+      return {...state, loading: true};
+    case fromActions.LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE:
+      return {...state, loading: true};
+    case fromActions.LOAD_FIAT_CURRENCIES_FOR_CHOOSE:
+      return {...state, loading: true};
+      case fromActions.SET_ALL_CURRENCIES_FOR_CHOOSE:
       return {...state, allCurrenciesForChoose: action.payload};
     case fromActions.SET_CRYPTO_CURRENCIES_FOR_CHOOSE:
       return {...state, cryptoCurrenciesForChoose: action.payload};
     case fromActions.SET_FIAT_CURRENCIES_FOR_CHOOSE:
       return {...state, fiatCurrenciesForChoose: action.payload};
+      case fromActions.FAIL_LOAD_CURRENCIES_FOR_CHOOSE:
+      return {...state, loading: false};
 
     case fromActions.LOAD_FIAT_BAL:
       return {...state, loading: true};
     case fromActions.SET_FIAT_BAL:
       return {
-        ...state, 
-        loading: false, 
-        fiatBal: action.payload.items, 
+        ...state,
+        loading: false,
+        fiatBal: action.payload.items,
         countFiatBal: action.payload.count,
       };
     case fromActions.SET_MORE_FIAT_BAL:
@@ -95,17 +106,17 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
       };
     case fromActions.FAIL_LOAD_FIAT_BAL:
       return {
-        ...state, 
-        loading: false, 
+        ...state,
+        loading: false,
       };
-      
+
     case fromActions.LOAD_PENDING_REQ:
       return {...state, loading: true};
     case fromActions.SET_PENDING_REQ:
       return {
-        ...state, 
-        loading: false, 
-        pendingRequests: action.payload.items, 
+        ...state,
+        loading: false,
+        pendingRequests: action.payload.items,
         countPendingRequests: action.payload.count,
       };
     case fromActions.SET_MORE_FIAT_BAL:
@@ -117,22 +128,22 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
       };
     case fromActions.FAIL_LOAD_PENDING_REQ:
       return {
-        ...state, 
-        loading: false, 
+        ...state,
+        loading: false,
       };
 
     case fromActions.LOAD_MY_BALANCES:
       return {...state, loading: true};
     case fromActions.SET_MY_BALANCES:
       return {
-        ...state, 
-        loading: false, 
-        myBalances: action.payload, 
+        ...state,
+        loading: false,
+        myBalances: action.payload,
       };
     case fromActions.FAIL_LOAD_MY_BALANCES:
       return {
-        ...state, 
-        loading: false, 
+        ...state,
+        loading: false,
       };
 
     case fromActions.LOAD_BALANCE_DETAILS_INFO:

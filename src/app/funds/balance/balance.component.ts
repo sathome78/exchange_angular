@@ -1,7 +1,7 @@
-
 import {Component, OnDestroy, OnInit, Input} from '@angular/core';
 import {Subject, Observable} from 'rxjs';
 import {Store, select} from '@ngrx/store';
+import {State} from 'app/core/reducers';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
 import * as fromDashboardActions from '../../dashboard/actions/dashboard.actions';
@@ -10,10 +10,15 @@ import {PendingRequestsItem} from '../models/pending-requests-item.model';
 import {MyBalanceItem} from '../models/my-balance-item.model';
 import {BalanceService} from '../services/balance.service';
 import {takeUntil} from 'rxjs/operators';
-import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL} from './send-money/send-money-constants';
+import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, INNER_TRANSFER} from './send-money/send-money-constants';
 import {CurrencyChoose} from '../models/currency-choose.model';
-import * as fromCore from '../../core/reducers'
-import { BalanceDetailsItem } from '../models/balance-details-item.model';
+import {BalanceDetailsItem} from '../models/balance-details-item.model';
+import * as fromCore from '../../core/reducers';
+import {
+  LoadAllCurrenciesForChoose, LoadCryptoCurrenciesForChoose, LoadFiatCurrenciesForChoose,
+} from '../store/actions/funds.actions';
+import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-balance',
@@ -27,7 +32,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     CRYPTO: 'CRYPTO',
     FIAT: 'FIAT',
     PR: 'PR',
-  }
+  };
 
   public balanceItems: BalanceItem [] = [];
   public currTab: string = this.Tab.CRYPTO;
@@ -53,10 +58,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public currentPage = 1;
   public countPerPage = 15;
-    
+
   constructor(
     public balanceService: BalanceService,
-    private store: Store<fromCore.State>
+    private store: Store<fromCore.State>,
+    private dashboardWS: DashboardWebSocketService,
+    private router: Router
   ) {
     this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
     this.countOfCryptoEntries$ = store.pipe(select(fundsReducer.getCountCryptoBalSelector));
@@ -71,31 +78,16 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isMobile = window.innerWidth <= 1200
-    if(this.isMobile) {
+    this.isMobile = window.innerWidth <= 1200;
+    if (this.isMobile) {
       this.countPerPage = 30;
     }
 
+    this.store.dispatch(new LoadAllCurrenciesForChoose());
+    this.store.dispatch(new LoadCryptoCurrenciesForChoose());
+    this.store.dispatch(new LoadFiatCurrenciesForChoose());
     this.loadBalances(this.currTab);
-    this.loadBalances(this.Tab.PR);     
-    this.store.dispatch(new fundsAction.LoadMyBalancesAction())
-    this.balanceService.getCryptoFiatNames()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.store.dispatch(new fundsAction.SetAllCurrenciesForChoose(res.data));
-    });
-
-    this.balanceService.getCryptoNames()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.store.dispatch(new fundsAction.SetCryptoCurrenciesForChoose(res));
-      });
-
-    this.balanceService.getFiatNames()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.store.dispatch(new fundsAction.SetFiatCurrenciesForChoose(res));
-      });
+    this.loadBalances(this.Tab.PR);
 
     this.balanceService.closeRefillMoneyPopup$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -123,40 +115,40 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public loadBalances(type: string, concat?: boolean) {
-    switch(type) {
+    switch (type) {
       case this.Tab.CRYPTO :
         const paramsC = {
           type,
           currencyName: this.currencyForChoose || '',
-          offset: (this.currentPage - 1) * this.countPerPage, 
+          offset: (this.currentPage - 1) * this.countPerPage,
           limit: this.countPerPage,
           excludeZero: this.hideAllZero,
           concat: concat || false,
-        }
+        };
         return this.store.dispatch(new fundsAction.LoadCryptoBalAction(paramsC));
       case this.Tab.FIAT :
         const paramsF = {
           type,
           currencyName: this.currencyForChoose || '',
-          offset: (this.currentPage - 1) * this.countPerPage, 
+          offset: (this.currentPage - 1) * this.countPerPage,
           limit: this.countPerPage,
           excludeZero: this.hideAllZero,
           concat: concat || false,
-        }
+        };
         return this.store.dispatch(new fundsAction.LoadFiatBalAction(paramsF));
       case this.Tab.PR :
         const paramsP = {
-          offset: (this.currentPage - 1) * this.countPerPage, 
+          offset: (this.currentPage - 1) * this.countPerPage,
           limit: this.countPerPage,
           concat: concat || false,
-        }
+        };
         return this.store.dispatch(new fundsAction.LoadPendingReqAction(paramsP));
     }
-    
+
   }
 
   public getCountOfEntries() {
-    switch(this.currTab) {
+    switch (this.currTab) {
       case this.Tab.CRYPTO :
         return this.countOfCryptoEntries$;
       case this.Tab.FIAT :
@@ -189,7 +181,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.loadBalances(this.currTab);
   }
 
-  
+
   public goToCryptoWithdrawPopup(balance: BalanceItem): void {
     this.showSendMoneyPopup = true;
     this.sendMoneyData = {
@@ -199,7 +191,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     };
   }
 
-  public goToCryptoDepositPopup(balance: BalanceItem) {
+  goToCryptoDepositPopup(balance: BalanceItem): void {
     this.showRefillBalancePopup = true;
     this.refillBalanceData = {
       step: 2,
@@ -207,11 +199,20 @@ export class BalanceComponent implements OnInit, OnDestroy {
       balance: balance
     };
   }
-  
+
   public filterByCurrencyForMobile({currency, currTab}): void {
     this.currencyForChoose = currency;
     this.currentPage = 1;
     this.loadBalances(this.currTab);
+  }
+
+  goToTransferPopup(balance: BalanceItem): void {
+    this.showSendMoneyPopup = true;
+    this.sendMoneyData = {
+      step: 2,
+      stepName: INNER_TRANSFER,
+      stepThreeData: balance
+    };
   }
 
   public loadMoreBalancesForMobile({currentPage, countPerPage, concat}): void {
@@ -221,8 +222,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public onBuyCurrency(marketPair) {
-    
+    const splitName = marketPair.split('-');
+    this.dashboardWS.isNeedChangeCurretPair = false;
+    this.dashboardWS.findPairByCurrencyPairName(`${splitName[0]}/${splitName[1]}`);
+    this.router.navigate(['/'], {queryParams: {widget: 'trading'}});
   }
+  
   public onRevokePendingRequest({requestId, operation}) {
     this.currentPage = 1;
     const params = {
@@ -244,6 +249,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fundsAction.LoadBalanceDetailsAction(currencyId))
   }
 
-  
+
+   
 
 }

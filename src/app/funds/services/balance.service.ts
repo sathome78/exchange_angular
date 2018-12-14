@@ -162,9 +162,15 @@ export class BalanceService {
     return this.http.delete(url);
   }
 
-  getBalanceDetailsInfo(currencyId) {
+  getBalanceDetailsInfo(currencyId: number) {
     const url = `${this.apiUrl}/info/private/v2/balances/currencies/${currencyId}`;
     return this.http.get(url);
   }
+
+  getMaxCurrencyPairByName(currencyName: string) {
+    const url = `${this.apiUrl}/info/public/v2/info/max/${currencyName}`;
+    return this.http.get(url);
+  }
+
 
 }

@@ -18,7 +18,7 @@ export class SendStepThreeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
+  console.log(this.data);
   }
 
 }

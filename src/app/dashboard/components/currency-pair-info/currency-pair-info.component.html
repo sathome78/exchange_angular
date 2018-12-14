@@ -46,14 +46,14 @@
       <div class="currency-pair-info__item-title">24h volume</div>
       <span class="currency-pair-info__item-value"> {{!currentCurrencyInfo ?  0  : currentCurrencyInfo.volume24h | number:'1.0-0' | replaceNumber}} million  {{ firstCurrency }}</span>
     </div>
-    <div class="currency-pair-info__item" *ngIf="userBalanceInfo">
-      <div class="currency-pair-info__item-title">You have</div>
-      <div class="currency-pair-info__you-have">
-        <span class="currency-pair-info__item-value">{{ userBalanceInfo.balanceByCurrency1 | number:'1.0-0' | replaceNumber }} {{ firstCurrency }}</span>
-        <span class="currency-pair-info__vertical-line"></span>
-        <span class="currency-pair-info__item-value">{{ userBalanceInfo.balanceByCurrency2 | number:'1.0-0' | replaceNumber }} {{ secondCurrency }}</span>
-      </div>
-    </div>
+    <!--<div class="currency-pair-info__item" *ngIf="userBalanceInfo">-->
+      <!--<div class="currency-pair-info__item-title">You have</div>-->
+      <!--<div class="currency-pair-info__you-have">-->
+        <!--<span class="currency-pair-info__item-value">{{ userBalanceInfo.balanceByCurrency1 | number:'1.0-0' | replaceNumber }} {{ firstCurrency }}</span>-->
+        <!--<span class="currency-pair-info__vertical-line"></span>-->
+        <!--<span class="currency-pair-info__item-value">{{ userBalanceInfo.balanceByCurrency2 | number:'1.0-0' | replaceNumber }} {{ secondCurrency }}</span>-->
+      <!--</div>-->
+    <!--</div>-->
   </div>
 
   <app-currency-search
