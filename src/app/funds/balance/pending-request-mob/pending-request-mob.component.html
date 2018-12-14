@@ -33,7 +33,15 @@
           <ng-container *ngFor="let item of pendingRequests; let i = index" >
             <tr class="table__row--mob" (click)="onShowDetails(item)">
               <td class="table__cell table__cell--tal">
-                <div><span class="arr arr--mr4 arr--red"></span><span>Withdraw</span></div>
+                <div>
+                  <span class="arr arr--mr4 "
+                    [ngClass]="{
+                      'arr--red': item.operation === 'WITHDRAW',
+                      'arr--green': item.operation === 'REFILL'
+                    }"
+                  ></span>
+                  <span>{{item.operation === 'REFILL' ? 'Refill' : ''}}{{item.operation === 'WITHDRAW' ? 'Withdraw' : ''}}</span>
+                </div>
                 <div class="balance__request-mob-date">
                   <div>{{item.date | dateWrapper | date: 'EEEEEE dd.MM.yyyy'}}</div>
                   <div>{{item.date | dateWrapper | date: 'HH:mm:ss'}}</div>
@@ -64,6 +72,11 @@
               </td>
             </tr>
           </ng-container>
+          <tr class="table__row--mob" *ngIf="!pendingRequests.length">
+            <td class="table__cell table__cell--tal" colspan="4">
+              No matching records found
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -94,7 +107,16 @@
 
       <tr class="table__row--mob">
         <td class="table__cell table__cell--tal">
-          <div><span class="arr arr--mr4 arr--red"></span><span>Withdraw</span></div>
+          <div>
+            <span class="arr arr--mr4 "
+              [ngClass]="{
+                'arr--red': detailsItem.operation === 'WITHDRAW',
+                'arr--green': detailsItem.operation === 'REFILL'
+              }"
+            ></span>
+            <span>{{detailsItem.operation === 'REFILL' ? 'Refill' : ''}}{{detailsItem.operation === 'WITHDRAW' ? 'Withdraw' : ''}}</span>
+          
+          </div>
           <div class="balance__request-mob-date">
             <div>{{detailsItem.date | dateWrapper | date: 'EEEEEE dd.MM.yyyy'}}</div>
             <div>{{detailsItem.date | dateWrapper | date: 'HH:mm:ss'}}</div>

@@ -156,6 +156,15 @@ export class BalanceService {
     const url = `${this.apiUrl}/info/private/v2/balances/transfer/voucher/request/create`;
     return this.http.post(url, data);
   }
+ 
+  revokePendingRequest({requestId, operation}) {
+    const url = `${this.apiUrl}/info/private/v2/balances/pending/revoke/${requestId}/${operation}`;
+    return this.http.delete(url);
+  }
 
+  getBalanceDetailsInfo(currencyId) {
+    const url = `${this.apiUrl}/info/private/v2/balances/currencies/${currencyId}`;
+    return this.http.get(url);
+  }
 
 }

@@ -54,8 +54,8 @@
       <div class="revoke-request" *ngIf="showRevokeModal && revokeModalId == i">
         <div class="revoke-request__title">Are you sure you want to revoke this request?</div>
         <div class="revoke-request__button-wrap">
-          <button class="btn btn--small" (click)="toggleRevokeModal(false, i)">Yes</button>
-          <button class="btn btn--small" (click)="onRevoke(item)">No</button>
+          <button class="btn btn--small" (click)="onRevoke(item)">Yes</button>
+          <button class="btn btn--small" (click)="toggleRevokeModal(false, i)">No</button>
         </div>
         <div class="revoke-request__triangle"></div>
       </div>

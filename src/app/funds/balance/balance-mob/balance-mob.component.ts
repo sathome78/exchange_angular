@@ -1,5 +1,6 @@
 import {Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef} from '@angular/core';
 import {BalanceItem} from '../../models/balance-item.model';
+import { BalanceDetailsItem } from 'app/funds/models/balance-details-item.model';
 
 @Component({
   selector: 'app-balance-mob',
@@ -35,16 +36,17 @@ export class BalanceMobComponent implements OnInit{
   public showReserve: boolean = false;
   public loadModeDisabled: boolean = false;
   public priceIn: string = this.currencies.USD;
-  public selectedItem: BalanceItem = null;
+  public hideAllZero: boolean = false;
   public currencyForChoose: string = '';
 
   @Input('balances') public balances: BalanceItem[] = [];
+  @Input('countOfPendingRequests') public countOfPendingRequests: number = 0;
+  @Input('selectedItem') public selectedItem: BalanceDetailsItem = null;
   @Input('countPerPage') public countPerPage: number;
   @Input('currentPage') public currentPage: number;
   @Input('countOfEntries') public countOfEntries: number;
   @Input('Tab') public Tab;
   @Input('currTab') public currTab;
-  @Input('hideAllZero') public hideAllZero;
   @Input('cryptoCurrenciesForChoose') public cryptoCurrenciesForChoose;
   @Input('fiatCurrenciesForChoose') public fiatCurrenciesForChoose;
   @Output('onToggleAllZero') public onToggleAllZero: EventEmitter<any> = new EventEmitter();
@@ -54,6 +56,7 @@ export class BalanceMobComponent implements OnInit{
   @Output('openSendMoneyPopup') public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
   @Output('filterByCurrencyForMobile') public filterByCurrencyForMobile: EventEmitter<any> = new EventEmitter();
   @Output('onBuyCurrency') public onBuyCurrency: EventEmitter<any> = new EventEmitter();
+  @Output('onLoadBalanceConfirmInfo') public onLoadBalanceConfirmInfo: EventEmitter<any> = new EventEmitter();
 
   public onLoadMoreTrigger(): void {
     if(this.balances.length !== this.countOfEntries){
@@ -62,10 +65,10 @@ export class BalanceMobComponent implements OnInit{
   }
   public onToggleAllZeroTrigger(): void {
     this.scrollContainer.nativeElement.scrollTop = 0;
-    this.onToggleAllZero.emit()
+    this.onToggleAllZero.emit(this.hideAllZero)
   }
   public onShowMobDetails(item: BalanceItem): void {
-    this.selectedItem = item;
+    this.onLoadBalanceConfirmInfo.emit(item.currencyId);
     this.currScreen = this.screen.DETAILS;
   }
   public onTogglePanels(panel): void {

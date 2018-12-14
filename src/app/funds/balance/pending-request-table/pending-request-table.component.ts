@@ -20,6 +20,7 @@ export class PendingRequestTableComponent implements OnInit {
   @Input('currentPage') public currentPage: number;
   @Input('countOfEntries') public countOfEntries: number;
   @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();
+  @Output('onRevokePendingRequest') public onRevokePendingRequest: EventEmitter<any> = new EventEmitter();
 
 
   public changeItemsPerPage(items: number) {
@@ -36,6 +37,7 @@ export class PendingRequestTableComponent implements OnInit {
   }
   public onRevoke(item): void {
     this.showRevokeModal = false;
+    this.onRevokePendingRequest.emit({requestId: item.requestId, operation: item.operation})
   }
 
 

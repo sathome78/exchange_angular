@@ -35,6 +35,7 @@ export class PendingRequestMobComponent implements OnInit {
   @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
   @Output('openRefillBalancePopup') public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
   @Output('openSendMoneyPopup') public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
+  @Output('onRevokePendingRequest') public onRevokePendingRequest: EventEmitter<any> = new EventEmitter();
 
   ngOnInit() {
   }
@@ -64,6 +65,8 @@ export class PendingRequestMobComponent implements OnInit {
   }
   public onRevoke(): void {
     this.showRevokeModal = false;
+    this.onRevokePendingRequest.emit({requestId: this.detailsItem.requestId, operation: this.detailsItem.operation})
+    this.currScreen = this.screen.MAIN;
   }
 
 }

@@ -7,6 +7,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import * as fundsActions from '../actions/funds.actions';
 import {BalanceService} from '../../services/balance.service';
 import { MyBalanceItem } from 'app/funds/models/my-balance-item.model';
+import { BalanceDetailsItem } from 'app/funds/models/balance-details-item.model';
 
 @Injectable()
 export class FundsEffects {
@@ -75,7 +76,7 @@ export class FundsEffects {
     }))
 
    /**
-   * Load pending requests
+   * Load my balances
    */
   @Effect()
   loadMyBalances$: Observable<Action> = this.actions$
@@ -85,6 +86,36 @@ export class FundsEffects {
         .pipe(
           map((res: MyBalanceItem) => (new fundsActions.SetMyBalancesAction(res))),
           catchError(error => of(new fundsActions.FailLoadMyBalancesAction(error)))
+        )
+    }))
+
+   /**
+   * Load balance confirmation info
+   */
+  @Effect()
+  loadBalanceDet$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadBalanceDetailsAction>(fundsActions.LOAD_BALANCE_DETAILS_INFO))
+    .pipe(switchMap((action) => {
+      return this.balanceService.getBalanceDetailsInfo(action.payload)
+        .pipe(
+          map((res: BalanceDetailsItem) => (new fundsActions.SetBalanceDetailsAction(res))),
+          catchError(error => of(new fundsActions.FailLoadBalanceDetailsAction(error)))
+        )
+    }))
+
+   /**
+   * Revoke pending requests
+   */
+  @Effect()
+  RevokePendingRequests$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.RevokePendingReqAction>(fundsActions.REVOKE_PENDING_REQ))
+    .pipe(switchMap((action) => {
+      return this.balanceService.revokePendingRequest(action.payload.revoke)
+        .pipe(
+          map(() => {
+            return new fundsActions.LoadPendingReqAction(action.payload.loadPR)
+          }),
+          catchError(error => of(new fundsActions.FailRevokePendingReqAction(error)))
         )
     }))
 
