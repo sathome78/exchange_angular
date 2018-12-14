@@ -14,6 +14,7 @@ import {LoadCryptoCurrenciesForChoose} from '../actions/funds.actions';
 import {SetCryptoCurrenciesForChoose} from '../actions/funds.actions';
 import {ChangeCurrencyPairAction} from '../../../dashboard/actions/dashboard.actions';
 import {CurrencyPair} from '../../../model';
+import {MyBalanceItem} from '../../models/my-balance-item.model';
 
 
 interface ResData {
@@ -24,11 +25,6 @@ interface ResData {
 @Injectable()
 export class FundsEffects {
 
-  /**
-  * Default constructor
-  *
-  * @param actions$
-  */
   constructor(
     private actions$: Actions,
     private balanceService: BalanceService,
@@ -39,12 +35,17 @@ export class FundsEffects {
    * Load crypto balances
    */
   @Effect()
-  loadOpenOrders$: Observable<Action> = this.actions$
+  loadCryptoBalances$: Observable<Action> = this.actions$
     .pipe(ofType<fundsActions.LoadCryptoBalAction>(fundsActions.LOAD_CRYPTO_BAL))
     .pipe(switchMap((action) => {
-      return this.balanceService.getCryptoBalances(action.payload)
+      return this.balanceService.getBalances(action.payload)
         .pipe(
-          map(bal => (new fundsActions.SetCryptoBalAction({items: bal.items, count: bal.count}))),
+          map(bal => {
+            if(action.payload.concat) {
+              return new fundsActions.SetMoreCryptoBalAction({items: bal.items, count: bal.count})
+            }
+            return new fundsActions.SetCryptoBalAction({items: bal.items, count: bal.count})
+          }),
           catchError(error => of(new fundsActions.FailLoadCryptoBalAction(error)))
         )
     }))
@@ -94,4 +95,56 @@ export class FundsEffects {
           catchError(error => of(new fundsActions.FailLoadCurrenciesForChoose(error)))
         );
     }));
+  /**
+   * Load fiat balances
+   */
+  @Effect()
+  loadFiatBalances$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadFiatBalAction>(fundsActions.LOAD_FIAT_BAL))
+    .pipe(switchMap((action) => {
+      return this.balanceService.getBalances(action.payload)
+        .pipe(
+          map(bal => {
+            if(action.payload.concat) {
+              return new fundsActions.SetMoreFiatBalAction({items: bal.items, count: bal.count})
+            }
+            return new fundsActions.SetFiatBalAction({items: bal.items, count: bal.count})
+          }),
+          catchError(error => of(new fundsActions.FailLoadFiatBalAction(error)))
+        )
+    }))
+
+   /**
+   * Load pending requests
+   */
+  @Effect()
+  loadPendingRequests$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadPendingReqAction>(fundsActions.LOAD_PENDING_REQ))
+    .pipe(switchMap((action) => {
+      return this.balanceService.getPendingRequests(action.payload)
+        .pipe(
+          map(bal => {
+            if(action.payload.concat) {
+              return new fundsActions.SetMorePendingReqAction({items: bal.items, count: bal.count})
+            }
+            return new fundsActions.SetPendingReqAction({items: bal.items, count: bal.count})
+          }),
+          catchError(error => of(new fundsActions.FailLoadPendingReqAction(error)))
+        )
+    }))
+
+   /**
+   * Load pending requests
+   */
+  @Effect()
+  loadMyBalances$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadMyBalancesAction>(fundsActions.LOAD_MY_BALANCES))
+    .pipe(switchMap(() => {
+      return this.balanceService.getMyBalances()
+        .pipe(
+          map((res: MyBalanceItem) => (new fundsActions.SetMyBalancesAction(res))),
+          catchError(error => of(new fundsActions.FailLoadMyBalancesAction(error)))
+        )
+    }))
+
 }

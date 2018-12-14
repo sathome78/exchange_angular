@@ -27,6 +27,8 @@ import {LastSellBuyOrder} from 'app/model/last-sell-buy-order.model';
 import {CurrencyPairInfo, OrderItem} from '../../../model';
 import {environment} from '../../../../environments/environment';
 import {PopupService} from '../../../shared/services/popup.service';
+import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
+import {defaultOrderItem} from '../../reducers/default-values';
 
 @Component({
   selector: 'app-trading',
@@ -108,18 +110,20 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe(state => {
         this.userBalance = state.userBalance.balanceByCurrency1 ? state.userBalance.balanceByCurrency1 : 0;
         this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
-        this.onGetCurrentCurrencyPair(state.currencyPair);
+        // this.onGetCurrentCurrencyPair(state.currencyPair);
         this.orderFromOrderBook(state.selectedOrderBookOrder);
         // this.setPriceInValue(state.currencyPairInfo.currencyRate);
         // this.order.rate = state.currencyPairInfo.currencyRate;
       });
 
-    // this.store
-    //   .pipe(select(getCurrencyPair))
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe( (pair: CurrencyPair) => {
-    //     this.onGetCurrentCurrencyPair(pair);
-    //   });
+    this.store
+      .pipe(select(getCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPair) => {
+        this.resetOrderBookItem();
+        this.onGetCurrentCurrencyPair(pair);
+        this.resetForms();
+      });
 
     // this.store
     //   .pipe(select(getUserBalance))
@@ -186,6 +190,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       totalIn: new FormControl('', Validators.required ),
     });
   }
+
+  resetOrderBookItem() {
+    this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
+  };
 
   /**
    * toggle sell/buy tabs and emit this
@@ -466,6 +474,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on create new order
    */
   createNewOrder(): void {
+    this.resetOrderBookItem();
     this.tradingService.createOrder(this.order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -491,6 +500,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on update order from order-book
    */
   updateOrder(): void {
+    this.resetOrderBookItem();
     this.tradingService.updateOrder(this.order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {

@@ -14,8 +14,6 @@ import {reducer} from './store/reducers/funds.reducer';
 import {FundsComponent} from './funds.component';
 import {FundsRoutingModule} from './funds.routing';
 import {BalanceComponent} from './balance/balance.component';
-import {CryptoBalanceTableComponent} from './balance/crypto-balance-table/crypto-balance-table.component';
-import {FiatBalanceTableComponent} from './balance/fiat-balance-table/fiat-balance-table.component';
 import {PendingRequestTableComponent} from './balance/pending-request-table/pending-request-table.component';
 import {SharedModule} from '../shared/shared.module';
 
@@ -40,6 +38,9 @@ import {SendTfaComponent} from './balance/send-money/send-step-three/send-tfa/se
 import {SendSuccessfulComponent} from './balance/send-money/send-successful/send-successful.component';
 
 import {BalanceService} from './services/balance.service';
+import {BalanceTableComponent} from './balance/balance-table/balance-table.component';
+import {BalanceMobComponent} from './balance/balance-mob/balance-mob.component';
+import {PendingRequestMobComponent} from './balance/pending-request-mob/pending-request-mob.component';
 
 @NgModule({
   imports: [
@@ -49,17 +50,15 @@ import {BalanceService} from './services/balance.service';
     ReactiveFormsModule,
     NgxPaginationModule,
     MyDatePickerModule,
+    NgSelectModule,
     SharedModule,
     EffectsModule.forRoot([FundsEffects]),
     StoreModule.forFeature('funds', reducer),
-    NgSelectModule,
     FundsRoutingModule,
   ],
   declarations: [
     FundsComponent,
     BalanceComponent,
-    CryptoBalanceTableComponent,
-    FiatBalanceTableComponent,
     PendingRequestTableComponent,
 
     RefillMoneyComponent,
@@ -81,6 +80,9 @@ import {BalanceService} from './services/balance.service';
     TransferProtectedEmailCodeComponent,
     SendTfaComponent,
     SendSuccessfulComponent,
+    BalanceTableComponent,
+    BalanceMobComponent,
+    PendingRequestMobComponent,
   ],
   providers: [
     BalanceService,

@@ -1,793 +1,59 @@
 <div class="container">
   <!--balance-mob start-->
   <div class="balance balance--mob">
-    <div class="balance__content-mob">
-      <div class="balance__header-mob">
-        <div class="page-title">
-          <h1 class="page-title__text">
-            Balances
-          </h1>
-        </div>
-        <div class="balance__header-btn-wrap">
-          <button class="btn btn--active balance__title-btn"
-                  (click)="openRefillBalancePopup(true)">
-            Refill balance
-          </button>
-          <button class="btn btn--empty-blue balance__title-btn"
-                  (click)="openSendMoneyPopup(true)">
-            Send money
-          </button>
-        </div>
-      </div>
-      <!--filters start-->
-      <form action="">
-        <div class="balance__filters">
-          <div class="wrap-input wrap-input--with-icon balance__search-mob">
-            <input class="wrap-input__input" type="text" required>
-            <label class="wrap-input__label">Search</label>
-            <div class="wrap-input__line"></div>
-          </div>
-          <!--<span>Price in</span>-->
-          <!--<div class="dropdown">-->
-            <!--<div class="dropdown__btn">USD</div>-->
-            <!--<ul class="dropdown__list">-->
-              <!--<li class="dropdown__item">RUB</li>-->
-              <!--<li class="dropdown__item">EUR</li>-->
-              <!--<li class="dropdown__item">UAH</li>-->
-            <!--</ul>-->
-          <!--</div>-->
-          <label class="toggler">
-            <input type="checkbox" name="">
-            <span class="toggler__indicate"></span>
-          </label>
-          <span>Show zero</span>
-        </div>
-      </form>
-      <!--filters end-->
-      <!--table-mob start-->
-      <table class="table table--mob">
-        <thead class="table__head">
-        <tr class="table__head-row">
-          <th class="table__cell-head table__cell-head--tal">Currency</th>
-          <th class="table__cell-head table__cell-head--tal">Available balance</th>
-          <th class="table__cell-head table__cell-head--tar">Price</th>
-        </tr>
-        </thead>
-        <tbody class="table__body table__body--none-shadow">
-
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-                <span class="balance__currency-name">Bitcoin</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>0.5062367</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>$ 3750</div>
-            <span class="txt-small txt-red">–0.24%</span>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-                <span class="balance__currency-name">Bitcoin</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>0.5062367</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>$ 3750</div>
-            <span class="txt-small txt-red">–0.24%</span>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-                <span class="balance__currency-name">Bitcoin</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>0.5062367</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>$ 3750</div>
-            <span class="txt-small txt-red">–0.24%</span>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-                <span class="balance__currency-name">Bitcoin</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>0.5062367</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>$ 3750</div>
-            <span class="txt-small txt-red">–0.24%</span>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-                <span class="balance__currency-name">Bitcoin</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>0.5062367</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>$ 3750</div>
-            <span class="txt-small txt-red">–0.24%</span>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-                <span class="balance__currency-name">Bitcoin</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>0.5062367</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>$ 3750</div>
-            <span class="txt-small txt-red">–0.24%</span>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-                <span class="balance__currency-name">Bitcoin</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>0.5062367</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>$ 3750</div>
-            <span class="txt-small txt-red">–0.24%</span>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-                <span class="balance__currency-name">Bitcoin</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>0.5062367</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>$ 3750</div>
-            <span class="txt-small txt-red">–0.24%</span>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-                <span class="balance__currency-name">Bitcoin</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>0.5062367</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>$ 3750</div>
-            <span class="txt-small txt-red">–0.24%</span>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-                <span class="balance__currency-name">Bitcoin</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>0.5062367</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>$ 3750</div>
-            <span class="txt-small txt-red">–0.24%</span>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-                <span class="balance__currency-name">Bitcoin</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>0.5062367</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>$ 3750</div>
-            <span class="txt-small txt-red">–0.24%</span>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-                <span class="balance__currency-name">Bitcoin</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>0.5062367</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>$ 3750</div>
-            <span class="txt-small txt-red">–0.24%</span>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <!--table-mob end--></div>
-    <!--<div class="balance__request-mob-link">-->
-    <!--<span>5</span>Pending requests-->
-    <!--<svg width="11" height="10" viewBox="0 0 11 10" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-    <!--<path d="M5.24264 0.757359L9.48528 5L5.24264 9.24264" stroke-linecap="round" stroke-linejoin="round"/>-->
-    <!--</svg>-->
-    <!--</div>-->
-    <div class="tabs balance__tabs-mob">
-      <button class="tabs__item" [ngClass]="{'tabs__item--active': currTab === Tab.CRYPTO}">
-        Crypto
-      </button>
-      <button class="tabs__item" [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}">
-        Fiat
-      </button>
-      <button class="tabs__item" [ngClass]="{'tabs__item--active': currTab === Tab.PR}">
-        Pending<span class="indicate">5</span>
-      </button>
-    </div>
-    <!--open mob-balance start-->
-    <div class="open-mob-balance" style="display: none;">
-      <div class="open-mob-balance__header">
-        <svg width="9" height="7" viewBox="0 0 9 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M3.82596 0.119541C3.60017 -0.0567689 3.25769 -0.0355965 3.06102 0.166823L0.137687 3.17624L0.133319 3.18071C-0.0387293 3.35787 -0.0421708 3.61517 0.110923 3.7948C0.119367 3.80467 0.128289 3.81436 0.137687 3.82376L3.06102 6.83318C3.25769 7.0356 3.60017 7.05677 3.82596 6.88046C4.05175 6.70415 4.07536 6.3971 3.87872 6.19459L1.73329 3.98602H8.45783C8.75727 3.98602 9 3.76841 9 3.49991C9 3.23141 8.75727 3.0138 8.45783 3.0138H1.73348L3.87872 0.805412C4.07536 0.602898 4.05175 0.295851 3.82596 0.119541Z"/>
-        </svg>
-        to: All Balance
-      </div>
-      <table class="table table--mob">
-        <thead class="table__head">
-        <tr class="table__head-row">
-          <th class="table__cell-head table__cell-head--tal">Currency</th>
-          <th class="table__cell-head table__cell-head--tal">Available balance</th>
-          <th class="table__cell-head table__cell-head--tar">Price</th>
-        </tr>
-        </thead>
-        <tbody class="table__body table__body--none-shadow">
-
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-                <span class="balance__currency-name">Bitcoin</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>0.5062367</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>$ 3750</div>
-            <span class="txt-small txt-red">–0.24%</span>
-          </td>
-        </tr>
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <button class="btn btn--center btn--small">Deposit</button>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <button class="btn btn--center btn--small">Withdraw</button>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <button class="btn btn--center btn--small">Transfer</button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <div class="open-mob-balance__row">
-        <div class="open-mob-balance__title">Price</div>
-        <div class="open-mob-balance__value">
-          7.101595 / <span class="txt-green">$ 1450</span>
-        </div>
-      </div>
-      <div class="open-mob-balance__row">
-        <div class="open-mob-balance__title">Аvailable</div>
-        <div class="open-mob-balance__value">72.101345</div>
-      </div>
-
-      <div>
-        <div class="open-mob-balance__row open-mob-balance__row--open">
-          <div class="open-mob-balance__title">On confirmation</div>
-          <div class="open-mob-balance__value">4.96739</div>
-          <div class="open-mob-balance__arr">
-            <svg width="10" height="6" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13.7272 1.36396L7.36328 7.72792L0.99932 1.36396" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-        </div>
-        <div class="table__details">
-          <div class="table__details-cell">
-            <div class="table__details-item">
-              <div class="table__details-item-title">
-                <div class="counter">
-                  <span>4</span>
-                  /
-                  <span>5</span>
-                </div>
-              </div>
-              <div class="table__details-item-value"><span>0.00074</span> to deposit</div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">Adress</div>
-              <div class="table__details-item-value">
-                <a href="#" class="open-mob-balance__code">1LUaz5g9xSM4W3zBZQFnghmxPw14AFcByz</a>
-              </div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">Txid</div>
-              <div class="table__details-item-value">
-                <a href="#" class="open-mob-balance__code">e524e8d969b44d12c56d07fc14c748301762ecda6733bf56b3b35e77a6e405c1</a>
-              </div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">
-                <div class="counter">
-                  <span>3</span>
-                  /
-                  <span>5</span>
-                </div>
-              </div>
-              <div class="table__details-item-value"><span>4.96600</span> to withdraw</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="open-mob-balance__row open-mob-balance__row--open">
-          <div class="open-mob-balance__title">Reserve</div>
-          <div class="open-mob-balance__value">1.41504</div>
-          <div class="open-mob-balance__arr">
-            <svg width="10" height="6" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13.7272 1.36396L7.36328 7.72792L0.99932 1.36396" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-        </div>
-        <div class="table__details">
-          <div class="table__details-cell">
-            <div class="table__details-item">
-              <div class="table__details-item-title">
-                Orders
-              </div>
-              <div class="table__details-item-value">0.76352</div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">Withdraw</div>
-              <div class="table__details-item-value">0.76352</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="open-mob-balance__row">
-        <div class="open-mob-balance__title">History</div>
-        <div class="open-mob-balance__arr">
-          <svg width="12" height="11" viewBox="0 0 11 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5.24264 0.757359L9.48528 5L5.24264 9.24264" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-      </div>
-      <div class="open-mob-balance__btn-wrap">
-        <a class="widget__buy-sell-btn widget__buy-sell-btn--green">Buy BTC</a>
-        <a class="widget__buy-sell-btn widget__buy-sell-btn--red">Sell BTC</a>
-      </div>
-    </div>
-    <!--open mob-balance end-->
-    <!--mob-request start-->
-    <div class="balance__request-mob" style="display: none;">
-      <div class="balance__request-mob-header">
-        <h6>Pending Requests</h6>
-        <span>
-          <svg width="15" height="15" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M1.70711 0.292894C1.31658 -0.0976307 0.683419 -0.0976313 0.292894 0.292893C-0.0976307 0.683416 -0.0976313 1.31658 0.292893 1.70711L1.70711 0.292894ZM15.2929 16.7071C15.6834 17.0976 16.3166 17.0976 16.7071 16.7071C17.0976 16.3166 17.0976 15.6834 16.7071 15.2929L15.2929 16.7071ZM16.7071 1.70711C17.0976 1.31658 17.0976 0.683416 16.7071 0.292893C16.3166 -0.0976313 15.6834 -0.0976307 15.2929 0.292894L16.7071 1.70711ZM0.292921 15.2929C-0.097603 15.6834 -0.0976024 16.3166 0.292922 16.7071C0.683447 17.0976 1.31661 17.0976 1.70714 16.7071L0.292921 15.2929ZM0.292893 1.70711L7.79289 9.20712L9.20711 7.79291L1.70711 0.292894L0.292893 1.70711ZM7.79289 9.20712L15.2929 16.7071L16.7071 15.2929L9.20711 7.79291L7.79289 9.20712ZM15.2929 0.292894L7.79289 7.79291L9.20711 9.20712L16.7071 1.70711L15.2929 0.292894ZM7.79289 7.79291L0.292921 15.2929L1.70714 16.7071L9.20711 9.20712L7.79289 7.79291Z"/>
-          </svg>
-        </span>
-      </div>
-      <table class="table table--mob">
-        <thead class="table__head">
-        <tr class="table__head-row">
-          <th class="table__cell-head table__cell-head--tal">Date / Type</th>
-          <th class="table__cell-head table__cell-head--tal">Currency</th>
-          <th class="table__cell-head table__cell-head--tar">Amount</th>
-        </tr>
-        </thead>
-        <tbody class="table__body table__body--none-shadow">
-
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div><span class="arr arr--mr4 arr--red"></span><span>Withdraw</span></div>
-            <div class="balance__request-mob-date">
-              <div>Th 13.06.2018</div>
-              <div>10:59:41</div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tar">
-            0.003000100
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div><span class="arr arr--mr4 arr--green"></span><span>Refill</span></div>
-            <div class="balance__request-mob-date">
-              <div>Th 13.06.2018</div>
-              <div>10:59:41</div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tar">
-            0.003000100
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--mob-request end-->
-    <!--open mob-request start-->
-    <div class="open-mob-request" style="display: none;">
-      <div class="open-mob-request__header">
-        <div>
-          <svg width="9" height="7" viewBox="0 0 9 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M3.82596 0.119541C3.60017 -0.0567689 3.25769 -0.0355965 3.06102 0.166823L0.137687 3.17624L0.133319 3.18071C-0.0387293 3.35787 -0.0421708 3.61517 0.110923 3.7948C0.119367 3.80467 0.128289 3.81436 0.137687 3.82376L3.06102 6.83318C3.25769 7.0356 3.60017 7.05677 3.82596 6.88046C4.05175 6.70415 4.07536 6.3971 3.87872 6.19459L1.73329 3.98602H8.45783C8.75727 3.98602 9 3.76841 9 3.49991C9 3.23141 8.75727 3.0138 8.45783 3.0138H1.73348L3.87872 0.805412C4.07536 0.602898 4.05175 0.295851 3.82596 0.119541Z"/>
-          </svg>
-          to: Pending Requests
-        </div>
-        <span>
-          <svg width="15" height="15" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M1.70711 0.292894C1.31658 -0.0976307 0.683419 -0.0976313 0.292894 0.292893C-0.0976307 0.683416 -0.0976313 1.31658 0.292893 1.70711L1.70711 0.292894ZM15.2929 16.7071C15.6834 17.0976 16.3166 17.0976 16.7071 16.7071C17.0976 16.3166 17.0976 15.6834 16.7071 15.2929L15.2929 16.7071ZM16.7071 1.70711C17.0976 1.31658 17.0976 0.683416 16.7071 0.292893C16.3166 -0.0976313 15.6834 -0.0976307 15.2929 0.292894L16.7071 1.70711ZM0.292921 15.2929C-0.097603 15.6834 -0.0976024 16.3166 0.292922 16.7071C0.683447 17.0976 1.31661 17.0976 1.70714 16.7071L0.292921 15.2929ZM0.292893 1.70711L7.79289 9.20712L9.20711 7.79291L1.70711 0.292894L0.292893 1.70711ZM7.79289 9.20712L15.2929 16.7071L16.7071 15.2929L9.20711 7.79291L7.79289 9.20712ZM15.2929 0.292894L7.79289 7.79291L9.20711 9.20712L16.7071 1.70711L15.2929 0.292894ZM7.79289 7.79291L0.292921 15.2929L1.70714 16.7071L9.20711 9.20712L7.79289 7.79291Z"/>
-          </svg>
-        </span>
-      </div>
-      <table class="table table--mob">
-        <tbody class="table__body table__body--none-shadow">
-
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            <div><span class="arr arr--mr4 arr--red"></span><span>Withdraw</span></div>
-            <div class="balance__request-mob-date">
-              <div>Th 13.06.2018</div>
-              <div>10:59:41</div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="../../../assets/img/btc-icon.svg">
-              </div>
-              <div>
-                <span>BTC</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tar">
-            0.003000100
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <div class="open-mob-request__item">
-        <div class="open-mob-request__item-title">Comission</div>
-        <div class="open-mob-request__item-value">0.02% ~ 200 000</div>
-      </div>
-      <div class="open-mob-request__item">
-        <div class="open-mob-request__item-title">Payment system</div>
-        <div class="open-mob-request__item-value">CIMB NAGA</div>
-      </div>
-      <div class="open-mob-request__item">
-        <div class="open-mob-request__item-title">Status</div>
-        <div class="open-mob-request__item-value">Awaits payment</div>
-      </div>
-      <div class="open-mob-request__btn-wrap">
-        <!--<button class="btn">I paid</button>-->
-        <button class="btn btn--error">Rejected</button>
-        <button class="btn btn--empty-blue">Revoke</button>
-      </div>
-    </div>
-    <!--open mob-request end-->
-    <!--request-status-info start-->
-    <div class="request-status-info" style="display: none;">
-      <div class="request-status-info__header">
-        <div>
-          <svg width="9" height="7" viewBox="0 0 9 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M3.82596 0.119541C3.60017 -0.0567689 3.25769 -0.0355965 3.06102 0.166823L0.137687 3.17624L0.133319 3.18071C-0.0387293 3.35787 -0.0421708 3.61517 0.110923 3.7948C0.119367 3.80467 0.128289 3.81436 0.137687 3.82376L3.06102 6.83318C3.25769 7.0356 3.60017 7.05677 3.82596 6.88046C4.05175 6.70415 4.07536 6.3971 3.87872 6.19459L1.73329 3.98602H8.45783C8.75727 3.98602 9 3.76841 9 3.49991C9 3.23141 8.75727 3.0138 8.45783 3.0138H1.73348L3.87872 0.805412C4.07536 0.602898 4.05175 0.295851 3.82596 0.119541Z"/>
-          </svg>
-          Request info
-        </div>
-      </div>
-      <table class="table table--mob">
-        <thead class="table__head">
-        <tr class="table__head-row">
-          <th class="table__cell-head table__cell-head--tal">Id</th>
-          <th class="table__cell-head table__cell-head--tal">Status</th>
-        </tr>
-        </thead>
-        <tbody class="table__body table__body--none-shadow">
-        <tr class="table__row--mob">
-          <td class="table__cell table__cell--tal">
-            1998500374
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span class="txt-red">Rejected</span>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <div class="request-status-info__text">
-        Your payment was declined because of the administrator's harmfulness.
-        <br>
-        <br>
-        If you want to punish him with brute force - act
-      </div>
-      <div class="note request-status-info__note ">
-        <ul class="note__list">
-          <li class="note__list-item">
-            Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email.
-          </li>
-        </ul>
-        <a href="#" class="link request-status-info__link">support@exrates.me</a>
-      </div>
-    </div>
-    <!--request-status-info end-->
+    <ng-container [ngSwitch]="currTab">
+      <app-balance-mob
+        *ngSwitchCase="Tab.CRYPTO"
+        [balances]="cryptoBalances$ | async"
+        [countPerPage]="countPerPage"
+        [countOfEntries]="getCountOfEntries() | async"
+        [currentPage]="currentPage"
+        [Tab]="Tab"
+        [currTab]="currTab"
+        [hideAllZero]="hideAllZero"
+        [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
+        [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
+        (onToggleAllZero)="onToggleAllZero($event)"
+        (onLoadMore)="loadMoreBalancesForMobile($event)"
+        (openRefillBalancePopup)="openRefillBalancePopup($event)"
+        (openSendMoneyPopup)="openSendMoneyPopup($event)"
+        (onSelectTab)="onSelectTab($event)"
+        (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
+        (onBuyCurrency)="onBuyCurrency($event)"
+      ></app-balance-mob>
+      <app-balance-mob
+        *ngSwitchCase="Tab.FIAT"
+        [balances]="fiatBalances$ | async"
+        [countPerPage]="countPerPage"
+        [countOfEntries]="getCountOfEntries() | async"
+        [currentPage]="currentPage"
+        [Tab]="Tab"
+        [currTab]="currTab"
+        [hideAllZero]="hideAllZero"
+        [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
+        [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
+        (onToggleAllZero)="onToggleAllZero($event)"
+        (onLoadMore)="loadMoreBalancesForMobile($event)"
+        (openRefillBalancePopup)="openRefillBalancePopup($event)"
+        (openSendMoneyPopup)="openSendMoneyPopup($event)"
+        (onSelectTab)="onSelectTab($event)"
+        (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
+        (onBuyCurrency)="onBuyCurrency($event)"
+      ></app-balance-mob>
+      <app-pending-request-mob
+        *ngSwitchCase="Tab.PR"
+        [pendingRequests]="pendingRequests$ | async"
+        [countPerPage]="countPerPage"
+        [countOfEntries]="getCountOfEntries() | async"
+        [currentPage]="currentPage"
+        [Tab]="Tab"
+        [currTab]="currTab"
+        (onLoadMore)="loadMoreBalancesForMobile($event)"
+        (openRefillBalancePopup)="openRefillBalancePopup($event)"
+        (openSendMoneyPopup)="openSendMoneyPopup($event)"
+        (onSelectTab)="onSelectTab($event)"
+      ></app-pending-request-mob>
+    </ng-container>
   </div>
   <!--balance-mob end-->
 
@@ -808,7 +74,7 @@
                   d="M8.64546 7.86933C8.3561 7.41871 7.91945 7.10919 7.33554 6.94097C8.07911 6.48419 8.40588 5.70893 8.31617 4.61505C8.28618 4.21839 8.19515 3.87461 8.04288 3.58322C7.89051 3.29176 7.68488 3.05745 7.42523 2.8802C7.16578 2.70272 6.88361 2.56762 6.57935 2.47447C6.27502 2.38133 5.92563 2.3137 5.5314 2.27167V0H4.37878V2.20856C4.17919 2.20856 3.87481 2.21456 3.46566 2.22659V0H2.31289V2.27167C2.14816 2.2777 1.90618 2.28077 1.58683 2.28077L-5.92065e-08 2.27167V3.75009H0.830799C1.21006 3.75009 1.43212 3.95446 1.49698 4.36306V6.95028C1.54695 6.95028 1.58683 6.95338 1.61679 6.95938H1.49698V10.5831C1.4571 10.8895 1.31241 11.0429 1.06287 11.0429H0.232128L5.23465e-05 12.6926H1.49711C1.59194 12.6926 1.72908 12.6941 1.9088 12.6968C2.08841 12.6998 2.22309 12.7013 2.31294 12.7013V15H3.4659V12.7284C3.67542 12.7345 3.97981 12.7375 4.37902 12.7375V15H5.53166V12.7013C5.94094 12.6773 6.30394 12.6325 6.62067 12.5662C6.93756 12.4998 7.24079 12.3963 7.53015 12.255C7.81948 12.1139 8.06147 11.938 8.25605 11.7276C8.45074 11.5175 8.61153 11.2499 8.739 10.9253C8.86605 10.6008 8.94724 10.2252 8.98206 9.79837C9.04721 8.96324 8.93487 8.32015 8.64546 7.86933ZM3.48808 3.84898C3.52302 3.84898 3.62157 3.84746 3.78375 3.84443C3.94601 3.84134 4.08069 3.83837 4.18797 3.83534C4.29528 3.83237 4.44 3.83988 4.62221 3.85791C4.80434 3.87594 4.95776 3.90003 5.08248 3.93003C5.20719 3.96002 5.34455 4.00962 5.49412 4.07874C5.64395 4.14779 5.76363 4.23197 5.85335 4.33111C5.94324 4.43025 6.01933 4.55651 6.08159 4.70977C6.14404 4.863 6.17524 5.03877 6.17524 5.23706C6.17524 5.40534 6.15283 5.55864 6.10797 5.69693C6.06319 5.83513 5.99565 5.95085 5.90594 6.04399C5.8162 6.13716 5.7237 6.21837 5.62887 6.28742C5.53415 6.35647 5.41303 6.41211 5.26587 6.45413C5.11874 6.49622 4.99025 6.52928 4.88053 6.55327C4.77073 6.57733 4.63353 6.59391 4.46884 6.60288C4.30411 6.61184 4.17932 6.61797 4.09453 6.62094C4.00967 6.62391 3.89368 6.62391 3.74642 6.62094C3.59913 6.61797 3.51317 6.61639 3.48815 6.61639V3.84894H3.48808V3.84898ZM6.63572 9.98778C6.58819 10.1261 6.52716 10.2463 6.45236 10.3486C6.37743 10.4506 6.27883 10.5408 6.15663 10.6188C6.03445 10.6971 5.91582 10.76 5.80115 10.8081C5.68632 10.8564 5.54778 10.8982 5.38576 10.9344C5.22337 10.9705 5.08125 10.9959 4.95886 11.011C4.83667 11.0261 4.69077 11.0381 4.52104 11.0471C4.35144 11.056 4.21912 11.0606 4.12434 11.0606C4.02952 11.0606 3.90973 11.0589 3.76501 11.056C3.62021 11.0532 3.52798 11.0517 3.48802 11.0517V8.00463C3.5279 8.00463 3.64643 8.00169 3.84358 7.99557C4.04076 7.9895 4.20161 7.98669 4.32637 7.98669C4.45111 7.98669 4.62334 7.99557 4.84298 8.01372C5.06242 8.03162 5.24707 8.05856 5.3969 8.09461C5.54655 8.13073 5.70986 8.18624 5.88714 8.26145C6.06424 8.33653 6.20778 8.42816 6.3176 8.53633C6.4274 8.64469 6.51966 8.7827 6.59448 8.95102C6.66949 9.11925 6.7069 9.3116 6.7069 9.528C6.70688 9.69645 6.6832 9.84946 6.63572 9.98778Z"/>
               </svg>
             </span>
-            1.22764
+            {{(myBalances$ | async).BTC}}
           </div>
           <div class="balance__your-active-item">
             <span>
@@ -817,7 +83,7 @@
                   d="M4.61044 5.90536C4.15604 5.62344 3.67294 5.40864 3.19463 5.18579C2.9172 5.05692 2.65174 4.90656 2.41736 4.69714C1.95579 4.28366 2.04428 3.61242 2.58477 3.34662C2.73784 3.27144 2.89807 3.24727 3.0607 3.23653C3.68729 3.19895 4.2828 3.32782 4.8496 3.6339C5.13181 3.78695 5.22508 3.73862 5.32074 3.40837C5.42119 3.05933 5.5049 2.70492 5.59817 2.35319C5.66035 2.11692 5.58382 1.96119 5.38532 1.86185C5.0218 1.68196 4.64871 1.55308 4.25649 1.48327C3.74469 1.39467 3.74469 1.39199 3.7423 0.814727C3.73991 0.00119332 3.73991 0.0011933 3.01287 0.0011933C2.90764 0.0011933 2.80241 -0.00149163 2.69718 0.0011933C2.35757 0.011933 2.30018 0.0790563 2.29061 0.463001C2.28583 0.634837 2.29061 0.806672 2.28822 0.981193C2.28583 1.49133 2.28343 1.48328 1.84817 1.66048C0.795871 2.09007 0.145361 2.89555 0.0760049 4.18431C0.0138237 5.32541 0.544755 6.09599 1.37942 6.65714C1.89361 7.00349 2.4628 7.20755 3.00808 7.47873C3.22093 7.58344 3.42422 7.70426 3.6012 7.87073C4.12495 8.3567 4.02929 9.16486 3.40748 9.47094C3.07505 9.63472 2.72349 9.675 2.36236 9.62398C1.80512 9.54612 1.2718 9.38234 0.769564 9.08968C0.475399 8.91785 0.389302 8.96349 0.288855 9.32059C0.202759 9.62935 0.126228 9.94081 0.0496975 10.2523C-0.0531405 10.6711 -0.0148754 10.7704 0.34147 10.9664C0.795871 11.2135 1.28136 11.3397 1.77642 11.4283C2.16386 11.4981 2.17581 11.5169 2.1806 11.9679C2.18299 12.172 2.18299 12.3787 2.18538 12.5828C2.18777 12.8405 2.29778 12.9909 2.53455 12.9963C2.80241 13.0016 3.07266 13.0016 3.34051 12.9936C3.56054 12.9882 3.67294 12.854 3.67294 12.6043C3.67294 12.325 3.6849 12.0431 3.67533 11.7639C3.66338 11.4793 3.77339 11.3343 4.01733 11.2591C4.57935 11.0873 5.05767 10.749 5.42597 10.2442C6.44957 8.84804 6.05974 6.80481 4.61044 5.90536Z"/>
               </svg>
             </span>
-            43 522
+            {{(myBalances$ | async).USD}}
           </div>
         </div>
       </div>
@@ -831,15 +97,17 @@
     <!--filters start-->
     <!--<form action="">-->
       <div class="balance__filters">
-        <div class="wrap-input wrap-input--with-icon balance__search">
-          <input class="wrap-input__input" type="text" required>
-          <label class="wrap-input__label" for="">Search</label>
-          <div class="wrap-input__icon">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
-            </svg>
-          </div>
+        <div class="wrap-input wrap-input&#45;&#45;with-icon " *ngIf="currTab !== Tab.PR">
+          <ng-select
+            class="custom"
+            [items]="currTab === Tab.CRYPTO ? (cryptoCurrenciesForChoose$ | async) : (fiatCurrenciesForChoose$ | async)"
+            bindLabel="name"
+            placeholder="Search"
+            bindValue="name"
+            name="currency"
+            [(ngModel)]="currencyForChoose"
+            (ngModelChange)="loadBalances(currTab)"
+          ></ng-select>
           <div class="wrap-input__line"></div>
         </div>
         <div class="tabs balance__tabs">
@@ -863,13 +131,13 @@
             (click)="onSelectTab(Tab.PR)"
           >
             <span>Pending requests</span>
-            <span class="indicate">5</span>
+            <span class="indicate">{{countOfPendingRequests$ | async}}</span>
           </button>
 
         </div>
-        <div class="balance__hide-zero">
+        <div class="balance__hide-zero" *ngIf="currTab !== Tab.PR">
           <label for="" class="toggler">
-            <input type="checkbox" name="hideZero">
+            <input type="checkbox" name="hideZero" [(ngModel)]="hideAllZero" (change)="onToggleAllZero()">
             <span class="toggler__indicate"></span>
           </label>
           <span>Hide zero balances</span>
@@ -893,184 +161,37 @@
       </div>
     <!--</form>-->
     <!--filters end-->
-    <!--table start-->
-    <div [ngSwitch]="currTab">
-      <app-crypto-balance-table
+    <ng-container [ngSwitch]="currTab">
+      <app-balance-table
         *ngSwitchCase="Tab.CRYPTO"
+        [balances]="cryptoBalances$ | async"
+        [countPerPage]="countPerPage"
+        [countOfEntries]="getCountOfEntries() | async"
+        [currentPage]="currentPage"
+        (onPaginate)="onPageChanged($event)"
         (transferOut)="goToTransferPopup($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
         (cryptoDepositOut)="goToCryptoDepositPopup($event)"
-      ></app-crypto-balance-table>
-      <app-fiat-balance-table
+      ></app-balance-table>
+      <app-balance-table
         *ngSwitchCase="Tab.FIAT"
-      ></app-fiat-balance-table>
+        [balances]="fiatBalances$ | async"
+        [countPerPage]="countPerPage"
+        [countOfEntries]="getCountOfEntries() | async"
+        [currentPage]="currentPage"
+        (onPaginate)="onPageChanged($event)"
+        (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+        (cryptoDepositOut)="goToCryptoDepositPopup($event)"
+      ></app-balance-table>
       <app-pending-request-table
+        [pendingRequests]="pendingRequests$ | async"
+        [countPerPage]="countPerPage"
+        [countOfEntries]="getCountOfEntries() | async"
+        [currentPage]="currentPage"
+        (onPaginate)="onPageChanged($event)"
         *ngSwitchCase="Tab.PR"
       ></app-pending-request-table>
-
-    </div>
-
-    <!-- <table class="table">
-      <thead>
-      <tr>
-        <th class="table__cell-head table__cell-head--tal">Currency</th>
-        <th class="table__cell-head table__cell-head--tar">Available balance</th>
-        <th class="table__cell-head table__cell-head--tar">Pending</th>
-        <th class="table__cell-head table__cell-head--tar">On Withdraw</th>
-        <th class="table__cell-head table__cell-head--tar">On orders</th>
-        <th class="table__cell-head table__cell-head--tar">Change %</th>
-        <th class="table__cell-head table__cell-head--tac">Deposit</th>
-        <th class="table__cell-head table__cell-head--tac">Transfer</th>
-        <th class="table__cell-head table__cell-head--tac">Trade</th>
-        <th class="table__cell-head table__cell-head--tac">Withdraw</th>
-        <th class="table__cell-head table__cell-head--tac">History</th>
-      </tr>
-      </thead>
-      <tbody class="table__body">
-      <tr class="table__row balance__table-row">
-        <td class="table__cell">
-          <div class="balance__currency">
-            <div class="balance__currency-icon">
-              <img src="../../../assets/img/btc-icon.svg">
-            </div>
-            <span>BTC</span>
-            <span class="balance__currency-name">Bitcoin</span>
-          </div>
-        </td>
-        <td class="table__cell table__cell--tar">
-          <span>0</span>
-        </td>
-        <td class="table__cell table__cell--tar">
-          <span>0</span>
-        </td>
-        <td class="table__cell table__cell--tar">
-          <span>0</span>
-        </td>
-        <td class="table__cell table__cell--tar">
-          <span>0</span>
-        </td>
-        <td class="table__cell table__cell--tar">
-          <div class="balance__change">
-            <span class="txt-green">7.8</span>
-            <span class="arr arr--green"></span>
-          </div>
-        </td>
-        <td class="table__cell">
-          <button class="btn btn--center btn--small btn--hidden">Deposit</button>
-        </td>
-        <td class="table__cell">
-          <button class="btn btn--center btn--small btn--hidden">Transfer</button>
-        </td>
-        <td class="table__cell">
-          <button class="btn btn--center btn--small btn--hidden">Trade</button>
-        </td>
-        <td class="table__cell">
-          <button class="btn btn--center btn--small btn--hidden">Withdraw</button>
-        </td>
-        <td class="table__cell">
-          <button class="btn btn--center btn--small btn--hidden">History</button>
-        </td>
-      </tr>
-      </tbody>
-    </table> -->
-    <!--table end-->
-    <!--table requests start-->
-    <!-- <table class="table">
-      <thead>
-      <tr>
-        <th class="table__cell-head table__cell-head--tal">Date</th>
-        <th class="table__cell-head table__cell-head--tal">Currency</th>
-        <th class="table__cell-head table__cell-head--tar">Amount</th>
-        <th class="table__cell-head table__cell-head--tar">Comission</th>
-        <th class="table__cell-head table__cell-head--tar">Payment system</th>
-        <th class="table__cell-head table__cell-head--tar">Status</th>
-        <th class="table__cell-head table__cell-head--tac"></th>
-        <th class="table__cell-head table__cell-head--tac"></th>
-      </tr>
-      </thead>
-      <tbody class="table__body">
-      <tr class="table__row">
-        <td class="table__cell">
-          <div class="table__date-time">
-            <div>Th 13.06.2018</div>
-            <div>10:59:41</div>
-          </div>
-        </td>
-        <td class="table__cell">
-          <span>IDR</span>
-        </td>
-        <td class="table__cell table__cell--tar">
-          <span>0.01</span>
-        </td>
-        <td class="table__cell table__cell--tar">
-          <span>0</span>
-        </td>
-        <td class="table__cell table__cell--tar">
-          <span>CIMB NAGA</span>
-        </td>
-        <td class="table__cell table__cell--tar">
-          <span>Awaits payment</span>
-        </td>
-        <td class="table__cell">
-          <button class="btn btn--center btn--small btn--hidden">I paid</button>
-        </td>
-        <td class="table__cell table__cell--tar">
-          <button class="btn btn--center btn--small btn--hidden">Revoke</button>
-          <div class="revoke-request">
-            <div class="revoke-request__title">Are you sure you want to revoke this request?</div>
-            <div class="revoke-request__button-wrap">
-              <button class="btn btn--small">Yes</button>
-              <button class="btn btn--small">No</button>
-            </div>
-            <div class="revoke-request__triangle"></div>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table> -->
-    <!--table requests end-->
-    <!--paginator start-->
-    <!-- <div class="row row--aic" style="margin: 20px 16px 0;">
-      <div class="show-filter">
-        Showing <span>1</span> to
-        <div class="dropdown">
-          <div class="dropdown__btn">14</div>
-          <ul class="dropdown__list">
-            <li class="dropdown__item">24</li>
-            <li class="dropdown__item">34</li>
-            <li class="dropdown__item">44</li>
-          </ul>
-        </div>
-        of <span>192</span> entries.
-      </div>
-      <ul class="paginator" style="margin-left: auto;">
-        <li class="paginator__item">
-          <a class="paginator__link paginator__link--arr" href="#">
-            <img class="paginator__arr-prev" src="../../../assets/img/paginator-prev.svg" alt="prev">
-          </a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">1</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">3</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">4</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">...</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link" href="#">8</a>
-        </li>
-        <li class="paginator__item">
-          <a class="paginator__link paginator__link--arr" href="#">
-            <img class="paginator__arr-next" src="../../../assets/img/paginator-next.svg" alt="next">
-          </a>
-        </li>
-      </ul>
-    </div> -->
+    </ng-container>
 
   </div>
   <!--balance-desktop end-->

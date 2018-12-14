@@ -500,7 +500,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   // public mockSend = {
   //   amount: "500000000",
   //   currencyPairId: 59,
-  //   exrate: "0.00000002",
+  //   exrate: "0.00000029",
   //   orderType: "BUY",
   //   total: "500006510",
   // }

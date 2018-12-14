@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {PendingRequestsWrapper} from '../models/pending-requests-wrapper.model';
 import {BalanceWrapper} from '../models/balance-wrapper.model';
 import {BalanceItem} from '../models/balance-item.model';
-import {type} from 'os';
+import {MyBalanceItem} from '../models/my-balance-item.model';
 
 @Injectable()
 export class BalanceService {
@@ -21,21 +22,32 @@ export class BalanceService {
   ) {
   }
 
-  // request to get crypto balances
-  getCryptoBalances({
-                      offset,
-                      limit,
-                      excludeZero
-                    }): Observable<BalanceWrapper> {
+  // request to get balances
+  getBalances({type,
+               currencyName,
+               offset, 
+               limit,
+               excludeZero}): Observable<BalanceWrapper> {
+    
+    const params = {
+      currencyType: type,
+      currencyName: currencyName || '',
+      offset: offset + '',
+      limit: limit + '',
+      excludeZero: (!!excludeZero).toString(),
+    }
+    return this.http.get<BalanceWrapper>(`${this.apiUrl}/info/private/v2/balances`, {params});
+  }
 
+  // request to get balances
+  getPendingRequests({offset, limit}): Observable<PendingRequestsWrapper> {
     const params = {
       offset: offset + '',
       limit: limit + '',
-      currencyType: 'CRYPTO',
-      excludeZero: (!!excludeZero).toString(),
-    };
-    return this.http.get<BalanceWrapper>(`${this.apiUrl}/info/private/v2/balances`, {params});
+    }
+    return this.http.get<PendingRequestsWrapper>(`${this.apiUrl}/info/private/v2/balances/pendingRequests`, {params});
   }
+  
 
   getBalanceItems(): Observable<BalanceItem[]> {
     const url = this.apiUrl + '/info/private/v2/balances/';
@@ -104,6 +116,9 @@ export class BalanceService {
     return this.http.post(url, data);
   }
 
+  getMyBalances(): Observable<MyBalanceItem> {
+    return this.http.get<MyBalanceItem>(this.apiUrl + '/info/private/v2/balances/myBalances')
+  }
   getTotalBalance() {
     const url = `${this.apiUrl}/info/private/v2/balances/totalBalance`;
     return this.http.get(url);
