@@ -1,4 +1,3 @@
-
 import {Component, OnDestroy, OnInit, Input} from '@angular/core';
 import {Subject, Observable} from 'rxjs';
 import {Store, select} from '@ngrx/store';
@@ -32,7 +31,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     CRYPTO: 'CRYPTO',
     FIAT: 'FIAT',
     PR: 'PR',
-  }
+  };
 
   public balanceItems: BalanceItem [] = [];
   public currTab: string = this.Tab.CRYPTO;
@@ -76,8 +75,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isMobile = window.innerWidth <= 1200
-    if(this.isMobile) {
+    this.isMobile = window.innerWidth <= 1200;
+    if (this.isMobile) {
       this.countPerPage = 30;
     }
 
@@ -113,7 +112,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public loadBalances(type: string, concat?: boolean) {
-    switch(type) {
+    switch (type) {
       case this.Tab.CRYPTO :
         const paramsC = {
           type,
@@ -122,7 +121,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
           limit: this.countPerPage,
           excludeZero: this.hideAllZero,
           concat: concat || false,
-        }
+        };
         return this.store.dispatch(new fundsAction.LoadCryptoBalAction(paramsC));
       case this.Tab.FIAT :
         const paramsF = {
@@ -132,21 +131,21 @@ export class BalanceComponent implements OnInit, OnDestroy {
           limit: this.countPerPage,
           excludeZero: this.hideAllZero,
           concat: concat || false,
-        }
+        };
         return this.store.dispatch(new fundsAction.LoadFiatBalAction(paramsF));
       case this.Tab.PR :
         const paramsP = {
           offset: (this.currentPage - 1) * this.countPerPage,
           limit: this.countPerPage,
           concat: concat || false,
-        }
+        };
         return this.store.dispatch(new fundsAction.LoadPendingReqAction(paramsP));
     }
 
   }
 
   public getCountOfEntries() {
-    switch(this.currTab) {
+    switch (this.currTab) {
       case this.Tab.CRYPTO :
         return this.countOfCryptoEntries$;
       case this.Tab.FIAT :
@@ -221,10 +220,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public onBuyCurrency(marketPair) {
 
 
-  const splitName = marketPair.split('-');
+    const splitName = marketPair.split('-');
     this.dashboardWS.isNeedChangeCurretPair = false;
     this.dashboardWS.findPairByCurrencyPairName(`${splitName[0]}/${splitName[1]}`);
-    this.router.navigate(['/'], { queryParams: { widget: 'trading'});
+    this.router.navigate(['/'], {queryParams: {widget: 'trading'}});
   }
 
 }
