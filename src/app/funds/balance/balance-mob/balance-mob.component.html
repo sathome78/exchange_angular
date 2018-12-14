@@ -104,6 +104,11 @@
               </td>
             </tr>
           </ng-container>
+          <tr class="table__row--mob" *ngIf="!balances.length">
+              <td class="table__cell table__cell--tal" colspan="4">
+                No matching records found
+              </td>
+            </tr>
         </tbody>
     </table>
     <!-- </perfect-scrollbar> -->
@@ -135,173 +140,175 @@
       [ngClass]="{'tabs__item--active': currTab === Tab.PR}"
       (click)="onSelectTab.emit(Tab.PR)"
     >
-      Pending<span class="indicate">5</span>
+      Pending<span class="indicate">{{countOfPendingRequests}}</span>
     </button>
   </div>
 </div>
 <!--open mob-balance start-->
 <div class="open-mob-balance" *ngIf="currScreen === screen.DETAILS">
-  <div class="open-mob-balance__header" (click)="onSetScreen(screen.MAIN)">
+  <div class="open-mob-balance__header" (click)="onGoBackToMain()">
     <svg width="9" height="7" viewBox="0 0 9 7" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M3.82596 0.119541C3.60017 -0.0567689 3.25769 -0.0355965 3.06102 0.166823L0.137687 3.17624L0.133319 3.18071C-0.0387293 3.35787 -0.0421708 3.61517 0.110923 3.7948C0.119367 3.80467 0.128289 3.81436 0.137687 3.82376L3.06102 6.83318C3.25769 7.0356 3.60017 7.05677 3.82596 6.88046C4.05175 6.70415 4.07536 6.3971 3.87872 6.19459L1.73329 3.98602H8.45783C8.75727 3.98602 9 3.76841 9 3.49991C9 3.23141 8.75727 3.0138 8.45783 3.0138H1.73348L3.87872 0.805412C4.07536 0.602898 4.05175 0.295851 3.82596 0.119541Z"/>
     </svg>
     to: All Balance
   </div>
-  <table class="table table--mob">
-    <thead class="table__head">
-    <tr class="table__head-row">
-      <th class="table__cell-head table__cell-head--tal">Currency</th>
-      <th class="table__cell-head table__cell-head--tal">Available balance</th>
-      <th class="table__cell-head table__cell-head--tar">Price</th>
-    </tr>
-    </thead>
-    <tbody class="table__body table__body--none-shadow">
-
-    <tr class="table__row--mob">
-      <td class="table__cell table__cell--tal">
-        <div class="balance__currency">
-          <div class="balance__currency-icon">
-            <img src="../../../assets/img/btc-icon.svg">
-          </div>
-          <div>
-            <span>{{selectedItem.currencyName}}</span>
-            <span class="balance__currency-name">{{selectedItem.currencyDescription}}</span>
-          </div>
-        </div>
-      </td>
-      <td class="table__cell table__cell--tal">
-        <span>{{selectedItem.activeBalance}}</span>
-      </td>
-      <td class="table__cell table__cell--tar">
-        <div *ngIf="priceIn === currencies.BTC">BTC {{selectedItem.btcAmount}}</div>
-        <div *ngIf="priceIn === currencies.USD">$ {{selectedItem.usdAmount}}</div>
-        <!-- <span class="txt-small txt-red">–0.24%</span> -->
-      </td>
-    </tr>
-    <tr class="table__row--mob">
-      <td class="table__cell table__cell--tal">
-        <button class="btn btn--center btn--small">Deposit</button>
-      </td>
-      <td class="table__cell table__cell--tal">
-        <button class="btn btn--center btn--small">Withdraw</button>
-      </td>
-      <td class="table__cell table__cell--tar">
-        <button class="btn btn--center btn--small">Transfer</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <div class="open-mob-balance__row">
-    <div class="open-mob-balance__title">Price</div>
-    <div class="open-mob-balance__value">
-      BTC {{selectedItem.btcAmount}} / <span class="txt-green">$ {{selectedItem.usdAmount}}</span>
-    </div>
-  </div>
-  <div class="open-mob-balance__row">
-    <div class="open-mob-balance__title">Аvailable</div>
-    <div class="open-mob-balance__value">{{selectedItem.activeBalance}}</div>
-  </div>
-
-  <div>
-    <div 
-      class="open-mob-balance__row" 
-      (click)="onTogglePanels('on_confirmation')"
-      [ngClass]="{'open-mob-balance__row--open': showOnConfirmation}"
-    >
-      <div class="open-mob-balance__title">On confirmation</div>
-      <div class="open-mob-balance__value">{{selectedItem.onConfirmation}}</div>
-      <div class="open-mob-balance__arr">
-        <svg width="10" height="6" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M13.7272 1.36396L7.36328 7.72792L0.99932 1.36396" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-    </div>
-    <div class="table__details" *ngIf="showOnConfirmation">
-      <div class="table__details-cell">
-        <div class="table__details-item">
-          <div class="table__details-item-title">
-            <div class="counter">
-              <span>4</span>
-              /
-              <span>5</span>
+  <ng-container *ngIf="!!selectedItem">
+    <table class="table table--mob">
+      <thead class="table__head">
+      <tr class="table__head-row">
+        <th class="table__cell-head table__cell-head--tal">Currency</th>
+        <th class="table__cell-head table__cell-head--tal">Available balance</th>
+        <th class="table__cell-head table__cell-head--tar">Price</th>
+      </tr>
+      </thead>
+      <tbody class="table__body table__body--none-shadow">
+  
+      <tr class="table__row--mob">
+        <td class="table__cell table__cell--tal">
+          <div class="balance__currency">
+            <div class="balance__currency-icon">
+              <img src="../../../assets/img/btc-icon.svg">
+            </div>
+            <div>
+              <span>{{selectedItem.currencyName}}</span>
+              <span class="balance__currency-name">{{selectedItem.currencyDescription}}</span>
             </div>
           </div>
-          <div class="table__details-item-value"><span>0.00074</span> to deposit</div>
+        </td>
+        <td class="table__cell table__cell--tal">
+          <span>{{selectedItem.activeBalance}}</span>
+        </td>
+        <td class="table__cell table__cell--tar">
+          <div *ngIf="priceIn === currencies.BTC">BTC {{selectedItem.btcAmount}}</div>
+          <div *ngIf="priceIn === currencies.USD">$ {{selectedItem.usdAmount}}</div>
+          <!-- <span class="txt-small txt-red">–0.24%</span> -->
+        </td>
+      </tr>
+      <tr class="table__row--mob">
+        <td class="table__cell table__cell--tal">
+          <button class="btn btn--center btn--small" (click)="cryptoDepositOut.emit(selectedItem)">Deposit</button>
+        </td>
+        <td class="table__cell table__cell--tal">
+          <button class="btn btn--center btn--small" (click)="cryptoWithdrawOut.emit(selectedItem)">Withdraw</button>
+        </td>
+        <td class="table__cell table__cell--tar">
+          <button class="btn btn--center btn--small" (click)="transferOut.emit(selectedItem)">Transfer</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="open-mob-balance__row">
+      <div class="open-mob-balance__title">Price</div>
+      <div class="open-mob-balance__value">
+        BTC {{selectedItem.btcAmount}} / <span class="txt-green">$ {{selectedItem.usdAmount}}</span>
+      </div>
+    </div>
+    <div class="open-mob-balance__row">
+      <div class="open-mob-balance__title">Аvailable</div>
+      <div class="open-mob-balance__value">{{selectedItem.activeBalance}}</div>
+    </div>
+  
+    <div>
+      <div 
+        class="open-mob-balance__row" 
+        (click)="onTogglePanels('on_confirmation')"
+        [ngClass]="{'open-mob-balance__row--open': showOnConfirmation}"
+      >
+        <div class="open-mob-balance__title">On confirmation</div>
+        <div class="open-mob-balance__value">{{selectedItem.onConfirmation}}</div>
+        <div class="open-mob-balance__arr">
+          <svg width="10" height="6" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.7272 1.36396L7.36328 7.72792L0.99932 1.36396" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
-        <div class="table__details-item">
-          <div class="table__details-item-title">Adress</div>
-          <div class="table__details-item-value">
-            <a href="#" class="open-mob-balance__code">1LUaz5g9xSM4W3zBZQFnghmxPw14AFcByz</a>
+      </div>
+      <div class="table__details" *ngIf="showOnConfirmation">
+        <div class="table__details-cell" *ngFor="let confirm of selectedItem.confirmations">
+          <div class="table__details-item">
+            <div class="table__details-item-title">
+              <div class="counter">
+                <span>{{confirm.collectedConfirmations}}</span>
+                /
+                <span>{{confirm.neededConfirmations || '1'}}</span>
+              </div>
+            </div>
+            <div class="table__details-item-value"><span>{{confirm.amount}}</span> to deposit</div>
           </div>
-        </div>
-        <div class="table__details-item">
-          <div class="table__details-item-title">Txid</div>
-          <div class="table__details-item-value">
-            <a href="#" class="open-mob-balance__code">e524e8d969b44d12c56d07fc14c748301762ecda6733bf56b3b35e77a6e405c1</a>
-          </div>
-        </div>
-        <div class="table__details-item">
-          <div class="table__details-item-title">
-            <div class="counter">
-              <span>3</span>
-              /
-              <span>5</span>
+          <div class="table__details-item">
+            <div class="table__details-item-title">Address</div>
+            <div class="table__details-item-value">
+              <a href="#" class="open-mob-balance__code" disabled>{{confirm.address}}</a>
             </div>
           </div>
-          <div class="table__details-item-value"><span>4.96600</span> to withdraw</div>
+          <div class="table__details-item">
+            <div class="table__details-item-title">Txid</div>
+            <div class="table__details-item-value">
+              <a href="#" class="open-mob-balance__code">{{confirm.hash}}</a>
+            </div>
+          </div>
+          <!-- <div class="table__details-item">
+            <div class="table__details-item-title">
+              <div class="counter">
+                <span>3</span>
+                /
+                <span>5</span>
+              </div>
+            </div>
+            <div class="table__details-item-value"><span>4.96600</span> to withdraw</div>
+          </div> -->
         </div>
       </div>
     </div>
-  </div>
-
-  <div>
-    <div 
+  
+    <div>
+      <div 
+        class="open-mob-balance__row"
+        (click)="onTogglePanels('reserve')"
+        [ngClass]="{'open-mob-balance__row--open': showReserve}"
+      >
+        <div class="open-mob-balance__title">Reserve</div>
+        <div class="open-mob-balance__value">{{selectedItem.reservedBalance}}</div>
+        <div class="open-mob-balance__arr">
+          <svg width="10" height="6" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.7272 1.36396L7.36328 7.72792L0.99932 1.36396" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="table__details" *ngIf="showReserve">
+        <div class="table__details-cell">
+          <div class="table__details-item">
+            <div class="table__details-item-title">
+              Orders
+            </div>
+            <div class="table__details-item-value">{{selectedItem.reservedByOrders}}</div>
+          </div>
+          <div class="table__details-item">
+            <div class="table__details-item-title">Withdraw</div>
+            <div class="table__details-item-value">{{selectedItem.reservedByMerchant}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- <div 
       class="open-mob-balance__row"
-      (click)="onTogglePanels('reserve')"
-      [ngClass]="{'open-mob-balance__row--open': showReserve}"
     >
-      <div class="open-mob-balance__title">Reserve</div>
-      <div class="open-mob-balance__value">{{selectedItem.reservedBalance}}</div>
+      <div class="open-mob-balance__title">History</div>
       <div class="open-mob-balance__arr">
-        <svg width="10" height="6" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M13.7272 1.36396L7.36328 7.72792L0.99932 1.36396" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg width="12" height="11" viewBox="0 0 11 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.24264 0.757359L9.48528 5L5.24264 9.24264" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
+    </div> -->
+    <div class="open-mob-balance__btn-wrap">
+      <a class="widget__buy-sell-btn widget__buy-sell-btn--green"
+        (click)="onBuyCurrency.emit(getMarketPair)"
+      >Buy BTC</a>
+      <a class="widget__buy-sell-btn widget__buy-sell-btn--red"
+        (click)="onBuyCurrency.emit(getMarketPair)"
+      >Sell BTC</a>
     </div>
-    <div class="table__details" *ngIf="showReserve">
-      <div class="table__details-cell">
-        <div class="table__details-item">
-          <div class="table__details-item-title">
-            Orders
-          </div>
-          <div class="table__details-item-value">{{selectedItem.reservedByOrders}}</div>
-        </div>
-        <div class="table__details-item">
-          <div class="table__details-item-title">Withdraw</div>
-          <div class="table__details-item-value">{{selectedItem.reservedByMerchant}}</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- <div 
-    class="open-mob-balance__row"
-  >
-    <div class="open-mob-balance__title">History</div>
-    <div class="open-mob-balance__arr">
-      <svg width="12" height="11" viewBox="0 0 11 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M5.24264 0.757359L9.48528 5L5.24264 9.24264" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-  </div> -->
-  <div class="open-mob-balance__btn-wrap">
-    <a class="widget__buy-sell-btn widget__buy-sell-btn--green"
-      (click)="onBuyCurrency.emit(getMarketPair)"
-    >Buy BTC</a>
-    <a class="widget__buy-sell-btn widget__buy-sell-btn--red"
-      (click)="onBuyCurrency.emit(getMarketPair)"
-    >Sell BTC</a>
-  </div>
+  </ng-container>
 </div>
 <!--open mob-balance end-->

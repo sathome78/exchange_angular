@@ -10,6 +10,7 @@ import {SET_ALL_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
 import {SET_CRYPTO_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
 import {SET_FIAT_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
 import {CurrencyPair} from '../../../model/currency-pair.model';
+import {BalanceDetailsItem} from '../../models/balance-details-item.model';
 import {FAIL_LOAD_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
 import {LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
 import {LOAD_FIAT_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
@@ -21,7 +22,8 @@ export interface State {
   countFiatBal: number;
   pendingRequests: PendingRequestsItem[];
   countPendingRequests: number;
-  myBalances: MyBalanceItem,
+  myBalances: MyBalanceItem | null, 
+  balanceDetailsInfo: BalanceDetailsItem,
   loading: boolean;
   cryptoCurrenciesForChoose: CurrencyChoose[];
   fiatCurrenciesForChoose: CurrencyChoose[];
@@ -39,7 +41,7 @@ export const INIT_STATE: State = {
   cryptoCurrenciesForChoose: [],
   fiatCurrenciesForChoose: [],
   allCurrenciesForChoose: [],
-
+  balanceDetailsInfo: null,
   loading: false,
 };
 
@@ -144,6 +146,17 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         loading: false,
       };
 
+    case fromActions.LOAD_BALANCE_DETAILS_INFO:
+      return {...state, loading: true};
+    case fromActions.SET_BALANCE_DETAILS_INFO:
+      return {
+        ...state, 
+        loading: false, 
+        balanceDetailsInfo: action.payload, 
+      };
+    case fromActions.FAIL_LOAD_BALANCE_DETAILS_INFO:
+      return {...state, loading: false};
+
     default :
       return state;
   }
@@ -179,6 +192,11 @@ export const getCountPendingReqSelector = createSelector(getOrdersState, getCoun
 
 export const getMyBalances = (state: State): any => state.myBalances;
 export const getMyBalancesSelector = createSelector(getOrdersState, getMyBalances);
+
+/** Selected Balance Info */
+
+export const getBalanceDetails = (state: State): any => state.balanceDetailsInfo;
+export const getSelectedBalance = createSelector(getOrdersState, getBalanceDetails);
 
 
 // /** Orders currencies pairs finish */

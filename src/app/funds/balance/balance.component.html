@@ -5,12 +5,13 @@
       <app-balance-mob
         *ngSwitchCase="Tab.CRYPTO"
         [balances]="cryptoBalances$ | async"
+        [countOfPendingRequests]="countOfPendingRequests$ | async"
+        [selectedItem]="selectedBalance$ | async"
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         [Tab]="Tab"
         [currTab]="currTab"
-        [hideAllZero]="hideAllZero"
         [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
         [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
         (onToggleAllZero)="onToggleAllZero($event)"
@@ -20,16 +21,22 @@
         (onSelectTab)="onSelectTab($event)"
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
         (onBuyCurrency)="onBuyCurrency($event)"
+        (onLoadBalanceConfirmInfo)="onLoadBalanceConfirmInfo($event)"
+        (onResetBalanceConfirmInfo)="onResetBalanceConfirmInfo($event)"
+        (transferOut)="goToTransferPopup($event)"
+        (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+        (cryptoDepositOut)="goToCryptoDepositPopup($event)"
       ></app-balance-mob>
       <app-balance-mob
         *ngSwitchCase="Tab.FIAT"
         [balances]="fiatBalances$ | async"
+        [countOfPendingRequests]="countOfPendingRequests$ | async"
+        [selectedItem]="selectedBalance$ | async"
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         [Tab]="Tab"
         [currTab]="currTab"
-        [hideAllZero]="hideAllZero"
         [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
         [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
         (onToggleAllZero)="onToggleAllZero($event)"
@@ -39,6 +46,11 @@
         (onSelectTab)="onSelectTab($event)"
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
         (onBuyCurrency)="onBuyCurrency($event)"
+        (onLoadBalanceConfirmInfo)="onLoadBalanceConfirmInfo($event)"
+        (onResetBalanceConfirmInfo)="onResetBalanceConfirmInfo($event)"
+        (transferOut)="goToTransferPopup($event)"
+        (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+        (cryptoDepositOut)="goToCryptoDepositPopup($event)"
       ></app-balance-mob>
       <app-pending-request-mob
         *ngSwitchCase="Tab.PR"
@@ -52,6 +64,7 @@
         (openRefillBalancePopup)="openRefillBalancePopup($event)"
         (openSendMoneyPopup)="openSendMoneyPopup($event)"
         (onSelectTab)="onSelectTab($event)"
+        (onRevokePendingRequest)="onRevokePendingRequest($event)"
       ></app-pending-request-mob>
     </ng-container>
   </div>
@@ -96,7 +109,10 @@
     </div>
     <!--filters start-->
     <!--<form action="">-->
-      <div class="balance__filters">
+      <div 
+        class="balance__filters" 
+        [ngClass]="{'balance__filter--pending-open': currTab === Tab.PR}"
+      >
         <div class="wrap-input wrap-input&#45;&#45;with-icon " *ngIf="currTab !== Tab.PR">
           <ng-select
             class="custom"
@@ -180,6 +196,7 @@
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         (onPaginate)="onPageChanged($event)"
+        (transferOut)="goToTransferPopup($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
         (cryptoDepositOut)="goToCryptoDepositPopup($event)"
       ></app-balance-table>
@@ -189,6 +206,7 @@
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         (onPaginate)="onPageChanged($event)"
+        (onRevokePendingRequest)="onRevokePendingRequest($event)"
         *ngSwitchCase="Tab.PR"
       ></app-pending-request-table>
     </ng-container>
