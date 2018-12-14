@@ -16,13 +16,21 @@ export const FAIL_LOAD_PENDING_REQ = '[Funds] Fail load pending requests';
 export const SET_PENDING_REQ = '[Funds] Set pending requests';
 export const SET_MORE_PENDING_REQ = '[Funds] Concat pending requests';
 
+export const REVOKE_PENDING_REQ = '[Funds] Revoke pending requests';
+export const FAIL_REVOKE_PENDING_REQ = '[Funds] Fail revoke pending requests';
+
 export const LOAD_MY_BALANCES = '[Funds] Load my balances';
 export const FAIL_LOAD_MY_BALANCES = '[Funds] Fail load my balances';
 export const SET_MY_BALANCES = '[Funds] Set my balances';
 
+export const LOAD_BALANCE_DETAILS_INFO = '[Funds] Load balance confirmation info';
+export const FAIL_LOAD_BALANCE_DETAILS_INFO = '[Funds] Fail load balance confirmation info';
+export const SET_BALANCE_DETAILS_INFO = '[Funds] Set balance confirmation info';
+
 export const LOAD_ALL_CURRENCIES_FOR_CHOOSE = '[Funds] Load all currencies for choose';
 export const LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE = '[Funds] Load crypto currencies for choose';
 export const LOAD_FIAT_CURRENCIES_FOR_CHOOSE = '[Funds] Load fiat currencies for choose';
+
 export const SET_ALL_CURRENCIES_FOR_CHOOSE = '[Funds] Set all currencies for choose';
 export const SET_CRYPTO_CURRENCIES_FOR_CHOOSE = '[Funds] Set crypto currencies for choose';
 export const SET_FIAT_CURRENCIES_FOR_CHOOSE = '[Funds] Set fiat currencies for choose';
@@ -103,6 +111,32 @@ export class SetMyBalancesAction implements Action {
 }
 export class FailLoadMyBalancesAction implements Action {
   readonly type = FAIL_LOAD_MY_BALANCES;
+  constructor(public payload?) {}
+}
+/**
+ * Get Balance Details info
+ */
+export class LoadBalanceDetailsAction implements Action {
+  readonly type = LOAD_BALANCE_DETAILS_INFO;
+  constructor(public payload?) {}
+}
+export class SetBalanceDetailsAction implements Action {
+  readonly type = SET_BALANCE_DETAILS_INFO;
+  constructor(public payload?) {}
+}
+export class FailLoadBalanceDetailsAction implements Action {
+  readonly type = FAIL_LOAD_BALANCE_DETAILS_INFO;
+  constructor(public payload?) {}
+}
+/**
+ * Revoke pending request
+ */
+export class RevokePendingReqAction implements Action {
+  readonly type = REVOKE_PENDING_REQ;
+  constructor(public payload?) {}
+}
+export class FailRevokePendingReqAction implements Action {
+  readonly type = FAIL_REVOKE_PENDING_REQ;
   constructor(public payload?) {}
 }
   /**
@@ -203,6 +237,11 @@ export type Actions
   | SetAllCurrenciesForChoose
   | SetCryptoCurrenciesForChoose
   | SetFiatCurrenciesForChoose
+  | FailRevokePendingReqAction
+  | RevokePendingReqAction
+  | LoadBalanceDetailsAction
+  | SetBalanceDetailsAction
+  | FailLoadBalanceDetailsAction
   | FailLoadCurrenciesForChoose
   | LoadAllCurrenciesForChoose
   | LoadCryptoCurrenciesForChoose

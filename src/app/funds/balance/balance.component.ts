@@ -12,6 +12,7 @@ import {BalanceService} from '../services/balance.service';
 import {takeUntil} from 'rxjs/operators';
 import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, INNER_TRANSFER} from './send-money/send-money-constants';
 import {CurrencyChoose} from '../models/currency-choose.model';
+import {BalanceDetailsItem} from '../models/balance-details-item.model';
 import * as fromCore from '../../core/reducers';
 import {
   LoadAllCurrenciesForChoose, LoadCryptoCurrenciesForChoose, LoadFiatCurrenciesForChoose,
@@ -50,9 +51,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public myBalances$: Observable<MyBalanceItem>;
   public cryptoCurrenciesForChoose$: Observable<CurrencyChoose[]>;
   public fiatCurrenciesForChoose$: Observable<CurrencyChoose[]>;
+  public selectedBalance$: Observable<BalanceDetailsItem>;
   public sendMoneyData = {};
   public refillBalanceData = {};
-  public currencyForChoose: string = '';
+  public currencyForChoose: string = null;
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -72,6 +74,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.myBalances$ = store.pipe(select(fundsReducer.getMyBalancesSelector));
     this.cryptoCurrenciesForChoose$ = store.pipe(select(fromCore.getCryptoCurrenciesForChoose));
     this.fiatCurrenciesForChoose$ = store.pipe(select(fromCore.getFiatCurrenciesForChoose));
+    this.selectedBalance$ = store.pipe(select(fundsReducer.getSelectedBalance));
   }
 
   ngOnInit() {
@@ -172,8 +175,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.showSendMoneyPopup = flag;
   }
 
-  public onToggleAllZero(): void {
+  public onToggleAllZero(hideAllZero: boolean): void {
     this.currentPage = 1;
+    this.hideAllZero = hideAllZero;
     this.loadBalances(this.currTab);
   }
 
@@ -187,7 +191,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     };
   }
 
-  goToCryptoDepositPopup(balance: BalanceItem): void {
+  public goToCryptoDepositPopup(balance: BalanceItem): void {
     this.showRefillBalancePopup = true;
     this.refillBalanceData = {
       step: 2,
@@ -202,7 +206,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.loadBalances(this.currTab);
   }
 
-  goToTransferPopup(balance: BalanceItem): void {
+  public goToTransferPopup(balance: BalanceItem): void {
     this.showSendMoneyPopup = true;
     this.sendMoneyData = {
       step: 2,
@@ -218,12 +222,38 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public onBuyCurrency(marketPair) {
-
-
     const splitName = marketPair.split('-');
     this.dashboardWS.isNeedChangeCurretPair = false;
     this.dashboardWS.findPairByCurrencyPairName(`${splitName[0]}/${splitName[1]}`);
     this.router.navigate(['/'], {queryParams: {widget: 'trading'}});
   }
+
+  public onRevokePendingRequest({requestId, operation}): void {
+    this.currentPage = 1;
+    const params = {
+      revoke: {
+        requestId,
+        operation,
+      },
+      loadPR: {
+        offset: (this.currentPage - 1) * this.countPerPage, 
+        limit: this.countPerPage,
+        concat: false,
+      }
+    }
+    this.store.dispatch(new fundsAction.RevokePendingReqAction(params))
+  }
+
+
+  public onLoadBalanceConfirmInfo(currencyId) {
+    this.store.dispatch(new fundsAction.LoadBalanceDetailsAction(currencyId))
+  }
+
+  public onResetBalanceConfirmInfo() {
+    this.store.dispatch(new fundsAction.SetBalanceDetailsAction(null))
+  }
+
+
+   
 
 }
