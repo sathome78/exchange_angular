@@ -171,9 +171,7 @@ export class FundsEffects {
     .pipe(switchMap((action) => {
       return this.balanceService.revokePendingRequest(action.payload.revoke)
         .pipe(
-          map(() => {
-            return new fundsActions.LoadPendingReqAction(action.payload.loadPR)
-          }),
+          map(() => new fundsActions.LoadPendingReqAction(action.payload.loadPR)),
           catchError(error => of(new fundsActions.FailRevokePendingReqAction(error)))
         )
     }))
