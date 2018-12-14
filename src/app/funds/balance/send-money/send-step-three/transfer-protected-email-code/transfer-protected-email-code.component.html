@@ -61,7 +61,7 @@
       </div>
       <div class="wrap-input  send__wrap-input"
            [ngClass]="{'wrap-input--error': isSubmited && !form.controls['email'].valid}">
-        <input class="wrap-input__input" name="email" formControlName="email">
+        <input class="wrap-input__input" name="email" formControlName="email" required>
         <label class="wrap-input__label">Email</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->

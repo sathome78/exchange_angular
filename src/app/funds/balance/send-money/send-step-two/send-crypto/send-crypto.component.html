@@ -63,7 +63,7 @@
     <div class="send__inputs-wrap">
       <div class="wrap-input  send__wrap-input"
            [ngClass]="{'wrap-input--error': !form.controls['address'].valid && isSubmited}">
-        <input class="wrap-input__input" name="address" formControlName="address">
+        <input class="wrap-input__input" name="address" formControlName="address" required>
         <label class="wrap-input__label">Address for withdraw money</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->

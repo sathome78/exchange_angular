@@ -24,6 +24,7 @@ export class OpenOrdersComponent implements OnInit {
   public currentPage = 1;
   public countPerPage = 15;
   public isMobile: boolean = false;
+  public showCancelOrderConfirm: number | null = null;
 
   public myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'dd.mm.yyyy',
@@ -52,6 +53,7 @@ export class OpenOrdersComponent implements OnInit {
   ngOnInit() {
     this.isMobile = window.innerWidth < 1200;
     this.initDate();
+    this.store.dispatch(new ordersAction.LoadCurrencyPairsAction());
     this.loadOrders();
   }
 
@@ -59,15 +61,17 @@ export class OpenOrdersComponent implements OnInit {
    * dispatching action to load the list of the open orders
    */
   loadOrders() {
-    const params = {
-      page: this.currentPage, 
-      limit:this.countPerPage,
-      dateFrom: this.formatDate(this.modelDateFrom.date),
-      dateTo: this.formatDate(this.modelDateTo.date),
-      currencyPairId: this.currencyPairId,
-      isMobile: this.isMobile,
+    if(this.isDateRangeValid()) {
+      const params = {
+        page: this.currentPage, 
+        limit:this.countPerPage,
+        dateFrom: this.formatDate(this.modelDateFrom.date),
+        dateTo: this.formatDate(this.modelDateTo.date),
+        currencyPairId: this.currencyPairId,
+        isMobile: this.isMobile,
+      }
+      this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
     }
-    this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
   }
 
   toggleDropdown() {
@@ -115,6 +119,9 @@ export class OpenOrdersComponent implements OnInit {
    * @returns { boolean }
    */
   isDateRangeValid(): boolean {
+    if(!this.modelDateFrom || !this.modelDateFrom.date || !this.modelDateTo || !this.modelDateTo.date) {
+      return false;
+    }
     const dateFrom = new Date(this.modelDateFrom.date.year, this.modelDateFrom.date.month - 1, this.modelDateFrom.date.day);
     const dateTo = new Date(this.modelDateTo.date.year, this.modelDateTo.date.month - 1, this.modelDateTo.date.day);
     const diff = dateTo.getTime() - dateFrom.getTime();
@@ -200,38 +207,35 @@ export class OpenOrdersComponent implements OnInit {
    * set status order canceled
    * @param order
    */
-  // cancelOrder(): void {
-  //   if (this.selectedOrder) {
-  //     const editedOrder = {
-  //       orderId: this.selectedOrder.id,
-  //       amount: this.selectedOrder.amountConvert,
-  //       baseType: this.selectedOrder.orderBaseType,
-  //       commission: this.selectedOrder.commissionValue,
-  //       currencyPairId: this.selectedOrder.currencyPairId,
-  //       orderType: this.selectedOrder.operationTypeEnum,
-  //       rate: this.selectedOrder.exExchangeRate,
-  //       total: this.selectedOrder.amountWithCommission,
-  //       status: 'CANCELLED'
-  //     };
-  //
-  //     if (this.selectedOrder.stopRate) {
-  //       editedOrder.rate = this.selectedOrder.stopRate;
-  //     }
-  //     console.log(editedOrder);
-  //     this.ordersService.updateOrder(editedOrder).subscribe(res => {
-  //       this.toOpenOrders();
-  //     });
-  //   }
-  //
-  //  this.closePopup();
-  // }
+  cancelOrder(order): void {
+    const params = {
+      order,
+      loadOrders: { 
+        page: this.currentPage, 
+        limit:this.countPerPage,
+        dateFrom: this.formatDate(this.modelDateFrom.date),
+        dateTo: this.formatDate(this.modelDateTo.date),
+        currencyPairId: this.currencyPairId,
+        isMobile: this.isMobile,
+      }
+    }
+
+    this.store.dispatch(new ordersAction.CancelOrderAction(params));
+    this.showCancelOrderConfirm = null;
+  }
 
   openFilterPopup() {
     this.showFilterPopup = true;
   }
 
   closeFilterPopup() {
-    this.showFilterPopup = false;
-    this.loadOrders();
+    if(this.isDateRangeValid()) {
+      this.showFilterPopup = false;
+      this.loadOrders();
+    }
+  }
+
+  onShowCancelOrderConfirm(orderId: number | null): void {
+    this.showCancelOrderConfirm = orderId;
   }
 }
