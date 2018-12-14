@@ -30,6 +30,7 @@
           [(ngModel)]="currencyForChoose"
           (ngModelChange)="filterByCurrencyForMobile.emit({currTab: this.currTab, currency: this.currencyForChoose})"
         ></ng-select>
+        <div class="wrap-input__line"></div>
       </div>
       <span>Price in</span>
       <div class="dropdown" #dropdown (click)="onToggleDropdown()">
@@ -104,7 +105,7 @@
             </tr>
           </ng-container>
           <tr class="table__row--mob" *ngIf="!balances.length">
-              <td class="table__cell table__cell--tal" colspan="4">
+              <td class="table__cell table__cell--tac" colspan="4">
                 No matching records found
               </td>
             </tr>
