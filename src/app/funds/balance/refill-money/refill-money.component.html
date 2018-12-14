@@ -27,7 +27,7 @@
         *ngIf="step >= 1"
             [ngClass]="{'steps__item--current': step === 1}"
         >
-          <a class="steps__link">
+          <a class="steps__link" (click)="setStep(1)">
             <span class="steps__number  steps__number--valid">1</span>
             <span class="steps__number-mob-current">1. Refill money</span>
             <span class="steps__title">Refill money</span>
@@ -37,7 +37,7 @@
             *ngIf="step >= 2"
             [ngClass]="{'steps__item--current': step === 2}"
         >
-          <a class="steps__link">
+          <a class="steps__link" (click)="setStep(2)">
             <span class="steps__number steps__number--current">2</span>
             <span class="steps__number-mob-current">2. {{stepTwoName}}</span>
             <span class="steps__title">{{stepTwoName}}</span>

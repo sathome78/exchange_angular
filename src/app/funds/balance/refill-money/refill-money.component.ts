@@ -12,12 +12,16 @@ export class RefillMoneyComponent implements OnInit {
   public stepTwoName: string;
   public step: number;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
     this.initFields();
   }
 
+  setStep(step: number) {
+    this.step = step;
+  }
 
   onCloseRefillBalancePopup() {
     this.closeRefillBalancePopup.emit(true);

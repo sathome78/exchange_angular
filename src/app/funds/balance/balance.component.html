@@ -2,12 +2,12 @@
   <!--balance-mob start-->
   <div class="balance balance--mob">
     <ng-container [ngSwitch]="currTab">
-      <app-balance-mob 
+      <app-balance-mob
         *ngSwitchCase="Tab.CRYPTO"
         [balances]="cryptoBalances$ | async"
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
-        [currentPage]="currentPage"  
+        [currentPage]="currentPage"
         [Tab]="Tab"
         [currTab]="currTab"
         [hideAllZero]="hideAllZero"
@@ -21,12 +21,12 @@
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
         (onBuyCurrency)="onBuyCurrency($event)"
       ></app-balance-mob>
-      <app-balance-mob 
+      <app-balance-mob
         *ngSwitchCase="Tab.FIAT"
         [balances]="fiatBalances$ | async"
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
-        [currentPage]="currentPage"  
+        [currentPage]="currentPage"
         [Tab]="Tab"
         [currTab]="currTab"
         [hideAllZero]="hideAllZero"
@@ -40,12 +40,12 @@
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
         (onBuyCurrency)="onBuyCurrency($event)"
       ></app-balance-mob>
-      <app-pending-request-mob 
+      <app-pending-request-mob
         *ngSwitchCase="Tab.PR"
         [pendingRequests]="pendingRequests$ | async"
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
-        [currentPage]="currentPage"  
+        [currentPage]="currentPage"
         [Tab]="Tab"
         [currTab]="currTab"
         (onLoadMore)="loadMoreBalancesForMobile($event)"
@@ -98,7 +98,7 @@
     <!--<form action="">-->
       <div class="balance__filters">
         <div class="wrap-input wrap-input&#45;&#45;with-icon " *ngIf="currTab !== Tab.PR">
-          <ng-select 
+          <ng-select
             class="custom"
             [items]="currTab === Tab.CRYPTO ? (cryptoCurrenciesForChoose$ | async) : (fiatCurrenciesForChoose$ | async)"
             bindLabel="name"
@@ -162,31 +162,32 @@
     <!--</form>-->
     <!--filters end-->
     <ng-container [ngSwitch]="currTab">
-      <app-balance-table 
+      <app-balance-table
         *ngSwitchCase="Tab.CRYPTO"
         [balances]="cryptoBalances$ | async"
         [countPerPage]="countPerPage"
-        [countOfEntries]="getCountOfEntries() | async"  
-        [currentPage]="currentPage"  
+        [countOfEntries]="getCountOfEntries() | async"
+        [currentPage]="currentPage"
         (onPaginate)="onPageChanged($event)"
+        (transferOut)="goToTransferPopup($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
         (cryptoDepositOut)="goToCryptoDepositPopup($event)"
       ></app-balance-table>
-      <app-balance-table 
+      <app-balance-table
         *ngSwitchCase="Tab.FIAT"
         [balances]="fiatBalances$ | async"
         [countPerPage]="countPerPage"
-        [countOfEntries]="getCountOfEntries() | async"  
+        [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         (onPaginate)="onPageChanged($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
         (cryptoDepositOut)="goToCryptoDepositPopup($event)"
       ></app-balance-table>
-      <app-pending-request-table 
+      <app-pending-request-table
         [pendingRequests]="pendingRequests$ | async"
         [countPerPage]="countPerPage"
-        [countOfEntries]="getCountOfEntries() | async"  
-        [currentPage]="currentPage"  
+        [countOfEntries]="getCountOfEntries() | async"
+        [currentPage]="currentPage"
         (onPaginate)="onPageChanged($event)"
         *ngSwitchCase="Tab.PR"
       ></app-pending-request-table>

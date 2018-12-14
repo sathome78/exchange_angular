@@ -1,4 +1,4 @@
-import {HostListener, OnDestroy} from '@angular/core';
+import {HostListener, Input, OnDestroy} from '@angular/core';
 import {keys} from '../../../../core/keys';
 import {Subject} from 'rxjs';
 import {FormGroup} from '@angular/forms';
@@ -10,6 +10,7 @@ import {getAllCurrenciesForChoose} from '../../../../core/reducers';
 
 export abstract class AbstractTransfer {
 
+  @Input() balanceData;
   public cryptoNames;
   public defaultCryptoNames;
   public openCurrencyDropdown = false;
@@ -67,11 +68,19 @@ export abstract class AbstractTransfer {
       .subscribe(currencies => {
         this.defaultCryptoNames = currencies;
         this.cryptoNames = this.defaultCryptoNames;
-        this.activeCrypto = this.cryptoNames[0];
+        this.setActiveCurrency();
         this.prepareAlphabet();
         this.getBalance(this.activeCrypto.name);
         this.getMinSum(this.activeCrypto);
       });
+  }
+
+  setActiveCurrency() {
+    let currency;
+    if (this.balanceData && this.balanceData.currencyId) {
+      currency = this.cryptoNames.filter(item => +item.id === +this.balanceData.currencyId);
+    }
+    this.activeCrypto = (currency && currency.length) ? currency[0] : this.cryptoNames[0];
   }
 
   getMinSum(currency) {
