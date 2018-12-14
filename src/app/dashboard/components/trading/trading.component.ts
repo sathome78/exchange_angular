@@ -134,7 +134,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPairInfo) => {
         this.setPriceInValue(pair.currencyRate);
-        this.order.rate (pair.currencyRate);
+        this.order.rate = pair.currencyRate;
       });
 
 
