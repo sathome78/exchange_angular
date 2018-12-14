@@ -68,6 +68,7 @@ export class DashboardWebSocketService {
    * @param pair
    */
   findPairByCurrencyPairName(pairName: string): void {
+    console.log(pairName)
     this.currencyPairs.forEach(elm => {
       if (pairName === elm.currencyPairName) {
         this.store.dispatch(new ChangeCurrencyPairAction(elm));

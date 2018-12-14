@@ -17,6 +17,8 @@ import * as fromCore from '../../core/reducers';
 import {
   LoadAllCurrenciesForChoose, LoadCryptoCurrenciesForChoose, LoadFiatCurrenciesForChoose,
 } from '../store/actions/funds.actions';
+import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-balance',
@@ -58,7 +60,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   constructor(
     public balanceService: BalanceService,
-    private store: Store<fromCore.State>
+    private store: Store<fromCore.State>,
+    private dashboardWS: DashboardWebSocketService,
+    private router: Router
   ) {
     this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
     this.countOfCryptoEntries$ = store.pipe(select(fundsReducer.getCountCryptoBalSelector));
@@ -216,6 +220,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public onBuyCurrency(marketPair) {
 
+
+  const splitName = marketPair.split('-');
+    this.dashboardWS.isNeedChangeCurretPair = false;
+    this.dashboardWS.findPairByCurrencyPairName(`${splitName[0]}/${splitName[1]}`);
+    this.router.navigate(['/'], { queryParams: { widget: 'trading'});
   }
 
 }
