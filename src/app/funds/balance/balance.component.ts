@@ -8,8 +8,13 @@ import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngrx/store';
 import {State} from 'app/core/reducers';
 import {ChangeCurrencyPairAction} from '../../dashboard/actions/dashboard.actions';
-import {SetAllCurrenciesForChoose, SetCryptoCurrenciesForChoose, SetFiatCurrenciesForChoose} from '../store/actions/funds.actions';
-import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL} from './send-money/send-money-constants';
+import {
+  LoadAllCurrenciesForChoose, LoadCryptoCurrenciesForChoose, LoadFiatCurrenciesForChoose,
+  SetAllCurrenciesForChoose,
+  SetCryptoCurrenciesForChoose,
+  SetFiatCurrenciesForChoose
+} from '../store/actions/funds.actions';
+import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, INNER_TRANSFER} from './send-money/send-money-constants';
 
 @Component({
   selector: 'app-balance',
@@ -41,23 +46,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.balanceService.getCryptoFiatNames()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.store.dispatch(new SetAllCurrenciesForChoose(res.data));
-    });
-
-    this.balanceService.getCryptoNames()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.store.dispatch(new SetCryptoCurrenciesForChoose(res));
-      });
-
-    this.balanceService.getFiatNames()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.store.dispatch(new SetFiatCurrenciesForChoose(res));
-      });
+    this.store.dispatch(new LoadAllCurrenciesForChoose());
+    this.store.dispatch(new LoadCryptoCurrenciesForChoose());
+    this.store.dispatch(new LoadFiatCurrenciesForChoose());
 
     this.balanceService.closeRefillMoneyPopup$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -99,12 +90,21 @@ export class BalanceComponent implements OnInit, OnDestroy {
     };
   }
 
-  goToCryptoDepositPopup(balance: BalanceItem) {
+  goToCryptoDepositPopup(balance: BalanceItem): void {
     this.showRefillBalancePopup = true;
     this.refillBalanceData = {
       step: 2,
       stepName: CRYPTO_DEPOSIT,
       balance: balance
+    };
+  }
+
+  goToTransferPopup(balance: BalanceItem): void {
+    this.showSendMoneyPopup = true;
+    this.sendMoneyData = {
+      step: 2,
+      stepName: INNER_TRANSFER,
+      stepThreeData: balance
     };
   }
 

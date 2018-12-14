@@ -49,10 +49,10 @@
       <button class="btn btn--center btn--small btn--hidden" (click)="cryptoDeposit(item)">Deposit</button>
     </td>
     <td class="table__cell">
-      <button class="btn btn--center btn--small btn--hidden">Transfer</button>
+      <button class="btn btn--center btn--small btn--hidden" (click)="goToTransfer(item)">Transfer</button>
     </td>
     <td class="table__cell">
-      <button class="btn btn--center btn--small btn--hidden">Trade</button>
+      <button class="btn btn--center btn--small btn--hidden" (click)="goToTrade(item)">Trade</button>
     </td>
     <td class="table__cell">
       <button class="btn btn--center btn--small btn--hidden" (click)="cryptoWithdraw(item)">Withdraw</button>

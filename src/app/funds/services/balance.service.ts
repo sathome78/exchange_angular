@@ -142,5 +142,10 @@ export class BalanceService {
     return this.http.post(url, data);
   }
 
+  getMaxCurrencyPairByName(currencyName: string) {
+    const url = `${this.apiUrl}/info/public/v2/info/max/${currencyName}`;
+    return this.http.get(url);
+  }
+
 
 }

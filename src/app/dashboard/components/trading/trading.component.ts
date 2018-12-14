@@ -25,6 +25,8 @@ import {UserBalance} from 'app/model/user-balance.model';
 import {UserService} from 'app/shared/services/user.service';
 import {LastSellBuyOrder} from 'app/model/last-sell-buy-order.model';
 import {CurrencyPairInfo, OrderItem} from '../../../model';
+import {environment} from '../../../../environments/environment';
+import {PopupService} from '../../../shared/services/popup.service';
 
 @Component({
   selector: 'app-trading',
@@ -86,6 +88,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     public breakPointService: BreakpointService,
     public tradingService: TradingService,
     private dashboardService: DashboardService,
+    private popupService: PopupService,
     private orderBookService: OrderBookService,
     private userService: UserService,
   ) {
@@ -106,9 +109,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.userBalance = state.userBalance.balanceByCurrency1 ? state.userBalance.balanceByCurrency1 : 0;
         this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
         this.onGetCurrentCurrencyPair(state.currencyPair);
-        // this.orderFromOrderBook(state.selectedOrderBookOrder);
-        this.setPriceInValue(state.currencyPairInfo.currencyRate);
-        this.order.rate = state.currencyPairInfo.currencyRate;
+        this.orderFromOrderBook(state.selectedOrderBookOrder);
+        // this.setPriceInValue(state.currencyPairInfo.currencyRate);
+        // this.order.rate = state.currencyPairInfo.currencyRate;
       });
 
     // this.store
@@ -126,13 +129,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     //     this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
     //   });
 
-    // this.store
-    //   .pipe(select(getCurrencyPairInfo))
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe( (pair: CurrencyPairInfo) => {
-    //     this.setPriceInValue(pair.currencyRate);
-    //     this.order.rate = pair.currencyRate;
-    //   });
+    this.store
+      .pipe(select(getCurrencyPairInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPairInfo) => {
+        this.setPriceInValue(pair.currencyRate);
+        this.order.rate (pair.currencyRate);
+      });
 
 
     this.store
@@ -361,7 +364,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param value
    */
   setPriceInValue(value): void {
-    value = typeof value === 'string' ? value : !value ? '0' : value.toString();
+    value = typeof value === 'string' ? value : !value ? '0' : this.exponentToNumber(value).toString();
     this.stopForm.controls['limit'].setValue(value);
     this.limitForm.controls['priceIn'].setValue(value);
   }
@@ -409,27 +412,54 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     }
 
   /**
+   * Method transform exponent format to number
+   * @param x
+   * @returns {any}
+   */
+  exponentToNumber(x) {
+    if (Math.abs(x) < 1.0) {
+      let e = parseInt(x.toString().split('e-')[1]);
+      if (e) {
+        x *= Math.pow(10, e - 1);
+        x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
+      }
+    } else {
+      let e = parseInt(x.toString().split('+')[1]);
+      if (e > 20) {
+        e -= 20;
+        x /= Math.pow(10, e);
+        x += (new Array(e + 1)).join('0');
+      }
+    }
+    return x;
+  }
+
+  /**
    * on click submit button
    */
   onSubmit(): void {
-    window.open('https://exrates.me/dashboard', '_blank');
+    // window.open('https://exrates.me/dashboard', '_blank');
 
-
-    // if ( (this.stopForm.valid
-    //   && this.orderStop
-    //   && this.dropdownLimitValue === 'STOP_LIMIT')
-    //   || (this.limitForm.valid
-    //     && this.dropdownLimitValue === 'LIMIT'
-    //     || this.dropdownLimitValue === 'ICO'
-    //     || this.dropdownLimitValue === 'MARKET_PRICE')) {
-    //   this.order.currencyPairId = this.currentPair.currencyPairId;
-    //   this.order.baseType = this.dropdownLimitValue;
-    //   this.order.orderType = this.mainTab;
-    //   if (this.dropdownLimitValue === 'STOP_LIMIT') {
-    //     this.order.stop = this.orderStop;
-    //   }
-    //   this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
-    // }
+    if (environment.production) {
+      // todo while insecure
+      this.popupService.showDemoTradingPopup(true);
+    } else {
+      if ( (this.stopForm.valid
+        && this.orderStop
+        && this.dropdownLimitValue === 'STOP_LIMIT')
+        || (this.limitForm.valid
+          && this.dropdownLimitValue === 'LIMIT'
+          || this.dropdownLimitValue === 'ICO'
+          || this.dropdownLimitValue === 'MARKET_PRICE')) {
+        this.order.currencyPairId = this.currentPair.currencyPairId;
+        this.order.baseType = this.dropdownLimitValue;
+        this.order.orderType = this.mainTab;
+        if (this.dropdownLimitValue === 'STOP_LIMIT') {
+          this.order.stop = this.orderStop;
+        }
+        this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
+      }
+    }
   }
 
   /**

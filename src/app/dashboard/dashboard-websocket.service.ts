@@ -1,17 +1,18 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
-import {map} from 'rxjs/internal/operators';
+import {map, takeUntil} from 'rxjs/internal/operators';
 import {Message} from '@stomp/stompjs';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {StompService} from '@stomp/ng2-stompjs';
 import {CurrencyPair} from '../model/currency-pair.model';
 import {environment} from '../../environments/environment';
-import {State} from './reducers/dashboard.reducer';
+import {State} from '../core/reducers';
 import {ChangeCurrencyPairAction, LoadCurrencyPairsAction} from './actions/dashboard.actions';
 import {UserService} from '../shared/services/user.service';
 import {CurrencyPairInfoService} from './components/currency-pair-info/currency-pair-info.service';
+import {getCurrencyPair} from '../core/reducers';
 
 
 @Injectable()
@@ -21,6 +22,7 @@ export class DashboardWebSocketService {
   private stompSubscription: any;
   private baseUrl = environment.apiUrl;
   public pairFromDashboard = '';
+  public isNeedChangeCurretPair = true;
 
   constructor(
     private stompService: StompService,
@@ -28,12 +30,13 @@ export class DashboardWebSocketService {
     private userService: UserService,
     private currencyPairInfoService: CurrencyPairInfoService,
     private store: Store<State>
-  ) {}
+  ) {
+  }
 
   setStompSubscription(authenticated: boolean): any {
     return this.stompSubscription = this.stompService
       .subscribe('/app/statisticsNew')
-      .pipe( map((message: Message) => JSON.parse(JSON.parse(message.body))))
+      .pipe(map((message: Message) => JSON.parse(JSON.parse(message.body))))
       .subscribe((items) => {
         // console.log(items);
         if (items) {
@@ -44,7 +47,7 @@ export class DashboardWebSocketService {
       });
   }
 
-   processCurrencyPairs(array: CurrencyPair[], authenticated: boolean) {
+  processCurrencyPairs(array: CurrencyPair[], authenticated: boolean) {
     if (authenticated) {
       this.getUserFavouriteCurrencyPairIds().subscribe(rs => {
         this.managePairs(array, rs);
@@ -81,10 +84,21 @@ export class DashboardWebSocketService {
     });
     this.store.dispatch(new LoadCurrencyPairsAction(this.currencyPairs));
     if (this.currencyPairs.length > 0 && this.pairFromDashboard === '') {
-      const activePair = this.getActiveCurrencyPair();
-      this.store.dispatch(new ChangeCurrencyPairAction(activePair));
-      this.userService.getUserBalance(activePair);
-      this.currencyPairInfoService.getCurrencyPairInfo(activePair);
+
+      if (this.isNeedChangeCurretPair) {
+        const activePair = this.getActiveCurrencyPair();
+        this.store.dispatch(new ChangeCurrencyPairAction(activePair));
+        this.userService.getUserBalance(activePair);
+        this.currencyPairInfoService.getCurrencyPairInfo(activePair);
+      } else {
+        this.store
+          .pipe(select(getCurrencyPair))
+          .subscribe((pair: CurrencyPair) => {
+            this.userService.getUserBalance(pair);
+            this.currencyPairInfoService.getCurrencyPairInfo(pair);
+          });
+      }
+
     }
     if (this.pairFromDashboard !== '') {
       this.currencyPairs.forEach(pair => {
@@ -111,7 +125,7 @@ export class DashboardWebSocketService {
   }
 
   trimZeroedAndRemainFavourite(pairs: CurrencyPair[], ids: number[]) {
-    pairs = pairs.filter(pair =>  this.isFavourite(pair, ids) || this.isNotZeroed(pair));
+    pairs = pairs.filter(pair => this.isFavourite(pair, ids) || this.isNotZeroed(pair));
   }
 
   private isFavourite(pair: CurrencyPair, ids: number[]) {

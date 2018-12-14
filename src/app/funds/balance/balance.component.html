@@ -897,6 +897,7 @@
     <div [ngSwitch]="currTab">
       <app-crypto-balance-table
         *ngSwitchCase="Tab.CRYPTO"
+        (transferOut)="goToTransferPopup($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
         (cryptoDepositOut)="goToCryptoDepositPopup($event)"
       ></app-crypto-balance-table>

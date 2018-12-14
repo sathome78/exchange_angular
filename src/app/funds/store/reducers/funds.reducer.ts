@@ -9,6 +9,9 @@ import {SET_ALL_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
 import {SET_CRYPTO_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
 import {SET_FIAT_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
 import {CurrencyPair} from '../../../model/currency-pair.model';
+import {FAIL_LOAD_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
+import {LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
+import {LOAD_FIAT_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
 
 export interface State {
   cryptoBal: BalanceItem[];
@@ -56,13 +59,20 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         ...state,
         loading: false,
       };
-    case fromActions.SET_ALL_CURRENCIES_FOR_CHOOSE:
-      console.log(action.payload)
+    case fromActions.LOAD_ALL_CURRENCIES_FOR_CHOOSE:
+      return {...state, loading: true};
+    case fromActions.LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE:
+      return {...state, loading: true};
+    case fromActions.LOAD_FIAT_CURRENCIES_FOR_CHOOSE:
+      return {...state, loading: true};
+      case fromActions.SET_ALL_CURRENCIES_FOR_CHOOSE:
       return {...state, allCurrenciesForChoose: action.payload};
     case fromActions.SET_CRYPTO_CURRENCIES_FOR_CHOOSE:
       return {...state, cryptoCurrenciesForChoose: action.payload};
     case fromActions.SET_FIAT_CURRENCIES_FOR_CHOOSE:
       return {...state, fiatCurrenciesForChoose: action.payload};
+      case fromActions.FAIL_LOAD_CURRENCIES_FOR_CHOOSE:
+      return {...state, loading: false};
 
     // case ordersActions.LOAD_HISTORY_ORDERS:
     //   return {...state, loading: true};

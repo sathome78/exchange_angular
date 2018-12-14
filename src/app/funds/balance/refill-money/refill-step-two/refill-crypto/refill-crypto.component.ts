@@ -53,7 +53,8 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
       .subscribe(currencies => {
         this.defaultCryptoNames = currencies;
         this.cryptoNames = this.defaultCryptoNames;
-        this.activeCrypto = this.cryptoNames[0];
+        // this.activeCrypto = this.cryptoNames[0];
+        this.setActiveCrypto();
         this.getDataByCurrency(this.activeCrypto.name);
         this.prepareAlphabet();
       });
@@ -62,6 +63,14 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  setActiveCrypto() {
+    let currency;
+    if (this.refillData && this.refillData.currencyId) {
+      currency = this.cryptoNames.filter(item => +item.id === +this.refillData.currencyId);
+    }
+    this.activeCrypto = (currency && currency.length) ? currency[0] : this.cryptoNames[0];
   }
 
   currencyDropdownToggle() {

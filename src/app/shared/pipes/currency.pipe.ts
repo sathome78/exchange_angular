@@ -35,7 +35,6 @@ export class CurrencyPipe implements PipeTransform {
     if (isNaN(parsed)) {
       integer = '0';
     }
-
     return this.prefix + integer + fraction + this.suffix;
 
   }
@@ -54,7 +53,6 @@ export class CurrencyPipe implements PipeTransform {
     // fraction = parseInt(fraction, 10) > 0 && fractionSize > 0
     //   ? this.decimal_separator + (fraction + padding).substring(0, fractionSize)
     //   : '';
-
 
     return integer + fraction;
   }

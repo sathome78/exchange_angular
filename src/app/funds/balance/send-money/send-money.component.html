@@ -28,7 +28,7 @@
         <li class="steps__item"
             [ngClass]="{'steps__item--current': step === 1}"
         >
-          <a class="steps__link">
+          <a class="steps__link" (click)="setStep(1)">
             <span class="steps__number  steps__number--valid">1</span>
             <span class="steps__number-mob-current">1. Send money</span>
             <span class="steps__title">Send money</span>
@@ -37,7 +37,7 @@
         <li class="steps__item" *ngIf="step >= 2"
             [ngClass]="{'steps__item--current': step === 2}"
         >
-          <a class="steps__link">
+          <a class="steps__link" (click)="setStep(2)">
             <span class="steps__number steps__number--valid">2</span>
             <span class="steps__number-mob-current">2. {{stepTwoName}}</span>
             <span class="steps__title">{{stepTwoName}}</span>
@@ -46,7 +46,7 @@
         <li class="steps__item" *ngIf="step >= 3"
             [ngClass]="{'steps__item--current': step === 3}"
         >
-          <a class="steps__link">
+          <a class="steps__link" (click)="setStep(3)">
             <span class="steps__number steps__number--valid">3</span>
             <span class="steps__number-mob-current">3. {{stepThreeName}}</span>
             <span class="steps__title">{{stepThreeName}}</span>
@@ -56,7 +56,7 @@
             *ngIf="step === 4"
             [ngClass]="{'steps__item--current': step >= 4}"
         >
-          <a class="steps__link">
+          <a class="steps__link" (click)="setStep(4)">
             <span class="steps__number steps__number--current">4</span>
             <span class="steps__number-mob-current">4. Accepted</span>
             <span class="steps__title">Accepted</span>
