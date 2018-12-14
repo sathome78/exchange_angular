@@ -17,6 +17,7 @@ import {PageItemsDropdownComponent} from './components/page-items-dropdown/page-
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {QRCodeModule} from 'angular2-qrcode';
 import {RecaptchaModule} from 'ng-recaptcha';
+import {DateWrapper} from './pipes/dateWrapper.pipe';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     PageItemsDropdownComponent,
+    DateWrapper,
   ],
   imports: [
     FormsModule,
@@ -38,14 +40,15 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
     ReactiveFormsModule,
     PerfectScrollbarModule,
     QRCodeModule,
-    RecaptchaModule,
     InfiniteScrollModule,
+    RecaptchaModule
   ],
   exports: [
     InfiniteScrollModule,
     PerfectScrollbarModule,
     QRCodeModule,
     RecaptchaModule,
+    InfiniteScrollModule,
     NotificationComponent,
     PriceInputComponent,
     SortPipe,
@@ -57,6 +60,7 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     PageItemsDropdownComponent,
+    DateWrapper,
   ],
   providers: [
     NotificationsService

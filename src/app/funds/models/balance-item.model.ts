@@ -11,5 +11,7 @@ export class BalanceItem {
   public reservedBalance: number;
   public reservedByOrders: number;
   public reservedByMerchant: number;
+  public btcAmount: number;
+  public usdAmount: number;
 
 }
