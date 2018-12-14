@@ -175,7 +175,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.showSendMoneyPopup = flag;
   }
 
-  public onToggleAllZero(hideAllZero: boolean): void {
+  public onToggleAllZero(): void {
+    this.loadBalances(this.currTab);
+  }
+  public onToggleAllZeroMobile(hideAllZero: boolean): void {
     this.currentPage = 1;
     this.hideAllZero = hideAllZero;
     this.loadBalances(this.currTab);

@@ -12,7 +12,7 @@ export class BalanceMobComponent implements OnInit{
 
   constructor() { 
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 270) + 'px', 'overflow': 'scroll'}
+    this.tableScrollStyles = {'height': (componentHeight - 271) + 'px', 'overflow': 'scroll'}
 
   }
   @ViewChild('dropdown') dropdownElement: ElementRef;
