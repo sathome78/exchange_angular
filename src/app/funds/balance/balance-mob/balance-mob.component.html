@@ -30,6 +30,7 @@
           [(ngModel)]="currencyForChoose"
           (ngModelChange)="filterByCurrencyForMobile.emit({currTab: this.currTab, currency: this.currencyForChoose})"
         ></ng-select>
+        <div class="wrap-input__line"></div>
       </div>
       <span>Price in</span>
       <div class="dropdown" #dropdown (click)="onToggleDropdown()">
