@@ -1,10 +1,8 @@
 import {Component, OnDestroy, OnInit, Input} from '@angular/core';
 import {Subject, Observable} from 'rxjs';
 import {Store, select} from '@ngrx/store';
-import {State} from 'app/core/reducers';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
-import * as fromDashboardActions from '../../dashboard/actions/dashboard.actions';
 import {BalanceItem} from '../models/balance-item.model';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
 import {MyBalanceItem} from '../models/my-balance-item.model';
@@ -12,11 +10,7 @@ import {BalanceService} from '../services/balance.service';
 import {takeUntil} from 'rxjs/operators';
 import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, INNER_TRANSFER} from './send-money/send-money-constants';
 import {CurrencyChoose} from '../models/currency-choose.model';
-import {BalanceDetailsItem} from '../models/balance-details-item.model';
 import * as fromCore from '../../core/reducers';
-import {
-  LoadAllCurrenciesForChoose, LoadCryptoCurrenciesForChoose, LoadFiatCurrenciesForChoose,
-} from '../store/actions/funds.actions';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
 import {Router} from '@angular/router';
 
@@ -40,7 +34,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public showRefillBalancePopup: boolean = false;
   public showSendMoneyPopup: boolean = false;
   public hideAllZero: boolean = false;
-  public isMobile: boolean = false;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
   public countOfCryptoEntries$: Observable<number>;
@@ -51,7 +44,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public myBalances$: Observable<MyBalanceItem>;
   public cryptoCurrenciesForChoose$: Observable<CurrencyChoose[]>;
   public fiatCurrenciesForChoose$: Observable<CurrencyChoose[]>;
-  public selectedBalance$: Observable<BalanceDetailsItem>;
+  
   public sendMoneyData = {};
   public refillBalanceData = {};
   public currencyForChoose: string = null;
@@ -74,18 +67,16 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.myBalances$ = store.pipe(select(fundsReducer.getMyBalancesSelector));
     this.cryptoCurrenciesForChoose$ = store.pipe(select(fromCore.getCryptoCurrenciesForChoose));
     this.fiatCurrenciesForChoose$ = store.pipe(select(fromCore.getFiatCurrenciesForChoose));
-    this.selectedBalance$ = store.pipe(select(fundsReducer.getSelectedBalance));
   }
 
   ngOnInit() {
-    this.isMobile = window.innerWidth <= 1200;
     if (this.isMobile) {
       this.countPerPage = 30;
     }
 
-    this.store.dispatch(new LoadAllCurrenciesForChoose());
-    this.store.dispatch(new LoadCryptoCurrenciesForChoose());
-    this.store.dispatch(new LoadFiatCurrenciesForChoose());
+    this.store.dispatch(new fundsAction.LoadAllCurrenciesForChoose());
+    this.store.dispatch(new fundsAction.LoadCryptoCurrenciesForChoose());
+    this.store.dispatch(new fundsAction.LoadFiatCurrenciesForChoose());
     this.loadBalances(this.currTab);
     this.loadBalances(this.Tab.PR);
 
@@ -100,6 +91,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.openSendMoneyPopup(res);
       });
+  }
+
+  public get isMobile(): boolean {
+    return window.innerWidth <= 1200;
   }
 
   public onSelectTab(tab: string): void {
@@ -248,13 +243,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
 
-  public onLoadBalanceConfirmInfo(currencyId) {
-    this.store.dispatch(new fundsAction.LoadBalanceDetailsAction(currencyId))
+  public onGoToBalanceDetails({currencyId, priceIn}) {
+    this.router.navigate([`/funds/balances/${currencyId}`], {queryParams: {priceIn}})
   }
 
-  public onResetBalanceConfirmInfo() {
-    this.store.dispatch(new fundsAction.SetBalanceDetailsAction(null))
-  }
+  
 
 
    

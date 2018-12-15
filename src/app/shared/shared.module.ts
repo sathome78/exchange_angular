@@ -19,6 +19,7 @@ import {QRCodeModule} from 'angular2-qrcode';
 import {RecaptchaModule} from 'ng-recaptcha';
 import {DateWrapper} from './pipes/dateWrapper.pipe';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {BalanceMobileRoutesGuard} from './guards/balance-mobile-routes.guard';
 @NgModule({
   declarations: [
     NotificationComponent,
@@ -63,7 +64,8 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
     DateWrapper,
   ],
   providers: [
-    NotificationsService
+    NotificationsService,
+    BalanceMobileRoutesGuard,
   ]
 })
 export class SharedModule { }

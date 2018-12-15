@@ -39,7 +39,7 @@ import {SettingsModule} from './settings/settings.module';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {SharedModule} from './shared/shared.module';
 import {WebcamModule} from 'ngx-webcam';
-import {AuthGuard} from './shared/services/auth.guard';
+import {AuthGuard} from './shared/guards/auth.guard';
 import {GoogleAuthenticatorService} from './popups/two-factor-popup/google/google-authenticator.service';
 import {PopupService} from './shared/services/popup.service';
 import {AuthService} from './shared/services/auth.service';
