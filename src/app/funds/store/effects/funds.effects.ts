@@ -178,8 +178,7 @@ export class FundsEffects {
   RevokePendingRequestsMobile$:any = this.actions$
     .pipe(ofType<fundsActions.RevokePendingReqMobileAction>(fundsActions.REVOKE_PENDING_REQ_MOBILE))
     .pipe(switchMap((action) => {
-      // return this.balanceService.revokePendingRequest(action.payload)
-      return of('ready')
+      return this.balanceService.revokePendingRequest(action.payload)
         .pipe(
           tap(() => this.location.back()),
           catchError(error => of(new fundsActions.FailRevokePendingReqAction(error)))
