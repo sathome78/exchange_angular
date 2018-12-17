@@ -37,7 +37,6 @@ export const INIT_STATE: State = {
 export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
   switch (action.type) {
     case dashboard.CHANGE_CURRENCY_PAIR:
-      console.log(action.payload)
       return {...state, currencyPair: action.payload};
     case dashboard.LOAD_CURRENCY_PAIRS:
       // console.log(action.payload)
@@ -45,6 +44,7 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
     case  dashboard.REFRESH_USER_BALANCE:
       return {...state, userBalance: action.payload};
     case dashboard.SELECTED_ORDERBOOK_ORDER:
+      console.log(action.payload)
       return {...state, selectedOrderBookOrder: action.payload};
     case dashboard.REFRESH_CURRENCY_PAIR_INFO:
       return {...state, currencyPairInfo: action.payload};

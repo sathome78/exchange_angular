@@ -3,10 +3,12 @@ import {Action} from '@ngrx/store';
 export const LOAD_OPEN_ORDERS = '[Orders] Load open orders';
 export const FAIL_LOAD_OPEN_ORDERS = '[Orders] Fail load open orders';
 export const SET_OPEN_ORDERS = '[Orders] Set open orders';
+export const SET_MORE_OPEN_ORDERS = '[Orders] Set more open orders';
 
 export const LOAD_HISTORY_ORDERS = '[Orders] Load history orders';
 export const FAIL_LOAD_HISTORY_ORDERS = '[Orders] Fail load history orders';
 export const SET_HISTORY_ORDERS = '[Orders] Set history orders';
+export const SET_MORE_HISTORY_ORDERS = '[Orders] Set more history orders';
 
 export const LOAD_CURRENCY_PAIRS_ORDERS = '[Orders] Load currency pairs orders';
 export const FAIL_LOAD_CURRENCY_PAIRS_ORDERS = '[Orders] Fail load currency pairs orders';
@@ -34,6 +36,18 @@ export class LoadOpenOrdersAction implements Action {
  */
 export class SetOpenOrdersAction implements Action {
   readonly type = SET_OPEN_ORDERS;
+
+  /**
+   * Default constructor
+   * @param payload
+   */
+  constructor(public payload?) {}
+}
+/**
+ * Set more open orders
+ */
+export class SetMoreOpenOrdersAction implements Action {
+  readonly type = SET_MORE_OPEN_ORDERS;
 
   /**
    * Default constructor
@@ -72,6 +86,18 @@ export class LoadHistoryOrdersAction implements Action {
  */
 export class SetHistoryOrdersAction implements Action {
   readonly type = SET_HISTORY_ORDERS;
+
+  /**
+   * Default constructor
+   * @param payload
+   */
+  constructor(public payload?) {}
+}
+/**
+ * Set more history orders
+ */
+export class SetMoreHistoryOrdersAction implements Action {
+  readonly type = SET_MORE_HISTORY_ORDERS;
 
   /**
    * Default constructor
@@ -167,9 +193,11 @@ export class CropCanceledOrderAction implements Action {
 export type Actions
   = LoadOpenOrdersAction
   | SetOpenOrdersAction
+  | SetMoreOpenOrdersAction
   | FailLoadOpenOrdersAction
   | LoadHistoryOrdersAction
   | SetHistoryOrdersAction
+  | SetMoreHistoryOrdersAction
   | FailLoadHistoryOrdersAction
   | LoadCurrencyPairsAction
   | SetCurrencyPairsAction

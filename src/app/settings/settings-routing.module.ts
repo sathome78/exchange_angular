@@ -8,7 +8,7 @@ import {NicknameComponent} from './nickname/nickname.component';
 import {VerificationComponent} from './verification/verification.component';
 import {EmailNotificationComponent} from './email-notification/email-notification.component';
 import {ViewComponent} from './view/view.component';
-import {AuthGuard} from '../shared/services/auth.guard';
+import {AuthGuard} from '../shared/guards/auth.guard';
 
 const settingsRoutes: Routes = [
   { path: 'settings',

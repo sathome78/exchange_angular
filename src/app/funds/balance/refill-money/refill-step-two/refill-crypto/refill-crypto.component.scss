@@ -29,6 +29,16 @@
   &__crypto-hash{
     font-weight: bold;
     margin-bottom: 8px;
+
+    width: 320px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    /* Adds a hyphen where the word breaks */
+    //-webkit-hyphens: auto;
+    //-ms-hyphens: auto;
+    //-moz-hyphens: auto;
+    //hyphens: auto;
   }
   &__crypto-copy-btn{
     margin-bottom: 20px;
@@ -95,6 +105,9 @@
     &__crypto-hash{
       margin-bottom: 12px;
       font-size: 18px;
+      width: 400px;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
     }
     &__crypto-copy-btn{
       margin-bottom: 12px;

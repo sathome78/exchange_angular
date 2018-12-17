@@ -191,9 +191,11 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     });
   }
 
-  resetOrderBookItem() {
-    this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
-  };
+  resetOrderBookItem(): void {
+    if (this.tradingService.needSetDefaultOrderBookItem) {
+      this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
+    }
+  }
 
   /**
    * toggle sell/buy tabs and emit this

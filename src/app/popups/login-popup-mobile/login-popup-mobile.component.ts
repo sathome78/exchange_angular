@@ -173,7 +173,7 @@ export class LoginPopupMobileComponent implements OnInit {
           this.popupService.closeMobileLoginPopup();
           this.router.navigate(['/']);
           // TODO: just for promo state, remove after
-          // location.reload();
+          location.reload();
         },
         err => {
           console.log(err, 'sendToServerError')

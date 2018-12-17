@@ -1,12 +1,13 @@
-import {Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
 import {IMyDpOptions, IMyDate, IMyDateModel} from 'mydatepicker';
 import {Store, select} from '@ngrx/store';
 
 import {OrderItem} from '../models/order-item.model';
 import * as ordersReducer from '../store/reducers/orders.reducer';
 import * as ordersAction from '../store/actions/orders.actions';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import { OrderCurrencyPair } from '../models/order-currency-pair';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-open-orders',
@@ -14,12 +15,15 @@ import { OrderCurrencyPair } from '../models/order-currency-pair';
   styleUrls: ['./open-orders.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpenOrdersComponent implements OnInit {
+export class OpenOrdersComponent implements OnInit, OnDestroy {
 
   @ViewChild('dropdown') dropdownElement: ElementRef;
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   public orderItems$: Observable<OrderItem[]>;
+  public orderItems: OrderItem[] = [];
   public countOfEntries$: Observable<number>;
+  public countOfEntries: number = 0;
   public currencyPairs$: Observable<OrderCurrencyPair[]>;
   public currentPage = 1;
   public countPerPage = 15;
@@ -41,6 +45,7 @@ export class OpenOrdersComponent implements OnInit {
 
   public currency: string = '';
   public showFilterPopup: boolean = false;
+  public tableScrollStyles: any = {};
 
   constructor(
     private store: Store<ordersReducer.State>
@@ -48,10 +53,23 @@ export class OpenOrdersComponent implements OnInit {
     this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getOpenOrdersCount));
     this.currencyPairs$ = store.pipe(select(ordersReducer.getAllCurrencyPairsSelector));
+
+    const componentHeight = window.innerHeight;
+    this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
+    this.orderItems$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((items) => this.orderItems = items)
+    this.countOfEntries$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((items) => this.countOfEntries = items)
+
   }
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 1200;
+    if(this.isMobile) {
+      this.countPerPage = 10;
+    }
     this.initDate();
     this.store.dispatch(new ordersAction.LoadCurrencyPairsAction());
     this.loadOrders();
@@ -60,7 +78,7 @@ export class OpenOrdersComponent implements OnInit {
   /**
    * dispatching action to load the list of the open orders
    */
-  loadOrders() {
+  loadOrders(): void {
     if(this.isDateRangeValid()) {
       const params = {
         page: this.currentPage, 
@@ -68,7 +86,20 @@ export class OpenOrdersComponent implements OnInit {
         dateFrom: this.formatDate(this.modelDateFrom.date),
         dateTo: this.formatDate(this.modelDateTo.date),
         currencyPairId: this.currencyPairId,
-        isMobile: this.isMobile,
+      }
+      this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
+    }
+  }
+  loadMoreOrders(): void {
+    if(this.isDateRangeValid() && this.orderItems.length !== this.countOfEntries) {
+      this.currentPage += 1;
+      const params = {
+        page: this.currentPage, 
+        limit:this.countPerPage,
+        dateFrom: this.formatDate(this.modelDateFrom.date),
+        dateTo: this.formatDate(this.modelDateTo.date),
+        currencyPairId: this.currencyPairId,
+        concat: true,
       }
       this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
     }
@@ -237,5 +268,10 @@ export class OpenOrdersComponent implements OnInit {
 
   onShowCancelOrderConfirm(orderId: number | null): void {
     this.showCancelOrderConfirm = orderId;
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

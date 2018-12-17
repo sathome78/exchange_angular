@@ -5,54 +5,43 @@
       <app-balance-mob
         *ngSwitchCase="Tab.CRYPTO"
         [balances]="cryptoBalances$ | async"
+        [countOfPendingRequests]="countOfPendingRequests$ | async"
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         [Tab]="Tab"
         [currTab]="currTab"
-        [hideAllZero]="hideAllZero"
         [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
         [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
-        (onToggleAllZero)="onToggleAllZero($event)"
+
+        (onToggleAllZero)="onToggleAllZeroMobile($event)"
         (onLoadMore)="loadMoreBalancesForMobile($event)"
         (openRefillBalancePopup)="openRefillBalancePopup($event)"
         (openSendMoneyPopup)="openSendMoneyPopup($event)"
         (onSelectTab)="onSelectTab($event)"
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
-        (onBuyCurrency)="onBuyCurrency($event)"
+        (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
       ></app-balance-mob>
       <app-balance-mob
         *ngSwitchCase="Tab.FIAT"
         [balances]="fiatBalances$ | async"
+        [countOfPendingRequests]="countOfPendingRequests$ | async"
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         [Tab]="Tab"
         [currTab]="currTab"
-        [hideAllZero]="hideAllZero"
         [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
         [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
-        (onToggleAllZero)="onToggleAllZero($event)"
+
+        (onToggleAllZero)="onToggleAllZeroMobile($event)"
         (onLoadMore)="loadMoreBalancesForMobile($event)"
         (openRefillBalancePopup)="openRefillBalancePopup($event)"
         (openSendMoneyPopup)="openSendMoneyPopup($event)"
         (onSelectTab)="onSelectTab($event)"
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
-        (onBuyCurrency)="onBuyCurrency($event)"
+        (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
       ></app-balance-mob>
-      <app-pending-request-mob
-        *ngSwitchCase="Tab.PR"
-        [pendingRequests]="pendingRequests$ | async"
-        [countPerPage]="countPerPage"
-        [countOfEntries]="getCountOfEntries() | async"
-        [currentPage]="currentPage"
-        [Tab]="Tab"
-        [currTab]="currTab"
-        (onLoadMore)="loadMoreBalancesForMobile($event)"
-        (openRefillBalancePopup)="openRefillBalancePopup($event)"
-        (openSendMoneyPopup)="openSendMoneyPopup($event)"
-        (onSelectTab)="onSelectTab($event)"
-      ></app-pending-request-mob>
     </ng-container>
   </div>
   <!--balance-mob end-->
@@ -96,8 +85,11 @@
     </div>
     <!--filters start-->
     <!--<form action="">-->
-      <div class="balance__filters">
-        <div class="wrap-input wrap-input&#45;&#45;with-icon " *ngIf="currTab !== Tab.PR">
+      <div 
+        class="balance__filters" 
+        [ngClass]="{'balance__filters--pending-open': currTab === Tab.PR}"
+      >
+        <div class="wrap-input wrap-input&#45;&#45;with-icon balance__search" *ngIf="currTab !== Tab.PR">
           <ng-select
             class="custom"
             [items]="currTab === Tab.CRYPTO ? (cryptoCurrenciesForChoose$ | async) : (fiatCurrenciesForChoose$ | async)"
@@ -180,6 +172,7 @@
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         (onPaginate)="onPageChanged($event)"
+        (transferOut)="goToTransferPopup($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
         (cryptoDepositOut)="goToCryptoDepositPopup($event)"
       ></app-balance-table>
@@ -189,6 +182,7 @@
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         (onPaginate)="onPageChanged($event)"
+        (onRevokePendingRequest)="onRevokePendingRequest($event)"
         *ngSwitchCase="Tab.PR"
       ></app-pending-request-table>
     </ng-container>

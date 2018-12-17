@@ -1,11 +1,8 @@
-
 import {Component, OnDestroy, OnInit, Input} from '@angular/core';
 import {Subject, Observable} from 'rxjs';
 import {Store, select} from '@ngrx/store';
-import {State} from 'app/core/reducers';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
-import * as fromDashboardActions from '../../dashboard/actions/dashboard.actions';
 import {BalanceItem} from '../models/balance-item.model';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
 import {MyBalanceItem} from '../models/my-balance-item.model';
@@ -14,9 +11,6 @@ import {takeUntil} from 'rxjs/operators';
 import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, INNER_TRANSFER} from './send-money/send-money-constants';
 import {CurrencyChoose} from '../models/currency-choose.model';
 import * as fromCore from '../../core/reducers';
-import {
-  LoadAllCurrenciesForChoose, LoadCryptoCurrenciesForChoose, LoadFiatCurrenciesForChoose,
-} from '../store/actions/funds.actions';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
 import {Router} from '@angular/router';
 
@@ -32,7 +26,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     CRYPTO: 'CRYPTO',
     FIAT: 'FIAT',
     PR: 'PR',
-  }
+  };
 
   public balanceItems: BalanceItem [] = [];
   public currTab: string = this.Tab.CRYPTO;
@@ -40,7 +34,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public showRefillBalancePopup: boolean = false;
   public showSendMoneyPopup: boolean = false;
   public hideAllZero: boolean = false;
-  public isMobile: boolean = false;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
   public countOfCryptoEntries$: Observable<number>;
@@ -51,9 +44,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public myBalances$: Observable<MyBalanceItem>;
   public cryptoCurrenciesForChoose$: Observable<CurrencyChoose[]>;
   public fiatCurrenciesForChoose$: Observable<CurrencyChoose[]>;
+
   public sendMoneyData = {};
   public refillBalanceData = {};
-  public currencyForChoose: string = '';
+  public currencyForChoose: string = null;
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -76,14 +70,13 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isMobile = window.innerWidth <= 1200
-    if(this.isMobile) {
+    if (this.isMobile) {
       this.countPerPage = 30;
     }
 
-    this.store.dispatch(new LoadAllCurrenciesForChoose());
-    this.store.dispatch(new LoadCryptoCurrenciesForChoose());
-    this.store.dispatch(new LoadFiatCurrenciesForChoose());
+    this.store.dispatch(new fundsAction.LoadAllCurrenciesForChoose());
+    this.store.dispatch(new fundsAction.LoadCryptoCurrenciesForChoose());
+    this.store.dispatch(new fundsAction.LoadFiatCurrenciesForChoose());
     this.loadBalances(this.currTab);
     this.loadBalances(this.Tab.PR);
 
@@ -100,6 +93,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
       });
   }
 
+  public get isMobile(): boolean {
+    return window.innerWidth <= 1200;
+  }
+
   public onSelectTab(tab: string): void {
     this.currTab = tab;
     this.currentPage = 1;
@@ -113,7 +110,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public loadBalances(type: string, concat?: boolean) {
-    switch(type) {
+    switch (type) {
       case this.Tab.CRYPTO :
         const paramsC = {
           type,
@@ -122,7 +119,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
           limit: this.countPerPage,
           excludeZero: this.hideAllZero,
           concat: concat || false,
-        }
+        };
         return this.store.dispatch(new fundsAction.LoadCryptoBalAction(paramsC));
       case this.Tab.FIAT :
         const paramsF = {
@@ -132,21 +129,21 @@ export class BalanceComponent implements OnInit, OnDestroy {
           limit: this.countPerPage,
           excludeZero: this.hideAllZero,
           concat: concat || false,
-        }
+        };
         return this.store.dispatch(new fundsAction.LoadFiatBalAction(paramsF));
       case this.Tab.PR :
         const paramsP = {
           offset: (this.currentPage - 1) * this.countPerPage,
           limit: this.countPerPage,
           concat: concat || false,
-        }
+        };
         return this.store.dispatch(new fundsAction.LoadPendingReqAction(paramsP));
     }
 
   }
 
   public getCountOfEntries() {
-    switch(this.currTab) {
+    switch (this.currTab) {
       case this.Tab.CRYPTO :
         return this.countOfCryptoEntries$;
       case this.Tab.FIAT :
@@ -174,7 +171,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public onToggleAllZero(): void {
+    this.loadBalances(this.currTab);
+  }
+  public onToggleAllZeroMobile(hideAllZero: boolean): void {
     this.currentPage = 1;
+    this.hideAllZero = hideAllZero;
     this.loadBalances(this.currTab);
   }
 
@@ -188,7 +189,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     };
   }
 
-  goToCryptoDepositPopup(balance: BalanceItem): void {
+  public goToCryptoDepositPopup(balance: BalanceItem): void {
     this.showRefillBalancePopup = true;
     this.refillBalanceData = {
       step: 2,
@@ -203,7 +204,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.loadBalances(this.currTab);
   }
 
-  goToTransferPopup(balance: BalanceItem): void {
+  public goToTransferPopup(balance: BalanceItem): void {
     this.showSendMoneyPopup = true;
     this.sendMoneyData = {
       step: 2,
@@ -219,12 +220,36 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public onBuyCurrency(marketPair) {
-
-
-  const splitName = marketPair.split('-');
+    const splitName = marketPair.split('-');
     this.dashboardWS.isNeedChangeCurretPair = false;
     this.dashboardWS.findPairByCurrencyPairName(`${splitName[0]}/${splitName[1]}`);
-    this.router.navigate(['/'], { queryParams: { widget: 'trading'}});
+    this.router.navigate(['/'], {queryParams: {widget: 'trading'}});
   }
+
+  public onRevokePendingRequest({requestId, operation}): void {
+    this.currentPage = 1;
+    const params = {
+      revoke: {
+        requestId,
+        operation,
+      },
+      loadPR: {
+        offset: (this.currentPage - 1) * this.countPerPage,
+        limit: this.countPerPage,
+        concat: false,
+      }
+    }
+    this.store.dispatch(new fundsAction.RevokePendingReqAction(params))
+  }
+
+
+  public onGoToBalanceDetails({currencyId, priceIn}) {
+    this.router.navigate([`/funds/balances/${currencyId}`], {queryParams: {priceIn}})
+  }
+
+
+
+
+
 
 }

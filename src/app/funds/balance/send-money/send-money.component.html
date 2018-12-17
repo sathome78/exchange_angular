@@ -29,7 +29,7 @@
             [ngClass]="{'steps__item--current': step === 1}"
         >
           <a class="steps__link" (click)="setStep(1)">
-            <span class="steps__number  steps__number--valid">1</span>
+            <span class="steps__number  steps__number--current">1</span>
             <span class="steps__number-mob-current">1. Send money</span>
             <span class="steps__title">Send money</span>
           </a>
@@ -38,7 +38,7 @@
             [ngClass]="{'steps__item--current': step === 2}"
         >
           <a class="steps__link" (click)="setStep(2)">
-            <span class="steps__number steps__number--valid">2</span>
+            <span class="steps__number steps__number--current">2</span>
             <span class="steps__number-mob-current">2. {{stepTwoName}}</span>
             <span class="steps__title">{{stepTwoName}}</span>
           </a>
@@ -47,7 +47,7 @@
             [ngClass]="{'steps__item--current': step === 3}"
         >
           <a class="steps__link" (click)="setStep(3)">
-            <span class="steps__number steps__number--valid">3</span>
+            <span class="steps__number steps__number--current">3</span>
             <span class="steps__number-mob-current">3. {{stepThreeName}}</span>
             <span class="steps__title">{{stepThreeName}}</span>
           </a>
