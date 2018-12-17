@@ -17,6 +17,7 @@ export const SET_PENDING_REQ = '[Funds] Set pending requests';
 export const SET_MORE_PENDING_REQ = '[Funds] Concat pending requests';
 
 export const REVOKE_PENDING_REQ = '[Funds] Revoke pending requests';
+export const REVOKE_PENDING_REQ_MOBILE = '[Funds] Revoke pending requests mobile';
 export const FAIL_REVOKE_PENDING_REQ = '[Funds] Fail revoke pending requests';
 
 export const LOAD_MY_BALANCES = '[Funds] Load my balances';
@@ -133,6 +134,10 @@ export class FailLoadBalanceDetailsAction implements Action {
  */
 export class RevokePendingReqAction implements Action {
   readonly type = REVOKE_PENDING_REQ;
+  constructor(public payload?) {}
+}
+export class RevokePendingReqMobileAction implements Action {
+  readonly type = REVOKE_PENDING_REQ_MOBILE;
   constructor(public payload?) {}
 }
 export class FailRevokePendingReqAction implements Action {

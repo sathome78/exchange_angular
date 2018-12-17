@@ -31,12 +31,20 @@ export class OrdersEffects {
     .pipe(switchMap((action) => {
       return this.ordersService.getOpenOrders(action.payload)
         .pipe(
-          map(orders => (new ordersActions.SetOpenOrdersAction(
-            {openOrders: orders.items, count: orders.count, isMobile: action.payload.isMobile}
-          ))),
+          map(orders => {
+            if(action.payload.concat) {
+              return new ordersActions.SetMoreOpenOrdersAction({openOrders: orders.items, count: orders.count})
+            }
+            return new ordersActions.SetOpenOrdersAction({openOrders: orders.items, count: orders.count})
+          }),
           catchError(error => of(new ordersActions.FailLoadOpenOrdersAction(error)))
         )
     }))
+
+    // if(action.payload.concat) {
+    //   return new fundsActions.SetMoreCryptoBalAction({items: bal.items, count: bal.count})
+    // }
+    // return new fundsActions.SetCryptoBalAction({items: bal.items, count: bal.count})
   /**
    * Load history orders
    */
@@ -46,9 +54,12 @@ export class OrdersEffects {
     .pipe(switchMap((action) => {
       return this.ordersService.getClosedOrders(action.payload)
         .pipe(
-          map(orders => (new ordersActions.SetHistoryOrdersAction(
-            {historyOrders: orders.items, count: orders.count, isMobile: action.payload.isMobile}
-          ))),
+          map(orders => {
+            if(action.payload.concat) {
+              return new ordersActions.SetMoreHistoryOrdersAction({historyOrders: orders.items, count: orders.count})
+            }
+            return new ordersActions.SetHistoryOrdersAction({historyOrders: orders.items, count: orders.count})
+          }),
           catchError(error => of(new ordersActions.FailLoadHistoryOrdersAction(error)))
         )
     }))

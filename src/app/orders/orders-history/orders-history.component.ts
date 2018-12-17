@@ -20,8 +20,11 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
 
   @ViewChild('dropdown') dropdownElement: ElementRef;
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   public orderItems$: Observable<OrderItem[]>;
+  public orderItems: OrderItem[] = [];
   public countOfEntries$: Observable<number>;
+  public countOfEntries: number = 0;
   public currencyPairs$: Observable<OrderCurrencyPair[]>;
 
   public currentPage = 1;
@@ -31,10 +34,10 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public modelDateTo: any;
   public currencyPairId: string = null;
   public hideAllCanceled: boolean = false;
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
   public isMobile: boolean = false;
 
   public showFilterPopup = false;
+  public tableScrollStyles: any = {};
 
   public myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'dd.mm.yyyy',
@@ -52,10 +55,22 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.orderItems$ = store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getHistoryOrdersCount));
     this.currencyPairs$ = store.pipe(select(ordersReducer.getAllCurrencyPairsSelector));
+
+    const componentHeight = window.innerHeight;
+    this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
+    this.orderItems$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((items) => this.orderItems = items)
+    this.countOfEntries$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((items) => this.countOfEntries = items)
   }
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 1200;
+    if(this.isMobile) {
+      this.countPerPage = 30;
+    }
     this.initDate();
     this.store.dispatch(new ordersAction.LoadCurrencyPairsAction());
     this.loadOrders();
@@ -70,7 +85,22 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
         dateTo: this.formatDate(this.modelDateTo.date),
         hideCanceled: this.hideAllCanceled,
         currencyPairId: this.currencyPairId,
-        isMobile: this.isMobile,
+      }
+      this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
+    }
+  }
+
+  loadMoreOrders(): void {
+    if(this.isDateRangeValid() && this.orderItems.length !== this.countOfEntries) {
+      this.currentPage += 1;
+      const params = {
+        page: this.currentPage, 
+        limit:this.countPerPage,
+        dateFrom: this.formatDate(this.modelDateFrom.date),
+        dateTo: this.formatDate(this.modelDateTo.date),
+        hideCanceled: this.hideAllCanceled,
+        currencyPairId: this.currencyPairId,
+        concat: true,
       }
       this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
     }
