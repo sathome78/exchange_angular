@@ -60,7 +60,7 @@
           <button class="btn btn--center btn--small btn--hidden" (click)="transferOut.emit(item)" >Transfer</button>
         </td>
         <td class="table__cell">
-          <button class="btn btn--center btn--small btn--hidden" (click)="goToTrade(item)">Trade</button>
+          <button class="btn btn--center btn--small btn--hidden" (click)="balanceService.goToTrade(item)">Trade</button>
         </td>
         <td class="table__cell">
           <button class="btn btn--center btn--small btn--hidden" (click)="cryptoWithdrawOut.emit(item)">Withdraw</button>

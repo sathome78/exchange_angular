@@ -2,6 +2,18 @@
   width: 100%;
 }
 
+.dropdown__btn:after {
+  position: absolute;
+  top: 40%;
+  right: 0;
+  display: inline-block;
+  content: "";
+  vertical-align: middle;
+  border-top: 0px solid #fff;
+  border-right: 0px solid transparent;
+  border-left: 0px solid transparent;
+}
+
 .widget__header {
   background-color: transparent;
 }

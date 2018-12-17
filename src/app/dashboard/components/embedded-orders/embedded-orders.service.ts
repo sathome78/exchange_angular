@@ -35,8 +35,9 @@ export class EmbeddedOrdersService {
   }
 
   deleteOrder(order): Observable<any> {
+    console.log(order)
     const params = {
-      order_id: order.orderId
+      order_id: order.id
     }
     return this.http.post(`${this.baseUrl}/info/private/v2/dashboard/cancel`,{}, {params});
   }

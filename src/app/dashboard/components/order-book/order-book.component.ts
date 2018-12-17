@@ -562,6 +562,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
    */
   onSelectOrder(orderIndex: number, item: OrderItem, widgetName: string): void {
     /** sends the data in to trading */
+    this.tradingService.needSetDefaultOrderBookItem = false;
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
 
     this.dashboardService.activeMobileWidget.next(widgetName);

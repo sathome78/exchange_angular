@@ -1,10 +1,15 @@
-import {Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output} from '@angular/core';
+import {Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, OnDestroy} from '@angular/core';
 import {BalanceItem} from '../../models/balance-item.model';
 import * as fundsAction from '../../store/actions/funds.actions';
 import {DashboardWebSocketService} from '../../../dashboard/dashboard-websocket.service';
 import {Router} from '@angular/router';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import * as fundsReducer from '../../store/reducers/funds.reducer';
+import {getCurrencyPairArray, State} from 'app/core/reducers';
+import {takeUntil} from 'rxjs/operators';
+import {CurrencyPair} from '../../../model';
+import {Subject} from 'rxjs';
+import {BalanceService} from '../../services/balance.service';
 
 @Component({
   selector: 'app-balance-table',
@@ -13,10 +18,9 @@ import * as fundsReducer from '../../store/reducers/funds.reducer';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BalanceTableComponent {
+
   constructor(
-    private store: Store<fundsReducer.State>,
-    private dashboardWS: DashboardWebSocketService,
-    private router: Router,
+    public balanceService: BalanceService,
   ) {}
 
   @Input('balances') public balances: BalanceItem[] = [];
@@ -28,18 +32,13 @@ export class BalanceTableComponent {
   @Output('cryptoDepositOut') public cryptoDepositOut: EventEmitter<any> = new EventEmitter();
   @Output('transferOut') public transferOut: EventEmitter<any> = new EventEmitter();
 
+
   public changeItemsPerPage(items: number) {
     this.onPaginate.emit({currentPage: this.currentPage, countPerPage: items});
   }
 
   public changePage(page: number): void {
     this.onPaginate.emit({currentPage: page, countPerPage: this.countPerPage});
-  }
-
-  goToTrade(balance: BalanceItem): void {
-    this.dashboardWS.isNeedChangeCurretPair = false;
-    this.store.dispatch(new fundsAction.LoadMaxCurrencyPairByCurrencyName(balance.currencyName));
-    this.router.navigate(['/']);
   }
 
 }

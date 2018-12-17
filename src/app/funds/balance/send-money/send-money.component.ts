@@ -87,4 +87,8 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
     this.stepFourData = data;
   }
 
+  public get isMobile(): boolean {
+    return window.innerWidth <= 1200;
+  }
+
 }

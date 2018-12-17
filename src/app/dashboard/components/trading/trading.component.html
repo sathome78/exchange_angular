@@ -38,11 +38,11 @@
         <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
              (mouseenter)="isDropdownOpen = true" (mouseleave)="isDropdownOpen = false">
           <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
-          <ul class="dropdown__list">
-            <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
-              <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
-            </ng-template>
-          </ul>
+          <!--<ul class="dropdown__list">-->
+            <!--<ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>-->
+              <!--<li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>-->
+            <!--</ng-template>-->
+          <!--</ul>-->
         </div>
         <div class="row row-jcsb">
           <label class="radio radio--mr12">
@@ -197,9 +197,9 @@
                (click)="isDropdownOpen = true">
             <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
             <ul class="dropdown__list">
-              <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
-                <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
-              </ng-template>
+              <!--<ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>-->
+                <!--<li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>-->
+              <!--</ng-template>-->
             </ul>
           </div>
         </div>

@@ -44,7 +44,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public myBalances$: Observable<MyBalanceItem>;
   public cryptoCurrenciesForChoose$: Observable<CurrencyChoose[]>;
   public fiatCurrenciesForChoose$: Observable<CurrencyChoose[]>;
-  
+
   public sendMoneyData = {};
   public refillBalanceData = {};
   public currencyForChoose: string = null;
@@ -235,7 +235,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
         operation,
       },
       loadPR: {
-        offset: (this.currentPage - 1) * this.countPerPage, 
+        offset: (this.currentPage - 1) * this.countPerPage,
         limit: this.countPerPage,
         concat: false,
       }
@@ -248,9 +248,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.router.navigate([`/funds/balances/${currencyId}`], {queryParams: {priceIn}})
   }
 
-  
 
 
-   
+
+
 
 }
