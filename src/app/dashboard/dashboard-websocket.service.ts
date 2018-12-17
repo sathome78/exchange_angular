@@ -1,14 +1,14 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 import {map, takeUntil} from 'rxjs/internal/operators';
 import {Message} from '@stomp/stompjs';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {StompService} from '@stomp/ng2-stompjs';
 import {CurrencyPair} from '../model/currency-pair.model';
 import {environment} from '../../environments/environment';
-import {State} from '../core/reducers';
+import {getCurrencyPairArray, State} from '../core/reducers';
 import {ChangeCurrencyPairAction, LoadCurrencyPairsAction} from './actions/dashboard.actions';
 import {UserService} from '../shared/services/user.service';
 import {CurrencyPairInfoService} from './components/currency-pair-info/currency-pair-info.service';
@@ -16,8 +16,8 @@ import {getCurrencyPair} from '../core/reducers';
 
 
 @Injectable()
-export class DashboardWebSocketService {
-
+export class DashboardWebSocketService implements OnDestroy {
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   currencyPairs: CurrencyPair [] = [];
   private stompSubscription: any;
   private baseUrl = environment.apiUrl;
@@ -45,6 +45,11 @@ export class DashboardWebSocketService {
         }
         this.processCurrencyPairs(items.data, authenticated);
       });
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   processCurrencyPairs(array: CurrencyPair[], authenticated: boolean) {
@@ -76,6 +81,25 @@ export class DashboardWebSocketService {
         this.userService.getUserBalance(elm);
       }
     });
+  }
+
+  choosePairForTrade(currency: string) {
+    this.store
+      .pipe(select(getCurrencyPairArray))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((currencyPairs: CurrencyPair[]) => {
+        const filteredPairs = currencyPairs.filter(pair => {
+          const splitName = pair.currencyPairName.split('/');
+          return splitName[0] === currency || splitName[1] === currency;
+        })
+        const filteredPair = filteredPairs.filter(pair => {
+          const splitName = pair.currencyPairName.split('/');
+          return splitName[0] === 'BTC' || splitName[1] === 'BTC';
+        });
+        console.log(filteredPair);
+        const currentPair = filteredPair[0] ? filteredPair[0] : filteredPairs[0];
+        this.store.dispatch(new ChangeCurrencyPairAction(currentPair));
+      });
   }
 
   managePairs(array: CurrencyPair[], ids: number[]) {

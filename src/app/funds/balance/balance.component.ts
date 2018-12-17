@@ -224,7 +224,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   const splitName = marketPair.split('-');
     this.dashboardWS.isNeedChangeCurretPair = false;
     this.dashboardWS.findPairByCurrencyPairName(`${splitName[0]}/${splitName[1]}`);
-    this.router.navigate(['/'], { queryParams: { widget: 'trading'});
+    this.router.navigate(['/'], { queryParams: { widget: 'trading'}});
   }
 
 }

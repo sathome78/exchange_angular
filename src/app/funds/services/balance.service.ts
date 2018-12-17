@@ -6,6 +6,8 @@ import {PendingRequestsWrapper} from '../models/pending-requests-wrapper.model';
 import {BalanceWrapper} from '../models/balance-wrapper.model';
 import {BalanceItem} from '../models/balance-item.model';
 import {MyBalanceItem} from '../models/my-balance-item.model';
+import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class BalanceService {
@@ -18,7 +20,9 @@ export class BalanceService {
   public goToSendMoneyInnerTransfer$ = new Subject();
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private dashboardWS: DashboardWebSocketService,
+    private router: Router,
   ) {
   }
 
@@ -162,5 +166,10 @@ export class BalanceService {
     return this.http.get(url);
   }
 
+  goToTrade(balance: BalanceItem): void {
+    this.dashboardWS.isNeedChangeCurretPair = false;
+    this.dashboardWS.choosePairForTrade(balance.currencyName);
+    this.router.navigate(['/']);
+  }
 
 }
