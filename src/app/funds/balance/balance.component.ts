@@ -77,6 +77,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fundsAction.LoadAllCurrenciesForChoose());
     this.store.dispatch(new fundsAction.LoadCryptoCurrenciesForChoose());
     this.store.dispatch(new fundsAction.LoadFiatCurrenciesForChoose());
+    this.store.dispatch(new fundsAction.LoadMyBalancesAction());
     this.loadBalances(this.currTab);
     this.loadBalances(this.Tab.PR);
 
