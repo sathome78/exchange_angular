@@ -110,19 +110,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe(state => {
         this.userBalance = state.userBalance.balanceByCurrency1 ? state.userBalance.balanceByCurrency1 : 0;
         this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
-        // this.onGetCurrentCurrencyPair(state.currencyPair);
-        this.orderFromOrderBook(state.selectedOrderBookOrder);
-        // this.setPriceInValue(state.currencyPairInfo.currencyRate);
-        // this.order.rate = state.currencyPairInfo.currencyRate;
       });
 
     this.store
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair) => {
-        this.resetOrderBookItem();
         this.onGetCurrentCurrencyPair(pair);
-        this.resetForms();
       });
 
     // this.store
@@ -253,12 +247,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     }
   }
 
-  // /**
-  //  * Toggle limit dropdown
-  //  */
-  // toggleLimitDropdown(): void {
-  //   this.isDropdownOpen = !this.isDropdownOpen;
-  // }
 
   /**
    * On select limit
@@ -476,12 +464,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on create new order
    */
   createNewOrder(): void {
-    this.resetOrderBookItem();
+    // this.resetOrderBookItem();
     this.tradingService.createOrder(this.order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.userService.getUserBalance(this.currentPair);
-        console.log(res);
+        this.order = {...this.defaultOrder}
+        this.resetForms();
+        this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
       this.notifySuccess = true;
       setTimeout(() => {this.notifySuccess = false; }, 5000);
     }, err => {
@@ -490,8 +480,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         setTimeout(() => {this.notifyFail = false; }, 5000);
       });
     this.orderStop = '';
-    this.order = {...this.defaultOrder};
-    this.resetForms();
     if (this.currencyPairInfo) {
       this.order.rate = this.currencyPairInfo.rate;
       this.setPriceInValue(this.currencyPairInfo.rate);
