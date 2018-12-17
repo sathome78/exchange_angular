@@ -14,7 +14,7 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   value = 0;
   MIN_VALUE = 5;
-  MAX_VALUE = 1440;
+  MAX_VALUE = 120;
   options: Options = {
     floor: this.MIN_VALUE,
     ceil: this.MAX_VALUE,
