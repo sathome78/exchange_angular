@@ -81,6 +81,9 @@
       @media (min-width: 1200px) {
         height: auto;
         padding: 0 16px;
+        margin-bottom: -5px;
+        position: relative;
+        z-index: 5;
       }
 
       &:last-child {
@@ -152,10 +155,11 @@
     }
     &__link-text {
       position: relative;
+      padding-bottom: 5px;
       &:after {
         content: '';
         position: absolute;
-        bottom: -7px;
+        bottom: -2px;
         display: block;
         height: 2px;
         width: 100%;
