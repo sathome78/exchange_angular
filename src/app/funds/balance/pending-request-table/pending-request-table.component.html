@@ -1,12 +1,12 @@
 <table class="table">
   <thead>
   <tr>
-    <th class="table__cell-head table__cell-head--tal">Date</th>
-    <th class="table__cell-head table__cell-head--tal">Currency</th>
-    <th class="table__cell-head table__cell-head--tar">Amount</th>
-    <th class="table__cell-head table__cell-head--tar">Comission</th>
-    <th class="table__cell-head table__cell-head--tar">Payment system</th>
-    <th class="table__cell-head table__cell-head--tar">Status</th>
+    <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Date</th>
+    <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Currency</th>
+    <th class="table__cell-head table__cell-head--sort table__cell-head--tar">Amount</th>
+    <th class="table__cell-head table__cell-head--sort table__cell-head--tar">Comission</th>
+    <th class="table__cell-head table__cell-head--sort table__cell-head--tar">Payment system</th>
+    <th class="table__cell-head table__cell-head--sort table__cell-head--tar">Status</th>
     <!-- <th class="table__cell-head table__cell-head--tac"></th> -->
     <th class="table__cell-head table__cell-head--tac"></th>
   </tr>
@@ -46,7 +46,7 @@
     </td> -->
     <td class="table__cell table__cell--tar">
       <button 
-        class="btn btn--center btn--small btn--hidden"
+        class="btn btn--center btn--empty-blue btn--small btn--hidden"
         (click)="toggleRevokeModal(true, i)"
       >Revoke</button>
 
