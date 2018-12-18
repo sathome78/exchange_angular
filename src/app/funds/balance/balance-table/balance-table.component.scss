@@ -135,6 +135,9 @@
       font-family: inherit;
     }
   }
+  .ng-arrow-wrapper{
+    display: none !important;
+  }
   .ng-arrow {
     border-color: #94C2FF transparent transparent !important;
   }
@@ -155,6 +158,7 @@
   }
   .ng-clear-wrapper{
     width: 10px !important;
+    margin-right: 12px !important;
   }
   .ng-clear{
     content: '' !important;

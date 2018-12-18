@@ -87,8 +87,8 @@
                     <div class="revoke-request" *ngIf="showCancelOrderConfirm === item.id">
                       <div class="revoke-request__title">Are you sure you want to cancel selected order?</div>
                       <div class="revoke-request__button-wrap">
-                        <button class="btn btn&#45;&#45;small" (click)="cancelOrder(item)">Yes</button>
-                        <button class="btn btn&#45;&#45;small" (click)="onShowCancelOrderConfirm(null)">No</button>
+                        <button class="btn btn--small" (click)="cancelOrder(item)">Yes</button>
+                        <button class="btn btn--small" (click)="onShowCancelOrderConfirm(null)">No</button>
                       </div>
                       <div class="revoke-request__triangle"></div>
                     </div>
@@ -105,6 +105,7 @@
           <!-- t-row end-->
         </tbody>
       </table>
+
     </div>
 
     <!--filter-popup start-->
@@ -201,51 +202,51 @@
           ></ng-select>
           <div class="wrap-input__line"></div>
         </div>
-        <div class="wrap-input orders__datepicker">
-          <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date}" >From</label>
+        <!--<div class="wrap-input orders__datepicker">-->
+          <!--<label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date}" >From</label>-->
 
-          <my-date-picker 
-            name="from"
-            [options]="myDatePickerOptions" 
-            [(ngModel)]="modelDateFrom" 
-            (dateChanged)="dateFromChanged($event)"
-          >
-            &lt;!&ndash;&gt;&ndash;&gt;
-          </my-date-picker>
-          <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
-        </div>
-        <div class="wrap-input orders__datepicker input-el">
-          <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date}" >To</label>
+          <!--<my-date-picker -->
+            <!--name="from"-->
+            <!--[options]="myDatePickerOptions" -->
+            <!--[(ngModel)]="modelDateFrom" -->
+            <!--(dateChanged)="dateFromChanged($event)"-->
+          <!--&gt;-->
+            <!--&lt;!&ndash;&gt;&ndash;&gt;-->
+          <!--</my-date-picker>-->
+          <!--<div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>-->
+        <!--</div>-->
+        <!--<div class="wrap-input orders__datepicker input-el">-->
+          <!--<label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date}" >To</label>-->
 
-          <my-date-picker 
-            class="input-el" 
-            name="to"
-            [options]="myDatePickerOptions" 
-            [(ngModel)]="modelDateTo"
-            (dateChanged)="dateToChanged($event)"
-          >
-            &gt;
-          </my-date-picker>
-          <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
-        </div>
-        <button class="btn btn--auto btn--empty-blue" (click)="onFilterOrders()">
-          Search
-        </button>
+          <!--<my-date-picker -->
+            <!--class="input-el" -->
+            <!--name="to"-->
+            <!--[options]="myDatePickerOptions" -->
+            <!--[(ngModel)]="modelDateTo"-->
+            <!--(dateChanged)="dateToChanged($event)"-->
+          <!--&gt;-->
+            <!--&gt;-->
+          <!--</my-date-picker>-->
+          <!--<div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>-->
+        <!--</div>-->
+        <!--<button class="btn btn&#45;&#45;auto btn&#45;&#45;empty-blue" (click)="onFilterOrders()">-->
+          <!--Search-->
+        <!--</button>-->
       </div>
     </form>
     <!--table start-->
     <table class="table">
       <thead>
         <tr>
-          <th class="table__cell-head table__cell-head--tal">Order id</th>
-          <th class="table__cell-head table__cell-head--tal">Created</th>
-          <th class="table__cell-head table__cell-head--tal">Market</th>
-          <th class="table__cell-head table__cell-head--tal">Type</th>
-          <th class="table__cell-head table__cell-head--tal">Amount</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Order id</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Created</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Market</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Type</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Amount</th>
           <th class="table__cell-head table__cell-head--tal" style="width: 60px;"></th>
-          <th class="table__cell-head table__cell-head--tal">Price</th>
-          <th class="table__cell-head table__cell-head--tal">Comission</th>
-          <th class="table__cell-head table__cell-head--tal">Total</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Price</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Comission</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Total</th>
           <th class="table__cell-head table__cell-head--tal" style="width: 80px;"></th>
         </tr>
       </thead>
@@ -306,7 +307,7 @@
     </table>
     <!--table end-->
     <!--paginator start-->
-    <div class="row row--aic" style="margin: 0 16px;">
+    <div class="row row--aic orders__paginator">
       <div class="show-filter">
         Showing <span>1</span> to
         <div class="dropdown" #dropdown (click)="toggleDropdown()">
