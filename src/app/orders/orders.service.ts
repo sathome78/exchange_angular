@@ -3,7 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {OrderWrapper} from './models/order-wrapper.model';
-import { OrderCurrencyPair } from './models/order-currency-pair';
+import {OrderCurrencyPair} from './models/order-currency-pair';
+import {OrderItem} from 'app/model';
 
 
 @Injectable()
@@ -16,16 +17,16 @@ export class OrdersService {
   }
 
   // request to get open orders
-  getOpenOrders(page: number, 
-                limit: number, 
-                from?: string, 
-                to?: string, 
-                currencyPairId?: string): Observable<OrderWrapper> {
+  getOpenOrders({page, 
+                limit, 
+                dateFrom, 
+                dateTo, 
+                currencyPairId}): Observable<OrderWrapper> {
     const params = {
       page: page + '',
       limit: limit + '',
-      from,
-      to,
+      dateFrom,
+      dateTo,
       currencyPairId: currencyPairId || '',
     }
 
@@ -33,25 +34,47 @@ export class OrdersService {
   }
 
   // request to get closed orders
-  getClosedOrders(page: number, 
-                  limit: number, 
-                  from?: string, 
-                  to?: string, 
-                  hideCanceled?: boolean,
-                  currencyPairId?: string): Observable<OrderWrapper> {
+  getClosedOrders({page, 
+                  limit, 
+                  dateFrom, 
+                  dateTo, 
+                  hideCanceled,
+                  currencyPairId}): Observable<OrderWrapper> {
     const params = {
       page: page + '',
       limit: limit + '',
-      from,
-      to,
+      dateFrom,
+      dateTo,
       hideCanceled: hideCanceled.toString(),
       currencyPairId: currencyPairId || '',
     }
     return this.http.get<OrderWrapper>(`${this.apiUrl}/info/private/v2/dashboard/orders/CLOSED`, {params});
   }
 
+  // request to get closed orders
+  downloadExcel({dateFrom, 
+               dateTo, 
+               hideCanceled,
+               currencyPairId}): Observable<any> {
+    const params = {
+      dateFrom,
+      dateTo,
+      hideCanceled: hideCanceled.toString(),
+      currencyPairId: currencyPairId || '',
+    }
+    return this.http.get(`${this.apiUrl}/info/private/v2/dashboard/orders/CLOSED/export`, {params, responseType: 'blob'});
+  }
+
   // request to get currency pairs
   getCurrencyPairs(): Observable<OrderCurrencyPair[]> {
     return this.http.get<OrderCurrencyPair[]>(`${this.apiUrl}/info/public/v2/all-pairs`);
+  }
+
+  // request to cancel open order
+  deleteOrder(order: OrderItem): Observable<any> {
+    const params = {
+      order_id: order.id
+    }
+    return this.http.post(`${this.apiUrl}/info/private/v2/dashboard/cancel`,{}, {params});
   }
 }

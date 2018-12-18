@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {PopupService} from '../../services/popup.service';
-import {UserVerificationService} from '../../services/user-verification.service';
+import {PopupService} from '../../shared/services/popup.service';
+import {UserVerificationService} from '../../shared/services/user-verification.service';
 
 @Component({
   selector: 'app-identity-popup',

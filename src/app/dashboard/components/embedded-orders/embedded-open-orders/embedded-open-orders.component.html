@@ -16,7 +16,7 @@
     <th class="table__cell-head table__cell-head--tal">Fee</th>
     <th class="table__cell-head table__cell-head--tal">Total</th>
     <th class="table__cell-head table__cell-head--tal" style="width: 74px;"></th>
-    <th class="table__cell-head table__cell-head--tal" style="width: 74px;"></th>
+    <!-- <th class="table__cell-head table__cell-head--tal" style="width: 74px;"></th> -->
   </tr>
   </thead>
   <tbody class="table__body table__body--none-shadow">
@@ -32,7 +32,8 @@
       </div>
     </td>
     <td class="table__cell">
-      <span class="orders__type-buy">{{item.operationType}} <span></span></span>
+      <span [ngClass]="{'orders__type-sell': item.operationTypeEnum === 'SELL', 'orders__type-buy': item.operationTypeEnum === 'BUY' }"
+      >{{item.operationType}} <span></span></span>
       <!--<span class="orders__type-sell">Sell <span>(Limit)</span></span>-->
     </td>
     <td class="table__cell">
@@ -50,15 +51,23 @@
     <td class="table__cell">
       <button class="btn btn--small btn--empty-red table__row-btn"
               style="width: 100%; max-width: 58px;"
-              (click)="cancelOrder(item)"
+              (click)="onShowCancelOrderConfirm(item.id)"
       >Cancel</button>
+      <div class="revoke-request" *ngIf="showCancelOrderConfirm === item.id">
+        <div class="revoke-request__title">Are you sure you want to cancel this order?</div>
+        <div class="revoke-request__button-wrap">
+          <button class="btn btn--small" (click)="cancelOrder(item)">Yes</button>
+          <button class="btn btn--small" (click)="onShowCancelOrderConfirm(null)">No</button>
+        </div>
+        <div class="revoke-request__triangle"></div>
+      </div>
     </td>
-    <td class="table__cell">
+    <!-- <td class="table__cell">
       <button class="btn btn--small btn--empty-blue table__row-btn"
               style="width: 100%; max-width: 58px;"
               (click)="showEditOrderPopup(item)"
       >Edit</button>
-    </td>
+    </td> -->
   </tr>
 
 

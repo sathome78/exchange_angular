@@ -12,6 +12,7 @@ export class TradingService {
   public tradingChangeSellBuy$ = new Subject();
   /** emit order when created in trading-component */
   public tradingCreateOrder$ = new Subject();
+  public needSetDefaultOrderBookItem = true;
   private apiUrl;
 
   constructor(

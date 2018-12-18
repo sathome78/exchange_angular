@@ -37,7 +37,7 @@
   }
   &__search-mob {
     width: 74px;
-    margin-right: 20px;
+    margin-right: 12px;
     .wrap-input__input {
       padding-left: 12px;
     }
@@ -62,6 +62,8 @@
     font-size: 10px;
     line-height: 12px;
     color: $grey;
+    max-width: 80px;
+    white-space: normal;
   }
   &__request-mob-link {
     position: absolute;
@@ -202,7 +204,7 @@
     &__btn-wrap {
       display: flex;
       width: 100%;
-      position: relative;
+      position: absolute;
       bottom: 0;
     }
   }
@@ -360,6 +362,7 @@
       margin-left: auto;
     }
     &__filters {
+      min-height: 46px;
       margin-top: 28px;
       align-items: stretch;
       &:after {
@@ -367,12 +370,13 @@
         display: block;
         position: absolute;
         bottom: 0px;
-        left: 184px;
+        left: 226px;
         z-index: -1;
-        width: calc(100% - 184px);
+        width: calc(100% - 226px);
         height: 1px;
         background-color: $grey;
       }
+
       .toggler {
         margin-right: 12px;
         margin-left: 0;
@@ -380,9 +384,15 @@
       .dropdown {
         margin-left: 8px;
       }
+      &--pending-open{
+        &:after {
+          left: 0;
+          width: 100%;
+        }
+      }
     }
     &__search {
-      width: 152px;
+      //width: 152px;
       margin-right: 32px;
     }
     &__tabs {
@@ -497,6 +507,7 @@
       font-size: 14px;
       line-height: 16px;
       color: inherit;
+      max-width: none;
     }
     &__change {
       .arr {
@@ -522,7 +533,9 @@
         }
       }
     }
-
+    &__paginator{
+      margin: 28px 16px 40px;
+    }
     /*--- elements end ---*/
   }
 }

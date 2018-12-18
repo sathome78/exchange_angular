@@ -69,7 +69,7 @@
     margin: 0 auto;
     font-size: 0 !important;
     vertical-align: middle;
-    background-image: url("assets/img/close-light-blue.svg");
+    background-image: url("../../../assets/img/close-light-blue.svg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -200,10 +200,6 @@ a.active {
 
 .show-filter-popup {
   display: block;
-}
-
-.revoke-request {
-  display: none;
 }
 
 .empty-data{

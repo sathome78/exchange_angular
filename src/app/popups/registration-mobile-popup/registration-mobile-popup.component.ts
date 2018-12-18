@@ -1,8 +1,8 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {PopupService} from '../../services/popup.service';
+import {PopupService} from '../../shared/services/popup.service';
 import {convertValueToOutputAst} from '@angular/compiler/src/output/value_util';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserService} from '../../services/user.service';
+import {UserService} from '../../shared/services/user.service';
 import {keys} from '../../core/keys';
 
 @Component({

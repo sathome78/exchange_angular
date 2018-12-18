@@ -16,7 +16,7 @@ import {TradingService} from '../trading/trading.service';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {State, getCurrencyPair, getLastSellBuyOrder, getCurrencyPairInfo} from 'app/core/reducers/index';
 import {OrderItem} from 'app/model/order-item.model';
-import {MockDataService} from '../../../services/mock-data.service';
+import {MockDataService} from '../../../shared/services/mock-data.service';
 import {ChangeCurrencyPairAction, SelectedOrderBookOrderAction, SetLastSellBuyOrderAction} from '../../actions/dashboard.actions';
 import {LastSellBuyOrder} from '../../../model/last-sell-buy-order.model';
 import {defaultLastSellBuyOrder} from '../../reducers/default-values';
@@ -497,10 +497,20 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     }
   }
 
+  // public mockSend = {
+  //   amount: "500000000",
+  //   currencyPairId: 59,
+  //   exrate: "0.00000029",
+  //   orderType: "BUY",
+  //   total: "500006510",
+  // }
+
+
   /**
    * increment precision with accuracy step 0.1
    */
   incPrecision(): void {
+    // this.store.dispatch(new SelectedOrderBookOrderAction(this.mockSend));
     if (this.precision >= 0.0001) {
       this.precision /= 10;
       this.precisionOut++;
@@ -552,6 +562,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
    */
   onSelectOrder(orderIndex: number, item: OrderItem, widgetName: string): void {
     /** sends the data in to trading */
+    this.tradingService.needSetDefaultOrderBookItem = false;
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
 
     this.dashboardService.activeMobileWidget.next(widgetName);

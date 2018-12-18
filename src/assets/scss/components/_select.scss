@@ -116,7 +116,7 @@
     position: absolute;
     z-index: 5;
     top: 100%;
-    display: none;
+    //display: none;
     width: 100%;
     border: 1px solid $darker-blue;
     background-color: #fff;
@@ -163,7 +163,7 @@
     padding-left: 12px;
     max-height: 190px;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: hidden;
   }
   &__searching-items-title {
     font-size: 12px;

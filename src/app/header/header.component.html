@@ -7,13 +7,13 @@
       <li class="menu__item" routerLinkActive="menu__link--active"><a class="menu__link"
                                                                       href="https://exrates.me/dashboard"><span
         class="menu__link-text">Trade</span></a></li>
-      <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated()"
+      <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated()"
           routerLinkActive="menu__link--active"><a class="menu__link menu__link&#45;&#45;drop"><span
         class="menu__link-text">Funds</span></a>
         <!-- <li class="menu__item menu__item--with-submenu" ><a class="menu__link menu__link--drop"><span class="menu__link-text">Funds</span></a> -->
         <div class="submenu">
           <ul class="menu submenu__list">
-            <li class="submenu__item"><a class="submenu__link" routerLink="balance" routerLinkActive="menu__link--active"><span class="menu__link-text">Balance</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" routerLink="/funds/balance" routerLinkActive="menu__link--active"><span class="menu__link-text">Balance</span></a></li>
             <li class="submenu__item"><a class="submenu__link" routerLink="transaction-history" routerLinkActive="menu__link--active"><span class="menu__link-text">Transaction history</span></a></li>
           </ul>
         </div>
@@ -261,21 +261,20 @@
       </a>
 
 
-      <a class="header-mob__submenu-link" routerLink="balance" routerLinkActive="header-mob__submenu-link--active"
+      <a class="header-mob__submenu-link" routerLink="funds/balances" routerLinkActive="header-mob__submenu-link--active"
          (click)="setMobileWidget('balance')" *ngIf="isAuthenticated()">
         <img class="header-mob__submenu-link-img" src="../../assets/img/wallet.svg">
         <span class="header-mob__submenu-link-text">Balances</span>
       </a>
       <a class="header-mob__submenu-link"
-         [routerLink]="['dashboard']"
-         [queryParams]="{widget: 'trade-history'}"
-         [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'trade-history' }"
+         [routerLink]="['orders/closed']"
+         routerLinkActive="header-mob__submenu-link--active"
          (click)="setMobileWidget('trade-history')" *ngIf="isAuthenticated()">
         <img class="header-mob__submenu-link-img" src="../../assets/img/history.svg">
         <span class="header-mob__submenu-link-text">History</span>
       </a>
       <a class="header-mob__submenu-link"
-         [routerLink]="['open-orders']"
+         [routerLink]="['orders/open']"
          routerLinkActive="header-mob__submenu-link--active"
          (click)="setMobileWidget('open')" *ngIf="isAuthenticated()">
         <img class="header-mob__submenu-link-img" src="../../assets/img/orders.svg">
@@ -286,7 +285,7 @@
       <a class="header-mob__submenu-link"
          [routerLink]="['dashboard']"
          [queryParams]="{widget: 'markets'}"
-         [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'markets' }"
+         routerLinkActive="header-mob__submenu-link--active"
          (click)="setMobileWidget('markets')">
         <img class="header-mob__submenu-link-img" src="../../assets/img/markets.svg">
         <span class="header-mob__submenu-link-text">Markets</span>

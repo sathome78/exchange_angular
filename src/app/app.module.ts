@@ -1,8 +1,8 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 import {StoreModule} from '@ngrx/store';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -30,62 +30,41 @@ import {ReferralStructureComponent} from './referral/referral-structure/referral
 import {ReferralChargesComponent} from './referral/referral-charges/referral-charges.component';
 import {RegistrationMobilePopupComponent} from './popups/registration-mobile-popup/registration-mobile-popup.component';
 import {LoginPopupMobileComponent} from './popups/login-popup-mobile/login-popup-mobile.component';
-import {BalanceComponent} from './funds/balance/balance.component';
 import {reducers} from './core/reducers';
 import {CoreModule} from './core/core.module';
 import {AppRoutingModule} from './app-routing.module';
 import {DashboardModule} from './dashboard/dashboard.module';
 import {MyDatePickerModule} from 'mydatepicker';
-import {QRCodeModule} from 'angular2-qrcode';
 import {SettingsModule} from './settings/settings.module';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {SharedModule} from './shared/shared.module';
 import {WebcamModule} from 'ngx-webcam';
-import {AuthGuard} from './services/auth.guard';
+import {AuthGuard} from './shared/guards/auth.guard';
 import {GoogleAuthenticatorService} from './popups/two-factor-popup/google/google-authenticator.service';
-import {PopupService} from './services/popup.service';
-import {AuthService} from './services/auth.service';
-import {LangService} from './services/lang.service';
-import {LoggingService} from './services/logging.service';
-import {UserService} from './services/user.service';
-import {UserVerificationService} from './services/user-verification.service';
-import {ThemeService} from './services/theme.service';
-import {MockDataService} from './services/mock-data.service';
+import {PopupService} from './shared/services/popup.service';
+import {AuthService} from './shared/services/auth.service';
+import {LangService} from './shared/services/lang.service';
+import {LoggingService} from './shared/services/logging.service';
+import {UserService} from './shared/services/user.service';
+import {UserVerificationService} from './shared/services/user-verification.service';
+import {ThemeService} from './shared/services/theme.service';
+import {MockDataService} from './shared/services/mock-data.service';
 import {TradingService} from './dashboard/components/trading/trading.service';
 import {EmbeddedOrdersService} from './dashboard/components/embedded-orders/embedded-orders.service';
 import {CurrencyPairInfoService} from './dashboard/components/currency-pair-info/currency-pair-info.service';
 import {JwtInterceptor} from './core/interceptors/jwt.interceptor';
 import {AuthInterceptor} from './core/interceptors/auth.interceptor';
-import {RecaptchaModule} from 'ng-recaptcha';
+
 import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
-import { RecoveryPassComponent } from './popups/recovery-pass/recovery-pass.component';
-import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
-import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-password/final-step-recovery-password.component';
-import { FundsComponent } from './funds/funds.component';
-import {BalanceService} from './shared/balance.service';
+import {RecoveryPassComponent} from './popups/recovery-pass/recovery-pass.component';
+import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
+import {FinalStepRecoveryPasswordComponent} from './auth/final-step-recovery-password/final-step-recovery-password.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from 'environments/environment';
 
-import { RefillMoneyComponent } from './balance/refill-money/refill-money.component';
-import { RefillStepOneComponent } from './balance/refill-money/refill-step-one/refill-step-one.component';
-import { RefillStepTwoComponent } from './balance/refill-money/refill-step-two/refill-step-two.component';
-import { RefillStepThreeComponent } from './balance/refill-money/refill-step-three/refill-step-three.component';
-import { RefillCryptoComponent } from './balance/refill-money/refill-step-two/refill-crypto/refill-crypto.component';
-import { RefillFiatComponent } from './balance/refill-money/refill-step-two/refill-fiat/refill-fiat.component';
-import { RefillInnerTransferComponent } from './balance/refill-money/refill-step-two/refill-inner-transfer/refill-inner-transfer.component';
-import { SendMoneyComponent } from './balance/send-money/send-money.component';
-import { SendStepOneComponent } from './balance/send-money/send-step-one/send-step-one.component';
-import { SendStepTwoComponent } from './balance/send-money/send-step-two/send-step-two.component';
-import { SendStepThreeComponent } from './balance/send-money/send-step-three/send-step-three.component';
-import { SendCryptoComponent } from './balance/send-money/send-step-two/send-crypto/send-crypto.component';
-import { SendFiatComponent } from './balance/send-money/send-step-two/send-fiat/send-fiat.component';
-import { SendInnerTransferComponent } from './balance/send-money/send-step-two/send-inner-transfer/send-inner-transfer.component';
-import { TransferInstantComponent } from './balance/send-money/send-step-three/transfer-instant/transfer-instant.component';
-import { TransferProtectedCodeComponent } from './balance/send-money/send-step-three/transfer-protected-code/transfer-protected-code.component';
-import { TransferProtectedEmailCodeComponent } from './balance/send-money/send-step-three/transfer-protected-email-code/transfer-protected-email-code.component';
-import { SendTfaComponent } from './balance/send-money/send-step-three/send-tfa/send-tfa.component';
-import { SendSuccessfulComponent } from './balance/send-money/send-successful/send-successful.component';
-import { RefillSuccessfulComponent } from './balance/refill-money/refill-successful/refill-successful.component';
+import {RefillSuccessfulComponent} from './balance/refill-money/refill-successful/refill-successful.component';
+import { DemoTradingPopupComponent } from './popups/demo-trading-popup/demo-trading-popup.component';
+
 
 @NgModule({
   declarations: [
@@ -113,7 +92,6 @@ import { RefillSuccessfulComponent } from './balance/refill-money/refill-success
     DocUploadComponent,
     ReferralStructureComponent,
     ReferralChargesComponent,
-    BalanceComponent,
     LoginPopupMobileComponent,
     RegistrationMobilePopupComponent,
     GoogleDisableComponent,
@@ -121,27 +99,10 @@ import { RefillSuccessfulComponent } from './balance/refill-money/refill-success
     RecoveryPassComponent,
     TransactionHistoryComponent,
     FinalStepRecoveryPasswordComponent,
-    FundsComponent,
-    RefillMoneyComponent,
-    RefillStepOneComponent,
-    RefillStepTwoComponent,
-    RefillStepThreeComponent,
-    RefillCryptoComponent,
-    RefillFiatComponent,
-    RefillInnerTransferComponent,
-    SendMoneyComponent,
-    SendStepOneComponent,
-    SendStepTwoComponent,
-    SendStepThreeComponent,
-    SendCryptoComponent,
-    SendFiatComponent,
-    SendInnerTransferComponent,
-    TransferInstantComponent,
-    TransferProtectedCodeComponent,
-    TransferProtectedEmailCodeComponent,
-    SendTfaComponent,
-    SendSuccessfulComponent,
+
     RefillSuccessfulComponent,
+
+    DemoTradingPopupComponent,
     // TWO FACTOR POPUP END
 
   ],
@@ -158,18 +119,16 @@ import { RefillSuccessfulComponent } from './balance/refill-money/refill-success
     HttpClientModule,
     FormsModule,
     MyDatePickerModule,
-    QRCodeModule,
     ReactiveFormsModule,
     SettingsModule,
     WebcamModule,
     SharedModule,
     NgxPaginationModule,
-    RecaptchaModule,
+    ReactiveFormsModule,
   ],
   providers: [
     AuthGuard,
     AuthService,
-    BalanceService,
     GoogleAuthenticatorService,
     LangService,
     LoggingService,
@@ -188,4 +147,4 @@ import { RefillSuccessfulComponent } from './balance/refill-money/refill-success
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

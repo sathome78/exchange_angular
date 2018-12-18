@@ -21,7 +21,7 @@ export const defaultOrderItem = {
   amount: '0',
   currencyPairId: 1,
   exrate: '0',
-  orderType: '',
+  orderType: 'BUY',
   total: '0'
 }
 

@@ -3,7 +3,7 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {ChatService} from './chat.service';
 import {DateChatItem} from './date-chat-item.model';
-import {AuthService} from 'app/services/auth.service';
+import {AuthService} from 'app/shared/services/auth.service';
 import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
 
 @Component({

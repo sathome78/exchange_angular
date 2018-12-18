@@ -1,0 +1,110 @@
+.refill {
+  &__title {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  &__inputs-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  &__select, &__wrap-input {
+    width: 100%;
+    max-width: 230px;
+    margin-bottom: 28px;
+  }
+  &__fiat-successful-icon {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 16px;
+  }
+  &__fiat-successful-title {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  &__fiat-successful-subtitle {
+    text-align: center;
+    margin-bottom: 16px;
+    .link {
+      text-decoration: underline;
+    }
+  }
+}
+
+.modal__note {
+  width: calc(100% + 24px);
+  left: -12px;
+  margin-top: 24px;
+}
+
+@media (min-width: 1200px) {
+  .refill {
+    &__title {
+      margin-bottom: 32px;
+    }
+    &__inputs-wrap {
+      flex-direction: row;
+      align-items: flex-start;
+      margin-bottom: 32px;
+    }
+    &__select {
+      width: 100%;
+      margin-bottom: 0;
+      margin-right: 32px;
+    }
+    &__wrap-input {
+      margin-bottom: 0;
+    }
+    &__fiat-successful-title {
+      margin-bottom: 16px;
+    }
+    &__fiat-successful-subtitle {
+      margin-bottom: 16px;
+    }
+  }
+
+  .modal__note {
+    width: calc(100% + 64px);
+    left: -32px;
+    margin-top: 32px;
+  }
+}
+
+// ---------------------
+.select__list {
+  display: block;
+  color: #ccc;
+}
+
+.select__search-input {
+  color: #ccc;
+}
+
+::ng-deep div.wrap-input.refill__wrap-input {
+  .wrap-input__message{
+    color: #EB5757 !important;
+  }
+  app-price-input {
+    label {
+      background: #191A39 !important;
+    }
+  }
+  &.wrap-input--error {
+    app-price-input {
+      label {
+        color: #EB5757 !important;
+      }
+      input:focus {
+        &+label{
+          color: #94C2FF !important;
+        }
+      }
+    }
+  }
+}
+
+.btn-active {
+  background-color: #237BEF;
+  color: #fff;
+}

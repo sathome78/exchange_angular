@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 
-import {MockDataService} from 'app/services/mock-data.service';
+import {MockDataService} from 'app/shared/services/mock-data.service';
 import {EmbeddedOrdersService} from '../embedded-orders.service';
 import {TradingService} from '../../trading/trading.service';
 import {Order} from '../../trading/order.model';
@@ -39,6 +39,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
   public currencyPairInfo;
 
   public currentPage = 1;
+  public showCancelOrderConfirm = null
 
 
   public defaultOrder: Order = {
@@ -145,27 +146,15 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
    * @param order
    */
   cancelOrder(order): void {
-    console.log(order);
-   const editedOrder = {
-     orderId: order.id,
-     amount: order.amountConvert,
-     baseType: order.orderBaseType,
-     commission: order.commissionValue,
-     currencyPairId: order.currencyPairId,
-     orderType: order.operationTypeEnum,
-     rate: order.exExchangeRate,
-     total: order.amountWithCommission,
-     status: 'CANCELLED'
-   };
-
-   if (order.stopRate) {
-     editedOrder.rate = order.stopRate;
-   }
-   console.log(editedOrder);
-   this.ordersService.updateOrder(editedOrder).subscribe(res => {
-     this.refreshOpenOrders.emit(true);
-   });
-
+    this.ordersService.deleteOrder(order)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.refreshOpenOrders.emit(true);
+      });
+  }
+ 
+  onShowCancelOrderConfirm(orderId: string | null): void {
+    this.showCancelOrderConfirm = orderId;
   }
 
 

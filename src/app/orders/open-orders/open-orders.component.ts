@@ -1,12 +1,13 @@
-import {Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
 import {IMyDpOptions, IMyDate, IMyDateModel} from 'mydatepicker';
 import {Store, select} from '@ngrx/store';
 
 import {OrderItem} from '../models/order-item.model';
 import * as ordersReducer from '../store/reducers/orders.reducer';
 import * as ordersAction from '../store/actions/orders.actions';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import { OrderCurrencyPair } from '../models/order-currency-pair';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-open-orders',
@@ -14,15 +15,20 @@ import { OrderCurrencyPair } from '../models/order-currency-pair';
   styleUrls: ['./open-orders.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpenOrdersComponent implements OnInit {
+export class OpenOrdersComponent implements OnInit, OnDestroy {
 
   @ViewChild('dropdown') dropdownElement: ElementRef;
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   public orderItems$: Observable<OrderItem[]>;
+  public orderItems: OrderItem[] = [];
   public countOfEntries$: Observable<number>;
+  public countOfEntries: number = 0;
   public currencyPairs$: Observable<OrderCurrencyPair[]>;
   public currentPage = 1;
   public countPerPage = 15;
+  public isMobile: boolean = false;
+  public showCancelOrderConfirm: number | null = null;
 
   public myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'dd.mm.yyyy',
@@ -39,6 +45,7 @@ export class OpenOrdersComponent implements OnInit {
 
   public currency: string = '';
   public showFilterPopup: boolean = false;
+  public tableScrollStyles: any = {};
 
   constructor(
     private store: Store<ordersReducer.State>
@@ -46,25 +53,56 @@ export class OpenOrdersComponent implements OnInit {
     this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getOpenOrdersCount));
     this.currencyPairs$ = store.pipe(select(ordersReducer.getAllCurrencyPairsSelector));
+
+    const componentHeight = window.innerHeight;
+    this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
+    this.orderItems$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((items) => this.orderItems = items)
+    this.countOfEntries$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((items) => this.countOfEntries = items)
+
   }
 
   ngOnInit() {
+    this.isMobile = window.innerWidth < 1200;
+    if(this.isMobile) {
+      this.countPerPage = 10;
+    }
     this.initDate();
+    this.store.dispatch(new ordersAction.LoadCurrencyPairsAction());
     this.loadOrders();
   }
 
   /**
    * dispatching action to load the list of the open orders
    */
-  loadOrders() {
-    const params = {
-      page: this.currentPage, 
-      limit:this.countPerPage,
-      from: this.formatDate(this.modelDateFrom.date),
-      to: this.formatDate(this.modelDateTo.date),
-      currencyPairId: this.currencyPairId,
+  loadOrders(): void {
+    if(this.isDateRangeValid()) {
+      const params = {
+        page: this.currentPage, 
+        limit:this.countPerPage,
+        dateFrom: this.formatDate(this.modelDateFrom.date),
+        dateTo: this.formatDate(this.modelDateTo.date),
+        currencyPairId: this.currencyPairId,
+      }
+      this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
     }
-    this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
+  }
+  loadMoreOrders(): void {
+    if(this.isDateRangeValid() && this.orderItems.length !== this.countOfEntries) {
+      this.currentPage += 1;
+      const params = {
+        page: this.currentPage, 
+        limit:this.countPerPage,
+        dateFrom: this.formatDate(this.modelDateFrom.date),
+        dateTo: this.formatDate(this.modelDateTo.date),
+        currencyPairId: this.currencyPairId,
+        concat: true,
+      }
+      this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
+    }
   }
 
   toggleDropdown() {
@@ -112,6 +150,9 @@ export class OpenOrdersComponent implements OnInit {
    * @returns { boolean }
    */
   isDateRangeValid(): boolean {
+    if(!this.modelDateFrom || !this.modelDateFrom.date || !this.modelDateTo || !this.modelDateTo.date) {
+      return false;
+    }
     const dateFrom = new Date(this.modelDateFrom.date.year, this.modelDateFrom.date.month - 1, this.modelDateFrom.date.day);
     const dateTo = new Date(this.modelDateTo.date.year, this.modelDateTo.date.month - 1, this.modelDateTo.date.day);
     const diff = dateTo.getTime() - dateFrom.getTime();
@@ -127,7 +168,9 @@ export class OpenOrdersComponent implements OnInit {
     if(date.year === 0 && date.day === 0) {
       return null;
     }
-    return `${date.year}-${date.month}-${date.day}`
+    const day = date.day < 10 ? '0' + date.day : date.day;
+    const month = date.month < 10 ? '0' + date.month : date.month;
+    return `${date.year}-${month}-${day}`
   }
 
   // filterByCurrency(value: string) {
@@ -195,37 +238,40 @@ export class OpenOrdersComponent implements OnInit {
    * set status order canceled
    * @param order
    */
-  // cancelOrder(): void {
-  //   if (this.selectedOrder) {
-  //     const editedOrder = {
-  //       orderId: this.selectedOrder.id,
-  //       amount: this.selectedOrder.amountConvert,
-  //       baseType: this.selectedOrder.orderBaseType,
-  //       commission: this.selectedOrder.commissionValue,
-  //       currencyPairId: this.selectedOrder.currencyPairId,
-  //       orderType: this.selectedOrder.operationTypeEnum,
-  //       rate: this.selectedOrder.exExchangeRate,
-  //       total: this.selectedOrder.amountWithCommission,
-  //       status: 'CANCELLED'
-  //     };
-  //
-  //     if (this.selectedOrder.stopRate) {
-  //       editedOrder.rate = this.selectedOrder.stopRate;
-  //     }
-  //     console.log(editedOrder);
-  //     this.ordersService.updateOrder(editedOrder).subscribe(res => {
-  //       this.toOpenOrders();
-  //     });
-  //   }
-  //
-  //  this.closePopup();
-  // }
+  cancelOrder(order): void {
+    const params = {
+      order,
+      loadOrders: { 
+        page: this.currentPage, 
+        limit:this.countPerPage,
+        dateFrom: this.formatDate(this.modelDateFrom.date),
+        dateTo: this.formatDate(this.modelDateTo.date),
+        currencyPairId: this.currencyPairId,
+        isMobile: this.isMobile,
+      }
+    }
+
+    this.store.dispatch(new ordersAction.CancelOrderAction(params));
+    this.showCancelOrderConfirm = null;
+  }
 
   openFilterPopup() {
     this.showFilterPopup = true;
   }
 
   closeFilterPopup() {
-    this.showFilterPopup = false;
+    if(this.isDateRangeValid()) {
+      this.showFilterPopup = false;
+      this.loadOrders();
+    }
+  }
+
+  onShowCancelOrderConfirm(orderId: number | null): void {
+    this.showCancelOrderConfirm = orderId;
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
