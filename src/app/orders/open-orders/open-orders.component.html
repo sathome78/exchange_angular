@@ -202,36 +202,36 @@
           ></ng-select>
           <div class="wrap-input__line"></div>
         </div>
-        <div class="wrap-input orders__datepicker">
-          <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date}" >From</label>
+        <!--<div class="wrap-input orders__datepicker">-->
+          <!--<label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date}" >From</label>-->
 
-          <my-date-picker 
-            name="from"
-            [options]="myDatePickerOptions" 
-            [(ngModel)]="modelDateFrom" 
-            (dateChanged)="dateFromChanged($event)"
-          >
-            &lt;!&ndash;&gt;&ndash;&gt;
-          </my-date-picker>
-          <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
-        </div>
-        <div class="wrap-input orders__datepicker input-el">
-          <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date}" >To</label>
+          <!--<my-date-picker -->
+            <!--name="from"-->
+            <!--[options]="myDatePickerOptions" -->
+            <!--[(ngModel)]="modelDateFrom" -->
+            <!--(dateChanged)="dateFromChanged($event)"-->
+          <!--&gt;-->
+            <!--&lt;!&ndash;&gt;&ndash;&gt;-->
+          <!--</my-date-picker>-->
+          <!--<div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>-->
+        <!--</div>-->
+        <!--<div class="wrap-input orders__datepicker input-el">-->
+          <!--<label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date}" >To</label>-->
 
-          <my-date-picker 
-            class="input-el" 
-            name="to"
-            [options]="myDatePickerOptions" 
-            [(ngModel)]="modelDateTo"
-            (dateChanged)="dateToChanged($event)"
-          >
-            &gt;
-          </my-date-picker>
-          <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
-        </div>
-        <button class="btn btn--auto btn--empty-blue" (click)="onFilterOrders()">
-          Search
-        </button>
+          <!--<my-date-picker -->
+            <!--class="input-el" -->
+            <!--name="to"-->
+            <!--[options]="myDatePickerOptions" -->
+            <!--[(ngModel)]="modelDateTo"-->
+            <!--(dateChanged)="dateToChanged($event)"-->
+          <!--&gt;-->
+            <!--&gt;-->
+          <!--</my-date-picker>-->
+          <!--<div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>-->
+        <!--</div>-->
+        <!--<button class="btn btn&#45;&#45;auto btn&#45;&#45;empty-blue" (click)="onFilterOrders()">-->
+          <!--Search-->
+        <!--</button>-->
       </div>
     </form>
     <!--table start-->
@@ -307,7 +307,7 @@
     </table>
     <!--table end-->
     <!--paginator start-->
-    <div class="row row--aic" style="margin: 0 16px;">
+    <div class="row row--aic orders__paginator">
       <div class="show-filter">
         Showing <span>1</span> to
         <div class="dropdown" #dropdown (click)="toggleDropdown()">
