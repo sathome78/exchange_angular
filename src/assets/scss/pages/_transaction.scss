@@ -101,6 +101,10 @@
       color:inherit;
       font-size: inherit;
     }
+    &__paginator{
+      margin: 28px 16px 40px;
+    }
+
   }
 }
 /*--- media end ---*/
@@ -143,6 +147,17 @@
         color:inherit;
         div:nth-child(2) {
           color: $light-blue;
+        }
+      }
+      .show-filter {
+        color: $light-blue;
+      }
+      &__paginator{
+        .dropdown__btn{
+          color:#fff;
+          &:after{
+            border-top-color: #fff;
+          }
         }
       }
     }

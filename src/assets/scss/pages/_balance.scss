@@ -621,9 +621,7 @@
           background-color: $light-grey;
         }
       }
-      .show-filter {
-        color: $light-blue;
-      }
+
       &__currency-name {
         color: inherit;
       }
@@ -633,6 +631,9 @@
         div:nth-child(2) {
           color: $light-blue;
         }
+      }
+      .show-filter {
+        color: $light-blue;
       }
       &__paginator{
         .dropdown__btn{
