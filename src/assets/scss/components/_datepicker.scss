@@ -17,7 +17,7 @@
 }
 
 .mydp .selection {
-  height: 45px !important;
+  height: 36px !important;
   padding: 0 !important;
   background-color: transparent !important;
   color: #000 !important;
@@ -57,6 +57,9 @@
 @media (min-width:600px) {
   .mydp{
     height: 45px;
+  }
+  .mydp .selection {
+    height: 45px !important;
   }
 }
 @media (min-width:900px) {}

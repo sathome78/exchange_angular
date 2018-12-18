@@ -1,22 +1,25 @@
-.orders{
+.orders {
   display: none;
   /*--- modificators start ---*/
-  &--mob{
+  &--mob {
     display: block;
   }
+
   /*--- modificators end ---*/
   /*--- elements start ---*/
-  &__header-mob{
+  &__header-mob {
     display: flex;
     align-items: center;
-    margin:0 12px 12px;
+    margin: 0 12px 12px;
     padding-top: 12px;
   }
-  &__page-title{
+
+  &__page-title {
     font-size: 24px;
     line-height: 28px;
   }
-  &__amount{
+
+  &__amount {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,38 +29,56 @@
     height: 16px;
     min-width: 26px;
     margin-left: 4px;
-    color:#fff;
+    color: #fff;
     background-color: $darker-blue;
   }
-  &__filter-btn{
+
+  &__filter-btn {
     display: flex;
     align-items: center;
     margin-left: auto;
     color: $darker-blue;
-    svg{
+
+    svg {
       fill: $darker-blue;
       margin-right: 4px;
     }
   }
 
   /*--- elements end ---*/
+  // popup yes\no start
+  .revoke-request {
+    bottom: 40px;
+
+    &__triangle {
+      left: 16px;
+      right: auto;
+    }
+  }
+
+  // popup yes\no end
 }
+
 /*--- media start ---*/
-@media (min-width:1200px) {
-  .orders{
+@media (min-width: 1200px) {
+  .orders {
     display: block;
     padding-top: 32px;
-    &--mob{
+
+    &--mob {
       display: none;
     }
-    &__title-btn{
+
+    &__title-btn {
       margin-left: 32px;
     }
-    &__filters{
+
+    &__filters {
       display: flex;
       position: relative;
       margin-top: 28px;
-      &:after{
+
+      &:after {
         content: '';
         display: block;
         position: absolute;
@@ -67,173 +88,157 @@
         height: 1px;
         background-color: $grey;
       }
-      .btn{
+
+      .btn {
         align-self: center;
       }
     }
-    &__search{
+
+    &__search {
       width: 175px;
       margin-right: 24px;
     }
-    &__datepicker{
+
+    &__datepicker {
       width: 175px;
       margin-right: 24px;
-      .wrap-input__label{
+
+      .wrap-input__label {
         left: 17px;
       }
     }
-    &__hide-toggler{
+
+    &__hide-toggler {
       margin-left: auto;
       align-self: center;
       display: flex;
       align-items: center;
-      .toggler{
+
+      .toggler {
         margin-right: 8px;
       }
     }
-    &__market{
+
+    &__market {
       display: inline-block;
       padding-bottom: 1px;
       color: $darker-blue;
       text-transform: uppercase;
       border-bottom: 1px solid $darker-blue;
     }
-    &__for{
-      color:$grey;
+
+    &__for {
+      color: $grey;
     }
-    &__comission-usd{
-      color:$grey;
+
+    &__comission-usd {
+      color: $grey;
     }
-    &__pair-wrap{
+
+    &__pair-wrap {
       display: flex;
       align-items: center;
     }
-    &__pair{
+
+    &__pair {
       display: flex;
       align-items: center;
     }
-    &__pair-icon{
+
+    &__pair-icon {
       width: 25px;
       height: 25px;
       background-color: #fff;
       margin-right: 8px;
-      img{
+
+      img {
         width: 100%;
       }
     }
+
     // popup yes\no start
-    .revoke-request{
-      background-color: #fff;
-      border-radius: 4px;
-      box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
-      width: 250px;
-      padding: 12px 28px;
-      position: absolute;
-      z-index: 10;
-      //display: none;
-      display: block;
-      right: 30px;
+    .revoke-request {
+      right: 10px;
       bottom: 100%;
-      //&--mob{
-      //      //  position: relative;
-      //      //  right: auto;
-      //      //  bottom: auto;
-      //      //  align-self: center;
-      //      //}
-      &__title{
-        font-size: 14px;
-        line-height: 20px;
-        margin-bottom: 8px;
-        text-align: center;
-      }
-      &__button-wrap{
-        display: flex;
-        justify-content: center;
-      }
-      .btn{
-        &:first-child{
-          margin-right: 28px;
-        }
-      }
-      &__triangle{
-        border-top: 5px solid #fff;
-        border-right: 5px solid transparent;
-        border-left: 5px solid transparent;
-        content: "";
-        position: absolute;
-        bottom: -5px;
+
+      &__triangle {
+        left: auto;
         right: 16px;
       }
     }
+
     // popup yes\no end
   }
 }
+
 /*--- media end ---*/
 
 /*--- DARK THEME START---*/
-.dark-theme{
-  .orders{
-    &__filter-btn{
+.dark-theme {
+  .orders {
+    &__filter-btn {
       margin-left: auto;
       color: $light-blue;
-      svg{
+
+      svg {
         fill: $light-blue;
       }
     }
-    &__type-buy{
-      color:$green;
+
+    &__type-buy {
+      color: $green;
     }
-    &__type-sell{
-      color:$red;
+
+    &__type-sell {
+      color: $red;
     }
-    &__type-stop{
-      color:$darker-blue;
+
+    &__type-stop {
+      color: $darker-blue;
     }
-    .table__date-time{
+
+    .table__date-time {
       color: $light-blue;
+
       div:nth-child(2) {
         color: $light-blue;
       }
     }
   }
 }
-@media (min-width:1200px) {
-  .dark-theme{
-    .orders{
-      &__filters{
-        &:after{
+
+@media (min-width: 1200px) {
+  .dark-theme {
+    .orders {
+      &__filters {
+        &:after {
           z-index: 0;
           background-color: $light-blue;
         }
       }
-      .table__date-time{
-        color:inherit;
-        div:nth-child(2){
-          color:$light-blue;
+
+      .table__date-time {
+        color: inherit;
+
+        div:nth-child(2) {
+          color: $light-blue;
         }
       }
 
-      &__for{
-        color:$light-blue;
-      }
-      &__comission-usd{
-        color:$light-blue;
+      &__for {
+        color: $light-blue;
       }
 
-      // popup yes\no start
-      .revoke-request{
-        background-color: #2B3961;
-        &__triangle{
-          border-top: 5px solid #2B3961;
-        }
+      &__comission-usd {
+        color: $light-blue;
       }
-      // popup yes\no end
 
-      .show-filter{
-        color:$light-blue;
+      .show-filter {
+        color: $light-blue;
       }
 
     }
   }
 }
+
 /*--- DARK THEME END---*/
