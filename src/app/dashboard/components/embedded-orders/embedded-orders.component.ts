@@ -88,6 +88,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
     const sub = this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
       .subscribe(data => {
         this.openOrders = data.items;
+        console.log(data.items)
         this.openOrdersCount = data.count;
         sub.unsubscribe();
 
