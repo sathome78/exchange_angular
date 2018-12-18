@@ -134,3 +134,9 @@ input:not([value=""]){
   -webkit-appearance: none;
   margin: 0;
 }
+@media (min-width: 1200px) {
+  .revoke-request {
+    right: 15px;
+
+  }
+}

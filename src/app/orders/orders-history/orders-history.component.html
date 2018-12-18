@@ -261,14 +261,14 @@
     <table class="table">
       <thead>
         <tr>
-          <th class="table__cell-head table__cell-head--tal">Date</th>
-          <th class="table__cell-head table__cell-head--tal">Pair</th>
-          <th class="table__cell-head table__cell-head--tal">Type</th>
-          <th class="table__cell-head table__cell-head--tal">Price</th>
-          <th class="table__cell-head table__cell-head--tal">Amount</th>
-          <th class="table__cell-head table__cell-head--tal">Comission</th>
-          <th class="table__cell-head table__cell-head--tar">In total</th>
-          <th class="table__cell-head table__cell-head--tar">Status</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Date</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Pair</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Type</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Price</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Amount</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">Comission</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tar">In total</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tar">Status</th>
         </tr>
       </thead>
       <tbody class="table__body">
@@ -325,7 +325,7 @@
     </table>
     <!--table end-->
     <!--paginator start-->
-    <div class="row row--aic" style="margin: 0 16px;">
+    <div class="row row--aic orders__paginator">
       <div class="show-filter">
         Showing <span>1</span> to
         <div class="dropdown" #dropdown (click)="toggleDropdown($event)">
