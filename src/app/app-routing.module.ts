@@ -22,11 +22,11 @@ const routes: Routes = [
   { path: 'final-registration/token', component: FinalRegistrationComponent },
   { path: 'referral-structure', component: ReferralStructureComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
   { path: 'referral-charges', component: ReferralChargesComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
-  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+  { path: 'settings', loadChildren: './settings/settings.module#SettingsModule' },
   { path: 'recovery-password', component: FinalStepRecoveryPasswordComponent },
   { path: 'funds', loadChildren: 'app/funds/funds.module#FundsModule', canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
   { path: 'orders', loadChildren: 'app/orders/orders.module#OrdersModule' },
-  { path: "static", loadChildren: "./static-pages/static-pages.module#StaticPagesModule" },
+  { path: 'static', loadChildren: './static-pages/static-pages.module#StaticPagesModule' },
 
 
   { path: 'settings', loadChildren: './settings/settings.module#SettingsModule' },

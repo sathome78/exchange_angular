@@ -8,6 +8,8 @@ import {UserService} from '../shared/services/user.service';
 import {SettingsService} from '../settings/settings.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG} from './header.constants';
+import {MyBalanceItem} from '../core/models/my-balance-item.model';
+import {Observable} from 'rxjs';
 
 
 
@@ -27,6 +29,7 @@ export class HeaderComponent implements OnInit {
   public FUNDS_FLAG = FUNDS_FLAG;
   public REFERRAL_FLAG = REFERRAL_FLAG;
   public ORDERS_FLAG = ORDERS_FLAG;
+  public myBalance: Observable<MyBalanceItem>;
 
 
   constructor(private popupService: PopupService,
@@ -60,6 +63,7 @@ export class HeaderComponent implements OnInit {
     this.dashboardService.activeMobileWidget.subscribe(res => {
       this.mobileView = res;
     });
+    this.myBalance = this.dashboardService.getMyBalances();
   }
 
   public openMenu() {

@@ -4,6 +4,8 @@ import {Subject, Observable, BehaviorSubject, ReplaySubject} from 'rxjs';
 
 // import {Currency} from './components/currency-pair-info/currency-search/currency.model';
 import {OrderItem} from '../model/order-item.model';
+import {environment} from 'environments/environment';
+import {MyBalanceItem} from 'app/core/models/my-balance-item.model';
 
 @Injectable()
 export class DashboardService {
@@ -185,6 +187,7 @@ export class DashboardService {
 
   constructor(private http: HttpClient) {
   }
+  public apiUrl = environment.apiUrl;
 
   /**
    * Get array of dashboard widget options
@@ -217,5 +220,9 @@ export class DashboardService {
   getCurrencyPair(ISO1: string, ISO2: string) {
     // return this.isoMockData();
     // return this.http.get(`${ISO1}/${ISO2}`)
+  }
+
+  getMyBalances(): Observable<MyBalanceItem> {
+    return this.http.get<MyBalanceItem>(this.apiUrl + '/info/private/v2/balances/myBalances')
   }
 }

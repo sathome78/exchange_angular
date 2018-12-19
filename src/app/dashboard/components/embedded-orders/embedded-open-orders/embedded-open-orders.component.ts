@@ -70,7 +70,6 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
   }
 
   ngOnInit() {
-    console.log(this.openOrders)
     this.order = {...this.defaultOrder};
 
     this.store

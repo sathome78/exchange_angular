@@ -5,7 +5,7 @@ import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
 import {BalanceItem} from '../models/balance-item.model';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
-import {MyBalanceItem} from '../models/my-balance-item.model';
+import {MyBalanceItem} from '../../core/models/my-balance-item.model';
 import {BalanceService} from '../services/balance.service';
 import {takeUntil} from 'rxjs/operators';
 import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, INNER_TRANSFER} from './send-money/send-money-constants';

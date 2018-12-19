@@ -242,9 +242,10 @@
 
 
       <nav class="menu-mob">
-        <a class="menu-mob__link menu-mob__link--next-page"><img
-        class="menu-mob__link-icon" src="../../assets/img/money-bag.svg"><span class="menu-mob__link-text">Estimated holdings</span><span
-        class="menu-mob__link-holdings-inf">~ $43 522 764</span></a>
+        <a class="menu-mob__link menu-mob__link--next-page">
+          <span class="menu-mob__link-text">Estimated holdings</span>
+          <span class="menu-mob__link-holdings-inf">~ ${{(myBalance | async)?.USD}}</span>
+        </a>
         <a
           class="menu-mob__link" href="https://exrates.me/dashboard"><img class="menu-mob__link-icon" src="../../assets/img/trade.svg"><span
           class="menu-mob__link-text">Trade</span></a>
