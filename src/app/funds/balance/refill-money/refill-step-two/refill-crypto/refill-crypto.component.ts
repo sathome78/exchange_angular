@@ -1,3 +1,4 @@
+
 import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -30,8 +31,10 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public isSowCopyMemoId = false;
   public activeCrypto;
   public openCurrencyDropdown = false;
+  public isGenerateNewAddress = false;
   public address;
   public alphabet;
+  public reqError = '';
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
@@ -46,7 +49,6 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log(this.refillData)
     this.store
       .pipe(select(getCryptoCurrenciesForChoose))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -74,6 +76,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   }
 
   currencyDropdownToggle() {
+    this.reqError = '';
     this.openCurrencyDropdown = !this.openCurrencyDropdown;
     this.cryptoNames = this.defaultCryptoNames;
     this.prepareAlphabet();
@@ -102,9 +105,22 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.cryptoDataByName = res;
-        this.address = this.cryptoDataByName.merchantCurrencyData[0].mainAddress;
-        console.log(res);
+        if (this.cryptoDataByName.merchantCurrencyData[0]) {
+          this.address = this.cryptoDataByName.merchantCurrencyData[0].mainAddress;
+          this.showGenerateAddressBtn(this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable);
+        } else {
+          this.showGenerateAddressBtn(false);
+        }
       });
+  }
+
+  showGenerateAddressBtn(flag: boolean) {
+    if (flag) {
+      this.isGenerateNewAddress = true;
+    } else {
+      this.isGenerateNewAddress = true;
+      setTimeout(() => this.isGenerateNewAddress = false, 500);
+    }
   }
 
   searchCoin(e) {
@@ -125,8 +141,10 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         .subscribe(res => {
           const temp = res as RefreshAddress;
           this.address = temp.address;
-          console.log(this.address);
-      });
+        }, error => {
+          const msg = 'Failed to process refill request as number of tries exceeded ';
+          this.setError(msg);
+        });
     }
   }
 
@@ -161,4 +179,11 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         break;
     }
   }
+
+  setError(message) {
+    this.reqError = message;
+    setTimeout(() => this.reqError = '', 5000);
+  }
 }
+
+

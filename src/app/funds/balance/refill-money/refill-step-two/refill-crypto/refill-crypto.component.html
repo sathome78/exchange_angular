@@ -1,3 +1,4 @@
+
 <div class="title refill__title" *ngIf="activeCrypto">Make crypto deposit in <span>{{activeCrypto.name}}</span></div>
 <div class="refill__inputs-wrap" *ngIf="cryptoDataByName">
   <div class="select refill__select">
@@ -39,9 +40,7 @@
   </div>
 
   <button class="btn btn--empty-blue"
-          *ngIf ="this.cryptoDataByName
-           && this.cryptoDataByName.merchantCurrencyData[0]
-           && this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable"
+          *ngIf ="isGenerateNewAddress"
           (click)="generateNewAddress()"
   >
     <span class="btn__icon btn__icon--light-blue">
@@ -54,17 +53,20 @@
     Generate new address
   </button>
 </div>
+
+<div class="request-errors">{{reqError}}</div>
+
 <div class="refill__crypto-refill-info" *ngIf="cryptoDataByName && cryptoDataByName.merchantCurrencyData[0]">
   <div class="refill__qr-code">
     <!--<img src="../../assets/img/qr-code.svg">-->
-    <qr-code [value]="address" [size]="150"></qr-code>
+    <qr-code [value]="address" *ngIf="address" [size]="150"></qr-code>
   </div>
   <div>
     <div class="refill__crypto-address" *ngIf="address">
       <h6 class="refill__crypto-title"><span>BTC</span> address</h6>
       <div class="refill__crypto-hash">{{address}}</div>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="!isSowCopyAddress"
-      (click)="copyToBuffer(address, 'Copy address')"
+              (click)="copyToBuffer(address, 'Copy address')"
       >Copy address</button>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="isSowCopyAddress"
       >Copied</button>
@@ -73,7 +75,7 @@
       <h6 class="refill__crypto-title">Memo id</h6>
       <div class="refill__crypto-hash">{{cryptoDataByName.merchantCurrencyData[0].additionalFieldName}}</div>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="!isSowCopyMemoId"
-      (click)="copyToBuffer(cryptoDataByName.merchantCurrencyData[0].additionalFieldName, 'Copy id')"
+              (click)="copyToBuffer(cryptoDataByName.merchantCurrencyData[0].additionalFieldName, 'Copy id')"
       >Copy id</button>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="isSowCopyMemoId"
       >Copied</button>
