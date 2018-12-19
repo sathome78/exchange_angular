@@ -4,9 +4,12 @@
     <div class="logo"><a class="logo__link" href="#"><img class="logo__img" src="../../assets/img/logo.svg" alt="logo"></a>
     </div>
     <ul class="menu menu--header-menu">
-      <li class="menu__item" routerLinkActive="menu__link--active"><a class="menu__link"
-                                                                      href="https://exrates.me/dashboard"><span
-        class="menu__link-text">Trade</span></a></li>
+      <li class="menu__item" routerLinkActive="menu__link--active">
+        <a class="menu__link" href="https://exrates.me/dashboard">
+          <span class="menu__link-text">Trade
+          </span>
+        </a>
+      </li>
       <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated()"
           routerLinkActive="menu__link--active"><a class="menu__link menu__link&#45;&#45;drop"><span
         class="menu__link-text">Funds</span></a>
@@ -246,9 +249,11 @@
           <span class="menu-mob__link-text">Estimated holdings</span>
           <span class="menu-mob__link-holdings-inf">~ ${{(myBalance | async)?.USD}}</span>
         </a>
-        <a
-          class="menu-mob__link" href="https://exrates.me/dashboard"><img class="menu-mob__link-icon" src="../../assets/img/trade.svg"><span
-          class="menu-mob__link-text">Trade</span></a>
+        <a class="menu-mob__link" [routerLink]="['dashboard']" [queryParams]="{widget: 'trading'}"
+           (click)="setMobileWidget('trading')">
+          <img class="menu-mob__link-icon" src="../../assets/img/trade.svg">
+          <span class="menu-mob__link-text">Trade</span>
+        </a>
         <div class="menu-mob__drop-wrap">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(FUNDS_FLAG)">
             <img class="menu-mob__link-icon" src="../../assets/img/piggy-bank.svg"><span
@@ -269,16 +274,16 @@
             <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/orders/closed">Orders history</a>
           </div>
         </div>
-        <div class="menu-mob__drop-wrap">
-          <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(REFERRAL_FLAG)">
-          <img class="menu-mob__link-icon" src="../../assets/img/referral.svg">
-            <span class="menu-mob__link-text">Referral</span>
-          </a>
-          <div class="menu-mob__wrap-links" *ngIf="showReferralList">
-            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/referral-structure">Referral structure</a>
-            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/referral-charges">Referral charges</a>
-          </div>
-        </div>
+        <!--<div class="menu-mob__drop-wrap">-->
+          <!--<a class="menu-mob__link menu-mob__link&#45;&#45;drop" (click)="toggleMenuDropdowns(REFERRAL_FLAG)">-->
+          <!--<img class="menu-mob__link-icon" src="../../assets/img/referral.svg">-->
+            <!--<span class="menu-mob__link-text">Referral</span>-->
+          <!--</a>-->
+          <!--<div class="menu-mob__wrap-links" *ngIf="showReferralList">-->
+            <!--<a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/referral-structure">Referral structure</a>-->
+            <!--<a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/referral-charges">Referral charges</a>-->
+          <!--</div>-->
+        <!--</div>-->
         <a class="menu-mob__link" href="https://exrates.me/dashboard"><img class="menu-mob__link-icon" src="../../assets/img/newspaper.svg"><span
           class="menu-mob__link-text">News</span></a>
       </nav>
@@ -307,7 +312,8 @@
         <span class="header-mob__submenu-link-text">Balances</span>
       </a>
       <a class="header-mob__submenu-link"
-         [routerLink]="['orders/closed']"
+         [routerLink]="['dashboard']"
+         [queryParams]="{widget: 'trade-history'}"
          routerLinkActive="header-mob__submenu-link--active"
          (click)="setMobileWidget('trade-history')" *ngIf="isAuthenticated()">
         <img class="header-mob__submenu-link-img" src="../../assets/img/history.svg">

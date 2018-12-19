@@ -68,7 +68,7 @@ export class HeaderComponent implements OnInit {
 
   public openMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
-    console.log('Open mobile menu');
+    // console.log('Open mobile menu');
   }
 
   public navigateToSettings() {
