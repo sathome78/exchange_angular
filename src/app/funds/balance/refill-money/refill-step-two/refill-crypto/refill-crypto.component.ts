@@ -141,7 +141,6 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         .subscribe(res => {
           const temp = res as RefreshAddress;
           this.address = temp.address;
-          console.log(res);
         }, error => {
           const msg = 'Failed to process refill request as number of tries exceeded ';
           this.setError(msg);
