@@ -184,14 +184,14 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     lastExrate: '3688.846264',
     orderBookItems: [
       {
-        amount: '0.000281716',
+        amount: '0.490318551',
         currencyPairId: 1,
         exrate: '3686.7',
         orderType: 'BUY',
         total: '0.000281716',
       },
       {
-        amount: '0.000114923',
+        amount: '0.016446308',
         currencyPairId: 1,
         exrate: '3682.7',
         orderType: 'BUY',
@@ -645,5 +645,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
     this.sortSellData();
     this.getBestitems(false);
+  }
+
+  public getIsFiat() {
+    return (res) => res
   }
 }
