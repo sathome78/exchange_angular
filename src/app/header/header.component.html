@@ -248,7 +248,11 @@
           </div>
         </div>
         <div class="menu-mob__drop-wrap">
-          <a class="menu-mob__link menu-mob__link--drop" (click)="onTogglePanel('orders')">
+          <a
+            class="menu-mob__link menu-mob__link--drop"
+            (click)="onTogglePanel('orders')"
+            [ngClass]="{'open': showOrders}"
+          >
             <img class="menu-mob__link-icon" src="../../assets/img/orders.svg">
             <span class="menu-mob__link-text">Orders</span>
           </a>
