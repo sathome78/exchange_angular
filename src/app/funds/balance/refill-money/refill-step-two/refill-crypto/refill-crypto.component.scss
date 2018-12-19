@@ -125,10 +125,9 @@
     display: block;
     min-width: 380px;
   }
-  .modal__note{
-    width: calc(100% + 64px);
-    left: -32px;
-    margin-top: 32px;
+  .modal__note {
+    width: 100%;
+    left: 0;
   }
 }
 //  -------------------

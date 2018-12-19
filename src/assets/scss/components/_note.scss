@@ -36,7 +36,8 @@
 @media (min-width:900px) {}
 @media (min-width:1200px) {
   .note {
-    position: relative;
+    //position: relative;
+    position: absolute;
     left: 0;
     padding: 32px;
   }
