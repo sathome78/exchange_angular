@@ -647,7 +647,4 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.getBestitems(false);
   }
 
-  public getIsFiat() {
-    return (res) => res
-  }
 }
