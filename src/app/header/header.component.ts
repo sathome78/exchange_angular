@@ -7,6 +7,8 @@ import {ThemeService} from '../shared/services/theme.service';
 import {UserService} from '../shared/services/user.service';
 import {SettingsService} from '../settings/settings.service';
 import {DashboardService} from '../dashboard/dashboard.service';
+import {Observable} from 'rxjs';
+import {MyBalanceItem} from 'app/core/models/my-balance-item.model';
 
 @Component({
   selector: 'app-header',
@@ -18,6 +20,9 @@ export class HeaderComponent implements OnInit {
   public isMobileMenuOpen = false;
   public mobileView = 'markets';
   public userInfo;
+  public showFunds: boolean = false;
+  public showOrders: boolean = false;
+  public myBalance: Observable<MyBalanceItem>;
 
   constructor(private popupService: PopupService,
               private authService: AuthService,
@@ -49,11 +54,19 @@ export class HeaderComponent implements OnInit {
     this.dashboardService.activeMobileWidget.subscribe(res => {
       this.mobileView = res;
     });
+    this.myBalance = this.dashboardService.getMyBalances();
   }
 
   public openMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
-    console.log('Open mobile menu');
+    // console.log('Open mobile menu');
+  }
+
+  public closeMenu() {
+    this.isMobileMenuOpen = false;
+    this.showFunds = false;
+    this.showOrders = false;
+    // console.log('Close mobile menu');
   }
 
   public navigateToSettings() {
@@ -107,5 +120,16 @@ export class HeaderComponent implements OnInit {
     this.isMobileMenuOpen = false;
     this.mobileView = widget;
     this.dashboardService.activeMobileWidget.next(widget);
+  }
+
+  onTogglePanel(panel): void {
+    switch(panel){
+      case 'funds':
+        this.showFunds = !this.showFunds;
+        break;
+      case 'orders':
+        this.showOrders = !this.showOrders;
+        break;
+    }
   }
 }

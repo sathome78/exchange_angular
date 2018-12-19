@@ -8,7 +8,7 @@ import * as fundsActions from '../actions/funds.actions';
 import {BalanceService} from '../../services/balance.service';
 import {BalanceDetailsItem} from 'app/funds/models/balance-details-item.model';
 import * as dashboardActions from '../../../dashboard/actions/dashboard.actions';
-import {MyBalanceItem} from '../../models/my-balance-item.model';
+import {MyBalanceItem} from '../../../core/models/my-balance-item.model';
 import {Location} from '@angular/common';
 
 
