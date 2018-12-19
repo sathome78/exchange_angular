@@ -33,6 +33,7 @@ export class OrderItem {
     public currencyPairId: number,
     public exrate: string,
     public orderType: string,
+    public sumAmount: string,
     public total: string,
     public id?: string,
   ) {}

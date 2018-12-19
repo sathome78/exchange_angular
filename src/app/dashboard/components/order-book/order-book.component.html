@@ -65,7 +65,7 @@
         <div class="item" *ngFor="let item of showSellDataRverse; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
-              {{item.exrate*item.amount  | number:'1.1-8'| replaceNumber}}
+              {{item.total  | number:'1.1-8'| replaceNumber}}
             </span>
           </div>
 
@@ -156,7 +156,7 @@
         <div class="item" *ngFor="let item of showBuyDataRverse; let i = index" (click)="onSelectOrder(i, item)">
           <div class="order">
             <span>
-              {{item.exrate * item.amount  | number:'1.1-8' | replaceNumber}}
+              {{item.total  | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
@@ -237,10 +237,10 @@
           <!--[style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
           <!--</div>-->
         </div>
-        <div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item, 'trading')">
+        <div class="item" *ngFor="let item of showSellDataRverse; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
-              {{item.exrate*item.amount | number:'1.1-8' | replaceNumber}}
+              {{item.total | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
@@ -289,10 +289,10 @@
           <!--</div>-->
         </div>
 
-        <div class="item" *ngFor="let item of dataBurBuy; let i = index" (click)="onSelectOrder(i, item, 'trading')">
+        <div class="item" *ngFor="let item of showBuyDataRverse; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
-              {{item.exrate*item.amount | number:'1.1-8' | replaceNumber}}
+              {{item.total | number:'1.1-8' | replaceNumber}}
             </span>
           </div>
 
