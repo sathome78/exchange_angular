@@ -162,7 +162,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    * @returns {CurrencyPair[]}
    */
   choosePair(market: string): CurrencyPair[] {
-    if (market === 'Favorites') {
+    if (market === 'FAVORITES') {
       return this.currencyPairs.filter(pair => pair.isFavourite);
     }
     return this.currencyPairs.filter(f => f.market && f.market.toUpperCase() === market.toUpperCase());
@@ -203,14 +203,14 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     return pair.lastOrderRate > pair.predLastOrderRate;
   }
 
-  toggleFavourite(pair: CurrencyPair) {
+  toggleFavorite(pair: CurrencyPair) {
     pair.isFavourite = !pair.isFavourite;
     this.marketService.manageUserFavouriteCurrencyPair(pair)
       .subscribe(res => console.log(res), error1 => console.log(error1));
     this.pairs = this.choosePair(this.currencyDisplayMode);
   }
 
-  isFavourite(pair: CurrencyPair): boolean {
+  isFavorite(pair: CurrencyPair): boolean {
     return pair.isFavourite;
   }
 
