@@ -104,6 +104,7 @@ export class HeaderComponent implements OnInit {
   }
 
   setMobileWidget(widget: string) {
+    this.isMobileMenuOpen = false;
     this.mobileView = widget;
     this.dashboardService.activeMobileWidget.next(widget);
   }
