@@ -31,7 +31,9 @@
       </div>
 
       <div *ngIf="isOpenDemoTradingPopup">
-        <app-demo-trading-popup></app-demo-trading-popup>
+        <app-demo-trading-popup
+        [message]="popupService.demoPopupMessage"
+        ></app-demo-trading-popup>
       </div>
       <!--<app-refill-money></app-refill-money>-->
       <!--<app-send-money></app-send-money>-->

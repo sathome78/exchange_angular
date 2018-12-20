@@ -104,6 +104,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     this.isSubmited = true;
     if (environment.production) {
       // todo while insecure
+      this.popupService.demoPopupMessage = 0;
       this.popupService.showDemoTradingPopup(true);
       this.balanceService.closeSendMoneyPopup$.next(false);
     } else {
