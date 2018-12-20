@@ -107,7 +107,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   submitRefill() {
     this.isSubmited = true;
-    if (!environment.production) {
+    if (environment.production) {
       // todo while insecure
       this.popupService.demoPopupMessage = 0;
       this.popupService.showDemoTradingPopup(true);
