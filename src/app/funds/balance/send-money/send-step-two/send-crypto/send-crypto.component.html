@@ -31,7 +31,7 @@
                 <div class="select__searching-items-wrap">
                   <div class="select__searching-item" *ngFor="let name of cryptoNames | groupCoin:letter"
                        (click)="selectCurrency(name)">
-                    <!--<img src="../../assets/img/eth-icon.svg" class="select__list-item-icon">-->
+                    <img src="../../assets/img/eth-icon.svg" class="select__list-item-icon">
                     <span>{{name.name}}</span>
                   </div>
                 </div>
@@ -142,7 +142,7 @@
 </div>
 
 <div *ngIf="!isEnterData" class="captcha-wrapper">
-  <h6 class="popup__title">Enter the captcha</h6>
+  <h6 class="popup__subtitle">Enter the captcha</h6>
   <re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
   <div class="popup__links-wrap  popup__links-wrap--center">
     <a class="popup__link" (click)="goToWithdrawal()">Back to withdrawal form</a>

@@ -30,7 +30,7 @@
   }
   &__line {
     height: 1px;
-    background-color: #ECECEC;
+    background-color: #24253F;
   }
   &__info {
     margin-top: 28px;
@@ -45,6 +45,7 @@
   &__info-title {
     width: 50%;
     text-align: left;
+    color:#94C2FF;
   }
   &__info-value {
     width: 50%;
@@ -95,9 +96,14 @@
         margin-right: 0;
       }
     }
-    &__info-title {
-      width: calc(50% - 48px);
-      text-align: right;
+    &__info-row{
+      justify-content: space-between;
+    }
+    &__info-title{
+      width: auto;
+      margin-left: 23%;
+      //width: calc(50% - 48px);
+      //text-align: right;
       margin-right: 32px;
     }
     &__info-value {

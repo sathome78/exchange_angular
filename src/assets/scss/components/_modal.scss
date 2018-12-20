@@ -304,10 +304,10 @@
     }
 
     &__note {
-      //width: calc(100% + 180px);
-      //left: -90px;
-      width: 100%;
-      left: 0;
+      width: calc(100% + 180px);
+      left: -90px;
+      //width: 100%;
+      //left: 0;
     }
   }
 }
