@@ -440,6 +440,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
     if (environment.production) {
       // todo while insecure
+      this.popupService.demoPopupMessage = 0;
       this.popupService.showDemoTradingPopup(true);
     } else {
       if ( (this.stopForm.valid

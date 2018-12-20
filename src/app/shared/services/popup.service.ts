@@ -16,6 +16,7 @@ export class PopupService {
   private currentStep = 1;
   private tfaProvider = '';
   private identityDocumentType = 'PASSPORT';
+  public demoPopupMessage = 0;
   stepsMap: Map<number, string> = new Map<number, string>();
 
 
@@ -48,7 +49,6 @@ export class PopupService {
   }
 
   showMobileRegistrationPopup(state: boolean) {
-    console.log('open 2');
     this.onMobileRegistrationPopupListener.next(state);
   }
 

@@ -30,7 +30,6 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log(this.optionData)
     this.initFields();
     this.balanceService.goToPinCode$
       .pipe(takeUntil(this.ngUnsubscribe))

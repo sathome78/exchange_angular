@@ -1,10 +1,7 @@
 <div class="overlay">
   <div class="popup popup-demo">
     <div class="popup__close" (click)="closeMe()"></div>
-    <div class="text">
-      <p>Unfortunately now you are not able to trade on this version of the website.</p>
-      <p>Now you have an opportunity to test a redesigned demo version go the dashboard. After all the tests are
-        conducted, the updated dashboard will be available for real trading!</p>
+    <div class="text" [innerHTML]="showHtml">
     </div>
     <button class="btn btn--active btn--center" (click)="closeMe()">Continue trading</button>
   </div>
