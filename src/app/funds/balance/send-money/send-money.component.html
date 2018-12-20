@@ -17,8 +17,8 @@
         <!--<a class="modal__control-mob" href="#">-->
         <!--<img class="modal__control-icon" src="../../../assets/img/minimize-mob-blue.svg">-->
         <!--</a>-->
-        <a class="modal__control-mob" href="#">
-          <img class="modal__control-icon" src="../../../assets/img/learn-blue.svg"></a>
+        <!--<a class="modal__control-mob" href="#">-->
+          <!--<img class="modal__control-icon" src="../../../assets/img/learn-blue.svg"></a>-->
         <a class="modal__control-mob" (click)="onCloseSendMoneyPopup()">
           <img class="modal__control-icon" src="../../../assets/img/close-blue.svg"></a>
       </div>
@@ -29,7 +29,7 @@
             [ngClass]="{'steps__item--current': step === 1}"
         >
           <a class="steps__link" (click)="setStep(1)">
-            <span class="steps__number  steps__number--current">1</span>
+            <span class="steps__number" [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
             <span class="steps__number-mob-current">1. Send money</span>
             <span class="steps__title">Send money</span>
           </a>
@@ -38,7 +38,7 @@
             [ngClass]="{'steps__item--current': step === 2}"
         >
           <a class="steps__link" (click)="setStep(2)">
-            <span class="steps__number steps__number--current">2</span>
+            <span class="steps__number" [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }">2</span>
             <span class="steps__number-mob-current">2. {{stepTwoName}}</span>
             <span class="steps__title">{{stepTwoName}}</span>
           </a>
@@ -47,7 +47,7 @@
             [ngClass]="{'steps__item--current': step === 3}"
         >
           <a class="steps__link" (click)="setStep(3)">
-            <span class="steps__number steps__number--current">3</span>
+            <span class="steps__number" [ngClass]="{'steps__number--current': step === 3, 'steps__number--valid': step != 3 }">3</span>
             <span class="steps__number-mob-current">3. {{stepThreeName}}</span>
             <span class="steps__title">{{stepThreeName}}</span>
           </a>
@@ -57,7 +57,7 @@
             [ngClass]="{'steps__item--current': step >= 4}"
         >
           <a class="steps__link" (click)="setStep(4)">
-            <span class="steps__number steps__number--current">4</span>
+            <span class="steps__number" [ngClass]="{'steps__number--current': step === 4, 'steps__number--valid': step != 4 }">4</span>
             <span class="steps__number-mob-current">4. Accepted</span>
             <span class="steps__title">Accepted</span>
           </a>

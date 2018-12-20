@@ -19,7 +19,14 @@
     }
   }
 }
-
+.table__row{
+  &:nth-of-type(odd) {
+    background-color: rgba(255,255,255,.05);
+  }
+  &:hover {
+    background-color:rgba(255, 255, 255, 0.15);
+  }
+}
 .paginator {
   position: absolute;
   right: 16px;
