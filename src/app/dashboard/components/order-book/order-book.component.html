@@ -65,7 +65,7 @@
         <div class="item" *ngFor="let item of showSellDataRverse; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
-              {{item.exrate*item.amount  | roundCurrency| replaceNumber}}
+              {{item.total  | roundCurrency| replaceNumber}}
             </span>
           </div>
 
@@ -162,7 +162,7 @@
           (click)="onSelectOrder(i, item)">
           <div class="order">
             <span>
-              {{item.exrate * item.amount  | roundCurrency | replaceNumber}}
+              {{item.total  | roundCurrency | replaceNumber}}
             </span>
           </div>
 
@@ -246,7 +246,7 @@
         <div class="item" *ngFor="let item of showSellDataRverse; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
-              {{item.exrate * item.amount | roundCurrency | replaceNumber}}
+              {{item.total | roundCurrency | replaceNumber}}
             </span>
           </div>
 
@@ -298,7 +298,7 @@
         <div class="item" *ngFor="let item of showBuyDataRverse; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
-              {{item.exrate*item.amount | roundCurrency | replaceNumber}}
+              {{item.total | roundCurrency | replaceNumber}}
             </span>
           </div>
 
