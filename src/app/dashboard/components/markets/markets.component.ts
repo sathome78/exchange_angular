@@ -143,7 +143,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.currencyDisplayMode = value;
     this.isFiat = value === 'USD';
     this.pairs = this.choosePair(value);
-    this.prefPairs = this.choosePrefPairs();
+    // this.prefPairs = this.choosePrefPairs();
     this.searchInput = '';
   }
 
@@ -168,21 +168,21 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     return this.currencyPairs.filter(f => f.market && f.market.toUpperCase() === market.toUpperCase());
   }
 
-  choosePrefPairs() {
-    const mPairs: CurrencyPair[] = [];
-    if (this.currencyDisplayMode === 'BTC') {
-      const luckyBtc: CurrencyPair = this.currencyPairs.find(pair => pair.currencyPairName === 'BTC/USD');
-      if (luckyBtc) {
-        mPairs.push(luckyBtc);
-      }
-    } else if (this.currencyDisplayMode === 'ETH') {
-      const luckyEth: CurrencyPair = this.currencyPairs.find(pair => pair.currencyPairName === 'ETH/USD');
-      if (luckyEth) {
-        mPairs.push(luckyEth);
-      }
-    }
-    return mPairs;
-  }
+  // choosePrefPairs() {
+  //   const mPairs: CurrencyPair[] = [];
+  //   if (this.currencyDisplayMode === 'BTC') {
+  //     const luckyBtc: CurrencyPair = this.currencyPairs.find(pair => pair.currencyPairName === 'BTC/USD');
+  //     if (luckyBtc) {
+  //       mPairs.push(luckyBtc);
+  //     }
+  //   } else if (this.currencyDisplayMode === 'ETH') {
+  //     const luckyEth: CurrencyPair = this.currencyPairs.find(pair => pair.currencyPairName === 'ETH/USD');
+  //     if (luckyEth) {
+  //       mPairs.push(luckyEth);
+  //     }
+  //   }
+  //   return mPairs;
+  // }
 
   /** Filter markets data by search-data*/
   searchPair(event: string): void {
@@ -223,7 +223,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       });
     }
     this.pairs = this.choosePair(this.currencyDisplayMode);
-    this.prefPairs = this.choosePrefPairs();
+    // this.prefPairs = this.choosePrefPairs();
     this.emitWhenSelectedPairIsUpdated(currencyPairs);
   }
 }

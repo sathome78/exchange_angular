@@ -184,14 +184,14 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     lastExrate: '3688.846264',
     orderBookItems: [
       {
-        amount: '0.000281716',
+        amount: '0.490318551',
         currencyPairId: 1,
         exrate: '3686.7',
         orderType: 'BUY',
         total: '0.000281716',
       },
       {
-        amount: '0.000114923',
+        amount: '0.016446308',
         currencyPairId: 1,
         exrate: '3682.7',
         orderType: 'BUY',
@@ -563,7 +563,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   onSelectOrder(orderIndex: number, item: OrderItem, widgetName: string): void {
     /** sends the data in to trading */
     this.tradingService.needSetDefaultOrderBookItem = false;
-    item.orderType = item.orderType === 'BUY' ? 'SELL' : 'BUY';
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
 
     this.dashboardService.activeMobileWidget.next(widgetName);
@@ -647,4 +646,5 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.sortSellData();
     this.getBestitems(false);
   }
+
 }

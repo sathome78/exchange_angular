@@ -3,7 +3,7 @@ import {defaultValues} from './default-values';
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {BalanceItem} from 'app/funds/models/balance-item.model';
 import {PendingRequestsItem} from 'app/funds/models/pending-requests-item.model';
-import {MyBalanceItem} from 'app/funds/models/my-balance-item.model';
+import {MyBalanceItem} from 'app/core/models/my-balance-item.model';
 import {CurrencyChoose} from '../../models/currency-choose.model';
 import * as dashboard from '../../../dashboard/actions/dashboard.actions';
 import {SET_ALL_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';

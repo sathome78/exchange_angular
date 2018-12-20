@@ -7,6 +7,11 @@ import {ThemeService} from '../shared/services/theme.service';
 import {UserService} from '../shared/services/user.service';
 import {SettingsService} from '../settings/settings.service';
 import {DashboardService} from '../dashboard/dashboard.service';
+import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG} from './header.constants';
+import {MyBalanceItem} from '../core/models/my-balance-item.model';
+import {Observable} from 'rxjs';
+
+
 
 @Component({
   selector: 'app-header',
@@ -18,6 +23,14 @@ export class HeaderComponent implements OnInit {
   public isMobileMenuOpen = false;
   public mobileView = 'markets';
   public userInfo;
+  public showFundsList: boolean;
+  public showOrdersList: boolean;
+  public showReferralList: boolean;
+  public FUNDS_FLAG = FUNDS_FLAG;
+  public REFERRAL_FLAG = REFERRAL_FLAG;
+  public ORDERS_FLAG = ORDERS_FLAG;
+  public myBalance: Observable<MyBalanceItem>;
+
 
   constructor(private popupService: PopupService,
               private authService: AuthService,
@@ -30,6 +43,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.resetDropdowns();
     if (this.authService.isAuthenticated()) {
       this.userService.getUserColorScheme()
         .subscribe(scheme => {
@@ -49,11 +63,12 @@ export class HeaderComponent implements OnInit {
     this.dashboardService.activeMobileWidget.subscribe(res => {
       this.mobileView = res;
     });
+    this.myBalance = this.dashboardService.getMyBalances();
   }
 
   public openMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
-    console.log('Open mobile menu');
+    // console.log('Open mobile menu');
   }
 
   public navigateToSettings() {
@@ -72,6 +87,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onMobileLogin() {
+    this.isMobileMenuOpen = false;
     this.popupService.showMobileLoginPopup(true);
   }
 
@@ -107,5 +123,31 @@ export class HeaderComponent implements OnInit {
     this.isMobileMenuOpen = false;
     this.mobileView = widget;
     this.dashboardService.activeMobileWidget.next(widget);
+  }
+
+  resetDropdowns() {
+  this.showFundsList = false;
+  this.showOrdersList = false;
+  this.showReferralList = false;
+  }
+
+
+  toggleMenuDropdowns(showList: string) {
+    switch (showList) {
+      case FUNDS_FLAG:
+        this.showFundsList = !this.showFundsList;
+        break;
+      case ORDERS_FLAG:
+        this.showOrdersList = !this.showOrdersList;
+        break;
+      case REFERRAL_FLAG:
+        this.showReferralList = !this.showReferralList;
+        break;
+    }
+  }
+
+  mobileLinkClick() {
+    this.resetDropdowns();
+    this.isMobileMenuOpen = false;
   }
 }

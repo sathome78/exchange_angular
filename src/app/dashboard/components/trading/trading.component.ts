@@ -399,14 +399,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   orderFromOrderBook(order: OrderItem): void {
     this.dropdownLimitValue = this.limitsData[0];
-    this.order.amount = +order.amount;
+    this.order.amount = +order.sumAmount;
     this.setQuantityValue(this.order.amount);
     this.order.total = +order.total;
     this.setTotalInValue(this.order.total);
     this.order.rate = +order.exrate;
     this.setPriceInValue(this.order.rate);
-    this.mainTab = order.orderType;
-    this.getCommission();
+    this.mainTab = order.orderType === 'SELL' ? 'BUY' : 'SELL';
+    // this.getCommission();
     }
 
   /**
@@ -495,7 +495,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.userService.getUserBalance(this.currentPair);
-        console.log(res);
         this.notifySuccess = true;
         setTimeout(() => {this.notifySuccess = false; }, 5000);
       }, err => {
