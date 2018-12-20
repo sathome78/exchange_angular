@@ -5,7 +5,7 @@
     <div class="subtitle send__subtitle">Put the code from Google Authentificator</div>
     <div class="wrap-input send__wrap-input"
          [ngClass]="{'wrap-input--error': !form.valid && form.controls['pin'].touched}">
-      <input class="wrap-input__input" name="pin" formControlName="pin">
+      <input class="wrap-input__input" name="pin" formControlName="pin" required>
       <label class="wrap-input__label">Authorisation code</label>
       <div class="wrap-input__line"></div>
       <!--Input error section starts-->
@@ -23,7 +23,7 @@
   <form [formGroup]="form">
     <div class="wrap-input send__wrap-input"
          [ngClass]="{'wrap-input--error': !form.valid && form.controls['pin'].touched}">
-      <input class="wrap-input__input" name="pin" formControlName="pin">
+      <input class="wrap-input__input" name="pin" formControlName="pin" required>
       <label class="wrap-input__label">Pincode</label>
       <div class="wrap-input__line"></div>
       <!--Input error section starts-->
@@ -35,7 +35,7 @@
   </form>
 </div>
 <!--pin code from email end-->
-<button class="btn btn--center"
+<button class="btn btn--empty-blue btn--center"
         [ngClass]="{
         'btn--empty-blue': !form.valid  && !form.controls['pin'].touched,
         'btn--error': !form.valid && form.controls['pin'].touched
