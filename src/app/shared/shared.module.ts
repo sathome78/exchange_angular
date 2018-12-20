@@ -21,6 +21,7 @@ import {DateWrapper} from './pipes/dateWrapper.pipe';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {BalanceMobileRoutesGuard} from './guards/balance-mobile-routes.guard';
 import { RoundCurrencyPipe } from './pipes/round-currency.pipe';
+import {SplitCurrencyPipe} from './pipes/split-currency.pipe';
 @NgModule({
   declarations: [
     NotificationComponent,
@@ -34,6 +35,7 @@ import { RoundCurrencyPipe } from './pipes/round-currency.pipe';
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     RoundCurrencyPipe,
+    SplitCurrencyPipe,
     PageItemsDropdownComponent,
     DateWrapper,
   ],
@@ -64,6 +66,7 @@ import { RoundCurrencyPipe } from './pipes/round-currency.pipe';
     SellTotalCalculatePipe,
     RoundCurrencyPipe,
     PageItemsDropdownComponent,
+    SplitCurrencyPipe,
     DateWrapper,
   ],
   providers: [

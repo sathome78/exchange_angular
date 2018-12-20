@@ -12,7 +12,8 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
   public currentPage = 1;
   public countPerPage = 7;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
