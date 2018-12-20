@@ -70,6 +70,7 @@
       <app-send-step-one
         *ngIf="step === 1"
         (chooseSend)="chooseSend($event)"
+        (closePopup)="onCloseSendMoneyPopup()"
       ></app-send-step-one>
 
       <app-send-step-two

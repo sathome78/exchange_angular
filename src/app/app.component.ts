@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   /** notification messages array */
   notificationMessages: NotificationMessage[];
 
-  constructor(private popupService: PopupService,
+  constructor(public popupService: PopupService,
               private router: Router,
               private themeService: ThemeService,
               private dashboardWebsocketService: DashboardWebSocketService,
@@ -88,7 +88,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.popupService.getDemoTradingPopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        console.log(res)
         this.isOpenDemoTradingPopup = res;
       });
   }

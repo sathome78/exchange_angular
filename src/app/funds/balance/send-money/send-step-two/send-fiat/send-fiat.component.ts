@@ -134,6 +134,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
     if (environment.production) {
       // todo while insecure
+      this.popupService.demoPopupMessage = 0;
       this.popupService.showDemoTradingPopup(true);
       this.balanceService.closeSendMoneyPopup$.next(false);
     } else {

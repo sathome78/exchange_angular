@@ -150,4 +150,10 @@ export class HeaderComponent implements OnInit {
     this.resetDropdowns();
     this.isMobileMenuOpen = false;
   }
+
+// temp solution
+  tempPopup() {
+    this.popupService.demoPopupMessage = 1;
+    this.popupService.showDemoTradingPopup(true);
+  }
 }
