@@ -299,7 +299,9 @@
   <app-market-search
     (closeModal)="toggleSearchModal($event)"
     *ngIf="marketSearch"
-    [pairs]="currencyPairs">
+    [pairs]="currencyPairs"
+    [isFiat]="isFiat"
+  >
 
   </app-market-search>
 
