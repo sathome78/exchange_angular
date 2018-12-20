@@ -405,7 +405,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.setTotalInValue(this.order.total);
     this.order.rate = +order.exrate;
     this.setPriceInValue(this.order.rate);
-    this.mainTab = order.orderType;
+    this.mainTab = order.orderType === 'SELL' ? 'BUY' : 'SELL';
     // this.getCommission();
     }
 
