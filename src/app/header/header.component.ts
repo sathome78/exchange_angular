@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PopupService} from '../shared/services/popup.service';
 import {AuthService} from '../shared/services/auth.service';
 import {LoggingService} from '../shared/services/logging.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ThemeService} from '../shared/services/theme.service';
 import {UserService} from '../shared/services/user.service';
 import {SettingsService} from '../settings/settings.service';
@@ -148,6 +148,7 @@ export class HeaderComponent implements OnInit {
 
   mobileLinkClick() {
     this.resetDropdowns();
+    this.mobileView = '';
     this.isMobileMenuOpen = false;
   }
 
