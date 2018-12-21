@@ -75,7 +75,7 @@
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">Fee</div>
-                  <div class="table__details-item-value">{{item.commissionValue}}% ~ {{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  <div class="table__details-item-value">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">
@@ -277,7 +277,7 @@
             <span>{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</span>
           </td>
           <td class="table__cell">
-            <span class="orders__comission">{{item.commissionValue}}% </span><span class="orders__comission-usd">~<span>
+            <span class="orders__comission"></span><span class="orders__comission-usd"><span>
               {{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</span></span>
           </td>
           <td class="table__cell">
