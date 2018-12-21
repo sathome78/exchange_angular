@@ -1,4 +1,4 @@
-<div class="overlay--modal modal--open">
+<div class="overlay--modal" [ngClass]="{ 'modal--open': showPopup}" *ngIf="showPopup">
   <div class="modal">
     <!-- btn modal close -->
     <div class="modal__controls modal__controls--top">

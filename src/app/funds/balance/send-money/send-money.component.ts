@@ -13,6 +13,7 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
 
   @Output() closeSendMoneyPopup = new EventEmitter<boolean>();
   @Input() optionData;
+  @Input() showPopup;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public stepTwoName: string;
   public stepThreeName: string;
