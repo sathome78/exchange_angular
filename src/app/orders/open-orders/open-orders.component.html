@@ -318,21 +318,18 @@
     <!--table end-->
     <!--paginator start-->
     <div class="row row--aic orders__paginator">
-      <div class="show-filter">
-        Showing <span>1</span> to
-        <div class="dropdown" #dropdown (click)="toggleDropdown()">
-          <div class="dropdown__btn">{{countPerPage}}</div>
-          <ul class="dropdown__list">
-            <li class="dropdown__item" (click)="changeItemsPerPage($event)">15</li>
-            <li class="dropdown__item" (click)="changeItemsPerPage($event)">30</li>
-            <li class="dropdown__item" (click)="changeItemsPerPage($event)">45</li>
-            <li class="dropdown__item" (click)="changeItemsPerPage($event)">60</li>
-          </ul>
-        </div>
-        of <span>{{countOfEntries$ | async}}</span> entries.
-      </div>
-      <ul class="paginator" style="margin-left: auto;">
-        <pagination-controls (pageChange)="changePage($event)" [previousLabel]="''" [nextLabel]="''"></pagination-controls>
+      <app-page-items-dropdown
+        [countPerPage]="countPerPage"
+        [countOfEntries]="countOfEntries$ | async"
+        (onChange)="changeItemsPerPage($event)"
+      ></app-page-items-dropdown>
+      <ul class="paginator" style="margin-left: auto;"  *ngIf="(countOfEntries$ | async) > countPerPage">
+        <pagination-controls
+          maxSize="7"
+          [previousLabel]="''"
+          [nextLabel]="''"
+          (pageChange)="changePage($event)"
+        ></pagination-controls>
       </ul>
     </div>
     <!--paginator end-->

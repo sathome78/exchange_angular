@@ -76,7 +76,7 @@
       [countOfEntries]="countOfEntries"
       (onChange)="changeItemsPerPage($event)"
     ></app-page-items-dropdown>
-    <ul class="paginator" style="margin-left: auto;">
+    <ul class="paginator" style="margin-left: auto;" *ngIf="countOfEntries > countPerPage">
       <pagination-controls
         maxSize="7"
         [previousLabel]="''"
