@@ -65,6 +65,8 @@ import {environment} from 'environments/environment';
 import {RefillSuccessfulComponent} from './balance/refill-money/refill-successful/refill-successful.component';
 import { DemoTradingPopupComponent } from './popups/demo-trading-popup/demo-trading-popup.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -125,6 +127,7 @@ import { DemoTradingPopupComponent } from './popups/demo-trading-popup/demo-trad
     SharedModule,
     NgxPaginationModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     AuthGuard,
