@@ -19,8 +19,6 @@ import { UtilsService } from 'app/shared/services/utils.service';
 })
 export class OrdersHistoryComponent implements OnInit, OnDestroy {
 
-  @ViewChild('dropdown') dropdownElement: ElementRef;
-
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public orderItems$: Observable<OrderItem[]>;
   public orderItems: OrderItem[] = [];
@@ -123,10 +121,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.loadOrders();
   }
 
-  toggleDropdown(e: MouseEvent) {
-    this.dropdownElement.nativeElement.classList.toggle('dropdown--open');
-  }
-
   /**
    * open submenu in the mobile version of the table
    * @param event
@@ -142,9 +136,8 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeItemsPerPage(e: MouseEvent) {
-    const element: HTMLElement = <HTMLElement>e.currentTarget;
-    this.countPerPage = parseInt(element.innerText, 10);
+  changeItemsPerPage(items: number) {
+    this.countPerPage = items;
     this.loadOrders();
   }
 

@@ -18,8 +18,6 @@ import { UtilsService } from 'app/shared/services/utils.service';
 })
 export class OpenOrdersComponent implements OnInit, OnDestroy {
 
-  @ViewChild('dropdown') dropdownElement: ElementRef;
-
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public orderItems$: Observable<OrderItem[]>;
   public orderItems: OrderItem[] = [];
@@ -107,13 +105,9 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleDropdown() {
-    this.dropdownElement.nativeElement.classList.toggle('dropdown--open');
-  }
 
-  changeItemsPerPage(e: MouseEvent) {
-    const element: HTMLElement = <HTMLElement>e.currentTarget;
-    this.countPerPage = parseInt(element.innerText, 10);
+  changeItemsPerPage(items: number) {
+    this.countPerPage = items;
     this.loadOrders();
   }
 
