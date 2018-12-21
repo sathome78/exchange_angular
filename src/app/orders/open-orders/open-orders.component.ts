@@ -8,6 +8,7 @@ import * as ordersAction from '../store/actions/orders.actions';
 import {Observable, Subject} from 'rxjs';
 import { OrderCurrencyPair } from '../models/order-currency-pair';
 import { takeUntil } from 'rxjs/operators';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-open-orders',
@@ -48,8 +49,9 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public tableScrollStyles: any = {};
 
   constructor(
-    private store: Store<ordersReducer.State>
-  ) { 
+    private store: Store<ordersReducer.State>,
+    private utils: UtilsService,
+  ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getOpenOrdersCount));
     this.currencyPairs$ = store.pipe(select(ordersReducer.getAllCurrencyPairsSelector));
@@ -81,7 +83,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   loadOrders(): void {
     if(this.isDateRangeValid()) {
       const params = {
-        page: this.currentPage, 
+        page: this.currentPage,
         limit:this.countPerPage,
         dateFrom: this.formatDate(this.modelDateFrom.date),
         dateTo: this.formatDate(this.modelDateTo.date),
@@ -94,7 +96,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     if(this.isDateRangeValid() && this.orderItems.length !== this.countOfEntries) {
       this.currentPage += 1;
       const params = {
-        page: this.currentPage, 
+        page: this.currentPage,
         limit:this.countPerPage,
         dateFrom: this.formatDate(this.modelDateFrom.date),
         dateTo: this.formatDate(this.modelDateTo.date),
@@ -146,7 +148,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * check is date To is bigger than date From 
+   * check is date To is bigger than date From
    * @returns { boolean }
    */
   isDateRangeValid(): boolean {
@@ -241,8 +243,8 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   cancelOrder(order): void {
     const params = {
       order,
-      loadOrders: { 
-        page: this.currentPage, 
+      loadOrders: {
+        page: this.currentPage,
         limit:this.countPerPage,
         dateFrom: this.formatDate(this.modelDateFrom.date),
         dateTo: this.formatDate(this.modelDateTo.date),
@@ -268,6 +270,11 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
 
   onShowCancelOrderConfirm(orderId: number | null): void {
     this.showCancelOrderConfirm = orderId;
+  }
+
+  isFiat(currName: string, currIndex: number): boolean {
+    const curr = currName.split('/');
+    return this.utils.isFiat(curr[currIndex - 1]);
   }
 
   ngOnDestroy(): void {

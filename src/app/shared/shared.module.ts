@@ -23,6 +23,7 @@ import {BalanceMobileRoutesGuard} from './guards/balance-mobile-routes.guard';
 import {RoundCurrencyPipe} from './pipes/round-currency.pipe';
 import {FormatCurrencyPipe} from './pipes/format-currency.pipe';
 import {SplitCurrencyPipe} from './pipes/split-currency.pipe';
+import { UtilsService } from './services/utils.service';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import {SplitCurrencyPipe} from './pipes/split-currency.pipe';
   ],
   providers: [
     NotificationsService,
+    UtilsService,
     BalanceMobileRoutesGuard,
   ]
 })

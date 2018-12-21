@@ -10,6 +10,7 @@ import {OrderCurrencyPair} from '../models/order-currency-pair';
 import {OrdersService} from '../orders.service';
 import {takeUntil} from 'rxjs/operators';
 import saveAs from 'file-saver';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-orders-history',
@@ -51,7 +52,8 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<ordersReducer.State>,
     private ordersService: OrdersService,
-  ) { 
+    private utils: UtilsService,
+  ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getHistoryOrdersCount));
     this.currencyPairs$ = store.pipe(select(ordersReducer.getAllCurrencyPairsSelector));
@@ -79,7 +81,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   loadOrders() {
     if(this.isDateRangeValid()){
       const params = {
-        page: this.currentPage, 
+        page: this.currentPage,
         limit:this.countPerPage,
         dateFrom: this.formatDate(this.modelDateFrom.date),
         dateTo: this.formatDate(this.modelDateTo.date),
@@ -94,7 +96,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     if(this.isDateRangeValid() && this.orderItems.length !== this.countOfEntries) {
       this.currentPage += 1;
       const params = {
-        page: this.currentPage, 
+        page: this.currentPage,
         limit:this.countPerPage,
         dateFrom: this.formatDate(this.modelDateFrom.date),
         dateTo: this.formatDate(this.modelDateTo.date),
@@ -167,7 +169,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * check is date To is bigger than date From 
+   * check is date To is bigger than date From
    * @returns { boolean }
    */
   isDateRangeValid(): boolean {
@@ -262,6 +264,10 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       });
   }
 
+  isFiat(currName: string, currIndex: number): boolean {
+    const curr = currName.split('/');
+    return this.utils.isFiat(curr[currIndex - 1]);
+  }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();

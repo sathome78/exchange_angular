@@ -8,12 +8,12 @@ import * as fundsAction from '../store/actions/funds.actions';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import { Location } from '@angular/common';
 import { takeUntil } from 'rxjs/operators';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-pending-request-mob',
   templateUrl: './pending-request-mob.component.html',
   styleUrls: ['./pending-request-mob.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PendingRequestMobComponent implements OnInit {
 
@@ -21,7 +21,8 @@ export class PendingRequestMobComponent implements OnInit {
     private router: Router,
     private store: Store<fromCore.State>,
     private location: Location,
-  ) { 
+    private utils: UtilsService,
+  ) {
     const componentHeight = window.innerHeight;
     this.tableScrollStyles = {'height': (componentHeight - 102) + 'px', 'overflow': 'scrollY'}
 
@@ -50,7 +51,7 @@ export class PendingRequestMobComponent implements OnInit {
   public countOfEntries: number = 1;
 
   ngOnInit() {
-
+    this.loadPendingRequests();
   }
 
   public loadPendingRequests() {
@@ -69,13 +70,17 @@ export class PendingRequestMobComponent implements OnInit {
   public onLoadMoreTrigger(): void {
     if(this.pendingRequests.length !== this.countOfEntries){
       this.currentPage +=1
-      this.loadPendingRequests(); 
+      this.loadPendingRequests();
     }
   }
 
   public onShowDetails(item: PendingRequestsItem): void {
     this.router.navigate([`/funds/pending-requests/${item.requestId}`], {queryParams:{detailsItem: JSON.stringify(item)}})
   }
-  
+
+  public isFiat(currName: string): boolean {
+    return this.utils.isFiat(currName);
+  }
+
 
 }

@@ -12,13 +12,13 @@
   </tr>
   </thead>
   <tbody class="table__body">
-  <tr 
-    class="table__row" 
+  <tr
+    class="table__row"
     *ngFor="let item of pendingRequests | paginate: {
-      itemsPerPage: countPerPage, 
-      currentPage: currentPage, 
+      itemsPerPage: countPerPage,
+      currentPage: currentPage,
       totalItems: countOfEntries
-    }; let i = index" 
+    }; let i = index"
   >
     <td class="table__cell">
       <div class="table__date-time">
@@ -30,10 +30,10 @@
       <span>{{item.currency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>{{item.amount}}</span>
+      <span>{{item.amount | roundCurrency: isFiat(item.currency) | formatCurrency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>{{item.commission}}</span>
+      <span>{{item.commission | roundCurrency: isFiat(item.currency) | formatCurrency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
       <span>{{item.system}}</span>
@@ -45,7 +45,7 @@
       <button class="btn btn--center btn--small btn--hidden">I paid</button>
     </td> -->
     <td class="table__cell table__cell--tar">
-      <button 
+      <button
         class="btn btn--center btn--empty-blue btn--small btn--hidden"
         (click)="toggleRevokeModal(true, i)"
       >Revoke</button>
@@ -73,9 +73,9 @@
     (onChange)="changeItemsPerPage($event)"
   ></app-page-items-dropdown>
   <ul class="paginator" style="margin-left: auto;">
-    <pagination-controls 
-      maxSize="7" 
-      [previousLabel]="''" 
+    <pagination-controls
+      maxSize="7"
+      [previousLabel]="''"
       [nextLabel]="''"
       (pageChange)="changePage($event)"
     ></pagination-controls>

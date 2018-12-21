@@ -10,6 +10,7 @@ import {takeUntil} from 'rxjs/operators';
 import {CurrencyPair} from '../../../model';
 import {Subject} from 'rxjs';
 import {BalanceService} from '../../services/balance.service';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-balance-table',
@@ -21,6 +22,7 @@ export class BalanceTableComponent {
 
   constructor(
     public balanceService: BalanceService,
+    private utils: UtilsService,
   ) {}
 
   @Input('balances') public balances: BalanceItem[] = [];
@@ -39,6 +41,10 @@ export class BalanceTableComponent {
 
   public changePage(page: number): void {
     this.onPaginate.emit({currentPage: page, countPerPage: this.countPerPage});
+  }
+
+  public isFiat(currName: string): boolean {
+    return this.utils.isFiat(currName);
   }
 
 }
