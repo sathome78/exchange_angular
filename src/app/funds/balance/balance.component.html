@@ -193,15 +193,13 @@
 
 
 <app-refill-money
-  [ngClass]="{' modal--open': showRefillBalancePopup}"
-  *ngIf="showRefillBalancePopup"
+  [showPopup]="showRefillBalancePopup"
   [optionData]="refillBalanceData"
   (closeRefillBalancePopup)="openRefillBalancePopup(false)"
 ></app-refill-money>
 
 <app-send-money
-  [ngClass]="{' modal--open': showSendMoneyPopup}"
-  *ngIf="showSendMoneyPopup"
+  [showPopup]="showSendMoneyPopup"
   [optionData]="sendMoneyData"
   (closeSendMoneyPopup)="openSendMoneyPopup(false)"
 ></app-send-money>

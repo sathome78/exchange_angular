@@ -9,6 +9,7 @@ export class RefillMoneyComponent implements OnInit {
 
   @Output() closeRefillBalancePopup = new EventEmitter<boolean>();
   @Input() optionData;
+  @Input() showPopup;
   public stepTwoName: string;
   public step: number;
 
