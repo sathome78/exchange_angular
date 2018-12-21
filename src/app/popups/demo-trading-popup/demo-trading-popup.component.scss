@@ -1,7 +1,8 @@
 .popup-demo{
   padding: 28px 16px;
   min-height: auto;
-  background-color: #264479;
+  background-color: #191A39;
+  border: 1px solid #94C2FF;
   .popup__close{
     width: 6px;
     height: 6px;
@@ -26,13 +27,11 @@
 }
 
 /*--- media start ---*/
-@media (min-width:600px) {}
-@media (min-width:900px) {}
 @media (min-width:1200px) {
   .popup-demo{
-    max-width: 520px;
+    max-width: 536px;
     .btn{
-      margin-top: 32px;
+      margin-top: 12px;
     }
   }
 }
