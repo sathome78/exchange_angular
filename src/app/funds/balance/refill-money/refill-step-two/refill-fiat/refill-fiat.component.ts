@@ -107,12 +107,12 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   submitRefill() {
     this.isSubmited = true;
-    if (environment.production) {
-      // todo while insecure
-      this.popupService.demoPopupMessage = 0;
-      this.popupService.showDemoTradingPopup(true);
-      this.balanceService.closeRefillMoneyPopup$.next(false);
-    } else {
+    // if (environment.production) {
+    //   // todo while insecure
+    //   this.popupService.demoPopupMessage = 0;
+    //   this.popupService.showDemoTradingPopup(true);
+    //   this.balanceService.closeRefillMoneyPopup$.next(false);
+    // } else {
       if (this.form.valid && this.selectedMerchant.name) {
         this.isSubmited = false;
         this.amount = this.form.controls['amount'].value
@@ -127,8 +127,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
           this.submitSuccess = true;
         });
       }
-    }
-
+    // }
   }
 
   searchMerchant(e) {
