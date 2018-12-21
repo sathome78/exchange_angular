@@ -22,7 +22,7 @@ export interface State {
   countFiatBal: number;
   pendingRequests: PendingRequestsItem[];
   countPendingRequests: number;
-  myBalances: MyBalanceItem | null, 
+  myBalances: MyBalanceItem | null,
   balanceDetailsInfo: BalanceDetailsItem,
   loading: boolean;
   cryptoCurrenciesForChoose: CurrencyChoose[];
@@ -119,7 +119,7 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         pendingRequests: action.payload.items,
         countPendingRequests: action.payload.count,
       };
-    case fromActions.SET_MORE_FIAT_BAL:
+    case fromActions.SET_MORE_PENDING_REQ:
       return {
         ...state,
         loading: false,
@@ -150,9 +150,9 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
       return {...state, loading: true};
     case fromActions.SET_BALANCE_DETAILS_INFO:
       return {
-        ...state, 
-        loading: false, 
-        balanceDetailsInfo: action.payload, 
+        ...state,
+        loading: false,
+        balanceDetailsInfo: action.payload,
       };
     case fromActions.FAIL_LOAD_BALANCE_DETAILS_INFO:
       return {...state, loading: false};
