@@ -31,7 +31,7 @@
                   }"
                 ></span>
                 <span>{{detailsItem.operation === 'REFILL' ? 'Refill' : ''}}{{detailsItem.operation === 'WITHDRAW' ? 'Withdraw' : ''}}</span>
-              
+
               </div>
               <div class="balance__request-mob-date">
                 <div>{{detailsItem.date | dateWrapper | date: 'EEEEEE dd.MM.yyyy'}}</div>
@@ -49,7 +49,7 @@
               </div>
             </td>
             <td class="table__cell table__cell--tar">
-              {{detailsItem.amount}}
+              {{detailsItem.amount | roundCurrency: isFiat(detailsItem.currency) | formatCurrency}}
             </td>
           </tr>
           <tr>
@@ -61,7 +61,7 @@
         </table>
         <div class="open-mob-request__item">
           <div class="open-mob-request__item-title">Comission</div>
-          <div class="open-mob-request__item-value">{{detailsItem.commission}}</div>
+          <div class="open-mob-request__item-value">{{detailsItem.commission | roundCurrency: isFiat(detailsItem.currency) | formatCurrency}}</div>
         </div>
         <div class="open-mob-request__item">
           <div class="open-mob-request__item-title">Payment system</div>

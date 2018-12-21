@@ -7,6 +7,7 @@ import {Store} from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as fundsAction from '../store/actions/funds.actions';
 import {Subject} from 'rxjs';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-pending-request-details',
@@ -20,7 +21,8 @@ export class PendingRequestDetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-  ) { 
+    private utils: UtilsService,
+  ) {
     this.route.queryParams
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(params => {
@@ -63,5 +65,9 @@ export class PendingRequestDetailsComponent implements OnInit {
 
   public onGoBack(): void {
     this.location.back()
+  }
+
+  public isFiat(currName: string): boolean {
+    return this.utils.isFiat(currName);
   }
 }

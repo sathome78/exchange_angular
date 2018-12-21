@@ -1,4 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-embedded-orders-history',
@@ -12,7 +13,9 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
   public currentPage = 1;
   public countPerPage = 7;
 
-  constructor() {
+  constructor(
+    private utils: UtilsService,
+  ) {
   }
 
   ngOnInit() {
@@ -33,6 +36,11 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
     if (!changes.makeHeight) { return; }
     // change count orders perPage
     this.countPerPage = changes.makeHeight.currentValue === true ? 7 : 18;
+  }
+
+  isFiat(currName: string, currIndex: number): boolean {
+    const curr = currName.split('/');
+    return this.utils.isFiat(curr[currIndex - 1]);
   }
 
 

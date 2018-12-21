@@ -1,5 +1,6 @@
 import {Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output} from '@angular/core';
 import {PendingRequestsItem} from '../../models/pending-requests-item.model';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-pending-request-table',
@@ -13,7 +14,9 @@ export class PendingRequestTableComponent implements OnInit {
   public showRevokeModal = false;
   public revokeModalId;
 
-  constructor() { }
+  constructor(
+    private utils: UtilsService,
+  ) { }
 
   @Input('pendingRequests') public pendingRequests: PendingRequestsItem[] = [];
   @Input('countPerPage') public countPerPage: number;
@@ -28,7 +31,7 @@ export class PendingRequestTableComponent implements OnInit {
   }
 
   public changePage(page: number): void {
-    this.onPaginate.emit({currentPage: page, countPerPage: this.countPerPage}); 
+    this.onPaginate.emit({currentPage: page, countPerPage: this.countPerPage});
   }
 
   public toggleRevokeModal(value: boolean, modalId: number): void {
@@ -40,8 +43,10 @@ export class PendingRequestTableComponent implements OnInit {
     this.onRevokePendingRequest.emit({requestId: item.requestId, operation: item.operation})
   }
 
+  public isFiat(currName: string): boolean {
+    return this.utils.isFiat(currName);
+  }
 
- 
 
   ngOnInit() {
   }

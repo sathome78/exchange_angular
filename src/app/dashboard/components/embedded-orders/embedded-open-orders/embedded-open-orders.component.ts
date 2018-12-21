@@ -13,6 +13,7 @@ import {CurrencyPair} from '../../../../model/currency-pair.model';
 import {AbstractOrderCalculate} from '../../../../shared/components/abstract-order-calculate';
 import {UserBalance} from '../../../../model/user-balance.model';
 import {getUserBalance} from '../../../../core/reducers';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 
 @Component({
@@ -64,6 +65,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
     private store: Store<State>,
     private mockData: MockDataService,
     private ordersService: EmbeddedOrdersService,
+    private utils: UtilsService,
     public tradingService: TradingService
   ) {
     super();
@@ -152,7 +154,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
         this.refreshOpenOrders.emit(true);
       });
   }
- 
+
   onShowCancelOrderConfirm(orderId: string | null): void {
     this.showCancelOrderConfirm = orderId;
   }
@@ -252,6 +254,10 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
         subscription.unsubscribe();
       });
     }
+  }
+
+  isFiat(currIndex: number): boolean {
+    return this.utils.isFiat(this.arrPairName[currIndex]);
   }
 
 }
