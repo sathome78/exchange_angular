@@ -11,6 +11,7 @@ import {MarketService} from '../markets/market.service';
 export class MarketSearchComponent implements OnInit {
 
   @Input() pairs: CurrencyPair[];
+  @Input() isFiat: boolean;
   public showPairs: CurrencyPair[];
 
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -38,5 +39,9 @@ export class MarketSearchComponent implements OnInit {
   setCurrentPair(pair: CurrencyPair) {
     this.marketService.activeCurrencyListener.next(pair);
     this.onCloseModal();
+  }
+
+  isFavorite(pair: CurrencyPair): boolean {
+    return pair.isFavourite;
   }
 }

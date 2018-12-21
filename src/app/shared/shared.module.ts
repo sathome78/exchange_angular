@@ -20,8 +20,10 @@ import {RecaptchaModule} from 'ng-recaptcha';
 import {DateWrapper} from './pipes/dateWrapper.pipe';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {BalanceMobileRoutesGuard} from './guards/balance-mobile-routes.guard';
-import { RoundCurrencyPipe } from './pipes/round-currency.pipe';
+import {RoundCurrencyPipe} from './pipes/round-currency.pipe';
+import {FormatCurrencyPipe} from './pipes/format-currency.pipe';
 import {SplitCurrencyPipe} from './pipes/split-currency.pipe';
+
 @NgModule({
   declarations: [
     NotificationComponent,
@@ -35,6 +37,7 @@ import {SplitCurrencyPipe} from './pipes/split-currency.pipe';
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     RoundCurrencyPipe,
+    FormatCurrencyPipe,
     SplitCurrencyPipe,
     PageItemsDropdownComponent,
     DateWrapper,
@@ -65,6 +68,7 @@ import {SplitCurrencyPipe} from './pipes/split-currency.pipe';
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     RoundCurrencyPipe,
+    FormatCurrencyPipe,
     PageItemsDropdownComponent,
     SplitCurrencyPipe,
     DateWrapper,
