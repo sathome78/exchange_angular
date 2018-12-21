@@ -41,7 +41,6 @@ import {SharedModule} from 'app/shared/shared.module';
     OpenOrdersComponent,
     OrdersHistoryComponent,
     OrdersComponent,
-    SplitCurrencyPipe,
   ],
   providers: [
     EmbeddedOrdersService,
