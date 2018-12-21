@@ -152,14 +152,17 @@
 
     <ng-template #emailInputTemplate>
       <h6 class="popup__title">Registration</h6>
-      <h4 class="popup__subtitle">{{emailMessage}}</h4>
+      <!--<h4 class="popup__subtitle">{{emailMessage}}</h4>-->
       <form class="popup__form" [formGroup]="emailForm">
         <div >
-          <div class="wrap-input popup__wrap-input">
+          <div class="wrap-input popup__wrap-input"
+               [ngClass]="{'wrap-input--error': !emailForm.valid && emailSubmited}"
+          >
             <input
               required
               class="wrap-input__input"
               formControlName="email"
+              (input)= "emailInput($event)"
               [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched}"
             >
             <label class="wrap-input__label" for="">Email</label>
@@ -167,10 +170,15 @@
             <!--Input error section starts-->
             <div *ngIf="!emailForm.valid && emailSubmited">
             <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required']">
-              This field is required.
+              Email is required
             </span>
               <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['pattern']">
-              Please, enter valid email address.
+              Wrong email
+            </span>
+            </div>
+            <div *ngIf="emailMessage !== ''">
+               <span class="wrap-input__message">
+              {{emailMessage}}
             </span>
             </div>
             <!--Input error section ends-->
@@ -178,9 +186,13 @@
         </div>
 
         <button class="btn popup__btn" (click)="emailSubmit()"
-                [ngClass]="{'popup__btn--active': emailForm.valid && agreeTerms}" [disabled]="!emailForm.valid && !agreeTerms"
+                [ngClass]="{
+                'popup__btn--active': emailForm.valid && agreeTerms,
+                'btn--error': !emailForm.controls['email'].valid && emailSubmited
+                }"
         >Create an account</button>
       </form>
+
       <div class="popup__links-wrap">
         <input id="agreeTerms" type="checkbox" [(ngModel)]="agreeTerms" [disabled]="!emailForm.valid">
         <label for="agreeTerms">By registering you agree with</label>

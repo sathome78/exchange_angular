@@ -114,12 +114,16 @@ export class RegistrationMobilePopupComponent implements OnInit {
           this.setTemplate('captchaTemplate');
           this.emailMessage = '';
         } else {
-          this.emailMessage = 'this email is already used';
+          this.emailMessage = 'Email exists';
         }
       }, err => {
         this.emailMessage = 'server error';
       });
     }
+  }
+
+  emailInput(e) {
+    this.emailMessage = '';
   }
 
   nameSubmit() {
@@ -130,6 +134,5 @@ export class RegistrationMobilePopupComponent implements OnInit {
       this.setTemplate('captchaTemplate');
     }
   }
-
 
 }
