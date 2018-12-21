@@ -48,6 +48,12 @@
       <div *ngIf="isRecoveryPasswordPopupOpen">
         <app-recovery-pass></app-recovery-pass>
       </div>
+
+      <div *ngIf="isOpenDemoTradingPopup">
+        <app-demo-trading-popup
+        [message]="popupService.demoPopupMessage"
+        ></app-demo-trading-popup>
+      </div>
       <!--<app-refill-money></app-refill-money>-->
       <!--<app-send-money></app-send-money>-->
       <router-outlet></router-outlet>

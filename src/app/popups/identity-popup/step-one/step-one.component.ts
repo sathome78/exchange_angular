@@ -1,8 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {IMyDpOptions} from 'mydatepicker';
-import {PopupService} from '../../../services/popup.service';
-import {UserVerificationService} from '../../../services/user-verification.service';
+import {PopupService} from '../../../shared/services/popup.service';
+import {UserVerificationService} from '../../../shared/services/user-verification.service';
 import {UserInfoVerificationModel} from '../user-info-verification.model';
 
 @Component({

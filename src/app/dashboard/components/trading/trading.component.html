@@ -38,11 +38,11 @@
         <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
              (mouseenter)="isDropdownOpen = true" (mouseleave)="isDropdownOpen = false">
           <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
-          <ul class="dropdown__list">
-            <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
-              <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
-            </ng-template>
-          </ul>
+          <!--<ul class="dropdown__list">-->
+            <!--<ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>-->
+              <!--<li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>-->
+            <!--</ng-template>-->
+          <!--</ul>-->
         </div>
         <div class="row row-jcsb">
           <label class="radio radio--mr12">
@@ -129,10 +129,10 @@
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div class="avaliable">
           <span style="vertical-align: middle; margin-right: 4px;">Available: </span>
-          <a href="#"> {{ userBalance  | number:'1.1-8' | replaceNumber}} {{arrPairName[0]}}</a>
+          <a href="#"> {{ userBalance  | number:'1.1-8' | replaceNumber}} {{arrPairName[1]}}</a>
         </div>
         <div>
-          Fee: {{order.commission | number:'1.1-8' | replaceNumber}} {{arrPairName[0]}}
+          Fee: {{order.commission | number:'1.1-8' | replaceNumber}} {{arrPairName[1]}}
         </div>
       </div>
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt" style="margin-top: 4px;">
@@ -197,9 +197,9 @@
                (click)="isDropdownOpen = true">
             <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
             <ul class="dropdown__list">
-              <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
-                <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
-              </ng-template>
+              <!--<ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>-->
+                <!--<li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>-->
+              <!--</ng-template>-->
             </ul>
           </div>
         </div>
@@ -212,7 +212,7 @@
         </span>
           <span style="vertical-align: middle;">Avaliable: </span>
         </span>
-          <a href="#">{{ userBalance  | number:'1.1-8' | replaceNumber}} {{arrPairName[0]}}</a>
+          <a href="#">{{ userBalance  | number:'1.1-8' | replaceNumber}} {{arrPairName[1]}}</a>
         </div>
       </div>
       <div class="row widget__percent-row">
@@ -308,7 +308,7 @@
         </span>
           <span style="vertical-align: middle;">Avaliable: </span>
         </span>
-          <a href="#">{{ userBalance  | number:'1.1-8' | replaceNumber}} {{arrPairName[0]}}</a>
+          <a href="#">{{ userBalance  | number:'1.1-8' | replaceNumber}} {{arrPairName[1]}}</a>
         </div>
       </div>
       <div class="row widget__percent-row">
@@ -364,7 +364,7 @@
     <button class="btn btn--active widget__trading-btn" (click)="onSubmit()" >{{mainTab === 'BUY' ? 'Buy' : 'Sell'}} {{arrPairName[0]}}</button>
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div class="fee">
-          Fee: {{order.commission | number:'1.1-8' | replaceNumber}} {{arrPairName[0]}}
+          Fee: {{order.commission | number:'1.1-8' | replaceNumber}} {{arrPairName[1]}}
         </div>
       </div>
 

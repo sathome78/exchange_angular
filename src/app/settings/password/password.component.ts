@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {LoggingService} from '../../services/logging.service';
+import {LoggingService} from '../../shared/services/logging.service';
 import {SettingsService} from '../settings.service';
 import {HttpEvent, HttpEventType} from '@angular/common/http';
 import {NotificationsService} from '../../shared/components/notification/notifications.service';

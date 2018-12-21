@@ -8,7 +8,7 @@ import {
   MEDIA_TYPE_JSON,
   TOKEN,
   X_AUTH_TOKEN
-} from 'app/services/http.utils';
+} from 'app/shared/services/http.utils';
 
 export class AuthInterceptor implements HttpInterceptor {
 

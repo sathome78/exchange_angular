@@ -5,3 +5,5 @@ export * from './order-item.model';
 export * from './token-holder.model';
 export * from './user.model';
 export * from './user-balance.model';
+export * from './balance-crypto.model';
+export * from './currency-balance.model';

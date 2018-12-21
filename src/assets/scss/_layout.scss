@@ -10,7 +10,7 @@ body {
   position: relative;
   height: 100%;
   //color: #000;
-  font-family: Roboto,Arial;
+  font-family: Roboto, Arial;
   font-size: 14px;
   font-weight: 400;
   min-width: 320px;
@@ -20,6 +20,12 @@ b {
   font-weight: bold;
 }
 
+.noscroll {
+  @media (min-width:1200px) {
+    overflow: hidden;
+  }
+}
+
 .txt-green {
   color: $green;
 }
@@ -27,12 +33,15 @@ b {
 .txt-red {
   color: $red;
 }
-.txt-blue{
-  color:$darker-blue;
+
+.txt-blue {
+  color: $darker-blue;
 }
-.txt-grey{
-  color:$grey;
+
+.txt-grey {
+  color: $grey;
 }
+
 .txt-light-grey {
   color: $light-grey;
 }
@@ -40,7 +49,8 @@ b {
 .txt-center {
   text-align: center;
 }
-.txt-small{
+
+.txt-small {
   font-size: 12px;
   line-height: 14px;
 }
@@ -52,14 +62,15 @@ b {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  color:#000;
+  color: #000;
   //-webkit-transition: 0.2s ease all;
   //-moz-transition: 0.2s ease all;
   //transition: 0.2s ease all;
 }
-.dark-theme{
+
+.dark-theme {
   background-color: $dark-indigo;
-  color:#fff;
+  color: #fff;
   //-webkit-transition: 0.2s ease all;
   //-moz-transition: 0.2s ease all;
   //transition: 0.2s ease all;
@@ -78,39 +89,42 @@ b {
   box-sizing: border-box;
   width: 100%;
   padding: 0 0 60px;
-  @media (min-width:600px) {
+  @media (min-width: 600px) {
     padding: 0 0 60px;
   }
-  @media (min-width:1200px) {
+  @media (min-width: 1200px) {
     padding: 0;
   }
 }
-.container{
+
+.container {
   position: relative;
   width: 100%;
   height: 100%;
   max-width: 1320px;
   margin: 0 auto;
-  @media (min-width:600px) {
+  @media (min-width: 600px) {
     //padding: 0 12px 0;
   }
-  @media (min-width:1200px) {
+  @media (min-width: 1200px) {
     padding: 0 20px 0;
   }
-  &--dashboard{
+  &--dashboard {
     flex-grow: 1;
     max-width: none;
     padding: 0;
     height: 100%;
-    @media (min-width:1200px) {
+    @media (min-width: 1200px) {
     }
   }
 }
+
 .colon {
   margin-left: 8px;
   margin-right: 8px;
 }
-app-settings, app-dashboard{
+
+app-settings, app-dashboard {
   width: 100%;
 }
 

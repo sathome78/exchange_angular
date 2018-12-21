@@ -21,6 +21,21 @@
     font-weight: 600;
     display: table-cell;
     white-space: nowrap;
+    &--sort{
+      &:before{
+        content:"";
+        display: inline-block;
+        width: 8px;
+        height: 9px;
+        margin-right: 4px;
+        background-image: url(/assets/img/arr-down.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      &:hover{
+        cursor: pointer;
+      }
+    }
     &--tal {
       text-align: left;
     }
@@ -111,6 +126,7 @@
     display: inline-block;
     width: 16px;
     height: 16px;
+    vertical-align: middle;
     svg {
       fill: $dark-indigo;
     }
@@ -272,6 +288,11 @@
     &__cell-head {
       font-weight: 400;
       color: #959BA5;
+      &--sort{
+        &:before{
+          background-image: url(/assets/img/arr-down-grey.svg);
+        }
+      }
     }
     &__cell-head-arr {
       fill: #959BA5;;
@@ -281,10 +302,13 @@
     }
     &__row {
       &:nth-of-type(odd) {
-        background-color: rgba(255, 255, 255, 0.02);
+        //background-color: rgba(255, 255, 255, 0.02);
+        background-color: #191f42;
+
       }
       &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+        //background-color: rgba(255, 255, 255, 0.1);
+        background-color: #1a2954;
       }
       &--more-info{
         background-color: unset !important;

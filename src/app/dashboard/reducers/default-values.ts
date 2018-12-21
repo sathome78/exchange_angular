@@ -7,7 +7,7 @@ export const defaultValues = {
   lastOrderRate: 0,
   predLastOrderRate: 0,
   percentChange: 0,
-  priceInUSD: 0,
+  priceInUsd: 0,
   market: '',
   volume: 0,
 };
@@ -21,7 +21,7 @@ export const defaultOrderItem = {
   amount: '0',
   currencyPairId: 1,
   exrate: '0',
-  orderType: '',
+  orderType: 'BUY',
   total: '0'
 }
 

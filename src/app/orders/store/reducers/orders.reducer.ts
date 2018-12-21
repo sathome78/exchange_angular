@@ -38,6 +38,13 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
         openOrders: action.payload.openOrders, 
         countOpenOrders: action.payload.count,
       };
+    case ordersActions.SET_MORE_OPEN_ORDERS:
+      return {
+        ...state, 
+        loading: false, 
+        openOrders: [...state.openOrders, ...action.payload.openOrders], 
+        countOpenOrders: action.payload.count,
+      };
     case ordersActions.FAIL_LOAD_OPEN_ORDERS:
       return {
         ...state, 
@@ -53,6 +60,13 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
         historyOrders: action.payload.historyOrders, 
         countHistoryOrders: action.payload.count,
       };
+    case ordersActions.SET_MORE_HISTORY_ORDERS:
+      return {
+        ...state, 
+        loading: false, 
+        historyOrders: [...state.historyOrders, ...action.payload.historyOrders], 
+        countHistoryOrders: action.payload.count,
+      };
     case ordersActions.FAIL_LOAD_HISTORY_ORDERS:
       return {
         ...state, 
@@ -64,6 +78,17 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
       return {
         ...state, 
         currencyPairs: action.payload.currencyPairs, 
+      };
+
+    case ordersActions.CROP_CANCELED_ORDER:
+      return {
+        ...state, 
+        openOrders: state.openOrders.filter((item) => item.id !== action.payload)
+      };
+    case ordersActions.FAIL_ORDERS:
+      return {
+        ...state, 
+        loading: false, 
       };
 
     default :

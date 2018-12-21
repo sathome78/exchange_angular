@@ -8,7 +8,7 @@ import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {Order} from './order.model';
 import {TradingService} from './trading.service';
 import {DashboardService} from '../../dashboard.service';
-import {BreakpointService} from 'app/services/breakpoint.service';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import {OrderBookService} from '../order-book/order-book.service';
 import {
   State,
@@ -19,13 +19,13 @@ import {
   getCurrencyPairInfo
 } from 'app/core/reducers/index';
 import {CurrencyPair} from 'app/model/currency-pair.model';
-import {CurrencyPipe} from 'app/shared/pipes/currency.pipe';
-import {getUserBalance} from 'app/core/reducers';
-import {UserBalance} from 'app/model/user-balance.model';
-import {UserService} from 'app/services/user.service';
+import {UserService} from 'app/shared/services/user.service';
 import {LastSellBuyOrder} from 'app/model/last-sell-buy-order.model';
 import {CurrencyPairInfo, OrderItem} from '../../../model';
-import {AuthService} from '../../../services/auth.service';
+import {environment} from '../../../../environments/environment';
+import {PopupService} from '../../../shared/services/popup.service';
+import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
+import {defaultOrderItem} from '../../reducers/default-values';
 
 @Component({
   selector: 'app-trading',
@@ -84,10 +84,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
   constructor(
     private store: Store<State>,
-    public authService: AuthService,
     public breakPointService: BreakpointService,
     public tradingService: TradingService,
     private dashboardService: DashboardService,
+    private popupService: PopupService,
     private orderBookService: OrderBookService,
     private userService: UserService,
   ) {
@@ -107,18 +107,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe(state => {
         this.userBalance = state.userBalance.balanceByCurrency1 ? state.userBalance.balanceByCurrency1 : 0;
         this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
-        this.onGetCurrentCurrencyPair(state.currencyPair);
-        // this.orderFromOrderBook(state.selectedOrderBookOrder);
-        this.setPriceInValue(state.currencyPairInfo.currencyRate);
-        this.order.rate = state.currencyPairInfo.currencyRate;
       });
 
-    // this.store
-    //   .pipe(select(getCurrencyPair))
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe( (pair: CurrencyPair) => {
-    //     this.onGetCurrentCurrencyPair(pair);
-    //   });
+    this.store
+      .pipe(select(getCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPair) => {
+        this.onGetCurrentCurrencyPair(pair);
+      });
 
     // this.store
     //   .pipe(select(getUserBalance))
@@ -128,13 +124,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     //     this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
     //   });
 
-    // this.store
-    //   .pipe(select(getCurrencyPairInfo))
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe( (pair: CurrencyPairInfo) => {
-    //     this.setPriceInValue(pair.currencyRate);
-    //     this.order.rate = pair.currencyRate;
-    //   });
+    this.store
+      .pipe(select(getCurrencyPairInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPairInfo) => {
+        this.setPriceInValue(pair.currencyRate);
+        this.order.rate = pair.currencyRate;
+      });
 
 
     this.store
@@ -184,6 +180,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       limit: new FormControl('', Validators.required ),
       totalIn: new FormControl('', Validators.required ),
     });
+  }
+
+  resetOrderBookItem(): void {
+    if (this.tradingService.needSetDefaultOrderBookItem) {
+      this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
+    }
   }
 
   /**
@@ -241,21 +243,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.getCommission();
     }
   }
-
-  /**
-   * determines if user is logged in
-   */
-  isAuthenticated() {
-    return false; // remove after everybody will be happy with demo
-    // return this.authService.isAuthenticated();
-  }
-
-  // /**
-  //  * Toggle limit dropdown
-  //  */
-  // toggleLimitDropdown(): void {
-  //   this.isDropdownOpen = !this.isDropdownOpen;
-  // }
 
   /**
    * On select limit
@@ -371,7 +358,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param value
    */
   setPriceInValue(value): void {
-    value = typeof value === 'string' ? value : !value ? '0' : value.toString();
+    value = typeof value === 'string' ? value : !value ? '0' : this.exponentToNumber(value).toString();
     this.stopForm.controls['limit'].setValue(value);
     this.limitForm.controls['priceIn'].setValue(value);
   }
@@ -408,49 +395,80 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   orderFromOrderBook(order: OrderItem): void {
     this.dropdownLimitValue = this.limitsData[0];
-    this.order.amount = +order.amount;
+    this.order.amount = +order.sumAmount;
     this.setQuantityValue(this.order.amount);
     this.order.total = +order.total;
     this.setTotalInValue(this.order.total);
     this.order.rate = +order.exrate;
     this.setPriceInValue(this.order.rate);
-    this.mainTab = order.orderType;
-    this.getCommission();
+    this.mainTab = order.orderType === 'SELL' ? 'BUY' : 'SELL';
+    // this.getCommission();
     }
+
+  /**
+   * Method transform exponent format to number
+   * @param x
+   * @returns {any}
+   */
+  exponentToNumber(x) {
+    if (Math.abs(x) < 1.0) {
+      let e = parseInt(x.toString().split('e-')[1]);
+      if (e) {
+        x *= Math.pow(10, e - 1);
+        x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
+      }
+    } else {
+      let e = parseInt(x.toString().split('+')[1]);
+      if (e > 20) {
+        e -= 20;
+        x /= Math.pow(10, e);
+        x += (new Array(e + 1)).join('0');
+      }
+    }
+    return x;
+  }
 
   /**
    * on click submit button
    */
   onSubmit(): void {
-    window.open('https://exrates.me/dashboard', '_blank');
+    // window.open('https://exrates.me/dashboard', '_blank');
 
-
-    // if ( (this.stopForm.valid
-    //   && this.orderStop
-    //   && this.dropdownLimitValue === 'STOP_LIMIT')
-    //   || (this.limitForm.valid
-    //     && this.dropdownLimitValue === 'LIMIT'
-    //     || this.dropdownLimitValue === 'ICO'
-    //     || this.dropdownLimitValue === 'MARKET_PRICE')) {
-    //   this.order.currencyPairId = this.currentPair.currencyPairId;
-    //   this.order.baseType = this.dropdownLimitValue;
-    //   this.order.orderType = this.mainTab;
-    //   if (this.dropdownLimitValue === 'STOP_LIMIT') {
-    //     this.order.stop = this.orderStop;
-    //   }
-    //   this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
-    // }
+    if (environment.production) {
+      // todo while insecure
+      this.popupService.demoPopupMessage = 0;
+      this.popupService.showDemoTradingPopup(true);
+    } else {
+      if ( (this.stopForm.valid
+        && this.orderStop
+        && this.dropdownLimitValue === 'STOP_LIMIT')
+        || (this.limitForm.valid
+          && this.dropdownLimitValue === 'LIMIT'
+          || this.dropdownLimitValue === 'ICO'
+          || this.dropdownLimitValue === 'MARKET_PRICE')) {
+        this.order.currencyPairId = this.currentPair.currencyPairId;
+        this.order.baseType = this.dropdownLimitValue;
+        this.order.orderType = this.mainTab;
+        if (this.dropdownLimitValue === 'STOP_LIMIT') {
+          this.order.stop = this.orderStop;
+        }
+        this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
+      }
+    }
   }
 
   /**
    * on create new order
    */
   createNewOrder(): void {
+    // this.resetOrderBookItem();
     this.tradingService.createOrder(this.order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.userService.getUserBalance(this.currentPair);
-        console.log(res);
+        this.order = {...this.defaultOrder}
+        this.resetForms();
+        this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
       this.notifySuccess = true;
       setTimeout(() => {this.notifySuccess = false; }, 5000);
     }, err => {
@@ -459,8 +477,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         setTimeout(() => {this.notifyFail = false; }, 5000);
       });
     this.orderStop = '';
-    this.order = {...this.defaultOrder};
-    this.resetForms();
     if (this.currencyPairInfo) {
       this.order.rate = this.currencyPairInfo.rate;
       this.setPriceInValue(this.currencyPairInfo.rate);
@@ -471,11 +487,11 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on update order from order-book
    */
   updateOrder(): void {
+    this.resetOrderBookItem();
     this.tradingService.updateOrder(this.order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.userService.getUserBalance(this.currentPair);
-        console.log(res);
         this.notifySuccess = true;
         setTimeout(() => {this.notifySuccess = false; }, 5000);
       }, err => {

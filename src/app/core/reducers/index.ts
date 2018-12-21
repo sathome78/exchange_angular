@@ -4,12 +4,14 @@ import {createSelector} from 'reselect';
 
 // Imports from reducers
 import * as fromDashboard from '../../dashboard/reducers/dashboard.reducer';
+import * as fromFunds from '../../funds/store/reducers/funds.reducer';
 
 /**
  * Top level state declaration
  */
 export interface State {
   dashboard: fromDashboard.State;
+  funds: fromFunds.State;
 }
 
 export interface RouterStateUrl {
@@ -20,12 +22,14 @@ export interface RouterStateUrl {
 // Map of the reducers
 export const reducers: ActionReducerMap<State> = {
   dashboard: fromDashboard.reducer,
+  funds: fromFunds.reducer,
 };
 
 /**
  * Selectors returns smaller piece of state out of the root state
  */
 export const getDashboardState = (state: State) => state.dashboard;
+export const getFundsState = (state: State) => state.funds;
 
 /**
  * Selectors from dashboard module
@@ -37,3 +41,11 @@ export const getSelectedOrderBookOrder = createSelector(getDashboardState, fromD
 export const getCurrencyPairInfo = createSelector(getDashboardState, fromDashboard.getCurrencyPairInfo);
 export const getLastSellBuyOrder = createSelector(getDashboardState, fromDashboard.getLastSellBuyOrder);
 export const getAllTrades = createSelector(getDashboardState, fromDashboard.getAllTrades);
+
+/**
+ * Selectors from funds module
+ */
+
+export const getAllCurrenciesForChoose = createSelector(getFundsState, fromFunds.getAllCurrenciesForChoose);
+export const getCryptoCurrenciesForChoose = createSelector(getFundsState, fromFunds.getCryptoCurrenciesForChoose);
+export const getFiatCurrenciesForChoose = createSelector(getFundsState, fromFunds.getFiatCurrenciesForChoose);

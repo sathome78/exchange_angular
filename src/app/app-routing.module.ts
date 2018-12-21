@@ -1,34 +1,32 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {DashboardComponent} from './dashboard/dashboard.component';
-import {AuthGuard} from './services/auth.guard';
-import {BalanceComponent} from './funds/balance/balance.component';
-import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
-import {RefillMoneyComponent} from './balance/refill-money/refill-money.component';
-import {OrdersHistoryComponent} from './orders/orders-history/orders-history.component';
-import {ReferralStructureComponent} from './referral/referral-structure/referral-structure.component';
-import {ReferralChargesComponent} from './referral/referral-charges/referral-charges.component';
-import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
-import {SettingsComponent} from './settings/settings.component';
-import {FinalStepRecoveryPasswordComponent} from './auth/final-step-recovery-password/final-step-recovery-password.component';
-import {FundsComponent} from './funds/funds.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthGuard } from './shared/guards/auth.guard';
+// import {BalanceComponent} from './funds/balance/balance.component';
+import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
+// import {RefillMoneyComponent} from './balance/refill-money/refill-money.component';
+import { OrdersHistoryComponent } from './orders/orders-history/orders-history.component';
+import { ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
+import { ReferralChargesComponent } from './referral/referral-charges/referral-charges.component';
+import { FinalRegistrationComponent } from './auth/final-registration/final-registration.component';
+import { SettingsComponent } from './settings/settings.component';
+import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-password/final-step-recovery-password.component';
+// import {FundsComponent} from './funds/funds.component';
 
 const routes: Routes = [
   // permit all
-  {path: 'markets/:currency-pair', component: DashboardComponent},
-  {path: 'dashboard', component: DashboardComponent},
-  {path: 'final-registration/token', component: FinalRegistrationComponent},
-  {path: 'recovery-password', component: FinalStepRecoveryPasswordComponent},
-  // uncomment after demo
-  // {path: 'balance', component: BalanceComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
-  // {path: 'transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
-  // {path: 'referral-structure', component: ReferralStructureComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
-  // {path: 'referral-charges', component: ReferralChargesComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
-  // {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
-  // {path: 'funds', component: FundsComponent },
-  // {path: 'orders', loadChildren: 'app/orders/orders.module#OrdersModule'  },
-  //
-  // { path: 'settings', loadChildren: './settings/settings.module#SettingsModule'},
+  { path: 'markets/:currency-pair', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
+  { path: 'final-registration/token', component: FinalRegistrationComponent },
+  { path: 'referral-structure', component: ReferralStructureComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
+  { path: 'referral-charges', component: ReferralChargesComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
+  { path: 'settings', loadChildren: './settings/settings.module#SettingsModule', canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
+  { path: 'recovery-password', component: FinalStepRecoveryPasswordComponent },
+  { path: 'funds', loadChildren: 'app/funds/funds.module#FundsModule', canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
+  { path: 'orders', loadChildren: 'app/orders/orders.module#OrdersModule', canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
+  { path: 'static', loadChildren: './static-pages/static-pages.module#StaticPagesModule' },
+
   // { path: 'dashboard',      component: DashboardComponent },
   // { path: 'balance',      component: BalanceComponent },
   // { path: 'refill-money',      component: RefillMoneyComponent },
@@ -57,7 +55,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

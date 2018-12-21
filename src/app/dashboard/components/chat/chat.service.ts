@@ -6,9 +6,9 @@ import {Subject, Observable} from 'rxjs';
 
 import {ChatItem} from './chat-item.model';
 import {environment} from 'environments/environment';
-import {LangService} from 'app/services/lang.service';
+import {LangService} from 'app/shared/services/lang.service';
 import {AuthenticationService} from 'ng-jwt';
-import {TOKEN} from 'app/services/http.utils';
+import {TOKEN} from 'app/shared/services/http.utils';
 import {map} from 'rxjs/internal/operators';
 import {SimpleChat } from './simple-chat.model';
 import {DateChatItem} from './date-chat-item.model';

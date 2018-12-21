@@ -7,7 +7,7 @@
   box-sizing: border-box;
   min-height: 100%;
   margin-left: auto;
-  transition: all 0.5s ease;
+  transition: all 0.4s ease;
   background-color: #fff;
   /*--- modificators start ---*/
   /*--- modificators end ---*/
@@ -27,6 +27,7 @@
       bottom: 0;
     }
   }
+
   &__button {
     display: flex;
     flex-direction: row;
@@ -37,16 +38,23 @@
     &--close {
       text-transform: uppercase;
     }
+
+    &:hover {
+      cursor: pointer;
+    }
   }
+
   &__button-icon {
     padding-left: 12px;
   }
+
   &__header {
     display: flex;
     border-bottom: 1px solid $darker-white;
     align-items: center;
     justify-content: space-between;
   }
+
   &__header-mob {
     display: -webkit-flex;
     display: -ms-flex;
@@ -60,18 +68,22 @@
       justify-content: flex-end;
     }
   }
+
   &__header-mob-controls {
     display: -webkit-flex;
     display: -ms-flex;
     display: flex;
     align-items: center;
   }
+
   &__control-mob {
     margin-right: 16px;
   }
+
   &__control-icon {
     vertical-align: middle;
   }
+
   &__content {
     flex-grow: 1;
     position: relative;
@@ -85,14 +97,17 @@
     //   justify-content: center;
     // }
   }
+
   &__title {
     text-align: center;
     margin-bottom: 12px;
   }
+
   &__subtitle {
     margin-bottom: 24px;
     text-align: center;
   }
+
   &__row {
     display: -webkit-flex;
     display: -ms-flex;
@@ -130,6 +145,7 @@
       line-height: 21px;
     }
   }
+
   &__store-row {
     display: -webkit-flex;
     display: -ms-flex;
@@ -140,6 +156,7 @@
     flex-direction: column;
     margin-bottom: 32px;
   }
+
   &__store-link {
     margin: 0 4px 16px;
 
@@ -147,6 +164,7 @@
       margin-bottom: 0;
     }
   }
+
   &__code-wrap {
     display: flex;
     flex-direction: column;
@@ -154,26 +172,32 @@
     align-items: center;
     margin-bottom: 32px;
   }
+
   &__qr-code {
     display: block;
     width: 140px;
     height: 140px;
     margin: 0 auto 32px;
   }
+
   &__code-2fa {
     text-align: center;
+
     h6 {
       font-size: 24px;
       margin-bottom: 12px;
     }
+
     span {
       font-size: 18px;
       color: $darker-blue;
+
       br {
         display: none;
       }
     }
   }
+
   &__code-grey-field {
     margin-top: 24px;
     margin-bottom: 32px;
@@ -186,6 +210,7 @@
     width: 100%;
     justify-content: center;
   }
+
   &__balance-action {
     display: -webkit-flex;
     display: -ms-flex;
@@ -194,6 +219,7 @@
     align-items: center;
     margin: 36px auto 32px;
   }
+
   &__or {
     display: block;
     text-align: center;
@@ -221,28 +247,34 @@
       content: "";
     }
   }
+
   &__exchange-course {
     color: $grey;
     margin-top: 12px;
   }
+
   &__message-price {
     margin-left: 8px;
     font-weight: 600;
   }
+
   &__you-balance {
     margin-left: 8px;
     font-weight: 600;
   }
+
   &__note {
     width: calc(100% + 24px);
     left: -12px;
     margin-top: 32px;
   }
+
   &__input-2fa {
     margin-bottom: 16px;
     width: 100%;
     max-width: 230px;
   }
+
   /*--- elements end ---*/
 }
 
@@ -252,29 +284,37 @@
     &__content {
       padding: 32px 90px;
     }
+
     &__row {
       &--mob-column {
         flex-direction: row;
       }
     }
+
     &__store-row {
       flex-direction: row;
     }
+
     &__store-link {
       margin: 0 4px;
     }
+
     &__input-2fa {
       margin-bottom: 24px;
     }
-    &__note{
+
+    &__note {
       width: calc(100% + 180px);
       left: -90px;
+      //width: 100%;
+      //left: 0;
     }
   }
 }
 
 @media (min-width: 1200px) {
   .modal {
+    right: -900px;
     width: 50%;
     min-width: 800px;
     max-width: 800px;
@@ -282,39 +322,50 @@
     &__controls {
       display: block;
     }
+
     &__header-mob {
       display: none;
     }
+
     &__subtitle {
       margin-bottom: 32px;
     }
+
     &__balance-action {
       margin: 24px auto 32px;
     }
+
     &__or {
       margin: 24px auto;
     }
+
     &__code-wrap {
       flex-direction: row;
       margin-bottom: 32px;
     }
+
     &__qr-code {
       margin: 0 32px 0 0;
     }
+
     &__code-2fa {
       text-align: left;
+
       h6 {
         font-size: 24px;
         margin-bottom: 12px;
       }
+
       span {
         font-size: 18px;
         line-height: 27px;
+
         br {
           display: inline-block;
         }
       }
     }
+
     &__note {
     }
   }
@@ -325,13 +376,16 @@
 .dark-theme {
   .modal {
     background-color: $dark-indigo;
+
     &__header {
       border-color: rgba(160, 160, 160, .1);
     }
+
     &__code-grey-field {
       background-color: transparent;
       border: 1px solid $light-blue;
     }
+
     &__code-2fa {
       span {
         color: $light-blue;

@@ -19,7 +19,14 @@
     }
   }
 }
-
+.table__row{
+  &:nth-of-type(odd) {
+    background-color: rgba(255,255,255,.05);
+  }
+  &:hover {
+    background-color:rgba(255, 255, 255, 0.15);
+  }
+}
 .paginator {
   position: absolute;
   right: 16px;
@@ -133,4 +140,10 @@ input:not([value=""]){
 .no-spinners::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+@media (min-width: 1200px) {
+  .revoke-request {
+    right: 15px;
+
+  }
 }

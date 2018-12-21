@@ -1,26 +1,28 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
-import {map} from 'rxjs/internal/operators';
+import {map, takeUntil} from 'rxjs/internal/operators';
 import {Message} from '@stomp/stompjs';
-import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {select, Store} from '@ngrx/store';
+import {Observable, Subject} from 'rxjs';
 import {StompService} from '@stomp/ng2-stompjs';
 import {CurrencyPair} from '../model/currency-pair.model';
 import {environment} from '../../environments/environment';
-import {State} from './reducers/dashboard.reducer';
+import {getCurrencyPairArray, State} from '../core/reducers';
 import {ChangeCurrencyPairAction, LoadCurrencyPairsAction} from './actions/dashboard.actions';
-import {UserService} from '../services/user.service';
+import {UserService} from '../shared/services/user.service';
 import {CurrencyPairInfoService} from './components/currency-pair-info/currency-pair-info.service';
+import {getCurrencyPair} from '../core/reducers';
 
 
 @Injectable()
-export class DashboardWebSocketService {
-
+export class DashboardWebSocketService implements OnDestroy {
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   currencyPairs: CurrencyPair [] = [];
   private stompSubscription: any;
   private baseUrl = environment.apiUrl;
   public pairFromDashboard = '';
+  public isNeedChangeCurretPair = true;
 
   constructor(
     private stompService: StompService,
@@ -28,12 +30,13 @@ export class DashboardWebSocketService {
     private userService: UserService,
     private currencyPairInfoService: CurrencyPairInfoService,
     private store: Store<State>
-  ) {}
+  ) {
+  }
 
   setStompSubscription(authenticated: boolean): any {
     return this.stompSubscription = this.stompService
       .subscribe('/app/statisticsNew')
-      .pipe( map((message: Message) => JSON.parse(JSON.parse(message.body))))
+      .pipe(map((message: Message) => JSON.parse(JSON.parse(message.body))))
       .subscribe((items) => {
         // console.log(items);
         if (items) {
@@ -44,7 +47,12 @@ export class DashboardWebSocketService {
       });
   }
 
-   processCurrencyPairs(array: CurrencyPair[], authenticated: boolean) {
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  processCurrencyPairs(array: CurrencyPair[], authenticated: boolean) {
     if (authenticated) {
       this.getUserFavouriteCurrencyPairIds().subscribe(rs => {
         this.managePairs(array, rs);
@@ -65,6 +73,7 @@ export class DashboardWebSocketService {
    * @param pair
    */
   findPairByCurrencyPairName(pairName: string): void {
+    console.log(pairName)
     this.currencyPairs.forEach(elm => {
       if (pairName === elm.currencyPairName) {
         this.store.dispatch(new ChangeCurrencyPairAction(elm));
@@ -74,6 +83,25 @@ export class DashboardWebSocketService {
     });
   }
 
+  choosePairForTrade(currency: string) {
+    this.store
+      .pipe(select(getCurrencyPairArray))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((currencyPairs: CurrencyPair[]) => {
+        const filteredPairs = currencyPairs.filter(pair => {
+          const splitName = pair.currencyPairName.split('/');
+          return splitName[0] === currency || splitName[1] === currency;
+        })
+        const filteredPair = filteredPairs.filter(pair => {
+          const splitName = pair.currencyPairName.split('/');
+          return splitName[0] === 'BTC' || splitName[1] === 'BTC';
+        });
+        console.log(filteredPair);
+        const currentPair = filteredPair[0] ? filteredPair[0] : filteredPairs[0];
+        this.store.dispatch(new ChangeCurrencyPairAction(currentPair));
+      });
+  }
+
   managePairs(array: CurrencyPair[], ids: number[]) {
     this.trimZeroedAndRemainFavourite(array, ids);
     array.forEach(item => {
@@ -81,10 +109,21 @@ export class DashboardWebSocketService {
     });
     this.store.dispatch(new LoadCurrencyPairsAction(this.currencyPairs));
     if (this.currencyPairs.length > 0 && this.pairFromDashboard === '') {
-      const activePair = this.getActiveCurrencyPair();
-      this.store.dispatch(new ChangeCurrencyPairAction(activePair));
-      this.userService.getUserBalance(activePair);
-      this.currencyPairInfoService.getCurrencyPairInfo(activePair);
+
+      if (this.isNeedChangeCurretPair) {
+        const activePair = this.getActiveCurrencyPair();
+        this.store.dispatch(new ChangeCurrencyPairAction(activePair));
+        this.userService.getUserBalance(activePair);
+        this.currencyPairInfoService.getCurrencyPairInfo(activePair);
+      } else {
+        this.store
+          .pipe(select(getCurrencyPair))
+          .subscribe((pair: CurrencyPair) => {
+            this.userService.getUserBalance(pair);
+            this.currencyPairInfoService.getCurrencyPairInfo(pair);
+          });
+      }
+
     }
     if (this.pairFromDashboard !== '') {
       this.currencyPairs.forEach(pair => {
@@ -111,7 +150,7 @@ export class DashboardWebSocketService {
   }
 
   trimZeroedAndRemainFavourite(pairs: CurrencyPair[], ids: number[]) {
-    pairs = pairs.filter(pair =>  this.isFavourite(pair, ids) || this.isNotZeroed(pair));
+    pairs = pairs.filter(pair => this.isFavourite(pair, ids) || this.isNotZeroed(pair));
   }
 
   private isFavourite(pair: CurrencyPair, ids: number[]) {

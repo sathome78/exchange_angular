@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 
-import {LOCAL_HOST} from '../app/services/http.utils';
+import {LOCAL_HOST} from '../app/shared/services/http.utils';
 
 export const environment = {
   production: false,

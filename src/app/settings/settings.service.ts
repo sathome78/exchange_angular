@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '../shared/services/auth.service';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {NotificationOption} from './email-notification/email-notification.component';

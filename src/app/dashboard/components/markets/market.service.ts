@@ -7,6 +7,7 @@ import {map, tap} from 'rxjs/internal/operators';
 import {environment} from 'environments/environment';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
+import {AuthService} from 'app/shared/services/auth.service';
 
 
 @Injectable()
@@ -25,6 +26,7 @@ export class MarketService {
   constructor(
     private stompService: StompService,
     private dashboardWebsocketService: DashboardWebSocketService,
+    private authService: AuthService,
     private http: HttpClient,
   ) {
     this.currentCurrencyInfoListener$ = new ReplaySubject<any>();
@@ -39,7 +41,7 @@ export class MarketService {
   makeItFast() {
     const url = this.baseUrl + '/info/public/v2/currencies/fast';
     this.http.get<CurrencyPair []>(url).subscribe(items => {
-      this.dashboardWebsocketService.processCurrencyPairs(items, false);
+      this.dashboardWebsocketService.processCurrencyPairs(items, this.authService.isAuthenticated());
     });
   }
 

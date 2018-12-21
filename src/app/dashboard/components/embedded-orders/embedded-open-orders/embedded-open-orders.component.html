@@ -16,7 +16,7 @@
     <th class="table__cell-head table__cell-head--tal">Fee</th>
     <th class="table__cell-head table__cell-head--tal">Total</th>
     <th class="table__cell-head table__cell-head--tal" style="width: 74px;"></th>
-    <th class="table__cell-head table__cell-head--tal" style="width: 74px;"></th>
+    <!-- <th class="table__cell-head table__cell-head--tal" style="width: 74px;"></th> -->
   </tr>
   </thead>
   <tbody class="table__body table__body--none-shadow">
@@ -32,33 +32,42 @@
       </div>
     </td>
     <td class="table__cell">
-      <span class="orders__type-buy">{{item.operationType}} <span></span></span>
+      <span [ngClass]="{'orders__type-sell': item.operationTypeEnum === 'SELL', 'orders__type-buy': item.operationTypeEnum === 'BUY' }"
+      >{{item.operationType}} <span></span></span>
       <!--<span class="orders__type-sell">Sell <span>(Limit)</span></span>-->
     </td>
     <td class="table__cell">
-      <span>{{item.exExchangeRate  | replaceNumber}} </span>
+      <span>{{item.exExchangeRate  | roundCurrency: isFiat(1) | formatCurrency}} {{arrPairName[1]}}</span>
     </td>
     <td class="table__cell">
-      <span>{{item.amountConvert | replaceNumber}} {{arrPairName[0]}}</span>
+      <span>{{item.amountBase | roundCurrency: isFiat(0) | formatCurrency}} {{arrPairName[0]}}</span>
     </td>
     <td class="table__cell txt-grey">
-      <span>{{item.commissionValue | replaceNumber}}%</span>
+      <span>{{item.commissionFixedAmount | roundCurrency: isFiat(1) | formatCurrency}} {{arrPairName[1]}}</span>
     </td>
     <td class="table__cell">
-      <span>{{item.amountWithCommission | replaceNumber}} {{arrPairName[1]}}</span>
+      <span>{{item.amountWithCommission | roundCurrency: isFiat(1) | formatCurrency}} {{arrPairName[1]}}</span>
     </td>
     <td class="table__cell">
-      <button class="btn btn--small btn--empty-red table__row-btn"
+      <button class="btn btn--small btn--empty-red btn--hidden"
               style="width: 100%; max-width: 58px;"
-              (click)="cancelOrder(item)"
+              (click)="onShowCancelOrderConfirm(item.id)"
       >Cancel</button>
+      <div class="revoke-request" *ngIf="showCancelOrderConfirm === item.id">
+        <div class="revoke-request__title">Are you sure you want to cancel this order?</div>
+        <div class="revoke-request__button-wrap">
+          <button class="btn btn--small" (click)="cancelOrder(item)">Yes</button>
+          <button class="btn btn--small" (click)="onShowCancelOrderConfirm(null)">No</button>
+        </div>
+        <div class="revoke-request__triangle"></div>
+      </div>
     </td>
-    <td class="table__cell">
+    <!-- <td class="table__cell">
       <button class="btn btn--small btn--empty-blue table__row-btn"
               style="width: 100%; max-width: 58px;"
               (click)="showEditOrderPopup(item)"
       >Edit</button>
-    </td>
+    </td> -->
   </tr>
 
 
@@ -173,10 +182,10 @@
     </svg>
     </span>
     <span style="vertical-align: middle; color:#A0A0A0;">Avaliable: </span>
-    <a href="#">{{userBalance | replaceNumber}} {{arrPairName[0]}}</a>
+    <a href="#">{{userBalance | roundCurrency: isFiat(0) | formatCurrency}} {{arrPairName[0]}}</a>
     </div>
     <div>
-    Fee: {{order.commission | number:'1.1-11' | replaceNumber}} {{arrPairName[0]}}
+    Fee: {{order.commission | roundCurrency: isFiat(0) | formatCurrency}} {{arrPairName[0]}}
     </div>
     </div>
     <div class="row row--jcsb row--aic widget__trading-row">

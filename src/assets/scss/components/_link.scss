@@ -11,3 +11,13 @@
   }
   /*--- modificators end ---*/
 }
+/*--- DARK THEME START---*/
+.dark-theme{
+  .link{
+    color:$light-blue;
+  }
+}
+@media (min-width:1200px) {
+  .dark-theme{}
+}
+/*--- DARK THEME END---*/
