@@ -621,18 +621,18 @@
       }
 
       &--next-page {
-        &:after {
-          display: block;
-          position: absolute;
-          right: 16px;
-          width: 9px;
-          height: 9px;
-          background-image: url("../../assets/img/arr-toggler-right-light-blue.svg");
-          background-repeat: no-repeat;
-          background-position: center;
-          background-size: 100%;
-          content: "";
-        }
+        //&:after {
+        //  display: block;
+        //  position: absolute;
+        //  right: 16px;
+        //  width: 9px;
+        //  height: 9px;
+        //  background-image: url("../../assets/img/arr-toggler-right-light-blue.svg");
+        //  background-repeat: no-repeat;
+        //  background-position: center;
+        //  background-size: 100%;
+        //  content: "";
+        //}
       }
     }
 
