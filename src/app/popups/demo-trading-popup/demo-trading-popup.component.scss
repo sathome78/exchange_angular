@@ -14,11 +14,6 @@
     text-align: center;
     max-width: 580px;
     margin: 16px auto 0;
-    p{
-      a{
-        color: #f2f7fa !important;
-      }
-    }
   }
   .btn{
     margin-top: 24px;
@@ -44,3 +39,9 @@
   .dark-theme{}
 }
 /*--- DARK THEME END---*/
+
+//::ng-deep {
+//  a{
+//    color: ;
+//  }
+//}

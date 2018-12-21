@@ -13,6 +13,7 @@ import {CurrencyChoose} from '../models/currency-choose.model';
 import * as fromCore from '../../core/reducers';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
 import {Router} from '@angular/router';
+import {PopupService} from '../../shared/services/popup.service';
 
 @Component({
   selector: 'app-balance',
@@ -56,6 +57,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     public balanceService: BalanceService,
     private store: Store<fromCore.State>,
     private dashboardWS: DashboardWebSocketService,
+    private popupService: PopupService,
     private router: Router
   ) {
     this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
@@ -182,12 +184,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
 
   public goToCryptoWithdrawPopup(balance: BalanceItem): void {
-    this.showSendMoneyPopup = true;
-    this.sendMoneyData = {
-      step: 2,
-      stepName: CRYPTO_WITHDRAWAL,
-      balance: balance
-    };
+    this.popupService.demoPopupMessage = 1;
+    this.popupService.showDemoTradingPopup(true);
+    // this.showSendMoneyPopup = true;
+    // this.sendMoneyData = {
+    //   step: 2,
+    //   stepName: CRYPTO_WITHDRAWAL,
+    //   balance: balance
+    // };
   }
 
   public goToCryptoDepositPopup(balance: BalanceItem): void {
@@ -206,12 +210,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public goToTransferPopup(balance: BalanceItem): void {
-    this.showSendMoneyPopup = true;
-    this.sendMoneyData = {
-      step: 2,
-      stepName: INNER_TRANSFER,
-      stepThreeData: balance
-    };
+    this.popupService.demoPopupMessage = 1;
+    this.popupService.showDemoTradingPopup(true);
+    // this.showSendMoneyPopup = true;
+    // this.sendMoneyData = {
+    //   step: 2,
+    //   stepName: INNER_TRANSFER,
+    //   stepThreeData: balance
+    // };
   }
 
   public loadMoreBalancesForMobile({currentPage, countPerPage, concat}): void {
