@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef} from '@angular/core';
 import {BalanceItem} from '../../models/balance-item.model';
 import {Router} from '@angular/router';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-balance-mob',
@@ -12,7 +13,8 @@ export class BalanceMobComponent implements OnInit{
 
   constructor(
     private router: Router,
-  ) { 
+    private utils: UtilsService,
+  ) {
     const componentHeight = window.innerHeight;
     this.tableScrollStyles = {'height': (componentHeight - 271) + 'px', 'overflow': 'scroll'}
 
@@ -29,7 +31,7 @@ export class BalanceMobComponent implements OnInit{
   public get currenciesArr() {
     return Object.keys(this.currencies);
   }
-  
+
   public loadModeDisabled: boolean = false;
   public priceIn: string = this.currencies.USD;
   public hideAllZero: boolean = false;
@@ -52,10 +54,10 @@ export class BalanceMobComponent implements OnInit{
   @Output('onLoadMore') public onLoadMore: EventEmitter<any> = new EventEmitter();
   @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
   @Output('onGoToBalanceDetails') public onGoToBalanceDetails: EventEmitter<any> = new EventEmitter();
- 
+
   public onLoadMoreTrigger(): void {
     if(this.balances.length !== this.countOfEntries){
-      this.onLoadMore.emit({currentPage: +this.currentPage + 1, countPerPage: this.countPerPage, concat: true}); 
+      this.onLoadMore.emit({currentPage: +this.currentPage + 1, countPerPage: this.countPerPage, concat: true});
     }
   }
   public onToggleAllZeroTrigger(): void {
@@ -65,7 +67,7 @@ export class BalanceMobComponent implements OnInit{
   public onShowMobDetails(item: BalanceItem): void {
     this.onGoToBalanceDetails.emit({currencyId: item.currencyId, priceIn: this.priceIn});
   }
-  
+
   public onToggleDropdown(): void {
     this.dropdownElement.nativeElement.classList.toggle('dropdown--open');
   }
@@ -76,6 +78,10 @@ export class BalanceMobComponent implements OnInit{
   }
   public onGoToPendingReq(): void {
     this.router.navigate(['/funds/pending-requests'])
+  }
+
+  public isFiat(currName: string): boolean {
+    return this.utils.isFiat(currName);
   }
 
   ngOnInit() { }

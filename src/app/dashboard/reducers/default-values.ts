@@ -7,7 +7,7 @@ export const defaultValues = {
   lastOrderRate: 0,
   predLastOrderRate: 0,
   percentChange: 0,
-  priceInUSD: 0,
+  priceInUsd: 0,
   market: '',
   volume: 0,
 };

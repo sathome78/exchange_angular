@@ -73,7 +73,7 @@
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">Fee</div>
-                  <div class="table__details-item-value">{{item.commissionValue}}% ~ {{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  <div class="table__details-item-value">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">In total</div>
@@ -117,16 +117,16 @@
           </div> -->
           <!-- <div class="search-results dropdown search">
             <ul class="dropdown__list">
-              <li 
-                *ngFor="let item of currencyPairs$ | async" 
-                (click)="onSelectCurrencyPair(item)" 
+              <li
+                *ngFor="let item of currencyPairs$ | async"
+                (click)="onSelectCurrencyPair(item)"
                 class="dropdown__item"
               >
                 {{item.name}}
               </li>
             </ul>
           </div> -->
-          <ng-select 
+          <ng-select
             class="custom"
             [items]="currencyPairs$ | async"
             bindLabel="name"
@@ -140,11 +140,11 @@
         <div class="row row--jcsb">
           <div class="wrap-input orders__datepicker filters-popup__datepicker">
             <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date}" >From</label>
-  
-            <my-date-picker 
+
+            <my-date-picker
               name="from"
-              [options]="myDatePickerOptions" 
-              [(ngModel)]="modelDateFrom" 
+              [options]="myDatePickerOptions"
+              [(ngModel)]="modelDateFrom"
               (dateChanged)="dateFromChanged($event)"
             >
               &lt;!&ndash;&gt;&ndash;&gt;
@@ -153,10 +153,10 @@
           </div>
           <div class="wrap-input orders__datepicker input-el filters-popup__datepicker">
             <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date}" >To</label>
-  
-            <my-date-picker 
+
+            <my-date-picker
               name="to"
-              [options]="myDatePickerOptions" 
+              [options]="myDatePickerOptions"
               [(ngModel)]="modelDateTo"
               (dateChanged)="dateToChanged($event)"
             >
@@ -199,16 +199,16 @@
           </div>
           <div class="search-results dropdown search">
             <ul class="dropdown__list">
-              <li 
-                *ngFor="let item of currencyPairs$ | async" 
-                (click)="onSelectCurrencyPair(item)" 
+              <li
+                *ngFor="let item of currencyPairs$ | async"
+                (click)="onSelectCurrencyPair(item)"
                 class="dropdown__item"
               >
                 {{item.name}}
               </li>
             </ul>
           </div> -->
-          <ng-select 
+          <ng-select
             class="custom"
             [items]="currencyPairs$ | async"
             bindLabel="name"
@@ -222,10 +222,10 @@
         <div class="wrap-input orders__datepicker">
           <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date}" >From</label>
 
-          <my-date-picker 
+          <my-date-picker
             name="history-from"
-            [options]="myDatePickerOptions" 
-            [(ngModel)]="modelDateFrom" 
+            [options]="myDatePickerOptions"
+            [(ngModel)]="modelDateFrom"
             (dateChanged)="dateFromChanged($event)"
           >
             &lt;!&ndash;&gt;&ndash;&gt;
@@ -235,9 +235,9 @@
         <div class="wrap-input orders__datepicker input-el">
           <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date}" >To</label>
 
-          <my-date-picker  
+          <my-date-picker
             name="history-to"
-            [options]="myDatePickerOptions" 
+            [options]="myDatePickerOptions"
             [(ngModel)]="modelDateTo"
             (dateChanged)="dateToChanged($event)"
           >
@@ -302,17 +302,28 @@
             <span [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType}}</span>
           </td>
           <td class="table__cell">
-            <span>{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</span>
+            <span>
+              {{item.exExchangeRate | roundCurrency: isFiat(item.currencyPairName, 2) | formatCurrency}}
+              {{item.currencyPairName | splitCurrency: 2}}
+            </span>
           </td>
           <td class="table__cell">
-            <span>{{item.amountBase}} {{item.currencyPairName | splitCurrency: 1}}</span>
+            <span>
+              {{item.amountBase | roundCurrency: isFiat(item.currencyPairName, 1) | formatCurrency}}
+              {{item.currencyPairName | splitCurrency: 1}}
+            </span>
           </td>
           <td class="table__cell">
-            <span class="orders__comission">{{item.commissionValue}}% </span><span class="orders__comission-usd">~<span>
-                {{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</span></span>
+            <span class="orders__comission"></span><span class="orders__comission-usd"><span>
+                {{item.commissionFixedAmount | roundCurrency: isFiat(item.currencyPairName, 2) | formatCurrency}}
+                {{item.currencyPairName | splitCurrency: 2}}
+            </span></span>
           </td>
           <td class="table__cell table__cell--tar">
-            <span>{{item.amountWithCommission}}<span> {{item.currencyPairName | splitCurrency: 2}}</span></span>
+            <span>
+              {{item.amountWithCommission | roundCurrency: isFiat(item.currencyPairName, 2) | formatCurrency}}
+              <span>{{item.currencyPairName | splitCurrency: 2}}</span>
+            </span>
           </td>
           <td class="table__cell table__cell--tar">
             <span>{{item.status}}</span>

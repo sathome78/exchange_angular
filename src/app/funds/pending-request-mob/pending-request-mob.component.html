@@ -29,7 +29,7 @@
         </tr>
         </thead>
         <tbody class="table__body table__body--none-shadow">
-    
+
           <ng-container *ngFor="let item of pendingRequests; let i = index" >
             <tr class="table__row--mob" (click)="onShowDetails(item)">
               <td class="table__cell table__cell--tal">
@@ -58,7 +58,7 @@
                 </div>
               </td>
               <td class="table__cell table__cell--tar">
-                {{item.amount}}
+                {{item.amount | roundCurrency: isFiat(item.currency) | formatCurrency}}
               </td>
               <td class="table__cell table__cell--arr-mob">
                 <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">

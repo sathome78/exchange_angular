@@ -75,11 +75,11 @@
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">Fee</div>
-                  <div class="table__details-item-value">{{item.commissionValue}}% ~ {{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  <div class="table__details-item-value">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">
-                    <button 
+                    <button
                       class="btn btn--small btn--empty-red"
                       style="width: 100%; max-width: 58px;"
                       (click)="onShowCancelOrderConfirm(item.id)"
@@ -122,7 +122,7 @@
       </div>
       <form action="#">
         <div class="wrap-input wrap-input&#45;&#45;with-icon filters-popup__search">
-          <ng-select 
+          <ng-select
             class="custom"
             [items]="currencyPairs$ | async"
             bindLabel="name"
@@ -136,10 +136,10 @@
         <div class="row row&#45;&#45;jcsb">
           <div class="wrap-input filters-popup__datepicker">
             <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date}" >From</label>
-            <my-date-picker 
+            <my-date-picker
               name="from"
-              [options]="myDatePickerOptions" 
-              [(ngModel)]="modelDateFrom" 
+              [options]="myDatePickerOptions"
+              [(ngModel)]="modelDateFrom"
               (dateChanged)="dateFromChanged($event)"
             >
               &lt;!&ndash;&gt;&ndash;&gt;
@@ -149,10 +149,10 @@
           <div class="wrap-input filters-popup__datepicker">
             <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date}" >To</label>
 
-            <my-date-picker 
-              class="input-el" 
+            <my-date-picker
+              class="input-el"
               name="to"
-              [options]="myDatePickerOptions" 
+              [options]="myDatePickerOptions"
               [(ngModel)]="modelDateTo"
               (dateChanged)="dateToChanged($event)"
             >
@@ -191,7 +191,7 @@
               <li *ngFor="let item of pairs" (click)="selectNewActiveCurrencyPair(item)" class="dropdown__item">{{item.currencyPairName}}</li>
             </ul>
           </div> -->
-          <ng-select 
+          <ng-select
             class="custom"
             [items]="currencyPairs$ | async"
             bindLabel="name"
@@ -268,24 +268,34 @@
             <span [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType}}</span>
           </td>
           <td class="table__cell">
-            <span>{{item.amountConvert}} {{item.currencyPairName | splitCurrency: 1}}</span>
+            <span>
+              {{item.amountConvert | roundCurrency: isFiat(item.currencyPairName, 1) | formatCurrency}}
+              {{item.currencyPairName | splitCurrency: 1}}
+            </span>
           </td>
           <td class="table__cell">
             <span class="orders__for">for</span>
           </td>
           <td class="table__cell">
-            <span>{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</span>
+            <span>
+              {{item.exExchangeRate | roundCurrency: isFiat(item.currencyPairName, 2) | formatCurrency}}
+              {{item.currencyPairName | splitCurrency: 2}}
+            </span>
           </td>
           <td class="table__cell">
-            <span class="orders__comission">{{item.commissionValue}}% </span><span class="orders__comission-usd">~<span>
-              {{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</span></span>
+            <span class="orders__comission"></span><span class="orders__comission-usd"><span>
+              {{item.commissionFixedAmount | roundCurrency: isFiat(item.currencyPairName, 2) | formatCurrency}}
+              {{item.currencyPairName | splitCurrency: 2}}</span></span>
           </td>
           <td class="table__cell">
-            <span>{{item.amountWithCommission}} {{item.currencyPairName | splitCurrency: 2}}</span>
+            <span>
+              {{item.amountWithCommission | roundCurrency: isFiat(item.currencyPairName, 2) | formatCurrency}}
+              {{item.currencyPairName | splitCurrency: 2}}
+            </span>
           </td>
           <td class="table__cell">
-            <button class="btn btn&#45;&#45;small btn&#45;&#45;empty-red table__row-btn" 
-              style="width: 100%; max-width: 58px;" 
+            <button class="btn btn&#45;&#45;small btn&#45;&#45;empty-red table__row-btn"
+              style="width: 100%; max-width: 58px;"
               (click)="onShowCancelOrderConfirm(item.id)"
             >Cancel</button>
             <div class="revoke-request" *ngIf="showCancelOrderConfirm === item.id">
