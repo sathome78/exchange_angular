@@ -43,7 +43,8 @@ export class DemoTradingPopupComponent implements OnInit {
         this.closeMe();
         break;
       case 1:
-        location.href = 'https://exrates.me';
+        window.open('https://exrates.me', '_blank');
+        this.closeMe();
         break;
     }
   }
