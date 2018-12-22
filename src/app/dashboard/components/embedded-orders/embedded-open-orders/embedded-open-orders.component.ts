@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 
-import {MockDataService} from 'app/services/mock-data.service';
+import {MockDataService} from 'app/shared/services/mock-data.service';
 import {EmbeddedOrdersService} from '../embedded-orders.service';
 import {TradingService} from '../../trading/trading.service';
 import {Order} from '../../trading/order.model';
@@ -13,6 +13,7 @@ import {CurrencyPair} from '../../../../model/currency-pair.model';
 import {AbstractOrderCalculate} from '../../../../shared/components/abstract-order-calculate';
 import {UserBalance} from '../../../../model/user-balance.model';
 import {getUserBalance} from '../../../../core/reducers';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
   public currencyPairInfo;
 
   public currentPage = 1;
+  public showCancelOrderConfirm = null
 
 
   public defaultOrder: Order = {
@@ -63,6 +65,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
     private store: Store<State>,
     private mockData: MockDataService,
     private ordersService: EmbeddedOrdersService,
+    private utils: UtilsService,
     public tradingService: TradingService
   ) {
     super();
@@ -145,27 +148,15 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
    * @param order
    */
   cancelOrder(order): void {
-    console.log(order);
-   const editedOrder = {
-     orderId: order.id,
-     amount: order.amountConvert,
-     baseType: order.orderBaseType,
-     commission: order.commissionValue,
-     currencyPairId: order.currencyPairId,
-     orderType: order.operationTypeEnum,
-     rate: order.exExchangeRate,
-     total: order.amountWithCommission,
-     status: 'CANCELLED'
-   };
+    this.ordersService.deleteOrder(order)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.refreshOpenOrders.emit(true);
+      });
+  }
 
-   if (order.stopRate) {
-     editedOrder.rate = order.stopRate;
-   }
-   console.log(editedOrder);
-   this.ordersService.updateOrder(editedOrder).subscribe(res => {
-     this.refreshOpenOrders.emit(true);
-   });
-
+  onShowCancelOrderConfirm(orderId: string | null): void {
+    this.showCancelOrderConfirm = orderId;
   }
 
 
@@ -263,6 +254,10 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
         subscription.unsubscribe();
       });
     }
+  }
+
+  isFiat(currIndex: number): boolean {
+    return this.utils.isFiat(this.arrPairName[currIndex]);
   }
 
 }

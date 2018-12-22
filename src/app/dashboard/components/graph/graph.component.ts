@@ -2,7 +2,7 @@ import {Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef
 import { takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
 
-import { LangService } from 'app/services/lang.service';
+import { LangService } from 'app/shared/services/lang.service';
 import { AbstractDashboardItems } from '../../abstract-dashboard-items';
 import { MarketService } from '../markets/market.service';
 import { DashboardService } from '../../dashboard.service';

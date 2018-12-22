@@ -37,7 +37,7 @@
   }
   &__search-mob {
     width: 74px;
-    margin-right: 20px;
+    margin-right: 12px;
     .wrap-input__input {
       padding-left: 12px;
     }
@@ -62,6 +62,8 @@
     font-size: 10px;
     line-height: 12px;
     color: $grey;
+    max-width: 80px;
+    white-space: normal;
   }
   &__request-mob-link {
     position: absolute;
@@ -153,6 +155,12 @@
         margin-right: 4px;
       }
     }
+    &__content{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: calc(100% - 42px);
+    }
     &__row {
       position: relative;
       display: flex;
@@ -202,8 +210,9 @@
     &__btn-wrap {
       display: flex;
       width: 100%;
-      position: relative;
-      bottom: 0;
+      margin-top: 32px;
+      //position: absolute;
+      //bottom: 0;
     }
   }
   //open-mob-balance end
@@ -314,7 +323,14 @@
   }
   //request-status-info end
   /*--- elements end ---*/
+  // popup yes\no start
+  .revoke-request {
 
+    &__triangle{
+      display: none;
+    }
+  }
+  // popup yes\no end
 }
 
 /*--- media start ---*/
@@ -348,10 +364,12 @@
     &__your-active-item {
       display: flex;
       align-items: center;
+      margin-top: 4px;
       &:first-child {
         margin-right: 20px;
       }
       svg {
+        vertical-align: middle;
         margin-right: 4px;
         fill: #000;
       }
@@ -360,6 +378,7 @@
       margin-left: auto;
     }
     &__filters {
+      min-height: 46px;
       margin-top: 28px;
       align-items: stretch;
       &:after {
@@ -367,12 +386,13 @@
         display: block;
         position: absolute;
         bottom: 0px;
-        left: 184px;
+        left: 226px;
         z-index: -1;
-        width: calc(100% - 184px);
+        width: calc(100% - 226px);
         height: 1px;
         background-color: $grey;
       }
+
       .toggler {
         margin-right: 12px;
         margin-left: 0;
@@ -380,9 +400,15 @@
       .dropdown {
         margin-left: 8px;
       }
+      &--pending-open{
+        &:after {
+          left: 0;
+          width: 100%;
+        }
+      }
     }
     &__search {
-      width: 152px;
+      //width: 152px;
       margin-right: 32px;
     }
     &__tabs {
@@ -439,47 +465,10 @@
     }
     // popup yes\no start
     .revoke-request {
-      background-color: #fff;
-      border-radius: 4px;
-      box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
-      width: 250px;
-      padding: 12px 28px;
-      position: absolute;
-      z-index: 10;
-      //display: none;
-      display: block;
       right: 30px;
       bottom: 100%;
-      //&--mob{
-      //      //  position: relative;
-      //      //  right: auto;
-      //      //  bottom: auto;
-      //      //  align-self: center;
-      //      //}
-      &__title {
-        font-size: 14px;
-        line-height: 20px;
-        margin-bottom: 8px;
-        text-align: center;
-        white-space: normal;
-      }
-      &__button-wrap {
-        display: flex;
-        justify-content: center;
-      }
-      .btn {
-        &:first-child {
-          margin-right: 28px;
-        }
-      }
-      &__triangle {
-        border-top: 5px solid #fff;
-        border-right: 5px solid transparent;
-        border-left: 5px solid transparent;
-        content: "";
-        position: absolute;
-        bottom: -5px;
-        right: 16px;
+      &__triangle{
+        display: block;
       }
     }
     // popup yes\no end
@@ -497,6 +486,7 @@
       font-size: 14px;
       line-height: 16px;
       color: inherit;
+      max-width: none;
     }
     &__change {
       .arr {
@@ -522,7 +512,9 @@
         }
       }
     }
-
+    &__paginator{
+      margin: 28px 16px 40px;
+    }
     /*--- elements end ---*/
   }
 }
@@ -620,15 +612,9 @@
 @media (min-width: 1200px) {
   .dark-theme {
     .balance {
-      .revoke-request {
-        background-color: #264479;
-        &__triangle {
-          border-top-color: #264479;
-        }
-      }
       &__your-active {
         &:before {
-          background-color: #fff;
+          background-color: #94c2ff;
         }
       }
       &__your-active-item {
@@ -642,11 +628,27 @@
           background-color: $light-grey;
         }
       }
+
+      &__currency-name {
+        color: inherit;
+      }
+      .table__date-time {
+        color: inherit;
+
+        div:nth-child(2) {
+          color: $light-blue;
+        }
+      }
       .show-filter {
         color: $light-blue;
       }
-      &__currency-name {
-        color: inherit;
+      &__paginator{
+        .dropdown__btn{
+          color:#fff;
+          &:after{
+            border-top-color: #fff;
+          }
+        }
       }
     }
   }

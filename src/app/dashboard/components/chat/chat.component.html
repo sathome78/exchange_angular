@@ -26,7 +26,7 @@
   <div class="widget__content widget__content--show-all">
 
     <div class="widget__chat-wrap">
-      <perfect-scrollbar style="max-height: 380px;" #scrollWrapper>
+      <perfect-scrollbar #scrollWrapper>
         <div class="" *ngFor="let dateChatItem of dateChatItems">
           <app-day-chat [dateChatItem]="dateChatItem" [scrollWrapper]="scrollWrapper"></app-day-chat>
         </div>

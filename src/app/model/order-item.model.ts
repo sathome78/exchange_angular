@@ -31,8 +31,9 @@ export class OrderItem {
   constructor(
     public amount: string,
     public currencyPairId: number,
-    public exrate: string,
+    public exrate: string | number,
     public orderType: string,
+    public sumAmount: string,
     public total: string,
     public id?: string,
   ) {}

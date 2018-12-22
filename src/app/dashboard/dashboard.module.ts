@@ -38,6 +38,9 @@ import {TradeHistoryService} from './components/trade-history/trade-history.serv
 import {PositivePipe} from './components/markets/positive.pipe';
 import {CurrencySortingPipe} from './components/markets/currency-sorting.pipe';
 import {NicknamePipe} from './components/chat/chat-message/nickname.pipe';
+import {EffectsModule} from '@ngrx/effects';
+import {FundsEffects} from '../funds/store/effects/funds.effects';
+import {DashboardEffects} from './effects/dashboard.effects';
 
 
 export function socketProvider() {

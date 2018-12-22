@@ -1,0 +1,44 @@
+<div class="title refill__title">Get inner transfer</div>
+<div class="subtitle refill__subtitle">Please enter the transfer code to get money</div>
+<form [formGroup]="form">
+  <div class="wrap-input refill__wrap-input">
+    <input class="wrap-input__input" name="code" formControlName="code">
+    <label class="wrap-input__label">Transfer code</label>
+    <div class="wrap-input__line"></div>
+  </div>
+</form>
+<button class="btn btn--center btn--empty-blue"
+[ngClass]="{'btn-active': form.valid}"
+        (click)="sendTransferCode()"
+>Receive transfer</button>
+
+
+<!--message successful-->
+<div class="refill__transfer-message" *ngIf="isSendTransferCodeSuccess">
+  <div class="refill__transfer-message-icon">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="30" cy="30" r="29" fill="transparent" stroke="#237BEF" stroke-width="2"/>
+      <path d="M44.5753 19.4247C44.0091 18.8584 43.091 18.8584 42.5247 19.4247L25.1528 36.7968L18.4753 30.1193C17.9091 29.553 16.9911 29.5531 16.4247 30.1193C15.8584 30.6855 15.8584 31.6036 16.4247 32.1699L24.1275 39.8725C24.6936 40.4388 25.6123 40.4384 26.1781 39.8725L44.5753 21.4753C45.1416 20.9091 45.1415 19.991 44.5753 19.4247Z" fill="#237BEF"/>
+    </svg>
+  </div>
+  <div class="refill__transfer-message-text">
+    <h6>Congratulations!</h6>
+    <span>You successfuly got <b>{{sendSuccessRes.notyAmount}} {{currencyName}}!</b></span>
+  </div>
+</div>
+
+
+<!--message error-->
+<div class="refill__transfer-message"  *ngIf="isSendTransferCodeFail">
+  <div class="refill__transfer-message-icon">
+    <svg width="60" height="60" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="22.5" cy="22.5" r="21" fill="transparent" stroke="#EB5757" stroke-width="3"/>
+      <line x1="12.75" y1="31.6716" x2="31.6716" y2="12.75" stroke="#EB5757" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <div class="refill__transfer-message-text">
+    <h6>Sorry.</h6>
+    <span>This code has been used already.</span>
+  </div>
+</div>
+

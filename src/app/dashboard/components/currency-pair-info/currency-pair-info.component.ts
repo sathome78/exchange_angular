@@ -106,67 +106,67 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  /**
-   * Show currency search bar
-   */
-  openSearchBar(currencyOrder: number): void {
-    this.activeCurrency = 0;
-    this.toggleCurrencySearch();
-  }
+  // /**
+  //  * Show currency search bar
+  //  */
+  // openSearchBar(currencyOrder: number): void {
+  //   this.activeCurrency = 0;
+  //   this.toggleCurrencySearch();
+  // }
 
-  openDropdown() {
-    this.activeCurrency = 1;
-    this.marketDropdown = true;
-  }
+  // openDropdown() {
+  //   this.activeCurrency = 1;
+  //   this.marketDropdown = true;
+  // }
 
-  /**
-   * Toggle show/hide currency search bar
-   */
-  toggleCurrencySearch(): void {
-    const temp = this.allCurrencyPairs.filter(pair => pair.market === this.secondCurrency);
-    this.currencies = [];
-    for (let i = 0; i < temp.length; i++) {
-      const name = temp[i].currencyPairName.split('/')[0];
-      this.currencies.push({name: name});
-    }
-    this.marketDropdown = false;
-    this.showCurrencySearch = !this.showCurrencySearch;
-  }
+  // /**
+  //  * Toggle show/hide currency search bar
+  //  */
+  // toggleCurrencySearch(): void {
+  //   const temp = this.allCurrencyPairs.filter(pair => pair.market === this.secondCurrency);
+  //   this.currencies = [];
+  //   for (let i = 0; i < temp.length; i++) {
+  //     const name = temp[i].currencyPairName.split('/')[0];
+  //     this.currencies.push({name: name});
+  //   }
+  //   this.marketDropdown = false;
+  //   this.showCurrencySearch = !this.showCurrencySearch;
+  // }
+  //
+  // /**
+  //  * Selected currency
+  //  * @param ISO
+  //  */
+  // onSelectCurrency(ISO: string): void {
+  //   this.marketDropdown = false;
+  //   const pairName = this.createCurrencyPairName(ISO);
+  //   this.dashboardWebsocketService.findPairByCurrencyPairName(pairName);
+  // }
 
-  /**
-   * Selected currency
-   * @param ISO
-   */
-  onSelectCurrency(ISO: string): void {
-    this.marketDropdown = false;
-    const pairName = this.createCurrencyPairName(ISO);
-    this.dashboardWebsocketService.findPairByCurrencyPairName(pairName);
-  }
-
-  /**
-   * create currency pair name
-   * @param {string} newCurrency
-   * @returns {string}
-   */
-  createCurrencyPairName(newCurrency: string): string {
-    let tempPair;
-    if (this.activeCurrency === 0) {
-      this.firstCurrency = newCurrency;
-      tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
-    }
-    if (this.activeCurrency === 1) {
-      this.secondCurrency = newCurrency;
-      this.allCurrencyPairs.forEach((pair, index) => {
-        if (pair.market === this.secondCurrency) {
-          tempPair = pair.currencyPairName;
-        }
-        if (pair.currencyPairName === `${this.firstCurrency}/${this.secondCurrency}`) {
-          tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
-        }
-      });
-    }
-    return tempPair ;
-  }
+  // /**
+  //  * create currency pair name
+  //  * @param {string} newCurrency
+  //  * @returns {string}
+  //  */
+  // createCurrencyPairName(newCurrency: string): string {
+  //   let tempPair;
+  //   if (this.activeCurrency === 0) {
+  //     this.firstCurrency = newCurrency;
+  //     tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
+  //   }
+  //   if (this.activeCurrency === 1) {
+  //     this.secondCurrency = newCurrency;
+  //     this.allCurrencyPairs.forEach((pair, index) => {
+  //       if (pair.market === this.secondCurrency) {
+  //         tempPair = pair.currencyPairName;
+  //       }
+  //       if (pair.currencyPairName === `${this.firstCurrency}/${this.secondCurrency}`) {
+  //         tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
+  //       }
+  //     });
+  //   }
+  //   return tempPair ;
+  // }
 
   /**
    * split pair name by '/'

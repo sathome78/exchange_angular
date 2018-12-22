@@ -1,0 +1,18 @@
+<div class="title modal__title">Send money</div>
+<div class="subtitle modal__subtitle">
+  <p>How would you like to send the money?</p>
+</div>
+<button class="btn btn--center btn--empty-blue"
+        (click)="onChooseSend(CRYPTO_WITHDRAWAL)"
+>Crypto withdrawal
+</button>
+
+<button class="btn btn--center btn--empty-blue"
+        (click)="onChooseSend(FIAT_WITHDRAWAL)"
+>Fiat withdrawal
+</button>
+
+<button class="btn btn--center btn--empty-blue"
+        (click)="onChooseSend(INNER_TRANSFER)"
+>Inner transfer
+</button>

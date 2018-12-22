@@ -8,10 +8,9 @@ import {NicknameComponent} from './nickname/nickname.component';
 import {VerificationComponent} from './verification/verification.component';
 import {EmailNotificationComponent} from './email-notification/email-notification.component';
 import {ViewComponent} from './view/view.component';
-import {AuthGuard} from '../services/auth.guard';
 
 const settingsRoutes: Routes = [
-  { path: 'settings',
+  { path: '',
     component: SettingsComponent,
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'two-factor-auth'},

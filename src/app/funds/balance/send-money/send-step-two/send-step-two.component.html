@@ -1,0 +1,10 @@
+<app-send-crypto
+  [balanceData]="balanceData"
+  *ngIf="choosedName === CRYPTO_WITHDRAWAL"
+></app-send-crypto>
+<app-send-fiat
+  *ngIf="choosedName === FIAT_WITHDRAWAL"
+></app-send-fiat>
+<app-send-inner-transfer
+  *ngIf="choosedName === INNER_TRANSFER"
+></app-send-inner-transfer>

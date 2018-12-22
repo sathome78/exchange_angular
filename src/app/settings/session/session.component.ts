@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Options} from 'ng5-slider';
 import {SettingsService} from '../settings.service';
-import {LoggingService} from '../../services/logging.service';
+import {LoggingService} from '../../shared/services/logging.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable, Subscription} from 'rxjs';
 
@@ -14,7 +14,7 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   value = 0;
   MIN_VALUE = 5;
-  MAX_VALUE = 1440;
+  MAX_VALUE = 120;
   options: Options = {
     floor: this.MIN_VALUE,
     ceil: this.MAX_VALUE,

@@ -4,17 +4,17 @@ import {gridsterItemOptions, gridsterOptions} from '../shared/configs/gridster-o
 import {DashboardService} from './dashboard.service';
 import {DashboardItemChangeSize} from '../shared/models/dashboard-item-change-size-model';
 import {MarketService} from './components/markets/market.service';
-import {BreakpointService} from '../services/breakpoint.service';
+import {BreakpointService} from '../shared/services/breakpoint.service';
 import {Subject} from 'rxjs';
 import {OnDestroy} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '../shared/services/auth.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
 import {getCurrencyPairArray, State} from '../core/reducers';
 import {CurrencyPair} from '../model/currency-pair.model';
-import {PopupService} from '../services/popup.service';
+import {PopupService} from '../shared/services/popup.service';
 
 @Component({
   selector: 'app-dashboard',

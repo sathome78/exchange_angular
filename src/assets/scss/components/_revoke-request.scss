@@ -1,0 +1,86 @@
+.revoke-request {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+  width: 250px;
+  padding: 12px 28px;
+  position: absolute;
+  z-index: 10;
+  align-self: center;
+
+  /*--- elements start ---*/
+  &__title {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 8px;
+    text-align: center;
+    white-space: normal;
+    color: #000;
+  }
+
+  &__button-wrap {
+    display: flex;
+    justify-content: center;
+  }
+
+  .btn {
+    &:first-child {
+      margin-right: 28px;
+    }
+  }
+
+  &__triangle {
+    border-top: 5px solid #fff;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    right: 16px;
+  }
+
+  /*--- elements end ---*/
+
+}
+
+/*--- media start ---*/
+
+
+@media (min-width: 1200px) {
+  .revoke-request {
+    right: 30px;
+    bottom: 100%;
+
+    /*--- elements start ---*/
+
+    &__triangle {
+      right: 16px;
+      left: auto;
+    }
+
+    /*--- elements end ---*/
+
+  }
+}
+
+/*--- media end ---*/
+
+/*--- DARK THEME START---*/
+.dark-theme {
+  .revoke-request{
+    background-color: #2B3961;
+    &__title{
+      color:#fff;
+    }
+    &__triangle{
+      border-top: 5px solid #2B3961;
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .dark-theme {
+  }
+}
+
+/*--- DARK THEME END---*/

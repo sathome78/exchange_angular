@@ -65,20 +65,33 @@
       </div>
     </td>
     <td class="table__cell">
-      <span class="orders__type-buy">{{item.operationType}} <span></span></span>
+      <span [ngClass]="{'orders__type-sell': item.operationTypeEnum === 'SELL', 'orders__type-buy': item.operationTypeEnum === 'BUY' }"
+      >{{item.operationType}} <span></span></span>
       <!--<span class="orders__type-sell">Sell <span>(Limit)</span></span>-->
     </td>
     <td class="table__cell">
-      <span>{{item.exExchangeRate | replaceNumber}} USD</span>
+      <span>
+        {{item.exExchangeRate | roundCurrency: isFiat(item.currencyPairName, 2) | formatCurrency}}
+        {{item.currencyPairName | splitCurrency: 2}}
+      </span>
     </td>
     <td class="table__cell">
-      <span>{{item.amountConvert | replaceNumber}} BTC</span>
+      <span>
+        {{item.amountBase | roundCurrency: isFiat(item.currencyPairName, 1 ) | formatCurrency}}
+        {{item.currencyPairName | splitCurrency: 1}}
+      </span>
     </td>
     <td class="table__cell txt-grey">
-      <span>{{item.commissionValue | replaceNumber}}%</span>
+      <span>
+        {{item.commissionFixedAmount | roundCurrency: isFiat(item.currencyPairName, 2) | formatCurrency}}
+        {{item.currencyPairName | splitCurrency: 2}}
+      </span>
     </td>
     <td class="table__cell">
-      <span>{{item.amountWithCommission | replaceNumber}} USD</span>
+      <span>
+        {{item.amountWithCommission | roundCurrency: isFiat(item.currencyPairName, 2) | formatCurrency}}
+        {{item.currencyPairName | splitCurrency: 2}}
+      </span>
     </td>
     <td class="table__cell">
       <span>{{item.status}}</span>

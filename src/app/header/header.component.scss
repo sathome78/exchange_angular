@@ -81,6 +81,9 @@
       @media (min-width: 1200px) {
         height: auto;
         padding: 0 16px;
+        margin-bottom: -5px;
+        position: relative;
+        z-index: 5;
       }
 
       &:last-child {
@@ -152,10 +155,11 @@
     }
     &__link-text {
       position: relative;
+      padding-bottom: 5px;
       &:after {
         content: '';
         position: absolute;
-        bottom: -7px;
+        bottom: -2px;
         display: block;
         height: 2px;
         width: 100%;
@@ -556,13 +560,8 @@
     display: flex;
     flex-direction: column;
 
-    &__wrap-hidden-links {
-      display: none;
-
-      &--show {
-        display: block;
-        margin-left: 40px;
-      }
+    &__wrap-links {
+      margin-left: 42px;
     }
 
     &__link {
@@ -596,8 +595,11 @@
         background: linear-gradient(to right, rgba(33, 65, 125, .5), rgba(25, 26, 57, .5));
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 
-        .menu-mob__link-line {
+        &:before {
           display: none;
+        }
+        &:after{
+          transform: rotate(180deg);
         }
       }
 
@@ -606,8 +608,8 @@
           display: block;
           position: absolute;
           right: 16px;
-          width: 9px;
-          height: 9px;
+          width: 12px;
+          height: 12px;
           background-image: url("../../assets/img/arr-toggler-down-light-blue.svg");
           background-repeat: no-repeat;
           background-position: center;
@@ -617,18 +619,18 @@
       }
 
       &--next-page {
-        &:after {
-          display: block;
-          position: absolute;
-          right: 16px;
-          width: 9px;
-          height: 9px;
-          background-image: url("../../assets/img/arr-toggler-right-light-blue.svg");
-          background-repeat: no-repeat;
-          background-position: center;
-          background-size: 100%;
-          content: "";
-        }
+        //&:after {
+        //  display: block;
+        //  position: absolute;
+        //  right: 16px;
+        //  width: 9px;
+        //  height: 9px;
+        //  background-image: url("../../assets/img/arr-toggler-right-light-blue.svg");
+        //  background-repeat: no-repeat;
+        //  background-position: center;
+        //  background-size: 100%;
+        //  content: "";
+        //}
       }
     }
 
@@ -648,8 +650,8 @@
 
     &__link-holdings-inf {
       color: $light-blue;
-      position: absolute;
-      right: 40px;
+      margin-left: auto;
+      white-space: nowrap;
     }
   }
   .holdings-mob {

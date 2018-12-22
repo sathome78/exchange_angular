@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
 import {Observable, Subject, Subscription} from 'rxjs';
-import {UserVerificationService} from '../../../services/user-verification.service';
+import {UserVerificationService} from '../../../shared/services/user-verification.service';
 import {UserDocVerificationModel} from '../user-doc-verification.model';
 
 @Component({

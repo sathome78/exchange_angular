@@ -433,7 +433,8 @@
   }
   &__chat-btn {
     position: absolute;
-    bottom: 0;
+    z-index: 2;
+    bottom: 32px;
     left: 50%;
     transform: translate(-50%, 0);
     font-size: 14px;
@@ -743,7 +744,7 @@
       border-radius: 4px;
     }
     &__chat-btn {
-      bottom: 16px;
+      bottom: 24px;
     }
     &__input-img {
       &--hide-mob {

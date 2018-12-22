@@ -1,0 +1,31 @@
+import {RouterModule, Routes} from '@angular/router';
+import {NgModule} from '@angular/core';
+import {FundsComponent} from './funds.component';
+import {BalanceComponent} from './balance/balance.component';
+import {BalanceDetailsComponent} from './balance-details/balance-details.component';
+import {PendingRequestDetailsComponent} from './pending-request-details/pending-request-details.component';
+import {PendingRequestMobComponent} from './pending-request-mob/pending-request-mob.component';
+import {PendingRequestInfoComponent} from './pending-request-info/pending-request-info.component';
+import {BalanceMobileRoutesGuard} from 'app/shared/guards/balance-mobile-routes.guard';
+
+const routers: Routes = [
+  { path: '',
+    component: FundsComponent,
+    children: [
+      { path: 'balances', component: BalanceComponent },
+      { path: 'balances/:id', component: BalanceDetailsComponent, canActivate: [BalanceMobileRoutesGuard] },
+      { path: 'pending-requests', component: PendingRequestMobComponent, canActivate: [BalanceMobileRoutesGuard] },
+      { path: 'pending-requests/:id', component: PendingRequestDetailsComponent, canActivate: [BalanceMobileRoutesGuard] },
+      { path: 'pending-requests/:id/info', component: PendingRequestInfoComponent, canActivate: [BalanceMobileRoutesGuard] },
+      { path: '', pathMatch: 'full', redirectTo: '/funds/balances'},
+      { path: '**', redirectTo: 'balances'}
+    ]
+  }
+];
+
+@NgModule({
+  imports: [ RouterModule.forChild(routers) ],
+  exports: [ RouterModule ]
+})
+export class FundsRoutingModule {
+}
