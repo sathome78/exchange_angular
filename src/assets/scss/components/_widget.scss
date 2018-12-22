@@ -357,6 +357,7 @@
     text-transform: uppercase;
     width: 100%;
     max-width: 28px;
+    min-width: 28px;
     height: 28px;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -397,6 +398,8 @@
   &__message-text {
     line-height: 16px;
     font-size: 14px;
+    hyphens: auto;
+    word-break: break-all;
   }
   &__message-reply{
     background-color: rgba(25, 26, 57, 0.5);
@@ -696,6 +699,7 @@
         margin: 0 32px 4px 16px;
         .widget__message {
           margin-right: 28px;
+          max-width: 314px;
         }
       }
       &--right {
