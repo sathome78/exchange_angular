@@ -1,24 +1,43 @@
 <div class="page-wrap" [ngClass]="{'dark-theme': isCurrentThemeDark()}">
   <!--<h3>{{'built: 27.10.2018 10:17:12' }}</h3>-->
-  <div class="banner">
-    <div class="banner__graph">
-      <img src="../../assets/img/graph.png">
-    </div>
-    <div class="banner__text">Get the pump-and-dump monthly prediction of BTC rate</div>
-    <a href="https://t.me/exrates_official" target="_blank" class="banner__link">Join</a>
-    <div class="banner__nommo">
-      <img src="../../assets/img/nommo.png">
-    </div>
-    <button class="banner__btn">Close
-      <span>
+  <a href="https://t.me/exrates_official" target="_blank" class="banner-wrap" id="banner">
+    <span class="banner">
+        <span class="banner__logo">
+        <div class="text">Exrates lab</div>
+    </span>
+    <span class="banner__text">Get the pump-and-dump monthly prediction of BTC rate</span>
+    <span class="banner__link">Join</span>
+    <span class="banner__nommo">
+        <img src="../../assets/img/nommo.png">
+    </span>
+    <button class="banner__btn"onclick="document.getElementById('banner').style.display='none';return false;">Close
+        <span>
             <svg xmlns="http://www.w3.org/2000/svg" width="12px" height="13px">
                 <path fill-rule="evenodd" fill="rgb(255, 255, 255)"
                       d="M12.010,10.740 L10.243,12.509 L6.000,8.263 L1.757,12.509 L-0.010,10.740 L4.232,6.495 L-0.010,2.249 L1.757,0.480 L6.000,4.726 L10.243,0.480 L12.010,2.249 L7.768,6.495 L12.010,10.740 Z"/>
             </svg>
         </span>
     </button>
-
-  </div>
+    </span>
+  </a>
+  <!--<div class="banner">-->
+    <!--<div class="banner__graph">-->
+      <!--<img src="../../assets/img/graph.png">-->
+    <!--</div>-->
+    <!--<div class="banner__text">Get the pump-and-dump monthly prediction of BTC rate</div>-->
+    <!--<a href="https://t.me/exrates_official" target="_blank" class="banner__link">Join</a>-->
+    <!--<div class="banner__nommo">-->
+      <!--<img src="../../assets/img/nommo.png">-->
+    <!--</div>-->
+    <!--<button class="banner__btn">Close-->
+      <!--<span>-->
+            <!--<svg xmlns="http://www.w3.org/2000/svg" width="12px" height="13px">-->
+                <!--<path fill-rule="evenodd" fill="rgb(255, 255, 255)"-->
+                      <!--d="M12.010,10.740 L10.243,12.509 L6.000,8.263 L1.757,12.509 L-0.010,10.740 L4.232,6.495 L-0.010,2.249 L1.757,0.480 L6.000,4.726 L10.243,0.480 L12.010,2.249 L7.768,6.495 L12.010,10.740 Z"/>-->
+            <!--</svg>-->
+        <!--</span>-->
+    <!--</button>-->
+  <!--</div>-->
   <app-header></app-header>
 
   <div class="content">
