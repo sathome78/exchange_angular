@@ -230,7 +230,7 @@
     white-space: nowrap;
   }
   .order {
-    width: 23%;
+    width: 33%;
     margin-left: 16px;
     max-width: 100%;
     padding-left: 4px;
@@ -239,6 +239,7 @@
   }
 
   .info {
+    display: none;
     width: 22%;
     max-width: 100%;
     span {
@@ -248,7 +249,7 @@
   }
 
   .price {
-    width: 29%;
+    width: 33%;
     max-width: 100%;
     padding-left: 4px;
     padding-right: 4px;
