@@ -290,7 +290,7 @@
           <span class="menu-mob__link-text">Trade</span>
         </a>
         <div class="menu-mob__drop-wrap">
-          <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(FUNDS_FLAG)" [ngClass]="{'menu-mob__link--active': showFundsList}">
+          <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(FUNDS_FLAG)" [ngClass]="{'menu-mob__link--active': showFundsList}" routerLink="/funds/balances">
             <span class="menu-mob__link-icon">
               <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="10.7446" height="14.0028" fill="black" fill-opacity="0" transform="translate(1 1)"/>
@@ -313,7 +313,7 @@
           </div>
         </div>
         <div class="menu-mob__drop-wrap">
-          <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(ORDERS_FLAG)" [ngClass]="{'menu-mob__link--active': showOrdersList}">
+          <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(ORDERS_FLAG)" [ngClass]="{'menu-mob__link--active': showOrdersList}" routerLink="/orders/open">
             <span class="menu-mob__link-icon">
               <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="10.9375" height="14" fill="black" fill-opacity="0" transform="translate(0.5)"/>
