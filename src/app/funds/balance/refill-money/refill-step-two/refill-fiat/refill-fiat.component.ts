@@ -9,6 +9,8 @@ import {select, Store} from '@ngrx/store';
 import {getCryptoCurrenciesForChoose, getFiatCurrenciesForChoose, State} from 'app/core/reducers';
 import {environment} from '../../../../../../environments/environment';
 import {PopupService} from '../../../../../shared/services/popup.service';
+import {BalanceItem} from 'app/funds/models/balance-item.model';
+import * as _uniq from 'lodash/uniq';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -17,6 +19,7 @@ import {PopupService} from '../../../../../shared/services/popup.service';
 })
 export class RefillFiatComponent implements OnInit, OnDestroy {
 
+  @Input() refillData: any;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public form: FormGroup;
   public submitSuccess = false;
@@ -29,8 +32,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public merchants;
   public openCurrencyDropdown = false;
   public openPaymentSystemDropdown = false;
-  public refillData;
   public activeFiat;
+  public alphabet;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
@@ -55,9 +58,30 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       .subscribe(currencies => {
         this.defaultFiatNames = currencies;
         this.fiatNames = this.defaultFiatNames;
-        this.activeFiat = this.fiatNames[0];
+        this.setActiveFiat();
         this.getDataByCurrency(this.activeFiat.name);
+        this.prepareAlphabet();
       });
+  }
+
+  setActiveFiat() {
+    let currency;
+    if (this.refillData && this.refillData.currencyId) {
+      currency = this.fiatNames.filter(item => +item.id === +this.refillData.currencyId);
+    }
+    this.activeFiat = (currency && currency.length) ? currency[0] : this.fiatNames[0];
+  }
+
+  prepareAlphabet() {
+    const temp = [];
+    this.fiatNames.forEach(currency => {
+      const letter = currency.name.toUpperCase()[0];
+      temp.push(letter);
+    });
+    const unique = (value, index, self) => {
+      return self.indexOf(value) === index;
+    };
+    this.alphabet = _uniq(temp.filter(unique).sort());
   }
 
   ngOnDestroy(): void {
@@ -68,6 +92,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   toggleCurrencyDropdown() {
     this.openCurrencyDropdown = !this.openCurrencyDropdown;
     this.openPaymentSystemDropdown = false;
+    this.prepareAlphabet();
   }
 
   togglePaymentSystemDropdown() {
@@ -122,10 +147,12 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
           merchant: this.selectedMerchant.merchantId,
           sum: this.amount
         };
-        this.balanceService.refill(data).subscribe(res => {
-          this.refillData = res;
-          this.submitSuccess = true;
-        });
+        this.balanceService.refill(data)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(res => {
+            this.refillData = res;
+            this.submitSuccess = true;
+          });
       }
     // }
   }
