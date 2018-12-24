@@ -87,7 +87,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.fiatDataByName = res;
         this.merchants = this.fiatDataByName.merchantCurrencyData;
-        this.selectedMerchant = this.merchants.length ? this.merchants[0] : {};
+        this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         console.log(res);
       });
   }
