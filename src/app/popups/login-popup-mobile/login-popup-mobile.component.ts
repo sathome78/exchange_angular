@@ -32,7 +32,7 @@ export class LoginPopupMobileComponent implements OnInit {
   public loginForm: FormGroup;
   public pinForm: FormGroup;
   isPinEmpty;
-
+  public showSendAgainBtn: boolean = false;
 
   private email;
   private password;
@@ -101,19 +101,21 @@ export class LoginPopupMobileComponent implements OnInit {
   }
 
   setStatusMessage(status) {
+    this.showSendAgainBtn = false;
     switch (status) {
       case 401:
       case 422:
-        this.statusMessage = 'Your email and/or password are invalid!';
+        this.statusMessage = 'Wrong email or password!';
         break;
       case 426:
-        this.statusMessage = 'It seems you didn\'t completed your registration';
+        this.statusMessage = `Seems, that your user is still inactive. Email with activation link has been sent to your email address. Please, check and follow the instructions. If you can't find our mail, then please try to send the link again.`;
+        this.showSendAgainBtn = true;
         break;
       case 403:
         this.statusMessage = 'You are not allowed to access';
         break;
       case 410:
-        this.statusMessage = 'User inactive(deleted)';
+        this.statusMessage = 'Your account has been blocked. To find out the reason of blocking - contact the exchange support service.';
         break;
       case 419:
         this.statusMessage = 'Your ip is blocked!';
@@ -190,5 +192,9 @@ export class LoginPopupMobileComponent implements OnInit {
   openRecoveryPasswordPopup() {
     this.popupService.showRecoveryPasswordPopup(true);
     this.closeMe();
+  }
+
+  sendAgain() {
+
   }
 }
