@@ -109,7 +109,7 @@ export class LoginPopupMobileComponent implements OnInit {
         break;
       case 426:
         this.statusMessage = `Seems, that your user is still inactive. Email with activation link has been sent to your email address. Please, check and follow the instructions. If you can't find our mail, then please try to send the link again.`;
-        this.showSendAgainBtn = true;
+        // this.showSendAgainBtn = true;
         break;
       case 403:
         this.statusMessage = 'You are not allowed to access';

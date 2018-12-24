@@ -15,13 +15,13 @@
             <input class="wrap-input__input" type="text"
                    required
                    formControlName="email"
-                   [ngClass]="{'wrap-input__input--error': !loginForm.get('email').valid && loginForm.get('email').touched}"
+                   [ngClass]="{'wrap-input__input--error': !loginForm.get('email').valid && loginForm.get('email').touched || statusMessage}"
             >
             <label class="wrap-input__label" for=""
-                   [ngClass]="{'wrap-input__label--error': !loginForm.get('email').valid && loginForm.get('email').touched}"
+                   [ngClass]="{'wrap-input__label--error': !loginForm.get('email').valid && loginForm.get('email').touched || statusMessage}"
             >Email</label>
             <div class="wrap-input__line"
-                 [ngClass]="{'wrap-input__line--error': !loginForm.get('email').valid && loginForm.get('email').touched}"
+                 [ngClass]="{'wrap-input__line--error': !loginForm.get('email').valid && loginForm.get('email').touched || statusMessage}"
             ></div>
             <!--Input error section starts-->
             <div *ngIf="loginForm.get('email').touched && loginForm.get('email').errors != null">
@@ -41,13 +41,13 @@
                    required
                    [type]="getInputType()"
                    formControlName="password"
-                   [ngClass]="{'wrap-input__input--error': !loginForm.get('password').valid && loginForm.get('password').touched}"
+                   [ngClass]="{'wrap-input__input--error': !loginForm.get('password').valid && loginForm.get('password').touched || statusMessage}"
             >
             <label class="wrap-input__label" for=""
-                   [ngClass]="{'wrap-input__label--error': !loginForm.get('password').valid && loginForm.get('password').touched}"
+                   [ngClass]="{'wrap-input__label--error': !loginForm.get('password').valid && loginForm.get('password').touched || statusMessage}"
             >Password</label>
             <div class="wrap-input__line"
-                 [ngClass]="{'wrap-input__line--error': !loginForm.get('password').valid && loginForm.get('password').touched}"
+                 [ngClass]="{'wrap-input__line--error': !loginForm.get('password').valid && loginForm.get('password').touched || statusMessage}"
             ></div>
             <span
               class="wrap-input__show-password"
