@@ -50,6 +50,9 @@
         <app-recovery-pass></app-recovery-pass>
       </div>
 
+      <div *ngIf="isOpenAlreadyRegisteredPopup">
+        <app-already-registered-popup></app-already-registered-popup>
+      </div>
       <div *ngIf="isOpenDemoTradingPopup">
         <app-demo-trading-popup
         [message]="popupService.demoPopupMessage"

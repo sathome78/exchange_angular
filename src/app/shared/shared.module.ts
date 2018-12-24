@@ -23,7 +23,8 @@ import {BalanceMobileRoutesGuard} from './guards/balance-mobile-routes.guard';
 import {RoundCurrencyPipe} from './pipes/round-currency.pipe';
 import {FormatCurrencyPipe} from './pipes/format-currency.pipe';
 import {SplitCurrencyPipe} from './pipes/split-currency.pipe';
-import { UtilsService } from './services/utils.service';
+import {UtilsService} from './services/utils.service';
+import {RegistrationGuard} from './guards/registaration.guard';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { UtilsService } from './services/utils.service';
     NotificationsService,
     UtilsService,
     BalanceMobileRoutesGuard,
+    RegistrationGuard,
   ]
 })
 export class SharedModule { }

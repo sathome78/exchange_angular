@@ -37,6 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isRegistrationMobilePopupOpen = false;
   isRecoveryPasswordPopupOpen = false;
   isOpenDemoTradingPopup = false;
+  isOpenAlreadyRegisteredPopup = false;
   /** notification messages array */
   notificationMessages: NotificationMessage[];
 
@@ -66,6 +67,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForDemoTradingPopup();
     // this.setClientIp();
     this.subscribeForNotifications();
+    this.subscribeForAlreadyRegisteredPopup();
   }
 
   subscribeForTfaEvent() {
@@ -89,6 +91,14 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.isOpenDemoTradingPopup = res;
+      });
+  }
+
+  subscribeForAlreadyRegisteredPopup() {
+    this.popupService.getAlreadyRegisteredPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.isOpenAlreadyRegisteredPopup = res;
       });
   }
 
