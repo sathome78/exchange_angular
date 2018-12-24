@@ -7,7 +7,7 @@
 
     <ng-template #logInTemplate>
       <h6 class="popup__title">Log in</h6>
-      <h4 class="popup__subtitle">{{statusMessage}}</h4>
+      <!-- <h4 class="popup__subtitle">{{statusMessage}}</h4> -->
 
       <form class="popup__form" [formGroup]="loginForm">
         <div>
@@ -15,23 +15,23 @@
             <input class="wrap-input__input" type="text"
                    required
                    formControlName="email"
-                   [ngClass]="{'wrap-input__input--error': !loginForm.get('email').valid && loginForm.get('email').touched}"
+                   [ngClass]="{'wrap-input__input--error': !loginForm.get('email').valid && loginForm.get('email').touched || statusMessage}"
             >
             <label class="wrap-input__label" for=""
-                   [ngClass]="{'wrap-input__label--error': !loginForm.get('email').valid && loginForm.get('email').touched}"
+                   [ngClass]="{'wrap-input__label--error': !loginForm.get('email').valid && loginForm.get('email').touched || statusMessage}"
             >Email</label>
             <div class="wrap-input__line"
-                 [ngClass]="{'wrap-input__line--error': !loginForm.get('email').valid && loginForm.get('email').touched}"
+                 [ngClass]="{'wrap-input__line--error': !loginForm.get('email').valid && loginForm.get('email').touched || statusMessage}"
             ></div>
             <!--Input error section starts-->
             <div *ngIf="loginForm.get('email').touched && loginForm.get('email').errors != null">
-            <span class="wrap-input__message wrap-input__message--error" *ngIf="loginForm.get('email').errors['required']">
-              This field is required.
-            </span>
+              <span class="wrap-input__message wrap-input__message--error" *ngIf="loginForm.get('email').errors['required']">
+                This field is required.
+              </span>
               <span *ngIf="loginForm.get('email').invalid && !loginForm.get('email').errors['required']"
                     class=" wrap-input__message wrap-input__message--error">
-              Please, enter valid email address.
-            </span>
+                Please, enter valid email address.
+              </span>
             </div>
             <!--Input error section ends-->
           </div>
@@ -41,13 +41,13 @@
                    required
                    [type]="getInputType()"
                    formControlName="password"
-                   [ngClass]="{'wrap-input__input--error': !loginForm.get('password').valid && loginForm.get('password').touched}"
+                   [ngClass]="{'wrap-input__input--error': !loginForm.get('password').valid && loginForm.get('password').touched || statusMessage}"
             >
             <label class="wrap-input__label" for=""
-                   [ngClass]="{'wrap-input__label--error': !loginForm.get('password').valid && loginForm.get('password').touched}"
+                   [ngClass]="{'wrap-input__label--error': !loginForm.get('password').valid && loginForm.get('password').touched || statusMessage}"
             >Password</label>
             <div class="wrap-input__line"
-                 [ngClass]="{'wrap-input__line--error': !loginForm.get('password').valid && loginForm.get('password').touched}"
+                 [ngClass]="{'wrap-input__line--error': !loginForm.get('password').valid && loginForm.get('password').touched || statusMessage}"
             ></div>
             <span
               class="wrap-input__show-password"
@@ -61,6 +61,15 @@
                   *ngIf="loginForm.get('password').errors['required']">
               This field is required.
             </span>
+            </div>
+
+            <div *ngIf="statusMessage">
+              <span class="wrap-input__message wrap-input__message--error">
+                {{statusMessage}}
+              </span>
+            </div>
+            <div class="popup__links-wrap  popup__links-wrap--center" *ngIf="showSendAgainBtn">
+              <a class="popup__link" (click)="sendAgain()">Send activation email again</a>
             </div>
             <!--Input error section ends-->
           </div>
