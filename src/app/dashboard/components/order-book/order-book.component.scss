@@ -68,6 +68,9 @@
   }
   .order-table{
     padding-bottom: 30px;
+    .order {
+      margin-left: 16px;
+    }
   }
 }
 
@@ -230,8 +233,8 @@
     white-space: nowrap;
   }
   .order {
-    width: 33%;
-    margin-left: 16px;
+    width: 36%;
+    margin-left: 12px;
     max-width: 100%;
     padding-left: 4px;
     padding-right: 4px;
@@ -249,7 +252,7 @@
   }
 
   .price {
-    width: 33%;
+    width: 34%;
     max-width: 100%;
     padding-left: 4px;
     padding-right: 4px;
