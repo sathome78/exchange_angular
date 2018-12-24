@@ -18,7 +18,7 @@ export class DemoTradingPopupComponent implements OnInit {
        After all the tests are conducted, the updated dashboard will be available for real trading!</p>`;
 
   private notWork = `<p>Unfortunately, for this moment there is no opportunity to continue desired action on current version of site.
-  Please, go to <a href="https://exrates.me" class="link link--underline" target="_blank">exrates.me</a> to proceed your action.</p>`;
+  Please, go to <a href="https://exrates.me" class="link" target="_blank">exrates.me</a> to proceed your action.</p>`;
 
   constructor(
     private popupService: PopupService,
