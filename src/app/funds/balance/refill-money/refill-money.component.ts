@@ -25,6 +25,7 @@ export class RefillMoneyComponent implements OnInit {
   }
 
   onCloseRefillBalancePopup() {
+    this.initFields();
     this.closeRefillBalancePopup.emit(true);
   }
 

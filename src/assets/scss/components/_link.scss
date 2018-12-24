@@ -1,23 +1,23 @@
 .link {
   text-decoration: none;
   word-wrap: break-word;
-
   color: $darker-blue;
-
   font-weight: 400;
-  /*--- modificators start ---*/
-  &--underline {
-    text-decoration: underline;
+  text-decoration: underline;
+  &:hover{
+    color: $darker-blue;
   }
-  /*--- modificators end ---*/
 }
 /*--- DARK THEME START---*/
-.dark-theme{
-  .link{
-    color:$light-blue;
+.dark-theme {
+  .link {
+    //color:$light-blue;
   }
 }
-@media (min-width:1200px) {
-  .dark-theme{}
+
+@media (min-width: 1200px) {
+  .dark-theme {
+  }
 }
+
 /*--- DARK THEME END---*/
