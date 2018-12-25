@@ -225,4 +225,12 @@ export class DashboardService {
   getMyBalances(): Observable<MyBalanceItem> {
     return this.http.get<MyBalanceItem>(this.apiUrl + '/info/private/v2/balances/myBalances')
   }
+
+  getMarketsForCurrency(currencyName): Observable<any> {
+    return this.http.get<any>(this.apiUrl + '/info/public/v2/pair/first/' + currencyName);
+  }
+
+  getCryptoCurrencies() {
+    return this.http.get(`${this.apiUrl}/info/public/v2/crypto-currencies`)
+  }
 }
