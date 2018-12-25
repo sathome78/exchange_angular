@@ -40,7 +40,7 @@
   </div>
 
   <button class="btn btn--empty-blue"
-          *ngIf ="isGenerateNewAddress"
+          *ngIf="isGenerateNewAddress"
           (click)="generateNewAddress()"
   >
     <span class="btn__icon btn__icon--light-blue">
@@ -52,11 +52,15 @@
     </span>
     Generate new address
   </button>
+
+  <div class="request-errors" *ngIf="!isGenerateNewAddress && !cryptoDataByName?.merchantCurrencyData[0]?.mainAddress">
+    Sorry, refill is closed for current moment!
+  </div>
 </div>
 
 <div class="request-errors">{{reqError}}</div>
 
-<div class="refill__crypto-refill-info" *ngIf="cryptoDataByName && cryptoDataByName.merchantCurrencyData[0]">
+<div class="refill__crypto-refill-info" *ngIf="cryptoDataByName?.merchantCurrencyData?.length">
   <div class="refill__qr-code">
     <!--<img src="../../assets/img/qr-code.svg">-->
     <qr-code [value]="address" *ngIf="address" [size]="150"></qr-code>
