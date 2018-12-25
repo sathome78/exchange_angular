@@ -132,7 +132,6 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    * @param ISO
    */
   onSelectCurrency(ISO: string): void {
-    // debugger
     this.marketDropdown = false;
     if (this.activeCurrency === 0) {
       this.dashboardService.getMarketsForCurrency(ISO)
