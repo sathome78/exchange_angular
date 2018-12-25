@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, HostListener} from '@angular/core';
+import {Component, OnInit, OnDestroy, HostListener, Renderer2} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
@@ -50,6 +50,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     private store: Store<State>,
     private dashboardService: DashboardService,
     private dashboardWebsocketService: DashboardWebSocketService,
+    private renderer: Renderer2,
   ) {
     this.dashboardService.getCryptoCurrencies()
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -112,6 +113,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   openSearchBar(currencyOrder: number): void {
     this.activeCurrency = 0;
     this.toggleCurrencySearch();
+    this.renderer.addClass(document.body, 'noscroll');
   }
 
   openDropdown() {
@@ -125,6 +127,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   toggleCurrencySearch(): void {
     this.marketDropdown = false;
     this.showCurrencySearch = !this.showCurrencySearch;
+    this.renderer.removeClass(document.body, 'noscroll');
   }
 
   /**
