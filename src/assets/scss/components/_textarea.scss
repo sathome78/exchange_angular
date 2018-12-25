@@ -1,11 +1,11 @@
-.wrap-input {
+.wrap-textarea {
   position: relative;
   /*--- modificators start ---*/
   &--error {
-    .wrap-input__input {
+    .wrap-textarea__textarea {
       border-color: $red;
 
-      ~ .wrap-input__label {
+      ~ .wrap-textarea__label {
         top: -5px;
         padding: 0 2px;
         color: $red;
@@ -14,81 +14,43 @@
         line-height: 12px;
       }
 
-      ~ .wrap-input__line {
+      ~ .wrap-textarea__line {
         background-color: $red;
       }
 
-      ~ .wrap-input__message {
+      ~ .wrap-textarea__message {
         display: inline-block;
-        color: $red;
+        color:$red;
       }
-
-      // &:focus {
-      //   border-color: $red;
-      //
-      //   ~ .input__label {
-      //     top: -5px;
-      //     padding: 0 2px;
-      //     color: $red;
-      //     background-color: #fff;
-      //     font-size: 10px;
-      //     line-height: 12px;
-      //   }
-      //
-      //   ~ .input__line {
-      //     background-color: $red;
-      //   }
-      // }
     }
   }
-
-  &--with-icon {
-    .wrap-input__input {
-      padding-left: 32px;
-    }
-
-    .wrap-input__label {
-      left: 32px;
-    }
-  }
-
-  &--password {
-    padding: 0 33px 0 12px;
-  }
-
-  &--fix230 {
-    width: 100%;
-    max-width: 230px;
-  }
-
   &--grey {
-    .wrap-input__input {
+    .wrap-textarea__textarea {
       border-color: $grey;
 
-      ~ .wrap-input__label {
+      ~ .wrap-textarea__label {
         color: $grey;
       }
 
-      ~ .wrap-input__line {
+      ~ .wrap-textarea__line {
         background-color: $grey;
       }
 
       &:valid {
         border-color: $darker-blue;
 
-        ~ .wrap-input__label {
+        ~ .wrap-textarea__label {
           color: $darker-blue;
           background-color: #fff;
         }
 
-        ~ .wrap-input__line {
+        ~ .wrap-textarea__line {
           background-color: $darker-blue;
         }
       }
 
     }
   }
-
   /*--- modificators end ---*/
   /*--- elements start ---*/
   &__label {
@@ -102,7 +64,6 @@
     color: $grey;
     font-size: 14px;
     line-height: 16px;
-
     &--error {
       color: $red !important;
     }
@@ -119,36 +80,15 @@
     img {
       width: 100%;
     }
-
-    svg {
-      fill: $grey;
+    svg{
+      fill:$grey;
     }
   }
 
-  &__show-password {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 23px;
-    height: 13px;
-    background-image: url("assets/img/eye-line.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100%;
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    &--active {
-      background-image: url("assets/img/eye.svg");
-    }
-  }
 
   &__line {
     height: 1px;
     background-color: $grey;
-
     &--error {
       background-color: $red !important;
     }
@@ -172,13 +112,13 @@
     }
   }
 
-  &__input {
+  &__textarea {
     display: block;
     box-sizing: border-box;
     width: calc(100% - 5px);
     height: 36px;
     margin: 0 auto;
-    padding: 0 12px;
+    padding: 12px;
     border: 1px solid $grey;
     border-bottom: none;
     -webkit-border-radius: 0;
@@ -189,21 +129,12 @@
     border-top-right-radius: 4px;
     font-size: 14px;
     background-color: transparent;
-    //&:not([value=""]){
-    //  ~ .wrap-input__label {
-    //    top: -5px;
-    //    left: 12px;
-    //    padding: 0 2px;
-    //    background-color: #fff;
-    //    font-size: 10px;
-    //    line-height: 12px;
-    //  }
-    //}
+    resize: vertical;
     &:focus {
       border-color: $darker-blue;
       outline: none;
 
-      ~ .wrap-input__label {
+      ~ .wrap-textarea__label {
         top: -5px;
         left: 12px;
         padding: 0 2px;
@@ -212,16 +143,13 @@
         font-size: 10px;
         line-height: 12px;
       }
-
-      ~ .wrap-input__icon {
+      ~ .wrap-textarea__icon {
         svg {
           fill: $darker-blue;
         }
       }
-
-      ~ .wrap-input__line {
+      ~ .wrap-textarea__line {
         background-color: $darker-blue;
-
         &--error {
           background-color: $red !important;
         }
@@ -229,7 +157,7 @@
     }
 
     &:valid {
-      ~ .wrap-input__label {
+      ~ .wrap-textarea__label {
         top: -5px;
         left: 12px;
         padding: 0 2px;
@@ -238,30 +166,26 @@
         line-height: 12px;
       }
     }
-
     &--error {
       border-color: $red !important;
     }
   }
-
   /*--- elements end ---*/
 }
 
 /*--- media start ---*/
 @media (min-width: 600px) {
-  .wrap-input {
+  .wrap-textarea {
     &__label {
       top: 15px;
     }
 
-    &__input {
+    &__extarea {
       height: 45px;
     }
-
     &__icon {
       top: 14px;
     }
-
     &__show-password {
       top: 15px;
     }
@@ -271,24 +195,23 @@
 /*--- media end ---*/
 /*--- DARK THEME START---*/
 .dark-theme {
-  .wrap-input {
+  .wrap-textarea {
     &--error {
-      .wrap-input__input {
+      .wrap-textarea__textarea {
         border-color: $red;
 
-        ~ .wrap-input__label {
+        ~ .wrap-textarea__label {
           color: $red;
           background-color: $dark-indigo;
         }
 
-        ~ .wrap-input__line {
+        ~ .wrap-textarea__line {
           background-color: $red;
         }
 
-        ~ .wrap-input__message {
+        ~ .wrap-textarea__message {
           display: inline-block;
         }
-
         // &:focus {
         //   border-color: $red;
         //
@@ -307,61 +230,49 @@
         // }
       }
     }
-
     &--grey {
-      .wrap-input__input {
+      .wrap-textarea__textarea {
         border-color: $grey;
 
-        ~ .wrap-input__label {
+        ~ .wrap-textarea__label {
           color: $grey;
         }
 
-        ~ .wrap-input__line {
+        ~ .wrap-textarea__line {
           background-color: $grey;
         }
 
         &:valid {
           border-color: $light-blue;
 
-          ~ .wrap-input__label {
+          ~ .wrap-textarea__label {
             color: $light-blue;
             background-color: $dark-indigo;
           }
 
-          ~ .wrap-input__line {
+          ~ .wrap-textarea__line {
             background-color: $light-blue;
           }
         }
 
       }
     }
-
-    &__icon {
-      svg {
-        fill: $light-blue;
+    &__icon{
+      svg{
+        fill:$light-blue;
       }
     }
-
     &__label {
       color: $light-blue;
     }
-
     &__line {
       background-color: $light-blue;
     }
 
-    &__show-password {
-      background-image: url("assets/img/eye-line--dark-theme.svg");
-
-      &--active {
-        background-image: url("assets/img/eye--dark-theme.svg");
-      }
-    }
-
-    &__input {
+    &__textarea {
       border-color: $light-blue;
       background-color: transparent;
-      color: #fff;
+      color:#fff;
       //&:not([value=""]){
       //  ~ .wrap-input__label {
       //    background-color: $dark-indigo;
@@ -369,8 +280,7 @@
       //}
       &:focus {
         border-color: $light-blue;
-
-        ~ .wrap-input__label {
+        ~ .wrap-textarea__label {
           color: $light-blue;
           background-color: $dark-indigo;
 
@@ -379,30 +289,26 @@
             background-color: transparent;
           }
         }
-
-        ~ .wrap-input__icon {
-          svg {
+        ~ .wrap-textarea__icon {
+          svg{
             fill: $light-blue;
           }
         }
-
-        ~ .wrap-input__line {
+        ~ .wrap-textarea__line {
           background-color: $light-blue;
         }
       }
 
       &:valid {
-        ~ .wrap-input__label {
+        ~ .wrap-textarea__label {
           color: $light-blue;
           background-color: $dark-indigo;
-
           &--white {
             background-color: transparent;
           }
         }
       }
     }
-
     &__icon {
     }
   }

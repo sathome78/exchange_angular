@@ -1,0 +1,46 @@
+.popup-demo{
+  padding: 28px 16px;
+  min-height: auto;
+  background-color: #191A39;
+  border: 1px solid #94C2FF;
+  .popup__close{
+    width: 6px;
+    height: 6px;
+    right: 16px;
+    top: 16px;
+  }
+  .text{
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+    max-width: 580px;
+    margin: 16px auto 0;
+  }
+  .btn{
+    margin-top: 24px;
+  }
+}
+
+/*--- media start ---*/
+@media (min-width:1200px) {
+  .popup-demo{
+    max-width: 536px;
+    .btn{
+      margin-top: 12px;
+    }
+  }
+}
+/*--- media end ---*/
+
+/*--- DARK THEME START---*/
+.dark-theme{}
+@media (min-width:1200px) {
+  .dark-theme{}
+}
+/*--- DARK THEME END---*/
+
+//::ng-deep {
+//  a{
+//    color: ;
+//  }
+//}

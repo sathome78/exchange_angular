@@ -2,7 +2,11 @@
   <div class="title refill__title" *ngIf="!submitSuccess">Make fiat deposit in <span>{{activeFiat.name}}</span></div>
   <form [formGroup]="form">
     <div class="refill__inputs-wrap" *ngIf="!submitSuccess">
-      <div class="select refill__select">
+      <!-- TODO add styles to select--error -->
+      <div
+        class="select refill__select"
+        [ngClass]="{'select--error': !selectedMerchant}"
+      >
         <div class="select__value select__value--active" (click)="toggleCurrencyDropdown()">
           <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
           {{activeFiat.name}}
@@ -57,6 +61,7 @@
       </div>
       <!--<form [formGroup]="form">-->
       <div class="wrap-input refill__wrap-input"
+           *ngIf="selectedMerchant"
            [ngClass]="{'wrap-input--error': !form.valid && isSubmited}"
       >
 
@@ -67,10 +72,15 @@
         >Should be at least {{fiatDataByName.minRefillSum}}</span>
         <!--Input error section ends-->
       </div>
+
+      <!-- TODO Add styles -->
+      <div *ngIf="!selectedMerchant">
+        - Sorry, refill is closed for current moment!
+      </div>
     </div>
   </form>
   <button class="btn btn--center btn--empty-blue"
-          *ngIf="!submitSuccess"
+          *ngIf="!submitSuccess && selectedMerchant"
           [ngClass]="{'btn-active': form.valid && selectedMerchant.name}"
           (click)="submitRefill()"
   >Refill

@@ -10,9 +10,10 @@ import * as fundsAction from '../store/actions/funds.actions';
 import {takeUntil} from 'rxjs/operators';
 import {Location} from '@angular/common';
 import {BalanceItem} from 'app/funds/models/balance-item.model';
-import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, INNER_TRANSFER} from '../balance/send-money/send-money-constants';
+import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, INNER_TRANSFER, FIAT_DEPOSIT} from '../balance/send-money/send-money-constants';
 import {BalanceService} from 'app/funds/services/balance.service';
 import {PopupService} from '../../shared/services/popup.service';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-balance-details',
@@ -32,8 +33,9 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private location: Location,
     private balanceService: BalanceService,
+    private utils: UtilsService,
     private popupService: PopupService
-  ) { 
+  ) {
     this.selectedBalance$ = store.pipe(select(fundsReducer.getSelectedBalance));
 
     this.route.params
@@ -120,10 +122,11 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
 
   public goToCryptoDepositPopup(balance: BalanceItem): void {
     this.showRefillBalancePopup = true;
+    let stepName = this.utils.isFiat(balance.currencyName) ? FIAT_DEPOSIT : CRYPTO_DEPOSIT;
     this.refillBalanceData = {
       step: 2,
-      stepName: CRYPTO_DEPOSIT,
-      balance: balance
+      stepName,
+      balance,
     };
   }
 
