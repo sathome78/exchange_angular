@@ -8,7 +8,7 @@
     </div>
     <div class="select__label">Currency</div>
     <div class="select__line"></div>
-    <div class="select__triangle" ></div>
+    <div class="select__triangle" (click)="currencyDropdownToggle()"></div>
     <!--add select__list-searching--open for looking open state-->
     <div class="select__list-searching"
          [ngClass]="{'select__list-searching--open': openCurrencyDropdown}"
@@ -56,14 +56,14 @@
 
 <div class="request-errors">{{reqError}}</div>
 
-<div class="refill__crypto-refill-info" *ngIf="cryptoDataByName && cryptoDataByName.merchantCurrencyData[0]">
+<div class="refill__crypto-refill-info" *ngIf="cryptoDataByName && cryptoDataByName.merchantCurrencyData?.length">
   <div class="refill__qr-code">
     <!--<img src="../../assets/img/qr-code.svg">-->
     <qr-code [value]="address" *ngIf="address" [size]="150"></qr-code>
   </div>
   <div>
     <div class="refill__crypto-address" *ngIf="address">
-      <h6 class="refill__crypto-title"><span>BTC</span> address</h6>
+      <h6 class="refill__crypto-title"><span>{{activeCrypto?.name}}</span> address</h6>
       <div class="refill__crypto-hash">{{address}}</div>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="!isSowCopyAddress"
               (click)="copyToBuffer(address, 'Copy address')"
@@ -72,10 +72,10 @@
       >Copied</button>
     </div>
     <div class="refill__crypto-memo" *ngIf="cryptoDataByName.merchantCurrencyData[0].additionalFieldName">
-      <h6 class="refill__crypto-title">Memo id</h6>
-      <div class="refill__crypto-hash">{{cryptoDataByName.merchantCurrencyData[0].additionalFieldName}}</div>
+      <h6 class="refill__crypto-title">{{cryptoDataByName.merchantCurrencyData[0].additionalFieldName}}</h6>
+      <div class="refill__crypto-hash">{{additionalAddress}}</div>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="!isSowCopyMemoId"
-              (click)="copyToBuffer(cryptoDataByName.merchantCurrencyData[0].additionalFieldName, 'Copy id')"
+              (click)="copyToBuffer(additionalAddress, 'Copy id')"
       >Copy id</button>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="isSowCopyMemoId"
       >Copied</button>

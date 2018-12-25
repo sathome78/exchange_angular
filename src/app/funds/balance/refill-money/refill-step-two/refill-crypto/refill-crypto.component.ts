@@ -33,6 +33,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public openCurrencyDropdown = false;
   public isGenerateNewAddress = false;
   public address;
+  public additionalAddress;
   public alphabet;
   public reqError = '';
 
@@ -105,13 +106,11 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.cryptoDataByName = res;
-        if (this.cryptoDataByName.merchantCurrencyData[0]) {
-          this.address = this.cryptoDataByName.merchantCurrencyData[0].mainAddress;
-          this.showGenerateAddressBtn(this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable);
-        } else {
-          this.showGenerateAddressBtn(false);
-        }
-      });
+        this.identifyCrypto();
+      }, error => {
+        this.cryptoDataByName = {};
+      }
+  );
   }
 
   showGenerateAddressBtn(flag: boolean) {
@@ -142,12 +141,12 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
           const temp = res as RefreshAddress;
           this.address = temp.address;
         }, error => {
-          const msg = 'Failed to process refill request as number of tries exceeded ';
+          const msg = 'Sorry, refill is closed for current moment!';
           this.setError(msg);
         });
     }
   }
-
+x
   /**
    * copy data to buffer
    * @param {string} val
@@ -183,6 +182,22 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   setError(message) {
     this.reqError = message;
     setTimeout(() => this.reqError = '', 5000);
+  }
+
+  private identifyCrypto() {
+    const merchant = this.cryptoDataByName.merchantCurrencyData[0];
+    if (merchant) {
+      if (merchant.additionalTagForWithdrawAddressIsUsed) {
+        this.address = merchant.mainAddress;
+        this.additionalAddress = merchant.address;
+      } else {
+        this.address = merchant.address;
+        this.additionalAddress = '';
+      }
+      this.showGenerateAddressBtn(this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable);
+    } else {
+      this.showGenerateAddressBtn(false);
+    }
   }
 }
 
