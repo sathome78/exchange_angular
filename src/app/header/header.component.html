@@ -240,7 +240,7 @@
         <div class="account-info__img"><span class="info__img-empty">?</span></div>
         <div class="account-info__text">
           <div class="account-info__title">New user</div>
-          <a class="account-info__email" (click)="onMobileLogin()">login</a></div>
+          <a class="account-info__email cursor-pointer" (click)="onMobileLogin()">login</a></div>
         <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
       </div>
 
@@ -248,13 +248,13 @@
         <img class="account-info__img" src="../../assets/img/user-photo.png">
         <div class="account-info__text">
           <div class="account-info__title">{{userInfo.username}}</div>
-          <a class="account-info__email" (click)="onLogout()">logout</a></div>
+          <a class="account-info__email cursor-pointer" (click)="onLogout()">logout</a></div>
         <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
       </div>
 
 
       <nav class="menu-mob">
-        <a class="menu-mob__link menu-mob__link--next-page">
+        <a class="menu-mob__link menu-mob__link--next-page" *ngIf="isAuthenticated()">
           <span class="menu-mob__link-icon">
             <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M6.48476 8.78723H5.68435C5.39329 8.78723 5.15753 8.55147 5.15753 8.26041C5.15753 7.96935 5.39329 7.7336 5.68435 7.7336H7.09308C7.28518 7.7336 7.44235 7.57642 7.44235 7.38432C7.44235 7.19222 7.28518 7.03505 7.09308 7.03505H6.43237V6.54898C6.43237 6.35688 6.2752 6.19971 6.0831 6.19971C5.891 6.19971 5.73383 6.35688 5.73383 6.54898V7.03505H5.68435C5.00909 7.03505 4.45898 7.58515 4.45898 8.26041C4.45898 8.93567 5.00909 9.48578 5.68435 9.48578H6.48476C6.77582 9.48578 7.01158 9.72154 7.01158 10.0126C7.01158 10.3037 6.77582 10.5394 6.48476 10.5394H5.04984C4.85774 10.5394 4.70056 10.6966 4.70056 10.8887C4.70056 11.0808 4.85774 11.238 5.04984 11.238H5.73674V11.7357C5.73674 11.9278 5.89391 12.0849 6.08601 12.0849C6.27811 12.0849 6.43528 11.9278 6.43528 11.7357V11.238H6.4935C6.49641 11.238 6.49932 11.238 6.50223 11.238C7.17167 11.2292 7.71013 10.682 7.71013 10.0126C7.71013 9.33734 7.16002 8.78723 6.48476 8.78723Z" fill="white"/>
@@ -262,10 +262,15 @@
             </svg>
           </span>
           <span class="menu-mob__link-text">Estimated holdings</span>
-          <span class="menu-mob__link-holdings-inf">~ ${{(myBalance | async)?.USD}}</span>
+          <span class="menu-mob__link-holdings-inf">~ ${{(myBalance | async)?.USD | roundCurrency: true | formatCurrency}}</span>
         </a>
-        <a class="menu-mob__link" [routerLink]="['dashboard']" [queryParams]="{widget: 'trading'}"
-           (click)="setMobileWidget('trading')">
+        <a
+          *ngIf="isAuthenticated()"
+          class="menu-mob__link"
+          [routerLink]="['dashboard']"
+          [queryParams]="{widget: 'trading'}"
+          (click)="setMobileWidget('trading')"
+        >
           <span class="menu-mob__link-icon">
             <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="14" height="12.9547" fill="black" fill-opacity="0"/>
@@ -289,7 +294,7 @@
           </span>
           <span class="menu-mob__link-text">Trade</span>
         </a>
-        <div class="menu-mob__drop-wrap">
+        <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated()">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(FUNDS_FLAG)" [ngClass]="{'menu-mob__link--active': showFundsList}" routerLink="/funds/balances">
             <span class="menu-mob__link-icon">
               <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -312,7 +317,7 @@
             <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">Balance</a>
           </div>
         </div>
-        <div class="menu-mob__drop-wrap">
+        <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated()">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(ORDERS_FLAG)" [ngClass]="{'menu-mob__link--active': showOrdersList}" routerLink="/orders/open">
             <span class="menu-mob__link-icon">
               <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
 
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {MarketService} from '../markets/market.service';
@@ -8,13 +8,14 @@ import {MarketService} from '../markets/market.service';
   templateUrl: 'market-search.component.html',
   styleUrls: ['market-search.component.scss']
 })
-export class MarketSearchComponent implements OnInit {
+export class MarketSearchComponent implements OnInit, AfterViewInit {
 
   @Input() pairs: CurrencyPair[];
   @Input() isFiat: boolean;
   public showPairs: CurrencyPair[];
 
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @ViewChild('input') input: ElementRef;
 
   constructor(
     private marketService: MarketService,
@@ -22,6 +23,9 @@ export class MarketSearchComponent implements OnInit {
 
   ngOnInit() {
     this.showPairs = [...this.pairs || []];
+  }
+  ngAfterViewInit() {
+    this.input.nativeElement.focus();
   }
 
   splitPairName(name: string): string[] {
