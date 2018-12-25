@@ -26,6 +26,7 @@ import {environment} from '../../../../environments/environment';
 import {PopupService} from '../../../shared/services/popup.service';
 import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
 import {defaultOrderItem} from '../../reducers/default-values';
+import { AuthService } from 'app/shared/services/auth.service';
 
 @Component({
   selector: 'app-trading',
@@ -91,6 +92,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     private popupService: PopupService,
     private orderBookService: OrderBookService,
     private userService: UserService,
+    private authService: AuthService,
   ) {
     super();
   }
@@ -442,6 +444,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   onSubmit(): void {
     // window.open('https://exrates.me/dashboard', '_blank');
+    if(!this.isAuthenticated()) {
+      this.popupService.showMobileLoginPopup(true);
+    }
 
     if (environment.production) {
       // todo while insecure
@@ -469,6 +474,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
       }
     }
+  }
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
   }
 
   /**
