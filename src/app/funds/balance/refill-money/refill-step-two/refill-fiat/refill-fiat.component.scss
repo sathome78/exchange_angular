@@ -30,6 +30,10 @@
       text-decoration: underline;
     }
   }
+  &__closed-error{
+    align-self: center;
+    color: #EB5757;
+  }
 }
 
 .modal__note {
