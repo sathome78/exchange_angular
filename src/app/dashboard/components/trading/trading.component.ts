@@ -26,6 +26,7 @@ import {environment} from '../../../../environments/environment';
 import {PopupService} from '../../../shared/services/popup.service';
 import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
 import {defaultOrderItem} from '../../reducers/default-values';
+import { AuthService } from 'app/shared/services/auth.service';
 
 @Component({
   selector: 'app-trading',
@@ -61,6 +62,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public order;
   public lastSellOrder;
   public lastSellBuyOrders: LastSellBuyOrder;
+  public isTotalWithCommission = false;
 
   public defaultOrder: Order = {
     orderType: this.mainTab,
@@ -90,6 +92,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     private popupService: PopupService,
     private orderBookService: OrderBookService,
     private userService: UserService,
+    private authService: AuthService,
   ) {
     super();
   }
@@ -266,6 +269,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param {number} percent
    */
   selectedPercent(percent: number) {
+    this.isTotalWithCommission = false;
     const quantityOf = this.userBalance * percent / 100;
     this.order.amount = quantityOf;
     this.setQuantityValue(quantityOf);
@@ -278,6 +282,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param e
    */
   quantityInput(e): void {
+    this.isTotalWithCommission = false;
     this.order.amount = parseFloat(this.deleteSpace(e.target.value.toString()));
     this.setQuantityValue(e.target.value);
     this.getCommission();
@@ -303,6 +308,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param e
    */
    rateInput(e): void {
+    this.isTotalWithCommission = false;
        this.order.rate = parseFloat(this.deleteSpace(e.target.value.toString()));
        this.getCommission();
    }
@@ -320,18 +326,23 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param event
    */
    totalInput(event): void {
-     this.order.total = parseFloat(this.deleteSpace(event.target.value.toString()));
-     // if (this.order.total > this.userBalance) {
-     //   this.order.total = this.userBalance;
-     //   this.setTotalInValue(this.userBalance);
-     // }
-     //   if (this.order.rate > 0) {
-     //     this.order.amount = this.order.total / this.order.rate;
-     //     this.setQuantityValue(this.order.amount);
-     //   }
+    this.isTotalWithCommission = false;
+    this.order.total = parseFloat(this.deleteSpace(event.target.value.toString()));
+    if (this.order.rate) {
+      this.order.amount = this.order.total / this.order.rate;
+      this.order.commission = this.order.total * (this.commissionIndex / 100);
+      this.setQuantityValue(this.order.amount);
+    }
+   }
 
-     this.order.rate = this.order.total   / this.order.amount;
-     this.setPriceInValue(this.order.rate);
+   calculateAmountByTotal(total): void {
+     this.isTotalWithCommission = true;
+     this.setTotalInValue(total);
+     this.order.total = parseFloat(total);
+     this.order.commission = this.order.total * (this.commissionIndex / 100.2);
+     const x = this.mainTab === 'BUY' ? this.order.total - this.order.commission : this.order.total + this.order.commission;
+     this.order.amount = x / this.order.rate;
+     this.setQuantityValue(this.order.amount);
    }
 
   /**
@@ -395,14 +406,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   orderFromOrderBook(order: OrderItem): void {
     this.dropdownLimitValue = this.limitsData[0];
-    this.order.amount = +order.sumAmount;
-    this.setQuantityValue(this.order.amount);
-    this.order.total = +order.total;
-    this.setTotalInValue(this.order.total);
+    this.order.amount = 0;
+    this.setQuantityValue(0);
+    this.order.total = 0;
+    this.setTotalInValue(0);
     this.order.rate = +order.exrate;
     this.setPriceInValue(this.order.rate);
-    this.mainTab = order.orderType === 'SELL' ? 'BUY' : 'SELL';
-    // this.getCommission();
+    this.mainTab = order.orderType;
+    this.order.commission = 0;
     }
 
   /**
@@ -433,6 +444,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   onSubmit(): void {
     // window.open('https://exrates.me/dashboard', '_blank');
+    if(!this.isAuthenticated()) {
+      this.popupService.showMobileLoginPopup(true);
+    }
 
     if (environment.production) {
       // todo while insecure
@@ -452,9 +466,18 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         if (this.dropdownLimitValue === 'STOP_LIMIT') {
           this.order.stop = this.orderStop;
         }
+        if (!this.isTotalWithCommission) {
+          this.order.total = this.mainTab === 'BUY' ?
+            this.order.total + this.order.commission :
+            this.order.total - this.order.commission;
+        }
         this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
       }
     }
+  }
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
   }
 
   /**
@@ -527,12 +550,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     if (this.order.rate && this.order.rate >= 0) {
       this.order.total = parseFloat(this.order.amount) * parseFloat(this.order.rate);
       this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
-      let total;
-      this.mainTab === 'BUY' ?
-        total = this.order.total + parseFloat(this.order.commission) :
-        total = this.order.total - parseFloat(this.order.commission);
-      this.order.total = total;
-      this.setTotalInValue(total);
+      // let total;
+      // this.mainTab === 'BUY' ?
+      //   total = this.order.total + parseFloat(this.order.commission) :
+      //   total = this.order.total - parseFloat(this.order.commission);
+      // this.order.total = total;
+      this.setTotalInValue(this.order.total);
     }
   }
 

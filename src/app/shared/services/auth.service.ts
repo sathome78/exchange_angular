@@ -5,7 +5,8 @@ import {LoggingService} from './logging.service';
 
 import * as jwt_decode from 'jwt-decode';
 import {TOKEN} from './http.utils';
-import {Subject} from 'rxjs';
+import {Subject, Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 
 declare var encodePassword: Function;
 
@@ -13,6 +14,7 @@ declare var encodePassword: Function;
 export class AuthService {
 
   ENCODE_KEY = environment.encodeKey;
+  apiUrl = environment.apiUrl;
 
   private tokenHolder: TokenHolder;
   public simpleToken: {expiration: number, token_id: number, username: string, value: string};
@@ -20,6 +22,7 @@ export class AuthService {
 
   constructor(
     private logger: LoggingService,
+    private http: HttpClient,
   ) {}
 
 
@@ -75,4 +78,8 @@ export class AuthService {
   }
 
   public onLogIn() {}
+
+  public checkTempToken(token: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/info/public/v2/users/validateTempToken/${token}`);
+  }
 }

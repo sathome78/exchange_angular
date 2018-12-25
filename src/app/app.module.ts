@@ -64,7 +64,7 @@ import {environment} from 'environments/environment';
 
 import {RefillSuccessfulComponent} from './balance/refill-money/refill-successful/refill-successful.component';
 import {DemoTradingPopupComponent} from './popups/demo-trading-popup/demo-trading-popup.component';
-
+import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup/already-registered-popup.component';
 
 @NgModule({
   declarations: [
@@ -103,6 +103,7 @@ import {DemoTradingPopupComponent} from './popups/demo-trading-popup/demo-tradin
     RefillSuccessfulComponent,
 
     DemoTradingPopupComponent,
+    AlreadyRegisteredPopupComponent,
     // TWO FACTOR POPUP END
 
   ],

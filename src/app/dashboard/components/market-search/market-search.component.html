@@ -9,7 +9,7 @@
   </div>
   <div class="market-search__header">
     <div class="wrap-input market-search__input">
-      <input class="wrap-input__input" type="text" required (input)="onSearch($event.target.value)">
+      <input class="wrap-input__input" type="text" required (input)="onSearch($event.target.value)" #input>
       <label class="wrap-input__label" for="">Keyword of the coin</label>
       <div class="wrap-input__icon">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
