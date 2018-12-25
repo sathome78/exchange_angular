@@ -37,7 +37,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
-    if ($event.target.className !== 'select__value select__value--active' && $event.target.className !== 'select__search-input') {
+    if ($event.target.className !== 'select__value select__value--active' && $event.target.className !== 'select__value select__value--active select__value--error' && $event.target.className !== 'select__search-input') {
       this.openPaymentSystemDropdown = false;
       this.openCurrencyDropdown = false;
     }
