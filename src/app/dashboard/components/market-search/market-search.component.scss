@@ -8,8 +8,8 @@
 }
 
 .market-search__content{
-  padding-right: -10px;
-  margin-right: 20px;
+
+
 }
 
 .market-search{
@@ -19,5 +19,8 @@
 perfect-scrollbar{
   height: calc(100vh - 154px);
   position: relative;
-  right: -10px;
+  padding-right: 10px;
+  ::ng-deep.ps__rail-y {
+    margin-right: 0 !important;
+  }
 }

@@ -33,12 +33,15 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public openCurrencyDropdown = false;
   public isGenerateNewAddress = false;
   public address;
+  public additionalAddress;
   public alphabet;
   public reqError = '';
 
   /** Are listening click in document */
-  @HostListener('document:click', ['$event']) clickout($event) {
-    if ($event.target.className !== 'select__value select__value--active' && $event.target.className !== 'select__search-input' ) {
+  @HostListener('document:click', ['$event']) clickout({ target }) {
+    if (target.className !== 'select__value select__value--active' &&
+        target.className !== 'select__search-input' &&
+        target.className !== 'select__triangle') {
       this.openCurrencyDropdown = false;
     }
   }
@@ -105,13 +108,11 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.cryptoDataByName = res;
-        if (this.cryptoDataByName.merchantCurrencyData[0]) {
-          this.address = this.cryptoDataByName.merchantCurrencyData[0].mainAddress;
-          this.showGenerateAddressBtn(this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable);
-        } else {
-          this.showGenerateAddressBtn(false);
-        }
-      });
+        this.identifyCrypto();
+      }, error => {
+        this.cryptoDataByName = {};
+      }
+  );
   }
 
   showGenerateAddressBtn(flag: boolean) {
@@ -142,15 +143,16 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
           const temp = res as RefreshAddress;
           this.address = temp.address;
         }, error => {
-          const msg = 'Failed to process refill request as number of tries exceeded ';
+          const msg = 'Sorry, refill is closed for current moment!';
           this.setError(msg);
         });
     }
   }
-
+x
   /**
    * copy data to buffer
    * @param {string} val
+   * @param {string} btn
    */
   copyToBuffer(val: string, btn: string) {
     this.changeCopyBtn(btn);
@@ -183,6 +185,22 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   setError(message) {
     this.reqError = message;
     setTimeout(() => this.reqError = '', 5000);
+  }
+
+  private identifyCrypto() {
+    const merchant = this.cryptoDataByName.merchantCurrencyData[0];
+    if (merchant) {
+      if (merchant.additionalTagForWithdrawAddressIsUsed) {
+        this.address = merchant.mainAddress;
+        this.additionalAddress = merchant.address;
+      } else {
+        this.address = merchant.address;
+        this.additionalAddress = '';
+      }
+      this.showGenerateAddressBtn(this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable);
+    } else {
+      this.showGenerateAddressBtn(false);
+    }
   }
 }
 

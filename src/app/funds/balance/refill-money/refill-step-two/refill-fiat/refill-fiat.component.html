@@ -5,15 +5,10 @@
       <!-- TODO add styles to select--error -->
       <div
         class="select refill__select"
-        [ngClass]="{'select--error': !selectedMerchant}"
       >
-        <div
-          class="select__value select__value--active"
-          (click)="toggleCurrencyDropdown()"
-          [ngClass]="{
-            'select--error': !selectedMerchant,
-            'select__value--active': selectedMerchant
-          }"
+        <div class="select__value select__value--active"
+             (click)="toggleCurrencyDropdown()"
+             [ngClass]="{'select__value--error': !selectedMerchant}"
         >
           <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
           {{activeFiat.name}}
@@ -80,8 +75,7 @@
         <!--Input error section ends-->
       </div>
 
-      <!-- TODO Add styles -->
-      <div *ngIf="!selectedMerchant">
+      <div class="refill__closed-error" *ngIf="!selectedMerchant">
         - Sorry, refill is closed for current moment!
       </div>
     </div>
