@@ -435,9 +435,9 @@
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
   }
   &__chat-btn {
-    position: absolute;
+    position: fixed;
     z-index: 2;
-    bottom: 32px;
+    bottom: 68px;
     left: 50%;
     transform: translate(-50%, 0);
     font-size: 14px;
@@ -748,6 +748,7 @@
       border-radius: 4px;
     }
     &__chat-btn {
+      position: absolute;
       bottom: 24px;
     }
     &__input-img {
