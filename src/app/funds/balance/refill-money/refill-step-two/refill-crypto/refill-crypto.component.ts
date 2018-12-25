@@ -38,8 +38,10 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public reqError = '';
 
   /** Are listening click in document */
-  @HostListener('document:click', ['$event']) clickout($event) {
-    if ($event.target.className !== 'select__value select__value--active' && $event.target.className !== 'select__search-input' ) {
+  @HostListener('document:click', ['$event']) clickout({ target }) {
+    if (target.className !== 'select__value select__value--active' &&
+        target.className !== 'select__search-input' &&
+        target.className !== 'select__triangle') {
       this.openCurrencyDropdown = false;
     }
   }
@@ -150,6 +152,7 @@ x
   /**
    * copy data to buffer
    * @param {string} val
+   * @param {string} btn
    */
   copyToBuffer(val: string, btn: string) {
     this.changeCopyBtn(btn);
