@@ -15,6 +15,9 @@
     &:nth-of-type(odd) {
       background-color: unset;
     }
+    &:hover{
+      cursor: default;
+    }
   }
   ng-scrollbar{
     height: 444px;
