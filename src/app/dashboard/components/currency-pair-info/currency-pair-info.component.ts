@@ -1,11 +1,10 @@
-import {Component, OnInit, OnDestroy, HostListener} from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { takeUntil } from 'rxjs/internal/operators';
+import {Component, OnInit, OnDestroy, HostListener, Renderer2} from '@angular/core';
+import {Subject} from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
 
-import { DashboardService } from '../../dashboard.service';
-import { Currency } from './currency-search/currency.model';
-import {MarketService} from '../markets/market.service';
+import {DashboardService} from '../../dashboard.service';
+import {Currency} from './currency-search/currency.model';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserBalance} from 'app/model/user-balance.model';
 import {State, getCurrencyPair, getUserBalance, getCurrencyPairInfo, getCurrencyPairArray} from 'app/core/reducers/index';
@@ -25,7 +24,8 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   /** show currency search bar */
   showCurrencySearch: boolean;
   /** available currencies */
-  currencies: Currency[];
+  public currencies: Currency[] = [];
+  public marketsArray: Currency[] = [];
   /** current active pair */
   public pair;
   public firstCurrency: string;
@@ -37,35 +37,29 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   public isFiat = false; // must be defined for correct pipe work
   public showDropdownMarkets = false;
   public allCurrencyPairs;
-
-  public marketsArray = [
-    {name: 'USD'},
-    {name: 'ETH'},
-    {name: 'BTC'},
-    ];
+  public allCryptoCurrencies: any = [];
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
     if ($event.target.className !== 'dropdown__btn') {
       this.marketDropdown = false;
     }
-
   }
 
   constructor(
     private store: Store<State>,
     private dashboardService: DashboardService,
     private dashboardWebsocketService: DashboardWebSocketService,
-    private marketService: MarketService,
-  ) { }
+    private renderer: Renderer2,
+  ) {
+    this.dashboardService.getCryptoCurrencies()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((allCrypto: any) => {
+        this.currencies = allCrypto.map((item) => ({name: item.name}));
+      });
+  }
 
   ngOnInit() {
-    // this.dashboardService.getCurrencies()
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe((value: Currency[]) => {
-    //     this.currencies = value;
-    //   });
-
     this.store
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -80,6 +74,13 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
         this.currentCurrencyInfo = pair;
         this.isFiat = this.pair.market === 'USD';
         this.splitPairName(this.pair);
+
+        this.dashboardService.getMarketsForCurrency(this.firstCurrency)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe((value) => {
+            this.marketsArray = value.map((item) => ({name: item.name.split('/')[1]}));
+          });
+
       });
 
     this.store
@@ -106,67 +107,72 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  // /**
-  //  * Show currency search bar
-  //  */
-  // openSearchBar(currencyOrder: number): void {
-  //   this.activeCurrency = 0;
-  //   this.toggleCurrencySearch();
-  // }
+  /**
+   * Show currency search bar
+   */
+  openSearchBar(currencyOrder: number): void {
+    this.activeCurrency = 0;
+    this.toggleCurrencySearch();
+    this.renderer.addClass(document.body, 'noscroll');
+  }
 
-  // openDropdown() {
-  //   this.activeCurrency = 1;
-  //   this.marketDropdown = true;
-  // }
+  openDropdown() {
+    this.activeCurrency = 1;
+    this.marketDropdown = true;
+  }
 
-  // /**
-  //  * Toggle show/hide currency search bar
-  //  */
-  // toggleCurrencySearch(): void {
-  //   const temp = this.allCurrencyPairs.filter(pair => pair.market === this.secondCurrency);
-  //   this.currencies = [];
-  //   for (let i = 0; i < temp.length; i++) {
-  //     const name = temp[i].currencyPairName.split('/')[0];
-  //     this.currencies.push({name: name});
-  //   }
-  //   this.marketDropdown = false;
-  //   this.showCurrencySearch = !this.showCurrencySearch;
-  // }
-  //
-  // /**
-  //  * Selected currency
-  //  * @param ISO
-  //  */
-  // onSelectCurrency(ISO: string): void {
-  //   this.marketDropdown = false;
-  //   const pairName = this.createCurrencyPairName(ISO);
-  //   this.dashboardWebsocketService.findPairByCurrencyPairName(pairName);
-  // }
+  /**
+   * Toggle show/hide currency search bar
+   */
+  toggleCurrencySearch(): void {
+    this.marketDropdown = false;
+    this.showCurrencySearch = !this.showCurrencySearch;
+    this.renderer.removeClass(document.body, 'noscroll');
+  }
 
-  // /**
-  //  * create currency pair name
-  //  * @param {string} newCurrency
-  //  * @returns {string}
-  //  */
-  // createCurrencyPairName(newCurrency: string): string {
-  //   let tempPair;
-  //   if (this.activeCurrency === 0) {
-  //     this.firstCurrency = newCurrency;
-  //     tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
-  //   }
-  //   if (this.activeCurrency === 1) {
-  //     this.secondCurrency = newCurrency;
-  //     this.allCurrencyPairs.forEach((pair, index) => {
-  //       if (pair.market === this.secondCurrency) {
-  //         tempPair = pair.currencyPairName;
-  //       }
-  //       if (pair.currencyPairName === `${this.firstCurrency}/${this.secondCurrency}`) {
-  //         tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
-  //       }
-  //     });
-  //   }
-  //   return tempPair ;
-  // }
+  /**
+   * Selected currency
+   * @param ISO
+   */
+  onSelectCurrency(ISO: string): void {
+    this.marketDropdown = false;
+    if (this.activeCurrency === 0) {
+      this.dashboardService.getMarketsForCurrency(ISO)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((value) => {
+          this.marketsArray = value.map((item) => ({name: item.name.split('/')[1]}));
+          const pairName = this.createCurrencyPairName(ISO);
+          this.dashboardWebsocketService.findPairByCurrencyPairName(pairName);
+        });
+    } else {
+      const pairName = this.createCurrencyPairName(ISO);
+      this.dashboardWebsocketService.findPairByCurrencyPairName(pairName);
+    }
+
+  }
+
+  /**
+   * create currency pair name
+   * @param {string} newCurrency
+   * @returns {string}
+   */
+  createCurrencyPairName(newCurrency: string): string {
+    let tempPair;
+    if (this.activeCurrency === 0) {
+      this.firstCurrency = newCurrency;
+      tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
+      const pairIndex = this.allCurrencyPairs.findIndex((item) => item.currencyPairName === tempPair);
+      if(pairIndex < 0) {
+        this.secondCurrency = this.marketsArray[0].name;
+        tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
+      }
+    }
+    if (this.activeCurrency === 1) {
+      this.secondCurrency = newCurrency;
+      tempPair = `${this.firstCurrency}/${this.secondCurrency}`;
+    }
+    return tempPair;
+  }
 
   /**
    * split pair name by '/'
@@ -174,7 +180,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
    */
   splitPairName(pair: CurrencyPair) {
     if (pair.currencyPairId) {
-      [ this.firstCurrency, this.secondCurrency ] = this.pair.currencyPairName.split('/');
+      [this.firstCurrency, this.secondCurrency] = this.pair.currencyPairName.split('/');
     }
   }
 
