@@ -80,11 +80,11 @@
                 [ngClass]="{'popup__btn--active': loginForm.valid,
               'popup__btn--error': (!loginForm.get('password').valid && loginForm.get('password').touched) || ( !loginForm.get('email').valid && loginForm.get('email').touched)}"
         >
-          Authorise me
+          Log in
         </button>
       </form>
       <div class="popup__links-wrap">
-        <a class="popup__link popup__link--hidden-mob" (click)="openRegistration()">Go to registration form</a>
+        <span> No account? <a class="popup__link popup__link--hidden-mob" (click)="openRegistration()">Sign up</a></span>
         <a class="popup__link" (click)="openRecoveryPasswordPopup()">Forgot password?</a>
       </div>
       <a class="popup__link-mob" (click)="openRegistration()">Registration</a>
@@ -93,9 +93,9 @@
     <ng-template #captchaTemplate>
       <h6 class="popup__title">Enter the captcha</h6>
       <re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
-      <div class="popup__links-wrap  popup__links-wrap--center">
-        <a class="popup__link" (click)="openRegistration()">Go to registration form</a>
-      </div>
+      <!--<div class="popup__links-wrap  popup__links-wrap&#45;&#45;center">-->
+        <!--<a class="popup__link" (click)="openRegistration()">Go to registration form</a>-->
+      <!--</div>-->
     </ng-template>
 
     <!--Pin Code -->
@@ -117,7 +117,7 @@
             >
             <label class="wrap-input__label" for=""
                    [ngClass]="{'wrap-input__label--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}"
-            >Autehntification code</label>
+            >Authentication</label>
             <div class="wrap-input__line"
                  [ngClass]="{'wrap-input__line--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}"
             ></div>
@@ -136,12 +136,11 @@
                 (click)="afterResolvedCaptcha()"
                 [disabled]="!pinForm.valid"
                 [ngClass]="{'popup__btn--active': pinForm.valid,
-                'popup__btn--error': !pinForm.valid && pinForm.get('pin').touched}">Authorise me
+                'popup__btn--error': !pinForm.valid && pinForm.get('pin').touched}">Submit
         </button>
       </form>
-      <div class="popup__links-wrap">
-        <a class="popup__link popup__link--hidden-mob" href="reg-email.html" (click)="openRegistration()">Go to registration form</a>
-        <a class="popup__link" (click)="openRecoveryPasswordPopup()">Forgot password?</a>
+      <div class="popup__links-wrap  popup__links-wrap--center">
+        <a class="popup__link" >Lost Your Google Authenticator?</a>
       </div>
     </ng-template>
 
