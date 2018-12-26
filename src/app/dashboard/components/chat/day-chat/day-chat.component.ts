@@ -27,8 +27,10 @@ export class DayChatComponent implements OnInit, OnDestroy {
     if (ChatComponent.isToday(new Date(this.dateChatItem.date))) {
       this.chatService.setStompSubscription('en');
       this.newMessagesSubscription = this.chatService.simpleChatListener.subscribe(msg => {
+        debugger
         this.messages = [...this.messages, msg];
         setTimeout(() => {
+          debugger
           this.onScrollToBottom();
         }, 0);
       });
