@@ -21,21 +21,20 @@
     display: -ms-flex;
     display: flex;
     align-items: center;
+    width: 180px;
 
     &:after {
       display: inline-block;
       width: 1px;
       height: 27px;
-      margin-left: 20px;
+      margin-left: 32px;
       background-color: rgba(255, 255, 255, 0.3);
       content: "";
-      @media (min-width: 1400px) {
-        margin-left: 32px;
-      }
     }
 
     &__link {
       display: inline-block;
+      width: 100%;
     }
   }
 
@@ -47,11 +46,8 @@
     align-items: center;
 
     &--header-menu {
-      margin-left: 20px;
+      margin-left: 16px;
       margin-right: auto;
-      @media (min-width: 1400px) {
-        margin-left: 32px;
-      }
 
       .menu__link {
         &:last-child {
