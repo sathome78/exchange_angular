@@ -25,12 +25,14 @@ import {FormatCurrencyPipe} from './pipes/format-currency.pipe';
 import {SplitCurrencyPipe} from './pipes/split-currency.pipe';
 import {UtilsService} from './services/utils.service';
 import {RegistrationGuard} from './guards/registaration.guard';
+import {GetIconUrl} from './pipes/get-icon-url';
 
 @NgModule({
   declarations: [
     NotificationComponent,
     PriceInputComponent,
     SortPipe,
+    GetIconUrl,
     ReplaceNumberPipe,
     GroupCoinPipe,
     CurrencyPipe,
@@ -74,6 +76,7 @@ import {RegistrationGuard} from './guards/registaration.guard';
     PageItemsDropdownComponent,
     SplitCurrencyPipe,
     DateWrapper,
+    GetIconUrl,
   ],
   providers: [
     NotificationsService,

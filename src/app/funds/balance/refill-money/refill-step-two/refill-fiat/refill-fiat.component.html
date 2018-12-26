@@ -22,7 +22,7 @@
             *ngIf="openCurrencyDropdown">
 
           <li class="select__list-item" *ngFor="let currency of fiatNames" (click)="selectCurrency(currency)">
-            <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
+            <img [src]="currency.name | getIconUrl" class="select__list-item-icon">
             {{currency.name}}
           </li>
         </ul>
@@ -55,6 +55,7 @@
                 *ngFor="let merchant of merchants"
                 (click)="selectMerchant(merchant)"
             >
+              <img [src]="merchant.name | getIconUrl" class="select__list-item-icon">
               <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
               {{merchant.name}}
             </li>
