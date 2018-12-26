@@ -30,14 +30,13 @@ export class DayChatComponent implements OnInit, OnDestroy {
         this.messages = [...this.messages, msg];
         setTimeout(() => {
           this.onScrollToBottom();
-        }, 0);
+        }, 200);
       });
     }
   }
 
   onScrollToBottom() {
-    this.scrollWrapper.directiveRef.update();
-    this.scrollWrapper.directiveRef.scrollToBottom();
+    this.scrollWrapper.directiveRef.scrollToBottom(0,300);
   }
 
   ngOnDestroy(): void {
