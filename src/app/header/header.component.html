@@ -312,7 +312,7 @@
       </div>
 
       <div class="account-info" *ngIf="userInfo">
-        <img class="account-info__img" src="../../assets/img/user-photo.png">
+        <div class="account-info__img"><span class="info__img-empty">?</span></div>
         <div class="account-info__text">
           <div class="account-info__title">{{userInfo.username}}</div>
           <a class="account-info__email cursor-pointer" (click)="onLogout()">logout</a></div>
