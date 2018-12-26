@@ -24,6 +24,16 @@
     align-items: center;
   }
   &__dropdown {
+    &--first{
+      .dropdown__btn {
+        min-width: 92px;
+        padding: 0;
+        justify-content: flex-end;
+        &:after{
+          display: none;
+        }
+      }
+    }
     .dropdown__list{
       -webkit-border-radius: 4px;
       -moz-border-radius: 4px;
@@ -36,6 +46,7 @@
         border-top: 4px solid #000;
       }
     }
+
   }
   &__change-pair {
     width: 16px;
