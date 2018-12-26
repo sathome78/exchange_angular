@@ -51,9 +51,10 @@
   &__currency-icon {
     width: 17px;
     height: 17px;
-    background-color: #fff;
+    //background-color: #fff;
     margin-right: 6px;
     img {
+      height: 100%;
       width: 100%;
     }
   }
