@@ -20,6 +20,7 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
 
   // retrive Element to handle scroll in chat
   @ViewChild('scrollWrapper') scrollWrapper: PerfectScrollbarComponent;
+  public scrollStyles: any = null;
 
   static isToday(date: Date): boolean {
     const today = new Date();
@@ -31,11 +32,25 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
   constructor(private chatService: ChatService,
               private authService: AuthService) {
     super();
+    this.setScrollStylesForMobile();
   }
 
   ngOnInit() {
     this.itemName = 'chat';
     this.getFirstMessages();
+  }
+
+
+
+  setScrollStylesForMobile() {
+    const componentHeight = window.innerHeight;
+    if(this.isMobile) {
+      this.scrollStyles = {'height': (componentHeight - 104) + 'px'}
+    }
+  }
+
+  get isMobile(): boolean {
+    return window.innerWidth < 1200
   }
 
   getFirstMessages() {
