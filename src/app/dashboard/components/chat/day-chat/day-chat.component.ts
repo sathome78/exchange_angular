@@ -36,7 +36,6 @@ export class DayChatComponent implements OnInit, OnDestroy {
   }
 
   onScrollToBottom() {
-    this.scrollWrapper.directiveRef.update();
     this.scrollWrapper.directiveRef.scrollToBottom(0,300);
   }
 
