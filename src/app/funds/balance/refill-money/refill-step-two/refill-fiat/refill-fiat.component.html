@@ -1,5 +1,5 @@
 <div style="display: block;" *ngIf="activeFiat">
-  <div class="title refill__title" *ngIf="!submitSuccess">Make fiat deposit in <span>{{activeFiat.name}}</span></div>
+  <div class="title refill__title" *ngIf="!submitSuccess">Fiat Deposit <span>{{activeFiat.name}}</span></div>
   <form [formGroup]="form">
     <div class="refill__inputs-wrap" *ngIf="!submitSuccess">
       <!-- TODO add styles to select--error -->
