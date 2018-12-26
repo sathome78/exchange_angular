@@ -446,6 +446,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     // window.open('https://exrates.me/dashboard', '_blank');
     if(!this.isAuthenticated()) {
       this.popupService.showMobileLoginPopup(true);
+      return;
     }
 
     if (environment.production) {
