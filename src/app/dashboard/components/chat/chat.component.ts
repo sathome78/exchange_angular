@@ -40,10 +40,12 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
 
   getFirstMessages() {
     this.chatService.findAllChatMessages().subscribe(messages => {
+      debugger
       if (messages.length) {
         this.dateChatItems = messages;
         this.addTodayIfNecessary();
         setTimeout(() => {
+          debugger
           this.onScrollToBottom();
         }, 0);
       }
