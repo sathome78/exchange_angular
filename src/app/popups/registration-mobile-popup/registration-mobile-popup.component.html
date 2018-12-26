@@ -210,9 +210,9 @@
     <ng-template #captchaTemplate>
       <h6 class="popup__title">Registration</h6>
       <re-captcha (resolved)="resolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
-      <div class="popup__links-wrap">
-        <a class="popup__link" (click)="setTemplate('emailInputTemplate')">Go to registration form</a>
-      </div>
+      <!--<div class="popup__links-wrap">-->
+        <!--<a class="popup__link" (click)="setTemplate('emailInputTemplate')">Go to registration form</a>-->
+      <!--</div>-->
     </ng-template>
 
     <ng-template #emailConfirmLinkTemplate>
