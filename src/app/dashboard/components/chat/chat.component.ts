@@ -40,14 +40,12 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
 
   getFirstMessages() {
     this.chatService.findAllChatMessages().subscribe(messages => {
-      debugger
       if (messages.length) {
         this.dateChatItems = messages;
         this.addTodayIfNecessary();
         setTimeout(() => {
-          debugger
           this.onScrollToBottom();
-        }, 0);
+        }, 200);
       }
     });
   }
@@ -83,7 +81,8 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
   }
 
   onScrollToBottom() {
-    this.scrollWrapper.directiveRef.scrollToBottom();
+    this.scrollWrapper.directiveRef.update();
+    this.scrollWrapper.directiveRef.scrollToBottom(0, 300);
   }
 
 

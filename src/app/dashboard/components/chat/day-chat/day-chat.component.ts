@@ -27,19 +27,17 @@ export class DayChatComponent implements OnInit, OnDestroy {
     if (ChatComponent.isToday(new Date(this.dateChatItem.date))) {
       this.chatService.setStompSubscription('en');
       this.newMessagesSubscription = this.chatService.simpleChatListener.subscribe(msg => {
-        debugger
         this.messages = [...this.messages, msg];
         setTimeout(() => {
-          debugger
           this.onScrollToBottom();
-        }, 0);
+        }, 200);
       });
     }
   }
 
   onScrollToBottom() {
     this.scrollWrapper.directiveRef.update();
-    this.scrollWrapper.directiveRef.scrollToBottom();
+    this.scrollWrapper.directiveRef.scrollToBottom(0,300);
   }
 
   ngOnDestroy(): void {
