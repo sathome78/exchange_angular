@@ -57,7 +57,6 @@ import {AuthInterceptor} from './core/interceptors/auth.interceptor';
 
 import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
 import {RecoveryPassComponent} from './popups/recovery-pass/recovery-pass.component';
-import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
 import {FinalStepRecoveryPasswordComponent} from './auth/final-step-recovery-password/final-step-recovery-password.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from 'environments/environment';
@@ -97,7 +96,6 @@ import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup
     GoogleDisableComponent,
     FinalRegistrationComponent,
     RecoveryPassComponent,
-    TransactionHistoryComponent,
     FinalStepRecoveryPasswordComponent,
 
     RefillSuccessfulComponent,

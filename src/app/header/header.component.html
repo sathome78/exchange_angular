@@ -57,7 +57,7 @@
             <li class="submenu__item"><a class="submenu__link" routerLink="/funds/balance"
                                          routerLinkActive="menu__link--active"><span
               class="menu__link-text">Balance</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" routerLink="transaction-history"
+            <li class="submenu__item"><a class="submenu__link" routerLink="/funds/transaction-history"
                                          routerLinkActive="menu__link--active"><span class="menu__link-text">Transaction history</span></a>
             </li>
           </ul>
@@ -400,7 +400,7 @@
             </span>
             <span class="menu-mob__link-text">Funds</span></a>
           <div class="menu-mob__wrap-links" *ngIf="showFundsList">
-            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/transaction-history">Transaction
+            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/transaction-history">Transaction
               history</a>
             <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">Balance</a>
           </div>

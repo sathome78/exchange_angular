@@ -44,6 +44,7 @@ import {PendingRequestMobComponent} from './pending-request-mob/pending-request-
 import {BalanceDetailsComponent} from './balance-details/balance-details.component';
 import {PendingRequestDetailsComponent} from './pending-request-details/pending-request-details.component';
 import {PendingRequestInfoComponent} from './pending-request-info/pending-request-info.component';
+import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
 
 @NgModule({
   imports: [
@@ -89,6 +90,8 @@ import {PendingRequestInfoComponent} from './pending-request-info/pending-reques
     BalanceDetailsComponent,
     PendingRequestDetailsComponent,
     PendingRequestInfoComponent,
+
+    TransactionHistoryComponent,
   ],
   providers: [
     BalanceService,
