@@ -49,29 +49,29 @@
             <input class="radio__input" type="radio" name="radio-procent">
             <span class="radio__text " [ngClass]="{'radio__text__checked': percents === 5}"
                   (click)="selectedPercent(5)">
-          5%
-        </span>
+              5%
+            </span>
           </label>
           <label class="radio radio--mr12">
             <input class="radio__input" type="radio" name="radio-procent">
             <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 25}"
                   (click)="selectedPercent(25)">
-          25%
-        </span>
+              25%
+            </span>
           </label>
           <label class="radio radio--mr12">
             <input class="radio__input" type="radio" name="radio-procent">
             <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 50}"
                   (click)="selectedPercent(50)">
-          50%
-        </span>
+              50%
+            </span>
           </label>
           <label class="radio">
             <input class="radio__input" type="radio" name="radio-procent">
             <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 100}"
                   (click)="calculateAmountByTotal(userBalance)">
-          100%
-        </span>
+              100%
+            </span>
           </label>
         </div>
       </div>
@@ -129,7 +129,18 @@
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div class="avaliable">
           <span style="vertical-align: middle; margin-right: 4px;">Available: </span>
-          <a (click)="calculateAmountByTotal(userBalance)"> {{ userBalance  | number:'1.1-8' | replaceNumber}} {{arrPairName[1]}}</a>
+          <a
+            *ngIf="mainTab === 'BUY'"
+            (click)="calculateAmountByTotal(userBalance)"
+          >
+            {{ userBalance.cur2?.balance  | roundCurrency: isFiat(userBalance.cur2?.name) | formatCurrency}} {{userBalance.cur2?.name}}
+          </a>
+          <a
+            *ngIf="mainTab === 'SELL'"
+            (click)="calculateAmountByTotal(userBalance)"
+          >
+            {{ userBalance.cur1?.balance  | roundCurrency: isFiat(userBalance.cur1?.name) | formatCurrency}} {{userBalance.cur1?.name}}
+          </a>
         </div>
         <div>
           Fee: {{order.commission | number:'1.1-8' | replaceNumber}} {{arrPairName[1]}}

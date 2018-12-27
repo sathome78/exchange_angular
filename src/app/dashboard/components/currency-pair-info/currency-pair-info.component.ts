@@ -94,7 +94,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .pipe(select(getUserBalance))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (balance: UserBalance) => {
-        if (balance.balanceByCurrency1) {
+        if (balance.cur1 && balance.cur2) {
           this.userBalanceInfo = balance;
         } else {
           this.userBalanceInfo = null;
