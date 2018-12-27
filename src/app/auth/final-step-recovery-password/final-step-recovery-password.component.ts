@@ -42,26 +42,57 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
 
   initForm(): void {
     this.passwordForm = new FormGroup({
-      password: new FormControl(null, {
+      password: new FormControl('', {
         validators: [
           Validators.required, Validators.minLength(8),
-          Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}/)
+          Validators.maxLength(20),
+          Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/)
         ]}),
-      confirmPassword: new FormControl( null, {validators: [Validators.required, this.confirmPassword.bind(this)]})
+      confirmPassword: new FormControl( '', {validators: [Validators.required, this.confirmPassword.bind(this)]})
     });
   }
 
+  onPasswordInput(event) {
+    if (event.data === ' ') {
+      const temp = this.deleteSpace(event.target.value);
+      this.passwordForm.controls['password'].setValue(temp);
+    }
+    const confirm = this.passwordForm.controls['confirmPassword'];
+    confirm.value !== '' && event.target.value !== confirm.value ?
+      confirm.setErrors({'passwordConfirm': true}) :
+      confirm.setErrors(null);
+  }
+
+  onRepeatPasswordInput(event) {
+    if (event.data === ' ') {
+      const temp = this.deleteSpace(event.target.value);
+      this.passwordForm.controls['confirmPassword'].setValue(temp);
+    }
+  }
+
   createUser(): void {
-    console.log(this.passwordForm)
-    const sendData = {
-      tempToken: this.token,
-      password: this.encryptPass(this.passwordForm.controls['password'].value),
-    };
-    this.userService.recoveryPassword(sendData).subscribe(res => {
-      this.router.navigate(['/dashboard'], {queryParams: {recoveryPassword: true}});
-    }, err => {
-      this.message = 'Server error. Try again.';
-    });
+    const pass = this.passwordForm.controls['password'];
+    if (this.passwordForm.valid && pass.value === this.passwordForm.controls['confirmPassword'].value) {
+      const sendData = {
+        tempToken: this.token,
+        password: this.encryptPass(pass.value),
+      };
+      this.userService.recoveryPassword(sendData).subscribe(res => {
+        this.router.navigate(['/dashboard'], {queryParams: {recoveryPassword: true}});
+      }, err => {
+        this.message = 'Server error. Try again.';
+      });
+    }
+  }
+
+  deleteSpace(value): string {
+    if (value) {
+      const replaceMask = '';
+      const searchMask = ' ';
+      const regex = new RegExp(searchMask, 'ig');
+      return value.toString().replace(regex, replaceMask);
+    }
+    return '';
   }
 
   confirmPassword(password: FormControl): { [s: string]: boolean } {
