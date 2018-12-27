@@ -75,6 +75,9 @@ export class HeaderComponent implements OnInit {
   }
 
   public openMenu() {
+    if (!this.authService.isAuthenticated()) {
+      this.popupService.showMobileLoginPopup(true);
+    }
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
     // console.log('Open mobile menu');
   }
