@@ -11,6 +11,7 @@ import {environment} from '../../../../../../environments/environment';
 import {PopupService} from '../../../../../shared/services/popup.service';
 import {BalanceItem} from 'app/funds/models/balance-item.model';
 import * as _uniq from 'lodash/uniq';
+import {RefillResponse} from '../../../../../model/refill-response';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -34,10 +35,13 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public openPaymentSystemDropdown = false;
   public activeFiat;
   public alphabet;
+  public redirectionUrl;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
-    if ($event.target.className !== 'select__value select__value--active' && $event.target.className !== 'select__value select__value--active select__value--error' && $event.target.className !== 'select__search-input') {
+    if ($event.target.className !== 'select__value select__value--active'
+        && $event.target.className !== 'select__value select__value--active select__value--error'
+        && $event.target.className !== 'select__search-input') {
       this.openPaymentSystemDropdown = false;
       this.openCurrencyDropdown = false;
     }
@@ -140,7 +144,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     // } else {
       if (this.form.valid && this.selectedMerchant.name) {
         this.isSubmited = false;
-        this.amount = this.form.controls['amount'].value
+        this.amount = this.form.controls['amount'].value;
         const data = {
           operationType: this.fiatDataByName.payment.operationType,
           currency: this.fiatDataByName.currency.id,
@@ -149,8 +153,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         };
         this.balanceService.refill(data)
           .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(res => {
+          .subscribe((res: RefillResponse) => {
             this.refillData = res;
+            this.redirectionUrl = this.getRefillRedirectionUrl(res);
             this.submitSuccess = true;
           });
       }
@@ -166,6 +171,22 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         return {'minThen': true};
       }
       return null;
+  }
+
+  getRefillRedirectionUrl(response: RefillResponse): string {
+    if (response && response.method === 'POST') {
+      let url = response.redirectionUrl + '?';
+      for (const key in response.params) {
+        // console.log('K: ' + key + ' V: ' + response.params[key]);
+        url += key + '=' + response.params[key] + '&';
+      }
+      console.log(url);
+      return url;
+    }
+    if (response && !response.method) {
+      return response.redirectionUrl;
+    }
+    return null;
   }
 }
 
