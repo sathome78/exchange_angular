@@ -51,11 +51,12 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     public balanceService: BalanceService,
     public popupService: PopupService,
     private store: Store<State>,
-  ) { }
+  ) {}
+
+
 
   ngOnInit() {
     this.initForm();
-
     this.store
       .pipe(select(getFiatCurrenciesForChoose))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -149,6 +150,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
           operationType: this.fiatDataByName.payment.operationType,
           currency: this.fiatDataByName.currency.id,
           merchant: this.selectedMerchant.merchantId,
+          generateNewAddress: true,
           sum: this.amount
         };
         this.balanceService.refill(data)
