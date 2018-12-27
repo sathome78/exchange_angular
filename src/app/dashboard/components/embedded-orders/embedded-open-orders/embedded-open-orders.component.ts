@@ -86,8 +86,8 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
       .pipe(select(getUserBalance))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (balance: UserBalance) => {
-        this.userBalance = balance.balanceByCurrency1 ? balance.balanceByCurrency1 : 0;
-        this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
+        // this.userBalance = balance.balanceByCurrency1 ? balance.balanceByCurrency1 : 0;
+        // this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
       });
 
     this.tradingService.tradingChangeSellBuy$

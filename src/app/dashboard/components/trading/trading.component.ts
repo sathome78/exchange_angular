@@ -21,12 +21,13 @@ import {
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserService} from 'app/shared/services/user.service';
 import {LastSellBuyOrder} from 'app/model/last-sell-buy-order.model';
-import {CurrencyPairInfo, OrderItem} from '../../../model';
+import {CurrencyPairInfo, OrderItem, UserBalance} from '../../../model';
 import {environment} from '../../../../environments/environment';
 import {PopupService} from '../../../shared/services/popup.service';
 import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
 import {defaultOrderItem} from '../../reducers/default-values';
-import { AuthService } from 'app/shared/services/auth.service';
+import {AuthService} from 'app/shared/services/auth.service';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-trading',
@@ -50,7 +51,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   /** form for limit-order */
   stopForm: FormGroup;
 
-  public userBalance = 0;
+  public userBalance: UserBalance;
   public orderStop;
   public currentPair;
   public arrPairName = ['', ''];
@@ -93,6 +94,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     private orderBookService: OrderBookService,
     private userService: UserService,
     private authService: AuthService,
+    private utils: UtilsService,
   ) {
     super();
   }
@@ -108,8 +110,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(select(getDashboardState))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(state => {
-        this.userBalance = state.userBalance.balanceByCurrency1 ? state.userBalance.balanceByCurrency1 : 0;
-        this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
+        this.userBalance = state.userBalance;
       });
 
     this.store
@@ -269,8 +270,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param {number} percent
    */
   selectedPercent(percent: number) {
+    let total = 0
+    if(this.mainTab === 'BUY') {
+      total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0
+    } else {
+      total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0
+    }
+
     this.isTotalWithCommission = false;
-    const quantityOf = this.userBalance * percent / 100;
+    const quantityOf = total * percent / 100;
     this.order.amount = quantityOf;
     this.setQuantityValue(quantityOf);
 
@@ -335,10 +343,16 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     }
    }
 
-   calculateAmountByTotal(total): void {
+   calculateAmountByTotal(): void {
+      let total = 0
+      if(this.mainTab === 'BUY') {
+        total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0
+      } else {
+        total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0
+      }
      this.isTotalWithCommission = true;
      this.setTotalInValue(total);
-     this.order.total = parseFloat(total);
+     this.order.total = total;
      this.order.commission = this.order.total * (this.commissionIndex / 100.2);
      const x = this.mainTab === 'BUY' ? this.order.total - this.order.commission : this.order.total + this.order.commission;
      this.order.amount = x / this.order.rate;
@@ -571,5 +585,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.resetForms();
     this.splitPairName();
     this.getCommissionIndex();
+  }
+
+  public isFiat(currName: string): boolean {
+    return this.utils.isFiat(currName);
   }
 }
