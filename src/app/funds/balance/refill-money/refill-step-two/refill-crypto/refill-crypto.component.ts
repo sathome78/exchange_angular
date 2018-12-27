@@ -148,7 +148,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         });
     }
   }
-x
+
   /**
    * copy data to buffer
    * @param {string} val
