@@ -11,9 +11,12 @@ export class RoundCurrencyPipe implements PipeTransform {
     } else {
       rounded = ((Math.floor(value * 100000000)) / 100000000);
     }
-    const hasFractionalPart = ('' + rounded).indexOf('.') >= 0;
-    if(!hasFractionalPart) {
+    const numParts = ('' + rounded).split('.');
+    if(numParts.length === 1) {
       rounded = rounded.toFixed(1);
+    } else {
+      const fractPartLength = numParts[1].length;
+      rounded = rounded.toFixed(fractPartLength);
     }
     return '' + rounded;
   }

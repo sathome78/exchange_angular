@@ -245,8 +245,8 @@
     </ul>
 
     <ul class="menu language">
-      <li class="menu__item menu__item--with-submenu">
-        <a class="menu__link" href="#">
+      <li class="menu__item menu__item--with-submenu menu__item--disabled">
+        <a class="menu__link">
           <span class="menu__link-text">
             <img class="language__flag" src="../../assets/img/flag-en.svg" alt="ru">
             <span class="language__abbr">en</span>
@@ -312,7 +312,7 @@
       </div>
 
       <div class="account-info" *ngIf="userInfo">
-        <img class="account-info__img" src="../../assets/img/user-photo.png">
+        <div class="account-info__img"><span class="info__img-empty">?</span></div>
         <div class="account-info__text">
           <div class="account-info__title">{{userInfo.username}}</div>
           <a class="account-info__email cursor-pointer" (click)="onLogout()">logout</a></div>

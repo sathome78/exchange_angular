@@ -1,6 +1,11 @@
 export class UserBalance {
   constructor(
-    public balanceByCurrency1: number,
-    public balanceByCurrency2: number,
+    public cur1: UserBalanceItem,
+    public cur2: UserBalanceItem,
   ) {}
 }
+
+export class UserBalanceItem {
+  name: string;
+  balance: number;
+};
