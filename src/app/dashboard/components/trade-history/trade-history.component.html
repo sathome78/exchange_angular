@@ -76,7 +76,7 @@
         <perfect-scrollbar style="height: 100%;">
           <div class="trade-history__tbody-inner">
 
-            <div *ngFor="let item of allTrades" class=" trade-history__rowtable__row widget__table-row"
+            <div *ngFor="let item of allTrades" class=" trade-history__row table__row widget__table-row"
                  [ngClass]="{'widget__table-row-hover--red': item.operationType === 'SELL', 'widget__table-row-hover--green': item.operationType === 'BUY'}">
               <div class="table__cell table__cell--tal trade-history-time" style="width: 28%;">
                 <!-- {{item.dateAcceptionTime | date:"dd/MM/yyyy"}} -->
