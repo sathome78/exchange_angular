@@ -13,6 +13,7 @@ import {DashboardWebSocketService} from './dashboard/dashboard-websocket.service
 import {AuthService} from './shared/services/auth.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -50,8 +51,14 @@ export class AppComponent implements OnInit, OnDestroy {
               private userService: UserService,
               private logger: LoggingService,
               private http: HttpClient,
-              private notificationService: NotificationsService) {
+              private notificationService: NotificationsService,
+              public translate: TranslateService) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
+    translate.addLangs(['en', 'ru', 'uk']);
+    translate.setDefaultLang('en');
+
+    const browserLang = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|ru|u/) ? browserLang : 'en');
     this.setIp();
   }
 

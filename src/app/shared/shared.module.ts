@@ -26,6 +26,7 @@ import {SplitCurrencyPipe} from './pipes/split-currency.pipe';
 import {UtilsService} from './services/utils.service';
 import {RegistrationGuard} from './guards/registaration.guard';
 import {GetIconUrl} from './pipes/get-icon-url';
+import {ExcludeByFieldPipe} from './pipes/exclude-by-field.pipe';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {GetIconUrl} from './pipes/get-icon-url';
     SortPipe,
     GetIconUrl,
     ReplaceNumberPipe,
+    ExcludeByFieldPipe,
     GroupCoinPipe,
     CurrencyPipe,
     DropdownDirective,
@@ -71,6 +73,7 @@ import {GetIconUrl} from './pipes/get-icon-url';
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
+    ExcludeByFieldPipe,
     RoundCurrencyPipe,
     FormatCurrencyPipe,
     PageItemsDropdownComponent,

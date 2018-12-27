@@ -5,7 +5,7 @@ import {StoreModule} from '@ngrx/store';
 import {AppComponent} from './app.component';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {HeaderComponent} from './header/header.component';
 import {TwoFactorPopupComponent} from './popups/two-factor-popup/two-factor-popup.component';
 import {FooterComponent} from './footer/footer.component';
@@ -65,6 +65,13 @@ import {environment} from 'environments/environment';
 import {RefillSuccessfulComponent} from './balance/refill-money/refill-successful/refill-successful.component';
 import {DemoTradingPopupComponent} from './popups/demo-trading-popup/demo-trading-popup.component';
 import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup/already-registered-popup.component';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
 
 @NgModule({
   declarations: [
@@ -112,6 +119,13 @@ import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: !environment.production,
+    }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
     }),
     CoreModule,
     AppRoutingModule,

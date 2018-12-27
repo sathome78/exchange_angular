@@ -25,6 +25,8 @@
     "@ngrx/effects": "^6.1.2",
     "@ngrx/store": "^6.1.2",
     "@ngrx/store-devtools": "^6.1.2",
+    "@ngx-translate/core": "^10.0.2",
+    "@ngx-translate/http-loader": "^3.0.1",
     "@stomp/ng2-stompjs": "^6.1.0-beta.4",
     "angular2-qrcode": "^2.0.1",
     "angular2gridster": "^6.0.4",

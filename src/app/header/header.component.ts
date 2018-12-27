@@ -8,9 +8,10 @@ import {UserService} from '../shared/services/user.service';
 import {SettingsService} from '../settings/settings.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 import {environment} from '../../environments/environment';
-import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG} from './header.constants';
+import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG, LANG_ARRAY} from './header.constants';
 import {MyBalanceItem} from '../core/models/my-balance-item.model';
 import {Observable} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -29,6 +30,8 @@ export class HeaderComponent implements OnInit {
   public REFERRAL_FLAG = REFERRAL_FLAG;
   public ORDERS_FLAG = ORDERS_FLAG;
   public myBalance: Observable<MyBalanceItem>;
+  public langArray = LANG_ARRAY;
+  public lang;
 
 
   constructor(private popupService: PopupService,
@@ -38,7 +41,13 @@ export class HeaderComponent implements OnInit {
               private themeService: ThemeService,
               private settingsService: SettingsService,
               private dashboardService: DashboardService,
-              private userService: UserService) {
+              private userService: UserService,
+              public translate: TranslateService) {
+    const browserLang = translate.getBrowserLang();
+    const localization = browserLang.match(/en|ru|uk/) ? browserLang : 'en';
+    console.log(localization)
+    this.lang = this.langArray.filter(lang => lang.name === localization)[0];
+    translate.use(this.lang);
   }
 
   ngOnInit() {
@@ -79,6 +88,10 @@ export class HeaderComponent implements OnInit {
     return this.authService.getUsername();
   }
 
+  changeLocalization(lang: string) {
+    this.lang = this.langArray.filter(item => item.name === lang.toLowerCase())[0];
+    this.translate.use(lang);
+}
 
   onLogin() {
     this.logger.debug(this, 'Sign in attempt');

@@ -44,21 +44,30 @@
     <ul class="menu menu--header-menu">
       <li class="menu__item" routerLinkActive="menu__link--active">
         <a class="menu__link" href="https://exrates.me/dashboard">
-          <span class="menu__link-text">Trade
+          <span class="menu__link-text">
+            {{'HEADER.Trade' | translate}}
           </span>
         </a>
       </li>
       <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated()"
           routerLinkActive="menu__link--active"><a class="menu__link menu__link&#45;&#45;drop"><span
-        class="menu__link-text">Funds</span></a>
+        class="menu__link-text">{{'Funds' | translate}}</span></a>
         <!-- <li class="menu__item menu__item--with-submenu" ><a class="menu__link menu__link--drop"><span class="menu__link-text">Funds</span></a> -->
         <div class="submenu">
           <ul class="menu submenu__list">
-            <li class="submenu__item"><a class="submenu__link" routerLink="/funds/balance"
-                                         routerLinkActive="menu__link--active"><span
-              class="menu__link-text">Balance</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" routerLink="transaction-history"
-                                         routerLinkActive="menu__link--active"><span class="menu__link-text">Transaction history</span></a>
+            <li class="submenu__item">
+              <a class="submenu__link" routerLink="/funds/balance" routerLinkActive="menu__link--active">
+                <span class="menu__link-text">
+                  {{"HEADER.Balance" | translate}}
+                </span>
+              </a>
+            </li>
+            <li class="submenu__item">
+              <a class="submenu__link" routerLink="transaction-history" routerLinkActive="menu__link--active">
+                <span class="menu__link-text">
+                  {{'HEADER.Transaction history' | translate}}
+                </span>
+              </a>
             </li>
           </ul>
         </div>
@@ -105,7 +114,7 @@
       </li>
       <li class="menu__item" routerLinkActive="menu__link--active"><a class="menu__link"
                                                                       href="https://exrates.me/dashboard"><span
-        class="menu__link-text">News</span></a></li>
+        class="menu__link-text">{{'HEADER.News' | translate}}</span></a></li>
     </ul>
     <!--<ul class="menu">-->
     <!--<li class="menu__item menu__item&#45;&#45;with-submenu">-->
@@ -248,31 +257,17 @@
       <li class="menu__item menu__item--with-submenu">
         <a class="menu__link" href="#">
           <span class="menu__link-text">
-            <img class="language__flag" src="../../assets/img/flag-en.svg" alt="ru">
-            <span class="language__abbr">en</span>
+            <img class="language__flag" [src]="lang.icon_url" alt="ru">
+            <span class="language__abbr">{{lang.name.toUpperCase()}}</span>
           </span>
         </a>
         <div class="submenu submenu--language">
           <ul class="menu__list submenu__list submenu__list--language">
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-ru.svg"
-                                                                             alt=""><span
-              class="language__text">Russian</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-cn.svg"
-                                                                             alt=""><span
-              class="language__text">Chinese</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-pl.svg"
-                                                                             alt=""><span
-              class="language__text">Polish</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-en.svg"
-                                                                             alt=""><span
-              class="language__text">Hindi</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-cn.svg"
-                                                                             alt=""><span class="language__text">Ukrainian</span></a>
+            <li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">
+              <a class="submenu__link" (click)="changeLocalization(lang.name)" >
+                <img class="language__flag" [src]="lang.icon_url" alt="">
+                <span class="language__text">{{lang.fullName | translate}}</span>
+              </a>
             </li>
           </ul>
         </div>
