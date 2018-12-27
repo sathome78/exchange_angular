@@ -31,7 +31,7 @@
                 <div class="select__searching-items-wrap">
                   <div class="select__searching-item" *ngFor="let name of cryptoNames | groupCoin:letter"
                        (click)="selectCurrency(name)">
-                    <img src="../../assets/img/eth-icon.svg" class="select__list-item-icon">
+                    <img [src]="name.name | getIconUrl" class="select__list-item-icon">
                     <span>{{name.name}}</span>
                   </div>
                 </div>
