@@ -125,3 +125,12 @@ export const getHistoryOrdersFilterCurr = createSelector(
 );
 
 /** History orders finish */
+
+// export const getAllCurrencyPairsSelector = (state: State): OrderCurrencyPair[] => state.currencyPairs;
+export const getLoading = (state: State): boolean => state.loading;
+
+/** Selector returns array of open orders filtered by currency*/
+export const getLoadingSelector = createSelector(
+  getOrdersState,
+  getLoading
+);

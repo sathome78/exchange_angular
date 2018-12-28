@@ -45,6 +45,7 @@ export const getSelectedOrderBookOrder = createSelector(getDashboardState, fromD
 export const getCurrencyPairInfo = createSelector(getDashboardState, fromDashboard.getCurrencyPairInfo);
 export const getLastSellBuyOrder = createSelector(getDashboardState, fromDashboard.getLastSellBuyOrder);
 export const getAllTrades = createSelector(getDashboardState, fromDashboard.getAllTrades);
+export const getLoadingAllTrades = createSelector(getDashboardState, fromDashboard.getLoadingAllTrades);
 export const getTradingType = createSelector(getDashboardState, fromDashboard.getTradingType);
 
 /**

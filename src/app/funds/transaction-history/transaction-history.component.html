@@ -5,6 +5,9 @@
       <div class=" orders__page-title">
         Transaction history
       </div>
+      <div *ngIf="loading$ | async">
+        <app-loader size="small"></app-loader>
+      </div>
       <div class="orders__filter-btn" (click)="openFilterPopup()">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M15.9317 0.44323C15.8028 0.147863 15.5799 0.000159206 15.2618 0H0.737807C0.420134 0 0.196893 0.147863 0.0682816 0.44323C-0.0602502 0.753723 -0.00735105 1.01904 0.227217 1.23867L5.82145 6.84086V12.3635C5.82145 12.5607 5.89335 12.731 6.03702 12.8751L8.9417 15.784C9.07798 15.9278 9.24813 16 9.45245 16C9.54315 16 9.63766 15.9809 9.73602 15.9431C10.0312 15.8142 10.1788 15.5908 10.1788 15.2726V6.8409L15.7728 1.2387C16.0075 1.01908 16.0602 0.753842 15.9317 0.44323Z" />
@@ -97,7 +100,7 @@
           </tr>
         </ng-container>
 
-        <tr class="table__row--mob" *ngIf="!(transactionsItems$ | async).length">
+        <tr class="table__row--mob" *ngIf="!(transactionsItems$ | async).length && !(loading$ | async)">
           <td class="table__cell table__cell--taс" colspan="4">
             No matching records found
           </td>
@@ -187,6 +190,10 @@
         </span>
         Download in excell
       </button>
+
+      <div *ngIf="loading$ | async">
+        <app-loader size="small"></app-loader>
+      </div>
     </div>
     <form action="">
       <div class="row transaction__filters">
@@ -289,7 +296,7 @@
           </td>
         </tr>
 
-        <tr class="table__row" *ngIf="!(transactionsItems$ | async).length">
+        <tr class="table__row" *ngIf="!(transactionsItems$ | async).length && !(loading$ | async)">
           <td class="table__cell table__cell--tac" colspan="6">
             No matching records found
           </td>

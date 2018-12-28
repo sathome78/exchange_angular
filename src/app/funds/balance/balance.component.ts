@@ -46,6 +46,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public myBalances$: Observable<MyBalanceItem>;
   public cryptoCurrenciesForChoose$: Observable<CurrencyChoose[]>;
   public fiatCurrenciesForChoose$: Observable<CurrencyChoose[]>;
+  public loading$: Observable<boolean>;
 
   public sendMoneyData = {};
   public refillBalanceData = {};
@@ -70,6 +71,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.myBalances$ = store.pipe(select(fundsReducer.getMyBalancesSelector));
     this.cryptoCurrenciesForChoose$ = store.pipe(select(fromCore.getCryptoCurrenciesForChoose));
     this.fiatCurrenciesForChoose$ = store.pipe(select(fromCore.getFiatCurrenciesForChoose));
+    this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
   }
 
   ngOnInit() {

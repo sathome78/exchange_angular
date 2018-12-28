@@ -27,6 +27,7 @@ export class TransactionHistoryComponent implements OnInit {
   public countOfEntries$: Observable<number>;
   public countOfEntries: number = 0;
   public currencyForChoose$: Observable<CurrencyChoose[]>;
+  public loading$: Observable<boolean>;
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -58,6 +59,7 @@ export class TransactionHistoryComponent implements OnInit {
     this.transactionsItems$ = store.pipe(select(fundsReducer.getTrHistorySelector));
     this.countOfEntries$ = store.pipe(select(fundsReducer.getCountTrHistorySelector));
     this.currencyForChoose$ = store.pipe(select(mainSelectors.getAllCurrenciesForChoose));
+    this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
 
     const componentHeight = window.innerHeight;
     this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}

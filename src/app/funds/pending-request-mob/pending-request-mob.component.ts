@@ -28,6 +28,7 @@ export class PendingRequestMobComponent implements OnInit {
 
     this.pendingRequests$ = store.pipe(select(fundsReducer.getPendingRequestsSelector));
     this.countOfPendingRequests$ = store.pipe(select(fundsReducer.getCountPendingReqSelector));
+    this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
 
     this.countOfPendingRequests$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -43,6 +44,7 @@ export class PendingRequestMobComponent implements OnInit {
   }
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public pendingRequests$: Observable<PendingRequestsItem[]>;
+  public loading$: Observable<boolean>;
   public countOfPendingRequests$: Observable<number>;
   public tableScrollStyles: any = {};
   public pendingRequests: PendingRequestsItem[] = [];

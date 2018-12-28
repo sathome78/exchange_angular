@@ -175,6 +175,9 @@
       <h1 class="page-title__text">
         Open orders
       </h1>
+      <div *ngIf="loading$ | async">
+        <app-loader></app-loader>
+      </div>
     </div>
     <form action="">
       <div class="row orders__filters">
@@ -309,7 +312,7 @@
             </div>
           </td>
         </tr>
-        <tr class="table__row" *ngIf="!(orderItems$ | async).length">
+        <tr class="table__row" *ngIf="!(orderItems$ | async).length && !(loading$ | async)">
           <td class="table__cell table__cell--tac" colspan="10">
             No matching records found
           </td>

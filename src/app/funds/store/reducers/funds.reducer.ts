@@ -211,3 +211,12 @@ export const getCountTrHistory = (state: State): number => state.countTrHistory;
 
 export const getTrHistorySelector = createSelector(getFundsState, getTrHistory);
 export const getCountTrHistorySelector = createSelector(getFundsState, getCountTrHistory);
+
+// export const getAllCurrencyPairsSelector = (state: State): OrderCurrencyPair[] => state.currencyPairs;
+export const getLoading = (state: State): boolean => state.loading;
+
+/** Selector returns array of open orders filtered by currency*/
+export const getLoadingSelector = createSelector(
+  getFundsState,
+  getLoading
+);
