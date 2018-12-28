@@ -12,6 +12,9 @@
             </svg>
             to: Pending Requests
           </div>
+          <div *ngIf="loading$ | async">
+            <app-loader size="small"></app-loader>
+          </div>
           <span (click)="onGoBack()">
             <svg width="15" height="15" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path

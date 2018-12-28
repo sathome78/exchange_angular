@@ -66,6 +66,11 @@
           <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="cryptoWithdrawOut.emit(item)">Withdraw</button>
         </td>
       </tr>
+      <tr class="table__row balance__table-row" *ngIf="!balances.length && !loading">
+        <td class="table__cell" colspan="10">
+          No matching records found
+        </td>
+      </tr>
     </tbody>
   </table>
 

@@ -7,9 +7,10 @@ import {TradeHistoryService} from './trade-history.service';
 import {MarketService} from '../markets/market.service';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {select, Store} from '@ngrx/store';
-import {State, getCurrencyPair, getAllTrades} from 'app/core/reducers/index';
+import {State, getCurrencyPair, getAllTrades, getLoadingAllTrades} from 'app/core/reducers/index';
 import {TradeItem} from '../../../model/trade-item.model';
 import {HttpClient} from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
 
   secondCurrency;
   firstCurrency;
+  public loading$: Observable<boolean>;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -74,6 +76,10 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
           return timeB - timeA;
         });
       });
+
+    this.loading$ = this.store
+      .pipe(select(getLoadingAllTrades))
+      .pipe(takeUntil(this.ngUnsubscribe))
 
     // this.allTradesSubscription = this.tradeService.allTradesListener
     //   .subscribe(orders => {

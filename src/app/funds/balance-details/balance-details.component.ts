@@ -37,6 +37,7 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
     private popupService: PopupService
   ) {
     this.selectedBalance$ = store.pipe(select(fundsReducer.getSelectedBalance));
+    this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
 
     this.route.params
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -44,18 +45,19 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
         const currencyId = +params['id'];
         this.store.dispatch(new fundsAction.LoadBalanceDetailsAction(currencyId))
       });
-    this.route.queryParams
+      this.route.queryParams
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(params => {
         this.priceIn = params['priceIn'];
         this.location.replaceState(this.location.path().split('?')[0], '')
       });
 
-    this.store.dispatch(new fundsAction.LoadAllCurrenciesForChoose());
-    this.store.dispatch(new fundsAction.LoadCryptoCurrenciesForChoose());
-    this.store.dispatch(new fundsAction.LoadFiatCurrenciesForChoose());
-  }
+      this.store.dispatch(new fundsAction.LoadAllCurrenciesForChoose());
+      this.store.dispatch(new fundsAction.LoadCryptoCurrenciesForChoose());
+      this.store.dispatch(new fundsAction.LoadFiatCurrenciesForChoose());
+    }
 
+  public loading$: Observable<boolean>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public selectedBalance$: Observable<BalanceDetailsItem>;
   public selectedItem: BalanceDetailsItem = new BalanceDetailsItem();

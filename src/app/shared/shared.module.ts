@@ -25,6 +25,7 @@ import {FormatCurrencyPipe} from './pipes/format-currency.pipe';
 import {SplitCurrencyPipe} from './pipes/split-currency.pipe';
 import {UtilsService} from './services/utils.service';
 import {RegistrationGuard} from './guards/registaration.guard';
+import {LoaderComponent} from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {RegistrationGuard} from './guards/registaration.guard';
     SplitCurrencyPipe,
     PageItemsDropdownComponent,
     DateWrapper,
+    LoaderComponent,
   ],
   imports: [
     FormsModule,
@@ -73,6 +75,7 @@ import {RegistrationGuard} from './guards/registaration.guard';
     FormatCurrencyPipe,
     PageItemsDropdownComponent,
     SplitCurrencyPipe,
+    LoaderComponent,
     DateWrapper,
   ],
   providers: [

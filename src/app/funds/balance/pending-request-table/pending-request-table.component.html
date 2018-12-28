@@ -62,6 +62,12 @@
       <!-- revoke modal end -->
     </td>
   </tr>
+
+  <tr class="table__row" *ngIf="!pendingRequests.length && !loading">
+    <td class="table__cell" colspan="10">
+      No matching records found
+    </td>
+  </tr>
   </tbody>
 </table>
 
