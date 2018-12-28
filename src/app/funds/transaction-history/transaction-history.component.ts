@@ -39,6 +39,7 @@ export class TransactionHistoryComponent implements OnInit {
 
   public showFilterPopup = false;
   public tableScrollStyles: any = {};
+  public openDetails: number = null;
 
   public myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'dd.mm.yyyy',
@@ -87,7 +88,7 @@ export class TransactionHistoryComponent implements OnInit {
     }
   }
 
-  loadMoreOrders(): void {
+  loadMoreTransactions(): void {
     if(this.isDateRangeValid() && this.transactionsItems.length !== this.countOfEntries) {
       this.currentPage += 1;
       const params = {
@@ -207,6 +208,31 @@ export class TransactionHistoryComponent implements OnInit {
       });
   }
 
+  /**
+   * open submenu in the mobile version of the table
+   * @param event
+   */
+  toggleDetails(event: MouseEvent): void {
+    const element: HTMLElement = <HTMLElement>event.currentTarget;
+    const idDetails = element.dataset.id;
+    if (idDetails) {
+      const detailsElement = document.getElementById(idDetails + '');
+      if (detailsElement) {
+        detailsElement.classList.toggle('table__details-show');
+      }
+    }
+  }
+
+  openFilterPopup() {
+    this.showFilterPopup = true;
+  }
+
+  closeFilterPopup() {
+    if(this.isDateRangeValid()) {
+      this.showFilterPopup = false;
+      this.loadTransactions();
+    }
+  }
 
 
   isFiat(currName: string): boolean {

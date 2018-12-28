@@ -10,5 +10,7 @@ export class TransactionHistoryItem {
   public status: string;
   public sourceType: string;
   public transactionHash: string;
-
+  public confirmations: number;
+  public neededConfirmations: number;
+  public id: number;
 }
