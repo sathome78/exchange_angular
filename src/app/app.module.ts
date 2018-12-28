@@ -57,7 +57,6 @@ import {AuthInterceptor} from './core/interceptors/auth.interceptor';
 
 import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
 import {RecoveryPassComponent} from './popups/recovery-pass/recovery-pass.component';
-import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
 import {FinalStepRecoveryPasswordComponent} from './auth/final-step-recovery-password/final-step-recovery-password.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from 'environments/environment';
@@ -65,6 +64,7 @@ import {environment} from 'environments/environment';
 import {RefillSuccessfulComponent} from './balance/refill-money/refill-successful/refill-successful.component';
 import {DemoTradingPopupComponent} from './popups/demo-trading-popup/demo-trading-popup.component';
 import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup/already-registered-popup.component';
+import {CoreService} from './core/services/core.service';
 
 @NgModule({
   declarations: [
@@ -97,7 +97,6 @@ import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup
     GoogleDisableComponent,
     FinalRegistrationComponent,
     RecoveryPassComponent,
-    TransactionHistoryComponent,
     FinalStepRecoveryPasswordComponent,
 
     RefillSuccessfulComponent,
@@ -141,6 +140,7 @@ import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup
     TradingService,
     EmbeddedOrdersService,
     CurrencyPairInfoService,
+    CoreService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
