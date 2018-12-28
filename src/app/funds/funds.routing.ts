@@ -7,6 +7,7 @@ import {PendingRequestDetailsComponent} from './pending-request-details/pending-
 import {PendingRequestMobComponent} from './pending-request-mob/pending-request-mob.component';
 import {PendingRequestInfoComponent} from './pending-request-info/pending-request-info.component';
 import {BalanceMobileRoutesGuard} from 'app/shared/guards/balance-mobile-routes.guard';
+import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
 
 const routers: Routes = [
   { path: '',
@@ -17,6 +18,7 @@ const routers: Routes = [
       { path: 'pending-requests', component: PendingRequestMobComponent, canActivate: [BalanceMobileRoutesGuard] },
       { path: 'pending-requests/:id', component: PendingRequestDetailsComponent, canActivate: [BalanceMobileRoutesGuard] },
       { path: 'pending-requests/:id/info', component: PendingRequestInfoComponent, canActivate: [BalanceMobileRoutesGuard] },
+      { path: 'transaction-history', component: TransactionHistoryComponent},
       { path: '', pathMatch: 'full', redirectTo: '/funds/balances'},
       { path: '**', redirectTo: 'balances'}
     ]

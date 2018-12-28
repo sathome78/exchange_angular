@@ -10,10 +10,6 @@ export const FAIL_LOAD_HISTORY_ORDERS = '[Orders] Fail load history orders';
 export const SET_HISTORY_ORDERS = '[Orders] Set history orders';
 export const SET_MORE_HISTORY_ORDERS = '[Orders] Set more history orders';
 
-export const LOAD_CURRENCY_PAIRS_ORDERS = '[Orders] Load currency pairs orders';
-export const FAIL_LOAD_CURRENCY_PAIRS_ORDERS = '[Orders] Fail load currency pairs orders';
-export const SET_CURRENCY_PAIRS_ORDERS = '[Orders] Set currency pairs orders';
-
 export const CANCEL_OPEN_ORDER = '[Orders] Cancel open order';
 export const CROP_CANCELED_ORDER = '[Orders] Crop canceled order for mobile screens';
 export const FAIL_ORDERS = '[Orders] Fail of loading in orders';
@@ -118,44 +114,6 @@ export class FailLoadHistoryOrdersAction implements Action {
   constructor(public payload?) {}
 }
 
-
-/**
- * Load currency pairs
- */
-export class LoadCurrencyPairsAction implements Action {
-  readonly type = LOAD_CURRENCY_PAIRS_ORDERS;
-
-  /**
-   * Default constructor
-   * @param payload
-   */
-  constructor(public payload?) {}
-}
-
-/**
- * Set currency pairs
- */
-export class SetCurrencyPairsAction implements Action {
-  readonly type = SET_CURRENCY_PAIRS_ORDERS;
-
-  /**
-   * Default constructor
-   * @param payload
-   */
-  constructor(public payload?) {}
-}
-/**
- * Fail loading of currency pairs
- */
-export class FailLoadCurrencyPairsAction implements Action {
-  readonly type = FAIL_LOAD_CURRENCY_PAIRS_ORDERS;
-
-  /**
-   * Default constructor
-   * @param payload
-   */
-  constructor(public payload?) {}
-}
 export class FailAction implements Action {
   readonly type = FAIL_ORDERS;
 
@@ -199,9 +157,6 @@ export type Actions
   | SetHistoryOrdersAction
   | SetMoreHistoryOrdersAction
   | FailLoadHistoryOrdersAction
-  | LoadCurrencyPairsAction
-  | SetCurrencyPairsAction
-  | FailLoadCurrencyPairsAction
   | CancelOrderAction
   | FailAction
   | CropCanceledOrderAction
