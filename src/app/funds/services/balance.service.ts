@@ -2,12 +2,11 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {PendingRequestsWrapper} from '../models/pending-requests-wrapper.model';
-import {BalanceWrapper} from '../models/balance-wrapper.model';
 import {BalanceItem} from '../models/balance-item.model';
 import {MyBalanceItem} from '../../core/models/my-balance-item.model';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
 import {Router} from '@angular/router';
+import { PendingRequestsItem } from '../models/pending-requests-item.model';
 
 @Injectable()
 export class BalanceService {
@@ -31,7 +30,7 @@ export class BalanceService {
                currencyName,
                offset,
                limit,
-               excludeZero}): Observable<BalanceWrapper> {
+               excludeZero}): Observable<ResponseModel<BalanceItem[]>> {
 
     const params = {
       currencyType: type,
@@ -40,37 +39,22 @@ export class BalanceService {
       limit: limit + '',
       excludeZero: (!!excludeZero).toString(),
     }
-    return this.http.get<BalanceWrapper>(`${this.apiUrl}/info/private/v2/balances`, {params});
+    return this.http.get<ResponseModel<BalanceItem[]>>(`${this.apiUrl}/info/private/v2/balances`, {params});
   }
 
   // request to get balances
-  getPendingRequests({offset, limit}): Observable<PendingRequestsWrapper> {
+  getPendingRequests({offset, limit}): Observable<ResponseModel<PendingRequestsItem[]>> {
     const params = {
       offset: offset + '',
       limit: limit + '',
     }
-    return this.http.get<PendingRequestsWrapper>(`${this.apiUrl}/info/private/v2/balances/pendingRequests`, {params});
+    return this.http.get<ResponseModel<PendingRequestsItem[]>>(`${this.apiUrl}/info/private/v2/balances/pendingRequests`, {params});
   }
 
 
   getBalanceItems(): Observable<BalanceItem[]> {
     const url = this.apiUrl + '/info/private/v2/balances/';
     return this.http.get<BalanceItem[]>(url);
-  }
-
-  getCryptoNames(): Observable<any[]> {
-    const url = `${this.apiUrl}/info/private/v2/balances/refill/crypto-currencies`;
-    return this.http.get<string[]>(url);
-  }
-
-  getCryptoFiatNames(): Observable<{data: any[], error: any}> {
-    const url = `${this.apiUrl}/info/private/v2/balances/transfer/currencies`;
-    return this.http.get<{data: any[], error: any}>(url);
-  }
-
-  getFiatNames(): Observable<any[]> {
-    const url = `${this.apiUrl}/info/private/v2/balances/refill/fiat-currencies`;
-    return this.http.get<string[]>(url);
   }
 
   getCurrencyData(cryptoName: string) {

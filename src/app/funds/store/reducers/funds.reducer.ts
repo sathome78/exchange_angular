@@ -4,16 +4,8 @@ import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {BalanceItem} from 'app/funds/models/balance-item.model';
 import {PendingRequestsItem} from 'app/funds/models/pending-requests-item.model';
 import {MyBalanceItem} from 'app/core/models/my-balance-item.model';
-import {CurrencyChoose} from '../../models/currency-choose.model';
-import * as dashboard from '../../../dashboard/actions/dashboard.actions';
-import {SET_ALL_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
-import {SET_CRYPTO_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
-import {SET_FIAT_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
-import {CurrencyPair} from '../../../model/currency-pair.model';
 import {BalanceDetailsItem} from '../../models/balance-details-item.model';
-import {FAIL_LOAD_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
-import {LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
-import {LOAD_FIAT_CURRENCIES_FOR_CHOOSE} from '../actions/funds.actions';
+import {TransactionHistoryItem} from 'app/funds/models/transactions-history-item.model';
 
 export interface State {
   cryptoBal: BalanceItem[];
@@ -25,9 +17,9 @@ export interface State {
   myBalances: MyBalanceItem | null,
   balanceDetailsInfo: BalanceDetailsItem,
   loading: boolean;
-  cryptoCurrenciesForChoose: CurrencyChoose[];
-  fiatCurrenciesForChoose: CurrencyChoose[];
-  allCurrenciesForChoose: CurrencyChoose[];
+
+  transactionsHistory: TransactionHistoryItem[];
+  countTrHistory: number;
 }
 
 export const INIT_STATE: State = {
@@ -38,9 +30,9 @@ export const INIT_STATE: State = {
   pendingRequests: defaultValues.pendingRequests,
   countPendingRequests: defaultValues.countPendingRequests,
   myBalances: defaultValues.myBalances,
-  cryptoCurrenciesForChoose: [],
-  fiatCurrenciesForChoose: [],
-  allCurrenciesForChoose: [],
+  transactionsHistory: defaultValues.transactionsHistory,
+  countTrHistory: defaultValues.countTrHistory,
+
   balanceDetailsInfo: null,
   loading: false,
 };
@@ -73,20 +65,6 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         ...state,
         loading: false,
       };
-    case fromActions.LOAD_ALL_CURRENCIES_FOR_CHOOSE:
-      return {...state, loading: true};
-    case fromActions.LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE:
-      return {...state, loading: true};
-    case fromActions.LOAD_FIAT_CURRENCIES_FOR_CHOOSE:
-      return {...state, loading: true};
-      case fromActions.SET_ALL_CURRENCIES_FOR_CHOOSE:
-      return {...state, allCurrenciesForChoose: action.payload};
-    case fromActions.SET_CRYPTO_CURRENCIES_FOR_CHOOSE:
-      return {...state, cryptoCurrenciesForChoose: action.payload};
-    case fromActions.SET_FIAT_CURRENCIES_FOR_CHOOSE:
-      return {...state, fiatCurrenciesForChoose: action.payload};
-      case fromActions.FAIL_LOAD_CURRENCIES_FOR_CHOOSE:
-      return {...state, loading: false};
 
     case fromActions.LOAD_FIAT_BAL:
       return {...state, loading: true};
@@ -157,63 +135,88 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
     case fromActions.FAIL_LOAD_BALANCE_DETAILS_INFO:
       return {...state, loading: false};
 
+    // Transactions History
+
+    case fromActions.LOAD_TRANSACTIONS_HISTORY:
+      return {...state, loading: true};
+    case fromActions.SET_TRANSACTIONS_HISTORY:
+      return {
+        ...state,
+        loading: false,
+        transactionsHistory: action.payload.items,
+        countTrHistory: action.payload.count,
+      };
+    case fromActions.SET_MORE_TRANSACTIONS_HISTORY:
+      return {
+        ...state,
+        loading: false,
+        transactionsHistory: [...state.transactionsHistory, ...action.payload.items],
+        countTrHistory: action.payload.count,
+      };
+    case fromActions.FAIL_LOAD_TRANSACTIONS_HISTORY:
+      return {
+        ...state,
+        loading: false,
+      };
+
     default :
       return state;
   }
 }
 
-export const getOrdersState = createFeatureSelector<State>('funds');
+export const getFundsState = createFeatureSelector<State>('funds');
 
 /** Crypto balances */
 
 export const getCryptoBalances = (state: State): BalanceItem[] => state.cryptoBal;
 export const getCountCryptoBal = (state: State): number => state.countCryptoBal;
 
-export const getCryptoBalancesSelector = createSelector(getOrdersState, getCryptoBalances);
-export const getCountCryptoBalSelector = createSelector(getOrdersState, getCountCryptoBal);
+export const getCryptoBalancesSelector = createSelector(getFundsState, getCryptoBalances);
+export const getCountCryptoBalSelector = createSelector(getFundsState, getCountCryptoBal);
 
 /** Fiat balances */
 
 export const getFiatBalances = (state: State): BalanceItem[] => state.fiatBal;
 export const getCountFiatBal = (state: State): number => state.countFiatBal;
 
-export const getFiatBalancesSelector = createSelector(getOrdersState, getFiatBalances);
-export const getCountFiatBalSelector = createSelector(getOrdersState, getCountFiatBal);
+export const getFiatBalancesSelector = createSelector(getFundsState, getFiatBalances);
+export const getCountFiatBalSelector = createSelector(getFundsState, getCountFiatBal);
 
 /** Pending requests */
 
 export const getPendingRequests = (state: State): PendingRequestsItem[] => state.pendingRequests;
 export const getCountPendingReq = (state: State): number => state.countPendingRequests;
 
-export const getPendingRequestsSelector = createSelector(getOrdersState, getPendingRequests);
-export const getCountPendingReqSelector = createSelector(getOrdersState, getCountPendingReq);
+export const getPendingRequestsSelector = createSelector(getFundsState, getPendingRequests);
+export const getCountPendingReqSelector = createSelector(getFundsState, getCountPendingReq);
 
 /** My Balances */
 
 export const getMyBalances = (state: State): any => state.myBalances;
-export const getMyBalancesSelector = createSelector(getOrdersState, getMyBalances);
+export const getMyBalancesSelector = createSelector(getFundsState, getMyBalances);
 
 /** Selected Balance Info */
 
 export const getBalanceDetails = (state: State): any => state.balanceDetailsInfo;
-export const getSelectedBalance = createSelector(getOrdersState, getBalanceDetails);
+export const getSelectedBalance = createSelector(getFundsState, getBalanceDetails);
 
 
 // /** Orders currencies pairs finish */
 
-/** Selector returns crypto and fiat currencies for choose in dropdown*/
-export const getAllCurrenciesForChoose = (state: State): CurrencyChoose[] => state.allCurrenciesForChoose;
-/** Selector returns crypto and fiat currencies for choose in dropdown*/
-export const getCryptoCurrenciesForChoose = (state: State): CurrencyChoose[] => state.cryptoCurrenciesForChoose;
-/** Selector returns crypto and fiat currencies for choose in dropdown*/
-export const getFiatCurrenciesForChoose = (state: State): CurrencyChoose[] => state.fiatCurrenciesForChoose;
 
+/** Transactions History */
+
+export const getTrHistory = (state: State): TransactionHistoryItem[] => state.transactionsHistory;
+export const getCountTrHistory = (state: State): number => state.countTrHistory;
+
+export const getTrHistorySelector = createSelector(getFundsState, getTrHistory);
+export const getCountTrHistorySelector = createSelector(getFundsState, getCountTrHistory);
 
 // export const getAllCurrencyPairsSelector = (state: State): OrderCurrencyPair[] => state.currencyPairs;
 export const getLoading = (state: State): boolean => state.loading;
 
 /** Selector returns array of open orders filtered by currency*/
 export const getLoadingSelector = createSelector(
-  getOrdersState,
+  getFundsState,
   getLoading
 );

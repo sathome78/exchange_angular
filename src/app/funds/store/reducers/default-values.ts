@@ -9,6 +9,10 @@ export const defaultValues = {
     'BTC': 0,
     'USD': 0,
   },
+
+  transactionsHistory: [],
+  countTrHistory: 0,
+
 };
 
 export const defaultCommissionData = {

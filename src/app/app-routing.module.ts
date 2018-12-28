@@ -2,21 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './shared/guards/auth.guard';
-// import {BalanceComponent} from './funds/balance/balance.component';
-import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
-// import {RefillMoneyComponent} from './balance/refill-money/refill-money.component';
 import { ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
 import { ReferralChargesComponent } from './referral/referral-charges/referral-charges.component';
 import { FinalRegistrationComponent } from './auth/final-registration/final-registration.component';
 import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-password/final-step-recovery-password.component';
 import { RegistrationGuard } from './shared/guards/registaration.guard';
-// import {FundsComponent} from './funds/funds.component';
 
 const routes: Routes = [
   // permit all
   { path: 'markets/:currency-pair', component: DashboardComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
   { path: 'final-registration/token', component: FinalRegistrationComponent, canActivate: [RegistrationGuard] },
   { path: 'referral-structure', component: ReferralStructureComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
   { path: 'referral-charges', component: ReferralChargesComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
