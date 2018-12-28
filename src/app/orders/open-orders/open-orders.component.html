@@ -199,6 +199,7 @@
             bindValue="id"
             name="currencyPair"
             [(ngModel)]="currencyPairId"
+            (change)="loadOrders()"
           ></ng-select>
           <div class="wrap-input__line"></div>
         </div>

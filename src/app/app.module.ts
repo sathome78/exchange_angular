@@ -64,6 +64,7 @@ import {environment} from 'environments/environment';
 import {RefillSuccessfulComponent} from './balance/refill-money/refill-successful/refill-successful.component';
 import {DemoTradingPopupComponent} from './popups/demo-trading-popup/demo-trading-popup.component';
 import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup/already-registered-popup.component';
+import {CoreService} from './core/services/core.service';
 
 @NgModule({
   declarations: [
@@ -139,6 +140,7 @@ import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup
     TradingService,
     EmbeddedOrdersService,
     CurrencyPairInfoService,
+    CoreService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

@@ -1,14 +1,17 @@
-import {Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
 import {IMyDpOptions, IMyDate, IMyDateModel} from 'mydatepicker';
 import {Store, select} from '@ngrx/store';
 
 import {OrderItem} from '../models/order-item.model';
 import * as ordersReducer from '../store/reducers/orders.reducer';
 import * as ordersAction from '../store/actions/orders.actions';
+import * as coreAction from '../../core/actions/core.actions';
+import * as mainSelectors from '../../core/reducers';
+import {State} from '../../core/reducers';
 import {Observable, Subject} from 'rxjs';
-import { OrderCurrencyPair } from '../models/order-currency-pair';
-import { takeUntil } from 'rxjs/operators';
-import { UtilsService } from 'app/shared/services/utils.service';
+import {takeUntil} from 'rxjs/operators';
+import {UtilsService} from 'app/shared/services/utils.service';
+import {SimpleCurrencyPair} from 'app/core/models/simple-currency-pair';
 
 @Component({
   selector: 'app-open-orders',
@@ -23,7 +26,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public orderItems: OrderItem[] = [];
   public countOfEntries$: Observable<number>;
   public countOfEntries: number = 0;
-  public currencyPairs$: Observable<OrderCurrencyPair[]>;
+  public currencyPairs$: Observable<SimpleCurrencyPair[]>;
   public currentPage = 1;
   public countPerPage = 15;
   public isMobile: boolean = false;
@@ -47,12 +50,12 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public tableScrollStyles: any = {};
 
   constructor(
-    private store: Store<ordersReducer.State>,
+    private store: Store<State>,
     private utils: UtilsService,
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getOpenOrdersCount));
-    this.currencyPairs$ = store.pipe(select(ordersReducer.getAllCurrencyPairsSelector));
+    this.currencyPairs$ = store.pipe(select(mainSelectors.getSimpleCurrencyPairsSelector));
 
     const componentHeight = window.innerHeight;
     this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
@@ -62,7 +65,6 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     this.countOfEntries$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((items) => this.countOfEntries = items)
-
   }
 
   ngOnInit() {
@@ -71,7 +73,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       this.countPerPage = 10;
     }
     this.initDate();
-    this.store.dispatch(new ordersAction.LoadCurrencyPairsAction());
+    this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
     this.loadOrders();
   }
 
@@ -96,8 +98,8 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       const params = {
         page: this.currentPage,
         limit:this.countPerPage,
-        dateFrom: this.formatDate(this.modelDateFrom.date),
-        dateTo: this.formatDate(this.modelDateTo.date),
+        // dateFrom: this.formatDate(this.modelDateFrom.date),
+        // dateTo: this.formatDate(this.modelDateTo.date),
         currencyPairId: this.currencyPairId,
         concat: true,
       }

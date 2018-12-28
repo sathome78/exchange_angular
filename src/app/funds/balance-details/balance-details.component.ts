@@ -7,6 +7,7 @@ import * as fromCore from '../../core/reducers';
 import {Observable, Subject} from 'rxjs';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
+import * as coreAction from '../../core/actions/core.actions';
 import {takeUntil} from 'rxjs/operators';
 import {Location} from '@angular/common';
 import {BalanceItem} from 'app/funds/models/balance-item.model';
@@ -51,9 +52,9 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
         this.location.replaceState(this.location.path().split('?')[0], '')
       });
 
-    this.store.dispatch(new fundsAction.LoadAllCurrenciesForChoose());
-    this.store.dispatch(new fundsAction.LoadCryptoCurrenciesForChoose());
-    this.store.dispatch(new fundsAction.LoadFiatCurrenciesForChoose());
+    this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
+    this.store.dispatch(new coreAction.LoadCryptoCurrenciesForChoose());
+    this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
   }
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();

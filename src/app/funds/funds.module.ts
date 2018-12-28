@@ -45,6 +45,7 @@ import {BalanceDetailsComponent} from './balance-details/balance-details.compone
 import {PendingRequestDetailsComponent} from './pending-request-details/pending-request-details.component';
 import {PendingRequestInfoComponent} from './pending-request-info/pending-request-info.component';
 import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
+import {TransactionsService} from './services/transaction.service';
 
 @NgModule({
   imports: [
@@ -95,7 +96,7 @@ import {TransactionHistoryComponent} from './transaction-history/transaction-his
   ],
   providers: [
     BalanceService,
-
+    TransactionsService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
   ]

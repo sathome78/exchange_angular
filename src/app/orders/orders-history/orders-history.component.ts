@@ -5,12 +5,15 @@ import {Store, select} from '@ngrx/store';
 import {OrderItem} from '../models/order-item.model';
 import * as ordersReducer from '../store/reducers/orders.reducer';
 import * as ordersAction from '../store/actions/orders.actions';
+import * as coreAction from '../../core/actions/core.actions';
+import * as mainSelectors from '../../core/reducers';
+import {State} from '../../core/reducers';
 import {Observable, Subject} from 'rxjs';
-import {OrderCurrencyPair} from '../models/order-currency-pair';
 import {OrdersService} from '../orders.service';
 import {takeUntil} from 'rxjs/operators';
 import saveAs from 'file-saver';
-import { UtilsService } from 'app/shared/services/utils.service';
+import {UtilsService} from 'app/shared/services/utils.service';
+import {SimpleCurrencyPair} from 'app/core/models/simple-currency-pair';
 
 @Component({
   selector: 'app-orders-history',
@@ -24,7 +27,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public orderItems: OrderItem[] = [];
   public countOfEntries$: Observable<number>;
   public countOfEntries: number = 0;
-  public currencyPairs$: Observable<OrderCurrencyPair[]>;
+  public currencyPairs$: Observable<SimpleCurrencyPair[]>;
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -48,13 +51,13 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private store: Store<ordersReducer.State>,
+    private store: Store<State>,
     private ordersService: OrdersService,
     private utils: UtilsService,
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getHistoryOrdersCount));
-    this.currencyPairs$ = store.pipe(select(ordersReducer.getAllCurrencyPairsSelector));
+    this.currencyPairs$ = store.pipe(select(mainSelectors.getSimpleCurrencyPairsSelector));
 
     const componentHeight = window.innerHeight;
     this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
@@ -72,7 +75,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       this.countPerPage = 30;
     }
     this.initDate();
-    this.store.dispatch(new ordersAction.LoadCurrencyPairsAction());
+    this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
     this.loadOrders();
   }
 
