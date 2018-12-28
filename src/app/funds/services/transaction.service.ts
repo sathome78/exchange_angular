@@ -55,7 +55,7 @@ export class TransactionsService {
       params['currencyId'] = currencyId;
     }
     // TODO change url
-    return this.http.get(`${this.apiUrl}/info/private/v2/balances/inputOutputData/excel`, {params, responseType: 'blob'});
+    return this.http.get(`${this.apiUrl}/info/private/v2/download/inputOutputData/excel`, {params, responseType: 'blob'});
   }
 
 }
