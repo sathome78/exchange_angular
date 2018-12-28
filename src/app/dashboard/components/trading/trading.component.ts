@@ -345,21 +345,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
    calculateAmountByTotal(): void {
       let total = 0
-      if (this.mainTab === 'BUY') {
+      if(this.mainTab === 'BUY') {
         total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0;
-
-        this.isTotalWithCommission = true;
-        this.setTotalInValue(total);
-        this.order.total = total;
-        this.order.commission = this.order.total * (this.commissionIndex / 100.2);
-        const x = this.mainTab === 'BUY' ? this.order.total - this.order.commission : this.order.total + this.order.commission;
-        this.order.amount = x / this.order.rate;
-        this.setQuantityValue(this.order.amount);
       } else {
         total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0;
-        this.setQuantityValue(total);
-        this.order.amount = total;
-        this.getCommission();
       }
 
    }
@@ -464,36 +453,30 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   onSubmit(): void {
     // window.open('https://exrates.me/dashboard', '_blank');
-    if(!this.isAuthenticated()) {
+    if (!this.isAuthenticated()) {
       this.popupService.showMobileLoginPopup(true);
       return;
     }
 
-    if (environment.production) {
-      // todo while insecure
-      this.popupService.demoPopupMessage = 0;
-      this.popupService.showDemoTradingPopup(true);
-    } else {
-      if ( (this.stopForm.valid
-        && this.orderStop
-        && this.dropdownLimitValue === 'STOP_LIMIT')
-        || (this.limitForm.valid
-          && this.dropdownLimitValue === 'LIMIT'
-          || this.dropdownLimitValue === 'ICO'
-          || this.dropdownLimitValue === 'MARKET_PRICE')) {
-        this.order.currencyPairId = this.currentPair.currencyPairId;
-        this.order.baseType = this.dropdownLimitValue;
-        this.order.orderType = this.mainTab;
-        if (this.dropdownLimitValue === 'STOP_LIMIT') {
-          this.order.stop = this.orderStop;
-        }
-        if (!this.isTotalWithCommission) {
-          this.order.total = this.mainTab === 'BUY' ?
-            this.order.total + this.order.commission :
-            this.order.total - this.order.commission;
-        }
-        this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
+    if ( (this.stopForm.valid
+      && this.orderStop
+      && this.dropdownLimitValue === 'STOP_LIMIT')
+      || (this.limitForm.valid
+        && this.dropdownLimitValue === 'LIMIT'
+        || this.dropdownLimitValue === 'ICO'
+        || this.dropdownLimitValue === 'MARKET_PRICE')) {
+      this.order.currencyPairId = this.currentPair.currencyPairId;
+      this.order.baseType = this.dropdownLimitValue;
+      this.order.orderType = this.mainTab;
+      if (this.dropdownLimitValue === 'STOP_LIMIT') {
+        this.order.stop = this.orderStop;
       }
+      if (!this.isTotalWithCommission) {
+        this.order.total = this.mainTab === 'BUY' ?
+          this.order.total + this.order.commission :
+          this.order.total - this.order.commission;
+      }
+      this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
     }
   }
 
