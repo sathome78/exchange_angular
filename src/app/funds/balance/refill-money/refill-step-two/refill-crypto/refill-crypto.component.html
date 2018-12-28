@@ -53,7 +53,7 @@
     Generate new address
   </button>
 
-  <div class="request-errors" *ngIf="!isGenerateNewAddress && !cryptoDataByName?.merchantCurrencyData[0]?.mainAddress">
+  <div class="request-errors" *ngIf="!isGenerateNewAddress && cryptoDataByName && !cryptoDataByName?.merchantCurrencyData.length">
     Sorry, refill is closed for current moment!
   </div>
 </div>
