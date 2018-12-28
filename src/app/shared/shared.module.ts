@@ -25,6 +25,7 @@ import {FormatCurrencyPipe} from './pipes/format-currency.pipe';
 import {SplitCurrencyPipe} from './pipes/split-currency.pipe';
 import {UtilsService} from './services/utils.service';
 import {RegistrationGuard} from './guards/registaration.guard';
+import {LoaderComponent} from './components/loader/loader.component';
 import {GetIconUrl} from './pipes/get-icon-url';
 
 @NgModule({
@@ -45,6 +46,7 @@ import {GetIconUrl} from './pipes/get-icon-url';
     SplitCurrencyPipe,
     PageItemsDropdownComponent,
     DateWrapper,
+    LoaderComponent,
   ],
   imports: [
     FormsModule,
@@ -75,6 +77,7 @@ import {GetIconUrl} from './pipes/get-icon-url';
     FormatCurrencyPipe,
     PageItemsDropdownComponent,
     SplitCurrencyPipe,
+    LoaderComponent,
     DateWrapper,
     GetIconUrl,
   ],

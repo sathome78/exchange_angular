@@ -28,17 +28,14 @@ export const LOAD_BALANCE_DETAILS_INFO = '[Funds] Load balance confirmation info
 export const FAIL_LOAD_BALANCE_DETAILS_INFO = '[Funds] Fail load balance confirmation info';
 export const SET_BALANCE_DETAILS_INFO = '[Funds] Set balance confirmation info';
 
-export const LOAD_ALL_CURRENCIES_FOR_CHOOSE = '[Funds] Load all currencies for choose';
-export const LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE = '[Funds] Load crypto currencies for choose';
-export const LOAD_FIAT_CURRENCIES_FOR_CHOOSE = '[Funds] Load fiat currencies for choose';
-
-export const SET_ALL_CURRENCIES_FOR_CHOOSE = '[Funds] Set all currencies for choose';
-export const SET_CRYPTO_CURRENCIES_FOR_CHOOSE = '[Funds] Set crypto currencies for choose';
-export const SET_FIAT_CURRENCIES_FOR_CHOOSE = '[Funds] Set fiat currencies for choose';
 export const LOAD_MAX_CURRENCY_PAIR_BY_CURRENCY_NAME = '[Funds] Load max currency pair by currency name';
-
-export const FAIL_LOAD_CURRENCIES_FOR_CHOOSE = '[Funds] Fail Load currencies for choose';
 export const FAIL_LOAD_MAX_CURRENCY_PAIR_BY_CURRENCY_NAME = '[Funds] Fail Load currency pair by currency name';
+
+export const LOAD_TRANSACTIONS_HISTORY = '[Funds] Load transactions history';
+export const FAIL_LOAD_TRANSACTIONS_HISTORY = '[Funds] Fail load transactions history';
+export const SET_TRANSACTIONS_HISTORY = '[Funds] Set transactions history';
+export const SET_MORE_TRANSACTIONS_HISTORY = '[Funds] Concat transactions history';
+
 
 /**
  * Loading crypto balances
@@ -144,26 +141,6 @@ export class FailRevokePendingReqAction implements Action {
   readonly type = FAIL_REVOKE_PENDING_REQ;
   constructor(public payload?) {}
 }
-  /**
-  * Change currency pair 'BTC/USD'
-  */
-export class SetAllCurrenciesForChoose implements Action {
-  readonly type = SET_ALL_CURRENCIES_FOR_CHOOSE;
-  /**
-   * Default constructor
-   * @param payload
-   */
-  constructor(public payload) {}
-}
-
-export class LoadAllCurrenciesForChoose implements Action {
-  readonly type = LOAD_ALL_CURRENCIES_FOR_CHOOSE;
-  /**
-   * Default constructor
-   * @param payload
-   */
-  constructor(public payload?) {}
-}
 
 export class LoadMaxCurrencyPairByCurrencyName implements Action {
   readonly type = LOAD_MAX_CURRENCY_PAIR_BY_CURRENCY_NAME;
@@ -174,50 +151,28 @@ export class LoadMaxCurrencyPairByCurrencyName implements Action {
   constructor(public payload) {}
 }
 
-export class LoadCryptoCurrenciesForChoose implements Action {
-  readonly type = LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE;
-  /**
-   * Default constructor
-   * @param payload
-   */
-  constructor(public payload?) {}
-}
-
-export class LoadFiatCurrenciesForChoose implements Action {
-  readonly type = LOAD_FIAT_CURRENCIES_FOR_CHOOSE;
-  /**
-   * Default constructor
-   * @param payload
-   */
-  constructor(public payload?) {}
-}
-
-export class SetCryptoCurrenciesForChoose implements Action {
-  readonly type = SET_CRYPTO_CURRENCIES_FOR_CHOOSE;
-  /**
-   * Default constructor
-   * @param payload
-   */
-  constructor(public payload) {}
-}
-
-export class SetFiatCurrenciesForChoose implements Action {
-  readonly type = SET_FIAT_CURRENCIES_FOR_CHOOSE;
-  /**
-   * Default constructor
-   * @param payload
-   */
-  constructor(public payload) {}
-}
-
-export class FailLoadCurrenciesForChoose implements Action {
-  readonly type = FAIL_LOAD_CURRENCIES_FOR_CHOOSE;
-  constructor(public payload) {}
-}
-
 export class FailLoadMaxCurrencyPairByCurrencyName implements Action {
   readonly type = FAIL_LOAD_MAX_CURRENCY_PAIR_BY_CURRENCY_NAME;
   constructor(public payload) {}
+}
+/**
+ * Loading crypto balances
+ */
+export class LoadTransactionsHistoryAction implements Action {
+  readonly type = LOAD_TRANSACTIONS_HISTORY;
+  constructor(public payload?) {}
+}
+export class SetTransactionsHistoryAction implements Action {
+  readonly type = SET_TRANSACTIONS_HISTORY;
+  constructor(public payload?) {}
+}
+export class SetMoreTransactionsHistoryAction implements Action {
+  readonly type = SET_MORE_TRANSACTIONS_HISTORY;
+  constructor(public payload?) {}
+}
+export class FailLoadTransactionsHistoryAction implements Action {
+  readonly type = FAIL_LOAD_TRANSACTIONS_HISTORY;
+  constructor(public payload?) {}
 }
 
 /**
@@ -239,18 +194,15 @@ export type Actions
   | LoadMyBalancesAction
   | SetMyBalancesAction
   | FailLoadMyBalancesAction
-  | SetAllCurrenciesForChoose
-  | SetCryptoCurrenciesForChoose
-  | SetFiatCurrenciesForChoose
   | FailRevokePendingReqAction
   | RevokePendingReqAction
   | LoadBalanceDetailsAction
   | SetBalanceDetailsAction
   | FailLoadBalanceDetailsAction
-  | FailLoadCurrenciesForChoose
-  | LoadAllCurrenciesForChoose
-  | LoadCryptoCurrenciesForChoose
-  | LoadFiatCurrenciesForChoose
   | LoadMaxCurrencyPairByCurrencyName
   | FailLoadMaxCurrencyPairByCurrencyName
+  | LoadTransactionsHistoryAction
+  | SetTransactionsHistoryAction
+  | SetMoreTransactionsHistoryAction
+  | FailLoadTransactionsHistoryAction
 

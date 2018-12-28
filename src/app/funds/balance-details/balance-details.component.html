@@ -11,6 +11,9 @@
         </svg>
         to: All Balance
       </div>
+      <div *ngIf="loading$ | async">
+        <app-loader size="small"></app-loader>
+      </div>
       <ng-container *ngIf="(selectedBalance$ | async); let selectedItem">
         <div class="open-mob-balance__content">
           <div>

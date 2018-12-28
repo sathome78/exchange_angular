@@ -1,15 +1,12 @@
 import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {MockDataService} from '../../../../../shared/services/mock-data.service';
 import {CurrencyBalanceModel} from '../../../../../model/currency-balance.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
 import {select, Store} from '@ngrx/store';
-import {getCryptoCurrenciesForChoose, getFiatCurrenciesForChoose, State} from 'app/core/reducers';
-import {environment} from '../../../../../../environments/environment';
+import {getFiatCurrenciesForChoose, State} from 'app/core/reducers';
 import {PopupService} from '../../../../../shared/services/popup.service';
-import {BalanceItem} from 'app/funds/models/balance-item.model';
 import * as _uniq from 'lodash/uniq';
 import {RefillResponse} from '../../../../../model/refill-response';
 
