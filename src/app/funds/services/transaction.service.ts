@@ -34,7 +34,7 @@ export class TransactionsService {
     if(currencyId) {
       params['currencyId'] = currencyId;
     }
-    return this.http.get<ResponseModel<TransactionHistoryItem[]>>(`${this.apiUrl}/info/private/v2/balances/inputOutputDatas`, {params});
+    return this.http.get<ResponseModel<TransactionHistoryItem[]>>(`${this.apiUrl}/info/private/v2/balances/inputOutputData`, {params});
   }
 
   // request to get closed orders
