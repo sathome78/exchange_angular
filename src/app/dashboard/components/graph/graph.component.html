@@ -1,6 +1,6 @@
 <div class="widget widget--graph-color">
   <div class="widget__header panel-heading">
-    <span class="widget__name">Graph <span>{{firstCurrency}} / {{secondCurrency}}</span></span>
+    <span class="widget__name">{{'Graph' | translate}} <span>{{firstCurrency}} / {{secondCurrency}}</span></span>
     <a href="#" class="widget__question">
       <span class="widget__question-img">
         <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -106,8 +106,8 @@
      <div class="widget__graph--mob">
       <!-- <div class="amcharts-stock_chart_div" id="tv_chart_container"></div> -->
       <div class="widget__buy-sell-btn-wrap">
-        <a class="widget__buy-sell-btn widget__buy-sell-btn--green" (click)="setMobileWidget('trading', 'BUY')">Buy BTC</a>
-        <a class="widget__buy-sell-btn widget__buy-sell-btn--red" (click)="setMobileWidget('trading', 'SELL')">Sell BTC</a>
+        <a class="widget__buy-sell-btn widget__buy-sell-btn--green" (click)="setMobileWidget('trading', 'BUY')">{{'Buy BTC' | translate}}</a>
+        <a class="widget__buy-sell-btn widget__buy-sell-btn--red" (click)="setMobileWidget('trading', 'SELL')">{{'Sell BTC' | translate}}</a>
       </div>
     </div>
   </div>

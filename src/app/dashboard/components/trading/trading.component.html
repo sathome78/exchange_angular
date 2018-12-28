@@ -1,6 +1,6 @@
 <div class="widget widget--gradient" >
   <div class="widget__header panel-heading">
-    <span class="widget__name">Trading</span>
+    <span class="widget__name">{{'Trading' | translate}}</span>
     <a href="#" class="widget__question">
       <span class="widget__question-img">
         <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -23,11 +23,11 @@
   <div class="tabs widget__tabs" *ngIf="currentPair">
     <button class="tabs__item tabs__item--big "
             [ngClass]="{'tabs__item--active': mainTab === 'BUY', 'tab-no-active': mainTab !== 'BUY'}"
-            (click)="toggleMainTab('BUY')">Buy {{arrPairName[0]}}
+            (click)="toggleMainTab('BUY')" >Buy {{arrPairName[0]}}
     </button>
     <button class="tabs__item tabs__item--big"
             [ngClass]="{'tabs__item--active': mainTab === 'SELL', 'tab-no-active': mainTab !== 'SELL'}"
-            (click)="toggleMainTab('SELL')">Sell {{arrPairName[0]}}
+            (click)="toggleMainTab('SELL')" >Sell {{arrPairName[0]}}
     </button>
   </div>
 

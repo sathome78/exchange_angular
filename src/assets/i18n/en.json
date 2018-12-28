@@ -1,17 +1,34 @@
 {
-  "HEADER": {
     "News": "News",
     "Trade": "Trade",
     "Funds": "Funds",
+    "History": "History",
+    "Graph": "Graph",
     "Balance": "Balance",
+    "Markets": "Markets",
+    "Balances": "Balances",
+    "Open": "Open",
+    "Chat": "Chat",
+    "Book": "Book",
+    "Orders": "Orders",
+    "Open orders": "Open orders",
+    "Settings": "Settings",
+    "Referral": "Referral",
+    "login": "login",
+    "logout": "logout",
+    "Estimated holdings": "Estimated holdings",
+    "New user": "New user",
+    "Log out": "Log out",
+    "Registration": "Registration",
+    "Referral charges": "Referral charges",
+    "Referral structure": "Referral structure",
+    "Orders history": "Orders history",
     "Transaction history": "Transaction history",
     "Russian": "Russian",
     "English": "English",
     "Chinese": "Chinese",
     "Polish": "Polish",
     "Hindi": "Hindi",
-    "Ukrainian": "Ukrainian"
-  }
-
-
+    "Ukrainian": "Ukrainian",
+    "Graph": "Graph",
 }

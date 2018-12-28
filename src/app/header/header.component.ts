@@ -44,10 +44,10 @@ export class HeaderComponent implements OnInit {
               private userService: UserService,
               public translate: TranslateService) {
     const browserLang = translate.getBrowserLang();
-    const localization = browserLang.match(/en|ru|uk/) ? browserLang : 'en';
-    console.log(localization)
+    const localization = browserLang.match(/en|ru|uk|pl/) ? browserLang : 'en';
+    // const localization = 'en';
     this.lang = this.langArray.filter(lang => lang.name === localization)[0];
-    translate.use(this.lang);
+    translate.use(this.lang.name);
   }
 
   ngOnInit() {

@@ -27,6 +27,7 @@ import {UtilsService} from './services/utils.service';
 import {RegistrationGuard} from './guards/registaration.guard';
 import {GetIconUrl} from './pipes/get-icon-url';
 import {ExcludeByFieldPipe} from './pipes/exclude-by-field.pipe';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -55,11 +56,13 @@ import {ExcludeByFieldPipe} from './pipes/exclude-by-field.pipe';
     PerfectScrollbarModule,
     QRCodeModule,
     InfiniteScrollModule,
-    RecaptchaModule
+    RecaptchaModule,
+
   ],
   exports: [
     InfiniteScrollModule,
     PerfectScrollbarModule,
+
     QRCodeModule,
     RecaptchaModule,
     InfiniteScrollModule,
