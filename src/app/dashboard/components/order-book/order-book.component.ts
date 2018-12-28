@@ -282,9 +282,11 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPair) => {
         this.activeCurrencyPair = pair;
-        this.initData(pair);
-        this.updateSubscription(pair);
-        this.loadMinAndMaxValues(pair);
+        if(pair.currencyPairId !== 0) {
+          this.initData(pair);
+          this.loadMinAndMaxValues(pair);
+        }
+        // this.updateSubscription(pair);
       });
 
     // this.store
@@ -454,19 +456,19 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
    * @param {CurrencyPair} pair - active pair
    */
   updateSubscription(pair: CurrencyPair) {
-    this.orderBookService.subscribeStompOrders(pair, this.precision)
-      .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'SELL') : orders.type === 'SELL'))
-      .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
-      .subscribe(orders => {
-        this.sellOrders = orders;
-      });
-    this.orderBookService.subscribeStompOrders(pair, this.precision)
-      .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'BUY') : orders.type === 'BUY'))
-      .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
-      .subscribe(orders => {
-        this.buyOrders = orders;
-        this.setData();
-      });
+    // this.orderBookService.subscribeStompOrders(pair, this.precision)
+    //   .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'SELL') : orders.type === 'SELL'))
+    //   .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
+    //   .subscribe(orders => {
+    //     this.sellOrders = orders;
+    //   });
+    // this.orderBookService.subscribeStompOrders(pair, this.precision)
+    //   .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'BUY') : orders.type === 'BUY'))
+    //   .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
+    //   .subscribe(orders => {
+    //     this.buyOrders = orders;
+    //     this.setData();
+    //   });
   }
 
   addOrUpdate(orders: OrderItem[], newItems: OrderItem[]) {
@@ -537,9 +539,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private loadingFinished() {
-    if((this.sellOrders && this.sellOrders.length) || (this.buyOrders && this.buyOrders.length)) {
-      this.loading = false;
-    }
+    this.loading = false;
   }
 
   private getBestitems(isBuy: boolean, count: number = 8) {
