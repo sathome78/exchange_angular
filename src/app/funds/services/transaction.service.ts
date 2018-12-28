@@ -40,18 +40,9 @@ export class TransactionsService {
   // request to get closed orders
   downloadExcel({
     currencyId,
-    offset,
-    limit,
-    dateFrom,
-    dateTo,
   }): Observable<any> {
-    const params = {
-      limit: limit + '',
-      offset: offset + '',
-      dateFrom,
-      dateTo,
-    }
-    if(currencyId) {
+    const params = {};
+    if (currencyId) {
       params['currencyId'] = currencyId;
     }
     // TODO change url
