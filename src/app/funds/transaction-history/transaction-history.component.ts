@@ -206,7 +206,7 @@ export class TransactionHistoryComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         const blob = new Blob([data], {type: 'text/ms-excel'});
-        saveAs(blob, 'history-orders.xlsx');
+        saveAs(blob, 'history-transactions.xlsx');
       });
   }
 
