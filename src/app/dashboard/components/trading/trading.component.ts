@@ -345,18 +345,23 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
    calculateAmountByTotal(): void {
       let total = 0
-      if(this.mainTab === 'BUY') {
-        total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0
+      if (this.mainTab === 'BUY') {
+        total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0;
+
+        this.isTotalWithCommission = true;
+        this.setTotalInValue(total);
+        this.order.total = total;
+        this.order.commission = this.order.total * (this.commissionIndex / 100.2);
+        const x = this.mainTab === 'BUY' ? this.order.total - this.order.commission : this.order.total + this.order.commission;
+        this.order.amount = x / this.order.rate;
+        this.setQuantityValue(this.order.amount);
       } else {
-        total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0
+        total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0;
+        this.setQuantityValue(total);
+        this.order.amount = total;
+        this.getCommission();
       }
-     this.isTotalWithCommission = true;
-     this.setTotalInValue(total);
-     this.order.total = total;
-     this.order.commission = this.order.total * (this.commissionIndex / 100.2);
-     const x = this.mainTab === 'BUY' ? this.order.total - this.order.commission : this.order.total + this.order.commission;
-     this.order.amount = x / this.order.rate;
-     this.setQuantityValue(this.order.amount);
+
    }
 
   /**
@@ -420,14 +425,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   orderFromOrderBook(order: OrderItem): void {
     this.dropdownLimitValue = this.limitsData[0];
-    this.order.amount = 0;
-    this.setQuantityValue(0);
-    this.order.total = 0;
-    this.setTotalInValue(0);
+    // this.order.amount = 0;
+    // this.setQuantityValue(0);
+    // this.order.total = 0;
+    // this.setTotalInValue(0);
     this.order.rate = +order.exrate;
     this.setPriceInValue(this.order.rate);
     this.mainTab = order.orderType;
-    this.order.commission = 0;
+    this.getCommission();
+    // this.order.commission = 0;
     }
 
   /**
