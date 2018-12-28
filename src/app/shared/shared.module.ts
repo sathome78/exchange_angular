@@ -26,12 +26,14 @@ import {SplitCurrencyPipe} from './pipes/split-currency.pipe';
 import {UtilsService} from './services/utils.service';
 import {RegistrationGuard} from './guards/registaration.guard';
 import {LoaderComponent} from './components/loader/loader.component';
+import {GetIconUrl} from './pipes/get-icon-url';
 
 @NgModule({
   declarations: [
     NotificationComponent,
     PriceInputComponent,
     SortPipe,
+    GetIconUrl,
     ReplaceNumberPipe,
     GroupCoinPipe,
     CurrencyPipe,
@@ -77,6 +79,7 @@ import {LoaderComponent} from './components/loader/loader.component';
     SplitCurrencyPipe,
     LoaderComponent,
     DateWrapper,
+    GetIconUrl,
   ],
   providers: [
     NotificationsService,

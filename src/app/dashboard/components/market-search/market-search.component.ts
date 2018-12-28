@@ -2,6 +2,9 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ElementRef, A
 
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {MarketService} from '../markets/market.service';
+import {ChangeCurrencyPairAction} from '../../actions/dashboard.actions';
+import {Store} from '@ngrx/store';
+import {State} from '../../../core/reducers';
 
 @Component({
   selector: 'app-market-search',
@@ -19,6 +22,7 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
 
   constructor(
     private marketService: MarketService,
+    private store: Store<State>,
   ) { }
 
   ngOnInit() {
@@ -41,7 +45,7 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
   }
 
   setCurrentPair(pair: CurrencyPair) {
-    this.marketService.activeCurrencyListener.next(pair);
+    this.store.dispatch(new ChangeCurrencyPairAction(pair));
     this.onCloseModal();
   }
 

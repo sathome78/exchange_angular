@@ -13,8 +13,8 @@ export const defaultValues = {
 };
 
 export const defaultUserBalance = {
-  balanceByCurrency1: null,
-  balanceByCurrency2: null,
+  cur1: null,
+  cur2: null,
 }
 
 export const defaultOrderItem = {

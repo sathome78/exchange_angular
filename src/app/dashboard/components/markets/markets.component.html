@@ -206,7 +206,10 @@
         <perfect-scrollbar>
           <ng-container *ngFor="let pair of prefPairs | currencySort :'volume'">
             <div class="markets__row widget__table-row"
-                 [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
+                 [ngClass]="{
+                  'widget__table-row--green': isChangePositive(pair),
+                  'widget__table-row--red': !isChangePositive(pair)
+                  }">
               <div class="table__cell table__cell--p4 table__cell--tac" style="width: 20%;  display: flex; align-items: center; justify-content: center;">
                 <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavorite(pair)}"
                       (click)="toggleFavorite(pair)">
@@ -235,7 +238,11 @@
           </ng-container>
           <ng-container *ngFor="let pair of pairs | currencySort :'volume'">
             <div class="markets__row widget__table-row"
-                 [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
+                 [ngClass]="{
+                 'widget__table-row--green': isChangePositive(pair),
+                  'widget__table-row--red': !isChangePositive(pair),
+                  'markets__selected-pair': pair.currencyPairId === currentCurrencyPair.currencyPairId
+                  }">
               <div class="table__cell table__cell--p4 table__cell--tac" style="width: 20%;  display: flex; align-items: center; justify-content: center;">
                   <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavorite(pair)}"
                         (click)="toggleFavorite(pair)">
@@ -311,7 +318,6 @@
     [pairs]="currencyPairs"
     [isFiat]="isFiat"
   >
-
   </app-market-search>
 
 </div>

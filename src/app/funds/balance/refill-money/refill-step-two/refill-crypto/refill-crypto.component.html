@@ -3,7 +3,7 @@
 <div class="refill__inputs-wrap">
   <div class="select refill__select">
     <div class="select__value select__value--active" (click)="currencyDropdownToggle()">
-      <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
+      <img [src]="activeCrypto.name | getIconUrl" class="select__list-item-icon">
       {{activeCrypto.name}}
       <div class="select__triangle"></div>
     </div>
@@ -29,7 +29,7 @@
             <h6 class="select__searching-items-title"><span>{{letter.toUpperCase()}}</span></h6>
             <div class="select__searching-items-wrap">
               <div class="select__searching-item" *ngFor="let name of cryptoNames | groupCoin:letter" (click)="selectCurrency(name)">
-                <img src="../../assets/img/eth-icon.svg" class="select__list-item-icon">
+                <img [src]="name.name | getIconUrl" class="select__list-item-icon">
                 <span>{{name.name}}</span>
               </div>
             </div>
@@ -91,6 +91,6 @@
   <div class="note__title">Please note:</div>
   <ul class="note__list">
     <li class="note__list-item">Coins will be deposited immediately after <b>2</b> network confirmations</li>
-    <li class="note__list-item">Send only <b>BTC</b> to this deposit address. Sending any other coin or token to this address may result in the loss of your deposit.</li>
+    <li class="note__list-item">Send only <b>{{activeCrypto.name}}</b> to this deposit address. Sending any other coin or token to this address may result in the loss of your deposit.</li>
   </ul>
 </div>

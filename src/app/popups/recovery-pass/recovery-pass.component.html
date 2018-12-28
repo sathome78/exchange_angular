@@ -30,8 +30,11 @@
         </div>
         <!--Input error section ends-->
       </div>
-      <button class="btn popup__btn" (click)="emailSubmit()"
-              [ngClass]="{'bg-none': !emailForm.valid}" >Reset password</button>
+      <button class="btn popup__btn"
+              (click)="emailSubmit()"
+              [ngClass]="{'bg-none': !emailForm.valid, 'popup__btn--active': emailForm.valid}" >
+        Reset password
+      </button>
     </form>
     <div class="popup__links-wrap popup__links-wrap--left">
       <a class="popup__link" (click)="backToLogin()">
@@ -44,7 +47,7 @@
     </ng-template>
 
     <ng-template #captchaTemplate>
-      <h6 class="popup__title">Registration</h6>
+      <h6 class="popup__title">Reset password</h6>
       <re-captcha (resolved)="resolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
       <div class="popup__links-wrap">
         <a class="popup__link" (click)="setTemplate('emailInputTemplate')">Go to registration form</a>

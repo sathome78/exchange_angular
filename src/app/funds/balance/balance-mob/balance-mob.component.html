@@ -79,7 +79,7 @@
               <td class="table__cell table__cell--tal">
                 <div class="balance__currency">
                   <div class="balance__currency-icon">
-                    <img src="../../../assets/img/btc-icon.svg">
+                    <img [src]="item.currencyName | getIconUrl">
                   </div>
                   <div>
                     <span>{{item.currencyName}}</span>

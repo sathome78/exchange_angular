@@ -7,6 +7,7 @@ export const REFRESH_CURRENCY_PAIR_INFO = '[Dashboard] Refresh currency pair inf
 export const SELECTED_ORDERBOOK_ORDER = '[Dashboard] Selected order-book order';
 export const SET_LAST_SELL_BUY_ORDER = '[Dashboard] Set last sell buy order';
 export const SET_ALL_TRADES = '[Dashboard] Set all trades';
+export const SET_TRADING_TYPE = '[Dashboard] Set trading type';
 
 /**
  * Change currency pair 'BTC/USD'
@@ -100,6 +101,19 @@ export class SetAllTradesAction implements Action {
 }
 
 /**
+ * When set last sell or buy order in order-book
+ */
+export class SetTradingTypeAction implements Action {
+  readonly type = SET_TRADING_TYPE;
+
+  /**
+   * Default constructor
+   * @param payload
+   */
+  constructor(public payload) {}
+}
+
+/**
  * Exports possible action types
  */
 export type Actions
@@ -109,4 +123,5 @@ export type Actions
   | RefreshCurrencyPairInfoAction
   | SelectedOrderBookOrderAction
   | SetLastSellBuyOrderAction
+  | SetTradingTypeAction
   | SetAllTradesAction;
