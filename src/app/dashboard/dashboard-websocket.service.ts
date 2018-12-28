@@ -23,6 +23,7 @@ export class DashboardWebSocketService implements OnDestroy {
   private baseUrl = environment.apiUrl;
   public pairFromDashboard = '';
   public isNeedChangeCurretPair = true;
+  private currentCurrencyPair;
 
   constructor(
     private stompService: StompService,
@@ -31,6 +32,13 @@ export class DashboardWebSocketService implements OnDestroy {
     private currencyPairInfoService: CurrencyPairInfoService,
     private store: Store<State>
   ) {
+    this.store
+      .pipe(select(getCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(pair => {
+        this.currentCurrencyPair = pair;
+        console.log(pair);
+      });
   }
 
   setStompSubscription(authenticated: boolean): any {
@@ -73,7 +81,6 @@ export class DashboardWebSocketService implements OnDestroy {
    * @param pair
    */
   findPairByCurrencyPairName(pairName: string): void {
-    console.log(pairName)
     this.currencyPairs.forEach(elm => {
       if (pairName === elm.currencyPairName) {
         this.store.dispatch(new ChangeCurrencyPairAction(elm));
@@ -96,7 +103,6 @@ export class DashboardWebSocketService implements OnDestroy {
           const splitName = pair.currencyPairName.split('/');
           return splitName[0] === 'BTC' || splitName[1] === 'BTC';
         });
-        console.log(filteredPair);
         const currentPair = filteredPair[0] ? filteredPair[0] : filteredPairs[0];
         this.store.dispatch(new ChangeCurrencyPairAction(currentPair));
       });
@@ -110,7 +116,7 @@ export class DashboardWebSocketService implements OnDestroy {
     this.store.dispatch(new LoadCurrencyPairsAction(this.currencyPairs));
     if (this.currencyPairs.length > 0 && this.pairFromDashboard === '') {
 
-      if (this.isNeedChangeCurretPair) {
+      if (this.isNeedChangeCurretPair && this.currentCurrencyPair.currencyPairId === 0) {
         const activePair = this.getActiveCurrencyPair();
         this.store.dispatch(new ChangeCurrencyPairAction(activePair));
         this.userService.getUserBalance(activePair);
