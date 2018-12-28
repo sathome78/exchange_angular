@@ -10,7 +10,7 @@
              (click)="toggleCurrencyDropdown()"
              [ngClass]="{'select__value--error': !selectedMerchant}"
         >
-          <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
+          <img [src]="activeFiat.name | getIconUrl" class="select__list-item-icon">
           {{activeFiat.name}}
         </div>
         <div class="select__label">Currency</div>
@@ -31,7 +31,7 @@
         <div class="select__value select__value--active"
              (click)="togglePaymentSystemDropdown()"
         >
-          <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
+          <img [src]="selectedMerchant.name | getIconUrl" class="select__list-item-icon">
           {{selectedMerchant.name}}
         </div>
         <div class="select__label">Payment system</div>
@@ -101,7 +101,7 @@
     </div>
     <div class="title refill__fiat-successful-title">Request was created!</div>
     <div class="subtitle refill__fiat-successful-subtitle">
-      Please go to <a href="{{refillData.redirectionUrl}}" class="link">{{selectedMerchant.name}}</a> to make a payment
+      Please go to <a href="{{redirectionUrl}}" target="_blank" class="link">{{selectedMerchant.name}}</a> to make a payment
       <b>{{refillData.params.ok_item_1_price}} {{refillData.params.ok_currency}}</b>
     </div>
     <div class="subtitle refill__fiat-successful-subtitle">

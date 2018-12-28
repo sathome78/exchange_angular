@@ -119,8 +119,8 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     if (flag) {
       this.isGenerateNewAddress = true;
     } else {
-      this.isGenerateNewAddress = true;
-      setTimeout(() => this.isGenerateNewAddress = false, 500);
+      this.isGenerateNewAddress = false;
+      // setTimeout(() => this.isGenerateNewAddress = false, 500);
     }
   }
 
@@ -148,7 +148,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         });
     }
   }
-x
+
   /**
    * copy data to buffer
    * @param {string} val

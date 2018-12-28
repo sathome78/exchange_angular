@@ -9,7 +9,7 @@ import {PendingRequestsItem} from '../models/pending-requests-item.model';
 import {MyBalanceItem} from '../../core/models/my-balance-item.model';
 import {BalanceService} from '../services/balance.service';
 import {takeUntil} from 'rxjs/operators';
-import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, INNER_TRANSFER} from './send-money/send-money-constants';
+import {CRYPTO_DEPOSIT, FIAT_DEPOSIT} from './send-money/send-money-constants';
 import {CurrencyChoose} from '../../core/models/currency-choose.model';
 import * as fromCore from '../../core/reducers';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
@@ -199,7 +199,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.showRefillBalancePopup = true;
     this.refillBalanceData = {
       step: 2,
-      stepName: CRYPTO_DEPOSIT,
+      stepName: this.currTab === 'CRYPTO' ? CRYPTO_DEPOSIT : FIAT_DEPOSIT,
       balance: balance
     };
   }

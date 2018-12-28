@@ -146,13 +146,13 @@
           Fee: {{order.commission | roundCurrency: isFiat(arrPairName[1]) | formatCurrency}} {{arrPairName[1]}}
         </div>
       </div>
-      <div class="row row--jcsb txt-light-grey widget__trading-row-txt" style="margin-top: 4px;">
-        <div style="margin-left: auto;">
-          Pay no fees:
-          <img src="../../assets/img/fire.svg" style="margin: 0 4px;">
-          <a href="#">Become VIP</a>
-        </div>
-      </div>
+      <!--<div class="row row&#45;&#45;jcsb txt-light-grey widget__trading-row-txt" style="margin-top: 4px;">-->
+        <!--<div style="margin-left: auto;">-->
+          <!--Pay no fees:-->
+          <!--<img src="../../assets/img/fire.svg" style="margin: 0 4px;">-->
+          <!--<a href="#">Become VIP</a>-->
+        <!--</div>-->
+      <!--</div>-->
       <button class="btn  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'BUY'">Buy {{arrPairName[0]}} </button>
       <button class="btn  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'SELL'">Sell {{arrPairName[0]}} </button>
     </div>
