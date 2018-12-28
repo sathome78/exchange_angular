@@ -4,7 +4,6 @@ import {StompService} from '@stomp/ng2-stompjs';
 import {Observable, Subject} from 'rxjs';
 
 import {environment} from 'environments/environment';
-import {OrderWrapper} from '../../../orders/models/order-wrapper.model';
 
 @Injectable()
 export class EmbeddedOrdersService {
@@ -52,7 +51,7 @@ export class EmbeddedOrdersService {
   //     .pipe(map((message: Message) => JSON.parse(message.body)))
   //     .subscribe(orders => this.personalOrderListener.next(orders));
   // }
-  
+
   unsubscribeStomp() {
     if (this.stompSubscription) {
       this.stompSubscription.unsubscribe();

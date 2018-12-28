@@ -21,6 +21,7 @@ export class PendingRequestTableComponent implements OnInit {
   @Input('pendingRequests') public pendingRequests: PendingRequestsItem[] = [];
   @Input('countPerPage') public countPerPage: number;
   @Input('currentPage') public currentPage: number;
+  @Input('loading') public loading: boolean;
   @Input('countOfEntries') public countOfEntries: number;
   @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();
   @Output('onRevokePendingRequest') public onRevokePendingRequest: EventEmitter<any> = new EventEmitter();

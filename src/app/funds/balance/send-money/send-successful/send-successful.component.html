@@ -12,7 +12,7 @@
   <div class="send-crypto" *ngIf="data.operation === SEND_CRYPTO || data.operation === SEND_FIAT">
     <div class="title send__successful-title">Request was created!</div>
     <div class="subtitle send__successful-subtitle">
-      You can track the progress in Pending requests table on <a routerLink="/transaction-history"
+      You can track the progress in Pending requests table on <a routerLink="/funds/transaction-history"
                                                                  class="link">Funds</a> page.
     </div>
   </div>
@@ -23,7 +23,7 @@
   <div *ngIf="data.operation === TRANSFER_INSTANT">
     <div class="title send__successful-title">Funds were sent!</div>
     <div class="subtitle send__successful-subtitle">
-      You can check the status of completed transfer in the <a routerLink="/transaction-history" class="link">Transaction
+      You can check the status of completed transfer in the <a routerLink="/funds/transaction-history" class="link">Transaction
       history</a> table.
     </div>
   </div>
@@ -44,7 +44,7 @@
       </button>
     </div>
     <div class="subtitle send__successful-subtitle">
-      You can track the progress in Pending requests table on <a routerLink="/transaction-history"
+      You can track the progress in Pending requests table on <a routerLink="/funds/transaction-history"
                                                                  class="link">Funds</a> page.
     </div>
   </div>
@@ -60,7 +60,7 @@
       <button class="btn btn--small btn--center btn--empty-blue">Copy</button>
     </div>
     <div class="subtitle send__successful-subtitle">
-      You can track the progress in Pending requests table on <a routerLink="/transaction-history"
+      You can track the progress in Pending requests table on <a routerLink="/funds/transaction-history"
                                                                  class="link">Funds</a> page.
     </div>
   </div>

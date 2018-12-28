@@ -3,10 +3,11 @@ import {PendingRequestsItem} from '../models/pending-requests-item.model';
 import {takeUntil} from 'rxjs/operators';
 import {Location} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Store} from '@ngrx/store';
+import {Store, select} from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as fundsAction from '../store/actions/funds.actions';
-import {Subject} from 'rxjs';
+import * as fundsReducer from '../store/reducers/funds.reducer';
+import {Subject, Observable} from 'rxjs';
 import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class PendingRequestDetailsComponent implements OnInit {
     private location: Location,
     private utils: UtilsService,
   ) {
+    this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
     this.route.queryParams
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(params => {
@@ -36,6 +38,7 @@ export class PendingRequestDetailsComponent implements OnInit {
   }
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public loading$: Observable<boolean>;
   public pendingRequestsItem = PendingRequestsItem;
   public detailsItem: PendingRequestsItem = null;
   public showRevokeModal: boolean = false;

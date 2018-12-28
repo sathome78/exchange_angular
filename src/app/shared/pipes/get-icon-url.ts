@@ -25,7 +25,10 @@ export class GetIconUrl  implements PipeTransform {
       case 'VNT':
       case 'AED':
       case 'RUB':
+      case 'RIME':
       case 'CNY':
+      case 'EDT':
+      case 'HT':
       case 'EUR':
       case 'CTX':
       case 'IDR':
