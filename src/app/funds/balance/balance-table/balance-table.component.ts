@@ -27,6 +27,7 @@ export class BalanceTableComponent {
 
   @Input('balances') public balances: BalanceItem[] = [];
   @Input('countPerPage') public countPerPage: number;
+  @Input('loading') public loading: boolean;
   @Input('currentPage') public currentPage: number;
   @Input('countOfEntries') public countOfEntries: number;
   @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();

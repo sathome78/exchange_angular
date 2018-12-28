@@ -207,3 +207,13 @@ export const getAllCurrenciesForChoose = (state: State): CurrencyChoose[] => sta
 export const getCryptoCurrenciesForChoose = (state: State): CurrencyChoose[] => state.cryptoCurrenciesForChoose;
 /** Selector returns crypto and fiat currencies for choose in dropdown*/
 export const getFiatCurrenciesForChoose = (state: State): CurrencyChoose[] => state.fiatCurrenciesForChoose;
+
+
+// export const getAllCurrencyPairsSelector = (state: State): OrderCurrencyPair[] => state.currencyPairs;
+export const getLoading = (state: State): boolean => state.loading;
+
+/** Selector returns array of open orders filtered by currency*/
+export const getLoadingSelector = createSelector(
+  getOrdersState,
+  getLoading
+);

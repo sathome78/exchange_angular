@@ -6,6 +6,9 @@
         Orders history
       </div>
       <div class="orders__amount">{{countOfEntries$ | async}}</div>
+      <div *ngIf="loading$ | async">
+        <app-loader size="small"></app-loader>
+      </div>
       <div class="orders__filter-btn" (click)="openFilterPopup()">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -84,7 +87,7 @@
               </td>
             </tr>
           </ng-container>
-          <tr class="table__row" *ngIf="!(orderItems$ | async).length">
+          <tr class="table__row" *ngIf="!(orderItems$ | async).length  && !(loading$ | async)">
             <td class="table__cell table__cell--tac" colspan="3">
               No matching records found
             </td>
@@ -190,6 +193,9 @@
         </span>
         Download in excel
       </button>
+      <div *ngIf="loading$ | async">
+        <app-loader></app-loader>
+      </div>
     </div>
     <form action="">
       <div class="row orders__filters">
@@ -334,7 +340,7 @@
             <span>{{item.status}}</span>
           </td>
         </tr>
-        <tr class="table__row" *ngIf="!(orderItems$ | async).length">
+        <tr class="table__row" *ngIf="!(orderItems$ | async).length && !(loading$ | async)">
           <td class="table__cell table__cell--tac" colspan="8">
             No matching records found
           </td>

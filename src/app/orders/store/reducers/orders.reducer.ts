@@ -33,62 +33,62 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
       return {...state, loading: true};
     case ordersActions.SET_OPEN_ORDERS:
       return {
-        ...state, 
-        loading: false, 
-        openOrders: action.payload.openOrders, 
+        ...state,
+        loading: false,
+        openOrders: action.payload.openOrders,
         countOpenOrders: action.payload.count,
       };
     case ordersActions.SET_MORE_OPEN_ORDERS:
       return {
-        ...state, 
-        loading: false, 
-        openOrders: [...state.openOrders, ...action.payload.openOrders], 
+        ...state,
+        loading: false,
+        openOrders: [...state.openOrders, ...action.payload.openOrders],
         countOpenOrders: action.payload.count,
       };
     case ordersActions.FAIL_LOAD_OPEN_ORDERS:
       return {
-        ...state, 
-        loading: false, 
+        ...state,
+        loading: false,
       };
 
     case ordersActions.LOAD_HISTORY_ORDERS:
       return {...state, loading: true};
     case ordersActions.SET_HISTORY_ORDERS:
       return {
-        ...state, 
-        loading: false, 
-        historyOrders: action.payload.historyOrders, 
+        ...state,
+        loading: false,
+        historyOrders: action.payload.historyOrders,
         countHistoryOrders: action.payload.count,
       };
     case ordersActions.SET_MORE_HISTORY_ORDERS:
       return {
-        ...state, 
-        loading: false, 
-        historyOrders: [...state.historyOrders, ...action.payload.historyOrders], 
+        ...state,
+        loading: false,
+        historyOrders: [...state.historyOrders, ...action.payload.historyOrders],
         countHistoryOrders: action.payload.count,
       };
     case ordersActions.FAIL_LOAD_HISTORY_ORDERS:
       return {
-        ...state, 
-        loading: false, 
+        ...state,
+        loading: false,
       };
 
-    
+
     case ordersActions.SET_CURRENCY_PAIRS_ORDERS:
       return {
-        ...state, 
-        currencyPairs: action.payload.currencyPairs, 
+        ...state,
+        currencyPairs: action.payload.currencyPairs,
       };
 
     case ordersActions.CROP_CANCELED_ORDER:
       return {
-        ...state, 
+        ...state,
         openOrders: state.openOrders.filter((item) => item.id !== action.payload)
       };
     case ordersActions.FAIL_ORDERS:
       return {
-        ...state, 
-        loading: false, 
+        ...state,
+        loading: false,
       };
 
     default :
@@ -148,3 +148,13 @@ export const getAllCurrencyPairsSelector = createSelector(
 );
 
 /** Orders currencies pairs finish */
+
+
+// export const getAllCurrencyPairsSelector = (state: State): OrderCurrencyPair[] => state.currencyPairs;
+export const getLoading = (state: State): boolean => state.loading;
+
+/** Selector returns array of open orders filtered by currency*/
+export const getLoadingSelector = createSelector(
+  getOrdersState,
+  getLoading
+);

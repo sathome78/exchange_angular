@@ -64,7 +64,13 @@
   <div class="widget__header--mob">
     <div class="widget__name-mob">Trade history</div>
   </div>
-  <div class="widget__content widget__content--show-all">
+
+  <!-- loading indicator -->
+
+  <div class="widget__content loading-container" *ngIf="loading$ | async">
+    <app-loader></app-loader>
+  </div>
+  <div class="widget__content widget__content--show-all"  *ngIf="!(loading$ | async)">
 
     <div class="trade-history__table">
       <div class="trade-history__thead">

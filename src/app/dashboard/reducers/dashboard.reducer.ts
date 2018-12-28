@@ -17,6 +17,7 @@ export interface State {
   currencyPairInfo: CurrencyPairInfo;
   lastSellBuyOrder: LastSellBuyOrder;
   allTrades: TradeItem[];
+  loadingAllTrades: boolean;
   tradingType: string;
 }
 
@@ -28,6 +29,7 @@ export const INIT_STATE: State = {
   currencyPairInfo: defaultCurrencyPairInfo,
   lastSellBuyOrder: defaultLastSellBuyOrder,
   allTrades: [],
+  loadingAllTrades: true,
   tradingType: 'BUY'
 };
 
@@ -53,7 +55,11 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
     case dashboard.SET_LAST_SELL_BUY_ORDER:
       return {...state, lastSellBuyOrder: action.payload};
       case dashboard.SET_ALL_TRADES:
-      return {...state, allTrades: action.payload};
+      return {
+        ...state,
+        allTrades: action.payload,
+        loadingAllTrades: false,
+      };
     default :
       return state;
   }
@@ -80,5 +86,7 @@ export const getLastSellBuyOrder = (state: State): LastSellBuyOrder => state.las
 /** Selector returns all trades */
 export const getAllTrades = (state: State): TradeItem[] => state.allTrades;
 
+/** Selector returns all trades */
+export const getLoadingAllTrades = (state: State): boolean => state.loadingAllTrades;
 /** Selector returns trading type*/
 export const getTradingType = (state: State): string => state.tradingType;

@@ -37,6 +37,7 @@ export class BalanceMobComponent implements OnInit{
   public hideAllZero: boolean = false;
   public currencyForChoose: string = '';
 
+  @Input('loading') public loading: boolean;
   @Input('balances') public balances: BalanceItem[] = [];
   @Input('Tab') public Tab;
   @Input('currTab') public currTab;

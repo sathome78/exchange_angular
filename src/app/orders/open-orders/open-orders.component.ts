@@ -24,6 +24,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public countOfEntries$: Observable<number>;
   public countOfEntries: number = 0;
   public currencyPairs$: Observable<OrderCurrencyPair[]>;
+  public loading$: Observable<boolean>;
   public currentPage = 1;
   public countPerPage = 15;
   public isMobile: boolean = false;
@@ -53,6 +54,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getOpenOrdersCount));
     this.currencyPairs$ = store.pipe(select(ordersReducer.getAllCurrencyPairsSelector));
+    this.loading$ = store.pipe(select(ordersReducer.getLoadingSelector));
 
     const componentHeight = window.innerHeight;
     this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
