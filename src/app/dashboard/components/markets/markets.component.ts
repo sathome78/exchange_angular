@@ -113,7 +113,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    * @param {CurrencyPair} pair
    */
   onSelectCurrencyPair(pair: CurrencyPair): void {
-    console.log(pair)
     this.selectedCurrencyPair = pair;
     this.store.dispatch(new ChangeCurrencyPairAction(pair));
     this.currencyPairInfoService.getCurrencyPairInfo(pair);
