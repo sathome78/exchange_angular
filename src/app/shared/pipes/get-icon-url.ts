@@ -24,9 +24,17 @@ export class GetIconUrl  implements PipeTransform {
       case 'TRS':
       case 'VNT':
       case 'AED':
+      case 'RUB':
+      case 'RIME':
       case 'CNY':
+      case 'EDT':
+      case 'HT':
       case 'EUR':
+      case 'CTX':
       case 'IDR':
+      case 'LiqPay':
+      case 'Privat24':
+      case 'Invoice':
       case 'NGN':
       case 'Interkassa':
       case 'TRY':

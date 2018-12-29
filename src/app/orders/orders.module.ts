@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Ng5SliderModule} from 'ng5-slider';
 import {SettingsService} from '../settings/settings.service';
@@ -21,6 +21,8 @@ import {SplitCurrencyPipe} from 'app/shared/pipes/split-currency.pipe';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {OrdersComponent} from './orders.component';
 import {SharedModule} from 'app/shared/shared.module';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {createTranslateLoader} from '../app.module';
 
 @NgModule({
   imports: [
@@ -36,6 +38,14 @@ import {SharedModule} from 'app/shared/shared.module';
     NgSelectModule,
     OrdersRoutingModule,
     SharedModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      },
+      isolate: true
+    }),
   ],
   declarations: [
     OpenOrdersComponent,

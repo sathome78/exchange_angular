@@ -38,6 +38,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   public sortPoint = 'asc';
   public marketSearch = false;
   public searchInput;
+  public loading: boolean = true;
 
 
   volumeOrderDirection = 'NONE';
@@ -113,7 +114,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    * @param {CurrencyPair} pair
    */
   onSelectCurrencyPair(pair: CurrencyPair): void {
-    console.log(pair)
     this.selectedCurrencyPair = pair;
     this.store.dispatch(new ChangeCurrencyPairAction(pair));
     this.currencyPairInfoService.getCurrencyPairInfo(pair);
@@ -225,5 +225,14 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.pairs = this.choosePair(this.currencyDisplayMode);
     // this.prefPairs = this.choosePrefPairs();
     this.emitWhenSelectedPairIsUpdated(currencyPairs);
+    this.loadingFinished();
+  }
+
+
+  private loadingFinished() {
+    if(this.pairs && this.pairs.length && this.loading) {
+      // debugger
+      this.loading = false;
+    }
   }
 }

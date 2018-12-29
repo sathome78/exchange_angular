@@ -23,11 +23,11 @@
   <div class="tabs widget__tabs" *ngIf="currentPair">
     <button class="tabs__item tabs__item--big "
             [ngClass]="{'tabs__item--active': mainTab === 'BUY', 'tab-no-active': mainTab !== 'BUY'}"
-            (click)="toggleMainTab('BUY')" >Buy {{arrPairName[0]}}
+            (click)="toggleMainTab('BUY')" >{{'Buy' | translate}} {{arrPairName[0]}}
     </button>
     <button class="tabs__item tabs__item--big"
             [ngClass]="{'tabs__item--active': mainTab === 'SELL', 'tab-no-active': mainTab !== 'SELL'}"
-            (click)="toggleMainTab('SELL')" >Sell {{arrPairName[0]}}
+            (click)="toggleMainTab('SELL')" >{{'Sell' | translate}} {{arrPairName[0]}}
     </button>
   </div>
 
@@ -128,7 +128,7 @@
 
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div class="avaliable">
-          <span style="vertical-align: middle; margin-right: 4px;">Available: </span>
+          <span style="vertical-align: middle; margin-right: 4px;">{{'Available balance:' | translate}} </span>
           <a
             *ngIf="mainTab === 'BUY'"
             (click)="calculateAmountByTotal()"
@@ -143,18 +143,18 @@
           </a>
         </div>
         <div>
-          Fee: {{order.commission | roundCurrency: isFiat(arrPairName[1]) | formatCurrency}} {{arrPairName[1]}}
+          {{'Fee:' | translate}} {{order.commission | roundCurrency: isFiat(arrPairName[1]) | formatCurrency}} {{arrPairName[1]}}
         </div>
       </div>
-      <div class="row row--jcsb txt-light-grey widget__trading-row-txt" style="margin-top: 4px;">
-        <div style="margin-left: auto;">
-          Pay no fees:
-          <img src="../../assets/img/fire.svg" style="margin: 0 4px;">
-          <a href="#">Become VIP</a>
-        </div>
-      </div>
-      <button class="btn  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'BUY'">Buy {{arrPairName[0]}} </button>
-      <button class="btn  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'SELL'">Sell {{arrPairName[0]}} </button>
+      <!--<div class="row row&#45;&#45;jcsb txt-light-grey widget__trading-row-txt" style="margin-top: 4px;">-->
+        <!--<div style="margin-left: auto;">-->
+          <!--Pay no fees:-->
+          <!--<img src="../../assets/img/fire.svg" style="margin: 0 4px;">-->
+          <!--<a href="#">Become VIP</a>-->
+        <!--</div>-->
+      <!--</div>-->
+      <button class="btn  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'BUY'">{{'Buy' | translate}} {{arrPairName[0]}} </button>
+      <button class="btn  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'SELL'">{{'Sell' | translate}} {{arrPairName[0]}} </button>
     </div>
   </div>
 
@@ -202,7 +202,7 @@
               </svg>
 
             </span>
-            Order type
+            {{'Order type' | translate}}
           </span>
           <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
                (click)="isDropdownOpen = true">
@@ -221,7 +221,7 @@
             <path d="M7.23181 6.84126V8.72983C7.23181 9.08029 7.41189 9.35214 7.56677 9.35214H12V6.21888H7.56677C7.41189 6.21888 7.23181 6.4908 7.23181 6.84126ZM9.05815 7.05851C9.43365 7.05851 9.73913 7.38464 9.73913 7.78551C9.73913 8.18639 9.43365 8.51251 9.05815 8.51251C8.68266 8.51251 8.37718 8.18639 8.37718 7.78551C8.37718 7.38464 8.68266 7.05851 9.05815 7.05851ZM7.56677 10.3633C6.85985 10.3633 6.2847 9.63047 6.2847 8.72983V6.84126C6.2847 5.94062 6.85979 5.20783 7.56677 5.20783H12V3.97574C12 3.35222 11.6172 2.82286 11.0894 2.63991L10.2623 0.325323C10.2155 0.194484 10.12 0.0902034 9.99851 0.0373555C9.87702 -0.0154251 9.74051 -0.0121895 9.6213 0.046523L4.49908 2.57102H1.31579C0.590302 2.57102 0 3.20122 0 3.97574V11.5952C0 12.3698 0.590302 13 1.31579 13H10.6842C11.4097 13 12 12.3698 12 11.5952V10.3633H7.56677ZM9.5581 1.19138L10.0511 2.57109H6.75876L9.5581 1.19138Z"/>
           </svg>
         </span>
-          <span style="vertical-align: middle;">Available: </span>
+          <span style="vertical-align: middle;">{{'Available balance:' | translate}} </span>
         </span>
           <a
             *ngIf="mainTab === 'BUY'"
@@ -307,7 +307,7 @@
               </svg>
 
             </span>
-            Order type
+            {{'Order type' | translate}}
           </span>
           <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
                (click)="isDropdownOpen = true" >
@@ -326,7 +326,7 @@
             <path d="M7.23181 6.84126V8.72983C7.23181 9.08029 7.41189 9.35214 7.56677 9.35214H12V6.21888H7.56677C7.41189 6.21888 7.23181 6.4908 7.23181 6.84126ZM9.05815 7.05851C9.43365 7.05851 9.73913 7.38464 9.73913 7.78551C9.73913 8.18639 9.43365 8.51251 9.05815 8.51251C8.68266 8.51251 8.37718 8.18639 8.37718 7.78551C8.37718 7.38464 8.68266 7.05851 9.05815 7.05851ZM7.56677 10.3633C6.85985 10.3633 6.2847 9.63047 6.2847 8.72983V6.84126C6.2847 5.94062 6.85979 5.20783 7.56677 5.20783H12V3.97574C12 3.35222 11.6172 2.82286 11.0894 2.63991L10.2623 0.325323C10.2155 0.194484 10.12 0.0902034 9.99851 0.0373555C9.87702 -0.0154251 9.74051 -0.0121895 9.6213 0.046523L4.49908 2.57102H1.31579C0.590302 2.57102 0 3.20122 0 3.97574V11.5952C0 12.3698 0.590302 13 1.31579 13H10.6842C11.4097 13 12 12.3698 12 11.5952V10.3633H7.56677ZM9.5581 1.19138L10.0511 2.57109H6.75876L9.5581 1.19138Z"/>
           </svg>
         </span>
-          <span style="vertical-align: middle;">Avaliable: </span>
+          <span style="vertical-align: middle;">{{'Avaliable balance:' | translate}} </span>
         </span>
           <a
             *ngIf="mainTab === 'BUY'"
@@ -395,7 +395,7 @@
     <button class="btn btn--active widget__trading-btn" (click)="onSubmit()" >{{mainTab === 'BUY' ? 'Buy' : 'Sell'}} {{arrPairName[0]}}</button>
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div class="fee">
-          Fee: {{order.commission | roundCurrency: isFiat(arrPairName[1]) | formatCurrency}} {{arrPairName[1]}}
+          {{'Fee:' | translate}} {{order.commission | roundCurrency: isFiat(arrPairName[1]) | formatCurrency}} {{arrPairName[1]}}
         </div>
       </div>
 
@@ -425,8 +425,8 @@
         </svg>
       </div>
       <div class="trading-notification__text">
-        <div class="trading-notification__title">Limit Sell Order Created!</div>
-        <p>Status: {{message}}</p>
+        <div class="trading-notification__title">{{'Limit Sell Order Created!' | translate}}</div>
+        <p>{{'Status:' | translate}} {{message}}</p>
         <!--<p>Submitted exchange limit sell order for 9 ZRX by using BTC</p>-->
       </div>
     </div>
@@ -449,8 +449,8 @@
         </svg>
       </div>
       <div class="trading-notification__text">
-        <div class="trading-notification__title">Limit Sell Order not created!</div>
-        <p> Status: {{message}}</p>
+        <div class="trading-notification__title">{{'Limit Sell Order not created!' | translate}}</div>
+        <p> {{'Status:' | translate}} {{message}}</p>
         <!--<p>Submitted exchange limit sell order for 9 ZRX by using BTC</p>-->
       </div>
     </div>

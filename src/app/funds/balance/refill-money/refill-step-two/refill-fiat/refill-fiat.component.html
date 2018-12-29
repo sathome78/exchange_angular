@@ -1,19 +1,17 @@
 <div style="display: block;" *ngIf="activeFiat">
-  <div class="title refill__title" *ngIf="!submitSuccess">Fiat Deposit <span>{{activeFiat.name}}</span></div>
+  <div class="title refill__title" *ngIf="!submitSuccess">{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></div>
   <form [formGroup]="form">
     <div class="refill__inputs-wrap" *ngIf="!submitSuccess">
       <!-- TODO add styles to select--error -->
       <div
-        class="select refill__select"
-      >
+        class="select refill__select">
         <div class="select__value select__value--active"
              (click)="toggleCurrencyDropdown()"
-             [ngClass]="{'select__value--error': !selectedMerchant}"
-        >
-          <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
+             [ngClass]="{'select__value--error': !selectedMerchant}">
+          <img [src]="activeFiat.name | getIconUrl" class="select__list-item-icon">
           {{activeFiat.name}}
         </div>
-        <div class="select__label">Currency</div>
+        <div class="select__label">{{'Currency' | translate}}</div>
         <div class="select__line"></div>
         <div class="select__triangle"></div>
         <!--add select__list--open for looking open state-->
@@ -31,10 +29,10 @@
         <div class="select__value select__value--active"
              (click)="togglePaymentSystemDropdown()"
         >
-          <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
+          <img [src]="selectedMerchant.name | getIconUrl" class="select__list-item-icon">
           {{selectedMerchant.name}}
         </div>
-        <div class="select__label">Payment system</div>
+        <div class="select__label">{{'Payment system' | translate}}</div>
         <div class="select__line"></div>
         <div class="select__triangle"></div>
         <!--add select__list-searching--open for looking open state-->
@@ -72,20 +70,20 @@
         <!--Input error section starts-->
         <span class="wrap-input__message"
               *ngIf="!form.valid && isSubmited"
-        >Should be at least {{fiatDataByName.minRefillSum}}</span>
+        >{{'Should be at least' | translate}} {{fiatDataByName.minRefillSum}}</span>
         <!--Input error section ends-->
       </div>
 
       <div class="refill__closed-error" *ngIf="!selectedMerchant">
-        - Sorry, refill is closed for current moment!
+        {{'Sorry, refill is closed for current moment!' | translate}}
       </div>
     </div>
   </form>
   <button class="btn btn--center btn--empty-blue"
           *ngIf="!submitSuccess && selectedMerchant"
           [ngClass]="{'btn-active': form.valid && selectedMerchant.name}"
-          (click)="submitRefill()"
-  >Refill
+          (click)="submitRefill()">
+    {{'Refill' | translate}}
   </button>
 
 
@@ -99,21 +97,21 @@
           fill="#237BEF"/>
       </svg>
     </div>
-    <div class="title refill__fiat-successful-title">Request was created!</div>
+    <div class="title refill__fiat-successful-title">{{'Request was created!' | translate}}</div>
     <div class="subtitle refill__fiat-successful-subtitle">
-      Please go to <a href="{{refillData.redirectionUrl}}" class="link">{{selectedMerchant.name}}</a> to make a payment
+      {{'Please go to' | translate}} <a href="{{redirectionUrl}}" target="_blank" class="link">{{selectedMerchant.name}}</a> {{'to make a payment' | translate}}
       <b>{{refillData.params.ok_item_1_price}} {{refillData.params.ok_currency}}</b>
     </div>
     <div class="subtitle refill__fiat-successful-subtitle">
-      You can track the progress in history section on <a href="#" class="link">funds</a> page
+      {{'You can track the progress in history section on' | translate}} <a routerLink="/funds/balances">{{'funds' | translate}}</a> {{'page' | translate}}
     </div>
   </div>
 
 
   <div class="note modal__note">
-    <div class="note__title">Please note:</div>
+    <div class="note__title">{{'Please note:' | translate}}</div>
     <ul class="note__list">
-      <li class="note__list-item">We have good news for you! It’s more then 24 currencies available for deposit right now:</li>
+      <li class="note__list-item">{{'We have good news for you! It’s more then 24 currencies available for deposit right now:' | translate}}</li>
     </ul>
   </div>
 </div>

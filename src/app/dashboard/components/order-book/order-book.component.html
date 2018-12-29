@@ -21,7 +21,14 @@
       </div>
     </div>
   </div>
-  <div class="widget__content" id="order_book" #orderBook>
+  <!-- loading indicator -->
+
+  <div class="widget__content loading-container" *ngIf="loading">
+    <app-loader></app-loader>
+  </div>
+
+
+  <div class="widget__content" id="order_book" #orderBook *ngIf="!loading">
 
     <!-- <div class="chartContainer" id="chartContainer">
 
@@ -204,7 +211,7 @@
     </div>
   </div>
 
-  <div class="widget__content widget__content--mob">
+  <div class="widget__content widget__content--mob" *ngIf="!loading">
     <div class="order-table" [ngClass]="orderTypeClass">
       <div class="head">
         <div class="order table__cell-head table__cell-head--tal table__cell-head--p4">

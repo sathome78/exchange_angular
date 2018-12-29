@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {MyDatePickerModule} from 'mydatepicker';
@@ -44,6 +44,12 @@ import {PendingRequestMobComponent} from './pending-request-mob/pending-request-
 import {BalanceDetailsComponent} from './balance-details/balance-details.component';
 import {PendingRequestDetailsComponent} from './pending-request-details/pending-request-details.component';
 import {PendingRequestInfoComponent} from './pending-request-info/pending-request-info.component';
+import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
+import {TransactionsService} from './services/transaction.service';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {createTranslateLoader} from '../app.module';
+
 
 @NgModule({
   imports: [
@@ -58,6 +64,14 @@ import {PendingRequestInfoComponent} from './pending-request-info/pending-reques
     EffectsModule.forRoot([FundsEffects]),
     StoreModule.forFeature('funds', reducer),
     FundsRoutingModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      },
+      isolate: true
+    }),
   ],
   declarations: [
     FundsComponent,
@@ -89,10 +103,12 @@ import {PendingRequestInfoComponent} from './pending-request-info/pending-reques
     BalanceDetailsComponent,
     PendingRequestDetailsComponent,
     PendingRequestInfoComponent,
+
+    TransactionHistoryComponent,
   ],
   providers: [
     BalanceService,
-
+    TransactionsService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
   ]

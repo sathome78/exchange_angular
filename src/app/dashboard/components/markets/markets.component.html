@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div class="widget__header--mob" *ngIf="!marketSearch">
+  <div class="widget__header--mob" *ngIf="!marketSearch && !loading">
     <div class="widget__name-mob">{{'Markets' | translate}}</div>
     <div class="widget__search-btn" (click)="toggleSearchModal()">
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,7 +31,9 @@
       {{'Search' | translate}}
     </div>
   </div>
-  <div class="widget__content">
+
+
+  <div class="widget__content" *ngIf="!loading">
     <div class="tabs widget__tabs">
       <button class="tabs__item tabs__item--small"
               [ngClass]="{'tabs__item--active': currencyDisplayMode === 'BTC','tab-no-active': currencyDisplayMode !== 'BTC'}"
@@ -175,7 +177,14 @@
     </div>
   </div>
 
-  <div class="widget__content widget__content--mob" *ngIf="!marketSearch">
+    <!-- loading indicator -->
+
+  <div class="widget__content loading-container" *ngIf="loading">
+    <app-loader></app-loader>
+  </div>
+
+
+  <div class="widget__content widget__content--mob" *ngIf="!marketSearch && !loading">
     <!--table mob start-->
     <div class="markets__table widget__table-markets-mob">
       <div class="markets__thead">
@@ -197,7 +206,10 @@
         <perfect-scrollbar>
           <ng-container *ngFor="let pair of prefPairs | currencySort :'volume'">
             <div class="markets__row widget__table-row"
-                 [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
+                 [ngClass]="{
+                  'widget__table-row--green': isChangePositive(pair),
+                  'widget__table-row--red': !isChangePositive(pair)
+                  }">
               <div class="table__cell table__cell--p4 table__cell--tac" style="width: 20%;  display: flex; align-items: center; justify-content: center;">
                 <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavorite(pair)}"
                       (click)="toggleFavorite(pair)">
@@ -226,7 +238,11 @@
           </ng-container>
           <ng-container *ngFor="let pair of pairs | currencySort :'volume'">
             <div class="markets__row widget__table-row"
-                 [ngClass]="{'widget__table-row--green': isChangePositive(pair), 'widget__table-row--red': !isChangePositive(pair)}">
+                 [ngClass]="{
+                 'widget__table-row--green': isChangePositive(pair),
+                  'widget__table-row--red': !isChangePositive(pair),
+                  'markets__selected-pair': pair.currencyPairId === currentCurrencyPair.currencyPairId
+                  }">
               <div class="table__cell table__cell--p4 table__cell--tac" style="width: 20%;  display: flex; align-items: center; justify-content: center;">
                   <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavorite(pair)}"
                         (click)="toggleFavorite(pair)">
@@ -302,7 +318,6 @@
     [pairs]="currencyPairs"
     [isFiat]="isFiat"
   >
-
   </app-market-search>
 
 </div>

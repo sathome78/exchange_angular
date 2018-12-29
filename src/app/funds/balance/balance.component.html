@@ -13,6 +13,7 @@
         [currTab]="currTab"
         [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
         [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
+        [loading]="loading$ | async"
 
         (onToggleAllZero)="onToggleAllZeroMobile($event)"
         (onLoadMore)="loadMoreBalancesForMobile($event)"
@@ -33,6 +34,7 @@
         [currTab]="currTab"
         [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
         [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
+        [loading]="loading$ | async"
 
         (onToggleAllZero)="onToggleAllZeroMobile($event)"
         (onLoadMore)="loadMoreBalancesForMobile($event)"
@@ -51,7 +53,7 @@
   <div class="balance">
     <div class="page-title">
       <h1 class="page-title__text">
-        Balances
+        {{'Balances' | translate}}
       </h1>
       <div class="balance__your-active">
         <h6 class="txt-grey">Estimated Holdings:</h6>
@@ -75,6 +77,10 @@
             {{(myBalances$ | async).USD | roundCurrency: true | formatCurrency}}
           </div>
         </div>
+      </div>
+
+      <div *ngIf="loading$ | async">
+        <app-loader size="small"></app-loader>
       </div>
       <button class="btn btn--active balance__title-btn" (click)="openRefillBalancePopup(true)">
         Refill balance
@@ -160,6 +166,7 @@
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
+        [loading]="loading$ | async"
         (onPaginate)="onPageChanged($event)"
         (transferOut)="goToTransferPopup($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
@@ -171,6 +178,7 @@
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
+        [loading]="loading$ | async"
         (onPaginate)="onPageChanged($event)"
         (transferOut)="goToTransferPopup($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
@@ -181,6 +189,7 @@
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
+        [loading]="loading$ | async"
         (onPaginate)="onPageChanged($event)"
         (onRevokePendingRequest)="onRevokePendingRequest($event)"
         *ngSwitchCase="Tab.PR"

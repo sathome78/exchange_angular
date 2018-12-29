@@ -12,6 +12,9 @@ import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG, LANG_ARRAY} from './header.const
 import {MyBalanceItem} from '../core/models/my-balance-item.model';
 import {Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
+import {select, Store} from '@ngrx/store';
+import {getLanguage, State} from '../core/reducers';
+import {ChangeLanguageAction} from '../core/actions/core.actions';
 
 @Component({
   selector: 'app-header',
@@ -42,13 +45,8 @@ export class HeaderComponent implements OnInit {
               private settingsService: SettingsService,
               private dashboardService: DashboardService,
               private userService: UserService,
-              public translate: TranslateService) {
-    const browserLang = translate.getBrowserLang();
-    const localization = browserLang.match(/en|ru|uk|pl/) ? browserLang : 'en';
-    // const localization = 'en';
-    this.lang = this.langArray.filter(lang => lang.name === localization)[0];
-    translate.use(this.lang.name);
-  }
+              private store: Store<State>,
+              public translate: TranslateService) {}
 
   ngOnInit() {
     this.resetDropdowns();
@@ -72,6 +70,10 @@ export class HeaderComponent implements OnInit {
       this.mobileView = res;
     });
     this.myBalance = this.dashboardService.getMyBalances();
+
+    this.store.pipe(select(getLanguage)).subscribe(res => {
+      this.lang = this.langArray.filter(lang => lang.name === res)[0];
+    });
   }
 
   public openMenu() {
@@ -93,7 +95,7 @@ export class HeaderComponent implements OnInit {
 
   changeLocalization(lang: string) {
     this.lang = this.langArray.filter(item => item.name === lang.toLowerCase())[0];
-    this.translate.use(lang);
+    this.store.dispatch(new ChangeLanguageAction(lang));
 }
 
   onLogin() {

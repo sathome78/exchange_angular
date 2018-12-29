@@ -10,6 +10,7 @@ import {BalanceDetailsItem} from 'app/funds/models/balance-details-item.model';
 import * as dashboardActions from '../../../dashboard/actions/dashboard.actions';
 import {MyBalanceItem} from '../../../core/models/my-balance-item.model';
 import {Location} from '@angular/common';
+import { TransactionsService } from 'app/funds/services/transaction.service';
 
 
 interface ResData {
@@ -23,6 +24,7 @@ export class FundsEffects {
   constructor(
     private actions$: Actions,
     private balanceService: BalanceService,
+    private transactionsService: TransactionsService,
     private location: Location,
   ) {
   }
@@ -48,47 +50,13 @@ export class FundsEffects {
 
 
   @Effect()
-    loadAllCurrencies$: Observable<Action> = this.actions$
-      .pipe(ofType<fundsActions.LoadAllCurrenciesForChoose>(fundsActions.LOAD_ALL_CURRENCIES_FOR_CHOOSE))
-      .pipe(switchMap( () =>  {
-        return this.balanceService.getCryptoFiatNames()
-          .pipe(
-            map(res => (new fundsActions.SetAllCurrenciesForChoose(res.data))),
-            catchError(error => of(new fundsActions.FailLoadCurrenciesForChoose(error)))
-          );
-      }));
-
-  @Effect()
-  loadCryptoCurrencies$: Observable<Action> = this.actions$
-    .pipe(ofType<fundsActions.LoadCryptoCurrenciesForChoose>(fundsActions.LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE))
-    .pipe(switchMap( () =>  {
-      return this.balanceService.getCryptoNames()
-        .pipe(
-          map(res => (new fundsActions.SetCryptoCurrenciesForChoose(res))),
-          catchError(error => of(new fundsActions.FailLoadCurrenciesForChoose(error)))
-        );
-    }));
-
-  @Effect()
-  loadFiatCurrencies$: Observable<Action> = this.actions$
-    .pipe(ofType<fundsActions.LoadFiatCurrenciesForChoose>(fundsActions.LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE))
-    .pipe(switchMap( () =>  {
-      return this.balanceService.getFiatNames()
-        .pipe(
-          map(res => (new fundsActions.SetFiatCurrenciesForChoose(res))),
-          catchError(error => of(new fundsActions.FailLoadCurrenciesForChoose(error)))
-        );
-    }));
-
-
-  @Effect()
   loadMaxCurrencyPair$: Observable<Action> = this.actions$
     .pipe(ofType<fundsActions.LoadMaxCurrencyPairByCurrencyName>(fundsActions.LOAD_MAX_CURRENCY_PAIR_BY_CURRENCY_NAME))
     .pipe(switchMap( (action) =>  {
       return this.balanceService.getMaxCurrencyPairByName(action.payload)
         .pipe(
           map(res => (new dashboardActions.ChangeCurrencyPairAction( (res as {data: any, error: any}).data ))),
-          catchError(error => of(new fundsActions.FailLoadCurrenciesForChoose(error)))
+          catchError(error => of(new fundsActions.FailLoadMaxCurrencyPairByCurrencyName(error)))
         );
     }));
   /**
@@ -184,5 +152,26 @@ export class FundsEffects {
           catchError(error => of(new fundsActions.FailRevokePendingReqAction(error)))
         )
     }))
+
+
+  /**
+   * Load transactions history
+   */
+  @Effect()
+  loadHistoryOrders$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadTransactionsHistoryAction>(fundsActions.LOAD_TRANSACTIONS_HISTORY))
+    .pipe(switchMap((action) => {
+      return this.transactionsService.getTransactionsHistory(action.payload)
+        .pipe(
+          map(orders => {
+            if(action.payload.concat) {
+              return new fundsActions.SetMoreTransactionsHistoryAction({items: orders.items, count: orders.count})
+            }
+            return new fundsActions.SetTransactionsHistoryAction({items: orders.items, count: orders.count})
+          }),
+          catchError(error => of(new fundsActions.FailLoadTransactionsHistoryAction(error)))
+        )
+    }))
+
 
 }

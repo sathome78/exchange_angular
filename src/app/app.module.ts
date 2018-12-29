@@ -57,7 +57,6 @@ import {AuthInterceptor} from './core/interceptors/auth.interceptor';
 
 import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
 import {RecoveryPassComponent} from './popups/recovery-pass/recovery-pass.component';
-import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
 import {FinalStepRecoveryPasswordComponent} from './auth/final-step-recovery-password/final-step-recovery-password.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from 'environments/environment';
@@ -67,11 +66,12 @@ import {DemoTradingPopupComponent} from './popups/demo-trading-popup/demo-tradin
 import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup/already-registered-popup.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {CoreService} from './core/services/core.service';
 
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(httpClient: HttpClient) {
-  return new TranslateHttpLoader(httpClient);
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
 
 @NgModule({
   declarations: [
@@ -104,7 +104,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     GoogleDisableComponent,
     FinalRegistrationComponent,
     RecoveryPassComponent,
-    TransactionHistoryComponent,
     FinalStepRecoveryPasswordComponent,
 
     RefillSuccessfulComponent,
@@ -123,9 +122,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useFactory: (createTranslateLoader),
         deps: [HttpClient]
-      }
+      },
+      isolate: true
     }),
     CoreModule,
     AppRoutingModule,
@@ -155,6 +155,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     TradingService,
     EmbeddedOrdersService,
     CurrencyPairInfoService,
+    CoreService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

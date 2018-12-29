@@ -20,17 +20,17 @@ export class OrderBookService {
   // http://dev5.exrates.tech/info/public/v2/open-orders/1/5
 
   // /info/public/v2/open-orders/{pairId}/{precision}
-  subscribeStompOrders(pair: CurrencyPair, precision: number) {
-    // console.log('tt')
-    return this.stompService
-      .subscribe(`/app/open_orders/${pair.currencyPairId}/${precision}`)
-      .pipe(map(res => {
-        console.log(res);
-        return res;
-      }))
-      .pipe(map((message: Message) => JSON.parse(message.body)))
-      .pipe(map(orders => orders.map ? orders.map(order => order) : orders));
-  }
+  // subscribeStompOrders(pair: CurrencyPair, precision: number) {
+  //   // console.log('tt')
+  //   return this.stompService
+  //     .subscribe(`/app/open_orders/${pair.currencyPairId}/${precision}`)
+  //     .pipe(map(res => {
+  //       console.log(res);
+  //       return res;
+  //     }))
+  //     .pipe(map((message: Message) => JSON.parse(message.body)))
+  //     .pipe(map(orders => orders.map ? orders.map(order => order) : orders));
+  // }
 
   // example at: https://api.myjson.com/bins/h0f3m
   getMinAndMaxDayOrders(currencyPairId: number): Observable<Map<String, OrderItem>> {

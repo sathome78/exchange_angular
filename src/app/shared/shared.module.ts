@@ -25,6 +25,7 @@ import {FormatCurrencyPipe} from './pipes/format-currency.pipe';
 import {SplitCurrencyPipe} from './pipes/split-currency.pipe';
 import {UtilsService} from './services/utils.service';
 import {RegistrationGuard} from './guards/registaration.guard';
+import {LoaderComponent} from './components/loader/loader.component';
 import {GetIconUrl} from './pipes/get-icon-url';
 import {ExcludeByFieldPipe} from './pipes/exclude-by-field.pipe';
 import {TranslateModule} from '@ngx-translate/core';
@@ -48,6 +49,7 @@ import {TranslateModule} from '@ngx-translate/core';
     SplitCurrencyPipe,
     PageItemsDropdownComponent,
     DateWrapper,
+    LoaderComponent,
   ],
   imports: [
     FormsModule,
@@ -81,6 +83,7 @@ import {TranslateModule} from '@ngx-translate/core';
     FormatCurrencyPipe,
     PageItemsDropdownComponent,
     SplitCurrencyPipe,
+    LoaderComponent,
     DateWrapper,
     GetIconUrl,
   ],
