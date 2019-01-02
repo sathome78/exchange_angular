@@ -64,308 +64,48 @@
   <div class="widget__header--mob">
     <div class="widget__name-mob">Trade history</div>
   </div>
-  <div class="widget__content">
-    <!--table start-->
-    <!-- <ng-scrollbar [autoHide]="false" [barClass]="'bar-class'" [thumbClass]="'thumb2'"> -->
-    <!--<perfect-scrollbar style="max-width: 600px; height: calc(100vh - 139px);" [config]="config">-->
-    <perfect-scrollbar style="max-width: 600px; height: calc(100vh - 139px);">
-      <div class="widget__table-wrap widget__table-wrap--ml16">
-        <table class="table widget__table">
-          <thead>
-            <tr>
-              <th class="table__cell-head table__cell-head--tal table__cell-head--p4">Time</th>
-              <th class="table__cell-head table__cell-head--tal table__cell-head--p4">Rate for</th>
-              <th class="table__cell-head table__cell-head--tar table__cell-head--p4"><span>{{firstCurrency}}</span></th>
-            </tr>
-          </thead>
-          <tbody class="table__body table__body--none-shadow">
-            <tr *ngFor="let item of allTrades" class="table__row widget__table-row" [ngClass]="{'widget__table-row-hover--red': item.operationType === 'SELL', 'widget__table-row-hover--green': item.operationType === 'BUY'}">
-              <td class="table__cell table__cell--tal trade-history-time">
+
+  <!-- loading indicator -->
+
+  <div class="widget__content loading-container" *ngIf="loading$ | async">
+    <app-loader></app-loader>
+  </div>
+  <div class="widget__content widget__content--show-all"  *ngIf="!(loading$ | async)">
+
+    <div class="trade-history__table">
+      <div class="trade-history__thead">
+        <div class="table__cell-head table__cell-head--tal table__cell-head--p4" style="width: 28%;">Time</div>
+        <div class="table__cell-head table__cell-head--tal table__cell-head--p4" style="width: 36%;">Rate for</div>
+        <div class="table__cell-head table__cell-head--tar table__cell-head--p4" style="width: 36%;"><span>{{firstCurrency}}</span></div>
+      </div>
+      <div class="trade-history__tbody">
+        <perfect-scrollbar style="height: 100%;">
+          <div class="trade-history__tbody-inner">
+
+            <div *ngFor="let item of allTrades" class=" trade-history__row table__row widget__table-row"
+                 [ngClass]="{'widget__table-row-hover--red': item.operationType === 'SELL', 'widget__table-row-hover--green': item.operationType === 'BUY'}">
+              <div class="table__cell table__cell--tal trade-history-time" style="width: 28%;">
                 <!-- {{item.dateAcceptionTime | date:"dd/MM/yyyy"}} -->
                 {{item.dateAcceptionTime}}
-              </td>
-              <td class="table__cell table__cell--tal">
-                <span class="txt-indicate">
-                  {{item.rate | number:'1.1-8' | replaceNumber}}
-                </span>
-              </td>
-              <td class="table__cell table__cell--tar">
-                <span [ngClass]="{'txt-red': item.operationType === 'SELL', 'txt-green': item.operationType === 'BUY'}">
-                  {{item.amountBase | number:'1.8-8' | replaceNumber}}
-                </span>
-              </td>
-            </tr>
+              </div>
+              <div class="table__cell table__cell--tal" style="width: 36%;">
+            <span class="txt-indicate">
+            {{item.rate | number:'1.1-8' | replaceNumber}}
+            </span>
+              </div>
+              <div class="table__cell table__cell--tar" style="width: 36%;">
+            <span [ngClass]="{'txt-red': item.operationType === 'SELL', 'txt-green': item.operationType === 'BUY'}">
+            {{item.amountBase | number:'1.8-8' | replaceNumber}}
+            </span>
+              </div>
+            </div>
+            <div style="height: 4px;"></div>
 
-            <!-- <tr class="table__row widget__table-row widget__table-row-hover--red">
-                    <td class="table__cell table__cell--tal">
-                      17:36:04
-                    </td>
-                    <td class="table__cell table__cell--tal">
-                      <span class="txt-indicate">6561.343830000</span>
-                    </td>
-                    <td class="table__cell table__cell--tar">
-                      <span class="txt-red">0.646970000</span>
-                    </td>
-                  </tr>
-                  <tr style="height: 4px;"></tr>
-                  <tr class="table__row widget__table-row widget__table-row-hover--green">
-                    <td class="table__cell table__cell--tal">
-                      17:36:15
-                    </td>
-                    <td class="table__cell table__cell--tal">
-                      <span class="txt-indicate">6536.154560000</span>
-                    </td>
-                    <td class="table__cell table__cell--tar">
-                      <span class="txt-green">1.305960000</span>
-                    </td>
-                  </tr>
-                  <tr style="height: 4px;"></tr>
-                  <tr class="table__row widget__table-row widget__table-row-hover--red">
-                    <td class="table__cell table__cell--tal">
-                      17:36:45
-                    </td>
-                    <td class="table__cell table__cell--tal">
-                      <span class="txt-indicate">6561.341830000</span>
-                    </td>
-                    <td class="table__cell table__cell--tar">
-                      <span class="txt-red">0.646970000</span>
-                    </td>
-                  </tr>
-                  <tr style="height: 4px;"></tr>
-                  <tr class="table__row widget__table-row widget__table-row-hover--green">
-                    <td class="table__cell table__cell--tal">
-                      17:37:02
-                    </td>
-                    <td class="table__cell table__cell--tal">
-                      <span class="txt-indicate">6561.341830000</span>
-                    </td>
-                    <td class="table__cell table__cell--tar">
-                      <span class="txt-green">0.646970000</span>
-                    </td>
-                  </tr>
-                  <tr style="height: 4px;"></tr>
-                  <tr class="table__row widget__table-row widget__table-row-hover--green">
-                    <td class="table__cell table__cell--tal">
-                      17:37:11
-                    </td>
-                    <td class="table__cell table__cell--tal">
-                      <span class="txt-indicate">6561.341830000</span>
-                    </td>
-                    <td class="table__cell table__cell--tar">
-                      <span class="txt-green">0.646970000</span>
-                    </td>
-                  </tr>
-                  <tr style="height: 4px;"></tr>
-                  <tr class="table__row widget__table-row widget__table-row-hover--red ">
-                    <td class="table__cell table__cell--tal">
-                      17:37:32
-                    </td>
-                    <td class="table__cell table__cell--tal">
-                      <span class="txt-indicate">6561.341830000</span>
-                    </td>
-                    <td class="table__cell table__cell--tar">
-                      <span class="txt-red">0.646970000</span>
-                    </td>
-                  </tr>
-                  <tr style="height: 4px;"></tr>
-                  <tr class="table__row widget__table-row widget__table-row-hover--red">
-                    <td class="table__cell table__cell--tal">
-                      17:38:00
-                    </td>
-                    <td class="table__cell table__cell--tal">
-                      <span class="txt-indicate">6561.341830000</span>
-                    </td>
-                    <td class="table__cell table__cell--tar">
-                      <span class="txt-red">0.646970000</span>
-                    </td>
-                  </tr>
-                  <tr style="height: 4px;"></tr>
-                  <tr class="table__row widget__table-row widget__table-row-hover--red">
-                    <td class="table__cell table__cell--tal">
-                      17:38:14
-                    </td>
-                    <td class="table__cell table__cell--tal">
-                      <span class="txt-indicate">6561.341830000</span>
-                    </td>
-                    <td class="table__cell table__cell--tar">
-                      <span class="txt-red">0.646970000</span>
-                    </td>
-                  </tr>
-                  <tr style="height: 4px;"></tr>
-                  <tr class="table__row widget__table-row widget__table-row-hover--green">
-                    <td class="table__cell table__cell--tal">
-                      17:38:54
-                    </td>
-                    <td class="table__cell table__cell--tal">
-                      <span class="txt-indicate">6561.341830000</span>
-                    </td>
-                    <td class="table__cell table__cell--tar">
-                      <span class="txt-green">0.646970000</span>
-                    </td>
-                  </tr> -->
-            <tr style="height: 4px;"></tr>
-          </tbody>
-        </table>
-        <!-- <div class="widget__scroll">
-                  <span class="widget__scroll-inner"></span>
-                </div> -->
+          </div>
+        </perfect-scrollbar>
       </div>
-    </perfect-scrollbar>
-    <!-- </ng-scrollbar> -->
-    <!--table end-->
+    </div>
+
   </div>
 
-
-  <div class="widget__content widget__content--mob">
-    <!--table mob start-->
-    <!--<perfect-scrollbar style="max-width: 600px; height: calc(100vh - 105px);" [config]="config">-->
-    <perfect-scrollbar style="height: calc(100vh - 105px);">
-      <table class="table widget__table widget__table--mob">
-        <thead>
-          <tr>
-            <th class="table__cell-head table__cell-head--tal table__cell-head--p4">Time</th>
-            <th class="table__cell-head table__cell-head--tal table__cell-head--p4">Rate for</th>
-            <th class="table__cell-head table__cell-head--tar table__cell-head--p4"><span>BTC</span></th>
-          </tr>
-        </thead>
-        <tbody class="table__body table__body--none-shadow">
-            <tr *ngFor="let item of allTrades" class="table__row widget__table-row" [ngClass]="{'widget__table-row-hover--red': item.operationType === 'SELL', 'widget__table-row-hover--green': item.operationType === 'BUY'}">
-              <td class="table__cell table__cell--tal">
-                <!-- {{item.dateAcceptionTime | date:"dd/MM/yyyy"}} -->
-                {{item.dateAcceptionTime}}
-              </td>
-              <td class="table__cell table__cell--tal">
-                <span class="txt-indicate">
-                  {{item.rate | number:'1.1-8' | replaceNumber}}
-                </span>
-              </td>
-              <td class="table__cell table__cell--tar">
-                <span [ngClass]="{'txt-red': item.operationType === 'SELL', 'txt-green': item.operationType === 'BUY'}">
-                  {{item.amountBase | number:'1.1-8' | replaceNumber}}
-                </span>
-              </td>
-            </tr>
-          <!-- <tr class="table__row widget__table-row widget__table-row-hover--red">
-            <td class="table__cell table__cell--tal">
-              17:36:04
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span class="txt-indicate">6561.343830000</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <span class="txt-red">0.646970000</span>
-            </td>
-          </tr>
-          <tr style="height: 4px;"></tr>
-          <tr class="table__row widget__table-row widget__table-row-hover--green">
-            <td class="table__cell table__cell--tal">
-              17:36:15
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span class="txt-indicate">6536.154560000</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <span class="txt-green">1.305960000</span>
-            </td>
-          </tr>
-          <tr style="height: 4px;"></tr>
-          <tr class="table__row widget__table-row widget__table-row-hover--red">
-            <td class="table__cell table__cell--tal">
-              17:36:45
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span class="txt-indicate">6561.341830000</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <span class="txt-red">0.646970000</span>
-            </td>
-          </tr>
-          <tr style="height: 4px;"></tr>
-          <tr class="table__row widget__table-row widget__table-row-hover--green">
-            <td class="table__cell table__cell--tal">
-              17:37:02
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span class="txt-indicate">6561.341830000</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <span class="txt-green">0.646970000</span>
-            </td>
-          </tr>
-          <tr style="height: 4px;"></tr>
-          <tr class="table__row widget__table-row widget__table-row-hover--green">
-            <td class="table__cell table__cell--tal">
-              17:37:11
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span class="txt-indicate">6561.341830000</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <span class="txt-green">0.646970000</span>
-            </td>
-          </tr>
-          <tr style="height: 4px;"></tr>
-          <tr class="table__row widget__table-row widget__table-row-hover--red ">
-            <td class="table__cell table__cell--tal">
-              17:37:32
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span class="txt-indicate">6561.341830000</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <span class="txt-red">0.646970000</span>
-            </td>
-          </tr>
-          <tr style="height: 4px;"></tr>
-          <tr class="table__row widget__table-row widget__table-row-hover--red">
-            <td class="table__cell table__cell--tal">
-              17:38:00
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span class="txt-indicate">6561.341830000</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <span class="txt-red">0.646970000</span>
-            </td>
-          </tr>
-          <tr style="height: 4px;"></tr>
-          <tr class="table__row widget__table-row widget__table-row-hover--red">
-            <td class="table__cell table__cell--tal">
-              17:38:14
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span class="txt-indicate">6561.341830000</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <span class="txt-red">0.646970000</span>
-            </td>
-          </tr>
-          <tr style="height: 4px;"></tr>
-          <tr class="table__row widget__table-row widget__table-row-hover--green">
-            <td class="table__cell table__cell--tal">
-              17:38:54
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span class="txt-indicate">6561.341830000</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <span class="txt-green">0.646970000</span>
-            </td>
-          </tr>
-          <tr class="table__row widget__table-row widget__table-row-hover--green">
-            <td class="table__cell table__cell--tal">
-              17:38:54
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span class="txt-indicate">6561.341830000</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <span class="txt-green">0.646970000</span>
-            </td>
-          </tr> -->
-        </tbody>
-      </table>
-    </perfect-scrollbar>
-    <!--table mob end-->
-    </div>
-    </div>
+</div>

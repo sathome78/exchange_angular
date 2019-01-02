@@ -3,7 +3,7 @@
 <div class="refill__inputs-wrap">
   <div class="select refill__select">
     <div class="select__value select__value--active" (click)="currencyDropdownToggle()">
-      <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
+      <img [src]="activeCrypto.name | getIconUrl" class="select__list-item-icon">
       {{activeCrypto.name}}
       <div class="select__triangle"></div>
     </div>
@@ -53,7 +53,7 @@
     Generate new address
   </button>
 
-  <div class="request-errors" *ngIf="!isGenerateNewAddress && !cryptoDataByName?.merchantCurrencyData[0]?.mainAddress">
+  <div class="request-errors" *ngIf="!isGenerateNewAddress && cryptoDataByName && !cryptoDataByName?.merchantCurrencyData.length">
     Sorry, refill is closed for current moment!
   </div>
 </div>

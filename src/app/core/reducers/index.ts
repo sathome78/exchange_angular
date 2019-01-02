@@ -5,6 +5,7 @@ import {createSelector} from 'reselect';
 // Imports from reducers
 import * as fromDashboard from '../../dashboard/reducers/dashboard.reducer';
 import * as fromFunds from '../../funds/store/reducers/funds.reducer';
+import * as fromCore from './core.reducer';
 
 /**
  * Top level state declaration
@@ -12,6 +13,7 @@ import * as fromFunds from '../../funds/store/reducers/funds.reducer';
 export interface State {
   dashboard: fromDashboard.State;
   funds: fromFunds.State;
+  core: fromCore.State;
 }
 
 export interface RouterStateUrl {
@@ -23,6 +25,7 @@ export interface RouterStateUrl {
 export const reducers: ActionReducerMap<State> = {
   dashboard: fromDashboard.reducer,
   funds: fromFunds.reducer,
+  core: fromCore.reducer,
 };
 
 /**
@@ -30,6 +33,7 @@ export const reducers: ActionReducerMap<State> = {
  */
 export const getDashboardState = (state: State) => state.dashboard;
 export const getFundsState = (state: State) => state.funds;
+export const getCoreState = (state: State) => state.core;
 
 /**
  * Selectors from dashboard module
@@ -41,11 +45,20 @@ export const getSelectedOrderBookOrder = createSelector(getDashboardState, fromD
 export const getCurrencyPairInfo = createSelector(getDashboardState, fromDashboard.getCurrencyPairInfo);
 export const getLastSellBuyOrder = createSelector(getDashboardState, fromDashboard.getLastSellBuyOrder);
 export const getAllTrades = createSelector(getDashboardState, fromDashboard.getAllTrades);
+export const getLoadingAllTrades = createSelector(getDashboardState, fromDashboard.getLoadingAllTrades);
+export const getTradingType = createSelector(getDashboardState, fromDashboard.getTradingType);
 
 /**
  * Selectors from funds module
  */
 
-export const getAllCurrenciesForChoose = createSelector(getFundsState, fromFunds.getAllCurrenciesForChoose);
-export const getCryptoCurrenciesForChoose = createSelector(getFundsState, fromFunds.getCryptoCurrenciesForChoose);
-export const getFiatCurrenciesForChoose = createSelector(getFundsState, fromFunds.getFiatCurrenciesForChoose);
+
+
+/**
+ * Selectors from Core module
+ */
+
+export const getSimpleCurrencyPairsSelector = createSelector(getCoreState, fromCore.getAllSimpleCurrencyPairs);
+export const getAllCurrenciesForChoose = createSelector(getCoreState, fromCore.getAllCurrenciesForChoose);
+export const getCryptoCurrenciesForChoose = createSelector(getCoreState, fromCore.getCryptoCurrenciesForChoose);
+export const getFiatCurrenciesForChoose = createSelector(getCoreState, fromCore.getFiatCurrenciesForChoose);

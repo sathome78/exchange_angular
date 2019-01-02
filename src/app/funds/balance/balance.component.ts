@@ -3,13 +3,14 @@ import {Subject, Observable} from 'rxjs';
 import {Store, select} from '@ngrx/store';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
+import * as coreAction from '../../core/actions/core.actions';
 import {BalanceItem} from '../models/balance-item.model';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
 import {MyBalanceItem} from '../../core/models/my-balance-item.model';
 import {BalanceService} from '../services/balance.service';
 import {takeUntil} from 'rxjs/operators';
-import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, INNER_TRANSFER} from './send-money/send-money-constants';
-import {CurrencyChoose} from '../models/currency-choose.model';
+import {CRYPTO_DEPOSIT, FIAT_DEPOSIT} from './send-money/send-money-constants';
+import {CurrencyChoose} from '../../core/models/currency-choose.model';
 import * as fromCore from '../../core/reducers';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
 import {Router} from '@angular/router';
@@ -45,6 +46,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public myBalances$: Observable<MyBalanceItem>;
   public cryptoCurrenciesForChoose$: Observable<CurrencyChoose[]>;
   public fiatCurrenciesForChoose$: Observable<CurrencyChoose[]>;
+  public loading$: Observable<boolean>;
 
   public sendMoneyData = {};
   public refillBalanceData = {};
@@ -69,6 +71,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.myBalances$ = store.pipe(select(fundsReducer.getMyBalancesSelector));
     this.cryptoCurrenciesForChoose$ = store.pipe(select(fromCore.getCryptoCurrenciesForChoose));
     this.fiatCurrenciesForChoose$ = store.pipe(select(fromCore.getFiatCurrenciesForChoose));
+    this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
   }
 
   ngOnInit() {
@@ -76,9 +79,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
       this.countPerPage = 30;
     }
 
-    this.store.dispatch(new fundsAction.LoadAllCurrenciesForChoose());
-    this.store.dispatch(new fundsAction.LoadCryptoCurrenciesForChoose());
-    this.store.dispatch(new fundsAction.LoadFiatCurrenciesForChoose());
+    this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
+    this.store.dispatch(new coreAction.LoadCryptoCurrenciesForChoose());
+    this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
     this.store.dispatch(new fundsAction.LoadMyBalancesAction());
     this.loadBalances(this.currTab);
     this.loadBalances(this.Tab.PR);
@@ -198,7 +201,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.showRefillBalancePopup = true;
     this.refillBalanceData = {
       step: 2,
-      stepName: CRYPTO_DEPOSIT,
+      stepName: this.currTab === 'CRYPTO' ? CRYPTO_DEPOSIT : FIAT_DEPOSIT,
       balance: balance
     };
   }

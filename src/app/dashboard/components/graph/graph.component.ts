@@ -23,6 +23,8 @@ import {getCurrencyPairArray, getCurrencyPairInfo} from '../../../core/reducers'
 import {Currency} from '../currency-pair-info/currency-search/currency.model';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
+import {SelectedOrderBookOrderAction, SetTradingTypeAction} from '../../actions/dashboard.actions';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-graph',
@@ -132,6 +134,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   constructor(
     private store: Store<State>,
     private marketService: MarketService,
+    private router: Router,
     private langService: LangService,
     private dashboardService: DashboardService,
     private dashboardWebsocketService: DashboardWebSocketService,
@@ -303,7 +306,10 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     };
 
     this.dashboardService.selectedOrderTrading$.next(item);
+    this.router.navigate(['/dashboard'], { queryParams: {widget: widgetName}});
     this.dashboardService.activeMobileWidget.next(widgetName);
+    this.store.dispatch(new SelectedOrderBookOrderAction(item));
+    // this.store.dispatch(new SetTradingTypeAction(type));
   }
 
   /** Are listening click in document */

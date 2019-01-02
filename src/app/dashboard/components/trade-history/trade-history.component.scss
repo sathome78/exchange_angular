@@ -1,32 +1,22 @@
 @import "../../../../assets/scss/variables";
-.widget{
-  &__table{
-    margin-top: 0;
-    td,th{
-      &:first-of-type{
-        padding-left: 12px;
-      }
-      &:last-of-type{
-        padding-right: 12px;
-      }
-    }
-  }
-  &__table-row{
+
+.widget {
+
+  &__table-row {
     &:nth-of-type(odd) {
       background-color: unset;
     }
-    &:hover{
+
+    &:hover {
       cursor: default;
     }
   }
-  ng-scrollbar{
-    height: 444px;
-  }
 
-  &__table-row-hover{
-    &--green{
-      &:hover{
+  &__table-row-hover {
+    &--green {
+      &:hover {
         background-color: transparent;
+
         &:after {
           position: absolute;
           content: "";
@@ -42,14 +32,17 @@
           background: -ms-linear-gradient(left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
           background: linear-gradient(to left, rgba(0, 180, 60, .1) 0%, rgba(0, 180, 60, .1) 88%, rgba(0, 180, 60, 0) 100%);
         }
-        .txt-indicate{
-          color:$green;
+
+        .txt-indicate {
+          color: $green;
         }
       }
     }
-    &--red{
-      &:hover{
+
+    &--red {
+      &:hover {
         background-color: transparent;
+
         &:after {
           position: absolute;
           content: "";
@@ -65,30 +58,9 @@
           background: -ms-linear-gradient(left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
           background: linear-gradient(to left, rgba(235, 87, 87, .1) 0%, rgba(235, 87, 87, .1) 88%, rgba(235, 87, 87, 0) 100%);
         }
-        .txt-indicate{
-          color:$red;
-        }
-      }
-    }
-  }
-}
 
-:host {
-  width: 100%;
-}
-
-@media (min-width: 1200px){
-  .widget{
-    &__header{
-      background-color: transparent;
-    }
-    &__table{
-      td,th{
-        &:first-of-type{
-          padding-left: 4px;
-        }
-        &:last-of-type{
-          padding-right: 4px;
+        .txt-indicate {
+          color: $red;
         }
       }
     }
@@ -96,5 +68,99 @@
 }
 
 .widget__content {
-  height: calc(100% - 40px);
+  height: calc(100vh - 104px);
+}
+
+.trade-history {
+  &__table {
+    position: relative;
+    height: 100%;
+
+    .table__cell, .table__cell-head {
+      padding: 4px;
+
+      &:first-of-type {
+        padding-left: 12px;
+      }
+
+      &:last-of-type {
+        padding-right: 12px;
+      }
+    }
+
+    .widget__table-row {
+      height: auto;
+    }
+
+  }
+
+  &__thead {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  &__tbody {
+    height: calc(100% - 22px);
+  }
+
+  &__row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+:host {
+  width: 100%;
+}
+
+@media (min-width: 1200px) {
+  .widget {
+    &__header {
+      background-color: transparent;
+    }
+  }
+
+  .widget__content {
+    height: calc(100% - 41px);
+  }
+
+  .trade-history {
+    &__table {
+      margin-left: 16px;
+
+      .table__cell, .table__cell-head {
+
+        &:first-of-type {
+          padding-left: 4px;
+        }
+
+        &:last-of-type {
+          padding-right: 4px;
+        }
+      }
+
+    }
+
+    &__thead {
+      width: calc(100% - 24px);
+      margin-right: 24px;
+    }
+
+    &__tbody-inner {
+      margin-right: 24px;
+    }
+
+  }
+}
+
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
 }
