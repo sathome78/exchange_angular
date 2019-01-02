@@ -8,24 +8,10 @@ import {select, Store} from '@ngrx/store';
 import { State, getCryptoCurrenciesForChoose} from 'app/core/reducers';
 import {COPY_ADDRESS} from '../../../send-money/send-money-constants';
 import {BalanceItem} from '../../../../models/balance-item.model';
+import {RefillData} from '../../../../../shared/interfaces/refill-data-interface';
+import {RefreshAddress} from '../../../../../shared/interfaces/refresh-address-interface';
 
 declare var sendGenerateWalletGtag: Function;
-
-interface RefreshAddress {
-  params: {
-    address: string;
-    qr: string;
-    message: string;
-  };
-}
-
-interface RefillData {
-  operationType: string;
-  currency: number;
-  merchant: number;
-  sum: number;
-  forceGenerateNewAddress?: boolean;
-}
 
 @Component({
   selector: 'app-refill-crypto',
