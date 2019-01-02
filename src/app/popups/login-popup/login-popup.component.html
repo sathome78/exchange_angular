@@ -1,7 +1,7 @@
 <div class="overlay">
   <div class="popup popup-login">
     <div class="popup__close" (click)="closeMe()"></div>
-    <h6 class="popup__title">Log in</h6>
+    <h6 class="popup__title">{{'Log in' | translate}}</h6>
 
     <!--TODO this message is shown when user provided invalid credentials Or backEndDied-->
     <h4 class="popup__subtitle">{{ statusMessage }}</h4>
@@ -17,19 +17,19 @@
               formControlName="email"
               [ngClass]="{'input--error': !form.get('email').valid && form.get('email').touched}"
             >
-            <label class="wrap-input__label" for="">Email</label>
+            <label class="wrap-input__label" for="">{{'Email' | translate}}</label>
             <div class="wrap-input__line"></div>
             <!--Input error section starts-->
             <div *ngIf="form.get('email').touched && form.get('email').errors != null">
             <span
               *ngIf="form.get('email').errors['required']"
               class="wrap-input__message">
-              This field is required.
+              {{'This field is required' | translate}}.
             </span>
               <span
                 *ngIf="form.get('email').invalid && !form.get('email').errors['required']"
                 class="wrap-input__message">
-              Please, enter valid email address.
+              {{'Please, enter valid email address' | translate}}.
             </span>
             </div>
             <!--Input error section ends-->
@@ -43,7 +43,7 @@
               formControlName="password"
               [ngClass]="{'input--error': !form.get('password').valid && form.get('password').touched}"
             >
-            <label class="wrap-input__label" for="">Password</label>
+            <label class="wrap-input__label" for="">{{'Password' | translate}}</label>
             <div class="wrap-input__line"></div>
             <span
               class="wrap-input__show-password"
@@ -56,7 +56,7 @@
             <span
               *ngIf="form.get('password').errors['required']"
               class="wrap-input__message">
-              This field is required.
+              {{'This field is required' | translate}}.
             </span>
             </div>
             <!--Input error section ends-->
@@ -77,26 +77,26 @@
               formControlName="pin"
               [ngClass]="{'input--error': !form.get('pin').valid}"
             >
-            <label class="wrap-input__label" for="">Pincode</label>
+            <label class="wrap-input__label" for="">{{'Pincode' | translate}}</label>
             <div class="wrap-input__line"></div>
             <!--Input error section starts-->
             <div *ngIf="form.get('pin').touched && form.get('pin').errors != null">
             <span
               *ngIf="form.get('pin').errors['pinRequired']"
               class="wrap-input__message">
-              This field is required.
+              {{'This field is required' | translate}}.
             </span>
             </div>
             <!--Input error section ends-->
           </div>
         </ng-template>
 
-      <button class="btn popup__btn" (click)="onProcess()" [disabled]="!form.valid" [ngClass]="{'popup__btn--active': form.valid}">Authorise me</button>
+      <button class="btn popup__btn" (click)="onProcess()" [disabled]="!form.valid" [ngClass]="{'popup__btn--active': form.valid}">{{'Authorise me' | translate}}</button>
     </form>
     <div class="popup__links-wrap">
-      <a class="popup__link popup__link--hidden-mob" (click)="openRegistration()">Go to registration form</a>
-      <a class="popup__link" (click)="openRecoveryPasswordPopup()">Forgot password?</a>
+      <a class="popup__link popup__link--hidden-mob" (click)="openRegistration()">{{'Go to registration form' | translate}}</a>
+      <a class="popup__link" (click)="openRecoveryPasswordPopup()">{{'Forgot password' | translate}}?</a>
     </div>
-    <a class="popup__link-mob" href="#">Registration</a>
+    <a class="popup__link-mob" href="#">{{'Registration' | translate}}</a>
   </div>
 </div>

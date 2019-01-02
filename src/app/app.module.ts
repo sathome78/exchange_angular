@@ -67,9 +67,10 @@ import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {CoreService} from './core/services/core.service';
+import {translateInfo} from './shared/configs/translate-options';
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
 }
 
 

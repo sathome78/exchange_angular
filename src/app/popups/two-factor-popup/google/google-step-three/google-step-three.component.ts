@@ -3,6 +3,7 @@ import {OnNextStep, PopupService} from '../../../../shared/services/popup.servic
 import {TwoFaResponseDto} from '../2fa-response-dto.model';
 import {GoogleAuthenticatorService} from '../google-authenticator.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-google-step-three',
@@ -15,9 +16,11 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep {
   statusMessage = '';
   form: FormGroup;
 
-  constructor(private popupService: PopupService,
-              private googleService: GoogleAuthenticatorService) {
-  }
+  constructor(
+    private popupService: PopupService,
+    private googleService: GoogleAuthenticatorService,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit() {
     this.googleService.getGoogleTwoFaSecretHash().subscribe((dto: TwoFaResponseDto) => {
@@ -28,7 +31,7 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep {
         }
       },
       err => {
-        this.statusMessage = 'Failed to get google url';
+        this.statusMessage = this.translateService.instant('Failed to get google url');
         console.log(err);
       });
     this.form = new FormGroup({
@@ -49,7 +52,7 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep {
           this.popupService.closeTFAPopup();
         },
         error1 => {
-          this.statusMessage = 'Failed to set your google auth code';
+          this.statusMessage = this.translateService.instant('Failed to set your google auth code');
           console.log(error1);
         });
   }

@@ -8,7 +8,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "extract": "ngx-translate-extract --input ./src --output ./src/assets/i18n/_base.json --clean --sort --format namespaced-json"
+    "extract-dashboard": "ngx-translate-extract --input ./src/app/dashboard ./src/app/popups ./src/app/header  ./src/app/footer --output ./src/assets/i18n/dashboard/_base.json --clean --sort --format namespaced-json",
+    "extract-funds": "ngx-translate-extract --input ./src/app/funds --output ./src/assets/i18n/funds/_base.json --clean --sort --format namespaced-json",
+    "extract-orders": "ngx-translate-extract --input ./src/app/orders --output ./src/assets/i18n/orders/_base.json --clean --sort --format namespaced-json",
+    "extract-all": "npm run extract-dashboard && npm run extract-funds && npm run extract-orders"
   },
   "private": true,
   "dependencies": {

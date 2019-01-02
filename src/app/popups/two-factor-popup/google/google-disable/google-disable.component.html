@@ -1,6 +1,6 @@
-<div class="title modal__title">Two-Factor authentication by google authentificator</div>
-<div class="subtitle modal__subtitle">
-  <p>Сonfirm your details</p>
+<div class="title modal__title">{{'Two-Factor authentication by google authentificator' | translate}}</div>
+<div class="subtitle modal__subt{{'itle">' | translate}}
+  <p>{{'Сonfirm your details' | translate}}</p>
 </div>
 
 <form [formGroup]="form">
@@ -13,18 +13,18 @@
         class="wrap-input__input"
         type="email"
         formControlName="email">
-      <label class="wrap-input__label">Email</label>
+      <label class="wrap-input__label">{{'Email' | translate}}</label>
       <div class="wrap-input__line"></div>
       <div *ngIf="form.get('email').touched && form.get('email').errors != null">
             <span
               *ngIf="form.get('email').errors['required']"
               class="wrap-input__message">
-              This field is required.
+              {{'This field is required\.' | translate}}
             </span>
         <span
           *ngIf="form.get('email').invalid && !form.get('email').errors['required']"
           class="wrap-input__message">
-              Please, enter valid email address.
+              {{'Please, enter valid email address\.' | translate}}
             </span>
       </div>
     </div>
@@ -38,13 +38,13 @@
         class="wrap-input__input"
         type="password"
         formControlName="password">
-      <label class="wrap-input__label">Password</label>
+      <label class="wrap-input__label">{{'Password' | translate}}</label>
       <div class="wrap-input__line"></div>
       <div *ngIf="form.get('password').touched && form.get('password').errors != null">
             <span
               *ngIf="form.get('password').errors['required']"
               class="wrap-input__message">
-              This field is required.
+              {{'This field is required\.' | translate}}
             </span>
       </div>
     </div>
@@ -57,18 +57,18 @@
         class="wrap-input__input"
         type="text"
         formControlName="pincode">
-      <label class="wrap-input__label">Pin code</label>
+      <label class="wrap-input__label">{{'Pin code' | translate}}</label>
       <div class="wrap-input__line"></div>
       <div *ngIf="form.get('pincode').touched && form.get('pincode').errors != null">
             <span
               *ngIf="form.get('pincode').errors['required']"
               class="wrap-input__message">
-              This field is required.
+              {{'This field is required\.' | translate}}
             </span>
       </div>
-      <span style="display: inline-block; margin-top: 4px;">Check pin-code in your email</span>
+      <span style="display: inline-block; margin-top: 4px;">{{'Check pin-code in your email' | translate}}</span>
     </div>
   </div>
 
-  <button class="btn btn--error btn--center " [disabled]="!form.valid" (click)="disableGoogleAuth()">Disable GA</button>
+  <button class="btn btn--error btn--center " [disabled]="!form.valid" (click)="disableGoogleAuth()">{{'Disable GA' | translate}}</button>
 </form>

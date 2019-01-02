@@ -22,7 +22,12 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {OrdersComponent} from './orders.component';
 import {SharedModule} from 'app/shared/shared.module';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {createTranslateLoader} from '../app.module';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {translateInfo} from '../shared/configs/translate-options';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, translateInfo.path.orders, translateInfo.suffix);
+}
 
 @NgModule({
   imports: [

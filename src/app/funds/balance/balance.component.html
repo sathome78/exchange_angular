@@ -56,7 +56,7 @@
         {{'Balances' | translate}}
       </h1>
       <div class="balance__your-active">
-        <h6 class="txt-grey">Estimated Holdings:</h6>
+        <h6 class="txt-grey">{{'Estimated Holdings:' | translate}}</h6>
         <div class="row">
           <div class="balance__your-active-item">
             <span>
@@ -83,10 +83,10 @@
         <app-loader size="small"></app-loader>
       </div>
       <button class="btn btn--active balance__title-btn" (click)="openRefillBalancePopup(true)">
-        Refill balance
+        {{'Refill balance' | translate}}
       </button>
       <button class="btn btn--empty-blue balance__title-btn" style="margin-left: 32px;" (click)="openSendMoneyPopup(true)">
-        Send money
+        {{'Send money' | translate}}
       </button>
     </div>
     <!--filters start-->
@@ -114,21 +114,21 @@
             [ngClass]="{'tabs__item--active': currTab === Tab.CRYPTO}"
             (click)="onSelectTab(Tab.CRYPTO)"
           >
-            Crypto Balances
+            {{'Crypto Balances' | translate}}
           </button>
           <button
             class="tabs__item"
             [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}"
             (click)="onSelectTab(Tab.FIAT)"
           >
-            Fiat Balances
+            {{'Fiat Balances' | translate}}
           </button>
           <button
             class="tabs__item"
             [ngClass]="{'tabs__item--active': currTab === Tab.PR}"
             (click)="onSelectTab(Tab.PR)"
           >
-            <span>Pending requests</span>
+            <span>{{'Pending requests' | translate}}</span>
             <span class="indicate">{{countOfPendingRequests$ | async}}</span>
           </button>
 
@@ -138,7 +138,7 @@
             <input type="checkbox" name="hideZero" [(ngModel)]="hideAllZero" (change)="onToggleAllZero()">
             <span class="toggler__indicate"></span>
           </label>
-          <span>Hide zero balances</span>
+          <span>{{'Hide zero balances' | translate}}</span>
         </div>
         <!--<div class="balance__show-all">-->
           <!--<label class="toggler">-->

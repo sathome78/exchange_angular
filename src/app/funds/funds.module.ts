@@ -48,8 +48,11 @@ import {TransactionHistoryComponent} from './transaction-history/transaction-his
 import {TransactionsService} from './services/transaction.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {createTranslateLoader} from '../app.module';
+import {translateInfo} from '../shared/configs/translate-options';
 
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
+}
 
 @NgModule({
   imports: [

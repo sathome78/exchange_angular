@@ -3,6 +3,7 @@ import {PopupService} from '../../shared/services/popup.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/user.service';
 import {keys} from '../../core/keys';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-recovery-pass',
@@ -27,13 +28,13 @@ export class RecoveryPassComponent implements OnInit {
   constructor(
     private popupService: PopupService,
     private userService: UserService,
+    private translateService: TranslateService
   ) { }
 
   ngOnInit() {
     this.setTemplate('emailInputTemplate');
     // this.setTemplate('emailConfirmLinkTemplate');
     this.initForm();
-    this.afterCaptchaMessage;
   }
 
   initForm() {
@@ -62,10 +63,10 @@ export class RecoveryPassComponent implements OnInit {
           this.setTemplate('captchaTemplate');
           this.emailMessage = '';
         } else {
-          this.emailMessage = 'this email not found';
+          this.emailMessage = this.translateService.instant('this email not found');
         }
       }, err => {
-        this.emailMessage = 'server error';
+        this.emailMessage = this.translateService.instant('server error');
       });
     }
   }
@@ -77,7 +78,7 @@ export class RecoveryPassComponent implements OnInit {
         follow instructions.`;
       this.setTemplate('emailConfirmLinkTemplate');
     }, error => {
-      this.afterCaptchaMessage = `server error`;
+      this.afterCaptchaMessage = this.translateService.instant('server error');
       this.setTemplate('emailConfirmLinkTemplate');
     });
 

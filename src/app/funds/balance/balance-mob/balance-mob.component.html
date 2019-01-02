@@ -36,7 +36,7 @@
         ></ng-select>
         <div class="wrap-input__line"></div>
       </div>
-      <span>Price in</span>
+      <span>{{'Price in' | translate}}</span>
       <div class="dropdown" #dropdown (click)="onToggleDropdown()">
         <div class="dropdown__btn">{{priceIn}}</div>
         <ul class="dropdown__list" (click)="onSelectCurrency($event)">
@@ -142,7 +142,8 @@
       [ngClass]="{'tabs__item--active': currTab === Tab.PR}"
       (click)="onGoToPendingReq()"
     >
-      Pending<span class="indicate">{{countOfPendingRequests}}</span>
+      {{'Pending' | translate}}
+      <span class="indicate">{{countOfPendingRequests}}</span>
     </button>
   </div>
 </div>
