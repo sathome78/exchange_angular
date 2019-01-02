@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../shared/services/user.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {TokenHolder} from '../../model';
 import {AuthService} from '../../shared/services/auth.service';
 import {environment} from '../../../environments/environment';
 
 declare var encodePassword: Function;
+declare var sendConfirmationPasswordGtag: Function;
 
 @Component({
   selector: 'app-final-registration',
@@ -26,7 +26,8 @@ export class FinalRegistrationComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private authService: AuthService
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.initForm();
@@ -48,20 +49,21 @@ export class FinalRegistrationComponent implements OnInit {
         validators: [
           Validators.required, Validators.minLength(8),
           Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}/)
-        ]}),
-      confirmPassword: new FormControl( null, {validators: [Validators.required, this.confirmPassword.bind(this)]})
+        ]
+      }),
+      confirmPassword: new FormControl(null, {validators: [Validators.required, this.confirmPassword.bind(this)]})
     });
   }
 
   createUser(): void {
-    console.log(this.passwordForm)
+    console.log(this.passwordForm);
     const sendData = {
       tempToken: this.token,
       password: this.encryptPass(this.passwordForm.controls['password'].value),
     };
     this.userService.finalRegistration(sendData).subscribe(res => {
-     const tokenHolder = {
-       token: res.token,
+      const tokenHolder = {
+        token: res.token,
         nickname: res.nickName,
         userId: res.id,
         avatarPath: null,
@@ -69,8 +71,9 @@ export class FinalRegistrationComponent implements OnInit {
         finPasswordSet: res.finPasswordSet,
         referralReference: res.referralReference,
       };
-     this.authService.setTokenHolder(tokenHolder);
-     this.router.navigate(['/']);
+      this.authService.setTokenHolder(tokenHolder);
+      this.router.navigate(['/']);
+      sendConfirmationPasswordGtag();
     }, err => {
       this.message = 'Server error. Try again.';
     });
@@ -83,6 +86,7 @@ export class FinalRegistrationComponent implements OnInit {
     }
     return null;
   }
+
   private encryptPass(pass: string): string {
     return encodePassword(pass, environment.encodeKey);
   }
