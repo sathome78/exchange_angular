@@ -9,6 +9,8 @@ import { State, getCryptoCurrenciesForChoose} from 'app/core/reducers';
 import {COPY_ADDRESS} from '../../../send-money/send-money-constants';
 import {BalanceItem} from '../../../../models/balance-item.model';
 
+declare var sendGenerateWalletGtag: Function;
+
 interface RefreshAddress {
   params: {
     address: string;
@@ -147,6 +149,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         .subscribe(res => {
           const temp = res as RefreshAddress;
           this.address = temp.params.address;
+          sendGenerateWalletGtag();
         }, error => {
           const msg = 'Sorry, refill is unavailable for current moment!';
           this.setError(msg);

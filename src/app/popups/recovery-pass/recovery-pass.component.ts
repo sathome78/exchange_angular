@@ -4,6 +4,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/user.service';
 import {keys} from '../../core/keys';
 
+declare var sendRecoveryPasswordGtag: Function;
+
 @Component({
   selector: 'app-recovery-pass',
   templateUrl: './recovery-pass.component.html',
@@ -61,6 +63,7 @@ export class RecoveryPassComponent implements OnInit {
           this.email = email;
           this.setTemplate('captchaTemplate');
           this.emailMessage = '';
+          sendRecoveryPasswordGtag();
         } else {
           this.emailMessage = 'this email not found';
         }

@@ -8,6 +8,8 @@ import {AuthService} from '../../shared/services/auth.service';
 import {TokenHolder} from '../../model/token-holder.model';
 import {SettingsService} from '../../settings/settings.service';
 
+declare var sendLoginSuccessGtag: Function;
+
 @Component({
   selector: 'app-login-popup',
   templateUrl: './login-popup.component.html',
@@ -70,6 +72,7 @@ export class LoginPopupComponent implements OnInit {
             this.authService.setTokenHolder(tokenHolder);
             this.popupService.closeLoginPopup();
             this.router.navigate(['/']);
+            sendLoginSuccessGtag();
             // TODO: just for promo state, remove after
             location.reload();
           },
