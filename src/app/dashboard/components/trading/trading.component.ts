@@ -470,31 +470,25 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       return;
     }
 
-    if (environment.production) {
-      // todo while insecure
-      this.popupService.demoPopupMessage = 0;
-      this.popupService.showDemoTradingPopup(true);
-    } else {
-      if ( (this.stopForm.valid
-        && this.orderStop
-        && this.dropdownLimitValue === 'STOP_LIMIT')
-        || (this.limitForm.valid
-          && this.dropdownLimitValue === 'LIMIT'
-          || this.dropdownLimitValue === 'ICO'
-          || this.dropdownLimitValue === 'MARKET_PRICE')) {
-        this.order.currencyPairId = this.currentPair.currencyPairId;
-        this.order.baseType = this.dropdownLimitValue;
-        this.order.orderType = this.mainTab;
-        if (this.dropdownLimitValue === 'STOP_LIMIT') {
-          this.order.stop = this.orderStop;
-        }
-        if (!this.isTotalWithCommission) {
-          this.order.total = this.mainTab === 'BUY' ?
-            this.order.total + this.order.commission :
-            this.order.total - this.order.commission;
-        }
-        this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
+    if ( (this.stopForm.valid
+      && this.orderStop
+      && this.dropdownLimitValue === 'STOP_LIMIT')
+      || (this.limitForm.valid
+        && this.dropdownLimitValue === 'LIMIT'
+        || this.dropdownLimitValue === 'ICO'
+        || this.dropdownLimitValue === 'MARKET_PRICE')) {
+      this.order.currencyPairId = this.currentPair.currencyPairId;
+      this.order.baseType = this.dropdownLimitValue;
+      this.order.orderType = this.mainTab;
+      if (this.dropdownLimitValue === 'STOP_LIMIT') {
+        this.order.stop = this.orderStop;
       }
+      if (!this.isTotalWithCommission) {
+        this.order.total = this.mainTab === 'BUY' ?
+          this.order.total + this.order.commission :
+          this.order.total - this.order.commission;
+      }
+      this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
     }
   }
 
