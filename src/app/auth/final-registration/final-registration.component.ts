@@ -6,7 +6,7 @@ import {AuthService} from '../../shared/services/auth.service';
 import {environment} from '../../../environments/environment';
 
 declare var encodePassword: Function;
-declare var sendRegistrationGtag: Function;
+declare var sendConfirmationPasswordGtag: Function;
 
 @Component({
   selector: 'app-final-registration',
@@ -73,7 +73,7 @@ export class FinalRegistrationComponent implements OnInit {
       };
       this.authService.setTokenHolder(tokenHolder);
       this.router.navigate(['/']);
-      sendRegistrationGtag();
+      sendConfirmationPasswordGtag();
     }, err => {
       this.message = 'Server error. Try again.';
     });

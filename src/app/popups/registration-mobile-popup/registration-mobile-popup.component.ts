@@ -1,9 +1,10 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {PopupService} from '../../shared/services/popup.service';
-import {convertValueToOutputAst} from '@angular/compiler/src/output/value_util';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/user.service';
 import {keys} from '../../core/keys';
+
+declare var sendRegistrationGtag: Function;
 
 @Component({
   selector: 'app-registration-mobile-popup',
@@ -36,7 +37,8 @@ export class RegistrationMobilePopupComponent implements OnInit {
   constructor(
     private popupService: PopupService,
     private userService: UserService,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.setTemplate('emailInputTemplate');
@@ -76,10 +78,11 @@ export class RegistrationMobilePopupComponent implements OnInit {
         ${this.email}
         </span>
         <br> Please check your email and
-        follow instructions.`
+        follow instructions.`;
       this.setTemplate('emailConfirmLinkTemplate');
+      sendRegistrationGtag();
     }, error => {
-      this.afterCaptchaMessage =`server error`;
+      this.afterCaptchaMessage = 'server error';
       this.setTemplate('emailConfirmLinkTemplate');
     });
 
