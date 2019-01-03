@@ -1,4 +1,4 @@
-import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {CurrencyBalanceModel} from '../../../../../model/currency-balance.model';
@@ -18,6 +18,8 @@ import {RefillResponse} from '../../../../../model/refill-response';
 export class RefillFiatComponent implements OnInit, OnDestroy {
 
   @Input() refillData: any;
+  @ViewChild('simpleMerchant') simpleMerchantTemplate: TemplateRef<any>;
+  @ViewChild('listMerchant') listMerchantTemplate: TemplateRef<any>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public form: FormGroup;
   public submitSuccess = false;
@@ -33,6 +35,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public activeFiat;
   public alphabet;
   public redirectionUrl;
+  public selectMerchantName;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
@@ -108,6 +111,15 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.getDataByCurrency(currency.name);
   }
 
+  loadMerchantTemplate(merchant) {
+    switch (merchant.name) {
+      case 'Interkassa':
+        return this.listMerchantTemplate;
+      default:
+        return this.simpleMerchantTemplate;
+    }
+  }
+
   private getDataByCurrency(currencyName) {
     this.balanceService.getCurrencyData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -115,11 +127,12 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.fiatDataByName = res;
         this.merchants = this.fiatDataByName.merchantCurrencyData;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
-        console.log(res);
+        this.selectMerchantName = this.selectedMerchant.name;
       });
   }
 
-  selectMerchant(merchant) {
+  selectMerchant(merchant, name = null) {
+    this.selectMerchantName = name || merchant.name;
     this.selectedMerchant = merchant;
     this.togglePaymentSystemDropdown();
   }

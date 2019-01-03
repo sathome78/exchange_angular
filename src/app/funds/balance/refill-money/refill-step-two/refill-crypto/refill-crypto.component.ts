@@ -8,16 +8,10 @@ import {select, Store} from '@ngrx/store';
 import { State, getCryptoCurrenciesForChoose} from 'app/core/reducers';
 import {COPY_ADDRESS} from '../../../send-money/send-money-constants';
 import {BalanceItem} from '../../../../models/balance-item.model';
+import {RefillData} from '../../../../../shared/interfaces/refill-data-interface';
+import {RefreshAddress} from '../../../../../shared/interfaces/refresh-address-interface';
 
 declare var sendGenerateWalletGtag: Function;
-
-interface RefreshAddress {
-  params: {
-    address: string;
-    qr: string;
-    message: string;
-  };
-}
 
 @Component({
   selector: 'app-refill-crypto',
@@ -36,6 +30,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public activeCrypto;
   public openCurrencyDropdown = false;
   public isGenerateNewAddress = false;
+  private firstGenerate = true;
   public address;
   public additionalAddress;
   public alphabet;
@@ -137,13 +132,20 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   }
 
   generateNewAddress() {
-    if (this.cryptoDataByName && this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable) {
-      const data = {
+    if (this.cryptoDataByName) {
+      const data: RefillData = {
         operationType: this.cryptoDataByName.payment.operationType,
         currency: this.cryptoDataByName.merchantCurrencyData[0].currencyId,
         merchant: this.cryptoDataByName.merchantCurrencyData[0].merchantId,
         sum: 0
       };
+
+      if (this.firstGenerate && this.cryptoDataByName && this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable) {
+        data.forceGenerateNewAddress = true;
+      }
+
+      this.firstGenerate = true;
+
       this.balanceService.refill(data)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
@@ -196,6 +198,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   }
 
   private identifyCrypto() {
+
       const merchant = this.cryptoDataByName.merchantCurrencyData[0];
       if (merchant) {
         if (merchant.additionalTagForWithdrawAddressIsUsed) {
@@ -209,6 +212,8 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
       } else {
         this.showGenerateAddressBtn(false);
       }
+      this.firstGenerate = false;
+      this.generateNewAddress();
   }
 }
 
