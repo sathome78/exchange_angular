@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../shared/services/user.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {environment} from '../../../environments/environment';
+import {TranslateService} from '@ngx-translate/core';
 declare var encodePassword: Function;
 
 @Component({
@@ -23,12 +24,13 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private translateSrevice: TranslateService
   ) { }
 
   ngOnInit() {
     this.initForm();
-    this.message = 'Now, we need to create strong password.';
+    this.message = this.translateSrevice.instant('Now, we need to create strong password.');
     this.token = this.activatedRoute.snapshot.queryParamMap.get('t');
   }
 
@@ -80,7 +82,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
       this.userService.recoveryPassword(sendData).subscribe(res => {
         this.router.navigate(['/dashboard'], {queryParams: {recoveryPassword: true}});
       }, err => {
-        this.message = 'Server error. Try again.';
+        this.message = this.translateSrevice.instant('Server error. Try again.');
       });
     }
   }

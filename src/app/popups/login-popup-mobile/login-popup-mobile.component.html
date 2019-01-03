@@ -26,11 +26,11 @@
             <!--Input error section starts-->
             <div *ngIf="loginForm.get('email').touched && loginForm.get('email').errors != null">
               <span class="wrap-input__message wrap-input__message--error" *ngIf="loginForm.get('email').errors['required']">
-                {{'This field is required' | translate}}.
+                {{'This field is required.' | translate}}
               </span>
               <span *ngIf="loginForm.get('email').invalid && !loginForm.get('email').errors['required']"
                     class=" wrap-input__message wrap-input__message--error">
-                {{'Please, enter valid email address\.' | translate}}
+                {{'Please, enter valid email address.' | translate}}
               </span>
             </div>
             <!--Input error section ends-->
@@ -59,7 +59,7 @@
             <div *ngIf="loginForm.get('password').touched && loginForm.get('password').errors != null">
             <span class=" wrap-input__message wrap-input__message--error"
                   *ngIf="loginForm.get('password').errors['required']">
-              {{'This field is required' | translate}}.
+              {{'This field is required.' | translate}}
             </span>
             </div>
 
@@ -84,8 +84,8 @@
         </button>
       </form>
       <div class="popup__links-wrap">
-        <span> {{'No account\?' | translate}} <a class="popup__link popup__link--hidden-mob" (click)="openRegistration()">{{'Sign up' | translate}}</a></span>
-        <a class="popup__link" (click)="openRecoveryPasswordPopup()">{{'Forgot password\?' | translate}}</a>
+        <span> {{'No account?' | translate}} <a class="popup__link popup__link--hidden-mob" (click)="openRegistration()">{{'Sign up' | translate}}</a></span>
+        <a class="popup__link" (click)="openRecoveryPasswordPopup()">{{'Forgot password?' | translate}}</a>
       </div>
       <a class="popup__link-mob" (click)="openRegistration()">{{'Registration' | translate}}</a>
     </ng-template>
@@ -125,7 +125,7 @@
             <div>
             <span *ngIf="(pinForm.get('pin').touched && pinForm.get('pin').errors != null)"
                   class=" wrap-input__message wrap-input__message--error">
-              {{'This field is required\.' | translate}}
+              {{'This field is required.' | translate}}
             </span>
             </div>
             <!--Input error section ends-->
@@ -140,7 +140,7 @@
         </button>
       </form>
       <div class="popup__links-wrap  popup__links-wrap--center">
-        <a class="popup__link" >{{'Lost Your Google Authenticator\?' | translate}}</a>
+        <a class="popup__link" >{{'Lost Your Google Authenticator?' | translate}}</a>
       </div>
     </ng-template>
 

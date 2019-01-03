@@ -23,9 +23,9 @@ export class FundsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.translate.use('ru');
+    // this.translate.use('ru');
     // this.lang$.subscribe(lang => console.log(lang));
-    // this.lang$.subscribe(lang => this.translate.use(lang));
+    this.lang$.subscribe(lang => this.translate.use(lang));
   }
 
 }

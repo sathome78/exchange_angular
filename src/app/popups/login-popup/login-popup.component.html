@@ -24,12 +24,12 @@
             <span
               *ngIf="form.get('email').errors['required']"
               class="wrap-input__message">
-              {{'This field is required' | translate}}.
+              {{'This field is required.' | translate}}
             </span>
               <span
                 *ngIf="form.get('email').invalid && !form.get('email').errors['required']"
                 class="wrap-input__message">
-              {{'Please, enter valid email address' | translate}}.
+              {{'Please, enter valid email address.' | translate}}
             </span>
             </div>
             <!--Input error section ends-->
@@ -56,7 +56,7 @@
             <span
               *ngIf="form.get('password').errors['required']"
               class="wrap-input__message">
-              {{'This field is required' | translate}}.
+              {{'This field is required.' | translate}}
             </span>
             </div>
             <!--Input error section ends-->
@@ -84,7 +84,7 @@
             <span
               *ngIf="form.get('pin').errors['pinRequired']"
               class="wrap-input__message">
-              {{'This field is required' | translate}}.
+              {{'This field is required.' | translate}}
             </span>
             </div>
             <!--Input error section ends-->
@@ -95,7 +95,7 @@
     </form>
     <div class="popup__links-wrap">
       <a class="popup__link popup__link--hidden-mob" (click)="openRegistration()">{{'Go to registration form' | translate}}</a>
-      <a class="popup__link" (click)="openRecoveryPasswordPopup()">{{'Forgot password' | translate}}?</a>
+      <a class="popup__link" (click)="openRecoveryPasswordPopup()">{{'Forgot password?' | translate}}</a>
     </div>
     <a class="popup__link-mob" href="#">{{'Registration' | translate}}</a>
   </div>

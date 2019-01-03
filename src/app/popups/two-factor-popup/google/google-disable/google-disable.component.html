@@ -19,12 +19,12 @@
             <span
               *ngIf="form.get('email').errors['required']"
               class="wrap-input__message">
-              {{'This field is required\.' | translate}}
+              {{'This field is required.' | translate}}
             </span>
         <span
           *ngIf="form.get('email').invalid && !form.get('email').errors['required']"
           class="wrap-input__message">
-              {{'Please, enter valid email address\.' | translate}}
+              {{'Please, enter valid email address.' | translate}}
             </span>
       </div>
     </div>
@@ -44,7 +44,7 @@
             <span
               *ngIf="form.get('password').errors['required']"
               class="wrap-input__message">
-              {{'This field is required\.' | translate}}
+              {{'This field is required.' | translate}}
             </span>
       </div>
     </div>
@@ -63,7 +63,7 @@
             <span
               *ngIf="form.get('pincode').errors['required']"
               class="wrap-input__message">
-              {{'This field is required\.' | translate}}
+              {{'This field is required.' | translate}}
             </span>
       </div>
       <span style="display: inline-block; margin-top: 4px;">{{'Check pin-code in your email' | translate}}</span>

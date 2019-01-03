@@ -24,7 +24,7 @@ export class AlreadyRegisteredPopupComponent implements OnInit {
   ngOnInit() {
     this.showHtml = this.defaultMessage;
     this.buttonText = this.translateService.instant('Ok');
-    this.defaultMessage = `<p>${this.translateService.instant('You have already used the link to confirm your registration')}. ${this.translateService.instant('If necessary, please repeat the registration process')}.</p>`;
+    this.defaultMessage = `<p>${this.translateService.instant('You have already used the link to confirm your registration. If necessary, please repeat the registration process.')}</p>`;
   }
 
   buttonClick() {

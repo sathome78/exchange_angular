@@ -1,7 +1,7 @@
 
 <div class="overlay">
   <div class="popup popup-login">
-    <h6 class="popup__title">Email confirmed</h6>
+    <h6 class="popup__title">{{'Email confirmed' | translate}}</h6>
     <h4 class="popup__subtitle">{{message}}</h4>
     <form class="popup__form" [formGroup]="passwordForm">
 
@@ -13,7 +13,7 @@
           formControlName="password"
           [ngClass]="{'input--error': !passwordForm.controls['password'].valid && passwordForm.controls['password'].touched}"
         >
-        <label class="wrap-input__label" for="">Password</label>
+        <label class="wrap-input__label" for="">{{'Password' | translate}}</label>
         <div class="wrap-input__line"></div>
         <!--<span-->
           <!--class="wrap-input__show-password"-->
@@ -25,12 +25,12 @@
         <div *ngIf="passwordForm.controls['password'].touched && passwordForm.controls['password'].errors != null">
             <span
               *ngIf="passwordForm.get('password').errors['required']"
-              class="wrap-input__message">
+              class="wrap-input__message" translate>
               This field is required.
             </span>
           <span
             *ngIf=" passwordForm.controls['password'].errors['pattern']"
-            class="wrap-input__message">
+            class="wrap-input__message" translate>
               Should have 8 chars at least, symbols and numbers.
             </span>
         </div>
@@ -46,7 +46,7 @@
           formControlName="confirmPassword"
           [ngClass]="{'input--error': !passwordForm.controls['confirmPassword'].valid && passwordForm.controls['confirmPassword'].touched}"
         >
-        <label class="wrap-input__label" for="">Repeat password</label>
+        <label class="wrap-input__label" for="">{{'Repeat password' | translate}}</label>
         <div class="wrap-input__line"></div>
         <!--<span-->
           <!--class="wrap-input__show-password"-->
@@ -58,12 +58,12 @@
         <div *ngIf="passwordForm.controls['confirmPassword'].touched && passwordForm.controls['confirmPassword'].errors != null">
             <span
               *ngIf="passwordForm.controls['confirmPassword'].errors['required']"
-              class="wrap-input__message">
+              class="wrap-input__message" translate>
               This field is required.
             </span>
           <span
             *ngIf="passwordForm.controls['confirmPassword'].errors['passwordConfirm']"
-            class="wrap-input__message">
+            class="wrap-input__message" translate>
               Password is not matches.
             </span>
         </div>
@@ -71,7 +71,7 @@
       </div>
       <button class="btn popup__btn" (click)="createUser()"
               [ngClass]="{'bg-none': passwordForm.valid }" [disabled]="!passwordForm.valid "
-      >Finish registration</button>
+      >{{'Finish registration' | translate}}</button>
     </form>
   </div>
 </div>

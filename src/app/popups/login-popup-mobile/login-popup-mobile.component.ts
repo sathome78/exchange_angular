@@ -107,30 +107,30 @@ export class LoginPopupMobileComponent implements OnInit {
     switch (status) {
       case 401:
       case 422:
-        this.statusMessage = `${this.translateService.instant('Wrong email or password\!')}`;
+        this.statusMessage = `${this.translateService.instant('Wrong email or password!')}`;
         break;
       case 426:
-        this.statusMessage = `${this.translateService.instant('Seems, that your user is still inactive\.')} ${this.translateService.instant('Email with activation link has been sent to your email address\. Please, check and follow the instructions\. If you can\'t find our mail, then please try to send the link again\.')}`;
+        this.statusMessage = `${this.translateService.instant('Seems, that your user is still inactive.')} ${this.translateService.instant('Email with activation link has been sent to your email address \. Please, check and follow the instructions \. If you can\'t find our mail, then please try to send the link again \.')}`;
         // this.showSendAgainBtn = true;
         break;
       case 403:
         this.statusMessage = this.translateService.instant('You are not allowed to access');
         break;
       case 410:
-        this.statusMessage = ` ${this.translateService.instant('Your account has been blocked')}. ${this.translateService.instant('To find out the reason of blocking - contact the exchange support service\.')}`;
+        this.statusMessage = ` ${this.translateService.instant('Your account has been blocked. To find out the reason of blocking - contact the exchange support service.')}`;
         break;
       case 419:
-        this.statusMessage = `${this.translateService.instant('Your ip is blocked\!')}`;
+        this.statusMessage = `${this.translateService.instant('Your ip is blocked!')}`;
         break;
       case 418:
         this.checkGoogleLoginEnabled(this.email);
         this.inPineCodeMode = true;
         this.setTemplate('pinCodeTemplate');
         if (this.pincodeAttempts > 0) {
-          this.twoFaAuthModeMessage = `${this.translateService.instant('Wrong pincode, new pincode is sent\!')}`;
+          this.twoFaAuthModeMessage = `${this.translateService.instant('Wrong pincode, new pincode is sent!')}`;
           this.pinForm.get('pin').patchValue('');
         } else {
-          this.statusMessage = `${this.translateService.instant('WPin code is required\!')}`;
+          this.statusMessage = `${this.translateService.instant('WPin code is required!')}`;
         }
     }
   }

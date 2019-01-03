@@ -8,7 +8,7 @@
 
 
     <ng-template #emailInputTemplate>
-    <h6 class="popup__title">{{'Forgot password\?' | translate}}</h6>
+    <h6 class="popup__title">{{'Forgot password?' | translate}}</h6>
     <form class="popup__form" id="fgt-pass" [formGroup]="emailForm">
       <div class="wrap-input popup__wrap-input">
         <input
@@ -22,10 +22,10 @@
         <!--Input error section starts-->
         <div *ngIf="!emailForm.valid && emailSubmited">
             <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required']">
-              {{'This field is required\.' | translate}}
+              {{'This field is required.' | translate}}
             </span>
           <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['pattern']">
-              {{'Please, enter valid email address\.' | translate}}
+              {{'Please, enter valid email address.' | translate}}
             </span>
         </div>
         <!--Input error section ends-->
@@ -59,8 +59,8 @@
       <h4 class="popup__subtitle" [innerHtml]="afterCaptchaMessage"></h4>
       <hr style="width: 70%;">
       <div class="popup__links-wrap">
-        <a class="popup__link"><span>{{"If you haven't received the email, do the following:" | translate}}</span><br><span>{{'Check spam or other folders\.' | translate}}<br>{{'Set email address whitelist\.' | translate}}</span>
-          {{'How to set\?' | translate}}<span><br>{{'Check the mail client works normally\.' | translate}}</span></a>
+        <a class="popup__link"><span>{{"If you haven't received the email, do the following:" | translate}}</span><br><span>{{'Check spam or other folders.' | translate}}<br>{{'Set email address whitelist.' | translate}}</span>
+          {{'How to set?' | translate}}<span><br>{{'Check the mail client works normally.' | translate}}</span></a>
       </div>
     </ng-template>
 

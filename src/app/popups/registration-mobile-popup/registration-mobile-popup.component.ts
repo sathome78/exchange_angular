@@ -79,7 +79,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
         follow instructions.`
       this.setTemplate('emailConfirmLinkTemplate');
     }, error => {
-      this.afterCaptchaMessage =`server error`;
+      this.afterCaptchaMessage = `server error`;
       this.setTemplate('emailConfirmLinkTemplate');
     });
 

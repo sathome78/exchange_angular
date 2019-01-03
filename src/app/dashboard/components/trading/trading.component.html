@@ -106,7 +106,7 @@
                    (input)="stopInput($event)"
                    formControlName="stop"
                    name="stop">
-            <label class="wrap-input__label" for="">Stop</label>
+            <label class="wrap-input__label" for="">{{'Stop' | translate}}</label>
             <div class="wrap-input__line"></div>
           </div>
           <div class="wrap-input widget__input">
@@ -116,11 +116,11 @@
         </div>
         <div class="row row--jcsb widget__trading-row">
           <div class="wrap-input widget__input widget__input--mr32">
-            <app-price-input [placeholder]="'Quantity of ' + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
+            <app-price-input [placeholder]=" translateService.instant('Quantity of ') + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
             <div class="wrap-input__line"></div>
           </div>
           <div class="wrap-input widget__input">
-            <app-price-input [placeholder]="'Total in ' + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
+            <app-price-input [placeholder]="translateService.instant('Total in ') + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
             <div class="wrap-input__line"></div>
           </div>
         </div>
@@ -182,11 +182,11 @@
     <form  [formGroup]="limitForm" class="widget__trading-form--mob" *ngIf="dropdownLimitValue !== 'STOP_LIMIT'">
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input widget__input--mr32">
-          <app-price-input [placeholder]="'Quantity of ' + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
+          <app-price-input [placeholder]="translateService.instant('Quantity of ') + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
-          <app-price-input [placeholder]="'Price in ' + arrPairName[1]" (customInput)="rateInput($event)" name="priceIn" formControlName="priceIn"></app-price-input>
+          <app-price-input [placeholder]="translateService.instant('Price in ') + arrPairName[1]" (customInput)="rateInput($event)" name="priceIn" formControlName="priceIn"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
       </div>
@@ -274,7 +274,7 @@
       </div>
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input" style="max-width: 220px; margin: 4px auto;">
-          <app-price-input [placeholder]="'Total in ' + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
+          <app-price-input [placeholder]="translateService.instant('Total in ') + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
       </div>
@@ -291,7 +291,7 @@
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
-          <app-price-input [placeholder]="'Limit ' + arrPairName[1]" (customInput)="rateInput($event)" name="limit" formControlName="limit"></app-price-input>
+          <app-price-input [placeholder]="translateService.instant('Limit ') + arrPairName[1]" (customInput)="rateInput($event)" name="limit" formControlName="limit"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
       </div>
@@ -381,11 +381,11 @@
       </div>
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input widget__input--mr32">
-          <app-price-input [placeholder]="'Quantity of ' + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
+          <app-price-input [placeholder]="translateService.instant('Quantity of ') + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
-          <app-price-input [placeholder]="'Total in ' + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
+          <app-price-input [placeholder]="translateService.instant('Total in ') + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
           <div class="wrap-input__line"></div>
         </div>
       </div>

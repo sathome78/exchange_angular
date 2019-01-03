@@ -5,6 +5,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {TokenHolder} from '../../model';
 import {AuthService} from '../../shared/services/auth.service';
 import {environment} from '../../../environments/environment';
+import {TranslateService} from '@ngx-translate/core';
 
 declare var encodePassword: Function;
 
@@ -25,12 +26,13 @@ export class FinalRegistrationComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private translateSrevice: TranslateService
   ) {}
 
   ngOnInit() {
     this.initForm();
-    this.message = 'Now, we need to create strong password.';
+    this.message = this.translateSrevice.instant('Now, we need to create strong password.');
     this.token = this.activatedRoute.snapshot.queryParamMap.get('t');
   }
 
@@ -54,7 +56,6 @@ export class FinalRegistrationComponent implements OnInit {
   }
 
   createUser(): void {
-    console.log(this.passwordForm)
     const sendData = {
       tempToken: this.token,
       password: this.encryptPass(this.passwordForm.controls['password'].value),
@@ -72,7 +73,7 @@ export class FinalRegistrationComponent implements OnInit {
      this.authService.setTokenHolder(tokenHolder);
      this.router.navigate(['/']);
     }, err => {
-      this.message = 'Server error. Try again.';
+      this.message = this.translateSrevice.instant('Server error. Try again.');
     });
     // console.log(sendData);
   }
