@@ -21,7 +21,7 @@ export class ChatMessageComponent implements OnInit {
   }
 
   getDate(value: string): Date {
-    console.log('date: ' + value);
+    // console.log('date: ' + value);
     if (value) {
       return new Date(value);
     }
