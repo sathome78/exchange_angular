@@ -36,6 +36,8 @@ export class GetIconUrl  implements PipeTransform {
       case 'Privat24':
       case 'Invoice':
       case 'NGN':
+      case 'Visa':
+      case 'Master Card':
       case 'Interkassa':
       case 'TRY':
       case 'UAH':

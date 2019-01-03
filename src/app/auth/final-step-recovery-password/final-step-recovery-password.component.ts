@@ -46,10 +46,14 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
         validators: [
           Validators.required, Validators.minLength(8),
           Validators.maxLength(20),
-          Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/)
+          Validators.pattern(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z])(?=.*[!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\']/)
         ]}),
       confirmPassword: new FormControl( '', {validators: [Validators.required, this.confirmPassword.bind(this)]})
     });
+  }
+
+  isLower(character) {
+    return (character === character.toLowerCase()) && (character !== character.toUpperCase());
   }
 
   onPasswordInput(event) {
@@ -57,6 +61,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
       const temp = this.deleteSpace(event.target.value);
       this.passwordForm.controls['password'].setValue(temp);
     }
+
     const confirm = this.passwordForm.controls['confirmPassword'];
     confirm.value !== '' && event.target.value !== confirm.value ?
       confirm.setErrors({'passwordConfirm': true}) :
@@ -71,6 +76,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
   }
 
   createUser(): void {
+    console.log(this.passwordForm)
     const pass = this.passwordForm.controls['password'];
     if (this.passwordForm.valid && pass.value === this.passwordForm.controls['confirmPassword'].value) {
       const sendData = {
