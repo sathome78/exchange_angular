@@ -8,9 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "extract-dashboard": "ngx-translate-extract --input ./src/app/orders ./src/app/funds ./src/app/dashboard ./src/app/referral ./src/app/popups ./src/app/header  ./src/app/footer --output ./src/assets/i18n/dashboard/_base.json --clean --sort --format json",
-    "extract-funds": "ngx-translate-extract --input ./src/app/funds --output ./src/assets/i18n/funds/_base.json --clean --sort --format  json",
-    "extract-orders": "ngx-translate-extract --input ./src/app/orders --output ./src/assets/i18n/orders/_base.json --clean --sort --format  json",
+    "extract-dashboard": "ngx-translate-extract --input ./src/app/settings ./src/app/orders ./src/app/funds ./src/app/dashboard ./src/app/referral ./src/app/popups ./src/app/header ./src/app/auth ./src/app/footer --output ./src/assets/i18n/dashboard/_base.json --clean --sort --format json",
 
     "extract-privacy-policy": "ngx-translate-extract --input ./src/app/static-pages/privacy-policy --output ./src/assets/i18n/static-files/privacy-policy_base.json --clean --sort --format json",
     "extract-about-us": "ngx-translate-extract --input ./src/app/static-pages/about-us --output ./src/assets/i18n/static-files/about-us_base.json --clean --sort --format json",
