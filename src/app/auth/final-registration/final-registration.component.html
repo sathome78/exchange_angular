@@ -7,6 +7,7 @@
 
       <div class="wrap-input popup__wrap-input">
         <input
+          (input)="onPasswordInput($event)"
           class="wrap-input__input"
           [(ngModel)]="password"
           [type]="getInputType()"
@@ -26,12 +27,17 @@
             <span
               *ngIf="passwordForm.get('password').errors['required']"
               class="wrap-input__message">
-              This field is required.
+              Password is required.
             </span>
           <span
-            *ngIf=" passwordForm.controls['password'].errors['pattern']"
+            *ngIf=" passwordForm.controls['password'].errors['pattern'] || passwordForm.controls['password'].errors['minlength']"
             class="wrap-input__message">
               Should have 8 chars at least, symbols and numbers.
+            </span>
+          <span
+            *ngIf=" passwordForm.controls['password'].errors['maxlength']"
+            class="wrap-input__message">
+              Password cannot be more than 20 characters long
             </span>
         </div>
         <!--Input error section ends-->
@@ -40,6 +46,7 @@
 
       <div class="wrap-input popup__wrap-input">
         <input
+          (input)="onRepeatPasswordInput($event)"
           class="wrap-input__input"
           [(ngModel)]="confirmPass"
           [type]="getInputType()"
@@ -56,15 +63,15 @@
           <!--</span>-->
         <!--Input error section starts-->
         <div *ngIf="passwordForm.controls['confirmPassword'].touched && passwordForm.controls['confirmPassword'].errors != null">
-            <span
-              *ngIf="passwordForm.controls['confirmPassword'].errors['required']"
-              class="wrap-input__message">
+             <span
+               *ngIf="passwordForm.controls['confirmPassword'].errors['required']"
+               class="wrap-input__message">
               This field is required.
             </span>
-          <span
-            *ngIf="passwordForm.controls['confirmPassword'].errors['passwordConfirm']"
-            class="wrap-input__message">
-              Password is not matches.
+          <span *ngIf="passwordForm.controls['password'].value !== passwordForm.controls['confirmPassword'].value
+           || passwordForm.controls['confirmPassword'].errors['passwordConfirm']"
+                class="wrap-input__message">
+              Passwords you provided do not match.
             </span>
         </div>
         <!--Input error section ends-->

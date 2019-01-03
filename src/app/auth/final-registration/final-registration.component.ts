@@ -48,10 +48,11 @@ export class FinalRegistrationComponent implements OnInit {
       password: new FormControl(null, {
         validators: [
           Validators.required, Validators.minLength(8),
-          Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}/)
+          Validators.maxLength(20),
+          Validators.pattern(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z])(?=.*[!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\']/)
         ]
       }),
-      confirmPassword: new FormControl(null, {validators: [Validators.required, this.confirmPassword.bind(this)]})
+      confirmPassword: new FormControl('', {validators: [Validators.required, this.confirmPassword.bind(this)]})
     });
   }
 
@@ -78,6 +79,35 @@ export class FinalRegistrationComponent implements OnInit {
       this.message = 'Server error. Try again.';
     });
     // console.log(sendData);
+  }
+
+  onRepeatPasswordInput(event) {
+    if (event.data === ' ') {
+      const temp = this.deleteSpace(event.target.value);
+      this.passwordForm.controls['confirmPassword'].setValue(temp);
+    }
+  }
+
+  onPasswordInput(event) {
+    if (event.data === ' ') {
+      const temp = this.deleteSpace(event.target.value);
+      this.passwordForm.controls['password'].setValue(temp);
+    }
+
+    const confirm = this.passwordForm.controls['confirmPassword'];
+    confirm.value !== '' && event.target.value !== confirm.value ?
+      confirm.setErrors({'passwordConfirm': true}) :
+      confirm.setErrors(null);
+  }
+
+  deleteSpace(value): string {
+    if (value) {
+      const replaceMask = '';
+      const searchMask = ' ';
+      const regex = new RegExp(searchMask, 'ig');
+      return value.toString().replace(regex, replaceMask);
+    }
+    return '';
   }
 
   confirmPassword(password: FormControl): { [s: string]: boolean } {
