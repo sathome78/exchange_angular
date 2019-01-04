@@ -478,7 +478,8 @@
       align-items: center;
     }
     &__currency-icon {
-      width: 25px;
+      min-width: 25px;
+      max-width: 25px;
       height: 25px;
       margin-right: 8px;
     }
