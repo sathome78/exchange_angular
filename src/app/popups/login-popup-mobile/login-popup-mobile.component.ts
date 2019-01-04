@@ -21,8 +21,10 @@ export class LoginPopupMobileComponent implements OnInit {
   isPasswordVisible = false;
   twoFaAuthModeMessage = 'Please enter two-factor <br> authentication code';
   pincodeAttempts = 0;
+  public isError = false;
   public statusMessage = '';
   public inPineCodeMode;
+  public isGA = false;
   public afterCaptchaMessage;
 
   public currentTemplate: TemplateRef<any>;
@@ -125,7 +127,13 @@ export class LoginPopupMobileComponent implements OnInit {
         this.inPineCodeMode = true;
         this.setTemplate('pinCodeTemplate');
         if (this.pincodeAttempts > 0) {
-          this.twoFaAuthModeMessage = 'Wrong pincode, new pincode is sent!';
+          this.isError = true;
+          this.twoFaAuthModeMessage = this.pincodeAttempts === 3 ?
+            this.isGA ?
+              ' Code is wrong! Please, check you code in Google Authenticator application.' :
+              'Code is wrong! New code was sent to your email.' :
+            'Code is wrong!';
+          this.pincodeAttempts = this.pincodeAttempts === 3 ? 0 : this.pincodeAttempts;
           this.pinForm.get('pin').patchValue('');
         } else {
           this.statusMessage = 'Pin code is required!';
@@ -167,7 +175,7 @@ export class LoginPopupMobileComponent implements OnInit {
   sendToServer() {
     // console.log(this.email, this.password, this.pin);
     this.logger.debug(this, 'attempt to authenticate with email: ' + this.email + ' and password: ' + this.password);
-    this.userService.authenticateUser(this.email, this.password, this.pin)
+    this.userService.authenticateUser(this.email, this.password, this.pin, this.pincodeAttempts)
       .subscribe((tokenHolder: TokenHolder) => {
         console.log(tokenHolder, 'tokenholder1')
         this.logger.debug(this, 'User { login: ' + this.email + ', pass: ' + this.password + '}' + ' signed in and obtained' + tokenHolder);

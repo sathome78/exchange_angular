@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {BalanceService} from '../../services/balance.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -20,6 +20,13 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
   public stepThreeData;
   public stepFourData;
   public step: number;
+
+  /** Are listening click in document */
+  @HostListener('document:click', ['$event']) clickout($event) {
+    if ($event.target.className === 'overlay--modal modal--open') {
+      this.onCloseSendMoneyPopup();
+    }
+  }
 
   constructor(
     public balanceService: BalanceService

@@ -17,7 +17,9 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   public form: FormGroup;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public message = '';
+  public subtitleMessage = '';
   public isSentPin: boolean;
+  public pincodeTries = 0;
 
   constructor(
     public balanceService: BalanceService
@@ -29,10 +31,12 @@ export class SendTfaComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: Response) => {
         this.isSentPin = res.status === 201 ? true : false;
+        this.subtitleMessage = this.isSentPin ? 'Enter 2FA code' : '';
       });
     this.form = new FormGroup({
       pin: new FormControl('', [Validators.required]),
     });
+    this.data.data.tries = this.pincodeTries;
   }
 
   ngOnDestroy(): void {
@@ -62,6 +66,8 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   }
 
   sendWithdaraw() {
+    this.pincodeTries++;
+    this.data.data.tries = this.pincodeTries;
     this.data.data.securityCode = this.form.controls['pin'].value;
     this.balanceService.withdrawRequest(this.data.data)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -72,11 +78,13 @@ export class SendTfaComponent implements OnInit, OnDestroy {
         };
         this.balanceService.goToSendMoneySuccess$.next(data);
       }, error => {
-        this.message = 'Server error';
+        this.catchStatus(error['status']);
       });
   }
 
   sendTransferInstant() {
+    this.pincodeTries++;
+    this.data.data.tries = this.pincodeTries;
     this.data.data.pin = this.form.controls['pin'].value;
     this.balanceService.createTransferInstant(this.data.data)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -87,8 +95,28 @@ export class SendTfaComponent implements OnInit, OnDestroy {
         };
         this.balanceService.goToSendMoneySuccess$.next(data);
       }, error => {
-        this.message = 'Server error';
+        this.catchStatus(error['status']);
       });
+  }
+
+  private catchStatus(status: number) {
+    switch (status) {
+      case 500:
+        this.message = 'Server error';
+        break;
+      case 418:
+        this.form.controls['pin'].patchValue('');
+        if (this.pincodeTries === 3) {
+          this.pincodeTries = 0;
+          this.subtitleMessage = this.isSentPin ?
+            'Code is wrong! Please, check you code in Google Authenticator application.' :
+            'Code is wrong! New code was sent to your email.';
+        } else {
+          this.data.data.tries = this.pincodeTries;
+          this.subtitleMessage = 'Code is wrong!';
+        }
+        break;
+    }
   }
 
 }
