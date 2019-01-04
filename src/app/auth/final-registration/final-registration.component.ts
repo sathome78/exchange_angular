@@ -20,6 +20,7 @@ export class FinalRegistrationComponent implements OnInit {
   password;
   confirmPass;
   message: string;
+  public msgRed = false;
 
   constructor(
     private router: Router,
@@ -48,7 +49,6 @@ export class FinalRegistrationComponent implements OnInit {
       password: new FormControl(null, {
         validators: [
           Validators.required, Validators.minLength(8),
-          Validators.maxLength(20),
           Validators.pattern(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z])(?=.*[!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\']/)
         ]
       }),
@@ -58,26 +58,28 @@ export class FinalRegistrationComponent implements OnInit {
 
   createUser(): void {
     console.log(this.passwordForm);
-    const sendData = {
-      tempToken: this.token,
-      password: this.encryptPass(this.passwordForm.controls['password'].value),
-    };
-    this.userService.finalRegistration(sendData).subscribe(res => {
-      const tokenHolder = {
-        token: res.token,
-        nickname: res.nickName,
-        userId: res.id,
-        avatarPath: null,
-        language: res.language,
-        finPasswordSet: res.finPasswordSet,
-        referralReference: res.referralReference,
+    if (this.passwordForm.valid) {
+      const sendData = {
+        tempToken: this.token,
+        password: this.encryptPass(this.passwordForm.controls['password'].value),
       };
-      this.authService.setTokenHolder(tokenHolder);
-      this.router.navigate(['/']);
-      sendConfirmationPasswordGtag();
-    }, err => {
-      this.message = 'Server error. Try again.';
-    });
+      this.userService.finalRegistration(sendData).subscribe(res => {
+        const tokenHolder = {
+          token: res.token,
+          nickname: res.nickName,
+          userId: res.id,
+          avatarPath: null,
+          language: res.language,
+          finPasswordSet: res.finPasswordSet,
+          referralReference: res.referralReference,
+        };
+        this.authService.setTokenHolder(tokenHolder);
+        this.router.navigate(['/']);
+        sendConfirmationPasswordGtag();
+      }, err => {
+        this.message = 'Server error. Try again.';
+      });
+    }
     // console.log(sendData);
   }
 
@@ -95,6 +97,7 @@ export class FinalRegistrationComponent implements OnInit {
     }
 
     const confirm = this.passwordForm.controls['confirmPassword'];
+    this.msgRed = event.target.value === confirm.value;
     confirm.value !== '' && event.target.value !== confirm.value ?
       confirm.setErrors({'passwordConfirm': true}) :
       confirm.setErrors(null);
@@ -111,6 +114,7 @@ export class FinalRegistrationComponent implements OnInit {
   }
 
   confirmPassword(password: FormControl): { [s: string]: boolean } {
+    this.msgRed = this.password === password.value;
     if (this.password !== password.value) {
       return {'passwordConfirm': true};
     }
