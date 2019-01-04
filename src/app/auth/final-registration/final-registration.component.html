@@ -3,7 +3,7 @@
   <div class="popup popup-login">
     <h6 class="popup__title">Email confirmed</h6>
     <h4 class="popup__subtitle">{{message}}</h4>
-    <form class="popup__form" [formGroup]="passwordForm">
+    <form class="popup__form" [formGroup]="passwordForm" >
 
       <div class="wrap-input popup__wrap-input">
         <input
@@ -23,25 +23,25 @@
         <!--&gt;-->
           <!--</span>-->
         <!--Input error section starts-->
-        <div *ngIf="passwordForm.controls['password'].touched && passwordForm.controls['password'].errors != null">
-            <span
-              *ngIf="passwordForm.get('password').errors['required']"
-              class="wrap-input__message">
-              Password is required.
-            </span>
+        <!--<div *ngIf="passwordForm.controls['password'].touched && passwordForm.controls['password'].errors != null">-->
+            <!--<span-->
+              <!--*ngIf="passwordForm.get('password').errors['required']"-->
+              <!--class="wrap-input__message">-->
+              <!--Password is required.-->
+            <!--</span>-->
           <span
-            *ngIf=" passwordForm.controls['password'].errors['pattern'] || passwordForm.controls['password'].errors['minlength']"
-            class="wrap-input__message">
-              Should have 8 chars at least, symbols and numbers.
+            class="wrap-input__message" [ngClass]="{'msg-error': (msgRed && !passwordForm.controls['password'].valid && passwordForm.controls['password'].touched)}" *ngIf="!passwordForm.valid">
+              <!--Should have 8 chars at least, symbols and numbers.-->
+            Password cannot be less than 8 characters long and should contain of letters (a-z), numbers (0-9) and/or any combination of @*%!#^!&$<>.()-=+' characters
             </span>
-          <span
-            *ngIf=" passwordForm.controls['password'].errors['maxlength']"
-            class="wrap-input__message">
-              Password cannot be more than 20 characters long
-            </span>
+          <!--<span-->
+            <!--*ngIf=" passwordForm.controls['password'].errors['maxlength']"-->
+            <!--class="wrap-input__message">-->
+              <!--Password cannot be more than 20 characters long-->
+            <!--</span>-->
         </div>
         <!--Input error section ends-->
-      </div>
+      <!--</div>-->
 
 
       <div class="wrap-input popup__wrap-input">
@@ -77,7 +77,7 @@
         <!--Input error section ends-->
       </div>
       <button class="btn popup__btn" (click)="createUser()"
-              [ngClass]="{'bg-none': passwordForm.valid }" [disabled]="!passwordForm.valid "
+              [ngClass]="{'bg-none': passwordForm.valid }"
       >Finish registration</button>
     </form>
   </div>
