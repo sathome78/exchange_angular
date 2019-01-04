@@ -18,6 +18,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
   password;
   confirmPass;
   message: string;
+  public msgRed = false;
 
   constructor(
     private router: Router,
@@ -45,7 +46,6 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
       password: new FormControl('', {
         validators: [
           Validators.required, Validators.minLength(8),
-          Validators.maxLength(20),
           Validators.pattern(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z])(?=.*[!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\']/)
         ]}),
       confirmPassword: new FormControl( '', {validators: [Validators.required, this.confirmPassword.bind(this)]})
@@ -63,6 +63,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
     }
 
     const confirm = this.passwordForm.controls['confirmPassword'];
+    this.msgRed = event.target.value === confirm.value;
     confirm.value !== '' && event.target.value !== confirm.value ?
       confirm.setErrors({'passwordConfirm': true}) :
       confirm.setErrors(null);
@@ -102,6 +103,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
   }
 
   confirmPassword(password: FormControl): { [s: string]: boolean } {
+    this.msgRed = this.password === password.value;
     if (this.password !== password.value) {
       return {'passwordConfirm': true};
     }
