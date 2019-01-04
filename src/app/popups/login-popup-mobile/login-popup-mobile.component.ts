@@ -95,7 +95,7 @@ export class LoginPopupMobileComponent implements OnInit {
   checkGoogleLoginEnabled(email: string): void {
     this.userService.getUserGoogleLoginEnabled(email)
       .subscribe(result => {
-        if (result && this.pincodeAttempts === 0) {
+        if (result && !this.inPineCodeMode) {
           this.isGA = true;
           this.twoFaAuthModeMessage = 'Use google authenticator to generate pincode';
         }
