@@ -11,6 +11,7 @@ export class AuthCandidate {
   public pin;
   public isPinRequired;
   public clientIp;
+  public tries;
 
   constructor() {
   }

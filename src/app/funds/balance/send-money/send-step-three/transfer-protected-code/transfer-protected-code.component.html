@@ -5,7 +5,7 @@
     <div class="send__inputs-wrap">
       <div class="select send__select send__select--custom">
         <div class="select__value select__value--active" (click)="currencyDropdownToggle()">
-          <img [src]="activeCrypto ? activeCrypto.name : 'no_icon' | getIconUrl" class="select__list-item-icon">
+          <img [src]="activeCrypto.name || 'no_icon' | getIconUrl" class="select__list-item-icon">
           {{activeCrypto ? activeCrypto.name : ''}}
         </div>
         <div class="select__label">Currency</div>
