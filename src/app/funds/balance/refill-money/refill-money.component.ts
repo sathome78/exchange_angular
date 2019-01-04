@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-refill-money',
@@ -12,6 +12,13 @@ export class RefillMoneyComponent implements OnInit {
   @Input() showPopup;
   public stepTwoName: string;
   public step: number;
+
+  /** Are listening click in document */
+  @HostListener('document:click', ['$event']) clickout($event) {
+    if ($event.target.className === 'overlay--modal modal--open') {
+      this.onCloseRefillBalancePopup();
+    }
+  }
 
   constructor() {
   }

@@ -102,7 +102,7 @@
     <ng-template #pinCodeTemplate>
       <h6 class="popup__title">Log in</h6>
       <!--TODO this message is shown when user provided invalid credentials Or backEndDied-->
-      <h4 class="popup__subtitle" [innerHTML]="twoFaAuthModeMessage"></h4>
+      <h4 class="popup__subtitle" [innerHTML]="twoFaAuthModeMessage" [ngClass]="{'msg-error' : isError}"></h4>
 
       <form class="popup__form" [formGroup]="pinForm">
         <div>
