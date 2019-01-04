@@ -1,3 +1,13 @@
 .border-transparent {
   border-bottom: 2px solid transparent;
 }
+
+::ng-deep div.wrap-input.wrap-input--with-icon.balance__search {
+  width: 184px !important;
+  .ng-select-container {
+    width: 184px !important;
+    .ng-value-container{
+      width: 184px !important;
+    }
+  }
+}
