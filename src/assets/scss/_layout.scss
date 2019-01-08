@@ -12,8 +12,12 @@ body {
   //color: #000;
   font-family: Roboto, Arial;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 300;
   min-width: 320px;
+}
+input, textarea, select, button{
+font-weight: 300;
+font-family: Roboto;
 }
 
 b {
