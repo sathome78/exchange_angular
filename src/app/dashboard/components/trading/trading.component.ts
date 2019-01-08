@@ -271,18 +271,21 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   selectedPercent(percent: number) {
     let total = 0
-    if(this.mainTab === 'BUY') {
+    this.isTotalWithCommission = false;
+
+    if (this.mainTab === 'BUY') {
       total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0
+      const totalIn = total * percent / 100;
+      this.order.total = totalIn;
+      this.setTotalInValue(totalIn);
+      this.getCommission(false);
     } else {
       total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0
+      const quantityOf = total * percent / 100;
+      this.order.amount = quantityOf;
+      this.setQuantityValue(quantityOf);
+      this.getCommission();
     }
-
-    this.isTotalWithCommission = false;
-    const quantityOf = total * percent / 100;
-    this.order.amount = quantityOf;
-    this.setQuantityValue(quantityOf);
-
-    this.getCommission();
   }
 
   /**
@@ -343,7 +346,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     }
    }
 
-   calculateAmountByTotal(): void {
+   calculateAmountByTotalWithCommission(): void {
       let total = 0
       if (this.mainTab === 'BUY') {
         total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0;
@@ -561,16 +564,19 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   /**
    * calculate commission
    */
-  private getCommission(): void {
-    if (this.order.rate && this.order.rate >= 0) {
-      this.order.total = parseFloat(this.order.amount) * parseFloat(this.order.rate);
-      this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
-      // let total;
-      // this.mainTab === 'BUY' ?
-      //   total = this.order.total + parseFloat(this.order.commission) :
-      //   total = this.order.total - parseFloat(this.order.commission);
-      // this.order.total = total;
-      this.setTotalInValue(this.order.total);
+  private getCommission(setTotal = true): void {
+    if (setTotal) {
+      if (this.order.rate && this.order.rate >= 0) {
+        this.order.total = parseFloat(this.order.amount) * parseFloat(this.order.rate);
+        this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
+        this.setTotalInValue(this.order.total);
+      }
+    } else {
+      if (this.order.rate && this.order.rate >= 0) {
+        this.order.amount = parseFloat(this.order.total) / parseFloat(this.order.rate);
+        this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
+        this.setQuantityValue(this.order.amount);
+      }
     }
   }
 
