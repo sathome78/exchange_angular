@@ -233,9 +233,9 @@
     white-space: nowrap;
   }
   .order {
-    width: 36%;
+    width: 100%;
     margin-left: 12px;
-    max-width: 100%;
+    max-width: 36%;
     padding-left: 4px;
     padding-right: 4px;
     color: #959BA5;
@@ -252,15 +252,15 @@
   }
 
   .price {
-    width: 34%;
-    max-width: 100%;
+    width: 100%;
+    max-width: 29%;
     padding-left: 4px;
     padding-right: 4px;
   }
 
   .total {
-    width: 25%;
-    max-width: 100%;
+    width: 100%;
+    max-width: 34%;
     padding-left: 4px;
     padding-right: 4px;
   }
