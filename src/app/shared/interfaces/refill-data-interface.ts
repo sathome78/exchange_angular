@@ -3,5 +3,5 @@ export interface RefillData {
   currency: number;
   merchant: number;
   sum: number;
-  forceGenerateNewAddress?: boolean;
+  generateNewAddress?: boolean;
 }
