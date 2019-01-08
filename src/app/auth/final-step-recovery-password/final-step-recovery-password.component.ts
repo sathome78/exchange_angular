@@ -19,18 +19,19 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
   password;
   confirmPass;
   message: string;
+  public msgRed = false;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private authService: AuthService,
-    private translateSrevice: TranslateService
+    private translateService: TranslateService
   ) { }
 
   ngOnInit() {
     this.initForm();
-    this.message = this.translateSrevice.instant('Now, we need to create strong password.');
+    this.message = this.translateService.instant('Now, we need to create strong password.');
     this.token = this.activatedRoute.snapshot.queryParamMap.get('t');
   }
 
@@ -47,11 +48,14 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
       password: new FormControl('', {
         validators: [
           Validators.required, Validators.minLength(8),
-          Validators.maxLength(20),
-          Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/)
+          Validators.pattern(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z])(?=.*[!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\']/)
         ]}),
       confirmPassword: new FormControl( '', {validators: [Validators.required, this.confirmPassword.bind(this)]})
     });
+  }
+
+  isLower(character) {
+    return (character === character.toLowerCase()) && (character !== character.toUpperCase());
   }
 
   onPasswordInput(event) {
@@ -59,7 +63,9 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
       const temp = this.deleteSpace(event.target.value);
       this.passwordForm.controls['password'].setValue(temp);
     }
+
     const confirm = this.passwordForm.controls['confirmPassword'];
+    this.msgRed = event.target.value === confirm.value;
     confirm.value !== '' && event.target.value !== confirm.value ?
       confirm.setErrors({'passwordConfirm': true}) :
       confirm.setErrors(null);
@@ -73,6 +79,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
   }
 
   createUser(): void {
+    console.log(this.passwordForm)
     const pass = this.passwordForm.controls['password'];
     if (this.passwordForm.valid && pass.value === this.passwordForm.controls['confirmPassword'].value) {
       const sendData = {
@@ -82,7 +89,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
       this.userService.recoveryPassword(sendData).subscribe(res => {
         this.router.navigate(['/dashboard'], {queryParams: {recoveryPassword: true}});
       }, err => {
-        this.message = this.translateSrevice.instant('Server error. Try again.');
+        this.message = this.translateService.instant('Server error. Try again.');
       });
     }
   }
@@ -98,6 +105,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
   }
 
   confirmPassword(password: FormControl): { [s: string]: boolean } {
+    this.msgRed = this.password === password.value;
     if (this.password !== password.value) {
       return {'passwordConfirm': true};
     }

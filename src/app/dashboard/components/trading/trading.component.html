@@ -80,12 +80,12 @@
         <div class="row row--jcsb widget__trading-row">
 
           <div class="wrap-input widget__input widget__input--mr32">
-            <app-price-input [placeholder]="'Quantity of ' + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
+            <app-price-input [placeholder]="translateService.instant('Quantity of ') + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
             <div class="wrap-input__line"></div>
           </div>
 
           <div class="wrap-input widget__input">
-            <app-price-input [placeholder]="'Price in ' + arrPairName[1]" (customInput)="rateInput($event)" name="priceIn" formControlName="priceIn"></app-price-input>
+            <app-price-input [placeholder]="translateService.instant('Price in ') + arrPairName[1]" (customInput)="rateInput($event)" name="priceIn" formControlName="priceIn"></app-price-input>
             <div class="wrap-input__line"></div>
           </div>
 
@@ -93,7 +93,7 @@
 
         <div class="row row--jcsb widget__trading-row">
           <div class="wrap-input widget__input">
-            <app-price-input [placeholder]="'Total in ' + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
+            <app-price-input [placeholder]="translateService.instant('Total in ') + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
             <div class="wrap-input__line"></div>
           </div>
         </div>
@@ -153,8 +153,8 @@
           <!--<a href="#">Become VIP</a>-->
         <!--</div>-->
       <!--</div>-->
-      <button class="btn  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'BUY'">{{'Buy' | translate}} {{arrPairName[0]}} </button>
-      <button class="btn  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'SELL'">{{'Sell' | translate}} {{arrPairName[0]}} </button>
+      <button class="btn btn--active  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'BUY'">{{'Buy' | translate}} {{arrPairName[0]}} </button>
+      <button class="btn btn--active  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'SELL'">{{'Sell' | translate}} {{arrPairName[0]}} </button>
     </div>
   </div>
 

@@ -1,17 +1,19 @@
 <div style="display: block;" *ngIf="activeFiat">
-  <div class="title refill__title" *ngIf="!submitSuccess">{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></div>
+  <div class="title refill__title" *ngIf="!submitSuccess">Fiat Deposit <span>{{activeFiat.name}}</span></div>
   <form [formGroup]="form">
     <div class="refill__inputs-wrap" *ngIf="!submitSuccess">
       <!-- TODO add styles to select--error -->
       <div
-        class="select refill__select">
+        class="select refill__select"
+      >
         <div class="select__value select__value--active"
              (click)="toggleCurrencyDropdown()"
-             [ngClass]="{'select__value--error': !selectedMerchant}">
+             [ngClass]="{'select__value--error': !selectedMerchant}"
+        >
           <img [src]="activeFiat.name | getIconUrl" class="select__list-item-icon">
           {{activeFiat.name}}
         </div>
-        <div class="select__label">{{'Currency' | translate}}</div>
+        <div class="select__label">Currency</div>
         <div class="select__line"></div>
         <div class="select__triangle"></div>
         <!--add select__list--open for looking open state-->
@@ -29,10 +31,10 @@
         <div class="select__value select__value--active"
              (click)="togglePaymentSystemDropdown()"
         >
-          <img [src]="selectedMerchant.name | getIconUrl" class="select__list-item-icon">
-          {{selectedMerchant.name}}
+          <img [src]="selectMerchantName | getIconUrl" class="select__list-item-icon">
+          {{selectMerchantName}}
         </div>
-        <div class="select__label">{{'Payment system' | translate}}</div>
+        <div class="select__label">Payment system</div>
         <div class="select__line"></div>
         <div class="select__triangle"></div>
         <!--add select__list-searching--open for looking open state-->
@@ -49,14 +51,30 @@
             </div>
           </div>
           <ul class="select__list select__list--open">
+
+            <ng-template ngFor let-merchant [ngForOf]="merchants">
+              <ng-template [ngTemplateOutlet]="loadMerchantTemplate(merchant)"
+                           [ngTemplateOutletContext]="{ $implicit: merchant}">
+              </ng-template>
+            </ng-template>
+
+            <ng-template #simpleMerchant let-merchant>
             <li class="select__list-item"
-                *ngFor="let merchant of merchants"
-                (click)="selectMerchant(merchant)"
-            >
+                (click)="selectMerchant(merchant)">
               <img [src]="merchant.name | getIconUrl" class="select__list-item-icon">
-              <!--<img src="../../assets/img/btc-icon.svg" class="select__list-item-icon">-->
               {{merchant.name}}
             </li>
+            </ng-template>
+
+            <ng-template #listMerchant let-merchant>
+              <li class="select__list-item"
+                  *ngFor="let nested of merchant.listMerchantImage"
+                  (click)="selectMerchant(merchant, nested.image_name)">
+                <img [src]="nested.image_name | getIconUrl" class="select__list-item-icon">
+                {{nested.image_name}}
+              </li>
+            </ng-template>
+
           </ul>
         </div>
       </div>
@@ -66,24 +84,25 @@
            [ngClass]="{'wrap-input--error': !form.valid && isSubmited}"
       >
 
-        <app-price-input [placeholder]="'Amount'" (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
+        <app-price-input [placeholder]="'Amount'" (customInput)="amountInput($event)" name="amount"
+                         formControlName="amount"></app-price-input>
         <!--Input error section starts-->
         <span class="wrap-input__message"
               *ngIf="!form.valid && isSubmited"
-        >{{'Should be at least' | translate}} {{fiatDataByName.minRefillSum}}</span>
+        >Should be at least {{fiatDataByName.minRefillSum}}</span>
         <!--Input error section ends-->
       </div>
 
       <div class="refill__closed-error" *ngIf="!selectedMerchant">
-        {{'Sorry, refill is closed for current moment' | translate}}!
+        Sorry, refill is closed for current moment!
       </div>
     </div>
   </form>
   <button class="btn btn--center btn--empty-blue"
           *ngIf="!submitSuccess && selectedMerchant"
           [ngClass]="{'btn-active': form.valid && selectedMerchant.name}"
-          (click)="submitRefill()">
-    {{'Refill' | translate}}
+          (click)="submitRefill()"
+  >Refill
   </button>
 
 
@@ -97,21 +116,24 @@
           fill="#237BEF"/>
       </svg>
     </div>
-    <div class="title refill__fiat-successful-title">{{'Request was created!' | translate}}</div>
+    <div class="title refill__fiat-successful-title">Request was created!</div>
     <div class="subtitle refill__fiat-successful-subtitle">
-      {{'Please go to' | translate}} <a href="{{redirectionUrl}}" target="_blank" class="link">{{selectedMerchant.name}}</a> {{'to make a payment' | translate}}
+      Please go to <a href="{{redirectionUrl}}" target="_blank" class="link">{{selectMerchantName}}</a> to make a
+      payment
       <b>{{refillData.params.ok_item_1_price}} {{refillData.params.ok_currency}}</b>
     </div>
     <div class="subtitle refill__fiat-successful-subtitle">
-      {{'You can track the progress in history section on' | translate}} <a routerLink="/funds/balances">{{'funds' | translate}}</a> {{'page' | translate}}
+      You can track the progress in history section on <a href="#" routerLink="/funds/balances">funds</a> page
     </div>
   </div>
 
 
   <div class="note modal__note">
-    <div class="note__title">{{'Please note:' | translate}}</div>
+    <div class="note__title">Please note:</div>
     <ul class="note__list">
-      <li class="note__list-item">{{'We have good news for you! It’s more then 24 currencies available for deposit right now:' | translate}}</li>
+      <li class="note__list-item">We have good news for you! It’s more then 24 currencies available for deposit right
+        now:
+      </li>
     </ul>
   </div>
 </div>

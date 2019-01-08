@@ -59,11 +59,12 @@ export class AppComponent implements OnInit, OnDestroy {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
 
 
-    translate.addLangs(['en', 'ru', 'uk', 'pl']);
-    translate.setDefaultLang('en');
-    const browserLang = translate.getBrowserLang();
-    this.store.dispatch(new ChangeLanguageAction(browserLang.match(/en|ru|uk|pl/) ? browserLang : 'en'));
-    this.store.pipe(select(getLanguage)).subscribe(res => this.translate.use(res));
+    // translate.addLangs(['en', 'ru', 'uk', 'pl']);
+    // translate.setDefaultLang('en');
+    // const browserLang = translate.getBrowserLang();
+    // this.store.dispatch(new ChangeLanguageAction(browserLang.match(/en|ru|uk|pl/) ? browserLang : 'en'));
+    // this.store.pipe(select(getLanguage)).subscribe(res => this.translate.use(res));
+
     this.setIp();
   }
 

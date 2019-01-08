@@ -50,12 +50,12 @@
     &__filters {
       position: relative;
       margin-top: 28px;
-      align-items: stretch;
+      align-items: center;
       &:after {
         content: '';
         display: block;
         position: absolute;
-        bottom: 1px;
+        bottom: 0;
         left: 0px;
         z-index: -1;
         width: 100%;
@@ -70,6 +70,7 @@
     &__datepicker{
       width: 175px;
       margin-right: 24px;
+      bottom: -1px;
       .wrap-input__label{
         //left: 17px;
         z-index: 1;
@@ -79,6 +80,23 @@
         line-height: 12px;
         color: $grey;
         background-color: #fff;
+      }
+    }
+    &__search-btn {
+      position: relative;
+      padding: 0 12px;
+      -webkit-border-radius: 4px 4px 0 0 ;
+      -moz-border-radius: 4px 4px 0 0 ;
+      border-radius: 4px 4px 0 0 ;
+      bottom: -1px;
+      svg{
+        vertical-align: middle;
+        fill:$light-blue;
+      }
+      &:hover{
+        svg{
+          fill:#fff;
+        }
       }
     }
     &__confirm{

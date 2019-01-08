@@ -11,18 +11,11 @@ import {getLanguage, State} from '../../core/reducers';
 })
 export class TermsAndConditionsComponent implements OnInit {
 
-  lang$: Observable<string>;
-
   constructor(
-    private readonly translate: TranslateService,
-    private store: Store<State>,
   ) {
-    this.translate.setDefaultLang('en');
-    this.lang$ = this.store.pipe(select(getLanguage));
   }
 
   ngOnInit() {
-    this.lang$.subscribe(lang => this.translate.use(lang));
   }
 
 }

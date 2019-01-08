@@ -1,9 +1,11 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {PopupService} from '../../shared/services/popup.service';
-import {convertValueToOutputAst} from '@angular/compiler/src/output/value_util';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/user.service';
 import {keys} from '../../core/keys';
+import {TranslateService} from '@ngx-translate/core';
+
+declare var sendRegistrationGtag: Function;
 
 @Component({
   selector: 'app-registration-mobile-popup',
@@ -36,7 +38,9 @@ export class RegistrationMobilePopupComponent implements OnInit {
   constructor(
     private popupService: PopupService,
     private userService: UserService,
-  ) { }
+    private translateService: TranslateService,
+  ) {
+  }
 
   ngOnInit() {
     this.setTemplate('emailInputTemplate');
@@ -70,16 +74,17 @@ export class RegistrationMobilePopupComponent implements OnInit {
   resolvedCaptcha(event) {
     this.userService.sendToEmailConfirmation(this.email).subscribe(res => {
       // console.log(res);
-      this.afterCaptchaMessage = `We sent the confirmation link to
+      this.afterCaptchaMessage = this.translateService.instant(`We sent the confirmation link to
         <br>
         <span class="popup__email-link">
         ${this.email}
         </span>
         <br> Please check your email and
-        follow instructions.`
+        follow instructions.`);
       this.setTemplate('emailConfirmLinkTemplate');
+      sendRegistrationGtag();
     }, error => {
-      this.afterCaptchaMessage = `server error`;
+      this.afterCaptchaMessage = 'server error';
       this.setTemplate('emailConfirmLinkTemplate');
     });
 
@@ -114,10 +119,10 @@ export class RegistrationMobilePopupComponent implements OnInit {
           this.setTemplate('captchaTemplate');
           this.emailMessage = '';
         } else {
-          this.emailMessage = 'Email exists';
+          this.emailMessage = this.translateService.instant('Email exists');
         }
       }, err => {
-        this.emailMessage = 'server error';
+        this.emailMessage = this.translateService.instant('server error');
       });
     }
   }

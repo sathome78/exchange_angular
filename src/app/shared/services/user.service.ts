@@ -79,7 +79,7 @@ export class UserService {
       .catch(this.handleErrorPromise);
   }
 
-  public authenticateUser(email: string, password: string, pin?: string): Observable<{} | TokenHolder> {
+  public authenticateUser(email: string, password: string, pin?: string, tries?: number): Observable<{} | TokenHolder> {
     const authCandidate = AuthCandidate
       .builder()
       .withEmail(email)
@@ -99,6 +99,8 @@ export class UserService {
     const httpOptions = {
       params: mParams
     };
+
+    authCandidate.tries = tries;
 
     console.log(JSON.stringify(authCandidate));
     return this.http.post<TokenHolder>(this.getUrl('users/authenticate'), JSON.stringify(authCandidate), httpOptions);

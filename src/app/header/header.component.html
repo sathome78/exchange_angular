@@ -42,11 +42,9 @@
       </a>
     </div>
     <ul class="menu menu--header-menu">
-      <li class="menu__item" routerLinkActive="menu__link--active">
-        <a class="menu__link" href="https://exrates.me/dashboard">
-          <span class="menu__link-text">
-            {{'Trade' | translate}}
-          </span>
+      <li class="menu__item" routerLinkActive="menu__link--active" >
+        <a class="menu__link" routerLink="/dashboard">
+          <span class="menu__link-text">{{'Trade' | translate}}</span>
         </a>
       </li>
       <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated()"
@@ -55,19 +53,11 @@
         <!-- <li class="menu__item menu__item--with-submenu" ><a class="menu__link menu__link--drop"><span class="menu__link-text">Funds</span></a> -->
         <div class="submenu">
           <ul class="menu submenu__list">
-            <li class="submenu__item">
-              <a class="submenu__link" routerLink="/funds/balance" routerLinkActive="menu__link--active">
-                <span class="menu__link-text">
-                  {{"Balance" | translate}}
-                </span>
-              </a>
-            </li>
-            <li class="submenu__item">
-              <a class="submenu__link" routerLink="transaction-history" routerLinkActive="menu__link--active">
-                <span class="menu__link-text">
-                  {{'Transaction history' | translate}}
-                </span>
-              </a>
+            <li class="submenu__item"><a class="submenu__link" routerLink="/funds/balance"
+                                         routerLinkActive="menu__link--active"><span
+              class="menu__link-text">{{'Balance' | translate}}</span></a></li>
+            <li class="submenu__item"><a class="submenu__link" routerLink="/funds/transaction-history"
+                                         routerLinkActive="menu__link--active"><span class="menu__link-text">{{'Transaction history' | translate}}</span></a>
             </li>
           </ul>
         </div>
@@ -263,16 +253,17 @@
         </a>
         <div class="submenu submenu--language">
           <ul class="menu__list submenu__list submenu__list--language">
-            <li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">
-              <a class="submenu__link" (click)="changeLocalization(lang.name)" >
-                <img class="language__flag" [src]="lang.icon_url" alt="">
-                <span class="language__text">{{lang.fullName | translate}}</span>
-              </a>
-            </li>
+            <!--<li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">-->
+              <!--<a class="submenu__link" (click)="changeLocalization(lang.name)" >-->
+                <!--<img class="language__flag" [src]="lang.icon_url" alt="">-->
+                <!--<span class="language__text">{{lang.fullName | translate}}</span>-->
+              <!--</a>-->
+            <!--</li>-->
           </ul>
         </div>
       </li>
     </ul>
+
   </div>
 </header>
 <!-- HEADER END-->
@@ -395,12 +386,9 @@
             </span>
             <span class="menu-mob__link-text">{{'Funds' | translate}}</span></a>
           <div class="menu-mob__wrap-links" *ngIf="showFundsList">
-            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/transaction-history">
-              {{'Transaction history' | translate}}
-            </a>
-            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">
-              {{'Balance' | translate}}
-            </a>
+            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/transaction-history">
+              {{'Transaction history' | translate}}</a>
+            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">{{'Balance' | translate}}</a>
           </div>
         </div>
         <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated()">

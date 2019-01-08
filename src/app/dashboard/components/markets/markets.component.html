@@ -264,7 +264,7 @@
               <div class="table__cell table__cell--p4 table__cell--tar" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
                   <span class=""
                         [ngClass]="{'change-indicate--green': isChangePositive(pair), 'change-indicate--red': !isChangePositive(pair)}">
-              {{pair.percentChange >= 0 ? '+' : ''}}{{pair.percentChange | replaceNumber}} <span>%</span></span>
+              {{pair.percentChange >= 0 ? '+' : ''}}{{pair.percentChange | replaceNumber}}%</span>
               </div>
             </div>
             <div style="height: 4px;"></div>
