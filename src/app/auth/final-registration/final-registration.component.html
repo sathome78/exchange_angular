@@ -32,7 +32,7 @@
           <span
             class="wrap-input__message" [ngClass]="{'msg-error': (msgRed && !passwordForm.controls['password'].valid && passwordForm.controls['password'].touched)}" *ngIf="!passwordForm.valid">
               <!--Should have 8 chars at least, symbols and numbers.-->
-            Password cannot be less than 8 characters long and should contain of letters (a-z), numbers (0-9) and/or any combination of @*%!#^!&$<>.()-=+' characters
+            Password cannot be less than 8 and more than 40 characters long and should contain of letters (a-z), numbers (0-9) and/or any combination of @*%!#^!&$<>.()-=+' characters
             </span>
           <!--<span-->
             <!--*ngIf=" passwordForm.controls['password'].errors['maxlength']"-->
