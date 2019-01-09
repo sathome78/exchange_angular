@@ -47,7 +47,9 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
     this.passwordForm = new FormGroup({
       password: new FormControl('', {
         validators: [
-          Validators.required, Validators.minLength(8),
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(40),
           Validators.pattern(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z])(?=.*[!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\']/)
         ]}),
       confirmPassword: new FormControl( '', {validators: [Validators.required, this.confirmPassword.bind(this)]})

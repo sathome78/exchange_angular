@@ -50,7 +50,9 @@ export class FinalRegistrationComponent implements OnInit {
     this.passwordForm = new FormGroup({
       password: new FormControl(null, {
         validators: [
-          Validators.required, Validators.minLength(8),
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(40),
           Validators.pattern(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z])(?=.*[!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\']/)
         ]
       }),

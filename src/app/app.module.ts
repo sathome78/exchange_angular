@@ -67,6 +67,7 @@ import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {CoreService} from './core/services/core.service';
+import { ThankYouPopupComponent } from './popups/thank-you-popup/thank-you-popup.component';
 import {translateInfo} from './shared/configs/translate-options';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -111,6 +112,7 @@ export function createTranslateLoader(http: HttpClient) {
 
     DemoTradingPopupComponent,
     AlreadyRegisteredPopupComponent,
+    ThankYouPopupComponent,
     // TWO FACTOR POPUP END
 
   ],
