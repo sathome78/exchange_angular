@@ -1,9 +1,13 @@
 import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {Animations} from 'app/shared/animations';
 
 @Component({
   selector: 'app-refill-money',
   templateUrl: './refill-money.component.html',
-  styleUrls: ['./refill-money.component.scss']
+  styleUrls: ['./refill-money.component.scss'],
+  animations: [
+    Animations.popupOverlayTrigger, Animations.popupModalTrigger
+  ]
 })
 export class RefillMoneyComponent implements OnInit {
 
@@ -15,7 +19,7 @@ export class RefillMoneyComponent implements OnInit {
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
-    if ($event.target.className === 'overlay--modal modal--open') {
+    if ($event.target.classList.contains('overlay--modal')) {
       this.onCloseRefillBalancePopup();
     }
   }
