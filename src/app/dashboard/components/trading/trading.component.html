@@ -81,12 +81,10 @@
 
           <div class="wrap-input widget__input widget__input--mr32">
             <app-price-input [placeholder]="'Quantity of ' + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
-            <div class="wrap-input__line"></div>
           </div>
 
           <div class="wrap-input widget__input">
             <app-price-input [placeholder]="'Price in ' + arrPairName[1]" (customInput)="rateInput($event)" name="priceIn" formControlName="priceIn"></app-price-input>
-            <div class="wrap-input__line"></div>
           </div>
 
         </div>
@@ -94,7 +92,6 @@
         <div class="row row--jcsb widget__trading-row">
           <div class="wrap-input widget__input">
             <app-price-input [placeholder]="'Total in ' + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
-            <div class="wrap-input__line"></div>
           </div>
         </div>
 
@@ -111,17 +108,14 @@
           </div>
           <div class="wrap-input widget__input">
             <app-price-input [placeholder]="'Limit ' + arrPairName[1]" (customInput)="rateInput($event)" name="limit" formControlName="limit"></app-price-input>
-            <div class="wrap-input__line"></div>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row">
           <div class="wrap-input widget__input widget__input--mr32">
             <app-price-input [placeholder]="'Quantity of ' + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
-            <div class="wrap-input__line"></div>
           </div>
           <div class="wrap-input widget__input">
             <app-price-input [placeholder]="'Total in ' + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
-            <div class="wrap-input__line"></div>
           </div>
         </div>
       </form>
