@@ -35,6 +35,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public additionalAddress;
   public alphabet;
   public reqError = '';
+  public currentMerchant;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout({ target }) {
@@ -141,7 +142,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
       };
 
       if (this.firstGenerate && this.cryptoDataByName && this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable) {
-        data.forceGenerateNewAddress = true;
+        data.generateNewAddress = true;
       }
 
       this.firstGenerate = true;
@@ -150,11 +151,30 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           const temp = res as RefreshAddress;
-          this.address = temp.params.address;
+          if (this.currentMerchant) {
+            if (this.currentMerchant.additionalTagForWithdrawAddressIsUsed) {
+              this.address = temp.params.address || this.currentMerchant.mainAddress;
+              this.additionalAddress = this.currentMerchant.address;
+            } else {
+              this.address = temp.params.address || this.currentMerchant.address;
+              this.additionalAddress = '';
+            }
+          }
           sendGenerateWalletGtag();
         }, error => {
-          const msg = 'Sorry, refill is unavailable for current moment!';
-          this.setError(msg);
+          if (this.currentMerchant) {
+            if (this.currentMerchant.additionalTagForWithdrawAddressIsUsed) {
+              this.address = this.currentMerchant.mainAddress;
+              this.additionalAddress = this.currentMerchant.address;
+            } else {
+              this.address = this.currentMerchant.address;
+              this.additionalAddress = '';
+            }
+          }
+          if (!this.address) {
+            const msg = 'Sorry, refill is unavailable for current moment!';
+            this.setError(msg);
+          }
         });
     }
   }
@@ -199,21 +219,14 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
 
   private identifyCrypto() {
 
-      const merchant = this.cryptoDataByName.merchantCurrencyData[0];
-      if (merchant) {
-        if (merchant.additionalTagForWithdrawAddressIsUsed) {
-          this.address = merchant.mainAddress;
-          this.additionalAddress = merchant.address;
-        } else {
-          this.address = merchant.address;
-          this.additionalAddress = '';
-        }
+      this.currentMerchant = this.cryptoDataByName.merchantCurrencyData[0];
+      if (this.currentMerchant) {
+        this.firstGenerate = false;
+        this.generateNewAddress();
         this.showGenerateAddressBtn(this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable);
       } else {
         this.showGenerateAddressBtn(false);
       }
-      this.firstGenerate = false;
-      this.generateNewAddress();
   }
 }
 
