@@ -2,7 +2,7 @@ import {HttpHeaders} from '@angular/common/http';
 
 export const MEDIA_TYPE_JSON: HttpHeaders = new HttpHeaders()
   .set('Content-Type', 'application/json')
-  .set('GACookies', document.cookie);
+
 export const TOKEN = 'token';
 export const IP_USER_HEADER = 'X-Forwarded-For';
 export const IP_USER_KEY = 'client_ip';

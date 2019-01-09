@@ -96,10 +96,14 @@ export class UserService {
     if (pin) {
       mParams.set('checkPin', pin);
     }
+    const headers = new HttpHeaders();
+
+    headers.set('GACookies', document.cookie);
 
     const httpOptions = {
       params: mParams,
       withCredentials: true,
+      headers
     };
 
     authCandidate.tries = tries;
