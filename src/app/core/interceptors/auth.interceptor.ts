@@ -28,14 +28,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
       const copiedReq = req.clone({
         headers: headers,
-        withCredentials: true,
       });
       // console.log(copiedReq);
       return next.handle(copiedReq);
     } else {
       const copiedReq = req.clone({
         headers: MEDIA_TYPE_JSON,
-        withCredentials: true,
       });
       return next.handle(copiedReq);
     }
