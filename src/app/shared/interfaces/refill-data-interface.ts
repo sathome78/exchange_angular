@@ -4,4 +4,5 @@ export interface RefillData {
   merchant: number;
   sum: number;
   generateNewAddress?: boolean;
+  childMerchant?: string;
 }

@@ -3,11 +3,15 @@ import {BalanceService} from '../../services/balance.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {WITH_CODE} from './send-money-constants';
+import {Animations} from '../../../shared/animations';
 
 @Component({
   selector: 'app-send-money',
   templateUrl: './send-money.component.html',
-  styleUrls: ['./send-money.component.scss']
+  styleUrls: ['./send-money.component.scss'],
+  animations: [
+    Animations.popupOverlayTrigger, Animations.popupModalTrigger
+  ]
 })
 export class SendMoneyComponent implements OnInit, OnDestroy {
 
@@ -23,7 +27,7 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
-    if ($event.target.className === 'overlay--modal modal--open') {
+    if ($event.target.classList.contains('overlay--modal')) {
       this.onCloseSendMoneyPopup();
     }
   }

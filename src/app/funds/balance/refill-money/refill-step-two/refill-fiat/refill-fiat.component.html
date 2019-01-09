@@ -53,23 +53,9 @@
           <ul class="select__list select__list--open">
 
             <ng-template ngFor let-merchant [ngForOf]="merchants">
-              <ng-template [ngTemplateOutlet]="loadMerchantTemplate(merchant)"
-                           [ngTemplateOutletContext]="{ $implicit: merchant}">
-              </ng-template>
-            </ng-template>
-
-            <ng-template #simpleMerchant let-merchant>
-            <li class="select__list-item"
-                (click)="selectMerchant(merchant)">
-              <img [src]="merchant.name | getIconUrl" class="select__list-item-icon">
-              {{merchant.name}}
-            </li>
-            </ng-template>
-
-            <ng-template #listMerchant let-merchant>
               <li class="select__list-item"
                   *ngFor="let nested of merchant.listMerchantImage"
-                  (click)="selectMerchant(merchant, nested.image_name)">
+                  (click)="selectMerchant(merchant, nested)">
                 <img [src]="nested.image_name | getIconUrl" class="select__list-item-icon">
                 {{nested.image_name}}
               </li>
