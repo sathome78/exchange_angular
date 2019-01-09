@@ -78,16 +78,15 @@
         </div>
       </li>
       <li class="menu__item" routerLinkActive="menu__link--active">
-        <a class="menu__link" routerLink="/settings" *ngIf="isVisible()">
-          <span class="menu__link-text">Settings</span>
-        </a>
-
-        <a class="menu__link" (click)="tempPopup()" *ngIf="isAuthenticated()">
+        <a class="menu__link" routerLink="/settings" (click)="tempPopup()" *ngIf="isVisible()">
           <span class="menu__link-text">{{'Settings' | translate}}</span>
         </a>
 
+        <!--<a class="menu__link" (click)="tempPopup()" *ngIf="isAuthenticated()">-->
+          <!--<span class="menu__link-text">Settings</span>-->
+        <!--</a>-->
+
       </li>
-      <!-- <li class="menu__item"><a class="menu__link" routerLink="/settings"><span class="menu__link-text">Settings</span></a></li> -->
       <li class="menu__item menu__item--with-submenu" *ngIf="isVisible()" routerLinkActive="menu__link--active"><a
         class="menu__link menu__link--drop" routerLinkActive="menu__link--active"><span
         class="menu__link-text">{{'Referral' | translate}}</span></a>

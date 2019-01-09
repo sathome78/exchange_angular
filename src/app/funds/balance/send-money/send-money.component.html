@@ -1,5 +1,7 @@
-<div class="overlay--modal" [ngClass]="{'modal--open': showPopup}" *ngIf="showPopup">
-  <div class="modal">
+<!--<div class="overlay&#45;&#45;modal" [ngClass]="{'modal&#45;&#45;open': showPopup}" *ngIf="showPopup">-->
+  <!--<div class="modal">-->
+<div class="overlay--modal" *ngIf="showPopup" [@overlayAnimation]="showPopup ? 'show' : 'hide'">
+  <div class="modal" [@modalAnimation]="showPopup ? 'show' : 'hide' ">'
     <!-- btn modal close -->
     <div class="modal__controls modal__controls--top">
       <a class="modal__button modal__button--close"

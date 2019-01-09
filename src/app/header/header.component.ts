@@ -175,7 +175,9 @@ export class HeaderComponent implements OnInit {
 
 // temp solution
   tempPopup() {
-    this.popupService.demoPopupMessage = 1;
-    this.popupService.showDemoTradingPopup(true);
+    if (environment.production) {
+      this.popupService.demoPopupMessage = 1;
+      this.popupService.showDemoTradingPopup(true);
+    }
   }
 }
