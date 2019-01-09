@@ -153,8 +153,8 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
           const temp = res as RefreshAddress;
           if (this.currentMerchant) {
             if (this.currentMerchant.additionalTagForWithdrawAddressIsUsed) {
-              this.address = temp.params.address || this.currentMerchant.mainAddress;
-              this.additionalAddress = this.currentMerchant.address;
+              this.address = this.currentMerchant.mainAddress;
+              this.additionalAddress = temp.params.address || this.currentMerchant.address;
             } else {
               this.address = temp.params.address || this.currentMerchant.address;
               this.additionalAddress = '';

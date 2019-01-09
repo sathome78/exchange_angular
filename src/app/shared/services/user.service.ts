@@ -1,5 +1,5 @@
 import {Router} from '@angular/router';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
 import {tap} from 'rxjs/internal/operators';
@@ -96,8 +96,10 @@ export class UserService {
     if (pin) {
       mParams.set('checkPin', pin);
     }
+
     const httpOptions = {
-      params: mParams
+      params: mParams,
+      withCredentials: true,
     };
 
     authCandidate.tries = tries;
