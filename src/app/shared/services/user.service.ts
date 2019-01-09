@@ -97,7 +97,7 @@ export class UserService {
       mParams.set('checkPin', pin);
     }
     const headers = new HttpHeaders();
-    headers.set('Set-Cookie', document.cookie)
+    headers.set('GACookies', document.cookie)
     .set('Access-Control-Allow-Origin', '*');
     const httpOptions = {
       params: mParams,
