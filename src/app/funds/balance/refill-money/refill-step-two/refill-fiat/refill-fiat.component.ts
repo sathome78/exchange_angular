@@ -9,6 +9,7 @@ import {getFiatCurrenciesForChoose, State} from 'app/core/reducers';
 import {PopupService} from '../../../../../shared/services/popup.service';
 import * as _uniq from 'lodash/uniq';
 import {RefillResponse} from '../../../../../model/refill-response';
+import {RefillData} from '../../../../../shared/interfaces/refill-data-interface';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -28,6 +29,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public defaultFiatNames: CurrencyBalanceModel[] = [];
   public fiatDataByName;
   public selectedMerchant;
+  public selectedMerchantNested;
   public amount;
   public merchants;
   public openCurrencyDropdown = false;
@@ -111,15 +113,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.getDataByCurrency(currency.name);
   }
 
-  loadMerchantTemplate(merchant) {
-    switch (merchant.name) {
-      case 'Interkassa':
-        return this.listMerchantTemplate;
-      default:
-        return this.simpleMerchantTemplate;
-    }
-  }
-
   private getDataByCurrency(currencyName) {
     this.balanceService.getCurrencyData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -127,12 +120,13 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.fiatDataByName = res;
         this.merchants = this.fiatDataByName.merchantCurrencyData;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
-        this.selectMerchantName = this.selectedMerchant.name;
+        this.selectMerchantName = this.selectedMerchant ? this.selectedMerchant.name : '';
       });
   }
 
-  selectMerchant(merchant, name = null) {
-    this.selectMerchantName = name || merchant.name;
+  selectMerchant(merchant, merchantImage = null) {
+    this.selectedMerchantNested = merchantImage;
+    this.selectMerchantName =  merchantImage.image_name  || merchant.name;
     this.selectedMerchant = merchant;
     this.togglePaymentSystemDropdown();
   }
@@ -156,13 +150,16 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       if (this.form.valid && this.selectedMerchant.name) {
         this.isSubmited = false;
         this.amount = this.form.controls['amount'].value;
-        const data = {
+        const data: RefillData = {
           operationType: this.fiatDataByName.payment.operationType,
           currency: this.fiatDataByName.currency.id,
           merchant: this.selectedMerchant.merchantId,
           generateNewAddress: true,
           sum: this.amount
         };
+        if (this.selectedMerchantNested && this.selectedMerchantNested.child_merchant) {
+          data.child_merchant = this.selectedMerchantNested.child_merchant;
+        }
         this.balanceService.refill(data)
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe((res: RefillResponse) => {
