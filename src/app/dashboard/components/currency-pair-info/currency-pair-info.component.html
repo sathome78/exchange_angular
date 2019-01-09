@@ -50,6 +50,13 @@
         <!--<span class="currency-pair-info__item-value">{{ userBalanceInfo.balanceByCurrency2 | number:'1.0-0' | replaceNumber }} {{ secondCurrency }}</span>-->
       <!--</div>-->
     <!--</div>-->
+    <app-dynamic-input
+      label="Search"
+      [value]="pairInput"
+      [options]="DIOptions"
+      (onChange)="onChangeCurrPair($event)"
+      (onSelect)="onSelectPair($event.text)"
+    ></app-dynamic-input>
   </div>
 
   <app-currency-search

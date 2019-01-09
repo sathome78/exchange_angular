@@ -28,6 +28,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   public marketsArray: Currency[] = [];
   /** current active pair */
   public pair;
+  public pairInput = 'BTC/USD'
   public firstCurrency: string;
   public marketDropdown = false;
   public secondCurrency: string;
@@ -38,6 +39,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   public showDropdownMarkets = false;
   public allCurrencyPairs;
   public allCryptoCurrencies: any = [];
+  public DIOptions: DIOptions[] = [];
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
@@ -88,6 +90,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair[]) => {
         this.allCurrencyPairs = pair;
+        this.DIOptions = pair.map((item) => ({text: item.currencyPairName, id: item.currencyPairId}));
       });
 
     this.store
@@ -191,4 +194,13 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate < 0 : false;
     }
   }
+
+  onChangeCurrPair(val: string): void {
+    this.pairInput = val;
+  }
+
+  onSelectPair(pairName: string): void {
+    this.dashboardWebsocketService.findPairByCurrencyPairName(pairName);
+  }
+
 }
