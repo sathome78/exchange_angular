@@ -158,7 +158,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
           sum: this.amount
         };
         if (this.selectedMerchantNested && this.selectedMerchantNested.child_merchant) {
-          data.child_merchant = this.selectedMerchantNested.child_merchant;
+          data.childMerchant = this.selectedMerchantNested.child_merchant;
         }
         this.balanceService.refill(data)
           .pipe(takeUntil(this.ngUnsubscribe))
