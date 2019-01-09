@@ -65,6 +65,7 @@ import {RefillSuccessfulComponent} from './balance/refill-money/refill-successfu
 import {DemoTradingPopupComponent} from './popups/demo-trading-popup/demo-trading-popup.component';
 import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup/already-registered-popup.component';
 import {CoreService} from './core/services/core.service';
+import { ThankYouPopupComponent } from './popups/thank-you-popup/thank-you-popup.component';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import {CoreService} from './core/services/core.service';
 
     DemoTradingPopupComponent,
     AlreadyRegisteredPopupComponent,
+    ThankYouPopupComponent,
     // TWO FACTOR POPUP END
 
   ],
