@@ -27,13 +27,15 @@ export class AuthInterceptor implements HttpInterceptor {
                                 // .append(IP_USER_HEADER, '192.168.0.1');
 
       const copiedReq = req.clone({
-        headers: headers
+        headers: headers,
       });
       // console.log(copiedReq);
       return next.handle(copiedReq);
     } else {
+      const headers = req.headers
+        .append('Content-Type', 'application/json')
       const copiedReq = req.clone({
-        headers: MEDIA_TYPE_JSON
+        headers,
       });
       return next.handle(copiedReq);
     }
