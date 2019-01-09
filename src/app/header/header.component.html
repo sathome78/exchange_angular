@@ -78,9 +78,9 @@
         </div>
       </li>
       <li class="menu__item" routerLinkActive="menu__link--active">
-        <!--<a class="menu__link" routerLink="/settings" *ngIf="isAuthenticated()">-->
-        <!--<span class="menu__link-text">Settings</span>-->
-        <!--</a>-->
+        <a class="menu__link" routerLink="/settings" *ngIf="isVisible()">
+          <span class="menu__link-text">Settings</span>
+        </a>
 
         <a class="menu__link" (click)="tempPopup()" *ngIf="isAuthenticated()">
           <span class="menu__link-text">Settings</span>
