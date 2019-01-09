@@ -97,7 +97,8 @@ export class UserService {
       mParams.set('checkPin', pin);
     }
     const httpOptions = {
-      params: mParams
+      params: mParams,
+      withCredentials: true,
     };
 
     authCandidate.tries = tries;
