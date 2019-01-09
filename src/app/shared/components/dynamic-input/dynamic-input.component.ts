@@ -16,7 +16,8 @@ export class DynamicInputComponent implements OnChanges {
 
   @Input('options') public options: DIOptions[] = [];
   @Input('value') public value: string;
-  @Input('label') public label: string = '';
+  // @Input('label') public label: string = '';
+  @Input('icon') public icon: any = null;
   @Output('onSelect') public onSelect: EventEmitter<DIOptions> = new EventEmitter();
   @Output('onChange') public onChange: EventEmitter<string> = new EventEmitter();
   @ViewChild('input') inputElement: ElementRef;
