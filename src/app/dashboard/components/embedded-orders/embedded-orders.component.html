@@ -12,7 +12,7 @@
     <span class="widget__dots "></span>
     <div class="widget__controls">
       <div class="widget__controls-horizontal">
-        <span class="widget__controls-minus" (click)="heightChange(false)">
+        <span class="widget__controls-minus" (click)="heightChange(false)" [ngClass]="{'cursorDisable': makeHeight, 'ishover': makeHeight}">
           <svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M1 4C0.723858 4 0.5 4.22386 0.5 4.5C0.5 4.77614 0.723858 5 1 5V4ZM6.65685 5C6.933 5 7.15685 4.77614 7.15685 4.5C7.15685 4.22386 6.933 4 6.65685 4V5ZM1 5L6.65685 5V4L1 4V5Z"/>
@@ -24,7 +24,7 @@
             <rect y="11" width="12" height="5" fill-opacity="0.1"/>
           </svg>
         </span>
-        <span class="widget__controls-plus" (click)="heightChange(true)">
+        <span class="widget__controls-plus" (click)="heightChange(true)" [ngClass]="{'cursorDisable': !makeHeight, 'ishover': !makeHeight}">
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M1 3.38889C0.723858 3.38889 0.5 3.61275 0.5 3.88889C0.5 4.16503 0.723858 4.38889 1 4.38889V3.38889ZM7.12826 4.38889C7.4044 4.38889 7.62826 4.16503 7.62826 3.88889C7.62826 3.61275 7.4044 3.38889 7.12826 3.38889V4.38889ZM4.5638 1C4.5638 0.723858 4.33994 0.5 4.0638 0.5C3.78766 0.5 3.5638 0.723858 3.5638 1H4.5638ZM3.5638 6.77778C3.5638 7.05392 3.78766 7.27778 4.0638 7.27778C4.33994 7.27778 4.5638 7.05392 4.5638 6.77778H3.5638ZM1 4.38889H7.12826V3.38889H1V4.38889ZM4.5638 6.77778V1H3.5638V6.77778H4.5638Z"/>
@@ -32,7 +32,7 @@
         </span>
       </div>
       <div class="widget__controls-vertical">
-        <span class="widget__controls-minus" (click)="widthChange(false)">
+        <span class="widget__controls-minus" (click)="widthChange(false)" [ngClass]="{'cursorDisable': makeWidth, 'ishover': makeWidth}">
           <svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M1 4C0.723858 4 0.5 4.22386 0.5 4.5C0.5 4.77614 0.723858 5 1 5V4ZM6.65685 5C6.933 5 7.15685 4.77614 7.15685 4.5C7.15685 4.22386 6.933 4 6.65685 4V5ZM1 5L6.65685 5V4L1 4V5Z"/>
@@ -44,7 +44,7 @@
             <rect x="9" y="16" width="16" height="4" transform="rotate(-90 9 16)" fill-opacity="0.1"/>
           </svg>
         </span>
-        <span class="widget__controls-plus" (click)="widthChange(true)">
+        <span class="widget__controls-plus" (click)="widthChange(true)" [ngClass]="{'cursorDisable': !makeWidth, 'ishover': !makeWidth}">
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M1 3.38889C0.723858 3.38889 0.5 3.61275 0.5 3.88889C0.5 4.16503 0.723858 4.38889 1 4.38889V3.38889ZM7.12826 4.38889C7.4044 4.38889 7.62826 4.16503 7.62826 3.88889C7.62826 3.61275 7.4044 3.38889 7.12826 3.38889V4.38889ZM4.5638 1C4.5638 0.723858 4.33994 0.5 4.0638 0.5C3.78766 0.5 3.5638 0.723858 3.5638 1H4.5638ZM3.5638 6.77778C3.5638 7.05392 3.78766 7.27778 4.0638 7.27778C4.33994 7.27778 4.5638 7.05392 4.5638 6.77778H3.5638ZM1 4.38889H7.12826V3.38889H1V4.38889ZM4.5638 6.77778V1H3.5638V6.77778H4.5638Z"/>
