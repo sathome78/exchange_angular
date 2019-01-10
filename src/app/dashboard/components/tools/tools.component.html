@@ -1,4 +1,14 @@
-<div class="dashboard-tools" style="min-width: 103px" (mouseenter)="showOverlay()" (mouseleave)="hideOverlay()">
+
+<!--<div class="w">-->
+  <!--<div class="tools-info">-->
+    <!--<img src="assets/img/arr-toggle-right-white.svg" alt="">-->
+
+    <!--<p> test test</p>-->
+
+  <!--</div>-->
+<!--</div>-->
+<div class="dashboard-tools" style="min-width: 103px" (mouseenter)="showOverlay()" (mouseleave)="hideOverlay()" *ngIf="visibleToolsItems.length">
+
   <div class="dashboard-tools__header">
     Tools
   </div>
@@ -11,6 +21,10 @@
     <span>{{item.name}}</span>
   </div>
 
+  <div class="info-tools">
+    <img src="assets/img/arr-toggle-right-white.svg" alt="">
+    <div class="tools-label" >{{visibleToolsItems.length}} Tools</div>
+  </div>
 </div>
 
-<div class="overlay overlay-hide" #overlay [ngClass]="{'overlay-show': overlayShow}"></div>
+<div class="overlay overlay-hide" #overlay [ngClass]="{'overlay-show': overlayShow}" *ngIf="visibleToolsItems.length"></div>
