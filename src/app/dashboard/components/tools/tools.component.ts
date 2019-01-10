@@ -20,7 +20,7 @@ export class ToolsComponent implements OnInit {
 
   public allWidgets: DashboardWidgetItemModel[];
   public allToolsItems: DashboardToolsItemModel[];
-  public visibleToolsItems: DashboardToolsItemModel[];
+  public visibleToolsItems: DashboardToolsItemModel[] = [];
   public overlayShow = false;
 
   constructor(private dataService: DashboardService) { }
