@@ -51,6 +51,9 @@ export class ToolsComponent implements OnInit {
   addToDashboard(typeItem: string): void {
     this.visibleToolsItems = this.visibleToolsItems.filter(item => item.type !== typeItem);
     this.dataService.toolsToDashboard$.next(typeItem);
+    if (!this.visibleToolsItems.length) {
+      this.hideOverlay();
+    }
   }
 
   /**
