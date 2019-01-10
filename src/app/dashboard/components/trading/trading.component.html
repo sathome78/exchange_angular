@@ -23,11 +23,11 @@
   <div class="tabs widget__tabs" *ngIf="currentPair">
     <button class="tabs__item tabs__item--big "
             [ngClass]="{'tabs__item--active': mainTab === 'BUY', 'tab-no-active': mainTab !== 'BUY'}"
-            (click)="toggleMainTab('BUY')" >{{'Buy' | translate}} {{arrPairName[0]}}
+            (click)="toggleMainTab('BUY')" >{{'Buy' | translate}}
     </button>
     <button class="tabs__item tabs__item--big"
             [ngClass]="{'tabs__item--active': mainTab === 'SELL', 'tab-no-active': mainTab !== 'SELL'}"
-            (click)="toggleMainTab('SELL')" >{{'Sell' | translate}} {{arrPairName[0]}}
+            (click)="toggleMainTab('SELL')" >{{'Sell' | translate}}
     </button>
   </div>
 
