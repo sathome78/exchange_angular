@@ -27,6 +27,7 @@ import {UtilsService} from './services/utils.service';
 import {RegistrationGuard} from './guards/registaration.guard';
 import {LoaderComponent} from './components/loader/loader.component';
 import {GetIconUrl} from './pipes/get-icon-url';
+import {DynamicInputComponent} from './components/dynamic-input/dynamic-input.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import {GetIconUrl} from './pipes/get-icon-url';
     PageItemsDropdownComponent,
     DateWrapper,
     LoaderComponent,
+    DynamicInputComponent,
   ],
   imports: [
     FormsModule,
@@ -80,6 +82,7 @@ import {GetIconUrl} from './pipes/get-icon-url';
     LoaderComponent,
     DateWrapper,
     GetIconUrl,
+    DynamicInputComponent,
   ],
   providers: [
     NotificationsService,

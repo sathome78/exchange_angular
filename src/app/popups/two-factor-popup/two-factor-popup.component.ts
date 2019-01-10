@@ -1,13 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, Input, HostListener} from '@angular/core';
 import {PopupService} from '../../shared/services/popup.service';
-import {generate, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {LoggingService} from '../../shared/services/logging.service';
-import {e} from '@angular/core/src/render3';
+import {Animations} from 'app/shared/animations';
 
 @Component({
   selector: 'app-two-factor-popup',
   templateUrl: './two-factor-popup.component.html',
-  styleUrls: ['./two-factor-popup.component.scss']
+  styleUrls: ['./two-factor-popup.component.scss'],
+  animations: [
+    Animations .popupOverlayTrigger, Animations.popupModalTrigger
+  ]
 })
 export class TwoFactorPopupComponent implements OnInit, OnDestroy {
 
@@ -18,8 +21,16 @@ export class TwoFactorPopupComponent implements OnInit, OnDestroy {
   provider: string;
   step = 1;
   stepsSize = 1;
+  @Input('showPopup') public showPopup: boolean = false;
 
   private currentStepSubscription: Subscription;
+
+   /** Are listening click in document */
+   @HostListener('document:click', ['$event']) clickout($event) {
+    if ($event.target.classList.contains('overlay--modal')) {
+      this.closePopup();
+    }
+  }
 
   constructor(private popupService: PopupService,
               private logger: LoggingService) {

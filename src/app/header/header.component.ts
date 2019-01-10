@@ -132,9 +132,9 @@ export class HeaderComponent implements OnInit {
   }
 
   resetDropdowns() {
-  this.showFundsList = false;
-  this.showOrdersList = false;
-  this.showReferralList = false;
+    this.showFundsList = false;
+    this.showOrdersList = false;
+    this.showReferralList = false;
   }
 
 

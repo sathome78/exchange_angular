@@ -1,3 +1,4 @@
+
 function sendRegistrationGtag() {
   gtag('event', 'sent-form', {'event_category': 'registration-form', 'event_label': 'successe-form-sent'});
 }
