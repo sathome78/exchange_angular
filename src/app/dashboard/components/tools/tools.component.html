@@ -2,7 +2,7 @@
 <div class="dashboard-tools" style="min-width: 103px" (mouseenter)="showOverlay()" (mouseleave)="hideOverlay()" *ngIf="visibleToolsItems.length">
 
   <div class="dashboard-tools__header">
-    Tools
+    {{"Tools" | translate}}
   </div>
 
   <div class="dashboard-tools__item" *ngFor="let item of visibleToolsItems"
@@ -10,7 +10,7 @@
     <div class="dashboard-tools__item-icon">
       <img class="" src="{{item.imgUrl}}">
     </div>
-    <span>{{item.name}}</span>
+    <span>{{item.name | translate}}</span>
   </div>
 
   <div class="info-tools">

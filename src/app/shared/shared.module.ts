@@ -27,7 +27,10 @@ import {UtilsService} from './services/utils.service';
 import {RegistrationGuard} from './guards/registaration.guard';
 import {LoaderComponent} from './components/loader/loader.component';
 import {GetIconUrl} from './pipes/get-icon-url';
+import {ExcludeByFieldPipe} from './pipes/exclude-by-field.pipe';
+import {TranslateModule} from '@ngx-translate/core';
 import {DynamicInputComponent} from './components/dynamic-input/dynamic-input.component';
+
 
 @NgModule({
   declarations: [
@@ -36,6 +39,7 @@ import {DynamicInputComponent} from './components/dynamic-input/dynamic-input.co
     SortPipe,
     GetIconUrl,
     ReplaceNumberPipe,
+    ExcludeByFieldPipe,
     GroupCoinPipe,
     CurrencyPipe,
     DropdownDirective,
@@ -57,11 +61,13 @@ import {DynamicInputComponent} from './components/dynamic-input/dynamic-input.co
     PerfectScrollbarModule,
     QRCodeModule,
     InfiniteScrollModule,
-    RecaptchaModule
+    RecaptchaModule,
+
   ],
   exports: [
     InfiniteScrollModule,
     PerfectScrollbarModule,
+
     QRCodeModule,
     RecaptchaModule,
     InfiniteScrollModule,
@@ -75,6 +81,7 @@ import {DynamicInputComponent} from './components/dynamic-input/dynamic-input.co
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
+    ExcludeByFieldPipe,
     RoundCurrencyPipe,
     FormatCurrencyPipe,
     PageItemsDropdownComponent,

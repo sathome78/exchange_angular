@@ -40,42 +40,42 @@
     <ul class="menu menu--header-menu">
       <li class="menu__item" routerLinkActive="menu__link--active" >
         <a class="menu__link" routerLink="/dashboard">
-          <span class="menu__link-text">Trade</span>
+          <span class="menu__link-text">{{'Trade' | translate}}</span>
         </a>
       </li>
       <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated()"
           routerLinkActive="menu__link--active"><a class="menu__link menu__link&#45;&#45;drop"><span
-        class="menu__link-text">Funds</span></a>
+        class="menu__link-text">{{'Funds' | translate}}</span></a>
         <!-- <li class="menu__item menu__item--with-submenu" ><a class="menu__link menu__link--drop"><span class="menu__link-text">Funds</span></a> -->
         <div class="submenu">
           <ul class="menu submenu__list">
             <li class="submenu__item"><a class="submenu__link" routerLink="/funds/balance"
                                          routerLinkActive="menu__link--active"><span
-              class="menu__link-text">Balance</span></a></li>
+              class="menu__link-text">{{'Balance' | translate}}</span></a></li>
             <li class="submenu__item"><a class="submenu__link" routerLink="/funds/transaction-history"
-                                         routerLinkActive="menu__link--active"><span class="menu__link-text">Transaction history</span></a>
+                                         routerLinkActive="menu__link--active"><span class="menu__link-text">{{'Transaction history' | translate}}</span></a>
             </li>
           </ul>
         </div>
       </li>
       <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated()"
           routerLinkActive="menu__link--active"><a class="menu__link menu__link&#45;&#45;drop"><span
-        class="menu__link-text">Orders</span></a>
+        class="menu__link-text">{{'Orders' | translate}}</span></a>
         <!-- <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" ><span class="menu__link-text">Orders</span></a> -->
         <div class="submenu">
           <ul class="menu submenu__list">
             <li class="submenu__item"><a class="submenu__link" routerLink="/orders/open"
                                          routerLinkActive="menu__link--active"><span
-              class="menu__link-text">Open orders</span></a></li>
+              class="menu__link-text">{{'Open orders' | translate}}</span></a></li>
             <li class="submenu__item"><a class="submenu__link" routerLink="/orders/closed"
-                                         routerLinkActive="menu__link--active"><span class="menu__link-text">Orders history</span></a>
+                                         routerLinkActive="menu__link--active"><span class="menu__link-text">{{'Orders history' | translate}}</span></a>
             </li>
           </ul>
         </div>
       </li>
       <li class="menu__item" routerLinkActive="menu__link--active">
         <a class="menu__link" href="https://exrates.me/dashboard">
-          <span class="menu__link-text">News</span>
+          <span class="menu__link-text">{{'News' | translate}}</span>
         </a>
       </li>
     </ul>
@@ -200,17 +200,17 @@
           <div class="submenu submenu--language">
             <ul class="menu__list submenu__list submenu__list--language">
               <li class="submenu__item">
-                Account
+                {{'Account' | translate}}
                 <a class="submenu__link" href="#"><span class="menu__link-text">{{ getUsername() }}</span></a>
               </li>
               <li class="submenu__item">
-                Estimated Holdings
+                {{'Estimated Holdings' | translate}}
                 <a class="submenu__link" href="#"><span class="menu__link-text">${{(myBalance | async)?.USD | roundCurrency: true | formatCurrency}}</span></a>
               </li>
 
               <li class="menu__item" routerLinkActive="menu__link--active">
                 <a class="menu__link" routerLink="/settings" (click)="tempPopup()" *ngIf="isVisible()">
-                  <span class="menu__link-text">Settings</span>
+                  <span class="menu__link-text">{{'Settings' | translate}}</span>
                 </a>
 
                 <!--<a class="menu__link" (click)="tempPopup()" *ngIf="isAuthenticated()">-->
@@ -221,14 +221,14 @@
 
               <li class="menu__item menu__item--with-submenu menu__item--disabled" *ngIf="isVisible()" routerLinkActive="menu__link--active"><a
                 class="menu__link menu__link--drop" routerLinkActive="menu__link--active"><span
-                class="menu__link-text">Referral</span></a>
+                class="menu__link-text">{{'Referral' | translate}}</span></a>
                 <div class="submenu">
                   <ul class="menu submenu__list">
                     <li class="submenu__item"><a class="submenu__link" routerLink="referral-structure"
-                                                 routerLinkActive="menu__link--active"><span class="menu__link-text">Referral structure</span></a>
+                                                 routerLinkActive="menu__link--active"><span class="menu__link-text">{{'Referral structure' | translate}}</span></a>
                     </li>
                     <li class="submenu__item"><a class="submenu__link" routerLink="referral-charges"
-                                                 routerLinkActive="menu__link--active"><span class="menu__link-text">Referral charges</span></a>
+                                                 routerLinkActive="menu__link--active"><span class="menu__link-text">{{'Referral charges' | translate}}</span></a>
                     </li>
                   </ul>
                 </div>
@@ -236,7 +236,7 @@
 
               <li class="menu__item">
                 <a class="menu__link menu__link--auth--log" (click)="onLogout()">
-                  <span class="menu__link-text">Log out</span>
+                  <span class="menu__link-text">{{'Log out' | translate}}</span>
                 </a>
               </li>
 
@@ -248,12 +248,12 @@
       <ng-template #login>
         <li class="menu__item">
           <a class="menu__link menu__link--auth--log" (click)="onMobileLogin()">
-            <span class="menu__link-text">Log In</span>
+            <span class="menu__link-text">{{'Log In' | translate}}</span>
           </a>
         </li>
         <li class="menu__item">
           <a class="menu__link menu__link--auth--reg" (click)="openRegistration()">
-            <span class="menu__link-text">Sign In</span>
+            <span class="menu__link-text">{{'Sign In' | translate}}</span>
           </a>
         </li>
       </ng-template>
@@ -263,32 +263,18 @@
       <li class="menu__item menu__item--with-submenu menu__item--disabled">
         <a class="menu__link">
           <span class="menu__link-text">
-            <img class="language__flag" src="../../assets/img/flag-en.svg" alt="ru">
-            <span class="language__abbr">en</span>
+            <img class="language__flag" [src]="lang.icon_url" alt="ru">
+            <span class="language__abbr">{{lang.name.toUpperCase()}}</span>
           </span>
         </a>
         <div class="submenu submenu--language">
           <ul class="menu__list submenu__list submenu__list--language">
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-ru.svg"
-                                                                             alt=""><span
-              class="language__text">Russian</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-cn.svg"
-                                                                             alt=""><span
-              class="language__text">Chinese</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-pl.svg"
-                                                                             alt=""><span
-              class="language__text">Polish</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-en.svg"
-                                                                             alt=""><span
-              class="language__text">Hindi</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" href="#"><img class="language__flag"
-                                                                             src="../../assets/img/flag-cn.svg"
-                                                                             alt=""><span class="language__text">Ukrainian</span></a>
-            </li>
+            <!--<li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">-->
+            <!--<a class="submenu__link" (click)="changeLocalization(lang.name)" >-->
+            <!--<img class="language__flag" [src]="lang.icon_url" alt="">-->
+            <!--<span class="language__text">{{lang.fullName | translate}}</span>-->
+            <!--</a>-->
+            <!--</li>-->
           </ul>
         </div>
       </li>
@@ -321,8 +307,8 @@
       <div class="account-info" *ngIf="!userInfo">
         <div class="account-info__img"><span class="info__img-empty">?</span></div>
         <div class="account-info__text">
-          <div class="account-info__title">New user</div>
-          <a class="account-info__email cursor-pointer" (click)="onMobileLogin()">login</a></div>
+          <div class="account-info__title">{{'New user' | translate}}</div>
+          <a class="account-info__email cursor-pointer" (click)="onMobileLogin()">{{'login' | translate}}</a></div>
         <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
       </div>
 
@@ -330,7 +316,7 @@
         <div class="account-info__img"><span class="info__img-empty">?</span></div>
         <div class="account-info__text">
           <div class="account-info__title">{{userInfo.username}}</div>
-          <a class="account-info__email cursor-pointer" (click)="onLogout()">logout</a></div>
+          <a class="account-info__email cursor-pointer" (click)="onLogout()">{{'logout' | translate}}</a></div>
         <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
       </div>
 
@@ -347,7 +333,7 @@
                 fill="white"/>
             </svg>
           </span>
-          <span class="menu-mob__link-text">Estimated holdings</span>
+          <span class="menu-mob__link-text">{{'Estimated holdings' | translate}}</span>
           <span class="menu-mob__link-holdings-inf">~ ${{(myBalance | async)?.USD | roundCurrency: true | formatCurrency}}</span>
         </a>
         <a
@@ -388,7 +374,7 @@
             </svg>
 
           </span>
-          <span class="menu-mob__link-text">Trade</span>
+          <span class="menu-mob__link-text">{{'Trade' | translate}}</span>
         </a>
         <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated()">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(FUNDS_FLAG)" [ngClass]="{'menu-mob__link--active': showFundsList}"
@@ -413,11 +399,11 @@
                   fill="white" stroke="white" stroke-width="0.25"/>
               </svg>
             </span>
-            <span class="menu-mob__link-text">Funds</span></a>
+            <span class="menu-mob__link-text">{{'Funds' | translate}}</span></a>
           <div class="menu-mob__wrap-links" *ngIf="showFundsList">
-            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/transaction-history">Transaction
-              history</a>
-            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">Balance</a>
+            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/transaction-history">
+              {{'Transaction history' | translate}}</a>
+            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">{{'Balance' | translate}}</a>
           </div>
         </div>
         <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated()">
@@ -450,11 +436,11 @@
               </svg>
 
             </span>
-            <span class="menu-mob__link-text">Orders</span>
+            <span class="menu-mob__link-text">{{'Orders' | translate}}</span>
           </a>
           <div class="menu-mob__wrap-links" *ngIf="showOrdersList">
-            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/orders/open">Open orders</a>
-            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/orders/closed">Orders history</a>
+            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/orders/open">{{'Open orders' | translate}}</a>
+            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/orders/closed">{{'Orders history' | translate}}</a>
           </div>
         </div>
         <!--<div class="menu-mob__drop-wrap">-->
@@ -485,7 +471,7 @@
         <!--</div>-->
         <!--</div>-->
         <a class="menu-mob__link" href="https://exrates.me/dashboard"><img class="menu-mob__link-icon" src="../../assets/img/newspaper.svg"><span
-          class="menu-mob__link-text">News</span></a>
+          class="menu-mob__link-text">{{'News' | translate}}</span></a>
       </nav>
     </div>
   </div>
@@ -495,13 +481,13 @@
          [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'graph' }"
          (click)="setMobileWidget('graph')">
         <img class="header-mob__submenu-link-img" src="../../assets/img/graph.svg">
-        <span class="header-mob__submenu-link-text">Graph</span>
+        <span class="header-mob__submenu-link-text">{{'Graph' | translate}}</span>
       </a>
       <a class="header-mob__submenu-link" [routerLink]="['dashboard']" [queryParams]="{widget: 'trading'}"
          [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'trading' }"
          (click)="setMobileWidget('trading')">
         <img class="header-mob__submenu-link-img" src="../../assets/img/trade.svg">
-        <span class="header-mob__submenu-link-text">Trade</span>
+        <span class="header-mob__submenu-link-text">{{'Trade' | translate}}</span>
       </a>
 
 
@@ -509,7 +495,7 @@
          routerLinkActive="header-mob__submenu-link--active"
          (click)="setMobileWidget('balance')" *ngIf="isAuthenticated()">
         <img class="header-mob__submenu-link-img" src="../../assets/img/wallet.svg">
-        <span class="header-mob__submenu-link-text">Balances</span>
+        <span class="header-mob__submenu-link-text">{{'Balances' | translate}}</span>
       </a>
       <a class="header-mob__submenu-link"
          [routerLink]="['dashboard']"
@@ -517,14 +503,14 @@
          routerLinkActive="header-mob__submenu-link--active"
          (click)="setMobileWidget('trade-history')" *ngIf="isAuthenticated()">
         <img class="header-mob__submenu-link-img" src="../../assets/img/history.svg">
-        <span class="header-mob__submenu-link-text">History</span>
+        <span class="header-mob__submenu-link-text">{{'History' | translate}}</span>
       </a>
       <a class="header-mob__submenu-link"
          [routerLink]="['orders/open']"
          routerLinkActive="header-mob__submenu-link--active"
          (click)="setMobileWidget('open')" *ngIf="isAuthenticated()">
         <img class="header-mob__submenu-link-img" src="../../assets/img/orders.svg">
-        <span class="header-mob__submenu-link-text">Open</span>
+        <span class="header-mob__submenu-link-text">{{'Open' | translate}}</span>
       </a>
 
 
@@ -534,7 +520,7 @@
          routerLinkActive="header-mob__submenu-link--active"
          (click)="setMobileWidget('markets')">
         <img class="header-mob__submenu-link-img" src="../../assets/img/markets.svg">
-        <span class="header-mob__submenu-link-text">Markets</span>
+        <span class="header-mob__submenu-link-text">{{'Markets' | translate}}</span>
       </a>
       <a class="header-mob__submenu-link"
          [routerLink]="['dashboard']"
@@ -542,7 +528,7 @@
          [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'order-book' }"
          (click)="setMobileWidget('order-book')">
         <img class="header-mob__submenu-link-img" src="../../assets/img/order-book.svg">
-        <span class="header-mob__submenu-link-text">Book</span>
+        <span class="header-mob__submenu-link-text">{{'Book' | translate}}</span>
       </a>
       <a class="header-mob__submenu-link"
          [routerLink]="['dashboard']"
@@ -550,7 +536,7 @@
          [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'chat' }"
          (click)="setMobileWidget('chat')">
         <img class="header-mob__submenu-link-img" src="../../assets/img/header-sumbenu-link6.svg">
-        <span class="header-mob__submenu-link-text">Chat</span>
+        <span class="header-mob__submenu-link-text">{{'Chat' | translate}}</span>
       </a>
     </div>
     <a class="header-mob__link header-mob__link-burger">

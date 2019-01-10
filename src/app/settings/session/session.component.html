@@ -1,7 +1,7 @@
 <div class="settings__content">
-  <h3 class="title settings__content-title">Session Time</h3>
+  <h3 class="title settings__content-title">{{'Session Time' | translate}}</h3>
   <h4> {{ statusMessage }}</h4>
-  <div class="subtitle settings__content-subtitle">Time period, when you stayed logged in system after the last action
+  <div class="subtitle settings__content-subtitle">{{'Time period, when you stayed logged in system after the last action' | translate}}
   </div>
   <form class="settings-form" [formGroup]="form" (ngSubmit)="onSubmit()">
     <!--<div class="input-range settings__time-range">-->
@@ -22,7 +22,7 @@
           type="number"
           formControlName="hours"
         >
-        <label class="wrap-input__label" for="">Hours</label>
+        <label class="wrap-input__label" for="">{{'Hours' | translate}}</label>
         <div class="wrap-input__line"></div>
 
         <!--Input Error section-->
@@ -30,7 +30,7 @@
           <!--<span class="wrap-input__message">-->
           <!--This value must be within 0 and 24.-->
           <!--</span>-->
-          <p>This value must be within 0 and 24.</p>
+          <p>{{'This value must be within 0 and 24.' | translate}}</p>
         </div>
 
       </div>
@@ -44,7 +44,7 @@
           type="number"
           formControlName="minutes"
         >
-        <label class="wrap-input__label" for="">Minutes</label>
+        <label class="wrap-input__label" for="">{{'Minutes' | translate}}</label>
         <div class="wrap-input__line"></div>
 
         <!--Input Error section-->
@@ -57,15 +57,15 @@
             <!--</span>-->
           <!--</div>-->
           <div *ngIf="minutesInput.errors['24hoursLimit']; else general">
-            <p>When 24 hours no minutes are allowed.</p>
+            <p>{{'When 24 hours no minutes are allowed.' | translate}}</p>
           </div>
           <ng-template #general>
-            <p>This value must be within 0 and 59.</p>
+            <p>{{'This value must be within 0 and 59.' | translate}}</p>
           </ng-template>
         </div>
 
       </div>
     </div>
-    <button class="btn settings__form-btn">Save</button>
+    <button class="btn settings__form-btn">{{'Save' | translate}}</button>
   </form>
 </div>

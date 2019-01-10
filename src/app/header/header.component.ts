@@ -8,9 +8,13 @@ import {UserService} from '../shared/services/user.service';
 import {SettingsService} from '../settings/settings.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 import {environment} from '../../environments/environment';
-import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG} from './header.constants';
+import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG, LANG_ARRAY} from './header.constants';
 import {MyBalanceItem} from '../core/models/my-balance-item.model';
 import {Observable} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
+import {select, Store} from '@ngrx/store';
+import {getLanguage, State} from '../core/reducers';
+import {ChangeLanguageAction} from '../core/actions/core.actions';
 
 @Component({
   selector: 'app-header',
@@ -29,6 +33,8 @@ export class HeaderComponent implements OnInit {
   public REFERRAL_FLAG = REFERRAL_FLAG;
   public ORDERS_FLAG = ORDERS_FLAG;
   public myBalance: Observable<MyBalanceItem>;
+  public langArray = LANG_ARRAY;
+  public lang;
 
 
   constructor(private popupService: PopupService,
@@ -38,8 +44,9 @@ export class HeaderComponent implements OnInit {
               private themeService: ThemeService,
               private settingsService: SettingsService,
               private dashboardService: DashboardService,
-              private userService: UserService) {
-  }
+              private userService: UserService,
+              private store: Store<State>,
+              public translate: TranslateService) {}
 
   ngOnInit() {
     this.resetDropdowns();
@@ -63,6 +70,10 @@ export class HeaderComponent implements OnInit {
       this.mobileView = res;
     });
     this.myBalance = this.dashboardService.getMyBalances();
+
+    this.store.pipe(select(getLanguage)).subscribe(res => {
+      this.lang = this.langArray.filter(lang => lang.name === res)[0];
+    });
   }
 
   public openMenu() {
@@ -82,6 +93,10 @@ export class HeaderComponent implements OnInit {
     return this.authService.getUsername();
   }
 
+  changeLocalization(lang: string) {
+    this.lang = this.langArray.filter(item => item.name === lang.toLowerCase())[0];
+    this.store.dispatch(new ChangeLanguageAction(lang));
+}
 
   onLogin() {
     this.logger.debug(this, 'Sign in attempt');

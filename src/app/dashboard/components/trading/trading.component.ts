@@ -4,6 +4,7 @@ import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
 
+
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {Order} from './order.model';
 import {TradingService} from './trading.service';
@@ -28,6 +29,7 @@ import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
 import {defaultOrderItem} from '../../reducers/default-values';
 import {AuthService} from 'app/shared/services/auth.service';
 import {UtilsService} from 'app/shared/services/utils.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-trading',
@@ -95,6 +97,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     private userService: UserService,
     private authService: AuthService,
     private utils: UtilsService,
+    public translateService: TranslateService
   ) {
     super();
   }

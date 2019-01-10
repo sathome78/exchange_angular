@@ -98,9 +98,9 @@
   <div class="overlay" *ngIf="showRecoveryPassPopup">
     <div class="popup popup-registration">
       <div class="popup__close" (click)="closeRecoveryPassPopup()"></div>
-      <h6 class="popup__title">Thank you!</h6>
-      <h4 class="popup__subtitle">Now you can login <br> with your new password</h4>
-      <button class="btn popup__btn" (click)="goToLogin()">Login</button>
+      <h6 class="popup__title">{{'Thank you!' | translate}}</h6>
+      <h4 class="popup__subtitle" [innerHTML]="'Now you can login <br> with your new password' | translate"></h4>
+      <button class="btn popup__btn" (click)="goToLogin()">{{'Login' | translate}}</button>
     </div>
   </div>
 

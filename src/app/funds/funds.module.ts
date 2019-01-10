@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {MyDatePickerModule} from 'mydatepicker';
@@ -46,6 +46,13 @@ import {PendingRequestDetailsComponent} from './pending-request-details/pending-
 import {PendingRequestInfoComponent} from './pending-request-info/pending-request-info.component';
 import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
 import {TransactionsService} from './services/transaction.service';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {translateInfo} from '../shared/configs/translate-options';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
+}
 
 @NgModule({
   imports: [
@@ -60,6 +67,14 @@ import {TransactionsService} from './services/transaction.service';
     EffectsModule.forRoot([FundsEffects]),
     StoreModule.forFeature('funds', reducer),
     FundsRoutingModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      },
+      isolate: true
+    }),
   ],
   declarations: [
     FundsComponent,

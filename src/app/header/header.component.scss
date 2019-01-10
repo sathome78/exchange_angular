@@ -81,7 +81,7 @@
       &--disabled {
         &:hover {
           .submenu {
-            display: none;
+            display: block;
           }
           .menu__link{
             &:hover{

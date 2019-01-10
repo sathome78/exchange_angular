@@ -1,6 +1,6 @@
-<div class="title modal__title">Identity Verification</div>
+<div class="title modal__title">{{'Identity Verification' | translate}}</div>
 <div class="subtitle modal__subtitle">
-  <p>Please fill this form below</p>
+  <p>{{'Please fill this form below' | translate}}</p>
 </div>
 <form class="passport-form" [formGroup]="form">
   <div class="passport-form__content-row">
@@ -9,7 +9,7 @@
         class="wrap-input__input"
         type="text"
         formControlName="firstName">
-      <label class="wrap-input__label">First name</label>
+      <label class="wrap-input__label">{{'First name' | translate}}</label>
       <div class="wrap-input__line"></div>
     </div>
     <div class="wrap-input passport-form__input">
@@ -18,7 +18,7 @@
         type="text"
         formControlName="lastName"
       >
-      <label class="wrap-input__label">Last name</label>
+      <label class="wrap-input__label">{{'Last name' | translate}}</label>
       <div class="wrap-input__line"></div>
     </div>
     <div class="wrap-input passport-form__input">
@@ -49,7 +49,7 @@
         type="text"
         formControlName="address"
       >
-      <label class="wrap-input__label">Residental address</label>
+      <label class="wrap-input__label">{{'Residental address' | translate}}</label>
       <div class="wrap-input__line"></div>
     </div>
   </div>
@@ -60,7 +60,7 @@
         type="text"
         formControlName="address"
       >
-      <label class="wrap-input__label">Residental address</label>
+      <label class="wrap-input__label">{{'Residental address' | translate}}</label>
       <div class="wrap-input__line"></div>
     </div>
     <div class="wrap-input passport-form__input">
@@ -68,7 +68,7 @@
         class="wrap-input__input"
         type="text"
         formControlName="postalCode">
-      <label class="wrap-input__label">Postal code</label>
+      <label class="wrap-input__label">{{'Postal code' | translate}}</label>
       <div class="wrap-input__line"></div>
     </div>
   </div>
@@ -79,7 +79,7 @@
         type="text"
         formControlName="country"
       >
-      <label class="wrap-input__label">Country</label>
+      <label class="wrap-input__label">{{'Country' | translate}}</label>
       <div class="wrap-input__line"></div>
     </div>
     <div class="wrap-input passport-form__input passport-form__input--half">
@@ -88,9 +88,9 @@
         type="text"
         formControlName="city"
       >
-      <label class="wrap-input__label">City</label>
+      <label class="wrap-input__label">{{'City' | translate}}</label>
       <div class="wrap-input__line"></div>
     </div>
   </div>
-  <button class="btn btn--center" (click)="onSubmit()">Submit</button>
+  <button class="btn btn--center" (click)="onSubmit()">{{'Submit' | translate}}</button>
 </form>
