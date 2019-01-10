@@ -29,6 +29,8 @@ import {LoaderComponent} from './components/loader/loader.component';
 import {GetIconUrl} from './pipes/get-icon-url';
 import {ExcludeByFieldPipe} from './pipes/exclude-by-field.pipe';
 import {TranslateModule} from '@ngx-translate/core';
+import {DynamicInputComponent} from './components/dynamic-input/dynamic-input.component';
+
 
 @NgModule({
   declarations: [
@@ -50,6 +52,7 @@ import {TranslateModule} from '@ngx-translate/core';
     PageItemsDropdownComponent,
     DateWrapper,
     LoaderComponent,
+    DynamicInputComponent,
   ],
   imports: [
     FormsModule,
@@ -86,6 +89,7 @@ import {TranslateModule} from '@ngx-translate/core';
     LoaderComponent,
     DateWrapper,
     GetIconUrl,
+    DynamicInputComponent,
   ],
   providers: [
     NotificationsService,

@@ -32,8 +32,10 @@ export class AuthInterceptor implements HttpInterceptor {
       // console.log(copiedReq);
       return next.handle(copiedReq);
     } else {
+      const headers = req.headers
+        .append('Content-Type', 'application/json')
       const copiedReq = req.clone({
-        headers: MEDIA_TYPE_JSON,
+        headers,
       });
       return next.handle(copiedReq);
     }
