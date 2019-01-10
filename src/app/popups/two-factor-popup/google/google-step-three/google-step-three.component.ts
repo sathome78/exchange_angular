@@ -32,6 +32,7 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep {
         console.log(err);
       });
     this.form = new FormGroup({
+      'email': new FormControl('', {validators: [Validators.required]}),
       'password': new FormControl('', {validators: [Validators.required]}),
       'pincode': new FormControl('', {validators: [Validators.required]})
     });
