@@ -3,6 +3,7 @@ import {Action} from '@ngrx/store';
 export const SAVE_TO_STORE = '[Core] Saves data to app store';
 export const SAVE_COMPLETE = '[Core] Saving user location data to cookie is complete';
 export const SAVE_TOKEN = '[Core] Saves user\'s auth token';
+export const CHANGE_LANGUAGE = '[Core] Change language';
 export const REHYDRATE = '[Core] Rehydrate store';
 
 
@@ -26,6 +27,14 @@ export const FAIL_LOAD_CURRENCIES_FOR_CHOOSE = '[Funds] Fail Load currencies for
 export class SaveToStoreAction implements Action {
   readonly type = SAVE_TO_STORE;
   constructor(public payload: {currency?: string; region?: string, language?: string }) {}
+}
+
+/**
+ * Change language
+ */
+export class ChangeLanguageAction implements Action {
+  readonly type = CHANGE_LANGUAGE;
+  constructor(public payload: string) {}
 }
 
 /**
@@ -135,3 +144,4 @@ export type Actions
   | SetCryptoCurrenciesForChoose
   | SetFiatCurrenciesForChoose
   | FailLoadCurrenciesForChoose
+  | ChangeLanguageAction

@@ -37,7 +37,6 @@ export class DashboardWebSocketService implements OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(pair => {
         this.currentCurrencyPair = pair;
-        console.log(pair);
       });
   }
 

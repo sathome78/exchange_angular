@@ -1,6 +1,6 @@
-<div class="title modal__title">Two-Factor authentication by Google Authenticator</div>
+<div class="title modal__title">{{"Two-Factor authentication by Google Authenticator" | translate}}</div>
 <div class="subtitle modal__subtitle">
-  <p>Use Google Authenticator to scan the QRCode</p>
+  <p >{{"Use Google Authenticator to scan the QRCode" | translate}}</p>
 </div>
 <!--<h3>{{statusMessage}}</h3>-->
 
@@ -9,15 +9,15 @@
 <div class="modal__code-2fa">
   <!--SECRET HASH-->
   <h6> {{ secretCode }}</h6>
-  <span>Please save a backup of your <br> recovery key</span>
+  <span translate>Please save a backup of your <br> recovery key</span>
 </div>
 </div>
 
-<button class="btn btn--active btn--center" (click)="onNextStep()">Ok, I did it</button>
+<button class="btn btn--active btn--center" (click)="onNextStep()">{{"Ok, I did it" | translate}}</button>
 
 <div class="note modal__note">
-  <div class="note__title">Please note:</div>
+  <div class="note__title">{{"Please note:" | translate}}</div>
   <ul class="note__list">
-    <li class="note__list-item">This code changes each time you enable 2FA. If you disable 2FA this code will no longer be valid.</li>
+    <li class="note__list-item" translate>This code changes each time you enable 2FA. If you disable 2FA this code will no longer be valid.</li>
   </ul>
 </div>

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { LoggingService } from '../../shared/services/logging.service';
 import { keys } from '../../core/keys';
 import { isCombinedNodeFlagSet } from 'tslint';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login-popup-mobile',
@@ -45,6 +46,7 @@ export class LoginPopupMobileComponent implements OnInit {
     private userService: UserService,
     private logger: LoggingService,
     private authService: AuthService,
+    private translateService: TranslateService,
     private router: Router,
   ) {
   }
@@ -97,7 +99,7 @@ export class LoginPopupMobileComponent implements OnInit {
       .subscribe(result => {
         if (result && !this.inPineCodeMode) {
           this.isGA = true;
-          this.twoFaAuthModeMessage = 'Use google authenticator to generate pincode';
+          this.twoFaAuthModeMessage = this.translateService.instant('Use google authenticator to generate pincode');
         }
       },
         err => console.log(err));
@@ -108,20 +110,20 @@ export class LoginPopupMobileComponent implements OnInit {
     switch (status) {
       case 401:
       case 422:
-        this.statusMessage = 'Wrong email or password!';
+        this.statusMessage = this.translateService.instant('Wrong email or password!');
         break;
       case 426:
-        this.statusMessage = `Seems, that your user is still inactive. Email with activation link has been sent to your email address. Please, check and follow the instructions. If you can't find our mail, then please try to send the link again.`;
+        this.statusMessage = this.translateService.instant(`Seems, that your user is still inactive. Email with activation link has been sent to your email address. Please, check and follow the instructions. If you can't find our mail, then please try to send the link again.`);
         // this.showSendAgainBtn = true;
         break;
       case 403:
-        this.statusMessage = 'You are not allowed to access';
+        this.statusMessage = this.translateService.instant('You are not allowed to access');
         break;
       case 410:
-        this.statusMessage = 'Your account has been blocked. To find out the reason of blocking - contact the exchange support service.';
+        this.statusMessage = this.translateService.instant('Your account has been blocked. To find out the reason of blocking - contact the exchange support service.');
         break;
       case 419:
-        this.statusMessage = 'Your ip is blocked!';
+        this.statusMessage = this.translateService.instant('Your ip is blocked!');
         break;
       case 418:
         this.checkGoogleLoginEnabled(this.email);
@@ -131,13 +133,13 @@ export class LoginPopupMobileComponent implements OnInit {
           this.isError = true;
           this.twoFaAuthModeMessage = this.pincodeAttempts === 3 ?
             this.isGA ?
-              ' Code is wrong! Please, check you code in Google Authenticator application.' :
-              'Code is wrong! New code was sent to your email.' :
-            'Code is wrong!';
+              this.translateService.instant(' Code is wrong! Please, check you code in Google Authenticator application.') :
+              this.translateService.instant('Code is wrong! New code was sent to your email.') :
+            this.translateService.instant('Code is wrong!');
           this.pincodeAttempts = this.pincodeAttempts === 3 ? 0 : this.pincodeAttempts;
           this.pinForm.get('pin').patchValue('');
         } else {
-          this.statusMessage = 'Pin code is required!';
+          this.statusMessage = this.translateService.instant('Pin code is required!');
         }
     }
   }

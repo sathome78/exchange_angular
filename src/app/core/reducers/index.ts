@@ -58,6 +58,7 @@ export const getTradingType = createSelector(getDashboardState, fromDashboard.ge
  * Selectors from Core module
  */
 
+export const getLanguage = createSelector(getCoreState, fromCore.getLanguage);
 export const getSimpleCurrencyPairsSelector = createSelector(getCoreState, fromCore.getAllSimpleCurrencyPairs);
 export const getAllCurrenciesForChoose = createSelector(getCoreState, fromCore.getAllCurrenciesForChoose);
 export const getCryptoCurrenciesForChoose = createSelector(getCoreState, fromCore.getCryptoCurrenciesForChoose);
