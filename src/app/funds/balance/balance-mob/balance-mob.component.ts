@@ -85,6 +85,11 @@ export class BalanceMobComponent implements OnInit{
     return this.utils.isFiat(currName);
   }
 
+  public onSearchCoin(event) {
+    this.currencyForChoose = event;
+    this.filterByCurrencyForMobile.emit({currTab: this.currTab, currency: this.currencyForChoose});
+  }
+
   ngOnInit() { }
 
 }

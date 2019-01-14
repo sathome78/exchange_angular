@@ -1,0 +1,36 @@
+:host {
+  width: 185px;
+}
+
+.select__list-searching-body{
+  padding-top: 0;
+}
+
+perfect-scrollbar{
+  max-height: 260px;
+}
+
+ul.select__list {
+  z-index: 61;
+  .select__list-item{
+    &:hover{
+      background-color: #191f42;
+    }
+  }
+}
+
+@media (max-width: 1200px){
+
+  .wrap-input__icon {
+    display: none;
+  }
+  .wrap-input__input{
+    padding-left: 20px;
+  }
+  .pair-popup__input .wrap-input__label {
+    left: 18px;
+  }
+  ul.select__list {
+    top: 37px;
+  }
+}
