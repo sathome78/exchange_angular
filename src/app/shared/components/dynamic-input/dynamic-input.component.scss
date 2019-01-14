@@ -1,3 +1,63 @@
 .active {
   background-color: rgba(255, 255, 255, 0.1);
 }
+:host{
+  height: 100%;
+}
+.dynamic-input{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  &__wrap{
+    position: relative;
+    display: flex;
+    align-self: center;
+    height: 36px;
+    width: 130px;
+    margin-left: 16px;
+    border: 1px solid #6C738C;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+  }
+  &__input{
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0 0 0 8px;
+    //margin-right: 20px;
+    background-color: #191A39;
+    border: none;
+    color:#fff;
+    font-size: 16px;
+    outline: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+  }
+  &__triangle {
+    position: absolute;
+    top: 16px;
+    right: 8px;
+    border-top: 5px solid #6C738C;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+  }
+  &__list{
+    margin-left: 16px;
+    .dropdown__list{
+      width: 100%;
+      top: calc(100% - 3px);
+      border: 1px solid #6C738C;
+    }
+    .dropdown__item{
+      font-size: 16px;
+      padding: 6px 8px;
+      text-align: left;
+    }
+  }
+}
+::ng-deep .ps__rail-y {
+  margin-right: 2px !important;
+}

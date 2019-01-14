@@ -24,25 +24,27 @@
       (onChange)="onChangeCurrPair($event)"
       (onSelect)="onSelectPair($event.text)"
     ></app-dynamic-input>
-    <div class="currency-pair-info__info" style="min-width: 224px;"
+    <div class="currency-pair-info__info" style="min-width: 180px;"
          [ngClass]="{'currency-pair-info__info--up': flarForArrow('up'),
                      'currency-pair-info__info--down': flarForArrow('down')}">
-      <div class="currency-pair-info__change">
+      <div class="currency-pair-info__info-inner">
+        <div class="currency-pair-info__change">
         <span>
           {{currentCurrencyInfo?.percentChange || 0 | number:'1.0-2' | replaceNumber}}%
         </span>
-        <!--<span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{!currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange}}%</span>-->
-        <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="" *ngIf="flarForArrow('up')">
-        <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="" *ngIf="flarForArrow('down')">
-        <span style="margin-left: 10px;">
+          <!--<span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{!currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange}}%</span>-->
+          <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="" *ngIf="flarForArrow('up')">
+          <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="" *ngIf="flarForArrow('down')">
+          <span>
           {{currentCurrencyInfo?.changedValue || 0 | replaceNumber : isFiat(2) }} {{pair.currencyPairName | splitCurrency : 2}}
         </span>
-      </div>
-      <div class="currency-pair-info__price">
-        {{currentCurrencyInfo?.currencyRate || 0 | replaceNumber : isFiat(2) }} {{pair.currencyPairName | splitCurrency : 2}}
+        </div>
+        <div class="currency-pair-info__price">
+          {{currentCurrencyInfo?.currencyRate || 0 | replaceNumber : isFiat(2) }} {{pair.currencyPairName | splitCurrency : 2}}
+        </div>
       </div>
     </div>
-    <div class="currency-pair-info__item" style="min-width: 130px;">
+    <div class="currency-pair-info__item" style="min-width: 130px; padding-left: 0;">
       <div class="currency-pair-info__item-title">{{'24h hight' | translate}}</div>
       <span class="currency-pair-info__item-value">
         {{currentCurrencyInfo?.rateHigh || 0 | number:'1.0-8' | replaceNumber }}

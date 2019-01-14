@@ -83,11 +83,10 @@
     margin-bottom: 8px;
   }
   &__arr-down, &__arr-up{
-    margin-left: 4px;
-    margin-right: 12px;
+    margin-left: 2px;
+    margin-right: 4px;
   }
   &__price{
-    font-size: 18px;
   }
   &__item{
     display: none;
@@ -100,13 +99,13 @@
 @media (min-width: 1200px) {
   .currency-pair-info {
     display: block;
-    height: 80px;
+    height: 48px;
     margin-bottom: 20px;
     &--mob{
       display: none;
     }
     &__inner {
-      padding: 0 48px;
+      //padding: 0;
     }
     &__pair {
       min-width: 180px;
@@ -135,12 +134,11 @@
       margin: 0 20px;
     }
     &__info{
-      padding: 0 16px;
-      margin-left: 52px;
+      padding: 0 12px;
+      margin-left: 33px;
       margin-right: 12px;
     }
     &__price{
-      font-size: 24px;
     }
     &__item{
       display: block;
