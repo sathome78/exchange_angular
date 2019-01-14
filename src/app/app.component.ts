@@ -120,9 +120,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .getRegistrationMobilePopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
-        console.log('3');
         this.isRegistrationMobilePopupOpen = value;
-        console.log(this.isRegistrationMobilePopupOpen);
       });
   }
 
