@@ -216,14 +216,26 @@
               ${{(myBalance | async)?.USD | roundCurrency: true | formatCurrency}}
             </span>
           </div>
-          <a class="menu__link" routerLink="/settings" (click)="tempPopup()" *ngIf="isVisible()">
+          <a class="menu__link login-menu__link" routerLink="/settings" (click)="tempPopup()" *ngIf="isVisible()">
             <span class="menu__link-text">{{'Settings' | translate}}</span>
           </a>
-          <a class="menu__link menu__link--auth--log" (click)="onLogout()">
+          <a class="menu__link login-menu__link menu__link--auth--log" (click)="onLogout()" style="padding-bottom: 16px;">
             <span class="menu__link-text">{{'Log out' | translate}}</span>
           </a>
         </div>
       </ng-container>
+      <ng-template #login>
+        <li class="menu__item">
+          <a class="menu__link menu__link--auth--log" (click)="onMobileLogin()">
+            <span class="menu__link-text">{{'Log In' | translate}}</span>
+          </a>
+        </li>
+        <li class="menu__item">
+          <a class="menu__link menu__link--auth--reg" (click)="openRegistration()">
+            <span class="menu__link-text">{{'Sign In' | translate}}</span>
+          </a>
+        </li>
+      </ng-template>
     </div>
     <!--<ul class="menu login-menu">-->
       <!--<ng-container *ngIf="isAuthenticated(); else login">-->
