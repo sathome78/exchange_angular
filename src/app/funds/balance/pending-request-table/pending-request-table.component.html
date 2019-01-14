@@ -68,7 +68,7 @@
   </tr>
 
   <tr class="table__row" *ngIf="!pendingRequests.length && !loading">
-    <td class="table__cell" colspan="10">
+    <td class="table__cell  table__cell--tac" colspan="10">
       {{'No matching records found' | translate}}
     </td>
   </tr>
@@ -76,13 +76,16 @@
 </table>
 
  <!--paginator start-->
- <div class="row row--aic balance__paginator">
+<div
+  class="row row--aic balance__paginator"
+  *ngIf="countOfEntries > countPerPage"
+>
   <app-page-items-dropdown
     [countPerPage]="countPerPage"
     [countOfEntries]="countOfEntries"
     (onChange)="changeItemsPerPage($event)"
   ></app-page-items-dropdown>
-  <ul class="paginator" style="margin-left: auto;" *ngIf="countOfEntries > countPerPage">
+  <ul class="paginator" style="margin-left: auto;">
     <pagination-controls
       maxSize="7"
       [previousLabel]="''"

@@ -309,13 +309,16 @@
     </table>
     <!--table end-->
      <!--paginator start-->
-     <div class="row row--aic orders__paginator">
+    <div
+      class="row row--aic orders__paginator"
+      *ngIf="(countOfEntries$ | async) > countPerPage"
+    >
         <app-page-items-dropdown
           [countPerPage]="countPerPage"
           [countOfEntries]="countOfEntries$ | async"
           (onChange)="changeItemsPerPage($event)"
         ></app-page-items-dropdown>
-        <ul class="paginator" style="margin-left: auto;"  *ngIf="(countOfEntries$ | async) > countPerPage">
+        <ul class="paginator" style="margin-left: auto;">
           <pagination-controls
             maxSize="7"
             [previousLabel]="''"
