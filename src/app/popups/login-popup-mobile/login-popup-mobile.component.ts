@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { PopupService } from '../../shared/services/popup.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { TokenHolder } from '../../model/token-holder.model';
 import { UserService } from '../../shared/services/user.service';
 import { AuthService } from '../../shared/services/auth.service';
@@ -9,6 +9,7 @@ import { LoggingService } from '../../shared/services/logging.service';
 import { keys } from '../../core/keys';
 import { isCombinedNodeFlagSet } from 'tslint';
 import {TranslateService} from '@ngx-translate/core';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-login-popup-mobile',
@@ -17,7 +18,6 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class LoginPopupMobileComponent implements OnInit {
 
-  emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
   public recaptchaKey = keys.recaptchaKey;
   isPasswordVisible = false;
   twoFaAuthModeMessage = 'Please enter two-factor <br> authentication code';
@@ -47,6 +47,7 @@ export class LoginPopupMobileComponent implements OnInit {
     private logger: LoggingService,
     private authService: AuthService,
     private translateService: TranslateService,
+    private utilsService: UtilsService,
     private router: Router,
   ) {
   }
@@ -58,7 +59,7 @@ export class LoginPopupMobileComponent implements OnInit {
 
   initForm() {
     this.loginForm = new FormGroup({
-      email: new FormControl('', { validators: [Validators.required, Validators.pattern(this.emailRegex)], updateOn: 'blur' }),
+      email: new FormControl('', { validators: [Validators.required, this.utilsService.emailValidator()]}),
       password: new FormControl('', { validators: Validators.required })
     });
     this.pinForm = new FormGroup({
@@ -151,7 +152,7 @@ export class LoginPopupMobileComponent implements OnInit {
   afterResolvedCaptcha(event) {
     // this.setTemplate('logInTemplate');
     if (this.loginForm.valid) {
-      this.email = this.loginForm.get('email').value;
+      this.email = this.loginForm.get('email').value.trim();
       this.password = this.loginForm.get('password').value;
       if (this.inPineCodeMode) {
         this.pin = this.pinForm.get('pin').value;
