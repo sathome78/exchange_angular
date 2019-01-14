@@ -23,19 +23,30 @@
   <!--filters start-->
   <form action="">
     <div class="balance__filters">
-      <div class="wrap-input wrap-input--with-icon balance__search-mob">
-        <ng-select
-          class="custom"
-          [items]="currTab === Tab.CRYPTO ? cryptoCurrenciesForChoose : fiatCurrenciesForChoose"
-          bindLabel="name"
-          placeholder="Search"
-          bindValue="name"
-          name="currency"
-          [(ngModel)]="currencyForChoose"
-          (ngModelChange)="filterByCurrencyForMobile.emit({currTab: this.currTab, currency: this.currencyForChoose})"
-        ></ng-select>
-        <div class="wrap-input__line"></div>
-      </div>
+
+
+      <!--<div class="wrap-input wrap-input&#45;&#45;with-icon balance__search-mob">-->
+        <!--<ng-select-->
+          <!--class="custom"-->
+          <!--[items]="currTab === Tab.CRYPTO ? cryptoCurrenciesForChoose : fiatCurrenciesForChoose"-->
+          <!--bindLabel="name"-->
+          <!--placeholder="Search"-->
+          <!--bindValue="name"-->
+          <!--name="currency"-->
+          <!--[(ngModel)]="currencyForChoose"-->
+          <!--(ngModelChange)="filterByCurrencyForMobile.emit({currTab: this.currTab, currency: this.currencyForChoose})"-->
+        <!--&gt;</ng-select>-->
+        <!--<div class="wrap-input__line"></div>-->
+      <!--</div>-->
+
+      <app-custom-search-input
+        style="width: 90px; margin-right: 10px;"
+        class="wrap-input wrap-input--with-icon balance__search"
+        [coins]="currTab === Tab.CRYPTO ? cryptoCurrenciesForChoose : fiatCurrenciesForChoose"
+        (selectedCoin)="onSearchCoin($event)"
+      >
+      </app-custom-search-input>
+
       <span>{{'Price in' | translate}}</span>
       <div class="dropdown" #dropdown (click)="onToggleDropdown()">
         <div class="dropdown__btn">{{priceIn}}</div>
