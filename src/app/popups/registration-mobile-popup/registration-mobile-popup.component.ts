@@ -34,6 +34,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
   public firstName;
   public emailMessage = '';
   public afterCaptchaMessage;
+  private symbolsRegex = /[!№#$%^&*<>()=']/ig;
 
   constructor(
     private popupService: PopupService,
@@ -111,7 +112,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   emailSubmit() {
     this.emailSubmited = true;
-    if (this.emailForm.valid && this.agreeTerms) {
+    if (this.emailForm.valid && this.agreeTerms && this.emailMessage === '') {
       const email = this.emailForm.get('email').value.trim();
       this.email = email;
       this.userService.checkIfEmailExists(email).subscribe(res => {
@@ -129,7 +130,14 @@ export class RegistrationMobilePopupComponent implements OnInit {
   }
 
   emailInput(e) {
-    this.emailMessage = '';
+    if (e.data === ' ') {
+      const temp = this.deleteSpace(e.target.value);
+      this.emailForm.controls['email'].setValue(temp);
+    }
+
+    e.target.value.match(this.symbolsRegex) ?
+      this.emailMessage = 'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' :
+      this.emailMessage = '';
   }
 
   nameSubmit() {
@@ -139,6 +147,16 @@ export class RegistrationMobilePopupComponent implements OnInit {
       // this.userService.checkIfUsernameExists(this.firstName).subscribe(res => console.log(res));
       this.setTemplate('captchaTemplate');
     }
+  }
+
+  deleteSpace(value): string {
+    if (value) {
+      const replaceMask = '';
+      const searchMask = ' ';
+      const regex = new RegExp(searchMask, 'ig');
+      return value.toString().replace(regex, replaceMask);
+    }
+    return '';
   }
 
 }
