@@ -142,9 +142,10 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   selectedTab(value: string): void {
     this.currencyDisplayMode = value;
     this.isFiat = value === 'USD';
-    this.pairs = this.choosePair(value);
+    this.pairs = this.choosePair(value)
+      .filter(f => f.currencyPairName.toUpperCase().match(this.searchInput.toUpperCase()));;
     // this.prefPairs = this.choosePrefPairs();
-    this.searchInput = '';
+    // this.searchInput = '';
   }
 
   /**
@@ -185,9 +186,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   // }
 
   /** Filter markets data by search-data*/
-  searchPair(event: string): void {
+  searchPair(value: string): void {
     this.pairs = this.choosePair(this.currencyDisplayMode)
-      .filter(f => f.currencyPairName.toUpperCase().match(event.toUpperCase()));
+      .filter(f => f.currencyPairName.toUpperCase().match(value.toUpperCase()));
   }
 
   /**
