@@ -1,11 +1,10 @@
-
 import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
 import {BalanceService} from '../../../../services/balance.service';
 import {select, Store} from '@ngrx/store';
-import { State, getCryptoCurrenciesForChoose} from 'app/core/reducers';
+import {State, getCryptoCurrenciesForChoose} from 'app/core/reducers';
 import {COPY_ADDRESS} from '../../../send-money/send-money-constants';
 import {BalanceItem} from '../../../../models/balance-item.model';
 import {RefillData} from '../../../../../shared/interfaces/refill-data-interface';
@@ -30,7 +29,6 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public activeCrypto;
   public openCurrencyDropdown = false;
   public isGenerateNewAddress = false;
-  private firstGenerate = true;
   public address;
   public additionalAddress;
   public alphabet;
@@ -38,10 +36,10 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public currentMerchant;
 
   /** Are listening click in document */
-  @HostListener('document:click', ['$event']) clickout({ target }) {
+  @HostListener('document:click', ['$event']) clickout({target}) {
     if (target.className !== 'select__value select__value--active' &&
-        target.className !== 'select__search-input' &&
-        target.className !== 'select__triangle') {
+      target.className !== 'select__search-input' &&
+      target.className !== 'select__triangle') {
       this.openCurrencyDropdown = false;
     }
   }
@@ -49,7 +47,8 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<State>,
     public balanceService: BalanceService,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.store
@@ -107,15 +106,15 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     this.balanceService.getCurrencyData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.cryptoDataByName = res;
-        this.identifyCrypto();
-      }, error => {
-        this.isGenerateNewAddress = false;
-        this.cryptoDataByName = null;
-        const msg = 'Sorry, refill is unavailable for current moment!';
-        this.setError(msg);
-      }
-  );
+          this.cryptoDataByName = res;
+          this.identifyCrypto();
+        }, error => {
+          this.isGenerateNewAddress = false;
+          this.cryptoDataByName = null;
+          const msg = 'Sorry, refill is unavailable for current moment!';
+          this.setError(msg);
+        }
+      );
   }
 
   showGenerateAddressBtn(flag: boolean) {
@@ -141,11 +140,9 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         sum: 0
       };
 
-      if (this.firstGenerate && this.cryptoDataByName && this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable) {
+      if (this.cryptoDataByName && this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable) {
         data.generateNewAddress = true;
       }
-
-      this.firstGenerate = true;
 
       this.balanceService.refill(data)
         .pipe(takeUntil(this.ngUnsubscribe))
@@ -199,7 +196,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     document.body.removeChild(selBox);
   }
 
-  private changeCopyBtn (name: string) {
+  private changeCopyBtn(name: string) {
     switch (name) {
       case COPY_ADDRESS:
         this.isSowCopyAddress = true;
@@ -219,14 +216,23 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
 
   private identifyCrypto() {
 
-      this.currentMerchant = this.cryptoDataByName.merchantCurrencyData[0];
-      if (this.currentMerchant) {
-        this.firstGenerate = false;
-        this.generateNewAddress();
-        this.showGenerateAddressBtn(this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable);
+    this.currentMerchant = this.cryptoDataByName.merchantCurrencyData[0];
+    if (this.currentMerchant) {
+      if (this.currentMerchant.additionalTagForWithdrawAddressIsUsed) {
+        this.address = this.currentMerchant.mainAddress;
+        this.additionalAddress = this.currentMerchant.address;
       } else {
-        this.showGenerateAddressBtn(false);
+        this.address = this.currentMerchant.address;
+        this.additionalAddress = '';
       }
+    }
+    if (this.currentMerchant) {
+      this.showGenerateAddressBtn(this.cryptoDataByName.address === '' ?
+        true :
+        this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable);
+    } else {
+      this.showGenerateAddressBtn(false);
+    }
   }
 }
 
