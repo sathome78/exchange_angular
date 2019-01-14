@@ -225,9 +225,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         this.address = this.currentMerchant.address;
         this.additionalAddress = '';
       }
-    }
-    if (this.currentMerchant) {
-      this.showGenerateAddressBtn(this.cryptoDataByName.address === '' ?
+      this.showGenerateAddressBtn(this.cryptoDataByName.merchantCurrencyData[0].address === '' ?
         true :
         this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable);
     } else {
