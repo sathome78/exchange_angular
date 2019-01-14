@@ -30,6 +30,7 @@ import {GetIconUrl} from './pipes/get-icon-url';
 import {ExcludeByFieldPipe} from './pipes/exclude-by-field.pipe';
 import {TranslateModule} from '@ngx-translate/core';
 import {DynamicInputComponent} from './components/dynamic-input/dynamic-input.component';
+import { CustomSearchInputComponent } from './components/custom-search-input/custom-search-input.component';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import {DynamicInputComponent} from './components/dynamic-input/dynamic-input.co
     DateWrapper,
     LoaderComponent,
     DynamicInputComponent,
+    CustomSearchInputComponent,
   ],
   imports: [
     FormsModule,
@@ -67,7 +69,7 @@ import {DynamicInputComponent} from './components/dynamic-input/dynamic-input.co
   exports: [
     InfiniteScrollModule,
     PerfectScrollbarModule,
-
+    CustomSearchInputComponent,
     QRCodeModule,
     RecaptchaModule,
     InfiniteScrollModule,
