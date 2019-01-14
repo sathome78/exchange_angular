@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { PopupService } from '../../shared/services/popup.service';
-import { FormControl, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TokenHolder } from '../../model/token-holder.model';
 import { UserService } from '../../shared/services/user.service';
 import { AuthService } from '../../shared/services/auth.service';
