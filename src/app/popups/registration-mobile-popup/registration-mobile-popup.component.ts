@@ -129,6 +129,10 @@ export class RegistrationMobilePopupComponent implements OnInit {
   }
 
   emailInput(e) {
+    if (e.data === ' ') {
+      const temp = this.deleteSpace(e.target.value);
+      this.emailForm.controls['email'].setValue(temp);
+    }
    e.target.value.match(this.symbolsRegex) ?
      this.emailMessage = 'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' :
      this.emailMessage = '';
@@ -141,6 +145,16 @@ export class RegistrationMobilePopupComponent implements OnInit {
       // this.userService.checkIfUsernameExists(this.firstName).subscribe(res => console.log(res));
       this.setTemplate('captchaTemplate');
     }
+  }
+
+  deleteSpace(value): string {
+    if (value) {
+      const replaceMask = '';
+      const searchMask = ' ';
+      const regex = new RegExp(searchMask, 'ig');
+      return value.toString().replace(regex, replaceMask);
+    }
+    return '';
   }
 
 }

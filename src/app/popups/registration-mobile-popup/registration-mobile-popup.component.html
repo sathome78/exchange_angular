@@ -156,7 +156,7 @@
       <form class="popup__form" [formGroup]="emailForm">
         <div >
           <div class="wrap-input popup__wrap-input"
-               [ngClass]="{'wrap-input--error': !emailForm.valid && emailSubmited}"
+               [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched}"
           >
             <input
               required
@@ -168,11 +168,11 @@
             <label class="wrap-input__label" for="">{{'Email' | translate}}</label>
             <div class="wrap-input__line"></div>
             <!--Input error section starts-->
-            <div *ngIf="!emailForm.valid && emailSubmited">
-            <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required']">
+            <div *ngIf="!emailForm.valid && emailForm.get('email').touched">
+            <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required'] && emailForm.get('email').touched">
               {{'Email is required' | translate}}
             </span>
-              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['pattern']">
+              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['pattern'] && emailForm.get('email').touched">
               {{'Wrong email' | translate}}
             </span>
             </div>
