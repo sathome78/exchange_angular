@@ -4,6 +4,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/user.service';
 import {keys} from '../../core/keys';
 import {TranslateService} from '@ngx-translate/core';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 declare var sendRegistrationGtag: Function;
 
@@ -28,7 +29,6 @@ export class RegistrationMobilePopupComponent implements OnInit {
   public nameSubmited = false;
   public agreeTerms = false;
   public recaptchaKey = keys.recaptchaKey;
-  emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
 
   public email;
   public firstName;
@@ -39,6 +39,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
     private popupService: PopupService,
     private userService: UserService,
     private translateService: TranslateService,
+    private utilsService: UtilsService,
   ) {
   }
 
@@ -98,7 +99,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   initForm() {
     this.emailForm = new FormGroup({
-      email: new FormControl('', {validators: [Validators.required, Validators.pattern(this.emailRegex)]}),
+      email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator()]}),
     });
     this.passwordForm = new FormGroup({
       password: new FormControl('', {validators: [Validators.required]}),
@@ -111,7 +112,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
   emailSubmit() {
     this.emailSubmited = true;
     if (this.emailForm.valid && this.agreeTerms) {
-      const email = this.emailForm.get('email').value;
+      const email = this.emailForm.get('email').value.trim();
       this.email = email;
       this.userService.checkIfEmailExists(email).subscribe(res => {
         if (!res) {
