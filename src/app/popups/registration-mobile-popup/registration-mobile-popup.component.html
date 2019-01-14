@@ -185,16 +185,16 @@
           </div>
         </div>
 
-        <button class="btn popup__btn" (click)="emailSubmit()"
+        <button class="btn popup__btn" (click)="emailSubmit()" [disabled]="!emailForm.valid && !agreeTerms && emailMessage === ''"
                 [ngClass]="{
-                'popup__btn--active': emailForm.valid && agreeTerms,
+                'popup__btn--active': emailForm.valid && agreeTerms && emailMessage === '',
                 'btn--error': !emailForm.controls['email'].valid && emailSubmited
                 }"
         >{{'Create an account' | translate}}</button>
       </form>
 
       <div class="popup__links-wrap">
-        <input id="agreeTerms" type="checkbox" [(ngModel)]="agreeTerms" [disabled]="!emailForm.valid">
+        <input id="agreeTerms" type="checkbox" [(ngModel)]="agreeTerms">
         <label for="agreeTerms">{{'By registering you agree with' | translate}}</label>
         <a class="popup__link" >{{'Terms of Use' | translate}}</a>
       </div>

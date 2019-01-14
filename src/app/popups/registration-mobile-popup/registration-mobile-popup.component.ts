@@ -28,7 +28,8 @@ export class RegistrationMobilePopupComponent implements OnInit {
   public nameSubmited = false;
   public agreeTerms = false;
   public recaptchaKey = keys.recaptchaKey;
-  emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
+  private emailRegex = '^[a-z0-9\-_\.]+(\.[_a-z0-9\-_\.]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
+  private symbolsRegex = /[!№#$%^&*<>()=']/ig;
 
   public email;
   public firstName;
@@ -110,7 +111,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   emailSubmit() {
     this.emailSubmited = true;
-    if (this.emailForm.valid && this.agreeTerms) {
+    if (this.emailForm.valid && this.agreeTerms && this.emailMessage === '') {
       const email = this.emailForm.get('email').value;
       this.email = email;
       this.userService.checkIfEmailExists(email).subscribe(res => {
@@ -128,7 +129,9 @@ export class RegistrationMobilePopupComponent implements OnInit {
   }
 
   emailInput(e) {
-    this.emailMessage = '';
+   e.target.value.match(this.symbolsRegex) ?
+     this.emailMessage = 'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' :
+     this.emailMessage = '';
   }
 
   nameSubmit() {
