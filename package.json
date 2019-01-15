@@ -7,7 +7,21 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+
+    "to-csv-app": "ngx-translate-extract-csv -i ./translate/baseJSON -o translate/csv/app.csv -l _app",
+    "to-csv-about-us": "ngx-translate-extract-csv -i ./translate/baseJSON -o translate/csv/about-us.csv -l about-us_base",
+    "to-csv-privacy-policy": "ngx-translate-extract-csv -i ./translate/baseJSON -o translate/csv/privacy-policy.csv -l privacy-policy_base",
+    "to-csv-contacts": "ngx-translate-extract-csv -i ./translate/baseJSON -o translate/csv/contacts.csv -l contacts_base",
+    "to-csv-terms-and-conditions": "ngx-translate-extract-csv -i ./translate/baseJSON -o translate/csv/terms-and-conditions.csv -l terms-and-conditions_base",
+    "to-extract-all-csv": " npm run to-csv-app && npm run to-csv-about-us && npm run to-csv-privacy-policy && npm run to-csv-contacts && npm run to-csv-terms-and-conditions",
+
+    "extract-dashboard": "ngx-translate-extract --input ./src/app/settings ./src/app/orders ./src/app/funds ./src/app/dashboard ./src/app/referral ./src/app/popups ./src/app/header ./src/app/auth ./src/app/footer --output ./translate/baseJSON/_app.json --clean --sort --format json",
+    "extract-privacy-policy": "ngx-translate-extract --input ./src/app/static-pages/privacy-policy --output ./translate/baseJSON/privacy-policy_base.json --clean --sort --format json",
+    "extract-about-us": "ngx-translate-extract --input ./src/app/static-pages/about-us --output ./translate/baseJSON/about-us_base.json --clean --sort --format json",
+    "extract-contacts": "ngx-translate-extract --input ./src/app/static-pages/contacts --output ./translate/baseJSON/contacts_base.json --clean --sort --format  json",
+    "extract-terms-and-conditions": "ngx-translate-extract --input ./src/app/static-pages/terms-and-conditions --output ./translate/baseJSON/terms-and-conditions_base.json --clean --sort --format json",
+    "extract-all": "npm run extract-privacy-policy && npm run extract-about-us && npm run extract-contacts && npm run extract-terms-and-conditions && npm run extract-dashboard"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +39,8 @@
     "@ngrx/effects": "^6.1.2",
     "@ngrx/store": "^6.1.2",
     "@ngrx/store-devtools": "^6.1.2",
+    "@ngx-translate/core": "^10.0.2",
+    "@ngx-translate/http-loader": "^3.0.1",
     "@stomp/ng2-stompjs": "^6.1.0-beta.4",
     "angular2-qrcode": "^2.0.1",
     "angular2gridster": "^6.0.4",
@@ -53,6 +69,7 @@
     "@angular/cli": "~6.1.5",
     "@angular/compiler-cli": "^6.1.0",
     "@angular/language-service": "^6.1.0",
+    "@biesbjerg/ngx-translate-extract": "^2.3.4",
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
     "@types/jquery": "^1.10.31",
@@ -66,6 +83,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.0",
     "karma-jasmine": "~1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "ngx-translate-extract-csv": "^1.1.1",
     "protractor": "~5.4.0",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",

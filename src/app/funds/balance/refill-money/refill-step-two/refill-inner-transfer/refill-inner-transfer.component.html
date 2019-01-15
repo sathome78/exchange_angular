@@ -1,16 +1,17 @@
-<div class="title refill__title">Get inner transfer</div>
-<div class="subtitle refill__subtitle">Please enter the transfer code to get money</div>
+<div class="title refill__title">{{'Get inner transfer' | translate}}</div>
+<div class="subtitle refill__subtitle">{{'Please enter the transfer code to get money' | translate}}</div>
 <form [formGroup]="form">
   <div class="wrap-input refill__wrap-input">
     <input class="wrap-input__input" name="code" formControlName="code">
-    <label class="wrap-input__label">Transfer code</label>
+    <label class="wrap-input__label">{{'Transfer code' | translate}}</label>
     <div class="wrap-input__line"></div>
   </div>
 </form>
 <button class="btn btn--center btn--empty-blue"
 [ngClass]="{'btn-active': form.valid}"
-        (click)="sendTransferCode()"
->Receive transfer</button>
+        (click)="sendTransferCode()">
+  {{'Receive transfer' | translate}}
+</button>
 
 
 <!--message successful-->
@@ -22,8 +23,8 @@
     </svg>
   </div>
   <div class="refill__transfer-message-text">
-    <h6>Congratulations!</h6>
-    <span>You successfuly got <b>{{sendSuccessRes.notyAmount}} {{currencyName}}!</b></span>
+    <h6>{{'Congratulations!' | translate}}</h6>
+    <span>{{'You successfuly got' | translate}} <b>{{sendSuccessRes.notyAmount}} {{currencyName}}!</b></span>
   </div>
 </div>
 
@@ -37,8 +38,8 @@
     </svg>
   </div>
   <div class="refill__transfer-message-text">
-    <h6>Sorry.</h6>
-    <span>This code has been used already.</span>
+    <h6>{{'Sorry.' | translate}}</h6>
+    <span>{{'This code has been used already.' | translate}}</span>
   </div>
 </div>
 

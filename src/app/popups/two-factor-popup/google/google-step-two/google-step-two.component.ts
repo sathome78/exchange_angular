@@ -3,6 +3,7 @@ import {OnNextStep, PopupService} from '../../../../shared/services/popup.servic
 import {GoogleAuthenticatorService} from '../google-authenticator.service';
 import {ITwoFaResponseDto, TwoFaResponseDto} from '../2fa-response-dto.model';
 import {AuthService} from '../../../../shared/services/auth.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-google-step-two',
@@ -16,6 +17,7 @@ export class GoogleStepTwoComponent implements OnInit, OnNextStep {
 
   constructor(private popupService: PopupService,
               private googleService: GoogleAuthenticatorService,
+              private translateService: TranslateService,
               private authService: AuthService) {
   }
 
@@ -28,7 +30,7 @@ export class GoogleStepTwoComponent implements OnInit, OnNextStep {
         }
       },
       err => {
-        this.statusMessage = 'Failed to get google url';
+        this.statusMessage = this.translateService.instant('Failed to get google url');
         console.log(err);
       });
   }

@@ -1,18 +1,22 @@
-<div class="title modal__title">Refill balance</div>
+<div class="title modal__title">
+  {{'Refill balance' | translate}}
+</div>
 <div class="subtitle modal__subtitle">
-  <p>How would you like to refill the balance?</p>
+  <p>
+    {{'How would you like to refill the balance?' | translate}}
+  </p>
 </div>
 <button class="btn btn--center btn--empty-blue"
         (click)="onChooseRefill(CRYPTO_DEPOSIT)">
-  Crypto deposit
+  {{'Crypto deposit' | translate}}
 </button>
 
 <button class="btn btn--center btn--empty-blue"
         (click)="onChooseRefill(FIAT_DEPOSIT)">
-  Fiat deposit
+  {{'Fiat deposit' | translate}}
 </button>
 
 <button class="btn btn--center btn--empty-blue"
         (click)="onChooseRefill(INNER_TRANSFER)">
-  Get inner transfer
+  {{'Get inner transfer' | translate}}
 </button>

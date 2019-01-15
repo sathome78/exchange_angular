@@ -4,6 +4,7 @@ import {SettingsService} from '../settings.service';
 import {LoggingService} from '../../shared/services/logging.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable, Subscription} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-session',
@@ -32,7 +33,8 @@ export class SessionComponent implements OnInit, OnDestroy {
   minutesInputSubscription: Observable<string>;
 
   constructor(private settingsService: SettingsService,
-              private logger: LoggingService) {
+              private logger: LoggingService,
+              private translateService: TranslateService) {
   }
 
   ngOnInit() {
@@ -45,16 +47,16 @@ export class SessionComponent implements OnInit, OnDestroy {
     if (this.value >= this.MIN_VALUE && this.value < this.MAX_VALUE) {
       this.settingsService.updateSessionInterval(this.value)
         .subscribe(resp => {
-            this.statusMessage = 'Session period is updated!';
+            this.statusMessage = this.translateService.instant('Session period is updated!');
           },
           err => {
             const status = err['status'];
             if (status >= 400) {
-              this.statusMessage = 'Session period is not updated!';
+              this.statusMessage = this.translateService.instant('Session period is not updated!');
             }
           });
     } else {
-      this.statusMessage = 'Session must within 5 and 1440 mins (24 hours)';
+      this.statusMessage = this.translateService.instant('Session must within 5 and 1440 mins (24 hours)');
     }
   }
 

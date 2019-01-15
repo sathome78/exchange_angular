@@ -13,6 +13,10 @@ import {DashboardWebSocketService} from './dashboard/dashboard-websocket.service
 import {AuthService} from './shared/services/auth.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
+import {TranslateService} from '@ngx-translate/core';
+import {select, Store} from '@ngrx/store';
+import {getLanguage, State} from './core/reducers';
+import {ChangeLanguageAction} from './core/actions/core.actions';
 
 @Component({
   selector: 'app-root',
@@ -46,12 +50,21 @@ export class AppComponent implements OnInit, OnDestroy {
               private themeService: ThemeService,
               private dashboardWebsocketService: DashboardWebSocketService,
               private authService: AuthService,
-
+              private store: Store<State>,
               private userService: UserService,
               private logger: LoggingService,
               private http: HttpClient,
-              private notificationService: NotificationsService) {
+              private notificationService: NotificationsService,
+              public translate: TranslateService) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
+
+
+    // translate.addLangs(['en', 'ru', 'uk', 'pl']);
+    // translate.setDefaultLang('en');
+    // const browserLang = translate.getBrowserLang();
+    // this.store.dispatch(new ChangeLanguageAction(browserLang.match(/en|ru|uk|pl/) ? browserLang : 'en'));
+    // this.store.pipe(select(getLanguage)).subscribe(res => this.translate.use(res));
+
     this.setIp();
   }
 
@@ -107,9 +120,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .getRegistrationMobilePopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
-        console.log('3');
         this.isRegistrationMobilePopupOpen = value;
-        console.log(this.isRegistrationMobilePopupOpen);
       });
   }
 

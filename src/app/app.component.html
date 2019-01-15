@@ -27,7 +27,7 @@
     <div style="flex-grow: 1; width: 100%;">
 
       <div *ngIf="isTfaPopupOpen">
-        <app-two-factor-popup></app-two-factor-popup>
+        <app-two-factor-popup [showPopup]="isTfaPopupOpen"></app-two-factor-popup>
       </div>
 
       <div *ngIf="isIdentityPopupOpen">

@@ -8,7 +8,7 @@
         </a>
       </div>
       <div class="modal__header-mob">
-        <div class="steps__counter steps__counter--mob">step <span class="steps__counter-val">{{step}}</span>/{{stepsSize}}</div>
+        <div class="steps__counter steps__counter--mob">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/{{stepsSize}}</div>
         <div class="modal__header-mob-controls">
           <a class="modal__control-mob" href="#">
             <img class="modal__control-icon" src="../../../../assets/img/learn-blue.svg">
@@ -23,33 +23,33 @@
           <li class="steps__item" [ngClass]="{'steps__item--current': step === 1}" (click)="moveNext(1)" *ngIf="step > 0">
             <a class="steps__link" (click)="moveNext(2)">
               <span class="steps__number" [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
-              <span class="steps__number-mob-current">1. Enter info</span>
-              <span class="steps__title">Enter info</span>
+              <span class="steps__number-mob-current">1. {{'Enter info' | translate}}</span>
+              <span class="steps__title">{{'Enter info' | translate}}</span>
             </a>
           </li>
           <li class="steps__item" [ngClass]="{'steps__item--current': step === 2}" *ngIf="step > 1">
             <a class="steps__link" (click)="moveNext(3)">
               <span class="steps__number" [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }">2</span>
-              <span class="steps__number-mob-current">2. Document photo</span>
-              <span class="steps__title">Document photo</span>
+              <span class="steps__number-mob-current">2. {{'Document photo' | translate}}</span>
+              <span class="steps__title">{{'Document photo' | translate}}</span>
             </a>
           </li>
           <li class="steps__item" [ngClass]="{'steps__item--current': step === 3}" *ngIf="step > 2">
             <a class="steps__link" (click)="moveNext(4)">
               <span class="steps__number" [ngClass]="{'steps__number--current': step === 3, 'steps__number--valid': step != 3 }">3</span>
-              <span class="steps__number-mob-current">3. Your photo</span>
-              <span class="steps__title">Your photo</span>
+              <span class="steps__number-mob-current">3. {{'Your photo' | translate}}</span>
+              <span class="steps__title">{{'Your photo' | translate}}</span>
             </a>
           </li>
           <li class="steps__item" [ngClass]="{'steps__item--current': step === 4}" (click)="moveNext(4)" *ngIf="step > 3">
             <a class="steps__link">
               <span class="steps__number" [ngClass]="{'steps__number--current': step === 4, 'steps__number--valid': step != 4 }">4</span>
-              <span class="steps__number-mob-current">4. Progress</span>
-              <span class="steps__title">Progress</span>
+              <span class="steps__number-mob-current">4. {{'Progress' | translate}}</span>
+              <span class="steps__title">{{'Progress' | translate}}</span>
             </a>
           </li>
         </ul>
-        <div class="steps__counter">step <span class="steps__counter-val">1</span>/4</div>
+        <div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">1</span>/4</div>
       </div>
       <div class="modal__content">
 

@@ -41,3 +41,13 @@
   right: 0;
   bottom: 0;
 }
+
+.ishover {
+  &:hover {
+    background: none !important;
+  }
+  svg{
+    fill: #50537c !important;
+  }
+}
+
