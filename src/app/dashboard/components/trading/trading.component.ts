@@ -259,6 +259,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   selectedLimit(limit: string): void {
     this.dropdownLimitValue = limit;
+    this.setStopValue(this.dropdownLimitValue === 'STOP_LIMIT' ? '0' : '');
     // if (limit === 'MARKET_PRICE') {
     //   if (this.lastSellOrder) {
     //     this.order.rate = this.lastSellOrder ? this.lastSellOrder.exrate : 0;
@@ -335,6 +336,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param event
    */
   stopInput(event): void {
+    this.setStopValue( parseFloat(event.target.value));
     this.orderStop = event.target.value;
   }
 
