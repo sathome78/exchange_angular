@@ -79,7 +79,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     status: 'OPENED',
     total: null,
   };
-   /** Are listening click in document */
+
+  /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
     this.notifyFail = false;
     this.notifySuccess = false;
@@ -120,7 +121,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.store
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair) => {
+      .subscribe((pair: CurrencyPair) => {
         this.onGetCurrentCurrencyPair(pair);
       });
 
@@ -135,7 +136,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.store
       .pipe(select(getCurrencyPairInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPairInfo) => {
+      .subscribe((pair: CurrencyPairInfo) => {
         this.setPriceInValue(pair.currencyRate);
         this.order.rate = pair.currencyRate;
       });
@@ -144,14 +145,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.store
       .pipe(select(getSelectedOrderBookOrder))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (order) => {
+      .subscribe((order) => {
         this.orderFromOrderBook(order);
       });
 
     this.store
       .pipe(select(getLastSellBuyOrder))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (lastOrders) => {
+      .subscribe((lastOrders) => {
         this.lastSellBuyOrders = lastOrders;
       });
 
@@ -177,16 +178,16 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   initForms(): void {
     this.limitForm = new FormGroup({
-      quantityOf: new FormControl('', Validators.required ),
-      priceIn: new FormControl('', Validators.required ),
-      totalIn: new FormControl('', Validators.required ),
+      quantityOf: new FormControl('', Validators.required),
+      priceIn: new FormControl('', Validators.required),
+      totalIn: new FormControl('', Validators.required),
     });
 
     this.stopForm = new FormGroup({
-      quantityOf: new FormControl('', Validators.required ),
-      stop: new FormControl('', ),
-      limit: new FormControl('', Validators.required ),
-      totalIn: new FormControl('', Validators.required ),
+      quantityOf: new FormControl('', Validators.required),
+      stop: new FormControl(''),
+      limit: new FormControl('', Validators.required),
+      totalIn: new FormControl('', Validators.required),
     });
   }
 
@@ -205,7 +206,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.mainTab = 'BUY';
 
       this.tradingService.tradingChangeSellBuy$.next('BUY');
-    } else  {
+    } else {
       this.mainTab = 'SELL';
       this.tradingService.tradingChangeSellBuy$.next('SELL');
     }
@@ -274,17 +275,17 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param {number} percent
    */
   selectedPercent(percent: number) {
-    let total = 0
+    let total = 0;
     this.isTotalWithCommission = false;
 
     if (this.mainTab === 'BUY') {
-      total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0
+      total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0;
       const totalIn = total * percent / 100;
       this.order.total = totalIn;
       this.setTotalInValue(totalIn);
       this.getCommission(false);
     } else {
-      total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0
+      total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0;
       const quantityOf = total * percent / 100;
       this.order.amount = quantityOf;
       this.setQuantityValue(quantityOf);
@@ -322,54 +323,56 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * On input in field (price in)
    * @param e
    */
-   rateInput(e): void {
+  rateInput(e): void {
+    this.setPriceInValue(e.target.value);
     this.isTotalWithCommission = false;
-       this.order.rate = parseFloat(this.deleteSpace(e.target.value.toString()));
-       this.getCommission();
-   }
+    this.order.rate = parseFloat(this.deleteSpace(e.target.value.toString()));
+    this.getCommission();
+  }
 
   /**
    * On input in field stop
    * @param event
    */
   stopInput(event): void {
-     this.orderStop = event.target.value;
+    this.orderStop = event.target.value;
   }
 
   /**
    * On input in field (Total in)
    * @param event
    */
-   totalInput(event): void {
+  totalInput(event): void {
+    this.setTotalInValue(event.target.value);
     this.isTotalWithCommission = false;
-    // this.order.total = parseFloat(this.deleteSpace(event.target.value.toString()));
+    this.order.total = parseFloat(this.deleteSpace(event.target.value.toString()));
     if (this.order.rate) {
       this.order.amount = this.order.total / this.order.rate;
       this.order.commission = this.order.total * (this.commissionIndex / 100);
       this.setQuantityValue(this.order.amount);
     }
-   }
+  }
 
-   calculateAmountByTotalWithCommission(): void {
-      let total = 0
-      if (this.mainTab === 'BUY') {
-        total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0;
+  calculateAmountByTotalWithCommission(): void {
+    let total = 0;
+    if (this.mainTab === 'BUY') {
+      total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0;
 
-        this.isTotalWithCommission = true;
-        this.setTotalInValue(total);
-        this.order.total = total;
-        this.order.commission = this.order.total * (this.commissionIndex / 100.2);
-        const x = this.mainTab === 'BUY' ? this.order.total - this.order.commission : this.order.total + this.order.commission;
-        this.order.amount = x / this.order.rate;
-        this.setQuantityValue(this.order.amount);
-      } else {
-        total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0;
-        this.setQuantityValue(total);
-        this.order.amount = total;
-        this.getCommission();
-      }
+      this.isTotalWithCommission = true;
+      this.setTotalInValue(total);
+      this.order.total = total;
+      this.order.commission = this.order.total * (this.commissionIndex / 100.2);
+      const x = this.mainTab === 'BUY' ? this.order.total - this.order.commission : this.order.total + this.order.commission;
+      this.order.amount = x / this.order.rate;
+      this.setQuantityValue(this.order.amount);
+    } else {
+      total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0;
+      this.setQuantityValue(total);
+      this.order.amount = total;
+      this.getCommission();
+    }
 
-   }
+  }
 
   /**
    * split pair name for showing
@@ -441,7 +444,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.mainTab = order.orderType;
     this.getCommission();
     // this.order.commission = 0;
-    }
+  }
 
   /**
    * Method transform exponent format to number
@@ -476,7 +479,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       return;
     }
     this.orderStop = this.dropdownLimitValue === 'STOP_LIMIT' ? this.stopForm.get('stop').value : '';
-    if ( (this.stopForm.valid
+    if ((this.stopForm.valid
       && this.orderStop
       && this.dropdownLimitValue === 'STOP_LIMIT')
       || (this.limitForm.valid
@@ -515,15 +518,19 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.userService.getUserBalance(this.currentPair);
-        this.order = {...this.defaultOrder}
+        this.order = {...this.defaultOrder};
         this.resetForms();
         this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
-      this.notifySuccess = true;
-      setTimeout(() => {this.notifySuccess = false; }, 5000);
-    }, err => {
+        this.notifySuccess = true;
+        setTimeout(() => {
+          this.notifySuccess = false;
+        }, 5000);
+      }, err => {
         console.log(err);
         this.notifyFail = true;
-        setTimeout(() => {this.notifyFail = false; }, 5000);
+        setTimeout(() => {
+          this.notifyFail = false;
+        }, 5000);
       });
     // this.orderStop = '';
     if (this.currencyPairInfo) {
@@ -542,11 +549,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe(res => {
         this.userService.getUserBalance(this.currentPair);
         this.notifySuccess = true;
-        setTimeout(() => {this.notifySuccess = false; }, 5000);
+        setTimeout(() => {
+          this.notifySuccess = false;
+        }, 5000);
       }, err => {
         console.log(err);
         this.notifyFail = true;
-        setTimeout(() => {this.notifyFail = false; }, 5000);
+        setTimeout(() => {
+          this.notifyFail = false;
+        }, 5000);
       });
     this.orderStop = '';
     this.resetForms();

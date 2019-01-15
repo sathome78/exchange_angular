@@ -102,7 +102,7 @@
       <form [formGroup]="stopForm" *ngIf="dropdownLimitValue === 'STOP_LIMIT'">
         <div class="row row--jcsb widget__trading-row">
           <div class="wrap-input widget__input widget__input--mr32">
-            <input class="wrap-input__input no-spinners" type="number" appOnlyNumbers
+            <input class="wrap-input__input no-spinners" type="number" appOnlyNumbers (focus)="$event.target.select()"
                    (input)="stopInput($event)"
                    formControlName="stop"
                    name="stop">
@@ -283,11 +283,11 @@
     <form class="widget__trading-form--mob" [formGroup]="stopForm" *ngIf="dropdownLimitValue === 'STOP_LIMIT'">
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input widget__input--mr32">
-          <input class="wrap-input__input" type="number" appOnlyNumbers
+          <input class="wrap-input__input" type="number" appOnlyNumbers (focus)="$event.target.select()"
                  (input)="stopInput($event)"
                  formControlName="stop"
                  name="stop">
-          <label class="wrap-input__label" for="">Stop</label>
+          <label class="wrap-input__label" for="">{{'Stop' | translate}}</label>
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
