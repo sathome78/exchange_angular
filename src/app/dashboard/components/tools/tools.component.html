@@ -1,6 +1,8 @@
-<div class="dashboard-tools" style="min-width: 103px" (mouseenter)="showOverlay()" (mouseleave)="hideOverlay()">
+
+<div class="dashboard-tools" style="min-width: 103px" (mouseenter)="showOverlay()" (mouseleave)="hideOverlay()" *ngIf="visibleToolsItems.length">
+
   <div class="dashboard-tools__header">
-    Tools
+    {{"Tools" | translate}}
   </div>
 
   <div class="dashboard-tools__item" *ngFor="let item of visibleToolsItems"
@@ -8,9 +10,15 @@
     <div class="dashboard-tools__item-icon">
       <img class="" src="{{item.imgUrl}}">
     </div>
-    <span>{{item.name}}</span>
+    <span>{{item.name | translate}}</span>
   </div>
 
+  <div class="info-tools">
+    <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="tools-label" >{{visibleToolsItems.length}} Tools</div>
+  </div>
 </div>
 
-<div class="overlay overlay-hide" #overlay [ngClass]="{'overlay-show': overlayShow}"></div>
+<div class="overlay overlay-hide" #overlay [ngClass]="{'overlay-show': overlayShow}" ></div>

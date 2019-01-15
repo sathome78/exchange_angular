@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import { ValidatorFn, AbstractControl } from '@angular/forms';
 
 @Injectable()
 export class UtilsService {
@@ -14,6 +15,13 @@ export class UtilsService {
     this.cache[currencyName] = res;
 
     return res;
+  }
+
+  emailValidator(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const forbidden = new RegExp('^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$').test(control.value.trim());
+      return forbidden ? null : {'emailInvalid': {value: control.value.trim()}} ;
+    };
   }
 
 }

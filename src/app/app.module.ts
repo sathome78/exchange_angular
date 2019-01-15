@@ -1,11 +1,12 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {StoreModule} from '@ngrx/store';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {AppComponent} from './app.component';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {HeaderComponent} from './header/header.component';
 import {TwoFactorPopupComponent} from './popups/two-factor-popup/two-factor-popup.component';
 import {FooterComponent} from './footer/footer.component';
@@ -64,8 +65,16 @@ import {environment} from 'environments/environment';
 import {RefillSuccessfulComponent} from './balance/refill-money/refill-successful/refill-successful.component';
 import {DemoTradingPopupComponent} from './popups/demo-trading-popup/demo-trading-popup.component';
 import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup/already-registered-popup.component';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {CoreService} from './core/services/core.service';
 import { ThankYouPopupComponent } from './popups/thank-you-popup/thank-you-popup.component';
+import {translateInfo} from './shared/configs/translate-options';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
+}
+
 
 @NgModule({
   declarations: [
@@ -114,6 +123,14 @@ import { ThankYouPopupComponent } from './popups/thank-you-popup/thank-you-popup
       maxAge: 25,
       logOnly: !environment.production,
     }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      },
+      isolate: true
+    }),
     CoreModule,
     AppRoutingModule,
     BrowserModule,
@@ -127,6 +144,7 @@ import { ThankYouPopupComponent } from './popups/thank-you-popup/thank-you-popup
     SharedModule,
     NgxPaginationModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     AuthGuard,

@@ -4,5 +4,5 @@
   <img [src]="url" height="136" width="244">
 </div>
 <ng-template #nonvalid>
-  <p *ngIf="fileToUpload != null">File not valid</p>
+  <p *ngIf="fileToUpload != null">{{'File not valid' | translate}}</p>
 </ng-template>

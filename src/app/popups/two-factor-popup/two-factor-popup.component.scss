@@ -5,3 +5,11 @@
   background: #94C2FF;
   z-index: inherit;
 }
+
+.modal--open{
+  visibility: visible;
+  background-color: rgba(0, 0, 0, 0.85);
+  .modal{
+    right: 0;
+  }
+}

@@ -1,5 +1,8 @@
 
-<div class="title refill__title" *ngIf="activeCrypto">Crypto deposit <span>{{activeCrypto.name}}</span></div>
+<div class="title refill__title" *ngIf="activeCrypto">
+  {{'Crypto deposit' | translate}}
+  <span>{{activeCrypto.name}}</span>
+</div>
 <div class="refill__inputs-wrap">
   <div class="select refill__select">
     <div class="select__value select__value--active" (click)="currencyDropdownToggle()">
@@ -7,9 +10,8 @@
       {{activeCrypto.name}}
       <div class="select__triangle"></div>
     </div>
-    <div class="select__label">Currency</div>
+    <div class="select__label">{{'Currency' | translate}}</div>
     <div class="select__line"></div>
-    <!--add select__list-searching--open for looking open state-->
     <div class="select__list-searching"
          [ngClass]="{'select__list-searching--open': openCurrencyDropdown}"
          *ngIf="openCurrencyDropdown">
@@ -50,11 +52,11 @@
       </svg>
 
     </span>
-    Generate new address
+    {{'Generate new address' | translate}}
   </button>
 
   <div class="request-errors" *ngIf="!isGenerateNewAddress && cryptoDataByName && !cryptoDataByName?.merchantCurrencyData.length">
-    Sorry, refill is closed for current moment!
+    {{'Sorry, refill is closed for current moment!' | translate}}
   </div>
 </div>
 
@@ -67,30 +69,30 @@
   </div>
   <div>
     <div class="refill__crypto-address" *ngIf="address">
-      <h6 class="refill__crypto-title"><span>{{activeCrypto?.name}}</span> address</h6>
+      <h6 class="refill__crypto-title"><span>{{activeCrypto?.name}}</span> {{'address' | translate}}</h6>
       <div class="refill__crypto-hash">{{address}}</div>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="!isSowCopyAddress"
               (click)="copyToBuffer(address, 'Copy address')"
-      >Copy address</button>
+      >{{'Copy address' | translate}}</button>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="isSowCopyAddress"
-      >Copied</button>
+      >{{'Copied' | translate}}</button>
     </div>
     <div class="refill__crypto-memo" *ngIf="cryptoDataByName.merchantCurrencyData[0].additionalFieldName">
       <h6 class="refill__crypto-title">{{cryptoDataByName.merchantCurrencyData[0].additionalFieldName}}</h6>
       <div class="refill__crypto-hash">{{additionalAddress}}</div>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="!isSowCopyMemoId"
               (click)="copyToBuffer(additionalAddress, 'Copy id')"
-      >Copy id</button>
+      >{{'Copy id' | translate}}</button>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="isSowCopyMemoId"
-      >Copied</button>
+      >{{'Copied' | translate}}</button>
     </div>
     <!--<div class="refill__crypto-comission">Comission of exchange: 2 BTC</div>-->
   </div>
 </div>
 <div class="note modal__note">
-  <div class="note__title">Please note:</div>
+  <div class="note__title">{{'Please note:' | translate}}</div>
   <ul class="note__list">
-    <li class="note__list-item">Coins will be deposited immediately after <b>2</b> network confirmations</li>
-    <li class="note__list-item">Send only <b>{{activeCrypto.name}}</b> to this deposit address. Sending any other coin or token to this address may result in the loss of your deposit.</li>
+    <li class="note__list-item" [innerHTML]="'Coins will be deposited immediately after <b>2</b> network confirmations' | translate"></li>
+    <li class="note__list-item">{{'Send only' | translate}} <b>{{activeCrypto.name}}</b> {{'to this deposit address'}}.{{' Sending any other coin or token to this address may result in the loss of your deposit' | translate}}.</li>
   </ul>
 </div>

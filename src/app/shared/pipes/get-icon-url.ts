@@ -8,40 +8,43 @@ export class GetIconUrl  implements PipeTransform {
 
     switch (name) {
       case 'DIGIT':
-      case 'DIME':
       case 'DOR':
+      case 'BAB':
+      case 'CMS_X':
+      case 'ECTE':
+      case 'EXR':
+      case 'GRS':
+      case 'KOD':
+      case 'MANA':
+      case 'MCO':
+      case 'POA':
+      case 'TAO':
+      case 'WaBi':
+      case 'ZIL':
       case 'DTC':
       case 'ECT':
       case 'ENGT':
       case 'CMS_E':
-      case 'MGX':
-      case 'MNC':
       case 'MODL':
       case 'QUICK':
       case 'BCHABC':
       case 'BSV':
-      case 'S4F':
       case 'TRS':
       case 'VNT':
       case 'AED':
       case 'RUB':
       case 'RIME':
-      case 'CNY':
+      case 'TCAT':
       case 'EDT':
+      case 'EXO':
       case 'HT':
-      case 'EUR':
       case 'CTX':
-      case 'IDR':
       case 'LiqPay':
       case 'Privat24':
       case 'Invoice':
-      case 'NGN':
       case 'Visa':
       case 'Master Card':
       case 'Interkassa':
-      case 'TRY':
-      case 'UAH':
-      case 'VND':
         name = 'no_icon';
         break;
     }

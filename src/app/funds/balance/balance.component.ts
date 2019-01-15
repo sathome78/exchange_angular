@@ -171,6 +171,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.showRefillBalancePopup = flag;
   }
 
+  public onSearchCoin(e) {
+    this.currencyForChoose = e;
+    this.loadBalances(this.currTab);
+  }
+
   public openSendMoneyPopup(flag: boolean) {
     this.sendMoneyData = {};
     this.showSendMoneyPopup = flag;
@@ -252,14 +257,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fundsAction.RevokePendingReqAction(params))
   }
 
-
   public onGoToBalanceDetails({currencyId, priceIn}) {
     this.router.navigate([`/funds/balances/${currencyId}`], {queryParams: {priceIn}})
   }
-
-
-
-
-
 
 }

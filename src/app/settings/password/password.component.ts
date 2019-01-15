@@ -4,6 +4,7 @@ import {LoggingService} from '../../shared/services/logging.service';
 import {SettingsService} from '../settings.service';
 import {HttpEvent, HttpEventType} from '@angular/common/http';
 import {NotificationsService} from '../../shared/components/notification/notifications.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-password',
@@ -20,7 +21,8 @@ export class PasswordComponent implements OnInit {
 
   constructor(private logger: LoggingService,
               private notificationService: NotificationsService,
-              private settingsService: SettingsService) {
+              private settingsService: SettingsService,
+              private translateService: TranslateService) {
   }
 
   ngOnInit() {
@@ -57,7 +59,7 @@ export class PasswordComponent implements OnInit {
         .subscribe((event: HttpEvent<Object>) => {
             if (event.type === HttpEventType.Sent) {
               this.logger.debug(this, 'Password is successfully updated: ' + password);
-              this.statusMessage = 'Your password is successfully updated!';
+              this.statusMessage = this.translateService.instant('Your password is successfully updated!');
               this.form.reset();
             }
           },
@@ -65,19 +67,19 @@ export class PasswordComponent implements OnInit {
             const status = err['status'];
             if (status >= 400) {
               this.logger.info(this, 'Failed to update user password: ' + password);
-              this.statusMessage = 'Failed to update your password!';
+              this.statusMessage = this.translateService.instant('Failed to update your password!');
             }
           });
       this.notificationService.message.emit({
         iconLink: './assets/img/shield.svg',
         type: 'primary',
-        message: 'Your password is successfully updated!'
+        message: this.translateService.instant('Your password is successfully updated!')
       });
     } else {
       this.notificationService.message.emit({
         iconLink: './assets/img/shield.svg',
         type: 'error',
-        message: 'Failed to update your password!'
+        message: this.translateService.instant('Failed to update your password!')
       });
     }
   }

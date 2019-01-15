@@ -10,7 +10,7 @@
               <path
                 d="M3.82596 0.119541C3.60017 -0.0567689 3.25769 -0.0355965 3.06102 0.166823L0.137687 3.17624L0.133319 3.18071C-0.0387293 3.35787 -0.0421708 3.61517 0.110923 3.7948C0.119367 3.80467 0.128289 3.81436 0.137687 3.82376L3.06102 6.83318C3.25769 7.0356 3.60017 7.05677 3.82596 6.88046C4.05175 6.70415 4.07536 6.3971 3.87872 6.19459L1.73329 3.98602H8.45783C8.75727 3.98602 9 3.76841 9 3.49991C9 3.23141 8.75727 3.0138 8.45783 3.0138H1.73348L3.87872 0.805412C4.07536 0.602898 4.05175 0.295851 3.82596 0.119541Z"/>
             </svg>
-            to: Pending Requests
+            {{'to: Pending Requests' | translate}}
           </div>
           <div *ngIf="loading$ | async">
             <app-loader size="small"></app-loader>
@@ -63,27 +63,27 @@
           </tbody>
         </table>
         <div class="open-mob-request__item">
-          <div class="open-mob-request__item-title">Comission</div>
+          <div class="open-mob-request__item-title">{{'Comission' | translate}}</div>
           <div class="open-mob-request__item-value">{{detailsItem.commission | roundCurrency: isFiat(detailsItem.currency) | formatCurrency}}</div>
         </div>
         <div class="open-mob-request__item">
-          <div class="open-mob-request__item-title">Payment system</div>
+          <div class="open-mob-request__item-title">{{'Payment system' | translate}}</div>
           <div class="open-mob-request__item-value">{{detailsItem.system}}</div>
         </div>
         <div class="open-mob-request__item">
-          <div class="open-mob-request__item-title">Status</div>
+          <div class="open-mob-request__item-title">{{'Status' | translate}}</div>
           <div class="open-mob-request__item-value">{{pendingRequestsItem.statusMap[detailsItem.status]}}</div>
         </div>
         <div class="open-mob-request__btn-wrap">
           <!--<button class="btn">I paid</button>-->
           <!-- <button class="btn btn--error" (click)="onShowInfo()">Rejected</button> -->
-          <button class="btn btn--empty-blue" (click)="toggleRevokeModal(true)">Revoke</button>
+          <button class="btn btn--empty-blue" (click)="toggleRevokeModal(true)">{{'Revoke' | translate}}</button>
           <!-- revoke modal start-->
           <div class="revoke-request" *ngIf="showRevokeModal">
-            <div class="revoke-request__title">Are you sure you want to revoke this request?</div>
+            <div class="revoke-request__title">{{'Are you sure you want to revoke this request' | translate}}?</div>
             <div class="revoke-request__button-wrap">
-              <button class="btn btn--small" (click)="onRevoke()">Yes</button>
-              <button class="btn btn--small" (click)="toggleRevokeModal(false)">No</button>
+              <button class="btn btn--small" (click)="onRevoke()">{{'Yes' | translate}}</button>
+              <button class="btn btn--small" (click)="toggleRevokeModal(false)">{{'No' | translate}}</button>
             </div>
             <div class="revoke-request__triangle"></div>
           </div>

@@ -1,6 +1,6 @@
 <div class="settings__content">
-  <h3 class="title settings__content-title">Nickname</h3>
-  <div class="subtitle settings__content-subtitle">For inner transactions users could use your nickname instead of email.</div>
+  <h3 class="title settings__content-title">{{'Nickname' | translate}}</h3>
+  <div class="subtitle settings__content-subtitle">{{'For inner transactions users could use your nickname instead of email.' | translate}}</div>
 
   <h4>{{statusMessage}}</h4>
   <form class="settings-form" [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -15,29 +15,29 @@
           required
         >
 
-        <label class="wrap-input__label">Nickname</label>
+        <label class="wrap-input__label">{{'Nickname' | translate}}</label>
         <div class="wrap-input__line"></div>
 
         <!--Input error section starts-->
         <span class="wrap-input__message"
               *ngIf="!form.get('nickname').valid && form.get('nickname').errors != null && form.get('nickname').errors['required']"
-        >This field is required.</span>
+        >{{'This field is required.' | translate}}</span>
         <span class="wrap-input__message"
               *ngIf="form.get('nickname').errors != null && form.get('nickname').invalid"
-        >Only (A-z), (–), (=) are allowed</span>
+        >{{'Only (A-z), (–), (=) are allowed' | translate}}</span>
         <!--Input error section ends-->
 
       </div>
 
-      <span class="settings__form-notice">– use only (A-z), (–), (=) symbols, </span>
+      <span class="settings__form-notice">– {{'use only (A-z), (–), (=) symbols,' | translate}} </span>
     </div>
-    <button class="btn settings__form-btn" [disabled]="isUpdateDisabled">Save</button>
+    <button class="btn settings__form-btn" [disabled]="isUpdateDisabled">{{'Save' | translate}}</button>
   </form>
   <div class="note settings__note">
-    <div class="note__title">Please note:</div>
+    <div class="note__title">{{'Please note:' | translate}}</div>
     <ul class="note__list">
-      <li class="note__list-item">Nickname can be specified only 1 time</li>
-      <li class="note__list-item">After creating a nickname, it will not be possible to change it</li>
+      <li class="note__list-item">{{'Nickname can be specified only 1 time' | translate}}</li>
+      <li class="note__list-item">{{'After creating a nickname, it will not be possible to change it' | translate}}</li>
     </ul>
   </div>
 </div>
