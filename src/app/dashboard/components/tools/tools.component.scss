@@ -20,26 +20,27 @@
 }
 
 .info-tools {
+  padding: 4px;
   position: absolute;
   background-color: #237BEF;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   right: -20px;
   top: 0px;
-  height: fit-content;
-  width: 18px;
-  img{
-    margin-top: 3px;
-    padding-right: 4px;
-    //padding-bottom: 4px;
-    height: 15px;
+  //width: 18px;
+  font-weight: 500;
+  svg{
+    width: 9px;
+    height: 9px;
+    margin-left: 1px;
+    margin-bottom: 2px;
   }
   .tools-label{
     writing-mode: vertical-lr;
     transform: rotate(180deg);
     text-orientation: sideways;
-    font-size: 13px;
-    padding: 3px 2px 0px 3px;
+    font-size: 12px;
+    //padding: 3px 2px 0px 3px;
   }
 }
 
