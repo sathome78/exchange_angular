@@ -156,7 +156,7 @@
       <form class="popup__form" [formGroup]="emailForm">
         <div >
           <div class="wrap-input popup__wrap-input"
-               [ngClass]="{'wrap-input--error': !emailForm.valid && emailSubmited}"
+               [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched}"
           >
             <input
               required
@@ -168,12 +168,15 @@
             <label class="wrap-input__label" for="">{{'Email' | translate}}</label>
             <div class="wrap-input__line"></div>
             <!--Input error section starts-->
-            <div *ngIf="!emailForm.valid && emailSubmited">
-            <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required']">
+            <div *ngIf="!emailForm.valid && emailForm.get('email').touched">
+            <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required'] && emailForm.get('email').touched">
               {{'Email is required' | translate}}
             </span>
-              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['pattern']">
+              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailInvalid'] && emailForm.get('email').touched && !emailForm.get('email').errors['required']">
               {{'Wrong email' | translate}}
+            </span>
+              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['specialCharacter'] && !emailForm.get('email').errors['required']">
+              {{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
             </span>
             </div>
             <div *ngIf="emailMessage !== ''">
@@ -185,16 +188,16 @@
           </div>
         </div>
 
-        <button class="btn popup__btn" (click)="emailSubmit()"
+        <button class="btn popup__btn" (click)="emailSubmit()" [disabled]="!emailForm.valid && !agreeTerms && emailMessage === ''"
                 [ngClass]="{
-                'popup__btn--active': emailForm.valid && agreeTerms,
+                'popup__btn--active': emailForm.valid && agreeTerms && emailMessage === '',
                 'btn--error': !emailForm.controls['email'].valid && emailSubmited
                 }"
         >{{'Create an account' | translate}}</button>
       </form>
 
       <div class="popup__links-wrap">
-        <input id="agreeTerms" type="checkbox" [(ngModel)]="agreeTerms" [disabled]="!emailForm.valid">
+        <input id="agreeTerms" type="checkbox" [(ngModel)]="agreeTerms">
         <label for="agreeTerms">{{'By registering you agree with' | translate}}</label>
         <a class="popup__link" >{{'Terms of Use' | translate}}</a>
       </div>
