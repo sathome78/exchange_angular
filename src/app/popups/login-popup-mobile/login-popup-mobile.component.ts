@@ -114,7 +114,7 @@ export class LoginPopupMobileComponent implements OnInit {
         this.statusMessage = this.translateService.instant('Wrong email or password!');
         break;
       case 426:
-        this.statusMessage = this.translateService.instant(`Seems, that your user is still inactive. Email with activation link has been sent to your email address. Please, check and follow the instructions. If you can't find our mail, then please try to send the link again.`);
+        this.statusMessage = this.translateService.instant(`Seems, that your user is still inactive. Email with activation link has been sent to your email address. Please, check and follow the instructions.`);
         // this.showSendAgainBtn = true;
         break;
       case 403:

@@ -14,6 +14,11 @@ export class RegistrationGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean>|boolean {
+
+    if(this.authService.isAuthenticated()) {
+      this.router.navigate(['/dashboard']);
+      return false;
+    }
     const token = route.queryParams['t'];
     return this.authService.checkTempToken(token)
       .pipe(
