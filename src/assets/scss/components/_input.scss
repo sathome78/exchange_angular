@@ -256,6 +256,10 @@
 
     &__input {
       height: 45px;
+      &--small{
+        height: 39px;
+        border: 1px solid #94C2FF;
+      }
     }
 
     &__icon {

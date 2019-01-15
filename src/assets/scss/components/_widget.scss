@@ -6,6 +6,24 @@
 
   /*--- modificators end ---*/
   /*--- elements start ---*/
+
+  .input-row{
+    margin-top: 17px;
+  }
+  &__trading-title{
+    font-size: 16px;
+  }
+  &__trading-title-wr{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  &__trading-fee{
+    font-size: 12px;
+    color: #BFBFBF;
+    margin-bottom: 2px;
+    margin-right: 2px;
+  }
   &__header {
     position: relative;
     display: none;
@@ -13,6 +31,9 @@
     margin-bottom: 12px;
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
+    &--trading{
+    margin-bottom: 7px;
+  }
     &--mob {
       display: flex;
       height: 44px;
@@ -132,6 +153,14 @@
   &__content {
     display: none;
     position: relative;
+    &--pg{
+      padding: 0 16px;
+      .widget__trading-form{
+        margin: 0;
+        width: calc(50% - 7.5px);
+        max-width: 187px; 
+      }
+    }
     &--mob {
       display: block;
       //height: 100%;
@@ -514,7 +543,7 @@
     margin-top: 24px;
   }
   &__trading-row-txt {
-    margin-top: 10px;
+    // margin-top: 10px;
     font-size: 14px;
     line-height: 16px;
     .type {
@@ -536,6 +565,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
+      
       &-title {
         margin-bottom: 4px;
       }
@@ -573,6 +603,7 @@
     font-size: 18px;
     line-height: 1;
     margin: 28px auto 0;
+    border-radius: 4px;
   }
   &__buy-sell-btn-wrap {
     display: flex;
@@ -802,6 +833,11 @@
     &__trading-form {
       display: block;
       margin: 0 24px;
+      &--wr{
+        display: flex;
+        justify-content: space-between;
+        padding-top: 31px;
+      }
       &--mob {
         display: none;
       }
@@ -824,7 +860,7 @@
       margin-right: 8px;
     }
     &__trading-row {
-      margin-top: 24px;
+      margin-top: 13px;
     }
     &__trading-row-txt {
       font-size: 12px;
@@ -832,16 +868,16 @@
       .avaliable {
         flex-direction: row;
         align-items: center;
-        margin-top: 0;
+            margin-top: 11px;
       }
 
     }
     &__trading-btn {
       max-width: none;
-      height: 53px;
+      height: 48px;
       line-height: 1;
       font-size: 24px;
-      margin: 44px 0 0;
+      margin: 27px 0 0;
       //background-color: #264F92;
       //border-color: rgba(35, 123, 239, 0.5);
       &:hover {
@@ -968,6 +1004,7 @@
       .dropdown__btn {
         color: #fff;
         &:before {
+          // display: none;
           background-image: url('assets/img/limit-order-white.svg');
         }
         &:after {
@@ -997,7 +1034,7 @@
         }
       }
       .avaliable {
-        margin-top: 0;
+        margin-top: 12px;
         color: $light-blue;
         svg {
           fill: $light-blue;
@@ -1014,8 +1051,20 @@
     &__trading-btn {
       //background-color: #264F92;
       //border-color: rgba(35, 123, 239, 0.5);
+      &--buy{
+        background: #01B43E;
+        &:hover{
+          background: #00CA45;
+        }
+      }
+      &--sell{
+        background: #EB5757;
+        &:hover{
+          background: #EF4B4B;
+        }
+      }
       &:hover {
-        background-color: $darker-blue;
+        // background-color: $darker-blue;
         border-color: transparent;
       }
 
@@ -1130,6 +1179,18 @@
             }
           }
         }
+      }
+      .wrap-input__currency{
+        position: absolute;
+        top: 2px;
+        bottom: 0;
+        right: 14px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        pointer-events: none;
+        text-transform: uppercase;
+        min-width: 35px;
       }
       .wrap-input__input {
         &:not([value=""]) {

@@ -1,7 +1,13 @@
 :host {
   width: 100%;
 }
-
+.radio__input:checked{
+  &+.radio__text{
+        background-color: #237BEF;
+    color: #fff;
+    border-color: transparent;
+  }
+}
 .dropdown__btn:after {
   position: absolute;
   top: 40%;
@@ -48,4 +54,29 @@
   .dropdown__list {
     left: 21px;
   }
+}
+
+.avaliable--aifl{
+  align-items: flex-start;
+  span{
+  color: #BFBFBF;
+    margin-right: 3px;
+  }
+}
+
+.no-line{
+  input{
+        border: 1px solid #94C2FF;
+        border-radius: 4px;
+        width: 100%;
+  }
+}
+
+.row__percent{
+      margin-top: 19px;
+  @media(min-width:1500px){
+    font-size: 20px;
+  }
+      font-size: calc(.64rem + .63vw);
+    justify-content: space-between;
 }
