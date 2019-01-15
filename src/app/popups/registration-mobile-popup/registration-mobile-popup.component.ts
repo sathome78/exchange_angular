@@ -34,7 +34,6 @@ export class RegistrationMobilePopupComponent implements OnInit {
   public firstName;
   public emailMessage = '';
   public afterCaptchaMessage;
-  private symbolsRegex = /[!№#$%^&*<>()=']/ig;
 
   constructor(
     private popupService: PopupService,
@@ -75,7 +74,6 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   resolvedCaptcha(event) {
     this.userService.sendToEmailConfirmation(this.email).subscribe(res => {
-      // console.log(res);
       this.afterCaptchaMessage = this.translateService.instant(`We sent the confirmation link to
         <br>
         <span class="popup__email-link">
@@ -100,7 +98,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   initForm() {
     this.emailForm = new FormGroup({
-      email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator()]}),
+      email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator(), this.utilsService.specialCharacterValidator()]}),
     });
     this.passwordForm = new FormGroup({
       password: new FormControl('', {validators: [Validators.required]}),
@@ -112,7 +110,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   emailSubmit() {
     this.emailSubmited = true;
-    if (this.emailForm.valid && this.agreeTerms && this.emailMessage === '') {
+    if (this.emailForm.valid && this.agreeTerms) {
       const email = this.emailForm.get('email').value.trim();
       this.email = email;
       this.userService.checkIfEmailExists(email).subscribe(res => {
@@ -130,9 +128,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
   }
 
   emailInput(e) {
-    e.target.value.match(this.symbolsRegex) ?
-      this.emailMessage = 'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' :
-      this.emailMessage = '';
+    this.emailMessage = '';
   }
 
   nameSubmit() {

@@ -175,6 +175,9 @@
               <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailInvalid'] && emailForm.get('email').touched && !emailForm.get('email').errors['required']">
               {{'Wrong email' | translate}}
             </span>
+              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['specialCharacter'] && !emailForm.get('email').errors['required']">
+              {{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
+            </span>
             </div>
             <div *ngIf="emailMessage !== ''">
                <span class="wrap-input__message">
