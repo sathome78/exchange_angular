@@ -204,12 +204,14 @@
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
         border-radius: 4px;
-        margin-right: 16px;
+        margin-right: 0;
         margin-bottom: 0;
         .menu__link-text {
           padding-bottom: 0;
         }
         &:hover{
+          background-color: $darker-blue;
+          color:#fff;
           .menu__link-text{
             &:after{
               display: none;
@@ -575,7 +577,7 @@
     }
 
     &__flag {
-      padding: 0 12px;
+      padding: 0 8px 0 16px;
       width: 26px;
       height: 26px;
       box-sizing: content-box;

@@ -1,4 +1,4 @@
-<div class="dynamic-input">
+<div class="dynamic-input" [class.dynamic-input--open]="showDropdown">
   <div class="dynamic-input__wrap">
     <input
       #input
@@ -12,6 +12,7 @@
       required
     >
     <div class="dynamic-input__triangle"></div>
+    <span class="dynamic-input__label">Search</span>
   </div>
 
   <!--<div class="wrap-input__icon" *ngIf="icon" [innerHTML]="icon"></div>-->
