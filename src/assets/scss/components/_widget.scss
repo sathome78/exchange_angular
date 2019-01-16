@@ -676,6 +676,8 @@
 
     &--gradient {
       background: linear-gradient(to bottom, #F5F5F5 0%, #FDFDFD 50%, #F5F5F5 100%);
+
+
     }
     /*--- elements start ---*/
     &__header {
@@ -1146,6 +1148,7 @@
         background: -webkit-linear-gradient(top, rgb(48, 49, 77) 0%, rgb(24, 52, 103) 100%);
         background: -o-linear-gradient(top, rgb(48, 49, 77) 0%, rgb(24, 52, 103) 100%);
         background: linear-gradient(to bottom, rgb(48, 49, 77) 0%, rgb(24, 52, 103) 100%);
+        background: #252543;
       }
       &__header {
         &:hover {
@@ -1209,17 +1212,20 @@
       .wrap-input__input {
         &:not([value=""]) {
           ~ .wrap-input__label {
-            background-color: #2B3256;
+            // background-color: #2B3256;
+            background: #252543;
           }
         }
         &:focus {
           ˜.wrap-input__label {
-            background-color: #2B3256;
+            // background-color: #2B3256;
+            background: #252543;
           }
         }
         &:valid {
           ~ .wrap-input__label {
-            background-color: #2B3256;
+            // background-color: #2B3256;
+            background: #252543;
           }
         }
       }

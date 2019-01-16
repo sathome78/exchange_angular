@@ -1,13 +1,14 @@
 ::ng-deep .ng-select {
   .ng-select-container {
-    width: calc(100% - 5px) !important;
+    // width: calc(100% - 5px) !important;
     margin: 0 auto !important;
     height: 45px !important;
     background-color: transparent !important;
-    border-bottom-right-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
+    // border-bottom-right-radius: 0 !important;
+    // border-bottom-left-radius: 0 !important;
     border-color: #94C2FF !important;
-    border-bottom: none !important;
+    // border-bottom: none !important;
+    border-radius: 4px;
     overflow: unset !important;
   }
   .ng-value-container {

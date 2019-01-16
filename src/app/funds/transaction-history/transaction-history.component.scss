@@ -4,11 +4,12 @@
     margin: 0 auto !important;
     height: 45px !important;
     background-color: transparent !important;
-    border-bottom-right-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
+    // border-bottom-right-radius: 0 !important;
+    // border-bottom-left-radius: 0 !important;
     border-color: #94C2FF !important;
-    border-bottom: none !important;
+    // border-bottom: none !important;
     overflow: unset !important;
+    border-radius: 4px;
   }
   .ng-value-container {
     height: 100% !important;
@@ -206,10 +207,10 @@
     margin: 0 auto !important;
     height: 45px !important;
     background-color: transparent !important;
-    border-bottom-right-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
+    // border-bottom-right-radius: 0 !important;
+    // border-bottom-left-radius: 0 !important;
     border-color: #94C2FF !important;
-    border-bottom: none !important;
+    // border-bottom: none !important;
     overflow: unset !important;
   }
   .ng-value-container {
