@@ -1,4 +1,4 @@
-import * as coreActions from '../actions/core.actions'
+import * as coreActions from '../actions/core.actions';
 import {ActionReducer, createSelector} from '@ngrx/store';
 import {REHYDRATE, RehydrateAction} from '../actions/core.actions';
 import { SimpleCurrencyPair } from '../models/simple-currency-pair';
@@ -9,16 +9,16 @@ export interface State {
   region: string;
   language: string;
   simpleCurrencyPairs: SimpleCurrencyPair[];
-  cryptoCurrenciesForChoose: CurrencyChoose[],
-  fiatCurrenciesForChoose: CurrencyChoose[],
-  allCurrenciesForChoose: CurrencyChoose[],
-  loading: false,
+  cryptoCurrenciesForChoose: CurrencyChoose[];
+  fiatCurrenciesForChoose: CurrencyChoose[];
+  allCurrenciesForChoose: CurrencyChoose[];
+  loading: false;
 }
 
 export const INIT_STATE: State = {
   currency: null,
   region: null,
-  language: null,
+  language: 'en',
   simpleCurrencyPairs: [],
   cryptoCurrenciesForChoose: [],
   fiatCurrenciesForChoose: [],
@@ -39,6 +39,9 @@ export function reducer(state: State = INIT_STATE, action: coreActions.Actions) 
     case coreActions.SAVE_TO_STORE:
       return {...state, ...action.payload};
 
+    case coreActions.CHANGE_LANGUAGE:
+      console.log(action.payload)
+      return {...state, language: action.payload};
 
     case coreActions.SET_SIMPLE_CURRENCY_PAIRS:
       return {

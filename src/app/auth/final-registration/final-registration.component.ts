@@ -4,6 +4,7 @@ import {UserService} from '../../shared/services/user.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../shared/services/auth.service';
 import {environment} from '../../../environments/environment';
+import {TranslateService} from '@ngx-translate/core';
 
 declare var encodePassword: Function;
 declare var sendConfirmationPasswordGtag: Function;
@@ -26,13 +27,14 @@ export class FinalRegistrationComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private translateService: TranslateService
   ) {
   }
 
   ngOnInit() {
     this.initForm();
-    this.message = 'Now, we need to create strong password.';
+    this.message = this.translateService.instant('Now, we need to create strong password.');
     this.token = this.activatedRoute.snapshot.queryParamMap.get('t');
   }
 
@@ -79,7 +81,7 @@ export class FinalRegistrationComponent implements OnInit {
         this.router.navigate(['/']);
         sendConfirmationPasswordGtag();
       }, err => {
-        this.message = 'Server error. Try again.';
+        this.message = this.translateService.instant('Server error. Try again.');
       });
     }
     // console.log(sendData);

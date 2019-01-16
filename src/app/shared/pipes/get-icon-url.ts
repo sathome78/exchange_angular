@@ -9,6 +9,18 @@ export class GetIconUrl  implements PipeTransform {
     switch (name) {
       case 'DIGIT':
       case 'DOR':
+      case 'BAB':
+      case 'CMS_X':
+      case 'ECTE':
+      case 'EXR':
+      case 'GRS':
+      case 'KOD':
+      case 'MANA':
+      case 'MCO':
+      case 'POA':
+      case 'TAO':
+      case 'WaBi':
+      case 'ZIL':
       case 'DTC':
       case 'ECT':
       case 'ENGT':
@@ -22,7 +34,9 @@ export class GetIconUrl  implements PipeTransform {
       case 'AED':
       case 'RUB':
       case 'RIME':
+      case 'TCAT':
       case 'EDT':
+      case 'EXO':
       case 'HT':
       case 'CTX':
       case 'LiqPay':

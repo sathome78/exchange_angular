@@ -1,20 +1,20 @@
 <table class="table widget__table">
   <thead>
   <tr>
-    <th class="table__cell-head table__cell-head--tal">Order id</th>
+    <th class="table__cell-head table__cell-head--tal">{{'Order id' | translate}}</th>
     <th class="table__cell-head table__cell-head--tal">
       <svg class="table__cell-head-arr" width="6" height="8" viewBox="0 0 6 8" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M5.86338 3.74894C6.06488 3.99981 6.04068 4.38035 5.80935 4.59887L3.37001 7.84701L3.36491 7.85187C3.16243 8.04303 2.86838 8.04686 2.66309 7.87675C2.6518 7.86737 2.64073 7.85746 2.62999 7.84701L0.190654 4.59887C-0.0406818 4.38035 -0.0648789 3.99981 0.136618 3.74894C0.338115 3.49806 0.689025 3.47182 0.92047 3.69031L2.44455 6.07412L2.44455 0.602408C2.44455 0.269701 2.69325 0 3.00011 0C3.30697 0 3.55566 0.269701 3.55566 0.602408L3.55566 6.07391L5.07953 3.69031C5.31097 3.47182 5.66188 3.49806 5.86338 3.74894Z"/>
       </svg>
-      Created
+      {{'Created' | translate}}
     </th>
     <!--<th class="table__cell-head table__cell-head&#45;&#45;tal">Order</th>-->
-    <th class="table__cell-head table__cell-head--tal">Type</th>
-    <th class="table__cell-head table__cell-head--tal">Average Price</th>
-    <th class="table__cell-head table__cell-head--tal">Amount</th>
-    <th class="table__cell-head table__cell-head--tal">Fee</th>
-    <th class="table__cell-head table__cell-head--tal">Total</th>
+    <th class="table__cell-head table__cell-head--tal">{{'Type' | translate}}</th>
+    <th class="table__cell-head table__cell-head--tal">{{'Average Price' | translate}}</th>
+    <th class="table__cell-head table__cell-head--tal">{{'Amount' | translate}}</th>
+    <th class="table__cell-head table__cell-head--tal">{{'Fee' | translate}}</th>
+    <th class="table__cell-head table__cell-head--tal">{{'Total' | translate}}</th>
     <th class="table__cell-head table__cell-head--tal" style="width: 74px;"></th>
     <!-- <th class="table__cell-head table__cell-head--tal" style="width: 74px;"></th> -->
   </tr>
@@ -52,12 +52,12 @@
       <button class="btn btn--small btn--empty-red btn--hidden"
               style="width: 100%; max-width: 58px;"
               (click)="onShowCancelOrderConfirm(item.id)"
-      >Cancel</button>
+      >{{'Cancel' | translate}}</button>
       <div class="revoke-request" *ngIf="showCancelOrderConfirm === item.id">
-        <div class="revoke-request__title">Are you sure you want to cancel this order?</div>
+        <div class="revoke-request__title">{{'Are you sure you want to cancel this order?' | translate}}</div>
         <div class="revoke-request__button-wrap">
-          <button class="btn btn--small" (click)="cancelOrder(item)">Yes</button>
-          <button class="btn btn--small" (click)="onShowCancelOrderConfirm(null)">No</button>
+          <button class="btn btn--small" (click)="cancelOrder(item)">{{'Yes' | translate}}</button>
+          <button class="btn btn--small" (click)="onShowCancelOrderConfirm(null)">{{'No' | translate}}</button>
         </div>
         <div class="revoke-request__triangle"></div>
       </div>
@@ -84,7 +84,7 @@
 <div class="order-edit-popup" *ngIf="editOrderPopup">
   <div class="order-edit-popup__content order-edit-popup__content--mob"></div>
   <div class="order-edit-popup__content">
-    <div class="order-edit-popup__title">Edit order <span>#{{order.orderId}}</span></div>
+    <div class="order-edit-popup__title">{{'Edit order' | translate}} <span>#{{order.orderId}}</span></div>
     <div class="order-edit-popup__close" (click)="closePopup()">
       <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -139,7 +139,7 @@
                  (input)="stopInput($event)"
                  formControlName="stop"
                  name="stop">
-          <label class="wrap-input__label" for="">Stop</label>
+          <label class="wrap-input__label" for="">{{'Stop' | translate}}</label>
           <div class="wrap-input__line"></div>
         </div>
         <div class="wrap-input widget__input">
@@ -181,11 +181,11 @@
     <path d="M7.23181 6.84126V8.72983C7.23181 9.08029 7.41189 9.35214 7.56677 9.35214H12V6.21888H7.56677C7.41189 6.21888 7.23181 6.4908 7.23181 6.84126ZM9.05815 7.05851C9.43365 7.05851 9.73913 7.38464 9.73913 7.78551C9.73913 8.18639 9.43365 8.51251 9.05815 8.51251C8.68266 8.51251 8.37718 8.18639 8.37718 7.78551C8.37718 7.38464 8.68266 7.05851 9.05815 7.05851ZM7.56677 10.3633C6.85985 10.3633 6.2847 9.63047 6.2847 8.72983V6.84126C6.2847 5.94062 6.85979 5.20783 7.56677 5.20783H12V3.97574C12 3.35222 11.6172 2.82286 11.0894 2.63991L10.2623 0.325323C10.2155 0.194484 10.12 0.0902034 9.99851 0.0373555C9.87702 -0.0154251 9.74051 -0.0121895 9.6213 0.046523L4.49908 2.57102H1.31579C0.590302 2.57102 0 3.20122 0 3.97574V11.5952C0 12.3698 0.590302 13 1.31579 13H10.6842C11.4097 13 12 12.3698 12 11.5952V10.3633H7.56677ZM9.5581 1.19138L10.0511 2.57109H6.75876L9.5581 1.19138Z"/>
     </svg>
     </span>
-    <span style="vertical-align: middle; color:#A0A0A0;">Avaliable: </span>
+    <span style="vertical-align: middle; color:#A0A0A0;">{{'Avaliable:' | translate}} </span>
     <!-- <a href="#">{{userBalance | roundCurrency: isFiat(0) | formatCurrency}} {{arrPairName[0]}}</a> -->
     </div>
     <div>
-    Fee: {{order.commission | roundCurrency: isFiat(0) | formatCurrency}} {{arrPairName[0]}}
+    {{'Fee:' | translate}} {{order.commission | roundCurrency: isFiat(0) | formatCurrency}} {{arrPairName[0]}}
     </div>
     </div>
     <div class="row row--jcsb row--aic widget__trading-row">
@@ -199,8 +199,8 @@
     </ul>
     </div>
     <div class="order-edit-popup__btns-wrap">
-    <button class="btn btn--small btn--empty-red" (click)="deleteOrder(order)">Delete</button>
-    <button class="btn btn--small btn--empty-blue" (click)="saveOrder()">Save</button>
+    <button class="btn btn--small btn--empty-red" (click)="deleteOrder(order)">{{'Delete' | translate}}</button>
+    <button class="btn btn--small btn--empty-blue" (click)="saveOrder()">{{'Save' | translate}}</button>
     </div>
     </div>
   </div>

@@ -12,6 +12,14 @@ import {SettingsService} from './settings.service';
 import {SettingsComponent} from './settings.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Ng5SliderModule} from 'ng5-slider';
+import {HttpClient} from '@angular/common/http';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {translateInfo} from '../shared/configs/translate-options';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, translateInfo.path.settings, translateInfo.suffix);
+}
 
 @NgModule({
   imports: [
@@ -19,7 +27,15 @@ import {Ng5SliderModule} from 'ng5-slider';
     FormsModule,
     Ng5SliderModule,
     ReactiveFormsModule,
-    SettingsRoutingModule
+    SettingsRoutingModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      },
+      isolate: true
+    }),
   ],
   declarations: [
     EmailNotificationComponent,

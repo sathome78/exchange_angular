@@ -5,3 +5,15 @@
   min-height: calc(100% - 45px);
 }
 
+.ishover {
+  &:hover {
+    background: none !important;
+  }
+  svg{
+    fill: #50537c !important;
+  }
+}
+
+.cursorDisable {
+  cursor: default;
+}

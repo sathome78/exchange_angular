@@ -20,7 +20,7 @@ export class ToolsComponent implements OnInit {
 
   public allWidgets: DashboardWidgetItemModel[];
   public allToolsItems: DashboardToolsItemModel[];
-  public visibleToolsItems: DashboardToolsItemModel[];
+  public visibleToolsItems: DashboardToolsItemModel[] = [];
   public overlayShow = false;
 
   constructor(private dataService: DashboardService) { }
@@ -51,6 +51,9 @@ export class ToolsComponent implements OnInit {
   addToDashboard(typeItem: string): void {
     this.visibleToolsItems = this.visibleToolsItems.filter(item => item.type !== typeItem);
     this.dataService.toolsToDashboard$.next(typeItem);
+    if (!this.visibleToolsItems.length) {
+      this.hideOverlay();
+    }
   }
 
   /**

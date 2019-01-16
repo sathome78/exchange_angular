@@ -1,18 +1,18 @@
-<div class="title modal__title">Send money</div>
+<div class="title modal__title">{{'Send money' | translate}}</div>
 <div class="subtitle modal__subtitle">
-  <p>How would you like to send the money?</p>
+  <p>{{'How would you like to send the money?' | translate}}</p>
 </div>
 <button class="btn btn--center btn--empty-blue"
         (click)="onChooseSend(CRYPTO_WITHDRAWAL)"
->Crypto withdrawal
+>{{'Crypto withdrawal' | translate}}
 </button>
 
 <button class="btn btn--center btn--empty-blue"
         (click)="onChooseSend(FIAT_WITHDRAWAL)"
->Fiat withdrawal
+>{{'Fiat withdrawal' | translate}}
 </button>
 
 <button class="btn btn--center btn--empty-blue"
         (click)="onChooseSend(INNER_TRANSFER)"
->Inner transfer
+>{{'Inner transfer' | translate}}
 </button>

@@ -3,6 +3,9 @@
     background-color: rgba(0, 0, 0, 0);
     color: #A0A0A0;
 }
+.feature-no-touch .chart-controls-bar-buttons a:not(.disabled):hover{
+  background-color: transparent;
+}
 
 html body, div.chart-controls-bar, #footer-chart-panel {
   background-color: rgba(0, 0, 0, 0) !important;

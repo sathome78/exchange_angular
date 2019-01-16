@@ -1,17 +1,17 @@
 <!--<div class="overlay&#45;&#45;modal" [ngClass]="{ 'modal&#45;&#45;open': showPopup}" *ngIf="showPopup">-->
   <!--<div class="modal">-->
 <div class="overlay--modal" *ngIf="showPopup" [@overlayAnimation]="showPopup ? 'show' : 'hide'">
-  <div class="modal" [@modalAnimation]="showPopup ? 'show' : 'hide' ">'
+  <div class="modal" [@modalAnimation]="showPopup ? 'show' : 'hide' ">
     <!-- btn modal close -->
     <div class="modal__controls modal__controls--top">
       <a class="modal__button modal__button--close" (click)="onCloseRefillBalancePopup()">
-        <span>close</span>
+        <span>{{'close' | translate}}</span>
         <img class="modal__button-icon" src="../../../assets/img/close.svg">
       </a>
     </div>
     <!-- modal header start -->
     <div class="modal__header-mob">
-      <div class="steps__counter steps__counter--mob">step
+      <div class="steps__counter steps__counter--mob">{{'step' | translate}}
         <span class="steps__counter-val">{{step}}</span>/2</div>
       <div class="modal__header-mob-controls">
         <!--<a class="modal__control-mob" href="#">-->
@@ -31,8 +31,8 @@
         >
           <a class="steps__link" (click)="setStep(1)">
             <span class="steps__number" [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
-            <span class="steps__number-mob-current">1. Refill money</span>
-            <span class="steps__title">Refill money</span>
+            <span class="steps__number-mob-current">1. {{'Refill money' | translate}}</span>
+            <span class="steps__title">{{'Refill money' | translate}}</span>
           </a>
         </li>
         <li class="steps__item"
@@ -53,7 +53,7 @@
           <!--</a>-->
         <!--</li>-->
       </ul>
-      <div class="steps__counter">step <span class="steps__counter-val">{{step}}</span>/ 2</div>
+      <div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/ 2</div>
     </div>
     <!-- modal header end -->
     <div class="modal__content">

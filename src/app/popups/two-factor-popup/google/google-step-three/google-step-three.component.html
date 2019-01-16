@@ -1,6 +1,6 @@
-<div class="title modal__title">Two-Factor authentication by Google Authenticator</div>
+<div class="title modal__title">{{'Two-Factor authentication by Google Authenticator' | translate}}</div>
 <div class="subtitle modal__subtitle">
-  <p>Сonfirm your details</p>
+  <p>{{'Сonfirm your details' | translate}}</p>
 </div>
 
 <form [formGroup]="form">
@@ -11,7 +11,7 @@
         class="wrap-input__input"
         type="email"
         formControlName="email">
-      <label class="wrap-input__label">Email</label>
+      <label class="wrap-input__label">{{'Email' | translate}}</label>
       <div class="wrap-input__line"></div>
     </div>
   </div>
@@ -22,7 +22,7 @@
         class="wrap-input__input"
         type="password"
         formControlName="password">
-      <label class="wrap-input__label">Password</label>
+      <label class="wrap-input__label">{{'Password' | translate}}</label>
       <div class="wrap-input__line"></div>
     </div>
   </div>
@@ -33,11 +33,11 @@
         class="wrap-input__input"
         type="text"
         formControlName="pincode">
-      <label class="wrap-input__label">Authenticator code</label>
+      <label class="wrap-input__label">{{'Authenticator code' | translate}}</label>
       <div class="wrap-input__line"></div>
     </div>
   </div>
 
-    <button class="btn btn--active btn--center " (click)="onNextStep()">Enable GA</button>
+    <button class="btn btn--active btn--center " (click)="onNextStep()">{{'Enable GA' | translate}}</button>
    <!--todo here we should fire popup if time of 5 minutes expires or smth went wrong-->
 </form>

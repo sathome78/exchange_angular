@@ -41,6 +41,7 @@ import {NicknamePipe} from './components/chat/chat-message/nickname.pipe';
 import {EffectsModule} from '@ngrx/effects';
 import {FundsEffects} from '../funds/store/effects/funds.effects';
 import {DashboardEffects} from './effects/dashboard.effects';
+import {TranslateModule} from '@ngx-translate/core';
 
 
 export function socketProvider() {
@@ -139,6 +140,7 @@ const stompConfig: StompConfig = {
   imports: [
     SharedModule,
     CommonModule,
+    TranslateModule,
     FormsModule,
     ReactiveFormsModule,
     GridsterModule.forRoot(),
