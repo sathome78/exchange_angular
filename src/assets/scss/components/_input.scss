@@ -275,7 +275,11 @@
     &--error {
       .wrap-input__input {
         border-color: $red;
-
+        &:valid{
+          ~ .wrap-input__label {
+            color: $red;
+          }
+        }
         ~ .wrap-input__label {
           color: $red;
           background-color: $dark-indigo;
@@ -289,22 +293,13 @@
           display: inline-block;
         }
 
-        // &:focus {
-        //   border-color: $red;
-        //
-        //   ~ .input__label {
-        //     top: -5px;
-        //     padding: 0 2px;
-        //     color: $red;
-        //     background-color: #fff;
-        //     font-size: 10px;
-        //     line-height: 12px;
-        //   }
-        //
-        //   ~ .input__line {
-        //     background-color: $red;
-        //   }
-        // }
+         &:focus {
+
+           ~ .wrap-input__label {
+             color: $light-blue;
+
+           }
+         }
       }
     }
 
