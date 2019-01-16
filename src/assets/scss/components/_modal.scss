@@ -107,7 +107,7 @@
     margin-bottom: 24px;
     text-align: center;
   }
-  
+
 
   &__row {
     display: -webkit-flex;
@@ -317,7 +317,7 @@
   .modal {
     right: -900px;
     width: 50%;
-    min-width: 800px;
+    min-width: 50%;
     max-width: 800px;
 
     &__controls {
@@ -376,27 +376,403 @@
 /*--- DARK THEME START---*/
 .dark-theme {
   .modal {
-    background-color: $dark-indigo;
+    color: #000;
+    //background-color: $dark-indigo;
 
     &__header {
-      border-color: rgba(160, 160, 160, .1);
+      //border-color: rgba(160, 160, 160, .1);
     }
 
-    &__code-grey-field {
-      background-color: transparent;
-      border: 1px solid $light-blue;
-    }
+    //&__code-grey-field {
+    //  background-color: transparent;
+    //  border: 1px solid $light-blue;
+    //}
 
-    &__code-2fa {
-      span {
-        color: $light-blue;
+    //&__code-2fa {
+    //  span {
+    //    color: $light-blue;
+    //  }
+    //}
+    .steps {
+      &__item {
+        background-color: transparent;
+      }
+
+      &__number {
+        border-color: rgba(25, 26, 57, 0.1);
+
+        &--valid {
+          color: $darker-blue;
+          border-color: $darker-blue;
+
+          &:after {
+            background-image: url("assets/img/step-valid.svg");
+          }
+        }
+      }
+
+      &__number-mob-current {
+        color: #fff;
+        background-color: $darker-blue;
+      }
+
+      &__counter {
+        color: #000;
+      }
+
+      &__counter-val {
+        color: $darker-blue;
       }
     }
+
+    .btn {
+      color: $darker-blue;
+      border: 1px solid $darker-blue;
+
+      &:hover {
+        color: #fff;
+        border-color: transparent;
+        background-color: $darker-blue;
+
+        .btn__icon--hover-white, .btn__icon--light-blue {
+          svg {
+            fill: #fff;
+          }
+        }
+      }
+
+      &:focus {
+        color: #fff;
+        background-color: $darker-blue;
+
+        .btn__icon--hover-white, .btn__icon--light-blue {
+          svg {
+            fill: #fff;
+          }
+        }
+      }
+
+      &:disabled {
+        cursor: default;
+      }
+
+      /*--- modificators start ---*/
+      // states
+
+      &--active {
+        color: #fff;
+        border-color: transparent;
+        background-color: $darker-blue;
+      }
+
+      &--error {
+        color: #fff;
+        border-color: transparent;
+        background-color: $red;
+
+        &:hover {
+          background-color: $red;
+        }
+
+        &:focus {
+          border-color: transparent;
+          background-color: $red;
+        }
+      }
+
+      &--empty-red {
+        color: $red;
+        border-color: $red;
+        background-color: transparent;
+
+        &:hover {
+          color: #fff;
+          background-color: $red;
+        }
+
+        &:focus {
+          color: #fff;
+          background-color: $red;
+        }
+      }
+
+      &--empty-blue {
+        background-color: transparent;
+        border-color: $darker-blue;
+        color: $darker-blue;
+
+        &:hover {
+          background-color: $darker-blue;
+        }
+      }
+
+      /*--- modificators end ---*/
+      /*--- elements start ---*/
+      &__icon {
+
+        &--blue {
+          svg {
+            fill: $darker-blue;
+          }
+        }
+
+        &--light-blue {
+          svg {
+            fill: $darker-blue;
+          }
+        }
+      }
+
+      /*--- elements end ---*/
+    }
+
+    .wrap-input {
+      &--error {
+        .wrap-input__input {
+          border-color: $red;
+
+          ~ .wrap-input__label {
+            color: $red;
+            background-color: #fff;
+          }
+
+          ~ .wrap-input__line {
+            background-color: $red;
+          }
+
+          ~ .wrap-input__message {
+            color: $red;
+          }
+
+        }
+      }
+
+      &--grey {
+        .wrap-input__input {
+          border-color: $grey;
+
+          ~ .wrap-input__label {
+            color: $grey;
+          }
+
+          ~ .wrap-input__line {
+            background-color: $grey;
+          }
+
+          &:valid {
+            border-color: $darker-blue;
+
+            ~ .wrap-input__label {
+              color: $darker-blue;
+              background-color: #fff;
+            }
+
+            ~ .wrap-input__line {
+              background-color: $darker-blue;
+            }
+          }
+
+        }
+      }
+
+      /*--- elements start ---*/
+      &__label {
+        color: $grey;
+
+        &--error {
+          color: $red !important;
+        }
+      }
+
+      &__icon {
+        svg {
+          fill: $grey;
+        }
+      }
+
+      &__line {
+        background-color: $grey;
+
+        &--error {
+          background-color: $red !important;
+        }
+      }
+
+      &__message {
+        &--show {
+          color: $light-grey;
+        }
+
+        &--error {
+          color: $red;
+        }
+      }
+
+      &__input {
+        border-color: $grey;
+        background-color: transparent;
+        color:#000;
+
+        &:focus {
+          border-color: $darker-blue;
+
+          ~ .wrap-input__label {
+            color: $darker-blue !important;
+            background-color: #fff;
+          }
+
+          ~ .wrap-input__icon {
+            svg {
+              fill: $darker-blue;
+            }
+          }
+
+          ~ .wrap-input__line {
+            background-color: $darker-blue;
+
+            &--error {
+              background-color: $red !important;
+            }
+          }
+        }
+
+        &:valid {
+          ~ .wrap-input__label {
+            color: $grey;
+            background-color: #fff;
+          }
+        }
+
+        &--error {
+          border-color: $red !important;
+        }
+      }
+
+      /*--- elements end ---*/
+    }
+
+    .select {
+      /*--- elements start ---*/
+      &__value {
+        border-color: $grey;
+
+        &--active {
+          border-color: $darker-blue;
+          ~ .select__label {
+            color: $darker-blue;
+            background-color: #fff;
+          }
+          ~ .select__line {
+            background-color: $darker-blue;
+          }
+          ~ .select__triangle {
+            border-top-color: $darker-blue;
+          }
+        }
+        &--error{
+          border-color: $red;
+          ~.select__label{
+            color: $red;
+          }
+          ~.select__line{
+            background-color: $red;
+          }
+          ~.select__triangle {
+            border-top: 5px solid $red;
+          }
+        }
+      }
+      &__label {
+        color: $grey;
+      }
+
+      &__line {
+        background-color: $grey;
+      }
+      &__triangle {
+        border-top: 5px solid $grey;
+      }
+      &__list {
+        border-color: $darker-blue;
+        background-color: #fff;
+        &--open {
+          border-color: $darker-blue;
+          background-color: #fff;
+        }
+      }
+      &__list-searching {
+        border-color: $darker-blue;
+        background-color: #fff;
+      }
+
+      &__search-input {
+        border-bottom-color: $darker-blue;
+        background-color: transparent;
+
+        &::placeholder {
+          color: $darker-blue;
+        }
+      }
+      &__search-icon {
+        svg {
+          fill: $darker-blue;
+        }
+      }
+
+      &__searching-items-title {
+        color: $light-grey;
+
+        &:after{
+          background-color: $light-grey;
+        }
+      }
+
+      /*--- elements end ---*/
+    }
+
+    .note {
+      background: none;
+      background-color: #E9F2FF;
+
+      &__list-item {
+        &:before {
+          background-color: $darker-blue;
+        }
+      }
+      /*--- elements end ---*/
+    }
+
   }
 }
 
 @media (min-width: 1200px) {
   .dark-theme {
+    .modal{
+      .steps {
+        &__item {
+          border-left-color:$darker-white;
+          &--current {
+            color: #fff;
+            background-color: $darker-blue;
+            .steps__title{
+              color: #fff;
+            }
+          }
+        }
+
+        &__number {
+          &--current {
+            border-color: #fff;
+            color: #fff;
+          }
+        }
+
+        &__title{
+          color: #000;
+        }
+
+      }
+    }
   }
 }
 
