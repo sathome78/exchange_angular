@@ -4,15 +4,32 @@ import {Pipe, PipeTransform} from '@angular/core';
   name: 'formatCurrency'
 })
 export class FormatCurrencyPipe implements PipeTransform {
-  transform(value: number | string): string {
+  transform(value: number | string, format: "full" | "short" = "short"): string {
     const valueParts: Array<string> = ('' + value).split('.');
     const integer: string = valueParts[0];
     const integerParts: Array<string> = this.getIntegerParts(integer);
 
-    const transformed = valueParts.length > 1
-      ? [integerParts.join(' '), valueParts[1]].join('.')
-      : [integerParts.join(' '), '0'].join('.');
-    return transformed;
+    if (format === 'short') {
+      const transformed = valueParts.length > 1
+        ? [integerParts.join(' '), valueParts[1]].join('.')
+        : [integerParts.join(' '), '0'].join('.');
+      return transformed;
+    }
+    if (format === 'full') {
+      const transformed = valueParts.length === 8
+        ? [integerParts.join(' '), valueParts[1]].join('.')
+        : [integerParts.join(' '), this.getValuePart(valueParts[1])].join('.');
+      return transformed;
+    }
+
+  }
+  getValuePart(valuePart: string): string {
+    const zeros = 8 - +valuePart.length;
+    let zerosSet = ''
+    for (let i = 0; i < zeros; i++) {
+      zerosSet += '0'
+    }
+    return valuePart + zerosSet;
   }
 
 
