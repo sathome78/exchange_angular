@@ -26,6 +26,7 @@ export class LoginPopupMobileComponent implements OnInit {
   public statusMessage = '';
   public inPineCodeMode;
   public isGA = false;
+  public isGACheck = false;
   public afterCaptchaMessage;
 
   public currentTemplate: TemplateRef<any>;
@@ -98,7 +99,8 @@ export class LoginPopupMobileComponent implements OnInit {
   checkGoogleLoginEnabled(email: string): void {
     this.userService.getUserGoogleLoginEnabled(email)
       .subscribe(result => {
-        if (result && !this.inPineCodeMode) {
+        this.isGACheck = true;
+        if (result) {
           this.isGA = true;
           this.twoFaAuthModeMessage = this.translateService.instant('Use google authenticator to generate pincode');
         }
@@ -127,9 +129,12 @@ export class LoginPopupMobileComponent implements OnInit {
         this.statusMessage = this.translateService.instant('Your ip is blocked!');
         break;
       case 418:
-        this.checkGoogleLoginEnabled(this.email);
+        if (!this.isGACheck) {
+          this.checkGoogleLoginEnabled(this.email);
+        }
         this.inPineCodeMode = true;
         this.setTemplate('pinCodeTemplate');
+        this.pinForm.reset();
         if (this.pincodeAttempts > 0) {
           this.isError = true;
           this.twoFaAuthModeMessage = this.pincodeAttempts === 3 ?
