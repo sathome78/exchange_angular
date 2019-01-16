@@ -38,11 +38,11 @@
         <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
              (mouseenter)="isDropdownOpen = true" (mouseleave)="isDropdownOpen = false">
           <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
-          <!--<ul class="dropdown__list">-->
-            <!--<ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>-->
-              <!--<li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>-->
-            <!--</ng-template>-->
-          <!--</ul>-->
+          <ul class="dropdown__list">
+            <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
+              <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
+            </ng-template>
+          </ul>
         </div>
         <div class="row row-jcsb">
           <label class="radio radio--mr12">
@@ -107,7 +107,7 @@
                    formControlName="stop"
                    name="stop">
             <label class="wrap-input__label" for="">{{'Stop' | translate}}</label>
-            <!--<div class="wrap-input__line"></div>-->
+            <div class="wrap-input__line"></div>
           </div>
           <div class="wrap-input widget__input">
             <app-price-input [placeholder]="'Limit ' + arrPairName[1]" (customInput)="rateInput($event)" name="limit" formControlName="limit"></app-price-input>
@@ -182,11 +182,11 @@
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input widget__input--mr32">
           <app-price-input [placeholder]="translateService.instant('Quantity of ') + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
-          <div class="wrap-input__line"></div>
+          <!--<div class="wrap-input__line"></div>-->
         </div>
         <div class="wrap-input widget__input">
           <app-price-input [placeholder]="translateService.instant('Price in ') + arrPairName[1]" (customInput)="rateInput($event)" name="priceIn" formControlName="priceIn"></app-price-input>
-          <div class="wrap-input__line"></div>
+          <!--<div class="wrap-input__line"></div>-->
         </div>
       </div>
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
@@ -207,9 +207,9 @@
                (click)="isDropdownOpen = true">
             <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
             <ul class="dropdown__list">
-              <!--<ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>-->
-                <!--<li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>-->
-              <!--</ng-template>-->
+              <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
+                <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
+              </ng-template>
             </ul>
           </div>
         </div>
@@ -274,7 +274,7 @@
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input" style="max-width: 220px; margin: 4px auto;">
           <app-price-input [placeholder]="translateService.instant('Total in ') + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
-          <div class="wrap-input__line"></div>
+          <!--<div class="wrap-input__line"></div>-->
         </div>
       </div>
     </form>
@@ -284,6 +284,7 @@
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input widget__input--mr32">
           <input class="wrap-input__input" type="number" appOnlyNumbers
+                 (input)="stopInput($event)"
                  formControlName="stop"
                  name="stop">
           <label class="wrap-input__label" for="">Stop</label>
@@ -291,7 +292,7 @@
         </div>
         <div class="wrap-input widget__input">
           <app-price-input [placeholder]="translateService.instant('Limit ') + arrPairName[1]" (customInput)="rateInput($event)" name="limit" formControlName="limit"></app-price-input>
-          <div class="wrap-input__line"></div>
+          <!--<div class="wrap-input__line"></div>-->
         </div>
       </div>
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
@@ -381,11 +382,11 @@
       <div class="row row--jcsb widget__trading-row">
         <div class="wrap-input widget__input widget__input--mr32">
           <app-price-input [placeholder]="translateService.instant('Quantity of ') + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
-          <div class="wrap-input__line"></div>
+          <!--<div class="wrap-input__line"></div>-->
         </div>
         <div class="wrap-input widget__input">
           <app-price-input [placeholder]="translateService.instant('Total in ') + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
-          <div class="wrap-input__line"></div>
+          <!--<div class="wrap-input__line"></div>-->
         </div>
       </div>
     </form>

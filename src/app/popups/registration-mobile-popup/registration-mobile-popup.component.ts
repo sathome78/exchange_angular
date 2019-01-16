@@ -74,7 +74,6 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   resolvedCaptcha(event) {
     this.userService.sendToEmailConfirmation(this.email).subscribe(res => {
-      // console.log(res);
       this.afterCaptchaMessage = this.translateService.instant(`We sent the confirmation link to
         <br>
         <span class="popup__email-link">
@@ -99,7 +98,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   initForm() {
     this.emailForm = new FormGroup({
-      email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator()]}),
+      email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator(), this.utilsService.specialCharacterValidator()]}),
     });
     this.passwordForm = new FormGroup({
       password: new FormControl('', {validators: [Validators.required]}),
@@ -140,5 +139,4 @@ export class RegistrationMobilePopupComponent implements OnInit {
       this.setTemplate('captchaTemplate');
     }
   }
-
 }
