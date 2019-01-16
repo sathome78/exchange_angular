@@ -75,7 +75,7 @@
           </label>
         </div>
       </div>
-      <form [formGroup]="limitForm" *ngIf="dropdownLimitValue === 'LIMIT' || dropdownLimitValue === 'ICO' || dropdownLimitValue === 'MARKET_PRICE'">
+      <form [formGroup]="limitForm" [ngClass]="{'d-none': !(dropdownLimitValue === 'LIMIT' || dropdownLimitValue === 'ICO' || dropdownLimitValue === 'MARKET_PRICE')}" >
 
         <div class="row row--jcsb widget__trading-row">
 
@@ -99,7 +99,7 @@
         </div>
 
       </form>
-      <form [formGroup]="stopForm" *ngIf="dropdownLimitValue === 'STOP_LIMIT'">
+      <form [formGroup]="stopForm" [ngClass]="{'d-none': !(dropdownLimitValue === 'STOP_LIMIT')}">
         <div class="row row--jcsb widget__trading-row">
           <div class="wrap-input widget__input widget__input--mr32">
             <input class="wrap-input__input no-spinners" type="number" appOnlyNumbers

@@ -14,6 +14,7 @@ import {OrderBookService} from '../order-book/order-book.service';
 import {
   State,
   getCurrencyPair,
+  getLastPrice,
   getSelectedOrderBookOrder,
   getLastSellBuyOrder,
   getDashboardState,
@@ -30,6 +31,7 @@ import {defaultOrderItem} from '../../reducers/default-values';
 import {AuthService} from 'app/shared/services/auth.service';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {TranslateService} from '@ngx-translate/core';
+import {LastPrice} from '../../../model/last-price.model';
 
 @Component({
   selector: 'app-trading',
@@ -133,11 +135,11 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     //   });
 
     this.store
-      .pipe(select(getCurrencyPairInfo))
+      .pipe(select(getLastPrice))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPairInfo) => {
-        this.setPriceInValue(pair.currencyRate);
-        this.order.rate = pair.currencyRate;
+      .subscribe( (lastPrice: LastPrice) => {
+        this.setPriceInValue(lastPrice.price);
+        this.order.rate = lastPrice.price;
       });
 
 
@@ -148,12 +150,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.orderFromOrderBook(order);
       });
 
-    this.store
-      .pipe(select(getLastSellBuyOrder))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (lastOrders) => {
-        this.lastSellBuyOrders = lastOrders;
-      });
+    // this.store
+    //   .pipe(select(getLastSellBuyOrder))
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe( (lastOrders) => {
+    //     this.lastSellBuyOrders = lastOrders;
+    //   });
 
     // this.dashboardService.selectedOrderTrading$
     //   .pipe(takeUntil(this.ngUnsubscribe))
@@ -235,22 +237,22 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     }
   }
 
-  /**
-   * Set rate on select type order (depending on operation type)
-   */
-  setRateOnSelectTypeOrder(): void {
-    if (this.mainTab === 'BUY') {
-      const tempData = this.lastSellBuyOrders.lastBuyOrder.rate.toString();
-      this.order.rate = parseFloat(tempData);
-      this.setPriceInValue(this.order.rate);
-      this.getCommission();
-    } else {
-      const tempData = this.lastSellBuyOrders.lastSellOrder.rate.toString();
-      this.order.rate = parseFloat(tempData);
-      this.setPriceInValue(this.order.rate);
-      this.getCommission();
-    }
-  }
+  // /**
+  //  * Set rate on select type order (depending on operation type)
+  //  */
+  // setRateOnSelectTypeOrder(): void {
+  //   if (this.mainTab === 'BUY') {
+  //     const tempData = this.lastSellBuyOrders.lastBuyOrder.rate.toString();
+  //     this.order.rate = parseFloat(tempData);
+  //     this.setPriceInValue(this.order.rate);
+  //     this.getCommission();
+  //   } else {
+  //     const tempData = this.lastSellBuyOrders.lastSellOrder.rate.toString();
+  //     this.order.rate = parseFloat(tempData);
+  //     this.setPriceInValue(this.order.rate);
+  //     this.getCommission();
+  //   }
+  // }
 
   /**
    * On select limit
@@ -265,7 +267,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     //     this.getCommission();
     //   }
     // }
-    this.setRateOnSelectTypeOrder();
+    // this.setRateOnSelectTypeOrder();
     this.isDropdownOpen = false;
   }
 
@@ -342,7 +344,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
    totalInput(event): void {
     this.isTotalWithCommission = false;
-    // this.order.total = parseFloat(this.deleteSpace(event.target.value.toString()));
+    this.order.total = parseFloat(this.deleteSpace(event.target.value.toString()));
     if (this.order.rate) {
       this.order.amount = this.order.total / this.order.rate;
       this.order.commission = this.order.total * (this.commissionIndex / 100);
@@ -396,8 +398,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   setPriceInValue(value): void {
     value = typeof value === 'string' ? value : !value ? '0' : this.exponentToNumber(value).toString();
-    this.stopForm.controls['limit'].setValue(value);
-    this.limitForm.controls['priceIn'].setValue(value);
+    if (this.dropdownLimitValue === 'LIMIT') {
+      this.limitForm.controls['priceIn'].setValue(value.toString());
+    } else {
+      this.stopForm.controls['limit'].setValue(value.toString());
+    }
+
+
   }
 
   /**
@@ -431,12 +438,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param order
    */
   orderFromOrderBook(order: OrderItem): void {
-    this.dropdownLimitValue = this.limitsData[0];
+    // this.dropdownLimitValue = this.limitsData[0];
     // this.order.amount = 0;
     // this.setQuantityValue(0);
     // this.order.total = 0;
     // this.setTotalInValue(0);
-    this.order.rate = +order.exrate;
+    this.order.rate = parseFloat(order.exrate.toString());
     this.setPriceInValue(this.order.rate);
     this.mainTab = order.orderType;
     this.getCommission();

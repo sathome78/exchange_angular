@@ -1,13 +1,21 @@
 import * as dashboard from '../actions/dashboard.actions';
 import {CurrencyPair} from '../../model/currency-pair.model';
 import {UserBalance} from '../../model/user-balance.model';
-import {defaultCurrencyPairInfo, defaultLastSellBuyOrder, defaultOrderItem, defaultUserBalance, defaultValues} from './default-values';
+import {
+  defaultCurrencyPairInfo,
+  defaultLastPrice,
+  defaultLastSellBuyOrder,
+  defaultOrderItem,
+  defaultUserBalance,
+  defaultValues
+} from './default-values';
 import {OrderItem} from '../../model/order-item.model';
 import {CurrencyPairInfo} from '../../model/currency-pair-info.model';
 import {REFRESH_CURRENCY_PAIR_INFO} from '../actions/dashboard.actions';
 import {LastSellBuyOrder} from '../../model/last-sell-buy-order.model';
 import {TradeItem} from '../../model/trade-item.model';
 import {SET_ALL_TRADES} from '../actions/dashboard.actions';
+import {LastPrice} from '../../model/last-price.model';
 
 export interface State {
   currencyPair: CurrencyPair;
@@ -16,6 +24,7 @@ export interface State {
   selectedOrderBookOrder: OrderItem;
   currencyPairInfo: CurrencyPairInfo;
   lastSellBuyOrder: LastSellBuyOrder;
+  lastPrice: LastPrice;
   allTrades: TradeItem[];
   loadingAllTrades: boolean;
   tradingType: string;
@@ -29,6 +38,7 @@ export const INIT_STATE: State = {
   currencyPairInfo: defaultCurrencyPairInfo,
   lastSellBuyOrder: defaultLastSellBuyOrder,
   allTrades: [],
+  lastPrice: defaultLastPrice,
   loadingAllTrades: true,
   tradingType: 'BUY'
 };
@@ -52,6 +62,8 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
       return {...state, tradingType: action.payload};
     case dashboard.REFRESH_CURRENCY_PAIR_INFO:
       return {...state, currencyPairInfo: action.payload};
+      case dashboard.SET_LAST_PRICE:
+      return {...state, lastPrice: action.payload};
     case dashboard.SET_LAST_SELL_BUY_ORDER:
       return {...state, lastSellBuyOrder: action.payload};
       case dashboard.SET_ALL_TRADES:
@@ -90,3 +102,6 @@ export const getAllTrades = (state: State): TradeItem[] => state.allTrades;
 export const getLoadingAllTrades = (state: State): boolean => state.loadingAllTrades;
 /** Selector returns trading type*/
 export const getTradingType = (state: State): string => state.tradingType;
+
+/** Selector returns pair last price*/
+export const getLastPrice = (state: State): LastPrice => state.lastPrice;
