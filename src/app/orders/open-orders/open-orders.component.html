@@ -194,7 +194,14 @@
               <li *ngFor="let item of pairs" (click)="selectNewActiveCurrencyPair(item)" class="dropdown__item">{{item.currencyPairName}}</li>
             </ul>
           </div> -->
-          <ng-select
+          <app-dynamic-input
+            [value]="currencyPairValue"
+            [options]="(currencyPairs$ | async) | dynamicIData: 'name': 'id'"
+            (onChange)="onChangeCurrPair($event)"
+            (onSelect)="onSelectPair($event.id)"
+          >
+          </app-dynamic-input>
+          <!-- <ng-select
             class="custom"
             [items]="currencyPairs$ | async"
             bindLabel="name"
@@ -203,7 +210,7 @@
             name="currencyPair"
             [(ngModel)]="currencyPairId"
             (change)="loadOrders()"
-          ></ng-select>
+          ></ng-select> -->
           <div class="wrap-input__line"></div>
         </div>
         <!--<div class="wrap-input orders__datepicker">-->

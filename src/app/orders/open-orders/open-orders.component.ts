@@ -45,8 +45,8 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public modelDateFrom: any;
   public modelDateTo: any;
   public currencyPairId: string = null;
+  public currencyPairValue: string = '';
 
-  public currency: string = '';
   public showFilterPopup: boolean = false;
   public tableScrollStyles: any = {};
 
@@ -273,6 +273,15 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   isFiat(currName: string, currIndex: number): boolean {
     const curr = currName.split('/');
     return this.utils.isFiat(curr[currIndex - 1]);
+  }
+
+  onChangeCurrPair(val: string): void {
+    this.currencyPairValue = val;
+  }
+
+  onSelectPair(currId: string): void {
+    this.currencyPairId = currId;
+    this.loadOrders();
   }
 
   ngOnDestroy(): void {

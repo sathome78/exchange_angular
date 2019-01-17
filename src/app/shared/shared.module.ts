@@ -30,7 +30,9 @@ import {GetIconUrl} from './pipes/get-icon-url';
 import {ExcludeByFieldPipe} from './pipes/exclude-by-field.pipe';
 import {TranslateModule} from '@ngx-translate/core';
 import {DynamicInputComponent} from './components/dynamic-input/dynamic-input.component';
-import { CustomSearchInputComponent } from './components/custom-search-input/custom-search-input.component';
+import {CustomSearchInputComponent} from './components/custom-search-input/custom-search-input.component';
+import {DynamicInputDashboardComponent} from './components/dynamic-input-dashboard/dynamic-input-dashboard.component';
+import {DynamicInputDataPipe} from './pipes/dynamic-input-data.pipe';
 
 
 @NgModule({
@@ -55,6 +57,8 @@ import { CustomSearchInputComponent } from './components/custom-search-input/cus
     LoaderComponent,
     DynamicInputComponent,
     CustomSearchInputComponent,
+    DynamicInputDashboardComponent,
+    DynamicInputDataPipe,
   ],
   imports: [
     FormsModule,
@@ -92,6 +96,8 @@ import { CustomSearchInputComponent } from './components/custom-search-input/cus
     DateWrapper,
     GetIconUrl,
     DynamicInputComponent,
+    DynamicInputDashboardComponent,
+    DynamicInputDataPipe,
   ],
   providers: [
     NotificationsService,

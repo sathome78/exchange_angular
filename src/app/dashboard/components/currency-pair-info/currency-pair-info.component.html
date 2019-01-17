@@ -18,12 +18,12 @@
       <!-- </div> -->
 
     <!-- </div> -->
-    <app-dynamic-input
+    <app-dynamic-input-dashboard
       [value]="pairInput"
       [options]="DIOptions"
       (onChange)="onChangeCurrPair($event)"
       (onSelect)="onSelectPair($event.text)"
-    ></app-dynamic-input>
+    ></app-dynamic-input-dashboard>
     <div class="currency-pair-info__info" style="min-width: 180px;"
          [ngClass]="{'currency-pair-info__info--up': flarForArrow('up'),
                      'currency-pair-info__info--down': flarForArrow('down')}">

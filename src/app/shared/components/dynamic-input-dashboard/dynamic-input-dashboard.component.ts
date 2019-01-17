@@ -1,16 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener, OnChanges } from '@angular/core';
 
 @Component({
-  selector: 'app-dynamic-input',
-  templateUrl: './dynamic-input.component.html',
-  styleUrls: ['./dynamic-input.component.scss'],
+  selector: 'app-dynamic-input-dashboard',
+  templateUrl: './dynamic-input-dashboard.component.html',
+  styleUrls: ['./dynamic-input-dashboard.component.scss'],
   host: {
     '(document:click)': 'onClickOutsideInput($event)',
     '(document:keydown)': 'keyDown($event)',
     '(document:keydown.enter)': 'this.onSelectItem(this.filteredOptions[this.arrowKeyLocation])',
   },
 })
-export class DynamicInputComponent implements OnChanges {
+export class DynamicInputDashboardComponent implements OnChanges {
 
   constructor(private _eref: ElementRef) { }
 
@@ -82,10 +82,6 @@ export class DynamicInputComponent implements OnChanges {
   }
 
   filterList(val: string): void {
-    if(!val) {
-      this.filteredOptions = [];
-      return;
-    }
     this.filteredOptions = this.options.filter((item) => item.text.toUpperCase().indexOf(val.toUpperCase()) >= 0);
   }
 
