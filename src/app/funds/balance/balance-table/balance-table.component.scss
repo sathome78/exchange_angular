@@ -180,17 +180,13 @@
 @media (min-width: 1200px){
   ::ng-deep .ng-select {
     .ng-select-container {
-      // width: 184px !important;
       margin: 0 auto !important;
       height: 45px !important;
       background-color: transparent !important;
-      // border-bottom-right-radius: 0 !important;
-      // border-bottom-left-radius: 0 !important;
       border-radius: 4px;
       border-color: #94C2FF !important;
-      // border-bottom: none !important;
       overflow: unset !important;
-      bottom: 1px;
+
     }
     .ng-value-container {
       height: 100% !important;

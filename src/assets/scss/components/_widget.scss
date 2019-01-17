@@ -1218,19 +1218,16 @@
       .wrap-input__input {
         &:not([value=""]) {
           ~ .wrap-input__label {
-            // background-color: #2B3256;
             background: #252543;
           }
         }
         &:focus {
           ˜.wrap-input__label {
-            // background-color: #2B3256;
             background: #252543;
           }
         }
         &:valid {
           ~ .wrap-input__label {
-            // background-color: #2B3256;
             background: #252543;
           }
         }
