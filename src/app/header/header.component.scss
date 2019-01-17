@@ -199,7 +199,7 @@
       }
 
       &--auth--reg {
-        padding: 8px 16px;
+        padding: 6px 16px;
         border: 1px solid $darker-blue;
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
@@ -474,6 +474,16 @@
     align-items: center;
     justify-content: center;
     padding: 0 16px;
+    &:after{
+      content: '';
+      position: absolute;
+      right: 0;
+      display: block;
+      width: 1px;
+      height: 28px;
+      background-color: rgba(255, 255, 255, 0.3) ;
+    }
+
     &:hover{
       .login-menu__submenu{
         height: auto;
@@ -526,9 +536,8 @@
   .toggle-theme{
     display: flex;
     align-items: center;
-    height: 27px;
+    height: 28px;
     padding: 0 16px;
-    border-left: 1px solid rgba(255, 255, 255, 0.3);
     border-right: 1px solid rgba(255, 255, 255, 0.3);
     svg{
       opacity: .3;
