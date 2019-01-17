@@ -11,6 +11,7 @@
       background-color: $darker-blue;
       color:#fff;
       border-color: transparent;
+
     }
   }
   /*--- modificators start ---*/
@@ -67,6 +68,17 @@
     height: 24px;
     background-color: transparent;
     color: $darker-blue;
+    &--rectangle{
+        border-radius: 4px;
+        line-height: .8;
+        width: 2.85em;
+        height: 1.7em;
+        font-size: .7em;
+        &:not(:last-child){
+           margin-right: .2em;
+        }
+       
+      }
   }
   /*--- elements end ---*/
 }

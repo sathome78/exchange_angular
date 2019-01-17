@@ -109,6 +109,7 @@
   }
 
   &__icon {
+    pointer-events: none;
     position: absolute;
     top: 9px;
     left: 10px;
@@ -148,6 +149,7 @@
   &__line {
     height: 1px;
     background-color: $grey;
+    display: none;
 
     &--error {
       background-color: $red !important;
@@ -180,13 +182,8 @@
     margin: 0 auto;
     padding: 0 12px;
     border: 1px solid $grey;
-    border-bottom: none;
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    -webkit-border-top-left-radius: 4px;
-    border-top-left-radius: 4px;
-    -webkit-border-top-right-radius: 4px;
-    border-top-right-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
     font-size: 14px;
     background-color: transparent;
     //&:not([value=""]){
@@ -256,6 +253,10 @@
 
     &__input {
       height: 45px;
+      &--small{
+        height: 39px;
+        border: 1px solid #94C2FF;
+      }
     }
 
     &__icon {
