@@ -109,15 +109,10 @@
     display: none;
     width: 100%;
     border: 1px solid $darker-white;
+    border-top: none;
     background-color: #fff;
     &--open {
-      position: absolute;
-      z-index: 5;
-      top: 100%;
       display: block;
-      width: 100%;
-      border: 1px solid $darker-white;
-      background-color: #fff;
     }
   }
   &__list-searching {
@@ -127,9 +122,14 @@
     //display: none;
     width: 100%;
     border: 1px solid $darker-blue;
+    border-top: none;
     background-color: #fff;
     &--open {
       display: block;
+    }
+    .select__list{
+      position: relative;
+      border: none;
     }
   }
   &__search {
