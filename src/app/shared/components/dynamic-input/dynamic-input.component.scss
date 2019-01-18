@@ -58,6 +58,7 @@
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
+    padding-right: 23px;
   }
   &__triangle {
     position: absolute;
@@ -66,6 +67,7 @@
     border-top: 5px solid #6C738C;
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
+    pointer-events: none;
   }
   &__label{
     position: absolute;
