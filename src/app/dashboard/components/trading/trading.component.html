@@ -1,5 +1,5 @@
 <div class="widget widget--gradient" >
-  <div class="widget__header panel-heading">
+  <div class="widget__header panel-heading widget__header--trading">
     <span class="widget__name">{{'Trading' | translate}}</span>
     <a href="#" class="widget__question">
       <span class="widget__question-img">
@@ -11,7 +11,7 @@
     </a>
     <span class="widget__dots "></span>
     <div class="widget__controls">
-      <div class="widget__controls-close" (click)="remove()">
+      <div class="widget__controls-close">
         <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"/>
@@ -20,393 +20,147 @@
       </div>
     </div>
   </div>
-  <div class="tabs widget__tabs" *ngIf="currentPair">
-    <button class="tabs__item tabs__item--big "
-            [ngClass]="{'tabs__item--active': mainTab === 'BUY', 'tab-no-active': mainTab !== 'BUY'}"
-            (click)="toggleMainTab('BUY')" >{{'Buy' | translate}}
-    </button>
-    <button class="tabs__item tabs__item--big"
-            [ngClass]="{'tabs__item--active': mainTab === 'SELL', 'tab-no-active': mainTab !== 'SELL'}"
-            (click)="toggleMainTab('SELL')" >{{'Sell' | translate}}
-    </button>
-  </div>
-
-
-  <div class="widget__content" *ngIf="currentPair">
-    <div class="widget__trading-form">
-      <div class="row row--jcsb row--aic widget__trading-row">
-        <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
-             (mouseenter)="isDropdownOpen = true" (mouseleave)="isDropdownOpen = false">
-          <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
-          <ul class="dropdown__list">
-            <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
-              <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
-            </ng-template>
-          </ul>
+  <div class="widget__content widget__content--pg">
+    <div class="row row--jcsb row--aic widget__trading-row">
+      <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
+           (mouseenter)="isDropdownOpen = true" (mouseleave)="isDropdownOpen = false">
+        <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
+        <ul class="dropdown__list">
+          <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
+            <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
+          </ng-template>
+        </ul>
+      </div>
+      <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
+        <div style="margin-left: auto;">
+          {{'Pay no fees:' | translate}}
+          <img src="../../assets/img/fire.svg" style="margin: 0 4px;">
+          <a href="#">{{'Become VIP' | translate}}</a>
         </div>
-        <div class="row row-jcsb">
-          <label class="radio radio--mr12">
-            <input class="radio__input" type="radio" name="radio-procent">
-            <span class="radio__text " [ngClass]="{'radio__text__checked': percents === 5}"
-                  (click)="selectedPercent(5)">
+      </div>
+    </div>
+    <div class="widget__trading-form--wr">
+      <form class="widget__trading-form" action="" [formGroup]="buyForm">
+        <div class="widget__trading-title-wr">
+          <p class="widget__trading-title">
+            {{'Buy' | translate}} {{arrPairName[0]}}
+          </p>
+          <div class="widget__trading-fee">
+            <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency: isFiat(arrPairName[1]) | formatCurrency}} {{arrPairName[1]}}</span>
+          </div>
+        </div>
+        <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
+          <div class="wrap-input widget__input no-line">
+            <app-price-input [placeholder]="translateService.instant('Stop')" [forTrading]="true" (customInput)="stopInput($event, BUY)" name="stop" formControlName="stop"></app-price-input>
+          </div>
+        </div>
+        <div class="row row--jcsb widget__trading-row  input-row">
+          <div class="wrap-input widget__input no-line">
+            <app-price-input [placeholder]="translateService.instant('Quantity')" [currencyLabel]="arrPairName[0]" [forTrading]="true" (customInput)="quantityInput($event, BUY)" name="quantity" formControlName="quantity"></app-price-input>
+          </div>
+        </div>
+        <div class="row row--jcsb widget__trading-row  input-row">
+          <div class="wrap-input widget__input no-line">
+            <app-price-input [placeholder]="translateService.instant('Limit Price')" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="rateInput($event, BUY)" name="price" formControlName="price"></app-price-input>
+          </div>
+        </div>
+        <div class="row row--jcsb widget__trading-row  input-row">
+          <div class="wrap-input widget__input no-line">
+            <app-price-input [placeholder]="translateService.instant('Total')" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="totalInput($event, BUY)" name="total" formControlName="total"></app-price-input>
+          </div>
+        </div>
+        <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
+          <div class="avaliable avaliable--aifl">
+            <span>{{'Avaliable:' | translate}} </span>
+            <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(BUY)">{{userBalance?.cur2?.balance  | roundCurrency: isFiat(userBalance?.cur2?.name) | formatCurrency}} {{userBalance?.cur2?.name || ''}}</a>
+          </div>
+        </div>
+        <div class="row row__percent">
+          <label class="radio">
+            <span class="radio__text radio__text--rectangle" (click)="selectedPercent(5, BUY)">
               5%
             </span>
           </label>
-          <label class="radio radio--mr12">
-            <input class="radio__input" type="radio" name="radio-procent">
-            <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 25}"
-                  (click)="selectedPercent(25)">
+          <label class="radio">
+            <span class="radio__text radio__text--rectangle" (click)="selectedPercent(25, BUY)">
               25%
             </span>
           </label>
-          <label class="radio radio--mr12">
-            <input class="radio__input" type="radio" name="radio-procent">
-            <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 50}"
-                  (click)="selectedPercent(50)">
+          <label class="radio">
+            <span class="radio__text radio__text--rectangle" (click)="selectedPercent(50, BUY)">
               50%
             </span>
           </label>
           <label class="radio">
-            <input class="radio__input" type="radio" name="radio-procent">
-            <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 100}"
-                  (click)="calculateAmountByTotalWithCommission()">
+            <span class="radio__text radio__text--rectangle" (click)="calculateAmountByTotalWithCommission(BUY)">
               100%
             </span>
           </label>
         </div>
-      </div>
-      <form [formGroup]="limitForm" *ngIf="dropdownLimitValue === 'LIMIT' || dropdownLimitValue === 'ICO' || dropdownLimitValue === 'MARKET_PRICE'">
-
-        <div class="row row--jcsb widget__trading-row">
-
-          <div class="wrap-input widget__input widget__input--mr32">
-            <app-price-input [placeholder]="translateService.instant('Quantity of ') + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
-            <!--<div class="wrap-input__line"></div>-->
-          </div>
-
-          <div class="wrap-input widget__input">
-            <app-price-input [placeholder]="translateService.instant('Price in ') + arrPairName[1]" (customInput)="rateInput($event)" name="priceIn" formControlName="priceIn"></app-price-input>
-            <!--<div class="wrap-input__line"></div>-->
-          </div>
-
-        </div>
-
-        <div class="row row--jcsb widget__trading-row">
-          <div class="wrap-input widget__input">
-            <app-price-input [placeholder]="translateService.instant('Total in ') + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
-            <!--<div class="wrap-input__line"></div>-->
-          </div>
-        </div>
-
+        <button class="btn btn--active widget__trading-btn widget__trading-btn--buy" (click)="onSubmit(BUY)">Buy {{arrPairName[0]}}</button>
       </form>
-      <form [formGroup]="stopForm" *ngIf="dropdownLimitValue === 'STOP_LIMIT'">
-        <div class="row row--jcsb widget__trading-row">
-          <div class="wrap-input widget__input widget__input--mr32">
-            <input class="wrap-input__input no-spinners" type="number" appOnlyNumbers
-                   (input)="stopInput($event)"
-                   formControlName="stop"
-                   name="stop">
-            <label class="wrap-input__label" for="">{{'Stop' | translate}}</label>
-            <div class="wrap-input__line"></div>
-          </div>
-          <div class="wrap-input widget__input">
-            <app-price-input [placeholder]="'Limit ' + arrPairName[1]" (customInput)="rateInput($event)" name="limit" formControlName="limit"></app-price-input>
+      <form class="widget__trading-form" action="" [formGroup]="sellForm">
+        <div class="widget__trading-title-wr">
+          <p class="widget__trading-title">
+            {{'Sell' | translate}} {{arrPairName[0]}}
+          </p>
+          <div class="widget__trading-fee">
+            <span>{{'Fee:' | translate}} {{sellOrder.commission | roundCurrency: isFiat(arrPairName[1]) | formatCurrency}} {{arrPairName[1]}}</span>
           </div>
         </div>
-        <div class="row row--jcsb widget__trading-row">
-          <div class="wrap-input widget__input widget__input--mr32">
-            <app-price-input [placeholder]=" translateService.instant('Quantity of ') + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
-            <!--<div class="wrap-input__line"></div>-->
-          </div>
-          <div class="wrap-input widget__input">
-            <app-price-input [placeholder]="translateService.instant('Total in ') + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
-            <!--<div class="wrap-input__line"></div>-->
+        <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
+          <div class="wrap-input widget__input no-line">
+            <app-price-input [placeholder]="translateService.instant('Stop')" [forTrading]="true" (customInput)="stopInput($event, SELL)" name="stop" formControlName="stop"></app-price-input>
           </div>
         </div>
+        <div class="row row--jcsb widget__trading-row input-row">
+          <div class="wrap-input widget__input no-line">
+            <app-price-input [placeholder]="translateService.instant('Quantity')" [currencyLabel]="arrPairName[0]" [forTrading]="true" (customInput)="quantityInput($event, SELL)" name="quantity" formControlName="quantity"></app-price-input>
+          </div>
+        </div>
+        <div class="row row--jcsb widget__trading-row input-row">
+          <div class="wrap-input widget__input no-line">
+            <app-price-input [placeholder]="translateService.instant('Limit Price')" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="rateInput($event, SELL)" name="price" formControlName="price"></app-price-input>
+          </div>
+        </div>
+        <div class="row row--jcsb widget__trading-row input-row">
+          <div class="wrap-input widget__input no-line">
+            <app-price-input [placeholder]="translateService.instant('Total')" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="totalInput($event, SELL)" name="total" formControlName="total"></app-price-input>
+          </div>
+        </div>
+        <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
+          <div class="avaliable avaliable--aifl">
+            <span>{{'Avaliable:' | translate}} </span>
+            <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(SELL)">{{userBalance?.cur1?.balance  | roundCurrency: isFiat(userBalance?.cur1?.name) | formatCurrency}} {{userBalance?.cur1?.name}}</a>
+          </div>
+        </div>
+        <div class="row row__percent">
+          <label class="radio">
+            <span class="radio__text radio__text--rectangle" (click)="selectedPercent(5, SELL)">
+              5%
+            </span>
+          </label>
+          <label class="radio">
+            <span class="radio__text radio__text--rectangle" (click)="selectedPercent(25, SELL)">
+              25%
+            </span>
+          </label>
+          <label class="radio">
+            <span class="radio__text radio__text--rectangle" (click)="selectedPercent(50, SELL)">
+              50%
+            </span>
+          </label>
+          <label class="radio">
+            <span class="radio__text radio__text--rectangle" (click)="calculateAmountByTotalWithCommission(SELL)">
+              100%
+            </span>
+          </label>
+        </div>
+        <button class="btn btn--active widget__trading-btn widget__trading-btn--sell" (click)="onSubmit(SELL)">Sell {{arrPairName[0]}}</button>
       </form>
 
-      <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
-        <div class="avaliable">
-          <span style="vertical-align: middle; margin-right: 4px;">{{'Available balance:' | translate}} </span>
-          <a
-            *ngIf="mainTab === 'BUY'"
-            (click)="calculateAmountByTotalWithCommission()"
-          >
-            {{ userBalance.cur2?.balance  | roundCurrency: isFiat(userBalance.cur2?.name) | formatCurrency}} {{userBalance.cur2?.name}}
-          </a>
-          <a
-            *ngIf="mainTab === 'SELL'"
-            (click)="calculateAmountByTotalWithCommission()"
-          >
-            {{ userBalance.cur1?.balance  | roundCurrency: isFiat(userBalance.cur1?.name) | formatCurrency}} {{userBalance.cur1?.name}}
-          </a>
-        </div>
-        <div>
-          {{'Fee:' | translate}} {{order.commission | roundCurrency: isFiat(arrPairName[1]) | formatCurrency}} {{arrPairName[1]}}
-        </div>
-      </div>
-      <!--<div class="row row&#45;&#45;jcsb txt-light-grey widget__trading-row-txt" style="margin-top: 4px;">-->
-        <!--<div style="margin-left: auto;">-->
-          <!--Pay no fees:-->
-          <!--<img src="../../assets/img/fire.svg" style="margin: 0 4px;">-->
-          <!--<a href="#">Become VIP</a>-->
-        <!--</div>-->
-      <!--</div>-->
-      <button class="btn btn--active  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'BUY'">{{'Buy' | translate}} {{arrPairName[0]}} </button>
-      <button class="btn btn--active  widget__trading-btn" (click)="onSubmit()" *ngIf="mainTab === 'SELL'">{{'Sell' | translate}} {{arrPairName[0]}} </button>
     </div>
   </div>
-
-
-
-
-  <div class="widget__content widget__content--mob" *ngIf="(breakPointService.breakpoint$ | async) === 'mobile'" style="height: 100%">
-    <!--<div class="widget__header&#45;&#45;mob">-->
-      <!--<div class="widget__name-mob widget__trade-title widget__trade-title&#45;&#45;green" *ngIf="mainTab === 'BUY'" ><img src="../../assets/img/btc-icon.svg" alt="">-->
-        <!--Buy BTC-->
-      <!--</div>-->
-      <!--<div class="widget__name-mob widget__trade-title widget__trade-title&#45;&#45;red" *ngIf="mainTab === 'SELL'" ><img src="../../assets/img/btc-icon.svg" alt="">-->
-        <!--Sell BTC-->
-      <!--</div>-->
-      <!--<div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown&#45;&#45;open': isDropdownOpen}"-->
-           <!--(click)="toggleLimitDropdown()">-->
-        <!--<div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>-->
-        <!--<ul class="dropdown__list">-->
-          <!--<li class="dropdown__item" (click)="selectedLimit(limit)" *ngFor="let limit of limitsData">{{showLimit(limit)}}</li>-->
-        <!--</ul>-->
-      <!--</div>-->
-    <!--</div>-->
-
-
-    <form  [formGroup]="limitForm" class="widget__trading-form--mob" *ngIf="dropdownLimitValue !== 'STOP_LIMIT'">
-      <div class="row row--jcsb widget__trading-row">
-        <div class="wrap-input widget__input widget__input--mr32">
-          <app-price-input [placeholder]="translateService.instant('Quantity of ') + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
-          <!--<div class="wrap-input__line"></div>-->
-        </div>
-        <div class="wrap-input widget__input">
-          <app-price-input [placeholder]="translateService.instant('Price in ') + arrPairName[1]" (customInput)="rateInput($event)" name="priceIn" formControlName="priceIn"></app-price-input>
-          <!--<div class="wrap-input__line"></div>-->
-        </div>
-      </div>
-      <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
-        <div class="type">
-          <span class="type-title">
-            <span>
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.5391 0H5.82031C4.46336 0 3.35938 1.10398 3.35938 2.46094V15.0781H0.78125C0.349766 15.0781 0 15.4279 0 15.8594V17.5391C0 18.896 1.10398 20 2.46094 20H14.1797C15.5366 20 16.6406 18.896 16.6406 17.5391V4.92188H19.2188C19.6502 4.92188 20 4.57211 20 4.14062V2.46094C20 1.10398 18.896 0 17.5391 0ZM2.46094 18.4375C1.96555 18.4375 1.5625 18.0345 1.5625 17.5391V16.6406C1.80793 16.6406 11.5535 16.6406 11.7188 16.6406V17.5391C11.7188 17.855 11.7822 18.1674 11.8886 18.4375H2.46094ZM15.0781 2.46094C15.0781 3.7507 15.0781 16.8103 15.0781 17.5391C15.0781 18.0345 14.6751 18.4375 14.1797 18.4375C13.6843 18.4375 13.2812 18.0345 13.2812 17.5391V15.8594C13.2812 15.4279 12.9315 15.0781 12.5 15.0781H4.92188V2.46094C4.92188 1.96551 5.32492 1.5625 5.82031 1.5625H15.2479C15.1414 1.83281 15.0781 2.14563 15.0781 2.46094ZM18.4375 3.35938H16.6406V2.46094C16.6406 1.96551 17.0436 1.5625 17.5391 1.5625C18.0345 1.5625 18.4375 1.96551 18.4375 2.46094V3.35938Z"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.89655 4.65517C6.89655 4.17906 7.28251 3.7931 7.75862 3.7931H12.2414C12.7175 3.7931 13.1034 4.17906 13.1034 4.65517C13.1034 5.13128 12.7175 5.51724 12.2414 5.51724H7.75862C7.28251 5.51724 6.89655 5.13128 6.89655 4.65517Z"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.89655 8.10345C6.89655 7.62734 7.28251 7.24138 7.75862 7.24138H12.2414C12.7175 7.24138 13.1034 7.62734 13.1034 8.10345C13.1034 8.57956 12.7175 8.96552 12.2414 8.96552H7.75862C7.28251 8.96552 6.89655 8.57956 6.89655 8.10345Z"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.89655 11.5517C6.89655 11.0756 7.28251 10.6897 7.75862 10.6897H10.1724C10.6485 10.6897 11.0345 11.0756 11.0345 11.5517C11.0345 12.0278 10.6485 12.4138 10.1724 12.4138H7.75862C7.28251 12.4138 6.89655 12.0278 6.89655 11.5517Z" />
-              </svg>
-
-            </span>
-            {{'Order type' | translate}}
-          </span>
-          <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
-               (click)="isDropdownOpen = true">
-            <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
-            <ul class="dropdown__list">
-              <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
-                <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
-              </ng-template>
-            </ul>
-          </div>
-        </div>
-        <div class="avaliable">
-        <span class="avaliable-title">
-          <span>
-          <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7.23181 6.84126V8.72983C7.23181 9.08029 7.41189 9.35214 7.56677 9.35214H12V6.21888H7.56677C7.41189 6.21888 7.23181 6.4908 7.23181 6.84126ZM9.05815 7.05851C9.43365 7.05851 9.73913 7.38464 9.73913 7.78551C9.73913 8.18639 9.43365 8.51251 9.05815 8.51251C8.68266 8.51251 8.37718 8.18639 8.37718 7.78551C8.37718 7.38464 8.68266 7.05851 9.05815 7.05851ZM7.56677 10.3633C6.85985 10.3633 6.2847 9.63047 6.2847 8.72983V6.84126C6.2847 5.94062 6.85979 5.20783 7.56677 5.20783H12V3.97574C12 3.35222 11.6172 2.82286 11.0894 2.63991L10.2623 0.325323C10.2155 0.194484 10.12 0.0902034 9.99851 0.0373555C9.87702 -0.0154251 9.74051 -0.0121895 9.6213 0.046523L4.49908 2.57102H1.31579C0.590302 2.57102 0 3.20122 0 3.97574V11.5952C0 12.3698 0.590302 13 1.31579 13H10.6842C11.4097 13 12 12.3698 12 11.5952V10.3633H7.56677ZM9.5581 1.19138L10.0511 2.57109H6.75876L9.5581 1.19138Z"/>
-          </svg>
-        </span>
-          <span style="vertical-align: middle;">{{'Available balance:' | translate}} </span>
-        </span>
-          <a
-            *ngIf="mainTab === 'BUY'"
-          >
-            {{ userBalance.cur2?.balance  | roundCurrency: isFiat(userBalance.cur2?.name) | formatCurrency}} {{userBalance.cur2?.name}}
-          </a>
-          <a
-            *ngIf="mainTab === 'SELL'"
-          >
-            {{ userBalance.cur1?.balance  | roundCurrency: isFiat(userBalance.cur1?.name) | formatCurrency}} {{userBalance.cur1?.name}}
-          </a>
-        </div>
-      </div>
-      <div class="row widget__percent-row">
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 5}"
-                (click)="selectedPercent(5)">
-          5%
-        </span>
-        </label>
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 25}"
-                (click)="selectedPercent(25)">
-          25%
-        </span>
-        </label>
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 100}"
-                (click)="selectedPercent(50)">
-          50%
-        </span>
-        </label>
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 75}"
-                (click)="selectedPercent(75)">
-          75%
-        </span>
-        </label>
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 100}"
-                (click)="calculateAmountByTotalWithCommission()">
-          100%
-        </span>
-        </label>
-      </div>
-      <div class="row row--jcsb widget__trading-row">
-        <div class="wrap-input widget__input" style="max-width: 220px; margin: 4px auto;">
-          <app-price-input [placeholder]="translateService.instant('Total in ') + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
-          <!--<div class="wrap-input__line"></div>-->
-        </div>
-      </div>
-    </form>
-
-
-    <form class="widget__trading-form--mob" [formGroup]="stopForm" *ngIf="dropdownLimitValue === 'STOP_LIMIT'">
-      <div class="row row--jcsb widget__trading-row">
-        <div class="wrap-input widget__input widget__input--mr32">
-          <input class="wrap-input__input" type="number" appOnlyNumbers
-                 (input)="stopInput($event)"
-                 formControlName="stop"
-                 name="stop">
-          <label class="wrap-input__label" for="">Stop</label>
-          <div class="wrap-input__line"></div>
-        </div>
-        <div class="wrap-input widget__input">
-          <app-price-input [placeholder]="translateService.instant('Limit ') + arrPairName[1]" (customInput)="rateInput($event)" name="limit" formControlName="limit"></app-price-input>
-          <!--<div class="wrap-input__line"></div>-->
-        </div>
-      </div>
-      <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
-        <div class="type">
-          <span class="type-title">
-            <span>
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.5391 0H5.82031C4.46336 0 3.35938 1.10398 3.35938 2.46094V15.0781H0.78125C0.349766 15.0781 0 15.4279 0 15.8594V17.5391C0 18.896 1.10398 20 2.46094 20H14.1797C15.5366 20 16.6406 18.896 16.6406 17.5391V4.92188H19.2188C19.6502 4.92188 20 4.57211 20 4.14062V2.46094C20 1.10398 18.896 0 17.5391 0ZM2.46094 18.4375C1.96555 18.4375 1.5625 18.0345 1.5625 17.5391V16.6406C1.80793 16.6406 11.5535 16.6406 11.7188 16.6406V17.5391C11.7188 17.855 11.7822 18.1674 11.8886 18.4375H2.46094ZM15.0781 2.46094C15.0781 3.7507 15.0781 16.8103 15.0781 17.5391C15.0781 18.0345 14.6751 18.4375 14.1797 18.4375C13.6843 18.4375 13.2812 18.0345 13.2812 17.5391V15.8594C13.2812 15.4279 12.9315 15.0781 12.5 15.0781H4.92188V2.46094C4.92188 1.96551 5.32492 1.5625 5.82031 1.5625H15.2479C15.1414 1.83281 15.0781 2.14563 15.0781 2.46094ZM18.4375 3.35938H16.6406V2.46094C16.6406 1.96551 17.0436 1.5625 17.5391 1.5625C18.0345 1.5625 18.4375 1.96551 18.4375 2.46094V3.35938Z"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.89655 4.65517C6.89655 4.17906 7.28251 3.7931 7.75862 3.7931H12.2414C12.7175 3.7931 13.1034 4.17906 13.1034 4.65517C13.1034 5.13128 12.7175 5.51724 12.2414 5.51724H7.75862C7.28251 5.51724 6.89655 5.13128 6.89655 4.65517Z"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.89655 8.10345C6.89655 7.62734 7.28251 7.24138 7.75862 7.24138H12.2414C12.7175 7.24138 13.1034 7.62734 13.1034 8.10345C13.1034 8.57956 12.7175 8.96552 12.2414 8.96552H7.75862C7.28251 8.96552 6.89655 8.57956 6.89655 8.10345Z"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.89655 11.5517C6.89655 11.0756 7.28251 10.6897 7.75862 10.6897H10.1724C10.6485 10.6897 11.0345 11.0756 11.0345 11.5517C11.0345 12.0278 10.6485 12.4138 10.1724 12.4138H7.75862C7.28251 12.4138 6.89655 12.0278 6.89655 11.5517Z" />
-              </svg>
-
-            </span>
-            {{'Order type' | translate}}
-          </span>
-          <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
-               (click)="isDropdownOpen = true" >
-            <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
-            <ul class="dropdown__list">
-              <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
-                <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
-              </ng-template>
-            </ul>
-          </div>
-        </div>
-        <div class="avaliable">
-        <span class="avaliable-title">
-          <span>
-          <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7.23181 6.84126V8.72983C7.23181 9.08029 7.41189 9.35214 7.56677 9.35214H12V6.21888H7.56677C7.41189 6.21888 7.23181 6.4908 7.23181 6.84126ZM9.05815 7.05851C9.43365 7.05851 9.73913 7.38464 9.73913 7.78551C9.73913 8.18639 9.43365 8.51251 9.05815 8.51251C8.68266 8.51251 8.37718 8.18639 8.37718 7.78551C8.37718 7.38464 8.68266 7.05851 9.05815 7.05851ZM7.56677 10.3633C6.85985 10.3633 6.2847 9.63047 6.2847 8.72983V6.84126C6.2847 5.94062 6.85979 5.20783 7.56677 5.20783H12V3.97574C12 3.35222 11.6172 2.82286 11.0894 2.63991L10.2623 0.325323C10.2155 0.194484 10.12 0.0902034 9.99851 0.0373555C9.87702 -0.0154251 9.74051 -0.0121895 9.6213 0.046523L4.49908 2.57102H1.31579C0.590302 2.57102 0 3.20122 0 3.97574V11.5952C0 12.3698 0.590302 13 1.31579 13H10.6842C11.4097 13 12 12.3698 12 11.5952V10.3633H7.56677ZM9.5581 1.19138L10.0511 2.57109H6.75876L9.5581 1.19138Z"/>
-          </svg>
-        </span>
-          <span style="vertical-align: middle;">{{'Available balance:' | translate}} </span>
-        </span>
-          <a
-            *ngIf="mainTab === 'BUY'"
-            (click)="calculateAmountByTotalWithCommission()"
-          >
-            {{ userBalance.cur2?.balance  | roundCurrency: isFiat(userBalance.cur2?.name) | formatCurrency}} {{userBalance.cur2?.name}}
-          </a>
-          <a
-            *ngIf="mainTab === 'SELL'"
-            (click)="calculateAmountByTotalWithCommission()"
-          >
-            {{ userBalance.cur1?.balance  | roundCurrency: isFiat(userBalance.cur1?.name) | formatCurrency}} {{userBalance.cur1?.name}}
-          </a>
-        </div>
-      </div>
-      <div class="row widget__percent-row">
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 5}"
-                (click)="selectedPercent(5)">
-          5%
-        </span>
-        </label>
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 25}"
-                (click)="selectedPercent(25)">
-          25%
-        </span>
-        </label>
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 50}"
-                (click)="selectedPercent(50)">
-          50%
-        </span>
-        </label>
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 75}"
-                (click)="selectedPercent(75)">
-          75%
-        </span>
-        </label>
-        <label class="radio">
-          <input class="radio__input" type="radio" name="radio-procent">
-          <span class="radio__text" [ngClass]="{'radio__text__checked': percents === 100}"
-                (click)="calculateAmountByTotalWithCommission()">
-          100%
-        </span>
-        </label>
-      </div>
-      <div class="row row--jcsb widget__trading-row">
-        <div class="wrap-input widget__input widget__input--mr32">
-          <app-price-input [placeholder]="translateService.instant('Quantity of ') + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>
-          <!--<div class="wrap-input__line"></div>-->
-        </div>
-        <div class="wrap-input widget__input">
-          <app-price-input [placeholder]="translateService.instant('Total in ') + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>
-          <!--<div class="wrap-input__line"></div>-->
-        </div>
-      </div>
-    </form>
-
-
-    <button class="btn btn--active widget__trading-btn" (click)="onSubmit()" >{{mainTab === 'BUY' ? 'Buy' : 'Sell'}} {{arrPairName[0]}}</button>
-      <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
-        <div class="fee">
-          {{'Fee:' | translate}} {{order.commission | roundCurrency: isFiat(arrPairName[1]) | formatCurrency}} {{arrPairName[1]}}
-        </div>
-      </div>
-
-    <!--<div class="widget__buy-sell-btn-wrap">-->
-      <!--<a class="widget__buy-sell-btn widget__buy-sell-btn&#45;&#45;single-red" *ngIf="mainTab === 'BUY'" (click)="toggleMainTab('SELL')" >Sell BTC</a>-->
-      <!--<a class="widget__buy-sell-btn widget__buy-sell-btn&#45;&#45;single-green" *ngIf="mainTab === 'SELL'" (click)="toggleMainTab('BUY')" >Buy BTC</a>-->
-    <!--</div>-->
-  </div>
-
-
-
 
   <!--notif success start-->
   <div class="trading-notification trading-notification--success" *ngIf="notifySuccess">
