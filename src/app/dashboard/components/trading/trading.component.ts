@@ -542,9 +542,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on create new order
    */
   private createNewOrder(type: string): void {
-    type === 'BUY' ?
-      console.log(this.buyOrder) :
-      console.log(this.sellOrder);
+    // type === 'BUY' ?
+    //   console.log(this.buyOrder) :
+    //   console.log(this.sellOrder);
 
     const order = type === this.BUY ? this.buyOrder : this.sellOrder;
     this.tradingService.createOrder(order)
