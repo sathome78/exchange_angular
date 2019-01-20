@@ -121,17 +121,14 @@
         </div>
       </div>
       <form action="#">
-        <div class="wrap-input wrap-input&#45;&#45;with-icon filters-popup__search">
-          <ng-select
-            class="custom"
-            [items]="currencyPairs$ | async"
-            bindLabel="name"
-            placeholder="Currency"
-            bindValue="id"
-            name="currencyPair"
-            [(ngModel)]="currencyPairId"
-          ></ng-select>
-          <div class="wrap-input__line"></div>
+        <div>
+          <app-dynamic-input
+            [value]="currValue"
+            [options]="(currencyPairs$ | async) | dynamicIData: 'name': 'id'"
+            (onChange)="onChangeCurrPair($event)"
+            (onSelect)="onSelectPair($event.id)"
+          ></app-dynamic-input>
+
         </div>
         <div class="row row&#45;&#45;jcsb">
           <div class="wrap-input filters-popup__datepicker">

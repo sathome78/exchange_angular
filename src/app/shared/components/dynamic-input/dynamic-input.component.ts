@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-dynamic-input',
@@ -66,12 +66,6 @@ export class DynamicInputComponent implements OnChanges {
         this.filterList(changes.value.currentValue);
       }
     }
-    if(changes.options) {
-      if(changes.options.currentValue !== changes.options.previousValue) {
-        this.arrowKeyLocation = 0;
-        this.filterList(this.value);
-      }
-    }
 
   }
 
@@ -82,11 +76,12 @@ export class DynamicInputComponent implements OnChanges {
   }
 
   filterList(val: string): void {
-    if(!val) {
+    if(!val || !this.options) {
       this.filteredOptions = [];
       return;
     }
     this.filteredOptions = this.options.filter((item) => item.text.toUpperCase().indexOf(val.toUpperCase()) >= 0);
+    console.log(val, this.filteredOptions)
   }
 
   openDropdown(): void {
@@ -95,6 +90,16 @@ export class DynamicInputComponent implements OnChanges {
 
   closeDropdown(): void {
     this.showDropdown = false;
+  }
+  onChangeFn(e) {
+    this.onChange.emit(e.target.value);
+    this.openDropdown();
+  }
+
+  preventEventInput(e) {
+    if(e.which == 38 || e.which == 40){
+      e.preventDefault();
+    }
   }
 
 }

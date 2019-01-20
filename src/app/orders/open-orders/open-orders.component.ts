@@ -6,12 +6,13 @@ import {OrderItem} from '../models/order-item.model';
 import * as ordersReducer from '../store/reducers/orders.reducer';
 import * as ordersAction from '../store/actions/orders.actions';
 import * as coreAction from '../../core/actions/core.actions';
-import * as mainSelectors from '../../core/reducers';
+import * as fromCore from '../../core/reducers';
 import {State} from '../../core/reducers';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {SimpleCurrencyPair} from 'app/core/models/simple-currency-pair';
+import { CurrencyChoose } from 'app/core/models/currency-choose.model';
 
 @Component({
   selector: 'app-open-orders',
@@ -27,6 +28,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public countOfEntries$: Observable<number>;
   public countOfEntries: number = 0;
   public currencyPairs$: Observable<SimpleCurrencyPair[]>;
+  public allCurrenciesForChoose$: Observable<CurrencyChoose[]>;
   public loading$: Observable<boolean>;
   public currentPage = 1;
   public countPerPage = 15;
@@ -46,6 +48,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public modelDateTo: any;
   public currencyPairId: string = null;
   public currencyPairValue: string = '';
+  public currValue: string = '';
 
   public showFilterPopup: boolean = false;
   public tableScrollStyles: any = {};
@@ -56,8 +59,9 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getOpenOrdersCount));
-    this.currencyPairs$ = store.pipe(select(mainSelectors.getSimpleCurrencyPairsSelector));
+    this.currencyPairs$ = store.pipe(select(fromCore.getSimpleCurrencyPairsSelector));
     this.loading$ = store.pipe(select(ordersReducer.getLoadingSelector));
+    this.allCurrenciesForChoose$ = store.pipe(select(fromCore.getAllCurrenciesForChoose));
 
     const componentHeight = window.innerHeight;
     this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
@@ -76,6 +80,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     }
     this.initDate();
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
+    this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
     this.loadOrders();
   }
 
