@@ -70,6 +70,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {CoreService} from './core/services/core.service';
 import { ThankYouPopupComponent } from './popups/thank-you-popup/thank-you-popup.component';
 import {translateInfo} from './shared/configs/translate-options';
+import {AlreadyRestoredPasswordPopupComponent} from './popups/already-restored-password-popup/already-restored-password-popup.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -114,6 +115,7 @@ export function createTranslateLoader(http: HttpClient) {
     DemoTradingPopupComponent,
     AlreadyRegisteredPopupComponent,
     ThankYouPopupComponent,
+    AlreadyRestoredPasswordPopupComponent,
     // TWO FACTOR POPUP END
 
   ],

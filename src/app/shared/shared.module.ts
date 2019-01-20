@@ -30,7 +30,8 @@ import {GetIconUrl} from './pipes/get-icon-url';
 import {ExcludeByFieldPipe} from './pipes/exclude-by-field.pipe';
 import {TranslateModule} from '@ngx-translate/core';
 import {DynamicInputComponent} from './components/dynamic-input/dynamic-input.component';
-import { CustomSearchInputComponent } from './components/custom-search-input/custom-search-input.component';
+import {CustomSearchInputComponent} from './components/custom-search-input/custom-search-input.component';
+import {RestorePasswordGuard} from './guards/restore-password.guard';
 
 
 @NgModule({
@@ -98,6 +99,7 @@ import { CustomSearchInputComponent } from './components/custom-search-input/cus
     UtilsService,
     BalanceMobileRoutesGuard,
     RegistrationGuard,
+    RestorePasswordGuard,
   ]
 })
 export class SharedModule { }
