@@ -11,6 +11,8 @@ import { isCombinedNodeFlagSet } from 'tslint';
 import {TranslateService} from '@ngx-translate/core';
 import { UtilsService } from 'app/shared/services/utils.service';
 
+declare var sendLoginSuccessGtag: Function;
+
 @Component({
   selector: 'app-login-popup-mobile',
   templateUrl: './login-popup-mobile.component.html',
@@ -186,7 +188,7 @@ export class LoginPopupMobileComponent implements OnInit {
     this.logger.debug(this, 'attempt to authenticate with email: ' + this.email + ' and password: ' + this.password);
     this.userService.authenticateUser(this.email, this.password, this.pin, this.pincodeAttempts)
       .subscribe((tokenHolder: TokenHolder) => {
-        console.log(tokenHolder, 'tokenholder1')
+        sendLoginSuccessGtag();
         this.logger.debug(this, 'User { login: ' + this.email + ', pass: ' + this.password + '}' + ' signed in and obtained' + tokenHolder);
         this.authService.setTokenHolder(tokenHolder);
         this.popupService.closeMobileLoginPopup();
