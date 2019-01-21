@@ -4,7 +4,7 @@ import {
   CORS_HEADER,
   EXRATES_REST_TOKEN,
   IP_CHECKER_URL,
-  IP_USER_HEADER,
+  IP_USER_HEADER, IP_USER_KEY,
   MEDIA_TYPE_JSON,
   TOKEN,
   X_AUTH_TOKEN
@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
                                 .append(X_AUTH_TOKEN, token)
                                 .append(EXRATES_REST_TOKEN, token)
                                 // .append(CORS_HEADER, '*');
-                                .append(IP_USER_HEADER, clientIp);
+                                .append(IP_USER_KEY, clientIp);
                                 // .append(IP_USER_HEADER, '192.168.0.1');
 
       const copiedReq = req.clone({
@@ -33,7 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(copiedReq);
     } else {
       const headers = req.headers
-        .append('Content-Type', 'application/json')
+        .append('Content-Type', 'application/json');
       const copiedReq = req.clone({
         headers,
       });
