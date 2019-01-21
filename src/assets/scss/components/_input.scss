@@ -162,7 +162,7 @@
     text-align: left;
     font-size: 12px;
     line-height: 14px;
-    position: absolute;
+    // position: absolute;
 
     &--show {
       display: block;
@@ -414,6 +414,15 @@
     display: block;
   }
 }
+
+// .message-wr--nick-name{
+//     height: 32px;
+//     margin-top: 4px;
+//   .wrap-input__message{
+//     position: static;
+//     display: block;
+//   }
+// }
 
 @media (min-width: 1200px) {
   .dark-theme {

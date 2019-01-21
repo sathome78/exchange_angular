@@ -70,11 +70,9 @@
           </ul>
         </div>
       </li>
-      <li class="menu__item" routerLinkActive="menu__link--active">
-        <a class="menu__link" href="https://twitter.com/Exrates_Me" target="blank">
-          <span class="menu__link-text">{{'News' | translate}}</span>
-        </a>
-      </li>
+      <!-- <li class="menu__item" routerLinkActive="menu__link--active">
+        
+      </li> -->
     </ul>
     <!--<ul class="menu">-->
     <!--<li class="menu__item menu__item&#45;&#45;with-submenu">-->
@@ -186,6 +184,12 @@
     <!--<a class="header__auth header__auth&#45;&#45;log" (click)="onMobileLogin()">Log in</a>-->
     <!--&lt;!&ndash;<a class="header__logout" href="https://exrates.me/dashboards" target="_blank">Log in</a>&ndash;&gt;-->
     <!--</ng-template>-->
+    <a class="menu__link" href="https://t.me/exrates_community" target="blank">
+      <span class="menu__link-text">Community</span>
+    </a>
+    <a class="menu__link" href="https://twitter.com/Exrates_Me" target="blank">
+      <span class="menu__link-text">{{'News' | translate}}</span>
+    </a>
     <div class="login-menu">
       <ng-container *ngIf="isAuthenticated(); else login">
         <span class="login-menu__icon">

@@ -128,7 +128,7 @@
     margin-right: 16px;
     //padding-top: 11px;
     padding-left: 10px;
-    padding-right: 10px;
+    // padding-right: 10px;
     &:hover {
       cursor: pointer;
       //background: rgba(0,0,0,.1);
@@ -754,9 +754,9 @@
     &__search, &__send-message {
       position: fixed;
       bottom: 28px;
-      width: calc(100% - 64px);
+      width: calc(100% - 38px);
       margin: 0;
-      left: 32px;
+      left: 19px;
       background-color: #fff;
       border: 1px solid $grey;
       -webkit-border-radius: 4px;
@@ -932,7 +932,7 @@
       transition: .3s;
       &:hover{
 
-      background-color: #3A3D5B;
+        background-color: #3A3D5B;
       }
     }
     &__name {
@@ -1176,7 +1176,7 @@
         background-color: transparent;
       }
       &__search-input {
-        background-color: #304A7A;
+        background: rgba(255, 255, 255, 0.1);
         color: #fff;
         &::placeholder {
           color: #7F8FAE;
