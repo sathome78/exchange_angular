@@ -183,6 +183,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       return null;
   }
 
+  hideSend() {
+    document.forms['hideForm'].submit();
+    return false;
+  }
+
   getRefillRedirectionUrl(response: RefillResponse): string {
     if (response && response.method === 'POST') {
       let url = response.redirectionUrl + '?';
