@@ -30418,7 +30418,7 @@ webpackJsonp([14], [function (t, e, i) {
             }, t[n].l = 1 * new Date, r = e.createElement(i), s = e.getElementsByTagName(i)[0], r.async = 1, r.src = o, s.parentNode.insertBefore(r, s)
           }(window, document, "script", "//www.google-analytics.com/analytics.js", "ga");
           var i = document.URL.match(RegExp("(:?.*://)([^/]+)/.*"))[2];
-          ga("create", "UA-126447705-1", "auto"), ga("set", "anonymizeIp", !0), ga("set", {
+          ga("create", "UA-75711135-3", "auto"), ga("set", "anonymizeIp", !0), ga("set", {
             hostname: i,
             page: i,
             referrer: i

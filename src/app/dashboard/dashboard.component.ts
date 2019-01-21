@@ -49,20 +49,16 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public defauldWidgets;
   public gridsterOptions;
   public gridsterItemOptions;
-  public showRecoveryPassPopup = false;
 
   public activeMobileWidget = 'markets';
-
   public breakPoint;
 
   constructor(
     public breakPointService: BreakpointService,
     public dashboardWebsocketService: DashboardWebSocketService,
-    private popupService: PopupService,
     private dataService: DashboardService,
     private marketsService: MarketService,
     private route: ActivatedRoute,
-    private router: Router,
     private authService: AuthService) {
   }
 
@@ -71,11 +67,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.route.queryParams
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(params => {
-        const param = params['recoveryPassword'];
         const widget = params['widget'];
-        if (param) {
-          this.showRecoveryPassPopup = true;
-        }
         if (widget) {
           this.activeMobileWidget = widget;
         }
@@ -228,14 +220,4 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.authService.isAuthenticated();
   }
 
-  closeRecoveryPassPopup() {
-    this.showRecoveryPassPopup = false;
-    this.router.navigate(['/']);
-  }
-
-  goToLogin() {
-    this.router.navigate(['/']);
-    this.popupService.showLoginPopup(true);
-    this.showRecoveryPassPopup = false;
-  }
 }
