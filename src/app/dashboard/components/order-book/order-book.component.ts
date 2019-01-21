@@ -17,7 +17,12 @@ import {CurrencyPair} from 'app/model/currency-pair.model';
 import {State, getCurrencyPair, getLastSellBuyOrder, getCurrencyPairInfo} from 'app/core/reducers/index';
 import {OrderItem} from 'app/model/order-item.model';
 import {MockDataService} from '../../../shared/services/mock-data.service';
-import {ChangeCurrencyPairAction, SelectedOrderBookOrderAction, SetLastSellBuyOrderAction} from '../../actions/dashboard.actions';
+import {
+  ChangeCurrencyPairAction,
+  SelectedOrderBookOrderAction,
+  SetLastPriceAction,
+  SetLastSellBuyOrderAction
+} from '../../actions/dashboard.actions';
 import {LastSellBuyOrder} from '../../../model/last-sell-buy-order.model';
 import {defaultLastSellBuyOrder} from '../../reducers/default-values';
 import {TradeItem} from '../../../model/trade-item.model';
@@ -363,6 +368,11 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.lastExrate = orders[0].lastExrate !== '0' ? orders[0].lastExrate : 0;
         this.preLastExrate = orders[0].preLastExrate !== '0' ? orders[0].preLastExrate : 0;
         this.isExratePositive = orders[0].positive;
+        const lastPrice = {
+          flag: orders[0].positive,
+          price: orders[0].lastExrate
+        }
+        this.store.dispatch(new SetLastPriceAction(lastPrice))
         this.setData();
         this.loadingFinished();
       });
