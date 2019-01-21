@@ -41,7 +41,7 @@ export class GoogleStepTwoComponent implements OnInit, OnNextStep {
   }
 
   getGoogleAuthenticatorUrl(): string {
-    const test = environment.production ? '' : '-TEST-'
+    const test = environment.production ? '' : '-TEST-';
     return 'https://zxing.org/w/chart?cht=qr&chs=250x250&chld=M&choe=UTF-8&chl=otpauth://totp/Exrates:'
       + test + this.authService.getUsername()
       + '?secret=' + this.secretCode;
