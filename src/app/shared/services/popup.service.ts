@@ -13,6 +13,7 @@ export class PopupService {
   private onMobileLoginPopupListener = new Subject<boolean>();
   private onMobileRegistrationPopupListener = new Subject<boolean>();
   private onAlreadyRegisteredPopupListener = new Subject<boolean>();
+  private onAlreadyRestoredPasswordPopupListener = new Subject<boolean>();
   private stepListener = new Subject<number>();
   private currentStep = 1;
   private tfaProvider = '';
@@ -95,6 +96,10 @@ export class PopupService {
 
   public getAlreadyRegisteredPopupListener(): Subject<boolean> {
     return this.onAlreadyRegisteredPopupListener;
+  }
+
+  public getAlreadyRestoredPasswordPopupListener(): Subject<boolean> {
+    return this.onAlreadyRestoredPasswordPopupListener;
   }
 
   public getRegistrationMobilePopupListener(): Subject<boolean> {
@@ -190,6 +195,10 @@ export class PopupService {
 
   toggleAlreadyRegisteredPopup(state: boolean) {
     this.onAlreadyRegisteredPopupListener.next(state);
+  }
+
+  toggleAlreadyRestoredPasswordPopup(state: boolean) {
+    this.onAlreadyRestoredPasswordPopupListener.next(state);
   }
 
   closeRecoveryPasswordPopup() {
