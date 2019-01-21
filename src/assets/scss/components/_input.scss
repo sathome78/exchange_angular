@@ -405,6 +405,16 @@
   }
 }
 
+.agree-terms{
+  display: flex;
+}
+.accept-icon{
+  margin-right: 4px;
+  img{
+    display: block;
+  }
+}
+
 @media (min-width: 1200px) {
   .dark-theme {
   }
