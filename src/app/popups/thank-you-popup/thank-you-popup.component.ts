@@ -12,4 +12,8 @@ export class ThankYouPopupComponent implements OnInit {
   ngOnInit() {
   }
 
+  closeMe() {
+    console.log('');
+  }
+
 }

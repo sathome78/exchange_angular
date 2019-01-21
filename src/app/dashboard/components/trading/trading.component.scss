@@ -59,24 +59,28 @@
 .avaliable--aifl{
   align-items: flex-start;
   span{
-  color: #BFBFBF;
+    color: #BFBFBF;
     margin-right: 3px;
   }
 }
 
 .no-line{
   input{
-        border: 1px solid #94C2FF;
-        border-radius: 4px;
-        width: 100%;
+    border: 1px solid #94C2FF;
+    border-radius: 4px;
+    width: 100%;
   }
 }
 
 .row__percent{
-      margin-top: 19px;
+  margin-top: 19px;
   @media(min-width:1500px){
     font-size: 20px;
   }
-      font-size: calc(.64rem + .63vw);
-    justify-content: space-between;
+  font-size: calc(.64rem + .63vw);
+  justify-content: space-between;
+}
+
+.d-none {
+  display: none;
 }
