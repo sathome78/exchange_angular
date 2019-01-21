@@ -4,6 +4,7 @@ import {GoogleAuthenticatorService} from '../google-authenticator.service';
 import {ITwoFaResponseDto, TwoFaResponseDto} from '../2fa-response-dto.model';
 import {AuthService} from '../../../../shared/services/auth.service';
 import {TranslateService} from '@ngx-translate/core';
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-google-step-two',
@@ -40,8 +41,9 @@ export class GoogleStepTwoComponent implements OnInit, OnNextStep {
   }
 
   getGoogleAuthenticatorUrl(): string {
+    const test = environment.production ? '' : '-TEST-'
     return 'https://zxing.org/w/chart?cht=qr&chs=250x250&chld=M&choe=UTF-8&chl=otpauth://totp/Exrates:'
-      + this.authService.getUsername()
+      + test + this.authService.getUsername()
       + '?secret=' + this.secretCode;
     // return 'otpauth://totp/%s:%s?secret=%s&issuer=%s'
   }
