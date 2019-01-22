@@ -387,9 +387,9 @@
         display: block;
         position: absolute;
         bottom: 0px;
-        left: 226px;
+        left: 195px;
         z-index: -1;
-        width: calc(100% - 226px);
+        width: calc(100% - 195px);
         height: 1px;
         background-color: $grey;
       }
@@ -403,8 +403,8 @@
       }
       &--pending-open{
         &:after {
-          left: 0;
-          width: 100%;
+          // left: 0;
+          // width: 100%;
         }
       }
     }
