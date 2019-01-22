@@ -70,7 +70,9 @@ export class RecoveryPassComponent implements OnInit, OnDestroy{
 
   initForm() {
     this.emailForm = new FormGroup({
-      email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator(), this.utilsService.specialCharacterValidator()]}),
+      email: new FormControl('', {
+        validators: [Validators.required, this.utilsService.emailValidator(), this.utilsService.specialCharacterValidator()]
+        , updateOn: 'blur'}),
     });
   }
 
