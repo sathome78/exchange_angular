@@ -6,6 +6,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class FormatCurrencyPipe implements PipeTransform {
   transform(value: number | string, format: "full" | "short" = "short"): string {
     const valueParts: Array<string> = ('' + value).split('.');
+    valueParts[1] = !valueParts[1] ? '0' : valueParts[1];
     const integer: string = valueParts[0];
     const integerParts: Array<string> = this.getIntegerParts(integer);
 
