@@ -174,9 +174,9 @@
       }
     }
     &__input{
-      width: 260px;
+      // width: 260px;
       margin-right: 32px;
-      margin-bottom: 0;
+      margin-bottom: 1px;
       .wrap-input__input{
         &:valid{
           ~.wrap-input__label{
@@ -303,3 +303,27 @@
   }
 }
 /*--- DARK THEME END---*/
+
+
+.orders__search{
+  .wrap-input{
+    margin-right: 0;
+  }
+}
+
+
+  .ord-history{
+    .wrap-input{
+    margin-right: 24px;
+  }
+  }
+
+   .transaction__filters{
+    .wrap-input{
+    margin-right: 24px;
+  }
+  }
+
+  .balance__filters{
+    padding-left: 0;
+  }
