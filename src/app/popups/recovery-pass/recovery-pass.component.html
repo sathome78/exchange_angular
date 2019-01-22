@@ -20,19 +20,16 @@
         <label class="wrap-input__label" for="">{{'Email' | translate}}</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
-        <div *ngIf="!emailForm.valid && emailSubmited">
-            <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required']">
-              {{'This field is required.' | translate}}
-            </span>
-          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['pattern']">
-              {{'Please, enter valid email address.' | translate}}
+        <div >
+            <span class="wrap-input__message" *ngIf="emailForm.valid">
+              {{emailMessage}}
             </span>
         </div>
         <!--Input error section ends-->
       </div>
       <button class="btn popup__btn"
               (click)="emailSubmit()"
-              [ngClass]="{'bg-none': !emailForm.valid, 'popup__btn--active': emailForm.valid}" >
+              [ngClass]="{'bg-none': !emailForm.valid, 'popup__btn--active': emailForm.valid && emailMessage === ''}" >
         {{'Reset password' | translate}}
       </button>
     </form>
