@@ -262,9 +262,13 @@
     top: 16px;
     left: 16px;
     z-index: 4;
-    background-color: #2E304D;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    background-color: #fff;
+    border-radius: 4px;
+    .menu__link-text{
+      font-size: 16px;
+      font-weight: 400;
+      color: #191A39;
+    }
 
     &--notification {
       width: 266px;
@@ -290,16 +294,16 @@
       flex-direction: column;
       align-items: stretch;
 
-      &:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        display: block;
-        height: 2px;
-        width: 0%;
-        background-color: $darker-blue;
-        transition: width .3s ease;
-      }
+      // &:before {
+      //   content: '';
+      //   position: absolute;
+      //   top: 0;
+      //   display: block;
+      //   height: 2px;
+      //   width: 0%;
+      //   background-color: $darker-blue;
+      //   transition: width .3s ease;
+      // }
 
       &--language {
         display: grid;
@@ -508,23 +512,31 @@
       left: 0;
       height: 0;
       overflow: hidden;
-      background-color: #191A39;
+      background-color: #fff;
       -webkit-border-radius: 4px;
       -moz-border-radius: 4px;
       border-radius: 4px;
+          color: #191A39;
+          font-weight: 400;
     }
     &__submenu-item{
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
       padding: 8px 0;
+      color: #237BEF;
       .item-title{
-        color:$grey;
+            color: #191A39;
         margin-bottom: 4px;
         white-space: nowrap;
       }
     }
     .login-menu__link{
       padding: 0;
+      color: #191A39;
       padding-top: 16px;
+      transition:.3s;
+      &:hover{
+        color: #94C2FF;
+      }
     }
     .menu__link-text{
       &:after{
@@ -844,6 +856,11 @@
           background-size: 100%;
           content: "";
         }
+        .menu__link-text{
+          &::after{
+            display: none;
+          }
+        }
       }
 
       &--next-page {
@@ -1068,4 +1085,27 @@
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.menu__link--drop{
+  .menu__link-text{
+    &::after{
+      display: none;
+    }
+  }
+}
+
+.submenu{
+.submenu__link{
+  &:hover{
+    .menu__link-text{
+      color: #94C2FF;
+    }
+  }
+  .menu__link-text{
+    &::after{
+      display: none;
+    }
+  }
+}
 }

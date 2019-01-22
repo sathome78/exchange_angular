@@ -17,7 +17,23 @@ ul.select__list {
   .select__list-item{
     min-height: 38px;
     &:hover, &.active{
-      background-color: #191f42;
+      background-color: #fff;
+    }
+    .dynamic-input__input{
+      border-bottom-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
+    .dynamic-input__triangle{
+      border-top-color: #94C2FF;
+      transform:rotate(180deg);
+    }
+    .dynamic-input__label{
+      color:#94C2FF;
+    }
+    .dynamic-input__list{
+      .dropdown__list{
+        border-color: #fff;
+      }
     }
 
   }
