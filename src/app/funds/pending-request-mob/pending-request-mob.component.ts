@@ -6,9 +6,11 @@ import {Observable, Subject} from 'rxjs';
 import * as fromCore from '../../core/reducers';
 import * as fundsAction from '../store/actions/funds.actions';
 import * as fundsReducer from '../store/reducers/funds.reducer';
-import { Location } from '@angular/common';
-import { takeUntil } from 'rxjs/operators';
-import { UtilsService } from 'app/shared/services/utils.service';
+import * as coreAction from '../../core/actions/core.actions';
+import {Location} from '@angular/common';
+import {takeUntil} from 'rxjs/operators';
+import {UtilsService} from 'app/shared/services/utils.service';
+import {CurrencyChoose} from 'app/core/models/currency-choose.model';
 
 @Component({
   selector: 'app-pending-request-mob',
@@ -29,6 +31,7 @@ export class PendingRequestMobComponent implements OnInit {
     this.pendingRequests$ = store.pipe(select(fundsReducer.getPendingRequestsSelector));
     this.countOfPendingRequests$ = store.pipe(select(fundsReducer.getCountPendingReqSelector));
     this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
+    this.allCurrenciesForChoose$ = store.pipe(select(fromCore.getAllCurrenciesForChoose));
 
     this.countOfPendingRequests$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -44,6 +47,7 @@ export class PendingRequestMobComponent implements OnInit {
   }
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public pendingRequests$: Observable<PendingRequestsItem[]>;
+  public allCurrenciesForChoose$: Observable<CurrencyChoose[]>;
   public loading$: Observable<boolean>;
   public countOfPendingRequests$: Observable<number>;
   public tableScrollStyles: any = {};
@@ -51,8 +55,11 @@ export class PendingRequestMobComponent implements OnInit {
   public countPerPage: number = 30;
   public currentPage: number = 1;
   public countOfEntries: number = 1;
+  public currValue: string = '';
+  public currencyForChoose: string = null;
 
   ngOnInit() {
+    this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
     this.loadPendingRequests();
   }
 
@@ -84,5 +91,13 @@ export class PendingRequestMobComponent implements OnInit {
     return this.utils.isFiat(currName);
   }
 
+  public onChangeCurrPair(val: string): void {
+    this.currValue = val;
+  }
+
+  public onSelectPair(currId: string): void {
+    this.currencyForChoose = currId;
+    this.loadPendingRequests();;
+  }
 
 }

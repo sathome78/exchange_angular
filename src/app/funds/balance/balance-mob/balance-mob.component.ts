@@ -16,7 +16,7 @@ export class BalanceMobComponent implements OnInit{
     private utils: UtilsService,
   ) {
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 271) + 'px', 'overflow': 'scroll'}
+    this.tableScrollStyles = {'height': (componentHeight - 283) + 'px', 'overflow': 'scroll'}
 
   }
   @ViewChild('dropdown') dropdownElement: ElementRef;
@@ -36,6 +36,7 @@ export class BalanceMobComponent implements OnInit{
   public priceIn: string = this.currencies.USD;
   public hideAllZero: boolean = false;
   public currencyForChoose: string = '';
+  public currValue: string = '';
 
   @Input('loading') public loading: boolean;
   @Input('balances') public balances: BalanceItem[] = [];
@@ -88,6 +89,17 @@ export class BalanceMobComponent implements OnInit{
   public onSearchCoin(event) {
     this.currencyForChoose = event;
     this.filterByCurrencyForMobile.emit({currTab: this.currTab, currency: this.currencyForChoose});
+  }
+
+  public onChangeCurrPair(val: string): void {
+    this.currValue = val;
+  }
+
+  public get getCryptoDynamicIData(): DIOptions[] {
+    return this.cryptoCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
+  }
+  public get getFiatDynamicIData(): DIOptions[] {
+    return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
   }
 
   ngOnInit() { }
