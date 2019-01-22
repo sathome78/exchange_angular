@@ -28,6 +28,7 @@ export class TransactionHistoryComponent implements OnInit {
   public countOfEntries: number = 0;
   public currencyForChoose$: Observable<CurrencyChoose[]>;
   public loading$: Observable<boolean>;
+  public currValue: string = '';
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -234,6 +235,15 @@ export class TransactionHistoryComponent implements OnInit {
       this.showFilterPopup = false;
       this.loadTransactions();
     }
+  }
+
+  onChangeCurrPair(val: string): void {
+    this.currValue = val;
+    this.currencyId = null;
+  }
+
+  onSelectPair(currId: string): void {
+    this.currencyId = currId;
   }
 
 

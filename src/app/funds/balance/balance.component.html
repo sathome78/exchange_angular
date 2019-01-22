@@ -95,27 +95,30 @@
         class="balance__filters"
         [ngClass]="{'balance__filters--pending-open': currTab === Tab.PR}"
       >
-        <!--<div class="wrap-input wrap-input&#45;&#45;with-icon balance__search" *ngIf="currTab !== Tab.PR">-->
-          <!--<ng-select-->
-            <!--class="custom"-->
-            <!--[items]="currTab === Tab.CRYPTO ? (cryptoCurrenciesForChoose$ | async) : (fiatCurrenciesForChoose$ | async)"-->
-            <!--bindLabel="name"-->
-            <!--placeholder="Search"-->
-            <!--bindValue="name"-->
-            <!--name="currency"-->
-            <!--[(ngModel)]="currencyForChoose"-->
-            <!--(ngModelChange)="loadBalances(currTab)"-->
-          <!--&gt;</ng-select>-->
-          <!--<div class="wrap-input__line"></div>-->
-        <!--</div>-->
+        <ng-container [ngSwitch]="currTab">
+          <app-dynamic-input
+            *ngSwitchCase="Tab.CRYPTO"
+            [value]="currValue"
+            [options]="cryptoCurrenciesForChoose && getCryptoDynamicIData"
+            (onChange)="onChangeCurrPair($event)"
+            (onSelect)="onSelectPair($event.id)"
+          ></app-dynamic-input>
+          <app-dynamic-input
+            *ngSwitchCase="Tab.FIAT"
+            [value]="currValue"
+            [options]="fiatCurrenciesForChoose && getFiatDynamicIData"
+            (onChange)="onChangeCurrPair($event)"
+            (onSelect)="onSelectPair($event.id)"
+          ></app-dynamic-input>
+          <app-dynamic-input
+            *ngSwitchCase="Tab.PR"
+            [value]="currValue"
+            [options]="(allCurrenciesForChoose$ | async) | dynamicIData: 'name': 'id'"
+            (onChange)="onChangeCurrPair($event)"
+            (onSelect)="onSelectPair($event.id)"
+          ></app-dynamic-input>
+        </ng-container>
 
-        <app-custom-search-input
-          class="wrap-input wrap-input--with-icon balance__search"
-          *ngIf="currTab !== Tab.PR"
-          [coins]="currTab === Tab.CRYPTO ? (cryptoCurrenciesForChoose$ | async) : (fiatCurrenciesForChoose$ | async)"
-          (selectedCoin)="onSearchCoin($event)"
-        >
-        </app-custom-search-input>
         <div class="tabs balance__tabs">
           <button
             class="tabs__item"

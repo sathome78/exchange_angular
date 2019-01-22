@@ -31,6 +31,8 @@ import {ExcludeByFieldPipe} from './pipes/exclude-by-field.pipe';
 import {TranslateModule} from '@ngx-translate/core';
 import {DynamicInputComponent} from './components/dynamic-input/dynamic-input.component';
 import {CustomSearchInputComponent} from './components/custom-search-input/custom-search-input.component';
+import {DynamicInputDashboardComponent} from './components/dynamic-input-dashboard/dynamic-input-dashboard.component';
+import {DynamicInputDataPipe} from './pipes/dynamic-input-data.pipe';
 import {RestorePasswordGuard} from './guards/restore-password.guard';
 import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
 
@@ -58,6 +60,8 @@ import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
     LoaderComponent,
     DynamicInputComponent,
     CustomSearchInputComponent,
+    DynamicInputDashboardComponent,
+    DynamicInputDataPipe,
   ],
   imports: [
     FormsModule,
@@ -97,6 +101,8 @@ import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
     DateWrapper,
     GetIconUrl,
     DynamicInputComponent,
+    DynamicInputDashboardComponent,
+    DynamicInputDataPipe,
   ],
   providers: [
     NotificationsService,

@@ -43,10 +43,11 @@ export class BalanceService {
   }
 
   // request to get balances
-  getPendingRequests({offset, limit}): Observable<ResponseModel<PendingRequestsItem[]>> {
+  getPendingRequests({offset, limit, currencyName}): Observable<ResponseModel<PendingRequestsItem[]>> {
     const params = {
       offset: offset + '',
       limit: limit + '',
+      currencyName: currencyName || '',
     }
     return this.http.get<ResponseModel<PendingRequestsItem[]>>(`${this.apiUrl}/info/private/v2/balances/pendingRequests`, {params});
   }

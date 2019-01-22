@@ -46,7 +46,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public myBalances$: Observable<MyBalanceItem>;
   public cryptoCurrenciesForChoose$: Observable<CurrencyChoose[]>;
   public fiatCurrenciesForChoose$: Observable<CurrencyChoose[]>;
+  public allCurrenciesForChoose$: Observable<CurrencyChoose[]>;
+  public cryptoCurrenciesForChoose: CurrencyChoose[] = [];
+  public fiatCurrenciesForChoose: CurrencyChoose[] = [];
   public loading$: Observable<boolean>;
+  public currValue: string = '';
 
   public sendMoneyData = {};
   public refillBalanceData = {};
@@ -71,7 +75,15 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.myBalances$ = store.pipe(select(fundsReducer.getMyBalancesSelector));
     this.cryptoCurrenciesForChoose$ = store.pipe(select(fromCore.getCryptoCurrenciesForChoose));
     this.fiatCurrenciesForChoose$ = store.pipe(select(fromCore.getFiatCurrenciesForChoose));
+    this.allCurrenciesForChoose$ = store.pipe(select(fromCore.getAllCurrenciesForChoose));
     this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
+
+    this.cryptoCurrenciesForChoose$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((currs) => this.cryptoCurrenciesForChoose = currs);
+    this.fiatCurrenciesForChoose$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((currs) => this.fiatCurrenciesForChoose = currs);
   }
 
   ngOnInit() {
@@ -106,6 +118,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public onSelectTab(tab: string): void {
     this.currTab = tab;
     this.currentPage = 1;
+    this.currValue = '';
+    this.currencyForChoose = null;
     this.loadBalances(this.currTab);
   }
 
@@ -139,6 +153,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
         return this.store.dispatch(new fundsAction.LoadFiatBalAction(paramsF));
       case this.Tab.PR :
         const paramsP = {
+          currencyName: this.currencyForChoose || '',
           offset: (this.currentPage - 1) * this.countPerPage,
           limit: this.countPerPage,
           concat: concat || false,
@@ -260,5 +275,22 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public onGoToBalanceDetails({currencyId, priceIn}) {
     this.router.navigate([`/funds/balances/${currencyId}`], {queryParams: {priceIn}})
   }
+
+  public onChangeCurrPair(val: string): void {
+    this.currValue = val;
+  }
+
+  public onSelectPair(currId: string): void {
+    this.currencyForChoose = currId;
+    this.loadBalances(this.currTab);;
+  }
+
+  public get getCryptoDynamicIData(): DIOptions[] {
+    return this.cryptoCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
+  }
+  public get getFiatDynamicIData(): DIOptions[] {
+    return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
+  }
+
 
 }
