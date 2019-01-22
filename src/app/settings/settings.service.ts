@@ -17,9 +17,14 @@ export class SettingsService {
   constructor(private authService: AuthService,
               private http: HttpClient) {}
 
-  updateMainPassword(pass: string) {
-    const encodedPassword = this.authService.encodePassword(pass);
-    return this.http.put(this.getUrl('updateMainPassword'), {password: encodedPassword}, {observe: 'events'});
+  updateMainPassword(currentPassword: string, newPassword: string) {
+    const encodedCurrPassword = this.authService.encodePassword(currentPassword);
+    const encodedNewPassword = this.authService.encodePassword(newPassword);
+    const body = {
+      currentPassword: encodedCurrPassword,
+      newPassword: encodedNewPassword
+    };
+    return this.http.put(this.getUrl('updateMainPassword'), body, {observe: 'events'});
   }
 
   getNickname(): Observable<any> {
