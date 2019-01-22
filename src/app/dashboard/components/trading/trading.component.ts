@@ -1,35 +1,27 @@
 import {Component, OnDestroy, OnInit, HostListener} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
-
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {Order} from './order.model';
 import {TradingService} from './trading.service';
 import {DashboardService} from '../../dashboard.service';
-import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import {OrderBookService} from '../order-book/order-book.service';
-import {
-  State,
-  getCurrencyPair,
-  getSelectedOrderBookOrder,
-  getLastSellBuyOrder,
-  getDashboardState,
-  getCurrencyPairInfo
-} from 'app/core/reducers/index';
+import {State, getCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getDashboardState} from 'app/core/reducers/index';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserService} from 'app/shared/services/user.service';
-import {LastSellBuyOrder} from 'app/model/last-sell-buy-order.model';
-import {CurrencyPairInfo, OrderItem, UserBalance} from '../../../model';
-import {environment} from '../../../../environments/environment';
-import {PopupService} from '../../../shared/services/popup.service';
+import {OrderItem, UserBalance} from 'app/model';
+import {PopupService} from 'app/shared/services/popup.service';
 import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
 import {defaultOrderItem} from '../../reducers/default-values';
 import {AuthService} from 'app/shared/services/auth.service';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {TranslateService} from '@ngx-translate/core';
+import {LastPrice} from 'app/model/last-price.model';
+import {BUY, SELL} from 'app/shared/constants';
 
 @Component({
   selector: 'app-trading',
@@ -37,39 +29,40 @@ import {TranslateService} from '@ngx-translate/core';
   styleUrls: ['trading.component.scss']
 })
 export class TradingComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
+
+
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
   public itemName: string;
-  /** active sell/buy tab */
-  public mainTab = 'BUY';
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dropdown limit data */
-  public limitsData = ['LIMIT', 'STOP_LIMIT'];
-  // public limitsData = ['LIMIT', 'MARKET_PRICE', 'STOP_LIMIT', 'ICO'];
+  public limitsData = ['LIMIT', 'STOP_LIMIT']; // ['LIMIT', 'MARKET_PRICE', 'STOP_LIMIT', 'ICO'];
   /** selected limit */
-  public dropdownLimitValue = this.limitsData[0];
-  /** form for limit-order */
-  limitForm: FormGroup;
-  /** form for limit-order */
-  stopForm: FormGroup;
-
-  public userBalance: UserBalance;
-  public orderStop;
-  public currentPair;
+  public dropdownLimitValue: string;
+  public buyOrder: Order;
+  public sellOrder: Order;
+  private sellCommissionIndex = 0;
+  private buyCommissionIndex = 0;
   public arrPairName = ['', ''];
+  public sellForm: FormGroup;
+  public buyForm: FormGroup;
+  public sellStopValue: number;
+  public buyStopValue: number;
+  public userBalance: UserBalance;
+  public currentPair;
   private commissionIndex = 0.002;
   public notifySuccess = false;
   public notifyFail = false;
   public message = '';
-  public currencyPairInfo;
   public order;
   public lastSellOrder;
-  public lastSellBuyOrders: LastSellBuyOrder;
   public isTotalWithCommission = false;
+  public SELL = SELL;
+  public BUY = BUY;
 
   public defaultOrder: Order = {
-    orderType: this.mainTab,
+    orderType: '',
     orderId: 0,
     currencyPairId: null,
     amount: null,
@@ -79,6 +72,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     status: 'OPENED',
     total: null,
   };
+
    /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
     this.notifyFail = false;
@@ -90,7 +84,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
   constructor(
     private store: Store<State>,
-    public breakPointService: BreakpointService,
     public tradingService: TradingService,
     private dashboardService: DashboardService,
     private popupService: PopupService,
@@ -106,9 +99,11 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
   ngOnInit() {
     this.itemName = 'trading';
-    this.mainTab = 'BUY';
-    this.order = {...this.defaultOrder};
+    this.dropdownLimitValue = this.limitsData[0];
     this.initForms();
+    this.resetSellModel();
+    this.resetBuyModel();
+
 
     this.store
       .pipe(select(getDashboardState))
@@ -124,22 +119,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.onGetCurrentCurrencyPair(pair);
       });
 
-    // this.store
-    //   .pipe(select(getUserBalance))
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe( (balance: UserBalance) => {
-    //     this.userBalance = balance.balanceByCurrency1 ? balance.balanceByCurrency1 : 0;
-    //     this.userBalance = this.userBalance < 0 ? 0 : this.userBalance;
-    //   });
-
     this.store
-      .pipe(select(getCurrencyPairInfo))
+      .pipe(select(getLastPrice))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPairInfo) => {
-        this.setPriceInValue(pair.currencyRate);
-        this.order.rate = pair.currencyRate;
+      .subscribe( (lastPrice: LastPrice) => {
+        this.setPriceInValue(lastPrice.price, this.BUY);
+        this.setPriceInValue(lastPrice.price, this.SELL);
+        this.sellOrder.rate = parseFloat(lastPrice.price.toString());
+        this.buyOrder.rate = parseFloat(lastPrice.price.toString());
       });
-
 
     this.store
       .pipe(select(getSelectedOrderBookOrder))
@@ -147,24 +135,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe( (order) => {
         this.orderFromOrderBook(order);
       });
-
-    this.store
-      .pipe(select(getLastSellBuyOrder))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (lastOrders) => {
-        this.lastSellBuyOrders = lastOrders;
-      });
-
-    // this.dashboardService.selectedOrderTrading$
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe(order => {
-    //     this.orderFromOrderBook(order as OrderItem);
-    //   });
-
-    // this.orderBookService.lastOrderListener$.subscribe(res => {
-    //   this.lastSellOrder = res;
-    // });
-
   }
 
   ngOnDestroy() {
@@ -172,46 +142,35 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.ngUnsubscribe.complete();
   }
 
+  private resetBuyModel() {
+    this.buyOrder = {...this.defaultOrder};
+    this.buyOrder.orderType = this.BUY;
+    this.buyForm.reset();
+  }
+
+  private resetSellModel() {
+    this.sellOrder = {...this.defaultOrder};
+    this.sellOrder.orderType = this.SELL;
+    this.sellForm.reset();
+  }
+
   /**
    * init forms
    */
-  initForms(): void {
-    this.limitForm = new FormGroup({
-      quantityOf: new FormControl('', Validators.required ),
-      priceIn: new FormControl('', Validators.required ),
-      totalIn: new FormControl('', Validators.required ),
-    });
-
-    this.stopForm = new FormGroup({
-      quantityOf: new FormControl('', Validators.required ),
+  private initForms(): void {
+    this.buyForm = new FormGroup({
+      quantity: new FormControl('', Validators.required ),
       stop: new FormControl('', ),
-      limit: new FormControl('', Validators.required ),
-      totalIn: new FormControl('', Validators.required ),
+      price: new FormControl('', Validators.required ),
+      total: new FormControl('', Validators.required ),
+    });
+    this.sellForm = new FormGroup({
+      quantity: new FormControl('', Validators.required ),
+      stop: new FormControl('', ),
+      price: new FormControl('', Validators.required ),
+      total: new FormControl('', Validators.required ),
     });
   }
-
-  resetOrderBookItem(): void {
-    if (this.tradingService.needSetDefaultOrderBookItem) {
-      this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
-    }
-  }
-
-  /**
-   * toggle sell/buy tabs and emit this
-   * @param {string} tab
-   */
-  toggleMainTab(tab: string) {
-    if (tab === 'BUY') {
-      this.mainTab = 'BUY';
-
-      this.tradingService.tradingChangeSellBuy$.next('BUY');
-    } else  {
-      this.mainTab = 'SELL';
-      this.tradingService.tradingChangeSellBuy$.next('SELL');
-    }
-    this.getCommissionIndex();
-  }
-
 
   /**
    * Get readable limit string
@@ -236,72 +195,132 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   /**
-   * Set rate on select type order (depending on operation type)
-   */
-  setRateOnSelectTypeOrder(): void {
-    if (this.mainTab === 'BUY') {
-      const tempData = this.lastSellBuyOrders.lastBuyOrder.rate.toString();
-      this.order.rate = parseFloat(tempData);
-      this.setPriceInValue(this.order.rate);
-      this.getCommission();
-    } else {
-      const tempData = this.lastSellBuyOrders.lastSellOrder.rate.toString();
-      this.order.rate = parseFloat(tempData);
-      this.setPriceInValue(this.order.rate);
-      this.getCommission();
-    }
-  }
-
-  /**
    * On select limit
    * @param {string} limit
    */
   selectedLimit(limit: string): void {
     this.dropdownLimitValue = limit;
-    // if (limit === 'MARKET_PRICE') {
-    //   if (this.lastSellOrder) {
-    //     this.order.rate = this.lastSellOrder ? this.lastSellOrder.exrate : 0;
-    //     this.setPriceInValue(this.lastSellOrder ? this.lastSellOrder.exrate : 0);
-    //     this.getCommission();
-    //   }
-    // }
-    this.setRateOnSelectTypeOrder();
     this.isDropdownOpen = false;
+    this.resetBuyModel();
+    this.resetSellModel();
+    this.resetStopValue();
+  }
+
+  private resetStopValue(): void {
+    this.buyStopValue = 0;
+    this.sellStopValue = 0;
+  }
+
+  /**
+   * set form value (quantityOf)
+   * @param value
+   */
+  setQuantityValue(value, orderType: string): void {
+    value = typeof value === 'string' ? value : this.exponentToNumber(value).toString();
+    orderType === this.BUY ?
+    this.buyForm.controls['quantity'].setValue(value) :
+    this.sellForm.controls['quantity'].setValue(value);
+  }
+
+  /**
+   * set form value (priceIn/limit)
+   * @param value
+   */
+  setPriceInValue(value, orderType: string): void {
+    value = typeof value === 'string' ? value : !value ? '0' : this.exponentToNumber(value).toString();
+    orderType === this.BUY ?
+      this.buyForm.controls['price'].setValue(value) :
+      this.sellForm.controls['price'].setValue(value);
+  }
+
+  /**
+   * set form value (totalIn)
+   * @param value
+   */
+  setTotalInValue(value, orderType: string): void {
+    value = typeof value === 'string' ? value : this.exponentToNumber(value).toString();
+    orderType === this.BUY ?
+      this.buyForm.controls['total'].setValue(value) :
+      this.sellForm.controls['total'].setValue(value);
+  }
+
+  /**
+   * set form value (stop)
+   * @param value
+   */
+  setStopValue(value, orderType: string): void {
+    orderType === this.BUY ?
+      this.buyForm.controls['stop'].setValue(value) :
+      this.sellForm.controls['stop'].setValue(value);
   }
 
   /**
    * on select checkbox of percents
    * @param {number} percent
    */
-  selectedPercent(percent: number) {
-    let total = 0
+  selectedPercent(percent: number, orderType: string): void {
+    let total = 0;
     this.isTotalWithCommission = false;
 
-    if (this.mainTab === 'BUY') {
-      total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0
+    if (orderType === this.BUY) {
+      total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0;
       const totalIn = total * percent / 100;
-      this.order.total = totalIn;
-      this.setTotalInValue(totalIn);
-      this.getCommission(false);
+      this.buyOrder.total = totalIn;
+      this.setTotalInValue(totalIn, this.BUY);
+      this.getCommission(orderType, false);
     } else {
-      total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0
+      total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0;
       const quantityOf = total * percent / 100;
-      this.order.amount = quantityOf;
-      this.setQuantityValue(quantityOf);
-      this.getCommission();
+      this.sellOrder.amount = quantityOf;
+      this.setQuantityValue(quantityOf, this.SELL);
+      this.getCommission(orderType);
     }
   }
 
   /**
-   * on input in field quantity
-   * @param e
+   * fill model according to order-book order
+   * @param order
    */
-  quantityInput(e): void {
-    this.isTotalWithCommission = false;
-    this.order.amount = parseFloat(this.deleteSpace(e.target.value.toString()));
-    this.setQuantityValue(e.target.value);
-    this.getCommission();
+  orderFromOrderBook(order: OrderItem): void {
+    const rate = parseFloat(order.exrate.toString());
+    if (order.orderType === this.SELL) {
+      this.sellOrder.rate = rate;
+      this.setPriceInValue(rate, this.SELL);
+    } else {
+      this.buyOrder.rate = rate;
+      this.setPriceInValue(rate, this.BUY);
+    }
+    this.getCommission(order.orderType);
   }
+
+  /**
+   * get commission index (send request)
+   */
+  getCommissionIndex(type: string, currencyPairId: number): void {
+    if (type && currencyPairId) {
+      const subscription = this.tradingService.getCommission(type, currencyPairId).subscribe(res => {
+        type === this.BUY ?
+        this.buyCommissionIndex = res.commissionValue :
+        this.sellCommissionIndex = res.commissionValue;
+        this.commissionIndex = res.commissionValue;
+        subscription.unsubscribe();
+      });
+    }
+  }
+
+  /**
+   * Method run when refresh current currency pair
+   * @param pair
+   */
+  private onGetCurrentCurrencyPair(pair): void {
+    this.currentPair = pair;
+    this.resetSellModel();
+    this.resetBuyModel();
+    this.splitPairName();
+    this.getCommissionIndex(this.BUY, this.currentPair.currencyPairId);
+    this.getCommissionIndex(this.SELL, this.currentPair.currencyPairId);
+  }
+
 
   /**
    * For delete space
@@ -319,59 +338,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   /**
-   * On input in field (price in)
-   * @param e
-   */
-   rateInput(e): void {
-    this.isTotalWithCommission = false;
-       this.order.rate = parseFloat(this.deleteSpace(e.target.value.toString()));
-       this.getCommission();
-   }
-
-  /**
-   * On input in field stop
-   * @param event
-   */
-  stopInput(event): void {
-     this.orderStop = event.target.value;
-  }
-
-  /**
-   * On input in field (Total in)
-   * @param event
-   */
-   totalInput(event): void {
-    this.isTotalWithCommission = false;
-    // this.order.total = parseFloat(this.deleteSpace(event.target.value.toString()));
-    if (this.order.rate) {
-      this.order.amount = this.order.total / this.order.rate;
-      this.order.commission = this.order.total * (this.commissionIndex / 100);
-      this.setQuantityValue(this.order.amount);
-    }
-   }
-
-   calculateAmountByTotalWithCommission(): void {
-      let total = 0
-      if (this.mainTab === 'BUY') {
-        total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0;
-
-        this.isTotalWithCommission = true;
-        this.setTotalInValue(total);
-        this.order.total = total;
-        this.order.commission = this.order.total * (this.commissionIndex / 100.2);
-        const x = this.mainTab === 'BUY' ? this.order.total - this.order.commission : this.order.total + this.order.commission;
-        this.order.amount = x / this.order.rate;
-        this.setQuantityValue(this.order.amount);
-      } else {
-        total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0;
-        this.setQuantityValue(total);
-        this.order.amount = total;
-        this.getCommission();
-      }
-
-   }
-
-  /**
    * split pair name for showing
    */
   private splitPairName() {
@@ -380,75 +346,132 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     }
   }
 
-  /**
-   * set form value (quantityOf)
-   * @param value
-   */
-  setQuantityValue(value): void {
-    value = typeof value === 'string' ? value : value.toString();
-    this.stopForm.controls['quantityOf'].setValue(value);
-    this.limitForm.controls['quantityOf'].setValue(value);
-  }
+  calculateAmountByTotalWithCommission(type: string): void {
+    let total = 0;
+    if (type === this.BUY) {
+      total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0;
 
-  /**
-   * set form value (priceIn/limit)
-   * @param value
-   */
-  setPriceInValue(value): void {
-    value = typeof value === 'string' ? value : !value ? '0' : this.exponentToNumber(value).toString();
-    this.stopForm.controls['limit'].setValue(value);
-    this.limitForm.controls['priceIn'].setValue(value);
-  }
-
-  /**
-   * set form value (totalIn)
-   * @param value
-   */
-  setTotalInValue(value): void {
-    value = typeof value === 'string' ? value : value.toString();
-    this.stopForm.controls['totalIn'].setValue(value);
-    this.limitForm.controls['totalIn'].setValue(value);
-  }
-
-  /**
-   * set form value (stop)
-   * @param value
-   */
-  setStopValue(value): void {
-    this.stopForm.controls['stop'].setValue(value);
-  }
-
-  /**
-   * Reset forms
-   */
-  resetForms(): void {
-    this.limitForm.reset();
-    this.stopForm.reset();
-  }
-
-  /**
-   * fill model according to order-book order
-   * @param order
-   */
-  orderFromOrderBook(order: OrderItem): void {
-    this.dropdownLimitValue = this.limitsData[0];
-    // this.order.amount = 0;
-    // this.setQuantityValue(0);
-    // this.order.total = 0;
-    // this.setTotalInValue(0);
-    this.order.rate = +order.exrate;
-    this.setPriceInValue(this.order.rate);
-    this.mainTab = order.orderType;
-    this.getCommission();
-    // this.order.commission = 0;
+      this.isTotalWithCommission = true;
+      this.setTotalInValue(total, this.BUY);
+      this.buyOrder.total = total;
+      if (this.buyOrder.rate) {
+        this.buyOrder.commission = this.buyOrder.total * (this.buyCommissionIndex / 100);
+        const x = this.buyOrder.total - this.buyOrder.commission;
+        this.buyOrder.amount = x / this.buyOrder.rate;
+        this.setQuantityValue(this.buyOrder.amount, this.BUY);
+      } else {
+        this.buyOrder.commission = 0;
+        this.buyOrder.amount = 0;
+        this.setQuantityValue(0, this.BUY);
+      }
+    } else {
+      total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0;
+      this.setQuantityValue(total, this.SELL);
+      this.sellOrder.amount = total;
+      this.getCommission(type);
     }
+  }
+
+  /**
+   * calculate commission
+   */
+  private getCommission(type: string, setTotal = true): void {
+    type === this.BUY ?
+      this.getCommissionNested(this.buyOrder, type, setTotal) :
+      this.getCommissionNested(this.sellOrder, type, setTotal);
+  }
+
+  private getCommissionNested(order: Order, type: string, setTotal: boolean) {
+    if (setTotal) {
+      if (order.rate && order.rate >= 0) {
+        order.total = order.amount * order.rate;
+        order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
+        this.setTotalInValue(order.total, type);
+      }
+    } else {
+      if (order.rate && order.rate >= 0) {
+        order.amount = order.total / order.rate;
+        order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
+        this.setQuantityValue(order.amount, type);
+      }
+    }
+  }
+
+  /**
+   * on input in field quantity
+   * @param e
+   */
+  quantityInput(e, type: string): void {
+    this.isTotalWithCommission = false;
+    if (type === this.BUY) {
+      this.buyOrder.amount = parseFloat(this.deleteSpace(e.target.value.toString()));
+      this.setQuantityValue(e.target.value, type);
+    } else {
+      this.sellOrder.amount = parseFloat(this.deleteSpace(e.target.value.toString()));
+      this.setQuantityValue(e.target.value, type);
+    }
+    this.getCommission(type);
+  }
+
+
+  /**
+   * On input in field (price in)
+   * @param e
+   */
+  rateInput(e, type: string): void {
+    this.isTotalWithCommission = false;
+    if (type === this.BUY) {
+      this.buyOrder.rate = parseFloat(this.deleteSpace(e.target.value.toString()));
+      this.setPriceInValue(e.target.value, type);
+    } else {
+      this.sellOrder.rate = parseFloat(this.deleteSpace(e.target.value.toString()));
+      this.setPriceInValue(e.target.value, type);
+    }
+    this.getCommission(type);
+  }
+
+  /**
+   * On input in field stop
+   * @param event
+   */
+  stopInput(event, type: string): void {
+
+    if (type === this.BUY) {
+      this.buyStopValue = event.target.value;
+      this.setStopValue(event.target.value, type);
+    } else {
+      this.sellStopValue = event.target.value;
+      this.setStopValue(event.target.value, type);
+    }
+  }
+
+  /**
+   * On input in field (Total in)
+   * @param event
+   */
+  totalInput(event, type: string): void {
+    this.isTotalWithCommission = false;
+    type === this.BUY ?
+      this.inputTotalNested(event, type, this.buyOrder) :
+      this.inputTotalNested(event, type, this.sellOrder);
+  }
+
+  private inputTotalNested(event, type: string, order: Order) {
+    this.setTotalInValue(event.target.value, type);
+    order.total = parseFloat(this.deleteSpace(event.target.value));
+    if (order.rate) {
+      order.amount = order.total / order.rate;
+      order.commission = order.total * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
+      this.setQuantityValue(order.amount, type);
+    }
+  }
 
   /**
    * Method transform exponent format to number
    * @param x
    * @returns {any}
    */
-  exponentToNumber(x) {
+  private exponentToNumber(x) {
     if (Math.abs(x) < 1.0) {
       let e = parseInt(x.toString().split('e-')[1]);
       if (e) {
@@ -469,78 +492,69 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   /**
    * on click submit button
    */
-  onSubmit(): void {
+  onSubmit(type: string): void {
     // window.open('https://exrates.me/dashboard', '_blank');
     if (!this.isAuthenticated()) {
       this.popupService.showMobileLoginPopup(true);
       return;
     }
-    this.orderStop = this.dropdownLimitValue === 'STOP_LIMIT' ? this.stopForm.get('stop').value : '';
-    if ( (this.stopForm.valid
-      && this.orderStop
-      && this.dropdownLimitValue === 'STOP_LIMIT')
-      || (this.limitForm.valid
-        && this.dropdownLimitValue === 'LIMIT'
-        || this.dropdownLimitValue === 'ICO'
-        || this.dropdownLimitValue === 'MARKET_PRICE')) {
-      this.order.currencyPairId = this.currentPair.currencyPairId;
-      this.order.baseType = this.dropdownLimitValue;
-      this.order.orderType = this.mainTab;
-      if (this.dropdownLimitValue === 'STOP_LIMIT') {
-        this.order.stop = this.orderStop;
-        this.order.total = parseFloat(this.limitForm.get('totalIn').value);
-      } else {
-        delete this.order.stop;
-        this.order.total = parseFloat(this.stopForm.get('totalIn').value);
-      }
-      if (!this.isTotalWithCommission) {
-        this.order.total = this.mainTab === 'BUY' ?
-          this.order.total + this.order.commission :
-          this.order.total - this.order.commission;
-      }
-      this.order.orderId === 0 ? this.createNewOrder() : this.updateOrder();
+    type === this.BUY ?
+      this.onBuySubmit(type) :
+      this.onSellSubmit(type);
+  }
+
+  private onSellSubmit(type: string) {
+    if (this.sellForm.valid) {
+      this.sellOrder.currencyPairId = this.currentPair.currencyPairId;
+      this.sellOrder.baseType = this.dropdownLimitValue;
+      this.sellOrder.orderType = this.SELL;
+
+      this.dropdownLimitValue === 'STOP_LIMIT' ?
+        this.sellOrder.stop = parseFloat(this.sellStopValue.toString()) :
+        delete this.sellOrder.stop;
+
+      this.sellOrder.total = !this.isTotalWithCommission ?
+        this.sellOrder.total - this.sellOrder.commission :
+        this.sellOrder.total;
+
+      this.createNewOrder(type);
     }
   }
 
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
+  private onBuySubmit(type: string) {
+    if (this.buyForm.valid) {
+      this.buyOrder.currencyPairId = this.currentPair.currencyPairId;
+      this.buyOrder.baseType = this.dropdownLimitValue;
+      this.buyOrder.orderType = this.BUY;
+
+      this.dropdownLimitValue === 'STOP_LIMIT' ?
+        this.buyOrder.stop = parseFloat(this.buyStopValue.toString()) :
+        delete this.buyOrder.stop;
+
+      this.buyOrder.total = !this.isTotalWithCommission ?
+        this.buyOrder.total + this.buyOrder.commission :
+        this.buyOrder.total;
+
+      this.createNewOrder(type);
+    }
   }
 
   /**
    * on create new order
    */
-  createNewOrder(): void {
-    // this.resetOrderBookItem();
-    this.tradingService.createOrder(this.order)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.userService.getUserBalance(this.currentPair);
-        this.order = {...this.defaultOrder}
-        this.resetForms();
-        this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
-      this.notifySuccess = true;
-      setTimeout(() => {this.notifySuccess = false; }, 5000);
-    }, err => {
-        console.log(err);
-        this.notifyFail = true;
-        setTimeout(() => {this.notifyFail = false; }, 5000);
-      });
-    // this.orderStop = '';
-    if (this.currencyPairInfo) {
-      this.order.rate = this.currencyPairInfo.rate;
-      this.setPriceInValue(this.currencyPairInfo.rate);
-    }
-  }
+  private createNewOrder(type: string): void {
+    // type === 'BUY' ?
+    //   console.log(this.buyOrder) :
+    //   console.log(this.sellOrder);
 
-  /**
-   * on update order from order-book
-   */
-  updateOrder(): void {
-    this.resetOrderBookItem();
-    this.tradingService.updateOrder(this.order)
+    const order = type === this.BUY ? this.buyOrder : this.sellOrder;
+    this.tradingService.createOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.userService.getUserBalance(this.currentPair);
+        type === this.BUY ? this.resetBuyModel() : this.resetSellModel();
+
+        this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
         this.notifySuccess = true;
         setTimeout(() => {this.notifySuccess = false; }, 5000);
       }, err => {
@@ -548,57 +562,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.notifyFail = true;
         setTimeout(() => {this.notifyFail = false; }, 5000);
       });
-    this.orderStop = '';
-    this.resetForms();
-    if (this.currencyPairInfo) {
-      this.order.rate = this.currencyPairInfo.rate;
-      this.setPriceInValue(this.currencyPairInfo.rate);
-    }
   }
 
-  /**
-   * get commission index (send request)
-   */
-  getCommissionIndex() {
-    if (this.mainTab && this.currentPair.currencyPairId) {
-      const subscription = this.tradingService.getCommission(this.mainTab, this.currentPair.currencyPairId).subscribe(res => {
-        this.commissionIndex = res.commissionValue;
-        this.getCommission();
-        subscription.unsubscribe();
-      });
-    }
-  }
-
-  /**
-   * calculate commission
-   */
-  private getCommission(setTotal = true): void {
-    if (setTotal) {
-      if (this.order.rate && this.order.rate >= 0) {
-        this.order.total = parseFloat(this.order.amount) * parseFloat(this.order.rate);
-        this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
-        this.setTotalInValue(this.order.total);
-      }
-    } else {
-      if (this.order.rate && this.order.rate >= 0) {
-        this.order.amount = parseFloat(this.order.total) / parseFloat(this.order.rate);
-        this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);
-        this.setQuantityValue(this.order.amount);
-      }
-    }
-  }
-
-  /**
-   * Method run when refresh current currency pair
-   * @param pair
-   */
-  private onGetCurrentCurrencyPair(pair): void {
-    this.mainTab = 'BUY';
-    this.currentPair = pair;
-    this.order = {...this.defaultOrder};
-    this.resetForms();
-    this.splitPairName();
-    this.getCommissionIndex();
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
   }
 
   public isFiat(currName: string): boolean {

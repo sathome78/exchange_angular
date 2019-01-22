@@ -7,6 +7,7 @@ import { ReferralChargesComponent } from './referral/referral-charges/referral-c
 import { FinalRegistrationComponent } from './auth/final-registration/final-registration.component';
 import { FinalStepRecoveryPasswordComponent } from './auth/final-step-recovery-password/final-step-recovery-password.component';
 import { RegistrationGuard } from './shared/guards/registaration.guard';
+import { RestorePasswordGuard } from './shared/guards/restore-password.guard';
 
 const routes: Routes = [
   // permit all
@@ -16,7 +17,7 @@ const routes: Routes = [
   { path: 'referral-structure', component: ReferralStructureComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
   { path: 'referral-charges', component: ReferralChargesComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
   { path: 'settings', loadChildren: './settings/settings.module#SettingsModule', canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
-  { path: 'recovery-password', component: FinalStepRecoveryPasswordComponent, canActivate: [RegistrationGuard] },
+  { path: 'recovery-password', component: FinalStepRecoveryPasswordComponent, canActivate: [RestorePasswordGuard] },
   { path: 'funds', loadChildren: 'app/funds/funds.module#FundsModule', canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
   { path: 'orders', loadChildren: 'app/orders/orders.module#OrdersModule', canActivate: [AuthGuard], canActivateChild: [AuthGuard] },
   { path: 'static', loadChildren: './static-pages/static-pages.module#StaticPagesModule' },

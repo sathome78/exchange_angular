@@ -68,3 +68,9 @@
   .dark-theme{}
 }
 /*--- DARK THEME END---*/
+
+.ngx-pagination > li {
+  &:hover {
+    bottom: 0 !important;
+  }
+}

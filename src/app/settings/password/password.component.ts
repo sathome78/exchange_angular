@@ -14,6 +14,7 @@ import {TranslateService} from '@ngx-translate/core';
 export class PasswordComponent implements OnInit {
 
   form: FormGroup;
+  passwordCurrent: FormControl;
   passwordFirst: FormControl;
   isPasswordVisible: boolean;
 
@@ -27,11 +28,16 @@ export class PasswordComponent implements OnInit {
 
   ngOnInit() {
     this.statusMessage = '';
+    this.passwordCurrent = new FormControl(null, {
+      validators: [Validators.required, Validators.pattern('^((?=.*\\d)(?=.*[a-zA-Z]).{8,20})$')],
+      updateOn: 'blur'
+    });
     this.passwordFirst = new FormControl(null, {
       validators: [Validators.required, Validators.pattern('^((?=.*\\d)(?=.*[a-zA-Z]).{8,20})$')],
       updateOn: 'blur'
     });
     this.form = new FormGroup({
+      'current_password': this.passwordCurrent,
       'password_1': this.passwordFirst,
       'password_2': new FormControl(null, {
         validators: [Validators.required, this.unmatchingPasswords.bind(this)]
@@ -53,9 +59,10 @@ export class PasswordComponent implements OnInit {
   onSubmit() {
     console.log(this.form);
     if (this.form.valid) {
+      const cur_password = this.passwordCurrent.value;
       const password = this.passwordFirst.value;
       this.logger.debug(this, 'Attempt to submit new password: ' + password);
-      this.settingsService.updateMainPassword(password)
+      this.settingsService.updateMainPassword(cur_password, password)
         .subscribe((event: HttpEvent<Object>) => {
             if (event.type === HttpEventType.Sent) {
               this.logger.debug(this, 'Password is successfully updated: ' + password);

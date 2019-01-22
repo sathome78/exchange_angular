@@ -137,7 +137,7 @@
       </div>
       <div class="contacts__form">
         <p class="static-pages__paragraph">{{'Send form & Exrates team will contact you next 8 hours.' | translate}}</p>
-        <form action="#">
+        <form [formGroup]="sendForm">
           <div class="wrap-input wrap-input--grey contacts__wrap-input">
             <input class="wrap-input__input" type="text"
                    required
@@ -150,18 +150,31 @@
             </span>
             <!--Input error section ends-->
           </div>
+
+
           <div class="wrap-input wrap-input--grey contacts__wrap-input">
             <input class="wrap-input__input" type="text"
                    required
+                   formControlName="email"
             >
             <label class="wrap-input__label">{{'Email' | translate}}</label>
             <div class="wrap-input__line"></div>
             <!--Input error section starts-->
-            <span class="wrap-input__message" style="display: none;">
-              {{'This field is required.' | translate}}
+            <div *ngIf="!sendForm.get('email').valid && sendForm.get('email').touched">
+            <span class="wrap-input__message" *ngIf="sendForm.get('email').errors['required'] && sendForm.get('email').touched">
+              {{'Email is required' | translate}}
             </span>
+              <span class="wrap-input__message" *ngIf="sendForm.get('email').errors['emailInvalid'] && sendForm.get('email').touched && !sendForm.get('email').errors['required']">
+              {{'Wrong email' | translate}}
+            </span>
+              <span class="wrap-input__message" *ngIf="sendForm.get('email').errors['specialCharacter'] && !sendForm.get('email').errors['required']">
+              {{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
+            </span>
+            </div>
             <!--Input error section ends-->
           </div>
+
+
           <div class="wrap-input wrap-input--grey contacts__wrap-input">
             <input class="wrap-input__input" type="text"
                    required
@@ -185,7 +198,7 @@
             <!--Input error section ends-->
           </div>
 
-          <button class="btn contacts__form-btn btn--empty-blue">{{'Submit' | translate}}</button>
+          <button class="btn contacts__form-btn btn--empty-blue" (click)="onSendForm()">{{'Submit' | translate}}</button>
         </form>
       </div>
     </div>

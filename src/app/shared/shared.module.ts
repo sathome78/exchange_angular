@@ -33,6 +33,8 @@ import {DynamicInputComponent} from './components/dynamic-input/dynamic-input.co
 import {CustomSearchInputComponent} from './components/custom-search-input/custom-search-input.component';
 import {DynamicInputDashboardComponent} from './components/dynamic-input-dashboard/dynamic-input-dashboard.component';
 import {DynamicInputDataPipe} from './pipes/dynamic-input-data.pipe';
+import {RestorePasswordGuard} from './guards/restore-password.guard';
+import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
 
 
 @NgModule({
@@ -50,6 +52,7 @@ import {DynamicInputDataPipe} from './pipes/dynamic-input-data.pipe';
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     RoundCurrencyPipe,
+    GetObjectKeysPipe,
     FormatCurrencyPipe,
     SplitCurrencyPipe,
     PageItemsDropdownComponent,
@@ -76,6 +79,7 @@ import {DynamicInputDataPipe} from './pipes/dynamic-input-data.pipe';
     CustomSearchInputComponent,
     QRCodeModule,
     RecaptchaModule,
+    GetObjectKeysPipe,
     InfiniteScrollModule,
     NotificationComponent,
     PriceInputComponent,
@@ -83,6 +87,7 @@ import {DynamicInputDataPipe} from './pipes/dynamic-input-data.pipe';
     ReplaceNumberPipe,
     GroupCoinPipe,
     CurrencyPipe,
+    FormatCurrencyPipe,
     DropdownDirective,
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
@@ -104,6 +109,7 @@ import {DynamicInputDataPipe} from './pipes/dynamic-input-data.pipe';
     UtilsService,
     BalanceMobileRoutesGuard,
     RegistrationGuard,
+    RestorePasswordGuard,
   ]
 })
 export class SharedModule { }

@@ -70,11 +70,9 @@
           </ul>
         </div>
       </li>
-      <li class="menu__item" routerLinkActive="menu__link--active">
-        <a class="menu__link" href="https://exrates.me/dashboard">
-          <span class="menu__link-text">{{'News' | translate}}</span>
-        </a>
-      </li>
+      <!-- <li class="menu__item" routerLinkActive="menu__link--active">
+        
+      </li> -->
     </ul>
     <!--<ul class="menu">-->
     <!--<li class="menu__item menu__item&#45;&#45;with-submenu">-->
@@ -186,6 +184,12 @@
     <!--<a class="header__auth header__auth&#45;&#45;log" (click)="onMobileLogin()">Log in</a>-->
     <!--&lt;!&ndash;<a class="header__logout" href="https://exrates.me/dashboards" target="_blank">Log in</a>&ndash;&gt;-->
     <!--</ng-template>-->
+    <a class="menu__link" href="https://t.me/exrates_community" target="blank">
+      <span class="menu__link-text">Community</span>
+    </a>
+    <a class="menu__link" href="https://twitter.com/Exrates_Me" target="blank">
+      <span class="menu__link-text">{{'News' | translate}}</span>
+    </a>
     <div class="login-menu">
       <ng-container *ngIf="isAuthenticated(); else login">
         <span class="login-menu__icon">
@@ -232,7 +236,7 @@
         </li>
         <li class="menu__item">
           <a class="menu__link menu__link--auth--reg" (click)="openRegistration()">
-            <span class="menu__link-text">{{'Sign In' | translate}}</span>
+            <span class="menu__link-text">{{'Register' | translate}}</span>
           </a>
         </li>
       </ng-template>
@@ -555,7 +559,7 @@
         <!--<a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/referral-charges">Referral charges</a>-->
         <!--</div>-->
         <!--</div>-->
-        <a class="menu-mob__link" href="https://exrates.me/dashboard"><img class="menu-mob__link-icon" src="../../assets/img/newspaper.svg"><span
+        <a class="menu-mob__link" href="https://twitter.com/Exrates_Me" target="blank"><img class="menu-mob__link-icon" src="../../assets/img/newspaper.svg"><span
           class="menu-mob__link-text">{{'News' | translate}}</span></a>
       </nav>
     </div>
