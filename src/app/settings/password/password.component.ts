@@ -5,6 +5,7 @@ import {SettingsService} from '../settings.service';
 import {HttpEvent, HttpEventType} from '@angular/common/http';
 import {NotificationsService} from '../../shared/components/notification/notifications.service';
 import {TranslateService} from '@ngx-translate/core';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-password',
@@ -16,45 +17,55 @@ export class PasswordComponent implements OnInit {
   form: FormGroup;
   passwordCurrent: FormControl;
   passwordFirst: FormControl;
-  isPasswordVisible: boolean;
+  passwordSecond: FormControl;
+  isPassword1Visible: boolean = false;
+  isPassword2Visible: boolean = false;
+  isPasswordCurrVisible: boolean = false;
 
   statusMessage: string;
 
   constructor(private logger: LoggingService,
               private notificationService: NotificationsService,
               private settingsService: SettingsService,
+              private utilsService: UtilsService,
               private translateService: TranslateService) {
   }
 
   ngOnInit() {
     this.statusMessage = '';
-    this.passwordCurrent = new FormControl(null, {
-      validators: [Validators.required, Validators.pattern('^((?=.*\\d)(?=.*[a-zA-Z]).{8,20})$')],
-      updateOn: 'blur'
+    this.passwordCurrent = new FormControl('', {
+      validators: [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(20),
+        this.utilsService.passwordCombinationValidator()
+      ]
     });
-    this.passwordFirst = new FormControl(null, {
-      validators: [Validators.required, Validators.pattern('^((?=.*\\d)(?=.*[a-zA-Z]).{8,20})$')],
-      updateOn: 'blur'
+    this.passwordFirst = new FormControl('', {
+      validators: [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(20),
+        this.utilsService.passwordCombinationValidator()
+      ]
     });
+    this.passwordSecond = new FormControl('', {
+      validators: [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(20),
+        this.utilsService.passwordCombinationValidator(),
+        this.utilsService.passwordMatchValidator(this.passwordFirst)
+      ]
+    });
+
     this.form = new FormGroup({
       'current_password': this.passwordCurrent,
       'password_1': this.passwordFirst,
-      'password_2': new FormControl(null, {
-        validators: [Validators.required, this.unmatchingPasswords.bind(this)]
-      }),
+      'password_2': this.passwordSecond,
     });
   }
 
-  unmatchingPasswords(password_2: FormControl): { [s: string]: boolean } {
-    if (this.passwordFirst.value === password_2.value) {
-      return null;
-    }
-    return {'passwordsDiffer': true};
-  }
-
-  togglePasswordVisibility() {
-    this.isPasswordVisible = !this.isPasswordVisible;
-  }
   // TODO: refactor after api.
   onSubmit() {
     console.log(this.form);
@@ -64,10 +75,16 @@ export class PasswordComponent implements OnInit {
       this.logger.debug(this, 'Attempt to submit new password: ' + password);
       this.settingsService.updateMainPassword(cur_password, password)
         .subscribe((event: HttpEvent<Object>) => {
+          debugger
             if (event.type === HttpEventType.Sent) {
               this.logger.debug(this, 'Password is successfully updated: ' + password);
               this.statusMessage = this.translateService.instant('Your password is successfully updated!');
               this.form.reset();
+              this.notificationService.message.emit({
+                iconLink: './assets/img/shield.svg',
+                type: 'primary',
+                message: this.translateService.instant('Your password is successfully updated!')
+              });
             }
           },
           err => {
@@ -76,22 +93,22 @@ export class PasswordComponent implements OnInit {
               this.logger.info(this, 'Failed to update user password: ' + password);
               this.statusMessage = this.translateService.instant('Failed to update your password!');
             }
+            this.notificationService.message.emit({
+              iconLink: './assets/img/shield.svg',
+              type: 'error',
+              message: this.translateService.instant('Failed to update your password!')
+            });
           });
-      this.notificationService.message.emit({
-        iconLink: './assets/img/shield.svg',
-        type: 'primary',
-        message: this.translateService.instant('Your password is successfully updated!')
-      });
-    } else {
-      this.notificationService.message.emit({
-        iconLink: './assets/img/shield.svg',
-        type: 'error',
-        message: this.translateService.instant('Failed to update your password!')
-      });
     }
   }
 
-  getInputType() {
-    return this.isPasswordVisible ? 'text' : 'password';
+  get currentPassword() {
+    return this.form.get('current_password');
+  }
+  get firstPassword() {
+    return this.form.get('password_1');
+  }
+  get secondPassword() {
+    return this.form.get('password_2');
   }
 }
