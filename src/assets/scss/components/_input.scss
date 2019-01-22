@@ -295,70 +295,70 @@
           display: inline-block;
         }
 
-         &:focus {
+        &:focus {
 
-           ~ .wrap-input__label {
-             color: $light-blue;
+         ~ .wrap-input__label {
+           color: $light-blue;
 
-           }
          }
-      }
-    }
+       }
+     }
+   }
 
-    &--grey {
-      .wrap-input__input {
-        border-color: $grey;
+   &--grey {
+    .wrap-input__input {
+      border-color: $grey;
+
+      ~ .wrap-input__label {
+        color: $grey;
+      }
+
+      ~ .wrap-input__line {
+        background-color: $grey;
+      }
+
+      &:valid {
+        border-color: $light-blue;
 
         ~ .wrap-input__label {
-          color: $grey;
+          color: $light-blue;
+          background-color: $dark-indigo;
         }
 
         ~ .wrap-input__line {
-          background-color: $grey;
+          background-color: $light-blue;
         }
-
-        &:valid {
-          border-color: $light-blue;
-
-          ~ .wrap-input__label {
-            color: $light-blue;
-            background-color: $dark-indigo;
-          }
-
-          ~ .wrap-input__line {
-            background-color: $light-blue;
-          }
-        }
-
       }
+
     }
+  }
 
-    &__icon {
-      svg {
-        fill: $light-blue;
-      }
+  &__icon {
+    svg {
+      fill: $light-blue;
     }
+  }
 
-    &__label {
-      color: $light-blue;
+  &__label {
+    color: $light-blue;
+  }
+
+  &__line {
+    background-color: $light-blue;
+  }
+
+  &__show-password {
+    background-image: url("assets/img/eye-line--dark-theme.svg");
+
+    &--active {
+      background-image: url("assets/img/eye--dark-theme.svg");
     }
+  }
 
-    &__line {
-      background-color: $light-blue;
-    }
-
-    &__show-password {
-      background-image: url("assets/img/eye-line--dark-theme.svg");
-
-      &--active {
-        background-image: url("assets/img/eye--dark-theme.svg");
-      }
-    }
-
-    &__input {
-      border-color: $light-blue;
-      background-color: transparent;
-      color: #fff;
+  &__input {
+    border-color: $light-blue;
+    background-color: transparent;
+    color: #fff;
       //&:not([value=""]){
       //  ~ .wrap-input__label {
       //    background-color: $dark-indigo;
@@ -407,6 +407,7 @@
 
 .agree-terms{
   display: flex;
+  color: #A0A0A0;
 }
 .accept-icon{
   margin-right: 4px;
