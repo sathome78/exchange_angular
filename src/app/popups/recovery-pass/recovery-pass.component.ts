@@ -51,7 +51,6 @@ export class RecoveryPassComponent implements OnInit, OnDestroy{
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
             if (res) {
-              console.log(res)
               this.emailMessage = '';
             } else {
               this.emailMessage = this.translateService.instant('This email doesn\'t exist.');
