@@ -22,13 +22,14 @@
     }
     .dynamic-input__triangle{
       border-top-color: #94C2FF;
+      transform:rotate(180deg);
     }
     .dynamic-input__label{
       color:#94C2FF;
     }
     .dynamic-input__list{
       .dropdown__list{
-        border-color: #94C2FF;
+        border-color: #fff;
       }
     }
   }

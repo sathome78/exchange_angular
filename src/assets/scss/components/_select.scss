@@ -204,6 +204,11 @@
     align-items: center;
     padding: 8px 12px;
     text-align: left;
+    font-weight: 400;
+    cursor: pointer;
+    &:hover{
+      color:#94C2FF;
+    }
   }
   &__list-item-icon {
     width: 21px;
@@ -286,8 +291,10 @@
     }
     &__list {
       &--open {
-        border-color: $light-blue;
-        background-color: $dark-indigo;
+        border-color: #fff;
+        background-color: #fff;
+        border-radius: 4px;
+        color: #191A39;
       }
     }
     &__list-searching {

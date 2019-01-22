@@ -57,6 +57,7 @@
     &:hover {
       cursor: pointer;
       background-color: $light-aqua;
+      color: #94C2FF;
     }
   }
   /*--- elements end ---*/
@@ -65,13 +66,16 @@
 .dark-theme{
   .dropdown{
     &__list{
-      background-color: $dark-indigo;
+      background-color: #fff;
       border: none;
     }
     &__item {
-      color:#fff;
+
+          color: #191A39;
+    font-weight: 400;
       &:hover {
         cursor: pointer;
+        color: #94C2FF;
         background-color: rgba(255,255,255,.1);
       }
     }
