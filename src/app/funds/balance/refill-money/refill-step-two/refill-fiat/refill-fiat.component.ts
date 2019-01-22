@@ -165,7 +165,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe((res: RefillResponse) => {
             this.refillData = res;
-            this.redirectionUrl = this.getRefillRedirectionUrl(res);
+            this.redirectionUrl = this.refillData.redirectionUrl;
+            // this.redirectionUrl = this.getRefillRedirectionUrl(res);
             this.submitSuccess = true;
           });
       }
@@ -183,20 +184,25 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       return null;
   }
 
-  getRefillRedirectionUrl(response: RefillResponse): string {
-    if (response && response.method === 'POST') {
-      let url = response.redirectionUrl + '?';
-      for (const key in response.params) {
-        // console.log('K: ' + key + ' V: ' + response.params[key]);
-        url += key + '=' + response.params[key] + '&';
-      }
-      console.log(url);
-      return url;
-    }
-    if (response && !response.method) {
-      return response.redirectionUrl;
-    }
-    return null;
+  hideSend() {
+    document.forms['hideForm'].submit();
+    return false;
   }
+
+  // getRefillRedirectionUrl(response: RefillResponse): string {
+  //   if (response && response.method === 'POST') {
+  //     let url = response.redirectionUrl + '?';
+  //     for (const key in response.params) {
+  //       // console.log('K: ' + key + ' V: ' + response.params[key]);
+  //       url += key + '=' + response.params[key] + '&';
+  //     }
+  //     console.log(url);
+  //     return url;
+  //   }
+  //   if (response && !response.method) {
+  //     return response.redirectionUrl;
+  //   }
+  //   return null;
+  // }
 }
 

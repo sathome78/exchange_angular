@@ -36,6 +36,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public modelDateFrom: any;
   public modelDateTo: any;
   public currencyPairId: string = null;
+  public currencyPairValue: string = '';
   public hideAllCanceled: boolean = false;
   public isMobile: boolean = false;
 
@@ -90,7 +91,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
         dateFrom: this.formatDate(this.modelDateFrom.date),
         dateTo: this.formatDate(this.modelDateTo.date),
         hideCanceled: this.hideAllCanceled,
-        currencyPairId: this.currencyPairId,
+        currencyPairName: this.currencyPairValue,
       }
       this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
     }
@@ -263,6 +264,9 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       });
   }
 
+  onChangeCurrPair(val: string): void {
+    this.currencyPairValue = val;
+  }
   isFiat(currName: string, currIndex: number): boolean {
     const curr = currName.split('/');
     return this.utils.isFiat(curr[currIndex - 1]);

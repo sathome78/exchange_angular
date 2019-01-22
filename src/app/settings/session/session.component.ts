@@ -56,7 +56,7 @@ export class SessionComponent implements OnInit, OnDestroy {
             }
           });
     } else {
-      this.statusMessage = this.translateService.instant('Session must within 5 and 1440 mins (24 hours)');
+      this.statusMessage = this.translateService.instant('Session must within 2 and 120 mins (2 hours)');
     }
   }
 
