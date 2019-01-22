@@ -18,9 +18,11 @@ export class DynamicInputComponent implements OnChanges {
   @Input('value') public value: string;
   // @Input('label') public label: string = '';
   @Input('icon') public icon: any = null;
+  @Input('setNullValue') public setNullValue: boolean = false;
   @Output('onSelect') public onSelect: EventEmitter<DIOptions> = new EventEmitter();
   @Output('onChange') public onChange: EventEmitter<string> = new EventEmitter();
   @ViewChild('input') inputElement: ElementRef;
+  @ViewChild('list') listElement: ElementRef;
 
   public filteredOptions: DIOptions[] = [];
   public showDropdown: boolean = false;
@@ -30,13 +32,16 @@ export class DynamicInputComponent implements OnChanges {
     switch (event.keyCode) {
       case 38: // this is the ascii of arrow up
         if(this.showDropdown && this.arrowKeyLocation === 0) {
-          this.arrowKeyLocation = this.filteredOptions.length - 1
           break;
         }
         if(!this.showDropdown) {
           break;
         }
         this.arrowKeyLocation--;
+        const el = this.listElement.nativeElement.querySelector(`li[data-key="${this.arrowKeyLocation}"]`);
+        if(el) {
+          el.scrollIntoView(true)
+        }
         break;
       case 40: // this is the ascii of arrow down
         if(!this.showDropdown && this.inputElement.nativeElement === document.activeElement) {
@@ -45,10 +50,13 @@ export class DynamicInputComponent implements OnChanges {
           break;
         }
         if(this.showDropdown && this.arrowKeyLocation === (this.filteredOptions.length - 1)) {
-          this.arrowKeyLocation = 0;
           break
         }
         this.arrowKeyLocation++;
+        const el2 = this.listElement.nativeElement.querySelector(`li[data-key="${this.arrowKeyLocation}"]`);
+        if(el2) {
+          el2.scrollIntoView(false)
+        }
         break;
     }
   }
@@ -65,6 +73,9 @@ export class DynamicInputComponent implements OnChanges {
         this.arrowKeyLocation = 0;
         this.filterList(changes.value.currentValue);
       }
+      if(changes.value.currentValue === '' && !changes.value.firstChange) {
+        this.onSelect.emit({id: null, text: null});
+      }
     }
 
   }
@@ -80,8 +91,12 @@ export class DynamicInputComponent implements OnChanges {
       this.filteredOptions = [];
       return;
     }
-    this.filteredOptions = this.options.filter((item) => item.text.toUpperCase().indexOf(val.toUpperCase()) >= 0);
-    console.log(val, this.filteredOptions)
+    if(this.setNullValue) {
+      this.filteredOptions =
+        [{text: '', id: null}, ...this.options.filter((item) => item.text.toUpperCase().indexOf(val.toUpperCase()) >= 0)];
+      } else {
+      this.filteredOptions = this.options.filter((item) => item.text.toUpperCase().indexOf(val.toUpperCase()) >= 0);
+    }
   }
 
   openDropdown(): void {

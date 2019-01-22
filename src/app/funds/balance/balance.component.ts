@@ -153,6 +153,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
         return this.store.dispatch(new fundsAction.LoadFiatBalAction(paramsF));
       case this.Tab.PR :
         const paramsP = {
+          currencyName: this.currencyForChoose || '',
           offset: (this.currentPage - 1) * this.countPerPage,
           limit: this.countPerPage,
           concat: concat || false,

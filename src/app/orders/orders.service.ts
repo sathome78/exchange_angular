@@ -37,14 +37,14 @@ export class OrdersService {
                   dateFrom,
                   dateTo,
                   hideCanceled,
-                  currencyPairId}): Observable<ResponseModel<OrderItem[]>> {
+                  currencyPairName}): Observable<ResponseModel<OrderItem[]>> {
     const params = {
       page: page + '',
       limit: limit + '',
       dateFrom,
       dateTo,
       hideCanceled: hideCanceled.toString(),
-      currencyPairId: currencyPairId || '',
+      currencyPairName: currencyPairName || '',
     }
     return this.http.get<ResponseModel<OrderItem[]>>(`${this.apiUrl}/info/private/v2/dashboard/orders/CLOSED`, {params});
   }

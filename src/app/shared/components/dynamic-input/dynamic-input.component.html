@@ -1,5 +1,5 @@
 <div>
-  <div class="wrap-input pair-popup__input" style="width: 100%;">
+  <div class="wrap-input pair-popup__input">
     <input
       #input
       id="DIInput"
@@ -11,6 +11,7 @@
       (keydown)="preventEventInput($event)"
       (keyup)="preventEventInput($event)"
       type="text"
+      autocomplete="off"
       required
     >
     <label class="wrap-input__label" for="">Search</label>
@@ -20,15 +21,12 @@
       </svg>
     </div>
     <!-- <div class="wrap-input__line"></div> -->
-  </div>
-
-  <!--<div class="wrap-input__icon" *ngIf="icon" [innerHTML]="icon"></div>-->
-  <div>
-    <ul class="select__list" [ngClass]="{'select__list--open': showDropdown}">
+    <ul class="select__list" [ngClass]="{'select__list--open': showDropdown}" #list>
       <perfect-scrollbar>
         <li
           *ngFor="let item of filteredOptions; let i = index"
           (click)="onSelectItem(item)"
+          [attr.data-key]="i"
           class="select__list-item hover-coin"
           [class.active]="i === arrowKeyLocation"
         >
@@ -37,5 +35,6 @@
       </perfect-scrollbar>
     </ul>
   </div>
-  <!--<div class="wrap-input__line"></div>-->
+
+  <!--<div class="wrap-input__icon" *ngIf="icon" [innerHTML]="icon"></div>-->
 </div>
