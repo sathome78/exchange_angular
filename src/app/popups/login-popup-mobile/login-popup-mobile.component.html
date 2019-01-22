@@ -77,8 +77,7 @@
         <button class="btn popup__btn"
                 (click)="onSubmit()"
                 [disabled]="!loginForm.valid"
-                [ngClass]="{'popup__btn--active': loginForm.valid,
-              'popup__btn--error': (!loginForm.get('password').valid && loginForm.get('password').touched) || ( !loginForm.get('email').valid && loginForm.get('email').touched)}"
+                [ngClass]="{'popup__btn--active': loginForm.valid}"
         >
           {{'Log in' | translate}}
         </button>
