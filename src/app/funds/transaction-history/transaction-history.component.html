@@ -59,7 +59,7 @@
               </div>
             </td>
             <td class="table__cell table__cell--tar">
-              <div class="txt-red">{{item.amount | roundCurrency: isFiat(item.currencyName) | formatCurrency}}</div>
+              <div class="txt-red">{{item.amount | roundCurrency:item.currencyName | formatCurrency}}</div>
             </td>
             <td class="table__cell table__cell--arr-mob">
               <svg width="10" height="6" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,7 +76,7 @@
             <td class="table__details-cell" colspan="4">
               <div class="table__details-item">
                 <div class="table__details-item-title">{{'Comission' | translate}}</div>
-                <div class="table__details-item-value">{{item.commissionAmount | roundCurrency: isFiat(item.currencyName) | formatCurrency}}</div>
+                <div class="table__details-item-value">{{item.commissionAmount | roundCurrency: item.currencyName | formatCurrency}}</div>
               </div>
               <div class="table__details-item">
                 <div class="table__details-item-title">{{'Payment system' | translate}}</div>
@@ -266,10 +266,10 @@
             </div>
           </td>
           <td class="table__cell">
-            <span>{{item.amount | roundCurrency: isFiat(item.currencyName) | formatCurrency}}</span>
+            <span>{{item.amount | roundCurrency: item.currencyName | formatCurrency}}</span>
           </td>
           <td class="table__cell">
-            <span>{{item.amount | roundCurrency: isFiat(item.currencyName) | formatCurrency}}</span>
+            <span>{{item.amount | roundCurrency: item.currencyName | formatCurrency}}</span>
           </td>
           <td class="table__cell">
             <span class="txt-green">{{item.sourceType}}</span>

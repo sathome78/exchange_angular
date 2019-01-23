@@ -1,18 +1,22 @@
 import {Pipe, PipeTransform} from '@angular/core';
+import {UtilsService} from '../services/utils.service';
 
 @Pipe({
   name: 'roundCurrency'
 })
 export class RoundCurrencyPipe implements PipeTransform {
 
-  transform(value: number, isFiat: boolean): string {
+  constructor(
+    private utils: UtilsService
+  ) {}
+
+  transform(value: number, currencyName: string = ''): string {
     let rounded: number | string;
-    if (isFiat) {
+    if (this.utils.isFiat(currencyName)) {
       rounded = ((Math.floor(value * 100)) / 100);
     } else {
       rounded = ((Math.floor(value * 100000000)) / 100000000);
     }
-    rounded = rounded.toFixed(8).replace(/\.?0+$/, '');
     return '' + rounded;
   }
 
