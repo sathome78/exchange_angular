@@ -27,6 +27,7 @@ import {LastSellBuyOrder} from '../../../model/last-sell-buy-order.model';
 import {defaultLastSellBuyOrder} from '../../reducers/default-values';
 import {TradeItem} from '../../../model/trade-item.model';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
+import {UtilsService} from '../../../shared/services/utils.service';
 
 @Component({
   selector: 'app-order-book',
@@ -90,12 +91,14 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   public commonSellTotal = 0;
   public commonBuyTotal = 0;
   public lastCoefficient;
+  public splitCurrencyName = ['', ''];
 
   // public lastSellOrder;
   // public lastBuyOrder;
   // public lastSellBuyOrders: LastSellBuyOrder;
 
   refreshedIds: number[] = [];
+
 
   /** stores data for drawing a border for a chart */
   withForChartLineElements: {
@@ -113,6 +116,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     private marketService: MarketService,
     private mockDataService: MockDataService,
     private dashboardService: DashboardService,
+    private utils: UtilsService,
     private tradingService: TradingService) {
     super();
   }
@@ -287,6 +291,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPair) => {
         this.activeCurrencyPair = pair;
+        this.splitCurrencyName = pair.currencyPairName.split('/');
         if(pair.currencyPairId !== 0) {
           this.initData(pair);
           this.loadMinAndMaxValues(pair);
@@ -348,6 +353,10 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       }
     }
     return x;
+  }
+
+  public isFiat(currName: string): boolean {
+    return this.utils.isFiat(currName);
   }
 
   private initData(pair: CurrencyPair) {

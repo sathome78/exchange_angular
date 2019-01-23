@@ -1,10 +1,18 @@
 import {Pipe, PipeTransform} from '@angular/core';
+import {UtilsService} from '../services/utils.service';
 
 @Pipe({
   name: 'formatCurrency'
 })
 export class FormatCurrencyPipe implements PipeTransform {
-  transform(value: number | string, format: "full" | "short" = "short"): string {
+
+  private fraction: number;
+
+  constructor(
+    private utils: UtilsService
+  ) {}
+  transform(value: number | string, format: "full" | "short" = "short", currencyName: string = ''): string {
+    this.fraction = this.utils.isFiat(currencyName) ? 3 : 8;
     const valueParts: Array<string> = ('' + value).split('.');
     valueParts[1] = !valueParts[1] ? '0' : valueParts[1];
     const integer: string = valueParts[0];
@@ -17,7 +25,7 @@ export class FormatCurrencyPipe implements PipeTransform {
       return transformed;
     }
     if (format === 'full') {
-      const transformed = valueParts.length === 8
+      const transformed = valueParts.length === this.fraction
         ? [integerParts.join(' '), valueParts[1]].join('.')
         : [integerParts.join(' '), this.getValuePart(valueParts[1])].join('.');
       return transformed;
@@ -25,7 +33,7 @@ export class FormatCurrencyPipe implements PipeTransform {
 
   }
   getValuePart(valuePart: string): string {
-    const zeros = 8 - +valuePart.length;
+    const zeros = this.fraction === 3 ? this.fraction - +valuePart.length - 1 : this.fraction - +valuePart.length;
     let zerosSet = ''
     for (let i = 0; i < zeros; i++) {
       zerosSet += '0'
