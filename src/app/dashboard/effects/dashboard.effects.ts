@@ -28,7 +28,6 @@ export class DashboardEffects {
   loadCurrencyPairInfo$: Observable<Action> = this.actions$
     .pipe(ofType<dashboardActions.LoadCurrencyPairInfoAction>(dashboardActions.LOAD_CURRENCY_PAIR_INFO))
     .pipe(switchMap((action) => {
-      console.log(action)
       return this.currencyPairInfoService.getCurrencyPairInfo(action.payload)
         .pipe(
           map(info => (new dashboardActions.RefreshCurrencyPairInfoAction(info))),
