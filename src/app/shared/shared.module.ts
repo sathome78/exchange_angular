@@ -30,7 +30,11 @@ import {GetIconUrl} from './pipes/get-icon-url';
 import {ExcludeByFieldPipe} from './pipes/exclude-by-field.pipe';
 import {TranslateModule} from '@ngx-translate/core';
 import {DynamicInputComponent} from './components/dynamic-input/dynamic-input.component';
-import { CustomSearchInputComponent } from './components/custom-search-input/custom-search-input.component';
+import {CustomSearchInputComponent} from './components/custom-search-input/custom-search-input.component';
+import {DynamicInputDashboardComponent} from './components/dynamic-input-dashboard/dynamic-input-dashboard.component';
+import {DynamicInputDataPipe} from './pipes/dynamic-input-data.pipe';
+import {RestorePasswordGuard} from './guards/restore-password.guard';
+import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
 
 
 @NgModule({
@@ -48,6 +52,7 @@ import { CustomSearchInputComponent } from './components/custom-search-input/cus
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     RoundCurrencyPipe,
+    GetObjectKeysPipe,
     FormatCurrencyPipe,
     SplitCurrencyPipe,
     PageItemsDropdownComponent,
@@ -55,6 +60,8 @@ import { CustomSearchInputComponent } from './components/custom-search-input/cus
     LoaderComponent,
     DynamicInputComponent,
     CustomSearchInputComponent,
+    DynamicInputDashboardComponent,
+    DynamicInputDataPipe,
   ],
   imports: [
     FormsModule,
@@ -72,6 +79,7 @@ import { CustomSearchInputComponent } from './components/custom-search-input/cus
     CustomSearchInputComponent,
     QRCodeModule,
     RecaptchaModule,
+    GetObjectKeysPipe,
     InfiniteScrollModule,
     NotificationComponent,
     PriceInputComponent,
@@ -79,6 +87,7 @@ import { CustomSearchInputComponent } from './components/custom-search-input/cus
     ReplaceNumberPipe,
     GroupCoinPipe,
     CurrencyPipe,
+    FormatCurrencyPipe,
     DropdownDirective,
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
@@ -92,12 +101,15 @@ import { CustomSearchInputComponent } from './components/custom-search-input/cus
     DateWrapper,
     GetIconUrl,
     DynamicInputComponent,
+    DynamicInputDashboardComponent,
+    DynamicInputDataPipe,
   ],
   providers: [
     NotificationsService,
     UtilsService,
     BalanceMobileRoutesGuard,
     RegistrationGuard,
+    RestorePasswordGuard,
   ]
 })
 export class SharedModule { }

@@ -40,6 +40,8 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoginMobilePopupOpen = false;
   isRegistrationMobilePopupOpen = false;
   isRecoveryPasswordPopupOpen = false;
+  isRestoredPasswordPopupOpen = false;
+  isAlreadyRestoredPasswordPopupOpen = false;
   isOpenDemoTradingPopup = false;
   isOpenAlreadyRegisteredPopup = false;
   /** notification messages array */
@@ -77,6 +79,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForMobileLoginEvent();
     this.subscribeForMobileRegistrationEvent();
     this.subscribeForRecoveryPasswordEvent();
+    this.subscribeForRestoredPasswordPopup();
+    this.subscribeForAlreadyRestoredPasswordPopup();
     this.subscribeForDemoTradingPopup();
     // this.setClientIp();
     this.subscribeForNotifications();
@@ -112,6 +116,22 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.isOpenAlreadyRegisteredPopup = res;
+      });
+  }
+
+  subscribeForAlreadyRestoredPasswordPopup() {
+    this.popupService.getAlreadyRestoredPasswordPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.isAlreadyRestoredPasswordPopupOpen = res;
+      });
+  }
+
+  subscribeForRestoredPasswordPopup() {
+    this.popupService.getRestoredPasswordPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.isRestoredPasswordPopupOpen = res;
       });
   }
 

@@ -64,12 +64,14 @@ import {environment} from 'environments/environment';
 
 import {RefillSuccessfulComponent} from './balance/refill-money/refill-successful/refill-successful.component';
 import {DemoTradingPopupComponent} from './popups/demo-trading-popup/demo-trading-popup.component';
-import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup/already-registered-popup.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {CoreService} from './core/services/core.service';
-import { ThankYouPopupComponent } from './popups/thank-you-popup/thank-you-popup.component';
+import {ThankYouPopupComponent } from './popups/thank-you-popup/thank-you-popup.component';
 import {translateInfo} from './shared/configs/translate-options';
+import {AlreadyRestoredPasswordPopupComponent} from './popups/already-restored-password-popup/already-restored-password-popup.component';
+import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup/already-registered-popup.component';
+import {RestoredPasswordPopupComponent} from './popups/restored-password-popup/restored-password-popup.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -114,6 +116,8 @@ export function createTranslateLoader(http: HttpClient) {
     DemoTradingPopupComponent,
     AlreadyRegisteredPopupComponent,
     ThankYouPopupComponent,
+    AlreadyRestoredPasswordPopupComponent,
+    RestoredPasswordPopupComponent,
     // TWO FACTOR POPUP END
 
   ],

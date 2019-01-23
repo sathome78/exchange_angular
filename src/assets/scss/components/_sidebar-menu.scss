@@ -65,7 +65,7 @@
 
       &--active {
         color: $darker-blue;
-        background-color: $light-aqua;
+        background: linear-gradient(90deg, #21417D 1.75%, #191A39 100%);
 
         &:before {
           position: absolute;

@@ -13,6 +13,14 @@
         </svg>
       </span>
     </div>
+    <div>
+      <app-dynamic-input
+        [value]="currValue"
+        [options]="(allCurrenciesForChoose$ | async) | dynamicIData: 'name': 'id'"
+        (onChange)="onChangeCurrPair($event)"
+        (onSelect)="onSelectPair($event.id)"
+      ></app-dynamic-input>
+    </div>
     <div
       #scrollContainer
       [ngStyle]="tableScrollStyles"

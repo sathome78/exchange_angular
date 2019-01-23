@@ -1,0 +1,35 @@
+<div class="dynamic-input" [class.dynamic-input--open]="showDropdown">
+  <div class="dynamic-input__wrap">
+    <input
+      #input
+      id="DIInput"
+      class="dynamic-input__input"
+      name="item"
+      [(ngModel)]="value"
+      (input)="onChange.emit($event.target.value)"
+      (focus)="openDropdown()"
+      type="text"
+      autocomplete="off"
+      required
+    >
+    <div class="dynamic-input__triangle"></div>
+    <span class="dynamic-input__label">Search</span>
+  </div>
+
+  <!--<div class="wrap-input__icon" *ngIf="icon" [innerHTML]="icon"></div>-->
+  <div class="dynamic-input__list dropdown search" [class.dropdown--open]="showDropdown">
+    <ul class="dropdown__list">
+      <perfect-scrollbar style="max-height: 285px;">
+        <li
+          *ngFor="let item of filteredOptions; let i = index"
+          (click)="onSelectItem(item)"
+          class="dropdown__item"
+          [class.active]="i == arrowKeyLocation"
+        >
+          {{item.text}}
+        </li>
+      </perfect-scrollbar>
+    </ul>
+  </div>
+  <!--<div class="wrap-input__line"></div>-->
+</div>

@@ -8,7 +8,7 @@
   transition: 0.2s ease all;
   color: $darker-blue;
   border: 1px solid $darker-blue;
-  border-radius: 100px;
+  border-radius: 4px;
   background-color: transparent;
   font-size: 14px;
   line-height: 43px;
@@ -214,6 +214,16 @@
   }
 }
 @media (min-width:1200px) {
-  .dark-theme{}
+  .dark-theme{
+     .popup-demo{
+      .popup__close{
+        width: 12px;
+        height: 12px;
+        right: 16px;
+        top: 16px;
+        background-image: url("/assets/img/close-light-blue.svg");
+      }
+    }
+  }
 }
 /*--- DARK THEME END---*/

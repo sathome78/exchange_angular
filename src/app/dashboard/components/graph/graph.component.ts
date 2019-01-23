@@ -217,7 +217,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       user_id: this._userId,
       fullscreen: this._fullscreen,
       autosize: this._autosize,
-      toolbar_bg: '#2c375d',
+      toolbar_bg: '#252543',
       custom_css_url: '/assets/css/chart_style.css',
       // favorites: {
       //   chartTypes: ['Area'],
@@ -233,7 +233,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         // 'bollinger bands.upper.linewidth': 7
       },
       overrides: {
-        'paneProperties.background': '#2c375d',
+        'paneProperties.background': '#252543',
         'paneProperties.vertGridProperties.color': 'rgba(27, 55, 112, 0)',
         'paneProperties.horzGridProperties.color': 'rgba(27, 55, 112, 0)',
         'symbolWatermarkProperties.transparency': 90,

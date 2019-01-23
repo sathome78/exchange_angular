@@ -35,6 +35,12 @@ export const defaultCurrencyPairInfo = {
   volume24h: 0,
 }
 
+export const defaultLastPrice = {
+  flag: true,
+  price: 0
+}
+
+
 export const defaultTradeItem = {
   acceptionTime: '0',
   amountBase: '0',

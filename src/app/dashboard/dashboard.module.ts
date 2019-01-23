@@ -7,7 +7,6 @@ import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScroll
 import {environment} from '../../environments/environment';
 import {StompConfig, StompService} from '@stomp/ng2-stompjs';
 import {ActivePairComponent} from './components/active-pair/active-pair.component';
-import {BuyComponent} from './components/trading/buy/buy.component';
 import {ChatComponent} from './components/chat/chat.component';
 import {ChatMessageComponent} from './components/chat/chat-message/chat-message.component';
 import {CurrencyPairInfoComponent} from './components/currency-pair-info/currency-pair-info.component';
@@ -20,7 +19,6 @@ import {EmbeddedOpenOrdersComponent} from './components/embedded-orders/embedded
 import {GraphComponent} from './components/graph/graph.component';
 import {MarketsComponent} from './components/markets/markets.component';
 import {OrderBookComponent} from './components/order-book/order-book.component';
-import {SellComponent} from './components/trading/sell/sell.component';
 import {TradeHistoryComponent} from './components/trade-history/trade-history.component';
 import {TradingComponent} from './components/trading/trading.component';
 import {ToolsComponent} from './components/tools/tools.component';
@@ -83,7 +81,6 @@ const stompConfig: StompConfig = {
 @NgModule({
   declarations: [
     ActivePairComponent,
-    BuyComponent,
     ChatComponent,
     ChatMessageComponent,
     CurrencyPairInfoComponent,
@@ -97,7 +94,6 @@ const stompConfig: StompConfig = {
     MarketsComponent,
     MarketSearchComponent,
     OrderBookComponent,
-    SellComponent,
     TradeHistoryComponent,
     TradingComponent,
     ToolsComponent,
@@ -111,7 +107,6 @@ const stompConfig: StompConfig = {
   ],
   exports: [
     ActivePairComponent,
-    BuyComponent,
     ChatComponent,
     ChatMessageComponent,
     CurrencyPairInfoComponent,
@@ -125,7 +120,6 @@ const stompConfig: StompConfig = {
     MarketsComponent,
     MarketSearchComponent,
     OrderBookComponent,
-    SellComponent,
     TradeHistoryComponent,
     TradingComponent,
     ToolsComponent,

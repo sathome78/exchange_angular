@@ -90,7 +90,7 @@
         </div>
       </div>
       <div class="markets__tbody">
-        <perfect-scrollbar style="max-height: 360px;">
+        <perfect-scrollbar style="max-height: 353px;">
           <div style="margin-right: 24px;">
             <!--Preferred Currency Pairs-->
             <!--<ng-container *ngFor="let pair of prefPairs | currencySort :'volume'">-->
@@ -316,7 +316,7 @@
     (closeModal)="toggleSearchModal($event)"
     *ngIf="marketSearch"
     [pairs]="currencyPairs"
-    [isFiat]="isFiat"
+    [currency]="currencyName"
   >
   </app-market-search>
 
