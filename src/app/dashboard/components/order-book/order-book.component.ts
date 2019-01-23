@@ -355,10 +355,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     return x;
   }
 
-  public isFiat(currName: string): boolean {
-    return this.utils.isFiat(currName);
-  }
-
   private initData(pair: CurrencyPair) {
     /** mock data*/
     // const orders = [this.mock, this.mockBuy]
