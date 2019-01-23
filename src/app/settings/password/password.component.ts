@@ -37,7 +37,7 @@ export class PasswordComponent implements OnInit {
       validators: [
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(20),
+        Validators.maxLength(40),
         this.utilsService.passwordCombinationValidator()
       ]
     });
@@ -45,7 +45,7 @@ export class PasswordComponent implements OnInit {
       validators: [
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(20),
+        Validators.maxLength(40),
         this.utilsService.passwordCombinationValidator()
       ]
     });
@@ -53,7 +53,7 @@ export class PasswordComponent implements OnInit {
       validators: [
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(20),
+        Validators.maxLength(40),
         this.utilsService.passwordCombinationValidator(),
         this.utilsService.passwordMatchValidator(this.passwordFirst)
       ]
