@@ -54,7 +54,7 @@
     color: $darker-blue;
     font-size: 14px;
 
-     &:hover, &.active  {
+    &:hover, &.active  {
       cursor: pointer;
       background-color: $light-aqua;
       color: #94C2FF;
@@ -71,9 +71,9 @@
     }
     &__item {
 
-          color: #191A39;
-    font-weight: 400;
-       &:hover, &.active {
+      color: #191A39;
+      font-weight: 400;
+      &:hover, &.active {
         cursor: pointer;
         color: #94C2FF;
         background-color: rgba(255,255,255,.1);
@@ -89,3 +89,26 @@
   }
 }
 /*--- DARK THEME END---*/
+
+
+app-dynamic-input{
+
+  .ps__rail-y {
+    
+    margin-right: 1px !important;
+  }
+}
+app-dynamic-input  perfect-scrollbar > .ps.ps--active-y > .ps__rail-y{
+  background-color: rgba(37, 37, 67,.2) !important;
+}
+
+app-dynamic-input-dashboard{
+
+  .ps__rail-y {
+
+    margin-right: 1px !important;
+  }
+}
+app-dynamic-input-dashboard  perfect-scrollbar > .ps.ps--active-y > .ps__rail-y{
+  background-color: rgba(37, 37, 67,.2) !important;
+}
