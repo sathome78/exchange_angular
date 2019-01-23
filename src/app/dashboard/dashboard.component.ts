@@ -9,12 +9,9 @@ import {Subject} from 'rxjs';
 import {OnDestroy} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {AuthService} from '../shared/services/auth.service';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
-import {getCurrencyPairArray, State} from '../core/reducers';
-import {CurrencyPair} from '../model/currency-pair.model';
-import {PopupService} from '../shared/services/popup.service';
+
 
 @Component({
   selector: 'app-dashboard',

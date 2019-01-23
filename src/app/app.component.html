@@ -50,8 +50,15 @@
         <app-recovery-pass></app-recovery-pass>
       </div>
 
+      <div *ngIf="isRestoredPasswordPopupOpen">
+        <app-restored-password-popup></app-restored-password-popup>
+      </div>
+
       <div *ngIf="isOpenAlreadyRegisteredPopup">
         <app-already-registered-popup></app-already-registered-popup>
+      </div>
+      <div *ngIf="isAlreadyRestoredPasswordPopupOpen">
+        <app-already-restored-password-popup></app-already-restored-password-popup>
       </div>
       <div *ngIf="isOpenDemoTradingPopup">
         <app-demo-trading-popup
