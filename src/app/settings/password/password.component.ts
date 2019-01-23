@@ -68,14 +68,12 @@ export class PasswordComponent implements OnInit {
 
   // TODO: refactor after api.
   onSubmit() {
-    console.log(this.form);
     if (this.form.valid) {
       const cur_password = this.passwordCurrent.value;
       const password = this.passwordFirst.value;
       this.logger.debug(this, 'Attempt to submit new password: ' + password);
       this.settingsService.updateMainPassword(cur_password, password)
         .subscribe((event: HttpEvent<Object>) => {
-          debugger
             if (event.type === HttpEventType.Sent) {
               this.logger.debug(this, 'Password is successfully updated: ' + password);
               this.statusMessage = this.translateService.instant('Your password is successfully updated!');
