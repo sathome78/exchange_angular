@@ -4,11 +4,10 @@
     margin: 0 auto !important;
     height: 45px !important;
     background-color: transparent !important;
-    border-bottom-right-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
     border-color: #94C2FF !important;
-    border-bottom: none !important;
     overflow: unset !important;
+    border-radius: 4px;
+    bottom:1px;
   }
   .ng-value-container {
     height: 100% !important;
@@ -40,6 +39,8 @@
       font-family: inherit;
     }
   }
+
+
   .ng-arrow {
     border-color: #94C2FF transparent transparent !important;
   }
@@ -47,13 +48,17 @@
     border-color: transparent transparent #94C2FF !important;
   }
   .ng-dropdown-panel{
-    border-color: #94C2FF;
-    background-color: #191A39;
+    border-color: #fff;
+    background-color: #fff;
     margin-bottom: 0 !important;
   }
   .ng-option{
     background-color: transparent !important;
-    color: #fff !important;
+    color: #191A39;
+    font-weight: 400;
+    &:hover{
+          color: #94C2FF;
+    }
     &-marked{
       background-color: rgba(255,255,255,.1) !important;
     }
@@ -171,7 +176,6 @@
   padding: 0 !important;
   font-size: 14px;
   line-height: 16px;
-  //border: 1px solid #237BEF;
   border-radius: 4px !important;
   color: #fff !important;
   background-color: rgba(255, 255, 255, 0.1) !important;
@@ -202,14 +206,10 @@
 }
 ::ng-deep .ng-select {
   .ng-select-container {
-    //width: 74px !important;
     margin: 0 auto !important;
     height: 45px !important;
     background-color: transparent !important;
-    border-bottom-right-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
     border-color: #94C2FF !important;
-    border-bottom: none !important;
     overflow: unset !important;
   }
   .ng-value-container {
@@ -252,13 +252,14 @@
     border-color: transparent transparent #94C2FF !important;
   }
   .ng-dropdown-panel{
-    border-color: #94C2FF;
-    background-color: #191A39;
+    border-color: #fff;
+    background-color: #fff;
     margin-bottom: 0 !important;
+    border-radius: 4px;
   }
   .ng-option{
     background-color: transparent !important;
-    color: #fff !important;
+    // color: #fff !important;
     &-marked{
       background-color: rgba(255,255,255,.1) !important;
     }

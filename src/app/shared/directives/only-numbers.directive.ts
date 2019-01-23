@@ -16,7 +16,7 @@ export class OnlyNumbersDirective {
     if (e.keyCode === 38 ) {
       e.preventDefault();
     }
-    if ([46, 8, 9, 27, 13, 110, 190].indexOf(e.keyCode) !== -1 ||
+    if ([46, 8, 9, 27, 13, 110, 190, 191].indexOf(e.keyCode) !== -1 ||
       // Allow: Ctrl+A
       (e.keyCode === 65 && (e.ctrlKey || e.metaKey)) ||
       // Allow: Ctrl+C

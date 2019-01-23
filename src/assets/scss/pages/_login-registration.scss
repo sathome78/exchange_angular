@@ -14,6 +14,43 @@
   /*--- modificators start ---*/
   /*--- modificators end ---*/
   /*--- elements start ---*/
+  .wrap-input__input{
+    margin-bottom: 24px;
+    color: #000000;
+    
+    &:valid{
+      border: 1px solid #237BEF;
+
+      ~ .wrap-input__label{
+        background-color: #fff;
+        color: #237BEF;
+      }
+    }
+    &:focus {
+      & ~ .wrap-input__label{
+        background-color: #fff;
+      }
+    }
+
+  }
+  .wrap-input{
+    &--error{
+      .wrap-input__input{
+        margin-bottom: 24px;
+        color: #000000;
+        border-color: #EB5757;
+        &:focus {
+          & ~ .wrap-input__label{
+            color: #EB5757;
+          }
+        }
+        & ~ .wrap-input__label{
+          color: #EB5757;
+          background-color: #fff;
+        }
+      }
+    }
+  }
   &__close {
     position: absolute;
     top: 12px;
@@ -63,7 +100,10 @@
   }
   &__wrap-input {
     margin-bottom: 24px;
-
+    color: #000000;
+    &:valid{
+      border: 1px solid #237BEF;
+    }
   }
   &__btn {
     margin: 0px auto;
@@ -248,7 +288,7 @@
       max-width: none;
     }
     &__btn {
-      margin-top: 32px;
+      margin-top: 37px;
     }
     &__links-wrap {
       margin-top: 24px;
@@ -279,12 +319,12 @@
 /*--- DARK THEME START---*/
 .dark-theme {
   .popup {
-    background-color: $dark-indigo;
+    background-color: #fff;
     &__close {
       background-image: url("assets/img/close-light-blue.svg");
     }
     &__title {
-      color: #fff;
+      color: #191A39;
     }
     &__subtitle {
       color: #fff;
@@ -303,7 +343,7 @@
       }
     }
     &__link {
-      color: $light-blue;
+      color: #237BEF;
     }
     &__link-mob{
       background-color: #21417D;

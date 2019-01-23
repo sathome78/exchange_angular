@@ -6,38 +6,41 @@
   <form class="settings-form" [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="settings__form-row">
       <div class="wrap-input wrap-input--fix230"
-           [ngClass]="{'wrap-input--error': !form.get('nickname').valid && form.get('nickname').touched && form.get('nickname').errors != null}"
+      [ngClass]="{'wrap-input--error': !form.get('nickname').valid && form.get('nickname').touched && form.get('nickname').errors != null}"
       >
-        <input
-          class="wrap-input__input"
-          type="text"
-          formControlName="nickname"
-          required
-        >
+      <input
+      class="wrap-input__input"
+      type="text"
+      formControlName="nickname"
+      required
+      >
 
-        <label class="wrap-input__label">{{'Nickname' | translate}}</label>
-        <div class="wrap-input__line"></div>
+      <label class="wrap-input__label">{{'Nickname' | translate}}</label>
+      <div class="wrap-input__line"></div>
 
-        <!--Input error section starts-->
+      <!--Input error section starts-->
+      <div class="message-wr--nick-name">
         <span class="wrap-input__message"
-              *ngIf="!form.get('nickname').valid && form.get('nickname').errors != null && form.get('nickname').errors['required']"
+        *ngIf="!form.get('nickname').valid && form.get('nickname').errors != null && form.get('nickname').errors['required']"
         >{{'This field is required.' | translate}}</span>
         <span class="wrap-input__message"
-              *ngIf="form.get('nickname').errors != null && form.get('nickname').invalid"
+        *ngIf="form.get('nickname').errors != null && form.get('nickname').invalid"
         >{{'Only (A-z), (–), (=) are allowed' | translate}}</span>
         <!--Input error section ends-->
-
       </div>
 
-      <span class="settings__form-notice">– {{'use only (A-z), (–), (=) symbols,' | translate}} </span>
+
     </div>
-    <button class="btn settings__form-btn" [disabled]="isUpdateDisabled">{{'Save' | translate}}</button>
-  </form>
-  <div class="note settings__note">
-    <div class="note__title">{{'Please note:' | translate}}</div>
-    <ul class="note__list">
-      <li class="note__list-item">{{'Nickname can be specified only 1 time' | translate}}</li>
-      <li class="note__list-item">{{'After creating a nickname, it will not be possible to change it' | translate}}</li>
-    </ul>
+
+    <span class="settings__form-notice">– {{'use only (A-z), (–), (=) symbols,' | translate}} </span>
   </div>
+  <button class="btn settings__form-btn" [disabled]="isUpdateDisabled">{{'Save' | translate}}</button>
+</form>
+<div class="note settings__note">
+  <div class="note__title">{{'Please note:' | translate}}</div>
+  <ul class="note__list">
+    <li class="note__list-item">{{'Nickname can be specified only 1 time' | translate}}</li>
+    <li class="note__list-item">{{'After creating a nickname, it will not be possible to change it' | translate}}</li>
+  </ul>
+</div>
 </div>

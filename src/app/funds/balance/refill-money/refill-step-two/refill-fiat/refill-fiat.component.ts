@@ -1,4 +1,4 @@
-import {Component, HostListener, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {CurrencyBalanceModel} from '../../../../../model/currency-balance.model';
@@ -21,6 +21,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   @Input() refillData: any;
   @ViewChild('simpleMerchant') simpleMerchantTemplate: TemplateRef<any>;
   @ViewChild('listMerchant') listMerchantTemplate: TemplateRef<any>;
+  @ViewChild('sendF') sendFTemplate: TemplateRef<any>;
+  @ViewChild('redirectionLink') redirectionLink: ElementRef;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public form: FormGroup;
   public submitSuccess = false;
@@ -165,8 +167,12 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe((res: RefillResponse) => {
             this.refillData = res;
-            this.redirectionUrl = this.getRefillRedirectionUrl(res);
+            this.redirectionUrl = this.refillData.redirectionUrl;
+            // this.redirectionUrl = this.getRefillRedirectionUrl(res);
             this.submitSuccess = true;
+            setTimeout(() => {
+              this.redirectionLink.nativeElement.click();
+            }, 1000);
           });
       }
     // }
@@ -183,20 +189,25 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       return null;
   }
 
-  getRefillRedirectionUrl(response: RefillResponse): string {
-    if (response && response.method === 'POST') {
-      let url = response.redirectionUrl + '?';
-      for (const key in response.params) {
-        // console.log('K: ' + key + ' V: ' + response.params[key]);
-        url += key + '=' + response.params[key] + '&';
-      }
-      console.log(url);
-      return url;
-    }
-    if (response && !response.method) {
-      return response.redirectionUrl;
-    }
-    return null;
+  hideSend() {
+    document.forms['hideForm'].submit();
+    return false;
   }
+
+  // getRefillRedirectionUrl(response: RefillResponse): string {
+  //   if (response && response.method === 'POST') {
+  //     let url = response.redirectionUrl + '?';
+  //     for (const key in response.params) {
+  //       // console.log('K: ' + key + ' V: ' + response.params[key]);
+  //       url += key + '=' + response.params[key] + '&';
+  //     }
+  //     console.log(url);
+  //     return url;
+  //   }
+  //   if (response && !response.method) {
+  //     return response.redirectionUrl;
+  //   }
+  //   return null;
+  // }
 }
 

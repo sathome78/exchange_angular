@@ -76,14 +76,14 @@
 }
 
 // ---------------------
-.select__list {
-  display: block;
-  color: #ccc;
-}
-
-.select__search-input {
-  color: #ccc;
-}
+//.select__list {
+//  display: block;
+//  color: #ccc;
+//}
+//
+//.select__search-input {
+//  color: #ccc;
+//}
 
 ::ng-deep div.wrap-input.refill__wrap-input {
   .wrap-input__message{
@@ -91,7 +91,7 @@
   }
   app-price-input {
     label {
-      background: #191A39 !important;
+      //background: #191A39 !important;
     }
   }
   &.wrap-input--error {
@@ -101,7 +101,7 @@
       }
       input:focus {
         &+label{
-          color: #94C2FF !important;
+          //color: #94C2FF !important;
         }
       }
     }

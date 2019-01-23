@@ -30,9 +30,7 @@
     margin: 0 auto;
     padding: 0 12px;
     border: 1px solid $grey;
-    border-bottom: none;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+    border-radius: 4px;
     font-size: 14px;
     line-height: 45px;
 
@@ -92,6 +90,7 @@
   &__line {
     height: 1px;
     background-color: $grey;
+    display: none;
   }
   &__triangle {
     position: absolute;
@@ -108,15 +107,10 @@
     display: none;
     width: 100%;
     border: 1px solid $darker-white;
+    border-top: none;
     background-color: #fff;
     &--open {
-      position: absolute;
-      z-index: 5;
-      top: 100%;
       display: block;
-      width: 100%;
-      border: 1px solid $darker-white;
-      background-color: #fff;
     }
   }
   &__list-searching {
@@ -126,9 +120,14 @@
     //display: none;
     width: 100%;
     border: 1px solid $darker-blue;
+    border-top: none;
     background-color: #fff;
     &--open {
       display: block;
+    }
+    .select__list{
+      position: relative;
+      border: none;
     }
   }
   &__search {
@@ -205,6 +204,11 @@
     align-items: center;
     padding: 8px 12px;
     text-align: left;
+    font-weight: 400;
+    cursor: pointer;
+     &:hover, &.active  {
+      color:#94C2FF;
+    }
   }
   &__list-item-icon {
     width: 21px;
@@ -287,8 +291,10 @@
     }
     &__list {
       &--open {
-        border-color: $light-blue;
-        background-color: $dark-indigo;
+        border-color: #fff;
+        background-color: #fff;
+        border-radius: 4px;
+        color: #191A39;
       }
     }
     &__list-searching {

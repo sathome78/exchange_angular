@@ -5,6 +5,8 @@ import {UserService} from '../../shared/services/user.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {environment} from '../../../environments/environment';
 import {TranslateService} from '@ngx-translate/core';
+import {UtilsService} from 'app/shared/services/utils.service';
+import {PopupService} from 'app/shared/services/popup.service';
 declare var encodePassword: Function;
 
 @Component({
@@ -14,10 +16,10 @@ declare var encodePassword: Function;
 })
 export class FinalStepRecoveryPasswordComponent implements OnInit {
   passwordForm: FormGroup;
+  passwordFirst: FormControl;
+  passwordSecond: FormControl;
   isPasswordVisible = false;
   token: string;
-  password;
-  confirmPass;
   message: string;
   public msgRed = false;
 
@@ -25,7 +27,8 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
-    private authService: AuthService,
+    private utilsService: UtilsService,
+    private popupService: PopupService,
     private translateService: TranslateService
   ) { }
 
@@ -44,77 +47,55 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
   }
 
   initForm(): void {
+    this.passwordFirst = new FormControl('', {
+      validators: [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(40),
+        this.utilsService.passwordCombinationValidator()
+      ]
+    });
+    this.passwordSecond = new FormControl('', {
+      validators: [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(40),
+        this.utilsService.passwordCombinationValidator(),
+        this.utilsService.passwordMatchValidator(this.passwordFirst)
+      ]
+    });
     this.passwordForm = new FormGroup({
-      password: new FormControl('', {
-        validators: [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(40),
-          Validators.pattern(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z])(?=.*[!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\']/)
-        ]}),
-      confirmPassword: new FormControl( '', {validators: [Validators.required, this.confirmPassword.bind(this)]})
+      'password': this.passwordFirst,
+      'confirmPassword': this.passwordSecond,
     });
   }
 
-  isLower(character) {
-    return (character === character.toLowerCase()) && (character !== character.toUpperCase());
-  }
-
-  onPasswordInput(event) {
-    if (event.data === ' ') {
-      const temp = this.deleteSpace(event.target.value);
-      this.passwordForm.controls['password'].setValue(temp);
-    }
-
-    const confirm = this.passwordForm.controls['confirmPassword'];
-    this.msgRed = event.target.value === confirm.value;
-    confirm.value !== '' && event.target.value !== confirm.value ?
-      confirm.setErrors({'passwordConfirm': true}) :
-      confirm.setErrors(null);
-  }
-
-  onRepeatPasswordInput(event) {
-    if (event.data === ' ') {
-      const temp = this.deleteSpace(event.target.value);
-      this.passwordForm.controls['confirmPassword'].setValue(temp);
-    }
-  }
-
   createUser(): void {
-    console.log(this.passwordForm)
+    // console.log(this.passwordForm)
     const pass = this.passwordForm.controls['password'];
-    if (this.passwordForm.valid && pass.value === this.passwordForm.controls['confirmPassword'].value) {
+    if (this.passwordForm.valid) {
       const sendData = {
         tempToken: this.token,
         password: this.encryptPass(pass.value),
       };
       this.userService.recoveryPassword(sendData).subscribe(res => {
-        this.router.navigate(['/dashboard'], {queryParams: {recoveryPassword: true}});
+        this.router.navigate(['/dashboard']);
+        this.popupService.toggleRestoredPasswordPopup(true);
       }, err => {
         this.message = this.translateService.instant('Server error. Try again.');
       });
     }
   }
 
-  deleteSpace(value): string {
-    if (value) {
-      const replaceMask = '';
-      const searchMask = ' ';
-      const regex = new RegExp(searchMask, 'ig');
-      return value.toString().replace(regex, replaceMask);
-    }
-    return '';
-  }
-
-  confirmPassword(password: FormControl): { [s: string]: boolean } {
-    this.msgRed = this.password === password.value;
-    if (this.password !== password.value) {
-      return {'passwordConfirm': true};
-    }
-    return null;
-  }
   private encryptPass(pass: string): string {
     return encodePassword(pass, environment.encodeKey);
+  }
+
+  get getConfirmPassword() {
+    return this.passwordForm.get('confirmPassword');
+  }
+  get getFirstPassword() {
+    return this.passwordForm.get('password');
   }
 
 }

@@ -13,6 +13,8 @@ export class PopupService {
   private onMobileLoginPopupListener = new Subject<boolean>();
   private onMobileRegistrationPopupListener = new Subject<boolean>();
   private onAlreadyRegisteredPopupListener = new Subject<boolean>();
+  private onAlreadyRestoredPasswordPopupListener = new Subject<boolean>();
+  private onRestoredPasswordPopupListener = new Subject<boolean>();
   private stepListener = new Subject<number>();
   private currentStep = 1;
   private tfaProvider = '';
@@ -48,6 +50,7 @@ export class PopupService {
   showRecoveryPasswordPopup(state: boolean) {
     this.onRecoveryPasswordListener.next(state);
   }
+
 
   showMobileRegistrationPopup(state: boolean) {
     this.onMobileRegistrationPopupListener.next(state);
@@ -97,6 +100,14 @@ export class PopupService {
     return this.onAlreadyRegisteredPopupListener;
   }
 
+  public getRestoredPasswordPopupListener(): Subject<boolean> {
+    return this.onRestoredPasswordPopupListener;
+  }
+
+  public getAlreadyRestoredPasswordPopupListener(): Subject<boolean> {
+    return this.onAlreadyRestoredPasswordPopupListener;
+  }
+
   public getRegistrationMobilePopupListener(): Subject<boolean> {
     return this.onMobileRegistrationPopupListener;
   }
@@ -135,15 +146,15 @@ export class PopupService {
   getStepsMap(provider: string) {
     switch (provider) {
       case 'GOOGLE':
-        return this.getGoogleStepsMap();
+      return this.getGoogleStepsMap();
       case 'GOOGLE_DISABLED':
-        return this.getGoogleDisableStepsMap();
+      return this.getGoogleDisableStepsMap();
       case 'SMS':
-        return this.getSmsStepsMap();
+      return this.getSmsStepsMap();
       case 'TELEGRAM':
-        return this.getTelegramStepsMap();
+      return this.getTelegramStepsMap();
       default:
-        return new Map<number, string>();
+      return new Map<number, string>();
     }
   }
 
@@ -190,6 +201,15 @@ export class PopupService {
 
   toggleAlreadyRegisteredPopup(state: boolean) {
     this.onAlreadyRegisteredPopupListener.next(state);
+  }
+
+  toggleAlreadyRestoredPasswordPopup(state: boolean) {
+    this.onAlreadyRestoredPasswordPopupListener.next(state);
+  }
+
+  toggleRestoredPasswordPopup(state: boolean) {
+    debugger
+    this.onRestoredPasswordPopupListener.next(state);
   }
 
   closeRecoveryPasswordPopup() {
