@@ -29,3 +29,30 @@ html body, div.chart-controls-bar, #footer-chart-panel {
 body > div.js-rootresizer__contents > div.layout__area--center > div {
   background-color: rgba(27, 55, 112, 0);
 }
+
+
+div[class^="button"] span[class^="icon-"] svg{
+	fill:#94C2FF;
+}
+
+div[class^="button"]:hover span[class^="icon-"] svg{
+	fill:#E9F2FF;
+}
+div[class^="button"] span[class^="arrow-"] svg{
+	fill:#94C2FF;
+}
+div[class^="button"]:hover span[class^="arrow-"] svg{
+	fill:#E9F2FF;
+}
+div[class^="button"] span[class^="icon-"] svg path[stroke^="currentColor"]{
+	stroke: #94C2FF;
+}
+div[class^="button"]:hover span[class^="icon-"] svg path[stroke^="currentColor"]{
+	stroke: #E9F2FF;
+}
+div[class^="button"] span[class^="icon-"] div[class^="buttonIcon"]{
+	color:#94C2FF;
+}
+div[class^="button"]:hover span[class^="icon-"] div[class^="buttonIcon"]{
+	color:#E9F2FF;
+}
