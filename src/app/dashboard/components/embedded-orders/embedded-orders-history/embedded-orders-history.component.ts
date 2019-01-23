@@ -38,9 +38,9 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
     this.countPerPage = changes.makeHeight.currentValue === true ? 7 : 18;
   }
 
-  isFiat(currName: string, currIndex: number): boolean {
+  currency(currName: string, currIndex: number): string {
     const curr = currName.split('/');
-    return this.utils.isFiat(curr[currIndex - 1]);
+    return curr[currIndex - 1];
   }
 
 

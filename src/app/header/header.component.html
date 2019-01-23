@@ -217,7 +217,7 @@
           <div class="login-menu__submenu-item">
             <div class="item-title">{{'Estimated Holdings' | translate}}</div>
             <span>
-              ${{(myBalance | async)?.USD | roundCurrency: true | formatCurrency}}
+              ${{(myBalance | async)?.USD | roundCurrency: 'USD' | formatCurrency}}
             </span>
           </div>
           <a class="menu__link login-menu__link" routerLink="/settings" (click)="tempPopup()" *ngIf="isVisible()">
@@ -433,7 +433,7 @@
             </svg>
           </span>
           <span class="menu-mob__link-text">{{'Estimated holdings' | translate}}</span>
-          <span class="menu-mob__link-holdings-inf">~ ${{(myBalance | async)?.USD | roundCurrency: true | formatCurrency}}</span>
+          <span class="menu-mob__link-holdings-inf">~ ${{(myBalance | async)?.USD | roundCurrency:'USD' | formatCurrency}}</span>
         </a>
         <a
           *ngIf="isAuthenticated()"

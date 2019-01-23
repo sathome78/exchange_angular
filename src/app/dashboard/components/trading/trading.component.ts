@@ -569,8 +569,4 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
   }
-
-  public isFiat(currName: string): boolean {
-    return this.utils.isFiat(currName);
-  }
 }

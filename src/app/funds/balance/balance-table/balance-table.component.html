@@ -34,19 +34,19 @@
           </div>
         </td>
         <td class="table__cell table__cell--tal">
-          <span>{{(+item.activeBalance + +item.reservedByOrders) | roundCurrency: isFiat(item.currencyName) | formatCurrency}}</span>
+          <span>{{(+item.activeBalance + +item.reservedByOrders) | roundCurrency:item.currencyName | formatCurrency}}</span>
         </td>
         <td class="table__cell table__cell--tar">
-          <span>{{item.activeBalance | roundCurrency: isFiat(item.currencyName) | formatCurrency}}</span>
+          <span>{{item.activeBalance | roundCurrency:item.currencyName | formatCurrency}}</span>
         </td>
         <td class="table__cell table__cell--tar">
-          <span>{{item.onConfirmation | roundCurrency: isFiat(item.currencyName) | formatCurrency}}</span>
+          <span>{{item.onConfirmation | roundCurrency:item.currencyName | formatCurrency}}</span>
         </td>
         <td class="table__cell table__cell--tar">
-          <span>{{item.reservedByMerchant | roundCurrency: isFiat(item.currencyName) | formatCurrency}}</span>
+          <span>{{item.reservedByMerchant | roundCurrency:item.currencyName | formatCurrency}}</span>
         </td>
         <td class="table__cell table__cell--tar">
-          <span>{{item.reservedByOrders | roundCurrency: isFiat(item.currencyName) | formatCurrency}}</span>
+          <span>{{item.reservedByOrders | roundCurrency:item.currencyName | formatCurrency}}</span>
         </td>
         <!-- <td class="table__cell table__cell--tar">
           <div class="balance__change">

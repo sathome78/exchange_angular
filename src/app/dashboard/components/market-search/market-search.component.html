@@ -51,7 +51,7 @@
               <span class="txt-small txt-light-grey">/ <span>{{splitPairName(pair.currencyPairName)[1]}}</span></span>
             </td>
             <td class="table__cell table__cell--tar">
-              <span>{{pair.lastOrderRate | roundCurrency: isFiat | formatCurrency }}</span>
+              <span>{{pair.lastOrderRate | roundCurrency: currency | formatCurrency }}</span>
               <span class="txt-small txt-light-grey">/<span>$ {{+pair.priceInUsd | roundCurrency: true | formatCurrency}}</span></span>
             </td>
           </tr>

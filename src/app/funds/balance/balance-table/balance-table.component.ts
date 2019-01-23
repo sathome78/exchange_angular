@@ -44,8 +44,4 @@ export class BalanceTableComponent {
     this.onPaginate.emit({currentPage: page, countPerPage: this.countPerPage});
   }
 
-  public isFiat(currName: string): boolean {
-    return this.utils.isFiat(currName);
-  }
-
 }

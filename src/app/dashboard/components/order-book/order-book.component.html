@@ -83,7 +83,7 @@
 
           <div class="price">
             <span>
-              {{item.exrate | roundCurrency | formatCurrency:'full'}}
+              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}
             </span>
           </div>
 
@@ -127,12 +127,12 @@
       <div class="separator">
         <span
           [ngClass]="{'color-red': !isExratePositive, 'color-green': isExratePositive}">
-          {{!+lastExrate ? 0 : +lastExrate | roundCurrency | formatCurrency:'full'}}
+          {{!+lastExrate ? 0 : +lastExrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}
         </span>
         <img *ngIf="+preLastExrate < +lastExrate" class="arr arr--ml4" src="../assets/img/arr-up-green.svg">
         <img *ngIf="+preLastExrate > +lastExrate" class="arr arr--ml4" src="../assets/img/arr-down-red.svg">
         <div class="hr"></div>
-        <span >{{!+preLastExrate ? 0 : +preLastExrate | roundCurrency | formatCurrency:'full'}}</span>
+        <span >{{!+preLastExrate ? 0 : +preLastExrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</span>
       </div>
 
       <!--<div class="separator" *ngIf="lastOrder">-->
@@ -181,7 +181,7 @@
 
           <div class="price">
             <span>
-              {{item.exrate | roundCurrency | formatCurrency:'full'}}
+              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}
             </span>
           </div>
 
@@ -265,7 +265,7 @@
 
           <div class="price">
             <span>
-              {{item.exrate | roundCurrency | formatCurrency:'full'}}
+              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}
             </span>
           </div>
 
@@ -279,11 +279,11 @@
       </div>
       <div class="separator" >
         <span *ngIf="maxExrate" [ngClass]="{'color-red': !isExratePositive, 'color-green': isExratePositive}">
-          {{!+lastExrate ? 0 : +lastExrate | roundCurrency | formatCurrency:'full'}}</span>
+          {{!+lastExrate ? 0 : +lastExrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</span>
         <img *ngIf="isExratePositive" class="arr arr--ml4" src="../assets/img/arr-up-green.svg">
         <img *ngIf="!isExratePositive" class="arr arr--ml4" src="../assets/img/arr-down-red.svg">
         <div class="hr"></div>
-        <span >{{!+preLastExrate ? 0 : +preLastExrate | roundCurrency | formatCurrency:'full'}}</span>
+        <span >{{!+preLastExrate ? 0 : +preLastExrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</span>
       </div>
       <div class="items mobile">
 
@@ -317,7 +317,7 @@
 
           <div class="price">
             <span>
-              {{item.exrate | roundCurrency | formatCurrency:'full'}}
+              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}
             </span>
           </div>
 

@@ -1,4 +1,4 @@
-import {Component, HostListener, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {CurrencyBalanceModel} from '../../../../../model/currency-balance.model';
@@ -21,6 +21,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   @Input() refillData: any;
   @ViewChild('simpleMerchant') simpleMerchantTemplate: TemplateRef<any>;
   @ViewChild('listMerchant') listMerchantTemplate: TemplateRef<any>;
+  @ViewChild('sendF') sendFTemplate: TemplateRef<any>;
+  @ViewChild('redirectionLink') redirectionLink: ElementRef;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public form: FormGroup;
   public submitSuccess = false;
@@ -168,6 +170,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
             this.redirectionUrl = this.refillData.redirectionUrl;
             // this.redirectionUrl = this.getRefillRedirectionUrl(res);
             this.submitSuccess = true;
+            setTimeout(() => {
+              this.redirectionLink.nativeElement.click();
+            }, 1000);
           });
       }
     // }

@@ -275,9 +275,9 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     this.showCancelOrderConfirm = orderId;
   }
 
-  isFiat(currName: string, currIndex: number): boolean {
+  currency(currName: string, currIndex: number): string {
     const curr = currName.split('/');
-    return this.utils.isFiat(curr[currIndex - 1]);
+    return curr[currIndex - 1];
   }
 
   onChangeCurrPair(val: string): void {
