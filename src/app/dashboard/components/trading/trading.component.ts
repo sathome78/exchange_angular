@@ -403,14 +403,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   quantityInput(e, type: string): void {
     this.isTotalWithCommission = false;
+    const value = e.target.value === '' ? 0 : e.target.value;
     if (type === this.BUY) {
-      this.buyOrder.amount = parseFloat(this.deleteSpace(e.target.value.toString()));
-      this.setQuantityValue(e.target.value, type);
+      this.buyOrder.amount = parseFloat(this.deleteSpace(value.toString()));
+      this.setQuantityValue(value, type);
     } else {
-      this.sellOrder.amount = parseFloat(this.deleteSpace(e.target.value.toString()));
-      this.setQuantityValue(e.target.value, type);
+      this.sellOrder.amount = parseFloat(this.deleteSpace(value.toString()));
+      this.setQuantityValue(value, type);
     }
-    this.getCommission(type);
+      this.getCommission(type);
   }
 
 
@@ -457,11 +458,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private inputTotalNested(event, type: string, order: Order) {
-    this.setTotalInValue(event.target.value, type);
-    order.total = parseFloat(this.deleteSpace(event.target.value));
+    const value = event.target.value === '' ? 0 : event.target.value;
+    this.setTotalInValue(value, type);
+    order.total = parseFloat(this.deleteSpace(value));
     if (order.rate) {
       order.amount = order.total / order.rate;
-      order.commission = order.total * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
+      order.commission =  value > 0 ? order.total * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100) : 0;
       this.setQuantityValue(order.amount, type);
     }
   }
@@ -566,9 +568,5 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
-  }
-
-  public isFiat(currName: string): boolean {
-    return this.utils.isFiat(currName);
   }
 }

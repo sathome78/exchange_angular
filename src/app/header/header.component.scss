@@ -12,7 +12,7 @@
     max-width: 1464px;
     height: 100%;
     margin: 0 auto;
-    padding: 0 32px;
+    padding: 0 34px;
     align-items: center;
   }
 
@@ -207,6 +207,7 @@
         border-radius: 4px;
         margin-right: 0;
         margin-bottom: 0;
+        transition:.3s;
         .menu__link-text {
           padding-bottom: 0;
         }
@@ -224,16 +225,7 @@
       &--auth--log {
         padding: 0;
         margin-right: 16px;
-        //&:before {
-        //  content: "";
-        //  position: relative;
-        //  top: -2px;
-        //  display: inline-block;
-        //  width: 1px;
-        //  height: 27px;
-        //  margin-right: 24px;
-        //  background-color: rgba(255, 255, 255, 0.3);
-        //}
+
       }
     }
 
@@ -294,16 +286,6 @@
       flex-direction: column;
       align-items: stretch;
 
-      // &:before {
-      //   content: '';
-      //   position: absolute;
-      //   top: 0;
-      //   display: block;
-      //   height: 2px;
-      //   width: 0%;
-      //   background-color: $darker-blue;
-      //   transition: width .3s ease;
-      // }
 
       &--language {
         display: grid;
@@ -346,38 +328,6 @@
     }
   }
 
-  //.header-button {
-  //  display: -webkit-flex;
-  //  display: -ms-flex;
-  //  display: flex;
-  //  position: relative;
-  //  width: 58px;
-  //  height: 100%;
-  //  text-decoration: none;
-  //  align-self: stretch;
-  //  align-items: center;
-  //  justify-content: center;
-  //
-  //  &:hover {
-  //    background-color: #2E304D;
-  //    text-decoration: none;
-  //  }
-  //
-  //  &__notification-label {
-  //    display: inline-block;
-  //    position: absolute;
-  //    top: 15px;
-  //    right: 10px;
-  //    width: 16px;
-  //    height: 16px;
-  //    border-radius: 50%;
-  //    color: #fff;
-  //    background-color: $darker-blue;
-  //    font-size: 14px;
-  //    line-height: 16px;
-  //    text-align: center;
-  //  }
-  //}
 
   .holdings {
     display: -webkit-flex;
@@ -479,7 +429,7 @@
     align-items: center;
     justify-content: center;
     padding: 0 16px;
-    &:after{
+     &:after,&:before{
       content: '';
       position: absolute;
       right: 0;
@@ -488,7 +438,10 @@
       height: 28px;
       background-color: rgba(255, 255, 255, 0.3) ;
     }
-
+ &:before{
+      right: auto;
+      left: 0;
+    }
     &:hover{
       .login-menu__submenu{
         height: auto;
@@ -563,7 +516,17 @@
     }
   }
   .language {
-    //margin-right: 16px;
+      position: relative;
+    padding: 0 16px;
+    &:after{
+      content: '';
+      position: absolute;
+      right: 0;
+      display: block;
+      width: 1px;
+      height: 28px;
+      background-color: rgba(255, 255, 255, 0.3) ;
+    }
     &--mob{
       .menu__link-text{
         display: -webkit-flex;
@@ -610,7 +573,29 @@
       align-self: center;
     }
   }
+  .translate{
+    &__trigger{
+      cursor: pointer;
+      background: none;
+      border: none;
+      outline: none;
+      padding-left: 23px;
+      path{
+        transition:.3s;
+      }
+      &:hover{
+        path{
+          fill:#fff;
+        }
+      }
+    }
+    &__container{
+        position: absolute;
+        top: 48px;
+        opacity: 0;
 
+    }
+  }
   /*--- elements end ---*/
 }
 
@@ -864,18 +849,7 @@
       }
 
       &--next-page {
-        //&:after {
-        //  display: block;
-        //  position: absolute;
-        //  right: 16px;
-        //  width: 9px;
-        //  height: 9px;
-        //  background-image: url("../../assets/img/arr-toggler-right-light-blue.svg");
-        //  background-repeat: no-repeat;
-        //  background-position: center;
-        //  background-size: 100%;
-        //  content: "";
-        //}
+
       }
     }
 
@@ -886,11 +860,7 @@
     }
 
     &__link-line {
-      // height: 1px;
-      // width: 100%;
-      // position: absolute;
-      // top: 0;
-      // background: linear-gradient(to right,rgba(33,65,125,.5), rgba(25,26,57,.5));
+
     }
 
     &__link-holdings-inf {

@@ -27,7 +27,6 @@ export class RegistrationMobilePopupComponent implements OnInit {
   public passwordForm: FormGroup;
   public nameForm: FormGroup;
   public nameSubmited = false;
-  public agreeTerms = false;
   public recaptchaKey = keys.recaptchaKey;
 
   public email;
@@ -110,7 +109,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   emailSubmit() {
     this.emailSubmited = true;
-    if (this.emailForm.valid && this.agreeTerms) {
+    if (this.emailForm.valid) {
       const email = this.emailForm.get('email').value.trim();
       this.email = email;
       this.userService.checkIfEmailExists(email).subscribe(res => {

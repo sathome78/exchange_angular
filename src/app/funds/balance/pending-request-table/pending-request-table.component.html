@@ -31,10 +31,10 @@
       <span>{{item.currency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>{{item.amount | roundCurrency: isFiat(item.currency) | formatCurrency}}</span>
+      <span>{{item.amount | roundCurrency:item.currency | formatCurrency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>{{item.commission | roundCurrency: isFiat(item.currency) | formatCurrency}}</span>
+      <span>{{item.commission | roundCurrency:item.currency | formatCurrency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
       <span>{{item.system}}</span>
