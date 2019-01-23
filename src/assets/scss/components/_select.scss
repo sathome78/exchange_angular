@@ -206,7 +206,7 @@
     text-align: left;
     font-weight: 400;
     cursor: pointer;
-    &:hover{
+     &:hover, &.active  {
       color:#94C2FF;
     }
   }

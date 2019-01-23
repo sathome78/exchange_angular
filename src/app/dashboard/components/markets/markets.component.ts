@@ -38,6 +38,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   public sortPoint = 'asc';
   public marketSearch = false;
   public searchInput = '';
+  public currencyName = 'USD';
   public loading: boolean = true;
 
 
@@ -142,6 +143,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   selectedTab(value: string): void {
     this.currencyDisplayMode = value;
     this.isFiat = value === 'USD';
+    this.currencyName = value;
     this.pairs = !this.searchInput ?
       this.choosePair(value) :
       this.choosePair(value).filter(f => f.currencyPairName.toUpperCase().match(this.searchInput.toUpperCase()));

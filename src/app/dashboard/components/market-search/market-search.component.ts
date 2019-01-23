@@ -14,7 +14,7 @@ import {State} from '../../../core/reducers';
 export class MarketSearchComponent implements OnInit, AfterViewInit {
 
   @Input() pairs: CurrencyPair[];
-  @Input() isFiat: boolean;
+  @Input() currency: string;
   public showPairs: CurrencyPair[];
 
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter<boolean>();
