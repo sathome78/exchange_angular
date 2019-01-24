@@ -35,6 +35,7 @@ import {DynamicInputDashboardComponent} from './components/dynamic-input-dashboa
 import {DynamicInputDataPipe} from './pipes/dynamic-input-data.pipe';
 import {RestorePasswordGuard} from './guards/restore-password.guard';
 import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
+import {MomentModule} from 'angular2-moment';
 
 
 @NgModule({
@@ -71,7 +72,7 @@ import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
     QRCodeModule,
     InfiniteScrollModule,
     RecaptchaModule,
-
+    MomentModule
   ],
   exports: [
     InfiniteScrollModule,
