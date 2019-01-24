@@ -40,7 +40,7 @@ export function reducer(state: State = INIT_STATE, action: coreActions.Actions) 
       return {...state, ...action.payload};
 
     case coreActions.CHANGE_LANGUAGE:
-      console.log(action.payload)
+      // console.log(action.payload)
       return {...state, language: action.payload};
 
     case coreActions.SET_SIMPLE_CURRENCY_PAIRS:
