@@ -51,4 +51,14 @@ export class UtilsService {
     };
   }
 
+  deleteSpace(value): string {
+    if (value) {
+      const replaceMask = '';
+      const searchMask = ' ';
+      const regex = new RegExp(searchMask, 'ig');
+      return value.toString().replace(regex, replaceMask);
+    }
+    return '';
+  }
+
 }
