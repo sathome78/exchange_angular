@@ -11,6 +11,9 @@ import {takeUntil} from 'rxjs/internal/operators';
 import {AuthService} from '../shared/services/auth.service';
 import {ActivatedRoute} from '@angular/router';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
+import {Store, select} from '@ngrx/store';
+import * as fromCore from '../core/reducers';
+import * as dashboardActions from '../dashboard/actions/dashboard.actions';
 
 
 @Component({
@@ -49,6 +52,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public activeMobileWidget = 'markets';
   public breakPoint;
+  public currencyPair = null
 
   constructor(
     public breakPointService: BreakpointService,
@@ -56,6 +60,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private dataService: DashboardService,
     private marketsService: MarketService,
     private route: ActivatedRoute,
+    private store: Store<fromCore.State>,
     private authService: AuthService) {
   }
 
@@ -96,6 +101,29 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         // TODO find currency pair by name and set it as default for dashboard
       }
     });
+    this.store
+      .pipe(select(fromCore.getCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(pair => {
+        this.currencyPair = pair;
+      });
+
+    this.subscribeRabbit();
+  }
+
+  subscribeRabbit() {
+    return this.dashboardWebsocketService.setRabbitStompSubscription()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((message) => {
+        if(this.currencyPair && (message.currencyPairId === this.currencyPair.currencyPairId)) {
+          this.updateDashboard(this.currencyPair.currencyPairId);
+          console.log(message);
+        }
+      });
+  }
+
+  updateDashboard(currencyPairId) {
+    this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(currencyPairId))
   }
 
   ngAfterViewInit() {

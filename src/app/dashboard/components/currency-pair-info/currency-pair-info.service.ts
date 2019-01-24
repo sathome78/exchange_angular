@@ -18,13 +18,7 @@ export class CurrencyPairInfoService {
   ) {
   }
 
-  getCurrencyPairInfo(pair) {
-    if (pair.currencyPairId) {
-      const subscription = this.http.get(`${this.baseUrl}/info/public/v2/info/${pair.currencyPairId}`)
-        .subscribe(info => {
-          this.store.dispatch(new RefreshCurrencyPairInfoAction(info));
-          subscription.unsubscribe();
-        });
-    }
+  getCurrencyPairInfo(currencyPairId) {
+    return this.http.get(`${this.baseUrl}/info/public/v2/info/${currencyPairId}`);
   }
 }
