@@ -130,6 +130,9 @@
 
   &__form-btn {
     margin: 0 auto;
+    &--active{
+
+    }
   }
 
   &__note {
@@ -261,9 +264,15 @@
       margin-left: 20px;
       margin-top: 20px;
     }
-
+    &__password-btn{
+      background-color: transparent;
+      border: 1px solid #237BEF;
+    }
     &__form-btn {
       margin-left: 0;
+      &--active{
+            background-color: #237BEF;
+      }
     }
 
     &__note {
@@ -290,6 +299,16 @@
 
 .dark-theme {
   .settings {
+
+    &__password-btn{
+      background-color: transparent;
+      border: 1px solid #237BEF;
+    }
+    &__form-btn {
+      &--active{
+            background-color: #237BEF;
+      }
+    }
     &__sidebar {
       border-color: #24253F;
     }
