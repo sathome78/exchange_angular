@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PopupService } from 'app/shared/services/popup.service';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-already-restored-password-popup',
@@ -9,22 +10,29 @@ import { Router } from '@angular/router';
 })
 export class AlreadyRestoredPasswordPopupComponent implements OnInit {
 
+  @Input() message;
+  public showHtml;
+  public buttonText;
+
+  private defaultMessage;
+
   constructor(
     private popupService: PopupService,
-    private router: Router,
-  ) { }
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit() {
+    this.buttonText = this.translateService.instant('Ok');
+    this.defaultMessage = `<p>${this.translateService.instant('You have already used the link to restore your password. If necessary, please repeat the restore password process.')}</p>`;
+    this.showHtml = this.defaultMessage;
   }
 
-  closeRecoveryPassPopup(): void {
-    this.popupService.toggleAlreadyRestoredPasswordPopup(false);
-    this.router.navigate(['/']);
+  buttonClick() {
+    this.closeMe();
   }
-  goToLogin(): void {
+
+  closeMe() {
     this.popupService.toggleAlreadyRestoredPasswordPopup(false);
-    this.router.navigate(['/']);
-    this.popupService.showLoginPopup(true);
   }
 
 }

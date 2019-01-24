@@ -47,8 +47,8 @@
               <td class="table__cell table__cell--tal">
                 <div>{{item.currencyPairName}}</div>
                 <div class="table__date-time">
-                  <div>{{item.dateCreation | date:"EEEEEE"}} {{item.dateCreation | date:"dd.MM.yyyy"}}</div>
-                  <div>{{item.dateCreation | date:"HH:mm:ss"}}</div>
+                  <div>{{item.dateCreation | amDateFormat:"dd"}} {{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
+                  <div>{{item.dateCreation | amDateFormat:"HH:mm:ss"}}</div>
                 </div>
               </td>
               <td class="table__cell table__cell--tal">
@@ -245,8 +245,8 @@
             *ngFor="let item of orderItems$ | async | paginate: {itemsPerPage: countPerPage, currentPage: currentPage, totalItems: countOfEntries$ | async}">
           <td class="table__cell">
             <div class="table__date-time">
-              <div>{{item.dateCreation | date:"EEEEEE"}} {{item.dateCreation | date:"dd.MM.yyyy"}}</div>
-              <div>{{item.dateCreation | date:"HH:mm:ss"}}</div>
+              <div>{{item.dateCreation | amDateFormat:"dd"}} {{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
+              <div>{{item.dateCreation | amDateFormat:"HH:mm:ss"}}</div>
             </div>
           </td>
           <td class="table__cell">
@@ -271,25 +271,25 @@
           </td>
           <td class="table__cell">
             <span>
-              {{item.exExchangeRate | roundCurrency: isFiat(item.currencyPairName, 2) | formatCurrency}}
+              {{item.exExchangeRate | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
               {{item.currencyPairName | splitCurrency: 2}}
             </span>
           </td>
           <td class="table__cell">
             <span>
-              {{item.amountBase | roundCurrency: isFiat(item.currencyPairName, 1) | formatCurrency}}
+              {{item.amountBase | roundCurrency: currency(item.currencyPairName, 1) | formatCurrency}}
               {{item.currencyPairName | splitCurrency: 1}}
             </span>
           </td>
           <td class="table__cell">
             <span class="orders__comission"></span><span class="orders__comission-usd"><span>
-                {{item.commissionFixedAmount | roundCurrency: isFiat(item.currencyPairName, 2) | formatCurrency}}
+                {{item.commissionFixedAmount | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
                 {{item.currencyPairName | splitCurrency: 2}}
             </span></span>
           </td>
           <td class="table__cell table__cell--tar">
             <span>
-              {{item.amountWithCommission | roundCurrency: isFiat(item.currencyPairName, 2) | formatCurrency}}
+              {{item.amountWithCommission | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
               <span>{{item.currencyPairName | splitCurrency: 2}}</span>
             </span>
           </td>

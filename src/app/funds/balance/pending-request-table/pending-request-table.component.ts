@@ -44,9 +44,6 @@ export class PendingRequestTableComponent implements OnInit {
     this.onRevokePendingRequest.emit({requestId: item.requestId, operation: item.operation})
   }
 
-  public isFiat(currName: string): boolean {
-    return this.utils.isFiat(currName);
-  }
 
 
   ngOnInit() {

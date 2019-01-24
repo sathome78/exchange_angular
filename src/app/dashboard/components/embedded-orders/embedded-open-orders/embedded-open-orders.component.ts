@@ -256,8 +256,5 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
     }
   }
 
-  isFiat(currIndex: number): boolean {
-    return this.utils.isFiat(this.arrPairName[currIndex]);
-  }
 
 }

@@ -46,7 +46,7 @@
             {{'Buy' | translate}} {{arrPairName[0]}}
           </p>
           <div class="widget__trading-fee">
-            <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency: isFiat(arrPairName[1]) | formatCurrency}} {{arrPairName[1]}}</span>
+            <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency:arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
@@ -72,7 +72,7 @@
         <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
           <div class="avaliable avaliable--aifl">
             <span>{{'Avaliable:' | translate}} </span>
-            <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(BUY)">{{userBalance?.cur2?.balance  | roundCurrency: isFiat(userBalance?.cur2?.name) | formatCurrency}} {{userBalance?.cur2?.name || ''}}</a>
+            <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(BUY)">{{userBalance?.cur2?.balance  | roundCurrency:userBalance?.cur2?.name | formatCurrency}} {{userBalance?.cur2?.name || ''}}</a>
           </div>
         </div>
         <div class="row row__percent">
@@ -105,7 +105,7 @@
             {{'Sell' | translate}} {{arrPairName[0]}}
           </p>
           <div class="widget__trading-fee">
-            <span>{{'Fee:' | translate}} {{sellOrder.commission | roundCurrency: isFiat(arrPairName[1]) | formatCurrency}} {{arrPairName[1]}}</span>
+            <span>{{'Fee:' | translate}} {{sellOrder.commission | roundCurrency:arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
@@ -131,7 +131,7 @@
         <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
           <div class="avaliable avaliable--aifl">
             <span>{{'Avaliable:' | translate}} </span>
-            <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(SELL)">{{userBalance?.cur1?.balance  | roundCurrency: isFiat(userBalance?.cur1?.name) | formatCurrency}} {{userBalance?.cur1?.name}}</a>
+            <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(SELL)">{{userBalance?.cur1?.balance  | roundCurrency:userBalance?.cur1?.name | formatCurrency}} {{userBalance?.cur1?.name}}</a>
           </div>
         </div>
         <div class="row row__percent">

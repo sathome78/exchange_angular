@@ -69,8 +69,4 @@ export class PendingRequestDetailsComponent implements OnInit {
   public onGoBack(): void {
     this.location.back()
   }
-
-  public isFiat(currName: string): boolean {
-    return this.utils.isFiat(currName);
-  }
 }

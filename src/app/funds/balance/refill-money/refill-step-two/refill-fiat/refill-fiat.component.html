@@ -105,7 +105,7 @@
     <div class="title refill__fiat-successful-title">Request was created!</div>
     <div class="subtitle refill__fiat-successful-subtitle">
       Please go to
-      <a href="{{redirectionUrl}}" (click)="hideSend()">{{selectMerchantName}}</a>
+      <a #redirectionLink href="{{redirectionUrl}}" (click)="hideSend()">{{selectMerchantName}}</a>
       to make a payment
       <b>{{refillData.params.ok_item_1_price}} {{refillData.params.ok_currency}}</b>
     </div>

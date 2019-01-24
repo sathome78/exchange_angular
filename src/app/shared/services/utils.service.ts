@@ -7,7 +7,8 @@ export class UtilsService {
   private fiatCurrencies: Array<string> = ['USD', 'EUR', 'CNY', 'IDR', 'NGN', 'TRY', 'UAH', 'VND', 'AED'];
   private cache = {}
   private pattern = /(^$|(^([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
-  private symbolsRegex = /[!№#$%^&*<>()=']/ig;
+  private forbiddenSymbolsEmailRegex = /[!№#$%^&*<>()=']/ig;
+  private allowedSymbolsPasswordRegex = /[\@\*\%\!\#\^\&\$\<\>\.\(\)\-\_\=\+]/ig;
 
   isFiat(currencyName: string): boolean {
     if (typeof this.cache[currencyName] !== 'undefined') {
@@ -28,8 +29,25 @@ export class UtilsService {
 
   specialCharacterValidator(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
-      const forbidden = new RegExp(this.symbolsRegex).test(control.value.trim());
+      const forbidden = new RegExp(this.forbiddenSymbolsEmailRegex).test(control.value.trim());
       return !forbidden ? null : {'specialCharacter': {value: control.value.trim()}} ;
+    };
+  }
+
+  passwordCombinationValidator(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value ? control.value.trim() : ''
+      const hasSpecialChar = new RegExp(this.allowedSymbolsPasswordRegex).test(value);
+      const hasNumber = new RegExp(/[0-9]/ig).test(value);
+      const hasChar = new RegExp(/[A-Za-z]/ig).test(value);
+      return (hasChar && hasNumber) || (hasChar && hasSpecialChar) ? null : {'passwordValidation': true};
+    };
+  }
+
+  passwordMatchValidator(firstFieldValue): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value ? control.value.trim() : '';
+      return value === firstFieldValue.value ? null : {'passwordsNotMatch': true}
     };
   }
 
