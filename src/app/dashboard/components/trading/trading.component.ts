@@ -60,6 +60,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public isTotalWithCommission = false;
   public SELL = SELL;
   public BUY = BUY;
+  public createdOrder: Order;
 
   public defaultOrder: Order = {
     orderType: '',
@@ -177,16 +178,16 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param {string} value
    * @returns {string}
    */
-  showLimit(value: string): string {
+  showLimit(value: string, popup: boolean = false): string {
     switch (value) {
       case 'LIMIT': {
-        return this.translateService.instant('Limit order');
+        return popup ? this.translateService.instant('Limit') : this.translateService.instant('Limit order');
       }
       case 'MARKET_PRICE': {
         return this.translateService.instant('Market price');
       }
       case 'STOP_LIMIT': {
-        return this.translateService.instant('Stop limit');
+        return popup ? this.translateService.instant('Stop limit') : this.translateService.instant('Stop limit');
       }
       case 'ICO': {
         return this.translateService.instant('ICO order');
@@ -548,6 +549,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     //   console.log(this.sellOrder);
 
     const order = type === this.BUY ? this.buyOrder : this.sellOrder;
+    this.createdOrder = order;
     this.tradingService.createOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -556,11 +558,17 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
         this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
         this.notifySuccess = true;
-        setTimeout(() => {this.notifySuccess = false; }, 5000);
+        setTimeout(() => {
+          this.notifySuccess = false;
+          this.createdOrder = null;
+          }, 5000);
       }, err => {
         console.log(err);
         this.notifyFail = true;
-        setTimeout(() => {this.notifyFail = false; }, 5000);
+        setTimeout(() => {
+          this.notifyFail = false;
+          this.createdOrder = null;
+          }, 5000);
       });
   }
 

@@ -60,8 +60,8 @@
     </td>
     <td class="table__cell">
       <div class="table__date-time">
-        <div>{{item.dateCreation | date:"EEEEEE"}} {{item.dateCreation | date:"dd.MM.yyyy"}}</div>
-        <div>{{item.dateCreation | date:"HH:mm:ss"}}</div>
+        <div>{{item.dateCreation | amDateFormat:"dd"}} {{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
+        <div>{{item.dateCreation | amDateFormat:"HH:mm:ss"}}</div>
       </div>
     </td>
     <td class="table__cell">
