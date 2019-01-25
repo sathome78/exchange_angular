@@ -46,17 +46,17 @@
       >
         ETH
       </button>
-      <!--<button class="tabs__item tabs__item&#45;&#45;small"-->
-              <!--[ngClass]="{'tabs__item&#45;&#45;active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"-->
-              <!--(click)="selectedTab('LOC')"-->
-      <!--&gt;-->
-        <!--LOC-->
-      <!--</button>-->
       <button class="tabs__item tabs__item--small"
               [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USD','tab-no-active': currencyDisplayMode !== 'USD'}"
               (click)="selectedTab('USD')"
       >
         USD
+      </button>
+      <button class="tabs__item tabs__item--small"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
+              (click)="selectedTab('LOC')"
+      >
+        LOC
       </button>
       <button class="tabs__item tabs__item--small"
               [ngClass]="{'tabs__item--active': currencyDisplayMode === 'Favorites','tab-no-active': currencyDisplayMode !== 'Favorites'}"
@@ -284,17 +284,17 @@
               (click)="selectedTab('ETH')">
         ETH
       </button>
-      <!--<button class="tabs__item"-->
-              <!--[ngClass]="{'tabs__item&#45;&#45;active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"-->
-              <!--(click)="selectedTab('LOC')"-->
-      <!--&gt;-->
-        <!--LOC-->
-      <!--</button>-->
       <button class="tabs__item"
               [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USD','tab-no-active': currencyDisplayMode !== 'USD'}"
               (click)="selectedTab('USD')"
       >
         USD
+      </button>
+      <button class="tabs__item"
+      [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
+      (click)="selectedTab('LOC')"
+      >
+      LOC
       </button>
       <button class="tabs__item"
               [ngClass]="{'tabs__item--active': currencyDisplayMode === 'FAVORITES','tab-no-active': currencyDisplayMode !== 'FAVORITES'}"
