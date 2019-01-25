@@ -46,7 +46,7 @@
             {{'Buy' | translate}} {{arrPairName[0]}}
           </p>
           <div class="widget__trading-fee">
-            <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency:arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
+            <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
@@ -105,7 +105,7 @@
             {{'Sell' | translate}} {{arrPairName[0]}}
           </p>
           <div class="widget__trading-fee">
-            <span>{{'Fee:' | translate}} {{sellOrder.commission | roundCurrency:arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
+            <span>{{'Fee:' | translate}} {{sellOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
