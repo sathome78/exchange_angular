@@ -28,6 +28,7 @@ import {defaultLastSellBuyOrder} from '../../reducers/default-values';
 import {TradeItem} from '../../../model/trade-item.model';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {UtilsService} from '../../../shared/services/utils.service';
+import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
 
 @Component({
   selector: 'app-order-book',
@@ -116,146 +117,11 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     private marketService: MarketService,
     private mockDataService: MockDataService,
     private dashboardService: DashboardService,
+    private dashboardWebsocketService: DashboardWebSocketService,
     private utils: UtilsService,
     private tradingService: TradingService) {
     super();
   }
-
-
-  // /** mock data*/
-  // public mock = {
-  //   lastExrate: '3688.846264',
-  //   orderBookItems: [
-  //     {
-  //       amount: '0.007',
-  //       currencyPairId: 1,
-  //       exrate: '3921',
-  //       orderType: 'SELL',
-  //       total: '0.007'
-  //     },
-  //     {
-  //       amount: '0.01',
-  //       currencyPairId: 1,
-  //       exrate: '3950',
-  //       orderType: 'SELL',
-  //       total: '0.017'
-  //     },
-  //     {
-  //       amount: '0.011672798',
-  //       currencyPairId: 1,
-  //       exrate: '3990',
-  //       orderType: 'SELL',
-  //       total: '0.028672798'
-  //     },
-  //     {
-  //       amount: '0.0014',
-  //       currencyPairId: 1,
-  //       exrate: '3999',
-  //       orderType: 'SELL',
-  //       total: '0.030072798'
-  //     },
-  //     {
-  //       amount: '0.003374606',
-  //       currencyPairId: 1,
-  //       exrate: '4000',
-  //       orderType: 'SELL',
-  //       total: '0.033447404'
-  //     },
-  //     {
-  //       amount: '0.00711624',
-  //       currencyPairId: 1,
-  //       exrate: '4199',
-  //       orderType: 'SELL',
-  //       total: '0.040563644'
-  //     },
-  //     {
-  //       amount: '0.000105319',
-  //       currencyPairId: 1,
-  //       exrate: '4234.7',
-  //       orderType: 'SELL',
-  //       total: '0.040668963'
-  //     },
-  //     {
-  //       amount: '0.000105319',
-  //       currencyPairId: 1,
-  //       exrate: '4284.5',
-  //       orderType: 'SELL',
-  //       total: '0.040774282'
-  //     },
-  //   ],
-  //   orderType: 'SELL',
-  //   positive: false,
-  //   preLastExrate: '4148.20215',
-  //   total: '0.040774282',
-  // };
-
-  // public mockBuy = {
-  //   lastExrate: '3688.846264',
-  //   orderBookItems: [
-  //     {
-  //       amount: '0.490318551',
-  //       currencyPairId: 1,
-  //       exrate: '3686.7',
-  //       orderType: 'BUY',
-  //       total: '0.000281716',
-  //     },
-  //     {
-  //       amount: '0.016446308',
-  //       currencyPairId: 1,
-  //       exrate: '3682.7',
-  //       orderType: 'BUY',
-  //       total: '0.000396639',
-  //     },
-  //     {
-  //       amount: '0.0048573',
-  //       currencyPairId: 1,
-  //       exrate: '3644',
-  //       orderType: 'BUY',
-  //       total: '0.005253939',
-  //     },
-  //     {
-  //       amount: '0.000114922',
-  //       currencyPairId: 1,
-  //       exrate: '3638.9',
-  //       orderType: 'BUY',
-  //       total: '0.005368861',
-  //     },
-  //     {
-  //       amount: '0.000112576',
-  //       currencyPairId: 1,
-  //       exrate: '3595',
-  //       orderType: 'BUY',
-  //       total: '0.005481437',
-  //     },
-  //     {
-  //       amount: '0.000285629',
-  //       currencyPairId: 1,
-  //       exrate: '3501.1',
-  //       orderType: 'BUY',
-  //       total: '0.005767066',
-  //     },
-  //     {
-  //       amount: '0.003713204',
-  //       currencyPairId: 1,
-  //       exrate: '3501',
-  //       orderType: 'BUY',
-  //       total: '0.00948027',
-  //     },
-  //     {
-  //       amount: '0.000004571',
-  //       currencyPairId: 1,
-  //       exrate: '3500',
-  //       orderType: 'BUY',
-  //       total: '0.009484841',
-  //     }
-  //   ],
-  //   orderType: 'BUY',
-  //   positive: false,
-  //   preLastExrate: '4148.20215',
-  //   total: '0.009484841',
-  // };
-
-  // /** --------------- */
 
   ngOnInit() {
     this.lastExrate = 0;
@@ -298,6 +164,13 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         }
         // this.updateSubscription(pair);
       });
+
+    this.dashboardWebsocketService.setRabbitStompSubscription()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((pair) => {
+        this.initData(pair);
+        this.loadMinAndMaxValues(pair);
+      })
 
     // this.store
     //   .pipe(select(getLastSellBuyOrder))

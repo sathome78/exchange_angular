@@ -1,10 +1,10 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
-import {map, takeUntil} from 'rxjs/internal/operators';
+import {map, takeUntil, every, filter, tap} from 'rxjs/internal/operators';
 import {Message} from '@stomp/stompjs';
 import {select, Store} from '@ngrx/store';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, iif} from 'rxjs';
 import {StompService} from '@stomp/ng2-stompjs';
 import {CurrencyPair} from '../model/currency-pair.model';
 import {environment} from '../../environments/environment';
@@ -58,6 +58,12 @@ export class DashboardWebSocketService implements OnDestroy {
     return this.stompService
       .subscribe('/topic/rabbit')
       .pipe(map((message: Message) => JSON.parse(message.body)))
+      .pipe(filter((message) => this.currentCurrencyPair && (message.currencyPairId === this.currentCurrencyPair.currencyPairId)))
+      .pipe(map((message) => {
+        console.log('updated');
+        return message;
+      }))
+      .pipe(map(() => this.currentCurrencyPair));
   }
 
   ngOnDestroy(): void {
