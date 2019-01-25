@@ -12,6 +12,7 @@ export class FormatCurrencyPipe implements PipeTransform {
     private utils: UtilsService
   ) {}
   transform(value: number | string, format: "full" | "short" = "short", currencyName: string = ''): string {
+    console.log(value)
     this.fraction = this.utils.isFiat(currencyName) ? 3 : 8;
     const valueParts: Array<string> = ('' + value).split('.');
     valueParts[1] = !valueParts[1] ? '0' : valueParts[1];
@@ -19,9 +20,10 @@ export class FormatCurrencyPipe implements PipeTransform {
     const integerParts: Array<string> = this.getIntegerParts(integer);
 
     if (format === 'short') {
-      const transformed = valueParts.length > 1
+      let transformed = valueParts.length > 1
         ? [integerParts.join(' '), valueParts[1]].join('.')
         : [integerParts.join(' '), '0'].join('.');
+      transformed = transformed[0] === '.' ? transformed.slice(1) : transformed;
       return transformed;
     }
     if (format === 'full') {

@@ -12,7 +12,7 @@
     <!--<th class="table__cell-head table__cell-head&#45;&#45;tal">Order</th>-->
     <th class="table__cell-head table__cell-head--tal">{{'Type' | translate}}</th>
     <th class="table__cell-head table__cell-head--tal">{{'Limit Price' | translate}}</th>
-    <th class="table__cell-head table__cell-head--tal">Stop Price</th>
+    <th class="table__cell-head table__cell-head--tal">{{'Stop Price' | translate}}</th>
     <th class="table__cell-head table__cell-head--tal">{{'Amount' | translate}}</th>
     <th class="table__cell-head table__cell-head--tal">{{'Fee' | translate}}</th>
     <th class="table__cell-head table__cell-head--tal">{{'Total' | translate}}</th>
@@ -28,20 +28,20 @@
     </td>
     <td class="table__cell">
       <div class="table__date-time">
-        <div>{{item.dateCreation | amDateFormat:"dd"}} {{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
+        <div>{{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
         <div>{{item.dateCreation | amDateFormat:"HH:mm:ss"}}</div>
       </div>
     </td>
     <td class="table__cell">
       <span [ngClass]="{'orders__type-sell': item.operationTypeEnum === 'SELL', 'orders__type-buy': item.operationTypeEnum === 'BUY' }"
-      >{{item.operationType}} <span></span></span>
+      >{{item.operationTypeEnum}} <span></span></span>
       <!--<span class="orders__type-sell">Sell <span>(Limit)</span></span>-->
     </td>
     <td class="table__cell">
       <span>{{item.exExchangeRate  | roundCurrency: arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
     </td>
     <td class="table__cell">
-      <span>{{item.exExchangeRate  | roundCurrency: arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
+      <span>{{item.stopRate  | roundCurrency: arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
     </td>
     <td class="table__cell">
       <span>{{item.amountBase | roundCurrency: arrPairName[0] | formatCurrency}} {{arrPairName[0]}}</span>

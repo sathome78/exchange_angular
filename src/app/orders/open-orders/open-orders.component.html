@@ -43,7 +43,7 @@
               <td class="table__cell table__cell--tal">
                 <div>{{item.currencyPairName}}</div>
                 <div class="table__date-time">
-                  <div>{{item.dateCreation | amDateFormat:"dd"}} {{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
+                  <div>{{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
                   <div>{{item.dateCreation | amDateFormat:"HH:mm:ss"}}</div>
                 </div>
               </td>
@@ -52,7 +52,7 @@
               </td>
               <td class="table__cell table__cell--tar">
                 <div>{{item.exExchangeRate}}</div>
-                <span class="txt-small txt-red">{{item.operationType}}</span>
+                <span class="txt-small txt-red">{{item.operationTypeEnum}}</span>
               </td>
               <td class="table__cell table__cell--arr-mob">
                 <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
@@ -71,7 +71,7 @@
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Type' | translate}}</div>
-                  <div class="table__details-item-value"><span class="txt-green">{{item.operationType}}</span></div>
+                  <div class="table__details-item-value"><span class="txt-green">{{item.operationTypeEnum}}</span></div>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Fee' | translate}}</div>
@@ -246,7 +246,7 @@
           </td>
           <td class="table__cell">
             <div class="table__date-time">
-              <div>{{item.dateCreation | amDateFormat:"dd"}} {{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
+              <div>{{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
               <div>{{item.dateCreation | amDateFormat:"HH:mm:ss"}}</div>
             </div>
           </td>
@@ -254,7 +254,7 @@
             <a class="orders__market">{{item.currencyPairName}}</a>
           </td>
           <td class="table__cell">
-            <span [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType}}</span>
+            <span [class]="setClassForOrderTypeField(item.operationType)">{{item.operationTypeEnum}}</span>
           </td>
           <td class="table__cell">
             <span>
