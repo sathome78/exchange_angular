@@ -10,6 +10,7 @@ import {MarketService} from './market.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
 import {UserService} from '../../../shared/services/user.service';
 import {getCurrencyPair} from '../../../core/reducers';
+import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   constructor(
     private marketService: MarketService,
     private store: Store<State>,
+    private dashboardWebsocketService: DashboardWebSocketService,
     private userService: UserService) {
     super();
   }
@@ -65,6 +67,12 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe((pair: CurrencyPair) => {
         this.currentCurrencyPair = pair;
       });
+
+    this.dashboardWebsocketService.setRabbitStompSubscription()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        this.marketService.makeItFast();
+      })
   }
 
   ngOnDestroy(): void {

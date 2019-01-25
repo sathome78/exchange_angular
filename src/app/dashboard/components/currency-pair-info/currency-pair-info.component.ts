@@ -10,8 +10,8 @@ import {UserBalance} from 'app/model/user-balance.model';
 import {State, getCurrencyPair, getUserBalance, getCurrencyPairInfo, getCurrencyPairArray} from 'app/core/reducers/index';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
-import { UtilsService } from 'app/shared/services/utils.service';
-
+import {UtilsService} from 'app/shared/services/utils.service';
+import * as dashboardActions from '../../actions/dashboard.actions';
 /**
  * Dashboard currency pair information component
  */
@@ -53,15 +53,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     private store: Store<State>,
     private dashboardWebsocketService: DashboardWebSocketService,
     private utils: UtilsService,
-    // private dashboardService: DashboardService,
-    // private renderer: Renderer2,
-  ) {
-    // this.dashboardService.getCryptoCurrencies()
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe((allCrypto: any) => {
-    //     this.currencies = allCrypto.map((item) => ({name: item.name}));
-    //   });
-  }
+  ) { }
 
   ngOnInit() {
     this.store
@@ -99,13 +91,24 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(getUserBalance))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (balance: UserBalance) => {
+      .subscribe((balance: UserBalance) => {
         if (balance.cur1 && balance.cur2) {
           this.userBalanceInfo = balance;
         } else {
           this.userBalanceInfo = null;
         }
       });
+
+    this.dashboardWebsocketService.setRabbitStompSubscription()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((currencyPair) => {
+        console.log(currencyPair)
+        this.updateCurrencyInfo(currencyPair.currencyPairId);
+      })
+  }
+
+  updateCurrencyInfo(currencyPairId) {
+    this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(currencyPairId))
   }
 
   ngOnDestroy() {

@@ -10,7 +10,8 @@ import {select, Store} from '@ngrx/store';
 import {State, getCurrencyPair, getAllTrades, getLoadingAllTrades} from 'app/core/reducers/index';
 import {TradeItem} from '../../../model/trade-item.model';
 import {HttpClient} from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
+import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
 
 
 @Component({
@@ -42,6 +43,7 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   constructor(
     private store: Store<State>,
     private tradeService: TradeHistoryService,
+    private dashboardWebsocketService: DashboardWebSocketService,
 ) {
   super();
   }
@@ -52,7 +54,17 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
     // todo move ro store
     this.tradeService
       .getFirstTrades(1)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(items => this.allTrades = items);
+
+    this.dashboardWebsocketService.setRabbitStompSubscription()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((pair) => {
+        this.tradeService
+          .getFirstTrades(pair.currencyPairId)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(items => this.allTrades = items);
+      })
 
     this.store
     .pipe(select(getCurrencyPair))
