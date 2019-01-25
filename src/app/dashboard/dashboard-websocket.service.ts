@@ -58,10 +58,6 @@ export class DashboardWebSocketService implements OnDestroy {
     return this.stompService
       .subscribe('/topic/rabbit')
       .pipe(map((message: Message) => JSON.parse(message.body)))
-      // .pipe(map((message) => {
-      //   console.log(message);
-      //   return message;
-      // }))
       .pipe(filter((message) => this.currentCurrencyPair && (message.currencyPairId === this.currentCurrencyPair.currencyPairId)))
       .pipe(map((message) => {
         console.log('updated');
