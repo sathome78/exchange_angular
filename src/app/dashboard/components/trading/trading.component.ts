@@ -283,14 +283,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   orderFromOrderBook(order: OrderItem): void {
     const rate = parseFloat(order.exrate.toString());
-    if (order.orderType === this.SELL) {
-      this.sellOrder.rate = rate;
-      this.setPriceInValue(rate, this.SELL);
-    } else {
-      this.buyOrder.rate = rate;
-      this.setPriceInValue(rate, this.BUY);
-    }
-    this.getCommission(order.orderType);
+    this.sellOrder.rate = rate;
+    this.setPriceInValue(rate, this.SELL);
+    this.buyOrder.rate = rate;
+    this.setPriceInValue(rate, this.BUY);
+    this.getCommission(this.SELL);
+    this.getCommission(this.BUY);
   }
 
   /**

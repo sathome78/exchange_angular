@@ -46,7 +46,7 @@
             {{'Buy' | translate}} {{arrPairName[0]}}
           </p>
           <div class="widget__trading-fee">
-            <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency:arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
+            <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
@@ -56,17 +56,17 @@
         </div>
         <div class="row row--jcsb widget__trading-row  input-row">
           <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Quantity')" [currencyLabel]="arrPairName[0]" [forTrading]="true" (customInput)="quantityInput($event, BUY)" name="quantity" formControlName="quantity"></app-price-input>
+            <app-price-input [placeholder]="translateService.instant('Quantity')" [currencyName]="arrPairName[0]" [currencyLabel]="arrPairName[0]" [forTrading]="true" (customInput)="quantityInput($event, BUY)" name="quantity" formControlName="quantity"></app-price-input>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row  input-row">
           <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Limit Price')" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="rateInput($event, BUY)" name="price" formControlName="price"></app-price-input>
+            <app-price-input [placeholder]="translateService.instant('Limit Price')" [currencyName]="arrPairName[1]" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="rateInput($event, BUY)" name="price" formControlName="price"></app-price-input>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row  input-row">
           <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Total')" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="totalInput($event, BUY)" name="total" formControlName="total"></app-price-input>
+            <app-price-input [placeholder]="translateService.instant('Total')" [currencyName]="arrPairName[1]" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="totalInput($event, BUY)" name="total" formControlName="total"></app-price-input>
           </div>
         </div>
         <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
@@ -105,7 +105,7 @@
             {{'Sell' | translate}} {{arrPairName[0]}}
           </p>
           <div class="widget__trading-fee">
-            <span>{{'Fee:' | translate}} {{sellOrder.commission | roundCurrency:arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
+            <span>{{'Fee:' | translate}} {{sellOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
@@ -115,17 +115,17 @@
         </div>
         <div class="row row--jcsb widget__trading-row input-row">
           <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Quantity')" [currencyLabel]="arrPairName[0]" [forTrading]="true" (customInput)="quantityInput($event, SELL)" name="quantity" formControlName="quantity"></app-price-input>
+            <app-price-input [placeholder]="translateService.instant('Quantity')" [currencyName]="arrPairName[0]" [currencyLabel]="arrPairName[0]" [forTrading]="true" (customInput)="quantityInput($event, SELL)" name="quantity" formControlName="quantity"></app-price-input>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row input-row">
           <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Limit Price')" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="rateInput($event, SELL)" name="price" formControlName="price"></app-price-input>
+            <app-price-input [placeholder]="translateService.instant('Limit Price')" [currencyName]="arrPairName[1]" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="rateInput($event, SELL)" name="price" formControlName="price"></app-price-input>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row input-row">
           <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Total')" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="totalInput($event, SELL)" name="total" formControlName="total"></app-price-input>
+            <app-price-input [placeholder]="translateService.instant('Total')" [currencyName]="arrPairName[1]" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="totalInput($event, SELL)" name="total" formControlName="total"></app-price-input>
           </div>
         </div>
         <div class="row row--jcsb txt-light-grey widget__trading-row-txt">

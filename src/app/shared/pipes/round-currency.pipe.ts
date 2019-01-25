@@ -11,13 +11,22 @@ export class RoundCurrencyPipe implements PipeTransform {
   ) {}
 
   transform(value: number, currencyName: string = ''): string {
-    let rounded: number | string;
-    if (this.utils.isFiat(currencyName)) {
-      rounded = ((Math.floor(value * 100)) / 100);
+    if (value) {
+      let rounded: number | string;
+      if (this.utils.isFiat(currencyName)) {
+        rounded = this.checkFraction(value.toString(), 2) ? ((Math.floor(value * 100)) / 100) : value;
+      } else {
+        rounded = this.checkFraction(value.toString(), 8) ? ((Math.floor(value * 100000000)) / 100000000) : value;
+      }
+      return '' + rounded;
     } else {
-      rounded = ((Math.floor(value * 100000000)) / 100000000);
+      return '';
     }
-    return '' + rounded;
+  }
+
+  checkFraction(value: string, count: number): boolean {
+    const parts = value.split('.');
+    return parts[1] ? +parts[1].length > count ? true : false : false;
   }
 
   // transform(value: number, isFiat: boolean): string {
