@@ -21,16 +21,19 @@
             <div class="wrap-input__line"></div>
             <!--Input error section starts-->
             <div *ngIf="form.get('email').touched && form.get('email').errors != null">
-            <span
+            <div class="input-hint-wrapper">
+              <span
               *ngIf="form.get('email').errors['required']"
               class="wrap-input__message">
               {{'This field is required.' | translate}}
-            </span>
+              </span>
               <span
                 *ngIf="form.get('email').invalid && !form.get('email').errors['required']"
                 class="wrap-input__message">
               {{'Please, enter valid email address.' | translate}}
             </span>
+            </div>
+            
             </div>
             <!--Input error section ends-->
           </div>
@@ -53,11 +56,13 @@
           </span>
             <!--Input error section starts-->
             <div *ngIf="form.get('password').touched && form.get('password').errors != null">
-            <span
-              *ngIf="form.get('password').errors['required']"
-              class="wrap-input__message">
-              {{'This field is required.' | translate}}
-            </span>
+              <div class="input-hint-wrapper">
+                <span
+                  *ngIf="form.get('password').errors['required']"
+                  class="wrap-input__message">
+                  {{'This field is required.' | translate}}
+                </span>
+              </div>
             </div>
             <!--Input error section ends-->
           </div>
@@ -81,11 +86,13 @@
             <div class="wrap-input__line"></div>
             <!--Input error section starts-->
             <div *ngIf="form.get('pin').touched && form.get('pin').errors != null">
-            <span
-              *ngIf="form.get('pin').errors['pinRequired']"
-              class="wrap-input__message">
-              {{'This field is required.' | translate}}
-            </span>
+            <div class="input-hint-wrapper">
+              <span
+                *ngIf="form.get('pin').errors['pinRequired']"
+                class="wrap-input__message">
+                {{'This field is required.' | translate}}
+              </span>
+            </div>
             </div>
             <!--Input error section ends-->
           </div>
