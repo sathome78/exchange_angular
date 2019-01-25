@@ -19,9 +19,10 @@ export class FormatCurrencyPipe implements PipeTransform {
     const integerParts: Array<string> = this.getIntegerParts(integer);
 
     if (format === 'short') {
-      const transformed = valueParts.length > 1
+      let transformed = valueParts.length > 1
         ? [integerParts.join(' '), valueParts[1]].join('.')
         : [integerParts.join(' '), '0'].join('.');
+      transformed = transformed[0] === '.' ? transformed.slice(1) : transformed;
       return transformed;
     }
     if (format === 'full') {

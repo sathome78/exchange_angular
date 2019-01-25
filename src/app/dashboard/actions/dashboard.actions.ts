@@ -4,6 +4,8 @@ export const CHANGE_CURRENCY_PAIR = '[Dashboard] Change currency pair';
 export const LOAD_CURRENCY_PAIRS = '[Dashboard] Load currency pair';
 export const REFRESH_USER_BALANCE = '[Dashboard] Refresh user balance';
 export const REFRESH_CURRENCY_PAIR_INFO = '[Dashboard] Refresh currency pair info';
+export const LOAD_CURRENCY_PAIR_INFO = '[Dashboard] Load currency pair info';
+export const FAIL_LOAD_CURRENCY_PAIR_INFO = '[Dashboard] Fail load currency pair info';
 export const SELECTED_ORDERBOOK_ORDER = '[Dashboard] Selected order-book order';
 export const SET_LAST_SELL_BUY_ORDER = '[Dashboard] Set last sell buy order';
 export const SET_ALL_TRADES = '[Dashboard] Set all trades';
@@ -74,6 +76,30 @@ export class RefreshCurrencyPairInfoAction implements Action {
    */
   constructor(public payload) {}
 }
+/**
+ * Load currency pair info
+ */
+export class LoadCurrencyPairInfoAction implements Action {
+  readonly type = LOAD_CURRENCY_PAIR_INFO;
+
+  /**
+   * Default constructor
+   * @param payload
+   */
+  constructor(public payload) {}
+}
+/**
+ * Fail load currency pair info
+ */
+export class FailLoadCurrencyPairInfoAction implements Action {
+  readonly type = FAIL_LOAD_CURRENCY_PAIR_INFO;
+
+  /**
+   * Default constructor
+   * @param payload
+   */
+  constructor(public payload) {}
+}
 
 /**
  * When selected order in order-book
@@ -135,6 +161,8 @@ export type Actions
   | LoadCurrencyPairsAction
   | RefreshUserBalanceAction
   | RefreshCurrencyPairInfoAction
+  | LoadCurrencyPairInfoAction
+  | FailLoadCurrencyPairInfoAction
   | SelectedOrderBookOrderAction
   | SetLastSellBuyOrderAction
   | SetTradingTypeAction

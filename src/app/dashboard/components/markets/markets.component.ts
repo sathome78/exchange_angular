@@ -4,16 +4,13 @@ import {Subject} from 'rxjs/Subject';
 import {Store, select} from '@ngrx/store';
 
 import {getCurrencyPairArray, State} from 'app/core/reducers/index';
-import {AuthService} from 'app/shared/services/auth.service';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {MarketService} from './market.service';
-import {ChangeCurrencyPairAction, SetLastSellBuyOrderAction} from '../../actions/dashboard.actions';
+import * as dashboardActions from '../../actions/dashboard.actions';
 import {UserService} from '../../../shared/services/user.service';
-import {CurrencyPairInfoService} from '../currency-pair-info/currency-pair-info.service';
-import {LastSellBuyOrder} from '../../../model/last-sell-buy-order.model';
-import {defaultLastSellBuyOrder} from '../../reducers/default-values';
 import {getCurrencyPair} from '../../../core/reducers';
+import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
 
 
 @Component({
@@ -48,8 +45,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   constructor(
     private marketService: MarketService,
     private store: Store<State>,
-    private userService: UserService,
-    private currencyPairInfoService: CurrencyPairInfoService) {
+    private dashboardWebsocketService: DashboardWebSocketService,
+    private userService: UserService) {
     super();
   }
 
@@ -70,6 +67,12 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe((pair: CurrencyPair) => {
         this.currentCurrencyPair = pair;
       });
+
+    this.dashboardWebsocketService.setRabbitStompSubscription()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        this.marketService.makeItFast();
+      })
   }
 
   ngOnDestroy(): void {
@@ -116,8 +119,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    */
   onSelectCurrencyPair(pair: CurrencyPair): void {
     this.selectedCurrencyPair = pair;
-    this.store.dispatch(new ChangeCurrencyPairAction(pair));
-    this.currencyPairInfoService.getCurrencyPairInfo(pair);
+    this.store.dispatch(new dashboardActions.ChangeCurrencyPairAction(pair));
+    this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(pair.currencyPairId))
     this.userService.getUserBalance(pair);
   }
 

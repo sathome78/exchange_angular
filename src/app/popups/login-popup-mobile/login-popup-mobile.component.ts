@@ -104,7 +104,7 @@ export class LoginPopupMobileComponent implements OnInit {
         this.isGACheck = true;
         if (result) {
           this.isGA = true;
-          this.twoFaAuthModeMessage = this.translateService.instant('Use google authenticator to generate pincode');
+          this.twoFaAuthModeMessage = this.translateService.instant('Use Google Authenticator to generate pincode');
         }
       },
         err => console.log(err));

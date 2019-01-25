@@ -15,9 +15,9 @@
   display: inline-block;
   content: "";
   vertical-align: middle;
-  border-top: 0px solid #fff;
-  border-right: 0px solid transparent;
-  border-left: 0px solid transparent;
+  border-top: 4px solid #fff;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
 }
 
 .widget__header {
@@ -34,7 +34,7 @@
 
 .dropdown__list {
   left: 0;
-  right: auto;
+  right: 0;
 }
 
 .widget__tabs {
@@ -52,7 +52,7 @@
 
 @media (min-width: 1200px) {
   .dropdown__list {
-    left: 21px;
+    // left: 21px;
   }
 }
 

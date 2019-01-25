@@ -49,6 +49,7 @@ import {TransactionsService} from './services/transaction.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {translateInfo} from '../shared/configs/translate-options';
+import {MomentModule} from 'angular2-moment';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -63,6 +64,7 @@ export function createTranslateLoader(http: HttpClient) {
     NgxPaginationModule,
     MyDatePickerModule,
     NgSelectModule,
+    MomentModule,
     SharedModule,
     EffectsModule.forRoot([FundsEffects]),
     StoreModule.forFeature('funds', reducer),

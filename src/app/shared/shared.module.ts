@@ -35,6 +35,8 @@ import {DynamicInputDashboardComponent} from './components/dynamic-input-dashboa
 import {DynamicInputDataPipe} from './pipes/dynamic-input-data.pipe';
 import {RestorePasswordGuard} from './guards/restore-password.guard';
 import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
+import {MomentModule} from 'angular2-moment';
+import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
 
 
 @NgModule({
@@ -52,6 +54,7 @@ import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     RoundCurrencyPipe,
+    ExponentToNumberPipe,
     GetObjectKeysPipe,
     FormatCurrencyPipe,
     SplitCurrencyPipe,
@@ -71,7 +74,7 @@ import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
     QRCodeModule,
     InfiniteScrollModule,
     RecaptchaModule,
-
+    MomentModule
   ],
   exports: [
     InfiniteScrollModule,
@@ -92,6 +95,7 @@ import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
+    ExponentToNumberPipe,
     ExcludeByFieldPipe,
     RoundCurrencyPipe,
     FormatCurrencyPipe,
