@@ -1,6 +1,9 @@
 import {Component, forwardRef, Input, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import {CurrencyPipe} from '../../pipes/currency.pipe';
+import {UtilsService} from '../../services/utils.service';
+import {RoundCurrencyPipe} from '../../pipes/round-currency.pipe';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -20,10 +23,15 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   @Input('placeholder') public placeholder: any;
   @Input('currencyLabel') public currencyLabel = '';
   @Input('forTrading') public forTrading = false;
+  @Input('currencyName') public currencyName = '';
   @ViewChild('inputEl') inputEl: ElementRef;
   @Output('customInput') customInput: EventEmitter<any>
+  private patternInput = /^\d+\.(\.\d+)*$|^\d+(\.\d+)*$/;
 
-  constructor(private currencyUsdPipe: CurrencyPipe) {
+  constructor(
+    private currencyUsdPipe: CurrencyPipe,
+    private utils: UtilsService
+  ) {
     this.customInput = new EventEmitter<any>();
   }
 
@@ -33,7 +41,34 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   onInput(e) {
-    this.customInput.emit(e);
+    let value = this.utils.deleteSpace(e.target.value);
+    value = this.excludeDoubleZero(value);
+    if (this.patternInput.test(value)) {
+      this.inputEl.nativeElement.value = this.currencyFormat(e, value);
+    } else {
+      value === '' ? this.customInput.emit(e) : null;
+      this.inputEl.nativeElement.value = value.slice(0, -1);
+    }
+  }
+
+  currencyFormat(e: Event, value: string): string {
+    const count = this.utils.isFiat(this.currencyName) ? 2 : 8;
+    const digitParts = value.split('.');
+    if (digitParts[0] && digitParts[1] && digitParts[1].length > count) {
+      const fraction = digitParts[1].slice(0, count);
+      return `${digitParts[0]}.${fraction}`;
+    } else {
+      this.customInput.emit(e);
+      return value;
+    }
+  }
+
+  excludeDoubleZero(value) {
+    if (value[0] && value[1]) {
+      return value[0] === '0' && value[1] === '0' ? '0' : value;
+    } else {
+      return value;
+    }
   }
 
   get value() {
@@ -47,8 +82,19 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   writeValue(value: any) {
     if (value == 'N/A')
       return this._innerValue = value;
+    value = value ? this.roundDecimalPart(value) : value;
     this._innerValue = this.currencyUsdPipe.transform(value);
     this.propagateChanges(this.currencyUsdPipe.parse(this._innerValue));
+  }
+
+  roundDecimalPart(value) {
+    const parts = value.split('.');
+    if (parts[1]) {
+      parts[1] = this.utils.isFiat(this.currencyName) ? parts[1].slice(0, 2) : parts[1].slice(0, 8);
+      return `${parts[0]}.${parts[1]}`;
+    } else {
+      return value;
+    }
   }
 
   propagateChanges = (...any) => {

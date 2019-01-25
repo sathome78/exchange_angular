@@ -4,7 +4,7 @@
   <span>{{activeCrypto.name}}</span>
 </div>
 <div class="refill__inputs-wrap">
-  <div class="select refill__select">
+  <div class="select refill__select refill__select--cripto">
     <div class="select__value select__value--active" (click)="currencyDropdownToggle()">
       <img [src]="activeCrypto.name | getIconUrl" class="select__list-item-icon">
       {{activeCrypto.name}}

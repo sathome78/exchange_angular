@@ -11,6 +11,8 @@ import {takeUntil} from 'rxjs/internal/operators';
 import {AuthService} from '../shared/services/auth.service';
 import {ActivatedRoute} from '@angular/router';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
+import {Store, select} from '@ngrx/store';
+import * as fromCore from '../core/reducers';
 
 
 @Component({
@@ -49,6 +51,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public activeMobileWidget = 'markets';
   public breakPoint;
+  public currencyPair = null
 
   constructor(
     public breakPointService: BreakpointService,
@@ -56,6 +59,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private dataService: DashboardService,
     private marketsService: MarketService,
     private route: ActivatedRoute,
+    private store: Store<fromCore.State>,
     private authService: AuthService) {
   }
 
@@ -96,7 +100,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         // TODO find currency pair by name and set it as default for dashboard
       }
     });
+    this.store
+      .pipe(select(fromCore.getCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(pair => {
+        this.currencyPair = pair;
+      });
   }
+
 
   ngAfterViewInit() {
     this.changeRatioByWidth();
