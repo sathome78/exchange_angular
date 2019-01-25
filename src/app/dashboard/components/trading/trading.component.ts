@@ -125,8 +125,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe( (lastPrice: LastPrice) => {
         this.setPriceInValue(lastPrice.price, this.BUY);
         this.setPriceInValue(lastPrice.price, this.SELL);
-        this.sellOrder.rate = parseFloat(lastPrice.price.toString());
-        this.buyOrder.rate = parseFloat(lastPrice.price.toString());
+        this.sellOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
+        this.buyOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
       });
 
     this.store
