@@ -49,11 +49,7 @@
             <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
           </div>
         </div>
-        <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
-          <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Stop')" [forTrading]="true" (customInput)="stopInput($event, BUY)" name="stop" formControlName="stop"></app-price-input>
-          </div>
-        </div>
+        
         <div class="row row--jcsb widget__trading-row  input-row">
           <div class="wrap-input widget__input no-line">
             <app-price-input [placeholder]="translateService.instant('Quantity')" [currencyName]="arrPairName[0]" [currencyLabel]="arrPairName[0]" [forTrading]="true" (customInput)="quantityInput($event, BUY)" name="quantity" formControlName="quantity"></app-price-input>
@@ -62,6 +58,11 @@
         <div class="row row--jcsb widget__trading-row  input-row">
           <div class="wrap-input widget__input no-line">
             <app-price-input [placeholder]="translateService.instant('Limit Price')" [currencyName]="arrPairName[1]" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="rateInput($event, BUY)" name="price" formControlName="price"></app-price-input>
+          </div>
+        </div>
+        <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
+          <div class="wrap-input widget__input no-line">
+            <app-price-input [placeholder]="translateService.instant('Stop')" [forTrading]="true" (customInput)="stopInput($event, BUY)" name="stop" formControlName="stop"></app-price-input>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row  input-row">
@@ -108,11 +109,7 @@
             <span>{{'Fee:' | translate}} {{sellOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
           </div>
         </div>
-        <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
-          <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Stop')" [forTrading]="true" (customInput)="stopInput($event, SELL)" name="stop" formControlName="stop"></app-price-input>
-          </div>
-        </div>
+        
         <div class="row row--jcsb widget__trading-row input-row">
           <div class="wrap-input widget__input no-line">
             <app-price-input [placeholder]="translateService.instant('Quantity')" [currencyName]="arrPairName[0]" [currencyLabel]="arrPairName[0]" [forTrading]="true" (customInput)="quantityInput($event, SELL)" name="quantity" formControlName="quantity"></app-price-input>
@@ -121,6 +118,11 @@
         <div class="row row--jcsb widget__trading-row input-row">
           <div class="wrap-input widget__input no-line">
             <app-price-input [placeholder]="translateService.instant('Limit Price')" [currencyName]="arrPairName[1]" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="rateInput($event, SELL)" name="price" formControlName="price"></app-price-input>
+          </div>
+        </div>
+        <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
+          <div class="wrap-input widget__input no-line">
+            <app-price-input [placeholder]="translateService.instant('Stop')" [forTrading]="true" (customInput)="stopInput($event, SELL)" name="stop" formControlName="stop"></app-price-input>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row input-row">

@@ -41,12 +41,8 @@
   }
 
   .menu {
-    display: -webkit-flex;
-    display: -ms-flex;
     display: flex;
     height: 100%;
-    align-items: center;
-
     &--header-menu {
       margin-left: 28px;
       margin-right: auto;
@@ -65,30 +61,7 @@
       display: flex;
       align-items: center;
 
-      &--with-submenu {
-        &:hover {
-          .menu__link--drop{
-            color: #fff;
-            cursor: pointer;
-            &:after{
-              transform: rotate(180deg);
-              transform-origin:center;
-            }
-          }
-          .submenu {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-            transition: .3s;
-
-            &__list {
-              &:before {
-                width: 100%;
-              }
-            }
-          }
-        }
-      }
+      
       &--disabled {
         &:hover {
           .submenu {
@@ -256,90 +229,7 @@
     }
   }
 
-  .submenu {
 
-    position: absolute;
-    top: 40px;
-    left: 16px;
-    z-index: 4;
-    opacity: 0;
-    pointer-events:none;
-    background-color: #fff;
-    border-radius: 4px;
-    transform: translateY(-10px);
-    transition: .2s;
-    .menu__link-text{
-      font-size: 14px;
-      font-weight: 300;
-      color: #191A39;
-      padding: 0;
-    }
-
-    &--notification {
-      width: 266px;
-      font-size: 14px;
-      line-height: 16px;
-
-      .submenu__link {
-        white-space: normal;
-      }
-    }
-
-    &--language {
-      right: 0;
-      left: auto;
-      top: 31px;
-    }
-
-    &__list {
-      position: relative;
-      display: -webkit-flex;
-      display: -ms-flex;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      padding-top: 12px;
-
-      &--language {
-        display: grid;
-        grid-template-columns: repeat(2, auto);
-      }
-    }
-
-    &__item {
-      &--last {
-        text-align: center;
-        border-top: 1px solid;
-        border-color: #237BEF;
-        background-color: rgba(35, 123, 239, 0.15);
-      }
-    }
-
-    &__link {
-      display: -webkit-flex;
-      display: -ms-flex;
-      display: flex;
-      padding: 0 10px 12px;
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      color: rgba(255, 255, 255, 0.7);
-      white-space: nowrap;
-
-      &--center {
-        justify-content: center;
-      }
-
-      &:hover {
-        color: rgba(255, 255, 255, 1);
-
-        .menu__link-text {
-          &:after {
-            opacity: 1;
-          }
-        }
-      }
-    }
-  }
 
 
   .holdings {
@@ -1090,13 +980,16 @@
 }
 
 .submenu{
-  .submenu__link{
+  .submenu__item{
+    transition:.3s;
     &:hover{
+      background-color: rgba(242,246,250,.7);
       .menu__link-text{
         color: #94C2FF;
       }
     }
     .menu__link-text{
+      padding: 0;
       &::after{
         display: none;
       }
