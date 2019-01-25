@@ -63,7 +63,7 @@ export class DashboardWebSocketService implements OnDestroy {
         console.log('updated');
         return message;
       }))
-      .pipe(tap(() => this.currentCurrencyPair));
+      .pipe(map(() => this.currentCurrencyPair));
   }
 
   ngOnDestroy(): void {
