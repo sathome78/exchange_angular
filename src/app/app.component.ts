@@ -41,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isRegistrationMobilePopupOpen = false;
   isRecoveryPasswordPopupOpen = false;
   isRestoredPasswordPopupOpen = false;
+  isChangedPasswordPopupOpen = false;
   isAlreadyRestoredPasswordPopupOpen = false;
   isSessionTimeSavedPopupOpen = false;
   isOpenDemoTradingPopup = false;
@@ -84,6 +85,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForAlreadyRestoredPasswordPopup();
     this.subscribeForDemoTradingPopup();
     this.subscribeForSessionTimeSavedPopup();
+    this.subscribeForChangedPasswordPopup();
     // this.setClientIp();
     this.subscribeForNotifications();
     this.subscribeForAlreadyRegisteredPopup();
@@ -141,6 +143,14 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.isSessionTimeSavedPopupOpen = res;
+      });
+  }
+
+  subscribeForChangedPasswordPopup() {
+    this.popupService.getChangedPasswordPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.isChangedPasswordPopupOpen = res;
       });
   }
 
