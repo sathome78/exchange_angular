@@ -5,6 +5,7 @@ import {LoggingService} from '../../shared/services/logging.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable, Subscription} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
+import { PopupService } from 'app/shared/services/popup.service';
 
 @Component({
   selector: 'app-session',
@@ -35,6 +36,7 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   constructor(private settingsService: SettingsService,
               private logger: LoggingService,
+              private popupService: PopupService,
               private translateService: TranslateService) {
   }
 
@@ -48,7 +50,8 @@ export class SessionComponent implements OnInit, OnDestroy {
     if (this.value >= this.MIN_VALUE && this.value < this.MAX_VALUE) {
       this.settingsService.updateSessionInterval(this.value)
         .subscribe(resp => {
-            this.statusMessage = this.translateService.instant('Session period is updated!');
+            // this.statusMessage = this.translateService.instant('Session period is updated!');
+            this.popupService.toggleSessionTimeSavedPopup(true);
           },
           err => {
             const status = err['status'];
@@ -115,7 +118,7 @@ export class SessionComponent implements OnInit, OnDestroy {
   subscribeForMinutesUpdate() {
     this.minutesInputSubscription.subscribe(m => {
       const minutes = +m;
-      if (m === ('0' + minutes)) {
+      if ((minutes < 10 && m === ('0' + minutes)) || (minutes >= 10 && m === ('' + minutes))) {
         return;
       }
       if (this.HOURS === 2) {
@@ -133,6 +136,7 @@ export class SessionComponent implements OnInit, OnDestroy {
           this.minutesInput.setValue('0' + minutes);
           this.MINUTES = minutes;
         } else if (minutes >= 10 && minutes < 60) {
+          this.minutesInput.setValue(minutes + '');
           this.MINUTES = minutes;
         } else if (minutes >= 60) {
           this.minutesInput.setValue('59');
@@ -149,6 +153,7 @@ export class SessionComponent implements OnInit, OnDestroy {
           this.minutesInput.setValue('0' + minutes);
           this.MINUTES = minutes;
         } else if (minutes >= 10 && minutes < 60) {
+          this.minutesInput.setValue(minutes + '');
           this.MINUTES = minutes;
         } else if (minutes >= 60) {
           this.minutesInput.setValue('59');

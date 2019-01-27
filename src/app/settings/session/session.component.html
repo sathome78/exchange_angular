@@ -1,6 +1,6 @@
 <div class="settings__content">
   <h3 class="title settings__content-title">{{'Session Time' | translate}}</h3>
-  <h4> {{ statusMessage }}</h4>
+
   <div class="subtitle settings__content-subtitle">
     {{'This is the time period, which will hold you as logged in user after the last action. Session time may be from 5 till 120 minutes.' | translate}}
   </div>
@@ -67,6 +67,7 @@
 
       </div>
     </div>
+    <h4> {{ statusMessage }}</h4>
     <button
       class="btn settings__form-btn"
       [ngClass]="{'settings__form-btn--active': +oldValue !== +value}"

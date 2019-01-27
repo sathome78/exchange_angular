@@ -73,6 +73,7 @@ import {AlreadyRestoredPasswordPopupComponent} from './popups/already-restored-p
 import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup/already-registered-popup.component';
 import {RestoredPasswordPopupComponent} from './popups/restored-password-popup/restored-password-popup.component';
 import {MomentModule} from 'angular2-moment';
+import {SessionTimeSavedPopupComponent} from './popups/session-time-saved-popup/session-time-saved-popup.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -111,6 +112,7 @@ export function createTranslateLoader(http: HttpClient) {
     FinalRegistrationComponent,
     RecoveryPassComponent,
     FinalStepRecoveryPasswordComponent,
+    SessionTimeSavedPopupComponent,
 
     RefillSuccessfulComponent,
 
