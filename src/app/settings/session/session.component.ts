@@ -14,6 +14,7 @@ import {TranslateService} from '@ngx-translate/core';
 export class SessionComponent implements OnInit, OnDestroy {
 
   value = 0;
+  oldValue = 0;
   MIN_VALUE = 5;
   MAX_VALUE = 120;
   options: Options = {
@@ -55,17 +56,15 @@ export class SessionComponent implements OnInit, OnDestroy {
               this.statusMessage = this.translateService.instant('Session period is not updated!');
             }
           });
-    } else {
-      this.statusMessage = this.translateService.instant('Session must within 2 and 120 mins (2 hours)');
     }
   }
 
   setForm() {
     this.hoursInput = new FormControl(this.getHours(this.value), {
-      validators: [Validators.min(0), Validators.max(24)]
+      validators: [Validators.min(0), Validators.max(2)]
     });
     this.minutesInput = new FormControl(this.getMinutes(this.value), {
-      validators: [Validators.min(0), Validators.max(59), this.minutesRangeMatch.bind(this)]
+      validators: [Validators.min(0), Validators.max(59)]
     });
     this.form = new FormGroup({
       'hours': this.hoursInput,
@@ -79,38 +78,85 @@ export class SessionComponent implements OnInit, OnDestroy {
         this.minutesInput.patchValue(this.getMinutes(interval));
         this.hoursInput.patchValue(this.getHours(interval));
         this.value = interval;
+        this.oldValue = interval;
       },
       err => {
         this.logger.info(this, 'Failed to load session time: ' + err);
       });
   }
 
-  minutesRangeMatch(minutes: FormControl): { [s: string]: boolean } {
-    const h = +this.hoursInput.value;
-    const m = +minutes.value;
-    if (h > 23 && m > 0) {
-      return {'24hoursLimit': true};
-    }
-    return null;
-  }
-
   subscribeForHoursUpdate() {
     this.hoursInputSubscription.subscribe(h => {
-      const hours = +h;
-      if (hours >= 0 && hours <= 24) {
-        this.HOURS = hours;
-        this.updateValue();
+      if (h === null) {
+        this.hoursInput.setValue(0);
+        this.HOURS = 0;
+      } else if (+h >= 0 && +h <= 2) {
+        this.HOURS = +h;
+      } else if (+h > 2) {
+        this.hoursInput.setValue(2);
+        this.HOURS = 2;
+      } else if (+h < 0) {
+        this.hoursInput.setValue(0);
+        this.HOURS = 0;
       }
+
+      if (+h === 2) {
+        this.minutesInput.setValue('00');
+        this.MINUTES = 0;
+      }
+      if (+h === 0 && this.MINUTES < 5) {
+        this.minutesInput.setValue('05');
+        this.MINUTES = 5
+      }
+      this.updateValue();
     });
   }
 
   subscribeForMinutesUpdate() {
     this.minutesInputSubscription.subscribe(m => {
       const minutes = +m;
-      if (minutes >= 0 && minutes < 60) {
-        this.MINUTES = minutes;
-        this.updateValue();
+      if (m === ('0' + minutes)) {
+        return;
       }
+      if (this.HOURS === 2) {
+        this.minutesInput.setValue('00');
+        this.MINUTES = 0;
+
+      } else if (this.HOURS === 0) {
+        if (m === null) {
+          this.minutesInput.setValue('05');
+          this.MINUTES = 5;
+        } else if (minutes < 5) {
+          this.minutesInput.setValue('05');
+          this.MINUTES = 5;
+        } else if (minutes >= 5 && minutes < 10) {
+          this.minutesInput.setValue('0' + minutes);
+          this.MINUTES = minutes;
+        } else if (minutes >= 10 && minutes < 60) {
+          this.MINUTES = minutes;
+        } else if (minutes >= 60) {
+          this.minutesInput.setValue('59');
+          this.MINUTES = 59;
+        }
+      } else {
+        if (m === null) {
+          this.minutesInput.setValue('00');
+          this.MINUTES = 0;
+        } else if (minutes < 0) {
+          this.minutesInput.setValue('00');
+          this.MINUTES = 0;
+        } else if (minutes >= 0 && minutes < 10) {
+          this.minutesInput.setValue('0' + minutes);
+          this.MINUTES = minutes;
+        } else if (minutes >= 10 && minutes < 60) {
+          this.MINUTES = minutes;
+        } else if (minutes >= 60) {
+          this.minutesInput.setValue('59');
+          this.MINUTES = 59;
+        }
+      }
+
+      this.updateValue();
     });
   }
 
@@ -142,7 +188,7 @@ export class SessionComponent implements OnInit, OnDestroy {
   private subscribeForInputChanges() {
     this.hoursInputSubscription = this.hoursInput.valueChanges;
     this.subscribeForHoursUpdate();
-    this.minutesInputSubscription = this.form.get('minutes').valueChanges;
+    this.minutesInputSubscription = this.minutesInput.valueChanges;
     this.subscribeForMinutesUpdate();
   }
 
