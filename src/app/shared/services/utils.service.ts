@@ -8,7 +8,7 @@ export class UtilsService {
   private cache = {}
   private pattern = /(^$|(^([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
   private forbiddenSymbolsEmailRegex = /[!№#$%^&*<>()=']/ig;
-  private allowedSymbolsPasswordRegex = /[\@\*\%\!\#\^\&\$\<\>\.\(\)\-\_\=\+]/ig;
+  private passwordPattern = /(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9\@\*\%\!\#\^\&\$\<\>\.\(\)\-\_\=\+]{8,40})$/ig;
 
   isFiat(currencyName: string): boolean {
     if (typeof this.cache[currencyName] !== 'undefined') {
@@ -37,10 +37,8 @@ export class UtilsService {
   passwordCombinationValidator(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
       const value = control.value ? control.value.trim() : ''
-      const hasSpecialChar = new RegExp(this.allowedSymbolsPasswordRegex).test(value);
-      const hasNumber = new RegExp(/[0-9]/ig).test(value);
-      const hasChar = new RegExp(/[A-Za-z]/ig).test(value);
-      return (hasChar && hasNumber) || (hasChar && hasSpecialChar) ? null : {'passwordValidation': true};
+      const result  = new RegExp(this.passwordPattern).test(value);
+      return result ? null : {'passwordValidation': true};
     };
   }
 
