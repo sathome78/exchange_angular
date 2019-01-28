@@ -29,11 +29,13 @@
               <!--class="wrap-input__message">-->
               <!--Password is required.-->
             <!--</span>-->
+            <div class="input-hint-wrapper">
           <span
             class="wrap-input__message" [ngClass]="{'msg-error': (msgRed && !passwordForm.controls['password'].valid && passwordForm.controls['password'].touched)}" *ngIf="!passwordForm.valid" translate>
               <!--Should have 8 chars at least, symbols and numbers.-->
             Password cannot be less than 8 and more than 40 characters long and should contain of letters (a-z), numbers (0-9) and/or any combination of @*%!#^!&$<>.()-=+' characters
             </span>
+          </div>
           <!--<span-->
             <!--*ngIf=" passwordForm.controls['password'].errors['maxlength']"-->
             <!--class="wrap-input__message">-->
@@ -62,7 +64,9 @@
         <!--&gt;-->
           <!--</span>-->
         <!--Input error section starts-->
+
         <div *ngIf="passwordForm.controls['confirmPassword'].touched && passwordForm.controls['confirmPassword'].errors != null">
+          <div class="input-hint-wrapper">
              <span
                *ngIf="passwordForm.controls['confirmPassword'].errors['required']"
                class="wrap-input__message" translate>
@@ -73,6 +77,7 @@
                 class="wrap-input__message" translate>
               Passwords you provided do not match.
             </span>
+          </div>
         </div>
         <!--Input error section ends-->
       </div>
