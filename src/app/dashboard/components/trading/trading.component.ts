@@ -239,7 +239,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param value
    */
   setTotalInValue(value, orderType: string): void {
+    console.log(value)
     value = typeof value === 'string' ? value : this.exponentToNumber(value).toString();
+    console.log(value)
     orderType === this.BUY ?
       this.buyForm.controls['total'].setValue(value) :
       this.sellForm.controls['total'].setValue(value);
@@ -383,7 +385,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   private getCommissionNested(order: Order, type: string, setTotal: boolean) {
     if (setTotal) {
       if (order.rate && order.rate >= 0) {
-        order.total = order.amount * order.rate;
+        order.total = (((order.amount * order.rate) * 100) / 100);
         order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
         this.setTotalInValue(order.total, type);
       }
