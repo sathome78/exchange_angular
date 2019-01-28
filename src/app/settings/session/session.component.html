@@ -21,7 +21,10 @@
           class="wrap-input__input"
           [ngClass]="{'input--error': !hoursInput.valid && hoursInput.touched}"
           type="number"
+          min="0"
+          max="2"
           formControlName="hours"
+          (blur)="validateHours()"
         />
         <label class="wrap-input__label" for="">{{'Hours' | translate}}</label>
         <div class="wrap-input__line"></div>
@@ -44,6 +47,9 @@
           [ngClass]="{'input--error': !minutesInput.valid && minutesInput.touched}"
           type="number"
           formControlName="minutes"
+          min="0"
+          max="59"
+          (blur)="validateMinutes()"
         />
         <label class="wrap-input__label" for="">{{'Minutes' | translate}}</label>
         <div class="wrap-input__line"></div>

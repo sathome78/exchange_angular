@@ -16,6 +16,12 @@ import {HttpClient} from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {translateInfo} from '../shared/configs/translate-options';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {EffectsModule} from '@ngrx/effects';
+import {StoreModule} from '@ngrx/store';
+import {CoreEffects} from 'app/core/effects/core.effects';
+import {SettingsEffects} from './store/effects/settings.effects';
+import {reducer} from './store/reducers/settings.reducer';
+import {SharedModule} from 'app/shared/shared.module';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.settings, translateInfo.suffix);
@@ -28,6 +34,7 @@ export function createTranslateLoader(http: HttpClient) {
     Ng5SliderModule,
     ReactiveFormsModule,
     SettingsRoutingModule,
+    SharedModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -36,6 +43,8 @@ export function createTranslateLoader(http: HttpClient) {
       },
       isolate: true
     }),
+    EffectsModule.forRoot([CoreEffects, SettingsEffects]),
+    StoreModule.forFeature('settings', reducer),
   ],
   declarations: [
     EmailNotificationComponent,

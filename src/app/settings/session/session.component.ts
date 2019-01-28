@@ -3,9 +3,10 @@ import {Options} from 'ng5-slider';
 import {SettingsService} from '../settings.service';
 import {LoggingService} from '../../shared/services/logging.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
-import { PopupService } from 'app/shared/services/popup.service';
+import {PopupService} from 'app/shared/services/popup.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-session',
@@ -31,8 +32,7 @@ export class SessionComponent implements OnInit, OnDestroy {
   hoursInput: FormControl;
   minutesInput: FormControl;
 
-  hoursInputSubscription: Observable<string>;
-  minutesInputSubscription: Observable<string>;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private settingsService: SettingsService,
               private logger: LoggingService,
@@ -43,12 +43,12 @@ export class SessionComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadSessionInterval();
     this.setForm();
-    this.subscribeForInputChanges();
   }
 
   onSubmit() {
-    if (this.value >= this.MIN_VALUE && this.value < this.MAX_VALUE) {
+    if (this.value >= this.MIN_VALUE && this.value <= this.MAX_VALUE) {
       this.settingsService.updateSessionInterval(this.value)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(resp => {
             // this.statusMessage = this.translateService.instant('Session period is updated!');
             this.popupService.toggleSessionTimeSavedPopup(true);
@@ -76,93 +76,89 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   private loadSessionInterval() {
-    this.settingsService.getSessionInterval().subscribe(
-      interval => {
-        this.minutesInput.patchValue(this.getMinutes(interval));
-        this.hoursInput.patchValue(this.getHours(interval));
-        this.value = interval;
-        this.oldValue = interval;
-      },
-      err => {
-        this.logger.info(this, 'Failed to load session time: ' + err);
-      });
+    this.settingsService.getSessionInterval()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        interval => {
+          this.minutesInput.patchValue(this.getMinutes(interval));
+          this.hoursInput.patchValue(this.getHours(interval));
+          this.value = interval;
+          this.oldValue = interval;
+        },
+        err => {
+          this.logger.info(this, 'Failed to load session time: ' + err);
+        });
   }
 
-  subscribeForHoursUpdate() {
-    this.hoursInputSubscription.subscribe(h => {
-      if (h === null) {
-        this.hoursInput.setValue(0);
-        this.HOURS = 0;
-      } else if (+h >= 0 && +h <= 2) {
-        this.HOURS = +h;
-      } else if (+h > 2) {
-        this.hoursInput.setValue(2);
-        this.HOURS = 2;
-      } else if (+h < 0) {
-        this.hoursInput.setValue(0);
-        this.HOURS = 0;
-      }
+  validateHours() {
+    const h = this.hoursInput.value;
+    if (h === null) {
+      this.hoursInput.setValue(0);
+      this.HOURS = 0;
+    } else if (+h >= 0 && +h <= 2) {
+      this.HOURS = +h;
+    } else if (+h > 2) {
+      this.hoursInput.setValue(2);
+      this.HOURS = 2;
+    } else if (+h < 0) {
+      this.hoursInput.setValue(0);
+      this.HOURS = 0;
+    }
 
-      if (+h === 2) {
-        this.minutesInput.setValue('00');
-        this.MINUTES = 0;
-      }
-      if (+h === 0 && this.MINUTES < 5) {
+    if (+h === 2) {
+      this.minutesInput.setValue('00');
+      this.MINUTES = 0;
+    }
+    if (+h === 0 && this.MINUTES < 5) {
+      this.minutesInput.setValue('05');
+      this.MINUTES = 5
+    }
+    this.updateValue();
+  }
+
+  validateMinutes() {
+    const minutes = +this.minutesInput.value;
+    if (this.HOURS === 2) {
+      this.minutesInput.setValue('00');
+      this.MINUTES = 0;
+
+    } else if (this.HOURS === 0) {
+      if (this.minutesInput.value === null) {
         this.minutesInput.setValue('05');
-        this.MINUTES = 5
+        this.MINUTES = 5;
+      } else if (minutes < 5) {
+        this.minutesInput.setValue('05');
+        this.MINUTES = 5;
+      } else if (minutes >= 5 && minutes < 10) {
+        this.minutesInput.setValue('0' + minutes);
+        this.MINUTES = minutes;
+      } else if (minutes >= 10 && minutes < 60) {
+        this.minutesInput.setValue(minutes + '');
+        this.MINUTES = minutes;
+      } else if (minutes >= 60) {
+        this.minutesInput.setValue('59');
+        this.MINUTES = 59;
       }
-      this.updateValue();
-    });
-  }
-
-  subscribeForMinutesUpdate() {
-    this.minutesInputSubscription.subscribe(m => {
-      const minutes = +m;
-      if ((minutes < 10 && m === ('0' + minutes)) || (minutes >= 10 && m === ('' + minutes))) {
-        return;
-      }
-      if (this.HOURS === 2) {
+    } else {
+      if (this.minutesInput.value === null) {
         this.minutesInput.setValue('00');
         this.MINUTES = 0;
-
-      } else if (this.HOURS === 0) {
-        if (m === null) {
-          this.minutesInput.setValue('05');
-          this.MINUTES = 5;
-        } else if (minutes < 5) {
-          this.minutesInput.setValue('05');
-          this.MINUTES = 5;
-        } else if (minutes >= 5 && minutes < 10) {
-          this.minutesInput.setValue('0' + minutes);
-          this.MINUTES = minutes;
-        } else if (minutes >= 10 && minutes < 60) {
-          this.minutesInput.setValue(minutes + '');
-          this.MINUTES = minutes;
-        } else if (minutes >= 60) {
-          this.minutesInput.setValue('59');
-          this.MINUTES = 59;
-        }
-      } else {
-        if (m === null) {
-          this.minutesInput.setValue('00');
-          this.MINUTES = 0;
-        } else if (minutes < 0) {
-          this.minutesInput.setValue('00');
-          this.MINUTES = 0;
-        } else if (minutes >= 0 && minutes < 10) {
-          this.minutesInput.setValue('0' + minutes);
-          this.MINUTES = minutes;
-        } else if (minutes >= 10 && minutes < 60) {
-          this.minutesInput.setValue(minutes + '');
-          this.MINUTES = minutes;
-        } else if (minutes >= 60) {
-          this.minutesInput.setValue('59');
-          this.MINUTES = 59;
-        }
+      } else if (minutes < 0) {
+        this.minutesInput.setValue('00');
+        this.MINUTES = 0;
+      } else if (minutes >= 0 && minutes < 10) {
+        this.minutesInput.setValue('0' + minutes);
+        this.MINUTES = minutes;
+      } else if (minutes >= 10 && minutes < 60) {
+        this.minutesInput.setValue(minutes + '');
+        this.MINUTES = minutes;
+      } else if (minutes >= 60) {
+        this.minutesInput.setValue('59');
+        this.MINUTES = 59;
       }
+    }
 
-      this.updateValue();
-    });
+    this.updateValue();
   }
 
   private updateValue() {
@@ -178,6 +174,8 @@ export class SessionComponent implements OnInit, OnDestroy {
     this.minutesInput.patchValue(this.MINUTES);
     // this.subscribeForInputChanges();
     this.statusMessage = '';
+    this.validateHours();
+    this.validateMinutes();
   }
 
   getMinutes(interval: number) {
@@ -190,15 +188,10 @@ export class SessionComponent implements OnInit, OnDestroy {
     return this.HOURS;
   }
 
-  private subscribeForInputChanges() {
-    this.hoursInputSubscription = this.hoursInput.valueChanges;
-    this.subscribeForHoursUpdate();
-    this.minutesInputSubscription = this.minutesInput.valueChanges;
-    this.subscribeForMinutesUpdate();
-  }
+
 
   ngOnDestroy(): void {
-    this.hoursInputSubscription = undefined;
-    this.minutesInputSubscription = undefined;
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
