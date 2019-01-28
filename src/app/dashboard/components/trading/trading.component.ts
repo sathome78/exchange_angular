@@ -239,9 +239,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param value
    */
   setTotalInValue(value, orderType: string): void {
-    console.log(value)
     value = typeof value === 'string' ? value : this.exponentToNumber(value).toString();
-    console.log(value)
     orderType === this.BUY ?
       this.buyForm.controls['total'].setValue(value) :
       this.sellForm.controls['total'].setValue(value);
