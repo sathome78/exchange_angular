@@ -48,7 +48,7 @@ export class TransactionHistoryComponent implements OnInit {
     disableSince: {
       year: new Date().getFullYear(),
       month: new Date().getMonth() + 1,
-      day: new Date().getDate()
+      day: new Date().getDate() + 1,
     }
   };
 
@@ -119,7 +119,6 @@ export class TransactionHistoryComponent implements OnInit {
     /** Initialized to current date */
     const currentDate = new Date();
 
-
     this.modelDateTo = {
       date: {
         year: currentDate.getFullYear(),
@@ -128,15 +127,11 @@ export class TransactionHistoryComponent implements OnInit {
       }
     };
 
-    /** get yesterday's date */
-    const dateFromTimestamp = currentDate.setDate(currentDate.getDate() - 1);
-    const dateFrom = new Date(dateFromTimestamp);
-
     this.modelDateFrom = {
       date: {
-        year: dateFrom.getFullYear(),
-        month: dateFrom.getMonth() + 1,
-        day: dateFrom.getDate()
+        year: currentDate.getFullYear(),
+        month: currentDate.getMonth() + 1,
+        day: currentDate.getDate()
       }
     };
   }

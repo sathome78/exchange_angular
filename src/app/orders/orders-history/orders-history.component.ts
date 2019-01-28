@@ -29,6 +29,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public countOfEntries: number = 0;
   public currencyPairs$: Observable<SimpleCurrencyPair[]>;
   public loading$: Observable<boolean>;
+  public isLast15Items$: Observable<boolean>;
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -48,7 +49,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     disableSince: {
       year: new Date().getFullYear(),
       month: new Date().getMonth() + 1,
-      day: new Date().getDate()
+      day: new Date().getDate() + 1,
     }
   };
 
@@ -62,6 +63,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
 
     this.currencyPairs$ = store.pipe(select(mainSelectors.getSimpleCurrencyPairsSelector));
     this.loading$ = store.pipe(select(ordersReducer.getLoadingSelector));
+    this.isLast15Items$ = store.pipe(select(ordersReducer.getLast15ItemsSelector))
 
     const componentHeight = window.innerHeight;
     this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
@@ -71,6 +73,13 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.countOfEntries$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((items) => this.countOfEntries = items)
+    this.isLast15Items$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((val) => {
+        if(!val) {return};
+        this.modelDateFrom = null;
+        this.modelDateTo = null;
+      })
   }
 
   ngOnInit() {
@@ -80,10 +89,10 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     }
     this.initDate();
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
-    this.loadOrders();
+    this.loadOrders(true);
   }
 
-  loadOrders() {
+  loadOrders(initial = false) {
     if(this.isDateRangeValid()){
       const params = {
         page: this.currentPage,
@@ -92,6 +101,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
         dateTo: this.formatDate(this.modelDateTo.date),
         hideCanceled: this.hideAllCanceled,
         currencyPairName: this.currencyPairValue,
+        initial,
       }
       this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
     }
@@ -216,7 +226,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     /** Initialized to current date */
     const currentDate = new Date();
 
-
     this.modelDateTo = {
       date: {
         year: currentDate.getFullYear(),
@@ -225,15 +234,11 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       }
     };
 
-    /** get yesterday's date */
-    const dateFromTimestamp = currentDate.setDate(currentDate.getDate() - 1);
-    const dateFrom = new Date(dateFromTimestamp);
-
     this.modelDateFrom = {
       date: {
-        year: dateFrom.getFullYear(),
-        month: dateFrom.getMonth() + 1,
-        day: dateFrom.getDate()
+        year: currentDate.getFullYear(),
+        month: currentDate.getMonth() + 1,
+        day: currentDate.getDate()
       }
     };
   }
