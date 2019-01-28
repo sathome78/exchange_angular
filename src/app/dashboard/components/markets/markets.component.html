@@ -157,7 +157,7 @@
                         [ngClass]="{'arr--green': isChangePositive(pair), 'arr--red': !isChangePositive(pair)}"></span>
                 </div>
                 <div class="table__cell table__cell--p4 table__cell--tar" style="width: 25%;" (click)="onSelectCurrencyPair(pair)">
-                  <span style="font-size: 10px; color:#A0A0A0">{{ +pair.volume | number: '1.0-0' | replaceNumber}}</span>
+                  <span style="font-size: 10px; color:#A0A0A0">{{ +pair.currencyVolume | roundCurrency:splitPairName(pair)[1] | formatCurrency:'short':splitPairName(pair)[1]}}</span>
                 </div>
               </div>
             </ng-container>
@@ -255,7 +255,7 @@
               <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
                 <span>{{splitPairName(pair)[0]}}</span>
                 <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
-                <div class="txt-small txt-light-grey">Vol {{ +pair.volume | number: '1.0-0' | replaceNumber}}</div>
+                <div class="txt-small txt-light-grey">Vol {{ +pair.currencyVolume | roundCurrency:splitPairName(pair)[1] | formatCurrency:'short':splitPairName(pair)[1]}}</div>
               </div>
               <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
                 <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
