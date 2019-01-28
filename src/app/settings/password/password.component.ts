@@ -52,7 +52,7 @@ export class PasswordComponent implements OnInit {
     });
     this.passwordSecond = new FormControl('', {
       validators: [
-        Validators.required,
+        // Validators.required,
         // Validators.minLength(8),
         // Validators.maxLength(40),
         // this.utilsService.passwordCombinationValidator(),
