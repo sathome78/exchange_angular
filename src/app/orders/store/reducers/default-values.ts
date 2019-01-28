@@ -4,4 +4,5 @@ export const defaultValues = {
   historyOrders: [],
   countHistoryOrders: 0,
   currencyPairs: [],
+  isLast15Items: false,
 };
