@@ -40,32 +40,42 @@
           <span class="menu__link-text">{{'Trade' | translate}}</span>
         </a>
       </li>
-      <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated()"
-          routerLinkActive="menu__link--active"><a class="menu__link menu__link&#45;&#45;drop"><span
-        class="menu__link-text">{{'Funds' | translate}}</span></a>
+      <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated()">
+        <a class="menu__link menu__link&#45;&#45;drop">
+          <span class="menu__link-text">{{'Funds' | translate}}</span>
+        </a>
         <!-- <li class="menu__item menu__item--with-submenu" ><a class="menu__link menu__link--drop"><span class="menu__link-text">Funds</span></a> -->
         <div class="submenu">
           <ul class="menu submenu__list">
-            <li class="submenu__item"><a class="submenu__link" routerLink="/funds/balance"
-                                         routerLinkActive="menu__link--active"><span
-              class="menu__link-text">{{'Balance' | translate}}</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" routerLink="/funds/transaction-history"
-                                         routerLinkActive="menu__link--active"><span class="menu__link-text">{{'Transaction history' | translate}}</span></a>
+            <li class="submenu__item">
+              <a class="submenu__link" routerLink="/funds/balance">
+                <span class="menu__link-text">{{'Balance' | translate}}</span>
+              </a>
+            </li>
+            <li class="submenu__item">
+              <a class="submenu__link" routerLink="/funds/transaction-history">
+                <span class="menu__link-text">{{'Transaction history' | translate}}</span>
+              </a>
             </li>
           </ul>
         </div>
       </li>
-      <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated()"
-          routerLinkActive="menu__link--active"><a class="menu__link menu__link&#45;&#45;drop"><span
-        class="menu__link-text">{{'Orders' | translate}}</span></a>
+      <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated()">
+        <a class="menu__link menu__link&#45;&#45;drop">
+          <span class="menu__link-text">{{'Orders' | translate}}</span>
+        </a>
         <!-- <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" ><span class="menu__link-text">Orders</span></a> -->
         <div class="submenu">
           <ul class="menu submenu__list">
-            <li class="submenu__item"><a class="submenu__link" routerLink="/orders/open"
-                                         routerLinkActive="menu__link--active"><span
-              class="menu__link-text">{{'Open orders' | translate}}</span></a></li>
-            <li class="submenu__item"><a class="submenu__link" routerLink="/orders/closed"
-                                         routerLinkActive="menu__link--active"><span class="menu__link-text">{{'Orders history' | translate}}</span></a>
+            <li class="submenu__item">
+              <a class="submenu__link" routerLink="/orders/open">
+                <span class="menu__link-text">{{'Open orders' | translate}}</span>
+              </a>
+            </li>
+            <li class="submenu__item">
+              <a class="submenu__link" routerLink="/orders/closed">
+                <span class="menu__link-text">{{'Orders history' | translate}}</span>
+              </a>
             </li>
           </ul>
         </div>
