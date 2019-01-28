@@ -61,6 +61,9 @@
       <div *ngIf="isAlreadyRestoredPasswordPopupOpen">
         <app-already-restored-password-popup></app-already-restored-password-popup>
       </div>
+      <div *ngIf="isSessionTimeSavedPopupOpen">
+        <app-session-time-saved-popup></app-session-time-saved-popup>
+      </div>
 
       <div *ngIf="isChangedPasswordPopupOpen">
         <app-password-changed-popup></app-password-changed-popup>

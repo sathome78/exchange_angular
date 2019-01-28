@@ -15,6 +15,7 @@ export class PopupService {
   private onAlreadyRegisteredPopupListener = new Subject<boolean>();
   private onAlreadyRestoredPasswordPopupListener = new Subject<boolean>();
   private onRestoredPasswordPopupListener = new Subject<boolean>();
+  private onSessionTimeSavedPopupListener = new Subject<boolean>();
   private onChangedPasswordPopupListener = new Subject<boolean>();
   private stepListener = new Subject<number>();
   private currentStep = 1;
@@ -111,6 +112,10 @@ export class PopupService {
 
   public getAlreadyRestoredPasswordPopupListener(): Subject<boolean> {
     return this.onAlreadyRestoredPasswordPopupListener;
+  }
+
+  public getSessionTimeSavedPopupListener(): Subject<boolean> {
+    return this.onSessionTimeSavedPopupListener;
   }
 
   public getRegistrationMobilePopupListener(): Subject<boolean> {
@@ -214,6 +219,10 @@ export class PopupService {
 
   toggleRestoredPasswordPopup(state: boolean) {
     this.onRestoredPasswordPopupListener.next(state);
+  }
+
+  toggleSessionTimeSavedPopup(state: boolean) {
+    this.onSessionTimeSavedPopupListener.next(state);
   }
 
   toggleChangedPasswordPopup(state: boolean) {
