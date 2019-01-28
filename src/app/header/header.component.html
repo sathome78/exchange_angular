@@ -71,7 +71,7 @@
         </div>
       </li>
       <!-- <li class="menu__item" routerLinkActive="menu__link--active">
-        
+
       </li> -->
     </ul>
     <!--<ul class="menu">-->
@@ -220,7 +220,7 @@
               ${{(myBalance | async)?.USD | roundCurrency: 'USD' | formatCurrency}}
             </span>
           </div>
-          <a class="menu__link login-menu__link" routerLink="/settings" (click)="tempPopup()" *ngIf="isVisible()">
+          <a class="menu__link login-menu__link" routerLink="/settings" (click)="tempPopup()" *ngIf="isAuthenticated()">
             <span class="menu__link-text">{{'Settings' | translate}}</span>
           </a>
           <a class="menu__link login-menu__link menu__link--auth--log" (click)="onLogout()" style="padding-bottom: 16px;">
@@ -375,7 +375,7 @@
 </svg>
       </button>
       <div class="translate__container">
-        
+
       </div>
     </div>
   </div>

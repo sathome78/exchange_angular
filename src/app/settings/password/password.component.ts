@@ -6,6 +6,7 @@ import {HttpEvent, HttpEventType} from '@angular/common/http';
 import {NotificationsService} from '../../shared/components/notification/notifications.service';
 import {TranslateService} from '@ngx-translate/core';
 import {UtilsService} from 'app/shared/services/utils.service';
+import {PopupService} from 'app/shared/services/popup.service';
 
 @Component({
   selector: 'app-password',
@@ -25,7 +26,7 @@ export class PasswordComponent implements OnInit {
   statusMessage: string;
 
   constructor(private logger: LoggingService,
-              private notificationService: NotificationsService,
+              private popupService: PopupService,
               private settingsService: SettingsService,
               private utilsService: UtilsService,
               private translateService: TranslateService) {
@@ -36,9 +37,9 @@ export class PasswordComponent implements OnInit {
     this.passwordCurrent = new FormControl('', {
       validators: [
         Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(40),
-        this.utilsService.passwordCombinationValidator()
+        // Validators.minLength(8),
+        // Validators.maxLength(40),
+        // this.utilsService.passwordCombinationValidator()
       ]
     });
     this.passwordFirst = new FormControl('', {
@@ -52,9 +53,9 @@ export class PasswordComponent implements OnInit {
     this.passwordSecond = new FormControl('', {
       validators: [
         Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(40),
-        this.utilsService.passwordCombinationValidator(),
+        // Validators.minLength(8),
+        // Validators.maxLength(40),
+        // this.utilsService.passwordCombinationValidator(),
         this.utilsService.passwordMatchValidator(this.passwordFirst)
       ]
     });
@@ -73,30 +74,20 @@ export class PasswordComponent implements OnInit {
       const password = this.passwordFirst.value;
       this.logger.debug(this, 'Attempt to submit new password: ' + password);
       this.settingsService.updateMainPassword(cur_password, password)
-        .subscribe((event: HttpEvent<Object>) => {
-            if (event.type === HttpEventType.Sent) {
-              this.logger.debug(this, 'Password is successfully updated: ' + password);
-              this.statusMessage = this.translateService.instant('Your password is successfully updated!');
-              this.form.reset();
-              this.notificationService.message.emit({
-                iconLink: './assets/img/shield.svg',
-                type: 'primary',
-                message: this.translateService.instant('Your password is successfully updated!')
-              });
-            }
+        .subscribe(
+          (event) => {
+            this.logger.debug(this, 'Password is successfully updated: ' + password);
+            this.form.reset();
+            this.popupService.toggleChangedPasswordPopup(true);
           },
           err => {
             const status = err['status'];
-            if (status >= 400) {
+            if (status === 400) {
               this.logger.info(this, 'Failed to update user password: ' + password);
-              this.statusMessage = this.translateService.instant('Failed to update your password!');
+              this.passwordCurrent.setErrors({'wrong_password': true})
             }
-            this.notificationService.message.emit({
-              iconLink: './assets/img/shield.svg',
-              type: 'error',
-              message: this.translateService.instant('Failed to update your password!')
-            });
-          });
+          }
+        );
     }
   }
 

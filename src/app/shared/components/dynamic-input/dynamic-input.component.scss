@@ -73,10 +73,19 @@ ul.select__list {
 app-balance{
 
 .ps__rail-y {
-  
+
   margin-right: 2px !important;
 }
 }
 app-balance  perfect-scrollbar > .ps.ps--active-y > .ps__rail-y{
     background-color: rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .clear-icon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
   }
