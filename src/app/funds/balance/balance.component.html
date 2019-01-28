@@ -113,7 +113,7 @@
           <app-dynamic-input
             *ngSwitchCase="Tab.PR"
             [value]="currValue"
-            [options]="(allCurrenciesForChoose$ | async) | dynamicIData: 'name': 'id'"
+            [options]="(allCurrenciesForChoose$ | async) | dynamicIData: 'name': 'name'"
             (onChange)="onChangeCurrPair($event)"
             (onSelect)="onSelectPair($event.id)"
           ></app-dynamic-input>
