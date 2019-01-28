@@ -57,9 +57,15 @@
       <div *ngIf="isOpenAlreadyRegisteredPopup">
         <app-already-registered-popup></app-already-registered-popup>
       </div>
+
       <div *ngIf="isAlreadyRestoredPasswordPopupOpen">
         <app-already-restored-password-popup></app-already-restored-password-popup>
       </div>
+
+      <div *ngIf="isChangedPasswordPopupOpen">
+        <app-password-changed-popup></app-password-changed-popup>
+      </div>
+
       <div *ngIf="isOpenDemoTradingPopup">
         <app-demo-trading-popup
         [message]="popupService.demoPopupMessage"
