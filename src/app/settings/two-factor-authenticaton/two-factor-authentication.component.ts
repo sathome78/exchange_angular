@@ -4,6 +4,7 @@ import {LoggingService} from '../../shared/services/logging.service';
 import {SettingsService} from '../settings.service';
 import {UserService} from '../../shared/services/user.service';
 import {AuthService} from '../../shared/services/auth.service';
+import {GoogleAuthenticatorService} from '../../popups/two-factor-popup/google/google-authenticator.service';
 
 @Component({
   selector: 'app-two-factor-authentication',
@@ -18,7 +19,7 @@ export class TwoFactorAuthenticationComponent implements OnInit {
               private logger: LoggingService,
               private userService: UserService,
               private authService: AuthService,
-              private settingsService: SettingsService) {
+              private googleAuthService: GoogleAuthenticatorService) {
   }
 
   ngOnInit() {
@@ -43,6 +44,7 @@ export class TwoFactorAuthenticationComponent implements OnInit {
       this.popupService.showTFAPopup('GOOGLE');
     } else {
       this.popupService.showTFAPopup('GOOGLE_DISABLED');
+      this.googleAuthService.sendMePincode();
     }
   }
 

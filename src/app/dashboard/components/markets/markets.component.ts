@@ -172,6 +172,12 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     if (market === 'FAVORITES') {
       return this.currencyPairs.filter(pair => pair.isFavourite);
     }
+    if (market === 'LOC') {
+      return this.currencyPairs.filter(f => f.market
+        && f.market.toUpperCase() !== 'USD'
+        && f.market.toUpperCase() !== 'BTC'
+        && f.market.toUpperCase() !== 'ETH');
+    }
     return this.currencyPairs.filter(f => f.market && f.market.toUpperCase() === market.toUpperCase());
   }
 

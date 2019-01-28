@@ -24,7 +24,7 @@ export class SettingsService {
       currentPassword: encodedCurrPassword,
       newPassword: encodedNewPassword
     };
-    return this.http.put(this.getUrl('updateMainPassword'), body, {observe: 'events'});
+    return this.http.put(this.getUrl('updateMainPassword'), body);
   }
 
   getNickname(): Observable<any> {

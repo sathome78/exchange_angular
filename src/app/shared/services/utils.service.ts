@@ -47,7 +47,7 @@ export class UtilsService {
   passwordMatchValidator(firstFieldValue): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
       const value = control.value ? control.value.trim() : '';
-      return value === firstFieldValue.value ? null : {'passwordsNotMatch': true}
+      return value === firstFieldValue.value && value.length === firstFieldValue.value.length ? null : {'passwordsNotMatch': true}
     };
   }
 
