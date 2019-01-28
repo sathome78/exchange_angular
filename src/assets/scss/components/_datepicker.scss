@@ -9,7 +9,13 @@
   border-radius: 4px!important;
   font-size: 14px;
 }
+.mydp .selectiongroup *,.mydp .selector *{
 
+  font-family: Roboto;
+}
+.mydp .selector{
+  height: auto!important;
+}
 .selectiongroup {
   height: 100%;
   background-color: transparent !important;
@@ -88,3 +94,87 @@
   .dark-theme{}
 }
 /*--- DARK THEME END---*/
+.mydp .daycell, .mydp .monthcell, .mydp .weekdaytitle, .mydp .yearcell {
+    padding: 4px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.mydp .selector .highlight.currmonth {
+    color: #EB5757;
+}
+.mydp .selector .currmonth {
+    color: #237BEF;
+}
+
+.mydp .selector .nextmonth, .mydp .selector .prevmonth {
+    color: #191A39;
+}
+
+.mydp thead .weekdaytitle{
+  background-color: #fff;
+  color: #191A39;
+}
+
+
+.mydp .headertodaybtn {
+    display: flex;
+}
+
+.mydp .headertodaybtn .icon-mydptoday{
+    margin-right: 2px;
+}
+.mydp table .currmonth{
+  background-color: transparent;
+}
+
+.mydp table .tablesingleday:hover, .mydp table .tablesinglemonth:hover, .mydp table .tablesingleyear:hover {
+    background-color: #F1F3F4;
+}
+
+.mydp table .header{
+  background-color: transparent;
+}
+
+.mydp table .disabled, .mydp table .disabled .currmonth:not(.markcurrday){
+  background: none;
+}
+.mydp table .disabled span:not(.markcurrday){
+  color: #191A39;
+  opacity: .5;
+
+}
+
+.mydp .header td:not(:nth-child(2)) .mydpicon:before{
+    font-size: 15px;
+    line-height: .8;
+    color: #94C2FF;
+    transition:.3s;
+}
+
+.mydp .header td:not(:nth-child(2)) .headerbtndisabled:before{
+    color: #191A39;
+}
+
+
+.mydp .header td:not(:nth-child(2)) .mydpicon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mydp .header td:not(:nth-child(2)) .mydpicon:not(.headerbtndisabled):hover:before{
+  color: #237BEF;
+}
+
+.mydp table .caltable, .mydp table .monthtable, .mydp table .yeartable{
+      height: calc(100% - 10px);
+}
+
+.mydp table .daycell .datevalue{
+  line-height: 1.9;
+}
+
+.mydp table .selectedday .datevalue, .mydp table .selectedmonth .monthvalue, .mydp table .selectedyear .yearvalue{
+  background-color: #94C2FF;
+}
