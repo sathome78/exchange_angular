@@ -25,16 +25,30 @@ export class SettingsEffects {
   }
 
   /**
-   * Load open orders
+   * Load GA status
    */
   @Effect()
-  loadOpenOrders$: Observable<Action> = this.actions$
+  loadGAStatus$: Observable<Action> = this.actions$
     .pipe(ofType<settingsActions.LoadGAStatusAction>(settingsActions.LOAD_GA_STATUS))
     .pipe(switchMap((action) => {
       return this.userService.getUserGoogleLoginEnabled(action.payload)
         .pipe(
           map(status => new settingsActions.SetGAStatusAction(status)),
           catchError(error => of(new settingsActions.FailLoadGAStatusAction(error)))
+        )
+    }))
+
+  /**
+   * Load session time
+   */
+  @Effect()
+  loadSessionTime$: Observable<Action> = this.actions$
+    .pipe(ofType<settingsActions.LoadSessionTimeAction>(settingsActions.LOAD_SESSION_TIME))
+    .pipe(switchMap((action) => {
+      return this.settingsService.getSessionInterval()
+        .pipe(
+          map(time => new settingsActions.SetSessionTimeAction(time)),
+          catchError(error => of(new settingsActions.FailLoadSessionTimeAction(error)))
         )
     }))
 

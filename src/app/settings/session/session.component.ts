@@ -7,6 +7,8 @@ import {Observable, Subject} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {PopupService} from 'app/shared/services/popup.service';
 import {takeUntil} from 'rxjs/operators';
+import {select, Store} from '@ngrx/store';
+import * as fromCore from '../../core/reducers';
 
 @Component({
   selector: 'app-session',
@@ -31,18 +33,29 @@ export class SessionComponent implements OnInit, OnDestroy {
   form: FormGroup;
   hoursInput: FormControl;
   minutesInput: FormControl;
+  sessionTime$: Observable<number>;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private settingsService: SettingsService,
               private logger: LoggingService,
               private popupService: PopupService,
+              private store: Store<fromCore.State>,
               private translateService: TranslateService) {
   }
 
   ngOnInit() {
-    this.loadSessionInterval();
+    // this.loadSessionInterval();
     this.setForm();
+    this.sessionTime$ = this.store.pipe(select(fromCore.getSessionTime))
+    this.sessionTime$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((interval) => {
+        this.minutesInput.patchValue(this.getMinutes(interval));
+        this.hoursInput.patchValue(this.getHours(interval));
+        this.value = interval;
+        this.oldValue = interval;
+      })
   }
 
   onSubmit() {
@@ -75,20 +88,20 @@ export class SessionComponent implements OnInit, OnDestroy {
     });
   }
 
-  private loadSessionInterval() {
-    this.settingsService.getSessionInterval()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(
-        interval => {
-          this.minutesInput.patchValue(this.getMinutes(interval));
-          this.hoursInput.patchValue(this.getHours(interval));
-          this.value = interval;
-          this.oldValue = interval;
-        },
-        err => {
-          this.logger.info(this, 'Failed to load session time: ' + err);
-        });
-  }
+  // private loadSessionInterval() {
+  //   this.settingsService.getSessionInterval()
+  //     .pipe(takeUntil(this.ngUnsubscribe))
+  //     .subscribe(
+  //       interval => {
+  //         this.minutesInput.patchValue(this.getMinutes(interval));
+  //         this.hoursInput.patchValue(this.getHours(interval));
+  //         this.value = interval;
+  //         this.oldValue = interval;
+  //       },
+  //       err => {
+  //         this.logger.info(this, 'Failed to load session time: ' + err);
+  //       });
+  // }
 
   validateHours() {
     const h = this.hoursInput.value;

@@ -30,6 +30,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
     // this.lang$.subscribe(lang => this.translate.use(lang));
     this.store.dispatch(new settingsActions.LoadGAStatusAction(this.authService.getUsername()));
+    this.store.dispatch(new settingsActions.LoadSessionTimeAction());
   }
 
 }

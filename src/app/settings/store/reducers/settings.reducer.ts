@@ -37,6 +37,20 @@ export function reducer(state: State = INIT_STATE, action: settingsActions.Actio
         GALoading: false,
       };
 
+    case settingsActions.LOAD_SESSION_TIME:
+      return {...state, loading: true};
+    case settingsActions.SET_SESSION_TIME:
+      return {
+        ...state,
+        loading: false,
+        sessionTime: +action.payload,
+      };
+    case settingsActions.FAIL_LOAD_SESSION_TIME:
+      return {
+        ...state,
+        loading: false,
+      };
+
     default :
       return state;
   }
