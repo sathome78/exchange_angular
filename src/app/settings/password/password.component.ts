@@ -73,7 +73,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.showFormErrors();
     if (this.form.valid) {
-      const cur_password = this.passwordCurrent.value;
+      const cur_password = this.passwordCurrent.value || '';
       const password = this.passwordFirst.value;
       this.logger.debug(this, 'Attempt to submit new password: ' + password);
       this.settingsService.updateMainPassword(cur_password, password)
