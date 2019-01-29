@@ -55,6 +55,8 @@ export class SessionComponent implements OnInit, OnDestroy {
         this.hoursInput.patchValue(this.getHours(interval));
         this.value = interval;
         this.oldValue = interval;
+        this.validateHours();
+        this.validateMinutes();
       })
   }
 
@@ -69,7 +71,7 @@ export class SessionComponent implements OnInit, OnDestroy {
           err => {
             const status = err['status'];
             if (status >= 400) {
-              this.statusMessage = this.translateService.instant('Session period is not updated!');
+              // this.statusMessage = this.translateService.instant('Session period is not updated!');
             }
           });
     }
@@ -87,21 +89,6 @@ export class SessionComponent implements OnInit, OnDestroy {
       'minutes': this.minutesInput,
     });
   }
-
-  // private loadSessionInterval() {
-  //   this.settingsService.getSessionInterval()
-  //     .pipe(takeUntil(this.ngUnsubscribe))
-  //     .subscribe(
-  //       interval => {
-  //         this.minutesInput.patchValue(this.getMinutes(interval));
-  //         this.hoursInput.patchValue(this.getHours(interval));
-  //         this.value = interval;
-  //         this.oldValue = interval;
-  //       },
-  //       err => {
-  //         this.logger.info(this, 'Failed to load session time: ' + err);
-  //       });
-  // }
 
   validateHours() {
     const h = this.hoursInput.value;
@@ -200,8 +187,6 @@ export class SessionComponent implements OnInit, OnDestroy {
     this.HOURS = parseInt((interval / 60) + '', 0);
     return this.HOURS;
   }
-
-
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
