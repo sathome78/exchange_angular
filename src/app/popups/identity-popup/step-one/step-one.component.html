@@ -1,96 +1,43 @@
-<div class="title modal__title">{{'Identity Verification' | translate}}</div>
-<div class="subtitle modal__subtitle">
-  <p>{{'Please fill this form below' | translate}}</p>
+<div class="title title-id modal__title">{{'Identity Verification' | translate}}</div>
+<div class="subtitle subtitle-id modal__subtitle">
+  <p>The information you fill in must be co consistent with the information in ID documents.</p>
 </div>
-<form class="passport-form" [formGroup]="form">
-  <div class="passport-form__content-row">
-    <div class="wrap-input passport-form__input">
-      <input
-        class="wrap-input__input"
-        type="text"
-        formControlName="firstName">
-      <label class="wrap-input__label">{{'First name' | translate}}</label>
-      <div class="wrap-input__line"></div>
+<form class="country-form" [formGroup]="form">
+  <div class="input-wr">
+    <!-- вместо этого - можна мне в этот контейнер вставить селект из депозита - я его после этого застилизую -->
+    <div class="select refill__select refill__select--cripto">
+      <div class="select__value">
+        <img _ngcontent-c51="" class="select__list-item-icon" src="assets/img/flag-ind.svg">
+        Indonesia 
+        <div class="select__triangle">
+
+        </div>
+      </div>
+      <div class="select__label">Country</div>
     </div>
-    <div class="wrap-input passport-form__input">
-      <input
-        class="wrap-input__input"
-        type="text"
-        formControlName="lastName"
-      >
-      <label class="wrap-input__label">{{'Last name' | translate}}</label>
-      <div class="wrap-input__line"></div>
-    </div>
-    <div class="wrap-input passport-form__input">
-      <!--<input-->
-      <!--class="input input&#45;&#45;with-icon"-->
-      <!--type="text"-->
-      <!--formControlName="born">-->
+    <!-- выпадающий список -->
 
-      <my-date-picker
-        name="born"
-        [options]="myDatePickerOptions"
-
-        formControlName="born">
-
-      </my-date-picker>
-      <style>
-
-      </style>
-      <!--<span class="wrap-input__icon">-->
-      <!--<img src="../../../../assets/img/calendar.svg">-->
-      <!--</span>-->
-      <!--<label class="wrap-input__label wrap-input__label&#45;&#45;with-icon">Date of birth</label>-->
-      <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
-    </div>
-    <div class="wrap-input passport-form__input passport-form__input--mob-only">
-      <input
-        class="wrap-input__input"
-        type="text"
-        formControlName="address"
-      >
-      <label class="wrap-input__label">{{'Residental address' | translate}}</label>
-      <div class="wrap-input__line"></div>
+    <!-- <div class="select__list-searching select__list-searching ng-star-inserted">
+      <div class="select__searching-item ng-star-inserted">
+        <img class="select__list-item-icon" src="assets/img/flag-ind.svg">
+        <span>Indonesia</span>
+      </div>
+    </div> -->
+  </div>
+  <div class="input-wr">
+    <div class="wrap-input popup__wrap-input">
+      <input class="wrap-input__input ng-dirty ng-valid ng-touched" type="text">
+      <label class="wrap-input__label" for="">Language</label>
     </div>
   </div>
-  <div class="passport-form__content-row">
-    <div class="wrap-input passport-form__input passport-form__input--big">
-      <input
-        class="wrap-input__input"
-        type="text"
-        formControlName="address"
-      >
-      <label class="wrap-input__label">{{'Residental address' | translate}}</label>
-      <div class="wrap-input__line"></div>
-    </div>
-    <div class="wrap-input passport-form__input">
-      <input
-        class="wrap-input__input"
-        type="text"
-        formControlName="postalCode">
-      <label class="wrap-input__label">{{'Postal code' | translate}}</label>
-      <div class="wrap-input__line"></div>
-    </div>
-  </div>
-  <div class="passport-form__content-row passport-form__content-row--no-wrap">
-    <div class="wrap-input passport-form__input passport-form__input--half">
-      <input
-        class="wrap-input__input"
-        type="text"
-        formControlName="country"
-      >
-      <label class="wrap-input__label">{{'Country' | translate}}</label>
-      <div class="wrap-input__line"></div>
-    </div>
-    <div class="wrap-input passport-form__input passport-form__input--half">
-      <input
-        class="wrap-input__input"
-        type="text"
-        formControlName="city"
-      >
-      <label class="wrap-input__label">{{'City' | translate}}</label>
-      <div class="wrap-input__line"></div>
-    </div>
-  </div>
-  <button class="btn btn--center" (click)="onSubmit()">{{'Submit' | translate}}</button>
+  <div class="button-wr">
+    <button class="btn btn--center verification-btn">
+      <span class="btn-text">
+        Verification
+      </span>
+    </button>
+  </div> 
+  
 </form>
+
+
