@@ -18,14 +18,14 @@ export class TwoFactorAuthenticationComponent implements OnInit {
 
   public isGoogleTwoFaEnabled = false;
   GAEnabled$: Observable<boolean>;
-  loading$ : Observable<boolean>;
+  loading$: Observable<boolean>;
 
   constructor(private popupService: PopupService,
               private logger: LoggingService,
               private userService: UserService,
               private authService: AuthService,
               private store: Store<fromCore.State>,
-              private googleAuthService: GoogleAuthenticatorService) {
+              private googleService: GoogleAuthenticatorService) {
   }
 
   ngOnInit() {
@@ -44,7 +44,12 @@ export class TwoFactorAuthenticationComponent implements OnInit {
       this.popupService.showTFAPopup('GOOGLE');
     } else {
       this.popupService.showTFAPopup('GOOGLE_DISABLED');
-      this.googleAuthService.sendMePincode();
+      this.googleService.sendMePincode().subscribe(res => {
+          console.log(res);
+        },
+        error1 => {
+          console.log(error1);
+        });
     }
   }
 
