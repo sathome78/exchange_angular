@@ -75,6 +75,9 @@ import {RestoredPasswordPopupComponent} from './popups/restored-password-popup/r
 import {MomentModule} from 'angular2-moment';
 import {SessionTimeSavedPopupComponent} from './popups/session-time-saved-popup/session-time-saved-popup.component';
 import {PasswordChangedPopupComponent} from './popups/password-changed-popup/password-changed-popup.component';
+import { KycPopupComponent } from './popups/kyc-popup/kyc-popup.component';
+import { KycStepTwoComponent } from './popups/kyc-popup/kyc-step-two/kyc-step-two.component';
+import { KycStepOneComponent } from './popups/kyc-popup/kyc-step-one/kyc-step-one.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -123,6 +126,9 @@ export function createTranslateLoader(http: HttpClient) {
     ThankYouPopupComponent,
     AlreadyRestoredPasswordPopupComponent,
     RestoredPasswordPopupComponent,
+    KycPopupComponent,
+    KycStepTwoComponent,
+    KycStepOneComponent,
     // TWO FACTOR POPUP END
 
   ],

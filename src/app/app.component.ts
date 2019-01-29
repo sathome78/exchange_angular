@@ -26,9 +26,11 @@ import {ChangeLanguageAction} from './core/actions/core.actions';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public kycStep = 1;
 
   tfaSubscription: Subscription;
   identitySubscription: Subscription;
+  kycSubscription: Subscription;
   loginSubscription: Subscription;
   loginMobileSubscription: Subscription;
   // registrationMobileSubscription: Subscription;
@@ -36,6 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isTfaPopupOpen = false;
   isIdentityPopupOpen = false;
+  isKYCPopupOpen = false;
   isLoginPopupOpen = false;
   isLoginMobilePopupOpen = false;
   isRegistrationMobilePopupOpen = false;
@@ -77,6 +80,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
+    this.subscribeForKYCEvent();
     this.subscribeForLoginEvent();
     this.subscribeForMobileLoginEvent();
     this.subscribeForMobileRegistrationEvent();
@@ -185,6 +189,16 @@ export class AppComponent implements OnInit, OnDestroy {
       .getIdentityPopupListener()
       .subscribe(value => {
         this.isIdentityPopupOpen = value ? true : false;
+      });
+  }
+
+  subscribeForKYCEvent() {
+    this.kycSubscription = this.popupService
+      .getKYCPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(value => {
+        this.kycStep = value;
+        this.isKYCPopupOpen = value ? true : false;
       });
   }
 
