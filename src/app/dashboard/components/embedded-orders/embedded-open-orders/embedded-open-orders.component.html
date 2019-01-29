@@ -78,7 +78,7 @@
   </tbody>
 </table>
 <ng-content></ng-content>
-<div class="row" style="margin: 0 16px;">
+<div class="row" style="margin: 0 16px;" *ngIf="openOrders && openOrders.length > 7">
   <ul class="paginator" style="margin-left: auto;">
     <pagination-controls (pageChange)="changePage($event)" [previousLabel]="''" [nextLabel]="''"></pagination-controls>
   </ul>

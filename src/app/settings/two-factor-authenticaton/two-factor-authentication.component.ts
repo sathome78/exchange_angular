@@ -5,6 +5,9 @@ import {SettingsService} from '../settings.service';
 import {UserService} from '../../shared/services/user.service';
 import {AuthService} from '../../shared/services/auth.service';
 import {GoogleAuthenticatorService} from '../../popups/two-factor-popup/google/google-authenticator.service';
+import {Observable} from 'rxjs';
+import {select, Store} from '@ngrx/store';
+import * as fromCore from '../../core/reducers';
 
 @Component({
   selector: 'app-two-factor-authentication',
@@ -14,23 +17,20 @@ import {GoogleAuthenticatorService} from '../../popups/two-factor-popup/google/g
 export class TwoFactorAuthenticationComponent implements OnInit {
 
   public isGoogleTwoFaEnabled = false;
+  GAEnabled$: Observable<boolean>;
+  loading$ : Observable<boolean>;
 
   constructor(private popupService: PopupService,
               private logger: LoggingService,
               private userService: UserService,
               private authService: AuthService,
+              private store: Store<fromCore.State>,
               private googleAuthService: GoogleAuthenticatorService) {
   }
 
   ngOnInit() {
-    if (this.authService.isAuthenticated()) {
-      this.userService.getUserGoogleLoginEnabled(this.authService.getUsername())
-        .subscribe(result => {
-            console.log(result);
-            this.isGoogleTwoFaEnabled = result;
-          },
-          err => console.log(err));
-    }
+    this.GAEnabled$ = this.store.pipe(select(fromCore.getGAStatus));
+    this.loading$ = this.store.pipe(select(fromCore.getGALoading));
   }
 
   private update(state: boolean): void {

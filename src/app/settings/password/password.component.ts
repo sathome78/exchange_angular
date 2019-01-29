@@ -1,20 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoggingService} from '../../shared/services/logging.service';
 import {SettingsService} from '../settings.service';
-import {HttpEvent, HttpEventType} from '@angular/common/http';
-import {NotificationsService} from '../../shared/components/notification/notifications.service';
 import {TranslateService} from '@ngx-translate/core';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {PopupService} from 'app/shared/services/popup.service';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-password',
   templateUrl: './password.component.html',
   styleUrls: ['./password.component.css']
 })
-export class PasswordComponent implements OnInit {
+export class PasswordComponent implements OnInit, OnDestroy {
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   form: FormGroup;
   passwordCurrent: FormControl;
   passwordFirst: FormControl;
@@ -47,7 +48,7 @@ export class PasswordComponent implements OnInit {
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(40),
-        this.utilsService.passwordCombinationValidator()
+        this.utilsService.passwordCombinationValidator(),
       ]
     });
     this.passwordSecond = new FormControl('', {
@@ -65,10 +66,12 @@ export class PasswordComponent implements OnInit {
       'password_1': this.passwordFirst,
       'password_2': this.passwordSecond,
     });
+    this.observeForm();
   }
 
   // TODO: refactor after api.
   onSubmit() {
+    this.showFormErrors();
     if (this.form.valid) {
       const cur_password = this.passwordCurrent.value;
       const password = this.passwordFirst.value;
@@ -91,6 +94,26 @@ export class PasswordComponent implements OnInit {
     }
   }
 
+  observeForm() {
+    this.firstPassword.valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((value) => {
+        if (!this.secondPassword.touched) {
+          return;
+        }
+        this.secondPassword.updateValueAndValidity();
+      })
+  }
+
+  showFormErrors() {
+    this.secondPassword.markAsTouched();
+    this.firstPassword.markAsTouched();
+    this.currentPassword.markAsTouched();
+    this.secondPassword.updateValueAndValidity();
+    this.firstPassword.updateValueAndValidity();
+    this.currentPassword.updateValueAndValidity();
+  }
+
   get currentPassword() {
     return this.form.get('current_password');
   }
@@ -99,5 +122,10 @@ export class PasswordComponent implements OnInit {
   }
   get secondPassword() {
     return this.form.get('password_2');
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

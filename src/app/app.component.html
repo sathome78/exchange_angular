@@ -31,7 +31,9 @@
       </div>
 
       <div *ngIf="isIdentityPopupOpen">
-        <app-identity-popup></app-identity-popup>
+        <app-identity-popup
+        [showPopup]="isIdentityPopupOpen"
+        ></app-identity-popup>
       </div>
 
       <div *ngIf="isLoginPopupOpen">

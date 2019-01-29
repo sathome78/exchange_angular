@@ -5,6 +5,7 @@ import {createSelector} from 'reselect';
 // Imports from reducers
 import * as fromDashboard from '../../dashboard/reducers/dashboard.reducer';
 import * as fromFunds from '../../funds/store/reducers/funds.reducer';
+import * as fromSettings from '../../settings/store/reducers/settings.reducer';
 import * as fromCore from './core.reducer';
 
 /**
@@ -14,6 +15,7 @@ export interface State {
   dashboard: fromDashboard.State;
   funds: fromFunds.State;
   core: fromCore.State;
+  settings: fromSettings.State;
 }
 
 export interface RouterStateUrl {
@@ -26,6 +28,7 @@ export const reducers: ActionReducerMap<State> = {
   dashboard: fromDashboard.reducer,
   funds: fromFunds.reducer,
   core: fromCore.reducer,
+  settings: fromSettings.reducer,
 };
 
 /**
@@ -34,6 +37,7 @@ export const reducers: ActionReducerMap<State> = {
 export const getDashboardState = (state: State) => state.dashboard;
 export const getFundsState = (state: State) => state.funds;
 export const getCoreState = (state: State) => state.core;
+export const getSettingsState = (state: State) => state.settings;
 
 /**
  * Selectors from dashboard module
@@ -64,3 +68,11 @@ export const getSimpleCurrencyPairsSelector = createSelector(getCoreState, fromC
 export const getAllCurrenciesForChoose = createSelector(getCoreState, fromCore.getAllCurrenciesForChoose);
 export const getCryptoCurrenciesForChoose = createSelector(getCoreState, fromCore.getCryptoCurrenciesForChoose);
 export const getFiatCurrenciesForChoose = createSelector(getCoreState, fromCore.getFiatCurrenciesForChoose);
+
+
+/**
+ * Selectors from Settings module
+ */
+export const getGAStatus = createSelector(getSettingsState, fromSettings.getGAStatusSelector);
+export const getGALoading = createSelector(getSettingsState, fromSettings.getGALoadingSelector);
+export const getSessionTime= createSelector(getSettingsState, fromSettings.getSessionTimeSelector);
