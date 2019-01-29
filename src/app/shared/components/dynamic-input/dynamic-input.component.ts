@@ -81,8 +81,7 @@ export class DynamicInputComponent implements OnChanges {
   }
 
   onClearInput(): void {
-    this.value = '';
-    this.filteredOptions = [];
+    this.onChange.emit('');
   }
 
   onSelectItem(item: DIOptions): void {

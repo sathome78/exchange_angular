@@ -39,14 +39,19 @@ export class OrdersService {
                   hideCanceled,
                   currencyPairName,
                   initial}): Observable<HttpResponse<ResponseModel<OrderItem[]>>> {
-    const params = {
+
+    const params: any = {
       page: page + '',
       limit: limit + '',
-      dateFrom,
-      dateTo,
       hideCanceled: hideCanceled.toString(),
       currencyPairName: currencyPairName || '',
       initial,
+    }
+    if(dateFrom) {
+      params.dateFrom = dateFrom;
+    }
+    if(dateTo) {
+      params.dateTo = dateTo;
     }
     return this.http.get<ResponseModel<OrderItem[]>>(`${this.apiUrl}/info/private/v2/dashboard/orders/CLOSED`, {params, observe: 'response'});
   }
@@ -62,7 +67,7 @@ export class OrdersService {
       hideCanceled: hideCanceled.toString(),
       currencyPairId: currencyPairId || '',
     }
-    return this.http.get(`${this.apiUrl}/info/private/v2/dashboard/orders/CLOSED/export`, {params, responseType: 'blob'});
+    return this.http.get(`${this.apiUrl}/info/private/v2/download/orders/CLOSED/export`, {params, responseType: 'blob'});
   }
 
   // request to cancel open order

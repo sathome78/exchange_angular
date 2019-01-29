@@ -93,28 +93,26 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   loadOrders(initial = false) {
-    if(this.isDateRangeValid()){
       const params = {
         page: this.currentPage,
         limit:this.countPerPage,
-        dateFrom: this.formatDate(this.modelDateFrom.date),
-        dateTo: this.formatDate(this.modelDateTo.date),
+        dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
+        dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
         hideCanceled: this.hideAllCanceled,
         currencyPairName: this.currencyPairValue,
         initial,
       }
       this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
-    }
   }
 
   loadMoreOrders(): void {
-    if(this.isDateRangeValid() && this.orderItems.length !== this.countOfEntries) {
+    if(this.orderItems.length !== this.countOfEntries) {
       this.currentPage += 1;
       const params = {
         page: this.currentPage,
         limit:this.countPerPage,
-        dateFrom: this.formatDate(this.modelDateFrom.date),
-        dateTo: this.formatDate(this.modelDateTo.date),
+        dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
+        dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
         hideCanceled: this.hideAllCanceled,
         currencyPairId: this.currencyPairId,
         concat: true,
