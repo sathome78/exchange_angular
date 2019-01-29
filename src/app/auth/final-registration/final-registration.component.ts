@@ -35,7 +35,7 @@ export class FinalRegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.location.replaceState('final-registration/token')
+    this.location.replaceState('final-registration/token');
     this.initForm();
     this.message = this.translateService.instant('Now, we need to create strong password.');
     this.token = this.activatedRoute.snapshot.queryParamMap.get('t');

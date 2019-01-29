@@ -35,7 +35,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.location.replaceState('recovery-password')
+    this.location.replaceState('recovery-password');
     this.initForm();
     this.message = this.translateService.instant('Now, we need to create strong password.');
     this.token = this.activatedRoute.snapshot.queryParamMap.get('t');
