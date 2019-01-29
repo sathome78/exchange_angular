@@ -197,6 +197,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public onToggleAllZero(): void {
+    this.currentPage = 1;
     this.loadBalances(this.currTab);
   }
   public onToggleAllZeroMobile(hideAllZero: boolean): void {
