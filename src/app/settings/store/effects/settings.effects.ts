@@ -47,7 +47,7 @@ export class SettingsEffects {
     .pipe(switchMap((action) => {
       return this.settingsService.getSessionInterval()
         .pipe(
-          map(time => new settingsActions.SetSessionTimeAction(time)),
+          map(time => new settingsActions.SetSessionTimeAction(time.data)),
           catchError(error => of(new settingsActions.FailLoadSessionTimeAction(error)))
         )
     }))
