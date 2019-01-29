@@ -37,6 +37,7 @@ import {RestorePasswordGuard} from './guards/restore-password.guard';
 import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
 import {MomentModule} from 'angular2-moment';
 import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
+import {AddClassDirective} from './directives/add-class.directive';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
     GroupCoinPipe,
     CurrencyPipe,
     DropdownDirective,
+    AddClassDirective,
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
@@ -107,6 +109,7 @@ import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
     DynamicInputComponent,
     DynamicInputDashboardComponent,
     DynamicInputDataPipe,
+    AddClassDirective
   ],
   providers: [
     NotificationsService,
