@@ -16,9 +16,6 @@ export class VerificationComponent implements OnInit {
               ) { }
 
   ngOnInit() {
-    // this.settingsService.getCurrentVerificationStatusKYC().subscribe(res => console.log(res));
-    // this.settingsService.getCountriesKYC().subscribe(res => console.log(res));
-    // this.settingsService.getLanguagesKYC().subscribe(res => console.log(res));
   }
 
   onOpenIdentityPopup(mode: string) {
