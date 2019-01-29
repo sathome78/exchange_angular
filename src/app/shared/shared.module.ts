@@ -37,6 +37,7 @@ import {RestorePasswordGuard} from './guards/restore-password.guard';
 import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
 import {MomentModule} from 'angular2-moment';
 import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
+import {SafePipe} from './pipes/safe.pipe';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
     RoundCurrencyPipe,
     ExponentToNumberPipe,
     GetObjectKeysPipe,
+    SafePipe,
     FormatCurrencyPipe,
     SplitCurrencyPipe,
     PageItemsDropdownComponent,
@@ -82,6 +84,7 @@ import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
     CustomSearchInputComponent,
     QRCodeModule,
     RecaptchaModule,
+    SafePipe,
     GetObjectKeysPipe,
     InfiniteScrollModule,
     NotificationComponent,

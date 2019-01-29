@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {SettingsService} from '../../../settings/settings.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -13,6 +13,7 @@ import {LEVEL_ONE} from '../../../shared/constants';
 })
 export class KycStepOneComponent implements OnInit, OnDestroy {
 
+  @Output() goToSecondStep = new EventEmitter<string>();
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public openLanguageDropdown = false;
   public openCountryDropdown = false;
@@ -68,6 +69,9 @@ export class KycStepOneComponent implements OnInit, OnDestroy {
 
   sendStepOne() {
     this.settingsService.getIframeUrlForKYC(LEVEL_ONE, this.selectedLanguage.languageCode, this.selectedCountry.countryCode)
-      .subscribe(res => console.log(res));
+      .subscribe(res => {
+        console.log('get iframe')
+        this.goToSecondStep.emit(res);
+      });
   }
 }

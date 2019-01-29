@@ -55,10 +55,14 @@
 
       <div [ngSwitch]="step">
         <div *ngSwitchCase="1">
-          <app-kyc-step-one></app-kyc-step-one>
+          <app-kyc-step-one
+          (goToSecondStep)="goToSecondStep($event)"
+          ></app-kyc-step-one>
         </div>
         <div *ngSwitchCase="2">
-          <app-kyc-step-two></app-kyc-step-two>
+          <app-kyc-step-two
+          [iframeUrl]="iframeUrl"
+          ></app-kyc-step-two>
         </div>
       </div>
 

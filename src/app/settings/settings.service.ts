@@ -75,11 +75,11 @@ export class SettingsService {
     return this.http.get(`${this.apiUrl}/info/private/v2/shufti-pro/languages`);
   }
   public getIframeUrlForKYC(step: string, lang: string, country: string) {
-    return this.http.get(`${this.apiUrl}/info/private/v2/shufti-pro/verification-url/step/${step}`, {
+    return this.http.get(`${this.apiUrl}/info/private/v2/shufti-pro/verification-url/${step}`, {
+     responseType: 'text',
       params: {
-        step: step,
-        languageCode: lang,
-        countryCode: country
+        language_code: lang,
+        country_code: country
       }
     });
   }

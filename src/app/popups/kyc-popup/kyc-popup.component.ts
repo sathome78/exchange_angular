@@ -14,6 +14,7 @@ export class KycPopupComponent implements OnInit {
 
   @Input() showPopup;
   @Input() step = 1;
+  public iframeUrl = '';
 
   constructor(
     private popupService: PopupService,
@@ -26,4 +27,8 @@ export class KycPopupComponent implements OnInit {
     this.popupService.closeKYCPopup();
   }
 
+  goToSecondStep(event) {
+    this.iframeUrl = event;
+    this.step = 2;
+  }
 }
