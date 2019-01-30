@@ -197,6 +197,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public onToggleAllZero(): void {
+    this.currentPage = 1;
     this.loadBalances(this.currTab);
   }
   public onToggleAllZeroMobile(hideAllZero: boolean): void {
@@ -286,10 +287,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public get getCryptoDynamicIData(): DIOptions[] {
-    return this.cryptoCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
+    return this.cryptoCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.name}))
   }
   public get getFiatDynamicIData(): DIOptions[] {
-    return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
+    return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.name}))
   }
 
 

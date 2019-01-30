@@ -13,6 +13,20 @@
         formControlName="email">
       <label class="wrap-input__label">{{'Email' | translate}}</label>
       <div class="wrap-input__line"></div>
+      <ng-container *ngIf="emailControl.touched && emailControl.errors">
+        <span
+          class="wrap-input__message"
+          *ngIf="emailControl.errors['required']"
+        >
+          {{'Email is required.' | translate}}
+        </span>
+        <span
+          class="wrap-input__message"
+          *ngIf="emailControl.errors['emailInvalid']"
+        >
+          {{'Please, enter valid email address.' | translate}}
+        </span>
+      </ng-container>
     </div>
   </div>
   <div class="row row--jcc">
@@ -24,6 +38,14 @@
         formControlName="password">
       <label class="wrap-input__label">{{'Password' | translate}}</label>
       <div class="wrap-input__line"></div>
+      <ng-container *ngIf="passwordControl.touched && passwordControl.errors">
+        <span
+          class="wrap-input__message"
+          *ngIf="passwordControl.errors['required']"
+        >
+          {{'Password is required.' | translate}}
+        </span>
+      </ng-container>
     </div>
   </div>
   <div class="row row--jcc">
@@ -35,6 +57,14 @@
         formControlName="pincode">
       <label class="wrap-input__label">{{'Authenticator code' | translate}}</label>
       <div class="wrap-input__line"></div>
+      <ng-container *ngIf="pinCodeControl.touched && pinCodeControl.errors">
+        <span
+          class="wrap-input__message"
+          *ngIf="pinCodeControl.errors['required']"
+        >
+          {{'Authenticator code is required.' | translate}}
+        </span>
+      </ng-container>
     </div>
   </div>
 

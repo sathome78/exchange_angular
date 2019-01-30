@@ -37,7 +37,9 @@ import {RestorePasswordGuard} from './guards/restore-password.guard';
 import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
 import {MomentModule} from 'angular2-moment';
 import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
-
+import {AddClassDirective} from './directives/add-class.directive';
+import {ConstantsService} from './services/constants.service';
+import {SafePipe} from './pipes/safe.pipe';
 
 @NgModule({
   declarations: [
@@ -50,12 +52,14 @@ import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
     GroupCoinPipe,
     CurrencyPipe,
     DropdownDirective,
+    AddClassDirective,
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     RoundCurrencyPipe,
     ExponentToNumberPipe,
     GetObjectKeysPipe,
+    SafePipe,
     FormatCurrencyPipe,
     SplitCurrencyPipe,
     PageItemsDropdownComponent,
@@ -82,6 +86,7 @@ import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
     CustomSearchInputComponent,
     QRCodeModule,
     RecaptchaModule,
+    SafePipe,
     GetObjectKeysPipe,
     InfiniteScrollModule,
     NotificationComponent,
@@ -107,6 +112,7 @@ import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
     DynamicInputComponent,
     DynamicInputDashboardComponent,
     DynamicInputDataPipe,
+    AddClassDirective
   ],
   providers: [
     NotificationsService,
@@ -114,6 +120,7 @@ import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
     BalanceMobileRoutesGuard,
     RegistrationGuard,
     RestorePasswordGuard,
+    ConstantsService,
   ]
 })
 export class SharedModule { }

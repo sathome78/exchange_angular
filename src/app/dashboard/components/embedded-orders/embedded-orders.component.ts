@@ -100,13 +100,10 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
    * request to get history data with status (CLOSED and CANCELED)
    */
   toHistory(): void {
-    const forkSubscription = forkJoin(
-      this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CLOSED'),
-      this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CANCELLED')
-    )
-      .subscribe(([res1, res2]) => {
-        this.historyOrders = [...res1.items, ...res2.items];
-        forkSubscription.unsubscribe();
+    const sub = this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CLOSED')
+      .subscribe((data) => {
+        this.historyOrders = data.items;
+        sub.unsubscribe();
       });
 
   }

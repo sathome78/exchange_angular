@@ -15,7 +15,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   selector: 'app-price-input',
   templateUrl: './price-input.component.html',
   styleUrls: ['./price-input.component.scss'],
-  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR, CurrencyPipe]
+  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR, CurrencyPipe, RoundCurrencyPipe]
 })
 export class PriceInputComponent implements ControlValueAccessor, AfterViewInit {
   private _innerValue: any;
@@ -30,6 +30,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
 
   constructor(
     private currencyUsdPipe: CurrencyPipe,
+    private roundCurrencyPipe: RoundCurrencyPipe,
     private utils: UtilsService
   ) {
     this.customInput = new EventEmitter<any>();
@@ -82,19 +83,9 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   writeValue(value: any) {
     if (value == 'N/A')
       return this._innerValue = value;
-    value = value ? this.roundDecimalPart(value) : value;
+    value = value ? this.roundCurrencyPipe.transform(value, this.currencyName) : value;
     this._innerValue = this.currencyUsdPipe.transform(value);
     this.propagateChanges(this.currencyUsdPipe.parse(this._innerValue));
-  }
-
-  roundDecimalPart(value) {
-    const parts = value.split('.');
-    if (parts[1]) {
-      parts[1] = this.utils.isFiat(this.currencyName) ? parts[1].slice(0, 2) : parts[1].slice(0, 8);
-      return `${parts[0]}.${parts[1]}`;
-    } else {
-      return value;
-    }
   }
 
   propagateChanges = (...any) => {

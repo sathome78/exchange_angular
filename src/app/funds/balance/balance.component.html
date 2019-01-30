@@ -79,9 +79,9 @@
         </div>
       </div>
 
-      <div *ngIf="loading$ | async">
+      <!-- <div [hidden]="!(loading$ | async)">
         <app-loader size="small"></app-loader>
-      </div>
+      </div> -->
       <button class="btn btn--active balance__title-btn" (click)="openRefillBalancePopup(true)">
         {{'Refill balance' | translate}}
       </button>
@@ -113,7 +113,7 @@
           <app-dynamic-input
             *ngSwitchCase="Tab.PR"
             [value]="currValue"
-            [options]="(allCurrenciesForChoose$ | async) | dynamicIData: 'name': 'id'"
+            [options]="(allCurrenciesForChoose$ | async) | dynamicIData: 'name': 'name'"
             (onChange)="onChangeCurrPair($event)"
             (onSelect)="onSelectPair($event.id)"
           ></app-dynamic-input>

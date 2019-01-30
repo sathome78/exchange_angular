@@ -5,6 +5,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../shared/services/auth.service';
 import {environment} from '../../../environments/environment';
 import {TranslateService} from '@ngx-translate/core';
+import {Location} from '@angular/common';
 
 declare var encodePassword: Function;
 declare var sendConfirmationPasswordGtag: Function;
@@ -28,11 +29,13 @@ export class FinalRegistrationComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private authService: AuthService,
+    private location: Location,
     private translateService: TranslateService
   ) {
   }
 
   ngOnInit() {
+    this.location.replaceState('final-registration/token');
     this.initForm();
     this.message = this.translateService.instant('Now, we need to create strong password.');
     this.token = this.activatedRoute.snapshot.queryParamMap.get('t');

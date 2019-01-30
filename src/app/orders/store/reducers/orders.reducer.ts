@@ -9,6 +9,7 @@ export interface State {
   loading: boolean;
   historyOrders: OrderItem[];
   countHistoryOrders: number;
+  isLast15Items: boolean;
 }
 
 export const INIT_STATE: State = {
@@ -17,6 +18,7 @@ export const INIT_STATE: State = {
   historyOrders: defaultValues.historyOrders,
   countHistoryOrders: defaultValues.countHistoryOrders,
   loading: false,
+  isLast15Items: false,
 };
 
 /**
@@ -56,6 +58,7 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
         loading: false,
         historyOrders: action.payload.historyOrders,
         countHistoryOrders: action.payload.count,
+        isLast15Items: action.payload.isLast15Items,
       };
     case ordersActions.SET_MORE_HISTORY_ORDERS:
       return {
@@ -63,6 +66,7 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
         loading: false,
         historyOrders: [...state.historyOrders, ...action.payload.historyOrders],
         countHistoryOrders: action.payload.count,
+        isLast15Items: action.payload.isLast15Items,
       };
     case ordersActions.FAIL_LOAD_HISTORY_ORDERS:
       return {
@@ -133,4 +137,13 @@ export const getLoading = (state: State): boolean => state.loading;
 export const getLoadingSelector = createSelector(
   getOrdersState,
   getLoading
+);
+
+// export const getAllCurrencyPairsSelector = (state: State): OrderCurrencyPair[] => state.currencyPairs;
+export const getIsLast15Items = (state: State): boolean => state.isLast15Items;
+
+/** Selector returns array of open orders filtered by currency*/
+export const getLast15ItemsSelector = createSelector(
+  getOrdersState,
+  getIsLast15Items
 );

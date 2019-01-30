@@ -14,7 +14,7 @@
       <td class="table__cell"><span class="tfa__method">{{'Log in, Withdrawal, Inner transfer' | translate}}</span></td>
       <td class="table__cell" style="text-align:center">
         <label class="toggler settings__toggler">
-          <input type="checkbox"  [checked]="isGoogleTwoFaEnabled">
+          <input type="checkbox"  [checked]="GAEnabled$ | async">
           <span class="toggler__indicate"></span>
         </label>
       </td>
@@ -24,7 +24,7 @@
   <!--<div class="subtitle settings__content-subtitle">Choose authentification method</div>-->
   <div class="row settings__buttons-row">
     <!--<div >-->
-        <button class="btn settings__btn" (click)="updateAuthProviderSettings(true)" *ngIf="!isGoogleTwoFaEnabled">
+        <button class="btn settings__btn" (click)="updateAuthProviderSettings(true)" *ngIf="!(GAEnabled$ | async)">
           <span class="btn__icon btn__icon--blue btn__icon--hover-white">
             <svg width="22"  viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
               <path d="M11 8.8V13.2H17.2238C16.3152 15.7608 13.8688 17.6 11 17.6C7.3612 17.6 4.4 14.6388 4.4 11C4.4 7.3612 7.3612 4.4 11 4.4C12.5774 4.4 14.0954 4.9654 15.2746 5.9928L18.1654 2.6752C16.1854 0.9504 13.6422 0 11 0C4.9346 0 0 4.9346 0 11C0 17.0654 4.9346 22 11 22C17.0654 22 22 17.0654 22 11V8.8H11Z"/>
@@ -34,7 +34,7 @@
         </button>
     <!--</div>-->
     <!--<div >-->
-      <button class="btn btn--error settings__btn" (click)="updateAuthProviderSettings(false)" *ngIf="isGoogleTwoFaEnabled">
+      <button class="btn btn--error settings__btn" (click)="updateAuthProviderSettings(false)" *ngIf="GAEnabled$ | async">
           <span class="btn__icon btn__icon--blue btn__icon--hover-white">
             <svg width="22"  viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
               <path d="M11 8.8V13.2H17.2238C16.3152 15.7608 13.8688 17.6 11 17.6C7.3612 17.6 4.4 14.6388 4.4 11C4.4 7.3612 7.3612 4.4 11 4.4C12.5774 4.4 14.0954 4.9654 15.2746 5.9928L18.1654 2.6752C16.1854 0.9504 13.6422 0 11 0C4.9346 0 0 4.9346 0 11C0 17.0654 4.9346 22 11 22C17.0654 22 22 17.0654 22 11V8.8H11Z"/>
@@ -42,5 +42,9 @@
           </span>
         <span class="button__text">{{'Disable Google 2FA' | translate}}</span>
       </button>
+
+      <div *ngIf="loading$ | async">
+        <app-loader></app-loader>
+      </div>
   </div>
 </div>
