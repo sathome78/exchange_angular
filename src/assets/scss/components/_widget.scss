@@ -36,7 +36,7 @@
     }
     &--mob {
       display: flex;
-      height: 44px;
+      height: 42px;
       justify-content: space-between;
     }
   }
@@ -186,7 +186,7 @@
       display: none;
     }
     .tabs__item {
-      margin-right: 20px;
+      margin-right: 23px;
     }
     .tabs__item--big {
       margin: 0;
@@ -194,7 +194,7 @@
   }
   &__markets-tabs {
     margin: 0;
-    padding: 0 8px;
+    padding: 0 8px 0 12px;
     .tabs__item {
       &--active {
         border-top: 2px solid $darker-blue;
@@ -296,7 +296,7 @@
         text-align: center;
         line-height: 25px;
         height: 25px;
-        min-width: 60px;
+        min-width: 56px;
         max-width: 100px;
         margin-left: auto;
         margin-right: 16px;
@@ -313,7 +313,7 @@
         text-align: center;
         line-height: 25px;
         height: 25px;
-        min-width: 60px;
+        min-width: 56px;
         max-width: 100px;
         margin-left: auto;
         margin-right: 16px;
@@ -329,8 +329,26 @@
   }
   &__table-markets-mob {
     .table__cell-head {
-      padding-top: 10px;
-      padding-bottom: 10px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      font-size: 10px;
+      line-height: 1.55;
+    }
+    .table__cell,.table__cell-head{
+      @media(max-width: 1200px){
+        &:nth-child(1){
+          margin-right: 13px;
+          padding-left: 0px;
+        }
+        &:nth-child(2){
+          margin-right: 8px;
+        }
+        &:nth-child(4){
+          span{
+            margin-right: 0;
+          }
+        }
+      }
     }
     .table__row-star {
       svg {
@@ -1030,10 +1048,10 @@
       &:hover{
         .dropdown__btn {
 
-        &:after{
-          transform: rotate(180deg);
-          transform-origin: center;
-        }
+          &:after{
+            transform: rotate(180deg);
+            transform-origin: center;
+          }
         }
       }
       .dropdown__btn {
