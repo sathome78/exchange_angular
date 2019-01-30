@@ -38,7 +38,8 @@ import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
 import {MomentModule} from 'angular2-moment';
 import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
 import {AddClassDirective} from './directives/add-class.directive';
-
+import {ConstantsService} from './services/constants.service';
+import {SafePipe} from './pipes/safe.pipe';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import {AddClassDirective} from './directives/add-class.directive';
     RoundCurrencyPipe,
     ExponentToNumberPipe,
     GetObjectKeysPipe,
+    SafePipe,
     FormatCurrencyPipe,
     SplitCurrencyPipe,
     PageItemsDropdownComponent,
@@ -84,6 +86,7 @@ import {AddClassDirective} from './directives/add-class.directive';
     CustomSearchInputComponent,
     QRCodeModule,
     RecaptchaModule,
+    SafePipe,
     GetObjectKeysPipe,
     InfiniteScrollModule,
     NotificationComponent,
@@ -117,6 +120,7 @@ import {AddClassDirective} from './directives/add-class.directive';
     BalanceMobileRoutesGuard,
     RegistrationGuard,
     RestorePasswordGuard,
+    ConstantsService,
   ]
 })
 export class SharedModule { }
