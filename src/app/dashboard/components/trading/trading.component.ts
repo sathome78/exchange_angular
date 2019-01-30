@@ -22,6 +22,7 @@ import {UtilsService} from 'app/shared/services/utils.service';
 import {TranslateService} from '@ngx-translate/core';
 import {LastPrice} from 'app/model/last-price.model';
 import {BUY, SELL} from 'app/shared/constants';
+import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 
 @Component({
   selector: 'app-trading',
@@ -61,6 +62,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public SELL = SELL;
   public BUY = BUY;
   public createdOrder: Order;
+  private updateCurrentCurrencyViaWebsocket = false;
 
   public defaultOrder: Order = {
     orderType: '',
@@ -87,6 +89,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     private store: Store<State>,
     public tradingService: TradingService,
     private dashboardService: DashboardService,
+    private dashboardWebsocketService: DashboardWebSocketService,
     private popupService: PopupService,
     private orderBookService: OrderBookService,
     private userService: UserService,
@@ -120,14 +123,24 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.onGetCurrentCurrencyPair(pair);
       });
 
+    this.dashboardWebsocketService.setRabbitStompSubscription()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        this.updateCurrentCurrencyViaWebsocket = true;
+      })
+
+
     this.store
       .pipe(select(getLastPrice))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (lastPrice: LastPrice) => {
-        this.setPriceInValue(lastPrice.price, this.BUY);
-        this.setPriceInValue(lastPrice.price, this.SELL);
-        this.sellOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
-        this.buyOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
+        if (!this.updateCurrentCurrencyViaWebsocket) {
+          this.setPriceInValue(lastPrice.price, this.BUY);
+          this.setPriceInValue(lastPrice.price, this.SELL);
+          this.sellOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
+          this.buyOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
+        }
+        this.updateCurrentCurrencyViaWebsocket = false;
       });
 
     this.store
@@ -383,7 +396,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   private getCommissionNested(order: Order, type: string, setTotal: boolean) {
     if (setTotal) {
       if (order.rate && order.rate >= 0) {
-        order.total = order.amount * order.rate;
+        order.total = (((order.amount * order.rate) * 100) / 100);
         order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
         this.setTotalInValue(order.total, type);
       }

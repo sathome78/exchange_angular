@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {OrderItem} from './models/order-item.model';
@@ -37,16 +37,23 @@ export class OrdersService {
                   dateFrom,
                   dateTo,
                   hideCanceled,
-                  currencyPairName}): Observable<ResponseModel<OrderItem[]>> {
-    const params = {
+                  currencyPairName,
+                  initial}): Observable<HttpResponse<ResponseModel<OrderItem[]>>> {
+
+    const params: any = {
       page: page + '',
       limit: limit + '',
-      dateFrom,
-      dateTo,
       hideCanceled: hideCanceled.toString(),
       currencyPairName: currencyPairName || '',
+      initial,
     }
-    return this.http.get<ResponseModel<OrderItem[]>>(`${this.apiUrl}/info/private/v2/dashboard/orders/CLOSED`, {params});
+    if(dateFrom) {
+      params.dateFrom = dateFrom;
+    }
+    if(dateTo) {
+      params.dateTo = dateTo;
+    }
+    return this.http.get<ResponseModel<OrderItem[]>>(`${this.apiUrl}/info/private/v2/dashboard/orders/CLOSED`, {params, observe: 'response'});
   }
 
   // request to get closed orders
@@ -60,7 +67,7 @@ export class OrdersService {
       hideCanceled: hideCanceled.toString(),
       currencyPairId: currencyPairId || '',
     }
-    return this.http.get(`${this.apiUrl}/info/private/v2/dashboard/orders/CLOSED/export`, {params, responseType: 'blob'});
+    return this.http.get(`${this.apiUrl}/info/private/v2/download/orders/CLOSED/export`, {params, responseType: 'blob'});
   }
 
   // request to cancel open order

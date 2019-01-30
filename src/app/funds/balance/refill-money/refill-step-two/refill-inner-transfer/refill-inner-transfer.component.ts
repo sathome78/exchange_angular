@@ -68,12 +68,14 @@ export class RefillInnerTransferComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(res => {
             this.isSendTransferCodeSuccess = true;
+            this.isSendTransferCodeFail = false;
             this.sendSuccessRes = res as RefillInnerTransferResponse;
             this.setCurrencyName(this.sendSuccessRes.currencyId);
           }, error => {
             const status = error['status'];
             // console.log('status: ' + status);
             this.isSendTransferCodeFail = true;
+            this.isSendTransferCodeSuccess = false;
           });
       }
     // }

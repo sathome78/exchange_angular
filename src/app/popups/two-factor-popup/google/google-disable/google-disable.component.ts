@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {GoogleAuthenticatorService} from '../google-authenticator.service';
 import {PopupService} from '../../../../shared/services/popup.service';
+import {AuthService} from 'app/shared/services/auth.service';
+import {Store} from '@ngrx/store';
+import * as fromCore from '../../../../core/reducers'
+import * as settingsActions from '../../../../settings/store/actions/settings.actions'
 
 @Component({
   selector: 'app-google-disable',
@@ -15,6 +19,8 @@ export class GoogleDisableComponent implements OnInit {
   emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
 
   constructor(private popupService: PopupService,
+              private authService: AuthService,
+              private store: Store<fromCore.State>,
               private googleService: GoogleAuthenticatorService) { }
 
   ngOnInit() {
@@ -43,6 +49,7 @@ export class GoogleDisableComponent implements OnInit {
       this.googleService.disableGoogleAuthentication(email, password, pincode)
         .subscribe(res => {
           // console.log(res);
+          this.store.dispatch(new settingsActions.LoadGAStatusAction(this.authService.getUsername()))
           this.popupService.closeTFAPopup();
         },
         error1 => {

@@ -80,6 +80,10 @@ export class DynamicInputComponent implements OnChanges {
 
   }
 
+  onClearInput(): void {
+    this.onChange.emit('');
+  }
+
   onSelectItem(item: DIOptions): void {
     this.onChange.emit(item.text);
     this.onSelect.emit(item);
@@ -91,12 +95,7 @@ export class DynamicInputComponent implements OnChanges {
       this.filteredOptions = [];
       return;
     }
-    if(this.setNullValue) {
-      this.filteredOptions =
-        [{text: '', id: null}, ...this.options.filter((item) => item.text.toUpperCase().indexOf(val.toUpperCase()) >= 0)];
-      } else {
-      this.filteredOptions = this.options.filter((item) => item.text.toUpperCase().indexOf(val.toUpperCase()) >= 0);
-    }
+    this.filteredOptions = this.options.filter((item) => item.text.toUpperCase().indexOf(val.toUpperCase()) >= 0);
   }
 
   openDropdown(): void {

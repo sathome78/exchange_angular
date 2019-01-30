@@ -161,4 +161,9 @@ export abstract class AbstractTransfer {
     this.isAmountMax = +sum >= +this.activeBalance ? true : false;
     this.isAmountMin = +sum <= +this.minWithdrawSum ? true : false;
   }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 }

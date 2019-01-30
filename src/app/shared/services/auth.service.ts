@@ -1,37 +1,50 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {TokenHolder} from '../../model/token-holder.model';
 import {LoggingService} from './logging.service';
 
 import * as jwt_decode from 'jwt-decode';
 import {TOKEN} from './http.utils';
-import {Subject, Observable} from 'rxjs';
+import {Subject, Observable, BehaviorSubject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
+import {takeUntil} from 'rxjs/operators';
 
 declare var encodePassword: Function;
 
 @Injectable()
-export class AuthService {
+export class AuthService implements OnDestroy{
 
   ENCODE_KEY = environment.encodeKey;
   apiUrl = environment.apiUrl;
 
   private tokenHolder: TokenHolder;
   public simpleToken: {expiration: number, token_id: number, username: string, value: string};
+  public ngUnsubscribe$ = new Subject<any>()
   public onLoginLogoutListener$ = new Subject<{expiration: number, token_id: number, username: string, value: string}>()
+  public onSessionFinish$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public timeOutSub;
 
   constructor(
     private logger: LoggingService,
     private http: HttpClient,
-  ) {}
+  ) {
+
+    this.onSessionFinish$
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((res) => {
+        if (!res) {
+          return;
+        }
+
+        this.onLogOut()
+      })
+  }
 
 
   public isAuthenticated(): boolean {
-    // localStorage.setItem(TOKEN, 'eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlbl9pZCI6MjQsImNsaWVudF9pcCI6IjA6MDowOjA6MDowOjA6MSIsImV4cGlyYXRpb24iOjE1MzkwNzUzMTEyMTgsInZhbHVlIjoiOWNjOWY4MDMtMGQ1MC00ODkzLWI4MGYtMWE2YzJiNzBjMWJhIiwidXNlcm5hbWUiOiJvbGVnX3BvZG9saWFuQHVrci5uZXQifQ.GkkgSI_VsHtBiMn1sRVKfZiIQ5hvvOQuTz7OSdK7LCOJP_l72gh0FFP6xizTQDJ3z6DV_O0zitt7DTLS7BL0rg');
-    const token = localStorage.getItem(TOKEN);
-    if (token) {
-      this.logger.debug(this, 'Token from local storage: ' + token.substring(0, 6));
-      this.parseToken(token);
+    if (this.token) {
+      this.logger.debug(this, 'Token from local storage: ' + this.token.substring(0, 6));
+      this.parseToken(this.token);
       return this.isTokenExpired();
     }
     return false;
@@ -41,8 +54,7 @@ export class AuthService {
     this.simpleToken = {expiration: 0, username: '', token_id: 0, value: ''};
     this.onLoginLogoutListener$.next(this.simpleToken);
     localStorage.removeItem(TOKEN);
-
-    // location.reload();
+    location.reload()
   }
 
   encodePassword(password: string) {
@@ -70,6 +82,27 @@ export class AuthService {
     return false;
   }
 
+  private get token(): string {
+    return localStorage.getItem(TOKEN);
+  }
+
+  public setSessionFinishListener(): void {
+    if(!this.isAuthenticated()) {
+      return;
+    }
+    this.parseToken(this.token);
+    const tokenExpiresIn = +this.simpleToken.expiration - Date.now();
+    this.timeOutSub = setTimeout(() => {
+      this.onSessionFinish$.next(true);
+    }, +tokenExpiresIn)
+  }
+
+  public removeSessionFinishListener(): void {
+    if(this.timeOutSub) {
+      clearInterval(this.timeOutSub);
+    }
+  }
+
   public getUsername(): string {
     if (this.simpleToken) {
       return this.simpleToken.username;
@@ -77,9 +110,16 @@ export class AuthService {
     return undefined;
   }
 
-  public onLogIn() {}
+  public onLogIn() {
+    this.setSessionFinishListener();
+  }
 
   public checkTempToken(token: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/info/public/v2/users/validateTempToken/${token}`);
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
 }

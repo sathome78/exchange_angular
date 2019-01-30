@@ -26,9 +26,11 @@ import {ChangeLanguageAction} from './core/actions/core.actions';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public kycStep = 1;
 
   tfaSubscription: Subscription;
   identitySubscription: Subscription;
+  kycSubscription: Subscription;
   loginSubscription: Subscription;
   loginMobileSubscription: Subscription;
   // registrationMobileSubscription: Subscription;
@@ -36,12 +38,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isTfaPopupOpen = false;
   isIdentityPopupOpen = false;
+  isKYCPopupOpen = false;
   isLoginPopupOpen = false;
   isLoginMobilePopupOpen = false;
   isRegistrationMobilePopupOpen = false;
   isRecoveryPasswordPopupOpen = false;
   isRestoredPasswordPopupOpen = false;
+  isChangedPasswordPopupOpen = false;
   isAlreadyRestoredPasswordPopupOpen = false;
+  isSessionTimeSavedPopupOpen = false;
   isOpenDemoTradingPopup = false;
   isOpenAlreadyRegisteredPopup = false;
   /** notification messages array */
@@ -72,9 +77,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
+    this.authService.setSessionFinishListener();
 
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
+    this.subscribeForKYCEvent();
     this.subscribeForLoginEvent();
     this.subscribeForMobileLoginEvent();
     this.subscribeForMobileRegistrationEvent();
@@ -82,6 +89,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForRestoredPasswordPopup();
     this.subscribeForAlreadyRestoredPasswordPopup();
     this.subscribeForDemoTradingPopup();
+    this.subscribeForSessionTimeSavedPopup();
+    this.subscribeForChangedPasswordPopup();
     // this.setClientIp();
     this.subscribeForNotifications();
     this.subscribeForAlreadyRegisteredPopup();
@@ -134,6 +143,21 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isRestoredPasswordPopupOpen = res;
       });
   }
+  subscribeForSessionTimeSavedPopup() {
+    this.popupService.getSessionTimeSavedPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.isSessionTimeSavedPopupOpen = res;
+      });
+  }
+
+  subscribeForChangedPasswordPopup() {
+    this.popupService.getChangedPasswordPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.isChangedPasswordPopupOpen = res;
+      });
+  }
 
   subscribeForMobileRegistrationEvent() {
     this.popupService
@@ -169,6 +193,16 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
+  subscribeForKYCEvent() {
+    this.kycSubscription = this.popupService
+      .getKYCPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(value => {
+        this.kycStep = value;
+        this.isKYCPopupOpen = value ? true : false;
+      });
+  }
+
   isCurrentThemeDark(): boolean {
     return this.themeService.isCurrentThemeDark();
   }
@@ -185,6 +219,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loginSubscription.unsubscribe();
     this.loginMobileSubscription.unsubscribe();
     // this.registrationMobileSubscription.unsubscribe();
+    this.authService.removeSessionFinishListener();
   }
 
   private setIp() {
