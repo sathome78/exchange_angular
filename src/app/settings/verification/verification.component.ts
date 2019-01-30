@@ -38,7 +38,6 @@ export class VerificationComponent implements OnInit, OnDestroy {
   }
 
   onOpenIdentityPopup(mode: string) {
-
     this.verificationService.setVerificationMode(mode);
     this.popupService.showIdentityPopup(mode);
   }

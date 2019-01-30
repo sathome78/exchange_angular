@@ -62,7 +62,7 @@
         </div>
         <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
           <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Stop')" [forTrading]="true" (customInput)="stopInput($event, BUY)" name="stop" formControlName="stop"></app-price-input>
+            <app-price-input [placeholder]="translateService.instant('Stop limit')" [forTrading]="true" (customInput)="stopInput($event, BUY)" name="stop" formControlName="stop"></app-price-input>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row  input-row">
@@ -122,7 +122,7 @@
         </div>
         <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
           <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Stop')" [forTrading]="true" (customInput)="stopInput($event, SELL)" name="stop" formControlName="stop"></app-price-input>
+            <app-price-input [placeholder]="translateService.instant('Stop limit')" [forTrading]="true" (customInput)="stopInput($event, SELL)" name="stop" formControlName="stop"></app-price-input>
           </div>
         </div>
         <div class="row row--jcsb widget__trading-row input-row">

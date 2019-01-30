@@ -7,6 +7,7 @@ import {environment} from '../../../environments/environment';
 import {TranslateService} from '@ngx-translate/core';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {PopupService} from 'app/shared/services/popup.service';
+import {Location} from '@angular/common';
 declare var encodePassword: Function;
 
 @Component({
@@ -29,10 +30,12 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
     private userService: UserService,
     private utilsService: UtilsService,
     private popupService: PopupService,
+    private location: Location,
     private translateService: TranslateService
   ) { }
 
   ngOnInit() {
+    this.location.replaceState('recovery-password');
     this.initForm();
     this.message = this.translateService.instant('Now, we need to create strong password.');
     this.token = this.activatedRoute.snapshot.queryParamMap.get('t');

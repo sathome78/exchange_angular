@@ -38,8 +38,8 @@ import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
 import {MomentModule} from 'angular2-moment';
 import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
 import {AddClassDirective} from './directives/add-class.directive';
+import {ConstantsService} from './services/constants.service';
 import {SafePipe} from './pipes/safe.pipe';
-
 
 @NgModule({
   declarations: [
@@ -120,6 +120,7 @@ import {SafePipe} from './pipes/safe.pipe';
     BalanceMobileRoutesGuard,
     RegistrationGuard,
     RestorePasswordGuard,
+    ConstantsService,
   ]
 })
 export class SharedModule { }
