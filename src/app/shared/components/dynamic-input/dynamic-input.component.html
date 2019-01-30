@@ -3,9 +3,9 @@
     <input
       #input
       id="DIInput"
-      class="wrap-input__input"
-      name="item"
+      class="wrap-input__input dynamic-input"
       [(ngModel)]="value"
+      name="item"
       (input)="onChangeFn($event)"
       (focus)="openDropdown()"
       (keydown)="preventEventInput($event)"
@@ -14,9 +14,13 @@
       autocomplete="off"
       required
     >
-    <div class="clear-icon mydpicon icon-mydpremove" (click)="onClearInput()">
-      
+
+    <div
+      *ngIf="!!value"
+      class="clear-icon mydpicon icon-mydpremove"
+      (click)="onClearInput()">
     </div>
+
     <label class="wrap-input__label" for="">Search</label>
     <div class="wrap-input__icon">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">

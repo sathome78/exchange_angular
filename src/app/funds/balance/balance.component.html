@@ -79,9 +79,9 @@
         </div>
       </div>
 
-      <div *ngIf="loading$ | async">
+      <!-- <div [hidden]="!(loading$ | async)">
         <app-loader size="small"></app-loader>
-      </div>
+      </div> -->
       <button class="btn btn--active balance__title-btn" (click)="openRefillBalancePopup(true)">
         {{'Refill balance' | translate}}
       </button>
