@@ -191,6 +191,7 @@ export class LoginPopupMobileComponent implements OnInit {
         sendLoginSuccessGtag();
         this.logger.debug(this, 'User { login: ' + this.email + ', pass: ' + this.password + '}' + ' signed in and obtained' + tokenHolder);
         this.authService.setTokenHolder(tokenHolder);
+        this.authService.onLogIn();
         this.popupService.closeMobileLoginPopup();
         this.router.navigate(['/']);
         // TODO: just for promo state, remove after
