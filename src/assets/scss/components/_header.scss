@@ -421,7 +421,7 @@
     display: -ms-flex;
     display: flex;
     flex-grow: 5;
-    overflow-x: scroll;
+    overflow-x: auto;
 
     &-link {
       display: -webkit-flex;

@@ -77,6 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
+    this.authService.setSessionFinishListener();
 
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
@@ -218,6 +219,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loginSubscription.unsubscribe();
     this.loginMobileSubscription.unsubscribe();
     // this.registrationMobileSubscription.unsubscribe();
+    this.authService.removeSessionFinishListener();
   }
 
   private setIp() {
