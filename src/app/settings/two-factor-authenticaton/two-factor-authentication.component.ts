@@ -44,12 +44,12 @@ export class TwoFactorAuthenticationComponent implements OnInit {
       this.popupService.showTFAPopup('GOOGLE');
     } else {
       this.popupService.showTFAPopup('GOOGLE_DISABLED');
-      this.googleService.sendMePincode().subscribe(res => {
-          console.log(res);
-        },
-        error1 => {
-          console.log(error1);
-        });
+      // this.googleService.sendMePincode().subscribe(res => {
+      //     console.log(res);
+      //   },
+      //   error1 => {
+      //     console.log(error1);
+      //   });
     }
   }
 
