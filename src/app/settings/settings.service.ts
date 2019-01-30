@@ -35,8 +35,8 @@ export class SettingsService {
     return this.http.put(this.getUrl(this.NICKNAME), {nickname: nickname}, {observe: 'events'});
   }
 
-  getSessionInterval(): Observable<number> {
-    return this.http.get<number>(this.getUrl(this.SESSION));
+  getSessionInterval(): Observable<{data: number}> {
+    return this.http.get<{data: number}>(this.getUrl(this.SESSION));
   }
 
   updateSessionInterval(interval: number): Observable<number> {

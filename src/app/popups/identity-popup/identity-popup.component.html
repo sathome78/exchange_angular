@@ -1,6 +1,6 @@
 <div class="overlay--modal" *ngIf="showPopup" [@overlayAnimation]="showPopup ? 'show' : 'hide'">
 
-    <div class="modal" [@modalAnimation]="showPopup ? 'show' : 'hide' ">
+    <div class="modal modal-id" [@modalAnimation]="showPopup ? 'show' : 'hide' ">
       <div class="modal__controls modal__controls--top">
         <a class="modal__button modal__button--close" (click)="closeMe()">
           <span>close</span>
@@ -67,19 +67,6 @@
             <app-step-four></app-step-four>
           </div>
         </div>
-
-
-        <!--<div class="modal__title">Submission received!</div>-->
-        <!--<div class="modal__subtitle">-->
-        <!--<p>You can check status of your verification on your <a class="link" href="#">profile page</a>. </p>-->
-        <!--</div>-->
-        <!--<div class="modal__row modal__row&#45;&#45;mb32 txt-grey">Please note that it can take a few minutes to auto-verify your account. If more-->
-        <!--information is needed to verify your account, our support team will reach out-->
-        <!--via email to guide you through the process.-->
-        <!--</div>-->
-        <!--<div class="modal__row">-->
-        <!--<a href="#" class="button"> Ok</a>-->
-        <!--</div>-->
       </div>
     </div>
   </div>

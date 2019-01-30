@@ -4,7 +4,7 @@ import {UserVerificationService} from '../../shared/services/user-verification.s
 import {SettingsService} from '../settings.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {NOT_VERIFIED} from '../../shared/constants';
+import {NOT_VERIFIED, LEVEL_ONE, LEVEL_TWO} from '../../shared/constants';
 
 @Component({
   selector: 'app-verification',
@@ -13,6 +13,9 @@ import {NOT_VERIFIED} from '../../shared/constants';
 })
 export class VerificationComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public NOT_VERIFIED = NOT_VERIFIED;
+  public LEVEL_ONE = LEVEL_ONE;
+  public LEVEL_TWO = LEVEL_TWO;
   public verificationStatus = NOT_VERIFIED;
 
   constructor(private popupService: PopupService,
@@ -25,6 +28,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.verificationStatus = res as string;
+        console.log(res)
       });
   }
 
@@ -40,6 +44,8 @@ export class VerificationComponent implements OnInit, OnDestroy {
   }
 
   onOpenKYCPopup(step: number) {
-    this.popupService.showKYCPopup(step);
+    if (step === 1 && this.verificationStatus === NOT_VERIFIED || step === 2 && this.verificationStatus === LEVEL_TWO) {
+      this.popupService.showKYCPopup(step);
+    }
   }
 }

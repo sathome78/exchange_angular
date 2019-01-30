@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, OnDestroy, OnInit, Output} from '@angular/core';
 import {SettingsService} from '../../../settings/settings.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -7,20 +7,33 @@ import {KycLanguage} from '../../../shared/interfaces/kyc-language-interface';
 import {LEVEL_ONE} from '../../../shared/constants';
 
 @Component({
-  selector: 'app-kyc-step-one',
-  templateUrl: './kyc-step-one.component.html',
-  styleUrls: ['./kyc-step-one.component.scss']
+  selector: 'app-kyc-level1-step-one',
+  templateUrl: './kyc-level1-step-one.component.html',
+  styleUrls: ['./kyc-level1-step-one.component.scss']
 })
-export class KycStepOneComponent implements OnInit, OnDestroy {
+export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
 
   @Output() goToSecondStep = new EventEmitter<string>();
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public openLanguageDropdown = false;
   public openCountryDropdown = false;
+  public load = false;
   public languageArray: KycLanguage[] = [];
   public countryArray: KycCountry[] = [];
+  public languageArrayDefault: KycLanguage[] = [];
+  public countryArrayDefault: KycCountry[] = [];
   public selectedLanguage;
   public selectedCountry;
+
+  /** Are listening click in document */
+  @HostListener('document:click', ['$event']) clickout({target}) {
+    if (target.className !== 'select__value select__value--active' &&
+      target.className !== 'select__search-input' &&
+      target.className !== 'select__triangle') {
+      this.openLanguageDropdown = false;
+      this.openCountryDropdown = false;
+    }
+  }
 
   constructor(
     private settingsService: SettingsService
@@ -29,13 +42,13 @@ export class KycStepOneComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.settingsService.getLanguagesKYC().pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.languageArray = res as KycLanguage[];
-        this.selectedLanguage = this.languageArray[0];
+        this.languageArrayDefault = res as KycLanguage[];
+        this.languageArray = this.languageArrayDefault;
       });
     this.settingsService.getCountriesKYC().pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.countryArray = res as KycCountry[];
-        this.selectedCountry = this.countryArray[0];
+        this.countryArrayDefault = res as KycCountry[];
+        this.countryArray = this.countryArrayDefault;
       });
   }
 
@@ -45,11 +58,15 @@ export class KycStepOneComponent implements OnInit, OnDestroy {
   }
 
   languageDropdownToggle() {
+    this.openCountryDropdown = false;
     this.openLanguageDropdown = !this.openLanguageDropdown;
+    this.languageArray = this.languageArrayDefault;
   }
 
   countryDropdownToggle() {
+    this.openLanguageDropdown = false;
     this.openCountryDropdown = !this.openCountryDropdown;
+    this.countryArray = this.countryArrayDefault;
   }
 
   selectCountry(country) {
@@ -57,8 +74,12 @@ export class KycStepOneComponent implements OnInit, OnDestroy {
     this.countryDropdownToggle();
   }
 
-  searchLanguage(event) {
+  searchLanguage(e) {
+    this.languageArray = this.languageArrayDefault.filter(f => f.languageName.toUpperCase().match(e.target.value.toUpperCase()));
+  }
 
+  searchCountry(e) {
+    this.countryArray = this.countryArrayDefault.filter(f => f.countryName.toUpperCase().match(e.target.value.toUpperCase()));
   }
 
   selectLanguage(lang) {
@@ -68,10 +89,14 @@ export class KycStepOneComponent implements OnInit, OnDestroy {
   }
 
   sendStepOne() {
+    this.load = true;
     this.settingsService.getIframeUrlForKYC(LEVEL_ONE, this.selectedLanguage.languageCode, this.selectedCountry.countryCode)
       .subscribe(res => {
-        console.log('get iframe')
+        this.load = false;
         this.goToSecondStep.emit(res);
+      }, error => {
+        console.log(error);
+        this.load = false;
       });
   }
 }

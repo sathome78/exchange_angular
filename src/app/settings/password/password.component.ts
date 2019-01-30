@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoggingService} from '../../shared/services/logging.service';
 import {SettingsService} from '../settings.service';
@@ -13,7 +13,7 @@ import {Subject} from 'rxjs';
   templateUrl: './password.component.html',
   styleUrls: ['./password.component.css']
 })
-export class PasswordComponent implements OnInit {
+export class PasswordComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   form: FormGroup;
@@ -73,7 +73,7 @@ export class PasswordComponent implements OnInit {
   onSubmit() {
     this.showFormErrors();
     if (this.form.valid) {
-      const cur_password = this.passwordCurrent.value;
+      const cur_password = this.passwordCurrent.value || '';
       const password = this.passwordFirst.value;
       this.logger.debug(this, 'Attempt to submit new password: ' + password);
       this.settingsService.updateMainPassword(cur_password, password)
@@ -122,5 +122,10 @@ export class PasswordComponent implements OnInit {
   }
   get secondPassword() {
     return this.form.get('password_2');
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

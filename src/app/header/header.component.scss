@@ -39,11 +39,12 @@
       height: 100%;
     }
   }
-
   .menu {
     display: flex;
-    align-items: center;
     height: 100%;
+    &.language {
+      align-items: center;
+    }
     &--header-menu {
       margin-left: 28px;
       margin-right: auto;
