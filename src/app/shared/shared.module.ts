@@ -39,7 +39,7 @@ import {MomentModule} from 'angular2-moment';
 import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
 import {AddClassDirective} from './directives/add-class.directive';
 import {ConstantsService} from './services/constants.service';
-
+import {SafePipe} from './pipes/safe.pipe';
 
 @NgModule({
   declarations: [
@@ -59,6 +59,7 @@ import {ConstantsService} from './services/constants.service';
     RoundCurrencyPipe,
     ExponentToNumberPipe,
     GetObjectKeysPipe,
+    SafePipe,
     FormatCurrencyPipe,
     SplitCurrencyPipe,
     PageItemsDropdownComponent,
@@ -85,6 +86,7 @@ import {ConstantsService} from './services/constants.service';
     CustomSearchInputComponent,
     QRCodeModule,
     RecaptchaModule,
+    SafePipe,
     GetObjectKeysPipe,
     InfiniteScrollModule,
     NotificationComponent,

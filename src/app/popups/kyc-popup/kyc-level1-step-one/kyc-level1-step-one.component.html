@@ -1,0 +1,107 @@
+
+<div class="title title-id modal__title">{{'Identity Verification' | translate}}</div>
+<div class="subtitle subtitle-id modal__subtitle">
+  <p>The information you fill in must be co consistent with the information in ID documents.</p>
+</div>
+<form class="country-form">
+  <div class="input-wr">
+    <!-- вместо этого - можна мне в этот контейнер вставить селект из депозита - я его после этого застилизую -->
+    <!--<div class="select refill__select refill__select&#45;&#45;cripto">-->
+      <!--<div class="select__value">-->
+        <!--<img _ngcontent-c51="" class="select__list-item-icon" src="assets/img/flag-ind.svg">-->
+        <!--Indonesia-->
+        <!--<div class="select__triangle">-->
+
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="select__label">Country</div>-->
+    <!--</div>-->
+    <div class="select refill__select refill__select--cripto">
+      <div class="select__value select__value--active" (click)="languageDropdownToggle()">
+        {{selectedLanguage?.languageName || ""}}
+        <div class="select__triangle"></div>
+        <div class="select__label" *ngIf="!selectedLanguage">{{'Language' | translate}}</div>
+      </div>
+      <div class="select__label" *ngIf="selectedLanguage">{{'Language' | translate}}</div>
+      <div class="select__line"></div>
+      <div class="select__list-searching"
+           [ngClass]="{'select__list-searching--open': openLanguageDropdown}"
+           *ngIf="openLanguageDropdown">
+        <div class="select__search">
+          <input class="select__search-input" type="text" placeholder="Search" (input)="searchLanguage($event)">
+          <div class="select__search-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="select__list-searching-body">
+
+          <perfect-scrollbar>
+            <div class="select__searching-items-wrap">
+              <div class="select__searching-item" *ngFor="let lang of languageArray" (click)="selectLanguage(lang)">
+                <span>{{lang.languageName}}</span>
+              </div>
+            </div>
+          </perfect-scrollbar>
+        </div>
+      </div>
+    </div>
+    <!-- выпадающий список -->
+
+    <!-- <div class="select__list-searching select__list-searching ng-star-inserted">
+      <div class="select__searching-item ng-star-inserted">
+        <img class="select__list-item-icon" src="assets/img/flag-ind.svg">
+        <span>Indonesia</span>
+      </div>
+    </div> -->
+  </div>
+  <div class="input-wr">
+    <div class="select refill__select refill__select--cripto">
+      <div class="select__value select__value--active" (click)="countryDropdownToggle()">
+        {{selectedCountry?.countryName || ""}}
+        <div class="select__triangle"></div>
+        <div class="select__label" *ngIf="!selectedCountry">{{'Country' | translate}}</div>
+      </div>
+      <div class="select__label" *ngIf="selectedCountry">{{'Country' | translate}}</div>
+      <div class="select__line"></div>
+      <div class="select__list-searching"
+           [ngClass]="{'select__list-searching--open': openCountryDropdown}"
+           *ngIf="openCountryDropdown">
+        <div class="select__search">
+          <input class="select__search-input" type="text" placeholder="Search" (input)="searchCountry($event)">
+          <div class="select__search-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="select__list-searching-body">
+
+          <perfect-scrollbar>
+            <div class="select__searching-items-wrap">
+              <div class="select__searching-item" *ngFor="let country of countryArray" (click)="selectCountry(country)">
+                <span>{{country.countryName}}</span>
+              </div>
+            </div>
+          </perfect-scrollbar>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="button-wr">
+    <button class="btn btn--center verification-btn" [disabled]="load"
+            [ngClass]="{'active': (selectedCountry && selectedLanguage) && !load}"
+            (click)="sendStepOne()">
+      <span class="btn-text">
+        Verification
+      </span>
+    </button>
+  </div>
+
+</form>
+<div class="widget__content loading-container" *ngIf="load">
+  <app-loader></app-loader>
+</div>

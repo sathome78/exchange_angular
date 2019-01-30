@@ -36,6 +36,15 @@
         ></app-identity-popup>
       </div>
 
+      <div>
+        <app-kyc-popup
+          *ngIf="isKYCPopupOpen"
+          [showPopup]="isKYCPopupOpen"
+          [step]="kycStep"
+        >
+        </app-kyc-popup>
+      </div>
+
       <div *ngIf="isLoginPopupOpen">
         <app-login-popup></app-login-popup>
       </div>
