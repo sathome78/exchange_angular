@@ -9,6 +9,7 @@ import * as mainSelectors from '../reducers';
 import { State } from '../reducers/index';
 import { CoreService } from '../services/core.service';
 import { of } from 'rxjs';
+import {SettingsService} from '../../settings/settings.service';
 
 @Injectable()
 export class CoreEffects {
@@ -29,6 +30,7 @@ export class CoreEffects {
     private actions$: Actions,
     private coreService: CoreService,
     private store: Store<State>,
+    private settingsService: SettingsService,
   ) {
   }
 
@@ -87,6 +89,19 @@ export class CoreEffects {
           map(res => (new coreActions.SetCryptoCurrenciesForChoose(res))),
           catchError(error => of(new coreActions.FailLoadCurrenciesForChoose(error)))
         );
+    }));
+
+  @Effect()
+  loadVerificationStatus$: Observable<Action> = this.actions$
+    .pipe(ofType<coreActions.LoadVerificationStatusAction>(coreActions.LOAD_VERIFICATION_STATUS))
+    .pipe(switchMap(() => {
+      return this.settingsService.getCurrentVerificationStatusKYC()
+        .pipe(
+          map(res => {
+              return new coreActions.SetVerificationStatusAction(res);
+            },
+          catchError(error => of(new coreActions.FailLoadVerificationStatusAction(error)))
+        ));
     }));
 
   @Effect()

@@ -64,6 +64,7 @@ export const getTradingType = createSelector(getDashboardState, fromDashboard.ge
  */
 
 export const getLanguage = createSelector(getCoreState, fromCore.getLanguage);
+export const getVerificationStatus = createSelector(getCoreState, fromCore.getVerificationStatus);
 export const getSimpleCurrencyPairsSelector = createSelector(getCoreState, fromCore.getAllSimpleCurrencyPairs);
 export const getAllCurrenciesForChoose = createSelector(getCoreState, fromCore.getAllCurrenciesForChoose);
 export const getCryptoCurrenciesForChoose = createSelector(getCoreState, fromCore.getCryptoCurrenciesForChoose);

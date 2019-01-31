@@ -6,6 +6,10 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {NOT_VERIFIED, LEVEL_ONE, LEVEL_TWO} from '../../shared/constants';
 import {AuthService} from '../../shared/services/auth.service';
+import {select, Store} from '@ngrx/store';
+import {getVerificationStatus, State} from '../../core/reducers';
+import {SetVerificationStatusAction} from '../../core/actions/core.actions';
+import * as coreAction from '../../core/actions/core.actions';
 
 @Component({
   selector: 'app-verification',
@@ -24,29 +28,26 @@ export class VerificationComponent implements OnInit, OnDestroy {
   constructor(private popupService: PopupService,
               private verificationService: UserVerificationService,
               private authService: AuthService,
-              private settingsService: SettingsService,
-              ) { }
+              private store: Store<State>,
+              ) {}
 
   ngOnInit() {
-    this.getVerificationStatus();
+    this.store.pipe(select(getVerificationStatus))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.verificationStatus = res as string;
+        console.log(res);
+    });
+
     this.popupService
       .getKYCPopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
         if (!value) {
-          this.getVerificationStatus();
+          this.store.dispatch(new coreAction.LoadVerificationStatusAction());
         }
       });
      this.showComponent = this.authService.getUsername().match(this.pattern) ? true : false;
-  }
-
-  getVerificationStatus() {
-    this.settingsService.getCurrentVerificationStatusKYC()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.verificationStatus = res as string;
-        console.log(res);
-      });
   }
 
   ngOnDestroy(): void {
@@ -59,9 +60,9 @@ export class VerificationComponent implements OnInit, OnDestroy {
     this.popupService.showIdentityPopup(mode);
   }
 
-  onOpenKYCPopup(step: number) {
-    if (step === 1 && this.verificationStatus === NOT_VERIFIED) {
-      this.popupService.showKYCPopup(step);
+  onOpenKYCPopup(level: number, ) {
+    if (level === 1 && this.verificationStatus === NOT_VERIFIED || level === 2 && this.verificationStatus === LEVEL_ONE ) {
+      this.popupService.showKYCPopup(1);
     }
   }
 }
