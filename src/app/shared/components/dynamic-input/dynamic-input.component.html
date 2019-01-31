@@ -36,6 +36,7 @@
           [attr.data-key]="i"
           class="select__list-item hover-coin"
           [class.active]="i === arrowKeyLocation"
+          (mouseenter)="onHover($event)"
         >
           {{item.text}}
         </li>

@@ -116,4 +116,8 @@ export class DynamicInputComponent implements OnChanges {
     }
   }
 
+  onHover(e) {
+    this.arrowKeyLocation = +e.target.dataset['key']
+  }
+
 }
