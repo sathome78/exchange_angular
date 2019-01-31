@@ -45,6 +45,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.verificationStatus = res as string;
+        console.log(res);
       });
   }
 
@@ -59,7 +60,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   }
 
   onOpenKYCPopup(step: number) {
-    if (step === 1 && this.verificationStatus === NOT_VERIFIED || step === 2 && this.verificationStatus === LEVEL_TWO) {
+    if (step === 1 && this.verificationStatus === NOT_VERIFIED) {
       this.popupService.showKYCPopup(step);
     }
   }
