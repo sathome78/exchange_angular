@@ -1,4 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {PopupService} from '../../../shared/services/popup.service';
 
 @Component({
   selector: 'app-kyc-level1-step-two',
@@ -8,8 +9,19 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 export class KycLevel1StepTwoComponent implements OnInit {
 
   @Input() iframeUrl = '';
-  constructor() { }
+  @ViewChild('iframe') iframe: ElementRef;
+  private appHost;
+  constructor(
+    private popupService: PopupService,
+  ) { }
 
   ngOnInit() {
+    this.appHost = window.location.host;
+  }
+
+  loadIframe() {
+    if (this.iframe.nativeElement.contentWindow.location.host === this.appHost) {
+      this.popupService.showKYCPopup(null);
+    }
   }
 }
