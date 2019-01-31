@@ -104,6 +104,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
    */
   changePage(page: number): void {
     this.currentPage = page;
+    this.showCancelOrderConfirm = null;
   }
 
   /**
