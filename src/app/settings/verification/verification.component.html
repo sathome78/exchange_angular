@@ -15,7 +15,7 @@
         <span class="button__text">Level 1 <br>Verification ID Document</span>
       </button>
       <div class="level-description">
-        <span>Пройдите варификацию ID <br>и получи аккаунт Level 1</span>
+        <span *ngIf="verificationStatus === NOT_VERIFIED">Пройдите варификацию ID <br>и получи аккаунт Level 1</span>
       </div>
     </div>
     <div class="settings-button-wr">
@@ -31,9 +31,9 @@
         <span class="button__text">Level 2 <br>Utility Bill</span>
       </button>
       <div class="level-description">
-        <span>Доступно после варификации ID</span>
+        <span *ngIf="verificationStatus === NOT_VERIFIED">Доступно после варификации ID</span>
         <!-- когда выполнен степ 1 выводить это описание -->
-        <!-- <span class="l2">Пройдите варификацию Utility Bill <br>и получи аккаунт Level 2 <br>(доступно после варификации ID)</span> -->
+         <span class="l2" *ngIf="verificationStatus === LEVEL_ONE">Пройдите варификацию Utility Bill <br>и получи аккаунт Level 2 <br>(доступно после варификации ID)</span>
       </div>
     </div>
   </div>
