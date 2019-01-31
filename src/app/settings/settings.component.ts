@@ -6,6 +6,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromCore from '../core/reducers';
 import {Observable} from 'rxjs';
 import * as settingsActions from './store/actions/settings.actions'
+import * as coreAction from '../core/actions/core.actions';
 
 @Component({
   selector: 'app-settings',
@@ -28,6 +29,7 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(new coreAction.LoadVerificationStatusAction());
     // this.lang$.subscribe(lang => this.translate.use(lang));
     this.store.dispatch(new settingsActions.LoadGAStatusAction(this.authService.getUsername()));
     this.store.dispatch(new settingsActions.LoadSessionTimeAction());
