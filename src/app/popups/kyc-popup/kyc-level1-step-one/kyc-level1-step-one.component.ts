@@ -1,10 +1,10 @@
-import {Component, EventEmitter, HostListener, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {SettingsService} from '../../../settings/settings.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {KycCountry} from '../../../shared/interfaces/kyc-country-interface';
 import {KycLanguage} from '../../../shared/interfaces/kyc-language-interface';
-import {LEVEL_ONE} from '../../../shared/constants';
+import {LEVEL_ONE, LEVEL_TWO} from '../../../shared/constants';
 
 @Component({
   selector: 'app-kyc-level1-step-one',
@@ -14,6 +14,7 @@ import {LEVEL_ONE} from '../../../shared/constants';
 export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
 
   @Output() goToSecondStep = new EventEmitter<string>();
+  @Input() verificationStatus: string;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public openLanguageDropdown = false;
   public openCountryDropdown = false;
@@ -90,7 +91,7 @@ export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
 
   sendStepOne() {
     this.load = true;
-    this.settingsService.getIframeUrlForKYC(LEVEL_ONE, this.selectedLanguage.languageCode, this.selectedCountry.countryCode)
+    this.settingsService.getIframeUrlForKYC(this.verificationStatus === LEVEL_ONE ? LEVEL_TWO : LEVEL_ONE, this.selectedLanguage.languageCode, this.selectedCountry.countryCode)
       .subscribe(res => {
         this.load = false;
         this.goToSecondStep.emit(res);
