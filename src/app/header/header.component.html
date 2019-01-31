@@ -84,7 +84,7 @@
 
       </li> -->
     </ul>
- 
+
     <a class="menu__link" href="https://t.me/exrates_community" target="blank">
       <span class="menu__link-text">Community</span>
     </a>
@@ -121,7 +121,7 @@
               ${{(myBalance | async)?.USD | roundCurrency: 'USD' | formatCurrency}}
             </span>
           </div>
-          <a class="menu__link login-menu__link" routerLink="/settings" (click)="tempPopup()" *ngIf="isAuthenticated()">
+          <a class="menu__link login-menu__link" routerLink="/settings" *ngIf="isAuthenticated()">
             <span class="menu__link-text">{{'Settings' | translate}}</span>
           </a>
           <a class="menu__link login-menu__link menu__link--auth--log" (click)="onLogout()" style="padding-bottom: 16px;">
@@ -142,7 +142,7 @@
         </li>
       </ng-template>
     </div>
-    
+
     <ul class="menu language">
       <li class="menu__item menu__item--with-submenu menu__item--disabled">
         <a class="menu__link">
