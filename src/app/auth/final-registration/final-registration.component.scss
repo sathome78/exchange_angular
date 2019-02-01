@@ -12,3 +12,23 @@
 .wrap-input__message{
   color: #c2c5cb;
 }
+
+.input--error {
+  border-color: #d04437 !important;
+}
+
+.input-hint-wrapper {
+  position: relative !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  top: 0 !important;
+}
+
+input.pass {
+  margin-bottom: 10px !important;
+}
+
+.confirm-wrap {
+  margin-bottom: 10px !important;
+}
