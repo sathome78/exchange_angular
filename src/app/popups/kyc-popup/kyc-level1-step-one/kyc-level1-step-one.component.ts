@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {SettingsService} from '../../../settings/settings.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -13,6 +13,8 @@ import {LEVEL_ONE, LEVEL_TWO} from '../../../shared/constants';
 })
 export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
 
+  @ViewChild('countryInput') countryInput: ElementRef;
+  @ViewChild('languageInput') languageInput: ElementRef;
   @Output() goToSecondStep = new EventEmitter<string>();
   @Input() verificationStatus: string;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -23,14 +25,18 @@ export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
   public countryArray: KycCountry[] = [];
   public languageArrayDefault: KycLanguage[] = [];
   public countryArrayDefault: KycCountry[] = [];
+  public showCountryLabelFlag = false;
+  public showLanguageLabelFlag = false;
   public selectedLanguage;
   public selectedCountry;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout({target}) {
     if (target.className !== 'select__value select__value--active' &&
-      target.className !== 'select__search-input' &&
+      target.className !== 'select__search-input no-line' &&
       target.className !== 'select__triangle') {
+      this.countryInput.nativeElement.value = this.selectedCountry ? this.selectedCountry.countryName : '';
+      this.languageInput.nativeElement.value = this.selectedLanguage ? this.selectedLanguage.languageName : '';
       this.openLanguageDropdown = false;
       this.openCountryDropdown = false;
     }
@@ -58,21 +64,31 @@ export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  languageDropdownToggle() {
+  languageDropdownToggle(value = null) {
+    this.languageInput.nativeElement.value = this.selectedLanguage ? this.selectedLanguage.languageName : '';
     this.openCountryDropdown = false;
-    this.openLanguageDropdown = !this.openLanguageDropdown;
+    this.openLanguageDropdown = value ? value : !this.openLanguageDropdown;
     this.languageArray = this.languageArrayDefault;
   }
 
-  countryDropdownToggle() {
+  countryDropdownToggle(value = null) {
+    this.countryInput.nativeElement.value = this.selectedCountry ? this.selectedCountry.countryName : '';
     this.openLanguageDropdown = false;
-    this.openCountryDropdown = !this.openCountryDropdown;
+    this.openCountryDropdown = value ? value : !this.openCountryDropdown;
     this.countryArray = this.countryArrayDefault;
   }
 
   selectCountry(country) {
     this.selectedCountry = country;
     this.countryDropdownToggle();
+  }
+
+  showCountryLabel(flag: boolean) {
+    this.showCountryLabelFlag = flag;
+  }
+
+  showLanguageLabel(flag: boolean) {
+    this.showLanguageLabelFlag = flag;
   }
 
   searchLanguage(e) {
