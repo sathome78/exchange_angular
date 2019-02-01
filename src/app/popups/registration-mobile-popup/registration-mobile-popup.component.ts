@@ -24,6 +24,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   public emailForm: FormGroup;
   public emailSubmited = false;
+  public existEmail = true;
   public passwordForm: FormGroup;
   public nameForm: FormGroup;
   public nameSubmited = false;
@@ -97,7 +98,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   initForm() {
     this.emailForm = new FormGroup({
-      email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator(), this.utilsService.specialCharacterValidator()]}),
+      email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator(), this.utilsService.specialCharacterValidator()], updateOn: 'blur'}),
     });
     this.passwordForm = new FormGroup({
       password: new FormControl('', {validators: [Validators.required]}),
@@ -109,25 +110,33 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   emailSubmit() {
     this.emailSubmited = true;
-    if (this.emailForm.valid) {
-      const email = this.emailForm.get('email').value.trim();
-      this.email = email;
-      this.userService.checkIfEmailExists(email).subscribe(res => {
-        if (!res) {
-          this.email = email;
+    if (this.emailForm.valid && !this.existEmail) {
           this.setTemplate('captchaTemplate');
           this.emailMessage = '';
-        } else {
-          this.emailMessage = this.translateService.instant('Email exists');
-        }
-      }, err => {
-        this.emailMessage = this.translateService.instant('server error');
-      });
     }
   }
 
   emailInput(e) {
+    this.existEmail = true;
     this.emailMessage = '';
+  }
+
+  checkEmail() {
+    if (this.emailForm.get('email').valid) {
+      this.email = this.emailForm.get('email').value.trim();
+      this.userService.checkIfEmailExists(this.email).subscribe(res => {
+        if (!res) {
+          this.existEmail = false;
+          this.emailMessage = '';
+        } else {
+          this.existEmail = true;
+          this.emailMessage = this.translateService.instant('Email exists');
+        }
+      }, err => {
+        this.existEmail = true;
+        this.emailMessage = this.translateService.instant('Service is temporary unavailable, please try again later');
+      });
+    }
   }
 
   nameSubmit() {

@@ -162,6 +162,7 @@
               required
               class="wrap-input__input"
               formControlName="email"
+              (blur)="checkEmail()"
               (input)= "emailInput($event)"
               [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched}"
             >
@@ -172,7 +173,7 @@
             <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required'] && emailForm.get('email').touched">
               {{'Email is required' | translate}}
             </span>
-              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailInvalid'] && emailForm.get('email').touched && !emailForm.get('email').errors['required']">
+              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailInvalid'] && emailForm.get('email').touched && !emailForm.get('email').errors['required'] && !emailForm.get('email').errors['specialCharacter']">
               {{'Wrong email' | translate}}
             </span>
               <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['specialCharacter'] && !emailForm.get('email').errors['required']">
@@ -188,10 +189,9 @@
           </div>
         </div>
 
-        <button class="btn popup__btn" (click)="emailSubmit()" [disabled]="!emailForm.valid && !agreeTerms && emailMessage === ''"
+        <button class="btn popup__btn" (click)="emailSubmit()" [disabled]="!emailForm.valid && existEmail && emailMessage === ''"
                 [ngClass]="{
-                'popup__btn--active': emailForm.valid && agreeTerms && emailMessage === '',
-                'btn--error': !emailForm.controls['email'].valid && emailSubmited
+                'popup__btn--active': emailForm.valid && !existEmail && emailMessage === ''
                 }"
         >{{'Create an account' | translate}}</button>
       </form>
