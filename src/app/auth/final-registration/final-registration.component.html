@@ -5,17 +5,17 @@
     <h4 class="popup__subtitle">{{message}}</h4>
     <form class="popup__form" [formGroup]="passwordForm" >
 
-      <div class="wrap-input popup__wrap-input">
+      <div class="wrap-input popup__wrap-input"
+           [ngClass]="{'wrap-input--error': !passwordFirst.valid && passwordFirst.touched && passwordFirst.errors != null}"
+      >
         <input
           (input)="onPasswordInput($event)"
           class="wrap-input__input pass"
           [(ngModel)]="password"
           [type]="getInputType()"
           formControlName="password"
-          [ngClass]="{'input--error': !passwordFirst.valid && passwordFirst.touched}"
         >
-        <label class="wrap-input__label" for=""
-               [ngClass]="{'msg-error': !passwordFirst.valid && passwordFirst.touched}">{{'Password' | translate}}</label>
+        <label class="wrap-input__label" for="">{{'Password' | translate}}</label>
         <div class="wrap-input__line"></div>
             <div class="input-hint-wrapper">
               <ng-container *ngIf="passwordFirst.errors != null">
@@ -33,22 +33,28 @@
         </div>
 
 
-      <div class="wrap-input popup__wrap-input confirm-wrap">
+      <div class="wrap-input popup__wrap-input"
+           [ngClass]="{
+          'wrap-input--error': !passwordConfirm.valid &&
+                                !!passwordConfirm.value &&
+                                passwordConfirm.touched &&
+                                passwordConfirm.errors != null &&
+                                passwordConfirm.errors['passwordsNotMatch']}">
         <input
           (input)="onRepeatPasswordInput($event)"
           class="wrap-input__input pass"
           [(ngModel)]="confirmPass"
           [type]="getInputType()"
           formControlName="confirmPassword"
-          [ngClass]="{'input--error': passValue !== '' && !passwordConfirm.valid && passwordConfirm.touched}"
+
         >
-        <label class="wrap-input__label" for="" [ngClass]="{'msg-error': passValue !== '' && !passwordConfirm.valid && passwordConfirm.touched}">
+        <label class="wrap-input__label" for="" >
           {{'Repeat password' | translate}}</label>
         <div class="wrap-input__line"></div>
 
 
           <div class="input-hint-wrapper" style="height: 15px;">
-            <ng-container *ngIf="passValue !== '' && passwordConfirm.touched && passwordConfirm.errors != null">
+            <ng-container *ngIf="passwordConfirm.value && passwordConfirm.touched && passwordConfirm.errors != null">
           <span *ngIf="passwordConfirm.errors['passwordsNotMatch']"
                 class="wrap-input__message msg-error" translate>
               Passwords you provided do not match.

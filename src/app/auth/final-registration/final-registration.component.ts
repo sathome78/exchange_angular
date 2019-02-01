@@ -25,13 +25,10 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
   newPassword: FormControl;
   newConfirmPassword: FormControl;
   isPasswordVisible = false;
-  passValue = '';
   token: string;
   password;
   confirmPass;
   message: string;
-  isSubmit = false;
-  public msgRed = false;
 
   constructor(
     private router: Router,
@@ -94,8 +91,6 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
   }
 
   onPasswordInput(event) {
-    this.passValue = event.target.value;
-    // this.passwordConfirm.reset();
     if (event.data === ' ') {
       const temp = this.deleteSpace(event.target.value);
       this.passwordForm.controls['password'].setValue(temp);
