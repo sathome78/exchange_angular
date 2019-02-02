@@ -23,13 +23,13 @@
         <!--Input error section starts-->
         <div *ngIf="emailForm.get('email').invalid && emailForm.get('email').errors">
           <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required'] && emailForm.get('email').touched">
-            {{'This field is required.' | translate}}
+            {{'Email is required' | translate}}
           </span>
           <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailInvalid'] || emailForm.get('email').errors['specialCharacter']">
-            {{'Please, enter valid email address.' | translate}}
+            {{'Please, enter valid email address' | translate}}
           </span>
           <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailExists']">
-            {{'This email doesn\'t exist.' | translate}}
+            {{'This email doesn\'t exist' | translate}}
           </span>
         </div>
         <!--Input error section ends-->
