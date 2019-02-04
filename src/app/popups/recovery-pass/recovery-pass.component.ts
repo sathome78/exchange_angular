@@ -69,7 +69,6 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
 
   emailSubmit() {
     this.setTemplate('captchaTemplate');
-    sendRecoveryPasswordGtag();
   }
 
   resolvedCaptcha(event) {
@@ -77,10 +76,10 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
     this.userService.sendToEmailForRecovery(email)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.afterCaptchaMessage = `We sent the confirmation link to
-          ${email} <br> Please check your email and
-          follow instructions.`;
+        this.afterCaptchaMessage = `${this.translateService.instant('We sent the confirmation link to')}
+          ${email} <br> ${'Please check your email and follow instructions'}.`;
         this.setTemplate('emailConfirmLinkTemplate');
+        sendRecoveryPasswordGtag();
       }, error => {
         this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later.');
         this.setTemplate('emailConfirmLinkTemplate');
