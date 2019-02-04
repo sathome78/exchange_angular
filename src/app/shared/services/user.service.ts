@@ -2,9 +2,9 @@ import {Router} from '@angular/router';
 import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {AsyncValidatorFn, AbstractControl} from '@angular/forms';
-import {tap, map} from 'rxjs/internal/operators';
+import {tap, map, catchError} from 'rxjs/internal/operators';
 import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
 import {AuthService} from './auth.service';
@@ -46,6 +46,7 @@ export class UserService {
       return this.checkIfEmailExists(control.value.trim())
         .pipe(map((isExist: boolean) => recovery ? !isExist : isExist))
         .pipe(map((isExist: boolean) => isExist ? {'emailExists': true} : null))
+        .pipe(catchError(() => of({'checkEmailCrash': true})));
     };
   }
 
