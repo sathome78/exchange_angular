@@ -1,9 +1,13 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {PopupService} from '../../shared/services/popup.service';
+import {Component, OnInit, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserService} from '../../shared/services/user.service';
-import {keys} from '../../core/keys';
 import {TranslateService} from '@ngx-translate/core';
+import {takeUntil} from 'rxjs/internal/operators';
+import {Subject} from 'rxjs';
+
+import {PopupService} from '../../shared/services/popup.service';
+import {UserService} from '../../shared/services/user.service';
+import {UtilsService} from '../../shared/services/utils.service';
+import {keys} from '../../core/keys';
 
 declare var sendRecoveryPasswordGtag: Function;
 
@@ -12,25 +16,22 @@ declare var sendRecoveryPasswordGtag: Function;
   templateUrl: './recovery-pass.component.html',
   styleUrls: ['./recovery-pass.component.scss']
 })
-export class RecoveryPassComponent implements OnInit {
-
+export class RecoveryPassComponent implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   @ViewChild('emailInputTemplate') emailInputTemplate: TemplateRef<any>;
   @ViewChild('captchaTemplate') captchaTemplate: TemplateRef<any>;
   @ViewChild('emailConfirmLinkTemplate') emailConfirmLinkTemplate: TemplateRef<any>;
   public currentTemplate: TemplateRef<any>;
   public emailForm: FormGroup;
-  public email: string;
-  public emailMessage = '';
   public afterCaptchaMessage = '';
   public recaptchaKey = keys.recaptchaKey;
-  public emailSubmited = false;
-  public emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
 
   constructor(
     private popupService: PopupService,
     private userService: UserService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private utilsService: UtilsService
   ) { }
 
   ngOnInit() {
@@ -39,10 +40,22 @@ export class RecoveryPassComponent implements OnInit {
     this.initForm();
   }
 
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
   initForm() {
     this.emailForm = new FormGroup({
-      email: new FormControl('', {validators: [Validators.required, Validators.pattern(this.emailRegex)]}),
-    });
+      email: new FormControl('', {
+        validators: [
+          Validators.required,
+          this.utilsService.emailValidator(),
+          this.utilsService.specialCharacterValidator()
+        ],
+        asyncValidators: [this.userService.emailValidator(true)]
+      }),
+    }, {updateOn: 'blur'});
   }
 
   closeMe() {
@@ -55,35 +68,22 @@ export class RecoveryPassComponent implements OnInit {
   }
 
   emailSubmit() {
-    this.emailSubmited = true;
-    if (this.emailForm.valid) {
-      const email = this.emailForm.get('email').value;
-      this.email = email;
-      this.userService.checkIfEmailExists(email).subscribe(res => {
-        if (res) {
-          this.email = email;
-          this.setTemplate('captchaTemplate');
-          this.emailMessage = '';
-          sendRecoveryPasswordGtag();
-        } else {
-          this.emailMessage = this.translateService.instant('this email not found');
-        }
-      }, err => {
-        this.emailMessage = this.translateService.instant('server error');
-      });
-    }
+    this.setTemplate('captchaTemplate');
   }
 
   resolvedCaptcha(event) {
-    this.userService.sendToEmailForRecovery(this.email).subscribe(res => {
-      this.afterCaptchaMessage = `We sent the confirmation link to
-        ${this.email} <br> Please check your email and
-        follow instructions.`;
-      this.setTemplate('emailConfirmLinkTemplate');
-    }, error => {
-      this.afterCaptchaMessage = this.translateService.instant('server error');
-      this.setTemplate('emailConfirmLinkTemplate');
-    });
+    const email = this.emailForm.get('email').value;
+    this.userService.sendToEmailForRecovery(email)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.afterCaptchaMessage = `${this.translateService.instant('We sent the confirmation link to')}
+          ${email} <br> ${this.translateService.instant('Please check your email and follow instructions.')}`;
+        this.setTemplate('emailConfirmLinkTemplate');
+        sendRecoveryPasswordGtag();
+      }, error => {
+        this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later.');
+        this.setTemplate('emailConfirmLinkTemplate');
+      });
 
   }
 
