@@ -23,7 +23,5 @@ function sendGenerateWalletGtag(id) {
   console.log("Successfully send generate wallet send");
 }
 
-window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'UA-75711135-3');
+
