@@ -8,6 +8,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/user.service';
 import {keys} from '../../core/keys';
 import {UtilsService} from 'app/shared/services/utils.service';
+import {Router} from '@angular/router';
 
 declare var sendRegistrationGtag: Function;
 
@@ -37,6 +38,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   public afterCaptchaMessage;
 
   constructor(
+    private router: Router,
     private popupService: PopupService,
     private userService: UserService,
     private translateService: TranslateService,
@@ -104,7 +106,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     this.emailForm = new FormGroup({
       email: new FormControl('', {
         validators: [
-          Validators.required,
+          // Validators.required,
           this.utilsService.emailValidator(),
           this.utilsService.specialCharacterValidator()
         ],
@@ -119,15 +121,14 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     });
   }
 
-  emailSubmit() {
-    this.setTemplate('captchaTemplate');
+  goToTerms() {
+    this.router.navigate(['/static/terms-and-conditions']);
+    this.closeMe();
   }
 
-  nameSubmit() {
-    this.nameSubmited = true;
-    if (this.nameForm.valid) {
-      this.firstName = this.nameForm.get('username').valid;
-      // this.userService.checkIfUsernameExists(this.firstName).subscribe(res => console.log(res));
+  emailSubmit() {
+    console.log(this.emailForm)
+    if (this.emailForm.valid) {
       this.setTemplate('captchaTemplate');
     }
   }

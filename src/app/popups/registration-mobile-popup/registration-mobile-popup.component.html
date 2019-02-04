@@ -153,23 +153,23 @@
     <ng-template #emailInputTemplate>
       <h6 class="popup__title">{{'Register' | translate}}</h6>
       <!--<h4 class="popup__subtitle">{{emailMessage}}</h4>-->
-      <form class="popup__form" [formGroup]="emailForm">
+      <form class="popup__form" [formGroup]="emailForm" >
         <div >
           <div class="wrap-input popup__wrap-input"
-               [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched}"
+               [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched && emailForm.get('email').value !== ''}"
           >
             <input
               required
               class="wrap-input__input"
               formControlName="email"
-              [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched}"
+              [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched }"
             >
             <label class="wrap-input__label" for="">{{'Email' | translate}}</label>
             <div class="wrap-input__line"></div>
             <!--Input error section starts-->
             <div *ngIf="emailForm.get('email').invalid && emailForm.get('email').errors">
-              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required'] && emailForm.get('email').touched">
-                {{'Email is required' | translate}}
+              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['checkEmailCrash'] && emailForm.get('email').touched">
+                {{'Service is temporary unavailable, please try again later' | translate}}
               </span>
                 <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailInvalid'] && emailForm.get('email').touched && !emailForm.get('email').errors['required'] && !emailForm.get('email').errors['specialCharacter']">
                 {{'Wrong email' | translate}}
@@ -200,7 +200,7 @@
             <path d="M3.42383 7.38525L6.16746 9.89641L15.4752 1" stroke="#BFBFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </span>{{'By registering you agree with' | translate}}</div>
-        <a class="popup__link" >{{'Terms and conditions' | translate}}</a>
+        <a class="popup__link" (click)="goToTerms()">{{'Terms and conditions' | translate}}</a>
       </div>
       <div class="popup__links-wrap popup__links-wrap--hidden-mob">
         <span>{{'Already have an account?' | translate}}</span>
