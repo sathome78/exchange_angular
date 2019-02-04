@@ -7,7 +7,7 @@ import {PopupService} from '../../shared/services/popup.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/user.service';
 import {keys} from '../../core/keys';
-import { UtilsService } from 'app/shared/services/utils.service';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 declare var sendRegistrationGtag: Function;
 
@@ -84,7 +84,8 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.afterCaptchaMessage = this.translateService.instant(`${'We sent the confirmation link to'}
-          <br> <span class="popup__email-link"> ${email} </span> <br> ${'Please check your email and follow instructions.'}`);
+           <br> <span class="popup__email-link"> ${email} </span> <br>
+           ${this.translateService.instant('Please check your email and follow instructions.')}`);
         this.setTemplate('emailConfirmLinkTemplate');
         sendRegistrationGtag();
       }, error => {
