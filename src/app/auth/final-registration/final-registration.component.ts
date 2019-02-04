@@ -58,7 +58,6 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
   }
 
   createUser(): void {
-    console.log(this.passwordForm);
     if (this.passwordForm.valid) {
       const sendData = {
         tempToken: this.token,
