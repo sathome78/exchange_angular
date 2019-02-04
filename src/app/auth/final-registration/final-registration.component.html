@@ -66,7 +66,7 @@
 
 
       <button class="btn popup__btn" (click)="createUser()" style="margin-top: 22px;"
-              [ngClass]="{'bg-none': passwordForm.valid }"
+              [ngClass]="{'bg-none': passwordForm.valid, 'cursor-none': !passwordForm.valid }"
       >{{'Finish registration' | translate}}</button>
     </form>
   </div>
