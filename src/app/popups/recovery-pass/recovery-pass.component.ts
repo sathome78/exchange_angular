@@ -82,7 +82,7 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
           follow instructions.`;
         this.setTemplate('emailConfirmLinkTemplate');
       }, error => {
-        this.afterCaptchaMessage = this.translateService.instant('server error');
+        this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later.');
         this.setTemplate('emailConfirmLinkTemplate');
       });
 
