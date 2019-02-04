@@ -15,9 +15,9 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor() { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const clientIp = localStorage.getItem(IP_USER_HEADER) ? localStorage.getItem(IP_USER_HEADER) : '192.168.0.1';
     if (localStorage.getItem(TOKEN) && req.url !== IP_CHECKER_URL) {
       const token = localStorage.getItem(TOKEN);
-      const clientIp = localStorage.getItem(IP_USER_HEADER) ? localStorage.getItem(IP_USER_HEADER) : '192.168.0.1';
       const headers = req.headers
                                 .append('Content-Type', 'application/json')
                                 .append(X_AUTH_TOKEN, token)
@@ -33,7 +33,8 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(copiedReq);
     } else {
       const headers = req.headers
-        .append('Content-Type', 'application/json');
+        .append('Content-Type', 'application/json')
+        .append(IP_USER_KEY, clientIp);
       const copiedReq = req.clone({
         headers,
       });
