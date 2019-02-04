@@ -77,7 +77,7 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.afterCaptchaMessage = `${this.translateService.instant('We sent the confirmation link to')}
-          ${email} <br> ${'Please check your email and follow instructions'}.`;
+          ${email} <br> ${this.translateService.instant('Please check your email and follow instructions.')}`;
         this.setTemplate('emailConfirmLinkTemplate');
         sendRecoveryPasswordGtag();
       }, error => {

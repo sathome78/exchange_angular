@@ -83,13 +83,8 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     this.userService.sendToEmailConfirmation(email)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.afterCaptchaMessage = this.translateService.instant(`We sent the confirmation link to
-          <br>
-          <span class="popup__email-link">
-          ${email}
-          </span>
-          <br> Please check your email and
-          follow instructions.`);
+        this.afterCaptchaMessage = this.translateService.instant(`${'We sent the confirmation link to'}
+          <br> <span class="popup__email-link"> ${email} </span> <br> ${'Please check your email and follow instructions.'}`);
         this.setTemplate('emailConfirmLinkTemplate');
         sendRegistrationGtag();
       }, error => {
