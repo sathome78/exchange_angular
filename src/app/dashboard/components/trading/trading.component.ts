@@ -310,7 +310,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * get commission index (send request)
    */
   getCommissionIndex(type: string, currencyPairId: number): void {
-    if (type && currencyPairId) {
+    if (type && currencyPairId && this.authService.isAuthenticated()) {
       const subscription = this.tradingService.getCommission(type, currencyPairId).subscribe(res => {
         type === this.BUY ?
         this.buyCommissionIndex = res.commissionValue :

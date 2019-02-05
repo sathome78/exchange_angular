@@ -47,6 +47,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     private marketService: MarketService,
     private store: Store<State>,
     private dashboardWebsocketService: DashboardWebSocketService,
+    private crd: ChangeDetectorRef,
     private userService: UserService) {
     super();
   }
@@ -240,6 +241,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     // this.prefPairs = this.choosePrefPairs();
     this.emitWhenSelectedPairIsUpdated(currencyPairs);
     this.loadingFinished();
+    this.crd.detectChanges();
   }
 
 

@@ -41,6 +41,7 @@ import {FundsEffects} from '../funds/store/effects/funds.effects';
 import {DashboardEffects} from './effects/dashboard.effects';
 import {TranslateModule} from '@ngx-translate/core';
 import {MomentModule} from 'angular2-moment';
+import {MarketsItemComponent} from './components/markets/markets-item/markets-item.component';
 
 
 export function socketProvider() {
@@ -103,6 +104,7 @@ const stompConfig: StompConfig = {
     CurrencySortingPipe,
     NicknamePipe,
     PositivePipe,
+    MarketsItemComponent,
 
     // PIPES END
   ],
