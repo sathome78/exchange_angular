@@ -1,6 +1,6 @@
 <div class="page-wrap" [ngClass]="{'dark-theme': isCurrentThemeDark()}">
   <!--<h3>{{'built: 27.10.2018 10:17:12' }}</h3>-->
-  <a href="https://t.me/exrates_official" target="_blank" class="banner-wrap" id="banner">
+  <!-- <a href="https://t.me/exrates_official" target="_blank" class="banner-wrap" id="banner">
     <span class="banner">
         <span class="banner__logo">
         <div class="text">Exrates lab</div>
@@ -19,86 +19,240 @@
         </span>
     </button>
     </span>
-  </a>
-  <app-header></app-header>
+  </a> -->
+  <article class="banner-wr">
+    <style>
+    .banner-wr{
+      width: 100%;
+      font-size: 20px;
+      background-color: #262151;
+      font-family: Roboto;
+      font-weight: 500;
+      padding-left: 20px;
+      padding-right: 20px;
+      height: 3em;
+      overflow: hidden;
+    }
 
-  <div class="content">
+    .banner-wr .banner-content-inner:nth-child(1){
+      transform: translateY(0);
+      animation: 6s an1 3s infinite;
+    }
+    .banner-wr .banner-content-inner:nth-child(2){
+      transform: translateY(-3.2em);
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      animation: 6s an2 3s infinite;
+    }
+    .banner-wr .banner-content{
+      transition: .3s;
+      position: relative;
+    }
+    .banner-wr .banner-content-inner{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 2px;
+      transition: .3s;
+    }
 
-    <div style="flex-grow: 1; width: 100%;">
+    .banner-wr .banner-img{
+      margin-right: .85em;
+      height: calc(3em - 2px);
+      padding-top: 2px;
 
-      <div *ngIf="isTfaPopupOpen">
-        <app-two-factor-popup [showPopup]="isTfaPopupOpen"></app-two-factor-popup>
+    }
+    .banner-img  img{
+      height: 100%;
+      display: block;
+
+    }
+
+
+    .banner-wr .banner-name{
+      margin-right: .75em;
+    }
+    .banner-name p{
+      opacity: 0.3;
+      color: #ffffff;
+      font-size: .8em;
+    }
+
+
+    .banner-wr .youtube-pic{
+        margin-right: .75em;
+        height: .9em;
+    }
+    .youtube-pic img{
+      height: 100%;
+    }
+    .banner-wr .banner-discription{ 
+    }
+    .banner-discription p{
+        opacity: 0.3;
+      color: #ffffff;
+      font-size: .8em;
+    }
+    @keyframes an1{
+      0%{
+        transform: translateY(0); 
+      }
+      23%{
+         transform: translateY(3.5em);
+          opacity: 1;
+      }
+      23%{
+        opacity: 0;
+      }
+      25%{
+        transform: translateY(-3.5em);
+      }
+      50%{
+          transform: translateY(-3.5em);
+          opacity: 1;
+      }
+      75%{
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes an2{
+      0%{
+        transform: translateY(-3.5em); 
+      }
+      25%{
+         transform: translateY(0);
+      }
+      50%{
+          transform: translateY(0);
+          opacity: 1;
+      }
+      72%{
+        opacity: 1;
+        transform: translateY(3.5em); 
+      }
+      73%{
+        opacity: 0;
+      }
+      75%{
+        transform: translateY(-3.5em);
+      }
+    }
+  </style>
+  <div class="banner-content">
+    <div class="banner-content-inner">
+      <div class="banner-img">
+        <img src="../../assets/img/b-pic.png" alt="">
       </div>
-
-      <div *ngIf="isIdentityPopupOpen">
-        <app-identity-popup
-        [showPopup]="isIdentityPopupOpen"
-        ></app-identity-popup>
+      <div class="banner-name">
+        <p>NakamotoJedi</p>
       </div>
-
-      <div>
-        <app-kyc-popup
-          *ngIf="isKYCPopupOpen"
-          [showPopup]="isKYCPopupOpen"
-          [step]="kycStep"
-        >
-        </app-kyc-popup>
+      <div class="youtube-pic">
+        <img src="../../assets/img/youtube-pic.png" alt="">
       </div>
-
-      <div *ngIf="isLoginPopupOpen">
-        <app-login-popup></app-login-popup>
+      <div class="banner-discription">
+        <p>Episode #68 - The World Blockchain Computer</p>
       </div>
-
-      <div *ngIf="isLoginMobilePopupOpen">
-        <app-login-popup-mobile></app-login-popup-mobile>
+    </div>
+    <div class="banner-content-inner">
+      <div class="banner-img">
+        <img src="../../assets/img/mon.png" alt="">
       </div>
-
-      <div *ngIf="isRegistrationMobilePopupOpen">
-        <app-registration-mobile-popup></app-registration-mobile-popup>
+      <div class="banner-name">
+        <p>NakamotoJedi</p>
       </div>
-
-      <div *ngIf="isRecoveryPasswordPopupOpen">
-        <app-recovery-pass></app-recovery-pass>
+      <div class="youtube-pic">
+        <img src="../../assets/img/youtube-pic.png" alt="">
       </div>
-
-      <div *ngIf="isRestoredPasswordPopupOpen">
-        <app-restored-password-popup></app-restored-password-popup>
+      <div class="banner-discription">
+        <p>Episode #69 - First Among Equals</p>
       </div>
-
-      <div *ngIf="isOpenAlreadyRegisteredPopup">
-        <app-already-registered-popup></app-already-registered-popup>
-      </div>
-
-      <div *ngIf="isAlreadyRestoredPasswordPopupOpen">
-        <app-already-restored-password-popup></app-already-restored-password-popup>
-      </div>
-      <div *ngIf="isSessionTimeSavedPopupOpen">
-        <app-session-time-saved-popup></app-session-time-saved-popup>
-      </div>
-
-      <div *ngIf="isChangedPasswordPopupOpen">
-        <app-password-changed-popup></app-password-changed-popup>
-      </div>
-
-      <div *ngIf="isOpenDemoTradingPopup">
-        <app-demo-trading-popup
-        [message]="popupService.demoPopupMessage"
-        ></app-demo-trading-popup>
-      </div>
-      <!--<app-refill-money></app-refill-money>-->
-      <!--<app-send-money></app-send-money>-->
-      <router-outlet></router-outlet>
-
-      <!--<a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>-->
-
     </div>
   </div>
+</article>
 
-  <app-notification
-    *ngFor="let notification of notificationMessages; let i = index;"
-    [notification]="notification"
-    (notificationClosed)="onNotificationMessageClose(i)">
-  </app-notification>
+<app-header></app-header>
 
-  <app-footer></app-footer>
+<div class="content">
+
+  <div style="flex-grow: 1; width: 100%;">
+
+    <div *ngIf="isTfaPopupOpen">
+      <app-two-factor-popup [showPopup]="isTfaPopupOpen"></app-two-factor-popup>
+    </div>
+
+    <div *ngIf="isIdentityPopupOpen">
+      <app-identity-popup
+      [showPopup]="isIdentityPopupOpen"
+      ></app-identity-popup>
+    </div>
+
+    <div>
+      <app-kyc-popup
+      *ngIf="isKYCPopupOpen"
+      [showPopup]="isKYCPopupOpen"
+      [step]="kycStep"
+      >
+    </app-kyc-popup>
+  </div>
+
+  <div *ngIf="isLoginPopupOpen">
+    <app-login-popup></app-login-popup>
+  </div>
+
+  <div *ngIf="isLoginMobilePopupOpen">
+    <app-login-popup-mobile></app-login-popup-mobile>
+  </div>
+
+  <div *ngIf="isRegistrationMobilePopupOpen">
+    <app-registration-mobile-popup></app-registration-mobile-popup>
+  </div>
+
+  <div *ngIf="isRecoveryPasswordPopupOpen">
+    <app-recovery-pass></app-recovery-pass>
+  </div>
+
+  <div *ngIf="isRestoredPasswordPopupOpen">
+    <app-restored-password-popup></app-restored-password-popup>
+  </div>
+
+  <div *ngIf="isOpenAlreadyRegisteredPopup">
+    <app-already-registered-popup></app-already-registered-popup>
+  </div>
+
+  <div *ngIf="isAlreadyRestoredPasswordPopupOpen">
+    <app-already-restored-password-popup></app-already-restored-password-popup>
+  </div>
+  <div *ngIf="isSessionTimeSavedPopupOpen">
+    <app-session-time-saved-popup></app-session-time-saved-popup>
+  </div>
+
+  <div *ngIf="isChangedPasswordPopupOpen">
+    <app-password-changed-popup></app-password-changed-popup>
+  </div>
+
+  <div *ngIf="isOpenDemoTradingPopup">
+    <app-demo-trading-popup
+    [message]="popupService.demoPopupMessage"
+    ></app-demo-trading-popup>
+  </div>
+  <!--<app-refill-money></app-refill-money>-->
+  <!--<app-send-money></app-send-money>-->
+  <router-outlet></router-outlet>
+
+  <!--<a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>-->
+
+</div>
+</div>
+
+<app-notification
+*ngFor="let notification of notificationMessages; let i = index;"
+[notification]="notification"
+(notificationClosed)="onNotificationMessageClose(i)">
+</app-notification>
+
+<app-footer></app-footer>
 </div>
