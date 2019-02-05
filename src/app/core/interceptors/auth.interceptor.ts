@@ -36,7 +36,6 @@ export class AuthInterceptor implements HttpInterceptor {
         headers = req.headers
           .append('Content-Type', 'application/json')
           .append(IP_USER_KEY, clientIp);
-        debugger
       } else {
         headers = req.headers
           .append('Content-Type', 'application/json')

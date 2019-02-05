@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs/Subject';
 import {Store, select} from '@ngrx/store';
@@ -16,7 +16,8 @@ import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.servi
 @Component({
   selector: 'app-markets',
   templateUrl: 'markets.component.html',
-  styleUrls: ['markets.component.scss']
+  styleUrls: ['markets.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketsComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();

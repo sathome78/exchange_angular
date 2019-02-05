@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Subject, forkJoin, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/internal/operators';
 
@@ -12,7 +12,8 @@ import {EmbeddedOrdersService} from './embedded-orders.service';
 @Component({
   selector: 'app-embedded-orders',
   templateUrl: './embedded-orders.component.html',
-  styleUrls: ['./embedded-orders.component.scss']
+  styleUrls: ['./embedded-orders.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmbeddedOrdersComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   /** dashboard item name (field for base class)*/

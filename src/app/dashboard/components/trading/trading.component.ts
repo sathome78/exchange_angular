@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, HostListener} from '@angular/core';
+import {Component, OnDestroy, OnInit, HostListener, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {Subject} from 'rxjs/Subject';
@@ -27,7 +27,8 @@ import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 @Component({
   selector: 'app-trading',
   templateUrl: 'trading.component.html',
-  styleUrls: ['trading.component.scss']
+  styleUrls: ['trading.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradingComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
 

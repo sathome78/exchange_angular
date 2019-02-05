@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {ChatService} from './chat.service';
@@ -9,7 +9,8 @@ import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
 @Component({
   selector: 'app-chat',
   templateUrl: 'chat.component.html',
-  styleUrls: ['chat.component.scss']
+  styleUrls: ['chat.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatComponent extends AbstractDashboardItems implements OnInit {
   /** dashboard item name (field for base class)*/

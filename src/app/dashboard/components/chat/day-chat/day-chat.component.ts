@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {DateChatItem} from '../date-chat-item.model';
 import {ChatItem} from '../chat-item.model';
 import {ChatService} from '../chat.service';
@@ -10,7 +10,8 @@ import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
 @Component({
   selector: 'app-day-chat',
   templateUrl: 'day-chat.component.html',
-  styleUrls: ['day-chat.component.scss']
+  styleUrls: ['day-chat.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DayChatComponent implements OnInit, OnDestroy {
 

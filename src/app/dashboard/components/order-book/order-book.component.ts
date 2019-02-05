@@ -1,31 +1,20 @@
-import {Component, OnDestroy, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {setHostBindings} from '@angular/core/src/render3/instructions';
-import {forEach} from '@angular/router/src/utils/collection';
-import {renderDetachView} from '@angular/core/src/view/view_attach';
-import {ChildActivationStart} from '@angular/router';
+import {Component, OnDestroy, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {map, takeUntil} from 'rxjs/internal/operators';
+import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs/Subject';
 import * as _reduce from 'lodash/reduce';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {OrderBookService} from './order-book.service';
-import {MarketService} from '../markets/market.service';
 import {DashboardService} from '../../dashboard.service';
 import {TradingService} from '../trading/trading.service';
 import {CurrencyPair} from 'app/model/currency-pair.model';
-import {State, getCurrencyPair, getLastSellBuyOrder, getCurrencyPairInfo} from 'app/core/reducers/index';
+import {State, getCurrencyPair, getCurrencyPairInfo} from 'app/core/reducers/index';
 import {OrderItem} from 'app/model/order-item.model';
-import {MockDataService} from '../../../shared/services/mock-data.service';
 import {
-  ChangeCurrencyPairAction,
   SelectedOrderBookOrderAction,
   SetLastPriceAction,
-  SetLastSellBuyOrderAction
 } from '../../actions/dashboard.actions';
-import {LastSellBuyOrder} from '../../../model/last-sell-buy-order.model';
-import {defaultLastSellBuyOrder} from '../../reducers/default-values';
-import {TradeItem} from '../../../model/trade-item.model';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {UtilsService} from '../../../shared/services/utils.service';
 import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
@@ -33,7 +22,8 @@ import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.servi
 @Component({
   selector: 'app-order-book',
   templateUrl: 'order-book.component.html',
-  styleUrls: ['order-book.component.scss']
+  styleUrls: ['order-book.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderBookComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -56,9 +46,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   public dataForSell: OrderItem [];
   public dataBurBuy: OrderItem [];
-
-  // public dataForSell: OrderItem [];
-  // public dataBurBuy: OrderItem [];
   public isBuy: boolean;
 
   public maxExrate: string;
@@ -114,16 +101,16 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   constructor(
     private store: Store<State>,
     private orderBookService: OrderBookService,
-    private marketService: MarketService,
-    private mockDataService: MockDataService,
     private dashboardService: DashboardService,
     private dashboardWebsocketService: DashboardWebSocketService,
     private utils: UtilsService,
+    private crd: ChangeDetectorRef,
     private tradingService: TradingService) {
     super();
   }
 
   ngOnInit() {
+
     this.lastExrate = 0;
     // this.lastSellBuyOrders = defaultLastSellBuyOrder;
     this.itemName = 'order-book';
@@ -150,6 +137,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPairInfo) => {
         this.currencyPairInfo = pair;
+        this.crd.detectChanges();
       });
 
     this.store
@@ -162,7 +150,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
           this.initData(pair);
           this.loadMinAndMaxValues(pair);
         }
-        // this.updateSubscription(pair);
+        this.crd.detectChanges()
       });
 
     this.dashboardWebsocketService.setRabbitStompSubscription()
@@ -253,6 +241,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.store.dispatch(new SetLastPriceAction(lastPrice))
         this.setData();
         this.loadingFinished();
+        this.crd.detectChanges();
       });
   }
 
@@ -336,27 +325,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       }
     });
     return false;
-  }
-
-
-  /**
-   * When currency pair is updated we need to load orders for new pair
-   * @param {CurrencyPair} pair - active pair
-   */
-  updateSubscription(pair: CurrencyPair) {
-    // this.orderBookService.subscribeStompOrders(pair, this.precision)
-    //   .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'SELL') : orders.type === 'SELL'))
-    //   .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
-    //   .subscribe(orders => {
-    //     this.sellOrders = orders;
-    //   });
-    // this.orderBookService.subscribeStompOrders(pair, this.precision)
-    //   .pipe(map(orders => orders.filter ? orders.filter(order => order.type === 'BUY') : orders.type === 'BUY'))
-    //   .pipe(map(orders => orders[0] ? orders[0].data : orders.data))
-    //   .subscribe(orders => {
-    //     this.buyOrders = orders;
-    //     this.setData();
-    //   });
   }
 
   addOrUpdate(orders: OrderItem[], newItems: OrderItem[]) {
