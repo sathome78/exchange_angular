@@ -8,7 +8,7 @@
       </a>
     </div>
     <div class="modal__header-mob">
-      <div class="steps__counter steps__counter--mob">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/{{stepsSize}}</div>
+      <div class="steps__counter steps__counter--mob">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/2</div>
       <div class="modal__header-mob-controls">
         <a class="modal__control-mob" href="#">
           <img class="modal__control-icon" src="../../../../assets/img/learn-blue.svg">
@@ -42,6 +42,7 @@
       <div [ngSwitch]="step">
         <div *ngSwitchCase="1">
           <app-kyc-level1-step-one
+            [verificationStatus]="status$ | async"
           (goToSecondStep)="goToSecondStep($event)"
           ></app-kyc-level1-step-one>
         </div>

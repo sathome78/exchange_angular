@@ -6,7 +6,7 @@ import {ThemeService} from './shared/services/theme.service';
 import {IpAddress, UserService} from './shared/services/user.service';
 import {IP_CHECKER_URL, IP_USER_KEY} from './shared/services/http.utils';
 import {LoggingService} from './shared/services/logging.service';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {NotificationsService} from './shared/components/notification/notifications.service';
 import {NotificationMessage} from './shared/models/notification-message-model';
 import {DashboardWebSocketService} from './dashboard/dashboard-websocket.service';
@@ -71,12 +71,14 @@ export class AppComponent implements OnInit, OnDestroy {
     // const browserLang = translate.getBrowserLang();
     // this.store.dispatch(new ChangeLanguageAction(browserLang.match(/en|ru|uk|pl/) ? browserLang : 'en'));
     // this.store.pipe(select(getLanguage)).subscribe(res => this.translate.use(res));
-
-    this.setIp();
+    if(!localStorage.getItem(IP_USER_KEY)) {
+      this.setIp();
+    }
   }
 
   ngOnInit(): void {
     this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
+    this.authService.setSessionFinishListener();
 
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
@@ -218,11 +220,15 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loginSubscription.unsubscribe();
     this.loginMobileSubscription.unsubscribe();
     // this.registrationMobileSubscription.unsubscribe();
+    this.authService.removeSessionFinishListener();
   }
 
   private setIp() {
+
     this.http.get<IpAddress>(IP_CHECKER_URL)
-      .subscribe( response => {
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => {
+        console.log(response)
         // this.logger.debug(this, 'Client IP: ' + response.ip);
         localStorage.setItem(IP_USER_KEY, response.ip);
       });
@@ -233,6 +239,7 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   private subscribeForNotifications(): void {
     this.notificationService.message
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((message: NotificationMessage) => {
         this.notificationMessages.push(message);
       });

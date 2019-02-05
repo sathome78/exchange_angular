@@ -40,7 +40,20 @@
   }
 }
 
-
 perfect-scrollbar{
   height: 150px;
 }
+
+.select__value--active{
+  padding: 0;
+  input.no-line {
+    border-bottom: none;
+    padding: 0 0 0 10px;
+    color: #000 !important;
+    &::placeholder {
+      color: #A0A0A0;
+    }
+  }
+}
+
+

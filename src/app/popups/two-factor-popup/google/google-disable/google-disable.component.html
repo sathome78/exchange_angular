@@ -5,31 +5,6 @@
 
 <form [formGroup]="form">
   <div class="row row--jcc">
-    <div class="wrap-input modal__input-2fa"
-         [ngClass]="{'wrap-input--error': !form.get('email').valid && form.get('email').touched}"
-    >
-      <input
-        required
-        class="wrap-input__input"
-        type="email"
-        formControlName="email">
-      <label class="wrap-input__label">{{'Email' | translate}}</label>
-      <div class="wrap-input__line"></div>
-      <div *ngIf="form.get('email').touched && form.get('email').errors != null">
-        <span
-          *ngIf="form.get('email').errors['required']"
-          class="wrap-input__message">
-          {{'This field is required.' | translate}}
-        </span>
-        <span
-          *ngIf="form.get('email').invalid && !form.get('email').errors['required']"
-          class="wrap-input__message">
-          {{'Please, enter valid email address.' | translate}}
-        </span>
-      </div>
-    </div>
-  </div>
-  <div class="row row--jcc">
     <div
       class="wrap-input modal__input-2fa"
       [ngClass]="{'wrap-input--error': !form.get('password').valid && form.get('password').touched}" >

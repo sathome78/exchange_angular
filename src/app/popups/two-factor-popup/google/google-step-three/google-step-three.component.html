@@ -9,31 +9,6 @@
       <input
         required
         class="wrap-input__input"
-        type="email"
-        formControlName="email">
-      <label class="wrap-input__label">{{'Email' | translate}}</label>
-      <div class="wrap-input__line"></div>
-      <ng-container *ngIf="emailControl.touched && emailControl.errors">
-        <span
-          class="wrap-input__message"
-          *ngIf="emailControl.errors['required']"
-        >
-          {{'Email is required.' | translate}}
-        </span>
-        <span
-          class="wrap-input__message"
-          *ngIf="emailControl.errors['emailInvalid']"
-        >
-          {{'Please, enter valid email address.' | translate}}
-        </span>
-      </ng-container>
-    </div>
-  </div>
-  <div class="row row--jcc">
-    <div class="wrap-input modal__input-2fa">
-      <input
-        required
-        class="wrap-input__input"
         type="password"
         formControlName="password">
       <label class="wrap-input__label">{{'Password' | translate}}</label>

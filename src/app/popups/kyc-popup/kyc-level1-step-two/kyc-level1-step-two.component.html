@@ -1,1 +1,1 @@
-<iframe width="100%" height="750px" [src]="iframeUrl | safe"></iframe>
+<iframe width="100%" height="750px" #iframe (load)="loadIframe()" [src]="iframeUrl | safe"></iframe>

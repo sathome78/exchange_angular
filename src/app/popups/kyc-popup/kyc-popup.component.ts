@@ -1,6 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Animations} from '../../shared/animations';
 import {PopupService} from '../../shared/services/popup.service';
+import {select, Store} from '@ngrx/store';
+import {getVerificationStatus, State} from '../../core/reducers';
 
 @Component({
   selector: 'app-kyc-popup',
@@ -15,10 +17,14 @@ export class KycPopupComponent implements OnInit {
   @Input() showPopup;
   @Input() step = 1;
   public iframeUrl = '';
+  public status$;
 
   constructor(
     private popupService: PopupService,
-  ) { }
+    private store: Store<State>,
+  ) {
+    this.status$ = this.store.pipe(select(getVerificationStatus));
+  }
 
   ngOnInit() {
   }

@@ -9,6 +9,7 @@ import {PopupService} from 'app/shared/services/popup.service';
 import {takeUntil} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
+import * as settingsActions from '../store/actions/settings.actions';
 
 @Component({
   selector: 'app-session',
@@ -67,6 +68,7 @@ export class SessionComponent implements OnInit, OnDestroy {
         .subscribe(resp => {
             // this.statusMessage = this.translateService.instant('Session period is updated!');
             this.popupService.toggleSessionTimeSavedPopup(true);
+            this.store.dispatch(new settingsActions.SetSessionTimeAction(this.value))
           },
           err => {
             const status = err['status'];

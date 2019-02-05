@@ -6,9 +6,11 @@ export class UtilsService {
 
   private fiatCurrencies: Array<string> = ['USD', 'EUR', 'CNY', 'IDR', 'NGN', 'TRY', 'UAH', 'VND', 'AED'];
   private cache = {}
-  private pattern = /(^$|(^([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
-  private forbiddenSymbolsEmailRegex = /[!№#$%^&*<>()=']/ig;
-  private passwordPattern = /(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9\@\*\%\!\#\^\&\$\<\>\.\(\)\-\_\=\+]{8,40})$/ig;
+  private pattern = /(^$|(^([^<>()\[\]\\,;:\s@"]+(\.[^<>()\[\]\\,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
+  private forbiddenSymbolsEmailRegex = /[~`{}/|?!№#$%^&*":;,[\]<>()=']/ig;
+  // private passwordPattern = /(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9\@\*\%\!\#\^\&\$\<\>\.\'\(\)\-\_\=\+]{8,40})$/ig;
+  private passwordPattern = /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z][!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\'\d]{8,40}/ig;
+  private checkCyrilic = /[а-яА-ЯёЁ]/ig;
 
   isFiat(currencyName: string): boolean {
     if (typeof this.cache[currencyName] !== 'undefined') {
@@ -23,7 +25,8 @@ export class UtilsService {
   emailValidator(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
       const forbidden = new RegExp(this.pattern).test(control.value.trim());
-      return forbidden ? null : {'emailInvalid': {value: control.value.trim()}} ;
+      const excludeCyrilic = new RegExp(this.checkCyrilic).test(control.value.trim())
+      return forbidden && !excludeCyrilic ? null : {'emailInvalid': {value: control.value.trim()}} ;
     };
   }
 
@@ -38,7 +41,8 @@ export class UtilsService {
     return (control: AbstractControl): {[key: string]: any} | null => {
       const value = control.value ? control.value.trim() : ''
       const result  = new RegExp(this.passwordPattern).test(value);
-      return result ? null : {'passwordValidation': true};
+      const excludeCyrilic = new RegExp(this.checkCyrilic).test(value)
+      return result && !excludeCyrilic ? null : {'passwordValidation': true};
     };
   }
 
@@ -60,3 +64,4 @@ export class UtilsService {
   }
 
 }
+

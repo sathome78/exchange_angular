@@ -91,3 +91,8 @@ app-balance  perfect-scrollbar > .ps.ps--active-y > .ps__rail-y{
     display: flex;
     align-items: center;
   }
+
+.dynamic-input {
+  padding-right: 30px !important;
+  text-overflow: ellipsis !important;
+}

@@ -43,7 +43,6 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep {
         console.log(err);
       });
     this.form = new FormGroup({
-      'email': new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator()]}),
       'password': new FormControl('', {validators: [Validators.required]}),
       'pincode': new FormControl('', {validators: [Validators.required]})
     });
@@ -53,7 +52,7 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep {
   onNextStep() {
     // this.popupService.closeTFAPopup();
     // this.popupService.moveNextStep();
-    if(this.form.valid) {
+    if (this.form.valid) {
       const password = this.form.get('password').value;
       const pin = this.form.get('pincode').value;
       this.googleService.submitGoogleAuthSecret(this.secretCode, password, pin)
@@ -78,9 +77,6 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep {
       });
   }
 
-  get emailControl() {
-    return this.form.get('email');
-  }
   get passwordControl() {
     return this.form.get('password');
   }
