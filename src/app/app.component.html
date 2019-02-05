@@ -36,7 +36,7 @@
 
     .banner-wr .banner-content-inner:nth-child(1){
       transform: translateY(0);
-      animation: 6s an1 3s infinite;
+      animation: 20s an1 10s infinite;
     }
     .banner-wr .banner-content-inner:nth-child(2){
       transform: translateY(-3.2em);
@@ -45,7 +45,7 @@
       bottom: 0;
       right: 0;
       left: 0;
-      animation: 6s an2 3s infinite;
+      animation: 20s an2 10s infinite;
     }
     .banner-wr .banner-content{
       transition: .3s;
@@ -95,26 +95,31 @@
         opacity: 0.3;
       color: #ffffff;
       font-size: .8em;
+          padding-top: 4px;
     }
     @keyframes an1{
       0%{
         transform: translateY(0); 
       }
-      23%{
+      22%{
+        transform: translateY(0); 
+      }
+      23.5%{
          transform: translateY(3.5em);
           opacity: 1;
       }
-      23%{
-        opacity: 0;
-      }
       25%{
+        opacity: 0;
+        transform: translateY(3.5em);
+      }
+      28%{
         transform: translateY(-3.5em);
       }
-      50%{
+      73.5%{
           transform: translateY(-3.5em);
           opacity: 1;
       }
-      75%{
+      76%{
         transform: translateY(0);
       }
     }
@@ -124,23 +129,25 @@
         opacity: 1;
         transform: translateY(-3.5em); 
       }
+      23.5%{
+         transform: translateY(-3.5em);
+      }
       25%{
-         transform: translateY(0);
+        transform: translateY(0);
       }
-      50%{
-          transform: translateY(0);
-          opacity: 1;
+      28%{
+        transform: translateY(0);
       }
-      71%{
+      73.5%{
         opacity: 1;
-        transform: translateY(3.5em); 
-      }
-      71%{
-        opacity: 0;
+        transform: translateY(0); 
       }
       75%{
-         opacity: 0;
-        transform: translateY(-3.5em);
+        transform: translateY(3.5em); 
+        opacity: 0;
+      }
+      76%{
+        transform: translateY(-3.5em); 
       }
     }
   </style>
