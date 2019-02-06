@@ -11,6 +11,7 @@ import { RestorePasswordGuard } from './shared/guards/restore-password.guard';
 
 const routes: Routes = [
   // permit all
+  { path: 'registration', component: DashboardComponent },
   { path: 'markets/:currency-pair', component: DashboardComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'final-registration/token', component: FinalRegistrationComponent, canActivate: [RegistrationGuard] },
