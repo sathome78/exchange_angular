@@ -3,8 +3,10 @@ import {PopupService} from '../../shared/services/popup.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/user.service';
 import {keys} from '../../core/keys';
-import {TranslateService} from '@ngx-translate/core';
-import { UtilsService } from 'app/shared/services/utils.service';
+import {UtilsService} from 'app/shared/services/utils.service';
+import {Router} from '@angular/router';
+import {Location} from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 declare var sendRegistrationGtag: Function;
 
@@ -37,8 +39,10 @@ export class RegistrationMobilePopupComponent implements OnInit {
   constructor(
     private popupService: PopupService,
     private userService: UserService,
+    private router: Router,
     private translateService: TranslateService,
     private utilsService: UtilsService,
+    private location: Location,
   ) {
   }
 
@@ -69,6 +73,7 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   closeMe() {
     this.popupService.closeRegistrationPopup();
+    this.location.replaceState('dashboard');
   }
 
   resolvedCaptcha(event) {
@@ -90,8 +95,8 @@ export class RegistrationMobilePopupComponent implements OnInit {
   }
 
   openLogInMobile() {
-    this.popupService.showMobileLoginPopup(true);
     this.closeMe();
+    this.popupService.showMobileLoginPopup(true);
   }
 
 
@@ -105,6 +110,11 @@ export class RegistrationMobilePopupComponent implements OnInit {
     this.nameForm = new FormGroup({
       username: new FormControl('', {validators: Validators.required}),
     });
+  }
+
+  goToTerms() {
+    this.closeMe();
+    this.router.navigate(['/static/terms-and-conditions']);
   }
 
   emailSubmit() {

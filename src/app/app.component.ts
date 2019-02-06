@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, enableProdMode} from '@angular/core';
 import {PopupService} from './shared/services/popup.service';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
