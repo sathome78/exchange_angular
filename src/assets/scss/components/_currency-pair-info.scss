@@ -198,3 +198,44 @@
 }
 
 /*--- DARK THEME END---*/
+
+@media(max-width: 992px){
+  .currency-pair-info__inner{
+    padding: 0px 12px;
+  }
+  .currency-pair-info__info{
+    width: 56%;
+  }
+  .currency-pair-info__change-pair{
+
+  }
+
+  .dark-theme {
+    .currency-pair-info__dropdown{
+      &:first-child {
+        .dropdown__btn{
+          padding-right: 0;
+          &:after{
+            display: none;
+          }
+        }
+      }
+    }
+    .currency-pair-info__change-pair{
+      width: auto;
+      height: auto;
+          font-size: 18px;
+    margin: 0;
+      background: none;
+    }
+    .currency-pair-info__pair{
+          padding: 6px 0 0;
+    }
+    .currency-pair-info__info{
+          padding: 10px 0 7px 14px;
+    }
+    .currency-pair-info__price{
+      font-size: 18px;
+    }
+  }
+}

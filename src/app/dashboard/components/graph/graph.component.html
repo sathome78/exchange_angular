@@ -66,7 +66,9 @@
           <div class="dropdown currency-pair-info__dropdown" (click)="openSearchBar(0)">
             <div class="dropdown__btn">{{!firstCurrency ? 'BTC' : firstCurrency}}</div>
           </div>
-          <div class="currency-pair-info__change-pair"></div>
+          <div class="currency-pair-info__change-pair">
+            <span class="currency-pair-info__change-pair--mob">/</span>
+          </div>
           <div class="dropdown currency-pair-info__dropdown">
             <div class="dropdown__btn" (click)="openDropdown()">{{secondCurrency}}</div>
             <ul class="dropdown__list" *ngIf="marketDropdown">

@@ -6,7 +6,23 @@
 
   /*--- modificators end ---*/
   /*--- elements start ---*/
-
+&__limit-dropdown {
+      .dropdown__btn {
+        &:before {
+          content: "";
+          display: inline-block;
+          width: 13px;
+          height: 13px;
+          margin-right: 8px;
+          background-image: url('assets/img/limit-order-blue.svg');
+          background-repeat: no-repeat;
+          background-position: center;
+          -webkit-background-size: 100%;
+          background-size: 100%;
+        }
+      }
+      margin-right: 8px;
+    }
   .input-row{
     margin-top: 17px;
   }
@@ -881,23 +897,7 @@
         display: none;
       }
     }
-    &__limit-dropdown {
-      .dropdown__btn {
-        &:before {
-          content: "";
-          display: inline-block;
-          width: 13px;
-          height: 13px;
-          margin-right: 8px;
-          background-image: url('assets/img/limit-order-blue.svg');
-          background-repeat: no-repeat;
-          background-position: center;
-          -webkit-background-size: 100%;
-          background-size: 100%;
-        }
-      }
-      margin-right: 8px;
-    }
+    
     &__trading-row {
       margin-top: 13px;
     }
@@ -1232,18 +1232,7 @@
           }
         }
       }
-      .wrap-input__currency{
-        position: absolute;
-        top: 2px;
-        bottom: 0;
-        right: 14px;
-        margin: auto;
-        display: flex;
-        align-items: center;
-        pointer-events: none;
-        text-transform: uppercase;
-        min-width: 35px;
-      }
+      
       .wrap-input__input {
         &:not([value=""]) {
           ~ .wrap-input__label {
@@ -1272,5 +1261,22 @@
     }
   }
 }
-
+.wrap-input__currency{
+        position: absolute;
+        top: 2px;
+        bottom: 0;
+        right: 14px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        pointer-events: none;
+        text-transform: uppercase;
+        min-width: 35px;
+      }
 /*--- DARK THEME END---*/
+@media(max-width: 992px){
+  .wrap-input__currency{
+      top: 1px;
+          right: 0px;
+    }
+}

@@ -3,7 +3,7 @@
 }
 .radio__input:checked{
   &+.radio__text{
-        background-color: #237BEF;
+    background-color: #237BEF;
     color: #fff;
     border-color: transparent;
   }
@@ -86,9 +86,72 @@
 }
 
 
-.trading-wr--mobile .widget__trading-form {
-    display: block;
-}
 .trading-wr--mobile{
-  padding: 0 13px;
+ padding: 0 10px 0 13px;
+ .wrap-input__input{
+  height: 33px;
+  
+}
+  .avaliable--aifl{
+    flex-direction: row;
+    span{
+          font-size: 12px;
+          color: #424D5E;
+    }
+  }
+  .widget__trading-row-txt .avaliable{
+margin-top: -5px;
+  }
+  .widget__trading-row-txt .avaliable{
+    a{
+      font-size: 12px;
+      border: none;
+          font-weight: 300;
+    }
+  }
+.input-row{
+  margin-top: 14px;
+}
+ .widget__trading-form {
+  display: block;
+  width: 50%;
+  &:nth-child(2){
+    margin-left: 15px;
+  }
+  &:nth-child(1){
+    margin-right: 15px;
+  }
+  @media(max-width: 420px){
+    &:nth-child(2){
+    margin-left: 8px;
+  }
+  &:nth-child(1){
+    margin-right: 8px;
+  }
+  }
+}
+.widget__trading-form--wr{
+  display: flex;
+  justify-content: space-between;
+
+}
+.widget__trading-row{
+  margin-bottom: 13px;
+}
+.row__percent{
+  justify-content: center;
+  font-size: 16px;
+  margin-top: 7px;
+}
+.widget__trading-title{
+  font-size: 14px;
+}
+.radio{
+  &:not(:last-child){
+    margin-right: 4px;
+  }
+}
+.widget__trading-btn{
+  margin: 18px auto 0;
+}
 }
