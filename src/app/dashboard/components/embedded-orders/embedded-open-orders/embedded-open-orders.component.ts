@@ -178,14 +178,16 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
       const tempOrder = {...this.order};
       tempOrder.status = 'CANCELLED';
 
-      this.ordersService.updateOrder(tempOrder).subscribe(res => {
-        this.createNewOrder();
-        this.resetForms();
-      }, err => {
-        console.log(err);
-        this.editOrderPopup = false;
-        this.resetForms();
-      });
+      this.ordersService.updateOrder(tempOrder)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.createNewOrder();
+          this.resetForms();
+        }, err => {
+          console.log(err);
+          this.editOrderPopup = false;
+          this.resetForms();
+        });
     }
   }
 
@@ -196,13 +198,15 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
     this.order.orderId = 0;
     this.order.status = 'OPENED';
 
-    this.ordersService.createOrder(this.order).subscribe(res => {
-      this.refreshOpenOrders.emit(true);
-      this.order = {...this.defaultOrder};
-      this.orderStop = '';
-      this.editOrderPopup = false;
-      this.resetForms();
-    });
+    this.ordersService.createOrder(this.order)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.refreshOpenOrders.emit(true);
+        this.order = {...this.defaultOrder};
+        this.orderStop = '';
+        this.editOrderPopup = false;
+        this.resetForms();
+      });
   }
 
   /**
@@ -210,9 +214,11 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
    * @param order
    */
   deleteOrder(order): void {
-    this.ordersService.deleteOrder(order).subscribe(res => {
-      this.refreshOpenOrders.emit(true);
-    });
+    this.ordersService.deleteOrder(order)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.refreshOpenOrders.emit(true);
+      });
     this.editOrderPopup = false;
     this.resetForms();
   }
@@ -249,11 +255,12 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
    */
   getCommissionIndex(): void {
     if (this.orderType && this.currentPair.currencyPairId) {
-      const subscription = this.tradingService.getCommission(this.orderType, this.currentPair.currencyPairId).subscribe(res => {
-        this.commissionIndex = res.commissionValue;
-        this.getCommission(this.orderType);
-        subscription.unsubscribe();
-      });
+      this.tradingService.getCommission(this.orderType, this.currentPair.currencyPairId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.commissionIndex = res.commissionValue;
+          this.getCommission(this.orderType);
+        });
     }
   }
 

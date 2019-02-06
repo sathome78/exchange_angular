@@ -264,18 +264,15 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     });
 
     this.marketService.activeCurrencyListener
-    .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe(pair => {
-      const infoSub = this.marketService.currencyPairInfo(pair.currencyPairId)
-        .subscribe(res => {
-          this.currentCurrencyInfo = res;
-          // this.pair = pair;
-          // this.splitPairName(this.pair);
-          // TODO: remove after dashboard init load time issue is solved
-          this.ref.detectChanges();
-          infoSub.unsubscribe();
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(pair => {
+        this.marketService.currencyPairInfo(pair.currencyPairId)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(res => {
+            this.currentCurrencyInfo = res;
+            this.ref.detectChanges();
+        });
       });
-  });
   }
 
   ngOnDestroy(): void {

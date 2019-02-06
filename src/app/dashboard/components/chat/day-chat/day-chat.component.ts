@@ -2,10 +2,11 @@ import {Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy} from '@ang
 import {DateChatItem} from '../date-chat-item.model';
 import {ChatItem} from '../chat-item.model';
 import {ChatService} from '../chat.service';
-import {Subscription} from 'rxjs';
+import {Subject} from 'rxjs';
 import {SimpleChat} from '../simple-chat.model';
 import {ChatComponent} from '../chat.component';
 import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-day-chat',
@@ -19,7 +20,7 @@ export class DayChatComponent implements OnInit, OnDestroy {
   @Input () scrollWrapper: PerfectScrollbarComponent;
 
   messages: SimpleChat[];
-  newMessagesSubscription = new Subscription();
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private chatService: ChatService) { }
 
@@ -27,12 +28,14 @@ export class DayChatComponent implements OnInit, OnDestroy {
     this.messages = this.dateChatItem.messages;
     if (ChatComponent.isToday(new Date(this.dateChatItem.date))) {
       this.chatService.setStompSubscription('en');
-      this.newMessagesSubscription = this.chatService.simpleChatListener.subscribe(msg => {
-        this.messages = [...this.messages, msg];
-        setTimeout(() => {
-          this.onScrollToBottom();
-        }, 200);
-      });
+      this.chatService.simpleChatListener
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(msg => {
+          this.messages = [...this.messages, msg];
+          setTimeout(() => {
+            this.onScrollToBottom();
+          }, 200);
+        });
     }
   }
 
@@ -42,9 +45,8 @@ export class DayChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.chatService.unsubscribeStomp();
-     if (this.newMessagesSubscription) {
-       this.newMessagesSubscription.unsubscribe();
-     }
+    this.ngUnsubscribe.next()
+    this.ngUnsubscribe.complete()
   }
 
 

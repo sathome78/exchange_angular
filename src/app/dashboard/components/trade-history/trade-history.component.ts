@@ -94,6 +94,7 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
       .pipe(takeUntil(this.ngUnsubscribe))
 
     // this.allTradesSubscription = this.tradeService.allTradesListener
+    //   .pipe(takeUntil(this.ngUnsubscribe))
     //   .subscribe(orders => {
     //     this.addOrUpdate(this.allTrades, orders);
     //     /** sort items */

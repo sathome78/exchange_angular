@@ -146,12 +146,13 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   getBalance(name: string) {
-    const subscribtion = this.balanceService.getTotalBalance().subscribe(res => {
-      const allBalances = res as { sumTotalUSD: any, mapWallets: any };
-      const needBalance = allBalances.mapWallets.filter(item => item.currencyName === name);
-      this.activeBalance = needBalance[0].activeBalance;
-      subscribtion.unsubscribe();
-    });
+    this.balanceService.getTotalBalance()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        const allBalances = res as { sumTotalUSD: any, mapWallets: any };
+        const needBalance = allBalances.mapWallets.filter(item => item.currencyName === name);
+        this.activeBalance = needBalance[0].activeBalance;
+      });
   }
 
   private getFiatInfoByName(name: string) {

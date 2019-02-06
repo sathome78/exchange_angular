@@ -87,19 +87,25 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.gridsterOptions = gridsterOptions;
     this.gridsterItemOptions = gridsterItemOptions;
     // TODO: takeUntil
-    this.dataService.toolsToDashboard$.subscribe(res => this.addItemToDashboard(res));
+    this.dataService.toolsToDashboard$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => this.addItemToDashboard(res));
 
-    this.marketsService.activeCurrencyListener.subscribe(res => {
-      this.changeRatioByWidth();
-    });
+    this.marketsService.activeCurrencyListener
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.changeRatioByWidth();
+      });
 
-    this.route.params.subscribe(params => {
-      if (params && params['currency-pair']) {
-        const currencyPair: string = params['currency-pair'];
-        this.dashboardWebsocketService.pairFromDashboard = currencyPair.replace('-', '/');
-        // TODO find currency pair by name and set it as default for dashboard
-      }
-    });
+    this.route.params
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(params => {
+        if (params && params['currency-pair']) {
+          const currencyPair: string = params['currency-pair'];
+          this.dashboardWebsocketService.pairFromDashboard = currencyPair.replace('-', '/');
+          // TODO find currency pair by name and set it as default for dashboard
+        }
+      });
     this.store
       .pipe(select(fromCore.getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))

@@ -55,7 +55,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   ngOnInit() {
     this.itemName = 'markets';
     this.volumeOrderDirection = 'NONE';
-    this.marketService.makeItFast();
+    this.marketService.makeItFast(this.ngUnsubscribe);
     this.store
       .pipe(select(getCurrencyPairArray))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -73,7 +73,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.dashboardWebsocketService.setRabbitStompSubscription()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
-        this.marketService.makeItFast();
+        this.marketService.makeItFast(this.ngUnsubscribe);
       })
   }
 
@@ -221,6 +221,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   toggleFavorite(pair: CurrencyPair) {
     pair.isFavourite = !pair.isFavourite;
     this.marketService.manageUserFavouriteCurrencyPair(pair)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => console.log(res), error1 => console.log(error1));
     this.pairs = this.choosePair(this.currencyDisplayMode);
   }

@@ -63,22 +63,24 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
         tempToken: this.token,
         password: this.encryptPass(this.passwordFirst.value),
       };
-      this.userService.finalRegistration(sendData).subscribe(res => {
-        const tokenHolder = {
-          token: res.token,
-          nickname: res.nickName,
-          userId: res.id,
-          avatarPath: null,
-          language: res.language,
-          finPasswordSet: res.finPasswordSet,
-          referralReference: res.referralReference,
-        };
-        this.authService.setTokenHolder(tokenHolder);
-        this.router.navigate(['/']);
-        sendConfirmationPasswordGtag();
-      }, err => {
-        this.message = this.translateService.instant('Service is temporary unavailable, please try again later.');
-      });
+      this.userService.finalRegistration(sendData)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          const tokenHolder = {
+            token: res.token,
+            nickname: res.nickName,
+            userId: res.id,
+            avatarPath: null,
+            language: res.language,
+            finPasswordSet: res.finPasswordSet,
+            referralReference: res.referralReference,
+          };
+          this.authService.setTokenHolder(tokenHolder);
+          this.router.navigate(['/']);
+          sendConfirmationPasswordGtag();
+        }, err => {
+          this.message = this.translateService.instant('Service is temporary unavailable, please try again later.');
+        });
     }
   }
 

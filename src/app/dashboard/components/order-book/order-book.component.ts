@@ -168,17 +168,19 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     //     this.lastOrderUp = orders.lastOrder.operationType === 'SELL';
     //   });
 
-    this.tradingService.tradingChangeSellBuy$.subscribe((data) => {
-      if (data === 'SELL') {
-        this.isBuy = false;
-        this.orderTypeClass = 'order-teble--sell';
-      } else if (data === 'BUY') {
-        this.isBuy = true;
-        this.orderTypeClass = 'order-table--buy';
-      }
+    this.tradingService.tradingChangeSellBuy$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data) => {
+        if (data === 'SELL') {
+          this.isBuy = false;
+          this.orderTypeClass = 'order-teble--sell';
+        } else if (data === 'BUY') {
+          this.isBuy = true;
+          this.orderTypeClass = 'order-table--buy';
+        }
 
-      this.setData();
-    });
+        this.setData();
+      });
 
     this.setData();
 
@@ -228,6 +230,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     /** ------------------ */
 
     this.orderBookService.getOrderbookDateOnInit(pair, this.precisionOut)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(orders => {
         orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) : this.setSellOrders(orders[1]);
         orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : this.setBuyOrders(orders[1]);
@@ -306,6 +309,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
      * see example in service implementation
      */
     this.orderBookService.getMinAndMaxDayOrders(this.activeCurrencyPair.currencyPairId);
+    // .pipe(takeUntil(this.ngUnsubscribe))
     // .subscribe(res => {
     //     // console.log(res);
     //     this.maxExrate =  res['MAX'];

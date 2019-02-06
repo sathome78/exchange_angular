@@ -52,7 +52,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
     this.store
       .pipe(select(getCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair) => {
+      .subscribe((pair: CurrencyPair) => {
         this.activeCurrencyPair = pair;
         this.toOpenOrders();
       });
@@ -86,11 +86,12 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
    * request to get open-orders data
    */
   toOpenOrders(): void {
-    const sub = this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
+    this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         this.openOrders = data.items;
         this.openOrdersCount = data.count;
-        sub.unsubscribe();
+
 
         // TODO: remove after dashboard init load time issue is solved
         // this.ref.detectChanges();
@@ -101,10 +102,10 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
    * request to get history data with status (CLOSED and CANCELED)
    */
   toHistory(): void {
-    const sub = this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CLOSED')
+    this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CLOSED')
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
         this.historyOrders = data.items;
-        sub.unsubscribe();
       });
 
   }

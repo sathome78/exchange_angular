@@ -28,14 +28,6 @@ export class AppComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public kycStep = 1;
 
-  tfaSubscription: Subscription;
-  identitySubscription: Subscription;
-  kycSubscription: Subscription;
-  loginSubscription: Subscription;
-  loginMobileSubscription: Subscription;
-  // registrationMobileSubscription: Subscription;
-  recoveryPasswordSubscription: Subscription;
-
   isTfaPopupOpen = false;
   isIdentityPopupOpen = false;
   isKYCPopupOpen = false;
@@ -98,16 +90,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   subscribeForTfaEvent() {
-    this.tfaSubscription = this.popupService
-      .getTFAPopupListener()
+    this.popupService.getTFAPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
         this.isTfaPopupOpen = value ? true : false;
       });
   }
 
   subscribeForMobileLoginEvent() {
-    this.loginMobileSubscription = this.popupService
-      .getLoginMobilePopupListener()
+    this.popupService.getLoginMobilePopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
         this.isLoginMobilePopupOpen = value;
       });
@@ -161,8 +153,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   subscribeForMobileRegistrationEvent() {
-    this.popupService
-      .getRegistrationMobilePopupListener()
+    this.popupService.getRegistrationMobilePopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
         this.isRegistrationMobilePopupOpen = value;
@@ -170,8 +161,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   subscribeForRecoveryPasswordEvent() {
-    this.popupService
-      .getRecoveryPasswordListener()
+    this.popupService.getRecoveryPasswordListener()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
         this.isRecoveryPasswordPopupOpen = value;
@@ -179,24 +169,23 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   subscribeForLoginEvent() {
-    this.loginSubscription = this.popupService
-      .getLoginPopupListener()
+    this.popupService.getLoginPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
         this.isLoginPopupOpen = value;
       });
   }
 
   subscribeForIdentityEvent() {
-    this.identitySubscription = this.popupService
-      .getIdentityPopupListener()
+    this.popupService.getIdentityPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
         this.isIdentityPopupOpen = value ? true : false;
       });
   }
 
   subscribeForKYCEvent() {
-    this.kycSubscription = this.popupService
-      .getKYCPopupListener()
+    this.popupService.getKYCPopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
         this.kycStep = value;
@@ -215,11 +204,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.tfaSubscription.unsubscribe();
-    this.identitySubscription.unsubscribe();
-    this.loginSubscription.unsubscribe();
-    this.loginMobileSubscription.unsubscribe();
-    // this.registrationMobileSubscription.unsubscribe();
     this.authService.removeSessionFinishListener();
   }
 

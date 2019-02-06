@@ -215,12 +215,14 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
 
   private getCryptoInfoByName(name: string) {
     this.calculateData = defaultCommissionData;
-    this.balanceService.getCryptoMerchants(name).subscribe(res => {
-      this.cryptoInfoByName = res;
-      this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;
-      this.activeBalance = this.cryptoInfoByName.activeBalance;
-      this.minWithdrawSum = this.cryptoInfoByName.merchantCurrencyData[0].minSum;
-    });
+    this.balanceService.getCryptoMerchants(name)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.cryptoInfoByName = res;
+        this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;
+        this.activeBalance = this.cryptoInfoByName.activeBalance;
+        this.minWithdrawSum = this.cryptoInfoByName.merchantCurrencyData[0].minSum;
+      });
   }
 
   private prepareAlphabet() {

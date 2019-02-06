@@ -311,13 +311,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   getCommissionIndex(type: string, currencyPairId: number): void {
     if (type && currencyPairId && this.authService.isAuthenticated()) {
-      const subscription = this.tradingService.getCommission(type, currencyPairId).subscribe(res => {
-        type === this.BUY ?
-        this.buyCommissionIndex = res.commissionValue :
-        this.sellCommissionIndex = res.commissionValue;
-        this.commissionIndex = res.commissionValue;
-        subscription.unsubscribe();
-      });
+      this.tradingService.getCommission(type, currencyPairId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          type === this.BUY ?
+          this.buyCommissionIndex = res.commissionValue :
+          this.sellCommissionIndex = res.commissionValue;
+          this.commissionIndex = res.commissionValue;
+        });
     }
   }
 

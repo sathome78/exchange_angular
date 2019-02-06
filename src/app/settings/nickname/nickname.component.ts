@@ -1,16 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {SettingsService} from '../settings.service';
 import {LoggingService} from '../../shared/services/logging.service';
 import {HttpEvent, HttpEventType} from '@angular/common/http';
 import {TranslateService} from '@ngx-translate/core';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-nickname',
   templateUrl: './nickname.component.html',
   styleUrls: ['./nickname.component.css']
 })
-export class NicknameComponent implements OnInit {
+export class NicknameComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   private nameRegex = '^[\\A-Za-z-=]+$';
@@ -18,6 +20,8 @@ export class NicknameComponent implements OnInit {
   statusMessage = '';
   isUpdateDisabled = false;
   NICK = 'nickname';
+
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private settingsService: SettingsService,
               private logger: LoggingService,
@@ -34,8 +38,14 @@ export class NicknameComponent implements OnInit {
     this.loadNickname();
   }
 
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
   loadNickname() {
     this.settingsService.getNickname()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
           const nickname = res[this.NICK];
           this.nickname = nickname;
@@ -55,6 +65,7 @@ export class NicknameComponent implements OnInit {
     if (this.isNicknameUpdated()) {
       const nickname = this.form.get(this.NICK).value;
       this.settingsService.updateNickname(nickname)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((event: HttpEvent<Object>) => {
             if (event.type === HttpEventType.Sent) {
               this.logger.debug(this, 'Nickname is successfully updated: ' + nickname);
