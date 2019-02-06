@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {select, Store} from '@ngrx/store';
-import {getLanguage, State} from '../../core/reducers';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UtilsService} from '../../shared/services/utils.service';
 
@@ -22,15 +18,30 @@ export class ContactsComponent implements OnInit {
 
   ngOnInit() {
     this.sendForm = new FormGroup({
-      name: new FormControl('', { validators: Validators.required }),
-      email: new FormControl('', { validators: [Validators.required, this.utilsService.emailValidator(), this.utilsService.specialCharacterValidator()]}),
-      telegram: new FormControl(''),
-      text: new FormControl(''),
-    });
+      name: new FormControl('', { validators: [Validators.required, Validators.maxLength(30)]}),
+      email: new FormControl('', { validators: [Validators.required, this.utilsService.emailValidator(), this.utilsService.specialCharacterValidator(), Validators.maxLength(30)]}),
+      telegram: new FormControl('', Validators.maxLength(30)),
+      text: new FormControl('', { validators: [Validators.required, Validators.maxLength(400)]}),
+    }, {updateOn: 'blur'});
+  }
+
+  get nameControl() {
+    return this.sendForm.get('name');
+  }
+  get emailControl() {
+    return this.sendForm.get('email');
+  }
+  get telegramControl() {
+    return this.sendForm.get('telegram');
+  }
+  get textControl() {
+    return this.sendForm.get('text');
   }
 
   onSendForm() {
     console.log(this.sendForm);
+    if (this.sendForm.valid) {
+      // send form
+    }
   }
-
 }
