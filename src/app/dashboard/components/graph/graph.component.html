@@ -91,11 +91,11 @@
              [ngClass]="{'currency-pair-info__info--up': flarForArrow('up'),
                      'currency-pair-info__info--down': flarForArrow('down')}">
           <div class="currency-pair-info__change">
-            <span>{{!currentCurrencyInfo || !currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange | number:'1.0-2' | replaceNumber}}%</span>
-            <!--<span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{!currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange}}%</span>-->
-            <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="" *ngIf="flarForArrow('up')">
-            <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="" *ngIf="flarForArrow('down')">
-            <span style="margin-left: 10px;">({{(!currentCurrencyInfo || !currentCurrencyInfo.changedValue ? 0 :currentCurrencyInfo.changedValue) | replaceNumber:isFiat }} {{ secondCurrency }})</span>
+            <span>+{{!currentCurrencyInfo || !currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange | number:'1.0-2' | replaceNumber}}%</span>
+            <!-- <span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{!currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange}}%</span> -->
+            <!-- <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="" *ngIf="flarForArrow('up')">
+            <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="" *ngIf="flarForArrow('down')"> -->
+            <span style="margin-left: 10px;">+{{(!currentCurrencyInfo || !currentCurrencyInfo.changedValue ? 0 :currentCurrencyInfo.changedValue) | replaceNumber:isFiat }} {{ secondCurrency }}</span>
           </div>
           <div class="currency-pair-info__price">{{!currentCurrencyInfo || !currentCurrencyInfo.currencyRate ? 0 :currentCurrencyInfo.currencyRate | replaceNumber:isFiat }} {{ secondCurrency }}</div>
         </div>
@@ -108,8 +108,8 @@
      <div class="widget__graph--mob">
       <!-- <div class="amcharts-stock_chart_div" id="tv_chart_container"></div> -->
       <div class="widget__buy-sell-btn-wrap">
-        <a class="widget__buy-sell-btn widget__buy-sell-btn--green" (click)="setMobileWidget('trading', 'BUY')">{{'Buy ' | translate}} {{firstCurrency}}</a>
-        <a class="widget__buy-sell-btn widget__buy-sell-btn--red" (click)="setMobileWidget('trading', 'SELL')">{{'Sell ' | translate}} {{firstCurrency}}</a>
+        <a href="#" class="btn btn--active widget__trading-btn widget__trading-btn--buy">Buy BTC</a>
+        <a href="#" class="btn btn--active widget__trading-btn widget__trading-btn--sell" (click)="onSubmit(SELL)">Sell BTC</a>
       </div>
     </div>
   </div>

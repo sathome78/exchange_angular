@@ -6,23 +6,23 @@
 
   /*--- modificators end ---*/
   /*--- elements start ---*/
-&__limit-dropdown {
-      .dropdown__btn {
-        &:before {
-          content: "";
-          display: inline-block;
-          width: 13px;
-          height: 13px;
-          margin-right: 8px;
-          background-image: url('assets/img/limit-order-blue.svg');
-          background-repeat: no-repeat;
-          background-position: center;
-          -webkit-background-size: 100%;
-          background-size: 100%;
-        }
+  &__limit-dropdown {
+    .dropdown__btn {
+      &:before {
+        content: "";
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        margin-right: 8px;
+        background-image: url('assets/img/limit-order-blue.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        -webkit-background-size: 100%;
+        background-size: 100%;
       }
-      margin-right: 8px;
     }
+    margin-right: 8px;
+  }
   .input-row{
     margin-top: 17px;
   }
@@ -463,7 +463,7 @@
   &__message-nickname {
     font-size: 12px;
     line-height: 14px;
-    color: $darker-blue;
+        color: #94C2FF;
     &--hide {
       display: none;
     }
@@ -644,6 +644,7 @@
     }
   }
   &__trading-btn {
+    display: flex;
     width: 100%;
     max-width: 220px;
     height: 40px;
@@ -651,6 +652,9 @@
     line-height: 1;
     margin: 28px auto 0;
     border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
   }
   &__buy-sell-btn-wrap {
     display: flex;
@@ -1262,22 +1266,37 @@
   }
 }
 .wrap-input__currency{
-        position: absolute;
-        top: 2px;
-        bottom: 0;
-        right: 14px;
-        margin: auto;
-        display: flex;
-        align-items: center;
-        pointer-events: none;
-        text-transform: uppercase;
-        min-width: 35px;
-      }
+  position: absolute;
+  top: 2px;
+  bottom: 0;
+  right: 14px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  text-transform: uppercase;
+  min-width: 35px;
+}
 /*--- DARK THEME END---*/
 @media(max-width: 992px){
-  .wrap-input__currency{
-      top: 1px;
-          right: 0px;
-          color: #424D5E;
+  .widget__graph{
+      height: calc(100% - 55px);
     }
+
+  .wrap-input__currency{
+    top: 1px;
+    right: 0px;
+    color: #424D5E;
+  }
+  .widget__graph--mob{
+    .widget__buy-sell-btn-wrap{
+      position: static;
+      .widget__trading-btn{
+        max-width: 140px;
+        height: 40px;
+            margin: 5px auto 0;
+      }
+    }
+  }
+
 }
