@@ -11,6 +11,7 @@ import * as dashboardActions from '../../actions/dashboard.actions';
 import {UserService} from '../../../shared/services/user.service';
 import {getCurrencyPair} from '../../../core/reducers';
 import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
+import { AuthService } from 'app/shared/services/auth.service';
 
 
 @Component({
@@ -47,6 +48,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     private marketService: MarketService,
     private store: Store<State>,
     private dashboardWebsocketService: DashboardWebSocketService,
+    private authService: AuthService,
     private crd: ChangeDetectorRef,
     private userService: UserService) {
     super();
@@ -219,6 +221,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   toggleFavorite(pair: CurrencyPair) {
+    if(!this.authService.isAuthenticated()) {
+      return;
+    }
     pair.isFavourite = !pair.isFavourite;
     this.marketService.manageUserFavouriteCurrencyPair(pair)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -251,5 +256,41 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       // debugger
       this.loading = false;
     }
+  }
+
+  trackByFn(index, item) {
+    return item.currencyPairId; // or item.id
+  }
+
+  onClickMarketItem(e) {
+    if (e.target === e.currentTarget) {
+      return;
+    }
+
+    let target = e.target;
+
+    while(target.id !== 'markets-container' || null) {
+      if(target.dataset.favorite) {
+        const pair = this.getPairById(+target.dataset.favorite)
+        if(pair) {
+          this.toggleFavorite(pair);
+        }
+        target = null;
+        return;
+      }
+      if(target.dataset.marketitem) {
+        const pair = this.getPairById(+target.dataset.marketitem)
+        if(pair) {
+          this.onSelectCurrencyPair(pair);
+        }
+        target = null;
+        return;
+      }
+      target = target.parentElement;
+    }
+  }
+
+  getPairById(pairId: number): CurrencyPair {
+    return this.pairs.find((item) => item.currencyPairId === pairId);
   }
 }

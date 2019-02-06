@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, HostListener, Renderer2, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, OnDestroy, HostListener, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
@@ -35,6 +35,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<State>,
     private dashboardWebsocketService: DashboardWebSocketService,
+    private crd: ChangeDetectorRef,
     private utils: UtilsService,
   ) { }
 
@@ -45,6 +46,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .subscribe((pair: CurrencyPair) => {
         this.pair = pair;
         this.pairInput = pair.currencyPairName;
+        this.crd.detectChanges();
       });
 
     this.store
@@ -52,6 +54,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPairInfo) => {
         this.currentCurrencyInfo = pair;
+        this.crd.detectChanges();
       });
 
     this.store
@@ -60,6 +63,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .subscribe((pair: CurrencyPair[]) => {
         this.allCurrencyPairs = pair;
         this.DIOptions = pair.map((item) => ({text: item.currencyPairName, id: item.currencyPairId}));
+        this.crd.detectChanges();
       });
 
     this.store
@@ -71,6 +75,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
         } else {
           this.userBalanceInfo = null;
         }
+        this.crd.detectChanges();
       });
 
     this.dashboardWebsocketService.setRabbitStompSubscription()

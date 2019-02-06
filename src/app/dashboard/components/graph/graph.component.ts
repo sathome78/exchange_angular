@@ -187,7 +187,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
           try {
             this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
           } catch (e) {
-            console.log(e);
+            // console.log(e);
           }
         }
       });

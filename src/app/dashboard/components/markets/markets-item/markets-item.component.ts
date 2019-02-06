@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { CurrencyPair } from 'app/model';
+import {Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
+import {CurrencyPair} from 'app/model';
 
 @Component({
   selector: 'app-markets-item',
@@ -12,8 +12,6 @@ export class MarketsItemComponent implements OnInit {
   @Input('pair') public pair: CurrencyPair;
   @Input('currentCurrencyPair') public currentCurrencyPair: CurrencyPair;
   @Input('isFiat') public isFiat: boolean;
-  @Output('toggleFavorite') public toggleFavorite: EventEmitter<CurrencyPair> = new EventEmitter();
-  @Output('onSelectCurrencyPair') public onSelectCurrencyPair: EventEmitter<CurrencyPair> = new EventEmitter();
 
   constructor() { }
 
@@ -36,6 +34,5 @@ export class MarketsItemComponent implements OnInit {
   isFavorite(pair: CurrencyPair): boolean {
     return pair.isFavourite;
   }
-
 
 }
