@@ -221,21 +221,25 @@
         }
       }
     }
+    .currency-pair-info__change span {
+      letter-spacing: .22px;
+    }
     .currency-pair-info__change-pair{
       width: auto;
       height: auto;
-          font-size: 18px;
-    margin: 0;
+      font-size: 18px;
+      margin: 0;
       background: none;
     }
     .currency-pair-info__pair{
-          padding: 6px 0 0;
+      padding: 6px 0 0;
     }
     .currency-pair-info__info{
-          padding: 10px 0 7px 14px;
+      padding: 12px 0 7px 14px;
     }
     .currency-pair-info__price{
       font-size: 18px;
+      letter-spacing: .2px;
     }
   }
 }
