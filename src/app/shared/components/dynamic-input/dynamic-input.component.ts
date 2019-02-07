@@ -41,7 +41,7 @@ export class DynamicInputComponent implements OnChanges {
         this.arrowKeyLocation--;
         const el = this.listElement.nativeElement.querySelector(`li[data-key="${this.arrowKeyLocation}"]`);
         if(el) {
-          el.scrollIntoView(true)
+          el.scrollIntoView(false)
         }
         break;
       case 40: // this is the ascii of arrow down
