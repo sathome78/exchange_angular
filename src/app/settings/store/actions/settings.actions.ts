@@ -5,7 +5,6 @@ export const FAIL_LOAD_GA_STATUS = '[Orders] Fail load GA status';
 export const SET_GA_STATUS = '[Orders] Set GA status';
 
 export const LOAD_SESSION_TIME = '[Orders] Load session time';
-export const UPDATE_SESSION_TIME = '[Orders] Update session time';
 export const FAIL_LOAD_SESSION_TIME = '[Orders] Fail load session time';
 export const SET_SESSION_TIME = '[Orders] Set session time';
 
@@ -31,10 +30,6 @@ export class LoadSessionTimeAction implements Action {
   readonly type = LOAD_SESSION_TIME;
   constructor(public payload?) {}
 }
-export class UpdateSessionTimeAction implements Action {
-  readonly type = UPDATE_SESSION_TIME;
-  constructor(public payload: number) {}
-}
 export class SetSessionTimeAction implements Action {
   readonly type = SET_SESSION_TIME;
   constructor(public payload: number) {}
@@ -53,6 +48,5 @@ export type Actions
   | SetGAStatusAction
   | FailLoadGAStatusAction
   | LoadSessionTimeAction
-  | UpdateSessionTimeAction
   | SetSessionTimeAction
   | FailLoadSessionTimeAction
