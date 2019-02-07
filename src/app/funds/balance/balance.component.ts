@@ -134,7 +134,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
       case this.Tab.CRYPTO :
         const paramsC = {
           type,
-          currencyName: this.currencyForChoose || '',
+          currencyId: this.currencyForChoose || 0,
+          currencyName: this.currValue || '',
           offset: (this.currentPage - 1) * this.countPerPage,
           limit: this.countPerPage,
           excludeZero: this.hideAllZero,
@@ -144,7 +145,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
       case this.Tab.FIAT :
         const paramsF = {
           type,
-          currencyName: this.currencyForChoose || '',
+          currencyId: this.currencyForChoose || 0,
+          currencyName: this.currValue || '',
           offset: (this.currentPage - 1) * this.countPerPage,
           limit: this.countPerPage,
           excludeZero: this.hideAllZero,
@@ -279,6 +281,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public onChangeCurrPair(val: string): void {
     this.currValue = val;
+    this.currencyForChoose = null;
   }
 
   public onSelectPair(currId: string): void {
@@ -287,10 +290,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public get getCryptoDynamicIData(): DIOptions[] {
-    return this.cryptoCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.name}))
+    return this.cryptoCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
   }
   public get getFiatDynamicIData(): DIOptions[] {
-    return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.name}))
+    return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
   }
 
 

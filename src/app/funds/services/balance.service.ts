@@ -27,6 +27,7 @@ export class BalanceService {
 
   // request to get balances
   getBalances({type,
+               currencyId,
                currencyName,
                offset,
                limit,
@@ -34,6 +35,7 @@ export class BalanceService {
 
     const params = {
       currencyType: type,
+      currencyId,
       currencyName: currencyName || '',
       offset: offset + '',
       limit: limit + '',
