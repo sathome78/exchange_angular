@@ -63,19 +63,7 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.value >= this.MIN_VALUE && this.value <= this.MAX_VALUE) {
-      this.settingsService.updateSessionInterval(this.value)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(resp => {
-            // this.statusMessage = this.translateService.instant('Session period is updated!');
-            this.popupService.toggleSessionTimeSavedPopup(true);
-            this.store.dispatch(new settingsActions.SetSessionTimeAction(this.value))
-          },
-          err => {
-            const status = err['status'];
-            if (status >= 400) {
-              // this.statusMessage = this.translateService.instant('Session period is not updated!');
-            }
-          });
+      this.store.dispatch(new settingsActions.UpdateSessionTimeAction(+this.value));
     }
   }
 
