@@ -1,4 +1,4 @@
 export interface PopupData {
-  status: boolean;
-  messageId: number;
+  title: string;
+  description: string;
 }

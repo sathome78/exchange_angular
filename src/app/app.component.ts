@@ -17,6 +17,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {select, Store} from '@ngrx/store';
 import {getLanguage, State} from './core/reducers';
 import {ChangeLanguageAction} from './core/actions/core.actions';
+import {PopupData} from './shared/interfaces/popup-data-interface';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public kycStep = 1;
-  public popupMessageId = 1;
+  public popupData: PopupData;
 
   tfaSubscription: Subscription;
   identitySubscription: Subscription;
@@ -50,6 +51,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isSessionTimeSavedPopupOpen = false;
   isOpenDemoTradingPopup = false;
   isOpenAlreadyRegisteredPopup = false;
+  isOpenInfoPopup = false;
   /** notification messages array */
   notificationMessages: NotificationMessage[];
 
@@ -96,6 +98,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // this.setClientIp();
     this.subscribeForNotifications();
     this.subscribeForAlreadyRegisteredPopup();
+    this.subscribeForInfoPopup();
   }
 
   subscribeForTfaEvent() {
@@ -126,8 +129,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.popupService.getAlreadyRegisteredPopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.popupMessageId = res.messageId;
-        this.isOpenAlreadyRegisteredPopup = res.status;
+        this.isOpenAlreadyRegisteredPopup = res;
+      });
+  }
+
+  subscribeForInfoPopup() {
+    this.popupService.getInfoPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.popupData = res;
+        this.isOpenInfoPopup = !res ? false : true;
       });
   }
 

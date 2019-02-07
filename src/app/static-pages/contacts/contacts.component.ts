@@ -71,14 +71,12 @@ export class ContactsComponent implements OnInit, OnDestroy {
       this.staticPagesService.sendContactForm(data)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
-          this.popupService.toggleAlreadyRegisteredPopup({status: true, messageId: 2});
-          try {
-            this.nameControl.reset();
-            this.textControl.reset();
-            this.telegramControl.reset();
-            this.emailControl.reset();
-          } catch (e) {}
-
+          const popupData = {
+            title: 'Your message was sent successfully!',
+            description: 'Exrates team will contact you next 8 hours.',
+          };
+          this.popupService.toggleInfoPopup(popupData);
+          this.sendForm.reset();
       });
     }
   }

@@ -14,7 +14,8 @@ export class PopupService {
   private onRecoveryPasswordListener = new Subject<boolean>();
   private onMobileLoginPopupListener = new Subject<boolean>();
   private onMobileRegistrationPopupListener = new Subject<boolean>();
-  private onAlreadyRegisteredPopupListener = new Subject<PopupData>();
+  private onAlreadyRegisteredPopupListener = new Subject<boolean>();
+  private onInfoPopupListener = new Subject<PopupData>();
   private onAlreadyRestoredPasswordPopupListener = new Subject<boolean>();
   private onRestoredPasswordPopupListener = new Subject<boolean>();
   private onSessionTimeSavedPopupListener = new Subject<boolean>();
@@ -114,7 +115,10 @@ export class PopupService {
     return this.onDemoTradingPopupListener;
   }
 
-  public getAlreadyRegisteredPopupListener(): Subject<PopupData> {
+  public getInfoPopupListener(): Subject<PopupData> {
+    return this.onInfoPopupListener;
+  }
+  public getAlreadyRegisteredPopupListener(): Subject<boolean> {
     return this.onAlreadyRegisteredPopupListener;
   }
 
@@ -225,8 +229,12 @@ export class PopupService {
     this.onDemoTradingPopupListener.next(false);
   }
 
-  toggleAlreadyRegisteredPopup(state: PopupData) {
+  toggleAlreadyRegisteredPopup(state: boolean) {
     this.onAlreadyRegisteredPopupListener.next(state);
+  }
+
+  toggleInfoPopup(state: PopupData) {
+    this.onInfoPopupListener.next(state);
   }
 
   toggleAlreadyRestoredPasswordPopup(state: boolean) {

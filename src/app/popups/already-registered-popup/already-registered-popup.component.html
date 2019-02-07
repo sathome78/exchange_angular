@@ -1,11 +1,8 @@
 <div class="overlay">
   <div class="popup popup-demo">
     <div class="popup__close" (click)="closeMe()"></div>
-    <div *ngIf="message === 1" class="text" [innerHTML]="showHtml"></div>
-
-    <h6 *ngIf="message === 2" class="popup__title tnx-head">{{'Your message was sent successfully!' | translate}}</h6>
-    <h4 *ngIf="message === 2" class="popup__subtitle tnx-description">{{'Exrates team will contact you next 8 hours.' | translate}}</h4>
-
+    <div class="text" [innerHTML]="showHtml">
+    </div>
     <button class="btn btn--active btn--center" (click)="buttonClick()">{{buttonText}}</button>
   </div>
 </div>

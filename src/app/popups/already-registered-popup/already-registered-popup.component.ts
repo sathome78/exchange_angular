@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {PopupService} from '../../shared/services/popup.service';
+import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
@@ -13,7 +14,7 @@ export class AlreadyRegisteredPopupComponent implements OnInit {
   public showHtml;
   public buttonText;
 
-  private defaultMessage = `<p>${this.translateService.instant('You have already used the link to confirm your registration. If necessary, please repeat the registration process.')}</p>`;
+  private defaultMessage;
 
   constructor(
     private popupService: PopupService,
@@ -22,19 +23,8 @@ export class AlreadyRegisteredPopupComponent implements OnInit {
 
   ngOnInit() {
     this.buttonText = this.translateService.instant('Ok');
-    this.chooseMessage(this.message);
-  }
-
-  chooseMessage(messageId: number) {
-    switch (messageId) {
-      case 1:
-        this.showHtml = this.defaultMessage;
-        break;
-      case 2:
-        break;
-      default:
-        this.showHtml = this.defaultMessage;
-    }
+    this.defaultMessage = `<p>${this.translateService.instant('You have already used the link to confirm your registration. If necessary, please repeat the registration process.')}</p>`;
+    this.showHtml = this.defaultMessage;
   }
 
   buttonClick() {
@@ -42,7 +32,7 @@ export class AlreadyRegisteredPopupComponent implements OnInit {
   }
 
   closeMe() {
-    this.popupService.toggleAlreadyRegisteredPopup({status: false, messageId: 0});
+    this.popupService.toggleAlreadyRegisteredPopup(false);
   }
 
 }

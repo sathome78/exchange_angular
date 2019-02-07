@@ -78,7 +78,7 @@ import {PasswordChangedPopupComponent} from './popups/password-changed-popup/pas
 import { KycPopupComponent } from './popups/kyc-popup/kyc-popup.component';
 import { KycLevel1StepTwoComponent } from './popups/kyc-popup/kyc-level1-step-two/kyc-level1-step-two.component';
 import { KycLevel1StepOneComponent } from './popups/kyc-popup/kyc-level1-step-one/kyc-level1-step-one.component';
-import { ContactThankComponent } from './popups/contact-thank/contact-thank.component';
+import { PopupInfoComponent } from './popups/popup-info/popup-info.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -130,7 +130,7 @@ export function createTranslateLoader(http: HttpClient) {
     KycPopupComponent,
     KycLevel1StepTwoComponent,
     KycLevel1StepOneComponent,
-    ContactThankComponent,
+    PopupInfoComponent,
     // TWO FACTOR POPUP END
 
   ],
