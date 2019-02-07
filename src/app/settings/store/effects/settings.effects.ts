@@ -6,7 +6,8 @@ import {of} from 'rxjs';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {SettingsService} from '../../settings.service';
 import * as settingsActions from '../actions/settings.actions';
-import { UserService } from 'app/shared/services/user.service';
+import {UserService} from 'app/shared/services/user.service';
+import {PopupService} from 'app/shared/services/popup.service';
 
 @Injectable()
 export class SettingsEffects {
@@ -20,6 +21,7 @@ export class SettingsEffects {
     private actions$: Actions,
     private settingsService: SettingsService,
     private userService: UserService,
+    private popupService: PopupService,
 
   ) {
   }
@@ -48,6 +50,22 @@ export class SettingsEffects {
       return this.settingsService.getSessionInterval()
         .pipe(
           map(time => new settingsActions.SetSessionTimeAction(time.data)),
+          catchError(error => of(new settingsActions.FailLoadSessionTimeAction(error)))
+        )
+    }))
+  /**
+   * Load session time
+   */
+  @Effect()
+  updateSessionTime$: Observable<Action> = this.actions$
+    .pipe(ofType<settingsActions.UpdateSessionTimeAction>(settingsActions.UPDATE_SESSION_TIME))
+    .pipe(switchMap((action) => {
+      return this.settingsService.updateSessionInterval(action.payload)
+        .pipe(
+          map(() => {
+            this.popupService.toggleSessionTimeSavedPopup(true);
+            return new settingsActions.SetSessionTimeAction(action.payload)
+          }),
           catchError(error => of(new settingsActions.FailLoadSessionTimeAction(error)))
         )
     }))
