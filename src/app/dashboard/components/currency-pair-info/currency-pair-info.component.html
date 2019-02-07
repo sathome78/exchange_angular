@@ -23,6 +23,7 @@
       [options]="DIOptions"
       (onChange)="onChangeCurrPair($event)"
       (onSelect)="onSelectPair($event.text)"
+      (onBlur)="onBlurInput()"
     ></app-dynamic-input-dashboard>
     <div class="currency-pair-info__info" style="min-width: 180px;"
          [ngClass]="{'currency-pair-info__info--up': flarForArrow('up'),
