@@ -1,28 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UtilsService} from '../../shared/services/utils.service';
+import {StaticPagesService} from '../static-pages.service';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {PopupService} from '../../shared/services/popup.service';
 
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.scss']
 })
-export class ContactsComponent implements OnInit {
+export class ContactsComponent implements OnInit, OnDestroy {
 
   public sendForm: FormGroup;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(
     private utilsService: UtilsService,
+    private staticPagesService: StaticPagesService,
+    private popupService: PopupService
   ) {
   }
 
   ngOnInit() {
     this.sendForm = new FormGroup({
-      name: new FormControl('', { validators: [Validators.required, Validators.maxLength(30)]}),
-      email: new FormControl('', { validators: [Validators.required, this.utilsService.emailValidator(), this.utilsService.specialCharacterValidator(), Validators.maxLength(30)]}),
+      name: new FormControl('', { validators: [
+        Validators.required,
+          Validators.maxLength(30)
+        ]}),
+      email: new FormControl('', { validators: [
+        Validators.required, this.utilsService.emailValidator(),
+          this.utilsService.specialCharacterValidator(),
+          Validators.maxLength(30)
+        ]}),
       telegram: new FormControl('', Validators.maxLength(30)),
-      text: new FormControl('', { validators: [Validators.required, Validators.maxLength(400)]}),
+      text: new FormControl('', { validators: [
+        Validators.required,
+          Validators.maxLength(400)
+        ]}),
     }, {updateOn: 'blur'});
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   get nameControl() {
@@ -39,9 +61,25 @@ export class ContactsComponent implements OnInit {
   }
 
   onSendForm() {
-    console.log(this.sendForm);
     if (this.sendForm.valid) {
-      // send form
+      const data = {
+        name: this.nameControl.value,
+        email: this.emailControl.value,
+        telegram: this.telegramControl.value,
+        text: this.textControl.value
+      };
+      this.staticPagesService.sendContactForm(data)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.popupService.toggleAlreadyRegisteredPopup({status: true, messageId: 2});
+          try {
+            this.nameControl.reset();
+            this.textControl.reset();
+            this.telegramControl.reset();
+            this.emailControl.reset();
+          } catch (e) {}
+
+      });
     }
   }
 }

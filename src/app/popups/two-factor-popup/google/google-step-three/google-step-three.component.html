@@ -30,14 +30,14 @@
         class="wrap-input__input"
         type="text"
         formControlName="pincode">
-      <label class="wrap-input__label">{{'Authenticator code' | translate}}</label>
+      <label class="wrap-input__label">{{'Pin code' | translate}}</label>
       <div class="wrap-input__line"></div>
       <ng-container *ngIf="pinCodeControl.touched && pinCodeControl.errors">
         <span
           class="wrap-input__message"
           *ngIf="pinCodeControl.errors['required']"
         >
-          {{'Authenticator code is required.' | translate}}
+          {{'Pin code is required.' | translate}}
         </span>
       </ng-container>
     </div>

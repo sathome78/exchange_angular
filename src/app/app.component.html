@@ -229,7 +229,9 @@
   </div>
 
   <div *ngIf="isOpenAlreadyRegisteredPopup">
-    <app-already-registered-popup></app-already-registered-popup>
+    <app-already-registered-popup
+    [message]="popupMessageId"
+    ></app-already-registered-popup>
   </div>
 
   <div *ngIf="isAlreadyRestoredPasswordPopupOpen">

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {LoggingService} from './logging.service';
+import {PopupData} from '../interfaces/popup-data-interface';
 
 @Injectable()
 export class PopupService {
@@ -13,7 +14,7 @@ export class PopupService {
   private onRecoveryPasswordListener = new Subject<boolean>();
   private onMobileLoginPopupListener = new Subject<boolean>();
   private onMobileRegistrationPopupListener = new Subject<boolean>();
-  private onAlreadyRegisteredPopupListener = new Subject<boolean>();
+  private onAlreadyRegisteredPopupListener = new Subject<PopupData>();
   private onAlreadyRestoredPasswordPopupListener = new Subject<boolean>();
   private onRestoredPasswordPopupListener = new Subject<boolean>();
   private onSessionTimeSavedPopupListener = new Subject<boolean>();
@@ -113,7 +114,7 @@ export class PopupService {
     return this.onDemoTradingPopupListener;
   }
 
-  public getAlreadyRegisteredPopupListener(): Subject<boolean> {
+  public getAlreadyRegisteredPopupListener(): Subject<PopupData> {
     return this.onAlreadyRegisteredPopupListener;
   }
 
@@ -224,7 +225,7 @@ export class PopupService {
     this.onDemoTradingPopupListener.next(false);
   }
 
-  toggleAlreadyRegisteredPopup(state: boolean) {
+  toggleAlreadyRegisteredPopup(state: PopupData) {
     this.onAlreadyRegisteredPopupListener.next(state);
   }
 

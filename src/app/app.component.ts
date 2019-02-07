@@ -27,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public kycStep = 1;
+  public popupMessageId = 1;
 
   tfaSubscription: Subscription;
   identitySubscription: Subscription;
@@ -125,7 +126,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.popupService.getAlreadyRegisteredPopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.isOpenAlreadyRegisteredPopup = res;
+        this.popupMessageId = res.messageId;
+        this.isOpenAlreadyRegisteredPopup = res.status;
       });
   }
 
