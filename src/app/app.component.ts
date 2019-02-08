@@ -138,7 +138,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.popupData = res;
-        this.isOpenInfoPopup = !res ? false : true;
+        this.isOpenInfoPopup = !!res;
       });
   }
 
