@@ -4,7 +4,7 @@
     [ngClass]="{
     'widget__table-row--green': isChangePositive(pair),
     'widget__table-row--red': !isChangePositive(pair),
-    'markets__selected-pair': pair.currencyPairId === currentCurrencyPair.currencyPairId}"
+    'markets__selected-pair': pair.currencyPairId === currentCurrencyPair?.currencyPairId}"
     [attr.data-marketItem]="pair.currencyPairId"
   >
     <div
