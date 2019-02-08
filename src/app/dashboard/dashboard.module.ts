@@ -40,6 +40,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {FundsEffects} from '../funds/store/effects/funds.effects';
 import {DashboardEffects} from './effects/dashboard.effects';
 import {TranslateModule} from '@ngx-translate/core';
+import {MomentModule} from 'angular2-moment';
 
 
 export function socketProvider() {
@@ -136,8 +137,10 @@ const stompConfig: StompConfig = {
     CommonModule,
     TranslateModule,
     FormsModule,
+    MomentModule,
     ReactiveFormsModule,
     GridsterModule.forRoot(),
+    EffectsModule.forRoot([DashboardEffects]),
     ScrollbarModule,
     NgxPaginationModule,
     PerfectScrollbarModule
@@ -150,7 +153,7 @@ const stompConfig: StompConfig = {
     OrderBookService,
     StompService,
     TradeHistoryService,
-    { provide: StompConfig, useValue: stompConfig },
+    {provide: StompConfig, useValue: stompConfig},
     {provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG}
   ]
 })

@@ -24,7 +24,7 @@ export class SettingsService {
       currentPassword: encodedCurrPassword,
       newPassword: encodedNewPassword
     };
-    return this.http.put(this.getUrl('updateMainPassword'), body, {observe: 'events'});
+    return this.http.put(this.getUrl('updateMainPassword'), body);
   }
 
   getNickname(): Observable<any> {
@@ -35,8 +35,8 @@ export class SettingsService {
     return this.http.put(this.getUrl(this.NICKNAME), {nickname: nickname}, {observe: 'events'});
   }
 
-  getSessionInterval(): Observable<number> {
-    return this.http.get<number>(this.getUrl(this.SESSION));
+  getSessionInterval(): Observable<{data: number}> {
+    return this.http.get<{data: number}>(this.getUrl(this.SESSION));
   }
 
   updateSessionInterval(interval: number): Observable<number> {
@@ -63,6 +63,25 @@ export class SettingsService {
 
   private getUrl(end: string) {
     return this.apiUrl + '/info/private/v2/settings/' + end;
+  }
+
+  public getCurrentVerificationStatusKYC() {
+    return this.http.get<string>(`${this.apiUrl}/info/private/v2/shufti-pro/current-step`);
+  }
+  public getCountriesKYC() {
+    return this.http.get(`${this.apiUrl}/info/private/v2/shufti-pro/countries`);
+  }
+  public getLanguagesKYC() {
+    return this.http.get(`${this.apiUrl}/info/private/v2/shufti-pro/languages`);
+  }
+  public getIframeUrlForKYC(step: string, lang: string, country: string) {
+    return this.http.get(`${this.apiUrl}/info/private/v2/shufti-pro/verification-url/${step}`, {
+     responseType: 'text',
+      params: {
+        language_code: lang,
+        country_code: country
+      }
+    });
   }
 
 }

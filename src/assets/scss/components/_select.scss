@@ -25,7 +25,6 @@
     display: flex;
     align-items: center;
     box-sizing: border-box;
-    width: calc(100% - 5px);
     height: 36px;
     margin: 0 auto;
     padding: 0 12px;
@@ -120,8 +119,9 @@
     //display: none;
     width: 100%;
     border: 1px solid $darker-blue;
-    border-top: none;
+    // border-top: none;
     background-color: #fff;
+    border-radius: 4px;
     &--open {
       display: block;
     }
@@ -206,7 +206,7 @@
     text-align: left;
     font-weight: 400;
     cursor: pointer;
-     &:hover, &.active  {
+    &:hover, &.active  {
       color:#94C2FF;
     }
   }
@@ -330,3 +330,18 @@
 }
 
 /*--- DARK THEME END---*/
+
+.refill{
+  &__select{
+    &--cripto{
+      min-width: 380px;
+    }
+  }
+}
+
+
+.refill__inputs-wrap{
+.select__searching-item {
+    min-width: 95px;
+  }
+}

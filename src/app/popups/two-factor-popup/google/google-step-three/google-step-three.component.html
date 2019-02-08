@@ -9,21 +9,18 @@
       <input
         required
         class="wrap-input__input"
-        type="email"
-        formControlName="email">
-      <label class="wrap-input__label">{{'Email' | translate}}</label>
-      <div class="wrap-input__line"></div>
-    </div>
-  </div>
-  <div class="row row--jcc">
-    <div class="wrap-input modal__input-2fa">
-      <input
-        required
-        class="wrap-input__input"
         type="password"
         formControlName="password">
       <label class="wrap-input__label">{{'Password' | translate}}</label>
       <div class="wrap-input__line"></div>
+      <ng-container *ngIf="passwordControl.touched && passwordControl.errors">
+        <span
+          class="wrap-input__message"
+          *ngIf="passwordControl.errors['required']"
+        >
+          {{'Password is required.' | translate}}
+        </span>
+      </ng-container>
     </div>
   </div>
   <div class="row row--jcc">
@@ -33,8 +30,16 @@
         class="wrap-input__input"
         type="text"
         formControlName="pincode">
-      <label class="wrap-input__label">{{'Authenticator code' | translate}}</label>
+      <label class="wrap-input__label">{{'Pin code' | translate}}</label>
       <div class="wrap-input__line"></div>
+      <ng-container *ngIf="pinCodeControl.touched && pinCodeControl.errors">
+        <span
+          class="wrap-input__message"
+          *ngIf="pinCodeControl.errors['required']"
+        >
+          {{'Pin code is required.' | translate}}
+        </span>
+      </ng-container>
     </div>
   </div>
 

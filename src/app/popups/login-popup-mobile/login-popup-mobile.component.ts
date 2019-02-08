@@ -104,7 +104,7 @@ export class LoginPopupMobileComponent implements OnInit {
         this.isGACheck = true;
         if (result) {
           this.isGA = true;
-          this.twoFaAuthModeMessage = this.translateService.instant('Use google authenticator to generate pincode');
+          this.twoFaAuthModeMessage = this.translateService.instant('Use Google Authenticator to generate pincode');
         }
       },
         err => console.log(err));
@@ -191,6 +191,7 @@ export class LoginPopupMobileComponent implements OnInit {
         sendLoginSuccessGtag();
         this.logger.debug(this, 'User { login: ' + this.email + ', pass: ' + this.password + '}' + ' signed in and obtained' + tokenHolder);
         this.authService.setTokenHolder(tokenHolder);
+        this.authService.onLogIn();
         this.popupService.closeMobileLoginPopup();
         this.router.navigate(['/']);
         // TODO: just for promo state, remove after

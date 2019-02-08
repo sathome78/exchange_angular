@@ -11,6 +11,9 @@ import {takeUntil} from 'rxjs/internal/operators';
 import {AuthService} from '../shared/services/auth.service';
 import {ActivatedRoute} from '@angular/router';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
+import {Store, select} from '@ngrx/store';
+import * as fromCore from '../core/reducers';
+import {PopupService} from 'app/shared/services/popup.service';
 
 
 @Component({
@@ -49,6 +52,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public activeMobileWidget = 'markets';
   public breakPoint;
+  public currencyPair = null
 
   constructor(
     public breakPointService: BreakpointService,
@@ -56,11 +60,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private dataService: DashboardService,
     private marketsService: MarketService,
     private route: ActivatedRoute,
+    private popupService: PopupService,
+    private store: Store<fromCore.State>,
     private authService: AuthService) {
   }
 
   ngOnInit() {
-
     this.route.queryParams
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(params => {
@@ -96,10 +101,31 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         // TODO find currency pair by name and set it as default for dashboard
       }
     });
+    this.store
+      .pipe(select(fromCore.getCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(pair => {
+        this.currencyPair = pair;
+      });
   }
+
+  checkRoute() {
+    this.route.url
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((segments) => {
+        const url = segments.map((u) => u.path).join('/')
+        setTimeout(() => {  // added to fix ExpressionChangedAfterItHasBeenCheckedError
+          if(url === 'registration') {
+            this.popupService.showMobileRegistrationPopup(true);
+          }
+        })
+      });
+  }
+
 
   ngAfterViewInit() {
     this.changeRatioByWidth();
+    this.checkRoute();
   }
 
   ngOnDestroy(): void {

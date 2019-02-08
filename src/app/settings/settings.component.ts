@@ -3,8 +3,10 @@ import {Router} from '@angular/router';
 import {AuthService} from '../shared/services/auth.service';
 import {TranslateService} from '@ngx-translate/core';
 import {select, Store} from '@ngrx/store';
-import {getLanguage, State} from '../core/reducers';
+import * as fromCore from '../core/reducers';
 import {Observable} from 'rxjs';
+import * as settingsActions from './store/actions/settings.actions'
+import * as coreAction from '../core/actions/core.actions';
 
 @Component({
   selector: 'app-settings',
@@ -19,15 +21,18 @@ export class SettingsComponent implements OnInit {
   constructor(private router: Router,
               private authService: AuthService,
               private readonly translate: TranslateService,
-              private store: Store<State>) {
+              private store: Store<fromCore.State>) {
     this.translate.setDefaultLang('en');
-    this.lang$ = this.store.pipe(select(getLanguage));
-    // const path = authService.isAuthenticated() ? '/settings/two-factor-auth' : '/';
-    // this.router.navigate(['/settings/two-factor-auth']);
+    // this.lang$ = this.store.pipe(select(fromCore.getLanguage));
+
+
   }
 
   ngOnInit() {
+    this.store.dispatch(new coreAction.LoadVerificationStatusAction());
     // this.lang$.subscribe(lang => this.translate.use(lang));
+    this.store.dispatch(new settingsActions.LoadGAStatusAction(this.authService.getUsername()));
+    this.store.dispatch(new settingsActions.LoadSessionTimeAction());
   }
 
 }

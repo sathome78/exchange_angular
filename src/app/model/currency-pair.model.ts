@@ -11,6 +11,7 @@ export class CurrencyPair {
               public predLastOrderRate: number,
               public percentChange: number,
               public priceInUsd: number,
+              public currencyVolume: number,
               public market: string,
               public volume: number) { }
 
@@ -23,6 +24,7 @@ export class CurrencyPair {
                                                   object['predLastOrderRate'],
                                                   object['percentChange'],
                                                   object['priceInUsd'],
+                                                  object['currencyVolume'],
                                                   object['market'],
                                                   object['volume']);
     return pair;

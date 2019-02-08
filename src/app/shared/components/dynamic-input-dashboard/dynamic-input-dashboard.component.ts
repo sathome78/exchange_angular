@@ -20,7 +20,9 @@ export class DynamicInputDashboardComponent implements OnChanges {
   @Input('icon') public icon: any = null;
   @Output('onSelect') public onSelect: EventEmitter<DIOptions> = new EventEmitter();
   @Output('onChange') public onChange: EventEmitter<string> = new EventEmitter();
+  @Output('onBlur') public onBlur: EventEmitter<any> = new EventEmitter();
   @ViewChild('input') inputElement: ElementRef;
+  @ViewChild('list') listElement: ElementRef;
 
   public filteredOptions: DIOptions[] = [];
   public showDropdown: boolean = false;
@@ -29,26 +31,34 @@ export class DynamicInputDashboardComponent implements OnChanges {
   keyDown(event: KeyboardEvent) {
     switch (event.keyCode) {
       case 38: // this is the ascii of arrow up
+        event.stopPropagation();
         if(this.showDropdown && this.arrowKeyLocation === 0) {
-          this.arrowKeyLocation = this.filteredOptions.length - 1
           break;
         }
         if(!this.showDropdown) {
           break;
         }
         this.arrowKeyLocation--;
+        const el = this.listElement.nativeElement.querySelector(`li[data-key="${this.arrowKeyLocation}"]`);
+        if(el) {
+          el.scrollIntoView(false)
+        }
         break;
       case 40: // this is the ascii of arrow down
+        event.stopPropagation();
         if(!this.showDropdown && this.inputElement.nativeElement === document.activeElement) {
           this.arrowKeyLocation = 0;
           this.openDropdown();
           break;
         }
         if(this.showDropdown && this.arrowKeyLocation === (this.filteredOptions.length - 1)) {
-          this.arrowKeyLocation = 0;
           break
         }
         this.arrowKeyLocation++;
+        const el2 = this.listElement.nativeElement.querySelector(`li[data-key="${this.arrowKeyLocation}"]`);
+        if(el2) {
+          el2.scrollIntoView(false)
+        }
         break;
     }
   }
@@ -57,6 +67,7 @@ export class DynamicInputDashboardComponent implements OnChanges {
     if (!this._eref.nativeElement.contains(event.target) ) {
       this.closeDropdown();
     }
+    this.onBlur.emit();
   }
 
   ngOnChanges(changes) {
@@ -89,8 +100,22 @@ export class DynamicInputDashboardComponent implements OnChanges {
     this.showDropdown = true;
   }
 
+  preventEventInput(e) {
+    if(e.which == 38 || e.which == 40){
+      e.preventDefault();
+    }
+  }
+
+  onHover(e) {
+    this.arrowKeyLocation = +e.target.dataset['key']
+  }
+
   closeDropdown(): void {
     this.showDropdown = false;
+  }
+
+  trackByFn(index, item) {
+    return item.text; // or item.id
   }
 
 }

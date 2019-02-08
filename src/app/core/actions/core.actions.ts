@@ -6,6 +6,9 @@ export const SAVE_TOKEN = '[Core] Saves user\'s auth token';
 export const CHANGE_LANGUAGE = '[Core] Change language';
 export const REHYDRATE = '[Core] Rehydrate store';
 
+export const LOAD_VERIFICATION_STATUS = '[Core] Load verification status';
+export const FAIL_LOAD_VERIFICATION_STATUS = '[Core] Fail load verification status';
+export const SET_VERIFICATION_STATUS = '[Core] Set verification status';
 
 export const LOAD_SIMPLE_CURRENCY_PAIRS = '[Orders] Load simple currency pairs';
 export const FAIL_LOAD_SIMPLE_CURRENCY_PAIRS = '[Orders] Fail load simple currency pairs';
@@ -35,6 +38,22 @@ export class SaveToStoreAction implements Action {
 export class ChangeLanguageAction implements Action {
   readonly type = CHANGE_LANGUAGE;
   constructor(public payload: string) {}
+}
+
+
+export class LoadVerificationStatusAction implements Action {
+  readonly type = LOAD_VERIFICATION_STATUS;
+  constructor(public payload?) {}
+}
+
+export class SetVerificationStatusAction implements Action {
+  readonly type = SET_VERIFICATION_STATUS;
+  constructor(public payload: string) {}
+}
+
+export class FailLoadVerificationStatusAction implements Action {
+  readonly type = FAIL_LOAD_VERIFICATION_STATUS;
+  constructor(public payload?) {}
 }
 
 /**
@@ -145,3 +164,6 @@ export type Actions
   | SetFiatCurrenciesForChoose
   | FailLoadCurrenciesForChoose
   | ChangeLanguageAction
+  | SetVerificationStatusAction
+  | LoadVerificationStatusAction
+  | FailLoadVerificationStatusAction

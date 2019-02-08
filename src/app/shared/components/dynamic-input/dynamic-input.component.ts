@@ -31,6 +31,7 @@ export class DynamicInputComponent implements OnChanges {
   keyDown(event: KeyboardEvent) {
     switch (event.keyCode) {
       case 38: // this is the ascii of arrow up
+        event.stopPropagation();
         if(this.showDropdown && this.arrowKeyLocation === 0) {
           break;
         }
@@ -40,10 +41,11 @@ export class DynamicInputComponent implements OnChanges {
         this.arrowKeyLocation--;
         const el = this.listElement.nativeElement.querySelector(`li[data-key="${this.arrowKeyLocation}"]`);
         if(el) {
-          el.scrollIntoView(true)
+          el.scrollIntoView(false)
         }
         break;
       case 40: // this is the ascii of arrow down
+        event.stopPropagation();
         if(!this.showDropdown && this.inputElement.nativeElement === document.activeElement) {
           this.arrowKeyLocation = 0;
           this.openDropdown();
@@ -80,6 +82,10 @@ export class DynamicInputComponent implements OnChanges {
 
   }
 
+  onClearInput(): void {
+    this.onChange.emit('');
+  }
+
   onSelectItem(item: DIOptions): void {
     this.onChange.emit(item.text);
     this.onSelect.emit(item);
@@ -91,12 +97,7 @@ export class DynamicInputComponent implements OnChanges {
       this.filteredOptions = [];
       return;
     }
-    if(this.setNullValue) {
-      this.filteredOptions =
-        [{text: '', id: null}, ...this.options.filter((item) => item.text.toUpperCase().indexOf(val.toUpperCase()) >= 0)];
-      } else {
-      this.filteredOptions = this.options.filter((item) => item.text.toUpperCase().indexOf(val.toUpperCase()) >= 0);
-    }
+    this.filteredOptions = this.options.filter((item) => item.text.toUpperCase().indexOf(val.toUpperCase()) >= 0);
   }
 
   openDropdown(): void {
@@ -115,6 +116,14 @@ export class DynamicInputComponent implements OnChanges {
     if(e.which == 38 || e.which == 40){
       e.preventDefault();
     }
+  }
+
+  onHover(e) {
+    this.arrowKeyLocation = +e.target.dataset['key']
+  }
+
+  trackByFn(index, item) {
+    return item.text; // or item.id
   }
 
 }

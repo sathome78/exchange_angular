@@ -12,7 +12,7 @@ function sendConfirmationPasswordGtag() {
 
 function sendLoginSuccessGtag() {
   gtag('event', 'login-success', {'event_category': 'login-form', 'event_label': 'login-success'});
-  console.log("successfully send registration gtag");
+  console.log("successfully send login gtag");
 }
 
 function sendRecoveryPasswordGtag() {
@@ -30,4 +30,4 @@ function sendGenerateWalletGtag(id) {
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', 'UA-75711135-3');
+gtag('config', 'GTM-TZTXSSP');

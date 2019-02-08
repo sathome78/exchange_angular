@@ -32,6 +32,10 @@ b {
   }
 }
 
+.no-scroll {
+  overflow: hidden;
+}
+
 .txt-green {
   color: $green;
 }

@@ -72,6 +72,13 @@ import {translateInfo} from './shared/configs/translate-options';
 import {AlreadyRestoredPasswordPopupComponent} from './popups/already-restored-password-popup/already-restored-password-popup.component';
 import {AlreadyRegisteredPopupComponent} from './popups/already-registered-popup/already-registered-popup.component';
 import {RestoredPasswordPopupComponent} from './popups/restored-password-popup/restored-password-popup.component';
+import {MomentModule} from 'angular2-moment';
+import {SessionTimeSavedPopupComponent} from './popups/session-time-saved-popup/session-time-saved-popup.component';
+import {PasswordChangedPopupComponent} from './popups/password-changed-popup/password-changed-popup.component';
+import { KycPopupComponent } from './popups/kyc-popup/kyc-popup.component';
+import { KycLevel1StepTwoComponent } from './popups/kyc-popup/kyc-level1-step-two/kyc-level1-step-two.component';
+import { KycLevel1StepOneComponent } from './popups/kyc-popup/kyc-level1-step-one/kyc-level1-step-one.component';
+import { PopupInfoComponent } from './popups/popup-info/popup-info.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -110,7 +117,9 @@ export function createTranslateLoader(http: HttpClient) {
     FinalRegistrationComponent,
     RecoveryPassComponent,
     FinalStepRecoveryPasswordComponent,
+    SessionTimeSavedPopupComponent,
 
+    PasswordChangedPopupComponent,
     RefillSuccessfulComponent,
 
     DemoTradingPopupComponent,
@@ -118,6 +127,10 @@ export function createTranslateLoader(http: HttpClient) {
     ThankYouPopupComponent,
     AlreadyRestoredPasswordPopupComponent,
     RestoredPasswordPopupComponent,
+    KycPopupComponent,
+    KycLevel1StepTwoComponent,
+    KycLevel1StepOneComponent,
+    PopupInfoComponent,
     // TWO FACTOR POPUP END
 
   ],
@@ -140,6 +153,7 @@ export function createTranslateLoader(http: HttpClient) {
     BrowserModule,
     DashboardModule,
     HttpClientModule,
+    MomentModule,
     FormsModule,
     MyDatePickerModule,
     ReactiveFormsModule,

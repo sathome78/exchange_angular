@@ -25,6 +25,7 @@
             ></div>
             <!--Input error section starts-->
             <div *ngIf="loginForm.get('email').touched && loginForm.get('email').errors != null">
+              <div class="input-hint-wrapper">
               <span class="wrap-input__message wrap-input__message--error" *ngIf="loginForm.get('email').errors['required']">
                 {{'This field is required.' | translate}}
               </span>
@@ -32,6 +33,7 @@
                     class=" wrap-input__message wrap-input__message--error">
                 {{'Please, enter valid email address.' | translate}}
               </span>
+            </div>
             </div>
             <!--Input error section ends-->
           </div>
@@ -57,10 +59,12 @@
           </span>
             <!--Input error section starts-->
             <div *ngIf="loginForm.get('password').touched && loginForm.get('password').errors != null">
+              <div class="input-hint-wrapper">
             <span class=" wrap-input__message wrap-input__message--error"
                   *ngIf="loginForm.get('password').errors['required']">
               {{'This field is required.' | translate}}
             </span>
+          </div>
             </div>
 
             <div *ngIf="statusMessage">
@@ -122,10 +126,12 @@
             ></div>
             <!--Input error section starts-->
             <div>
+              <div class="input-hint-wrapper">
             <span *ngIf="(pinForm.get('pin').touched && pinForm.get('pin').errors != null)"
                   class=" wrap-input__message wrap-input__message--error">
               {{'This field is required.' | translate}}
             </span>
+          </div>
             </div>
             <!--Input error section ends-->
           </div>
@@ -134,8 +140,7 @@
         <button class="btn popup__btn"
                 (click)="afterResolvedCaptcha()"
                 [disabled]="!pinForm.valid"
-                [ngClass]="{'popup__btn--active': pinForm.valid,
-                'popup__btn--error': !pinForm.valid && pinForm.get('pin').touched}">{{'Submit' | translate}}
+                [ngClass]="{'popup__btn--active': pinForm.valid}">{{'Submit' | translate}}
         </button>
       </form>
       <div class="popup__links-wrap  popup__links-wrap--center">

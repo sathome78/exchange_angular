@@ -16,13 +16,18 @@
   <script src="./assets/js/datafeeds/udf/dist/polyfills.js"></script>
   <script src="./assets/js/datafeeds/udf/dist/bundle.js"></script>
   <script src="./assets/js/gtag/gtag_handler"></script>
-  
-
+  <script src="./assets/js/polifills.js"></script>
   <script>
     var global = window;
   </script>
 </head>
 <body>
   <app-root></app-root>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+    }
+  </script>
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async=""></script>
 </body>
 </html>

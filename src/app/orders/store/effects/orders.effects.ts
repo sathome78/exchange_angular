@@ -54,11 +54,13 @@ export class OrdersEffects {
     .pipe(switchMap((action) => {
       return this.ordersService.getClosedOrders(action.payload)
         .pipe(
-          map(orders => {
+          map(response => {
+            const orders = response.body;
+            const isLast15Items = response.status === 207;
             if(action.payload.concat) {
-              return new ordersActions.SetMoreHistoryOrdersAction({historyOrders: orders.items, count: orders.count})
+              return new ordersActions.SetMoreHistoryOrdersAction({historyOrders: orders.items, count: orders.count, isLast15Items})
             }
-            return new ordersActions.SetHistoryOrdersAction({historyOrders: orders.items, count: orders.count})
+            return new ordersActions.SetHistoryOrdersAction({historyOrders: orders.items, count: orders.count, isLast15Items})
           }),
           catchError(error => of(new ordersActions.FailLoadHistoryOrdersAction(error)))
         )

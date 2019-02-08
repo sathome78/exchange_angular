@@ -35,6 +35,14 @@ div[class^="button"] span[class^="icon-"] svg{
 	fill:#94C2FF;
 }
 
+div[class^="scrollWrap-"] div[class^="inner-"]{
+  background: #555555;
+}
+
+div[class^="scrollWrap-"] div[class^="group-"]{
+  /*margin-right: 1px;*/
+}
+
 div[class^="button"]:hover span[class^="icon-"] svg{
 	fill:#E9F2FF;
 }

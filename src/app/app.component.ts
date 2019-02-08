@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, enableProdMode} from '@angular/core';
 import {PopupService} from './shared/services/popup.service';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
@@ -6,7 +6,7 @@ import {ThemeService} from './shared/services/theme.service';
 import {IpAddress, UserService} from './shared/services/user.service';
 import {IP_CHECKER_URL, IP_USER_KEY} from './shared/services/http.utils';
 import {LoggingService} from './shared/services/logging.service';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {NotificationsService} from './shared/components/notification/notifications.service';
 import {NotificationMessage} from './shared/models/notification-message-model';
 import {DashboardWebSocketService} from './dashboard/dashboard-websocket.service';
@@ -17,6 +17,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {select, Store} from '@ngrx/store';
 import {getLanguage, State} from './core/reducers';
 import {ChangeLanguageAction} from './core/actions/core.actions';
+import {PopupData} from './shared/interfaces/popup-data-interface';
 
 @Component({
   selector: 'app-root',
@@ -26,9 +27,12 @@ import {ChangeLanguageAction} from './core/actions/core.actions';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public kycStep = 1;
+  public popupData: PopupData;
 
   tfaSubscription: Subscription;
   identitySubscription: Subscription;
+  kycSubscription: Subscription;
   loginSubscription: Subscription;
   loginMobileSubscription: Subscription;
   // registrationMobileSubscription: Subscription;
@@ -36,14 +40,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isTfaPopupOpen = false;
   isIdentityPopupOpen = false;
+  isKYCPopupOpen = false;
   isLoginPopupOpen = false;
   isLoginMobilePopupOpen = false;
   isRegistrationMobilePopupOpen = false;
   isRecoveryPasswordPopupOpen = false;
   isRestoredPasswordPopupOpen = false;
+  isChangedPasswordPopupOpen = false;
   isAlreadyRestoredPasswordPopupOpen = false;
+  isSessionTimeSavedPopupOpen = false;
   isOpenDemoTradingPopup = false;
   isOpenAlreadyRegisteredPopup = false;
+  isOpenInfoPopup = false;
   /** notification messages array */
   notificationMessages: NotificationMessage[];
 
@@ -66,15 +74,18 @@ export class AppComponent implements OnInit, OnDestroy {
     // const browserLang = translate.getBrowserLang();
     // this.store.dispatch(new ChangeLanguageAction(browserLang.match(/en|ru|uk|pl/) ? browserLang : 'en'));
     // this.store.pipe(select(getLanguage)).subscribe(res => this.translate.use(res));
-
-    this.setIp();
+    if(!localStorage.getItem(IP_USER_KEY)) {
+      this.setIp();
+    }
   }
 
   ngOnInit(): void {
     this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
+    this.authService.setSessionFinishListener();
 
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
+    this.subscribeForKYCEvent();
     this.subscribeForLoginEvent();
     this.subscribeForMobileLoginEvent();
     this.subscribeForMobileRegistrationEvent();
@@ -82,9 +93,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForRestoredPasswordPopup();
     this.subscribeForAlreadyRestoredPasswordPopup();
     this.subscribeForDemoTradingPopup();
+    this.subscribeForSessionTimeSavedPopup();
+    this.subscribeForChangedPasswordPopup();
     // this.setClientIp();
     this.subscribeForNotifications();
     this.subscribeForAlreadyRegisteredPopup();
+    this.subscribeForInfoPopup();
   }
 
   subscribeForTfaEvent() {
@@ -119,6 +133,15 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
+  subscribeForInfoPopup() {
+    this.popupService.getInfoPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.popupData = res;
+        this.isOpenInfoPopup = !!res;
+      });
+  }
+
   subscribeForAlreadyRestoredPasswordPopup() {
     this.popupService.getAlreadyRestoredPasswordPopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -132,6 +155,21 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.isRestoredPasswordPopupOpen = res;
+      });
+  }
+  subscribeForSessionTimeSavedPopup() {
+    this.popupService.getSessionTimeSavedPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.isSessionTimeSavedPopupOpen = res;
+      });
+  }
+
+  subscribeForChangedPasswordPopup() {
+    this.popupService.getChangedPasswordPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.isChangedPasswordPopupOpen = res;
       });
   }
 
@@ -169,6 +207,16 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
+  subscribeForKYCEvent() {
+    this.kycSubscription = this.popupService
+      .getKYCPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(value => {
+        this.kycStep = value;
+        this.isKYCPopupOpen = value ? true : false;
+      });
+  }
+
   isCurrentThemeDark(): boolean {
     return this.themeService.isCurrentThemeDark();
   }
@@ -185,11 +233,15 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loginSubscription.unsubscribe();
     this.loginMobileSubscription.unsubscribe();
     // this.registrationMobileSubscription.unsubscribe();
+    this.authService.removeSessionFinishListener();
   }
 
   private setIp() {
+
     this.http.get<IpAddress>(IP_CHECKER_URL)
-      .subscribe( response => {
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => {
+        console.log(response)
         // this.logger.debug(this, 'Client IP: ' + response.ip);
         localStorage.setItem(IP_USER_KEY, response.ip);
       });
@@ -200,6 +252,7 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   private subscribeForNotifications(): void {
     this.notificationService.message
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((message: NotificationMessage) => {
         this.notificationMessages.push(message);
       });

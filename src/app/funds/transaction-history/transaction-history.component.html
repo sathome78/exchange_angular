@@ -48,8 +48,8 @@
                 <span>{{item.sourceType === 'REFILL' ? 'Refill' : ''}}{{item.sourceType === 'WITHDRAW' ? 'Withdraw' : ''}}</span>
               </div>
               <div class="balance__request-mob-date">
-                <div>{{item.datetime | dateWrapper | date: 'EEEEEE dd.MM.yyyy'}}</div>
-                <div>{{item.datetime | dateWrapper | date: 'HH:mm:ss'}}</div>
+                <div>{{item.datetime | dateWrapper | amDateFormat: 'dd DD.MM.YYYY'}}</div>
+                <div>{{item.datetime | dateWrapper | amDateFormat: 'HH:mm:ss'}}</div>
               </div>
             </td>
             <td class="table__cell table__cell--tal">
@@ -247,12 +247,12 @@
           *ngFor="let item of transactionsItems$ | async | paginate: { itemsPerPage: countPerPage, currentPage: currentPage, totalItems: countOfEntries$ | async }"
         >
           <td class="table__cell">
-            {{item.status}}
+            {{constantsService.getTrStatus(item.sourceType, item.status) | translate}}
           </td>
           <td class="table__cell">
             <div class="table__date-time">
-              <div>{{item.datetime | date:"EEEEEE"}} {{item.datetime | date:"dd.MM.yyyy"}}</div>
-              <div>{{item.datetime | date:"HH:mm:ss"}}</div>
+              <div>{{item.datetime | amDateFormat:"dd"}} {{item.datetime | amDateFormat:"DD.MM.YYYY"}}</div>
+              <div>{{item.datetime | amDateFormat:"HH:mm:ss"}}</div>
             </div>
           </td>
           <td class="table__cell">
@@ -272,7 +272,7 @@
             <span>{{item.amount | roundCurrency: item.currencyName | formatCurrency}}</span>
           </td>
           <td class="table__cell">
-            <span class="txt-green">{{item.sourceType}}</span>
+            <span class="txt-green">{{constantsService.getTrOperationType(item.sourceType, item.status) | translate}}</span>
           </td>
           <td class="table__cell">
             <span>{{item.transactionHash}}</span>

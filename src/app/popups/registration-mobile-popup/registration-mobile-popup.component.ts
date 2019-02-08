@@ -1,10 +1,15 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/internal/operators';
+
 import {PopupService} from '../../shared/services/popup.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/user.service';
 import {keys} from '../../core/keys';
-import {TranslateService} from '@ngx-translate/core';
-import { UtilsService } from 'app/shared/services/utils.service';
+import {UtilsService} from 'app/shared/services/utils.service';
+import {Router} from '@angular/router';
+import { Location } from '@angular/common';
 
 declare var sendRegistrationGtag: Function;
 
@@ -13,7 +18,8 @@ declare var sendRegistrationGtag: Function;
   templateUrl: './registration-mobile-popup.component.html',
   styleUrls: ['./registration-mobile-popup.component.scss']
 })
-export class RegistrationMobilePopupComponent implements OnInit {
+export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   public currentTemplate: TemplateRef<any>;
   @ViewChild('emailInputTemplate') emailInputTemplate: TemplateRef<any>;
@@ -23,7 +29,6 @@ export class RegistrationMobilePopupComponent implements OnInit {
   @ViewChild('passwordTemplate') passwordTemplate: TemplateRef<any>;
 
   public emailForm: FormGroup;
-  public emailSubmited = false;
   public passwordForm: FormGroup;
   public nameForm: FormGroup;
   public nameSubmited = false;
@@ -31,20 +36,26 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   public email;
   public firstName;
-  public emailMessage = '';
   public afterCaptchaMessage;
 
   constructor(
+    private router: Router,
     private popupService: PopupService,
     private userService: UserService,
     private translateService: TranslateService,
     private utilsService: UtilsService,
+    private location: Location,
   ) {
   }
 
   ngOnInit() {
     this.setTemplate('emailInputTemplate');
     this.initForm();
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   setTemplate(template: string) {
@@ -69,36 +80,42 @@ export class RegistrationMobilePopupComponent implements OnInit {
 
   closeMe() {
     this.popupService.closeRegistrationPopup();
+    this.location.replaceState('dashboard');
   }
 
   resolvedCaptcha(event) {
-    this.userService.sendToEmailConfirmation(this.email).subscribe(res => {
-      this.afterCaptchaMessage = this.translateService.instant(`We sent the confirmation link to
-        <br>
-        <span class="popup__email-link">
-        ${this.email}
-        </span>
-        <br> Please check your email and
-        follow instructions.`);
-      this.setTemplate('emailConfirmLinkTemplate');
-      sendRegistrationGtag();
-    }, error => {
-      this.afterCaptchaMessage = 'server error';
-      this.setTemplate('emailConfirmLinkTemplate');
-    });
-
+    const email = this.emailForm.get('email').value;
+    this.userService.sendToEmailConfirmation(email)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.afterCaptchaMessage = `${this.translateService.instant('We sent the confirmation link to')}
+           <br> <span class="popup__email-link"> ${email} </span> <br>
+           ${this.translateService.instant('Please check your email and follow instructions.')}`;
+        this.setTemplate('emailConfirmLinkTemplate');
+        sendRegistrationGtag();
+      }, error => {
+        this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later');
+        this.setTemplate('emailConfirmLinkTemplate');
+      });
   }
 
   openLogInMobile() {
-    this.popupService.showMobileLoginPopup(true);
     this.closeMe();
+    this.popupService.showMobileLoginPopup(true);
   }
 
 
   initForm() {
     this.emailForm = new FormGroup({
-      email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator(), this.utilsService.specialCharacterValidator()]}),
-    });
+      email: new FormControl('', {
+        validators: [
+          // Validators.required,
+          this.utilsService.emailValidator(),
+          this.utilsService.specialCharacterValidator()
+        ],
+        asyncValidators: [this.userService.emailValidator()]
+      })
+    }, {updateOn: 'blur'});
     this.passwordForm = new FormGroup({
       password: new FormControl('', {validators: [Validators.required]}),
     });
@@ -107,34 +124,14 @@ export class RegistrationMobilePopupComponent implements OnInit {
     });
   }
 
+  // goToTerms() {
+  //   this.closeMe();
+  //   this.router.navigate(['/static/terms-and-conditions']);
+  // }
+
   emailSubmit() {
-    this.emailSubmited = true;
+    console.log(this.emailForm)
     if (this.emailForm.valid) {
-      const email = this.emailForm.get('email').value.trim();
-      this.email = email;
-      this.userService.checkIfEmailExists(email).subscribe(res => {
-        if (!res) {
-          this.email = email;
-          this.setTemplate('captchaTemplate');
-          this.emailMessage = '';
-        } else {
-          this.emailMessage = this.translateService.instant('Email exists');
-        }
-      }, err => {
-        this.emailMessage = this.translateService.instant('server error');
-      });
-    }
-  }
-
-  emailInput(e) {
-    this.emailMessage = '';
-  }
-
-  nameSubmit() {
-    this.nameSubmited = true;
-    if (this.nameForm.valid) {
-      this.firstName = this.nameForm.get('username').valid;
-      // this.userService.checkIfUsernameExists(this.firstName).subscribe(res => console.log(res));
       this.setTemplate('captchaTemplate');
     }
   }

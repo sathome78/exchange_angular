@@ -24,6 +24,8 @@ import {SharedModule} from 'app/shared/shared.module';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {translateInfo} from '../shared/configs/translate-options';
+import {MomentModule} from 'angular2-moment';
+import {CoreEffects} from 'app/core/effects/core.effects';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.orders, translateInfo.suffix);
@@ -38,7 +40,8 @@ export function createTranslateLoader(http: HttpClient) {
     ReactiveFormsModule,
     NgxPaginationModule,
     MyDatePickerModule,
-    EffectsModule.forRoot([OrdersEffects]),
+    MomentModule,
+    EffectsModule.forRoot([CoreEffects, OrdersEffects]),
     StoreModule.forFeature('orders', reducer),
     NgSelectModule,
     OrdersRoutingModule,

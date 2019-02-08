@@ -16,7 +16,7 @@ ul.select__list {
   // height: 260px;
   .select__list-item{
     min-height: 38px;
-    &:hover, &.active{
+    &.active{
       background-color: #fff;
     }
     .dynamic-input__input{
@@ -73,10 +73,26 @@ ul.select__list {
 app-balance{
 
 .ps__rail-y {
-  
+
   margin-right: 2px !important;
 }
 }
 app-balance  perfect-scrollbar > .ps.ps--active-y > .ps__rail-y{
     background-color: rgba(0, 0, 0, 0.1) !important;
   }
+
+  .clear-icon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 12px;
+    right: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+.dynamic-input {
+  padding-right: 30px !important;
+  text-overflow: ellipsis !important;
+}

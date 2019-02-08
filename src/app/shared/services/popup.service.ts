@@ -1,24 +1,30 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {LoggingService} from './logging.service';
+import {PopupData} from '../interfaces/popup-data-interface';
 
 @Injectable()
 export class PopupService {
 
   private onOpenTFAPopupListener = new Subject<string>();
   private onOpenIdentityPopupListener = new Subject<string>();
+  private onOpenKYCPopupListener = new Subject<number>();
   private onLoginPopupListener = new Subject<boolean>();
   private onDemoTradingPopupListener = new Subject<boolean>();
   private onRecoveryPasswordListener = new Subject<boolean>();
   private onMobileLoginPopupListener = new Subject<boolean>();
   private onMobileRegistrationPopupListener = new Subject<boolean>();
   private onAlreadyRegisteredPopupListener = new Subject<boolean>();
+  private onInfoPopupListener = new Subject<PopupData>();
   private onAlreadyRestoredPasswordPopupListener = new Subject<boolean>();
   private onRestoredPasswordPopupListener = new Subject<boolean>();
+  private onSessionTimeSavedPopupListener = new Subject<boolean>();
+  private onChangedPasswordPopupListener = new Subject<boolean>();
   private stepListener = new Subject<number>();
   private currentStep = 1;
   private tfaProvider = '';
   private identityDocumentType = 'PASSPORT';
+  public kycStep = 1;
   public demoPopupMessage = 0;
   stepsMap: Map<number, string> = new Map<number, string>();
 
@@ -33,6 +39,11 @@ export class PopupService {
   showIdentityPopup(mode: string) {
     this.identityDocumentType = mode;
     this.onOpenIdentityPopupListener.next(this.identityDocumentType);
+  }
+
+  showKYCPopup(step: number) {
+    this.kycStep = step;
+    this.onOpenKYCPopupListener.next(this.kycStep);
   }
 
   showLoginPopup(state: boolean) {
@@ -72,12 +83,20 @@ export class PopupService {
     this.onOpenIdentityPopupListener.next(undefined);
   }
 
+  closeKYCPopup() {
+    this.onOpenKYCPopupListener.next(undefined);
+  }
+
   public getTFAPopupListener(): Subject<string> {
     return this.onOpenTFAPopupListener;
   }
 
   public getIdentityPopupListener(): Subject<string> {
     return this.onOpenIdentityPopupListener;
+  }
+
+  public getKYCPopupListener(): Subject<number> {
+    return this.onOpenKYCPopupListener;
   }
 
   public getLoginPopupListener(): Subject<boolean> {
@@ -96,6 +115,9 @@ export class PopupService {
     return this.onDemoTradingPopupListener;
   }
 
+  public getInfoPopupListener(): Subject<PopupData> {
+    return this.onInfoPopupListener;
+  }
   public getAlreadyRegisteredPopupListener(): Subject<boolean> {
     return this.onAlreadyRegisteredPopupListener;
   }
@@ -104,8 +126,16 @@ export class PopupService {
     return this.onRestoredPasswordPopupListener;
   }
 
+  public getChangedPasswordPopupListener(): Subject<boolean> {
+    return this.onChangedPasswordPopupListener;
+  }
+
   public getAlreadyRestoredPasswordPopupListener(): Subject<boolean> {
     return this.onAlreadyRestoredPasswordPopupListener;
+  }
+
+  public getSessionTimeSavedPopupListener(): Subject<boolean> {
+    return this.onSessionTimeSavedPopupListener;
   }
 
   public getRegistrationMobilePopupListener(): Subject<boolean> {
@@ -203,13 +233,24 @@ export class PopupService {
     this.onAlreadyRegisteredPopupListener.next(state);
   }
 
+  toggleInfoPopup(state: PopupData) {
+    this.onInfoPopupListener.next(state);
+  }
+
   toggleAlreadyRestoredPasswordPopup(state: boolean) {
     this.onAlreadyRestoredPasswordPopupListener.next(state);
   }
 
   toggleRestoredPasswordPopup(state: boolean) {
-    debugger
     this.onRestoredPasswordPopupListener.next(state);
+  }
+
+  toggleSessionTimeSavedPopup(state: boolean) {
+    this.onSessionTimeSavedPopupListener.next(state);
+  }
+
+  toggleChangedPasswordPopup(state: boolean) {
+    this.onChangedPasswordPopupListener.next(state);
   }
 
   closeRecoveryPasswordPopup() {

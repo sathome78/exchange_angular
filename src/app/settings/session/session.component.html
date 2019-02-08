@@ -1,7 +1,8 @@
 <div class="settings__content">
   <h3 class="title settings__content-title">{{'Session Time' | translate}}</h3>
-  <h4> {{ statusMessage }}</h4>
-  <div class="subtitle settings__content-subtitle">{{'Time period, when you stayed logged in system after the last action' | translate}}
+
+  <div class="subtitle settings__content-subtitle">
+    {{'This is the time period, which will hold you as logged in user after the last action. Session time may be from 5 till 120 minutes.' | translate}}
   </div>
   <form class="settings-form" [formGroup]="form" (ngSubmit)="onSubmit()">
     <!--<div class="input-range settings__time-range">-->
@@ -20,8 +21,11 @@
           class="wrap-input__input"
           [ngClass]="{'input--error': !hoursInput.valid && hoursInput.touched}"
           type="number"
+          min="0"
+          max="2"
           formControlName="hours"
-        >
+          (blur)="validateHours()"
+        />
         <label class="wrap-input__label" for="">{{'Hours' | translate}}</label>
         <div class="wrap-input__line"></div>
 
@@ -43,7 +47,10 @@
           [ngClass]="{'input--error': !minutesInput.valid && minutesInput.touched}"
           type="number"
           formControlName="minutes"
-        >
+          min="0"
+          max="59"
+          (blur)="validateMinutes()"
+        />
         <label class="wrap-input__label" for="">{{'Minutes' | translate}}</label>
         <div class="wrap-input__line"></div>
 
@@ -66,6 +73,11 @@
 
       </div>
     </div>
-    <button class="btn settings__form-btn">{{'Save' | translate}}</button>
+    <h4> {{ statusMessage }}</h4>
+    <button
+      class="btn settings__form-btn"
+      [ngClass]="{'settings__form-btn--active': +oldValue !== +value}"
+      [disabled]="(+oldValue === +value)"
+    >{{'Save' | translate}}</button>
   </form>
 </div>

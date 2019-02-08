@@ -3,11 +3,13 @@ import {ActionReducer, createSelector} from '@ngrx/store';
 import {REHYDRATE, RehydrateAction} from '../actions/core.actions';
 import { SimpleCurrencyPair } from '../models/simple-currency-pair';
 import { CurrencyChoose } from '../models/currency-choose.model';
+import {NOT_VERIFIED} from '../../shared/constants';
 
 export interface State {
   currency: string;
   region: string;
   language: string;
+  verificationStatus: string;
   simpleCurrencyPairs: SimpleCurrencyPair[];
   cryptoCurrenciesForChoose: CurrencyChoose[];
   fiatCurrenciesForChoose: CurrencyChoose[];
@@ -19,6 +21,7 @@ export const INIT_STATE: State = {
   currency: null,
   region: null,
   language: 'en',
+  verificationStatus: NOT_VERIFIED,
   simpleCurrencyPairs: [],
   cryptoCurrenciesForChoose: [],
   fiatCurrenciesForChoose: [],
@@ -40,8 +43,15 @@ export function reducer(state: State = INIT_STATE, action: coreActions.Actions) 
       return {...state, ...action.payload};
 
     case coreActions.CHANGE_LANGUAGE:
-      console.log(action.payload)
+      // console.log(action.payload)
       return {...state, language: action.payload};
+
+    case coreActions.LOAD_VERIFICATION_STATUS:
+      return {...state, loading: true};
+    case coreActions.SET_VERIFICATION_STATUS:
+      return {...state, verificationStatus: action.payload};
+    case coreActions.FAIL_LOAD_VERIFICATION_STATUS:
+      return {...state, loading: false};
 
     case coreActions.SET_SIMPLE_CURRENCY_PAIRS:
       return {
@@ -89,6 +99,7 @@ export function rehydrateState(reducer: ActionReducer<any>): ActionReducer<any> 
  * Selector returns current language
  */
 export const getLanguage = (state: State): string => state.language;
+export const getVerificationStatus = (state: State): string => state.verificationStatus;
 
 /**
  * Selector returns current region

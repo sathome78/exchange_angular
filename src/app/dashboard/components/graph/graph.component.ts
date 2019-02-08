@@ -197,6 +197,13 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       interval: this._interval,
       container_id: this._containerId,
       timezone: 'Etc/UTC',
+      time_frames: [
+        {text: '8m', resolution: 'D'},
+        {text: '2m', resolution: 'D'},
+        {text: '7d', resolution: '60'},
+        {text: '5d', resolution: '30'},
+        {text: '3d', resolution: '30'},
+      ],
       library_path: this._libraryPath,
       locale: (this.lang as LanguageCode) || 'en',
       disabled_features: [
