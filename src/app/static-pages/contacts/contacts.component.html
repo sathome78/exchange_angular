@@ -145,9 +145,11 @@
             <label class="wrap-input__label">{{'Name' | translate}}</label>
             <div class="wrap-input__line"></div>
             <!--Input error section starts-->
+            <div class="input-hint-wrapper">
             <span class="wrap-input__message" style="display: none;">
               {{'This field is required.' | translate}}
             </span>
+          </div>
             <!--Input error section ends-->
           </div>
 
@@ -161,6 +163,7 @@
             <div class="wrap-input__line"></div>
             <!--Input error section starts-->
             <div *ngIf="!sendForm.get('email').valid && sendForm.get('email').touched">
+              <div class="input-hint-wrapper">
             <span class="wrap-input__message" *ngIf="sendForm.get('email').errors['required'] && sendForm.get('email').touched">
               {{'Email is required' | translate}}
             </span>
@@ -170,6 +173,7 @@
               <span class="wrap-input__message" *ngIf="sendForm.get('email').errors['specialCharacter'] && !sendForm.get('email').errors['required']">
               {{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
             </span>
+          </div>
             </div>
             <!--Input error section ends-->
           </div>
@@ -182,18 +186,24 @@
             <label class="wrap-input__label">{{'Telegram' | translate}}</label>
             <div class="wrap-input__line"></div>
             <!--Input error section starts-->
-            <span class="wrap-input__message" style="display: none;">
+            <div class="input-hint-wrapper">
+              <span class="wrap-input__message" style="display: none;">
               {{'This field is required.' | translate}}
             </span>
+            </div>
+            
+
             <!--Input error section ends-->
           </div>
           <div class="wrap-textarea wrap-textarea--grey contacts__wrap-textarea">
             <textarea class="wrap-textarea__textarea" required></textarea>
             <label class="wrap-textarea__label">{{'Text' | translate}}</label>
             <!--Input error section starts-->
+            <div class="input-hint-wrapper">
             <span class="wrap-textarea__message" style="display: none;">
               {{'This field is required.' | translate}}
             </span>
+          </div>
             <!--Input error section ends-->
           </div>
 
