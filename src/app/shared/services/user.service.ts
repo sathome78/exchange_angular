@@ -46,8 +46,23 @@ export class UserService {
       return this.checkIfEmailExists(control.value.trim())
         .pipe(map((isExist: boolean) => recovery ? !isExist : isExist))
         .pipe(map((isExist: boolean) => isExist ? {'emailExists': true} : null))
-        .pipe(catchError(() => of({'checkEmailCrash': true})));
+        .pipe(catchError((err) => of(this.checkError(err))));
     };
+  }
+
+  checkError(error) {
+    if (error['status'] === 400) {
+      switch (error.error.title) {
+        case 'USER_REGISTRATION_NOT_COMPLETED':
+          return {'USER_REGISTRATION_NOT_COMPLETED': true};
+        case 'USER_NOT_ACTIVE':
+          return {'USER_NOT_ACTIVE': true};
+        case 'USER_EMAIL_NOT_FOUND':
+          return {'USER_EMAIL_NOT_FOUND': true};
+      }
+
+    }
+    return {'checkEmailCrash': true};
   }
 
   checkIfUsernameExists(username: string): Observable<any> {

@@ -68,7 +68,8 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
   }
 
   emailSubmit() {
-    this.setTemplate('captchaTemplate');
+    console.log(this.emailForm)
+    // this.setTemplate('captchaTemplate');
   }
 
   resolvedCaptcha(event) {
