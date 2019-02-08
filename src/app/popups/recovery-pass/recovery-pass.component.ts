@@ -8,6 +8,7 @@ import {PopupService} from '../../shared/services/popup.service';
 import {UserService} from '../../shared/services/user.service';
 import {UtilsService} from '../../shared/services/utils.service';
 import {keys} from '../../core/keys';
+import {AUTH_MESSAGES} from '../../shared/constants';
 
 declare var sendRecoveryPasswordGtag: Function;
 
@@ -26,6 +27,7 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
   public emailForm: FormGroup;
   public afterCaptchaMessage = '';
   public recaptchaKey = keys.recaptchaKey;
+  public AUTH_MESSAGES = AUTH_MESSAGES;
 
   constructor(
     private popupService: PopupService,
@@ -68,8 +70,7 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
   }
 
   emailSubmit() {
-    console.log(this.emailForm)
-    // this.setTemplate('captchaTemplate');
+    this.setTemplate('captchaTemplate');
   }
 
   resolvedCaptcha(event) {

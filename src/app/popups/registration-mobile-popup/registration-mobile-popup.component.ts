@@ -10,6 +10,7 @@ import {keys} from '../../core/keys';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {Router} from '@angular/router';
 import { Location } from '@angular/common';
+import { AUTH_MESSAGES } from '../../shared/constants';
 
 declare var sendRegistrationGtag: Function;
 
@@ -124,10 +125,6 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     });
   }
 
-  // goToTerms() {
-  //   this.closeMe();
-  //   this.router.navigate(['/static/terms-and-conditions']);
-  // }
 
   emailSubmit() {
     console.log(this.emailForm)
