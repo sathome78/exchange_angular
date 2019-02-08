@@ -51,12 +51,12 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.resetDropdowns();
     if (this.authService.isAuthenticated()) {
-      this.userService.getUserColorScheme()
-        .subscribe(scheme => {
-          if (scheme && scheme === 'DARK') {
-            this.themeService.setDarkTheme();
-          }
-        });
+      // this.userService.getUserColorScheme()
+      //   .subscribe(scheme => {
+      //     if (scheme && scheme === 'DARK') {
+      //       this.themeService.setDarkTheme();
+      //     }
+      //   });
       this.userInfo = this.authService.simpleToken;
     }
     this.authService.onLoginLogoutListener$.subscribe(res => {
