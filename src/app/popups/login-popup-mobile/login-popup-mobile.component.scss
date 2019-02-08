@@ -1,5 +1,8 @@
 re-captcha{
 	margin: 0 auto;
+	.rc-anchor-center-item{
+		display: none;
+	}
 }
 @media (min-width: 1200px){
 	.popup__links-wrap{
@@ -98,5 +101,9 @@ re-captcha{
     right: 19px;
     width: 17px;
     height: 17px;
+	}
+	.popup_title--dm{
+		display: block;
+		color: #DEDEFB;
 	}
 }
