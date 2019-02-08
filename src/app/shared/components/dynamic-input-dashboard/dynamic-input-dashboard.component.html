@@ -8,6 +8,8 @@
       [(ngModel)]="value"
       (input)="onChange.emit($event.target.value)"
       (focus)="openDropdown()"
+      (keydown)="preventEventInput($event)"
+      (keyup)="preventEventInput($event)"
       type="text"
       autocomplete="off"
       required
@@ -18,13 +20,15 @@
 
   <!--<div class="wrap-input__icon" *ngIf="icon" [innerHTML]="icon"></div>-->
   <div class="dynamic-input__list dropdown search" [class.dropdown--open]="showDropdown">
-    <ul class="dropdown__list">
+    <ul class="dropdown__list" [ngClass]="{'select__list--open': showDropdown && filteredOptions.length}" #list>
       <perfect-scrollbar style="max-height: 285px;">
         <li
-          *ngFor="let item of filteredOptions; let i = index"
+          *ngFor="let item of filteredOptions; let i = index; trackBy: trackByFn"
           (click)="onSelectItem(item)"
           class="dropdown__item"
+          [attr.data-key]="i"
           [class.active]="i == arrowKeyLocation"
+          (mouseenter)="onHover($event)"
         >
           {{item.text}}
         </li>

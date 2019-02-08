@@ -35,20 +35,31 @@
     }
 
     .banner-wr .banner-content-inner:nth-child(1){
-      transform: translateY(0);
-      animation: 20s an1 10s infinite;
+      transform: translateY(5.2em);
+      /*animation: 20s an1 10s infinite;*/
     }
     .banner-wr .banner-content-inner:nth-child(2){
-      transform: translateY(-3.2em);
+      transform: translateY(-5.2em);
       position: absolute;
       top: 0;
       bottom: 0;
       right: 0;
       left: 0;
-      animation: 20s an2 10s infinite;
+      /*animation: 20s an2 10s infinite;*/
+    }
+    .banner-wr .banner-content-inner{
+      transform: translateY(-5.2em);
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+    }
+    .banner-wr .banner-content-inner.active{
+      transform: translateY(0);
     }
     .banner-wr .banner-content{
-      transition: .3s;
+      height: 3em;
       position: relative;
     }
     .banner-wr .banner-content-inner{
@@ -56,22 +67,34 @@
       justify-content: center;
       align-items: center;
       padding-top: 2px;
-      transition: .3s;
+      transition: .6s ease-out;
     }
-
+    .banner-wr .banner-content-inner a{
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      cursor: pointer;
+      text-decoration: none;
+      z-index: 3;
+    }
     .banner-wr .banner-img{
       margin-right: .85em;
       height: calc(3em - 2px);
       padding-top: 2px;
+      display: flex;
+      align-items: center;
 
     }
     .banner-img  img{
-      height: 100%;
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+      object-position: center;
       display: block;
 
     }
-
-
     .banner-wr .banner-name{
       margin-right: .75em;
     }
@@ -80,11 +103,9 @@
       color: #ffffff;
       font-size: .8em;
     }
-
-
     .banner-wr .youtube-pic{
-        margin-right: .75em;
-        height: .9em;
+      margin-right: .75em;
+      height: .9em;
     }
     .youtube-pic img{
       height: 100%;
@@ -92,78 +113,25 @@
     .banner-wr .banner-discription{ 
     }
     .banner-discription p{
-        opacity: 0.3;
+      opacity: 0.3;
       color: #ffffff;
       font-size: .8em;
-          padding-top: 4px;
+      padding-top: 4px;
     }
-
     @media(max-width: 768px){
       .banner-wr{
         font-size: 12px;
       }
       .banner-discription p{
-          padding-top: 0;
-    }
-    }
-    @keyframes an1{
-      0%{
-        transform: translateY(0); 
-      }
-      22%{
-        transform: translateY(0); 
-      }
-      23.5%{
-         transform: translateY(3.5em);
-          opacity: 1;
-      }
-      25%{
-        opacity: 0;
-        transform: translateY(3.5em);
-      }
-      28%{
-        transform: translateY(-3.5em);
-      }
-      73.5%{
-          transform: translateY(-3.5em);
-          opacity: 1;
-      }
-      76%{
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes an2{
-      0%{
-        opacity: 1;
-        transform: translateY(-3.5em); 
-      }
-      23.5%{
-         transform: translateY(-3.5em);
-      }
-      25%{
-        transform: translateY(0);
-      }
-      28%{
-        transform: translateY(0);
-      }
-      73.5%{
-        opacity: 1;
-        transform: translateY(0); 
-      }
-      75%{
-        transform: translateY(3.5em); 
-        opacity: 0;
-      }
-      76%{
-        transform: translateY(-3.5em); 
+        padding-top: 0;
       }
     }
   </style>
   <div class="banner-content">
-    <div class="banner-content-inner">
+    <div class="banner-content-inner active">
+      <a href="https://youtu.be/4Mx86-dtoNY" target="blank"></a>
       <div class="banner-img">
-        <img src="../../assets/img/b-pic.png" alt="">
+        <img src="../../assets/img/b-pic1.png" alt="">
       </div>
       <div class="banner-name">
         <p>NakamotoJedi</p>
@@ -172,12 +140,13 @@
         <img src="../../assets/img/youtube-pic.png" alt="">
       </div>
       <div class="banner-discription">
-        <p>Episode #68 - The World Blockchain Computer</p>
+        <p>Episode #78 - Edge Cryptocurrency Wallet + Blockchain Platform — insights</p>
       </div>
     </div>
     <div class="banner-content-inner">
+      <a href="https://youtu.be/4Mx86-dtoNY" target="blank"></a>
       <div class="banner-img">
-        <img src="../../assets/img/mon.png" alt="">
+        <img src="../../assets/img/b-pic2.png" alt="">
       </div>
       <div class="banner-name">
         <p>NakamotoJedi</p>
@@ -186,7 +155,22 @@
         <img src="../../assets/img/youtube-pic.png" alt="">
       </div>
       <div class="banner-discription">
-        <p>Episode #69 - First Among Equals</p>
+        <p>Episode #79 - BTC $3.500 | No BTC ETF - SEC | Lose $8 Million in Crypto Scam</p>
+      </div>
+    </div>
+    <div class="banner-content-inner">
+      <a href="https://youtu.be/4Mx86-dtoNY" target="blank"></a>
+      <div class="banner-img">
+        <img src="../../assets/img/b-pic3.png" alt="">
+      </div>
+      <div class="banner-name">
+        <p>NakamotoJedi</p>
+      </div>
+      <div class="youtube-pic">
+        <img src="../../assets/img/youtube-pic.png" alt="">
+      </div>
+      <div class="banner-discription">
+        <p>Episode #80 - Bitcoin SV creator Craig Wright — the real Satoshi Nakamoto?</p>
       </div>
     </div>
   </div>
@@ -239,6 +223,12 @@
 
   <div *ngIf="isOpenAlreadyRegisteredPopup">
     <app-already-registered-popup></app-already-registered-popup>
+  </div>
+
+  <div *ngIf="isOpenInfoPopup">
+    <app-popup-info
+    [popupData]="popupData"
+    ></app-popup-info>
   </div>
 
   <div *ngIf="isAlreadyRestoredPasswordPopupOpen">

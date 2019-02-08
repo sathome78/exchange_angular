@@ -23,7 +23,7 @@ export class AlreadyRestoredPasswordPopupComponent implements OnInit {
 
   ngOnInit() {
     this.buttonText = this.translateService.instant('Ok');
-    this.defaultMessage = `<p>${this.translateService.instant('You have already used the link to restore your password. If necessary, please repeat the restore password process.')}</p>`;
+    this.defaultMessage = `<p>${this.translateService.instant('You have already used the link to reset your password. If necessary, please repeat the password recovery process.')}</p>`;
     this.showHtml = this.defaultMessage;
   }
 

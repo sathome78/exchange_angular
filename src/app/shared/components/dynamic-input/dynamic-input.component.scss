@@ -16,7 +16,7 @@ ul.select__list {
   // height: 260px;
   .select__list-item{
     min-height: 38px;
-    &:hover, &.active{
+    &.active{
       background-color: #fff;
     }
     .dynamic-input__input{

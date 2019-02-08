@@ -16,8 +16,7 @@
   <script src="./assets/js/datafeeds/udf/dist/polyfills.js"></script>
   <script src="./assets/js/datafeeds/udf/dist/bundle.js"></script>
   <script src="./assets/js/gtag/gtag_handler"></script>
-
-
+  <script src="./assets/js/polifills.js"></script>
   <script>
     var global = window;
   </script>
@@ -30,5 +29,17 @@
     }
   </script>
   <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async=""></script>
+  <script>
+    setInterval(function(){
+      document.querySelector(".banner-content-inner").classList.remove("active");
+      document.querySelector(".banner-content-inner").nextElementSibling.classList.add("active");
+      setTimeout(function(){
+        var firstBanner = document.querySelector(".banner-content >.banner-content-inner:first-child");
+        var lastBanner = document.querySelector(".banner-content >.banner-content-inner:last-child");
+        var parrentBanner = document.querySelector(".banner-content");
+        parrentBanner.insertBefore(firstBanner,lastBanner.nextSibling);
+      },1000)
+    },20000)
+  </script>
 </body>
 </html>
