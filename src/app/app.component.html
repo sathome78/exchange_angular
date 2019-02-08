@@ -232,6 +232,12 @@
     <app-already-registered-popup></app-already-registered-popup>
   </div>
 
+  <div *ngIf="isOpenInfoPopup">
+    <app-popup-info
+    [popupData]="popupData"
+    ></app-popup-info>
+  </div>
+
   <div *ngIf="isAlreadyRestoredPasswordPopupOpen">
     <app-already-restored-password-popup></app-already-restored-password-popup>
   </div>

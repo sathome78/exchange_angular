@@ -124,10 +124,10 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     });
   }
 
-  goToTerms() {
-    this.closeMe();
-    this.router.navigate(['/static/terms-and-conditions']);
-  }
+  // goToTerms() {
+  //   this.closeMe();
+  //   this.router.navigate(['/static/terms-and-conditions']);
+  // }
 
   emailSubmit() {
     console.log(this.emailForm)
