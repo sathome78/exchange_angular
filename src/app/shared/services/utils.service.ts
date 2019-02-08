@@ -24,15 +24,15 @@ export class UtilsService {
 
   emailValidator(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
-      const forbidden = new RegExp(this.pattern).test(control.value.trim());
-      const excludeCyrilic = new RegExp(this.checkCyrilic).test(control.value.trim())
+      const forbidden = new RegExp(this.pattern).test(control.value ? control.value.trim() : '');
+      const excludeCyrilic = new RegExp(this.checkCyrilic).test(control.value ? control.value.trim() : '')
       return forbidden && !excludeCyrilic ? null : {'emailInvalid': {value: control.value.trim()}} ;
     };
   }
 
   specialCharacterValidator(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
-      const forbidden = new RegExp(this.forbiddenSymbolsEmailRegex).test(control.value.trim());
+      const forbidden = new RegExp(this.forbiddenSymbolsEmailRegex).test(control.value ? control.value.trim() : '');
       return !forbidden ? null : {'specialCharacter': {value: control.value.trim()}} ;
     };
   }
@@ -49,7 +49,7 @@ export class UtilsService {
   passwordMatchValidator(firstFieldValue): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
       const value = control.value ? control.value.trim() : '';
-      return value === firstFieldValue.value && value.length === firstFieldValue.value.length ? null : {'passwordsNotMatch': true}
+      return value === firstFieldValue.value && value.length === firstFieldValue.value.length ? null : {'passwordsNotMatch': true};
     };
   }
 

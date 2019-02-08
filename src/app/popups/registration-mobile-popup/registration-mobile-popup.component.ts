@@ -9,6 +9,8 @@ import {UserService} from '../../shared/services/user.service';
 import {keys} from '../../core/keys';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {Router} from '@angular/router';
+import { Location } from '@angular/common';
+import { AUTH_MESSAGES } from '../../shared/constants';
 
 declare var sendRegistrationGtag: Function;
 
@@ -43,6 +45,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private translateService: TranslateService,
     private utilsService: UtilsService,
+    private location: Location,
   ) {
   }
 
@@ -78,6 +81,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
 
   closeMe() {
     this.popupService.closeRegistrationPopup();
+    this.location.replaceState('dashboard');
   }
 
   resolvedCaptcha(event) {
@@ -97,8 +101,8 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   }
 
   openLogInMobile() {
-    this.popupService.showMobileLoginPopup(true);
     this.closeMe();
+    this.popupService.showMobileLoginPopup(true);
   }
 
 
@@ -121,10 +125,6 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     });
   }
 
-  goToTerms() {
-    this.router.navigate(['/static/terms-and-conditions']);
-    this.closeMe();
-  }
 
   emailSubmit() {
     console.log(this.emailForm)

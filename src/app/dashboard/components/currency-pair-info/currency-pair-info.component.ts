@@ -9,7 +9,10 @@ import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {UtilsService} from 'app/shared/services/utils.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
-
+import {UserService} from 'app/shared/services/user.service';
+/**
+ * Dashboard currency pair information component
+ */
 @Component({
   selector: 'app-currency-pair-info',
   templateUrl: 'currency-pair-info.component.html',
@@ -27,6 +30,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<State>,
     private dashboardWebsocketService: DashboardWebSocketService,
+    private userService: UserService,
     private utils: UtilsService,
   ) { }
 
@@ -95,7 +99,31 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   }
 
   onSelectPair(pairName: string): void {
-    this.dashboardWebsocketService.findPairByCurrencyPairName(pairName);
+    const p = this.findCurrencyPair(pairName);
+    if(p) {
+      this.selectNewCurrencyPair(p);
+    } else {
+      this.pairInput = this.pair.currencyPairName;
+    }
+  }
+
+  onBlurInput() {
+    const p = this.findCurrencyPair(this.pairInput);
+    if(p) {
+      this.selectNewCurrencyPair(p);
+    } else {
+      this.pairInput = this.pair.currencyPairName;
+    }
+  }
+
+  findCurrencyPair(val: string): CurrencyPair | null {
+    return this.allCurrencyPairs.find((item) => item.currencyPairName === val) || null;
+  }
+
+  selectNewCurrencyPair(pair: CurrencyPair) {
+    this.store.dispatch(new dashboardActions.ChangeCurrencyPairAction(pair));
+    this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(pair.currencyPairId))
+    this.userService.getUserBalance(pair);
   }
 
 

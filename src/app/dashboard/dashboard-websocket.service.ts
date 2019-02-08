@@ -89,6 +89,8 @@ export class DashboardWebSocketService implements OnDestroy {
    * @param {string} pairName
    * @param pair
    */
+
+  // TODO remove after refactoring
   findPairByCurrencyPairName(pairName: string): void {
     this.currencyPairs.forEach(elm => {
       if (pairName === elm.currencyPairName) {
