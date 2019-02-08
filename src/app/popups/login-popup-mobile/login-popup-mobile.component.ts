@@ -110,9 +110,9 @@ export class LoginPopupMobileComponent implements OnInit {
         err => console.log(err));
   }
 
-  setStatusMessage(status) {
+  setStatusMessage(err) {
     this.showSendAgainBtn = false;
-    switch (status) {
+    switch (err['status']) {
       case 401:
       case 422:
         this.statusMessage = this.translateService.instant('Wrong email or password!');
@@ -130,7 +130,7 @@ export class LoginPopupMobileComponent implements OnInit {
       case 419:
         this.statusMessage = this.translateService.instant('Your ip is blocked!');
         break;
-      case 418:
+      case 400:
         if (!this.isGACheck) {
           this.checkGoogleLoginEnabled(this.email);
         }
@@ -201,7 +201,7 @@ export class LoginPopupMobileComponent implements OnInit {
           console.log(err, 'sendToServerError')
           const status = err['status'];
           this.setTemplate('logInTemplate');
-          this.setStatusMessage(status);
+          this.setStatusMessage(err);
         });
   }
 

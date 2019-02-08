@@ -6,7 +6,11 @@
     </ng-template>
 
     <ng-template #logInTemplate>
+      <div class="logo-login-mob mobile-container">
+        <img src="../../assets/img/logo-exrates.svg" alt="">
+      </div>
       <h6 class="popup__title">{{'Log in' | translate}}</h6>
+      <h6 class="popup__title-mob mobile-container">Login to continue</h6>
       <!-- <h4 class="popup__subtitle">{{statusMessage}}</h4> -->
 
       <form class="popup__form" [formGroup]="loginForm">
@@ -86,11 +90,11 @@
           {{'Log in' | translate}}
         </button>
       </form>
-      <div class="popup__links-wrap">
-        <span> {{'No account?' | translate}} <a class="popup__link popup__link--hidden-mob" (click)="openRegistration()">{{'Sign up' | translate}}</a></span>
+      <div class="popup__links-wrap mobile-container">
+        <span class="destop-content"> {{'No account?' | translate}} <a class="popup__link popup__link--hidden-mob" (click)="openRegistration()">{{'Sign up' | translate}}</a></span>
         <a class="popup__link" (click)="openRecoveryPasswordPopup()">{{'Forgot password?' | translate}}</a>
       </div>
-      <a class="popup__link-mob" (click)="openRegistration()">{{'Registration' | translate}}</a>
+      <a class="popup__link-mob mobile-container" (click)="openRegistration()"><span>Not registered yet? </span>{{'Sing Up' | translate}}</a>
     </ng-template>
 
     <ng-template #captchaTemplate>
