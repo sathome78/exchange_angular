@@ -5,7 +5,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {catchError, map, switchMap, mergeMap} from 'rxjs/internal/operators';
 import * as dashboardActions from '../../dashboard/actions/dashboard.actions';
 import {of} from 'rxjs';
-import {CurrencyPairInfoService} from '../components/currency-pair-info/currency-pair-info.service';
+import {CurrencyPairInfoService} from '../services/currency-pair-info.service';
 
 @Injectable()
 export class DashboardEffects {

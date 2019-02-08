@@ -52,7 +52,6 @@ import {ThemeService} from './shared/services/theme.service';
 import {MockDataService} from './shared/services/mock-data.service';
 import {TradingService} from './dashboard/components/trading/trading.service';
 import {EmbeddedOrdersService} from './dashboard/components/embedded-orders/embedded-orders.service';
-import {CurrencyPairInfoService} from './dashboard/components/currency-pair-info/currency-pair-info.service';
 import {JwtInterceptor} from './core/interceptors/jwt.interceptor';
 import {AuthInterceptor} from './core/interceptors/auth.interceptor';
 
@@ -177,7 +176,6 @@ export function createTranslateLoader(http: HttpClient) {
     MockDataService,
     TradingService,
     EmbeddedOrdersService,
-    CurrencyPairInfoService,
     CoreService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

@@ -1,0 +1,42 @@
+<div class="trading-header-wr">
+  <div class="currency-pair-info--mob">
+    <div class="currency-pair-info__inner">
+      <!-- <div class="currency-pair-info__pair">
+        <div class="dropdown currency-pair-info__dropdown">
+          <div class="dropdown__btn">BTC</div>
+        </div>
+        <div class="currency-pair-info__change-pair">
+          <span class="currency-pair-info__change-pair--mob">/</span>
+        </div>
+        <div class="dropdown currency-pair-info__dropdown">
+          <div class="dropdown__btn">USD</div>
+        </div>
+      </div> -->
+      <app-dynamic-input-dashboard
+        [value]="pairInput"
+        [options]="DIOptions"
+        (onChange)="onChangeCurrPair($event)"
+        (onSelect)="onSelectPair($event.text)"
+      ></app-dynamic-input-dashboard>
+      <div
+        class="currency-pair-info__info"
+        [ngClass]="{
+          'currency-pair-info__info--up': isIncrease,
+          'currency-pair-info__info--down': !isIncrease
+        }"
+      >
+        <div class="currency-pair-info__change">
+          <span>
+            {{isIncrease ? '+' : '-'}}{{currentCurrencyInfo?.percentChange || 0 | number:'1.0-2' | replaceNumber}}%
+          </span>
+          <span style="margin-left: 10px;">
+            {{isIncrease ? '+' : '-'}}{{currentCurrencyInfo?.changedValue || 0 | replaceNumber : isFiat(2) }} {{pair.currencyPairName | splitCurrency : 2}}
+          </span>
+        </div>
+        <div class="currency-pair-info__price">
+          {{currentCurrencyInfo?.currencyRate || 0 | replaceNumber : isFiat(2) }} {{pair.currencyPairName | splitCurrency : 2}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

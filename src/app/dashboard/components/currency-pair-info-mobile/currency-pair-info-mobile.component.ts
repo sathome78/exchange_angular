@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, HostListener, Renderer2} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
@@ -9,24 +9,30 @@ import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {UtilsService} from 'app/shared/services/utils.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
-
+/**
+ * Dashboard currency pair information component
+ */
 @Component({
-  selector: 'app-currency-pair-info',
-  templateUrl: 'currency-pair-info.component.html',
-  styleUrls: ['currency-pair-info.component.scss']
+  selector: 'app-currency-pair-info-mobile',
+  templateUrl: 'currency-pair-info-mobile.component.html',
+  styleUrls: ['currency-pair-info-mobile.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
+export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+
   public pair: CurrencyPair = null;
   public pairInput: string = ''
   public currentCurrencyInfo: CurrencyPairInfo = null;
   public userBalanceInfo: UserBalance;
   public allCurrencyPairs: CurrencyPair[] = [];
   public DIOptions: DIOptions[] = [];
+  public isIncrease: boolean = false;
 
   constructor(
     private store: Store<State>,
     private dashboardWebsocketService: DashboardWebSocketService,
+    private cdr: ChangeDetectorRef,
     private utils: UtilsService,
   ) { }
 
@@ -37,6 +43,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .subscribe((pair: CurrencyPair) => {
         this.pair = pair;
         this.pairInput = pair.currencyPairName;
+        this.cdr.detectChanges();
       });
 
     this.store
@@ -44,6 +51,8 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPairInfo) => {
         this.currentCurrencyInfo = pair;
+        this.isIncrease = this.getIsIncrease();
+        this.cdr.detectChanges();
       });
 
     this.store
@@ -52,6 +61,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .subscribe((pair: CurrencyPair[]) => {
         this.allCurrencyPairs = pair;
         this.DIOptions = pair.map((item) => ({text: item.currencyPairName, id: item.currencyPairId}));
+        this.cdr.detectChanges();
       });
 
     this.store
@@ -63,6 +73,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
         } else {
           this.userBalanceInfo = null;
         }
+        this.cdr.detectChanges();
       });
 
     this.dashboardWebsocketService.setRabbitStompSubscription()
@@ -82,12 +93,8 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  flarForArrow(s: string) {
-    if (s === 'up') {
-      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate >= 0 :  false;
-    } else {
-      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate < 0 : false;
-    }
+  getIsIncrease() {
+    return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate >= 0 : false;
   }
 
   onChangeCurrPair(val: string): void {
@@ -97,7 +104,6 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   onSelectPair(pairName: string): void {
     this.dashboardWebsocketService.findPairByCurrencyPairName(pairName);
   }
-
 
   isFiat(currNum) {
     const currs = this.pair.currencyPairName.split('/');

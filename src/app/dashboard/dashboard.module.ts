@@ -10,7 +10,7 @@ import {ActivePairComponent} from './components/active-pair/active-pair.componen
 import {ChatComponent} from './components/chat/chat.component';
 import {ChatMessageComponent} from './components/chat/chat-message/chat-message.component';
 import {CurrencyPairInfoComponent} from './components/currency-pair-info/currency-pair-info.component';
-import {CurrencySearchComponent} from './components/currency-pair-info/currency-search/currency-search.component';
+import {CurrencyPairInfoMobileComponent} from './components/currency-pair-info-mobile/currency-pair-info-mobile.component';
 import {DashboardComponent} from './dashboard.component';
 import {DayChatComponent} from './components/chat/day-chat/day-chat.component';
 import {EmbeddedOrdersComponent} from './components/embedded-orders/embedded-orders.component';
@@ -37,10 +37,10 @@ import {PositivePipe} from './components/markets/positive.pipe';
 import {CurrencySortingPipe} from './components/markets/currency-sorting.pipe';
 import {NicknamePipe} from './components/chat/chat-message/nickname.pipe';
 import {EffectsModule} from '@ngrx/effects';
-import {FundsEffects} from '../funds/store/effects/funds.effects';
 import {DashboardEffects} from './effects/dashboard.effects';
 import {TranslateModule} from '@ngx-translate/core';
 import {MomentModule} from 'angular2-moment';
+import {CurrencyPairInfoService} from './services/currency-pair-info.service';
 
 
 export function socketProvider() {
@@ -85,7 +85,7 @@ const stompConfig: StompConfig = {
     ChatComponent,
     ChatMessageComponent,
     CurrencyPairInfoComponent,
-    CurrencySearchComponent,
+    CurrencyPairInfoMobileComponent,
     DashboardComponent,
     DayChatComponent,
     EmbeddedOrdersComponent,
@@ -111,7 +111,7 @@ const stompConfig: StompConfig = {
     ChatComponent,
     ChatMessageComponent,
     CurrencyPairInfoComponent,
-    CurrencySearchComponent,
+    CurrencyPairInfoMobileComponent,
     DashboardComponent,
     DayChatComponent,
     EmbeddedOrdersComponent,
@@ -151,6 +151,7 @@ const stompConfig: StompConfig = {
     DashboardWebSocketService,
     MarketService,
     OrderBookService,
+    CurrencyPairInfoService,
     StompService,
     TradeHistoryService,
     {provide: StompConfig, useValue: stompConfig},
