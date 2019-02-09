@@ -1,5 +1,5 @@
 <div class="widget widget--gradient">
-  <div class="order-book-bg order-book-bg--main" #mainContent [ngClass]="{'show': !isBuy}"></div>
+  <div class="order-book-bg order-book-bg--main" #mainContent></div>
   <div class="widget__header panel-heading">
     <span class="widget__name">{{'Order book' | translate}}</span>
     <a href="#" class="widget__question">
@@ -27,7 +27,7 @@
 
 
   <div class="widget__content" id="order_book" #orderBook *ngIf="!loading">
-    <div class="order-table" [ngClass]="orderTypeClass">
+    <div class="order-table">
       <div class="head">
         <div class="order table__cell-head table__cell-head--tal table__cell-head--p4 table__cell-head--blue">
           <span>
@@ -48,7 +48,7 @@
       <div class="items items--sell">
 
         <div class="visualization">
-          <ng-container *ngFor="let item of dataForSell; let i = index">
+          <ng-container *ngFor="let item of sellVisualizationArray; let i = index">
             <div class="visual-item" [ngClass]="'red'" [style.width]="sellVisualizationArray[i] + '%'">
               <div class="border-container" *ngIf="i < 7 && withForChartLineElements && withForChartLineElements.sell.length">
                 <div class="border-border sell" [style.width]="withForChartLineElements.sell[i]">
@@ -57,7 +57,7 @@
             </div>
           </ng-container>
         </div>
-        <div class="item" *ngFor="let item of showSellDataRverse; let i = index" (click)="onSelectOrder(i, item, 'trading')">
+        <div class="item" *ngFor="let item of showSellDataReverse; let i = index" (click)="onSelectOrder(i, item, 'trading')">
           <div class="order">
             <span>
               {{item.total  | roundCurrency | formatCurrency}}
@@ -104,7 +104,7 @@
 
         <div
           class="item"
-          *ngFor="let item of showBuyDataRverse; let i = index;"
+          *ngFor="let item of showBuyDataReverse; let i = index;"
           (click)="onSelectOrder(i, item)">
           <div class="order">
             <span>
