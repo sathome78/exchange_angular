@@ -167,114 +167,15 @@
 
 <!-- trading mobile start -->
   <div class="widget__content widget__content--mob">
+
     <!-- app-currency-pair-info-mobile  start-->
     <app-currency-pair-info-mobile></app-currency-pair-info-mobile>
-    <!-- <div class="trading-header-wr">
-      <div class="currency-pair-info--mob">
-        <div class="currency-pair-info__inner">
-          <div class="currency-pair-info__pair">
-            <div class="dropdown currency-pair-info__dropdown">
-              <div class="dropdown__btn">BTC</div>
-            </div>
-            <div class="currency-pair-info__change-pair">
-              <span class="currency-pair-info__change-pair--mob">/</span>
-            </div>
-            <div class="dropdown currency-pair-info__dropdown">
-              <div class="dropdown__btn">USD</div>
-            </div>
-          </div>
-        <div class="currency-pair-info__info currency-pair-info__info--up">
-          <div class="currency-pair-info__change">
-            <span>+0.8%</span>
-            <span style="margin-left: 10px;">+49,816 USD</span>
-          </div>
-          <div class="currency-pair-info__price">6227.12 USD</div>
-        </div>
-        </div>
-      </div>
-    </div> -->
     <!-- app-currency-pair-info-mobile  end-->
-      <div class="order-book-wr">
-        <div class="order-book-part order-book-buy">
-          <div class="table">
-              <div class="tr">
-                <div class="td">Buy</div>
-                <div class="td">Amount</div>
-                <div class="td">Price</div>
-              </div>
-              <div class="tr">
-                <div class="td">1</div>
-                <div class="td">0.1597</div>
-                <div class="td">3536.20</div>
-                <div class="bg-bar" style="width:13%;"></div>
-              </div>
-              <div class="tr">
-                <div class="td">2</div>
-                <div class="td">0.1597</div>
-                <div class="td">3536.20</div>
-                <div class="bg-bar" style="width:20%;"></div>
-              </div>
-              <div class="tr">
-                <div class="td">3</div>
-                <div class="td">0.1597</div>
-                <div class="td">3536.20</div>
-                <div class="bg-bar" style="width:24%;"></div>
-              </div>
-              <div class="tr">
-                <div class="td">4</div>
-                <div class="td">0.1597</div>
-                <div class="td">3536.20</div>
-                <div class="bg-bar" style="width:47%;"></div>
-              </div>
-              <div class="tr">
-                <div class="td">5</div>
-                <div class="td">0.1597</div>
-                <div class="td">3536.20</div>
-                <div class="bg-bar" style="width:56%;"></div>
-              </div>
-          </div>
-        </div>
-        <div class="order-book-part order-book-sell">
-          <div class="table">
-              <div class="tr">
-                <div class="td">Price</div>
-                <div class="td">Amount</div>
-                <div class="td">Sell</div>
-              </div>
 
-              <div class="tr">
-                <div class="td">3536.20</div>
-                <div class="td">0.1597</div>
-                <div class="td">1</div>
-                <div class="bg-bar" style="width:25%;"></div>
-              </div>
-              <div class="tr">
-                <div class="td">3536.20</div>
-                <div class="td">0.1597</div>
-                <div class="td">2</div>
-                <div class="bg-bar" style="width:25%;"></div>
-              </div>
-              <div class="tr">
-                <div class="td">3536.20</div>
-                <div class="td">0.1597</div>
-                <div class="td">3</div>
-                <div class="bg-bar" style="width:25%;"></div>
-              </div>
-              <div class="tr">
-                <div class="td">3536.20</div>
-                <div class="td">0.1597</div>
-                <div class="td">4</div>
-                <div class="bg-bar" style="width:25%;"></div>
-              </div>
-              <div class="tr">
-                <div class="td">3536.20</div>
-                <div class="td">0.1597</div>
-                <div class="td">5</div>
-                <div class="bg-bar" style="width:25%;"></div>
-              </div>
-          </div>
-          </div>
-      </div>
+    <!-- app-order-book-mobile start -->
+    <app-order-book-mobile></app-order-book-mobile>
+    <!-- app-order-book-mobile end -->
+
       <div class="trading-wr--mobile">
         <div class="row row--jcsb row--aic widget__trading-row">
       <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"

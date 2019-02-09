@@ -9,7 +9,7 @@ import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {Order} from './order.model';
 import {TradingService} from './trading.service';
 import {DashboardService} from '../../dashboard.service';
-import {OrderBookService} from '../order-book/order-book.service';
+import {OrderBookService} from '../../services/order-book.service';
 import {State, getCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getDashboardState} from 'app/core/reducers/index';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserService} from 'app/shared/services/user.service';

@@ -57,7 +57,11 @@
             </div>
           </ng-container>
         </div>
-        <div class="item" *ngFor="let item of showSellDataReverse; let i = index" (click)="onSelectOrder(i, item, 'trading')">
+        <div
+          class="item"
+          *ngFor="let item of showSellDataReverse; let i = index"
+          (click)="onSelectOrder(item)"
+        >
           <div class="order">
             <span>
               {{item.total  | roundCurrency | formatCurrency}}
@@ -105,7 +109,7 @@
         <div
           class="item"
           *ngFor="let item of showBuyDataReverse; let i = index;"
-          (click)="onSelectOrder(i, item)">
+          (click)="onSelectOrder(item)">
           <div class="order">
             <span>
               {{item.total  | roundCurrency | formatCurrency}}

@@ -31,7 +31,7 @@ import {ChatService} from './components/chat/chat.service';
 import {DashboardService} from './dashboard.service';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
 import {MarketService} from './components/markets/market.service';
-import {OrderBookService} from './components/order-book/order-book.service';
+import {OrderBookService} from './services/order-book.service';
 import {TradeHistoryService} from './components/trade-history/trade-history.service';
 import {PositivePipe} from './components/markets/positive.pipe';
 import {CurrencySortingPipe} from './components/markets/currency-sorting.pipe';
@@ -41,6 +41,7 @@ import {DashboardEffects} from './effects/dashboard.effects';
 import {TranslateModule} from '@ngx-translate/core';
 import {MomentModule} from 'angular2-moment';
 import {CurrencyPairInfoService} from './services/currency-pair-info.service';
+import {OrderBookMobileComponent} from './components/order-book-mobile/order-book-mobile.component';
 
 
 export function socketProvider() {
@@ -95,6 +96,7 @@ const stompConfig: StompConfig = {
     MarketsComponent,
     MarketSearchComponent,
     OrderBookComponent,
+    OrderBookMobileComponent,
     TradeHistoryComponent,
     TradingComponent,
     ToolsComponent,
@@ -110,8 +112,6 @@ const stompConfig: StompConfig = {
     ActivePairComponent,
     ChatComponent,
     ChatMessageComponent,
-    CurrencyPairInfoComponent,
-    CurrencyPairInfoMobileComponent,
     DashboardComponent,
     DayChatComponent,
     EmbeddedOrdersComponent,
@@ -120,7 +120,6 @@ const stompConfig: StompConfig = {
     GraphComponent,
     MarketsComponent,
     MarketSearchComponent,
-    OrderBookComponent,
     TradeHistoryComponent,
     TradingComponent,
     ToolsComponent,
