@@ -42,6 +42,8 @@ import {TranslateModule} from '@ngx-translate/core';
 import {MomentModule} from 'angular2-moment';
 import {CurrencyPairInfoService} from './services/currency-pair-info.service';
 import {OrderBookMobileComponent} from './components/order-book-mobile/order-book-mobile.component';
+import {TradingMobileComponent} from './components/trading-mobile/trading-mobile.component';
+import {TradingService} from './services/trading.service';
 
 
 export function socketProvider() {
@@ -99,6 +101,7 @@ const stompConfig: StompConfig = {
     OrderBookMobileComponent,
     TradeHistoryComponent,
     TradingComponent,
+    TradingMobileComponent,
     ToolsComponent,
 
     // PIPES START
@@ -153,6 +156,7 @@ const stompConfig: StompConfig = {
     CurrencyPairInfoService,
     StompService,
     TradeHistoryService,
+    TradingService,
     {provide: StompConfig, useValue: stompConfig},
     {provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG}
   ]

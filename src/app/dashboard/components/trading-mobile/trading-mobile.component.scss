@@ -1,0 +1,165 @@
+:host {
+  width: 100%;
+}
+.radio__input:checked{
+  &+.radio__text{
+    background-color: #237BEF;
+    color: #fff;
+    border-color: transparent;
+  }
+}
+.dropdown__btn:after {
+  position: absolute;
+  top: 40%;
+  right: 0;
+  display: inline-block;
+  content: "";
+  vertical-align: middle;
+  border-top: 4px solid #fff;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+
+.widget__header {
+  background-color: transparent;
+}
+
+.tab-no-active {
+  border-bottom: 2px solid transparent;
+}
+
+.dropdown__item {
+  white-space: nowrap;
+}
+
+.dropdown__list {
+  left: 0;
+  right: 0;
+}
+
+.widget__tabs {
+  margin-bottom: 12px;
+  @media (min-width: 1200px) {
+    margin-bottom: 0;
+  }
+}
+
+.no-spinners::-webkit-inner-spin-button,
+.no-spinners::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@media (min-width: 1200px) {
+  .dropdown__list {
+    // left: 21px;
+  }
+}
+
+.avaliable--aifl{
+  align-items: flex-start;
+  span{
+    color: #BFBFBF;
+    margin-right: 3px;
+  }
+}
+
+.no-line{
+  input{
+    border: 1px solid #94C2FF;
+    border-radius: 4px;
+    width: 100%;
+  }
+}
+
+.row__percent{
+  margin-top: 19px;
+  @media(min-width:1500px){
+    font-size: 20px;
+  }
+  font-size: calc(.64rem + .63vw);
+  justify-content: space-between;
+}
+
+.d-none {
+  display: none;
+}
+
+
+.trading-wr--mobile{
+ padding: 0 10px 0 13px;
+ .wrap-input__input{
+  height: 33px;
+
+}
+.avaliable--aifl{
+  flex-direction: row;
+  span{
+    font-size: 12px;
+    color: #424D5E;
+  }
+}
+.widget__trading-row-txt .avaliable{
+  margin-top: -5px;
+}
+.widget__trading-row-txt .avaliable{
+  a{
+    font-size: 12px;
+    border: none;
+    font-weight: 300;
+  }
+}
+.input-row{
+  margin-top: 14px;
+}
+.widget__trading-form {
+  display: block;
+  width: 50%;
+  &:nth-child(2){
+    margin-left: 15px;
+  }
+  &:nth-child(1){
+    margin-right: 15px;
+  }
+  @media(max-width: 420px){
+    &:nth-child(2){
+      margin-left: 8px;
+    }
+    &:nth-child(1){
+      margin-right: 8px;
+    }
+  }
+}
+.widget__trading-form--wr{
+  display: flex;
+  justify-content: space-between;
+
+}
+.widget__trading-row{
+  margin-bottom: 14px;
+  // margin-top: 16px;
+}
+.row__percent{
+  justify-content: center;
+  font-size: 16px;
+  margin-top: 7px;
+}
+.widget__trading-title{
+  font-size: 14px;
+}
+.radio{
+  &:not(:last-child){
+    margin-right: 4px;
+  }
+}
+.widget__trading-btn{
+  margin: 18px auto 0;
+}
+}
+
+
+@media(max-width: 992px){
+  .widget__trading-row{
+  margin-top: 16px;
+}
+}
