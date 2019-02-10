@@ -1,7 +1,5 @@
 <div class="widget widget--gradient">
-  <!--<div class="order-book-bg order-book-bg&#45;&#45;green" [ngClass]="{'show': isBuy}"></div>-->
-  <!--<div class="order-book-bg order-book-bg&#45;&#45;red" [ngClass]="{'show': !isBuy}"></div>-->
-  <div class="order-book-bg order-book-bg--main" #mainContent [ngClass]="{'show': !isBuy}"></div>
+  <div class="order-book-bg order-book-bg--main" #mainContent></div>
   <div class="widget__header panel-heading">
     <span class="widget__name">{{'Order book' | translate}}</span>
     <a href="#" class="widget__question">
@@ -29,22 +27,13 @@
 
 
   <div class="widget__content" id="order_book" #orderBook *ngIf="!loading">
-
-    <!-- <div class="chartContainer" id="chartContainer">
-
-    </div> -->
-    <div class="order-table" [ngClass]="orderTypeClass">
+    <div class="order-table">
       <div class="head">
         <div class="order table__cell-head table__cell-head--tal table__cell-head--p4 table__cell-head--blue">
           <span>
             {{'Total' | translate}}
           </span>
         </div>
-        <!--<div class="info table__cell-head table__cell-head&#45;&#45;tal table__cell-head&#45;&#45;p4">-->
-          <!--<span>-->
-
-          <!--</span>-->
-        <!--</div>-->
         <div class="price table__cell-head table__cell-head--tal table__cell-head--p4">
           <span>
             {{'Price' | translate}}
@@ -59,9 +48,8 @@
       <div class="items items--sell">
 
         <div class="visualization">
-          <ng-container *ngFor="let item of dataForSell; let i = index">
+          <ng-container *ngFor="let item of sellVisualizationArray; let i = index">
             <div class="visual-item" [ngClass]="'red'" [style.width]="sellVisualizationArray[i] + '%'">
-            <!--<div class="visual-item" [ngClass]="'red'" [style.width]="getPercentageOfTheMuxBuyOrSell(item.total, false) + '%'">-->
               <div class="border-container" *ngIf="i < 7 && withForChartLineElements && withForChartLineElements.sell.length">
                 <div class="border-border sell" [style.width]="withForChartLineElements.sell[i]">
                 </div>
@@ -69,17 +57,16 @@
             </div>
           </ng-container>
         </div>
-        <div class="item" *ngFor="let item of showSellDataRverse; let i = index" (click)="onSelectOrder(i, item, 'trading')">
+        <div
+          class="item"
+          *ngFor="let item of showSellDataReverse; let i = index"
+          (click)="onSelectOrder(item)"
+        >
           <div class="order">
             <span>
               {{item.total  | roundCurrency | formatCurrency}}
             </span>
           </div>
-
-          <!--<div class="info">-->
-            <!--<span>-->
-            <!--</span>-->
-          <!--</div>-->
 
           <div class="price">
             <span>
@@ -94,35 +81,6 @@
           </div>
 
         </div>
-        <!--<div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, false)"-->
-        <!--[style.height]="(elementHeight/dataForSell.length) + 'px'"></div>-->
-        <!--</div>-->
-        <!--<div class="item" *ngFor="let item of dataForSell; let i = index" (click)="onSelectOrder(i, item)">-->
-        <!--<div class="order" [style.lineHeight]="(elementHeight/dataForSell.length) + 'px'" [style.height]="(elementHeight/dataForSell.length) + 'px'">-->
-        <!--<span>-->
-        <!--{{item.amountBase | number:'1.1-8'}}-->
-        <!--</span>-->
-        <!--</div>-->
-
-        <!--<div class="info" [style.lineHeight]="(elementHeight/dataForSell.length) + 'px'" [style.height]="(elementHeight/dataForSell.length) + 'px'">-->
-        <!--<span>-->
-        <!--{{item.exrate | number:'1.1-8'}}-->
-        <!--</span>-->
-        <!--</div>-->
-
-        <!--<div class="price" [style.lineHeight]="(elementHeight/dataForSell.length) + 'px'" [style.height]="(elementHeight/dataForSell.length) + 'px'">-->
-        <!--<span>-->
-        <!--{{item.exrate | number:'1.1-8'}}-->
-        <!--</span>-->
-        <!--</div>-->
-
-        <!--<div class="total" [style.lineHeight]="(elementHeight/dataForSell.length) + 'px'" [style.height]="(elementHeight/dataForSell.length) + 'px'">-->
-        <!--<span>-->
-        <!--{{item.amountConvert | number:'1.1-8'}}-->
-        <!--</span>-->
-        <!--</div>-->
-
-        <!--</div>-->
       </div>
       <div class="separator">
         <span
@@ -134,23 +92,11 @@
         <div class="hr"></div>
         <span >{{!+preLastExrate ? 0 : +preLastExrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</span>
       </div>
-
-      <!--<div class="separator" *ngIf="lastOrder">-->
-        <!--<span *ngIf="maxExrate" [ngClass]="{'color-red': !lastOrderUp, 'color-green': lastOrderUp}">{{!lastOrder.amountBase ? 0 : lastOrder.amountBase-->
-          <!--| number:'1.1-8' | formatCurrency}}</span>-->
-        <!--<img *ngIf="lastOrderUp" class="arr arr&#45;&#45;ml4" src="../assets/img/arr-up-green.svg">-->
-        <!--<img *ngIf="!lastOrderUp" class="arr arr&#45;&#45;ml4" src="../assets/img/arr-down-red.svg">-->
-        <!--<div class="hr"></div>-->
-        <!--<span *ngIf="minExrate">{{!lastOrder.exrate ? 0 :lastOrder.exrate | number:'1.1-8' | formatCurrency}}</span>-->
-      <!--</div>-->
-      <!---->
-
       <div class="items items--buy">
 
         <div class="visualization">
           <ng-container *ngFor="let item of buyVisualizationArray; let i = index">
             <div class="visual-item" [ngClass]="'green'" [style.width]="buyVisualizationArray[i] + '%'">
-            <!--<div class="visual-item" [ngClass]="'green'" [style.width]="getPercentageOfTheMuxBuyOrSell(item.total, true) + '%'">-->
               <div class="border-container" *ngIf="i > 0 && withForChartLineElements && withForChartLineElements.buy.length">
                 <div class="border-border buy" [style.width]="withForChartLineElements.buy[i-1]">
 
@@ -158,15 +104,12 @@
               </div>
             </div>
           </ng-container>
-
-          <!--<div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, true)"-->
-          <!--[style.height]="(200/dataBurBuy.length) + 'px'"></div>-->
         </div>
 
         <div
           class="item"
-          *ngFor="let item of showBuyDataRverse; let i = index;"
-          (click)="onSelectOrder(i, item)">
+          *ngFor="let item of showBuyDataReverse; let i = index;"
+          (click)="onSelectOrder(item)">
           <div class="order">
             <span>
               {{item.total  | roundCurrency | formatCurrency}}
@@ -174,9 +117,6 @@
           </div>
 
           <div class="info">
-            <!--<span>-->
-            <!--{{item.exrate | number:'1.1-8'}}-->
-            <!--</span>-->
           </div>
 
           <div class="price">
@@ -206,126 +146,6 @@
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 3.38889C0.723858 3.38889 0.5 3.61275 0.5 3.88889C0.5 4.16503 0.723858 4.38889 1 4.38889V3.38889ZM7.12826 4.38889C7.4044 4.38889 7.62826 4.16503 7.62826 3.88889C7.62826 3.61275 7.4044 3.38889 7.12826 3.38889V4.38889ZM4.5638 1C4.5638 0.723858 4.33994 0.5 4.0638 0.5C3.78766 0.5 3.5638 0.723858 3.5638 1H4.5638ZM3.5638 6.77778C3.5638 7.05392 3.78766 7.27778 4.0638 7.27778C4.33994 7.27778 4.5638 7.05392 4.5638 6.77778H3.5638ZM1 4.38889H7.12826V3.38889H1V4.38889ZM4.5638 6.77778V1H3.5638V6.77778H4.5638Z"/>
           </svg>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="widget__content widget__content--mob" *ngIf="!loading">
-    <div class="order-table" [ngClass]="orderTypeClass">
-      <div class="head">
-        <div class="order table__cell-head table__cell-head--tal table__cell-head--p4">
-          <span>
-            {{'Total' | translate}}
-          </span>
-        </div>
-        <div class="info table__cell-head table__cell-head--tal table__cell-head--p4">
-          <span>
-
-          </span>
-        </div>
-        <div class="price table__cell-head table__cell-head--tal table__cell-head--p4">
-          <span>
-            {{'Price' | translate}}
-          </span>
-        </div>
-        <div class="total table__cell-head table__cell-head--tal table__cell-head--p4">
-          <span>
-             {{'Amount' | translate}}
-          </span>
-        </div>
-      </div>
-      <div class="items mobile">
-
-        <div class="visualization">
-          <ng-container *ngFor="let item of dataForSell; let i = index">
-            <div class="visual-item" [ngClass]="'red'" [style.width]="sellVisualizationArray[i] + '%'">
-              <div class="border-container" *ngIf="i < 8 && withForChartLineElements && withForChartLineElements.sell.length">
-                <div class="border-border sell" [style.width]="withForChartLineElements.sell[i]">
-                </div>
-              </div>
-            </div>
-          </ng-container>
-          <!--<div class="visual-item" [ngClass]="'red'" *ngFor="let item of dataForSell" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, false)"-->
-          <!--[style.height]="(elementHeightMobile/dataForSell.length) + 'px'">-->
-          <!--</div>-->
-        </div>
-        <div class="item" *ngFor="let item of showSellDataRverse; let i = index" (click)="onSelectOrder(i, item, 'trading')">
-          <div class="order">
-            <span>
-              {{item.total | roundCurrency | formatCurrency}}
-            </span>
-          </div>
-
-          <!-- <div class="info">
-            <span>
-              {{item.exrate | number:'1.1-8' | formatCurrency}}
-            </span>
-          </div> -->
-
-          <div class="price">
-            <span>
-              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}
-            </span>
-          </div>
-
-          <div class="total">
-            <span>
-              {{item.amount | roundCurrency | formatCurrency}}
-            </span>
-          </div>
-
-        </div>
-      </div>
-      <div class="separator" >
-        <span *ngIf="maxExrate" [ngClass]="{'color-red': !isExratePositive, 'color-green': isExratePositive}">
-          {{!+lastExrate ? 0 : +lastExrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</span>
-        <img *ngIf="isExratePositive" class="arr arr--ml4" src="../assets/img/arr-up-green.svg">
-        <img *ngIf="!isExratePositive" class="arr arr--ml4" src="../assets/img/arr-down-red.svg">
-        <div class="hr"></div>
-        <span >{{!+preLastExrate ? 0 : +preLastExrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</span>
-      </div>
-      <div class="items mobile">
-
-        <div class="visualization">
-          <ng-container *ngFor="let item of dataBurBuy; let i = index">
-            <div class="visual-item" [ngClass]="'green'" [style.width]="buyVisualizationArray[i] + '%'">
-              <div class="border-container" *ngIf="i > 0 && withForChartLineElements && withForChartLineElements.buy.length">
-                <div class="border-border buy" [style.width]="withForChartLineElements.buy[i-1]">
-
-                </div>
-              </div>
-            </div>
-          </ng-container>
-          <!--<div class="visual-item" [ngClass]="'green'" *ngFor="let item of dataBurBuy" [style.width]="getPercentageOfTheMuxBuyOrSell(item.exrate, true)"-->
-          <!--[style.height]="(elementHeightMobile/dataBurBuy.length) + 'px'">-->
-          <!--</div>-->
-        </div>
-
-        <div class="item" *ngFor="let item of showBuyDataRverse; let i = index" (click)="onSelectOrder(i, item, 'trading')">
-          <div class="order">
-            <span>
-              {{item.total | roundCurrency | formatCurrency}}
-            </span>
-          </div>
-
-          <!-- <div class="info">
-            <span>
-              {{item.exrate | roundCurrency | formatCurrency}}
-            </span>
-          </div> -->
-
-          <div class="price">
-            <span>
-              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}
-            </span>
-          </div>
-
-          <div class="total">
-            <span>
-              {{item.amount | roundCurrency | formatCurrency}}
-            </span>
-          </div>
         </div>
       </div>
     </div>

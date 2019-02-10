@@ -1,0 +1,110 @@
+.order-book-wr{
+  display: flex;
+      padding-top: 2px;
+  .order-book-part{
+    width: 50%;
+  }
+  .table{
+    width: 100%;
+    display: block;
+  }
+  .tr{
+    display: flex;
+    position: relative;
+
+    &:first-child{
+      // margin-bottom: 10px;
+      .td{
+         padding: 3px 2px 3px;
+        font-size:10px;
+      }
+    }
+    .bg-bar{
+      position: absolute;
+      top: 0;
+      bottom: 0;
+    }
+
+  }
+  .td{
+    position: relative;
+    display: inline-flex;
+    font-weight: 400;
+    color: #AAB1C4;
+    padding: 5px 2px 6px;
+  }
+  .order-book-buy{
+    padding-left: 10px;
+    .tr{
+      &:first-child{
+      .td{
+        color: #424D5E;
+      }
+    }
+    }
+
+    .bg-bar{
+      right: 0;
+      background: rgba(0, 180, 61, 0.15);
+    }
+    .td{
+
+    &:nth-of-type(1){
+      width: 17%;
+    }
+    &:nth-of-type(2){
+      width: 38%;
+    }
+    &:nth-of-type(3){
+      width: 45%;
+      justify-content: flex-end;
+      padding-right: 5px;
+      color: #00B43D;
+
+    }
+  }
+    .t-l{
+      text-align: left;
+    }
+    .t-r{
+      text-align: right;
+    }
+    .th,.td{
+      text-align: left;
+
+    }
+  }
+  .order-book-sell{
+    text-align: left;
+    padding-right: 8px;
+    .tr{
+      &:first-child{
+      .td{
+        color: #424D5E;
+      }
+    }
+    }
+    .bg-bar{
+      left: 0;
+      background: rgba(235, 87, 87, 0.15);
+    }
+    .td{
+      text-align: right;
+     justify-content: flex-end;
+      &:nth-of-type(1){
+        padding-left: 9px;
+        width: 45%;
+        justify-content: flex-start;
+        color: #EB5757;
+      }
+      &:nth-of-type(2){
+        width: 38%;
+      }
+      &:nth-of-type(3){
+
+        width: 17%;
+      }
+    }
+  }
+  .price-td{}
+}

@@ -49,7 +49,7 @@
             <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
           </div>
         </div>
-        
+
         <div class="row row--jcsb widget__trading-row  input-row">
           <div class="wrap-input widget__input no-line">
             <app-price-input [placeholder]="translateService.instant('Quantity')" [currencyName]="arrPairName[0]" [currencyLabel]="arrPairName[0]" [forTrading]="true" (customInput)="quantityInput($event, BUY)" name="quantity" formControlName="quantity"></app-price-input>
@@ -109,7 +109,7 @@
             <span>{{'Fee:' | translate}} {{sellOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
           </div>
         </div>
-        
+
         <div class="row row--jcsb widget__trading-row input-row">
           <div class="wrap-input widget__input no-line">
             <app-price-input [placeholder]="translateService.instant('Quantity')" [currencyName]="arrPairName[0]" [currencyLabel]="arrPairName[0]" [forTrading]="true" (customInput)="quantityInput($event, SELL)" name="quantity" formControlName="quantity"></app-price-input>
@@ -165,177 +165,20 @@
   </div>
 
 
-
-
+  <!-- TO DO move to separate component -->
   <div class="widget__content widget__content--mob">
-    <div class="trading-header-wr">
-      <div class="currency-pair-info--mob">
-        <div class="currency-pair-info__inner">
-          <div class="currency-pair-info__pair">
-            <div class="dropdown currency-pair-info__dropdown">
-              <div class="dropdown__btn">BTC</div>
-            </div>
-            <div class="currency-pair-info__change-pair"></div>
-            <div class="dropdown currency-pair-info__dropdown">
-              <div class="dropdown__btn">USD</div>
-            </div>
-          </div>
-        <div class="currency-pair-info__info currency-pair-info__info--up">
-          <div class="currency-pair-info__change">
-            <span>0%</span>
-            <img alt="" class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg">
-            <span style="margin-left: 10px;">(0.00 USD)</span>
-          </div>
-          <div class="currency-pair-info__price">0 USD</div>
-        </div>
-        </div>
-      </div>
-    </div>
-      
-      <div class="trading-wr--mobile">
-        <div class="row row--jcsb row--aic widget__trading-row">
-      <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
-           (mouseenter)="isDropdownOpen = true" (mouseleave)="isDropdownOpen = false">
-        <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
-        <ul class="dropdown__list">
-          <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
-            <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
-          </ng-template>
-        </ul>
-      </div>
-      <!-- <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
-        <div style="margin-left: auto;">
-          {{'Pay no fees:' | translate}}
-          <img src="../../assets/img/fire.svg" style="margin: 0 4px;">
-          <a href="#">{{'Become VIP' | translate}}</a>
-        </div>
-      </div> -->
-    </div>
-        <div class="widget__trading-form--wr">
-      <form class="widget__trading-form" action="" [formGroup]="buyForm">
-        <div class="widget__trading-title-wr">
-          <p class="widget__trading-title">
-            {{'Buy' | translate}} {{arrPairName[0]}}
-          </p>
-          <div class="widget__trading-fee">
-            <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
-          </div>
-        </div>
-        
-        <div class="row row--jcsb widget__trading-row  input-row">
-          <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Quantity')" [currencyName]="arrPairName[0]" [currencyLabel]="arrPairName[0]" [forTrading]="true" (customInput)="quantityInput($event, BUY)" name="quantity" formControlName="quantity"></app-price-input>
-          </div>
-        </div>
-        <div class="row row--jcsb widget__trading-row  input-row">
-          <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Limit Price')" [currencyName]="arrPairName[1]" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="rateInput($event, BUY)" name="price" formControlName="price"></app-price-input>
-          </div>
-        </div>
-        <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
-          <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Stop limit')" [forTrading]="true" (customInput)="stopInput($event, BUY)" name="stop" formControlName="stop"></app-price-input>
-          </div>
-        </div>
-        <div class="row row--jcsb widget__trading-row  input-row">
-          <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Total')" [currencyName]="arrPairName[1]" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="totalInput($event, BUY)" name="total" formControlName="total"></app-price-input>
-          </div>
-        </div>
-        <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
-          <div class="avaliable avaliable--aifl">
-            <span>{{'Avaliable:' | translate}} </span>
-            <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(BUY)">{{userBalance?.cur2?.balance  | roundCurrency:userBalance?.cur2?.name | formatCurrency}} {{userBalance?.cur2?.name || ''}}</a>
-          </div>
-        </div>
-        <div class="row row__percent">
-          <label class="radio">
-            <span class="radio__text radio__text--rectangle" (click)="selectedPercent(5, BUY)">
-              5%
-            </span>
-          </label>
-          <label class="radio">
-            <span class="radio__text radio__text--rectangle" (click)="selectedPercent(25, BUY)">
-              25%
-            </span>
-          </label>
-          <label class="radio">
-            <span class="radio__text radio__text--rectangle" (click)="selectedPercent(50, BUY)">
-              50%
-            </span>
-          </label>
-          <label class="radio">
-            <span class="radio__text radio__text--rectangle" (click)="calculateAmountByTotalWithCommission(BUY)">
-              100%
-            </span>
-          </label>
-        </div>
-        <button class="btn btn--active widget__trading-btn widget__trading-btn--buy" (click)="onSubmit(BUY)">Buy {{arrPairName[0]}}</button>
-      </form>
-      <form class="widget__trading-form" action="" [formGroup]="sellForm">
-        <div class="widget__trading-title-wr">
-          <p class="widget__trading-title">
-            {{'Sell' | translate}} {{arrPairName[0]}}
-          </p>
-          <div class="widget__trading-fee">
-            <span>{{'Fee:' | translate}} {{sellOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
-          </div>
-        </div>
-        
-        <div class="row row--jcsb widget__trading-row input-row">
-          <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Quantity')" [currencyName]="arrPairName[0]" [currencyLabel]="arrPairName[0]" [forTrading]="true" (customInput)="quantityInput($event, SELL)" name="quantity" formControlName="quantity"></app-price-input>
-          </div>
-        </div>
-        <div class="row row--jcsb widget__trading-row input-row">
-          <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Limit Price')" [currencyName]="arrPairName[1]" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="rateInput($event, SELL)" name="price" formControlName="price"></app-price-input>
-          </div>
-        </div>
-        <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== 'STOP_LIMIT'}">
-          <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Stop limit')" [forTrading]="true" (customInput)="stopInput($event, SELL)" name="stop" formControlName="stop"></app-price-input>
-          </div>
-        </div>
-        <div class="row row--jcsb widget__trading-row input-row">
-          <div class="wrap-input widget__input no-line">
-            <app-price-input [placeholder]="translateService.instant('Total')" [currencyName]="arrPairName[1]" [currencyLabel]="arrPairName[1]" [forTrading]="true" (customInput)="totalInput($event, SELL)" name="total" formControlName="total"></app-price-input>
-          </div>
-        </div>
-        <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
-          <div class="avaliable avaliable--aifl">
-            <span>{{'Avaliable:' | translate}} </span>
-            <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(SELL)">{{userBalance?.cur1?.balance  | roundCurrency:userBalance?.cur1?.name | formatCurrency}} {{userBalance?.cur1?.name}}</a>
-          </div>
-        </div>
-        <div class="row row__percent">
-          <label class="radio">
-            <span class="radio__text radio__text--rectangle" (click)="selectedPercent(5, SELL)">
-              5%
-            </span>
-          </label>
-          <label class="radio">
-            <span class="radio__text radio__text--rectangle" (click)="selectedPercent(25, SELL)">
-              25%
-            </span>
-          </label>
-          <label class="radio">
-            <span class="radio__text radio__text--rectangle" (click)="selectedPercent(50, SELL)">
-              50%
-            </span>
-          </label>
-          <label class="radio">
-            <span class="radio__text radio__text--rectangle" (click)="calculateAmountByTotalWithCommission(SELL)">
-              100%
-            </span>
-          </label>
-        </div>
-        <button class="btn btn--active widget__trading-btn widget__trading-btn--sell" (click)="onSubmit(SELL)">Sell {{arrPairName[0]}}</button>
-      </form>
 
-    </div>
-      </div>
-      
+    <!-- app-currency-pair-info-mobile  start-->
+    <app-currency-pair-info-mobile></app-currency-pair-info-mobile>
+    <!-- app-currency-pair-info-mobile  end-->
+
+    <!-- app-order-book-mobile start -->
+    <app-order-book-mobile></app-order-book-mobile>
+    <!-- app-order-book-mobile end -->
+
+    <!-- app-trading-mobile start -->
+    <app-trading-mobile></app-trading-mobile>
+    <!-- app-trading-mobile end -->
 
   </div>
   <!--notif success start-->

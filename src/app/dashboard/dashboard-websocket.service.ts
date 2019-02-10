@@ -11,7 +11,6 @@ import {environment} from '../../environments/environment';
 import {getCurrencyPairArray, State} from '../core/reducers';
 import * as dashboardActions from './actions/dashboard.actions';
 import {UserService} from '../shared/services/user.service';
-import {CurrencyPairInfoService} from './components/currency-pair-info/currency-pair-info.service';
 import {getCurrencyPair} from '../core/reducers';
 import {AuthService} from 'app/shared/services/auth.service';
 

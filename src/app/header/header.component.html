@@ -384,14 +384,6 @@
       </a>
       <a class="header-mob__submenu-link"
          [routerLink]="['dashboard']"
-         [queryParams]="{widget: 'order-book'}"
-         [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'order-book' }"
-         (click)="setMobileWidget('order-book')">
-        <img class="header-mob__submenu-link-img" src="../../assets/img/order-book.svg">
-        <span class="header-mob__submenu-link-text">{{'Book' | translate}}</span>
-      </a>
-      <a class="header-mob__submenu-link"
-         [routerLink]="['dashboard']"
          [queryParams]="{widget: 'chat'}"
          [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'chat' }"
          (click)="setMobileWidget('chat')">
