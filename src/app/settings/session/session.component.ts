@@ -68,7 +68,8 @@ export class SessionComponent implements OnInit, OnDestroy {
         .subscribe(resp => {
             // this.statusMessage = this.translateService.instant('Session period is updated!');
             this.popupService.toggleSessionTimeSavedPopup(true);
-            this.store.dispatch(new settingsActions.SetSessionTimeAction(this.value))
+            this.store.dispatch(new settingsActions.SetSessionTimeAction(this.value));
+            this.oldValue = this.value;
           },
           err => {
             const status = err['status'];

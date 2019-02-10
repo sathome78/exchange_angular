@@ -27,7 +27,7 @@ export class RegistrationGuard implements CanActivate {
       .pipe(
         map((res) => {
           if(!res.data) {
-            this.popupService.toggleAlreadyRegisteredPopup(true);
+            this.popupService.toggleAlreadyRegisteredPopup( true);
             this.router.navigate(['/dashboard']);
             return false;
           }

@@ -76,7 +76,7 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
             referralReference: res.referralReference,
           };
           this.authService.setTokenHolder(tokenHolder);
-          this.router.navigate(['/']);
+          this.router.navigate(['/funds/balances']);
           sendConfirmationPasswordGtag();
         }, err => {
           this.message = this.translateService.instant('Service is temporary unavailable, please try again later.');

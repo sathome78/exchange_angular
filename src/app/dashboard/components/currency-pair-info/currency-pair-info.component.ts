@@ -12,6 +12,7 @@ import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {UtilsService} from 'app/shared/services/utils.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
+import {UserService} from 'app/shared/services/user.service';
 /**
  * Dashboard currency pair information component
  */
@@ -23,7 +24,6 @@ import * as dashboardActions from '../../actions/dashboard.actions';
 })
 export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-
   public pair: CurrencyPair = null;
   public pairInput: string = ''
   public currentCurrencyInfo: CurrencyPairInfo = null;
@@ -31,11 +31,11 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   public allCurrencyPairs: CurrencyPair[] = [];
   public DIOptions: DIOptions[] = [];
 
-
   constructor(
     private store: Store<State>,
     private dashboardWebsocketService: DashboardWebSocketService,
     private crd: ChangeDetectorRef,
+    private userService: UserService,
     private utils: UtilsService,
   ) { }
 
@@ -95,7 +95,6 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-
   flarForArrow(s: string) {
     if (s === 'up') {
       return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate >= 0 :  false;
@@ -111,7 +110,31 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
 
 
   onSelectPair(pairName: string): void {
-    this.dashboardWebsocketService.findPairByCurrencyPairName(pairName);
+    const p = this.findCurrencyPair(pairName);
+    if(p) {
+      this.selectNewCurrencyPair(p);
+    } else {
+      this.pairInput = this.pair.currencyPairName;
+    }
+  }
+
+  onBlurInput() {
+    const p = this.findCurrencyPair(this.pairInput);
+    if(p) {
+      this.selectNewCurrencyPair(p);
+    } else {
+      this.pairInput = this.pair.currencyPairName;
+    }
+  }
+
+  findCurrencyPair(val: string): CurrencyPair | null {
+    return this.allCurrencyPairs.find((item) => item.currencyPairName === val) || null;
+  }
+
+  selectNewCurrencyPair(pair: CurrencyPair) {
+    this.store.dispatch(new dashboardActions.ChangeCurrencyPairAction(pair));
+    this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(pair.currencyPairId))
+    this.userService.getUserBalance(pair);
   }
 
 

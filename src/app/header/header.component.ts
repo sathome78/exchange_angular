@@ -53,13 +53,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.resetDropdowns();
     if (this.authService.isAuthenticated()) {
-      this.userService.getUserColorScheme()
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(scheme => {
-          if (scheme && scheme === 'DARK') {
-            this.themeService.setDarkTheme();
-          }
-        });
+      // this.userService.getUserColorScheme()
+      //   .pipe(takeUntil(this.ngUnsubscribe))
+      //   .subscribe(scheme => {
+      //     if (scheme && scheme === 'DARK') {
+      //       this.themeService.setDarkTheme();
+      //     }
+      //   });
       this.userInfo = this.authService.simpleToken;
     }
     this.authService.onLoginLogoutListener$

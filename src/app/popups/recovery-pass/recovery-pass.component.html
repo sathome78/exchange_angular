@@ -28,9 +28,16 @@
           <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailInvalid'] || emailForm.get('email').errors['specialCharacter']">
             {{'Please, enter valid email address' | translate}}
           </span>
-          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailExists']">
-            {{'This email doesn\'t exist' | translate}}
+          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['USER_EMAIL_NOT_FOUND']">
+            {{AUTH_MESSAGES.USER_EMAIL_NOT_FOUND | translate}}
           </span>
+          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['USER_REGISTRATION_NOT_COMPLETED']">
+            {{AUTH_MESSAGES.USER_REGISTRATION_NOT_COMPLETED | translate}}
+          </span>
+          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['USER_NOT_ACTIVE']">
+            {{AUTH_MESSAGES.USER_NOT_ACTIVE | translate}}
+          </span>
+
         </div>
         <!--Input error section ends-->
       </div>

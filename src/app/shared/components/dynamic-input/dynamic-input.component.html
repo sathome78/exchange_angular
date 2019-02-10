@@ -31,7 +31,7 @@
     <ul class="select__list" [ngClass]="{'select__list--open': showDropdown && filteredOptions.length}" #list>
       <perfect-scrollbar>
         <li
-          *ngFor="let item of filteredOptions; let i = index"
+          *ngFor="let item of filteredOptions; let i = index; trackBy: trackByFn"
           (click)="onSelectItem(item)"
           [attr.data-key]="i"
           class="select__list-item hover-coin"

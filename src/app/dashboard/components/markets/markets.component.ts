@@ -253,7 +253,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
 
   private loadingFinished() {
     if(this.pairs && this.pairs.length && this.loading) {
-      // debugger
       this.loading = false;
     }
   }
