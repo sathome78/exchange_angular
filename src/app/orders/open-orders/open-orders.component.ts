@@ -121,6 +121,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   }
 
   changePage(page: number): void {
+    this.showCancelOrderConfirm = null;
     this.currentPage = page;
     this.loadOrders();
   }
