@@ -1,0 +1,8 @@
+<div class="overlay">
+  <div class="popup">
+    <div class="popup__close" (click)="closeMe()"></div>
+    <h6 class="popup__title tnx-head" *ngIf="popupData.title">{{popupData.title}}</h6>
+    <h4 class="popup__subtitle tnx-description" *ngIf="popupData.description">{{popupData.description}}</h4>
+    <button class="btn btn--active btn--center" (click)="closeMe()">OK</button>
+</div>
+</div>

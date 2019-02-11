@@ -8,9 +8,10 @@
 
 
     <ng-template #emailInputTemplate>
-    <h6 class="popup__title">{{'Forgot password?' | translate}}</h6>
+    <h6 class="popup__title popup_title--dm">{{'Forgot password?' | translate}}</h6>
     <form class="popup__form" id="fgt-pass" [formGroup]="emailForm">
-      <div class="wrap-input popup__wrap-input">
+      <div class="wrap-input popup__wrap-input"
+           [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched}">
         <input
           required
           class="wrap-input__input"
@@ -20,19 +21,33 @@
         <label class="wrap-input__label" for="">{{'Email' | translate}}</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
-        <div *ngIf="!emailForm.valid && emailSubmited">
-            <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required']">
-              {{'This field is required.' | translate}}
-            </span>
-          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['pattern']">
-              {{'Please, enter valid email address.' | translate}}
-            </span>
+        <div *ngIf="emailForm.get('email').invalid && emailForm.get('email').errors">
+          <div class="input-hint-wrapper">
+            <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required'] && emailForm.get('email').touched">
+            {{'Email is required' | translate}}
+          </span>
+          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailInvalid'] || emailForm.get('email').errors['specialCharacter']">
+            {{'Please, enter valid email address' | translate}}
+          </span>
+          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['USER_EMAIL_NOT_FOUND']">
+            {{AUTH_MESSAGES.USER_EMAIL_NOT_FOUND | translate}}
+          </span>
+          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['USER_REGISTRATION_NOT_COMPLETED']">
+            {{AUTH_MESSAGES.USER_REGISTRATION_NOT_COMPLETED | translate}}
+          </span>
+          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['USER_NOT_ACTIVE']">
+            {{AUTH_MESSAGES.USER_NOT_ACTIVE | translate}}
+          </span>
+
+          </div>
+          
         </div>
         <!--Input error section ends-->
       </div>
       <button class="btn popup__btn"
-              (click)="emailSubmit()"
-              [ngClass]="{'bg-none': !emailForm.valid, 'popup__btn--active': emailForm.valid}" >
+              [disabled]="emailForm.get('email').invalid && emailForm.get('email').errors"
+              [ngClass]="{'bg-none': !emailForm.valid, 'popup__btn--active': emailForm.valid}"
+              (click)="emailSubmit()">
         {{'Reset password' | translate}}
       </button>
     </form>

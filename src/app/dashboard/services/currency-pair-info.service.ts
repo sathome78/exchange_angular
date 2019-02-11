@@ -1,11 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Store} from '@ngrx/store';
-
-
-import {environment} from '../../../../environments/environment';
-import {State} from '../../reducers/dashboard.reducer';
-import {RefreshCurrencyPairInfoAction} from '../../actions/dashboard.actions';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class CurrencyPairInfoService {
@@ -14,7 +9,6 @@ export class CurrencyPairInfoService {
 
   constructor(
     private http: HttpClient,
-    private store: Store<State>
   ) {
   }
 

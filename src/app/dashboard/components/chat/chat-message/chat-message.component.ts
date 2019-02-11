@@ -1,11 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {AuthService} from '../../../../shared/services/auth.service';
 import {SimpleChat} from '../simple-chat.model';
 
 @Component({
   selector: 'app-chat-message',
   templateUrl: 'chat-message.component.html',
-  styleUrls: ['chat-message.component.scss']
+  styleUrls: ['chat-message.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatMessageComponent implements OnInit {
 

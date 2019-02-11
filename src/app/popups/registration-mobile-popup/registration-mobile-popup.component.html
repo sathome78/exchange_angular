@@ -1,216 +1,71 @@
-<!--<div class="overlay">-->
-<!--<div class="popup popup-login">-->
-<!--<div class="popup__close" (click)="closeMe()"></div>-->
-
-
-<!--<ng-template [ngTemplateOutlet]="currentTemplate">-->
-<!--</ng-template>-->
-
-
-<!--<ng-template #emailInputTemplate>-->
-<!--<h6 class="popup__title">Registration</h6>-->
-<!--<h4 class="popup__subtitle"></h4>-->
-<!--<form class="popup__form">-->
-<!--<div >-->
-<!--<div class="wrap-input popup__wrap-input">-->
-<!--<input-->
-<!--class="wrap-input__input"-->
-<!--type="text"-->
-<!--&gt;-->
-<!--<label class="wrap-input__label" for="">Email</label>-->
-<!--<div class="wrap-input__line"></div>-->
-<!--&lt;!&ndash;Input error section starts&ndash;&gt;-->
-<!--<div>-->
-<!--<span class="wrap-input__message">-->
-<!--This field is required.-->
-<!--</span>-->
-<!--<span-->
-<!--class="wrap-input__message">-->
-<!--Please, enter valid email address.-->
-<!--</span>-->
-<!--</div>-->
-<!--&lt;!&ndash;Input error section ends&ndash;&gt;-->
-<!--</div>-->
-<!--</div>-->
-
-<!--<button class="btn popup__btn" >Create an account</button>-->
-<!--</form>-->
-<!--<div class="popup__links-wrap">-->
-<!--<a class="popup__link" ><span>By registering you agree with</span> Terms of Use</a>-->
-<!--</div>-->
-
-<!--<a (click)="setTemplate('nameInputTemplate')">next</a>-->
-
-<!--<a class="popup__link-mob" (click)="openLogIn()">Log in</a>-->
-<!--</ng-template>-->
-
-<!--<ng-template #nameInputTemplate>-->
-<!--<h6 class="popup__title">Registration</h6>-->
-<!--<h4 class="popup__subtitle"></h4>-->
-<!--<form class="popup__form">-->
-<!--<div >-->
-<!--<div class="wrap-input popup__wrap-input">-->
-<!--<input-->
-<!--class="wrap-input__input"-->
-<!--type="text"-->
-<!--&gt;-->
-<!--<label class="wrap-input__label" for="">First name</label>-->
-<!--<div class="wrap-input__line"></div>-->
-<!--&lt;!&ndash;Input error section starts&ndash;&gt;-->
-<!--<div>-->
-<!--<span class="wrap-input__message">-->
-<!--This field is required.-->
-<!--</span>-->
-<!--<span-->
-<!--class="wrap-input__message">-->
-<!--Please, enter valid name.-->
-<!--</span>-->
-<!--</div>-->
-<!--&lt;!&ndash;Input error section ends&ndash;&gt;-->
-<!--</div>-->
-<!--</div>-->
-
-<!--<button class="btn popup__btn" >Create an account</button>-->
-<!--</form>-->
-<!--<div class="popup__links-wrap">-->
-<!--<a class="popup__link" href="#"><span>By registering you agree with</span> Terms of Use</a>-->
-<!--</div>-->
-<!--<a (click)="setTemplate('captchaTemplate')">next</a>-->
-<!--<a class="popup__link-mob" >Log in</a>-->
-<!--</ng-template>-->
-
-<!--<ng-template #captchaTemplate>-->
-<!--<h6 class="popup__title">Enter the captcha</h6>-->
-<!--<div class="captcha">captcha</div>-->
-<!--<div class="popup__links-wrap">-->
-<!--<a class="popup__link" href="#">Go to registration form</a>-->
-<!--</div>-->
-<!--<a (click)="setTemplate('emailConfirmLinkTemplate')">next</a>-->
-<!--</ng-template>-->
-
-<!--<ng-template #emailConfirmLinkTemplate>-->
-<!--<h6 class="popup__title">Confirm the email</h6>-->
-<!--<h4 class="popup__subtitle">We sent the confirmation link to-->
-<!--very_beautifull_email@gmail.com <br> Please check your email and-->
-<!--follow instructions.</h4>-->
-<!--<hr>-->
-<!--<div class="popup__links-wrap">-->
-<!--<a class="popup__link"><span>If you haven't received the email, do the following:</span><br><span>Check spam or other folders.<br>Set email address whitelist.</span>-->
-<!--How to set?<span><br>Check the mail client works normally.</span></a>-->
-<!--</div>-->
-<!--<a (click)="setTemplate('passwordTemplate')">next</a>-->
-<!--</ng-template>-->
-
-
-<!--<ng-template #passwordTemplate>-->
-<!--<h6 class="popup__title">Email confirmed</h6>-->
-<!--<h4 class="popup__subtitle">Now, we need to create <br> strong password.</h4>-->
-<!--<form class="popup__form">-->
-<!--<div >-->
-<!--<div class="wrap-input popup__wrap-input">-->
-<!--<input-->
-<!--class="wrap-input__input"-->
-<!--type="password"-->
-<!--&gt;-->
-<!--<label class="wrap-input__label" for="">Password</label>-->
-<!--<div class="wrap-input__line">Should have 8 chars at least, symbols-->
-<!--and numbers</div>-->
-<!--&lt;!&ndash;Input error section starts&ndash;&gt;-->
-<!--<div>-->
-<!--<span class="wrap-input__message">-->
-<!--This field is required.-->
-<!--</span>-->
-<!--<span-->
-<!--class="wrap-input__message">-->
-<!--Please, enter valid email address.-->
-<!--</span>-->
-<!--</div>-->
-<!--&lt;!&ndash;Input error section ends&ndash;&gt;-->
-<!--</div>-->
-<!--</div>-->
-
-<!--<button class="btn popup__btn" >Create an account</button>-->
-<!--</form>-->
-<!--<div class="popup__links-wrap">-->
-<!--<a class="popup__link" href="#"><span>By registering you agree with</span> Terms of Use</a>-->
-<!--</div>-->
-<!--</ng-template>-->
-
-<!--</div>-->
-
-<!--</div>-->
-
 
 <div class="overlay">
   <div class="popup popup-login">
     <div class="popup__close" (click)="closeMe()"></div>
-
-
     <ng-template [ngTemplateOutlet]="currentTemplate">
     </ng-template>
-
-
     <ng-template #emailInputTemplate>
       <h6 class="popup__title">{{'Register' | translate}}</h6>
-      <!--<h4 class="popup__subtitle">{{emailMessage}}</h4>-->
-      <form class="popup__form" [formGroup]="emailForm">
+      <h6 class="popup__title-mob mobile-container">{{'Registration' | translate}}</h6>
+      <form class="popup__form" [formGroup]="emailForm" >
         <div >
           <div class="wrap-input popup__wrap-input"
-               [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched}"
+               [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched && emailForm.get('email').value !== ''}"
           >
             <input
               required
               class="wrap-input__input"
               formControlName="email"
-              (input)= "emailInput($event)"
-              [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched}"
+              [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched }"
             >
             <label class="wrap-input__label" for="">{{'Email' | translate}}</label>
             <div class="wrap-input__line"></div>
             <!--Input error section starts-->
-            <div *ngIf="!emailForm.valid && emailForm.get('email').touched">
-            <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required'] && emailForm.get('email').touched">
-              {{'Email is required' | translate}}
-            </span>
-              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailInvalid'] && emailForm.get('email').touched && !emailForm.get('email').errors['required']">
-              {{'Wrong email' | translate}}
-            </span>
+            <div *ngIf="emailForm.get('email').invalid && emailForm.get('email').errors">
+              <div class="input-hint-wrapper">
+                <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['checkEmailCrash'] && emailForm.get('email').touched">
+                {{'Service is temporary unavailable, please try again later' | translate}}
+              </span>
+                <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailInvalid'] && emailForm.get('email').touched && !emailForm.get('email').errors['required'] && !emailForm.get('email').errors['specialCharacter']">
+                {{'Wrong email' | translate}}
+              </span>
               <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['specialCharacter'] && !emailForm.get('email').errors['required']">
-              {{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
-            </span>
-            </div>
-            <div *ngIf="emailMessage !== ''">
-               <span class="wrap-input__message">
-              {{emailMessage}}
-            </span>
+                {{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
+              </span>
+              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailExists']">
+                {{'Email exists' | translate}}
+              </span>
+              </div>  
+              
             </div>
             <!--Input error section ends-->
           </div>
         </div>
 
-        <button class="btn popup__btn" (click)="emailSubmit()" [disabled]="!emailForm.valid && !agreeTerms && emailMessage === ''"
-                [ngClass]="{
-                'popup__btn--active': emailForm.valid && agreeTerms && emailMessage === '',
-                'btn--error': !emailForm.controls['email'].valid && emailSubmited
-                }"
-        >{{'Create an account' | translate}}</button>
+        <button class="btn popup__btn"
+                [disabled]="emailForm.get('email').invalid && emailForm.get('email').errors"
+                [ngClass]="{'bg-none': !emailForm.valid, 'popup__btn--active': emailForm.valid}"
+                (click)="emailSubmit()">
+          {{'Create an account' | translate}}
+        </button>
       </form>
 
-      <div class="popup__links-wrap">
+      <div class="popup__links-wrap mobile-container">
         <div class="agree-terms"><span class="accept-icon">
           <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M2 1.97852C1.17157 1.97852 0.5 2.65009 0.5 3.47852V11.4785C0.5 12.3069 1.17157 12.9785 2 12.9785H10C10.8284 12.9785 11.5 12.3069 11.5 11.4785V3.47852C11.5 2.65009 10.8284 1.97852 10 1.97852H2Z" stroke="#BFBFBF"/>
             <path d="M3.42383 7.38525L6.16746 9.89641L15.4752 1" stroke="#BFBFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </span>{{'By registering you agree with' | translate}}</div>
-        <a class="popup__link" >{{'Terms and conditions' | translate}}</a>
+        <a class="popup__link" [routerLink]="'/static/terms-and-conditions'" target="_blank">{{'Terms and conditions' | translate}}</a>
+        <a class="popup__link popup__link--mob" [routerLink]="'/static/terms-and-conditions'" target="_blank">{{'Terms of use' | translate}}</a>
       </div>
       <div class="popup__links-wrap popup__links-wrap--hidden-mob">
         <span>{{'Already have an account?' | translate}}</span>
         <a class="popup__link" (click)="openLogInMobile()">{{'Log in' | translate}}</a>
       </div>
 
-      <a class="popup__link-mob" (click)="openLogInMobile()">{{'Log in' | translate}}</a>
+      <a class="popup__link-mob mobile-container" (click)="openLogInMobile()"><span class="popup__link-text--mob">{{'Already have an account?' | translate}}</span>{{'Log in' | translate}}</a>
     </ng-template>
 
 

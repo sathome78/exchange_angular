@@ -231,3 +231,13 @@ app-dynamic-input-dashboard  perfect-scrollbar > .ps.ps--active-y > .ps__rail-y{
     }
   }
 }
+
+.dark-theme .currency-pair-info  .dropdown__item:not(.active):hover{
+  color: #191A39;
+  background: none;
+}
+.select__list-item:not(.active):hover{
+  color: #191A39;
+  background: none;
+}
+

@@ -5,8 +5,6 @@ import {takeUntil} from 'rxjs/internal/operators';
 
 import {MockDataService} from 'app/shared/services/mock-data.service';
 import {EmbeddedOrdersService} from '../embedded-orders.service';
-import {TradingService} from '../../trading/trading.service';
-import {Order} from '../../trading/order.model';
 import {select, Store} from '@ngrx/store';
 import {State, getCurrencyPair} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../../model/currency-pair.model';
@@ -14,6 +12,8 @@ import {AbstractOrderCalculate} from '../../../../shared/components/abstract-ord
 import {UserBalance} from '../../../../model/user-balance.model';
 import {getUserBalance} from '../../../../core/reducers';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { Order } from 'app/model/order.model';
+import { TradingService } from 'app/dashboard/services/trading.service';
 
 
 @Component({
@@ -63,9 +63,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
 
   constructor(
     private store: Store<State>,
-    private mockData: MockDataService,
     private ordersService: EmbeddedOrdersService,
-    private utils: UtilsService,
     public tradingService: TradingService
   ) {
     super();
@@ -178,14 +176,16 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
       const tempOrder = {...this.order};
       tempOrder.status = 'CANCELLED';
 
-      this.ordersService.updateOrder(tempOrder).subscribe(res => {
-        this.createNewOrder();
-        this.resetForms();
-      }, err => {
-        console.log(err);
-        this.editOrderPopup = false;
-        this.resetForms();
-      });
+      this.ordersService.updateOrder(tempOrder)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.createNewOrder();
+          this.resetForms();
+        }, err => {
+          console.log(err);
+          this.editOrderPopup = false;
+          this.resetForms();
+        });
     }
   }
 
@@ -196,13 +196,15 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
     this.order.orderId = 0;
     this.order.status = 'OPENED';
 
-    this.ordersService.createOrder(this.order).subscribe(res => {
-      this.refreshOpenOrders.emit(true);
-      this.order = {...this.defaultOrder};
-      this.orderStop = '';
-      this.editOrderPopup = false;
-      this.resetForms();
-    });
+    this.ordersService.createOrder(this.order)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.refreshOpenOrders.emit(true);
+        this.order = {...this.defaultOrder};
+        this.orderStop = '';
+        this.editOrderPopup = false;
+        this.resetForms();
+      });
   }
 
   /**
@@ -210,9 +212,11 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
    * @param order
    */
   deleteOrder(order): void {
-    this.ordersService.deleteOrder(order).subscribe(res => {
-      this.refreshOpenOrders.emit(true);
-    });
+    this.ordersService.deleteOrder(order)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.refreshOpenOrders.emit(true);
+      });
     this.editOrderPopup = false;
     this.resetForms();
   }
@@ -249,11 +253,12 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
    */
   getCommissionIndex(): void {
     if (this.orderType && this.currentPair.currencyPairId) {
-      const subscription = this.tradingService.getCommission(this.orderType, this.currentPair.currencyPairId).subscribe(res => {
-        this.commissionIndex = res.commissionValue;
-        this.getCommission(this.orderType);
-        subscription.unsubscribe();
-      });
+      this.tradingService.getCommission(this.orderType, this.currentPair.currencyPairId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.commissionIndex = res.commissionValue;
+          this.getCommission(this.orderType);
+        });
     }
   }
 

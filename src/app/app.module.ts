@@ -50,9 +50,7 @@ import {UserService} from './shared/services/user.service';
 import {UserVerificationService} from './shared/services/user-verification.service';
 import {ThemeService} from './shared/services/theme.service';
 import {MockDataService} from './shared/services/mock-data.service';
-import {TradingService} from './dashboard/components/trading/trading.service';
 import {EmbeddedOrdersService} from './dashboard/components/embedded-orders/embedded-orders.service';
-import {CurrencyPairInfoService} from './dashboard/components/currency-pair-info/currency-pair-info.service';
 import {JwtInterceptor} from './core/interceptors/jwt.interceptor';
 import {AuthInterceptor} from './core/interceptors/auth.interceptor';
 
@@ -78,6 +76,7 @@ import {PasswordChangedPopupComponent} from './popups/password-changed-popup/pas
 import { KycPopupComponent } from './popups/kyc-popup/kyc-popup.component';
 import { KycLevel1StepTwoComponent } from './popups/kyc-popup/kyc-level1-step-two/kyc-level1-step-two.component';
 import { KycLevel1StepOneComponent } from './popups/kyc-popup/kyc-level1-step-one/kyc-level1-step-one.component';
+import { PopupInfoComponent } from './popups/popup-info/popup-info.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -129,6 +128,7 @@ export function createTranslateLoader(http: HttpClient) {
     KycPopupComponent,
     KycLevel1StepTwoComponent,
     KycLevel1StepOneComponent,
+    PopupInfoComponent,
     // TWO FACTOR POPUP END
 
   ],
@@ -173,9 +173,7 @@ export function createTranslateLoader(http: HttpClient) {
     UserVerificationService,
     ThemeService,
     MockDataService,
-    TradingService,
     EmbeddedOrdersService,
-    CurrencyPairInfoService,
     CoreService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

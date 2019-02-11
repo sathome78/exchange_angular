@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../shared/services/user.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -6,6 +6,9 @@ import {AuthService} from '../../shared/services/auth.service';
 import {environment} from '../../../environments/environment';
 import {TranslateService} from '@ngx-translate/core';
 import {Location} from '@angular/common';
+import {UtilsService} from '../../shared/services/utils.service';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 declare var encodePassword: Function;
 declare var sendConfirmationPasswordGtag: Function;
@@ -15,79 +18,70 @@ declare var sendConfirmationPasswordGtag: Function;
   templateUrl: './final-registration.component.html',
   styleUrls: ['./final-registration.component.scss']
 })
-export class FinalRegistrationComponent implements OnInit {
+export class FinalRegistrationComponent implements OnInit, OnDestroy {
+
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   passwordForm: FormGroup;
+  newPassword: FormControl;
+  newConfirmPassword: FormControl;
   isPasswordVisible = false;
   token: string;
   password;
   confirmPass;
   message: string;
-  public msgRed = false;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private authService: AuthService,
+    private utilsService: UtilsService,
     private location: Location,
     private translateService: TranslateService
   ) {
   }
 
   ngOnInit() {
-    this.location.replaceState('final-registration/token');
     this.initForm();
+    this.location.replaceState('final-registration/token');
     this.message = this.translateService.instant('Now, we need to create strong password.');
     this.token = this.activatedRoute.snapshot.queryParamMap.get('t');
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   getInputType(): string {
     return this.isPasswordVisible ? 'text' : 'password';
   }
 
-  togglePasswordVisibility(): void {
-    this.isPasswordVisible = !this.isPasswordVisible;
-  }
-
-  initForm(): void {
-    this.passwordForm = new FormGroup({
-      password: new FormControl(null, {
-        validators: [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(40),
-          Validators.pattern(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z])(?=.*[!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\']/)
-        ]
-      }),
-      confirmPassword: new FormControl('', {validators: [Validators.required, this.confirmPassword.bind(this)]})
-    });
-  }
-
   createUser(): void {
-    console.log(this.passwordForm);
     if (this.passwordForm.valid) {
       const sendData = {
         tempToken: this.token,
-        password: this.encryptPass(this.passwordForm.controls['password'].value),
+        password: this.encryptPass(this.passwordFirst.value),
       };
-      this.userService.finalRegistration(sendData).subscribe(res => {
-        const tokenHolder = {
-          token: res.token,
-          nickname: res.nickName,
-          userId: res.id,
-          avatarPath: null,
-          language: res.language,
-          finPasswordSet: res.finPasswordSet,
-          referralReference: res.referralReference,
-        };
-        this.authService.setTokenHolder(tokenHolder);
-        this.router.navigate(['/']);
-        sendConfirmationPasswordGtag();
-      }, err => {
-        this.message = this.translateService.instant('Server error. Try again.');
-      });
+      this.userService.finalRegistration(sendData)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          const tokenHolder = {
+            token: res.token,
+            nickname: res.nickName,
+            userId: res.id,
+            avatarPath: null,
+            language: res.language,
+            finPasswordSet: res.finPasswordSet,
+            referralReference: res.referralReference,
+          };
+          this.authService.setTokenHolder(tokenHolder);
+          this.router.navigate(['/funds/balances']);
+          sendConfirmationPasswordGtag();
+        }, err => {
+          this.message = this.translateService.instant('Service is temporary unavailable, please try again later.');
+        });
     }
-    // console.log(sendData);
   }
 
   onRepeatPasswordInput(event) {
@@ -102,12 +96,6 @@ export class FinalRegistrationComponent implements OnInit {
       const temp = this.deleteSpace(event.target.value);
       this.passwordForm.controls['password'].setValue(temp);
     }
-
-    const confirm = this.passwordForm.controls['confirmPassword'];
-    this.msgRed = event.target.value === confirm.value;
-    confirm.value !== '' && event.target.value !== confirm.value ?
-      confirm.setErrors({'passwordConfirm': true}) :
-      confirm.setErrors(null);
   }
 
   deleteSpace(value): string {
@@ -120,12 +108,43 @@ export class FinalRegistrationComponent implements OnInit {
     return '';
   }
 
-  confirmPassword(password: FormControl): { [s: string]: boolean } {
-    this.msgRed = this.password === password.value;
-    if (this.password !== password.value) {
-      return {'passwordConfirm': true};
-    }
-    return null;
+  get passwordFirst() {
+    return this.passwordForm.get('password');
+  }
+  get passwordConfirm() {
+    return this.passwordForm.get('confirmPassword');
+  }
+
+  initForm(): void {
+    this.newPassword = new FormControl(null, {
+      validators: [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(40),
+        this.utilsService.passwordCombinationValidator(),
+      ]
+    });
+    this.newConfirmPassword = new FormControl('', {validators: [
+        this.utilsService.passwordMatchValidator(this.newPassword)
+      ]});
+
+    this.passwordForm = new FormGroup({
+      'password': this.newPassword,
+      'confirmPassword': this.newConfirmPassword
+    });
+
+    this.observeForm();
+  }
+
+  observeForm() {
+    this.passwordFirst.valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((value) => {
+        if (!this.passwordConfirm.touched) {
+          return;
+        }
+        this.passwordConfirm.updateValueAndValidity();
+      });
   }
 
   private encryptPass(pass: string): string {

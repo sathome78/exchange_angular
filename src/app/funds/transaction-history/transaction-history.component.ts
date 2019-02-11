@@ -45,6 +45,7 @@ export class TransactionHistoryComponent implements OnInit {
   public openDetails: number = null;
 
   public myDatePickerOptions: IMyDpOptions = {
+    showInputField: false,
     dateFormat: 'dd.mm.yyyy',
     disableSince: {
       year: new Date().getFullYear(),

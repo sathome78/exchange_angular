@@ -7,6 +7,7 @@ import {BY_PRIVATE_CODE} from '../../send-money-constants';
 import {AbstractTransfer} from '../abstract-transfer';
 import {environment} from '../../../../../../environments/environment';
 import {PopupService} from '../../../../../shared/services/popup.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-transfer-protected-email-code',
@@ -53,15 +54,17 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
       this.balanceService.closeSendMoneyPopup$.next(false);
     } else {
       if (this.form.valid && !this.isAmountMax && !this.isAmountMin) {
-        this.balanceService.checkEmail(this.form.controls['email'].value).subscribe(res => {
-          const data = res as { data: boolean, error: any };
-          if (data.data) {
-            this.isSubmited = false;
-            this.isEnterData = false;
-          } else {
-            this.emailErrorMessage = data.error.message;
-          }
-        });
+        this.balanceService.checkEmail(this.form.controls['email'].value)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(res => {
+            const data = res as { data: boolean, error: any };
+            if (data.data) {
+              this.isSubmited = false;
+              this.isEnterData = false;
+            } else {
+              this.emailErrorMessage = data.error.message;
+            }
+          });
       }
     }
   }

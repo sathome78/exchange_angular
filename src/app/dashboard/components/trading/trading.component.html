@@ -10,7 +10,7 @@
       </span>
     </a>
     <span class="widget__dots "></span>
-    <div class="widget__controls">
+    <div class="widget__controls" (click)="remove()">
       <div class="widget__controls-close">
         <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -31,13 +31,13 @@
           </ng-template>
         </ul>
       </div>
-      <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
+      <!-- <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div style="margin-left: auto;">
           {{'Pay no fees:' | translate}}
           <img src="../../assets/img/fire.svg" style="margin: 0 4px;">
           <a href="#">{{'Become VIP' | translate}}</a>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="widget__trading-form--wr">
       <form class="widget__trading-form" action="" [formGroup]="buyForm">
@@ -49,7 +49,7 @@
             <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
           </div>
         </div>
-        
+
         <div class="row row--jcsb widget__trading-row  input-row">
           <div class="wrap-input widget__input no-line">
             <app-price-input [placeholder]="translateService.instant('Quantity')" [currencyName]="arrPairName[0]" [currencyLabel]="arrPairName[0]" [forTrading]="true" (customInput)="quantityInput($event, BUY)" name="quantity" formControlName="quantity"></app-price-input>
@@ -109,7 +109,7 @@
             <span>{{'Fee:' | translate}} {{sellOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
           </div>
         </div>
-        
+
         <div class="row row--jcsb widget__trading-row input-row">
           <div class="wrap-input widget__input no-line">
             <app-price-input [placeholder]="translateService.instant('Quantity')" [currencyName]="arrPairName[0]" [currencyLabel]="arrPairName[0]" [forTrading]="true" (customInput)="quantityInput($event, SELL)" name="quantity" formControlName="quantity"></app-price-input>
@@ -164,6 +164,23 @@
     </div>
   </div>
 
+
+  <!-- TO DO move to separate component -->
+  <div class="widget__content widget__content--mob">
+
+    <!-- app-currency-pair-info-mobile  start-->
+    <app-currency-pair-info-mobile></app-currency-pair-info-mobile>
+    <!-- app-currency-pair-info-mobile  end-->
+
+    <!-- app-order-book-mobile start -->
+    <app-order-book-mobile></app-order-book-mobile>
+    <!-- app-order-book-mobile end -->
+
+    <!-- app-trading-mobile start -->
+    <app-trading-mobile></app-trading-mobile>
+    <!-- app-trading-mobile end -->
+
+  </div>
   <!--notif success start-->
   <div class="trading-notification trading-notification--success" *ngIf="notifySuccess">
     <div class="trading-notification__close" (click)="notifySuccess = false">

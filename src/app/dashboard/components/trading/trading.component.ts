@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, HostListener} from '@angular/core';
+import {Component, OnDestroy, OnInit, HostListener, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {Subject} from 'rxjs/Subject';
@@ -6,10 +6,6 @@ import {takeUntil} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {Order} from './order.model';
-import {TradingService} from './trading.service';
-import {DashboardService} from '../../dashboard.service';
-import {OrderBookService} from '../order-book/order-book.service';
 import {State, getCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getDashboardState} from 'app/core/reducers/index';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserService} from 'app/shared/services/user.service';
@@ -18,23 +14,25 @@ import {PopupService} from 'app/shared/services/popup.service';
 import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
 import {defaultOrderItem} from '../../reducers/default-values';
 import {AuthService} from 'app/shared/services/auth.service';
-import {UtilsService} from 'app/shared/services/utils.service';
 import {TranslateService} from '@ngx-translate/core';
 import {LastPrice} from 'app/model/last-price.model';
 import {BUY, SELL} from 'app/shared/constants';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
+import {Order} from 'app/model/order.model';
+import {TradingService} from 'app/dashboard/services/trading.service';
 
 @Component({
   selector: 'app-trading',
   templateUrl: 'trading.component.html',
-  styleUrls: ['trading.component.scss']
+  styleUrls: ['trading.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradingComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
 
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
-  public itemName: string;
+  public itemName: string = 'trading';
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dropdown limit data */
@@ -52,7 +50,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public buyStopValue: number;
   public userBalance: UserBalance;
   public currentPair;
-  private commissionIndex = 0.002;
+
   public notifySuccess = false;
   public notifyFail = false;
   public message = '';
@@ -88,13 +86,11 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   constructor(
     private store: Store<State>,
     public tradingService: TradingService,
-    private dashboardService: DashboardService,
     private dashboardWebsocketService: DashboardWebSocketService,
     private popupService: PopupService,
-    private orderBookService: OrderBookService,
     private userService: UserService,
     private authService: AuthService,
-    private utils: UtilsService,
+    private cdr: ChangeDetectorRef,
     public translateService: TranslateService
   ) {
     super();
@@ -102,7 +98,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
 
   ngOnInit() {
-    this.itemName = 'trading';
     this.dropdownLimitValue = this.limitsData[0];
     this.initForms();
     this.resetSellModel();
@@ -121,12 +116,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair) => {
         this.onGetCurrentCurrencyPair(pair);
+        this.cdr.detectChanges();
       });
 
     this.dashboardWebsocketService.setRabbitStompSubscription()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.updateCurrentCurrencyViaWebsocket = true;
+        this.cdr.detectChanges();
       })
 
 
@@ -141,6 +138,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
           this.buyOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
         }
         this.updateCurrentCurrencyViaWebsocket = false;
+        this.cdr.detectChanges();
       });
 
     this.store
@@ -148,6 +146,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (order) => {
         this.orderFromOrderBook(order);
+        this.cdr.detectChanges();
       });
   }
 
@@ -310,13 +309,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   getCommissionIndex(type: string, currencyPairId: number): void {
     if (type && currencyPairId) {
-      const subscription = this.tradingService.getCommission(type, currencyPairId).subscribe(res => {
-        type === this.BUY ?
-        this.buyCommissionIndex = res.commissionValue :
-        this.sellCommissionIndex = res.commissionValue;
-        this.commissionIndex = res.commissionValue;
-        subscription.unsubscribe();
-      });
+      this.tradingService
+        .getCommission(type, currencyPairId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          type === this.BUY ?
+            this.buyCommissionIndex = res.commissionValue :
+            this.sellCommissionIndex = res.commissionValue;
+        });
     }
   }
 
