@@ -40,6 +40,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {DashboardEffects} from './effects/dashboard.effects';
 import {TranslateModule} from '@ngx-translate/core';
 import {MomentModule} from 'angular2-moment';
+import {MarketsItemComponent} from './components/markets/markets-item/markets-item.component';
 import {CurrencyPairInfoService} from './services/currency-pair-info.service';
 import {OrderBookMobileComponent} from './components/order-book-mobile/order-book-mobile.component';
 import {TradingMobileComponent} from './components/trading-mobile/trading-mobile.component';
@@ -108,6 +109,7 @@ const stompConfig: StompConfig = {
     CurrencySortingPipe,
     NicknamePipe,
     PositivePipe,
+    MarketsItemComponent,
 
     // PIPES END
   ],

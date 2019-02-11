@@ -84,28 +84,29 @@ export abstract class AbstractTransfer {
   }
 
   getMinSum(currency) {
-    const subscribtion = this.balanceService
+    this.balanceService
       .getMinSumInnerTranfer(currency.id.toString(), this.model.type)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: { data: string, error: string }) => {
         this.minWithdrawSum = +res.data;
-        subscribtion.unsubscribe();
       });
   }
 
   getBalance(name: string) {
-    const subscribtion = this.balanceService.getTotalBalance().subscribe(res => {
-      const allBalances = res as { sumTotalUSD: any, mapWallets: any };
-      const needBalance = allBalances.mapWallets.filter(item => item.currencyName === name);
-      this.activeBalance = needBalance[0].activeBalance;
-      subscribtion.unsubscribe();
-    });
+    this.balanceService.getTotalBalance()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        const allBalances = res as { sumTotalUSD: any, mapWallets: any };
+        const needBalance = allBalances.mapWallets.filter(item => item.currencyName === name);
+        this.activeBalance = needBalance[0].activeBalance;
+      });
   }
 
   getCommissionInfo(amount) {
-    const subscription = this.balanceService.getCommisionInfo(this.activeCrypto.id, amount, this.model.type)
+    this.balanceService.getCommisionInfo(this.activeCrypto.id, amount, this.model.type)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.responseCommission = res as any;
-        subscription.unsubscribe();
       });
   }
 

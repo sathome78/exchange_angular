@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {PopupService} from '../../shared/services/popup.service';
 import {UserService} from '../../shared/services/user.service';
@@ -7,6 +7,8 @@ import {Router} from '@angular/router';
 import {AuthService} from '../../shared/services/auth.service';
 import {TokenHolder} from '../../model/token-holder.model';
 import {SettingsService} from '../../settings/settings.service';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 declare var sendLoginSuccessGtag: Function;
 
@@ -15,8 +17,9 @@ declare var sendLoginSuccessGtag: Function;
   templateUrl: './login-popup.component.html',
   styleUrls: ['./login-popup.component.scss']
 })
-export class LoginPopupComponent implements OnInit {
+export class LoginPopupComponent implements OnInit, OnDestroy {
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   form: FormGroup;
   emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
   isPasswordVisible = false;
@@ -51,6 +54,11 @@ export class LoginPopupComponent implements OnInit {
     this.inPineCodeMode = false;
   }
 
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
   closeMe() {
     this.popupService.closeLoginPopup();
   }
@@ -67,6 +75,7 @@ export class LoginPopupComponent implements OnInit {
       }
       this.logger.debug(this, 'attempt to authenticate with email: ' + email + ' and password: ' + password);
       this.userService.authenticateUser(email, password, pin)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((tokenHolder: TokenHolder) => {
             this.logger.debug(this, 'User { login: ' + email + ', pass: ' + password + '}' + ' signed in and obtained' + tokenHolder);
             this.authService.setTokenHolder(tokenHolder);
@@ -116,6 +125,7 @@ export class LoginPopupComponent implements OnInit {
 
   checkGoogleLoginEnabled(email: string): void {
     this.userService.getUserGoogleLoginEnabled(email)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
           if (result) {
             this.twoFaAuthModeMessage = 'Use google authenticator to generate pincode';

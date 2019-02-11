@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef, HostListener} from '@angular/core';
+import {Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy} from '@angular/core';
 import { takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
 
@@ -29,7 +29,8 @@ import {Currency} from 'app/core/models/currency.model';
 @Component({
   selector: 'app-graph',
   templateUrl: 'graph.component.html',
-  styleUrls: ['graph.component.scss']
+  styleUrls: ['graph.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit, OnDestroy {
   /** dashboard item name (field for base class)*/
@@ -186,7 +187,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
           try {
             this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
           } catch (e) {
-            console.log(e);
+            // console.log(e);
           }
         }
       });
@@ -270,18 +271,15 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     });
 
     this.marketService.activeCurrencyListener
-    .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe(pair => {
-      const infoSub = this.marketService.currencyPairInfo(pair.currencyPairId)
-        .subscribe(res => {
-          this.currentCurrencyInfo = res;
-          // this.pair = pair;
-          // this.splitPairName(this.pair);
-          // TODO: remove after dashboard init load time issue is solved
-          this.ref.detectChanges();
-          infoSub.unsubscribe();
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(pair => {
+        this.marketService.currencyPairInfo(pair.currencyPairId)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(res => {
+            this.currentCurrencyInfo = res;
+            this.ref.detectChanges();
+        });
       });
-  });
   }
 
   ngOnDestroy(): void {

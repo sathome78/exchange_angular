@@ -1,12 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {SettingsService} from '../settings.service';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-email-notification',
   templateUrl: './email-notification.component.html',
   styleUrls: ['./email-notification.component.scss']
 })
-export class EmailNotificationComponent implements OnInit {
+export class EmailNotificationComponent implements OnInit, OnDestroy {
 
   ORDER_TYPE = 'ORDER';
   IN_OUT_TYPE = 'IN_OUT';
@@ -20,6 +22,8 @@ export class EmailNotificationComponent implements OnInit {
   isAdminNotificationEnabled = false;
   isOtherMessagesEnabled = false;
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+
   constructor(private settingsService: SettingsService) {
   }
 
@@ -27,8 +31,14 @@ export class EmailNotificationComponent implements OnInit {
     this.loadNotifications();
   }
 
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
   update() {
     this.settingsService.updateEmailNotifications(this.getOptions())
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(resp => {
           console.log('updated');
         },
@@ -74,6 +84,7 @@ export class EmailNotificationComponent implements OnInit {
 
   private loadNotifications() {
     this.settingsService.getEmailNotifications()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(map => {
         this.isInOutNotificationEnabled = map[this.IN_OUT_TYPE];
         this.isOrdersNotificationEnabled = map[this.ORDER_TYPE];

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {AuthService} from '../../shared/services/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../shared/services/user.service';
@@ -8,6 +8,8 @@ import {TranslateService} from '@ngx-translate/core';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {PopupService} from 'app/shared/services/popup.service';
 import {Location} from '@angular/common';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 declare var encodePassword: Function;
 
 @Component({
@@ -15,7 +17,8 @@ declare var encodePassword: Function;
   templateUrl: './final-step-recovery-password.component.html',
   styleUrls: ['./final-step-recovery-password.component.scss']
 })
-export class FinalStepRecoveryPasswordComponent implements OnInit {
+export class FinalStepRecoveryPasswordComponent implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   passwordForm: FormGroup;
   passwordFirst: FormControl;
   passwordSecond: FormControl;
@@ -39,6 +42,11 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
     this.initForm();
     this.message = this.translateService.instant('Now, we need to create strong password.');
     this.token = this.activatedRoute.snapshot.queryParamMap.get('t');
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   getInputType(): string {
@@ -81,12 +89,14 @@ export class FinalStepRecoveryPasswordComponent implements OnInit {
         tempToken: this.token,
         password: this.encryptPass(pass.value),
       };
-      this.userService.recoveryPassword(sendData).subscribe(res => {
-        this.router.navigate(['/dashboard']);
-        this.popupService.toggleRestoredPasswordPopup(true);
-      }, err => {
-        this.message = this.translateService.instant('Server error. Try again.');
-      });
+      this.userService.recoveryPassword(sendData)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.router.navigate(['/dashboard']);
+          this.popupService.toggleRestoredPasswordPopup(true);
+        }, err => {
+          this.message = this.translateService.instant('Server error. Try again.');
+        });
     }
   }
 

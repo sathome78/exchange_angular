@@ -1,8 +1,9 @@
 import {Component, OnDestroy, OnInit, Input, HostListener} from '@angular/core';
 import {PopupService} from '../../shared/services/popup.service';
-import {Subscription} from 'rxjs';
+import {Subscription, Subject} from 'rxjs';
 import {LoggingService} from '../../shared/services/logging.service';
 import {Animations} from 'app/shared/animations';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-two-factor-popup',
@@ -14,6 +15,7 @@ import {Animations} from 'app/shared/animations';
 })
 export class TwoFactorPopupComponent implements OnInit, OnDestroy {
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   google = 'GOOGLE';
   sms = 'SMS';
   telegram = 'TELEGRAM';
@@ -41,8 +43,8 @@ export class TwoFactorPopupComponent implements OnInit, OnDestroy {
     this.logger.debug(this, 'Provider on init is: ' + this.provider);
     this.popupService.loadDefault();
     this.stepsSize = this.popupService.getStepsMap(this.provider).size;
-    this.currentStepSubscription = this.popupService
-      .getCurrentStepListener()
+    this.popupService.getCurrentStepListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(currentStep => this.step = currentStep);
   }
 
@@ -67,6 +69,7 @@ export class TwoFactorPopupComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.currentStepSubscription.unsubscribe();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
