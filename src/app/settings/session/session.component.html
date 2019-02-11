@@ -24,7 +24,8 @@
           min="0"
           max="2"
           formControlName="hours"
-          (blur)="validateHours()"
+          (input)="validateInputs()"
+          (blur)="formatInputs()"
         />
         <label class="wrap-input__label" for="">{{'Hours' | translate}}</label>
         <div class="wrap-input__line"></div>
@@ -49,7 +50,8 @@
           formControlName="minutes"
           min="0"
           max="59"
-          (blur)="validateMinutes()"
+          (input)="validateInputs()"
+          (blur)="formatInputs()"
         />
         <label class="wrap-input__label" for="">{{'Minutes' | translate}}</label>
         <div class="wrap-input__line"></div>
