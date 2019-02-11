@@ -29,5 +29,11 @@ function sendGenerateWalletGtag(id) {
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'GTM-TZTXSSP');
+
+function ready() {
+  gtag('js', new Date());
+  gtag('config', 'GTM-TZTXSSP');
+}
+
+
+document.addEventListener("DOMContentLoaded", ready);
