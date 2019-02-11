@@ -20,11 +20,11 @@ import {select, Store} from '@ngrx/store';
 import {getCurrencyPair, State} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {getCurrencyPairArray, getCurrencyPairInfo} from '../../../core/reducers';
-import {Currency} from '../currency-pair-info/currency-search/currency.model';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
-import {SelectedOrderBookOrderAction, SetTradingTypeAction} from '../../actions/dashboard.actions';
+import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
 import {Router} from '@angular/router';
+import {Currency} from 'app/core/models/currency.model';
 
 @Component({
   selector: 'app-graph',

@@ -29,9 +29,16 @@
 }
 
 
-.wrap-input__input--error{
+.wrap-input__input--error,.ng-invalid.ng-touched{
 	&~div .input-hint-wrapper{
 		opacity: 1;
 	pointer-events:auto;
+	}
+}
+.wrap-input--error{
+	.input-hint-wrapper{
+		opacity: 1;
+	pointer-events:auto;
+	color: #EB5757;
 	}
 }
