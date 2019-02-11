@@ -99,7 +99,8 @@
 
     <ng-template #captchaTemplate>
       <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
-      <re-captcha data-size="compact" (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
+      <re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
+       <!-- data-size="compact" -->
       <!--<div class="popup__links-wrap  popup__links-wrap&#45;&#45;center">-->
         <!--<a class="popup__link" (click)="openRegistration()">Go to registration form</a>-->
       <!--</div>-->

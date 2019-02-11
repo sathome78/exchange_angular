@@ -1,0 +1,43 @@
+@media(max-width: 1200px){
+	.id-verification{
+		.settings-button-wr{
+			&:not(:last-child){
+				margin: 0;
+			}
+		}
+	}
+
+	.settings-button-wr{
+		flex-direction: column;
+	}
+	.level-description{
+		position: static;
+		margin-top: 7px;
+		margin-bottom: 15px;
+	}
+}
+
+.settings__content{
+	@media(max-width: 568px){
+		padding: 20px 12px 20px;
+	}
+	.settings__content-title{
+		font-size: 20px;
+		line-height: 22px;
+	}
+	.settings__content-subtitle{
+		font-size: 14px;
+		line-height: 16px;
+	}
+	.settings__buttons-row{
+		margin: 0;
+	}
+	.settings__btn{
+		padding: 5px;
+	}
+	.level-description{
+		span{
+			line-height: 1.2;
+		}
+	} 
+}
