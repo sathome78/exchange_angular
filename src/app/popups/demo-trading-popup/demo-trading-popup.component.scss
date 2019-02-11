@@ -1,7 +1,7 @@
 .popup-demo{
   padding: 28px 16px;
   min-height: auto;
-  background-color: #fff;
+ background: #191A39;
   border: 1px solid #fff;
  .text{
   font-size: 14px;
@@ -20,6 +20,7 @@
 @media (min-width:1200px) {
   .popup-demo{
     max-width: 536px;
+    background: #fff;
     .btn{
       margin-top: 12px;
     }
