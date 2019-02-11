@@ -48,11 +48,7 @@
   }
 }
 
-.markets__tbody{
-  @media (max-width: 1200px){
-    padding: 6px 14px 6px 8px;
-  }
-}
+
 .tab-no-active {
   border-bottom: 2px solid transparent;
 }
@@ -61,15 +57,23 @@
 .widget__content.widget__content--mob {
   perfect-scrollbar {
     height: calc(100vh - 178px);
+
   }
+
 }
 
-::ng-deep .ps__rail-y {
+.widget__content--mob ::ng-deep perfect-scrollbar > .ps.ps--active-y > .ps__rail-y {
   background: #bd3820;
+  @media(max-width: 1200px) {
+    margin-right: 0;
+    right: 5px!important;
+    top: 5px!important;
+  }
 }
 
 .widget__content {
   height: calc(100% - 44px);
+
   @media (min-width: 1200px) {
     height: 100%;
     ::ng-deep.ps__rail-y {
@@ -180,4 +184,7 @@
   flex-direction: column;
   width: 100%;
   align-items: center;
+}
+.widget__content--mob perfect-scrollbar{
+    padding: 6px 14px 6px 8px;
 }

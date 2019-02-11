@@ -1,15 +1,119 @@
 re-captcha{
-  margin: 0 auto;
+	margin: 0 auto;
+	.rc-anchor-center-item{
+		display: none;
+	}
 }
 @media (min-width: 1200px){
-  .popup__links-wrap{
-    justify-content: space-between;
-    &--center{
-      justify-content: center;
-    }
-  }
+	.popup__links-wrap{
+		justify-content: space-between;
+		&--center{
+			justify-content: center;
+		}
+	}
 }
 
 .msg-error {
-  color: #d04437;
+	color: #d04437;
+}
+
+
+.logo-login-mob{
+	display: none;
+}
+
+.popup__title-mob{
+	display: none;
+}
+
+@media(max-width: 992px){
+	.logo-login-mob{
+		display: block;
+		margin-bottom: 10px;
+		img{
+			display: block;
+		}
+	}
+	.popup__title{
+		display: none;
+	}
+
+	.popup__title-mob{
+		display: block;
+		font-weight: 500;
+		line-height: 1;
+		font-size: 14px;
+		color: #576E9C;
+		margin-bottom: 51px;
+	}
+	.popup {
+		.wrap-input__input{
+			&:focus {
+				&~ .wrap-input__label{
+					background: #191A39;
+				}
+			}
+		}
+		background: #191A39;
+		padding: 27px;	
+		padding-bottom: 65px;
+		border-radius: 0;
+		.wrap-input__input:valid{
+			&~ .wrap-input__label{
+				background: #191A39;
+			}
+		}
+	}
+	.wrap-input__input{
+		color: #DEDEFB;
+		margin: 0;
+	}
+	.popup__form{
+		max-width: 320px;
+	}
+	.popup__btn{
+		max-width: unset;
+		margin-top: 18px;
+	}
+	.popup__links-wrap{
+		justify-content: flex-start;
+		font-weight: 400;
+		margin: 30px auto 0;
+	}
+	.popup__link{
+		font-size: 14px;
+		margin-left: 0;
+	}
+	.popup__wrap-input{
+		margin-bottom: 10px;
+	}
+	.popup__link-mob{
+		position: absolute;
+		bottom: 38px;
+		left: 27px;
+		right: 27px;
+		display: block;
+		width: 100%;
+		height: auto;
+		text-decoration: none;
+		background-color: unset;
+		color: #237BEF;
+		font-weight: 500;
+		span{
+			color: #576E9C;
+		}
+	}
+	.popup__close{
+		top: 23px;
+		right: 19px;
+		width: 17px;
+		height: 17px;
+	}
+	.popup_title--dm{
+		display: block;
+		color: #DEDEFB;
+	}
+	.wrap-input__label{
+		background: #191A39;
+	}
 }

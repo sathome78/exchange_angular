@@ -35,15 +35,15 @@ export class TradeHistoryService {
   subscribeStompForTrades(pair: CurrencyPair) {
     this.tradesStompSubscription = this.stompService
       .subscribe('/app/trades/' + pair.currencyPairId)
-        .subscribe((message) => {
-          // console.log(JSON.parse(JSON.parse(message.body)));
-          // console.log('kdj')
-          this.setLastBuyOrder(JSON.parse(JSON.parse(message.body)).data);
-          this.setLastSellOrder(JSON.parse(JSON.parse(message.body)).data);
-          this.store.dispatch(new SetAllTradesAction(JSON.parse(JSON.parse(message.body)).data));
+      .subscribe((message) => {
+        // console.log(JSON.parse(JSON.parse(message.body)));
+        // console.log('kdj')
+        this.setLastBuyOrder(JSON.parse(JSON.parse(message.body)).data);
+        this.setLastSellOrder(JSON.parse(JSON.parse(message.body)).data);
+        this.store.dispatch(new SetAllTradesAction(JSON.parse(JSON.parse(message.body)).data));
 
-          // this.allTradesListener.next(JSON.parse(JSON.parse(message.body)).data);
-        });
+        // this.allTradesListener.next(JSON.parse(JSON.parse(message.body)).data);
+      });
       // .pipe(map(message => {
       //   const wrapper: TradesWrapper = JSON.parse(message.body);
       //   console.log(wrapper);

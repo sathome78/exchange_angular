@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs/Subject';
 import {Store, select} from '@ngrx/store';
@@ -11,12 +11,14 @@ import * as dashboardActions from '../../actions/dashboard.actions';
 import {UserService} from '../../../shared/services/user.service';
 import {getCurrencyPair} from '../../../core/reducers';
 import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
+import { AuthService } from 'app/shared/services/auth.service';
 
 
 @Component({
   selector: 'app-markets',
   templateUrl: 'markets.component.html',
-  styleUrls: ['markets.component.scss']
+  styleUrls: ['markets.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketsComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -46,6 +48,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     private marketService: MarketService,
     private store: Store<State>,
     private dashboardWebsocketService: DashboardWebSocketService,
+    private authService: AuthService,
+    private crd: ChangeDetectorRef,
     private userService: UserService) {
     super();
   }
@@ -53,7 +57,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   ngOnInit() {
     this.itemName = 'markets';
     this.volumeOrderDirection = 'NONE';
-    this.marketService.makeItFast();
+    this.marketService.makeItFast(this.ngUnsubscribe);
     this.store
       .pipe(select(getCurrencyPairArray))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -71,7 +75,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.dashboardWebsocketService.setRabbitStompSubscription()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
-        this.marketService.makeItFast();
+        this.marketService.makeItFast(this.ngUnsubscribe);
       })
   }
 
@@ -217,8 +221,12 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   toggleFavorite(pair: CurrencyPair) {
+    if(!this.authService.isAuthenticated()) {
+      return;
+    }
     pair.isFavourite = !pair.isFavourite;
     this.marketService.manageUserFavouriteCurrencyPair(pair)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => console.log(res), error1 => console.log(error1));
     this.pairs = this.choosePair(this.currencyDisplayMode);
   }
@@ -239,13 +247,49 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     // this.prefPairs = this.choosePrefPairs();
     this.emitWhenSelectedPairIsUpdated(currencyPairs);
     this.loadingFinished();
+    this.crd.detectChanges();
   }
 
 
   private loadingFinished() {
     if(this.pairs && this.pairs.length && this.loading) {
-      // debugger
       this.loading = false;
     }
+  }
+
+  trackByFn(index, item) {
+    return item.currencyPairId; // or item.id
+  }
+
+  onClickMarketItem(e) {
+    if (e.target === e.currentTarget) {
+      return;
+    }
+
+    let target = e.target;
+
+    while(target.id !== 'markets-container' || null) {
+      if(target.dataset.favorite) {
+        const pair = this.getPairById(+target.dataset.favorite)
+        if(pair) {
+          this.toggleFavorite(pair);
+        }
+        target = null;
+        return;
+      }
+      if(target.dataset.marketitem) {
+        const pair = this.getPairById(+target.dataset.marketitem)
+        if(pair) {
+          this.onSelectCurrencyPair(pair);
+        }
+        target = null;
+        return;
+      }
+      target = target.parentElement;
+    }
+  }
+
+  getPairById(pairId: number): CurrencyPair {
+    return this.pairs.find((item) => item.currencyPairId === pairId);
   }
 }

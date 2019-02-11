@@ -73,9 +73,12 @@
         <app-price-input [placeholder]="'Amount'" (customInput)="amountInput($event)" name="amount"
                          formControlName="amount"></app-price-input>
         <!--Input error section starts-->
-        <span class="wrap-input__message"
+        <div class="input-hint-wrapper">
+          <span class="wrap-input__message"
               *ngIf="!form.valid && isSubmited"
         >Should be at least {{fiatDataByName.minRefillSum}}</span>
+        </div>
+        
         <!--Input error section ends-->
       </div>
 

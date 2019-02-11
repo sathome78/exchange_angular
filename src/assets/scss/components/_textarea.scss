@@ -118,15 +118,10 @@
     height: 36px;
     margin: 0 auto;
     padding: 12px;
-    border: 1px solid $grey;
-    border-bottom: none;
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    -webkit-border-top-left-radius: 4px;
-    border-top-left-radius: 4px;
-    -webkit-border-top-right-radius: 4px;
-    border-top-right-radius: 4px;
+    border: 1px solid #94C2FF;
+    border-radius: 4px;
     font-size: 14px;
+    color: #fff;
     background-color: transparent;
     resize: vertical;
     &:focus {
@@ -231,10 +226,10 @@
     }
     &--grey {
       .wrap-textarea__textarea {
-        border-color: $grey;
+        border-color: #94C2FF;
 
         ~ .wrap-textarea__label {
-          color: $grey;
+          color: #fff;
         }
 
         ~ .wrap-textarea__line {

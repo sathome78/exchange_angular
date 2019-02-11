@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {StompService} from '@stomp/ng2-stompjs';
 import {HttpClient} from '@angular/common/http';
 import {Observable, ReplaySubject, Subject, BehaviorSubject} from 'rxjs';
-import {map, tap} from 'rxjs/internal/operators';
+import {tap, takeUntil} from 'rxjs/internal/operators';
 
 import {environment} from 'environments/environment';
 import {CurrencyPair} from '../../../model/currency-pair.model';
@@ -38,11 +38,13 @@ export class MarketService {
   /**
    * this method simply gets pairs from cache and when subscription is on we should drop data
    */
-  makeItFast() {
+  makeItFast(ngUnsubscribe) {
     const url = this.baseUrl + '/info/public/v2/currencies/fast';
-    this.http.get<CurrencyPair []>(url).subscribe(items => {
-      this.dashboardWebsocketService.processCurrencyPairs(items, this.authService.isAuthenticated());
-    });
+    this.http.get<CurrencyPair []>(url)
+      .pipe(takeUntil(ngUnsubscribe))
+      .subscribe(items => {
+        this.dashboardWebsocketService.processCurrencyPairs(items);
+      });
   }
 
   removeFavourites() {

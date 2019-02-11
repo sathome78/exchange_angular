@@ -1,10 +1,11 @@
 import {Router} from '@angular/router';
 import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-
-import {tap} from 'rxjs/internal/operators';
+import {AsyncValidatorFn, AbstractControl} from '@angular/forms';
+import {tap, map, catchError} from 'rxjs/internal/operators';
 import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
+
 import {environment} from '../../../environments/environment';
 import {AuthService} from './auth.service';
 import {IP_USER_HEADER, IP_USER_KEY} from './http.utils';
@@ -16,6 +17,7 @@ import {CurrencyPair} from '../../model/currency-pair.model';
 import {State} from '../../dashboard/reducers/dashboard.reducer';
 import {RefreshUserBalanceAction} from '../../dashboard/actions/dashboard.actions';
 import {defaultUserBalance} from '../../dashboard/reducers/default-values';
+
 
 @Injectable()
 export class UserService {
@@ -39,6 +41,30 @@ export class UserService {
     return this.http.get<boolean>(this.getUrl('if_email_exists'), httpOptions);
   }
 
+  emailValidator(recovery?: boolean): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
+      return this.checkIfEmailExists(control.value.trim())
+        .pipe(map((isExist: boolean) => recovery ? !isExist : isExist))
+        .pipe(map((isExist: boolean) => isExist ? {'emailExists': true} : null))
+        .pipe(catchError((err) => of(this.checkError(err, recovery))));
+    };
+  }
+
+  checkError(error, recovery: boolean) {
+    if (error['status'] === 400) {
+      switch (error.error.title) {
+        case 'USER_REGISTRATION_NOT_COMPLETED':
+          return {'USER_REGISTRATION_NOT_COMPLETED': true};
+        case 'USER_NOT_ACTIVE':
+          return {'USER_NOT_ACTIVE': true};
+        case 'USER_EMAIL_NOT_FOUND':
+          return !recovery ? null : {'USER_EMAIL_NOT_FOUND': true};
+      }
+    } else {
+      return {'checkEmailCrash': true};
+    }
+  }
+
   checkIfUsernameExists(username: string): Observable<any> {
     const httpOptions = {
       params:  new HttpParams().set('username', username)
@@ -51,6 +77,9 @@ export class UserService {
       const sub = this.http.get(`${this.HOST}/info/private/v2/dashboard/info/${pair.currencyPairId}`)
         .subscribe(info => {
           this.store.dispatch(new RefreshUserBalanceAction(info));
+          sub.unsubscribe();
+        }, err => {
+          console.error(err);
           sub.unsubscribe();
         });
     } else {

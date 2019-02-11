@@ -1,28 +1,11 @@
 <div class="currency-pair-info" *ngIf="true">
   <div class="currency-pair-info__inner">
-    <!-- <div class="currency-pair-info__pair"> -->
-
-      <!-- <div class="dropdown currency-pair-info__dropdown currency-pair-info__dropdown--first"> -->
-        <!-- <div class="dropdown__btn" (click)="openSearchBar(0)">{{!firstCurrency ? 'BTC' : firstCurrency}}</div> -->
-        <!-- <div class="dropdown__btn" (click)="openSearchBar(0)">{{firstCurrency}}</div> -->
-      <!-- </div> -->
-      <!-- <div class="currency-pair-info__change-pair"></div> -->
-      <!-- <div class="dropdown currency-pair-info__dropdown"> -->
-        <!-- <div class="dropdown__btn" (click)="openDropdown()">{{secondCurrency}}</div> -->
-        <!-- <div class="dropdown__btn" (click)="openSearchBar(1)">{{secondCurrency}}</div> -->
-        <!-- <ul class="dropdown__list" *ngIf="marketDropdown"> -->
-          <!-- <ng-template ngFor let-currency [ngForOf]="marketsArray" , let-index = index> -->
-            <!-- <li  class="dropdown__item" (click)="onSelectCurrency(currency.name)" *ngIf="currency.name !== secondCurrency">{{currency.name}}</li> -->
-          <!-- </ng-template> -->
-        <!-- </ul> -->
-      <!-- </div> -->
-
-    <!-- </div> -->
     <app-dynamic-input-dashboard
       [value]="pairInput"
       [options]="DIOptions"
       (onChange)="onChangeCurrPair($event)"
       (onSelect)="onSelectPair($event.text)"
+      (onBlur)="onBlurInput()"
     ></app-dynamic-input-dashboard>
     <div class="currency-pair-info__info" style="min-width: 180px;"
          [ngClass]="{'currency-pair-info__info--up': flarForArrow('up'),
@@ -45,7 +28,7 @@
       </div>
     </div>
     <div class="currency-pair-info__item" style="min-width: 130px; padding-left: 0;">
-      <div class="currency-pair-info__item-title">{{'24h hight' | translate}}</div>
+      <div class="currency-pair-info__item-title">{{'24h high' | translate}}</div>
       <span class="currency-pair-info__item-value">
         {{currentCurrencyInfo?.rateHigh || 0 | number:'1.0-8' | replaceNumber }}
       </span>
@@ -71,13 +54,4 @@
       <!--</div>-->
     <!--</div>-->
   </div>
-
-  <!-- <app-currency-search
-    *ngIf="showCurrencySearch"
-    [currencies]="currencies"
-    (closeCurrencySearch)="toggleCurrencySearch()"
-    (selectCurrency)="onSelectCurrency($event)">
-  </app-currency-search> -->
-
-  <!-- <div class="overlay" *ngIf="showCurrencySearch" (click)="toggleCurrencySearch()"></div> -->
 </div>

@@ -11,8 +11,8 @@ import {environment} from '../../environments/environment';
 import {getCurrencyPairArray, State} from '../core/reducers';
 import * as dashboardActions from './actions/dashboard.actions';
 import {UserService} from '../shared/services/user.service';
-import {CurrencyPairInfoService} from './components/currency-pair-info/currency-pair-info.service';
 import {getCurrencyPair} from '../core/reducers';
+import {AuthService} from 'app/shared/services/auth.service';
 
 
 @Injectable()
@@ -29,7 +29,7 @@ export class DashboardWebSocketService implements OnDestroy {
     private stompService: StompService,
     private http: HttpClient,
     private userService: UserService,
-    private currencyPairInfoService: CurrencyPairInfoService,
+    private authService: AuthService,
     private store: Store<State>
   ) {
     this.store
@@ -50,7 +50,7 @@ export class DashboardWebSocketService implements OnDestroy {
           // clean cached data
           this.currencyPairs = [];
         }
-        this.processCurrencyPairs(items.data, authenticated);
+        this.processCurrencyPairs(items.data);
       });
   }
 
@@ -71,11 +71,13 @@ export class DashboardWebSocketService implements OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  processCurrencyPairs(array: CurrencyPair[], authenticated: boolean) {
-    if (authenticated) {
-      this.getUserFavouriteCurrencyPairIds().subscribe(rs => {
-        this.managePairs(array, rs);
-      });
+  processCurrencyPairs(array: CurrencyPair[]) {
+    if (this.authService.isAuthenticated()) {
+      this.getUserFavouriteCurrencyPairIds()
+        // .pipe(takeUntil(ngUnsubscribe))
+        .subscribe(rs => {
+          this.managePairs(array, rs);
+        });
     } else {
       this.managePairs(array, []);
     }
@@ -91,6 +93,8 @@ export class DashboardWebSocketService implements OnDestroy {
    * @param {string} pairName
    * @param pair
    */
+
+  // TODO remove after refactoring
   findPairByCurrencyPairName(pairName: string): void {
     this.currencyPairs.forEach(elm => {
       if (pairName === elm.currencyPairName) {
@@ -187,7 +191,7 @@ export class DashboardWebSocketService implements OnDestroy {
   makeItFast() {
     const url = this.baseUrl + '/info/public/v2/currencies/fast';
     this.http.get<CurrencyPair []>(url).subscribe(items => {
-      this.processCurrencyPairs(items, false);
+      this.processCurrencyPairs(items);
     });
   }
 

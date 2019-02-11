@@ -1,9 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Subject, Observable, BehaviorSubject, ReplaySubject} from 'rxjs';
-
-// import {Currency} from './components/currency-pair-info/currency-search/currency.model';
-import {OrderItem} from '../model/order-item.model';
+import {Subject, Observable, ReplaySubject} from 'rxjs';
 import {environment} from 'environments/environment';
 import {MyBalanceItem} from 'app/core/models/my-balance-item.model';
 

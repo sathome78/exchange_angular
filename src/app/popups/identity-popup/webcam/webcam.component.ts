@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {UserVerificationService} from '../../../shared/services/user-verification.service';
 import {UserDocVerificationModel} from '../user-doc-verification.model';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-webcam',
@@ -32,7 +33,7 @@ export class WebcamComponent implements OnInit, OnDestroy {
   // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
   private nextWebcam: Subject<boolean | string> = new Subject<boolean | string>();
 
-  private submitSubscription: Subscription;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private verificationService: UserVerificationService) {
   }
@@ -57,7 +58,9 @@ export class WebcamComponent implements OnInit, OnDestroy {
       .withEncoded(this.webcamImage.imageAsBase64)
       .build();
 
-    this.verificationService.uploadVerificationDoc(entity).subscribe(ok => {
+    this.verificationService.uploadVerificationDoc(entity)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(ok => {
         console.log('OK: fail to upload file');
       },
       err => {
@@ -124,7 +127,8 @@ export class WebcamComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.submitSubscription.unsubscribe();
+    this.ngUnsubscribe.next()
+    this.ngUnsubscribe.complete()
   }
 
 

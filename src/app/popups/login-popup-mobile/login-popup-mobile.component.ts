@@ -1,15 +1,17 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { PopupService } from '../../shared/services/popup.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TokenHolder } from '../../model/token-holder.model';
-import { UserService } from '../../shared/services/user.service';
-import { AuthService } from '../../shared/services/auth.service';
-import { Router } from '@angular/router';
-import { LoggingService } from '../../shared/services/logging.service';
-import { keys } from '../../core/keys';
-import { isCombinedNodeFlagSet } from 'tslint';
+import {Component, OnInit, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
+import {PopupService} from '../../shared/services/popup.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {TokenHolder} from '../../model/token-holder.model';
+import {UserService} from '../../shared/services/user.service';
+import {AuthService} from '../../shared/services/auth.service';
+import {Router} from '@angular/router';
+import {LoggingService} from '../../shared/services/logging.service';
+import {keys} from '../../core/keys';
+import {isCombinedNodeFlagSet} from 'tslint';
 import {TranslateService} from '@ngx-translate/core';
-import { UtilsService } from 'app/shared/services/utils.service';
+import {UtilsService} from 'app/shared/services/utils.service';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 declare var sendLoginSuccessGtag: Function;
 
@@ -18,8 +20,9 @@ declare var sendLoginSuccessGtag: Function;
   templateUrl: './login-popup-mobile.component.html',
   styleUrls: ['./login-popup-mobile.component.scss']
 })
-export class LoginPopupMobileComponent implements OnInit {
+export class LoginPopupMobileComponent implements OnInit, OnDestroy {
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   public recaptchaKey = keys.recaptchaKey;
   isPasswordVisible = false;
   twoFaAuthModeMessage = 'Please enter two-factor <br> authentication code';
@@ -60,10 +63,15 @@ export class LoginPopupMobileComponent implements OnInit {
     this.initForm();
   }
 
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
   initForm() {
     this.loginForm = new FormGroup({
-      email: new FormControl('', { validators: [Validators.required, this.utilsService.emailValidator()]}),
-      password: new FormControl('', { validators: Validators.required })
+      email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator()]}),
+      password: new FormControl('', {validators: Validators.required })
     });
     this.pinForm = new FormGroup({
       pin: new FormControl('', { validators: Validators.required })
@@ -100,6 +108,7 @@ export class LoginPopupMobileComponent implements OnInit {
 
   checkGoogleLoginEnabled(email: string): void {
     this.userService.getUserGoogleLoginEnabled(email)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
         this.isGACheck = true;
         if (result) {
@@ -110,9 +119,9 @@ export class LoginPopupMobileComponent implements OnInit {
         err => console.log(err));
   }
 
-  setStatusMessage(status) {
+  setStatusMessage(err) {
     this.showSendAgainBtn = false;
-    switch (status) {
+    switch (err['status']) {
       case 401:
       case 422:
         this.statusMessage = this.translateService.instant('Wrong email or password!');
@@ -187,6 +196,7 @@ export class LoginPopupMobileComponent implements OnInit {
     // console.log(this.email, this.password, this.pin);
     this.logger.debug(this, 'attempt to authenticate with email: ' + this.email + ' and password: ' + this.password);
     this.userService.authenticateUser(this.email, this.password, this.pin, this.pincodeAttempts)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((tokenHolder: TokenHolder) => {
         sendLoginSuccessGtag();
         this.logger.debug(this, 'User { login: ' + this.email + ', pass: ' + this.password + '}' + ' signed in and obtained' + tokenHolder);
@@ -201,7 +211,7 @@ export class LoginPopupMobileComponent implements OnInit {
           console.log(err, 'sendToServerError')
           const status = err['status'];
           this.setTemplate('logInTemplate');
-          this.setStatusMessage(status);
+          this.setStatusMessage(err);
         });
   }
 

@@ -40,6 +40,8 @@ import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
 import {AddClassDirective} from './directives/add-class.directive';
 import {ConstantsService} from './services/constants.service';
 import {SafePipe} from './pipes/safe.pipe';
+import { DateMaskInputComponent } from './components/date-mask-input/date-mask-input.component';
+import {DateMaskDirective} from './directives/date-mask.directive';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import {SafePipe} from './pipes/safe.pipe';
     GroupCoinPipe,
     CurrencyPipe,
     DropdownDirective,
+    DateMaskDirective,
     AddClassDirective,
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
@@ -69,6 +72,7 @@ import {SafePipe} from './pipes/safe.pipe';
     CustomSearchInputComponent,
     DynamicInputDashboardComponent,
     DynamicInputDataPipe,
+    DateMaskInputComponent,
   ],
   imports: [
     FormsModule,
@@ -89,10 +93,12 @@ import {SafePipe} from './pipes/safe.pipe';
     SafePipe,
     GetObjectKeysPipe,
     InfiniteScrollModule,
+    DateMaskDirective,
     NotificationComponent,
     PriceInputComponent,
     SortPipe,
     ReplaceNumberPipe,
+    DateMaskInputComponent,
     GroupCoinPipe,
     CurrencyPipe,
     FormatCurrencyPipe,

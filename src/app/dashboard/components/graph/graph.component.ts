@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef, HostListener} from '@angular/core';
+import {Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy} from '@angular/core';
 import { takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
 
@@ -20,16 +20,17 @@ import {select, Store} from '@ngrx/store';
 import {getCurrencyPair, State} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {getCurrencyPairArray, getCurrencyPairInfo} from '../../../core/reducers';
-import {Currency} from '../currency-pair-info/currency-search/currency.model';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
-import {SelectedOrderBookOrderAction, SetTradingTypeAction} from '../../actions/dashboard.actions';
+import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
 import {Router} from '@angular/router';
+import {Currency} from 'app/core/models/currency.model';
 
 @Component({
   selector: 'app-graph',
   templateUrl: 'graph.component.html',
-  styleUrls: ['graph.component.scss']
+  styleUrls: ['graph.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit, OnDestroy {
   /** dashboard item name (field for base class)*/
@@ -186,7 +187,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
           try {
             this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
           } catch (e) {
-            console.log(e);
+            // console.log(e);
           }
         }
       });
@@ -197,6 +198,13 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       interval: this._interval,
       container_id: this._containerId,
       timezone: 'Etc/UTC',
+      time_frames: [
+        {text: '8m', resolution: 'D'},
+        {text: '2m', resolution: 'D'},
+        {text: '7d', resolution: '60'},
+        {text: '5d', resolution: '30'},
+        {text: '3d', resolution: '30'},
+      ],
       library_path: this._libraryPath,
       locale: (this.lang as LanguageCode) || 'en',
       disabled_features: [
@@ -263,18 +271,15 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     });
 
     this.marketService.activeCurrencyListener
-    .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe(pair => {
-      const infoSub = this.marketService.currencyPairInfo(pair.currencyPairId)
-        .subscribe(res => {
-          this.currentCurrencyInfo = res;
-          // this.pair = pair;
-          // this.splitPairName(this.pair);
-          // TODO: remove after dashboard init load time issue is solved
-          this.ref.detectChanges();
-          infoSub.unsubscribe();
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(pair => {
+        this.marketService.currencyPairInfo(pair.currencyPairId)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(res => {
+            this.currentCurrencyInfo = res;
+            this.ref.detectChanges();
+        });
       });
-  });
   }
 
   ngOnDestroy(): void {

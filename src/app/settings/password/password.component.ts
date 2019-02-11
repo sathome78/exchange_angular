@@ -77,6 +77,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
       const password = this.passwordFirst.value;
       this.logger.debug(this, 'Attempt to submit new password: ' + password);
       this.settingsService.updateMainPassword(cur_password, password)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(
           (event) => {
             this.logger.debug(this, 'Password is successfully updated: ' + password);
