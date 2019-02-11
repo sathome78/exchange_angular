@@ -29,7 +29,7 @@ re-captcha{
 @media(max-width: 992px){
 	.logo-login-mob{
 		display: block;
-		    margin-bottom: 10px;
+		margin-bottom: 10px;
 		img{
 			display: block;
 		}
@@ -44,12 +44,19 @@ re-captcha{
 		line-height: 1;
 		font-size: 14px;
 		color: #576E9C;
-		    margin-bottom: 51px;
+		margin-bottom: 51px;
 	}
 	.popup {
+		.wrap-input__input{
+			&:focus {
+				&~ .wrap-input__label{
+					background: #191A39;
+				}
+			}
+		}
 		background: #191A39;
 		padding: 27px;	
-		    padding-bottom: 65px;
+		padding-bottom: 65px;
 		border-radius: 0;
 		.wrap-input__input:valid{
 			&~ .wrap-input__label{
@@ -62,7 +69,7 @@ re-captcha{
 		margin: 0;
 	}
 	.popup__form{
-	max-width: 320px;
+		max-width: 320px;
 	}
 	.popup__btn{
 		max-width: unset;
@@ -78,32 +85,35 @@ re-captcha{
 		margin-left: 0;
 	}
 	.popup__wrap-input{
-		    margin-bottom: 10px;
+		margin-bottom: 10px;
 	}
 	.popup__link-mob{
 		position: absolute;
 		bottom: 38px;
 		left: 27px;
-    right: 27px;
+		right: 27px;
 		display: block;
 		width: 100%;
 		height: auto;
 		text-decoration: none;
 		background-color: unset;
-			color: #237BEF;
-			font-weight: 500;
+		color: #237BEF;
+		font-weight: 500;
 		span{
-		color: #576E9C;
+			color: #576E9C;
 		}
 	}
 	.popup__close{
-    top: 23px;
-    right: 19px;
-    width: 17px;
-    height: 17px;
+		top: 23px;
+		right: 19px;
+		width: 17px;
+		height: 17px;
 	}
 	.popup_title--dm{
 		display: block;
 		color: #DEDEFB;
+	}
+	.wrap-input__label{
+		background: #191A39;
 	}
 }
