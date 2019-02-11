@@ -78,6 +78,9 @@ export class UserService {
         .subscribe(info => {
           this.store.dispatch(new RefreshUserBalanceAction(info));
           sub.unsubscribe();
+        }, err => {
+          console.error(err);
+          sub.unsubscribe();
         });
     } else {
       this.store.dispatch(new RefreshUserBalanceAction(defaultUserBalance));

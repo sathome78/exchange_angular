@@ -84,6 +84,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         if(pair.currencyPairId !== 0) {
           this.requestData(pair);
         }
+        this.cdr.detectChanges()
       });
 
     this.dashboardWebsocketService.setRabbitStompSubscription()

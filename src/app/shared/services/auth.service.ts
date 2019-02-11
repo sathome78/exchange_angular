@@ -1,4 +1,4 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable, OnDestroy, NgZone} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {TokenHolder} from '../../model/token-holder.model';
 import {LoggingService} from './logging.service';
@@ -27,6 +27,7 @@ export class AuthService implements OnDestroy{
   constructor(
     private logger: LoggingService,
     private http: HttpClient,
+    private ngZone: NgZone,
   ) {
 
     this.onSessionFinish$
@@ -92,9 +93,11 @@ export class AuthService implements OnDestroy{
     }
     this.parseToken(this.token);
     const tokenExpiresIn = +this.simpleToken.expiration - Date.now();
-    this.timeOutSub = setTimeout(() => {
-      this.onSessionFinish$.next(true);
-    }, +tokenExpiresIn)
+    this.ngZone.runOutsideAngular(()=>{
+      this.timeOutSub = setTimeout(() => {
+        this.onSessionFinish$.next(true);
+      }, +tokenExpiresIn)
+    });
   }
 
   public removeSessionFinishListener(): void {

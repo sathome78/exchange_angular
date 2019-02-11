@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import {Injectable} from '@angular/core';
+import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 import {BehaviorSubject, Subject} from 'rxjs';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class BreakpointService {
     // Breakpoints
     this.breakpointObserver
       .observe(['(min-width: 1200px)'])
-  .subscribe((state: BreakpointState) => {
+      .subscribe((state: BreakpointState) => {
       if (state.matches) {
         if (!this.breakpoint$) {
           this.breakpoint$ = new BehaviorSubject<string>('desktop');

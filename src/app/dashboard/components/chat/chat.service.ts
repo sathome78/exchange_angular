@@ -1,20 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Message} from '@stomp/stompjs';
 import {StompService} from '@stomp/ng2-stompjs';
 import {Subject, Observable} from 'rxjs';
 
 import {ChatItem} from './chat-item.model';
 import {environment} from 'environments/environment';
 import {LangService} from 'app/shared/services/lang.service';
-import {AuthenticationService} from 'ng-jwt';
 import {TOKEN} from 'app/shared/services/http.utils';
-import {map} from 'rxjs/internal/operators';
 import {SimpleChat } from './simple-chat.model';
-import {DateChatItem} from './date-chat-item.model';
 
 @Injectable()
-export class ChatService {
+export class ChatService{
 
   simpleChatListener: Subject<SimpleChat> = new Subject<SimpleChat>();
 
@@ -27,7 +23,6 @@ export class ChatService {
               private stompService: StompService) {
     // this.setStompSubscription('en');
   }
-
   /**
    * this method subscribes for chat event and works as cold stream
    * it receives only recent messages, created after subscription
@@ -37,7 +32,7 @@ export class ChatService {
    * @param lang - current language must be set to lower case
    */
   setStompSubscription(lang: string) {
-    this.stompSubscription = this.stompService
+    this.stompService
       .subscribe('/topic/chat/' + lang)
       .subscribe(msg => {
         // console.log(JSON.parse(msg.body));

@@ -1,23 +1,27 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {ChatService} from './chat.service';
 import {DateChatItem} from './date-chat-item.model';
 import {AuthService} from 'app/shared/services/auth.service';
 import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-chat',
   templateUrl: 'chat.component.html',
-  styleUrls: ['chat.component.scss']
+  styleUrls: ['chat.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatComponent extends AbstractDashboardItems implements OnInit {
+export class ChatComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   /** dashboard item name (field for base class)*/
   public itemName: string;
 
   // todo please implement sorting as backend returns sorted by date ascending with limit of 50 messages
   dateChatItems: DateChatItem [];
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   // retrive Element to handle scroll in chat
   @ViewChild('scrollWrapper') scrollWrapper: PerfectScrollbarComponent;
   public scrollStyles: any = null;
@@ -40,7 +44,10 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
     this.getFirstMessages();
   }
 
-
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 
   setScrollStylesForMobile() {
     const componentHeight = window.innerHeight;
@@ -54,15 +61,17 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
   }
 
   getFirstMessages() {
-    this.chatService.findAllChatMessages().subscribe(messages => {
-      if (messages.length) {
-        this.dateChatItems = messages;
-        this.addTodayIfNecessary();
-        setTimeout(() => {
-          this.onScrollToBottom();
-        }, 200);
-      }
-    });
+    this.chatService.findAllChatMessages()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(messages => {
+        if (messages.length) {
+          this.dateChatItems = messages;
+          this.addTodayIfNecessary();
+          setTimeout(() => {
+            this.onScrollToBottom();
+          }, 200);
+        }
+      });
   }
 
   /**
@@ -81,6 +90,7 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit {
     const email = this.authService.getUsername();
     if (body) {
       this.chatService.sendNewMessage(body, email)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
             console.log(res);
             message.value = '';

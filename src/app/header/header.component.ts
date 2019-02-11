@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {PopupService} from '../shared/services/popup.service';
 import {AuthService} from '../shared/services/auth.service';
 import {LoggingService} from '../shared/services/logging.service';
@@ -10,18 +10,19 @@ import {DashboardService} from '../dashboard/dashboard.service';
 import {environment} from '../../environments/environment';
 import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG, LANG_ARRAY} from './header.constants';
 import {MyBalanceItem} from '../core/models/my-balance-item.model';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {select, Store} from '@ngrx/store';
 import {getLanguage, State} from '../core/reducers';
 import {ChangeLanguageAction} from '../core/actions/core.actions';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
   public isMobileMenuOpen = false;
   public mobileView = 'markets';
@@ -35,6 +36,7 @@ export class HeaderComponent implements OnInit {
   public myBalance: Observable<MyBalanceItem>;
   public langArray = LANG_ARRAY;
   public lang;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
 
   constructor(private popupService: PopupService,
@@ -52,6 +54,7 @@ export class HeaderComponent implements OnInit {
     this.resetDropdowns();
     if (this.authService.isAuthenticated()) {
       // this.userService.getUserColorScheme()
+      //   .pipe(takeUntil(this.ngUnsubscribe))
       //   .subscribe(scheme => {
       //     if (scheme && scheme === 'DARK') {
       //       this.themeService.setDarkTheme();
@@ -59,21 +62,32 @@ export class HeaderComponent implements OnInit {
       //   });
       this.userInfo = this.authService.simpleToken;
     }
-    this.authService.onLoginLogoutListener$.subscribe(res => {
-      if (res.username !== '') {
-        this.userInfo.username = res.username;
-      } else {
-        this.userInfo = null;
-      }
-    });
-    this.dashboardService.activeMobileWidget.subscribe(res => {
-      this.mobileView = res;
-    });
+    this.authService.onLoginLogoutListener$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        if (res.username !== '') {
+          this.userInfo.username = res.username;
+        } else {
+          this.userInfo = null;
+        }
+      });
+    this.dashboardService.activeMobileWidget
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.mobileView = res;
+      });
     this.myBalance = this.dashboardService.getMyBalances();
 
-    this.store.pipe(select(getLanguage)).subscribe(res => {
-      this.lang = this.langArray.filter(lang => lang.name === res)[0];
-    });
+    this.store.pipe(select(getLanguage))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.lang = this.langArray.filter(lang => lang.name === res)[0];
+      });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   public openMenu() {
@@ -127,6 +141,7 @@ export class HeaderComponent implements OnInit {
     if (this.authService.isAuthenticated()) {
       console.log('Hi: ' + this.themeService.getColorScheme());
       this.settingsService.updateUserColorScheme(this.themeService.getColorScheme())
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(result => {
             console.log(result);
           },

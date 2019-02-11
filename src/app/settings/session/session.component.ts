@@ -175,7 +175,6 @@ export class SessionComponent implements OnInit, OnDestroy {
     this.MINUTES = this.HOURS === 24 ? 0 : this.MINUTES;
     this.hoursInput.patchValue(this.HOURS);
     this.minutesInput.patchValue(this.MINUTES);
-    // this.subscribeForInputChanges();
     this.statusMessage = '';
     this.validateHours();
     this.validateMinutes();
