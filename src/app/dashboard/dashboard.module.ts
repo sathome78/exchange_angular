@@ -10,7 +10,7 @@ import {ActivePairComponent} from './components/active-pair/active-pair.componen
 import {ChatComponent} from './components/chat/chat.component';
 import {ChatMessageComponent} from './components/chat/chat-message/chat-message.component';
 import {CurrencyPairInfoComponent} from './components/currency-pair-info/currency-pair-info.component';
-import {CurrencySearchComponent} from './components/currency-pair-info/currency-search/currency-search.component';
+import {CurrencyPairInfoMobileComponent} from './components/currency-pair-info-mobile/currency-pair-info-mobile.component';
 import {DashboardComponent} from './dashboard.component';
 import {DayChatComponent} from './components/chat/day-chat/day-chat.component';
 import {EmbeddedOrdersComponent} from './components/embedded-orders/embedded-orders.component';
@@ -31,16 +31,20 @@ import {ChatService} from './components/chat/chat.service';
 import {DashboardService} from './dashboard.service';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
 import {MarketService} from './components/markets/market.service';
-import {OrderBookService} from './components/order-book/order-book.service';
+import {OrderBookService} from './services/order-book.service';
 import {TradeHistoryService} from './components/trade-history/trade-history.service';
 import {PositivePipe} from './components/markets/positive.pipe';
 import {CurrencySortingPipe} from './components/markets/currency-sorting.pipe';
 import {NicknamePipe} from './components/chat/chat-message/nickname.pipe';
 import {EffectsModule} from '@ngrx/effects';
-import {FundsEffects} from '../funds/store/effects/funds.effects';
 import {DashboardEffects} from './effects/dashboard.effects';
 import {TranslateModule} from '@ngx-translate/core';
 import {MomentModule} from 'angular2-moment';
+import {MarketsItemComponent} from './components/markets/markets-item/markets-item.component';
+import {CurrencyPairInfoService} from './services/currency-pair-info.service';
+import {OrderBookMobileComponent} from './components/order-book-mobile/order-book-mobile.component';
+import {TradingMobileComponent} from './components/trading-mobile/trading-mobile.component';
+import {TradingService} from './services/trading.service';
 
 
 export function socketProvider() {
@@ -85,7 +89,7 @@ const stompConfig: StompConfig = {
     ChatComponent,
     ChatMessageComponent,
     CurrencyPairInfoComponent,
-    CurrencySearchComponent,
+    CurrencyPairInfoMobileComponent,
     DashboardComponent,
     DayChatComponent,
     EmbeddedOrdersComponent,
@@ -95,14 +99,17 @@ const stompConfig: StompConfig = {
     MarketsComponent,
     MarketSearchComponent,
     OrderBookComponent,
+    OrderBookMobileComponent,
     TradeHistoryComponent,
     TradingComponent,
+    TradingMobileComponent,
     ToolsComponent,
 
     // PIPES START
     CurrencySortingPipe,
     NicknamePipe,
     PositivePipe,
+    MarketsItemComponent,
 
     // PIPES END
   ],
@@ -110,8 +117,6 @@ const stompConfig: StompConfig = {
     ActivePairComponent,
     ChatComponent,
     ChatMessageComponent,
-    CurrencyPairInfoComponent,
-    CurrencySearchComponent,
     DashboardComponent,
     DayChatComponent,
     EmbeddedOrdersComponent,
@@ -120,7 +125,6 @@ const stompConfig: StompConfig = {
     GraphComponent,
     MarketsComponent,
     MarketSearchComponent,
-    OrderBookComponent,
     TradeHistoryComponent,
     TradingComponent,
     ToolsComponent,
@@ -151,8 +155,10 @@ const stompConfig: StompConfig = {
     DashboardWebSocketService,
     MarketService,
     OrderBookService,
+    CurrencyPairInfoService,
     StompService,
     TradeHistoryService,
+    TradingService,
     {provide: StompConfig, useValue: stompConfig},
     {provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG}
   ]

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit, ChangeDetectionStrategy} from '@angular/core';
 
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {MarketService} from '../markets/market.service';
@@ -9,7 +9,8 @@ import {State} from '../../../core/reducers';
 @Component({
   selector: 'app-market-search',
   templateUrl: 'market-search.component.html',
-  styleUrls: ['market-search.component.scss']
+  styleUrls: ['market-search.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketSearchComponent implements OnInit, AfterViewInit {
 

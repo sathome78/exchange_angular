@@ -1,5 +1,3 @@
-import {OrderItem} from '../../model/order-item.model';
-
 export const defaultValues = {
   page: 0,
   currencyPairId: 0,

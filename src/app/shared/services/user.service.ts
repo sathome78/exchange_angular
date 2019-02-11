@@ -46,8 +46,23 @@ export class UserService {
       return this.checkIfEmailExists(control.value.trim())
         .pipe(map((isExist: boolean) => recovery ? !isExist : isExist))
         .pipe(map((isExist: boolean) => isExist ? {'emailExists': true} : null))
-        .pipe(catchError(() => of({'checkEmailCrash': true})));
+        .pipe(catchError((err) => of(this.checkError(err, recovery))));
     };
+  }
+
+  checkError(error, recovery: boolean) {
+    if (error['status'] === 400) {
+      switch (error.error.title) {
+        case 'USER_REGISTRATION_NOT_COMPLETED':
+          return {'USER_REGISTRATION_NOT_COMPLETED': true};
+        case 'USER_NOT_ACTIVE':
+          return {'USER_NOT_ACTIVE': true};
+        case 'USER_EMAIL_NOT_FOUND':
+          return !recovery ? null : {'USER_EMAIL_NOT_FOUND': true};
+      }
+    } else {
+      return {'checkEmailCrash': true};
+    }
   }
 
   checkIfUsernameExists(username: string): Observable<any> {
@@ -62,6 +77,9 @@ export class UserService {
       const sub = this.http.get(`${this.HOST}/info/private/v2/dashboard/info/${pair.currencyPairId}`)
         .subscribe(info => {
           this.store.dispatch(new RefreshUserBalanceAction(info));
+          sub.unsubscribe();
+        }, err => {
+          console.error(err);
           sub.unsubscribe();
         });
     } else {

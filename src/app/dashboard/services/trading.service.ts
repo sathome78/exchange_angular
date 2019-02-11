@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 
 import {environment} from 'environments/environment';
-import {Order} from './order.model';
+import {Order} from '../../model/order.model';
 
 @Injectable()
 export class TradingService {
@@ -12,7 +12,6 @@ export class TradingService {
   public tradingChangeSellBuy$ = new Subject();
   /** emit order when created in trading-component */
   public tradingCreateOrder$ = new Subject();
-  public needSetDefaultOrderBookItem = true;
   private apiUrl;
 
   constructor(

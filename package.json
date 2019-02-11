@@ -43,6 +43,7 @@
     "angular2-moment": "^1.9.0",
     "angular2-qrcode": "^2.0.1",
     "angular2gridster": "^6.0.4",
+    "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.4",
     "file-saver": "^2.0.0",
     "geetest": "^4.1.2",
