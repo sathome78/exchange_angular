@@ -45,6 +45,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public tableScrollStyles: any = {};
 
   public myDatePickerOptions: IMyDpOptions = {
+    showInputField: false,
     dateFormat: 'dd.mm.yyyy',
     disableSince: {
       year: new Date().getFullYear(),
