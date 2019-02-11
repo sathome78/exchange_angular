@@ -6,6 +6,8 @@ import {takeUntil} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
+import {Order} from '../../../model/order.model';
+import {TradingService} from '../../services/trading.service';
 import {State, getCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getDashboardState} from 'app/core/reducers/index';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserService} from 'app/shared/services/user.service';
@@ -18,16 +20,14 @@ import {TranslateService} from '@ngx-translate/core';
 import {LastPrice} from 'app/model/last-price.model';
 import {BUY, SELL} from 'app/shared/constants';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
-import {Order} from 'app/model/order.model';
-import {TradingService} from 'app/dashboard/services/trading.service';
 
 @Component({
-  selector: 'app-trading',
-  templateUrl: 'trading.component.html',
-  styleUrls: ['trading.component.scss'],
+  selector: 'app-trading-mobile',
+  templateUrl: 'trading-mobile.component.html',
+  styleUrls: ['trading-mobile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TradingComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
+export class TradingMobileComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
 
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();

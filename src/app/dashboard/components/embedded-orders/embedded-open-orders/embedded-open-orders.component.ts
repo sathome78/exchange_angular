@@ -5,8 +5,6 @@ import {takeUntil} from 'rxjs/internal/operators';
 
 import {MockDataService} from 'app/shared/services/mock-data.service';
 import {EmbeddedOrdersService} from '../embedded-orders.service';
-import {TradingService} from '../../trading/trading.service';
-import {Order} from '../../trading/order.model';
 import {select, Store} from '@ngrx/store';
 import {State, getCurrencyPair} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../../model/currency-pair.model';
@@ -14,6 +12,8 @@ import {AbstractOrderCalculate} from '../../../../shared/components/abstract-ord
 import {UserBalance} from '../../../../model/user-balance.model';
 import {getUserBalance} from '../../../../core/reducers';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { Order } from 'app/model/order.model';
+import { TradingService } from 'app/dashboard/services/trading.service';
 
 
 @Component({
@@ -63,9 +63,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
 
   constructor(
     private store: Store<State>,
-    private mockData: MockDataService,
     private ordersService: EmbeddedOrdersService,
-    private utils: UtilsService,
     public tradingService: TradingService
   ) {
     super();

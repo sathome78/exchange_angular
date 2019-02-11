@@ -17,11 +17,6 @@ export const SET_LAST_PRICE = '[Dashboard] Set last price';
  */
 export class ChangeCurrencyPairAction implements Action {
   readonly type = CHANGE_CURRENCY_PAIR;
-
-  /**
-   * Default constructor
-   * @param payload
-   */
   constructor(public payload) {}
 }
 
@@ -30,11 +25,6 @@ export class ChangeCurrencyPairAction implements Action {
  */
 export class LoadCurrencyPairsAction implements Action {
   readonly type = LOAD_CURRENCY_PAIRS;
-
-  /**
-   * Default constructor
-   * @param payload
-   */
   constructor(public payload) {}
 }
 
@@ -43,11 +33,6 @@ export class LoadCurrencyPairsAction implements Action {
  */
 export class RefreshUserBalanceAction implements Action {
   readonly type = REFRESH_USER_BALANCE;
-
-  /**
-   * Default constructor
-   * @param payload
-   */
   constructor(public payload) {}
 }
 
@@ -56,11 +41,6 @@ export class RefreshUserBalanceAction implements Action {
  */
 export class SetLastPriceAction implements Action {
   readonly type = SET_LAST_PRICE;
-
-  /**
-   * Default constructor
-   * @param payload
-   */
   constructor(public payload) {}
 }
 
@@ -69,11 +49,6 @@ export class SetLastPriceAction implements Action {
  */
 export class RefreshCurrencyPairInfoAction implements Action {
   readonly type = REFRESH_CURRENCY_PAIR_INFO;
-
-  /**
-   * Default constructor
-   * @param payload
-   */
   constructor(public payload) {}
 }
 /**
@@ -81,11 +56,6 @@ export class RefreshCurrencyPairInfoAction implements Action {
  */
 export class LoadCurrencyPairInfoAction implements Action {
   readonly type = LOAD_CURRENCY_PAIR_INFO;
-
-  /**
-   * Default constructor
-   * @param payload
-   */
   constructor(public payload) {}
 }
 /**
@@ -93,11 +63,6 @@ export class LoadCurrencyPairInfoAction implements Action {
  */
 export class FailLoadCurrencyPairInfoAction implements Action {
   readonly type = FAIL_LOAD_CURRENCY_PAIR_INFO;
-
-  /**
-   * Default constructor
-   * @param payload
-   */
   constructor(public payload) {}
 }
 
@@ -106,11 +71,6 @@ export class FailLoadCurrencyPairInfoAction implements Action {
  */
 export class SelectedOrderBookOrderAction implements Action {
   readonly type = SELECTED_ORDERBOOK_ORDER;
-
-  /**
-   * Default constructor
-   * @param payload
-   */
   constructor(public payload) {}
 }
 
@@ -119,11 +79,6 @@ export class SelectedOrderBookOrderAction implements Action {
  */
 export class SetLastSellBuyOrderAction implements Action {
   readonly type = SET_LAST_SELL_BUY_ORDER;
-
-  /**
-   * Default constructor
-   * @param payload
-   */
   constructor(public payload) {}
 }
 
@@ -132,11 +87,6 @@ export class SetLastSellBuyOrderAction implements Action {
  */
 export class SetAllTradesAction implements Action {
   readonly type = SET_ALL_TRADES;
-
-  /**
-   * Default constructor
-   * @param payload
-   */
   constructor(public payload) {}
 }
 
@@ -145,11 +95,6 @@ export class SetAllTradesAction implements Action {
  */
 export class SetTradingTypeAction implements Action {
   readonly type = SET_TRADING_TYPE;
-
-  /**
-   * Default constructor
-   * @param payload
-   */
   constructor(public payload) {}
 }
 

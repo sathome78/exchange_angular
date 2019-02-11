@@ -13,12 +13,12 @@ import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.servi
 import {OrderBookItem} from 'app/model';
 
 @Component({
-  selector: 'app-order-book',
-  templateUrl: 'order-book.component.html',
-  styleUrls: ['order-book.component.scss'],
+  selector: 'app-order-book-mobile',
+  templateUrl: 'order-book-mobile.component.html',
+  styleUrls: ['order-book-mobile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderBookComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
+export class OrderBookMobileComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
 
   @ViewChild('mainContent') public orderBookContainer: ElementRef;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -126,16 +126,16 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     const visArr = [];
     for (let i = 0; i < this.sellOrders.length; i++) {
       const coefficient = (+this.commonSellTotal / +this.sellOrders[i].total);
-      visArr.push(98 / coefficient);
+      visArr.push(100 / coefficient);
     }
-    this.sellVisualizationArray = [...visArr.reverse()];
+    this.sellVisualizationArray = [...visArr];
   }
 
   public buyCalculateVisualization(): void {
     const visArr = [];
     for (let i = 0; i < this.buyOrders.length; i++) {
       const coefficient = (+this.commonBuyTotal / +this.buyOrders[i].total);
-      visArr.push(((98 / coefficient)));
+      visArr.push(((100 / coefficient)));
     }
     this.buyVisualizationArray = [...visArr];
   }
@@ -149,7 +149,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   private setSellOrders(orders): void {
     this.sellOrders = orders.orderBookItems;
-    this.showSellDataReverse = [...this.sellOrders].reverse();
+    this.showSellDataReverse = [...this.sellOrders];
     this.commonSellTotal = +orders.total;
     this.sellCalculateVisualization();
   }
@@ -196,48 +196,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
   }
 
-  public setWidthForChartBorder(): void {
-    const buy = [];
-    const sell = [];
-
-    if (this.orderBookContainer) {
-      const containerWidth = parseInt(this.orderBookContainer.nativeElement.clientWidth, 10);
-
-      for (let i = 0; i < 7; i++) {
-        /** for buy */
-        if (this.buyOrders[i] && this.buyOrders[i + 1]) {
-          const tempElementBuy = this.getPercentageOfTheMuxBuyOrSell(+this.buyOrders[i].total, true);
-          const nextElementBuy = this.getPercentageOfTheMuxBuyOrSell(+this.buyOrders[i + 1].total, true);
-          const valueForBuy = tempElementBuy - nextElementBuy;
-          buy[i] = (((containerWidth / 100) * valueForBuy)) + 'px';
-        }
-
-        /** for sell */
-        if (this.sellOrders[i] && this.sellOrders[i + 1]) {
-          const tempElementSell = this.getPercentageOfTheMuxBuyOrSell(+this.sellOrders[i].total, false);
-          const nextElementSell = this.getPercentageOfTheMuxBuyOrSell(+this.sellOrders[i + 1].total, false);
-          const valueforSell = tempElementSell - nextElementSell;
-
-          sell[i] = (((containerWidth / 100) * valueforSell) * -1) + 'px';
-        }
-      }
-      this.withForChartLineElements = {
-        sell: sell.reverse(),
-        buy: buy.reverse(),
-      };
-    }
-  }
-
-  private getPercentageOfTheMuxBuyOrSell(number: number, isBuy: boolean): number {
-    const coefficient = isBuy ? (this.commonBuyTotal / number) : (this.commonSellTotal / number);
-    return 98 / coefficient;
-  }
-
-
   private setData(): void {
     this.sortBuyData();
     this.sortSellData();
-    this.setWidthForChartBorder();
   }
 
 }
