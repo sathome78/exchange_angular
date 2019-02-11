@@ -8,7 +8,7 @@
 
 
     <ng-template #emailInputTemplate>
-    <h6 class="popup__title">{{'Forgot password?' | translate}}</h6>
+    <h6 class="popup__title popup_title--dm">{{'Forgot password?' | translate}}</h6>
     <form class="popup__form" id="fgt-pass" [formGroup]="emailForm">
       <div class="wrap-input popup__wrap-input"
            [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched}">
@@ -22,7 +22,8 @@
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
         <div *ngIf="emailForm.get('email').invalid && emailForm.get('email').errors">
-          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required'] && emailForm.get('email').touched">
+          <div class="input-hint-wrapper">
+            <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required'] && emailForm.get('email').touched">
             {{'Email is required' | translate}}
           </span>
           <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailInvalid'] || emailForm.get('email').errors['specialCharacter']">
@@ -38,6 +39,8 @@
             {{AUTH_MESSAGES.USER_NOT_ACTIVE | translate}}
           </span>
 
+          </div>
+          
         </div>
         <!--Input error section ends-->
       </div>

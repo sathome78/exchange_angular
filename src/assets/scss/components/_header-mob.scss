@@ -18,6 +18,11 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
+@media(max-width: 1200px){
+  .header-mob__top
+  height: calc(100% - 46px);
+}
+}
 .header-mob__inner {
   display: -webkit-flex;
   display: -ms-flex;

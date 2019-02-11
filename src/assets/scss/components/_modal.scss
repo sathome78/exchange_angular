@@ -12,6 +12,7 @@
   /*--- modificators start ---*/
   /*--- modificators end ---*/
   /*--- elements start ---*/
+  
   &__controls {
     display: none;
     position: absolute;
@@ -778,6 +779,51 @@
           color: #000;
         }
 
+      }
+    }
+  }
+}
+
+.dark-theme{
+  .modal{
+    @media(max-width: 1200px){
+      background-color: #191A39;
+      .modal__header-mob{
+        border-bottom: 1px solid #94C2FF;
+      }
+      .title{
+        color: #DEDEFB;
+      }
+      .subtitle{
+        color: #DEDEFB;
+      }
+      .modal__header{
+        border-bottom: 1px solid #94C2FF;
+      }
+      .steps__counter{
+        color: #DEDEFB;
+      } 
+      div.select__value--active{
+        border-color: #94C2FF;
+        input.no-line{
+          color: #DEDEFB!important;
+          &::placeholder{
+            color: #DEDEFB!important;
+          }
+        }
+        &~.select__label{
+          color: #DEDEFB!important;
+          background: #191A39!important;
+        }
+      }
+    }
+    @media(max-width: 568px){
+      .refill__select--cripto{
+        min-width: unset;
+      }
+      .title{
+        font-size: 22px;
+        line-height: 24px;
       }
     }
   }
