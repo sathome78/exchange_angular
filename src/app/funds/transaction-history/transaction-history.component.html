@@ -135,7 +135,7 @@
         <div class="row row--jcsb">
           <div class="wrap-input filters-popup__datepicker">
             <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date}" >{{'From' | translate}}</label>
-
+            <app-date-mask-input [innValue]="modelDateFrom" (validDate)="dateFromChanged($event)"></app-date-mask-input>
             <my-date-picker
               name="from"
               [options]="myDatePickerOptions"
@@ -147,7 +147,7 @@
           </div>
           <div class="wrap-input filters-popup__datepicker">
             <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date}" >{{'To' | translate}}</label>
-
+            <app-date-mask-input [innValue]="modelDateTo" (validDate)="dateToChanged($event)"></app-date-mask-input>
             <my-date-picker
               name="to"
               [options]="myDatePickerOptions"
@@ -197,7 +197,7 @@
         </div>
         <div class="wrap-input transaction__datepicker">
             <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date}">{{'From' | translate}}</label>
-
+          <app-date-mask-input [innValue]="modelDateFrom" (validDate)="dateFromChanged($event)"></app-date-mask-input>
             <my-date-picker
               name="history-from"
               [options]="myDatePickerOptions"
@@ -210,7 +210,7 @@
         </div>
         <div class="wrap-input transaction__datepicker">
           <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date}" >{{'To' | translate}}</label>
-
+          <app-date-mask-input [innValue]="modelDateTo" (validDate)="dateToChanged($event)"></app-date-mask-input>
           <my-date-picker
             name="history-to"
             [options]="myDatePickerOptions"

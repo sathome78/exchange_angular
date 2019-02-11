@@ -190,3 +190,14 @@
     background-size: cover;
   }
 }
+
+// TEMP STYLE
+::ng-deep .mydp{
+  display: flex !important;
+  .selectiongroup{
+    margin-left: auto !important;
+    .selbtngroup {
+      width: auto !important;
+    }
+  }
+}
