@@ -13,3 +13,8 @@
     right: 0;
   }
 }
+.modal__content{
+  @media(max-width: 1200px){
+    padding-bottom: 0;
+  }
+}
