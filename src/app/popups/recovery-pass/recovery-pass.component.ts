@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {TranslateService} from '@ngx-translate/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs';
+import * as cloneDeep from 'lodash/cloneDeep';
+
 
 import {PopupService} from '../../shared/services/popup.service';
 import {UserService} from '../../shared/services/user.service';
@@ -28,6 +30,7 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
   public afterCaptchaMessage = '';
   public recaptchaKey = keys.recaptchaKey;
   public AUTH_MESSAGES = AUTH_MESSAGES;
+  public serverError = '';
 
   constructor(
     private popupService: PopupService,
@@ -55,9 +58,9 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
           this.utilsService.emailValidator(),
           this.utilsService.specialCharacterValidator()
         ],
-        asyncValidators: [this.userService.emailValidator(true)]
+        // asyncValidators: [this.userService.emailValidator(true)]
       }),
-    }, {updateOn: 'blur'});
+    });
   }
 
   closeMe() {
@@ -73,8 +76,21 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
     this.setTemplate('captchaTemplate');
   }
 
-  resolvedCaptcha(event) {
-    const email = this.emailForm.get('email').value;
+  resolvedCaptcha() {
+    const email = cloneDeep(this.emailForm.get('email').value);
+    this.userService.checkIfEmailExists(email)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+     this.sendEmail(email);
+    }, error => {
+      this.serverError = error.error.title;
+      this.emailForm.reset();
+      this.emailForm.controls['email'].setValue(email);
+      this.setTemplate('emailInputTemplate');
+    });
+  }
+
+  private sendEmail(email: string) {
     this.userService.sendToEmailForRecovery(email)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -86,7 +102,6 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
         this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later.');
         this.setTemplate('emailConfirmLinkTemplate');
       });
-
   }
 
   setTemplate(template: string) {
