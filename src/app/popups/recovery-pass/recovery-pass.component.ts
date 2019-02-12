@@ -83,8 +83,8 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
      this.sendEmail(email);
     }, error => {
       this.serverError = error.error.title;
-      this.emailForm.reset();
-      this.emailForm.controls['email'].setValue(email);
+      this.emailForm.markAsPristine();
+      this.emailForm.markAsUntouched();
       this.setTemplate('emailInputTemplate');
     });
   }
