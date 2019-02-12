@@ -31,6 +31,7 @@ export const SET_BALANCE_DETAILS_INFO = '[Funds] Set balance confirmation info';
 export const LOAD_MAX_CURRENCY_PAIR_BY_CURRENCY_NAME = '[Funds] Load max currency pair by currency name';
 export const FAIL_LOAD_MAX_CURRENCY_PAIR_BY_CURRENCY_NAME = '[Funds] Fail Load currency pair by currency name';
 
+export const LOAD_LAST_TRANSACTIONS_HISTORY = '[Funds] Load last transactions history';
 export const LOAD_TRANSACTIONS_HISTORY = '[Funds] Load transactions history';
 export const FAIL_LOAD_TRANSACTIONS_HISTORY = '[Funds] Fail load transactions history';
 export const SET_TRANSACTIONS_HISTORY = '[Funds] Set transactions history';
@@ -160,6 +161,10 @@ export class FailLoadMaxCurrencyPairByCurrencyName implements Action {
  */
 export class LoadTransactionsHistoryAction implements Action {
   readonly type = LOAD_TRANSACTIONS_HISTORY;
+  constructor(public payload?) {}
+}
+export class LoadLastTransactionsHistoryAction implements Action {
+  readonly type = LOAD_LAST_TRANSACTIONS_HISTORY;
   constructor(public payload?) {}
 }
 export class SetTransactionsHistoryAction implements Action {

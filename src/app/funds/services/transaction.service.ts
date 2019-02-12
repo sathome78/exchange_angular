@@ -24,17 +24,32 @@ export class TransactionsService {
     dateFrom,
     dateTo,
   }): Observable<ResponseModel<TransactionHistoryItem[]>> {
-
     const params = {
       limit: limit + '',
       offset: offset + '',
-      dateFrom,
-      dateTo,
+    }
+    if(dateTo) {
+      params['dateTo'] = dateTo;
+    }
+    if(dateFrom) {
+      params['dateFrom'] = dateFrom;
     }
     if(currencyId) {
       params['currencyId'] = currencyId;
     }
     return this.http.get<ResponseModel<TransactionHistoryItem[]>>(`${this.apiUrl}/info/private/v2/balances/inputOutputData`, {params});
+  }
+
+  // request to get last transactions history
+  getLastTransactionsHistory({
+    offset,
+    limit,
+  }): Observable<ResponseModel<TransactionHistoryItem[]>> {
+    const params = {
+      limit: limit + '',
+      offset: offset + '',
+    }
+    return this.http.get<ResponseModel<TransactionHistoryItem[]>>(`${this.apiUrl}/info/private/v2/balances/inputOutputData/default`, {params});
   }
 
   // request to get closed orders

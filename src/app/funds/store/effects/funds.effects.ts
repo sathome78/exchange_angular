@@ -158,7 +158,7 @@ export class FundsEffects {
    * Load transactions history
    */
   @Effect()
-  loadHistoryOrders$: Observable<Action> = this.actions$
+  loadHistoryTransactions$: Observable<Action> = this.actions$
     .pipe(ofType<fundsActions.LoadTransactionsHistoryAction>(fundsActions.LOAD_TRANSACTIONS_HISTORY))
     .pipe(switchMap((action) => {
       return this.transactionsService.getTransactionsHistory(action.payload)
@@ -169,6 +169,16 @@ export class FundsEffects {
             }
             return new fundsActions.SetTransactionsHistoryAction({items: orders.items, count: orders.count})
           }),
+          catchError(error => of(new fundsActions.FailLoadTransactionsHistoryAction(error)))
+        )
+    }))
+  @Effect()
+  loadLastHistoryTransactions$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadLastTransactionsHistoryAction>(fundsActions.LOAD_LAST_TRANSACTIONS_HISTORY))
+    .pipe(switchMap((action) => {
+      return this.transactionsService.getLastTransactionsHistory(action.payload)
+        .pipe(
+          map(orders => new fundsActions.SetTransactionsHistoryAction({items: orders.items, count: orders.count})),
           catchError(error => of(new fundsActions.FailLoadTransactionsHistoryAction(error)))
         )
     }))
