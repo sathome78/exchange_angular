@@ -28,7 +28,7 @@
                  [ngClass]="{'wrap-input__line--error': !loginForm.get('email').valid && loginForm.get('email').touched || statusMessage}"
             ></div>
             <!--Input error section starts-->
-            <div *ngIf="loginForm.get('email').touched && loginForm.get('email').errors != null">
+            <div *ngIf="loginForm.get('email').touched && loginForm.get('email').errors != null || !serverMessage && loginForm.get('email').errors != null">
               <div class="input-hint-wrapper">
               <span class="wrap-input__message wrap-input__message--error" *ngIf="loginForm.get('email').errors['required']">
                 {{'This field is required.' | translate}}

@@ -12,6 +12,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {AUTH_MESSAGES} from '../../shared/constants';
 
 declare var sendLoginSuccessGtag: Function;
 
@@ -121,28 +122,11 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
 
   setStatusMessage(err) {
     this.showSendAgainBtn = false;
-    switch (err['status']) {
-      case 401:
-      case 422:
-        this.statusMessage = this.translateService.instant('Wrong email or password!');
-        break;
-      case 426:
-        this.statusMessage = this.translateService.instant(`Seems, that your user is still inactive. Email with activation link has been sent to your email address. Please, check and follow the instructions.`);
-        // this.showSendAgainBtn = true;
-        break;
-      case 403:
-        this.statusMessage = this.translateService.instant('You are not allowed to access');
-        break;
-      case 410:
-        this.statusMessage = this.translateService.instant('Your account has been blocked. To find out the reason of blocking - contact the exchange support service.');
-        break;
-      case 419:
-        this.statusMessage = this.translateService.instant('Your ip is blocked!');
-        break;
-      case 400:
-        if (!this.isGACheck) {
-          this.checkGoogleLoginEnabled(this.email);
-        }
+    if (err['status'] === 400) {
+      if (!this.isGACheck) {
+        this.checkGoogleLoginEnabled(this.email);
+      }
+      if (err.error.title === 'REQUIRED_EMAIL_AUTHORIZATION_CODE' || err.error.title === 'REQUIRED_GOOGLE_AUTHORIZATION_CODE') {
         this.inPineCodeMode = true;
         this.setTemplate('pinCodeTemplate');
         this.pinForm.reset();
@@ -158,6 +142,11 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
         } else {
           this.statusMessage = this.translateService.instant('Pin code is required!');
         }
+      } else {
+        this.statusMessage = !AUTH_MESSAGES[err.error.title] ? '' : AUTH_MESSAGES[err.error.title];
+      }
+    } else {
+      this.statusMessage = AUTH_MESSAGES.OTHER_HTTP_ERROR;
     }
   }
 
