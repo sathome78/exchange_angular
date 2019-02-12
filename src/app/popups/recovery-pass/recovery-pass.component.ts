@@ -3,7 +3,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {TranslateService} from '@ngx-translate/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs';
-import * as cloneDeep from 'lodash/cloneDeep';
 
 
 import {PopupService} from '../../shared/services/popup.service';
@@ -77,7 +76,7 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
   }
 
   resolvedCaptcha() {
-    const email = cloneDeep(this.emailForm.get('email').value);
+    const email = this.emailForm.get('email').value;
     this.userService.checkIfEmailExists(email)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
