@@ -34,6 +34,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   public nameForm: FormGroup;
   public nameSubmited = false;
   public recaptchaKey = keys.recaptchaKey;
+  public AUTH_MESSAGES = AUTH_MESSAGES;
 
   public email;
   public firstName;
@@ -127,7 +128,6 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
 
 
   emailSubmit() {
-    console.log(this.emailForm)
     if (this.emailForm.valid) {
       this.setTemplate('captchaTemplate');
     }
