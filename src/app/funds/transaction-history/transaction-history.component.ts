@@ -242,6 +242,7 @@ export class TransactionHistoryComponent implements OnInit {
 
   onSelectPair(currId: string): void {
     this.currencyId = currId;
+    this.onFilter();
   }
 
 
