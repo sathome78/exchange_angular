@@ -35,6 +35,15 @@
               <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailExists']">
                 {{'Email exists' | translate}}
               </span>
+                <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['USER_REGISTRATION_NOT_COMPLETED']">
+                {{AUTH_MESSAGES.USER_REGISTRATION_NOT_COMPLETED | translate}}
+              </span>
+                <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['USER_NOT_ACTIVE']">
+                {{AUTH_MESSAGES.USER_NOT_ACTIVE | translate}}
+              </span>
+                <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['FAILED_TO_GET_USER_TOKEN']">
+                {{AUTH_MESSAGES.FAILED_TO_GET_USER_TOKEN | translate}}
+              </span>
               </div>  
               
             </div>
