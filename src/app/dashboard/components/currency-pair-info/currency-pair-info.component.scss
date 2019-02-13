@@ -8,3 +8,8 @@
 .dropdown__list{
   display: block;
 }
+@media(max-width: 992px){
+    .dynamic-input__wrap{
+      margin: 0!important;
+  }
+}
