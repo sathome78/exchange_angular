@@ -191,15 +191,16 @@
           </app-dynamic-input>
           <div class="wrap-input__line"></div>
           <div class="cancel-btn-wr">
-            <button class="cancel-btn btn">
-              <span>Cancel all</span>
+            <button class="cancel-btn btn" (click)="toggleShowCancelAllOrdersConfirm()">
+              <span>{{'Cancel all' | translate}} <span *ngIf="!!currencyPairId">{{'(Filtered)' | translate}}</span></span>
             </button>
           </div>
-          <div class="revoke-request">
-            <div class="revoke-request__title">Are you sure you want to cancel all orders?</div>
+          <div class="revoke-request" *ngIf="isShowCancelAllOrdersConfirm">
+            <div class="revoke-request__title" *ngIf="!currencyPairId">{{'Are you sure to cancel all orders?' | translate}}</div>
+            <div class="revoke-request__title" *ngIf="!!currencyPairId">{{'Are you sure to cancel all filtered orders?' | translate}}</div>
             <div class="revoke-request__button-wrap">
-              <button class="btn btn--small">Yes</button>
-              <button class="btn btn--small">No</button>
+              <button class="btn btn--small" (click)="cancelAllOrders()">{{'Yes' | translate}}</button>
+              <button class="btn btn--small" (click)="toggleShowCancelAllOrdersConfirm()">{{'No' | translate}}</button>
             </div>
             <div _ngcontent-c19="" class="revoke-request__triangle">
             </div>
