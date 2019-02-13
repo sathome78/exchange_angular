@@ -13,6 +13,7 @@ import {takeUntil} from 'rxjs/operators';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {SimpleCurrencyPair} from 'app/core/models/simple-currency-pair';
 import { CurrencyChoose } from 'app/core/models/currency-choose.model';
+import {OrdersService} from '../orders.service';
 
 @Component({
   selector: 'app-open-orders',
@@ -55,6 +56,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<State>,
+    private ordersService: OrdersService,
     private utils: UtilsService,
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr));
@@ -134,6 +136,14 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       this.currentPage = 1;
       this.loadOrders();
     }
+  }
+
+  cancelAllOrders() {
+    this.ordersService.cancelAllOrders(this.currencyPairValue)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+
+      });
   }
 
   /** tracks input changes in a my-date-picker component */
