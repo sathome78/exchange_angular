@@ -2,11 +2,11 @@ import {Component, OnDestroy, OnInit, HostListener, ChangeDetectionStrategy, Cha
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/internal/operators';
+import {takeUntil, withLatestFrom} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {State, getCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getDashboardState} from 'app/core/reducers/index';
+import {State, getCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getDashboardState, getIsAuthenticated} from 'app/core/reducers/index';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserService} from 'app/shared/services/user.service';
 import {OrderItem, UserBalance} from 'app/model';
@@ -103,6 +103,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.resetSellModel();
     this.resetBuyModel();
 
+    this.store
+      .pipe(select(getIsAuthenticated))
+      .pipe(withLatestFrom(this.store.pipe(select(getCurrencyPair))))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(([isAuth, pair]: [boolean, CurrencyPair]) => {
+        this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you login
+        this.cdr.detectChanges();
+      });
 
     this.store
       .pipe(select(getDashboardState))
@@ -113,9 +121,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
     this.store
       .pipe(select(getCurrencyPair))
+      .pipe(withLatestFrom(this.store.pipe(select(getIsAuthenticated))))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair) => {
-        this.onGetCurrentCurrencyPair(pair);
+      .subscribe(([pair, isAuth]: [CurrencyPair, boolean]) => {
+        this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you change currency pair
         this.cdr.detectChanges();
       });
 
@@ -316,6 +325,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
           type === this.BUY ?
             this.buyCommissionIndex = res.commissionValue :
             this.sellCommissionIndex = res.commissionValue;
+          this.cdr.detectChanges();
         });
     }
   }
@@ -324,13 +334,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * Method run when refresh current currency pair
    * @param pair
    */
-  private onGetCurrentCurrencyPair(pair): void {
+  private onGetCurrentCurrencyPair(pair, isAuth): void {
     this.currentPair = pair;
     this.resetSellModel();
     this.resetBuyModel();
     this.splitPairName();
-    this.getCommissionIndex(this.BUY, this.currentPair.currencyPairId);
-    this.getCommissionIndex(this.SELL, this.currentPair.currencyPairId);
+    if(isAuth) {
+      this.getCommissionIndex(this.BUY, this.currentPair.currencyPairId);
+      this.getCommissionIndex(this.SELL, this.currentPair.currencyPairId);
+    }
   }
 
 
@@ -507,7 +519,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on click submit button
    */
   onSubmit(type: string): void {
-    // window.open('https://exrates.me/dashboard', '_blank');
     if (!this.isAuthenticated()) {
       this.popupService.showMobileLoginPopup(true);
       return;
