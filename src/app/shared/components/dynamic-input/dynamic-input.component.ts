@@ -27,6 +27,8 @@ export class DynamicInputComponent implements OnChanges {
   public filteredOptions: DIOptions[] = [];
   public showDropdown: boolean = false;
   public arrowKeyLocation = 0;
+  public stopBodyScroll = false;
+  public needStopScroll = false;
 
   keyDown(event: KeyboardEvent) {
     switch (event.keyCode) {
@@ -79,7 +81,9 @@ export class DynamicInputComponent implements OnChanges {
         this.onSelect.emit({id: null, text: null});
       }
     }
-
+    if (this.filteredOptions.length) {
+      this.needStopScroll = document.body.scrollHeight > window.innerHeight;
+    }
   }
 
   onClearInput(): void {
@@ -122,6 +126,13 @@ export class DynamicInputComponent implements OnChanges {
     this.arrowKeyLocation = +e.target.dataset['key']
   }
 
+  listMouseEnter() {
+    this.stopBodyScroll = true;
+  }
+
+  listMouseLeave() {
+    this.stopBodyScroll = false;
+  }
   trackByFn(index, item) {
     return item.text; // or item.id
   }

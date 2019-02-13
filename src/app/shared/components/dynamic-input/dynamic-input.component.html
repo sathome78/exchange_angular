@@ -28,7 +28,7 @@
       </svg>
     </div>
     <!-- <div class="wrap-input__line"></div> -->
-    <ul class="select__list" [ngClass]="{'select__list--open': showDropdown && filteredOptions.length}" #list>
+    <ul class="select__list" [ngClass]="{'select__list--open': showDropdown && filteredOptions.length}" (mouseenter)="listMouseEnter()" (mouseleave)="listMouseLeave()" #list >
       <perfect-scrollbar>
         <li
           *ngFor="let item of filteredOptions; let i = index; trackBy: trackByFn"
@@ -46,3 +46,4 @@
 
   <!--<div class="wrap-input__icon" *ngIf="icon" [innerHTML]="icon"></div>-->
 </div>
+<div *ngIf="stopBodyScroll && filteredOptions.length && needStopScroll" appAddClass="no-scroll-with-margin" to="body"></div>
