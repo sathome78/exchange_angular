@@ -16,7 +16,8 @@
           required
           class="wrap-input__input"
           formControlName="email"
-          [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched}"
+          (input)="serverError = ''"
+          [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched || !!serverError}"
         >
         <label class="wrap-input__label" for="">{{'Email' | translate}}</label>
         <div class="wrap-input__line"></div>
@@ -29,24 +30,14 @@
           <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailInvalid'] || emailForm.get('email').errors['specialCharacter']">
             {{'Please, enter valid email address' | translate}}
           </span>
-          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['USER_EMAIL_NOT_FOUND']">
-            {{AUTH_MESSAGES.USER_EMAIL_NOT_FOUND | translate}}
-          </span>
-          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['USER_REGISTRATION_NOT_COMPLETED']">
-            {{AUTH_MESSAGES.USER_REGISTRATION_NOT_COMPLETED | translate}}
-          </span>
-          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['USER_NOT_ACTIVE']">
-            {{AUTH_MESSAGES.USER_NOT_ACTIVE | translate}}
-          </span>
-
           </div>
-          
         </div>
         <!--Input error section ends-->
       </div>
+      <span class="wrap-input__message" *ngIf="!!serverError">{{AUTH_MESSAGES[serverError] | translate}}</span>
       <button class="btn popup__btn"
-              [disabled]="emailForm.get('email').invalid && emailForm.get('email').errors"
-              [ngClass]="{'bg-none': !emailForm.valid, 'popup__btn--active': emailForm.valid}"
+              [disabled]="emailForm.get('email').invalid && emailForm.get('email').errors || !!serverError"
+              [ngClass]="{'bg-none': !emailForm.valid, 'popup__btn--active': emailForm.valid && !serverError}"
               (click)="emailSubmit()">
         {{'Reset password' | translate}}
       </button>

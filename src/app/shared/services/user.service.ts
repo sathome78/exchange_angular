@@ -46,7 +46,7 @@ export class UserService {
       return this.checkIfEmailExists(control.value.trim())
         .pipe(map((isExist: boolean) => recovery ? !isExist : isExist))
         .pipe(map((isExist: boolean) => isExist ? {'emailExists': true} : null))
-        .pipe(catchError((err) => of(this.checkError(err, recovery))));
+        .pipe(catchError((err) =>  of(this.checkError(err, recovery))));
     };
   }
 

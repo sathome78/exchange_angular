@@ -152,6 +152,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair) => {
         this.pair = pair;
+        this.ref.detectChanges();
       });
 
     this.store
