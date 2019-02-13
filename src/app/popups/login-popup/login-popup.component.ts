@@ -9,6 +9,9 @@ import {TokenHolder} from '../../model/token-holder.model';
 import {SettingsService} from '../../settings/settings.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {Store} from '@ngrx/store';
+import * as fromCore from '../../core/reducers';
+import * as coreActions from '../../core/actions/core.actions';
 
 declare var sendLoginSuccessGtag: Function;
 
@@ -36,6 +39,7 @@ export class LoginPopupComponent implements OnInit, OnDestroy {
               private logger: LoggingService,
               private authService: AuthService,
               private settingsService: SettingsService,
+              private store: Store<fromCore.State>,
               private router: Router) {
   }
 
@@ -78,7 +82,8 @@ export class LoginPopupComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((tokenHolder: TokenHolder) => {
             this.logger.debug(this, 'User { login: ' + email + ', pass: ' + password + '}' + ' signed in and obtained' + tokenHolder);
-            this.authService.setTokenHolder(tokenHolder);
+            this.authService.setToken(tokenHolder.token);
+            this.store.dispatch(new coreActions.SetOnLogin(this.authService.parseToken(tokenHolder.token)));
             this.popupService.closeLoginPopup();
             this.router.navigate(['/']);
             sendLoginSuccessGtag();

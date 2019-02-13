@@ -190,7 +190,7 @@
       </div>
 
 
-      <div class="account-info" *ngIf="!userInfo">
+      <div class="account-info" *ngIf="!(userInfo$ | async)">
         <div class="account-info__img"><span class="info__img-empty">?</span></div>
         <div class="account-info__text">
           <div class="account-info__title">{{'New user' | translate}}</div>
@@ -198,10 +198,10 @@
         <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
       </div>
 
-      <div class="account-info" *ngIf="userInfo">
+      <div class="account-info" *ngIf="userInfo$ | async">
         <div class="account-info__img"><span class="info__img-empty">?</span></div>
         <div class="account-info__text">
-          <div class="account-info__title">{{userInfo.username}}</div>
+          <div class="account-info__title">{{(userInfo$ | async).username}}</div>
           <a class="account-info__email cursor-pointer" (click)="onLogout()">{{'logout' | translate}}</a></div>
         <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
       </div>

@@ -1,5 +1,5 @@
-import { Params, RouterStateSnapshot } from '@angular/router';
-import {ActionReducerMap, combineReducers, MetaReducer} from '@ngrx/store';
+import {Params} from '@angular/router';
+import {ActionReducerMap} from '@ngrx/store';
 import {createSelector} from 'reselect';
 
 // Imports from reducers
@@ -69,6 +69,8 @@ export const getSimpleCurrencyPairsSelector = createSelector(getCoreState, fromC
 export const getAllCurrenciesForChoose = createSelector(getCoreState, fromCore.getAllCurrenciesForChoose);
 export const getCryptoCurrenciesForChoose = createSelector(getCoreState, fromCore.getCryptoCurrenciesForChoose);
 export const getFiatCurrenciesForChoose = createSelector(getCoreState, fromCore.getFiatCurrenciesForChoose);
+export const getIsAuthenticated = createSelector(getCoreState, fromCore.getIsAuthenticatedSelector);
+export const getUserInfo = createSelector(getCoreState, fromCore.getUserInfoSelector);
 
 
 /**
@@ -76,4 +78,4 @@ export const getFiatCurrenciesForChoose = createSelector(getCoreState, fromCore.
  */
 export const getGAStatus = createSelector(getSettingsState, fromSettings.getGAStatusSelector);
 export const getGALoading = createSelector(getSettingsState, fromSettings.getGALoadingSelector);
-export const getSessionTime= createSelector(getSettingsState, fromSettings.getSessionTimeSelector);
+export const getSessionTime = createSelector(getSettingsState, fromSettings.getSessionTimeSelector);

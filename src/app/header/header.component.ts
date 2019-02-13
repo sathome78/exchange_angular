@@ -15,7 +15,9 @@ import {TranslateService} from '@ngx-translate/core';
 import {select, Store} from '@ngrx/store';
 import {getLanguage, State} from '../core/reducers';
 import {ChangeLanguageAction} from '../core/actions/core.actions';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil, withLatestFrom} from 'rxjs/operators';
+import * as fromCore from '../core/reducers';
+import * as coreActions from '../core/actions/core.actions';
 
 @Component({
   selector: 'app-header',
@@ -26,7 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public isMobileMenuOpen = false;
   public mobileView = 'markets';
-  public userInfo;
+  public userInfo$: Observable<ParsedToken>;
   public showFundsList: boolean;
   public showOrdersList: boolean;
   public showReferralList: boolean;
@@ -39,16 +41,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
 
-  constructor(private popupService: PopupService,
-              private authService: AuthService,
-              private logger: LoggingService,
-              private router: Router,
-              private themeService: ThemeService,
-              private settingsService: SettingsService,
-              private dashboardService: DashboardService,
-              private userService: UserService,
-              private store: Store<State>,
-              public translate: TranslateService) {}
+  constructor(
+    private popupService: PopupService,
+    private authService: AuthService,
+    private logger: LoggingService,
+    private router: Router,
+    private themeService: ThemeService,
+    private settingsService: SettingsService,
+    private dashboardService: DashboardService,
+    private userService: UserService,
+    private store: Store<State>,
+    public translate: TranslateService
+  ) {
+    this.userInfo$ = this.store.pipe(select(fromCore.getUserInfo));
+  }
 
   ngOnInit() {
     this.resetDropdowns();
@@ -60,17 +66,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       //       this.themeService.setDarkTheme();
       //     }
       //   });
-      this.userInfo = this.authService.simpleToken;
     }
-    this.authService.onLoginLogoutListener$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        if (res.username !== '') {
-          this.userInfo.username = res.username;
-        } else {
-          this.userInfo = null;
-        }
-      });
     this.dashboardService.activeMobileWidget
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {

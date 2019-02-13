@@ -7,12 +7,14 @@ import {AuthService} from '../../shared/services/auth.service';
 import {Router} from '@angular/router';
 import {LoggingService} from '../../shared/services/logging.service';
 import {keys} from '../../core/keys';
-import {isCombinedNodeFlagSet} from 'tslint';
 import {TranslateService} from '@ngx-translate/core';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {AUTH_MESSAGES} from '../../shared/constants';
+import {Store} from '@ngrx/store';
+import * as fromCore from '../../core/reducers';
+import * as coreActions from '../../core/actions/core.actions';
 
 declare var sendLoginSuccessGtag: Function;
 
@@ -25,9 +27,9 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public recaptchaKey = keys.recaptchaKey;
-  isPasswordVisible = false;
-  twoFaAuthModeMessage = 'Please enter two-factor <br> authentication code';
-  pincodeAttempts = 0;
+  public isPasswordVisible = false;
+  public twoFaAuthModeMessage = 'Please enter two-factor <br> authentication code';
+  public pincodeAttempts = 0;
   public isError = false;
   public statusMessage = '';
   public inPineCodeMode;
@@ -36,12 +38,12 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   public afterCaptchaMessage;
 
   public currentTemplate: TemplateRef<any>;
-  @ViewChild('logInTemplate') logInTemplate: TemplateRef<any>;
-  @ViewChild('pinCodeTemplate') pinCodeTemplate: TemplateRef<any>;
-  @ViewChild('captchaTemplate') captchaTemplate: TemplateRef<any>;
+  @ViewChild('logInTemplate') public logInTemplate: TemplateRef<any>;
+  @ViewChild('pinCodeTemplate') public pinCodeTemplate: TemplateRef<any>;
+  @ViewChild('captchaTemplate') public captchaTemplate: TemplateRef<any>;
   public loginForm: FormGroup;
   public pinForm: FormGroup;
-  isPinEmpty;
+  public isPinEmpty;
   public showSendAgainBtn: boolean = false;
 
   private email;
@@ -56,6 +58,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private utilsService: UtilsService,
     private router: Router,
+    private store: Store<fromCore.State>
   ) {
   }
 
@@ -72,7 +75,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   initForm() {
     this.loginForm = new FormGroup({
       email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator()]}),
-      password: new FormControl('', {validators: Validators.required })
+      password: new FormControl('', {validators: Validators.required})
     });
     this.pinForm = new FormGroup({
       pin: new FormControl('', { validators: Validators.required })
@@ -134,7 +137,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
           this.isError = true;
           this.twoFaAuthModeMessage = this.pincodeAttempts === 3 ?
             this.isGA ?
-              this.translateService.instant(' Code is wrong! Please, check you code in Google Authenticator application.') :
+              this.translateService.instant('Code is wrong! Please, check you code in Google Authenticator application.') :
               this.translateService.instant('Code is wrong! New code was sent to your email.') :
             this.translateService.instant('Code is wrong!');
           this.pincodeAttempts = this.pincodeAttempts === 3 ? 0 : this.pincodeAttempts;
@@ -189,12 +192,12 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
       .subscribe((tokenHolder: TokenHolder) => {
         sendLoginSuccessGtag();
         this.logger.debug(this, 'User { login: ' + this.email + ', pass: ' + this.password + '}' + ' signed in and obtained' + tokenHolder);
-        this.authService.setTokenHolder(tokenHolder);
-        this.authService.onLogIn();
+        this.authService.setToken(tokenHolder.token);
+        this.store.dispatch(new coreActions.SetOnLogin(this.authService.parseToken(tokenHolder.token)));
         this.popupService.closeMobileLoginPopup();
         this.router.navigate(['/']);
         // TODO: just for promo state, remove after
-        location.reload();
+        // location.reload();
       },
         err => {
           console.log(err, 'sendToServerError')

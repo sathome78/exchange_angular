@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit, enableProdMode} from '@angular/core';
 import {PopupService} from './shared/services/popup.service';
 import {Router} from '@angular/router';
-import {Subscription} from 'rxjs';
 import {ThemeService} from './shared/services/theme.service';
 import {IpAddress, UserService} from './shared/services/user.service';
 import {IP_CHECKER_URL, IP_USER_KEY} from './shared/services/http.utils';
@@ -12,12 +11,12 @@ import {NotificationMessage} from './shared/models/notification-message-model';
 import {DashboardWebSocketService} from './dashboard/dashboard-websocket.service';
 import {AuthService} from './shared/services/auth.service';
 import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/internal/operators';
+import {takeUntil, withLatestFrom} from 'rxjs/internal/operators';
 import {TranslateService} from '@ngx-translate/core';
 import {select, Store} from '@ngrx/store';
-import {getLanguage, State} from './core/reducers';
-import {ChangeLanguageAction} from './core/actions/core.actions';
+import * as fromCore from './core/reducers';
 import {PopupData} from './shared/interfaces/popup-data-interface';
+import * as coreActions from './core/actions/core.actions';
 
 @Component({
   selector: 'app-root',
@@ -48,13 +47,10 @@ export class AppComponent implements OnInit, OnDestroy {
   notificationMessages: NotificationMessage[];
 
   constructor(public popupService: PopupService,
-              private router: Router,
               private themeService: ThemeService,
               private dashboardWebsocketService: DashboardWebSocketService,
               private authService: AuthService,
-              private store: Store<State>,
-              private userService: UserService,
-              private logger: LoggingService,
+              private store: Store<fromCore.State>,
               private http: HttpClient,
               private notificationService: NotificationsService,
               public translate: TranslateService) {
@@ -66,15 +62,27 @@ export class AppComponent implements OnInit, OnDestroy {
     // const browserLang = translate.getBrowserLang();
     // this.store.dispatch(new ChangeLanguageAction(browserLang.match(/en|ru|uk|pl/) ? browserLang : 'en'));
     // this.store.pipe(select(getLanguage)).subscribe(res => this.translate.use(res));
-    if(!localStorage.getItem(IP_USER_KEY)) {
-      this.setIp();
-    }
+
+    this.setIp();
+
+    this.store
+      .pipe(select(fromCore.getIsAuthenticated))
+      .pipe(withLatestFrom(this.store.pipe(select(fromCore.getUserInfo))))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(([isAuth, userInfo]: [boolean, ParsedToken]) => {
+        if(isAuth && userInfo) {
+          this.authService.setSessionFinishListener(userInfo.expiration);
+        } else {
+          this.authService.removeSessionFinishListener();
+        }
+      });
   }
 
   ngOnInit(): void {
-    this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
-    this.authService.setSessionFinishListener();
-
+    // this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
+    if(this.authService.isAuthenticated()) {
+      this.store.dispatch(new coreActions.SetOnLogin(this.authService.parsedToken));
+    }
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
     this.subscribeForKYCEvent();

@@ -13,7 +13,6 @@ export const SET_SESSION_TIME = '[Orders] Set session time';
  */
 export class LoadGAStatusAction implements Action {
   readonly type = LOAD_GA_STATUS;
-  constructor(public payload: string) {}
 }
 export class SetGAStatusAction implements Action {
   readonly type = SET_GA_STATUS;
