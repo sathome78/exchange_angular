@@ -87,8 +87,8 @@
     </ng-template>
 
     <ng-template #emailConfirmLinkTemplate>
-      <h6 class="popup__title">{{'Confirm the email' | translate}}</h6>
-      <h4 class="popup__subtitle" [innerHtml]="afterCaptchaMessage"></h4>
+      <h6 class="popup__title popup_title--dm">{{'Confirm the email' | translate}}</h6>
+      <h4 class="popup__subtitle popup_title--dm" [innerHtml]="afterCaptchaMessage"></h4>
       <div class="popup__line"></div>
       <div class="popup__text--light">{{'If you haven\'t received the email, do the following:' | translate}}</div>
       <div class="popup__text--light">{{'Check spam or other folders.' | translate}} <br> {{'Set email address whitelist.' | translate}} <a class="popup__link" href="">{{'How to set?' | translate}}</a><br> {{'Check the mail client works normally.' | translate}}</div>
