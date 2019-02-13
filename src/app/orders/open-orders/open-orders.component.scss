@@ -129,4 +129,15 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    position: relative;
+
+}
+
+.orders .orders__filters--wr .revoke-request{
+  right: 0;
+  bottom: 125%;
+  padding: 8px 28px;
+    .revoke-request__title{
+      line-height: 1.35;
+    }
 }
