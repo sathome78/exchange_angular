@@ -20,7 +20,6 @@ export class DashboardService {
   // currencies: BehaviorSubject<Currency[]> = new BehaviorSubject<Currency[]>(mockPairs);
 
 
-
   /** Array of dashboard item options*/
   public widgetPositions = [
     {
@@ -184,6 +183,7 @@ export class DashboardService {
 
   constructor(private http: HttpClient) {
   }
+
   public apiUrl = environment.apiUrl;
 
   /**
@@ -220,14 +220,14 @@ export class DashboardService {
   }
 
   getMyBalances(): Observable<MyBalanceItem> {
-    return this.http.get<MyBalanceItem>(this.apiUrl + '/info/private/v2/balances/myBalances')
+    return this.http.get<MyBalanceItem>(this.apiUrl + '/api/private/v2/balances/myBalances');
   }
 
   getMarketsForCurrency(currencyName): Observable<any> {
-    return this.http.get<any>(this.apiUrl + '/info/public/v2/pair/first/' + currencyName);
+    return this.http.get<any>(this.apiUrl + '/api/public/v2/pair/first/' + currencyName);
   }
 
   getCryptoCurrencies() {
-    return this.http.get(`${this.apiUrl}/info/public/v2/crypto-currencies`)
+    return this.http.get(`${this.apiUrl}/api/public/v2/crypto-currencies`);
   }
 }

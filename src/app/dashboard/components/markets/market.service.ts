@@ -39,7 +39,7 @@ export class MarketService {
    * this method simply gets pairs from cache and when subscription is on we should drop data
    */
   makeItFast(ngUnsubscribe) {
-    const url = this.baseUrl + '/info/public/v2/currencies/fast';
+    const url = this.baseUrl + '/api/public/v2/currencies/fast';
     this.http.get<CurrencyPair []>(url)
       .pipe(takeUntil(ngUnsubscribe))
       .subscribe(items => {
@@ -48,7 +48,7 @@ export class MarketService {
   }
 
   removeFavourites() {
-    const url = this.baseUrl + '/info/private/v2/settings/currency_pair/favourites';
+    const url = this.baseUrl + '/api/private/v2/settings/currency_pair/favourites';
     return this.http.delete<number>(url);
   }
 
@@ -57,17 +57,17 @@ export class MarketService {
 
   manageUserFavouriteCurrencyPair(cp: CurrencyPair): Observable<number> {
     const data: {'PAIR_ID': string, 'TO_DELETE': string} = {'PAIR_ID': cp.currencyPairId + '', 'TO_DELETE': !cp.isFavourite + ''};
-    const url = this.baseUrl + '/info/private/v2/settings/currency_pair/favourites';
+    const url = this.baseUrl + '/api/private/v2/settings/currency_pair/favourites';
     return this.http.put<number>(url, data);
   }
 
   currencyPairInfo(pairId): Observable<any> {
-      return this.http.get(`${this.baseUrl}/info/public/v2/info/${pairId}`)
+      return this.http.get(`${this.baseUrl}/api/public/v2/info/${pairId}`)
         .pipe(tap(info => this.currencyPairsInfo$.next(info)));
   }
 
   // userBalanceInfo(pairId): Observable<any> {
-  //   return this.http.get(`${this.baseUrl}/info/private/v2/dashboard/info/${pairId}`)
+  //   return this.http.get(`${this.baseUrl}/api/private/v2/dashboard/info/${pairId}`)
   //     .pipe(tap(info => this.userBalanceListener$.next(info)));
   // }
 

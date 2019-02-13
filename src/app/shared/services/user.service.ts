@@ -8,7 +8,6 @@ import {Observable, of} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
 import {AuthService} from './auth.service';
-import {IP_USER_HEADER, IP_USER_KEY} from './http.utils';
 import {LangService} from './lang.service';
 import {AuthCandidate} from '../../model/auth-candidate.model';
 import {LoggingService} from './logging.service';
@@ -74,7 +73,7 @@ export class UserService {
 
   public getUserBalance(pair: CurrencyPair) {
     if (this.authService.isAuthenticated() && pair.currencyPairId) {
-      const sub = this.http.get(`${this.HOST}/info/private/v2/dashboard/info/${pair.currencyPairId}`)
+      const sub = this.http.get(`${this.HOST}/api/private/v2/dashboard/info/${pair.currencyPairId}`)
         .subscribe(info => {
           this.store.dispatch(new RefreshUserBalanceAction(info));
           sub.unsubscribe();
@@ -152,21 +151,21 @@ export class UserService {
   }
 
   public getUserColorScheme(): Observable<string> {
-    const url = this.HOST + '/info/private/v2/settings/color-schema';
+    const url = this.HOST + '/api/private/v2/settings/color-schema';
     return this.http.get<string>(url);
   }
   public getUserColorEnabled(): Observable<boolean> {
-    const url = this.HOST + '/info/private/v2/settings/isLowColorEnabled';
+    const url = this.HOST + '/api/private/v2/settings/isLowColorEnabled';
     return this.http.get<boolean>(url);
   }
 
   public finalRegistration(data): Observable<any> {
-    const url = `${this.HOST}/info/public/v2/users/createPassword`;
+    const url = `${this.HOST}/api/public/v2/users/createPassword`;
     return this.http.post(url, data);
   }
 
   public recoveryPassword(data): Observable<any> {
-    const url = `${this.HOST}/info/public/v2/users/createRecoveryPassword`;
+    const url = `${this.HOST}/api/public/v2/users/createRecoveryPassword`;
     return this.http.post(url, data);
   }
 
@@ -195,12 +194,12 @@ export class UserService {
   // }
   //
   //   updateUserLanguage(lang: string) {
-  //     const url = this.HOST + '/info/private/settings/userLanguage/update';
+  //     const url = this.HOST + '/api/private/settings/userLanguage/update';
   //     return this.httpClient.put(url, {lang: lang}, {observe: 'events'});
   //   }
   //
   //   getUserLanguage(): Observable<string> {
-  //     return this.http.get<Map<string, string>>(this.HOST + '/info/private/settings/userLanguage')
+  //     return this.http.get<Map<string, string>>(this.HOST + '/api/private/settings/userLanguage')
   //       .map(map => {
   //         return map['lang'];
   //       });
@@ -223,7 +222,7 @@ export class UserService {
   }
 
   getUrl(end: string) {
-    return this.HOST + '/info/public/v2/' + end;
+    return this.HOST + '/api/public/v2/' + end;
   }
 }
 

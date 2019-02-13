@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit, enableProdMode} from '@angular/core';
 import {PopupService} from './shared/services/popup.service';
 import {Router} from '@angular/router';
-import {Subscription} from 'rxjs';
 import {ThemeService} from './shared/services/theme.service';
 import {IpAddress, UserService} from './shared/services/user.service';
 import {IP_CHECKER_URL, IP_USER_KEY} from './shared/services/http.utils';
@@ -16,7 +15,6 @@ import {takeUntil} from 'rxjs/internal/operators';
 import {TranslateService} from '@ngx-translate/core';
 import {select, Store} from '@ngrx/store';
 import {getLanguage, State} from './core/reducers';
-import {ChangeLanguageAction} from './core/actions/core.actions';
 import {PopupData} from './shared/interfaces/popup-data-interface';
 
 @Component({
@@ -66,7 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // const browserLang = translate.getBrowserLang();
     // this.store.dispatch(new ChangeLanguageAction(browserLang.match(/en|ru|uk|pl/) ? browserLang : 'en'));
     // this.store.pipe(select(getLanguage)).subscribe(res => this.translate.use(res));
-    if(!localStorage.getItem(IP_USER_KEY)) {
+    if (!localStorage.getItem(IP_USER_KEY)) {
       this.setIp();
     }
   }
@@ -149,6 +147,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isRestoredPasswordPopupOpen = res;
       });
   }
+
   subscribeForSessionTimeSavedPopup() {
     this.popupService.getSessionTimeSavedPopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -225,7 +224,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.http.get<IpAddress>(IP_CHECKER_URL)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
-        console.log(response)
+        console.log(response);
         // this.logger.debug(this, 'Client IP: ' + response.ip);
         localStorage.setItem(IP_USER_KEY, response.ip);
       });

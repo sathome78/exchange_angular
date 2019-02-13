@@ -12,15 +12,15 @@ import {takeUntil} from 'rxjs/operators';
 declare var encodePassword: Function;
 
 @Injectable()
-export class AuthService implements OnDestroy{
+export class AuthService implements OnDestroy {
 
   ENCODE_KEY = environment.encodeKey;
   apiUrl = environment.apiUrl;
 
   private tokenHolder: TokenHolder;
-  public simpleToken: {expiration: number, token_id: number, username: string, value: string};
-  public ngUnsubscribe$ = new Subject<any>()
-  public onLoginLogoutListener$ = new Subject<{expiration: number, token_id: number, username: string, value: string}>()
+  public simpleToken: { expiration: number, token_id: number, username: string, value: string };
+  public ngUnsubscribe$ = new Subject<any>();
+  public onLoginLogoutListener$ = new Subject<{ expiration: number, token_id: number, username: string, value: string }>();
   public onSessionFinish$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public timeOutSub;
 
@@ -37,8 +37,8 @@ export class AuthService implements OnDestroy{
           return;
         }
 
-        this.onLogOut()
-      })
+        this.onLogOut();
+      });
   }
 
 
@@ -55,7 +55,7 @@ export class AuthService implements OnDestroy{
     this.simpleToken = {expiration: 0, username: '', token_id: 0, value: ''};
     this.onLoginLogoutListener$.next(this.simpleToken);
     localStorage.removeItem(TOKEN);
-    location.reload()
+    location.reload();
   }
 
   encodePassword(password: string) {
@@ -88,20 +88,20 @@ export class AuthService implements OnDestroy{
   }
 
   public setSessionFinishListener(): void {
-    if(!this.isAuthenticated()) {
+    if (!this.isAuthenticated()) {
       return;
     }
     this.parseToken(this.token);
     const tokenExpiresIn = +this.simpleToken.expiration - Date.now();
-    this.ngZone.runOutsideAngular(()=>{
+    this.ngZone.runOutsideAngular(() => {
       this.timeOutSub = setTimeout(() => {
         this.onSessionFinish$.next(true);
-      }, +tokenExpiresIn)
+      }, +tokenExpiresIn);
     });
   }
 
   public removeSessionFinishListener(): void {
-    if(this.timeOutSub) {
+    if (this.timeOutSub) {
       clearInterval(this.timeOutSub);
     }
   }
@@ -118,7 +118,7 @@ export class AuthService implements OnDestroy{
   }
 
   public checkTempToken(token: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/info/public/v2/users/validateTempToken/${token}`);
+    return this.http.get<any>(`${this.apiUrl}/api/public/v2/users/validateTempToken/${token}`);
   }
 
   ngOnDestroy() {

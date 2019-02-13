@@ -44,26 +44,26 @@ export class TradeHistoryService {
 
         // this.allTradesListener.next(JSON.parse(JSON.parse(message.body)).data);
       });
-      // .pipe(map(message => {
-      //   const wrapper: TradesWrapper = JSON.parse(message.body);
-      //   console.log(wrapper);
-      //   return wrapper;
-      // }))
-      // .subscribe(wrapper => {
-      //   if (wrapper.ALL) {
-      //     this.allTradesListener.next(wrapper.ALL);
-      //   }
-      //   if (wrapper.MY) {
-      //     this.personalTradesListener.next(wrapper.MY);
-      //   }
-      // });
+    // .pipe(map(message => {
+    //   const wrapper: TradesWrapper = JSON.parse(message.body);
+    //   console.log(wrapper);
+    //   return wrapper;
+    // }))
+    // .subscribe(wrapper => {
+    //   if (wrapper.ALL) {
+    //     this.allTradesListener.next(wrapper.ALL);
+    //   }
+    //   if (wrapper.MY) {
+    //     this.personalTradesListener.next(wrapper.MY);
+    //   }
+    // });
   }
 
   public getFirstTrades(currencyPairId?: number): Observable<TradeItem[]> {
     const params = {
       pairId: currencyPairId + '' || '1',
-    }
-    return this.http.get<TradeItem[]>(environment.apiUrl + '/info/public/v2/accepted-orders/fast', {params})
+    };
+    return this.http.get<TradeItem[]>(environment.apiUrl + '/api/public/v2/accepted-orders/fast', {params});
   }
 
   unsubscribeStompForTrades() {
@@ -78,7 +78,7 @@ export class TradeHistoryService {
    */
   setLastBuyOrder(orders) {
     if (orders.length) {
-      const filteredBuyOrders = orders.filter(order => order.operationType === 'BUY')
+      const filteredBuyOrders = orders.filter(order => order.operationType === 'BUY');
       const tempData = this.sortOrders(filteredBuyOrders);
       if (tempData.length) {
         this.lastSellBuyOrders.lastBuyOrder = tempData[tempData.length - 1];
@@ -93,7 +93,7 @@ export class TradeHistoryService {
    */
   setLastSellOrder(orders) {
     if (orders.length) {
-      const filteredSellOrders = orders.filter(order => order.operationType === 'SELL')
+      const filteredSellOrders = orders.filter(order => order.operationType === 'SELL');
       const tempData = this.sortOrders(filteredSellOrders);
       if (tempData.length) {
         this.lastSellBuyOrders.lastSellOrder = tempData[tempData.length - 1];
@@ -106,7 +106,7 @@ export class TradeHistoryService {
    * Set last Sell/Buy orders in store
    */
   nextLastSellBuyOrders() {
-    const tempArray = this.sortOrders([this.lastSellBuyOrders.lastBuyOrder, this.lastSellBuyOrders.lastSellOrder])
+    const tempArray = this.sortOrders([this.lastSellBuyOrders.lastBuyOrder, this.lastSellBuyOrders.lastSellOrder]);
     this.lastSellBuyOrders.lastOrder = tempArray[tempArray.length - 1];
     this.store.dispatch(new SetLastSellBuyOrderAction(this.lastSellBuyOrders));
   }
@@ -135,7 +135,7 @@ export class TradeHistoryService {
 export class TradesWrapper {
 
   public ALL: TradeItem[];
-  public MY:  TradeItem[];
+  public MY: TradeItem[];
 
 }
 
