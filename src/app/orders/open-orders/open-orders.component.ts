@@ -35,6 +35,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public countPerPage = 15;
   public isMobile: boolean = false;
   public showCancelOrderConfirm: number | null = null;
+  public isShowCancelAllOrdersConfirm = false;
 
   public myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'dd.mm.yyyy',
@@ -139,11 +140,18 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   }
 
   cancelAllOrders() {
+    this.isShowCancelAllOrdersConfirm = false;
     this.ordersService.cancelAllOrders(this.currencyPairValue)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-
+        this.currentPage = 1;
+        this.currencyPairValue = '';
+         this.loadOrders();
       });
+  }
+
+  toggleShowCancelAllOrdersConfirm() {
+    this.isShowCancelAllOrdersConfirm = !this.isShowCancelAllOrdersConfirm;
   }
 
   /** tracks input changes in a my-date-picker component */
