@@ -17,7 +17,7 @@ import {
 } from 'assets/js/charting_library/charting_library.min';
 import {environment} from 'environments/environment';
 import {select, Store} from '@ngrx/store';
-import {getCurrencyPair, State} from 'app/core/reducers/index';
+import {getActiveCurrencyPair, State} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {getCurrencyPairArray, getCurrencyPairInfo} from '../../../core/reducers';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
@@ -34,7 +34,7 @@ import {Currency} from 'app/core/models/currency.model';
 })
 export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit, OnDestroy {
   /** dashboard item name (field for base class)*/
-  public itemName: string;
+  public itemName: string = 'graph';
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   currencyPairName = 'BTC/USD';
@@ -53,10 +53,10 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     {name: 'BTC'},
   ];
   public allCurrencyPairs;
-  currentCurrencyInfo;
+  public currentCurrencyInfo;
   private lang;
   /** current active pair */
-  public pair;
+  public pair: CurrencyPair;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
   private _interval: ChartingLibraryWidgetOptions['interval'] = '3';
@@ -134,51 +134,23 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   constructor(
     private store: Store<State>,
-    private marketService: MarketService,
     private router: Router,
     private langService: LangService,
     private dashboardService: DashboardService,
     private dashboardWebsocketService: DashboardWebSocketService,
     private ref: ChangeDetectorRef
     ) {
-    super();
-  }
+      super();
+    }
 
   ngOnInit() {
-    this.itemName = 'graph';
 
     this.store
-      .pipe(select(getCurrencyPair))
+      .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair) => {
+      .subscribe((pair: CurrencyPair) => {
         this.pair = pair;
-      });
-
-    this.store
-      .pipe(select(getCurrencyPairInfo))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPairInfo) => {
-        this.currentCurrencyInfo = pair;
-        this.isFiat = this.pair.market === 'USD';
-        this.splitPairName(this.pair);
-      });
-
-    this.store
-      .pipe(select(getCurrencyPairArray))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair[]) => {
-        this.allCurrencyPairs = pair;
-      });
-
-
-
-    this.lang = this.langService.getLanguage();
-    this.formattingCurrentPairName(this.currencyPairName);
-
-    this.store
-      .pipe(select(getCurrencyPair))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair) => {
+        this.ref.detectChanges()
         this.currencyPairName = pair.currencyPairName as string;
         if (this.currencyPairName) {
           // this._tvWidget = new widget(this.widgetOptions);
@@ -190,7 +162,32 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
             // console.log(e);
           }
         }
+        this.ref.detectChanges()
       });
+
+    this.store
+      .pipe(select(getCurrencyPairInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPairInfo) => {
+        this.currentCurrencyInfo = pair;
+        this.isFiat = this.pair.market === 'USD';
+        this.splitPairName(this.pair);
+        this.ref.detectChanges()
+      });
+
+    this.store
+      .pipe(select(getCurrencyPairArray))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe( (pair: CurrencyPair[]) => {
+        this.allCurrencyPairs = pair;
+        this.ref.detectChanges()
+      });
+
+
+
+    this.lang = this.langService.getLanguage();
+    this.formattingCurrentPairName(this.currencyPairName);
+
 
     this.widgetOptions = {
       symbol: this._symbol,
@@ -269,17 +266,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         }));
       button[0].innerHTML = 'Check API';
     });
-
-    this.marketService.activeCurrencyListener
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(pair => {
-        this.marketService.currencyPairInfo(pair.currencyPairId)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(res => {
-            this.currentCurrencyInfo = res;
-            this.ref.detectChanges();
-        });
-      });
   }
 
   ngOnDestroy(): void {

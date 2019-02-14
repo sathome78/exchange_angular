@@ -62,7 +62,6 @@ export function reducer(state: State = INIT_STATE, action: coreActions.Actions) 
         ...state,
         simpleCurrencyPairs: action.payload.items,
       };
-
     case coreActions.LOAD_ALL_CURRENCIES_FOR_CHOOSE:
       return {...state, loading: true};
     case coreActions.LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE:

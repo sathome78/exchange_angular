@@ -3,13 +3,13 @@ import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs/Subject';
 import {Store, select} from '@ngrx/store';
 
-import {getCurrencyPairArray, State} from 'app/core/reducers/index';
+import {State, getMarketCurrencyPairsMap, getIsAuthenticated, getFavoritesCurrencyPair} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {MarketService} from './market.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
 import {UserService} from '../../../shared/services/user.service';
-import {getCurrencyPair} from '../../../core/reducers';
+import {getActiveCurrencyPair} from '../../../core/reducers';
 import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
 import { AuthService } from 'app/shared/services/auth.service';
 
@@ -23,26 +23,26 @@ import { AuthService } from 'app/shared/services/auth.service';
 export class MarketsComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
-  public itemName: string;
+  public itemName: string = 'markets';
   /** active tab pair */
   public currencyDisplayMode = 'BTC';
   public isFiat = false;  // must be defined for correct pipe work
   /** Markets data from server */
-  currencyPairs: CurrencyPair[] = [];
-  /** Markets data from server show preferred pairs*/
-  prefPairs: CurrencyPair[] = [];
+  public currencyPairs: CurrencyPair[] = [];
   /** Markets data by active tab */
-  pairs: CurrencyPair[] = [];
+  public pairs: CurrencyPair[] = [];
+
   public currentCurrencyPair: CurrencyPair;
   public sortPoint = 'asc';
   public marketSearch = false;
   public searchInput = '';
   public currencyName = 'USD';
   public loading: boolean = true;
+  public isAuthenticated: boolean = false;
+  public userFavorites: number[] = [];
 
-
-  volumeOrderDirection = 'NONE';
-  selectedCurrencyPair: CurrencyPair;
+  public volumeOrderDirection = 'NONE';
+  public selectedCurrencyPair: CurrencyPair;
 
   constructor(
     private marketService: MarketService,
@@ -55,53 +55,73 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   ngOnInit() {
-    this.itemName = 'markets';
-    this.volumeOrderDirection = 'NONE';
-    this.marketService.makeItFast(this.ngUnsubscribe);
-    this.store
-      .pipe(select(getCurrencyPairArray))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (currencyPairs: CurrencyPair[]) => {
-        this.onGetCurrencyPairs(currencyPairs);
-      });
+    this.getMarketsCurrencyPairs();
 
     this.store
-      .pipe(select(getCurrencyPair))
+      .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPair) => {
         this.currentCurrencyPair = pair;
+        this.crd.detectChanges();
+      });
+
+    this.store
+      .pipe(select(getFavoritesCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userFavorites: number[]) => {
+        this.userFavorites = userFavorites;
+        this.pairs = this.choosePair(this.currencyDisplayMode);
+        this.crd.detectChanges();
+      });
+
+    this.store
+      .pipe(select(getIsAuthenticated))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((isAuthenticated: boolean) => {
+        this.isAuthenticated = isAuthenticated;
+        if(isAuthenticated) {
+          this.getUserFavoritesCurrencyPairs();
+        } else {
+          this.store.dispatch(new dashboardActions.SetUserFavoritesCurrencyPairsAction([]))
+        }
+      });
+
+    this.store
+      .pipe(select(getMarketCurrencyPairsMap))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((currencyPairs: MapModel<CurrencyPair>) => {
+        this.currencyPairs = Object.values(currencyPairs);
+        this.pairs = this.choosePair(this.currencyDisplayMode);
+        this.loadingFinished();
+        this.crd.detectChanges();
       });
 
     this.dashboardWebsocketService.setRabbitStompSubscription()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
-        this.marketService.makeItFast(this.ngUnsubscribe);
+        this.getMarketsCurrencyPairs();
+      })
+  }
+
+  getMarketsCurrencyPairs(): void {
+    this.marketService.getCurrencyPairForMarketFast()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((currencyPairs: CurrencyPair[]) => {
+        this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(currencyPairs))
+      })
+  }
+
+  getUserFavoritesCurrencyPairs() {
+    this.marketService.getUserFavoriteCurrencyPairIds()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((favoriteIds: number[]) => {
+        this.store.dispatch(new dashboardActions.SetUserFavoritesCurrencyPairsAction(favoriteIds))
       })
   }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.marketService.unsubscribe();
-  }
-
-  /**
-   * Add or update pair
-   * @param {CurrencyPair} newPair
-   */
-  addOrUpdate(newPair: CurrencyPair) {
-    let found = false;
-    this.currencyPairs.forEach(elm => {
-      if (newPair.currencyPairId === elm.currencyPairId) {
-        found = true;
-        const chosen = elm.isSelected;
-        elm = newPair;
-        elm.isSelected = chosen;
-      }
-    });
-    if (!found) {
-      this.currencyPairs.push(newPair);
-    }
   }
 
   toggleSearchModal(event) {
@@ -123,24 +143,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    */
   onSelectCurrencyPair(pair: CurrencyPair): void {
     this.selectedCurrencyPair = pair;
-    this.store.dispatch(new dashboardActions.ChangeCurrencyPairAction(pair));
-    this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(pair.currencyPairId))
-    this.userService.getUserBalance(pair);
-  }
-
-  /**
-   *  Emit when selected pair is updated
-   * @param {CurrencyPair[]} pairs
-   */
-  emitWhenSelectedPairIsUpdated(pairs: CurrencyPair []): void {
-    if (null != this.selectedCurrencyPair) {
-      pairs.forEach(elm => {
-        if (this.selectedCurrencyPair.currencyPairId === elm.currencyPairId) {
-          this.selectedCurrencyPair = CurrencyPair.deepCopy(elm);
-          this.onSelectCurrencyPair(this.selectedCurrencyPair);
-        }
-      });
-    }
+    this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(pair));
   }
 
   /**
@@ -151,11 +154,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.currencyDisplayMode = value;
     this.isFiat = value === 'USD';
     this.currencyName = value;
-    this.pairs = !this.searchInput ?
-      this.choosePair(value) :
-      this.choosePair(value).filter(f => f.currencyPairName.toUpperCase().match(this.searchInput.toUpperCase()));
-    // this.prefPairs = this.choosePrefPairs();
-    // this.searchInput = '';
+    this.pairs = this.choosePair(value, this.searchInput);
   }
 
   /**
@@ -163,48 +162,40 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    * @param no param
    */
   uncheckFavourites() {
-    this.pairs.forEach(pair => pair.isFavourite = false);
-    this.marketService.removeFavourites();
+    this.pairs.forEach(pair => pair.isFavorite = false);
+    this.marketService.removeFavorites();
   }
 
   /**
    * Return array by market
    * @param {string} market
+   * @param {string} searchValue
    * @returns {CurrencyPair[]}
    */
-  choosePair(market: string): CurrencyPair[] {
+  choosePair(market: string, searchValue: string = ''): CurrencyPair[] {
     if (market === 'FAVORITES') {
-      return this.currencyPairs.filter(pair => pair.isFavourite);
+      return this.currencyPairs
+        .filter(pair => this.userFavorites.indexOf(pair.currencyPairId) >= 0
+          && pair.currencyPairName.toUpperCase().startsWith(searchValue.toUpperCase()));
     }
     if (market === 'LOC') {
-      return this.currencyPairs.filter(f => f.market
-        && f.market.toUpperCase() !== 'USD'
-        && f.market.toUpperCase() !== 'BTC'
-        && f.market.toUpperCase() !== 'ETH');
+      return this.currencyPairs
+        .filter(f => f.market
+          && f.market.toUpperCase() !== 'USD'
+          && f.market.toUpperCase() !== 'BTC'
+          && f.market.toUpperCase() !== 'ETH'
+          && f.currencyPairName.toUpperCase().startsWith(searchValue.toUpperCase()));
     }
-    return this.currencyPairs.filter(f => f.market && f.market.toUpperCase() === market.toUpperCase());
+    return this.currencyPairs
+      .filter(f => f.market
+        && f.market.toUpperCase() === market.toUpperCase()
+        && f.currencyPairName.toUpperCase().startsWith(searchValue.toUpperCase()));
   }
 
-  // choosePrefPairs() {
-  //   const mPairs: CurrencyPair[] = [];
-  //   if (this.currencyDisplayMode === 'BTC') {
-  //     const luckyBtc: CurrencyPair = this.currencyPairs.find(pair => pair.currencyPairName === 'BTC/USD');
-  //     if (luckyBtc) {
-  //       mPairs.push(luckyBtc);
-  //     }
-  //   } else if (this.currencyDisplayMode === 'ETH') {
-  //     const luckyEth: CurrencyPair = this.currencyPairs.find(pair => pair.currencyPairName === 'ETH/USD');
-  //     if (luckyEth) {
-  //       mPairs.push(luckyEth);
-  //     }
-  //   }
-  //   return mPairs;
-  // }
 
   /** Filter markets data by search-data*/
   searchPair(value: string): void {
-    this.pairs = this.choosePair(this.currencyDisplayMode)
-      .filter(f => f.currencyPairName.toUpperCase().match(value.toUpperCase()));
+    this.pairs = this.choosePair(this.currencyDisplayMode, value)
   }
 
   /**
@@ -221,35 +212,19 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   toggleFavorite(pair: CurrencyPair) {
-    if(!this.authService.isAuthenticated()) {
+    if(!this.isAuthenticated) {
       return;
     }
-    pair.isFavourite = !pair.isFavourite;
-    this.marketService.manageUserFavouriteCurrencyPair(pair)
+    this.marketService.manageUserFavoriteCurrencyPair(pair.currencyPairId, this.getIsFavorite(pair.currencyPairId))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => console.log(res), error1 => console.log(error1));
-    this.pairs = this.choosePair(this.currencyDisplayMode);
+      .subscribe(
+        res => this.store.dispatch(new dashboardActions.ToggleUserFavoriteCurrencyPair(pair.currencyPairId) ),
+        error1 => console.log(error1));
   }
 
   isFavorite(pair: CurrencyPair): boolean {
-    return pair.isFavourite;
+    return pair.isFavorite;
   }
-
-  private onGetCurrencyPairs(currencyPairs: CurrencyPair[]) {
-    if (this.currencyPairs.length === 0) {
-      this.currencyPairs = currencyPairs;
-    } else {
-      currencyPairs.forEach(item => {
-        this.addOrUpdate(item);
-      });
-    }
-    this.pairs = this.choosePair(this.currencyDisplayMode);
-    // this.prefPairs = this.choosePrefPairs();
-    this.emitWhenSelectedPairIsUpdated(currencyPairs);
-    this.loadingFinished();
-    this.crd.detectChanges();
-  }
-
 
   private loadingFinished() {
     if(this.pairs && this.pairs.length && this.loading) {
@@ -287,6 +262,10 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       }
       target = target.parentElement;
     }
+  }
+
+  getIsFavorite(currencyPairId) {
+    return this.userFavorites.indexOf(currencyPairId) >= 0;
   }
 
   getPairById(pairId: number): CurrencyPair {

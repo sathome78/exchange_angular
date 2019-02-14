@@ -40,7 +40,7 @@
           <span class="menu__link-text">{{'Trade' | translate}}</span>
         </a>
       </li>
-      <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated()">
+      <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated">
         <a class="menu__link menu__link&#45;&#45;drop">
           <span class="menu__link-text">{{'Funds' | translate}}</span>
         </a>
@@ -60,7 +60,7 @@
           </ul>
         </div>
       </li>
-      <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated()">
+      <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated">
         <a class="menu__link menu__link&#45;&#45;drop">
           <span class="menu__link-text">{{'Orders' | translate}}</span>
         </a>
@@ -92,7 +92,7 @@
       <span class="menu__link-text">{{'News' | translate}}</span>
     </a>
     <div class="login-menu">
-      <ng-container *ngIf="isAuthenticated(); else login">
+      <ng-container *ngIf="isAuthenticated; else login">
         <span class="login-menu__icon">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0)">
@@ -121,7 +121,7 @@
               ${{(myBalance | async)?.USD | roundCurrency: 'USD' | formatCurrency}}
             </span>
           </div>
-          <a class="menu__link login-menu__link" routerLink="/settings" *ngIf="isAuthenticated()">
+          <a class="menu__link login-menu__link" routerLink="/settings" *ngIf="isAuthenticated">
             <span class="menu__link-text">{{'Settings' | translate}}</span>
           </a>
           <a class="menu__link login-menu__link menu__link--auth--log" (click)="onLogout()" style="padding-bottom: 16px;">
@@ -208,7 +208,7 @@
 
 
       <nav class="menu-mob">
-        <a class="menu-mob__link menu-mob__link--next-page" *ngIf="isAuthenticated()">
+        <a class="menu-mob__link menu-mob__link--next-page" *ngIf="isAuthenticated">
           <span class="menu-mob__link-icon">
             <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -223,7 +223,7 @@
           <span class="menu-mob__link-holdings-inf">~ ${{(myBalance | async)?.USD | roundCurrency:'USD' | formatCurrency}}</span>
         </a>
         <a
-          *ngIf="isAuthenticated()"
+          *ngIf="isAuthenticated"
           class="menu-mob__link"
           [routerLink]="['dashboard']"
           [queryParams]="{widget: 'trading'}"
@@ -262,7 +262,7 @@
           </span>
           <span class="menu-mob__link-text">{{'Trade' | translate}}</span>
         </a>
-        <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated()">
+        <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(FUNDS_FLAG)" [ngClass]="{'menu-mob__link--active': showFundsList}"
              routerLink="/funds/balances">
             <span class="menu-mob__link-icon">
@@ -292,7 +292,7 @@
             <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">{{'Balance' | translate}}</a>
           </div>
         </div>
-        <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated()">
+        <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(ORDERS_FLAG)" [ngClass]="{'menu-mob__link--active': showOrdersList}"
              routerLink="/orders/open">
             <span class="menu-mob__link-icon">
@@ -353,7 +353,7 @@
 
       <a class="header-mob__submenu-link" routerLink="funds/balances"
          routerLinkActive="header-mob__submenu-link--active"
-         (click)="setMobileWidget('balance')" *ngIf="isAuthenticated()">
+         (click)="setMobileWidget('balance')" *ngIf="isAuthenticated">
         <img class="header-mob__submenu-link-img" src="../../assets/img/wallet.svg">
         <span class="header-mob__submenu-link-text">{{'Balances' | translate}}</span>
       </a>
@@ -361,14 +361,14 @@
          [routerLink]="['dashboard']"
          [queryParams]="{widget: 'trade-history'}"
          routerLinkActive="header-mob__submenu-link--active"
-         (click)="setMobileWidget('trade-history')" *ngIf="isAuthenticated()">
+         (click)="setMobileWidget('trade-history')" *ngIf="isAuthenticated">
         <img class="header-mob__submenu-link-img" src="../../assets/img/history.svg">
         <span class="header-mob__submenu-link-text">{{'History' | translate}}</span>
       </a>
       <a class="header-mob__submenu-link"
          [routerLink]="['orders/open']"
          routerLinkActive="header-mob__submenu-link--active"
-         (click)="setMobileWidget('open')" *ngIf="isAuthenticated()">
+         (click)="setMobileWidget('open')" *ngIf="isAuthenticated">
         <img class="header-mob__submenu-link-img" src="../../assets/img/orders.svg">
         <span class="header-mob__submenu-link-text">{{'Open' | translate}}</span>
       </a>

@@ -193,9 +193,11 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
         sendLoginSuccessGtag();
         this.logger.debug(this, 'User { login: ' + this.email + ', pass: ' + this.password + '}' + ' signed in and obtained' + tokenHolder);
         this.authService.setToken(tokenHolder.token);
-        this.store.dispatch(new coreActions.SetOnLogin(this.authService.parseToken(tokenHolder.token)));
+        const parsedToken = this.authService.parseToken(tokenHolder.token);
+        this.store.dispatch(new coreActions.SetOnLogin(parsedToken));
         this.popupService.closeMobileLoginPopup();
         this.router.navigate(['/']);
+
         // TODO: just for promo state, remove after
         // location.reload();
       },

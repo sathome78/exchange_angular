@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {PopupService} from '../shared/services/popup.service';
 import {AuthService} from '../shared/services/auth.service';
 import {LoggingService} from '../shared/services/logging.service';
@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public showFundsList: boolean;
   public showOrdersList: boolean;
   public showReferralList: boolean;
+  public isAuthenticated: boolean = false;
   public FUNDS_FLAG = FUNDS_FLAG;
   public REFERRAL_FLAG = REFERRAL_FLAG;
   public ORDERS_FLAG = ORDERS_FLAG;
@@ -51,6 +52,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private dashboardService: DashboardService,
     private userService: UserService,
     private store: Store<State>,
+    private cdr: ChangeDetectorRef,
     public translate: TranslateService
   ) {
     this.userInfo$ = this.store.pipe(select(fromCore.getUserInfo));
@@ -78,6 +80,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.lang = this.langArray.filter(lang => lang.name === res)[0];
+      });
+
+    this.store
+      .pipe(select(fromCore.getIsAuthenticated))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((isAuthenticated: boolean) => {
+        this.isAuthenticated = isAuthenticated;
+        this.cdr.detectChanges();
       });
   }
 
@@ -118,12 +128,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.popupService.showMobileLoginPopup(true);
   }
 
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
-  }
-
   isVisible(): boolean {
-    return this.isAuthenticated() && !environment.production;
+    return this.isAuthenticated && !environment.production;
   }
 
   onLogout() {

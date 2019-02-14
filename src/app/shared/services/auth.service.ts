@@ -72,7 +72,7 @@ export class AuthService implements OnDestroy{
 
   public onLogOut() {
     localStorage.removeItem(TOKEN);
-    this.parseToken = null;
+    this.parsedToken = null;
     this.store.dispatch(new coreActions.SetOnLogout());
   }
 

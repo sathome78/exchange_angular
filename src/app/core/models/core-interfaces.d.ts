@@ -9,3 +9,7 @@ interface ParsedToken {
   token_id: number;
   value: string
 }
+
+interface MapModel<T>{
+  [key: string]: T;
+}

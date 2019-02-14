@@ -214,10 +214,10 @@ export class DashboardService {
   // }
 
   // TODO define type
-  getCurrencyPair(ISO1: string, ISO2: string) {
-    // return this.isoMockData();
-    // return this.http.get(`${ISO1}/${ISO2}`)
-  }
+  // getCurrencyPair(ISO1: string, ISO2: string) {
+  //   // return this.isoMockData();
+  //   // return this.http.get(`${ISO1}/${ISO2}`)
+  // }
 
   getMyBalances(): Observable<MyBalanceItem> {
     return this.http.get<MyBalanceItem>(this.apiUrl + '/info/private/v2/balances/myBalances')

@@ -42,8 +42,10 @@ export const getSettingsState = (state: State) => state.settings;
 /**
  * Selectors from dashboard module
  */
-export const getCurrencyPair = createSelector(getDashboardState, fromDashboard.getCurrencyPair);
+export const getActiveCurrencyPair = createSelector(getDashboardState, fromDashboard.getActiveCurrencyPairSelector);
 export const getCurrencyPairArray = createSelector(getDashboardState, fromDashboard.getCurrencyPairArray);
+export const getMarketCurrencyPairsMap = createSelector(getDashboardState, fromDashboard.getMarketCurrencyPairsArraySelector);
+export const getFavoritesCurrencyPair = createSelector(getDashboardState, fromDashboard.getFavoritesCurrencyPairSelector);
 export const getUserBalance = createSelector(getDashboardState, fromDashboard.getUserBalance);
 export const getSelectedOrderBookOrder = createSelector(getDashboardState, fromDashboard.getSelectedOrderBookOrder);
 export const getCurrencyPairInfo = createSelector(getDashboardState, fromDashboard.getCurrencyPairInfo);

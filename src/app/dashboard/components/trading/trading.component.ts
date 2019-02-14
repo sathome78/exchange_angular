@@ -6,7 +6,7 @@ import {takeUntil, withLatestFrom} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {State, getCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getDashboardState, getIsAuthenticated} from 'app/core/reducers/index';
+import {State, getActiveCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getDashboardState, getIsAuthenticated} from 'app/core/reducers/index';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserService} from 'app/shared/services/user.service';
 import {OrderItem, UserBalance} from 'app/model';
@@ -105,7 +105,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
     this.store
       .pipe(select(getIsAuthenticated))
-      .pipe(withLatestFrom(this.store.pipe(select(getCurrencyPair))))
+      .pipe(withLatestFrom(this.store.pipe(select(getActiveCurrencyPair))))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(([isAuth, pair]: [boolean, CurrencyPair]) => {
         this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you login
@@ -120,7 +120,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       });
 
     this.store
-      .pipe(select(getCurrencyPair))
+      .pipe(select(getActiveCurrencyPair))
       .pipe(withLatestFrom(this.store.pipe(select(getIsAuthenticated))))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(([pair, isAuth]: [CurrencyPair, boolean]) => {
