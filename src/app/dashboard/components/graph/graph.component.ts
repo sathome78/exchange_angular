@@ -138,7 +138,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     private langService: LangService,
     private dashboardService: DashboardService,
     private dashboardWebsocketService: DashboardWebSocketService,
-    private ref: ChangeDetectorRef
+    private cdr: ChangeDetectorRef
     ) {
       super();
     }
@@ -150,7 +150,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPair) => {
         this.pair = pair;
-        this.ref.detectChanges();
+        this.cdr.detectChanges();
       });
 
     this.store
@@ -160,7 +160,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         this.currentCurrencyInfo = pair;
         this.isFiat = this.pair.market === 'USD';
         this.splitPairName(this.pair);
-        this.ref.detectChanges()
+        this.cdr.detectChanges()
       });
 
     this.store
@@ -168,7 +168,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair[]) => {
         this.allCurrencyPairs = pair;
-        this.ref.detectChanges()
+        this.cdr.detectChanges()
       });
 
 

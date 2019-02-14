@@ -83,7 +83,7 @@ export class LoginPopupComponent implements OnInit, OnDestroy {
         .subscribe((tokenHolder: TokenHolder) => {
             this.logger.debug(this, 'User { login: ' + email + ', pass: ' + password + '}' + ' signed in and obtained' + tokenHolder);
             this.authService.setToken(tokenHolder.token);
-            this.store.dispatch(new coreActions.SetOnLogin(this.authService.parseToken(tokenHolder.token)));
+            this.store.dispatch(new coreActions.SetOnLoginAction(this.authService.parseToken(tokenHolder.token)));
             this.popupService.closeLoginPopup();
             this.router.navigate(['/']);
             sendLoginSuccessGtag();

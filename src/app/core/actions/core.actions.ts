@@ -147,11 +147,11 @@ export class FailLoadCurrenciesForChoose implements Action {
 }
 
 // Login/logout
-export class SetOnLogin implements Action {
+export class SetOnLoginAction implements Action {
   readonly type = ON_LOGIN;
   constructor(public payload: ParsedToken) {}
 }
-export class SetOnLogout implements Action {
+export class SetOnLogoutAction implements Action {
   readonly type = ON_LOGOUT;
 }
 
@@ -179,5 +179,5 @@ export type Actions
   | SetVerificationStatusAction
   | LoadVerificationStatusAction
   | FailLoadVerificationStatusAction
-  | SetOnLogin
-  | SetOnLogout
+  | SetOnLoginAction
+  | SetOnLogoutAction

@@ -81,7 +81,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
     if(this.authService.isAuthenticated()) {
-      this.store.dispatch(new coreActions.SetOnLogin(this.authService.parsedToken));
+      this.store.dispatch(new coreActions.SetOnLoginAction(this.authService.parsedToken));
     }
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
