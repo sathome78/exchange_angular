@@ -3,11 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 
-import {LOCAL_HOST} from '../app/shared/services/http.utils';
+import {DEV_HOST} from '../app/shared/services/http.utils';
 
 export const environment = {
   production: false,
-  apiUrl: LOCAL_HOST,
+  apiUrl: DEV_HOST,
   encodeKey: '3255c246-4b9f-43a5-b2dd-63524f959953',
 };
 
