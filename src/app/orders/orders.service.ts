@@ -77,4 +77,12 @@ export class OrdersService {
     }
     return this.http.post(`${this.apiUrl}/info/private/v2/dashboard/cancel`,{}, {params});
   }
+
+  cancelAllOrders(currency_pair?: string): Observable<any> {
+    const url = `${this.apiUrl}/info/private/v2/dashboard/cancel/all`;
+    const params = {
+      currency_pair: currency_pair.toLowerCase().replace('/', '_'),
+    }
+    return !currency_pair ? this.http.post(url, {}) : this.http.post(url, {}, {params});
+  }
 }

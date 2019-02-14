@@ -69,8 +69,10 @@ re-captcha{
 		}
 	}
 	.wrap-input__input{
-		color: #DEDEFB;
+		color: rgba(148, 194, 255, .5);
 		margin: 0;
+		border-color: rgba(148, 194, 255, .5);
+
 	}
 	.popup__form{
 		max-width: 320px;
@@ -78,6 +80,11 @@ re-captcha{
 	.popup__btn{
 		max-width: unset;
 		margin-top: 18px;
+		color: #237BEF;
+    border-color: #237BEF;
+    &.popup__btn--active{
+    	color: #fff;
+    }
 	}
 	.popup__link-text--mob{
 		
@@ -138,5 +145,6 @@ color: #576E9C;
 	}
 	.wrap-input__label{
 		background: #191A39;
+		color: rgba(148, 194, 255, .5);
 	}
 }
