@@ -11,6 +11,7 @@ import {AuthService} from 'app/shared/services/auth.service';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {AUTH_MESSAGES} from '../../../../shared/constants';
 
 @Component({
   selector: 'app-google-step-three',
@@ -22,6 +23,7 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   secretCode = '';
   statusMessage = '';
+  public AUTH_MESSAGES = AUTH_MESSAGES;
   form: FormGroup;
 
   constructor(
@@ -73,9 +75,12 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
             this.store.dispatch(new settingsActions.LoadGAStatusAction(this.authService.getUsername()))
             this.popupService.closeTFAPopup();
           },
-          error1 => {
-            this.statusMessage = this.translateService.instant('Failed to set your google auth code');
-            console.log(error1);
+          err => {
+          if (err.status === 400) {
+            this.statusMessage = AUTH_MESSAGES.INVALID_CREDENTIALS;
+          } else {
+            this.statusMessage = AUTH_MESSAGES.OTHER_HTTP_ERROR;
+          }
           });
     }
   }
