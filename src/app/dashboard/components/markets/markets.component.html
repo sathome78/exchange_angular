@@ -128,7 +128,7 @@
             <!--Preferred Currency Pairs-->
 
               <app-markets-item
-                *ngFor="let pair of (pairs | currencySort :'volume'); trackBy: trackByFn"
+                *ngFor="let pair of (pairs | currencySort :'currencyVolume'); trackBy: trackByFn"
                 [pair]="pair"
                 [isFiat]="isFiat"
                 [currentCurrencyPair]="currentCurrencyPair"
@@ -183,7 +183,7 @@
       </div>
       <div class="markets__tbody">
         <perfect-scrollbar>
-          <ng-container *ngFor="let pair of prefPairs | currencySort :'volume'">
+          <ng-container *ngFor="let pair of prefPairs | currencySort :'currencyVolume'">
             <div class="markets__row widget__table-row"
                  [ngClass]="{
                   'widget__table-row--green': isChangePositive(pair),
@@ -215,7 +215,7 @@
             </div>
             <div style="height: 4px;"></div>
           </ng-container>
-          <ng-container *ngFor="let pair of pairs | currencySort :'volume'">
+          <ng-container *ngFor="let pair of pairs | currencySort :'currencyVolume'">
             <div class="markets__row widget__table-row"
                  [ngClass]="{
                  'widget__table-row--green': isChangePositive(pair),
