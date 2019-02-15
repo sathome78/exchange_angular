@@ -1,4 +1,5 @@
 import {Action} from '@ngrx/store';
+import {Order} from 'app/model/order.model';
 
 export const CHANGE_CURRENCY_PAIR = '[Dashboard] Change currency pair';
 export const LOAD_CURRENCY_PAIRS = '[Dashboard] Load currency pair';
@@ -22,11 +23,11 @@ export class ChangeCurrencyPairAction implements Action {
 }
 
 /**
- * Change currency pair 'BTC/USD'
+ * Set last created order'
  */
 export class SetLastCreatedOrderAction implements Action {
   readonly type = SET_LAST_CREATED_ORDER;
-  constructor(public payload) {}
+  constructor(public payload: Order) {}
 }
 
 /**

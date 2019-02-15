@@ -1,15 +1,14 @@
-import {Component, EventEmitter, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import {Subject, forkJoin, Subscription} from 'rxjs';
+import {Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {Subject, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/internal/operators';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {AuthService} from 'app/shared/services/auth.service';
-import {CurrencyPair} from '../../../model/currency-pair.model';
+import {CurrencyPair} from 'app/model/currency-pair.model';
 import {select, Store} from '@ngrx/store';
 import {State, getCurrencyPair, getLastCreatedOrder} from 'app/core/reducers/index';
 import {EmbeddedOrdersService} from './embedded-orders.service';
-import {DashboardService} from '../../dashboard.service';
-import {Order} from '../../../model/order.model';
+import {Order} from 'app/model/order.model';
 
 @Component({
   selector: 'app-embedded-orders',
@@ -36,7 +35,6 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   constructor(
     private store: Store<State>,
     private authService: AuthService,
-    // private mockData: MockDataService,
     private ordersService: EmbeddedOrdersService,
     private cdr: ChangeDetectorRef
   ) {
@@ -45,12 +43,6 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
 
   ngOnInit() {
     this.itemName = 'orders';
-
-    /** mock data */
-    // this.openOrders = this.mockData.getOpenOrders().items;
-    // this.historyOrders = this.mockData.getOpenOrders().items;
-    // this.activeCurrencyPair = this.mockData.getMarketsData()[2];
-    /** ---------------------------------------------- */
 
     this.store
       .pipe(select(getCurrencyPair))
