@@ -9,7 +9,6 @@ export class DashboardService {
 
   public dashboardToTools$ = new Subject();
   public toolsToDashboard$ = new Subject();
-
   /** talking between dashboard mobile and mobile menu */
   public activeMobileWidget = new Subject<string>();
 

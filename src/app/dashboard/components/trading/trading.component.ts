@@ -11,7 +11,7 @@ import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserService} from 'app/shared/services/user.service';
 import {OrderItem, UserBalance} from 'app/model';
 import {PopupService} from 'app/shared/services/popup.service';
-import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
+import {SelectedOrderBookOrderAction, SetLastCreatedOrderAction} from '../../actions/dashboard.actions';
 import {defaultOrderItem} from '../../reducers/default-values';
 import {AuthService} from 'app/shared/services/auth.service';
 import {TranslateService} from '@ngx-translate/core';
@@ -566,21 +566,26 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.tradingService.createOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
+        this.store.dispatch(new SetLastCreatedOrderAction(order))
         this.userService.getUserBalance(this.currentPair);
         type === this.BUY ? this.resetBuyModel() : this.resetSellModel();
 
         this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
         this.notifySuccess = true;
+        this.cdr.detectChanges();
         setTimeout(() => {
           this.notifySuccess = false;
           this.createdOrder = null;
+          this.cdr.detectChanges();
           }, 5000);
       }, err => {
         console.log(err);
         this.notifyFail = true;
+        this.cdr.detectChanges();
         setTimeout(() => {
           this.notifyFail = false;
           this.createdOrder = null;
+          this.cdr.detectChanges();
           }, 5000);
       });
   }
