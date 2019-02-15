@@ -109,11 +109,11 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   sortVolume() {
-    this.sortPoint === 'asc' ? this.sortPoint = 'desc' : this.sortPoint = 'asc';
+    this.sortPoint = this.sortPoint === 'asc' ? 'desc' : 'asc';
     if (this.sortPoint === 'asc') {
-      this.pairs = this.pairs.sort((a, b) => a.volume - b.volume);
+      this.pairs = this.pairs.sort((a, b) => a.currencyVolume - b.currencyVolume);
     } else {
-      this.pairs = this.pairs.sort((a, b) => b.volume - a.volume);
+      this.pairs = this.pairs.sort((a, b) => b.currencyVolume - a.currencyVolume);
     }
   }
 
