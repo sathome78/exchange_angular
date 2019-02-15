@@ -1,25 +1,24 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ChangeDetectorRef} from '@angular/core';
 
 import {gridsterItemOptions, gridsterOptions} from '../shared/configs/gridster-options';
 import {DashboardService} from './dashboard.service';
 import {DashboardItemChangeSize} from '../shared/models/dashboard-item-change-size-model';
-import {MarketService} from './components/markets/market.service';
 import {BreakpointService} from '../shared/services/breakpoint.service';
 import {Subject} from 'rxjs';
 import {OnDestroy} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
-import {AuthService} from '../shared/services/auth.service';
 import {ActivatedRoute} from '@angular/router';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
 import {Store, select} from '@ngrx/store';
 import * as fromCore from '../core/reducers';
 import {PopupService} from 'app/shared/services/popup.service';
+import {CurrencyPair} from 'app/model';
 
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -53,16 +52,15 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public activeMobileWidget = 'markets';
   public breakPoint;
   public currencyPair = null
+  public isAuthenticated: boolean = false;
 
   constructor(
     public breakPointService: BreakpointService,
     public dashboardWebsocketService: DashboardWebSocketService,
     private dataService: DashboardService,
-    private marketsService: MarketService,
     private route: ActivatedRoute,
     private popupService: PopupService,
-    private store: Store<fromCore.State>,
-    private authService: AuthService) {
+    private store: Store<fromCore.State>) {
   }
 
   ngOnInit() {
@@ -92,12 +90,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.addItemToDashboard(res));
 
-    this.marketsService.activeCurrencyListener
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.changeRatioByWidth();
-      });
-
     this.route.params
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(params => {
@@ -108,11 +100,24 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
     this.store
-      .pipe(select(fromCore.getCurrencyPair))
+      .pipe(select(fromCore.getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(pair => {
+      .subscribe((pair: CurrencyPair) => {
         this.currencyPair = pair;
+        this.changeRatioByWidth();
       });
+    this.store
+      .pipe(select(fromCore.getIsAuthenticated))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((isAuthenticated: boolean) => {
+        this.isAuthenticated = isAuthenticated;
+        this.widgets = [];
+        setTimeout(() => {
+          this.widgets = this.dataService.getWidgetPositions()
+        })
+        this.gridsterContainer && this.gridsterContainer.reload();
+      });
+
   }
 
   checkRoute() {
@@ -169,7 +174,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
    * @returns {boolean}
    */
   showWidget(widget: string): boolean {
-    if (!this.isAuthenticated()) {
+    if (!this.isAuthenticated) {
       switch (widget) {
         case 'trade-history':
         case 'orders':
@@ -242,11 +247,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param {number} value
    */
   private changeRatio(value: number) {
-    this.gridsterContainer.setOption('widthHeightRatio', value).reload();
-  }
-
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
+    this.gridsterContainer && this.gridsterContainer.setOption('widthHeightRatio', value).reload();
   }
 
 }

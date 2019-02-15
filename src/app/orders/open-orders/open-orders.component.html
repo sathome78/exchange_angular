@@ -179,7 +179,7 @@
     </div>
     <form action="">
       <div class="row orders__filters">
-        <div>
+        <div class="orders__filters--wr">
 
           <app-dynamic-input
             [value]="currencyPairValue"
@@ -190,6 +190,21 @@
           >
           </app-dynamic-input>
           <div class="wrap-input__line"></div>
+          <div class="cancel-btn-wr">
+            <button class="cancel-btn btn" (click)="toggleShowCancelAllOrdersConfirm()">
+              <span>{{'Cancel all' | translate}} <span *ngIf="!!currencyPairId">{{'(Filtered)' | translate}}</span></span>
+            </button>
+          </div>
+          <div class="revoke-request" *ngIf="isShowCancelAllOrdersConfirm">
+            <div class="revoke-request__title" *ngIf="!currencyPairId">{{'Are you sure to cancel all orders?' | translate}}</div>
+            <div class="revoke-request__title" *ngIf="!!currencyPairId">{{'Are you sure to cancel all filtered orders?' | translate}}</div>
+            <div class="revoke-request__button-wrap">
+              <button class="btn btn--small" (click)="cancelAllOrders()">{{'Yes' | translate}}</button>
+              <button class="btn btn--small" (click)="toggleShowCancelAllOrdersConfirm()">{{'No' | translate}}</button>
+            </div>
+            <div _ngcontent-c19="" class="revoke-request__triangle">
+            </div>
+          </div>
         </div>
         <!--<div class="wrap-input orders__datepicker">-->
           <!--<label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date}" >From</label>-->

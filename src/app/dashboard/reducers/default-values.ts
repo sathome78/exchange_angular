@@ -1,7 +1,7 @@
 export const defaultValues = {
   page: 0,
-  currencyPairId: 0,
-  currencyPairName: '',
+  currencyPairId: 1,
+  currencyPairName: 'BTC/USD',
   lastOrderRate: 0,
   predLastOrderRate: 0,
   percentChange: 0,
