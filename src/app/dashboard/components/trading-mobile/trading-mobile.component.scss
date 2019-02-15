@@ -1,6 +1,29 @@
 :host {
   width: 100%;
 }
+
+.trade-buttons-wr{
+      display: flex;
+    justify-content: space-around;
+    padding: 3px 10px 18px 13px;
+    background: #191a39;
+    position: fixed;
+    bottom: 46px;
+    left: 0;
+    right: 0;
+    width: 100%;
+
+  .widget__trading-btn{
+    margin-top: 0;
+  }
+  button:nth-child(1){
+    margin-right: 15px;
+  }
+  button:nth-child(2){
+
+    margin-left: 15px;
+  }
+}
 .radio__input:checked{
   &+.radio__text{
     background-color: #237BEF;
@@ -128,6 +151,14 @@
     &:nth-child(1){
       margin-right: 8px;
     }
+    .trade-buttons-wr{
+      button:nth-child(1){
+        margin-right: 8px;
+      }
+      button:nth-child(2){
+        margin-left: 8px;
+      }
+    }
   }
 }
 .widget__trading-form--wr{
@@ -160,6 +191,7 @@
 
 @media(max-width: 992px){
   .widget__trading-row{
-  margin-top: 16px;
-}
+    margin-top: 16px;
+  }
+
 }

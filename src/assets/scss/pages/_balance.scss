@@ -7,15 +7,16 @@
   /*--- modificators end ---*/
   /*--- elements start ---*/
   &__content-mob{
-    padding-bottom: 40px;
+    padding-bottom: 32px;
   }
   &__header-mob {
-    margin: 0 12px 24px;
+    margin: 0 0 15px;
     padding-top: 12px;
   }
   &__header-btn-wrap {
     display: flex;
     //justify-content: space-between;
+    padding: 0 12px;
     .btn {
       &:first-child {
         margin-right: 8px;
@@ -86,15 +87,17 @@
   }
   &__tabs-mob {
     width: 100%;
-    position: fixed;
-    bottom: 60px;
+    // position: fixed;
+    // bottom: 60px;
+    margin-bottom: 15px;
     padding: 0 16px;
     padding: 0 8px;
-    background-color: #E9F2FD;
+    // background-color: #E9F2FD;
+        background-color: #252543;
     .tabs__item {
       margin-right: 20px;
       &--active {
-        border-top: 2px solid $darker-blue;
+        // border-top: 2px solid $darker-blue;
         border-bottom: 0;
         &:before, &:after {
           content: '';
@@ -526,12 +529,26 @@
 .dark-theme {
   .balance {
     &__tabs-mob {
-      background-color: #21417D;
+      // background-color: #21417D;
+      background-color: #252543;
       .tabs__item {
         &--active {
-          &:after {
-            border-color: transparent transparent #21417D transparent;
+          @media(max-width: 1199px){
+          border: none;
+          &:before{
+            display: none;
           }
+          &:after{
+            width: 130%;
+            height: 2px;
+            background: #237BEF;
+            bottom: 0;
+            top: auto;
+            border: none;
+            // left: -8px;
+            // right: -8px;
+          }
+        }
         }
       }
     }
