@@ -8,6 +8,7 @@ import * as fromCore from '../../../../core/reducers'
 import * as settingsActions from '../../../../settings/store/actions/settings.actions'
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {AUTH_MESSAGES} from '../../../../shared/constants';
 
 @Component({
   selector: 'app-google-disable',
@@ -56,14 +57,16 @@ export class GoogleDisableComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           // console.log(res);
-          this.store.dispatch(new settingsActions.LoadGAStatusAction(this.authService.getUsername()))
+          this.store.dispatch(new settingsActions.LoadGAStatusAction())
           this.popupService.closeTFAPopup();
         },
-        error1 => {
-          console.log(error1);
+        err => {
+          if (err.status === 400) {
+            this.statusMessage = AUTH_MESSAGES.INVALID_CREDENTIALS;
+          } else {
+            this.statusMessage = AUTH_MESSAGES.OTHER_HTTP_ERROR;
+          }
         });
-    } else {
-      console.log('2FaGoogle Disable form is invalid');
     }
   }
 

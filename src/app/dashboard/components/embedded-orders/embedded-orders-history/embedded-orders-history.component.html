@@ -78,8 +78,8 @@
     </td>
     <td class="table__cell">
       <span>
-        {{item.stopRate | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
-        {{item.currencyPairName | splitCurrency: 2}}
+        {{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
+        {{item.orderBaseType !== 'STOP_LIMIT' ? '' : item.currencyPairName | splitCurrency: 2}}
       </span>
     </td>
     <td class="table__cell">

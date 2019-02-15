@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ElementRef, A
 
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {MarketService} from '../markets/market.service';
-import {ChangeCurrencyPairAction} from '../../actions/dashboard.actions';
+import * as dashboardActions from '../../actions/dashboard.actions';
 import {Store} from '@ngrx/store';
 import {State} from '../../../core/reducers';
 
@@ -46,11 +46,11 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
   }
 
   setCurrentPair(pair: CurrencyPair) {
-    this.store.dispatch(new ChangeCurrencyPairAction(pair));
+    this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(pair));
     this.onCloseModal();
   }
-
+  // refactor
   isFavorite(pair: CurrencyPair): boolean {
-    return pair.isFavourite;
+    return pair.isFavorite;
   }
 }

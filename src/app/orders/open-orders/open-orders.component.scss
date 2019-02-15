@@ -107,3 +107,37 @@
   text-align: center;
   font-size: 18px;
 }
+.cancel-btn-wr {
+  max-width: 185px;
+    width: 100%;
+        
+}
+
+.cancel-btn-wr .cancel-btn{
+  border-color: #94C2FF;
+        color:  #94C2FF;
+        background: transparent;
+        &:hover{
+          color: #fff;
+    background-color: #237BEF;
+    border-color: #237BEF;
+        }
+
+}
+
+.orders__filters--wr {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+
+}
+
+.orders .orders__filters--wr .revoke-request{
+  right: 0;
+  bottom: 125%;
+  padding: 8px 28px;
+    .revoke-request__title{
+      line-height: 1.35;
+    }
+}

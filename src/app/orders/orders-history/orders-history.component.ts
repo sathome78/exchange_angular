@@ -271,6 +271,11 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   onChangeCurrPair(val: string): void {
     this.currencyPairValue = val;
   }
+
+  onSelectPair({text}): void {
+    this.currencyPairValue = text;
+    this.onFilterOrders();
+  }
   currency(currName: string, currIndex: number): string {
     const curr = currName.split('/');
     return curr[currIndex - 1];

@@ -1,7 +1,7 @@
 import {HttpHeaders} from '@angular/common/http';
 
 export const MEDIA_TYPE_JSON: HttpHeaders = new HttpHeaders()
-  .set('Content-Type', 'application/json')
+  .set('Content-Type', 'application/json');
 
 export const TOKEN = 'token';
 export const IP_USER_HEADER = 'X-Forwarded-For';
@@ -13,7 +13,8 @@ export const CORS_HEADER = 'Access-Control-Allow-Origin';
 // export const PROD_HOST = 'https://dev5.exrates.tech';
 
 export const PROD_HOST = 'https://e213lds53f92f.exrates.me';
-export const STAGING_HOST = 'http://dev8.exapp';
+// export const STAGING_HOST = 'http://dev8.exapp';
+export const STAGING_HOST = 'http://preprod.exapp';
 export const LOCAL_HOST = 'http://dev7.exapp';
 
 export const DEV_HOST = 'http://localhost:8080';

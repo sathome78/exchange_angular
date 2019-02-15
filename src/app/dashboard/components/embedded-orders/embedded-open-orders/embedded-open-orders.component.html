@@ -41,7 +41,7 @@
       <span>{{item.exExchangeRate  | roundCurrency: arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
     </td>
     <td class="table__cell">
-      <span>{{item.stopRate  | roundCurrency: arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
+      <span>{{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | roundCurrency: arrPairName[1] | formatCurrency}} {{item.orderBaseType !== 'STOP_LIMIT' ? '' : arrPairName[1]}}</span>
     </td>
     <td class="table__cell">
       <span>{{item.amountBase | roundCurrency: arrPairName[0] | formatCurrency}} {{arrPairName[0]}}</span>

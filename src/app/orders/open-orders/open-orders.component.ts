@@ -13,6 +13,7 @@ import {takeUntil} from 'rxjs/operators';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {SimpleCurrencyPair} from 'app/core/models/simple-currency-pair';
 import { CurrencyChoose } from 'app/core/models/currency-choose.model';
+import {OrdersService} from '../orders.service';
 
 @Component({
   selector: 'app-open-orders',
@@ -34,6 +35,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public countPerPage = 15;
   public isMobile: boolean = false;
   public showCancelOrderConfirm: number | null = null;
+  public isShowCancelAllOrdersConfirm = false;
 
   public myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'dd.mm.yyyy',
@@ -55,6 +57,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<State>,
+    private ordersService: OrdersService,
     private utils: UtilsService,
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr));
@@ -121,6 +124,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   }
 
   changePage(page: number): void {
+    this.showCancelOrderConfirm = null;
     this.currentPage = page;
     this.loadOrders();
   }
@@ -133,6 +137,21 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       this.currentPage = 1;
       this.loadOrders();
     }
+  }
+
+  cancelAllOrders() {
+    this.isShowCancelAllOrdersConfirm = false;
+    this.ordersService.cancelAllOrders(this.currencyPairValue)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.currentPage = 1;
+        this.currencyPairValue = '';
+         this.loadOrders();
+      });
+  }
+
+  toggleShowCancelAllOrdersConfirm() {
+    this.isShowCancelAllOrdersConfirm = !this.isShowCancelAllOrdersConfirm;
   }
 
   /** tracks input changes in a my-date-picker component */

@@ -16,11 +16,14 @@
       <label class="wrap-input__label">{{'Password' | translate}}</label>
       <div class="wrap-input__line"></div>
       <div *ngIf="form.get('password').touched && form.get('password').errors != null">
-        <span
+        <div class="input-hint-wrapper">
+          <span
           *ngIf="form.get('password').errors['required']"
           class="wrap-input__message">
           {{'This field is required.' | translate}}
         </span>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -35,15 +38,18 @@
       <label class="wrap-input__label">{{'Authenticator code' | translate}}</label>
       <div class="wrap-input__line"></div>
       <div *ngIf="form.get('pincode').touched && form.get('pincode').errors != null">
-        <span
+        <div class="input-hint-wrapper">
+          <span
           *ngIf="form.get('pincode').errors['required']"
           class="wrap-input__message">
           {{'Authenticator code is required.' | translate}}
         </span>
+        </div>
+        
       </div>
       <!-- <span style="display: inline-block; margin-top: 4px;">{{'Check pin-code in your email' | translate}}</span> -->
     </div>
   </div>
-
+  <span class="wrap-input__message-single" *ngIf="!!statusMessage">{{statusMessage | translate}}</span>
   <button class="btn btn--error btn--center " [disabled]="!form.valid" (click)="disableGoogleAuth()">{{'Disable GA' | translate}}</button>
 </form>
