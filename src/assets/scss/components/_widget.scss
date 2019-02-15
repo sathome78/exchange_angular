@@ -932,7 +932,7 @@
       max-width: none;
       height: 48px;
       line-height: 1;
-      font-size: 24px;
+      font-size: 20px;
       margin: auto 0 0;
       //background-color: #264F92;
       //border-color: rgba(35, 123, 239, 0.5);
@@ -1313,10 +1313,16 @@
   .widget__graph{
     height: calc(100% - 55px);
   }
-
+  .curency-input{
+    .dynamic-input__label{
+      background: #191a39!important;
+    }
+  }
+  
   .wrap-input__currency{
     top: 1px;
     right: 0px;
+    padding-right: 8px;
     color: #424D5E;
   }
   .widget__graph--mob{

@@ -35,6 +35,9 @@
     @media(max-width: 568px){
         font-size: 11px;
       }
+      @media(max-width: 420px){
+        font-size: 9px;
+      }
   }
   .order-book-buy{
     padding-left: 10px;

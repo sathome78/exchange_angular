@@ -5,7 +5,7 @@
 .trade-buttons-wr{
       display: flex;
     justify-content: space-around;
-    padding: 3px 10px 18px 13px;
+    padding: 3px 13px 18px 13px;
     background: #191a39;
     position: fixed;
     bottom: 46px;
@@ -110,7 +110,7 @@
 
 
 .trading-wr--mobile{
- padding: 0 10px 0 13px;
+ padding: 0 13px 0 13px;
  .wrap-input__input{
   height: 33px;
 
@@ -193,5 +193,7 @@
   .widget__trading-row{
     margin-top: 16px;
   }
-
+  .wrap-input__currency{
+    padding-right: 8px;
+  }
 }
