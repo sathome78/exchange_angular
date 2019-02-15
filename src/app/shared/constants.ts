@@ -20,5 +20,6 @@ export const AUTH_MESSAGES = {
   'REQUIRED_GOOGLE_AUTHORIZATION_CODE': 'Required Google authorization code.',
   'EMAIL_AUTHORIZATION_FAILED': 'Email authorization failed.',
   'FAILED_TO_GET_USER_TOKEN': 'Failed to get user token.',
+  'INVALID_CREDENTIALS': 'Invalid credentials',
   'OTHER_HTTP_ERROR' : 'Service is temporary unavailable, please try again later.'
 }

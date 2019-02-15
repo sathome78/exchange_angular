@@ -9,6 +9,9 @@ import {Location} from '@angular/common';
 import {UtilsService} from '../../shared/services/utils.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {Store} from '@ngrx/store';
+import * as fromCore from '../../core/reducers';
+import * as coreActions from '../../core/actions/core.actions';
 
 declare var encodePassword: Function;
 declare var sendConfirmationPasswordGtag: Function;
@@ -37,6 +40,7 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private utilsService: UtilsService,
     private location: Location,
+    private store: Store<fromCore.State>,
     private translateService: TranslateService
   ) {
   }
@@ -75,7 +79,8 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
             finPasswordSet: res.finPasswordSet,
             referralReference: res.referralReference,
           };
-          this.authService.setTokenHolder(tokenHolder);
+          this.authService.setToken(tokenHolder.token);
+          this.store.dispatch(new coreActions.SetOnLoginAction(tokenHolder.token));
           this.router.navigate(['/funds/balances']);
           sendConfirmationPasswordGtag();
         }, err => {

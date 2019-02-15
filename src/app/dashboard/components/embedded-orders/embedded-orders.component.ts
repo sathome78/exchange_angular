@@ -6,7 +6,7 @@ import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {AuthService} from 'app/shared/services/auth.service';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {select, Store} from '@ngrx/store';
-import {State, getCurrencyPair} from 'app/core/reducers/index';
+import {State, getActiveCurrencyPair} from 'app/core/reducers/index';
 import {EmbeddedOrdersService} from './embedded-orders.service';
 
 @Component({
@@ -50,7 +50,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
     /** ---------------------------------------------- */
 
     this.store
-      .pipe(select(getCurrencyPair))
+      .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPair) => {
         this.activeCurrencyPair = pair;

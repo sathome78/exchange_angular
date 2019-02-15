@@ -10,6 +10,7 @@ import {CurrencyPair} from 'app/model';
 export class MarketsItemComponent implements OnInit {
 
   @Input('pair') public pair: CurrencyPair;
+  @Input('isFavorite') public isFavorite: boolean;
   @Input('currentCurrencyPair') public currentCurrencyPair: CurrencyPair;
   @Input('isFiat') public isFiat: boolean;
 
@@ -29,10 +30,6 @@ export class MarketsItemComponent implements OnInit {
 
   isChangePositive(pair: CurrencyPair): boolean {
     return pair.lastOrderRate > pair.predLastOrderRate;
-  }
-
-  isFavorite(pair: CurrencyPair): boolean {
-    return pair.isFavourite;
   }
 
 }

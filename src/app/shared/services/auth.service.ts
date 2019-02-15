@@ -5,9 +5,11 @@ import {LoggingService} from './logging.service';
 
 import * as jwt_decode from 'jwt-decode';
 import {TOKEN} from './http.utils';
-import {Subject, Observable, BehaviorSubject} from 'rxjs';
+import {Subject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {takeUntil} from 'rxjs/operators';
+import {Store} from '@ngrx/store';
+import * as fromCore from '../../core/reducers';
+import * as coreActions from '../../core/actions/core.actions';
 
 declare var encodePassword: Function;
 
@@ -17,66 +19,37 @@ export class AuthService implements OnDestroy {
   ENCODE_KEY = environment.encodeKey;
   apiUrl = environment.apiUrl;
 
-  private tokenHolder: TokenHolder;
-  public simpleToken: { expiration: number, token_id: number, username: string, value: string };
-  public ngUnsubscribe$ = new Subject<any>();
-  public onLoginLogoutListener$ = new Subject<{ expiration: number, token_id: number, username: string, value: string }>();
-  public onSessionFinish$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public simpleToken: {expiration: number, token_id: number, username: string, value: string};
+  public ngUnsubscribe$ = new Subject<any>()
   public timeOutSub;
+  public parsedToken: ParsedToken = null;
 
   constructor(
     private logger: LoggingService,
     private http: HttpClient,
     private ngZone: NgZone,
-  ) {
-
-    this.onSessionFinish$
-      .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe((res) => {
-        if (!res) {
-          return;
-        }
-
-        this.onLogOut();
-      });
-  }
+    private store: Store<fromCore.State>,
+  ) {}
 
 
   public isAuthenticated(): boolean {
     if (this.token) {
       this.logger.debug(this, 'Token from local storage: ' + this.token.substring(0, 6));
       this.parseToken(this.token);
-      return this.isTokenExpired();
+      return this.isTokenExpired(this.parsedToken);
     }
     return false;
   }
 
-  onLogOut() {
-    this.simpleToken = {expiration: 0, username: '', token_id: 0, value: ''};
-    this.onLoginLogoutListener$.next(this.simpleToken);
-    localStorage.removeItem(TOKEN);
-    location.reload();
+  public parseToken(token: string): ParsedToken {
+    this.parsedToken = jwt_decode(token);
+    this.logger.debug(this, 'Simple token: ' + JSON.stringify(this.parsedToken));
+    return this.parsedToken;
   }
 
-  encodePassword(password: string) {
-    return encodePassword(password, this.ENCODE_KEY);
-  }
-
-  public setTokenHolder(tokenHolder: TokenHolder) {
-    this.tokenHolder = tokenHolder;
-    if (tokenHolder.token) {
-      localStorage.setItem(TOKEN, tokenHolder.token);
-    }
-  }
-
-  private parseToken(token: string): void {
-    this.simpleToken = jwt_decode(token);
-    this.logger.debug(this, 'Simple token: ' + JSON.stringify(this.simpleToken));
-  }
-
-  private isTokenExpired() {
-    if (this.simpleToken.expiration) {
-      const tokenExpiresAt = new Date(this.simpleToken.expiration);
+  private isTokenExpired(token: ParsedToken): boolean {
+    if (token.expiration) {
+      const tokenExpiresAt = new Date(token.expiration);
       this.logger.debug(this, 'Token expires at: ' + this.logger.formatDate(tokenExpiresAt));
       return tokenExpiresAt >= new Date();
     }
@@ -87,16 +60,28 @@ export class AuthService implements OnDestroy {
     return localStorage.getItem(TOKEN);
   }
 
-  public setSessionFinishListener(): void {
-    if (!this.isAuthenticated()) {
-      return;
+  public setToken(token: string) {
+    if (token) {
+      localStorage.setItem(TOKEN, token);
     }
-    this.parseToken(this.token);
-    const tokenExpiresIn = +this.simpleToken.expiration - Date.now();
-    this.ngZone.runOutsideAngular(() => {
+  }
+
+  public encodePassword(password: string) {
+    return encodePassword(password, this.ENCODE_KEY);
+  }
+
+  public onLogOut() {
+    localStorage.removeItem(TOKEN);
+    this.parsedToken = null;
+    this.store.dispatch(new coreActions.SetOnLogoutAction());
+  }
+
+  public setSessionFinishListener(expiration: number): void {
+    const tokenExpiresIn = expiration - Date.now();
+    this.ngZone.runOutsideAngular(()=>{
       this.timeOutSub = setTimeout(() => {
-        this.onSessionFinish$.next(true);
-      }, +tokenExpiresIn);
+        this.onLogOut();
+      }, +tokenExpiresIn)
     });
   }
 
@@ -107,14 +92,10 @@ export class AuthService implements OnDestroy {
   }
 
   public getUsername(): string {
-    if (this.simpleToken) {
-      return this.simpleToken.username;
+    if (this.parsedToken) {
+      return this.parsedToken.username;
     }
     return undefined;
-  }
-
-  public onLogIn() {
-    this.setSessionFinishListener();
   }
 
   public checkTempToken(token: string): Observable<any> {
