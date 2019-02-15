@@ -20,6 +20,7 @@ import {BUY, SELL} from 'app/shared/constants';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {Order} from 'app/model/order.model';
 import {TradingService} from 'app/dashboard/services/trading.service';
+import {DashboardService} from '../../dashboard.service';
 
 @Component({
   selector: 'app-trading',
@@ -90,6 +91,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     private popupService: PopupService,
     private userService: UserService,
     private authService: AuthService,
+    private dashboardService: DashboardService,
     private cdr: ChangeDetectorRef,
     public translateService: TranslateService
   ) {
@@ -557,6 +559,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on create new order
    */
   private createNewOrder(type: string): void {
+    this.dashboardService.newOrderWasCreated$.next(true);
     // type === 'BUY' ?
     //   console.log(this.buyOrder) :
     //   console.log(this.sellOrder);
@@ -566,21 +569,26 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.tradingService.createOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
+        this.dashboardService.newOrderWasCreated$.next(true);
         this.userService.getUserBalance(this.currentPair);
         type === this.BUY ? this.resetBuyModel() : this.resetSellModel();
 
         this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
         this.notifySuccess = true;
+        this.cdr.detectChanges();
         setTimeout(() => {
           this.notifySuccess = false;
           this.createdOrder = null;
+          this.cdr.detectChanges();
           }, 5000);
       }, err => {
         console.log(err);
         this.notifyFail = true;
+        this.cdr.detectChanges();
         setTimeout(() => {
           this.notifyFail = false;
           this.createdOrder = null;
+          this.cdr.detectChanges();
           }, 5000);
       });
   }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {Subject, forkJoin, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/internal/operators';
 
@@ -8,6 +8,7 @@ import {CurrencyPair} from '../../../model/currency-pair.model';
 import {select, Store} from '@ngrx/store';
 import {State, getCurrencyPair} from 'app/core/reducers/index';
 import {EmbeddedOrdersService} from './embedded-orders.service';
+import {DashboardService} from '../../dashboard.service';
 
 @Component({
   selector: 'app-embedded-orders',
@@ -35,7 +36,9 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
     private store: Store<State>,
     private authService: AuthService,
     // private mockData: MockDataService,
-    private ordersService: EmbeddedOrdersService
+    private ordersService: EmbeddedOrdersService,
+    private dashboardService: DashboardService,
+    private cdr: ChangeDetectorRef
   ) {
     super();
   }
@@ -54,7 +57,8 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPair) => {
         this.activeCurrencyPair = pair;
-        this.toOpenOrders();
+          this.toOpenOrders();
+          this.toHistory();
       });
       // if (this.authService.isAuthenticated()) {
       //   this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
@@ -62,6 +66,15 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
       //   this.toOpenOrders();
       //   });
       // }
+
+    this.dashboardService.newOrderWasCreated$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+      if (res) {
+          this.toOpenOrders();
+          this.toHistory();
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -91,10 +104,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
       .subscribe(data => {
         this.openOrders = data.items;
         this.openOrdersCount = data.count;
-
-
-        // TODO: remove after dashboard init load time issue is solved
-        // this.ref.detectChanges();
+        this.cdr.detectChanges();
       });
   }
 
@@ -106,6 +116,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
         this.historyOrders = data.items;
+        this.cdr.detectChanges();
       });
 
   }
