@@ -6,9 +6,10 @@ import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {AuthService} from 'app/shared/services/auth.service';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {select, Store} from '@ngrx/store';
-import {State, getCurrencyPair} from 'app/core/reducers/index';
+import {State, getCurrencyPair, getLastCreatedOrder} from 'app/core/reducers/index';
 import {EmbeddedOrdersService} from './embedded-orders.service';
 import {DashboardService} from '../../dashboard.service';
+import {Order} from '../../../model/order.model';
 
 @Component({
   selector: 'app-embedded-orders',
@@ -37,7 +38,6 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
     private authService: AuthService,
     // private mockData: MockDataService,
     private ordersService: EmbeddedOrdersService,
-    private dashboardService: DashboardService,
     private cdr: ChangeDetectorRef
   ) {
     super();
@@ -60,21 +60,21 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
           this.toOpenOrders();
           this.toHistory();
       });
+
+    this.store
+      .pipe(select(getLastCreatedOrder))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((order: Order) => {
+        this.toOpenOrders();
+        this.toHistory();
+      });
+
       // if (this.authService.isAuthenticated()) {
       //   this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
       //   this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
       //   this.toOpenOrders();
       //   });
       // }
-
-    this.dashboardService.newOrderWasCreated$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-      if (res) {
-          this.toOpenOrders();
-          this.toHistory();
-      }
-    });
   }
 
   ngOnDestroy() {

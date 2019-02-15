@@ -9,7 +9,6 @@ export class DashboardService {
 
   public dashboardToTools$ = new Subject();
   public toolsToDashboard$ = new Subject();
-  public newOrderWasCreated$ = new Subject<boolean>();
   /** talking between dashboard mobile and mobile menu */
   public activeMobileWidget = new Subject<string>();
 

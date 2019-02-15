@@ -50,6 +50,19 @@ export const defaultTradeItem = {
   rate: '0'
 }
 
+export const defaultLastCreatedrder = {
+  orderType: '',
+  orderId: 0,
+  currencyPairId: 0,
+  amount: 0,
+  rate: 0,
+  commission: 0,
+  baseType: '',
+  total: 0,
+  status: '',
+  stop: 0
+}
+
 export const defaultLastSellBuyOrder = {
   lastOrder: defaultTradeItem,
   lastSellOrder: defaultTradeItem,

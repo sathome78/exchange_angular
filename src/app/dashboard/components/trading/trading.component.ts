@@ -11,7 +11,7 @@ import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserService} from 'app/shared/services/user.service';
 import {OrderItem, UserBalance} from 'app/model';
 import {PopupService} from 'app/shared/services/popup.service';
-import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
+import {SelectedOrderBookOrderAction, SetLastCreatedOrderAction} from '../../actions/dashboard.actions';
 import {defaultOrderItem} from '../../reducers/default-values';
 import {AuthService} from 'app/shared/services/auth.service';
 import {TranslateService} from '@ngx-translate/core';
@@ -20,7 +20,6 @@ import {BUY, SELL} from 'app/shared/constants';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {Order} from 'app/model/order.model';
 import {TradingService} from 'app/dashboard/services/trading.service';
-import {DashboardService} from '../../dashboard.service';
 
 @Component({
   selector: 'app-trading',
@@ -91,7 +90,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     private popupService: PopupService,
     private userService: UserService,
     private authService: AuthService,
-    private dashboardService: DashboardService,
     private cdr: ChangeDetectorRef,
     public translateService: TranslateService
   ) {
@@ -568,7 +566,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.tradingService.createOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.dashboardService.newOrderWasCreated$.next(true);
+        this.store.dispatch(new SetLastCreatedOrderAction(order))
         this.userService.getUserBalance(this.currentPair);
         type === this.BUY ? this.resetBuyModel() : this.resetSellModel();
 

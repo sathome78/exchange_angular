@@ -11,12 +11,21 @@ export const SET_LAST_SELL_BUY_ORDER = '[Dashboard] Set last sell buy order';
 export const SET_ALL_TRADES = '[Dashboard] Set all trades';
 export const SET_TRADING_TYPE = '[Dashboard] Set trading type';
 export const SET_LAST_PRICE = '[Dashboard] Set last price';
+export const SET_LAST_CREATED_ORDER = '[Dashboard] Set last created';
 
 /**
  * Change currency pair 'BTC/USD'
  */
 export class ChangeCurrencyPairAction implements Action {
   readonly type = CHANGE_CURRENCY_PAIR;
+  constructor(public payload) {}
+}
+
+/**
+ * Change currency pair 'BTC/USD'
+ */
+export class SetLastCreatedOrderAction implements Action {
+  readonly type = SET_LAST_CREATED_ORDER;
   constructor(public payload) {}
 }
 
@@ -111,5 +120,6 @@ export type Actions
   | SelectedOrderBookOrderAction
   | SetLastSellBuyOrderAction
   | SetTradingTypeAction
+  | SetLastCreatedOrderAction
   | SetLastPriceAction
   | SetAllTradesAction;
