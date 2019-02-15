@@ -53,6 +53,7 @@ export const getLastSellBuyOrder = createSelector(getDashboardState, fromDashboa
 export const getAllTrades = createSelector(getDashboardState, fromDashboard.getAllTrades);
 export const getLoadingAllTrades = createSelector(getDashboardState, fromDashboard.getLoadingAllTrades);
 export const getLastPrice = createSelector(getDashboardState, fromDashboard.getLastPrice);
+export const getLastCreatedOrder = createSelector(getDashboardState, fromDashboard.getLastCreatedOrder);
 export const getTradingType = createSelector(getDashboardState, fromDashboard.getTradingType);
 
 /**

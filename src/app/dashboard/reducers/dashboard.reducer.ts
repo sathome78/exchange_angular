@@ -2,7 +2,7 @@ import * as dashboard from '../actions/dashboard.actions';
 import {CurrencyPair} from '../../model/currency-pair.model';
 import {UserBalance} from '../../model/user-balance.model';
 import {
-  defaultCurrencyPairInfo,
+  defaultCurrencyPairInfo, defaultLastCreatedrder,
   defaultLastPrice,
   defaultLastSellBuyOrder,
   defaultOrderItem,
@@ -14,6 +14,7 @@ import {CurrencyPairInfo} from '../../model/currency-pair-info.model';
 import {LastSellBuyOrder} from '../../model/last-sell-buy-order.model';
 import {TradeItem} from '../../model/trade-item.model';
 import {LastPrice} from '../../model/last-price.model';
+import {Order} from '../../model/order.model';
 
 export interface State {
   activeCurrencyPair: CurrencyPair;
@@ -23,6 +24,7 @@ export interface State {
   selectedOrderBookOrder: OrderItem;
   currencyPairInfo: CurrencyPairInfo;
   lastSellBuyOrder: LastSellBuyOrder;
+  lastCreatedOrder: Order;
   lastPrice: LastPrice;
   allTrades: TradeItem[];
   loadingAllTrades: boolean;
@@ -37,6 +39,7 @@ export const INIT_STATE: State = {
   selectedOrderBookOrder: defaultOrderItem as OrderItem,
   currencyPairInfo: defaultCurrencyPairInfo,
   lastSellBuyOrder: defaultLastSellBuyOrder,
+  lastCreatedOrder: defaultLastCreatedrder,
   allTrades: [],
   lastPrice: defaultLastPrice,
   loadingAllTrades: true,
@@ -74,7 +77,9 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
       return {...state, userBalance: action.payload};
     case dashboard.SELECTED_ORDERBOOK_ORDER:
       return {...state, selectedOrderBookOrder: action.payload};
-    case dashboard.SET_TRADING_TYPE:
+    case dashboard.SET_LAST_CREATED_ORDER:
+      return {...state, lastCreatedOrder: action.payload};
+      case dashboard.SET_TRADING_TYPE:
       return {...state, tradingType: action.payload};
     case dashboard.REFRESH_CURRENCY_PAIR_INFO:
       return {...state, currencyPairInfo: action.payload};
@@ -154,3 +159,6 @@ export const getTradingType = (state: State): string => state.tradingType;
 
 /** Selector returns pair last price*/
 export const getLastPrice = (state: State): LastPrice => state.lastPrice;
+
+/** Selector returns last created order*/
+export const getLastCreatedOrder = (state: State): Order => state.lastCreatedOrder;

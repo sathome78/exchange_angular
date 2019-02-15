@@ -214,6 +214,19 @@
     .tabs__item {
       &--active {
         border-top: 2px solid $darker-blue;
+        @media(max-width: 1199px){
+          border: none;
+          &:before{
+            display: none;
+          }
+          &:after{
+            width: 100%;
+            height: 2px;
+            background: #237BEF;
+            bottom: 0;
+            top: auto;
+          }
+        }
         border-bottom: 0;
         &:before, &:after {
           content: '';
@@ -463,7 +476,7 @@
   &__message-nickname {
     font-size: 12px;
     line-height: 14px;
-        color: #94C2FF;
+    color: #94C2FF;
     &--hide {
       display: none;
     }
@@ -919,7 +932,7 @@
       max-width: none;
       height: 48px;
       line-height: 1;
-      font-size: 24px;
+      font-size: 20px;
       margin: auto 0 0;
       //background-color: #264F92;
       //border-color: rgba(35, 123, 239, 0.5);
@@ -1143,9 +1156,27 @@
       }
     }
     &__markets-tabs {
-      background-color: #21417D;
+      @media(max-width: 1199px){
+
+        background-color: #252543;
+      }
       .tabs__item {
         &--active {
+          @media(max-width: 1199px){
+          border: none;
+          &:before{
+            display: none;
+          }
+          &:after{
+            width: calc(100% + 18px);
+            height: 2px;
+            background: #237BEF;
+            bottom: 0;
+            top: auto;
+            border: none;
+
+          }
+        }
           &:after {
             border-color: transparent transparent #21417D transparent;
           }
@@ -1280,12 +1311,18 @@
 /*--- DARK THEME END---*/
 @media(max-width: 992px){
   .widget__graph{
-      height: calc(100% - 55px);
+    height: calc(100% - 55px);
+  }
+  .curency-input{
+    .dynamic-input__label{
+      background: #191a39!important;
     }
-
+  }
+  
   .wrap-input__currency{
     top: 1px;
     right: 0px;
+    padding-right: 8px;
     color: #424D5E;
   }
   .widget__graph--mob{
@@ -1294,7 +1331,7 @@
       .widget__trading-btn{
         max-width: 140px;
         height: 40px;
-            margin: 5px auto 0;
+        margin: 5px auto 0;
       }
     }
   }
