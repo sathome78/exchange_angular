@@ -10,7 +10,14 @@
 .market-search__content{
 
 
+
 }
+@media(max-width: 1200px){
+  .market-search__top{
+      margin-top: 49px;
+    }
+}
+
 
 .market-search{
   height: 100%;
