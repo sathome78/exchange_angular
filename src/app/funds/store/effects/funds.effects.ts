@@ -55,7 +55,7 @@ export class FundsEffects {
     .pipe(switchMap( (action) =>  {
       return this.balanceService.getMaxCurrencyPairByName(action.payload)
         .pipe(
-          map(res => (new dashboardActions.ChangeCurrencyPairAction( (res as {data: any, error: any}).data ))),
+          map(res => (new dashboardActions.ChangeActiveCurrencyPairAction( (res as {data: any, error: any}).data ))),
           catchError(error => of(new fundsActions.FailLoadMaxCurrencyPairByCurrencyName(error)))
         );
     }));

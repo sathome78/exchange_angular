@@ -6,7 +6,7 @@ import {takeUntil} from 'rxjs/internal/operators';
 import {MockDataService} from 'app/shared/services/mock-data.service';
 import {EmbeddedOrdersService} from '../embedded-orders.service';
 import {select, Store} from '@ngrx/store';
-import {State, getCurrencyPair} from 'app/core/reducers/index';
+import {State, getActiveCurrencyPair} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../../model/currency-pair.model';
 import {AbstractOrderCalculate} from '../../../../shared/components/abstract-order-calculate';
 import {UserBalance} from '../../../../model/user-balance.model';
@@ -73,7 +73,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
     this.order = {...this.defaultOrder};
 
     this.store
-      .pipe(select(getCurrencyPair))
+      .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair) => {
         this.currentPair = pair;
