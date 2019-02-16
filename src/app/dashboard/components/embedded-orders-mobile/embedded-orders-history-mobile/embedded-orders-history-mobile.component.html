@@ -1,0 +1,146 @@
+<!--orders-mob start-->
+<div class="orders orders--mob">
+  <!--<div class="orders__header-mob">-->
+    <!--<div class=" orders__page-title">-->
+      <!--{{'Orders history' | translate}}-->
+    <!--</div>-->
+    <!--<div class="orders__amount">{{countOfEntries$ | async}}</div>-->
+    <!--<div *ngIf="loading$ | async">-->
+      <!--<app-loader size="small"></app-loader>-->
+    <!--</div>-->
+    <!--<div class="orders__filter-btn" (click)="openFilterPopup()">-->
+      <!--<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+        <!--<path-->
+          <!--d="M15.9317 0.44323C15.8028 0.147863 15.5799 0.000159206 15.2618 0H0.737807C0.420134 0 0.196893 0.147863 0.0682816 0.44323C-0.0602502 0.753723 -0.00735105 1.01904 0.227217 1.23867L5.82145 6.84086V12.3635C5.82145 12.5607 5.89335 12.731 6.03702 12.8751L8.9417 15.784C9.07798 15.9278 9.24813 16 9.45245 16C9.54315 16 9.63766 15.9809 9.73602 15.9431C10.0312 15.8142 10.1788 15.5908 10.1788 15.2726V6.8409L15.7728 1.2387C16.0075 1.01908 16.0602 0.753842 15.9317 0.44323Z"/>-->
+      <!--</svg>-->
+      <!--{{'Filters' | translate}}-->
+    <!--</div>-->
+  <!--</div>-->
+  <div>
+    <table class="table table--mob">
+      <thead class="table__head">
+      <tr class="table__head-row">
+        <th class="table__cell-head table__cell-head--tal">{{'Pair/Date' | translate}}
+          <svg class="table__cell-head-arr" style="margin: 0 0 0 4px;" width="6" height="8" viewBox="0 0 6 8" fill="none"
+               xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.86338 3.74894C6.06488 3.99981 6.04068 4.38035 5.80935 4.59887L3.37001 7.84701L3.36491 7.85187C3.16243 8.04303 2.86838 8.04686 2.66309 7.87675C2.6518 7.86737 2.64073 7.85746 2.62999 7.84701L0.190654 4.59887C-0.0406818 4.38035 -0.0648789 3.99981 0.136618 3.74894C0.338115 3.49806 0.689025 3.47182 0.92047 3.69031L2.44455 6.07412L2.44455 0.602408C2.44455 0.269701 2.69325 0 3.00011 0C3.30697 0 3.55566 0.269701 3.55566 0.602408L3.55566 6.07391L5.07953 3.69031C5.31097 3.47182 5.66188 3.49806 5.86338 3.74894Z" />
+          </svg>
+        </th>
+        <th class="table__cell-head table__cell-head--tal"> {{'Type' | translate}}</th>
+        <th class="table__cell-head table__cell-head--tar">{{'Avg' | translate}}.{{'Price' | translate}}</th>
+      </tr>
+      </thead>
+      <tbody class="table__body table__body--none-shadow">
+      <!-- t-row start-->
+      <ng-container *ngFor="let item of historyOrders">
+        <tr class="table__row--mob" [attr.data-id]="item.id" (click)="toggleDetails($event)">
+          <td class="table__cell table__cell--tal">
+            <div>{{item.currencyPairName}}</div>
+            <div class="table__date-time">
+              <div>{{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
+              <div>{{item.dateCreation | amDateFormat:"HH:mm:ss"}}</div>
+            </div>
+          </td>
+          <td class="table__cell table__cell--tal">
+            <span [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType}}</span>
+          </td>
+          <td class="table__cell table__cell--tar">
+            <div>{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
+          </td>
+          <td class="table__cell table__cell--arr-mob">
+            <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
+          </td>
+        </tr>
+        <tr class="table__details" [id]="item.id">
+          <td class="table__details-cell" colspan="4">
+            <div class="table__details-item">
+              <div class="table__details-item-title">{{'Amount' | translate}}</div>
+              <div class="table__details-item-value">{{item.amountConvert}} {{item.currencyPairName | splitCurrency: 1}}</div>
+            </div>
+            <div class="table__details-item">
+              <div class="table__details-item-title">{{'Trading price' | translate}}</div>
+              <div class="table__details-item-value">{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
+            </div>
+            <div class="table__details-item">
+              <div class="table__details-item-title">{{'Filled' | translate}}</div>
+              <div class="table__details-item-value">{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
+            </div>
+            <div class="table__details-item">
+              <div class="table__details-item-title">{{'Fee' | translate}}</div>
+              <div class="table__details-item-value">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
+            </div>
+            <div class="table__details-item">
+              <div class="table__details-item-title">{{'In total' | translate}}</div>
+              <div class="table__details-item-value"> {{item.currencyPairName | splitCurrency: 2}}</div>
+              <!-- {{item.arrPairName}} -->
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+      <tr class="table__row" *ngIf="!historyOrders.length">
+        <td class="table__cell table__cell--tac" colspan="3">
+          {{'No matching records found' | translate}}
+        </td>
+      </tr>
+
+      <!-- t-row end-->
+      </tbody>
+    </table>
+  </div>
+  <!--&lt;!&ndash;filter-popup start&ndash;&gt;-->
+  <!--<div class="filters-popup" [ngClass]="{'show-filter-popup': showFilterPopup}">-->
+    <!--<div class="filters-popup__header">-->
+      <!--<div class=" filters-popup__title">-->
+        <!--{{'Order filters' | translate}}-->
+      <!--</div>-->
+      <!--<div class="filters-popup__close" (click)="closeFilterPopup()">-->
+        <!--<svg width="15" height="17" viewBox="0 0 15 17" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+          <!--<path-->
+            <!--d="M1.73781 0.627721C1.36501 0.220243 0.732466 0.192129 0.324987 0.564928C-0.0824919 0.937728 -0.110605 1.57027 0.262194 1.97775L1.73781 0.627721ZM13.2622 16.187C13.635 16.5945 14.2675 16.6226 14.675 16.2498C15.0825 15.877 15.1106 15.2445 14.7378 14.837L13.2622 16.187ZM14.7378 1.97775C15.1106 1.57027 15.0825 0.937728 14.675 0.564928C14.2675 0.192129 13.635 0.220243 13.2622 0.627721L14.7378 1.97775ZM0.262219 14.837C-0.110581 15.2445 -0.0824672 15.877 0.325012 16.2498C0.732491 16.6226 1.36503 16.5945 1.73783 16.187L0.262219 14.837ZM0.262194 1.97775L6.7622 9.08241L8.23781 7.73239L1.73781 0.627721L0.262194 1.97775ZM6.7622 9.08241L13.2622 16.187L14.7378 14.837L8.23781 7.73239L6.7622 9.08241ZM13.2622 0.627721L6.7622 7.73239L8.23781 9.08241L14.7378 1.97775L13.2622 0.627721ZM6.7622 7.73239L0.262219 14.837L1.73783 16.187L8.23781 9.08241L6.7622 7.73239Z"-->
+            <!--fill="#237BEF"/>-->
+        <!--</svg>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<form action="#">-->
+      <!--<div>-->
+        <!--<app-dynamic-input-->
+          <!--[value]="currencyPairValue"-->
+          <!--[options]="(currencyPairs$ | async) | dynamicIData: 'name': 'id'"-->
+          <!--(onChange)="onChangeCurrPair($event)"-->
+        <!--&gt;-->
+        <!--</app-dynamic-input>-->
+      <!--</div>-->
+      <!--<div class="row row&#45;&#45;jcsb">-->
+        <!--<div class="wrap-input orders__datepicker filters-popup__datepicker">-->
+          <!--<label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date}" >{{'From' | translate}}</label>-->
+          <!--<app-date-mask-input [innValue]="modelDateFrom" (validDate)="dateFromChanged($event)"></app-date-mask-input>-->
+          <!--<my-date-picker-->
+            <!--name="from"-->
+            <!--[options]="myDatePickerOptions"-->
+            <!--[(ngModel)]="modelDateFrom"-->
+            <!--(dateChanged)="dateFromChanged($event)"-->
+          <!--&gt;-->
+            <!--&lt;!&ndash;&gt;&ndash;&gt;-->
+          <!--</my-date-picker>-->
+          <!--<div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>-->
+        <!--</div>-->
+        <!--<div class="wrap-input orders__datepicker input-el filters-popup__datepicker">-->
+          <!--<label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date}" >{{'To' | translate}}</label>-->
+          <!--<app-date-mask-input [innValue]="modelDateTo" (validDate)="dateToChanged($event)"></app-date-mask-input>-->
+          <!--<my-date-picker-->
+            <!--name="to"-->
+            <!--[options]="myDatePickerOptions"-->
+            <!--[(ngModel)]="modelDateTo"-->
+            <!--(dateChanged)="dateToChanged($event)"-->
+          <!--&gt;-->
+            <!--&gt;-->
+          <!--</my-date-picker>-->
+          <!--<div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<button  (click)="closeFilterPopup()" class="btn filters-popup__btn">{{'See' | translate}} &lt;!&ndash; <span>{{countOfEntries$ | async}}</span> &ndash;&gt;{{'results' | translate}}</button>-->
+    <!--</form>-->
+  <!--</div>-->
+  <!--&lt;!&ndash;filter-popup end&ndash;&gt;-->
+</div>
+<!--orders-mob end-->

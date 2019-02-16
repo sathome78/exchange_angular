@@ -45,6 +45,9 @@ import {CurrencyPairInfoService} from './services/currency-pair-info.service';
 import {OrderBookMobileComponent} from './components/order-book-mobile/order-book-mobile.component';
 import {TradingMobileComponent} from './components/trading-mobile/trading-mobile.component';
 import {TradingService} from './services/trading.service';
+import { EmbeddedOrdersMobileComponent } from './components/embedded-orders-mobile/embedded-orders-mobile.component';
+import { EmbeddedOpenOrdersMobileComponent } from './components/embedded-orders-mobile/embedded-open-orders-mobile/embedded-open-orders-mobile.component';
+import { EmbeddedOrdersHistoryMobileComponent } from './components/embedded-orders-mobile/embedded-orders-history-mobile/embedded-orders-history-mobile.component';
 
 
 export function socketProvider() {
@@ -110,6 +113,9 @@ const stompConfig: StompConfig = {
     NicknamePipe,
     PositivePipe,
     MarketsItemComponent,
+    EmbeddedOrdersMobileComponent,
+    EmbeddedOpenOrdersMobileComponent,
+    EmbeddedOrdersHistoryMobileComponent,
 
     // PIPES END
   ],

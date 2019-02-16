@@ -107,7 +107,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       this.currentPage += 1;
       const params = {
         page: this.currentPage,
-        limit:this.countPerPage,
+        limit: this.countPerPage,
         // dateFrom: this.formatDate(this.modelDateFrom.date),
         // dateTo: this.formatDate(this.modelDateTo.date),
         currencyPairId: this.currencyPairId,
