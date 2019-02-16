@@ -1,5 +1,5 @@
-import { Params, RouterStateSnapshot } from '@angular/router';
-import {ActionReducerMap, combineReducers, MetaReducer} from '@ngrx/store';
+import {Params} from '@angular/router';
+import {ActionReducerMap} from '@ngrx/store';
 import {createSelector} from 'reselect';
 
 // Imports from reducers
@@ -42,8 +42,10 @@ export const getSettingsState = (state: State) => state.settings;
 /**
  * Selectors from dashboard module
  */
-export const getCurrencyPair = createSelector(getDashboardState, fromDashboard.getCurrencyPair);
+export const getActiveCurrencyPair = createSelector(getDashboardState, fromDashboard.getActiveCurrencyPairSelector);
 export const getCurrencyPairArray = createSelector(getDashboardState, fromDashboard.getCurrencyPairArray);
+export const getMarketCurrencyPairsMap = createSelector(getDashboardState, fromDashboard.getMarketCurrencyPairsArraySelector);
+export const getFavoritesCurrencyPair = createSelector(getDashboardState, fromDashboard.getFavoritesCurrencyPairSelector);
 export const getUserBalance = createSelector(getDashboardState, fromDashboard.getUserBalance);
 export const getSelectedOrderBookOrder = createSelector(getDashboardState, fromDashboard.getSelectedOrderBookOrder);
 export const getCurrencyPairInfo = createSelector(getDashboardState, fromDashboard.getCurrencyPairInfo);
@@ -70,6 +72,8 @@ export const getSimpleCurrencyPairsSelector = createSelector(getCoreState, fromC
 export const getAllCurrenciesForChoose = createSelector(getCoreState, fromCore.getAllCurrenciesForChoose);
 export const getCryptoCurrenciesForChoose = createSelector(getCoreState, fromCore.getCryptoCurrenciesForChoose);
 export const getFiatCurrenciesForChoose = createSelector(getCoreState, fromCore.getFiatCurrenciesForChoose);
+export const getIsAuthenticated = createSelector(getCoreState, fromCore.getIsAuthenticatedSelector);
+export const getUserInfo = createSelector(getCoreState, fromCore.getUserInfoSelector);
 
 
 /**
@@ -77,4 +81,4 @@ export const getFiatCurrenciesForChoose = createSelector(getCoreState, fromCore.
  */
 export const getGAStatus = createSelector(getSettingsState, fromSettings.getGAStatusSelector);
 export const getGALoading = createSelector(getSettingsState, fromSettings.getGALoadingSelector);
-export const getSessionTime= createSelector(getSettingsState, fromSettings.getSessionTimeSelector);
+export const getSessionTime = createSelector(getSettingsState, fromSettings.getSessionTimeSelector);

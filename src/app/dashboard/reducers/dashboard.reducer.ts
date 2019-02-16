@@ -11,16 +11,15 @@ import {
 } from './default-values';
 import {OrderItem} from '../../model/order-item.model';
 import {CurrencyPairInfo} from '../../model/currency-pair-info.model';
-import {REFRESH_CURRENCY_PAIR_INFO} from '../actions/dashboard.actions';
 import {LastSellBuyOrder} from '../../model/last-sell-buy-order.model';
 import {TradeItem} from '../../model/trade-item.model';
-import {SET_ALL_TRADES} from '../actions/dashboard.actions';
 import {LastPrice} from '../../model/last-price.model';
 import {Order} from '../../model/order.model';
 
 export interface State {
-  currencyPair: CurrencyPair;
+  activeCurrencyPair: CurrencyPair;
   currencyPairArray: CurrencyPair[];
+  marketsCurrencyPairsMap: MapModel<CurrencyPair>;
   userBalance: UserBalance;
   selectedOrderBookOrder: OrderItem;
   currencyPairInfo: CurrencyPairInfo;
@@ -30,10 +29,11 @@ export interface State {
   allTrades: TradeItem[];
   loadingAllTrades: boolean;
   tradingType: string;
+  userFavoritesCurrencyPairsIds: number[],
 }
 
 export const INIT_STATE: State = {
-  currencyPair: defaultValues as CurrencyPair,
+  activeCurrencyPair: defaultValues as CurrencyPair,
   currencyPairArray: [],
   userBalance: defaultUserBalance,
   selectedOrderBookOrder: defaultOrderItem as OrderItem,
@@ -43,7 +43,9 @@ export const INIT_STATE: State = {
   allTrades: [],
   lastPrice: defaultLastPrice,
   loadingAllTrades: true,
-  tradingType: 'BUY'
+  tradingType: 'BUY',
+  marketsCurrencyPairsMap: {},
+  userFavoritesCurrencyPairsIds: [],
 };
 
 /**
@@ -53,10 +55,24 @@ export const INIT_STATE: State = {
  */
 export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
   switch (action.type) {
-    case dashboard.CHANGE_CURRENCY_PAIR:
-      return {...state, currencyPair: action.payload};
-    case dashboard.LOAD_CURRENCY_PAIRS:
-      return {...state, currencyPairArray: action.payload};
+    case dashboard.CHANGE_ACTIVE_CURRENCY_PAIR:
+      return {...state, activeCurrencyPair: action.payload};
+    case dashboard.SET_CURRENCY_PAIRS_FOR_MARKET:
+      return {
+        ...state,
+        currencyPairArray: action.payload,
+        marketsCurrencyPairsMap: createMarketsCurrencyPairsMap(state, action.payload),
+      };
+    case dashboard.SET_USER_FAVORITES_CURRENCY_PAIRS_FOR_MARKET:
+      return {
+        ...state,
+        userFavoritesCurrencyPairsIds: action.payload,
+      };
+    case dashboard.TOGGLE_USER_FAVORITES_CURRENCY_PAIRS:
+      return {
+        ...state,
+        userFavoritesCurrencyPairsIds: toggleUserFavorites(state, action.payload),
+      };
     case  dashboard.REFRESH_USER_BALANCE:
       return {...state, userBalance: action.payload};
     case dashboard.SELECTED_ORDERBOOK_ORDER:
@@ -82,11 +98,44 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
   }
 }
 
+function createMarketsCurrencyPairsMap(state: State, newPairs: CurrencyPair[]): MapModel<CurrencyPair> {
+  let map = {
+    ...state.marketsCurrencyPairsMap,
+  }
+  newPairs.forEach((cp) => {
+    if(map[cp.currencyPairId]) {
+      map[cp.currencyPairId] = {
+        ...map[cp.currencyPairId],
+        ...cp,
+      }
+    } else {
+      map[cp.currencyPairId] = cp;
+    }
+  })
+  return map;
+}
+
+function toggleUserFavorites(state: State, currencyPairId: number) {
+  const newArr = [...state.userFavoritesCurrencyPairsIds]
+  const index = newArr.indexOf(currencyPairId);
+  if (index < 0) {
+    newArr.push(currencyPairId);
+  } else {
+    newArr.splice(index, 1);
+  }
+  return newArr;
+}
+
+
 /** Selector returns current currency pair*/
-export const getCurrencyPair = (state: State): CurrencyPair => state.currencyPair;
+export const getActiveCurrencyPairSelector = (state: State): CurrencyPair => state.activeCurrencyPair;
+
+/** Selector returns user favorites currency pairs*/
+export const getFavoritesCurrencyPairSelector = (state: State): number[] => state.userFavoritesCurrencyPairsIds;
 
 /** Selector returns array of currency pairs */
 export const getCurrencyPairArray = (state: State): CurrencyPair[] => state.currencyPairArray;
+export const getMarketCurrencyPairsArraySelector = (state: State): MapModel<CurrencyPair> => state.marketsCurrencyPairsMap;
 
 /** Selector returns current user balance */
 export const getUserBalance = (state: State): UserBalance => state.userBalance;

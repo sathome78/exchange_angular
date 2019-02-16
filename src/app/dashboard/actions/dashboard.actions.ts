@@ -1,8 +1,11 @@
 import {Action} from '@ngrx/store';
+import {CurrencyPair} from 'app/model';
 import {Order} from 'app/model/order.model';
 
-export const CHANGE_CURRENCY_PAIR = '[Dashboard] Change currency pair';
-export const LOAD_CURRENCY_PAIRS = '[Dashboard] Load currency pair';
+export const CHANGE_ACTIVE_CURRENCY_PAIR = '[Dashboard] Change currency pair';
+export const SET_CURRENCY_PAIRS_FOR_MARKET = '[Dashboard] Set currency pairs for market';
+export const SET_USER_FAVORITES_CURRENCY_PAIRS_FOR_MARKET = '[Dashboard] Set user favorites currency pairs for market';
+export const TOGGLE_USER_FAVORITES_CURRENCY_PAIRS = '[Dashboard] Toggle user favorites currency pairs';
 export const REFRESH_USER_BALANCE = '[Dashboard] Refresh user balance';
 export const REFRESH_CURRENCY_PAIR_INFO = '[Dashboard] Refresh currency pair info';
 export const LOAD_CURRENCY_PAIR_INFO = '[Dashboard] Load currency pair info';
@@ -17,9 +20,9 @@ export const SET_LAST_CREATED_ORDER = '[Dashboard] Set last created';
 /**
  * Change currency pair 'BTC/USD'
  */
-export class ChangeCurrencyPairAction implements Action {
-  readonly type = CHANGE_CURRENCY_PAIR;
-  constructor(public payload) {}
+export class ChangeActiveCurrencyPairAction implements Action {
+  readonly type = CHANGE_ACTIVE_CURRENCY_PAIR;
+  constructor(public payload: CurrencyPair) {}
 }
 
 /**
@@ -33,9 +36,24 @@ export class SetLastCreatedOrderAction implements Action {
 /**
  * Load all currency pairs for market
  */
-export class LoadCurrencyPairsAction implements Action {
-  readonly type = LOAD_CURRENCY_PAIRS;
-  constructor(public payload) {}
+export class SetMarketsCurrencyPairsAction implements Action {
+  readonly type = SET_CURRENCY_PAIRS_FOR_MARKET;
+  constructor(public payload: CurrencyPair[]) {}
+}
+/**
+ * Set user favorites currency pairs for market
+ */
+export class SetUserFavoritesCurrencyPairsAction implements Action {
+  readonly type = SET_USER_FAVORITES_CURRENCY_PAIRS_FOR_MARKET;
+  constructor(public payload: number[]) {}
+}
+
+/**
+ * Toggle user favorites currency pairs
+ */
+export class ToggleUserFavoriteCurrencyPair implements Action {
+  readonly type = TOGGLE_USER_FAVORITES_CURRENCY_PAIRS;
+  constructor(public payload: number) {}
 }
 
 /**
@@ -112,8 +130,10 @@ export class SetTradingTypeAction implements Action {
  * Exports possible action types
  */
 export type Actions
-  = ChangeCurrencyPairAction
-  | LoadCurrencyPairsAction
+  = ChangeActiveCurrencyPairAction
+  | SetMarketsCurrencyPairsAction
+  | SetUserFavoritesCurrencyPairsAction
+  | ToggleUserFavoriteCurrencyPair
   | RefreshUserBalanceAction
   | RefreshCurrencyPairInfoAction
   | LoadCurrencyPairInfoAction

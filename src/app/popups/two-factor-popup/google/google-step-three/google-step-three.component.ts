@@ -72,7 +72,7 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
             // console.log(res);
-            this.store.dispatch(new settingsActions.LoadGAStatusAction(this.authService.getUsername()))
+            this.store.dispatch(new settingsActions.LoadGAStatusAction())
             this.popupService.closeTFAPopup();
           },
           err => {

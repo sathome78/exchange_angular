@@ -4,7 +4,7 @@ import {takeUntil} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserBalance} from 'app/model/user-balance.model';
-import {State, getCurrencyPair, getUserBalance, getCurrencyPairInfo, getCurrencyPairArray} from 'app/core/reducers/index';
+import {State, getActiveCurrencyPair, getUserBalance, getCurrencyPairInfo, getCurrencyPairArray} from 'app/core/reducers/index';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {UtilsService} from 'app/shared/services/utils.service';
@@ -38,11 +38,12 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store
-      .pipe(select(getCurrencyPair))
+      .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPair) => {
         this.pair = pair;
         this.pairInput = pair.currencyPairName;
+        this.updateCurrencyInfo(pair.currencyPairId);
         this.cdr.detectChanges();
       });
 

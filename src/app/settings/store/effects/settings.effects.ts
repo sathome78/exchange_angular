@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Action} from '@ngrx/store';
-import {map, switchMap, catchError} from 'rxjs/internal/operators';
+import {Action, Store, select} from '@ngrx/store';
+import {map, switchMap, catchError, withLatestFrom} from 'rxjs/internal/operators';
 import {of} from 'rxjs';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {SettingsService} from '../../settings.service';
 import * as settingsActions from '../actions/settings.actions';
+import * as fromCore from '../../../core/reducers';
 import { UserService } from 'app/shared/services/user.service';
 
 @Injectable()
@@ -18,6 +19,7 @@ export class SettingsEffects {
   */
   constructor(
     private actions$: Actions,
+    private store$: Store<fromCore.State>,
     private settingsService: SettingsService,
     private userService: UserService,
 
@@ -30,8 +32,9 @@ export class SettingsEffects {
   @Effect()
   loadGAStatus$: Observable<Action> = this.actions$
     .pipe(ofType<settingsActions.LoadGAStatusAction>(settingsActions.LOAD_GA_STATUS))
-    .pipe(switchMap((action) => {
-      return this.userService.getUserGoogleLoginEnabled(action.payload)
+    .pipe(withLatestFrom(this.store$.pipe(select(fromCore.getUserInfo))))
+    .pipe(switchMap(([action, userInfo]: [settingsActions.LoadGAStatusAction, ParsedToken]) => {
+      return this.userService.getUserGoogleLoginEnabled(userInfo.username)
         .pipe(
           map(status => new settingsActions.SetGAStatusAction(status)),
           catchError(error => of(new settingsActions.FailLoadGAStatusAction(error)))
