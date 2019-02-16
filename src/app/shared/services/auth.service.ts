@@ -14,7 +14,7 @@ import * as coreActions from '../../core/actions/core.actions';
 declare var encodePassword: Function;
 
 @Injectable()
-export class AuthService implements OnDestroy{
+export class AuthService implements OnDestroy {
 
   ENCODE_KEY = environment.encodeKey;
   apiUrl = environment.apiUrl;
@@ -86,7 +86,7 @@ export class AuthService implements OnDestroy{
   }
 
   public removeSessionFinishListener(): void {
-    if(this.timeOutSub) {
+    if (this.timeOutSub) {
       clearInterval(this.timeOutSub);
     }
   }
@@ -99,7 +99,7 @@ export class AuthService implements OnDestroy{
   }
 
   public checkTempToken(token: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/info/public/v2/users/validateTempToken/${token}`);
+    return this.http.get<any>(`${this.apiUrl}/api/public/v2/users/validateTempToken/${token}`);
   }
 
   ngOnDestroy() {

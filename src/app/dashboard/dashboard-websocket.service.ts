@@ -109,7 +109,7 @@ export class DashboardWebSocketService implements OnDestroy {
         const filteredPairs = currencyPairs.filter(pair => {
           const splitName = pair.currencyPairName.split('/');
           return splitName[0] === currency || splitName[1] === currency;
-        })
+        });
         const filteredPair = filteredPairs.filter(pair => {
           const splitName = pair.currencyPairName.split('/');
           return splitName[0] === 'BTC' || splitName[1] === 'BTC';

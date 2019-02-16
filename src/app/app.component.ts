@@ -157,6 +157,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isRestoredPasswordPopupOpen = res;
       });
   }
+
   subscribeForSessionTimeSavedPopup() {
     this.popupService.getSessionTimeSavedPopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -233,7 +234,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.http.get<IpAddress>(IP_CHECKER_URL)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
-        console.log(response)
+        console.log(response);
         // this.logger.debug(this, 'Client IP: ' + response.ip);
         localStorage.setItem(IP_USER_KEY, response.ip);
       });

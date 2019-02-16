@@ -15,30 +15,34 @@ export class OrdersService {
   }
 
   // request to get open orders
-  getOpenOrders({page,
-                limit,
-                dateFrom,
-                dateTo,
-                currencyPairId}): Observable<ResponseModel<OrderItem[]>> {
+  getOpenOrders({
+                  page,
+                  limit,
+                  dateFrom,
+                  dateTo,
+                  currencyPairId
+                }): Observable<ResponseModel<OrderItem[]>> {
     const params = {
       page: page + '',
       limit: limit + '',
       // dateFrom,
       // dateTo,
       currencyPairId: currencyPairId || '',
-    }
+    };
 
-    return this.http.get<ResponseModel<OrderItem[]>>(`${this.apiUrl}/info/private/v2/dashboard/orders/OPENED`, {params});
+    return this.http.get<ResponseModel<OrderItem[]>>(`${this.apiUrl}/api/private/v2/dashboard/orders/OPENED`, {params});
   }
 
   // request to get closed orders
-  getClosedOrders({page,
-                  limit,
-                  dateFrom,
-                  dateTo,
-                  hideCanceled,
-                  currencyPairName,
-                  initial}): Observable<HttpResponse<ResponseModel<OrderItem[]>>> {
+  getClosedOrders({
+                    page,
+                    limit,
+                    dateFrom,
+                    dateTo,
+                    hideCanceled,
+                    currencyPairName,
+                    initial
+                  }): Observable<HttpResponse<ResponseModel<OrderItem[]>>> {
 
     const params: any = {
       page: page + '',
@@ -46,36 +50,41 @@ export class OrdersService {
       hideCanceled: hideCanceled.toString(),
       currencyPairName: currencyPairName || '',
       initial,
-    }
-    if(dateFrom) {
+    };
+    if (dateFrom) {
       params.dateFrom = dateFrom;
     }
-    if(dateTo) {
+    if (dateTo) {
       params.dateTo = dateTo;
     }
-    return this.http.get<ResponseModel<OrderItem[]>>(`${this.apiUrl}/info/private/v2/dashboard/orders/CLOSED`, {params, observe: 'response'});
+    return this.http.get<ResponseModel<OrderItem[]>>(`${this.apiUrl}/api/private/v2/dashboard/orders/CLOSED`, {
+      params,
+      observe: 'response'
+    });
   }
 
   // request to get closed orders
-  downloadExcel({dateFrom,
-               dateTo,
-               hideCanceled,
-               currencyPairId}): Observable<any> {
+  downloadExcel({
+                  dateFrom,
+                  dateTo,
+                  hideCanceled,
+                  currencyPairId
+                }): Observable<any> {
     const params = {
       dateFrom,
       dateTo,
       hideCanceled: hideCanceled.toString(),
       currencyPairId: currencyPairId || '',
-    }
-    return this.http.get(`${this.apiUrl}/info/private/v2/download/orders/CLOSED/export`, {params, responseType: 'blob'});
+    };
+    return this.http.get(`${this.apiUrl}/api/private/v2/download/orders/CLOSED/export`, {params, responseType: 'blob'});
   }
 
   // request to cancel open order
   deleteOrder(order: OrderItem): Observable<any> {
     const params = {
       order_id: '' + order.id,
-    }
-    return this.http.post(`${this.apiUrl}/info/private/v2/dashboard/cancel`,{}, {params});
+    };
+    return this.http.post(`${this.apiUrl}/api/private/v2/dashboard/cancel`, {}, {params});
   }
 
   cancelAllOrders(currency_pair?: string): Observable<any> {

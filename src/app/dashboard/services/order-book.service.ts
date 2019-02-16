@@ -14,7 +14,7 @@ export class OrderBookService {
 
 
   getOrderBookDateOnInit(pair: CurrencyPair,  precision: number): Observable<OrderBookItem[]> {
-    const url = `${environment.apiUrl}/info/public/v2/open-orders/${pair.currencyPairId}/${precision}`;
+    const url = `${environment.apiUrl}/api/public/v2/open-orders/${pair.currencyPairId}/${precision}`;
     return this.http.get<OrderBookItem[]>(url);
   }
 }
