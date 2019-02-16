@@ -147,7 +147,7 @@ export class UserService {
 
   sendToEmailForRecovery(email: string) {
     const data = {'email': email};
-    return this.http.post<TokenHolder>(this.getUrl('users/recoveryPassword'), data);
+    return this.http.post<TokenHolder>(this.getUrl('users/password/recovery/reset'), data);
   }
 
   public getUserColorScheme(): Observable<string> {
@@ -160,12 +160,12 @@ export class UserService {
   }
 
   public finalRegistration(data): Observable<any> {
-    const url = `${this.HOST}/api/public/v2/users/createPassword`;
+    const url = `${this.HOST}/api/public/v2/users/password/create`;
     return this.http.post(url, data);
   }
 
   public recoveryPassword(data): Observable<any> {
-    const url = `${this.HOST}/api/public/v2/users/createRecoveryPassword`;
+    const url = `${this.HOST}/api/public/v2/users/password/recovery/create`;
     return this.http.post(url, data);
   }
 
