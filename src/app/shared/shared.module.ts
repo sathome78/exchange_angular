@@ -42,6 +42,7 @@ import {ConstantsService} from './services/constants.service';
 import {SafePipe} from './pipes/safe.pipe';
 import { DateMaskInputComponent } from './components/date-mask-input/date-mask-input.component';
 import {DateMaskDirective} from './directives/date-mask.directive';
+import {ExcludeSpacesDirective} from './directives/exclude-spaces.directive';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import {DateMaskDirective} from './directives/date-mask.directive';
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
+    ExcludeSpacesDirective,
     RoundCurrencyPipe,
     ExponentToNumberPipe,
     GetObjectKeysPipe,
@@ -91,6 +93,7 @@ import {DateMaskDirective} from './directives/date-mask.directive';
     QRCodeModule,
     RecaptchaModule,
     SafePipe,
+    ExcludeSpacesDirective,
     GetObjectKeysPipe,
     InfiniteScrollModule,
     DateMaskDirective,

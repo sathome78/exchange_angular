@@ -14,6 +14,7 @@
           >
             <input
               required
+              appExcludeInputSpaces
               class="wrap-input__input"
               formControlName="email"
               [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched }"
