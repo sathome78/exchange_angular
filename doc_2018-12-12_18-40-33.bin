@@ -36,38 +36,38 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
            <div class="wrap-input__line"></div>
          </div>
          <div class="tabs balance__tabs">
--          <button 
--            class="tabs__item" 
+-          <button
+-            class="tabs__item"
 +          <button
 +            class="tabs__item"
              [ngClass]="{'tabs__item--active': currTab === Tab.CRYPTO}"
--            (click)="onSelectTab(Tab.CRYPTO)"  
+-            (click)="onSelectTab(Tab.CRYPTO)"
 +            (click)="onSelectTab(Tab.CRYPTO)"
            >
              Crypto Balances
            </button>
--          <button 
--            class="tabs__item" 
+-          <button
+-            class="tabs__item"
 +          <button
 +            class="tabs__item"
              [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}"
--            (click)="onSelectTab(Tab.FIAT)"  
+-            (click)="onSelectTab(Tab.FIAT)"
 +            (click)="onSelectTab(Tab.FIAT)"
            >
              Fiat Balances
            </button>
--          <button 
--            class="tabs__item" 
+-          <button
+-            class="tabs__item"
 +          <button
 +            class="tabs__item"
              [ngClass]="{'tabs__item--active': currTab === Tab.PR}"
--            (click)="onSelectTab(Tab.PR)"  
+-            (click)="onSelectTab(Tab.PR)"
 +            (click)="onSelectTab(Tab.PR)"
            >
              <span>Pending requests</span>
              <span class="indicate">5</span>
 @@ -868,7 +868,7 @@
- 
+
          </div>
          <div class="balance__hide-zero">
 -          <label for="" class="toggler">
@@ -79,19 +79,19 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
      <!--filters end-->
      <!--table start-->
      <div [ngSwitch]="currTab">
--      <app-crypto-balance-table 
+-      <app-crypto-balance-table
 +      <app-crypto-balance-table
          *ngSwitchCase="Tab.CRYPTO"
        ></app-crypto-balance-table>
--      <app-fiat-balance-table 
+-      <app-fiat-balance-table
 +      <app-fiat-balance-table
          *ngSwitchCase="Tab.FIAT"
        ></app-fiat-balance-table>
--      <app-pending-request-table 
+-      <app-pending-request-table
 +      <app-pending-request-table
          *ngSwitchCase="Tab.PR"
        ></app-pending-request-table>
- 
+
 Index: src/app/funds/balance/balance.component.ts
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
@@ -105,13 +105,13 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
  import { BalanceService } from '../services/balance.service';
 +import {HttpClient} from '@angular/common/http';
 +import {environment} from '../../../environments/environment';
- 
+
  @Component({
    selector: 'app-balance',
 @@ -19,17 +21,26 @@
      PR: 'PR',
    }
- 
+
 +  private holdings = new Map();
 +
 +
@@ -123,26 +123,26 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 +  public showRefillBalancePopup = false;
 +  public showSendMoneyPopup = false;
    public cryptoBalances: BalanceCrypto[];
- 
+
 -  constructor() { }
 +  constructor(private http: HttpClient) { }
- 
+
    ngOnInit() {
 -
 +    this.holdings.set('BTC', 0);
 +    this.holdings.set('USD', 0);
-+    this.http.get<Map<string, number>>(environment.apiUrl + '/info/private/v2/balances/myBalances')
++    this.http.get<Map<string, number>>(environment.apiUrl + '/api/private/v2/balances/myBalances')
 +      .subscribe(map => {
 +        this.holdings.set('BTC', map['BTC']);
 +        this.holdings.set('USD', map['USD']);
 +      });
    }
- 
+
    public onSelectTab(tab: string): void {
 @@ -48,4 +59,12 @@
      this.showSendMoneyPopup = flag;
    }
- 
+
 +  getEstimatedHoldingsInUSD(): number {
 +    return this.holdings.get('USD');
 +  }

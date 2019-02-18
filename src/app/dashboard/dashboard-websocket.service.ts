@@ -95,11 +95,12 @@ export class DashboardWebSocketService implements OnDestroy {
     this.currencyPairs.forEach(elm => {
       if (pairName === elm.currencyPairName) {
         this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(elm));
-        this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(elm.currencyPairId))
+        this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(elm.currencyPairId));
         this.userService.getUserBalance(elm);
       }
     });
   }
+
   // To refactor
   choosePairForTrade(currency: string) {
     this.store
@@ -109,7 +110,7 @@ export class DashboardWebSocketService implements OnDestroy {
         const filteredPairs = currencyPairs.filter(pair => {
           const splitName = pair.currencyPairName.split('/');
           return splitName[0] === currency || splitName[1] === currency;
-        })
+        });
         const filteredPair = filteredPairs.filter(pair => {
           const splitName = pair.currencyPairName.split('/');
           return splitName[0] === 'BTC' || splitName[1] === 'BTC';
@@ -118,7 +119,6 @@ export class DashboardWebSocketService implements OnDestroy {
         this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(currentPair));
       });
   }
-
 
 
   // addOrUpdate(currencyPair: CurrencyPair, favouritePairsId: number[]) {
@@ -153,7 +153,7 @@ export class DashboardWebSocketService implements OnDestroy {
    * this method simply gets pairs from cache and when subscription is on we should drop data
    */
   // makeItFast() {
-  //   const url = this.baseUrl + '/info/public/v2/currencies/fast';
+  //   const url = this.baseUrl + '/api/public/v2/currencies/fast';
   //   this.http.get<CurrencyPair []>(url).subscribe(items => {
   //     this.processCurrencyPairs(items);
   //   });

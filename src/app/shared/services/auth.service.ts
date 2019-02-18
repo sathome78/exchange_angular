@@ -14,13 +14,13 @@ import * as coreActions from '../../core/actions/core.actions';
 declare var encodePassword: Function;
 
 @Injectable()
-export class AuthService implements OnDestroy{
+export class AuthService implements OnDestroy {
 
   ENCODE_KEY = environment.encodeKey;
   apiUrl = environment.apiUrl;
 
-  public simpleToken: {expiration: number, token_id: number, username: string, value: string};
-  public ngUnsubscribe$ = new Subject<any>()
+  public simpleToken: { expiration: number, token_id: number, username: string, value: string };
+  public ngUnsubscribe$ = new Subject<any>();
   public timeOutSub;
   public parsedToken: ParsedToken = null;
 
@@ -29,7 +29,8 @@ export class AuthService implements OnDestroy{
     private http: HttpClient,
     private ngZone: NgZone,
     private store: Store<fromCore.State>,
-  ) {}
+  ) {
+  }
 
 
   public isAuthenticated(): boolean {
@@ -78,15 +79,15 @@ export class AuthService implements OnDestroy{
 
   public setSessionFinishListener(expiration: number): void {
     const tokenExpiresIn = expiration - Date.now();
-    this.ngZone.runOutsideAngular(()=>{
+    this.ngZone.runOutsideAngular(() => {
       this.timeOutSub = setTimeout(() => {
         this.onLogOut();
-      }, +tokenExpiresIn)
+      }, +tokenExpiresIn);
     });
   }
 
   public removeSessionFinishListener(): void {
-    if(this.timeOutSub) {
+    if (this.timeOutSub) {
       clearInterval(this.timeOutSub);
     }
   }
@@ -99,7 +100,7 @@ export class AuthService implements OnDestroy{
   }
 
   public checkTempToken(token: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/info/public/v2/users/validateTempToken/${token}`);
+    return this.http.get<any>(`${this.apiUrl}/api/public/v2/users/validateTempToken/${token}`);
   }
 
   ngOnDestroy() {

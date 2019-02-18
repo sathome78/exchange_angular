@@ -1,11 +1,19 @@
-import {Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy} from '@angular/core';
-import { takeUntil } from 'rxjs/internal/operators';
-import { Subject } from 'rxjs/Subject';
+import {
+  Component,
+  OnInit,
+  AfterContentInit,
+  OnDestroy,
+  Input,
+  ChangeDetectorRef,
+  HostListener,
+  ChangeDetectionStrategy
+} from '@angular/core';
+import {takeUntil} from 'rxjs/internal/operators';
+import {Subject} from 'rxjs/Subject';
 
-import { LangService } from 'app/shared/services/lang.service';
-import { AbstractDashboardItems } from '../../abstract-dashboard-items';
-import { MarketService } from '../markets/market.service';
-import { DashboardService } from '../../dashboard.service';
+import {LangService} from 'app/shared/services/lang.service';
+import {AbstractDashboardItems} from '../../abstract-dashboard-items';
+import {DashboardService} from '../../dashboard.service';
 
 declare const TradingView: any;
 
@@ -34,7 +42,7 @@ import {Currency} from 'app/core/models/currency.model';
 })
 export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit, OnDestroy {
   /** dashboard item name (field for base class)*/
-  public itemName: string = 'graph';
+  public itemName = 'graph';
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   currencyPairName = 'BTC/USD';
@@ -62,7 +70,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private _interval: ChartingLibraryWidgetOptions['interval'] = '3';
   // BEWARE: no trailing slash is expected in feed URL
   // private _datafeedUrl = 'https://demo_feed.tradingview.com';
-  private _datafeedUrl = environment.apiUrl + '/info/public/v2/graph';
+  private _datafeedUrl = environment.apiUrl + '/api/public/v2/graph';
   private _libraryPath: ChartingLibraryWidgetOptions['library_path'] = 'assets/js/charting_library/';
   private _chartsStorageUrl: ChartingLibraryWidgetOptions['charts_storage_url'] = 'https://saveload.tradingview.com';
   private _chartsStorageApiVersion: ChartingLibraryWidgetOptions['charts_storage_api_version'] = '1.1';
@@ -139,9 +147,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     private dashboardService: DashboardService,
     private dashboardWebsocketService: DashboardWebSocketService,
     private cdr: ChangeDetectorRef
-    ) {
-      super();
-    }
+  ) {
+    super();
+  }
 
   ngOnInit() {
 
@@ -156,21 +164,20 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.store
       .pipe(select(getCurrencyPairInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPairInfo) => {
+      .subscribe((pair: CurrencyPairInfo) => {
         this.currentCurrencyInfo = pair;
         this.isFiat = this.pair.market === 'USD';
         this.splitPairName(this.pair);
-        this.cdr.detectChanges()
+        this.cdr.detectChanges();
       });
 
     this.store
       .pipe(select(getCurrencyPairArray))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair[]) => {
+      .subscribe((pair: CurrencyPair[]) => {
         this.allCurrencyPairs = pair;
-        this.cdr.detectChanges()
+        this.cdr.detectChanges();
       });
-
 
 
     this.lang = this.langService.getLanguage();
@@ -267,7 +274,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   formattingCurrentPairName(currentPair: string): void {
     /** search slash position */
     if (currentPair) {
-      [ this.firstCurrency, this.secondCurrency ] = currentPair.split('/');
+      [this.firstCurrency, this.secondCurrency] = currentPair.split('/');
     }
   }
 
@@ -285,7 +292,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     };
 
     this.dashboardService.selectedOrderTrading$.next(item);
-    this.router.navigate(['/dashboard'], { queryParams: {widget: widgetName}});
+    this.router.navigate(['/dashboard'], {queryParams: {widget: widgetName}});
     this.dashboardService.activeMobileWidget.next(widgetName);
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
     // this.store.dispatch(new SetTradingTypeAction(type));
@@ -354,7 +361,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         }
       });
     }
-    return tempPair ;
+    return tempPair;
   }
 
   /**
@@ -363,13 +370,13 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
    */
   splitPairName(pair: CurrencyPair) {
     if (pair.currencyPairId) {
-      [ this.firstCurrency, this.secondCurrency ] = this.pair.currencyPairName.split('/');
+      [this.firstCurrency, this.secondCurrency] = this.pair.currencyPairName.split('/');
     }
   }
 
   flarForArrow(s: string) {
     if (s === 'up') {
-      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate >= 0 :  false;
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate >= 0 : false;
     } else {
       return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate < 0 : false;
     }

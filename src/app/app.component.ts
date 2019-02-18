@@ -1,11 +1,9 @@
-import {Component, OnDestroy, OnInit, enableProdMode} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PopupService} from './shared/services/popup.service';
-import {Router} from '@angular/router';
 import {ThemeService} from './shared/services/theme.service';
-import {IpAddress, UserService} from './shared/services/user.service';
-import {IP_CHECKER_URL, IP_USER_KEY} from './shared/services/http.utils';
-import {LoggingService} from './shared/services/logging.service';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {IpAddress} from './shared/services/user.service';
+import {IP_CHECKER_URL} from './shared/services/http.utils';
+import {HttpClient} from '@angular/common/http';
 import {NotificationsService} from './shared/components/notification/notifications.service';
 import {NotificationMessage} from './shared/models/notification-message-model';
 import {DashboardWebSocketService} from './dashboard/dashboard-websocket.service';
@@ -70,7 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(withLatestFrom(this.store.pipe(select(fromCore.getUserInfo))))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(([isAuth, userInfo]: [boolean, ParsedToken]) => {
-        if(isAuth && userInfo) {
+        if (isAuth && userInfo) {
           this.authService.setSessionFinishListener(userInfo.expiration);
         } else {
           this.authService.removeSessionFinishListener();
@@ -80,7 +78,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
-    if(this.authService.isAuthenticated()) {
+    if (this.authService.isAuthenticated()) {
       this.store.dispatch(new coreActions.SetOnLoginAction(this.authService.parsedToken));
     }
     this.subscribeForTfaEvent();
@@ -157,6 +155,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isRestoredPasswordPopupOpen = res;
       });
   }
+
   subscribeForSessionTimeSavedPopup() {
     this.popupService.getSessionTimeSavedPopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -233,9 +232,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.http.get<IpAddress>(IP_CHECKER_URL)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
-        console.log(response)
+        console.log(response);
         // this.logger.debug(this, 'Client IP: ' + response.ip);
-        localStorage.setItem(IP_USER_KEY, response.ip);
+        // localStorage.setItem(IP_USER_KEY, response.ip);
       });
   }
 

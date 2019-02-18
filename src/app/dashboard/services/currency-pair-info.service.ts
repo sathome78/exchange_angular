@@ -13,6 +13,6 @@ export class CurrencyPairInfoService {
   }
 
   getCurrencyPairInfo(currencyPairId) {
-    return this.http.get(`${this.baseUrl}/info/public/v2/info/${currencyPairId}`);
+    return this.http.get(`${this.baseUrl}/api/public/v2/api/${currencyPairId}`);
   }
 }
