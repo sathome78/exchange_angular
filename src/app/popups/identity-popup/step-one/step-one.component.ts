@@ -44,8 +44,8 @@ export class StepOneComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next()
-    this.ngUnsubscribe.complete()
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   moveNext() {

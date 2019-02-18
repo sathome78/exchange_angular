@@ -18,7 +18,7 @@ export class StepTwoComponent implements OnInit {
 
   displayMode = this.STEP;
 
-  constructor(private verificationService: UserVerificationService) {
+  constructor() {
   }
 
   ngOnInit() {
@@ -40,7 +40,7 @@ export class StepTwoComponent implements OnInit {
     setTimeout(this.moveNext(), 3);
   }
 
-  moveNext() {
+  moveNext(): any {
     if (this.isSubmitSuccessful) {
       this.onNextStep.emit(3);
     }
