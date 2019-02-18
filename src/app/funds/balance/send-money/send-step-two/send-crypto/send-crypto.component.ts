@@ -71,7 +71,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log(this.balanceData);
     this.initFormWithMemo();
 
     this.form.controls['amount'].valueChanges
@@ -91,7 +90,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
         this.cryptoNames = this.defaultCryptoNames;
         this.setActiveCrypto();
         this.prepareAlphabet();
-        this.getCryptoInfoByName(this.activeCrypto.name);
+        if (this.activeCrypto) this.getCryptoInfoByName(this.activeCrypto.name);
       });
   }
 

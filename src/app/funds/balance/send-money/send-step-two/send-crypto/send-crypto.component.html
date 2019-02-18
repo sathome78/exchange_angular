@@ -1,11 +1,11 @@
 <div class="title send__title">{{'Crypto Withdrawal' | translate}}<span>{{activeCrypto ? activeCrypto.name : ''}}</span></div>
 <div class="formWraper" *ngIf="isEnterData">
   <form [formGroup]="form">
-    <div class="send__inputs-wrap" *ngIf="activeCrypto">
+    <div class="send__inputs-wrap">
       <div class="select send__select">
         <div class="select__value select__value--active" (click)="currencyDropdownToggle()">
-          <img [src]="activeCrypto.name | getIconUrl" class="select__list-item-icon">
-          {{activeCrypto.name}}
+          <img [src]="activeCrypto ? activeCrypto.name : 'no_icon' | getIconUrl" class="select__list-item-icon">
+          {{activeCrypto ? activeCrypto.name : ''}}
         </div>
         <div class="select__label">{{'Currency' | translate}}</div>
         <div class="select__line"></div>
@@ -44,15 +44,16 @@
       <div class="wrap-input send__wrap-input"
            [ngClass]="{'wrap-input--error': isSubmited && (isAmountMax || isAmountMin || form.controls['amount'].value === '0')}">
         <div class="avaliable">{{'Avaliable:' | translate}} <a (click)="balanceClick()" class="link">{{activeBalance}}
-          {{activeCrypto.name}}</a></div>
+          {{activeCrypto ? activeCrypto.name : ''}}</a></div>
         <app-price-input [placeholder]="'Amount'" (customInput)="amountInput($event)" name="amount"
                          formControlName="amount"></app-price-input>
         <!--Input error section starts-->
         <!--<span class="wrap-input__message wrap-input__message&#45;&#45;show"-->
         <!--*ngIf="!form.controls['amount'].valid && isSubmited">-->
         <!--Day limit for withdrawal is {{minWithdrawSum}} {{activeCrypto.name}}</span>-->
-        <span class="wrap-input__message wrap-input__message--show"
-              *ngIf="(isAmountMin || form.controls['amount'].value === '0') && isSubmited">
+        <span class=" wrap-input__message--show"
+              [ngClass]="{'wrap-input__message': (isAmountMin || form.controls['amount'].value === '0') && isSubmited || isSubmited}"
+        *ngIf="!(isAmountMax && isSubmited)">
       {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
         <span class="wrap-input__message wrap-input__message--show"
               *ngIf="isAmountMax && isSubmited">
