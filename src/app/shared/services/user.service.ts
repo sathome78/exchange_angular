@@ -8,7 +8,6 @@ import {Observable, of} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
 import {AuthService} from './auth.service';
-import {IP_USER_HEADER, IP_USER_KEY} from './http.utils';
 import {LangService} from './lang.service';
 import {AuthCandidate} from '../../model/auth-candidate.model';
 import {LoggingService} from './logging.service';
