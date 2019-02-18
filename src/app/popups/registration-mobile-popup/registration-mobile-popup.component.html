@@ -10,7 +10,7 @@
       <form class="popup__form" [formGroup]="emailForm" >
         <div >
           <div class="wrap-input popup__wrap-input"
-               [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched && emailForm.get('email').value !== ''}"
+               [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched}"
           >
             <input
               required
@@ -34,6 +34,9 @@
               </span>
               <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailExists']">
                 {{'Email exists' | translate}}
+              </span>
+                <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required']">
+                {{'Email is required' | translate}}
               </span>
                 <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['USER_REGISTRATION_NOT_COMPLETED']">
                 {{AUTH_MESSAGES.USER_REGISTRATION_NOT_COMPLETED | translate}}
