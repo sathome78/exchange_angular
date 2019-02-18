@@ -3,12 +3,12 @@
     <img src="../../assets/img/chat-icon1.svg">
   </div>
   <div class="widget__message">
-    <div class="widget__message-nickname">{{ message.email | nickname}}</div>
+    <div class="widget__message-nickname">{{ message.email }}</div>
     <div class="widget__message-reply" *ngIf="message.messageReplyText && message.messageReplyText !== 'text_reply'">
       <div class="widget__message-nickname">{{ message.messageReplyUsername }}</div>
       <p class="widget__message-text">{{ message.messageReplyText}}</p>
     </div>
     <p class="widget__message-text">{{ message.body }}</p>
   </div>
-  <div class="widget__message-time">{{ getDate(message.messageTime) | date: 'shortTime'}}</div>
+  <div class="widget__message-time">{{ getDate(message.messageTime)}}</div>
 </div>

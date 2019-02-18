@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {StompService} from '@stomp/ng2-stompjs';
+import {RxStompService} from '@stomp/ng2-stompjs';
 import {Subject, Observable} from 'rxjs';
 
 import {ChatItem} from './chat-item.model';
@@ -20,7 +20,7 @@ export class ChatService {
 
   constructor(private langService: LangService,
               private httpClient: HttpClient,
-              private stompService: StompService) {
+              private stompService: RxStompService) {
     // this.setStompSubscription('en');
   }
 
@@ -34,7 +34,7 @@ export class ChatService {
    */
   setStompSubscription(lang: string) {
     this.stompService
-      .subscribe('/topic/chat/' + lang)
+      .watch('/topic/chat/' + lang)
       .subscribe(msg => {
         // console.log(JSON.parse(msg.body));
         this.simpleChatListener.next(JSON.parse(msg.body));
@@ -49,7 +49,7 @@ export class ChatService {
   private sendMessage(message: ChatItem) {
     const that = this;
     const destination = '/topic/chat/' + that.langService.getLanguage();
-    this.stompService.publish(destination, JSON.stringify(message), {EXRATES_REST_TOKEN: localStorage.getItem(TOKEN)});
+    this.stompService.publish({destination, body: JSON.stringify(message), headers: {EXRATES_REST_TOKEN: localStorage.getItem(TOKEN)}});
   }
 
   unsubscribeStomp() {

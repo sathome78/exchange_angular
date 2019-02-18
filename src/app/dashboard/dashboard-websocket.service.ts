@@ -5,7 +5,7 @@ import {map, takeUntil, every, filter, tap} from 'rxjs/internal/operators';
 import {Message} from '@stomp/stompjs';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject, iif} from 'rxjs';
-import {StompService} from '@stomp/ng2-stompjs';
+import {RxStompService} from '@stomp/ng2-stompjs';
 import {CurrencyPair} from '../model/currency-pair.model';
 import {environment} from '../../environments/environment';
 import {getCurrencyPairArray, State} from '../core/reducers';
@@ -26,7 +26,7 @@ export class DashboardWebSocketService implements OnDestroy {
   private currentCurrencyPair;
 
   constructor(
-    private stompService: StompService,
+    private stompService: RxStompService,
     private http: HttpClient,
     private userService: UserService,
     private authService: AuthService,
@@ -42,7 +42,7 @@ export class DashboardWebSocketService implements OnDestroy {
 
   setStompSubscription(): any {
     return this.stompSubscription = this.stompService
-      .subscribe('/app/statisticsNew')
+      .watch('/app/statisticsNew')
       .pipe(map((message: Message) => JSON.parse(JSON.parse(message.body))))
       .subscribe((items) => {
         // console.log(items);
@@ -56,7 +56,7 @@ export class DashboardWebSocketService implements OnDestroy {
 
   setRabbitStompSubscription() {
     return this.stompService
-      .subscribe('/topic/rabbit')
+      .watch('/topic/rabbit')
       .pipe(map((message: Message) => JSON.parse(message.body)))
       .pipe(filter((message) => this.currentCurrencyPair && (message.currencyPairId === this.currentCurrencyPair.currencyPairId)))
       .pipe(map((message) => {

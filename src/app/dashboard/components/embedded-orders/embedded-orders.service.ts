@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {StompService} from '@stomp/ng2-stompjs';
 import {Observable, Subject} from 'rxjs';
 
 import {environment} from 'environments/environment';
@@ -14,7 +13,6 @@ export class EmbeddedOrdersService {
 
   constructor(
     private http: HttpClient,
-    private stompService: StompService
   ) {
     this.baseUrl = environment.apiUrl;
   }
@@ -44,13 +42,6 @@ export class EmbeddedOrdersService {
   createOrder(order): Observable<any> {
     return this.http.post(`${this.baseUrl}/api/private/v2/dashboard/order`, order);
   }
-
-  // setFreshOpenOrdersSubscription(currencyPairId: number, precision?: number = 1) {
-  //   this.stompSubscription = this.stompService
-  //     .subscribe(`/topic/open-orders/${currencyPairId}/${precision}`)
-  //     .pipe(map((message: Message) => JSON.parse(message.body)))
-  //     .subscribe(orders => this.personalOrderListener.next(orders));
-  // }
 
   unsubscribeStomp() {
     if (this.stompSubscription) {

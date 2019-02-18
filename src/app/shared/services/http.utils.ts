@@ -18,5 +18,12 @@ export const PRE_PROD_HOST = 'http://preprod.exapp';
 export const STAGING_HOST = 'http://preprod.exapp';
 export const LOCAL_HOST = 'http://dev7.exapp';
 
+export const PROD_HOST_WS = 'wss://e213lds53f92f.exrates.me';
+export const PRE_PROD_HOST_WS = 'ws://preprod.exapp';
+// export const STAGING_HOST = 'ws://dev8.exapp';
+export const STAGING_HOST_WS = 'ws://preprod.exapp';
+export const LOCAL_HOST_WS = 'ws://dev7.exapp';
+
 export const DEV_HOST = 'http://localhost:8080';
+export const DEV_HOST_WS = 'ws://localhost:8080';
 

@@ -1,11 +1,10 @@
 import {Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy} from '@angular/core';
-import { takeUntil } from 'rxjs/internal/operators';
-import { Subject } from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/internal/operators';
+import {Subject} from 'rxjs/Subject';
 
-import { LangService } from 'app/shared/services/lang.service';
-import { AbstractDashboardItems } from '../../abstract-dashboard-items';
-import { MarketService } from '../markets/market.service';
-import { DashboardService } from '../../dashboard.service';
+import {LangService} from 'app/shared/services/lang.service';
+import {AbstractDashboardItems} from '../../abstract-dashboard-items';
+import {DashboardService} from '../../dashboard.service';
 
 declare const TradingView: any;
 
