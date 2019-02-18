@@ -129,6 +129,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           if(url === 'registration') {
             this.popupService.showMobileRegistrationPopup(true);
           }
+          if(url === 'login') {
+            this.popupService.showMobileLoginPopup(true);
+          }
         })
       });
   }
