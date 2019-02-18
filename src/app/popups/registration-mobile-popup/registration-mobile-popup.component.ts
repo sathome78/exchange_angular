@@ -110,7 +110,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     this.emailForm = new FormGroup({
       email: new FormControl('', {
         validators: [
-          // Validators.required,
+          Validators.required,
           this.utilsService.emailValidator(),
           this.utilsService.specialCharacterValidator()
         ],
