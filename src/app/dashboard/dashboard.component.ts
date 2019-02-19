@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   /** retrieve gridster container*/
-  @ViewChild('gridsterContainer') gridsterContainer;
+  @ViewChild('gridsterContainer') private gridsterContainer;
 
   /** retrieve templates for loadWidgetTemplate method*/
   @ViewChild('graph') graphTemplate: TemplateRef<any>;
@@ -116,7 +116,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
           this.widgets = this.dataService.getWidgetPositions();
         })
-        this.gridsterContainer.reload();
+        this.gridsterContainer && this.gridsterContainer.reload();
       });
 
     this.widgetTemplate = {
@@ -171,7 +171,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         widget[0].wLg === this.gridsterItemOptions.maxWidth ? widget[0].wLg = this.gridsterItemOptions.maxWidth : widget[0].wLg += 1 :
         widget[0].wLg === 2 ? widget[0].wLg = 2 : widget[0].wLg -= 1;
     }
-    this.gridsterContainer.reload();
+    this.gridsterContainer && this.gridsterContainer.reload();
   }
 
   /**
@@ -190,7 +190,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   addItemToDashboard(itemType): void {
     const widget = this.defauldWidgets.find(item => item.type === itemType);
     this.widgets.push(widget);
-    this.gridsterContainer.reload();
+    this.gridsterContainer && this.gridsterContainer.reload();
   }
 
   /**
@@ -217,7 +217,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param {number} value
    */
   private changeRatio(value: number) {
-   this.gridsterContainer.setOption('widthHeightRatio', value).reload();
+    this.gridsterContainer && this.gridsterContainer.setOption('widthHeightRatio', value).reload();
   }
 
 }
