@@ -12,11 +12,11 @@ export const IP_CHECKER_URL = 'https://api.ipify.org/?format=json';
 export const CORS_HEADER = 'Access-Control-Allow-Origin';
 // export const PROD_HOST = 'https://dev5.exrates.tech';
 
-export const PROD_HOST = 'https://e213lds53f92f.exrates.me';
+export const PROD_HOST = 'https://exrates.me';
 export const PRE_PROD_HOST = 'http://preprod.exapp';
 // export const STAGING_HOST = 'http://dev8.exapp';
-export const STAGING_HOST = 'http://preprod.exapp';
-export const LOCAL_HOST = 'http://dev7.exapp';
+export const STAGING_HOST = 'http://dev1.exrates.tech';
+export const LOCAL_HOST = 'http://dev1.exrates.tech';
 
 export const DEV_HOST = 'http://localhost:8080';
 
