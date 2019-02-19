@@ -24,10 +24,10 @@ export class SendStepOneComponent implements OnInit {
   }
 
   onChooseSend(name: string) {
-    // this.popupService.demoPopupMessage = 1;
-    // this.popupService.showDemoTradingPopup(true);
-    // this.closePopup.emit();
-    this.chooseSend.emit(name);
+    this.popupService.demoPopupMessage = 1;
+    this.popupService.showDemoTradingPopup(true);
+    this.closePopup.emit();
+    // this.chooseSend.emit(name);
   }
 
 }
