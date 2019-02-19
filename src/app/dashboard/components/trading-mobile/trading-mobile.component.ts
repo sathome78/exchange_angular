@@ -130,12 +130,12 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       });
 
 
-    this.dashboardWebsocketService.setRabbitStompSubscription()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        this.updateCurrentCurrencyViaWebsocket = true;
-        this.cdr.detectChanges();
-      })
+    // this.dashboardWebsocketService.setRabbitStompSubscription()
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe(() => {
+    //     this.updateCurrentCurrencyViaWebsocket = true;
+    //     this.cdr.detectChanges();
+    //   })
 
 
     this.store
