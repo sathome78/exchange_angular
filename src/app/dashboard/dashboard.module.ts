@@ -82,7 +82,7 @@ const stompConfig: StompConfig = {
   reconnect_delay: 5000,
 
   // Will log diagnostics on console
-  debug: false
+  debug: true
 };
 
 @NgModule({
