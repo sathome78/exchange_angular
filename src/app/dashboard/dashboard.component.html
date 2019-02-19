@@ -36,7 +36,7 @@
 
   <div class="dashboard__widget-wrap">
 
-    <ng-template [ngTemplateOutlet]="loadWidgetTemplate(activeMobileWidget)"
+    <ng-template [ngTemplateOutlet]="widgetTemplate[activeMobileWidget]"
                  [ngTemplateOutletContext]="{ $implicit: 1}">
     </ng-template>
 

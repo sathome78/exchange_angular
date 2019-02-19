@@ -22,6 +22,14 @@ export class DashboardService {
   /** Array of dashboard item options*/
   public widgetPositions = [
     {
+      x: 0,
+      y: 0,
+      w: 3,
+      h: 3,
+      xMd: 0,
+      yMd: 0,
+      wMd: 3,
+      hMd: 1,
       xLg: 0,
       yLg: 0,
       wLg: 2,
@@ -31,6 +39,14 @@ export class DashboardService {
       type: 'graph'
     },
     {
+      x: 1,
+      y: 1,
+      w: 3,
+      h: 3,
+      xMd: 0,
+      yMd: 1,
+      wMd: 3,
+      hMd: 1,
       xLg: 2,
       yLg: 0,
       wLg: 1,
@@ -40,6 +56,14 @@ export class DashboardService {
       type: 'markets'
     },
     {
+      x: 1,
+      y: 0,
+      w: 3,
+      h: 3,
+      xMd: 0,
+      yMd: 1,
+      wMd: 3,
+      hMd: 1,
       xLg: 0,
       yLg: 1,
       wLg: 1,
@@ -49,6 +73,14 @@ export class DashboardService {
       type: 'trading'
     },
     {
+      x: 1,
+      y: 0,
+      w: 3,
+      h: 1,
+      xMd: 0,
+      yMd: 1,
+      wMd: 3,
+      hMd: 1,
       xLg: 1,
       yLg: 1,
       wLg: 1,
@@ -58,6 +90,14 @@ export class DashboardService {
       type: 'order-book'
     },
     {
+      x: 1,
+      y: 0,
+      w: 3,
+      h: 2,
+      xMd: 0,
+      yMd: 1,
+      wMd: 3,
+      hMd: 1,
       xLg: 2,
       yLg: 1,
       wLg: 1,
@@ -67,6 +107,14 @@ export class DashboardService {
       type: 'trade-history'
     },
     {
+      x: 1,
+      y: 0,
+      w: 3,
+      h: 1,
+      xMd: 0,
+      yMd: 1,
+      wMd: 3,
+      hMd: 1,
       xLg: 0,
       yLg: 2,
       wLg: 2,
@@ -76,6 +124,14 @@ export class DashboardService {
       type: 'orders'
     },
     {
+      x: 1,
+      y: 0,
+      w: 3,
+      h: 2,
+      xMd: 0,
+      yMd: 1,
+      wMd: 3,
+      hMd: 1,
       xLg: 2,
       yLg: 2,
       wLg: 1,
