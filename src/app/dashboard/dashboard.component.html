@@ -10,7 +10,7 @@
                     [draggableOptions]="{ handlerClass: 'panel-heading' }">
 
         <ng-template ngFor let-widget [ngForOf]="widgets" , let-index=index>
-          <ngx-gridster-item [options]="gridsterItemOptions" *ngIf="widget.type | showWidgetPipe"
+          <ngx-gridster-item [options]="gridsterItemOptions" *ngIf="widget.type | showWidgetPipe: isAuthenticated"
                              [(xLg)]="widget.xLg" [(yLg)]="widget.yLg" [(wLg)]="widget.wLg" [(hLg)]="widget.hLg"
                              [(dragAndDrop)]="widget.dragAndDrop" [(resizable)]="widget.resizable"
                              class="gridster-item">
