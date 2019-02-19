@@ -54,17 +54,17 @@ export class DashboardWebSocketService implements OnDestroy {
       });
   }
 
-  setRabbitStompSubscription() {
-    return this.stompService
-      .subscribe('/topic/rabbit')
-      .pipe(map((message: Message) => JSON.parse(message.body)))
-      .pipe(filter((message) => this.currentCurrencyPair && (message.currencyPairId === this.currentCurrencyPair.currencyPairId)))
-      .pipe(map((message) => {
-        console.log('updated');
-        return message;
-      }))
-      .pipe(map(() => this.currentCurrencyPair));
-  }
+  // setRabbitStompSubscription() {
+  //   return this.stompService
+  //     .subscribe('/topic/rabbit')
+  //     .pipe(map((message: Message) => JSON.parse(message.body)))
+  //     .pipe(filter((message) => this.currentCurrencyPair && (message.currencyPairId === this.currentCurrencyPair.currencyPairId)))
+  //     .pipe(map((message) => {
+  //       console.log('updated');
+  //       return message;
+  //     }))
+  //     .pipe(map(() => this.currentCurrencyPair));
+  // }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();

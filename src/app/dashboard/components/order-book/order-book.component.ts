@@ -87,11 +87,11 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.cdr.detectChanges()
       });
 
-    this.dashboardWebsocketService.setRabbitStompSubscription()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair) => {
-        this.requestData(pair);
-      })
+    // this.dashboardWebsocketService.setRabbitStompSubscription()
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe((pair) => {
+    //     this.requestData(pair);
+    //   })
   }
 
   ngOnDestroy() {

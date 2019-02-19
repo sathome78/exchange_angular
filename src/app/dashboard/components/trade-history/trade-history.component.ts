@@ -57,14 +57,14 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(items => this.allTrades = items);
 
-    this.dashboardWebsocketService.setRabbitStompSubscription()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair) => {
-        this.tradeService
-          .getFirstTrades(pair.currencyPairId)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(items => this.allTrades = items);
-      })
+    // this.dashboardWebsocketService.setRabbitStompSubscription()
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe((pair) => {
+    //     this.tradeService
+    //       .getFirstTrades(pair.currencyPairId)
+    //       .pipe(takeUntil(this.ngUnsubscribe))
+    //       .subscribe(items => this.allTrades = items);
+    //   })
 
     this.store
     .pipe(select(getActiveCurrencyPair))
