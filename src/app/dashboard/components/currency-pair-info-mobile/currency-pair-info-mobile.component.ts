@@ -77,12 +77,12 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       });
 
-    this.dashboardWebsocketService.setRabbitStompSubscription()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((currencyPair) => {
-        console.log(currencyPair)
-        this.updateCurrencyInfo(currencyPair.currencyPairId);
-      })
+    // this.dashboardWebsocketService.setRabbitStompSubscription()
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe((currencyPair) => {
+    //     console.log(currencyPair)
+    //     this.updateCurrencyInfo(currencyPair.currencyPairId);
+    //   })
   }
 
   updateCurrencyInfo(currencyPairId) {

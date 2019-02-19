@@ -128,12 +128,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.cdr.detectChanges();
       });
 
-    this.dashboardWebsocketService.setRabbitStompSubscription()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        this.updateCurrentCurrencyViaWebsocket = true;
-        this.cdr.detectChanges();
-      })
+    // this.dashboardWebsocketService.setRabbitStompSubscription()
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe(() => {
+    //     this.updateCurrentCurrencyViaWebsocket = true;
+    //     this.cdr.detectChanges();
+    //   })
 
 
     this.store

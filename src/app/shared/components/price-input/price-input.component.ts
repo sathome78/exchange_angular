@@ -27,12 +27,14 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   @ViewChild('inputEl') inputEl: ElementRef;
   @Output('customInput') customInput: EventEmitter<any>
   private patternInput = /^\d+\.(\.\d+)*$|^\d+(\.\d+)*$/;
+  private onTouched: Function;
 
   constructor(
     private currencyUsdPipe: CurrencyPipe,
     private roundCurrencyPipe: RoundCurrencyPipe,
     private utils: UtilsService
   ) {
+    this.onTouched = () => {};
     this.customInput = new EventEmitter<any>();
   }
 
@@ -95,7 +97,8 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     this.propagateChanges = fn;
   }
 
-  registerOnTouched(fn: any) {
+  registerOnTouched(fn: () => {}): void {
+    this.onTouched = fn;
   }
 
   onFocus() {
@@ -103,6 +106,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   onBlur($event) {
+    this.onTouched();
     this.writeValue($event.target.value);
   }
 
