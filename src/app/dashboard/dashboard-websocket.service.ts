@@ -153,7 +153,7 @@ export class DashboardWebSocketService implements OnDestroy {
    * this method simply gets pairs from cache and when subscription is on we should drop data
    */
   // makeItFast() {
-  //   const url = this.baseUrl + '/info/public/v2/currencies/fast';
+  //   const url = this.baseUrl + '/api/public/v2/currencies/fast';
   //   this.http.get<CurrencyPair []>(url).subscribe(items => {
   //     this.processCurrencyPairs(items);
   //   });
