@@ -1,6 +1,12 @@
 .dashboard-tools{
   display: none;
 }
+.curency-input{
+  .dynamic-input__wrap{
+    margin: 0!important;
+        margin-right: 16px!important;
+  }
+}
 /*--- media start ---*/
 @media (min-width:1200px) {
   .dashboard-tools{

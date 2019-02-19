@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {ChatService} from './chat.service';
@@ -33,8 +33,11 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
       && today.getDate() === date.getDate();
   }
 
-  constructor(private chatService: ChatService,
-              private authService: AuthService) {
+  constructor(
+    private chatService: ChatService,
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService
+  ) {
     super();
     this.setScrollStylesForMobile();
   }
@@ -67,6 +70,7 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
         if (messages.length) {
           this.dateChatItems = messages;
           this.addTodayIfNecessary();
+          this.cdr.detectChanges();
           setTimeout(() => {
             this.onScrollToBottom();
           }, 200);
@@ -94,9 +98,11 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
         .subscribe(res => {
             console.log(res);
             message.value = '';
+            this.cdr.detectChanges();
           },
           error1 => {
             console.log(error1);
+            this.cdr.detectChanges();
           });
     }
   }

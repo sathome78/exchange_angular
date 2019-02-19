@@ -162,7 +162,7 @@ export class BalanceService {
   }
 
   getMaxCurrencyPairByName(currencyName: string) {
-    const url = `${this.apiUrl}/api/public/v2/api/max/${currencyName}`;
+    const url = `${this.apiUrl}/api/public/v2/info/max/${currencyName}`;
     return this.http.get(url);
   }
 

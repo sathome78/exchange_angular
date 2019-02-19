@@ -1,5 +1,6 @@
 import {Action} from '@ngrx/store';
 import {CurrencyPair} from 'app/model';
+import {Order} from 'app/model/order.model';
 
 export const CHANGE_ACTIVE_CURRENCY_PAIR = '[Dashboard] Change currency pair';
 export const SET_CURRENCY_PAIRS_FOR_MARKET = '[Dashboard] Set currency pairs for market';
@@ -14,6 +15,7 @@ export const SET_LAST_SELL_BUY_ORDER = '[Dashboard] Set last sell buy order';
 export const SET_ALL_TRADES = '[Dashboard] Set all trades';
 export const SET_TRADING_TYPE = '[Dashboard] Set trading type';
 export const SET_LAST_PRICE = '[Dashboard] Set last price';
+export const SET_LAST_CREATED_ORDER = '[Dashboard] Set last created';
 
 /**
  * Change currency pair 'BTC/USD'
@@ -24,7 +26,15 @@ export class ChangeActiveCurrencyPairAction implements Action {
 }
 
 /**
- * Set all currency pairs for market
+ * Set last created order'
+ */
+export class SetLastCreatedOrderAction implements Action {
+  readonly type = SET_LAST_CREATED_ORDER;
+  constructor(public payload: Order) {}
+}
+
+/**
+ * Load all currency pairs for market
  */
 export class SetMarketsCurrencyPairsAction implements Action {
   readonly type = SET_CURRENCY_PAIRS_FOR_MARKET;
@@ -131,5 +141,6 @@ export type Actions
   | SelectedOrderBookOrderAction
   | SetLastSellBuyOrderAction
   | SetTradingTypeAction
+  | SetLastCreatedOrderAction
   | SetLastPriceAction
   | SetAllTradesAction;

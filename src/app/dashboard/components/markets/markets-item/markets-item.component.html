@@ -35,7 +35,7 @@
         style="margin-right: 2px;"
         [ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}"
       >
-        {{pair.percentChange | positivePipe | replaceNumber}}
+        {{(pair.percentChange || '0') | positivePipe | replaceNumber}}
       </span>
       <span
         class="arr"
