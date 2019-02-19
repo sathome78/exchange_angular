@@ -46,6 +46,7 @@ import {OrderBookMobileComponent} from './components/order-book-mobile/order-boo
 import {TradingMobileComponent} from './components/trading-mobile/trading-mobile.component';
 import {TradingService} from './services/trading.service';
 import { CoreEffects } from 'app/core/effects/core.effects';
+import {ShowWidgetPipe} from '../shared/pipes/show-widget.pipe';
 
 
 export function socketProvider() {
@@ -110,6 +111,7 @@ const stompConfig: StompConfig = {
     CurrencySortingPipe,
     NicknamePipe,
     PositivePipe,
+    ShowWidgetPipe,
     MarketsItemComponent,
 
     // PIPES END

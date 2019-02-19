@@ -34,7 +34,7 @@
           </div>
         </td>
         <td class="table__cell table__cell--tal">
-          <span>{{(+item.activeBalance + +item.reservedByOrders) | roundCurrency:item.currencyName | formatCurrency}}</span>
+          <span>{{(+item.activeBalance + +item.reservedByOrders + +item.reservedByMerchant + +item.onConfirmation) | roundCurrency:item.currencyName | formatCurrency}}</span>
         </td>
         <td class="table__cell table__cell--tar">
           <span>{{item.activeBalance | roundCurrency:item.currencyName | formatCurrency}}</span>
