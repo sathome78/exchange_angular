@@ -127,10 +127,11 @@
         </div>
       </div>
       <div class="markets__tbody" id="markets-container" (click)="onClickMarketItem($event)">
-        <perfect-scrollbar style="max-height: 353px;">
+        <cdk-virtual-scroll-viewport [itemSize]="31" style="height: 353px;">
           <div style="margin-right: 24px;">
             <app-markets-item
-              *ngFor="let pair of (pairs | currencySort :'currencyVolume'); trackBy: trackByFn"
+              class="markets_item"
+              *cdkVirtualFor="let pair of (pairs | currencySort :'currencyVolume'); trackBy: trackByFn"
               [pair]="pair"
               [isFiat]="isFiat"
               [isFavorite]="getIsFavorite(pair.currencyPairId)"
@@ -138,7 +139,7 @@
             >
             </app-markets-item>
           </div>
-        </perfect-scrollbar>
+        </cdk-virtual-scroll-viewport>
       </div>
     </div>
     <div class="widget__search">
@@ -185,8 +186,8 @@
         </div>
       </div>
       <div class="markets__tbody">
-        <perfect-scrollbar>
-          <ng-container *ngFor="let pair of pairs">
+        <cdk-virtual-scroll-viewport style="height: 800px;">
+          <ng-container *cdkVirtualFor="let pair of pairs" class="markets_item">
             <div class="markets__row widget__table-row"
                  [ngClass]="{
                  'widget__table-row--green': isChangePositive(pair),
@@ -219,11 +220,11 @@
             </div>
             <div style="height: 4px;"></div>
           </ng-container>
-        </perfect-scrollbar>
+        </cdk-virtual-scroll-viewport>
       </div>
     </div>
 
-    
+
   </div>
 
   <app-market-search

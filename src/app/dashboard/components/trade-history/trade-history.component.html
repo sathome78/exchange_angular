@@ -79,13 +79,17 @@
         <div class="table__cell-head table__cell-head--tar table__cell-head--p4" style="width: 36%;"><span>{{firstCurrency}}</span></div>
       </div>
       <div class="trade-history__tbody">
-        <perfect-scrollbar style="height: 100%;">
+        <cdk-virtual-scroll-viewport style="height: 100%;">
           <div class="trade-history__tbody-inner">
 
-            <div *ngFor="let item of allTrades" class=" trade-history__row table__row widget__table-row"
+            <app-trade-history-item
+
+            ></app-trade-history-item>
+
+            <!-- <div *ngFor="let item of allTrades" class=" trade-history__row table__row widget__table-row"
                  [ngClass]="{'widget__table-row-hover--red': item.operationType === 'SELL', 'widget__table-row-hover--green': item.operationType === 'BUY'}">
               <div class="table__cell table__cell--tal trade-history-time" style="width: 28%;">
-                <!-- {{item.dateAcceptionTime | date:"dd/MM/yyyy"}} -->
+
                 {{item.dateAcceptionTime}}
               </div>
               <div class="table__cell table__cell--tal" style="width: 36%;">
@@ -99,10 +103,10 @@
             </span>
               </div>
             </div>
-            <div style="height: 4px;"></div>
+            <div style="height: 4px;"></div> -->
 
           </div>
-        </perfect-scrollbar>
+        </cdk-virtual-scroll-viewport>
       </div>
     </div>
 

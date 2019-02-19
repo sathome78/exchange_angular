@@ -45,6 +45,8 @@ import {OrderBookMobileComponent} from './components/order-book-mobile/order-boo
 import {TradingMobileComponent} from './components/trading-mobile/trading-mobile.component';
 import {TradingService} from './services/trading.service';
 import {CoreEffects} from 'app/core/effects/core.effects';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { TradeHistoryItemComponent } from './components/trade-history/trade-history-item/trade-history-item.component';
 
 
 
@@ -96,6 +98,7 @@ const stompConfig: InjectableRxStompConfig = {
     NicknamePipe,
     PositivePipe,
     MarketsItemComponent,
+    TradeHistoryItemComponent,
 
     // PIPES END
   ],
@@ -128,6 +131,7 @@ const stompConfig: InjectableRxStompConfig = {
     TranslateModule,
     FormsModule,
     MomentModule,
+    ScrollingModule,
     ReactiveFormsModule,
     GridsterModule.forRoot(),
     EffectsModule.forRoot([CoreEffects, DashboardEffects]),

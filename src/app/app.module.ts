@@ -76,6 +76,7 @@ import {KycPopupComponent} from './popups/kyc-popup/kyc-popup.component';
 import {KycLevel1StepTwoComponent} from './popups/kyc-popup/kyc-level1-step-two/kyc-level1-step-two.component';
 import {KycLevel1StepOneComponent} from './popups/kyc-popup/kyc-level1-step-one/kyc-level1-step-one.component';
 import {PopupInfoComponent} from './popups/popup-info/popup-info.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -133,6 +134,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   imports: [
     StoreModule.forRoot(reducers),
+    ScrollingModule,
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: !environment.production,

@@ -42,6 +42,7 @@ import {ConstantsService} from './services/constants.service';
 import {SafePipe} from './pipes/safe.pipe';
 import {DateMaskInputComponent} from './components/date-mask-input/date-mask-input.component';
 import {DateMaskDirective} from './directives/date-mask.directive';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import {DateMaskDirective} from './directives/date-mask.directive';
     QRCodeModule,
     InfiniteScrollModule,
     RecaptchaModule,
+    ScrollingModule,
     MomentModule
   ],
   exports: [
