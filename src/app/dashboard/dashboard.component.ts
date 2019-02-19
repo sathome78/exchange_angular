@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   /** retrieve gridster container*/
-  @ViewChild('gridsterContainer') gridsterContainer;
+  @ViewChild('gridsterContainer') private gridsterContainer;
 
   /** retrieve templates for loadWidgetTemplate method*/
   @ViewChild('graph') graphTemplate: TemplateRef<any>;
@@ -53,6 +53,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public breakPoint;
   public currencyPair = null
   public isAuthenticated: boolean = false;
+  public widgetTemplate;
 
   constructor(
     public breakPointService: BreakpointService,
@@ -113,11 +114,20 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isAuthenticated = isAuthenticated;
         this.widgets = [];
         setTimeout(() => {
-          this.widgets = this.dataService.getWidgetPositions()
+          this.widgets = this.dataService.getWidgetPositions();
         })
         this.gridsterContainer && this.gridsterContainer.reload();
       });
 
+    this.widgetTemplate = {
+      graph: this.graphTemplate,
+      markets: this.marketsTemplate,
+      trading: this.tradingTemplate,
+      'order-book': this.orderBookTemplate,
+      'trade-history': this.tradeHistoryTemplate,
+      chat: this.chatTemplate,
+      orders: this.ordersTemplate
+    };
   }
 
   checkRoute() {
@@ -126,13 +136,15 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((segments) => {
         const url = segments.map((u) => u.path).join('/')
         setTimeout(() => {  // added to fix ExpressionChangedAfterItHasBeenCheckedError
-          if(url === 'registration') {
+          if (url === 'registration') {
             this.popupService.showMobileRegistrationPopup(true);
+          }
+          if(url === 'login') {
+            this.popupService.showMobileLoginPopup(true);
           }
         })
       });
   }
-
 
   ngAfterViewInit() {
     this.changeRatioByWidth();
@@ -142,48 +154,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-  }
-
-  /**
-   * get template for directive *ngFor
-   * @param {string} value
-   * @returns {TemplateRef<any>}
-   */
-  loadWidgetTemplate(value: string): TemplateRef<any> {
-    switch (value) {
-      case 'graph':
-        return this.graphTemplate;
-      case 'markets':
-        return this.marketsTemplate;
-      case 'trading':
-        return this.tradingTemplate;
-      case 'order-book':
-        return this.orderBookTemplate;
-      case 'trade-history':
-        return this.tradeHistoryTemplate;
-      case 'chat':
-        return this.chatTemplate;
-      case 'orders':
-        return this.ordersTemplate;
-    }
-  }
-
-  /**
-   * hide widget if no authenticate
-   * @param {string} widget
-   * @returns {boolean}
-   */
-  showWidget(widget: string): boolean {
-    if (!this.isAuthenticated) {
-      switch (widget) {
-        case 'trade-history':
-        case 'orders':
-          return false;
-      }
-    } else {
-      return true;
-    }
-    return true;
   }
 
   /**
@@ -201,7 +171,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         widget[0].wLg === this.gridsterItemOptions.maxWidth ? widget[0].wLg = this.gridsterItemOptions.maxWidth : widget[0].wLg += 1 :
         widget[0].wLg === 2 ? widget[0].wLg = 2 : widget[0].wLg -= 1;
     }
-    this.gridsterContainer.reload();
+    this.gridsterContainer && this.gridsterContainer.reload();
   }
 
   /**
@@ -220,7 +190,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   addItemToDashboard(itemType): void {
     const widget = this.defauldWidgets.find(item => item.type === itemType);
     this.widgets.push(widget);
-    this.gridsterContainer.reload();
+    this.gridsterContainer && this.gridsterContainer.reload();
   }
 
   /**

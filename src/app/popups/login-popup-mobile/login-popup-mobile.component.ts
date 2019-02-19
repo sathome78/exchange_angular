@@ -4,7 +4,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {TokenHolder} from '../../model/token-holder.model';
 import {UserService} from '../../shared/services/user.service';
 import {AuthService} from '../../shared/services/auth.service';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {LoggingService} from '../../shared/services/logging.service';
 import {keys} from '../../core/keys';
 import {TranslateService} from '@ngx-translate/core';
@@ -15,6 +15,7 @@ import {AUTH_MESSAGES} from '../../shared/constants';
 import {Store} from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as coreActions from '../../core/actions/core.actions';
+import {Location} from '@angular/common';
 
 declare var sendLoginSuccessGtag: Function;
 
@@ -58,6 +59,8 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private utilsService: UtilsService,
     private router: Router,
+    private route: ActivatedRoute,
+    private location: Location,
     private store: Store<fromCore.State>
   ) {
   }
@@ -65,6 +68,20 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.setTemplate('logInTemplate');
     this.initForm();
+
+    this.route.url
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((segments) => {
+        const url = segments.map((u) => u.path).join('/')
+        setTimeout(() => {  // added to fix ExpressionChangedAfterItHasBeenCheckedError
+          if(url === 'registration') {
+            this.popupService.showMobileRegistrationPopup(true);
+          }
+          if(url === 'login') {
+            this.popupService.showMobileLoginPopup(true);
+          }
+        })
+      });
   }
 
   ngOnDestroy(): void {
@@ -99,6 +116,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
 
   closeMe() {
     this.popupService.closeMobileLoginPopup();
+    this.location.replaceState('dashboard');
   }
 
   openRegistration() {
@@ -214,8 +232,8 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   }
 
   openRecoveryPasswordPopup() {
-    this.popupService.showRecoveryPasswordPopup(true);
     this.closeMe();
+    this.popupService.showRecoveryPasswordPopup(true);
   }
 
   sendAgain() {

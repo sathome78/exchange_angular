@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {DateChatItem} from '../date-chat-item.model';
 import {ChatItem} from '../chat-item.model';
 import {ChatService} from '../chat.service';
@@ -22,7 +22,10 @@ export class DayChatComponent implements OnInit, OnDestroy {
   messages: SimpleChat[];
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  constructor(private chatService: ChatService) { }
+  constructor(
+    private chatService: ChatService,
+    private cdr: ChangeDetectorRef,
+  ) { }
 
   ngOnInit() {
     this.messages = this.dateChatItem.messages;
@@ -32,6 +35,7 @@ export class DayChatComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(msg => {
           this.messages = [...this.messages, msg];
+          this.cdr.detectChanges();
           setTimeout(() => {
             this.onScrollToBottom();
           }, 200);
@@ -44,7 +48,6 @@ export class DayChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.chatService.unsubscribeStomp();
     this.ngUnsubscribe.next()
     this.ngUnsubscribe.complete()
   }
