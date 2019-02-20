@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Subject, Observable} from 'rxjs';
-import {StompService} from '@stomp/ng2-stompjs';
+import {RxStompService} from '@stomp/ng2-stompjs';
 import {map} from 'rxjs/internal/operators';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {Message} from '@stomp/stompjs';
@@ -23,7 +23,7 @@ export class TradeHistoryService {
   public lastSellBuyOrders: LastSellBuyOrder;
 
   constructor(
-    private stompService: StompService,
+    private stompService: RxStompService,
     private store: Store<State>,
     private http: HttpClient,
   ) {
@@ -34,7 +34,7 @@ export class TradeHistoryService {
 
   subscribeStompForTrades(pair: CurrencyPair) {
     this.tradesStompSubscription = this.stompService
-      .subscribe('/app/trades/' + pair.currencyPairId)
+      .watch('/app/trades/' + pair.currencyPairId)
       .subscribe((message) => {
         // console.log(JSON.parse(JSON.parse(message.body)));
         // console.log('kdj')

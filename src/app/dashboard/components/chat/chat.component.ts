@@ -7,6 +7,7 @@ import {AuthService} from 'app/shared/services/auth.service';
 import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-chat',
@@ -26,11 +27,9 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
   @ViewChild('scrollWrapper') scrollWrapper: PerfectScrollbarComponent;
   public scrollStyles: any = null;
 
-  static isToday(date: Date): boolean {
+  public isToday(date: Date): boolean {
     const today = new Date();
-    return today.getFullYear() === date.getFullYear()
-      && today.getMonth() === date.getMonth()
-      && today.getDate() === date.getDate();
+    return moment(date).isSame(today, 'day');
   }
 
   constructor(
@@ -84,7 +83,7 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
   addTodayIfNecessary() {
     const index = this.dateChatItems.length - 1;
 
-    if (!ChatComponent.isToday(new Date(this.dateChatItems[index].date))) {
+    if (!this.isToday(new Date(this.dateChatItems[index].date))) {
       this.dateChatItems.push(new DateChatItem(new Date()));
     }
   }

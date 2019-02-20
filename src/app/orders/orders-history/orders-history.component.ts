@@ -13,7 +13,7 @@ import {OrdersService} from '../orders.service';
 import {takeUntil} from 'rxjs/operators';
 import saveAs from 'file-saver';
 import {UtilsService} from 'app/shared/services/utils.service';
-import {SimpleCurrencyPair} from 'app/core/models/simple-currency-pair';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-orders-history',

@@ -6,7 +6,7 @@ import {UserService} from '../../shared/services/user.service';
 import {AuthService} from '../../shared/services/auth.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import {LoggingService} from '../../shared/services/logging.service';
-import {keys} from '../../core/keys';
+import {keys} from '../../shared/constants';
 import {TranslateService} from '@ngx-translate/core';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {Subject} from 'rxjs';
@@ -147,7 +147,12 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
       if (!this.isGACheck) {
         this.checkGoogleLoginEnabled(this.email);
       }
-      if (err.error.title === 'REQUIRED_EMAIL_AUTHORIZATION_CODE' || err.error.title === 'REQUIRED_GOOGLE_AUTHORIZATION_CODE') {
+      if (
+        err.error.title === 'REQUIRED_EMAIL_AUTHORIZATION_CODE'
+        || err.error.title === 'REQUIRED_GOOGLE_AUTHORIZATION_CODE'
+        || err.error.title === 'EMAIL_AUTHORIZATION_FAILED'
+        || err.error.title === 'GOOGLE_AUTHORIZATION_FAILED'
+      ) {
         this.inPineCodeMode = true;
         this.setTemplate('pinCodeTemplate');
         this.pinForm.reset();

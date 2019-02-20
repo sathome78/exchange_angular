@@ -11,8 +11,8 @@ import {State} from '../../core/reducers';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {UtilsService} from 'app/shared/services/utils.service';
-import {SimpleCurrencyPair} from 'app/core/models/simple-currency-pair';
-import { CurrencyChoose } from 'app/core/models/currency-choose.model';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import { CurrencyChoose } from 'app/model/currency-choose.model';
 import {OrdersService} from '../orders.service';
 
 @Component({

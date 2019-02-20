@@ -8,7 +8,7 @@ import {Subject} from 'rxjs';
 import {PopupService} from '../../shared/services/popup.service';
 import {UserService} from '../../shared/services/user.service';
 import {UtilsService} from '../../shared/services/utils.service';
-import {keys} from '../../core/keys';
+import {keys} from '../../shared/constants';
 import {AUTH_MESSAGES} from '../../shared/constants';
 
 declare var sendRecoveryPasswordGtag: Function;

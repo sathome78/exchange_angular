@@ -149,4 +149,8 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
     this.formattingCurrentPairName(pair.currencyPairName as string);
   }
 
+  trackByFn(index, item) {
+    return item.orderId; // or item.id
+  }
+
 }
