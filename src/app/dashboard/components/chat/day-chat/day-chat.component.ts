@@ -7,6 +7,7 @@ import {SimpleChat} from '../simple-chat.model';
 import {ChatComponent} from '../chat.component';
 import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
 import {takeUntil} from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-day-chat',
@@ -19,7 +20,7 @@ export class DayChatComponent implements OnInit, OnDestroy {
   @Input () dateChatItem: DateChatItem;
   @Input () scrollWrapper: PerfectScrollbarComponent;
 
-  messages: SimpleChat[];
+  public messages: SimpleChat[];
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(
@@ -29,9 +30,8 @@ export class DayChatComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.messages = this.dateChatItem.messages;
-    if (ChatComponent.isToday(new Date(this.dateChatItem.date))) {
-      this.chatService.setStompSubscription('en');
-      this.chatService.simpleChatListener
+    if (this.isToday(new Date(this.dateChatItem.date))) {
+      this.chatService.setStompSubscription('en')
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(msg => {
           this.messages = [...this.messages, msg];
@@ -52,6 +52,10 @@ export class DayChatComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete()
   }
 
+  public isToday(date: Date): boolean {
+    const today = new Date();
+    return moment(date).isSame(today, 'day');
+  }
 
 
 }

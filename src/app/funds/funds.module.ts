@@ -6,7 +6,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {MyDatePickerModule} from 'mydatepicker';
 import {EffectsModule} from '@ngrx/effects';
-import {NgSelectModule} from '@ng-select/ng-select';
 import {AuthInterceptor} from '../core/interceptors/auth.interceptor';
 import {JwtInterceptor} from '../core/interceptors/jwt.interceptor';
 import {FundsEffects} from './store/effects/funds.effects';
@@ -49,7 +48,7 @@ import {TransactionsService} from './services/transaction.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {translateInfo} from '../shared/configs/translate-options';
-import {MomentModule} from 'angular2-moment';
+import {MomentModule} from 'ngx-moment';
 import {CoreEffects} from '../core/effects/core.effects';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -64,7 +63,6 @@ export function createTranslateLoader(http: HttpClient) {
     ReactiveFormsModule,
     NgxPaginationModule,
     MyDatePickerModule,
-    NgSelectModule,
     MomentModule,
     SharedModule,
     EffectsModule.forRoot([CoreEffects, FundsEffects]),

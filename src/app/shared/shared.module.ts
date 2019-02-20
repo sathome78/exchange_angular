@@ -35,13 +35,14 @@ import {DynamicInputDashboardComponent} from './components/dynamic-input-dashboa
 import {DynamicInputDataPipe} from './pipes/dynamic-input-data.pipe';
 import {RestorePasswordGuard} from './guards/restore-password.guard';
 import {GetObjectKeysPipe} from './pipes/getObjectKeys.pipe';
-import {MomentModule} from 'angular2-moment';
+import {MomentModule} from 'ngx-moment';
 import {ExponentToNumberPipe} from './pipes/exponent-to-number.pipe';
 import {AddClassDirective} from './directives/add-class.directive';
 import {ConstantsService} from './services/constants.service';
 import {SafePipe} from './pipes/safe.pipe';
-import { DateMaskInputComponent } from './components/date-mask-input/date-mask-input.component';
+import {DateMaskInputComponent} from './components/date-mask-input/date-mask-input.component';
 import {DateMaskDirective} from './directives/date-mask.directive';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 import {ExcludeSpacesDirective} from './directives/exclude-spaces.directive';
 
 @NgModule({
@@ -79,11 +80,13 @@ import {ExcludeSpacesDirective} from './directives/exclude-spaces.directive';
   imports: [
     FormsModule,
     CommonModule,
+    TranslateModule,
     ReactiveFormsModule,
     PerfectScrollbarModule,
     QRCodeModule,
     InfiniteScrollModule,
     RecaptchaModule,
+    ScrollingModule,
     MomentModule
   ],
   exports: [

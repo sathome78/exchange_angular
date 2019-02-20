@@ -3,7 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {BalanceItem} from '../models/balance-item.model';
-import {MyBalanceItem} from '../../core/models/my-balance-item.model';
+import {MyBalanceItem} from '../../model/my-balance-item.model';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
 import {Router} from '@angular/router';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';

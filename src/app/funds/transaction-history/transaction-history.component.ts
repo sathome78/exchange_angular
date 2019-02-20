@@ -12,7 +12,7 @@ import { UtilsService } from 'app/shared/services/utils.service';
 import { TransactionHistoryItem } from '../models/transactions-history-item.model';
 import { takeUntil } from 'rxjs/operators';
 import saveAs from 'file-saver'
-import { CurrencyChoose } from 'app/core/models/currency-choose.model';
+import { CurrencyChoose } from 'app/model/currency-choose.model';
 import { ConstantsService } from 'app/shared/services/constants.service';
 
 @Component({

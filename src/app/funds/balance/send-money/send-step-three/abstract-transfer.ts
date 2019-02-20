@@ -1,12 +1,11 @@
-import {HostListener, Input, OnDestroy} from '@angular/core';
-import {keys} from '../../../../core/keys';
+import {HostListener, Input} from '@angular/core';
+import {keys} from '../../../../shared/constants';
 import {Subject} from 'rxjs';
 import {FormGroup} from '@angular/forms';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import {select} from '@ngrx/store';
 import * as _uniq from 'lodash/uniq';
 import {getAllCurrenciesForChoose} from '../../../../core/reducers';
-
 
 export abstract class AbstractTransfer {
 

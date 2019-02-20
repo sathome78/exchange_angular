@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RefillSuccessfulComponent } from './refill-successful.component';
+import { TradeHistoryItemComponent } from './trade-history-item.component';
 
-describe('RefillSuccessfulComponent', () => {
-  let component: RefillSuccessfulComponent;
-  let fixture: ComponentFixture<RefillSuccessfulComponent>;
+describe('TradeHistoryItemComponent', () => {
+  let component: TradeHistoryItemComponent;
+  let fixture: ComponentFixture<TradeHistoryItemComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RefillSuccessfulComponent ]
+      declarations: [ TradeHistoryItemComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RefillSuccessfulComponent);
+    fixture = TestBed.createComponent(TradeHistoryItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
