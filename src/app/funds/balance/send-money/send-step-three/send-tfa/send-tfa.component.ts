@@ -27,12 +27,14 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.balanceService.sendPinCode()
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res: Response) => {
+      .subscribe(res => {
         this.isSentPin = res.status === 201 ? true : false;
-        this.subtitleMessage = this.isSentPin ? 'Enter 2FA code' : '';
+        this.subtitleMessage = this.isSentPin ? '' : 'Put the code';
       });
+
     this.form = new FormGroup({
       pin: new FormControl('', [Validators.required]),
     });
@@ -118,5 +120,4 @@ export class SendTfaComponent implements OnInit, OnDestroy {
         break;
     }
   }
-
 }
