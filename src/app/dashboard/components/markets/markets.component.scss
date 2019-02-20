@@ -68,7 +68,7 @@
 .widget__content--mob ::ng-deep perfect-scrollbar > .ps.ps--active-y > .ps__rail-y {
   background: #bd3820;
   @media(max-width: 1200px) {
-    
+
     margin-right: 0;
     right: 5px!important;
     top: 5px!important;
@@ -198,4 +198,8 @@ display: none;
 }
 .widget__content--mob perfect-scrollbar{
     padding: 6px 14px 6px 8px;
+}
+
+.markets_item {
+   height: 31px;
 }

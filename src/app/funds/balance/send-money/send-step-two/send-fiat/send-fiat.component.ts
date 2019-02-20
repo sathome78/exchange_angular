@@ -4,7 +4,7 @@ import {Subject} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
 import {debounceTime, takeUntil} from 'rxjs/operators';
-import {keys} from 'app/core/keys';
+import {keys} from '../../../../../shared/constants';
 import {getFiatCurrenciesForChoose, State} from 'app/core/reducers';
 import {select, Store} from '@ngrx/store';
 import {SEND_FIAT} from '../../send-money-constants';

@@ -6,7 +6,7 @@ import {UserService} from '../../shared/services/user.service';
 import {AuthService} from '../../shared/services/auth.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import {LoggingService} from '../../shared/services/logging.service';
-import {keys} from '../../core/keys';
+import {keys} from '../../shared/constants';
 import {TranslateService} from '@ngx-translate/core';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {Subject} from 'rxjs';

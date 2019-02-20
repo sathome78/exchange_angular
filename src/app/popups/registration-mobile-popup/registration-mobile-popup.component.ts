@@ -6,7 +6,7 @@ import {takeUntil} from 'rxjs/internal/operators';
 import {PopupService} from '../../shared/services/popup.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/user.service';
-import {keys} from '../../core/keys';
+import {keys} from '../../shared/constants';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';

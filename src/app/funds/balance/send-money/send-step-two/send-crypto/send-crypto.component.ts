@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {CurrencyBalanceModel} from '../../../../../model/index';
 import {BalanceService} from '../../../../services/balance.service';
-import {keys} from '../../../../../core/keys';
+import {keys} from '../../../../../shared/constants';
 import {select, Store} from '@ngrx/store';
 import {getCryptoCurrenciesForChoose, State} from 'app/core/reducers';
 import {SEND_CRYPTO} from '../../send-money-constants';

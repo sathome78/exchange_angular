@@ -24,3 +24,7 @@ export const AUTH_MESSAGES = {
   'INVALID_CREDENTIALS': 'Invalid credentials',
   'OTHER_HTTP_ERROR' : 'Service is temporary unavailable, please try again later.'
 }
+
+export const keys = {
+  recaptchaKey: '6LdNln0UAAAAAH4nyBX7Wh4YKpqujc0-a66xssjp',
+}
