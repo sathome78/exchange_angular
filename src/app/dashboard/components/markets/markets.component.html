@@ -186,7 +186,7 @@
         </div>
       </div>
       <div class="markets__tbody">
-        <cdk-virtual-scroll-viewport style="height: 800px;">
+        <cdk-virtual-scroll-viewport style="height: 800px;" [itemSize]="31">
           <ng-container *cdkVirtualFor="let pair of pairs" class="markets_item">
             <div class="markets__row widget__table-row"
                  [ngClass]="{

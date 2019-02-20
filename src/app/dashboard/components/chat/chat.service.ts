@@ -8,11 +8,10 @@ import {environment} from 'environments/environment';
 import {LangService} from 'app/shared/services/lang.service';
 import {TOKEN} from 'app/shared/services/http.utils';
 import {SimpleChat} from './simple-chat.model';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class ChatService {
-
-  simpleChatListener: Subject<SimpleChat> = new Subject<SimpleChat>();
 
   HOST = environment.apiUrl;
 
@@ -31,12 +30,9 @@ export class ChatService {
    * @param lang - current language must be set to lower case
    */
   setStompSubscription(lang: string) {
-    this.stompService
+    return this.stompService
       .watch('/topic/chat/' + lang)
-      .subscribe(msg => {
-        // console.log(JSON.parse(msg.body));
-        this.simpleChatListener.next(JSON.parse(msg.body));
-      });
+      .pipe(map((msg) => JSON.parse(msg.body)))
   }
 
   /**
@@ -65,11 +61,6 @@ export class ChatService {
       params: new HttpParams().append('lang', lang),
     };
     return this.httpClient.get<IDateChat[]>(url, params);
-    // .subscribe(
-    // (messages: SimpleChat[]) => {
-    //   this.simpleChatItems = messages;
-    //   this.simpleChatListener.next(messages);
-    // });
   }
 
   /**

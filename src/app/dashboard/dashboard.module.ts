@@ -2,7 +2,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 
-import * as SockJS from 'sockjs-client';
 import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {environment} from '../../environments/environment';
 import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from '@stomp/ng2-stompjs';
@@ -140,7 +139,6 @@ const stompConfig: InjectableRxStompConfig = {
     GridsterModule.forRoot(),
     EffectsModule.forFeature([CoreEffects, DashboardEffects]),
     StoreModule.forFeature('dashboard', reducer),
-    ScrollbarModule,
     NgxPaginationModule,
     PerfectScrollbarModule
   ],
