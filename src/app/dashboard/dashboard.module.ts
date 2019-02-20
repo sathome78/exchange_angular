@@ -50,6 +50,7 @@ import {TradeHistoryItemComponent} from './components/trade-history/trade-histor
 import {ShowWidgetPipe} from '../shared/pipes/show-widget.pipe';
 import {reducer} from './reducers/dashboard.reducer'
 import {StoreModule} from '@ngrx/store';
+import * as SockJS from 'sockjs-client';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -58,19 +59,27 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   wheelSpeed: 1
 };
 
+export function socketProvider() {
+  return new SockJS(environment.apiUrl + '/public_socket');
+  // return new SockJS('http://localhost:5555/jsa-stomp-endpoint');
+}
+
 const stompConfig: InjectableRxStompConfig = {
   // Which server?
-  brokerURL: `${environment.apiUrlWS}/public_socket`,
+  // brokerURL: `${environment.apiUrlWS}/public_socket`,
 
   heartbeatIncoming: 0, // Typical value 0 - disabled
   heartbeatOutgoing: 20000, // Typical value 20000 - every 20 seconds
 
   reconnectDelay: 5000,
+  webSocketFactory: socketProvider,
 
   // Will log diagnostics on console
   debug: (msg) => {
-    console.log(new Date(), msg);
-  }
+    if (!environment.production) {
+      console.log(new Date(), msg);
+    }
+  },
 };
 
 @NgModule({

@@ -131,7 +131,7 @@
           <div style="margin-right: 24px;">
             <app-markets-item
               class="markets_item"
-              *cdkVirtualFor="let pair of (pairs | currencySort :'currencyVolume'); trackBy: trackByFn"
+              *cdkVirtualFor="let pair of (pairs | currencySort :'volume'); trackBy: trackByFn"
               [pair]="pair"
               [isFiat]="isFiat"
               [isFavorite]="getIsFavorite(pair.currencyPairId)"
