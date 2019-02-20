@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {StoreModule} from '@ngrx/store';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {AppComponent} from './app.component';
 
@@ -53,13 +53,9 @@ import {MockDataService} from './shared/services/mock-data.service';
 import {EmbeddedOrdersService} from './dashboard/components/embedded-orders/embedded-orders.service';
 import {JwtInterceptor} from './core/interceptors/jwt.interceptor';
 import {AuthInterceptor} from './core/interceptors/auth.interceptor';
-
-import {FinalRegistrationComponent} from './auth/final-registration/final-registration.component';
 import {RecoveryPassComponent} from './popups/recovery-pass/recovery-pass.component';
-import {FinalStepRecoveryPasswordComponent} from './auth/final-step-recovery-password/final-step-recovery-password.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from 'environments/environment';
-
 import {RefillSuccessfulComponent} from './balance/refill-money/refill-successful/refill-successful.component';
 import {DemoTradingPopupComponent} from './popups/demo-trading-popup/demo-trading-popup.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
@@ -76,7 +72,9 @@ import {KycPopupComponent} from './popups/kyc-popup/kyc-popup.component';
 import {KycLevel1StepTwoComponent} from './popups/kyc-popup/kyc-level1-step-two/kyc-level1-step-two.component';
 import {KycLevel1StepOneComponent} from './popups/kyc-popup/kyc-level1-step-one/kyc-level1-step-one.component';
 import {PopupInfoComponent} from './popups/popup-info/popup-info.component';
-import { ScrollingModule } from '@angular/cdk/scrolling';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {FinalRegistrationComponent} from './popups/final-registration/final-registration.component';
+import {FinalStepRecoveryPasswordComponent} from './popups/final-step-recovery-password/final-step-recovery-password.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
