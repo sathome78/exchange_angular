@@ -125,6 +125,15 @@ export class PasswordComponent implements OnInit, OnDestroy {
     return this.form.get('password_2');
   }
 
+  currentPasswordInput() {
+    if (this.firstPassword.touched)  this.form.get('password_1').markAsUntouched();
+    if (this.secondPassword.touched)  this.form.get('password_2').markAsUntouched();
+  }
+
+  firstPasswordInput() {
+    if (this.secondPassword.touched)  this.form.get('password_2').markAsUntouched();
+  }
+
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
