@@ -120,6 +120,10 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.initData(orders);
         this.loadingFinished();
         this.cdr.detectChanges();
+      }, (err) => {
+        console.error(err);
+        this.loadingFinished();
+        this.cdr.detectChanges();
       });
   }
 

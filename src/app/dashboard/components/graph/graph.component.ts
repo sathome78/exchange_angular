@@ -1,11 +1,10 @@
 import {Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy} from '@angular/core';
-import { takeUntil } from 'rxjs/internal/operators';
-import { Subject } from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/internal/operators';
+import {Subject} from 'rxjs/Subject';
 
-import { LangService } from 'app/shared/services/lang.service';
-import { AbstractDashboardItems } from '../../abstract-dashboard-items';
-import { MarketService } from '../markets/market.service';
-import { DashboardService } from '../../dashboard.service';
+import {LangService} from 'app/shared/services/lang.service';
+import {AbstractDashboardItems} from '../../abstract-dashboard-items';
+import {DashboardService} from '../../dashboard.service';
 
 declare const TradingView: any;
 
@@ -24,7 +23,7 @@ import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
 import {Router} from '@angular/router';
-import {Currency} from 'app/core/models/currency.model';
+import {Currency} from 'app/model/currency.model';
 
 @Component({
   selector: 'app-graph',
@@ -150,6 +149,15 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPair) => {
         this.pair = pair;
+        this.currencyPairName = this.pair.currencyPairName;
+        if (this.currencyPairName) {
+          this.formattingCurrentPairName(pair.currencyPairName as string);
+          try {
+            this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
+          } catch (e) {
+            // console.log(e);
+          }
+        }
         this.cdr.detectChanges();
       });
 

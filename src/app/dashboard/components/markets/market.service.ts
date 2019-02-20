@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {StompService} from '@stomp/ng2-stompjs';
 import {HttpClient} from '@angular/common/http';
 import {Observable, ReplaySubject, Subject, BehaviorSubject} from 'rxjs';
 import {tap, takeUntil} from 'rxjs/internal/operators';
@@ -14,10 +13,8 @@ import {AuthService} from 'app/shared/services/auth.service';
 export class MarketService {
 
   private baseUrl = environment.apiUrl;
-  private stompSubscription: any;
 
   constructor(
-    private stompService: StompService,
     private http: HttpClient,
   ) { }
 

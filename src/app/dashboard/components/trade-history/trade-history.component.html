@@ -79,30 +79,16 @@
         <div class="table__cell-head table__cell-head--tar table__cell-head--p4" style="width: 36%;"><span>{{firstCurrency}}</span></div>
       </div>
       <div class="trade-history__tbody">
-        <perfect-scrollbar style="height: 100%;">
+        <cdk-virtual-scroll-viewport style="height: 100%;" [itemSize]="22">
           <div class="trade-history__tbody-inner">
 
-            <div *ngFor="let item of allTrades" class=" trade-history__row table__row widget__table-row"
-                 [ngClass]="{'widget__table-row-hover--red': item.operationType === 'SELL', 'widget__table-row-hover--green': item.operationType === 'BUY'}">
-              <div class="table__cell table__cell--tal trade-history-time" style="width: 28%;">
-                <!-- {{item.dateAcceptionTime | date:"dd/MM/yyyy"}} -->
-                {{item.dateAcceptionTime}}
-              </div>
-              <div class="table__cell table__cell--tal" style="width: 36%;">
-            <span class="txt-indicate">
-            {{item.rate | roundCurrency | formatCurrency}}
-            </span>
-              </div>
-              <div class="table__cell table__cell--tar" style="width: 36%;">
-            <span [ngClass]="{'txt-red': item.operationType === 'SELL', 'txt-green': item.operationType === 'BUY'}">
-            {{item.amountBase | roundCurrency | formatCurrency}}
-            </span>
-              </div>
-            </div>
-            <div style="height: 4px;"></div>
-
+            <app-trade-history-item
+              class="trade_item"
+              *cdkVirtualFor="let trade of allTrades; trackBy: trackByFn"
+              [trade]="trade"
+            ></app-trade-history-item>
           </div>
-        </perfect-scrollbar>
+        </cdk-virtual-scroll-viewport>
       </div>
     </div>
 

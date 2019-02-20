@@ -49,7 +49,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     private store: Store<State>,
     private dashboardWebsocketService: DashboardWebSocketService,
     private authService: AuthService,
-    private crd: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef,
     private userService: UserService) {
     super();
   }
@@ -62,7 +62,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPair) => {
         this.currentCurrencyPair = pair;
-        this.crd.detectChanges();
+        this.cdr.detectChanges();
       });
 
     this.store
@@ -71,7 +71,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe((userFavorites: number[]) => {
         this.userFavorites = userFavorites;
         this.pairs = this.choosePair(this.currencyDisplayMode);
-        this.crd.detectChanges();
+        this.cdr.detectChanges();
       });
 
     this.store
@@ -93,7 +93,11 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         this.currencyPairs = Object.values(currencyPairs);
         this.pairs = this.choosePair(this.currencyDisplayMode);
         this.loadingFinished();
-        this.crd.detectChanges();
+        this.cdr.detectChanges();
+      }, (err) => {
+        console.error(err);
+        this.loadingFinished();
+        this.cdr.detectChanges();
       });
 
     // this.dashboardWebsocketService.setRabbitStompSubscription()

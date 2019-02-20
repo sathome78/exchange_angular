@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {StompService} from '@stomp/ng2-stompjs';
+import {RxStompService} from '@stomp/ng2-stompjs';
 import {Subject, Observable} from 'rxjs';
 
 import {ChatItem} from './chat-item.model';
@@ -8,17 +8,16 @@ import {environment} from 'environments/environment';
 import {LangService} from 'app/shared/services/lang.service';
 import {TOKEN} from 'app/shared/services/http.utils';
 import {SimpleChat} from './simple-chat.model';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class ChatService {
-
-  simpleChatListener: Subject<SimpleChat> = new Subject<SimpleChat>();
 
   HOST = environment.apiUrl;
 
   constructor(private langService: LangService,
               private httpClient: HttpClient,
-              private stompService: StompService) {
+              private stompService: RxStompService) {
     // this.setStompSubscription('en');
   }
 
@@ -31,12 +30,9 @@ export class ChatService {
    * @param lang - current language must be set to lower case
    */
   setStompSubscription(lang: string) {
-    this.stompService
-      .subscribe('/topic/chat/' + lang)
-      .subscribe(msg => {
-        // console.log(JSON.parse(msg.body));
-        this.simpleChatListener.next(JSON.parse(msg.body));
-      });
+    return this.stompService
+      .watch('/topic/chat/' + lang)
+      .pipe(map((msg) => JSON.parse(msg.body)))
   }
 
   /**
@@ -47,7 +43,7 @@ export class ChatService {
   private sendMessage(message: ChatItem) {
     const that = this;
     const destination = '/topic/chat/' + that.langService.getLanguage();
-    this.stompService.publish(destination, JSON.stringify(message), {EXRATES_REST_TOKEN: localStorage.getItem(TOKEN)});
+    this.stompService.publish({destination, body: JSON.stringify(message), headers: {EXRATES_REST_TOKEN: localStorage.getItem(TOKEN)}});
   }
 
 
@@ -65,11 +61,6 @@ export class ChatService {
       params: new HttpParams().append('lang', lang),
     };
     return this.httpClient.get<IDateChat[]>(url, params);
-    // .subscribe(
-    // (messages: SimpleChat[]) => {
-    //   this.simpleChatItems = messages;
-    //   this.simpleChatListener.next(messages);
-    // });
   }
 
   /**
