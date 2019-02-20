@@ -32,7 +32,6 @@ import {ReferralChargesComponent} from './referral/referral-charges/referral-cha
 import {RegistrationMobilePopupComponent} from './popups/registration-mobile-popup/registration-mobile-popup.component';
 import {LoginPopupMobileComponent} from './popups/login-popup-mobile/login-popup-mobile.component';
 import {reducers} from './core/reducers';
-import {CoreModule} from './core/core.module';
 import {AppRoutingModule} from './app-routing.module';
 import {DashboardModule} from './dashboard/dashboard.module';
 import {MyDatePickerModule} from 'mydatepicker';
@@ -143,7 +142,6 @@ export function createTranslateLoader(http: HttpClient) {
       },
       isolate: true
     }),
-    CoreModule,
     AppRoutingModule,
     BrowserModule,
     DashboardModule,

@@ -9,7 +9,7 @@ import {SettingsService} from '../settings/settings.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 import {environment} from '../../environments/environment';
 import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG, LANG_ARRAY} from './header.constants';
-import {MyBalanceItem} from '../core/models/my-balance-item.model';
+import {MyBalanceItem} from '../model/my-balance-item.model';
 import {Observable, Subject} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {select, Store} from '@ngrx/store';

@@ -23,7 +23,7 @@ import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
 import {Router} from '@angular/router';
-import {Currency} from 'app/core/models/currency.model';
+import {Currency} from 'app/model/currency.model';
 
 @Component({
   selector: 'app-graph',
