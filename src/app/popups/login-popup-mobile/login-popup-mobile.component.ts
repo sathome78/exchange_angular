@@ -147,7 +147,12 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
       if (!this.isGACheck) {
         this.checkGoogleLoginEnabled(this.email);
       }
-      if (err.error.title === 'REQUIRED_EMAIL_AUTHORIZATION_CODE' || err.error.title === 'REQUIRED_GOOGLE_AUTHORIZATION_CODE') {
+      if (
+        err.error.title === 'REQUIRED_EMAIL_AUTHORIZATION_CODE'
+        || err.error.title === 'REQUIRED_GOOGLE_AUTHORIZATION_CODE'
+        || err.error.title === 'EMAIL_AUTHORIZATION_FAILED'
+        || err.error.title === 'GOOGLE_AUTHORIZATION_FAILED'
+      ) {
         this.inPineCodeMode = true;
         this.setTemplate('pinCodeTemplate');
         this.pinForm.reset();
