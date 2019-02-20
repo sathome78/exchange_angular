@@ -56,7 +56,6 @@ import {AuthInterceptor} from './core/interceptors/auth.interceptor';
 import {RecoveryPassComponent} from './popups/recovery-pass/recovery-pass.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from 'environments/environment';
-import {RefillSuccessfulComponent} from './balance/refill-money/refill-successful/refill-successful.component';
 import {DemoTradingPopupComponent} from './popups/demo-trading-popup/demo-trading-popup.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
@@ -116,7 +115,6 @@ export function createTranslateLoader(http: HttpClient) {
     SessionTimeSavedPopupComponent,
 
     PasswordChangedPopupComponent,
-    RefillSuccessfulComponent,
 
     DemoTradingPopupComponent,
     AlreadyRegisteredPopupComponent,
