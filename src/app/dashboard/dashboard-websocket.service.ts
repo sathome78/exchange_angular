@@ -45,7 +45,7 @@ export class DashboardWebSocketService implements OnDestroy {
       .watch('/app/statisticsNew')
       .pipe(map((message: Message) => JSON.parse(JSON.parse(message.body))))
       .subscribe((items) => {
-        // console.log(items);
+        console.log(items);
         if (items) {
           // clean cached data
           this.currencyPairs = [];
