@@ -45,7 +45,10 @@ import {CurrencyPairInfoService} from './services/currency-pair-info.service';
 import {OrderBookMobileComponent} from './components/order-book-mobile/order-book-mobile.component';
 import {TradingMobileComponent} from './components/trading-mobile/trading-mobile.component';
 import {TradingService} from './services/trading.service';
-
+import {CoreEffects} from 'app/core/effects/core.effects';
+import {ShowWidgetPipe} from '../shared/pipes/show-widget.pipe';
+import {reducer} from './reducers/dashboard.reducer'
+import {StoreModule} from '@ngrx/store';
 
 export function socketProvider() {
   return new SockJS(environment.apiUrl + '/public_socket');
@@ -109,6 +112,7 @@ const stompConfig: StompConfig = {
     CurrencySortingPipe,
     NicknamePipe,
     PositivePipe,
+    ShowWidgetPipe,
     MarketsItemComponent,
 
     // PIPES END
@@ -144,7 +148,8 @@ const stompConfig: StompConfig = {
     MomentModule,
     ReactiveFormsModule,
     GridsterModule.forRoot(),
-    EffectsModule.forRoot([DashboardEffects]),
+    EffectsModule.forFeature([CoreEffects, DashboardEffects]),
+    StoreModule.forFeature('dashboard', reducer),
     ScrollbarModule,
     NgxPaginationModule,
     PerfectScrollbarModule

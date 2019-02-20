@@ -1,7 +1,7 @@
 export const defaultValues = {
   page: 0,
-  currencyPairId: 0,
-  currencyPairName: '',
+  currencyPairId: 1,
+  currencyPairName: 'BTC/USD',
   lastOrderRate: 0,
   predLastOrderRate: 0,
   percentChange: 0,
@@ -48,6 +48,19 @@ export const defaultTradeItem = {
   orderId: 0,
   page: 0,
   rate: '0'
+}
+
+export const defaultLastCreatedrder = {
+  orderType: '',
+  orderId: 0,
+  currencyPairId: 0,
+  amount: 0,
+  rate: 0,
+  commission: 0,
+  baseType: '',
+  total: 0,
+  status: '',
+  stop: 0
 }
 
 export const defaultLastSellBuyOrder = {

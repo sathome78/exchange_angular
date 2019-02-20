@@ -2,13 +2,13 @@ import {Component, OnDestroy, OnInit, HostListener, ChangeDetectionStrategy, Cha
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/internal/operators';
+import {takeUntil, withLatestFrom} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {Order} from '../../../model/order.model';
 import {TradingService} from '../../services/trading.service';
-import {State, getCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getDashboardState} from 'app/core/reducers/index';
+import {State, getActiveCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getDashboardState, getIsAuthenticated} from 'app/core/reducers/index';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserService} from 'app/shared/services/user.service';
 import {OrderItem, UserBalance} from 'app/model';
@@ -103,6 +103,15 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     this.resetSellModel();
     this.resetBuyModel();
 
+    this.store
+      .pipe(select(getIsAuthenticated))
+      .pipe(withLatestFrom(this.store.pipe(select(getActiveCurrencyPair))))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(([isAuth, pair]: [boolean, CurrencyPair]) => {
+        this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you login
+        this.cdr.detectChanges();
+      });
+
 
     this.store
       .pipe(select(getDashboardState))
@@ -112,19 +121,21 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       });
 
     this.store
-      .pipe(select(getCurrencyPair))
+      .pipe(select(getActiveCurrencyPair))
+      .pipe(withLatestFrom(this.store.pipe(select(getIsAuthenticated))))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair) => {
-        this.onGetCurrentCurrencyPair(pair);
+      .subscribe(([pair, isAuth]: [CurrencyPair, boolean]) => {
+        this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you change currency pair
         this.cdr.detectChanges();
       });
 
-    this.dashboardWebsocketService.setRabbitStompSubscription()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        this.updateCurrentCurrencyViaWebsocket = true;
-        this.cdr.detectChanges();
-      })
+
+    // this.dashboardWebsocketService.setRabbitStompSubscription()
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe(() => {
+    //     this.updateCurrentCurrencyViaWebsocket = true;
+    //     this.cdr.detectChanges();
+    //   })
 
 
     this.store
@@ -316,6 +327,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
           type === this.BUY ?
             this.buyCommissionIndex = res.commissionValue :
             this.sellCommissionIndex = res.commissionValue;
+          this.cdr.detectChanges();
         });
     }
   }
@@ -324,13 +336,15 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * Method run when refresh current currency pair
    * @param pair
    */
-  private onGetCurrentCurrencyPair(pair): void {
+  private onGetCurrentCurrencyPair(pair, isAuth): void {
     this.currentPair = pair;
     this.resetSellModel();
     this.resetBuyModel();
     this.splitPairName();
-    this.getCommissionIndex(this.BUY, this.currentPair.currencyPairId);
-    this.getCommissionIndex(this.SELL, this.currentPair.currencyPairId);
+    if(isAuth) {
+      this.getCommissionIndex(this.BUY, this.currentPair.currencyPairId);
+      this.getCommissionIndex(this.SELL, this.currentPair.currencyPairId);
+    }
   }
 
 

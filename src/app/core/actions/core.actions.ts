@@ -1,4 +1,5 @@
 import {Action} from '@ngrx/store';
+import { TokenHolder } from 'app/model';
 
 export const SAVE_TO_STORE = '[Core] Saves data to app store';
 export const SAVE_COMPLETE = '[Core] Saving user location data to cookie is complete';
@@ -21,8 +22,10 @@ export const LOAD_FIAT_CURRENCIES_FOR_CHOOSE = '[Funds] Load fiat currencies for
 export const SET_ALL_CURRENCIES_FOR_CHOOSE = '[Funds] Set all currencies for choose';
 export const SET_CRYPTO_CURRENCIES_FOR_CHOOSE = '[Funds] Set crypto currencies for choose';
 export const SET_FIAT_CURRENCIES_FOR_CHOOSE = '[Funds] Set fiat currencies for choose';
-
 export const FAIL_LOAD_CURRENCIES_FOR_CHOOSE = '[Funds] Fail Load currencies for choose';
+
+export const ON_LOGIN = '[Core] On login';
+export const ON_LOGOUT = '[Core] On logout';
 
 /**
  * Change language | region | currency
@@ -143,6 +146,15 @@ export class FailLoadCurrenciesForChoose implements Action {
   constructor(public payload) {}
 }
 
+// Login/logout
+export class SetOnLoginAction implements Action {
+  readonly type = ON_LOGIN;
+  constructor(public payload: ParsedToken) {}
+}
+export class SetOnLogoutAction implements Action {
+  readonly type = ON_LOGOUT;
+}
+
 
 
 
@@ -167,3 +179,5 @@ export type Actions
   | SetVerificationStatusAction
   | LoadVerificationStatusAction
   | FailLoadVerificationStatusAction
+  | SetOnLoginAction
+  | SetOnLogoutAction

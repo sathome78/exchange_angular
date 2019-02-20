@@ -1,13 +1,14 @@
-import {Component, EventEmitter, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
-import {Subject, forkJoin, Subscription} from 'rxjs';
+import {Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {Subject, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/internal/operators';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {AuthService} from 'app/shared/services/auth.service';
-import {CurrencyPair} from '../../../model/currency-pair.model';
+import {CurrencyPair} from 'app/model/currency-pair.model';
 import {select, Store} from '@ngrx/store';
-import {State, getCurrencyPair} from 'app/core/reducers/index';
+import {State, getActiveCurrencyPair, getLastCreatedOrder} from 'app/core/reducers/index';
 import {EmbeddedOrdersService} from './embedded-orders.service';
+import {Order} from 'app/model/order.model';
 
 @Component({
   selector: 'app-embedded-orders',
@@ -34,8 +35,8 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   constructor(
     private store: Store<State>,
     private authService: AuthService,
-    // private mockData: MockDataService,
-    private ordersService: EmbeddedOrdersService
+    private ordersService: EmbeddedOrdersService,
+    private cdr: ChangeDetectorRef
   ) {
     super();
   }
@@ -43,19 +44,23 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   ngOnInit() {
     this.itemName = 'orders';
 
-    /** mock data */
-    // this.openOrders = this.mockData.getOpenOrders().items;
-    // this.historyOrders = this.mockData.getOpenOrders().items;
-    // this.activeCurrencyPair = this.mockData.getMarketsData()[2];
-    /** ---------------------------------------------- */
-
     this.store
-      .pipe(select(getCurrencyPair))
+      .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPair) => {
         this.activeCurrencyPair = pair;
-        this.toOpenOrders();
+          this.toOpenOrders();
+          this.toHistory();
       });
+
+    this.store
+      .pipe(select(getLastCreatedOrder))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((order: Order) => {
+        this.toOpenOrders();
+        this.toHistory();
+      });
+
       // if (this.authService.isAuthenticated()) {
       //   this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
       //   this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
@@ -91,10 +96,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
       .subscribe(data => {
         this.openOrders = data.items;
         this.openOrdersCount = data.count;
-
-
-        // TODO: remove after dashboard init load time issue is solved
-        // this.ref.detectChanges();
+        this.cdr.detectChanges();
       });
   }
 
@@ -106,6 +108,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
         this.historyOrders = data.items;
+        this.cdr.detectChanges();
       });
 
   }

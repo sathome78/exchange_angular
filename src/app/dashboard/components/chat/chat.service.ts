@@ -7,14 +7,12 @@ import {ChatItem} from './chat-item.model';
 import {environment} from 'environments/environment';
 import {LangService} from 'app/shared/services/lang.service';
 import {TOKEN} from 'app/shared/services/http.utils';
-import {SimpleChat } from './simple-chat.model';
+import {SimpleChat} from './simple-chat.model';
 
 @Injectable()
-export class ChatService{
+export class ChatService {
 
   simpleChatListener: Subject<SimpleChat> = new Subject<SimpleChat>();
-
-  private stompSubscription: any;
 
   HOST = environment.apiUrl;
 
@@ -23,6 +21,7 @@ export class ChatService{
               private stompService: StompService) {
     // this.setStompSubscription('en');
   }
+
   /**
    * this method subscribes for chat event and works as cold stream
    * it receives only recent messages, created after subscription
@@ -51,9 +50,6 @@ export class ChatService{
     this.stompService.publish(destination, JSON.stringify(message), {EXRATES_REST_TOKEN: localStorage.getItem(TOKEN)});
   }
 
-  unsubscribeStomp() {
-    this.stompSubscription.unsubscribe();
-  }
 
   /**
    * Returns all massages from backend (limit not supported now) and sets to chatItems
@@ -63,17 +59,17 @@ export class ChatService{
    *
    */
   findAllChatMessages(): Observable<IDateChat[]> {
-    const url = this.HOST + '/info/public/v2/chat/history';
+    const url = this.HOST + '/api/public/v2/chat/history';
     const lang = 'en';
     const params = {
       params: new HttpParams().append('lang', lang),
     };
     return this.httpClient.get<IDateChat[]>(url, params);
-      // .subscribe(
-      // (messages: SimpleChat[]) => {
-      //   this.simpleChatItems = messages;
-      //   this.simpleChatListener.next(messages);
-      // });
+    // .subscribe(
+    // (messages: SimpleChat[]) => {
+    //   this.simpleChatItems = messages;
+    //   this.simpleChatListener.next(messages);
+    // });
   }
 
   /**
@@ -86,7 +82,7 @@ export class ChatService{
    *
    */
   sendNewMessage(message: string, email?: string): Observable<ChatItem> {
-    const url = this.HOST + '/info/public/v2/chat';
+    const url = this.HOST + '/api/public/v2/chat';
     const body = {
       'EMAIL': email ? email : '',
       'LANG': this.langService.getLanguage().toUpperCase(),
@@ -102,7 +98,7 @@ export class ChatService{
 }
 
 export interface IDateChat {
-   date: Date;
-   messages: SimpleChat[];
+  date: Date;
+  messages: SimpleChat[];
 }
 
