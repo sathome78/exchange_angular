@@ -54,17 +54,17 @@ export class DashboardWebSocketService implements OnDestroy {
       });
   }
 
-  setRabbitStompSubscription() {
-    return this.stompService
-      .watch('/topic/rabbit')
-      .pipe(map((message: Message) => JSON.parse(message.body)))
-      .pipe(filter((message) => this.currentCurrencyPair && (message.currencyPairId === this.currentCurrencyPair.currencyPairId)))
-      .pipe(map((message) => {
-        console.log('updated');
-        return message;
-      }))
-      .pipe(map(() => this.currentCurrencyPair));
-  }
+  // setRabbitStompSubscription() {
+  //   return this.stompService
+  //     .subscribe('/topic/rabbit')
+  //     .pipe(map((message: Message) => JSON.parse(message.body)))
+  //     .pipe(filter((message) => this.currentCurrencyPair && (message.currencyPairId === this.currentCurrencyPair.currencyPairId)))
+  //     .pipe(map((message) => {
+  //       console.log('updated');
+  //       return message;
+  //     }))
+  //     .pipe(map(() => this.currentCurrencyPair));
+  // }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -153,7 +153,7 @@ export class DashboardWebSocketService implements OnDestroy {
    * this method simply gets pairs from cache and when subscription is on we should drop data
    */
   // makeItFast() {
-  //   const url = this.baseUrl + '/info/public/v2/currencies/fast';
+  //   const url = this.baseUrl + '/api/public/v2/currencies/fast';
   //   this.http.get<CurrencyPair []>(url).subscribe(items => {
   //     this.processCurrencyPairs(items);
   //   });

@@ -45,9 +45,12 @@ import {OrderBookMobileComponent} from './components/order-book-mobile/order-boo
 import {TradingMobileComponent} from './components/trading-mobile/trading-mobile.component';
 import {TradingService} from './services/trading.service';
 import {CoreEffects} from 'app/core/effects/core.effects';
-import { ScrollingModule } from '@angular/cdk/scrolling';
-import { TradeHistoryItemComponent } from './components/trade-history/trade-history-item/trade-history-item.component';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {TradeHistoryItemComponent} from './components/trade-history/trade-history-item/trade-history-item.component';
 
+import {ShowWidgetPipe} from '../shared/pipes/show-widget.pipe';
+import {reducer} from './reducers/dashboard.reducer'
+import {StoreModule} from '@ngrx/store';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -97,6 +100,7 @@ const stompConfig: InjectableRxStompConfig = {
     CurrencySortingPipe,
     NicknamePipe,
     PositivePipe,
+    ShowWidgetPipe,
     MarketsItemComponent,
     TradeHistoryItemComponent,
 
@@ -134,7 +138,9 @@ const stompConfig: InjectableRxStompConfig = {
     ScrollingModule,
     ReactiveFormsModule,
     GridsterModule.forRoot(),
-    EffectsModule.forRoot([CoreEffects, DashboardEffects]),
+    EffectsModule.forFeature([CoreEffects, DashboardEffects]),
+    StoreModule.forFeature('dashboard', reducer),
+    ScrollbarModule,
     NgxPaginationModule,
     PerfectScrollbarModule
   ],

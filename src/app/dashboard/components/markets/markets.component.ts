@@ -100,11 +100,11 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         this.cdr.detectChanges();
       });
 
-    this.dashboardWebsocketService.setRabbitStompSubscription()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        this.getMarketsCurrencyPairs();
-      })
+    // this.dashboardWebsocketService.setRabbitStompSubscription()
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe(() => {
+    //     this.getMarketsCurrencyPairs();
+    //   })
   }
 
   getMarketsCurrencyPairs(): void {

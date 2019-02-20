@@ -48,7 +48,6 @@ export class DayChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.chatService.unsubscribeStomp();
     this.ngUnsubscribe.next()
     this.ngUnsubscribe.complete()
   }

@@ -14,8 +14,6 @@ export class ChatService {
 
   simpleChatListener: Subject<SimpleChat> = new Subject<SimpleChat>();
 
-  private stompSubscription: any;
-
   HOST = environment.apiUrl;
 
   constructor(private langService: LangService,
@@ -52,9 +50,6 @@ export class ChatService {
     this.stompService.publish({destination, body: JSON.stringify(message), headers: {EXRATES_REST_TOKEN: localStorage.getItem(TOKEN)}});
   }
 
-  unsubscribeStomp() {
-    this.stompSubscription.unsubscribe();
-  }
 
   /**
    * Returns all massages from backend (limit not supported now) and sets to chatItems

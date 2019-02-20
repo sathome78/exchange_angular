@@ -22,23 +22,23 @@ export class MarketService {
    * this method simply gets pairs from cache and when subscription is on we should drop data
    */
   getCurrencyPairForMarketFast(): Observable<CurrencyPair[]> {
-    const url = this.baseUrl + '/info/public/v2/currencies/fast';
+    const url = this.baseUrl + '/api/public/v2/currencies/fast';
     return this.http.get<CurrencyPair[]>(url)
   }
 
   getUserFavoriteCurrencyPairIds(): Observable<number[]> {
-    const url = this.baseUrl + '/info/private/v2/settings/currency_pair/favourites';
+    const url = this.baseUrl + '/api/private/v2/settings/currency_pair/favourites';
     return this.http.get<number[]>(url);
   }
 
   removeFavorites() {
-    const url = this.baseUrl + '/info/private/v2/settings/currency_pair/favourites';
+    const url = this.baseUrl + '/api/private/v2/settings/currency_pair/favourites';
     return this.http.delete<number>(url);
   }
 
   manageUserFavoriteCurrencyPair(currencyPairId: number, isFavorite: boolean): Observable<number> {
     const data: {'PAIR_ID': string, 'TO_DELETE': string} = {'PAIR_ID': currencyPairId + '', 'TO_DELETE': isFavorite + ''};
-    const url = this.baseUrl + '/info/private/v2/settings/currency_pair/favourites';
+    const url = this.baseUrl + '/api/private/v2/settings/currency_pair/favourites';
     return this.http.put<number>(url, data);
   }
 }

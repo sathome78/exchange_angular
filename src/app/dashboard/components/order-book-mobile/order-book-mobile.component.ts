@@ -86,11 +86,11 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
         }
       });
 
-    this.dashboardWebsocketService.setRabbitStompSubscription()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair) => {
-        this.requestData(pair);
-      })
+    // this.dashboardWebsocketService.setRabbitStompSubscription()
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe((pair) => {
+    //     this.requestData(pair);
+    //   })
   }
 
   ngOnDestroy() {
