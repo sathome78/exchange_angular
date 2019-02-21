@@ -44,15 +44,13 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
   }
 
   submitTransfer() {
-    this.isSubmited = true;
     if (environment.production) {
       // todo while insecure
       this.popupService.demoPopupMessage = 0;
       this.popupService.showDemoTradingPopup(true);
       this.balanceService.closeSendMoneyPopup$.next(false);
     } else {
-      if (!this.isAmountMax && !this.isAmountMin && this.form.controls['amount'].value !== '0') {
-        this.isSubmited = false;
+      if (this.form.valid) {
         this.isEnterData = false;
       }
     }
@@ -71,7 +69,11 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
 
   private initForm() {
     this.form = new FormGroup({
-      amount: new FormControl('0', {validators: [Validators.required]}),
+      amount: new FormControl('0', {validators: [
+          Validators.required,
+          this.isMaxThenActiveBalance.bind(this),
+          this.isMinThenMinWithdraw.bind(this)
+        ]}),
     });
   }
 }

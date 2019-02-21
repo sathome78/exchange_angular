@@ -46,12 +46,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     destination: '',
     destinationTag: '',
     merchantImage: '',
-    operationType: '',
-    recipientBankName: '',
-    recipientBankCode: '',
-    userFullName: '',
-    remark: '',
-    walletNumber: '',
     securityCode: ''
   };
 
@@ -121,6 +115,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     if (this.activeBalance > this.minWithdrawSum) {
       this.form.controls['amount'].setValue(this.activeBalance.toString());
       this.calculateCommission(this.activeBalance);
+      this.amountValue = this.activeBalance;
     }
   }
 
@@ -188,10 +183,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     if (this.selectedMerchant.name) {
       this.model.currency = this.selectedMerchant.currencyId;
       this.model.merchant = this.selectedMerchant.merchantId;
-      this.model.recipientBankName = this.selectedMerchant.description;
-      this.model.merchantImage = this.selectedMerchant.listMerchantImage[0].image_path;
+      this.model.merchantImage = this.selectedMerchant.listMerchantImage[0].id;
       this.model.sum = this.form.controls['amount'].value;
-      this.model.walletNumber = this.form.controls['address'].value;
+      this.model.destination = this.form.controls['address'].value;
 
       const data = {
         operation: SEND_FIAT,
