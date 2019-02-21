@@ -62,6 +62,14 @@ export class BalanceService {
     return this.http.get<BalanceItem[]>(url);
   }
 
+  getCurrencyRefillData(cryptoName: string) {
+    const httpOptions = {
+      params: new HttpParams().set('currency', cryptoName)
+    };
+    const url = `${this.apiUrl}/api/private/v2/balances/refill/merchants/input`;
+    return this.http.get<string[]>(url, httpOptions);
+  }
+
   getCurrencyData(cryptoName: string) {
     const httpOptions = {
       params: new HttpParams().set('currency', cryptoName)
