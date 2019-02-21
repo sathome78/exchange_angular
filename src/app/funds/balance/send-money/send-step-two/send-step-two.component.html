@@ -3,6 +3,7 @@
   *ngIf="choosedName === CRYPTO_WITHDRAWAL"
 ></app-send-crypto>
 <app-send-fiat
+  [balanceData]="balanceData"
   *ngIf="choosedName === FIAT_WITHDRAWAL"
 ></app-send-fiat>
 <app-send-inner-transfer

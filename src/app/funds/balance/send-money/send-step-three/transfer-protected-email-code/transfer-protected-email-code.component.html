@@ -86,14 +86,8 @@
         <span class="wrap-input__message" *ngIf="form.controls['email'].errors['checkEmailCrash'] && form.controls['email'].touched">
                 {{'Service is temporary unavailable, please try again later' | translate}}
               </span>
-          <span class="wrap-input__message" *ngIf="form.controls['email'].errors['USER_REGISTRATION_NOT_COMPLETED']">
-                {{AUTH_MESSAGES.USER_REGISTRATION_NOT_COMPLETED | translate}}
-              </span>
-          <span class="wrap-input__message" *ngIf="form.controls['email'].errors['USER_NOT_ACTIVE']">
-                {{AUTH_MESSAGES.USER_NOT_ACTIVE | translate}}
-              </span>
           <span class="wrap-input__message" *ngIf="form.controls['email'].errors['USER_EMAIL_NOT_FOUND']">
-                {{AUTH_MESSAGES.USER_EMAIL_NOT_FOUND | translate}}
+                {{'User email not found.' | translate}}
               </span>
         </div>
         <!--Input error section ends-->
