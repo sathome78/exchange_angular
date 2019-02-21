@@ -79,16 +79,16 @@
         <div class="table__cell-head table__cell-head--tar table__cell-head--p4" style="width: 36%;"><span>{{firstCurrency}}</span></div>
       </div>
       <div class="trade-history__tbody">
-        <cdk-virtual-scroll-viewport style="height: 100%;" [itemSize]="22">
+        <!-- <cdk-virtual-scroll-viewport style="height: 100%;" [itemSize]="22">  </cdk-virtual-scroll-viewport>-->
+        <perfect-scrollbar style="height: 100%;">
           <div class="trade-history__tbody-inner">
 
             <app-trade-history-item
-              class="trade_item"
-              *cdkVirtualFor="let trade of allTrades; trackBy: trackByFn"
+              *ngFor="let trade of allTrades; trackBy: trackByFn"
               [trade]="trade"
             ></app-trade-history-item>
           </div>
-        </cdk-virtual-scroll-viewport>
+        </perfect-scrollbar>
       </div>
     </div>
 
