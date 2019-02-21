@@ -1,11 +1,10 @@
 import {Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy} from '@angular/core';
-import { takeUntil } from 'rxjs/internal/operators';
-import { Subject } from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/internal/operators';
+import {Subject} from 'rxjs/Subject';
 
-import { LangService } from 'app/shared/services/lang.service';
-import { AbstractDashboardItems } from '../../abstract-dashboard-items';
-import { MarketService } from '../markets/market.service';
-import { DashboardService } from '../../dashboard.service';
+import {LangService} from 'app/shared/services/lang.service';
+import {AbstractDashboardItems} from '../../abstract-dashboard-items';
+import {DashboardService} from '../../dashboard.service';
 
 declare const TradingView: any;
 
@@ -17,14 +16,14 @@ import {
 } from 'assets/js/charting_library/charting_library.min';
 import {environment} from 'environments/environment';
 import {select, Store} from '@ngrx/store';
-import {getCurrencyPair, State} from 'app/core/reducers/index';
+import {getActiveCurrencyPair, State} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {getCurrencyPairArray, getCurrencyPairInfo} from '../../../core/reducers';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
 import {Router} from '@angular/router';
-import {Currency} from 'app/core/models/currency.model';
+import {Currency} from 'app/model/currency.model';
 
 @Component({
   selector: 'app-graph',
@@ -34,7 +33,7 @@ import {Currency} from 'app/core/models/currency.model';
 })
 export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit, OnDestroy {
   /** dashboard item name (field for base class)*/
-  public itemName: string;
+  public itemName: string = 'graph';
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   currencyPairName = 'BTC/USD';
@@ -53,16 +52,16 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     {name: 'BTC'},
   ];
   public allCurrencyPairs;
-  currentCurrencyInfo;
+  public currentCurrencyInfo;
   private lang;
   /** current active pair */
-  public pair;
+  public pair: CurrencyPair;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
   private _interval: ChartingLibraryWidgetOptions['interval'] = '3';
   // BEWARE: no trailing slash is expected in feed URL
   // private _datafeedUrl = 'https://demo_feed.tradingview.com';
-  private _datafeedUrl = environment.apiUrl + '/info/public/v2/graph';
+  private _datafeedUrl = environment.apiUrl + '/api/public/v2/graph';
   private _libraryPath: ChartingLibraryWidgetOptions['library_path'] = 'assets/js/charting_library/';
   private _chartsStorageUrl: ChartingLibraryWidgetOptions['charts_storage_url'] = 'https://saveload.tradingview.com';
   private _chartsStorageApiVersion: ChartingLibraryWidgetOptions['charts_storage_api_version'] = '1.1';
@@ -134,24 +133,32 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   constructor(
     private store: Store<State>,
-    private marketService: MarketService,
     private router: Router,
     private langService: LangService,
     private dashboardService: DashboardService,
     private dashboardWebsocketService: DashboardWebSocketService,
-    private ref: ChangeDetectorRef
+    private cdr: ChangeDetectorRef
     ) {
-    super();
-  }
+      super();
+    }
 
   ngOnInit() {
-    this.itemName = 'graph';
 
     this.store
-      .pipe(select(getCurrencyPair))
+      .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair) => {
+      .subscribe((pair: CurrencyPair) => {
         this.pair = pair;
+        this.currencyPairName = this.pair.currencyPairName;
+        if (this.currencyPairName) {
+          this.formattingCurrentPairName(pair.currencyPairName as string);
+          try {
+            this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
+          } catch (e) {
+            // console.log(e);
+          }
+        }
+        this.cdr.detectChanges();
       });
 
     this.store
@@ -161,6 +168,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         this.currentCurrencyInfo = pair;
         this.isFiat = this.pair.market === 'USD';
         this.splitPairName(this.pair);
+        this.cdr.detectChanges()
       });
 
     this.store
@@ -168,6 +176,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPair[]) => {
         this.allCurrencyPairs = pair;
+        this.cdr.detectChanges()
       });
 
 
@@ -175,22 +184,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.lang = this.langService.getLanguage();
     this.formattingCurrentPairName(this.currencyPairName);
 
-    this.store
-      .pipe(select(getCurrencyPair))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair) => {
-        this.currencyPairName = pair.currencyPairName as string;
-        if (this.currencyPairName) {
-          // this._tvWidget = new widget(this.widgetOptions);
-          this.formattingCurrentPairName(pair.currencyPairName as string);
-          // this.isFiat = pair.market === 'USD';
-          try {
-            this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
-          } catch (e) {
-            // console.log(e);
-          }
-        }
-      });
 
     this.widgetOptions = {
       symbol: this._symbol,
@@ -269,17 +262,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         }));
       button[0].innerHTML = 'Check API';
     });
-
-    this.marketService.activeCurrencyListener
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(pair => {
-        this.marketService.currencyPairInfo(pair.currencyPairId)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(res => {
-            this.currentCurrencyInfo = res;
-            this.ref.detectChanges();
-        });
-      });
   }
 
   ngOnDestroy(): void {

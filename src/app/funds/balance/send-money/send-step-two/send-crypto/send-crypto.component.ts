@@ -2,18 +2,19 @@ import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
 import {Subject} from 'rxjs';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {CurrencyBalanceModel} from '../../../../../model/index';
 import {BalanceService} from '../../../../services/balance.service';
-import {keys} from '../../../../../core/keys';
+import {keys} from '../../../../../shared/constants';
 import {select, Store} from '@ngrx/store';
 import {getCryptoCurrenciesForChoose, State} from 'app/core/reducers';
 import {SEND_CRYPTO} from '../../send-money-constants';
 import {CommissionData} from '../../../../models/commission-data.model';
 import {defaultCommissionData} from '../../../../store/reducers/default-values';
 import {environment} from '../../../../../../environments/environment';
-import {PopupService} from '../../../../../shared/services/popup.service';
+import {PopupService} from 'app/shared/services/popup.service';
 import {BalanceItem} from '../../../../models/balance-item.model';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-send-crypto',
@@ -28,6 +29,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public cryptoNames: CurrencyBalanceModel[] = [];
   public defaultCryptoNames: CurrencyBalanceModel[] = [];
   public openCurrencyDropdown = false;
+  public amountValue = 0;
   public cryptoInfoByName;
   public activeBalance = 0;
   public minWithdrawSum = 0;
@@ -35,6 +37,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public isEnterData = true;
   public alphabet;
   public isMemo;
+  public memoName = '';
   public isAmountMax;
   public isAmountMin;
   public activeCrypto;
@@ -66,12 +69,12 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
+    private utilsService: UtilsService,
     private store: Store<State>,
   ) {
   }
 
   ngOnInit() {
-    console.log(this.balanceData);
     this.initFormWithMemo();
 
     this.form.controls['amount'].valueChanges
@@ -91,6 +94,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
         this.cryptoNames = this.defaultCryptoNames;
         this.setActiveCrypto();
         this.prepareAlphabet();
+        this.activeCrypto = currencies[0];
         this.getCryptoInfoByName(this.activeCrypto.name);
       });
   }
@@ -101,7 +105,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   onSubmitWithdrawal() {
-    this.isSubmited = true;
     if (environment.production) {
       // todo while insecure
       this.popupService.demoPopupMessage = 0;
@@ -123,20 +126,22 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   afterResolvedCaptcha(event) {
-    this.model.currency = this.cryptoInfoByName.merchantCurrencyData[0].currencyId;
-    this.model.merchant = this.cryptoInfoByName.merchantCurrencyData[0].merchantId;
-    this.model.recipientBankName = this.cryptoInfoByName.merchantCurrencyData[0].description;
-    this.model.merchantImage = this.cryptoInfoByName.merchantCurrencyData[0].listMerchantImage[0].image_path;
-    this.model.operationType = this.cryptoInfoByName.operationType;
-    this.model.sum = this.form.controls['amount'].value;
-    this.model.walletNumber = this.form.controls['address'].value;
-    this.model.destinationTag = this.form.controls['memo'] ? this.form.controls['memo'].value : '';
-    const data = {
-      isSentPin: false,
-      operation: SEND_CRYPTO,
-      data: this.model
-    };
-    this.balanceService.goToPinCode$.next(data);
+    if (this.cryptoInfoByName) {
+      this.model.currency = this.cryptoInfoByName.merchantCurrencyData[0].currencyId;
+      this.model.merchant = this.cryptoInfoByName.merchantCurrencyData[0].merchantId;
+      this.model.recipientBankName = this.cryptoInfoByName.merchantCurrencyData[0].description;
+      this.model.merchantImage = this.cryptoInfoByName.merchantCurrencyData[0].listMerchantImage[0].image_path;
+      this.model.operationType = this.cryptoInfoByName.operationType;
+      this.model.sum = this.form.controls['amount'].value;
+      this.model.walletNumber = this.form.controls['address'].value;
+      this.model.destinationTag = this.form.controls['memo'] ? this.form.controls['memo'].value : '';
+      const data = {
+        isSentPin: false,
+        operation: SEND_CRYPTO,
+        data: this.model
+      };
+      this.balanceService.goToPinCode$.next(data);
+    }
   }
 
   goToWithdrawal() {
@@ -148,48 +153,23 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     this.prepareAlphabet();
   }
 
-  amountInput(event) {
-    // this.calculateCommission(event.target.value);
-    this.amountValidator(event.target.value);
-  }
-
   balanceClick() {
-    if (this.activeBalance > this.minWithdrawSum) {
+    if (this.activeBalance >= this.minWithdrawSum) {
       this.form.controls['amount'].setValue(this.activeBalance.toString());
       this.calculateCommission(this.activeBalance);
+      this.amountValue = this.activeBalance;
     }
   }
 
   calculateCommission(amount) {
-    this.balanceService
-      .getCommissionToWithdraw(amount, this.activeCrypto.id, this.cryptoInfoByName.merchantCurrencyData[0].merchantId)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.calculateData = res as CommissionData;
-      });
-  }
-
-  /**
-   * Method transform exponent format to number
-   * @param x
-   * @returns {any}
-   */
-  exponentToNumber(x) {
-    if (Math.abs(x) < 1.0) {
-      let e = parseInt(x.toString().split('e-')[1]);
-      if (e) {
-        x *= Math.pow(10, e - 1);
-        x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
-      }
-    } else {
-      let e = parseInt(x.toString().split('+')[1]);
-      if (e > 20) {
-        e -= 20;
-        x /= Math.pow(10, e);
-        x += (new Array(e + 1)).join('0');
-      }
+    if (this.activeCrypto) {
+      this.balanceService
+        .getCommissionToWithdraw(amount, this.activeCrypto.id, this.cryptoInfoByName.merchantCurrencyData[0].merchantId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.calculateData = res as CommissionData;
+        });
     }
-    return x;
   }
 
   selectCurrency(currency) {
@@ -209,7 +189,11 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       memo: new FormControl('', [this.isRequired.bind(this)]),
       address: new FormControl('', [Validators.required]),
-      amount: new FormControl('', [Validators.required]),
+      amount: new FormControl('', [
+        Validators.required,
+        this.isMaxThenActiveBalance.bind(this),
+        this.isMinThenMinWithdraw.bind(this)
+      ]),
     });
   }
 
@@ -219,9 +203,10 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.cryptoInfoByName = res;
-        this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;
+        this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalTagForWithdrawAddressIsUsed ;
+        this.memoName = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName ;
         this.activeBalance = this.cryptoInfoByName.activeBalance;
-        this.minWithdrawSum = this.cryptoInfoByName.merchantCurrencyData[0].minSum;
+        this.minWithdrawSum = this.cryptoInfoByName.minWithdrawSum;
       });
   }
 
@@ -244,8 +229,24 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  amountValidator(sum) {
-    this.isAmountMax = +sum >= +this.activeBalance ? true : false;
-    this.isAmountMin = +sum <= +this.minWithdrawSum ? true : false;
+  amountInput(event) {
+    this.calculateCommission(event.target.value);
+    this.amountValue = event.target.value;
+  }
+
+  isMaxThenActiveBalance(): {[key: string]: any} | null {
+    console.log(this.amountValue)
+    console.log(this.activeBalance)
+    if (+this.activeBalance < +this.amountValue) {
+      return {'isMaxThenActiveBalance': true};
+    }
+    return null;
+  }
+
+  isMinThenMinWithdraw(): {[key: string]: any} | null {
+    if (+this.minWithdrawSum > +this.amountValue) {
+      return {'isMinThenMinWithdraw': true};
+    }
+    return null;
   }
 }

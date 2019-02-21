@@ -1,4 +1,4 @@
-<div *ngIf="isSentPin">
+<div *ngIf="!isSentPin">
   <div class="title send__title">Two factor authentication</div>
   <!--if google 2fa enabled start-->
   <form [formGroup]="form">
@@ -18,7 +18,7 @@
 </div>
 <!--if google 2fa enabled end-->
 <!--pin code from email start-->
-<div *ngIf="!isSentPin">
+<div *ngIf="isSentPin">
   <div class="subtitle send__subtitle">Put the pincode from your email</div>
   <form [formGroup]="form">
     <div class="subtitle send__subtitle">{{subtitleMessage}}</div>
@@ -36,10 +36,9 @@
   </form>
 </div>
 <!--pin code from email end-->
-<button class="btn btn--empty-blue btn--center"
-        [ngClass]="{
-        'btn--empty-blue': !form.valid  && !form.controls['pin'].touched,
-        'btn--error': !form.valid && form.controls['pin'].touched
-        }"
-        (click)="onSubmit()">Submit
+<button class="btn btn--center"
+        [ngClass]="{'btn--empty-blue': !form.valid}"
+        [disabled]="form.invalid"
+        (click)="onSubmit()">
+  Submit
 </button>

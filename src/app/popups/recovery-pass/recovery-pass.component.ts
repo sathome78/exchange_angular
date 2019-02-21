@@ -4,10 +4,11 @@ import {TranslateService} from '@ngx-translate/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs';
 
+
 import {PopupService} from '../../shared/services/popup.service';
 import {UserService} from '../../shared/services/user.service';
 import {UtilsService} from '../../shared/services/utils.service';
-import {keys} from '../../core/keys';
+import {keys} from '../../shared/constants';
 import {AUTH_MESSAGES} from '../../shared/constants';
 
 declare var sendRecoveryPasswordGtag: Function;
@@ -28,6 +29,7 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
   public afterCaptchaMessage = '';
   public recaptchaKey = keys.recaptchaKey;
   public AUTH_MESSAGES = AUTH_MESSAGES;
+  public serverError = '';
 
   constructor(
     private popupService: PopupService,
@@ -55,9 +57,9 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
           this.utilsService.emailValidator(),
           this.utilsService.specialCharacterValidator()
         ],
-        asyncValidators: [this.userService.emailValidator(true)]
+        // asyncValidators: [this.userService.emailValidator(true)]
       }),
-    }, {updateOn: 'blur'});
+    });
   }
 
   closeMe() {
@@ -73,8 +75,21 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
     this.setTemplate('captchaTemplate');
   }
 
-  resolvedCaptcha(event) {
+  resolvedCaptcha() {
     const email = this.emailForm.get('email').value;
+    this.userService.checkIfEmailExists(email)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+     this.sendEmail(email);
+    }, error => {
+      this.serverError = error.error.title;
+      this.emailForm.markAsPristine();
+      this.emailForm.markAsUntouched();
+      this.setTemplate('emailInputTemplate');
+    });
+  }
+
+  private sendEmail(email: string) {
     this.userService.sendToEmailForRecovery(email)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -86,7 +101,6 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
         this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later.');
         this.setTemplate('emailConfirmLinkTemplate');
       });
-
   }
 
   setTemplate(template: string) {

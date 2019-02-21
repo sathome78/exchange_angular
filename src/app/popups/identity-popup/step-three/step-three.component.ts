@@ -39,7 +39,7 @@ export class StepThreeComponent implements OnInit {
     setTimeout(this.moveNext(), 3);
   }
 
-  moveNext() {
+  moveNext(): any {
     if (this.isSubmitSuccessful) {
       this.onNextStep.emit(3);
     }

@@ -8,7 +8,7 @@ import * as fundsActions from '../actions/funds.actions';
 import {BalanceService} from '../../services/balance.service';
 import {BalanceDetailsItem} from 'app/funds/models/balance-details-item.model';
 import * as dashboardActions from '../../../dashboard/actions/dashboard.actions';
-import {MyBalanceItem} from '../../../core/models/my-balance-item.model';
+import {MyBalanceItem} from '../../../model/my-balance-item.model';
 import {Location} from '@angular/common';
 import { TransactionsService } from 'app/funds/services/transaction.service';
 
@@ -55,7 +55,7 @@ export class FundsEffects {
     .pipe(switchMap( (action) =>  {
       return this.balanceService.getMaxCurrencyPairByName(action.payload)
         .pipe(
-          map(res => (new dashboardActions.ChangeCurrencyPairAction( (res as {data: any, error: any}).data ))),
+          map(res => (new dashboardActions.ChangeActiveCurrencyPairAction( (res as {data: any, error: any}).data ))),
           catchError(error => of(new fundsActions.FailLoadMaxCurrencyPairByCurrencyName(error)))
         );
     }));

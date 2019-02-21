@@ -38,7 +38,7 @@ export class GoogleAuthenticatorService {
   }
 
   getUrl(end: string): string {
-    return this.HOST + '/info/private/v2/2FaOptions/' + end;
+    return this.HOST + '/api/private/v2/2FaOptions/' + end;
   }
 
 }

@@ -27,6 +27,11 @@
 .dark-theme{
   .subtitle{
     color:#fff;
+    @media (max-width: 568px){
+      font-size: 14px;
+      line-height: 17px;
+      color: #DEDEFB;
+  }
   }
 }
 @media (min-width:1200px) {

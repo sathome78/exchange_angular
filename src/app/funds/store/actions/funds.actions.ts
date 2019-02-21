@@ -1,5 +1,4 @@
 import {Action} from '@ngrx/store';
-import {CHANGE_CURRENCY_PAIR} from '../../../dashboard/actions/dashboard.actions';
 
 export const LOAD_CRYPTO_BAL = '[Funds] Load crypto balances';
 export const FAIL_LOAD_CRYPTO_BAL = '[Funds] Fail load crypto balances';

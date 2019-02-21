@@ -5,7 +5,7 @@ import {Subject} from 'rxjs/Subject';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {OrderBookService} from '../../services/order-book.service';
 import {CurrencyPair} from 'app/model/currency-pair.model';
-import {State, getCurrencyPair, getCurrencyPairInfo} from 'app/core/reducers/index';
+import {State, getActiveCurrencyPair, getCurrencyPairInfo} from 'app/core/reducers/index';
 import {OrderItem} from 'app/model/order-item.model';
 import {SelectedOrderBookOrderAction, SetLastPriceAction} from '../../actions/dashboard.actions';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
@@ -76,7 +76,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       });
 
     this.store
-      .pipe(select(getCurrencyPair))
+      .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPair) => {
         this.activeCurrencyPair = pair;
@@ -87,11 +87,11 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.cdr.detectChanges()
       });
 
-    this.dashboardWebsocketService.setRabbitStompSubscription()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair) => {
-        this.requestData(pair);
-      })
+    // this.dashboardWebsocketService.setRabbitStompSubscription()
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe((pair) => {
+    //     this.requestData(pair);
+    //   })
   }
 
   ngOnDestroy() {
@@ -118,6 +118,10 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((orders: OrderBookItem[]) => {
         this.initData(orders);
+        this.loadingFinished();
+        this.cdr.detectChanges();
+      }, (err) => {
+        console.error(err);
         this.loadingFinished();
         this.cdr.detectChanges();
       });

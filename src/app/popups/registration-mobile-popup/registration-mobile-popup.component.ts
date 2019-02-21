@@ -6,11 +6,11 @@ import {takeUntil} from 'rxjs/internal/operators';
 import {PopupService} from '../../shared/services/popup.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/user.service';
-import {keys} from '../../core/keys';
+import {keys} from '../../shared/constants';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {Router} from '@angular/router';
-import { Location } from '@angular/common';
-import { AUTH_MESSAGES } from '../../shared/constants';
+import {Location} from '@angular/common';
+import {AUTH_MESSAGES} from '../../shared/constants';
 
 declare var sendRegistrationGtag: Function;
 
@@ -34,13 +34,13 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   public nameForm: FormGroup;
   public nameSubmited = false;
   public recaptchaKey = keys.recaptchaKey;
+  public AUTH_MESSAGES = AUTH_MESSAGES;
 
   public email;
   public firstName;
   public afterCaptchaMessage;
 
   constructor(
-    private router: Router,
     private popupService: PopupService,
     private userService: UserService,
     private translateService: TranslateService,
@@ -110,7 +110,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     this.emailForm = new FormGroup({
       email: new FormControl('', {
         validators: [
-          // Validators.required,
+          Validators.required,
           this.utilsService.emailValidator(),
           this.utilsService.specialCharacterValidator()
         ],
@@ -127,7 +127,6 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
 
 
   emailSubmit() {
-    console.log(this.emailForm)
     if (this.emailForm.valid) {
       this.setTemplate('captchaTemplate');
     }

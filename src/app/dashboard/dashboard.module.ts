@@ -2,10 +2,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 
-import * as SockJS from 'sockjs-client';
 import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {environment} from '../../environments/environment';
-import {StompConfig, StompService} from '@stomp/ng2-stompjs';
+import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from '@stomp/ng2-stompjs';
 import {ActivePairComponent} from './components/active-pair/active-pair.component';
 import {ChatComponent} from './components/chat/chat.component';
 import {ChatMessageComponent} from './components/chat/chat-message/chat-message.component';
@@ -25,7 +24,6 @@ import {ToolsComponent} from './components/tools/tools.component';
 import {SharedModule} from '../shared/shared.module';
 import {MarketSearchComponent} from './components/market-search/market-search.component';
 import {GridsterModule} from 'angular2gridster';
-import {ScrollbarModule} from 'ngx-scrollbar';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {ChatService} from './components/chat/chat.service';
 import {DashboardService} from './dashboard.service';
@@ -39,18 +37,22 @@ import {NicknamePipe} from './components/chat/chat-message/nickname.pipe';
 import {EffectsModule} from '@ngrx/effects';
 import {DashboardEffects} from './effects/dashboard.effects';
 import {TranslateModule} from '@ngx-translate/core';
-import {MomentModule} from 'angular2-moment';
+import {MomentModule} from 'ngx-moment';
 import {MarketsItemComponent} from './components/markets/markets-item/markets-item.component';
 import {CurrencyPairInfoService} from './services/currency-pair-info.service';
 import {OrderBookMobileComponent} from './components/order-book-mobile/order-book-mobile.component';
 import {TradingMobileComponent} from './components/trading-mobile/trading-mobile.component';
 import {TradingService} from './services/trading.service';
+import {CoreEffects} from 'app/core/effects/core.effects';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {TradeHistoryItemComponent} from './components/trade-history/trade-history-item/trade-history-item.component';
 
+import {ShowWidgetPipe} from '../shared/pipes/show-widget.pipe';
+import {reducer} from './reducers/dashboard.reducer'
+import {StoreModule} from '@ngrx/store';
+import * as SockJS from 'sockjs-client';
+import {IsFavoritePipe} from './components/markets/isFavorite.pipe';
 
-export function socketProvider() {
-  return new SockJS(environment.apiUrl + '/public_socket');
-  // return new SockJS('http://localhost:5555/jsa-stomp-endpoint');
-}
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -58,29 +60,27 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   wheelSpeed: 1
 };
 
-const stompConfig: StompConfig = {
+export function socketProvider() {
+  return new SockJS(environment.apiUrl + '/public_socket');
+  // return new SockJS('http://localhost:5555/jsa-stomp-endpoint');
+}
+
+const stompConfig: InjectableRxStompConfig = {
   // Which server?
-  url: socketProvider(),
+  // brokerURL: `${environment.apiUrlWS}/public_socket`,
 
-  // Headers
-  // Typical keys: login, passcode, host
-  headers: {
-    // login: 'guest',
-    // passcode: 'guest'
-  },
+  heartbeatIncoming: 0, // Typical value 0 - disabled
+  heartbeatOutgoing: 20000, // Typical value 20000 - every 20 seconds
 
-  // How often to heartbeat?
-  // Interval in milliseconds, set to 0 to disable
-  heartbeat_in: 0, // Typical value 0 - disabled
-  heartbeat_out: 20000, // Typical value 20000 - every 20 seconds
-
-  // Wait in milliseconds before attempting auto reconnect
-  // Set to 0 to disable
-  // Typical value 5000 (5 seconds)
-  reconnect_delay: 5000,
+  reconnectDelay: 5000,
+  webSocketFactory: socketProvider,
 
   // Will log diagnostics on console
-  debug: false
+  debug: (msg) => {
+    if (!environment.production) {
+      console.log(new Date(), msg);
+    }
+  },
 };
 
 @NgModule({
@@ -109,7 +109,10 @@ const stompConfig: StompConfig = {
     CurrencySortingPipe,
     NicknamePipe,
     PositivePipe,
+    ShowWidgetPipe,
     MarketsItemComponent,
+    TradeHistoryItemComponent,
+    IsFavoritePipe,
 
     // PIPES END
   ],
@@ -142,10 +145,11 @@ const stompConfig: StompConfig = {
     TranslateModule,
     FormsModule,
     MomentModule,
+    ScrollingModule,
     ReactiveFormsModule,
     GridsterModule.forRoot(),
-    EffectsModule.forRoot([DashboardEffects]),
-    ScrollbarModule,
+    EffectsModule.forFeature([CoreEffects, DashboardEffects]),
+    StoreModule.forFeature('dashboard', reducer),
     NgxPaginationModule,
     PerfectScrollbarModule
   ],
@@ -156,10 +160,19 @@ const stompConfig: StompConfig = {
     MarketService,
     OrderBookService,
     CurrencyPairInfoService,
-    StompService,
+    RxStompService,
     TradeHistoryService,
     TradingService,
-    {provide: StompConfig, useValue: stompConfig},
+
+    {
+      provide: InjectableRxStompConfig,
+      useValue: stompConfig
+    },
+    {
+      provide: RxStompService,
+      useFactory: rxStompServiceFactory,
+      deps: [InjectableRxStompConfig]
+    },
     {provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG}
   ]
 })

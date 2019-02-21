@@ -2,14 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Subject, Observable, ReplaySubject} from 'rxjs';
 import {environment} from 'environments/environment';
-import {MyBalanceItem} from 'app/core/models/my-balance-item.model';
+import {MyBalanceItem} from 'app/model/my-balance-item.model';
 
 @Injectable()
 export class DashboardService {
 
   public dashboardToTools$ = new Subject();
   public toolsToDashboard$ = new Subject();
-
   /** talking between dashboard mobile and mobile menu */
   public activeMobileWidget = new Subject<string>();
 
@@ -18,7 +17,6 @@ export class DashboardService {
 
   /** mock data for currencies which used at currency-pair-info/currency-search */
   // currencies: BehaviorSubject<Currency[]> = new BehaviorSubject<Currency[]>(mockPairs);
-
 
 
   /** Array of dashboard item options*/
@@ -184,6 +182,7 @@ export class DashboardService {
 
   constructor(private http: HttpClient) {
   }
+
   public apiUrl = environment.apiUrl;
 
   /**
@@ -214,20 +213,20 @@ export class DashboardService {
   // }
 
   // TODO define type
-  getCurrencyPair(ISO1: string, ISO2: string) {
-    // return this.isoMockData();
-    // return this.http.get(`${ISO1}/${ISO2}`)
-  }
+  // getCurrencyPair(ISO1: string, ISO2: string) {
+  //   // return this.isoMockData();
+  //   // return this.http.get(`${ISO1}/${ISO2}`)
+  // }
 
   getMyBalances(): Observable<MyBalanceItem> {
-    return this.http.get<MyBalanceItem>(this.apiUrl + '/info/private/v2/balances/myBalances')
+    return this.http.get<MyBalanceItem>(this.apiUrl + '/api/private/v2/balances/myBalances');
   }
 
   getMarketsForCurrency(currencyName): Observable<any> {
-    return this.http.get<any>(this.apiUrl + '/info/public/v2/pair/first/' + currencyName);
+    return this.http.get<any>(this.apiUrl + '/api/public/v2/pair/first/' + currencyName);
   }
 
   getCryptoCurrencies() {
-    return this.http.get(`${this.apiUrl}/info/public/v2/crypto-currencies`)
+    return this.http.get(`${this.apiUrl}/api/public/v2/crypto-currencies`);
   }
 }

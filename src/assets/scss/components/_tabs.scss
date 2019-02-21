@@ -25,15 +25,19 @@
     font-size: 18px;
     color: #000;
     position: relative;
-    -webkit-transition: .2s ease-in-out;
-    -o-transition: .2s ease-in-out;
     transition: .2s ease-in-out;
+    @media(max-width: 1199px){
+      padding: 7px 0 7px;
+    }
     &:hover{
       cursor: pointer;
     }
     &--active{
       position: relative;
       border-bottom: 2px solid $darker-blue;
+      @media(max-width: 1199px){
+        border: none;
+      }
       position: relative;
       z-index: 2;
       color: #237bef;

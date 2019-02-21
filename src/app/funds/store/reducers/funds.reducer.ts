@@ -3,7 +3,7 @@ import {defaultValues} from './default-values';
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {BalanceItem} from 'app/funds/models/balance-item.model';
 import {PendingRequestsItem} from 'app/funds/models/pending-requests-item.model';
-import {MyBalanceItem} from 'app/core/models/my-balance-item.model';
+import {MyBalanceItem} from 'app/model/my-balance-item.model';
 import {BalanceDetailsItem} from '../../models/balance-details-item.model';
 import {TransactionHistoryItem} from 'app/funds/models/transactions-history-item.model';
 

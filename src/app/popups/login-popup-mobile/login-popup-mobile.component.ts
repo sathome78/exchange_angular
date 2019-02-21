@@ -4,14 +4,18 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {TokenHolder} from '../../model/token-holder.model';
 import {UserService} from '../../shared/services/user.service';
 import {AuthService} from '../../shared/services/auth.service';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {LoggingService} from '../../shared/services/logging.service';
-import {keys} from '../../core/keys';
-import {isCombinedNodeFlagSet} from 'tslint';
+import {keys} from '../../shared/constants';
 import {TranslateService} from '@ngx-translate/core';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {AUTH_MESSAGES} from '../../shared/constants';
+import {Store} from '@ngrx/store';
+import * as fromCore from '../../core/reducers';
+import * as coreActions from '../../core/actions/core.actions';
+import {Location} from '@angular/common';
 
 declare var sendLoginSuccessGtag: Function;
 
@@ -24,9 +28,9 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public recaptchaKey = keys.recaptchaKey;
-  isPasswordVisible = false;
-  twoFaAuthModeMessage = 'Please enter two-factor <br> authentication code';
-  pincodeAttempts = 0;
+  public isPasswordVisible = false;
+  public twoFaAuthModeMessage = 'Please enter two-factor <br> authentication code';
+  public pincodeAttempts = 0;
   public isError = false;
   public statusMessage = '';
   public inPineCodeMode;
@@ -35,12 +39,12 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   public afterCaptchaMessage;
 
   public currentTemplate: TemplateRef<any>;
-  @ViewChild('logInTemplate') logInTemplate: TemplateRef<any>;
-  @ViewChild('pinCodeTemplate') pinCodeTemplate: TemplateRef<any>;
-  @ViewChild('captchaTemplate') captchaTemplate: TemplateRef<any>;
+  @ViewChild('logInTemplate') public logInTemplate: TemplateRef<any>;
+  @ViewChild('pinCodeTemplate') public pinCodeTemplate: TemplateRef<any>;
+  @ViewChild('captchaTemplate') public captchaTemplate: TemplateRef<any>;
   public loginForm: FormGroup;
   public pinForm: FormGroup;
-  isPinEmpty;
+  public isPinEmpty;
   public showSendAgainBtn: boolean = false;
 
   private email;
@@ -55,12 +59,29 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private utilsService: UtilsService,
     private router: Router,
+    private route: ActivatedRoute,
+    private location: Location,
+    private store: Store<fromCore.State>
   ) {
   }
 
   ngOnInit() {
     this.setTemplate('logInTemplate');
     this.initForm();
+
+    this.route.url
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((segments) => {
+        const url = segments.map((u) => u.path).join('/')
+        setTimeout(() => {  // added to fix ExpressionChangedAfterItHasBeenCheckedError
+          if(url === 'registration') {
+            this.popupService.showMobileRegistrationPopup(true);
+          }
+          if(url === 'login') {
+            this.popupService.showMobileLoginPopup(true);
+          }
+        })
+      });
   }
 
   ngOnDestroy(): void {
@@ -71,7 +92,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   initForm() {
     this.loginForm = new FormGroup({
       email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator()]}),
-      password: new FormControl('', {validators: Validators.required })
+      password: new FormControl('', {validators: Validators.required})
     });
     this.pinForm = new FormGroup({
       pin: new FormControl('', { validators: Validators.required })
@@ -95,6 +116,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
 
   closeMe() {
     this.popupService.closeMobileLoginPopup();
+    this.location.replaceState('dashboard');
   }
 
   openRegistration() {
@@ -121,28 +143,16 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
 
   setStatusMessage(err) {
     this.showSendAgainBtn = false;
-    switch (err['status']) {
-      case 401:
-      case 422:
-        this.statusMessage = this.translateService.instant('Wrong email or password!');
-        break;
-      case 426:
-        this.statusMessage = this.translateService.instant(`Seems, that your user is still inactive. Email with activation link has been sent to your email address. Please, check and follow the instructions.`);
-        // this.showSendAgainBtn = true;
-        break;
-      case 403:
-        this.statusMessage = this.translateService.instant('You are not allowed to access');
-        break;
-      case 410:
-        this.statusMessage = this.translateService.instant('Your account has been blocked. To find out the reason of blocking - contact the exchange support service.');
-        break;
-      case 419:
-        this.statusMessage = this.translateService.instant('Your ip is blocked!');
-        break;
-      case 400:
-        if (!this.isGACheck) {
-          this.checkGoogleLoginEnabled(this.email);
-        }
+    if (err['status'] === 400) {
+      if (!this.isGACheck) {
+        this.checkGoogleLoginEnabled(this.email);
+      }
+      if (
+        err.error.title === 'REQUIRED_EMAIL_AUTHORIZATION_CODE'
+        || err.error.title === 'REQUIRED_GOOGLE_AUTHORIZATION_CODE'
+        || err.error.title === 'EMAIL_AUTHORIZATION_FAILED'
+        || err.error.title === 'GOOGLE_AUTHORIZATION_FAILED'
+      ) {
         this.inPineCodeMode = true;
         this.setTemplate('pinCodeTemplate');
         this.pinForm.reset();
@@ -150,7 +160,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
           this.isError = true;
           this.twoFaAuthModeMessage = this.pincodeAttempts === 3 ?
             this.isGA ?
-              this.translateService.instant(' Code is wrong! Please, check you code in Google Authenticator application.') :
+              this.translateService.instant('Code is wrong! Please, check you code in Google Authenticator application.') :
               this.translateService.instant('Code is wrong! New code was sent to your email.') :
             this.translateService.instant('Code is wrong!');
           this.pincodeAttempts = this.pincodeAttempts === 3 ? 0 : this.pincodeAttempts;
@@ -158,6 +168,11 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
         } else {
           this.statusMessage = this.translateService.instant('Pin code is required!');
         }
+      } else {
+        this.statusMessage = !AUTH_MESSAGES[err.error.title] ? '' : AUTH_MESSAGES[err.error.title];
+      }
+    } else {
+      this.statusMessage = AUTH_MESSAGES.OTHER_HTTP_ERROR;
     }
   }
 
@@ -200,12 +215,14 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
       .subscribe((tokenHolder: TokenHolder) => {
         sendLoginSuccessGtag();
         this.logger.debug(this, 'User { login: ' + this.email + ', pass: ' + this.password + '}' + ' signed in and obtained' + tokenHolder);
-        this.authService.setTokenHolder(tokenHolder);
-        this.authService.onLogIn();
+        this.authService.setToken(tokenHolder.token);
+        const parsedToken = this.authService.parseToken(tokenHolder.token);
+        this.store.dispatch(new coreActions.SetOnLoginAction(parsedToken));
         this.popupService.closeMobileLoginPopup();
         this.router.navigate(['/']);
+
         // TODO: just for promo state, remove after
-        location.reload();
+        // location.reload();
       },
         err => {
           console.log(err, 'sendToServerError')
@@ -220,8 +237,8 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   }
 
   openRecoveryPasswordPopup() {
-    this.popupService.showRecoveryPasswordPopup(true);
     this.closeMe();
+    this.popupService.showRecoveryPasswordPopup(true);
   }
 
   sendAgain() {

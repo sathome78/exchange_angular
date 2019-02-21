@@ -1,11 +1,11 @@
-<div class="title send__title">{{'Crypto Withdrawal' | translate}}<span>{{activeCrypto ? activeCrypto.name : ''}}</span></div>
+<div class="title send__title">{{'Crypto Withdrawal' | translate}}<span> {{activeCrypto ? activeCrypto.name : ''}}</span></div>
 <div class="formWraper" *ngIf="isEnterData">
   <form [formGroup]="form">
-    <div class="send__inputs-wrap" *ngIf="activeCrypto">
+    <div class="send__inputs-wrap">
       <div class="select send__select">
         <div class="select__value select__value--active" (click)="currencyDropdownToggle()">
-          <img [src]="activeCrypto.name | getIconUrl" class="select__list-item-icon">
-          {{activeCrypto.name}}
+          <img [src]=" activeCrypto.name | getIconUrl" class="select__list-item-icon">
+          {{activeCrypto.name }}
         </div>
         <div class="select__label">{{'Currency' | translate}}</div>
         <div class="select__line"></div>
@@ -41,48 +41,54 @@
           </div>
         </div>
       </div>
-      <div class="wrap-input send__wrap-input"
-           [ngClass]="{'wrap-input--error': isSubmited && (isAmountMax || isAmountMin || form.controls['amount'].value === '0')}">
-        <div class="avaliable">{{'Avaliable:' | translate}} <a (click)="balanceClick()" class="link">{{activeBalance}}
-          {{activeCrypto.name}}</a></div>
-        <app-price-input [placeholder]="'Amount'" (customInput)="amountInput($event)" name="amount"
-                         formControlName="amount"></app-price-input>
+
+      <div class="wrap-input send__wrap-input" [ngClass]="{'wrap-input--error': form.get('amount').invalid && form.get('amount').touched}">
+        <div class="avaliable">{{'Avaliable:' | translate}}
+          <a (click)="balanceClick()" class="link">{{activeBalance}} {{activeCrypto ? activeCrypto.name : ''}}
+          </a>
+        </div>
+        <app-price-input [placeholder]="'Amount'" (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
+
+        <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors && !form.controls['amount'].errors['isMinThenMinWithdraw']">
+      {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
+
         <!--Input error section starts-->
-        <!--<span class="wrap-input__message wrap-input__message&#45;&#45;show"-->
-        <!--*ngIf="!form.controls['amount'].valid && isSubmited">-->
-        <!--Day limit for withdrawal is {{minWithdrawSum}} {{activeCrypto.name}}</span>-->
-        <span class="wrap-input__message wrap-input__message--show"
-              *ngIf="(isAmountMin || form.controls['amount'].value === '0') && isSubmited">
+        <div *ngIf="form.get('amount').errors != null">
+        <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
+              [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] && form.controls['amount'].touched}">
       {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
         <span class="wrap-input__message wrap-input__message--show"
-              *ngIf="isAmountMax && isSubmited">
+              *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] && form.controls['amount'].touched">
       {{'Max sum for withdrawal' | translate}} {{activeBalance}}</span>
+        </div>
         <!--Input error section ends-->
+
       </div>
     </div>
+
+
     <div class="send__inputs-wrap">
       <div class="wrap-input  send__wrap-input"
-           [ngClass]="{'wrap-input--error': !form.controls['address'].valid && isSubmited}">
+           [ngClass]="{'wrap-input--error': !form.controls['address'].valid && form.controls['address'].touched}">
         <input class="wrap-input__input" name="address" formControlName="address" required>
         <label class="wrap-input__label">{{'Address for withdraw money' | translate}}</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
         <span class="wrap-input__message wrap-input__message--show"
-              *ngIf="!form.controls['address'].valid && isSubmited">
-      {{'You should enter' | translate}} {{activeCrypto.name}} {{'address for withdrawal' | translate}}</span>
+              *ngIf="!form.controls['address'].valid && form.controls['address'].touched ">
+      {{'You should enter' | translate}} {{activeCrypto ? activeCrypto.name : ''}} {{'address for withdrawal' | translate}}</span>
         <!--Input error section ends-->
       </div>
-      <div class="wrap-input send__wrap-input"
-           *ngIf="isMemo"
-           [ngClass]="{'wrap-input--error': !form.controls['memo'].valid && isSubmited}"
+
+      <div class="wrap-input send__wrap-input" *ngIf="isMemo"
+           [ngClass]="{'wrap-input--error': !form.controls['memo'].valid && form.controls['memo'].touched }"
       >
         <input class="wrap-input__input" name="memo" formControlName="memo">
-        <label class="wrap-input__label">{{'Memo ID' | translate}}</label>
+        <label class="wrap-input__label">{{memoName | translate}}</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
         <span class="wrap-input__message wrap-input__message--show"
-              *ngIf="!form.controls['memo'].valid && isSubmited"
-        >{{'Enter memo ID' | translate}}</span>
+              *ngIf="!form.controls['memo'].valid && form.controls['memo'].touched">{{'Enter memo ID' | translate}}</span>
         <!--Input error section ends-->
       </div>
     </div>
@@ -116,11 +122,9 @@
       <div class="send__info-value">{{calculateData.resultAmount }} {{activeCrypto ? activeCrypto.name : ''}}</div>
     </div>
   </div>
-  <button class="btn btn--center  "
-          [ngClass]="{
-        'btn--empty-blue': !form.valid && !isSubmited,
-        'btn--error': (!form.valid || isAmountMin || isAmountMax ) && isSubmited
-        }"
+  <button class="btn btn--center"
+          [ngClass]="{'btn--empty-blue': !form.valid}"
+          [disabled]="form.invalid"
           (click)="onSubmitWithdrawal()"
   >{{'Withdraw' | translate}}
     <span class="value">{{calculateData.resultAmount}}</span>

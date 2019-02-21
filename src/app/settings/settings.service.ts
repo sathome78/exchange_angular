@@ -62,20 +62,20 @@ export class SettingsService {
   }
 
   private getUrl(end: string) {
-    return this.apiUrl + '/info/private/v2/settings/' + end;
+    return this.apiUrl + '/api/private/v2/settings/' + end;
   }
 
   public getCurrentVerificationStatusKYC() {
-    return this.http.get<string>(`${this.apiUrl}/info/private/v2/shufti-pro/current-step`);
+    return this.http.get<string>(`${this.apiUrl}/api/private/v2/shufti-pro/current-step`);
   }
   public getCountriesKYC() {
-    return this.http.get(`${this.apiUrl}/info/private/v2/shufti-pro/countries`);
+    return this.http.get(`${this.apiUrl}/api/private/v2/shufti-pro/countries`);
   }
   public getLanguagesKYC() {
-    return this.http.get(`${this.apiUrl}/info/private/v2/shufti-pro/languages`);
+    return this.http.get(`${this.apiUrl}/api/private/v2/shufti-pro/languages`);
   }
   public getIframeUrlForKYC(step: string, lang: string, country: string) {
-    return this.http.get(`${this.apiUrl}/info/private/v2/shufti-pro/verification-url/${step}`, {
+    return this.http.get(`${this.apiUrl}/api/private/v2/shufti-pro/verification-url/${step}`, {
      responseType: 'text',
       params: {
         language_code: lang,

@@ -14,7 +14,7 @@
     >
       <span
         class="table__row-star"
-        [ngClass]="{'table__row-star--select': isFavorite(pair)}"
+        [ngClass]="{'table__row-star--select': isFavorite}"
       >
         <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -35,7 +35,7 @@
         style="margin-right: 2px;"
         [ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}"
       >
-        {{pair.percentChange | positivePipe | replaceNumber}}
+        {{(pair.percentChange || '0') | positivePipe | replaceNumber}}
       </span>
       <span
         class="arr"
@@ -43,7 +43,7 @@
       </span>
     </div>
     <div class="table__cell table__cell--p4 table__cell--tar" style="width: 25%;">
-      <span style="font-size: 10px; color:#A0A0A0">{{ +pair.currencyVolume | roundCurrency:splitPairName(pair)[1] | formatCurrency:'short':splitPairName(pair)[1]}}</span>
+      <span style="font-size: 10px; color:#A0A0A0">{{ +pair.volume | roundCurrency:splitPairName(pair)[1] | formatCurrency:'short':splitPairName(pair)[1]}}</span>
     </div>
   </div>
 

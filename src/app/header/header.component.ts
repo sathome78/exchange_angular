@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {PopupService} from '../shared/services/popup.service';
 import {AuthService} from '../shared/services/auth.service';
 import {LoggingService} from '../shared/services/logging.service';
@@ -9,13 +9,15 @@ import {SettingsService} from '../settings/settings.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 import {environment} from '../../environments/environment';
 import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG, LANG_ARRAY} from './header.constants';
-import {MyBalanceItem} from '../core/models/my-balance-item.model';
+import {MyBalanceItem} from '../model/my-balance-item.model';
 import {Observable, Subject} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {select, Store} from '@ngrx/store';
 import {getLanguage, State} from '../core/reducers';
 import {ChangeLanguageAction} from '../core/actions/core.actions';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil, withLatestFrom} from 'rxjs/operators';
+import * as fromCore from '../core/reducers';
+import * as coreActions from '../core/actions/core.actions';
 
 @Component({
   selector: 'app-header',
@@ -26,10 +28,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public isMobileMenuOpen = false;
   public mobileView = 'markets';
-  public userInfo;
+  public userInfo$: Observable<ParsedToken>;
   public showFundsList: boolean;
   public showOrdersList: boolean;
   public showReferralList: boolean;
+  public isAuthenticated: boolean = false;
   public FUNDS_FLAG = FUNDS_FLAG;
   public REFERRAL_FLAG = REFERRAL_FLAG;
   public ORDERS_FLAG = ORDERS_FLAG;
@@ -39,16 +42,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
 
-  constructor(private popupService: PopupService,
-              private authService: AuthService,
-              private logger: LoggingService,
-              private router: Router,
-              private themeService: ThemeService,
-              private settingsService: SettingsService,
-              private dashboardService: DashboardService,
-              private userService: UserService,
-              private store: Store<State>,
-              public translate: TranslateService) {}
+  constructor(
+    private popupService: PopupService,
+    private authService: AuthService,
+    private logger: LoggingService,
+    private router: Router,
+    private themeService: ThemeService,
+    private settingsService: SettingsService,
+    private dashboardService: DashboardService,
+    private userService: UserService,
+    private store: Store<State>,
+    private cdr: ChangeDetectorRef,
+    public translate: TranslateService
+  ) {
+    this.userInfo$ = this.store.pipe(select(fromCore.getUserInfo));
+  }
 
   ngOnInit() {
     this.resetDropdowns();
@@ -60,17 +68,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       //       this.themeService.setDarkTheme();
       //     }
       //   });
-      this.userInfo = this.authService.simpleToken;
     }
-    this.authService.onLoginLogoutListener$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        if (res.username !== '') {
-          this.userInfo.username = res.username;
-        } else {
-          this.userInfo = null;
-        }
-      });
     this.dashboardService.activeMobileWidget
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -82,6 +80,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.lang = this.langArray.filter(lang => lang.name === res)[0];
+      });
+
+    this.store
+      .pipe(select(fromCore.getIsAuthenticated))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((isAuthenticated: boolean) => {
+        this.isAuthenticated = isAuthenticated;
+        this.cdr.detectChanges();
       });
   }
 
@@ -122,12 +128,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.popupService.showMobileLoginPopup(true);
   }
 
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
-  }
-
   isVisible(): boolean {
-    return this.isAuthenticated() && !environment.production;
+    return this.isAuthenticated && !environment.production;
   }
 
   onLogout() {

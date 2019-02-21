@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {ChatService} from './chat.service';
@@ -7,6 +7,7 @@ import {AuthService} from 'app/shared/services/auth.service';
 import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-chat',
@@ -26,15 +27,16 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
   @ViewChild('scrollWrapper') scrollWrapper: PerfectScrollbarComponent;
   public scrollStyles: any = null;
 
-  static isToday(date: Date): boolean {
+  public isToday(date: Date): boolean {
     const today = new Date();
-    return today.getFullYear() === date.getFullYear()
-      && today.getMonth() === date.getMonth()
-      && today.getDate() === date.getDate();
+    return moment(date).isSame(today, 'day');
   }
 
-  constructor(private chatService: ChatService,
-              private authService: AuthService) {
+  constructor(
+    private chatService: ChatService,
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService
+  ) {
     super();
     this.setScrollStylesForMobile();
   }
@@ -67,6 +69,7 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
         if (messages.length) {
           this.dateChatItems = messages;
           this.addTodayIfNecessary();
+          this.cdr.detectChanges();
           setTimeout(() => {
             this.onScrollToBottom();
           }, 200);
@@ -80,7 +83,7 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
   addTodayIfNecessary() {
     const index = this.dateChatItems.length - 1;
 
-    if (!ChatComponent.isToday(new Date(this.dateChatItems[index].date))) {
+    if (!this.isToday(new Date(this.dateChatItems[index].date))) {
       this.dateChatItems.push(new DateChatItem(new Date()));
     }
   }
@@ -94,9 +97,11 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
         .subscribe(res => {
             console.log(res);
             message.value = '';
+            this.cdr.detectChanges();
           },
           error1 => {
             console.log(error1);
+            this.cdr.detectChanges();
           });
     }
   }

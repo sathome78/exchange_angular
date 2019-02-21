@@ -10,10 +10,11 @@
       <form class="popup__form" [formGroup]="emailForm" >
         <div >
           <div class="wrap-input popup__wrap-input"
-               [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched && emailForm.get('email').value !== ''}"
+               [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched}"
           >
             <input
               required
+              appExcludeInputSpaces
               class="wrap-input__input"
               formControlName="email"
               [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched }"
@@ -34,6 +35,18 @@
               </span>
               <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailExists']">
                 {{'Email exists' | translate}}
+              </span>
+                <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required']">
+                {{'Email is required' | translate}}
+              </span>
+                <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['USER_REGISTRATION_NOT_COMPLETED']">
+                {{AUTH_MESSAGES.USER_REGISTRATION_NOT_COMPLETED | translate}}
+              </span>
+                <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['USER_NOT_ACTIVE']">
+                {{AUTH_MESSAGES.USER_NOT_ACTIVE | translate}}
+              </span>
+                <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['FAILED_TO_GET_USER_TOKEN']">
+                {{AUTH_MESSAGES.FAILED_TO_GET_USER_TOKEN | translate}}
               </span>
               </div>  
               
@@ -70,7 +83,7 @@
 
 
     <ng-template #captchaTemplate>
-      <h6 class="popup__title">{{'Registration' | translate}}</h6>
+      <h6 class="popup__title popup_title--dm">{{'Registration' | translate}}</h6>
       <re-captcha (resolved)="resolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
       <!--<div class="popup__links-wrap">-->
         <!--<a class="popup__link" (click)="setTemplate('emailInputTemplate')">Go to registration form</a>-->
@@ -78,8 +91,8 @@
     </ng-template>
 
     <ng-template #emailConfirmLinkTemplate>
-      <h6 class="popup__title">{{'Confirm the email' | translate}}</h6>
-      <h4 class="popup__subtitle" [innerHtml]="afterCaptchaMessage"></h4>
+      <h6 class="popup__title popup_title--dm">{{'Confirm the email' | translate}}</h6>
+      <h4 class="popup__subtitle popup_title--dm" [innerHtml]="afterCaptchaMessage"></h4>
       <div class="popup__line"></div>
       <div class="popup__text--light">{{'If you haven\'t received the email, do the following:' | translate}}</div>
       <div class="popup__text--light">{{'Check spam or other folders.' | translate}} <br> {{'Set email address whitelist.' | translate}} <a class="popup__link" href="">{{'How to set?' | translate}}</a><br> {{'Check the mail client works normally.' | translate}}</div>

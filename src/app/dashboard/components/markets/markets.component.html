@@ -31,6 +31,43 @@
       {{'Search' | translate}}
     </div>
   </div>
+  <div class="tabs widget__tabs widget__tabs--mob widget__markets-tabs">
+      <button class="tabs__item  tabs__item--active"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'BTC','tab-no-active': currencyDisplayMode !== 'BTC'}"
+              (click)="selectedTab('BTC')">
+        BTC
+      </button>
+      <button class="tabs__item"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'ETH','tab-no-active': currencyDisplayMode !== 'ETH'}"
+              (click)="selectedTab('ETH')">
+        ETH
+      </button>
+      <button class="tabs__item"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USD','tab-no-active': currencyDisplayMode !== 'USD'}"
+              (click)="selectedTab('USD')"
+      >
+        USD
+      </button>
+      <button class="tabs__item"
+      [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
+      (click)="selectedTab('LOC')"
+      >
+      LOC
+      </button>
+      <button class="tabs__item"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'FAVORITES','tab-no-active': currencyDisplayMode !== 'FAVORITES'}"
+              (click)="selectedTab('FAVORITES')"
+      >
+        <span>
+          <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"
+              fill="#E5E5E5"/>
+          </svg>
+        </span>
+        {{'Fav' | translate}}
+      </button>
+    </div>
 
 
   <div class="widget__content" *ngIf="!loading">
@@ -89,51 +126,20 @@
           {{'Volume' | translate}}
         </div>
       </div>
+
+      <!-- <cdk-virtual-scroll-viewport [itemSize]="31" style="height: 353px;"></cdk-virtual-scroll-viewport> -->
+
       <div class="markets__tbody" id="markets-container" (click)="onClickMarketItem($event)">
         <perfect-scrollbar style="max-height: 353px;">
           <div style="margin-right: 24px;">
-            <!--Preferred Currency Pairs-->
-            <!--<ng-container *ngFor="let pair of prefPairs | currencySort :'volume'">-->
-              <!--<div style="height: 4px;"></div>-->
-              <!--<div class="markets__row widget__table-row"-->
-                   <!--[ngClass]="{'widget__table-row&#45;&#45;green': isChangePositive(pair), 'widget__table-row&#45;&#45;red': !isChangePositive(pair)} ">-->
-                <!--<div class="table__cell table__cell&#45;&#45;p4 table__cell&#45;&#45;tac" style="width: 7%;">-->
-                <!--<span class="table__row-star" [ngClass]="{'table__row-star&#45;&#45;select': isFavorite(pair)}"-->
-                      <!--(click)="toggleFavorite(pair)">-->
-                  <!--<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-                    <!--<path-->
-                      <!--d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>-->
-                  <!--</svg>-->
-                <!--</span>-->
-                <!--</div>-->
-
-                <!--<div class="table__cell table__cell&#45;&#45;p4" style="width: 21%;" (click)="onSelectCurrencyPair(pair)">-->
-                  <!--<span>{{splitPairName(pair)[0]}}</span>-->
-                  <!--<span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>-->
-                <!--</div>-->
-                <!--<div class="table__cell table__cell&#45;&#45;p4" style="width: 25%;" (click)="onSelectCurrencyPair(pair)">-->
-                  <!--<span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:!isFiat }}</span>-->
-                <!--</div>-->
-                <!--<div class="table__cell table__cell&#45;&#45;p4" style="width: 17%;" (click)="onSelectCurrencyPair(pair)">-->
-                <!--<span style="margin-right: 2px;"-->
-                      <!--[ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}">{{pair.percentChange | positivePipe | replaceNumber}}</span>-->
-                  <!--<span class="arr"-->
-                        <!--[ngClass]="{'arr&#45;&#45;green': isChangePositive(pair), 'arr&#45;&#45;red': !isChangePositive(pair)}"></span>-->
-                <!--</div>-->
-                <!--<div class="table__cell table__cell&#45;&#45;p4 table__cell&#45;&#45;tar" style="width: 30%;" (click)="onSelectCurrencyPair(pair)">-->
-                  <!--<span style="font-size: 10px; color:#A0A0A0">{{ +pair.volume | number: '1.0-0' | replaceNumber}}</span>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</ng-container>-->
-            <!--Preferred Currency Pairs-->
-
-              <app-markets-item
-                *ngFor="let pair of (pairs | currencySort :'volume'); trackBy: trackByFn"
-                [pair]="pair"
-                [isFiat]="isFiat"
-                [currentCurrencyPair]="currentCurrencyPair"
-              >
-              </app-markets-item>
+            <app-markets-item
+              *ngFor="let pair of (pairs | currencySort :'currencyVolume'); trackBy: trackByFn"
+              [pair]="pair"
+              [isFiat]="isFiat"
+              [isFavorite]="pair | isFavoritePipe: userFavorites"
+              [currentCurrencyPair]="currentCurrencyPair"
+            >
+            </app-markets-item>
           </div>
         </perfect-scrollbar>
       </div>
@@ -182,40 +188,8 @@
         </div>
       </div>
       <div class="markets__tbody">
-        <perfect-scrollbar>
-          <ng-container *ngFor="let pair of prefPairs | currencySort :'volume'">
-            <div class="markets__row widget__table-row"
-                 [ngClass]="{
-                  'widget__table-row--green': isChangePositive(pair),
-                  'widget__table-row--red': !isChangePositive(pair)
-                  }">
-              <div class="table__cell table__cell--p4 table__cell--tac" style="width: 20%;  display: flex; align-items: center; justify-content: center;">
-                <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavorite(pair)}"
-                      (click)="toggleFavorite(pair)">
-                  <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
-                  </svg>
-                </span>
-              </div>
-              <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
-                <span>{{splitPairName(pair)[0]}}</span>
-                <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
-                <div class="txt-small txt-light-grey">{{'Vol' | translate}} {{ +pair.volume | number: '1.0-0' | replaceNumber}}</div>
-              </div>
-              <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
-                <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:!isFiat }}</span>
-                <!--<div class="txt-small txt-light-grey">$ {{ +pair.priceInUsd | number: '1.0-2' | replaceNumber}}</div>-->
-              </div>
-              <div class="table__cell table__cell--p4 table__cell--tar" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
-                <span class=""
-                      [ngClass]="{'change-indicate--green': isChangePositive(pair), 'change-indicate--red': !isChangePositive(pair)}">
-            {{pair.percentChange >= 0 ? '+' : ''}}{{pair.percentChange | replaceNumber}} <span>%</span></span>
-              </div>
-            </div>
-            <div style="height: 4px;"></div>
-          </ng-container>
-          <ng-container *ngFor="let pair of pairs | currencySort :'volume'">
+        <cdk-virtual-scroll-viewport style="height: 800px;" [itemSize]="31">
+          <ng-container *cdkVirtualFor="let pair of pairs" class="markets_item">
             <div class="markets__row widget__table-row"
                  [ngClass]="{
                  'widget__table-row--green': isChangePositive(pair),
@@ -248,47 +222,11 @@
             </div>
             <div style="height: 4px;"></div>
           </ng-container>
-        </perfect-scrollbar>
+        </cdk-virtual-scroll-viewport>
       </div>
     </div>
 
-    <div class="tabs widget__tabs widget__markets-tabs">
-      <button class="tabs__item  tabs__item--active"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'BTC','tab-no-active': currencyDisplayMode !== 'BTC'}"
-              (click)="selectedTab('BTC')">
-        BTC
-      </button>
-      <button class="tabs__item"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'ETH','tab-no-active': currencyDisplayMode !== 'ETH'}"
-              (click)="selectedTab('ETH')">
-        ETH
-      </button>
-      <button class="tabs__item"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USD','tab-no-active': currencyDisplayMode !== 'USD'}"
-              (click)="selectedTab('USD')"
-      >
-        USD
-      </button>
-      <button class="tabs__item"
-      [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
-      (click)="selectedTab('LOC')"
-      >
-      LOC
-      </button>
-      <button class="tabs__item"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'FAVORITES','tab-no-active': currencyDisplayMode !== 'FAVORITES'}"
-              (click)="selectedTab('FAVORITES')"
-      >
-        <span>
-          <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"
-              fill="#E5E5E5"/>
-          </svg>
-        </span>
-        {{'Fav' | translate}}
-      </button>
-    </div>
+
   </div>
 
   <app-market-search
