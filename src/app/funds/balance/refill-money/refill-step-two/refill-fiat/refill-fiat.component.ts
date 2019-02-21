@@ -154,7 +154,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.isSubmited = false;
         this.amount = this.form.controls['amount'].value;
         const data: RefillData = {
-          operationType: this.fiatDataByName.payment.operationType,
+          operationType: this.fiatDataByName.operationType,
           currency: this.fiatDataByName.currency.id,
           merchant: this.selectedMerchant.merchantId,
           generateNewAddress: true,
