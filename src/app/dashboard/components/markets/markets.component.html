@@ -126,20 +126,22 @@
           {{'Volume' | translate}}
         </div>
       </div>
+
+      <!-- <cdk-virtual-scroll-viewport [itemSize]="31" style="height: 353px;"></cdk-virtual-scroll-viewport> -->
+
       <div class="markets__tbody" id="markets-container" (click)="onClickMarketItem($event)">
-        <cdk-virtual-scroll-viewport [itemSize]="31" style="height: 353px;">
+        <perfect-scrollbar style="max-height: 353px;">
           <div style="margin-right: 24px;">
             <app-markets-item
-              class="markets_item"
-              *cdkVirtualFor="let pair of (pairs | currencySort :'volume'); trackBy: trackByFn"
+              *ngFor="let pair of (pairs | currencySort :'currencyVolume'); trackBy: trackByFn"
               [pair]="pair"
               [isFiat]="isFiat"
-              [isFavorite]="getIsFavorite(pair.currencyPairId)"
+              [isFavorite]="pair | isFavoritePipe: userFavorites"
               [currentCurrencyPair]="currentCurrencyPair"
             >
             </app-markets-item>
           </div>
-        </cdk-virtual-scroll-viewport>
+        </perfect-scrollbar>
       </div>
     </div>
     <div class="widget__search">
