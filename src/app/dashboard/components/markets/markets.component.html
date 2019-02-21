@@ -136,7 +136,7 @@
               *ngFor="let pair of (pairs | currencySort :'currencyVolume'); trackBy: trackByFn"
               [pair]="pair"
               [isFiat]="isFiat"
-              [isFavorite]="getIsFavorite(pair.currencyPairId)"
+              [isFavorite]="pair | isFavoritePipe: userFavorites"
               [currentCurrencyPair]="currentCurrencyPair"
             >
             </app-markets-item>
