@@ -187,11 +187,12 @@
             [setNullValue]="true"
             (onChange)="onChangeCurrPair($event)"
             (onSelect)="onSelectPair($event.id)"
+            [showNotFoundTip]="true"
           >
           </app-dynamic-input>
           <div class="wrap-input__line"></div>
           <div class="cancel-btn-wr">
-            <button class="cancel-btn btn" (click)="toggleShowCancelAllOrdersConfirm()">
+            <button class="cancel-btn btn" (click)="toggleShowCancelAllOrdersConfirm()" type="button">
               <span>{{'Cancel all' | translate}} <span *ngIf="!!currencyPairId">{{'(Filtered)' | translate}}</span></span>
             </button>
           </div>
