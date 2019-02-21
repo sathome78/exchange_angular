@@ -187,19 +187,7 @@ export abstract class AbstractTransfer {
           email.setErrors(null);
         }, error => {
           if (error['status'] === 400) {
-            switch (error.error.title) {
-              case 'USER_REGISTRATION_NOT_COMPLETED':
-                email.setErrors({'USER_REGISTRATION_NOT_COMPLETED': true})
-                break;
-              case 'USER_NOT_ACTIVE':
-                email.setErrors({'USER_NOT_ACTIVE': true})
-                break;
-              case 'USER_EMAIL_NOT_FOUND':
-                email.setErrors({'USER_EMAIL_NOT_FOUND': true})
-                break;
-              case '':
-                email.setErrors({'checkEmailCrash': true});
-            }
+            email.setErrors({'USER_EMAIL_NOT_FOUND': true});
           } else {
             email.setErrors({'checkEmailCrash': true});
           }
