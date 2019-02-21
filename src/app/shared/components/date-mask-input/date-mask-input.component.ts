@@ -20,6 +20,7 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
   private _innerValue: any;
   private el: any;
   @Input('innValue') innValue: any;
+  @Input('disableAutoFocus') disableAutoFocus: boolean = false;
   @ViewChild('inputEl') inputEl: ElementRef;
   @Output('customInputMask') customInputMask: EventEmitter<any>;
   @Output('validDate') validDate: EventEmitter<IMyDateModel>;
@@ -42,7 +43,9 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
         this.writeValue(`${this.addZeroIfNeed(value.day.toString())}.${this.addZeroIfNeed(value.month.toString())}.${value.year}`);
       } else {
         this.writeValue('');
-        this.el.focus();
+        if(!this.disableAutoFocus) {
+          this.el.focus();
+        }
       }
     }
   }

@@ -180,3 +180,28 @@ perfect-scrollbar{
   background-color: #237BEF;
   color: #fff;
 }
+
+// TEMP STYLE
+.btn {
+  &.btn--center {
+    color: #ffffff !important;
+    &.btn--empty-blue {
+      color: #237BEF !important;
+      &:hover {
+        background-color: transparent !important;
+        border: 1px solid #237BEF !important;
+      }
+    }
+  }
+}
+::ng-deep .send__inputs-wrap {
+  div.wrap-input {
+    &.send__wrap-input {
+      app-price-input {
+        label {
+          background-color: #fff !important;
+        }
+      }
+    }
+  }
+}

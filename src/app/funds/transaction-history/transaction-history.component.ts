@@ -43,6 +43,7 @@ export class TransactionHistoryComponent implements OnInit {
   public showFilterPopup = false;
   public tableScrollStyles: any = {};
   public openDetails: number = null;
+  public initialRequest: boolean = false;
 
   public myDatePickerOptions: IMyDpOptions = {
     showInputField: false,
@@ -79,29 +80,45 @@ export class TransactionHistoryComponent implements OnInit {
     this.initDate();
     this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
     this.loadTransactions();
+    this.initialRequest = true;
   }
 
   loadTransactions() {
-    if(this.isDateRangeValid()){1
-      const params = {
-        offset: (this.currentPage - 1) * this.countPerPage,
-        limit:this.countPerPage,
-        dateFrom: this.formatDate(this.modelDateFrom.date),
-        dateTo: this.formatDate(this.modelDateTo.date),
-        currencyId: this.currencyId
-      }
-      this.store.dispatch(new fundsAction.LoadTransactionsHistoryAction(params));
+    const params = {
+      offset: (this.currentPage - 1) * this.countPerPage,
+      limit:this.countPerPage,
+      dateFrom:  this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
+      dateTo:  this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
+      currencyId: this.currencyId
     }
+    this.store.dispatch(new fundsAction.LoadTransactionsHistoryAction(params));
+    this.initialRequest = false;
+  }
+
+  clearFilters() {
+    this.modelDateTo = null;
+    this.modelDateFrom = null;
+    this.currencyId = null;
+    this.currValue = null;
+  }
+
+  loadLastTransactions() {
+    this.clearFilters();
+    const params = {
+      offset: 0,
+      limit: this.countPerPage,
+    }
+    this.store.dispatch(new fundsAction.LoadLastTransactionsHistoryAction(params));
   }
 
   loadMoreTransactions(): void {
-    if(this.isDateRangeValid() && this.transactionsItems.length !== this.countOfEntries) {
+    if(this.transactionsItems.length !== this.countOfEntries) {
       this.currentPage += 1;
       const params = {
         offset: (this.currentPage - 1) * this.countPerPage,
         limit:this.countPerPage,
-        dateFrom: this.formatDate(this.modelDateFrom.date),
-        dateTo: this.formatDate(this.modelDateTo.date),
+        dateFrom:  this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
+        dateTo:  this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
         currencyId: this.currencyId,
         concat: true,
       }
