@@ -66,7 +66,7 @@ export class BalanceService {
     const httpOptions = {
       params: new HttpParams().set('currency', cryptoName)
     };
-    const url = `${this.apiUrl}/api/private/v2/balances/refill/merchants/input`;
+    const url = `${this.apiUrl}/api/private/v2/balances/withdraw/merchants/output`;
     return this.http.get<string[]>(url, httpOptions);
   }
 
@@ -101,7 +101,7 @@ export class BalanceService {
 
   sendPinCode() {
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/request/pin`;
-    return this.http.get(url);
+    return this.http.get(url, { observe: 'response' });
   }
 
   withdrawRequest(data) {
