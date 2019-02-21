@@ -39,22 +39,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public form: FormGroup;
   public calculateData: CommissionData = defaultCommissionData;
 
-  public modelD = {
-    currency: 0,
-    merchant: 0,
-    sum: '',
-    destination: '',
-    destinationTag: '',
-    merchantImage: '',
-    operationType: '',
-    recipientBankName: '',
-    recipientBankCode: '',
-    userFullName: '',
-    remark: '',
-    walletNumber: '',
-    securityCode: ''
-  };
-
   public model = {
     currency: 0,
     merchant: 0,

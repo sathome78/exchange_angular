@@ -99,14 +99,6 @@ export class SendTfaComponent implements OnInit, OnDestroy {
       }, error => {
         this.catchStatus(error['status']);
       });
-    /** temp **/
-    // const data1 = {
-    //   operation: this.data.operation,
-    //   successData: {}
-    // };
-    // console.log(this.data.data)
-    // this.balanceService.goToSendMoneySuccess$.next(data1);
-    /** ------ **/
   }
 
   private catchStatus(status: number) {

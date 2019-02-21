@@ -17,7 +17,7 @@ export abstract class AbstractTransfer {
   protected ngUnsubscribe: Subject<void> = new Subject<void>();
   public activeCrypto;
   public isSubmited = false;
-  public activeBalance = 10;
+  public activeBalance = 0;
   public isEnterData = true;
   public amountValue = 0;
   public alphabet;
@@ -26,7 +26,7 @@ export abstract class AbstractTransfer {
   public isAmountMax;
   public isAmountMin;
   public form: FormGroup;
-  public minWithdrawSum = 1;
+  public minWithdrawSum = 0;
   public emailErrorMessage = '';
   public abstract balanceService;
   protected abstract store;
@@ -184,9 +184,9 @@ export abstract class AbstractTransfer {
       this.balanceService.checkEmail(email.value)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
+          email.setErrors(null);
         }, error => {
           if (error['status'] === 400) {
-            email.setErrors(null);
             switch (error.error.title) {
               case 'USER_REGISTRATION_NOT_COMPLETED':
                 email.setErrors({'USER_REGISTRATION_NOT_COMPLETED': true})
@@ -201,10 +201,7 @@ export abstract class AbstractTransfer {
                 email.setErrors({'checkEmailCrash': true});
             }
           } else {
-            email.setErrors({'checkEmailCrash': true})
-            /** temp code **/
-            // email.setErrors(null)
-            /** ----------------- **/
+            email.setErrors({'checkEmailCrash': true});
           }
         });
     }
