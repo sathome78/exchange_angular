@@ -43,6 +43,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public activeCrypto;
   public form: FormGroup;
   public calculateData: CommissionData = defaultCommissionData;
+
   public model = {
     currency: 0,
     merchant: 0,
@@ -50,12 +51,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     destination: '',
     destinationTag: '',
     merchantImage: '',
-    operationType: '',
-    recipientBankName: '',
-    recipientBankCode: '',
-    userFullName: '',
-    remark: '',
-    walletNumber: '',
     securityCode: ''
   };
 
@@ -129,11 +124,9 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     if (this.cryptoInfoByName) {
       this.model.currency = this.cryptoInfoByName.merchantCurrencyData[0].currencyId;
       this.model.merchant = this.cryptoInfoByName.merchantCurrencyData[0].merchantId;
-      this.model.recipientBankName = this.cryptoInfoByName.merchantCurrencyData[0].description;
-      this.model.merchantImage = this.cryptoInfoByName.merchantCurrencyData[0].listMerchantImage[0].image_path;
-      this.model.operationType = this.cryptoInfoByName.operationType;
+      this.model.merchantImage = this.cryptoInfoByName.merchantCurrencyData[0].listMerchantImage[0].id;
       this.model.sum = this.form.controls['amount'].value;
-      this.model.walletNumber = this.form.controls['address'].value;
+      this.model.destination = this.form.controls['address'].value;
       this.model.destinationTag = this.form.controls['memo'] ? this.form.controls['memo'].value : '';
       const data = {
         isSentPin: false,
@@ -235,8 +228,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   isMaxThenActiveBalance(): {[key: string]: any} | null {
-    console.log(this.amountValue)
-    console.log(this.activeBalance)
     if (+this.activeBalance < +this.amountValue) {
       return {'isMaxThenActiveBalance': true};
     }
