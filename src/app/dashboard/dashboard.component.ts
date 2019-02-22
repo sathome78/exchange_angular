@@ -13,6 +13,8 @@ import {Store, select} from '@ngrx/store';
 import * as fromCore from '../core/reducers';
 import {PopupService} from 'app/shared/services/popup.service';
 import {CurrencyPair} from 'app/model';
+import {getMarketCurrencyPairsMap} from '../core/reducers';
+import * as dashboardActions from './actions/dashboard.actions';
 
 
 @Component({
@@ -91,15 +93,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.addItemToDashboard(res));
 
-    this.route.params
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(params => {
-        if (params && params['currency-pair']) {
-          const currencyPair: string = params['currency-pair'];
-          this.dashboardWebsocketService.pairFromDashboard = currencyPair.replace('-', '/');
-          // TODO find currency pair by name and set it as default for dashboard
-        }
-      });
     this.store
       .pipe(select(fromCore.getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -144,6 +137,15 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         })
       });
+
+    this.route.params
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(params => {
+        if (params && params['currency-pair']) {
+          const currencyPair: string = params['currency-pair'];
+         this.findAndSetActiveCurrencyPair(currencyPair.replace('-', '/'));
+        }
+      });
   }
 
   ngAfterViewInit() {
@@ -154,6 +156,18 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  findAndSetActiveCurrencyPair(pairName: string) {
+    this.store
+      .pipe(select(getMarketCurrencyPairsMap))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((currencyPairs: MapModel<CurrencyPair>) => {
+        const pair = Object.values(currencyPairs).filter(item => item.currencyPairName.toLowerCase() === pairName.toLowerCase())[0];
+        if (pair) {
+          this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(pair));
+        }
+      });
   }
 
   /**

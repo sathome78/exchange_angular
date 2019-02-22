@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {CurrencyBalanceModel} from 'app/model';
 import {Subject} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -20,6 +20,7 @@ import {PopupService} from 'app/shared/services/popup.service';
 })
 export class SendFiatComponent implements OnInit, OnDestroy {
 
+  @Input()balanceData;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public fiatNames: CurrencyBalanceModel[] = [];
   public recaptchaKey = keys.recaptchaKey;
@@ -81,6 +82,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       .subscribe(currencies => {
         this.fiatNames = currencies;
         this.activeFiat = this.fiatNames[0];
+        this.setActiveFiat();
         this.getFiatInfoByName(this.activeFiat.name);
         this.getBalance(this.activeFiat.name);
       });
@@ -89,6 +91,14 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  setActiveFiat() {
+    let currency;
+    if (this.balanceData && this.balanceData.currencyId) {
+      currency = this.fiatNames.filter(item => +item.id === +this.balanceData.currencyId);
+    }
+    this.activeFiat = (currency && currency.length) ? currency[0] : this.fiatNames[0];
   }
 
   selectCurrency(currency) {
