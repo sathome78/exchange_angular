@@ -135,19 +135,10 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   onSubmitWithdrawal() {
-    this.isSubmited = true;
-
-    if (environment.production) {
-      // todo while insecure
-      this.popupService.demoPopupMessage = 0;
-      this.popupService.showDemoTradingPopup(true);
-      this.balanceService.closeSendMoneyPopup$.next(false);
-    } else {
-      if (this.form.valid && !this.isAmountMin && this.form.controls['amount'].value !== '0' && !this.isAmountMax && this.selectedMerchant.name) {
+      if (this.form.valid && this.selectedMerchant.name) {
         this.isSubmited = false;
         this.isEnterData = false;
       }
-    }
   }
 
   getBalance(name: string) {
