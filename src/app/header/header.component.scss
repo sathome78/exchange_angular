@@ -664,7 +664,7 @@
       flex-direction: column;
       min-height: 100%;
       padding-top: 22px;
-      background-image: url('../../assets/img/header-mob-bg.svg');
+      // background-image: url('../../assets/img/header-mob-bg.svg');
       background-repeat: no-repeat;
       background-position: left bottom;
     }
@@ -685,19 +685,35 @@
     height: 17px;
   }
 
+  .mobile-title{
+    h3{
+      font-size: 24px;
+      color: #FFFFFF;
+      line-height: 1.27;
+      text-align: center;
+    }
+  }
+
   .account-info {
-    display: -webkit-flex;
-    display: -ms-flex;
     display: flex;
     margin-bottom: 24px;
-    margin-left: 16px;
+    padding-left: 16px;
+    padding: 6px 16px;
+    height: 48px;
+    align-items: center;
+    background: #252543;
+    justify-content: center;
 
+    .slash{
+      margin-right: 5px;
+      margin-left: 5px;
+          }
     &__img {
-      min-width: 48px;
-      width: 48px;
-      height: 48px;
+      min-width: 36px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      border: 1px solid $light-blue;
+      border: 1px solid #94C2FF;
       margin-right: 8px;
       position: relative;
 
@@ -705,16 +721,16 @@
         font-size: 20px;
         display: block;
         width: 100%;
-        line-height: 48px;
+        line-height: 36px;
         text-align: center;
-        color: $light-blue;
+        color: #94C2FF;
         top: 15px;
       }
     }
 
     &__title {
       font-size: 14px;
-      line-height: 24px;
+      line-height: 18px;
       color: #fff;
       margin-bottom: 4px;
       word-break: break-all;
@@ -722,9 +738,14 @@
 
     &__email {
       text-decoration: none;
-      color: $light-blue;
-      font-size: 12px;
-      line-height: 12px;
+      // color: $light-blue;
+      font-size: 14px;
+      color: #237BEF;
+      &.no-auth{
+      font-size: 16px;
+          font-weight: 600;
+    }
+
     }
   }
 
@@ -750,6 +771,7 @@
       text-decoration: none;
       align-items: center;
       position: relative;
+      background: #252543;
 
       &:focus {
         outline: none;
@@ -757,7 +779,7 @@
 
       &:before {
         content: '';
-        display: block;
+        display: none;
         height: 1px;
         width: 100%;
         position: absolute;

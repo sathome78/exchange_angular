@@ -195,10 +195,13 @@
 
 
       <div class="account-info" *ngIf="!(userInfo$ | async)">
-        <div class="account-info__img"><span class="info__img-empty">?</span></div>
+        <!-- <div class="account-info__img"><span class="info__img-empty">?</span></div> -->
         <div class="account-info__text">
-          <div class="account-info__title">{{'New user' | translate}}</div>
-          <a class="account-info__email cursor-pointer" (click)="onMobileLogin()">{{'login' | translate}}</a></div>
+          <!-- <div class="account-info__title">{{'New user' | translate}}</div> -->
+          <a class="account-info__email cursor-pointer no-auth" (click)="onMobileLogin()">{{'Login' | translate}}</a>
+          <span class="slash">or</span>
+          <a class="account-info__email cursor-pointer no-auth" (click)="openRegistration()">{{'Register' | translate}}</a>
+        </div>
         <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
       </div>
 
