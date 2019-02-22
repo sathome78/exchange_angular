@@ -1,3 +1,4 @@
+<cdk-virtual-scroll-viewport  style="height: 500px;" itemSize="90" >
 <table class="table table--mob">
   <thead class="table__head">
   <tr class="table__head-row">
@@ -11,8 +12,9 @@
     <th class="table__cell-head table__cell-head--tar">{{'Avg' | translate}}.{{'Price' | translate}}</th>
   </tr>
   </thead>
-  <tbody class="table__body table__body--none-shadow">
   <!-- t-row start-->
+
+    <tbody class="table__body table__body--none-shadow">
   <ng-container *ngFor="let item of historyOrders">
     <tr class="table__row--mob"  (click)="toggleDetails(item)">
       <td class="table__cell table__cell--tal">
@@ -58,12 +60,17 @@
       </td>
     </tr>
   </ng-container>
+
   <tr class="table__row" *ngIf="!historyOrders?.length">
     <td class="table__cell table__cell--tac" colspan="3">
       {{'No matching records found' | translate}}
     </td>
   </tr>
+    </tbody>
+
 
   <!-- t-row end-->
-  </tbody>
+
 </table>
+
+</cdk-virtual-scroll-viewport>
