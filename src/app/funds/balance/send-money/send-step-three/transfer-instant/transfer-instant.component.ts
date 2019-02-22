@@ -68,7 +68,7 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
   private initForm() {
     this.form = new FormGroup({
       email: new FormControl('', {validators: [Validators.required, Validators.pattern(this.emailRegex)]}),
-      amount: new FormControl('0', {validators: [
+      amount: new FormControl('', {validators: [
           Validators.required,
           this.isMaxThenActiveBalance.bind(this),
           this.isMinThenMinWithdraw.bind(this)
