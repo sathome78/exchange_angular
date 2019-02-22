@@ -49,16 +49,9 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
   }
 
   submitTransfer() {
-    if (environment.production) {
-      // todo while insecure
-      this.popupService.demoPopupMessage = 0;
-      this.popupService.showDemoTradingPopup(true);
-      this.balanceService.closeSendMoneyPopup$.next(false);
-    } else {
       if (this.form.valid) {
         this.isEnterData = false;
       }
-    }
   }
 
   afterResolvedCaptcha(event) {
