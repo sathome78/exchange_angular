@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
-import {getActiveCurrencyPair, State} from '../../../core/reducers';
+import {getActiveCurrencyPair, getLastCreatedOrder, State} from '../../../core/reducers';
 import {CurrencyPair} from '../../../model';
 import {AuthService} from '../../../shared/services/auth.service';
 import {EmbeddedOrdersService} from '../embedded-orders/embedded-orders.service';
 import {Subject} from 'rxjs';
+import {Order} from '../../../model/order.model';
 
 @Component({
   selector: 'app-embedded-orders-mobile',
@@ -25,7 +26,7 @@ export class EmbeddedOrdersMobileComponent implements OnInit {
     private store: Store<State>,
     private authService: AuthService,
     private ordersService: EmbeddedOrdersService,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.store
@@ -33,6 +34,14 @@ export class EmbeddedOrdersMobileComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPair) => {
         this.activeCurrencyPair = pair;
+        this.toOpenOrders();
+        this.toHistory();
+      });
+
+    this.store
+      .pipe(select(getLastCreatedOrder))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((order: Order) => {
         this.toOpenOrders();
         this.toHistory();
       });

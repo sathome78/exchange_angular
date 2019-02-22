@@ -1,4 +1,4 @@
-<div class="widget__content--mob">
+
   <div class="tabs widget__tabs">
     <button class="tabs__item "
             (click)="toggleMainTab('open')"
@@ -13,6 +13,11 @@
   </div>
 
   <app-embedded-open-orders-mobile
+    *ngIf="mainTab === 'open'"
   [openOrders]="openOrders"
   ></app-embedded-open-orders-mobile>
-</div>
+
+  <app-embedded-orders-history-mobile
+    *ngIf="mainTab === 'history'"
+  [historyOrders]="historyOrders">
+  </app-embedded-orders-history-mobile>
