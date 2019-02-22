@@ -51,6 +51,7 @@ import {ShowWidgetPipe} from '../shared/pipes/show-widget.pipe';
 import {reducer} from './reducers/dashboard.reducer'
 import {StoreModule} from '@ngrx/store';
 import * as SockJS from 'sockjs-client';
+import {IsFavoritePipe} from './components/markets/isFavorite.pipe';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -111,6 +112,7 @@ const stompConfig: InjectableRxStompConfig = {
     ShowWidgetPipe,
     MarketsItemComponent,
     TradeHistoryItemComponent,
+    IsFavoritePipe,
 
     // PIPES END
   ],

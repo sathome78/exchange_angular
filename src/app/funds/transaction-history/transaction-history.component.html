@@ -196,21 +196,29 @@
           ></app-dynamic-input>
         </div>
         <div class="wrap-input transaction__datepicker">
-            <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date}">{{'From' | translate}}</label>
-          <app-date-mask-input [innValue]="modelDateFrom" (validDate)="dateFromChanged($event)"></app-date-mask-input>
-            <my-date-picker
-              name="history-from"
-              [options]="myDatePickerOptions"
-              [(ngModel)]="modelDateFrom"
-              (dateChanged)="dateFromChanged($event)"
-            >
-            </my-date-picker>
+          <label class="wrap-input__label" [ngClass]="{'select-input_label': !!modelDateFrom?.date}">{{'From' | translate}}</label>
+          <app-date-mask-input
+            [innValue]="modelDateFrom"
+            (validDate)="dateFromChanged($event)"
+            [disableAutoFocus]="true"
+          ></app-date-mask-input>
+          <my-date-picker
+            name="history-from"
+            [options]="myDatePickerOptions"
+            [(ngModel)]="modelDateFrom"
+            (dateChanged)="dateFromChanged($event)"
+          >
+          </my-date-picker>
 
           <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
         </div>
         <div class="wrap-input transaction__datepicker">
-          <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date}" >{{'To' | translate}}</label>
-          <app-date-mask-input [innValue]="modelDateTo" (validDate)="dateToChanged($event)"></app-date-mask-input>
+          <label class="wrap-input__label" [ngClass]="{'select-input_label': !!modelDateTo?.date}" >{{'To' | translate}}</label>
+          <app-date-mask-input
+            [innValue]="modelDateTo"
+            (validDate)="dateToChanged($event)"
+            [disableAutoFocus]="true"
+          ></app-date-mask-input>
           <my-date-picker
             name="history-to"
             [options]="myDatePickerOptions"
@@ -282,6 +290,15 @@
         <tr class="table__row" *ngIf="!(transactionsItems$ | async).length && !(loading$ | async)">
           <td class="table__cell table__cell--tac" colspan="7">
             {{'No matching records found' | translate}}
+          </td>
+        </tr>
+        <tr class="table__row" *ngIf="!(transactionsItems$ | async).length && !(loading$ | async) && initialRequest">
+          <td class="table__cell table__cell--tac" colspan="7">
+            <button
+              (click)="loadLastTransactions()"
+            >
+              {{'Loading last' | translate}}{{' ' + countPerPage + ' '}}{{'transactions' | translate}}
+            </button>
           </td>
         </tr>
       </tbody>

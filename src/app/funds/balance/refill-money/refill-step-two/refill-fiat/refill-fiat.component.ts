@@ -116,7 +116,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   private getDataByCurrency(currencyName) {
-    this.balanceService.getCurrencyData(currencyName)
+    this.balanceService.getCurrencyRefillData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.fiatDataByName = res;

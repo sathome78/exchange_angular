@@ -302,7 +302,7 @@
             </span>
           </td>
           <td class="table__cell table__cell--tar">
-            <span>{{item.status}}</span>
+            <span>{{item.status === 'CLOSED' ? 'Filled' : item.status}}</span>
           </td>
         </tr>
         <tr class="table__row" *ngIf="!(orderItems$ | async).length && !(loading$ | async)">
