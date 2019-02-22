@@ -32,7 +32,7 @@
         <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
       </td>
     </tr>
-    <tr class="table__details" [id]="item.id">
+    <tr class="table__details" *ngIf="selectedOrder && selectedOrder.id === item.id">
       <td class="table__details-cell" colspan="4">
         <div class="table__details-item">
           <div class="table__details-item-title">{{'Amount' | translate}}</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {getActiveCurrencyPair, getLastCreatedOrder, State} from '../../../core/reducers';
@@ -26,6 +26,7 @@ export class EmbeddedOrdersMobileComponent implements OnInit {
     private store: Store<State>,
     private authService: AuthService,
     private ordersService: EmbeddedOrdersService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -61,6 +62,7 @@ export class EmbeddedOrdersMobileComponent implements OnInit {
       .subscribe(data => {
         this.openOrders = data.items;
         this.openOrdersCount = data.count;
+        this.cdr.detectChanges();
       });
   }
 
@@ -69,6 +71,7 @@ export class EmbeddedOrdersMobileComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
         this.historyOrders = data.items;
+        this.cdr.detectChanges();
       });
 
   }

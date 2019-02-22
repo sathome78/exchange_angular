@@ -14,6 +14,7 @@
 
   <app-embedded-open-orders-mobile
     *ngIf="mainTab === 'open'"
+    (refreshOpenOrders)="toOpenOrders()"
   [openOrders]="openOrders"
   ></app-embedded-open-orders-mobile>
 
