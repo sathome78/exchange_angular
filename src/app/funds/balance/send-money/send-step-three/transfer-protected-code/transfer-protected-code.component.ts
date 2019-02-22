@@ -61,7 +61,7 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
 
   private initForm() {
     this.form = new FormGroup({
-      amount: new FormControl('0', {validators: [
+      amount: new FormControl('', {validators: [
           Validators.required,
           this.isMaxThenActiveBalance.bind(this),
           this.isMinThenMinWithdraw.bind(this)
