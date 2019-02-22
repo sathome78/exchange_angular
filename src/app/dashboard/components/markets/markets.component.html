@@ -183,7 +183,7 @@
             </svg>
           </span>
         </div>
-        <div class="table__cell-head table__cell-head--tar table__cell-head--p4" style="width:100%;">
+        <div class="table__cell-head table__cell-head--tar table__cell-head--p4" style="width:68%;">
           <span>{{'24h chg' | translate}}</span>
         </div>
       </div>
@@ -214,7 +214,7 @@
                 <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
                 <div class="txt-small txt-light-grey" *ngIf="pair.market !== 'USD'">$ {{ pair.priceInUsd | number: '1.0-2' | replaceNumber:true}}</div>
               </div>
-              <div class="table__cell table__cell--p4 table__cell--tar" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
+              <div class="table__cell table__cell--p4 table__cell--tar" style="width: 68%;" (click)="onSelectCurrencyPair(pair)">
                   <span class=""
                         [ngClass]="{'change-indicate--green': isChangePositive(pair), 'change-indicate--red': !isChangePositive(pair)}">
               {{pair.percentChange >= 0 ? '+' : ''}}{{pair.percentChange | replaceNumber}}%</span>
