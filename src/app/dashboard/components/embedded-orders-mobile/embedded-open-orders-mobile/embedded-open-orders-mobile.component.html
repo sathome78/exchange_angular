@@ -15,64 +15,11 @@
       </thead>
       <tbody class="table__body table__body--none-shadow">
       <!-- t-row start-->
-      <ng-container *ngFor="let item of openOrders">
-        <tr class="table__row--mob" (click)="toggleDetails(item)">
-          <td class="table__cell table__cell--tal">
-            <div>{{item.currencyPairName}}</div>
-            <div class="table__date-time">
-              <div>{{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
-              <div>{{item.dateCreation | amDateFormat:"HH:mm:ss"}}</div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>{{item.amountConvert}}</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>{{item.exExchangeRate}}</div>
-            <span class="txt-small txt-red">{{item.operationTypeEnum}}</span>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
-          </td>
-        </tr>
-        <tr  class="table__details" *ngIf="selectedOrder && selectedOrder.id === item.id">
-          <td class="table__details-cell" colspan="4">
-
-            <div class="table__details-item">
-              <div class="table__details-item-title">{{'Order id' | translate}}</div>
-              <div class="table__details-item-value">{{item.id}}</div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">{{'Total Price' | translate}}</div>
-              <div class="table__details-item-value">{{item.amountWithCommission}}</div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">{{'Type' | translate}}</div>
-              <div class="table__details-item-value"><span class="txt-green">{{item.operationTypeEnum}}</span></div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">{{'Fee' | translate}}</div>
-              <div class="table__details-item-value">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">
-                <button
-                  class="btn btn--small btn--empty-red"
-                  style="width: 100%; max-width: 58px;"
-                  (click)="onShowCancelOrderConfirm(item.id)"
-                >{{'Cancel' | translate}}</button>
-                <div class="revoke-request" *ngIf="showCancelOrderConfirm === item.id">
-                  <div class="revoke-request__title">{{'Are you sure you want to cancel selected order?' | translate}}</div>
-                  <div class="revoke-request__button-wrap">
-                    <button class="btn btn--small" (click)="cancelOrder(item)">{{'Yes'| translate}}</button>
-                    <button class="btn btn--small" (click)="onShowCancelOrderConfirm(null)">{{'No'| translate}}</button>
-                  </div>
-                  <div class="revoke-request__triangle"></div>
-                </div>
-              </div>
-            </div>
-          </td>
-        </tr>
+      <ng-container *cdkVirtualFor="let item of openOrders">
+        <app-embedded-open-order-item
+          (refreshOpenOrders)="refreshOpenOrders.emit()"
+          [item]="item"
+        ></app-embedded-open-order-item>
       </ng-container>
       <tr class="table__row--mob" *ngIf="!openOrders?.length">
         <td class="table__cell table__cell--tal" colspan="4">
