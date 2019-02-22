@@ -1,4 +1,10 @@
 .markets {
+  // @media(max-width: 1199px){
+   &__tbody{
+    padding: 0 14px 0 8px;
+  // } 
+  }
+  
   &__table {
     position: relative;
 
@@ -60,6 +66,7 @@
 
     &__tbody {
       //margin-right: 24px;
+
     }
 
     &__row {

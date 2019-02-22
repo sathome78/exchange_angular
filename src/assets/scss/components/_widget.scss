@@ -325,7 +325,7 @@
         text-align: center;
         line-height: 25px;
         height: 25px;
-        min-width: 56px;
+        min-width: 65px;
         max-width: 100px;
         margin-left: auto;
         margin-right: 16px;
@@ -342,7 +342,7 @@
         text-align: center;
         line-height: 25px;
         height: 25px;
-        min-width: 56px;
+        min-width: 65px;
         max-width: 100px;
         margin-left: auto;
         margin-right: 16px;
@@ -363,10 +363,16 @@
       font-size: 10px;
       line-height: 1.55;
     }
+      @media(max-width: 1199px){
+   .markets__tbody{
+    padding: 0 14px 0 8px;
+  } 
+  }
+    
     .table__cell,.table__cell-head{
       @media(max-width: 1200px){
         &:nth-child(1){
-          margin-right: 13px;
+          margin-right: 0;
           padding-left: 0px;
         }
         &:nth-child(2){
