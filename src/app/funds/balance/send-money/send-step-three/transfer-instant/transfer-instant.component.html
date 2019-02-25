@@ -49,19 +49,21 @@
             {{activeBalance | number:'1.1-8' | replaceNumber}} {{activeCrypto ? activeCrypto.name : ''}}
           </a>
         </div>
-        <app-price-input [placeholder]="(activeCrypto ? activeCrypto.name : '') + ' Amount'"
+        <app-price-input [placeholder]="(activeCrypto ? activeCrypto.name : '') + ' Amount'" [currencyName]="activeCrypto.name"
                          (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
         <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors && !form.controls['amount'].errors['isMinThenMinWithdraw'] && !form.controls['amount'].errors['isMaxThenActiveBalance']">
       {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
 
         <!--Input error section starts-->
         <div *ngIf="form.get('amount').errors != null">
+          <div class="input-hint-wrapper">
         <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
               [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] && form.controls['amount'].touched}">
       {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
           <span class="wrap-input__message wrap-input__message--show"
                 *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] && form.controls['amount'].touched">
       {{'Max sum for withdrawal' | translate}} {{activeBalance}}</span>
+        </div>
         </div>
       </div>
 
@@ -73,6 +75,7 @@
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
         <div *ngIf="form.controls['email'].invalid && form.controls['email'].errors">
+          <div class="input-hint-wrapper">
         <span class="wrap-input__message"
               *ngIf="form.controls['email'].errors['pattern'] || form.controls['email'].errors['required'] && form.controls['email'].touched">{{'Enter valid email to transfer' | translate}}</span>
 
@@ -82,6 +85,7 @@
           <span class="wrap-input__message" *ngIf="form.controls['email'].errors['USER_EMAIL_NOT_FOUND']">
                 {{'User email not found.' | translate}}
               </span>
+        </div>
         </div>
       </div>
     </div>
