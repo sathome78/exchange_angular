@@ -52,6 +52,11 @@ import {reducer} from './reducers/dashboard.reducer'
 import {StoreModule} from '@ngrx/store';
 import * as SockJS from 'sockjs-client';
 import {IsFavoritePipe} from './components/markets/isFavorite.pipe';
+import { EmbeddedOrdersMobileComponent } from './components/embedded-orders-mobile/embedded-orders-mobile.component';
+import { EmbeddedOpenOrdersMobileComponent } from './components/embedded-orders-mobile/embedded-open-orders-mobile/embedded-open-orders-mobile.component';
+import { EmbeddedOrdersHistoryMobileComponent } from './components/embedded-orders-mobile/embedded-orders-history-mobile/embedded-orders-history-mobile.component';
+import { EmbeddedOpenOrderItemComponent } from './components/embedded-orders-mobile/embedded-open-order-item/embedded-open-order-item.component';
+import { EmbeddedOrderHistoryItemComponent } from './components/embedded-orders-mobile/embedded-order-history-item/embedded-order-history-item.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -113,6 +118,11 @@ const stompConfig: InjectableRxStompConfig = {
     MarketsItemComponent,
     TradeHistoryItemComponent,
     IsFavoritePipe,
+    EmbeddedOrdersMobileComponent,
+    EmbeddedOpenOrdersMobileComponent,
+    EmbeddedOrdersHistoryMobileComponent,
+    EmbeddedOpenOrderItemComponent,
+    EmbeddedOrderHistoryItemComponent,
 
     // PIPES END
   ],
