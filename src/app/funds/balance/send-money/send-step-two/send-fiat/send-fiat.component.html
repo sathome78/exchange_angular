@@ -23,8 +23,8 @@
         </ul>
       </div>
 
-      <div class="wrap-input send__wrap-input">
-      <div class="withdrawal__closed-error" *ngIf="fiatInfoByName && !fiatInfoByName.merchantCurrencyData.length ">
+      <div class="wrap-input send__wrap-input" *ngIf="fiatInfoByName && !fiatInfoByName.merchantCurrencyData.length ">
+      <div class="withdrawal__closed-error" >
         Sorry, withdrawal is closed for current moment!
       </div>
       </div>
