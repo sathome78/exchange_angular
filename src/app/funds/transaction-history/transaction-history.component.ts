@@ -102,7 +102,8 @@ export class TransactionHistoryComponent implements OnInit {
     this.currValue = null;
   }
 
-  loadLastTransactions() {
+  loadLastTransactions(e) {
+    e.preventDefault();
     this.clearFilters();
     const params = {
       offset: 0,
