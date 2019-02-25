@@ -54,7 +54,7 @@
 
             <ng-template ngFor let-merchant [ngForOf]="merchants">
               <li class="select__list-item"
-                  *ngFor="let nested of merchant.listMerchantImage"
+                  *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
                   (click)="selectMerchant(merchant, nested)">
                 <img [src]="nested.image_name | getIconUrl" class="select__list-item-icon">
                 {{nested.image_name}}

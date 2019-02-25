@@ -35,8 +35,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public isSubmited = false;
   public selectedMerchant;
   public activeFiat;
-  public isAmountMax;
-  public isAmountMin;
   public form: FormGroup;
   public calculateData: CommissionData = defaultCommissionData;
 

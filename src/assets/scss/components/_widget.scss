@@ -23,6 +23,8 @@
     }
     margin-right: 8px;
   }
+
+  
   .input-row{
     margin-top: 17px;
   }
@@ -325,7 +327,7 @@
         text-align: center;
         line-height: 25px;
         height: 25px;
-        min-width: 56px;
+        min-width: 65px;
         max-width: 100px;
         margin-left: auto;
         margin-right: 16px;
@@ -342,7 +344,7 @@
         text-align: center;
         line-height: 25px;
         height: 25px;
-        min-width: 56px;
+        min-width: 65px;
         max-width: 100px;
         margin-left: auto;
         margin-right: 16px;
@@ -363,33 +365,39 @@
       font-size: 10px;
       line-height: 1.55;
     }
-    .table__cell,.table__cell-head{
-      @media(max-width: 1200px){
-        &:nth-child(1){
-          margin-right: 13px;
-          padding-left: 0px;
-        }
-        &:nth-child(2){
-          margin-right: 8px;
-        }
-        &:nth-child(4){
-          span{
-            margin-right: 0;
-          }
-        }
+    @media(max-width: 1199px){
+     .markets__tbody{
+      padding: 0 14px 0 8px;
+    } 
+  }
+
+  .table__cell,.table__cell-head{
+    @media(max-width: 1200px){
+      &:nth-child(1){
+        margin-right: 0;
+        padding-left: 0px;
       }
-    }
-    .table__row-star {
-      svg {
-        fill: #E5E5E5;
+      &:nth-child(2){
+        margin-right: 8px;
       }
-    }
-    .table__row-star--select {
-      svg {
-        fill: #FFB74C;
+      &:nth-child(4){
+        span{
+          margin-right: 0;
+        }
       }
     }
   }
+  .table__row-star {
+    svg {
+      fill: #E5E5E5;
+    }
+  }
+  .table__row-star--select {
+    svg {
+      fill: #FFB74C;
+    }
+  }
+}
   //chat start
   &__chat-wrap {
     height: 100%;
@@ -1163,20 +1171,20 @@
       .tabs__item {
         &--active {
           @media(max-width: 1199px){
-          border: none;
-          &:before{
-            display: none;
-          }
-          &:after{
-            width: calc(100% + 18px);
-            height: 2px;
-            background: #237BEF;
-            bottom: 0;
-            top: auto;
             border: none;
+            &:before{
+              display: none;
+            }
+            &:after{
+              width: calc(100% + 18px);
+              height: 2px;
+              background: #237BEF;
+              bottom: 0;
+              top: auto;
+              border: none;
 
+            }
           }
-        }
           &:after {
             border-color: transparent transparent #21417D transparent;
           }

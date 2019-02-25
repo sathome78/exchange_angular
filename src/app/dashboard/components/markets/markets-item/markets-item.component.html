@@ -23,7 +23,7 @@
       </span>
     </div>
 
-    <div class="table__cell table__cell--p4" style="width: 32%;">
+    <div class="table__cell table__cell--p4" style="width: 24%;">
       <span>{{splitPairName(pair)[0]}}</span>
       <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
     </div>
@@ -43,7 +43,7 @@
       </span>
     </div>
     <div class="table__cell table__cell--p4 table__cell--tar" style="width: 25%;">
-      <span style="font-size: 10px; color:#A0A0A0">{{ +pair.volume | roundCurrency:splitPairName(pair)[1] | formatCurrency:'short':splitPairName(pair)[1]}}</span>
+      <span style="font-size: 10px; color:#A0A0A0">{{ +pair.currencyVolume | roundCurrency:splitPairName(pair)[1] | formatCurrency:'short':splitPairName(pair)[1]}}</span>
     </div>
   </div>
 

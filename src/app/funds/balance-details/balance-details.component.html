@@ -165,14 +165,18 @@
               </div>
             </div> -->
           </div>
-          <div class="open-mob-balance__btn-wrap">
+          <!-- <div class="open-mob-balance__btn-wrap">
             <a class="widget__buy-sell-btn widget__buy-sell-btn--green"
                (click)="onBuyCurrency(getMarketPair(selectedItem.currencyName))"
             >{{'Buy' | translate}} BTC</a>
             <a class="widget__buy-sell-btn widget__buy-sell-btn--red"
                (click)="onBuyCurrency(getMarketPair(selectedItem.currencyName))"
             >{{'Sell' | translate}} BTC</a>
-          </div>
+          </div> -->
+          <div class="trade-buttons-wr">
+  <a (click)="onBuyCurrency(getMarketPair(selectedItem.currencyName))" class="btn btn--active widget__trading-btn widget__trading-btn--buy" (click)="onSubmit(BUY)">Buy {{arrPairName[0]}}</a>
+  <a (click)="onBuyCurrency(getMarketPair(selectedItem.currencyName))" class="btn btn--active widget__trading-btn widget__trading-btn--sell" (click)="onSubmit(SELL)">Sell {{arrPairName[0]}}</a>
+</div>
         </div>
       </ng-container>
     </div>
