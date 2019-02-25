@@ -196,6 +196,7 @@
   &__searching-item {
     margin-right: 12px;
     margin-bottom: 8px;
+        width: 95px;
   }
   &__list-item {
     display: -webkit-flex;
@@ -310,7 +311,8 @@
       }
     }
     &__search-input {
-      color: #fff;
+      // color: #fff;
+      color: #000;
       border-bottom: 1px solid $light-blue;
       &::placeholder {
         color: $light-blue;
