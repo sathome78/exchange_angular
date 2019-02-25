@@ -1,10 +1,10 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {CurrencyBalanceModel} from 'app/model';
 import {Subject} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
 import {debounceTime, takeUntil} from 'rxjs/operators';
-import {keys} from 'app/core/keys';
+import {keys} from '../../../../../shared/constants';
 import {getFiatCurrenciesForChoose, State} from 'app/core/reducers';
 import {select, Store} from '@ngrx/store';
 import {SEND_FIAT} from '../../send-money-constants';
@@ -20,6 +20,7 @@ import {PopupService} from 'app/shared/services/popup.service';
 })
 export class SendFiatComponent implements OnInit, OnDestroy {
 
+  @Input()balanceData;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public fiatNames: CurrencyBalanceModel[] = [];
   public recaptchaKey = keys.recaptchaKey;
@@ -28,13 +29,12 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public fiatInfoByName;
   public minWithdrawSum = 0;
   public merchants;
+  public amountValue = 0;
   public isEnterData = true;
   public activeBalance = 0;
   public isSubmited = false;
   public selectedMerchant;
   public activeFiat;
-  public isAmountMax;
-  public isAmountMin;
   public form: FormGroup;
   public calculateData: CommissionData = defaultCommissionData;
 
@@ -45,12 +45,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     destination: '',
     destinationTag: '',
     merchantImage: '',
-    operationType: '',
-    recipientBankName: '',
-    recipientBankCode: '',
-    userFullName: '',
-    remark: '',
-    walletNumber: '',
     securityCode: ''
   };
 
@@ -86,6 +80,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       .subscribe(currencies => {
         this.fiatNames = currencies;
         this.activeFiat = this.fiatNames[0];
+        this.setActiveFiat();
         this.getFiatInfoByName(this.activeFiat.name);
         this.getBalance(this.activeFiat.name);
       });
@@ -94,6 +89,14 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  setActiveFiat() {
+    let currency;
+    if (this.balanceData && this.balanceData.currencyId) {
+      currency = this.fiatNames.filter(item => +item.id === +this.balanceData.currencyId);
+    }
+    this.activeFiat = (currency && currency.length) ? currency[0] : this.fiatNames[0];
   }
 
   selectCurrency(currency) {
@@ -108,7 +111,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.form.reset();
     if (merchant !== {}) {
       this.selectedMerchant = merchant;
-      this.minWithdrawSum = merchant.minSum || 0;
     }
   }
 
@@ -121,6 +123,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     if (this.activeBalance > this.minWithdrawSum) {
       this.form.controls['amount'].setValue(this.activeBalance.toString());
       this.calculateCommission(this.activeBalance);
+      this.amountValue = this.activeBalance;
     }
   }
 
@@ -130,19 +133,10 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   onSubmitWithdrawal() {
-    this.isSubmited = true;
-
-    if (environment.production) {
-      // todo while insecure
-      this.popupService.demoPopupMessage = 0;
-      this.popupService.showDemoTradingPopup(true);
-      this.balanceService.closeSendMoneyPopup$.next(false);
-    } else {
-      if (this.form.valid && !this.isAmountMin && this.form.controls['amount'].value !== '0' && !this.isAmountMax && this.selectedMerchant.name) {
+      if (this.form.valid && this.selectedMerchant.name) {
         this.isSubmited = false;
         this.isEnterData = false;
       }
-    }
   }
 
   getBalance(name: string) {
@@ -161,6 +155,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.fiatInfoByName = res;
+        this.minWithdrawSum = this.fiatInfoByName.minWithdrawSum;
         this.merchants = this.fiatInfoByName.merchantCurrencyData;
         this.selectMerchant(this.merchants.length ? this.merchants[0] : {});
       });
@@ -179,17 +174,17 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   amountInput(event) {
-    this.amountValidator(event.target.value);
+    this.calculateCommission(event.target.value);
+    this.amountValue = event.target.value;
   }
 
   afterResolvedCaptcha(event) {
     if (this.selectedMerchant.name) {
       this.model.currency = this.selectedMerchant.currencyId;
       this.model.merchant = this.selectedMerchant.merchantId;
-      this.model.recipientBankName = this.selectedMerchant.description;
-      this.model.merchantImage = this.selectedMerchant.listMerchantImage[0].image_path;
+      this.model.merchantImage = this.selectedMerchant.listMerchantImage[0].id;
       this.model.sum = this.form.controls['amount'].value;
-      this.model.walletNumber = this.form.controls['address'].value;
+      this.model.destination = this.form.controls['address'].value;
 
       const data = {
         operation: SEND_FIAT,
@@ -211,13 +206,27 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   private initForm() {
     this.form = new FormGroup({
       address: new FormControl('', [Validators.required]),
-      amount: new FormControl('0', [Validators.required]),
+      amount: new FormControl('', [
+        Validators.required,
+        this.isMaxThenActiveBalance.bind(this),
+        this.isMinThenMinWithdraw.bind(this)
+      ]),
     });
   }
 
-  amountValidator(sum) {
-    this.isAmountMax = +sum > +this.activeBalance ? true : false;
-    this.isAmountMin = +sum < +this.minWithdrawSum ? true : false;
+
+  isMaxThenActiveBalance(): {[key: string]: any} | null {
+    if (+this.activeBalance < +this.amountValue) {
+      return {'isMaxThenActiveBalance': true};
+    }
+    return null;
+  }
+
+  isMinThenMinWithdraw(): {[key: string]: any} | null {
+    if (+this.minWithdrawSum > +this.amountValue) {
+      return {'isMinThenMinWithdraw': true};
+    }
+    return null;
   }
 
 }

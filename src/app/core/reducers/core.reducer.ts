@@ -1,8 +1,8 @@
 import * as coreActions from '../actions/core.actions';
-import {ActionReducer, createSelector} from '@ngrx/store';
-import {REHYDRATE, RehydrateAction} from '../actions/core.actions';
-import {SimpleCurrencyPair} from '../models/simple-currency-pair';
-import {CurrencyChoose} from '../models/currency-choose.model';
+// import {ActionReducer, createSelector} from '@ngrx/store';
+// import {REHYDRATE, RehydrateAction} from '../actions/core.actions';
+import {SimpleCurrencyPair} from '../../model/simple-currency-pair';
+import {CurrencyChoose} from '../../model/currency-choose.model';
 import {NOT_VERIFIED} from '../../shared/constants';
 
 export interface State {

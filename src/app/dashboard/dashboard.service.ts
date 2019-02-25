@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Subject, Observable, ReplaySubject} from 'rxjs';
 import {environment} from 'environments/environment';
-import {MyBalanceItem} from 'app/core/models/my-balance-item.model';
+import {MyBalanceItem} from 'app/model/my-balance-item.model';
 
 @Injectable()
 export class DashboardService {

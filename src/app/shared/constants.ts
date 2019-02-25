@@ -19,7 +19,12 @@ export const AUTH_MESSAGES = {
   'REQUIRED_EMAIL_AUTHORIZATION_CODE': 'Required email authorization code.',
   'REQUIRED_GOOGLE_AUTHORIZATION_CODE': 'Required Google authorization code.',
   'EMAIL_AUTHORIZATION_FAILED': 'Email authorization failed.',
+  'GOOGLE_AUTHORIZATION_FAILED': 'Google authorization failed.',
   'FAILED_TO_GET_USER_TOKEN': 'Failed to get user token.',
   'INVALID_CREDENTIALS': 'Invalid credentials',
   'OTHER_HTTP_ERROR' : 'Service is temporary unavailable, please try again later.'
+}
+
+export const keys = {
+  recaptchaKey: '6LdNln0UAAAAAH4nyBX7Wh4YKpqujc0-a66xssjp',
 }

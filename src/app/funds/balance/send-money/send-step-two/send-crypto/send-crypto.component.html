@@ -1,11 +1,11 @@
-<div class="title send__title">{{'Crypto Withdrawal' | translate}}<span>{{activeCrypto ? activeCrypto.name : ''}}</span></div>
+<div class="title send__title">{{'Crypto Withdrawal' | translate}}<span> {{activeCrypto ? activeCrypto.name : ''}}</span></div>
 <div class="formWraper" *ngIf="isEnterData">
   <form [formGroup]="form">
     <div class="send__inputs-wrap">
       <div class="select send__select">
         <div class="select__value select__value--active" (click)="currencyDropdownToggle()">
-          <img [src]="activeCrypto ? activeCrypto.name : 'no_icon' | getIconUrl" class="select__list-item-icon">
-          {{activeCrypto ? activeCrypto.name : ''}}
+          <img [src]=" activeCrypto.name | getIconUrl" class="select__list-item-icon">
+          {{activeCrypto.name }}
         </div>
         <div class="select__label">{{'Currency' | translate}}</div>
         <div class="select__line"></div>
@@ -41,12 +41,16 @@
           </div>
         </div>
       </div>
+
       <div class="wrap-input send__wrap-input" [ngClass]="{'wrap-input--error': form.get('amount').invalid && form.get('amount').touched}">
         <div class="avaliable">{{'Avaliable:' | translate}}
           <a (click)="balanceClick()" class="link">{{activeBalance}} {{activeCrypto ? activeCrypto.name : ''}}
           </a>
         </div>
-        <app-price-input [placeholder]="'Amount'" (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
+        <app-price-input [placeholder]="'Amount'" [currencyName]="activeCrypto.name" (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
+
+        <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors && !form.controls['amount'].errors['isMinThenMinWithdraw']">
+      {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
 
         <!--Input error section starts-->
         <div *ngIf="form.get('amount').errors != null">
@@ -80,7 +84,7 @@
            [ngClass]="{'wrap-input--error': !form.controls['memo'].valid && form.controls['memo'].touched }"
       >
         <input class="wrap-input__input" name="memo" formControlName="memo">
-        <label class="wrap-input__label">{{'Memo ID' | translate}}</label>
+        <label class="wrap-input__label">{{memoName | translate}}</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
         <span class="wrap-input__message wrap-input__message--show"

@@ -18,13 +18,12 @@ import {EffectsModule} from '@ngrx/effects';
 import {OrdersEffects} from './store/effects/orders.effects';
 import {reducer} from './store/reducers/orders.reducer';
 import {SplitCurrencyPipe} from 'app/shared/pipes/split-currency.pipe';
-import {NgSelectModule} from '@ng-select/ng-select';
 import {OrdersComponent} from './orders.component';
 import {SharedModule} from 'app/shared/shared.module';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {translateInfo} from '../shared/configs/translate-options';
-import {MomentModule} from 'angular2-moment';
+import {MomentModule} from 'ngx-moment';
 import {CoreEffects} from 'app/core/effects/core.effects';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -43,7 +42,6 @@ export function createTranslateLoader(http: HttpClient) {
     MomentModule,
     EffectsModule.forRoot([CoreEffects, OrdersEffects]),
     StoreModule.forFeature('orders', reducer),
-    NgSelectModule,
     OrdersRoutingModule,
     SharedModule,
     TranslateModule.forChild({

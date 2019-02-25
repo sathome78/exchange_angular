@@ -3,7 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {BalanceItem} from '../models/balance-item.model';
-import {MyBalanceItem} from '../../core/models/my-balance-item.model';
+import {MyBalanceItem} from '../../model/my-balance-item.model';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
 import {Router} from '@angular/router';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
@@ -62,11 +62,19 @@ export class BalanceService {
     return this.http.get<BalanceItem[]>(url);
   }
 
-  getCurrencyData(cryptoName: string) {
+  getCurrencyRefillData(cryptoName: string) {
     const httpOptions = {
       params: new HttpParams().set('currency', cryptoName)
     };
     const url = `${this.apiUrl}/api/private/v2/balances/refill/merchants/input`;
+    return this.http.get<string[]>(url, httpOptions);
+  }
+
+  getCurrencyData(cryptoName: string) {
+    const httpOptions = {
+      params: new HttpParams().set('currency', cryptoName)
+    };
+    const url = `${this.apiUrl}/api/private/v2/balances/withdraw/merchants/output`;
     return this.http.get<string[]>(url, httpOptions);
   }
 
@@ -101,7 +109,7 @@ export class BalanceService {
 
   sendPinCode() {
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/request/pin`;
-    return this.http.get(url);
+    return this.http.get(url, { observe: 'response' });
   }
 
   withdrawRequest(data) {
