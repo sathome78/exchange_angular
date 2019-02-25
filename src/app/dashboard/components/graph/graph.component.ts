@@ -67,7 +67,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   public pair: CurrencyPair;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
-  private _interval: ChartingLibraryWidgetOptions['interval'] = '3';
+  private _interval: ChartingLibraryWidgetOptions['interval'] = '10'; // 3
   // BEWARE: no trailing slash is expected in feed URL
   // private _datafeedUrl = 'https://demo_feed.tradingview.com';
   private _datafeedUrl = environment.apiUrl + '/api/public/v2/graph';
@@ -162,7 +162,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         if (this.currencyPairName) {
           this.formattingCurrentPairName(pair.currencyPairName as string);
           try {
-            this._tvWidget.setSymbol(pair.currencyPairName, '5', () => { });
+            this._tvWidget.setSymbol(pair.currencyPairName, '15', () => { });  // 5
           } catch (e) {
             // console.log(e);
           }

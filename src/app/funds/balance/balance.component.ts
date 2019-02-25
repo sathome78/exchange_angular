@@ -9,7 +9,7 @@ import {PendingRequestsItem} from '../models/pending-requests-item.model';
 import {MyBalanceItem} from '../../model/my-balance-item.model';
 import {BalanceService} from '../services/balance.service';
 import {takeUntil} from 'rxjs/operators';
-import {CRYPTO_DEPOSIT, FIAT_DEPOSIT} from './send-money/send-money-constants';
+import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, FIAT_DEPOSIT, FIAT_WITHDRAWAL, INNER_TRANSFER} from './send-money/send-money-constants';
 import {CurrencyChoose} from '../../model/currency-choose.model';
 import * as fromCore from '../../core/reducers';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
@@ -210,14 +210,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
 
   public goToCryptoWithdrawPopup(balance: BalanceItem): void {
-    this.popupService.demoPopupMessage = 1;
-    this.popupService.showDemoTradingPopup(true);
-    // this.showSendMoneyPopup = true;
-    // this.sendMoneyData = {
-    //   step: 2,
-    //   stepName: CRYPTO_WITHDRAWAL,
-    //   balance: balance
-    // };
+    // this.popupService.demoPopupMessage = 1;
+    // this.popupService.showDemoTradingPopup(true);
+    this.showSendMoneyPopup = true;
+    this.sendMoneyData = {
+      step: 2,
+      stepName: this.currTab === 'CRYPTO' ? CRYPTO_WITHDRAWAL : FIAT_WITHDRAWAL,
+      balance: balance
+    };
   }
 
   public goToCryptoDepositPopup(balance: BalanceItem): void {
@@ -236,14 +236,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public goToTransferPopup(balance: BalanceItem): void {
-    this.popupService.demoPopupMessage = 1;
-    this.popupService.showDemoTradingPopup(true);
-    // this.showSendMoneyPopup = true;
-    // this.sendMoneyData = {
-    //   step: 2,
-    //   stepName: INNER_TRANSFER,
-    //   stepThreeData: balance
-    // };
+    // this.popupService.demoPopupMessage = 1;
+    // this.popupService.showDemoTradingPopup(true);
+    this.showSendMoneyPopup = true;
+    this.sendMoneyData = {
+      step: 2,
+      stepName: INNER_TRANSFER,
+      stepThreeData: balance
+    };
   }
 
   public loadMoreBalancesForMobile({currentPage, countPerPage, concat}): void {

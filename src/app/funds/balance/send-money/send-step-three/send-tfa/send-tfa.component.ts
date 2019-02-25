@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {BY_PRIVATE_CODE, SEND_CRYPTO, SEND_FIAT, TRANSFER_INSTANT} from '../../send-money-constants';
+import {BY_PRIVATE_CODE, CODE_FROM_EMAIL, CODE_FROM_GOOGLE, SEND_CRYPTO, SEND_FIAT, TRANSFER_INSTANT} from '../../send-money-constants';
 
 @Component({
   selector: 'app-send-tfa',
@@ -18,8 +18,11 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public message = '';
   public subtitleMessage = '';
-  public isSentPin: boolean;
+  public pincodeFrom = '';
   public pincodeTries = 0;
+
+  public CODE_FROM_EMAIL = CODE_FROM_EMAIL;
+  public CODE_FROM_GOOGLE = CODE_FROM_GOOGLE;
 
   constructor(
     public balanceService: BalanceService
@@ -27,12 +30,14 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.balanceService.sendPinCode()
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res: Response) => {
-        this.isSentPin = res.status === 201 ? true : false;
-        this.subtitleMessage = this.isSentPin ? 'Enter 2FA code' : '';
+      .subscribe(res => {
+        this.pincodeFrom = res.status === 201 ? CODE_FROM_EMAIL : CODE_FROM_GOOGLE;
+        this.subtitleMessage = this.pincodeFrom ? '' : 'Put the code';
       });
+
     this.form = new FormGroup({
       pin: new FormControl('', [Validators.required]),
     });
@@ -108,7 +113,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
         this.form.controls['pin'].patchValue('');
         if (this.pincodeTries === 3) {
           this.pincodeTries = 0;
-          this.subtitleMessage = this.isSentPin ?
+          this.subtitleMessage = this.pincodeFrom === CODE_FROM_GOOGLE ?
             'Code is wrong! Please, check you code in Google Authenticator application.' :
             'Code is wrong! New code was sent to your email.';
         } else {
@@ -118,5 +123,4 @@ export class SendTfaComponent implements OnInit, OnDestroy {
         break;
     }
   }
-
 }

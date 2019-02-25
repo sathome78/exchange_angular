@@ -18,6 +18,7 @@ export class DynamicInputComponent implements OnChanges {
   @Input('value') public value: string;
   // @Input('label') public label: string = '';
   @Input('icon') public icon: any = null;
+  @Input('showNotFoundTip') public showNotFoundTip: boolean = false;
   @Input('setNullValue') public setNullValue: boolean = false;
   @Output('onSelect') public onSelect: EventEmitter<DIOptions> = new EventEmitter();
   @Output('onChange') public onChange: EventEmitter<string> = new EventEmitter();
@@ -87,9 +88,11 @@ export class DynamicInputComponent implements OnChanges {
   }
 
   onSelectItem(item: DIOptions): void {
-    this.onChange.emit(item.text);
-    this.onSelect.emit(item);
-    this.closeDropdown();
+    if(item) {
+      this.onChange.emit(item.text);
+      this.onSelect.emit(item);
+      this.closeDropdown();
+    }
   }
 
   filterList(val: string): void {

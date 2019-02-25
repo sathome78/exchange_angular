@@ -4,8 +4,8 @@
     <div class="send__inputs-wrap">
       <div class="select send__select send__select--custom">
         <div class="select__value select__value--active" (click)="currencyDropdownToggle()">
-          <img [src]="activeFiat ? activeFiat.name : 'no_icon' | getIconUrl" class="select__list-item-icon">
-          {{activeFiat ? activeFiat.name : ''}}
+          <img [src]="activeFiat.name | getIconUrl" class="select__list-item-icon">
+          {{ activeFiat.name}}
         </div>
         <div class="select__label">{{'Currency' | translate}}</div>
         <div class="select__line"></div>
@@ -22,33 +22,45 @@
 
         </ul>
       </div>
+
+      <div class="wrap-input send__wrap-input" *ngIf="fiatInfoByName && !fiatInfoByName.merchantCurrencyData.length ">
+      <div class="withdrawal__closed-error" >
+        Sorry, withdrawal is closed for current moment!
+      </div>
+      </div>
+
       <div class="wrap-input send__wrap-input"
-           [ngClass]="{'wrap-input--error': isSubmited && (isAmountMax || isAmountMin || form.controls['amount'].value === '0')}">
-        <div class="avaliable">{{'Avaliable:' | translate}} <a (click)="balanceClick()" class="link">{{activeBalance}} {{activeFiat ?
-          activeFiat.name : ''}}</a></div>
-        <!--<input class="wrap-input__input" required>-->
-        <!--<label class="wrap-input__label"><span> </span>Amount</label>-->
-        <app-price-input [placeholder]="(activeFiat ? activeFiat.name : '') + ' Amount'"
-                         (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
-        <!--<div class="wrap-input__line"></div>-->
-        <!--Input error section starts-->
-        <span class="wrap-input__message wrap-input__message--show"
-              *ngIf="(isAmountMin || form.controls['amount'].value === '0') && isSubmited">
+           [ngClass]="{'wrap-input--error': form.get('amount').invalid && form.get('amount').touched}"
+           *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length ">
+        <div class="avaliable">{{'Avaliable:' | translate}}
+          <a (click)="balanceClick()" class="link">{{activeBalance}} {{activeFiat ? activeFiat.name : ''}}</a>
+        </div>
+        <app-price-input [placeholder]="(activeFiat ? activeFiat.name : '') + ' Amount'" [currencyName]="activeFiat.name" (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
+
+        <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors && !form.controls['amount'].errors['isMinThenMinWithdraw'] && !form.controls['amount'].errors['isMaxThenActiveBalance']">
       {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeFiat ? activeFiat.name : ''}}</span>
-        <span class="wrap-input__message wrap-input__message--show"
-              *ngIf="isAmountMax && isSubmited">
+
+        <!--Input error section starts-->
+        <div *ngIf="form.get('amount').errors != null">
+        <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
+              [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] && form.controls['amount'].touched}">
+      {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeFiat ? activeFiat.name : ''}}</span>
+          <span class="wrap-input__message wrap-input__message--show"
+                *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] && form.controls['amount'].touched">
       {{'Max sum for withdrawal' | translate}} {{activeBalance}}</span>
-        <!--<span class="wrap-input__message wrap-input__message&#45;&#45;show">Day limit for withdrawal is 30 000 USD</span>-->
+        </div>
         <!--Input error section ends-->
       </div>
     </div>
-    <div class="send__inputs-wrap">
+
+
+    <div class="send__inputs-wrap" *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length ">
       <div class="select send__select">
         <div class="select__value select__value--active"
              (click)="togglePaymentSystemDropdown()"
         >
-          <img [src]="selectedMerchant ? selectedMerchant.name : 'no_icon' | getIconUrl" class="select__list-item-icon">
-          {{selectedMerchant ? selectedMerchant.name : ''}}
+          <img [src]="  selectedMerchant.name | getIconUrl" class="select__list-item-icon">
+          {{  selectedMerchant.name }}
         </div>
         <div class="select__label">{{'Payment system' | translate}}</div>
         <div class="select__line"></div>
@@ -79,18 +91,23 @@
           </ul>
         </div>
       </div>
+
+
       <div class="wrap-input send__wrap-input"
-           [ngClass]="{'wrap-input--error': !form.controls['address'].valid && isSubmited}">
+           [ngClass]="{'wrap-input--error': !form.controls['address'].valid && form.controls['address'].touched}"
+           *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length ">
         <input class="wrap-input__input" name="address" formControlName="address" required>
         <label class="wrap-input__label">{{'Payment system' | translate}} <span>{{activeFiat ? activeFiat.name : ''}}</span>
           {{'address' | translate}}</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
         <span class="wrap-input__message wrap-input__message--show"
-              *ngIf="!form.controls['address'].valid && isSubmited">
+              *ngIf="!form.controls['address'].valid && form.controls['address'].touched ">
       {{'Set merchant adress for withdrawal' | translate}}</span>
         <!--Input error section ends-->
       </div>
+
+
     </div>
   </form>
   <div class="send__line"></div>
@@ -123,13 +140,13 @@
     </div>
   </div>
   <button class="btn btn--center "
-          [ngClass]="{
-        'btn--empty-blue': !form.valid && !isSubmited ,
-        'btn--error': !form.valid && isSubmited
-        }"
+          [ngClass]="{'btn--empty-blue': !form.valid}"
+          [disabled]="form.invalid"
           (click)="onSubmitWithdrawal()">{{'Withdraw' | translate}}
     <span class="value">{{calculateData.resultAmount}}</span>
-    <span> {{activeFiat ? activeFiat.name : ''}}</span></button>
+    <span> {{activeFiat ? activeFiat.name : ''}}</span>
+  </button>
+
   <div class="send__line"></div>
   <div class="note modal__note">
     <div class="note__title">{{'Please note:' | translate}}</div>

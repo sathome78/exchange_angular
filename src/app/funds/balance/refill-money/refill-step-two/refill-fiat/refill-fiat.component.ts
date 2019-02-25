@@ -34,6 +34,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public selectedMerchantNested;
   public amount;
   public merchants;
+  public searchTemplate = '';
   public openCurrencyDropdown = false;
   public openPaymentSystemDropdown = false;
   public activeFiat;
@@ -47,6 +48,10 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         && $event.target.className !== 'select__value select__value--active select__value--error'
         && $event.target.className !== 'select__search-input') {
       this.openPaymentSystemDropdown = false;
+      this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
+        ? this.fiatDataByName.merchantCurrencyData
+        : [];
+      this.searchTemplate = '';
       this.openCurrencyDropdown = false;
     }
   }
@@ -106,6 +111,10 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   togglePaymentSystemDropdown() {
     this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
+    this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
+      ? this.fiatDataByName.merchantCurrencyData
+      : [];
+    this.searchTemplate = '';
     this.openCurrencyDropdown = false;
   }
 
@@ -116,7 +125,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   private getDataByCurrency(currencyName) {
-    this.balanceService.getCurrencyData(currencyName)
+    this.balanceService.getCurrencyRefillData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.fiatDataByName = res;
@@ -144,12 +153,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   submitRefill() {
     this.isSubmited = true;
-    // if (environment.production) {
-    //   // todo while insecure
-    //   this.popupService.demoPopupMessage = 0;
-    //   this.popupService.showDemoTradingPopup(true);
-    //   this.balanceService.closeRefillMoneyPopup$.next(false);
-    // } else {
       if (this.form.valid && this.selectedMerchant.name) {
         this.isSubmited = false;
         this.amount = this.form.controls['amount'].value;
@@ -175,11 +178,13 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
             }, 1000);
           });
       }
-    // }
   }
 
   searchMerchant(e) {
-    this.merchants = this.fiatDataByName.merchantCurrencyData.filter(f => f.name.toUpperCase().match(e.target.value.toUpperCase()));
+    this.searchTemplate = e.target.value;
+    this.merchants = this.fiatDataByName.merchantCurrencyData.filter(merchant =>
+      merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length ? true : false
+    );
   }
 
   private minCheck(amount: FormControl) {

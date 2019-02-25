@@ -8,6 +8,7 @@ import {TRANSFER_INSTANT} from '../../send-money-constants';
 import {AbstractTransfer} from '../abstract-transfer';
 import {environment} from '../../../../../../environments/environment';
 import {PopupService} from '../../../../../shared/services/popup.service';
+import {AUTH_MESSAGES} from 'app/shared/constants';
 
 @Component({
   selector: 'app-transfer-instant',
@@ -16,6 +17,7 @@ import {PopupService} from '../../../../../shared/services/popup.service';
 })
 export class TransferInstantComponent extends AbstractTransfer implements OnInit, OnDestroy {
 
+  public AUTH_MESSAGES = AUTH_MESSAGES;
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
@@ -46,34 +48,14 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
   }
 
   submitTransfer() {
-    this.isSubmited = true;
-
-    if (environment.production) {
-      // todo while insecure
-      this.popupService.demoPopupMessage = 0;
-      this.popupService.showDemoTradingPopup(true);
-      this.balanceService.closeSendMoneyPopup$.next(false);
-    } else {
-      if (this.form.valid && !this.isAmountMax && !this.isAmountMin) {
-        this.balanceService
-          .checkEmail(this.form.controls['email'].value)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(res => {
-            const data = res as { data: boolean, error: any };
-            if (data.data) {
-              this.isSubmited = false;
-              this.isEnterData = false;
-            } else {
-              this.emailErrorMessage = data.error.message;
-            }
-          });
+      if (this.form.valid) {
+        this.isEnterData = false;
       }
-    }
   }
 
   afterResolvedCaptcha(event) {
     this.model.recipient = this.form.controls['email'].value;
-    this.model.currency = this.activeCrypto.id;
+    this.model.currency = this.activeCrypto ? this.activeCrypto.id : null;
     this.model.sum = this.form.controls['amount'].value;
     const data = {
       operation: TRANSFER_INSTANT,
@@ -86,7 +68,11 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
   private initForm() {
     this.form = new FormGroup({
       email: new FormControl('', {validators: [Validators.required, Validators.pattern(this.emailRegex)]}),
-      amount: new FormControl('0', {validators: [Validators.required]}),
+      amount: new FormControl('', {validators: [
+          Validators.required,
+          this.isMaxThenActiveBalance.bind(this),
+          this.isMinThenMinWithdraw.bind(this)
+        ]}),
     });
   }
 }

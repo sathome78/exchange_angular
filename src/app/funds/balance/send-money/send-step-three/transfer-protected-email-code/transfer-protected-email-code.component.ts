@@ -8,6 +8,8 @@ import {AbstractTransfer} from '../abstract-transfer';
 import {environment} from '../../../../../../environments/environment';
 import {PopupService} from '../../../../../shared/services/popup.service';
 import {takeUntil} from 'rxjs/operators';
+import {UserService} from '../../../../../shared/services/user.service';
+import {AUTH_MESSAGES} from 'app/shared/constants';
 
 @Component({
   selector: 'app-transfer-protected-email-code',
@@ -16,6 +18,7 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class TransferProtectedEmailCodeComponent extends AbstractTransfer implements OnInit, OnDestroy {
 
+  public AUTH_MESSAGES = AUTH_MESSAGES;
   public model = {
     operationType: 'USER_TRANSFER',
     currency: 0,
@@ -46,32 +49,14 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
   }
 
   submitTransfer() {
-    this.isSubmited = true;
-    if (environment.production) {
-      // todo while insecure
-      this.popupService.demoPopupMessage = 0;
-      this.popupService.showDemoTradingPopup(true);
-      this.balanceService.closeSendMoneyPopup$.next(false);
-    } else {
-      if (this.form.valid && !this.isAmountMax && !this.isAmountMin) {
-        this.balanceService.checkEmail(this.form.controls['email'].value)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(res => {
-            const data = res as { data: boolean, error: any };
-            if (data.data) {
-              this.isSubmited = false;
-              this.isEnterData = false;
-            } else {
-              this.emailErrorMessage = data.error.message;
-            }
-          });
+      if (this.form.valid) {
+        this.isEnterData = false;
       }
-    }
   }
 
   afterResolvedCaptcha(event) {
     this.model.recipient = this.form.controls['email'].value;
-    this.model.currency = this.activeCrypto.id;
+    this.model.currency = this.activeCrypto ? this.activeCrypto.id : null;
     this.model.sum = this.form.controls['amount'].value;
     const data = {
       operation: BY_PRIVATE_CODE,
@@ -84,7 +69,11 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
   private initForm() {
     this.form = new FormGroup({
       email: new FormControl('', {validators: [Validators.required, Validators.pattern(this.emailRegex)]}),
-      amount: new FormControl('0', {validators: [Validators.required]}),
+      amount: new FormControl('', {validators: [
+        Validators.required,
+          this.isMaxThenActiveBalance.bind(this),
+          this.isMinThenMinWithdraw.bind(this)
+        ]}),
     });
   }
 }
