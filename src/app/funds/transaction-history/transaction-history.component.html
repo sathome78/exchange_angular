@@ -280,7 +280,7 @@
             <span>{{item.amount | roundCurrency: item.currencyName | formatCurrency}}</span>
           </td>
           <td class="table__cell">
-            <span class="txt-green">{{constantsService.getTrOperationType(item.sourceType, item.status) | translate}}</span>
+            <span class="txt-green">{{item.status | showTransactionsStatus: item.sourceType}}</span>
           </td>
           <td class="table__cell">
             <span>{{item.transactionHash}}</span>
