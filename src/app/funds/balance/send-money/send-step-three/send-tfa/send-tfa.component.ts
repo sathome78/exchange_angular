@@ -113,7 +113,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
         this.form.controls['pin'].patchValue('');
         if (this.pincodeTries === 3) {
           this.pincodeTries = 0;
-          this.subtitleMessage = this.pincodeFrom ?
+          this.subtitleMessage = this.pincodeFrom === CODE_FROM_GOOGLE ?
             'Code is wrong! Please, check you code in Google Authenticator application.' :
             'Code is wrong! New code was sent to your email.';
         } else {
