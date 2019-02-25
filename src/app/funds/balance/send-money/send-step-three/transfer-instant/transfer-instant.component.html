@@ -49,7 +49,7 @@
             {{activeBalance | number:'1.1-8' | replaceNumber}} {{activeCrypto ? activeCrypto.name : ''}}
           </a>
         </div>
-        <app-price-input [placeholder]="(activeCrypto ? activeCrypto.name : '') + ' Amount'"
+        <app-price-input [placeholder]="(activeCrypto ? activeCrypto.name : '') + ' Amount'" [currencyName]="activeCrypto.name"
                          (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
         <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors && !form.controls['amount'].errors['isMinThenMinWithdraw'] && !form.controls['amount'].errors['isMaxThenActiveBalance']">
       {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>

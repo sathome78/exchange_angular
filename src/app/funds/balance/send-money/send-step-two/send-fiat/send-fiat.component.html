@@ -27,7 +27,7 @@
         <div class="avaliable">{{'Avaliable:' | translate}}
           <a (click)="balanceClick()" class="link">{{activeBalance}} {{activeFiat ? activeFiat.name : ''}}</a>
         </div>
-        <app-price-input [placeholder]="(activeFiat ? activeFiat.name : '') + ' Amount'" (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
+        <app-price-input [placeholder]="(activeFiat ? activeFiat.name : '') + ' Amount'" [currencyName]="activeFiat.name" (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
 
         <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors && !form.controls['amount'].errors['isMinThenMinWithdraw'] && !form.controls['amount'].errors['isMaxThenActiveBalance']">
       {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeFiat ? activeFiat.name : ''}}</span>
