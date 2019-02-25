@@ -23,7 +23,15 @@
         </ul>
       </div>
 
-      <div class="wrap-input send__wrap-input" [ngClass]="{'wrap-input--error': form.get('amount').invalid && form.get('amount').touched}">
+      <div class="wrap-input send__wrap-input" *ngIf="fiatInfoByName && !fiatInfoByName.merchantCurrencyData.length ">
+      <div class="withdrawal__closed-error" >
+        Sorry, withdrawal is closed for current moment!
+      </div>
+      </div>
+
+      <div class="wrap-input send__wrap-input"
+           [ngClass]="{'wrap-input--error': form.get('amount').invalid && form.get('amount').touched}"
+           *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length ">
         <div class="avaliable">{{'Avaliable:' | translate}}
           <a (click)="balanceClick()" class="link">{{activeBalance}} {{activeFiat ? activeFiat.name : ''}}</a>
         </div>
@@ -46,7 +54,7 @@
     </div>
 
 
-    <div class="send__inputs-wrap">
+    <div class="send__inputs-wrap" *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length ">
       <div class="select send__select">
         <div class="select__value select__value--active"
              (click)="togglePaymentSystemDropdown()"
@@ -86,7 +94,8 @@
 
 
       <div class="wrap-input send__wrap-input"
-           [ngClass]="{'wrap-input--error': !form.controls['address'].valid && form.controls['address'].touched}">
+           [ngClass]="{'wrap-input--error': !form.controls['address'].valid && form.controls['address'].touched}"
+           *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length ">
         <input class="wrap-input__input" name="address" formControlName="address" required>
         <label class="wrap-input__label">{{'Payment system' | translate}} <span>{{activeFiat ? activeFiat.name : ''}}</span>
           {{'address' | translate}}</label>
