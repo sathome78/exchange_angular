@@ -172,7 +172,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
 
   private initFormWithMemo() {
     this.form = new FormGroup({
-      memo: new FormControl('', [this.isRequired.bind(this)]),
+      memo: new FormControl(''),
       address: new FormControl('', [Validators.required]),
       amount: new FormControl('', [
         Validators.required,
@@ -188,8 +188,8 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.cryptoInfoByName = res;
-        this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalTagForWithdrawAddressIsUsed ;
-        this.memoName = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName ;
+        this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalTagForWithdrawAddressIsUsed;
+        this.memoName = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;
         this.activeBalance = this.cryptoInfoByName.activeBalance;
         this.minWithdrawSum = this.cryptoInfoByName.minWithdrawSum;
       });
