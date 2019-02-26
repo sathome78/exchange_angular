@@ -45,6 +45,34 @@ export class GetIconUrl  implements PipeTransform {
       case 'Visa':
       case 'Master Card':
       case 'Interkassa':
+      case 'Privat24 Payment':
+      case 'QIWI':
+      case 'Mir Payment':
+      case 'Yandex Money':
+      case 'Alfaclick Payment':
+      case 'BAT':
+      case 'BTT':
+      case 'CSC':
+      case 'DIM.EUR':
+      case 'DIM.USD':
+      case 'DIVI':
+      case 'ELC':
+      case 'HCXP':
+      case 'HNI':
+      case 'HOT':
+      case 'MET':
+      case 'NPXS':
+      case 'OWC':
+      case 'PLTC':
+      case 'PPY':
+      case 'QKC':
+      case 'RDN':
+      case 'REN':
+      case 'USDT':
+      case 'VRBS':
+      case 'WOLF':
+      case 'ZRX':
+      case 'ZUBE':
         name = 'no_icon';
         break;
     }
