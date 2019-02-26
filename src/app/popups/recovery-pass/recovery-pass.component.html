@@ -39,10 +39,8 @@
           </div>
         </div>
         <!--Input error section ends-->
-          <div class="input-hint-wrapper server-error-hint">
-            <span class="wrap-input__message"
-                  *ngIf="!!serverError">{{AUTH_MESSAGES[serverError] | translate}}
-            </span>
+          <div class="input-hint-wrapper server-error-hint" *ngIf="!!serverError">
+            <span class="wrap-input__message">{{AUTH_MESSAGES[serverError] | translate}}</span>
           </div>
       </div>
 
