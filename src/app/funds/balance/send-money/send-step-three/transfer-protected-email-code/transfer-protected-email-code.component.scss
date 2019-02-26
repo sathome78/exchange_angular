@@ -182,6 +182,12 @@ perfect-scrollbar{
 }
 
 // TEMP STYLE
+.btn--empty-blue{
+  &:hover, &:focus{
+    background-color: transparent !important;
+  }
+}
+
 .btn {
   &.btn--center {
     color: #ffffff !important;
@@ -194,6 +200,7 @@ perfect-scrollbar{
     }
   }
 }
+
 ::ng-deep .send__inputs-wrap {
   div.wrap-input {
     &.send__wrap-input {

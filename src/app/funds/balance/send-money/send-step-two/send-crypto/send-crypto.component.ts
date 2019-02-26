@@ -11,7 +11,6 @@ import {getCryptoCurrenciesForChoose, State} from 'app/core/reducers';
 import {SEND_CRYPTO} from '../../send-money-constants';
 import {CommissionData} from '../../../../models/commission-data.model';
 import {defaultCommissionData} from '../../../../store/reducers/default-values';
-import {environment} from '../../../../../../environments/environment';
 import {PopupService} from 'app/shared/services/popup.service';
 import {BalanceItem} from '../../../../models/balance-item.model';
 import {UtilsService} from 'app/shared/services/utils.service';
@@ -38,8 +37,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public alphabet;
   public isMemo;
   public memoName = '';
-  public isAmountMax;
-  public isAmountMin;
   public activeCrypto;
   public form: FormGroup;
   public calculateData: CommissionData = defaultCommissionData;
@@ -99,6 +96,8 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   onSubmitWithdrawal() {
+    this.form.get('amount').updateValueAndValidity();
+    this.isSubmited = true;
       if (this.form.valid) {
         this.isEnterData = false;
       }
