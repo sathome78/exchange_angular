@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <div class="wrap-input send__wrap-input" [ngClass]="{'wrap-input--error': form.get('amount').invalid && form.get('amount').touched}">
+      <div class="wrap-input send__wrap-input" [ngClass]="{'wrap-input--error': form.get('amount').invalid && (form.get('amount').touched || isSubmited)}">
         <div class="avaliable">{{'Avaliable:' | translate}}
           <a (click)="balanceClick()" class="link">{{activeBalance}} {{activeCrypto ? activeCrypto.name : ''}}
           </a>
@@ -55,10 +55,10 @@
         <!--Input error section starts-->
         <div *ngIf="form.get('amount').errors != null">
         <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
-              [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] && form.controls['amount'].touched}">
+              [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] && (form.controls['amount'].touched || isSubmited)}">
       {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
         <span class="wrap-input__message wrap-input__message--show"
-              *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] && form.controls['amount'].touched">
+              *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] && (form.controls['amount'].touched || isSubmited)">
       {{'Max sum for withdrawal' | translate}} {{activeBalance}}</span>
         </div>
         <!--Input error section ends-->
@@ -69,26 +69,26 @@
 
     <div class="send__inputs-wrap">
       <div class="wrap-input  send__wrap-input"
-           [ngClass]="{'wrap-input--error': !form.controls['address'].valid && form.controls['address'].touched}">
+           [ngClass]="{'wrap-input--error': !form.controls['address'].valid && (form.controls['address'].touched || isSubmited)}">
         <input class="wrap-input__input" name="address" formControlName="address" required>
         <label class="wrap-input__label">{{'Address for withdraw money' | translate}}</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
         <span class="wrap-input__message wrap-input__message--show"
-              *ngIf="!form.controls['address'].valid && form.controls['address'].touched ">
+              *ngIf="!form.controls['address'].valid && (form.controls['address'].touched || isSubmited)">
       {{'You should enter' | translate}} {{activeCrypto ? activeCrypto.name : ''}} {{'address for withdrawal' | translate}}</span>
         <!--Input error section ends-->
       </div>
 
       <div class="wrap-input send__wrap-input" *ngIf="isMemo"
-           [ngClass]="{'wrap-input--error': !form.controls['memo'].valid && form.controls['memo'].touched }"
+           [ngClass]="{'wrap-input--error': !form.controls['memo'].valid && (form.controls['memo'].touched || isSubmited)}"
       >
         <input class="wrap-input__input" name="memo" formControlName="memo">
         <label class="wrap-input__label">{{memoName | translate}}</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
         <span class="wrap-input__message wrap-input__message--show"
-              *ngIf="!form.controls['memo'].valid && form.controls['memo'].touched">{{'Enter memo ID' | translate}}</span>
+              *ngIf="!form.controls['memo'].valid && (form.controls['memo'].touched || isSubmited)">{{'Enter memo ID' | translate}}</span>
         <!--Input error section ends-->
       </div>
     </div>
@@ -124,7 +124,6 @@
   </div>
   <button class="btn btn--center"
           [ngClass]="{'btn--empty-blue': !form.valid}"
-          [disabled]="form.invalid"
           (click)="onSubmitWithdrawal()"
   >{{'Withdraw' | translate}}
     <span class="value">{{calculateData.resultAmount}}</span>

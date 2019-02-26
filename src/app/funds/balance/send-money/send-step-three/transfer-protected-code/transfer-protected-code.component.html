@@ -44,7 +44,7 @@
       </div>
 
 
-      <div class="wrap-input send__wrap-input" [ngClass]="{'wrap-input--error': form.get('amount').invalid && form.get('amount').touched}">
+      <div class="wrap-input send__wrap-input" [ngClass]="{'wrap-input--error': form.get('amount').invalid && (form.get('amount').touched || isSubmited)}">
         <div class="avaliable">
           {{'Avaliable:' | translate}}
           <a (click)="balanceClick()" class="link">
@@ -59,10 +59,10 @@
         <!--Input error section starts-->
         <div *ngIf="form.get('amount').errors != null">
         <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
-              [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] && form.controls['amount'].touched}">
+              [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] && (form.controls['amount'].touched || isSubmited)}">
       {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
           <span class="wrap-input__message wrap-input__message--show"
-                *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] && form.controls['amount'].touched">
+                *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] && (form.controls['amount'].touched || isSubmited)">
       {{'Max sum for withdrawal' | translate}} {{activeBalance}}</span>
         </div>
         <!--Input error section ends-->
@@ -90,7 +90,6 @@
   </div>
   <button class="btn btn--center"
           [ngClass]="{'btn--empty-blue': !form.valid}"
-          [disabled]="form.invalid"
           (click)="submitTransfer()">
     {{'Create code' | translate}}
   </button>
