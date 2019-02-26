@@ -11,30 +11,39 @@
     <h6 class="popup__title popup_title--dm">{{'Forgot password?' | translate}}</h6>
     <form class="popup__form" id="fgt-pass" [formGroup]="emailForm">
       <div class="wrap-input popup__wrap-input"
-           [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched}">
+           [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched,
+            'server-error': !!serverError}">
         <input
           required
           class="wrap-input__input"
           formControlName="email"
           (input)="serverError = ''"
-          [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched || !!serverError}"
+          [ngClass]="{'input--error': !emailForm.get('email').valid &&
+           emailForm.get('email').touched || !!serverError}"
         >
         <label class="wrap-input__label" for="">{{'Email' | translate}}</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
         <div *ngIf="emailForm.get('email').invalid && emailForm.get('email').errors">
           <div class="input-hint-wrapper">
-            <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required'] && emailForm.get('email').touched">
+            <span class="wrap-input__message"
+                  *ngIf="emailForm.get('email').errors['required'] &&
+                   emailForm.get('email').touched">
             {{'Email is required' | translate}}
           </span>
-          <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailInvalid'] || emailForm.get('email').errors['specialCharacter']">
+          <span class="wrap-input__message"
+                *ngIf="emailForm.get('email').errors['emailInvalid'] ||
+                 emailForm.get('email').errors['specialCharacter']">
             {{'Please, enter valid email address' | translate}}
           </span>
+            <span class="wrap-input__message"
+                  *ngIf="!!serverError">{{AUTH_MESSAGES[serverError] | translate}}
+            </span>
           </div>
         </div>
         <!--Input error section ends-->
       </div>
-      <span class="wrap-input__message" *ngIf="!!serverError">{{AUTH_MESSAGES[serverError] | translate}}</span>
+
       <button class="btn popup__btn"
               [disabled]="emailForm.get('email').invalid && emailForm.get('email').errors || !!serverError"
               [ngClass]="{'bg-none': !emailForm.valid, 'popup__btn--active': emailForm.valid && !serverError}"
@@ -65,7 +74,10 @@
       <h4 class="popup__subtitle" [innerHtml]="afterCaptchaMessage"></h4>
       <hr style="width: 70%;">
       <div class="popup__links-wrap">
-        <a class="popup__link"><span>{{"If you haven't received the email, do the following:" | translate}}</span><br><span>{{'Check spam or other folders.' | translate}}<br>{{'Set email address whitelist.' | translate}}</span>
+        <a class="popup__link">
+          <span>{{"If you haven't received the email, do the following:" | translate}}</span>
+          <br>
+          <span>{{'Check spam or other folders.' | translate}}<br>{{'Set email address whitelist.' | translate}}</span>
           {{'How to set?' | translate}}<span><br>{{'Check the mail client works normally.' | translate}}</span></a>
       </div>
     </ng-template>
