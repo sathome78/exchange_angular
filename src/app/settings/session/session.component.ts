@@ -101,40 +101,19 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   validateMinutes() {
-    const minutes = +this.minutesInput.value;
-    if (this.HOURS === 2) {
-      this.minutesInput.setValue('00');
-      this.MINUTES = 0;
-
-    } else if (this.HOURS === 0) {
-      if (this.minutesInput.value === null) {
-        this.minutesInput.setValue('05');
-        this.MINUTES = 5;
-      } else if (minutes < 5) {
-        this.minutesInput.setValue('05');
-        this.MINUTES = 5;
-      } else if (minutes >= 5 && minutes < 10) {
-        this.MINUTES = minutes;
-      } else if (minutes >= 10 && minutes < 60) {
-        this.MINUTES = minutes;
-      } else if (minutes >= 60) {
+    if (this.minutesInput.value && this.minutesInput.value.length > 2) {
+      this.minutesInput.setValue(this.minutesInput.value.substr(0, 2))
+    }
+    if (+this.minutesInput.value) {
+      if (this.minutesInput.value < 0) {
+        this.MINUTES = 0;
+        this.minutesInput.setValue('0');
+      } else if (this.minutesInput.value >= 60) {
         this.minutesInput.setValue('59');
         this.MINUTES = 59;
       }
     } else {
-      if (this.minutesInput.value === null) {
-        this.minutesInput.setValue('00');
-        this.MINUTES = 0;
-      } else if (minutes < 0) {
-        this.MINUTES = 0;
-      } else if (minutes >= 0 && minutes < 10) {
-        this.MINUTES = minutes;
-      } else if (minutes >= 10 && minutes < 60) {
-        this.MINUTES = minutes;
-      } else if (minutes >= 60) {
-        this.minutesInput.setValue('59');
-        this.MINUTES = 59;
-      }
+      this.minutesInput.setValue('');
     }
 
     this.updateValue();

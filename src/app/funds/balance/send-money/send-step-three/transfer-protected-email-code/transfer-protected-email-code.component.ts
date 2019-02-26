@@ -49,6 +49,8 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
   }
 
   submitTransfer() {
+    this.isSubmited = true;
+    this.form.get('amount').updateValueAndValidity()
       if (this.form.valid) {
         this.isEnterData = false;
       }

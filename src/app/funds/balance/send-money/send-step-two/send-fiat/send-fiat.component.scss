@@ -163,6 +163,14 @@
 }
 
 // TEMP STYLE
+
+.btn--empty-blue{
+  &:hover, &:focus{
+    background-color: transparent !important;
+  }
+}
+
+
 .withdrawal__closed-error {
   color: #EB5757;
 }

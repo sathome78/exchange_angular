@@ -56,6 +56,7 @@
     "ngx-pagination": "^3.2.1",
     "ngx-perfect-scrollbar": "^7.0.0",
     "ngx-webcam": "^0.2.0",
+    "pretty-num": "^0.2.2",
     "reselect": "^3.0.0",
     "rxjs": "^6.4.0",
     "rxjs-compat": "^6.4.0",

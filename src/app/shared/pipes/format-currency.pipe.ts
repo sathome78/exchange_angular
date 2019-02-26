@@ -1,5 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {UtilsService} from '../services/utils.service';
+import prettyNum from 'pretty-num';
 
 @Pipe({
   name: 'formatCurrency'
@@ -13,16 +14,16 @@ export class FormatCurrencyPipe implements PipeTransform {
   ) {}
   transform(value: number | string, format: "full" | "short" = "short", currencyName: string = ''): string {
     this.fraction = this.utils.isFiat(currencyName) ? 3 : 8;
-    const valueParts: Array<string> = ('' + value).split('.');
+    const num = prettyNum(value);
+    const valueParts: Array<string> = num.split('.');
     valueParts[1] = !valueParts[1] ? '0' : valueParts[1];
     const integer: string = valueParts[0];
-    const integerParts: Array<string> = this.getIntegerParts(integer);
+    const integerParts: Array<string> = integer.length ? this.getIntegerParts(integer): ['0'];
 
     if (format === 'short') {
       let transformed = valueParts.length > 1
         ? [integerParts.join(' '), valueParts[1]].join('.')
         : [integerParts.join(' '), '0'].join('.');
-      transformed = transformed[0] === '.' ? transformed.slice(1) : transformed;
       return transformed;
     }
     if (format === 'full') {
@@ -31,8 +32,8 @@ export class FormatCurrencyPipe implements PipeTransform {
         : [integerParts.join(' '), this.getValuePart(valueParts[1])].join('.');
       return transformed;
     }
+  };
 
-  }
   getValuePart(valuePart: string): string {
     const zeros = this.fraction === 3 ? this.fraction - +valuePart.length - 1 : this.fraction - +valuePart.length;
     let zerosSet = ''

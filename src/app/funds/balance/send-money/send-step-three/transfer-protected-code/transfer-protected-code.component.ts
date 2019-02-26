@@ -44,6 +44,8 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
   }
 
   submitTransfer() {
+    this.form.get('amount').updateValueAndValidity();
+    this.isSubmited = true;
       if (this.form.valid) {
         this.isEnterData = false;
       }

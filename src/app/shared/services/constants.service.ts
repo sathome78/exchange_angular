@@ -89,7 +89,6 @@ export class ConstantsService {
         status: 'Expired',
       },
     }
-
   }
 
   public getTrStatus(operationType: string, backendStatus: string) {
@@ -99,5 +98,4 @@ export class ConstantsService {
     return this.transactionsHistoryStatuses[operationType][backendStatus].operationType;
   }
 
-
-}
+};

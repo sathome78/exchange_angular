@@ -50,6 +50,9 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {translateInfo} from '../shared/configs/translate-options';
 import {MomentModule} from 'ngx-moment';
 import {CoreEffects} from '../core/effects/core.effects';
+import {ShowPendingStatusPipe} from './pending-status.pipe';
+import {ShowPendingSystemPipe} from './pending-system.pipe';
+import {ShowTransactionsStatusPipe} from './transactions-history-status.pipe';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -109,6 +112,9 @@ export function createTranslateLoader(http: HttpClient) {
     PendingRequestInfoComponent,
 
     TransactionHistoryComponent,
+    ShowPendingStatusPipe,
+    ShowPendingSystemPipe,
+    ShowTransactionsStatusPipe,
   ],
   providers: [
     BalanceService,

@@ -34,10 +34,7 @@ export class UserService {
   }
 
    checkIfEmailExists(email: string): Observable<boolean> {
-    const httpOptions = {
-      params:  new HttpParams().set('email', email)
-    };
-    return this.http.get<boolean>(this.getUrl('if_email_exists'), httpOptions);
+    return this.http.get<boolean>(`${this.HOST}/api/public/v2/if_email_exists?email=${email.replace('+', '%2B')}`);
   }
 
   emailValidator(recovery?: boolean): AsyncValidatorFn {
