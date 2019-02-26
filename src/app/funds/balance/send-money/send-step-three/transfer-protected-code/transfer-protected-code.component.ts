@@ -44,6 +44,8 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
   }
 
   submitTransfer() {
+    this.form.get('amount').updateValueAndValidity();
+    this.isSubmited = true;
       if (this.form.valid) {
         this.isEnterData = false;
       }
@@ -61,7 +63,7 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
 
   private initForm() {
     this.form = new FormGroup({
-      amount: new FormControl('0', {validators: [
+      amount: new FormControl('', {validators: [
           Validators.required,
           this.isMaxThenActiveBalance.bind(this),
           this.isMinThenMinWithdraw.bind(this)

@@ -35,8 +35,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public isSubmited = false;
   public selectedMerchant;
   public activeFiat;
-  public isAmountMax;
-  public isAmountMin;
   public form: FormGroup;
   public calculateData: CommissionData = defaultCommissionData;
 
@@ -135,6 +133,8 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   onSubmitWithdrawal() {
+    this.isSubmited = true;
+    this.form.get('amount').updateValueAndValidity();
       if (this.form.valid  && this.selectedMerchant.name) {
         this.isSubmited = false;
         this.isEnterData = false;

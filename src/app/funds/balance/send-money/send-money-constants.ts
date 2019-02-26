@@ -13,3 +13,8 @@ export const BY_EMAIL = 'By email';
 export const CRYPTO_DEPOSIT = 'Crypto deposit';
 export const FIAT_DEPOSIT = 'Fiat deposit';
 
+export const CODE_FROM_EMAIL = 'Code from email';
+export const CODE_FROM_GOOGLE = 'Code from Google';
+
+
+

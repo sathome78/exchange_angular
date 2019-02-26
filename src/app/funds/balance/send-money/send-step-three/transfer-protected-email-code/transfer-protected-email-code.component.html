@@ -46,7 +46,8 @@
 
 
       <div class="wrap-input send__wrap-input"
-           [ngClass]="{'wrap-input--error': form.get('amount').invalid && form.get('amount').touched}">
+           [ngClass]="{'wrap-input--error': form.get('amount').invalid &&
+            (form.get('amount').touched || isSubmited)}">
         <div class="avaliable">
           {{'Avaliable:' | translate}}
           <a (click)="balanceClick()" class="link">
@@ -54,18 +55,28 @@
           </a>
         </div>
         <app-price-input [placeholder]="(activeCrypto ? activeCrypto.name : '') + ' Amount'"
-                         (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
+                         [currencyName]="activeCrypto.name"
+                         (customInput)="amountInput($event)"
+                         name="amount" formControlName="amount">
+        </app-price-input>
 
-        <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors && !form.controls['amount'].errors['isMinThenMinWithdraw'] && !form.controls['amount'].errors['isMaxThenActiveBalance']">
-      {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
+        <span class=" wrap-input__message--show"
+              *ngIf="form.controls['amount'].errors &&
+               !form.controls['amount'].errors['isMinThenMinWithdraw'] &&
+                !form.controls['amount'].errors['isMaxThenActiveBalance']">
+           {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}
+        </span>
 
         <!--Input error section starts-->
         <div *ngIf="form.get('amount').errors != null">
         <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
-              [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] && form.controls['amount'].touched}">
-      {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
+              [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] &&
+               (form.controls['amount'].touched || isSubmited)}">
+           {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}
+        </span>
           <span class="wrap-input__message wrap-input__message--show"
-                *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] && form.controls['amount'].touched">
+                *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] &&
+                 (form.controls['amount'].touched || isSubmited)">
       {{'Max sum for withdrawal' | translate}} {{activeBalance}}</span>
         </div>
       </div>
@@ -74,16 +85,23 @@
 
 
       <div class="wrap-input  send__wrap-input"
-           [ngClass]="{'wrap-input--error': !form.controls['email'].valid && form.controls['email'].touched}">
+           [ngClass]="{'wrap-input--error': !form.controls['email'].valid &&
+            (form.controls['email'].touched || isSubmited)}">
         <input class="wrap-input__input" (blur)="emailBlur()" name="email" formControlName="email" required>
         <label class="wrap-input__label">{{'Email' | translate}}</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
         <div *ngIf="form.controls['email'].invalid && form.controls['email'].errors">
         <span class="wrap-input__message"
-              *ngIf="form.controls['email'].errors['pattern'] || form.controls['email'].errors['required'] && form.controls['email'].touched">{{'Enter valid email to transfer' | translate}}</span>
+              *ngIf="form.controls['email'].errors['pattern'] ||
+               form.controls['email'].errors['required'] &&
+                (form.controls['email'].touched || isSubmited)">
+          {{'Enter valid email to transfer' | translate}}
+        </span>
 
-        <span class="wrap-input__message" *ngIf="form.controls['email'].errors['checkEmailCrash'] && form.controls['email'].touched">
+        <span class="wrap-input__message"
+              *ngIf="form.controls['email'].errors['checkEmailCrash'] &&
+               (form.controls['email'].touched || isSubmited)">
                 {{'Service is temporary unavailable, please try again later' | translate}}
               </span>
           <span class="wrap-input__message" *ngIf="form.controls['email'].errors['USER_EMAIL_NOT_FOUND']">
@@ -113,7 +131,6 @@
   </div>
   <button class="btn btn--center"
           [ngClass]="{'btn--empty-blue': !form.valid}"
-          [disabled]="form.invalid"
           (click)="submitTransfer()">
     {{'Create code' | translate}}
   </button>

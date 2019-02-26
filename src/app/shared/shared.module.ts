@@ -44,6 +44,8 @@ import {DateMaskInputComponent} from './components/date-mask-input/date-mask-inp
 import {DateMaskDirective} from './directives/date-mask.directive';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {ExcludeSpacesDirective} from './directives/exclude-spaces.directive';
+import {ShowOrderStatusPipe} from './pipes/showOrderStatus.pipe';
+import {MerchantImageFilterPipe} from './pipes/merchant-image-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -61,9 +63,11 @@ import {ExcludeSpacesDirective} from './directives/exclude-spaces.directive';
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
+    MerchantImageFilterPipe,
     ExcludeSpacesDirective,
     RoundCurrencyPipe,
     ExponentToNumberPipe,
+    ShowOrderStatusPipe,
     GetObjectKeysPipe,
     SafePipe,
     FormatCurrencyPipe,
@@ -105,6 +109,8 @@ import {ExcludeSpacesDirective} from './directives/exclude-spaces.directive';
     SortPipe,
     ReplaceNumberPipe,
     DateMaskInputComponent,
+    MerchantImageFilterPipe,
+    ShowOrderStatusPipe,
     GroupCoinPipe,
     CurrencyPipe,
     FormatCurrencyPipe,
