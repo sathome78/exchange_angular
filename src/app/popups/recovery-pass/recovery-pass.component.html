@@ -24,7 +24,6 @@
         <!--Input error section starts-->
         <div *ngIf="emailForm.get('email').invalid && emailForm.get('email').errors">
           <div class="input-hint-wrapper">
-          <div class="input-hint-wrapper">
             <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required'] && emailForm.get('email').touched">
             {{'Email is required' | translate}}
           </span>
@@ -32,7 +31,6 @@
             {{'Please, enter valid email address' | translate}}
           </span>
           </div>
-        </div>
         </div>
         <!--Input error section ends-->
       </div>
