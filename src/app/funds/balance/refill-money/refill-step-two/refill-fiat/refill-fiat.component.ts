@@ -183,7 +183,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
     this.merchants = this.fiatDataByName.merchantCurrencyData.filter(merchant =>
-      merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length ? true : false
+      !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
     );
   }
 
