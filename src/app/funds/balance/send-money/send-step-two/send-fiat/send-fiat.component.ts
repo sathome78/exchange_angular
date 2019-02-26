@@ -133,6 +133,8 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   onSubmitWithdrawal() {
+    this.isSubmited = true;
+    this.form.get('amount').updateValueAndValidity();
       if (this.form.valid  && this.selectedMerchant.name) {
         this.isSubmited = false;
         this.isEnterData = false;
