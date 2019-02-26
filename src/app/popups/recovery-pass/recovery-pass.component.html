@@ -36,12 +36,14 @@
                  emailForm.get('email').errors['specialCharacter']">
             {{'Please, enter valid email address' | translate}}
           </span>
+          </div>
+        </div>
+        <!--Input error section ends-->
+          <div class="input-hint-wrapper server-error-hint">
             <span class="wrap-input__message"
                   *ngIf="!!serverError">{{AUTH_MESSAGES[serverError] | translate}}
             </span>
           </div>
-        </div>
-        <!--Input error section ends-->
       </div>
 
       <button class="btn popup__btn"
