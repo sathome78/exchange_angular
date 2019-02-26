@@ -1,4 +1,11 @@
  .table__cell {
-    padding: 8px 10px 8px 5px;
+    padding: 8px 5px 8px 5px;
 
+}
+
+.table__row:nth-of-type(odd){
+	background-color: transparent;
+	&:hover {
+    background-color: #1a2954;
+}
 }
