@@ -7,7 +7,7 @@ import {BreakpointService} from '../shared/services/breakpoint.service';
 import {Subject} from 'rxjs';
 import {OnDestroy} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
 import {Store, select} from '@ngrx/store';
 import * as fromCore from '../core/reducers';
@@ -62,6 +62,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     public dashboardWebsocketService: DashboardWebSocketService,
     private dataService: DashboardService,
     private route: ActivatedRoute,
+    private router: Router,
     private popupService: PopupService,
     private store: Store<fromCore.State>) {
   }
@@ -166,6 +167,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         const pair = Object.values(currencyPairs).filter(item => item.currencyPairName.toLowerCase() === pairName.toLowerCase())[0];
         if (pair) {
           this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(pair));
+          this.router.navigate(['/']);
         }
       });
   }
