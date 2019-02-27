@@ -25,6 +25,7 @@ export class AuthService implements OnDestroy {
   public ngUnsubscribe$ = new Subject<any>()
   public timeOutSub;
   public parsedToken: ParsedToken = null;
+  public PROTECTED_ROUTES = ['/funds', '/orders', '/settings'];
 
   constructor(
     private logger: LoggingService,
@@ -83,7 +84,11 @@ export class AuthService implements OnDestroy {
   }
 
   public redirectOnLogout() {
-    this.location.replaceState(this.router.url);
+    const url = this.router.url;
+    const isProtected = this.PROTECTED_ROUTES.some((r) => url.indexOf(r) >= 0);
+    if(isProtected) {
+      this.router.navigateByUrl('/dashboard');
+    }
   }
 
   public setSessionFinishListener(expiration: number): void {
