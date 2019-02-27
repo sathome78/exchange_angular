@@ -255,7 +255,7 @@
           *ngFor="let item of transactionsItems$ | async | paginate: { itemsPerPage: countPerPage, currentPage: currentPage, totalItems: countOfEntries$ | async }"
         >
           <td class="table__cell">
-            {{constantsService.getTrStatus(item.sourceType, item.status) | translate}}
+            {{item.status | showTransactionsStatus: item.sourceType | translate}}
           </td>
           <td class="table__cell">
             <div class="table__date-time">
@@ -280,7 +280,10 @@
             <span>{{item.amount | roundCurrency: item.currencyName | formatCurrency}}</span>
           </td>
           <td class="table__cell">
-            <span class="txt-green">{{item.status | showTransactionsStatus: item.sourceType}}</span>
+            <span class="txt-green" *ngIf="item.sourceType === 'REFILL'">{{item.sourceType | showTransactionsType}}</span>
+            <span class="txt-red" *ngIf="item.sourceType === 'WITHDRAW'">{{item.sourceType | showTransactionsType}}</span>
+            <span class="txt-green" *ngIf="item.sourceType === 'USER_TRANSFER && item.accepted'">{{item.sourceType | showTransactionsType}}</span>
+            <span class="txt-red" *ngIf="item.sourceType === 'USER_TRANSFER && !item.accepted'">{{item.sourceType | showTransactionsType}}</span>
           </td>
           <td class="table__cell">
             <span>{{item.transactionHash}}</span>
