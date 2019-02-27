@@ -282,8 +282,8 @@
           <td class="table__cell">
             <span class="txt-green" *ngIf="item.sourceType === 'REFILL'">{{item.sourceType | showTransactionsType}}</span>
             <span class="txt-red" *ngIf="item.sourceType === 'WITHDRAW'">{{item.sourceType | showTransactionsType}}</span>
-            <span class="txt-green" *ngIf="item.sourceType === 'USER_TRANSFER && item.accepted'">{{item.sourceType | showTransactionsType}}</span>
-            <span class="txt-red" *ngIf="item.sourceType === 'USER_TRANSFER && !item.accepted'">{{item.sourceType | showTransactionsType}}</span>
+            <span class="txt-green" *ngIf="item.sourceType === 'USER_TRANSFER' && item.accepted">{{item.sourceType | showTransactionsType}}</span>
+            <span class="txt-red" *ngIf="item.sourceType === 'USER_TRANSFER' && !item.accepted">{{item.sourceType | showTransactionsType}}</span>
           </td>
           <td class="table__cell">
             <span>{{item.transactionHash}}</span>
