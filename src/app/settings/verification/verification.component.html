@@ -82,7 +82,7 @@
           <div class="error-message-wr">
             <div *ngIf="form.get('firstName').errors != null">
              <span class="wrap-input__message wrap-input__message--show"
-             *ngIf="form.get('firstName').errors['required'] && form.get('firstName').touched">
+             *ngIf="form.get('firstName').errors['required'] && (form.get('firstName').touched || isSubmited)">
                {{'First Name is required.' | translate}}
              </span>
           </div>
@@ -98,7 +98,7 @@
           <div class="error-message-wr">
             <div *ngIf="form.get('lastName').errors != null">
             <span class="wrap-input__message wrap-input__message--show"
-                  *ngIf="form.get('lastName').errors['required'] && form.get('lastName').touched">
+                  *ngIf="form.get('lastName').errors['required'] && (form.get('lastName').touched || isSubmited)">
               {{'Last Name is required.' | translate}}
             </span>
           </div>
@@ -111,18 +111,26 @@
 
         <div class="wrap-input  filters-popup__datepicker">
           <label class="wrap-input__label"
-                 [ngClass]="{'select-input_label': isInputFocus || form.get('dateBirth').value}">{{'Date of Birth' | translate}}</label>
-          <app-date-mask-input [setOnInput]="true" name="dateBirth" formControlName="dateBirth" [innValue]="modelDateTo" (validDate)="checkAge($event)" (inputFocus)="inputFocus($event)" class="dark-theme wrap-input__input"></app-date-mask-input>
+                 [ngClass]="{'select-input_label': isInputFocus || form.get('dateBirth').value}">
+            {{'Date of Birth' | translate}}
+          </label>
+          <app-date-mask-input [setOnInput]="true"
+                               name="dateBirth" formControlName="dateBirth"
+                               [innValue]="modelDateTo"
+                               (validDate)="checkAge($event)"
+                               (inputFocus)="inputFocus($event)"
+                               class="dark-theme wrap-input__input">
+          </app-date-mask-input>
           <div class="wrap-input__line"></div>
           <!--Input error section starts-->
           <div class="error-message-date-of-birth-wr">
             <div *ngIf="form.get('dateBirth').errors != null">
             <span class="wrap-input__message wrap-input__message--show"
-                  *ngIf="form.get('dateBirth').errors['required'] && form.get('dateBirth').touched">
+                  *ngIf="form.get('dateBirth').errors['required'] && (form.get('dateBirth').touched || isSubmited)">
               {{'Date of Birth is required.' | translate}}
             </span>
             <span class="wrap-input__message wrap-input__message--show"
-                  *ngIf="form.get('dateBirth').errors['pattern'] && form.get('dateBirth').touched">
+                  *ngIf="form.get('dateBirth').errors['pattern'] && (form.get('dateBirth').touched || isSubmited)">
               {{'Date of Birth not valid.' | translate}}
             </span>
           </div>
