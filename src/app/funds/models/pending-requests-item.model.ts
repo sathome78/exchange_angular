@@ -12,8 +12,4 @@ export class PendingRequestsItem {
     public operation: string,
   ) { }
 
-  static statusMap = {
-    'ON_PENDING': 'Awaits payment',
-  }
-  
 }

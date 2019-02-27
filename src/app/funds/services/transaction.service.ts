@@ -48,7 +48,7 @@ export class TransactionsService {
       limit: limit + '',
       offset: offset + '',
     }
-    return this.http.get<ResponseModel<TransactionHistoryItem[]>>(`${this.apiUrl}/info/private/v2/balances/inputOutputData/default`, {params});
+    return this.http.get<ResponseModel<TransactionHistoryItem[]>>(`${this.apiUrl}/api/private/v2/balances/inputOutputData/default`, {params});
   }
 
   // request to get closed orders

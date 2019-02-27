@@ -49,6 +49,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public sellStopValue: number;
   public buyStopValue: number;
   public userBalance: UserBalance;
+  public isPossibleSetPrice = true;
   public currentPair;
 
   public notifySuccess = false;
@@ -140,7 +141,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(select(getLastPrice))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (lastPrice: LastPrice) => {
-        if (!this.updateCurrentCurrencyViaWebsocket) {
+        if (!this.updateCurrentCurrencyViaWebsocket && this.isPossibleSetPrice) {
           this.setPriceInValue(lastPrice.price, this.BUY);
           this.setPriceInValue(lastPrice.price, this.SELL);
           this.sellOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
@@ -335,6 +336,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param pair
    */
   private onGetCurrentCurrencyPair(pair, isAuth): void {
+    this.isPossibleSetPrice = true;
     this.currentPair = pair;
     this.resetSellModel();
     this.resetBuyModel();
@@ -444,6 +446,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param e
    */
   rateInput(e, type: string): void {
+    this.isPossibleSetPrice = false;
     this.isTotalWithCommission = false;
     if (type === this.BUY) {
       this.buyOrder.rate = parseFloat(this.deleteSpace(e.target.value.toString()));

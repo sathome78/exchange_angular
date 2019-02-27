@@ -4,8 +4,8 @@
     <div class="send__inputs-wrap">
       <div class="select send__select send__select--custom">
         <div class="select__value select__value--active" (click)="currencyDropdownToggle()">
-          <img [src]="activeFiat.name | getIconUrl" class="select__list-item-icon">
-          {{ activeFiat.name}}
+          <img [src]="(activeFiat ? activeFiat.name : '') | getIconUrl" class="select__list-item-icon">
+          {{activeFiat ? activeFiat.name : ''}}
         </div>
         <div class="select__label">{{'Currency' | translate}}</div>
         <div class="select__line"></div>
@@ -59,8 +59,8 @@
         <div class="select__value select__value--active"
              (click)="togglePaymentSystemDropdown()"
         >
-          <img [src]="  selectedMerchant.name | getIconUrl" class="select__list-item-icon">
-          {{  selectedMerchant.name }}
+          <img [src]="(selectedMerchant ? selectedMerchant.name : '') | getIconUrl" class="select__list-item-icon">
+          {{selectedMerchant ? selectedMerchant.name : ''}}
         </div>
         <div class="select__label">{{'Payment system' | translate}}</div>
         <div class="select__line"></div>
@@ -84,8 +84,8 @@
                 *ngFor="let merchant of merchants"
                 (click)="selectMerchant(merchant)"
             >
-              <img [src]="merchant.name | getIconUrl" class="select__list-item-icon">
-              {{merchant.name}}
+              <img [src]="(merchant ? merchant.name : '') | getIconUrl" class="select__list-item-icon">
+              {{merchant ? merchant.name : ''}}
             </li>
 
           </ul>

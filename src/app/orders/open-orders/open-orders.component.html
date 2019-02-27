@@ -192,7 +192,12 @@
           </app-dynamic-input>
           <div class="wrap-input__line"></div>
           <div class="cancel-btn-wr">
-            <button class="cancel-btn btn" (click)="toggleShowCancelAllOrdersConfirm()" type="button">
+            <button
+              class="cancel-btn btn"
+              (click)="toggleShowCancelAllOrdersConfirm()"
+              type="button"
+              [disabled]="!(orderItems$ | async).length"
+            >
               <span>{{'Cancel all' | translate}} <span *ngIf="!!currencyPairId">{{'(Filtered)' | translate}}</span></span>
             </button>
           </div>

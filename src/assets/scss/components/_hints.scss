@@ -32,18 +32,29 @@
 .wrap-input__input--error,.ng-invalid.ng-touched{
 	&~div .input-hint-wrapper{
 		opacity: 1;
-	pointer-events:auto;
+		pointer-events:auto;
 
-	span{
-		color: #EB5757;
-	}
+		span{
+			color: #EB5757;
+		}
 	}
 }
 
 .wrap-input--error{
 	.input-hint-wrapper{
 		opacity: 1;
-	pointer-events:auto;
-	color: #EB5757;
+		pointer-events:auto;
+		color: #EB5757;
+	}
+}
+
+.server-error{
+	.server-error-hint{
+		opacity: 1;
+		pointer-events:auto;
+		span{
+			
+			color: #EB5757;
+		}
 	}
 }

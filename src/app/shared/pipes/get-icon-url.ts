@@ -7,6 +7,7 @@ export class GetIconUrl  implements PipeTransform {
   transform(name: string): string {
 
     switch (name) {
+      case '':
       case 'DIGIT':
       case 'DOR':
       case 'BAB':
