@@ -1,6 +1,5 @@
 import {Injectable, OnDestroy, NgZone} from '@angular/core';
 import {environment} from '../../../environments/environment';
-import {TokenHolder} from '../../model/token-holder.model';
 import {LoggingService} from './logging.service';
 
 import * as jwt_decode from 'jwt-decode';
@@ -10,6 +9,9 @@ import {HttpClient} from '@angular/common/http';
 import {Store} from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as coreActions from '../../core/actions/core.actions';
+import {PopupService} from './popup.service';
+import {Router} from '@angular/router';
+import {Location} from '@angular/common';
 
 declare var encodePassword: Function;
 
@@ -28,6 +30,9 @@ export class AuthService implements OnDestroy {
     private logger: LoggingService,
     private http: HttpClient,
     private ngZone: NgZone,
+    private router: Router,
+    private location: Location,
+    private popupService: PopupService,
     private store: Store<fromCore.State>,
   ) {}
 
@@ -74,6 +79,11 @@ export class AuthService implements OnDestroy {
     localStorage.removeItem(TOKEN);
     this.parsedToken = null;
     this.store.dispatch(new coreActions.SetOnLogoutAction());
+    this.redirectOnLogout();
+  }
+
+  public redirectOnLogout() {
+    this.location.replaceState(this.router.url);
   }
 
   public setSessionFinishListener(expiration: number): void {
@@ -81,6 +91,7 @@ export class AuthService implements OnDestroy {
     this.ngZone.runOutsideAngular(()=>{
       this.timeOutSub = setTimeout(() => {
         this.onLogOut();
+        this.popupService.toggleSessionExpiredPopup(true)
       }, +tokenExpiresIn)
     });
   }

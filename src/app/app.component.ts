@@ -43,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isOpenDemoTradingPopup = false;
   isOpenAlreadyRegisteredPopup = false;
   isOpenInfoPopup = false;
+  isOpenSessionExpiredPopup = false;
   /** notification messages array */
   notificationMessages: NotificationMessage[];
 
@@ -99,6 +100,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForNotifications();
     this.subscribeForAlreadyRegisteredPopup();
     this.subscribeForInfoPopup();
+    this.subscribeForSessionExpiredPopup();
   }
 
   subscribeForTfaEvent() {
@@ -139,6 +141,14 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.popupData = res;
         this.isOpenInfoPopup = !!res;
+      });
+  }
+
+  subscribeForSessionExpiredPopup() {
+    this.popupService.getSessionExpiredPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.isOpenSessionExpiredPopup = res;
       });
   }
 
