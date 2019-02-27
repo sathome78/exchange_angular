@@ -78,6 +78,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isAuthenticated = isAuth;
         if(isAuth && userInfo) {
           this.authService.setSessionFinishListener(userInfo.expiration);
+          this.sendTransactionsAnalytics();
         } else {
           this.authService.removeSessionFinishListener();
         }
@@ -88,7 +89,6 @@ export class AppComponent implements OnInit, OnDestroy {
     // this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
     if(this.authService.isAuthenticated()) {
       this.store.dispatch(new coreActions.SetOnLoginAction(this.authService.parsedToken));
-      this.sendTransactionsAnalytics();
     }
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
