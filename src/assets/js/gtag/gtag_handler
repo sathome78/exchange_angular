@@ -13,6 +13,11 @@ function sendLoginSuccessGtag() {
   console.log("successfully send login gtag");
 }
 
+function sendTransactionSuccessGtag() {
+  gtag({'event': 'transaction'});
+  console.log("successfully send transactions gtag");
+}
+
 function sendRecoveryPasswordGtag() {
   gtag('event', 'pass-recovered', {'event_category': 'recovered-pass', 'event_label': 'recovered-success'});
   console.log("Successfully send password recovery gtag");
