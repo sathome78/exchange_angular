@@ -235,6 +235,10 @@
     ></app-popup-info>
   </div>
 
+  <div *ngIf="isOpenSessionExpiredPopup">
+    <app-session-expired-popup></app-session-expired-popup>
+  </div>
+
   <div *ngIf="isAlreadyRestoredPasswordPopupOpen">
     <app-already-restored-password-popup></app-already-restored-password-popup>
   </div>

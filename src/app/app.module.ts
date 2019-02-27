@@ -73,6 +73,7 @@ import {PopupInfoComponent} from './popups/popup-info/popup-info.component';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {FinalRegistrationComponent} from './popups/final-registration/final-registration.component';
 import {FinalStepRecoveryPasswordComponent} from './popups/final-step-recovery-password/final-step-recovery-password.component';
+import {SessionExpiredPopupComponent} from './popups/session-expired-popup/session-expired-popup.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -124,6 +125,7 @@ export function createTranslateLoader(http: HttpClient) {
     KycLevel1StepTwoComponent,
     KycLevel1StepOneComponent,
     PopupInfoComponent,
+    SessionExpiredPopupComponent,
     // TWO FACTOR POPUP END
 
   ],

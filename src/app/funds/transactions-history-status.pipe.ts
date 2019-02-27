@@ -4,8 +4,8 @@ import {Pipe, PipeTransform} from '@angular/core';
   name: 'showTransactionsStatus'
 })
 export class ShowTransactionsStatusPipe  implements PipeTransform {
-  transform(status: string, operationType: string): string {
-    if(operationType === 'WITHDRAW') {
+  transform(status: string, sourceType: string): string {
+    if(sourceType === 'WITHDRAW') {
       switch (status) {
         case 'REVOKED_USER':
           return 'Canceled';
@@ -18,7 +18,7 @@ export class ShowTransactionsStatusPipe  implements PipeTransform {
         default:
           return status;
       }
-    } else if(operationType === 'TRANSFER') {
+    } else if(sourceType === 'USER_TRANSFER') {
       switch (status) {
         case 'POSTED':
           return 'Completed';
@@ -29,7 +29,7 @@ export class ShowTransactionsStatusPipe  implements PipeTransform {
         default:
           return status;
       }
-    } else if(operationType === 'REFILL') {
+    } else if(sourceType === 'REFILL') {
       switch (status) {
         case 'DECLINED_ADMIN':
           return 'Declined';
