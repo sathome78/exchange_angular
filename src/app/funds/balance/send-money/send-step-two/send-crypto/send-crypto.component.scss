@@ -170,6 +170,10 @@ perfect-scrollbar{
 }
 
 // TEMP STYLE
+.withdrawal__closed-error {
+  color: #EB5757;
+}
+
 .btn--empty-blue{
   &:hover, &:focus{
     background-color: transparent !important;

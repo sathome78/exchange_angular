@@ -22,7 +22,8 @@ export const AUTH_MESSAGES = {
   'GOOGLE_AUTHORIZATION_FAILED': 'Google authorization failed.',
   'FAILED_TO_GET_USER_TOKEN': 'Failed to get user token.',
   'INVALID_CREDENTIALS': 'Invalid credentials',
-  'OTHER_HTTP_ERROR' : 'Service is temporary unavailable, please try again later.'
+  'OTHER_HTTP_ERROR' : 'Service is temporary unavailable, please try again later.',
+  'EMAIL_EXIST' : 'Email exists.'
 }
 
 export const keys = {

@@ -1,6 +1,6 @@
 import {Component, OnInit, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {Subject} from 'rxjs';
+import {of, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/internal/operators';
 
 import {PopupService} from '../../shared/services/popup.service';
@@ -11,6 +11,7 @@ import {UtilsService} from 'app/shared/services/utils.service';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {AUTH_MESSAGES} from '../../shared/constants';
+
 
 declare var sendRegistrationGtag: Function;
 
@@ -35,6 +36,8 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   public nameSubmited = false;
   public recaptchaKey = keys.recaptchaKey;
   public AUTH_MESSAGES = AUTH_MESSAGES;
+  public emailServerError = 'start';
+  public pendingCheckEmail = false;
 
   public email;
   public firstName;
@@ -113,8 +116,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
           Validators.required,
           this.utilsService.emailValidator(),
           this.utilsService.specialCharacterValidator()
-        ],
-        asyncValidators: [this.userService.emailValidator()]
+        ]
       })
     }, {updateOn: 'blur'});
     this.passwordForm = new FormGroup({
@@ -125,9 +127,30 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     });
   }
 
+  emailBlur() {
+    this.pendingCheckEmail = true;
+    if (this.emailForm.get('email').valid) {
+      this.userService.checkIfEmailExists(this.emailForm.get('email').value)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.emailServerError = res ? 'EMAIL_EXIST' : '';
+          this.pendingCheckEmail = false;
+        }, error => {
+          if (error.status === 400) {
+            this.emailServerError = error.error.title === 'USER_EMAIL_NOT_FOUND' ?
+              '' :
+              error.error.title;
+          } else {
+            this.emailServerError = 'OTHER_HTTP_ERROR';
+          }
+          this.pendingCheckEmail = false;
+        });
+    }
+  }
+
 
   emailSubmit() {
-    if (this.emailForm.valid) {
+    if (this.emailForm.valid && !this.pendingCheckEmail) {
       this.setTemplate('captchaTemplate');
     }
   }
