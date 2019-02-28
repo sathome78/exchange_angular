@@ -1346,3 +1346,79 @@
   }
 
 }
+
+app-embedded-orders-mobile{
+  @media(max-width: 1199px){
+    .table__cell--tar{
+      vertical-align: top;
+    }
+    
+    .table__cell-head--tal{
+&:first-child{
+    padding-left: 15px;
+
+        }
+    }
+    .table__cell--tal{
+        vertical-align: top;
+        
+    }
+    .table__cell{
+              padding: 3px 10px 8px;
+              &--arr-mob{
+padding-right: 19px;
+    padding-left: 5px;
+    }
+              &:first-child{
+                padding-left: 14px;
+              }
+    }
+    .table__date-time{
+      div{
+        color: #94C2FF;
+    font-size: 10px;
+    line-height: 12px;
+      }
+    }
+    .widget__tabs{
+      margin-right: 0;
+      margin-left: 0;
+     justify-content: space-between;
+      margin-top: 35px;
+          margin-bottom: 8px;
+      &::after{
+        display: none;
+      }
+      .tabs__item{
+            padding: 0 12px 9px;
+            margin-right: 0;
+            color: #424D5E;
+            transition: .3s;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            &:last-child{
+              padding-right: 27px;
+            }
+            &::before{
+                  border: none;
+                  height: 4px;
+                  width: 100%;
+                  background-color: #237BEF;
+                  opacity: 0;
+                  transition: .3s;
+                }
+            &--active{
+              color: #fff;
+              // font-weight: 300;
+                &::before{
+                  opacity: 1;
+                }
+                &::after{
+                  display: none;
+                }
+            }
+          }
+    }
+  }
+}
