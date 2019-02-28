@@ -1,7 +1,7 @@
 <div class="title send__title">{{'Crypto Withdrawal' | translate}}<span> {{activeCrypto ? activeCrypto.name : ''}}</span></div>
 <div class="formWraper" *ngIf="isEnterData">
   <form [formGroup]="form">
-    <div class="send__inputs-wrap">
+    <div class="send__inputs-wrap" *ngIf="!!cryptoInfoByName">
       <div class="select send__select">
         <div class="select__value select__value--active" (click)="currencyDropdownToggle()">
           <img [src]=" activeCrypto.name | getIconUrl" class="select__list-item-icon">

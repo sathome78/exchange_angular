@@ -49,6 +49,13 @@
 }
 
 .server-error{
+  // TEMP STYLE
+  input{
+    border-color: #EB5757 !important;
+  }
+  label {
+    color: #EB5757 !important;
+  }
 	.server-error-hint{
 		opacity: 1;
 		pointer-events:auto;
