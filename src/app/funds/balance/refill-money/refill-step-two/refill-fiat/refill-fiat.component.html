@@ -3,41 +3,36 @@
   <form [formGroup]="form">
     <div class="refill__inputs-wrap" *ngIf="!submitSuccess">
       <!-- TODO add styles to select--error -->
-      <div
-        class="select refill__select"
-      >
+
+      <div class="select refill__select">
         <div class="select__value select__value--active"
              (click)="toggleCurrencyDropdown()"
-             [ngClass]="{'select__value--error': !selectedMerchant}"
-        >
+             [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}">
           <img [src]="activeFiat.name | getIconUrl" class="select__list-item-icon">
           {{activeFiat.name}}
         </div>
         <div class="select__label">Currency</div>
         <div class="select__line"></div>
         <div class="select__triangle"></div>
-        <!--add select__list--open for looking open state-->
         <ul class="select__list"
             [ngClass]="{'select__list--open': openCurrencyDropdown}"
             *ngIf="openCurrencyDropdown">
-
           <li class="select__list-item" *ngFor="let currency of fiatNames" (click)="selectCurrency(currency)">
             <img [src]="currency.name | getIconUrl" class="select__list-item-icon">
             {{currency.name}}
           </li>
         </ul>
       </div>
+
       <div class="select refill__select" *ngIf="selectedMerchant">
         <div class="select__value select__value--active"
-             (click)="togglePaymentSystemDropdown()"
-        >
+             (click)="togglePaymentSystemDropdown()">
           <img [src]="selectMerchantName | getIconUrl" class="select__list-item-icon">
           {{selectMerchantName}}
         </div>
         <div class="select__label">Payment system</div>
         <div class="select__line"></div>
         <div class="select__triangle"></div>
-        <!--add select__list-searching--open for looking open state-->
         <div class="select__list-searching"
              [ngClass]="{'select__list-searching--open': openPaymentSystemDropdown}"
              *ngIf="openPaymentSystemDropdown">
@@ -51,7 +46,6 @@
             </div>
           </div>
           <ul class="select__list select__list--open">
-
             <ng-template ngFor let-merchant [ngForOf]="merchants">
               <li class="select__list-item"
                   *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
@@ -60,42 +54,46 @@
                 {{nested.image_name}}
               </li>
             </ng-template>
-
           </ul>
         </div>
       </div>
-      <!--<form [formGroup]="form">-->
+
       <div class="wrap-input refill__wrap-input"
            *ngIf="selectedMerchant"
-           [ngClass]="{'wrap-input--error': !form.valid && isSubmited}"
-      >
+           [ngClass]="{'wrap-input--error': !form.valid && isSubmited}">
 
-        <app-price-input [placeholder]="'Amount'" (customInput)="amountInput($event)" name="amount"
-                         formControlName="amount"></app-price-input>
-        <span class=" wrap-input__message--show" *ngIf="!form.valid">
-      {{'Minimum sum for deposit' | translate}} {{fiatDataByName.minRefillSum}} {{activeFiat ? activeFiat.name : ''}}</span>
-        <!--Input error section starts-->
-        <div class="input-hint-wrapper">
-          <span class="wrap-input__message"
-              *ngIf="!form.valid && isSubmited"
-        >Should be at least {{fiatDataByName.minRefillSum}}</span>
+        <app-price-input [placeholder]="'Amount'"
+                         formControlName="amount"
+                         name="amount">
+        </app-price-input>
+
+        <div class="wrap-input__message--show">
+          <span *ngIf="!form.valid">
+          {{'Minimum sum for deposit' | translate}} {{fiatDataByName.minRefillSum}} {{activeFiat ? activeFiat.name : ''}}
+        </span>
         </div>
-        
+
+        <!--Input error section starts-->
+        <div class="input-hint-wrapper" *ngIf="!form.valid && isSubmited">
+          <span class="wrap-input__message">
+            Should be at least {{fiatDataByName.minRefillSum}}
+          </span>
+        </div>
         <!--Input error section ends-->
       </div>
 
-      <div class="refill__closed-error" *ngIf="!selectedMerchant">
+      <div class="refill__closed-error" *ngIf="fiatDataByName && !selectedMerchant">
         Sorry, refill is closed for current moment!
       </div>
+
     </div>
   </form>
-  <button class="btn btn--center btn--empty-blue"
+  <button class="btn btn--center"
           *ngIf="!submitSuccess && selectedMerchant"
-          [ngClass]="{'btn-active': form.valid && selectedMerchant.name}"
-          (click)="submitRefill()"
-  >Refill
+          [ngClass]="{'btn--empty-blue': !form.valid || !selectedMerchant.name}"
+          (click)="submitRefill()">
+    Refill
   </button>
-
 
   <!-- показывать после успешного создания заявки-->
   <div class="refill__fiat-successful" *ngIf="submitSuccess">
