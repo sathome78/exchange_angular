@@ -1,6 +1,5 @@
 import {Injectable, OnDestroy, NgZone} from '@angular/core';
 import {environment} from '../../../environments/environment';
-import {TokenHolder} from '../../model/token-holder.model';
 import {LoggingService} from './logging.service';
 
 import * as jwt_decode from 'jwt-decode';
@@ -10,6 +9,9 @@ import {HttpClient} from '@angular/common/http';
 import {Store} from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as coreActions from '../../core/actions/core.actions';
+import {PopupService} from './popup.service';
+import {Router} from '@angular/router';
+import {Location} from '@angular/common';
 
 declare var encodePassword: Function;
 
@@ -23,11 +25,15 @@ export class AuthService implements OnDestroy {
   public ngUnsubscribe$ = new Subject<any>()
   public timeOutSub;
   public parsedToken: ParsedToken = null;
+  public PROTECTED_ROUTES = ['/funds', '/orders', '/settings'];
 
   constructor(
     private logger: LoggingService,
     private http: HttpClient,
     private ngZone: NgZone,
+    private router: Router,
+    private location: Location,
+    private popupService: PopupService,
     private store: Store<fromCore.State>,
   ) {}
 
@@ -74,6 +80,15 @@ export class AuthService implements OnDestroy {
     localStorage.removeItem(TOKEN);
     this.parsedToken = null;
     this.store.dispatch(new coreActions.SetOnLogoutAction());
+    this.redirectOnLogout();
+  }
+
+  public redirectOnLogout() {
+    const url = this.router.url;
+    const isProtected = this.PROTECTED_ROUTES.some((r) => url.indexOf(r) >= 0);
+    if(isProtected) {
+      this.router.navigateByUrl('/dashboard');
+    }
   }
 
   public setSessionFinishListener(expiration: number): void {
@@ -81,6 +96,7 @@ export class AuthService implements OnDestroy {
     this.ngZone.runOutsideAngular(()=>{
       this.timeOutSub = setTimeout(() => {
         this.onLogOut();
+        this.popupService.toggleSessionExpiredPopup(true)
       }, +tokenExpiresIn)
     });
   }

@@ -20,16 +20,20 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
   private _innerValue: any;
   private el: any;
   @Input('innValue') innValue: any;
+  @Input('setOnInput') setOnInput = false;
   @Input('disableAutoFocus') disableAutoFocus: boolean = false;
   @ViewChild('inputEl') inputEl: ElementRef;
   @Output('customInputMask') customInputMask: EventEmitter<any>;
   @Output('validDate') validDate: EventEmitter<IMyDateModel>;
+  @Output('inputFocus') inputFocus: EventEmitter<boolean>;
+  private onTouched: Function;
 
   private validDatePattern = /\d{2}.\d{2}.\d{4}$/;
 
   constructor() {
     this.validDate = new EventEmitter<IMyDateModel>();
     this.customInputMask = new EventEmitter<any>();
+    this.inputFocus = new EventEmitter<boolean>();
   }
 
   ngAfterViewInit() {
@@ -44,7 +48,7 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
       } else {
         this.writeValue('');
         if(!this.disableAutoFocus) {
-          this.el.focus();
+          this.el ? this.el.focus() : null;
         }
       }
     }
@@ -78,6 +82,9 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
       };
       this.validDate.emit(date);
     }
+    if (this.setOnInput) {
+      this.writeValue(target.value);
+    }
   }
 
   writeValue(value: any) {
@@ -95,10 +102,17 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
     this.propagateChanges = fn;
   }
 
-  registerOnTouched(fn: any) {
+  registerOnTouched(fn: () => {}): void {
+    this.onTouched = fn;
   }
 
   onBlur($event) {
+    this.onTouched();
+    this.inputFocus.emit(false);
     this.writeValue($event.target.value);
+  }
+
+  onFocus($event) {
+    this.inputFocus.emit(true);
   }
 }

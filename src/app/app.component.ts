@@ -18,6 +18,8 @@ import * as fromCore from './core/reducers';
 import {PopupData} from './shared/interfaces/popup-data-interface';
 import * as coreActions from './core/actions/core.actions';
 
+
+declare var sendTransactionSuccessGtag: Function;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -26,6 +28,7 @@ import * as coreActions from './core/actions/core.actions';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public isAuthenticated: boolean = false;
   public kycStep = 1;
   public popupData: PopupData;
 
@@ -43,12 +46,14 @@ export class AppComponent implements OnInit, OnDestroy {
   isOpenDemoTradingPopup = false;
   isOpenAlreadyRegisteredPopup = false;
   isOpenInfoPopup = false;
+  isOpenSessionExpiredPopup = false;
   /** notification messages array */
   notificationMessages: NotificationMessage[];
 
   constructor(public popupService: PopupService,
               private themeService: ThemeService,
               private dashboardWebsocketService: DashboardWebSocketService,
+              private userService: UserService,
               private authService: AuthService,
               private store: Store<fromCore.State>,
               private http: HttpClient,
@@ -70,8 +75,10 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(withLatestFrom(this.store.pipe(select(fromCore.getUserInfo))))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(([isAuth, userInfo]: [boolean, ParsedToken]) => {
+        this.isAuthenticated = isAuth;
         if(isAuth && userInfo) {
           this.authService.setSessionFinishListener(userInfo.expiration);
+          this.sendTransactionsAnalytics();
         } else {
           this.authService.removeSessionFinishListener();
         }
@@ -99,6 +106,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForNotifications();
     this.subscribeForAlreadyRegisteredPopup();
     this.subscribeForInfoPopup();
+    this.subscribeForSessionExpiredPopup();
   }
 
   subscribeForTfaEvent() {
@@ -139,6 +147,14 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.popupData = res;
         this.isOpenInfoPopup = !!res;
+      });
+  }
+
+  subscribeForSessionExpiredPopup() {
+    this.popupService.getSessionExpiredPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.isOpenSessionExpiredPopup = res;
       });
   }
 
@@ -249,5 +265,25 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((message: NotificationMessage) => {
         this.notificationMessages.push(message);
       });
+  }
+
+  private sendTransactionsAnalytics() {
+    setTimeout(() => {
+      if(!this.isAuthenticated) {
+        return;
+      }
+      this.userService.getTransactionsCounterForGTag()
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((res) => {
+          if(res.count > 0) {
+            for(let i = 0; i < res.count; i++) {
+              sendTransactionSuccessGtag();
+            }
+            this.userService.clearTransactionsCounterForGTag()
+              .pipe(takeUntil(this.ngUnsubscribe))
+              .subscribe(() => {});
+          }
+        });
+    }, 3000);
   }
 }

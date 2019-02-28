@@ -280,7 +280,7 @@
           </td>
           <td class="table__cell">
             <span>
-              {{item.amountConvert | roundCurrency: currency(item.currencyPairName, 1) | formatCurrency}}
+              {{item.amountBase | roundCurrency: currency(item.currencyPairName, 1) | formatCurrency}}
               {{item.currencyPairName | splitCurrency: 1}}
             </span>
           </td>
