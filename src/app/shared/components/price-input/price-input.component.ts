@@ -112,31 +112,15 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
 
   /**
    * Method transform exponent format to number
-   * @param x
-   * @returns {any}
    */
-  exponentToNumber(x) {
-    if(x) {
-      x = x.toString();
-      if (x[x.length - 1] === '.') {
-        x = x.slice(0, -1);
-      }
-      if (Math.abs(x) < 1.0) {
-        let e = parseInt(x.toString().split('e-')[1]);
-        if (e) {
-          x *= Math.pow(10, e - 1);
-          x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
-        }
-      } else {
-        let e = parseInt(x.toString().split('+')[1]);
-        if (e > 20) {
-          e -= 20;
-          x /= Math.pow(10, e);
-          x += (new Array(e + 1)).join('0');
-        }
-      }
-      return x;
+  exponentToNumber(exponentialNumber: number): number|string {
+    const str = exponentialNumber.toString();
+    if (str.indexOf('e') !== -1) {
+      const exponent = parseInt(str.split('-')[1], 10);
+      const result = parseFloat(exponentialNumber.toString()).toFixed(exponent);
+      return result;
+    } else {
+      return exponentialNumber;
     }
   }
-
 }
