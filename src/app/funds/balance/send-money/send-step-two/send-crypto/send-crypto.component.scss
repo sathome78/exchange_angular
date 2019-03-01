@@ -17,17 +17,14 @@
     width: 100%;
     max-width: 230px;
     margin-bottom: 24px;
-    .avaliable{
-      position: absolute;
-      right: 0;
-      top: -16px;
-      font-size: 12px;
-      line-height: 14px;
-    }
+    
   }
   &__line{
     height: 1px;
     background-color: #24253F;
+    @media(max-width: 1199px) {
+      background-color: #94C2FF;
+    }
   }
   &__info{
     margin-top: 28px;
@@ -48,6 +45,8 @@
     width: 50%;
     text-align: right;
     font-weight: bold;
+    color: #DEDEFB;
+    font-weight: 300;
   }
   &__merchant-comission{
     display: block;
@@ -92,13 +91,16 @@
     }
     &__info-title{
       width: auto;
-      margin-left: 23%;
+      margin-left: 22.5%;
       //width: calc(50% - 48px);
       //text-align: right;
       margin-right: 32px;
     }
     &__info-value{
       text-align: left;
+      color: #000;
+      font-weight: 400;
+
     }
     &__merchant-comission{
       display: inline-block;
@@ -192,3 +194,22 @@ perfect-scrollbar{
     }
   }
 }
+ @media(max-width:1199px){
+.select__value--active{
+
+    color: #DEDEFB;
+  }
+
+  
+}
+
+.avaliable{
+      position: absolute;
+      right: 0;
+      top: -16px;
+      font-size: 12px;
+      line-height: 14px;
+      @media(max-width:1199px){
+        color: #DEDEFB;
+      }
+    }
