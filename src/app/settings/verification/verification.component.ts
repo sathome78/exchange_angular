@@ -118,8 +118,9 @@ export class VerificationComponent implements OnInit, OnDestroy {
 
   }
 
-  private checkAge({formatted}) {
-      if (new RegExp(/\d{2}.\d{2}.\d{4}$/).test(formatted)) {
+  private checkAge(event) {
+    const formatted = event.formatted;
+      if (new RegExp(/\d{2}.\d{2}.\d{4}$/).test(formatted) || new RegExp(/\d{1}.\d{1}.\d{4}$/).test(formatted)) {
         const arrDate = formatted.split('.');
          const checkDate = moment(formatted, 'DD.MM.YYYY');
          if (checkDate.unix() > moment().subtract(16, 'years').unix()) {
