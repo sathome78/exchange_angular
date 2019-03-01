@@ -7,12 +7,12 @@
     <div class="wrap-input__line"></div>
   </div>
 </form>
-<button class="btn btn--center btn--empty-blue"
-[ngClass]="{'btn-active': form.valid}"
+
+<button class="btn btn--center"
+[ngClass]="{'btn--empty-blue': !form.valid}"
         (click)="sendTransferCode()">
   {{'Receive transfer' | translate}}
 </button>
-
 
 <!--message successful-->
 <div class="refill__transfer-message" *ngIf="isSendTransferCodeSuccess">

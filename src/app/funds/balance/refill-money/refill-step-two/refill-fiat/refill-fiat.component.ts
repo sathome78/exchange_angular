@@ -62,8 +62,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     private store: Store<State>,
   ) {}
 
-
-
   ngOnInit() {
     this.initForm();
     this.store
@@ -119,6 +117,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   selectCurrency(currency) {
+    this.isSubmited = false;
+    this.fiatDataByName = null;
     this.activeFiat = currency;
     this.toggleCurrencyDropdown();
     this.getDataByCurrency(currency.name);
@@ -133,6 +133,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
+        this.form.get('amount').updateValueAndValidity();
       });
   }
 
@@ -148,8 +149,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       amount: new FormControl('', [Validators.required, this.minCheck.bind(this)] ),
     });
   }
-
-  amountInput(e) {}
 
   submitRefill() {
     this.isSubmited = true;
