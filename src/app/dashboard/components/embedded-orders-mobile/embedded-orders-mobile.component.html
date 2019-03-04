@@ -3,12 +3,12 @@
     <button class="tabs__item "
             (click)="toggleMainTab('open')"
             [ngClass]="{'tabs__item--active': mainTab === 'open', 'tab-no-active': mainTab !== 'open'}">
-      {{'Open orders' | translate}} (<span>{{openOrdersCount}}</span>)
+      {{'Open orders' | translate}} <span class="orders-count">{{openOrdersCount}}</span>
     </button>
     <button class="tabs__item "
             (click)="toggleMainTab('history')"
             [ngClass]="{'tabs__item--active': mainTab === 'history', 'tab-no-active': mainTab !== 'history'}">
-      {{'History' | translate}}
+      {{'Order history' | translate}}
     </button>
   </div>
 

@@ -10,6 +10,7 @@ import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {UtilsService} from 'app/shared/services/utils.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
 import {UserService} from 'app/shared/services/user.service';
+import {ActivatedRoute, Router} from '@angular/router';
 /**
  * Dashboard currency pair information component
  */
@@ -34,6 +35,8 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     private crd: ChangeDetectorRef,
     private userService: UserService,
     private utils: UtilsService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -130,6 +133,9 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(pair));
     this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(pair.currencyPairId))
     this.userService.getUserBalance(pair);
+    if (this.route.snapshot.paramMap.get('currency-pair')) {
+      this.router.navigate(['/']);
+    }
   }
 
 

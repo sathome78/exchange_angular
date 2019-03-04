@@ -167,7 +167,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         const pair = Object.values(currencyPairs).filter(item => item.currencyPairName.toLowerCase() === pairName.toLowerCase())[0];
         if (pair) {
           this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(pair));
-          this.router.navigate(['/']);
         }
       });
   }
