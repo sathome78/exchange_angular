@@ -30280,7 +30280,7 @@ webpackJsonp([14], [function (t, e, i) {
     function s() {
       q.resolve()
     }
-    console.log('ff');
+
     var a, l, c, h, u, d, p, _, f, m, g, v, y, b, S, w, T, C, x, P, L, I, k, A, M, E, D, V, O, R, B, z, F, N, W, H, U, j, q, G;
     i(570), i(12), a = i(573), i(574), i(298), i(601), n(), l = i(2), c = i(39), h = i(602).HeaderToolbar, u = i(621).DrawingToolbar, d = i(306).isDrawingToolbarVisible, p = i(310), _ = i(311), f = i(52).Action, m = i(393).ChartSaver, g = i(744).StudyTemplates, v = i(759).FavoriteStudyTemplateService, y = i(76), b = i(23), S = i(28), w = S.formatterOptions, T = S.customFormatters, C = i(760), x = i(761), P = i(769).SaveLoadWidget, L = i(93).TVXWindowEvents, I = i(774), k = i(207), A = i(322).Root, M = i(779).ChartPage, E = new A(window), D = new M(E.allocate()), i(782), V = i(783), O = i(973).FavoriteDrawingToolbar, R = i(976), B = i(1001), z = i(33), F = i(1010), i(234), i(1018), N = i(71), W = window.parent[urlParams.uid].customIndicatorsUrl, H = $.Deferred(), U = $.Deferred(), $.when(H, U).done(function () {
         ChartApiInstance.start()
