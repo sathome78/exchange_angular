@@ -75,7 +75,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   get value() {
-    return this.exponentToNumber(this._innerValue);
+    return this.roundCurrencyPipe.transform(this._innerValue, this.currencyName);
   }
 
   set value(v) {
@@ -108,19 +108,5 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   onBlur($event) {
     this.onTouched();
     this.writeValue($event.target.value);
-  }
-
-  /**
-   * Method transform exponent format to number
-   */
-  exponentToNumber(exponentialNumber: number): number|string {
-    const str = exponentialNumber.toString();
-    if (str.indexOf('e') !== -1) {
-      const exponent = parseInt(str.split('-')[1], 10);
-      const result = parseFloat(exponentialNumber.toString()).toFixed(exponent);
-      return result;
-    } else {
-      return exponentialNumber;
-    }
   }
 }
