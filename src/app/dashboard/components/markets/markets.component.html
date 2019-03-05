@@ -1,5 +1,5 @@
 <div class="widget widget--gradient">
-  <div class="widget__header panel-heading">
+  <div class="widget__header panel-heading" *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
     <span class="widget__name">{{'Markets' | translate}}</span>
     <a href="#" class="widget__question">
       <span class="widget__question-img">
@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div class="widget__header--mob" *ngIf="!marketSearch && !loading">
+  <div class="widget__header--mob" *ngIf="!marketSearch && !loading && (breakpointService.breakpoint$ | async) === 'mobile'">
     <div class="widget__name-mob">{{'Markets' | translate}}</div>
     <div class="widget__search-btn" (click)="toggleSearchModal()">
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,7 +31,7 @@
       {{'Search' | translate}}
     </div>
   </div>
-  <div class="tabs widget__tabs widget__tabs--mob widget__markets-tabs">
+  <div class="tabs widget__tabs widget__tabs--mob widget__markets-tabs" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
       <button class="tabs__item  tabs__item--active"
               [ngClass]="{'tabs__item--active': currencyDisplayMode === 'BTC','tab-no-active': currencyDisplayMode !== 'BTC'}"
               (click)="selectedTab('BTC')">
@@ -70,7 +70,7 @@
     </div>
 
 
-  <div class="widget__content" *ngIf="!loading">
+  <div class="widget__content" *ngIf="!loading && (breakpointService.breakpoint$ | async) === 'desktop'">
     <div class="tabs widget__tabs">
       <button class="tabs__item tabs__item--small"
               [ngClass]="{'tabs__item--active': currencyDisplayMode === 'BTC','tab-no-active': currencyDisplayMode !== 'BTC'}"
@@ -163,7 +163,7 @@
   </div>
 
 
-  <div class="widget__content widget__content--mob" *ngIf="!marketSearch && !loading">
+  <div class="widget__content widget__content--mob" *ngIf="!marketSearch && !loading && (breakpointService.breakpoint$ | async) === 'mobile'">
     <!--table mob start-->
     <div class="markets__table widget__table-markets-mob">
       <div class="markets__thead">
@@ -231,7 +231,7 @@
 
   <app-market-search
     (closeModal)="toggleSearchModal($event)"
-    *ngIf="marketSearch"
+    *ngIf="marketSearch && (breakpointService.breakpoint$ | async) === 'mobile'"
     [pairs]="currencyPairs"
     [currency]="currencyName"
   >

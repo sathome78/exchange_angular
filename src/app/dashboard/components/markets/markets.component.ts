@@ -8,11 +8,10 @@ import {CurrencyPair} from '../../../model/currency-pair.model';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {MarketService} from './market.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
-import {UserService} from '../../../shared/services/user.service';
 import {getActiveCurrencyPair} from '../../../core/reducers';
-import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
-import { AuthService } from 'app/shared/services/auth.service';
+
 import {ActivatedRoute, Router} from '@angular/router';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
 
 
 @Component({
@@ -48,12 +47,11 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   constructor(
     private marketService: MarketService,
     private store: Store<State>,
-    private dashboardWebsocketService: DashboardWebSocketService,
-    private authService: AuthService,
+    public breakpointService: BreakpointService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService) {
+  ) {
     super();
   }
 

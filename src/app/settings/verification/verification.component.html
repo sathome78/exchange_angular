@@ -41,35 +41,25 @@
 
     <!-- ================= NEW KYC start ==================== -->
 
-    <!--<div class="settings-button-wr checkbox-wr">-->
-      <!--<div class="balance__hide-zero">-->
-        <!--<label for="" class="toggler">-->
-          <!--<input type="checkbox" name="" [(ngModel)]="checkboxPasswordValue">-->
-          <!--<span class="toggler__indicate"></span>-->
-        <!--</label>-->
-        <!--<span>{{'Passport' | translate}}</span>-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--<div class="settings-button-wr checkbox-wr">-->
-      <!--<div class="balance__hide-zero">-->
-        <!--<label for="" class="toggler">-->
-          <!--<input type="checkbox" name="" [(ngModel)]="checkboxIDCardValue">-->
-          <!--<span class="toggler__indicate"></span>-->
-        <!--</label>-->
-        <!--<span>{{'ID card' | translate}}</span>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-
-  <!--&lt;!&ndash;Input error section starts&ndash;&gt;-->
-  <!--<div class="checkbox-error-message-wr">-->
-    <!--<span class="wrap-input__message wrap-input__message&#45;&#45;show"-->
-          <!--style="text-align: center;"-->
-          <!--*ngIf="isSubmited">-->
-      <!--{{'Please, select document type.' | translate}}-->
-    <!--</span>-->
-  <!--</div>-->
-  <!--&lt;!&ndash;Input error section ends&ndash;&gt;-->
+    <div class="settings-button-wr checkbox-wr">
+      <div class="balance__hide-zero">
+        <label for="" class="toggler">
+          <input type="radio" value="P" name="" [(ngModel)]="dataModel.typeDoc">
+          <span class="toggler__indicate"></span>
+        </label>
+        <span>{{'Passport' | translate}}</span>
+      </div>
+    </div>
+    <div class="settings-button-wr checkbox-wr">
+      <div class="balance__hide-zero">
+        <label for="" class="toggler">
+          <input type="radio" value="ID" name="" [(ngModel)]="dataModel.typeDoc">
+          <span class="toggler__indicate"></span>
+        </label>
+        <span>{{'ID card' | translate}}</span>
+      </div>
+    </div>
+  </div>
 
   <div class="formWraper">
     <form [formGroup]="form">
@@ -107,41 +97,34 @@
         </div>
         <div class="wrap-input  filters-popup__datepicker">
           <label class="wrap-input__label"
-                 [ngClass]="{'select-input_label': isInputFocus || form.get('dateBirth').value}">
+                 [ngClass]="{'select-input_label': isInputFocus || !!modelDateTo?.date}">
             {{'Date of Birth' | translate}}
           </label>
-          <app-date-mask-input [setOnInput]="true"
-                               name="dateBirth" formControlName="dateBirth"
-                               [innValue]="modelDateTo"
-                               [limitDate]="false"
-                               (validDate)="checkAge($event)"
-                               (inputFocus)="inputFocus($event)"
-                               class="dark-theme wrap-input__input">
-          </app-date-mask-input>
+          <app-date-mask-input
+            [innValue]="modelDateTo"
+            (validDate)="checkAge($event)"
+            (inputEmpty)="clearModelDateTo()"
+            (inputFocus)="inputFocus($event)"
+          ></app-date-mask-input>
+          <my-date-picker
+            [defaultMonth]="defaultMonth"
+            [options]="myDatePickerOptions"
+            [(ngModel)]="modelDateTo"
+            (dateChanged)="checkAge($event)"
+          >
+          </my-date-picker>
           <div class="wrap-input__line"></div>
-          <!--Input error section starts-->
-            <div *ngIf="form.get('dateBirth').errors != null">
-          <div class="input-hint-wrapper">
-            <span class="wrap-input__message wrap-input__message--show"
-                  *ngIf="form.get('dateBirth').errors['required'] && (form.get('dateBirth').touched || isSubmited)">
-              {{'Date of Birth is required.' | translate}}
-            </span>
-            <span class="wrap-input__message wrap-input__message--show"
-                  *ngIf="form.get('dateBirth').errors['pattern'] && (form.get('dateBirth').touched || isSubmited)">
-              {{'Date of Birth not valid.' | translate}}
-            </span>
-          </div>
-          </div>
-          <!--Input error section ends-->
         </div>
       </div>
 
     </form>
 
+
     <button
       class="btn settings__form-btn settings__password-btn"
       (click)="sendForm()"
-      [ngClass]="{'settings__form-btn--active': form.valid}"
+      [disabled]="form.invalid || !modelDateTo?.date"
+      [ngClass]="{'settings__form-btn--active': form.valid && !!modelDateTo?.date}"
     >{{'Send'  | translate}}</button>
   </div>
 
