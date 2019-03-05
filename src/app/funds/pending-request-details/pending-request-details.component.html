@@ -72,7 +72,7 @@
         </div>
         <div class="open-mob-request__item">
           <div class="open-mob-request__item-title">{{'Status' | translate}}</div>
-          <div class="open-mob-request__item-value">{{pendingRequestsItem.statusMap[detailsItem.status]}}</div>
+          <div class="open-mob-request__item-value">{{detailsItem.status | showPendingStatus: detailsItem.operation}}</div>
         </div>
         <div class="open-mob-request__btn-wrap">
           <!--<button class="btn">I paid</button>-->

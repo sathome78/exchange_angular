@@ -14,7 +14,7 @@ import {CurrencyChoose} from '../../model/currency-choose.model';
 import * as fromCore from '../../core/reducers';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
 import {Router} from '@angular/router';
-import {PopupService} from '../../shared/services/popup.service';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-balance',
@@ -63,7 +63,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     public balanceService: BalanceService,
     private store: Store<fromCore.State>,
     private dashboardWS: DashboardWebSocketService,
-    private popupService: PopupService,
+    public breakpointService: BreakpointService,
     private router: Router
   ) {
     this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));

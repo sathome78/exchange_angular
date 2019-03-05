@@ -22,38 +22,7 @@
     max-width: 230px;
     margin-bottom: 28px;
   }
-  &__crypto-title{
-    margin-bottom: 4px;
-    color:#A0A0A0;
-  }
-  &__crypto-hash{
-    font-weight: bold;
-    margin-bottom: 8px;
-
-    width: 296px;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-
-    /* Adds a hyphen where the word breaks */
-    //-webkit-hyphens: auto;
-    //-ms-hyphens: auto;
-    //-moz-hyphens: auto;
-    //hyphens: auto;
-  }
-  &__crypto-copy-btn{
-    margin-bottom: 20px;
-  }
-  &__crypto-comission{
-    font-size: 12px;
-    line-height: 14px;
-    color:#A0A0A0;
-  }
-  &__crypto-memo{
-    margin-top: 20px;
-  }
-  &__qr-code{
-    display: none;
-  }
+  
 }
 .modal__note{
   width: calc(100% + 24px);

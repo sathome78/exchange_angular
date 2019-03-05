@@ -1,6 +1,6 @@
 <div class="container">
   <!--transaction-history-mob start-->
-  <div class="transaction transaction--mob">
+  <div class="transaction transaction--mob"  *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
     <div class="transaction__header-mob">
       <div class=" orders__page-title">
         {{'Transaction history' | translate}}
@@ -176,7 +176,7 @@
   <!--transaction-history-mob end-->
 
   <!--transaction-history-desktop start-->
-  <div class="transaction">
+  <div class="transaction"  *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
     <div class="page-title">
       <h1 class="page-title__text">
         {{'Transaction history' | translate}}
