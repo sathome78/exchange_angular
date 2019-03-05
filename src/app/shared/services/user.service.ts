@@ -221,6 +221,15 @@ export class UserService {
   getUrl(end: string) {
     return this.HOST + '/api/public/v2/' + end;
   }
+
+  public getTransactionsCounterForGTag(): Observable<any> {
+    const url = this.HOST + '/api/private/v2/balances/refill/afgssr/gtag';
+    return this.http.get<any>(url);
+  }
+  public clearTransactionsCounterForGTag(): Observable<any> {
+    const url = this.HOST + '/api/private/v2/balances/refill/afgssr/gtag';
+    return this.http.delete<any>(url);
+  }
 }
 
 export interface IpAddress {

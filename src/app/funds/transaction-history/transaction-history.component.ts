@@ -168,6 +168,22 @@ export class TransactionHistoryComponent implements OnInit {
     this.loadTransactions();
   }
 
+  clearModelDateTo() {
+    this.modelDateTo = null;
+  }
+
+  clearModelDateFrom() {
+    this.modelDateFrom = null;
+  }
+
+  focusOrBlurDateFrom(event) {
+    if (!event) this.modelDateFrom = {...this.modelDateFrom};
+  }
+
+  focusOrBlurDateTo(event) {
+    if (!event) this.modelDateTo = {...this.modelDateTo};
+  }
+
   /** tracks input changes in a my-date-picker component */
   dateFromChanged(event: IMyDateModel): void {
     this.modelDateFrom = {date: event.date};
@@ -203,7 +219,7 @@ export class TransactionHistoryComponent implements OnInit {
    * @returns { string } returns string in format yyyy-mm-dd: example 2018-09-28
    */
   formatDate(date: IMyDate): string {
-    if(date.year === 0 && date.day === 0) {
+    if(!date || date.year === 0 && date.day === 0) {
       return null;
     }
     const day = date.day < 10 ? '0' + date.day : date.day;

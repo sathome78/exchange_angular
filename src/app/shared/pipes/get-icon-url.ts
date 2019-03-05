@@ -1,10 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import {UtilsService} from '../services/utils.service';
 
 @Pipe({
   name: 'getIconUrl'
 })
 export class GetIconUrl  implements PipeTransform {
-  transform(name: string): string {
+
+  constructor(
+    private utilService: UtilsService,
+  ) {}
+
+  transform(name: string, isWhite: boolean = false): string {
 
     switch (name) {
       case '':
@@ -77,7 +83,8 @@ export class GetIconUrl  implements PipeTransform {
         name = 'no_icon';
         break;
     }
-    const iconSrc = `assets/img/currency-icons/${name.toLowerCase()}.svg`;
+
+    const iconSrc = `assets/img/currency-icons/${name.toLowerCase()}${isWhite && this.utilService.isFiat(name) ? '-white' : ''}.svg`;
     return iconSrc;
   }
 }

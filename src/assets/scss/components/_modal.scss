@@ -415,7 +415,7 @@
         &--valid {
           color: $darker-blue;
           border-color: $darker-blue;
-
+          
           &:after {
             background-image: url("assets/img/step-valid.svg");
           }
