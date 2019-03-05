@@ -105,13 +105,21 @@
   <div class="widget__graph">
 
      <div class="amcharts-stock_chart_div" id="tv_chart_container"></div>
+
      <div class="widget__graph--mob">
       <!-- <div class="amcharts-stock_chart_div" id="tv_chart_container"></div> -->
+
+
       <div class="trade-buttons-wr">
         <a href="#" class="btn btn--active widget__trading-btn widget__trading-btn--buy">Buy BTC</a>
         <a href="#" class="btn btn--active widget__trading-btn widget__trading-btn--sell" >Sell BTC</a> <!-- (click)="onSubmit(SELL)" -->
       </div>
     </div>
+
+    <div class="widget__content widget__content--mob button-fixed-block">
+      <app-trade-history></app-trade-history>
+    </div>
+
   </div>
 
 </div>

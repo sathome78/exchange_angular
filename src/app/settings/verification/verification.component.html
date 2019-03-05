@@ -117,6 +117,7 @@
           <app-date-mask-input [setOnInput]="true"
                                name="dateBirth" formControlName="dateBirth"
                                [innValue]="modelDateTo"
+                               [limitDate]="false"
                                (validDate)="checkAge($event)"
                                (inputFocus)="inputFocus($event)"
                                class="dark-theme wrap-input__input">

@@ -12,6 +12,7 @@ import {UserService} from '../../../shared/services/user.service';
 import {getActiveCurrencyPair} from '../../../core/reducers';
 import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
 import { AuthService } from 'app/shared/services/auth.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 
 @Component({
@@ -50,6 +51,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     private dashboardWebsocketService: DashboardWebSocketService,
     private authService: AuthService,
     private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute,
+    private router: Router,
     private userService: UserService) {
     super();
   }
@@ -148,6 +151,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   onSelectCurrencyPair(pair: CurrencyPair): void {
     this.selectedCurrencyPair = pair;
     this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(pair));
+    if (this.route.snapshot.paramMap.get('currency-pair')) {
+       this.router.navigate(['/']);
+    }
   }
 
   /**
