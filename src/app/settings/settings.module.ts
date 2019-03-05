@@ -22,6 +22,7 @@ import {CoreEffects} from 'app/core/effects/core.effects';
 import {SettingsEffects} from './store/effects/settings.effects';
 import {reducer} from './store/reducers/settings.reducer';
 import {SharedModule} from 'app/shared/shared.module';
+import {MyDatePickerModule} from 'mydatepicker';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.settings, translateInfo.suffix);
@@ -34,6 +35,7 @@ export function createTranslateLoader(http: HttpClient) {
     Ng5SliderModule,
     ReactiveFormsModule,
     SettingsRoutingModule,
+    MyDatePickerModule,
     SharedModule,
     TranslateModule.forChild({
       loader: {
