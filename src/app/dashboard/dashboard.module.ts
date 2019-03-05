@@ -5,7 +5,6 @@ import {NgModule} from '@angular/core';
 import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {environment} from '../../environments/environment';
 import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from '@stomp/ng2-stompjs';
-import {ActivePairComponent} from './components/active-pair/active-pair.component';
 import {ChatComponent} from './components/chat/chat.component';
 import {ChatMessageComponent} from './components/chat/chat-message/chat-message.component';
 import {CurrencyPairInfoComponent} from './components/currency-pair-info/currency-pair-info.component';
@@ -87,7 +86,6 @@ const stompConfig: InjectableRxStompConfig = {
 
 @NgModule({
   declarations: [
-    ActivePairComponent,
     ChatComponent,
     ChatMessageComponent,
     CurrencyPairInfoComponent,
@@ -122,7 +120,6 @@ const stompConfig: InjectableRxStompConfig = {
     // PIPES END
   ],
   exports: [
-    ActivePairComponent,
     ChatComponent,
     ChatMessageComponent,
     DashboardComponent,

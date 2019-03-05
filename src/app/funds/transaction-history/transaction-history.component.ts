@@ -14,6 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 import saveAs from 'file-saver'
 import { CurrencyChoose } from 'app/model/currency-choose.model';
 import { ConstantsService } from 'app/shared/services/constants.service';
+import { BreakpointService } from 'app/shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-transaction-history',
@@ -59,6 +60,7 @@ export class TransactionHistoryComponent implements OnInit {
     private store: Store<State>,
     private transactionsService: TransactionsService,
     public constantsService: ConstantsService,
+    public breakpointService: BreakpointService,
     private utils: UtilsService,
   ) {
     this.transactionsItems$ = store.pipe(select(fundsReducer.getTrHistorySelector));
