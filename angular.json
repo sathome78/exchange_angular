@@ -102,6 +102,9 @@
             "production": {
               "browserTarget": "exrates-front-new:build:production"
             },
+            "pre-prod": {
+              "browserTarget": "exrates-front-new:build:pre-prod"
+            },
             "staging": {
               "browserTarget": "exrates-front-new:build:staging"
             },
