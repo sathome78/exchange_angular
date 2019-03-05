@@ -3,6 +3,9 @@
 }
 .button-fixed-block{
   padding-bottom: 90px;
+  @media(max-width: 1199px){
+    padding-bottom: 66px;
+  }
 }
 .radio__input:checked{
   &+.radio__text{

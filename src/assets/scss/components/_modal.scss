@@ -618,6 +618,7 @@
       &__message {
         &--show {
           color: $light-grey;
+          margin-top: 3px;
         }
 
         &--error {
@@ -826,6 +827,7 @@
       } 
       div.select__value--active{
         border-color: #94C2FF;
+        color:#DEDEFB;
         input.no-line{
           color: #DEDEFB!important;
           &::placeholder{
@@ -837,6 +839,10 @@
           background: #191A39!important;
         }
       }
+      .request-errors{
+        text-align: center;
+      }
+
     }
     @media(max-width: 568px){
       .refill__select--cripto{
