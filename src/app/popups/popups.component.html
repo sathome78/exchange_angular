@@ -1,0 +1,46 @@
+
+<div *ngIf="popupService.getLoginMobilePopupListener() | async">
+  <app-login-popup-mobile></app-login-popup-mobile>
+</div>
+
+<div *ngIf="popupService.getRegistrationMobilePopupListener() | async">
+  <app-registration-mobile-popup></app-registration-mobile-popup>
+</div>
+
+<div *ngIf="popupService.getRecoveryPasswordListener() | async">
+  <app-recovery-pass></app-recovery-pass>
+</div>
+
+<div *ngIf="popupService.getRestoredPasswordPopupListener() | async">
+  <app-restored-password-popup></app-restored-password-popup>
+</div>
+
+<div *ngIf="popupService.getAlreadyRegisteredPopupListener() | async">
+  <app-already-registered-popup></app-already-registered-popup>
+</div>
+
+<div *ngIf="popupService.getSessionExpiredPopupListener() | async">
+  <app-session-expired-popup></app-session-expired-popup>
+</div>
+
+<div *ngIf="popupService.getAlreadyRestoredPasswordPopupListener() | async">
+  <app-already-restored-password-popup></app-already-restored-password-popup>
+</div>
+
+<div *ngIf="popupService.getSessionTimeSavedPopupListener() | async">
+  <app-session-time-saved-popup></app-session-time-saved-popup>
+</div>
+
+<div *ngIf="popupService.getChangedPasswordPopupListener() | async">
+  <app-password-changed-popup></app-password-changed-popup>
+</div>
+
+<div *ngIf="popupService.getDemoTradingPopupListener() | async">
+  <app-demo-trading-popup [message]="popupService.demoPopupMessage"></app-demo-trading-popup>
+</div>
+
+<div *ngIf="!!(popupService.getInfoPopupListener() | async)">
+  <app-popup-info
+    [popupData]="popupService.getInfoPopupListener() | async">
+  </app-popup-info>
+</div>

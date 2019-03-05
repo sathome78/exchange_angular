@@ -205,56 +205,22 @@
     </app-kyc-popup>
   </div>
 
-  <div *ngIf="isLoginPopupOpen">
-    <app-login-popup></app-login-popup>
-  </div>
-
-  <div *ngIf="isLoginMobilePopupOpen">
-    <app-login-popup-mobile></app-login-popup-mobile>
-  </div>
-
-  <div *ngIf="isRegistrationMobilePopupOpen">
-    <app-registration-mobile-popup></app-registration-mobile-popup>
-  </div>
-
-  <div *ngIf="isRecoveryPasswordPopupOpen">
-    <app-recovery-pass></app-recovery-pass>
-  </div>
-
-  <div *ngIf="isRestoredPasswordPopupOpen">
-    <app-restored-password-popup></app-restored-password-popup>
-  </div>
-
-  <div *ngIf="isOpenAlreadyRegisteredPopup">
-    <app-already-registered-popup></app-already-registered-popup>
-  </div>
 
   <div *ngIf="isOpenInfoPopup">
-    <app-popup-info
-    [popupData]="popupData"
-    ></app-popup-info>
+    <app-popup-info [popupData]="popupData"></app-popup-info>
   </div>
 
-  <div *ngIf="isOpenSessionExpiredPopup">
-    <app-session-expired-popup></app-session-expired-popup>
-  </div>
 
-  <div *ngIf="isAlreadyRestoredPasswordPopupOpen">
-    <app-already-restored-password-popup></app-already-restored-password-popup>
-  </div>
-  <div *ngIf="isSessionTimeSavedPopupOpen">
-    <app-session-time-saved-popup></app-session-time-saved-popup>
-  </div>
+  <!--<div *ngIf="isOpenDemoTradingPopup">-->
+    <!--<app-demo-trading-popup-->
+    <!--[message]="popupService.demoPopupMessage"-->
+    <!--&gt;</app-demo-trading-popup>-->
+  <!--</div>-->
 
-  <div *ngIf="isChangedPasswordPopupOpen">
-    <app-password-changed-popup></app-password-changed-popup>
-  </div>
+    <!-- popups container -->
+    <app-popups></app-popups>
 
-  <div *ngIf="isOpenDemoTradingPopup">
-    <app-demo-trading-popup
-    [message]="popupService.demoPopupMessage"
-    ></app-demo-trading-popup>
-  </div>
+
   <!--<app-refill-money></app-refill-money>-->
   <!--<app-send-money></app-send-money>-->
   <router-outlet></router-outlet>

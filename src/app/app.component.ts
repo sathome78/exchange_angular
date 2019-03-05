@@ -35,18 +35,8 @@ export class AppComponent implements OnInit, OnDestroy {
   isTfaPopupOpen = false;
   isIdentityPopupOpen = false;
   isKYCPopupOpen = false;
-  isLoginPopupOpen = false;
-  isLoginMobilePopupOpen = false;
-  isRegistrationMobilePopupOpen = false;
-  isRecoveryPasswordPopupOpen = false;
-  isRestoredPasswordPopupOpen = false;
-  isChangedPasswordPopupOpen = false;
-  isAlreadyRestoredPasswordPopupOpen = false;
-  isSessionTimeSavedPopupOpen = false;
   isOpenDemoTradingPopup = false;
-  isOpenAlreadyRegisteredPopup = false;
   isOpenInfoPopup = false;
-  isOpenSessionExpiredPopup = false;
   /** notification messages array */
   notificationMessages: NotificationMessage[];
 
@@ -93,20 +83,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
     this.subscribeForKYCEvent();
-    this.subscribeForLoginEvent();
-    this.subscribeForMobileLoginEvent();
-    this.subscribeForMobileRegistrationEvent();
-    this.subscribeForRecoveryPasswordEvent();
-    this.subscribeForRestoredPasswordPopup();
-    this.subscribeForAlreadyRestoredPasswordPopup();
-    this.subscribeForDemoTradingPopup();
-    this.subscribeForSessionTimeSavedPopup();
-    this.subscribeForChangedPasswordPopup();
-    // this.setClientIp();
+    // this.subscribeForDemoTradingPopup();
     this.subscribeForNotifications();
-    this.subscribeForAlreadyRegisteredPopup();
-    this.subscribeForInfoPopup();
-    this.subscribeForSessionExpiredPopup();
+    // this.subscribeForInfoPopup();
   }
 
   subscribeForTfaEvent() {
@@ -117,102 +96,25 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
-  subscribeForMobileLoginEvent() {
-    this.popupService.getLoginMobilePopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.isLoginMobilePopupOpen = value;
-      });
-  }
 
-  subscribeForDemoTradingPopup() {
-    this.popupService.getDemoTradingPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.isOpenDemoTradingPopup = res;
-      });
-  }
+  // subscribeForDemoTradingPopup() {
+  //   this.popupService.getDemoTradingPopupListener()
+  //     .pipe(takeUntil(this.ngUnsubscribe))
+  //     .subscribe(res => {
+  //       this.isOpenDemoTradingPopup = res;
+  //     });
+  // }
 
-  subscribeForAlreadyRegisteredPopup() {
-    this.popupService.getAlreadyRegisteredPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.isOpenAlreadyRegisteredPopup = res;
-      });
-  }
 
-  subscribeForInfoPopup() {
-    this.popupService.getInfoPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.popupData = res;
-        this.isOpenInfoPopup = !!res;
-      });
-  }
+  // subscribeForInfoPopup() {
+  //   this.popupService.getInfoPopupListener()
+  //     .pipe(takeUntil(this.ngUnsubscribe))
+  //     .subscribe(res => {
+  //       this.popupData = res;
+  //       this.isOpenInfoPopup = !!res;
+  //     });
+  // }
 
-  subscribeForSessionExpiredPopup() {
-    this.popupService.getSessionExpiredPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.isOpenSessionExpiredPopup = res;
-      });
-  }
-
-  subscribeForAlreadyRestoredPasswordPopup() {
-    this.popupService.getAlreadyRestoredPasswordPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.isAlreadyRestoredPasswordPopupOpen = res;
-      });
-  }
-
-  subscribeForRestoredPasswordPopup() {
-    this.popupService.getRestoredPasswordPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.isRestoredPasswordPopupOpen = res;
-      });
-  }
-
-  subscribeForSessionTimeSavedPopup() {
-    this.popupService.getSessionTimeSavedPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.isSessionTimeSavedPopupOpen = res;
-      });
-  }
-
-  subscribeForChangedPasswordPopup() {
-    this.popupService.getChangedPasswordPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.isChangedPasswordPopupOpen = res;
-      });
-  }
-
-  subscribeForMobileRegistrationEvent() {
-    this.popupService.getRegistrationMobilePopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.isRegistrationMobilePopupOpen = value;
-      });
-  }
-
-  subscribeForRecoveryPasswordEvent() {
-    this.popupService.getRecoveryPasswordListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.isRecoveryPasswordPopupOpen = value;
-      });
-  }
-
-  subscribeForLoginEvent() {
-    this.popupService.getLoginPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.isLoginPopupOpen = value;
-      });
-  }
 
   subscribeForIdentityEvent() {
     this.popupService.getIdentityPopupListener()
