@@ -16,7 +16,8 @@ export class KycPopupComponent implements OnInit {
 
   @Input() showPopup;
   @Input() step = 1;
-  public iframeUrl = '';
+  @Input() iframeUrl = '';
+  public isKYC2 = true;
   public status$;
 
   constructor(
@@ -34,6 +35,7 @@ export class KycPopupComponent implements OnInit {
   }
 
   goToSecondStep(event) {
+    this.isKYC2 = false;
     this.iframeUrl = event;
     this.step = 2;
   }

@@ -122,6 +122,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
       this.verificationService.sendKYCData(this.dataModel)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
+          this.popupService.showKYCPopup(2, res.data.url);
           this.form.reset();
           this.dataModel = this.defaultModel;
         }, err => console.log(err));
