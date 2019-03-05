@@ -108,12 +108,12 @@
     <div class="title refill__fiat-successful-title">Request was created!</div>
     <div class="subtitle refill__fiat-successful-subtitle">
       Please go to
-      <a #redirectionLink href="{{redirectionUrl}}" (click)="hideSend()">{{selectMerchantName}}</a>
+      <a class="standart-link" #redirectionLink href="{{redirectionUrl}}" (click)="hideSend()">{{selectMerchantName}}</a>
       to make a payment
       <b>{{refillData.params.ok_item_1_price}} {{refillData.params.ok_currency}}</b>
     </div>
     <div class="subtitle refill__fiat-successful-subtitle">
-      You can track the progress in history section on <a routerLink="/funds/balances">funds</a> page
+      You can track the progress in history section on <a class="standart-link" routerLink="/funds/balances">funds</a> page
     </div>
 
     <form name="hideForm" method="post" [action]="refillData.redirectionUrl"
