@@ -204,6 +204,7 @@
             (validDate)="dateFromChanged($event)"
             (inputEmpty)="clearModelDateFrom()"
             (inputFocus)="focusOrBlurDateFrom($event)"
+            [disableAutoFocus]="true"
           ></app-date-mask-input>
           <my-date-picker
             name="history-from"
@@ -222,6 +223,7 @@
             (validDate)="dateToChanged($event)"
             (inputEmpty)="clearModelDateTo()"
             (inputFocus)="focusOrBlurDateTo($event)"
+            [disableAutoFocus]="true"
           ></app-date-mask-input>
           <my-date-picker
             name="history-to"
