@@ -97,7 +97,10 @@
   margin-bottom: 40px;
   min-height: 25px;
 }
-
+.formWraper{
+  max-width: 230px;
+  width: 100%;
+}
 .send{
   &__title{
     text-align: center;
@@ -107,6 +110,27 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    &.kyc-wr{
+  flex-direction: column;
+  app-date-mask-input{
+    width: 100%!important;
+  }
+  .wrap-input__input{
+
+    position: relative;
+  }
+  .wrap-input{
+    max-width: unset;
+    width: 100%;
+    &.send__wrap-input{
+    margin-bottom: 20px;
+
+    }
+    input{
+      max-width: unset;
+    }
+  }
+}
   }
   &__select{
     width: 100%;

@@ -1,7 +1,7 @@
 <div class="settings__content id-verification" *ngIf="showComponent">
   <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>
   <div
-    class="subtitle settings__content-subtitle">{{'You should pass identity verification to achive something usefull and important.' | translate}} {{'We dont know what exactly, but we will!' | translate}} {{'For sure.' | translate}}</div>
+    class="subtitle settings__content-subtitle">{{'You must pass identity verification to access your withdrawal.' | translate}}</div>
   <div class="row settings__buttons-row" style="margin-bottom: 15px;">
     <!--<div class="settings-button-wr">-->
     <!--<button class="btn settings__btn" (click)="onOpenKYCPopup(1)"-->
@@ -73,14 +73,14 @@
 
   <div class="formWraper">
     <form [formGroup]="form">
-      <div class="send__inputs-wrap">
+      <div class="send__inputs-wrap kyc-wr">
         <div class="wrap-input  send__wrap-input">
           <input class="wrap-input__input" name="firstName" formControlName="firstName" required>
           <label class="wrap-input__label">{{'First Name' | translate}}</label>
           <div class="wrap-input__line"></div>
           <!--Input error section starts-->
-          <div class="error-message-wr">
             <div *ngIf="form.get('firstName').errors != null">
+          <div class="input-hint-wrapper">
              <span class="wrap-input__message wrap-input__message--show"
              *ngIf="form.get('firstName').errors['required'] && (form.get('firstName').touched || isSubmited)">
                {{'First Name is required.' | translate}}
@@ -95,8 +95,8 @@
           <label class="wrap-input__label">{{'Last Name' | translate}}</label>
           <div class="wrap-input__line"></div>
           <!--Input error section starts-->
-          <div class="error-message-wr">
             <div *ngIf="form.get('lastName').errors != null">
+          <div class="input-hint-wrapper">
             <span class="wrap-input__message wrap-input__message--show"
                   *ngIf="form.get('lastName').errors['required'] && (form.get('lastName').touched || isSubmited)">
               {{'Last Name is required.' | translate}}
@@ -105,10 +105,6 @@
           </div>
           <!--Input error section ends-->
         </div>
-      </div>
-
-      <div class="send__inputs-wrap">
-
         <div class="wrap-input  filters-popup__datepicker">
           <label class="wrap-input__label"
                  [ngClass]="{'select-input_label': isInputFocus || form.get('dateBirth').value}">
@@ -124,8 +120,8 @@
           </app-date-mask-input>
           <div class="wrap-input__line"></div>
           <!--Input error section starts-->
-          <div class="error-message-date-of-birth-wr">
             <div *ngIf="form.get('dateBirth').errors != null">
+          <div class="input-hint-wrapper">
             <span class="wrap-input__message wrap-input__message--show"
                   *ngIf="form.get('dateBirth').errors['required'] && (form.get('dateBirth').touched || isSubmited)">
               {{'Date of Birth is required.' | translate}}
@@ -139,6 +135,7 @@
           <!--Input error section ends-->
         </div>
       </div>
+
     </form>
 
     <button
