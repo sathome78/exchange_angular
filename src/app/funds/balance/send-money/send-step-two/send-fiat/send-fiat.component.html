@@ -61,8 +61,8 @@
         <div class="select__value select__value--active"
              (click)="togglePaymentSystemDropdown()"
         >
-          <img [src]="(selectedMerchant ? selectedMerchant.name : '') | getIconUrl" class="select__list-item-icon">
-          {{selectedMerchant ? selectedMerchant.name : ''}}
+          <img [src]="selectMerchantName | getIconUrl" class="select__list-item-icon">
+          {{selectMerchantName}}
         </div>
         <div class="select__label">{{'Payment system' | translate}}</div>
         <div class="select__line"></div>
@@ -82,13 +82,14 @@
           </div>
           <ul class="select__list select__list--open">
 
-            <li class="select__list-item"
-                *ngFor="let merchant of merchants"
-                (click)="selectMerchant(merchant)"
-            >
-              <img [src]="(merchant ? merchant.name : '') | getIconUrl" class="select__list-item-icon">
-              {{merchant ? merchant.name : ''}}
-            </li>
+            <ng-template ngFor let-merchant [ngForOf]="merchants">
+              <li class="select__list-item"
+                  *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
+                  (click)="selectMerchant(merchant, nested)">
+                <img [src]="nested.image_name | getIconUrl" class="select__list-item-icon">
+                {{nested.image_name}}
+              </li>
+            </ng-template>
 
           </ul>
         </div>
