@@ -117,3 +117,14 @@
 perfect-scrollbar{
   height: 150px;
 }
+
+
+@media(max-width: 1320px) and (min-width:1200px) {
+  .refill__select{
+    min-width: unset;
+    max-width: calc(100% - 200px);
+  }
+  .select__list-searching{
+    min-width: unset;
+  }
+}

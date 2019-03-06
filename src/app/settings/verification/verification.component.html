@@ -1,45 +1,10 @@
 <div class="settings__content id-verification" *ngIf="showComponent">
   <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>
   <div
-    class="subtitle settings__content-subtitle">{{'You must pass identity verification to access your withdrawal.' | translate}}</div>
-  <div class="row settings__buttons-row" style="margin-bottom: 15px;">
-    <!--<div class="settings-button-wr">-->
-    <!--<button class="btn settings__btn" (click)="onOpenKYCPopup(1)"-->
-    <!--[ngClass]="{'active': verificationStatus === NOT_VERIFIED, 'success': verificationStatus === LEVEL_ONE || verificationStatus === LEVEL_TWO}"-->
-    <!--&gt;-->
-    <!--<span class="btn__icon btn__icon&#45;&#45;blue btn__icon&#45;&#45;hover-white">-->
-    <!--<svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">-->
-    <!--<rect y="10.6953" width="2" height="7.94554" rx="1" transform="rotate(-45 0 10.6953)" fill="white"/>-->
-    <!--<rect x="5.73438" y="16.3984" width="2" height="14.3423" rx="1" transform="rotate(-135 5.73438 16.3984)" fill="white"/>-->
-    <!--</svg>-->
-    <!--</span>-->
-    <!--<span class="button__text">Level 1 <br>Verification ID Document</span>-->
-    <!--</button>-->
-    <!--<div class="level-description">-->
-    <!--<span *ngIf="verificationStatus === NOT_VERIFIED">Пройдите варификацию ID <br>и получи аккаунт Level 1</span>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="settings-button-wr">-->
-    <!--<button class="btn settings__btn" (click)="onOpenKYCPopup(2)"-->
-    <!--[ngClass]="{'active': verificationStatus === LEVEL_ONE, 'success': verificationStatus === LEVEL_TWO}"-->
-    <!--&gt;-->
-    <!--<span class="btn__icon btn__icon&#45;&#45;blue btn__icon&#45;&#45;hover-white">-->
-    <!--<svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">-->
-    <!--<rect y="10.6953" width="2" height="7.94554" rx="1" transform="rotate(-45 0 10.6953)" fill="white"/>-->
-    <!--<rect x="5.73438" y="16.3984" width="2" height="14.3423" rx="1" transform="rotate(-135 5.73438 16.3984)" fill="white"/>-->
-    <!--</svg>-->
-    <!--</span>-->
-    <!--<span class="button__text">Level 2 <br>Utility Bill</span>-->
-    <!--</button>-->
-    <!--<div class="level-description">-->
-    <!--<span *ngIf="verificationStatus === NOT_VERIFIED">Доступно после варификации ID</span>-->
-    <!--&lt;!&ndash; когда выполнен степ 1 выводить это описание &ndash;&gt;-->
-    <!--<span class="l2" *ngIf="verificationStatus === LEVEL_ONE">Пройдите варификацию Utility Bill <br>и получи аккаунт Level 2 <br>(доступно после варификации ID)</span>-->
-    <!--</div>-->
-    <!--</div>-->
+    class="subtitle settings__content-subtitle">{{'You must pass identity verification to access your withdrawal' | translate}}</div>
+  <div class="row settings__buttons-row checkbox-outher">
 
-
-    <!-- ================= NEW KYC start ==================== -->
+  <!-- ================= NEW KYC start ==================== -->
 
     <div class="settings-button-wr checkbox-wr">
       <div class="balance__hide-zero">
@@ -47,7 +12,7 @@
           <input type="radio" value="P" name="" [(ngModel)]="dataModel.typeDoc">
           <span class="toggler__indicate"></span>
         </label>
-        <span>{{'Passport' | translate}}</span>
+        <span class="toggler-text">{{'Passport' | translate}}</span>
       </div>
     </div>
     <div class="settings-button-wr checkbox-wr">
@@ -56,7 +21,7 @@
           <input type="radio" value="ID" name="" [(ngModel)]="dataModel.typeDoc">
           <span class="toggler__indicate"></span>
         </label>
-        <span>{{'ID card' | translate}}</span>
+        <span class="toggler-text">{{'ID card' | translate}}</span>
       </div>
     </div>
   </div>
@@ -95,6 +60,10 @@
           </div>
           <!--Input error section ends-->
         </div>
+      </div>
+    </form>
+
+      <div class="send__inputs-wrap">
         <div class="wrap-input  filters-popup__datepicker">
           <label class="wrap-input__label"
                  [ngClass]="{'select-input_label': isInputFocus || !!modelDateTo?.date}">
@@ -117,8 +86,6 @@
         </div>
       </div>
 
-    </form>
-
 
     <button
       class="btn settings__form-btn settings__password-btn"
@@ -126,33 +93,8 @@
       [disabled]="form.invalid || !modelDateTo?.date"
       [ngClass]="{'settings__form-btn--active': form.valid && !!modelDateTo?.date}"
     >{{'Send'  | translate}}</button>
-  <!-- </div> -->
+  </div>
 
   <!--  ================= NEW KYC end ==================== -->
 </div>
 
-
-<!--<div class="settings__content">-->
-<!--<h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>-->
-<!--<div class="subtitle settings__content-subtitle">{{'You should pass identity verification to achive something usefull and important.' | translate}} {{'We dont know what exactly, but we will!' | translate}} {{'For sure.' | translate}}</div>-->
-<!--<div class="row settings__buttons-row">-->
-<!---->
-<!--<button class="btn settings__btn" (click)="onOpenKYCPopup(1)">-->
-<!--<span class="btn__icon btn__icon&#45;&#45;blue btn__icon&#45;&#45;hover-white">-->
-<!--<svg width="29"  viewBox="0 0 29 23" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-<!--<path d="M25.8422 0H3.15778C1.41778 0 0 1.43343 0 3.19263V19.8074C0 21.5666 1.41778 23 3.15778 23H25.8422C27.5822 23 29 21.5666 29 19.8074V3.19263C29 1.43343 27.5822 0 25.8422 0ZM6.28333 7.5255C6.57333 6.09207 7.95889 5.14731 9.37667 5.44051C10.7944 5.73371 11.7289 7.13456 11.4389 8.56799C11.2456 9.61048 10.4078 10.4575 9.37667 10.653C7.95889 10.9462 6.57333 10.0014 6.28333 8.56799C6.21889 8.24221 6.21889 7.88385 6.28333 7.5255ZM13.34 16.9079C13.34 17.2989 13.0178 17.6246 12.6311 17.6246H5.09111C4.70444 17.6246 4.38222 17.2989 4.38222 16.9079V16.0609C4.35 13.7153 6.05778 11.7606 8.34556 11.4348C10.7944 11.1416 13.05 12.9334 13.3078 15.4093C13.34 15.5722 13.34 15.7677 13.34 15.9306V16.9079ZM24.36 14.2365C24.36 14.8303 23.8787 15.3116 23.2849 15.3116H16.9928C16.3991 15.3116 15.9178 14.8303 15.9178 14.2365C15.9178 13.6428 16.3991 13.1615 16.9928 13.1615H23.2849C23.8787 13.1615 24.36 13.6428 24.36 14.2365ZM24.36 8.76346C24.36 9.3572 23.8787 9.83853 23.2849 9.83853H16.9928C16.3991 9.83853 15.9178 9.3572 15.9178 8.76346C15.9178 8.16971 16.3991 7.68839 16.9928 7.68839H23.2849C23.8787 7.68839 24.36 8.16971 24.36 8.76346Z"/>-->
-<!--</svg>-->
-<!--</span>-->
-<!--<span class="button__text">{{'KYC step 1' | translate}}</span>-->
-<!--</button>-->
-
-<!--<button class="btn settings__btn" (click)="onOpenKYCPopup(2)">-->
-<!--<span class="btn__icon btn__icon&#45;&#45;blue btn__icon&#45;&#45;hover-white">-->
-<!--<svg width="29"  viewBox="0 0 29 23" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-<!--<path d="M25.8422 0H3.15778C1.41778 0 0 1.43343 0 3.19263V19.8074C0 21.5666 1.41778 23 3.15778 23H25.8422C27.5822 23 29 21.5666 29 19.8074V3.19263C29 1.43343 27.5822 0 25.8422 0ZM6.28333 7.5255C6.57333 6.09207 7.95889 5.14731 9.37667 5.44051C10.7944 5.73371 11.7289 7.13456 11.4389 8.56799C11.2456 9.61048 10.4078 10.4575 9.37667 10.653C7.95889 10.9462 6.57333 10.0014 6.28333 8.56799C6.21889 8.24221 6.21889 7.88385 6.28333 7.5255ZM13.34 16.9079C13.34 17.2989 13.0178 17.6246 12.6311 17.6246H5.09111C4.70444 17.6246 4.38222 17.2989 4.38222 16.9079V16.0609C4.35 13.7153 6.05778 11.7606 8.34556 11.4348C10.7944 11.1416 13.05 12.9334 13.3078 15.4093C13.34 15.5722 13.34 15.7677 13.34 15.9306V16.9079ZM24.36 14.2365C24.36 14.8303 23.8787 15.3116 23.2849 15.3116H16.9928C16.3991 15.3116 15.9178 14.8303 15.9178 14.2365C15.9178 13.6428 16.3991 13.1615 16.9928 13.1615H23.2849C23.8787 13.1615 24.36 13.6428 24.36 14.2365ZM24.36 8.76346C24.36 9.3572 23.8787 9.83853 23.2849 9.83853H16.9928C16.3991 9.83853 15.9178 9.3572 15.9178 8.76346C15.9178 8.16971 16.3991 7.68839 16.9928 7.68839H23.2849C23.8787 7.68839 24.36 8.16971 24.36 8.76346Z"/>-->
-<!--</svg>-->
-<!--</span>-->
-<!--<span class="button__text">{{'KYC step 2' | translate}}</span>-->
-<!--</button>-->
-<!--</div>-->
-<!--</div>-->

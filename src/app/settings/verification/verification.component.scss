@@ -76,9 +76,7 @@
 .filters-popup__datepicker {
   max-width: 455px;
 }
-.checkbox-wr {
-  margin: auto !important;
-}
+
 
 .error-message-wr {
   min-height: 25px;
@@ -110,27 +108,30 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 24px;
     &.kyc-wr{
-  flex-direction: column;
-  app-date-mask-input{
-    width: 100%!important;
-  }
-  .wrap-input__input{
+      margin-bottom: 0;
+      flex-direction: column;
+      app-date-mask-input{
+        width: 100%!important;
 
-    position: relative;
-  }
-  .wrap-input{
-    max-width: unset;
-    width: 100%;
-    &.send__wrap-input{
-    margin-bottom: 20px;
+      }
+      .wrap-input__input{
 
+        position: relative;
+      }
+      .wrap-input{
+        max-width: unset;
+        width: 100%;
+        &.send__wrap-input{
+          margin-bottom: 20px;
+
+        }
+        input{
+          max-width: unset;
+        }
+      }
     }
-    input{
-      max-width: unset;
-    }
-  }
-}
   }
   &__select{
     width: 100%;
@@ -242,9 +243,45 @@
     margin-top: 32px;
   }
 }
-.settings__buttons-row.checkbox-outher{
-  margin-bottom: 22px;
-  justify-content: space-between;
-  max-width: 230px;
-  width: 100%;
+.id-verification {
+  .formWraper{
+@media(max-width: 1199px){
+      margin: 0 auto;
+    }
+  }
+  .settings__buttons-row{
+    flex-direction: row;
+    @media(max-width: 1199px){
+      margin: 0 auto;
+    }
+  }
+  .filters-popup__datepicker{
+    margin-right: 0;
+  }
+  .settings__buttons-row.checkbox-outher{
+    margin-bottom: 22px;
+    justify-content: space-between;
+    max-width: 230px;
+    width: 100%;
+    .balance__hide-zero{
+      margin-left: 0;
+      max-width: unset;
+      display: flex;
+    align-self: center;
+    }
+    .checkbox-wr{
+      max-width: unset;
+      width: auto;
+
+    }
+  }
+  .toggler-text{
+    margin-left: 4px;
+    display: flex;
+    align-items: center;
+  }
 }
+
+
+
+

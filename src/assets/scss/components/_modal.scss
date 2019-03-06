@@ -617,8 +617,9 @@
 
       &__message {
         &--show {
-          color: $light-grey;
+          // color: $light-grey;
           margin-top: 3px;
+              color: #94C2FF;
         }
 
         &--error {
