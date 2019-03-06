@@ -148,7 +148,7 @@
           <div class="login-menu__submenu-item">
             <div class="item-title">{{'Estimated Holdings' | translate}}</div>
             <span>
-              ${{(myBalance | async)?.USD | roundCurrency: 'USD' | formatCurrency}}
+              ${{(myBalance | async)?.USD || 0 | roundCurrency: 'USD' | formatCurrency}}
             </span>
           </div>
           <a class="menu__link login-menu__link" routerLink="/settings" *ngIf="isAuthenticated">
@@ -250,7 +250,7 @@
       <div class="est-holding-wr">
         <a class="menu-mob__link menu-mob__link--next-page" *ngIf="isAuthenticated">
           <span class="menu-mob__link-text">{{'Estimated holdings' | translate}}</span>
-          <span class="menu-mob__link-holdings-inf">${{(myBalance | async)?.USD | roundCurrency:'USD' | formatCurrency}}</span>
+          <span class="menu-mob__link-holdings-inf">${{(myBalance | async)?.USD || 0 | roundCurrency:'USD' | formatCurrency}}</span>
         </a>
         <div class="e-h-descritption" *ngIf="isAuthenticated">
           <p>Pleace do not disclose SMS and Goodle Authentication codes to ahyone, including Exrates customer support</p>
