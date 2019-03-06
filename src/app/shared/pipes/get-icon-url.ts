@@ -57,6 +57,7 @@ export class GetIconUrl  implements PipeTransform {
       case 'Mir Payment':
       case 'Yandex Money':
       case 'Alfaclick Payment':
+      case 'Qubera':
       case 'BAT':
       case 'BTT':
       case 'CSC':
