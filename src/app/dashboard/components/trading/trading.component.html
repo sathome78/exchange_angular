@@ -73,7 +73,7 @@
         <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
           <div class="avaliable avaliable--aifl">
             <span>{{'Avaliable:' | translate}} </span>
-            <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(BUY)">{{userBalance?.cur2?.balance  | roundCurrency:userBalance?.cur2?.name | formatCurrency}} {{userBalance?.cur2?.name || ''}}</a>
+            <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(BUY)">{{userBalance?.cur2?.balance || 0  | roundCurrency:userBalance?.cur2?.name | formatCurrency}} {{userBalance?.cur2?.name || ''}}</a>
           </div>
         </div>
         <div class="row row__percent">
@@ -133,7 +133,7 @@
         <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
           <div class="avaliable avaliable--aifl">
             <span>{{'Avaliable:' | translate}} </span>
-            <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(SELL)">{{userBalance?.cur1?.balance  | roundCurrency:userBalance?.cur1?.name | formatCurrency}} {{userBalance?.cur1?.name}}</a>
+            <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(SELL)">{{userBalance?.cur1?.balance || 0  | roundCurrency:userBalance?.cur1?.name | formatCurrency}} {{userBalance?.cur1?.name}}</a>
           </div>
         </div>
         <div class="row row__percent">
