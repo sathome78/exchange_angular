@@ -61,14 +61,13 @@
         </app-price-input>
 
         <span class=" wrap-input__message--show"
-              *ngIf="form.controls['amount'].errors &&
-               !form.controls['amount'].errors['isMinThenMinWithdraw'] &&
-                !form.controls['amount'].errors['isMaxThenActiveBalance']">
+              >
            {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}
         </span>
 
         <!--Input error section starts-->
         <div *ngIf="form.get('amount').errors != null">
+          <div class="input-hint-wrapper">
         <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
               [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] &&
                (form.controls['amount'].touched || isSubmited)}">
@@ -79,6 +78,7 @@
                  (form.controls['amount'].touched || isSubmited)">
       {{'Max sum for withdrawal' | translate}} {{activeBalance}}</span>
         </div>
+      </div>
       </div>
 
 
@@ -92,6 +92,7 @@
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
         <div *ngIf="form.controls['email'].invalid && form.controls['email'].errors">
+          <div class="input-hint-wrapper">
         <span class="wrap-input__message"
               *ngIf="form.controls['email'].errors['pattern'] ||
                form.controls['email'].errors['required'] &&
@@ -108,6 +109,7 @@
                 {{'User email not found.' | translate}}
               </span>
         </div>
+      </div>
         <!--Input error section ends-->
       </div>
     </div>
@@ -138,8 +140,7 @@
   <div class="note modal__note">
     <div class="note__title">{{'Please note:' | translate}}</div>
     <ul class="note__list">
-      <li class="note__list-item">
-        {{'Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email' | translate}}.
+      <li class="note__list-item">{{'Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email' | translate}}.
       </li>
       <li class="note__list-item">{{'After making a withdrawal, you can track its progress in history on funds page' | translate}}.</li>
     </ul>
