@@ -135,6 +135,13 @@ export class VerificationComponent implements OnInit, OnDestroy {
     if (new RegExp(/\d{2}.\d{2}.\d{4}$/).test(formatted) || new RegExp(/\d{1}.\d{1}.\d{4}$/).test(formatted)) {
       const arrDate = formatted.split('.');
       const checkDate = moment(formatted, 'DD.MM.YYYY');
+      this.modelDateTo = {
+        date: {
+          year: +arrDate[2],
+          month: +arrDate[1],
+          day: +arrDate[0]
+        }
+      }
       if (checkDate.unix() > moment().subtract(16, 'years').unix()) {
         this.modelDateTo = {
           date: {
