@@ -113,7 +113,6 @@ export class VerificationComponent implements OnInit, OnDestroy {
   }
 
   sendForm() {
-    console.log(this.modelDateTo)
     if (this.form.valid && !!this.modelDateTo) {
       this.dataModel.birthDay = this.modelDateTo.date.day;
       this.dataModel.birthMonth = this.modelDateTo.date.month;
