@@ -69,15 +69,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initFormWithMemo();
 
-    this.form.controls['amount'].valueChanges
-      .pipe(debounceTime(1000))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        if (res !== '0') {
-          this.calculateCommission(res);
-        }
-      });
-
     this.store
       .pipe(select(getCryptoCurrenciesForChoose))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -86,7 +77,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
         this.cryptoNames = this.defaultCryptoNames;
         this.setActiveCrypto();
         this.prepareAlphabet();
-        this.getCryptoInfoByName(this.activeCrypto.name);
+        if (this.activeCrypto) this.getCryptoInfoByName(this.activeCrypto.name);
       });
   }
 
@@ -143,6 +134,10 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       this.calculateCommission(this.activeBalance);
       this.amountValue = this.activeBalance;
     }
+  }
+
+  amountBlur(event) {
+    if (event && this.form.controls['amount'].valid) this.calculateCommission(this.amountValue);
   }
 
   calculateCommission(amount) {
@@ -214,7 +209,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   amountInput(event) {
-    this.calculateCommission(event.target.value);
     this.amountValue = event.target.value;
   }
 
