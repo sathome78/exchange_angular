@@ -65,6 +65,7 @@
             [placeholder]="'Amount'"
             [currencyName]="activeCrypto.name"
             (customInput)="amountInput($event)"
+            (customBlur)="amountBlur($event)"
             name="amount" formControlName="amount"
           >
           </app-price-input>
@@ -228,7 +229,7 @@
   </div>
 </div>
 
-<div class="loading-container" *ngIf="!activeCrypto && !cryptoInfoByName">
+<div class="loading-container" *ngIf="!activeCrypto || !cryptoInfoByName">
   <app-loader></app-loader>
 </div>
 

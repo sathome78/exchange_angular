@@ -5,6 +5,7 @@
 
 
 <app-refill-fiat
+  (closePopup)="closePopup.emit(true)"
   [refillData]="refillData"
   *ngIf="choosedName === FIAT_DEPOSIT"
 ></app-refill-fiat>

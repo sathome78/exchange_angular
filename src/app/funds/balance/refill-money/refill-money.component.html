@@ -1,5 +1,4 @@
-<!--<div class="overlay&#45;&#45;modal" [ngClass]="{ 'modal&#45;&#45;open': showPopup}" *ngIf="showPopup">-->
-  <!--<div class="modal">-->
+
 <div class="overlay--modal" *ngIf="showPopup" [@overlayAnimation]="showPopup ? 'show' : 'hide'" appAddClass="no-scroll" to="body">
   <div class="modal" [@modalAnimation]="showPopup ? 'show' : 'hide' ">
     <!-- btn modal close -->
@@ -14,11 +13,6 @@
       <div class="steps__counter steps__counter--mob">{{'step' | translate}}
         <span class="steps__counter-val">{{step}}</span>/2</div>
       <div class="modal__header-mob-controls">
-        <!--<a class="modal__control-mob" href="#">-->
-        <!--<img class="modal__control-icon" src="../../../assets/img/minimize-mob-blue.svg">-->
-        <!--</a>-->
-        <!--<a class="modal__control-mob" href="#">-->
-          <!--<img class="modal__control-icon" src="../../../assets/img/learn-blue.svg"></a>-->
         <a class="modal__control-mob" (click)="onCloseRefillBalancePopup()">
           <img class="modal__control-icon" src="../../../assets/img/close-blue.svg"></a>
       </div>
@@ -26,9 +20,8 @@
     <div class="modal__header">
       <ul class="steps">
         <li class="steps__item"
-        *ngIf="step >= 1"
-            [ngClass]="{'steps__item--current': step === 1}"
-        >
+           *ngIf="step >= 1"
+            [ngClass]="{'steps__item--current': step === 1}">
           <a class="steps__link" (click)="setStep(1)">
             <span class="steps__number" [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
             <span class="steps__number-mob-current">1. {{'Refill money' | translate}}</span>
@@ -37,21 +30,13 @@
         </li>
         <li class="steps__item"
             *ngIf="step >= 2"
-            [ngClass]="{'steps__item--current': step === 2}"
-        >
+            [ngClass]="{'steps__item--current': step === 2}">
           <a class="steps__link" (click)="setStep(2)">
             <span class="steps__number" [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }">2</span>
             <span class="steps__number-mob-current">2. {{stepTwoName}}</span>
             <span class="steps__title">{{stepTwoName}}</span>
           </a>
         </li>
-        <!--<li class="steps__item">-->
-          <!--<a class="steps__link">-->
-            <!--<span class="steps__number">3</span>-->
-            <!--<span class="steps__number-mob-current">3. Request was created!</span>-->
-            <!--<span class="steps__title">Request was created!</span>-->
-          <!--</a>-->
-        <!--</li>-->
       </ul>
       <div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/ 2</div>
     </div>
@@ -65,6 +50,7 @@
       <app-refill-step-two
       *ngIf="step === 2"
       [choosedName]="stepTwoName"
+      (closePopup)="onCloseRefillBalancePopup()"
       [refillData]="optionData.balance"
       ></app-refill-step-two>
 

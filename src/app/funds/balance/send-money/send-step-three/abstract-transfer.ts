@@ -50,17 +50,6 @@ export abstract class AbstractTransfer {
     }
   }
 
-  getCommissionDebonce() {
-    this.form.controls['amount'].valueChanges
-      .pipe(debounceTime(1000))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        if (!this.isAmountMax && !this.isAmountMin) {
-          this.getCommissionInfo(res);
-        }
-      });
-  }
-
   getAllNames() {
     this.store
       .pipe(select(getAllCurrenciesForChoose))
@@ -102,6 +91,10 @@ export abstract class AbstractTransfer {
         const needBalance = allBalances.mapWallets.filter(item => item.currencyName === name);
         this.activeBalance = needBalance[0].activeBalance;
       });
+  }
+
+  amountBlur(event) {
+    if (event && this.form.controls['amount'].valid) this.getCommissionInfo(this.amountValue);
   }
 
   getCommissionInfo(amount) {

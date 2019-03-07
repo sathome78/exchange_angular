@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {CurrencyBalanceModel} from '../../../../../model/currency-balance.model';
@@ -10,6 +10,7 @@ import {PopupService} from '../../../../../shared/services/popup.service';
 import * as _uniq from 'lodash/uniq';
 import {RefillResponse} from '../../../../../model/refill-response';
 import {RefillData} from '../../../../../shared/interfaces/refill-data-interface';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -19,6 +20,7 @@ import {RefillData} from '../../../../../shared/interfaces/refill-data-interface
 export class RefillFiatComponent implements OnInit, OnDestroy {
 
   @Input() refillData: any;
+  @Output() closePopup = new EventEmitter();
   @ViewChild('simpleMerchant') simpleMerchantTemplate: TemplateRef<any>;
   @ViewChild('listMerchant') listMerchantTemplate: TemplateRef<any>;
   @ViewChild('sendF') sendFTemplate: TemplateRef<any>;
@@ -59,6 +61,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
+    public router: Router,
     private store: Store<State>,
   ) {}
 
@@ -71,7 +74,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.defaultFiatNames = currencies;
         this.fiatNames = this.defaultFiatNames;
         this.setActiveFiat();
-        this.getDataByCurrency(this.activeFiat.name);
+        if (this.activeFiat) this.getDataByCurrency(this.activeFiat.name);
         this.prepareAlphabet();
       });
   }
@@ -118,7 +121,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   selectCurrency(currency) {
     this.isSubmited = false;
-    this.fiatDataByName = null;
     this.activeFiat = currency;
     this.toggleCurrencyDropdown();
     this.getDataByCurrency(currency.name);
@@ -196,6 +198,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   hideSend() {
     document.forms['hideForm'].submit();
     return false;
+  }
+
+  goToBalances() {
+    this.router.navigate(['/funds/balances']);
+    this.closePopup.emit(true);
   }
 
   // getRefillRedirectionUrl(response: RefillResponse): string {

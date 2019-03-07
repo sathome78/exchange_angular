@@ -1,3 +1,4 @@
+<div *ngIf="!!activeCrypto && !!activeBalance">
 <div class="title send__title">{{'Make Inner transfer protected by code' | translate}}</div>
 <div class="formWraper" *ngIf="isEnterData">
   <div class="subtitle send__subtitle">{{' the code will be sent to you after transaction verification ' | translate}}</div>
@@ -55,6 +56,7 @@
         </div>
         <app-price-input [placeholder]="(activeCrypto ? activeCrypto.name : '') + ' Amount'"
                          [currencyName]="activeCrypto.name"
+                         (customBlur)="amountBlur($event)"
                          (customInput)="amountInput($event)"
                          name="amount" formControlName="amount">
 
@@ -114,6 +116,11 @@
       <li class="note__list-item">{{'After making a withdrawal, you can track its progress in history on funds page' | translate}}.</li>
     </ul>
   </div>
+</div>
+</div>
+
+<div class="loading-container" *ngIf="!activeCrypto || !activeBalance">
+  <app-loader></app-loader>
 </div>
 
 
