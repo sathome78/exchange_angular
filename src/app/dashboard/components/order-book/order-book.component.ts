@@ -24,6 +24,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
   public itemName: string = 'order-book';
+  private orderBookSub$;
   public currencyPairInfo: CurrencyPairInfo = null;
 
   private sellOrders: OrderItem [] = [];
@@ -82,21 +83,35 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.activeCurrencyPair = pair;
         this.splitCurrencyName = pair.currencyPairName.split('/');
         if(pair.currencyPairId !== 0) {
-          this.requestData(pair);
+          // this.requestData(pair);
+          this.subscribeOrderBook(pair.currencyPairName, this.precisionOut)
         }
         this.cdr.detectChanges()
       });
-
-    // this.dashboardWebsocketService.setRabbitStompSubscription()
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe((pair) => {
-    //     this.requestData(pair);
-    //   })
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.unsubscribeOrderBook();
+  }
+
+  subscribeOrderBook(currName: string, precision: number): void {
+    this.unsubscribeOrderBook();
+    const pairName = currName.toLowerCase().replace(/\//i, '_');
+    this.orderBookSub$ = this.dashboardWebsocketService.orderBookSubscription(pairName, precision);
+    this.orderBookSub$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data) => {
+        debugger
+        // this.updateCurrencyInfo(currencyPair.currencyPairId);
+      })
+  }
+
+  unsubscribeOrderBook() {
+    if(this.orderBookSub$) {
+      this.orderBookSub$.unsubscribe();
+    }
   }
 
   private initData(orders: OrderBookItem[]) {
@@ -166,7 +181,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     if (this.precision <= 0.01) {
       this.precision *= 10;
       this.precisionOut--;
-      this.requestData(this.activeCurrencyPair);
+      // this.requestData(this.activeCurrencyPair);
+      this.subscribeOrderBook(this.activeCurrencyPair.currencyPairName, this.precisionOut)
+
     }
   }
 
@@ -177,7 +194,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     if (this.precision >= 0.0001) {
       this.precision /= 10;
       this.precisionOut++;
-      this.requestData(this.activeCurrencyPair);
+      // this.requestData(this.activeCurrencyPair);
+      this.subscribeOrderBook(this.activeCurrencyPair.currencyPairName, this.precisionOut)
+
     }
   }
 

@@ -22,6 +22,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private pairInfoSub$;
   public pair: CurrencyPair = null;
   public pairInput: string = ''
   public currentCurrencyInfo: CurrencyPairInfo = null;
@@ -46,7 +47,8 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .subscribe((pair: CurrencyPair) => {
         this.pair = pair;
         this.pairInput = pair.currencyPairName;
-        this.updateCurrencyInfo(pair.currencyPairId);
+        this.subscribeCurrInfo(pair.currencyPairName);
+        // this.updateCurrencyInfo(pair.currencyPairId);
         this.selectNewCurrencyPair(this.pair);
         this.crd.detectChanges();
       });
@@ -80,20 +82,35 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
         this.crd.detectChanges();
       });
 
-    // this.dashboardWebsocketService.setRabbitStompSubscription()
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe((currencyPair) => {
-    //     this.updateCurrencyInfo(currencyPair.currencyPairId);
-    //   })
+
   }
 
-  updateCurrencyInfo(currencyPairId) {
-    this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(currencyPairId))
+  subscribeCurrInfo(currName: string): void {
+    this.unsubscribeCurrInfo();
+    const pairName = currName.toLowerCase().replace(/\//i, '_');
+    this.pairInfoSub$ = this.dashboardWebsocketService.pairInfoSubscription(pairName);
+    this.pairInfoSub$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data) => {
+        debugger
+        // this.updateCurrencyInfo(currencyPair.currencyPairId);
+      })
   }
+
+  unsubscribeCurrInfo() {
+    if(this.pairInfoSub$) {
+      this.pairInfoSub$.unsubscribe();
+    }
+  }
+
+  // updateCurrencyInfo(currencyPairId) {
+  //   this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(currencyPairId))
+  // }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.unsubscribeCurrInfo();
   }
 
   flarForArrow(s: string) {

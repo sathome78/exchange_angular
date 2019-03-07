@@ -27,9 +27,7 @@ export class DashboardWebSocketService implements OnDestroy {
 
   constructor(
     private stompService: RxStompService,
-    private http: HttpClient,
     private userService: UserService,
-    private authService: AuthService,
     private store: Store<State>
   ) {
     this.store
@@ -40,31 +38,23 @@ export class DashboardWebSocketService implements OnDestroy {
       });
   }
 
-  setStompSubscription(): any {
-    return this.stompSubscription = this.stompService
-      .watch('/app/statisticsNew')
-      .pipe(map((message: Message) => JSON.parse(JSON.parse(message.body))))
-      .subscribe((items) => {
-        console.log(items);
-        if (items) {
-          // clean cached data
-          this.currencyPairs = [];
-        }
-        // this.processCurrencyPairs(items.data);
-      });
+  pairInfoSubscription(pairName: string): any {
+    return this.stompService
+      .watch(`app/statistics/pairInfo/${pairName}`)
+      // .pipe(map((message: Message) => JSON.parse(JSON.parse(message.body))))
   }
 
-  // setRabbitStompSubscription() {
-  //   return this.stompService
-  //     .subscribe('/topic/rabbit')
-  //     .pipe(map((message: Message) => JSON.parse(message.body)))
-  //     .pipe(filter((message) => this.currentCurrencyPair && (message.currencyPairId === this.currentCurrencyPair.currencyPairId)))
-  //     .pipe(map((message) => {
-  //       console.log('updated');
-  //       return message;
-  //     }))
-  //     .pipe(map(() => this.currentCurrencyPair));
-  // }
+  allTradesSubscription(pairName: string): any {
+    return this.stompService
+      .watch(`app/all_trades/${pairName}`)
+      // .pipe(map((message: Message) => JSON.parse(JSON.parse(message.body))))
+  }
+
+  orderBookSubscription(pairName: string, precision: number): any {
+    return this.stompService
+      .watch(`app/order_book/${pairName}/${precision}`)
+      // .pipe(map((message: Message) => JSON.parse(JSON.parse(message.body))))
+  }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();

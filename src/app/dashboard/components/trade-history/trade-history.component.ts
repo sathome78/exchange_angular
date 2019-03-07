@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef, OnDestroy} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs/Subject';
 
@@ -19,9 +19,10 @@ import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.servi
   templateUrl: 'trade-history.component.html',
   styleUrls: ['trade-history.component.scss']
 })
-export class TradeHistoryComponent extends AbstractDashboardItems implements OnInit {
+export class TradeHistoryComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   /** dashboard item name (field for base class)*/
   public itemName: string;
+  private tradesSub$
 
   allTrades: TradeItem [] = [];
   personalTrades: TradeItem [] = [];
@@ -57,21 +58,14 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(items => this.allTrades = items);
 
-    // this.dashboardWebsocketService.setRabbitStompSubscription()
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe((pair) => {
-    //     this.tradeService
-    //       .getFirstTrades(pair.currencyPairId)
-    //       .pipe(takeUntil(this.ngUnsubscribe))
-    //       .subscribe(items => this.allTrades = items);
-    //   })
 
     this.store
     .pipe(select(getActiveCurrencyPair))
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe((pair: CurrencyPair) => {
       if (pair.currencyPairId) {
-        this.onGetCurrentCurrencyPair(pair);
+        this.subscribeTrades(pair.currencyPairName)
+        // this.onGetCurrentCurrencyPair(pair);
       }
       });
 
@@ -109,6 +103,30 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
     //     // TODO: remove after dashboard init load time issue is solved
     //     // this.ref.detectChanges();
     //   });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    this.unsubscribeTrades()
+  }
+
+  subscribeTrades(currName: string): void {
+    this.unsubscribeTrades();
+    const pairName = currName.toLowerCase().replace(/\//i, '_');
+    this.tradesSub$ = this.dashboardWebsocketService.allTradesSubscription(pairName);
+    this.tradesSub$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data) => {
+        debugger
+        // this.updateCurrencyInfo(currencyPair.currencyPairId);
+      })
+  }
+
+  unsubscribeTrades() {
+    if(this.tradesSub$) {
+      this.tradesSub$.unsubscribe();
+    }
   }
 
   addOrUpdate(oldItems: TradeItem[], newItems: TradeItem[]) {
