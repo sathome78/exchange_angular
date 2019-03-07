@@ -242,4 +242,8 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     return null;
   }
 
+  get currName() {
+    return this.activeFiat ? this.activeFiat.name : ''
+  }
+
 }

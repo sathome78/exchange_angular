@@ -17,7 +17,7 @@
     width: 100%;
     max-width: 230px;
     margin-bottom: 24px;
-    
+
   }
   &__line{
     height: 1px;
@@ -200,7 +200,7 @@ perfect-scrollbar{
     color: #DEDEFB;
   }
 
-  
+
 }
 
 .loading-container {
@@ -217,3 +217,11 @@ perfect-scrollbar{
         color: #DEDEFB;
       }
     }
+
+
+// TEMP STYLES
+.withdraw-limit-error{
+  color: red;
+  padding: 200px 0;
+  text-align: center;
+}
