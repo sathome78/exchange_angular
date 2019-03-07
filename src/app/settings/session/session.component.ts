@@ -34,6 +34,8 @@ export class SessionComponent implements OnInit, OnDestroy {
   minutesInput: FormControl;
   sessionTime$: Observable<number>;
 
+  loading: boolean = false;
+
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private settingsService: SettingsService,
@@ -58,15 +60,18 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.value >= this.MIN_VALUE && this.value <= this.MAX_VALUE) {
+      this.loading = true;
       this.settingsService.updateSessionInterval(this.value)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(resp => {
             this.popupService.toggleSessionTimeSavedPopup(true);
             this.store.dispatch(new settingsActions.SetSessionTimeAction(this.value));
             this.oldValue = this.value;
+            this.loading = false;
           },
           err => {
             console.error(err)
+            this.loading = false;
           });
     }
   }
