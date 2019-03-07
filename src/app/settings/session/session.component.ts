@@ -111,9 +111,11 @@ export class SessionComponent implements OnInit, OnDestroy {
       } else if (this.minutesInput.value >= 60) {
         this.minutesInput.setValue('59');
         this.MINUTES = 59;
+      } else {
+        this.MINUTES = +this.minutesInput.value;
       }
     } else {
-      this.minutesInput.setValue('');
+      this.minutesInput.setValue('00');
     }
 
     this.updateValue();
@@ -150,7 +152,7 @@ export class SessionComponent implements OnInit, OnDestroy {
     }
   }
 
-formatHours() {
+  formatHours() {
     const h = this.hoursInput.value;
     if (h === null) {
       this.hoursInput.setValue(0);
@@ -180,9 +182,10 @@ formatHours() {
     this.ngOnDestroy();
     this.HOURS = parseInt((this.value / 60) + '', 0);
     this.MINUTES = parseInt((this.value % 60) + '', 0);
-    this.MINUTES = this.HOURS === 24 ? 0 : this.MINUTES;
+    const minutesForForm = this.MINUTES < 10 ? '0' + this.MINUTES : '' + this.MINUTES;
+    this.MINUTES = this.HOURS === 2 ? 0 : this.MINUTES;
     this.hoursInput.patchValue(this.HOURS);
-    this.minutesInput.patchValue(this.MINUTES);
+    this.minutesInput.patchValue(minutesForForm);
     this.statusMessage = '';
     this.validateHours();
     this.validateMinutes();
