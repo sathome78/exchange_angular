@@ -1,3 +1,4 @@
+<div *ngIf="!!activeCrypto && !!activeBalance">
 <div class="title send__title">{{'Make Inner transfer by email or nickname protected by code' | translate}}</div>
 <div class="formWraper" *ngIf="isEnterData">
   <div class="subtitle send__subtitle">{{' the code will be sent to you after transaction verification ' | translate}}</div>
@@ -56,6 +57,7 @@
         </div>
         <app-price-input [placeholder]="(activeCrypto ? activeCrypto.name : '') + ' Amount'"
                          [currencyName]="activeCrypto.name"
+                         (customBlur)="amountBlur($event)"
                          (customInput)="amountInput($event)"
                          name="amount" formControlName="amount">
         </app-price-input>
@@ -146,6 +148,12 @@
     </ul>
   </div>
 </div>
+</div>
+
+<div class="loading-container" *ngIf="!activeCrypto || !activeBalance">
+  <app-loader></app-loader>
+</div>
+
 
 <div *ngIf="!isEnterData" class="captcha-wrapper">
   <h6 class="popup__title">{{'Enter the captcha' | translate}}</h6>
