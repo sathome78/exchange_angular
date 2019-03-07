@@ -327,9 +327,22 @@
             <span>{{item.status | showOrderStatus}}</span>
           </td>
         </tr>
-        <tr class="table__row" *ngIf="!(orderItems$ | async).length && !(loading$ | async)">
+        <tr class="table__row" *ngIf="!(orderItems$ | async).length && !(loading$ | async) && !initialRequest">
           <td class="table__cell table__cell--tac" colspan="9">
             {{'No matching records found' | translate}}
+          </td>
+        </tr>
+
+        <tr class="table__row" *ngIf="!(orderItems$ | async).length && !(loading$ | async) && initialRequest">
+          <td class="table__cell table__cell--tac" colspan="9">
+            {{'No matching records found' | translate}}
+            <a
+              href=""
+              (click)="loadLastOrders($event)"
+              class="standart-lnk"
+            >
+              {{'Loading last' | translate}}{{' ' + countPerPage + ' '}}{{'orders' | translate}}
+            </a>
           </td>
         </tr>
       </tbody>
