@@ -3,6 +3,7 @@ export interface RefillData {
   currency: number;
   merchant: number;
   sum: number;
-  destination: string;
-  merchantImage: number;
+  destination?: string;
+  merchantImage?: number;
+  generateNewAddress?: boolean;
 }
