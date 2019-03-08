@@ -47,6 +47,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
         this.pair = pair;
         this.pairInput = pair.currencyPairName;
         this.updateCurrencyInfo(pair.currencyPairId);
+        this.selectNewCurrencyPair(this.pair);
         this.crd.detectChanges();
       });
 
@@ -118,7 +119,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
 
   onBlurInput() {
     const p = this.findCurrencyPair(this.pairInput);
-    if(p) {
+    if(p && p.currencyPairName !== this.pair.currencyPairName) {
       this.selectNewCurrencyPair(p);
     } else {
       this.pairInput = this.pair.currencyPairName;

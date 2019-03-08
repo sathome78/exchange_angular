@@ -1,3 +1,4 @@
+<div *ngIf="!!activeFiat && !!fiatInfoByName">
 <div class="title send__title">{{'Fiat Withdrawal' | translate}} <span>{{activeFiat ? activeFiat.name : ''}}</span></div>
 <div class="formWraper" *ngIf="isEnterData">
   <form [formGroup]="form">
@@ -35,7 +36,13 @@
         <div class="avaliable">{{'Avaliable:' | translate}}
           <a (click)="balanceClick()" class="link">{{activeBalance}} {{activeFiat ? activeFiat.name : ''}}</a>
         </div>
-        <app-price-input [placeholder]="(activeFiat ? activeFiat.name : '') + ' Amount'" [currencyName]="activeFiat.name" (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
+        <app-price-input
+          [placeholder]="(activeFiat ? activeFiat.name : '') + ' Amount'"
+          [currencyName]="activeFiat.name"
+          (customBlur)="amountBlur($event)"
+          (customInput)="amountInput($event)"
+          name="amount" formControlName="amount">
+        </app-price-input>
 
         <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors && !form.controls['amount'].errors['isMinThenMinWithdraw'] && !form.controls['amount'].errors['isMaxThenActiveBalance']">
       {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeFiat ? activeFiat.name : ''}}</span>
@@ -61,8 +68,8 @@
         <div class="select__value select__value--active"
              (click)="togglePaymentSystemDropdown()"
         >
-          <img [src]="(selectedMerchant ? selectedMerchant.name : '') | getIconUrl" class="select__list-item-icon">
-          {{selectedMerchant ? selectedMerchant.name : ''}}
+          <img [src]="selectMerchantName | getIconUrl" class="select__list-item-icon">
+          {{selectMerchantName}}
         </div>
         <div class="select__label">{{'Payment system' | translate}}</div>
         <div class="select__line"></div>
@@ -82,13 +89,14 @@
           </div>
           <ul class="select__list select__list--open">
 
-            <li class="select__list-item"
-                *ngFor="let merchant of merchants"
-                (click)="selectMerchant(merchant)"
-            >
-              <img [src]="(merchant ? merchant.name : '') | getIconUrl" class="select__list-item-icon">
-              {{merchant ? merchant.name : ''}}
-            </li>
+            <ng-template ngFor let-merchant [ngForOf]="merchants">
+              <li class="select__list-item"
+                  *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
+                  (click)="selectMerchant(merchant, nested)">
+                <img [src]="nested.image_name | getIconUrl" class="select__list-item-icon">
+                {{nested.image_name}}
+              </li>
+            </ng-template>
 
           </ul>
         </div>
@@ -106,11 +114,12 @@
         </label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
-        <span class="wrap-input__message wrap-input__message--show"
-              *ngIf="!form.controls['address'].valid &&
+               <div class="input-hint-wrapper"
+               *ngIf="!form.controls['address'].valid &&
                (form.controls['address'].touched || isSubmited)">
-               <div class="input-hint-wrapper">
-      {{'Set merchant adress for withdrawal' | translate}}</div></span>
+        <span class="wrap-input__message wrap-input__message--show">
+      {{'Set merchant adress for withdrawal' | translate}}</span>
+    </div>
         <!--Input error section ends-->
       </div>
 
@@ -166,6 +175,11 @@
       </li>
     </ul>
   </div>
+</div>
+</div>
+
+<div class="loading-container" *ngIf="!activeFiat || !fiatInfoByName">
+  <app-loader></app-loader>
 </div>
 
 <div *ngIf="!isEnterData" class="captcha-wrapper">

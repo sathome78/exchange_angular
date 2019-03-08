@@ -31,6 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public isAuthenticated: boolean = false;
   public kycStep = 1;
   public popupData: PopupData;
+  public kycIframeUrl = '';
 
   isTfaPopupOpen = false;
   isIdentityPopupOpen = false;
@@ -218,7 +219,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.popupService.getIdentityPopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
-        this.isIdentityPopupOpen = value ? true : false;
+        this.isIdentityPopupOpen = !!value;
       });
   }
 
@@ -226,8 +227,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.popupService.getKYCPopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
-        this.kycStep = value;
-        this.isKYCPopupOpen = value ? true : false;
+        this.kycStep = value.step;
+        this.kycIframeUrl = value.url;
+        this.isKYCPopupOpen = !!value.step;
       });
   }
 

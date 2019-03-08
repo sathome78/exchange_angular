@@ -115,7 +115,7 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
 
   onBlur(event) {
     this.onTouched();
-    this.inputFocus.emit(false);
+    if (!this.el.value) this.inputFocus.emit(false);
     this.writeValue(event.target.value);
 
   }

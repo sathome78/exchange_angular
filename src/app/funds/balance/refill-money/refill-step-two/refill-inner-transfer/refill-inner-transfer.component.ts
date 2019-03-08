@@ -55,12 +55,6 @@ export class RefillInnerTransferComponent implements OnInit, OnDestroy {
   }
 
   sendTransferCode() {
-    // if (environment.production) {
-    //   // todo while insecure
-    //   this.popupService.demoPopupMessage = 0;
-    //   this.popupService.showDemoTradingPopup(true);
-    //   this.balanceService.closeSendMoneyPopup$.next(false);
-    // } else {
       if (this.form.valid) {
         const data = this.form.controls['code'].value;
         this.form.reset();
@@ -78,7 +72,6 @@ export class RefillInnerTransferComponent implements OnInit, OnDestroy {
             this.isSendTransferCodeSuccess = false;
           });
       }
-    // }
 
   }
 

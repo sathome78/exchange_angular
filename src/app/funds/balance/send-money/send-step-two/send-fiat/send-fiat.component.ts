@@ -10,7 +10,6 @@ import {select, Store} from '@ngrx/store';
 import {SEND_FIAT} from '../../send-money-constants';
 import {CommissionData} from '../../../../models/commission-data.model';
 import {defaultCommissionData} from '../../../../store/reducers/default-values';
-import {environment} from '../../../../../../environments/environment';
 import {PopupService} from 'app/shared/services/popup.service';
 
 @Component({
@@ -36,6 +35,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public selectedMerchant;
   public activeFiat;
   public form: FormGroup;
+  public searchTemplate = '';
+  public selectMerchantName;
+  public selectedMerchantNested;
   public calculateData: CommissionData = defaultCommissionData;
 
   public model = {
@@ -65,14 +67,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
-    this.form.controls['amount'].valueChanges
-      .pipe(debounceTime(1000))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        if (res !== '0') {
-          this.calculateCommission(res);
-        }
-      });
 
     this.store
       .pipe(select(getFiatCurrenciesForChoose))
@@ -81,8 +75,10 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         this.fiatNames = currencies;
         this.activeFiat = this.fiatNames[0];
         this.setActiveFiat();
-        this.getFiatInfoByName(this.activeFiat.name);
-        this.getBalance(this.activeFiat.name);
+        if (this.activeFiat) {
+          this.getFiatInfoByName(this.activeFiat.name);
+          this.getBalance(this.activeFiat.name);
+        }
       });
   }
 
@@ -107,11 +103,10 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.getBalance(this.activeFiat.name);
   }
 
-  selectMerchant(merchant) {
-    this.form.reset();
-    if (merchant !== {}) {
-      this.selectedMerchant = merchant;
-    }
+  selectMerchant(merchant, merchantImage = null) {
+    this.selectedMerchantNested = merchantImage;
+    this.selectMerchantName = merchantImage.image_name || merchant.name;
+    this.selectedMerchant = merchant;
   }
 
   currencyDropdownToggle() {
@@ -129,6 +124,10 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   togglePaymentSystemDropdown() {
     this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
+    this.merchants = this.fiatInfoByName && this.fiatInfoByName.merchantCurrencyData
+      ? this.fiatInfoByName.merchantCurrencyData
+      : [];
+    this.searchTemplate = '';
     this.openCurrencyDropdown = false;
   }
 
@@ -159,7 +158,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         this.fiatInfoByName = res;
         this.minWithdrawSum = this.fiatInfoByName.minWithdrawSum;
         this.merchants = this.fiatInfoByName.merchantCurrencyData;
-        this.selectMerchant(this.merchants.length ? this.merchants[0] : {});
+        this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
+        this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
+        this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
       });
   }
 
@@ -175,8 +176,11 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     }
   }
 
+  amountBlur(event) {
+    if (event && this.form.controls['amount'].valid) this.calculateCommission(this.amountValue);
+  }
+
   amountInput(event) {
-    this.calculateCommission(event.target.value);
     this.amountValue = event.target.value;
   }
 
@@ -184,7 +188,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     if (this.selectedMerchant.name) {
       this.model.currency = this.selectedMerchant.currencyId;
       this.model.merchant = this.selectedMerchant.merchantId;
-      this.model.merchantImage = this.selectedMerchant.listMerchantImage[0].id;
+      this.model.merchantImage = this.selectedMerchantNested.id;
       this.model.sum = this.form.controls['amount'].value;
       this.model.destination = this.form.controls['address'].value;
 
@@ -198,7 +202,10 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   searchMerchant(e) {
-    this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(f => f.name.toUpperCase().match(e.target.value.toUpperCase()));
+    this.searchTemplate = e.target.value;
+    this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(merchant =>
+      !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
+    );
   }
 
   goToWithdrawal() {
