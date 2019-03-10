@@ -76,7 +76,7 @@
     <button
       class="btn settings__form-btn"
       [ngClass]="{'settings__form-btn--active': +oldValue !== +value}"
-      [disabled]="(+oldValue === +value)"
+      [disabled]="(+oldValue === +value) || loading"
     >{{'Save' | translate}}</button>
   </form>
 </div>
