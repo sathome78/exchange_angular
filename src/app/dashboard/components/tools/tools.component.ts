@@ -8,6 +8,7 @@ import {DashboardWidgetItemModel} from 'app/shared/models/dashboard-widget-item.
 import {DashboardToolsItemModel} from 'app/shared/models/dashboard-tools-item.model';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-tools',
@@ -26,7 +27,10 @@ export class ToolsComponent implements OnInit, OnDestroy {
   public visibleToolsItems: DashboardToolsItemModel[] = [];
   public overlayShow = false;
 
-  constructor(private dataService: DashboardService) { }
+  constructor(
+    private dataService: DashboardService,
+    private breakpointService: BreakpointService,
+  ) { }
 
   ngOnInit() {
     this.allWidgets = [...this.dataService.getWidgetPositions()];
@@ -37,11 +41,27 @@ export class ToolsComponent implements OnInit, OnDestroy {
       .subscribe( res => {
         this.updateVisibleToolsItems(res as DashboardWidgetItemModel[]);
       });
+    this.breakpointService.breakpoint$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res) => {
+        if(res === 'desktop') {
+          this.checkVisibleToolsItems(this.allWidgets);
+        }
+      });
+
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  /**
+   * Get difference between dashboard and tools items
+   * @param widgets
+   */
+  checkVisibleToolsItems(widgets): void {
+    this.visibleToolsItems = _differenceBy(this.allToolsItems, widgets, 'type');
   }
   /**
    * Get difference between dashboard and tools items

@@ -9,15 +9,14 @@ export class TransactionsService {
 
   apiUrl = environment.apiUrl;
 
-
   constructor(
     private http: HttpClient,
-  ) {
-  }
+  ) { }
 
   // request to get balances
   getTransactionsHistory({
     currencyId,
+    currencyName,
     offset,
     limit,
     dateFrom,
@@ -26,15 +25,14 @@ export class TransactionsService {
     const params = {
       limit: limit + '',
       offset: offset + '',
+      currencyId,
+      currencyName,
     }
     if(dateTo) {
       params['dateTo'] = dateTo;
     }
     if(dateFrom) {
       params['dateFrom'] = dateFrom;
-    }
-    if(currencyId) {
-      params['currencyId'] = currencyId;
     }
     return this.http.get<ResponseModel<TransactionHistoryItem[]>>(`${this.apiUrl}/api/private/v2/balances/inputOutputData`, {params});
   }
@@ -53,13 +51,21 @@ export class TransactionsService {
 
   // request to get closed orders
   downloadExcel({
-                  currencyId,
-                }): Observable<any> {
-    const params = {};
-    if (currencyId) {
-      params['currencyId'] = currencyId;
+    currencyId,
+    currencyName,
+    dateFrom,
+    dateTo,
+  }): Observable<any> {
+    const params = {
+      currencyId,
+      currencyName,
     }
-    // TODO change url
+    if(dateTo) {
+      params['dateTo'] = dateTo;
+    }
+    if(dateFrom) {
+      params['dateFrom'] = dateFrom;
+    }
     return this.http.get(`${this.apiUrl}/api/private/v2/download/inputOutputData/excel`, {params, responseType: 'blob'});
   }
 
