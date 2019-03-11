@@ -1,5 +1,5 @@
 <!-- HEADER START-->
-<header class="header">
+<header class="header" *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
   <div class="header__inner">
     <div class="logo">
       <a class="logo__link" href="/">
@@ -45,41 +45,41 @@
           <span class="menu__link-text">{{'Funds' | translate}}</span>
         </a>
         <!-- <li class="menu__item menu__item--with-submenu" ><a class="menu__link menu__link--drop"><span class="menu__link-text">Funds</span></a> -->
+        <div class="submenu">
+          <ul class="menu submenu__list">
+            <li class="submenu__item">
+              <a class="submenu__link" routerLink="/funds/balance">
+                <span class="menu__link-text">{{'Balances' | translate}}</span>
+              </a>
+            </li>
+            <li class="submenu__item">
+              <a class="submenu__link" routerLink="/funds/transaction-history">
+                <span class="menu__link-text">{{'Transaction history' | translate}}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated">
+        <a class="menu__link menu__link&#45;&#45;drop">
+          <span class="menu__link-text">{{'Orders' | translate}}</span>
+        </a>
+        <!-- <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" ><span class="menu__link-text">Orders</span></a> -->
           <div class="submenu">
             <ul class="menu submenu__list">
               <li class="submenu__item">
-                <a class="submenu__link" routerLink="/funds/balance">
-                  <span class="menu__link-text">{{'Balances' | translate}}</span>
+                <a class="submenu__link" routerLink="/orders/open">
+                  <span class="menu__link-text">{{'Open orders' | translate}}</span>
                 </a>
               </li>
               <li class="submenu__item">
-                <a class="submenu__link" routerLink="/funds/transaction-history">
-                  <span class="menu__link-text">{{'Transaction history' | translate}}</span>
+                <a class="submenu__link" routerLink="/orders/closed">
+                  <span class="menu__link-text">{{'Orders history' | translate}}</span>
                 </a>
               </li>
             </ul>
           </div>
-        </li>
-        <li class="menu__item menu__item&#45;&#45;with-submenu" *ngIf="isAuthenticated">
-          <a class="menu__link menu__link&#45;&#45;drop">
-            <span class="menu__link-text">{{'Orders' | translate}}</span>
-          </a>
-          <!-- <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" ><span class="menu__link-text">Orders</span></a> -->
-            <div class="submenu">
-              <ul class="menu submenu__list">
-                <li class="submenu__item">
-                  <a class="submenu__link" routerLink="/orders/open">
-                    <span class="menu__link-text">{{'Open orders' | translate}}</span>
-                  </a>
-                </li>
-                <li class="submenu__item">
-                  <a class="submenu__link" routerLink="/orders/closed">
-                    <span class="menu__link-text">{{'Orders history' | translate}}</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
+      </li>
       <!-- <li class="menu__item" routerLinkActive="menu__link--active">
 
       </li> -->
@@ -110,123 +110,112 @@
           </ul>
         </div>
       </li>
-      <li class="menu__item menu__item&#45;&#45;with-submenu">
-        <a class="menu__link menu__link&#45;&#45;drop">
+      <li class="menu__item">
+        <a class="menu__link" href="https://news.exrates.me" target="blank">
           <span class="menu__link-text">{{'News' | translate}}</span>
         </a>
-        <div class="submenu">
-          <ul class="menu submenu__list">
-            <li class="submenu__item">
-              <a class="submenu__link" href="http://ck28629.tmweb.ru/" target="blank">
-                <span class="menu__link-text">FAQ</span>
-              </a>
-            </li>
-          </ul>
-        </div>
       </li>
     </ul>
     <!-- <a class="menu__link" href="https://t.me/exrates_community" target="blank"> -->
 
-      <!-- <a class="menu__link" href="https://twitter.com/Exrates_Me" target="blank">
-        <span class="menu__link-text">{{'News' | translate}}</span>
-      </a> -->
-      <div class="login-menu">
-        <ng-container *ngIf="isAuthenticated; else login">
-          <span class="login-menu__icon">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0)">
-                <path
-                d="M9.0002 9.53152C11.229 9.53152 13.036 7.41659 13.036 4.80773C13.036 1.18995 11.2291 0.0839844 9.0002 0.0839844C6.7712 0.0839844 4.96436 1.18995 4.96436 4.80773C4.9644 7.41659 6.77125 9.53152 9.0002 9.53152Z"
-                fill="#AAB1C4"/>
-                <path
-                d="M17.912 16.4849L15.8759 11.8981C15.7827 11.6882 15.6191 11.5142 15.4155 11.4081L12.2555 9.76318C12.1859 9.72698 12.1015 9.73402 12.0388 9.78144C11.1451 10.4574 10.0943 10.8147 9.00005 10.8147C7.90566 10.8147 6.85491 10.4574 5.96117 9.78144C5.89835 9.73402 5.81397 9.72698 5.74429 9.76318L2.58456 11.4081C2.38083 11.5142 2.2174 11.6881 2.12418 11.8981L0.0880542 16.4849C-0.0523244 16.8011 -0.0235536 17.1629 0.16504 17.4529C0.353546 17.7429 0.672576 17.916 1.01849 17.916H16.9815C17.3274 17.916 17.6465 17.7428 17.835 17.4529C18.0235 17.1629 18.0524 16.8009 17.912 16.4849Z"
-                fill="#AAB1C4"/>
-              </g>
-              <defs>
-                <clipPath id="clip0">
-                  <rect width="18" height="18" fill="#AAB1C4"/>
-                </clipPath>
-              </defs>
-            </svg>
-          </span>
-          <div class="login-menu__submenu">
-            <div class="login-menu__submenu-item">
-              <div class="item-title">{{'Account' | translate}}</div>
-              <span>{{ getUsername() }}</span>
-            </div>
-            <div class="login-menu__submenu-item">
-              <div class="item-title">{{'Estimated Holdings' | translate}}</div>
-              <span>
-                ${{(myBalance | async)?.USD | roundCurrency: 'USD' | formatCurrency}}
-              </span>
-            </div>
-            <a class="menu__link login-menu__link" routerLink="/settings" *ngIf="isAuthenticated">
-              <span class="menu__link-text">{{'Settings' | translate}}</span>
-            </a>
-            <a class="menu__link login-menu__link menu__link--auth--log" (click)="onLogout()" style="padding-bottom: 16px;">
-              <span class="menu__link-text">{{'Log out' | translate}}</span>
-            </a>
+    <!-- <a class="menu__link" href="https://twitter.com/Exrates_Me" target="blank">
+      <span class="menu__link-text">{{'News' | translate}}</span>
+    </a> -->
+    <div class="login-menu">
+      <ng-container *ngIf="isAuthenticated; else login">
+        <span class="login-menu__icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0)">
+              <path
+              d="M9.0002 9.53152C11.229 9.53152 13.036 7.41659 13.036 4.80773C13.036 1.18995 11.2291 0.0839844 9.0002 0.0839844C6.7712 0.0839844 4.96436 1.18995 4.96436 4.80773C4.9644 7.41659 6.77125 9.53152 9.0002 9.53152Z"
+              fill="#AAB1C4"/>
+              <path
+              d="M17.912 16.4849L15.8759 11.8981C15.7827 11.6882 15.6191 11.5142 15.4155 11.4081L12.2555 9.76318C12.1859 9.72698 12.1015 9.73402 12.0388 9.78144C11.1451 10.4574 10.0943 10.8147 9.00005 10.8147C7.90566 10.8147 6.85491 10.4574 5.96117 9.78144C5.89835 9.73402 5.81397 9.72698 5.74429 9.76318L2.58456 11.4081C2.38083 11.5142 2.2174 11.6881 2.12418 11.8981L0.0880542 16.4849C-0.0523244 16.8011 -0.0235536 17.1629 0.16504 17.4529C0.353546 17.7429 0.672576 17.916 1.01849 17.916H16.9815C17.3274 17.916 17.6465 17.7428 17.835 17.4529C18.0235 17.1629 18.0524 16.8009 17.912 16.4849Z"
+              fill="#AAB1C4"/>
+            </g>
+            <defs>
+              <clipPath id="clip0">
+                <rect width="18" height="18" fill="#AAB1C4"/>
+              </clipPath>
+            </defs>
+          </svg>
+        </span>
+        <div class="login-menu__submenu">
+          <div class="login-menu__submenu-item">
+            <div class="item-title">{{'Account' | translate}}</div>
+            <span>{{ getUsername() }}</span>
           </div>
-        </ng-container>
-        <ng-template #login>
-          <li class="menu__item">
-            <a class="menu__link menu__link--auth--log" (click)="onMobileLogin()">
-              <span class="menu__link-text">{{'Log In' | translate}}</span>
-            </a>
-          </li>
-          <li class="menu__item">
-            <a class="menu__link menu__link--auth--reg" (click)="openRegistration()">
-              <span class="menu__link-text">{{'Register' | translate}}</span>
-            </a>
-          </li>
-        </ng-template>
-      </div>
-
-      <ul class="menu language">
-        <li class="menu__item menu__item--with-submenu menu__item--disabled">
-          <a class="menu__link">
-            <span class="menu__link-text">
-              <!-- <img class="language__flag" [src]="lang.icon_url" alt="ru"> -->
-              <span>{{lang.fullName}}</span>
+          <div class="login-menu__submenu-item">
+            <div class="item-title">{{'Estimated Holdings' | translate}}</div>
+            <span>
+              ${{(myBalance | async)?.USD || 0 | roundCurrency: 'USD' | formatCurrency}}
             </span>
+          </div>
+          <a class="menu__link login-menu__link" routerLink="/settings" *ngIf="isAuthenticated">
+            <span class="menu__link-text">{{'Settings' | translate}}</span>
           </a>
-          <div class="submenu submenu--language">
-            <ul class="menu__list submenu__list submenu__list--language">
-              <!--<li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">-->
-                <!--<a class="submenu__link" (click)="changeLocalization(lang.name)" >-->
-                  <!--<img class="language__flag" [src]="lang.icon_url" alt="">-->
-                  <!--<span class="language__text">{{lang.fullName | translate}}</span>-->
-                  <!--</a>-->
-                  <!--</li>-->
-                </ul>
-              </div>
-            </li>
-          </ul>
-          <div class="translate">
-            <button class="translate__trigger">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14.4 2.4H7.10399L6.40001 0H1.60001C0.719999 0 0 0.719999 0 1.60001V12C0 12.88 0.719999 13.6 1.60001 13.6H7.19999L7.99998 16H14.4C15.28 16 16 15.28 16 14.4V4.00001C16 3.12 15.28 2.4 14.4 2.4ZM4.13201 10.068C2.328 10.068 0.863999 8.59998 0.863999 6.79998C0.863999 4.99998 2.33201 3.53197 4.13201 3.53197C4.96402 3.53197 5.72002 3.82796 6.32002 4.38397L6.37203 4.43598L5.39602 5.37997L5.34802 5.33598C5.12002 5.11998 4.72402 4.86798 4.13201 4.86798C3.084 4.86798 2.232 5.736 2.232 6.804C2.232 7.87199 3.084 8.74001 4.13201 8.74001C5.22802 8.74001 5.70401 8.03999 5.832 7.57199H4.06398V6.33198H7.22399L7.23599 6.38797C7.26798 6.55597 7.27998 6.70398 7.27998 6.87198C7.27601 8.75598 5.98398 10.068 4.13201 10.068ZM8.53998 7.25999H11.736C11.736 7.25999 11.464 8.31198 10.488 9.44801C10.06 8.95601 9.76398 8.47601 9.57599 8.09201H8.78399L8.53998 7.25999ZM9.91199 10.068L9.484 10.492L8.96002 8.70802C9.22799 9.18798 9.55199 9.64799 9.91199 10.068ZM15.2 14.4C15.2 14.84 14.84 15.2 14.4 15.2H8.80001L10.4 13.6L9.748 11.388L10.484 10.6519L12.632 12.7999L13.216 12.216L11.052 10.068C11.772 9.23996 12.332 8.26796 12.584 7.26397H13.6V6.432H10.692V5.59998H9.85998V6.432H8.29199L7.33998 3.19999H14.4C14.84 3.19999 15.2 3.55998 15.2 3.99997V14.4Z" fill="#AAB1C4"/>
-              </svg>
-            </button>
-            <div class="translate__container">
-              <div id="google_translate_element"></div>
-            </div>
-          </div>
+          <a class="menu__link login-menu__link menu__link--auth--log" (click)="onLogout()" style="padding-bottom: 16px;">
+            <span class="menu__link-text">{{'Log out' | translate}}</span>
+          </a>
         </div>
-      </header>
-      <!-- HEADER END-->
+      </ng-container>
+      <ng-template #login>
+        <li class="menu__item">
+          <a class="menu__link menu__link--auth--log" (click)="onMobileLogin()">
+            <span class="menu__link-text">{{'Log In' | translate}}</span>
+          </a>
+        </li>
+        <li class="menu__item">
+          <a class="menu__link menu__link--auth--reg" (click)="openRegistration()">
+            <span class="menu__link-text">{{'Register' | translate}}</span>
+          </a>
+        </li>
+      </ng-template>
+    </div>
+
+    <ul class="menu language">
+      <li class="menu__item menu__item--with-submenu menu__item--disabled">
+        <a class="menu__link">
+          <span class="menu__link-text">
+            <!-- <img class="language__flag" [src]="lang.icon_url" alt="ru"> -->
+            <span>{{lang.fullName}}</span>
+          </span>
+        </a>
+        <div class="submenu submenu--language">
+          <ul class="menu__list submenu__list submenu__list--language">
+            <!--<li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">-->
+              <!--<a class="submenu__link" (click)="changeLocalization(lang.name)" >-->
+              <!--<img class="language__flag" [src]="lang.icon_url" alt="">-->
+              <!--<span class="language__text">{{lang.fullName | translate}}</span>-->
+              <!--</a>-->
+            <!--</li>-->
+          </ul>
+        </div>
+      </li>
+    </ul>
+    <div class="translate">
+      <button class="translate__trigger">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14.4 2.4H7.10399L6.40001 0H1.60001C0.719999 0 0 0.719999 0 1.60001V12C0 12.88 0.719999 13.6 1.60001 13.6H7.19999L7.99998 16H14.4C15.28 16 16 15.28 16 14.4V4.00001C16 3.12 15.28 2.4 14.4 2.4ZM4.13201 10.068C2.328 10.068 0.863999 8.59998 0.863999 6.79998C0.863999 4.99998 2.33201 3.53197 4.13201 3.53197C4.96402 3.53197 5.72002 3.82796 6.32002 4.38397L6.37203 4.43598L5.39602 5.37997L5.34802 5.33598C5.12002 5.11998 4.72402 4.86798 4.13201 4.86798C3.084 4.86798 2.232 5.736 2.232 6.804C2.232 7.87199 3.084 8.74001 4.13201 8.74001C5.22802 8.74001 5.70401 8.03999 5.832 7.57199H4.06398V6.33198H7.22399L7.23599 6.38797C7.26798 6.55597 7.27998 6.70398 7.27998 6.87198C7.27601 8.75598 5.98398 10.068 4.13201 10.068ZM8.53998 7.25999H11.736C11.736 7.25999 11.464 8.31198 10.488 9.44801C10.06 8.95601 9.76398 8.47601 9.57599 8.09201H8.78399L8.53998 7.25999ZM9.91199 10.068L9.484 10.492L8.96002 8.70802C9.22799 9.18798 9.55199 9.64799 9.91199 10.068ZM15.2 14.4C15.2 14.84 14.84 15.2 14.4 15.2H8.80001L10.4 13.6L9.748 11.388L10.484 10.6519L12.632 12.7999L13.216 12.216L11.052 10.068C11.772 9.23996 12.332 8.26796 12.584 7.26397H13.6V6.432H10.692V5.59998H9.85998V6.432H8.29199L7.33998 3.19999H14.4C14.84 3.19999 15.2 3.55998 15.2 3.99997V14.4Z" fill="#AAB1C4"/>
+        </svg>
+      </button>
+      <div class="translate__container">
+        <div id="google_translate_element"></div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- HEADER END-->
 
 
-      <!-- HEADER MOBILE START-->
-      <header class="header-mob" [ngClass]="{'header-mob--open': isMobileMenuOpen }">
-        <div class="header-mob__top">
-
-          <div
-          [ngClass]="{'header-mob__burger-content': !isMobileMenuOpen, 'header-mob__burger-content--open': isMobileMenuOpen }">
-          <div class="mobile-title">
-            <h3>Account</h3>
-          </div>
-          <div class="header-mob__controls-row">
+<!-- HEADER MOBILE START-->
+<header class="header-mob" [ngClass]="{'header-mob--open': isMobileMenuOpen }" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'" >
+  <div class="header-mob__top">
+    <div [ngClass]="{'header-mob__burger-content': !isMobileMenuOpen, 'header-mob__burger-content--open': isMobileMenuOpen }">
+      <div class="mobile-title">
+        <h3>Account</h3>
+      </div>
+      <div class="header-mob__controls-row">
         <!-- <a class="header-mob__controls-btn" (click)="tempPopup()">
           <img class="header-mob__controls-icon" src="../../assets/img/header-mob-settings.svg">
         </a> -->
@@ -261,13 +250,13 @@
       <div class="est-holding-wr">
         <a class="menu-mob__link menu-mob__link--next-page" *ngIf="isAuthenticated">
           <span class="menu-mob__link-text">{{'Estimated holdings' | translate}}</span>
-          <span class="menu-mob__link-holdings-inf">${{(myBalance | async)?.USD | roundCurrency:'USD' | formatCurrency}}</span>
+          <span class="menu-mob__link-holdings-inf">${{(myBalance | async)?.USD || 0 | roundCurrency:'USD' | formatCurrency}}</span>
         </a>
         <div class="e-h-descritption" *ngIf="isAuthenticated">
           <p>Pleace do not disclose SMS and Goodle Authentication codes to ahyone, including Exrates customer support</p>
         </div>
       </div>
-      
+
       <nav class="menu-mob">
         <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(REFERRAL_FLAG)" [ngClass]="{'menu-mob__link--active' : showReferralList}">
@@ -280,31 +269,31 @@
           </div>
         </div>
         <a
-        *ngIf="isAuthenticated"
-        class="menu-mob__link"
-        >
+          *ngIf="isAuthenticated"
+          class="menu-mob__link"
+          >
 
-        <span class="menu-mob__link-text">Identity Authentication</span>
-      </a>
-      <a
-      *ngIf="isAuthenticated"
-      class="menu-mob__link"
-      >
+          <span class="menu-mob__link-text">Identity Authentication</span>
+        </a>
+        <a
+          *ngIf="isAuthenticated"
+          class="menu-mob__link"
+          >
 
-      <span class="menu-mob__link-text">Settings</span>
-    </a>
+          <span class="menu-mob__link-text">Settings</span>
+        </a>
 
-    <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
-      <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(FUNDS_FLAG)" [ngClass]="{'menu-mob__link--active': showFundsList}"
-      routerLink="/funds/balances">
-      <span class="menu-mob__link-text">{{'Funds' | translate}}</span></a>
-      <div class="menu-mob__wrap-links" *ngIf="showFundsList">
-        <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/transaction-history">
-        {{'Transaction history' | translate}}</a>
-        <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">{{'Balance' | translate}}</a>
-      </div>
-    </div>
-         <!--<div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
+        <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
+          <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(FUNDS_FLAG)" [ngClass]="{'menu-mob__link--active': showFundsList}"
+          routerLink="/funds/balances">
+          <span class="menu-mob__link-text">{{'Funds' | translate}}</span></a>
+          <div class="menu-mob__wrap-links" *ngIf="showFundsList">
+            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/transaction-history">
+            {{'Transaction history' | translate}}</a>
+            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">{{'Balance' | translate}}</a>
+          </div>
+        </div>
+        <!--<div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(ORDERS_FLAG)" [ngClass]="{'menu-mob__link--active': showOrdersList}"
              routerLink="/orders/open">
             <span class="menu-mob__link-icon">
@@ -335,7 +324,7 @@
 
             </span>
             <span class="menu-mob__link-text">{{'Orders' | translate}}</span>
-          </a> 
+          </a>
           <div class="menu-mob__wrap-links" *ngIf="showOrdersList">
             <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/orders/open">{{'Open orders' | translate}}</a>
             <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/orders/closed">{{'Orders history' | translate}}</a>
@@ -355,64 +344,64 @@
   <div class="header-mob__inner">
     <div class="header-mob__submenu">
       <a class="header-mob__submenu-link" [routerLink]="['dashboard']" [queryParams]="{widget: 'trading'}"
-      [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'trading' }"
-      (click)="setMobileWidget('trading')">
-      <img class="header-mob__submenu-link-img" src="../../assets/img/trade.svg">
-      <span class="header-mob__submenu-link-text">{{'Trade' | translate}}</span>
+        [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'trading' }"
+        (click)="setMobileWidget('trading')">
+        <img class="header-mob__submenu-link-img" src="../../assets/img/trade.svg">
+        <span class="header-mob__submenu-link-text">{{'Trade' | translate}}</span>
+      </a>
+      <a class="header-mob__submenu-link" [routerLink]="['dashboard']" [queryParams]="{widget: 'graph'}"
+        [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'graph' }"
+        (click)="setMobileWidget('graph')">
+        <img class="header-mob__submenu-link-img" src="../../assets/img/graph.svg">
+        <span class="header-mob__submenu-link-text">{{'Graph' | translate}}</span>
+      </a>
+
+
+      <a class="header-mob__submenu-link" routerLink="funds/balances"
+        routerLinkActive="header-mob__submenu-link--active"
+        (click)="setMobileWidget('balance')" *ngIf="isAuthenticated">
+        <img class="header-mob__submenu-link-img" src="../../assets/img/wallet.svg">
+        <span class="header-mob__submenu-link-text">{{'Balances' | translate}}</span>
+      </a>
+      <a class="header-mob__submenu-link"
+        [routerLink]="['dashboard']"
+        [queryParams]="{widget: 'trade-history'}"
+        routerLinkActive="header-mob__submenu-link--active"
+        (click)="setMobileWidget('trade-history')" *ngIf="isAuthenticated">
+        <img class="header-mob__submenu-link-img" src="../../assets/img/history.svg">
+        <span class="header-mob__submenu-link-text">{{'History' | translate}}</span>
+      </a>
+      <a class="header-mob__submenu-link"
+        [routerLink]="['orders/open']"
+        routerLinkActive="header-mob__submenu-link--active"
+        (click)="setMobileWidget('open')" *ngIf="isAuthenticated">
+        <img class="header-mob__submenu-link-img" src="../../assets/img/orders.svg">
+        <span class="header-mob__submenu-link-text">{{'Open' | translate}}</span>
+      </a>
+
+
+      <a class="header-mob__submenu-link"
+        [routerLink]="['dashboard']"
+        [queryParams]="{widget: 'markets'}"
+        routerLinkActive="header-mob__submenu-link--active"
+        (click)="setMobileWidget('markets')">
+        <img class="header-mob__submenu-link-img" src="../../assets/img/markets.svg">
+        <span class="header-mob__submenu-link-text">{{'Markets' | translate}}</span>
+      </a>
+      <a class="header-mob__submenu-link"
+        [routerLink]="['dashboard']"
+        [queryParams]="{widget: 'chat'}"
+        [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'chat' }"
+        (click)="setMobileWidget('chat')">
+        <img class="header-mob__submenu-link-img" src="../../assets/img/header-sumbenu-link6.svg">
+        <span class="header-mob__submenu-link-text">{{'Chat' | translate}}</span>
+      </a>
+    </div>
+    <a class="header-mob__link header-mob__link-burger">
+      <div class="header-mob__link-inner" (click)="openMenu()">
+        <img class="header-mob__link-img" src="../../assets/img/header-mob-burger.svg">
+      </div>
     </a>
-    <a class="header-mob__submenu-link" [routerLink]="['dashboard']" [queryParams]="{widget: 'graph'}"
-    [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'graph' }"
-    (click)="setMobileWidget('graph')">
-    <img class="header-mob__submenu-link-img" src="../../assets/img/graph.svg">
-    <span class="header-mob__submenu-link-text">{{'Graph' | translate}}</span>
-  </a>
-
-
-  <a class="header-mob__submenu-link" routerLink="funds/balances"
-  routerLinkActive="header-mob__submenu-link--active"
-  (click)="setMobileWidget('balance')" *ngIf="isAuthenticated">
-  <img class="header-mob__submenu-link-img" src="../../assets/img/wallet.svg">
-  <span class="header-mob__submenu-link-text">{{'Balances' | translate}}</span>
-</a>
-<a class="header-mob__submenu-link"
-[routerLink]="['dashboard']"
-[queryParams]="{widget: 'trade-history'}"
-routerLinkActive="header-mob__submenu-link--active"
-(click)="setMobileWidget('trade-history')" *ngIf="isAuthenticated">
-<img class="header-mob__submenu-link-img" src="../../assets/img/history.svg">
-<span class="header-mob__submenu-link-text">{{'History' | translate}}</span>
-</a>
-<a class="header-mob__submenu-link"
-[routerLink]="['orders/open']"
-routerLinkActive="header-mob__submenu-link--active"
-(click)="setMobileWidget('open')" *ngIf="isAuthenticated">
-<img class="header-mob__submenu-link-img" src="../../assets/img/orders.svg">
-<span class="header-mob__submenu-link-text">{{'Open' | translate}}</span>
-</a>
-
-
-<a class="header-mob__submenu-link"
-[routerLink]="['dashboard']"
-[queryParams]="{widget: 'markets'}"
-routerLinkActive="header-mob__submenu-link--active"
-(click)="setMobileWidget('markets')">
-<img class="header-mob__submenu-link-img" src="../../assets/img/markets.svg">
-<span class="header-mob__submenu-link-text">{{'Markets' | translate}}</span>
-</a>
-<a class="header-mob__submenu-link"
-[routerLink]="['dashboard']"
-[queryParams]="{widget: 'chat'}"
-[ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'chat' }"
-(click)="setMobileWidget('chat')">
-<img class="header-mob__submenu-link-img" src="../../assets/img/header-sumbenu-link6.svg">
-<span class="header-mob__submenu-link-text">{{'Chat' | translate}}</span>
-</a>
-</div>
-<a class="header-mob__link header-mob__link-burger">
-  <div class="header-mob__link-inner" (click)="openMenu()">
-    <img class="header-mob__link-img" src="../../assets/img/header-mob-burger.svg">
   </div>
-</a>
-</div>
 </header>
 <!-- HEADER MOBILE END-->

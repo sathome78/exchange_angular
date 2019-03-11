@@ -12,8 +12,9 @@ import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
-import { CurrencyChoose } from 'app/model/currency-choose.model';
+import {CurrencyChoose} from 'app/model/currency-choose.model';
 import {OrdersService} from '../orders.service';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-open-orders',
@@ -58,6 +59,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<State>,
     private ordersService: OrdersService,
+    public breakpointService: BreakpointService,
     private utils: UtilsService,
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr));
@@ -97,7 +99,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
         limit:this.countPerPage,
         dateFrom: this.formatDate(this.modelDateFrom.date),
         dateTo: this.formatDate(this.modelDateTo.date),
-        currencyPairId: this.currencyPairId,
+        currencyPairId: this.currencyPairId || 0,
       }
       this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
     }
@@ -110,7 +112,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
         limit:this.countPerPage,
         // dateFrom: this.formatDate(this.modelDateFrom.date),
         // dateTo: this.formatDate(this.modelDateTo.date),
-        currencyPairId: this.currencyPairId,
+        currencyPairId: this.currencyPairId || 0,
         concat: true,
       }
       this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));

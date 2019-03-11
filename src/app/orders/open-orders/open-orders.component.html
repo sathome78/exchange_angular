@@ -1,6 +1,6 @@
 <div class="container">
   <!--orders-mob start-->
-  <div class="orders orders--mob">
+  <div class="orders orders--mob" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
     <div class="orders__header-mob">
       <div class=" orders__page-title">
         {{'Open orders' | translate}}
@@ -168,7 +168,7 @@
   <!--orders-mob end-->
 
   <!--orders-desktop start-->
-  <div class="orders">
+  <div class="orders"  *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
     <div class="page-title">
       <h1 class="page-title__text">
         {{'Open orders'| translate}}
@@ -327,7 +327,7 @@
           </td>
         </tr>
         <tr class="table__row" *ngIf="!(orderItems$ | async).length && !(loading$ | async)">
-          <td class="table__cell table__cell--tac" colspan="10">
+          <td class="table__cell table__cell--tac" colspan="11">
             {{'No matching records found' | translate}}
           </td>
         </tr>

@@ -26,6 +26,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   @Input('currencyName') public currencyName = '';
   @ViewChild('inputEl') inputEl: ElementRef;
   @Output('customInput') customInput: EventEmitter<any>
+  @Output('customBlur') customBlur: EventEmitter<boolean>
   private patternInput = /^\d+\.(\.\d+)*$|^\d+(\.\d+)*$/;
   private onTouched: Function;
 
@@ -36,6 +37,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   ) {
     this.onTouched = () => {};
     this.customInput = new EventEmitter<any>();
+    this.customBlur = new EventEmitter<boolean>();
   }
 
   ngAfterViewInit() {
@@ -108,5 +110,6 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   onBlur($event) {
     this.onTouched();
     this.writeValue($event.target.value);
+    this.customBlur.emit(true);
   }
 }

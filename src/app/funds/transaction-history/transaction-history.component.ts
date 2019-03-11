@@ -14,6 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 import saveAs from 'file-saver'
 import { CurrencyChoose } from 'app/model/currency-choose.model';
 import { ConstantsService } from 'app/shared/services/constants.service';
+import { BreakpointService } from 'app/shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-transaction-history',
@@ -59,6 +60,7 @@ export class TransactionHistoryComponent implements OnInit {
     private store: Store<State>,
     private transactionsService: TransactionsService,
     public constantsService: ConstantsService,
+    public breakpointService: BreakpointService,
     private utils: UtilsService,
   ) {
     this.transactionsItems$ = store.pipe(select(fundsReducer.getTrHistorySelector));
@@ -89,7 +91,8 @@ export class TransactionHistoryComponent implements OnInit {
       limit:this.countPerPage,
       dateFrom:  this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
       dateTo:  this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
-      currencyId: this.currencyId
+      currencyId: this.currencyId || 0,
+      currencyName: this.currValue || '',
     }
     this.store.dispatch(new fundsAction.LoadTransactionsHistoryAction(params));
     this.initialRequest = false;
@@ -110,6 +113,7 @@ export class TransactionHistoryComponent implements OnInit {
       limit: this.countPerPage,
     }
     this.store.dispatch(new fundsAction.LoadLastTransactionsHistoryAction(params));
+    this.initialRequest = false;
   }
 
   loadMoreTransactions(): void {
@@ -120,10 +124,12 @@ export class TransactionHistoryComponent implements OnInit {
         limit:this.countPerPage,
         dateFrom:  this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
         dateTo:  this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
-        currencyId: this.currencyId,
+        currencyId: this.currencyId || 0,
+        currencyName: this.currValue || '',
         concat: true,
       }
       this.store.dispatch(new fundsAction.LoadTransactionsHistoryAction(params));
+      this.initialRequest = false;
     }
   }
 
@@ -233,7 +239,8 @@ export class TransactionHistoryComponent implements OnInit {
       limit:this.countPerPage,
       dateFrom: this.formatDate(this.modelDateFrom.date),
       dateTo: this.formatDate(this.modelDateTo.date),
-      currencyId: this.currencyId
+      currencyId: this.currencyId || 0,
+      currencyName: this.currValue || '',
     }
     this.transactionsService.downloadExcel(params)
       .pipe(takeUntil(this.ngUnsubscribe))

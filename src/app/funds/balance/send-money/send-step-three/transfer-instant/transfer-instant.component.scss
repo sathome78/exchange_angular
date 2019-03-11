@@ -99,7 +99,7 @@
     }
     &__info-title{
       width: auto;
-      margin-left: 23%;
+      margin-left: 19.5%;
       //width: calc(50% - 48px);
       //text-align: right;
       margin-right: 32px;
@@ -177,6 +177,10 @@ perfect-scrollbar{
 }
 
 // TEMP STYLE
+.loading-container {
+  margin-top: 40%;
+}
+
 .btn--empty-blue{
   &:hover, &:focus{
     background-color: transparent !important;

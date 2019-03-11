@@ -1,0 +1,58 @@
+.refill{
+	&__transfer-message-text{
+		color: #DEDEFB;
+	}
+	&__crypto-title{
+		margin-bottom: 4px;
+		color:#A0A0A0;
+		@media(max-width: 1199px){
+			text-align: center;
+			color: #DEDEFB;
+		}
+	}
+	&__crypto-hash{
+		font-weight: bold;
+		margin-bottom: 8px;
+
+		width: 296px;
+		overflow-wrap: break-word;
+		word-wrap: break-word;
+		@media(max-width: 1199px){
+			width: auto;
+			text-align: center;
+			color: #DEDEFB;
+		}
+	}
+	&__crypto-copy-btn{
+		margin-bottom: 20px;
+		@media(max-width: 1199px) {
+			margin: 0 auto;
+		}
+	}
+	&__crypto-comission{
+		font-size: 12px;
+		line-height: 14px;
+		color:#A0A0A0;
+		@media(max-width: 1199px){
+			color: #DEDEFB;
+		}
+	}
+	&__crypto-memo{
+		margin-top: 20px;
+	}
+	&__qr-code{
+		display: none;
+	}
+	&__select, &__wrap-input {
+		width: 100%;
+		max-width: 230px;
+		margin-bottom: 28px;
+
+		@media(max-width: 1199px){
+			&:last-child{
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+

@@ -1,14 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {takeUntil} from 'rxjs/operators';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
 import {Store} from '@ngrx/store';
 import {State} from '../../../../../core/reducers';
 import {TRANSFER_INSTANT} from '../../send-money-constants';
 import {AbstractTransfer} from '../abstract-transfer';
-import {environment} from '../../../../../../environments/environment';
 import {PopupService} from '../../../../../shared/services/popup.service';
-import {AUTH_MESSAGES} from 'app/shared/constants';
 
 @Component({
   selector: 'app-transfer-instant',
@@ -17,7 +14,6 @@ import {AUTH_MESSAGES} from 'app/shared/constants';
 })
 export class TransferInstantComponent extends AbstractTransfer implements OnInit, OnDestroy {
 
-  public AUTH_MESSAGES = AUTH_MESSAGES;
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
@@ -38,7 +34,6 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
   ngOnInit() {
     this.responseCommission = this.responseDefaultCommission;
     this.initForm();
-    this.getCommissionDebonce();
     this.getAllNames();
   }
 

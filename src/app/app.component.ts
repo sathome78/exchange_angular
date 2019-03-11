@@ -16,7 +16,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {select, Store} from '@ngrx/store';
 import * as fromCore from './core/reducers';
 import {PopupData} from './shared/interfaces/popup-data-interface';
-import * as coreActions from './core/actions/core.actions';
+import * as coreAction from './core/actions/core.actions';
 
 
 declare var sendTransactionSuccessGtag: Function;
@@ -31,6 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public isAuthenticated: boolean = false;
   public kycStep = 1;
   public popupData: PopupData;
+  public kycIframeUrl = '';
 
   isTfaPopupOpen = false;
   isIdentityPopupOpen = false;
@@ -76,9 +77,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
     // this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
     if(this.authService.isAuthenticated()) {
-      this.store.dispatch(new coreActions.SetOnLoginAction(this.authService.parsedToken));
+      this.store.dispatch(new coreAction.SetOnLoginAction(this.authService.parsedToken));
     }
     this.subscribeForTfaEvent();
     this.subscribeForIdentityEvent();
@@ -120,7 +122,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.popupService.getIdentityPopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
-        this.isIdentityPopupOpen = value ? true : false;
+        this.isIdentityPopupOpen = !!value;
       });
   }
 
@@ -128,8 +130,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.popupService.getKYCPopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
-        this.kycStep = value;
-        this.isKYCPopupOpen = value ? true : false;
+        this.kycStep = value.step;
+        this.kycIframeUrl = value.url;
+        this.isKYCPopupOpen = !!value.step;
       });
   }
 

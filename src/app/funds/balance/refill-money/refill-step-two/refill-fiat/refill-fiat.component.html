@@ -1,4 +1,4 @@
-<div style="display: block;" *ngIf="activeFiat">
+<div style="display: block;" *ngIf="!!activeFiat && !!fiatDataByName">
   <div class="title refill__title" *ngIf="!submitSuccess">Fiat Deposit <span>{{activeFiat.name}}</span></div>
   <form [formGroup]="form">
     <div class="refill__inputs-wrap" *ngIf="!submitSuccess">
@@ -69,14 +69,14 @@
 
         <div class="wrap-input__message--show">
           <span *ngIf="!form.valid">
-          {{'Minimum sum for deposit' | translate}} {{fiatDataByName ? fiatDataByName.minRefillSum : 0}} {{activeFiat ? activeFiat.name : ''}}
+          {{'Minimum sum for deposit' | translate}} {{minRefillSum || 0}} {{activeFiat ? activeFiat.name : ''}}
         </span>
         </div>
 
         <!--Input error section starts-->
         <div class="input-hint-wrapper" *ngIf="!form.valid && isSubmited">
           <span class="wrap-input__message">
-            Should be at least {{fiatDataByName ? fiatDataByName.minRefillSum : 0}}
+            Should be at least {{minRefillSum || 0}}
           </span>
         </div>
         <!--Input error section ends-->
@@ -108,12 +108,12 @@
     <div class="title refill__fiat-successful-title">Request was created!</div>
     <div class="subtitle refill__fiat-successful-subtitle">
       Please go to
-      <a #redirectionLink href="{{redirectionUrl}}" (click)="hideSend()">{{selectMerchantName}}</a>
+      <a class="standart-link" #redirectionLink href="{{redirectionUrl}}" (click)="hideSend()">{{selectMerchantName}}</a>
       to make a payment
       <b>{{refillData.params.ok_item_1_price}} {{refillData.params.ok_currency}}</b>
     </div>
     <div class="subtitle refill__fiat-successful-subtitle">
-      You can track the progress in history section on <a routerLink="/funds/balances">funds</a> page
+      You can track the progress in history section on <a class="standart-link" (click)="goToBalances()">funds</a> page
     </div>
 
     <form name="hideForm" method="post" [action]="refillData.redirectionUrl"
@@ -133,3 +133,6 @@
   </div>
 </div>
 
+<div class="loading-container" *ngIf="!activeFiat || !fiatDataByName">
+  <app-loader></app-loader>
+</div>

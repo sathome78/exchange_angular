@@ -18,6 +18,7 @@ import {ChangeLanguageAction} from '../core/actions/core.actions';
 import {takeUntil, withLatestFrom} from 'rxjs/operators';
 import * as fromCore from '../core/reducers';
 import * as coreActions from '../core/actions/core.actions';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-header',
@@ -53,6 +54,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private store: Store<State>,
     private cdr: ChangeDetectorRef,
+    public breakpointService: BreakpointService,
     public translate: TranslateService
   ) {
     this.userInfo$ = this.store.pipe(select(fromCore.getUserInfo));

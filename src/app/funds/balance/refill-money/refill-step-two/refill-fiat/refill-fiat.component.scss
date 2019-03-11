@@ -8,12 +8,11 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 24px;
+    @media(max-width:1199px) {
+      margin-bottom: 0;
+    }
   }
-  &__select, &__wrap-input {
-    width: 100%;
-    max-width: 230px;
-    margin-bottom: 28px;
-  }
+  
   &__fiat-successful-icon {
     display: flex;
     justify-content: center;
@@ -114,6 +113,14 @@
 }
 
 // TEMP STYLE
+.loading-container {
+  margin-top: 40%;
+}
+
+.standart-link {
+  cursor: pointer;
+}
+
 .select__search-input {
   color: black;
 }

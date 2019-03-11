@@ -1,10 +1,23 @@
 import {Injectable} from '@angular/core';
-import { ValidatorFn, AbstractControl } from '@angular/forms';
+import {ValidatorFn, AbstractControl} from '@angular/forms';
+// import {CoreService} from 'app/core/services/core.service';
 
 @Injectable()
 export class UtilsService {
 
-  private fiatCurrencies: Array<string> = ['USD', 'EUR', 'CNY', 'IDR', 'NGN', 'TRY', 'UAH', 'VND', 'AED'];
+  // constructor(
+  //   private coreService: CoreService
+  // ) {
+  //   coreService.getSimpleCurrencyPairs()
+  //     .subscribe((currs) => {
+  //       if(!currs.length) {
+  //         return
+  //       }
+  //       this.fiatCurrencies = currs.map((c) => c.name)
+  //     });;
+  // }
+
+  private fiatCurrencies: Array<string> = ['USD', 'EUR', 'CNY', 'IDR', 'NGN', 'TRY', 'UAH', 'VND', 'AED', 'RUB'];
   private cache = {}
   private pattern = /(^$|(^([^<>()\[\]\\,;:\s@"]+(\.[^<>()\[\]\\,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
   private forbiddenSymbolsEmailRegex = /[~`{}/|?!№#$%^&*":;,[\]<>()=']/ig;
