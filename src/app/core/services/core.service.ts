@@ -2,9 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
-
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
-import {publishReplay, refCount} from 'rxjs/operators';
 
 @Injectable()
 export class CoreService {

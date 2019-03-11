@@ -6,9 +6,9 @@ import {map, switchMap, catchError, withLatestFrom} from "rxjs/internal/operator
 
 import * as coreActions from '../actions/core.actions';
 import * as mainSelectors from '../reducers';
-import { State } from '../reducers/index';
-import { CoreService } from '../services/core.service';
-import { of } from 'rxjs';
+import {State} from '../reducers/index';
+import {CoreService} from '../services/core.service';
+import {of} from 'rxjs';
 import {SettingsService} from '../../settings/settings.service';
 
 @Injectable()
@@ -55,23 +55,23 @@ export class CoreEffects {
         )
     }))
 
-    @Effect()
-    loadAllCurrencies$: Observable<Action> = this.actions$
-      .pipe(ofType<coreActions.LoadAllCurrenciesForChoose>(coreActions.LOAD_ALL_CURRENCIES_FOR_CHOOSE))
-      .pipe(withLatestFrom(
-        this.store.select(mainSelectors.getAllCurrenciesForChoose),
-        (action: any, store:any) => store
-      ))
-      .pipe(switchMap((list) => {
-        if (list.length) {
-          return of(new coreActions.SetAllCurrenciesForChoose(list));
-        }
-        return this.coreService.getCryptoFiatNames()
-          .pipe(
-            map(res => (new coreActions.SetAllCurrenciesForChoose(res.data))),
-            catchError(error => of(new coreActions.FailLoadCurrenciesForChoose(error)))
-          );
-      }));
+  @Effect()
+  loadAllCurrencies$: Observable<Action> = this.actions$
+    .pipe(ofType<coreActions.LoadAllCurrenciesForChoose>(coreActions.LOAD_ALL_CURRENCIES_FOR_CHOOSE))
+    .pipe(withLatestFrom(
+      this.store.select(mainSelectors.getAllCurrenciesForChoose),
+      (action: any, store:any) => store
+    ))
+    .pipe(switchMap((list) => {
+      if (list.length) {
+        return of(new coreActions.SetAllCurrenciesForChoose(list));
+      }
+      return this.coreService.getCryptoFiatNames()
+        .pipe(
+          map(res => (new coreActions.SetAllCurrenciesForChoose(res.data))),
+          catchError(error => of(new coreActions.FailLoadCurrenciesForChoose(error)))
+        );
+    }));
 
   @Effect()
   loadCryptoCurrencies$: Observable<Action> = this.actions$
@@ -92,19 +92,6 @@ export class CoreEffects {
     }));
 
   @Effect()
-  loadVerificationStatus$: Observable<Action> = this.actions$
-    .pipe(ofType<coreActions.LoadVerificationStatusAction>(coreActions.LOAD_VERIFICATION_STATUS))
-    .pipe(switchMap(() => {
-      return this.settingsService.getCurrentVerificationStatusKYC()
-        .pipe(
-          map(res => {
-              return new coreActions.SetVerificationStatusAction(res);
-            },
-          catchError(error => of(new coreActions.FailLoadVerificationStatusAction(error)))
-        ));
-    }));
-
-  @Effect()
   loadFiatCurrencies$: Observable<Action> = this.actions$
     .pipe(ofType<coreActions.LoadFiatCurrenciesForChoose>(coreActions.LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE))
     .pipe(withLatestFrom(
@@ -119,6 +106,17 @@ export class CoreEffects {
         .pipe(
           map(res => (new coreActions.SetFiatCurrenciesForChoose(res))),
           catchError(error => of(new coreActions.FailLoadCurrenciesForChoose(error)))
+        );
+    }));
+
+  @Effect()
+  loadVerificationStatus$: Observable<Action> = this.actions$
+    .pipe(ofType<coreActions.LoadVerificationStatusAction>(coreActions.LOAD_VERIFICATION_STATUS))
+    .pipe(switchMap(() => {
+      return this.settingsService.getCurrentVerificationStatusKYC()
+        .pipe(
+          map(res => new coreActions.SetVerificationStatusAction(res)),
+          catchError(error => of(new coreActions.FailLoadVerificationStatusAction(error)))
         );
     }));
 }

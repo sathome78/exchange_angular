@@ -20,7 +20,7 @@
   &__wrap-input{
     width: 100%;
     max-width: 230px;
-    
+
   }
   &__line{
     height: 1px;
@@ -196,7 +196,7 @@
       app-price-input {
         label {
           @media(max-width: 1199px){
-            
+
           color: #DEDEFB;
           }
           @media(min-width: 1200px){
@@ -207,6 +207,10 @@
       }
     }
   }
+}
+// TEMP STYLES
+.loading-container {
+  margin-top: 40%;
 }
 
 .avaliable{
@@ -219,3 +223,11 @@
         color: #DEDEFB;
       }
     }
+// TEMP STYLES
+.withdraw-limit-error{
+  color: red;
+  height: 245px;
+  line-height: 245px;
+  text-align: center;
+
+}

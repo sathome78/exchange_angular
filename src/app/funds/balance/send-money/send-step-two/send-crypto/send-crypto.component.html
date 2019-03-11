@@ -1,6 +1,7 @@
 <div *ngIf="!!activeCrypto && !!cryptoInfoByName">
   <div class="title send__title">{{'Crypto Withdrawal' | translate}}
-    <span> {{activeCrypto ? activeCrypto.name : ''}}</span></div>
+    <span>{{currName}}</span>
+  </div>
   <div class="formWraper" *ngIf="isEnterData">
     <form [formGroup]="form">
       <div class="send__inputs-wrap" *ngIf="!!cryptoInfoByName">
@@ -53,36 +54,62 @@
 
         <div class="wrap-input send__wrap-input"
              [ngClass]="{'wrap-input--error': form.get('amount').invalid
-  && (form.get('amount').touched || isSubmited)}"
+                          && (form.get('amount').touched || isSubmited)}"
              *ngIf="cryptoInfoByName && cryptoInfoByName.merchantCurrencyData.length">
           <div class="avaliable">{{'Avaliable:' | translate}}
-            <a (click)="balanceClick()" class="link">{{activeBalance}} {{activeCrypto ? activeCrypto.name : ''}}</a>
+            <a (click)="balanceClick()" class="link">
+              {{activeBalance | roundCurrency: currName | formatCurrency: 'short': currName}} {{currName}}
+            </a>
           </div>
-          <app-price-input [placeholder]="'Amount'"
-                           [currencyName]="activeCrypto.name"
-                           (customInput)="amountInput($event)"
-                           name="amount" formControlName="amount">
+          <app-price-input
+            [placeholder]="'Amount'"
+            [currencyName]="activeCrypto.name"
+            (customInput)="amountInput($event)"
+            (customBlur)="amountBlur($event)"
+            name="amount" formControlName="amount"
+          >
           </app-price-input>
 
           <span class=" wrap-input__message--show"
                 *ngIf="form.controls['amount'].errors && !form.controls['amount'].errors['isMinThenMinWithdraw']">
-{{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}
-</span>
+            {{
+              'Minimum sum for withdrawal' | translate
+            }} {{
+              minWithdrawSum  | roundCurrency: currName | formatCurrency: 'short': currName
+            }} {{
+              currName
+            }}
+          </span>
 
           <!--Input error section starts-->
           <div *ngIf="form.get('amount').errors != null">
             <div class="input-hint-wrapper">
-   <span class=" wrap-input__message--show"
-         *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
-         [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw']
-   && (form.controls['amount'].touched || isSubmited)}">
-   {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}
- </span>
-              <span class="wrap-input__message wrap-input__message--show"
-                    *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance']
- && (form.controls['amount'].touched || isSubmited)">
- {{'Max sum for withdrawal' | translate}} {{activeBalance}}
-</span>
+              <span
+                class=" wrap-input__message--show"
+                *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
+                [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] &&
+                                                  (form.controls['amount'].touched || isSubmited)}"
+              >
+                {{
+                  'Minimum sum for withdrawal' | translate
+                }} {{
+                  minWithdrawSum | roundCurrency: currName | formatCurrency: 'short': currName
+                }} {{
+                  currName
+                }}
+              </span>
+              <span
+                class="wrap-input__message wrap-input__message--show"
+                *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] && (form.controls['amount'].touched || isSubmited)"
+              >
+                {{
+                  'Your available balance:' | translate
+                }} {{
+                  activeBalance | roundCurrency: currName | formatCurrency: 'short': currName
+                }} {{
+                  currName
+                }}
+              </span>
             </div>
           </div>
           <!--Input error section ends-->
@@ -95,80 +122,93 @@
         <div class="wrap-input  send__wrap-input"
              *ngIf="cryptoInfoByName && cryptoInfoByName.merchantCurrencyData.length"
              [ngClass]="{'wrap-input--error': !form.controls['address'].valid &&
-  (form.controls['address'].touched || isSubmited)}">
+                        (form.controls['address'].touched || isSubmited)}">
           <input class="wrap-input__input" name="address" formControlName="address" required>
           <label class="wrap-input__label">{{'Address for withdraw money' | translate}}</label>
           <div class="wrap-input__line"></div>
           <!--Input error section starts-->
-          <div class="input-hint-wrapper" *ngIf="!form.controls['address'].valid
-  && (form.controls['address'].touched || isSubmited)">
-  <span class="wrap-input__message wrap-input__message--show"
-  >
-    {{'You should enter' | translate}} {{activeCrypto ? activeCrypto.name : ''}} {{'address for withdrawal' | translate}}
-</span>
+          <div
+            class="input-hint-wrapper"
+            *ngIf="!form.controls['address'].valid && (form.controls['address'].touched || isSubmited)"
+          >
+            <span class="wrap-input__message wrap-input__message--show">
+              {{'You should enter' | translate}} {{currName}} {{'address for withdrawal' | translate}}
+            </span>
           </div>
           <!--Input error section ends-->
         </div>
 
         <div class="wrap-input send__wrap-input"
              *ngIf="isMemo
-&& cryptoInfoByName
-&& cryptoInfoByName.merchantCurrencyData.length"
+                    && cryptoInfoByName
+                    && cryptoInfoByName.merchantCurrencyData.length"
              [ngClass]="{'wrap-input--error': !form.controls['memo'].valid
-&& (form.controls['memo'].touched || isSubmited)}">
+                          && (form.controls['memo'].touched || isSubmited)}">
           <input class="wrap-input__input" name="memo" formControlName="memo">
           <label class="wrap-input__label">{{memoName | translate}}</label>
           <div class="wrap-input__line"></div>
           <!--Input error section starts-->
           <span class="wrap-input__message wrap-input__message--show"
-                *ngIf="!form.controls['memo'].valid &&
-(form.controls['memo'].touched || isSubmited)">
-<div class="input-hint-wrapper">
-  {{'Enter memo ID' | translate}}
-</div>
-</span>
+                *ngIf="!form.controls['memo'].valid && (form.controls['memo'].touched || isSubmited)">
+            <div class="input-hint-wrapper">
+              {{'Enter memo ID' | translate}}
+            </div>
+          </span>
           <!--Input error section ends-->
         </div>
       </div>
     </form>
+
     <div class="send__line"></div>
-    <div class="send__info">
-      <div class="send__info-row">
-        <div class="send__info-title">{{'You want to withdraw:' | translate}}</div>
-        <div class="send__info-value">{{calculateData.amount}} {{activeCrypto ? activeCrypto.name : ''}}</div>
-      </div>
-      <div class="send__info-row">
-        <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
-        <div class="send__info-value">{{calculateData.companyCommissionRate}}
-          = {{calculateData.companyCommissionAmount}}
-          {{activeCrypto ? activeCrypto.name : ''}}
+
+    <ng-container *ngIf="cryptoInfoByName.maxDailyRequestSum > 0">
+      <div class="send__info">
+        <div class="send__info-row">
+          <div class="send__info-title">{{'You want to withdraw:' | translate}}</div>
+          <div class="send__info-value">
+            {{calculateData.amount | roundCurrency: currName | formatCurrency: 'short': currName}} {{currName}}
+          </div>
+        </div>
+        <div class="send__info-row">
+          <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
+          <div class="send__info-value">{{calculateData.companyCommissionRate}}
+            = {{calculateData.companyCommissionAmount}}
+            {{currName}}
+          </div>
+        </div>
+        <div class="send__info-row">
+          <div class="send__info-title">{{'Merchant comission:' | translate}}</div>
+          <div class="send__info-value">{{calculateData.merchantCommissionRate}} =
+            {{calculateData.merchantCommissionAmount}} {{currName}}
+          </div>
+        </div>
+        <div class="send__info-row">
+          <div class="send__info-title">{{'Total comission:' | translate}}</div>
+          <div class="send__info-value">{{calculateData.commission_rates_sum}}% = {{calculateData.totalCommissionAmount}}
+            {{currName}}
+          </div>
+        </div>
+        <div class="send__info-row">
+          <div class="send__info-title">{{'Total with comission:' | translate}}</div>
+          <div class="send__info-value">{{calculateData.resultAmount }} {{currName}}</div>
         </div>
       </div>
-      <div class="send__info-row">
-        <div class="send__info-title">{{'Merchant comission:' | translate}}</div>
-        <div class="send__info-value">{{calculateData.merchantCommissionRate}} =
-          {{calculateData.merchantCommissionAmount}} {{activeCrypto ? activeCrypto.name : ''}}
-        </div>
+      <button class="btn btn--center"
+              [ngClass]="{'btn--empty-blue': !form.valid}"
+              (click)="onSubmitWithdrawal()"
+      >{{'Withdraw' | translate}}
+        <span class="value">{{calculateData.resultAmount}}</span>
+        <span> {{currName}}</span>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="cryptoInfoByName.maxDailyRequestSum == 0">
+      <div class="withdraw-limit-error">
+        {{'Your daily output limit for this currency has been exceeded. Please try again tomorrow.' | translate}}
       </div>
-      <div class="send__info-row">
-        <div class="send__info-title">{{'Total comission:' | translate}}</div>
-        <div class="send__info-value">{{calculateData.commission_rates_sum}}% = {{calculateData.totalCommissionAmount}}
-          {{activeCrypto ? activeCrypto.name : ''}}
-        </div>
-      </div>
-      <div class="send__info-row">
-        <div class="send__info-title">{{'Total with comission:' | translate}}</div>
-        <div class="send__info-value">{{calculateData.resultAmount }} {{activeCrypto ? activeCrypto.name : ''}}</div>
-      </div>
-    </div>
-    <button class="btn btn--center"
-            [ngClass]="{'btn--empty-blue': !form.valid}"
-            (click)="onSubmitWithdrawal()"
-    >{{'Withdraw' | translate}}
-      <span class="value">{{calculateData.resultAmount}}</span>
-      <span> {{activeCrypto ? activeCrypto.name : ''}}</span>
-    </button>
+    </ng-container>
+
     <div class="send__line"></div>
+
     <div class="note modal__note">
       <div class="note__title">{{'Please note:' | translate}}</div>
       <ul class="note__list">
@@ -189,7 +229,7 @@
   </div>
 </div>
 
-<div class="loading-container" *ngIf="!activeCrypto && !cryptoInfoByName">
+<div class="loading-container" *ngIf="!activeCrypto || !cryptoInfoByName">
   <app-loader></app-loader>
 </div>
 
