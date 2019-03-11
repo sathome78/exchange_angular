@@ -12,10 +12,11 @@ import {UtilsService} from 'app/shared/services/utils.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {AUTH_MESSAGES} from '../../shared/constants';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as coreActions from '../../core/actions/core.actions';
 import {Location} from '@angular/common';
+import {CurrencyPair} from '../../model';
 
 declare var sendLoginSuccessGtag: Function;
 
@@ -36,6 +37,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   public inPineCodeMode;
   public isGA = false;
   public isGACheck = false;
+  public currencyPair;
   public afterCaptchaMessage;
 
   public currentTemplate: TemplateRef<any>;
@@ -81,6 +83,13 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
             this.popupService.showMobileLoginPopup(true);
           }
         })
+      });
+
+    this.store
+      .pipe(select(fromCore.getActiveCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((pair: CurrencyPair) => {
+        this.currencyPair = pair;
       });
   }
 
@@ -219,6 +228,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
         const parsedToken = this.authService.parseToken(tokenHolder.token);
         this.store.dispatch(new coreActions.SetOnLoginAction(parsedToken));
         this.popupService.closeMobileLoginPopup();
+        this.userService.getUserBalance(this.currencyPair);
         this.router.navigate(['/']);
 
         // TODO: just for promo state, remove after
