@@ -125,7 +125,10 @@ export class VerificationComponent implements OnInit, OnDestroy {
           this.popupService.showKYCPopup(2, res.data.url);
           this.form.reset();
           this.dataModel = this.defaultModel;
-        }, err => console.log(err));
+        }, err => {
+          this.dataModel.firstNames = [];
+          console.log(err);
+        });
     }
 
   }
