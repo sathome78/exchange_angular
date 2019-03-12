@@ -82,7 +82,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
     //       this.store.dispatch(new coreAction.LoadVerificationStatusAction());
     //     }
     //   });
-    // this.showComponent = this.authService.getUsername().match(this.pattern) ? true : false;
+    this.showComponent = this.authService.getUsername().match(this.pattern) ? true : false;
   }
 
   ngOnDestroy(): void {
