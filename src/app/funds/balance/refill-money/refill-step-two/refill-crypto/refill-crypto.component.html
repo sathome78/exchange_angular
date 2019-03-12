@@ -1,5 +1,5 @@
-
-<div class="title refill__title" *ngIf="activeCrypto">
+<div *ngIf="activeCrypto">
+<div class="title refill__title">
   {{'Crypto deposit' | translate}}
   <span>{{activeCrypto.name}}</span>
 </div>
@@ -43,14 +43,12 @@
 
   <button class="btn btn--empty-blue"
           *ngIf="isGenerateNewAddress"
-          (click)="generateNewAddress()"
-  >
+          (click)="generateNewAddress()">
     <span class="btn__icon btn__icon--light-blue">
       <svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M0.0327983 6.42016C-0.0457435 5.78503 0.019708 5.17189 0.197736 4.60515C0.789418 2.72174 2.64562 1.33666 4.84741 1.31223V0.0810523C4.84741 0.0126534 4.93905 -0.0239889 4.99926 0.017539L7.71419 1.87897C7.7587 1.91072 7.7587 1.97424 7.71419 2.00355L5.00188 3.86498C4.93905 3.90651 4.85003 3.86986 4.85003 3.80146V2.57273C3.40224 2.59471 2.16652 3.42771 1.63505 4.60515C1.43346 5.04974 1.33136 5.54075 1.36016 6.05619C1.39943 6.7646 1.6848 7.41683 2.1351 7.94448C2.37596 8.22541 2.31837 8.6358 2.00682 8.84833C1.71098 9.05108 1.29732 8.99489 1.06955 8.72618C0.511904 8.0764 0.140139 7.28492 0.0327983 6.42016ZM7.87127 4.05552C8.3242 4.58072 8.60957 5.2354 8.64622 5.94382C8.67502 6.46169 8.5703 6.9527 8.37132 7.39485C7.83986 8.57229 6.60413 9.40773 5.15634 9.42727V8.19854C5.15634 8.13014 5.06471 8.0935 5.0045 8.13502L2.28957 9.99645C2.24506 10.0282 2.24506 10.0917 2.28957 10.121L5.00188 11.9825C5.06471 12.024 5.15373 11.9873 5.15373 11.9189V10.6878C7.35552 10.6658 9.21434 9.2807 9.8034 7.39485C9.98143 6.82811 10.0443 6.21497 9.96834 5.57984C9.86362 4.71508 9.49185 3.92361 8.93421 3.27382C8.70382 3.00511 8.29278 2.94892 7.99694 3.15167C7.68801 3.3642 7.63041 3.77459 7.87127 4.05552Z"/>
       </svg>
-
     </span>
     {{'Generate new address' | translate}}
   </button>
@@ -64,7 +62,6 @@
 
 <div class="refill__crypto-refill-info" *ngIf="cryptoDataByName?.merchantCurrencyData?.length">
   <div class="refill__qr-code">
-    <!--<img src="../../assets/img/qr-code.svg">-->
     <qr-code [value]="address" *ngIf="address" [size]="150"></qr-code>
   </div>
   <div>
@@ -72,27 +69,39 @@
       <h6 class="refill__crypto-title"><span>{{activeCrypto?.name}}</span> {{'address' | translate}}</h6>
       <div class="refill__crypto-hash">{{address}}</div>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="!isSowCopyAddress"
-              (click)="copyToBuffer(address, 'Copy address')"
-      >{{'Copy address' | translate}}</button>
-      <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="isSowCopyAddress"
-      >{{'Copied' | translate}}</button>
+              (click)="copyToBuffer(address, 'Copy address')">
+        {{'Copy address' | translate}}
+      </button>
+      <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="isSowCopyAddress">
+        {{'Copied' | translate}}
+      </button>
     </div>
     <div class="refill__crypto-memo" *ngIf="cryptoDataByName.merchantCurrencyData[0].additionalFieldName">
       <h6 class="refill__crypto-title">{{cryptoDataByName.merchantCurrencyData[0].additionalFieldName}}</h6>
       <div class="refill__crypto-hash">{{additionalAddress}}</div>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="!isSowCopyMemoId"
-              (click)="copyToBuffer(additionalAddress, 'Copy id')"
-      >{{'Copy id' | translate}}</button>
+              (click)="copyToBuffer(additionalAddress, 'Copy id')">
+        {{'Copy id' | translate}}
+      </button>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="isSowCopyMemoId"
       >{{'Copied' | translate}}</button>
     </div>
-    <!--<div class="refill__crypto-comission">Comission of exchange: 2 BTC</div>-->
   </div>
 </div>
+
 <div class="note modal__note">
   <div class="note__title">{{'Please note:' | translate}}</div>
   <ul class="note__list">
-    <li class="note__list-item" [innerHTML]="'Coins will be deposited immediately after <b>2</b> network confirmations' | translate"></li>
-    <li class="note__list-item">{{'Send only' | translate}} <b>{{activeCrypto.name}}</b> {{'to this deposit address'}}.{{' Sending any other coin or token to this address may result in the loss of your deposit' | translate}}.</li>
+    <li class="note__list-item"
+        [innerHTML]="'Coins will be deposited immediately after <b>2</b> network confirmations' | translate">
+    </li>
+    <li class="note__list-item">{{'Send only' | translate}}<b>{{activeCrypto.name}}</b>{{'to this deposit address.'}}{{' Sending any other coin or token to this address may result in the loss of your deposit.' | translate}}
+    </li>
   </ul>
+</div>
+
+</div>
+
+<div class="loading-container" *ngIf="!activeCrypto">
+  <app-loader></app-loader>
 </div>

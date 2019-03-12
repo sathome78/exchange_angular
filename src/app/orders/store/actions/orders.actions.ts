@@ -6,6 +6,7 @@ export const SET_OPEN_ORDERS = '[Orders] Set open orders';
 export const SET_MORE_OPEN_ORDERS = '[Orders] Set more open orders';
 
 export const LOAD_HISTORY_ORDERS = '[Orders] Load history orders';
+export const LOAD_LAST_HISTORY_ORDERS = '[Orders] Load last history orders';
 export const FAIL_LOAD_HISTORY_ORDERS = '[Orders] Fail load history orders';
 export const SET_HISTORY_ORDERS = '[Orders] Set history orders';
 export const SET_MORE_HISTORY_ORDERS = '[Orders] Set more history orders';
@@ -69,6 +70,18 @@ export class FailLoadOpenOrdersAction implements Action {
  */
 export class LoadHistoryOrdersAction implements Action {
   readonly type = LOAD_HISTORY_ORDERS;
+
+  /**
+   * Default constructor
+   * @param payload
+   */
+  constructor(public payload?) {}
+}
+/**
+ * Load last history orders
+ */
+export class LoadLastHistoryOrdersAction implements Action {
+  readonly type = LOAD_LAST_HISTORY_ORDERS;
 
   /**
    * Default constructor
@@ -154,6 +167,7 @@ export type Actions
   | SetMoreOpenOrdersAction
   | FailLoadOpenOrdersAction
   | LoadHistoryOrdersAction
+  | LoadLastHistoryOrdersAction
   | SetHistoryOrdersAction
   | SetMoreHistoryOrdersAction
   | FailLoadHistoryOrdersAction
