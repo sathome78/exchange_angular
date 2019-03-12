@@ -1,3 +1,4 @@
+<div *ngIf="!!activeCrypto && !!activeBalance">
 <div class="title send__title">{{'Make Inner transfer protected by code' | translate}}</div>
 <div class="formWraper" *ngIf="isEnterData">
   <div class="subtitle send__subtitle">{{' the code will be sent to you after transaction verification ' | translate}}</div>
@@ -44,26 +45,39 @@
       </div>
 
 
-      <div class="wrap-input send__wrap-input" [ngClass]="{'wrap-input--error': form.get('amount').invalid && form.get('amount').touched}">
+      <div class="wrap-input send__wrap-input"
+           [ngClass]="{'wrap-input--error': form.get('amount').invalid &&
+            (form.get('amount').touched || isSubmited)}">
         <div class="avaliable">
           {{'Avaliable:' | translate}}
           <a (click)="balanceClick()" class="link">
           {{activeBalance | number:'1.1-8' | replaceNumber}} {{activeCrypto ? activeCrypto.name : ''}}
         </a>
         </div>
-        <app-price-input [placeholder]="(activeCrypto ? activeCrypto.name : '') + ' Amount'" [currencyName]="activeCrypto.name"
-                         (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
-        <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors && !form.controls['amount'].errors['isMinThenMinWithdraw'] && !form.controls['amount'].errors['isMaxThenActiveBalance']">
-      {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
+        <app-price-input [placeholder]="(activeCrypto ? activeCrypto.name : '') + ' Amount'"
+                         [currencyName]="activeCrypto.name"
+                         (customBlur)="amountBlur($event)"
+                         (customInput)="amountInput($event)"
+                         name="amount" formControlName="amount">
+
+        </app-price-input>
+        <span class=" wrap-input__message--show"
+              >
+           {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}
+        </span>
 
         <!--Input error section starts-->
         <div *ngIf="form.get('amount').errors != null">
+          <div class="input-hint-wrapper">
         <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
-              [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] && form.controls['amount'].touched}">
+              [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] &&
+               (form.controls['amount'].touched || isSubmited)}">
       {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
           <span class="wrap-input__message wrap-input__message--show"
-                *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] && form.controls['amount'].touched">
+                *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] &&
+                 (form.controls['amount'].touched || isSubmited)">
       {{'Max sum for withdrawal' | translate}} {{activeBalance}}</span>
+        </div>
         </div>
         <!--Input error section ends-->
       </div>
@@ -90,7 +104,6 @@
   </div>
   <button class="btn btn--center"
           [ngClass]="{'btn--empty-blue': !form.valid}"
-          [disabled]="form.invalid"
           (click)="submitTransfer()">
     {{'Create code' | translate}}
   </button>
@@ -98,12 +111,16 @@
   <div class="note modal__note">
     <div class="note__title">{{'Please note:' | translate}}</div>
     <ul class="note__list">
-      <li class="note__list-item">
-        {{'Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email' | translate}}.
+      <li class="note__list-item">{{'Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email' | translate}}.
       </li>
       <li class="note__list-item">{{'After making a withdrawal, you can track its progress in history on funds page' | translate}}.</li>
     </ul>
   </div>
+</div>
+</div>
+
+<div class="loading-container" *ngIf="!activeCrypto || !activeBalance">
+  <app-loader></app-loader>
 </div>
 
 

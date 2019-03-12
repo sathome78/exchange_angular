@@ -31,4 +31,9 @@ export class UserVerificationService {
     return this.http.post<number>(url, data);
   }
 
+
+  public sendKYCData(data: any): Observable<any> {
+    return this.http.post(`${this.host}/api/private/v2/kyc/start`, data);
+  }
+
 }

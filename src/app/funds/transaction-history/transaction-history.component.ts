@@ -14,6 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 import saveAs from 'file-saver'
 import { CurrencyChoose } from 'app/model/currency-choose.model';
 import { ConstantsService } from 'app/shared/services/constants.service';
+import { BreakpointService } from 'app/shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-transaction-history',
@@ -59,6 +60,7 @@ export class TransactionHistoryComponent implements OnInit {
     private store: Store<State>,
     private transactionsService: TransactionsService,
     public constantsService: ConstantsService,
+    public breakpointService: BreakpointService,
     private utils: UtilsService,
   ) {
     this.transactionsItems$ = store.pipe(select(fundsReducer.getTrHistorySelector));
@@ -102,7 +104,8 @@ export class TransactionHistoryComponent implements OnInit {
     this.currValue = null;
   }
 
-  loadLastTransactions() {
+  loadLastTransactions(e) {
+    e.preventDefault();
     this.clearFilters();
     const params = {
       offset: 0,
@@ -167,6 +170,22 @@ export class TransactionHistoryComponent implements OnInit {
     this.loadTransactions();
   }
 
+  clearModelDateTo() {
+    this.modelDateTo = null;
+  }
+
+  clearModelDateFrom() {
+    this.modelDateFrom = null;
+  }
+
+  focusOrBlurDateFrom(event) {
+    if (!event) this.modelDateFrom = {...this.modelDateFrom};
+  }
+
+  focusOrBlurDateTo(event) {
+    if (!event) this.modelDateTo = {...this.modelDateTo};
+  }
+
   /** tracks input changes in a my-date-picker component */
   dateFromChanged(event: IMyDateModel): void {
     this.modelDateFrom = {date: event.date};
@@ -202,7 +221,7 @@ export class TransactionHistoryComponent implements OnInit {
    * @returns { string } returns string in format yyyy-mm-dd: example 2018-09-28
    */
   formatDate(date: IMyDate): string {
-    if(date.year === 0 && date.day === 0) {
+    if(!date || date.year === 0 && date.day === 0) {
       return null;
     }
     const day = date.day < 10 ? '0' + date.day : date.day;

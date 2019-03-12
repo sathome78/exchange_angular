@@ -30,7 +30,7 @@
 		line-height: 16px;
 	}
 	.settings__buttons-row{
-		margin: 0;
+		margin: 0 0 50px 0;
 	}
 	.settings__btn{
 		padding: 5px;
@@ -41,3 +41,247 @@
 		}
 	} 
 }
+
+
+
+
+// TEMP STYLE
+::ng-deep .mydp{
+  display: flex !important;
+  .selectiongroup{
+    margin-left: auto !important;
+    .selbtngroup {
+      width: auto !important;
+    }
+  }
+}
+
+//::ng-deep app-date-mask-input {
+//  width: 170px !important;
+// input {
+//   width: 100% !important;
+//   padding: 0 !important;
+//   margin: 0 !important;
+// }
+//}
+.select-input_label {
+  top: -5px;
+  padding: 0 2px;
+  font-size: 10px;
+  line-height: 12px;
+  z-index: 100;
+  background-color: #191A39;
+}
+
+.filters-popup__datepicker {
+  max-width: 455px;
+}
+
+
+.error-message-wr {
+  min-height: 25px;
+}
+.error-message-date-of-birth-wr {
+  margin-top: 50px;
+  min-height: 25px;
+}
+
+.wrap-input__message {
+  margin: 0 !important;
+  color: #EB5757 !important;
+}
+
+.checkbox-error-message-wr {
+  margin-bottom: 40px;
+  min-height: 25px;
+}
+.formWraper{
+  max-width: 230px;
+  width: 100%;
+}
+.send{
+  &__title{
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  &__inputs-wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+    &.kyc-wr{
+      margin-bottom: 0;
+      flex-direction: column;
+      app-date-mask-input{
+        width: 100%!important;
+
+      }
+      .wrap-input__input{
+
+        position: relative;
+      }
+      .wrap-input{
+        max-width: unset;
+        width: 100%;
+        &.send__wrap-input{
+          margin-bottom: 20px;
+
+        }
+        input{
+          max-width: unset;
+        }
+      }
+    }
+  }
+  &__select{
+    width: 100%;
+    max-width: 230px;
+    margin-bottom: 38px;
+  }
+  &__wrap-input{
+    width: 100%;
+    max-width: 230px;
+    margin-bottom: 24px;
+    .avaliable{
+      position: absolute;
+      right: 0;
+      top: -16px;
+      font-size: 12px;
+      line-height: 14px;
+    }
+  }
+  &__line{
+    height: 1px;
+    background-color: #24253F;
+  }
+  &__info{
+    margin-top: 28px;
+  }
+  &__info-row{
+    display: flex;
+    margin-bottom: 12px;
+    &:last-child{
+      margin-bottom: 24px;
+    }
+  }
+  &__info-title{
+    width: 50%;
+    text-align: left;
+    color:#94C2FF;
+  }
+  &__info-value{
+    width: 47%;
+    text-align: right;
+    font-weight: bold;
+  }
+  &__merchant-comission{
+    display: block;
+    font-size: 10px;
+    line-height: 12px;
+  }
+}
+.btn{
+  margin-bottom: 24px;
+  .value{
+    display: none;
+  }
+}
+.modal__note{
+  width: calc(100% + 24px);
+  left: -12px;
+  margin-top: 24px;
+}
+@media (min-width:1200px){
+  .send{
+    &__title{
+      margin-bottom: 32px;
+    }
+    &__inputs-wrap{
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    &__select{
+      width: 100%;
+      max-width: calc(50% - 16px);
+      margin-bottom: 0;
+    }
+    &__wrap-input{
+      width: 100%;
+      max-width: calc(50% - 16px);
+      margin-bottom: 0;
+    }
+    &__info-row{
+      justify-content: space-between;
+    }
+    &__info-title{
+      width: auto;
+      margin-left: 23%;
+      //width: calc(50% - 48px);
+      //text-align: right;
+      margin-right: 32px;
+    }
+    &__info-value{
+      text-align: left;
+    }
+    &__merchant-comission{
+      display: inline-block;
+      font-size: inherit;
+      line-height: inherit;
+    }
+  }
+  .btn{
+    margin-bottom: 28px;
+    .value{
+      display: inline-block;
+    }
+  }
+  .modal__note{
+    width: calc(100% + 64px);
+    left: -32px;
+    margin-top: 32px;
+  }
+}
+.id-verification {
+  .formWraper{
+@media(max-width: 1199px){
+      margin: 0 auto;
+    }
+  }
+  .settings__buttons-row{
+    flex-direction: row;
+    @media(max-width: 1199px){
+      margin: 0 auto;
+    }
+  }
+  .filters-popup__datepicker{
+    margin-right: 0;
+  }
+  .settings__buttons-row.checkbox-outher{
+    margin-bottom: 22px;
+    justify-content: space-between;
+    max-width: 230px;
+    width: 100%;
+    .balance__hide-zero{
+      margin-left: 0;
+      max-width: unset;
+      display: flex;
+    align-self: center;
+    }
+    .checkbox-wr{
+      max-width: unset;
+      width: auto;
+
+    }
+  }
+  .toggler-text{
+    margin-left: 4px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+
+

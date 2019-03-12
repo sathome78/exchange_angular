@@ -5,7 +5,6 @@ import {State} from '../../../../../core/reducers';
 import {Store} from '@ngrx/store';
 import {BY_PRIVATE_CODE} from '../../send-money-constants';
 import {AbstractTransfer} from '../abstract-transfer';
-import {environment} from '../../../../../../environments/environment';
 import {PopupService} from '../../../../../shared/services/popup.service';
 
 @Component({
@@ -34,7 +33,6 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
   ngOnInit() {
     this.initForm();
     this.responseCommission = this.responseDefaultCommission;
-    this.getCommissionDebonce();
     this.getAllNames();
   }
 
@@ -44,6 +42,8 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
   }
 
   submitTransfer() {
+    this.form.get('amount').updateValueAndValidity();
+    this.isSubmited = true;
       if (this.form.valid) {
         this.isEnterData = false;
       }

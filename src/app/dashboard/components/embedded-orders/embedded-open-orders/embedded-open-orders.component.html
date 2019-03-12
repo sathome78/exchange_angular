@@ -34,11 +34,11 @@
     </td>
     <td class="table__cell">
       <span [ngClass]="{'orders__type-sell': item.operationTypeEnum === 'SELL', 'orders__type-buy': item.operationTypeEnum === 'BUY' }"
-      >{{item.operationTypeEnum}} <span></span></span>
+      >{{item.operationType}} <span></span></span>
       <!--<span class="orders__type-sell">Sell <span>(Limit)</span></span>-->
     </td>
     <td class="table__cell">
-      <span>{{item.exExchangeRate  | roundCurrency: arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
+      <span>{{(item.exExchangeRate || item.limitRate)  | roundCurrency: arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
     </td>
     <td class="table__cell">
       <span>{{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | roundCurrency: arrPairName[1] | formatCurrency}} {{item.orderBaseType !== 'STOP_LIMIT' ? '' : arrPairName[1]}}</span>

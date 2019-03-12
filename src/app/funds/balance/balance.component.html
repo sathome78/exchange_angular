@@ -1,6 +1,6 @@
 <div class="container">
   <!--balance-mob start-->
-  <div class="balance balance--mob">
+  <div class="balance balance--mob" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
     <ng-container [ngSwitch]="currTab">
       <app-balance-mob
         *ngSwitchCase="Tab.CRYPTO"
@@ -50,7 +50,7 @@
 
 
   <!--balance-desktop start-->
-  <div class="balance">
+  <div class="balance"  *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
     <div class="page-title">
       <h1 class="page-title__text">
         {{'Balances' | translate}}

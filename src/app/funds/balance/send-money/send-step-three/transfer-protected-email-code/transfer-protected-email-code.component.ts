@@ -5,11 +5,7 @@ import {State} from '../../../../../core/reducers';
 import {Store} from '@ngrx/store';
 import {BY_PRIVATE_CODE} from '../../send-money-constants';
 import {AbstractTransfer} from '../abstract-transfer';
-import {environment} from '../../../../../../environments/environment';
 import {PopupService} from '../../../../../shared/services/popup.service';
-import {takeUntil} from 'rxjs/operators';
-import {UserService} from '../../../../../shared/services/user.service';
-import {AUTH_MESSAGES} from 'app/shared/constants';
 
 @Component({
   selector: 'app-transfer-protected-email-code',
@@ -18,7 +14,6 @@ import {AUTH_MESSAGES} from 'app/shared/constants';
 })
 export class TransferProtectedEmailCodeComponent extends AbstractTransfer implements OnInit, OnDestroy {
 
-  public AUTH_MESSAGES = AUTH_MESSAGES;
   public model = {
     operationType: 'USER_TRANSFER',
     currency: 0,
@@ -39,7 +34,6 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
   ngOnInit() {
     this.responseCommission = this.responseDefaultCommission;
     this.initForm();
-    this.getCommissionDebonce();
     this.getAllNames();
   }
 
@@ -49,6 +43,8 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
   }
 
   submitTransfer() {
+    this.isSubmited = true;
+    this.form.get('amount').updateValueAndValidity()
       if (this.form.valid) {
         this.isEnterData = false;
       }

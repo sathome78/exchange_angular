@@ -11,7 +11,6 @@ import {getCryptoCurrenciesForChoose, State} from 'app/core/reducers';
 import {SEND_CRYPTO} from '../../send-money-constants';
 import {CommissionData} from '../../../../models/commission-data.model';
 import {defaultCommissionData} from '../../../../store/reducers/default-values';
-import {environment} from '../../../../../../environments/environment';
 import {PopupService} from 'app/shared/services/popup.service';
 import {BalanceItem} from '../../../../models/balance-item.model';
 import {UtilsService} from 'app/shared/services/utils.service';
@@ -38,8 +37,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public alphabet;
   public isMemo;
   public memoName = '';
-  public isAmountMax;
-  public isAmountMin;
   public activeCrypto;
   public form: FormGroup;
   public calculateData: CommissionData = defaultCommissionData;
@@ -72,15 +69,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initFormWithMemo();
 
-    this.form.controls['amount'].valueChanges
-      .pipe(debounceTime(1000))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        if (res !== '0') {
-          this.calculateCommission(res);
-        }
-      });
-
     this.store
       .pipe(select(getCryptoCurrenciesForChoose))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -89,7 +77,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
         this.cryptoNames = this.defaultCryptoNames;
         this.setActiveCrypto();
         this.prepareAlphabet();
-        this.getCryptoInfoByName(this.activeCrypto.name);
+        if (this.activeCrypto) this.getCryptoInfoByName(this.activeCrypto.name);
       });
   }
 
@@ -99,6 +87,8 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   onSubmitWithdrawal() {
+    this.form.get('amount').updateValueAndValidity();
+    this.isSubmited = true;
       if (this.form.valid) {
         this.isEnterData = false;
       }
@@ -144,6 +134,10 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       this.calculateCommission(this.activeBalance);
       this.amountValue = this.activeBalance;
     }
+  }
+
+  amountBlur(event) {
+    if (event && this.form.controls['amount'].valid) this.calculateCommission(this.amountValue);
   }
 
   calculateCommission(amount) {
@@ -215,7 +209,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   amountInput(event) {
-    this.calculateCommission(event.target.value);
     this.amountValue = event.target.value;
   }
 

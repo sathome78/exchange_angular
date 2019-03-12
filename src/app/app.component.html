@@ -201,6 +201,7 @@
       *ngIf="isKYCPopupOpen"
       [showPopup]="isKYCPopupOpen"
       [step]="kycStep"
+      [iframeUrl]="kycIframeUrl"
       >
     </app-kyc-popup>
   </div>
@@ -233,6 +234,10 @@
     <app-popup-info
     [popupData]="popupData"
     ></app-popup-info>
+  </div>
+
+  <div *ngIf="isOpenSessionExpiredPopup">
+    <app-session-expired-popup></app-session-expired-popup>
   </div>
 
   <div *ngIf="isAlreadyRestoredPasswordPopupOpen">

@@ -1,12 +1,19 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import {UtilsService} from '../services/utils.service';
 
 @Pipe({
   name: 'getIconUrl'
 })
 export class GetIconUrl  implements PipeTransform {
-  transform(name: string): string {
+
+  constructor(
+    private utilService: UtilsService,
+  ) {}
+
+  transform(name: string, isWhite: boolean = false): string {
 
     switch (name) {
+      case '':
       case 'DIGIT':
       case 'DOR':
       case 'BAB':
@@ -45,10 +52,40 @@ export class GetIconUrl  implements PipeTransform {
       case 'Visa':
       case 'Master Card':
       case 'Interkassa':
+      case 'Privat24 Payment':
+      case 'QIWI':
+      case 'Mir Payment':
+      case 'Yandex Money':
+      case 'Alfaclick Payment':
+      case 'Qubera':
+      case 'BAT':
+      case 'BTT':
+      case 'CSC':
+      case 'DIM.EUR':
+      case 'DIM.USD':
+      case 'DIVI':
+      case 'ELC':
+      case 'HCXP':
+      case 'HNI':
+      case 'HOT':
+      case 'MET':
+      case 'NPXS':
+      case 'OWC':
+      case 'PLTC':
+      case 'PPY':
+      case 'QKC':
+      case 'RDN':
+      case 'REN':
+      case 'USDT':
+      case 'VRBS':
+      case 'WOLF':
+      case 'ZRX':
+      case 'ZUBE':
         name = 'no_icon';
         break;
     }
-    const iconSrc = `assets/img/currency-icons/${name.toLowerCase()}.svg`;
+
+    const iconSrc = `assets/img/currency-icons/${name.toLowerCase()}${isWhite && this.utilService.isFiat(name) ? '-white' : ''}.svg`;
     return iconSrc;
   }
 }

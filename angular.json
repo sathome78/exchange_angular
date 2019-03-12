@@ -66,6 +66,14 @@
               "vendorChunk": true,
               "buildOptimizer": true
             },
+            "pre-prod-local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.pre-prod.ts"
+                }
+              ]
+            },
             "staging": {
               "fileReplacements": [
                 {
@@ -101,6 +109,9 @@
           "configurations": {
             "production": {
               "browserTarget": "exrates-front-new:build:production"
+            },
+            "pre-prod-local": {
+              "browserTarget": "exrates-front-new:build:pre-prod-local"
             },
             "staging": {
               "browserTarget": "exrates-front-new:build:staging"

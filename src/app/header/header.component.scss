@@ -15,7 +15,13 @@
     padding: 0 34px;
     align-items: center;
   }
-
+  .community-wr{
+    display: flex;
+        height: 100%;
+    .submenu{
+          min-width: 110px;
+    }
+  }
   .logo {
     display: -webkit-flex;
     display: -ms-flex;

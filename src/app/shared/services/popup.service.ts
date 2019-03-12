@@ -2,13 +2,14 @@ import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {LoggingService} from './logging.service';
 import {PopupData} from '../interfaces/popup-data-interface';
+import {KycSubjectInterface} from '../interfaces/kyc-subject-interface';
 
 @Injectable()
 export class PopupService {
 
   private onOpenTFAPopupListener = new Subject<string>();
   private onOpenIdentityPopupListener = new Subject<string>();
-  private onOpenKYCPopupListener = new Subject<number>();
+  private onOpenKYCPopupListener = new Subject<KycSubjectInterface>();
   private onLoginPopupListener = new Subject<boolean>();
   private onDemoTradingPopupListener = new Subject<boolean>();
   private onRecoveryPasswordListener = new Subject<boolean>();
@@ -20,6 +21,7 @@ export class PopupService {
   private onRestoredPasswordPopupListener = new Subject<boolean>();
   private onSessionTimeSavedPopupListener = new Subject<boolean>();
   private onChangedPasswordPopupListener = new Subject<boolean>();
+  private onSessionExpiredPopupListener = new Subject<boolean>();
   private stepListener = new Subject<number>();
   private currentStep = 1;
   private tfaProvider = '';
@@ -41,9 +43,9 @@ export class PopupService {
     this.onOpenIdentityPopupListener.next(this.identityDocumentType);
   }
 
-  showKYCPopup(step: number) {
+  showKYCPopup(step: number, url: string = '') {
     this.kycStep = step;
-    this.onOpenKYCPopupListener.next(this.kycStep);
+    this.onOpenKYCPopupListener.next({step: step, url: url});
   }
 
   showLoginPopup(state: boolean) {
@@ -84,7 +86,7 @@ export class PopupService {
   }
 
   closeKYCPopup() {
-    this.onOpenKYCPopupListener.next(undefined);
+    this.onOpenKYCPopupListener.next({step: undefined, url: ''});
   }
 
   public getTFAPopupListener(): Subject<string> {
@@ -95,7 +97,7 @@ export class PopupService {
     return this.onOpenIdentityPopupListener;
   }
 
-  public getKYCPopupListener(): Subject<number> {
+  public getKYCPopupListener(): Subject<KycSubjectInterface> {
     return this.onOpenKYCPopupListener;
   }
 
@@ -124,6 +126,10 @@ export class PopupService {
 
   public getRestoredPasswordPopupListener(): Subject<boolean> {
     return this.onRestoredPasswordPopupListener;
+  }
+
+  public getSessionExpiredPopupListener(): Subject<boolean> {
+    return this.onSessionExpiredPopupListener;
   }
 
   public getChangedPasswordPopupListener(): Subject<boolean> {
@@ -247,6 +253,10 @@ export class PopupService {
 
   toggleSessionTimeSavedPopup(state: boolean) {
     this.onSessionTimeSavedPopupListener.next(state);
+  }
+
+  toggleSessionExpiredPopup(state: boolean) {
+    this.onSessionExpiredPopupListener.next(state);
   }
 
   toggleChangedPasswordPopup(state: boolean) {

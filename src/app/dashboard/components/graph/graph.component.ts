@@ -25,7 +25,7 @@ import {
 } from 'assets/js/charting_library/charting_library.min';
 import {environment} from 'environments/environment';
 import {select, Store} from '@ngrx/store';
-import {getActiveCurrencyPair, State} from 'app/core/reducers/index';
+import {getActiveCurrencyPair, State, getIsAuthenticated} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {getCurrencyPairArray, getCurrencyPairInfo} from '../../../core/reducers';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
@@ -33,6 +33,8 @@ import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
 import {Router} from '@angular/router';
 import {Currency} from 'app/model/currency.model';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-graph',
@@ -45,6 +47,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   public itemName = 'graph';
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public isAuthenticated$: Observable<boolean>;
   currencyPairName = 'BTC/USD';
   firstCurrency: string;
   secondCurrency: string;
@@ -146,6 +149,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     private langService: LangService,
     private dashboardService: DashboardService,
     private dashboardWebsocketService: DashboardWebSocketService,
+    public breakpointService: BreakpointService,
     private cdr: ChangeDetectorRef
   ) {
     super();
@@ -188,6 +192,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         this.cdr.detectChanges();
       });
 
+    this.isAuthenticated$ = this.store.pipe(select(getIsAuthenticated));
 
     this.lang = this.langService.getLanguage();
     this.formattingCurrentPairName(this.currencyPairName);
