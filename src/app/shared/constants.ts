@@ -26,6 +26,12 @@ export const AUTH_MESSAGES = {
   'EMAIL_EXIST' : 'Email exists.'
 }
 
+export const KYC_STATUS = {
+  'NONE': 'none',
+  'PENDING': 'Pending',
+  'VERIFIED': 'Verified'
+}
+
 export const keys = {
   recaptchaKey: '6LdNln0UAAAAAH4nyBX7Wh4YKpqujc0-a66xssjp',
 }
