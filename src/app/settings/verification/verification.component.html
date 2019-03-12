@@ -38,7 +38,7 @@
             <div *ngIf="form.get('firstName').errors != null">
           <div class="input-hint-wrapper">
              <span class="wrap-input__message wrap-input__message--show"
-             *ngIf="form.get('firstName').errors['required'] && (form.get('firstName').touched || isSubmited)">
+             *ngIf="form.get('firstName').errors['required'] && (form.get('firstName').touched )">
                {{'First Name is required.' | translate}}
              </span>
           </div>
@@ -54,7 +54,7 @@
             <div *ngIf="form.get('lastName').errors != null">
           <div class="input-hint-wrapper">
             <span class="wrap-input__message wrap-input__message--show"
-                  *ngIf="form.get('lastName').errors['required'] && (form.get('lastName').touched || isSubmited)">
+                  *ngIf="form.get('lastName').errors['required'] && (form.get('lastName').touched )">
               {{'Last Name is required.' | translate}}
             </span>
           </div>
