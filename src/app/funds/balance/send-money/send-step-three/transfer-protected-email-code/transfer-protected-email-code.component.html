@@ -1,3 +1,4 @@
+<div *ngIf="!!activeCrypto && !!activeBalance">
 <div class="title send__title">{{'Make Inner transfer by email or nickname protected by code' | translate}}</div>
 <div class="formWraper" *ngIf="isEnterData">
   <div class="subtitle send__subtitle">{{' the code will be sent to you after transaction verification ' | translate}}</div>
@@ -46,50 +47,71 @@
 
 
       <div class="wrap-input send__wrap-input"
-           [ngClass]="{'wrap-input--error': form.get('amount').invalid && form.get('amount').touched}">
+           [ngClass]="{'wrap-input--error': form.get('amount').invalid &&
+            (form.get('amount').touched || isSubmited)}">
         <div class="avaliable">
           {{'Avaliable:' | translate}}
           <a (click)="balanceClick()" class="link">
             {{activeBalance | number:'1.1-8' | replaceNumber}} {{activeCrypto ? activeCrypto.name : ''}}
           </a>
         </div>
-        <app-price-input [placeholder]="(activeCrypto ? activeCrypto.name : '') + ' Amount'" [currencyName]="activeCrypto.name"
-                         (customInput)="amountInput($event)" name="amount" formControlName="amount"></app-price-input>
+        <app-price-input [placeholder]="(activeCrypto ? activeCrypto.name : '') + ' Amount'"
+                         [currencyName]="activeCrypto.name"
+                         (customBlur)="amountBlur($event)"
+                         (customInput)="amountInput($event)"
+                         name="amount" formControlName="amount">
+        </app-price-input>
 
-        <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors && !form.controls['amount'].errors['isMinThenMinWithdraw'] && !form.controls['amount'].errors['isMaxThenActiveBalance']">
-      {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
+        <span class=" wrap-input__message--show"
+              >
+           {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}
+        </span>
 
         <!--Input error section starts-->
         <div *ngIf="form.get('amount').errors != null">
+          <div class="input-hint-wrapper">
         <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
-              [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] && form.controls['amount'].touched}">
-      {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}</span>
+              [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] &&
+               (form.controls['amount'].touched || isSubmited)}">
+           {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}
+        </span>
           <span class="wrap-input__message wrap-input__message--show"
-                *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] && form.controls['amount'].touched">
+                *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] &&
+                 (form.controls['amount'].touched || isSubmited)">
       {{'Max sum for withdrawal' | translate}} {{activeBalance}}</span>
         </div>
+      </div>
       </div>
 
 
 
 
       <div class="wrap-input  send__wrap-input"
-           [ngClass]="{'wrap-input--error': !form.controls['email'].valid && form.controls['email'].touched}">
+           [ngClass]="{'wrap-input--error': !form.controls['email'].valid &&
+            (form.controls['email'].touched || isSubmited)}">
         <input class="wrap-input__input" (blur)="emailBlur()" name="email" formControlName="email" required>
         <label class="wrap-input__label">{{'Email' | translate}}</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
         <div *ngIf="form.controls['email'].invalid && form.controls['email'].errors">
+          <div class="input-hint-wrapper">
         <span class="wrap-input__message"
-              *ngIf="form.controls['email'].errors['pattern'] || form.controls['email'].errors['required'] && form.controls['email'].touched">{{'Enter valid email to transfer' | translate}}</span>
+              *ngIf="form.controls['email'].errors['pattern'] ||
+               form.controls['email'].errors['required'] &&
+                (form.controls['email'].touched || isSubmited)">
+          {{'Enter valid email to transfer' | translate}}
+        </span>
 
-        <span class="wrap-input__message" *ngIf="form.controls['email'].errors['checkEmailCrash'] && form.controls['email'].touched">
+        <span class="wrap-input__message"
+              *ngIf="form.controls['email'].errors['checkEmailCrash'] &&
+               (form.controls['email'].touched || isSubmited)">
                 {{'Service is temporary unavailable, please try again later' | translate}}
               </span>
           <span class="wrap-input__message" *ngIf="form.controls['email'].errors['USER_EMAIL_NOT_FOUND']">
                 {{'User email not found.' | translate}}
               </span>
         </div>
+      </div>
         <!--Input error section ends-->
       </div>
     </div>
@@ -113,7 +135,6 @@
   </div>
   <button class="btn btn--center"
           [ngClass]="{'btn--empty-blue': !form.valid}"
-          [disabled]="form.invalid"
           (click)="submitTransfer()">
     {{'Create code' | translate}}
   </button>
@@ -121,13 +142,18 @@
   <div class="note modal__note">
     <div class="note__title">{{'Please note:' | translate}}</div>
     <ul class="note__list">
-      <li class="note__list-item">
-        {{'Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email' | translate}}.
+      <li class="note__list-item">{{'Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email' | translate}}.
       </li>
       <li class="note__list-item">{{'After making a withdrawal, you can track its progress in history on funds page' | translate}}.</li>
     </ul>
   </div>
 </div>
+</div>
+
+<div class="loading-container" *ngIf="!activeCrypto || !activeBalance">
+  <app-loader></app-loader>
+</div>
+
 
 <div *ngIf="!isEnterData" class="captcha-wrapper">
   <h6 class="popup__title">{{'Enter the captcha' | translate}}</h6>

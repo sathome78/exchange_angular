@@ -5,7 +5,6 @@ import {NgModule} from '@angular/core';
 import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {environment} from '../../environments/environment';
 import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from '@stomp/ng2-stompjs';
-import {ActivePairComponent} from './components/active-pair/active-pair.component';
 import {ChatComponent} from './components/chat/chat.component';
 import {ChatMessageComponent} from './components/chat/chat-message/chat-message.component';
 import {CurrencyPairInfoComponent} from './components/currency-pair-info/currency-pair-info.component';
@@ -55,9 +54,6 @@ import {IsFavoritePipe} from './components/markets/isFavorite.pipe';
 import { EmbeddedOrdersMobileComponent } from './components/embedded-orders-mobile/embedded-orders-mobile.component';
 import { EmbeddedOpenOrdersMobileComponent } from './components/embedded-orders-mobile/embedded-open-orders-mobile/embedded-open-orders-mobile.component';
 import { EmbeddedOrdersHistoryMobileComponent } from './components/embedded-orders-mobile/embedded-orders-history-mobile/embedded-orders-history-mobile.component';
-import { EmbeddedOpenOrderItemComponent } from './components/embedded-orders-mobile/embedded-open-order-item/embedded-open-order-item.component';
-import { EmbeddedOrderHistoryItemComponent } from './components/embedded-orders-mobile/embedded-order-history-item/embedded-order-history-item.component';
-
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -82,15 +78,14 @@ const stompConfig: InjectableRxStompConfig = {
 
   // Will log diagnostics on console
   debug: (msg) => {
-    if (!environment.production) {
-      console.log(new Date(), msg);
-    }
+    // if (!environment.production) {
+    //   console.log(new Date(), msg);
+    // }
   },
 };
 
 @NgModule({
   declarations: [
-    ActivePairComponent,
     ChatComponent,
     ChatMessageComponent,
     CurrencyPairInfoComponent,
@@ -121,13 +116,10 @@ const stompConfig: InjectableRxStompConfig = {
     EmbeddedOrdersMobileComponent,
     EmbeddedOpenOrdersMobileComponent,
     EmbeddedOrdersHistoryMobileComponent,
-    EmbeddedOpenOrderItemComponent,
-    EmbeddedOrderHistoryItemComponent,
 
     // PIPES END
   ],
   exports: [
-    ActivePairComponent,
     ChatComponent,
     ChatMessageComponent,
     DashboardComponent,

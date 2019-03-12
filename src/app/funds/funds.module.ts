@@ -19,7 +19,6 @@ import {SharedModule} from '../shared/shared.module';
 import {RefillMoneyComponent} from './balance/refill-money/refill-money.component';
 import {RefillStepOneComponent} from './balance/refill-money/refill-step-one/refill-step-one.component';
 import {RefillStepTwoComponent} from './balance/refill-money/refill-step-two/refill-step-two.component';
-import {RefillStepThreeComponent} from './balance/refill-money/refill-step-three/refill-step-three.component';
 import {RefillCryptoComponent} from './balance/refill-money/refill-step-two/refill-crypto/refill-crypto.component';
 import {RefillFiatComponent} from './balance/refill-money/refill-step-two/refill-fiat/refill-fiat.component';
 import {RefillInnerTransferComponent} from './balance/refill-money/refill-step-two/refill-inner-transfer/refill-inner-transfer.component';
@@ -50,6 +49,10 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {translateInfo} from '../shared/configs/translate-options';
 import {MomentModule} from 'ngx-moment';
 import {CoreEffects} from '../core/effects/core.effects';
+import {ShowPendingStatusPipe} from './pending-status.pipe';
+import {ShowPendingSystemPipe} from './pending-system.pipe';
+import {ShowTransactionsStatusPipe} from './transactions-history-status.pipe';
+import {ShowTransactionsTypePipe} from './transactions-history-type.pipe';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -85,7 +88,6 @@ export function createTranslateLoader(http: HttpClient) {
     RefillMoneyComponent,
     RefillStepOneComponent,
     RefillStepTwoComponent,
-    RefillStepThreeComponent,
     RefillCryptoComponent,
     RefillFiatComponent,
     RefillInnerTransferComponent,
@@ -109,6 +111,10 @@ export function createTranslateLoader(http: HttpClient) {
     PendingRequestInfoComponent,
 
     TransactionHistoryComponent,
+    ShowPendingStatusPipe,
+    ShowPendingSystemPipe,
+    ShowTransactionsStatusPipe,
+    ShowTransactionsTypePipe,
   ],
   providers: [
     BalanceService,

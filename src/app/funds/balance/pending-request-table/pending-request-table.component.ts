@@ -10,7 +10,6 @@ import {UtilsService} from 'app/shared/services/utils.service';
 })
 export class PendingRequestTableComponent implements OnInit {
 
-  public pendingRequestsItem = PendingRequestsItem;
   public showRevokeModal = false;
   public revokeModalId;
 

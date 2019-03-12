@@ -60,7 +60,7 @@ export class DateMaskDirective {
         changeValue = +value[3] === 1 && +value[4] > 2 ?  value.slice(0, value.length - 1) : value;
         break;
       case 6:
-        changeValue = +value[5] !== 2
+        changeValue = +value[5] < 1 || +value[5] > 2
           ? value.slice(0, value.length - 1)
           : value[5] === '.'
             ? `${value.slice(0, 5)}.`

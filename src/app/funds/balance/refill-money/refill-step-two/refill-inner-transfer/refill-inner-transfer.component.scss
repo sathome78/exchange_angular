@@ -52,3 +52,30 @@
   background-color: #237BEF;
   color: #fff;
 }
+
+// TEMP STYLE
+.input-hint-wrapper {
+  opacity: 1;
+  .wrap-input__message{
+    color: #EB5757;
+  }
+}
+
+.btn--empty-blue{
+  &:hover, &:focus{
+    background-color: transparent !important;
+  }
+}
+
+.btn {
+  &.btn--center {
+    color: #ffffff !important;
+    &.btn--empty-blue {
+      color: #237BEF !important;
+      &:hover {
+        background-color: transparent !important;
+        border: 1px solid #237BEF !important;
+      }
+    }
+  }
+}

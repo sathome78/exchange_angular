@@ -35,7 +35,7 @@
           <!--<span class="wrap-input__message">-->
           <!--This value must be within 0 and 24.-->
           <!--</span>-->
-          <p>{{'This value must be within 0 and 24.' | translate}}</p>
+          <p>{{'This value must be within 0 and 2.' | translate}}</p>
         </div>
 
       </div>
@@ -65,9 +65,6 @@
             <!--This value must be within 0 and 24.-->
             <!--</span>-->
           <!--</div>-->
-          <div *ngIf="minutesInput.errors['24hoursLimit']; else general">
-            <p>{{'When 24 hours no minutes are allowed.' | translate}}</p>
-          </div>
           <ng-template #general>
             <p>{{'This value must be within 0 and 59.' | translate}}</p>
           </ng-template>

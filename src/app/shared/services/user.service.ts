@@ -34,10 +34,7 @@ export class UserService {
   }
 
    checkIfEmailExists(email: string): Observable<boolean> {
-    const httpOptions = {
-      params:  new HttpParams().set('email', email)
-    };
-    return this.http.get<boolean>(this.getUrl('if_email_exists'), httpOptions);
+    return this.http.get<boolean>(`${this.HOST}/api/public/v2/if_email_exists?email=${email.replace('+', '%2B')}`);
   }
 
   emailValidator(recovery?: boolean): AsyncValidatorFn {
@@ -222,6 +219,15 @@ export class UserService {
 
   getUrl(end: string) {
     return this.HOST + '/api/public/v2/' + end;
+  }
+
+  public getTransactionsCounterForGTag(): Observable<any> {
+    const url = this.HOST + '/api/private/v2/balances/refill/afgssr/gtag';
+    return this.http.get<any>(url);
+  }
+  public clearTransactionsCounterForGTag(): Observable<any> {
+    const url = this.HOST + '/api/private/v2/balances/refill/afgssr/gtag';
+    return this.http.delete<any>(url);
   }
 }
 

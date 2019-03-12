@@ -14,6 +14,12 @@
   /*--- modificators start ---*/
   /*--- modificators end ---*/
   /*--- elements start ---*/
+  @media(max-width: 1199px){
+    border-radius: 0;
+    .popup__links-wrap--left{
+      max-width: 230px;
+    }
+  }
   .wrap-input__input{
     margin-bottom: 24px;
     color: #000000;
@@ -172,6 +178,9 @@
     color: #fff;
     background-color: $darker-blue;
     font-size: 14px;
+    span{
+      margin-right: 3px;
+    }
   }
   &__captcha {
     display: block;

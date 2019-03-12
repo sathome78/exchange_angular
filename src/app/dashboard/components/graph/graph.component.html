@@ -1,5 +1,5 @@
 <div class="widget widget--graph-color">
-  <div class="widget__header panel-heading">
+  <div class="widget__header panel-heading"  *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
     <span class="widget__name">{{'Graph' | translate}} <span>{{pair.currencyPairName}}</span></span>
     <a href="#" class="widget__question">
       <span class="widget__question-img">
@@ -59,7 +59,7 @@
       </div>
     </div>
   </div>
-  <div class="">
+  <div *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
     <div class="currency-pair-info--mob">
       <div class="currency-pair-info__inner">
         <div class="currency-pair-info__pair">
@@ -104,22 +104,23 @@
   </div>
   <div class="widget__graph">
 
-     <div class="amcharts-stock_chart_div" id="tv_chart_container"></div>
-     <div class="widget__graph--mob">
+    <div class="amcharts-stock_chart_div" id="tv_chart_container"></div>
+
+    <div class="widget__graph--mob" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
       <!-- <div class="amcharts-stock_chart_div" id="tv_chart_container"></div> -->
-      <div class="widget__buy-sell-btn-wrap">
+
+
+      <div class="trade-buttons-wr">
         <a href="#" class="btn btn--active widget__trading-btn widget__trading-btn--buy">Buy BTC</a>
         <a href="#" class="btn btn--active widget__trading-btn widget__trading-btn--sell" >Sell BTC</a> <!-- (click)="onSubmit(SELL)" -->
       </div>
     </div>
+
+
+  </div>
+  <div class="widget__content widget__content--mob button-fixed-block" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
+    <app-trade-history *ngIf="isAuthenticated$ | async"></app-trade-history>
   </div>
 
 </div>
 
-<div class="currency-search-container" *ngIf="showCurrencySearch">
-<!-- <app-currency-search
-  [currencies]="currencies"
-  (closeCurrencySearch)="toggleCurrencySearch()"
-  (selectCurrency)="onSelectCurrency($event)">
-</app-currency-search> -->
-</div>

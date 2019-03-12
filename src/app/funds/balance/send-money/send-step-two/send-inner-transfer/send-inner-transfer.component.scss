@@ -13,7 +13,7 @@
     }
   }
   &__transfer-description{
-    text-align: center;
+    
     .small{
       font-size: 12px;
       line-height: 14px;
@@ -41,4 +41,12 @@
       margin-left: 22px;
     }
   }
+}
+ @media(max-width:1199px){
+
+  .send__transfer-description{
+    color: #DEDEFB;
+    text-align: center;
+  }
+  
 }

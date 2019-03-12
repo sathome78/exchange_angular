@@ -82,10 +82,10 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
       .subscribe(() => {
      this.sendEmail(email);
     }, error => {
-      this.serverError = error.error.title;
-      this.emailForm.markAsPristine();
-      this.emailForm.markAsUntouched();
-      this.setTemplate('emailInputTemplate');
+          this.serverError = error.status === 400 ? error.error.title : 'OTHER_HTTP_ERROR';
+          this.emailForm.markAsPristine();
+          this.emailForm.markAsUntouched();
+          this.setTemplate('emailInputTemplate');
     });
   }
 

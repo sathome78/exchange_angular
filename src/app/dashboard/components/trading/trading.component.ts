@@ -20,6 +20,7 @@ import {BUY, SELL} from 'app/shared/constants';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {Order} from 'app/model/order.model';
 import {TradingService} from 'app/dashboard/services/trading.service';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-trading',
@@ -31,6 +32,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public isAuthenticated: boolean = false;
   /** dashboard item name (field for base class)*/
   public itemName: string = 'trading';
   /** toggle for limits-dropdown */
@@ -49,6 +51,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public sellStopValue: number;
   public buyStopValue: number;
   public userBalance: UserBalance;
+  public isPossibleSetPrice = true;
   public currentPair;
 
   public notifySuccess = false;
@@ -86,6 +89,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   constructor(
     private store: Store<State>,
     public tradingService: TradingService,
+    public breakpointService: BreakpointService,
     private dashboardWebsocketService: DashboardWebSocketService,
     private popupService: PopupService,
     private userService: UserService,
@@ -108,6 +112,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(withLatestFrom(this.store.pipe(select(getActiveCurrencyPair))))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(([isAuth, pair]: [boolean, CurrencyPair]) => {
+        this.isAuthenticated = isAuth;
         this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you login
         this.cdr.detectChanges();
       });
@@ -124,6 +129,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(withLatestFrom(this.store.pipe(select(getIsAuthenticated))))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(([pair, isAuth]: [CurrencyPair, boolean]) => {
+        this.isAuthenticated = isAuth;
         this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you change currency pair
         this.cdr.detectChanges();
       });
@@ -140,7 +146,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(select(getLastPrice))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (lastPrice: LastPrice) => {
-        if (!this.updateCurrentCurrencyViaWebsocket) {
+        if (!this.updateCurrentCurrencyViaWebsocket && this.isPossibleSetPrice) {
           this.setPriceInValue(lastPrice.price, this.BUY);
           this.setPriceInValue(lastPrice.price, this.SELL);
           this.sellOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
@@ -335,6 +341,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param pair
    */
   private onGetCurrentCurrencyPair(pair, isAuth): void {
+    this.isPossibleSetPrice = true;
     this.currentPair = pair;
     this.resetSellModel();
     this.resetBuyModel();
@@ -444,6 +451,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param e
    */
   rateInput(e, type: string): void {
+    this.isPossibleSetPrice = false;
     this.isTotalWithCommission = false;
     if (type === this.BUY) {
       this.buyOrder.rate = parseFloat(this.deleteSpace(e.target.value.toString()));
@@ -519,7 +527,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on click submit button
    */
   onSubmit(type: string): void {
-    if (!this.isAuthenticated()) {
+    if (!this.isAuthenticated) {
       this.popupService.showMobileLoginPopup(true);
       return;
     }
@@ -601,7 +609,4 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       });
   }
 
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
-  }
 }

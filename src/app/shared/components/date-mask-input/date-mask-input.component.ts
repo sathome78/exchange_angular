@@ -20,16 +20,24 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
   private _innerValue: any;
   private el: any;
   @Input('innValue') innValue: any;
+  @Input('limitDate') limitDate = true;
+  @Input('setOnInput') setOnInput = false;
   @Input('disableAutoFocus') disableAutoFocus: boolean = false;
   @ViewChild('inputEl') inputEl: ElementRef;
   @Output('customInputMask') customInputMask: EventEmitter<any>;
   @Output('validDate') validDate: EventEmitter<IMyDateModel>;
+  @Output('inputFocus') inputFocus: EventEmitter<boolean>;
+  @Output('inputEmpty') inputEmpty: EventEmitter<boolean>;
+
 
   private validDatePattern = /\d{2}.\d{2}.\d{4}$/;
+  private onTouched: any = () => { };
 
   constructor() {
     this.validDate = new EventEmitter<IMyDateModel>();
     this.customInputMask = new EventEmitter<any>();
+    this.inputFocus = new EventEmitter<boolean>();
+    this.inputEmpty = new EventEmitter<boolean>();
   }
 
   ngAfterViewInit() {
@@ -44,7 +52,7 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
       } else {
         this.writeValue('');
         if(!this.disableAutoFocus) {
-          this.el.focus();
+          this.el ? this.el.focus() : null;
         }
       }
     }
@@ -64,11 +72,15 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
 
   inputData({target}) {
     if (new RegExp(this.validDatePattern).test(target.value)) {
-      const currDate = new Date();
-
-      const value = (new Date).getTime() > moment(target.value, ['DD.MM.YYYY']).unix()
-        ? target.value
-        : `${currDate.getDate()}.${currDate.getMonth() + 1}.${currDate.getFullYear()}`;
+      const today = `${moment().date()}.${moment().month() + 1}.${moment().year()}`;
+      let value = target.value;
+        if (this.limitDate) {
+          value = moment().unix() < moment(target.value, ['DD.MM.YYYY']).unix()
+            ? today
+            : moment(target.value, ['DD.MM.YYYY']).unix() < moment('01.01.2000', ['DD.MM.YYYY']).unix()
+              ? today
+              : target.value;
+        }
       const arrDate = value.split('.');
       const date = {
         date: {day: +arrDate[0], month: +arrDate[1], year: +arrDate[2]},
@@ -78,6 +90,8 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
       };
       this.validDate.emit(date);
     }
+    if (this.setOnInput) this.writeValue(target.value);
+    if (target.value === '') this.inputEmpty.emit(true);
   }
 
   writeValue(value: any) {
@@ -95,10 +109,18 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
     this.propagateChanges = fn;
   }
 
-  registerOnTouched(fn: any) {
+  registerOnTouched(fn): void {
+    this.onTouched = fn;
   }
 
-  onBlur($event) {
-    this.writeValue($event.target.value);
+  onBlur(event) {
+    this.onTouched();
+    if (!this.el.value) this.inputFocus.emit(false);
+    this.writeValue(event.target.value);
+
+  }
+
+  onFocus($event) {
+    this.inputFocus.emit(true);
   }
 }

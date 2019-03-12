@@ -14,6 +14,7 @@ import {takeUntil} from 'rxjs/operators';
 import saveAs from 'file-saver';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-orders-history',
@@ -57,6 +58,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<State>,
     private ordersService: OrdersService,
+    public breakpointService: BreakpointService,
     private utils: UtilsService,
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr));
@@ -152,6 +154,14 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     }
   }
 
+  focusOrBlurDateFrom(event) {
+    if (!event) this.modelDateFrom = {...this.modelDateFrom};
+  }
+
+  focusOrBlurDateTo(event) {
+    if (!event) this.modelDateTo = {...this.modelDateTo};
+  }
+
   changeItemsPerPage(items: number) {
     this.countPerPage = items;
     this.loadOrders();
@@ -197,7 +207,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
    * @returns { string } returns string in format yyyy-mm-dd: example 2018-09-28
    */
   formatDate(date: IMyDate): string {
-    if(date.year === 0 && date.day === 0) {
+    if(!date || date.year === 0 && date.day === 0) {
       return null;
     }
     const day = date.day < 10 ? '0' + date.day : date.day;
@@ -219,6 +229,14 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     }
 
     return className;
+  }
+
+  clearModelDateTo() {
+    this.modelDateTo = null;
+  }
+
+  clearModelDateFrom() {
+    this.modelDateFrom = null;
   }
 
   initDate() {
@@ -276,6 +294,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.currencyPairValue = text;
     this.onFilterOrders();
   }
+
   currency(currName: string, currIndex: number): string {
     const curr = currName.split('/');
     return curr[currIndex - 1];
