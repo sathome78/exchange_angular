@@ -21,6 +21,7 @@ import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {Order} from 'app/model/order.model';
 import {TradingService} from 'app/dashboard/services/trading.service';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-trading',
@@ -52,7 +53,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public buyStopValue: number;
   public userBalance: UserBalance;
   public isPossibleSetPrice = true;
-  public currentPair;
+  public currentPair: SimpleCurrencyPair;
 
   public notifySuccess = false;
   public notifyFail = false;
@@ -111,7 +112,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(select(getIsAuthenticated))
       .pipe(withLatestFrom(this.store.pipe(select(getActiveCurrencyPair))))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(([isAuth, pair]: [boolean, CurrencyPair]) => {
+      .subscribe(([isAuth, pair]: [boolean, SimpleCurrencyPair]) => {
         this.isAuthenticated = isAuth;
         this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you login
         this.cdr.detectChanges();
@@ -128,7 +129,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(select(getActiveCurrencyPair))
       .pipe(withLatestFrom(this.store.pipe(select(getIsAuthenticated))))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(([pair, isAuth]: [CurrencyPair, boolean]) => {
+      .subscribe(([pair, isAuth]: [SimpleCurrencyPair, boolean]) => {
         this.isAuthenticated = isAuth;
         this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you change currency pair
         this.cdr.detectChanges();
@@ -340,15 +341,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * Method run when refresh current currency pair
    * @param pair
    */
-  private onGetCurrentCurrencyPair(pair, isAuth): void {
+  private onGetCurrentCurrencyPair(pair: SimpleCurrencyPair, isAuth: boolean): void {
     this.isPossibleSetPrice = true;
     this.currentPair = pair;
     this.resetSellModel();
     this.resetBuyModel();
     this.splitPairName();
     if(isAuth) {
-      this.getCommissionIndex(this.BUY, this.currentPair.currencyPairId);
-      this.getCommissionIndex(this.SELL, this.currentPair.currencyPairId);
+      this.getCommissionIndex(this.BUY, this.currentPair.id);
+      this.getCommissionIndex(this.SELL, this.currentPair.id);
     }
   }
 
@@ -372,8 +373,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * split pair name for showing
    */
   private splitPairName() {
-    if (this.currentPair.currencyPairName) {
-      this.arrPairName = this.currentPair.currencyPairName.split('/');
+    if (this.currentPair.name) {
+      this.arrPairName = this.currentPair.name.split('/');
     }
   }
 
@@ -538,7 +539,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
   private onSellSubmit(type: string) {
     if (this.sellForm.valid) {
-      this.sellOrder.currencyPairId = this.currentPair.currencyPairId;
+      this.sellOrder.currencyPairId = this.currentPair.id;
       this.sellOrder.baseType = this.dropdownLimitValue;
       this.sellOrder.orderType = this.SELL;
 
@@ -556,7 +557,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
   private onBuySubmit(type: string) {
     if (this.buyForm.valid) {
-      this.buyOrder.currencyPairId = this.currentPair.currencyPairId;
+      this.buyOrder.currencyPairId = this.currentPair.id;
       this.buyOrder.baseType = this.dropdownLimitValue;
       this.buyOrder.orderType = this.BUY;
 

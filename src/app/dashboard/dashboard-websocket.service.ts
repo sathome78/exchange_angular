@@ -13,6 +13,7 @@ import * as dashboardActions from './actions/dashboard.actions';
 import {UserService} from '../shared/services/user.service';
 import {getActiveCurrencyPair} from '../core/reducers';
 import {AuthService} from 'app/shared/services/auth.service';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 
 @Injectable()
@@ -23,37 +24,36 @@ export class DashboardWebSocketService implements OnDestroy {
   private baseUrl = environment.apiUrl;
   public pairFromDashboard = '';
   public isNeedChangeCurretPair = true;
-  private currentCurrencyPair;
+
 
   constructor(
     private stompService: RxStompService,
     private userService: UserService,
     private store: Store<State>
-  ) {
-    this.store
-      .pipe(select(getActiveCurrencyPair))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(pair => {
-        this.currentCurrencyPair = pair;
-      });
+  ) { }
+
+  marketsSubscription(): any {
+    return this.stompService
+      .watch(`/app/statisticsNew`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
   pairInfoSubscription(pairName: string): any {
     return this.stompService
-      .watch(`app/statistics/pairInfo/${pairName}`)
-      // .pipe(map((message: Message) => JSON.parse(JSON.parse(message.body))))
+      .watch(`/app/statistics/pairInfo/${pairName}`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
   allTradesSubscription(pairName: string): any {
     return this.stompService
-      .watch(`app/all_trades/${pairName}`)
-      // .pipe(map((message: Message) => JSON.parse(JSON.parse(message.body))))
+      .watch(`/app/all_trades/${pairName}`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
   orderBookSubscription(pairName: string, precision: number): any {
     return this.stompService
-      .watch(`app/order_book/${pairName}/${precision}`)
-      // .pipe(map((message: Message) => JSON.parse(JSON.parse(message.body))))
+      .watch(`/app/order_book/${pairName}/${precision}`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
   ngOnDestroy(): void {
@@ -84,9 +84,9 @@ export class DashboardWebSocketService implements OnDestroy {
   findPairByCurrencyPairName(pairName: string): void {
     this.currencyPairs.forEach(elm => {
       if (pairName === elm.currencyPairName) {
-        this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(elm));
-        this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(elm.currencyPairId))
-        this.userService.getUserBalance(elm);
+        const newActivePair = new SimpleCurrencyPair(elm.currencyPairId, elm.currencyPairName);
+        this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
+        this.userService.getUserBalance(newActivePair);
       }
     });
   }
@@ -105,7 +105,8 @@ export class DashboardWebSocketService implements OnDestroy {
           return splitName[0] === 'BTC' || splitName[1] === 'BTC';
         });
         const currentPair = filteredPair[0] ? filteredPair[0] : filteredPairs[0];
-        this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(currentPair));
+        const newActivePair = new SimpleCurrencyPair(currentPair.currencyPairId, currentPair.currencyPairName);
+        this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
       });
   }
 

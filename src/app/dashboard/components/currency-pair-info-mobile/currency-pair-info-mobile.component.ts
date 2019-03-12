@@ -9,6 +9,8 @@ import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {UtilsService} from 'app/shared/services/utils.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
+import {Subscription} from 'rxjs';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 /**
  * Dashboard currency pair information component
  */
@@ -21,13 +23,14 @@ import * as dashboardActions from '../../actions/dashboard.actions';
 export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  public pair: CurrencyPair = null;
+  public pair: SimpleCurrencyPair = null;
   public pairInput: string = ''
   public currentCurrencyInfo: CurrencyPairInfo = null;
   public userBalanceInfo: UserBalance;
   public allCurrencyPairs: CurrencyPair[] = [];
   public DIOptions: DIOptions[] = [];
   public isIncrease: boolean = false;
+  private pairInfoSub$: Subscription;
 
   constructor(
     private store: Store<State>,
@@ -40,10 +43,10 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair: CurrencyPair) => {
+      .subscribe((pair: SimpleCurrencyPair) => {
         this.pair = pair;
-        this.pairInput = pair.currencyPairName;
-        this.updateCurrencyInfo(pair.currencyPairId);
+        this.pairInput = pair.name;
+        this.subscribeCurrInfo(pair.name);
         this.cdr.detectChanges();
       });
 
@@ -76,22 +79,28 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
         }
         this.cdr.detectChanges();
       });
-
-    // this.dashboardWebsocketService.setRabbitStompSubscription()
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe((currencyPair) => {
-    //     console.log(currencyPair)
-    //     this.updateCurrencyInfo(currencyPair.currencyPairId);
-    //   })
   }
 
-  updateCurrencyInfo(currencyPairId) {
-    this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(currencyPairId))
+  subscribeCurrInfo(currName: string): void {
+    this.unsubscribeCurrInfo();
+    const pairName = currName.toLowerCase().replace(/\//i, '_');
+    this.pairInfoSub$ = this.dashboardWebsocketService.pairInfoSubscription(pairName)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data) => {
+        this.store.dispatch(new dashboardActions.RefreshCurrencyPairInfoAction(data))
+      })
+  }
+
+  unsubscribeCurrInfo() {
+    if(this.pairInfoSub$) {
+      this.pairInfoSub$.unsubscribe();
+    }
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.unsubscribeCurrInfo();
   }
 
   getIsIncrease() {
@@ -107,7 +116,7 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
   }
 
   isFiat(currNum) {
-    const currs = this.pair.currencyPairName.split('/');
+    const currs = this.pair.name.split('/');
     return this.utils.isFiat(currs[currNum - 1]);
   }
 
