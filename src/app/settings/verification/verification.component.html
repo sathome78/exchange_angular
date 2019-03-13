@@ -1,4 +1,4 @@
-<div class="settings__content id-verification">
+<div class="settings__content id-verification" *ngIf="showComponent">
   <div *ngIf="verificationStatus === KYC_STATUS.NONE">
   <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>
   <div

@@ -22,6 +22,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   public verificationStatus;
   public pattern = 'upholding.biz';
   public isInputFocus = false;
+  public showComponent;
   public modelDateTo = null;
   public form: FormGroup;
   private dataModel;
@@ -72,6 +73,15 @@ export class VerificationComponent implements OnInit, OnDestroy {
               ? KYC_STATUS.VERIFIED
               : res;
       });
+
+    this.showComponent = this.isDemo() ? this.isUpholding() : true;
+
+  }
+  isUpholding(): boolean {
+    return !!this.authService.getUsername().match(this.pattern);
+  }
+  isDemo() {
+    return window.location.hostname.indexOf('demo.exrates') >= 0;
   }
 
   ngOnDestroy(): void {
