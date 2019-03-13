@@ -1,19 +1,15 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ChangeDetectorRef, HostListener} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, HostListener} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
-
-import {MockDataService} from 'app/shared/services/mock-data.service';
 import {EmbeddedOrdersService} from '../embedded-orders.service';
 import {select, Store} from '@ngrx/store';
 import {State, getActiveCurrencyPair} from 'app/core/reducers/index';
-import {CurrencyPair} from '../../../../model/currency-pair.model';
 import {AbstractOrderCalculate} from '../../../../shared/components/abstract-order-calculate';
 import {UserBalance} from '../../../../model/user-balance.model';
 import {getUserBalance} from '../../../../core/reducers';
-import { UtilsService } from 'app/shared/services/utils.service';
-import { Order } from 'app/model/order.model';
-import { TradingService } from 'app/dashboard/services/trading.service';
+import {Order} from 'app/model/order.model';
+import {TradingService} from 'app/dashboard/services/trading.service';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 
 
 @Component({
@@ -28,7 +24,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
   @Input() openOrders;
   @Input() countPerPage = 7;
 
-  // public currentPair;
+  public currentPair: SimpleCurrencyPair;
   public commissionIndex = 0.002;
   public orderType = 'BUY';
   public editOrderPopup = false;
@@ -75,7 +71,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair) => {
+      .subscribe( (pair: SimpleCurrencyPair) => {
         this.currentPair = pair;
         this.splitPairName();
       });
@@ -252,8 +248,8 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
    * get commissionIndex from server
    */
   getCommissionIndex(): void {
-    if (this.orderType && this.currentPair.currencyPairId) {
-      this.tradingService.getCommission(this.orderType, this.currentPair.currencyPairId)
+    if (this.orderType && this.currentPair.id) {
+      this.tradingService.getCommission(this.orderType, this.currentPair.id)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           this.commissionIndex = res.commissionValue;

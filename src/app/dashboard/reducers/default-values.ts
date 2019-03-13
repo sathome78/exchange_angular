@@ -1,13 +1,6 @@
 export const defaultValues = {
-  page: 0,
-  currencyPairId: 1,
-  currencyPairName: 'BTC/USD',
-  lastOrderRate: 0,
-  predLastOrderRate: 0,
-  percentChange: 0,
-  priceInUsd: 0,
-  market: '',
-  volume: 0,
+  id: 1,
+  name: 'BTC/USD',
 };
 
 export const defaultUserBalance = {

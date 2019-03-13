@@ -1,17 +1,7 @@
 <div class="trading-header-wr">
   <div class="currency-pair-info--mob">
     <div class="currency-pair-info__inner">
-      <!-- <div class="currency-pair-info__pair">
-        <div class="dropdown currency-pair-info__dropdown">
-          <div class="dropdown__btn">BTC</div>
-        </div>
-        <div class="currency-pair-info__change-pair">
-          <span class="currency-pair-info__change-pair--mob">/</span>
-        </div>
-        <div class="dropdown currency-pair-info__dropdown">
-          <div class="dropdown__btn">USD</div>
-        </div>
-      </div> -->
+
       <app-dynamic-input-dashboard
         class = "curency-input"
         [value]="pairInput"
@@ -31,11 +21,11 @@
             {{isIncrease ? '+' : '-'}}{{currentCurrencyInfo?.percentChange || 0 | number:'1.0-2' | replaceNumber}}%
           </span>
           <span style="margin-left: 10px;">
-            {{isIncrease ? '+' : '-'}}{{currentCurrencyInfo?.changedValue || 0 | replaceNumber : isFiat(2) }} {{pair.currencyPairName | splitCurrency : 2}}
+            {{isIncrease ? '+' : '-'}}{{currentCurrencyInfo?.changedValue || 0 | replaceNumber : isFiat(2) }} {{pair.name | splitCurrency : 2}}
           </span>
         </div>
         <div class="currency-pair-info__price">
-          {{currentCurrencyInfo?.currencyRate || 0 | replaceNumber : isFiat(2) }} {{pair.currencyPairName | splitCurrency : 2}}
+          {{currentCurrencyInfo?.currencyRate || 0 | replaceNumber : isFiat(2) }} {{pair.name | splitCurrency : 2}}
         </div>
       </div>
     </div>

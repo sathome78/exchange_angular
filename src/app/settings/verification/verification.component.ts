@@ -82,7 +82,15 @@ export class VerificationComponent implements OnInit, OnDestroy {
     //       this.store.dispatch(new coreAction.LoadVerificationStatusAction());
     //     }
     //   });
-    // this.showComponent = this.authService.getUsername().match(this.pattern) ? true : false;
+
+    this.showComponent = this.isDemo() ? this.isUpholding() : true;
+
+  }
+  isUpholding(): boolean {
+    return !!this.authService.getUsername().match(this.pattern);
+  }
+  isDemo() {
+    return window.location.hostname.indexOf('demo.exrates') >= 0;
   }
 
   ngOnDestroy(): void {
@@ -122,7 +130,8 @@ export class VerificationComponent implements OnInit, OnDestroy {
       this.verificationService.sendKYCData(this.dataModel)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
-          this.popupService.showKYCPopup(2, res.data.url);
+          window.open(res.data.url, '_blank');
+          // this.popupService.showKYCPopup(2, res.data.url);
           this.form.reset();
           this.dataModel = this.defaultModel;
         }, err => {

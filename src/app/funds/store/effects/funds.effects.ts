@@ -11,6 +11,7 @@ import * as dashboardActions from '../../../dashboard/actions/dashboard.actions'
 import {MyBalanceItem} from '../../../model/my-balance-item.model';
 import {Location} from '@angular/common';
 import { TransactionsService } from 'app/funds/services/transaction.service';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 
 interface ResData {
@@ -55,7 +56,10 @@ export class FundsEffects {
     .pipe(switchMap( (action) =>  {
       return this.balanceService.getMaxCurrencyPairByName(action.payload)
         .pipe(
-          map(res => (new dashboardActions.ChangeActiveCurrencyPairAction( (res as {data: any, error: any}).data ))),
+          map((res: {data: any, error: any}) => {
+            const newActivePair = new SimpleCurrencyPair(res.data.currencyPairId, res.data.currencyPairName);
+            return new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair);
+          }),
           catchError(error => of(new fundsActions.FailLoadMaxCurrencyPairByCurrencyName(error)))
         );
     }));
