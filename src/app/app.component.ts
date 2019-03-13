@@ -90,7 +90,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     const name = userEmail.split('@')[0];
     const interval = setInterval(() => {
-      console.log('interval');
       if(!(<any>window).$zopim) {
         return;
       }

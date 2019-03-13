@@ -134,7 +134,7 @@ export class UserService {
 
     authCandidate.tries = tries;
 
-    console.log(JSON.stringify(authCandidate));
+    // console.log(JSON.stringify(authCandidate));
     return this.http.post<TokenHolder>(this.getUrl('users/authenticate'), JSON.stringify(authCandidate), httpOptions);
   }
 

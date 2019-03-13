@@ -26,7 +26,7 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.isLowColorModeEnabled = enabled;
         },
         err => {
-          console.log(err);
+          console.error(err);
         });
   }
 
@@ -40,10 +40,10 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.settingsService.updateUserColorDepth(this.isLowColorModeEnabled)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
-          console.log(result);
+          // console.log(result);
         },
         err => {
-          console.log(err);
+          console.error(err);
         });
   }
 }

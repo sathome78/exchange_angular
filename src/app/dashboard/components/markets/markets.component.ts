@@ -112,7 +112,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
         const parsedData = JSON.parse(data[0]);
-        console.log('markets', parsedData);
+        // console.log('markets', parsedData);
         this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(parsedData.data))
         this.loadingFinished();
       })
@@ -235,8 +235,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.marketService.manageUserFavoriteCurrencyPair(pair.currencyPairId, this.getIsFavorite(pair.currencyPairId))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
-        res => this.store.dispatch(new dashboardActions.ToggleUserFavoriteCurrencyPair(pair.currencyPairId) ),
-        error1 => console.log(error1));
+        res => this.store.dispatch(new dashboardActions.ToggleUserFavoriteCurrencyPair(pair.currencyPairId)),
+        error1 => console.error(error1));
   }
 
   isFavorite(pair: CurrencyPair): boolean {

@@ -102,7 +102,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.orderBookSub$ = this.dashboardWebsocketService.orderBookSubscription(pairName, precision)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
-        console.log('order books', data);
+        // console.log('order books', data);
         this.initData(data);
         this.loadingFinished();
         this.cdr.detectChanges();

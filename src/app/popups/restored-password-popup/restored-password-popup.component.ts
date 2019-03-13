@@ -15,7 +15,7 @@ export class RestoredPasswordPopupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('inited');
+    // console.log('inited');
   }
 
   closeRecoveryPassPopup(): void {

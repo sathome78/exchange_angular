@@ -121,7 +121,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
           this.dataModel = this.defaultModel;
         }, err => {
           this.dataModel.firstNames = [];
-          console.log(err);
+          console.error(err);
         });
     }
 

@@ -92,7 +92,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     this.pairInfoSub$ = this.dashboardWebsocketService.pairInfoSubscription(pairName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
-        console.log('currInfo', data)
+        // console.log('currInfo', data)
         this.store.dispatch(new dashboardActions.RefreshCurrencyPairInfoAction(data))
       })
   }

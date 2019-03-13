@@ -37,7 +37,7 @@ export class GoogleStepTwoComponent implements OnInit, OnNextStep, OnDestroy {
       },
       err => {
         this.statusMessage = this.translateService.instant('Failed to get google url');
-        console.log(err);
+        console.error(err);
       });
   }
 

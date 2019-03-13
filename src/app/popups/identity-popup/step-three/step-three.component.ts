@@ -26,12 +26,12 @@ export class StepThreeComponent implements OnInit {
 
   toggleWebcam() {
     this.displayMode = this.WEBCAM;
-    console.log(this.displayMode);
+    // console.log(this.displayMode);
   }
 
   toggleFile() {
     this.displayMode = this.FILE;
-    console.log(this.displayMode);
+    // console.log(this.displayMode);
   }
 
   onSubmit(mode: string) {

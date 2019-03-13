@@ -148,7 +148,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
           this.twoFaAuthModeMessage = this.translateService.instant('Use Google Authenticator to generate pincode');
         }
       },
-        err => console.log(err));
+        err => console.error(err));
   }
 
   setStatusMessage(err) {

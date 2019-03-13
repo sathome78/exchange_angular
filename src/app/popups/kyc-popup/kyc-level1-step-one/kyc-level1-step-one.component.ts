@@ -115,7 +115,7 @@ export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
         this.load = false;
         this.goToSecondStep.emit(res);
       }, error => {
-        console.log(error);
+        console.error(error);
         this.load = false;
       });
   }
