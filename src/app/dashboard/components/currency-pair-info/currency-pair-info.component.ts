@@ -66,7 +66,6 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .pipe(select(getSimpleCurrencyPairsSelector))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: SimpleCurrencyPair[]) => {
-        debugger
         this.allCurrencyPairs = pair;
         this.DIOptions = pair.map((item) => ({text: item.name, id: item.id}));
         this.crd.detectChanges();
