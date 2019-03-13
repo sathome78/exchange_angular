@@ -94,12 +94,10 @@ export class AppComponent implements OnInit, OnDestroy {
       if(!(<any>window).$zopim) {
         return;
       }
-      clearInterval(interval);
+      clearInterval(interval); // waiting for initializing chat widget
       (<any>window).$zopim(() => {
-        (<any>window).$zopim.livechat.setOnConnected(() => {
-          (<any>window).$zopim.livechat.setName(name);
-          (<any>window).$zopim.livechat.setEmail(userEmail);
-        })
+        (<any>window).$zopim.livechat.setName(name);
+        (<any>window).$zopim.livechat.setEmail(userEmail);
       })
     }, 500);
   }
