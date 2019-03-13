@@ -122,9 +122,9 @@
         <div class="table__cell-head table__cell-head--tal table__cell-head--p4" style="width: 46%;">{{'Price' | translate}}
         </div>
         <div class="table__cell-head table__cell-head--tal table__cell-head--p4" style="width: 19%;">{{'Change %' | translate}}</div>
-        <!-- <div class="table__cell-head table__cell-head--tar table__cell-head--p4" style="width: 25%;" (click)="sortVolume()">
+        <div class="table__cell-head table__cell-head--tar table__cell-head--p4" style="width: 25%;" (click)="sortVolume()">
           {{'Volume' | translate}}
-        </div> -->
+        </div>
       </div>
 
       <!-- <cdk-virtual-scroll-viewport [itemSize]="31" style="height: 353px;"></cdk-virtual-scroll-viewport> -->
@@ -194,7 +194,7 @@
                  [ngClass]="{
                  'widget__table-row--green': isChangePositive(pair),
                   'widget__table-row--red': !isChangePositive(pair),
-                  'markets__selected-pair': pair.currencyPairId === currentCurrencyPair?.currencyPairId
+                  'markets__selected-pair': pair.currencyPairId === currentCurrencyPair?.id
                   }">
               <div class="table__cell table__cell--p4 table__cell--tac" style="width: 20%;  display: flex; align-items: center; justify-content: center;">
                   <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavorite(pair)}"

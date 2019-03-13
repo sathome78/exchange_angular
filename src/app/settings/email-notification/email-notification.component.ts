@@ -40,10 +40,10 @@ export class EmailNotificationComponent implements OnInit, OnDestroy {
     this.settingsService.updateEmailNotifications(this.getOptions())
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(resp => {
-          console.log('updated');
+          // console.log('updated');
         },
         err => {
-          console.log(err);
+          console.error(err);
         });
   }
 

@@ -26,6 +26,8 @@ import {Router} from '@angular/router';
 import {Currency} from 'app/model/currency.model';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import { Observable } from 'rxjs';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-graph',
@@ -58,7 +60,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   public currentCurrencyInfo;
   private lang;
   /** current active pair */
-  public pair: CurrencyPair;
+  public pair: SimpleCurrencyPair;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
   private _interval: ChartingLibraryWidgetOptions['interval'] = '10'; // 3
@@ -138,6 +140,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     private store: Store<State>,
     private router: Router,
     private langService: LangService,
+    private utils: UtilsService,
     private dashboardService: DashboardService,
     private dashboardWebsocketService: DashboardWebSocketService,
     public breakpointService: BreakpointService,
@@ -151,13 +154,13 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair: CurrencyPair) => {
+      .subscribe((pair: SimpleCurrencyPair) => {
         this.pair = pair;
-        this.currencyPairName = this.pair.currencyPairName;
+        this.currencyPairName = this.pair.name;
         if (this.currencyPairName) {
-          this.formattingCurrentPairName(pair.currencyPairName as string);
+          this.formattingCurrentPairName(pair.name as string);
           try {
-            this._tvWidget.setSymbol(pair.currencyPairName, '15', () => { });  // 5
+            this._tvWidget.setSymbol(pair.name, '15', () => { });  // 5
           } catch (e) {
             // console.log(e);
           }
@@ -170,8 +173,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (pair: CurrencyPairInfo) => {
         this.currentCurrencyInfo = pair;
-        this.isFiat = this.pair.market === 'USD';
         this.splitPairName(this.pair);
+        this.isFiat = this.getIsFiat(this.secondCurrency);
         this.cdr.detectChanges()
       });
 
@@ -261,7 +264,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
           title: 'Notification',
           body: 'TradingView Charting Library API works correctly',
           callback: () => {
-            console.log('Noticed!');
+            // console.log('Noticed!');
           },
         }));
       button[0].innerHTML = 'Check API';
@@ -373,9 +376,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
    * split pair name by '/'
    * @param {CurrencyPair} pair
    */
-  splitPairName(pair: CurrencyPair) {
-    if (pair.currencyPairId) {
-      [ this.firstCurrency, this.secondCurrency ] = this.pair.currencyPairName.split('/');
+  splitPairName(pair: SimpleCurrencyPair) {
+    if (pair) {
+      [ this.firstCurrency, this.secondCurrency ] = this.pair.name.split('/');
     }
   }
 
@@ -385,6 +388,10 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     } else {
       return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate < 0 : false;
     }
+  }
+
+  getIsFiat(curr): boolean {
+    return this.utils.isFiat(curr)
   }
 
 }

@@ -99,7 +99,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
         limit:this.countPerPage,
         dateFrom: this.formatDate(this.modelDateFrom.date),
         dateTo: this.formatDate(this.modelDateTo.date),
-        currencyPairId: this.currencyPairId,
+        currencyPairId: this.currencyPairId || 0,
       }
       this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
     }
@@ -112,7 +112,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
         limit:this.countPerPage,
         // dateFrom: this.formatDate(this.modelDateFrom.date),
         // dateTo: this.formatDate(this.modelDateTo.date),
-        currencyPairId: this.currencyPairId,
+        currencyPairId: this.currencyPairId || 0,
         concat: true,
       }
       this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));

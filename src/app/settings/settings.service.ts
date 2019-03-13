@@ -66,7 +66,7 @@ export class SettingsService {
   }
 
   public getCurrentVerificationStatusKYC() {
-    return this.http.get<string>(`${this.apiUrl}/api/private/v2/shufti-pro/current-step`);
+    return this.http.get<{data: string}>(`${this.apiUrl}/api/private/v2/kyc/status`);
   }
   public getCountriesKYC() {
     return this.http.get(`${this.apiUrl}/api/private/v2/shufti-pro/countries`);

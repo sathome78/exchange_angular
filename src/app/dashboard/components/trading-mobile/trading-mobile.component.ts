@@ -20,6 +20,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {LastPrice} from 'app/model/last-price.model';
 import {BUY, SELL} from 'app/shared/constants';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-trading-mobile',
@@ -49,7 +50,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   public sellStopValue: number;
   public buyStopValue: number;
   public userBalance: UserBalance;
-  public currentPair;
+  public currentPair: SimpleCurrencyPair;
 
   public notifySuccess = false;
   public notifyFail = false;
@@ -107,7 +108,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       .pipe(select(getIsAuthenticated))
       .pipe(withLatestFrom(this.store.pipe(select(getActiveCurrencyPair))))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(([isAuth, pair]: [boolean, CurrencyPair]) => {
+      .subscribe(([isAuth, pair]: [boolean, SimpleCurrencyPair]) => {
         this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you login
         this.cdr.detectChanges();
       });
@@ -124,7 +125,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       .pipe(select(getActiveCurrencyPair))
       .pipe(withLatestFrom(this.store.pipe(select(getIsAuthenticated))))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(([pair, isAuth]: [CurrencyPair, boolean]) => {
+      .subscribe(([pair, isAuth]: [SimpleCurrencyPair, boolean]) => {
         this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you change currency pair
         this.cdr.detectChanges();
       });
@@ -336,14 +337,14 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * Method run when refresh current currency pair
    * @param pair
    */
-  private onGetCurrentCurrencyPair(pair, isAuth): void {
+  private onGetCurrentCurrencyPair(pair: SimpleCurrencyPair, isAuth: boolean): void {
     this.currentPair = pair;
     this.resetSellModel();
     this.resetBuyModel();
     this.splitPairName();
     if(isAuth) {
-      this.getCommissionIndex(this.BUY, this.currentPair.currencyPairId);
-      this.getCommissionIndex(this.SELL, this.currentPair.currencyPairId);
+      this.getCommissionIndex(this.BUY, this.currentPair.id);
+      this.getCommissionIndex(this.SELL, this.currentPair.id);
     }
   }
 
@@ -367,8 +368,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * split pair name for showing
    */
   private splitPairName() {
-    if (this.currentPair.currencyPairName) {
-      this.arrPairName = this.currentPair.currencyPairName.split('/');
+    if (this.currentPair.name) {
+      this.arrPairName = this.currentPair.name.split('/');
     }
   }
 
@@ -533,7 +534,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
 
   private onSellSubmit(type: string) {
     if (this.sellForm.valid) {
-      this.sellOrder.currencyPairId = this.currentPair.currencyPairId;
+      this.sellOrder.currencyPairId = this.currentPair.id;
       this.sellOrder.baseType = this.dropdownLimitValue;
       this.sellOrder.orderType = this.SELL;
 
@@ -551,7 +552,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
 
   private onBuySubmit(type: string) {
     if (this.buyForm.valid) {
-      this.buyOrder.currencyPairId = this.currentPair.currencyPairId;
+      this.buyOrder.currencyPairId = this.currentPair.id;
       this.buyOrder.baseType = this.dropdownLimitValue;
       this.buyOrder.orderType = this.BUY;
 
