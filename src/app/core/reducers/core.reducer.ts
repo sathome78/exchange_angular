@@ -3,7 +3,6 @@ import * as coreActions from '../actions/core.actions';
 // import {REHYDRATE, RehydrateAction} from '../actions/core.actions';
 import {SimpleCurrencyPair} from '../../model/simple-currency-pair';
 import {CurrencyChoose} from '../../model/currency-choose.model';
-import {NOT_VERIFIED} from '../../shared/constants';
 
 export interface State {
   currency: string;
@@ -23,7 +22,7 @@ export const INIT_STATE: State = {
   currency: null,
   region: null,
   language: 'en',
-  verificationStatus: NOT_VERIFIED,
+  verificationStatus: null,
   simpleCurrencyPairs: [],
   cryptoCurrenciesForChoose: [],
   fiatCurrenciesForChoose: [],
