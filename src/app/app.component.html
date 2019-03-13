@@ -22,220 +22,198 @@
   </a> -->
   <article class="banner-wr">
     <style>
-    .banner-wr{
-      width: 100%;
-      font-size: 20px;
-      background-color: #262151;
-      font-family: Roboto;
-      font-weight: 500;
-      padding-left: 20px;
-      padding-right: 20px;
-      height: 3em;
-      overflow: hidden;
+      .banner-wr {
+        width: 100%;
+        font-size: 20px;
+        background-color: #262151;
+        font-family: Roboto;
+        font-weight: 500;
+        padding-left: 20px;
+        padding-right: 20px;
+        height: 3em;
+        overflow: hidden;
 
-    }
-    .banner-wr p {
-      margin: 0;
-    }
-
-    .banner-wr .banner-content-inner:nth-child(1){
-      transform: translateY(5.2em);
-      /*animation: 20s an1 10s infinite;*/
-    }
-    .banner-wr .banner-content-inner:nth-child(2){
-      transform: translateY(-5.2em);
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      left: 0;
-      /*animation: 20s an2 10s infinite;*/
-    }
-    .banner-wr .banner-content-inner{
-      transform: translateY(-5.2em);
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      left: 0;
-    }
-    .banner-wr .banner-content-inner.active{
-      transform: translateY(0);
-    }
-    .banner-wr .banner-content{
-      height: 3em;
-      position: relative;
-    }
-    .banner-wr .banner-content-inner{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding-top: 2px;
-      transition: .6s ease-out;
-    }
-    .banner-wr .banner-content-inner a{
-      position: absolute;
-      top: 0;
-      right: 0;
-      left: 0;
-      bottom: 0;
-      cursor: pointer;
-      text-decoration: none;
-      z-index: 3;
-    }
-    .banner-wr .banner-img{
-      margin-right: .85em;
-      height: calc(3em - 2px);
-      padding-top: 2px;
-      display: flex;
-      align-items: center;
-
-    }
-    .banner-img  img{
-      max-height: 100%;
-      max-width: 100%;
-      object-fit: contain;
-      object-position: center;
-      display: block;
-
-    }
-    .banner-wr .banner-name{
-      margin-right: .75em;
-    }
-    .banner-name p{
-      opacity: 0.3;
-      color: #ffffff;
-      font-size: .8em;
-    }
-    .banner-wr .youtube-pic{
-      margin-right: .75em;
-      height: .9em;
-    }
-    .youtube-pic img{
-      height: 100%;
-    }
-    .banner-wr .banner-discription{
-    }
-    .banner-discription p{
-      opacity: 0.3;
-      color: #ffffff;
-      font-size: .8em;
-      padding-top: 4px;
-    }
-    @media(max-width: 768px){
-      .banner-wr{
-        font-size: 12px;
       }
-      .banner-discription p{
-        padding-top: 0;
+
+      .banner-wr p {
+        margin: 0;
       }
-    }
-  </style>
-  <div class="banner-content">
-    <div class="banner-content-inner active">
-      <a href="https://youtu.be/4Mx86-dtoNY" target="blank"></a>
-      <div class="banner-img">
-        <img src="../../assets/img/b-pic1.png" alt="">
+
+      .banner-wr .banner-content-inner:nth-child(1) {
+        transform: translateY(5.2em);
+        /*animation: 20s an1 10s infinite;*/
+      }
+
+      .banner-wr .banner-content-inner:nth-child(2) {
+        transform: translateY(-5.2em);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        /*animation: 20s an2 10s infinite;*/
+      }
+
+      .banner-wr .banner-content-inner {
+        transform: translateY(-5.2em);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+      }
+
+      .banner-wr .banner-content-inner.active {
+        transform: translateY(0);
+      }
+
+      .banner-wr .banner-content {
+        height: 3em;
+        position: relative;
+      }
+
+      .banner-wr .banner-content-inner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 2px;
+        transition: .6s ease-out;
+      }
+
+      .banner-wr .banner-content-inner a {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        cursor: pointer;
+        text-decoration: none;
+        z-index: 3;
+      }
+
+      .banner-wr .banner-img {
+        margin-right: .85em;
+        height: calc(3em - 2px);
+        padding-top: 2px;
+        display: flex;
+        align-items: center;
+
+      }
+
+      .banner-img img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        object-position: center;
+        display: block;
+
+      }
+
+      .banner-wr .banner-name {
+        margin-right: .75em;
+      }
+
+      .banner-name p {
+        opacity: 0.3;
+        color: #ffffff;
+        font-size: .8em;
+      }
+
+      .banner-wr .youtube-pic {
+        margin-right: .75em;
+        height: .9em;
+      }
+
+      .youtube-pic img {
+        height: 100%;
+      }
+
+      .banner-wr .banner-discription {
+      }
+
+      .banner-discription p {
+        opacity: 0.3;
+        color: #ffffff;
+        font-size: .8em;
+        padding-top: 4px;
+      }
+
+      @media (max-width: 768px) {
+        .banner-wr {
+          font-size: 12px;
+        }
+
+        .banner-discription p {
+          padding-top: 0;
+        }
+      }
+    </style>
+    <div class="banner-content">
+      <div class="banner-content-inner active">
+        <a href="https://youtu.be/4Mx86-dtoNY" target="blank"></a>
+        <div class="banner-img">
+          <img src="../../assets/img/b-pic1.png" alt="">
+        </div>
+        <div class="banner-name">
+          <p>NakamotoJedi</p>
+        </div>
+        <div class="youtube-pic">
+          <img src="../../assets/img/youtube-pic.png" alt="">
+        </div>
+        <div class="banner-discription">
+          <p>Episode #78 - Edge Cryptocurrency Wallet + Blockchain Platform — insights</p>
+        </div>
       </div>
-      <div class="banner-name">
-        <p>NakamotoJedi</p>
+      <div class="banner-content-inner">
+        <a href="https://youtu.be/4Mx86-dtoNY" target="blank"></a>
+        <div class="banner-img">
+          <img src="../../assets/img/b-pic2.png" alt="">
+        </div>
+        <div class="banner-name">
+          <p>NakamotoJedi</p>
+        </div>
+        <div class="youtube-pic">
+          <img src="../../assets/img/youtube-pic.png" alt="">
+        </div>
+        <div class="banner-discription">
+          <p>Episode #79 - BTC $3.500 | No BTC ETF - SEC | Lose $8 Million in Crypto Scam</p>
+        </div>
       </div>
-      <div class="youtube-pic">
-        <img src="../../assets/img/youtube-pic.png" alt="">
-      </div>
-      <div class="banner-discription">
-        <p>Episode #78 - Edge Cryptocurrency Wallet + Blockchain Platform — insights</p>
+      <div class="banner-content-inner">
+        <a href="https://youtu.be/4Mx86-dtoNY" target="blank"></a>
+        <div class="banner-img">
+          <img src="../../assets/img/b-pic3.png" alt="">
+        </div>
+        <div class="banner-name">
+          <p>NakamotoJedi</p>
+        </div>
+        <div class="youtube-pic">
+          <img src="../../assets/img/youtube-pic.png" alt="">
+        </div>
+        <div class="banner-discription">
+          <p>Episode #80 - Bitcoin SV creator Craig Wright — the real Satoshi Nakamoto?</p>
+        </div>
       </div>
     </div>
-    <div class="banner-content-inner">
-      <a href="https://youtu.be/4Mx86-dtoNY" target="blank"></a>
-      <div class="banner-img">
-        <img src="../../assets/img/b-pic2.png" alt="">
-      </div>
-      <div class="banner-name">
-        <p>NakamotoJedi</p>
-      </div>
-      <div class="youtube-pic">
-        <img src="../../assets/img/youtube-pic.png" alt="">
-      </div>
-      <div class="banner-discription">
-        <p>Episode #79 - BTC $3.500 | No BTC ETF - SEC | Lose $8 Million in Crypto Scam</p>
-      </div>
-    </div>
-    <div class="banner-content-inner">
-      <a href="https://youtu.be/4Mx86-dtoNY" target="blank"></a>
-      <div class="banner-img">
-        <img src="../../assets/img/b-pic3.png" alt="">
-      </div>
-      <div class="banner-name">
-        <p>NakamotoJedi</p>
-      </div>
-      <div class="youtube-pic">
-        <img src="../../assets/img/youtube-pic.png" alt="">
-      </div>
-      <div class="banner-discription">
-        <p>Episode #80 - Bitcoin SV creator Craig Wright — the real Satoshi Nakamoto?</p>
-      </div>
+  </article>
+
+  <app-header></app-header>
+
+  <div class="content">
+
+    <div style="flex-grow: 1; width: 100%;">
+
+      <!-- popups container -->
+      <app-popups></app-popups>
+
+
+      <!--<app-refill-money></app-refill-money>-->
+      <!--<app-send-money></app-send-money>-->
+      <router-outlet></router-outlet>
+
+      <!--<a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>-->
+
     </div>
   </div>
-</article>
-
-<app-header></app-header>
-
-<div class="content">
-
-  <div style="flex-grow: 1; width: 100%;">
-
-    <div *ngIf="isTfaPopupOpen">
-      <app-two-factor-popup [showPopup]="isTfaPopupOpen"></app-two-factor-popup>
-    </div>
-
-    <div *ngIf="isIdentityPopupOpen">
-      <app-identity-popup
-      [showPopup]="isIdentityPopupOpen"
-      ></app-identity-popup>
-    </div>
-
-    <div>
-      <app-kyc-popup
-      *ngIf="isKYCPopupOpen"
-      [showPopup]="isKYCPopupOpen"
-      [step]="kycStep"
-      [iframeUrl]="kycIframeUrl"
-      >
-    </app-kyc-popup>
-  </div>
-
-
-  <div *ngIf="isOpenInfoPopup">
-    <app-popup-info [popupData]="popupData"></app-popup-info>
-  </div>
-
-
-  <!--<div *ngIf="isOpenDemoTradingPopup">-->
-    <!--<app-demo-trading-popup-->
-    <!--[message]="popupService.demoPopupMessage"-->
-    <!--&gt;</app-demo-trading-popup>-->
-  <!--</div>-->
-
-    <!-- popups container -->
-    <app-popups></app-popups>
-
-
-  <!--<app-refill-money></app-refill-money>-->
-  <!--<app-send-money></app-send-money>-->
-  <router-outlet></router-outlet>
-
-  <!--<a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>-->
-
-</div>
-</div>
-
-<app-notification
-*ngFor="let notification of notificationMessages; let i = index;"
-[notification]="notification"
-(notificationClosed)="onNotificationMessageClose(i)">
-</app-notification>
-
-<app-footer></app-footer>
+  <app-footer></app-footer>
 </div>

@@ -36,7 +36,9 @@
 </div>
 
 <div *ngIf="popupService.getDemoTradingPopupListener() | async">
-  <app-demo-trading-popup [message]="popupService.demoPopupMessage"></app-demo-trading-popup>
+  <app-demo-trading-popup
+    [message]="popupService.demoPopupMessage">
+  </app-demo-trading-popup>
 </div>
 
 <div *ngIf="!!(popupService.getInfoPopupListener() | async)">
@@ -44,3 +46,29 @@
     [popupData]="popupService.getInfoPopupListener() | async">
   </app-popup-info>
 </div>
+
+<div *ngIf="!!(popupService.getKYCPopupListener() | async)?.step">
+  <app-kyc-popup
+    [showPopup]="!!(popupService.getKYCPopupListener() | async)?.step"
+    [step]="(popupService.getKYCPopupListener() | async)?.step || 1"
+    [iframeUrl]="(popupService.getKYCPopupListener() | async)?.url || ''">
+  </app-kyc-popup>
+</div>
+
+<div *ngIf="!!(popupService.getIdentityPopupListener() | async)">
+  <app-identity-popup
+    [showPopup]="!!(popupService.getIdentityPopupListener() | async)"
+  ></app-identity-popup>
+</div>
+
+<div *ngIf="!!(popupService.getTFAPopupListener() | async)">
+  <app-two-factor-popup
+    [showPopup]="!!(popupService.getTFAPopupListener() | async)">
+  </app-two-factor-popup>
+</div>
+
+<app-notification
+  *ngFor="let notification of notificationMessages; let i = index;"
+  [notification]="notification"
+  (notificationClosed)="onNotificationMessageClose(i)">
+</app-notification>

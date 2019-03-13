@@ -84,34 +84,17 @@ export function createTranslateLoader(http: HttpClient) {
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    TwoFactorPopupComponent,
 
     // TWO FACTOR POPUP START
-    GoogleStepOneComponent,
-    GoogleStepTwoComponent,
-    GoogleStepThreeComponent,
-    GoogleStepFourComponent,
-    SmsStepOneComponent,
-    SmsStepTwoComponent,
-    TelegramStepOneComponent,
-    TelegramStepTwoComponent,
-    IdentityPopupComponent,
-    StepOneComponent,
-    StepTwoComponent,
-    StepThreeComponent,
-    StepFourComponent,
+
     LoginPopupComponent,
-    WebcamComponent,
-    DocUploadComponent,
+
     ReferralStructureComponent,
     ReferralChargesComponent,
-    GoogleDisableComponent,
     FinalRegistrationComponent,
     FinalStepRecoveryPasswordComponent,
     ThankYouPopupComponent,
-    KycPopupComponent,
-    KycLevel1StepTwoComponent,
-    KycLevel1StepOneComponent,
+
     // TWO FACTOR POPUP END
 
   ],
@@ -138,7 +121,6 @@ export function createTranslateLoader(http: HttpClient) {
     MyDatePickerModule,
     ReactiveFormsModule,
     SettingsModule,
-    WebcamModule,
     SharedModule,
     NgxPaginationModule,
     ReactiveFormsModule,
