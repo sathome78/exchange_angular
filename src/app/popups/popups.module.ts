@@ -39,6 +39,7 @@ import {SmsStepTwoComponent} from './two-factor-popup/sms/sms-step-two/sms-step-
 import {TelegramStepOneComponent} from './two-factor-popup/telegram/telegram-step-one/telegram-step-one.component';
 import {TelegramStepTwoComponent} from './two-factor-popup/telegram/telegram-step-two/telegram-step-two.component';
 import {GoogleDisableComponent} from './two-factor-popup/google/google-disable/google-disable.component';
+import {ThankYouPopupComponent} from './thank-you-popup/thank-you-popup.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import {GoogleDisableComponent} from './two-factor-popup/google/google-disable/g
     TelegramStepOneComponent,
     TelegramStepTwoComponent,
     GoogleDisableComponent,
+    ThankYouPopupComponent,
   ],
   imports: [
     CommonModule,

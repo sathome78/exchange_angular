@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {PopupService} from '../shared/services/popup.service';
 import {NotificationMessage} from '../shared/models/notification-message-model';
 import {Subject} from 'rxjs';
@@ -8,7 +8,7 @@ import {NotificationsService} from '../shared/components/notification/notificati
 @Component({
   selector: 'app-popups',
   templateUrl: './popups.component.html',
-  styleUrls: ['./popups.component.scss']
+  styleUrls: ['./popups.component.scss'],
 })
 export class PopupsComponent implements OnInit {
 
