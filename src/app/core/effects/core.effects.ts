@@ -115,7 +115,7 @@ export class CoreEffects {
     .pipe(switchMap(() => {
       return this.settingsService.getCurrentVerificationStatusKYC()
         .pipe(
-          map(res => new coreActions.SetVerificationStatusAction(res)),
+          map(res => new coreActions.SetVerificationStatusAction(res.data)),
           catchError(error => of(new coreActions.FailLoadVerificationStatusAction(error)))
         );
     }));
