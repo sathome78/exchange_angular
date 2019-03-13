@@ -84,6 +84,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
     //   });
 
     this.showComponent = this.isDemo() ? this.isUpholding() : true;
+
   }
   isUpholding(): boolean {
     return !!this.authService.getUsername().match(this.pattern);
