@@ -1,5 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import {CurrencyPair} from 'app/model';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-markets-item',
@@ -11,7 +12,7 @@ export class MarketsItemComponent implements OnInit {
 
   @Input('pair') public pair: CurrencyPair;
   @Input('isFavorite') public isFavorite: boolean;
-  @Input('currentCurrencyPair') public currentCurrencyPair: CurrencyPair;
+  @Input('currentCurrencyPair') public currentCurrencyPair: SimpleCurrencyPair;
   @Input('isFiat') public isFiat: boolean;
 
   constructor() { }
