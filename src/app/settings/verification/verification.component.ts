@@ -25,7 +25,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   public showComponent;
   public modelDateTo = null;
   public form: FormGroup;
-  private dataModel;
+  public dataModel;
   public defaultMonth: IMyDefaultMonth = {
     defMonth: `01/${moment().subtract(16, 'years').year()}`
   };
@@ -121,7 +121,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
           this.dataModel = this.defaultModel;
         }, err => {
           this.dataModel.firstNames = [];
-          console.log(err);
+          console.error(err);
         });
     }
 

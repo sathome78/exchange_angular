@@ -76,7 +76,7 @@ const stompConfig: InjectableRxStompConfig = {
   // Will log diagnostics on console
   debug: (msg) => {
     // if (!environment.production) {
-      console.log(new Date().toLocaleString(), msg);
+      // console.log(new Date().toLocaleString(), msg);
     // }
   },
 };

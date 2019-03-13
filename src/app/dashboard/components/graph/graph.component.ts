@@ -264,7 +264,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
           title: 'Notification',
           body: 'TradingView Charting Library API works correctly',
           callback: () => {
-            console.log('Noticed!');
+            // console.log('Noticed!');
           },
         }));
       button[0].innerHTML = 'Check API';
