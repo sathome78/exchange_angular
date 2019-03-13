@@ -1,21 +1,15 @@
 import {Component, OnDestroy, OnInit, enableProdMode} from '@angular/core';
 import {PopupService} from './shared/services/popup.service';
-import {Router} from '@angular/router';
 import {ThemeService} from './shared/services/theme.service';
 import {IpAddress, UserService} from './shared/services/user.service';
 import {IP_CHECKER_URL, IP_USER_KEY} from './shared/services/http.utils';
-import {LoggingService} from './shared/services/logging.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {NotificationsService} from './shared/components/notification/notifications.service';
-import {NotificationMessage} from './shared/models/notification-message-model';
-import {DashboardWebSocketService} from './dashboard/dashboard-websocket.service';
 import {AuthService} from './shared/services/auth.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil, withLatestFrom} from 'rxjs/internal/operators';
 import {TranslateService} from '@ngx-translate/core';
 import {select, Store} from '@ngrx/store';
 import * as fromCore from './core/reducers';
-import {PopupData} from './shared/interfaces/popup-data-interface';
 import * as coreAction from './core/actions/core.actions';
 import * as dashboardAction from './dashboard/actions/dashboard.actions';
 import { SimpleCurrencyPair } from './model/simple-currency-pair';
@@ -31,27 +25,6 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public isAuthenticated: boolean = false;
-  public kycStep = 1;
-  public popupData: PopupData;
-  public kycIframeUrl = '';
-
-  isTfaPopupOpen = false;
-  isIdentityPopupOpen = false;
-  isKYCPopupOpen = false;
-  isLoginPopupOpen = false;
-  isLoginMobilePopupOpen = false;
-  isRegistrationMobilePopupOpen = false;
-  isRecoveryPasswordPopupOpen = false;
-  isRestoredPasswordPopupOpen = false;
-  isChangedPasswordPopupOpen = false;
-  isAlreadyRestoredPasswordPopupOpen = false;
-  isSessionTimeSavedPopupOpen = false;
-  isOpenDemoTradingPopup = false;
-  isOpenAlreadyRegisteredPopup = false;
-  isOpenInfoPopup = false;
-  isOpenSessionExpiredPopup = false;
-  /** notification messages array */
-  notificationMessages: NotificationMessage[];
 
   constructor(
     public popupService: PopupService,
@@ -60,7 +33,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private store: Store<fromCore.State>,
     private http: HttpClient,
-    private notificationService: NotificationsService,
     public translate: TranslateService
   ) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
@@ -100,26 +72,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
     // this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
     // this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
-    if(this.authService.isAuthenticated()) {
+    if (this.authService.isAuthenticated()) {
       this.store.dispatch(new coreAction.SetOnLoginAction(this.authService.parsedToken));
     }
-    this.subscribeForTfaEvent();
-    this.subscribeForIdentityEvent();
-    this.subscribeForKYCEvent();
-    this.subscribeForLoginEvent();
-    this.subscribeForMobileLoginEvent();
-    this.subscribeForMobileRegistrationEvent();
-    this.subscribeForRecoveryPasswordEvent();
-    this.subscribeForRestoredPasswordPopup();
-    this.subscribeForAlreadyRestoredPasswordPopup();
-    this.subscribeForDemoTradingPopup();
-    this.subscribeForSessionTimeSavedPopup();
-    this.subscribeForChangedPasswordPopup();
-    // this.setClientIp();
-    this.subscribeForNotifications();
-    this.subscribeForAlreadyRegisteredPopup();
-    this.subscribeForInfoPopup();
-    this.subscribeForSessionExpiredPopup();
   }
 
   setDefaultCurrencyPair(currencies: SimpleCurrencyPair[]) {
@@ -129,135 +84,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  subscribeForTfaEvent() {
-    this.popupService.getTFAPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.isTfaPopupOpen = value ? true : false;
-      });
-  }
-
-  subscribeForMobileLoginEvent() {
-    this.popupService.getLoginMobilePopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.isLoginMobilePopupOpen = value;
-      });
-  }
-
-  subscribeForDemoTradingPopup() {
-    this.popupService.getDemoTradingPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.isOpenDemoTradingPopup = res;
-      });
-  }
-
-  subscribeForAlreadyRegisteredPopup() {
-    this.popupService.getAlreadyRegisteredPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.isOpenAlreadyRegisteredPopup = res;
-      });
-  }
-
-  subscribeForInfoPopup() {
-    this.popupService.getInfoPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.popupData = res;
-        this.isOpenInfoPopup = !!res;
-      });
-  }
-
-  subscribeForSessionExpiredPopup() {
-    this.popupService.getSessionExpiredPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.isOpenSessionExpiredPopup = res;
-      });
-  }
-
-  subscribeForAlreadyRestoredPasswordPopup() {
-    this.popupService.getAlreadyRestoredPasswordPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.isAlreadyRestoredPasswordPopupOpen = res;
-      });
-  }
-
-  subscribeForRestoredPasswordPopup() {
-    this.popupService.getRestoredPasswordPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.isRestoredPasswordPopupOpen = res;
-      });
-  }
-
-  subscribeForSessionTimeSavedPopup() {
-    this.popupService.getSessionTimeSavedPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.isSessionTimeSavedPopupOpen = res;
-      });
-  }
-
-  subscribeForChangedPasswordPopup() {
-    this.popupService.getChangedPasswordPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.isChangedPasswordPopupOpen = res;
-      });
-  }
-
-  subscribeForMobileRegistrationEvent() {
-    this.popupService.getRegistrationMobilePopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.isRegistrationMobilePopupOpen = value;
-      });
-  }
-
-  subscribeForRecoveryPasswordEvent() {
-    this.popupService.getRecoveryPasswordListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.isRecoveryPasswordPopupOpen = value;
-      });
-  }
-
-  subscribeForLoginEvent() {
-    this.popupService.getLoginPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.isLoginPopupOpen = value;
-      });
-  }
-
-  subscribeForIdentityEvent() {
-    this.popupService.getIdentityPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.isIdentityPopupOpen = !!value;
-      });
-  }
-
-  subscribeForKYCEvent() {
-    this.popupService.getKYCPopupListener()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.kycStep = value.step;
-        this.kycIframeUrl = value.url;
-        this.isKYCPopupOpen = !!value.step;
-      });
-  }
-
   isCurrentThemeDark(): boolean {
     return this.themeService.isCurrentThemeDark();
-  }
-
-  onNotificationMessageClose(index: number): void {
-    this.notificationMessages.splice(index, 1);
   }
 
   ngOnDestroy(): void {
@@ -274,17 +102,6 @@ export class AppComponent implements OnInit, OnDestroy {
         // console.log(response);
         // this.logger.debug(this, 'Client IP: ' + response.ip);
         localStorage.setItem(IP_USER_KEY, response.ip);
-      });
-  }
-
-  /**
-   * Subscription for app notifications
-   */
-  private subscribeForNotifications(): void {
-    this.notificationService.message
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((message: NotificationMessage) => {
-        this.notificationMessages.push(message);
       });
   }
 
