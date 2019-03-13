@@ -83,6 +83,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if(isAuth && userInfo) {
           this.authService.setSessionFinishListener(userInfo.expiration);
           this.sendTransactionsAnalytics();
+          this.setNameEmailToZenChat(userInfo.username);
         } else {
           this.authService.removeSessionFinishListener();
         }
@@ -127,6 +128,25 @@ export class AppComponent implements OnInit, OnDestroy {
     if(pair) {
       this.store.dispatch(new dashboardAction.ChangeActiveCurrencyPairAction(pair));
     }
+  }
+  setNameEmailToZenChat(userEmail: string): void {
+    if(!userEmail) {
+      return;
+    }
+    const name = userEmail.split('@')[0];
+    const interval = setInterval(() => {
+      console.log('interval');
+      if(!(<any>window).$zopim) {
+        return;
+      }
+      clearInterval(interval);
+      (<any>window).$zopim(() => {
+        (<any>window).$zopim.livechat.setOnConnected(() => {
+          (<any>window).$zopim.livechat.setName(name);
+          (<any>window).$zopim.livechat.setEmail(userEmail);
+        })
+      })
+    }, 500);
   }
 
   subscribeForTfaEvent() {

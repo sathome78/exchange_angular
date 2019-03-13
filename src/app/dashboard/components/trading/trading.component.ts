@@ -65,6 +65,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public BUY = BUY;
   public createdOrder: Order;
   private updateCurrentCurrencyViaWebsocket = false;
+  public loading: boolean = false;
 
   public defaultOrder: Order = {
     orderType: '',
@@ -134,14 +135,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you change currency pair
         this.cdr.detectChanges();
       });
-
-    // this.dashboardWebsocketService.setRabbitStompSubscription()
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe(() => {
-    //     this.updateCurrentCurrencyViaWebsocket = true;
-    //     this.cdr.detectChanges();
-    //   })
-
 
     this.store
       .pipe(select(getLastPrice))
@@ -532,6 +525,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.popupService.showMobileLoginPopup(true);
       return;
     }
+
     type === this.BUY ?
       this.onBuySubmit(type) :
       this.onSellSubmit(type);
@@ -583,6 +577,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
     const order = type === this.BUY ? this.buyOrder : this.sellOrder;
     this.createdOrder = order;
+    this.loading = true;
     this.tradingService.createOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -592,6 +587,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
         this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
         this.notifySuccess = true;
+        this.loading = false;
         this.cdr.detectChanges();
         setTimeout(() => {
           this.notifySuccess = false;
@@ -601,6 +597,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       }, err => {
         console.log(err);
         this.notifyFail = true;
+        this.loading = false;
         this.cdr.detectChanges();
         setTimeout(() => {
           this.notifyFail = false;
@@ -611,3 +608,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
 }
+
+
+
