@@ -19,13 +19,12 @@ export class RestoredPasswordPopupComponent implements OnInit {
   }
 
   closeRecoveryPassPopup(): void {
-    this.popupService.toggleAlreadyRestoredPasswordPopup(false);
+    this.popupService.toggleRestoredPasswordPopup(false);
     this.router.navigate(['/']);
   }
   goToLogin(): void {
-    this.popupService.toggleAlreadyRestoredPasswordPopup(false);
-    this.router.navigate(['/']);
-    this.popupService.showLoginPopup(true);
+    this.popupService.toggleRestoredPasswordPopup(false);
+    this.router.navigate(['/login']);
   }
 
 }
