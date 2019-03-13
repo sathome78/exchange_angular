@@ -30,7 +30,7 @@
     <div class="table__cell table__cell--p4" style="width: 46%;">
       <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
     </div>
-    <div class="table__cell table__cell--p4" style="width: 19%;text-align: right;">
+    <div class="table__cell table__cell--p4" style="width: 19%">
       <span
         style="margin-right: 2px;"
         [ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}"
@@ -42,8 +42,8 @@
         [ngClass]="{'arr--green': isChangePositive(pair), 'arr--red': !isChangePositive(pair)}">
       </span>
     </div>
-    <!-- <div class="table__cell table__cell--p4 table__cell--tar" style="width: 25%;">
+    <div class="table__cell table__cell--p4 table__cell--tar" style="width: 25%;">
       <span style="font-size: 10px; color:#A0A0A0">{{ +pair.currencyVolume | roundCurrency:splitPairName(pair)[1] | formatCurrency:'short':splitPairName(pair)[1]}}</span>
-    </div> -->
+    </div>
   </div>
 
