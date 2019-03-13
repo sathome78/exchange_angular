@@ -67,10 +67,10 @@
 
   <!-- loading indicator -->
 
-  <div class="widget__content loading-container" *ngIf="loading$ | async">
+  <div class="widget__content loading-container" *ngIf="loading">
     <app-loader></app-loader>
   </div>
-  <div class="widget__content widget__content--show-all"  *ngIf="!(loading$ | async)">
+  <div class="widget__content widget__content--show-all"  *ngIf="!loading">
 
     <div class="trade-history__table">
       <div class="trade-history__thead">

@@ -17,6 +17,7 @@ import * as fromCore from '../../core/reducers';
 import * as coreActions from '../../core/actions/core.actions';
 import {Location} from '@angular/common';
 import {CurrencyPair} from '../../model';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 declare var sendLoginSuccessGtag: Function;
 
@@ -37,7 +38,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   public inPineCodeMode;
   public isGA = false;
   public isGACheck = false;
-  public currencyPair;
+  public currencyPair: SimpleCurrencyPair;
   public afterCaptchaMessage;
 
   public currentTemplate: TemplateRef<any>;
@@ -88,7 +89,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(fromCore.getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair: CurrencyPair) => {
+      .subscribe((pair: SimpleCurrencyPair) => {
         this.currencyPair = pair;
       });
   }

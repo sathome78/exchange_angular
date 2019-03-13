@@ -17,6 +17,8 @@ import {select, Store} from '@ngrx/store';
 import * as fromCore from './core/reducers';
 import {PopupData} from './shared/interfaces/popup-data-interface';
 import * as coreAction from './core/actions/core.actions';
+import * as dashboardAction from './dashboard/actions/dashboard.actions';
+import { SimpleCurrencyPair } from './model/simple-currency-pair';
 
 
 declare var sendTransactionSuccessGtag: Function;
@@ -51,15 +53,16 @@ export class AppComponent implements OnInit, OnDestroy {
   /** notification messages array */
   notificationMessages: NotificationMessage[];
 
-  constructor(public popupService: PopupService,
-              private themeService: ThemeService,
-              private dashboardWebsocketService: DashboardWebSocketService,
-              private userService: UserService,
-              private authService: AuthService,
-              private store: Store<fromCore.State>,
-              private http: HttpClient,
-              private notificationService: NotificationsService,
-              public translate: TranslateService) {
+  constructor(
+    public popupService: PopupService,
+    private themeService: ThemeService,
+    private userService: UserService,
+    private authService: AuthService,
+    private store: Store<fromCore.State>,
+    private http: HttpClient,
+    private notificationService: NotificationsService,
+    public translate: TranslateService
+  ) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
 
 
@@ -84,10 +87,18 @@ export class AppComponent implements OnInit, OnDestroy {
           this.authService.removeSessionFinishListener();
         }
       });
+
+    this.store
+      .pipe(select(fromCore.getSimpleCurrencyPairsSelector))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((currencies: SimpleCurrencyPair[]) => {
+        this.setDefaultCurrencyPair(currencies);
+      });
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
+    this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
+    // this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
     // this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
     if(this.authService.isAuthenticated()) {
       this.store.dispatch(new coreAction.SetOnLoginAction(this.authService.parsedToken));
@@ -109,6 +120,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeForAlreadyRegisteredPopup();
     this.subscribeForInfoPopup();
     this.subscribeForSessionExpiredPopup();
+  }
+
+  setDefaultCurrencyPair(currencies: SimpleCurrencyPair[]) {
+    const pair = currencies.find((item) => (item.name === 'BTC/USD'));
+    if(pair) {
+      this.store.dispatch(new dashboardAction.ChangeActiveCurrencyPairAction(pair));
+    }
   }
 
   subscribeForTfaEvent() {
@@ -253,7 +271,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.http.get<IpAddress>(IP_CHECKER_URL)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
-        console.log(response);
+        // console.log(response);
         // this.logger.debug(this, 'Client IP: ' + response.ip);
         localStorage.setItem(IP_USER_KEY, response.ip);
       });

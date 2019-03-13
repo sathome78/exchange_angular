@@ -12,6 +12,9 @@ import {getActiveCurrencyPair} from '../../../core/reducers';
 
 import {ActivatedRoute, Router} from '@angular/router';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
+import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
+import {Subscription} from 'rxjs';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 
 @Component({
@@ -32,7 +35,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   /** Markets data by active tab */
   public pairs: CurrencyPair[] = [];
 
-  public currentCurrencyPair: CurrencyPair;
+  private marketsSub$: Subscription;
+  public currentCurrencyPair: SimpleCurrencyPair;
   public sortPoint = 'asc';
   public marketSearch = false;
   public searchInput = '';
@@ -45,10 +49,11 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   public selectedCurrencyPair: CurrencyPair;
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private marketService: MarketService,
     private store: Store<State>,
     public breakpointService: BreakpointService,
-    private cdr: ChangeDetectorRef,
+    private dashboardWebsocketService: DashboardWebSocketService,
     private route: ActivatedRoute,
     private router: Router,
   ) {
@@ -56,12 +61,10 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   ngOnInit() {
-    this.getMarketsCurrencyPairs();
-
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair: CurrencyPair) => {
+      .subscribe((pair: SimpleCurrencyPair) => {
         this.currentCurrencyPair = pair;
         this.cdr.detectChanges();
       });
@@ -93,27 +96,32 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe((currencyPairs: MapModel<CurrencyPair>) => {
         this.currencyPairs = Object.values(currencyPairs);
         this.pairs = this.choosePair(this.currencyDisplayMode);
-        this.loadingFinished();
         this.cdr.detectChanges();
       }, (err) => {
         console.error(err);
-        this.loadingFinished();
         this.cdr.detectChanges();
       });
 
-    // this.dashboardWebsocketService.setRabbitStompSubscription()
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe(() => {
-    //     this.getMarketsCurrencyPairs();
-    //   })
+    this.subscribeOrderBook();
   }
 
-  getMarketsCurrencyPairs(): void {
-    this.marketService.getCurrencyPairForMarketFast()
+  subscribeOrderBook(): void {
+    this.unsubscribeOrderBook();
+    this.loadingStarted();
+    this.marketsSub$ = this.dashboardWebsocketService.marketsSubscription()
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((currencyPairs: CurrencyPair[]) => {
-        this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(currencyPairs))
+      .subscribe((data) => {
+        const parsedData = JSON.parse(data[0]);
+        console.log('markets', parsedData);
+        this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(parsedData.data))
+        this.loadingFinished();
       })
+  }
+
+  unsubscribeOrderBook() {
+    if(this.marketsSub$) {
+      this.marketsSub$.unsubscribe();
+    }
   }
 
   getUserFavoritesCurrencyPairs() {
@@ -148,7 +156,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    */
   onSelectCurrencyPair(pair: CurrencyPair): void {
     this.selectedCurrencyPair = pair;
-    this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(pair));
+    const newActivePair = new SimpleCurrencyPair(pair.currencyPairId, pair.currencyPairName);
+    this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
     if (this.route.snapshot.paramMap.get('currency-pair')) {
        this.router.navigate(['/']);
     }
@@ -234,12 +243,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     return pair.isFavorite;
   }
 
-  private loadingFinished() {
-    if(this.pairs && this.pairs.length && this.loading) {
-      this.loading = false;
-    }
-  }
-
   trackByFn(index, item) {
     return item.currencyPairId; // or item.id
   }
@@ -279,4 +282,12 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   getPairById(pairId: number): CurrencyPair {
     return this.pairs.find((item) => item.currencyPairId === pairId);
   }
+
+  private loadingFinished(): void {
+    this.loading = false;
+  }
+  private loadingStarted(): void {
+    this.loading = true;
+  }
+
 }
