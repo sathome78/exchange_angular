@@ -26,7 +26,7 @@
             </div>
           </td>
           <td class="table__cell table__cell--tal">
-            <span [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType}}</span>
+            <span [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType | replaceChar: '_': ' '}}</span>
           </td>
           <td class="table__cell table__cell--tar">
             <div>{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
