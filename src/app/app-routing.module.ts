@@ -20,8 +20,7 @@ const routes: Routes = [
   {path: 'referral-charges', component: ReferralChargesComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'settings', loadChildren: './settings/settings.module#SettingsModule', canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'recovery-password', component: FinalStepRecoveryPasswordComponent, canActivate: [RestorePasswordGuard]},
-  {path: 'funds', loadChildren: 'app/funds/funds.module#FundsModule'},
-  // {path: 'funds', loadChildren: 'app/funds/funds.module#FundsModule', canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
+  {path: 'funds', loadChildren: 'app/funds/funds.module#FundsModule', canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'orders', loadChildren: 'app/orders/orders.module#OrdersModule', canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'static', loadChildren: './static-pages/static-pages.module#StaticPagesModule'},
 

@@ -101,12 +101,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
       this.countPerPage = 30;
     }
 
-    // this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
-    // this.store.dispatch(new coreAction.LoadCryptoCurrenciesForChoose());
-    // this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
-    // this.store.dispatch(new fundsAction.LoadMyBalancesAction());
-    // this.loadBalances(this.currTab);
-    // this.loadBalances(this.Tab.PR);
+    this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
+    this.store.dispatch(new coreAction.LoadCryptoCurrenciesForChoose());
+    this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
+    this.store.dispatch(new fundsAction.LoadMyBalancesAction());
+    this.loadBalances(this.currTab);
+    this.loadBalances(this.Tab.PR);
 
     this.balanceService.closeRefillMoneyPopup$
       .pipe(takeUntil(this.ngUnsubscribe))
