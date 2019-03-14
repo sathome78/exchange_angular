@@ -51,6 +51,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public defauldWidgets;
   public gridsterOptions;
   public gridsterItemOptions;
+  public isDrag = false;
 
   public activeMobileWidget = 'markets';
   public breakPoint;
@@ -237,4 +238,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.gridsterContainer && this.gridsterContainer.setOption('widthHeightRatio', value).reload();
   }
 
+  DragStart(event) {
+    this.isDrag = true;
+  }
+  DragEnd(event) {
+    this.isDrag = false;
+  }
 }
