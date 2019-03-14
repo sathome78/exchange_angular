@@ -54,6 +54,9 @@ import {ShowPendingSystemPipe} from './pending-system.pipe';
 import {ShowTransactionsStatusPipe} from './transactions-history-status.pipe';
 import {ShowTransactionsTypePipe} from './transactions-history-type.pipe';
 import { QuberaTableComponent } from './balance/qubera-table/qubera-table.component';
+import { RefillFiatQuberaComponent } from './balance/refill-money/refill-step-two/refill-fiat-qubera/refill-fiat-qubera.component';
+import { SendFiatQuberaComponent } from './balance/send-money/send-step-two/send-fiat-qubera/send-fiat-qubera.component';
+import { TransferQuberaComponent } from './balance/send-money/send-step-three/transfer-qubera/transfer-qubera.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -117,6 +120,9 @@ export function createTranslateLoader(http: HttpClient) {
     ShowTransactionsStatusPipe,
     ShowTransactionsTypePipe,
     QuberaTableComponent,
+    RefillFiatQuberaComponent,
+    SendFiatQuberaComponent,
+    TransferQuberaComponent,
   ],
   providers: [
     BalanceService,

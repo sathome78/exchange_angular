@@ -254,7 +254,10 @@
         *ngSwitchCase="Tab.PR"
         ></app-pending-request-table>
         <app-qubera-table
-          *ngSwitchCase="Tab.QUBERA">
+          *ngSwitchCase="Tab.QUBERA"
+          (transferOut)="goToTransferPopup($event)"
+          (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+          (cryptoDepositOut)="goToCryptoDepositPopup($event)">
         </app-qubera-table>
       </ng-container>
 

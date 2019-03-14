@@ -9,7 +9,16 @@ import {PendingRequestsItem} from '../models/pending-requests-item.model';
 import {MyBalanceItem} from '../../model/my-balance-item.model';
 import {BalanceService} from '../services/balance.service';
 import {takeUntil} from 'rxjs/operators';
-import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, FIAT_DEPOSIT, FIAT_WITHDRAWAL, INNER_TRANSFER} from './send-money/send-money-constants';
+import {
+  CRYPTO_DEPOSIT,
+  CRYPTO_WITHDRAWAL,
+  FIAT_DEPOSIT,
+  FIAT_WITHDRAWAL,
+  INNER_TRANSFER,
+  FIAT_DEPOSIT_QUBERA,
+  FIAT_WITHDRAWAL_QUBERA,
+  QUBERA
+} from './send-money/send-money-constants';
 import {CurrencyChoose} from '../../model/currency-choose.model';
 import * as fromCore from '../../core/reducers';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
@@ -92,12 +101,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
       this.countPerPage = 30;
     }
 
-    this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
-    this.store.dispatch(new coreAction.LoadCryptoCurrenciesForChoose());
-    this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
-    this.store.dispatch(new fundsAction.LoadMyBalancesAction());
-    this.loadBalances(this.currTab);
-    this.loadBalances(this.Tab.PR);
+    // this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
+    // this.store.dispatch(new coreAction.LoadCryptoCurrenciesForChoose());
+    // this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
+    // this.store.dispatch(new fundsAction.LoadMyBalancesAction());
+    // this.loadBalances(this.currTab);
+    // this.loadBalances(this.Tab.PR);
 
     this.balanceService.closeRefillMoneyPopup$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -216,7 +225,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.showSendMoneyPopup = true;
     this.sendMoneyData = {
       step: 2,
-      stepName: this.currTab === 'CRYPTO' ? CRYPTO_WITHDRAWAL : FIAT_WITHDRAWAL,
+      stepName: this.currTab === 'CRYPTO' ? CRYPTO_WITHDRAWAL : this.currTab === 'QUBERA' ? FIAT_WITHDRAWAL_QUBERA : FIAT_WITHDRAWAL,
       balance: balance
     };
   }
@@ -225,7 +234,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.showRefillBalancePopup = true;
     this.refillBalanceData = {
       step: 2,
-      stepName: this.currTab === 'CRYPTO' ? CRYPTO_DEPOSIT : FIAT_DEPOSIT,
+      stepName: this.currTab === 'CRYPTO' ? CRYPTO_DEPOSIT : this.currTab === 'QUBERA' ? FIAT_DEPOSIT_QUBERA : FIAT_DEPOSIT,
       balance: balance
     };
   }
@@ -241,8 +250,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
     // this.popupService.showDemoTradingPopup(true);
     this.showSendMoneyPopup = true;
     this.sendMoneyData = {
-      step: 2,
-      stepName: INNER_TRANSFER,
+      step: this.currTab === 'QUBERA' ? 3 : 2,
+      stepName: this.currTab === 'QUBERA' ? QUBERA : INNER_TRANSFER,
       stepThreeData: balance
     };
   }
