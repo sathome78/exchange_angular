@@ -28,6 +28,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     CRYPTO: 'CRYPTO',
     FIAT: 'FIAT',
     PR: 'PR',
+    QUBERA: 'QUBERA',
   };
 
   public balanceItems: BalanceItem [] = [];
