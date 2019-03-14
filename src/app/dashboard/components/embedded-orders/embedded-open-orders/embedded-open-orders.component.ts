@@ -178,7 +178,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
           this.createNewOrder();
           this.resetForms();
         }, err => {
-          console.log(err);
+          console.error(err);
           this.editOrderPopup = false;
           this.resetForms();
         });

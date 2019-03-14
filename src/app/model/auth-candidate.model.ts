@@ -40,7 +40,7 @@ export class AuthCandidate {
 
   public withClientIp(): AuthCandidate {
     this.clientIp = localStorage.getItem(IP_USER_KEY);
-     console.log('client ip: ' + this.clientIp);
+    //  console.log('client ip: ' + this.clientIp);
     return this;
   }
 

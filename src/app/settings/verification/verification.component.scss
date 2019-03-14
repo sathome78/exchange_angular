@@ -282,6 +282,29 @@
   }
 }
 
+// TEMP STYLES
+.btn-string {
+  padding: 3px 10px;
+  border: 1px solid #237bef;
+  border-radius: 4px;
+  margin-right: 0;
+  margin-bottom: 0;
+  background: transparent;
+  color: #ffffff;
+}
 
+.img-h3-wrapper {
+  img{
+    height: 40px;
+    width: 40px;
+    float: left;
+    margin-right: 16px;
+  }
+  h3 {
+    padding-top: 9px;
+  }
+}
 
-
+.loading-container {
+  margin-top: 150px;
+}

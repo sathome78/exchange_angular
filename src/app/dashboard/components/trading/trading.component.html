@@ -98,7 +98,13 @@
             </span>
           </label>
         </div>
-        <button class="btn btn--active widget__trading-btn widget__trading-btn--buy" (click)="onSubmit(BUY)">Buy {{arrPairName[0]}}</button>
+        <button
+          class="btn btn--active widget__trading-btn widget__trading-btn--buy"
+          (click)="onSubmit(BUY)"
+          [disabled]="loading"
+        >
+          Buy {{arrPairName[0]}}
+        </button>
       </form>
       <form class="widget__trading-form" action="" [formGroup]="sellForm">
         <div class="widget__trading-title-wr">
@@ -158,7 +164,13 @@
             </span>
           </label>
         </div>
-        <button class="btn btn--active widget__trading-btn widget__trading-btn--sell" (click)="onSubmit(SELL)">Sell {{arrPairName[0]}}</button>
+        <button
+          class="btn btn--active widget__trading-btn widget__trading-btn--sell"
+          (click)="onSubmit(SELL)"
+          [disabled]="loading"
+        >
+          Sell {{arrPairName[0]}}
+        </button>
       </form>
 
     </div>

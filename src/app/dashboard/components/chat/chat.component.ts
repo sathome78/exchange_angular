@@ -95,12 +95,12 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
       this.chatService.sendNewMessage(body, email)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
-            console.log(res);
+            // console.log(res);
             message.value = '';
             this.cdr.detectChanges();
           },
           error1 => {
-            console.log(error1);
+            // console.log(error1);
             this.cdr.detectChanges();
           });
     }

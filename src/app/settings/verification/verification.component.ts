@@ -1,17 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PopupService} from '../../shared/services/popup.service';
 import {UserVerificationService} from '../../shared/services/user-verification.service';
-import {SettingsService} from '../settings.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {NOT_VERIFIED, LEVEL_ONE, LEVEL_TWO} from '../../shared/constants';
 import {AuthService} from '../../shared/services/auth.service';
 import {select, Store} from '@ngrx/store';
 import {getVerificationStatus, State} from '../../core/reducers';
-import {SetVerificationStatusAction} from '../../core/actions/core.actions';
-import * as coreAction from '../../core/actions/core.actions';
-import {IMyDpOptions, IMyDateModel, IMyDefaultMonth} from 'mydatepicker';
+import {IMyDpOptions, IMyDefaultMonth} from 'mydatepicker';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {KYC_STATUS} from '../../shared/constants';
 import * as moment from 'moment';
 
 @Component({
@@ -21,17 +18,14 @@ import * as moment from 'moment';
 })
 export class VerificationComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public NOT_VERIFIED = NOT_VERIFIED;
-  public LEVEL_ONE = LEVEL_ONE;
-  public LEVEL_TWO = LEVEL_TWO;
-  public verificationStatus = NOT_VERIFIED;
+  public KYC_STATUS = KYC_STATUS;
+  public verificationStatus;
   public pattern = 'upholding.biz';
   public isInputFocus = false;
-  public showComponent = true;
+  public showComponent;
   public modelDateTo = null;
   public form: FormGroup;
-  public patternDataBirth = /\d{2}.\d{2}.\d{4}$/;
-  private dataModel;
+  public dataModel;
   public defaultMonth: IMyDefaultMonth = {
     defMonth: `01/${moment().subtract(16, 'years').year()}`
   };
@@ -68,20 +62,17 @@ export class VerificationComponent implements OnInit, OnDestroy {
     this.initForm();
 
 
-    // this.store.pipe(select(getVerificationStatus))
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe(res => {
-    //     this.verificationStatus = res as string;
-    //   });
-    //
-    // this.popupService
-    //   .getKYCPopupListener()
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe(value => {
-    //     if (!value) {
-    //       this.store.dispatch(new coreAction.LoadVerificationStatusAction());
-    //     }
-    //   });
+    this.store.pipe(select(getVerificationStatus))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.verificationStatus = res === KYC_STATUS.NONE
+          ? KYC_STATUS.NONE
+          : res === KYC_STATUS.PENDING
+            ? KYC_STATUS.PENDING
+            : !!res
+              ? KYC_STATUS.VERIFIED
+              : res;
+      });
 
     this.showComponent = this.isDemo() ? this.isUpholding() : true;
 
@@ -98,16 +89,9 @@ export class VerificationComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  // onOpenIdentityPopup(mode: string) {
-  //   this.verificationService.setVerificationMode(mode);
-  //   this.popupService.showIdentityPopup(mode);
-  // }
-  //
-  // onOpenKYCPopup(level: number) {
-  //   if (level === 1 && this.verificationStatus === NOT_VERIFIED || level === 2 && this.verificationStatus === LEVEL_ONE) {
-  //     this.popupService.showKYCPopup(1);
-  //   }
-  // }
+  restartProcedure() {
+    this.verificationStatus = KYC_STATUS.NONE;
+  }
 
   inputFocus(event) {
     this.isInputFocus = event;
@@ -131,12 +115,13 @@ export class VerificationComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           window.open(res.data.url, '_blank');
+          this.verificationStatus = KYC_STATUS.PENDING;
           // this.popupService.showKYCPopup(2, res.data.url);
           this.form.reset();
           this.dataModel = this.defaultModel;
         }, err => {
           this.dataModel.firstNames = [];
-          console.log(err);
+          console.error(err);
         });
     }
 

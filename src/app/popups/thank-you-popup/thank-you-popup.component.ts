@@ -13,7 +13,7 @@ export class ThankYouPopupComponent implements OnInit {
   }
 
   closeMe() {
-    console.log('');
+    // console.log('');
   }
 
 }

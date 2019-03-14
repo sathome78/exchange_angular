@@ -27,12 +27,12 @@ export class StepTwoComponent implements OnInit {
 
   toggleWebcam() {
     this.displayMode = this.WEBCAM;
-    console.log(this.displayMode);
+    // console.log(this.displayMode);
   }
 
   toggleFile() {
     this.displayMode = this.FILE;
-    console.log(this.displayMode);
+    // console.log(this.displayMode);
   }
 
   onSubmit(mode: string) {
@@ -48,6 +48,6 @@ export class StepTwoComponent implements OnInit {
 
 
   processSubmitResult(code: any) {
-     console.log(code);
+    //  console.log(code);
   }
 }

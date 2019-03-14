@@ -1,4 +1,6 @@
-export const defaultValues = {
+import {SimpleCurrencyPair} from "app/model/simple-currency-pair";
+
+export const defaultValues: SimpleCurrencyPair = {
   id: 1,
   name: 'BTC/USD',
 };
