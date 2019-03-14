@@ -143,14 +143,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleTheme() {
     this.themeService.toggleTheme();
     if (this.authService.isAuthenticated()) {
-      console.log('Hi: ' + this.themeService.getColorScheme());
+      // console.log('Hi: ' + this.themeService.getColorScheme());
       this.settingsService.updateUserColorScheme(this.themeService.getColorScheme())
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(result => {
-            console.log(result);
+            // console.log(result);
           },
           err => {
-            console.log(err);
+            // console.error(err);
           });
     }
   }

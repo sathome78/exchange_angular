@@ -16,6 +16,7 @@ import {CurrencyPair} from '../../model/currency-pair.model';
 import {State} from '../../dashboard/reducers/dashboard.reducer';
 import {RefreshUserBalanceAction} from '../../dashboard/actions/dashboard.actions';
 import {defaultUserBalance} from '../../dashboard/reducers/default-values';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 
 @Injectable()
@@ -68,9 +69,9 @@ export class UserService {
     return this.http.get<string[]>(this.getUrl('if_username_exists'), httpOptions);
   }
 
-  public getUserBalance(pair: CurrencyPair) {
-    if (this.authService.isAuthenticated() && pair.currencyPairId) {
-      const sub = this.http.get(`${this.HOST}/api/private/v2/dashboard/info/${pair.currencyPairId}`)
+  public getUserBalance(pair: SimpleCurrencyPair) {
+    if (this.authService.isAuthenticated() && pair.id) {
+      const sub = this.http.get(`${this.HOST}/api/private/v2/dashboard/info/${pair.id}`)
         .subscribe(info => {
           this.store.dispatch(new RefreshUserBalanceAction(info));
           sub.unsubscribe();
@@ -133,7 +134,7 @@ export class UserService {
 
     authCandidate.tries = tries;
 
-    console.log(JSON.stringify(authCandidate));
+    // console.log(JSON.stringify(authCandidate));
     return this.http.post<TokenHolder>(this.getUrl('users/authenticate'), JSON.stringify(authCandidate), httpOptions);
   }
 

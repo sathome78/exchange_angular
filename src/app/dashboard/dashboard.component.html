@@ -13,7 +13,7 @@
           <ngx-gridster-item [options]="gridsterItemOptions" *ngIf="widget.type | showWidgetPipe: isAuthenticated"
                              [(xLg)]="widget.xLg" [(yLg)]="widget.yLg" [(wLg)]="widget.wLg" [(hLg)]="widget.hLg"
                              [(dragAndDrop)]="widget.dragAndDrop" [(resizable)]="widget.resizable"
-                             class="gridster-item">
+                             class="gridster-item" (start)="DragStart($event)" (end)="DragEnd($event)">
             <ng-template [ngTemplateOutlet]="widgetTemplate[widget.type]"
                          [ngTemplateOutletContext]="{ $implicit: index}">
             </ng-template>
@@ -49,6 +49,7 @@
   <app-graph (changeItemSize)="changeItemSize($event)"
              (removeItem)="removeItem(index)">
   </app-graph>
+  <div class="graph_overlay" *ngIf="isDrag"></div>
 </ng-template>
 
 <ng-template #markets let-index>

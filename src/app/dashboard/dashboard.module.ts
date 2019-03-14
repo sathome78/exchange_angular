@@ -28,8 +28,6 @@ import {ChatService} from './components/chat/chat.service';
 import {DashboardService} from './dashboard.service';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
 import {MarketService} from './components/markets/market.service';
-import {OrderBookService} from './services/order-book.service';
-import {TradeHistoryService} from './components/trade-history/trade-history.service';
 import {PositivePipe} from './components/markets/positive.pipe';
 import {CurrencySortingPipe} from './components/markets/currency-sorting.pipe';
 import {NicknamePipe} from './components/chat/chat-message/nickname.pipe';
@@ -38,7 +36,6 @@ import {DashboardEffects} from './effects/dashboard.effects';
 import {TranslateModule} from '@ngx-translate/core';
 import {MomentModule} from 'ngx-moment';
 import {MarketsItemComponent} from './components/markets/markets-item/markets-item.component';
-import {CurrencyPairInfoService} from './services/currency-pair-info.service';
 import {OrderBookMobileComponent} from './components/order-book-mobile/order-book-mobile.component';
 import {TradingMobileComponent} from './components/trading-mobile/trading-mobile.component';
 import {TradingService} from './services/trading.service';
@@ -79,7 +76,7 @@ const stompConfig: InjectableRxStompConfig = {
   // Will log diagnostics on console
   debug: (msg) => {
     // if (!environment.production) {
-    //   console.log(new Date(), msg);
+      // console.log(new Date().toLocaleString(), msg);
     // }
   },
 };
@@ -160,10 +157,7 @@ const stompConfig: InjectableRxStompConfig = {
     DashboardService,
     DashboardWebSocketService,
     MarketService,
-    OrderBookService,
-    CurrencyPairInfoService,
     RxStompService,
-    TradeHistoryService,
     TradingService,
 
     {

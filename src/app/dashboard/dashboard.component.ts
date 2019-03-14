@@ -15,6 +15,7 @@ import {PopupService} from 'app/shared/services/popup.service';
 import {CurrencyPair} from 'app/model';
 import {getMarketCurrencyPairsMap} from '../core/reducers';
 import * as dashboardActions from './actions/dashboard.actions';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 
 @Component({
@@ -50,10 +51,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public defauldWidgets;
   public gridsterOptions;
   public gridsterItemOptions;
+  public isDrag = false;
 
   public activeMobileWidget = 'markets';
   public breakPoint;
-  public currencyPair = null
+  public currencyPair: SimpleCurrencyPair = null
   public isAuthenticated: boolean = false;
   public widgetTemplate;
 
@@ -97,7 +99,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store
       .pipe(select(fromCore.getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair: CurrencyPair) => {
+      .subscribe((pair: SimpleCurrencyPair) => {
         this.currencyPair = pair;
         this.changeRatioByWidth();
       });
@@ -166,7 +168,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((currencyPairs: MapModel<CurrencyPair>) => {
         const pair = Object.values(currencyPairs).filter(item => item.currencyPairName.toLowerCase() === pairName.toLowerCase())[0];
         if (pair) {
-          this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(pair));
+          const newActivePair = new SimpleCurrencyPair(pair.currencyPairId, pair.currencyPairName);
+          this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
         }
       });
   }
@@ -235,4 +238,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.gridsterContainer && this.gridsterContainer.setOption('widthHeightRatio', value).reload();
   }
 
+  DragStart(event) {
+    this.isDrag = true;
+  }
+  DragEnd(event) {
+    this.isDrag = false;
+  }
 }

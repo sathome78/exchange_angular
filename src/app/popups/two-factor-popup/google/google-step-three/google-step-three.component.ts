@@ -47,7 +47,7 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
       },
       err => {
         this.statusMessage = this.translateService.instant('Failed to get google url');
-        console.log(err);
+        console.error(err);
       });
     this.form = new FormGroup({
       'password': new FormControl('', {validators: [Validators.required]}),
@@ -92,7 +92,7 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
         console.log(res);
       },
       error1 => {
-        console.log(error1);
+        console.error(error1);
       });
   }
 

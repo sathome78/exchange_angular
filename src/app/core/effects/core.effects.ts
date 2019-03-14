@@ -93,7 +93,7 @@ export class CoreEffects {
 
   @Effect()
   loadFiatCurrencies$: Observable<Action> = this.actions$
-    .pipe(ofType<coreActions.LoadFiatCurrenciesForChoose>(coreActions.LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE))
+    .pipe(ofType<coreActions.LoadFiatCurrenciesForChoose>(coreActions.LOAD_FIAT_CURRENCIES_FOR_CHOOSE))
     .pipe(withLatestFrom(
       this.store.select(mainSelectors.getFiatCurrenciesForChoose),
       (action: any, store:any) => store
@@ -115,7 +115,7 @@ export class CoreEffects {
     .pipe(switchMap(() => {
       return this.settingsService.getCurrentVerificationStatusKYC()
         .pipe(
-          map(res => new coreActions.SetVerificationStatusAction(res)),
+          map(res => new coreActions.SetVerificationStatusAction(res.data)),
           catchError(error => of(new coreActions.FailLoadVerificationStatusAction(error)))
         );
     }));
