@@ -116,10 +116,10 @@
         <app-dynamic-input
           *ngSwitchCase="Tab.QUBERA"
           [value]="currValue"
-          [options]="fiatCurrenciesForChoose && getFiatDynamicIData"
+          [options]="!existQuberaAccounts ? [] : fiatCurrenciesForChoose && getFiatDynamicIData"
           (onChange)="onChangeCurrPair($event)"
           (onSelect)="onSelectPair($event.id)"
-          [showNotFoundTip]="true"
+          [showNotFoundTip]="existQuberaAccounts"
         ></app-dynamic-input>
         <app-dynamic-input
         *ngSwitchCase="Tab.PR"
@@ -255,6 +255,9 @@
         ></app-pending-request-table>
         <app-qubera-table
           *ngSwitchCase="Tab.QUBERA"
+          [balances]="quberaBalances$ | async"
+          [existQuberaAccounts]="existQuberaAccounts"
+          [kycStatus]="kycStatus"
           (transferOut)="goToTransferPopup($event)"
           (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
           (cryptoDepositOut)="goToCryptoDepositPopup($event)">

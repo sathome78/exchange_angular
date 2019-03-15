@@ -24,6 +24,7 @@ import * as fromCore from '../../core/reducers';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
 import {Router} from '@angular/router';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
+import {KYC_STATUS, PENDING} from '../../shared/constants';
 
 @Component({
   selector: 'app-balance',
@@ -46,8 +47,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public showRefillBalancePopup: boolean = false;
   public showSendMoneyPopup: boolean = false;
   public hideAllZero: boolean = false;
+  public existQuberaAccounts: boolean | string = PENDING;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
+  public quberaBalances$: Observable<any[]>;
   public countOfCryptoEntries$: Observable<number>;
   public fiatBalances$: Observable<BalanceItem[]>;
   public countOfFiatEntries$: Observable<number>;
@@ -61,6 +64,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public fiatCurrenciesForChoose: CurrencyChoose[] = [];
   public loading$: Observable<boolean>;
   public currValue: string = '';
+  public kycStatus: string = '';
 
   public sendMoneyData = {};
   public refillBalanceData = {};
@@ -76,6 +80,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     public breakpointService: BreakpointService,
     private router: Router
   ) {
+    this.quberaBalances$ = store.pipe(select(fundsReducer.getQuberaBalancesSelector));
     this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
     this.countOfCryptoEntries$ = store.pipe(select(fundsReducer.getCountCryptoBalSelector));
     this.fiatBalances$ = store.pipe(select(fundsReducer.getFiatBalancesSelector));
@@ -113,6 +118,22 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.openRefillBalancePopup(res);
       });
+
+    this.store
+      .pipe(select(fromCore.getVerificationStatus))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(status => {
+        this.kycStatus = status;
+        if (this.kycStatus === KYC_STATUS.SUCCESS) {
+          // todo:
+          // CHECK IF EXIST QUBERA ACCOUNT by  /api/private/v2/merchants/qubera/account/check/:currencyName
+          this.existQuberaAccounts = false;
+          // IF EXIST ACCOUNT LOAD QUBERA BALANCE dispatch loadQuberaBal
+          // this.store.dispatch(new fundsAction.LoadQuberaBalAction());
+        } else {
+          this.existQuberaAccounts = false;
+        }
+      })
 
     this.balanceService.closeSendMoneyPopup$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -296,7 +317,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public onSelectPair(currId: string): void {
     this.currencyForChoose = currId;
-    this.loadBalances(this.currTab);;
+    this.loadBalances(this.currTab);
   }
 
   public get getCryptoDynamicIData(): DIOptions[] {

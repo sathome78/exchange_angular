@@ -70,6 +70,11 @@ export class BalanceService {
     return this.http.get<string[]>(url, httpOptions);
   }
 
+  getQuberaBalancesInfo() {
+    const url = `${this.apiUrl}/api/private/v2/merchants/qubera/account/info`;
+    return  this.http.get(url);
+  }
+
   getCurrencyData(cryptoName: string) {
     const httpOptions = {
       params: new HttpParams().set('currency', cryptoName)

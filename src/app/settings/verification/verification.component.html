@@ -98,7 +98,11 @@
   </div>
   </div>
 
-  <div *ngIf="verificationStatus === KYC_STATUS.PENDING">
+  <div *ngIf="!!verificationStatus
+   && verificationStatus
+    !== KYC_STATUS.NONE
+     && verificationStatus
+      !== KYC_STATUS.SUCCESS">
     <div class="img-h3-wrapper">
     <img src="assets/img/IconTime.svg" alt="">
     <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>
@@ -112,7 +116,7 @@
     </div>
   </div>
 
-  <div *ngIf="verificationStatus === KYC_STATUS.VERIFIED">
+  <div *ngIf="verificationStatus === KYC_STATUS.SUCCESS">
     <div class="img-h3-wrapper">
     <img src="assets/img/IconChack.svg" alt="">
     <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>

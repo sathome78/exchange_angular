@@ -65,13 +65,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
     this.store.pipe(select(getVerificationStatus))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.verificationStatus = res === KYC_STATUS.NONE
-          ? KYC_STATUS.NONE
-          : res === KYC_STATUS.PENDING
-            ? KYC_STATUS.PENDING
-            : !!res
-              ? KYC_STATUS.VERIFIED
-              : res;
+        this.verificationStatus = res;
       });
 
     this.showComponent = this.isDemo() ? this.isUpholding() : true;
@@ -115,7 +109,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           window.open(res.data.url, '_blank');
-          this.verificationStatus = KYC_STATUS.PENDING;
+          // this.verificationStatus = KYC_STATUS.PENDING;
           // this.popupService.showKYCPopup(2, res.data.url);
           this.form.reset();
           this.dataModel = this.defaultModel;
