@@ -116,8 +116,15 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private initData(orders: OrderBookItem[]) {
-    orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) : this.setSellOrders(orders[1]);
-    orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : this.setBuyOrders(orders[1]);
+    if(!orders[0]) {
+      return;
+    }
+    orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) :
+    orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : null;
+    if(orders[1]) {
+      orders[1].orderType === 'SELL' ? this.setSellOrders(orders[1]) :
+      orders[1].orderType === 'BUY' ? this.setBuyOrders(orders[1]) : null;
+    }
     this.lastExrate = +orders[0].lastExrate;
     this.preLastExrate = +orders[0].preLastExrate;
     this.isExratePositive = orders[0].positive;

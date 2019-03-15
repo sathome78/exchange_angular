@@ -58,6 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.setNameEmailToZenChat(userInfo.username);
         } else {
           this.authService.removeSessionFinishListener();
+          this.clearNameEmailFromZenChat();
         }
       });
 
@@ -99,6 +100,14 @@ export class AppComponent implements OnInit, OnDestroy {
         (<any>window).$zopim.livechat.setEmail(userEmail);
       })
     }, 500);
+  }
+  clearNameEmailFromZenChat(): void {
+    if(!(<any>window).$zopim) {
+      return;
+    }
+    (<any>window).$zopim(() => {
+      (<any>window).$zopim.livechat.clearAll();
+    })
   }
 
   isCurrentThemeDark(): boolean {
