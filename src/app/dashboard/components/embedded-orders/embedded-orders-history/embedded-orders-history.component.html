@@ -67,7 +67,7 @@
     </td>
     <td class="table__cell">
       <span [ngClass]="{'orders__type-sell': item.operationTypeEnum === 'SELL', 'orders__type-buy': item.operationTypeEnum === 'BUY' }"
-      >{{item.operationType}} <span></span></span>
+      >{{item.operationType  | replaceChar: '_': ' '}}</span>
       <!--<span class="orders__type-sell">Sell <span>(Limit)</span></span>-->
     </td>
     <td class="table__cell">

@@ -30,7 +30,7 @@
             </td>
             <td class="table__cell table__cell--tar">
               <div>{{item.exExchangeRate}}</div>
-              <span class="txt-small txt-red">{{item.operationTypeEnum}}</span>
+              <span class="txt-small txt-red">{{item.operationType | replaceChar: '_': ' '}}</span>
             </td>
             <td class="table__cell table__cell--arr-mob">
               <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
@@ -49,7 +49,7 @@
               </div>
               <div class="table__details-item">
                 <div class="table__details-item-title">{{'Type' | translate}}</div>
-                <div class="table__details-item-value"><span class="txt-green">{{item.operationTypeEnum}}</span></div>
+                <div class="table__details-item-value"><span class="txt-green">{{item.operationType | replaceChar: '_': ' '}}</span></div>
               </div>
               <div class="table__details-item">
                 <div class="table__details-item-title">{{'Fee' | translate}}</div>

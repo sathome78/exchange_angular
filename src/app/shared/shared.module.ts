@@ -46,6 +46,7 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import {ExcludeSpacesDirective} from './directives/exclude-spaces.directive';
 import {ShowOrderStatusPipe} from './pipes/showOrderStatus.pipe';
 import {MerchantImageFilterPipe} from './pipes/merchant-image-filter.pipe';
+import {ReplaceCharPipe} from './pipes/replaceChar.pipe';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import {MerchantImageFilterPipe} from './pipes/merchant-image-filter.pipe';
     SafePipe,
     FormatCurrencyPipe,
     SplitCurrencyPipe,
+    ReplaceCharPipe,
     PageItemsDropdownComponent,
     DateWrapper,
     LoaderComponent,
@@ -127,6 +129,7 @@ import {MerchantImageFilterPipe} from './pipes/merchant-image-filter.pipe';
     LoaderComponent,
     DateWrapper,
     GetIconUrl,
+    ReplaceCharPipe,
     DynamicInputComponent,
     DynamicInputDashboardComponent,
     DynamicInputDataPipe,
