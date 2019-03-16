@@ -15,6 +15,7 @@ export class EmbeddedOpenOrdersMobileComponent implements OnInit, OnDestroy {
   @Input() openOrders = [];
   public selectedOrder = null;
   public showCancelOrderConfirm = null;
+  public loading: boolean = false;
 
   constructor(
     private ordersService: EmbeddedOrdersService,
@@ -33,10 +34,15 @@ export class EmbeddedOpenOrdersMobileComponent implements OnInit, OnDestroy {
 
   cancelOrder(order) {
     this.showCancelOrderConfirm = null;
+    this.loading = true;
     this.ordersService.deleteOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.refreshOpenOrders.emit(true);
+        this.loading = false;
+      }, (err) => {
+        this.loading = false;
+        console.error(err);
       });
   }
   ngOnDestroy() {

@@ -25,6 +25,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
   isPasswordCurrVisible: boolean = false;
 
   statusMessage: string;
+  loading: boolean = false;
 
   constructor(private logger: LoggingService,
               private popupService: PopupService,
@@ -76,6 +77,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
       const cur_password = this.passwordCurrent.value || '';
       const password = this.passwordFirst.value;
       this.logger.debug(this, 'Attempt to submit new password: ' + password);
+      this.loading = true;
       this.settingsService.updateMainPassword(cur_password, password)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(
@@ -83,6 +85,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
             this.logger.debug(this, 'Password is successfully updated: ' + password);
             this.form.reset();
             this.popupService.toggleChangedPasswordPopup(true);
+            this.loading = false;
           },
           err => {
             const status = err['status'];
@@ -90,6 +93,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
               this.logger.info(this, 'Failed to update user password: ' + password);
               this.passwordCurrent.setErrors({'wrong_password': true})
             }
+            this.loading = false;
           }
         );
     }

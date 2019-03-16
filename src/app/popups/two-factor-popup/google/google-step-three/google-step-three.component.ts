@@ -25,6 +25,7 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
   statusMessage = '';
   public AUTH_MESSAGES = AUTH_MESSAGES;
   form: FormGroup;
+  loading: boolean = false;
 
   constructor(
     private popupService: PopupService,
@@ -68,19 +69,22 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
     if (this.form.valid) {
       const password = this.form.get('password').value;
       const pin = this.form.get('pincode').value;
+      this.loading = true;
       this.googleService.submitGoogleAuthSecret(this.secretCode, password, pin)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
             // console.log(res);
             this.store.dispatch(new settingsActions.LoadGAStatusAction())
             this.popupService.closeTFAPopup();
+            this.loading = false;
           },
           err => {
-          if (err.status === 400) {
-            this.statusMessage = AUTH_MESSAGES.INVALID_CREDENTIALS;
-          } else {
-            this.statusMessage = AUTH_MESSAGES.OTHER_HTTP_ERROR;
-          }
+            if (err.status === 400) {
+              this.statusMessage = AUTH_MESSAGES.INVALID_CREDENTIALS;
+            } else {
+              this.statusMessage = AUTH_MESSAGES.OTHER_HTTP_ERROR;
+            }
+            this.loading = false;
           });
     }
   }
