@@ -193,9 +193,10 @@
           <div class="send__info-value">{{calculateData.resultAmount }} {{currName}}</div>
         </div>
       </div>
-      <button class="btn btn--center"
-              [ngClass]="{'btn--empty-blue': !form.valid}"
-              (click)="onSubmitWithdrawal()"
+      <button
+        class="btn btn--center"
+        [ngClass]="{'btn--empty-blue': !form.valid}"
+        (click)="onSubmitWithdrawal()"
       >{{'Withdraw' | translate}}
         <span class="value">{{calculateData.resultAmount}}</span>
         <span> {{currName}}</span>

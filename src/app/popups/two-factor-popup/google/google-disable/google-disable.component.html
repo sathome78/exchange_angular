@@ -23,7 +23,7 @@
           {{'This field is required.' | translate}}
         </span>
         </div>
-        
+
       </div>
     </div>
   </div>
@@ -45,11 +45,17 @@
           {{'Authenticator code is required.' | translate}}
         </span>
         </div>
-        
+
       </div>
       <!-- <span style="display: inline-block; margin-top: 4px;">{{'Check pin-code in your email' | translate}}</span> -->
     </div>
   </div>
   <span class="wrap-input__message-single" *ngIf="!!statusMessage">{{statusMessage | translate}}</span>
-  <button class="btn btn--error btn--center " [disabled]="!form.valid" (click)="disableGoogleAuth()">{{'Disable GA' | translate}}</button>
+  <button
+    class="btn btn--error btn--center "
+    [disabled]="!form.valid || loading"
+    (click)="disableGoogleAuth()"
+  >
+    {{'Disable GA' | translate}}
+  </button>
 </form>

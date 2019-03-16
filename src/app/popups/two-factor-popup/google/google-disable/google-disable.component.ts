@@ -20,6 +20,7 @@ export class GoogleDisableComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   statusMessage = '';
   form: FormGroup;
+  loading: boolean = false;
 
   constructor(private popupService: PopupService,
               private authService: AuthService,
@@ -53,12 +54,14 @@ export class GoogleDisableComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
       const password = this.form.get('password').value;
       const pincode = this.form.get('pincode').value;
+      this.loading = true;
       this.googleService.disableGoogleAuthentication( password, pincode)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           // console.log(res);
           this.store.dispatch(new settingsActions.LoadGAStatusAction())
           this.popupService.closeTFAPopup();
+          this.loading = false;
         },
         err => {
           if (err.status === 400) {
@@ -66,6 +69,7 @@ export class GoogleDisableComponent implements OnInit, OnDestroy {
           } else {
             this.statusMessage = AUTH_MESSAGES.OTHER_HTTP_ERROR;
           }
+          this.loading = false;
         });
     }
   }

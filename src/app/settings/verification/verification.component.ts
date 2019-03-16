@@ -29,6 +29,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   public defaultMonth: IMyDefaultMonth = {
     defMonth: `01/${moment().subtract(16, 'years').year()}`
   };
+  public loading: boolean = false;
 
   defaultModel = {
     typeDoc: 'P',
@@ -111,6 +112,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
       this.dataModel.birthYear = this.modelDateTo.date.year;
       this.dataModel.firstNames.push(this.form.get('firstName').value);
       this.dataModel.lastName = this.form.get('lastName').value;
+      this.loading = true;
       this.verificationService.sendKYCData(this.dataModel)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
@@ -119,9 +121,11 @@ export class VerificationComponent implements OnInit, OnDestroy {
           // this.popupService.showKYCPopup(2, res.data.url);
           this.form.reset();
           this.dataModel = this.defaultModel;
+          this.loading = false;
         }, err => {
           this.dataModel.firstNames = [];
           console.error(err);
+          this.loading = false;
         });
     }
 

@@ -92,7 +92,7 @@
     <button
       class="btn settings__form-btn settings__password-btn"
       (click)="sendForm()"
-      [disabled]="form.invalid || !modelDateTo?.date"
+      [disabled]="form.invalid || !modelDateTo?.date || loading"
       [ngClass]="{'settings__form-btn--active': form.valid && !!modelDateTo?.date}"
     >{{'Send'  | translate}}</button>
   </div>

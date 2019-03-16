@@ -36,7 +36,8 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
   public currencyPairInfo;
 
   public currentPage = 1;
-  public showCancelOrderConfirm = null
+  public showCancelOrderConfirm = null;
+  public loading: boolean = false;
 
 
   public defaultOrder: Order = {
@@ -143,10 +144,14 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
    * @param order
    */
   cancelOrder(order): void {
+    this.loading = true;
     this.ordersService.deleteOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.refreshOpenOrders.emit(true);
+        this.loading = false;
+      }, err => {
+        this.loading = false;
       });
   }
 
@@ -171,16 +176,18 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
 
       const tempOrder = {...this.order};
       tempOrder.status = 'CANCELLED';
-
+      this.loading = true;
       this.ordersService.updateOrder(tempOrder)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           this.createNewOrder();
           this.resetForms();
+          this.loading = false;
         }, err => {
           console.error(err);
           this.editOrderPopup = false;
           this.resetForms();
+          this.loading = false;
         });
     }
   }
