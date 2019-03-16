@@ -1,13 +1,19 @@
 
   <div class="tabs widget__tabs">
-    <button class="tabs__item "
-            (click)="toggleMainTab('open')"
-            [ngClass]="{'tabs__item--active': mainTab === 'open', 'tab-no-active': mainTab !== 'open'}">
+    <button
+      class="tabs__item "
+      (click)="toggleMainTab('open')"
+      [ngClass]="{'tabs__item--active': mainTab === 'open', 'tab-no-active': mainTab !== 'open'}"
+      [disabled]="loading"
+    >
       {{'Open orders' | translate}} <span class="orders-count">{{openOrdersCount}}</span>
     </button>
-    <button class="tabs__item "
-            (click)="toggleMainTab('history')"
-            [ngClass]="{'tabs__item--active': mainTab === 'history', 'tab-no-active': mainTab !== 'history'}">
+    <button
+      class="tabs__item "
+      (click)="toggleMainTab('history')"
+      [ngClass]="{'tabs__item--active': mainTab === 'history', 'tab-no-active': mainTab !== 'history'}"
+      [disabled]="loading"
+    >
       {{'Order history' | translate}}
     </button>
   </div>

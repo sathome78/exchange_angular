@@ -20,6 +20,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   public subtitleMessage = '';
   public pincodeFrom = '';
   public pincodeTries = 0;
+  public loading: boolean = false;
 
   public CODE_FROM_EMAIL = CODE_FROM_EMAIL;
   public CODE_FROM_GOOGLE = CODE_FROM_GOOGLE;
@@ -74,6 +75,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
     this.pincodeTries++;
     this.data.data.tries = this.pincodeTries;
     this.data.data.securityCode = this.form.controls['pin'].value;
+    this.loading = true;
     this.balanceService.withdrawRequest(this.data.data)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -82,8 +84,10 @@ export class SendTfaComponent implements OnInit, OnDestroy {
           successData: res
         };
         this.balanceService.goToSendMoneySuccess$.next(data);
+        this.loading = false;
       }, error => {
         this.catchStatus(error['status']);
+        this.loading = false;
       });
   }
 
@@ -91,6 +95,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
     this.pincodeTries++;
     this.data.data.tries = this.pincodeTries;
     this.data.data.pin = this.form.controls['pin'].value;
+    this.loading = true;
     this.balanceService.createTransferInstant(this.data.data)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -99,8 +104,10 @@ export class SendTfaComponent implements OnInit, OnDestroy {
           successData: res
         };
         this.balanceService.goToSendMoneySuccess$.next(data);
+        this.loading = false;
       }, error => {
         this.catchStatus(error['status']);
+        this.loading = false;
       });
   }
 

@@ -22,6 +22,7 @@ export class EmbeddedOrdersMobileComponent implements OnInit {
   public openOrders;
   public activeCurrencyPair: SimpleCurrencyPair;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public loading: boolean = false;
 
   constructor(
     private store: Store<State>,
@@ -58,20 +59,32 @@ export class EmbeddedOrdersMobileComponent implements OnInit {
   }
 
   toOpenOrders(): void {
+    this.loading = true;
     this.ordersService.getOpenOrders(this.activeCurrencyPair.id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         this.openOrders = data.items;
         this.openOrdersCount = data.count;
         this.cdr.detectChanges();
+        this.loading = false;
+      }, err => {
+        console.error(err);
+        this.loading = false;
+        this.cdr.detectChanges();
       });
   }
 
   toHistory(): void {
+    this.loading = true;
     this.ordersService.getHistory(this.activeCurrencyPair.id, 'CLOSED')
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
         this.historyOrders = data.items;
+        this.cdr.detectChanges();
+        this.loading = false;
+      }, err => {
+        console.error(err);
+        this.loading = false;
         this.cdr.detectChanges();
       });
 

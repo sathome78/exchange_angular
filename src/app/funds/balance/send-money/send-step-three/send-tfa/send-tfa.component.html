@@ -36,10 +36,12 @@
   </form>
 </div>
 <!--pin code from email end-->
-<button class="btn btn--center"
-        *ngIf="pincodeFrom"
-        [ngClass]="{'btn--empty-blue': !form.valid}"
-        [disabled]="form.invalid"
-        (click)="onSubmit()">
+<button
+  class="btn btn--center"
+  *ngIf="pincodeFrom"
+  [ngClass]="{'btn--empty-blue': !form.valid}"
+  [disabled]="form.invalid || loading"
+  (click)="onSubmit()"
+>
   Submit
 </button>

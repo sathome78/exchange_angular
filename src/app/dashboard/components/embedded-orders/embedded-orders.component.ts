@@ -31,6 +31,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   public historyOrders;
   public openOrders;
   public arrPairName = ['', ''];
+  public loading: boolean = false;
 
 
   constructor(
@@ -92,11 +93,17 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
    * request to get open-orders data
    */
   toOpenOrders(): void {
+    this.loading = true;
     this.ordersService.getOpenOrders(this.activeCurrencyPair.id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         this.openOrders = data.items;
         this.openOrdersCount = data.count;
+        this.loading = false;
+        this.cdr.detectChanges();
+      }, err => {
+        console.error(err);
+        this.loading = false;
         this.cdr.detectChanges();
       });
   }
@@ -105,10 +112,16 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
    * request to get history data with status (CLOSED and CANCELED)
    */
   toHistory(): void {
+    this.loading = true;
     this.ordersService.getHistory(this.activeCurrencyPair.id, 'CLOSED')
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
         this.historyOrders = data.items;
+        this.loading = false;
+        this.cdr.detectChanges();
+      }, err => {
+        console.error(err);
+        this.loading = false;
         this.cdr.detectChanges();
       });
 

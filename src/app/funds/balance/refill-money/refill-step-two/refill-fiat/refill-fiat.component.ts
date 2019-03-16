@@ -44,6 +44,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public alphabet;
   public redirectionUrl;
   public selectMerchantName;
+  public loading: boolean = false;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
@@ -158,29 +159,34 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   submitRefill() {
     this.isSubmited = true;
-      if (this.form.valid && this.selectedMerchant.name) {
-        this.isSubmited = false;
-        this.amount = this.form.controls['amount'].value;
-        const data: RefillData = {
-          operationType: this.fiatDataByName.payment.operationType,
-          currency: this.fiatDataByName.currency.id,
-          merchant: this.selectedMerchant.merchantId,
-          destination: this.selectedMerchant.description,
-          merchantImage: this.selectedMerchantNested.id,
-          sum: +this.amount
-        };
-        this.balanceService.refill(data)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe((res: RefillResponse) => {
-            this.refillData = res;
-            this.redirectionUrl = this.refillData.redirectionUrl;
-            // this.redirectionUrl = this.getRefillRedirectionUrl(res);
-            this.submitSuccess = true;
-            setTimeout(() => {
-              this.redirectionLink.nativeElement.click();
-            }, 1000);
-          });
-      }
+    if (this.form.valid && this.selectedMerchant.name) {
+      this.isSubmited = false;
+      this.amount = this.form.controls['amount'].value;
+      const data: RefillData = {
+        operationType: this.fiatDataByName.payment.operationType,
+        currency: this.fiatDataByName.currency.id,
+        merchant: this.selectedMerchant.merchantId,
+        destination: this.selectedMerchant.description,
+        merchantImage: this.selectedMerchantNested.id,
+        sum: +this.amount
+      };
+      this.loading = true;
+      this.balanceService.refill(data)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((res: RefillResponse) => {
+          this.refillData = res;
+          this.redirectionUrl = this.refillData.redirectionUrl;
+          // this.redirectionUrl = this.getRefillRedirectionUrl(res);
+          this.submitSuccess = true;
+          setTimeout(() => {
+            this.redirectionLink.nativeElement.click();
+          }, 1000);
+          this.loading = false;
+        }, (err) => {
+          this.loading = false;
+          console.error(err);
+        });
+    }
   }
 
   searchMerchant(e) {

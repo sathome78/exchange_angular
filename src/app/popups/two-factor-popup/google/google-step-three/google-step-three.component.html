@@ -25,7 +25,7 @@
         </ng-container>
       </div>
     </div>
-    
+
   </div>
 </div>
 <div class="row row--jcc">
@@ -46,14 +46,20 @@
           >
           {{'Pin code is required.' | translate}}
         </span>
-        
+
       </ng-container>
     </div>
   </div>
-  
+
 </div>
 </div>
   <span class="wrap-input__message-single" *ngIf="!!statusMessage">{{statusMessage | translate}}</span>
-<button class="btn btn--active btn--center " (click)="onNextStep()">{{'Enable GA' | translate}}</button>
+  <button
+    class="btn btn--active btn--center "
+    (click)="onNextStep()"
+    [disabled]="loading"
+  >
+    {{'Enable GA' | translate}}
+  </button>
 <!--todo here we should fire popup if time of 5 minutes expires or smth went wrong-->
 </form>

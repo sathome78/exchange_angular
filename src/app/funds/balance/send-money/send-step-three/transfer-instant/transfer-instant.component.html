@@ -126,9 +126,10 @@
       <div class="send__info-value">{{responseCommission.resultAmount}} {{activeCrypto ? activeCrypto.name : ''}}</div>
     </div>
   </div>
-  <button class="btn btn--center"
-          [ngClass]="{'btn--empty-blue': !form.valid}"
-  (click)="submitTransfer()"
+  <button
+    class="btn btn--center"
+    [ngClass]="{'btn--empty-blue': !form.valid}"
+    (click)="submitTransfer()"
   >{{'Transfer' | translate}}</button>
   <div class="send__line"></div>
   <div class="note modal__note">
