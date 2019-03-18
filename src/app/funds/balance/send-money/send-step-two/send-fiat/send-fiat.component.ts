@@ -107,6 +107,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.selectedMerchantNested = merchantImage;
     this.selectMerchantName = merchantImage.image_name || merchant.name;
     this.selectedMerchant = merchant;
+    this.setMinWithdrawSum();
   }
 
   currencyDropdownToggle() {
@@ -156,14 +157,20 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.fiatInfoByName = res;
-        this.minWithdrawSum = this.fiatInfoByName.minWithdrawSum;
         this.merchants = this.fiatInfoByName.merchantCurrencyData;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
+        this.setMinWithdrawSum();
       });
   }
 
+  private setMinWithdrawSum() {
+    this.minWithdrawSum = this.fiatInfoByName.minWithdrawSum > parseFloat(this.selectedMerchant.minSum)
+      ? this.fiatInfoByName.minWithdrawSum
+      : parseFloat(this.selectedMerchant.minSum);
+    this.form.controls['amount'].updateValueAndValidity();
+  }
 
   calculateCommission(amount) {
     if (this.selectedMerchant.merchantId) {
