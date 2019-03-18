@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FIAT_WITHDRAWAL, CRYPTO_WITHDRAWAL, INNER_TRANSFER} from '../send-money-constants';
+import {FIAT_WITHDRAWAL, CRYPTO_WITHDRAWAL, INNER_TRANSFER, FIAT_WITHDRAWAL_QUBERA} from '../send-money-constants';
 import {BalanceItem} from '../../../models/balance-item.model';
 
 @Component({
@@ -14,6 +14,7 @@ export class SendStepTwoComponent implements OnInit {
 
   public CRYPTO_WITHDRAWAL = CRYPTO_WITHDRAWAL;
   public FIAT_WITHDRAWAL = FIAT_WITHDRAWAL;
+  public FIAT_WITHDRAWAL_QUBERA = FIAT_WITHDRAWAL_QUBERA;
   public INNER_TRANSFER = INNER_TRANSFER;
 
   constructor() {

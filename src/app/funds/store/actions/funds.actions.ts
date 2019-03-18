@@ -10,6 +10,10 @@ export const FAIL_LOAD_FIAT_BAL = '[Funds] Fail load fiat balances';
 export const SET_FIAT_BAL = '[Funds] Set fiat balances';
 export const SET_MORE_FIAT_BAL = '[Funds] Concat fiat balances';
 
+export const LOAD_QUBERA_BAL = '[Funds] Load qubera balances';
+export const FAIL_LOAD_QUBERA_BAL = '[Funds] Fail load qubera balances';
+export const SET_QUBERA_BAL = '[Funds] Set qubera balances';
+
 export const LOAD_PENDING_REQ = '[Funds] Load pending requests';
 export const FAIL_LOAD_PENDING_REQ = '[Funds] Fail load pending requests';
 export const SET_PENDING_REQ = '[Funds] Set pending requests';
@@ -73,6 +77,22 @@ export class SetMoreFiatBalAction implements Action {
 }
 export class FailLoadFiatBalAction implements Action {
   readonly type = FAIL_LOAD_FIAT_BAL;
+  constructor(public payload?) {}
+}
+
+/**
+ * Loading qubera balances
+ */
+export class LoadQuberaBalAction implements Action {
+  readonly type = LOAD_QUBERA_BAL;
+  constructor(public payload?) {}
+}
+export class SetQuberaBalAction implements Action {
+  readonly type = SET_QUBERA_BAL;
+  constructor(public payload?) {}
+}
+export class FailLoadQuberaBalAction implements Action {
+  readonly type = FAIL_LOAD_QUBERA_BAL;
   constructor(public payload?) {}
 }
 
@@ -209,4 +229,6 @@ export type Actions
   | SetTransactionsHistoryAction
   | SetMoreTransactionsHistoryAction
   | FailLoadTransactionsHistoryAction
-
+  | LoadQuberaBalAction
+  | SetQuberaBalAction
+  | FailLoadQuberaBalAction
