@@ -47,7 +47,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public showRefillBalancePopup: boolean = false;
   public showSendMoneyPopup: boolean = false;
   public hideAllZero: boolean = false;
-  public existQuberaAccounts: boolean | string = PENDING;
+  public existQuberaAccounts: string = PENDING;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
   public quberaBalances$: Observable<any[]>;
@@ -128,11 +128,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
         if (this.kycStatus === KYC_STATUS.SUCCESS) {
           // todo:
           // CHECK IF EXIST QUBERA ACCOUNT by  /api/private/v2/merchants/qubera/account/check/:currencyName
-          this.existQuberaAccounts = false;
+          this.existQuberaAccounts = null;
           // IF EXIST ACCOUNT LOAD QUBERA BALANCE dispatch loadQuberaBal
           // this.store.dispatch(new fundsAction.LoadQuberaBalAction());
         } else {
-          this.existQuberaAccounts = false;
+          this.existQuberaAccounts = null;
         }
       })
 
