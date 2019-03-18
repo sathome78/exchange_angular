@@ -34,6 +34,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public alphabet;
   public reqError = '';
   public currentMerchant;
+  public loading: boolean = false;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout({target}) {
@@ -142,7 +143,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
       if (this.cryptoDataByName && this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable) {
         data.generateNewAddress = true;
       }
-
+      this.loading = true;
       this.balanceService.refill(data)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
@@ -157,6 +158,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
             }
           }
           sendGenerateWalletGtag();
+          this.loading = false;
         }, error => {
           if (this.currentMerchant) {
             if (this.currentMerchant.additionalTagForWithdrawAddressIsUsed) {
@@ -171,6 +173,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
             const msg = 'Sorry, refill is unavailable for current moment!';
             this.setError(msg);
           }
+          this.loading = false;
         });
     }
   }

@@ -88,10 +88,13 @@
 
     </div>
   </form>
-  <button class="btn btn--center"
-          *ngIf="!submitSuccess && selectedMerchant"
-          [ngClass]="{'btn--empty-blue': !form.valid || !selectedMerchant.name}"
-          (click)="submitRefill()">
+  <button
+    class="btn btn--center"
+    *ngIf="!submitSuccess && selectedMerchant"
+    [ngClass]="{'btn--empty-blue': !form.valid || !selectedMerchant.name}"
+    (click)="submitRefill()"
+    [disabled]="loading"
+  >
     Refill
   </button>
 
