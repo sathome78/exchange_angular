@@ -246,6 +246,7 @@
 
           <button class="btn contacts__form-btn btn--empty-blue"
                   [ngClass]="{'btn--empty-blue': !sendForm.valid}"
+                  [disabled]="loading"
                   (click)="onSendForm()">{{'Submit' | translate}}</button>
         </form>
       </div>

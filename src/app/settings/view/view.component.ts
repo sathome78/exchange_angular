@@ -12,6 +12,7 @@ import {takeUntil} from 'rxjs/operators';
 export class ViewComponent implements OnInit, OnDestroy {
 
   public isLowColorModeEnabled = false;
+  public loading: boolean = false;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -37,13 +38,16 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   toggleLowColorMode() {
     this.isLowColorModeEnabled = !this.isLowColorModeEnabled;
+    this.loading = true;
     this.settingsService.updateUserColorDepth(this.isLowColorModeEnabled)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
           // console.log(result);
+          this.loading = false;
         },
         err => {
           console.error(err);
+          this.loading = false;
         });
   }
 }

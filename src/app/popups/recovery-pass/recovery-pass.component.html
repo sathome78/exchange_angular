@@ -45,7 +45,7 @@
       </div>
 
       <button class="btn popup__btn"
-              [disabled]="emailForm.get('email').invalid && emailForm.get('email').errors || !!serverError"
+              [disabled]="(emailForm.get('email').invalid && emailForm.get('email').errors || !!serverError) || loading"
               [ngClass]="{'bg-none': !emailForm.valid, 'popup__btn--active': emailForm.valid && !serverError}"
               (click)="emailSubmit()">
         {{'Reset password' | translate}}

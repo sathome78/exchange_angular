@@ -59,14 +59,18 @@
           </div>
         </div>
 
-        <button class="btn popup__btn"
-                [disabled]="emailForm.get('email').invalid
-                && emailForm.get('email').errors
-                || (!!emailServerError && emailServerError !== 'start')"
-                [ngClass]="{
-                'bg-none': !emailForm.get('email').valid&& !!emailServerError,
-                'popup__btn--active': emailForm.get('email').valid && !emailServerError}"
-                (click)="emailSubmit()">
+        <button
+          class="btn popup__btn"
+          [disabled]="emailForm.get('email').invalid
+            && emailForm.get('email').errors
+            || (!!emailServerError && emailServerError !== 'start')
+            || pendingCheckEmail"
+          [ngClass]="{
+            'bg-none': !emailForm.get('email').valid&& !!emailServerError,
+            'popup__btn--active': emailForm.get('email').valid && !emailServerError
+          }"
+          (click)="emailSubmit()"
+        >
           {{'Create an account' | translate}}
         </button>
       </form>

@@ -39,6 +39,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public activeCrypto;
   public form: FormGroup;
   public calculateData: CommissionData = defaultCommissionData;
+  public loadingBalance: boolean = false;
 
   public model = {
     currency: 0,
@@ -140,11 +141,16 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
 
   calculateCommission(amount) {
     if (this.activeCrypto) {
+      this.loadingBalance = true;
       this.balanceService
         .getCommissionToWithdraw(amount, this.activeCrypto.id, this.cryptoInfoByName.merchantCurrencyData[0].merchantId)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           this.calculateData = res as CommissionData;
+          this.loadingBalance = false;
+        }, err => {
+          this.loadingBalance = false;
+          console.error(err);
         });
     }
   }
