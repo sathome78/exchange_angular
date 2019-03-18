@@ -65,7 +65,7 @@
                   <div class="revoke-request" *ngIf="showCancelOrderConfirm === item.id">
                     <div class="revoke-request__title">{{'Are you sure you want to cancel selected order?' | translate}}</div>
                     <div class="revoke-request__button-wrap">
-                      <button class="btn btn--small" (click)="cancelOrder(item)">{{'Yes'| translate}}</button>
+                      <button class="btn btn--small" [disabled]="loading" (click)="cancelOrder(item)">{{'Yes'| translate}}</button>
                       <button class="btn btn--small" (click)="onShowCancelOrderConfirm(null)">{{'No'| translate}}</button>
                     </div>
                     <div class="revoke-request__triangle"></div>

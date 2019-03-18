@@ -15,6 +15,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
 
   public sendForm: FormGroup;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public loading: boolean = false;
 
   constructor(
     private utilsService: UtilsService,
@@ -68,6 +69,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
         telegram: this.telegramControl.value,
         text: this.textControl.value
       };
+      this.loading = true;
       this.staticPagesService.sendContactForm(data)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
@@ -77,7 +79,11 @@ export class ContactsComponent implements OnInit, OnDestroy {
           };
           this.popupService.toggleInfoPopup(popupData);
           this.sendForm.reset();
-      });
+          this.loading = false;
+        }, err => {
+          console.error(err);
+          this.loading = false;
+        });
     }
   }
 }

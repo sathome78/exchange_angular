@@ -39,6 +39,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public activeCrypto;
   public form: FormGroup;
   public calculateData: CommissionData = defaultCommissionData;
+  public loadingBalance: boolean = false;
 
   public model = {
     currency: 0,
@@ -105,7 +106,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       this.model.currency = this.cryptoInfoByName.merchantCurrencyData[0].currencyId;
       this.model.merchant = this.cryptoInfoByName.merchantCurrencyData[0].merchantId;
       this.model.merchantImage = this.cryptoInfoByName.merchantCurrencyData[0].listMerchantImage[0].id;
-      this.model.sum = this.form.controls['amount'].value;
+      this.model.sum = this.amountValue.toString();
       this.model.destination = this.form.controls['address'].value;
       this.model.destinationTag = this.form.controls['memo'] ? this.form.controls['memo'].value : '';
       const data = {
@@ -140,11 +141,16 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
 
   calculateCommission(amount) {
     if (this.activeCrypto) {
+      this.loadingBalance = true;
       this.balanceService
         .getCommissionToWithdraw(amount, this.activeCrypto.id, this.cryptoInfoByName.merchantCurrencyData[0].merchantId)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           this.calculateData = res as CommissionData;
+          this.loadingBalance = false;
+        }, err => {
+          this.loadingBalance = false;
+          console.error(err);
         });
     }
   }
@@ -183,7 +189,8 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
         this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalTagForWithdrawAddressIsUsed;
         this.memoName = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;
         this.activeBalance = this.cryptoInfoByName.activeBalance;
-        this.minWithdrawSum = this.cryptoInfoByName.minWithdrawSum;
+        this.minWithdrawSum = this.cryptoInfoByName.minWithdrawSum > parseFloat(this.cryptoInfoByName.merchantCurrencyData[0].minSum)
+        ? this.cryptoInfoByName.minWithdrawSum : parseFloat(this.cryptoInfoByName.merchantCurrencyData[0].minSum);
       });
   }
 

@@ -84,7 +84,7 @@
         </div>
         <button class="btn popup__btn"
                 (click)="onSubmit()"
-                [disabled]="!loginForm.valid"
+                [disabled]="!loginForm.valid || loading"
                 [ngClass]="{'popup__btn--active': loginForm.valid}"
         >
           {{'Log in' | translate}}
@@ -144,7 +144,7 @@
         </div>
         <button class="btn popup__btn"
                 (click)="afterResolvedCaptcha()"
-                [disabled]="!pinForm.valid"
+                [disabled]="!pinForm.valid || loading"
                 [ngClass]="{'popup__btn--active': pinForm.valid}">{{'Submit' | translate}}
         </button>
       </form>

@@ -21,6 +21,7 @@ export class EmailNotificationComponent implements OnInit, OnDestroy {
   isAccountChangesEnabled = false;
   isAdminNotificationEnabled = false;
   isOtherMessagesEnabled = false;
+  loading: boolean = false;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -37,13 +38,16 @@ export class EmailNotificationComponent implements OnInit, OnDestroy {
   }
 
   update() {
+    this.loading = true;
     this.settingsService.updateEmailNotifications(this.getOptions())
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(resp => {
           // console.log('updated');
+          this.loading = false;
         },
         err => {
           console.error(err);
+          this.loading = false;
         });
   }
 

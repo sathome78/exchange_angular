@@ -10,7 +10,7 @@ export class QuberaTableComponent implements OnInit {
 
   @Input('balances') public balances: any[] = [];
   @Input('kycStatus') public kycStatus: string;
-  @Input('existQuberaAccounts') public existQuberaAccounts: boolean | string;
+  @Input('existQuberaAccounts') public existQuberaAccounts: string;
   @Output('cryptoWithdrawOut') public cryptoWithdrawOut: EventEmitter<any> = new EventEmitter();
   @Output('cryptoDepositOut') public cryptoDepositOut: EventEmitter<any> = new EventEmitter();
   @Output('transferOut') public transferOut: EventEmitter<any> = new EventEmitter();
