@@ -1,4 +1,13 @@
-import {Component, OnInit, AfterContentInit, OnDestroy, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterContentInit,
+  OnDestroy,
+  Input,
+  ChangeDetectorRef,
+  HostListener,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs/Subject';
 
@@ -37,7 +46,7 @@ import { UtilsService } from 'app/shared/services/utils.service';
 })
 export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit, OnDestroy {
   /** dashboard item name (field for base class)*/
-  public itemName: string = 'graph';
+  public itemName = 'graph';
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public isAuthenticated$: Observable<boolean>;
@@ -145,9 +154,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     private dashboardWebsocketService: DashboardWebSocketService,
     public breakpointService: BreakpointService,
     private cdr: ChangeDetectorRef
-    ) {
-      super();
-    }
+  ) {
+    super();
+  }
 
   ngOnInit() {
 
@@ -171,7 +180,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.store
       .pipe(select(getCurrencyPairInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPairInfo) => {
+      .subscribe((pair: CurrencyPairInfo) => {
         this.currentCurrencyInfo = pair;
         this.splitPairName(this.pair);
         this.isFiat = this.getIsFiat(this.secondCurrency);
@@ -181,9 +190,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.store
       .pipe(select(getCurrencyPairArray))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair[]) => {
+      .subscribe((pair: CurrencyPair[]) => {
         this.allCurrencyPairs = pair;
-        this.cdr.detectChanges()
+        this.cdr.detectChanges();
       });
 
     this.isAuthenticated$ = this.store.pipe(select(getIsAuthenticated));
@@ -282,7 +291,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   formattingCurrentPairName(currentPair: string): void {
     /** search slash position */
     if (currentPair) {
-      [ this.firstCurrency, this.secondCurrency ] = currentPair.split('/');
+      [this.firstCurrency, this.secondCurrency] = currentPair.split('/');
     }
   }
 
@@ -300,7 +309,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     };
 
     this.dashboardService.selectedOrderTrading$.next(item);
-    this.router.navigate(['/dashboard'], { queryParams: {widget: widgetName}});
+    this.router.navigate(['/dashboard'], {queryParams: {widget: widgetName}});
     this.dashboardService.activeMobileWidget.next(widgetName);
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
     // this.store.dispatch(new SetTradingTypeAction(type));
@@ -369,7 +378,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         }
       });
     }
-    return tempPair ;
+    return tempPair;
   }
 
   /**
@@ -384,7 +393,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   flarForArrow(s: string) {
     if (s === 'up') {
-      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate >= 0 :  false;
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate >= 0 : false;
     } else {
       return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate < 0 : false;
     }

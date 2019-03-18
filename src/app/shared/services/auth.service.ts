@@ -21,8 +21,8 @@ export class AuthService implements OnDestroy {
   ENCODE_KEY = environment.encodeKey;
   apiUrl = environment.apiUrl;
 
-  public simpleToken: {expiration: number, token_id: number, username: string, value: string};
-  public ngUnsubscribe$ = new Subject<any>()
+  public simpleToken: { expiration: number, token_id: number, username: string, value: string };
+  public ngUnsubscribe$ = new Subject<any>();
   public timeOutSub;
   public parsedToken: ParsedToken = null;
   public PROTECTED_ROUTES = ['/funds', '/orders', '/settings'];
@@ -35,7 +35,8 @@ export class AuthService implements OnDestroy {
     private location: Location,
     private popupService: PopupService,
     private store: Store<fromCore.State>,
-  ) {}
+  ) {
+  }
 
 
   public isAuthenticated(): boolean {
@@ -93,7 +94,7 @@ export class AuthService implements OnDestroy {
 
   public setSessionFinishListener(expiration: number): void {
     const tokenExpiresIn = expiration - Date.now();
-    this.ngZone.runOutsideAngular(()=>{
+    this.ngZone.runOutsideAngular(() => {
       this.timeOutSub = setTimeout(() => {
         this.onLogOut();
         this.popupService.toggleSessionExpiredPopup(true)
