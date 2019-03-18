@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit, enableProdMode} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PopupService} from './shared/services/popup.service';
 import {ThemeService} from './shared/services/theme.service';
 import {IpAddress, UserService} from './shared/services/user.service';
-import {IP_CHECKER_URL, IP_USER_KEY} from './shared/services/http.utils';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {IP_CHECKER_URL} from './shared/services/http.utils';
+import {HttpClient} from '@angular/common/http';
 import {AuthService} from './shared/services/auth.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil, withLatestFrom} from 'rxjs/internal/operators';
@@ -128,7 +128,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         // console.log(response);
         // this.logger.debug(this, 'Client IP: ' + response.ip);
-        localStorage.setItem(IP_USER_KEY, response.ip);
+        // localStorage.setItem(IP_USER_KEY, response.ip);
       });
   }
 
