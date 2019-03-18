@@ -1,19 +1,17 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
-import {map, takeUntil, every, filter, tap} from 'rxjs/internal/operators';
+import {map, takeUntil} from 'rxjs/internal/operators';
 import {Message} from '@stomp/stompjs';
 import {select, Store} from '@ngrx/store';
-import {Observable, Subject, iif} from 'rxjs';
+import {Subject} from 'rxjs';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {CurrencyPair} from '../model/currency-pair.model';
 import {environment} from '../../environments/environment';
 import {getCurrencyPairArray, State} from '../core/reducers';
 import * as dashboardActions from './actions/dashboard.actions';
 import {UserService} from '../shared/services/user.service';
-import {getActiveCurrencyPair} from '../core/reducers';
-import {AuthService} from 'app/shared/services/auth.service';
-import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 
 
 @Injectable()
@@ -90,6 +88,7 @@ export class DashboardWebSocketService implements OnDestroy {
       }
     });
   }
+
   // To refactor
   choosePairForTrade(currency: string) {
     this.store
@@ -109,7 +108,6 @@ export class DashboardWebSocketService implements OnDestroy {
         this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
       });
   }
-
 
 
   // addOrUpdate(currencyPair: CurrencyPair, favouritePairsId: number[]) {

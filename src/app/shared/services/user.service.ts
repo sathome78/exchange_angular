@@ -111,7 +111,6 @@ export class UserService {
       .withEmail(email)
       .withPassword(password)
       .withPinCode(pin)
-      .withClientIp()
       .build();
     // alert('encoded: ' +  authCandidate.password);
 
