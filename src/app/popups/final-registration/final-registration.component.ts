@@ -32,6 +32,7 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
   password;
   confirmPass;
   message: string;
+  loading: boolean = false;
 
   constructor(
     private router: Router,
@@ -67,6 +68,7 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
         tempToken: this.token,
         password: this.encryptPass(this.passwordFirst.value),
       };
+      this.loading = true;
       this.userService.finalRegistration(sendData)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
@@ -84,8 +86,10 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
           this.store.dispatch(new coreActions.SetOnLoginAction(parsedToken));
           this.router.navigate(['/funds/balances']);
           sendConfirmationPasswordGtag();
+          this.loading = false;
         }, err => {
           this.message = this.translateService.instant('Service is temporary unavailable, please try again later.');
+          this.loading = false;
         });
     }
   }

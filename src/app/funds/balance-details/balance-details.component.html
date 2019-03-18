@@ -174,9 +174,15 @@
             >{{'Sell' | translate}} BTC</a>
           </div> -->
           <div class="trade-buttons-wr">
-  <a (click)="onBuyCurrency(getMarketPair(selectedItem.currencyName))" class="btn btn--active widget__trading-btn widget__trading-btn--buy" (click)="onSubmit(BUY)">Buy {{arrPairName[0]}}</a>
-  <a (click)="onBuyCurrency(getMarketPair(selectedItem.currencyName))" class="btn btn--active widget__trading-btn widget__trading-btn--sell" (click)="onSubmit(SELL)">Sell {{arrPairName[0]}}</a>
-</div>
+            <a
+              (click)="onBuyCurrency(getMarketPair(selectedItem.currencyName))"
+              class="btn btn--active widget__trading-btn widget__trading-btn--buy"
+            >Buy {{getMarketPair(selectedItem.currencyName).split('-')[0]}}</a>
+            <a
+              (click)="onBuyCurrency(getMarketPair(selectedItem.currencyName))"
+              class="btn btn--active widget__trading-btn widget__trading-btn--sell"
+            >Sell {{getMarketPair(selectedItem.currencyName).split('-')[0]}}</a>
+          </div>
         </div>
       </ng-container>
     </div>

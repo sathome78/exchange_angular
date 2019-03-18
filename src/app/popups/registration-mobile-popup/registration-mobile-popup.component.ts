@@ -38,6 +38,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   public AUTH_MESSAGES = AUTH_MESSAGES;
   public emailServerError = 'start';
   public pendingCheckEmail = false;
+  public loading: boolean = false;
 
   public email;
   public firstName;
@@ -89,6 +90,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
 
   resolvedCaptcha(event) {
     const email = this.emailForm.get('email').value;
+    this.loading = true;
     this.userService.sendToEmailConfirmation(email)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -97,9 +99,12 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
            ${this.translateService.instant('Please check your email and follow instructions.')}`;
         this.setTemplate('emailConfirmLinkTemplate');
         sendRegistrationGtag();
+        this.loading = false;
       }, error => {
+        console.error(error);
         this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later');
         this.setTemplate('emailConfirmLinkTemplate');
+        this.loading = false;
       });
   }
 

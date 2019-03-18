@@ -40,6 +40,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   public isGACheck = false;
   public currencyPair: SimpleCurrencyPair;
   public afterCaptchaMessage;
+  public loading: boolean = false;
 
   public currentTemplate: TemplateRef<any>;
   @ViewChild('logInTemplate') public logInTemplate: TemplateRef<any>;
@@ -220,6 +221,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   sendToServer() {
     // console.log(this.email, this.password, this.pin);
     this.logger.debug(this, 'attempt to authenticate with email: ' + this.email + ' and password: ' + this.password);
+    this.loading = true;
     this.userService.authenticateUser(this.email, this.password, this.pin, this.pincodeAttempts)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((tokenHolder: TokenHolder) => {
@@ -234,13 +236,14 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
 
         // TODO: just for promo state, remove after
         // location.reload();
-      },
-        err => {
-          console.log(err, 'sendToServerError')
-          const status = err['status'];
-          this.setTemplate('logInTemplate');
-          this.setStatusMessage(err);
-        });
+        this.loading = false;
+      }, err => {
+        console.log(err, 'sendToServerError')
+        const status = err['status'];
+        this.setTemplate('logInTemplate');
+        this.setStatusMessage(err);
+        this.loading = false;
+      });
   }
 
   getInputType(): string {

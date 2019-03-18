@@ -18,7 +18,7 @@ export class StepTwoComponent implements OnInit {
 
   displayMode = this.STEP;
 
-  constructor(private verificationService: UserVerificationService) {
+  constructor() {
   }
 
   ngOnInit() {
