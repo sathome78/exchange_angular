@@ -242,8 +242,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       },
       overrides: {
         'paneProperties.background': '#252543',
-        'paneProperties.vertGridProperties.color': 'rgba(27, 55, 112, 0)',
-        'paneProperties.horzGridProperties.color': 'rgba(27, 55, 112, 0)',
+         'paneProperties.vertGridProperties.color': '#1A1F42',
+        'paneProperties.horzGridProperties.color': '#1A1F42',
         'symbolWatermarkProperties.transparency': 90,
         'scalesProperties.textColor': '#aaa',
         'scalesProperties.backgroundColor': 'rgba(0, 0, 0, 0)',
