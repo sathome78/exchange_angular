@@ -4,6 +4,7 @@
     <label for="" class="toggler settings__toggler">
       <input type="checkbox" name=""
              [(ngModel)]="isInOutNotificationEnabled"
+             [disabled]="loading"
              (click)="updateInOuts()"
       >
       <span class="toggler__indicate"></span>
@@ -14,6 +15,7 @@
     <label for="" class="toggler settings__toggler">
       <input type="checkbox" name=""
              [(ngModel)]="isOrdersNotificationEnabled"
+             [disabled]="loading"
              (click)="updateOrders()"
       >
       <span class="toggler__indicate"></span>
@@ -24,6 +26,7 @@
     <label for="" class="toggler settings__toggler">
       <input type="checkbox" name=""
              [(ngModel)]="isAccountChangesEnabled"
+             [disabled]="loading"
              (click)="updateAccount()"
       >
       <span class="toggler__indicate"></span>
@@ -34,6 +37,7 @@
     <label for="" class="toggler settings__toggler">
       <input type="checkbox" name=""
              [(ngModel)]="isAdminNotificationEnabled"
+             [disabled]="loading"
              (click)="updateAdmin()"
       >
       <span class="toggler__indicate"></span>
@@ -44,6 +48,7 @@
     <label for="" class="toggler settings__toggler">
       <input type="checkbox" name=""
              [(ngModel)]="isOtherMessagesEnabled"
+             [disabled]="loading"
              (click)="updateCustom()"
       >
       <span class="toggler__indicate"></span>

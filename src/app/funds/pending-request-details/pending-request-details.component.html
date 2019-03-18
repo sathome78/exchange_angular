@@ -82,7 +82,7 @@
           <div class="revoke-request" *ngIf="showRevokeModal">
             <div class="revoke-request__title">{{'Are you sure you want to revoke this request' | translate}}?</div>
             <div class="revoke-request__button-wrap">
-              <button class="btn btn--small" (click)="onRevoke()">{{'Yes' | translate}}</button>
+              <button class="btn btn--small" (click)="onRevoke()" [disabled]="loading$ | async">{{'Yes' | translate}}</button>
               <button class="btn btn--small" (click)="toggleRevokeModal(false)">{{'No' | translate}}</button>
             </div>
             <div class="revoke-request__triangle"></div>

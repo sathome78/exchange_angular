@@ -26,6 +26,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit, OnDestroy {
   token: string;
   message: string;
   public msgRed = false;
+  public loading: boolean = false;
 
   constructor(
     private router: Router,
@@ -89,13 +90,16 @@ export class FinalStepRecoveryPasswordComponent implements OnInit, OnDestroy {
         tempToken: this.token,
         password: this.encryptPass(pass.value),
       };
+      this.loading = true;
       this.userService.recoveryPassword(sendData)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           this.router.navigate(['/dashboard']);
           this.popupService.toggleRestoredPasswordPopup(true);
+          this.loading = false;
         }, err => {
           this.message = this.translateService.instant('Server error. Try again.');
+          this.loading = false;
         });
     }
   }
