@@ -1,4 +1,5 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {KYC_STATUS, PENDING} from 'app/shared/constants';
 
 @Component({
   selector: 'app-qubera-table',
@@ -7,9 +8,14 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 })
 export class QuberaTableComponent implements OnInit {
 
+  @Input('balances') public balances: any[] = [];
+  @Input('kycStatus') public kycStatus: string;
+  @Input('existQuberaAccounts') public existQuberaAccounts: boolean | string;
   @Output('cryptoWithdrawOut') public cryptoWithdrawOut: EventEmitter<any> = new EventEmitter();
   @Output('cryptoDepositOut') public cryptoDepositOut: EventEmitter<any> = new EventEmitter();
   @Output('transferOut') public transferOut: EventEmitter<any> = new EventEmitter();
+  public 'KYC_STATUS' = KYC_STATUS;
+  public 'PENDING' = PENDING;
 
   constructor() { }
 
