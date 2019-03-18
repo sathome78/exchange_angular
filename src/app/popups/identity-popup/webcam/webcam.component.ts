@@ -51,7 +51,7 @@ export class WebcamComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.showWebcam.emit(false);
-    console.log('On Submut');
+    // console.log('On Submut');
     const entity = UserDocVerificationModel
       .builder()
       .withDocumentType(this.verificationService.getVerificationMode())
@@ -61,10 +61,10 @@ export class WebcamComponent implements OnInit, OnDestroy {
     this.verificationService.uploadVerificationDoc(entity)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(ok => {
-        console.log('OK: fail to upload file');
+        // console.log('OK: fail to upload file');
       },
       err => {
-        console.log(err);
+        console.error(err);
       });
 
   }
@@ -81,12 +81,12 @@ export class WebcamComponent implements OnInit, OnDestroy {
   }
 
   public handleImage(webcamImage: WebcamImage): void {
-    console.log('received webcam image', webcamImage);
+    // console.log('received webcam image', webcamImage);
     this.webcamImage = webcamImage;
   }
 
   public cameraWasSwitched(deviceId: string): void {
-    console.log('active device: ' + deviceId);
+    // console.log('active device: ' + deviceId);
     this.deviceId = deviceId;
   }
 

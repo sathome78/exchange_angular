@@ -40,9 +40,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public openCurrencyDropdown = false;
   public openPaymentSystemDropdown = false;
   public activeFiat;
+  public minRefillSum = 0;
   public alphabet;
   public redirectionUrl;
   public selectMerchantName;
+  public loading: boolean = false;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
@@ -134,6 +136,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.merchants = this.fiatDataByName.merchantCurrencyData;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
+        this.minRefillSum = !!this.selectedMerchant ? +this.selectedMerchant.minSum : 0;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
         this.form.get('amount').updateValueAndValidity();
       });
@@ -143,6 +146,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.selectedMerchantNested = merchantImage;
     this.selectMerchantName =  merchantImage.image_name  || merchant.name;
     this.selectedMerchant = merchant;
+    this.minRefillSum = +this.selectedMerchant.minSum;
+    this.form.get('amount').updateValueAndValidity();
     this.togglePaymentSystemDropdown();
   }
 
@@ -154,31 +159,34 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   submitRefill() {
     this.isSubmited = true;
-      if (this.form.valid && this.selectedMerchant.name) {
-        this.isSubmited = false;
-        this.amount = this.form.controls['amount'].value;
-        const data: RefillData = {
-          operationType: this.fiatDataByName.payment.operationType,
-          currency: this.fiatDataByName.currency.id,
-          merchant: this.selectedMerchant.merchantId,
-          generateNewAddress: true,
-          sum: this.amount
-        };
-        if (this.selectedMerchantNested && this.selectedMerchantNested.child_merchant) {
-          data.childMerchant = this.selectedMerchantNested.child_merchant;
-        }
-        this.balanceService.refill(data)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe((res: RefillResponse) => {
-            this.refillData = res;
-            this.redirectionUrl = this.refillData.redirectionUrl;
-            // this.redirectionUrl = this.getRefillRedirectionUrl(res);
-            this.submitSuccess = true;
-            setTimeout(() => {
-              this.redirectionLink.nativeElement.click();
-            }, 1000);
-          });
-      }
+    if (this.form.valid && this.selectedMerchant.name) {
+      this.isSubmited = false;
+      this.amount = this.form.controls['amount'].value;
+      const data: RefillData = {
+        operationType: this.fiatDataByName.payment.operationType,
+        currency: this.fiatDataByName.currency.id,
+        merchant: this.selectedMerchant.merchantId,
+        destination: this.selectedMerchant.description,
+        merchantImage: this.selectedMerchantNested.id,
+        sum: +this.amount
+      };
+      this.loading = true;
+      this.balanceService.refill(data)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((res: RefillResponse) => {
+          this.refillData = res;
+          this.redirectionUrl = this.refillData.redirectionUrl;
+          // this.redirectionUrl = this.getRefillRedirectionUrl(res);
+          this.submitSuccess = true;
+          setTimeout(() => {
+            this.redirectionLink.nativeElement.click();
+          }, 1000);
+          this.loading = false;
+        }, (err) => {
+          this.loading = false;
+          console.error(err);
+        });
+    }
   }
 
   searchMerchant(e) {
@@ -189,7 +197,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   private minCheck(amount: FormControl) {
-      if (this.fiatDataByName && this.fiatDataByName.minRefillSum > amount.value) {
+      if (this.minRefillSum > amount.value) {
         return {'minThen': true};
       }
       return null;

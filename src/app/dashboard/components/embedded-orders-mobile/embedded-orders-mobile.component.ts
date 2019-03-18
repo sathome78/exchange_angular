@@ -7,6 +7,7 @@ import {AuthService} from '../../../shared/services/auth.service';
 import {EmbeddedOrdersService} from '../embedded-orders/embedded-orders.service';
 import {Subject} from 'rxjs';
 import {Order} from '../../../model/order.model';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-embedded-orders-mobile',
@@ -19,8 +20,9 @@ export class EmbeddedOrdersMobileComponent implements OnInit {
   public openOrdersCount = 0;
   public historyOrders;
   public openOrders;
-  public activeCurrencyPair: CurrencyPair;
+  public activeCurrencyPair: SimpleCurrencyPair;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public loading: boolean = false;
 
   constructor(
     private store: Store<State>,
@@ -33,7 +35,7 @@ export class EmbeddedOrdersMobileComponent implements OnInit {
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair: CurrencyPair) => {
+      .subscribe((pair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = pair;
         this.toOpenOrders();
         this.toHistory();
@@ -57,20 +59,32 @@ export class EmbeddedOrdersMobileComponent implements OnInit {
   }
 
   toOpenOrders(): void {
-    this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
+    this.loading = true;
+    this.ordersService.getOpenOrders(this.activeCurrencyPair.id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         this.openOrders = data.items;
         this.openOrdersCount = data.count;
         this.cdr.detectChanges();
+        this.loading = false;
+      }, err => {
+        console.error(err);
+        this.loading = false;
+        this.cdr.detectChanges();
       });
   }
 
   toHistory(): void {
-    this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CLOSED')
+    this.loading = true;
+    this.ordersService.getHistory(this.activeCurrencyPair.id, 'CLOSED')
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
         this.historyOrders = data.items;
+        this.cdr.detectChanges();
+        this.loading = false;
+      }, err => {
+        console.error(err);
+        this.loading = false;
         this.cdr.detectChanges();
       });
 

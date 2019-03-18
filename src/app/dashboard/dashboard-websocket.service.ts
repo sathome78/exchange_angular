@@ -1,18 +1,17 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
-import {map, takeUntil, every, filter, tap} from 'rxjs/internal/operators';
+import {map, takeUntil} from 'rxjs/internal/operators';
 import {Message} from '@stomp/stompjs';
 import {select, Store} from '@ngrx/store';
-import {Observable, Subject, iif} from 'rxjs';
+import {Subject} from 'rxjs';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {CurrencyPair} from '../model/currency-pair.model';
 import {environment} from '../../environments/environment';
 import {getCurrencyPairArray, State} from '../core/reducers';
 import * as dashboardActions from './actions/dashboard.actions';
 import {UserService} from '../shared/services/user.service';
-import {getActiveCurrencyPair} from '../core/reducers';
-import {AuthService} from 'app/shared/services/auth.service';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 
 
 @Injectable()
@@ -23,48 +22,37 @@ export class DashboardWebSocketService implements OnDestroy {
   private baseUrl = environment.apiUrl;
   public pairFromDashboard = '';
   public isNeedChangeCurretPair = true;
-  private currentCurrencyPair;
+
 
   constructor(
     private stompService: RxStompService,
-    private http: HttpClient,
     private userService: UserService,
-    private authService: AuthService,
     private store: Store<State>
-  ) {
-    this.store
-      .pipe(select(getActiveCurrencyPair))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(pair => {
-        this.currentCurrencyPair = pair;
-      });
+  ) { }
+
+  marketsSubscription(): any {
+    return this.stompService
+      .watch(`/app/statisticsNew`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
-  setStompSubscription(): any {
-    return this.stompSubscription = this.stompService
-      .watch('/app/statisticsNew')
-      .pipe(map((message: Message) => JSON.parse(JSON.parse(message.body))))
-      .subscribe((items) => {
-        console.log(items);
-        if (items) {
-          // clean cached data
-          this.currencyPairs = [];
-        }
-        // this.processCurrencyPairs(items.data);
-      });
+  pairInfoSubscription(pairName: string): any {
+    return this.stompService
+      .watch(`/app/statistics/pairInfo/${pairName}`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
-  // setRabbitStompSubscription() {
-  //   return this.stompService
-  //     .subscribe('/topic/rabbit')
-  //     .pipe(map((message: Message) => JSON.parse(message.body)))
-  //     .pipe(filter((message) => this.currentCurrencyPair && (message.currencyPairId === this.currentCurrencyPair.currencyPairId)))
-  //     .pipe(map((message) => {
-  //       console.log('updated');
-  //       return message;
-  //     }))
-  //     .pipe(map(() => this.currentCurrencyPair));
-  // }
+  allTradesSubscription(pairName: string): any {
+    return this.stompService
+      .watch(`/app/all_trades/${pairName}`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
+  }
+
+  orderBookSubscription(pairName: string, precision: number): any {
+    return this.stompService
+      .watch(`/app/order_book/${pairName}/${precision}`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
+  }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -94,9 +82,9 @@ export class DashboardWebSocketService implements OnDestroy {
   findPairByCurrencyPairName(pairName: string): void {
     this.currencyPairs.forEach(elm => {
       if (pairName === elm.currencyPairName) {
-        this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(elm));
-        this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(elm.currencyPairId));
-        this.userService.getUserBalance(elm);
+        const newActivePair = new SimpleCurrencyPair(elm.currencyPairId, elm.currencyPairName);
+        this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
+        this.userService.getUserBalance(newActivePair);
       }
     });
   }
@@ -116,7 +104,8 @@ export class DashboardWebSocketService implements OnDestroy {
           return splitName[0] === 'BTC' || splitName[1] === 'BTC';
         });
         const currentPair = filteredPair[0] ? filteredPair[0] : filteredPairs[0];
-        this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(currentPair));
+        const newActivePair = new SimpleCurrencyPair(currentPair.currencyPairId, currentPair.currencyPairName);
+        this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
       });
   }
 

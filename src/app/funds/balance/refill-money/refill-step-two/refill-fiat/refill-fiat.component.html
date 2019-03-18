@@ -69,14 +69,14 @@
 
         <div class="wrap-input__message--show">
           <span *ngIf="!form.valid">
-          {{'Minimum sum for deposit' | translate}} {{fiatDataByName ? fiatDataByName.minRefillSum : 0}} {{activeFiat ? activeFiat.name : ''}}
+          {{'Minimum sum for deposit' | translate}} {{minRefillSum || 0}} {{activeFiat ? activeFiat.name : ''}}
         </span>
         </div>
 
         <!--Input error section starts-->
         <div class="input-hint-wrapper" *ngIf="!form.valid && isSubmited">
           <span class="wrap-input__message">
-            Should be at least {{fiatDataByName ? fiatDataByName.minRefillSum : 0}}
+            Should be at least {{minRefillSum || 0}}
           </span>
         </div>
         <!--Input error section ends-->
@@ -88,10 +88,13 @@
 
     </div>
   </form>
-  <button class="btn btn--center"
-          *ngIf="!submitSuccess && selectedMerchant"
-          [ngClass]="{'btn--empty-blue': !form.valid || !selectedMerchant.name}"
-          (click)="submitRefill()">
+  <button
+    class="btn btn--center"
+    *ngIf="!submitSuccess && selectedMerchant"
+    [ngClass]="{'btn--empty-blue': !form.valid || !selectedMerchant.name}"
+    (click)="submitRefill()"
+    [disabled]="loading"
+  >
     Refill
   </button>
 

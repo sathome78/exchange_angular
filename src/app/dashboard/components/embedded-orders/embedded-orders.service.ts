@@ -32,7 +32,7 @@ export class EmbeddedOrdersService {
   }
 
   deleteOrder(order): Observable<any> {
-    console.log(order);
+    // console.log(order);
     const params = {
       order_id: order.id
     };

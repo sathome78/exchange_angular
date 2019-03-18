@@ -27,7 +27,7 @@ export class DocUploadComponent implements OnInit, OnDestroy {
       .subscribe(mode => {
       if (mode === 'FILE') {
         // todo smth useful
-        console.log('submit clicked for file');
+        // console.log('submit clicked for file');
       }
     });
   }

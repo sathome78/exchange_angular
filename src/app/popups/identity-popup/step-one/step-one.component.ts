@@ -63,7 +63,7 @@ export class StepOneComponent implements OnInit, OnDestroy {
         this.nextStep.emit(2);
       },
       error1 => {
-        console.log(error1);
+        console.error(error1);
       });
   }
 

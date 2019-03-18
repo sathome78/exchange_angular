@@ -21,10 +21,10 @@ export class MarketService {
   /**
    * this method simply gets pairs from cache and when subscription is on we should drop data
    */
-  getCurrencyPairForMarketFast(): Observable<CurrencyPair[]> {
-    const url = this.baseUrl + '/api/public/v2/currencies/fast';
-    return this.http.get<CurrencyPair[]>(url);
-  }
+  // getCurrencyPairs(): Observable<CurrencyPair[]> {
+  //   const url = this.baseUrl + '/api/public/v2/currencies/fast';
+  //   return this.http.get<CurrencyPair[]>(url)
+  // }
 
   getUserFavoriteCurrencyPairIds(): Observable<number[]> {
     const url = this.baseUrl + '/api/private/v2/settings/currency_pair/favourites';

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {ReplaySubject, Subject} from 'rxjs';
 import {LoggingService} from './logging.service';
 import {PopupData} from '../interfaces/popup-data-interface';
 import {KycSubjectInterface} from '../interfaces/kyc-subject-interface';
@@ -7,16 +7,16 @@ import {KycSubjectInterface} from '../interfaces/kyc-subject-interface';
 @Injectable()
 export class PopupService {
 
-  private onOpenTFAPopupListener = new Subject<string>();
-  private onOpenIdentityPopupListener = new Subject<string>();
-  private onOpenKYCPopupListener = new Subject<KycSubjectInterface>();
+  private onOpenTFAPopupListener = new ReplaySubject<string>();
+  private onOpenIdentityPopupListener = new ReplaySubject<string>();
+  private onOpenKYCPopupListener = new ReplaySubject<KycSubjectInterface>();
   private onLoginPopupListener = new Subject<boolean>();
   private onDemoTradingPopupListener = new Subject<boolean>();
   private onRecoveryPasswordListener = new Subject<boolean>();
   private onMobileLoginPopupListener = new Subject<boolean>();
   private onMobileRegistrationPopupListener = new Subject<boolean>();
   private onAlreadyRegisteredPopupListener = new Subject<boolean>();
-  private onInfoPopupListener = new Subject<PopupData>();
+  private onInfoPopupListener = new ReplaySubject<PopupData>();
   private onAlreadyRestoredPasswordPopupListener = new Subject<boolean>();
   private onRestoredPasswordPopupListener = new Subject<boolean>();
   private onSessionTimeSavedPopupListener = new Subject<boolean>();

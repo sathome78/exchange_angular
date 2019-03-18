@@ -15,9 +15,10 @@ import {LastSellBuyOrder} from '../../model/last-sell-buy-order.model';
 import {TradeItem} from '../../model/trade-item.model';
 import {LastPrice} from '../../model/last-price.model';
 import {Order} from '../../model/order.model';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 
 export interface State {
-  activeCurrencyPair: CurrencyPair;
+  activeCurrencyPair: SimpleCurrencyPair;
   currencyPairArray: CurrencyPair[];
   marketsCurrencyPairsMap: MapModel<CurrencyPair>;
   userBalance: UserBalance;
@@ -27,13 +28,12 @@ export interface State {
   lastCreatedOrder: Order;
   lastPrice: LastPrice;
   allTrades: TradeItem[];
-  loadingAllTrades: boolean;
   tradingType: string;
   userFavoritesCurrencyPairsIds: number[],
 }
 
 export const INIT_STATE: State = {
-  activeCurrencyPair: defaultValues as CurrencyPair,
+  activeCurrencyPair: defaultValues as SimpleCurrencyPair,
   currencyPairArray: [],
   userBalance: defaultUserBalance,
   selectedOrderBookOrder: defaultOrderItem as OrderItem,
@@ -42,7 +42,6 @@ export const INIT_STATE: State = {
   lastCreatedOrder: defaultLastCreatedrder,
   allTrades: [],
   lastPrice: defaultLastPrice,
-  loadingAllTrades: true,
   tradingType: 'BUY',
   marketsCurrencyPairsMap: {},
   userFavoritesCurrencyPairsIds: [],
@@ -56,12 +55,22 @@ export const INIT_STATE: State = {
 export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
   switch (action.type) {
     case dashboard.CHANGE_ACTIVE_CURRENCY_PAIR:
-      return {...state, activeCurrencyPair: action.payload};
+      if(action.payload.id === state.activeCurrencyPair.id) {
+        return state;
+      }
+      return {
+        ...state,
+        activeCurrencyPair: action.payload
+      };
     case dashboard.SET_CURRENCY_PAIRS_FOR_MARKET:
       return {
         ...state,
-        currencyPairArray: action.payload,
         marketsCurrencyPairsMap: createMarketsCurrencyPairsMap(state, action.payload),
+      };
+    case dashboard.SET_CURRENCY_PAIRS:
+      return {
+        ...state,
+        currencyPairArray: action.payload,
       };
     case dashboard.SET_USER_FAVORITES_CURRENCY_PAIRS_FOR_MARKET:
       return {
@@ -91,7 +100,6 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
       return {
         ...state,
         allTrades: action.payload,
-        loadingAllTrades: false,
       };
     default :
       return state;
@@ -128,7 +136,7 @@ function toggleUserFavorites(state: State, currencyPairId: number) {
 
 
 /** Selector returns current currency pair*/
-export const getActiveCurrencyPairSelector = (state: State): CurrencyPair => state.activeCurrencyPair;
+export const getActiveCurrencyPairSelector = (state: State): SimpleCurrencyPair => state.activeCurrencyPair;
 
 /** Selector returns user favorites currency pairs*/
 export const getFavoritesCurrencyPairSelector = (state: State): number[] => state.userFavoritesCurrencyPairsIds;
@@ -152,8 +160,6 @@ export const getLastSellBuyOrder = (state: State): LastSellBuyOrder => state.las
 /** Selector returns all trades */
 export const getAllTrades = (state: State): TradeItem[] => state.allTrades;
 
-/** Selector returns all trades */
-export const getLoadingAllTrades = (state: State): boolean => state.loadingAllTrades;
 /** Selector returns trading type*/
 export const getTradingType = (state: State): string => state.tradingType;
 

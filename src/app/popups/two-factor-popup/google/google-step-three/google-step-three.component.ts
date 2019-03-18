@@ -25,6 +25,7 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
   statusMessage = '';
   public AUTH_MESSAGES = AUTH_MESSAGES;
   form: FormGroup;
+  loading: boolean = false;
 
   constructor(
     private popupService: PopupService,
@@ -47,7 +48,7 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
       },
       err => {
         this.statusMessage = this.translateService.instant('Failed to get google url');
-        console.log(err);
+        console.error(err);
       });
     this.form = new FormGroup({
       'password': new FormControl('', {validators: [Validators.required]}),
@@ -68,19 +69,22 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
     if (this.form.valid) {
       const password = this.form.get('password').value;
       const pin = this.form.get('pincode').value;
+      this.loading = true;
       this.googleService.submitGoogleAuthSecret(this.secretCode, password, pin)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
             // console.log(res);
             this.store.dispatch(new settingsActions.LoadGAStatusAction())
             this.popupService.closeTFAPopup();
+            this.loading = false;
           },
           err => {
-          if (err.status === 400) {
-            this.statusMessage = AUTH_MESSAGES.INVALID_CREDENTIALS;
-          } else {
-            this.statusMessage = AUTH_MESSAGES.OTHER_HTTP_ERROR;
-          }
+            if (err.status === 400) {
+              this.statusMessage = AUTH_MESSAGES.INVALID_CREDENTIALS;
+            } else {
+              this.statusMessage = AUTH_MESSAGES.OTHER_HTTP_ERROR;
+            }
+            this.loading = false;
           });
     }
   }
@@ -92,7 +96,7 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
         console.log(res);
       },
       error1 => {
-        console.log(error1);
+        console.error(error1);
       });
   }
 

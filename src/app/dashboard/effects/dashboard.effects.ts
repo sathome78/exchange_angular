@@ -5,7 +5,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {catchError, map, switchMap} from 'rxjs/internal/operators';
 import * as dashboardActions from '../actions/dashboard.actions';
 import {of} from 'rxjs';
-import {CurrencyPairInfoService} from '../services/currency-pair-info.service';
+
 
 @Injectable()
 export class DashboardEffects {
@@ -17,21 +17,6 @@ export class DashboardEffects {
    */
   constructor(
     private actions$: Actions,
-    private currencyPairInfoService: CurrencyPairInfoService,
-  ) {
-  }
+  ) { }
 
-  /**
-   * Load currency pair info
-   */
-  @Effect()
-  loadCurrencyPairInfo$: Observable<Action> = this.actions$
-    .pipe(ofType<dashboardActions.LoadCurrencyPairInfoAction>(dashboardActions.LOAD_CURRENCY_PAIR_INFO))
-    .pipe(switchMap((action) => {
-      return this.currencyPairInfoService.getCurrencyPairInfo(action.payload)
-        .pipe(
-          map(info => (new dashboardActions.RefreshCurrencyPairInfoAction(info))),
-          catchError(error => of(new dashboardActions.FailLoadCurrencyPairInfoAction(error)))
-        )
-    }))
 }

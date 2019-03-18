@@ -134,10 +134,10 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   onSubmitWithdrawal() {
     this.isSubmited = true;
     this.form.get('amount').updateValueAndValidity();
-      if (this.form.valid  && this.selectedMerchant.name) {
-        this.isSubmited = false;
-        this.isEnterData = false;
-      }
+    if (this.form.valid  && this.selectedMerchant.name) {
+      this.isSubmited = false;
+      this.isEnterData = false;
+    }
   }
 
   getBalance(name: string) {
@@ -236,6 +236,10 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       return {'isMinThenMinWithdraw': true};
     }
     return null;
+  }
+
+  get currName() {
+    return this.activeFiat ? this.activeFiat.name : ''
   }
 
 }

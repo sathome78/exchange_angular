@@ -41,9 +41,12 @@
     </div>
   </div>
 
-  <button class="btn btn--empty-blue"
-          *ngIf="isGenerateNewAddress"
-          (click)="generateNewAddress()">
+  <button
+    class="btn btn--empty-blue"
+    *ngIf="isGenerateNewAddress"
+    (click)="generateNewAddress()"
+    [disabled]="loading"
+  >
     <span class="btn__icon btn__icon--light-blue">
       <svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -95,10 +98,7 @@
     <li class="note__list-item"
         [innerHTML]="'Coins will be deposited immediately after <b>2</b> network confirmations' | translate">
     </li>
-    <li class="note__list-item">
-      {{'Send only' | translate}}
-      <b>{{activeCrypto.name}}</b>
-      {{'to this deposit address.'}}{{' Sending any other coin or token to this address may result in the loss of your deposit.' | translate}}
+    <li class="note__list-item">{{'Send only' | translate}}<b>{{activeCrypto.name}}</b>{{'to this deposit address.'}}{{' Sending any other coin or token to this address may result in the loss of your deposit.' | translate}}
     </li>
   </ul>
 </div>

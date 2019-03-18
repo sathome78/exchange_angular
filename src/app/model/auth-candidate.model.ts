@@ -36,6 +36,7 @@ export class AuthCandidate {
     }
     return this;
   }
+
   public build(): AuthCandidate {
     return this;
   }

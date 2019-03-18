@@ -46,7 +46,9 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
   }
 
   setCurrentPair(pair: CurrencyPair) {
-    this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(pair));
+    this.store.dispatch(
+      new dashboardActions.ChangeActiveCurrencyPairAction({name: pair.currencyPairName, id: pair.currencyPairId})
+    );
     this.onCloseModal();
   }
   // refactor

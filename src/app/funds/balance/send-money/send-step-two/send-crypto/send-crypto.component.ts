@@ -2,7 +2,7 @@ import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
 import {Subject} from 'rxjs';
-import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CurrencyBalanceModel} from '../../../../../model/index';
 import {BalanceService} from '../../../../services/balance.service';
 import {keys} from '../../../../../shared/constants';
@@ -13,7 +13,6 @@ import {CommissionData} from '../../../../models/commission-data.model';
 import {defaultCommissionData} from '../../../../store/reducers/default-values';
 import {PopupService} from 'app/shared/services/popup.service';
 import {BalanceItem} from '../../../../models/balance-item.model';
-import {UtilsService} from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-send-crypto',
@@ -61,7 +60,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
-    private utilsService: UtilsService,
     private store: Store<State>,
   ) {
   }
@@ -89,9 +87,9 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   onSubmitWithdrawal() {
     this.form.get('amount').updateValueAndValidity();
     this.isSubmited = true;
-      if (this.form.valid) {
-        this.isEnterData = false;
-      }
+    if (this.form.valid) {
+      this.isEnterData = false;
+    }
   }
 
   setActiveCrypto() {
@@ -224,5 +222,9 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       return {'isMinThenMinWithdraw': true};
     }
     return null;
+  }
+
+  get currName() {
+    return this.activeCrypto ? this.activeCrypto.name : ''
   }
 }

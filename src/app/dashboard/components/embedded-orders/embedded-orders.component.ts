@@ -9,6 +9,7 @@ import {select, Store} from '@ngrx/store';
 import {State, getActiveCurrencyPair, getLastCreatedOrder} from 'app/core/reducers/index';
 import {EmbeddedOrdersService} from './embedded-orders.service';
 import {Order} from 'app/model/order.model';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-embedded-orders',
@@ -26,10 +27,11 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
 
   public mainTab = 'open';
   public openOrdersCount = 0;
-  public activeCurrencyPair: CurrencyPair;
+  public activeCurrencyPair: SimpleCurrencyPair;
   public historyOrders;
   public openOrders;
   public arrPairName = ['', ''];
+  public loading: boolean = false;
 
 
   constructor(
@@ -47,10 +49,10 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair: CurrencyPair) => {
+      .subscribe((pair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = pair;
-          this.toOpenOrders();
-          this.toHistory();
+        this.toOpenOrders();
+        this.toHistory();
       });
 
     this.store
@@ -91,11 +93,17 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
    * request to get open-orders data
    */
   toOpenOrders(): void {
-    this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
+    this.loading = true;
+    this.ordersService.getOpenOrders(this.activeCurrencyPair.id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         this.openOrders = data.items;
         this.openOrdersCount = data.count;
+        this.loading = false;
+        this.cdr.detectChanges();
+      }, err => {
+        console.error(err);
+        this.loading = false;
         this.cdr.detectChanges();
       });
   }
@@ -104,25 +112,31 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
    * request to get history data with status (CLOSED and CANCELED)
    */
   toHistory(): void {
-    this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CLOSED')
+    this.loading = true;
+    this.ordersService.getHistory(this.activeCurrencyPair.id, 'CLOSED')
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
         this.historyOrders = data.items;
+        this.loading = false;
+        this.cdr.detectChanges();
+      }, err => {
+        console.error(err);
+        this.loading = false;
         this.cdr.detectChanges();
       });
 
   }
 
   public pairNames(): string [] {
-    if (this.activeCurrencyPair && this.activeCurrencyPair.currencyPairName) {
-      return this.activeCurrencyPair.currencyPairName.split('/');
+    if (this.activeCurrencyPair && this.activeCurrencyPair.name) {
+      return this.activeCurrencyPair.name.split('/');
     }
     return ['BTC', 'USD'];
   }
 
   public pairName(): string {
     if (this.activeCurrencyPair) {
-      return this.activeCurrencyPair.currencyPairName;
+      return this.activeCurrencyPair.name;
     }
     return 'BTC/USD';
   }

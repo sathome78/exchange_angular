@@ -16,10 +16,12 @@
   </div>
 </form>
 
-<button class="btn btn--center"
-[ngClass]="{'btn--empty-blue': !form.valid}"
-        [disabled]="form.invalid"
-        (click)="sendTransferCode()">
+<button
+  class="btn btn--center"
+  [ngClass]="{'btn--empty-blue': !form.valid}"
+  [disabled]="form.invalid || loading"
+  (click)="sendTransferCode()"
+>
   {{'Receive transfer' | translate}}
 </button>
 
