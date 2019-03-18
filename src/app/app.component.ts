@@ -53,6 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(([isAuth, userInfo]: [boolean, ParsedToken]) => {
         this.isAuthenticated = isAuth;
         if(isAuth && userInfo) {
+          this.store.dispatch(new coreAction.LoadVerificationStatusAction());
           this.authService.setSessionFinishListener(userInfo.expiration);
           this.sendTransactionsAnalytics();
           this.setNameEmailToZenChat(userInfo.username);

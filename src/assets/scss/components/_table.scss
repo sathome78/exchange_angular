@@ -340,3 +340,27 @@
 }
 
 /*--- DARK THEME END---*/
+.table{
+  &.qubera-table{
+    .balance__currency-name{
+      margin-left: 0;
+    }
+    .table__cell-head{
+      &:first-child{
+        width: 18%;
+      }
+      &:nth-child(2){
+        width: 15%;
+      }
+      &:nth-child(2){
+        width: 18%;
+      }
+      &.table__cell-head--tac {
+        width: 98px;
+        &:nth-child(1){
+          padding-left: 28%;
+        }
+      }
+    }
+  }
+}
