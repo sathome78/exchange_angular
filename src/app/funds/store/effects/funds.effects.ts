@@ -12,6 +12,7 @@ import {MyBalanceItem} from '../../../model/my-balance-item.model';
 import {Location} from '@angular/common';
 import { TransactionsService } from 'app/funds/services/transaction.service';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {LOAD_QUBERA_BAL} from '../actions/funds.actions';
 
 
 interface ResData {
@@ -113,6 +114,20 @@ export class FundsEffects {
           map((res: MyBalanceItem) => (new fundsActions.SetMyBalancesAction(res))),
           catchError(error => of(new fundsActions.FailLoadMyBalancesAction(error)))
         )
+    }))
+
+  /**
+   * Load qubera balances
+   */
+  @Effect()
+  loadQuberaBalances$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadQuberaBalAction>(fundsActions.LOAD_QUBERA_BAL))
+    .pipe(switchMap(() => {
+      return this.balanceService.getQuberaBalancesInfo()
+        .pipe(
+          map((res: any) => (new fundsActions.SetQuberaBalAction(res))),
+          catchError(error => of(new fundsActions.FailLoadQuberaBalAction(error)))
+        );
     }))
 
    /**

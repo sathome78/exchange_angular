@@ -1,6 +1,7 @@
 
 export const BUY = 'BUY';
 export const SELL = 'SELL';
+export const PENDING = 'PENDING';
 
 
 // for KYC
@@ -28,8 +29,13 @@ export const AUTH_MESSAGES = {
 
 export const KYC_STATUS = {
   'NONE': 'none',
-  'PENDING': 'Pending',
-  'VERIFIED': 'Verified'
+  'CREATED': 'CREATED',
+  'CLICKED': 'CLICKED',
+  'CAPTURE_ONGOING': 'CAPTURE_ONGOING',
+  'SUCCESS': 'SUCCESS',
+  'TECHNICAL_ERROR': 'TECHNICAL_ERROR',
+  'TOO_MANY_ANALYSIS': 'TOO_MANY_ANALYSIS',
+  'EXPIRED': 'EXPIRED',
 }
 
 export const keys = {
