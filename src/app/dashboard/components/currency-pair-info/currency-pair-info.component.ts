@@ -50,7 +50,6 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
         this.pair = {name: pair.name, id: pair.id};
         this.pairInput = pair.name;
         this.subscribeCurrInfo(pair.name);
-        this.selectNewCurrencyPair(this.pair);
         this.crd.detectChanges();
       });
 
