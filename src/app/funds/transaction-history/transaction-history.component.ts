@@ -30,6 +30,7 @@ export class TransactionHistoryComponent implements OnInit {
   public countOfEntries: number = 0;
   public currencyForChoose$: Observable<CurrencyChoose[]>;
   public loading$: Observable<boolean>;
+  public loadingExcel: boolean = false;
   public currValue: string = '';
 
   public currentPage = 1;
@@ -242,11 +243,16 @@ export class TransactionHistoryComponent implements OnInit {
       currencyId: this.currencyId || 0,
       currencyName: this.currValue || '',
     }
+    this.loadingExcel = true;
     this.transactionsService.downloadExcel(params)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         const blob = new Blob([data], {type: 'text/ms-excel'});
         saveAs(blob, 'history-transactions.xlsx');
+        this.loadingExcel = false;
+      }, err => {
+        console.error(err);
+        this.loadingExcel = false;
       });
   }
 

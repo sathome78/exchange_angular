@@ -62,6 +62,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   public BUY = BUY;
   public createdOrder: Order;
   private updateCurrentCurrencyViaWebsocket = false;
+  public loading: boolean = false;
 
   public defaultOrder: Order = {
     orderType: '',
@@ -578,6 +579,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
 
     const order = type === this.BUY ? this.buyOrder : this.sellOrder;
     this.createdOrder = order;
+    this.loading = true;
     this.tradingService.createOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -591,6 +593,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
           this.notifySuccess = false;
           this.createdOrder = null;
           }, 5000);
+        this.loading = false;
       }, err => {
         console.log(err);
         this.notifyFail = true;
@@ -598,6 +601,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
           this.notifyFail = false;
           this.createdOrder = null;
           }, 5000);
+        this.loading = false;
       });
   }
 

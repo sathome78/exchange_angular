@@ -31,6 +31,7 @@ export abstract class AbstractTransfer {
   public abstract balanceService;
   protected abstract store;
   public abstract model;
+  public loadingBalance: boolean = false;
 
   responseDefaultCommission = {
     companyCommissionAmount: '0',
@@ -99,10 +100,15 @@ export abstract class AbstractTransfer {
 
   getCommissionInfo(amount) {
     if (this.activeCrypto) {
+      this.loadingBalance = true;
       this.balanceService.getCommisionInfo(this.activeCrypto.id, amount, this.model.type)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           this.responseCommission = res as any;
+          this.loadingBalance = false;
+        }, err => {
+          console.error(err);
+          this.loadingBalance = false;
         });
     }
   }

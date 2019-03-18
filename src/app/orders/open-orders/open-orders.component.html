@@ -87,7 +87,7 @@
                     <div class="revoke-request" *ngIf="showCancelOrderConfirm === item.id">
                       <div class="revoke-request__title">{{'Are you sure you want to cancel selected order?' | translate}}</div>
                       <div class="revoke-request__button-wrap">
-                        <button class="btn btn--small" (click)="cancelOrder(item)">{{'Yes'| translate}}</button>
+                        <button class="btn btn--small" (click)="cancelOrder(item)" [disabled]="loading$ | async">{{'Yes'| translate}}</button>
                         <button class="btn btn--small" (click)="onShowCancelOrderConfirm(null)">{{'No'| translate}}</button>
                       </div>
                       <div class="revoke-request__triangle"></div>
@@ -131,7 +131,7 @@
           ></app-dynamic-input>
 
         </div>
-        <button (click)="closeFilterPopup()" class="btn filters-popup__btn">{{'See'| translate}} <!--<span>{{countOfEntries$ | async}}</span>--> {{'results'| translate}}</button>
+        <button (click)="closeFilterPopup()"  class="btn filters-popup__btn">{{'See'| translate}} <!--<span>{{countOfEntries$ | async}}</span>--> {{'results'| translate}}</button>
       </form>
     </div>
     <!--filter-popup end-->
@@ -176,7 +176,7 @@
             <div class="revoke-request__title" *ngIf="!currencyPairId">{{'Are you sure to cancel all orders?' | translate}}</div>
             <div class="revoke-request__title" *ngIf="!!currencyPairId">{{'Are you sure to cancel all filtered orders?' | translate}}</div>
             <div class="revoke-request__button-wrap">
-              <button class="btn btn--small" (click)="cancelAllOrders()">{{'Yes' | translate}}</button>
+              <button class="btn btn--small" (click)="cancelAllOrders()" [disabled]="loading$ | async">{{'Yes' | translate}}</button>
               <button class="btn btn--small" (click)="toggleShowCancelAllOrdersConfirm()">{{'No' | translate}}</button>
             </div>
             <div _ngcontent-c19="" class="revoke-request__triangle">
@@ -260,7 +260,7 @@
             <div class="revoke-request" *ngIf="showCancelOrderConfirm === item.id">
               <div class="revoke-request__title">{{'Are you sure you want to cancel selected order?'| translate}}</div>
               <div class="revoke-request__button-wrap">
-                <button class="btn btn&#45;&#45;small" (click)="cancelOrder(item)">{{'Yes'| translate}}</button>
+                <button class="btn btn&#45;&#45;small" (click)="cancelOrder(item)" [disabled]="loading$ | async">{{'Yes'| translate}}</button>
                 <button class="btn btn&#45;&#45;small" (click)="onShowCancelOrderConfirm(null)">{{'No'| translate}}</button>
               </div>
               <div class="revoke-request__triangle"></div>

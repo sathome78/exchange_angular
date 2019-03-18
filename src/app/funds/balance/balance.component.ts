@@ -72,6 +72,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public currentPage = 1;
   public countPerPage = 15;
+  public loading: boolean = false;
 
   constructor(
     public balanceService: BalanceService,

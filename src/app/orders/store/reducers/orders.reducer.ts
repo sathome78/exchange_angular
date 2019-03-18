@@ -70,10 +70,13 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
         loading: false,
       };
 
+    case ordersActions.CANCEL_OPEN_ORDER:
+      return {...state, loading: true};
     case ordersActions.CROP_CANCELED_ORDER:
       return {
         ...state,
-        openOrders: state.openOrders.filter((item) => item.id !== action.payload)
+        openOrders: state.openOrders.filter((item) => item.id !== action.payload),
+        loading: false,
       };
     case ordersActions.FAIL_ORDERS:
       return {

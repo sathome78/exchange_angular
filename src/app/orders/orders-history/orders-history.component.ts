@@ -41,6 +41,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public currencyPairValue: string = '';
   public hideAllCanceled: boolean = false;
   public isMobile: boolean = false;
+  public loadingExcel: boolean = false;
 
   public showFilterPopup = false;
   public tableScrollStyles: any = {};
@@ -294,11 +295,16 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       currencyPairId: this.currencyPairId || 0,
       currencyPairName: this.currencyPairValue || '',
     }
+    this.loadingExcel = true;
     this.ordersService.downloadExcel(params)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         const blob = new Blob([data], {type: 'text/ms-excel'});
         saveAs(blob, 'history-orders.xlsx');
+        this.loadingExcel = false;
+      }, err => {
+        console.error(err);
+        this.loadingExcel = false;
       });
   }
 

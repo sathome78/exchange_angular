@@ -5,6 +5,7 @@
       <input type="checkbox"
              name=""
              [(ngModel)]="isLowColorModeEnabled"
+             [disabled]="loading"
              (click)="toggleLowColorMode()">
       <span class="toggler__indicate"></span>
     </label>

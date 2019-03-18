@@ -203,7 +203,7 @@
     </ul>
     </div>
     <div class="order-edit-popup__btns-wrap">
-    <button class="btn btn--small btn--empty-red" (click)="deleteOrder(order)">{{'Delete' | translate}}</button>
+    <button class="btn btn--small btn--empty-red" (click)="deleteOrder(order)" [disabled]="loading">{{'Delete' | translate}}</button>
     <button class="btn btn--small btn--empty-blue" (click)="saveOrder()" [disabled]="loading">{{'Save' | translate}}</button>
     </div>
     </div>

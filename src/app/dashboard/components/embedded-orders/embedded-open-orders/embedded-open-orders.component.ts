@@ -215,10 +215,15 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
    * @param order
    */
   deleteOrder(order): void {
+    this.loading = true;
     this.ordersService.deleteOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.refreshOpenOrders.emit(true);
+        this.loading = false;
+      }, err => {
+        console.error(err);
+        this.loading = false;
       });
     this.editOrderPopup = false;
     this.resetForms();
