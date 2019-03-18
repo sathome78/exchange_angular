@@ -238,8 +238,8 @@ export class TransactionHistoryComponent implements OnInit {
     const params = {
       offset: (this.currentPage - 1) * this.countPerPage,
       limit:this.countPerPage,
-      dateFrom: this.formatDate(this.modelDateFrom.date),
-      dateTo: this.formatDate(this.modelDateTo.date),
+      dateFrom:  this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
+      dateTo:  this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
       currencyId: this.currencyId || 0,
       currencyName: this.currValue || '',
     }

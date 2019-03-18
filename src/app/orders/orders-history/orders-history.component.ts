@@ -289,8 +289,8 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
 
   downloadExcel() {
     const params = {
-      dateFrom: this.formatDate(this.modelDateFrom.date),
-      dateTo: this.formatDate(this.modelDateTo.date),
+      dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
+      dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
       hideCanceled: this.hideAllCanceled,
       currencyPairId: this.currencyPairId || 0,
       currencyPairName: this.currencyPairValue || '',
