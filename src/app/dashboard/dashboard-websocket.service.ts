@@ -89,26 +89,6 @@ export class DashboardWebSocketService implements OnDestroy {
     });
   }
 
-  // To refactor
-  choosePairForTrade(currency: string) {
-    this.store
-      .pipe(select(getCurrencyPairArray))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((currencyPairs: CurrencyPair[]) => {
-        const filteredPairs = currencyPairs.filter(pair => {
-          const splitName = pair.currencyPairName.split('/');
-          return splitName[0] === currency || splitName[1] === currency;
-        });
-        const filteredPair = filteredPairs.filter(pair => {
-          const splitName = pair.currencyPairName.split('/');
-          return splitName[0] === 'BTC' || splitName[1] === 'BTC';
-        });
-        const currentPair = filteredPair[0] ? filteredPair[0] : filteredPairs[0];
-        const newActivePair = new SimpleCurrencyPair(currentPair.currencyPairId, currentPair.currencyPairName);
-        this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
-      });
-  }
-
 
   // addOrUpdate(currencyPair: CurrencyPair, favouritePairsId: number[]) {
   //   let found = false;
