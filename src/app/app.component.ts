@@ -84,6 +84,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const pair = currencies.find((item) => (item.name === 'BTC/USD'));
     if(pair) {
       this.store.dispatch(new dashboardAction.ChangeActiveCurrencyPairAction(pair));
+      this.userService.getUserBalance(pair);
     }
   }
   setNameEmailToZenChat(userEmail: string): void {
