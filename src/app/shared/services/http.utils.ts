@@ -4,7 +4,7 @@ export const MEDIA_TYPE_JSON: HttpHeaders = new HttpHeaders()
   .set('Content-Type', 'application/json');
 
 export const TOKEN = 'token';
-export const USED_IP = 'user_ip';
+export const USER_IP = 'user_ip';
 export const X_FORWARDED_FOR = 'X-Forwarded-For';
 export const X_AUTH_TOKEN = 'x-auth-token';
 export const EXRATES_REST_TOKEN = 'Exrates-Rest-Token';

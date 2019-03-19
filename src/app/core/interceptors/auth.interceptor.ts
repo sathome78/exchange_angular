@@ -5,7 +5,7 @@ import {
   IP_CHECKER_URL,
   TOKEN,
   X_FORWARDED_FOR,
-  USED_IP,
+  USER_IP,
   X_AUTH_TOKEN
 } from 'app/shared/services/http.utils';
 
@@ -15,7 +15,7 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const clientIp = localStorage.getItem(USED_IP) || '';
+    const clientIp = localStorage.getItem(USER_IP) || '';
     if (localStorage.getItem(TOKEN) && req.url !== IP_CHECKER_URL) {
       const token = localStorage.getItem(TOKEN);
       const headers = req.headers
