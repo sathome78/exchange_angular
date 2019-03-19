@@ -1,5 +1,5 @@
 <div *ngIf="!!activeCrypto && !!activeBalance">
-<div class="title send__title">{{'Make Inner transfer by email or nickname' | translate}}</div>
+<div class="title send__title">{{'Make Inner transfer by email' | translate}}</div>
 <div class="formWraper" *ngIf="isEnterData">
   <form [formGroup]="form">
     <div class="send__inputs-wrap">
@@ -90,7 +90,7 @@
         <div *ngIf="form.controls['email'].invalid && form.controls['email'].errors">
           <div class="input-hint-wrapper">
         <span class="wrap-input__message"
-              *ngIf="form.controls['email'].errors['pattern'] ||
+              *ngIf="form.controls['email'].errors['emailInvalid'] ||
                form.controls['email'].errors['required'] &&
                 (form.controls['email'].touched || isSubmited)">
           {{'Enter valid email to transfer' | translate}}
