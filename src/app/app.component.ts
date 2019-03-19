@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PopupService} from './shared/services/popup.service';
 import {ThemeService} from './shared/services/theme.service';
 import {IpAddress, UserService} from './shared/services/user.service';
-import {IP_CHECKER_URL} from './shared/services/http.utils';
+import {IP_CHECKER_URL, USED_IP} from './shared/services/http.utils';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from './shared/services/auth.service';
 import {Subject} from 'rxjs/Subject';
@@ -126,9 +126,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.http.get<IpAddress>(IP_CHECKER_URL)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
-        // console.log(response);
+        console.log(response);
         // this.logger.debug(this, 'Client IP: ' + response.ip);
-        // localStorage.setItem(IP_USER_KEY, response.ip);
+        localStorage.setItem(USED_IP, response.ip);
       });
   }
 

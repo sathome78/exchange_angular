@@ -4,6 +4,8 @@ import {
   EXRATES_REST_TOKEN,
   IP_CHECKER_URL,
   TOKEN,
+  X_FORWARDED_FOR,
+  USED_IP,
   X_AUTH_TOKEN
 } from 'app/shared/services/http.utils';
 
@@ -13,15 +15,16 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const clientIp = localStorage.getItem(USED_IP) || '';
     if (localStorage.getItem(TOKEN) && req.url !== IP_CHECKER_URL) {
       const token = localStorage.getItem(TOKEN);
       const headers = req.headers
         .append('Content-Type', 'application/json')
         .append(X_AUTH_TOKEN, token)
-        .append(EXRATES_REST_TOKEN, token);
-      // .append(CORS_HEADER, '*');
-      // .append(IP_USER_KEY, clientIp);
-      // .append(IP_USER_HEADER, '192.168.0.1');
+        .append(EXRATES_REST_TOKEN, token)
+        .append(X_FORWARDED_FOR, clientIp);
+        // .append(CORS_HEADER, '*');
+        // .append(IP_USER_HEADER, '192.168.0.1');
 
       const copiedReq = req.clone({
         headers: headers,
@@ -30,7 +33,8 @@ export class AuthInterceptor implements HttpInterceptor {
     } else {
       let headers;
       headers = req.headers
-        .append('Content-Type', 'application/json');
+        .append('Content-Type', 'application/json')
+        .append(X_FORWARDED_FOR, clientIp);
       const copiedReq = req.clone({
         headers,
       });
