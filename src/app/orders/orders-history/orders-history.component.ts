@@ -47,6 +47,9 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public tableScrollStyles: any = {};
   public initialRequest: boolean = false;
 
+  public isDateInputFromFocus = false;
+  public isDateInputToFocus = false;
+
   public myDatePickerOptions: IMyDpOptions = {
     showInputField: false,
     dateFormat: 'dd.mm.yyyy',
@@ -171,10 +174,12 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   focusOrBlurDateFrom(event) {
+    this.isDateInputFromFocus = event;
     if (!event) this.modelDateFrom = {...this.modelDateFrom};
   }
 
   focusOrBlurDateTo(event) {
+    this.isDateInputToFocus = event;
     if (!event) this.modelDateTo = {...this.modelDateTo};
   }
 
