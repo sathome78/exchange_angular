@@ -46,6 +46,7 @@ export class PendingRequestTableComponent implements OnInit {
 
 
   ngOnInit() {
+    console.log(this.pendingRequests)
   }
 
 }

@@ -13,6 +13,8 @@ export class ShowTransactionsTypePipe  implements PipeTransform {
         return 'Transfer / Voucher / Voucher free'
       case 'REFILL':
         return 'Deposit';
+        case 'TRANSFER':
+        return 'Transfer';
       default:
         return sourceType;
     }
