@@ -38,7 +38,10 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
   }
 
   onCloseSendMoneyPopup() {
-    this.closeSendMoneyPopup.emit(true);
+    this.showPopup = false;
+    setTimeout(() => {
+      this.closeSendMoneyPopup.emit(true);
+    }, 1000);
   }
 
   ngOnInit() {
@@ -78,10 +81,10 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
 
   private initFields() {
     this.step = this.optionData.step ? this.optionData.step : 1;
-    this.stepThreeName = this.optionData.stepName && this.optionData.stepName === QUBERA ? QUBERA : '';
-    this.stepTwoName = this.optionData.stepName === QUBERA ? INNER_TRANSFER : this.optionData.stepName;
+    this.stepTwoName = this.optionData.stepName ? this.optionData.stepName : '';
     this.stepThreeData = this.optionData.stepThreeData ? this.optionData.stepThreeData : null;
   }
+
 
   activeStepThreeInnerTransfer(name: string) {
     this.step = 3;

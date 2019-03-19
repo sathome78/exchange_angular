@@ -247,7 +247,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.showSendMoneyPopup = true;
     this.sendMoneyData = {
       step: 2,
-      stepName: this.currTab === 'CRYPTO' ? CRYPTO_WITHDRAWAL : this.currTab === 'QUBERA' ? FIAT_WITHDRAWAL_QUBERA : FIAT_WITHDRAWAL,
+      stepName: this.currTab === 'CRYPTO' ? CRYPTO_WITHDRAWAL : FIAT_WITHDRAWAL,
       balance: balance
     };
   }
@@ -256,7 +256,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.showRefillBalancePopup = true;
     this.refillBalanceData = {
       step: 2,
-      stepName: this.currTab === 'CRYPTO' ? CRYPTO_DEPOSIT : this.currTab === 'QUBERA' ? FIAT_DEPOSIT_QUBERA : FIAT_DEPOSIT,
+      stepName: this.currTab === 'CRYPTO' ? CRYPTO_DEPOSIT : FIAT_DEPOSIT,
       balance: balance
     };
   }
@@ -272,8 +272,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
     // this.popupService.showDemoTradingPopup(true);
     this.showSendMoneyPopup = true;
     this.sendMoneyData = {
-      step: this.currTab === 'QUBERA' ? 3 : 2,
-      stepName: this.currTab === 'QUBERA' ? QUBERA : INNER_TRANSFER,
+      step: 2,
+      stepName: INNER_TRANSFER,
       stepThreeData: balance
     };
   }
@@ -327,6 +327,5 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public get getFiatDynamicIData(): DIOptions[] {
     return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
   }
-
 
 }
