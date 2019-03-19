@@ -74,7 +74,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userFavorites: number[]) => {
         this.userFavorites = userFavorites;
-        this.pairs = this.choosePair(this.currencyDisplayMode);
+        this.pairs = this.choosePair(this.currencyDisplayMode, this.searchInput);
         this.cdr.detectChanges();
       });
 
