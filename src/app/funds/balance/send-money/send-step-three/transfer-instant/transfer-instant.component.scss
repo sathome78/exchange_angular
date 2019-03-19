@@ -159,13 +159,13 @@ perfect-scrollbar{
   }
   &.wrap-input--error {
     app-price-input {
-      label {
-        color: #EB5757 !important;
-      }
       input:focus {
         &+label{
           color: #94C2FF !important;
         }
+      }
+      label {
+        color: #EB5757 !important;
       }
     }
   }
@@ -177,6 +177,13 @@ perfect-scrollbar{
 }
 
 // TEMP STYLE
+.wrap-input--error {
+  .wrap-input__label {
+    color: #EB5757 !important;
+  }
+}
+
+
 .loading-container {
   margin-top: 40%;
 }
