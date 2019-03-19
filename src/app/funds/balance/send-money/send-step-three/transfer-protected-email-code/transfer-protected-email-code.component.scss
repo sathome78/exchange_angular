@@ -182,6 +182,12 @@ perfect-scrollbar{
 }
 
 // TEMP STYLE
+.wrap-input--error {
+  .wrap-input__label {
+    color: #EB5757 !important;
+  }
+}
+
 .loading-container {
   margin-top: 40%;
 }

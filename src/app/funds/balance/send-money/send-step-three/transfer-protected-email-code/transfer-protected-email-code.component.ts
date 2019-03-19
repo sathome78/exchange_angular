@@ -6,6 +6,7 @@ import {Store} from '@ngrx/store';
 import {BY_PRIVATE_CODE} from '../../send-money-constants';
 import {AbstractTransfer} from '../abstract-transfer';
 import {PopupService} from '../../../../../shared/services/popup.service';
+import {UtilsService} from '../../../../../shared/services/utils.service';
 
 @Component({
   selector: 'app-transfer-protected-email-code',
@@ -27,6 +28,7 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
     public balanceService: BalanceService,
     public popupService: PopupService,
     protected store: Store<State>,
+    private utilsService: UtilsService
   ) {
     super();
   }
@@ -64,7 +66,7 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
 
   private initForm() {
     this.form = new FormGroup({
-      email: new FormControl('', {validators: [Validators.required, Validators.pattern(this.emailRegex)]}),
+      email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator()]}),
       amount: new FormControl('', {validators: [
         Validators.required,
           this.isMaxThenActiveBalance.bind(this),
