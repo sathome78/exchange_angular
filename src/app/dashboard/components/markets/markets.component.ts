@@ -15,6 +15,7 @@ import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
 import {Subscription} from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {UserService} from '../../../shared/services/user.service';
 
 
 @Component({
@@ -51,6 +52,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   constructor(
     private cdr: ChangeDetectorRef,
     private marketService: MarketService,
+    private userService: UserService,
     private store: Store<State>,
     public breakpointService: BreakpointService,
     private dashboardWebsocketService: DashboardWebSocketService,
@@ -158,6 +160,11 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.selectedCurrencyPair = pair;
     const newActivePair = new SimpleCurrencyPair(pair.currencyPairId, pair.currencyPairName);
     this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
+    const simplePair = {
+      id: pair.currencyPairId,
+      name: pair.currencyPairName
+    };
+    this.userService.getUserBalance(simplePair);
     if (this.route.snapshot.paramMap.get('currency-pair')) {
        this.router.navigate(['/']);
     }

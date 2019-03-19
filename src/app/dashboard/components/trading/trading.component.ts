@@ -124,6 +124,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(state => {
         this.userBalance = state.userBalance;
+        this.cdr.detectChanges();
       });
 
     this.store
