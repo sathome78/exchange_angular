@@ -42,7 +42,7 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
 
   ngAfterViewInit() {
     this.el = this.inputEl.nativeElement;
-    this.el.type = 'date';
+    this.el.type = 1;
     this.el.removeAttribute('autocomplete');
   }
 
