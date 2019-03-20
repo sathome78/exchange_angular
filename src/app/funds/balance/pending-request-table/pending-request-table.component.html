@@ -6,6 +6,7 @@
     <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Amount' | translate}}</th>
     <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Comission' | translate}}</th>
     <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Payment system' | translate}}</th>
+    <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Operation type' | translate}}</th>
     <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Status' | translate}}</th>
     <!-- <th class="table__cell-head table__cell-head--tac"></th> -->
     <th class="table__cell-head table__cell-head--tac"></th>
@@ -38,6 +39,9 @@
     </td>
     <td class="table__cell table__cell--tar">
       <span>{{item.system | showPendingSystem: item.currency}}</span>
+    </td>
+    <td class="table__cell table__cell--tar">
+      <span>{{item.operation | showTransactionsType: item.operation}}</span>
     </td>
     <td class="table__cell table__cell--tar">
       <span>{{item.status | showPendingStatus: item.operation}}</span>

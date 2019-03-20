@@ -274,16 +274,18 @@
   </div>
 
 
-  <div *ngIf="showRefillBalancePopup">
+  <div>
     <app-refill-money
+      *ngIf="showRefillBalancePopup"
     [showPopup]="showRefillBalancePopup"
     [optionData]="refillBalanceData"
     (closeRefillBalancePopup)="openRefillBalancePopup(false)"
     ></app-refill-money>
   </div>
 
-  <div *ngIf="showSendMoneyPopup">
+  <div>
     <app-send-money
+      *ngIf="showSendMoneyPopup"
     [showPopup]="showSendMoneyPopup"
     [optionData]="sendMoneyData"
     (closeSendMoneyPopup)="openSendMoneyPopup(false)"

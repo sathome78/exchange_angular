@@ -180,9 +180,7 @@ export class BalanceService {
   }
 
   goToTrade(balance: BalanceItem): void {
-    this.dashboardWS.isNeedChangeCurretPair = false;
-    this.dashboardWS.choosePairForTrade(balance.currencyName);
-    this.router.navigate(['/']);
+    this.router.navigate([`/markets/${balance.currencyName}-BTC`]);
   }
 
 }

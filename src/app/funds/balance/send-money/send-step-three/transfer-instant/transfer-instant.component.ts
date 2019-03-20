@@ -6,6 +6,7 @@ import {State} from '../../../../../core/reducers';
 import {TRANSFER_INSTANT} from '../../send-money-constants';
 import {AbstractTransfer} from '../abstract-transfer';
 import {PopupService} from '../../../../../shared/services/popup.service';
+import {UtilsService} from '../../../../../shared/services/utils.service';
 
 @Component({
   selector: 'app-transfer-instant',
@@ -17,6 +18,7 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
+    private utilsService: UtilsService,
     protected store: Store<State>,
   ) {
     super();
@@ -64,7 +66,7 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
 
   private initForm() {
     this.form = new FormGroup({
-      email: new FormControl('', {validators: [Validators.required, Validators.pattern(this.emailRegex)]}),
+      email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator()]}),
       amount: new FormControl('', {validators: [
           Validators.required,
           this.isMaxThenActiveBalance.bind(this),

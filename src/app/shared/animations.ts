@@ -1,4 +1,4 @@
-import {trigger, state, style, animate, transition,} from '@angular/animations';
+import {trigger, state, style, animate, transition} from '@angular/animations';
 
 export const Animations = {
   popupOverlayTrigger: trigger('overlayAnimation', [
@@ -23,10 +23,10 @@ export const Animations = {
     state('hide', style({
       right: '-900px'
     })),
-    transition(':enter', [
+    transition('*=>show', [
       animate('0.4s linear')
     ]),
-    transition(':leave', [
+    transition('*=>hide', [
       animate('0.4s linear')
     ]),
   ]),
