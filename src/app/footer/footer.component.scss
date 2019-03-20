@@ -34,7 +34,7 @@
   flex-direction: column;
   @media (min-width:1200px) {
     flex-direction: row;
-    justify-content: space-between;
+    // justify-content: space-between;
   }
 }
 
@@ -47,10 +47,16 @@
   @media (min-width:600px) {
     margin-bottom: 20px;
   }
-  @media (min-width:1200px) {
+    @media (min-width:1260px) {
     margin-bottom: 0;
+    margin-right: 80px;
+  }
+  @media (min-width:1200px) and (max-width: 1259px){
+    margin-bottom: 0;
+    margin-right: 30px;
   }
 }
+
 
 .footer__menu-item {
   margin-right: 32px;

@@ -60,7 +60,6 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
       operation: TRANSFER_INSTANT,
       data: this.model
     };
-
     this.balanceService.goToPinCode$.next(data);
   }
 

@@ -87,9 +87,10 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   writeValue(value: any) {
     if (value == 'N/A')
       return this._innerValue = value;
+    const count = this.utils.isFiat(this.currencyName) ? 2 : 8;
     value = value ? this.roundCurrencyPipe.transform(value, this.currencyName) : value;
     this._innerValue = this.currencyUsdPipe.transform(value);
-    this.propagateChanges(this.currencyUsdPipe.parse(this._innerValue));
+    this.propagateChanges(this.currencyUsdPipe.parse(this._innerValue, count));
   }
 
   propagateChanges = (...any) => {
