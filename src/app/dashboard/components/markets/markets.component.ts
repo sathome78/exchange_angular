@@ -117,6 +117,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         // console.log('markets', parsedData);
         this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(parsedData.data))
         this.loadingFinished();
+        this.cdr.detectChanges();
       })
   }
 

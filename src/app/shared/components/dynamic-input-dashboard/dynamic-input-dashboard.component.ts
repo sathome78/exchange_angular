@@ -5,7 +5,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, 
   templateUrl: './dynamic-input-dashboard.component.html',
   styleUrls: ['./dynamic-input-dashboard.component.scss'],
   host: {
-    '(document:click)': 'onClickOutsideInput($event)',
+    '(document:mousedown)': 'onClickOutsideInput($event)',
     '(document:keydown)': 'keyDown($event)',
     '(document:keydown.enter)': 'this.onSelectItem(this.filteredOptions[this.arrowKeyLocation])',
   },
@@ -65,9 +65,11 @@ export class DynamicInputDashboardComponent implements OnChanges {
 
   onClickOutsideInput(event: Event) {
     if (!this._eref.nativeElement.contains(event.target) ) {
+      console.log('click outside');
       this.closeDropdown();
+      this.onBlur.emit();
     }
-    this.onBlur.emit();
+    console.log('click');
   }
 
   ngOnChanges(changes) {
@@ -75,6 +77,9 @@ export class DynamicInputDashboardComponent implements OnChanges {
       if(changes.value.currentValue !== changes.value.previousValue) {
         this.arrowKeyLocation = 0;
         this.filterList(changes.value.currentValue);
+        if(!changes.value.firstChange && this.filteredOptions.length) {
+          this.openDropdown();
+        }
       }
     }
     if(changes.options) {
@@ -84,6 +89,11 @@ export class DynamicInputDashboardComponent implements OnChanges {
       }
     }
 
+  }
+
+  onInput(e) {
+    console.log(e.target.value);
+    this.onChange.emit(e.target.value);
   }
 
   onSelectItem(item: DIOptions): void {
