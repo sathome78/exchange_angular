@@ -255,6 +255,10 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
     this.popupService.showRecoveryPasswordPopup(true);
   }
 
+  emailInput() {
+      this.statusMessage = '';
+  }
+
   sendAgain() {
 
   }
