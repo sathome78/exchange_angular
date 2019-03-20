@@ -1,12 +1,14 @@
 <app-transfer-instant
   *ngIf="choosedName === BY_EMAIL"
   [balanceData]="data"
+  [userEmail]="(userInfo$ | async).username"
 >
 </app-transfer-instant>
 
 <app-transfer-protected-email-code
   *ngIf="choosedName === BY_CODE"
   [balanceData]="data"
+  [userEmail]="(userInfo$ | async).username"
 >
 </app-transfer-protected-email-code>
 

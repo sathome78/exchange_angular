@@ -27,10 +27,10 @@
       <span>{{splitPairName(pair)[0]}}</span>
       <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
     </div>
-    <div class="table__cell table__cell--p4" style="width: 46%;">
+    <div class="table__cell table__cell--p4" style="width: 32%;">
       <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
     </div>
-    <div class="table__cell table__cell--p4" style="width: 19%">
+    <div class="table__cell table__cell--p4" style="width: 25%">
       <span
         style="margin-right: 2px;"
         [ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}"

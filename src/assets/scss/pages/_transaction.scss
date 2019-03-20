@@ -89,9 +89,12 @@
       padding: 0 12px;
       border-radius: 4px;
       bottom: 1px;
+      width: 100%;
+      max-width: 160px;
       svg{
         vertical-align: middle;
         fill:$light-blue;
+        margin-right: 10px;
       }
       &:hover{
         svg{

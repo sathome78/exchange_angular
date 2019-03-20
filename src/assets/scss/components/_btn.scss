@@ -1,3 +1,10 @@
+.dark-theme{
+.btn {
+  &:hover {
+    background-color: #4590F3;
+  }
+}
+}
 .btn {
   display: block;
   width: 100%;
