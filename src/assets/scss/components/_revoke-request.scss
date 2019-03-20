@@ -76,6 +76,15 @@
       border-top: 5px solid #2B3961;
     }
   }
+  .open-orders--mob{
+    .revoke-request{
+    top: 16px;
+    &__triangle{
+      left: 16px;
+      right: auto;
+    }
+  }
+  }
 }
 
 @media (min-width: 1200px) {
