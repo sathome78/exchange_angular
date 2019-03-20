@@ -110,6 +110,9 @@
           <span class="wrap-input__message" *ngIf="form.controls['email'].errors['USER_EMAIL_NOT_FOUND']">
                 {{'User email not found.' | translate}}
               </span>
+            <span class="wrap-input__message" *ngIf="form.controls['email'].errors['ownEmail']">
+                {{'You can not send the transfer to your current user.' | translate}}
+              </span>
         </div>
       </div>
         <!--Input error section ends-->
