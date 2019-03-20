@@ -10,6 +10,7 @@ import {getAllCurrenciesForChoose} from '../../../../core/reducers';
 export abstract class AbstractTransfer {
 
   @Input() balanceData;
+  @Input() userEmail = '';
   public cryptoNames;
   public defaultCryptoNames;
   public openCurrencyDropdown = false;
@@ -179,7 +180,7 @@ export abstract class AbstractTransfer {
 
   emailBlur() {
     const email = this.form.controls['email'];
-    if (email.valid) {
+    if (email.valid && email.value !== this.userEmail) {
       this.balanceService.checkEmail(email.value)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
@@ -191,6 +192,9 @@ export abstract class AbstractTransfer {
             email.setErrors({'checkEmailCrash': true});
           }
         });
+    }
+    if (email.value === this.userEmail) {
+      email.setErrors({'ownEmail': true});
     }
   }
 
