@@ -47,6 +47,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     sum: '',
     destination: '',
     destinationTag: '',
+    currencyName: '',
     merchantImage: '',
     securityCode: ''
   };
@@ -107,6 +108,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       this.model.merchant = this.cryptoInfoByName.merchantCurrencyData[0].merchantId;
       this.model.merchantImage = this.cryptoInfoByName.merchantCurrencyData[0].listMerchantImage[0].id;
       this.model.sum = this.form.controls['amount'].value;
+      this.model.currencyName = this.activeCrypto.name || '';
       this.model.destination = this.form.controls['address'].value;
       this.model.destinationTag = this.form.controls['memo'] ? this.form.controls['memo'].value : '';
       const data = {

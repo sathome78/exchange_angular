@@ -63,7 +63,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit, OnDestroy {
       validators: [
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(40),
+        Validators.maxLength(20),
         this.utilsService.passwordCombinationValidator()
       ]
     });
@@ -71,7 +71,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit, OnDestroy {
       validators: [
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(40),
+        Validators.maxLength(20),
         this.utilsService.passwordCombinationValidator(),
         this.utilsService.passwordMatchValidator(this.passwordFirst)
       ]

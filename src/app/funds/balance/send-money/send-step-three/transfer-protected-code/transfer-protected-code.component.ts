@@ -19,6 +19,7 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
     currency: 0,
     sum: '',
     pin: '',
+    currencyName: '',
     type: 'VOUCHER'
   };
 
@@ -52,6 +53,7 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
   afterResolvedCaptcha() {
     this.model.currency = this.activeCrypto.id;
     this.model.sum = this.form.controls['amount'].value;
+    this.model.currencyName = this.activeCrypto.name;
     const data = {
       operation: BY_PRIVATE_CODE,
       data: this.model
