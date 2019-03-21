@@ -29,6 +29,7 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
     currency: 0,
     sum: '',
     pin: '',
+    currencyName: '',
     type: 'TRANSFER',
     recipient: ''
   };
@@ -56,6 +57,7 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
     this.model.recipient = this.form.controls['email'].value;
     this.model.currency = this.activeCrypto ? this.activeCrypto.id : null;
     this.model.sum = this.form.controls['amount'].value;
+    this.model.currencyName = this.activeCrypto.name;
     const data = {
       operation: TRANSFER_INSTANT,
       data: this.model
