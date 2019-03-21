@@ -97,7 +97,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((currencyPairs: MapModel<CurrencyPair>) => {
         this.currencyPairs = Object.values(currencyPairs);
-        this.pairs = this.choosePair(this.currencyDisplayMode);
+        this.pairs = this.choosePair(this.currencyDisplayMode, this.searchInput);
         this.cdr.detectChanges();
       }, (err) => {
         console.error(err);
