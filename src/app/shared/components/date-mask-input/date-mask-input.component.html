@@ -1,13 +1,16 @@
-<input
-  type="text"
-  [(ngModel)]='value'
-  autocomplete="1"
-  [class.dirty]="mask.dirty"
-  #mask="ngModel"
-  #inputEl
-  name="mask"
-  appDateMask="true"
-  (blur)="onBlur($event)"
-  (focus)="onFocus($event)"
-  (input)="inputData($event)"
-  maxlength="10">
+<form>
+  <input
+    type="text"
+    [(ngModel)]='value'
+    [class.dirty]="mask.dirty"
+    autocomplete="off"
+    #inputEl
+    #mask="ngModel"
+    name="mask"
+    appDateMask="true"
+    (blur)="onBlur($event)"
+    (focus)="onFocus($event)"
+    (input)="inputData($event)"
+    maxlength="10"
+  />
+</form>

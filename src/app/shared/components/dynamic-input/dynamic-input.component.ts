@@ -5,7 +5,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChange
   templateUrl: './dynamic-input.component.html',
   styleUrls: ['./dynamic-input.component.scss'],
   host: {
-    '(document:click)': 'onClickOutsideInput($event)',
+    '(document:mousedown)': 'onClickOutsideInput($event)',
     '(document:keydown)': 'keyDown($event)',
     '(document:keydown.enter)': 'this.onSelectItem(this.filteredOptions[this.arrowKeyLocation])',
   },
@@ -80,7 +80,6 @@ export class DynamicInputComponent implements OnChanges {
         this.onSelect.emit({id: null, text: null});
       }
     }
-
   }
 
   onClearInput(): void {

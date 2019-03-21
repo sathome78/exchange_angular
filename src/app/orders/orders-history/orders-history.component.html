@@ -170,7 +170,7 @@
       <h1 class="page-title__text">
         {{'Orders history' | translate}}
       </h1>
-      <button class="btn orders__title-btn" (click)="downloadExcel()" [disabled]="loadingExcel">
+      <button class="btn orders__title-btn" (click)="downloadExcel()" [disabled]="loadingExcel || !(orderItems$ | async).length">
         <span class="btn__icon btn__icon--blue">
           <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
