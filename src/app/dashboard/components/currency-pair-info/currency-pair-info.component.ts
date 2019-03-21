@@ -35,7 +35,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<State>,
     private dashboardWebsocketService: DashboardWebSocketService,
-    private crd: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef,
     private userService: UserService,
     private utils: UtilsService,
     private route: ActivatedRoute,
@@ -50,7 +50,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
         this.pair = {name: pair.name, id: pair.id};
         this.pairInput = pair.name;
         this.subscribeCurrInfo(pair.name);
-        this.crd.detectChanges();
+        this.cdr.detectChanges();
       });
 
     this.store
@@ -58,7 +58,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPairInfo) => {
         this.currentCurrencyInfo = pair;
-        this.crd.detectChanges();
+        this.cdr.detectChanges();
       });
 
     this.store
@@ -67,7 +67,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .subscribe((pair: SimpleCurrencyPair[]) => {
         this.allCurrencyPairs = pair;
         this.DIOptions = pair.map((item) => ({text: item.name, id: item.id}));
-        this.crd.detectChanges();
+        this.cdr.detectChanges();
       });
 
     this.store
@@ -79,7 +79,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
         } else {
           this.userBalanceInfo = null;
         }
-        this.crd.detectChanges();
+        this.cdr.detectChanges();
       });
 
 
@@ -93,6 +93,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         // console.log('currInfo', data)
         this.store.dispatch(new dashboardActions.RefreshCurrencyPairInfoAction(data))
+        this.cdr.detectChanges();
       })
   }
 

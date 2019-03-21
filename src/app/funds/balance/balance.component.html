@@ -113,7 +113,7 @@
           (onSelect)="onSelectPair($event.id)"
           [showNotFoundTip]="true"
         ></app-dynamic-input>
-        <ng-container *ngIf="isProd">
+        <ng-container *ngIf="!isProd">
           <app-dynamic-input
             *ngSwitchCase="Tab.QUBERA"
             [value]="currValue"
@@ -261,7 +261,7 @@
           (onRevokePendingRequest)="onRevokePendingRequest($event)"
           *ngSwitchCase="Tab.PR"
         ></app-pending-request-table>
-        <ng-container *ngIf="isProd">
+        <ng-container *ngIf="!isProd">
           <app-qubera-table
             *ngSwitchCase="Tab.QUBERA"
             [balances]="quberaBalances$ | async"
