@@ -7,6 +7,8 @@ export class ShowTransactionsStatusPipe  implements PipeTransform {
   transform(status: string, sourceType: string): string {
     if(sourceType === 'WITHDRAW') {
       switch (status) {
+        case 'ON_BCH_EXAM':
+          return 'On pending';
         case 'REVOKED_USER':
           return 'Canceled';
         case 'DECLINED_ADMIN':
@@ -22,6 +24,8 @@ export class ShowTransactionsStatusPipe  implements PipeTransform {
       switch (status) {
         case 'POSTED':
           return 'Completed';
+        case 'POSTPONED_AS_VOUCHER':
+          return 'Awaits deposit';
         case 'REVOKED':
           return 'Canceled';
         case 'REVOKED_ADMIN':

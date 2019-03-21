@@ -213,13 +213,25 @@
   }
   &__list-item-icon {
     width: 21px;
-        height: 15px;
+    height: 14px;
     margin-right: 8px;
     vertical-align: middle;
+    line-height: 1.5;
   }
   /*--- elements end ---*/
 }
 
+
+.table__cell{
+  .select__list-item-icon{
+    width: 21px;
+    height: 15px;
+    margin-right: 8px;
+    vertical-align: middle;
+    line-height: 1.5;
+    padding-bottom: 4px;
+  }
+}
 /*--- media start ---*/
 @media (min-width: 600px) {
   .select {

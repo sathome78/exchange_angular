@@ -113,7 +113,7 @@
           (onSelect)="onSelectPair($event.id)"
           [showNotFoundTip]="true"
         ></app-dynamic-input>
-        <ng-container *ngIf="isProd">
+        <ng-container *ngIf="!isProd">
           <app-dynamic-input
             *ngSwitchCase="Tab.QUBERA"
             [value]="currValue"
@@ -168,7 +168,7 @@
           <!--</div>-->
           <!--<span>{{'Qubera Balance' | translate}}</span>-->
           <!--</button>-->
-          <button
+         <!--  <button
             class="tabs__item"
             [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
             (click)="onSelectTab(Tab.QUBERA)"
@@ -188,7 +188,7 @@
               </svg>
             </div>
             <span>{{'Qubera Balance' | translate}}</span>
-          </button>
+          </button> -->
           <button
             class="tabs__item"
             [ngClass]="{'tabs__item--active': currTab === Tab.PR}"
@@ -261,7 +261,7 @@
           (onRevokePendingRequest)="onRevokePendingRequest($event)"
           *ngSwitchCase="Tab.PR"
         ></app-pending-request-table>
-        <ng-container *ngIf="isProd">
+        <ng-container *ngIf="!isProd">
           <app-qubera-table
             *ngSwitchCase="Tab.QUBERA"
             [balances]="quberaBalances$ | async"

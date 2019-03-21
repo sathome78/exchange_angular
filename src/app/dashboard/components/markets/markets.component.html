@@ -1,4 +1,141 @@
-<div class="widget widget--gradient">
+<div class="widget widget--gradient" #mobileContainer>
+  <!-- MOBILE START -->
+  <div *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'" style="height: 100%">
+    <div class="widget__header--mob" *ngIf="!marketSearch">
+      <div class="widget__name-mob">{{'Markets' | translate}}</div>
+      <div class="widget__search-btn" (click)="toggleSearchModal()">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M7.22222 13.6444C8.78354 13.6444 10.2149 13.0869 11.3278 12.1605L14.1947 15.0275C14.4247 15.2575 14.7975 15.2575 15.0275 15.0275C15.2575 14.7975 15.2575 14.4247 15.0275 14.1947L12.1605 11.3278C13.0869 10.2149 13.6444 8.78354 13.6444 7.22222C13.6444 3.67557 10.7689 0.8 7.22222 0.8C3.67557 0.8 0.8 3.67557 0.8 7.22222C0.8 10.7689 3.67557 13.6444 7.22222 13.6444ZM12.4667 7.22222C12.4667 10.1188 10.1188 12.4667 7.22222 12.4667C4.32563 12.4667 1.97778 10.1188 1.97778 7.22222C1.97778 4.32563 4.32563 1.97778 7.22222 1.97778C10.1188 1.97778 12.4667 4.32563 12.4667 7.22222Z"
+            stroke-width="0.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        {{'Search' | translate}}
+      </div>
+    </div>
+    <div class="tabs widget__tabs widget__tabs--mob widget__markets-tabs">
+      <button class="tabs__item  tabs__item--active"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'BTC','tab-no-active': currencyDisplayMode !== 'BTC'}"
+              (click)="selectedTab('BTC')">
+        BTC
+      </button>
+      <button class="tabs__item"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'ETH','tab-no-active': currencyDisplayMode !== 'ETH'}"
+              (click)="selectedTab('ETH')">
+        ETH
+      </button>
+      <button class="tabs__item"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USD','tab-no-active': currencyDisplayMode !== 'USD'}"
+              (click)="selectedTab('USD')"
+      >
+        USD
+      </button>
+      <button class="tabs__item"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
+              (click)="selectedTab('LOC')"
+      >
+      LOC
+      </button>
+      <button class="tabs__item"
+              *ngIf="isAuthenticated"
+              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'FAVORITES','tab-no-active': currencyDisplayMode !== 'FAVORITES'}"
+              (click)="selectedTab('FAVORITES')"
+      >
+        <span>
+          <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"
+              fill="#E5E5E5"/>
+          </svg>
+        </span>
+        {{'Fav' | translate}}
+      </button>
+    </div>
+    <div class="widget__content widget__content--mob" *ngIf="!marketSearch && !loading">
+      <!--table mob start-->
+      <div class="markets__table widget__table-markets-mob">
+        <div class="markets__thead">
+          <div class="table__cell-head table__cell-head--tac table__cell-head--p4" style="width:20%;">
+          </div>
+          <div class="table__cell-head table__cell-head--tal table__cell-head--p4" style="width:100%;">{{'Pair / Vol' | translate}}
+            <span class="shape">
+              <svg width="6" height="8" viewBox="0 0 6 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.86338 3.74894C6.06488 3.99981 6.04068 4.38035 5.80935 4.59887L3.37001 7.84701L3.36491 7.85187C3.16243 8.04303 2.86838 8.04686 2.66309 7.87675C2.6518 7.86737 2.64073 7.85746 2.62999 7.84701L0.190654 4.59887C-0.0406818 4.38035 -0.0648789 3.99981 0.136618 3.74894C0.338115 3.49806 0.689025 3.47182 0.92047 3.69031L2.44455 6.07412L2.44455 0.602408C2.44455 0.269701 2.69325 0 3.00011 0C3.30697 0 3.55566 0.269701 3.55566 0.602408L3.55566 6.07391L5.07953 3.69031C5.31097 3.47182 5.66188 3.49806 5.86338 3.74894Z" fill="white"></path>
+              </svg>
+            </span>
+          </div>
+          <div class="table__cell-head table__cell-head--tal table__cell-head--p4" style="width:100%;">{{'Last price' | translate}}
+            <span class="shape">
+              <svg width="6" height="8" viewBox="0 0 6 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.86338 3.74894C6.06488 3.99981 6.04068 4.38035 5.80935 4.59887L3.37001 7.84701L3.36491 7.85187C3.16243 8.04303 2.86838 8.04686 2.66309 7.87675C2.6518 7.86737 2.64073 7.85746 2.62999 7.84701L0.190654 4.59887C-0.0406818 4.38035 -0.0648789 3.99981 0.136618 3.74894C0.338115 3.49806 0.689025 3.47182 0.92047 3.69031L2.44455 6.07412L2.44455 0.602408C2.44455 0.269701 2.69325 0 3.00011 0C3.30697 0 3.55566 0.269701 3.55566 0.602408L3.55566 6.07391L5.07953 3.69031C5.31097 3.47182 5.66188 3.49806 5.86338 3.74894Z" fill="white"></path>
+              </svg>
+            </span>
+          </div>
+          <div class="table__cell-head table__cell-head--tar table__cell-head--p4" style="width:68%;">
+            <span>{{'24h chg' | translate}}</span>
+          </div>
+        </div>
+        <div class="markets__tbody">
+          <cdk-virtual-scroll-viewport [style.height.px]="scrollHeight" [itemSize]="37" *ngIf="scrollHeight">
+            <ng-container *cdkVirtualFor="let pair of pairs" class="markets_item">
+              <div class="markets__row widget__table-row"
+                    [ngClass]="{
+                    'widget__table-row--green': isChangePositive(pair),
+                    'widget__table-row--red': !isChangePositive(pair),
+                    'markets__selected-pair': pair.currencyPairId === currentCurrencyPair?.id
+                    }">
+                <div class="table__cell table__cell--p4 table__cell--tac"  style="width: 10%;" *ngIf="!isAuthenticated"></div>
+                <div
+                  class="table__cell table__cell--p4 table__cell--tac"
+                  style="width: 20%;  display: flex; align-items: center; justify-content: center;"
+                  *ngIf="isAuthenticated"
+                >
+                    <span class="table__row-star"
+                          [ngClass]="{'table__row-star--select': isFavorite(pair)}"
+                          (click)="toggleFavorite(pair)">
+                      <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+                      </svg>
+                    </span>
+                </div>
+                <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
+                  <span>{{splitPairName(pair)[0]}}</span>
+                  <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
+                  <div class="txt-small txt-light-grey">Vol {{ +pair.currencyVolume | roundCurrency:splitPairName(pair)[1] | formatCurrency:'short':splitPairName(pair)[1]}}</div>
+                </div>
+                <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
+                  <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
+                  <div class="txt-small txt-light-grey" *ngIf="pair.market !== 'USD'">$ {{ pair.priceInUsd | number: '1.0-2' | replaceNumber:true}}</div>
+                </div>
+                <div class="table__cell table__cell--p4 table__cell--tar" style="width: 68%;" (click)="onSelectCurrencyPair(pair)">
+                  <span
+                    [ngClass]="{'change-indicate--green': isChangePositive(pair), 'change-indicate--red': !isChangePositive(pair)}"
+                  >
+                    {{pair.percentChange >= 0 ? '+' : ''}}{{pair.percentChange | replaceNumber}}%
+                  </span>
+                </div>
+              </div>
+              <div style="height: 4px;"></div>
+            </ng-container>
+          </cdk-virtual-scroll-viewport>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <app-market-search
+    (closeModal)="toggleSearchModal($event)"
+    *ngIf="marketSearch && (breakpointService.breakpoint$ | async) === 'mobile'"
+    [pairs]="currencyPairs"
+    [currency]="currencyName"
+    [isAuthenticated]="isAuthenticated"
+  >
+  </app-market-search>
+
+  <!-- MOBILE END -->
+  <!-- DESKTOP START -->
   <div class="widget__header panel-heading" *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
     <span class="widget__name">{{'Markets' | translate}}</span>
     <a href="#" class="widget__question">
@@ -19,55 +156,6 @@
       </div>
     </div>
   </div>
-
-  <div class="widget__header--mob" *ngIf="!marketSearch && !loading && (breakpointService.breakpoint$ | async) === 'mobile'">
-    <div class="widget__name-mob">{{'Markets' | translate}}</div>
-    <div class="widget__search-btn" (click)="toggleSearchModal()">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M7.22222 13.6444C8.78354 13.6444 10.2149 13.0869 11.3278 12.1605L14.1947 15.0275C14.4247 15.2575 14.7975 15.2575 15.0275 15.0275C15.2575 14.7975 15.2575 14.4247 15.0275 14.1947L12.1605 11.3278C13.0869 10.2149 13.6444 8.78354 13.6444 7.22222C13.6444 3.67557 10.7689 0.8 7.22222 0.8C3.67557 0.8 0.8 3.67557 0.8 7.22222C0.8 10.7689 3.67557 13.6444 7.22222 13.6444ZM12.4667 7.22222C12.4667 10.1188 10.1188 12.4667 7.22222 12.4667C4.32563 12.4667 1.97778 10.1188 1.97778 7.22222C1.97778 4.32563 4.32563 1.97778 7.22222 1.97778C10.1188 1.97778 12.4667 4.32563 12.4667 7.22222Z"
-          stroke-width="0.4" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      {{'Search' | translate}}
-    </div>
-  </div>
-  <div class="tabs widget__tabs widget__tabs--mob widget__markets-tabs" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
-      <button class="tabs__item  tabs__item--active"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'BTC','tab-no-active': currencyDisplayMode !== 'BTC'}"
-              (click)="selectedTab('BTC')">
-        BTC
-      </button>
-      <button class="tabs__item"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'ETH','tab-no-active': currencyDisplayMode !== 'ETH'}"
-              (click)="selectedTab('ETH')">
-        ETH
-      </button>
-      <button class="tabs__item"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USD','tab-no-active': currencyDisplayMode !== 'USD'}"
-              (click)="selectedTab('USD')"
-      >
-        USD
-      </button>
-      <button class="tabs__item"
-      [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
-      (click)="selectedTab('LOC')"
-      >
-      LOC
-      </button>
-      <button class="tabs__item"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'FAVORITES','tab-no-active': currencyDisplayMode !== 'FAVORITES'}"
-              (click)="selectedTab('FAVORITES')"
-      >
-        <span>
-          <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"
-              fill="#E5E5E5"/>
-          </svg>
-        </span>
-        {{'Fav' | translate}}
-      </button>
-    </div>
 
 
   <div class="widget__content" *ngIf="!loading && (breakpointService.breakpoint$ | async) === 'desktop'">
@@ -96,6 +184,7 @@
         LOC
       </button>
       <button class="tabs__item tabs__item--small"
+              *ngIf="isAuthenticated"
               [ngClass]="{'tabs__item--active': currencyDisplayMode === 'FAVORITES','tab-no-active': currencyDisplayMode !== 'FAVORITES'}"
               (click)="selectedTab('FAVORITES')"
       >
@@ -138,6 +227,7 @@
               [isFiat]="isFiat"
               [isFavorite]="pair | isFavoritePipe: userFavorites"
               [currentCurrencyPair]="currentCurrencyPair"
+              [isAuthenticated]="isAuthenticated"
             >
             </app-markets-item>
           </div>
@@ -145,7 +235,10 @@
       </div>
     </div>
     <div class="widget__search">
-      <input class="widget__search-input" type="text" required="" placeholder="Search" [(ngModel)]="searchInput"
+      <input class="widget__search-input"
+             type="text" required=""
+             placeholder="Search"
+             [ngModel]="searchInput"
              (input)="searchPair($event.target.value)">
       <span class="widget__input-img">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -161,83 +254,6 @@
   <div class="widget__content loading-container" *ngIf="loading">
     <app-loader></app-loader>
   </div>
-
-
-  <div class="widget__content widget__content--mob" *ngIf="!marketSearch && !loading && (breakpointService.breakpoint$ | async) === 'mobile'">
-    <!--table mob start-->
-    <div class="markets__table widget__table-markets-mob">
-      <div class="markets__thead">
-        <div class="table__cell-head table__cell-head--tac table__cell-head--p4" style="width:20%;">
-        </div>
-        <div class="table__cell-head table__cell-head--tal table__cell-head--p4" style="width:100%;">{{'Pair / Vol' | translate}}
-          <span class="shape">
-            <svg width="6" height="8" viewBox="0 0 6 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5.86338 3.74894C6.06488 3.99981 6.04068 4.38035 5.80935 4.59887L3.37001 7.84701L3.36491 7.85187C3.16243 8.04303 2.86838 8.04686 2.66309 7.87675C2.6518 7.86737 2.64073 7.85746 2.62999 7.84701L0.190654 4.59887C-0.0406818 4.38035 -0.0648789 3.99981 0.136618 3.74894C0.338115 3.49806 0.689025 3.47182 0.92047 3.69031L2.44455 6.07412L2.44455 0.602408C2.44455 0.269701 2.69325 0 3.00011 0C3.30697 0 3.55566 0.269701 3.55566 0.602408L3.55566 6.07391L5.07953 3.69031C5.31097 3.47182 5.66188 3.49806 5.86338 3.74894Z" fill="white"></path>
-            </svg>
-          </span>
-        </div>
-        <div class="table__cell-head table__cell-head--tal table__cell-head--p4" style="width:100%;">{{'Last price' | translate}}
-          <span class="shape">
-            <svg width="6" height="8" viewBox="0 0 6 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5.86338 3.74894C6.06488 3.99981 6.04068 4.38035 5.80935 4.59887L3.37001 7.84701L3.36491 7.85187C3.16243 8.04303 2.86838 8.04686 2.66309 7.87675C2.6518 7.86737 2.64073 7.85746 2.62999 7.84701L0.190654 4.59887C-0.0406818 4.38035 -0.0648789 3.99981 0.136618 3.74894C0.338115 3.49806 0.689025 3.47182 0.92047 3.69031L2.44455 6.07412L2.44455 0.602408C2.44455 0.269701 2.69325 0 3.00011 0C3.30697 0 3.55566 0.269701 3.55566 0.602408L3.55566 6.07391L5.07953 3.69031C5.31097 3.47182 5.66188 3.49806 5.86338 3.74894Z" fill="white"></path>
-            </svg>
-          </span>
-        </div>
-        <div class="table__cell-head table__cell-head--tar table__cell-head--p4" style="width:68%;">
-          <span>{{'24h chg' | translate}}</span>
-        </div>
-      </div>
-      <div class="markets__tbody">
-        <cdk-virtual-scroll-viewport style="height: 800px;" [itemSize]="31">
-          <ng-container *cdkVirtualFor="let pair of pairs" class="markets_item">
-            <div class="markets__row widget__table-row"
-                 [ngClass]="{
-                 'widget__table-row--green': isChangePositive(pair),
-                  'widget__table-row--red': !isChangePositive(pair),
-                  'markets__selected-pair': pair.currencyPairId === currentCurrencyPair?.id
-                  }">
-              <div class="table__cell table__cell--p4 table__cell--tac" style="width: 20%;  display: flex; align-items: center; justify-content: center;">
-                  <span class="table__row-star" [ngClass]="{'table__row-star--select': isFavorite(pair)}"
-                        (click)="toggleFavorite(pair)">
-                    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
-                    </svg>
-                  </span>
-              </div>
-              <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
-                <span>{{splitPairName(pair)[0]}}</span>
-                <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
-                <div class="txt-small txt-light-grey">Vol {{ +pair.currencyVolume | roundCurrency:splitPairName(pair)[1] | formatCurrency:'short':splitPairName(pair)[1]}}</div>
-              </div>
-              <div class="table__cell table__cell--p4" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
-                <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
-                <div class="txt-small txt-light-grey" *ngIf="pair.market !== 'USD'">$ {{ pair.priceInUsd | number: '1.0-2' | replaceNumber:true}}</div>
-              </div>
-              <div class="table__cell table__cell--p4 table__cell--tar" style="width: 68%;" (click)="onSelectCurrencyPair(pair)">
-                <span
-                  [ngClass]="{'change-indicate--green': isChangePositive(pair), 'change-indicate--red': !isChangePositive(pair)}"
-                >
-                  {{pair.percentChange >= 0 ? '+' : ''}}{{pair.percentChange | replaceNumber}}%
-                </span>
-              </div>
-            </div>
-            <div style="height: 4px;"></div>
-          </ng-container>
-        </cdk-virtual-scroll-viewport>
-      </div>
-    </div>
-
-
-  </div>
-
-  <app-market-search
-    (closeModal)="toggleSearchModal($event)"
-    *ngIf="marketSearch && (breakpointService.breakpoint$ | async) === 'mobile'"
-    [pairs]="currencyPairs"
-    [currency]="currencyName"
-  >
-  </app-market-search>
 
 </div>
 
