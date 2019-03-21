@@ -116,7 +116,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
       case 500:
         this.message = 'Server error';
         break;
-      case 418:
+      case 400:
         this.form.controls['pin'].patchValue('');
         if (this.pincodeTries === 3) {
           this.pincodeTries = 0;

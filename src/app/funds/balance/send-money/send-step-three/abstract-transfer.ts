@@ -2,7 +2,7 @@ import {HostListener, Input} from '@angular/core';
 import {keys} from '../../../../shared/constants';
 import {Subject} from 'rxjs';
 import {FormGroup} from '@angular/forms';
-import {debounceTime, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {select} from '@ngrx/store';
 import * as _uniq from 'lodash/uniq';
 import {getAllCurrenciesForChoose} from '../../../../core/reducers';
@@ -10,6 +10,7 @@ import {getAllCurrenciesForChoose} from '../../../../core/reducers';
 export abstract class AbstractTransfer {
 
   @Input() balanceData;
+  @Input() userEmail = '';
   public cryptoNames;
   public defaultCryptoNames;
   public openCurrencyDropdown = false;
@@ -22,12 +23,8 @@ export abstract class AbstractTransfer {
   public amountValue = 0;
   public alphabet;
   public responseCommission;
-  protected emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
-  public isAmountMax;
-  public isAmountMin;
   public form: FormGroup;
   public minWithdrawSum = 0;
-  public emailErrorMessage = '';
   public abstract balanceService;
   protected abstract store;
   public abstract model;
@@ -179,7 +176,7 @@ export abstract class AbstractTransfer {
 
   emailBlur() {
     const email = this.form.controls['email'];
-    if (email.valid) {
+    if (email.valid && email.value !== this.userEmail) {
       this.balanceService.checkEmail(email.value)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
@@ -191,6 +188,9 @@ export abstract class AbstractTransfer {
             email.setErrors({'checkEmailCrash': true});
           }
         });
+    }
+    if (email.value === this.userEmail) {
+      email.setErrors({'ownEmail': true});
     }
   }
 

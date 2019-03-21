@@ -25,6 +25,8 @@ import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.ser
 import {Router} from '@angular/router';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import {KYC_STATUS, PENDING} from '../../shared/constants';
+import {environment} from 'environments/environment.prod';
+
 
 @Component({
   selector: 'app-balance',
@@ -48,6 +50,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public showSendMoneyPopup: boolean = false;
   public hideAllZero: boolean = false;
   public existQuberaAccounts: string = PENDING;
+  public isProd: boolean = environment.production;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
   public quberaBalances$: Observable<any[]>;

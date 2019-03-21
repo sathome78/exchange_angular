@@ -8,6 +8,7 @@
         [options]="DIOptions"
         (onChange)="onChangeCurrPair($event)"
         (onSelect)="onSelectPair($event.text)"
+        (onBlur)="onBlurInput()"
       ></app-dynamic-input-dashboard>
       <div
         class="currency-pair-info__info"
