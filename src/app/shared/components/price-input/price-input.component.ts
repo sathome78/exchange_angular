@@ -77,7 +77,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   get value() {
-    return this.roundCurrencyPipe.transform(this._innerValue, this.currencyName);
+    return this.t(this._innerValue, this.currencyName);
   }
 
   set value(v) {
@@ -88,7 +88,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     if (value == 'N/A')
       return this._innerValue = value;
     const count = this.utils.isFiat(this.currencyName) ? 2 : 8;
-    value = value ? this.roundCurrencyPipe.transform(value, this.currencyName) : value;
+    value = value ? this.t(value, this.currencyName) : value;
     this._innerValue = this.currencyUsdPipe.transform(value);
     this.propagateChanges(this.currencyUsdPipe.parse(this._innerValue, count));
   }
@@ -112,5 +112,26 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     this.onTouched();
     this.writeValue($event.target.value);
     this.customBlur.emit(true);
+  }
+
+
+  t(value: string, currencyName: string = ''): string | number {
+    const num = value;
+    if (num) {
+      if (this.utils.isFiat(currencyName)) {
+        return this.sliceFraction(num, 2);
+      }
+      return this.sliceFraction(num, 8);
+    } else {
+      return '';
+    }
+  }
+
+  sliceFraction(value: string, count: number): string {
+    const index = value.indexOf('.');
+    if(index >= 0) {
+      return value.substr(0, index + 1 + count);
+    }
+    return value;
   }
 }
