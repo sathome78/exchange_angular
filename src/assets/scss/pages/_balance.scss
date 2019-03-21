@@ -574,10 +574,11 @@
       }
       &__row {
         &:before {
-          background: linear-gradient(to right, #21417D 0%, #191A39 100%);
+          // background: linear-gradient(to right, #21417D 0%, #191A39 100%);
+          background-color: rgba(35, 123, 239, 0.15);
         }
         &--open {
-          background: linear-gradient(to right, #21417D 0%, #191A39 100%);
+          // background: linear-gradient(to right, #21417D 0%, #191A39 100%);
         }
       }
       &__arr {
@@ -705,6 +706,30 @@
   .qubera-btn-wr{
     button{
       width: 227px;
+    }
+  }
+}
+
+
+@media(max-width: 1199px){
+  .balance-detail{
+    .balance-button-row{
+      .table__cell{
+        &:nth-child(2){
+          button{
+            margin: auto;
+          }
+        }
+        &:nth-child(3){
+          button{
+            margin-left: auto;
+          }
+        }
+        button{
+          margin: 0;
+          
+        }
+      }
     }
   }
 }
