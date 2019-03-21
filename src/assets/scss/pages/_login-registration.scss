@@ -253,6 +253,10 @@
       font-size: 12px;
       line-height: 21px;
       text-align: center;
+      @media(min-width: 1200px){
+            font-size: 15px;
+            color: #959BA5;
+      }
 
       &:last-of-type {
         margin-bottom: 0;

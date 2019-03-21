@@ -97,7 +97,7 @@
         <div class="submenu">
           <ul class="menu submenu__list">
             <li class="submenu__item">
-              <a class="submenu__link" href="https://t.me/exrates_community" target="blank">
+              <a class="submenu__link" href="https://t.me/exrates_official" target="blank">
                 <span class="menu__link-text">EXRATES Community</span>
               </a>
             </li>
@@ -263,7 +263,7 @@
       </div>
 
       <nav class="menu-mob">
-        <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
+        <!-- <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(REFERRAL_FLAG)" [ngClass]="{'menu-mob__link--active' : showReferralList}">
             <span class="menu-mob__link-text">Referral</span>
           </a>
@@ -272,14 +272,14 @@
             {{'Transaction history' | translate}}</a>
             <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">{{'Balance' | translate}}</a>
           </div>
-        </div>
-        <a
+        </div> -->
+        <!-- <a
           *ngIf="isAuthenticated"
           class="menu-mob__link"
           >
 
           <span class="menu-mob__link-text">Identity Authentication</span>
-        </a>
+        </a> -->
         <a
           *ngIf="isAuthenticated"
           class="menu-mob__link"
