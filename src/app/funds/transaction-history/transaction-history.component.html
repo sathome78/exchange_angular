@@ -181,7 +181,7 @@
       <h1 class="page-title__text">
         {{'Transaction history' | translate}}
       </h1>
-      <button class="btn transaction__title-btn" (click)="downloadExcel()" [disabled]="loadingExcel">
+      <button class="btn transaction__title-btn" (click)="downloadExcel()" [disabled]="loadingExcel || !(transactionsItems$ | async).length">
         <span class="btn__icon btn__icon--blue">
           <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M11.1952 8.92188V12.12H1.80482V8.92188H0V13.06C0 13.5789 0.403462 13.9997 0.903755 13.9997H12.0962C12.5961 13.9997 13 13.5794 13 13.06V8.92188H11.1952Z" />

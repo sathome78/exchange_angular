@@ -92,6 +92,7 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
         this.store.dispatch(new dashboardActions.RefreshCurrencyPairInfoAction(data))
+        this.cdr.detectChanges();
       })
   }
 

@@ -20,6 +20,7 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
     currency: 0,
     sum: '',
     pin: '',
+    currencyName: '',
     type: 'INNER_VOUCHER',
     recipient: ''
   };
@@ -56,6 +57,7 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
     this.model.recipient = this.form.controls['email'].value;
     this.model.currency = this.activeCrypto ? this.activeCrypto.id : null;
     this.model.sum = this.form.controls['amount'].value;
+    this.model.currencyName = this.activeCrypto.name;
     const data = {
       operation: BY_PRIVATE_CODE,
       data: this.model
