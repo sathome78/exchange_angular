@@ -31,8 +31,12 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    const pinData = {
+      amount: this.data.data.sum || 0,
+      currencyName: this.data.data.currencyName
+    }
 
-    this.balanceService.sendPinCode()
+    this.balanceService.sendPinCode(pinData)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.pincodeFrom = res.status === 201 ? CODE_FROM_EMAIL : CODE_FROM_GOOGLE;
