@@ -136,19 +136,25 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.merchants = this.fiatDataByName.merchantCurrencyData;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
-        this.minRefillSum = !!this.selectedMerchant ? +this.selectedMerchant.minSum : 0;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
         this.form.get('amount').updateValueAndValidity();
+        this.setMinRefillSum();
       });
+  }
+
+  private setMinRefillSum() {
+    this.minRefillSum = this.fiatDataByName.minRefillSum > parseFloat(this.selectedMerchant.minSum)
+      ? this.fiatDataByName.minRefillSum
+      : parseFloat(this.selectedMerchant.minSum);
   }
 
   selectMerchant(merchant, merchantImage = null) {
     this.selectedMerchantNested = merchantImage;
     this.selectMerchantName =  merchantImage.image_name  || merchant.name;
     this.selectedMerchant = merchant;
-    this.minRefillSum = +this.selectedMerchant.minSum;
     this.form.get('amount').updateValueAndValidity();
     this.togglePaymentSystemDropdown();
+    this.setMinRefillSum();
   }
 
   initForm() {

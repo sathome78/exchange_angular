@@ -27,9 +27,9 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {ChatService} from './components/chat/chat.service';
 import {DashboardService} from './dashboard.service';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
-import {MarketService} from './components/markets/market.service';
-import {PositivePipe} from './components/markets/positive.pipe';
-import {CurrencySortingPipe} from './components/markets/currency-sorting.pipe';
+import {MarketService} from './services/market.service';
+import {PositivePipe} from './services/positive.pipe';
+import {CurrencySortingPipe} from './services/currency-sorting.pipe';
 import {NicknamePipe} from './components/chat/chat-message/nickname.pipe';
 import {EffectsModule} from '@ngrx/effects';
 import {DashboardEffects} from './effects/dashboard.effects';
@@ -47,10 +47,10 @@ import {ShowWidgetPipe} from '../shared/pipes/show-widget.pipe';
 import {reducer} from './reducers/dashboard.reducer'
 import {StoreModule} from '@ngrx/store';
 import * as SockJS from 'sockjs-client';
-import {IsFavoritePipe} from './components/markets/isFavorite.pipe';
-import { EmbeddedOrdersMobileComponent } from './components/embedded-orders-mobile/embedded-orders-mobile.component';
-import { EmbeddedOpenOrdersMobileComponent } from './components/embedded-orders-mobile/embedded-open-orders-mobile/embedded-open-orders-mobile.component';
-import { EmbeddedOrdersHistoryMobileComponent } from './components/embedded-orders-mobile/embedded-orders-history-mobile/embedded-orders-history-mobile.component';
+import {IsFavoritePipe} from './services/isFavorite.pipe';
+import {EmbeddedOrdersMobileComponent} from './components/embedded-orders-mobile/embedded-orders-mobile.component';
+import {EmbeddedOpenOrdersMobileComponent} from './components/embedded-orders-mobile/embedded-open-orders-mobile/embedded-open-orders-mobile.component';
+import {EmbeddedOrdersHistoryMobileComponent} from './components/embedded-orders-mobile/embedded-orders-history-mobile/embedded-orders-history-mobile.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,

@@ -44,6 +44,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     currency: 0,
     merchant: 0,
     sum: '',
+    currencyName: '',
     destination: '',
     destinationTag: '',
     merchantImage: '',
@@ -196,6 +197,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       this.model.currency = this.selectedMerchant.currencyId;
       this.model.merchant = this.selectedMerchant.merchantId;
       this.model.merchantImage = this.selectedMerchantNested.id;
+      this.model.currencyName = this.activeFiat.name || '';
       this.model.sum = this.form.controls['amount'].value;
       this.model.destination = this.form.controls['address'].value;
 

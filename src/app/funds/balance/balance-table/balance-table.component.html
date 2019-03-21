@@ -27,7 +27,7 @@
         <td class="table__cell">
           <div class="balance__currency">
             <div class="balance__currency-icon">
-              <img [src]="item.currencyName | getIconUrl">
+              <img [src]="item.currencyName | getIconUrl:true">
             </div>
             <span style="min-width: 70px;">{{item.currencyName}}</span>
             <span class="balance__currency-name">{{item.currencyDescription}}</span>
