@@ -65,11 +65,9 @@ export class DynamicInputDashboardComponent implements OnChanges {
 
   onClickOutsideInput(event: Event) {
     if (!this._eref.nativeElement.contains(event.target) ) {
-      console.log('click outside');
       this.closeDropdown();
       this.onBlur.emit();
     }
-    console.log('click');
   }
 
   ngOnChanges(changes) {
@@ -92,7 +90,6 @@ export class DynamicInputDashboardComponent implements OnChanges {
   }
 
   onInput(e) {
-    console.log(e.target.value);
     this.onChange.emit(e.target.value);
   }
 

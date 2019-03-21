@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 
 import {CurrencyPair} from '../../../model/currency-pair.model';
-import {MarketService} from '../markets/market.service';
+import {MarketService} from '../../services/market.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
 import {Store} from '@ngrx/store';
 import {State} from '../../../core/reducers';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-market-search',
@@ -16,14 +17,18 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
 
   @Input() pairs: CurrencyPair[];
   @Input() currency: string;
+  @Input('isAuthenticated') public isAuthenticated: boolean = false;
   public showPairs: CurrencyPair[];
+  public scrollHeight: number = 0;
 
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter<boolean>();
   @ViewChild('input') input: ElementRef;
+  @ViewChild('container') container: ElementRef;
 
   constructor(
-    private marketService: MarketService,
+    private utils: UtilsService,
     private store: Store<State>,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -31,6 +36,10 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     this.input.nativeElement.focus();
+    setTimeout(() => {
+      this.scrollHeight = this.container.nativeElement.offsetHeight - 143;
+      this.cdr.detectChanges();
+    }, 0);
   }
 
   splitPairName(name: string): string[] {
@@ -55,4 +64,8 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
   isFavorite(pair: CurrencyPair): boolean {
     return pair.isFavorite;
   }
+
+  // isFiat(pair: string): boolean {
+  //   return this.utils.isFiat(currName);
+  // }
 }
