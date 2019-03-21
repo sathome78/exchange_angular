@@ -38,7 +38,6 @@ export class GetIconUrl  implements PipeTransform {
       case 'BSV':
       case 'TRS':
       case 'VNT':
-      case 'AED':
       case 'RUB':
       case 'RIME':
       case 'TCAT':
@@ -49,10 +48,7 @@ export class GetIconUrl  implements PipeTransform {
       case 'LiqPay':
       case 'Privat24':
       case 'Invoice':
-      case 'Visa':
-      case 'Master Card':
       case 'Interkassa':
-      case 'Privat24 Payment':
       case 'QIWI':
       case 'Mir Payment':
       case 'Yandex Money':
