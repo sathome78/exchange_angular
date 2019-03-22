@@ -249,7 +249,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * set form value (priceIn/limit)
    * @param value
    */
-  setPriceInValue(value, orderType: string): void {
+    setPriceInValue(value, orderType: string): void {
     value = typeof value === 'string' ? value : !value ? '0' : this.exponentToNumber(value).toString();
     orderType === this.BUY ?
       this.buyForm.controls['price'].setValue(value) :
@@ -408,19 +408,25 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private getCommissionNested(order: Order, type: string, setTotal: boolean) {
-    if (setTotal) {
-      if (order.rate && order.rate >= 0) {
-        order.total = (((order.amount * order.rate) * 100) / 100);
-        order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
-        this.setTotalInValue(order.total, type);
+      if (setTotal) {
+        if (!!order.rate && !!order.amount) {
+          order.total = (((order.amount * order.rate) * 100) / 100);
+          order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
+          this.setTotalInValue(order.total, type);
+        } else {
+          order.commission = 0;
+          this.setTotalInValue(0, type);
+        }
+      } else {
+        if (order.rate && order.rate >= 0) {
+          order.amount = order.total / order.rate;
+          order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
+          this.setQuantityValue(order.amount, type);
+        } else {
+          order.commission = 0;
+          this.setQuantityValue(0, type);
+        }
       }
-    } else {
-      if (order.rate && order.rate >= 0) {
-        order.amount = order.total / order.rate;
-        order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
-        this.setQuantityValue(order.amount, type);
-      }
-    }
   }
 
   /**
