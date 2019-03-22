@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef, Input} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs/Subject';
 import {Store, select} from '@ngrx/store';
@@ -6,7 +6,7 @@ import {Store, select} from '@ngrx/store';
 import {State, getMarketCurrencyPairsMap, getIsAuthenticated, getFavoritesCurrencyPair} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {MarketService} from './market.service';
+import {MarketService} from '../../services/market.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
 import {getActiveCurrencyPair} from '../../../core/reducers';
 
@@ -44,10 +44,14 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   public currencyName = 'USD';
   public loading: boolean = true;
   public isAuthenticated: boolean = false;
+  public isMobile: boolean = false;
   public userFavorites: number[] = [];
 
   public volumeOrderDirection = 'NONE';
   public selectedCurrencyPair: CurrencyPair;
+  public scrollHeight: number = 0;
+
+  @ViewChild('mobileContainer') mobileContainer: ElementRef;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -104,11 +108,12 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         this.cdr.detectChanges();
       });
 
-    this.subscribeOrderBook();
+    this.subscribeMarkets();
+    this.breakpointSub();
   }
 
-  subscribeOrderBook(): void {
-    this.unsubscribeOrderBook();
+  subscribeMarkets(): void {
+    this.unsubscribeMarkets();
     this.loadingStarted();
     this.marketsSub$ = this.dashboardWebsocketService.marketsSubscription()
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -117,13 +122,32 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         // console.log('markets', parsedData);
         this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(parsedData.data))
         this.loadingFinished();
+        this.cdr.detectChanges();
       })
   }
 
-  unsubscribeOrderBook() {
+  unsubscribeMarkets() {
     if(this.marketsSub$) {
       this.marketsSub$.unsubscribe();
     }
+  }
+
+  breakpointSub() {
+    const that = this;
+    this.breakpointService.breakpoint$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res) => {
+        if(res === 'mobile') {
+          this.isMobile = true;
+          setTimeout(() => {
+            this.scrollHeight = this.mobileContainer.nativeElement.offsetHeight - 108;
+            this.cdr.detectChanges();
+          }, 0);
+        } else {
+          this.isMobile = false;
+          this.scrollHeight = 0;
+        }
+      })
   }
 
   getUserFavoritesCurrencyPairs() {
@@ -165,7 +189,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       name: pair.currencyPairName
     };
     this.userService.getUserBalance(simplePair);
-    if (this.route.snapshot.paramMap.get('currency-pair')) {
+    if(this.isMobile) {
+      this.router.navigate(['/dashboard'], {queryParams:{widget: 'trading'}});
+    } else if (this.route.snapshot.paramMap.get('currency-pair')) {
        this.router.navigate(['/']);
     }
   }
@@ -219,6 +245,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
 
   /** Filter markets data by search-data*/
   searchPair(value: string): void {
+    this.searchInput = value;
     this.pairs = this.choosePair(this.currencyDisplayMode, value)
   }
 

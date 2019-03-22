@@ -14,6 +14,7 @@ export class MarketsItemComponent implements OnInit {
   @Input('isFavorite') public isFavorite: boolean;
   @Input('currentCurrencyPair') public currentCurrencyPair: SimpleCurrencyPair;
   @Input('isFiat') public isFiat: boolean;
+  @Input('isAuthenticated') public isAuthenticated: boolean;
 
   constructor() { }
 
