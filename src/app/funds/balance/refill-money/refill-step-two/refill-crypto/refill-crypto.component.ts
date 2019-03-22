@@ -118,10 +118,6 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
       );
   }
 
-  private generateAddressIfNeed() {
-
-  }
-
   showGenerateAddressBtn(flag: boolean) {
     if (flag) {
       this.isGenerateNewAddress = true;
