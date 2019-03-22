@@ -87,7 +87,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     if (value == 'N/A')
       return this._innerValue = value;
     this._innerValue = value;
-    this.propagateChanges(parseFloat(this._innerValue));
+    this.propagateChanges(parseFloat(this._innerValue) || 0);
   }
 
   propagateChanges = (...any) => {
