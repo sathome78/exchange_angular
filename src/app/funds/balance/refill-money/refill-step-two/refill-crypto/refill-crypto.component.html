@@ -79,7 +79,7 @@
         {{'Copied' | translate}}
       </button>
     </div>
-    <div class="refill__crypto-memo" *ngIf="cryptoDataByName.merchantCurrencyData[0].additionalFieldName">
+    <div class="refill__crypto-memo" *ngIf="cryptoDataByName.merchantCurrencyData[0].additionalFieldName && !!additionalAddress">
       <h6 class="refill__crypto-title">{{cryptoDataByName.merchantCurrencyData[0].additionalFieldName}}</h6>
       <div class="refill__crypto-hash">{{additionalAddress}}</div>
       <button class="btn btn--small btn--empty-blue refill__crypto-copy-btn" *ngIf="!isSowCopyMemoId"

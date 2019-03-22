@@ -34,6 +34,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public alphabet;
   public reqError = '';
   public currentMerchant;
+  public cryptoGenerateAddress = '';
   public loading: boolean = false;
 
   /** Are listening click in document */
@@ -115,6 +116,10 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
           this.setError(msg);
         }
       );
+  }
+
+  private generateAddressIfNeed() {
+
   }
 
   showGenerateAddressBtn(flag: boolean) {
@@ -223,6 +228,10 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
       if (this.currentMerchant.additionalTagForWithdrawAddressIsUsed) {
         this.address = this.currentMerchant.mainAddress;
         this.additionalAddress = this.currentMerchant.address;
+        if (!this.additionalAddress && !!this.address && this.cryptoGenerateAddress !== this.cryptoDataByName.currency.name) {
+          this.cryptoGenerateAddress = this.cryptoDataByName.currency.name;
+          this.generateNewAddress();
+        }
       } else {
         this.address = this.currentMerchant.address;
         this.additionalAddress = '';
