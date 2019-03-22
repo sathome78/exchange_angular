@@ -1,8 +1,6 @@
 import {Component, forwardRef, Input, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import {CurrencyPipe} from '../../pipes/currency.pipe';
 import {UtilsService} from '../../services/utils.service';
-import {RoundCurrencyPipe} from '../../pipes/round-currency.pipe';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
@@ -15,7 +13,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   selector: 'app-price-input',
   templateUrl: './price-input.component.html',
   styleUrls: ['./price-input.component.scss'],
-  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR, CurrencyPipe, RoundCurrencyPipe]
+  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class PriceInputComponent implements ControlValueAccessor, AfterViewInit {
   private _innerValue: any;
@@ -29,20 +27,20 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   @Output('customBlur') customBlur: EventEmitter<boolean>
   private patternInput = /^\d+\.(\.\d+)*$|^\d+(\.\d+)*$/;
   private onTouched: Function;
+  private thousands_separator: string;
 
   constructor(
-    private currencyUsdPipe: CurrencyPipe,
-    private roundCurrencyPipe: RoundCurrencyPipe,
     private utils: UtilsService
   ) {
     this.onTouched = () => {};
     this.customInput = new EventEmitter<any>();
     this.customBlur = new EventEmitter<boolean>();
+    this.thousands_separator = ' ';
   }
 
   ngAfterViewInit() {
     this.el = this.inputEl.nativeElement;
-    this.el.value = this.currencyUsdPipe.transform(this.el.value);
+    this.el.value = this.priceFormat(this.el.value, this.currencyName);
   }
 
   onInput(e) {
@@ -77,7 +75,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   get value() {
-    return this.t(this._innerValue, this.currencyName);
+    return this._innerValue;
   }
 
   set value(v) {
@@ -85,12 +83,11 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   writeValue(value: any) {
+    value = this.priceFormat(value, this.currencyName);
     if (value == 'N/A')
       return this._innerValue = value;
-    const count = this.utils.isFiat(this.currencyName) ? 2 : 8;
-    value = value ? this.t(value, this.currencyName) : value;
-    this._innerValue = this.currencyUsdPipe.transform(value);
-    this.propagateChanges(this.currencyUsdPipe.parse(this._innerValue, count));
+    this._innerValue = value;
+    this.propagateChanges(parseFloat(this._innerValue));
   }
 
   propagateChanges = (...any) => {
@@ -115,7 +112,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
 
-  t(value: string, currencyName: string = ''): string | number {
+  priceFormat(value: string, currencyName: string = ''): string | number {
     const num = value;
     if (num) {
       if (this.utils.isFiat(currencyName)) {
@@ -130,8 +127,30 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   sliceFraction(value: string, count: number): string {
     const index = value.indexOf('.');
     if(index >= 0) {
-      return value.substr(0, index + 1 + count);
+      const temp = value.substr(0, index + 1 + count)
+      return this.thousandsFormat(temp, true);
     }
-    return value;
+    return this.thousandsFormat(value);
   }
+
+  private thousandsFormat(value: string, hasFraction = false): string {
+    if (hasFraction) {
+      const parts = value.split('.');
+      const integer = this.addThousandsSpace(parts[0]);
+      return `${integer}.${parts[1]}`;
+    } else {
+      return this.addThousandsSpace(value);
+    }
+  }
+
+  addThousandsSpace(decimal: string): string {
+    decimal = this.utils.deleteSpace(decimal)
+    let i = decimal.length % 3;
+    const parts = i ? [decimal.substr(0, i)] : [];
+    for (; i < decimal.length; i += 3) {
+      parts.push(decimal.substr(i, 3));
+    }
+    return parts.join(' ');
+  }
+
 }
