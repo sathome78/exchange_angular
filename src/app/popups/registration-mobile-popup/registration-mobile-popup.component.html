@@ -49,7 +49,11 @@
 
               </div>
               <div class="input-hint-wrapper server-error-hint"
-                   *ngIf="!!emailServerError && emailForm.valid && !pendingCheckEmail">
+                   *ngIf="((emailForm.valid
+                     && !pendingCheckEmail)
+                      || (!!emailForm.get('email').value
+                       && previousEmail === emailForm.get('email').value))
+                        && !!AUTH_MESSAGES[emailServerError]">
                    <span class="wrap-input__message">
                 {{AUTH_MESSAGES[emailServerError] | translate}}
               </span>
