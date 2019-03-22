@@ -1,0 +1,23 @@
+// app-embedded-orders-mobile{
+
+	.tabs__item{
+		position: relative;
+
+		&::after{
+			content: "";
+			position: absolute;
+			left: 0;
+			right: 0;
+			height: 2px;
+			bottom: 0;
+			background-color: transparent;
+
+		}
+		&--active{
+			&::after{
+			background-color: #237BEF;
+		}
+		}
+		
+	}
+// }

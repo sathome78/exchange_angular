@@ -283,6 +283,8 @@
         <a
           *ngIf="isAuthenticated"
           class="menu-mob__link"
+           routerLink="/settings"
+           (click)="mobileLinkClick()"
           >
 
           <span class="menu-mob__link-text">Settings</span>
@@ -336,10 +338,10 @@
           </div>
         </div>-->
 
-        <a class="menu-mob__link" href="https://twitter.com/Exrates_Me" target="blank"><span
+        <a class="menu-mob__link" href="https://news.exrates.me" target="blank"><span
           class="menu-mob__link-text">{{'News' | translate}}</span>
         </a>
-        <a class="menu-mob__link" *ngIf="isAuthenticated"><span
+        <a class="menu-mob__link" (click)="setMobileWidget('chat')" [routerLink]="['dashboard']" [queryParams]="{widget: 'chat'}" *ngIf="isAuthenticated"><span
           class="menu-mob__link-text">{{'Chat' | translate}}</span>
         </a>
         <a class="account-info__email cursor-pointer menu-mob__link" (click)="onLogout()" *ngIf="isAuthenticated">{{'logout' | translate}}</a>
@@ -368,21 +370,21 @@
         <img class="header-mob__submenu-link-img" src="../../assets/img/wallet.svg">
         <span class="header-mob__submenu-link-text">{{'Balances' | translate}}</span>
       </a>
-      <a class="header-mob__submenu-link"
+     <!--  <a class="header-mob__submenu-link"
         [routerLink]="['dashboard']"
         [queryParams]="{widget: 'trade-history'}"
         routerLinkActive="header-mob__submenu-link--active"
         (click)="setMobileWidget('trade-history')" *ngIf="isAuthenticated">
         <img class="header-mob__submenu-link-img" src="../../assets/img/history.svg">
         <span class="header-mob__submenu-link-text">{{'History' | translate}}</span>
-      </a>
-      <a class="header-mob__submenu-link"
+      </a> -->
+     <!--  <a class="header-mob__submenu-link"
         [routerLink]="['orders/open']"
         routerLinkActive="header-mob__submenu-link--active"
         (click)="setMobileWidget('open')" *ngIf="isAuthenticated">
         <img class="header-mob__submenu-link-img" src="../../assets/img/orders.svg">
         <span class="header-mob__submenu-link-text">{{'Open' | translate}}</span>
-      </a>
+      </a> -->
 
 
       <a class="header-mob__submenu-link"

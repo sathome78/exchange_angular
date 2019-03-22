@@ -1,11 +1,22 @@
  .table__cell {
-    padding: 8px 5px 8px 5px;
+ 	padding: 8px 5px 8px 5px;
 
-}
+ }
 
-.table__row:nth-of-type(odd){
-	background-color: transparent;
-	&:hover {
-    background-color: #1a2954;
-}
+ .table__row:nth-of-type(odd){
+ 	&:not(.trade-history__row){
+ 		background-color: transparent;
+ 		&:hover {
+ 			background-color: #1a2954;
+ 		}
+
+ 	}
+ }
+
+ .trade-history__row:nth-of-type(odd){
+ 	background-color: transparent;
+ 	&:hover{
+ 		background-color: transparent;
+ 	
+ }
 }
