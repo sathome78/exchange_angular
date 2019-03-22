@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Action} from '@ngrx/store';
-import {map, switchMap, catchError} from 'rxjs/internal/operators';
+import {Action, Store, select} from '@ngrx/store';
+import {map, switchMap, catchError, withLatestFrom} from 'rxjs/internal/operators';
 import {of} from 'rxjs';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
+import * as fromCore from '../../../core/reducers'
 import {OrdersService} from '../../orders.service';
 import * as ordersActions from '../actions/orders.actions';
+import {UserService} from 'app/shared/services/user.service';
 
 @Injectable()
 export class OrdersEffects {
@@ -19,6 +20,8 @@ export class OrdersEffects {
   constructor(
     private actions$: Actions,
     private ordersService: OrdersService,
+    private store: Store<fromCore.State>,
+    private userService: UserService,
   ) {
   }
 
@@ -85,10 +88,12 @@ export class OrdersEffects {
   @Effect()
   cancelOpenOrder$: Observable<Action> = this.actions$
     .pipe(ofType<ordersActions.CancelOrderAction>(ordersActions.CANCEL_OPEN_ORDER))
-    .pipe(switchMap((action) => {
+    .pipe(withLatestFrom(this.store.pipe(select(fromCore.getActiveCurrencyPair))))
+    .pipe(switchMap(([action, activePair]) => {
       return this.ordersService.deleteOrder(action.payload.order)
         .pipe(
           map(() => {
+            this.userService.getUserBalance(activePair);
             if (action.payload.loadOrders.isMobile) {
               return new ordersActions.CropCanceledOrderAction(action.payload.order.id);
             }
