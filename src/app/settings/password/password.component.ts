@@ -23,6 +23,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
   isPassword1Visible: boolean = false;
   isPassword2Visible: boolean = false;
   isPasswordCurrVisible: boolean = false;
+  isSubmitted: boolean = false;
 
   statusMessage: string;
   loading: boolean = false;
@@ -54,7 +55,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
     });
     this.passwordSecond = new FormControl('', {
       validators: [
-        // Validators.required,
+        Validators.required,
         // Validators.minLength(8),
         // Validators.maxLength(40),
         // this.utilsService.passwordCombinationValidator(),
@@ -111,6 +112,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
   }
 
   showFormErrors() {
+    this.isSubmitted = true;
     this.secondPassword.markAsTouched();
     this.firstPassword.markAsTouched();
     this.currentPassword.markAsTouched();
@@ -141,5 +143,9 @@ export class PasswordComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  showConfirmTooltip(value: boolean): void {
+    this.isSubmitted = value;
   }
 }
