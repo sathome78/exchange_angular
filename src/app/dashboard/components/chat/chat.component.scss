@@ -21,3 +21,15 @@ perfect-scrollbar{
   //}
 }
 
+@media(max-width: 1199px) {
+  .widget__content{
+    margin-top: 0;
+  }
+  perfect-scrollbar{
+  
+  height: calc(100% - 5px);
+}
+.widget__chat-btn{
+  bottom: 64px;
+}
+}

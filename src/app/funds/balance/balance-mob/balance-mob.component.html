@@ -106,7 +106,7 @@
           <td class="table__cell table__cell--tal">
             <div class="balance__currency">
               <div class="balance__currency-icon">
-                <img [src]="item.currencyName | getIconUrl">
+                <img [src]="item.currencyName | getIconUrl:true">
               </div>
               <div>
                 <span>{{item.currencyName}}</span>
