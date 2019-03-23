@@ -40,7 +40,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public openCurrencyDropdown = false;
   public openPaymentSystemDropdown = false;
   public activeFiat;
-  public minRefillSum = 0;
+  public minRefillSum: number = 0;
   public alphabet;
   public redirectionUrl;
   public selectMerchantName;
@@ -215,7 +215,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   goToBalances() {
-    this.router.navigate(['/funds/balances']);
+    this.router.navigate(['/funds/transaction-history']);
     this.closePopup.emit(true);
   }
 
