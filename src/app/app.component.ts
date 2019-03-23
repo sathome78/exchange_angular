@@ -6,13 +6,13 @@ import {IP_CHECKER_URL, USER_IP} from './shared/services/http.utils';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from './shared/services/auth.service';
 import {Subject} from 'rxjs/Subject';
-import {takeUntil, withLatestFrom} from 'rxjs/internal/operators';
+import {takeUntil, withLatestFrom, take} from 'rxjs/internal/operators';
 import {TranslateService} from '@ngx-translate/core';
 import {select, Store} from '@ngrx/store';
 import * as fromCore from './core/reducers';
 import * as coreAction from './core/actions/core.actions';
 import * as dashboardAction from './dashboard/actions/dashboard.actions';
-import { SimpleCurrencyPair } from './model/simple-currency-pair';
+import {SimpleCurrencyPair} from './model/simple-currency-pair';
 
 
 declare var sendTransactionSuccessGtag: Function;
@@ -65,7 +65,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.store
       .pipe(select(fromCore.getSimpleCurrencyPairsSelector))
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(take(2))
       .subscribe((currencies: SimpleCurrencyPair[]) => {
         this.setDefaultCurrencyPair(currencies);
       });

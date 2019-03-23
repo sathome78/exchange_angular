@@ -84,7 +84,7 @@
 
     <app-embedded-open-orders
       *ngIf="mainTab === 'open'"
-      (refreshOpenOrders)="toOpenOrders()"
+      (refreshOpenOrders)="refreshOpenOrders()"
       [makeHeight]="makeHeight"
       [openOrders]="openOrders">
     </app-embedded-open-orders>
