@@ -6,6 +6,9 @@
 
     .table__cell {
       z-index: 2;
+      span{
+        font-size: 13px;
+      }
       .txt-small{
         font-size: 10px;
         line-height: 1.1;
@@ -50,6 +53,9 @@
       .table__cell {
         line-height: 16px;
         white-space: normal;
+        span{
+          font-size: 13px;
+        }
 
       }
     }
@@ -82,3 +88,14 @@
     }
   }
 }
+.table__cell {
+      span{
+        font-size: 13px;
+        span{
+            font-size: 10px;
+          
+        }
+      }
+
+
+    }

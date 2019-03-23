@@ -39,6 +39,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   public emailServerError = 'start';
   public pendingCheckEmail = false;
   public loading: boolean = false;
+  public previousEmail = '';
 
   public email;
   public firstName;
@@ -132,10 +133,13 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     });
   }
 
+
   emailBlur() {
     this.pendingCheckEmail = true;
-    if (this.emailForm.get('email').valid) {
-      this.userService.checkIfEmailExists(this.emailForm.get('email').value)
+    const email = this.emailForm.get('email');
+    if (email.valid && email.value !== this.previousEmail) {
+      this.previousEmail = email.value;
+      this.userService.checkIfEmailExists(email.value)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           this.emailServerError = res ? 'EMAIL_EXIST' : '';
