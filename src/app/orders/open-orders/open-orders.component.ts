@@ -1,5 +1,4 @@
 import {Component, OnInit, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
-import {IMyDpOptions, IMyDate, IMyDateModel} from 'mydatepicker';
 import {Store, select} from '@ngrx/store';
 
 import {OrderItem} from '../models/order-item.model';
@@ -10,11 +9,11 @@ import * as fromCore from '../../core/reducers';
 import {State} from '../../core/reducers';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {UtilsService} from 'app/shared/services/utils.service';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 import {CurrencyChoose} from 'app/model/currency-choose.model';
 import {OrdersService} from '../orders.service';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
+import {UserService} from 'app/shared/services/user.service';
 
 @Component({
   selector: 'app-open-orders',
@@ -37,6 +36,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public isMobile: boolean = false;
   public showCancelOrderConfirm: number | null = null;
   public isShowCancelAllOrdersConfirm = false;
+  public activeCurrencyPair: SimpleCurrencyPair;
 
   // public myDatePickerOptions: IMyDpOptions = {
   //   dateFormat: 'dd.mm.yyyy',
@@ -60,13 +60,18 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     private store: Store<State>,
     private ordersService: OrdersService,
     public breakpointService: BreakpointService,
-    private utils: UtilsService,
+    private userService: UserService,
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getOpenOrdersCount));
     this.currencyPairs$ = store.pipe(select(fromCore.getSimpleCurrencyPairsSelector));
     this.loading$ = store.pipe(select(ordersReducer.getLoadingSelector));
     this.allCurrenciesForChoose$ = store.pipe(select(fromCore.getAllCurrenciesForChoose));
+    store.pipe(select(fromCore.getActiveCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((activePair: SimpleCurrencyPair) => {
+        this.activeCurrencyPair = activePair;
+      })
 
     const componentHeight = window.innerHeight;
     this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
@@ -139,7 +144,8 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.currentPage = 1;
         this.currencyPairValue = '';
-         this.loadOrders();
+        this.loadOrders();
+        this.userService.getUserBalance(this.activeCurrencyPair)
       });
   }
 
