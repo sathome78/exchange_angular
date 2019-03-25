@@ -124,13 +124,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private setIp() {
 
-    this.http.get<IpAddress>(IP_CHECKER_URL)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(response => {
-        console.log(response);
-        // this.logger.debug(this, 'Client IP: ' + response.ip);
-        localStorage.setItem(USER_IP, response.ip);
-      });
+    // this.http.get<IpAddress>(IP_CHECKER_URL)
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe(response => {
+    //     console.log(response);
+    //     // this.logger.debug(this, 'Client IP: ' + response.ip);
+    //     localStorage.setItem(USER_IP, response.ip);
+    //   });
   }
 
   private sendTransactionsAnalytics() {
