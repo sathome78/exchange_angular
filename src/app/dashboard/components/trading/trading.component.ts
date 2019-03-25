@@ -78,6 +78,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     total: null,
   };
 
+  private defaultFormValues = {
+    quantity: '0',
+    stop: '0',
+    price: '0',
+    total: '0',
+  };
+
    /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
     this.notifyFail = false;
@@ -165,13 +172,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   private resetBuyModel() {
     this.buyOrder = {...this.defaultOrder};
     this.buyOrder.orderType = this.BUY;
-    this.buyForm.reset();
+    this.buyForm.reset(this.defaultFormValues);
   }
 
   private resetSellModel() {
     this.sellOrder = {...this.defaultOrder};
     this.sellOrder.orderType = this.SELL;
-    this.sellForm.reset();
+    this.sellForm.reset(this.defaultFormValues);
   }
 
   /**
