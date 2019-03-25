@@ -34,6 +34,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   public preLastExrate:number = 0;
   public isExratePositive = true;
   public loading: boolean = true;
+  public canSetLastPrice: boolean = true;
 
   public sellVisualizationArray = [];
   public buyVisualizationArray = [];
@@ -128,11 +129,14 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.lastExrate = +orders[0].lastExrate;
     this.preLastExrate = +orders[0].preLastExrate;
     this.isExratePositive = orders[0].positive;
-    const lastPrice = {
-      flag: this.isExratePositive,
-      price: this.lastExrate
+    if(this.canSetLastPrice) {
+      const lastPrice = {
+        flag: this.isExratePositive,
+        price: this.lastExrate
+      }
+      this.store.dispatch(new SetLastPriceAction(lastPrice));
+      this.canSetLastPrice = false;
     }
-    this.store.dispatch(new SetLastPriceAction(lastPrice))
     this.setData();
   }
 

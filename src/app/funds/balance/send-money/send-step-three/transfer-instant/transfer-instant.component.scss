@@ -210,7 +210,10 @@ perfect-scrollbar{
     &.send__wrap-input {
       app-price-input {
         label {
+          @media(min-width: 1200px){
+
           background-color: #fff !important;
+          }
         }
       }
     }

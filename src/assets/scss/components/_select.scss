@@ -217,6 +217,18 @@
     margin-right: 8px;
     vertical-align: middle;
     line-height: 1.5;
+    &--destop{
+      display: none;
+      @media(min-width: 1200px){
+        display: inline;
+      }
+    }
+    &--mobile{
+      display: none;
+      @media(max-width: 1199px){
+        display: inline;
+      }
+    }
   }
   /*--- elements end ---*/
 }
