@@ -31,17 +31,17 @@
       <div class="head">
         <div class="order table__cell-head table__cell-head--tal table__cell-head--p4 table__cell-head--blue">
           <span>
-            {{'Total' | translate}}
+            {{'Total' | translate}} ({{splitCurrencyName[1]}})
           </span>
         </div>
         <div class="price table__cell-head table__cell-head--tal table__cell-head--p4">
           <span>
-            {{'Price' | translate}}
+            {{'Price' | translate}} ({{splitCurrencyName[1]}})
           </span>
         </div>
         <div class="total table__cell-head table__cell-head--tal table__cell-head--p4">
           <span>
-            {{'Amount' | translate}}
+            {{'Amount' | translate}} ({{splitCurrencyName[0]}})
           </span>
         </div>
       </div>
@@ -64,7 +64,7 @@
         >
           <div class="order">
             <span>
-              {{item.total  | roundCurrency | formatCurrency}}
+              {{item.total | roundCurrency | formatCurrency}}
             </span>
           </div>
 

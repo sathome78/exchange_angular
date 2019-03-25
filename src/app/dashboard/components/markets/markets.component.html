@@ -104,7 +104,15 @@
                   <div class="txt-small txt-light-grey">Vol {{ +pair.currencyVolume | roundCurrency:splitPairName(pair)[1] | formatCurrency:'short':splitPairName(pair)[1]}}</div>
                 </div>
                 <div class="table__cell table__cell--p4" style="width: 88%;" (click)="onSelectCurrencyPair(pair)">
-                  <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
+                  <span
+                    class="txt-indicate"
+                    *ngIf="pair.lastOrderRate < 0.01 && pair.lastOrderRate > 0; else lastOrderRateMob"
+                  >
+                    {{pair.lastOrderRate | replaceNumber:isFiat}}
+                  </span>
+                  <ng-template #lastOrderRateMob>
+                    <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
+                  </ng-template>
                   <div class="txt-small txt-light-grey" *ngIf="pair.market !== 'USD'">$ {{ pair.priceInUsd | number: '1.0-2' | replaceNumber:true}}</div>
                 </div>
                 <div class="table__cell table__cell--p4 table__cell--tar" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
