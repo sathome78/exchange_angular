@@ -12,19 +12,34 @@
                      'currency-pair-info__info--down': flarForArrow('down')}">
       <div class="currency-pair-info__info-inner">
         <div class="currency-pair-info__change">
-        <span>
-          {{currentCurrencyInfo?.percentChange || 0 | number:'1.0-2' | replaceNumber}}%
-        </span>
+          <span>
+            {{currentCurrencyInfo?.percentChange || 0 | number:'1.0-2' | replaceNumber}}%
+          </span>
           <!--<span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{!currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange}}%</span>-->
           <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="" *ngIf="flarForArrow('up')">
           <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="" *ngIf="flarForArrow('down')">
-          <span>
-          {{currentCurrencyInfo?.changedValue || 0 | replaceNumber : isFiat(2) }} {{pair.name | splitCurrency : 2}}
-        </span>
+
+
+          <span *ngIf="(currentCurrencyInfo?.changedValue) < 0.01 && (currentCurrencyInfo?.changedValue) > 0; else changedValue">
+            {{currentCurrencyInfo?.changedValue || 0 | replaceNumber : false }} {{pair.name | splitCurrency : 2}}
+          </span>
+          <ng-template #changedValue>
+            <span>
+              {{currentCurrencyInfo?.changedValue || 0 | replaceNumber : isFiat(2) }} {{pair.name | splitCurrency : 2}}
+            </span>
+          </ng-template>
         </div>
-        <div class="currency-pair-info__price">
-          {{currentCurrencyInfo?.currencyRate || 0 | replaceNumber : isFiat(2) }} {{pair.name | splitCurrency : 2}}
+        <div
+          class="currency-pair-info__price"
+          *ngIf="(currentCurrencyInfo?.currencyRate) < 0.01 && (currentCurrencyInfo?.currencyRate) > 0; else currencyRate"
+        >
+          {{currentCurrencyInfo?.currencyRate || 0 | replaceNumber : false }} {{pair.name | splitCurrency : 2}}
         </div>
+        <ng-template #currencyRate>
+          <div class="currency-pair-info__price">
+            {{currentCurrencyInfo?.currencyRate || 0 | replaceNumber : isFiat(2) }} {{pair.name | splitCurrency : 2}}
+          </div>
+        </ng-template>
       </div>
     </div>
     <div class="currency-pair-info__item" style="min-width: 130px; padding-left: 0;">

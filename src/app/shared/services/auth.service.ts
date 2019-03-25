@@ -81,6 +81,7 @@ export class AuthService implements OnDestroy {
     localStorage.removeItem(TOKEN);
     this.parsedToken = null;
     this.store.dispatch(new coreActions.SetOnLogoutAction());
+    this.popupService.toggleSessionExpiredPopup(true)
     this.redirectOnLogout();
   }
 
@@ -97,7 +98,6 @@ export class AuthService implements OnDestroy {
     this.ngZone.runOutsideAngular(() => {
       this.timeOutSub = setTimeout(() => {
         this.onLogOut();
-        this.popupService.toggleSessionExpiredPopup(true)
       }, +tokenExpiresIn)
     });
   }
