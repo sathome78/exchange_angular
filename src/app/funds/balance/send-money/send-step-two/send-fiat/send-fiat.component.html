@@ -33,7 +33,7 @@
         <div class="wrap-input send__wrap-input"
             [ngClass]="{'wrap-input--error': form.get('amount').invalid && (form.get('amount').touched || isSubmited)}"
             *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length ">
-          <div class="avaliable">{{'Avaliable:' | translate}}
+          <div class="avaliable">{{'Available:' | translate}}
             <a (click)="balanceClick()" class="link">
               {{activeBalance | roundCurrency: true | formatCurrency: 'short': true}} {{currName}}
             </a>

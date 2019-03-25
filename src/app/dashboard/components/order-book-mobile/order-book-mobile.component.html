@@ -3,17 +3,16 @@
     <div class="table">
       <div class="tr">
         <!-- <div class="td">{{'Buy' | translate}}</div> -->
-        <div class="td">{{'Amount' | translate}}</div>
-        <div class="td">{{'Price' | translate}}</div>
+        <div class="td">{{'Total' | translate}} ({{splitCurrencyName[1]}})</div>
+        <div class="td">{{'Price' | translate}} ({{splitCurrencyName[1]}})</div>
       </div>
       <div
         class="tr"
         *ngFor="let item of showBuyDataReverse; let i = index"
         (click)="onSelectOrder(item)"
       >
-        <!-- <div class="td">{{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</div> -->
-        <div class="td">{{item.amount | roundCurrency | formatCurrency}}</div>
-        <div class="td">{{item.total  | roundCurrency | formatCurrency}}</div>
+        <div class="td">{{item.total | roundCurrency | formatCurrency}}</div>
+        <div class="td">{{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</div>
         <div class="bg-bar" [style.width]="buyVisualizationArray[i] + '%'"></div>
       </div>
     </div>
@@ -21,8 +20,8 @@
   <div class="order-book-part order-book-sell">
     <div class="table">
         <div class="tr">
-          <div class="td">{{'Price' | translate}}</div>
-          <div class="td">{{'Amount' | translate}}</div>
+          <div class="td">{{'Price' | translate}} ({{splitCurrencyName[1]}})</div>
+          <div class="td">{{'Total' | translate}} ({{splitCurrencyName[1]}})</div>
           <!-- <div class="td">{{'Sell' | translate}}</div> -->
         </div>
         <div
@@ -30,8 +29,8 @@
           *ngFor="let item of showSellDataReverse; let i = index"
           (click)="onSelectOrder(item)"
         >
-          <div class="td">{{item.total  | roundCurrency | formatCurrency}}</div>
-          <div class="td">{{item.amount | roundCurrency | formatCurrency}}</div>
+          <div class="td">{{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</div>
+          <div class="td">{{item.total | roundCurrency | formatCurrency}}</div>
           <!-- <div class="td">{{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</div> -->
           <div class="bg-bar" [style.width]="sellVisualizationArray[i] + '%'"></div>
         </div>

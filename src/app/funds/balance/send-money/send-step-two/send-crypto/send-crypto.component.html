@@ -56,7 +56,7 @@
              [ngClass]="{'wrap-input--error': form.get('amount').invalid
                           && (form.get('amount').touched || isSubmited)}"
              *ngIf="cryptoInfoByName && cryptoInfoByName.merchantCurrencyData.length">
-          <div class="avaliable">{{'Avaliable:' | translate}}
+          <div class="avaliable">{{'Available:' | translate}}
             <a (click)="balanceClick()" class="link" [ngStyle]="{'pointer-events': loadingBalance ? 'none' : 'auto'}">
               {{activeBalance | roundCurrency: currName | formatCurrency: 'short': currName}} {{currName}}
             </a>
