@@ -9,6 +9,8 @@
 //    line-height: 12px;
 //  }
 //}
+
+
 @media (min-width:1200px){
   input{
     &:not([value=""]){
@@ -19,13 +21,14 @@
         background-color: #fff;
         font-size: 10px;
         line-height: 12px;
-        color: #237BEF;
+        
       }
     }
   }
 }
 @media (max-width:1199px){
-  input{
+  
+    input{
     &:not([value=""]){
       ~ .wrap-input__label {
         top: -5px;
