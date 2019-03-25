@@ -16,9 +16,25 @@
         top: -5px;
         left: 12px;
         padding: 0 2px;
-        background-color: #2B3256;
+        background-color: #fff;
         font-size: 10px;
         line-height: 12px;
+        color: #237BEF;
+      }
+    }
+  }
+}
+@media (max-width:1199px){
+  input{
+    &:not([value=""]){
+      ~ .wrap-input__label {
+        top: -5px;
+        left: 12px;
+        padding: 0 2px;
+        background-color:#191A39;
+        font-size: 10px;
+        line-height: 12px;
+        color: #DEDEFB;
       }
     }
   }

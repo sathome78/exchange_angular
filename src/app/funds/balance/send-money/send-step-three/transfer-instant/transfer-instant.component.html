@@ -47,7 +47,7 @@
            [ngClass]="{'wrap-input--error': form.get('amount').invalid &&
             (form.get('amount').touched || isSubmited)}">
         <div class="avaliable">
-          {{'Avaliable:' | translate}}
+          {{'Available:' | translate}}
           <a (click)="balanceClick()" class="link" [ngStyle]="{'pointer-events': loadingBalance ? 'none' : 'auto'}">
             {{activeBalance | number:'1.1-8' | replaceNumber}} {{activeCrypto ? activeCrypto.name : ''}}
           </a>
