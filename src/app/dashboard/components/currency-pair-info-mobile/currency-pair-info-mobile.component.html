@@ -19,17 +19,17 @@
       >
         <div class="currency-pair-info__change">
           <span>
-            {{isIncrease ? '+' : '-'}}{{currentCurrencyInfo?.percentChange || 0 | number:'1.0-2' | replaceNumber}}%
+            <!-- {{isIncrease ? '+' : '-'}}--> {{currentCurrencyInfo?.percentChange || 0 | number:'1.0-2' | replaceNumber}}%
           </span>
           <span
             style="margin-left: 10px;"
             *ngIf="currentCurrencyInfo?.changedValue < 0.01 && currentCurrencyInfo?.changedValue > 0; else changedValue"
           >
-            {{isIncrease ? '+' : '-'}}{{currentCurrencyInfo?.changedValue || 0 | replaceNumber : false }} {{pair.name | splitCurrency : 2}}
+            <!-- {{isIncrease ? '+' : '-'}}--> {{currentCurrencyInfo?.changedValue || 0 | replaceNumber : false }} {{pair.name | splitCurrency : 2}}
           </span>
           <ng-template #changedValue>
             <span style="margin-left: 10px;">
-              {{isIncrease ? '+' : '-'}}{{currentCurrencyInfo?.changedValue || 0 | replaceNumber : isFiat(2) }} {{pair.name | splitCurrency : 2}}
+              <!-- {{isIncrease ? '+' : '-'}}--> {{currentCurrencyInfo?.changedValue || 0 | replaceNumber : isFiat(2) }} {{pair.name | splitCurrency : 2}}
             </span>
           </ng-template>
         </div>

@@ -109,7 +109,7 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
   }
 
   getIsIncrease() {
-    return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate >= 0 : false;
+    return this.currentCurrencyInfo ? this.currentCurrencyInfo.changedValue >= 0 : false;
   }
 
   onChangeCurrPair(val: string): void {
