@@ -59,7 +59,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 
 export function socketProvider() {
-  return new SockJS(environment.apiUrl + '/public_socket');
+  return new SockJS(environment.apiUrlWS + '/public_socket');
   // return new SockJS('http://localhost:5555/jsa-stomp-endpoint');
 }
 
