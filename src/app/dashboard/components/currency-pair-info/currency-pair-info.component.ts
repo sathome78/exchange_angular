@@ -109,11 +109,11 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     this.unsubscribeCurrInfo();
   }
 
-  flarForArrow(s: string) {
+  flagForArrow(s: string) {
     if (s === 'up') {
-      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate >= 0 :  false;
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.changedValue >= 0 :  false;
     } else {
-      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate < 0 : false;
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.changedValue < 0 : false;
     }
   }
 

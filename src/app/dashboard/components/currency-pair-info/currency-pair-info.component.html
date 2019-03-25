@@ -8,17 +8,16 @@
       (onBlur)="onBlurInput()"
     ></app-dynamic-input-dashboard>
     <div class="currency-pair-info__info" style="min-width: 180px;"
-         [ngClass]="{'currency-pair-info__info--up': flarForArrow('up'),
-                     'currency-pair-info__info--down': flarForArrow('down')}">
+         [ngClass]="{'currency-pair-info__info--up': flagForArrow('up'),
+                     'currency-pair-info__info--down': flagForArrow('down')}">
       <div class="currency-pair-info__info-inner">
         <div class="currency-pair-info__change">
           <span>
             {{currentCurrencyInfo?.percentChange || 0 | number:'1.0-2' | replaceNumber}}%
           </span>
           <!--<span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{!currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange}}%</span>-->
-          <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="" *ngIf="flarForArrow('up')">
-          <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="" *ngIf="flarForArrow('down')">
-
+          <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="" *ngIf="flagForArrow('up')">
+          <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="" *ngIf="flagForArrow('down')">
 
           <span *ngIf="(currentCurrencyInfo?.changedValue) < 0.01 && (currentCurrencyInfo?.changedValue) > 0; else changedValue">
             {{currentCurrencyInfo?.changedValue || 0 | replaceNumber : false }} {{pair.name | splitCurrency : 2}}
