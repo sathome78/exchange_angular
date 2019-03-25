@@ -6,8 +6,7 @@ import {takeUntil, withLatestFrom} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {State, getActiveCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getDashboardState, getIsAuthenticated} from 'app/core/reducers/index';
-import {CurrencyPair} from 'app/model/currency-pair.model';
+import {State, getActiveCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getIsAuthenticated, getUserBalance} from 'app/core/reducers/index';
 import {UserService} from 'app/shared/services/user.service';
 import {OrderItem, UserBalance} from 'app/model';
 import {PopupService} from 'app/shared/services/popup.service';
@@ -92,10 +91,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     private store: Store<State>,
     public tradingService: TradingService,
     public breakpointService: BreakpointService,
-    private dashboardWebsocketService: DashboardWebSocketService,
     private popupService: PopupService,
     private userService: UserService,
-    private authService: AuthService,
     private cdr: ChangeDetectorRef,
     public translateService: TranslateService
   ) {
@@ -120,10 +117,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       });
 
     this.store
-      .pipe(select(getDashboardState))
+      .pipe(select(getUserBalance))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(state => {
-        this.userBalance = state.userBalance;
+      .subscribe((userBalance: UserBalance) => {
+        this.userBalance = userBalance;
         this.cdr.detectChanges();
       });
 
@@ -140,7 +137,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.store
       .pipe(select(getLastPrice))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (lastPrice: LastPrice) => {
+      .subscribe((lastPrice: LastPrice) => {
         if (!this.updateCurrentCurrencyViaWebsocket && this.isPossibleSetPrice) {
           this.setPriceInValue(lastPrice.price, this.BUY);
           this.setPriceInValue(lastPrice.price, this.SELL);

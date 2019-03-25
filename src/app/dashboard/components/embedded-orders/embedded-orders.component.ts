@@ -9,7 +9,8 @@ import {select, Store} from '@ngrx/store';
 import {State, getActiveCurrencyPair, getLastCreatedOrder} from 'app/core/reducers/index';
 import {EmbeddedOrdersService} from './embedded-orders.service';
 import {Order} from 'app/model/order.model';
-import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import {UserService} from 'app/shared/services/user.service';
 
 @Component({
   selector: 'app-embedded-orders',
@@ -36,7 +37,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
 
   constructor(
     private store: Store<State>,
-    private authService: AuthService,
+    private userService: UserService,
     private ordersService: EmbeddedOrdersService,
     private cdr: ChangeDetectorRef
   ) {
@@ -125,6 +126,11 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
         this.cdr.detectChanges();
       });
 
+  }
+
+  refreshOpenOrders() {
+    this.toOpenOrders();
+    this.userService.getUserBalance(this.activeCurrencyPair);
   }
 
   public pairNames(): string [] {

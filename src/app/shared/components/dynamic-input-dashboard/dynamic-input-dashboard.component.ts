@@ -75,9 +75,6 @@ export class DynamicInputDashboardComponent implements OnChanges {
       if(changes.value.currentValue !== changes.value.previousValue) {
         this.arrowKeyLocation = 0;
         this.filterList(changes.value.currentValue);
-        if(!changes.value.firstChange && this.filteredOptions.length) {
-          this.openDropdown();
-        }
       }
     }
     if(changes.options) {
