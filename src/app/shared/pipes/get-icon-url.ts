@@ -52,6 +52,16 @@ export class GetIconUrl  implements PipeTransform {
       case 'RDN':
       case 'REN':
       case 'VRBS':
+      case 'BRC':
+      case 'BSV':
+      case 'CRON':
+      case 'KAT':
+      case 'RBC':
+      case 'RVC':
+      case 'TTT':
+      case 'uDOOOO':
+      case 'VRA':
+      
       case 'ZUBE':
         name = 'no_icon';
         break;

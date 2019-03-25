@@ -594,7 +594,10 @@
 
       /*--- elements start ---*/
       &__label {
-        color: $grey;
+        @media(min-width: 1200px){
+
+            color: #237BEF;
+        }
 
         &--error {
           color: $red !important;
@@ -628,7 +631,9 @@
       }
 
       &__input {
-        border-color: $grey;
+        @media(min-width: 1200px){
+        border-color: #237BEF;
+      }
         background-color: transparent;
         color:#000;
         @media(max-width: 1200px){
