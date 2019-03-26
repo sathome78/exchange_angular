@@ -63,41 +63,7 @@
     <div class="currency-pair-info--mob">
       <div class="currency-pair-info__inner">
         <div class="currency-pair-info__pair">
-          <div class="dropdown currency-pair-info__dropdown" (click)="openSearchBar(0)">
-            <div class="dropdown__btn">{{!firstCurrency ? 'BTC' : firstCurrency}}</div>
-          </div>
-          <div class="currency-pair-info__change-pair">
-            <span class="currency-pair-info__change-pair--mob">/</span>
-          </div>
-          <div class="dropdown currency-pair-info__dropdown">
-            <div class="dropdown__btn" (click)="openDropdown()">{{secondCurrency}}</div>
-            <ul class="dropdown__list" *ngIf="marketDropdown">
-              <ng-template ngFor let-currency [ngForOf]="marketsArray" , let-index = index>
-                <li  class="dropdown__item" (click)="onSelectCurrency(currency.name)" *ngIf="currency.name !== secondCurrency">{{currency.name}}</li>
-              </ng-template>
-            </ul>
-          </div>
-        </div>
-        <!--<div class="currency-pair-info__info currency-pair-info__info&#45;&#45;up" *ngIf="currentCurrencyInfo">-->
-          <!--<div class="currency-pair-info__change">-->
-            <!--<span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{currentCurrencyInfo.percentChange}}%</span>-->
-            <!--<img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="">-->
-            <!--<img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="">-->
-            <!--<span>({{(currentCurrencyInfo.currencyRate - currentCurrencyInfo.lastCurrencyRate) | number:'1.1-8'}} {{ secondCurrency }})</span>-->
-          <!--</div>-->
-        <!--<div class="currency-pair-info__price">{{currentCurrencyInfo.currencyRate | number:'1.0'}} {{ secondCurrency }}</div>-->
-        <!--</div>-->
-        <div class="currency-pair-info__info"
-             [ngClass]="{'currency-pair-info__info--up': flarForArrow('up'),
-                     'currency-pair-info__info--down': flarForArrow('down')}">
-          <div class="currency-pair-info__change">
-            <span>+{{!currentCurrencyInfo || !currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange | number:'1.0-2' | replaceNumber}}%</span>
-            <!-- <span>{{currentCurrencyInfo.percentChange >= 0 ? '+' : '-'}}{{!currentCurrencyInfo.percentChange ? 0 : currentCurrencyInfo.percentChange}}%</span> -->
-            <!-- <img class="currency-pair-info__arr-up" src="../assets/img/arr-up-green.svg" alt="" *ngIf="flarForArrow('up')">
-            <img class="currency-pair-info__arr-down" src="../assets/img/arr-down-red.svg" alt="" *ngIf="flarForArrow('down')"> -->
-            <span style="margin-left: 10px;">+{{(!currentCurrencyInfo || !currentCurrencyInfo.changedValue ? 0 :currentCurrencyInfo.changedValue) | replaceNumber:isFiat }} {{ secondCurrency }}</span>
-          </div>
-          <div class="currency-pair-info__price">{{!currentCurrencyInfo || !currentCurrencyInfo.currencyRate ? 0 :currentCurrencyInfo.currencyRate | replaceNumber:isFiat }} {{ secondCurrency }}</div>
+          <app-currency-pair-info-mobile></app-currency-pair-info-mobile>
         </div>
       </div>
     </div>
