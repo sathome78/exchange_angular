@@ -59,7 +59,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
+  <div class="widget__content widget__content--mob button-fixed-block" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
     <div class="currency-pair-info--mob">
       <div class="currency-pair-info__inner">
         <div class="currency-pair-info__pair">
