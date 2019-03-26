@@ -2130,6 +2130,7 @@ webpackJsonp([14], [function (t, e, i) {
     secondFraction: $.t("Second fraction part is invalid.")
   }, e.numberToStringWithLeadingZero = o, l = function () {
     function t(t, e, i, o) {
+      if (t === 1000000000) t = 100000000;
       if (this.type = "price", e || (e = 1), n.isNumber(t) && n.isInteger(t) || (t = 100), t < 0) throw new TypeError("invalid base");
       if (this._priceScale = t, this._minMove = e, this._minMove2 = o, i && void 0 !== o && o > 0 && 2 !== o && 4 !== o && 8 !== o) return void s.logDebug("invalid minmove2");
       this._fractional = i, this.calculateDecimal()
