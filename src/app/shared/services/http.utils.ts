@@ -11,12 +11,14 @@ export const EXRATES_REST_TOKEN = 'Exrates-Rest-Token';
 export const IP_CHECKER_URL = 'https://api.ipify.org/?format=json';
 export const CORS_HEADER = 'Access-Control-Allow-Origin';
 
-export const PROD_HOST = 'https://exrates.me';
+// export const PROD_HOST = 'https://exrates.me';
+export const PROD_HOST = 'https://test-conf.exrates.me';
 export const PRE_PROD_HOST = 'http://preprod.exapp';
 export const STAGING_HOST = 'http://dev1.exrates.tech';
 export const LOCAL_HOST = 'http://dev1.exrates.tech';
 
-export const PROD_HOST_WS = 'https://exrates.me';
+// export const PROD_HOST_WS = 'https://exrates.me';
+export const PROD_HOST_WS = 'https://test-conf.exrates.me';
 export const PRE_PROD_HOST_WS = 'http://preprod.exapp';
 export const STAGING_HOST_WS = 'http://dev1.exrates.tech';
 export const LOCAL_HOST_WS = 'http://dev1.exrates.tech';
