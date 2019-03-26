@@ -28,12 +28,14 @@ function sendGenerateWalletGtag(id) {
   console.log("Successfully send generate wallet send");
 }
 
-function gtag(){dataLayer.push(arguments);}
-
-function ready() {
-  gtag('js', new Date());
-  gtag('config', 'GTM-TZTXSSP');
+function gtag(){
+  // dataLayer.push(arguments);
 }
 
+// function ready() {
+//   gtag('js', new Date());
+//   gtag('config', 'GTM-TZTXSSP');
+// }
 
-document.addEventListener("DOMContentLoaded", ready);
+
+// document.addEventListener("DOMContentLoaded", ready);
