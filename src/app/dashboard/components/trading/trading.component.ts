@@ -495,7 +495,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private inputTotalNested(event, type: string, order: Order) {
-    const value = event.target.value === '' ? 0 : event.target.value;
+    const value = event.target.value === '' ? '0' : event.target.value;
     this.setTotalInValue(value, type);
     order.total = parseFloat(this.deleteSpace(value));
     if (order.rate) {
