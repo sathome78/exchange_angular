@@ -18,7 +18,7 @@ export const STAGING_HOST = 'http://dev1.exrates.tech';
 export const LOCAL_HOST = 'http://dev1.exrates.tech';
 
 // export const PROD_HOST_WS = 'https://exrates.me';
-export const PROD_HOST_WS = 'https://test-conf.exrates.me';
+export const PROD_HOST_WS = 'https://old.exrates.me';
 export const PRE_PROD_HOST_WS = 'http://preprod.exapp';
 export const STAGING_HOST_WS = 'http://dev1.exrates.tech';
 export const LOCAL_HOST_WS = 'http://dev1.exrates.tech';
