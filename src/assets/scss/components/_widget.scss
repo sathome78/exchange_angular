@@ -1426,3 +1426,22 @@ padding-right: 19px;
     }
   }
 }
+
+.widget__trading-row{
+  .dropdown__btn.selectedButton{
+    position: relative;
+    &::after{
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: calc(100% - 16px);
+      top: auto!important;
+      height: 2px;
+      background-color: #237BEF;
+      display: block!important;
+      border: none!important;
+
+    }
+  }
+}
