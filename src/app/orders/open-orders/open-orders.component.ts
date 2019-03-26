@@ -1,5 +1,4 @@
 import {Component, OnInit, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
-import {IMyDpOptions, IMyDate, IMyDateModel} from 'mydatepicker';
 import {Store, select} from '@ngrx/store';
 
 import {OrderItem} from '../models/order-item.model';
@@ -10,9 +9,11 @@ import * as fromCore from '../../core/reducers';
 import {State} from '../../core/reducers';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {UtilsService} from 'app/shared/services/utils.service';
-import {SimpleCurrencyPair} from 'app/core/models/simple-currency-pair';
-import { CurrencyChoose } from 'app/core/models/currency-choose.model';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import {CurrencyChoose} from 'app/model/currency-choose.model';
+import {OrdersService} from '../orders.service';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
+import {UserService} from 'app/shared/services/user.service';
 
 @Component({
   selector: 'app-open-orders',
@@ -34,18 +35,20 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public countPerPage = 15;
   public isMobile: boolean = false;
   public showCancelOrderConfirm: number | null = null;
+  public isShowCancelAllOrdersConfirm = false;
+  public activeCurrencyPair: SimpleCurrencyPair;
 
-  public myDatePickerOptions: IMyDpOptions = {
-    dateFormat: 'dd.mm.yyyy',
-    disableSince: {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth() + 1,
-      day: new Date().getDate()
-    }
-  };
+  // public myDatePickerOptions: IMyDpOptions = {
+  //   dateFormat: 'dd.mm.yyyy',
+  //   disableSince: {
+  //     year: new Date().getFullYear(),
+  //     month: new Date().getMonth() + 1,
+  //     day: new Date().getDate()
+  //   }
+  // };
 
-  public modelDateFrom: any;
-  public modelDateTo: any;
+  // public modelDateFrom: any;
+  // public modelDateTo: any;
   public currencyPairId: string = null;
   public currencyPairValue: string = '';
   public currValue: string = '';
@@ -55,13 +58,20 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<State>,
-    private utils: UtilsService,
+    private ordersService: OrdersService,
+    public breakpointService: BreakpointService,
+    private userService: UserService,
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getOpenOrdersCount));
     this.currencyPairs$ = store.pipe(select(fromCore.getSimpleCurrencyPairsSelector));
     this.loading$ = store.pipe(select(ordersReducer.getLoadingSelector));
     this.allCurrenciesForChoose$ = store.pipe(select(fromCore.getAllCurrenciesForChoose));
+    store.pipe(select(fromCore.getActiveCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((activePair: SimpleCurrencyPair) => {
+        this.activeCurrencyPair = activePair;
+      })
 
     const componentHeight = window.innerHeight;
     this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
@@ -78,7 +88,6 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     if(this.isMobile) {
       this.countPerPage = 10;
     }
-    this.initDate();
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
     this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
     this.loadOrders();
@@ -88,26 +97,20 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
    * dispatching action to load the list of the open orders
    */
   loadOrders(): void {
-    if(this.isDateRangeValid()) {
-      const params = {
-        page: this.currentPage,
-        limit:this.countPerPage,
-        dateFrom: this.formatDate(this.modelDateFrom.date),
-        dateTo: this.formatDate(this.modelDateTo.date),
-        currencyPairId: this.currencyPairId,
-      }
-      this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
+    const params = {
+      page: this.currentPage,
+      limit:this.countPerPage,
+      currencyPairId: this.currencyPairId || 0,
     }
+    this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
   }
   loadMoreOrders(): void {
-    if(this.isDateRangeValid() && this.orderItems.length !== this.countOfEntries) {
+    if(this.orderItems.length !== this.countOfEntries) {
       this.currentPage += 1;
       const params = {
         page: this.currentPage,
         limit:this.countPerPage,
-        // dateFrom: this.formatDate(this.modelDateFrom.date),
-        // dateTo: this.formatDate(this.modelDateTo.date),
-        currencyPairId: this.currencyPairId,
+        currencyPairId: this.currencyPairId || 0,
         concat: true,
       }
       this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
@@ -121,6 +124,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   }
 
   changePage(page: number): void {
+    this.showCancelOrderConfirm = null;
     this.currentPage = page;
     this.loadOrders();
   }
@@ -129,58 +133,27 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
    * filter history orders by clicking on Filter button
    */
   onFilterOrders() {
-    if(this.isDateRangeValid()) {
-      this.currentPage = 1;
-      this.loadOrders();
-    }
+    this.currentPage = 1;
+    this.loadOrders();
   }
 
-  /** tracks input changes in a my-date-picker component */
-  dateFromChanged(event: IMyDateModel): void {
-    this.modelDateFrom = {date: event.date};
-    if (!this.isDateRangeValid() && !(event.date.year === 0 && event.date.day === 0)) {
-      this.modelDateTo = {date: event.date};
-    }
-  }
-  /** tracks input changes in a my-date-picker component */
-  dateToChanged(event: IMyDateModel): void {
-    this.modelDateTo = {date: event.date};
-    if (!this.isDateRangeValid() && !(event.date.year === 0 && event.date.day === 0)) {
-      this.modelDateFrom = {date: event.date};
-    }
+  cancelAllOrders() {
+    this.isShowCancelAllOrdersConfirm = false;
+    this.ordersService.cancelAllOrders(this.currencyPairValue)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.currentPage = 1;
+        this.currencyPairValue = '';
+        this.loadOrders();
+        this.userService.getUserBalance(this.activeCurrencyPair)
+      });
   }
 
-  /**
-   * check is date To is bigger than date From
-   * @returns { boolean }
-   */
-  isDateRangeValid(): boolean {
-    if(!this.modelDateFrom || !this.modelDateFrom.date || !this.modelDateTo || !this.modelDateTo.date) {
-      return false;
-    }
-    const dateFrom = new Date(this.modelDateFrom.date.year, this.modelDateFrom.date.month - 1, this.modelDateFrom.date.day);
-    const dateTo = new Date(this.modelDateTo.date.year, this.modelDateTo.date.month - 1, this.modelDateTo.date.day);
-    const diff = dateTo.getTime() - dateFrom.getTime();
-    return diff >= 0;
+  toggleShowCancelAllOrdersConfirm() {
+    this.isShowCancelAllOrdersConfirm = !this.isShowCancelAllOrdersConfirm;
   }
 
-  /**
-   * format date string
-   * @param { IMyDate } date
-   * @returns { string } returns string in format yyyy-mm-dd: example 2018-09-28
-   */
-  formatDate(date: IMyDate): string {
-    if(date.year === 0 && date.day === 0) {
-      return null;
-    }
-    const day = date.day < 10 ? '0' + date.day : date.day;
-    const month = date.month < 10 ? '0' + date.month : date.month;
-    return `${date.year}-${month}-${day}`
-  }
 
-  // filterByCurrency(value: string) {
-  //   this.orderItems$ = this.store.pipe(select(ordersReducer.getOpenOrdersFilterCurr, {currency: value}));
-  // }
 
   /**
    * open submenu in the mobile version of the table
@@ -195,31 +168,6 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
         detailsElement.classList.toggle('table__details-show');
       }
     }
-  }
-
-  initDate(): void {
-    /** Initialized to current date */
-    const currentDate = new Date();
-
-    this.modelDateTo = {
-      date: {
-        year: currentDate.getFullYear(),
-        month: currentDate.getMonth() + 1,
-        day: currentDate.getDate()
-      }
-    };
-
-    /** get yesterday's date */
-    const dateFromTimestamp = currentDate.setDate(currentDate.getDate() - 1);
-    const dateFrom = new Date(dateFromTimestamp);
-
-    this.modelDateFrom = {
-      date: {
-        year: dateFrom.getFullYear(),
-        month: dateFrom.getMonth() + 1,
-        day: dateFrom.getDate()
-      }
-    };
   }
 
   /**
@@ -249,9 +197,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       loadOrders: {
         page: this.currentPage,
         limit:this.countPerPage,
-        dateFrom: this.formatDate(this.modelDateFrom.date),
-        dateTo: this.formatDate(this.modelDateTo.date),
-        currencyPairId: this.currencyPairId,
+        currencyPairId: this.currencyPairId || 0,
         isMobile: this.isMobile,
       }
     }
@@ -265,10 +211,8 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   }
 
   closeFilterPopup() {
-    if(this.isDateRangeValid()) {
-      this.showFilterPopup = false;
-      this.loadOrders();
-    }
+    this.showFilterPopup = false;
+    this.loadOrders();
   }
 
   onShowCancelOrderConfirm(orderId: number | null): void {

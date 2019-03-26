@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {OnNextStep, PopupService} from '../../../../shared/services/popup.service';
 import {TwoFaResponseDto} from '../2fa-response-dto.model';
 import {GoogleAuthenticatorService} from '../google-authenticator.service';
@@ -8,18 +8,24 @@ import {Store} from '@ngrx/store';
 import * as fromCore from '../../../../core/reducers'
 import * as settingsActions from '../../../../settings/store/actions/settings.actions'
 import {AuthService} from 'app/shared/services/auth.service';
-import { UtilsService } from 'app/shared/services/utils.service';
+import {UtilsService} from 'app/shared/services/utils.service';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {AUTH_MESSAGES} from '../../../../shared/constants';
 
 @Component({
   selector: 'app-google-step-three',
   templateUrl: './google-step-three.component.html',
   styleUrls: ['./google-step-three.component.scss']
 })
-export class GoogleStepThreeComponent implements OnInit, OnNextStep {
+export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   secretCode = '';
   statusMessage = '';
+  public AUTH_MESSAGES = AUTH_MESSAGES;
   form: FormGroup;
+  loading: boolean = false;
 
   constructor(
     private popupService: PopupService,
@@ -31,7 +37,9 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep {
   ) {}
 
   ngOnInit() {
-    this.googleService.getGoogleTwoFaSecretHash().subscribe((dto: TwoFaResponseDto) => {
+    this.googleService.getGoogleTwoFaSecretHash()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((dto: TwoFaResponseDto) => {
         // console.log(dto);
         this.secretCode = dto.message;
         if (dto.error) {
@@ -40,7 +48,7 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep {
       },
       err => {
         this.statusMessage = this.translateService.instant('Failed to get google url');
-        console.log(err);
+        console.error(err);
       });
     this.form = new FormGroup({
       'password': new FormControl('', {validators: [Validators.required]}),
@@ -49,31 +57,46 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep {
     this.sendMePincode();
   }
 
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+
   onNextStep() {
     // this.popupService.closeTFAPopup();
     // this.popupService.moveNextStep();
     if (this.form.valid) {
       const password = this.form.get('password').value;
       const pin = this.form.get('pincode').value;
+      this.loading = true;
       this.googleService.submitGoogleAuthSecret(this.secretCode, password, pin)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
             // console.log(res);
-            this.store.dispatch(new settingsActions.LoadGAStatusAction(this.authService.getUsername()))
+            this.store.dispatch(new settingsActions.LoadGAStatusAction())
             this.popupService.closeTFAPopup();
+            this.loading = false;
           },
-          error1 => {
-            this.statusMessage = this.translateService.instant('Failed to set your google auth code');
-            console.log(error1);
+          err => {
+            if (err.status === 400) {
+              this.statusMessage = AUTH_MESSAGES.INVALID_CREDENTIALS;
+            } else {
+              this.statusMessage = AUTH_MESSAGES.OTHER_HTTP_ERROR;
+            }
+            this.loading = false;
           });
     }
   }
 
   sendMePincode() {
-    this.googleService.sendMePincode().subscribe(res => {
+    this.googleService.sendMePincode()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
         console.log(res);
       },
       error1 => {
-        console.log(error1);
+        console.error(error1);
       });
   }
 

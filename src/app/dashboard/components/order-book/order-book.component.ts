@@ -3,14 +3,15 @@ import {select, Store} from '@ngrx/store';
 import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs/Subject';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {OrderBookService} from '../../services/order-book.service';
 import {CurrencyPair} from 'app/model/currency-pair.model';
-import {State, getCurrencyPair, getCurrencyPairInfo} from 'app/core/reducers/index';
+import {State, getActiveCurrencyPair, getCurrencyPairInfo} from 'app/core/reducers/index';
 import {OrderItem} from 'app/model/order-item.model';
 import {SelectedOrderBookOrderAction, SetLastPriceAction} from '../../actions/dashboard.actions';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
 import {OrderBookItem} from 'app/model';
+import {Subscription} from 'rxjs';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-order-book',
@@ -24,6 +25,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
   public itemName: string = 'order-book';
+  private orderBookSub$: Subscription;
   public currencyPairInfo: CurrencyPairInfo = null;
 
   private sellOrders: OrderItem [] = [];
@@ -32,13 +34,14 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   public preLastExrate:number = 0;
   public isExratePositive = true;
   public loading: boolean = true;
+  public canSetLastPrice: boolean = true;
 
   public sellVisualizationArray = [];
   public buyVisualizationArray = [];
   public showSellDataReverse = [];
   public showBuyDataReverse = [];
 
-  public activeCurrencyPair: CurrencyPair;
+  public activeCurrencyPair: SimpleCurrencyPair;
   public commonSellTotal = 0;
   public commonBuyTotal = 0;
   public splitCurrencyName = ['', ''];
@@ -55,7 +58,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   constructor(
     private store: Store<State>,
-    private orderBookService: OrderBookService,
     private dashboardWebsocketService: DashboardWebSocketService,
     private cdr: ChangeDetectorRef,
   ) {
@@ -76,50 +78,66 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       });
 
     this.store
-      .pipe(select(getCurrencyPair))
+      .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair: CurrencyPair) => {
+      .subscribe((pair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = pair;
-        this.splitCurrencyName = pair.currencyPairName.split('/');
-        if(pair.currencyPairId !== 0) {
-          this.requestData(pair);
+        this.splitCurrencyName = pair.name.split('/');
+        if(pair.id !== 0) {
+          this.subscribeOrderBook(pair.name, this.precisionOut)
         }
+        this.cdr.detectChanges()
       });
-
-    this.dashboardWebsocketService.setRabbitStompSubscription()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair) => {
-        this.requestData(pair);
-      })
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.unsubscribeOrderBook();
+  }
+
+  subscribeOrderBook(currName: string, precision: number): void {
+    this.unsubscribeOrderBook();
+    const pairName = currName.toLowerCase().replace(/\//i, '_');
+    this.loadingStarted();
+    this.orderBookSub$ = this.dashboardWebsocketService.orderBookSubscription(pairName, precision)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data) => {
+        // console.log('order books', data);
+        this.initData(data);
+        this.loadingFinished();
+        this.cdr.detectChanges();
+      })
+  }
+
+  unsubscribeOrderBook() {
+    if(this.orderBookSub$) {
+      this.orderBookSub$.unsubscribe();
+    }
   }
 
   private initData(orders: OrderBookItem[]) {
-    orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) : this.setSellOrders(orders[1]);
-    orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : this.setBuyOrders(orders[1]);
+    if(!orders[0]) {
+      return;
+    }
+    orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) :
+    orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : null;
+    if(orders[1]) {
+      orders[1].orderType === 'SELL' ? this.setSellOrders(orders[1]) :
+      orders[1].orderType === 'BUY' ? this.setBuyOrders(orders[1]) : null;
+    }
     this.lastExrate = +orders[0].lastExrate;
     this.preLastExrate = +orders[0].preLastExrate;
     this.isExratePositive = orders[0].positive;
-    const lastPrice = {
-      flag: this.isExratePositive,
-      price: this.lastExrate
+    if(this.canSetLastPrice) {
+      const lastPrice = {
+        flag: this.isExratePositive,
+        price: this.lastExrate
+      }
+      this.store.dispatch(new SetLastPriceAction(lastPrice));
+      this.canSetLastPrice = false;
     }
-    this.store.dispatch(new SetLastPriceAction(lastPrice))
     this.setData();
-  }
-
-  private requestData(pair: CurrencyPair): void {
-    this.orderBookService.getOrderBookDateOnInit(pair, this.precisionOut)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((orders: OrderBookItem[]) => {
-        this.initData(orders);
-        this.loadingFinished();
-        this.cdr.detectChanges();
-      });
   }
 
   public sellCalculateVisualization(): void {
@@ -161,7 +179,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     if (this.precision <= 0.01) {
       this.precision *= 10;
       this.precisionOut--;
-      this.requestData(this.activeCurrencyPair);
+      this.subscribeOrderBook(this.activeCurrencyPair.name, this.precisionOut)
     }
   }
 
@@ -172,7 +190,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     if (this.precision >= 0.0001) {
       this.precision /= 10;
       this.precisionOut++;
-      this.requestData(this.activeCurrencyPair);
+      this.subscribeOrderBook(this.activeCurrencyPair.name, this.precisionOut)
+
     }
   }
 
@@ -190,6 +209,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   private loadingFinished(): void {
     this.loading = false;
+  }
+  private loadingStarted(): void {
+    this.loading = true;
   }
 
   public onSelectOrder(item: OrderItem): void {

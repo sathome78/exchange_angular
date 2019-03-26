@@ -6,6 +6,7 @@
     <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Amount' | translate}}</th>
     <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Comission' | translate}}</th>
     <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Payment system' | translate}}</th>
+    <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Operation type' | translate}}</th>
     <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Status' | translate}}</th>
     <!-- <th class="table__cell-head table__cell-head--tac"></th> -->
     <th class="table__cell-head table__cell-head--tac"></th>
@@ -22,12 +23,12 @@
   >
     <td class="table__cell">
       <div class="table__date-time">
-        <div>{{item.date | dateWrapper | amDateFormat: 'dd DD.MM.YYYY'}}</div>
-        <div>{{item.date | dateWrapper | amDateFormat: 'HH:mm:ss'}}</div>
+        <div>{{item.date | amDateFormat: 'dd DD.MM.YYYY'}}</div>
+        <div>{{item.date | amDateFormat: 'HH:mm:ss'}}</div>
       </div>
     </td>
     <td class="table__cell">
-      <img [src]="item.currency | getIconUrl" class="select__list-item-icon">
+      <img [src]="item.currency | getIconUrl:true" class="select__list-item-icon">
       <span>{{item.currency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
@@ -37,10 +38,13 @@
       <span>{{item.commission | roundCurrency:item.currency | formatCurrency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>{{item.system}}</span>
+      <span>{{item.system | showPendingSystem: item.currency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>{{pendingRequestsItem.statusMap[item.status]}}</span>
+      <span>{{item.operation | showTransactionsType: item.operation}}</span>
+    </td>
+    <td class="table__cell table__cell--tar">
+      <span>{{item.status | showPendingStatus: item.operation}}</span>
     </td>
     <!-- <td class="table__cell">
       <button class="btn btn--center btn--small btn--hidden">I paid</button>

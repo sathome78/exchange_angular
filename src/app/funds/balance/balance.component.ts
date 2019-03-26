@@ -6,15 +6,27 @@ import * as fundsAction from '../store/actions/funds.actions';
 import * as coreAction from '../../core/actions/core.actions';
 import {BalanceItem} from '../models/balance-item.model';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
-import {MyBalanceItem} from '../../core/models/my-balance-item.model';
+import {MyBalanceItem} from '../../model/my-balance-item.model';
 import {BalanceService} from '../services/balance.service';
 import {takeUntil} from 'rxjs/operators';
-import {CRYPTO_DEPOSIT, FIAT_DEPOSIT} from './send-money/send-money-constants';
-import {CurrencyChoose} from '../../core/models/currency-choose.model';
+import {
+  CRYPTO_DEPOSIT,
+  CRYPTO_WITHDRAWAL,
+  FIAT_DEPOSIT,
+  FIAT_WITHDRAWAL,
+  INNER_TRANSFER,
+  FIAT_DEPOSIT_QUBERA,
+  FIAT_WITHDRAWAL_QUBERA,
+  QUBERA
+} from './send-money/send-money-constants';
+import {CurrencyChoose} from '../../model/currency-choose.model';
 import * as fromCore from '../../core/reducers';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
 import {Router} from '@angular/router';
-import {PopupService} from '../../shared/services/popup.service';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
+import {KYC_STATUS, PENDING} from '../../shared/constants';
+import {environment} from 'environments/environment.prod';
+
 
 @Component({
   selector: 'app-balance',
@@ -28,6 +40,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     CRYPTO: 'CRYPTO',
     FIAT: 'FIAT',
     PR: 'PR',
+    QUBERA: 'QUBERA',
   };
 
   public balanceItems: BalanceItem [] = [];
@@ -36,8 +49,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public showRefillBalancePopup: boolean = false;
   public showSendMoneyPopup: boolean = false;
   public hideAllZero: boolean = false;
+  public existQuberaAccounts: string = PENDING;
+  public isProd: boolean = environment.production;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
+  public quberaBalances$: Observable<any[]>;
   public countOfCryptoEntries$: Observable<number>;
   public fiatBalances$: Observable<BalanceItem[]>;
   public countOfFiatEntries$: Observable<number>;
@@ -51,6 +67,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public fiatCurrenciesForChoose: CurrencyChoose[] = [];
   public loading$: Observable<boolean>;
   public currValue: string = '';
+  public kycStatus: string = '';
 
   public sendMoneyData = {};
   public refillBalanceData = {};
@@ -58,14 +75,16 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public currentPage = 1;
   public countPerPage = 15;
+  public loading: boolean = false;
 
   constructor(
     public balanceService: BalanceService,
     private store: Store<fromCore.State>,
     private dashboardWS: DashboardWebSocketService,
-    private popupService: PopupService,
+    public breakpointService: BreakpointService,
     private router: Router
   ) {
+    this.quberaBalances$ = store.pipe(select(fundsReducer.getQuberaBalancesSelector));
     this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
     this.countOfCryptoEntries$ = store.pipe(select(fundsReducer.getCountCryptoBalSelector));
     this.fiatBalances$ = store.pipe(select(fundsReducer.getFiatBalancesSelector));
@@ -103,6 +122,22 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.openRefillBalancePopup(res);
       });
+
+    this.store
+      .pipe(select(fromCore.getVerificationStatus))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(status => {
+        this.kycStatus = status;
+        if (this.kycStatus === KYC_STATUS.SUCCESS) {
+          // todo:
+          // CHECK IF EXIST QUBERA ACCOUNT by  /api/private/v2/merchants/qubera/account/check/:currencyName
+          this.existQuberaAccounts = null;
+          // IF EXIST ACCOUNT LOAD QUBERA BALANCE dispatch loadQuberaBal
+          // this.store.dispatch(new fundsAction.LoadQuberaBalAction());
+        } else {
+          this.existQuberaAccounts = null;
+        }
+      })
 
     this.balanceService.closeSendMoneyPopup$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -210,14 +245,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
 
   public goToCryptoWithdrawPopup(balance: BalanceItem): void {
-    this.popupService.demoPopupMessage = 1;
-    this.popupService.showDemoTradingPopup(true);
-    // this.showSendMoneyPopup = true;
-    // this.sendMoneyData = {
-    //   step: 2,
-    //   stepName: CRYPTO_WITHDRAWAL,
-    //   balance: balance
-    // };
+    // this.popupService.demoPopupMessage = 1;
+    // this.popupService.showDemoTradingPopup(true);
+    this.showSendMoneyPopup = true;
+    this.sendMoneyData = {
+      step: 2,
+      stepName: this.currTab === 'CRYPTO' ? CRYPTO_WITHDRAWAL : FIAT_WITHDRAWAL,
+      balance: balance
+    };
   }
 
   public goToCryptoDepositPopup(balance: BalanceItem): void {
@@ -236,14 +271,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public goToTransferPopup(balance: BalanceItem): void {
-    this.popupService.demoPopupMessage = 1;
-    this.popupService.showDemoTradingPopup(true);
-    // this.showSendMoneyPopup = true;
-    // this.sendMoneyData = {
-    //   step: 2,
-    //   stepName: INNER_TRANSFER,
-    //   stepThreeData: balance
-    // };
+    // this.popupService.demoPopupMessage = 1;
+    // this.popupService.showDemoTradingPopup(true);
+    this.showSendMoneyPopup = true;
+    this.sendMoneyData = {
+      step: 2,
+      stepName: INNER_TRANSFER,
+      stepThreeData: balance
+    };
   }
 
   public loadMoreBalancesForMobile({currentPage, countPerPage, concat}): void {
@@ -286,7 +321,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public onSelectPair(currId: string): void {
     this.currencyForChoose = currId;
-    this.loadBalances(this.currTab);;
+    this.loadBalances(this.currTab);
   }
 
   public get getCryptoDynamicIData(): DIOptions[] {
@@ -295,6 +330,5 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public get getFiatDynamicIData(): DIOptions[] {
     return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
   }
-
 
 }

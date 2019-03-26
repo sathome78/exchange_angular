@@ -12,8 +12,9 @@ import { UtilsService } from 'app/shared/services/utils.service';
 import { TransactionHistoryItem } from '../models/transactions-history-item.model';
 import { takeUntil } from 'rxjs/operators';
 import saveAs from 'file-saver'
-import { CurrencyChoose } from 'app/core/models/currency-choose.model';
+import { CurrencyChoose } from 'app/model/currency-choose.model';
 import { ConstantsService } from 'app/shared/services/constants.service';
+import { BreakpointService } from 'app/shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-transaction-history',
@@ -29,6 +30,7 @@ export class TransactionHistoryComponent implements OnInit {
   public countOfEntries: number = 0;
   public currencyForChoose$: Observable<CurrencyChoose[]>;
   public loading$: Observable<boolean>;
+  public loadingExcel: boolean = false;
   public currValue: string = '';
 
   public currentPage = 1;
@@ -43,8 +45,10 @@ export class TransactionHistoryComponent implements OnInit {
   public showFilterPopup = false;
   public tableScrollStyles: any = {};
   public openDetails: number = null;
+  public initialRequest: boolean = false;
 
   public myDatePickerOptions: IMyDpOptions = {
+    showInputField: false,
     dateFormat: 'dd.mm.yyyy',
     disableSince: {
       year: new Date().getFullYear(),
@@ -57,6 +61,7 @@ export class TransactionHistoryComponent implements OnInit {
     private store: Store<State>,
     private transactionsService: TransactionsService,
     public constantsService: ConstantsService,
+    public breakpointService: BreakpointService,
     private utils: UtilsService,
   ) {
     this.transactionsItems$ = store.pipe(select(fundsReducer.getTrHistorySelector));
@@ -78,33 +83,54 @@ export class TransactionHistoryComponent implements OnInit {
     this.initDate();
     this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
     this.loadTransactions();
+    this.initialRequest = true;
   }
 
   loadTransactions() {
-    if(this.isDateRangeValid()){1
-      const params = {
-        offset: (this.currentPage - 1) * this.countPerPage,
-        limit:this.countPerPage,
-        dateFrom: this.formatDate(this.modelDateFrom.date),
-        dateTo: this.formatDate(this.modelDateTo.date),
-        currencyId: this.currencyId
-      }
-      this.store.dispatch(new fundsAction.LoadTransactionsHistoryAction(params));
+    const params = {
+      offset: (this.currentPage - 1) * this.countPerPage,
+      limit:this.countPerPage,
+      dateFrom:  this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
+      dateTo:  this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
+      currencyId: this.currencyId || 0,
+      currencyName: this.currValue || '',
     }
+    this.store.dispatch(new fundsAction.LoadTransactionsHistoryAction(params));
+    this.initialRequest = false;
+  }
+
+  clearFilters() {
+    this.modelDateTo = null;
+    this.modelDateFrom = null;
+    this.currencyId = null;
+    this.currValue = null;
+  }
+
+  loadLastTransactions(e) {
+    e.preventDefault();
+    this.clearFilters();
+    const params = {
+      offset: 0,
+      limit: this.countPerPage,
+    }
+    this.store.dispatch(new fundsAction.LoadLastTransactionsHistoryAction(params));
+    this.initialRequest = false;
   }
 
   loadMoreTransactions(): void {
-    if(this.isDateRangeValid() && this.transactionsItems.length !== this.countOfEntries) {
+    if(this.transactionsItems.length !== this.countOfEntries) {
       this.currentPage += 1;
       const params = {
         offset: (this.currentPage - 1) * this.countPerPage,
         limit:this.countPerPage,
-        dateFrom: this.formatDate(this.modelDateFrom.date),
-        dateTo: this.formatDate(this.modelDateTo.date),
-        currencyId: this.currencyId,
+        dateFrom:  this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
+        dateTo:  this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
+        currencyId: this.currencyId || 0,
+        currencyName: this.currValue || '',
         concat: true,
       }
       this.store.dispatch(new fundsAction.LoadTransactionsHistoryAction(params));
+      this.initialRequest = false;
     }
   }
 
@@ -149,6 +175,22 @@ export class TransactionHistoryComponent implements OnInit {
     this.loadTransactions();
   }
 
+  clearModelDateTo() {
+    this.modelDateTo = null;
+  }
+
+  clearModelDateFrom() {
+    this.modelDateFrom = null;
+  }
+
+  focusOrBlurDateFrom(event) {
+    if (!event) this.modelDateFrom = {...this.modelDateFrom};
+  }
+
+  focusOrBlurDateTo(event) {
+    if (!event) this.modelDateTo = {...this.modelDateTo};
+  }
+
   /** tracks input changes in a my-date-picker component */
   dateFromChanged(event: IMyDateModel): void {
     this.modelDateFrom = {date: event.date};
@@ -184,7 +226,7 @@ export class TransactionHistoryComponent implements OnInit {
    * @returns { string } returns string in format yyyy-mm-dd: example 2018-09-28
    */
   formatDate(date: IMyDate): string {
-    if(date.year === 0 && date.day === 0) {
+    if(!date || date.year === 0 && date.day === 0) {
       return null;
     }
     const day = date.day < 10 ? '0' + date.day : date.day;
@@ -196,15 +238,21 @@ export class TransactionHistoryComponent implements OnInit {
     const params = {
       offset: (this.currentPage - 1) * this.countPerPage,
       limit:this.countPerPage,
-      dateFrom: this.formatDate(this.modelDateFrom.date),
-      dateTo: this.formatDate(this.modelDateTo.date),
-      currencyId: this.currencyId
+      dateFrom:  this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
+      dateTo:  this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
+      currencyId: this.currencyId || 0,
+      currencyName: this.currValue || '',
     }
+    this.loadingExcel = true;
     this.transactionsService.downloadExcel(params)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         const blob = new Blob([data], {type: 'text/ms-excel'});
         saveAs(blob, 'history-transactions.xlsx');
+        this.loadingExcel = false;
+      }, err => {
+        console.error(err);
+        this.loadingExcel = false;
       });
   }
 
@@ -241,6 +289,7 @@ export class TransactionHistoryComponent implements OnInit {
 
   onSelectPair(currId: string): void {
     this.currencyId = currId;
+    this.onFilter();
   }
 
 

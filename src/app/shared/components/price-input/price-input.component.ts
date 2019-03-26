@@ -1,8 +1,6 @@
 import {Component, forwardRef, Input, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import {CurrencyPipe} from '../../pipes/currency.pipe';
 import {UtilsService} from '../../services/utils.service';
-import {RoundCurrencyPipe} from '../../pipes/round-currency.pipe';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
@@ -15,7 +13,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   selector: 'app-price-input',
   templateUrl: './price-input.component.html',
   styleUrls: ['./price-input.component.scss'],
-  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR, CurrencyPipe, RoundCurrencyPipe]
+  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class PriceInputComponent implements ControlValueAccessor, AfterViewInit {
   private _innerValue: any;
@@ -26,19 +24,23 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   @Input('currencyName') public currencyName = '';
   @ViewChild('inputEl') inputEl: ElementRef;
   @Output('customInput') customInput: EventEmitter<any>
+  @Output('customBlur') customBlur: EventEmitter<boolean>
   private patternInput = /^\d+\.(\.\d+)*$|^\d+(\.\d+)*$/;
+  private onTouched: Function;
+  private thousands_separator: string;
 
   constructor(
-    private currencyUsdPipe: CurrencyPipe,
-    private roundCurrencyPipe: RoundCurrencyPipe,
     private utils: UtilsService
   ) {
+    this.onTouched = () => {};
     this.customInput = new EventEmitter<any>();
+    this.customBlur = new EventEmitter<boolean>();
+    this.thousands_separator = ' ';
   }
 
   ngAfterViewInit() {
     this.el = this.inputEl.nativeElement;
-    this.el.value = this.currencyUsdPipe.transform(this.el.value);
+    this.el.value = this.priceFormat(this.el.value, this.currencyName);
   }
 
   onInput(e) {
@@ -48,7 +50,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
       this.inputEl.nativeElement.value = this.currencyFormat(e, value);
     } else {
       value === '' ? this.customInput.emit(e) : null;
-      this.inputEl.nativeElement.value = value.slice(0, -1);
+      this.inputEl.nativeElement.value = value.replace(e.data, '');
     }
   }
 
@@ -73,7 +75,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   get value() {
-    return this.exponentToNumber(this._innerValue);
+    return this._innerValue;
   }
 
   set value(v) {
@@ -81,11 +83,11 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   writeValue(value: any) {
+    value = this.priceFormat(value, this.currencyName);
     if (value == 'N/A')
       return this._innerValue = value;
-    value = value ? this.roundCurrencyPipe.transform(value, this.currencyName) : value;
-    this._innerValue = this.currencyUsdPipe.transform(value);
-    this.propagateChanges(this.currencyUsdPipe.parse(this._innerValue));
+    this._innerValue = value;
+    this.propagateChanges(parseFloat(this._innerValue) || 0);
   }
 
   propagateChanges = (...any) => {
@@ -95,7 +97,8 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     this.propagateChanges = fn;
   }
 
-  registerOnTouched(fn: any) {
+  registerOnTouched(fn: () => {}): void {
+    this.onTouched = fn;
   }
 
   onFocus() {
@@ -103,36 +106,51 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   onBlur($event) {
+    this.onTouched();
     this.writeValue($event.target.value);
+    this.customBlur.emit(true);
   }
 
-  /**
-   * Method transform exponent format to number
-   * @param x
-   * @returns {any}
-   */
-  exponentToNumber(x) {
-    if(x) {
-      x = x.toString();
-      if (x[x.length - 1] === '.') {
-        x = x.slice(0, -1);
+
+  priceFormat(value: string, currencyName: string = ''): string | number {
+    const num = value;
+    if (num) {
+      if (this.utils.isFiat(currencyName)) {
+        return this.sliceFraction(num, 2);
       }
-      if (Math.abs(x) < 1.0) {
-        let e = parseInt(x.toString().split('e-')[1]);
-        if (e) {
-          x *= Math.pow(10, e - 1);
-          x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
-        }
-      } else {
-        let e = parseInt(x.toString().split('+')[1]);
-        if (e > 20) {
-          e -= 20;
-          x /= Math.pow(10, e);
-          x += (new Array(e + 1)).join('0');
-        }
-      }
-      return x;
+      return this.sliceFraction(num, 8);
+    } else {
+      return '';
     }
+  }
+
+  sliceFraction(value: string, count: number): string {
+    const index = value.indexOf('.');
+    if(index >= 0) {
+      const temp = value.substr(0, index + 1 + count)
+      return this.thousandsFormat(temp, true);
+    }
+    return this.thousandsFormat(value);
+  }
+
+  private thousandsFormat(value: string, hasFraction = false): string {
+    if (hasFraction) {
+      const parts = value.split('.');
+      const integer = this.addThousandsSpace(parts[0]);
+      return `${integer}.${parts[1]}`;
+    } else {
+      return this.addThousandsSpace(value);
+    }
+  }
+
+  addThousandsSpace(decimal: string): string {
+    decimal = this.utils.deleteSpace(decimal)
+    let i = decimal.length % 3;
+    const parts = i ? [decimal.substr(0, i)] : [];
+    for (; i < decimal.length; i += 3) {
+      parts.push(decimal.substr(i, 3));
+    }
+    return parts.join(' ');
   }
 
 }

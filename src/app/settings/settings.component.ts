@@ -24,14 +24,11 @@ export class SettingsComponent implements OnInit {
               private store: Store<fromCore.State>) {
     this.translate.setDefaultLang('en');
     // this.lang$ = this.store.pipe(select(fromCore.getLanguage));
-
-
   }
 
   ngOnInit() {
-    this.store.dispatch(new coreAction.LoadVerificationStatusAction());
     // this.lang$.subscribe(lang => this.translate.use(lang));
-    this.store.dispatch(new settingsActions.LoadGAStatusAction(this.authService.getUsername()));
+    this.store.dispatch(new settingsActions.LoadGAStatusAction());
     this.store.dispatch(new settingsActions.LoadSessionTimeAction());
   }
 

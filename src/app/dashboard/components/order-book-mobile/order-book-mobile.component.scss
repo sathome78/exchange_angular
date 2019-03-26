@@ -11,7 +11,7 @@
   .tr{
     display: flex;
     position: relative;
-
+        line-height: 1.2;
     &:first-child{
       // margin-bottom: 10px;
       .td{
@@ -32,6 +32,12 @@
     font-weight: 400;
     color: #AAB1C4;
     padding: 5px 2px 6px;
+    @media(max-width: 568px){
+        font-size: 11px;
+      }
+      @media(max-width: 420px){
+        font-size: 9px;
+      }
   }
   .order-book-buy{
     padding-left: 10px;
@@ -49,14 +55,14 @@
     }
     .td{
 
+    // &:nth-of-type(1){
+    //   width: 17%;
+    // }
     &:nth-of-type(1){
-      width: 17%;
+      width: 50%;
     }
     &:nth-of-type(2){
-      width: 38%;
-    }
-    &:nth-of-type(3){
-      width: 45%;
+      width: 50%;
       justify-content: flex-end;
       padding-right: 5px;
       color: #00B43D;
@@ -71,6 +77,7 @@
     }
     .th,.td{
       text-align: left;
+
 
     }
   }
@@ -92,19 +99,20 @@
       text-align: right;
      justify-content: flex-end;
       &:nth-of-type(1){
-        padding-left: 9px;
-        width: 45%;
+        padding-left: 7px;
+        width: 50%;
         justify-content: flex-start;
         color: #EB5757;
       }
       &:nth-of-type(2){
-        width: 38%;
+        width: 50%;
       }
-      &:nth-of-type(3){
+      // &:nth-of-type(3){
 
-        width: 17%;
-      }
+      //   width: 17%;
+      // }
     }
   }
   .price-td{}
 }
+

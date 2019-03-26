@@ -4,10 +4,10 @@
 </div>
 <div class="send__row">
   <button class="btn btn--empty-blue"
-  (click)="chooseTransfer('By email')"
+    (click)="chooseTransfer('By email')"
   >{{'Instant transfer' | translate}}</button>
   <div class="send__transfer-description">
-    {{'Send instant internal transfer to another account using their email or nickname' | translate}}.
+    {{'Send instant internal transfer to another account using their email' | translate}}.
   </div>
 </div>
 <div class="send__row">
@@ -15,7 +15,7 @@
           (click)="chooseTransfer('By code')">
     {{'Protected by code & mail' | translate}}
   </button>
-  <div class="send__transfer-description" [innerHTML]="'Make <b>password-protected</b> personal transfer to another user by his <b>email or nickname</b>' | translate">
+  <div class="send__transfer-description" [innerHTML]="'Make <b>password-protected</b> personal transfer to another user by his <b>email</b>' | translate">
     <div class="small">({{'user can get the money if he knows the transfer code' | translate}})</div>
   </div>
 </div>

@@ -1,11 +1,9 @@
 function sendRegistrationGtag() {
-  console.log("Send registration gtag");
   gtag('event', 'sent-form', {'event_category': 'registration-form', 'event_label': 'successe-form-sent'});
   console.log("Successfully send registration gtag");
 }
 
 function sendConfirmationPasswordGtag() {
-  console.log("Send confirmation password gtag");
   gtag('event', 'password-correct', {'event_category': 'password-confirm', 'event_label': 'finish-registration'});
   console.log("Successfully send confirmation password gtag");
 }
@@ -15,19 +13,27 @@ function sendLoginSuccessGtag() {
   console.log("successfully send login gtag");
 }
 
+function sendTransactionSuccessGtag() {
+  gtag({'event': 'transaction'});
+  console.log("successfully send transactions gtag");
+}
+
 function sendRecoveryPasswordGtag() {
-  console.log("Send password recovery gtag");
   gtag('event', 'pass-recovered', {'event_category': 'recovered-pass', 'event_label': 'recovered-success'});
   console.log("Successfully send password recovery gtag");
 }
 
 function sendGenerateWalletGtag(id) {
-  console.log("Send generate wallet send");
   gtag('event', 'recharge-ballance', {'event_category': 'recharge-ballance', 'event_label': id});
   console.log("Successfully send generate wallet send");
 }
 
-window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'GTM-TZTXSSP');
+
+function ready() {
+  gtag('js', new Date());
+  gtag('config', 'GTM-TZTXSSP');
+}
+
+
+document.addEventListener("DOMContentLoaded", ready);

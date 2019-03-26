@@ -41,6 +41,7 @@
   .transaction{
     display: block;
     padding-top: 32px;
+    padding-bottom: 32px;
     &--mob{
       display: none;
     }
@@ -71,7 +72,7 @@
     &__datepicker{
       width: 175px;
       margin-right: 24px;
-      bottom: -1px;
+      bottom: 1px;
       .wrap-input__label{
         //left: 17px;
         z-index: 1;
@@ -88,9 +89,12 @@
       padding: 0 12px;
       border-radius: 4px;
       bottom: 1px;
+      width: 100%;
+      max-width: 160px;
       svg{
         vertical-align: middle;
         fill:$light-blue;
+        margin-right: 10px;
       }
       &:hover{
         svg{

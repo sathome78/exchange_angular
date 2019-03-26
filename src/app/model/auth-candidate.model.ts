@@ -1,5 +1,4 @@
 import {environment} from '../../environments/environment';
-import {IP_USER_KEY} from '../shared/services/http.utils';
 
 declare var encodePassword: Function;
 
@@ -35,12 +34,6 @@ export class AuthCandidate {
       this.pin = pinCode;
       this.isPinRequired = true;
     }
-    return this;
-  }
-
-  public withClientIp(): AuthCandidate {
-    this.clientIp = localStorage.getItem(IP_USER_KEY);
-     console.log('client ip: ' + this.clientIp);
     return this;
   }
 

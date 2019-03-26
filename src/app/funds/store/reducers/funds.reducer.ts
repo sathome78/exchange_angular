@@ -3,12 +3,13 @@ import {defaultValues} from './default-values';
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {BalanceItem} from 'app/funds/models/balance-item.model';
 import {PendingRequestsItem} from 'app/funds/models/pending-requests-item.model';
-import {MyBalanceItem} from 'app/core/models/my-balance-item.model';
+import {MyBalanceItem} from 'app/model/my-balance-item.model';
 import {BalanceDetailsItem} from '../../models/balance-details-item.model';
 import {TransactionHistoryItem} from 'app/funds/models/transactions-history-item.model';
 
 export interface State {
   cryptoBal: BalanceItem[];
+  quberaBal: any[];
   countCryptoBal: number;
   fiatBal: BalanceItem[];
   countFiatBal: number;
@@ -24,6 +25,7 @@ export interface State {
 
 export const INIT_STATE: State = {
   cryptoBal: defaultValues.cryptoBal,
+  quberaBal: [],
   countCryptoBal: defaultValues.countCryptoBal,
   fiatBal: defaultValues.fiatBal,
   countFiatBal: defaultValues.countFiatBal,
@@ -83,6 +85,20 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         countFiatBal: action.payload.count,
       };
     case fromActions.FAIL_LOAD_FIAT_BAL:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    case fromActions.LOAD_QUBERA_BAL:
+      return {...state, loading: true};
+    case fromActions.SET_QUBERA_BAL:
+      return {
+        ...state,
+        loading: false,
+        quberaBal: action.payload,
+      };
+    case fromActions.FAIL_LOAD_QUBERA_BAL:
       return {
         ...state,
         loading: false,
@@ -181,6 +197,12 @@ export const getCountFiatBal = (state: State): number => state.countFiatBal;
 
 export const getFiatBalancesSelector = createSelector(getFundsState, getFiatBalances);
 export const getCountFiatBalSelector = createSelector(getFundsState, getCountFiatBal);
+
+/** Qubera balances */
+
+export const getQuberaBalances = (state: State): any[] => state.quberaBal;
+
+export const getQuberaBalancesSelector = createSelector(getFundsState, getQuberaBalances);
 
 /** Pending requests */
 

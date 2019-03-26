@@ -4,7 +4,7 @@
       #input
       id="DIInput"
       class="wrap-input__input dynamic-input"
-      [(ngModel)]="value"
+      [ngModel]="value"
       name="item"
       (input)="onChangeFn($event)"
       (focus)="openDropdown()"
@@ -41,6 +41,9 @@
           {{item.text}}
         </li>
       </perfect-scrollbar>
+    </ul>
+    <ul class="select__list" [ngClass]="{'select__list--open': !filteredOptions.length && value && showNotFoundTip}" >
+      <li class="select__list-item hover-coin" style="cursor: default" >{{'No matching found' | translate}}</li>
     </ul>
   </div>
 

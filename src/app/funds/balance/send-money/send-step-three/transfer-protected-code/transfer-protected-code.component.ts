@@ -5,7 +5,6 @@ import {State} from '../../../../../core/reducers';
 import {Store} from '@ngrx/store';
 import {BY_PRIVATE_CODE} from '../../send-money-constants';
 import {AbstractTransfer} from '../abstract-transfer';
-import {environment} from '../../../../../../environments/environment';
 import {PopupService} from '../../../../../shared/services/popup.service';
 
 @Component({
@@ -20,6 +19,7 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
     currency: 0,
     sum: '',
     pin: '',
+    currencyName: '',
     type: 'VOUCHER'
   };
 
@@ -34,7 +34,6 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
   ngOnInit() {
     this.initForm();
     this.responseCommission = this.responseDefaultCommission;
-    this.getCommissionDebonce();
     this.getAllNames();
   }
 
@@ -44,24 +43,17 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
   }
 
   submitTransfer() {
+    this.form.get('amount').updateValueAndValidity();
     this.isSubmited = true;
-    if (environment.production) {
-      // todo while insecure
-      this.popupService.demoPopupMessage = 0;
-      this.popupService.showDemoTradingPopup(true);
-      this.balanceService.closeSendMoneyPopup$.next(false);
-    } else {
-      if (!this.isAmountMax && !this.isAmountMin && this.form.controls['amount'].value !== '0') {
-        this.isSubmited = false;
-        this.isEnterData = false;
-      }
+    if (this.form.valid) {
+      this.isEnterData = false;
     }
-
   }
 
   afterResolvedCaptcha() {
     this.model.currency = this.activeCrypto.id;
     this.model.sum = this.form.controls['amount'].value;
+    this.model.currencyName = this.activeCrypto.name;
     const data = {
       operation: BY_PRIVATE_CODE,
       data: this.model
@@ -71,7 +63,11 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
 
   private initForm() {
     this.form = new FormGroup({
-      amount: new FormControl('0', {validators: [Validators.required]}),
+      amount: new FormControl('', {validators: [
+          Validators.required,
+          this.isMaxThenActiveBalance.bind(this),
+          this.isMinThenMinWithdraw.bind(this)
+        ]}),
     });
   }
 }

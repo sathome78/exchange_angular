@@ -1,103 +1,166 @@
-import {Component, OnDestroy, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef, Input} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs/Subject';
 import {Store, select} from '@ngrx/store';
 
-import {getCurrencyPairArray, State} from 'app/core/reducers/index';
+import {State, getMarketCurrencyPairsMap, getIsAuthenticated, getFavoritesCurrencyPair} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {MarketService} from './market.service';
+import {MarketService} from '../../services/market.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
-import {UserService} from '../../../shared/services/user.service';
-import {getCurrencyPair} from '../../../core/reducers';
+import {getActiveCurrencyPair} from '../../../core/reducers';
+
+import {ActivatedRoute, Router} from '@angular/router';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
+import {Subscription} from 'rxjs';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {UserService} from '../../../shared/services/user.service';
 
 
 @Component({
   selector: 'app-markets',
   templateUrl: 'markets.component.html',
-  styleUrls: ['markets.component.scss']
+  styleUrls: ['markets.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketsComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
-  public itemName: string;
+  public itemName: string = 'markets';
   /** active tab pair */
   public currencyDisplayMode = 'BTC';
   public isFiat = false;  // must be defined for correct pipe work
   /** Markets data from server */
-  currencyPairs: CurrencyPair[] = [];
-  /** Markets data from server show preferred pairs*/
-  prefPairs: CurrencyPair[] = [];
+  public currencyPairs: CurrencyPair[] = [];
   /** Markets data by active tab */
-  pairs: CurrencyPair[] = [];
-  public currentCurrencyPair: CurrencyPair;
+  public pairs: CurrencyPair[] = [];
+
+  private marketsSub$: Subscription;
+  public currentCurrencyPair: SimpleCurrencyPair;
   public sortPoint = 'asc';
   public marketSearch = false;
   public searchInput = '';
   public currencyName = 'USD';
   public loading: boolean = true;
+  public isAuthenticated: boolean = false;
+  public isMobile: boolean = false;
+  public userFavorites: number[] = [];
 
+  public volumeOrderDirection = 'NONE';
+  public selectedCurrencyPair: CurrencyPair;
+  public scrollHeight: number = 0;
 
-  volumeOrderDirection = 'NONE';
-  selectedCurrencyPair: CurrencyPair;
+  @ViewChild('mobileContainer') mobileContainer: ElementRef;
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private marketService: MarketService,
+    private userService: UserService,
     private store: Store<State>,
+    public breakpointService: BreakpointService,
     private dashboardWebsocketService: DashboardWebSocketService,
-    private userService: UserService) {
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {
     super();
   }
 
   ngOnInit() {
-    this.itemName = 'markets';
-    this.volumeOrderDirection = 'NONE';
-    this.marketService.makeItFast();
     this.store
-      .pipe(select(getCurrencyPairArray))
+      .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (currencyPairs: CurrencyPair[]) => {
-        this.onGetCurrencyPairs(currencyPairs);
-      });
-
-    this.store
-      .pipe(select(getCurrencyPair))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair: CurrencyPair) => {
+      .subscribe((pair: SimpleCurrencyPair) => {
         this.currentCurrencyPair = pair;
+        this.cdr.detectChanges();
       });
 
-    this.dashboardWebsocketService.setRabbitStompSubscription()
+    this.store
+      .pipe(select(getFavoritesCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        this.marketService.makeItFast();
+      .subscribe((userFavorites: number[]) => {
+        this.userFavorites = userFavorites;
+        this.pairs = this.choosePair(this.currencyDisplayMode, this.searchInput);
+        this.cdr.detectChanges();
+      });
+
+    this.store
+      .pipe(select(getIsAuthenticated))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((isAuthenticated: boolean) => {
+        this.isAuthenticated = isAuthenticated;
+        if(isAuthenticated) {
+          this.getUserFavoritesCurrencyPairs();
+        } else {
+          this.store.dispatch(new dashboardActions.SetUserFavoritesCurrencyPairsAction([]))
+        }
+      });
+
+    this.store
+      .pipe(select(getMarketCurrencyPairsMap))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((currencyPairs: MapModel<CurrencyPair>) => {
+        this.currencyPairs = Object.values(currencyPairs);
+        this.pairs = this.choosePair(this.currencyDisplayMode, this.searchInput);
+        this.cdr.detectChanges();
+      }, (err) => {
+        console.error(err);
+        this.cdr.detectChanges();
+      });
+
+    this.subscribeMarkets();
+    this.breakpointSub();
+  }
+
+  subscribeMarkets(): void {
+    this.unsubscribeMarkets();
+    this.loadingStarted();
+    this.marketsSub$ = this.dashboardWebsocketService.marketsSubscription()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data) => {
+        const parsedData = JSON.parse(data[0]);
+        // console.log('markets', parsedData);
+        this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(parsedData.data))
+        this.loadingFinished();
+        this.cdr.detectChanges();
+      })
+  }
+
+  unsubscribeMarkets() {
+    if(this.marketsSub$) {
+      this.marketsSub$.unsubscribe();
+    }
+  }
+
+  breakpointSub() {
+    const that = this;
+    this.breakpointService.breakpoint$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res) => {
+        if(res === 'mobile') {
+          this.isMobile = true;
+          setTimeout(() => {
+            this.scrollHeight = this.mobileContainer.nativeElement.offsetHeight - 108;
+            this.cdr.detectChanges();
+          }, 0);
+        } else {
+          this.isMobile = false;
+          this.scrollHeight = 0;
+        }
+      })
+  }
+
+  getUserFavoritesCurrencyPairs() {
+    this.marketService.getUserFavoriteCurrencyPairIds()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((favoriteIds: number[]) => {
+        this.store.dispatch(new dashboardActions.SetUserFavoritesCurrencyPairsAction(favoriteIds))
       })
   }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.marketService.unsubscribe();
-  }
-
-  /**
-   * Add or update pair
-   * @param {CurrencyPair} newPair
-   */
-  addOrUpdate(newPair: CurrencyPair) {
-    let found = false;
-    this.currencyPairs.forEach(elm => {
-      if (newPair.currencyPairId === elm.currencyPairId) {
-        found = true;
-        const chosen = elm.isSelected;
-        elm = newPair;
-        elm.isSelected = chosen;
-      }
-    });
-    if (!found) {
-      this.currencyPairs.push(newPair);
-    }
   }
 
   toggleSearchModal(event) {
@@ -105,11 +168,11 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   sortVolume() {
-    this.sortPoint === 'asc' ? this.sortPoint = 'desc' : this.sortPoint = 'asc';
+    this.sortPoint = this.sortPoint === 'asc' ? 'desc' : 'asc';
     if (this.sortPoint === 'asc') {
-      this.pairs = this.pairs.sort((a, b) => a.volume - b.volume);
+      this.pairs = this.pairs.sort((a, b) => a.currencyVolume - b.currencyVolume);
     } else {
-      this.pairs = this.pairs.sort((a, b) => b.volume - a.volume);
+      this.pairs = this.pairs.sort((a, b) => b.currencyVolume - a.currencyVolume);
     }
   }
 
@@ -119,23 +182,17 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    */
   onSelectCurrencyPair(pair: CurrencyPair): void {
     this.selectedCurrencyPair = pair;
-    this.store.dispatch(new dashboardActions.ChangeCurrencyPairAction(pair));
-    this.store.dispatch(new dashboardActions.LoadCurrencyPairInfoAction(pair.currencyPairId))
-    this.userService.getUserBalance(pair);
-  }
-
-  /**
-   *  Emit when selected pair is updated
-   * @param {CurrencyPair[]} pairs
-   */
-  emitWhenSelectedPairIsUpdated(pairs: CurrencyPair []): void {
-    if (null != this.selectedCurrencyPair) {
-      pairs.forEach(elm => {
-        if (this.selectedCurrencyPair.currencyPairId === elm.currencyPairId) {
-          this.selectedCurrencyPair = CurrencyPair.deepCopy(elm);
-          this.onSelectCurrencyPair(this.selectedCurrencyPair);
-        }
-      });
+    const newActivePair = new SimpleCurrencyPair(pair.currencyPairId, pair.currencyPairName);
+    this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
+    const simplePair = {
+      id: pair.currencyPairId,
+      name: pair.currencyPairName
+    };
+    this.userService.getUserBalance(simplePair);
+    if(this.isMobile) {
+      this.router.navigate(['/dashboard'], {queryParams:{widget: 'trading'}});
+    } else if (this.route.snapshot.paramMap.get('currency-pair')) {
+       this.router.navigate(['/']);
     }
   }
 
@@ -147,11 +204,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.currencyDisplayMode = value;
     this.isFiat = value === 'USD';
     this.currencyName = value;
-    this.pairs = !this.searchInput ?
-      this.choosePair(value) :
-      this.choosePair(value).filter(f => f.currencyPairName.toUpperCase().match(this.searchInput.toUpperCase()));
-    // this.prefPairs = this.choosePrefPairs();
-    // this.searchInput = '';
+    this.pairs = this.choosePair(value, this.searchInput);
   }
 
   /**
@@ -159,48 +212,41 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    * @param no param
    */
   uncheckFavourites() {
-    this.pairs.forEach(pair => pair.isFavourite = false);
-    this.marketService.removeFavourites();
+    this.pairs.forEach(pair => pair.isFavorite = false);
+    this.marketService.removeFavorites();
   }
 
   /**
    * Return array by market
    * @param {string} market
+   * @param {string} searchValue
    * @returns {CurrencyPair[]}
    */
-  choosePair(market: string): CurrencyPair[] {
+  choosePair(market: string, searchValue: string = ''): CurrencyPair[] {
     if (market === 'FAVORITES') {
-      return this.currencyPairs.filter(pair => pair.isFavourite);
+      return this.currencyPairs
+        .filter(pair => this.userFavorites.indexOf(pair.currencyPairId) >= 0
+          && pair.currencyPairName.toUpperCase().startsWith(searchValue.toUpperCase()));
     }
     if (market === 'LOC') {
-      return this.currencyPairs.filter(f => f.market
-        && f.market.toUpperCase() !== 'USD'
-        && f.market.toUpperCase() !== 'BTC'
-        && f.market.toUpperCase() !== 'ETH');
+      return this.currencyPairs
+        .filter(f => f.market
+          && f.market.toUpperCase() !== 'USD'
+          && f.market.toUpperCase() !== 'BTC'
+          && f.market.toUpperCase() !== 'ETH'
+          && f.currencyPairName.toUpperCase().startsWith(searchValue.toUpperCase()));
     }
-    return this.currencyPairs.filter(f => f.market && f.market.toUpperCase() === market.toUpperCase());
+    return this.currencyPairs
+      .filter(f => f.market
+        && f.market.toUpperCase() === market.toUpperCase()
+        && f.currencyPairName.toUpperCase().startsWith(searchValue.toUpperCase()));
   }
 
-  // choosePrefPairs() {
-  //   const mPairs: CurrencyPair[] = [];
-  //   if (this.currencyDisplayMode === 'BTC') {
-  //     const luckyBtc: CurrencyPair = this.currencyPairs.find(pair => pair.currencyPairName === 'BTC/USD');
-  //     if (luckyBtc) {
-  //       mPairs.push(luckyBtc);
-  //     }
-  //   } else if (this.currencyDisplayMode === 'ETH') {
-  //     const luckyEth: CurrencyPair = this.currencyPairs.find(pair => pair.currencyPairName === 'ETH/USD');
-  //     if (luckyEth) {
-  //       mPairs.push(luckyEth);
-  //     }
-  //   }
-  //   return mPairs;
-  // }
 
   /** Filter markets data by search-data*/
   searchPair(value: string): void {
-    this.pairs = this.choosePair(this.currencyDisplayMode)
-      .filter(f => f.currencyPairName.toUpperCase().match(value.toUpperCase()));
+    this.searchInput = value;
+    this.pairs = this.choosePair(this.currencyDisplayMode, value)
   }
 
   /**
@@ -217,34 +263,65 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   toggleFavorite(pair: CurrencyPair) {
-    pair.isFavourite = !pair.isFavourite;
-    this.marketService.manageUserFavouriteCurrencyPair(pair)
-      .subscribe(res => console.log(res), error1 => console.log(error1));
-    this.pairs = this.choosePair(this.currencyDisplayMode);
+    if(!this.isAuthenticated) {
+      return;
+    }
+    this.marketService.manageUserFavoriteCurrencyPair(pair.currencyPairId, this.getIsFavorite(pair.currencyPairId))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        res => this.store.dispatch(new dashboardActions.ToggleUserFavoriteCurrencyPair(pair.currencyPairId)),
+        error1 => console.error(error1));
   }
 
   isFavorite(pair: CurrencyPair): boolean {
-    return pair.isFavourite;
+    return pair.isFavorite;
   }
 
-  private onGetCurrencyPairs(currencyPairs: CurrencyPair[]) {
-    if (this.currencyPairs.length === 0) {
-      this.currencyPairs = currencyPairs;
-    } else {
-      currencyPairs.forEach(item => {
-        this.addOrUpdate(item);
-      });
+  trackByFn(index, item) {
+    return item.currencyPairId; // or item.id
+  }
+
+  onClickMarketItem(e) {
+    if (e.target === e.currentTarget) {
+      return;
     }
-    this.pairs = this.choosePair(this.currencyDisplayMode);
-    // this.prefPairs = this.choosePrefPairs();
-    this.emitWhenSelectedPairIsUpdated(currencyPairs);
-    this.loadingFinished();
-  }
 
+    let target = e.target;
 
-  private loadingFinished() {
-    if(this.pairs && this.pairs.length && this.loading) {
-      this.loading = false;
+    while(target.id !== 'markets-container' || null) {
+      if(target.dataset.favorite) {
+        const pair = this.getPairById(+target.dataset.favorite)
+        if(pair) {
+          this.toggleFavorite(pair);
+        }
+        target = null;
+        return;
+      }
+      if(target.dataset.marketitem) {
+        const pair = this.getPairById(+target.dataset.marketitem)
+        if(pair) {
+          this.onSelectCurrencyPair(pair);
+        }
+        target = null;
+        return;
+      }
+      target = target.parentElement;
     }
   }
+
+  getIsFavorite(currencyPairId) {
+    return this.userFavorites.indexOf(currencyPairId) >= 0;
+  }
+
+  getPairById(pairId: number): CurrencyPair {
+    return this.pairs.find((item) => item.currencyPairId === pairId);
+  }
+
+  private loadingFinished(): void {
+    this.loading = false;
+  }
+  private loadingStarted(): void {
+    this.loading = true;
+  }
+
 }

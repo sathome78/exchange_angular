@@ -1,9 +1,8 @@
 import * as coreActions from '../actions/core.actions';
-import {ActionReducer, createSelector} from '@ngrx/store';
-import {REHYDRATE, RehydrateAction} from '../actions/core.actions';
-import { SimpleCurrencyPair } from '../models/simple-currency-pair';
-import { CurrencyChoose } from '../models/currency-choose.model';
-import {NOT_VERIFIED} from '../../shared/constants';
+// import {ActionReducer, createSelector} from '@ngrx/store';
+// import {REHYDRATE, RehydrateAction} from '../actions/core.actions';
+import {SimpleCurrencyPair} from '../../model/simple-currency-pair';
+import {CurrencyChoose} from '../../model/currency-choose.model';
 
 export interface State {
   currency: string;
@@ -14,19 +13,23 @@ export interface State {
   cryptoCurrenciesForChoose: CurrencyChoose[];
   fiatCurrenciesForChoose: CurrencyChoose[];
   allCurrenciesForChoose: CurrencyChoose[];
-  loading: false;
+  loading: boolean;
+  isAuthenticated: boolean;
+  userInfo: ParsedToken;
 }
 
 export const INIT_STATE: State = {
   currency: null,
   region: null,
   language: 'en',
-  verificationStatus: NOT_VERIFIED,
+  verificationStatus: null,
   simpleCurrencyPairs: [],
   cryptoCurrenciesForChoose: [],
   fiatCurrenciesForChoose: [],
   allCurrenciesForChoose: [],
   loading: false,
+  isAuthenticated: false,
+  userInfo: null
 };
 
 /**
@@ -58,7 +61,6 @@ export function reducer(state: State = INIT_STATE, action: coreActions.Actions) 
         ...state,
         simpleCurrencyPairs: action.payload.items,
       };
-
     case coreActions.LOAD_ALL_CURRENCIES_FOR_CHOOSE:
       return {...state, loading: true};
     case coreActions.LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE:
@@ -74,7 +76,12 @@ export function reducer(state: State = INIT_STATE, action: coreActions.Actions) 
     case coreActions.FAIL_LOAD_CURRENCIES_FOR_CHOOSE:
       return {...state, loading: false};
 
-    default :
+    case coreActions.ON_LOGIN:
+      return {...state, userInfo: action.payload, isAuthenticated: true};
+    case coreActions.ON_LOGOUT:
+      return {...state, userInfo: null, isAuthenticated: false};
+
+    default:
       return state;
   }
 }
@@ -114,3 +121,8 @@ export const getAllCurrenciesForChoose = (state: State): CurrencyChoose[] => sta
 export const getCryptoCurrenciesForChoose = (state: State): CurrencyChoose[] => state.cryptoCurrenciesForChoose;
 /** Selector returns fiat currencies for choose in dropdown*/
 export const getFiatCurrenciesForChoose = (state: State): CurrencyChoose[] => state.fiatCurrenciesForChoose;
+
+/** Selector return is Authenticated */
+export const getIsAuthenticatedSelector = (state: State): boolean => state.isAuthenticated;
+/** Selector return is Authenticated */
+export const getUserInfoSelector = (state: State): ParsedToken => state.userInfo;

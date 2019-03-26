@@ -8,12 +8,11 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 24px;
+    @media(max-width:1199px) {
+      margin-bottom: 0;
+    }
   }
-  &__select, &__wrap-input {
-    width: 100%;
-    max-width: 230px;
-    margin-bottom: 28px;
-  }
+  
   &__fiat-successful-icon {
     display: flex;
     justify-content: center;
@@ -112,3 +111,41 @@
   background-color: #237BEF;
   color: #fff;
 }
+
+// TEMP STYLE
+.loading-container {
+  margin-top: 40%;
+}
+
+.standart-link {
+  cursor: pointer;
+}
+
+.select__search-input {
+  color: black;
+}
+
+// TEMP STYLE
+.wrap-input__message--show {
+  min-height: 30px;
+}
+.btn--empty-blue{
+  &:hover, &:focus{
+    background-color: transparent !important;
+  }
+}
+
+.btn {
+  &.btn--center {
+    color: #ffffff !important;
+    &.btn--empty-blue {
+      color: #237BEF !important;
+      &:hover {
+        background-color: transparent !important;
+        border: 1px solid #237BEF !important;
+      }
+    }
+  }
+}
+
+

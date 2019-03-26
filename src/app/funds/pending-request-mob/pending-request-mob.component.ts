@@ -10,7 +10,7 @@ import * as coreAction from '../../core/actions/core.actions';
 import {Location} from '@angular/common';
 import {takeUntil} from 'rxjs/operators';
 import {UtilsService} from 'app/shared/services/utils.service';
-import {CurrencyChoose} from 'app/core/models/currency-choose.model';
+import {CurrencyChoose} from 'app/model/currency-choose.model';
 
 @Component({
   selector: 'app-pending-request-mob',

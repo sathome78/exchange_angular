@@ -1,0 +1,19 @@
+// TEMP STYLE
+:host {
+  position: absolute;
+  z-index: 99;
+  input {
+    width: 100px;
+    height: 45px;
+    font-size: 16px;
+    margin-left: 5px;
+    padding-left: 10px;
+    background: transparent;
+    border: none;
+    color: #94C2FF;
+    &:focus {
+      outline: none;
+      border: none;
+    }
+  }
+}

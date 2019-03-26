@@ -14,6 +14,9 @@
 
   &__table-row-hover {
     &--green {
+      // @media(max-width: 1199px){
+      background: linear-gradient(270deg, #00B43D 0%, rgba(0, 180, 61, 0) 95.23%);
+      // }
       &:hover {
         background-color: transparent;
 
@@ -35,11 +38,18 @@
 
         .txt-indicate {
           color: $green;
+          @media(max-width: 1199px){
+            color: #fff;
+          }
         }
       }
     }
 
     &--red {
+      @media(max-width: 1199px){
+
+      background: linear-gradient(270deg, #EB5757 0%, rgba(235, 87, 87, 0) 95.23%);
+      }
       &:hover {
         background-color: transparent;
 
@@ -61,6 +71,9 @@
 
         .txt-indicate {
           color: $red;
+          @media(max-width: 1199px){
+            color: #fff;
+          }
         }
       }
     }
@@ -164,3 +177,19 @@
   width: 100%;
   align-items: center;
 }
+
+// TEMP STYLE
+.trade_item {
+  height: 22px;
+}
+app-trade-history-item{
+    width: 100%;
+    display: inline-table;
+   
+  }
+
+  @media(max-width: 1199px){
+    .trade-history__tbody-inner{
+      padding: 0 10px;
+    }
+  }

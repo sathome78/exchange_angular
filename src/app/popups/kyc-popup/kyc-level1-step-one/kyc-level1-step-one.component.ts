@@ -47,12 +47,14 @@ export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.settingsService.getLanguagesKYC().pipe(takeUntil(this.ngUnsubscribe))
+    this.settingsService.getLanguagesKYC()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.languageArrayDefault = res as KycLanguage[];
         this.languageArray = this.languageArrayDefault;
       });
-    this.settingsService.getCountriesKYC().pipe(takeUntil(this.ngUnsubscribe))
+    this.settingsService.getCountriesKYC()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.countryArrayDefault = res as KycCountry[];
         this.countryArray = this.countryArrayDefault;
@@ -108,11 +110,12 @@ export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
   sendStepOne() {
     this.load = true;
     this.settingsService.getIframeUrlForKYC(this.verificationStatus === LEVEL_ONE ? LEVEL_TWO : LEVEL_ONE, this.selectedLanguage.languageCode, this.selectedCountry.countryCode)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.load = false;
         this.goToSecondStep.emit(res);
       }, error => {
-        console.log(error);
+        console.error(error);
         this.load = false;
       });
   }

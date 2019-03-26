@@ -6,7 +6,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {MyDatePickerModule} from 'mydatepicker';
 import {EffectsModule} from '@ngrx/effects';
-import {NgSelectModule} from '@ng-select/ng-select';
 import {AuthInterceptor} from '../core/interceptors/auth.interceptor';
 import {JwtInterceptor} from '../core/interceptors/jwt.interceptor';
 import {FundsEffects} from './store/effects/funds.effects';
@@ -20,7 +19,6 @@ import {SharedModule} from '../shared/shared.module';
 import {RefillMoneyComponent} from './balance/refill-money/refill-money.component';
 import {RefillStepOneComponent} from './balance/refill-money/refill-step-one/refill-step-one.component';
 import {RefillStepTwoComponent} from './balance/refill-money/refill-step-two/refill-step-two.component';
-import {RefillStepThreeComponent} from './balance/refill-money/refill-step-three/refill-step-three.component';
 import {RefillCryptoComponent} from './balance/refill-money/refill-step-two/refill-crypto/refill-crypto.component';
 import {RefillFiatComponent} from './balance/refill-money/refill-step-two/refill-fiat/refill-fiat.component';
 import {RefillInnerTransferComponent} from './balance/refill-money/refill-step-two/refill-inner-transfer/refill-inner-transfer.component';
@@ -49,8 +47,16 @@ import {TransactionsService} from './services/transaction.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {translateInfo} from '../shared/configs/translate-options';
-import {MomentModule} from 'angular2-moment';
+import {MomentModule} from 'ngx-moment';
 import {CoreEffects} from '../core/effects/core.effects';
+import {ShowPendingStatusPipe} from './pending-status.pipe';
+import {ShowPendingSystemPipe} from './pending-system.pipe';
+import {ShowTransactionsStatusPipe} from './transactions-history-status.pipe';
+import {ShowTransactionsTypePipe} from './transactions-history-type.pipe';
+import { QuberaTableComponent } from './balance/qubera-table/qubera-table.component';
+import { RefillFiatQuberaComponent } from './balance/refill-money/refill-step-two/refill-fiat-qubera/refill-fiat-qubera.component';
+import { SendFiatQuberaComponent } from './balance/send-money/send-step-two/send-fiat-qubera/send-fiat-qubera.component';
+import { TransferQuberaComponent } from './balance/send-money/send-step-three/transfer-qubera/transfer-qubera.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -64,7 +70,6 @@ export function createTranslateLoader(http: HttpClient) {
     ReactiveFormsModule,
     NgxPaginationModule,
     MyDatePickerModule,
-    NgSelectModule,
     MomentModule,
     SharedModule,
     EffectsModule.forRoot([CoreEffects, FundsEffects]),
@@ -87,7 +92,6 @@ export function createTranslateLoader(http: HttpClient) {
     RefillMoneyComponent,
     RefillStepOneComponent,
     RefillStepTwoComponent,
-    RefillStepThreeComponent,
     RefillCryptoComponent,
     RefillFiatComponent,
     RefillInnerTransferComponent,
@@ -111,6 +115,14 @@ export function createTranslateLoader(http: HttpClient) {
     PendingRequestInfoComponent,
 
     TransactionHistoryComponent,
+    ShowPendingStatusPipe,
+    ShowPendingSystemPipe,
+    ShowTransactionsStatusPipe,
+    ShowTransactionsTypePipe,
+    QuberaTableComponent,
+    RefillFiatQuberaComponent,
+    SendFiatQuberaComponent,
+    TransferQuberaComponent,
   ],
   providers: [
     BalanceService,

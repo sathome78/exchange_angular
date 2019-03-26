@@ -1,16 +1,17 @@
 import {Component, OnInit, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {Subject} from 'rxjs';
+import {of, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/internal/operators';
 
 import {PopupService} from '../../shared/services/popup.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/user.service';
-import {keys} from '../../core/keys';
+import {keys} from '../../shared/constants';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {Router} from '@angular/router';
-import { Location } from '@angular/common';
-import { AUTH_MESSAGES } from '../../shared/constants';
+import {Location} from '@angular/common';
+import {AUTH_MESSAGES} from '../../shared/constants';
+
 
 declare var sendRegistrationGtag: Function;
 
@@ -34,13 +35,17 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   public nameForm: FormGroup;
   public nameSubmited = false;
   public recaptchaKey = keys.recaptchaKey;
+  public AUTH_MESSAGES = AUTH_MESSAGES;
+  public emailServerError = 'start';
+  public pendingCheckEmail = false;
+  public loading: boolean = false;
+  public previousEmail = '';
 
   public email;
   public firstName;
   public afterCaptchaMessage;
 
   constructor(
-    private router: Router,
     private popupService: PopupService,
     private userService: UserService,
     private translateService: TranslateService,
@@ -86,6 +91,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
 
   resolvedCaptcha(event) {
     const email = this.emailForm.get('email').value;
+    this.loading = true;
     this.userService.sendToEmailConfirmation(email)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -94,9 +100,12 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
            ${this.translateService.instant('Please check your email and follow instructions.')}`;
         this.setTemplate('emailConfirmLinkTemplate');
         sendRegistrationGtag();
+        this.loading = false;
       }, error => {
+        console.error(error);
         this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later');
         this.setTemplate('emailConfirmLinkTemplate');
+        this.loading = false;
       });
   }
 
@@ -110,11 +119,10 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     this.emailForm = new FormGroup({
       email: new FormControl('', {
         validators: [
-          // Validators.required,
+          Validators.required,
           this.utilsService.emailValidator(),
           this.utilsService.specialCharacterValidator()
-        ],
-        asyncValidators: [this.userService.emailValidator()]
+        ]
       })
     }, {updateOn: 'blur'});
     this.passwordForm = new FormGroup({
@@ -126,9 +134,32 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   }
 
 
+  emailBlur() {
+    this.pendingCheckEmail = true;
+    const email = this.emailForm.get('email');
+    if (email.valid && email.value !== this.previousEmail) {
+      this.previousEmail = email.value;
+      this.userService.checkIfEmailExists(email.value)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.emailServerError = res ? 'EMAIL_EXIST' : '';
+          this.pendingCheckEmail = false;
+        }, error => {
+          if (error.status === 400) {
+            this.emailServerError = error.error.title === 'USER_EMAIL_NOT_FOUND' ?
+              '' :
+              error.error.title;
+          } else {
+            this.emailServerError = 'OTHER_HTTP_ERROR';
+          }
+          this.pendingCheckEmail = false;
+        });
+    }
+  }
+
+
   emailSubmit() {
-    console.log(this.emailForm)
-    if (this.emailForm.valid) {
+    if (this.emailForm.valid && !this.pendingCheckEmail) {
       this.setTemplate('captchaTemplate');
     }
   }

@@ -1,18 +1,22 @@
-import {Component, EventEmitter, OnDestroy, OnInit} from '@angular/core';
-import {Subject, forkJoin, Subscription} from 'rxjs';
+import {Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {Subject, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/internal/operators';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {AuthService} from 'app/shared/services/auth.service';
-import {CurrencyPair} from '../../../model/currency-pair.model';
+import {CurrencyPair} from 'app/model/currency-pair.model';
 import {select, Store} from '@ngrx/store';
-import {State, getCurrencyPair} from 'app/core/reducers/index';
+import {State, getActiveCurrencyPair, getLastCreatedOrder} from 'app/core/reducers/index';
 import {EmbeddedOrdersService} from './embedded-orders.service';
+import {Order} from 'app/model/order.model';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import {UserService} from 'app/shared/services/user.service';
 
 @Component({
   selector: 'app-embedded-orders',
   templateUrl: './embedded-orders.component.html',
-  styleUrls: ['./embedded-orders.component.scss']
+  styleUrls: ['./embedded-orders.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmbeddedOrdersComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   /** dashboard item name (field for base class)*/
@@ -24,17 +28,18 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
 
   public mainTab = 'open';
   public openOrdersCount = 0;
-  public activeCurrencyPair: CurrencyPair;
+  public activeCurrencyPair: SimpleCurrencyPair;
   public historyOrders;
   public openOrders;
   public arrPairName = ['', ''];
+  public loading: boolean = false;
 
 
   constructor(
     private store: Store<State>,
-    private authService: AuthService,
-    // private mockData: MockDataService,
-    private ordersService: EmbeddedOrdersService
+    private userService: UserService,
+    private ordersService: EmbeddedOrdersService,
+    private cdr: ChangeDetectorRef
   ) {
     super();
   }
@@ -42,19 +47,23 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   ngOnInit() {
     this.itemName = 'orders';
 
-    /** mock data */
-    // this.openOrders = this.mockData.getOpenOrders().items;
-    // this.historyOrders = this.mockData.getOpenOrders().items;
-    // this.activeCurrencyPair = this.mockData.getMarketsData()[2];
-    /** ---------------------------------------------- */
-
     this.store
-      .pipe(select(getCurrencyPair))
+      .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair) => {
+      .subscribe((pair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = pair;
         this.toOpenOrders();
+        this.toHistory();
       });
+
+    this.store
+      .pipe(select(getLastCreatedOrder))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((order: Order) => {
+        this.toOpenOrders();
+        this.toHistory();
+      });
+
       // if (this.authService.isAuthenticated()) {
       //   this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
       //   this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
@@ -85,14 +94,18 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
    * request to get open-orders data
    */
   toOpenOrders(): void {
-    const sub = this.ordersService.getOpenOrders(this.activeCurrencyPair.currencyPairId)
+    this.loading = true;
+    this.ordersService.getOpenOrders(this.activeCurrencyPair.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         this.openOrders = data.items;
         this.openOrdersCount = data.count;
-        sub.unsubscribe();
-
-        // TODO: remove after dashboard init load time issue is solved
-        // this.ref.detectChanges();
+        this.loading = false;
+        this.cdr.detectChanges();
+      }, err => {
+        console.error(err);
+        this.loading = false;
+        this.cdr.detectChanges();
       });
   }
 
@@ -100,24 +113,36 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
    * request to get history data with status (CLOSED and CANCELED)
    */
   toHistory(): void {
-    const sub = this.ordersService.getHistory(this.activeCurrencyPair.currencyPairId, 'CLOSED')
+    this.loading = true;
+    this.ordersService.getHistory(this.activeCurrencyPair.id, 'CLOSED')
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
         this.historyOrders = data.items;
-        sub.unsubscribe();
+        this.loading = false;
+        this.cdr.detectChanges();
+      }, err => {
+        console.error(err);
+        this.loading = false;
+        this.cdr.detectChanges();
       });
 
   }
 
+  refreshOpenOrders() {
+    this.toOpenOrders();
+    this.userService.getUserBalance(this.activeCurrencyPair);
+  }
+
   public pairNames(): string [] {
-    if (this.activeCurrencyPair && this.activeCurrencyPair.currencyPairName) {
-      return this.activeCurrencyPair.currencyPairName.split('/');
+    if (this.activeCurrencyPair && this.activeCurrencyPair.name) {
+      return this.activeCurrencyPair.name.split('/');
     }
     return ['BTC', 'USD'];
   }
 
   public pairName(): string {
     if (this.activeCurrencyPair) {
-      return this.activeCurrencyPair.currencyPairName;
+      return this.activeCurrencyPair.name;
     }
     return 'BTC/USD';
   }

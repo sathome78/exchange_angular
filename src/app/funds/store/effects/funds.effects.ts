@@ -8,9 +8,11 @@ import * as fundsActions from '../actions/funds.actions';
 import {BalanceService} from '../../services/balance.service';
 import {BalanceDetailsItem} from 'app/funds/models/balance-details-item.model';
 import * as dashboardActions from '../../../dashboard/actions/dashboard.actions';
-import {MyBalanceItem} from '../../../core/models/my-balance-item.model';
+import {MyBalanceItem} from '../../../model/my-balance-item.model';
 import {Location} from '@angular/common';
 import { TransactionsService } from 'app/funds/services/transaction.service';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {LOAD_QUBERA_BAL} from '../actions/funds.actions';
 
 
 interface ResData {
@@ -55,7 +57,10 @@ export class FundsEffects {
     .pipe(switchMap( (action) =>  {
       return this.balanceService.getMaxCurrencyPairByName(action.payload)
         .pipe(
-          map(res => (new dashboardActions.ChangeCurrencyPairAction( (res as {data: any, error: any}).data ))),
+          map((res: {data: any, error: any}) => {
+            const newActivePair = new SimpleCurrencyPair(res.data.currencyPairId, res.data.currencyPairName);
+            return new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair);
+          }),
           catchError(error => of(new fundsActions.FailLoadMaxCurrencyPairByCurrencyName(error)))
         );
     }));
@@ -111,6 +116,20 @@ export class FundsEffects {
         )
     }))
 
+  /**
+   * Load qubera balances
+   */
+  @Effect()
+  loadQuberaBalances$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadQuberaBalAction>(fundsActions.LOAD_QUBERA_BAL))
+    .pipe(switchMap(() => {
+      return this.balanceService.getQuberaBalancesInfo()
+        .pipe(
+          map((res: any) => (new fundsActions.SetQuberaBalAction(res))),
+          catchError(error => of(new fundsActions.FailLoadQuberaBalAction(error)))
+        );
+    }))
+
    /**
    * Load balance confirmation info
    */
@@ -158,7 +177,7 @@ export class FundsEffects {
    * Load transactions history
    */
   @Effect()
-  loadHistoryOrders$: Observable<Action> = this.actions$
+  loadHistoryTransactions$: Observable<Action> = this.actions$
     .pipe(ofType<fundsActions.LoadTransactionsHistoryAction>(fundsActions.LOAD_TRANSACTIONS_HISTORY))
     .pipe(switchMap((action) => {
       return this.transactionsService.getTransactionsHistory(action.payload)
@@ -169,6 +188,16 @@ export class FundsEffects {
             }
             return new fundsActions.SetTransactionsHistoryAction({items: orders.items, count: orders.count})
           }),
+          catchError(error => of(new fundsActions.FailLoadTransactionsHistoryAction(error)))
+        )
+    }))
+  @Effect()
+  loadLastHistoryTransactions$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadLastTransactionsHistoryAction>(fundsActions.LOAD_LAST_TRANSACTIONS_HISTORY))
+    .pipe(switchMap((action) => {
+      return this.transactionsService.getLastTransactionsHistory(action.payload)
+        .pipe(
+          map(orders => new fundsActions.SetTransactionsHistoryAction({items: orders.items, count: orders.count})),
           catchError(error => of(new fundsActions.FailLoadTransactionsHistoryAction(error)))
         )
     }))

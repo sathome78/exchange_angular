@@ -1,7 +1,7 @@
 
 <div class="container">
   <!--balance-mob start-->
-  <div class="balance balance--mob">
+  <div class="balance balance--mob balance-detail">
     <!--open mob-balance start-->
     <div class="open-mob-balance">
       <div class="open-mob-balance__header" (click)="onGoBackToMain()">
@@ -31,7 +31,7 @@
                 <td class="table__cell table__cell--tal">
                   <div class="balance__currency">
                     <div class="balance__currency-icon">
-                      <img [src]="selectedItem.currencyName | getIconUrl">
+                      <img [src]="selectedItem.currencyName | getIconUrl:true">
                     </div>
                     <div>
                       <span>{{selectedItem.currencyName}}</span>
@@ -48,7 +48,7 @@
                   <!-- <span class="txt-small txt-red">–0.24%</span> -->
                 </td>
               </tr>
-              <tr class="table__row--mob">
+              <tr class="table__row--mob balance-button-row">
                 <td class="table__cell table__cell--tal">
                   <button class="btn btn--center btn--small" (click)="goToCryptoDepositPopup(selectedItem)">{{'Deposit' | translate}}</button>
                 </td>
@@ -165,13 +165,23 @@
               </div>
             </div> -->
           </div>
-          <div class="open-mob-balance__btn-wrap">
+          <!-- <div class="open-mob-balance__btn-wrap">
             <a class="widget__buy-sell-btn widget__buy-sell-btn--green"
                (click)="onBuyCurrency(getMarketPair(selectedItem.currencyName))"
             >{{'Buy' | translate}} BTC</a>
             <a class="widget__buy-sell-btn widget__buy-sell-btn--red"
                (click)="onBuyCurrency(getMarketPair(selectedItem.currencyName))"
             >{{'Sell' | translate}} BTC</a>
+          </div> -->
+          <div class="trade-buttons-wr">
+            <a
+              (click)="onBuyCurrency(getMarketPair(selectedItem.currencyName))"
+              class="btn btn--active widget__trading-btn widget__trading-btn--buy"
+            >Buy {{getMarketPair(selectedItem.currencyName).split('-')[0]}}</a>
+            <a
+              (click)="onBuyCurrency(getMarketPair(selectedItem.currencyName))"
+              class="btn btn--active widget__trading-btn widget__trading-btn--sell"
+            >Sell {{getMarketPair(selectedItem.currencyName).split('-')[0]}}</a>
           </div>
         </div>
       </ng-container>

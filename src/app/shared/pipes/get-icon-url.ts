@@ -1,54 +1,73 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import {UtilsService} from '../services/utils.service';
 
 @Pipe({
   name: 'getIconUrl'
 })
 export class GetIconUrl  implements PipeTransform {
-  transform(name: string): string {
+
+  constructor(
+    private utilService: UtilsService,
+  ) {}
+
+  transform(name: string, isWhite: boolean = false): string {
 
     switch (name) {
-      case 'DIGIT':
+      case '':
       case 'DOR':
-      case 'BAB':
       case 'CMS_X':
-      case 'ECTE':
       case 'EXR':
       case 'GRS':
       case 'KOD':
-      case 'MANA':
-      case 'MCO':
-      case 'POA':
       case 'TAO':
       case 'WaBi':
-      case 'ZIL':
-      case 'DTC':
       case 'ECT':
       case 'ENGT':
-      case 'CMS_E':
-      case 'MODL':
       case 'QUICK':
-      case 'BCHABC':
-      case 'BSV':
       case 'TRS':
       case 'VNT':
-      case 'AED':
       case 'RUB':
       case 'RIME':
       case 'TCAT':
-      case 'EDT':
       case 'EXO':
       case 'HT':
-      case 'CTX':
       case 'LiqPay':
-      case 'Privat24':
       case 'Invoice':
-      case 'Visa':
-      case 'Master Card':
       case 'Interkassa':
+      case 'QIWI':
+      case 'Mir Payment':
+      case 'Yandex Money':
+      case 'Alfaclick Payment':
+      case 'Qubera':
+      case 'DIM.EUR':
+      case 'DIM.USD':
+      case 'HCXP':
+      case 'HNI':
+      case 'HOT':
+      case 'MET':
+      case 'OWC':
+      case 'PLTC':
+      case 'PPY':
+      case 'QKC':
+      case 'RDN':
+      case 'REN':
+      case 'VRBS':
+      case 'BRC':
+      case 'BSV':
+      case 'CRON':
+      case 'KAT':
+      case 'RBC':
+      case 'RVC':
+      case 'TTT':
+      case 'uDOOOO':
+      case 'VRA':
+      
+      case 'ZUBE':
         name = 'no_icon';
         break;
     }
-    const iconSrc = `assets/img/currency-icons/${name.toLowerCase()}.svg`;
+
+    const iconSrc = `assets/img/currency-icons/${name.toLowerCase()}${isWhite && this.utilService.isFiat(name) ? '-white' : ''}.svg`;
     return iconSrc;
   }
 }

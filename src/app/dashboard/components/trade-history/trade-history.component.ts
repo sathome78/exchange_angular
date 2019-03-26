@@ -1,32 +1,33 @@
-import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs/Subject';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {TradeHistoryService} from './trade-history.service';
-import {MarketService} from '../markets/market.service';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {select, Store} from '@ngrx/store';
-import {State, getCurrencyPair, getAllTrades, getLoadingAllTrades} from 'app/core/reducers/index';
+import {State, getActiveCurrencyPair, getAllTrades} from 'app/core/reducers/index';
 import {TradeItem} from '../../../model/trade-item.model';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
+import {SetAllTradesAction} from 'app/dashboard/actions/dashboard.actions';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 
 @Component({
   selector: 'app-trade-history',
   templateUrl: 'trade-history.component.html',
-  styleUrls: ['trade-history.component.scss']
+  styleUrls: ['trade-history.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TradeHistoryComponent extends AbstractDashboardItems implements OnInit {
+export class TradeHistoryComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   /** dashboard item name (field for base class)*/
   public itemName: string;
+  private tradesSub$: Subscription;
 
   allTrades: TradeItem [] = [];
   personalTrades: TradeItem [] = [];
 
-  activeCurrencyPair: CurrencyPair;
+  activeCurrencyPair: SimpleCurrencyPair;
   currencySubscription: any;
 
   allTradesSubscription: any;
@@ -34,7 +35,7 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
 
   secondCurrency;
   firstCurrency;
-  public loading$: Observable<boolean>;
+  public loading: boolean;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -42,8 +43,8 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
 
   constructor(
     private store: Store<State>,
-    private tradeService: TradeHistoryService,
     private dashboardWebsocketService: DashboardWebSocketService,
+    private cdr: ChangeDetectorRef,
 ) {
   super();
   }
@@ -51,29 +52,15 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
 
   ngOnInit() {
     this.itemName = 'trade-history';
-    // todo move ro store
-    this.tradeService
-      .getFirstTrades(1)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(items => this.allTrades = items);
-
-    this.dashboardWebsocketService.setRabbitStompSubscription()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair) => {
-        this.tradeService
-          .getFirstTrades(pair.currencyPairId)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(items => this.allTrades = items);
-      })
 
     this.store
-    .pipe(select(getCurrencyPair))
+    .pipe(select(getActiveCurrencyPair))
     .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe((pair: CurrencyPair) => {
-      if (pair.currencyPairId) {
+    .subscribe((pair: SimpleCurrencyPair) => {
+      if (pair.id) {
         this.onGetCurrentCurrencyPair(pair);
       }
-      });
+    });
 
     this.store
       .pipe(select(getAllTrades))
@@ -87,27 +74,33 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
           timeB = parseInt(b.acceptionTime, 10);
           return timeB - timeA;
         });
+        this.cdr.detectChanges();
       });
+  }
 
-    this.loading$ = this.store
-      .pipe(select(getLoadingAllTrades))
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    this.unsubscribeTrades()
+  }
+
+  subscribeTrades(currName: string): void {
+    this.unsubscribeTrades();
+    this.loadingStarted();
+    const pairName = currName.toLowerCase().replace(/\//i, '_');
+    this.tradesSub$ = this.dashboardWebsocketService.allTradesSubscription(pairName)
       .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data) => {
+        this.store.dispatch(new SetAllTradesAction(data));
+        this.loadingFinished();
+        this.cdr.detectChanges();
+      })
+  }
 
-    // this.allTradesSubscription = this.tradeService.allTradesListener
-    //   .subscribe(orders => {
-    //     this.addOrUpdate(this.allTrades, orders);
-    //     /** sort items */
-    //     this.allTrades.sort((a, b) => {
-    //       let timeA, timeB;
-    //       timeA = parseInt(a.acceptionTime, 10);
-    //       timeB = parseInt(b.acceptionTime, 10);
-    //
-    //       return timeA - timeB;
-    //     });
-    //
-    //     // TODO: remove after dashboard init load time issue is solved
-    //     // this.ref.detectChanges();
-    //   });
+  unsubscribeTrades() {
+    if(this.tradesSub$) {
+      this.tradesSub$.unsubscribe();
+    }
   }
 
   addOrUpdate(oldItems: TradeItem[], newItems: TradeItem[]) {
@@ -140,12 +133,24 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
     }
   }
 
-  private onGetCurrentCurrencyPair(pair) {
+  private onGetCurrentCurrencyPair(pair: SimpleCurrencyPair) {
     this.activeCurrencyPair = pair;
-    this.tradeService.subscribeStompForTrades(pair);
+    this.subscribeTrades(pair.name);
     this.allTrades = [];
     this.personalTrades = [];
-    this.formattingCurrentPairName(pair.currencyPairName as string);
+    this.formattingCurrentPairName(pair.name as string);
+    this.cdr.detectChanges();
+  }
+
+  trackByFn(index, item) {
+    return item.orderId; // or item.id
+  }
+
+  private loadingFinished(): void {
+    this.loading = false;
+  }
+  private loadingStarted(): void {
+    this.loading = true;
   }
 
 }

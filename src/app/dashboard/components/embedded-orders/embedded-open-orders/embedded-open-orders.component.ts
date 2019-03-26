@@ -1,19 +1,15 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ChangeDetectorRef, HostListener} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, HostListener} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
-
-import {MockDataService} from 'app/shared/services/mock-data.service';
 import {EmbeddedOrdersService} from '../embedded-orders.service';
 import {select, Store} from '@ngrx/store';
-import {State, getCurrencyPair} from 'app/core/reducers/index';
-import {CurrencyPair} from '../../../../model/currency-pair.model';
+import {State, getActiveCurrencyPair} from 'app/core/reducers/index';
 import {AbstractOrderCalculate} from '../../../../shared/components/abstract-order-calculate';
 import {UserBalance} from '../../../../model/user-balance.model';
 import {getUserBalance} from '../../../../core/reducers';
-import { UtilsService } from 'app/shared/services/utils.service';
-import { Order } from 'app/model/order.model';
-import { TradingService } from 'app/dashboard/services/trading.service';
+import {Order} from 'app/model/order.model';
+import {TradingService} from 'app/dashboard/services/trading.service';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 
 
 @Component({
@@ -28,7 +24,7 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
   @Input() openOrders;
   @Input() countPerPage = 7;
 
-  // public currentPair;
+  public currentPair: SimpleCurrencyPair;
   public commissionIndex = 0.002;
   public orderType = 'BUY';
   public editOrderPopup = false;
@@ -40,7 +36,8 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
   public currencyPairInfo;
 
   public currentPage = 1;
-  public showCancelOrderConfirm = null
+  public showCancelOrderConfirm = null;
+  public loading: boolean = false;
 
 
   public defaultOrder: Order = {
@@ -73,9 +70,9 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
     this.order = {...this.defaultOrder};
 
     this.store
-      .pipe(select(getCurrencyPair))
+      .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (pair: CurrencyPair) => {
+      .subscribe( (pair: SimpleCurrencyPair) => {
         this.currentPair = pair;
         this.splitPairName();
       });
@@ -147,10 +144,14 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
    * @param order
    */
   cancelOrder(order): void {
+    this.loading = true;
     this.ordersService.deleteOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.refreshOpenOrders.emit(true);
+        this.loading = false;
+      }, err => {
+        this.loading = false;
       });
   }
 
@@ -175,15 +176,19 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
 
       const tempOrder = {...this.order};
       tempOrder.status = 'CANCELLED';
-
-      this.ordersService.updateOrder(tempOrder).subscribe(res => {
-        this.createNewOrder();
-        this.resetForms();
-      }, err => {
-        console.log(err);
-        this.editOrderPopup = false;
-        this.resetForms();
-      });
+      this.loading = true;
+      this.ordersService.updateOrder(tempOrder)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.createNewOrder();
+          this.resetForms();
+          this.loading = false;
+        }, err => {
+          console.error(err);
+          this.editOrderPopup = false;
+          this.resetForms();
+          this.loading = false;
+        });
     }
   }
 
@@ -194,13 +199,15 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
     this.order.orderId = 0;
     this.order.status = 'OPENED';
 
-    this.ordersService.createOrder(this.order).subscribe(res => {
-      this.refreshOpenOrders.emit(true);
-      this.order = {...this.defaultOrder};
-      this.orderStop = '';
-      this.editOrderPopup = false;
-      this.resetForms();
-    });
+    this.ordersService.createOrder(this.order)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.refreshOpenOrders.emit(true);
+        this.order = {...this.defaultOrder};
+        this.orderStop = '';
+        this.editOrderPopup = false;
+        this.resetForms();
+      });
   }
 
   /**
@@ -208,9 +215,16 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
    * @param order
    */
   deleteOrder(order): void {
-    this.ordersService.deleteOrder(order).subscribe(res => {
-      this.refreshOpenOrders.emit(true);
-    });
+    this.loading = true;
+    this.ordersService.deleteOrder(order)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.refreshOpenOrders.emit(true);
+        this.loading = false;
+      }, err => {
+        console.error(err);
+        this.loading = false;
+      });
     this.editOrderPopup = false;
     this.resetForms();
   }
@@ -246,12 +260,13 @@ export class EmbeddedOpenOrdersComponent extends AbstractOrderCalculate implemen
    * get commissionIndex from server
    */
   getCommissionIndex(): void {
-    if (this.orderType && this.currentPair.currencyPairId) {
-      const subscription = this.tradingService.getCommission(this.orderType, this.currentPair.currencyPairId).subscribe(res => {
-        this.commissionIndex = res.commissionValue;
-        this.getCommission(this.orderType);
-        subscription.unsubscribe();
-      });
+    if (this.orderType && this.currentPair.id) {
+      this.tradingService.getCommission(this.orderType, this.currentPair.id)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.commissionIndex = res.commissionValue;
+          this.getCommission(this.orderType);
+        });
     }
   }
 

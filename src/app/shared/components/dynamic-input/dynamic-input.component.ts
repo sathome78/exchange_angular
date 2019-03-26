@@ -5,7 +5,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChange
   templateUrl: './dynamic-input.component.html',
   styleUrls: ['./dynamic-input.component.scss'],
   host: {
-    '(document:click)': 'onClickOutsideInput($event)',
+    '(document:mousedown)': 'onClickOutsideInput($event)',
     '(document:keydown)': 'keyDown($event)',
     '(document:keydown.enter)': 'this.onSelectItem(this.filteredOptions[this.arrowKeyLocation])',
   },
@@ -18,6 +18,7 @@ export class DynamicInputComponent implements OnChanges {
   @Input('value') public value: string;
   // @Input('label') public label: string = '';
   @Input('icon') public icon: any = null;
+  @Input('showNotFoundTip') public showNotFoundTip: boolean = false;
   @Input('setNullValue') public setNullValue: boolean = false;
   @Output('onSelect') public onSelect: EventEmitter<DIOptions> = new EventEmitter();
   @Output('onChange') public onChange: EventEmitter<string> = new EventEmitter();
@@ -79,7 +80,6 @@ export class DynamicInputComponent implements OnChanges {
         this.onSelect.emit({id: null, text: null});
       }
     }
-
   }
 
   onClearInput(): void {
@@ -87,9 +87,11 @@ export class DynamicInputComponent implements OnChanges {
   }
 
   onSelectItem(item: DIOptions): void {
-    this.onChange.emit(item.text);
-    this.onSelect.emit(item);
-    this.closeDropdown();
+    if(item) {
+      this.onChange.emit(item.text);
+      this.onSelect.emit(item);
+      this.closeDropdown();
+    }
   }
 
   filterList(val: string): void {

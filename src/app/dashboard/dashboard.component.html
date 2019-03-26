@@ -10,15 +10,11 @@
                     [draggableOptions]="{ handlerClass: 'panel-heading' }">
 
         <ng-template ngFor let-widget [ngForOf]="widgets" , let-index=index>
-          <ngx-gridster-item [options]="gridsterItemOptions" *ngIf="showWidget(widget.type)"
-                             [(x)]="widget.x" [(y)]="widget.y" [(w)]="widget.w" [(h)]="widget.h"
-                             [(xSm)]="widget.xSm" [(ySm)]="widget.ySm" [(wSm)]="widget.wSm" [(hSm)]="widget.hSm"
-                             [(xMd)]="widget.xMd" [(yMd)]="widget.yMd" [(wMd)]="widget.wMd" [(hMd)]="widget.hMd"
+          <ngx-gridster-item [options]="gridsterItemOptions" *ngIf="widget.type | showWidgetPipe: isAuthenticated"
                              [(xLg)]="widget.xLg" [(yLg)]="widget.yLg" [(wLg)]="widget.wLg" [(hLg)]="widget.hLg"
-                             [(xXl)]="widget.xXl" [(yXl)]="widget.yXl" [(wXl)]="widget.wXl" [(hXl)]="widget.hXl"
                              [(dragAndDrop)]="widget.dragAndDrop" [(resizable)]="widget.resizable"
-                             class="gridster-item">
-            <ng-template [ngTemplateOutlet]="loadWidgetTemplate(widget.type)"
+                             class="gridster-item" (start)="DragStart($event)" (end)="DragEnd($event)">
+            <ng-template [ngTemplateOutlet]="widgetTemplate[widget.type]"
                          [ngTemplateOutletContext]="{ $implicit: index}">
             </ng-template>
           </ngx-gridster-item>
@@ -29,8 +25,7 @@
 
     </div>
     <app-market-search *ngIf="breakPoint === 'mobile'"></app-market-search>
-    <app-tools [dashboardItems]="widgets">
-    </app-tools>
+    <app-tools [dashboardItems]="widgets"></app-tools>
   </div>
 </div>
 
@@ -40,7 +35,7 @@
 
   <div class="dashboard__widget-wrap">
 
-    <ng-template [ngTemplateOutlet]="loadWidgetTemplate(activeMobileWidget)"
+    <ng-template [ngTemplateOutlet]="widgetTemplate[activeMobileWidget]"
                  [ngTemplateOutletContext]="{ $implicit: 1}">
     </ng-template>
 
@@ -54,6 +49,7 @@
   <app-graph (changeItemSize)="changeItemSize($event)"
              (removeItem)="removeItem(index)">
   </app-graph>
+  <div class="graph_overlay" *ngIf="isDrag"></div>
 </ng-template>
 
 <ng-template #markets let-index>

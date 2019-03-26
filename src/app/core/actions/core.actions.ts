@@ -10,19 +10,21 @@ export const LOAD_VERIFICATION_STATUS = '[Core] Load verification status';
 export const FAIL_LOAD_VERIFICATION_STATUS = '[Core] Fail load verification status';
 export const SET_VERIFICATION_STATUS = '[Core] Set verification status';
 
-export const LOAD_SIMPLE_CURRENCY_PAIRS = '[Orders] Load simple currency pairs';
-export const FAIL_LOAD_SIMPLE_CURRENCY_PAIRS = '[Orders] Fail load simple currency pairs';
-export const SET_SIMPLE_CURRENCY_PAIRS = '[Orders] Set simple currency pairs';
+export const LOAD_SIMPLE_CURRENCY_PAIRS = '[Core] Load simple currency pairs';
+export const FAIL_LOAD_SIMPLE_CURRENCY_PAIRS = '[Core] Fail load simple currency pairs';
+export const SET_SIMPLE_CURRENCY_PAIRS = '[Core] Set simple currency pairs';
 
-export const LOAD_ALL_CURRENCIES_FOR_CHOOSE = '[Funds] Load all currencies for choose';
-export const LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE = '[Funds] Load crypto currencies for choose';
-export const LOAD_FIAT_CURRENCIES_FOR_CHOOSE = '[Funds] Load fiat currencies for choose';
+export const LOAD_ALL_CURRENCIES_FOR_CHOOSE = '[Core] Load all currencies for choose';
+export const LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE = '[Core] Load crypto currencies for choose';
+export const LOAD_FIAT_CURRENCIES_FOR_CHOOSE = '[Core] Load fiat currencies for choose';
 
-export const SET_ALL_CURRENCIES_FOR_CHOOSE = '[Funds] Set all currencies for choose';
-export const SET_CRYPTO_CURRENCIES_FOR_CHOOSE = '[Funds] Set crypto currencies for choose';
-export const SET_FIAT_CURRENCIES_FOR_CHOOSE = '[Funds] Set fiat currencies for choose';
+export const SET_ALL_CURRENCIES_FOR_CHOOSE = '[Core] Set all currencies for choose';
+export const SET_CRYPTO_CURRENCIES_FOR_CHOOSE = '[Core] Set crypto currencies for choose';
+export const SET_FIAT_CURRENCIES_FOR_CHOOSE = '[Core] Set fiat currencies for choose';
+export const FAIL_LOAD_CURRENCIES_FOR_CHOOSE = '[Core] Fail Load currencies for choose';
 
-export const FAIL_LOAD_CURRENCIES_FOR_CHOOSE = '[Funds] Fail Load currencies for choose';
+export const ON_LOGIN = '[Core] On login';
+export const ON_LOGOUT = '[Core] On logout';
 
 /**
  * Change language | region | currency
@@ -143,8 +145,14 @@ export class FailLoadCurrenciesForChoose implements Action {
   constructor(public payload) {}
 }
 
-
-
+// Login/logout
+export class SetOnLoginAction implements Action {
+  readonly type = ON_LOGIN;
+  constructor(public payload: ParsedToken) {}
+}
+export class SetOnLogoutAction implements Action {
+  readonly type = ON_LOGOUT;
+}
 
 /**
  * Exports possible action types
@@ -167,3 +175,5 @@ export type Actions
   | SetVerificationStatusAction
   | LoadVerificationStatusAction
   | FailLoadVerificationStatusAction
+  | SetOnLoginAction
+  | SetOnLogoutAction

@@ -24,7 +24,8 @@
           min="0"
           max="2"
           formControlName="hours"
-          (blur)="validateHours()"
+          (input)="validateInputs()"
+          (blur)="formatInputs()"
         />
         <label class="wrap-input__label" for="">{{'Hours' | translate}}</label>
         <div class="wrap-input__line"></div>
@@ -34,7 +35,7 @@
           <!--<span class="wrap-input__message">-->
           <!--This value must be within 0 and 24.-->
           <!--</span>-->
-          <p>{{'This value must be within 0 and 24.' | translate}}</p>
+          <p>{{'This value must be within 0 and 2.' | translate}}</p>
         </div>
 
       </div>
@@ -49,7 +50,8 @@
           formControlName="minutes"
           min="0"
           max="59"
-          (blur)="validateMinutes()"
+          (input)="validateInputs()"
+          (blur)="formatInputs()"
         />
         <label class="wrap-input__label" for="">{{'Minutes' | translate}}</label>
         <div class="wrap-input__line"></div>
@@ -63,9 +65,6 @@
             <!--This value must be within 0 and 24.-->
             <!--</span>-->
           <!--</div>-->
-          <div *ngIf="minutesInput.errors['24hoursLimit']; else general">
-            <p>{{'When 24 hours no minutes are allowed.' | translate}}</p>
-          </div>
           <ng-template #general>
             <p>{{'This value must be within 0 and 59.' | translate}}</p>
           </ng-template>
@@ -77,7 +76,7 @@
     <button
       class="btn settings__form-btn"
       [ngClass]="{'settings__form-btn--active': +oldValue !== +value}"
-      [disabled]="(+oldValue === +value)"
+      [disabled]="(+oldValue === +value) || loading"
     >{{'Save' | translate}}</button>
   </form>
 </div>

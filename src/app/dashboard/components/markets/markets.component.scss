@@ -50,7 +50,10 @@
 
 
 .tab-no-active {
-  border-bottom: 2px solid transparent;
+  // border-bottom: 2px solid transparent;
+  @media(max-width: 1199px){
+        border: none;
+      }
 }
 
 //scroll style start
@@ -65,6 +68,7 @@
 .widget__content--mob ::ng-deep perfect-scrollbar > .ps.ps--active-y > .ps__rail-y {
   background: #bd3820;
   @media(max-width: 1200px) {
+
     margin-right: 0;
     right: 5px!important;
     top: 5px!important;
@@ -90,8 +94,8 @@
 }
 
 .widget__markets-tabs {
-  position: fixed;
-  bottom: 46px;
+  // position: fixed;
+  // bottom: 46px;
   width: 100%;
   z-index: 1000;
 }
@@ -132,8 +136,15 @@
     background-color: rgba(35, 123, 239, 0.1);
   }
 }
-
+  .widget__tabs--mob{
+display: flex;
+    position: relative;
+    bottom: auto;
+}
 @media (min-width: 1200px) {
+  .widget__tabs--mob{
+display: none;
+}
   .markets {
     &__table {
       position: relative;
@@ -158,6 +169,7 @@
 
     &__tbody {
       //margin-right: 24px;
+          // padding: 0 14px 0 8px;
     }
 
     &__row {
@@ -187,4 +199,8 @@
 }
 .widget__content--mob perfect-scrollbar{
     padding: 6px 14px 6px 8px;
+}
+
+.markets_item {
+   height: 31px;
 }

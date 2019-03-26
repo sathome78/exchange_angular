@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {BY_PRIVATE_CODE, SEND_CRYPTO, SEND_FIAT, TRANSFER_INSTANT} from '../../send-money-constants';
+import {BY_PRIVATE_CODE, CODE_FROM_EMAIL, CODE_FROM_GOOGLE, SEND_CRYPTO, SEND_FIAT, TRANSFER_INSTANT} from '../../send-money-constants';
 
 @Component({
   selector: 'app-send-tfa',
@@ -18,8 +18,12 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public message = '';
   public subtitleMessage = '';
-  public isSentPin: boolean;
+  public pincodeFrom = '';
   public pincodeTries = 0;
+  public loading: boolean = false;
+
+  public CODE_FROM_EMAIL = CODE_FROM_EMAIL;
+  public CODE_FROM_GOOGLE = CODE_FROM_GOOGLE;
 
   constructor(
     public balanceService: BalanceService
@@ -27,12 +31,18 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.balanceService.sendPinCode()
+    const pinData = {
+      amount: this.data.data.sum || 0,
+      currencyName: this.data.data.currencyName
+    }
+
+    this.balanceService.sendPinCode(pinData)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res: Response) => {
-        this.isSentPin = res.status === 201 ? true : false;
-        this.subtitleMessage = this.isSentPin ? 'Enter 2FA code' : '';
+      .subscribe(res => {
+        this.pincodeFrom = res.status === 201 ? CODE_FROM_EMAIL : CODE_FROM_GOOGLE;
+        this.subtitleMessage = this.pincodeFrom ? '' : 'Put the code';
       });
+
     this.form = new FormGroup({
       pin: new FormControl('', [Validators.required]),
     });
@@ -69,6 +79,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
     this.pincodeTries++;
     this.data.data.tries = this.pincodeTries;
     this.data.data.securityCode = this.form.controls['pin'].value;
+    this.loading = true;
     this.balanceService.withdrawRequest(this.data.data)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -77,8 +88,10 @@ export class SendTfaComponent implements OnInit, OnDestroy {
           successData: res
         };
         this.balanceService.goToSendMoneySuccess$.next(data);
+        this.loading = false;
       }, error => {
         this.catchStatus(error['status']);
+        this.loading = false;
       });
   }
 
@@ -86,6 +99,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
     this.pincodeTries++;
     this.data.data.tries = this.pincodeTries;
     this.data.data.pin = this.form.controls['pin'].value;
+    this.loading = true;
     this.balanceService.createTransferInstant(this.data.data)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -94,8 +108,10 @@ export class SendTfaComponent implements OnInit, OnDestroy {
           successData: res
         };
         this.balanceService.goToSendMoneySuccess$.next(data);
+        this.loading = false;
       }, error => {
         this.catchStatus(error['status']);
+        this.loading = false;
       });
   }
 
@@ -104,11 +120,11 @@ export class SendTfaComponent implements OnInit, OnDestroy {
       case 500:
         this.message = 'Server error';
         break;
-      case 418:
+      case 400:
         this.form.controls['pin'].patchValue('');
         if (this.pincodeTries === 3) {
           this.pincodeTries = 0;
-          this.subtitleMessage = this.isSentPin ?
+          this.subtitleMessage = this.pincodeFrom === CODE_FROM_GOOGLE ?
             'Code is wrong! Please, check you code in Google Authenticator application.' :
             'Code is wrong! New code was sent to your email.';
         } else {
@@ -118,5 +134,4 @@ export class SendTfaComponent implements OnInit, OnDestroy {
         break;
     }
   }
-
 }

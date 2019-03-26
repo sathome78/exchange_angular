@@ -13,7 +13,7 @@ export class StaticPagesService {
     private http: HttpClient) {}
 
   public sendContactForm(data): Observable<string> {
-    const url = `${this.HOST}/info/public/v2/listing/mail/send`;
+    const url = `${this.HOST}/api/public/v2/listing/mail/send`;
     return this.http.post<string>(url, data);
   }
 

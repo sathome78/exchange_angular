@@ -13,7 +13,8 @@ import {OrdersService} from '../orders.service';
 import {takeUntil} from 'rxjs/operators';
 import saveAs from 'file-saver';
 import {UtilsService} from 'app/shared/services/utils.service';
-import {SimpleCurrencyPair} from 'app/core/models/simple-currency-pair';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-orders-history',
@@ -40,11 +41,17 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public currencyPairValue: string = '';
   public hideAllCanceled: boolean = false;
   public isMobile: boolean = false;
+  public loadingExcel: boolean = false;
 
   public showFilterPopup = false;
   public tableScrollStyles: any = {};
+  public initialRequest: boolean = false;
+
+  public isDateInputFromFocus = false;
+  public isDateInputToFocus = false;
 
   public myDatePickerOptions: IMyDpOptions = {
+    showInputField: false,
     dateFormat: 'dd.mm.yyyy',
     disableSince: {
       year: new Date().getFullYear(),
@@ -56,6 +63,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<State>,
     private ordersService: OrdersService,
+    public breakpointService: BreakpointService,
     private utils: UtilsService,
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr));
@@ -63,7 +71,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
 
     this.currencyPairs$ = store.pipe(select(mainSelectors.getSimpleCurrencyPairsSelector));
     this.loading$ = store.pipe(select(ordersReducer.getLoadingSelector));
-    this.isLast15Items$ = store.pipe(select(ordersReducer.getLast15ItemsSelector))
 
     const componentHeight = window.innerHeight;
     this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
@@ -73,13 +80,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.countOfEntries$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((items) => this.countOfEntries = items)
-    this.isLast15Items$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((val) => {
-        if(!val) {return};
-        this.modelDateFrom = null;
-        this.modelDateTo = null;
-      })
   }
 
   ngOnInit() {
@@ -89,20 +89,33 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     }
     this.initDate();
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
-    this.loadOrders(true);
+    this.loadOrders();
+    this.initialRequest = true;
   }
 
-  loadOrders(initial = false) {
-      const params = {
-        page: this.currentPage,
-        limit:this.countPerPage,
-        dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
-        dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
-        hideCanceled: this.hideAllCanceled,
-        currencyPairName: this.currencyPairValue,
-        initial,
-      }
-      this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
+  loadOrders() {
+    const params = {
+      page: this.currentPage,
+      limit:this.countPerPage,
+      dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
+      dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
+      hideCanceled: this.hideAllCanceled,
+      currencyPairId: this.currencyPairId || 0,
+      currencyPairName: this.currencyPairValue || '',
+    }
+    this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
+    this.initialRequest = false;
+  }
+
+  loadLastOrders(e) {
+    e.preventDefault();
+    this.clearFilters();
+    const params = {
+      offset: 0,
+      limit: this.countPerPage,
+    }
+    this.store.dispatch(new ordersAction.LoadLastHistoryOrdersAction(params));
+    this.initialRequest = false;
   }
 
   loadMoreOrders(): void {
@@ -114,11 +127,20 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
         dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
         dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
         hideCanceled: this.hideAllCanceled,
-        currencyPairId: this.currencyPairId,
+        currencyPairId: this.currencyPairId || 0,
+        currencyPairName: this.currencyPairValue || '',
         concat: true,
       }
       this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
+      this.initialRequest = false;
     }
+  }
+
+  clearFilters() {
+    this.modelDateTo = null;
+    this.modelDateFrom = null;
+    this.currencyPairId = null;
+    this.currencyPairValue = null;
   }
 
   /**
@@ -149,6 +171,16 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
         detailsElement.classList.toggle('table__details-show');
       }
     }
+  }
+
+  focusOrBlurDateFrom(event) {
+    this.isDateInputFromFocus = event;
+    if (!event) this.modelDateFrom = {...this.modelDateFrom};
+  }
+
+  focusOrBlurDateTo(event) {
+    this.isDateInputToFocus = event;
+    if (!event) this.modelDateTo = {...this.modelDateTo};
   }
 
   changeItemsPerPage(items: number) {
@@ -196,7 +228,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
    * @returns { string } returns string in format yyyy-mm-dd: example 2018-09-28
    */
   formatDate(date: IMyDate): string {
-    if(date.year === 0 && date.day === 0) {
+    if(!date || date.year === 0 && date.day === 0) {
       return null;
     }
     const day = date.day < 10 ? '0' + date.day : date.day;
@@ -218,6 +250,14 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     }
 
     return className;
+  }
+
+  clearModelDateTo() {
+    this.modelDateTo = null;
+  }
+
+  clearModelDateFrom() {
+    this.modelDateFrom = null;
   }
 
   initDate() {
@@ -254,22 +294,35 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
 
   downloadExcel() {
     const params = {
-      dateFrom: this.formatDate(this.modelDateFrom.date),
-      dateTo: this.formatDate(this.modelDateTo.date),
+      dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
+      dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
       hideCanceled: this.hideAllCanceled,
-      currencyPairId: this.currencyPairId,
+      currencyPairId: this.currencyPairId || 0,
+      currencyPairName: this.currencyPairValue || '',
     }
+    this.loadingExcel = true;
     this.ordersService.downloadExcel(params)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         const blob = new Blob([data], {type: 'text/ms-excel'});
         saveAs(blob, 'history-orders.xlsx');
+        this.loadingExcel = false;
+      }, err => {
+        console.error(err);
+        this.loadingExcel = false;
       });
   }
 
   onChangeCurrPair(val: string): void {
     this.currencyPairValue = val;
+    this.currencyPairId = null;
   }
+
+  onSelectPair({id}): void {
+    this.currencyPairId = id;
+    this.onFilterOrders();
+  }
+
   currency(currName: string, currIndex: number): string {
     const curr = currName.split('/');
     return curr[currIndex - 1];

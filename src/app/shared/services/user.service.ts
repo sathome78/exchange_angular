@@ -8,7 +8,6 @@ import {Observable, of} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
 import {AuthService} from './auth.service';
-import {IP_USER_HEADER, IP_USER_KEY} from './http.utils';
 import {LangService} from './lang.service';
 import {AuthCandidate} from '../../model/auth-candidate.model';
 import {LoggingService} from './logging.service';
@@ -17,6 +16,7 @@ import {CurrencyPair} from '../../model/currency-pair.model';
 import {State} from '../../dashboard/reducers/dashboard.reducer';
 import {RefreshUserBalanceAction} from '../../dashboard/actions/dashboard.actions';
 import {defaultUserBalance} from '../../dashboard/reducers/default-values';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 
 @Injectable()
@@ -35,10 +35,7 @@ export class UserService {
   }
 
    checkIfEmailExists(email: string): Observable<boolean> {
-    const httpOptions = {
-      params:  new HttpParams().set('email', email)
-    };
-    return this.http.get<boolean>(this.getUrl('if_email_exists'), httpOptions);
+    return this.http.get<boolean>(`${this.HOST}/api/public/v2/if_email_exists?email=${email.replace('+', '%2B')}`);
   }
 
   emailValidator(recovery?: boolean): AsyncValidatorFn {
@@ -46,7 +43,7 @@ export class UserService {
       return this.checkIfEmailExists(control.value.trim())
         .pipe(map((isExist: boolean) => recovery ? !isExist : isExist))
         .pipe(map((isExist: boolean) => isExist ? {'emailExists': true} : null))
-        .pipe(catchError((err) => of(this.checkError(err, recovery))));
+        .pipe(catchError((err) =>  of(this.checkError(err, recovery))));
     };
   }
 
@@ -72,11 +69,14 @@ export class UserService {
     return this.http.get<string[]>(this.getUrl('if_username_exists'), httpOptions);
   }
 
-  public getUserBalance(pair: CurrencyPair) {
-    if (this.authService.isAuthenticated() && pair.currencyPairId) {
-      const sub = this.http.get(`${this.HOST}/info/private/v2/dashboard/info/${pair.currencyPairId}`)
+  public getUserBalance(pair: SimpleCurrencyPair) {
+    if (this.authService.isAuthenticated() && pair.id) {
+      const sub = this.http.get(`${this.HOST}/api/private/v2/dashboard/info/${pair.id}`)
         .subscribe(info => {
           this.store.dispatch(new RefreshUserBalanceAction(info));
+          sub.unsubscribe();
+        }, err => {
+          console.error(err);
           sub.unsubscribe();
         });
     } else {
@@ -111,7 +111,6 @@ export class UserService {
       .withEmail(email)
       .withPassword(password)
       .withPinCode(pin)
-      .withClientIp()
       .build();
     // alert('encoded: ' +  authCandidate.password);
 
@@ -134,7 +133,7 @@ export class UserService {
 
     authCandidate.tries = tries;
 
-    console.log(JSON.stringify(authCandidate));
+    // console.log(JSON.stringify(authCandidate));
     return this.http.post<TokenHolder>(this.getUrl('users/authenticate'), JSON.stringify(authCandidate), httpOptions);
   }
 
@@ -145,25 +144,25 @@ export class UserService {
 
   sendToEmailForRecovery(email: string) {
     const data = {'email': email};
-    return this.http.post<TokenHolder>(this.getUrl('users/recoveryPassword'), data);
+    return this.http.post<TokenHolder>(this.getUrl('users/password/recovery/reset'), data);
   }
 
   public getUserColorScheme(): Observable<string> {
-    const url = this.HOST + '/info/private/v2/settings/color-schema';
+    const url = this.HOST + '/api/private/v2/settings/color-schema';
     return this.http.get<string>(url);
   }
   public getUserColorEnabled(): Observable<boolean> {
-    const url = this.HOST + '/info/private/v2/settings/isLowColorEnabled';
+    const url = this.HOST + '/api/private/v2/settings/isLowColorEnabled';
     return this.http.get<boolean>(url);
   }
 
   public finalRegistration(data): Observable<any> {
-    const url = `${this.HOST}/info/public/v2/users/createPassword`;
+    const url = `${this.HOST}/api/public/v2/users/password/create`;
     return this.http.post(url, data);
   }
 
   public recoveryPassword(data): Observable<any> {
-    const url = `${this.HOST}/info/public/v2/users/createRecoveryPassword`;
+    const url = `${this.HOST}/api/public/v2/users/password/recovery/create`;
     return this.http.post(url, data);
   }
 
@@ -192,12 +191,12 @@ export class UserService {
   // }
   //
   //   updateUserLanguage(lang: string) {
-  //     const url = this.HOST + '/info/private/settings/userLanguage/update';
+  //     const url = this.HOST + '/api/private/settings/userLanguage/update';
   //     return this.httpClient.put(url, {lang: lang}, {observe: 'events'});
   //   }
   //
   //   getUserLanguage(): Observable<string> {
-  //     return this.http.get<Map<string, string>>(this.HOST + '/info/private/settings/userLanguage')
+  //     return this.http.get<Map<string, string>>(this.HOST + '/api/private/settings/userLanguage')
   //       .map(map => {
   //         return map['lang'];
   //       });
@@ -220,7 +219,16 @@ export class UserService {
   }
 
   getUrl(end: string) {
-    return this.HOST + '/info/public/v2/' + end;
+    return this.HOST + '/api/public/v2/' + end;
+  }
+
+  public getTransactionsCounterForGTag(): Observable<any> {
+    const url = this.HOST + '/api/private/v2/balances/refill/afgssr/gtag';
+    return this.http.get<any>(url);
+  }
+  public clearTransactionsCounterForGTag(): Observable<any> {
+    const url = this.HOST + '/api/private/v2/balances/refill/afgssr/gtag';
+    return this.http.delete<any>(url);
   }
 }
 

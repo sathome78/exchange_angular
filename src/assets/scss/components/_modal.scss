@@ -12,6 +12,7 @@
   /*--- modificators start ---*/
   /*--- modificators end ---*/
   /*--- elements start ---*/
+  
   &__controls {
     display: none;
     position: absolute;
@@ -187,6 +188,9 @@
     h6 {
       font-size: 24px;
       margin-bottom: 12px;
+      @media(max-width:1200px){
+        color: #DEDEFB;
+      }
     }
 
     span {
@@ -411,7 +415,7 @@
         &--valid {
           color: $darker-blue;
           border-color: $darker-blue;
-
+          
           &:after {
             background-image: url("assets/img/step-valid.svg");
           }
@@ -541,6 +545,9 @@
           ~ .wrap-input__label {
             color: $red;
             background-color: #fff;
+            @media(max-width: 1200px){
+              background-color: #191A39;
+            }
           }
 
           ~ .wrap-input__line {
@@ -572,6 +579,9 @@
             ~ .wrap-input__label {
               color: $darker-blue;
               background-color: #fff;
+              @media(max-width: 1200px){
+                background-color: #191A39;
+              }
             }
 
             ~ .wrap-input__line {
@@ -584,7 +594,10 @@
 
       /*--- elements start ---*/
       &__label {
-        color: $grey;
+        @media(min-width: 1200px){
+
+            color: #237BEF;
+        }
 
         &--error {
           color: $red !important;
@@ -607,7 +620,9 @@
 
       &__message {
         &--show {
-          color: $light-grey;
+          // color: $light-grey;
+          margin-top: 3px;
+              color: #94C2FF;
         }
 
         &--error {
@@ -616,16 +631,24 @@
       }
 
       &__input {
-        border-color: $grey;
+        @media(min-width: 1200px){
+        border-color: #237BEF;
+      }
         background-color: transparent;
         color:#000;
-
+        @media(max-width: 1200px){
+              background-color: #191A39;
+              color: #DEDEFB;
+            }
         &:focus {
           border-color: $darker-blue;
 
           ~ .wrap-input__label {
             color: $darker-blue !important;
             background-color: #fff;
+            @media(max-width: 1200px){
+              background-color: #191A39;
+            }
           }
 
           ~ .wrap-input__icon {
@@ -647,6 +670,9 @@
           ~ .wrap-input__label {
             color: $grey;
             background-color: #fff;
+            @media(max-width: 1200px){
+              background-color: #191A39;
+            }
           }
         }
 
@@ -668,6 +694,9 @@
           ~ .select__label {
             color: $darker-blue;
             background-color: #fff;
+            @media(max-width: 1200px){
+              background-color: #191A39;
+            }
           }
           ~ .select__line {
             background-color: $darker-blue;
@@ -777,6 +806,57 @@
         &__title{
           color: #000;
         }
+
+      }
+    }
+  }
+}
+
+.dark-theme{
+  .modal{
+    @media(max-width: 1200px){
+      background-color: #191A39;
+      .modal__header-mob{
+        border-bottom: 1px solid #94C2FF;
+      }
+      .title{
+        color: #DEDEFB;
+      }
+      .subtitle{
+        color: #94C2FF;
+      }
+      .modal__header{
+        border-bottom: 1px solid #94C2FF;
+      }
+      .steps__counter{
+        color: #DEDEFB;
+      } 
+      div.select__value--active{
+        border-color: #94C2FF;
+        color:#DEDEFB;
+        input.no-line{
+          color: #DEDEFB!important;
+          &::placeholder{
+            color: #DEDEFB!important;
+          }
+        }
+        &~.select__label{
+          color: #DEDEFB!important;
+          background: #191A39!important;
+        }
+      }
+      .request-errors{
+        text-align: center;
+      }
+
+    }
+    @media(max-width: 568px){
+      .refill__select--cripto{
+        min-width: unset;
+      }
+      .title{
+        font-size: 20px;
+        line-height: 22px;
 
       }
     }

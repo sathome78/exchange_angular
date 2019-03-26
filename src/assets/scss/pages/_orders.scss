@@ -103,7 +103,7 @@
     &__datepicker {
       width: 175px;
       margin-right: 24px;
-      bottom: -1px;
+      bottom: 1px;
 
       .wrap-input__label {
         left: 17px;
@@ -165,12 +165,13 @@
 
     &__pair-icon {
       width: 25px;
-      height: 25px;
+      height: 20px;
       //background-color: #fff;
       margin-right: 8px;
 
       img {
-        width: 100%;
+            max-height: 100%;
+    max-width: 100%;
       }
     }
 

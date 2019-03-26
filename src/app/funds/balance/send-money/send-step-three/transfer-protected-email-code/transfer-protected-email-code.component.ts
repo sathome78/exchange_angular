@@ -5,8 +5,8 @@ import {State} from '../../../../../core/reducers';
 import {Store} from '@ngrx/store';
 import {BY_PRIVATE_CODE} from '../../send-money-constants';
 import {AbstractTransfer} from '../abstract-transfer';
-import {environment} from '../../../../../../environments/environment';
 import {PopupService} from '../../../../../shared/services/popup.service';
+import {UtilsService} from '../../../../../shared/services/utils.service';
 
 @Component({
   selector: 'app-transfer-protected-email-code',
@@ -20,6 +20,7 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
     currency: 0,
     sum: '',
     pin: '',
+    currencyName: '',
     type: 'INNER_VOUCHER',
     recipient: ''
   };
@@ -28,6 +29,7 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
     public balanceService: BalanceService,
     public popupService: PopupService,
     protected store: Store<State>,
+    private utilsService: UtilsService
   ) {
     super();
   }
@@ -35,7 +37,6 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
   ngOnInit() {
     this.responseCommission = this.responseDefaultCommission;
     this.initForm();
-    this.getCommissionDebonce();
     this.getAllNames();
   }
 
@@ -46,30 +47,17 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
 
   submitTransfer() {
     this.isSubmited = true;
-    if (environment.production) {
-      // todo while insecure
-      this.popupService.demoPopupMessage = 0;
-      this.popupService.showDemoTradingPopup(true);
-      this.balanceService.closeSendMoneyPopup$.next(false);
-    } else {
-      if (this.form.valid && !this.isAmountMax && !this.isAmountMin) {
-        this.balanceService.checkEmail(this.form.controls['email'].value).subscribe(res => {
-          const data = res as { data: boolean, error: any };
-          if (data.data) {
-            this.isSubmited = false;
-            this.isEnterData = false;
-          } else {
-            this.emailErrorMessage = data.error.message;
-          }
-        });
-      }
+    this.form.get('amount').updateValueAndValidity()
+    if (this.form.valid) {
+      this.isEnterData = false;
     }
   }
 
   afterResolvedCaptcha(event) {
     this.model.recipient = this.form.controls['email'].value;
-    this.model.currency = this.activeCrypto.id;
+    this.model.currency = this.activeCrypto ? this.activeCrypto.id : null;
     this.model.sum = this.form.controls['amount'].value;
+    this.model.currencyName = this.activeCrypto.name;
     const data = {
       operation: BY_PRIVATE_CODE,
       data: this.model
@@ -80,8 +68,12 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
 
   private initForm() {
     this.form = new FormGroup({
-      email: new FormControl('', {validators: [Validators.required, Validators.pattern(this.emailRegex)]}),
-      amount: new FormControl('0', {validators: [Validators.required]}),
+      email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator()]}),
+      amount: new FormControl('', {validators: [
+        Validators.required,
+          this.isMaxThenActiveBalance.bind(this),
+          this.isMinThenMinWithdraw.bind(this)
+        ]}),
     });
   }
 }

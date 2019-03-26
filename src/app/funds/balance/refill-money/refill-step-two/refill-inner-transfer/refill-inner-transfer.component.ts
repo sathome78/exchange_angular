@@ -24,6 +24,7 @@ export class RefillInnerTransferComponent implements OnInit, OnDestroy {
   public sendSuccessRes: RefillInnerTransferResponse;
   public allCurrencies;
   public currencyName = '';
+  public loading: boolean = false;
 
   constructor(
     private balanceService: BalanceService,
@@ -55,30 +56,26 @@ export class RefillInnerTransferComponent implements OnInit, OnDestroy {
   }
 
   sendTransferCode() {
-    // if (environment.production) {
-    //   // todo while insecure
-    //   this.popupService.demoPopupMessage = 0;
-    //   this.popupService.showDemoTradingPopup(true);
-    //   this.balanceService.closeSendMoneyPopup$.next(false);
-    // } else {
-      if (this.form.valid) {
-        const data = this.form.controls['code'].value;
-        this.form.reset();
-        this.balanceService.sendTransferCode(data)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(res => {
-            this.isSendTransferCodeSuccess = true;
-            this.isSendTransferCodeFail = false;
-            this.sendSuccessRes = res as RefillInnerTransferResponse;
-            this.setCurrencyName(this.sendSuccessRes.currencyId);
-          }, error => {
-            const status = error['status'];
-            // console.log('status: ' + status);
-            this.isSendTransferCodeFail = true;
-            this.isSendTransferCodeSuccess = false;
-          });
-      }
-    // }
+    if (this.form.valid) {
+      const data = this.form.controls['code'].value;
+      this.form.reset();
+      this.loading = true;
+      this.balanceService.sendTransferCode(data)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.isSendTransferCodeSuccess = true;
+          this.isSendTransferCodeFail = false;
+          this.sendSuccessRes = res as RefillInnerTransferResponse;
+          this.setCurrencyName(this.sendSuccessRes.currencyId);
+          this.loading = false;
+        }, error => {
+          const status = error['status'];
+          // console.log('status: ' + status);
+          this.isSendTransferCodeFail = true;
+          this.isSendTransferCodeSuccess = false;
+          this.loading = false;
+        });
+    }
 
   }
 

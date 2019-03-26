@@ -37,7 +37,10 @@ export class RefillMoneyComponent implements OnInit {
 
   onCloseRefillBalancePopup() {
     this.initFields();
-    this.closeRefillBalancePopup.emit(true);
+    this.showPopup = false;
+    setTimeout(() => {
+      this.closeRefillBalancePopup.emit(true);
+    }, 1000);
   }
 
   chooseRefil(name: string) {

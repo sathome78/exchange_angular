@@ -22,13 +22,18 @@ export class UserVerificationService {
   }
 
   public uploadVerificationInfo(dto: UserInfoVerificationModel): Observable<number> {
-    const url = this.host + '/info/private/v2/settings/userFiles';
+    const url = this.host + '/api/private/v2/settings/userFiles';
     return this.http.post<number>(url, dto);
   }
 
   public uploadVerificationDoc(data: UserDocVerificationModel): Observable<number> {
-    const url = this.host + '/info/private/v2/settings/userFiles/docs';
+    const url = this.host + '/api/private/v2/settings/userFiles/docs';
     return this.http.post<number>(url, data);
+  }
+
+
+  public sendKYCData(data: any): Observable<any> {
+    return this.http.post(`${this.host}/api/private/v2/kyc/start`, data);
   }
 
 }

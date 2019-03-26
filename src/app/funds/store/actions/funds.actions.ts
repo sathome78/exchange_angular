@@ -1,5 +1,4 @@
 import {Action} from '@ngrx/store';
-import {CHANGE_CURRENCY_PAIR} from '../../../dashboard/actions/dashboard.actions';
 
 export const LOAD_CRYPTO_BAL = '[Funds] Load crypto balances';
 export const FAIL_LOAD_CRYPTO_BAL = '[Funds] Fail load crypto balances';
@@ -10,6 +9,10 @@ export const LOAD_FIAT_BAL = '[Funds] Load fiat balances';
 export const FAIL_LOAD_FIAT_BAL = '[Funds] Fail load fiat balances';
 export const SET_FIAT_BAL = '[Funds] Set fiat balances';
 export const SET_MORE_FIAT_BAL = '[Funds] Concat fiat balances';
+
+export const LOAD_QUBERA_BAL = '[Funds] Load qubera balances';
+export const FAIL_LOAD_QUBERA_BAL = '[Funds] Fail load qubera balances';
+export const SET_QUBERA_BAL = '[Funds] Set qubera balances';
 
 export const LOAD_PENDING_REQ = '[Funds] Load pending requests';
 export const FAIL_LOAD_PENDING_REQ = '[Funds] Fail load pending requests';
@@ -31,6 +34,7 @@ export const SET_BALANCE_DETAILS_INFO = '[Funds] Set balance confirmation info';
 export const LOAD_MAX_CURRENCY_PAIR_BY_CURRENCY_NAME = '[Funds] Load max currency pair by currency name';
 export const FAIL_LOAD_MAX_CURRENCY_PAIR_BY_CURRENCY_NAME = '[Funds] Fail Load currency pair by currency name';
 
+export const LOAD_LAST_TRANSACTIONS_HISTORY = '[Funds] Load last transactions history';
 export const LOAD_TRANSACTIONS_HISTORY = '[Funds] Load transactions history';
 export const FAIL_LOAD_TRANSACTIONS_HISTORY = '[Funds] Fail load transactions history';
 export const SET_TRANSACTIONS_HISTORY = '[Funds] Set transactions history';
@@ -73,6 +77,22 @@ export class SetMoreFiatBalAction implements Action {
 }
 export class FailLoadFiatBalAction implements Action {
   readonly type = FAIL_LOAD_FIAT_BAL;
+  constructor(public payload?) {}
+}
+
+/**
+ * Loading qubera balances
+ */
+export class LoadQuberaBalAction implements Action {
+  readonly type = LOAD_QUBERA_BAL;
+  constructor(public payload?) {}
+}
+export class SetQuberaBalAction implements Action {
+  readonly type = SET_QUBERA_BAL;
+  constructor(public payload?) {}
+}
+export class FailLoadQuberaBalAction implements Action {
+  readonly type = FAIL_LOAD_QUBERA_BAL;
   constructor(public payload?) {}
 }
 
@@ -162,6 +182,10 @@ export class LoadTransactionsHistoryAction implements Action {
   readonly type = LOAD_TRANSACTIONS_HISTORY;
   constructor(public payload?) {}
 }
+export class LoadLastTransactionsHistoryAction implements Action {
+  readonly type = LOAD_LAST_TRANSACTIONS_HISTORY;
+  constructor(public payload?) {}
+}
 export class SetTransactionsHistoryAction implements Action {
   readonly type = SET_TRANSACTIONS_HISTORY;
   constructor(public payload?) {}
@@ -205,4 +229,6 @@ export type Actions
   | SetTransactionsHistoryAction
   | SetMoreTransactionsHistoryAction
   | FailLoadTransactionsHistoryAction
-
+  | LoadQuberaBalAction
+  | SetQuberaBalAction
+  | FailLoadQuberaBalAction

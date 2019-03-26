@@ -2,7 +2,7 @@ import {Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output}
 import {BalanceService} from '../../services/balance.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {WITH_CODE} from './send-money-constants';
+import {QUBERA, WITH_CODE, INNER_TRANSFER} from './send-money-constants';
 import {Animations} from '../../../shared/animations';
 
 @Component({
@@ -38,7 +38,10 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
   }
 
   onCloseSendMoneyPopup() {
-    this.closeSendMoneyPopup.emit(true);
+    this.showPopup = false;
+    setTimeout(() => {
+      this.closeSendMoneyPopup.emit(true);
+    }, 1000);
   }
 
   ngOnInit() {
@@ -81,6 +84,7 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
     this.stepTwoName = this.optionData.stepName ? this.optionData.stepName : '';
     this.stepThreeData = this.optionData.stepThreeData ? this.optionData.stepThreeData : null;
   }
+
 
   activeStepThreeInnerTransfer(name: string) {
     this.step = 3;

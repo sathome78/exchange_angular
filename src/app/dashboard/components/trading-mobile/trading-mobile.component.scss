@@ -1,6 +1,8 @@
 :host {
   width: 100%;
 }
+
+
 .radio__input:checked{
   &+.radio__text{
     background-color: #237BEF;
@@ -87,7 +89,7 @@
 
 
 .trading-wr--mobile{
- padding: 0 10px 0 13px;
+ padding: 0 13px 0 13px;
  .wrap-input__input{
   height: 33px;
 
@@ -128,6 +130,15 @@
     &:nth-child(1){
       margin-right: 8px;
     }
+    .trade-buttons-wr{
+      
+      button:nth-child(1){
+        margin-right: 8px;
+      }
+      button:nth-child(2){
+        margin-left: 8px;
+      }
+    }
   }
 }
 .widget__trading-form--wr{
@@ -160,6 +171,9 @@
 
 @media(max-width: 992px){
   .widget__trading-row{
-  margin-top: 16px;
-}
+    margin-top: 16px;
+  }
+  .wrap-input__currency{
+    padding-right: 8px;
+  }
 }

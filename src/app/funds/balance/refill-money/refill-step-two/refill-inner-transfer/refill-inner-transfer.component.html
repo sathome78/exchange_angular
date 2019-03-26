@@ -5,14 +5,25 @@
     <input class="wrap-input__input" name="code" formControlName="code">
     <label class="wrap-input__label">{{'Transfer code' | translate}}</label>
     <div class="wrap-input__line"></div>
+
+    <!--Input error section starts-->
+    <div class="input-hint-wrapper" *ngIf="!form.valid && form.get('code').touched">
+          <span class="wrap-input__message">
+            This field is required.
+          </span>
+    </div>
+    <!--Input error section ends-->
   </div>
 </form>
-<button class="btn btn--center btn--empty-blue"
-[ngClass]="{'btn-active': form.valid}"
-        (click)="sendTransferCode()">
+
+<button
+  class="btn btn--center"
+  [ngClass]="{'btn--empty-blue': !form.valid}"
+  [disabled]="form.invalid || loading"
+  (click)="sendTransferCode()"
+>
   {{'Receive transfer' | translate}}
 </button>
-
 
 <!--message successful-->
 <div class="refill__transfer-message" *ngIf="isSendTransferCodeSuccess">

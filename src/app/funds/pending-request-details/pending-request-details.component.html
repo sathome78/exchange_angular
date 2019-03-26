@@ -72,7 +72,7 @@
         </div>
         <div class="open-mob-request__item">
           <div class="open-mob-request__item-title">{{'Status' | translate}}</div>
-          <div class="open-mob-request__item-value">{{pendingRequestsItem.statusMap[detailsItem.status]}}</div>
+          <div class="open-mob-request__item-value">{{detailsItem.status | showPendingStatus: detailsItem.operation}}</div>
         </div>
         <div class="open-mob-request__btn-wrap">
           <!--<button class="btn">I paid</button>-->
@@ -82,7 +82,7 @@
           <div class="revoke-request" *ngIf="showRevokeModal">
             <div class="revoke-request__title">{{'Are you sure you want to revoke this request' | translate}}?</div>
             <div class="revoke-request__button-wrap">
-              <button class="btn btn--small" (click)="onRevoke()">{{'Yes' | translate}}</button>
+              <button class="btn btn--small" (click)="onRevoke()" [disabled]="loading$ | async">{{'Yes' | translate}}</button>
               <button class="btn btn--small" (click)="toggleRevokeModal(false)">{{'No' | translate}}</button>
             </div>
             <div class="revoke-request__triangle"></div>

@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {CurrencyBalanceModel} from '../../../../../model/currency-balance.model';
@@ -10,6 +10,7 @@ import {PopupService} from '../../../../../shared/services/popup.service';
 import * as _uniq from 'lodash/uniq';
 import {RefillResponse} from '../../../../../model/refill-response';
 import {RefillData} from '../../../../../shared/interfaces/refill-data-interface';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -19,6 +20,7 @@ import {RefillData} from '../../../../../shared/interfaces/refill-data-interface
 export class RefillFiatComponent implements OnInit, OnDestroy {
 
   @Input() refillData: any;
+  @Output() closePopup = new EventEmitter();
   @ViewChild('simpleMerchant') simpleMerchantTemplate: TemplateRef<any>;
   @ViewChild('listMerchant') listMerchantTemplate: TemplateRef<any>;
   @ViewChild('sendF') sendFTemplate: TemplateRef<any>;
@@ -34,12 +36,15 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public selectedMerchantNested;
   public amount;
   public merchants;
+  public searchTemplate = '';
   public openCurrencyDropdown = false;
   public openPaymentSystemDropdown = false;
   public activeFiat;
+  public minRefillSum: number = 0;
   public alphabet;
   public redirectionUrl;
   public selectMerchantName;
+  public loading: boolean = false;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
@@ -47,6 +52,10 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         && $event.target.className !== 'select__value select__value--active select__value--error'
         && $event.target.className !== 'select__search-input') {
       this.openPaymentSystemDropdown = false;
+      this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
+        ? this.fiatDataByName.merchantCurrencyData
+        : [];
+      this.searchTemplate = '';
       this.openCurrencyDropdown = false;
     }
   }
@@ -54,10 +63,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
+    public router: Router,
     private store: Store<State>,
   ) {}
-
-
 
   ngOnInit() {
     this.initForm();
@@ -68,7 +76,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.defaultFiatNames = currencies;
         this.fiatNames = this.defaultFiatNames;
         this.setActiveFiat();
-        this.getDataByCurrency(this.activeFiat.name);
+        if (this.activeFiat) this.getDataByCurrency(this.activeFiat.name);
         this.prepareAlphabet();
       });
   }
@@ -106,17 +114,22 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   togglePaymentSystemDropdown() {
     this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
+    this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
+      ? this.fiatDataByName.merchantCurrencyData
+      : [];
+    this.searchTemplate = '';
     this.openCurrencyDropdown = false;
   }
 
   selectCurrency(currency) {
+    this.isSubmited = false;
     this.activeFiat = currency;
     this.toggleCurrencyDropdown();
     this.getDataByCurrency(currency.name);
   }
 
   private getDataByCurrency(currencyName) {
-    this.balanceService.getCurrencyData(currencyName)
+    this.balanceService.getCurrencyRefillData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.fiatDataByName = res;
@@ -124,14 +137,24 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
+        this.form.get('amount').updateValueAndValidity();
+        this.setMinRefillSum();
       });
+  }
+
+  private setMinRefillSum() {
+    this.minRefillSum = this.fiatDataByName.minRefillSum > parseFloat(this.selectedMerchant.minSum)
+      ? this.fiatDataByName.minRefillSum
+      : parseFloat(this.selectedMerchant.minSum);
   }
 
   selectMerchant(merchant, merchantImage = null) {
     this.selectedMerchantNested = merchantImage;
     this.selectMerchantName =  merchantImage.image_name  || merchant.name;
     this.selectedMerchant = merchant;
+    this.form.get('amount').updateValueAndValidity();
     this.togglePaymentSystemDropdown();
+    this.setMinRefillSum();
   }
 
   initForm() {
@@ -140,50 +163,47 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     });
   }
 
-  amountInput(e) {}
-
   submitRefill() {
     this.isSubmited = true;
-    // if (environment.production) {
-    //   // todo while insecure
-    //   this.popupService.demoPopupMessage = 0;
-    //   this.popupService.showDemoTradingPopup(true);
-    //   this.balanceService.closeRefillMoneyPopup$.next(false);
-    // } else {
-      if (this.form.valid && this.selectedMerchant.name) {
-        this.isSubmited = false;
-        this.amount = this.form.controls['amount'].value;
-        const data: RefillData = {
-          operationType: this.fiatDataByName.payment.operationType,
-          currency: this.fiatDataByName.currency.id,
-          merchant: this.selectedMerchant.merchantId,
-          generateNewAddress: true,
-          sum: this.amount
-        };
-        if (this.selectedMerchantNested && this.selectedMerchantNested.child_merchant) {
-          data.childMerchant = this.selectedMerchantNested.child_merchant;
-        }
-        this.balanceService.refill(data)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe((res: RefillResponse) => {
-            this.refillData = res;
-            this.redirectionUrl = this.refillData.redirectionUrl;
-            // this.redirectionUrl = this.getRefillRedirectionUrl(res);
-            this.submitSuccess = true;
-            setTimeout(() => {
-              this.redirectionLink.nativeElement.click();
-            }, 1000);
-          });
-      }
-    // }
+    if (this.form.valid && this.selectedMerchant.name) {
+      this.isSubmited = false;
+      this.amount = this.form.controls['amount'].value;
+      const data: RefillData = {
+        operationType: this.fiatDataByName.payment.operationType,
+        currency: this.fiatDataByName.currency.id,
+        merchant: this.selectedMerchant.merchantId,
+        destination: this.selectedMerchant.description,
+        merchantImage: this.selectedMerchantNested.id,
+        sum: +this.amount
+      };
+      this.loading = true;
+      this.balanceService.refill(data)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((res: RefillResponse) => {
+          this.refillData = res;
+          this.redirectionUrl = this.refillData.redirectionUrl;
+          // this.redirectionUrl = this.getRefillRedirectionUrl(res);
+          this.submitSuccess = true;
+          setTimeout(() => {
+            this.redirectionLink.nativeElement.click();
+          }, 1000);
+          this.loading = false;
+        }, (err) => {
+          this.loading = false;
+          console.error(err);
+        });
+    }
   }
 
   searchMerchant(e) {
-    this.merchants = this.fiatDataByName.merchantCurrencyData.filter(f => f.name.toUpperCase().match(e.target.value.toUpperCase()));
+    this.searchTemplate = e.target.value;
+    this.merchants = this.fiatDataByName.merchantCurrencyData.filter(merchant =>
+      !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
+    );
   }
 
   private minCheck(amount: FormControl) {
-      if (this.fiatDataByName && this.fiatDataByName.minRefillSum > amount.value) {
+      if (this.minRefillSum > amount.value) {
         return {'minThen': true};
       }
       return null;
@@ -192,6 +212,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   hideSend() {
     document.forms['hideForm'].submit();
     return false;
+  }
+
+  goToBalances() {
+    this.router.navigate(['/funds/balances']);
+    this.closePopup.emit(true);
   }
 
   // getRefillRedirectionUrl(response: RefillResponse): string {

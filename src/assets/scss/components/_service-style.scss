@@ -7,6 +7,12 @@
 		display: none;
 	}
 }
+.mobile-content{
+	display: none;
+	@media(max-width: 992px){
+		display: block;
+	}
+}
 
 .mobile-container{
 	@media(max-width: 992px){
@@ -16,3 +22,48 @@
 		width: 100%;
 	}
 }	
+@media(max-width: 1200px){
+.content{
+padding-bottom: 46px;
+}
+}
+
+.trade-buttons-wr{
+      display: flex;
+    justify-content: space-around;
+    padding: 3px 13px 18px 13px;
+    background: #191a39;
+    position: fixed;
+    bottom: 46px;
+    left: 0;
+    right: 0;
+    width: 100%;
+        z-index: 60;
+
+  .widget__trading-btn{
+    margin-top: 0;
+  }
+  a:nth-child(1),button:nth-child(1){
+    margin-right: 15px;
+  }
+  a:nth-child(2),button:nth-child(2){
+
+    margin-left: 15px;
+  }
+}
+
+.skiptranslate{
+  @media(max-width: 992px){
+    display: none;
+  }
+}
+
+
+.standart-lnk{
+      color: #237BEF;
+      transition: .3s;
+      text-decoration: none;
+      &:hover{
+
+      }
+}

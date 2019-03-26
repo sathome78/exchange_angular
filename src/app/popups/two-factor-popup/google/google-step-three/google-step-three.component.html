@@ -7,42 +7,59 @@
   <div class="row row--jcc">
     <div class="wrap-input modal__input-2fa">
       <input
-        required
-        class="wrap-input__input"
-        type="password"
-        formControlName="password">
+      required
+      class="wrap-input__input"
+      type="password"
+      formControlName="password">
       <label class="wrap-input__label">{{'Password' | translate}}</label>
       <div class="wrap-input__line"></div>
-      <ng-container *ngIf="passwordControl.touched && passwordControl.errors">
-        <span
-          class="wrap-input__message"
-          *ngIf="passwordControl.errors['required']"
-        >
-          {{'Password is required.' | translate}}
-        </span>
-      </ng-container>
+      <div>
+        <div class="input-hint-wrapper">
+          <ng-container *ngIf="passwordControl.touched && passwordControl.errors">
+            <span
+            class="wrap-input__message"
+            *ngIf="passwordControl.errors['required']"
+            >
+            {{'Password is required.' | translate}}
+          </span>
+        </ng-container>
+      </div>
     </div>
+
   </div>
-  <div class="row row--jcc">
-    <div class="wrap-input modal__input-2fa">
-      <input
-        required
-        class="wrap-input__input"
-        type="text"
-        formControlName="pincode">
-      <label class="wrap-input__label">{{'Pin code' | translate}}</label>
-      <div class="wrap-input__line"></div>
-      <ng-container *ngIf="pinCodeControl.touched && pinCodeControl.errors">
-        <span
+</div>
+<div class="row row--jcc">
+  <div class="wrap-input modal__input-2fa">
+    <input
+    required
+    class="wrap-input__input"
+    type="text"
+    formControlName="pincode">
+    <label class="wrap-input__label">{{'Pin code from email' | translate}}</label>
+    <div class="wrap-input__line"></div>
+    <div>
+      <div class="input-hint-wrapper">
+        <ng-container *ngIf="pinCodeControl.touched && pinCodeControl.errors">
+          <span
           class="wrap-input__message"
           *ngIf="pinCodeControl.errors['required']"
-        >
+          >
           {{'Pin code is required.' | translate}}
         </span>
+
       </ng-container>
     </div>
   </div>
 
-    <button class="btn btn--active btn--center " (click)="onNextStep()">{{'Enable GA' | translate}}</button>
-   <!--todo here we should fire popup if time of 5 minutes expires or smth went wrong-->
+</div>
+</div>
+  <span class="wrap-input__message-single" *ngIf="!!statusMessage">{{statusMessage | translate}}</span>
+  <button
+    class="btn btn--active btn--center "
+    (click)="onNextStep()"
+    [disabled]="loading"
+  >
+    {{'Enable GA' | translate}}
+  </button>
+<!--todo here we should fire popup if time of 5 minutes expires or smth went wrong-->
 </form>

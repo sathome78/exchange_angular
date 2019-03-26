@@ -1,32 +1,34 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ChangeDetectorRef} from '@angular/core';
 
 import {gridsterItemOptions, gridsterOptions} from '../shared/configs/gridster-options';
 import {DashboardService} from './dashboard.service';
 import {DashboardItemChangeSize} from '../shared/models/dashboard-item-change-size-model';
-import {MarketService} from './components/markets/market.service';
 import {BreakpointService} from '../shared/services/breakpoint.service';
 import {Subject} from 'rxjs';
 import {OnDestroy} from '@angular/core';
 import {takeUntil} from 'rxjs/internal/operators';
-import {AuthService} from '../shared/services/auth.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {DashboardWebSocketService} from './dashboard-websocket.service';
 import {Store, select} from '@ngrx/store';
 import * as fromCore from '../core/reducers';
 import {PopupService} from 'app/shared/services/popup.service';
+import {CurrencyPair} from 'app/model';
+import {getMarketCurrencyPairsMap} from '../core/reducers';
+import * as dashboardActions from './actions/dashboard.actions';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   /** retrieve gridster container*/
-  @ViewChild('gridsterContainer') gridsterContainer;
+  @ViewChild('gridsterContainer') private gridsterContainer;
 
   /** retrieve templates for loadWidgetTemplate method*/
   @ViewChild('graph') graphTemplate: TemplateRef<any>;
@@ -49,20 +51,22 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public defauldWidgets;
   public gridsterOptions;
   public gridsterItemOptions;
+  public isDrag = false;
 
   public activeMobileWidget = 'markets';
   public breakPoint;
-  public currencyPair = null
+  public currencyPair: SimpleCurrencyPair = null
+  public isAuthenticated: boolean = false;
+  public widgetTemplate;
 
   constructor(
     public breakPointService: BreakpointService,
     public dashboardWebsocketService: DashboardWebSocketService,
     private dataService: DashboardService,
-    private marketsService: MarketService,
     private route: ActivatedRoute,
+    private router: Router,
     private popupService: PopupService,
-    private store: Store<fromCore.State>,
-    private authService: AuthService) {
+    private store: Store<fromCore.State>) {
   }
 
   ngOnInit() {
@@ -88,25 +92,38 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.gridsterOptions = gridsterOptions;
     this.gridsterItemOptions = gridsterItemOptions;
     // TODO: takeUntil
-    this.dataService.toolsToDashboard$.subscribe(res => this.addItemToDashboard(res));
-
-    this.marketsService.activeCurrencyListener.subscribe(res => {
-      this.changeRatioByWidth();
-    });
-
-    this.route.params.subscribe(params => {
-      if (params && params['currency-pair']) {
-        const currencyPair: string = params['currency-pair'];
-        this.dashboardWebsocketService.pairFromDashboard = currencyPair.replace('-', '/');
-        // TODO find currency pair by name and set it as default for dashboard
-      }
-    });
-    this.store
-      .pipe(select(fromCore.getCurrencyPair))
+    this.dataService.toolsToDashboard$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(pair => {
+      .subscribe(res => this.addItemToDashboard(res));
+
+    this.store
+      .pipe(select(fromCore.getActiveCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((pair: SimpleCurrencyPair) => {
         this.currencyPair = pair;
+        this.changeRatioByWidth();
       });
+    this.store
+      .pipe(select(fromCore.getIsAuthenticated))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((isAuthenticated: boolean) => {
+        this.isAuthenticated = isAuthenticated;
+        this.widgets = [];
+        setTimeout(() => {
+          this.widgets = this.dataService.getWidgetPositions();
+        })
+        this.gridsterContainer && this.gridsterContainer.reload();
+      });
+
+    this.widgetTemplate = {
+      graph: this.graphTemplate,
+      markets: this.marketsTemplate,
+      trading: this.tradingTemplate,
+      'order-book': this.orderBookTemplate,
+      'trade-history': this.tradeHistoryTemplate,
+      chat: this.chatTemplate,
+      orders: this.ordersTemplate
+    };
   }
 
   checkRoute() {
@@ -115,13 +132,24 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((segments) => {
         const url = segments.map((u) => u.path).join('/')
         setTimeout(() => {  // added to fix ExpressionChangedAfterItHasBeenCheckedError
-          if(url === 'registration') {
+          if (url === 'registration') {
             this.popupService.showMobileRegistrationPopup(true);
+          }
+          if(url === 'login') {
+            this.popupService.showMobileLoginPopup(true);
           }
         })
       });
-  }
 
+    this.route.params
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(params => {
+        if (params && params['currency-pair']) {
+          const currencyPair: string = params['currency-pair'];
+         this.findAndSetActiveCurrencyPair(currencyPair.replace('-', '/'));
+        }
+      });
+  }
 
   ngAfterViewInit() {
     this.changeRatioByWidth();
@@ -133,46 +161,17 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  /**
-   * get template for directive *ngFor
-   * @param {string} value
-   * @returns {TemplateRef<any>}
-   */
-  loadWidgetTemplate(value: string): TemplateRef<any> {
-    switch (value) {
-      case 'graph':
-        return this.graphTemplate;
-      case 'markets':
-        return this.marketsTemplate;
-      case 'trading':
-        return this.tradingTemplate;
-      case 'order-book':
-        return this.orderBookTemplate;
-      case 'trade-history':
-        return this.tradeHistoryTemplate;
-      case 'chat':
-        return this.chatTemplate;
-      case 'orders':
-        return this.ordersTemplate;
-    }
-  }
-
-  /**
-   * hide widget if no authenticate
-   * @param {string} widget
-   * @returns {boolean}
-   */
-  showWidget(widget: string): boolean {
-    if (!this.isAuthenticated()) {
-      switch (widget) {
-        case 'trade-history':
-        case 'orders':
-          return false;
-      }
-    } else {
-      return true;
-    }
-    return true;
+  findAndSetActiveCurrencyPair(pairName: string) {
+    this.store
+      .pipe(select(getMarketCurrencyPairsMap))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((currencyPairs: MapModel<CurrencyPair>) => {
+        const pair = Object.values(currencyPairs).filter(item => item.currencyPairName.toLowerCase() === pairName.toLowerCase())[0];
+        if (pair) {
+          const newActivePair = new SimpleCurrencyPair(pair.currencyPairId, pair.currencyPairName);
+          this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
+        }
+      });
   }
 
   /**
@@ -190,7 +189,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         widget[0].wLg === this.gridsterItemOptions.maxWidth ? widget[0].wLg = this.gridsterItemOptions.maxWidth : widget[0].wLg += 1 :
         widget[0].wLg === 2 ? widget[0].wLg = 2 : widget[0].wLg -= 1;
     }
-    this.gridsterContainer.reload();
+    this.gridsterContainer && this.gridsterContainer.reload();
   }
 
   /**
@@ -209,7 +208,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   addItemToDashboard(itemType): void {
     const widget = this.defauldWidgets.find(item => item.type === itemType);
     this.widgets.push(widget);
-    this.gridsterContainer.reload();
+    this.gridsterContainer && this.gridsterContainer.reload();
   }
 
   /**
@@ -236,11 +235,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param {number} value
    */
   private changeRatio(value: number) {
-    this.gridsterContainer.setOption('widthHeightRatio', value).reload();
+    this.gridsterContainer && this.gridsterContainer.setOption('widthHeightRatio', value).reload();
   }
 
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
+  DragStart(event) {
+    this.isDrag = true;
   }
-
+  DragEnd(event) {
+    this.isDrag = false;
+  }
 }
