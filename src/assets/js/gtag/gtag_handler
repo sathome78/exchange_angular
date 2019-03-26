@@ -29,13 +29,13 @@ function sendGenerateWalletGtag(id) {
 }
 
 function gtag(){
-  // dataLayer.push(arguments);
+  dataLayer.push(arguments);
 }
 
-// function ready() {
-//   gtag('js', new Date());
-//   gtag('config', 'GTM-TZTXSSP');
-// }
+function ready() {
+  gtag('js', new Date());
+  gtag('config', 'GTM-TZTXSSP');
+}
 
 
-// document.addEventListener("DOMContentLoaded", ready);
+document.addEventListener("DOMContentLoaded", ready);
