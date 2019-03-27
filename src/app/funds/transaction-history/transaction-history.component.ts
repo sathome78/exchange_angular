@@ -15,6 +15,7 @@ import saveAs from 'file-saver'
 import { CurrencyChoose } from 'app/model/currency-choose.model';
 import { ConstantsService } from 'app/shared/services/constants.service';
 import { BreakpointService } from 'app/shared/services/breakpoint.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-transaction-history',
@@ -229,9 +230,7 @@ export class TransactionHistoryComponent implements OnInit {
     if(!date || date.year === 0 && date.day === 0) {
       return null;
     }
-    const day = date.day < 10 ? '0' + date.day : date.day;
-    const month = date.month < 10 ? '0' + date.month : date.month;
-    return `${date.year}-${month}-${day}`
+    return moment([date.year, date.month - 1, date.day]).format()
   }
 
   downloadExcel() {
