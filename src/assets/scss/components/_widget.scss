@@ -8,18 +8,18 @@
   /*--- elements start ---*/
   &__limit-dropdown {
     .dropdown__btn {
-      &:before {
-        content: "";
-        display: inline-block;
-        width: 13px;
-        height: 13px;
-        margin-right: 8px;
-        background-image: url('assets/img/limit-order-blue.svg');
-        background-repeat: no-repeat;
-        background-position: center;
-        -webkit-background-size: 100%;
-        background-size: 100%;
-      }
+      // &:before {
+      //   content: "";
+      //   display: inline-block;
+      //   width: 13px;
+      //   height: 13px;
+      //   margin-right: 8px;
+      //   background-image: url('assets/img/limit-order-blue.svg');
+      //   background-repeat: no-repeat;
+      //   background-position: center;
+      //   -webkit-background-size: 100%;
+      //   background-size: 100%;
+      // }
     }
     margin-right: 8px;
   }
@@ -591,6 +591,7 @@
   &__limit-dropdown {
     align-self: center;
     margin-right: 12px;
+    display: flex;
     .dropdown__btn {
       color: #000;
       padding-right: 16px;
@@ -672,7 +673,7 @@
     height: 40px;
     font-size: 18px;
     line-height: 1;
-    margin: 28px auto 0;
+    margin: 16px auto 0;
     border-radius: 4px;
     align-items: center;
     justify-content: center;
@@ -942,7 +943,7 @@
       height: 48px;
       line-height: 1;
       font-size: 20px;
-      margin: auto 0 0;
+      // margin: auto 0 0;
       //background-color: #264F92;
       //border-color: rgba(35, 123, 239, 0.5);
       &:hover {
@@ -974,13 +975,22 @@
     &__header {
       background-color: #252543;
       transition: .3s;
+      svg{
+        transition: .3s;
+      }
       &:hover{
 
         background-color: #3A3D5B;
+      .widget__controls-close{
+        svg{
+          fill: #fff;
+        }
       }
+      }
+
     }
     &__name {
-      color: $grey;
+      color: #A0A0A0;
     }
     &__name-mob {
       color: #fff;
@@ -997,7 +1007,7 @@
     }
     &__controls-plus, &__controls-minus {
       svg {
-        fill: $grey;
+        fill: #fff;
       }
       &:hover {
         svg {
@@ -1007,7 +1017,7 @@
     }
     &__controls-close {
       svg {
-        fill: $grey;
+        fill: #a0a0a0;
       }
       &:hover {
         svg {
@@ -1082,11 +1092,13 @@
       }
       .dropdown__btn {
         color: #fff;
+        font-weight: 500;
         &:before {
           // display: none;
-          background-image: url('assets/img/limit-order-white.svg');
+          // background-image: url('assets/img/limit-order-white.svg');
         }
         &:after {
+          display: none;
           border-top-color: #fff;
         }
       }
@@ -1114,7 +1126,7 @@
         }
       }
       .avaliable {
-        margin-top: 12px;
+        margin-top: 8px;
         color: $light-blue;
         svg {
           fill: $light-blue;
@@ -1316,6 +1328,7 @@
   pointer-events: none;
   text-transform: uppercase;
   min-width: 35px;
+  color: #a0a0a0;
 }
 /*--- DARK THEME END---*/
 @media(max-width: 992px){
@@ -1419,6 +1432,25 @@ padding-right: 19px;
                 }
             }
           }
+    }
+  }
+}
+
+.widget__trading-row{
+  .dropdown__btn.selectedButton{
+    position: relative;
+    &::after{
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: calc(100% - 16px);
+      top: auto!important;
+      height: 2px;
+      background-color: #237BEF;
+      display: block!important;
+      border: none!important;
+
     }
   }
 }
