@@ -26,7 +26,6 @@ export class GetIconUrl  implements PipeTransform {
       case 'QUICK':
       case 'TRS':
       case 'VNT':
-      case 'RUB':
       case 'RIME':
       case 'TCAT':
       case 'EXO':

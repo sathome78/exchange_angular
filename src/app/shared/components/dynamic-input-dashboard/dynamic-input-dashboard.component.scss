@@ -93,11 +93,17 @@
       border-bottom-left-radius: 4px;
       border-top-right-radius: 0;
       border-top-left-radius: 0;
+      background-color: #191a39;
     }
     .dropdown__item{
       font-size: 16px;
       padding: 6px 8px;
       text-align: left;
+      color: #fff;
+      &.active{
+        
+    color: #237BEF;
+      }
     }
   }
 }

@@ -54,7 +54,9 @@
       <!--table mob start-->
       <div class="markets__table widget__table-markets-mob">
         <div class="markets__thead">
-          <div class="table__cell-head table__cell-head--tac table__cell-head--p4" style="width:20%;">
+          <div class="table__cell-head table__cell-head--tac table__cell-head--p4" style="width:0;" *ngIf="!isAuthenticated">
+          </div>
+          <div class="table__cell-head table__cell-head--tac table__cell-head--p4" style="width:20%;" *ngIf="isAuthenticated">
           </div>
           <div class="table__cell-head table__cell-head--tal table__cell-head--p4" style="width:88%;">{{'Pair / Vol' | translate}}
             <span class="shape">
@@ -83,7 +85,7 @@
                     'widget__table-row--red': !isChangePositive(pair),
                     'markets__selected-pair': pair.currencyPairId === currentCurrencyPair?.id
                     }">
-                <div class="table__cell table__cell--p4 table__cell--tac"  style="width: 10%;" *ngIf="!isAuthenticated"></div>
+                <div class="table__cell table__cell--p4 table__cell--tac"  style="width: 0;" *ngIf="!isAuthenticated"></div>
                 <div
                   class="table__cell table__cell--p4 table__cell--tac"
                   style="width: 20%;  display: flex; align-items: center; justify-content: center;"

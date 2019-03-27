@@ -98,6 +98,7 @@
     border-top: 5px solid $grey;
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
+    pointer-events: none;
   }
   &__list {
     position: absolute;
@@ -176,16 +177,18 @@
     margin-bottom: 4px;
     font-size: 12px;
     line-height: 14px;
-    color: $light-grey;
+    color: #525f73;
     span{
       margin-right: 4px;
+      color: #000;
+      transition: .3s;
     }
     &:after{
       content:'';
       display: block;
       width: calc(100% - 36px);
       height: 1px;
-      background-color: $light-grey;
+      background-color: #525f73;
     }
   }
   &__searching-items-wrap {
@@ -194,9 +197,10 @@
     padding-right: 24px;
   }
   &__searching-item {
-    margin-right: 12px;
-    margin-bottom: 8px;
-        width: 95px;
+   
+    padding: 4px 0;
+        width: 100%;
+        transition: .3s;
   }
   &__list-item {
     display: -webkit-flex;
