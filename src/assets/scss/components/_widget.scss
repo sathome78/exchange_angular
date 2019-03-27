@@ -1320,7 +1320,7 @@
 /*--- DARK THEME END---*/
 @media(max-width: 992px){
   .widget__graph{
-    height: calc(100% - 299px);
+    height: calc(100vh - 145px);
   }
   .curency-input{
     .dynamic-input__label{
