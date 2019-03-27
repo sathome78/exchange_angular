@@ -143,7 +143,6 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.currentPage = 1;
-        this.currencyPairValue = '';
         this.loadOrders();
         this.userService.getUserBalance(this.activeCurrencyPair)
       });

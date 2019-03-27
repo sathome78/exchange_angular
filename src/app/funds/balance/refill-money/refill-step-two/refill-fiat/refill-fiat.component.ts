@@ -203,7 +203,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   private minCheck(amount: FormControl) {
-      if (this.minRefillSum > amount.value) {
+      if (this.minRefillSum > (!!amount.value ? amount.value : 0)) {
         return {'minThen': true};
       }
       return null;
