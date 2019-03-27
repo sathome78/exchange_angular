@@ -46,10 +46,10 @@ export class OrdersService {
       currencyPairId,
     };
     if (dateFrom) {
-      params.dateFrom = dateFrom;
+      params.dateFrom = encodeURIComponent(dateFrom);
     }
     if (dateTo) {
-      params.dateTo = dateTo;
+      params.dateTo = encodeURIComponent(dateTo);
     }
     return this.http.get<ResponseModel<OrderItem[]>>(`${this.apiUrl}/api/private/v2/dashboard/orders/CLOSED`, {params});
   }
@@ -76,10 +76,10 @@ export class OrdersService {
       currencyPairName
     };
     if (dateFrom) {
-      params['dateFrom'] = dateFrom;
+      params['dateFrom'] = encodeURIComponent(dateFrom);
     }
     if (dateTo) {
-      params['dateTo'] = dateTo;
+      params['dateTo'] = encodeURIComponent(dateTo);
     }
     return this.http.get(`${this.apiUrl}/api/private/v2/download/orders/CLOSED/export`, {params, responseType: 'blob'});
   }
