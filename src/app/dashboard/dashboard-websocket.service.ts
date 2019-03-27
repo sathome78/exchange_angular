@@ -12,6 +12,7 @@ import {getCurrencyPairArray, State} from '../core/reducers';
 import * as dashboardActions from './actions/dashboard.actions';
 import {UserService} from '../shared/services/user.service';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 
 @Injectable()
@@ -27,6 +28,7 @@ export class DashboardWebSocketService implements OnDestroy {
   constructor(
     private stompService: RxStompService,
     private userService: UserService,
+    private utilsService: UtilsService,
     private store: Store<State>
   ) { }
 
@@ -84,6 +86,7 @@ export class DashboardWebSocketService implements OnDestroy {
       if (pairName === elm.currencyPairName) {
         const newActivePair = new SimpleCurrencyPair(elm.currencyPairId, elm.currencyPairName);
         this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
+        this.utilsService.saveActiveCurrencyPairToSS(newActivePair);
         this.userService.getUserBalance(newActivePair);
       }
     });

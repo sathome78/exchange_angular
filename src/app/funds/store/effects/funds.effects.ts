@@ -12,7 +12,7 @@ import {MyBalanceItem} from '../../../model/my-balance-item.model';
 import {Location} from '@angular/common';
 import { TransactionsService } from 'app/funds/services/transaction.service';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
-import {LOAD_QUBERA_BAL} from '../actions/funds.actions';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 
 interface ResData {
@@ -26,6 +26,7 @@ export class FundsEffects {
   constructor(
     private actions$: Actions,
     private balanceService: BalanceService,
+    private utilsService: UtilsService,
     private transactionsService: TransactionsService,
     private location: Location,
   ) {
@@ -59,6 +60,7 @@ export class FundsEffects {
         .pipe(
           map((res: {data: any, error: any}) => {
             const newActivePair = new SimpleCurrencyPair(res.data.currencyPairId, res.data.currencyPairName);
+            this.utilsService.saveActiveCurrencyPairToSS(newActivePair);
             return new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair);
           }),
           catchError(error => of(new fundsActions.FailLoadMaxCurrencyPairByCurrencyName(error)))
