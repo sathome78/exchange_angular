@@ -46,6 +46,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   public commonBuyTotal = 0;
   public splitCurrencyName = ['', ''];
 
+  public maxSellVisualizationWidth = 0;
+  public maxBuyVisualizationWidth = 0;
+
   /** stores data for drawing a border for a chart */
   public withForChartLineElements: {
     sell: string[];
@@ -120,6 +123,11 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     if(!orders[0]) {
       return;
     }
+    if (orders[0].orderType === 'SELL') {
+      this.calculateVisualizationWidth(parseFloat(orders[1].total) || 0, parseFloat(orders[0].total) || 0);
+    } else {
+      this.calculateVisualizationWidth(parseFloat(orders[0].total) || 0, parseFloat(orders[1].total) || 0);
+    }
     orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) :
     orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : null;
     if(orders[1]) {
@@ -144,7 +152,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     const visArr = [];
     for (let i = 0; i < this.sellOrders.length; i++) {
       const coefficient = (+this.commonSellTotal / +this.sellOrders[i].total);
-      visArr.push(98 / coefficient);
+      visArr.push(this.maxSellVisualizationWidth / coefficient);
     }
     this.sellVisualizationArray = [...visArr.reverse()];
   }
@@ -153,7 +161,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     const visArr = [];
     for (let i = 0; i < this.buyOrders.length; i++) {
       const coefficient = (+this.commonBuyTotal / +this.buyOrders[i].total);
-      visArr.push(((98 / coefficient)));
+      visArr.push(((this.maxBuyVisualizationWidth / coefficient)));
     }
     this.buyVisualizationArray = [...visArr];
   }
@@ -170,6 +178,14 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.showSellDataReverse = [...this.sellOrders].reverse();
     this.commonSellTotal = +orders.total;
     this.sellCalculateVisualization();
+  }
+
+  private calculateVisualizationWidth(buy, sell) {
+    const widthItem = (buy + sell) / 98;
+    const buyWidth = buy / widthItem ;
+    const sellWidth = sell / widthItem ;
+    this.maxBuyVisualizationWidth = buyWidth > sellWidth ? (buyWidth + sellWidth) : buyWidth;
+    this.maxSellVisualizationWidth = buyWidth < sellWidth ? (buyWidth + sellWidth) : sellWidth;
   }
 
   /**
@@ -252,7 +268,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   private getPercentageOfTheMuxBuyOrSell(number: number, isBuy: boolean): number {
     const coefficient = isBuy ? (this.commonBuyTotal / number) : (this.commonSellTotal / number);
-    return 98 / coefficient;
+    return (isBuy ? this.maxBuyVisualizationWidth / coefficient : this.maxSellVisualizationWidth / coefficient);
   }
 
 
