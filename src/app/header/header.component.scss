@@ -728,8 +728,14 @@
       margin-right: 8px;
       position: relative;
       &--auth{
-        background-color: #C4C4C4;
-        border: 1px solid #C4C4C4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #191A39;
+          border: none;
+          svg{
+            display: block;
+          }
       }
 
       .info__img-empty {
