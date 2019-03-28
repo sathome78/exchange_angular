@@ -121,7 +121,7 @@
                   <span
                     [ngClass]="{'change-indicate--green': isChangePositive(pair), 'change-indicate--red': !isChangePositive(pair)}"
                   >
-                    {{pair.percentChange >= 0 ? '+' : ''}}{{pair.percentChange | replaceNumber}}%
+                    {{pair.percentChange  | positivePipe | replaceNumber: true}}%
                   </span>
                 </div>
               </div>
