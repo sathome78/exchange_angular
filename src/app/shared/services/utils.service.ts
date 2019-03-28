@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ValidatorFn, AbstractControl} from '@angular/forms';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 // import {CoreService} from 'app/core/services/core.service';
 
 @Injectable()
@@ -74,6 +75,13 @@ export class UtilsService {
       return value.toString().replace(regex, replaceMask);
     }
     return '';
+  }
+
+  saveActiveCurrencyPairToSS(pair: SimpleCurrencyPair): void {
+    sessionStorage.setItem('activePair', JSON.stringify(pair));
+  }
+  getActiveCurrencyPairFromSS(): string {
+    return sessionStorage.getItem('activePair');
   }
 
 }

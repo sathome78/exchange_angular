@@ -145,6 +145,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
 
   selectNewCurrencyPair(pair: SimpleCurrencyPair) {
     this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(pair));
+    this.utils.saveActiveCurrencyPairToSS(pair);
     this.userService.getUserBalance(pair);
     if (this.route.snapshot.paramMap.get('currency-pair')) {
       this.router.navigate(['/']);
