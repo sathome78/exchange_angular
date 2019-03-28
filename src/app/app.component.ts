@@ -13,6 +13,7 @@ import * as fromCore from './core/reducers';
 import * as coreAction from './core/actions/core.actions';
 import * as dashboardAction from './dashboard/actions/dashboard.actions';
 import {SimpleCurrencyPair} from './model/simple-currency-pair';
+import {SEOService} from './shared/services/seo.service';
 
 
 declare var sendTransactionSuccessGtag: Function;
@@ -31,6 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private userService: UserService,
     private authService: AuthService,
+    private seoService: SEOService,
     private store: Store<fromCore.State>,
     private http: HttpClient,
     public translate: TranslateService
