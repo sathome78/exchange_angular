@@ -29,10 +29,10 @@ export class TransactionsService {
       currencyName,
     }
     if(dateTo) {
-      params['dateTo'] = dateTo;
+      params['dateTo'] = encodeURIComponent(dateTo);
     }
     if(dateFrom) {
-      params['dateFrom'] = dateFrom;
+      params['dateFrom'] = encodeURIComponent(dateFrom);
     }
     return this.http.get<ResponseModel<TransactionHistoryItem[]>>(`${this.apiUrl}/api/private/v2/balances/inputOutputData`, {params});
   }
@@ -61,10 +61,10 @@ export class TransactionsService {
       currencyName,
     }
     if(dateTo) {
-      params['dateTo'] = dateTo;
+      params['dateTo'] = encodeURIComponent(dateTo);
     }
     if(dateFrom) {
-      params['dateFrom'] = dateFrom;
+      params['dateFrom'] = encodeURIComponent(dateFrom);
     }
     return this.http.get(`${this.apiUrl}/api/private/v2/download/inputOutputData/excel`, {params, responseType: 'blob'});
   }

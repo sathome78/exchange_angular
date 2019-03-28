@@ -33,7 +33,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
       email: new FormControl('', { validators: [
         Validators.required, this.utilsService.emailValidator(),
           this.utilsService.specialCharacterValidator(),
-          Validators.maxLength(30)
+          Validators.maxLength(40)
         ]}),
       telegram: new FormControl('', Validators.maxLength(30)),
       text: new FormControl('', { validators: [
