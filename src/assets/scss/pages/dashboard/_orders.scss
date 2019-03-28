@@ -24,3 +24,14 @@
 		
 	}
 // }
+
+.dark-theme .transaction__filters .pair-popup__input .wrap-input__input + .wrap-input__label, .dark-theme .orders__filters .pair-popup__input .wrap-input__input + .wrap-input__label,{
+      top: -5px;
+    padding: 0 2px;
+    font-size: 10px;
+    line-height: 12px;
+    left: 12px;
+    @media(min-width: 1200px){
+    	    background-color: #191A39;
+    }
+}

@@ -156,6 +156,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     private cdr: ChangeDetectorRef
   ) {
     super();
+    this.isAuthenticated$ = this.store.pipe(select(getIsAuthenticated));
   }
 
   ngOnInit() {
@@ -194,8 +195,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         this.allCurrencyPairs = pair;
         this.cdr.detectChanges();
       });
-
-    this.isAuthenticated$ = this.store.pipe(select(getIsAuthenticated));
 
     this.lang = this.langService.getLanguage();
     this.formattingCurrentPairName(this.currencyPairName);

@@ -975,10 +975,19 @@
     &__header {
       background-color: #252543;
       transition: .3s;
+      svg{
+        transition: .3s;
+      }
       &:hover{
 
         background-color: #3A3D5B;
+      .widget__controls-close{
+        svg{
+          fill: #fff;
+        }
       }
+      }
+
     }
     &__name {
       color: #A0A0A0;
@@ -1324,7 +1333,7 @@
 /*--- DARK THEME END---*/
 @media(max-width: 992px){
   .widget__graph{
-    height: calc(100% - 299px);
+    height: calc(100vh - 145px);
   }
   .curency-input{
     .dynamic-input__label{
@@ -1423,6 +1432,25 @@ padding-right: 19px;
                 }
             }
           }
+    }
+  }
+}
+
+.widget__trading-row{
+  .dropdown__btn.selectedButton{
+    position: relative;
+    &::after{
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: calc(100% - 16px);
+      top: auto!important;
+      height: 2px;
+      background-color: #237BEF;
+      display: block!important;
+      border: none!important;
+
     }
   }
 }

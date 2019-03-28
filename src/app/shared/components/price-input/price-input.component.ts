@@ -68,7 +68,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
 
   excludeDoubleZero(value) {
     if (value[0] && value[1]) {
-      return value[0] === '0' && value[1] === '0' ? '0' : value;
+      return value[0] === '0' && value[1] !== '.' ? value.slice(1) : value;
     } else {
       return value;
     }
@@ -83,11 +83,10 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   writeValue(value: any) {
-    value = this.priceFormat(value, this.currencyName);
     if (value == 'N/A')
       return this._innerValue = value;
-    this._innerValue = value;
-    this.propagateChanges(parseFloat(this._innerValue) || 0);
+    this._innerValue = this.priceFormat(value, this.currencyName);
+    this.propagateChanges(parseFloat(value));
   }
 
   propagateChanges = (...any) => {
@@ -108,6 +107,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   onBlur($event) {
     this.onTouched();
     this.writeValue($event.target.value);
+    if ($event.target.value === '') this.inputEl.nativeElement.value = '0';
     this.customBlur.emit(true);
   }
 

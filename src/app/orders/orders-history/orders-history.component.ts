@@ -15,6 +15,7 @@ import saveAs from 'file-saver';
 import {UtilsService} from 'app/shared/services/utils.service';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-orders-history',
@@ -231,9 +232,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     if(!date || date.year === 0 && date.day === 0) {
       return null;
     }
-    const day = date.day < 10 ? '0' + date.day : date.day;
-    const month = date.month < 10 ? '0' + date.month : date.month;
-    return `${date.year}-${month}-${day}`
+    return moment([date.year, date.month - 1, date.day]).format()
   }
 
   /**

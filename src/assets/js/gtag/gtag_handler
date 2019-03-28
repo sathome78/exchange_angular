@@ -28,7 +28,9 @@ function sendGenerateWalletGtag(id) {
   console.log("Successfully send generate wallet send");
 }
 
-function gtag(){dataLayer.push(arguments);}
+function gtag(){
+  dataLayer.push(arguments);
+}
 
 function ready() {
   gtag('js', new Date());

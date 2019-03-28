@@ -442,10 +442,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     const value = e.target.value === '' ? 0 : e.target.value;
     if (type === this.BUY) {
       this.buyOrder.amount = parseFloat(this.deleteSpace(value.toString()));
-      this.setQuantityValue(value, type);
     } else {
       this.sellOrder.amount = parseFloat(this.deleteSpace(value.toString()));
-      this.setQuantityValue(value, type);
     }
       this.getCommission(type);
   }
@@ -495,8 +493,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private inputTotalNested(event, type: string, order: Order) {
-    const value = event.target.value === '' ? 0 : event.target.value;
-    this.setTotalInValue(value, type);
+    const value = (event.target.value === '' || event.target.value === ' ') ? '0' : event.target.value;
     order.total = parseFloat(this.deleteSpace(value));
     if (order.rate) {
       order.amount = order.total / order.rate;

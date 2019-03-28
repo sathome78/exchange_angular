@@ -394,7 +394,7 @@
         z-index: -1;
         width: calc(100% - 211px);
         height: 1px;
-        background-color: $grey;
+        background-color: #525f73;
       }
 
       .toggler {
@@ -645,7 +645,7 @@
       &__filters {
         &:after {
           z-index: 1;
-          background-color: $light-grey;
+          background-color: #525f73;
         }
       }
 
