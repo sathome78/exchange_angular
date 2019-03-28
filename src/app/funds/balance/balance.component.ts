@@ -265,7 +265,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public filterByCurrencyForMobile(currency): void {
-    console.log(currency)
     this.currencyForChoose = currency;
     this.currentPage = 1;
     this.loadBalances(this.currTab);
