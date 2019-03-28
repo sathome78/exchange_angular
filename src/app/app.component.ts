@@ -74,6 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.seoService.subscribeToRouter(); // SEO optimization
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
     // this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
     // this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());

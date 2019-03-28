@@ -3,6 +3,7 @@ import * as coreActions from '../actions/core.actions';
 // import {REHYDRATE, RehydrateAction} from '../actions/core.actions';
 import {SimpleCurrencyPair} from '../../model/simple-currency-pair';
 import {CurrencyChoose} from '../../model/currency-choose.model';
+import {DetailedCurrencyPair} from 'app/model/detailed-currency-pair';
 
 export interface State {
   currency: string;
@@ -10,6 +11,7 @@ export interface State {
   language: string;
   verificationStatus: string;
   simpleCurrencyPairs: SimpleCurrencyPair[];
+  detailedCurrencyPairs: DetailedCurrencyPair[];
   cryptoCurrenciesForChoose: CurrencyChoose[];
   fiatCurrenciesForChoose: CurrencyChoose[];
   allCurrenciesForChoose: CurrencyChoose[];
@@ -24,6 +26,7 @@ export const INIT_STATE: State = {
   language: 'en',
   verificationStatus: null,
   simpleCurrencyPairs: [],
+  detailedCurrencyPairs: [],
   cryptoCurrenciesForChoose: [],
   fiatCurrenciesForChoose: [],
   allCurrenciesForChoose: [],
@@ -59,7 +62,8 @@ export function reducer(state: State = INIT_STATE, action: coreActions.Actions) 
     case coreActions.SET_SIMPLE_CURRENCY_PAIRS:
       return {
         ...state,
-        simpleCurrencyPairs: action.payload.items,
+        simpleCurrencyPairs: action.payload.simpleItems,
+        detailedCurrencyPairs: action.payload.detailedItems,
       };
     case coreActions.LOAD_ALL_CURRENCIES_FOR_CHOOSE:
       return {...state, loading: true};
@@ -115,6 +119,7 @@ export const getRegion = (state: State): string => state.region;
 
 
 export const getAllSimpleCurrencyPairs = (state: State): SimpleCurrencyPair[] => state.simpleCurrencyPairs;
+export const getAllDetailedCurrencyPairs = (state: State): DetailedCurrencyPair[] => state.detailedCurrencyPairs;
 /** Selector returns crypto and fiat currencies for choose in dropdown*/
 export const getAllCurrenciesForChoose = (state: State): CurrencyChoose[] => state.allCurrenciesForChoose;
 /** Selector returns crypto currencies for choose in dropdown*/

@@ -1,97 +1,146 @@
 import {Injectable} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
 import {Router, NavigationEnd} from '@angular/router';
+import {Store, select} from '@ngrx/store';
+import {State, getDetailedCurrencyPairsSelector} from 'app/core/reducers';
+import {take} from 'rxjs/operators';
+import {DetailedCurrencyPair} from 'app/model/detailed-currency-pair';
 
 @Injectable()
 export class SEOService {
+  public currencyPairs = []
+  public currentUrl = null;
   constructor(
     private meta: Meta,
     private router: Router,
+    private store: Store<State>,
     private titleService: Title
   ) {
-    router.events.subscribe((e) => {
+    this.store
+      .pipe(select(getDetailedCurrencyPairsSelector))
+      .pipe(take(2))
+      .subscribe((currencies: DetailedCurrencyPair[]) => {
+        this.currencyPairs = currencies;
+        if(this.currencyPairs.length && this.currentUrl.startsWith('/markets/')) {
+          const param = this.getMarketsParam(this.currentUrl);
+          this.titleService.setTitle(param.title);
+          this.meta.updateTag({name: 'description', content: param.description});
+        }
+      });
+  }
+
+  subscribeToRouter() {
+    this.router.events.subscribe((e) => {
       if(e instanceof NavigationEnd){
-        console.log(e);
-        const tag = this.getTags(e.urlAfterRedirects);
-        titleService.setTitle(tag.name);
-        meta.updateTag({name: 'description', content: tag.content});
+        this.currentUrl = e.urlAfterRedirects;
+        let param;
+        if(this.currentUrl.startsWith('/markets/')) {
+          param = this.getMarketsParam(this.currentUrl);
+        } else {
+          param = this.getParams(this.currentUrl);
+        }
+        this.titleService.setTitle(param.title);
+        this.meta.updateTag({name: 'description', content: param.description});
       }
     });
   }
 
-  getTags(url) {
-    switch(url) {
-      case '/':
+  getMarketsParam(url) {
+    const urlCurrPair = url.split('/')[2];
+    const currs = urlCurrPair.split('-');
+
+    const pair = currs[0].toUpperCase() + '/' + currs[1].toUpperCase();
+    const detailedPair = this.currencyPairs.filter((item) => item.name === pair)[0];
+    if(!detailedPair) {
+      return {
+        title: 'Exrates',
+        description: ''
+      };
+    }
+
+    const title = `${pair}| ${detailedPair.currency1.name} to ${detailedPair.currency2.name} | Crypto trading at Exrates`
+    const description = `${pair} - buy ${detailedPair.currency1.name} for ${detailedPair.currency2.name} at Exrates cryptocurrency exchange.` +
+    `${detailedPair.currency1.name} to ${detailedPair.currency2.name} market at Exrates - ${currs[0].toUpperCase()} price, ` +
+    `${currs[0].toUpperCase()} price charts, ${currs[0].toUpperCase()} market cap. The lowest transaction fees.`
+
+    return {
+      title: title,
+      description: description,
+    };
+  }
+
+  getParams(url) {
+    switch(true) {
+      case url.startsWith('/dashboard'):
         return {
-          name: 'Exrates',
-          content: 'Exartes Cryptocurrency Exchange - more than 500 trading pairs, minimum commissions and maximum security'
+          title: 'Exrates | Dashboard',
+          description: 'The easiest way to buy BTC, ETH, LTC and more than 200 altcoins. Start trading now with Exartes Cryptocurrency Exchange!'
         };
-      case '/dashboard':
+      case url.startsWith('/static/terms-and-conditions'):
         return {
-          name: 'Exrates | Dashboard',
-          content: 'The easiest way to buy BTC, ETH, LTC and more than 200 altcoins. Start trading now with Exartes Cryptocurrency Exchange!'
+          title: 'Terms & Conditions',
+          description: 'Read the Terms of use of Exrates cryptocurrency exchange.'
         };
-      case '/static/terms-and-conditions':
+      case url.startsWith('/static/privacy-policy'):
         return {
-          name: 'Terms & Conditions',
-          content: 'Read the Terms of use of Exrates cryptocurrency exchange.'
+          title: 'Privacy Policy',
+          description: 'Thinking of using the Exrates Cryptocurrency Exchange? Just check the privacy policy and register on Exrates in one click!'
         };
-      case '/static/privacy-policy':
+      case url.startsWith('/static/contacts'):
         return {
-          name: 'Privacy Policy',
-          content: 'Thinking of using the Exrates Cryptocurrency Exchange? Just check the privacy policy and register on Exrates in one click!'
+          title: 'Contact Us',
+          description: 'Our support team is online 24/7 to help you to solve any issues. Visit our representative offices all aroud the world.'
         };
-      case '/static/contacts':
+      case url.startsWith('/static/about-us'):
         return {
-          name: 'Contact Us',
-          content: 'Our support team is online 24/7 to help you to solve any issues. Visit our representative offices all aroud the world.'
+          title: 'About Us',
+          description: 'High functionality of the website and a usable price chart – this is what one needs for convenient trading.  Welcome to Exrates! '
         };
-      case '/static/about-us':
+      case url.startsWith('/funds/balances'):
         return {
-          name: 'About Us',
-          content: 'High functionality of the website and a usable price chart – this is what one needs for convenient trading.  Welcome to Exrates! '
+          title: 'Balances',
+          description: 'Check the current balance for all currencies you own, including your total amount and your current value in FIAT and BTC.'
         };
-      case '/funds/balances':
+      case url.startsWith('/funds/transaction-history'):
         return {
-          name: 'Balances',
-          content: 'Check the current balance for all currencies you own, including your total amount and your current value in FIAT and BTC.'
+          title: 'Transaction History',
+          description: 'Check your transaction history on Exrates.  All your deposit, withdrawal, and transfer records in one place.'
         };
-      case '/funds/transaction-history':
+      case url.startsWith('/orders/open'):
         return {
-          name: 'Transaction History',
-          content: 'Check your transaction history on Exrates.  All your deposit, withdrawal, and transfer records in one place.'
+          title: 'Open Orders',
+          description: 'See and manage your open orders here. Our aim is to make trading accessible for everyone and provide all the tools needed. '
         };
-      case '/orders/open':
+      case url.startsWith('/orders/closed'):
         return {
-          name: 'Open Orders',
-          content: 'See and manage your open orders here. Our aim is to make trading accessible for everyone and provide all the tools needed. '
+          title: 'Closed Orders',
+          description: 'View all of your  closed orders in the Order History. '
         };
-      case '/orders/closed':
+      case url.startsWith('/settings/two-factor-auth'):
         return {
-          name: 'Closed Orders',
-          content: 'View all of your  closed orders in the Order History. '
+          title: '2FA Settings',
+          description: 'Setup Google Authenticator on Exartes Cryptocurrency Exchange in one click'
         };
-      case '/settings/two-factor-auth':
+      case url.startsWith('/settings/password'):
         return {
-          name: '2FA Settings',
-          content: 'Setup Google Authenticator on Exartes Cryptocurrency Exchange in one click'
+          title: 'Password Settings',
+          description: 'Your data security is above all. Click here for setting up security on Exrates exchange.'
         };
-      case '/settings/password':
+      case url.startsWith('/settings/session'):
         return {
-          name: 'Password Settings',
-          content: 'Your data security is above all. Click here for setting up security on Exrates exchange.'
+          title: 'Security Settings',
+          description: 'Check all your active sessions in your account\'s security settings. Exrates saves login data and analyzes it for any unusual activity'
         };
-      case '/settings/session':
+      case url.startsWith('/'):
         return {
-          name: 'Security Settings',
-          content: 'Check all your active sessions in your account\'s security settings. Exrates saves login data and analyzes it for any unusual activity'
+          title: 'Exrates',
+          description: 'Exartes Cryptocurrency Exchange - more than 500 trading pairs, minimum commissions and maximum security'
         };
       default:
         return {
-          name: '',
-          content: ''
+          title: 'Exrates',
+          description: ''
         };
-
     }
   }
 }
