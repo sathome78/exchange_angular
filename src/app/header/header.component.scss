@@ -634,18 +634,25 @@
     display: -ms-flex;
     display: flex;
     flex-grow: 5;
-    overflow-x: auto;
+    // overflow-x: auto;
+    justify-content: space-between;
+    padding: 0 15px;
 
     &-link {
       display: flex;
       flex-direction: column;
-      min-width: 46px;
+      // min-width: 46px;
       align-items: center;
       justify-content: center;
       text-decoration: none;
 
       &--active {
-        // background: radial-gradient(60% 3px at center 90%, #237BEF 10%, #24253F 80%);
+        path{
+          fill: #94C2FF;
+        }
+        span{
+          color: #94C2FF;
+        }
       }
     }
 
