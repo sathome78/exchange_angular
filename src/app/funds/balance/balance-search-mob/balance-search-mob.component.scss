@@ -1,0 +1,34 @@
+:host{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+.market-search__content{
+  height: 200px;
+}
+
+@media(max-width: 1200px){
+  .market-search__top{
+    margin-top: 49px;
+  }
+}
+
+.market-search{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #191A39;
+}
+
+.widget__table .table__cell {
+  padding: 2px 1px;
+}
+.table__row-star svg{
+  fill: #4A5D88;
+}
+

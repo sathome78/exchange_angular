@@ -37,6 +37,7 @@ export class BalanceMobComponent implements OnInit{
   public hideAllZero: boolean = false;
   public currencyForChoose: string = '';
   public currValue: string = '';
+  public isShowSearchPopup = false;
 
   @Input('loading') public loading: boolean;
   @Input('balances') public balances: BalanceItem[] = [];
@@ -102,6 +103,16 @@ export class BalanceMobComponent implements OnInit{
     return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
   }
 
-  ngOnInit() { }
+  toggleShowSearchPopup(flag: boolean) {
+    this.isShowSearchPopup = flag;
+  }
+
+  ngOnInit() {
+  }
+
+  filterByCurrency(event) {
+    this.balances = [];
+    this.filterByCurrencyForMobile.emit(event);
+  }
 
 }
