@@ -14,6 +14,7 @@ import * as coreAction from './core/actions/core.actions';
 import * as dashboardAction from './dashboard/actions/dashboard.actions';
 import {SimpleCurrencyPair} from './model/simple-currency-pair';
 import {SEOService} from './shared/services/seo.service';
+import {UtilsService} from './shared/services/utils.service';
 
 
 declare var sendTransactionSuccessGtag: Function;
@@ -26,11 +27,13 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public isAuthenticated: boolean = false;
+  public shouldSetDefaultCurrPair: boolean = true;
 
   constructor(
     public popupService: PopupService,
     private themeService: ThemeService,
     private userService: UserService,
+    private utilsService: UtilsService,
     private authService: AuthService,
     private seoService: SEOService,
     private store: Store<fromCore.State>,
@@ -65,11 +68,15 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.setSavedCurrencyPair();
+
     this.store
       .pipe(select(fromCore.getSimpleCurrencyPairsSelector))
       .pipe(take(2))
       .subscribe((currencies: SimpleCurrencyPair[]) => {
-        this.setDefaultCurrencyPair(currencies);
+        if(this.shouldSetDefaultCurrPair) {
+          this.setDefaultCurrencyPair(currencies);
+        }
       });
   }
 
@@ -83,10 +90,22 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  setSavedCurrencyPair() {
+    const savedPair = this.utilsService.getActiveCurrencyPairFromSS();
+    if (savedPair) {
+      const pair = JSON.parse(savedPair);
+      this.store.dispatch(new dashboardAction.ChangeActiveCurrencyPairAction(pair));
+      this.utilsService.saveActiveCurrencyPairToSS(pair);
+      this.userService.getUserBalance(pair);
+      this.shouldSetDefaultCurrPair = false;
+    }
+  }
+
   setDefaultCurrencyPair(currencies: SimpleCurrencyPair[]) {
     const pair = currencies.find((item) => (item.name === 'BTC/USD'));
     if(pair) {
       this.store.dispatch(new dashboardAction.ChangeActiveCurrencyPairAction(pair));
+      this.utilsService.saveActiveCurrencyPairToSS(pair);
       this.userService.getUserBalance(pair);
     }
   }
