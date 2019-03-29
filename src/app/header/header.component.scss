@@ -573,7 +573,7 @@
     overflow-y: scroll;
     overflow-x: hidden;
     @media(max-width: 1200px){
-      height: calc(100% - 46px);
+          height: calc(100% - 55px);
 
     }
   }
@@ -583,7 +583,7 @@
     display: -ms-flex;
     display: flex;
     height: 100%;
-    height: 46px;
+    height: 55px;
     background-color: #23243F;
     justify-content: space-between;
     @media (min-width: 1200px) {
@@ -1108,4 +1108,17 @@
       }
     }
   }
+}
+.menu-item-ico {
+    height: 16px;
+    display: flex;
+    align-items: center;
+    svg{
+      display: block;
+    }
+}
+@media(max-width: 1199px){
+.header-mob__submenu-link-text{
+  color: #666679;
+}
 }
