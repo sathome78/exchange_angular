@@ -174,8 +174,9 @@
 </div>
 
 <app-balance-search-mob
-  [currencies]="currTab === Tab.FIAT ? fiatCurrenciesForChoose : cryptoCurrenciesForChoose"
+  [currTab]="currTab"
+  [Tab]="Tab"
   (closeModal)="toggleShowSearchPopup($event)"
-  (selectedCurrency)="filterByCurrency($event)"
+  (selectedCurrency)="onShowMobDetails($event)"
   *ngIf="isShowSearchPopup">
 </app-balance-search-mob>

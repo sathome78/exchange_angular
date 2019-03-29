@@ -2,6 +2,9 @@ import {Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output,
 import {BalanceItem} from '../../models/balance-item.model';
 import {Router} from '@angular/router';
 import {UtilsService} from 'app/shared/services/utils.service';
+import * as fundsAction from '../../store/actions/funds.actions';
+import {select, Store} from '@ngrx/store';
+import * as fromCore from '../../../core/reducers';
 
 @Component({
   selector: 'app-balance-mob',
@@ -11,14 +14,6 @@ import {UtilsService} from 'app/shared/services/utils.service';
 })
 export class BalanceMobComponent implements OnInit{
 
-  constructor(
-    private router: Router,
-    private utils: UtilsService,
-  ) {
-    const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 283) + 'px', 'overflow': 'scroll'}
-
-  }
   @ViewChild('dropdown') dropdownElement: ElementRef;
   @ViewChild('scrollContainer') public scrollContainer: ElementRef;
 
@@ -41,6 +36,7 @@ export class BalanceMobComponent implements OnInit{
 
   @Input('loading') public loading: boolean;
   @Input('balances') public balances: BalanceItem[] = [];
+  @Input('countEntries') public countEntries: number = 0;
   @Input('Tab') public Tab;
   @Input('currTab') public currTab;
   @Input('countOfPendingRequests') public countOfPendingRequests: number = 0;
@@ -57,6 +53,16 @@ export class BalanceMobComponent implements OnInit{
   @Output('onLoadMore') public onLoadMore: EventEmitter<any> = new EventEmitter();
   @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
   @Output('onGoToBalanceDetails') public onGoToBalanceDetails: EventEmitter<any> = new EventEmitter();
+
+
+  constructor(
+    private router: Router,
+    private utils: UtilsService,
+    private store: Store<fromCore.State>,
+  ) {
+    const componentHeight = window.innerHeight;
+    this.tableScrollStyles = {'height': (componentHeight - 283) + 'px', 'overflow': 'scroll'};
+  }
 
   public onLoadMoreTrigger(): void {
     if(this.balances.length !== this.countOfEntries){
@@ -104,15 +110,24 @@ export class BalanceMobComponent implements OnInit{
   }
 
   toggleShowSearchPopup(flag: boolean) {
+    if (flag && this.balances.length < this.countEntries) {
+      const params = {
+        type: this.currTab === this.Tab.CRYPTO ? this.Tab.CRYPTO : this.Tab.FIAT,
+        limit: this.countEntries,
+        excludeZero: false,
+        concat: false,
+        currencyId: 0,
+        currencyName: '',
+        offset: '',
+      };
+      this.currTab === this.Tab.CRYPTO
+        ? this.store.dispatch(new fundsAction.LoadCryptoBalAction(params))
+        : this.store.dispatch(new fundsAction.LoadFiatBalAction(params));
+    }
     this.isShowSearchPopup = flag;
   }
 
   ngOnInit() {
-  }
-
-  filterByCurrency(event) {
-    this.balances = [];
-    this.filterByCurrencyForMobile.emit(event);
   }
 
 }

@@ -21,6 +21,7 @@
   </div>
   <div class="market-search__content">
     <cdk-virtual-scroll-viewport [style.height.px]="scrollHeight" [itemSize]="30" *ngIf="scrollHeight">
+      <div class="table-wp">
       <table class="table widget__table widget__table--mob">
         <thead class="table__head">
           <tr class="table__head-row">
@@ -31,31 +32,32 @@
         </thead>
         <tbody>
           <ng-container *cdkVirtualFor="let currency of viewCurrencies">
-            <tr class="table__row table__row--mob " (click)="selectCurrency(currency.id)">
+            <tr class="table__row table__row--mob " (click)="selectCurrency(currency)">
               <td class="table__cell table__cell--tal">
                 <div class="balance__currency">
                   <div class="balance__currency-icon">
-                    <img [src]="currency.name | getIconUrl:true">
+                    <img [src]="currency.currencyName | getIconUrl:true">
                   </div>
                   <div>
-                    <span style="min-width: 70px;">{{currency.name}}</span>
-                    <span class="balance__currency-name">{{currency.description}}</span>
+                    <span style="min-width: 70px;">{{currency.currencyName}}</span>
+                    <span class="balance__currency-name">{{currency.currencyDescription}}</span>
                   </div>
                   
                 </div>
               </td>
               <td class="table__cell table__cell--tal">
-                <span>{{currency.activeBalance  | roundCurrency:currency.name | formatCurrency}}</span>
+                <span>{{currency.activeBalance  | roundCurrency:currency.currencyName | formatCurrency}}</span>
               </td>
               <td class="table__cell table__cell--tar">
                 <!-- <div *ngIf="priceIn === currencies.BTC">BTC {{item.btcAmount | roundCurrency | formatCurrency}}</div> -->
-                <div *ngIf="priceIn === currencies.USD">$ {{currency.usdAmount | roundCurrency:'USD' | formatCurrency}}</div>
+                <div>$ {{currency.usdAmount | roundCurrency:'USD' | formatCurrency}}</div>
               </td>
             </tr>
             <tr style="height: 10px;"></tr>
           </ng-container>
         </tbody>
       </table>
+      </div>
     </cdk-virtual-scroll-viewport>
   </div>
 </div>

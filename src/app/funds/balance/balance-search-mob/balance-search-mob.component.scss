@@ -15,12 +15,20 @@
 @media(max-width: 1200px){
   .market-search__top{
     margin-top: 49px;
+    padding-right: 12px;
+  }
+  .market-search__header {
+    padding-right: 12px;
+  }
+  .table-wp {
+    padding-right: 12px;
   }
 }
 
 .market-search{
   height: 100%;
   display: flex;
+  padding: 0 0 0 12px;
   flex-direction: column;
   background-color: #191A39;
 }
