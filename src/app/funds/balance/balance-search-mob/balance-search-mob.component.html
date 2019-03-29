@@ -1,4 +1,4 @@
-<div class="market-search" #container>
+<div class="market-search balance-search" #container>
   <div class="market-search__top">
     <div class="market-search__title">{{'Select currency' | translate}}</div>
     <div class="market-search__close-mob" (click)="closeModal.emit(false)">
@@ -47,11 +47,10 @@
               <td class="table__cell table__cell--tal">
                 <span>{{currency.activeBalance  | roundCurrency:currency.name | formatCurrency}}</span>
               </td>
-             <!--  <td class="table__cell table__cell--tar">
-                <div *ngIf="priceIn === currencies.BTC">BTC {{item.btcAmount | roundCurrency | formatCurrency}}</div>
-                <div *ngIf="priceIn === currencies.USD">$ {{item.usdAmount | roundCurrency:'USD' | formatCurrency}}</div> -->
-                <!-- <span class="txt-small txt-red">–0.24%</span> -->
-              <!-- </td> -->
+              <td class="table__cell table__cell--tar">
+                <!-- <div *ngIf="priceIn === currencies.BTC">BTC {{item.btcAmount | roundCurrency | formatCurrency}}</div> -->
+                <div *ngIf="priceIn === currencies.USD">$ {{currency.usdAmount | roundCurrency:'USD' | formatCurrency}}</div>
+              </td>
             </tr>
             <tr style="height: 10px;"></tr>
           </ng-container>
