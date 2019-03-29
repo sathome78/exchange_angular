@@ -40,7 +40,8 @@
           <span class="menu__link-text">{{'Trade' | translate}}</span>
         </a>
       </li>
-      <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated">
+      <li class="menu__item menu__item--with-submenu">
+        <ng-container *ngIf="isAuthenticated">
         <a class="menu__link menu__link--drop">
           <span class="menu__link-text">{{'Funds' | translate}}</span>
         </a>
@@ -59,8 +60,10 @@
             </li>
           </ul>
         </div>
+        </ng-container>
       </li>
-      <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated">
+      <li class="menu__item menu__item--with-submenu">
+        <ng-container *ngIf="isAuthenticated">
         <a class="menu__link menu__link--drop">
           <span class="menu__link-text">{{'Orders' | translate}}</span>
         </a>
@@ -79,6 +82,7 @@
               </li>
             </ul>
           </div>
+        </ng-container>
       </li>
       <!-- <li class="menu__item" routerLinkActive="menu__link--active">
         <a class="menu__link" routerLink="/dashboard">

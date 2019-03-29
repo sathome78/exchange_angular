@@ -141,8 +141,8 @@
 
         <div
           class="wrap-input send__wrap-input"
-          [ngClass]="{'wrap-input--error': !form.controls['address'].valid &&
-          (form.controls['address'].touched || isSubmited)}"
+          [ngClass]="{'wrap-input--error': (!form.controls['address'].valid &&
+          (form.controls['address'].touched || isSubmited)) && form.controls['amount'].valid}"
           *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length"
         >
           <input class="wrap-input__input" name="address" formControlName="address" required>
@@ -154,8 +154,8 @@
           <!--Input error section starts-->
           <div
             class="input-hint-wrapper"
-            *ngIf="!form.controls['address'].valid &&
-                  (form.controls['address'].touched || isSubmited)"
+            *ngIf="(!form.controls['address'].valid &&
+                  (form.controls['address'].touched || isSubmited)) && form.controls['amount'].valid"
           >
             <span class="wrap-input__message wrap-input__message--show">
               {{'Set merchant address for withdrawal' | translate}}
