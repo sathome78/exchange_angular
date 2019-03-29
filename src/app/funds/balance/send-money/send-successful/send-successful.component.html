@@ -12,8 +12,8 @@
   <div class="send-crypto" *ngIf="data.operation === SEND_CRYPTO || data.operation === SEND_FIAT">
     <div class="title send__successful-title">{{'Request was created' | translate}}!</div>
     <div class="subtitle send__successful-subtitle">
-      {{'You can track the progress in Pending requests table on ' | translate}}<a routerLink="/funds/balances"
-                                                                 class="link">{{'Funds' | translate}}</a> {{'page' | translate}}.
+      {{'You can track the progress in Pending requests table on ' | translate}}
+      <a routerLink="/funds/balances" class="link" (click)="onClose()">{{'Funds' | translate}}</a> {{'page' | translate}}.
     </div>
   </div>
 
@@ -45,7 +45,7 @@
     </div>
     <div class="subtitle send__successful-subtitle">
       {{'You can track the progress in Pending requests table on' | translate}}
-      <a routerLink="/funds/balances"class="link">{{'Funds' | translate}}</a> {{'page' | translate}}.
+      <a routerLink="/funds/balances" class="link" (click)="onClose()">{{'Funds' | translate}}</a> {{'page' | translate}}.
     </div>
   </div>
 
