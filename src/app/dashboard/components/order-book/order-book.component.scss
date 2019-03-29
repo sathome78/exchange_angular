@@ -183,6 +183,7 @@
       border-bottom: 1px solid rgba(235,87,87,.7);
     }
     &:first-child {
+      margin-top: auto;
       border-top: 1px solid rgba(235,87,87,.7);
     }
   }
@@ -212,7 +213,23 @@
   position: relative;
   z-index: 100;
   height: calc(100% / 8);
+  margin-top: auto;
 }
+.item_wp {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  .item {
+    display: flex;
+    flex-wrap: nowrap;
+    position: relative;
+    z-index: 100;
+    height: 22.50px;
+    margin-top: auto;
+  }
+}
+
 .order-table {
   position: relative;
   z-index: 2;

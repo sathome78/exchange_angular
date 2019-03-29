@@ -1,5 +1,6 @@
 .dark-theme{
 .btn {
+  cursor: pointer;
   &:hover {
     background-color: #4590F3;
   }
@@ -322,6 +323,11 @@
 .btn[disabled]{
   background-color: transparent;
   pointer-events: none;
+  color: #91929F;
+  border-color: #91929F;
+  path{
+    fill: #91929F;
+  }
 }
 
 .level-description{

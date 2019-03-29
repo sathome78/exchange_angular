@@ -16,6 +16,7 @@ import {CurrencyPair} from 'app/model';
 import {getMarketCurrencyPairsMap} from '../core/reducers';
 import * as dashboardActions from './actions/dashboard.actions';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 
 @Component({
@@ -65,6 +66,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private dataService: DashboardService,
     private route: ActivatedRoute,
     private router: Router,
+    private utilsService: UtilsService,
     private popupService: PopupService,
     private store: Store<fromCore.State>) {
   }
@@ -170,6 +172,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         if (pair) {
           const newActivePair = new SimpleCurrencyPair(pair.currencyPairId, pair.currencyPairName);
           this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
+          this.utilsService.saveActiveCurrencyPairToSS(newActivePair);
         }
       });
   }

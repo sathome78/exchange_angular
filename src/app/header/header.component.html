@@ -40,7 +40,8 @@
           <span class="menu__link-text">{{'Trade' | translate}}</span>
         </a>
       </li>
-      <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated">
+      <li class="menu__item menu__item--with-submenu">
+        <ng-container *ngIf="isAuthenticated">
         <a class="menu__link menu__link--drop">
           <span class="menu__link-text">{{'Funds' | translate}}</span>
         </a>
@@ -59,8 +60,10 @@
             </li>
           </ul>
         </div>
+        </ng-container>
       </li>
-      <li class="menu__item menu__item--with-submenu" *ngIf="isAuthenticated">
+      <li class="menu__item menu__item--with-submenu">
+        <ng-container *ngIf="isAuthenticated">
         <a class="menu__link menu__link--drop">
           <span class="menu__link-text">{{'Orders' | translate}}</span>
         </a>
@@ -79,6 +82,7 @@
               </li>
             </ul>
           </div>
+        </ng-container>
       </li>
       <!-- <li class="menu__item" routerLinkActive="menu__link--active">
         <a class="menu__link" routerLink="/dashboard">
@@ -133,10 +137,10 @@
             <g clip-path="url(#clip0)">
               <path
               d="M9.0002 9.53152C11.229 9.53152 13.036 7.41659 13.036 4.80773C13.036 1.18995 11.2291 0.0839844 9.0002 0.0839844C6.7712 0.0839844 4.96436 1.18995 4.96436 4.80773C4.9644 7.41659 6.77125 9.53152 9.0002 9.53152Z"
-              fill="#AAB1C4"/>
+              fill="#a0a0a0"/>
               <path
               d="M17.912 16.4849L15.8759 11.8981C15.7827 11.6882 15.6191 11.5142 15.4155 11.4081L12.2555 9.76318C12.1859 9.72698 12.1015 9.73402 12.0388 9.78144C11.1451 10.4574 10.0943 10.8147 9.00005 10.8147C7.90566 10.8147 6.85491 10.4574 5.96117 9.78144C5.89835 9.73402 5.81397 9.72698 5.74429 9.76318L2.58456 11.4081C2.38083 11.5142 2.2174 11.6881 2.12418 11.8981L0.0880542 16.4849C-0.0523244 16.8011 -0.0235536 17.1629 0.16504 17.4529C0.353546 17.7429 0.672576 17.916 1.01849 17.916H16.9815C17.3274 17.916 17.6465 17.7428 17.835 17.4529C18.0235 17.1629 18.0524 16.8009 17.912 16.4849Z"
-              fill="#AAB1C4"/>
+              fill="#a0a0a0"/>
             </g>
             <defs>
               <clipPath id="clip0">
@@ -178,26 +182,26 @@
       </ng-template>
     </div>
 
-    <ul class="menu language">
+    <!-- <ul class="menu language">
       <li class="menu__item menu__item--with-submenu menu__item--disabled">
         <a class="menu__link">
-          <span class="menu__link-text">
+          <span class="menu__link-text"> -->
             <!-- <img class="language__flag" [src]="lang.icon_url" alt="ru"> -->
-            <span>{{lang.fullName}}</span>
+            <!-- <span>{{lang.fullName}}</span>
           </span>
-        </a>
-        <div class="submenu submenu--language">
-          <ul class="menu__list submenu__list submenu__list--language">
+        </a> -->
+        <!-- <div class="submenu submenu--language">
+          <ul class="menu__list submenu__list submenu__list--language"> -->
             <!--<li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">-->
               <!--<a class="submenu__link" (click)="changeLocalization(lang.name)" >-->
               <!--<img class="language__flag" [src]="lang.icon_url" alt="">-->
               <!--<span class="language__text">{{lang.fullName | translate}}</span>-->
               <!--</a>-->
             <!--</li>-->
-          </ul>
+<!--           </ul>
         </div>
       </li>
-    </ul>
+    </ul> -->
     <div class="translate">
       <button class="translate__trigger">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -239,7 +243,13 @@
       </div>
 
       <div class="account-info account-info--auth" *ngIf="userInfo$ | async">
-        <div class="account-info__img account-info__img--auth"></div>
+        <div class="account-info__img account-info__img--auth">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.00147 8.48178C9.98264 8.48178 11.5889 6.60185 11.5889 4.28286C11.5889 1.06706 9.98272 0.0839844 8.00147 0.0839844C6.02015 0.0839844 4.41406 1.06706 4.41406 4.28286C4.4141 6.60185 6.02018 8.48178 8.00147 8.48178Z" fill="#666679"/>
+<path d="M15.9218 14.6632L14.1119 10.5861C14.0291 10.3995 13.8837 10.2448 13.7026 10.1505L10.8938 8.68837C10.8319 8.65618 10.7569 8.66244 10.7012 8.7046C9.90674 9.30547 8.97266 9.62307 8.00003 9.62307C7.02724 9.62307 6.09324 9.30547 5.29881 8.7046C5.24297 8.66244 5.16797 8.65618 5.10602 8.68837L2.29738 10.1505C2.11629 10.2448 1.97102 10.3994 1.88816 10.5861L0.0782702 14.6632C-0.0465105 14.9443 -0.0209365 15.2659 0.146702 15.5237C0.314263 15.7814 0.597845 15.9353 0.905319 15.9353H15.0946C15.4021 15.9353 15.6858 15.7814 15.8533 15.5236C16.0209 15.2659 16.0465 14.9441 15.9218 14.6632Z" fill="#666679"/>
+</svg>
+
+        </div>
         <div class="account-info__text">
           <div class="account-info__title account-info__title--auth">{{(userInfo$ | async).username}}</div>
 
