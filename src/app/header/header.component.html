@@ -295,7 +295,6 @@
 
         <span class="menu-mob__link-text">Settings</span>
       </a>
-
       <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
         <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(FUNDS_FLAG)" [ngClass]="{'menu-mob__link--active': showFundsList}"
         routerLink="/funds/balances">
@@ -349,6 +348,9 @@
         </a>
         <a class="menu-mob__link" (click)="setMobileWidget('chat')" [routerLink]="['dashboard']" [queryParams]="{widget: 'chat'}" *ngIf="isAuthenticated"><span
           class="menu-mob__link-text">{{'Chat' | translate}}</span>
+        </a>
+        <a class="menu-mob__link" onclick="openChat()">
+          <span class="menu-mob__link-text">Support</span>
         </a>
         <a class="account-info__email cursor-pointer menu-mob__link" (click)="onLogout()" *ngIf="isAuthenticated">{{'logout' | translate}}</a>
       </nav>
