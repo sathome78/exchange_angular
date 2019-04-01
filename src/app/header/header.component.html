@@ -309,6 +309,15 @@
           <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">{{'Balance' | translate}}</a>
         </div>
       </div>
+      <a
+        *ngIf="isAuthenticated"
+        class="menu-mob__link"
+        routerLink="/orders/closed"
+        (click)="mobileLinkClick()"
+        >
+
+        <span class="menu-mob__link-text">Order history</span>
+      </a>
         <!--<div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(ORDERS_FLAG)" [ngClass]="{'menu-mob__link--active': showOrdersList}"
              routerLink="/orders/open">
