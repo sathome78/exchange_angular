@@ -195,3 +195,8 @@
   }
 }
 /*--- DARK THEME END---*/
+@media(max-width: 1199px){
+  .dark-theme .steps__number--valid:after {
+    background-image: url("assets/img/step-valid--dark-theme.svg");
+}
+}
