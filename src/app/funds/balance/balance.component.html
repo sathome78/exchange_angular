@@ -5,6 +5,7 @@
       <app-balance-mob
         *ngSwitchCase="Tab.CRYPTO"
         [balances]="cryptoBalances$ | async"
+        [countEntries]="countOfCryptoEntries$ | async"
         [countOfPendingRequests]="countOfPendingRequests$ | async"
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
@@ -27,6 +28,7 @@
       <app-balance-mob
         *ngSwitchCase="Tab.FIAT"
         [balances]="fiatBalances$ | async"
+        [countEntries]="countOfFiatEntries$ | async"
         [countOfPendingRequests]="countOfPendingRequests$ | async"
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
