@@ -243,3 +243,15 @@
     }
   }
 }
+
+@media(max-width: 365px){
+  .dark-theme{
+    .currency-pair-info__change span {
+      font-size: 11px;
+    }
+    .currency-pair-info__price{
+      font-size: 15px;
+      letter-spacing: .2px;
+    }
+  }
+}
