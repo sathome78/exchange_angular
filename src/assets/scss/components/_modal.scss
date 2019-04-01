@@ -817,7 +817,8 @@
     @media(max-width: 1200px){
       background-color: #191A39;
       .modal__header-mob{
-        border-bottom: 1px solid #94C2FF;
+        // border-bottom: 1px solid #94C2FF;
+            border-bottom: 1px solid rgba(35, 123, 239, 0.15);
       }
       .title{
         color: #DEDEFB;
@@ -826,7 +827,8 @@
         color: #94C2FF;
       }
       .modal__header{
-        border-bottom: 1px solid #94C2FF;
+        // border-bottom: 1px solid #94C2FF;
+        border-bottom: 1px solid rgba(35, 123, 239, 0.15);
       }
       .steps__counter{
         color: #DEDEFB;
@@ -864,3 +866,8 @@
 }
 
 /*--- DARK THEME END---*/
+@media(max-width: 1199px){
+  .dark-theme .modal .steps__number--valid:after {
+    background-image: url("assets/img/step-valid--dark-theme.svg");
+}
+}
