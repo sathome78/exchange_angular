@@ -59,7 +59,8 @@
       </div>
     </div>
   </div>
-  <div class="widget__content widget__content--mob button-fixed-block" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
+  <div class="widget__content widget__content--mob button-fixed-block"
+       *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
           <app-currency-pair-info-mobile></app-currency-pair-info-mobile>
   </div>
   <div class="widget__graph">
@@ -71,14 +72,21 @@
 
 
       <div class="trade-buttons-wr">
-        <a href="#" class="btn btn--active widget__trading-btn widget__trading-btn--buy">Buy BTC</a>
-        <a href="#" class="btn btn--active widget__trading-btn widget__trading-btn--sell" >Sell BTC</a> <!-- (click)="onSubmit(SELL)" -->
+        <a class="btn btn--active widget__trading-btn widget__trading-btn--buy"
+           (click)="toMobileWidget('trading')">
+          {{'Buy' | translate}} {{secondCurrency}}
+        </a>
+        <a class="btn btn--active widget__trading-btn widget__trading-btn--sell"
+           (click)="toMobileWidget('trading')">
+          {{'Sell' | translate}} {{secondCurrency}}
+        </a>
       </div>
     </div>
 
 
   </div>
-  <div class="widget__content widget__content--mob button-fixed-block" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
+  <div class="widget__content widget__content--mob button-fixed-block"
+       *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
     <app-trade-history *ngIf="isAuthenticated$ | async"></app-trade-history>
   </div>
 

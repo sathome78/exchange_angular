@@ -124,9 +124,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       return;
     }
     if (orders[0].orderType === 'SELL') {
-      this.calculateVisualizationWidth(parseFloat(orders[1].total) || 0, parseFloat(orders[0].total) || 0);
+      this.calculateVisualizationWidth(!!orders[1] ? parseFloat(orders[1].total) : 0, parseFloat(orders[0].total) || 0);
     } else {
-      this.calculateVisualizationWidth(parseFloat(orders[0].total) || 0, parseFloat(orders[1].total) || 0);
+      this.calculateVisualizationWidth(parseFloat(orders[0].total) || 0, !!orders[1] ? parseFloat(orders[1].total) : 0);
     }
     orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) :
     orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : null;

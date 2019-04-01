@@ -63,6 +63,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   public createdOrder: Order;
   private updateCurrentCurrencyViaWebsocket = false;
   public loading: boolean = false;
+  private successTimeout;
+  private failTimeout;
 
   public defaultOrder: Order = {
     orderType: '',
@@ -74,6 +76,14 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     baseType: this.dropdownLimitValue,
     status: 'OPENED',
     total: null,
+  };
+
+
+  private defaultFormValues = {
+    quantity: '0',
+    stop: '0',
+    price: '0',
+    total: '0',
   };
 
    /** Are listening click in document */
@@ -120,6 +130,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(state => {
         this.userBalance = state.userBalance;
+        this.cdr.detectChanges();
       });
 
     this.store
@@ -171,13 +182,13 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   private resetBuyModel() {
     this.buyOrder = {...this.defaultOrder};
     this.buyOrder.orderType = this.BUY;
-    this.buyForm.reset();
+    this.buyForm.reset(this.defaultFormValues);
   }
 
   private resetSellModel() {
     this.sellOrder = {...this.defaultOrder};
     this.sellOrder.orderType = this.SELL;
-    this.sellForm.reset();
+    this.sellForm.reset(this.defaultFormValues);
   }
 
   /**
@@ -415,12 +426,18 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
         order.total = (((order.amount * order.rate) * 100) / 100);
         order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
         this.setTotalInValue(order.total, type);
+      } else {
+        order.commission = 0;
+        this.setTotalInValue(0, type);
       }
     } else {
       if (order.rate && order.rate >= 0) {
         order.amount = order.total / order.rate;
         order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
         this.setQuantityValue(order.amount, type);
+      } else {
+        order.commission = 0;
+        this.setTotalInValue(0, type);
       }
     }
   }
@@ -573,9 +590,10 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * on create new order
    */
   private createNewOrder(type: string): void {
-    // type === 'BUY' ?
-    //   console.log(this.buyOrder) :
-    //   console.log(this.sellOrder);
+    clearTimeout(this.failTimeout);
+    clearTimeout(this.successTimeout);
+    this.notifySuccess = false;
+    this.notifyFail = false;
 
     const order = type === this.BUY ? this.buyOrder : this.sellOrder;
     this.createdOrder = order;
@@ -583,26 +601,36 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     this.tradingService.createOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.store.dispatch(new SetLastCreatedOrderAction(order))
-        this.userService.getUserBalance(this.currentPair);
         type === this.BUY ? this.resetBuyModel() : this.resetSellModel();
-
-        this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
-        this.notifySuccess = true;
-        setTimeout(() => {
-          this.notifySuccess = false;
-          this.createdOrder = null;
-          }, 5000);
-        this.loading = false;
+        this.store.dispatch(new SetLastCreatedOrderAction(order));
+        this.createOrderSuccess();
       }, err => {
-        console.log(err);
-        this.notifyFail = true;
-        setTimeout(() => {
-          this.notifyFail = false;
-          this.createdOrder = null;
-          }, 5000);
-        this.loading = false;
+        this.createOrderFail();
       });
+  }
+
+  private createOrderSuccess() {
+    this.userService.getUserBalance(this.currentPair);
+    this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
+    this.notifySuccess = true;
+    this.loading = false;
+    this.cdr.detectChanges();
+    this.successTimeout = setTimeout(() => {
+      this.notifySuccess = false;
+      this.createdOrder = null;
+      this.cdr.detectChanges();
+    }, 5000);
+  }
+
+  private createOrderFail() {
+    this.notifyFail = true;
+    this.loading = false;
+    this.cdr.detectChanges();
+    this.failTimeout = setTimeout(() => {
+      this.notifyFail = false;
+      this.createdOrder = null;
+      this.cdr.detectChanges();
+    }, 5000);
   }
 
   isAuthenticated(): boolean {
