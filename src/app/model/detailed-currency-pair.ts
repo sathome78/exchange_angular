@@ -15,4 +15,5 @@ class SimpleCurrency {
   public id: number;
   public name: string;
   public hidden: boolean;
+  public description: string;
 }

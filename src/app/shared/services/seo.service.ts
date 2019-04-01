@@ -58,9 +58,9 @@ export class SEOService {
       };
     }
 
-    const title = `${pair}| ${detailedPair.currency1.name} to ${detailedPair.currency2.name} | Crypto trading at Exrates`
-    const description = `${pair} - buy ${detailedPair.currency1.name} for ${detailedPair.currency2.name} at Exrates cryptocurrency exchange.` +
-    `${detailedPair.currency1.name} to ${detailedPair.currency2.name} market at Exrates - ${currs[0].toUpperCase()} price, ` +
+    const title = `${pair}| ${detailedPair.currency1.description} to ${detailedPair.currency2.description} | Crypto trading at Exrates`
+    const description = `${pair} - buy ${detailedPair.currency1.description} for ${detailedPair.currency2.description} at Exrates cryptocurrency exchange.` +
+    `${detailedPair.currency1.description} to ${detailedPair.currency2.description} market at Exrates - ${currs[0].toUpperCase()} price, ` +
     `${currs[0].toUpperCase()} price charts, ${currs[0].toUpperCase()} market cap. The lowest transaction fees.`
 
     return {
