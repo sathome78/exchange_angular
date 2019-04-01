@@ -402,4 +402,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     return this.utils.isFiat(curr)
   }
 
+  toMobileWidget(widgetName: string) {
+    this.dashboardService.activeMobileWidget.next(widgetName);
+  }
+
 }
