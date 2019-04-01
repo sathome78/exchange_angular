@@ -47,6 +47,8 @@ export class TransactionHistoryComponent implements OnInit {
   public tableScrollStyles: any = {};
   public openDetails: number = null;
   public initialRequest: boolean = false;
+  public isDateInputFromFocus = false;
+  public isDateInputToFocus = false;
 
   public myDatePickerOptions: IMyDpOptions = {
     showInputField: false,
@@ -185,11 +187,13 @@ export class TransactionHistoryComponent implements OnInit {
   }
 
   focusOrBlurDateFrom(event) {
-    if (!event) this.modelDateFrom = {...this.modelDateFrom};
+    this.isDateInputFromFocus = event;
+    // if (!event) this.modelDateFrom = {...this.modelDateFrom};
   }
 
   focusOrBlurDateTo(event) {
-    if (!event) this.modelDateTo = {...this.modelDateTo};
+    this.isDateInputToFocus = event;
+    // if (!event) this.modelDateTo = {...this.modelDateTo};
   }
 
   /** tracks input changes in a my-date-picker component */

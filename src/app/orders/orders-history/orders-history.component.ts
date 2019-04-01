@@ -176,12 +176,12 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
 
   focusOrBlurDateFrom(event) {
     this.isDateInputFromFocus = event;
-    if (!event) this.modelDateFrom = {...this.modelDateFrom};
+    // if (!event) this.modelDateFrom = {...this.modelDateFrom};
   }
 
   focusOrBlurDateTo(event) {
     this.isDateInputToFocus = event;
-    if (!event) this.modelDateTo = {...this.modelDateTo};
+    // if (!event) this.modelDateTo = {...this.modelDateTo};
   }
 
   changeItemsPerPage(items: number) {
@@ -285,8 +285,12 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   closeFilterPopup() {
+    this.showFilterPopup = false;
+  }
+
+  filterPopupSubmit() {
     if(this.isDateRangeValid()) {
-      this.showFilterPopup = false;
+      this.closeFilterPopup();
       this.loadOrders();
     }
   }
