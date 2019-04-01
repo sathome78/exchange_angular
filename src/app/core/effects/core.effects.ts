@@ -46,11 +46,17 @@ export class CoreEffects {
     ))
     .pipe(switchMap((list) => {
       if (list.length) {
-        return of(new coreActions.SetCurrencyPairsAction({items: list.map(({id, name}) => ({id, name}))}));
+        return of(new coreActions.SetCurrencyPairsAction({
+          simpleItems: list.map(({id, name}) => ({id, name})),
+          detailedItems: list,
+        }));
       }
       return this.coreService.getSimpleCurrencyPairs()
         .pipe(
-          map(pairs => (new coreActions.SetCurrencyPairsAction({items: pairs.map(({id, name}) => ({id, name}))}))),
+          map(pairs => (new coreActions.SetCurrencyPairsAction({
+            simpleItems: pairs.map(({id, name}) => ({id, name})),
+            detailedItems: pairs,
+          }))),
           catchError(error => of(new coreActions.FailLoadCurrencyPairsAction(error)))
         )
     }))
