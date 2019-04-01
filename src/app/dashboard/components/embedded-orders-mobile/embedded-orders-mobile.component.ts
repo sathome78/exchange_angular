@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {getActiveCurrencyPair, getLastCreatedOrder, State} from '../../../core/reducers';
@@ -14,7 +14,7 @@ import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
   templateUrl: './embedded-orders-mobile.component.html',
   styleUrls: ['./embedded-orders-mobile.component.scss']
 })
-export class EmbeddedOrdersMobileComponent implements OnInit {
+export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
 
   public mainTab = 'open';
   public openOrdersCount = 0;
@@ -50,6 +50,10 @@ export class EmbeddedOrdersMobileComponent implements OnInit {
       });
   }
 
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 
   toggleMainTab(tabName: string): void {
     this.mainTab = tabName;
