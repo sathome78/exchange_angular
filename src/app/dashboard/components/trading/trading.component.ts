@@ -15,7 +15,7 @@ import {defaultOrderItem} from '../../reducers/default-values';
 import {AuthService} from 'app/shared/services/auth.service';
 import {TranslateService} from '@ngx-translate/core';
 import {LastPrice} from 'app/model/last-price.model';
-import {BUY, SELL} from 'app/shared/constants';
+import {BUY, orderBaseType, SELL} from 'app/shared/constants';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {Order} from 'app/model/order.model';
 import {TradingService} from 'app/dashboard/services/trading.service';
@@ -38,7 +38,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dropdown limit data */
-  public limitsData = ['LIMIT', 'STOP_LIMIT']; // ['LIMIT', 'MARKET_PRICE', 'STOP_LIMIT', 'ICO'];
+  public limitsData = [orderBaseType.LIMIT, orderBaseType.STOP_LIMIT];
   /** selected limit */
   public dropdownLimitValue: string;
   public buyOrder: Order;
@@ -147,6 +147,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(select(getLastPrice))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((lastPrice: LastPrice) => {
+        console.log(lastPrice)
         if (!this.updateCurrentCurrencyViaWebsocket && this.isPossibleSetPrice) {
           this.setPriceInValue(lastPrice.price, this.BUY);
           this.setPriceInValue(lastPrice.price, this.SELL);
@@ -161,6 +162,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(select(getSelectedOrderBookOrder))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (order) => {
+        console.log(order)
         this.orderFromOrderBook(order);
         this.cdr.detectChanges();
       });
@@ -171,16 +173,32 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.ngUnsubscribe.complete();
   }
 
-  private resetBuyModel() {
+  private resetBuyModel(price: number = null, stopPrice: number = null) {
     this.buyOrder = {...this.defaultOrder};
     this.buyOrder.orderType = this.BUY;
     this.buyForm.reset(this.defaultFormValues);
+    if (!!price) {
+      this.buyOrder.rate = price;
+      this.buyForm.get('price').setValue(price.toString());
+    }
+    if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
+      this.buyOrder.rate = price;
+      this.buyForm.get('stop').setValue(stopPrice.toString());
+    }
   }
 
-  private resetSellModel() {
+  private resetSellModel(price: number = null, stopPrice: number = null) {
     this.sellOrder = {...this.defaultOrder};
     this.sellOrder.orderType = this.SELL;
     this.sellForm.reset(this.defaultFormValues);
+    if (!!price) {
+      this.sellOrder.rate = price;
+      this.sellForm.get('price').setValue(price.toString());
+    }
+    if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
+      this.sellOrder.rate = stopPrice;
+      this.sellForm.get('stop').setValue(stopPrice.toString());
+    }
   }
 
   /**
@@ -414,6 +432,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private getCommissionNested(order: Order, type: string, setTotal: boolean) {
+    console.log(order)
       if (setTotal) {
         if (!!order.rate && !!order.amount) {
           order.total = (((order.amount * order.rate) * 100) / 100);
@@ -588,21 +607,25 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
     const order = type === this.BUY ? this.buyOrder : this.sellOrder;
     this.createdOrder = order;
-    this.loading = true;
+    if (order.total > 0) {
+      this.loading = true;
       this.tradingService.createOrder(order)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
-          type === this.BUY ? this.resetBuyModel() : this.resetSellModel();
+          type === this.BUY
+            ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
+            : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
           this.store.dispatch(new SetLastCreatedOrderAction(order));
           this.createOrderSuccess();
         }, err => {
           this.createOrderFail();
         });
+    }
   }
 
   private createOrderSuccess() {
     this.userService.getUserBalance(this.currentPair);
-    this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
+    // this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
     this.notifySuccess = true;
     this.loading = false;
     this.cdr.detectChanges();
