@@ -65,6 +65,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public createdOrder: Order;
   private updateCurrentCurrencyViaWebsocket = false;
   public loading: boolean = false;
+  private successTimeout;
+  private failTimeout;
 
   public defaultOrder: Order = {
     orderType: '',
@@ -579,40 +581,47 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on create new order
    */
   private createNewOrder(type: string): void {
-    // type === 'BUY' ?
-    //   console.log(this.buyOrder) :
-    //   console.log(this.sellOrder);
+    clearTimeout(this.failTimeout);
+    clearTimeout(this.successTimeout);
+    this.notifySuccess = false;
+    this.notifyFail = false;
 
     const order = type === this.BUY ? this.buyOrder : this.sellOrder;
     this.createdOrder = order;
     this.loading = true;
-    this.tradingService.createOrder(order)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.store.dispatch(new SetLastCreatedOrderAction(order))
-        this.userService.getUserBalance(this.currentPair);
-        type === this.BUY ? this.resetBuyModel() : this.resetSellModel();
+      this.tradingService.createOrder(order)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          type === this.BUY ? this.resetBuyModel() : this.resetSellModel();
+          this.store.dispatch(new SetLastCreatedOrderAction(order));
+          this.createOrderSuccess();
+        }, err => {
+          this.createOrderFail();
+        });
+  }
 
-        this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
-        this.notifySuccess = true;
-        this.loading = false;
-        this.cdr.detectChanges();
-        setTimeout(() => {
-          this.notifySuccess = false;
-          this.createdOrder = null;
-          this.cdr.detectChanges();
-          }, 5000);
-      }, err => {
-        console.log(err);
-        this.notifyFail = true;
-        this.loading = false;
-        this.cdr.detectChanges();
-        setTimeout(() => {
-          this.notifyFail = false;
-          this.createdOrder = null;
-          this.cdr.detectChanges();
-          }, 5000);
-      });
+  private createOrderSuccess() {
+    this.userService.getUserBalance(this.currentPair);
+    this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
+    this.notifySuccess = true;
+    this.loading = false;
+    this.cdr.detectChanges();
+    this.successTimeout = setTimeout(() => {
+      this.notifySuccess = false;
+      this.createdOrder = null;
+      this.cdr.detectChanges();
+    }, 5000);
+  }
+
+  private createOrderFail() {
+    this.notifyFail = true;
+    this.loading = false;
+    this.cdr.detectChanges();
+    this.failTimeout = setTimeout(() => {
+      this.notifyFail = false;
+      this.createdOrder = null;
+      this.cdr.detectChanges();
+    }, 5000);
   }
 
 }
