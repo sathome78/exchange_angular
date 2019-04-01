@@ -15,7 +15,7 @@ import {defaultOrderItem} from '../../reducers/default-values';
 import {AuthService} from 'app/shared/services/auth.service';
 import {TranslateService} from '@ngx-translate/core';
 import {LastPrice} from 'app/model/last-price.model';
-import {BUY, SELL} from 'app/shared/constants';
+import {BUY, orderBaseType, SELL} from 'app/shared/constants';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {Order} from 'app/model/order.model';
 import {TradingService} from 'app/dashboard/services/trading.service';
@@ -38,7 +38,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dropdown limit data */
-  public limitsData = ['LIMIT', 'STOP_LIMIT']; // ['LIMIT', 'MARKET_PRICE', 'STOP_LIMIT', 'ICO'];
+  public baseType = orderBaseType;
+  public limitsData = [this.baseType.LIMIT, this.baseType.STOP_LIMIT];
   /** selected limit */
   public dropdownLimitValue: string;
   public buyOrder: Order;
@@ -208,16 +209,16 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   showLimit(value: string, popup: boolean = false): string {
     switch (value) {
-      case 'LIMIT': {
+      case this.baseType.LIMIT: {
         return popup ? this.translateService.instant('Limit') : this.translateService.instant('Limit order');
       }
-      case 'MARKET_PRICE': {
+      case this.baseType.MARKET_PRICE: {
         return this.translateService.instant('Market price');
       }
-      case 'STOP_LIMIT': {
+      case this.baseType.STOP_LIMIT: {
         return popup ? this.translateService.instant('Stop limit') : this.translateService.instant('Stop limit');
       }
-      case 'ICO': {
+      case this.baseType.ICO: {
         return this.translateService.instant('ICO order');
       }
     }
@@ -547,7 +548,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.sellOrder.baseType = this.dropdownLimitValue;
       this.sellOrder.orderType = this.SELL;
 
-      this.dropdownLimitValue === 'STOP_LIMIT' ?
+      this.dropdownLimitValue === this.baseType.STOP_LIMIT ?
         this.sellOrder.stop = parseFloat(this.sellStopValue.toString()) :
         delete this.sellOrder.stop;
 
@@ -565,7 +566,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.buyOrder.baseType = this.dropdownLimitValue;
       this.buyOrder.orderType = this.BUY;
 
-      this.dropdownLimitValue === 'STOP_LIMIT' ?
+      this.dropdownLimitValue === this.baseType.STOP_LIMIT ?
         this.buyOrder.stop = parseFloat(this.buyStopValue.toString()) :
         delete this.buyOrder.stop;
 
