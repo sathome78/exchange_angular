@@ -60,8 +60,12 @@ export class BalanceMobComponent implements OnInit{
     private utils: UtilsService,
     private store: Store<fromCore.State>,
   ) {
+    this.setScrollStyles();
+  }
+
+  setScrollStyles() {
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 283) + 'px', 'overflow': 'scroll'};
+    this.tableScrollStyles = {'height': (componentHeight - 290) + 'px', 'overflow-x': 'scroll'};
   }
 
   public onLoadMoreTrigger(): void {
