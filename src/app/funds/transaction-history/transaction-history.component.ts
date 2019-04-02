@@ -188,12 +188,10 @@ export class TransactionHistoryComponent implements OnInit {
 
   focusOrBlurDateFrom(event) {
     this.isDateInputFromFocus = event;
-    // if (!event) this.modelDateFrom = {...this.modelDateFrom};
   }
 
   focusOrBlurDateTo(event) {
     this.isDateInputToFocus = event;
-    // if (!event) this.modelDateTo = {...this.modelDateTo};
   }
 
   /** tracks input changes in a my-date-picker component */
@@ -279,8 +277,12 @@ export class TransactionHistoryComponent implements OnInit {
   }
 
   closeFilterPopup() {
-    if(this.isDateRangeValid()) {
-      this.showFilterPopup = false;
+    this.showFilterPopup = false;
+  }
+
+  filterPopupSubmit() {
+    if (this.isDateRangeValid()) {
+      this.closeFilterPopup();
       this.loadTransactions();
     }
   }

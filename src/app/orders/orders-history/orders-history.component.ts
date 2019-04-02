@@ -176,12 +176,10 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
 
   focusOrBlurDateFrom(event) {
     this.isDateInputFromFocus = event;
-    // if (!event) this.modelDateFrom = {...this.modelDateFrom};
   }
 
   focusOrBlurDateTo(event) {
     this.isDateInputToFocus = event;
-    // if (!event) this.modelDateTo = {...this.modelDateTo};
   }
 
   changeItemsPerPage(items: number) {
