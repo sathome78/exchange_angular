@@ -1,0 +1,208 @@
+:root{
+	--main-bg: #0f1032;
+	--main-txt-color: #fff;
+}
+.ieo-container{
+	font-weight: 400;
+	font-size: calc(.5715rem + .5721vw);
+	line-height: 1.37;
+	
+	color: var(--main-txt-color);
+}
+
+.first-screen{
+	background-color: var(--main-bg);
+	background-size: cover;
+	background-position: 100% 100%;
+	background-repeat: no-repeat;
+	.fs-wr{
+		max-width: calc(73.7em + 40px);
+		margin: 0 auto;
+		padding: 3.8em 20px 3.6em;
+	}
+	.fs-wr-inner{}
+	.fs-image-container{}
+	.fs-content{
+		display: flex;
+		align-items: center;
+		/* justify-content: space-between; */
+
+	}
+	.bittorrent{
+		margin-right: 5.7em;
+		img{}
+	}
+	.btc-session{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		width: 40em;
+
+	}
+	.b-s-title{
+		width: 100%;
+		margin-bottom: 1.5em;
+		h3{
+			display: inline-flex;
+			position: relative;
+			font-weight: 500;
+			font-size: 2em;
+			color: #FFFFFF;
+			line-height: .9;
+		}
+	}
+	.upcoming{
+		position: absolute;
+		left: 100%;
+		margin-left: 15px;
+		font-weight: 400;
+		font-size: .5em;
+		color: #237BEF;
+		display: flex;
+		align-items: center;
+		top: .4em;
+		bottom: 0;
+
+
+	}
+	.b-s-table{
+		width: 17.5em;
+		td{
+			font-weight: 500;
+			font-size: .8em;
+			color: #5E5F74;
+			padding: 1.35em 0;
+			span{
+				display: inline-block;
+				min-width: 10em;
+				text-align: left;
+			}
+			&:nth-child(2){
+				color: #FFFFFF;
+			}
+		}
+		tr{
+			&:not(:last-child){
+				border-bottom: 1px solid #5E5F74;
+			}
+		}
+	}
+	.buy-block{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding-top: .8em;
+		width: 19em;
+	}
+	.amount{
+		p{
+			
+			font-weight: 500;
+			font-size: .8em;
+			color: #5E5F74;
+			span{
+				font-size: 1.125em;
+				color: #FFFFFF;
+			}
+		}
+	}
+	.starts{
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		p{
+			font-weight: 500;
+			font-size: .8em;
+			color: #5E5F74;
+			padding-bottom: 1.125em;
+		}
+	}
+	.timer{
+		span{
+			font-weight: 500;
+			font-size: 2em;
+			color: #237BEF;
+			line-height: 1;
+			padding-bottom: .5em;
+			position: relative;
+			display: inline-block;
+			letter-spacing: 2.5px;
+			&:before{
+				content: "";
+				font-size: .33em;
+				color: #5E5F74;
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				letter-spacing: .15px;
+			}
+			&:first-child{
+				&:after{
+					content: ".";
+					margin: 0 .21em;
+					font-size: 1em;
+					color: #237BEF;
+				}
+				&:before{
+					content: "day";
+				}
+				
+			}
+			&:nth-child(2){
+				&:before{
+					content: "hours";
+				}
+				
+			}
+			&:nth-child(3){
+				&:before{
+					content: "minutes";
+				}
+				
+			}
+			&:nth-child(4){
+				&:before{
+					content: "secunde";
+				}
+				
+			}
+			&:nth-child(2),&:nth-child(3){
+				&:after{
+					content: ":";
+					margin: 0 .21em;
+					font-size: 1em;
+					color: #237BEF;
+				}
+			}
+		}
+	}
+	.labels{
+		span{
+			font-weight: 500;
+			font-size: .6em;
+			color: #5E5F74;
+		}
+	}
+	.button-part{
+		width: 227px;
+		position: relative;
+    bottom: -.55em;
+	}
+	.standart-btn{
+		background: #5E5F74;
+		border-radius: 4px;
+		width: 100%;
+		padding: 12px .7em;
+		border: none;
+
+		span{	
+			font-size: 1.2em;
+			text-align: center;
+			color: #FFFFFF;
+			display: block;
+		}
+	}
+	.right-text{
+		text-align: right;
+	}
+}

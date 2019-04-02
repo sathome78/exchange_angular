@@ -23,39 +23,70 @@
   <script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-TZTXSSP');
-  </script>
-  <!-- End Google Tag Manager -->
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-TZTXSSP');
+</script>
+<!-- End Google Tag Manager -->
 
 </head>
 <body>
 
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TPR6SBC"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
 
-  <app-root></app-root>
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
-    }
-  </script>
-  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async=""></script>
-  <!-- <script>
-    setInterval(function(){
-      document.querySelector(".banner-content-inner").classList.remove("active");
-      document.querySelector(".banner-content-inner").nextElementSibling.classList.add("active");
+    <app-root></app-root>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+      }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async=""></script>
+    <!-- temp -->
+    <script type="text/javascript">
       setTimeout(function(){
-        var firstBanner = document.querySelector(".banner-content >.banner-content-inner:first-child");
-        var lastBanner = document.querySelector(".banner-content >.banner-content-inner:last-child");
-        var parrentBanner = document.querySelector(".banner-content");
-        parrentBanner.insertBefore(firstBanner,lastBanner.nextSibling);
-      },1000)
-    },20000)
-  </script> -->
-</body>
-</html>
+        if(document.getElementById("timer")){
+          var target_date = new Date().getTime() + 30000000;
+          var days, hours, minutes, seconds;
+
+          var countdown = document.getElementById("timer"); 
+          getCountdown();
+
+          setInterval(function () { getCountdown(); console.log("asas")}, 1000);
+
+          function getCountdown(){
+
+            var current_date = new Date().getTime();
+            var seconds_left = (target_date - current_date) / 1000;
+
+            days = pad( parseInt(seconds_left / 86400) );
+            seconds_left = seconds_left % 86400;
+
+            hours = pad( parseInt(seconds_left / 3600) );
+            seconds_left = seconds_left % 3600;
+
+            minutes = pad( parseInt(seconds_left / 60) );
+            seconds = pad( parseInt( seconds_left % 60 ) );
+            if(target_date > current_date){
+              countdown.innerHTML = "<span>" + days + "</span><span>" + hours + "</span><span>" + minutes + "</span><span>" + seconds + "</span>"; 
+            }
+            else{
+              countdown.innerHTML = "<span>" + "00" + "</span><span>" + "00" + "</span><span>" + "00" + "</span><span>" + "00" + "</span>"; 
+            }
+
+          }
+
+          function pad(n) {
+            return (n < 10 ? '0' : '') + n;
+          }
+        }
+      },300)
+      
+
+    </script>
+    <!-- end temp -->
+  </body>
+  </html>
