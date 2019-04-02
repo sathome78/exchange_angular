@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { IMyDpOptions, IMyDateModel, IMyDate } from 'mydatepicker';
 import { Store, select } from '@ngrx/store';
@@ -47,6 +47,8 @@ export class TransactionHistoryComponent implements OnInit {
   public tableScrollStyles: any = {};
   public openDetails: number = null;
   public initialRequest: boolean = false;
+  public isDateInputFromFocus = false;
+  public isDateInputToFocus = false;
 
   public myDatePickerOptions: IMyDpOptions = {
     showInputField: false,
@@ -63,6 +65,7 @@ export class TransactionHistoryComponent implements OnInit {
     private transactionsService: TransactionsService,
     public constantsService: ConstantsService,
     public breakpointService: BreakpointService,
+    private cdr: ChangeDetectorRef,
     private utils: UtilsService,
   ) {
     this.transactionsItems$ = store.pipe(select(fundsReducer.getTrHistorySelector));
@@ -185,11 +188,13 @@ export class TransactionHistoryComponent implements OnInit {
   }
 
   focusOrBlurDateFrom(event) {
-    if (!event) this.modelDateFrom = {...this.modelDateFrom};
+    this.isDateInputFromFocus = event;
+    this.cdr.detectChanges();
   }
 
   focusOrBlurDateTo(event) {
-    if (!event) this.modelDateTo = {...this.modelDateTo};
+    this.isDateInputToFocus = event;
+    this.cdr.detectChanges();
   }
 
   /** tracks input changes in a my-date-picker component */
@@ -275,8 +280,12 @@ export class TransactionHistoryComponent implements OnInit {
   }
 
   closeFilterPopup() {
-    if(this.isDateRangeValid()) {
-      this.showFilterPopup = false;
+    this.showFilterPopup = false;
+  }
+
+  filterPopupSubmit() {
+    if (this.isDateRangeValid()) {
+      this.closeFilterPopup();
       this.loadTransactions();
     }
   }
