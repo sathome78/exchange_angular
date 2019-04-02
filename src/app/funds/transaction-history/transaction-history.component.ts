@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { IMyDpOptions, IMyDateModel, IMyDate } from 'mydatepicker';
 import { Store, select } from '@ngrx/store';
@@ -65,6 +65,7 @@ export class TransactionHistoryComponent implements OnInit {
     private transactionsService: TransactionsService,
     public constantsService: ConstantsService,
     public breakpointService: BreakpointService,
+    private cdr: ChangeDetectorRef,
     private utils: UtilsService,
   ) {
     this.transactionsItems$ = store.pipe(select(fundsReducer.getTrHistorySelector));
@@ -188,10 +189,12 @@ export class TransactionHistoryComponent implements OnInit {
 
   focusOrBlurDateFrom(event) {
     this.isDateInputFromFocus = event;
+    this.cdr.detectChanges();
   }
 
   focusOrBlurDateTo(event) {
     this.isDateInputToFocus = event;
+    this.cdr.detectChanges();
   }
 
   /** tracks input changes in a my-date-picker component */

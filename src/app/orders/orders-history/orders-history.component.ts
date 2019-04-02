@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef, OnDestroy} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {IMyDpOptions, IMyDateModel, IMyDate} from 'mydatepicker';
 import {Store, select} from '@ngrx/store';
 
@@ -65,6 +65,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     private store: Store<State>,
     private ordersService: OrdersService,
     public breakpointService: BreakpointService,
+    private cdr: ChangeDetectorRef,
     private utils: UtilsService,
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr));
@@ -176,10 +177,12 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
 
   focusOrBlurDateFrom(event) {
     this.isDateInputFromFocus = event;
+    this.cdr.detectChanges();
   }
 
   focusOrBlurDateTo(event) {
     this.isDateInputToFocus = event;
+    this.cdr.detectChanges();
   }
 
   changeItemsPerPage(items: number) {
