@@ -1,0 +1,62 @@
+<!-- start component -->
+<div class="first-screen" style="background-image: url(assets/img/ieo/bg.png);">
+  <div class="fs-wr">
+    <div class="fs-wr-inner">
+      <div class="fs-image-container">
+
+      </div>
+      <div class="fs-content">
+        <div class="bittorrent">
+          <img src="assets/img/ieo/bittorrent.svg" alt="">
+        </div>
+        <div class="btc-session">
+          <div class="b-s-title">
+            <h3>BitTorent - BTC Session<span class="upcoming">Upcoming</span></h3>
+
+          </div>
+          <table class="b-s-table">
+            <tr>
+              <td><span>Price：</span></td>
+              <td class="right-text"><span>To be determined</span></td>
+            </tr>
+            <tr>
+              <td>Start Time：</td>
+              <td class="right-text"><span>2019-05-19 19:00:00</span></td>
+            </tr>
+            <tr>
+              <td>Session Supply：</td>
+              <td class="right-text"><span>597,014,925 CELR</span></td>
+            </tr>
+          </table>
+          <div class="buy-block">
+            <div class="amount">
+              <p>Amount: <span>597,014,925 BTT</span></p>
+            </div>
+            <div class="starts">
+              <p>Starts In:</p>
+              <div class="timer" [innerHTML]="timer"></div>
+
+            </div>
+            <div class="button-part">
+              <button
+                class="standart-btn"
+                *ngIf="isAuthenticated"
+                [disabled]="currentStage !== stage.SALE"
+              >
+                <span>Buy Now</span>
+              </button>
+              <button
+                class="standart-btn"
+                *ngIf="!isAuthenticated"
+                (click)="login()"
+              >
+                <span>Login</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end component -->

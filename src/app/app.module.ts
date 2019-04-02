@@ -39,7 +39,6 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import {FinalRegistrationComponent} from './popups/final-registration/final-registration.component';
 import {FinalStepRecoveryPasswordComponent} from './popups/final-step-recovery-password/final-step-recovery-password.component';
 import {PopupsModule} from './popups/popups.module';
-import { IEOComponent } from './ieo/ieo.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -55,7 +54,6 @@ export function createTranslateLoader(http: HttpClient) {
     ReferralChargesComponent,
     FinalRegistrationComponent,
     FinalStepRecoveryPasswordComponent,
-    IEOComponent,
   ],
   imports: [
     StoreModule.forRoot(reducers),
