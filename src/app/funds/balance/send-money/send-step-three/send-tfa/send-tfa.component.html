@@ -4,7 +4,7 @@
   <form [formGroup]="form">
     <div class="wrap-input send__wrap-input"
          [ngClass]="{'wrap-input--error': !form.valid && form.controls['pin'].touched}">
-      <input class="wrap-input__input" name="pin" formControlName="pin" required>
+      <input class="wrap-input__input" autofocus name="pin" formControlName="pin" required>
       <label class="wrap-input__label">{{'Authenticator code' | translate}}</label>
       <div class="wrap-input__line"></div>
       <!--Input error section starts-->
@@ -23,7 +23,7 @@
   <form [formGroup]="form">
     <div class="wrap-input send__wrap-input"
          [ngClass]="{'wrap-input--error': !form.valid && form.controls['pin'].touched}">
-      <input class="wrap-input__input" name="pin" formControlName="pin" required>
+      <input class="wrap-input__input" autofocus name="pin" formControlName="pin" required>
       <label class="wrap-input__label">{{'Pincode' | translate}}</label>
       <div class="wrap-input__line"></div>
       <!--Input error section starts-->
