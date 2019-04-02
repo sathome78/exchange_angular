@@ -1,0 +1,48 @@
+.community{
+	.community-wr{
+		display: flex;
+		align-items: center;
+		padding: 1em 20px;
+		    max-width: calc(73.7em + 40px);
+    margin: 0 auto;
+
+	}
+	.community__text{
+		color: #5E5F74;
+	}
+	.social-wr{
+		padding: 0 1.6em;
+		width: 9.6em;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: relative;
+		margin-right: 1.6em;
+		&::after{
+			content: "";
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			width: 1px;
+			height: 100%;
+			right: 0;
+			background-color: #5E5F74;
+		}
+	}
+
+	.social-item{
+		a{
+			display: block;
+			svg{
+				display: block;
+			}
+		}
+	}
+	.research{
+		a{
+			display: block;
+			text-decoration: none;
+			color: #237BEF;
+		}
+	}
+}
