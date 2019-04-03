@@ -40,6 +40,7 @@ import {FinalRegistrationComponent} from './popups/final-registration/final-regi
 import {FinalStepRecoveryPasswordComponent} from './popups/final-step-recovery-password/final-step-recovery-password.component';
 import {PopupsModule} from './popups/popups.module';
 import { SEOService } from './shared/services/seo.service';
+import {DynamicScriptLoaderService} from './shared/services/dynamic-script-loader.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -94,6 +95,7 @@ export function createTranslateLoader(http: HttpClient) {
     PopupService,
     UserService,
     UserVerificationService,
+    DynamicScriptLoaderService,
     ThemeService,
     MockDataService,
     EmbeddedOrdersService,

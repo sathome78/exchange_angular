@@ -15,6 +15,7 @@ import * as dashboardAction from './dashboard/actions/dashboard.actions';
 import {SimpleCurrencyPair} from './model/simple-currency-pair';
 import {SEOService} from './shared/services/seo.service';
 import {UtilsService} from './shared/services/utils.service';
+import {DynamicScriptLoaderService} from './shared/services/dynamic-script-loader.service';
 
 
 declare var sendTransactionSuccessGtag: Function;
@@ -38,7 +39,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private seoService: SEOService,
     private store: Store<fromCore.State>,
     private http: HttpClient,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private dynamicScriptLoaderService: DynamicScriptLoaderService
   ) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
 
@@ -88,6 +90,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.authService.isAuthenticated()) {
       this.store.dispatch(new coreAction.SetOnLoginAction(this.authService.parsedToken));
     }
+
   }
 
   setSavedCurrencyPair() {

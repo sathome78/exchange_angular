@@ -37,6 +37,7 @@ import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import { Observable } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
+import {DynamicScriptLoaderService} from '../../../shared/services/dynamic-script-loader.service';
 
 @Component({
   selector: 'app-graph',
@@ -153,6 +154,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     private dashboardService: DashboardService,
     private dashboardWebsocketService: DashboardWebSocketService,
     public breakpointService: BreakpointService,
+    private dynamicScriptLoaderService: DynamicScriptLoaderService,
     private cdr: ChangeDetectorRef
   ) {
     super();
@@ -160,6 +162,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
   ngOnInit() {
+    this.dynamicScriptLoaderService.load('datafeedPolyfills', 'datafeedBundle').then((res) => {
 
     this.store
       .pipe(select(getActiveCurrencyPair))
@@ -277,7 +280,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         }));
       button[0].innerHTML = 'Check API';
     });
+    });
   }
+
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
