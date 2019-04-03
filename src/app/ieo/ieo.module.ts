@@ -8,6 +8,8 @@ import {IEOCommunityComponent} from './components/ieo-community/ieo-community.co
 import {IEORequirementsComponent} from './components/ieo-requirements/ieo-requirements.component';
 import {IEOHowItWorksComponent} from './components/ieo-how-it-works/ieo-how-it-works.component';
 import {IEODescriptionsComponent} from './components/ieo-descriptions/ieo-descriptions.component';
+import {PopupBuyComponent} from './components/popup-buy/popup-buy.component';
+import {PopupNotificationComponent} from './components/popup-notification/popup-notification.component';
 
 @NgModule({
   declarations: [
@@ -17,12 +19,13 @@ import {IEODescriptionsComponent} from './components/ieo-descriptions/ieo-descri
     IEORequirementsComponent,
     IEOHowItWorksComponent,
     IEODescriptionsComponent,
+    PopupBuyComponent,
+    PopupNotificationComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
     IEORoutingModule,
-
   ],
   providers: []
 })

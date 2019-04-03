@@ -1,0 +1,55 @@
+.economics{
+	.economics-inner{
+
+	}
+	.text-info-block{
+		margin-bottom: 2.2em;
+		h4{
+
+		}
+	}
+	.economics-table{
+
+	}
+	.economics-table-wr{
+		    box-shadow: 4px 4px 9px rgba(0, 0, 0, 0.1);
+
+	}
+	.economics-table-item{
+		display: flex;
+		p{
+			font-size: .8em;
+			color: #000;
+		}
+		&:nth-child(odd){
+			.table-item-description{
+				background-color: #d3d3d3;
+			}
+			.table-item-value{
+				background-color: #ededed;
+			}
+		}
+		&:nth-child(even){
+			.table-item-description{
+				background-color: #ededed;
+			}
+			.table-item-value{
+				background-color: #fff;
+			}
+		}
+	}
+	.table-item-description{
+		width: 25em;
+		padding: .85em 1em .85em 2em;
+		p{
+
+		}
+	}
+	.table-item-value{
+		flex-grow: 1;
+		padding: .85em 1em .85em 2em;
+		p{
+
+		}
+	}
+}

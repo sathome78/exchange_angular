@@ -20,6 +20,8 @@ export class IEOComponent implements OnInit {
     COMPLETED: 'COMPLETED',
   }
   public currentStage: string = this.stage.UPCOMING;
+  public showNotification: boolean = false;
+  public showBuy: boolean = false;
 
 
   constructor(
@@ -34,6 +36,18 @@ export class IEOComponent implements OnInit {
 
   onLogin() {
     this.popupService.showMobileLoginPopup(true);
+  }
+  openNotification() {
+    this.showNotification = true;
+  }
+  openBuy() {
+    this.showBuy = true;
+  }
+  closeNotification() {
+    this.showNotification = false;
+  }
+  closeBuy() {
+    this.showBuy = false;
   }
 
 }
