@@ -127,7 +127,7 @@
             [options]="(currencyPairs$ | async) | dynamicIData: 'name': 'id'"
             [setNullValue]="true"
             (onChange)="onChangeCurrPair($event)"
-            (onSelect)="onSelectPair($event.id)"
+            (onSelect)="onSelectPair($event.id, true)"
           ></app-dynamic-input>
 
         </div>
