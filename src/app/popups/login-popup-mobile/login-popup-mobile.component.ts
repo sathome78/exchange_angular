@@ -191,7 +191,6 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.setTemplate('captchaTemplate');
-    // this.afterResolvedCaptcha(null);
   }
 
   afterResolvedCaptcha(event) {
