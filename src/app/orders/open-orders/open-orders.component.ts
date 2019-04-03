@@ -96,10 +96,10 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   /**
    * dispatching action to load the list of the open orders
    */
-  loadOrders(): void {
+  loadOrders(isMobile: boolean = false): void {
     const params = {
-      page: this.currentPage,
-      limit:this.countPerPage,
+      page: isMobile ? 1 : this.currentPage,
+      limit: this.countPerPage,
       currencyPairId: this.currencyPairId || 0,
     }
     this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
@@ -211,7 +211,6 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
 
   closeFilterPopup() {
     this.showFilterPopup = false;
-    this.loadOrders();
   }
 
   onShowCancelOrderConfirm(orderId: number | null): void {
@@ -224,12 +223,13 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   }
 
   onChangeCurrPair(val: string): void {
+    this.currValue = val;
     this.currencyPairValue = val;
   }
 
-  onSelectPair(currId: string): void {
+  onSelectPair(currId: string, isMobile: boolean = false): void {
     this.currencyPairId = currId;
-    this.loadOrders();
+    this.loadOrders(isMobile);
   }
 
   ngOnDestroy(): void {
