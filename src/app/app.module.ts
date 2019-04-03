@@ -40,6 +40,8 @@ import {FinalRegistrationComponent} from './popups/final-registration/final-regi
 import {FinalStepRecoveryPasswordComponent} from './popups/final-step-recovery-password/final-step-recovery-password.component';
 import {PopupsModule} from './popups/popups.module';
 import { IEOComponent } from './ieo/ieo.component';
+import { PopupBuyComponent } from './ieo/components/popup-buy/popup-buy.component';
+import { PopupNotificationComponent } from './ieo/components/popup-notification/popup-notification.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -56,6 +58,8 @@ export function createTranslateLoader(http: HttpClient) {
     FinalRegistrationComponent,
     FinalStepRecoveryPasswordComponent,
     IEOComponent,
+    PopupBuyComponent,
+    PopupNotificationComponent,
   ],
   imports: [
     StoreModule.forRoot(reducers),

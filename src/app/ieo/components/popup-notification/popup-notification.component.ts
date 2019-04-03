@@ -1,0 +1,27 @@
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+// import {PopupService} from '../../shared/services/popup.service';
+// import {PopupData} from '../../shared/interfaces/popup-data-interface';
+
+@Component({
+  selector: 'app-popup-notification',
+  templateUrl: './popup-notification.component.html',
+  styleUrls: ['./popup-notification.component.scss']
+})
+export class PopupNotificationComponent implements OnInit {
+
+  // @Input() popupData: PopupData;
+  @Input() show: boolean;
+  @Output() close: EventEmitter<any> = new EventEmitter();
+
+  constructor(
+    // public popupService: PopupService
+  ) { }
+
+  ngOnInit() {
+  }
+
+  closeMe() {
+    // this.popupService.toggleInfoPopup(null);
+    this.close.emit();
+  }
+}
