@@ -293,8 +293,9 @@
   <div>
     <app-send-money
       *ngIf="showSendMoneyPopup"
-    [showPopup]="showSendMoneyPopup"
-    [optionData]="sendMoneyData"
-    (closeSendMoneyPopup)="openSendMoneyPopup(false)"
+      [showPopup]="showSendMoneyPopup"
+      [optionData]="sendMoneyData"
+      (closeSendMoneyPopup)="openSendMoneyPopup(false)"
+      (toggleBalanceTab)="onSelectTab($event)"
     ></app-send-money>
   </div>

@@ -26,6 +26,7 @@ import {Router} from '@angular/router';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import {KYC_STATUS, PENDING} from '../../shared/constants';
 import {environment} from 'environments/environment.prod';
+import {BALANCE_TABS} from './balance-constants';
 
 
 @Component({
@@ -36,12 +37,7 @@ import {environment} from 'environments/environment.prod';
 export class BalanceComponent implements OnInit, OnDestroy {
 
   /** */
-  public Tab = {
-    CRYPTO: 'CRYPTO',
-    FIAT: 'FIAT',
-    PR: 'PR',
-    QUBERA: 'QUBERA',
-  };
+  public Tab = BALANCE_TABS;
 
   public balanceItems: BalanceItem [] = [];
   public currTab: string = this.Tab.CRYPTO;
