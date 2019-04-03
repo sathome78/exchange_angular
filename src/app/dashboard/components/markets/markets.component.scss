@@ -204,3 +204,12 @@ display: none;
 .markets_item {
    height: 31px;
 }
+ @media(max-width: 480px){
+  .shape{
+    display: inline-flex;
+    height: 6px;
+    svg{
+      height: 100%;
+    }
+  }
+ }

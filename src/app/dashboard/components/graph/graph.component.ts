@@ -201,7 +201,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
 
     this.widgetOptions = {
-      symbol: this._symbol,
+      symbol: this.currencyPairName,
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
       interval: this._interval,
       container_id: this._containerId,
@@ -400,6 +400,10 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   getIsFiat(curr): boolean {
     return this.utils.isFiat(curr)
+  }
+
+  toMobileWidget(widgetName: string) {
+    this.dashboardService.activeMobileWidget.next(widgetName);
   }
 
 }

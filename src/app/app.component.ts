@@ -13,6 +13,7 @@ import * as fromCore from './core/reducers';
 import * as coreAction from './core/actions/core.actions';
 import * as dashboardAction from './dashboard/actions/dashboard.actions';
 import {SimpleCurrencyPair} from './model/simple-currency-pair';
+import {SEOService} from './shared/services/seo.service';
 import {UtilsService} from './shared/services/utils.service';
 
 
@@ -34,6 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private utilsService: UtilsService,
     private authService: AuthService,
+    private seoService: SEOService,
     private store: Store<fromCore.State>,
     private http: HttpClient,
     public translate: TranslateService
@@ -79,6 +81,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.seoService.subscribeToRouter(); // SEO optimization
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
     // this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
     // this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());

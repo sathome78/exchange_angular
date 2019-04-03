@@ -18,7 +18,7 @@ import {defaultOrderItem} from '../../reducers/default-values';
 import {AuthService} from 'app/shared/services/auth.service';
 import {TranslateService} from '@ngx-translate/core';
 import {LastPrice} from 'app/model/last-price.model';
-import {BUY, SELL} from 'app/shared/constants';
+import {BUY, orderBaseType, SELL} from 'app/shared/constants';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
@@ -37,7 +37,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dropdown limit data */
-  public limitsData = ['LIMIT', 'STOP_LIMIT']; // ['LIMIT', 'MARKET_PRICE', 'STOP_LIMIT', 'ICO'];
+  public baseType = orderBaseType;
+  public limitsData = [this.baseType.LIMIT, this.baseType.STOP_LIMIT];
   /** selected limit */
   public dropdownLimitValue: string;
   public buyOrder: Order;
@@ -63,6 +64,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   public createdOrder: Order;
   private updateCurrentCurrencyViaWebsocket = false;
   public loading: boolean = false;
+  private successTimeout;
+  private failTimeout;
 
   public defaultOrder: Order = {
     orderType: '',
@@ -74,6 +77,14 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     baseType: this.dropdownLimitValue,
     status: 'OPENED',
     total: null,
+  };
+
+
+  private defaultFormValues = {
+    quantity: '0',
+    stop: '0',
+    price: '0',
+    total: '0',
   };
 
    /** Are listening click in document */
@@ -120,6 +131,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(state => {
         this.userBalance = state.userBalance;
+        this.cdr.detectChanges();
       });
 
     this.store
@@ -171,13 +183,13 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   private resetBuyModel() {
     this.buyOrder = {...this.defaultOrder};
     this.buyOrder.orderType = this.BUY;
-    this.buyForm.reset();
+    this.buyForm.reset(this.defaultFormValues);
   }
 
   private resetSellModel() {
     this.sellOrder = {...this.defaultOrder};
     this.sellOrder.orderType = this.SELL;
-    this.sellForm.reset();
+    this.sellForm.reset(this.defaultFormValues);
   }
 
   /**
@@ -205,16 +217,16 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    */
   showLimit(value: string, popup: boolean = false): string {
     switch (value) {
-      case 'LIMIT': {
+      case this.baseType.LIMIT: {
         return popup ? this.translateService.instant('Limit') : this.translateService.instant('Limit order');
       }
-      case 'MARKET_PRICE': {
+      case this.baseType.MARKET_PRICE: {
         return this.translateService.instant('Market price');
       }
-      case 'STOP_LIMIT': {
+      case this.baseType.STOP_LIMIT: {
         return popup ? this.translateService.instant('Stop limit') : this.translateService.instant('Stop limit');
       }
-      case 'ICO': {
+      case this.baseType.ICO: {
         return this.translateService.instant('ICO order');
       }
     }
@@ -415,12 +427,18 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
         order.total = (((order.amount * order.rate) * 100) / 100);
         order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
         this.setTotalInValue(order.total, type);
+      } else {
+        order.commission = 0;
+        this.setTotalInValue(0, type);
       }
     } else {
       if (order.rate && order.rate >= 0) {
         order.amount = order.total / order.rate;
         order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
         this.setQuantityValue(order.amount, type);
+      } else {
+        order.commission = 0;
+        this.setTotalInValue(0, type);
       }
     }
   }
@@ -539,7 +557,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       this.sellOrder.baseType = this.dropdownLimitValue;
       this.sellOrder.orderType = this.SELL;
 
-      this.dropdownLimitValue === 'STOP_LIMIT' ?
+      this.dropdownLimitValue === this.baseType.STOP_LIMIT ?
         this.sellOrder.stop = parseFloat(this.sellStopValue.toString()) :
         delete this.sellOrder.stop;
 
@@ -557,7 +575,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       this.buyOrder.baseType = this.dropdownLimitValue;
       this.buyOrder.orderType = this.BUY;
 
-      this.dropdownLimitValue === 'STOP_LIMIT' ?
+      this.dropdownLimitValue === this.baseType.STOP_LIMIT ?
         this.buyOrder.stop = parseFloat(this.buyStopValue.toString()) :
         delete this.buyOrder.stop;
 
@@ -573,9 +591,10 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * on create new order
    */
   private createNewOrder(type: string): void {
-    // type === 'BUY' ?
-    //   console.log(this.buyOrder) :
-    //   console.log(this.sellOrder);
+    clearTimeout(this.failTimeout);
+    clearTimeout(this.successTimeout);
+    this.notifySuccess = false;
+    this.notifyFail = false;
 
     const order = type === this.BUY ? this.buyOrder : this.sellOrder;
     this.createdOrder = order;
@@ -583,26 +602,36 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     this.tradingService.createOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.store.dispatch(new SetLastCreatedOrderAction(order))
-        this.userService.getUserBalance(this.currentPair);
         type === this.BUY ? this.resetBuyModel() : this.resetSellModel();
-
-        this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
-        this.notifySuccess = true;
-        setTimeout(() => {
-          this.notifySuccess = false;
-          this.createdOrder = null;
-          }, 5000);
-        this.loading = false;
+        this.store.dispatch(new SetLastCreatedOrderAction(order));
+        this.createOrderSuccess();
       }, err => {
-        console.log(err);
-        this.notifyFail = true;
-        setTimeout(() => {
-          this.notifyFail = false;
-          this.createdOrder = null;
-          }, 5000);
-        this.loading = false;
+        this.createOrderFail();
       });
+  }
+
+  private createOrderSuccess() {
+    this.userService.getUserBalance(this.currentPair);
+    this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
+    this.notifySuccess = true;
+    this.loading = false;
+    this.cdr.detectChanges();
+    this.successTimeout = setTimeout(() => {
+      this.notifySuccess = false;
+      this.createdOrder = null;
+      this.cdr.detectChanges();
+    }, 5000);
+  }
+
+  private createOrderFail() {
+    this.notifyFail = true;
+    this.loading = false;
+    this.cdr.detectChanges();
+    this.failTimeout = setTimeout(() => {
+      this.notifyFail = false;
+      this.createdOrder = null;
+      this.cdr.detectChanges();
+    }, 5000);
   }
 
   isAuthenticated(): boolean {

@@ -10,13 +10,9 @@ import {State, getActiveCurrencyPair, getLastPrice, getSelectedOrderBookOrder, g
 import {UserService} from 'app/shared/services/user.service';
 import {OrderItem, UserBalance} from 'app/model';
 import {PopupService} from 'app/shared/services/popup.service';
-import {SelectedOrderBookOrderAction, SetLastCreatedOrderAction} from '../../actions/dashboard.actions';
-import {defaultOrderItem} from '../../reducers/default-values';
-import {AuthService} from 'app/shared/services/auth.service';
 import {TranslateService} from '@ngx-translate/core';
 import {LastPrice} from 'app/model/last-price.model';
-import {BUY, SELL} from 'app/shared/constants';
-import {DashboardWebSocketService} from '../../dashboard-websocket.service';
+import {BUY, orderBaseType, SELL} from 'app/shared/constants';
 import {Order} from 'app/model/order.model';
 import {TradingService} from 'app/dashboard/services/trading.service';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
@@ -38,7 +34,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dropdown limit data */
-  public limitsData = ['LIMIT', 'STOP_LIMIT']; // ['LIMIT', 'MARKET_PRICE', 'STOP_LIMIT', 'ICO'];
+  public baseType = orderBaseType;
+  public limitsData = [this.baseType.LIMIT, this.baseType.STOP_LIMIT];
   /** selected limit */
   public dropdownLimitValue: string;
   public buyOrder: Order;
@@ -58,13 +55,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public notifyFail = false;
   public message = '';
   public order;
-  public lastSellOrder;
   public isTotalWithCommission = false;
   public SELL = SELL;
   public BUY = BUY;
   public createdOrder: Order;
   private updateCurrentCurrencyViaWebsocket = false;
   public loading: boolean = false;
+  private successTimeout;
+  private failTimeout;
 
   public defaultOrder: Order = {
     orderType: '',
@@ -150,6 +148,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
           this.setPriceInValue(lastPrice.price, this.SELL);
           this.sellOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
           this.buyOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
+          this.resetStopValue();
         }
         this.updateCurrentCurrencyViaWebsocket = false;
         this.cdr.detectChanges();
@@ -169,16 +168,32 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.ngUnsubscribe.complete();
   }
 
-  private resetBuyModel() {
+  private resetBuyModel(price: number = null, stopPrice: number = null) {
     this.buyOrder = {...this.defaultOrder};
     this.buyOrder.orderType = this.BUY;
     this.buyForm.reset(this.defaultFormValues);
+    if (!!price) {
+      this.buyOrder.rate = price;
+      this.buyForm.get('price').setValue(price.toString());
+    }
+    if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
+      this.buyOrder.stop = price;
+      this.buyForm.get('stop').setValue(stopPrice.toString());
+    }
   }
 
-  private resetSellModel() {
+  private resetSellModel(price: number = null, stopPrice: number = null) {
     this.sellOrder = {...this.defaultOrder};
     this.sellOrder.orderType = this.SELL;
     this.sellForm.reset(this.defaultFormValues);
+    if (!!price) {
+      this.sellOrder.rate = price;
+      this.sellForm.get('price').setValue(price.toString());
+    }
+    if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
+      this.sellOrder.stop = stopPrice;
+      this.sellForm.get('stop').setValue(stopPrice.toString());
+    }
   }
 
   /**
@@ -206,16 +221,16 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   showLimit(value: string, popup: boolean = false): string {
     switch (value) {
-      case 'LIMIT': {
+      case this.baseType.LIMIT: {
         return popup ? this.translateService.instant('Limit') : this.translateService.instant('Limit order');
       }
-      case 'MARKET_PRICE': {
+      case this.baseType.MARKET_PRICE: {
         return this.translateService.instant('Market price');
       }
-      case 'STOP_LIMIT': {
+      case this.baseType.STOP_LIMIT: {
         return popup ? this.translateService.instant('Stop limit') : this.translateService.instant('Stop limit');
       }
-      case 'ICO': {
+      case this.baseType.ICO: {
         return this.translateService.instant('ICO order');
       }
     }
@@ -228,9 +243,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   selectedLimit(limit: string): void {
     this.dropdownLimitValue = limit;
     this.isDropdownOpen = false;
-    this.resetBuyModel();
-    this.resetSellModel();
-    this.resetStopValue();
   }
 
   private resetStopValue(): void {
@@ -545,7 +557,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.sellOrder.baseType = this.dropdownLimitValue;
       this.sellOrder.orderType = this.SELL;
 
-      this.dropdownLimitValue === 'STOP_LIMIT' ?
+      this.dropdownLimitValue === this.baseType.STOP_LIMIT ?
         this.sellOrder.stop = parseFloat(this.sellStopValue.toString()) :
         delete this.sellOrder.stop;
 
@@ -563,7 +575,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.buyOrder.baseType = this.dropdownLimitValue;
       this.buyOrder.orderType = this.BUY;
 
-      this.dropdownLimitValue === 'STOP_LIMIT' ?
+      this.dropdownLimitValue === this.baseType.STOP_LIMIT ?
         this.buyOrder.stop = parseFloat(this.buyStopValue.toString()) :
         delete this.buyOrder.stop;
 
@@ -579,40 +591,50 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on create new order
    */
   private createNewOrder(type: string): void {
-    // type === 'BUY' ?
-    //   console.log(this.buyOrder) :
-    //   console.log(this.sellOrder);
+    clearTimeout(this.failTimeout);
+    clearTimeout(this.successTimeout);
+    this.notifySuccess = false;
+    this.notifyFail = false;
 
     const order = type === this.BUY ? this.buyOrder : this.sellOrder;
     this.createdOrder = order;
-    this.loading = true;
-    this.tradingService.createOrder(order)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.store.dispatch(new SetLastCreatedOrderAction(order))
-        this.userService.getUserBalance(this.currentPair);
-        type === this.BUY ? this.resetBuyModel() : this.resetSellModel();
+    if (order.total > 0) {
+      this.loading = true;
+      this.tradingService.createOrder(order)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.isPossibleSetPrice = false;
+          type === this.BUY
+            ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
+            : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
+          this.createOrderSuccess();
+        }, err => {
+          this.createOrderFail();
+        });
+    }
+  }
 
-        this.store.dispatch(new SelectedOrderBookOrderAction(defaultOrderItem));
-        this.notifySuccess = true;
-        this.loading = false;
-        this.cdr.detectChanges();
-        setTimeout(() => {
-          this.notifySuccess = false;
-          this.createdOrder = null;
-          this.cdr.detectChanges();
-          }, 5000);
-      }, err => {
-        console.log(err);
-        this.notifyFail = true;
-        this.loading = false;
-        this.cdr.detectChanges();
-        setTimeout(() => {
-          this.notifyFail = false;
-          this.createdOrder = null;
-          this.cdr.detectChanges();
-          }, 5000);
-      });
+  private createOrderSuccess() {
+    this.userService.getUserBalance(this.currentPair);
+    this.notifySuccess = true;
+    this.loading = false;
+    this.cdr.detectChanges();
+    this.successTimeout = setTimeout(() => {
+      this.notifySuccess = false;
+      this.createdOrder = null;
+      this.cdr.detectChanges();
+    }, 5000);
+  }
+
+  private createOrderFail() {
+    this.notifyFail = true;
+    this.loading = false;
+    this.cdr.detectChanges();
+    this.failTimeout = setTimeout(() => {
+      this.notifyFail = false;
+      this.createdOrder = null;
+      this.cdr.detectChanges();
+    }, 5000);
   }
 
 }
