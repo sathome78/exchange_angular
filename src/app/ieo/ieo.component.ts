@@ -7,9 +7,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IEOComponent implements OnInit {
 
+  public showNotification: boolean = false;
+  public showBuy: boolean = false;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  openNotification() {
+    this.showNotification = true;
+  }
+  openBuy() {
+    this.showBuy = true;
+  }
+  closeNotification() {
+    this.showNotification = false;
+  }
+  closeBuy() {
+    this.showBuy = false;
   }
 
 }

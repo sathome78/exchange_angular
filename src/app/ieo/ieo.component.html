@@ -144,7 +144,7 @@
 	<!-- end component -->
 
 	<!-- start component -->
-	
+
 	<div class="ieo_how_it_work">
 		<div class="ieo_how_it_work-wr">
 			<div class="ieo_how_it_work-title">
@@ -312,7 +312,7 @@
 								</div>
 							</div>
 						</div>
-						
+
 					</div>
 					<div class="rating-item">
 						<div class="rating-item-inner">
@@ -483,7 +483,7 @@
 									<p>Within 15 days after the token sale ends</p>
 								</div>
 							</div>
-							
+
 						</div>
 					</div>
 				</div>
@@ -508,6 +508,17 @@
 
 		</div>
 	</div>
-	
-	<!-- end component -->
+
+  <!-- end component -->
+
+  <button (click)="openNotification()">Notification</button>
+  <button (click)="openBuy()">Buy</button>
+  <app-popup-notification
+    [show]="showNotification"
+    (close)="closeNotification()"
+  ></app-popup-notification>
+  <app-popup-buy
+    [show]="showBuy"
+    (close)="closeBuy()"
+  ></app-popup-buy>
 </div>
