@@ -1,8 +1,9 @@
-<div class="overlay" *ngIf="show">
-  <div class="popup">
-    <div class="popup__close" (click)="closeMe()"></div>
-    <h6 class="popup__title tnx-head">title</h6>
-    <h4 class="popup__subtitle tnx-description">description</h4>
-    <button class="btn btn--active btn--center" (click)="closeMe()">OK</button>
-</div>
-</div>
+<div class="overlay ieo-notification" *ngIf="show">
+	<div class="popup">
+		<div class="popup__close" (click)="closeMe()"></div>
+		<h6 class="popup__title tnx-head">Начислены токены!</h6>
+		<p class="popup__subtitle tnx-description">Привет. ICO BitTorent закончилось. <br>На твой баланс начислено
+			<span>123.95 BTT</span></p>
+			<button class="btn btn--active btn--center" (click)="closeMe()">Go to Balance</button>
+		</div>
+	</div>
