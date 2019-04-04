@@ -11,6 +11,80 @@ export const data = {
       'The world\'s first off-chain crypto economics model to ensure safety and ligh liquidity',
       'Blockchain agnostic (already support Ethereum, DFINITY and EVM based blockchains)'
     ],
+    table: [
+      {
+        name: 'Token Sale Start Time',
+        desc: '2019/03/19 2:00 PM (UTC)',
+      },
+      {
+        name: 'Token Sale end Time',
+        desc: 'When Hard Cap is reached or at 2019/03/24 2:00 PM (UTC)',
+      },
+      {
+        name: 'Hard Cap',
+        desc: '4,000,000 USD',
+      },
+      {
+        name: 'Total Tocen Supply',
+        desc: '10,000,000,000 CERL',
+      },
+      {
+        name: 'Initial Circulating Supply',
+        desc: '20% of Total Token Supply',
+      },
+      {
+        name: 'Public Sale Token Price',
+        desc: '0.0067 USD (price in BNB will be determined on the day of the public sale)',
+      },
+      {
+        name: 'Launchpad Allocation',
+        desc: '597,014,925 CERL (6% of Total Token Supply)',
+      },
+      {
+        name: 'Public Sale Vesting Period',
+        desc: 'No vesting period/ no lockup',
+      },
+      {
+        name: 'individual Cap',
+        desc: '1,500 USD',
+      },
+      {
+        name: 'individual Minimum Purchase Amount',
+        desc: '20 USD',
+      },
+      {
+        name: 'Private Sale Token Price',
+        desc: '1 CERL = 0.015 USD',
+      },
+      {
+        name: 'Private Sale Allocation',
+        desc: '15.5% of Total Token Supply',
+      },
+      {
+        name: 'Private Sale Vesting Period',
+        desc: 'Vesting over 3 mounths',
+      },
+      {
+        name: 'Seed Sale Token Price',
+        desc: '1 CERL = 0.0065 USD',
+      },
+      {
+        name: 'Seed Sale Allocation',
+        desc: '11.5% of Total Token Supply',
+      },
+      {
+        name: 'Seed Sale Vesting Period',
+        desc: 'Vesting over 10 mounths',
+      },
+      {
+        name: 'Token Type',
+        desc: 'ERC-20',
+      },
+      {
+        name: 'Token Distribution',
+        desc: 'Within 15 days after the token sale ends',
+      },
+    ]
   },
   community: {
     telegramUrl: '#',

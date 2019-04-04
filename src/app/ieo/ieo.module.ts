@@ -11,7 +11,7 @@ import {IEODescriptionsComponent} from './components/ieo-descriptions/ieo-descri
 import {PopupBuyComponent} from './components/popup-buy/popup-buy.component';
 import {PopupNotificationComponent} from './components/popup-notification/popup-notification.component';
 import {IeoHeaderComponent} from './components/ieo-header/ieo-header.component';
-import {IEOServiceService} from './ieoservice.service';
+import {IEOServiceService} from '../shared/services/ieoservice.service';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from 'app/core/interceptors/auth.interceptor';
 import {JwtInterceptor} from 'app/core/interceptors/jwt.interceptor';

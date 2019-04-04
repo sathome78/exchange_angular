@@ -14,6 +14,7 @@ import * as coreAction from './core/actions/core.actions';
 import * as dashboardAction from './dashboard/actions/dashboard.actions';
 import {SimpleCurrencyPair} from './model/simple-currency-pair';
 import {UtilsService} from './shared/services/utils.service';
+import {IEOServiceService} from './shared/services/ieoservice.service';
 
 
 declare var sendTransactionSuccessGtag: Function;
@@ -34,6 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private utilsService: UtilsService,
     private authService: AuthService,
+    private ieoService: IEOServiceService,
     private store: Store<fromCore.State>,
     private http: HttpClient,
     public translate: TranslateService
@@ -80,11 +82,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
-    // this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
-    // this.dashboardWebsocketService.setStompSubscription(this.authService.isAuthenticated());
     if (this.authService.isAuthenticated()) {
       this.store.dispatch(new coreAction.SetOnLoginAction(this.authService.parsedToken));
     }
+
+    this.ieoService.getListIEO()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res) => {
+        debugger
+      })
   }
 
   setSavedCurrencyPair() {
