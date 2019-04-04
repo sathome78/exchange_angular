@@ -160,10 +160,10 @@
               ${{(myBalance | async)?.USD || 0 | roundCurrency: 'USD' | formatCurrency}}
             </span>
           </div>
-          <a class="menu__link login-menu__link" routerLink="/settings" *ngIf="isAuthenticated">
+          <a class="menu__link login-menu__link" routerLink="/settings" *ngIf="isAuthenticated" style="padding-top: 16px;">
             <span class="menu__link-text">{{'Settings' | translate}}</span>
           </a>
-          <a class="menu__link login-menu__link menu__link--auth--log" (click)="onLogout()" style="padding-bottom: 16px;">
+          <a class="menu__link login-menu__link menu__link--auth--log" (click)="onLogout()">
             <span class="menu__link-text">{{'Log out' | translate}}</span>
           </a>
         </div>
