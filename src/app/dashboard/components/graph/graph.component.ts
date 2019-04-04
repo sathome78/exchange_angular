@@ -240,8 +240,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       //   intervals: ['30', '60', '240', '720', '1D', '2D', '3D', '1W', '3W', '1M']
       // },
       studies_overrides: {
-        'volume.volume.color.0': '#00B43D',
-        'volume.volume.color.1': '#EB5757',
+        'volume.volume.color.0': '#EB5757',
+        'volume.volume.color.1':  '#00B43D',
         'volume.volume ma.color': '#FF0000',
         'volume.volume ma.linewidth': 5,
         // 'volume.show ma': true,
