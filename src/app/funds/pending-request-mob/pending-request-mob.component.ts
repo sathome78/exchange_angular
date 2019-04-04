@@ -77,7 +77,6 @@ export class PendingRequestMobComponent implements OnInit {
   }
 
   public onLoadMoreTrigger(): void {
-    console.log('scrolled')
     if(this.pendingRequests.length !== this.countOfEntries){
       this.currentPage +=1
       this.loadPendingRequests();
