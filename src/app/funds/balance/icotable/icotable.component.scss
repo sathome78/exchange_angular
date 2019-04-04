@@ -162,3 +162,30 @@
   }
 }
 
+.button-cell{
+  .btn{
+    width: 87px;
+    padding: 3px 8px;
+    &.btn-green{
+      background-color: #00B43D;
+      border: 1px solid #00B43D;
+      &:hover{
+        background-color:  #00CA45;
+        border: 1px solid  #00CA45;
+      }
+    }
+  }
+}
+
+.status-green{
+  color: #00B43D;
+}
+
+.ieo-table{
+ .coins-cell{
+  padding-left: 43px;
+}
+.table__row--no-hover{
+  background-color: transparent;
+}
+}
