@@ -29,18 +29,18 @@
 		&:not(:last-child){
 			border-bottom: 1px solid #E5E5E5;
 		}
-		&.requirement-wait{
-			.requirement-status{
+		.requirement-wait{
+			&.requirement-status{
 				color: #237BEF;
 			}
 		}
-		&.requirement-faild{
-			.requirement-status{
+		.requirement-faild{
+			&.requirement-status{
 				color: #EB5757;
 			}
 		}
-		&.requirement-success{
-			.requirement-status{
+		.requirement-success{
+			&.requirement-status{
 				color: #00B43D;
 			}
 		}

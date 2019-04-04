@@ -11,6 +11,10 @@ import {IEODescriptionsComponent} from './components/ieo-descriptions/ieo-descri
 import {PopupBuyComponent} from './components/popup-buy/popup-buy.component';
 import {PopupNotificationComponent} from './components/popup-notification/popup-notification.component';
 import {IeoHeaderComponent} from './components/ieo-header/ieo-header.component';
+import {IEOServiceService} from './ieoservice.service';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {AuthInterceptor} from 'app/core/interceptors/auth.interceptor';
+import {JwtInterceptor} from 'app/core/interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,9 +30,14 @@ import {IeoHeaderComponent} from './components/ieo-header/ieo-header.component';
   ],
   imports: [
     CommonModule,
+    HttpClientModule,
     SharedModule,
     IEORoutingModule,
   ],
-  providers: []
+  providers: [
+    IEOServiceService,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+  ]
 })
 export class IEOModule { }

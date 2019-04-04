@@ -13,3 +13,9 @@ interface ParsedToken {
 interface MapModel<T>{
   [key: string]: T;
 }
+
+
+interface ResponseModelIEO<T> {
+  error: any;
+  data: T;
+}

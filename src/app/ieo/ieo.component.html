@@ -3,14 +3,17 @@
     <app-ieo-header></app-ieo-header>
   </div>
   <app-ieo-info
-    [isAuthenticated]="isAuthenticated$ | async"
+    [isAuthenticated]="isAuthenticated"
     [currentStage]="currentStage"
     (onLogin)="onLogin()"
   ></app-ieo-info>
 
   <app-ieo-community [community]="ieoData.community"></app-ieo-community>
 
-	<app-ieo-requirements></app-ieo-requirements>
+  <app-ieo-requirements
+    [isAuthenticated]="isAuthenticated"
+    [requirements]="requirements"
+  ></app-ieo-requirements>
 
   <app-ieo-how-it-works></app-ieo-how-it-works>
 

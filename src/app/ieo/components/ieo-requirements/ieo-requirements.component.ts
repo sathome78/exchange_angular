@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { KycIEOModel } from 'app/ieo/models/ieo-kyc.model';
 
 @Component({
   selector: 'app-ieo-requirements',
@@ -8,9 +9,14 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 export class IEORequirementsComponent implements OnInit {
 
+  @Input('isAuthenticated') public isAuthenticated: boolean = false;
+  @Input('requirements') public requirements: KycIEOModel;
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  isBoolean(val) {
+    return typeof val === 'boolean';
   }
 
 }
