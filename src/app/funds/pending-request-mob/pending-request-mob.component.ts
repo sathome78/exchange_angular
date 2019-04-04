@@ -26,7 +26,7 @@ export class PendingRequestMobComponent implements OnInit {
     private utils: UtilsService,
   ) {
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 102) + 'px', 'overflow': 'scrollY'}
+    this.tableScrollStyles = {'height': (componentHeight - 180) + 'px', 'overflow-x': 'scroll'}
 
     this.pendingRequests$ = store.pipe(select(fundsReducer.getPendingRequestsSelector));
     this.countOfPendingRequests$ = store.pipe(select(fundsReducer.getCountPendingReqSelector));
@@ -67,7 +67,7 @@ export class PendingRequestMobComponent implements OnInit {
     const paramsP = {
       offset: (this.currentPage - 1) * this.countPerPage,
       limit: this.countPerPage,
-      concat: true,
+      concat: this.currentPage > 1 ? true : false,
     };
     return this.store.dispatch(new fundsAction.LoadPendingReqAction(paramsP));
   };
@@ -77,6 +77,7 @@ export class PendingRequestMobComponent implements OnInit {
   }
 
   public onLoadMoreTrigger(): void {
+    console.log('scrolled')
     if(this.pendingRequests.length !== this.countOfEntries){
       this.currentPage +=1
       this.loadPendingRequests();
