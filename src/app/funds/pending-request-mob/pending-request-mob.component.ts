@@ -66,6 +66,7 @@ export class PendingRequestMobComponent implements OnInit {
   public loadPendingRequests() {
     const paramsP = {
       offset: (this.currentPage - 1) * this.countPerPage,
+      currencyName: this.currValue || '',
       limit: this.countPerPage,
       concat: this.currentPage > 1 ? true : false,
     };
@@ -97,7 +98,8 @@ export class PendingRequestMobComponent implements OnInit {
 
   public onSelectPair(currId: string): void {
     this.currencyForChoose = currId;
-    this.loadPendingRequests();;
+    this.currentPage = 1;
+    this.loadPendingRequests();
   }
 
 }
