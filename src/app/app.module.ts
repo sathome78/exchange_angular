@@ -42,6 +42,7 @@ import {PopupsModule} from './popups/popups.module';
 import { IEOComponent } from './ieo/ieo.component';
 import { PopupBuyComponent } from './ieo/components/popup-buy/popup-buy.component';
 import { PopupNotificationComponent } from './ieo/components/popup-notification/popup-notification.component';
+import { IeoHeaderComponent } from './ieo/components/ieo-header/ieo-header.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -60,6 +61,7 @@ export function createTranslateLoader(http: HttpClient) {
     IEOComponent,
     PopupBuyComponent,
     PopupNotificationComponent,
+    IeoHeaderComponent,
   ],
   imports: [
     StoreModule.forRoot(reducers),
