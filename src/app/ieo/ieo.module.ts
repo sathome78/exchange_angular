@@ -10,6 +10,7 @@ import {IEOHowItWorksComponent} from './components/ieo-how-it-works/ieo-how-it-w
 import {IEODescriptionsComponent} from './components/ieo-descriptions/ieo-descriptions.component';
 import {PopupBuyComponent} from './components/popup-buy/popup-buy.component';
 import {PopupNotificationComponent} from './components/popup-notification/popup-notification.component';
+import {IeoHeaderComponent} from './components/ieo-header/ieo-header.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {PopupNotificationComponent} from './components/popup-notification/popup-
     IEODescriptionsComponent,
     PopupBuyComponent,
     PopupNotificationComponent,
+    IeoHeaderComponent,
   ],
   imports: [
     CommonModule,

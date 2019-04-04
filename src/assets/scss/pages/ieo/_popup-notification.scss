@@ -1,0 +1,25 @@
+.ieo-notification{
+	.popup{
+		min-height: unset;
+		padding-bottom: 42px;
+	}
+	.popup__title{
+		margin-bottom: 1em;
+		font-size: 24px;
+	}
+	.popup__subtitle{
+		font-size: 18px;
+		text-align: center;
+		margin-bottom: 1.7em;
+		color: #000000;
+		line-height: 1.57;
+		span{
+			display: block;
+			text-align: center;
+			font-weight: 600;
+		}
+	}
+	.btn{
+
+	}
+}

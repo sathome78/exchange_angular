@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, Input} from '@angular/core';
-import {Subject, Observable} from 'rxjs';
+import {Subject, Observable, of} from 'rxjs';
 import {Store, select} from '@ngrx/store';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
@@ -41,6 +41,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     FIAT: 'FIAT',
     PR: 'PR',
     QUBERA: 'QUBERA',
+    ICO: 'ICO',
   };
 
   public balanceItems: BalanceItem [] = [];
@@ -208,6 +209,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
         return this.countOfFiatEntries$;
       case this.Tab.PR :
         return this.countOfPendingRequests$;
+      case this.Tab.ICO :
+        return of(0);
       default:
         return this.countOfCryptoEntries$;
     }
