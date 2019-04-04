@@ -1,13 +1,13 @@
 <div class="trading-wr--mobile">
   <div class="row row--jcsb row--aic widget__trading-row">
-    <div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown--open': isDropdownOpen}"
-    (mouseenter)="isDropdownOpen = true" (mouseleave)="isDropdownOpen = false">
-    <div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>
-    <ul class="dropdown__list">
-      <ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>
-        <li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>
-      </ng-template>
-    </ul>
+    <div class="dropdown widget__limit-dropdown">
+      <div
+        class="dropdown__btn"
+        *ngFor="let limit of limitsData"
+        [ngClass]="{'selectedButton': dropdownLimitValue === limit}"
+        (click)="selectedLimit(limit)">
+        {{showLimit(limit, true)}}
+      </div>
   </div>
     <!-- <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
       <div style="margin-left: auto;">
