@@ -123,6 +123,14 @@
             [showNotFoundTip]="existQuberaAccounts"
           ></app-dynamic-input>
         </ng-container>
+        <app-dynamic-input
+          *ngSwitchCase="Tab.ICO"
+          [value]="currValue"
+          [options]="[]"
+          (onChange)="onChangeCurrPair($event)"
+          (onSelect)="onSelectPair($event.id)"
+          [showNotFoundTip]="true"
+        ></app-dynamic-input>
 
         <app-dynamic-input
           *ngSwitchCase="Tab.PR"
@@ -189,6 +197,14 @@
             </div>
             <span>{{'Qubera Balance' | translate}}</span>
           </button> -->
+          <button
+            [disabled]="loading$ | async"
+            class="tabs__item"
+            [ngClass]="{'tabs__item--active': currTab === Tab.ICO}"
+            (click)="onSelectTab(Tab.ICO)"
+          >
+            {{'ICO' | translate}}
+          </button>
           <button
             class="tabs__item"
             [ngClass]="{'tabs__item--active': currTab === Tab.PR}"
@@ -272,6 +288,14 @@
             (cryptoDepositOut)="goToCryptoDepositPopup($event)">
           </app-qubera-table>
         </ng-container>
+        <app-ico-table
+          [countPerPage]="countPerPage"
+          [countOfEntries]="getCountOfEntries() | async"
+          [currentPage]="currentPage"
+          [loading]="loading$ | async"
+          (onPaginate)="onPageChanged($event)"
+          *ngSwitchCase="Tab.ICO"
+        ></app-ico-table>
       </ng-container>
 
     </div>
