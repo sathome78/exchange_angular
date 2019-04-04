@@ -258,6 +258,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
         'mainSeriesProperties.areaStyle.color1': 'rgba(35, 123, 239, 1)',
         'mainSeriesProperties.areaStyle.color2': 'rgba(35, 123, 239, 0)',
+
+        'mainSeriesProperties.candleStyle.wickUpColor': '#53B987',
+        'mainSeriesProperties.candleStyle.wickDownColor': '#EB5757'
       },
     };
 
