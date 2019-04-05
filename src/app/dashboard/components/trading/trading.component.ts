@@ -17,6 +17,7 @@ import {Order} from 'app/model/order.model';
 import {TradingService} from 'app/dashboard/services/trading.service';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import {SetLastCreatedOrderAction} from '../../actions/dashboard.actions';
 
 @Component({
   selector: 'app-trading',
@@ -607,6 +608,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
           type === this.BUY
             ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
             : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
+          this.store.dispatch(new SetLastCreatedOrderAction(order));
           this.createOrderSuccess();
         }, err => {
           this.createOrderFail();

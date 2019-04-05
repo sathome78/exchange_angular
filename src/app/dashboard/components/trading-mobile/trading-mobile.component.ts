@@ -8,13 +8,17 @@ import {select, Store} from '@ngrx/store';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {Order} from '../../../model/order.model';
 import {TradingService} from '../../services/trading.service';
-import {State, getActiveCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getDashboardState, getIsAuthenticated} from 'app/core/reducers/index';
-import {CurrencyPair} from 'app/model/currency-pair.model';
+import {
+  State,
+  getActiveCurrencyPair,
+  getLastPrice,
+  getSelectedOrderBookOrder,
+  getDashboardState,
+  getIsAuthenticated} from 'app/core/reducers/index';
 import {UserService} from 'app/shared/services/user.service';
 import {OrderItem, UserBalance} from 'app/model';
 import {PopupService} from 'app/shared/services/popup.service';
-import {SelectedOrderBookOrderAction, SetLastCreatedOrderAction} from '../../actions/dashboard.actions';
-import {defaultOrderItem} from '../../reducers/default-values';
+import { SetLastCreatedOrderAction } from '../../actions/dashboard.actions';
 import {AuthService} from 'app/shared/services/auth.service';
 import {TranslateService} from '@ngx-translate/core';
 import {LastPrice} from 'app/model/last-price.model';
@@ -57,7 +61,6 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   public notifyFail = false;
   public message = '';
   public order;
-  public lastSellOrder;
   public isTotalWithCommission = false;
   public isPossibleSetPrice = true;
   public SELL = SELL;
@@ -624,6 +627,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
         type === this.BUY
           ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
           : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
+        this.store.dispatch(new SetLastCreatedOrderAction(order));
         this.createOrderSuccess();
       }, err => {
         this.createOrderFail();
