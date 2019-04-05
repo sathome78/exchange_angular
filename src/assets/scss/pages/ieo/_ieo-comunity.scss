@@ -31,10 +31,21 @@
 	}
 
 	.social-item{
+		&:hover{
+			svg{
+				path{
+					fill: #fff;
+				}
+			}
+		}
 		a{
 			display: block;
 			svg{
 				display: block;
+				path{
+					transition: .3s;
+					fill: #5E5F74;
+				}
 			}
 		}
 	}

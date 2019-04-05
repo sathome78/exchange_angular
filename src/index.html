@@ -55,7 +55,7 @@
           var countdown = document.getElementById("timer"); 
           getCountdown();
 
-          setInterval(function () { getCountdown(); console.log("asas")}, 1000);
+          setInterval(function () { getCountdown(); }, 1000);
 
           function getCountdown(){
 
@@ -86,6 +86,20 @@
       },300)
       
 
+    </script>
+    <script type="text/javascript">
+      setTimeout(function(){
+          var startChangeHeader = (document.querySelector(".header").getBoundingClientRect().top) + 5;
+        window.onscroll = function(){
+          var currentPosition = window.pageYOffset;
+          if(currentPosition > startChangeHeader){
+            document.querySelector(".page-wrap").classList.add("ieo-page-header");
+          }
+          else{
+            document.querySelector(".page-wrap").classList.remove("ieo-page-header");
+          }
+        }
+        },300)
     </script>
     <!-- end temp -->
   </body>

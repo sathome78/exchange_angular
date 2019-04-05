@@ -1,3 +1,11 @@
+.page-wrap{
+	&.ieo-page-header{
+		.ieo-header{
+			transform: translateY(0);
+		}
+	}
+}
+
 .ieo-header{
 	position: fixed;
 	left: 0;

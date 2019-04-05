@@ -90,11 +90,12 @@
 	.buy-block{
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
+		// justify-content: space-between;
 		padding-top: .8em;
 		width: 19em;
 	}
 	.amount{
+		margin-bottom: 1em;
 		p{
 			
 			font-weight: 500;
@@ -110,11 +111,12 @@
 		display: flex;
 		align-items: flex-end;
 		justify-content: space-between;
+		    margin-bottom: auto;
 		p{
 			font-weight: 500;
 			font-size: .8em;
 			color: #5E5F74;
-			padding-bottom: 1.125em;
+			padding-bottom: 1.45em;
 		}
 	}
 	.timer{
@@ -186,14 +188,26 @@
 	.button-part{
 		width: 227px;
 		position: relative;
-    bottom: -.55em;
+		bottom: -.55em;
 	}
 	.standart-btn{
-		background: #5E5F74;
+		background-color: #237BEF;
+		outline: none;
 		border-radius: 4px;
 		width: 100%;
 		padding: 12px .7em;
 		border: none;
+		cursor: pointer;
+		&:hover{
+			background-color: #4590F3;
+		}
+		&:disabled{
+			background: #5E5F74;
+			cursor: default;
+			&:hover{
+				background: #5E5F74;
+			}
+		}
 
 		span{	
 			font-size: 1.2em;
@@ -204,5 +218,59 @@
 	}
 	.right-text{
 		text-align: right;
+	}
+	.progress-block{
+		max-width: 11.5em;
+		    padding-top: .3em;
+		.currency-info{
+
+			display: flex;
+			margin-bottom: 1.1em;
+		}
+		.currency-buyed{
+			display: flex;
+			align-items: flex-end;
+		}
+		.buyed-value{
+			font-weight: 500;
+			font-size: 1em;
+			line-height: .8;
+			margin-right: 3px;
+		}
+		.currency-name{
+			font-weight: 500;
+			font-size: .6em;
+			color: #5E5F74;
+			line-height: 1;
+		}
+		.percentage{
+			margin-left: auto;
+			display: flex;
+			align-items: flex-end;
+			span{
+				font-weight: 500;
+				font-size: .6em;
+				line-height: 1;
+				
+				color: #237BEF;
+			}
+		}
+		.currency-bar{
+			height: 4px;
+			width: 100%;
+			position: relative;
+			background: #5E5F74;
+			border-radius: 3px;
+			overflow: hidden;
+			margin-bottom: 1.3em;
+		}
+		.currency-bar-progress{
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			background: #237BEF;
+		}	
 	}
 }
