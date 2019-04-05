@@ -6,6 +6,7 @@ import * as dashboardActions from '../../actions/dashboard.actions';
 import {Store} from '@ngrx/store';
 import {State} from '../../../core/reducers';
 import {UtilsService} from 'app/shared/services/utils.service';
+import {DashboardService} from '../../dashboard.service';
 
 @Component({
   selector: 'app-market-search',
@@ -28,6 +29,7 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
   constructor(
     private utils: UtilsService,
     private store: Store<State>,
+    private dashboardService: DashboardService,
     private cdr: ChangeDetectorRef,
   ) { }
 
@@ -37,7 +39,7 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.input.nativeElement.focus();
     setTimeout(() => {
-      this.scrollHeight = this.container.nativeElement.offsetHeight - 143;
+      this.scrollHeight = this.container.nativeElement.offsetHeight - 109;
       this.cdr.detectChanges();
     }, 0);
   }
@@ -59,11 +61,16 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
       new dashboardActions.ChangeActiveCurrencyPairAction({name: pair.currencyPairName, id: pair.currencyPairId})
     );
     this.utils.saveActiveCurrencyPairToSS({name: pair.currencyPairName, id: pair.currencyPairId});
+    this.toMobileWidget('trading');
     this.onCloseModal();
   }
   // refactor
   isFavorite(pair: CurrencyPair): boolean {
     return pair.isFavorite;
+  }
+
+  toMobileWidget(widgetName: string) {
+    this.dashboardService.activeMobileWidget.next(widgetName);
   }
 
   // isFiat(pair: string): boolean {
