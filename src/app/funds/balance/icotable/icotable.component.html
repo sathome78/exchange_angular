@@ -1,72 +1,256 @@
-<table class="table">
+<table class="table ieo-table">
   <thead>
     <tr>
-      <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Currency' | translate}}</th>
-      <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Total balance' | translate}}</th>
-      <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Available balance' | translate}}</th>
-      <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Pending' | translate}}</th>
-      <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'In Withdraw' | translate}}</th>
-      <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'In Orders' | translate}}</th>
-      <!-- <th class="table__cell-head table__cell-head--tar">Change %</th> -->
-      <th class="table__cell-head table__cell-head--tac">{{'Deposit' | translate}}</th>
-      <th class="table__cell-head table__cell-head--tac">{{'Transfer' | translate}}</th>
-      <th class="table__cell-head table__cell-head--tac">{{'Trade' | translate}}</th>
-      <th class="table__cell-head table__cell-head--tac">{{'Withdraw' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tal coins-cell">{{'Coins' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tar">{{'Status' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tar">{{'Price' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tar">{{'Available balance ' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tar">{{'Start Time' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tar">{{'Session Supply' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tar">{{'Amount' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tac button-cell"></th>
     </tr>
   </thead>
   <tbody class="table__body">
     <tr
       class="table__row balance__table-row"
-      *ngFor="let item of icoBalances | paginate: {
-        itemsPerPage: countPerPage,
-        currentPage: currentPage,
-        totalItems: countOfEntries
-      }"
+      
     >
       <td class="table__cell">
         <div class="balance__currency">
           <div class="balance__currency-icon">
-            <img [src]="item.currencyName | getIconUrl:true">
+            <img src="assets/img/currency-icons/citrus.svg">
           </div>
-          <span style="min-width: 70px;">{{item.currencyName}}</span>
-          <span class="balance__currency-name">{{item.currencyDescription}}</span>
+          <span >Citrus</span>
         </div>
       </td>
-      <td class="table__cell table__cell--tal">
-        <span>{{(+item.activeBalance + +item.reservedByOrders + +item.reservedByMerchant + +item.onConfirmation) | roundCurrency:item.currencyName | formatCurrency}}</span>
+      <td class="table__cell table__cell--tar">
+        <span class="status-green">Flash Sale</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{item.activeBalance | roundCurrency:item.currencyName | formatCurrency}}</span>
+        <span>1 CTR = 0.00043400 BTC</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{item.onConfirmation | roundCurrency:item.currencyName | formatCurrency}}</span>
+        <span>10345.89543217</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{item.reservedByMerchant | roundCurrency:item.currencyName | formatCurrency}}</span>
+        <span>2019-03-19 22:00:00</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{item.reservedByOrders | roundCurrency:item.currencyName | formatCurrency}}</span>
+        <span>597,014,925 BTT</span>
       </td>
-      <!-- <td class="table__cell table__cell--tar">
-        <div class="balance__change">
-          <span class="txt-green">7.8</span>
-          <span class="arr arr--green"></span>
-        </div>
-      </td> -->
-      <td class="table__cell">
-        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="func()">{{'Deposit' | translate}}</button>
+      <td class="table__cell table__cell--tar">
+        <span>597,014,925</span>
       </td>
-      <td class="table__cell">
-        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="func()" >{{'Transfer' | translate}}</button>
-      </td>
-      <td class="table__cell">
-        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="func()">{{'Trade' | translate}}</button>
-      </td>
-      <td class="table__cell">
-        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="func()">{{'Withdraw' | translate}}</button>
+      <td class="table__cell button-cell">
+        <button class="btn btn--center btn-green btn--small btn--hidden" (click)="func()">{{'Buy' | translate}}</button>
       </td>
     </tr>
-    <tr class="table__row balance__table-row" *ngIf="!icoBalances.length && !loading">
+    <tr
+      class="table__row balance__table-row"
+      
+    >
+      <td class="table__cell">
+        <div class="balance__currency">
+          <div class="balance__currency-icon">
+            <img src="assets/img/currency-icons/jido token.svg">
+          </div>
+          <span >JidoToken</span>
+        </div>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span class="status-gray">Success</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>1 JDC = 0.00043400 BTC</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>0</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>2019-03-19 22:00:00</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>597,014,925 BTT</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>597,014,925</span>
+      </td>
+      <td class="table__cell button-cell">
+        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="func()">{{'More' | translate}}</button>
+      </td>
+    </tr>
+    <tr
+      class="table__row balance__table-row"
+      
+    >
+      <td class="table__cell">
+        <div class="balance__currency">
+          <div class="balance__currency-icon">
+            <img src="assets/img/currency-icons/bittorent.svg">
+          </div>
+          <span >BitTorent</span>
+        </div>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span class="status-gray">Upcoming</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>1 BTT = 0.00043400 BTC</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>0</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>2019-03-19 22:00:00</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>597,014,925 BTT</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>597,014,925</span>
+      </td>
+      <td class="table__cell button-cell">
+        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="func()">{{'Participate' | translate}}</button>
+      </td>
+    </tr>
+    <tr
+      class="table__row balance__table-row"
+      
+    >
+      <td class="table__cell">
+        <div class="balance__currency">
+          <div class="balance__currency-icon">
+            <img src="assets/img/currency-icons/mana.svg">
+          </div>
+          <span >Mana</span>
+        </div>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span class="status-green">ICO fail</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>1 MNN = 0.00043400 BTC</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>124.308</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>2019-03-19 22:00:00</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>597,014,925 BTT</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>597,014,925</span>
+      </td>
+      <td class="table__cell button-cell">
+        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="func()">{{'More' | translate}}</button>
+      </td>
+    </tr>
+    <tr
+      class="table__row balance__table-row"
+      
+    >
+      <td class="table__cell">
+        <div class="balance__currency">
+          <div class="balance__currency-icon">
+            <img src="assets/img/currency-icons/citrus.svg">
+          </div>
+          <span >Citrus</span>
+        </div>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span class="status-green">Flash Sale</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>1 CTR = 0.00043400 BTC</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>10345.89543217</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>2019-03-19 22:00:00</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>597,014,925 BTT</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>597,014,925</span>
+      </td>
+      <td class="table__cell button-cell">
+        <button class="btn btn--center btn-green btn--small btn--hidden" (click)="func()">{{'Buy' | translate}}</button>
+      </td>
+    </tr>
+    <tr
+      class="table__row balance__table-row"
+      
+    >
+      <td class="table__cell">
+        <div class="balance__currency">
+          <div class="balance__currency-icon">
+            <img src="assets/img/currency-icons/jido token.svg">
+          </div>
+          <span >JidoToken</span>
+        </div>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span class="status-gray">Success</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>1 JDC = 0.00043400 BTC</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>0</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>2019-03-19 22:00:00</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>597,014,925 BTT</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>597,014,925</span>
+      </td>
+      <td class="table__cell button-cell">
+        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="func()">{{'More' | translate}}</button>
+      </td>
+    </tr>
+    <tr
+      class="table__row balance__table-row"
+      
+    >
+      <td class="table__cell">
+        <div class="balance__currency">
+          <div class="balance__currency-icon">
+            <img src="assets/img/currency-icons/bittorent.svg">
+          </div>
+          <span >BitTorent</span>
+        </div>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span class="status-gray">Upcoming</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>1 BTT = 0.00043400 BTC</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>0</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>2019-03-19 22:00:00</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>597,014,925 BTT</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>597,014,925</span>
+      </td>
+      <td class="table__cell button-cell">
+        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="func()">{{'Participate' | translate}}</button>
+      </td>
+    </tr>
+    <tr class="table__row balance__table-row table__row--no-hover" *ngIf="!icoBalances.length && !loading">
       <td class="table__cell table__cell--tac" colspan="10">
         {{'No matching records found' | translate}}
       </td>
