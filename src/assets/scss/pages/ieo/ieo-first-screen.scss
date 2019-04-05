@@ -15,10 +15,16 @@
 	background-size: cover;
 	background-position: 100% 100%;
 	background-repeat: no-repeat;
+	@media(max-width: 992px){
+		font-size: 1.3em;
+	}
 	.fs-wr{
 		max-width: calc(73.7em + 40px);
 		margin: 0 auto;
 		padding: 3.8em 20px 3.6em;
+		@media(max-width: 992px){
+			padding: 2.4em 20px 2.4em;
+		}
 	}
 	.fs-wr-inner{}
 	.fs-image-container{}
@@ -26,22 +32,42 @@
 		display: flex;
 		align-items: center;
 		/* justify-content: space-between; */
+		@media(max-width: 992px){
+			flex-direction: column;
+		}
 
 	}
 	.bittorrent{
 		margin-right: 5.7em;
-		img{}
+		@media(max-width: 992px){
+			margin-right: 0;
+			margin-bottom: 2em;
+			width: 11em;
+		}
+		img{
+			@media(max-width: 992px){
+				width: 100%;
+			}
+		}
 	}
 	.btc-session{
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
 		width: 40em;
+		@media (max-width: 992px){
+			width: auto;
+		}
 
 	}
 	.b-s-title{
 		width: 100%;
 		margin-bottom: 1.5em;
+		@media(max-width: 992px){
+			text-align: center;
+			margin-bottom: .6em;
+		}
+		
 		h3{
 			display: inline-flex;
 			position: relative;
@@ -49,6 +75,9 @@
 			font-size: 2em;
 			color: #FFFFFF;
 			line-height: .9;
+			@media(max-width: 480px){
+				font-size: 1.4em;
+			}
 		}
 	}
 	.upcoming{
@@ -62,20 +91,45 @@
 		align-items: center;
 		top: .4em;
 		bottom: 0;
+		@media(max-width: 992px){
+			position: static;
+			padding-top: .25em;
 
+		}
+		@media(max-width: 480px){
+			font-size: .65em;
+
+		}
 
 	}
 	.b-s-table{
 		width: 17.5em;
+		@media(max-width: 992px){
+			width: 100%;
+			max-width: 507px;
+			margin: 0 auto 1em;
+		}
 		td{
 			font-weight: 500;
 			font-size: .8em;
 			color: #5E5F74;
 			padding: 1.35em 0;
+			@media (max-width: 992px){
+				padding: .75em 0;
+			}
+			&.right-text{
+				@media (max-width: 992px){
+					span{
+
+						text-align: right;
+					}
+				}
+			}
 			span{
 				display: inline-block;
 				min-width: 10em;
 				text-align: left;
+				
 			}
 			&:nth-child(2){
 				color: #FFFFFF;
@@ -93,6 +147,11 @@
 		// justify-content: space-between;
 		padding-top: .8em;
 		width: 19em;
+		@media (max-width: 992px){
+			width: 100%;
+			max-width: 507px;
+			margin: 0 auto;
+		}
 	}
 	.amount{
 		margin-bottom: 1em;
@@ -101,6 +160,9 @@
 			font-weight: 500;
 			font-size: .8em;
 			color: #5E5F74;
+			@media(max-width: 992px){
+				text-align: center;
+			}
 			span{
 				font-size: 1.125em;
 				color: #FFFFFF;
@@ -111,7 +173,15 @@
 		display: flex;
 		align-items: flex-end;
 		justify-content: space-between;
-		    margin-bottom: auto;
+		margin-bottom: auto;
+		@media (max-width: 992px){
+			width: 19em;
+			margin-bottom: 1.5em;
+		}
+		@media(max-width: 992px){
+			margin-left: auto;
+			margin-right: auto;
+		}
 		p{
 			font-weight: 500;
 			font-size: .8em;
@@ -189,6 +259,14 @@
 		width: 227px;
 		position: relative;
 		bottom: -.55em;
+
+		@media (max-width: 992px) {
+			bottom: 0;
+		}
+		@media(max-width: 992px){
+			margin-right: auto;
+			margin-left: auto;
+		}
 	}
 	.standart-btn{
 		background-color: #237BEF;
@@ -221,7 +299,7 @@
 	}
 	.progress-block{
 		max-width: 11.5em;
-		    padding-top: .3em;
+		padding-top: .3em;
 		.currency-info{
 
 			display: flex;

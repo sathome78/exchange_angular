@@ -9,9 +9,11 @@
 		}
 	}
 	.economics-table{
-
+		width: 100%;
+		overflow: auto;
 	}
 	.economics-table-wr{
+		    min-width: 570px;
 		    box-shadow: 4px 4px 9px rgba(0, 0, 0, 0.1);
 
 	}
@@ -41,12 +43,18 @@
 	.table-item-description{
 		width: 25em;
 		padding: .85em 1em .85em 2em;
+		@media (max-width: 992px) {
+			width: 15em;
+		}
 		p{
 
 		}
 	}
 	.table-item-value{
 		flex-grow: 1;
+		@media (max-width: 992px) {
+			width: 30em;
+		}
 		padding: .85em 1em .85em 2em;
 		p{
 
