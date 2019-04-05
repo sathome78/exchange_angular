@@ -69,7 +69,13 @@ export class IEOInfoComponent implements OnInit, OnDestroy {
     this.showBuy = false;
   }
   public onBuy() {
-    debugger
-    this.openBuy();
+    // debugger
+    if(this.stage.UPCOMING === this.currentStage) {
+
+    } else if (this.stage.SALE === this.currentStage) {
+      this.openBuy();
+    } else if (this.stage.COMPLETED === this.currentStage) {
+
+    }
   }
 }

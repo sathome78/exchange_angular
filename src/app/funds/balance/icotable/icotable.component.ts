@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ico-table',
@@ -8,13 +9,16 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class ICOTableComponent implements OnInit {
 
   @Input('countPerPage') public countPerPage: number;
+  @Input('IEOData') public IEOData: any;
   @Input('loading') public loading: boolean;
   @Input('currentPage') public currentPage: number;
   @Input('countOfEntries') public countOfEntries: number;
   @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();
   public icoBalances = [];
 
-  constructor() { }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnInit() {
   }
@@ -28,6 +32,15 @@ export class ICOTableComponent implements OnInit {
 
   public changePage(page: number): void {
     this.onPaginate.emit({currentPage: page, countPerPage: this.countPerPage});
+  }
+
+  public getFormatDate(d) {
+    return `${d.year}-${d.monthValue < 10 ? '0' + d.monthValue: d.monthValue}-${d.dayOfMonth < 10 ? '0' + d.dayOfMonth: d.dayOfMonth} ` +
+      `${d.hour < 10 ? '0' + d.hour: d.hour}:${d.minute < 10 ? '0' + d.minute: d.minute}:${d.second < 10 ? '0' + d.second: d.second}`
+  }
+
+  public goToIeo(id) {
+    this.router.navigate([`/ieo/${id}`])
   }
 
 }

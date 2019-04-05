@@ -91,9 +91,9 @@
           </a>
           <div class="submenu">
             <ul class="menu submenu__list">
-              <li class="submenu__item">
-                <a class="submenu__link" routerLink="/ieo">
-                  <span class="menu__link-text">{{'BitTorent' | translate}}</span>
+              <li class="submenu__item" *ngFor="let ieo of (ieoList$ | async)">
+                <a class="submenu__link" [routerLink]="'/ieo/' + ieo.id">
+                  <span class="menu__link-text">{{ieo.currencyDescription}} ({{ieo.status}})</span>
                 </a>
               </li>
             </ul>

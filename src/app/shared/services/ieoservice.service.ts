@@ -7,6 +7,7 @@ import { IEOSuccessBuyModel } from '../../ieo/models/ieo-success-buy';
 import { map } from 'rxjs/operators';
 import { RxStompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
+import { TOKEN } from './http.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -32,15 +33,19 @@ export class IEOServiceService {
     return this.http.put<ResponseModelIEO<IEOSuccessBuyModel>>(`${this.apiUrl}/api/private/v2/kyc/claim`, data);
   }
 
-  public getListIEO(): any {
+  public getListIEO(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/api/public/v2/ieo`)
+  }
+
+  public getListIEOTab(): any {
     return this.stompService
-      .watch(`/app/queue/ieo_details`)
+      .watch(`/user/queue/ieo_details`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
   public getIEO(id): any {
     return this.stompService
-      .watch(`/app/queue/ieo_details/${id}`)
+      .watch(`/app/ieo/ieo_details/${id}`)
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 }

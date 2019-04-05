@@ -8,6 +8,7 @@ import {PopupService} from 'app/shared/services/popup.service';
 import {takeUntil} from 'rxjs/operators';
 import {IEOServiceService} from '../shared/services/ieoservice.service';
 import {KycIEOModel} from './models/ieo-kyc.model';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-ieo',
   templateUrl: './ieo.component.html',
@@ -26,10 +27,12 @@ export class IEOComponent implements OnInit, OnDestroy {
   public showNotification: boolean = false;
   private ngUnsubscribe$: Subject<void> = new Subject<void>();
   public requirements: KycIEOModel = new KycIEOModel(null, null, null);
+  private IEOId: string;
 
   constructor(
     private store: Store<State>,
     private popupService: PopupService,
+    private route: ActivatedRoute,
     private ieoService: IEOServiceService,
   ) {
     this.store
@@ -47,14 +50,19 @@ export class IEOComponent implements OnInit, OnDestroy {
             })
         }
       })
-  }
 
-  ngOnInit() {
-    this.ieoService.getIEO('id')
+    this.route.paramMap.subscribe(params => {
+      this.IEOId = params.get("id")
+      this.ieoService.getIEO(this.IEOId)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((res) => {
         debugger;
       })
+    })
+  }
+
+  ngOnInit() {
+
   }
 
   onLogin() {

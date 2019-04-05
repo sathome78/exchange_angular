@@ -73,6 +73,7 @@ export const getCryptoCurrenciesForChoose = createSelector(getCoreState, fromCor
 export const getFiatCurrenciesForChoose = createSelector(getCoreState, fromCore.getFiatCurrenciesForChoose);
 export const getIsAuthenticated = createSelector(getCoreState, fromCore.getIsAuthenticatedSelector);
 export const getUserInfo = createSelector(getCoreState, fromCore.getUserInfoSelector);
+export const getIEOList = createSelector(getCoreState, fromCore.getIEOListSelector);
 
 
 /**

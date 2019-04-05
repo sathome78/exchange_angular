@@ -26,6 +26,8 @@ import {Router} from '@angular/router';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import {KYC_STATUS, PENDING} from '../../shared/constants';
 import {environment} from 'environments/environment.prod';
+import { IEOServiceService } from 'app/shared/services/ieoservice.service';
+import { IEOItem } from 'app/model/ieo.model';
 
 
 @Component({
@@ -70,6 +72,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public currValue: string = '';
   public kycStatus: string = '';
 
+  public IEOData: IEOItem[];
+
   public sendMoneyData = {};
   public refillBalanceData = {};
   public currencyForChoose: string = null;
@@ -83,6 +87,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     private store: Store<fromCore.State>,
     private dashboardWS: DashboardWebSocketService,
     public breakpointService: BreakpointService,
+    public ieoService: IEOServiceService,
     private router: Router
   ) {
     this.quberaBalances$ = store.pipe(select(fundsReducer.getQuberaBalancesSelector));
@@ -145,6 +150,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.openSendMoneyPopup(res);
       });
+
+    this.getIEOTable();
   }
 
   public get isMobile(): boolean {
@@ -332,6 +339,15 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
   public get getFiatDynamicIData(): DIOptions[] {
     return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
+  }
+
+  public getIEOTable() {
+    this.ieoService.getListIEOTab()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res: IEOItem[]) => {
+        debugger
+        this.IEOData = res;
+      })
   }
 
 }

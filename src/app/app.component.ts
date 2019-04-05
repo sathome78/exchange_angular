@@ -15,6 +15,7 @@ import * as dashboardAction from './dashboard/actions/dashboard.actions';
 import {SimpleCurrencyPair} from './model/simple-currency-pair';
 import {UtilsService} from './shared/services/utils.service';
 import {IEOServiceService} from './shared/services/ieoservice.service';
+import { IEOItem } from './model/ieo.model';
 
 
 declare var sendTransactionSuccessGtag: Function;
@@ -88,8 +89,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.ieoService.getListIEO()
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res) => {
-        debugger
+      .subscribe((res: IEOItem[]) => {
+        this.store.dispatch(new coreAction.SetIEOListAction(res))
       })
   }
 
