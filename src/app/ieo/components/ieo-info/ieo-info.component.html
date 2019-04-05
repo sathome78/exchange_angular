@@ -41,8 +41,9 @@
               <button
                 class="standart-btn"
                 *ngIf="isAuthenticated"
-                [disabled]="currentStage !== stage.SALE"
+                (click)="onBuy()"
               >
+              <!-- [disabled]="currentStage !== stage.SALE" -->
                 <span>Buy Now</span>
               </button>
               <button
@@ -60,3 +61,9 @@
   </div>
 </div>
 <!-- end component -->
+
+
+<app-popup-buy
+  [show]="showBuy"
+  (close)="closeBuy()"
+></app-popup-buy>

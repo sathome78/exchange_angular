@@ -24,7 +24,6 @@ export class IEOComponent implements OnInit, OnDestroy {
   }
   public currentStage: string = this.stage.UPCOMING;
   public showNotification: boolean = false;
-  public showBuy: boolean = false;
   private ngUnsubscribe$: Subject<void> = new Subject<void>();
   public requirements: KycIEOModel = new KycIEOModel(null, null, null);
 
@@ -33,7 +32,7 @@ export class IEOComponent implements OnInit, OnDestroy {
     private popupService: PopupService,
     private ieoService: IEOServiceService,
   ) {
-    store
+    this.store
       .pipe(select(fromCore.getIsAuthenticated))
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((isAuth: boolean) => {
@@ -66,16 +65,8 @@ export class IEOComponent implements OnInit, OnDestroy {
     this.showNotification = true;
   }
 
-  openBuy() {
-    this.showBuy = true;
-  }
-
   closeNotification() {
     this.showNotification = false;
-  }
-
-  closeBuy() {
-    this.showBuy = false;
   }
 
   ngOnDestroy() {

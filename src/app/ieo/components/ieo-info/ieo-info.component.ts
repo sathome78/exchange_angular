@@ -8,6 +8,7 @@ import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angu
 export class IEOInfoComponent implements OnInit, OnDestroy {
 
   public timer: string = '';
+  public showBuy: boolean = false;
   public interval;
   public stage = {
     UPCOMING: 'UPCOMING',
@@ -26,7 +27,6 @@ export class IEOInfoComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     clearInterval(this.interval);
   }
-
   public startTimer(date: string): void {
     // TODO refactore
     let days, hours, minutes, seconds;
@@ -59,12 +59,17 @@ export class IEOInfoComponent implements OnInit, OnDestroy {
     getCountdown();
     this.interval = setInterval(() => getCountdown(), 1000);
   }
-
   public login() {
     this.onLogin.emit();
   }
-
-
-
-
+  public openBuy() {
+    this.showBuy = true;
+  }
+  public closeBuy() {
+    this.showBuy = false;
+  }
+  public onBuy() {
+    debugger
+    this.openBuy();
+  }
 }
