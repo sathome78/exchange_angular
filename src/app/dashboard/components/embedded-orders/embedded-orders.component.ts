@@ -3,8 +3,6 @@ import {Subject, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/internal/operators';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {AuthService} from 'app/shared/services/auth.service';
-import {CurrencyPair} from 'app/model/currency-pair.model';
 import {select, Store} from '@ngrx/store';
 import {State, getActiveCurrencyPair, getLastCreatedOrder} from 'app/core/reducers/index';
 import {EmbeddedOrdersService} from './embedded-orders.service';
@@ -31,7 +29,6 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   public activeCurrencyPair: SimpleCurrencyPair;
   public historyOrders;
   public openOrders;
-  public arrPairName = ['', ''];
   public loading: boolean = false;
 
 
