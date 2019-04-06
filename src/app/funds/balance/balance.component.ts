@@ -345,7 +345,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.ieoService.getListIEOTab()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: IEOItem[]) => {
-        debugger
         this.IEOData = res;
       })
   }

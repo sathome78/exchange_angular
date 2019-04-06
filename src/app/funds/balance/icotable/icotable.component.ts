@@ -15,6 +15,12 @@ export class ICOTableComponent implements OnInit {
   @Input('countOfEntries') public countOfEntries: number;
   @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();
   public icoBalances = [];
+  public stage = {
+    PENDING: 'PENDING',
+    RUNNING: 'RUNNING',
+    SUCCEEDED: 'SUCCEEDED',
+    FAILED: 'FAILED',
+  }
 
   constructor(
     private router: Router,
@@ -41,6 +47,10 @@ export class ICOTableComponent implements OnInit {
 
   public goToIeo(id) {
     this.router.navigate([`/ieo/${id}`])
+  }
+
+  public noop = () => {
+
   }
 
 }

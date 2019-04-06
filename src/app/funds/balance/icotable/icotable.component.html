@@ -6,7 +6,7 @@
       <th class="table__cell-head table__cell-head--tar">{{'Price' | translate}}</th>
       <th class="table__cell-head table__cell-head--tar">{{'Available balance ' | translate}}</th>
       <th class="table__cell-head table__cell-head--tar">{{'Start Time' | translate}}</th>
-      <th class="table__cell-head table__cell-head--tar">{{'Session Supply' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tar">{{'Personal Amount' | translate}}</th>
       <th class="table__cell-head table__cell-head--tar">{{'Amount' | translate}}</th>
       <th class="table__cell-head table__cell-head--tac button-cell"></th>
     </tr>
@@ -37,13 +37,34 @@
         <span>{{getFormatDate(ieo.startDate)}}</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{(ieo.availableAmount * ieo.rate ) | number: 1.1-2}} BTC</span>
+        <span>{{(ieo.personalAmount)}} BTC</span>
       </td>
       <td class="table__cell table__cell--tar">
         <span>{{ieo.amount}}</span>
       </td>
       <td class="table__cell button-cell">
-        <button class="btn btn--center btn-green btn--small btn--hidden" (click)="goToIeo(ieo.id)">{{'Buy' | translate}}</button>
+        <button
+          class="btn btn--center btn-green btn--small btn--hidden"
+          (click)="goToIeo(ieo.id)"
+          *ngIf="stage.RUNNING === ieo.stage"
+        >
+          {{'Buy' | translate}}
+        </button>
+        <button
+          class="btn btn--center btn-green btn--small btn--hidden"
+          (click)="noop()"
+          *ngIf="stage.PENDING === ieo.stage"
+        >
+          {{'Participate' | translate}}
+        </button>
+        <button
+          class="btn btn--d btn--small btn--hidden"
+          (click)="noop()"
+          *ngIf="stage.SUCCEEDED === ieo.stage || stage.FAILED === ieo.stage"
+        >
+          {{'More' | translate}}
+        </button>
+        <!-- <button class="btn btn--center btn-green btn--small btn--hidden" (click)="goToIeo(ieo.id)">{{'Buy' | translate}}</button> -->
       </td>
     </tr>
 
