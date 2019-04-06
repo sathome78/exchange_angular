@@ -1,4 +1,4 @@
-<div class="ieo-header">
+<div class="ieo-header" *ngIf="IEOData">
 	<div class="ieo-header-inner">
 		<div class="ieo-header-item">
 			<a href="/" class="logo-wr">
@@ -7,7 +7,7 @@
 		</div>
 		<div class="ieo-header-item">
 			<div class="current-ieo-text">
-				<p>BitTorent - BTC Session</p>
+				<p>{{IEOData.currencyDescription}} - BTC Session</p>
 			</div>
 		</div>
 		<div class="ieo-header-item">
@@ -16,26 +16,27 @@
 					<path d="M42 21C42 32.0236 32.8442 41 21.5 41C10.1559 41 1 32.0236 1 21C1 9.97636 10.1559 1 21.5 1C32.8442 1 42 9.97636 42 21Z" stroke="#5E5F74" stroke-width="2"/>
 				</svg>
 				<svg id="progress-bar" class="progress-bar" width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path style="stroke-dashoffset: calc(127 - (127 * .3311));" d="M42 21C42 32.0236 32.8442 41 21.5 41C10.1559 41 1 32.0236 1 21C1 9.97636 10.1559 1 21.5 1C32.8442 1 42 9.97636 42 21Z" stroke="#237BEF" stroke-width="2"/>
+					<path [style]="{'stroke-dashoffset': 'calc(127 - (127 * boughtAmountPer / 100))'}" d="M42 21C42 32.0236 32.8442 41 21.5 41C10.1559 41 1 32.0236 1 21C1 9.97636 10.1559 1 21.5 1C32.8442 1 42 9.97636 42 21Z" stroke="#237BEF" stroke-width="2"/>
 				</svg>
-				<span>33,11%</span>
+				<span>{{boughtAmountPer}}%</span>
 			</div>
 			<div class="available-value">
-				<span class="available-value-text">11,801,455,591</span><span class="available-value-currency">BTT</span>
+        <span class="available-value-text">{{boughtAmount | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
+        <span class="available-value-currency">{{IEOData.currencyName}}</span>
 			</div>
 		</div>
 		<div class="ieo-header-item">
 			<div class="ieo-amount">
-				<span class="field-description">Amount: </span><span class="amount-value"> 597,014,925 BTT</span>
-			</div>		
+				<span class="field-description">Amount: </span><span class="amount-value">{{IEOData.amount}} {{IEOData.currencyName}}</span>
+			</div>
 			<div class="ieo-buy-button">
-				<button class="btn btn-blue btn-ieo">
+				<button class="btn btn-blue btn-ieo" (click)="onBuy.emit()">
 					<span>Buy Now</span>
 				</button>
 			</div>
 			<div class="ieo-price">
-				<span class="field-description">1 BTT = </span><span class="price-value">0,001896 BTC</span>
-			</div>	
+				<span class="field-description">1 BTT = </span><span class="price-value">{{IEOData.rate}} BTC</span>
+			</div>
 		</div>
-	</div>	
+	</div>
 </div>

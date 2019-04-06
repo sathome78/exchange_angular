@@ -1,27 +1,76 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-// import {PopupService} from '../../shared/services/popup.service';
-// import {PopupData} from '../../shared/interfaces/popup-data-interface';
+import {Component, Input, OnInit, Output, EventEmitter, OnChanges} from '@angular/core';
+import {IEOItem} from 'app/model/ieo.model';
+import {Store} from '@ngrx/store';
+import {State} from 'app/core/reducers';
+import {keys} from '../../../shared/constants';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-popup-buy',
   templateUrl: './popup-buy.component.html',
   styleUrls: ['./popup-buy.component.scss']
 })
-export class PopupBuyComponent implements OnInit {
+export class PopupBuyComponent implements OnInit, OnChanges {
 
-  // @Input() popupData: PopupData;
+  public recaptchaKey = keys.recaptchaKey;
+  public captchaInValid = true;
+  public form: FormGroup;
   @Input() show: boolean;
+  @Input() IEOData: IEOItem;
+  @Input() userBalanceBTC: number;
   @Output() close: EventEmitter<any> = new EventEmitter();
+  @Output() confirm: EventEmitter<any> = new EventEmitter();
+  public minSum: number = 1;
+  public pay: number = 0;
 
   constructor(
-    // public popupService: PopupService
+
   ) { }
 
   ngOnInit() {
+    this.initForm()
+  }
+
+  ngOnChanges(c) {
+    if(c.IEOData && c.IEOData.currentValue) {
+      this.minSum = c.IEOData.currentValue.minAmount
+    }
+  }
+
+  initForm() {
+    this.form = new FormGroup({
+      amount: new FormControl('', [Validators.required, this.minCheck.bind(this)]),
+      amount2: new FormControl('', [Validators.required, this.minCheck.bind(this)]),
+    }, {updateOn: 'change'});
+  }
+
+  private minCheck(amount: FormControl) {
+    if (this.minSum > (!!amount.value ? amount.value : 0)) {
+      return {'minThen': true};
+    }
+    return null;
+  }
+
+  private countPay(amount) {
+    this.pay = this.IEOData.rate * amount;
   }
 
   closeMe() {
-    // this.popupService.toggleInfoPopup(null);
     this.close.emit();
+  }
+
+  afterResolvedCaptcha(e) {
+    this.captchaInValid = false;
+  }
+
+  confirmForm() {
+    if(this.form.invalid && !this.captchaInValid) {
+      return;
+    }
+    this.confirm.emit(this.form.get('amount').value)
+  }
+
+  onInput(e) {
+    this.form.updateValueAndValidity();
   }
 }

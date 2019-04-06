@@ -83,6 +83,10 @@ export class UserService {
     }
   }
 
+  public getUserBalanceBTC(): Observable<any> {
+    return this.http.get(`${this.HOST}/api/private/v2/balances/myBalances/BTC`)
+  }
+
   public getIfConnectionSuccessful(): Observable<boolean> {
     return this.http.get<boolean>(this.getUrl('test'));
   }

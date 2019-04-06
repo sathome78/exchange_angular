@@ -20,8 +20,8 @@ export class IEOServiceService {
     private stompService: RxStompService,
   ) { }
 
-  public checkKYC(): Observable<KycIEOModel> {
-    return this.http.get<ResponseModelIEO<KycIEOModel>>(`${this.apiUrl}/api/private/v2/ieo/check`)
+  public checkKYC(id): Observable<KycIEOModel> {
+    return this.http.get<ResponseModelIEO<KycIEOModel>>(`${this.apiUrl}/api/private/v2/ieo/check/${id}`)
       .pipe(map((res) => res.data));
   }
 
@@ -30,11 +30,11 @@ export class IEOServiceService {
   }
 
   public buyTokens(data: {currencyName: string, amount: string}): Observable<ResponseModelIEO<IEOSuccessBuyModel>> {
-    return this.http.put<ResponseModelIEO<IEOSuccessBuyModel>>(`${this.apiUrl}/api/private/v2/kyc/claim`, data);
+    return this.http.post<ResponseModelIEO<IEOSuccessBuyModel>>(`${this.apiUrl}/api/private/v2/kyc/claim`, data);
   }
 
   public getListIEO(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/api/public/v2/ieo`)
+    return this.http.get<any>(`${this.apiUrl}/api/public/v2/ieo`);
   }
 
   public getListIEOTab(): any {

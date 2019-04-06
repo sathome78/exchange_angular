@@ -3,11 +3,11 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 // import {PopupData} from '../../shared/interfaces/popup-data-interface';
 
 @Component({
-  selector: 'app-popup-notification',
-  templateUrl: './popup-notification.component.html',
-  styleUrls: ['./popup-notification.component.scss']
+  selector: 'app-popup-policy',
+  templateUrl: './popup-policy.component.html',
+  styleUrls: ['./popup-policy.component.scss']
 })
-export class PopupNotificationComponent implements OnInit {
+export class PopupPolicyComponent implements OnInit {
 
   // @Input() popupData: PopupData;
   @Input() show: boolean;

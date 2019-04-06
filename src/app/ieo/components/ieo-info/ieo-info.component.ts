@@ -1,32 +1,47 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { IEOItem } from 'app/model/ieo.model';
 
 @Component({
   selector: 'app-ieo-info',
   templateUrl: './ieo-info.component.html',
   styleUrls: ['./ieo-info.component.scss']
 })
-export class IEOInfoComponent implements OnInit, OnDestroy {
+export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
 
   public timer: string = '';
-  public showBuy: boolean = false;
   public interval;
   public stage = {
-    UPCOMING: 'UPCOMING',
-    SALE: 'SALE',
-    COMPLETED: 'COMPLETED',
+    PENDING: 'PENDING',
+    RUNNING: 'RUNNING',
+    SUCCEEDED: 'SUCCEEDED',
+    FAILED: 'FAILED',
   }
 
   @Input('isAuthenticated') public isAuthenticated: boolean = false;
   @Input('currentStage') public currentStage: string;
+  @Input('IEOData') public IEOData: IEOItem;
+  @Input('userBalanceBTC') public userBalanceBTC: number;
   @Output('onLogin') public onLogin: EventEmitter<any> = new EventEmitter();
+  @Output('onBuy') public onBuy: EventEmitter<any> = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
-    this.startTimer('2019-04-05T19:00:00.000');
+
   }
+
+  ngOnChanges(c) {
+    if(c.IEOData && c.IEOData.currentValue && !c.IEOData.previousValue) {
+      const d = this.IEOData.startDate;
+      if(!d) return;
+      const date = new Date(d.year, d.monthValue - 1, d.dayOfMonth, d.hour, d.minute, d.second).toISOString();
+      this.startTimer(date);
+    }
+  }
+
   ngOnDestroy() {
     clearInterval(this.interval);
   }
+
   public startTimer(date: string): void {
     // TODO refactore
     let days, hours, minutes, seconds;
@@ -62,20 +77,28 @@ export class IEOInfoComponent implements OnInit, OnDestroy {
   public login() {
     this.onLogin.emit();
   }
-  public openBuy() {
-    this.showBuy = true;
-  }
-  public closeBuy() {
-    this.showBuy = false;
-  }
-  public onBuy() {
-    // debugger
-    if(this.stage.UPCOMING === this.currentStage) {
 
-    } else if (this.stage.SALE === this.currentStage) {
-      this.openBuy();
-    } else if (this.stage.COMPLETED === this.currentStage) {
+  public onBuyEvent() {
+    this.onBuy.emit();
+  }
 
+  public getFormatDate(d) {
+    if(!d) {
+      return ''
     }
+    return `${d.year}-${d.monthValue < 10 ? '0' + d.monthValue: d.monthValue}-${d.dayOfMonth < 10 ? '0' + d.dayOfMonth: d.dayOfMonth} ` +
+      `${d.hour < 10 ? '0' + d.hour: d.hour}:${d.minute < 10 ? '0' + d.minute: d.minute}:${d.second < 10 ? '0' + d.second: d.second}`
+  }
+
+  get boughtAmount () {
+    return this.IEOData.amount - this.IEOData.availableAmount
+  }
+
+  get sessionSupply () {
+    return this.IEOData.amount * this.IEOData.rate;
+  }
+
+  get boughtAmountPer () {
+    return (this.boughtAmount / (this.IEOData.amount / 100)).toFixed(2);
   }
 }

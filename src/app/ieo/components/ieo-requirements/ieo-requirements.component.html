@@ -9,26 +9,23 @@
         <div class="requirement-text">
           <p>All users must complete identity verification to meet the requirements of this project</p>
         </div>
-        <ng-component *ngIf="isAuthenticated && isBoolean(requirements.kycCheck); else defaultKyc">
-          <ng-component *ngIf="requirements.kycCheck">
-            <div class="requirement-status requirement-success">
-              <ng-component *ngTemplateOutlet="successIcon"></ng-component>
-              <p>Varification</p>
-            </div>
-          </ng-component>
-          <ng-component *ngIf="!requirements.kycCheck">
-            <div class="requirement-status requirement-faild">
-              <ng-component *ngTemplateOutlet="failIcon"></ng-component>
-              <p>Proceed to varification »</p>
-            </div>
-          </ng-component>
-        </ng-component>
-        <ng-template #defaultKyc>
-          <div class="requirement-status requirement-wait">
-            <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-            <p>Accept the terms of the agreement »</p>
+        <div *ngIf="isAuthenticated && isBoolean(requirements.kycCheck)">
+          <div  class="requirement-status requirement-success" *ngIf="requirements.kycCheck">
+            <ng-component *ngTemplateOutlet="successIcon"></ng-component>
+            <p>Varification</p>
           </div>
-        </ng-template>
+          <a href="#" (click)="preventDefault($event)" routerLink="/settings/verification" class="requirement-status requirement-faild" *ngIf="!requirements.kycCheck">
+            <ng-component *ngTemplateOutlet="failIcon"></ng-component>
+            <p>Proceed to varification »</p>
+          </a>
+        </div>
+        <div
+          *ngIf="!isAuthenticated || !isBoolean(requirements.kycCheck)"
+          class="requirement-status requirement-wait"
+        >
+          <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
+          <p>Accept the terms of the agreement »</p>
+        </div>
       </div>
       <div class="requirement-item">
         <div class="requirement-text">
@@ -36,51 +33,45 @@
           <p class="requirement-description">
           Afghanistan,Albania,Belarus,Bosnia & Herzegovina,Burundi,Canada,Central African Republic,Cote dIvoire,Cuba,Democratic Republic of the Congo,Ethiopia,Guinea,Guinea-Bissau,Iran,Iraq,Lebanon,Liberia,Libya,Mainland China,Malaysia,Myanmar (Burma),New Zealand,North Korea,Republic of Macedonia (FYROM),Serbia,Somalia,South Sudan,Sri Lanka,Sudan,Syria,Thailand,Trinidad & Tobago,Tunisia,Uganda,Ukraine,United States of America (USA),Venezuela,Yemen,Zimbabwe</p>
         </div>
-        <ng-component *ngIf="isAuthenticated && isBoolean(requirements.countryCheck); else defaultCountry">
-          <ng-component *ngIf="requirements.countryCheck">
-            <div class="requirement-status requirement-success">
-              <ng-component *ngTemplateOutlet="successIcon"></ng-component>
-              <p>Varification</p>
-            </div>
-          </ng-component>
-          <ng-component *ngIf="!requirements.countryCheck">
-            <div class="requirement-status requirement-faild">
-              <ng-component *ngTemplateOutlet="failIcon"></ng-component>
-              <p>Proceed to varification »</p>
-            </div>
-          </ng-component>
-        </ng-component>
-        <ng-template #defaultCountry>
-          <div class="requirement-status requirement-wait">
-            <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-            <p>Accept the terms of the agreement »</p>
+        <div *ngIf="isAuthenticated && isBoolean(requirements.countryCheck)">
+          <div class="requirement-status requirement-success" *ngIf="requirements.countryCheck">
+            <ng-component *ngTemplateOutlet="successIcon"></ng-component>
+            <p>Varification</p>
           </div>
-        </ng-template>
+          <a href="#" (click)="preventDefault($event)" class="requirement-status requirement-faild" *ngIf="!requirements.countryCheck">
+            <ng-component *ngTemplateOutlet="failIcon"></ng-component>
+            <p>Proceed to varification »</p>
+          </a>
+        </div>
+        <div
+          *ngIf="!isAuthenticated || !isBoolean(requirements.countryCheck)"
+          class="requirement-status requirement-wait"
+        >
+          <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
+          <p>Accept the terms of the agreement »</p>
+        </div>
       </div>
       <div class="requirement-item">
         <div class="requirement-text">
           <p>Based on our latest terms, all users are required to accept the Token Purchase Agreement</p>
         </div>
-        <ng-component *ngIf="isAuthenticated && isBoolean(requirements.policyCheck); else defaultWait">
-          <ng-component *ngIf="requirements.policyCheck">
-            <div class="requirement-status requirement-success">
-              <ng-component *ngTemplateOutlet="successIcon"></ng-component>
-              <p>Varification</p>
-            </div>
-          </ng-component>
-          <ng-component *ngIf="!requirements.policyCheck">
-            <div class="requirement-status requirement-faild">
-              <ng-component *ngTemplateOutlet="failIcon"></ng-component>
-              <p>Proceed to varification »</p>
-            </div>
-          </ng-component>
-        </ng-component>
-        <ng-template #defaultWait>
-          <div class="requirement-status requirement-wait">
-            <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-            <p>Accept the terms of the agreement »</p>
+        <div *ngIf="isAuthenticated && isBoolean(requirements.policyCheck)">
+          <div class="requirement-status requirement-success" *ngIf="requirements.policyCheck">
+            <ng-component *ngTemplateOutlet="successIcon"></ng-component>
+            <p>Varification</p>
           </div>
-        </ng-template>
+          <a href="#" (click)="policyOpen($event)" class="requirement-status requirement-faild" *ngIf="!requirements.policyCheck">
+            <ng-component *ngTemplateOutlet="failIcon"></ng-component>
+            <p>Proceed to varification »</p>
+          </a>
+        </div>
+        <div
+          *ngIf="!isAuthenticated || !isBoolean(requirements.policyCheck)"
+          class="requirement-status requirement-wait"
+        >
+          <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
+          <p>Accept the terms of the agreement »</p>
+        </div>
       </div>
     </div>
   </div>

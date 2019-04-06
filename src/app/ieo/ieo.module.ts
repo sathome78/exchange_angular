@@ -15,6 +15,8 @@ import {IEOServiceService} from '../shared/services/ieoservice.service';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from 'app/core/interceptors/auth.interceptor';
 import {JwtInterceptor} from 'app/core/interceptors/jwt.interceptor';
+import {ReactiveFormsModule, FormsModule} from '@angular/forms';
+import {PopupPolicyComponent} from './components/popup-policy/popup-policy.component';
 
 @NgModule({
   declarations: [
@@ -27,10 +29,13 @@ import {JwtInterceptor} from 'app/core/interceptors/jwt.interceptor';
     PopupBuyComponent,
     PopupNotificationComponent,
     IeoHeaderComponent,
+    PopupPolicyComponent,
   ],
   imports: [
     CommonModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     IEORoutingModule,
   ],

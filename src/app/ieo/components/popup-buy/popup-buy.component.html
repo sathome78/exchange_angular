@@ -1,39 +1,50 @@
 <div class="overlay ieo-popup-buy" *ngIf="show">
-	<div class="popup">
+	<div class="popup" *ngIf="IEOData">
 		<div class="popup__close" (click)="closeMe()"></div>
 		<div class="ieo-pair">
-			<span>BTT</span>/<span>BNB</span>
+			<span>{{IEOData.currencyName}}</span>/<span>BNB</span>
 		</div>
-		<h6 class="popup__title tnx-head">1 BTT = 0.0001899 BTC</h6>
+		<h6 class="popup__title tnx-head">1 {{IEOData.currencyName}} = {{IEOData.rate}} BTC</h6>
 		<div class="balance-txt">
-			<span>Balance: ********* BTC</span>
+			<span>Balance: {{userBalanceBTC}} BTC</span>
 		</div>
 		<div class="input-part">
       <div class="avaliable">Available:
-        <a class="link" style="pointer-events: auto;">20567.01567 BTT</a>
+        <a class="link" style="pointer-events: auto;">{{IEOData.availableAmount}} {{IEOData.currencyName}}</a>
       </div>
-			<div class="wrap-input">
-				<app-price-input formcontrolname="amount" name="amount" class="">
-					<input autocomplete="off" class="wrap-input__input ng-pristine ng-touched" name="price" required="" type="text">
-					<label class="wrap-input__label" for="">Quvantity</label>
-					<div class="wrap-input__line ng-star-inserted"></div>
-				</app-price-input>
-				<div class="ng-star-inserted">
-					<div class="input-hint-wrapper">
-						<span class="wrap-input__message--show ng-star-inserted wrap-input__message"> Minimum sum for withdrawal 300.0 ABBC </span>
-					</div>
-				</div>
-			</div>
+      <div class="wrap-input">
+        <form [formGroup]="form">
+          <app-price-input
+            [placeholder]="'Quvantity'"
+            formControlName="amount"
+            (customInput)="onInput($event)"
+            name="amount"
+          >
+          </app-price-input>
+
+          <!--Input error section starts-->
+          <div class="input-hint-wrapper" *ngIf="form.controls['amount'].errors">
+            <span class="wrap-input__message">
+              Minimum amount {{+(minSum || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}
+            </span>
+          </div>
+          <!--Input error section ends-->
+        </form>
+      </div>
 		</div>
 		<div class="max-value">
-			<a href="#">Max: 166,666,666</a>
+			<a href="#">Max: {{IEOData.maxAmountPerClaim}}</a>
 		</div>
 		<div class="pay">
-			<p>Pay: 1.3456 BTC</p>
+			<p>Pay: {{((form.get('amount').value || 0) * IEOData.rate ) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</p>
 		</div>
 		<div class="capcha">
-			capcha
+			<re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
 		</div>
-		<button class="btn btn--active btn--center" (click)="closeMe()">Confirm</button>
+    <button
+      class="btn btn--active btn--center"
+      [disabled]="form.invalid || captchaInValid"
+      (click)="confirmForm()"
+    >Confirm</button>
 	</div>
 </div>
