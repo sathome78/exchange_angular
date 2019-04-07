@@ -1,5 +1,4 @@
-<cdk-virtual-scroll-viewport style="height: 227px;" itemSize="90">
-
+<cdk-virtual-scroll-viewport style="height: 227px;" itemSize="50">
   <table class="table table--mob">
     <thead class="table__head">
       <tr class="table__head-row">
@@ -14,6 +13,7 @@
         <th class="table__cell-head table__cell-head--tar">{{'Avg' | translate}}.{{'Price' | translate}}</th>
       </tr>
     </thead>
+
     <!-- t-row start-->
     <tbody class="table__body table__body--none-shadow">
       <ng-container *cdkVirtualFor="let item of historyOrders">

@@ -134,7 +134,7 @@
         </div>
         <div class="row row--jcsb">
           <div class="wrap-input filters-popup__datepicker">
-            <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date}" >{{'From' | translate}}</label>
+            <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date || isDateInputFromFocus}" >{{'From' | translate}}</label>
             <app-date-mask-input
               [innValue]="modelDateFrom"
               (inputFocus)="focusOrBlurDateFrom($event)"
@@ -151,7 +151,7 @@
             <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
           </div>
           <div class="wrap-input filters-popup__datepicker">
-            <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date}" >{{'To' | translate}}</label>
+            <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date || isDateInputToFocus}" >{{'To' | translate}}</label>
             <app-date-mask-input
               [innValue]="modelDateTo"
               (inputFocus)="focusOrBlurDateTo($event)"
@@ -168,7 +168,7 @@
             <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
           </div>
         </div>
-        <button class="btn filters-popup__btn"  (click)="closeFilterPopup()">{{'See results' | translate}}</button>
+        <button class="btn filters-popup__btn"  (click)="filterPopupSubmit()">{{'See results' | translate}}</button>
       </form>
     </div>
     <!--filter-popup end-->
@@ -206,7 +206,7 @@
           ></app-dynamic-input>
         </div>
         <div class="wrap-input transaction__datepicker">
-          <label class="wrap-input__label" [ngClass]="{'select-input_label': !!modelDateFrom?.date}">{{'From' | translate}}</label>
+          <label class="wrap-input__label" [ngClass]="{'select-input_label': !!modelDateFrom?.date || isDateInputFromFocus}">{{'From' | translate}}</label>
           <app-date-mask-input
             [innValue]="modelDateFrom"
             (validDate)="dateFromChanged($event)"
@@ -225,7 +225,7 @@
           <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
         </div>
         <div class="wrap-input transaction__datepicker">
-          <label class="wrap-input__label" [ngClass]="{'select-input_label': !!modelDateTo?.date}" >{{'To' | translate}}</label>
+          <label class="wrap-input__label" [ngClass]="{'select-input_label': !!modelDateTo?.date || isDateInputToFocus}" >{{'To' | translate}}</label>
           <app-date-mask-input
             [innValue]="modelDateTo"
             (validDate)="dateToChanged($event)"

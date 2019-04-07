@@ -1,0 +1,81 @@
+.ieo-popup-buy{
+	.popup{
+		position: relative;
+	}
+	.ieo-pair{
+		padding: 7px;
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		background: #E5E5E5;
+		border-radius: 4px 4px 0px 0px;
+		font-weight: 500;
+		font-size: 18px;
+		color: #191A39;
+		text-align: center;
+		span{
+		}
+	}
+	.popup__title{
+		margin-top: 17px;
+		margin-bottom: 0;
+	}
+	.balance-txt{
+		font-size: 14px;
+		text-align: center;
+		margin-bottom: 15px;
+		color: #A0A0A0;
+		span{
+
+		}
+	}
+	.input-part{
+
+	}
+	.wrap-input__input{
+		margin-bottom: 15px;
+	}
+	.avaliable{
+		font-size: 12px;
+		text-align: right;
+		color: #191A39;
+		margin-bottom: 3px;
+		a{
+			font-size: 12px;
+			color: #191A39;
+			text-decoration: none;
+		}
+	}
+	.wrap-input{
+
+	}
+	.max-value{
+		margin-bottom: 4px;
+		a{
+			font-size: 14px;
+
+			text-decoration: none;
+
+			color: #237BEF;
+		}
+	}
+	.pay{
+		p{
+			font-size: 14px;
+			color: #191A39;
+			font-weight: 600;
+		}
+	}
+	.capcha{
+		color: #191A39;
+		font-weight: 600;
+    font-size: 24px;
+    margin: 0 auto;
+		padding: 23px 0;
+	}
+	.btn{
+
+	}
+
+}
