@@ -12,11 +12,10 @@ import {LangService} from './lang.service';
 import {AuthCandidate} from '../../model/auth-candidate.model';
 import {LoggingService} from './logging.service';
 import {TokenHolder} from '../../model/token-holder.model';
-import {CurrencyPair} from '../../model/currency-pair.model';
 import {State} from '../../dashboard/reducers/dashboard.reducer';
 import {RefreshUserBalanceAction} from '../../dashboard/actions/dashboard.actions';
 import {defaultUserBalance} from '../../dashboard/reducers/default-values';
-import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 
 @Injectable()
@@ -82,6 +81,10 @@ export class UserService {
     } else {
       this.store.dispatch(new RefreshUserBalanceAction(defaultUserBalance));
     }
+  }
+
+  public getUserBalanceBTC(): Observable<any> {
+    return this.http.get(`${this.HOST}/api/private/v2/balances/myBalances/BTC`)
   }
 
   public getIfConnectionSuccessful(): Observable<boolean> {

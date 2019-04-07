@@ -1,0 +1,58 @@
+<div class="ieo-container">
+  <div class="ieo-header">
+    <app-ieo-header
+      [IEOData]="IEOData"
+      [userBalanceBTC]="userBalanceBTC"
+      (onBuy)="onBuy()"
+    ></app-ieo-header>
+  </div>
+  <app-ieo-info
+    [isAuthenticated]="isAuthenticated"
+    [currentStage]="currentStage"
+    [userBalanceBTC]="userBalanceBTC"
+    (onLogin)="onLogin()"
+    (onBuy)="onBuy()"
+    [IEOData]="IEOData"
+    [ieoLoading]="ieoLoading"
+  ></app-ieo-info>
+
+  <app-ieo-community [community]="ieoData.community"></app-ieo-community>
+
+  <app-ieo-requirements
+    [isAuthenticated]="isAuthenticated"
+    [requirements]="requirements"
+    (showPolicy)="openPolicy()"
+  ></app-ieo-requirements>
+
+  <app-ieo-how-it-works></app-ieo-how-it-works>
+
+  <app-ieo-descriptions [description]="ieoData.description"></app-ieo-descriptions>
+
+  <button (click)="openNoReqs()">Notification</button>
+  <app-popup-notification
+    [show]="showNoReqs"
+    (close)="closeNoReqs()"
+    header="Ошибка верификации"
+    line1="проверьте верификацию и согласитесь с правилами"
+    btnText="Ок"
+  ></app-popup-notification>
+  <app-popup-buy
+    [IEOData]="IEOData"
+    [userBalanceBTC]="userBalanceBTC"
+    [show]="showBuy"
+    (close)="closeBuy()"
+    (confirm)="confirmBuy($event)"
+  ></app-popup-buy>
+
+  <app-popup-policy
+    [show]="showPolicy"
+    (close)="closePolicy()"
+    (onAgree)="agreeWithPolicy()"
+  ></app-popup-policy>
+
+  <app-popup-success
+    [show]="showSuccess"
+    (close)="closeSuccess()"
+  >
+  </app-popup-success>
+</div>

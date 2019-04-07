@@ -1,4 +1,5 @@
 import {Action} from '@ngrx/store';
+import { IEOItem } from 'app/model/ieo.model';
 
 export const SAVE_TO_STORE = '[Core] Saves data to app store';
 export const SAVE_COMPLETE = '[Core] Saving user location data to cookie is complete';
@@ -25,6 +26,7 @@ export const FAIL_LOAD_CURRENCIES_FOR_CHOOSE = '[Core] Fail Load currencies for 
 
 export const ON_LOGIN = '[Core] On login';
 export const ON_LOGOUT = '[Core] On logout';
+export const SET_IEO_LIST = '[Core] Set IEO list';
 
 /**
  * Change language | region | currency
@@ -154,6 +156,11 @@ export class SetOnLogoutAction implements Action {
   readonly type = ON_LOGOUT;
 }
 
+export class SetIEOListAction implements Action {
+  readonly type = SET_IEO_LIST;
+  constructor(public payload: IEOItem[]) {}
+}
+
 /**
  * Exports possible action types
  */
@@ -177,3 +184,4 @@ export type Actions
   | FailLoadVerificationStatusAction
   | SetOnLoginAction
   | SetOnLogoutAction
+  | SetIEOListAction
