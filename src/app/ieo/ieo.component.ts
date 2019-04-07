@@ -131,7 +131,7 @@ export class IEOComponent implements OnInit, OnDestroy {
     this.ieoService.buyTokens({
       currencyName: this.IEOData.currencyName,
       amount: amount + '',
-    }, this.IEOData.currencyName)
+    })
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((res) => {
         this.closeBuy();
@@ -140,7 +140,7 @@ export class IEOComponent implements OnInit, OnDestroy {
   }
 
   agreeWithPolicy() {
-    this.ieoService.setPolicy(this.IEOData.currencyDescription)
+    this.ieoService.setPolicy()
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((res) => {
         this.closePolicy();
