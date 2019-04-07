@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BY_PRIVATE_CODE, COPY_ADDRESS, TRANSFER_INSTANT, SEND_CRYPTO, SEND_FIAT} from '../send-money-constants';
+import {BALANCE_TABS} from '../../balance-constants';
 
 @Component({
   selector: 'app-send-successful',
@@ -11,11 +12,13 @@ export class SendSuccessfulComponent implements OnInit {
   @Input() data;
   @Input() choosedName: string;
   @Output() closeMe = new EventEmitter();
+  @Output() toggleBalanceTab = new EventEmitter();
   public BY_PRIVATE_CODE = BY_PRIVATE_CODE;
   public TRANSFER_INSTANT = TRANSFER_INSTANT;
   public COPY_ADDRESS = COPY_ADDRESS;
   public SEND_CRYPTO = SEND_CRYPTO;
   public SEND_FIAT = SEND_FIAT;
+  public BALANCE_TABS = BALANCE_TABS;
   public operationName;
   public isSowCopyAddress = false;
   constructor() { }
@@ -26,6 +29,11 @@ export class SendSuccessfulComponent implements OnInit {
 
   onClose() {
     this.closeMe.emit();
+  }
+
+  goToPendingRequest() {
+    this.toggleBalanceTab.emit(this.BALANCE_TABS.PR);
+    this.onClose();
   }
 
   /**

@@ -58,6 +58,8 @@ import { RefillFiatQuberaComponent } from './balance/refill-money/refill-step-tw
 import { SendFiatQuberaComponent } from './balance/send-money/send-step-two/send-fiat-qubera/send-fiat-qubera.component';
 import { TransferQuberaComponent } from './balance/send-money/send-step-three/transfer-qubera/transfer-qubera.component';
 import { ICOTableComponent } from './balance/icotable/icotable.component';
+import { BalanceSearchMobComponent } from './balance/balance-search-mob/balance-search-mob.component';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -73,6 +75,7 @@ export function createTranslateLoader(http: HttpClient) {
     MyDatePickerModule,
     MomentModule,
     SharedModule,
+    ScrollingModule,
     EffectsModule.forRoot([CoreEffects, FundsEffects]),
     StoreModule.forFeature('funds', reducer),
     FundsRoutingModule,
@@ -125,6 +128,7 @@ export function createTranslateLoader(http: HttpClient) {
     SendFiatQuberaComponent,
     TransferQuberaComponent,
     ICOTableComponent,
+    BalanceSearchMobComponent,
   ],
   providers: [
     BalanceService,

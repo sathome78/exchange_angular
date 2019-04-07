@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild, OnDestroy, ElementRef} from '@angular/core';
 import {PopupService} from '../../shared/services/popup.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {TokenHolder} from '../../model/token-holder.model';
@@ -46,6 +46,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   @ViewChild('logInTemplate') public logInTemplate: TemplateRef<any>;
   @ViewChild('pinCodeTemplate') public pinCodeTemplate: TemplateRef<any>;
   @ViewChild('captchaTemplate') public captchaTemplate: TemplateRef<any>;
+  @ViewChild('pinInput') public pinInput: ElementRef<any>;
   public loginForm: FormGroup;
   public pinForm: FormGroup;
   public isPinEmpty;
@@ -118,6 +119,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
         break;
       case 'pinCodeTemplate':
         this.currentTemplate = this.pinCodeTemplate;
+        setTimeout(() => this.pinInput.nativeElement.focus(), 500);
         break;
       case 'captchaTemplate':
         this.currentTemplate = this.captchaTemplate;

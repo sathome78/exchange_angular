@@ -3,17 +3,18 @@
   <div class="balance balance--mob" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
     <ng-container [ngSwitch]="currTab">
       <app-balance-mob
-      *ngSwitchCase="Tab.CRYPTO"
-      [balances]="cryptoBalances$ | async"
-      [countOfPendingRequests]="countOfPendingRequests$ | async"
-      [countPerPage]="countPerPage"
-      [countOfEntries]="getCountOfEntries() | async"
-      [currentPage]="currentPage"
-      [Tab]="Tab"
-      [currTab]="currTab"
-      [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
-      [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
-      [loading]="loading$ | async"
+        *ngSwitchCase="Tab.CRYPTO"
+        [balances]="cryptoBalances$ | async"
+        [countEntries]="countOfCryptoEntries$ | async"
+        [countOfPendingRequests]="countOfPendingRequests$ | async"
+        [countPerPage]="countPerPage"
+        [countOfEntries]="getCountOfEntries() | async"
+        [currentPage]="currentPage"
+        [Tab]="Tab"
+        [currTab]="currTab"
+        [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
+        [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
+        [loading]="loading$ | async"
 
       (onToggleAllZero)="onToggleAllZeroMobile($event)"
       (onLoadMore)="loadMoreBalancesForMobile($event)"
@@ -25,17 +26,18 @@
       ></app-balance-mob>
 
       <app-balance-mob
-      *ngSwitchCase="Tab.FIAT"
-      [balances]="fiatBalances$ | async"
-      [countOfPendingRequests]="countOfPendingRequests$ | async"
-      [countPerPage]="countPerPage"
-      [countOfEntries]="getCountOfEntries() | async"
-      [currentPage]="currentPage"
-      [Tab]="Tab"
-      [currTab]="currTab"
-      [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
-      [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
-      [loading]="loading$ | async"
+        *ngSwitchCase="Tab.FIAT"
+        [balances]="fiatBalances$ | async"
+        [countEntries]="countOfFiatEntries$ | async"
+        [countOfPendingRequests]="countOfPendingRequests$ | async"
+        [countPerPage]="countPerPage"
+        [countOfEntries]="getCountOfEntries() | async"
+        [currentPage]="currentPage"
+        [Tab]="Tab"
+        [currTab]="currTab"
+        [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
+        [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
+        [loading]="loading$ | async"
 
       (onToggleAllZero)="onToggleAllZeroMobile($event)"
       (onLoadMore)="loadMoreBalancesForMobile($event)"
@@ -80,9 +82,9 @@
         </div>
       </div>
 
-      <!-- <div [hidden]="!(loading$ | async)">
+      <div [hidden]="!(loading$ | async)">
         <app-loader size="small"></app-loader>
-      </div> -->
+      </div>
       <button class="btn btn--active balance__title-btn" (click)="openRefillBalancePopup(true)">
         {{'Refill balance' | translate}}
       </button>
@@ -304,21 +306,12 @@
         <!--balance-desktop end-->
       <!-- </div> -->
 
-
-      <div>
-        <app-refill-money
-        *ngIf="showRefillBalancePopup"
-        [showPopup]="showRefillBalancePopup"
-        [optionData]="refillBalanceData"
-        (closeRefillBalancePopup)="openRefillBalancePopup(false)"
-        ></app-refill-money>
-      </div>
-
-      <div>
-        <app-send-money
-        *ngIf="showSendMoneyPopup"
-        [showPopup]="showSendMoneyPopup"
-        [optionData]="sendMoneyData"
-        (closeSendMoneyPopup)="openSendMoneyPopup(false)"
-        ></app-send-money>
-      </div>
+  <div>
+    <app-send-money
+      *ngIf="showSendMoneyPopup"
+      [showPopup]="showSendMoneyPopup"
+      [optionData]="sendMoneyData"
+      (closeSendMoneyPopup)="openSendMoneyPopup(false)"
+      (toggleBalanceTab)="onSelectTab($event)"
+    ></app-send-money>
+  </div>

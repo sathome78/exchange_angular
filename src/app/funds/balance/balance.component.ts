@@ -28,6 +28,7 @@ import {KYC_STATUS, PENDING} from '../../shared/constants';
 import {environment} from 'environments/environment.prod';
 import { IEOServiceService } from 'app/shared/services/ieoservice.service';
 import { IEOItem } from 'app/model/ieo.model';
+import {BALANCE_TABS} from './balance-constants';
 
 
 @Component({
@@ -38,13 +39,7 @@ import { IEOItem } from 'app/model/ieo.model';
 export class BalanceComponent implements OnInit, OnDestroy {
 
   /** */
-  public Tab = {
-    CRYPTO: 'CRYPTO',
-    FIAT: 'FIAT',
-    PR: 'PR',
-    QUBERA: 'QUBERA',
-    ICO: 'ICO',
-  };
+  public Tab = BALANCE_TABS;
 
   public balanceItems: BalanceItem [] = [];
   public currTab: string = this.Tab.CRYPTO;
@@ -274,7 +269,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     };
   }
 
-  public filterByCurrencyForMobile({currency, currTab}): void {
+  public filterByCurrencyForMobile(currency): void {
     this.currencyForChoose = currency;
     this.currentPage = 1;
     this.loadBalances(this.currTab);

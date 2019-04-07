@@ -41,6 +41,7 @@ import {FinalStepRecoveryPasswordComponent} from './popups/final-step-recovery-p
 import {PopupsModule} from './popups/popups.module';
 import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from '@stomp/ng2-stompjs';
 import * as SockJS from 'sockjs-client';
+import {SEOService} from './shared/services/seo.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -128,6 +129,7 @@ const stompConfig: InjectableRxStompConfig = {
       useFactory: rxStompServiceFactory,
       deps: [InjectableRxStompConfig]
     },
+    SEOService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

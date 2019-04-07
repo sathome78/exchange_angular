@@ -331,7 +331,8 @@
       }
     }
     &__row-mob-line{
-      background: linear-gradient(to right,#21417D 0%, #191A39 100%);
+      background: rgba(35, 123, 239, 0.15);
+
     }
   }
 }
@@ -376,5 +377,12 @@
         background-color: #191f42;
       }
     }
+  }
+}
+
+@media(max-width: 420px){
+  .table__details-cell {
+    padding: 6px 10px;
+
   }
 }
