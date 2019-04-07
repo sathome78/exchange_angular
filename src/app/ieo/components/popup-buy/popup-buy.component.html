@@ -25,10 +25,22 @@
           <!-- Input error section starts -->
           <div
             class="input-hint-wrapper"
-            *ngIf="form.invalid && form.controls['amount'].touched"
+            *ngIf="form.controls['amount'].errors &&
+                   (form.controls['amount'].errors.minThen || form.controls['amount'].errors.required) &&
+                   form.controls['amount'].touched"
           >
             <span class="wrap-input__message">
               Minimum amount {{+(minSum || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}
+            </span>
+          </div>
+          <div
+            class="input-hint-wrapper"
+            *ngIf="form.controls['amount'].errors &&
+                   form.controls['amount'].errors.maxThen &&
+                   form.controls['amount'].touched"
+          >
+            <span class="wrap-input__message">
+              Maximun amount {{+(maxSum || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}
             </span>
           </div>
           <!-- Input error section ends -->
@@ -36,7 +48,7 @@
       </div>
 		</div>
 		<div class="max-value">
-			<a href="#">Max: {{IEOData.maxAmountPerClaim}}</a>
+			<a href="#">Max: {{(IEOData.maxAmountPerClaim || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}</a>
 		</div>
 		<div class="pay">
 			<p>Pay: {{((form.get('amount').value || 0) * IEOData.rate ) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</p>
