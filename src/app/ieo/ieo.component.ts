@@ -79,7 +79,20 @@ export class IEOComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    if(window.innerWidth > 992){
+      setTimeout(function(){
+        var startChangeHeader = (document.querySelector(".header").getBoundingClientRect().top) + 5;
+        window.onscroll = function(){
+          var currentPosition = window.pageYOffset;
+          if(currentPosition > startChangeHeader){
+            document.querySelector(".page-wrap").classList.add("ieo-page-header");
+          }
+          else{
+            document.querySelector(".page-wrap").classList.remove("ieo-page-header");
+          }
+        }
+      },300)
+    }
   }
 
   onLogin() {
@@ -160,6 +173,7 @@ export class IEOComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
+    window.onscroll = () => {}
   }
 
 }
