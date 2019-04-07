@@ -25,7 +25,7 @@
         </div>
       </td>
       <td class="table__cell table__cell--tar">
-        <span class="status-green">{{ieo.status}}</span>
+        <span class="status-green">{{ieo.status | showStageStatus}}</span>
       </td>
       <td class="table__cell table__cell--tar">
         <span>1 {{ieo.currencyName}} = {{ieo.rate}} BTC</span>
@@ -37,7 +37,7 @@
         <span>{{getFormatDate(ieo.startDate)}}</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{(ieo.personalAmount)}} BTC</span>
+        <span>{{(ieo.personalAmount)}} {{ieo.currencyName}}</span>
       </td>
       <td class="table__cell table__cell--tar">
         <span>{{ieo.amount}}</span>

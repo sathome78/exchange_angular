@@ -29,11 +29,14 @@ export class IEOComponent implements OnInit, OnDestroy {
   public currentStage: string = this.stage.PENDING;
   public showNoReqs: boolean = false;
   public showBuy: boolean = false;
+  public showPolicy: boolean = false;
+  public showSuccess: boolean = false;
   private ngUnsubscribe$: Subject<void> = new Subject<void>();
   public requirements: KycIEOModel = new KycIEOModel(null, null, null);
   private IEOId: string;
   public IEOData: IEOItem = new IEOItem();
   public userBalanceBTC: number = 0;
+  public ieoLoading: boolean = true;
 
   constructor(
     private store: Store<State>,
@@ -48,6 +51,7 @@ export class IEOComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe((res: IEOItem) => {
           this.IEOData = res;
+          this.ieoLoading = false;
           this.currentStage = res.status;
         });
       this.store
@@ -97,28 +101,50 @@ export class IEOComponent implements OnInit, OnDestroy {
     this.showBuy = false;
   }
 
+  openPolicy() {
+    this.showPolicy = true;
+  }
+  closePolicy() {
+    this.showPolicy = false;
+  }
+  openSuccess() {
+    this.showSuccess = true;
+  }
+  closeSuccess() {
+    this.showSuccess = false;
+  }
+
   confirmBuy(amount) {
     this.ieoService.buyTokens({
       currencyName: this.IEOData.currencyName,
-      amount,
-    })
+      amount: amount + '',
+    }, this.IEOData.currencyName)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((res) => {
+        this.closeBuy();
+        this.openSuccess();
+      })
+  }
 
+  agreeWithPolicy() {
+    this.ieoService.setPolicy(this.IEOData.currencyDescription)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((res) => {
+        this.closePolicy();
+        this.requirements = {...this.requirements, policyCheck: true}
       })
   }
 
   onBuy() {
-    // debugger
     if(this.stage.PENDING === this.currentStage) {
 
     } else if (this.stage.RUNNING === this.currentStage) {
-      // if(this.checkRequirements()) {
-      //   this.openBuy();
-      // } else {
-      //   this.openNoReqs();
-      // }
-      this.openBuy();
+      if(this.checkRequirements()) {
+        this.openBuy();
+      } else {
+        this.openNoReqs();
+      }
+      // this.openBuy();
     } else if (this.stage.SUCCEEDED === this.currentStage || this.stage.FAILED === this.currentStage) {
 
     }

@@ -17,18 +17,21 @@
           <app-price-input
             [placeholder]="'Quvantity'"
             formControlName="amount"
-            (customInput)="onInput($event)"
             name="amount"
+            (customInput)="onInput($event)"
           >
           </app-price-input>
 
-          <!--Input error section starts-->
-          <div class="input-hint-wrapper" *ngIf="form.controls['amount'].errors">
+          <!-- Input error section starts -->
+          <div
+            class="input-hint-wrapper"
+            *ngIf="form.invalid && form.controls['amount'].touched"
+          >
             <span class="wrap-input__message">
               Minimum amount {{+(minSum || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}
             </span>
           </div>
-          <!--Input error section ends-->
+          <!-- Input error section ends -->
         </form>
       </div>
 		</div>

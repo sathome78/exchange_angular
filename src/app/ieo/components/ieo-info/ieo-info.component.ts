@@ -20,6 +20,7 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   @Input('isAuthenticated') public isAuthenticated: boolean = false;
   @Input('currentStage') public currentStage: string;
   @Input('IEOData') public IEOData: IEOItem;
+  @Input('ieoLoading') public ieoLoading: boolean;
   @Input('userBalanceBTC') public userBalanceBTC: number;
   @Output('onLogin') public onLogin: EventEmitter<any> = new EventEmitter();
   @Output('onBuy') public onBuy: EventEmitter<any> = new EventEmitter();

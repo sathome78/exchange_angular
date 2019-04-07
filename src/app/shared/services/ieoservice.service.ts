@@ -26,11 +26,11 @@ export class IEOServiceService {
   }
 
   public setPolicy(id): Observable<ResponseModelIEO<boolean>> {
-    return this.http.put<ResponseModelIEO<boolean>>(`${this.apiUrl}/api/private/v2/dashboard/policy/${id}`, {});
+    return this.http.put<ResponseModelIEO<boolean>>(`${this.apiUrl}/api/private/v2/dashboard/policy/ieo`, {});
   }
 
-  public buyTokens(data: {currencyName: string, amount: string}): Observable<ResponseModelIEO<IEOSuccessBuyModel>> {
-    return this.http.post<ResponseModelIEO<IEOSuccessBuyModel>>(`${this.apiUrl}/api/private/v2/kyc/claim`, data);
+  public buyTokens(data: {currencyName: string, amount: string}, name: string): Observable<ResponseModelIEO<IEOSuccessBuyModel>> {
+    return this.http.post<ResponseModelIEO<IEOSuccessBuyModel>>(`${this.apiUrl}/api/private/v2/${name}/claim`, data);
   }
 
   public getListIEO(): Observable<any> {

@@ -35,13 +35,16 @@ export class PopupBuyComponent implements OnInit, OnChanges {
     if(c.IEOData && c.IEOData.currentValue) {
       this.minSum = c.IEOData.currentValue.minAmount
     }
+    if(c.show && c.show.currentValue) {
+      this.form.reset();
+      this.captchaInValid = true;
+    }
   }
 
   initForm() {
     this.form = new FormGroup({
       amount: new FormControl('', [Validators.required, this.minCheck.bind(this)]),
-      amount2: new FormControl('', [Validators.required, this.minCheck.bind(this)]),
-    }, {updateOn: 'change'});
+    });
   }
 
   private minCheck(amount: FormControl) {
@@ -63,14 +66,15 @@ export class PopupBuyComponent implements OnInit, OnChanges {
     this.captchaInValid = false;
   }
 
+  onInput(val) {
+    this.countPay(val.target.input);
+  }
+
   confirmForm() {
-    if(this.form.invalid && !this.captchaInValid) {
+    if(this.form.invalid || this.captchaInValid) {
       return;
     }
     this.confirm.emit(this.form.get('amount').value)
   }
 
-  onInput(e) {
-    this.form.updateValueAndValidity();
-  }
 }

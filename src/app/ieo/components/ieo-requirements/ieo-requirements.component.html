@@ -12,11 +12,11 @@
         <div *ngIf="isAuthenticated && isBoolean(requirements.kycCheck)">
           <div  class="requirement-status requirement-success" *ngIf="requirements.kycCheck">
             <ng-component *ngTemplateOutlet="successIcon"></ng-component>
-            <p>Varification</p>
+            <p>Verification</p>
           </div>
           <a href="#" (click)="preventDefault($event)" routerLink="/settings/verification" class="requirement-status requirement-faild" *ngIf="!requirements.kycCheck">
             <ng-component *ngTemplateOutlet="failIcon"></ng-component>
-            <p>Proceed to varification »</p>
+            <p>Proceed to verification »</p>
           </a>
         </div>
         <div
@@ -24,7 +24,7 @@
           class="requirement-status requirement-wait"
         >
           <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-          <p>Accept the terms of the agreement »</p>
+          <p>Accept the terms of the agreement</p>
         </div>
       </div>
       <div class="requirement-item">
@@ -36,19 +36,19 @@
         <div *ngIf="isAuthenticated && isBoolean(requirements.countryCheck)">
           <div class="requirement-status requirement-success" *ngIf="requirements.countryCheck">
             <ng-component *ngTemplateOutlet="successIcon"></ng-component>
-            <p>Varification</p>
+            <p>Verification</p>
           </div>
-          <a href="#" (click)="preventDefault($event)" class="requirement-status requirement-faild" *ngIf="!requirements.countryCheck">
+          <div class="requirement-status requirement-faild" *ngIf="!requirements.countryCheck">
             <ng-component *ngTemplateOutlet="failIcon"></ng-component>
-            <p>Proceed to varification »</p>
-          </a>
+            <p>Sorry, your country not allowed</p>
+          </div>
         </div>
         <div
           *ngIf="!isAuthenticated || !isBoolean(requirements.countryCheck)"
           class="requirement-status requirement-wait"
         >
           <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-          <p>Accept the terms of the agreement »</p>
+          <p>Accept the terms of the agreement</p>
         </div>
       </div>
       <div class="requirement-item">
@@ -58,11 +58,11 @@
         <div *ngIf="isAuthenticated && isBoolean(requirements.policyCheck)">
           <div class="requirement-status requirement-success" *ngIf="requirements.policyCheck">
             <ng-component *ngTemplateOutlet="successIcon"></ng-component>
-            <p>Varification</p>
+            <p>Verification</p>
           </div>
           <a href="#" (click)="policyOpen($event)" class="requirement-status requirement-faild" *ngIf="!requirements.policyCheck">
             <ng-component *ngTemplateOutlet="failIcon"></ng-component>
-            <p>Proceed to varification »</p>
+            <p>Proceed to verification »</p>
           </a>
         </div>
         <div
@@ -70,7 +70,7 @@
           class="requirement-status requirement-wait"
         >
           <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-          <p>Accept the terms of the agreement »</p>
+          <p>Accept the terms of the agreement</p>
         </div>
       </div>
     </div>

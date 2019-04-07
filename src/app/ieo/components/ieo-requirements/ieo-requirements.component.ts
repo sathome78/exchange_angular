@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { KycIEOModel } from 'app/ieo/models/ieo-kyc.model';
 
 @Component({
@@ -10,6 +10,7 @@ export class IEORequirementsComponent implements OnInit {
 
   @Input('isAuthenticated') public isAuthenticated: boolean = false;
   @Input('requirements') public requirements: KycIEOModel;
+  @Output('showPolicy') public showPolicy: EventEmitter<any> = new EventEmitter();
   constructor(
 
   ) { }
@@ -26,7 +27,7 @@ export class IEORequirementsComponent implements OnInit {
 
   policyOpen(e) {
     this.preventDefault(e);
-
+    this.showPolicy.emit();
   }
 
 }

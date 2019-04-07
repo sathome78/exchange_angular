@@ -3,15 +3,14 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 // import {PopupData} from '../../shared/interfaces/popup-data-interface';
 
 @Component({
-  selector: 'app-popup-policy',
-  templateUrl: './popup-policy.component.html',
-  styleUrls: ['./popup-policy.component.scss']
+  selector: 'app-popup-success',
+  templateUrl: './popup-success.component.html',
+  styleUrls: ['./popup-success.component.scss']
 })
-export class PopupPolicyComponent implements OnInit {
+export class PopupSuccessComponent implements OnInit {
 
   @Input() show: boolean;
   @Output() close: EventEmitter<any> = new EventEmitter();
-  @Output() onAgree: EventEmitter<any> = new EventEmitter();
 
   constructor(
 
