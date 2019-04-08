@@ -3,6 +3,10 @@
     <app-ieo-header
       [IEOData]="IEOData"
       [userBalanceBTC]="userBalanceBTC"
+      [currentStage]="currentStage"
+      [isAuthenticated]="isAuthenticated"
+      [ieoLoading]="ieoLoading"
+      (onLogin)="onLogin()"
       (onBuy)="onBuy()"
     ></app-ieo-header>
   </div>

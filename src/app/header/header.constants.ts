@@ -1,5 +1,6 @@
 export const FUNDS_FLAG = 'fundsFlag';
 export const ORDERS_FLAG = 'ordersFlag';
+export const TRANSLATE_FLAG = 'translateFlag';
 export const REFERRAL_FLAG = 'referralFlag';
 export const LANG_ARRAY = [
   {name: 'ru', fullName: 'Russian', icon_url: 'assets/img/flag-ru.svg'},

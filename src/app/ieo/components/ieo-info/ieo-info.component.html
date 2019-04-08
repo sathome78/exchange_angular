@@ -32,7 +32,7 @@
             <div class="progress-block" *ngIf="stage.RUNNING === currentStage">
               <div class="currency-info">
                 <div class="currency-buyed">
-                  <span class="buyed-value">{{boughtAmount | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
+                  <span class="buyed-value">{{boughtAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
                   <span class="currency-name">{{IEOData.currencyName}}</span>
                 </div>
                 <div class="percentage">
@@ -45,7 +45,7 @@
             </div>
 
             <div class="amount">
-              <p>Amount: <span>{{IEOData.amount}} {{IEOData.currencyName}}</span></p>
+              <p>Amount: <span>{{(IEOData.amount  || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}</span></p>
             </div>
 
             <div class="starts" *ngIf="stage.PENDING === currentStage">
@@ -58,11 +58,10 @@
             <div class="button-part">
               <button
                 class="standart-btn"
-                [disabled]="ieoLoading"
+                [disabled]="ieoLoading && (currentStage === stage.SUCCEEDED || currentStage === stage.FAILED)"
                 *ngIf="isAuthenticated"
                 (click)="onBuy.emit()"
               >
-              <!-- [disabled]="currentStage !== stage.SALE" -->
                 <span>Buy Now</span>
               </button>
               <button
@@ -70,7 +69,7 @@
                 *ngIf="!isAuthenticated"
                 (click)="login()"
               >
-                <span>Login</span>
+                <span>Log In</span>
               </button>
             </div>
           </div>
