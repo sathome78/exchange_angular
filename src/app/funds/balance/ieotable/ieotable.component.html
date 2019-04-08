@@ -44,23 +44,23 @@
       </td>
       <td class="table__cell button-cell">
         <button
-          class="btn btn--center btn-green btn--small btn--hidden"
-          (click)="goToIeo(ieo.id)"
-          *ngIf="stage.RUNNING === ieo.stage"
+          class="btn btn--center btn-green btn--small"
+          (click)="buyIeo(ieo)"
+          *ngIf="stage.RUNNING === ieo.status && ieo.readyToIeo"
         >
           {{'Buy' | translate}}
         </button>
         <button
-          class="btn btn--center btn-green btn--small btn--hidden"
-          (click)="noop()"
-          *ngIf="stage.PENDING === ieo.stage"
+          class="btn btn--center btn--small"
+          (click)="goToIeo(ieo.id)"
+          *ngIf="stage.PENDING === ieo.status || (stage.RUNNING === ieo.status && !ieo.readyToIeo)"
         >
           {{'Participate' | translate}}
         </button>
         <button
-          class="btn btn--d btn--small btn--hidden"
-          (click)="noop()"
-          *ngIf="stage.SUCCEEDED === ieo.stage || stage.FAILED === ieo.stage"
+          class="btn btn--center btn--small"
+          (click)="goToIeo(ieo.id)"
+          *ngIf="stage.SUCCEEDED === ieo.status || stage.FAILED === ieo.status"
         >
           {{'More' | translate}}
         </button>
