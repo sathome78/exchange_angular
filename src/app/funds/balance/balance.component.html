@@ -300,18 +300,27 @@
               (onPaginate)="onPageChanged($event)"
               *ngSwitchCase="Tab.ICO"
             ></app-ico-table>
+          </ng-container>
 
-
-        <!-- </div> -->
+         </div>
         <!--balance-desktop end-->
-      <!-- </div> -->
+       </div>
 
-  <div>
-    <app-send-money
-      *ngIf="showSendMoneyPopup"
-      [showPopup]="showSendMoneyPopup"
-      [optionData]="sendMoneyData"
-      (closeSendMoneyPopup)="openSendMoneyPopup(false)"
-      (toggleBalanceTab)="onSelectTab($event)"
-    ></app-send-money>
-  </div>
+<div>
+  <app-refill-money
+    *ngIf="showRefillBalancePopup"
+    [showPopup]="showRefillBalancePopup"
+    [optionData]="refillBalanceData"
+    (closeRefillBalancePopup)="openRefillBalancePopup(false)"
+  ></app-refill-money>
+</div>
+
+<div>
+  <app-send-money
+    *ngIf="showSendMoneyPopup"
+    [showPopup]="showSendMoneyPopup"
+    [optionData]="sendMoneyData"
+    (closeSendMoneyPopup)="openSendMoneyPopup(false)"
+    (toggleBalanceTab)="onSelectTab($event)"
+  ></app-send-money>
+</div>
