@@ -162,3 +162,11 @@
   }
 }
 
+.balance-fiat{
+  background-color: #000;
+  .balance__currency-icon{
+    min-width: unset;
+    max-width: unset;
+    height: 14px;
+  }
+}

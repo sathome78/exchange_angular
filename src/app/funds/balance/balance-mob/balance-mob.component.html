@@ -94,7 +94,7 @@
     (scrolled)="onLoadMoreTrigger()"
     >
     <!--table-mob start-->
-    <table class="table table--mob">
+    <table class="table table--mob" [ngClass]="{'balance-fiat': currTab === Tab.FIAT}">
       <thead class="table__head">
         <tr class="table__head-row">
           <th class="table__cell-head table__cell-head--tal">{{'Currency' | translate}}</th>
