@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IEONotificationComponent } from './ieo-notification.component';
+import { TopNotificationComponent } from './top-notification.component';
 
-describe('IEONotificationComponent', () => {
-  let component: IEONotificationComponent;
-  let fixture: ComponentFixture<IEONotificationComponent>;
+describe('TopNotificationComponent', () => {
+  let component: TopNotificationComponent;
+  let fixture: ComponentFixture<TopNotificationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IEONotificationComponent ]
+      declarations: [ TopNotificationComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IEONotificationComponent);
+    fixture = TestBed.createComponent(TopNotificationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

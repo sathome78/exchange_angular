@@ -18,7 +18,6 @@ import {JwtInterceptor} from 'app/core/interceptors/jwt.interceptor';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {PopupPolicyComponent} from './components/popup-policy/popup-policy.component';
 import {PopupSuccessComponent} from './components/popup-success/popup-success.component';
-import { IEONotificationComponent } from './components/ieo-notification/ieo-notification.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +32,6 @@ import { IEONotificationComponent } from './components/ieo-notification/ieo-noti
     IeoHeaderComponent,
     PopupPolicyComponent,
     PopupSuccessComponent,
-    IEONotificationComponent,
   ],
   imports: [
     CommonModule,
