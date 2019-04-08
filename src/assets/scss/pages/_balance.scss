@@ -733,3 +733,16 @@
     }
   }
 }
+.balance-fiat{
+  .balance__currency-icon{
+    min-width: unset;
+    max-width: unset;
+    width: auto;
+    height: 14px;
+  }
+  .balance__currency{
+    span{
+      line-height: .8;
+    }
+  }
+}
