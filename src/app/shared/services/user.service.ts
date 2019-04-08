@@ -16,6 +16,9 @@ import {State} from '../../dashboard/reducers/dashboard.reducer';
 import {RefreshUserBalanceAction} from '../../dashboard/actions/dashboard.actions';
 import {defaultUserBalance} from '../../dashboard/reducers/default-values';
 import {SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { RxStompService } from '@stomp/ng2-stompjs';
+import { Message } from '@stomp/stompjs';
+import { TOKEN } from './http.utils';
 
 
 @Injectable()
@@ -29,6 +32,7 @@ export class UserService {
     private http: HttpClient,
     private authService: AuthService,
     private langService: LangService,
+    private stompService: RxStompService,
     private logger: LoggingService,
     private router: Router) {
   }
@@ -83,8 +87,9 @@ export class UserService {
     }
   }
 
-  public getUserBalanceBTC(): Observable<any> {
-    return this.http.get(`${this.HOST}/api/private/v2/balances/myBalances/BTC`)
+  public getUserBalanceCurr(currencies: string[]): Observable<any> {
+    const names = currencies.join(',');
+    return this.http.get(`${this.HOST}/api/private/v2/balances/myBalances`, {params: {names: names}})
   }
 
   public getIfConnectionSuccessful(): Observable<boolean> {
@@ -232,6 +237,12 @@ export class UserService {
   public clearTransactionsCounterForGTag(): Observable<any> {
     const url = this.HOST + '/api/private/v2/balances/refill/afgssr/gtag';
     return this.http.delete<any>(url);
+  }
+
+  public getNotifications(): Observable<any> {
+    return this.stompService
+      .watch(`/user/queue/ieo_details`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
+      .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 }
 
