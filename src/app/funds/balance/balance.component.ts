@@ -211,7 +211,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
         return this.countOfFiatEntries$;
       case this.Tab.PR :
         return this.countOfPendingRequests$;
-      case this.Tab.ICO :
+      case this.Tab.IEO :
         return of(0);
       default:
         return this.countOfCryptoEntries$;

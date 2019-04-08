@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ICOTableComponent } from './icotable.component';
+import { IEONotificationComponent } from './ieo-notification.component';
 
-describe('ICOTableComponent', () => {
-  let component: ICOTableComponent;
-  let fixture: ComponentFixture<ICOTableComponent>;
+describe('IEONotificationComponent', () => {
+  let component: IEONotificationComponent;
+  let fixture: ComponentFixture<IEONotificationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ICOTableComponent ]
+      declarations: [ IEONotificationComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ICOTableComponent);
+    fixture = TestBed.createComponent(IEONotificationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
