@@ -53,7 +53,7 @@
 
 
   <!--balance-desktop start-->
-  <div class="balance"  *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
+  <div class="balance" [ngClass]="{'balance-fiat': currTab === Tab.FIAT}"  *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
     <div class="page-title">
       <h1 class="page-title__text">
         {{'Balances' | translate}}
@@ -281,15 +281,15 @@
             ></app-pending-request-table>
             <ng-container *ngIf="!isProd">
               <app-qubera-table
-              *ngSwitchCase="Tab.QUBERA"
-              [balances]="quberaBalances$ | async"
-              [existQuberaAccounts]="existQuberaAccounts"
-              [kycStatus]="kycStatus"
-              (transferOut)="goToTransferPopup($event)"
-              (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
-              (cryptoDepositOut)="goToCryptoDepositPopup($event)">
-            </app-qubera-table>
-          </ng-container>
+                *ngSwitchCase="Tab.QUBERA"
+                [balances]="quberaBalances$ | async"
+                [existQuberaAccounts]="existQuberaAccounts"
+                [kycStatus]="kycStatus"
+                (transferOut)="goToTransferPopup($event)"
+                (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+                (cryptoDepositOut)="goToCryptoDepositPopup($event)">
+              </app-qubera-table>
+            </ng-container>
 
             <app-ieo-table
               [countPerPage]="countPerPage"
@@ -300,18 +300,27 @@
               (onPaginate)="onPageChanged($event)"
               *ngSwitchCase="Tab.IEO"
             ></app-ieo-table>
+          </ng-container>
 
-
-        <!-- </div> -->
+         </div>
         <!--balance-desktop end-->
-      <!-- </div> -->
+       </div>
 
-  <div>
-    <app-send-money
-      *ngIf="showSendMoneyPopup"
-      [showPopup]="showSendMoneyPopup"
-      [optionData]="sendMoneyData"
-      (closeSendMoneyPopup)="openSendMoneyPopup(false)"
-      (toggleBalanceTab)="onSelectTab($event)"
-    ></app-send-money>
-  </div>
+<div>
+  <app-refill-money
+    *ngIf="showRefillBalancePopup"
+    [showPopup]="showRefillBalancePopup"
+    [optionData]="refillBalanceData"
+    (closeRefillBalancePopup)="openRefillBalancePopup(false)"
+  ></app-refill-money>
+</div>
+
+<div>
+  <app-send-money
+    *ngIf="showSendMoneyPopup"
+    [showPopup]="showSendMoneyPopup"
+    [optionData]="sendMoneyData"
+    (closeSendMoneyPopup)="openSendMoneyPopup(false)"
+    (toggleBalanceTab)="onSelectTab($event)"
+  ></app-send-money>
+</div>

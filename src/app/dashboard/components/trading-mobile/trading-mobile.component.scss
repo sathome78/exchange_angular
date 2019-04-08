@@ -180,3 +180,9 @@
     padding-right: 8px;
   }
 }
+
+.trading-notification {
+  position: fixed;
+  bottom: 115px;
+  z-index: 100;
+}
