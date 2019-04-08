@@ -51,6 +51,8 @@ export class ShowTransactionsStatusPipe  implements PipeTransform {
       switch (status) {
         case 'PROCESSED_BY_CLAIM':
           return 'Completed';
+        case 'REVOKED_BY_IEO_FAILURE':
+          return 'IEO Revoked';
         default:
           return status;
       }
