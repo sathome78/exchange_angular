@@ -10,7 +10,10 @@
 	}
 	.economics-table{
 		width: 100%;
+		@media(max-width: 720px){
+			
 		overflow: auto;
+		}
 	}
 	.economics-table-wr{
 		    min-width: 570px;
