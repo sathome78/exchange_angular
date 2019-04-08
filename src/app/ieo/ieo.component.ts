@@ -81,9 +81,16 @@ export class IEOComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if(window.innerWidth > 992){
       setTimeout(function(){
-        var startChangeHeader = (document.querySelector(".header").getBoundingClientRect().top) + 5;
+        var startChangeHeader = 5;
+        var currentPosition = window.pageYOffset;
+        if(currentPosition > startChangeHeader){
+          document.querySelector(".page-wrap").classList.add("ieo-page-header");
+        }
+        else{
+          document.querySelector(".page-wrap").classList.remove("ieo-page-header");
+        }
         window.onscroll = function(){
-          var currentPosition = window.pageYOffset;
+          currentPosition = window.pageYOffset;
           if(currentPosition > startChangeHeader){
             document.querySelector(".page-wrap").classList.add("ieo-page-header");
           }
