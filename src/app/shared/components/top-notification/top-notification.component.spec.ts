@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ICOTableComponent } from './icotable.component';
+import { TopNotificationComponent } from './top-notification.component';
 
-describe('ICOTableComponent', () => {
-  let component: ICOTableComponent;
-  let fixture: ComponentFixture<ICOTableComponent>;
+describe('TopNotificationComponent', () => {
+  let component: TopNotificationComponent;
+  let fixture: ComponentFixture<TopNotificationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ICOTableComponent ]
+      declarations: [ TopNotificationComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ICOTableComponent);
+    fixture = TestBed.createComponent(TopNotificationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -53,12 +53,9 @@
 		<div class="pay">
 			<p>Pay: {{((form.get('amount').value || 0) * IEOData.rate ) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</p>
 		</div>
-		<div class="capcha">
-			<re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
-		</div>
     <button
       class="btn btn--active btn--center"
-      [disabled]="form.invalid || captchaInValid"
+      [disabled]="form.invalid"
       (click)="confirmForm()"
     >Confirm</button>
 	</div>

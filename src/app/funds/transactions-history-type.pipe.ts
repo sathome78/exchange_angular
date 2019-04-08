@@ -14,8 +14,10 @@ export class ShowTransactionsTypePipe  implements PipeTransform {
         return this.getUserTransferName(item);
       case 'REFILL':
         return 'Deposit';
-        case 'TRANSFER':
+      case 'TRANSFER':
         return 'Transfer';
+      case 'IEO':
+        return 'IEO';
       default:
         return sourceType;
     }

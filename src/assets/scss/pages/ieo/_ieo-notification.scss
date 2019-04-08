@@ -1,0 +1,60 @@
+.ieo-notification{
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 9999;
+	transform: translateY(-105%);
+	pointer-events: none;
+	transition:.3s;
+	&.active{
+		transform: translateY(0);
+		pointer-events: auto;
+
+	}
+	&.success{
+		background: #32A071;
+		.ieo-success{
+			display: block;
+		}
+	}
+	&.error{
+		background: #EB5757;
+		.ieo-error{
+			display: block;
+		}
+	}
+	&.info{
+		background: #237BEF;
+		.ieo-info{
+			display: block;
+		}
+	}
+	.ieo-notification-wr{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 6px 12px;
+		svg{
+			margin-right: 6px;
+			
+
+		}
+		p{
+
+		}
+	}
+	.ieo-notification-icon{
+		display: none;
+	}
+	.notification__btn{
+		background: transparent;
+		border: none;
+		outline: none;
+		position: absolute;
+		right: 30px;
+		cursor: pointer;
+		svg{}			
+	}
+
+}

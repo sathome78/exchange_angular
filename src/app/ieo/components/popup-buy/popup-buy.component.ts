@@ -12,8 +12,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class PopupBuyComponent implements OnInit, OnChanges {
 
-  public recaptchaKey = keys.recaptchaKey;
-  public captchaInValid = true;
   public form: FormGroup;
   @Input() show: boolean;
   @Input() IEOData: IEOItem;
@@ -38,7 +36,6 @@ export class PopupBuyComponent implements OnInit, OnChanges {
     }
     if(c.show && c.show.currentValue) {
       this.form.reset();
-      this.captchaInValid = true;
     }
   }
 
@@ -70,16 +67,13 @@ export class PopupBuyComponent implements OnInit, OnChanges {
     this.close.emit();
   }
 
-  afterResolvedCaptcha(e) {
-    this.captchaInValid = false;
-  }
 
   onInput(val) {
     this.countPay(val.target.input);
   }
 
   confirmForm() {
-    if(this.form.invalid || this.captchaInValid) {
+    if(this.form.invalid) {
       return;
     }
     this.confirm.emit(this.form.get('amount').value)

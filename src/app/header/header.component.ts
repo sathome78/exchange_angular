@@ -8,7 +8,7 @@ import {UserService} from '../shared/services/user.service';
 import {SettingsService} from '../settings/settings.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 import {environment} from '../../environments/environment';
-import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG, LANG_ARRAY} from './header.constants';
+import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG, LANG_ARRAY, TRANSLATE_FLAG} from './header.constants';
 import {MyBalanceItem} from '../model/my-balance-item.model';
 import {Observable, Subject} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
@@ -34,9 +34,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public ieoList$: Observable<IEOItem[]>;
   public showFundsList: boolean;
   public showOrdersList: boolean;
+  public translateList: boolean;
   public showReferralList: boolean;
   public isAuthenticated: boolean = false;
   public FUNDS_FLAG = FUNDS_FLAG;
+  public TRANSLATE_FLAG = TRANSLATE_FLAG;
   public REFERRAL_FLAG = REFERRAL_FLAG;
   public ORDERS_FLAG = ORDERS_FLAG;
   public myBalance: Observable<MyBalanceItem>;
@@ -183,6 +185,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       case ORDERS_FLAG:
         this.showOrdersList = !this.showOrdersList;
         break;
+        case TRANSLATE_FLAG:
+        this.translateList = !this.translateList;
+        break;
       case REFERRAL_FLAG:
         this.showReferralList = !this.showReferralList;
         break;
@@ -193,6 +198,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.resetDropdowns();
     this.mobileView = '';
     this.isMobileMenuOpen = false;
+  }
+
+  supportRedirect() {
+    const encodeData = btoa(JSON.stringify({
+      login: this.authService.isAuthenticated()
+    }));
+    window.open(`https://support.exrates.me?data=${encodeData}`);
   }
 
 // temp solution
