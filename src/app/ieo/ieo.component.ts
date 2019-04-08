@@ -2,10 +2,10 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {data} from './JSONData';
 import {Store, select} from '@ngrx/store';
 import {State} from 'app/core/reducers';
-import {Subject} from 'rxjs';
+import {Subject, Observable, forkJoin} from 'rxjs';
 import * as fromCore from '../core/reducers'
 import {PopupService} from 'app/shared/services/popup.service';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil, take} from 'rxjs/operators';
 import {IEOServiceService} from '../shared/services/ieoservice.service';
 import {KycIEOModel} from './models/ieo-kyc.model';
 import {ActivatedRoute} from '@angular/router';
@@ -26,6 +26,9 @@ export class IEOComponent implements OnInit, OnDestroy {
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
   }
+
+  public IEOSub$: Observable<IEOItem>;
+  public AuthSub$: Observable<boolean>;
   public currentStage: string = this.stage.PENDING;
   public showNoReqs: boolean = false;
   public showBuy: boolean = false;
@@ -46,17 +49,16 @@ export class IEOComponent implements OnInit, OnDestroy {
     private userService: UserService,
   ) {
     this.route.paramMap.subscribe(params => {
-      this.IEOId = params.get("id")
-      this.ieoService.getIEO(this.IEOId)
-        .pipe(takeUntil(this.ngUnsubscribe$))
+      this.IEOId = params.get("id");
+      this.IEOSub$ = this.ieoService.getIEO(this.IEOId);
+      this.AuthSub$ = this.store.pipe(select(fromCore.getIsAuthenticated));
+      this.IEOSub$.pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe((res: IEOItem) => {
           this.IEOData = res;
           this.ieoLoading = false;
           this.currentStage = res.status;
         });
-      this.store
-        .pipe(select(fromCore.getIsAuthenticated))
-        .pipe(takeUntil(this.ngUnsubscribe$))
+      this.AuthSub$.pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe((isAuth: boolean) => {
           this.isAuthenticated = isAuth;
           if(isAuth) {
@@ -67,10 +69,10 @@ export class IEOComponent implements OnInit, OnDestroy {
                   this.requirements = res;
                 };
               })
-            this.userService.getUserBalanceBTC()
+            this.userService.getUserBalanceCurr(['BTC'])
               .pipe(takeUntil(this.ngUnsubscribe$))
               .subscribe((res) => {
-                this.userBalanceBTC = res.data;
+                this.userBalanceBTC = res.data['BTC'];
               })
           }
         })

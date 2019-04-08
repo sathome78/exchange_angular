@@ -49,6 +49,7 @@ import {MerchantImageFilterPipe} from './pipes/merchant-image-filter.pipe';
 import {ReplaceCharPipe} from './pipes/replaceChar.pipe';
 import {ShowStageStatusPipe} from './pipes/stage-status.pipe';
 import {TopNotificationComponent} from './components/top-notification/top-notification.component';
+import { NotificationsListComponent } from './components/notifications-list/notifications-list.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import {TopNotificationComponent} from './components/top-notification/top-notifi
     DateMaskInputComponent,
     TopNotificationComponent,
     ShowStageStatusPipe,
+    NotificationsListComponent,
   ],
   imports: [
     FormsModule,
@@ -139,6 +141,7 @@ import {TopNotificationComponent} from './components/top-notification/top-notifi
     DynamicInputDataPipe,
     ShowStageStatusPipe,
     TopNotificationComponent,
+    NotificationsListComponent,
     AddClassDirective
   ],
   providers: [
