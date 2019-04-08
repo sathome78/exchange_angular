@@ -58,7 +58,7 @@
         <div *ngIf="isAuthenticated && isBoolean(requirements.policyCheck)">
           <div class="requirement-status requirement-success" *ngIf="requirements.policyCheck">
             <ng-component *ngTemplateOutlet="successIcon"></ng-component>
-            <p>Verification</p>
+            <p>Confirmed</p>
           </div>
           <a href="#" (click)="policyOpen($event)" class="requirement-status requirement-faild" *ngIf="!requirements.policyCheck">
             <ng-component *ngTemplateOutlet="failIcon"></ng-component>

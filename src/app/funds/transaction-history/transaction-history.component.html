@@ -45,7 +45,7 @@
                     'arr--green': item.sourceType === 'REFILL'
                   }"
                 ></span>
-                <span>{{item.sourceType === 'REFILL' ? 'Refill' : ''}}{{item.sourceType === 'WITHDRAW' ? 'Withdraw' : ''}}</span>
+                <span>{{item.sourceType === 'REFILL' ? 'Refill' : item.sourceType === 'WITHDRAW' ? 'Withdraw' : item.sourceType}}</span>
               </div>
               <div class="balance__request-mob-date">
                 <div>{{item.datetime | dateWrapper | amDateFormat: 'dd DD.MM.YYYY'}}</div>

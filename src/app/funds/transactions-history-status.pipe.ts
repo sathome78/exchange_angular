@@ -47,6 +47,13 @@ export class ShowTransactionsStatusPipe  implements PipeTransform {
         default:
           return status;
       }
+    } else if(sourceType === 'IEO') {
+      switch (status) {
+        case 'PROCESSED_BY_CLAIM':
+          return 'Completed';
+        default:
+          return status;
+      }
     } else {
       return status;
     }
