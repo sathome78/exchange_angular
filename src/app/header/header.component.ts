@@ -200,6 +200,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isMobileMenuOpen = false;
   }
 
+  supportRedirect() {
+    const encodeData = btoa(JSON.stringify({
+      login: this.authService.isAuthenticated()
+    }));
+    window.open(`https://support.exrates.me?data=${encodeData}`);
+  }
+
 // temp solution
   tempPopup() {
     if (environment.production) {
