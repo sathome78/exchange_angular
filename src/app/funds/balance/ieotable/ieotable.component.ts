@@ -49,7 +49,7 @@ export class IEOTableComponent implements OnInit {
     this.router.navigate([`/ieo/${id}`])
   }
 
-  public noop = () => {
+  public buyIeo(ieo) {
 
   }
 
