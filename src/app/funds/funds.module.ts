@@ -57,6 +57,7 @@ import { QuberaTableComponent } from './balance/qubera-table/qubera-table.compon
 import { RefillFiatQuberaComponent } from './balance/refill-money/refill-step-two/refill-fiat-qubera/refill-fiat-qubera.component';
 import { SendFiatQuberaComponent } from './balance/send-money/send-step-two/send-fiat-qubera/send-fiat-qubera.component';
 import { TransferQuberaComponent } from './balance/send-money/send-step-three/transfer-qubera/transfer-qubera.component';
+import { ICOTableComponent } from './balance/icotable/icotable.component';
 import { BalanceSearchMobComponent } from './balance/balance-search-mob/balance-search-mob.component';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 
@@ -126,6 +127,7 @@ export function createTranslateLoader(http: HttpClient) {
     RefillFiatQuberaComponent,
     SendFiatQuberaComponent,
     TransferQuberaComponent,
+    ICOTableComponent,
     BalanceSearchMobComponent,
   ],
   providers: [

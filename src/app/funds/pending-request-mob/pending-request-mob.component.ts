@@ -26,7 +26,7 @@ export class PendingRequestMobComponent implements OnInit {
     private utils: UtilsService,
   ) {
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 102) + 'px', 'overflow': 'scrollY'}
+    this.tableScrollStyles = {'height': (componentHeight - 180) + 'px', 'overflow-x': 'scroll'}
 
     this.pendingRequests$ = store.pipe(select(fundsReducer.getPendingRequestsSelector));
     this.countOfPendingRequests$ = store.pipe(select(fundsReducer.getCountPendingReqSelector));
@@ -66,8 +66,9 @@ export class PendingRequestMobComponent implements OnInit {
   public loadPendingRequests() {
     const paramsP = {
       offset: (this.currentPage - 1) * this.countPerPage,
+      currencyName: this.currValue || '',
       limit: this.countPerPage,
-      concat: true,
+      concat: this.currentPage > 1 ? true : false,
     };
     return this.store.dispatch(new fundsAction.LoadPendingReqAction(paramsP));
   };
@@ -97,7 +98,8 @@ export class PendingRequestMobComponent implements OnInit {
 
   public onSelectPair(currId: string): void {
     this.currencyForChoose = currId;
-    this.loadPendingRequests();;
+    this.currentPage = 1;
+    this.loadPendingRequests();
   }
 
 }

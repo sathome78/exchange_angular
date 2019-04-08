@@ -19,6 +19,7 @@ import {takeUntil, withLatestFrom} from 'rxjs/operators';
 import * as fromCore from '../core/reducers';
 import * as coreActions from '../core/actions/core.actions';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
+import { IEOItem } from 'app/model/ieo.model';
 
 @Component({
   selector: 'app-header',
@@ -30,6 +31,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public isMobileMenuOpen = false;
   public mobileView = 'markets';
   public userInfo$: Observable<ParsedToken>;
+  public ieoList$: Observable<IEOItem[]>;
   public showFundsList: boolean;
   public showOrdersList: boolean;
   public showReferralList: boolean;
@@ -58,6 +60,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public translate: TranslateService
   ) {
     this.userInfo$ = this.store.pipe(select(fromCore.getUserInfo));
+    this.ieoList$ = this.store.pipe(select(fromCore.getIEOList));
   }
 
   ngOnInit() {

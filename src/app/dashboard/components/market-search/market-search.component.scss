@@ -14,7 +14,7 @@
 }
 @media(max-width: 1200px){
   .market-search__top{
-    margin-top: 49px;
+    margin-top: 10px;
   }
 }
 
@@ -38,4 +38,11 @@ perfect-scrollbar{
 }
 .table__row-star svg{
       fill: #4A5D88;
+}
+
+.table__cell--start {
+  padding-left: 12px !important;
+}
+.table__cell--end {
+  padding-right: 12px !important;
 }

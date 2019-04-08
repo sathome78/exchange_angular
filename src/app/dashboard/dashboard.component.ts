@@ -126,6 +126,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       chat: this.chatTemplate,
       orders: this.ordersTemplate
     };
+
+    this.reloadGridOnSessionExpired();
   }
 
   checkRoute() {
@@ -161,6 +163,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  private reloadGridOnSessionExpired() {
+    this.popupService.getSessionExpiredPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        if (res) setTimeout(() => { this.gridsterContainer.reload(); }, 500);
+      });
   }
 
   findAndSetActiveCurrencyPair(pairName: string) {

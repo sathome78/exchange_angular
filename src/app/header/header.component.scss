@@ -407,9 +407,8 @@
       }
     }
     .login-menu__link{
-      padding: 0;
+      padding: 0 0 16px 0;
       color: #191A39;
-      padding-top: 16px;
       transition:.3s;
       &:hover{
         color: #237BEF;

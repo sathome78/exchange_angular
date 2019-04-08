@@ -61,37 +61,45 @@
             </ul>
           </div>
         </ng-container>
-        </li>
-        <li class="menu__item menu__item--with-submenu">
+      </li>
+      <li class="menu__item menu__item--with-submenu">
           <ng-container *ngIf="isAuthenticated">
-          <a class="menu__link menu__link--drop">
-            <span class="menu__link-text">{{'Orders' | translate}}</span>
-          </a>
-          <!-- <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" ><span class="menu__link-text">Orders</span></a> -->
-            <div class="submenu">
-              <ul class="menu submenu__list">
-                <li class="submenu__item">
-                  <a class="submenu__link" routerLink="/orders/open">
-                    <span class="menu__link-text">{{'Open orders' | translate}}</span>
-                  </a>
-                </li>
-                <li class="submenu__item">
-                  <a class="submenu__link" routerLink="/orders/closed">
-                    <span class="menu__link-text">{{'Orders history' | translate}}</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </ng-container>
+              <a class="menu__link menu__link--drop">
+                <span class="menu__link-text">{{'Orders' | translate}}</span>
+              </a>
+              <!-- <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" ><span class="menu__link-text">Orders</span></a> -->
+              <div class="submenu">
+                <ul class="menu submenu__list">
+                  <li class="submenu__item">
+                    <a class="submenu__link" routerLink="/orders/open">
+                      <span class="menu__link-text">{{'Open orders' | translate}}</span>
+                    </a>
+                  </li>
+                  <li class="submenu__item">
+                    <a class="submenu__link" routerLink="/orders/closed">
+                      <span class="menu__link-text">{{'Orders history' | translate}}</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </ng-container>
           </li>
-      <!-- <li class="menu__item" routerLinkActive="menu__link--active">
-        <a class="menu__link" routerLink="/dashboard">
-          <span class="menu__link-text">{{'IEO' | translate}}</span>
-        </a>
-      </li> -->
-      <!-- <li class="menu__item" routerLinkActive="menu__link--active">
-
-      </li> -->
+          <li class="menu__item menu__item--with-submenu">
+        <ng-container>
+          <a class="menu__link menu__link--drop">
+            <span class="menu__link-text">{{'IEO' | translate}}</span>
+          </a>
+          <div class="submenu">
+            <ul class="menu submenu__list">
+              <li class="submenu__item" *ngFor="let ieo of (ieoList$ | async)">
+                <a class="submenu__link" [routerLink]="'/ieo/' + ieo.id">
+                  <span class="menu__link-text">{{ieo.currencyDescription}} ({{ieo.status}})</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </ng-container>
+      </li>
     </ul>
     <ul class="community-wr">
       <li class="menu__item menu__item--with-submenu">
@@ -160,10 +168,10 @@
               ${{(myBalance | async)?.USD || 0 | roundCurrency: 'USD' | formatCurrency}}
             </span>
           </div>
-          <a class="menu__link login-menu__link" routerLink="/settings" *ngIf="isAuthenticated">
+          <a class="menu__link login-menu__link" routerLink="/settings" *ngIf="isAuthenticated" style="padding-top: 16px;">
             <span class="menu__link-text">{{'Settings' | translate}}</span>
           </a>
-          <a class="menu__link login-menu__link menu__link--auth--log" (click)="onLogout()" style="padding-bottom: 16px;">
+          <a class="menu__link login-menu__link menu__link--auth--log" (click)="onLogout()">
             <span class="menu__link-text">{{'Log out' | translate}}</span>
           </a>
         </div>

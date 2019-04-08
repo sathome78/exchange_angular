@@ -201,7 +201,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
 
     this.widgetOptions = {
-      symbol: this._symbol,
+      symbol: this.currencyPairName,
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
       interval: this._interval,
       container_id: this._containerId,
@@ -240,8 +240,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       //   intervals: ['30', '60', '240', '720', '1D', '2D', '3D', '1W', '3W', '1M']
       // },
       studies_overrides: {
-        'volume.volume.color.0': '#00B43D',
-        'volume.volume.color.1': '#EB5757',
+        'volume.volume.color.0': '#EB5757',
+        'volume.volume.color.1':  '#00B43D',
         'volume.volume ma.color': '#FF0000',
         'volume.volume ma.linewidth': 5,
         // 'volume.show ma': true,
@@ -258,6 +258,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
         'mainSeriesProperties.areaStyle.color1': 'rgba(35, 123, 239, 1)',
         'mainSeriesProperties.areaStyle.color2': 'rgba(35, 123, 239, 0)',
+
+        'mainSeriesProperties.candleStyle.wickUpColor': '#53B987',
+        'mainSeriesProperties.candleStyle.wickDownColor': '#EB5757'
       },
     };
 

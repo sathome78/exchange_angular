@@ -128,6 +128,7 @@
               (inputFocus)="focusOrBlurDateFrom($event)"
               (inputEmpty)="clearModelDateFrom()"
               (validDate)="dateFromChanged($event)"
+              [disableAutoFocus]="true"
             ></app-date-mask-input>
             <my-date-picker
               name="from"
@@ -146,6 +147,7 @@
               (validDate)="dateToChanged($event)"
               (inputEmpty)="clearModelDateTo()"
               (inputFocus)="focusOrBlurDateTo($event)"
+              [disableAutoFocus]="true"
             ></app-date-mask-input>
             <my-date-picker
               name="to"
@@ -158,7 +160,7 @@
             <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
           </div>
         </div>
-        <button  (click)="closeFilterPopup()" class="btn filters-popup__btn">{{'See' | translate}} <!-- <span>{{countOfEntries$ | async}}</span> -->{{'results' | translate}}</button>
+        <button  (click)="filterPopupSubmit()" class="btn filters-popup__btn">{{'See' | translate}} <!-- <span>{{countOfEntries$ | async}}</span> -->{{'results' | translate}}</button>
       </form>
     </div>
     <!--filter-popup end-->
