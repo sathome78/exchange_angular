@@ -1,4 +1,13 @@
 .ieo-popup-buy{
+	.btn-ieo{
+		&[disabled]{
+			
+			background-color: #D6D6D6;
+			pointer-events: none;
+			color: #fff;
+			border-color: #D6D6D6;
+		}
+	}
 	.popup{
 		position: relative;
 	}
@@ -70,8 +79,8 @@
 	.capcha{
 		color: #191A39;
 		font-weight: 600;
-    font-size: 24px;
-    margin: 0 auto;
+		font-size: 24px;
+		margin: 0 auto;
 		padding: 23px 0;
 	}
 	.btn{
