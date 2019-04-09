@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {UserInfoVerificationModel} from '../../popups/identity-popup/user-info-verification.model';
 import {UserDocVerificationModel} from '../../popups/identity-popup/user-doc-verification.model';
+import {KycCountry} from '../interfaces/kyc-country-interface';
 
 @Injectable()
 export class UserVerificationService {
@@ -19,6 +20,11 @@ export class UserVerificationService {
 
   public setVerificationMode(value: string) {
     this.verificationMode = value;
+  }
+
+  public getCountryList(): Observable<KycCountry[]> {
+    const url = this.host + '/api/private/v2/kyc/countries';
+    return this.http.get<KycCountry[]>(url);
   }
 
   public uploadVerificationInfo(dto: UserInfoVerificationModel): Observable<number> {
