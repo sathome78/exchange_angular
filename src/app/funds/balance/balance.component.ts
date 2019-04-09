@@ -68,11 +68,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public kycStatus: string = '';
 
   public IEOData: IEOItem[];
-
   public sendMoneyData = {};
   public refillBalanceData = {};
   public currencyForChoose: string = null;
-
   public currentPage = 1;
   public countPerPage = 15;
   public loading: boolean = false;

@@ -47,13 +47,14 @@
   ></app-popup-buy>
 
   <app-popup-policy
-    [show]="showPolicy"
+    *ngIf="showPolicy"
     (close)="closePolicy()"
     (onAgree)="agreeWithPolicy()"
   ></app-popup-policy>
 
   <app-popup-success
-    [show]="showSuccess"
+    [IEOName]="IEOData.currencyDescription"
+    *ngIf="showSuccess"
     (close)="closeSuccess()"
   >
   </app-popup-success>

@@ -1,12 +1,9 @@
 import {Component, Input, OnInit, Output, EventEmitter, OnChanges} from '@angular/core';
 import {IEOItem} from 'app/model/ieo.model';
-import {Store} from '@ngrx/store';
-import {State} from 'app/core/reducers';
-import {keys} from '../../../shared/constants';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { UserService } from 'app/shared/services/user.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {UserService} from 'app/shared/services/user.service';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-popup-buy',
