@@ -69,6 +69,11 @@ export class IEOComponent implements OnInit, OnDestroy {
                   this.requirements = res;
                 };
               })
+            this.userService.getUserBalanceCurr(['BTC'])
+              .pipe(takeUntil(this.ngUnsubscribe$))
+              .subscribe((res) => {
+                this.userBalanceBTC = res.data['BTC'];
+              })
           }
         })
     })
@@ -156,12 +161,12 @@ export class IEOComponent implements OnInit, OnDestroy {
     if(this.stage.PENDING === this.currentStage) {
 
     } else if (this.stage.RUNNING === this.currentStage) {
-      // if(this.checkRequirements()) {
-      //   this.openBuy();
-      // } else {
-      //   this.openNoReqs();
-      // }
-      this.openBuy();
+      if(this.checkRequirements()) {
+        this.openBuy();
+      } else {
+        this.openNoReqs();
+      }
+      // this.openBuy();
     } else if (this.stage.SUCCEEDED === this.currentStage || this.stage.FAILED === this.currentStage) {
 
     }
