@@ -49,7 +49,9 @@ import {MerchantImageFilterPipe} from './pipes/merchant-image-filter.pipe';
 import {ReplaceCharPipe} from './pipes/replaceChar.pipe';
 import {ShowStageStatusPipe} from './pipes/stage-status.pipe';
 import {TopNotificationComponent} from './components/top-notification/top-notification.component';
-import { NotificationsListComponent } from './components/notifications-list/notifications-list.component';
+import {NotificationsListComponent} from './components/notifications-list/notifications-list.component';
+import {PopupBuyComponent} from './components/popup-buy-ieo/popup-buy.component';
+import { PopupSuccessComponent } from './components/popup-success-ieo/popup-success.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +90,8 @@ import { NotificationsListComponent } from './components/notifications-list/noti
     TopNotificationComponent,
     ShowStageStatusPipe,
     NotificationsListComponent,
+    PopupBuyComponent,
+    PopupSuccessComponent,
   ],
   imports: [
     FormsModule,
@@ -99,7 +103,7 @@ import { NotificationsListComponent } from './components/notifications-list/noti
     InfiniteScrollModule,
     RecaptchaModule,
     ScrollingModule,
-    MomentModule
+    MomentModule,
   ],
   exports: [
     InfiniteScrollModule,
@@ -142,7 +146,9 @@ import { NotificationsListComponent } from './components/notifications-list/noti
     ShowStageStatusPipe,
     TopNotificationComponent,
     NotificationsListComponent,
-    AddClassDirective
+    PopupBuyComponent,
+    PopupSuccessComponent,
+    AddClassDirective,
   ],
   providers: [
     NotificationsService,

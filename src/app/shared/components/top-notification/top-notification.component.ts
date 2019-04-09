@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Notification } from 'app/model/notification.model';
 
 @Component({
   selector: 'app-top-notification',
@@ -9,7 +10,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild, ElementRe
 export class TopNotificationComponent implements OnInit {
 
   public active: boolean = true;
-  @Input() public data;
+  @Input() public data: Notification;
   @ViewChild('component') public component: ElementRef;
   @Output() public close: EventEmitter<any> = new EventEmitter();
 
@@ -19,7 +20,7 @@ export class TopNotificationComponent implements OnInit {
   }
 
   closeMe() {
-    this.active = false
+    this.close.emit(this.data.id);
   }
 
 }

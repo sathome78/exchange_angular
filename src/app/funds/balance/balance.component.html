@@ -15,14 +15,13 @@
         [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
         [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
         [loading]="loading$ | async"
-
-      (onToggleAllZero)="onToggleAllZeroMobile($event)"
-      (onLoadMore)="loadMoreBalancesForMobile($event)"
-      (openRefillBalancePopup)="openRefillBalancePopup($event)"
-      (openSendMoneyPopup)="openSendMoneyPopup($event)"
-      (onSelectTab)="onSelectTab($event)"
-      (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
-      (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
+        (onToggleAllZero)="onToggleAllZeroMobile($event)"
+        (onLoadMore)="loadMoreBalancesForMobile($event)"
+        (openRefillBalancePopup)="openRefillBalancePopup($event)"
+        (openSendMoneyPopup)="openSendMoneyPopup($event)"
+        (onSelectTab)="onSelectTab($event)"
+        (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
+        (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
       ></app-balance-mob>
 
       <app-balance-mob
@@ -38,14 +37,13 @@
         [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
         [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
         [loading]="loading$ | async"
-
-      (onToggleAllZero)="onToggleAllZeroMobile($event)"
-      (onLoadMore)="loadMoreBalancesForMobile($event)"
-      (openRefillBalancePopup)="openRefillBalancePopup($event)"
-      (openSendMoneyPopup)="openSendMoneyPopup($event)"
-      (onSelectTab)="onSelectTab($event)"
-      (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
-      (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
+        (onToggleAllZero)="onToggleAllZeroMobile($event)"
+        (onLoadMore)="loadMoreBalancesForMobile($event)"
+        (openRefillBalancePopup)="openRefillBalancePopup($event)"
+        (openSendMoneyPopup)="openSendMoneyPopup($event)"
+        (onSelectTab)="onSelectTab($event)"
+        (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
+        (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
       ></app-balance-mob>
     </ng-container>
   </div>
@@ -100,66 +98,68 @@
       >
       <ng-container [ngSwitch]="currTab">
         <app-dynamic-input
-        *ngSwitchCase="Tab.CRYPTO"
-        [value]="currValue"
-        [options]="cryptoCurrenciesForChoose && getCryptoDynamicIData"
-        (onChange)="onChangeCurrPair($event)"
-        (onSelect)="onSelectPair($event.id)"
-        [showNotFoundTip]="true"
+          *ngSwitchCase="Tab.CRYPTO"
+          [value]="currValue"
+          [options]="cryptoCurrenciesForChoose && getCryptoDynamicIData"
+          (onChange)="onChangeCurrPair($event)"
+          (onSelect)="onSelectPair($event.id)"
+          [showNotFoundTip]="true"
         ></app-dynamic-input>
         <app-dynamic-input
-        *ngSwitchCase="Tab.FIAT"
-        [value]="currValue"
-        [options]="fiatCurrenciesForChoose && getFiatDynamicIData"
-        (onChange)="onChangeCurrPair($event)"
-        (onSelect)="onSelectPair($event.id)"
-        [showNotFoundTip]="true"
+          *ngSwitchCase="Tab.FIAT"
+          [value]="currValue"
+          [options]="fiatCurrenciesForChoose && getFiatDynamicIData"
+          (onChange)="onChangeCurrPair($event)"
+          (onSelect)="onSelectPair($event.id)"
+          [showNotFoundTip]="true"
         ></app-dynamic-input>
         <ng-container *ngIf="!isProd">
           <app-dynamic-input
-          *ngSwitchCase="Tab.QUBERA"
-          [value]="currValue"
-          [options]="!existQuberaAccounts ? [] : fiatCurrenciesForChoose && getFiatDynamicIData"
-          (onChange)="onChangeCurrPair($event)"
-          (onSelect)="onSelectPair($event.id)"
-          [showNotFoundTip]="existQuberaAccounts"
+            *ngSwitchCase="Tab.QUBERA"
+            [value]="currValue"
+            [options]="!existQuberaAccounts ? [] : fiatCurrenciesForChoose && getFiatDynamicIData"
+            (onChange)="onChangeCurrPair($event)"
+            (onSelect)="onSelectPair($event.id)"
+            [showNotFoundTip]="existQuberaAccounts"
           ></app-dynamic-input>
         </ng-container>
-        <app-dynamic-input
-        *ngSwitchCase="Tab.IEO"
-        [value]="currValue"
-        [options]="[]"
-        (onChange)="onChangeCurrPair($event)"
-        (onSelect)="onSelectPair($event.id)"
-        [showNotFoundTip]="true"
-        ></app-dynamic-input>
+        <ng-container *ngIf="isProd">
+          <app-dynamic-input
+            *ngSwitchCase="Tab.IEO"
+            [value]="currValue"
+            [options]="[]"
+            (onChange)="onChangeCurrPair($event)"
+            (onSelect)="onSelectPair($event.id)"
+            [showNotFoundTip]="true"
+          ></app-dynamic-input>
+        </ng-container>
 
         <app-dynamic-input
-        *ngSwitchCase="Tab.PR"
-        [value]="currValue"
-        [options]="(allCurrenciesForChoose$ | async) | dynamicIData: 'name': 'name'"
-        (onChange)="onChangeCurrPair($event)"
-        (onSelect)="onSelectPair($event.id)"
-        [showNotFoundTip]="true"
+          *ngSwitchCase="Tab.PR"
+          [value]="currValue"
+          [options]="(allCurrenciesForChoose$ | async) | dynamicIData: 'name': 'name'"
+          (onChange)="onChangeCurrPair($event)"
+          (onSelect)="onSelectPair($event.id)"
+          [showNotFoundTip]="true"
         ></app-dynamic-input>
       </ng-container>
 
       <div class="tabs balance__tabs">
         <button
-        class="tabs__item"
-        [ngClass]="{'tabs__item--active': currTab === Tab.CRYPTO}"
-        (click)="onSelectTab(Tab.CRYPTO)"
-        [disabled]="loading$ | async"
+          class="tabs__item"
+          [ngClass]="{'tabs__item--active': currTab === Tab.CRYPTO}"
+          (click)="onSelectTab(Tab.CRYPTO)"
+          [disabled]="loading$ | async"
         >
         {{'Crypto Balances' | translate}}
       </button>
       <button
-      [disabled]="loading$ | async"
-      class="tabs__item"
-      [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}"
-      (click)="onSelectTab(Tab.FIAT)"
+        [disabled]="loading$ | async"
+        class="tabs__item"
+        [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}"
+        (click)="onSelectTab(Tab.FIAT)"
       >
-      {{'Fiat Balances' | translate}}
+        {{'Fiat Balances' | translate}}
     </button>
     <!--<button-->
     <!--class="tabs__item qubera-tab">-->
@@ -246,38 +246,38 @@
           <!--filters end-->
           <ng-container [ngSwitch]="currTab">
             <app-balance-table
-            *ngSwitchCase="Tab.CRYPTO"
-            [balances]="cryptoBalances$ | async"
-            [countPerPage]="countPerPage"
-            [countOfEntries]="getCountOfEntries() | async"
-            [currentPage]="currentPage"
-            [loading]="loading$ | async"
-            (onPaginate)="onPageChanged($event)"
-            (transferOut)="goToTransferPopup($event)"
-            (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
-            (cryptoDepositOut)="goToCryptoDepositPopup($event)"
+              *ngSwitchCase="Tab.CRYPTO"
+              [balances]="cryptoBalances$ | async"
+              [countPerPage]="countPerPage"
+              [countOfEntries]="getCountOfEntries() | async"
+              [currentPage]="currentPage"
+              [loading]="loading$ | async"
+              (onPaginate)="onPageChanged($event)"
+              (transferOut)="goToTransferPopup($event)"
+              (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+              (cryptoDepositOut)="goToCryptoDepositPopup($event)"
             ></app-balance-table>
             <app-balance-table
-            *ngSwitchCase="Tab.FIAT"
-            [balances]="fiatBalances$ | async"
-            [countPerPage]="countPerPage"
-            [countOfEntries]="getCountOfEntries() | async"
-            [currentPage]="currentPage"
-            [loading]="loading$ | async"
-            (onPaginate)="onPageChanged($event)"
-            (transferOut)="goToTransferPopup($event)"
-            (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
-            (cryptoDepositOut)="goToCryptoDepositPopup($event)"
+              *ngSwitchCase="Tab.FIAT"
+              [balances]="fiatBalances$ | async"
+              [countPerPage]="countPerPage"
+              [countOfEntries]="getCountOfEntries() | async"
+              [currentPage]="currentPage"
+              [loading]="loading$ | async"
+              (onPaginate)="onPageChanged($event)"
+              (transferOut)="goToTransferPopup($event)"
+              (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+              (cryptoDepositOut)="goToCryptoDepositPopup($event)"
             ></app-balance-table>
             <app-pending-request-table
-            [pendingRequests]="pendingRequests$ | async"
-            [countPerPage]="countPerPage"
-            [countOfEntries]="getCountOfEntries() | async"
-            [currentPage]="currentPage"
-            [loading]="loading$ | async"
-            (onPaginate)="onPageChanged($event)"
-            (onRevokePendingRequest)="onRevokePendingRequest($event)"
-            *ngSwitchCase="Tab.PR"
+              [pendingRequests]="pendingRequests$ | async"
+              [countPerPage]="countPerPage"
+              [countOfEntries]="getCountOfEntries() | async"
+              [currentPage]="currentPage"
+              [loading]="loading$ | async"
+              (onPaginate)="onPageChanged($event)"
+              (onRevokePendingRequest)="onRevokePendingRequest($event)"
+              *ngSwitchCase="Tab.PR"
             ></app-pending-request-table>
             <ng-container *ngIf="!isProd">
               <app-qubera-table

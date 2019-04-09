@@ -1,9 +1,9 @@
 import {Component, Input, OnInit, Output, EventEmitter, OnChanges} from '@angular/core';
 import {IEOItem} from 'app/model/ieo.model';
-import {Store} from '@ngrx/store';
-import {State} from 'app/core/reducers';
-import {keys} from '../../../shared/constants';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {UserService} from 'app/shared/services/user.service';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-popup-buy',
@@ -13,21 +13,32 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class PopupBuyComponent implements OnInit, OnChanges {
 
   public form: FormGroup;
-  @Input() show: boolean;
+  // @Input() show: boolean;
   @Input() IEOData: IEOItem;
-  @Input() userBalanceBTC: number;
+  public userBalanceBTC: number;
+  public userBalanceCoin: number;
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() confirm: EventEmitter<any> = new EventEmitter();
   public minSum: number = 0;
   public maxSum: number = 1;
   public pay: number = 0;
+  public loading: boolean = true;
+  private ngUnsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(
-
+    private userService: UserService,
   ) { }
 
   ngOnInit() {
-    this.initForm()
+    this.initForm();
+    this.userService.getUserBalanceCurr(['BTC', this.IEOData.currencyName])
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((res) => {
+        this.userBalanceBTC = res.data['BTC'];
+        this.userBalanceCoin = res.data[this.IEOData.currencyName];
+        this.maxSum = this.getMaxAvailSum();
+        this.loading = false;
+      })
   }
 
   ngOnChanges(c) {
@@ -77,6 +88,26 @@ export class PopupBuyComponent implements OnInit, OnChanges {
       return;
     }
     this.confirm.emit(this.form.get('amount').value)
+  }
+
+  getMaxAvailSum() {
+    const sums = [this.IEOData.maxAmountPerClaim, this.IEOData.availableAmount];
+    const userBalBTC = this.userBalanceBTC / this.IEOData.rate;
+    sums.push(userBalBTC)
+
+    if(this.IEOData.maxAmountPerUser) {
+      if(this.IEOData.maxAmountPerUser >= this.userBalanceCoin) {
+        sums.push(0);
+      } else {
+        sums.push(this.IEOData.maxAmountPerUser -  this.userBalanceCoin)
+      }
+    }
+    return Math.min(...sums);
+  }
+
+  insertMax(e) {
+    e.preventDefault();
+    this.form.controls['amount'].setValue(this.maxSum)
   }
 
 }

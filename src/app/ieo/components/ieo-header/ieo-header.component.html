@@ -35,7 +35,7 @@
           class="btn btn-blue btn-ieo"
           (click)="onBuy.emit()"
           *ngIf="isAuthenticated"
-          [disabled]="ieoLoading && (currentStage === stage.SUCCEEDED || currentStage === stage.FAILED)"
+          [disabled]="ieoLoading || currentStage !== stage.RUNNING"
         >
 					<span>Buy Now</span>
 				</button>
