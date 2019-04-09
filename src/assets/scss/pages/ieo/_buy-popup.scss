@@ -1,4 +1,14 @@
 .ieo-popup-buy{
+	.temp-style{
+		    font-size: .77em;
+	}
+	.wrap-input__input{
+		    height: 49px;
+		        margin-bottom: 7px;
+	}
+	.popup{
+		justify-content: flex-start;
+	}
 	.btn-ieo{
 		&[disabled]{
 			
@@ -10,6 +20,7 @@
 	}
 	.popup{
 		position: relative;
+		padding: 38px;
 	}
 	.ieo-pair{
 		padding: 7px;
@@ -27,13 +38,14 @@
 		}
 	}
 	.popup__title{
-		margin-top: 17px;
+		margin-top: 15px;
 		margin-bottom: 0;
+		    font-weight: 600;
 	}
 	.balance-txt{
 		font-size: 14px;
 		text-align: center;
-		margin-bottom: 15px;
+		    margin-bottom: 17px;
 		color: #A0A0A0;
 		span{
 
@@ -42,14 +54,12 @@
 	.input-part{
 
 	}
-	.wrap-input__input{
-		margin-bottom: 15px;
-	}
+
 	.avaliable{
 		font-size: 12px;
 		text-align: right;
 		color: #191A39;
-		margin-bottom: 3px;
+		margin-bottom: 1px;
 		a{
 			font-size: 12px;
 			color: #191A39;
@@ -60,7 +70,8 @@
 
 	}
 	.max-value{
-		margin-bottom: 4px;
+		    margin-bottom: 25px;
+		padding-left: 3px;
 		a{
 			font-size: 14px;
 
@@ -70,6 +81,8 @@
 		}
 	}
 	.pay{
+		        padding-left: 4px;
+    margin-bottom: 29px;
 		p{
 			font-size: 14px;
 			color: #191A39;
@@ -84,7 +97,7 @@
 		padding: 23px 0;
 	}
 	.btn{
-
+		max-width: unset;
 	}
 
 }
