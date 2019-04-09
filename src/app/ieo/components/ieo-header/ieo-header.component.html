@@ -13,44 +13,44 @@
 		<div class="ieo-header-item">
 			<div class="sell-progress">
 				<svg id="progress-bar-back" class="progress-bar-back" width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M42 21C42 32.0236 32.8442 41 21.5 41C10.1559 41 1 32.0236 1 21C1 9.97636 10.1559 1 21.5 1C32.8442 1 42 9.97636 42 21Z" stroke="#5E5F74" stroke-width="2"/>
+					<path stroke="#5E5F74" id="svg_1" stroke-width="2" d="m42,21.506983c0,11.303039 -9.1558,20.506983 -20.5,20.506983c-11.3441,0 -20.5,-9.203944 -20.5,-20.506983c0,-11.30308 9.1559,-20.506983 20.5,-20.506983c11.3442,0 20.5,9.203903 20.5,20.506983z"/>
 				</svg>
 				<svg id="progress-bar" class="progress-bar" width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path [ngStyle]="{'stroke-dashoffset': dashOffset}" d="M42 21C42 32.0236 32.8442 41 21.5 41C10.1559 41 1 32.0236 1 21C1 9.97636 10.1559 1 21.5 1C32.8442 1 42 9.97636 42 21Z" stroke="#237BEF" stroke-width="2"/>
+					<path [ngStyle]="{'stroke-dashoffset': dashOffset}" stroke="#237BEF" stroke-width="2" d="m42,21.506983c0,11.303039 -9.1558,20.506983 -20.5,20.506983c-11.3441,0 -20.5,-9.203944 -20.5,-20.506983c0,-11.30308 9.1559,-20.506983 20.5,-20.506983c11.3442,0 20.5,9.203903 20.5,20.506983z"/>
 				</svg>
 				<span>{{boughtAmountPer}}%</span>
 			</div>
 			<div class="available-value">
-        <span class="available-value-text">{{boughtAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
-        <span class="available-value-currency">{{IEOData.currencyName}}</span>
+				<span class="available-value-text">{{boughtAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
+				<span class="available-value-currency">{{IEOData.currencyName}}</span>
 			</div>
 		</div>
 		<div class="ieo-header-item">
 			<div class="ieo-amount">
-        <span class="field-description">Amount: </span>
-        <span class="amount-value">{{(IEOData.amount || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}</span>
+				<span class="field-description">Amount: </span>
+				<span class="amount-value">{{(IEOData.amount || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}</span>
 			</div>
 			<div class="ieo-buy-button">
-        <button
-          class="btn btn-blue btn-ieo"
-          (click)="onBuy.emit()"
-          *ngIf="isAuthenticated"
-          [disabled]="ieoLoading || currentStage !== stage.RUNNING"
-        >
-					<span>Buy Now</span>
-				</button>
-        <button
-          class="btn btn-blue btn-ieo"
-          (click)="onLogin.emit()"
-          *ngIf="!isAuthenticated"
-        >
-					<span>Log In</span>
-				</button>
+				<button
+				class="btn btn-blue btn-ieo"
+				(click)="onBuy.emit()"
+				*ngIf="isAuthenticated"
+				[disabled]="ieoLoading || currentStage !== stage.RUNNING"
+				>
+				<span>Buy Now</span>
+			</button>
+			<button
+			class="btn btn-blue btn-ieo"
+			(click)="onLogin.emit()"
+			*ngIf="!isAuthenticated"
+			>
+			<span>Log In</span>
+		</button>
 
-			</div>
-			<div class="ieo-price">
-				<span class="field-description">1 BTT = </span><span class="price-value">{{IEOData.rate}} BTC</span>
-			</div>
-		</div>
 	</div>
+	<div class="ieo-price">
+		<span class="field-description">1 BTT = </span><span class="price-value">{{IEOData.rate}} BTC</span>
+	</div>
+</div>
+</div>
 </div>

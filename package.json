@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng serve --configuration=dev --aot",
+    "start": "ng serve --configuration=dev --aot",
     "startPreprod": "ng serve --configuration=pre-prod-local --aot",
-    "build": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build",
+    "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
