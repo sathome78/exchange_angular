@@ -69,11 +69,6 @@ export class IEOComponent implements OnInit, OnDestroy {
                   this.requirements = res;
                 };
               })
-            this.userService.getUserBalanceCurr(['BTC'])
-              .pipe(takeUntil(this.ngUnsubscribe$))
-              .subscribe((res) => {
-                this.userBalanceBTC = res.data['BTC'];
-              })
           }
         })
     })

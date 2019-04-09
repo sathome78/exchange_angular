@@ -85,7 +85,7 @@
             </ng-container>
           </li>
           <li class="menu__item menu__item--with-submenu">
-        <ng-container>
+        <ng-container *ngIf="!isProduction">
           <a class="menu__link menu__link--drop">
             <span class="menu__link-text">{{'IEO' | translate}}</span>
           </a>
@@ -93,7 +93,7 @@
             <ul class="menu submenu__list">
               <li class="submenu__item" *ngFor="let ieo of (ieoList$ | async)">
                 <a class="submenu__link" [routerLink]="'/ieo/' + ieo.id">
-                  <span class="menu__link-text">{{ieo.currencyDescription}} ({{ieo.status}})</span>
+                  <span class="menu__link-text">{{ieo.currencyDescription}} ({{ieo.status | showStageStatus}})</span>
                 </a>
               </li>
             </ul>
