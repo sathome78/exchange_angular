@@ -207,4 +207,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.popupService.showDemoTradingPopup(true);
     }
   }
+
+  get isProduction() {
+    return environment.production
+  }
 }

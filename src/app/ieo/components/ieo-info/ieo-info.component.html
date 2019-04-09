@@ -58,7 +58,7 @@
             <div class="button-part">
               <button
                 class="standart-btn"
-                [disabled]="ieoLoading && (currentStage === stage.SUCCEEDED || currentStage === stage.FAILED)"
+                [disabled]="ieoLoading || currentStage !== stage.RUNNING"
                 *ngIf="isAuthenticated"
                 (click)="onBuy.emit()"
               >

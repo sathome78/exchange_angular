@@ -9,7 +9,6 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 })
 export class PopupNotificationComponent implements OnInit {
 
-  // @Input() popupData: PopupData;
   @Input() show: boolean;
   @Input() header: string = '';
   @Input() line1: string = '';
@@ -17,15 +16,12 @@ export class PopupNotificationComponent implements OnInit {
   @Input() btnText: string = 'Ok';
   @Output() close: EventEmitter<any> = new EventEmitter();
 
-  constructor(
-    // public popupService: PopupService
-  ) { }
+  constructor() { }
 
   ngOnInit() {
   }
 
   closeMe() {
-    // this.popupService.toggleInfoPopup(null);
     this.close.emit();
   }
 }
