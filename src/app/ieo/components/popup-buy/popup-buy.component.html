@@ -2,7 +2,7 @@
 	<div class="popup" *ngIf="IEOData">
 		<div class="popup__close" (click)="closeMe()"></div>
 		<div class="ieo-pair">
-			<span>{{IEOData.currencyName}}</span>/<span>BNB</span>
+			<span>{{IEOData.currencyName}}</span>/<span>BTC</span>
 		</div>
 		<h6 class="popup__title tnx-head">1 {{IEOData.currencyName}} = {{IEOData.rate}} BTC</h6>
 		<div class="balance-txt">
@@ -20,8 +20,9 @@
             name="amount"
             (customInput)="onInput($event)"
           >
+          <label _ngcontent-c40="" class="wrap-input__currency" for="">BTC</label>
           </app-price-input>
-
+    
           <!-- Input error section starts -->
           <div
             class="input-hint-wrapper"
