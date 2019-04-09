@@ -1,6 +1,4 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-// import {PopupService} from '../../shared/services/popup.service';
-// import {PopupData} from '../../shared/interfaces/popup-data-interface';
 
 @Component({
   selector: 'app-popup-success',
@@ -9,12 +7,10 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 })
 export class PopupSuccessComponent implements OnInit {
 
-  @Input() show: boolean;
+  @Input() IEOName: string = '';
   @Output() close: EventEmitter<any> = new EventEmitter();
 
-  constructor(
-
-  ) { }
+  constructor() { }
 
   ngOnInit() {
   }

@@ -10,8 +10,8 @@ export class ShowStageStatusPipe  implements PipeTransform {
         return 'Upcoming'
       case 'RUNNING':
         return 'Fast Sale';
-      case 'SUCCESS':
-        return 'Success';
+      case 'SUCCEEDED':
+        return 'Succeeded';
       case 'FAILED':
         return 'Failed';
       default:

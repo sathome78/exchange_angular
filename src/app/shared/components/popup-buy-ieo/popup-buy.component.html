@@ -1,27 +1,31 @@
-<div class="overlay ieo-popup-buy" *ngIf="show">
-	<div class="popup" *ngIf="IEOData">
+<div class="overlay ieo-popup-buy">
+  <app-loader *ngIf="loading"></app-loader>
+	<div class="popup" *ngIf="IEOData && !loading">
 		<div class="popup__close" (click)="closeMe()"></div>
 		<div class="ieo-pair">
-			<span>{{IEOData.currencyName}}</span>/<span>BNB</span>
+			<span>{{IEOData.currencyName}}</span>/<span>BTC</span>
 		</div>
 		<h6 class="popup__title tnx-head">1 {{IEOData.currencyName}} = {{IEOData.rate}} BTC</h6>
 		<div class="balance-txt">
-			<span>Balance: {{userBalanceBTC}} BTC</span>
+			<span>Available to purchase: {{IEOData.availableAmount}} {{IEOData.currencyName}}</span>
 		</div>
 		<div class="input-part">
-      <div class="avaliable">Available:
-        <a class="link" style="pointer-events: auto;">{{IEOData.availableAmount}} {{IEOData.currencyName}}</a>
+      <div class="avaliable">Balance:
+        <a class="link" style="pointer-events: auto;">{{userBalanceBTC}} BTC</a>
       </div>
       <div class="wrap-input">
         <form [formGroup]="form">
           <app-price-input
             [placeholder]="'Quvantity'"
+            [currencyLabel]="IEOData.currencyName"
+            [forTrading]="true"
             formControlName="amount"
             name="amount"
             (customInput)="onInput($event)"
           >
+          <label _ngcontent-c40="" class="wrap-input__currency" for="">BTC</label>
           </app-price-input>
-
+    
           <!-- Input error section starts -->
           <div
             class="input-hint-wrapper"
@@ -48,13 +52,15 @@
       </div>
 		</div>
 		<div class="max-value">
-			<a href="#">Max: {{(IEOData.maxAmountPerClaim || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}</a>
+      <span class="temp-style">Max Available To Buy:</span>
+      <a href="#" (click)="insertMax($event)"> {{(maxSum || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} </a>
+      <span class="temp-style">{{IEOData.currencyName}}</span>
 		</div>
 		<div class="pay">
 			<p>Pay: {{((form.get('amount').value || 0) * IEOData.rate ) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</p>
 		</div>
     <button
-      class="btn btn--active btn--center"
+      class="btn btn--active btn--center btn-ieo"
       [disabled]="form.invalid"
       (click)="confirmForm()"
     >Confirm</button>
