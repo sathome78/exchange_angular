@@ -79,4 +79,11 @@ export class PopupBuyComponent implements OnInit, OnChanges {
     this.confirm.emit(this.form.get('amount').value)
   }
 
+  public getMaxAvailSum(IEOData, userBalanceBTC, ) {
+    const sums = [IEOData.maxAmountPerClaim, IEOData.availableAmount];
+    const userBalBTC = userBalanceBTC / IEOData.rate;
+    sums.push(userBalBTC)
+
+  }
+
 }

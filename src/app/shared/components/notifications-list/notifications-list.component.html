@@ -1,6 +1,9 @@
 <div>
-  <app-top-notification
-    *ngFor="let notification of list"
-    [data]="notification"
-  ></app-top-notification>
+  <ng-container
+    *ngFor="let notification of showList"
+  >
+    <app-top-notification
+      [data]="notification"
+    ></app-top-notification>
+  </ng-container>
 </div>
