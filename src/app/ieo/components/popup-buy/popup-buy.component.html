@@ -54,7 +54,7 @@
 			<p>Pay: {{((form.get('amount').value || 0) * IEOData.rate ) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</p>
 		</div>
     <button
-      class="btn btn--active btn--center"
+      class="btn btn--active btn--center btn-ieo"
       [disabled]="form.invalid"
       (click)="confirmForm()"
     >Confirm</button>
