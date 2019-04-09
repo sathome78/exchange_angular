@@ -17,6 +17,8 @@
         <form [formGroup]="form">
           <app-price-input
             [placeholder]="'Quvantity'"
+            [currencyLabel]="IEOData.currencyName"
+            [forTrading]="true"
             formControlName="amount"
             name="amount"
             (customInput)="onInput($event)"
