@@ -31,7 +31,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public recaptchaKey = keys.recaptchaKey;
   public isPasswordVisible = false;
-  public twoFaAuthModeMessage = 'Please enter two-factor <br> authentication code';
+  public twoFaAuthModeMessage = 'Please enter two-factor authentication code that was sent to your email';
   public pincodeAttempts = 0;
   public isError = false;
   public statusMessage = '';
