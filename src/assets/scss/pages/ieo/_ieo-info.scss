@@ -10,38 +10,42 @@
 		box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
 		border-radius: 4px;
 		color: #191A39;
-		padding: 3em;
+		padding: 5em 5.5em 0;
 		@media (max-width: 992px) {
 			padding: 1.5em 1em;
 		}
 	}
 	.text-info-block{
-		margin-bottom: 1em;
+		margin-bottom: 3.05em;
+		&+.text-info-block{
+			margin-bottom: 2.7em;
+		}
 		@media (max-width: 992px) {
 			margin-bottom: 2em;
 		}
 	}
 	h4{
-		font-size: 1.8em;
+		font-size: 2em;
 		text-transform: uppercase;
 		color: #000000;
-		font-weight: 500;
+		letter-spacing: .03em;
+		font-weight: 600;
 		text-align: center;
-		margin-bottom: .9em;
+		margin-bottom: .8em;
 		@media(max-width: 992px) {
 			font-size: 1.3em;
 		}
 	}
 	p{
-
+		line-height: 1.67;
 	}
 	.features-list{
-
+		margin-top: 2.45em;
 	}
 	.features-list-item{
 		padding-left: .9em;
 		position: relative;
-		margin-bottom: .6em;
+		margin-bottom: .66em;
 		&::before{
 			content: "";
 			position: absolute;
@@ -59,10 +63,10 @@
 		}
 	}
 	.rating{
-		max-width: 46em;
+		max-width: 48em;
 		margin: 0 auto;
-		padding-top: 3em;
-		padding-bottom: 3em;
+		padding-top: 0;
+		padding-bottom: 2.15em;
 		@media(max-width: 992px){
 			padding-bottom: 0;
 			padding-top: 1em;
@@ -144,7 +148,7 @@
 	}
 	.rating-value{
 		font-weight: 500;
-		font-size: 1.8em;
+		font-size: 2em;
 		text-transform: uppercase;
 		color: #C4C4C4;
 		text-align: center;
@@ -162,11 +166,21 @@
 	padding-top: 1.7em;
 	padding-bottom: 1.7em;
 }
-
+.allocation{
+	    padding-top: 2.8em;
+    padding-bottom: 1.8em;
+}
 .allocation-graph{
+	overflow: hidden;
 	img{
-		max-width: 100%;
+		max-width: 120%;
+		position: relative;
+		left: -4%;
 	}
+}
+.schedule{
+	padding-bottom: 20px;
+	
 }
 .schedule-graph{
 	img{

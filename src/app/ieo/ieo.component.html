@@ -33,7 +33,7 @@
   <app-ieo-descriptions [description]="ieoData.description"></app-ieo-descriptions>
 
   <app-popup-notification
-    [show]="showNoReqs"
+    *ngIf="showNoReqs"
     (close)="closeNoReqs()"
     header="Ошибка верификации"
     line1="проверьте верификацию и согласитесь с правилами"
@@ -41,8 +41,7 @@
   ></app-popup-notification>
   <app-popup-buy
     [IEOData]="IEOData"
-    [userBalanceBTC]="userBalanceBTC"
-    [show]="showBuy"
+    *ngIf="showBuy"
     (close)="closeBuy()"
     (confirm)="confirmBuy($event)"
   ></app-popup-buy>
