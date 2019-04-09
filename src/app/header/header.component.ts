@@ -204,7 +204,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const encodeData = btoa(JSON.stringify({
       login: this.authService.isAuthenticated()
     }));
-    window.open(`https://support.exrates.me?data=${encodeData}`);
+    window.open(`https://news.exrates.me?data=${encodeData}`);
   }
 
 // temp solution
