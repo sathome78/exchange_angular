@@ -2,11 +2,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-ico-table',
-  templateUrl: './icotable.component.html',
-  styleUrls: ['./icotable.component.scss']
+  selector: 'app-ieo-table',
+  templateUrl: './ieotable.component.html',
+  styleUrls: ['./ieotable.component.scss']
 })
-export class ICOTableComponent implements OnInit {
+export class IEOTableComponent implements OnInit {
 
   @Input('countPerPage') public countPerPage: number;
   @Input('IEOData') public IEOData: any;
@@ -49,7 +49,7 @@ export class ICOTableComponent implements OnInit {
     this.router.navigate([`/ieo/${id}`])
   }
 
-  public noop = () => {
+  public buyIeo(ieo) {
 
   }
 

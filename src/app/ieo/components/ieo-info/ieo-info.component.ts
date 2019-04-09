@@ -31,7 +31,7 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(c) {
-    if(c.IEOData && c.IEOData.currentValue && !c.IEOData.previousValue) {
+    if(c.IEOData && c.IEOData.currentValue) {
       const d = this.IEOData.startDate;
       if(!d) return;
       const date = new Date(d.year, d.monthValue - 1, d.dayOfMonth, d.hour, d.minute, d.second).toISOString();
@@ -44,6 +44,9 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public startTimer(date: string): void {
+    if(this.interval) {
+      clearInterval(this.interval);
+    }
     // TODO refactore
     let days, hours, minutes, seconds;
     const target_date = new Date(date).getTime();
@@ -65,10 +68,10 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
       minutes = pad(parseInt((seconds_left / 60) + ''));
       seconds = pad(parseInt((seconds_left % 60) + ''));
       if(target_date > current_date){
-        this.timer = "<span>" + days + "</span><span>" + hours + "</span><span>" + minutes + "</span><span>" + seconds + "</span>";
+        this.timer = '<span>' + days + '</span><span>' + hours + '</span><span>' + minutes + '</span><span>' + seconds + '</span>';
       }
       else{
-        this.timer = "<span>" + "00" + "</span><span>" + "00" + "</span><span>" + "00" + "</span><span>" + "00" + "</span>";
+        this.timer = '<span>' + '00' + '</span><span>' + '00' + '</span><span>' + '00' + '</span><span>' + '00' + '</span>';
       }
 
     }
@@ -85,21 +88,22 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
 
   public getFormatDate(d) {
     if(!d) {
-      return ''
+      return '0000-00-00 00:00:00'
     }
     return `${d.year}-${d.monthValue < 10 ? '0' + d.monthValue: d.monthValue}-${d.dayOfMonth < 10 ? '0' + d.dayOfMonth: d.dayOfMonth} ` +
       `${d.hour < 10 ? '0' + d.hour: d.hour}:${d.minute < 10 ? '0' + d.minute: d.minute}:${d.second < 10 ? '0' + d.second: d.second}`
   }
 
   get boughtAmount () {
-    return this.IEOData.amount - this.IEOData.availableAmount
+    return (this.IEOData.amount - this.IEOData.availableAmount) || 0;
   }
 
   get sessionSupply () {
-    return this.IEOData.amount * this.IEOData.rate;
+    return (this.IEOData.amount * this.IEOData.rate) || 0;
   }
 
-  get boughtAmountPer () {
-    return (this.boughtAmount / (this.IEOData.amount / 100)).toFixed(2);
+   get boughtAmountPer () {
+    const a = (this.boughtAmount / (this.IEOData.amount / 100)) || 0
+    return a.toFixed(2);
   }
 }

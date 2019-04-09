@@ -202,10 +202,10 @@
           <button
             [disabled]="loading$ | async"
             class="tabs__item"
-            [ngClass]="{'tabs__item--active': currTab === Tab.ICO}"
-            (click)="onSelectTab(Tab.ICO)"
+            [ngClass]="{'tabs__item--active': currTab === Tab.IEO}"
+            (click)="onSelectTab(Tab.IEO)"
             >
-            {{'ICO' | translate}}
+            {{'IEO' | translate}}
           </button>
         <button
         class="tabs__item"
@@ -281,25 +281,25 @@
             ></app-pending-request-table>
             <ng-container *ngIf="!isProd">
               <app-qubera-table
-              *ngSwitchCase="Tab.QUBERA"
-              [balances]="quberaBalances$ | async"
-              [existQuberaAccounts]="existQuberaAccounts"
-              [kycStatus]="kycStatus"
-              (transferOut)="goToTransferPopup($event)"
-              (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
-              (cryptoDepositOut)="goToCryptoDepositPopup($event)">
-            </app-qubera-table>
-          </ng-container>
+                *ngSwitchCase="Tab.QUBERA"
+                [balances]="quberaBalances$ | async"
+                [existQuberaAccounts]="existQuberaAccounts"
+                [kycStatus]="kycStatus"
+                (transferOut)="goToTransferPopup($event)"
+                (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+                (cryptoDepositOut)="goToCryptoDepositPopup($event)">
+              </app-qubera-table>
+            </ng-container>
 
-            <app-ico-table
+            <app-ieo-table
               [countPerPage]="countPerPage"
               [countOfEntries]="getCountOfEntries() | async"
               [currentPage]="currentPage"
               [IEOData]="IEOData"
               [loading]="loading$ | async"
               (onPaginate)="onPageChanged($event)"
-              *ngSwitchCase="Tab.ICO"
-            ></app-ico-table>
+              *ngSwitchCase="Tab.IEO"
+            ></app-ieo-table>
           </ng-container>
 
          </div>

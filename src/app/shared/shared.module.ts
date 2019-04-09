@@ -47,7 +47,9 @@ import {ExcludeSpacesDirective} from './directives/exclude-spaces.directive';
 import {ShowOrderStatusPipe} from './pipes/showOrderStatus.pipe';
 import {MerchantImageFilterPipe} from './pipes/merchant-image-filter.pipe';
 import {ReplaceCharPipe} from './pipes/replaceChar.pipe';
-import { ShowStageStatusPipe } from './pipes/stage-status.pipe';
+import {ShowStageStatusPipe} from './pipes/stage-status.pipe';
+import {TopNotificationComponent} from './components/top-notification/top-notification.component';
+import { NotificationsListComponent } from './components/notifications-list/notifications-list.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +85,9 @@ import { ShowStageStatusPipe } from './pipes/stage-status.pipe';
     DynamicInputDashboardComponent,
     DynamicInputDataPipe,
     DateMaskInputComponent,
+    TopNotificationComponent,
     ShowStageStatusPipe,
+    NotificationsListComponent,
   ],
   imports: [
     FormsModule,
@@ -136,6 +140,8 @@ import { ShowStageStatusPipe } from './pipes/stage-status.pipe';
     DynamicInputDashboardComponent,
     DynamicInputDataPipe,
     ShowStageStatusPipe,
+    TopNotificationComponent,
+    NotificationsListComponent,
     AddClassDirective
   ],
   providers: [
