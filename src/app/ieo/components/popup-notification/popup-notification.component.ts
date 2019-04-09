@@ -9,7 +9,6 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 })
 export class PopupNotificationComponent implements OnInit {
 
-  @Input() show: boolean;
   @Input() header: string = '';
   @Input() line1: string = '';
   @Input() line2: string = '';

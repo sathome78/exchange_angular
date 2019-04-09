@@ -1,5 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Router} from '@angular/router';
+import {IEOItem} from 'app/model/ieo.model';
+import {Subject} from 'rxjs';
+import {IEOServiceService} from 'app/shared/services/ieoservice.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-ieo-table',
@@ -22,12 +26,18 @@ export class IEOTableComponent implements OnInit {
     FAILED: 'FAILED',
   }
 
+  public selectedIEO: IEOItem;
+  public showBuyIEO: boolean = false;
+  public showSuccessIEO: boolean = false;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+
   constructor(
     private router: Router,
+    private ieoService: IEOServiceService,
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
+
   func() {
 
   }
@@ -49,8 +59,33 @@ export class IEOTableComponent implements OnInit {
     this.router.navigate([`/ieo/${id}`])
   }
 
-  public buyIeo(ieo) {
+  public closeBuyIEO() {
+    this.showBuyIEO = false;
+    this.selectedIEO = null;
+  }
+  public closeSuccessIEO() {
+    this.showSuccessIEO = false;
+  }
+  public buyIeo(IEOData) {
+    this.selectedIEO = null;
+    this.showBuyIEO = true;
+    this.selectedIEO = IEOData;
+  }
+  public openSuccessIEO() {
+    this.showSuccessIEO = true;
 
+  }
+
+  public confirmBuyIEO(amount) {
+    this.ieoService.buyTokens({
+      currencyName: this.selectedIEO.currencyName,
+      amount: amount + '',
+    })
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res) => {
+        this.closeBuyIEO();
+        this.openSuccessIEO();
+      })
   }
 
 }
