@@ -30,22 +30,21 @@ export class NotificationsListComponent implements OnInit {
               }
               const n = new Notification(res);
               this.list = [...this.list, n];
-              this.showList = this.list.filter((i) => !i.viewed)
             });
         }
       });
   }
 
   public list: Notification[] = [];
-  public showList: Notification[] = [new Notification({text: 'success notification', notificationType: 'SUCCESS'})];
+  // new Notification({text: 'success notification', notificationType: 'ERROR'}), new Notification({text: 'success 2 notification', notificationType: 'SUCCESS'})
 
   ngOnInit() {
   }
 
   public closeNotification(itemId) {
-    const index = this.list.findIndex((i) => i.id === itemId.id);
+    const index = this.list.findIndex((i) => i.id === itemId);
     if(index >=0) {
-      this.list[index].viewed = true;
+      this.list.splice(index, 1)
       this.list = [...this.list];
     }
   }

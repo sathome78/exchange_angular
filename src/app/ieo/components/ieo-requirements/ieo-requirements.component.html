@@ -49,7 +49,7 @@
             href="#"
             (click)="preventDefault($event)"
             routerLink="/settings/verification"
-            class="requirement-status requirement-faild"
+            class="requirement-status requirement-wait"
             *ngIf="!requirements.countryCheck && !requirements.kycCheck"
           >
             <ng-component *ngTemplateOutlet="waitIcon"></ng-component>

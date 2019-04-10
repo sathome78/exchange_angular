@@ -86,12 +86,20 @@ export const data = {
       },
     ]
   },
-  community: {
-    telegramUrl: '#',
-    twitterUrl: '#',
-    facebookUrl: '#',
-    reportUrl: '#',
-  }
+  community: [
+    {
+      type: 'telegram',
+      url: '#'
+    },
+    {
+      type: 'twitter',
+      url: '#'
+    },
+    {
+      type: 'facebook',
+      url: '#'
+    },
+  ],
 }
 
 

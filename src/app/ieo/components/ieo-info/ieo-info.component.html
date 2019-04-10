@@ -17,7 +17,10 @@
             <tr>
               <td><span>Price：</span></td>
               <td class="right-text">
-                <span>{{IEOData.rate ? '1 ' + IEOData.currencyName + ' = ' + IEOData.rate + ' BTC' : 'To be determined'}}</span>
+                <span *ngIf="!IEOData.rate">To be determined</span>
+                <span *ngIf="IEOData.rate">
+                  1 {{IEOData.currencyName}} = {{(IEOData.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC
+                </span>
               </td>
             </tr>
             <tr>
