@@ -133,13 +133,20 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			background: #5E5F74;
-			border: 1px solid #5E5F74;
-			cursor: default;
+			
+			
 			span{
 				font-size: 14px;
 				line-height: .9;
-				color: #fff;
+				
+			}
+			&[disabled]{
+				background: #5E5F74;
+				cursor: default;
+				border: 1px solid #5E5F74;
+				span{
+					color: #fff;
+				}
 			}
 		}
 		.field-description{
