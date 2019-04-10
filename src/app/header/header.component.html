@@ -416,7 +416,7 @@
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(IEO_FLAG)" [ngClass]="{'menu-mob__link--active': showIEOList}">
             <span class="menu-mob__link-text">{{'IEO' | translate}}</span></a>
             <div class="menu-mob__wrap-links" *ngIf="showIEOList">
-              <a class="menu-mob__link" [routerLink]="'/ieo/' + ieo.id" *ngFor="let ieo of (ieoList$ | async)">{{ieo.currencyDescription}} ({{ieo.status | showStageStatus}})</a>
+              <a class="menu-mob__link" (click)="mobileLinkClick()" [routerLink]="'/ieo/' + ieo.id" *ngFor="let ieo of (ieoList$ | async)">{{ieo.currencyDescription}} ({{ieo.status | showStageStatus}})</a>
             </div>
           </div>
           <a class="menu-mob__link" onclick="openChat()">
