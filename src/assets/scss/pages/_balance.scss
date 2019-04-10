@@ -753,3 +753,17 @@
     height: 14px;
   }
 }
+
+.balance-ieo{
+  .table__body{
+    .table__row--mob{
+      .table__cell{
+        font-size: 13px;
+      }
+      .table__cell--arr-mob{
+        padding-right: 10px;
+        padding-left: 0;
+      }
+    }
+  }
+}

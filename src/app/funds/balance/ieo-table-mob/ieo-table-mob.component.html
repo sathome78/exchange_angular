@@ -92,7 +92,7 @@
   <!--filters end-->
 
   <div
-    *ngIf="currTab !== Tab.IEO"
+    *ngIf="currTab == Tab.IEO"
     #scrollContainer
     [ngStyle]="tableScrollStyles"
     infiniteScroll
@@ -103,7 +103,7 @@
     (scrolled)="onLoadMoreTrigger()"
   >
     <!--table-mob start-->
-    <table class="table table--mob" [ngClass]="{'balance-fiat': currTab === Tab.FIAT}">
+    <table class="table table--mob" [ngClass]="{'balance-ieo': currTab === Tab.IEO}">
       <thead class="table__head">
         <tr class="table__head-row">
           <th class="table__cell-head table__cell-head--tal">{{'Currency' | translate}}</th>
@@ -112,25 +112,25 @@
         </tr>
       </thead>
       <tbody class="table__body table__body--none-shadow">
-        <ng-container *ngFor="let item of balances">
+        <!-- <ng-container> -->
           <tr class="table__row--mob" (click)="onShowMobDetails(item)">
             <td class="table__cell table__cell--tal">
               <div class="balance__currency">
                 <div class="balance__currency-icon">
-                  <img [src]="item.currencyName | getIconUrl:true">
+                  <img src="assets/img/currency-icons/citrus.svg">
                 </div>
                 <div>
-                  <span>{{item.currencyName}}</span>
-                  <span class="balance__currency-name">{{item.currencyDescription}}</span>
+                  <span>Citrus</span>
+                  <!-- <span class="balance__currency-name">{{item.currencyDescription}}</span> -->
                 </div>
               </div>
             </td>
             <td class="table__cell table__cell--tal">
-              <span>{{item.activeBalance  | roundCurrency:item.currencyName | formatCurrency}}</span>
+              <span>10345.89543217</span>
             </td>
             <td class="table__cell table__cell--tar">
-              <div *ngIf="priceIn === currencies.BTC">BTC {{item.btcAmount | roundCurrency | formatCurrency}}</div>
-              <div *ngIf="priceIn === currencies.USD">$ {{item.usdAmount | roundCurrency:'USD' | formatCurrency}}</div>
+              <div>0.00043400 BTC</div>
+              <!-- <div *ngIf="priceIn === currencies.USD">$ {{item.usdAmount | roundCurrency:'USD' | formatCurrency}}</div> -->
               <!-- <span class="txt-small txt-red">–0.24%</span> -->
             </td>
             <td class="table__cell table__cell--arr-mob">
@@ -139,17 +139,123 @@
               </svg>
             </td>
           </tr>
+          <tr class="table__row--mob" (click)="onShowMobDetails(item)">
+            <td class="table__cell table__cell--tal">
+              <div class="balance__currency">
+                <div class="balance__currency-icon">
+                  <img src="assets/img/currency-icons/citrus.svg">
+                </div>
+                <div>
+                  <span>Citrus</span>
+                  <!-- <span class="balance__currency-name">{{item.currencyDescription}}</span> -->
+                </div>
+              </div>
+            </td>
+            <td class="table__cell table__cell--tal">
+              <span>10345.89543217</span>
+            </td>
+            <td class="table__cell table__cell--tar">
+              <div>0.00043400 BTC</div>
+              <!-- <div *ngIf="priceIn === currencies.USD">$ {{item.usdAmount | roundCurrency:'USD' | formatCurrency}}</div> -->
+              <!-- <span class="txt-small txt-red">–0.24%</span> -->
+            </td>
+            <td class="table__cell table__cell--arr-mob">
+              <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </td>
+          </tr>
+          <tr class="table__row--mob" (click)="onShowMobDetails(item)">
+            <td class="table__cell table__cell--tal">
+              <div class="balance__currency">
+                <div class="balance__currency-icon">
+                  <img src="assets/img/currency-icons/citrus.svg">
+                </div>
+                <div>
+                  <span>Citrus</span>
+                  <!-- <span class="balance__currency-name">{{item.currencyDescription}}</span> -->
+                </div>
+              </div>
+            </td>
+            <td class="table__cell table__cell--tal">
+              <span>10345.89543217</span>
+            </td>
+            <td class="table__cell table__cell--tar">
+              <div>0.00043400 BTC</div>
+              <!-- <div *ngIf="priceIn === currencies.USD">$ {{item.usdAmount | roundCurrency:'USD' | formatCurrency}}</div> -->
+              <!-- <span class="txt-small txt-red">–0.24%</span> -->
+            </td>
+            <td class="table__cell table__cell--arr-mob">
+              <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </td>
+          </tr>
+          <tr class="table__row--mob" (click)="onShowMobDetails(item)">
+            <td class="table__cell table__cell--tal">
+              <div class="balance__currency">
+                <div class="balance__currency-icon">
+                  <img src="assets/img/currency-icons/citrus.svg">
+                </div>
+                <div>
+                  <span>Citrus</span>
+                  <!-- <span class="balance__currency-name">{{item.currencyDescription}}</span> -->
+                </div>
+              </div>
+            </td>
+            <td class="table__cell table__cell--tal">
+              <span>10345.89543217</span>
+            </td>
+            <td class="table__cell table__cell--tar">
+              <div>0.00043400 BTC</div>
+              <!-- <div *ngIf="priceIn === currencies.USD">$ {{item.usdAmount | roundCurrency:'USD' | formatCurrency}}</div> -->
+              <!-- <span class="txt-small txt-red">–0.24%</span> -->
+            </td>
+            <td class="table__cell table__cell--arr-mob">
+              <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </td>
+          </tr>
+          <tr class="table__row--mob" (click)="onShowMobDetails(item)">
+            <td class="table__cell table__cell--tal">
+              <div class="balance__currency">
+                <div class="balance__currency-icon">
+                  <img src="assets/img/currency-icons/citrus.svg">
+                </div>
+                <div>
+                  <span>Citrus</span>
+                  <!-- <span class="balance__currency-name">{{item.currencyDescription}}</span> -->
+                </div>
+              </div>
+            </td>
+            <td class="table__cell table__cell--tal">
+              <span>10345.89543217</span>
+            </td>
+            <td class="table__cell table__cell--tar">
+              <div>0.00043400 BTC</div>
+              <!-- <div *ngIf="priceIn === currencies.USD">$ {{item.usdAmount | roundCurrency:'USD' | formatCurrency}}</div> -->
+              <!-- <span class="txt-small txt-red">–0.24%</span> -->
+            </td>
+            <td class="table__cell table__cell--arr-mob">
+              <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </td>
+          </tr>
+          
+
           <tr>
             <td colspan="4">
               <div class="table__row-mob-line"></div>
             </td>
           </tr>
-        </ng-container>
-        <tr class="table__row--mob" *ngIf="!balances.length && !loading">
+        <!-- </ng-container> -->
+        <!-- <tr class="table__row--mob" *ngIf="!balances.length && !loading">
           <td class="table__cell table__cell--tac" colspan="4">
             {{'No matching records found' | translate}}
           </td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
   <!-- table-mob end -->
