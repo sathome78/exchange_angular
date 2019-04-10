@@ -316,6 +316,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public onGoToBalanceDetails({currencyId, priceIn}) {
     this.router.navigate([`/funds/balances/${currencyId}`], {queryParams: {priceIn}})
   }
+  public onGoToIEOBalanceDetails({currencyId, priceIn}) {
+    this.router.navigate([`/funds/balances/ieo/${currencyId}`], {queryParams: {priceIn}})
+  }
 
   public onChangeCurrPair(val: string): void {
     this.currValue = val;
