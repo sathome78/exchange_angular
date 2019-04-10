@@ -28,6 +28,10 @@ export class IeoHeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  goToNewsPage() {
+
+  }
+
   get boughtAmount () {
     return (this.IEOData.amount - this.IEOData.availableAmount) || 0;
   }

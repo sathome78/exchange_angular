@@ -52,7 +52,7 @@ export class IEOTableMobComponent implements OnInit{
   @Output('onToggleAllZero') public onToggleAllZero: EventEmitter<any> = new EventEmitter();
   @Output('onLoadMore') public onLoadMore: EventEmitter<any> = new EventEmitter();
   @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
-  @Output('onGoToBalanceDetails') public onGoToBalanceDetails: EventEmitter<any> = new EventEmitter();
+  @Output('onGoToIEOBalanceDetails') public onGoToIEOBalanceDetails: EventEmitter<any> = new EventEmitter();
 
 
   constructor(
@@ -77,8 +77,8 @@ export class IEOTableMobComponent implements OnInit{
     this.scrollContainer.nativeElement.scrollTop = 0;
     this.onToggleAllZero.emit(this.hideAllZero)
   }
-  public onShowMobDetails(item: BalanceItem): void {
-    this.onGoToBalanceDetails.emit({currencyId: item.currencyId, priceIn: this.priceIn});
+  public onShowIEOMobDetails(item: BalanceItem): void {
+    this.onGoToIEOBalanceDetails.emit({currencyId: item.currencyId, priceIn: this.priceIn});
   }
 
   public onToggleDropdown(): void {
