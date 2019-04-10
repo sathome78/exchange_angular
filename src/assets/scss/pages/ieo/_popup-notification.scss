@@ -2,10 +2,17 @@
 	.popup{
 		min-height: unset;
 		padding-bottom: 42px;
+		@media(max-width: 1199px){
+		    overflow: auto;
+		    background-color: #191A39;
+	}
 	}
 	.popup__title{
 		margin-bottom: 1em;
 		font-size: 24px;
+		@media(max-width: 1199px) {
+			color: #DEDEFB;
+		}
 	}
 	.popup__subtitle{
 		font-size: 18px;
@@ -13,6 +20,9 @@
 		margin-bottom: 1.7em;
 		color: #000000;
 		line-height: 1.57;
+		@media(max-width: 1199px) {
+			color: #DEDEFB;
+		}
 		span{
 			display: block;
 			text-align: center;

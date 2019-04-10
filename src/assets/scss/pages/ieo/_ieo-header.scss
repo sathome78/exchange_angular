@@ -15,6 +15,9 @@
 	background-color: #191a39;
 	transition: .3s;
 	transform: translateY(-105%);
+	@media (max-width: 1199px) {
+		display: none;
+	}
 	.ieo-header-inner{
 		display: flex;
 		align-items: center;
