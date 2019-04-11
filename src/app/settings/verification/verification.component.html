@@ -7,29 +7,34 @@
 
   <!-- ================= NEW KYC start ==================== -->
 
-    <div class="settings-button-wr checkbox-wr">
-      <div class="balance__hide-zero">
-        <label for="" class="toggler">
-          <input type="radio" value="P" name="" [(ngModel)]="dataModel.docType">
-          <span class="toggler__indicate"></span>
-        </label>
-        <span class="toggler-text">{{'Passport' | translate}}</span>
-      </div>
-    </div>
-    <div class="settings-button-wr checkbox-wr">
-      <div class="balance__hide-zero">
-        <label for="" class="toggler">
-          <input type="radio" value="ID" name="" [(ngModel)]="dataModel.docType">
-          <span class="toggler__indicate"></span>
-        </label>
-        <span class="toggler-text">{{'ID card' | translate}}</span>
-      </div>
-    </div>
-  </div>
-
   <div class="formWraper">
     <form [formGroup]="form">
       <div class="send__inputs-wrap kyc-wr">
+
+
+        <div class="wrap-input  send__wrap-input">
+          <div class="select send__select send__select--custom">
+            <div class="select__value select__value--active" (click)="documentTypeDropdownToggle()">
+              {{ currentDocType.name }}
+            </div>
+            <div class="select__label">{{'Document Type' | translate}}</div>
+            <div class="select__line"></div>
+            <div class="select__triangle"></div>
+            <div class="select__list-searching"
+                 [ngClass]="{'select__list-searching--open': openDocTypeDropdown}"
+                 *ngIf="openDocTypeDropdown">
+              <div class="select__list-searching-body">
+                  <div class="select__searching-items-wrap" style="min-height: 70px">
+                    <div class="select__searching-item" *ngFor="let doc of docTypes"
+                         (click)="selectDocType(doc)">
+                      <span>{{ doc.name }}</span>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
         <div class="wrap-input  send__wrap-input">
           <div class="select send__select send__select--custom">
@@ -73,7 +78,7 @@
           <label class="wrap-input__label">{{'First Name' | translate}}</label>
           <div class="wrap-input__line"></div>
           <!--Input error section starts-->
-            <div *ngIf="form.get('firstName').errors != null && !openCountryDropdown">
+            <div *ngIf="form.get('firstName').errors != null && !openCountryDropdown && !openDocTypeDropdown">
           <div class="input-hint-wrapper">
              <span class="wrap-input__message wrap-input__message--show"
              *ngIf="form.get('firstName').errors['required'] && (form.get('firstName').touched )">

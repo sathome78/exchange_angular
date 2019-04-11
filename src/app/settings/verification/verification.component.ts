@@ -28,6 +28,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   public form: FormGroup;
   public dataModel;
   public openCountryDropdown = false;
+  public openDocTypeDropdown = false;
   public defaultMonth: IMyDefaultMonth = {
     defMonth: `01/${moment().subtract(16, 'years').year()}`
   };
@@ -36,9 +37,16 @@ export class VerificationComponent implements OnInit, OnDestroy {
   public countryListView: KycCountry[] = [];
   public selectedCountry: KycCountry;
 
+  public docTypes = [
+    {name: 'Passport', value: 'P'},
+    {name: 'ID card', value: 'ID'},
+  ]
+
+  public currentDocType = this.docTypes[0]
+
 
   defaultModel = {
-    docType: 'P',
+    docType: '',
     birthDay: '',
     birthMonth: '',
     birthYear: '',
@@ -62,6 +70,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event']) clickout($event) {
     if ($event.target.className !== 'select__value select__value--active' && $event.target.className !== 'select__search-input') {
       this.openCountryDropdown = false;
+      this.openDocTypeDropdown = false;
       this.countryListView = this.countryList;
     }
   }
@@ -136,6 +145,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
       this.dataModel.firstNames.push(this.form.get('firstName').value);
       this.dataModel.lastName = this.form.get('lastName').value;
       this.dataModel.country = this.selectedCountry.countryCode;
+      this.dataModel.docType = this.currentDocType.value;
       this.loading = true;
       this.verificationService.sendKYCData(this.dataModel)
         .pipe(takeUntil(this.ngUnsubscribe))
@@ -195,13 +205,24 @@ export class VerificationComponent implements OnInit, OnDestroy {
 
   countryDropdownToggle() {
     this.openCountryDropdown = !this.openCountryDropdown;
+    this.openDocTypeDropdown = false;
     this.countryListView = this.countryList;
+  }
+
+  documentTypeDropdownToggle() {
+    this.openDocTypeDropdown = !this.openDocTypeDropdown;
+    this.openCountryDropdown = false;
   }
 
   selectCountry(country: KycCountry) {
     this.selectedCountry = country;
     this.openCountryDropdown = false;
     this.countryListView = this.countryList;
+  }
+
+  selectDocType(doc) {
+    this.currentDocType = doc;
+    this.openDocTypeDropdown = false;
   }
 
   searchCountry({ target }) {
