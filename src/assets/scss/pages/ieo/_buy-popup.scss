@@ -11,8 +11,11 @@
 		margin-bottom: 7px;
 		@media(max-width: 1199px) {
 			color: #DEDEFB;
-		}
-	}
+    }
+  }
+  .wrap-input--error .wrap-input__input {
+    margin-bottom: 7px;
+  }
 
 	.wrap-input__currency {
 		@media (max-width: 992px){
@@ -31,7 +34,7 @@
 	}
 	.btn-ieo{
 		&[disabled]{
-			
+
 			background-color: #D6D6D6;
 			pointer-events: none;
 			color: #fff;
@@ -129,7 +132,7 @@
 		@media(max-width: 1199px) {
 			color: #DEDEFB;
 			margin-bottom: 13px;
-			
+
 		}
 		a{
 			font-size: 14px;
@@ -173,7 +176,7 @@
 	.popup__close {
 		@media(max-width: 1199px){
 			top: 51px;
-			
+
 		}
 	}
 

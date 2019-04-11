@@ -157,6 +157,8 @@ import { PopupSuccessComponent } from './components/popup-success-ieo/popup-succ
     RegistrationGuard,
     RestorePasswordGuard,
     ConstantsService,
+    RoundCurrencyPipe,
+    FormatCurrencyPipe,
   ]
 })
 export class SharedModule { }

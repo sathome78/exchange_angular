@@ -6,6 +6,7 @@
       [currentStage]="currentStage"
       [isAuthenticated]="isAuthenticated"
       [ieoLoading]="ieoLoading"
+      [requirements]="requirements"
       (onLogin)="onLogin()"
       (onBuy)="onBuy()"
     ></app-ieo-header>
@@ -18,9 +19,14 @@
     (onBuy)="onBuy()"
     [IEOData]="IEOData"
     [ieoLoading]="ieoLoading"
+    [requirements]="requirements"
   ></app-ieo-info>
 
-  <app-ieo-community [community]="ieoData.community"></app-ieo-community>
+  <app-ieo-community
+    *ngIf="ieoData.community && ieoData.community.length"
+    [community]="ieoData.community"
+  >
+  </app-ieo-community>
 
   <app-ieo-requirements
     [isAuthenticated]="isAuthenticated"
@@ -32,13 +38,11 @@
 
   <app-ieo-descriptions [description]="ieoData.description"></app-ieo-descriptions>
 
-  <app-popup-notification
+  <app-popup-failed
     *ngIf="showNoReqs"
     (close)="closeNoReqs()"
-    header="Ошибка верификации"
-    line1="проверьте верификацию и согласитесь с правилами"
-    btnText="Ок"
-  ></app-popup-notification>
+    [IEOData]="IEOData"
+  ></app-popup-failed>
   <app-popup-buy
     [IEOData]="IEOData"
     *ngIf="showBuy"

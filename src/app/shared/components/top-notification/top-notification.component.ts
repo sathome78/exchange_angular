@@ -11,7 +11,6 @@ export class TopNotificationComponent implements OnInit {
 
   public active: boolean = true;
   @Input() public data: Notification;
-  @ViewChild('component') public component: ElementRef;
   @Output() public close: EventEmitter<any> = new EventEmitter();
 
   constructor() { }

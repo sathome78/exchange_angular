@@ -58,6 +58,9 @@ export class IEOTableComponent implements OnInit {
   public goToIeo(id) {
     this.router.navigate([`/ieo/${id}`])
   }
+  public goToIeoNews(name) {
+    window.open(`https://news.exrates.me/article/${name}`, '_blank');
+  }
 
   public closeBuyIEO() {
     this.showBuyIEO = false;

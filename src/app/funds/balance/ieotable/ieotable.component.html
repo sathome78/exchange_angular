@@ -48,7 +48,6 @@
           (click)="buyIeo(ieo)"
           *ngIf="stage.RUNNING === ieo.status && ieo.readyToIeo"
         >
-        <!-- && ieo.readyToIeo -->
           {{'Buy' | translate}}
         </button>
         <button
@@ -56,17 +55,15 @@
           (click)="goToIeo(ieo.id)"
           *ngIf="stage.PENDING === ieo.status || (stage.RUNNING === ieo.status && !ieo.readyToIeo)"
         >
-        <!-- || (stage.RUNNING === ieo.status && !ieo.readyToIeo) -->
           {{'Participate' | translate}}
         </button>
         <button
           class="btn btn--center btn--small"
-          (click)="goToIeo(ieo.id)"
+          (click)="goToIeoNews(ieo.currencyName)"
           *ngIf="stage.SUCCEEDED === ieo.status || stage.FAILED === ieo.status"
         >
           {{'More' | translate}}
         </button>
-        <!-- <button class="btn btn--center btn-green btn--small btn--hidden" (click)="goToIeo(ieo.id)">{{'Buy' | translate}}</button> -->
       </td>
     </tr>
 

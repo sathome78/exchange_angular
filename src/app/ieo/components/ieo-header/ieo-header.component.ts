@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IEOItem } from 'app/model/ieo.model';
+import { KycIEOModel } from 'app/ieo/models/ieo-kyc.model';
 
 @Component({
   selector: 'app-ieo-header',
@@ -9,6 +10,7 @@ import { IEOItem } from 'app/model/ieo.model';
 export class IeoHeaderComponent implements OnInit {
 
   @Input() public IEOData: IEOItem;
+  @Input() public requirements: KycIEOModel;
   @Input() public userBalanceBTC: number;
   @Input() public currentStage: string;
   @Input() public isAuthenticated: boolean = false;

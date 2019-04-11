@@ -9,64 +9,89 @@
         <div class="requirement-text">
           <p>All users must complete identity verification to meet the requirements of this project</p>
         </div>
-        <div *ngIf="isAuthenticated && isBoolean(requirements.kycCheck)">
+        <div *ngIf="isAuthenticated">
           <div  class="requirement-status requirement-success" *ngIf="requirements.kycCheck">
             <ng-component *ngTemplateOutlet="successIcon"></ng-component>
             <p>Verification</p>
           </div>
-          <a href="#" (click)="preventDefault($event)" routerLink="/settings/verification" class="requirement-status requirement-faild" *ngIf="!requirements.kycCheck">
+          <a
+            href="#"
+            (click)="preventDefault($event)"
+            routerLink="/settings/verification"
+            class="requirement-status requirement-faild"
+            *ngIf="!requirements.kycCheck"
+          >
             <ng-component *ngTemplateOutlet="failIcon"></ng-component>
             <p>Proceed to verification »</p>
           </a>
         </div>
         <div
-          *ngIf="!isAuthenticated || !isBoolean(requirements.kycCheck)"
+          *ngIf="!isAuthenticated"
           class="requirement-status requirement-wait"
         >
           <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-          <p>Accept the terms of the agreement</p>
+          <p>Please Log In first</p>
         </div>
       </div>
       <div class="requirement-item">
         <div class="requirement-text">
           <p>Users from the following jurisdictions will not be able to participate in this token sale:</p>
           <p class="requirement-description">
-          Afghanistan,Albania,Belarus,Bosnia & Herzegovina,Burundi,Canada,Central African Republic,Cote dIvoire,Cuba,Democratic Republic of the Congo,Ethiopia,Guinea,Guinea-Bissau,Iran,Iraq,Lebanon,Liberia,Libya,Mainland China,Malaysia,Myanmar (Burma),New Zealand,North Korea,Republic of Macedonia (FYROM),Serbia,Somalia,South Sudan,Sri Lanka,Sudan,Syria,Thailand,Trinidad & Tobago,Tunisia,Uganda,Ukraine,United States of America (USA),Venezuela,Yemen,Zimbabwe</p>
+            {{countries}}.
+           </p>
         </div>
-        <div *ngIf="isAuthenticated && isBoolean(requirements.countryCheck)">
+        <div *ngIf="isAuthenticated">
           <div class="requirement-status requirement-success" *ngIf="requirements.countryCheck">
             <ng-component *ngTemplateOutlet="successIcon"></ng-component>
             <p>Verification</p>
           </div>
-          <div class="requirement-status requirement-faild" *ngIf="!requirements.countryCheck">
+          <a
+            href="#"
+            (click)="preventDefault($event)"
+            routerLink="/settings/verification"
+            class="requirement-status requirement-wait"
+            *ngIf="!requirements.countryCheck && !requirements.kycCheck"
+          >
+            <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
+            <p>Please complete identity verification first</p>
+          </a>
+          <div
+            class="requirement-status requirement-faild"
+            *ngIf="!requirements.countryCheck && requirements.kycCheck"
+          >
             <ng-component *ngTemplateOutlet="failIcon"></ng-component>
             <p>Sorry, your country not allowed</p>
           </div>
         </div>
         <div
-          *ngIf="!isAuthenticated || !isBoolean(requirements.countryCheck)"
+          *ngIf="!isAuthenticated"
           class="requirement-status requirement-wait"
         >
           <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-          <p>Accept the terms of the agreement</p>
+          <p>Please complete identity verification first</p>
         </div>
       </div>
       <div class="requirement-item">
         <div class="requirement-text">
           <p>Based on our latest terms, all users are required to accept the Token Purchase Agreement</p>
         </div>
-        <div *ngIf="isAuthenticated && isBoolean(requirements.policyCheck)">
+        <div *ngIf="isAuthenticated">
           <div class="requirement-status requirement-success" *ngIf="requirements.policyCheck">
             <ng-component *ngTemplateOutlet="successIcon"></ng-component>
             <p>Confirmed</p>
           </div>
-          <a href="#" (click)="policyOpen($event)" class="requirement-status requirement-faild" *ngIf="!requirements.policyCheck">
+          <a
+            href="#"
+            (click)="policyOpen($event)"
+            class="requirement-status requirement-faild"
+            *ngIf="!requirements.policyCheck"
+          >
             <ng-component *ngTemplateOutlet="failIcon"></ng-component>
-            <p>Proceed to verification »</p>
+            <p>Accept the terms of the agreement »</p>
           </a>
         </div>
         <div
-          *ngIf="!isAuthenticated || !isBoolean(requirements.policyCheck)"
+          *ngIf="!isAuthenticated"
           class="requirement-status requirement-wait"
         >
           <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
