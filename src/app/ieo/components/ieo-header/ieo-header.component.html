@@ -31,14 +31,22 @@
 				<span class="amount-value">{{(IEOData.amount || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}</span>
 			</div>
 			<div class="ieo-buy-button">
-				<button
-          class="btn btn-blue btn-ieo"
-          (click)="onBuy.emit()"
-          *ngIf="isAuthenticated && (currentStage === stage.RUNNING || currentStage === stage.PENDING)"
-          [disabled]="ieoLoading || currentStage === stage.PENDING"
+        <div class="wrapper-ieo-btn">
+          <button
+            class="btn btn-blue btn-ieo"
+            [ngClass]="{'ieo-buy': requirements.kycCheck && !requirements.countryCheck}"
+            (click)="onBuy.emit()"
+            *ngIf="isAuthenticated && (currentStage === stage.RUNNING || currentStage === stage.PENDING)"
+            [disabled]="ieoLoading || (currentStage === stage.PENDING) || (currentStage !== stage.RUNNING) || (requirements.kycCheck && !requirements.countryCheck)"
           >
-          <span>Buy Now</span>
-        </button>
+            <span>Buy Now</span>
+          </button>
+          <div class="input-hint-wrapper" *ngIf="isAuthenticated">
+            <span class="wrap-input__message">
+              Sorry, your country not allowed
+            </span>
+          </div>
+        </div>
         <button
           class="btn btn-blue btn-ieo"
           (click)="onLogin.emit()"
@@ -49,7 +57,7 @@
         <button
           class="btn btn-blue btn-ieo"
           (click)="goToNewsPage()"
-          *ngIf="(currentStage === stage.SUCCEEDED || currentStage === stage.FAILED)"
+          *ngIf="isAuthenticated && (currentStage === stage.SUCCEEDED || currentStage === stage.FAILED)"
         >
           <span>More</span>
         </button>

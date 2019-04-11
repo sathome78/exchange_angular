@@ -1,5 +1,5 @@
 <div class="ieo-container">
-  <div class="ieo-header">
+  <div class="ieo-header" *ngIf="currentStage !== stage.PENDING">
     <app-ieo-header
       [IEOData]="IEOData"
       [userBalanceBTC]="userBalanceBTC"

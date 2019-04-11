@@ -67,7 +67,7 @@ export class IEOComponent implements OnInit, OnDestroy {
               .subscribe((res: KycIEOModel) => {
                 if(res) {
                   this.requirements = res;
-                  this.requirements = new KycIEOModel(true, true, true);
+                  // this.requirements = new KycIEOModel(true, true, false);
                 };
               })
             this.userService.getUserBalanceCurr(['BTC'])
@@ -82,27 +82,7 @@ export class IEOComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if(window.innerWidth > 992){
-      setTimeout(function(){
-        var startChangeHeader = 5;
-        var currentPosition = window.pageYOffset;
-        if(currentPosition > startChangeHeader){
-          document.querySelector(".page-wrap").classList.add("ieo-page-header");
-        }
-        else{
-          document.querySelector(".page-wrap").classList.remove("ieo-page-header");
-        }
-        window.onscroll = function(){
-          currentPosition = window.pageYOffset;
-          if(currentPosition > startChangeHeader){
-            document.querySelector(".page-wrap").classList.add("ieo-page-header");
-          }
-          else{
-            document.querySelector(".page-wrap").classList.remove("ieo-page-header");
-          }
-        }
-      },300)
-    }
+
   }
 
   onLogin() {

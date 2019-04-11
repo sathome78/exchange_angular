@@ -36,7 +36,7 @@ export class NotificationsListComponent implements OnInit {
   }
 
   public list: Notification[] = [];
-  // new Notification({text: 'success notification', notificationType: 'ERROR'}), new Notification({text: 'success 2 notification', notificationType: 'SUCCESS'})
+  // new Notification({text: 'success notification', notificationType: 'ERROR'})
 
   ngOnInit() {
   }

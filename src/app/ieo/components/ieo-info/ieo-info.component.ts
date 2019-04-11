@@ -108,4 +108,8 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
     const a = (this.boughtAmount / (this.IEOData.amount / 100)) || 0
     return a.toFixed(2);
   }
+
+  goToNewsPage() {
+    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`)
+  }
 }
