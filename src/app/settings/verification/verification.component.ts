@@ -222,6 +222,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
 
   selectDocType(doc) {
     this.currentDocType = doc;
+    this.openDocTypeDropdown = false;
   }
 
   searchCountry({ target }) {
