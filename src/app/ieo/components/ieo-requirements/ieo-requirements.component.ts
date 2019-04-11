@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { KycIEOModel } from 'app/ieo/models/ieo-kyc.model';
+import { NotAllowedCountries } from 'app/ieo/JSONData';
 
 @Component({
   selector: 'app-ieo-requirements',
@@ -17,9 +18,10 @@ export class IEORequirementsComponent implements OnInit {
 
   ngOnInit() { }
 
-  isBoolean(val) {
-    return typeof val === 'boolean';
-  }
+  // isBoolean(val) {
+  //   return typeof val === 'boolean';
+  // }
+  public countries = NotAllowedCountries.join(', ');
 
   preventDefault(e) {
     e.preventDefault();

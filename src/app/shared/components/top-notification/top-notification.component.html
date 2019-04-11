@@ -1,4 +1,12 @@
-<div class="ieo-notifications success active" id="ieo-notification">
+<div
+  class="ieo-notifications active"
+  [ngClass]="{
+    'success': data.notificationType === 'SUCCESS',
+    'error': data.notificationType === 'ERROR',
+    'info': data.notificationType === 'WARNING' ||  data.notificationType === 'INFORMATION' || data.notificationType === 'ALERT'
+  }"
+  id="ieo-notification"
+>
 	<div class="ieo-notification-wr">
 		<svg class="ieo-success ieo-notification-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<circle cx="12" cy="12" r="11.5" stroke="white"/>
@@ -25,3 +33,4 @@
 
 
 <!-- Congrats! Your purchase is successful! -->
+<!-- INFORMATION, WARNING, ALERT, ERROR, SUCCESS -->

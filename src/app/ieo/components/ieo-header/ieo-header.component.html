@@ -10,7 +10,7 @@
 				<p>{{IEOData.currencyDescription}} - BTC Session</p>
 			</div>
 		</div>
-		<div class="ieo-header-item">
+		<div class="ieo-header-item" *ngIf="currentStage === stage.RUNNING">
 			<div class="sell-progress">
 				<svg id="progress-bar-back" class="progress-bar-back" width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path stroke="#5E5F74" id="svg_1" stroke-width="2" d="m42,21.506983c0,11.303039 -9.1558,20.506983 -20.5,20.506983c-11.3441,0 -20.5,-9.203944 -20.5,-20.506983c0,-11.30308 9.1559,-20.506983 20.5,-20.506983c11.3442,0 20.5,9.203903 20.5,20.506983z"/>
@@ -31,26 +31,40 @@
 				<span class="amount-value">{{(IEOData.amount || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}</span>
 			</div>
 			<div class="ieo-buy-button">
-				<button
-				class="btn btn-blue btn-ieo"
-				(click)="onBuy.emit()"
-				*ngIf="isAuthenticated"
-				[disabled]="ieoLoading || currentStage !== stage.RUNNING"
-				>
-				<span>Buy Now</span>
-			</button>
-			<button
-			class="btn btn-blue btn-ieo"
-			(click)="onLogin.emit()"
-			*ngIf="!isAuthenticated"
-			>
-			<span>Log In</span>
-		</button>
-
-	</div>
-	<div class="ieo-price">
-		<span class="field-description">1 BTT = </span><span class="price-value">{{IEOData.rate}} BTC</span>
-	</div>
-</div>
-</div>
+        <div class="wrapper-ieo-btn">
+          <button
+            class="btn btn-blue btn-ieo"
+            [ngClass]="{'ieo-buy': requirements.kycCheck && !requirements.countryCheck}"
+            (click)="onBuy.emit()"
+            *ngIf="isAuthenticated && (currentStage === stage.RUNNING || currentStage === stage.PENDING)"
+            [disabled]="ieoLoading || (currentStage === stage.PENDING) || (currentStage !== stage.RUNNING) || (requirements.kycCheck && !requirements.countryCheck)"
+          >
+            <span>Buy Now</span>
+          </button>
+          <div class="input-hint-wrapper" *ngIf="isAuthenticated">
+            <span class="wrap-input__message">
+              Sorry, your country not allowed
+            </span>
+          </div>
+        </div>
+        <button
+          class="btn btn-blue btn-ieo"
+          (click)="onLogin.emit()"
+          *ngIf="!isAuthenticated"
+        >
+          <span>Log In</span>
+        </button>
+        <button
+          class="btn btn-blue btn-ieo"
+          (click)="goToNewsPage()"
+          *ngIf="isAuthenticated && (currentStage === stage.SUCCEEDED || currentStage === stage.FAILED)"
+        >
+          <span>More</span>
+        </button>
+	    </div>
+      <div class="ieo-price">
+        <span class="field-description">1 BTT = </span><span class="price-value">{{IEOData.rate}} BTC</span>
+      </div>
+    </div>
+  </div>
 </div>
