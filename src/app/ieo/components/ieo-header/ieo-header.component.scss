@@ -1,0 +1,17 @@
+.ieo-buy:hover + .input-hint-wrapper {
+  opacity: 1 !important;
+  .wrap-input__message{
+    color: #EB5757;
+  }
+}
+
+.input-hint-wrapper {
+  bottom: auto;
+  top: calc(100% + 10px);
+  &::after {
+    bottom: auto;
+    top: -8px;
+    border-bottom: 8px solid #fff;
+    border-top: none;
+  }
+}

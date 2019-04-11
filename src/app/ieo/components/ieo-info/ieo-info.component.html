@@ -64,7 +64,7 @@
                   class="standart-btn"
                   [ngClass]="{'ieo-buy': requirements.kycCheck && !requirements.countryCheck}"
                   [disabled]="ieoLoading || (currentStage !== stage.RUNNING) || (requirements.kycCheck && !requirements.countryCheck)"
-                  *ngIf="isAuthenticated"
+                  *ngIf="isAuthenticated && (currentStage === stage.RUNNING || currentStage === stage.PENDING)"
                   (click)="onBuy.emit()"
                 >
                   <span>Buy Now</span>
@@ -81,6 +81,14 @@
                 (click)="login()"
               >
                 <span>Log In</span>
+              </button>
+
+              <button
+                class="standart-btn"
+                (click)="goToNewsPage()"
+                *ngIf="isAuthenticated && (currentStage === stage.SUCCEEDED || currentStage === stage.FAILED)"
+              >
+                <span>More</span>
               </button>
             </div>
           </div>

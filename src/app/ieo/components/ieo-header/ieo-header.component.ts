@@ -28,10 +28,31 @@ export class IeoHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(window.innerWidth > 992){
+      setTimeout(function(){
+        var startChangeHeader = 5;
+        var currentPosition = window.pageYOffset;
+        if(currentPosition > startChangeHeader){
+          document.querySelector(".page-wrap").classList.add("ieo-page-header");
+        }
+        else{
+          document.querySelector(".page-wrap").classList.remove("ieo-page-header");
+        }
+        window.onscroll = function(){
+          currentPosition = window.pageYOffset;
+          if(currentPosition > startChangeHeader){
+            document.querySelector(".page-wrap").classList.add("ieo-page-header");
+          }
+          else{
+            document.querySelector(".page-wrap").classList.remove("ieo-page-header");
+          }
+        }
+      },300)
+    }
   }
 
   goToNewsPage() {
-
+    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`)
   }
 
   get boughtAmount () {
