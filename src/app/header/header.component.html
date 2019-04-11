@@ -40,51 +40,48 @@
           <span class="menu__link-text">{{'Trade' | translate}}</span>
         </a>
       </li>
-      <li class="menu__item menu__item--with-submenu">
-        <ng-container *ngIf="isAuthenticated">
+      <li class="menu__item menu__item--with-submenu" routerLinkActive="head-menu__link--active"  [ngClass]="{'d-none': !isAuthenticated}">
           <a class="menu__link menu__link--drop">
             <span class="menu__link-text">{{'Funds' | translate}}</span>
           </a>
           <!-- <li class="menu__item menu__item--with-submenu" ><a class="menu__link menu__link--drop"><span class="menu__link-text">Funds</span></a> -->
             <div class="submenu">
               <ul class="menu submenu__list">
-                <li class="submenu__item">
-                  <a class="submenu__link" routerLink="/funds/balance">
+                <li class="submenu__item" routerLinkActive="menu__link--active">
+                  <a class="submenu__link" routerLink="/funds/balances">
                     <span class="menu__link-text">{{'Balances' | translate}}</span>
                   </a>
                 </li>
-                <li class="submenu__item">
-                  <a class="submenu__link" routerLink="/funds/transaction-history">
+                <li class="submenu__item" routerLinkActive="menu__link--active">
+                  <a class="submenu__link" routerLink="/funds/transaction-history"  >
                     <span class="menu__link-text">{{'Transaction history' | translate}}</span>
                   </a>
                 </li>
               </ul>
             </div>
-          </ng-container>
         </li>
-        <li class="menu__item menu__item--with-submenu">
-          <ng-container *ngIf="isAuthenticated">
+        <li class="menu__item menu__item--with-submenu" routerLinkActive="head-menu__link--active" [ngClass]="{'d-none': !isAuthenticated}">
             <a class="menu__link menu__link--drop">
               <span class="menu__link-text">{{'Orders' | translate}}</span>
             </a>
             <!-- <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" ><span class="menu__link-text">Orders</span></a> -->
               <div class="submenu">
                 <ul class="menu submenu__list">
-                  <li class="submenu__item">
+                  <li class="submenu__item" routerLinkActive="menu__link--active">
                     <a class="submenu__link" routerLink="/orders/open">
                       <span class="menu__link-text">{{'Open orders' | translate}}</span>
                     </a>
                   </li>
-                  <li class="submenu__item">
+                  <li class="submenu__item" routerLinkActive="menu__link--active">
                     <a class="submenu__link" routerLink="/orders/closed">
                       <span class="menu__link-text">{{'Orders history' | translate}}</span>
                     </a>
                   </li>
                 </ul>
               </div>
-            </ng-container>
+
           </li>
-          <li class="menu__item menu__item--with-submenu">
+          <li class="menu__item menu__item--with-submenu" routerLinkActive="head-menu__link--active">
             <ng-container >
                 <!-- *ngIf="!isProduction" -->
               <a class="menu__link menu__link--drop">
@@ -92,7 +89,7 @@
               </a>
               <div class="submenu">
                 <ul class="menu submenu__list">
-                  <li class="submenu__item" *ngFor="let ieo of (ieoList$ | async)">
+                  <li class="submenu__item" *ngFor="let ieo of (ieoList$ | async)" routerLinkActive="menu__link--active">
                     <a class="submenu__link" [routerLink]="'/ieo/' + ieo.id">
                       <span class="menu__link-text">{{ieo.currencyDescription}} ({{ieo.status | showStageStatus}})</span>
                     </a>
