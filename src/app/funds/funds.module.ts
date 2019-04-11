@@ -53,13 +53,15 @@ import {ShowPendingStatusPipe} from './pending-status.pipe';
 import {ShowPendingSystemPipe} from './pending-system.pipe';
 import {ShowTransactionsStatusPipe} from './transactions-history-status.pipe';
 import {ShowTransactionsTypePipe} from './transactions-history-type.pipe';
-import { QuberaTableComponent } from './balance/qubera-table/qubera-table.component';
-import { RefillFiatQuberaComponent } from './balance/refill-money/refill-step-two/refill-fiat-qubera/refill-fiat-qubera.component';
-import { SendFiatQuberaComponent } from './balance/send-money/send-step-two/send-fiat-qubera/send-fiat-qubera.component';
-import { TransferQuberaComponent } from './balance/send-money/send-step-three/transfer-qubera/transfer-qubera.component';
-import { IEOTableComponent } from './balance/ieotable/ieotable.component';
-import { BalanceSearchMobComponent } from './balance/balance-search-mob/balance-search-mob.component';
+import {QuberaTableComponent} from './balance/qubera-table/qubera-table.component';
+import {RefillFiatQuberaComponent} from './balance/refill-money/refill-step-two/refill-fiat-qubera/refill-fiat-qubera.component';
+import {SendFiatQuberaComponent} from './balance/send-money/send-step-two/send-fiat-qubera/send-fiat-qubera.component';
+import {TransferQuberaComponent} from './balance/send-money/send-step-three/transfer-qubera/transfer-qubera.component';
+import {IEOTableComponent} from './balance/ieotable/ieotable.component';
+import {BalanceSearchMobComponent} from './balance/balance-search-mob/balance-search-mob.component';
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import {IEOTableMobComponent} from './balance/ieo-table-mob/ieo-table-mob.component';
+import {IEOBalanceDetailsComponent} from './ieo-balance-details/ieo-balance-details.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -129,6 +131,8 @@ export function createTranslateLoader(http: HttpClient) {
     TransferQuberaComponent,
     IEOTableComponent,
     BalanceSearchMobComponent,
+    IEOTableMobComponent,
+    IEOBalanceDetailsComponent,
   ],
   providers: [
     BalanceService,

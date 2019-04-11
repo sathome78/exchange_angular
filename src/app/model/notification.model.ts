@@ -1,6 +1,6 @@
 export class Notification {
   public viewed: boolean = false;
-  public id: number = Date.now();
+  public id: number = Date.now()  + Math.random();
   public text: string;
   public notificationType: string;
 

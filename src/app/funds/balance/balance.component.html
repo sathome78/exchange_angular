@@ -45,6 +45,35 @@
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
         (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
       ></app-balance-mob>
+
+      <app-ieo-table-mob
+        *ngSwitchCase="Tab.IEO"
+        [balances]="fiatBalances$ | async"
+        [countEntries]="countOfFiatEntries$ | async"
+        [countOfPendingRequests]="countOfPendingRequests$ | async"
+        [countPerPage]="countPerPage"
+        [countOfEntries]="getCountOfEntries() | async"
+        [currentPage]="currentPage"
+        [Tab]="Tab"
+        [currTab]="currTab"
+        [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
+        [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
+        [loading]="loading$ | async"
+        (onToggleAllZero)="onToggleAllZeroMobile($event)"
+        (onLoadMore)="loadMoreBalancesForMobile($event)"
+        (openRefillBalancePopup)="openRefillBalancePopup($event)"
+        (openSendMoneyPopup)="openSendMoneyPopup($event)"
+        (onSelectTab)="onSelectTab($event)"
+        (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
+        (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
+
+      ></app-ieo-table-mob>
+      <!-- [countPerPage]="countPerPage"
+      [countOfEntries]="getCountOfEntries() | async"
+      [currentPage]="currentPage"
+      [IEOData]="IEOData"
+      [loading]="loading$ | async"
+      (onPaginate)="onPageChanged($event)" -->
     </ng-container>
   </div>
   <!--balance-mob end-->
@@ -292,13 +321,13 @@
             </ng-container>
 
             <app-ieo-table
+              *ngSwitchCase="Tab.IEO"
               [countPerPage]="countPerPage"
               [countOfEntries]="getCountOfEntries() | async"
               [currentPage]="currentPage"
               [IEOData]="IEOData"
               [loading]="loading$ | async"
               (onPaginate)="onPageChanged($event)"
-              *ngSwitchCase="Tab.IEO"
             ></app-ieo-table>
           </ng-container>
 

@@ -8,7 +8,6 @@ import {IEOCommunityComponent} from './components/ieo-community/ieo-community.co
 import {IEORequirementsComponent} from './components/ieo-requirements/ieo-requirements.component';
 import {IEOHowItWorksComponent} from './components/ieo-how-it-works/ieo-how-it-works.component';
 import {IEODescriptionsComponent} from './components/ieo-descriptions/ieo-descriptions.component';
-import {PopupNotificationComponent} from './components/popup-notification/popup-notification.component';
 import {IeoHeaderComponent} from './components/ieo-header/ieo-header.component';
 import {IEOServiceService} from '../shared/services/ieoservice.service';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
@@ -16,6 +15,7 @@ import {AuthInterceptor} from 'app/core/interceptors/auth.interceptor';
 import {JwtInterceptor} from 'app/core/interceptors/jwt.interceptor';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {PopupPolicyComponent} from './components/popup-policy/popup-policy.component';
+import {PopupFailedComponent} from './components/popup-failed/popup-failed.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import {PopupPolicyComponent} from './components/popup-policy/popup-policy.compo
     IEORequirementsComponent,
     IEOHowItWorksComponent,
     IEODescriptionsComponent,
-    PopupNotificationComponent,
+    PopupFailedComponent,
     IeoHeaderComponent,
     PopupPolicyComponent,
   ],

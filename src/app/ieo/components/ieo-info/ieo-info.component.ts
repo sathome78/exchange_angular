@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { IEOItem } from 'app/model/ieo.model';
+import { KycIEOModel } from 'app/ieo/models/ieo-kyc.model';
 
 @Component({
   selector: 'app-ieo-info',
@@ -20,6 +21,7 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   @Input('isAuthenticated') public isAuthenticated: boolean = false;
   @Input('currentStage') public currentStage: string;
   @Input('IEOData') public IEOData: IEOItem;
+  @Input('requirements') public requirements: KycIEOModel;
   @Input('ieoLoading') public ieoLoading: boolean;
   @Input('userBalanceBTC') public userBalanceBTC: number;
   @Output('onLogin') public onLogin: EventEmitter<any> = new EventEmitter();
@@ -105,5 +107,9 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
    get boughtAmountPer () {
     const a = (this.boughtAmount / (this.IEOData.amount / 100)) || 0
     return a.toFixed(2);
+  }
+
+  goToNewsPage() {
+    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`)
   }
 }
