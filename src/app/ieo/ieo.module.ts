@@ -15,7 +15,7 @@ import {AuthInterceptor} from 'app/core/interceptors/auth.interceptor';
 import {JwtInterceptor} from 'app/core/interceptors/jwt.interceptor';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {PopupPolicyComponent} from './components/popup-policy/popup-policy.component';
-import { PopupFailedComponent } from './components/popup-notification/popup-failed.component';
+import {PopupFailedComponent} from './components/popup-failed/popup-failed.component';
 
 @NgModule({
   declarations: [

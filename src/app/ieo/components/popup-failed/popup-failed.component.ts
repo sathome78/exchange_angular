@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import { KycIEOModel } from 'app/ieo/models/ieo-kyc.model';
-
+import {KycIEOModel} from 'app/ieo/models/ieo-kyc.model';
+import {IEOItem} from 'app/model/ieo.model';
 
 @Component({
   selector: 'app-popup-failed',
@@ -11,9 +11,10 @@ export class PopupFailedComponent implements OnInit {
 
 
   @Input() requirements: KycIEOModel;
+  @Input() IEOData: IEOItem;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
 

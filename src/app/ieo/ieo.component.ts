@@ -67,6 +67,7 @@ export class IEOComponent implements OnInit, OnDestroy {
               .subscribe((res: KycIEOModel) => {
                 if(res) {
                   this.requirements = res;
+                  this.requirements = new KycIEOModel(true, true, true);
                 };
               })
             this.userService.getUserBalanceCurr(['BTC'])
@@ -161,10 +162,12 @@ export class IEOComponent implements OnInit, OnDestroy {
     if(this.stage.PENDING === this.currentStage) {
 
     } else if (this.stage.RUNNING === this.currentStage) {
-      if(this.checkRequirements()) {
-        this.openBuy();
-      } else {
+      if(!this.requirements.kycCheck) {
         this.openNoReqs();
+      } else if (!this.requirements.policyCheck) {
+        this.openPolicy();
+      } else {
+        this.openBuy();
       }
       // this.openBuy();
     } else if (this.stage.SUCCEEDED === this.currentStage || this.stage.FAILED === this.currentStage) {

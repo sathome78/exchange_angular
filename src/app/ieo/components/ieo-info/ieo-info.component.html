@@ -58,17 +58,23 @@
               <div class="timer" [innerHTML]="timer"></div>
             </div>
 
-
-
             <div class="button-part">
-              <button
-                class="standart-btn"
-                [disabled]="ieoLoading || currentStage !== stage.RUNNING"
-                *ngIf="isAuthenticated"
-                (click)="onBuy.emit()"
-              >
-                <span>Buy Now</span>
-              </button>
+              <div>
+                <button
+                  class="standart-btn"
+                  [ngClass]="{'ieo-buy': requirements.kycCheck && !requirements.countryCheck}"
+                  [disabled]="ieoLoading || (currentStage !== stage.RUNNING) || (requirements.kycCheck && !requirements.countryCheck)"
+                  *ngIf="isAuthenticated"
+                  (click)="onBuy.emit()"
+                >
+                  <span>Buy Now</span>
+                </button>
+                <div class="input-hint-wrapper" *ngIf="isAuthenticated">
+                  <span class="wrap-input__message">
+                    Sorry, your country not allowed
+                  </span>
+                </div>
+              </div>
               <button
                 class="standart-btn"
                 *ngIf="!isAuthenticated"
