@@ -67,7 +67,7 @@ export class IEOComponent implements OnInit, OnDestroy {
               .subscribe((res: KycIEOModel) => {
                 if(res) {
                   this.requirements = res;
-                  this.requirements = new KycIEOModel(true, true, false);
+                  // this.requirements = new KycIEOModel(true, true, false);
                 };
               })
             this.userService.getUserBalanceCurr(['BTC'])
