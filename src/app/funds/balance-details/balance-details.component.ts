@@ -134,25 +134,21 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
   }
 
   public goToCryptoWithdrawPopup(balance: BalanceItem): void {
-    this.popupService.demoPopupMessage = 1;
-    this.popupService.showDemoTradingPopup(true);
-    // this.showSendMoneyPopup = true;
-    // this.sendMoneyData = {
-    //   step: 2,
-    //   stepName: CRYPTO_WITHDRAWAL,
-    //   balance: balance
-    // };
+    this.showSendMoneyPopup = true;
+    this.sendMoneyData = {
+      step: 2,
+      stepName: CRYPTO_WITHDRAWAL,
+      balance: balance
+    };
   }
 
   public goToTransferPopup(balance: BalanceItem): void {
-    this.popupService.demoPopupMessage = 1;
-    this.popupService.showDemoTradingPopup(true);
-    // this.showSendMoneyPopup = true;
-    // this.sendMoneyData = {
-    //   step: 2,
-    //   stepName: INNER_TRANSFER,
-    //   stepThreeData: balance
-    // };
+    this.showSendMoneyPopup = true;
+    this.sendMoneyData = {
+      step: 2,
+      stepName: INNER_TRANSFER,
+      stepThreeData: balance
+    };
   }
 
   public openRefillBalancePopup(flag: boolean) {
