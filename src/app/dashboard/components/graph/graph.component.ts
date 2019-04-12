@@ -267,19 +267,19 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     const tvWidget = new widget(this.widgetOptions);
     this._tvWidget = tvWidget;
 
-    tvWidget.onChartReady(() => {
-      const button = tvWidget.createButton()
-        .attr('title', 'Click to show a notification popup')
-        .addClass('apply-common-tooltip')
-        .on('click', () => tvWidget.showNoticeDialog({
-          title: 'Notification',
-          body: 'TradingView Charting Library API works correctly',
-          callback: () => {
-            // console.log('Noticed!');
-          },
-        }));
-      button[0].innerHTML = 'Check API';
-    });
+    // tvWidget.onChartReady(() => {
+    //   const button = tvWidget.createButton()
+    //     .attr('title', 'Click to show a notification popup')
+    //     .addClass('apply-common-tooltip')
+    //     .on('click', () => tvWidget.showNoticeDialog({
+    //       title: 'Notification',
+    //       body: 'TradingView Charting Library API works correctly',
+    //       callback: () => {
+    //         // console.log('Noticed!');
+    //       },
+    //     }));
+    //   button[0].innerHTML = 'Check API';
+    // });
   }
 
   ngOnDestroy(): void {
