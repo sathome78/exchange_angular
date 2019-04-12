@@ -8,12 +8,14 @@ import {PendingRequestMobComponent} from './pending-request-mob/pending-request-
 import {PendingRequestInfoComponent} from './pending-request-info/pending-request-info.component';
 import {BalanceMobileRoutesGuard} from 'app/shared/guards/balance-mobile-routes.guard';
 import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
+import {IEOBalanceDetailsComponent} from './ieo-balance-details/ieo-balance-details.component';
 
 const routers: Routes = [
   { path: '',
     component: FundsComponent,
     children: [
       { path: 'balances', component: BalanceComponent },
+      { path: 'balances/ieo/:id', component: IEOBalanceDetailsComponent, canActivate: [BalanceMobileRoutesGuard] },
       { path: 'balances/:id', component: BalanceDetailsComponent, canActivate: [BalanceMobileRoutesGuard] },
       { path: 'pending-requests', component: PendingRequestMobComponent, canActivate: [BalanceMobileRoutesGuard] },
       { path: 'pending-requests/:id', component: PendingRequestDetailsComponent, canActivate: [BalanceMobileRoutesGuard] },

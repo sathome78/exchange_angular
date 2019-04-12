@@ -3,8 +3,6 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 
 import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
-import {environment} from '../../environments/environment';
-import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from '@stomp/ng2-stompjs';
 import {ChatComponent} from './components/chat/chat.component';
 import {ChatMessageComponent} from './components/chat/chat-message/chat-message.component';
 import {CurrencyPairInfoComponent} from './components/currency-pair-info/currency-pair-info.component';
@@ -46,7 +44,6 @@ import {TradeHistoryItemComponent} from './components/trade-history/trade-histor
 import {ShowWidgetPipe} from '../shared/pipes/show-widget.pipe';
 import {reducer} from './reducers/dashboard.reducer'
 import {StoreModule} from '@ngrx/store';
-import * as SockJS from 'sockjs-client';
 import {IsFavoritePipe} from './services/isFavorite.pipe';
 import {EmbeddedOrdersMobileComponent} from './components/embedded-orders-mobile/embedded-orders-mobile.component';
 import {EmbeddedOpenOrdersMobileComponent} from './components/embedded-orders-mobile/embedded-open-orders-mobile/embedded-open-orders-mobile.component';
@@ -56,29 +53,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   swipeEasing: true,
   wheelSpeed: 1
-};
-
-export function socketProvider() {
-  return new SockJS(environment.apiUrlWS + '/public_socket');
-  // return new SockJS('http://localhost:5555/jsa-stomp-endpoint');
-}
-
-const stompConfig: InjectableRxStompConfig = {
-  // Which server?
-  // brokerURL: `${environment.apiUrlWS}/public_socket`,
-
-  heartbeatIncoming: 0, // Typical value 0 - disabled
-  heartbeatOutgoing: 20000, // Typical value 20000 - every 20 seconds
-
-  reconnectDelay: 5000,
-  webSocketFactory: socketProvider,
-
-  // Will log diagnostics on console
-  debug: (msg) => {
-    // if (!environment.production) {
-      // console.log(new Date().toLocaleString(), msg);
-    // }
-  },
 };
 
 @NgModule({
@@ -157,18 +131,7 @@ const stompConfig: InjectableRxStompConfig = {
     DashboardService,
     DashboardWebSocketService,
     MarketService,
-    RxStompService,
     TradingService,
-
-    {
-      provide: InjectableRxStompConfig,
-      useValue: stompConfig
-    },
-    {
-      provide: RxStompService,
-      useFactory: rxStompServiceFactory,
-      deps: [InjectableRxStompConfig]
-    },
     {provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG}
   ]
 })

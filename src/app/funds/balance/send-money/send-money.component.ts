@@ -16,6 +16,7 @@ import {Animations} from '../../../shared/animations';
 export class SendMoneyComponent implements OnInit, OnDestroy {
 
   @Output() closeSendMoneyPopup = new EventEmitter<boolean>();
+  @Output() toggleBalanceTab = new EventEmitter<string>();
   @Input() optionData;
   @Input() showPopup;
   private ngUnsubscribe: Subject<void> = new Subject<void>();

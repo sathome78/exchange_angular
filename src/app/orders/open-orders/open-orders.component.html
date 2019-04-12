@@ -48,11 +48,11 @@
                 </div>
               </td>
               <td class="table__cell table__cell--tal">
-                <span>{{item.amountConvert}}</span>
+                <div>{{item.exExchangeRate}}</div>
+                <span class="txt-small" [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType | replaceChar: '_': ' '}}</span>
               </td>
               <td class="table__cell table__cell--tar">
-                <div>{{item.exExchangeRate}}</div>
-                <span class="txt-small txt-red">{{item.operationType | replaceChar: '_': ' '}}</span>
+                <span>{{item.amountConvert}}</span>
               </td>
               <td class="table__cell table__cell--arr-mob">
                 <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
@@ -127,7 +127,7 @@
             [options]="(currencyPairs$ | async) | dynamicIData: 'name': 'id'"
             [setNullValue]="true"
             (onChange)="onChangeCurrPair($event)"
-            (onSelect)="onSelectPair($event.id)"
+            (onSelect)="onSelectPair($event.id, true)"
           ></app-dynamic-input>
 
         </div>

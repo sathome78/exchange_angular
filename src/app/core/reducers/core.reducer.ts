@@ -3,6 +3,7 @@ import * as coreActions from '../actions/core.actions';
 // import {REHYDRATE, RehydrateAction} from '../actions/core.actions';
 import {SimpleCurrencyPair} from '../../model/simple-currency-pair';
 import {CurrencyChoose} from '../../model/currency-choose.model';
+import {IEOItem} from 'app/model/ieo.model';
 import {DetailedCurrencyPair} from 'app/model/detailed-currency-pair';
 
 export interface State {
@@ -18,6 +19,7 @@ export interface State {
   loading: boolean;
   isAuthenticated: boolean;
   userInfo: ParsedToken;
+  ieoList: IEOItem[];
 }
 
 export const INIT_STATE: State = {
@@ -32,7 +34,8 @@ export const INIT_STATE: State = {
   allCurrenciesForChoose: [],
   loading: false,
   isAuthenticated: false,
-  userInfo: null
+  userInfo: null,
+  ieoList: null,
 };
 
 /**
@@ -84,6 +87,8 @@ export function reducer(state: State = INIT_STATE, action: coreActions.Actions) 
       return {...state, userInfo: action.payload, isAuthenticated: true};
     case coreActions.ON_LOGOUT:
       return {...state, userInfo: null, isAuthenticated: false};
+    case coreActions.SET_IEO_LIST:
+      return {...state, ieoList: action.payload};
 
     default:
       return state;
@@ -131,3 +136,4 @@ export const getFiatCurrenciesForChoose = (state: State): CurrencyChoose[] => st
 export const getIsAuthenticatedSelector = (state: State): boolean => state.isAuthenticated;
 /** Selector return is Authenticated */
 export const getUserInfoSelector = (state: State): ParsedToken => state.userInfo;
+export const getIEOListSelector = (state: State): IEOItem[] => state.ieoList;

@@ -1,0 +1,100 @@
+<!-- start component -->
+<div class="first-screen">
+  <div class="fs-wr">
+    <div class="fs-wr-inner">
+      <div class="fs-image-container">
+          <img src="assets/img/ieo/bg.jpg" alt="">
+      </div>
+      <div class="fs-content" *ngIf="IEOData">
+        <div class="bittorrent">
+          <img src="assets/img/ieo/bittorrent.svg" alt="">
+        </div>
+        <div class="btc-session">
+          <div class="b-s-title">
+            <h3>{{IEOData.currencyDescription}} - BTC Session<span class="upcoming">{{IEOData.status | showStageStatus}}</span></h3>
+          </div>
+          <table class="b-s-table">
+            <tr>
+              <td><span>Price：</span></td>
+              <td class="right-text">
+                <span *ngIf="!IEOData.rate">To be determined</span>
+                <span *ngIf="IEOData.rate">
+                  1 {{IEOData.currencyName}} = {{(IEOData.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>Start Time：</td>
+              <td class="right-text"><span>{{getFormatDate(IEOData.startDate)}}</span></td>
+            </tr>
+            <tr>
+              <td>Session Supply：</td>
+              <td class="right-text"><span>{{(sessionSupply || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</span></td>
+            </tr>
+          </table>
+          <div class="buy-block">
+
+            <div class="progress-block" *ngIf="stage.RUNNING === currentStage">
+              <div class="currency-info">
+                <div class="currency-buyed">
+                  <span class="buyed-value">{{boughtAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
+                  <span class="currency-name">{{IEOData.currencyName}}</span>
+                </div>
+                <div class="percentage">
+                  <span>{{boughtAmountPer}}%</span>
+                </div>
+              </div>
+              <div class="currency-bar">
+                <div class="currency-bar-progress" [style.width.%]="boughtAmountPer"></div>
+              </div>
+            </div>
+
+            <div class="amount">
+              <p>Amount: <span>{{(IEOData.amount  || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}</span></p>
+            </div>
+
+            <div class="starts" *ngIf="stage.PENDING === currentStage">
+              <p>Starts In:</p>
+              <div class="timer" [innerHTML]="timer"></div>
+            </div>
+
+            <div class="button-part">
+              <div>
+                <button
+                  class="standart-btn"
+                  [ngClass]="{'ieo-buy': requirements.kycCheck && !requirements.countryCheck}"
+                  [disabled]="ieoLoading || (currentStage !== stage.RUNNING) || (requirements.kycCheck && !requirements.countryCheck)"
+                  *ngIf="isAuthenticated && (currentStage === stage.RUNNING || currentStage === stage.PENDING)"
+                  (click)="onBuy.emit()"
+                >
+                  <span>Buy Now</span>
+                </button>
+                <div class="input-hint-wrapper" *ngIf="isAuthenticated">
+                  <span class="wrap-input__message">
+                    Sorry, your country not allowed
+                  </span>
+                </div>
+              </div>
+              <button
+                class="standart-btn"
+                *ngIf="!isAuthenticated"
+                (click)="login()"
+              >
+                <span>Log In</span>
+              </button>
+
+              <button
+                class="standart-btn"
+                (click)="goToNewsPage()"
+                *ngIf="isAuthenticated && (currentStage === stage.SUCCEEDED || currentStage === stage.FAILED)"
+              >
+                <span>More</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end component -->

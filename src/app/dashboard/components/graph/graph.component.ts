@@ -85,6 +85,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private _autosize: ChartingLibraryWidgetOptions['autosize'] = true;
   private _containerId: ChartingLibraryWidgetOptions['container_id'] = 'tv_chart_container';
   private _tvWidget: IChartingLibraryWidget | null = null;
+  private _getDataInterval = 60 * 1000;
 
 
   @Input()
@@ -160,7 +161,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
   ngOnInit() {
-
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -201,8 +201,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
 
     this.widgetOptions = {
-      symbol: this._symbol,
-      datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
+      symbol: this.currencyPairName,
+      datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl, this._getDataInterval),
       interval: this._interval,
       container_id: this._containerId,
       timezone: 'Etc/UTC',
@@ -240,8 +240,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       //   intervals: ['30', '60', '240', '720', '1D', '2D', '3D', '1W', '3W', '1M']
       // },
       studies_overrides: {
-        'volume.volume.color.0': '#00B43D',
-        'volume.volume.color.1': '#EB5757',
+        'volume.volume.color.0': '#EB5757',
+        'volume.volume.color.1':  '#00B43D',
         'volume.volume ma.color': '#FF0000',
         'volume.volume ma.linewidth': 5,
         // 'volume.show ma': true,
@@ -258,30 +258,34 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
         'mainSeriesProperties.areaStyle.color1': 'rgba(35, 123, 239, 1)',
         'mainSeriesProperties.areaStyle.color2': 'rgba(35, 123, 239, 0)',
+
+        'mainSeriesProperties.candleStyle.wickUpColor': '#53B987',
+        'mainSeriesProperties.candleStyle.wickDownColor': '#EB5757'
       },
     };
 
     const tvWidget = new widget(this.widgetOptions);
     this._tvWidget = tvWidget;
 
-    tvWidget.onChartReady(() => {
-      const button = tvWidget.createButton()
-        .attr('title', 'Click to show a notification popup')
-        .addClass('apply-common-tooltip')
-        .on('click', () => tvWidget.showNoticeDialog({
-          title: 'Notification',
-          body: 'TradingView Charting Library API works correctly',
-          callback: () => {
-            // console.log('Noticed!');
-          },
-        }));
-      button[0].innerHTML = 'Check API';
-    });
+    // tvWidget.onChartReady(() => {
+    //   const button = tvWidget.createButton()
+    //     .attr('title', 'Click to show a notification popup')
+    //     .addClass('apply-common-tooltip')
+    //     .on('click', () => tvWidget.showNoticeDialog({
+    //       title: 'Notification',
+    //       body: 'TradingView Charting Library API works correctly',
+    //       callback: () => {
+    //         // console.log('Noticed!');
+    //       },
+    //     }));
+    //   button[0].innerHTML = 'Check API';
+    // });
   }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this._tvWidget.remove();
   }
 
   ngAfterContentInit() {

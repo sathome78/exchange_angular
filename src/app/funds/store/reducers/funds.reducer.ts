@@ -3,7 +3,7 @@ import {defaultValues} from './default-values';
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {BalanceItem} from 'app/funds/models/balance-item.model';
 import {PendingRequestsItem} from 'app/funds/models/pending-requests-item.model';
-import {MyBalanceItem} from 'app/model/my-balance-item.model';
+import {MyBalanceItem, MyBalanceItemSimple} from 'app/model/my-balance-item.model';
 import {BalanceDetailsItem} from '../../models/balance-details-item.model';
 import {TransactionHistoryItem} from 'app/funds/models/transactions-history-item.model';
 
@@ -15,8 +15,8 @@ export interface State {
   countFiatBal: number;
   pendingRequests: PendingRequestsItem[];
   countPendingRequests: number;
-  myBalances: MyBalanceItem | null,
-  balanceDetailsInfo: BalanceDetailsItem,
+  myBalances: MyBalanceItemSimple | null;
+  balanceDetailsInfo: BalanceDetailsItem;
   loading: boolean;
 
   transactionsHistory: TransactionHistoryItem[];
@@ -132,7 +132,7 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
       return {
         ...state,
         loading: false,
-        myBalances: action.payload,
+        myBalances: action.payload.data,
       };
     case fromActions.FAIL_LOAD_MY_BALANCES:
       return {

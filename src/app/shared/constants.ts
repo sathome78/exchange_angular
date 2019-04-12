@@ -41,3 +41,10 @@ export const KYC_STATUS = {
 export const keys = {
   recaptchaKey: '6LdNln0UAAAAAH4nyBX7Wh4YKpqujc0-a66xssjp',
 }
+
+export const orderBaseType = {
+  LIMIT: 'LIMIT',
+  MARKET_PRICE: 'MARKET_PRICE',
+  STOP_LIMIT: 'STOP_LIMIT',
+  ICO: 'ICO'
+}

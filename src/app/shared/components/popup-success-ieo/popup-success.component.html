@@ -1,0 +1,8 @@
+<div class="overlay ieo-notification">
+	<div class="popup">
+		<div class="popup__close" (click)="closeMe()"></div>
+		<h6 class="popup__title tnx-head">Your purchase order has been successfully created and added to the queue.</h6>
+		<p class="popup__subtitle tnx-description">Tokens will be credited upon completion IEO {{IEOName}}</p>
+    <button class="btn btn--active btn--center" routerLink="/funds/balances" (click)="closeMe()">Go to Balance</button>
+  </div>
+</div>
