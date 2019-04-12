@@ -28,19 +28,19 @@
         <span class="status-green">{{ieo.status | showStageStatus}}</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>1 {{ieo.currencyName}} = {{ieo.rate}} BTC</span>
+        <span>1 {{ieo.currencyName}} = {{ieo.rate || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{ieo.availableAmount}}</span>
+        <span>{{ieo.availableAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
       </td>
       <td class="table__cell table__cell--tar">
         <span>{{getFormatDate(ieo.startDate)}}</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{(ieo.personalAmount)}} {{ieo.currencyName}}</span>
+        <span>{{(ieo.personalAmount|| 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{ieo.currencyName}}</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{ieo.amount}}</span>
+        <span>{{ieo.amount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
       </td>
       <td class="table__cell button-cell">
         <button
