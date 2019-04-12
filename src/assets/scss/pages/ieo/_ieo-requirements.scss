@@ -27,7 +27,7 @@
 	
 	.requirement-item {
 		display: flex;
-		    padding: 1.5em 1.6em;
+		padding: 1.5em 1.6em;
 		justify-content: space-between;
 		align-items: center;
 		@media(max-width: 992px){
@@ -53,6 +53,24 @@
 				color: #00B43D;
 			}
 		}
+		.more-btn{
+			background: none;
+			border: none;
+			outline: none;
+			margin-top: .7em;
+			font-size: .85em;
+			color: #237BEF;
+			padding: 0;
+			font-weight: 500;
+			cursor: pointer;
+		}
+	}
+	.requirement-text-wr{
+		.requirement-text{
+			overflow: hidden;
+			    height: 7.3em;
+			transition: .3s;
+		}
 	}
 	.requirement-text{
 		max-width: 44em;
@@ -66,11 +84,11 @@
 			font-size: .91em;
 		}
 		.requirement-description{
-		font-size: .8em;
-		margin-top: 1em;
-		line-height: 1.2;
-		color: #5E5F74;
-	}
+			font-size: .8em;
+			margin-top: 1em;
+			line-height: 1.37;
+			color: #5E5F74;
+		}
 	}
 	.requirement-status{
 		width: 18.5em;
