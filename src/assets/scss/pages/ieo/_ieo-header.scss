@@ -125,10 +125,15 @@
 			color: #FFFFFF;
 		}
 		.ieo-buy-button{
-      margin: 0 1.1em;
-      .wrapper-ieo-btn {
-        position: relative;
-      }
+			margin: 0 1.1em;
+			.wrapper-ieo-btn {
+				position: relative;
+				.input-hint-wrapper{
+					left: -25px;
+					right: -25px;
+					min-width: 100%;
+				}
+			}
 		}
 		.btn-ieo{
 			width: 95px;
@@ -136,7 +141,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-
+			pointer-events: auto;
 			span{
 				font-size: 14px;
 				line-height: .9;

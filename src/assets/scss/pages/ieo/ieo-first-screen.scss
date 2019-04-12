@@ -11,6 +11,7 @@
 }
 
 .first-screen{
+	position: relative;
 	background-color: var(--main-bg);
 	background-size: cover;
 	background-position: 100% 100%;
@@ -27,8 +28,21 @@
 		}
 	}
 	.fs-wr-inner{}
-	.fs-image-container{}
+	.fs-image-container{
+		overflow: hidden;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		img{
+			width: 100%;
+			
+
+		}
+	}
 	.fs-content{
+		position: relative;
 		display: flex;
 		align-items: center;
 		/* justify-content: space-between; */
@@ -76,7 +90,7 @@
 			color: #FFFFFF;
 			line-height: .9;
 			@media(max-width: 480px){
-				font-size: 1.4em;
+				font-size: 1.2em;
 			}
 		}
 	}
