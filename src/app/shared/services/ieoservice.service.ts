@@ -36,6 +36,9 @@ export class IEOServiceService {
   public getListIEO(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/api/public/v2/ieo`);
   }
+  public refreshIEOStatus(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/api/private/v2/ieo/refresh`);
+  }
 
   public getListIEOTab(): any {
     return this.stompService
