@@ -5,5 +5,9 @@ export class MyBalanceItem {
      USD: number;
   };
   public error: any;
+}
 
+export class MyBalanceItemSimple {
+  public BTC: number;
+  public USD: number;
 }
