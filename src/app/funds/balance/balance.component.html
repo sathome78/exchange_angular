@@ -46,28 +46,19 @@
         (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
       ></app-balance-mob>
 
-      <app-ieo-table-mob
-        *ngSwitchCase="Tab.IEO"
-        [balances]="fiatBalances$ | async"
-        [countEntries]="countOfFiatEntries$ | async"
-        [countOfPendingRequests]="countOfPendingRequests$ | async"
-        [countPerPage]="countPerPage"
-        [countOfEntries]="getCountOfEntries() | async"
-        [currentPage]="currentPage"
-        [Tab]="Tab"
-        [currTab]="currTab"
-        [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
-        [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
-        [loading]="loading$ | async"
-        (onToggleAllZero)="onToggleAllZeroMobile($event)"
-        (onLoadMore)="loadMoreBalancesForMobile($event)"
-        (openRefillBalancePopup)="openRefillBalancePopup($event)"
-        (openSendMoneyPopup)="openSendMoneyPopup($event)"
-        (onSelectTab)="onSelectTab($event)"
-        (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
-        (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
-
-      ></app-ieo-table-mob>
+      <ng-container *ngIf="!isProd">
+        <app-ieo-table-mob
+          *ngSwitchCase="Tab.IEO"
+          [IEOData]="IEOData"
+          [Tab]="Tab"
+          [currTab]="currTab"
+          (openRefillBalancePopup)="openRefillBalancePopup($event)"
+          (openSendMoneyPopup)="openSendMoneyPopup($event)"
+          (onSelectTab)="onSelectTab($event)"
+          (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
+          (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
+        ></app-ieo-table-mob>
+      </ng-container>
       <!-- [countPerPage]="countPerPage"
       [countOfEntries]="getCountOfEntries() | async"
       [currentPage]="currentPage"
@@ -152,7 +143,7 @@
             [showNotFoundTip]="existQuberaAccounts"
           ></app-dynamic-input>
         </ng-container>
-        <ng-container >
+        <ng-container  *ngIf="isProd">
           <!-- *ngIf="isProd" -->
           <app-dynamic-input
             *ngSwitchCase="Tab.IEO"
@@ -321,15 +312,17 @@
               </app-qubera-table>
             </ng-container>
 
-            <app-ieo-table
-              *ngSwitchCase="Tab.IEO"
-              [countPerPage]="countPerPage"
-              [countOfEntries]="getCountOfEntries() | async"
-              [currentPage]="currentPage"
-              [IEOData]="IEOData"
-              [loading]="loading$ | async"
-              (onPaginate)="onPageChanged($event)"
-            ></app-ieo-table>
+            <ng-container *ngIf="!isProd">
+              <app-ieo-table
+                *ngSwitchCase="Tab.IEO"
+                [countPerPage]="countPerPage"
+                [countOfEntries]="getCountOfEntries() | async"
+                [currentPage]="currentPage"
+                [IEOData]="IEOData"
+                [loading]="loading$ | async"
+                (onPaginate)="onPageChanged($event)"
+              ></app-ieo-table>
+            </ng-container>
           </ng-container>
 
          </div>

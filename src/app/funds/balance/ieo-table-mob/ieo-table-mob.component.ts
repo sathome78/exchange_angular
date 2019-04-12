@@ -5,6 +5,7 @@ import {UtilsService} from 'app/shared/services/utils.service';
 import * as fundsAction from '../../store/actions/funds.actions';
 import {select, Store} from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
+import { IEOItem } from 'app/model/ieo.model';
 
 @Component({
   selector: 'app-ieo-table-mob',
@@ -34,25 +35,24 @@ export class IEOTableMobComponent implements OnInit{
   public currValue: string = '';
   public isShowSearchPopup = false;
 
-  @Input('loading') public loading: boolean;
-  @Input('balances') public balances: BalanceItem[] = [];
-  @Input('countEntries') public countEntries: number = 0;
+  @Input('IEOData') public IEOData: IEOItem[] = [];
+  @Input('countOfPendingRequests') public countOfPendingRequests: number = 0;
   @Input('Tab') public Tab;
   @Input('currTab') public currTab;
-  @Input('countOfPendingRequests') public countOfPendingRequests: number = 0;
-  @Input('cryptoCurrenciesForChoose') public cryptoCurrenciesForChoose;
-  @Input('fiatCurrenciesForChoose') public fiatCurrenciesForChoose;
-  @Input('countPerPage') public countPerPage: number;
-  @Input('currentPage') public currentPage: number;
-  @Input('countOfEntries') public countOfEntries: number;
-
+  @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
   @Output('openRefillBalancePopup') public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
   @Output('openSendMoneyPopup') public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
-  @Output('filterByCurrencyForMobile') public filterByCurrencyForMobile: EventEmitter<any> = new EventEmitter();
-  @Output('onToggleAllZero') public onToggleAllZero: EventEmitter<any> = new EventEmitter();
-  @Output('onLoadMore') public onLoadMore: EventEmitter<any> = new EventEmitter();
-  @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
   @Output('onGoToIEOBalanceDetails') public onGoToIEOBalanceDetails: EventEmitter<any> = new EventEmitter();
+  // @Input('loading') public loading: boolean;
+  // @Input('countEntries') public countEntries: number = 0;
+  // @Input('cryptoCurrenciesForChoose') public cryptoCurrenciesForChoose;
+  // @Input('fiatCurrenciesForChoose') public fiatCurrenciesForChoose;
+  // @Input('countPerPage') public countPerPage: number;
+  // @Input('currentPage') public currentPage: number;
+  // @Input('countOfEntries') public countOfEntries: number;
+  // @Output('filterByCurrencyForMobile') public filterByCurrencyForMobile: EventEmitter<any> = new EventEmitter();
+  // @Output('onToggleAllZero') public onToggleAllZero: EventEmitter<any> = new EventEmitter();
+  // @Output('onLoadMore') public onLoadMore: EventEmitter<any> = new EventEmitter();
 
 
   constructor(
@@ -68,15 +68,7 @@ export class IEOTableMobComponent implements OnInit{
     this.tableScrollStyles = {'height': (componentHeight - 293) + 'px', 'overflow-x': 'scroll'};
   }
 
-  public onLoadMoreTrigger(): void {
-    if(this.balances.length !== this.countOfEntries){
-      this.onLoadMore.emit({currentPage: +this.currentPage + 1, countPerPage: this.countPerPage, concat: true});
-    }
-  }
-  public onToggleAllZeroTrigger(): void {
-    this.scrollContainer.nativeElement.scrollTop = 0;
-    this.onToggleAllZero.emit(this.hideAllZero)
-  }
+
   public onShowIEOMobDetails(item: BalanceItem): void {
     this.onGoToIEOBalanceDetails.emit({currencyId: item.currencyId, priceIn: this.priceIn});
   }
@@ -97,39 +89,16 @@ export class IEOTableMobComponent implements OnInit{
     return this.utils.isFiat(currName);
   }
 
-  public onSearchCoin(event) {
-    this.currencyForChoose = event;
-    this.filterByCurrencyForMobile.emit({currTab: this.currTab, currency: this.currencyForChoose});
-  }
+  // public onSearchCoin(event) {
+  //   this.currencyForChoose = event;
+  //   this.filterByCurrencyForMobile.emit({currTab: this.currTab, currency: this.currencyForChoose});
+  // }
 
   public onChangeCurrPair(val: string): void {
     this.currValue = val;
   }
 
-  public get getCryptoDynamicIData(): DIOptions[] {
-    return this.cryptoCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
-  }
-  public get getFiatDynamicIData(): DIOptions[] {
-    return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
-  }
 
-  toggleShowSearchPopup(flag: boolean) {
-    if (flag && this.balances.length < this.countEntries) {
-      const params = {
-        type: this.currTab === this.Tab.CRYPTO ? this.Tab.CRYPTO : this.Tab.FIAT,
-        limit: this.countEntries,
-        excludeZero: false,
-        concat: false,
-        currencyId: 0,
-        currencyName: '',
-        offset: '',
-      };
-      this.currTab === this.Tab.CRYPTO
-        ? this.store.dispatch(new fundsAction.LoadCryptoBalAction(params))
-        : this.store.dispatch(new fundsAction.LoadFiatBalAction(params));
-    }
-    this.isShowSearchPopup = flag;
-  }
 
   ngOnInit() {
   }

@@ -88,7 +88,7 @@ export class OrdersService {
   deleteOrder(order: OrderItem): Observable<any> {
     const params = {
       order_id: '' + order.id,
-      type: order.orderBaseType
+      type: order.orderBaseType,
     };
     return this.http.post(`${this.apiUrl}/api/private/v2/dashboard/cancel`, {}, {params});
   }
