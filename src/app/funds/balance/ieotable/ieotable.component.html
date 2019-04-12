@@ -25,7 +25,7 @@
         </div>
       </td>
       <td class="table__cell table__cell--tar">
-        <span class="status-green">{{ieo.status | showStageStatus}}</span>
+        <span [ngClass]="{'status-green': ieo.status !== 'FAILED', 'status-red': ieo.status === 'FAILED'}"> {{ieo.status | showStageStatus}}</span>
       </td>
       <td class="table__cell table__cell--tar">
         <span>1 {{ieo.currencyName}} = {{ieo.rate}} BTC</span>
