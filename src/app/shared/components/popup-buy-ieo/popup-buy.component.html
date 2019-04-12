@@ -6,9 +6,12 @@
       <div class="ieo-pair">
         <span>{{IEOData.currencyName}}</span>/<span>BTC</span>
       </div>
-      <h6 class="popup__title tnx-head">1 {{IEOData.currencyName}} = {{IEOData.rate}} BTC</h6>
+      <h6 class="popup__title tnx-head">1 {{IEOData.currencyName}} =
+        {{(IEOData.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</h6>
       <div class="balance-txt">
-        <span>Available to purchase: {{(IEOData.availableAmount || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}</span>
+        <span>Available to purchase:
+          {{(IEOData.availableAmount || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}
+        </span>
       </div>
       <div class="input-part">
         <div class="avaliable">Balance:
