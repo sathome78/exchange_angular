@@ -40,8 +40,8 @@ export class PopupBuyComponent implements OnInit, OnChanges {
     this.userService.getUserBalanceCurr(['BTC', this.IEOData.currencyName])
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((res) => {
-        this.userBalanceBTC = res.data['BTC'];
-        this.userBalanceCoin = res.data[this.IEOData.currencyName];
+        this.userBalanceBTC = +res.data['BTC'];
+        this.userBalanceCoin = +res.data[this.IEOData.currencyName];
         this.getMaxAvailSum();
         this.loading = false;
       })
@@ -134,7 +134,8 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   }
 
   getMaxAvailSum() {
-    const sums = [this.IEOData.maxAmountPerClaim, this.IEOData.availableAmount];
+    debugger
+    const sums = [+this.IEOData.maxAmountPerClaim, +this.IEOData.availableAmount];
     const userBalBTC = this.userBalanceBTC / this.IEOData.rate;
     sums.push(userBalBTC)
 
@@ -142,7 +143,7 @@ export class PopupBuyComponent implements OnInit, OnChanges {
       if(this.IEOData.maxAmountPerUser >= this.userBalanceCoin) {
         sums.push(0);
       } else {
-        sums.push(this.IEOData.maxAmountPerUser -  this.userBalanceCoin)
+        sums.push(this.IEOData.maxAmountPerUser - this.userBalanceCoin)
       }
     }
     this.maxSumValidate = +this.roundCurrency.transform(Math.min(...sums) + '', 'BTC');

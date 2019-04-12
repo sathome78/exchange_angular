@@ -162,6 +162,14 @@ export class IEOComponent implements OnInit, OnDestroy {
     return true;
   }
 
+  onRefreshIEOStatus() {
+    this.ieoService.refreshIEOStatus()
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((res) => {
+        // debugger;
+      })
+  }
+
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();

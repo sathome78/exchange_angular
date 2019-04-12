@@ -132,7 +132,7 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
       return {
         ...state,
         loading: false,
-        myBalances: action.payload,
+        myBalances: action.payload.data,
       };
     case fromActions.FAIL_LOAD_MY_BALANCES:
       return {

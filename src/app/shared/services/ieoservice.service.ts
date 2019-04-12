@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from 'environments/environment';
-import { KycIEOModel } from '../../ieo/models/ieo-kyc.model';
-import { IEOSuccessBuyModel } from '../../ieo/models/ieo-success-buy';
-import { map } from 'rxjs/operators';
-import { RxStompService } from '@stomp/ng2-stompjs';
-import { Message } from '@stomp/stompjs';
-import { TOKEN } from './http.utils';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {environment} from 'environments/environment';
+import {KycIEOModel} from '../../ieo/models/ieo-kyc.model';
+import {IEOSuccessBuyModel} from '../../ieo/models/ieo-success-buy';
+import {map} from 'rxjs/operators';
+import {RxStompService} from '@stomp/ng2-stompjs';
+import {Message} from '@stomp/stompjs';
+import {TOKEN} from './http.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +35,9 @@ export class IEOServiceService {
 
   public getListIEO(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/api/public/v2/ieo`);
+  }
+  public refreshIEOStatus(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/api/public/v2/ieo/refresh`);
   }
 
   public getListIEOTab(): any {

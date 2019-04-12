@@ -85,6 +85,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private _autosize: ChartingLibraryWidgetOptions['autosize'] = true;
   private _containerId: ChartingLibraryWidgetOptions['container_id'] = 'tv_chart_container';
   private _tvWidget: IChartingLibraryWidget | null = null;
+  private _getDataInterval = 60 * 1000;
 
 
   @Input()
@@ -160,7 +161,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
   ngOnInit() {
-
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -202,7 +202,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
     this.widgetOptions = {
       symbol: this.currencyPairName,
-      datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
+      datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl, this._getDataInterval),
       interval: this._interval,
       container_id: this._containerId,
       timezone: 'Etc/UTC',
@@ -285,6 +285,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this._tvWidget.remove();
   }
 
   ngAfterContentInit() {
