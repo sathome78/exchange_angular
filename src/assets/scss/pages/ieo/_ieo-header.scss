@@ -128,6 +128,11 @@
 			margin: 0 1.1em;
 			.wrapper-ieo-btn {
 				position: relative;
+				.input-hint-wrapper{
+					left: -25px;
+					right: -25px;
+					min-width: 100%;
+				}
 			}
 		}
 		.btn-ieo{
