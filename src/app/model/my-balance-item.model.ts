@@ -1,5 +1,9 @@
 
 export class MyBalanceItem {
-  public BTC: number;
-  public USD: number;
+  public data: {
+     BTC: number;
+     USD: number;
+  };
+  public error: any;
+
 }
