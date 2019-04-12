@@ -25,6 +25,7 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   @Input('ieoLoading') public ieoLoading: boolean;
   @Input('userBalanceBTC') public userBalanceBTC: number;
   @Output('onLogin') public onLogin: EventEmitter<any> = new EventEmitter();
+  @Output('onRefreshIEOStatus') public onRefreshIEOStatus: EventEmitter<any> = new EventEmitter();
   @Output('onBuy') public onBuy: EventEmitter<any> = new EventEmitter();
   constructor() { }
 
@@ -74,6 +75,12 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
       }
       else{
         this.timer = '<span>' + '00' + '</span><span>' + '00' + '</span><span>' + '00' + '</span><span>' + '00' + '</span>';
+        if( this.currentStage === this.stage.PENDING) {
+          this.onRefreshIEOStatus.emit();
+          if(this.interval) {
+            clearInterval(this.interval);
+          }
+        }
       }
 
     }
