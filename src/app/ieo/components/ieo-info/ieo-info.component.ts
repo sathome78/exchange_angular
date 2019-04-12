@@ -58,15 +58,20 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
       const current_date: moment.Moment = moment();
       const diff: number = date.diff(current_date);
 
+      const days = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const minutes = Math.floor(((diff % 86400000) % 3600000) / 60000);
+      const seconds = Math.floor((((diff % 86400000) % 3600000) % 60000) / 1000);
+
       if(diff > 0){
         this.timer =
-          '<span>' + moment(diff).format('DD') + '</span>' +
-          '<span>' + moment(diff).format('HH') + '</span>' +
-          '<span>' + moment(diff).format('mm') + '</span>' +
-          '<span>' + moment(diff).format('ss') + '</span>';
+          '<span>' + (days < 10 ? '0' + days : days) + '</span>' +
+          '<span>' + (hours < 10 ? '0' + hours : hours) + '</span>' +
+          '<span>' + (minutes < 10 ? '0' + minutes : minutes) + '</span>' +
+          '<span>' + (seconds < 10 ? '0' + seconds : seconds) + '</span>';
       }
       else{
-        this.timer = '<span>' + '00' + '</span><span>' + '00' + '</span><span>' + '00' + '</span><span>' + '00' + '</span>';
+        this.timer = '<span>00</span><span>00</span><span>00</span><span>00</span>';
         if( this.currentStage === this.stage.PENDING) {
           this.onRefreshIEOStatus.emit();
           if(this.interval) {
