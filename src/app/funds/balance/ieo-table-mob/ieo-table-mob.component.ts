@@ -6,6 +6,7 @@ import * as fundsAction from '../../store/actions/funds.actions';
 import {select, Store} from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
 import { IEOItem } from 'app/model/ieo.model';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-ieo-table-mob',
@@ -96,6 +97,10 @@ export class IEOTableMobComponent implements OnInit{
 
   public onChangeCurrPair(val: string): void {
     this.currValue = val;
+  }
+
+  get isProd(): boolean {
+    return environment.production;
   }
 
 
