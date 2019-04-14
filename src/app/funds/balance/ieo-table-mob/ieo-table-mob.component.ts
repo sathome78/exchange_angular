@@ -6,6 +6,7 @@ import * as fundsAction from '../../store/actions/funds.actions';
 import {select, Store} from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
 import { IEOItem } from 'app/model/ieo.model';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-ieo-table-mob',
@@ -42,18 +43,7 @@ export class IEOTableMobComponent implements OnInit{
   @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
   @Output('openRefillBalancePopup') public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
   @Output('openSendMoneyPopup') public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
-  @Output('onGoToIEOBalanceDetails') public onGoToIEOBalanceDetails: EventEmitter<any> = new EventEmitter();
-  // @Input('loading') public loading: boolean;
-  // @Input('countEntries') public countEntries: number = 0;
-  // @Input('cryptoCurrenciesForChoose') public cryptoCurrenciesForChoose;
-  // @Input('fiatCurrenciesForChoose') public fiatCurrenciesForChoose;
-  // @Input('countPerPage') public countPerPage: number;
-  // @Input('currentPage') public currentPage: number;
-  // @Input('countOfEntries') public countOfEntries: number;
-  // @Output('filterByCurrencyForMobile') public filterByCurrencyForMobile: EventEmitter<any> = new EventEmitter();
-  // @Output('onToggleAllZero') public onToggleAllZero: EventEmitter<any> = new EventEmitter();
-  // @Output('onLoadMore') public onLoadMore: EventEmitter<any> = new EventEmitter();
-
+  @Output('onGoToBalanceDetails') public onGoToBalanceDetails: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private router: Router,
@@ -69,8 +59,8 @@ export class IEOTableMobComponent implements OnInit{
   }
 
 
-  public onShowIEOMobDetails(item: BalanceItem): void {
-    this.onGoToIEOBalanceDetails.emit({currencyId: item.currencyId, priceIn: this.priceIn});
+  public onShowIEOMobDetails(item: IEOItem): void {
+    this.onGoToBalanceDetails.emit({currencyId: item.id, priceIn: this.priceIn});
   }
 
   public onToggleDropdown(): void {
@@ -89,13 +79,12 @@ export class IEOTableMobComponent implements OnInit{
     return this.utils.isFiat(currName);
   }
 
-  // public onSearchCoin(event) {
-  //   this.currencyForChoose = event;
-  //   this.filterByCurrencyForMobile.emit({currTab: this.currTab, currency: this.currencyForChoose});
-  // }
-
   public onChangeCurrPair(val: string): void {
     this.currValue = val;
+  }
+
+  get isProd(): boolean {
+    return environment.production;
   }
 
 

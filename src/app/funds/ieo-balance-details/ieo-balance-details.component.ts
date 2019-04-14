@@ -1,20 +1,15 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {BalanceDetailsItem} from 'app/funds/models/balance-details-item.model';
-import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Store, select} from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import {Observable, Subject} from 'rxjs';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
-import * as coreAction from '../../core/actions/core.actions';
 import {takeUntil} from 'rxjs/operators';
 import {Location} from '@angular/common';
-import {BalanceItem} from 'app/funds/models/balance-item.model';
-import {CRYPTO_DEPOSIT, FIAT_DEPOSIT} from '../balance/send-money/send-money-constants';
-import {BalanceService} from 'app/funds/services/balance.service';
-import {PopupService} from '../../shared/services/popup.service';
-import { UtilsService } from 'app/shared/services/utils.service';
+import {IEOItem} from 'app/model/ieo.model';
+import {IEOServiceService} from 'app/shared/services/ieoservice.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-ieo-balance-details',
@@ -28,143 +23,108 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
     USD: 'USD',
   }
 
+  public stage = {
+    PENDING: 'PENDING',
+    RUNNING: 'RUNNING',
+    SUCCEEDED: 'SUCCEEDED',
+    FAILED: 'FAILED',
+  }
+
   public selectedItem: any = {};
+  public ieoBalances$: Observable<IEOItem[]>
+  public IEOData: IEOItem;
+  public showBuyIEO: boolean = false;
+  public showSuccessIEO: boolean = false;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   constructor(
     private store: Store<fromCore.State>,
-    private dashboardWS: DashboardWebSocketService,
-    private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-    private balanceService: BalanceService,
-    private utils: UtilsService,
-    private popupService: PopupService
+    private ieoService: IEOServiceService,
+    private router: Router,
   ) {
-    this.selectedBalance$ = store.pipe(select(fundsReducer.getSelectedBalance));
-    this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
+    this.ieoBalances$ = this.store.pipe(select(fundsReducer.getIEOBalancesSelector));
+    this.getIEOTable();
 
     this.route.params
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(params => {
         const currencyId = +params['id'];
-        this.store.dispatch(new fundsAction.LoadBalanceDetailsAction(currencyId))
-      });
-      this.route.queryParams
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(params => {
-        this.priceIn = params['priceIn'];
-        this.location.replaceState(this.location.path().split('?')[0], '')
-      });
-
-    this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
-    this.store.dispatch(new coreAction.LoadCryptoCurrenciesForChoose());
-    this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
-  }
-
-  public loading$: Observable<boolean>;
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public selectedBalance$: Observable<BalanceDetailsItem>;
-  // public selectedItem: BalanceDetailsItem = new BalanceDetailsItem();
-  public showOnConfirmation: boolean = false;
-  public showReserve: boolean = false;
-  public priceIn: string = this.currencies.USD;
-
-  public sendMoneyData = {};
-  public refillBalanceData = {};
-  public showRefillBalancePopup: boolean = false;
-  public showSendMoneyPopup: boolean = false;
-
-  ngOnInit() {
-    this.balanceService.closeRefillMoneyPopup$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.openRefillBalancePopup(res);
-      });
-
-    this.balanceService.closeSendMoneyPopup$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.openSendMoneyPopup(res);
+        this.ieoBalances$.pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe((balances) => {
+            if(balances && balances.length) {
+              this.IEOData = balances.find((res) => res.id == currencyId);
+            }
+          })
       });
   }
+
+
+  ngOnInit() {}
 
   public onGoBackToMain(): void {
-    this.store.dispatch(new fundsAction.SetBalanceDetailsAction(null))
     this.location.back();
   }
 
-  public onTogglePanels(panel): void {
-    switch(panel){
-      case 'on_confirmation':
-        this.showOnConfirmation = !this.showOnConfirmation;
-        break;
-      case 'reserve':
-        this.showReserve = !this.showReserve;
-        break;
-    }
+  public goToIeo(id) {
+    this.router.navigate([`/ieo/${id}`])
+  }
+  public goToIeoNews(name) {
+    window.open(`https://news.exrates.me/article/${name}`, '_blank');
   }
 
-  public onBuyCurrency(marketPair) {
-    const splitName = marketPair.split('-');
-    this.dashboardWS.isNeedChangeCurretPair = false;
-    this.dashboardWS.findPairByCurrencyPairName(`${splitName[0]}/${splitName[1]}`);
-    this.router.navigate(['/'], {queryParams: {widget: 'trading'}});
+  public getIEOTable() {
+    this.ieoService.getListIEOTab()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res: IEOItem[]) => {
+        this.store.dispatch(new fundsAction.SetIEOBalancesAction(res))
+      })
+  }
+
+  public getFormatDate(d) {
+    if(!d) {
+      return '0000-00-00 00:00:00'
+    }
+    return moment.utc({
+      y: d.year,
+      M: d.monthValue - 1,
+      d: d.dayOfMonth,
+      h: d.hour,
+      m: d.minute,
+      s: d.second,
+    }).local().format('YYYY-MM-DD HH:mm:ss');
+  }
+
+  public buyIeo(IEOData) {
+    this.showBuyIEO = true;
+  }
+
+  public closeBuyIEO() {
+    this.showBuyIEO = false;
+  }
+  public closeSuccessIEO() {
+    this.showSuccessIEO = false;
+  }
+
+  public openSuccessIEO() {
+    this.showSuccessIEO = true;
+
+  }
+
+  public confirmBuyIEO(amount) {
+    this.ieoService.buyTokens({
+      currencyName: this.IEOData.currencyName,
+      amount: amount + '',
+    })
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res) => {
+        this.closeBuyIEO();
+        this.openSuccessIEO();
+      })
   }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
-  public get getMarketPair() {
-    return (currencyName): string => {
-      if (currencyName === 'BTC') {
-        return 'BTC-USD';
-      } else {
-        return `${currencyName}-BTC`
-      }
-    }
-  }
-
-  public goToCryptoDepositPopup(balance: BalanceItem): void {
-    this.showRefillBalancePopup = true;
-    let stepName = this.utils.isFiat(balance.currencyName) ? FIAT_DEPOSIT : CRYPTO_DEPOSIT;
-    this.refillBalanceData = {
-      step: 2,
-      stepName,
-      balance,
-    };
-  }
-
-  public goToCryptoWithdrawPopup(balance: BalanceItem): void {
-    this.popupService.demoPopupMessage = 1;
-    this.popupService.showDemoTradingPopup(true);
-    // this.showSendMoneyPopup = true;
-    // this.sendMoneyData = {
-    //   step: 2,
-    //   stepName: CRYPTO_WITHDRAWAL,
-    //   balance: balance
-    // };
-  }
-
-  public goToTransferPopup(balance: BalanceItem): void {
-    this.popupService.demoPopupMessage = 1;
-    this.popupService.showDemoTradingPopup(true);
-    // this.showSendMoneyPopup = true;
-    // this.sendMoneyData = {
-    //   step: 2,
-    //   stepName: INNER_TRANSFER,
-    //   stepThreeData: balance
-    // };
-  }
-
-  public openRefillBalancePopup(flag: boolean) {
-    this.refillBalanceData = {};
-    this.showRefillBalancePopup = flag;
-  }
-
-  public openSendMoneyPopup(flag: boolean) {
-    this.sendMoneyData = {};
-    this.showSendMoneyPopup = flag;
-  }
-
 }

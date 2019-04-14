@@ -34,7 +34,10 @@ export class IEOServiceService {
   }
 
   public getListIEO(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/api/public/v2/ieo`);
+    // return this.http.get<any>(`${this.apiUrl}/api/public/v2/ieo`);
+    return this.stompService
+      .watch(`/app/ieo/ieo_details`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
   }
   public refreshIEOStatus(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/api/public/v2/ieo/refresh`);
