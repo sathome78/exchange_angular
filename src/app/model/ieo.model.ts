@@ -15,6 +15,7 @@ export class IEOItem {
   public startDate: any;
   public endDate: any;
   public version: number;
+  public readyToIeo: boolean;
 }
 
 // => PENDING, RUNNING, SUCCEEDED, FAILED
