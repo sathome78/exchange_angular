@@ -9,12 +9,9 @@
           <path
           d="M3.82596 0.119541C3.60017 -0.0567689 3.25769 -0.0355965 3.06102 0.166823L0.137687 3.17624L0.133319 3.18071C-0.0387293 3.35787 -0.0421708 3.61517 0.110923 3.7948C0.119367 3.80467 0.128289 3.81436 0.137687 3.82376L3.06102 6.83318C3.25769 7.0356 3.60017 7.05677 3.82596 6.88046C4.05175 6.70415 4.07536 6.3971 3.87872 6.19459L1.73329 3.98602H8.45783C8.75727 3.98602 9 3.76841 9 3.49991C9 3.23141 8.75727 3.0138 8.45783 3.0138H1.73348L3.87872 0.805412C4.07536 0.602898 4.05175 0.295851 3.82596 0.119541Z"/>
         </svg>
-        {{'to: All Balance' | translate}}
+        {{'to: All Balances' | translate}}
       </div>
-      <div *ngIf="loading$ | async">
-        <app-loader size="small"></app-loader>
-      </div>
-      <ng-container>
+      <ng-container *ngIf="IEOData">
         <div class="open-mob-balance__content">
           <div>
             <table class="table table--mob">
@@ -34,15 +31,15 @@
                         <img src="assets/img/currency-icons/citrus.svg">
                       </div>
                       <div>
-                        <span>Citrus</span>
+                        <span>{{IEOData.currencyDescription}}</span>
                       </div>
                     </div>
                   </td>
                   <td class="table__cell table__cell--tal">
-                    <span>0.00</span>
+                    <span>{{IEOData.availableAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
                   </td>
                   <td class="table__cell table__cell--tar">
-                    <div>BTC 0.00012</div>
+                    <div>BTC {{IEOData.rate || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</div>
                   </td>
                 </tr>
 
@@ -50,47 +47,74 @@
             </table>
             <div class="open-mob-balance__row">
               <div class="open-mob-balance__title">{{'Status' | translate}}</div>
-              <div class="open-mob-balance__value txt-green">Flash Sale</div>
+              <div class="open-mob-balance__value txt-green">{{IEOData.status | showStageStatus}}</div>
             </div>
             <div class="open-mob-balance__row">
               <div class="open-mob-balance__title">{{'Price' | translate}}</div>
               <div class="open-mob-balance__value">
-                BTC 0.00012 / <span class="txt-green">$ 232</span>
+                1 {{IEOData.currencyName}} = {{IEOData.rate || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC
               </div>
             </div>
             <div class="open-mob-balance__row">
               <div class="open-mob-balance__title">{{'Аvailable' | translate}}</div>
-              <div class="open-mob-balance__value">0.00</div>
+              <div class="open-mob-balance__value">
+                {{IEOData.availableAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}
+              </div>
             </div>
             <div class="open-mob-balance__row">
               <div class="open-mob-balance__title">{{'Start Time' | translate}}</div>
-              <div class="open-mob-balance__value">2019-03-19 22:00:00</div>
+              <div class="open-mob-balance__value">{{getFormatDate(IEOData.startDate)}}</div>
             </div>
             <div class="open-mob-balance__row">
-              <div class="open-mob-balance__title">{{'Session Supply' | translate}}</div>
-              <div class="open-mob-balance__value">597,014,925 BTC</div>
+              <div class="open-mob-balance__title">{{'Personal Amount' | translate}}</div>
+              <div class="open-mob-balance__value">
+                {{(IEOData.personalAmount|| 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}
+              </div>
             </div>
             <div class="open-mob-balance__row">
               <div class="open-mob-balance__title">{{'Amount' | translate}}</div>
-              <div class="open-mob-balance__value">597,014,925</div>
+              <div class="open-mob-balance__value">
+                {{IEOData.amount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}
+              </div>
             </div>
             <div class="ieo-b-d-button-wr">
               <button
-              class="btn btn--center btn-green">
-              {{'Buy' | translate}}
-            </button>
-            <!-- <button
-            class="btn btn--center">
-            {{'Participate' | translate}}
-          </button>
-          <button
-          class="btn btn--center">
-          {{'More' | translate}}
-        </button> -->
-      </div>
+                class="btn btn--center btn-green"
+                (click)="buyIeo(IEOData)"
+                *ngIf="stage.RUNNING === IEOData.status && IEOData.readyToIeo"
+              >
+                {{'Buy' | translate}}
+              </button>
+              <button
+                class="btn btn--center"
+                (click)="goToIeo(IEOData.id)"
+                *ngIf="stage.PENDING === IEOData.status || (stage.RUNNING === IEOData.status && !IEOData.readyToIeo)"
+              >
+                {{'Participate' | translate}}
+              </button>
+              <button
+                class="btn btn--center"
+                (click)="goToIeoNews(IEOData.currencyName)"
+                *ngIf="stage.SUCCEEDED === IEOData.status || stage.FAILED === IEOData.status"
+              >
+                {{'More' | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
     </div>
   </div>
-</ng-container>
 </div>
-</div>
-</div>
+
+<app-popup-buy
+  [IEOData]="IEOData"
+  *ngIf="showBuyIEO"
+  (close)="closeBuyIEO()"
+  (confirm)="confirmBuyIEO($event)"
+></app-popup-buy>
+<app-popup-success
+  *ngIf="showSuccessIEO"
+  [IEOName]="IEOData.currencyDescription"
+  (close)="closeSuccessIEO()"
+></app-popup-success>
