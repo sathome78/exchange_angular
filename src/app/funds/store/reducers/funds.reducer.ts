@@ -6,6 +6,7 @@ import {PendingRequestsItem} from 'app/funds/models/pending-requests-item.model'
 import {MyBalanceItem, MyBalanceItemSimple} from 'app/model/my-balance-item.model';
 import {BalanceDetailsItem} from '../../models/balance-details-item.model';
 import {TransactionHistoryItem} from 'app/funds/models/transactions-history-item.model';
+import { IEOItem } from 'app/model/ieo.model';
 
 export interface State {
   cryptoBal: BalanceItem[];
@@ -18,7 +19,7 @@ export interface State {
   myBalances: MyBalanceItemSimple | null;
   balanceDetailsInfo: BalanceDetailsItem;
   loading: boolean;
-
+  ieoBalances: IEOItem[];
   transactionsHistory: TransactionHistoryItem[];
   countTrHistory: number;
 }
@@ -34,7 +35,7 @@ export const INIT_STATE: State = {
   myBalances: defaultValues.myBalances,
   transactionsHistory: defaultValues.transactionsHistory,
   countTrHistory: defaultValues.countTrHistory,
-
+  ieoBalances: [],
   balanceDetailsInfo: null,
   loading: false,
 };
@@ -174,6 +175,11 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         ...state,
         loading: false,
       };
+    case fromActions.SET_IEO_BALANCES:
+      return {
+        ...state,
+        ieoBalances: action.payload,
+      };
 
     default :
       return state;
@@ -197,6 +203,11 @@ export const getCountFiatBal = (state: State): number => state.countFiatBal;
 
 export const getFiatBalancesSelector = createSelector(getFundsState, getFiatBalances);
 export const getCountFiatBalSelector = createSelector(getFundsState, getCountFiatBal);
+
+/** IEO balances */
+
+export const getIEOBalances = (state: State): IEOItem[] => state.ieoBalances;
+export const getIEOBalancesSelector = createSelector(getFundsState, getIEOBalances);
 
 /** Qubera balances */
 

@@ -4,6 +4,7 @@ import {IEOItem} from 'app/model/ieo.model';
 import {Subject} from 'rxjs';
 import {IEOServiceService} from 'app/shared/services/ieoservice.service';
 import {takeUntil} from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-ieo-table',
@@ -51,9 +52,19 @@ export class IEOTableComponent implements OnInit {
   }
 
   public getFormatDate(d) {
-    return `${d.year}-${d.monthValue < 10 ? '0' + d.monthValue: d.monthValue}-${d.dayOfMonth < 10 ? '0' + d.dayOfMonth: d.dayOfMonth} ` +
-      `${d.hour < 10 ? '0' + d.hour: d.hour}:${d.minute < 10 ? '0' + d.minute: d.minute}:${d.second < 10 ? '0' + d.second: d.second}`
+    if(!d) {
+      return '0000-00-00 00:00:00'
+    }
+    return moment.utc({
+      y: d.year,
+      M: d.monthValue - 1,
+      d: d.dayOfMonth,
+      h: d.hour,
+      m: d.minute,
+      s: d.second,
+    }).local().format('YYYY-MM-DD HH:mm:ss');
   }
+
 
   public goToIeo(id) {
     this.router.navigate([`/ieo/${id}`])
