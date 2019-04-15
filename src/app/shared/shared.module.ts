@@ -159,6 +159,9 @@ import { PopupSuccessComponent } from './components/popup-success-ieo/popup-succ
     ConstantsService,
     RoundCurrencyPipe,
     FormatCurrencyPipe,
+  ],
+  entryComponents: [
+    TopNotificationComponent,
   ]
 })
 export class SharedModule { }
