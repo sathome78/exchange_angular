@@ -179,8 +179,4 @@ export class BalanceService {
     return this.http.get(url);
   }
 
-  goToTrade(pair: string): void {
-    this.router.navigate([`/markets/${pair.replace('/', '-')}`]);
-  }
-
 }

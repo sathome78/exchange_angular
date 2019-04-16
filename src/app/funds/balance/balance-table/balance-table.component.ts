@@ -22,8 +22,6 @@ import {DetailedCurrencyPair} from '../../../model/detailed-currency-pair';
 export class BalanceTableComponent {
 
   constructor(
-    // public balanceService: BalanceService,
-    private utils: UtilsService,
   ) {}
 
   @Input('balances') public balances: BalanceItem[] = [];
@@ -36,7 +34,6 @@ export class BalanceTableComponent {
   @Output('cryptoWithdrawOut') public cryptoWithdrawOut: EventEmitter<any> = new EventEmitter();
   @Output('cryptoDepositOut') public cryptoDepositOut: EventEmitter<any> = new EventEmitter();
   @Output('transferOut') public transferOut: EventEmitter<any> = new EventEmitter();
-
 
 
   public changeItemsPerPage(items: number) {
