@@ -3,6 +3,7 @@
   padding: 0!important;
   background: none;
 }
+  
 .ieo-notifications{
     &.success{
       background: #32A071;
@@ -90,6 +91,7 @@
           justify-content: flex-start;
           p{
             line-height: 1.3;
+                max-width: calc(100% - 4em);
             br{
               display: block;
             }
