@@ -11,6 +11,7 @@ import {CurrencyPair} from '../../../model';
 import {Subject} from 'rxjs';
 import {BalanceService} from '../../services/balance.service';
 import {UtilsService} from 'app/shared/services/utils.service';
+import {DetailedCurrencyPair} from '../../../model/detailed-currency-pair';
 
 @Component({
   selector: 'app-balance-table',
@@ -21,11 +22,12 @@ import {UtilsService} from 'app/shared/services/utils.service';
 export class BalanceTableComponent {
 
   constructor(
-    public balanceService: BalanceService,
+    // public balanceService: BalanceService,
     private utils: UtilsService,
   ) {}
 
   @Input('balances') public balances: BalanceItem[] = [];
+  @Input('allPairs') public allPairs: DetailedCurrencyPair[] = [];
   @Input('countPerPage') public countPerPage: number;
   @Input('loading') public loading: boolean;
   @Input('currentPage') public currentPage: number;
@@ -34,6 +36,7 @@ export class BalanceTableComponent {
   @Output('cryptoWithdrawOut') public cryptoWithdrawOut: EventEmitter<any> = new EventEmitter();
   @Output('cryptoDepositOut') public cryptoDepositOut: EventEmitter<any> = new EventEmitter();
   @Output('transferOut') public transferOut: EventEmitter<any> = new EventEmitter();
+
 
 
   public changeItemsPerPage(items: number) {
