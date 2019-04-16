@@ -24,6 +24,19 @@ export class NotificationsListComponent implements OnInit {
     private toastr: ToastrService,
   ) {
     this.toastOption = this.toastr.toastrConfig;
+
+  }
+
+  public list: Notification[] = [
+    new Notification({text: 'success notification', notificationType: 'ERROR'}),
+    new Notification({text: 'success notification sadfasdf', notificationType: 'SUCCESS'}),
+    new Notification({text: 'success notification asdfasdf', notificationType: 'ERROR'}),
+    new Notification({text: 'success notification   asdfasdf', notificationType: 'SUCCESS'}),
+
+  ];
+
+  ngOnInit() {
+    let sub
     this.store.pipe(select(fromCore.getIsAuthenticated))
       .subscribe((isAuth: boolean) => {
         if(isAuth) {
@@ -36,25 +49,10 @@ export class NotificationsListComponent implements OnInit {
               const n = new Notification(res);
               this.showNotification(n);
             });
+        } else {
+          // sub.unsubscribe();
         }
       });
-  }
-
-  public list: Notification[] = [
-    new Notification({text: 'success notification', notificationType: 'ERROR'}),
-    new Notification({text: 'success notification sadfasdf', notificationType: 'SUCCESS'}),
-    new Notification({text: 'success notification asdfasdf', notificationType: 'ERROR'}),
-    new Notification({text: 'success notification   asdfasdf', notificationType: 'SUCCESS'}),
-
-  ];
-
-  ngOnInit() {
-    setTimeout(() => {
-      this.showNotification(this.list[0]);
-      this.showNotification(this.list[1]);
-      this.showNotification(this.list[2]);
-      this.showNotification(this.list[3]);
-    }, 1000)
   }
 
   showNotification(notification: Notification): void {

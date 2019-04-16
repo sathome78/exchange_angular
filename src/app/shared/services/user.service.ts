@@ -37,7 +37,7 @@ export class UserService {
     private router: Router) {
   }
 
-   checkIfEmailExists(email: string): Observable<boolean> {
+  checkIfEmailExists(email: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.HOST}/api/public/v2/if_email_exists?email=${email.replace('+', '%2B')}`);
   }
 
@@ -179,6 +179,13 @@ export class UserService {
       params:  new HttpParams().set('email', email)
     };
     return this.http.get<boolean>(this.getUrl('is_google_2fa_enabled'), httpOptions);
+  }
+
+  public sendTestNotif(msg: string = 'Hello'): Observable<any> {
+    const httpOptions = {
+      params:  new HttpParams().set('message', 'Hello'),
+    };
+    return this.http.get<boolean>(`${this.HOST}/api/private/v2/settings/jksdhfbsjfgsjdfgasj/personal/success`, httpOptions);
   }
 
   // public getUserIp(): Observable<IpAddress> {

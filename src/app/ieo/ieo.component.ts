@@ -176,4 +176,12 @@ export class IEOComponent implements OnInit, OnDestroy {
     window.onscroll = () => {}
   }
 
+  testNotif(msg = '') {
+    this.userService.sendTestNotif(msg)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((res) => {
+        // debugger;
+      })
+  }
+
 }
