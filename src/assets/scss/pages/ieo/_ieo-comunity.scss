@@ -22,16 +22,16 @@
 		justify-content: space-between;
 		position: relative;
 		margin-right: 1.6em;
-		&::after{
-			content: "";
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			width: 1px;
-			height: 100%;
-			right: 0;
-			background-color: #5E5F74;
-		}
+		// &::after{
+		// 	content: "";
+		// 	position: absolute;
+		// 	top: 0;
+		// 	bottom: 0;
+		// 	width: 1px;
+		// 	height: 100%;
+		// 	right: 0;
+		// 	background-color: #5E5F74;
+		// }
 	}
 
 	.social-item{

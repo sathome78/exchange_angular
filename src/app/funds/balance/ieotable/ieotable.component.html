@@ -25,22 +25,22 @@
         </div>
       </td>
       <td class="table__cell table__cell--tar">
-        <span class="status-green">{{ieo.status | showStageStatus}}</span>
+        <span [ngClass]="{'status-green': ieo.status !== 'FAILED', 'status-red': ieo.status === 'FAILED'}"> {{ieo.status | showStageStatus}}</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>1 {{ieo.currencyName}} = {{ieo.rate}} BTC</span>
+        <span>1 {{ieo.currencyName}} = {{ieo.rate || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{ieo.availableAmount}}</span>
+        <span>{{ieo.availableAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
       </td>
       <td class="table__cell table__cell--tar">
         <span>{{getFormatDate(ieo.startDate)}}</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{(ieo.personalAmount)}} {{ieo.currencyName}}</span>
+        <span>{{(ieo.personalAmount|| 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{ieo.currencyName}}</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{ieo.amount}}</span>
+        <span>{{ieo.amount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
       </td>
       <td class="table__cell button-cell">
         <button
@@ -59,12 +59,11 @@
         </button>
         <button
           class="btn btn--center btn--small"
-          (click)="goToIeo(ieo.id)"
+          (click)="goToIeoNews(ieo.currencyName)"
           *ngIf="stage.SUCCEEDED === ieo.status || stage.FAILED === ieo.status"
         >
           {{'More' | translate}}
         </button>
-        <!-- <button class="btn btn--center btn-green btn--small btn--hidden" (click)="goToIeo(ieo.id)">{{'Buy' | translate}}</button> -->
       </td>
     </tr>
 
@@ -96,3 +95,16 @@
   </ul>
 </div>
 <!--paginator end-->
+
+
+<app-popup-buy
+  [IEOData]="selectedIEO"
+  *ngIf="showBuyIEO"
+  (close)="closeBuyIEO()"
+  (confirm)="confirmBuyIEO($event)"
+></app-popup-buy>
+<app-popup-success
+  *ngIf="showSuccessIEO"
+  [IEOName]="selectedIEO.currencyDescription"
+  (close)="closeSuccessIEO()"
+></app-popup-success>

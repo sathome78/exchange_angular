@@ -232,6 +232,32 @@ app-dynamic-input-dashboard  perfect-scrollbar > .ps.ps--active-y > .ps__rail-y{
   }
 }
 
+// TEMP STYLES
+.menu__item--with-submenu {
+  &:hover {
+    .menu__link--drop{
+      color: #fff;
+      cursor: pointer;
+      &:after{
+        transform: rotate(180deg);
+        transform-origin:center;
+      }
+    }
+    .submenu {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      transition: .3s;
+
+      &__list {
+        &:before {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
 .dark-theme .currency-pair-info  .dropdown__item:not(.active):hover{
   color: #237BEF;
  background-color: rgba(53,124,225,.1);

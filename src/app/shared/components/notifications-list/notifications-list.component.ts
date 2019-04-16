@@ -5,6 +5,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromCore from '../../../core/reducers'
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Notification } from 'app/model/notification.model';
 
 @Component({
   selector: 'app-notifications-list',
@@ -24,15 +25,28 @@ export class NotificationsListComponent implements OnInit {
         if(isAuth) {
           sub.pipe(takeUntil(this.ngUnsubscribe$))
             .subscribe((res) => {
-
+              if(res.typeEnum) {
+                return
+              }
+              const n = new Notification(res);
+              this.list = [...this.list, n];
             });
         }
       });
   }
 
-  public list = [];
+  public list: Notification[] = [];
+  // new Notification({text: 'success notification', notificationType: 'ERROR'})
 
   ngOnInit() {
+  }
+
+  public closeNotification(itemId) {
+    const index = this.list.findIndex((i) => i.id === itemId);
+    if(index >=0) {
+      this.list.splice(index, 1)
+      this.list = [...this.list];
+    }
   }
 
 }

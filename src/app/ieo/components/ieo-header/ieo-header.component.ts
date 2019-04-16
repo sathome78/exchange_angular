@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IEOItem } from 'app/model/ieo.model';
+import { KycIEOModel } from 'app/ieo/models/ieo-kyc.model';
 
 @Component({
   selector: 'app-ieo-header',
@@ -9,6 +10,7 @@ import { IEOItem } from 'app/model/ieo.model';
 export class IeoHeaderComponent implements OnInit {
 
   @Input() public IEOData: IEOItem;
+  @Input() public requirements: KycIEOModel;
   @Input() public userBalanceBTC: number;
   @Input() public currentStage: string;
   @Input() public isAuthenticated: boolean = false;
@@ -26,6 +28,29 @@ export class IeoHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(window.innerWidth > 992){
+      var startChangeHeader = 5;
+      var currentPosition = window.pageYOffset;
+      if(currentPosition > startChangeHeader){
+        document.querySelector(".page-wrap").classList.add("ieo-page-header");
+      }
+      else{
+        document.querySelector(".page-wrap").classList.remove("ieo-page-header");
+      }
+      window.onscroll = function(){
+        currentPosition = window.pageYOffset;
+        if(currentPosition > startChangeHeader){
+          document.querySelector(".page-wrap").classList.add("ieo-page-header");
+        }
+        else{
+          document.querySelector(".page-wrap").classList.remove("ieo-page-header");
+        }
+      }
+    }
+  }
+
+  goToNewsPage() {
+    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`)
   }
 
   get boughtAmount () {

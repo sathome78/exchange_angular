@@ -99,6 +99,6 @@ import {ThankYouPopupComponent} from './thank-you-popup/thank-you-popup.componen
   ],
   exports: [
     PopupsComponent,
-    ]
+  ]
 })
 export class PopupsModule {}

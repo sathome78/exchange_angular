@@ -1,11 +1,12 @@
 <div class="ieo-container">
-  <div class="ieo-header">
+  <div class="ieo-header" *ngIf="currentStage !== stage.PENDING">
     <app-ieo-header
       [IEOData]="IEOData"
       [userBalanceBTC]="userBalanceBTC"
       [currentStage]="currentStage"
       [isAuthenticated]="isAuthenticated"
       [ieoLoading]="ieoLoading"
+      [requirements]="requirements"
       (onLogin)="onLogin()"
       (onBuy)="onBuy()"
     ></app-ieo-header>
@@ -15,12 +16,18 @@
     [currentStage]="currentStage"
     [userBalanceBTC]="userBalanceBTC"
     (onLogin)="onLogin()"
+    (onRefreshIEOStatus)="onRefreshIEOStatus()"
     (onBuy)="onBuy()"
     [IEOData]="IEOData"
     [ieoLoading]="ieoLoading"
+    [requirements]="requirements"
   ></app-ieo-info>
 
-  <app-ieo-community [community]="ieoData.community"></app-ieo-community>
+  <app-ieo-community
+    *ngIf="ieoData.community && ieoData.community.length"
+    [community]="ieoData.community"
+  >
+  </app-ieo-community>
 
   <app-ieo-requirements
     [isAuthenticated]="isAuthenticated"
@@ -32,29 +39,27 @@
 
   <app-ieo-descriptions [description]="ieoData.description"></app-ieo-descriptions>
 
-  <app-popup-notification
-    [show]="showNoReqs"
+  <app-popup-failed
+    *ngIf="showNoReqs"
     (close)="closeNoReqs()"
-    header="Ошибка верификации"
-    line1="проверьте верификацию и согласитесь с правилами"
-    btnText="Ок"
-  ></app-popup-notification>
+    [IEOData]="IEOData"
+  ></app-popup-failed>
   <app-popup-buy
     [IEOData]="IEOData"
-    [userBalanceBTC]="userBalanceBTC"
-    [show]="showBuy"
+    *ngIf="showBuy"
     (close)="closeBuy()"
     (confirm)="confirmBuy($event)"
   ></app-popup-buy>
 
   <app-popup-policy
-    [show]="showPolicy"
+    *ngIf="showPolicy"
     (close)="closePolicy()"
     (onAgree)="agreeWithPolicy()"
   ></app-popup-policy>
 
   <app-popup-success
-    [show]="showSuccess"
+    [IEOName]="IEOData.currencyDescription"
+    *ngIf="showSuccess"
     (close)="closeSuccess()"
   >
   </app-popup-success>

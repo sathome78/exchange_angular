@@ -2,7 +2,7 @@
 	.ieo-requirements-wr{
 		max-width: calc(73.7em + 40px);
 		margin: 0 auto;
-		padding: 2em 20px;
+		padding: 1.3em 20px;
 		@media(max-width: 992px){
 			font-size: 1.4em;
 			padding-top: 1em;
@@ -15,7 +15,7 @@
 			margin-bottom: 1.5em;
 		}
 		h3{
-			font-size: 1.2em;
+			font-size: 1.37em;
 		}
 	}
 	.requirements-table{
@@ -24,14 +24,10 @@
 		border-radius: 4px;
 		color: #191A39;
 	}
-	.requirement-description{
-		font-size: .7em;
-		margin-top: 1em;
-		color: #5E5F74;
-	}
+	
 	.requirement-item {
 		display: flex;
-		padding: 1.3em 1.6em;
+		padding: 1.5em 1.6em;
 		justify-content: space-between;
 		align-items: center;
 		@media(max-width: 992px){
@@ -57,9 +53,27 @@
 				color: #00B43D;
 			}
 		}
+		.more-btn{
+			background: none;
+			border: none;
+			outline: none;
+			margin-top: .7em;
+			font-size: .85em;
+			color: #237BEF;
+			padding: 0;
+			font-weight: 500;
+			cursor: pointer;
+		}
+	}
+	.requirement-text-wr{
+		.requirement-text{
+			overflow: hidden;
+			    height: 7.3em;
+			transition: .3s;
+		}
 	}
 	.requirement-text{
-		max-width: 40em;
+		max-width: 44em;
 		margin-right: 20px;
 		width: 100%;
 		@media(max-width: 992px){
@@ -67,7 +81,13 @@
 			margin-bottom: .65em;
 		}
 		p{
-
+			font-size: .91em;
+		}
+		.requirement-description{
+			font-size: .8em;
+			margin-top: 1em;
+			line-height: 1.37;
+			color: #5E5F74;
 		}
 	}
 	.requirement-status{

@@ -25,9 +25,9 @@ import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.ser
 import {Router} from '@angular/router';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import {KYC_STATUS, PENDING} from '../../shared/constants';
-import {environment} from 'environments/environment.prod';
-import { IEOServiceService } from 'app/shared/services/ieoservice.service';
-import { IEOItem } from 'app/model/ieo.model';
+import {environment} from 'environments/environment';
+import {IEOServiceService} from 'app/shared/services/ieoservice.service';
+import {IEOItem} from 'app/model/ieo.model';
 import {BALANCE_TABS} from './balance-constants';
 
 
@@ -67,12 +67,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public currValue: string = '';
   public kycStatus: string = '';
 
-  public IEOData: IEOItem[];
-
+  public IEOData: IEOItem[] = [];
   public sendMoneyData = {};
   public refillBalanceData = {};
   public currencyForChoose: string = null;
-
   public currentPage = 1;
   public countPerPage = 15;
   public loading: boolean = false;
@@ -318,6 +316,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public onGoToBalanceDetails({currencyId, priceIn}) {
     this.router.navigate([`/funds/balances/${currencyId}`], {queryParams: {priceIn}})
   }
+  public onGoToIEOBalanceDetails({currencyId, priceIn}) {
+    this.router.navigate([`/funds/balances/ieo/${currencyId}`], {queryParams: {priceIn}})
+  }
 
   public onChangeCurrPair(val: string): void {
     this.currValue = val;
@@ -341,6 +342,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: IEOItem[]) => {
         this.IEOData = res;
+        this.store.dispatch(new fundsAction.SetIEOBalancesAction(this.IEOData))
       })
   }
 

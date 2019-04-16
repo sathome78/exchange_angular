@@ -1,0 +1,49 @@
+.policy{
+
+	.popup{
+
+	max-width: 720px;
+	padding: 2.5em 3.5em 3.5em;
+	@media(max-width: 1199px){
+		    overflow: auto;
+		    background-color: #191A39;
+		        justify-content: flex-start;
+	}
+	}
+	.popup__title{
+		font-size: 24px;
+		@media(max-width: 1199px) {
+			color: #DEDEFB;
+		}
+	}
+	.popup__subtitle{
+		font-size: 14px;
+		margin-bottom: 3em;
+		text-align: left;
+		@media(max-width: 1199px) {
+			color: #DEDEFB;
+		}
+	}
+	.policy-button-wr{
+		max-width: 600px;
+		margin: 0 auto;
+		    width: 100%;
+		display: flex;
+		justify-content: center;
+
+	}
+	.btn{
+		margin: 0;
+	}
+	.cancel{
+		background: #D6D6D6;
+		border: 1px solid #D6D6D6;
+		margin-right: 20px;
+		span{
+			color: #fff;
+		}
+	}
+	.popup__close{
+		position: fixed;
+	}
+}

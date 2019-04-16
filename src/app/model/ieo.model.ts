@@ -11,9 +11,11 @@ export class IEOItem {
   public minAmount: number;
   public personalAmount: number;
   public maxAmountPerClaim: number;
+  public maxAmountPerUser: number;
   public startDate: any;
   public endDate: any;
   public version: number;
+  public readyToIeo: boolean;
 }
 
 // => PENDING, RUNNING, SUCCEEDED, FAILED

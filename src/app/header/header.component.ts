@@ -8,7 +8,7 @@ import {UserService} from '../shared/services/user.service';
 import {SettingsService} from '../settings/settings.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 import {environment} from '../../environments/environment';
-import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG, LANG_ARRAY, TRANSLATE_FLAG} from './header.constants';
+import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG, LANG_ARRAY, TRANSLATE_FLAG, IEO_FLAG} from './header.constants';
 import {MyBalanceItem} from '../model/my-balance-item.model';
 import {Observable, Subject} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
@@ -36,11 +36,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public showOrdersList: boolean;
   public translateList: boolean;
   public showReferralList: boolean;
+  public showIEOList: boolean;
   public isAuthenticated: boolean = false;
   public FUNDS_FLAG = FUNDS_FLAG;
   public TRANSLATE_FLAG = TRANSLATE_FLAG;
   public REFERRAL_FLAG = REFERRAL_FLAG;
   public ORDERS_FLAG = ORDERS_FLAG;
+  public IEO_FLAG = IEO_FLAG;
   public myBalance: Observable<MyBalanceItem>;
   public langArray = LANG_ARRAY;
   public lang;
@@ -174,6 +176,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.showFundsList = false;
     this.showOrdersList = false;
     this.showReferralList = false;
+    this.showIEOList = false;
   }
 
 
@@ -191,6 +194,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       case REFERRAL_FLAG:
         this.showReferralList = !this.showReferralList;
         break;
+      case IEO_FLAG:
+        this.showIEOList = !this.showIEOList;
+        break;
     }
   }
 
@@ -204,7 +210,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const encodeData = btoa(JSON.stringify({
       login: this.authService.isAuthenticated()
     }));
-    window.open(`https://support.exrates.me?data=${encodeData}`);
+    window.open(`https://news.exrates.me?data=${encodeData}`);
   }
 
 // temp solution
@@ -213,5 +219,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.popupService.demoPopupMessage = 1;
       this.popupService.showDemoTradingPopup(true);
     }
+  }
+
+  get isProduction() {
+    return environment.production
   }
 }

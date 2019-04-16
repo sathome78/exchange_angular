@@ -1,9 +1,9 @@
 <!-- start component -->
-<div class="first-screen" style="background-image: url(assets/img/ieo/bg.png);">
+<div class="first-screen">
   <div class="fs-wr">
     <div class="fs-wr-inner">
       <div class="fs-image-container">
-
+          <img src="assets/img/ieo/bg.jpg" alt="">
       </div>
       <div class="fs-content" *ngIf="IEOData">
         <div class="bittorrent">
@@ -16,7 +16,12 @@
           <table class="b-s-table">
             <tr>
               <td><span>Price：</span></td>
-              <td class="right-text"><span>{{IEOData.rate ? '1 ' + IEOData.currencyName + ' = ' + IEOData.rate + ' BTC' : 'To be determined'}}</span></td>
+              <td class="right-text">
+                <span *ngIf="!IEOData.rate">To be determined</span>
+                <span *ngIf="IEOData.rate">
+                  1 {{IEOData.currencyName}} = {{(IEOData.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC
+                </span>
+              </td>
             </tr>
             <tr>
               <td>Start Time：</td>
@@ -53,23 +58,37 @@
               <div class="timer" [innerHTML]="timer"></div>
             </div>
 
-
-
             <div class="button-part">
-              <button
-                class="standart-btn"
-                [disabled]="ieoLoading && (currentStage === stage.SUCCEEDED || currentStage === stage.FAILED)"
-                *ngIf="isAuthenticated"
-                (click)="onBuy.emit()"
-              >
-                <span>Buy Now</span>
-              </button>
+              <div>
+                <button
+                  class="standart-btn"
+                  [ngClass]="{'ieo-buy': requirements.kycCheck && !requirements.countryCheck}"
+                  [disabled]="ieoLoading || (currentStage !== stage.RUNNING) || (requirements.kycCheck && !requirements.countryCheck)"
+                  *ngIf="isAuthenticated && (currentStage === stage.RUNNING || currentStage === stage.PENDING)"
+                  (click)="onBuy.emit()"
+                >
+                  <span>Buy Now</span>
+                </button>
+                <div class="input-hint-wrapper" *ngIf="isAuthenticated">
+                  <span class="wrap-input__message">
+                    Sorry, your country not allowed
+                  </span>
+                </div>
+              </div>
               <button
                 class="standart-btn"
                 *ngIf="!isAuthenticated"
                 (click)="login()"
               >
                 <span>Log In</span>
+              </button>
+
+              <button
+                class="standart-btn"
+                (click)="goToNewsPage()"
+                *ngIf="isAuthenticated && (currentStage === stage.SUCCEEDED || currentStage === stage.FAILED)"
+              >
+                <span>More</span>
               </button>
             </div>
           </div>

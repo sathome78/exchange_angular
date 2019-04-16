@@ -1,6 +1,10 @@
 <div>
-  <app-top-notification
+  <ng-container
     *ngFor="let notification of list"
-    [data]="notification"
-  ></app-top-notification>
+  >
+    <app-top-notification
+      [data]="notification"
+      (close)="closeNotification($event)"
+    ></app-top-notification>
+  </ng-container>
 </div>

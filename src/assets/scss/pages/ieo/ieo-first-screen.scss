@@ -11,6 +11,7 @@
 }
 
 .first-screen{
+	position: relative;
 	background-color: var(--main-bg);
 	background-size: cover;
 	background-position: 100% 100%;
@@ -27,8 +28,21 @@
 		}
 	}
 	.fs-wr-inner{}
-	.fs-image-container{}
+	.fs-image-container{
+		overflow: hidden;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		img{
+			width: 100%;
+			
+
+		}
+	}
 	.fs-content{
+		position: relative;
 		display: flex;
 		align-items: center;
 		/* justify-content: space-between; */
@@ -76,7 +90,7 @@
 			color: #FFFFFF;
 			line-height: .9;
 			@media(max-width: 480px){
-				font-size: 1.4em;
+				font-size: 1.2em;
 			}
 		}
 	}
@@ -91,6 +105,7 @@
 		align-items: center;
 		top: .4em;
 		bottom: 0;
+		white-space: nowrap;
 		@media(max-width: 992px){
 			position: static;
 			padding-top: .25em;
@@ -216,25 +231,25 @@
 					color: #237BEF;
 				}
 				&:before{
-					content: "day";
+					content: "Day";
 				}
 
 			}
 			&:nth-child(2){
 				&:before{
-					content: "hours";
+					content: "Hours";
 				}
 
 			}
 			&:nth-child(3){
 				&:before{
-					content: "minutes";
+					content: "Minutes";
 				}
 
 			}
 			&:nth-child(4){
 				&:before{
-					content: "secunde";
+					content: "Seconds";
 				}
 
 			}
