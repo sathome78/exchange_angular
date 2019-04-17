@@ -52,6 +52,7 @@ import {TopNotificationComponent} from './components/top-notification/top-notifi
 import {NotificationsListComponent} from './components/notifications-list/notifications-list.component';
 import {PopupBuyComponent} from './components/popup-buy-ieo/popup-buy.component';
 import { PopupSuccessComponent } from './components/popup-success-ieo/popup-success.component';
+import {TooltipDirective} from './directives/tooltip.directive';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { PopupSuccessComponent } from './components/popup-success-ieo/popup-succ
     LoaderComponent,
     DynamicInputComponent,
     CustomSearchInputComponent,
+    TooltipDirective,
     DynamicInputDashboardComponent,
     DynamicInputDataPipe,
     DateMaskInputComponent,
@@ -113,6 +115,7 @@ import { PopupSuccessComponent } from './components/popup-success-ieo/popup-succ
     RecaptchaModule,
     SafePipe,
     ExcludeSpacesDirective,
+    TooltipDirective,
     GetObjectKeysPipe,
     InfiniteScrollModule,
     DateMaskDirective,

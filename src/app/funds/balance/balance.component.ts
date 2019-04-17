@@ -29,6 +29,7 @@ import {environment} from 'environments/environment';
 import {IEOServiceService} from 'app/shared/services/ieoservice.service';
 import {IEOItem} from 'app/model/ieo.model';
 import {BALANCE_TABS} from './balance-constants';
+import {DetailedCurrencyPair} from '../../model/detailed-currency-pair';
 
 
 @Component({
@@ -63,6 +64,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public allCurrenciesForChoose$: Observable<CurrencyChoose[]>;
   public cryptoCurrenciesForChoose: CurrencyChoose[] = [];
   public fiatCurrenciesForChoose: CurrencyChoose[] = [];
+  public detailedCurrencyPairs$: Observable<DetailedCurrencyPair[]>;
   public loading$: Observable<boolean>;
   public currValue: string = '';
   public kycStatus: string = '';
@@ -95,6 +97,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.fiatCurrenciesForChoose$ = store.pipe(select(fromCore.getFiatCurrenciesForChoose));
     this.allCurrenciesForChoose$ = store.pipe(select(fromCore.getAllCurrenciesForChoose));
     this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
+    this.detailedCurrencyPairs$ = store.pipe(select(fromCore.getDetailedCurrencyPairsSelector));
 
     this.cryptoCurrenciesForChoose$
       .pipe(takeUntil(this.ngUnsubscribe))
