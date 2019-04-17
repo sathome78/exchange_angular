@@ -53,6 +53,7 @@ import {NotificationsListComponent} from './components/notifications-list/notifi
 import {PopupBuyComponent} from './components/popup-buy-ieo/popup-buy.component';
 import { PopupSuccessComponent } from './components/popup-success-ieo/popup-success.component';
 import {OrderBookCutBigNumPipe} from './pipes/order-book-cut-big-num.pipe';
+import {TooltipDirective} from './directives/tooltip.directive';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import {OrderBookCutBigNumPipe} from './pipes/order-book-cut-big-num.pipe';
     LoaderComponent,
     DynamicInputComponent,
     CustomSearchInputComponent,
+    TooltipDirective,
     DynamicInputDashboardComponent,
     DynamicInputDataPipe,
     DateMaskInputComponent,
@@ -115,6 +117,7 @@ import {OrderBookCutBigNumPipe} from './pipes/order-book-cut-big-num.pipe';
     RecaptchaModule,
     SafePipe,
     ExcludeSpacesDirective,
+    TooltipDirective,
     GetObjectKeysPipe,
     InfiniteScrollModule,
     DateMaskDirective,

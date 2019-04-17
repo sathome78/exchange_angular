@@ -1,0 +1,14 @@
+<div
+  tooltip="Trading is currently unavailable"
+  placement="top"
+  [showTooltip]="!redirectToPair"
+  delay="300">
+  <button
+    class="btn btn--center btn--empty-blue btn--small btn--hidden"
+    (click)="btnClick()"
+    [disabled]="!redirectToPair">
+    {{'Trade' | translate}}
+  </button>
+</div>
+
+

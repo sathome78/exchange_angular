@@ -93,6 +93,9 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
     this.loadOrders();
     this.initialRequest = true;
+
+    this.store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr)).pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((items) => console.log(items))
   }
 
   loadOrders() {

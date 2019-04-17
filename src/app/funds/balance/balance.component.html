@@ -262,6 +262,7 @@
           <ng-container [ngSwitch]="currTab">
             <app-balance-table
               *ngSwitchCase="Tab.CRYPTO"
+              [allPairs]="detailedCurrencyPairs$ | async"
               [balances]="cryptoBalances$ | async"
               [countPerPage]="countPerPage"
               [countOfEntries]="getCountOfEntries() | async"
@@ -274,6 +275,7 @@
             ></app-balance-table>
             <app-balance-table
               *ngSwitchCase="Tab.FIAT"
+              [allPairs]="detailedCurrencyPairs$ | async"
               [balances]="fiatBalances$ | async"
               [countPerPage]="countPerPage"
               [countOfEntries]="getCountOfEntries() | async"
