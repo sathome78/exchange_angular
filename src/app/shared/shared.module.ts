@@ -52,6 +52,7 @@ import {TopNotificationComponent} from './components/top-notification/top-notifi
 import {NotificationsListComponent} from './components/notifications-list/notifications-list.component';
 import {PopupBuyComponent} from './components/popup-buy-ieo/popup-buy.component';
 import { PopupSuccessComponent } from './components/popup-success-ieo/popup-success.component';
+import {OrderBookCutBigNumPipe} from './pipes/order-book-cut-big-num.pipe';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { PopupSuccessComponent } from './components/popup-success-ieo/popup-succ
     DynamicInputDashboardComponent,
     DynamicInputDataPipe,
     DateMaskInputComponent,
+    OrderBookCutBigNumPipe,
     TopNotificationComponent,
     ShowStageStatusPipe,
     NotificationsListComponent,
@@ -123,6 +125,7 @@ import { PopupSuccessComponent } from './components/popup-success-ieo/popup-succ
     DateMaskInputComponent,
     MerchantImageFilterPipe,
     ShowOrderStatusPipe,
+    OrderBookCutBigNumPipe,
     GroupCoinPipe,
     CurrencyPipe,
     FormatCurrencyPipe,

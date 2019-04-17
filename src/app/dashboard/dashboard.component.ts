@@ -54,6 +54,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public gridsterItemOptions;
   public isDrag = false;
 
+  public resizeTimeout;
+
   public activeMobileWidget = 'markets';
   public breakPoint;
   public currencyPair: SimpleCurrencyPair = null
@@ -228,19 +230,24 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
    * check window width for ratio (static height for dashboard items)
    */
   changeRatioByWidth(): void {
-    if (this.breakPoint === 'desktop') {
-      const winWidth = window.innerWidth;
-      const countWidthSteps = (this.maxWidth - this.minWidth) / this.widthStep;
-      const ratioStep = (this.maxRatio - this.minRatio) / countWidthSteps;
-      if (winWidth <= this.minWidth) {
-        this.changeRatio(this.minRatio);
-      } else if (winWidth > this.maxWidth) {
-        this.changeRatio(this.maxRatio);
-      } else {
-        const ratio = (((winWidth - this.minWidth) / this.widthStep) * ratioStep) + this.minRatio;
-        this.changeRatio(ratio);
-      }
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
     }
+    this.resizeTimeout = setTimeout((() => {
+      if (this.breakPoint === 'desktop') {
+        const winWidth = window.innerWidth;
+        const countWidthSteps = (this.maxWidth - this.minWidth) / this.widthStep;
+        const ratioStep = (this.maxRatio - this.minRatio) / countWidthSteps;
+        if (winWidth <= this.minWidth) {
+          this.changeRatio(this.minRatio);
+        } else if (winWidth > this.maxWidth) {
+          this.changeRatio(this.maxRatio);
+        } else {
+          const ratio = (((winWidth - this.minWidth) / this.widthStep) * ratioStep) + this.minRatio;
+          this.changeRatio(ratio);
+        }
+      }
+    }).bind(this), 500);
   }
 
   /**
