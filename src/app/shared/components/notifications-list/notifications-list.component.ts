@@ -29,10 +29,6 @@ export class NotificationsListComponent implements OnInit {
 
   public list: Notification[] = [
     new Notification({text: 'success notification', notificationType: 'ERROR'}),
-    new Notification({text: 'success notification sadfasdf', notificationType: 'SUCCESS'}),
-    new Notification({text: 'success notification asdfasdf', notificationType: 'ERROR'}),
-    new Notification({text: 'success notification   asdfasdf', notificationType: 'SUCCESS'}),
-
   ];
 
   ngOnInit() {
@@ -40,17 +36,18 @@ export class NotificationsListComponent implements OnInit {
     this.store.pipe(select(fromCore.getIsAuthenticated))
       .subscribe((isAuth: boolean) => {
         if(isAuth) {
-          this.userService.getNotifications()
+          sub = this.userService.getNotifications()
             .pipe(takeUntil(this.ngUnsubscribe$))
             .subscribe((res) => {
               if(res.typeEnum) {
-                return
+                return;
               }
               const n = new Notification(res);
               this.showNotification(n);
             });
         } else {
-          // sub.unsubscribe();
+          if(!sub) return;
+          sub.unsubscribe();
         }
       });
   }

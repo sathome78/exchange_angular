@@ -248,7 +248,7 @@ export class UserService {
 
   public getNotifications(): Observable<any> {
     return this.stompService
-      .watch(`/app/queue/personal_message`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
+      .watch(`/user/queue/personal_message`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 }
