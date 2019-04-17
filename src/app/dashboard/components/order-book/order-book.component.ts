@@ -1,4 +1,14 @@
-import {Component, OnDestroy, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  NgZone,
+  HostListener
+} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs/Subject';
@@ -28,6 +38,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   private orderBookSub$: Subscription;
   public currencyPairInfo: CurrencyPairInfo = null;
 
+  public maxCountCharacter = 18;
+
   private sellOrders: OrderItem [] = [];
   private buyOrders: OrderItem [] = [];
   public lastExrate: number = 0;
@@ -48,6 +60,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   public maxSellVisualizationWidth = 0;
   public maxBuyVisualizationWidth = 0;
 
+  private resizeTimeout;
+
   /** stores data for drawing a border for a chart */
   public withForChartLineElements: {
     sell: string[];
@@ -58,6 +72,13 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   public precision = 0.00001;
   public precisionOut = 5;
 
+  public windowWidthForCalculate = [
+    [1200, 1270, 15],
+    [1270, 1340, 16],
+    [1340, 1410, 17],
+    [1410, 1480, 18],
+  ]
+
   constructor(
     private store: Store<State>,
     private dashboardWebsocketService: DashboardWebSocketService,
@@ -67,6 +88,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   ngOnInit() {
+    this.calculateMaxNumberLength();
+
     this.withForChartLineElements = {
       sell: [],
       buy: []
@@ -92,10 +115,35 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       });
   }
 
+  @HostListener('window:resize')
+  onWindowResize() {
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+    this.resizeTimeout = setTimeout((() => {
+     this.calculateMaxNumberLength();
+    }).bind(this), 500);
+  }
+
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
     this.unsubscribeOrderBook();
+  }
+
+  calculateMaxNumberLength() {
+    const innerWidth = window.innerWidth;
+    if (innerWidth > 1480) {
+      this.maxCountCharacter = 19;
+      this.cdr.detectChanges();
+    } else {
+      this.windowWidthForCalculate.map(item => {
+        if (innerWidth > item[0] && innerWidth < item[1]) {
+          this.maxCountCharacter = item[2];
+          this.cdr.detectChanges();
+        }
+      });
+    }
   }
 
   subscribeOrderBook(currName: string, precision: number): void {
