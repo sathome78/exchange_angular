@@ -132,3 +132,21 @@
 // }
 // }
 // }
+.overlay-container .toast-container .ngx-toastr {
+	position: relative;
+	overflow: hidden;
+	margin: 0 0 6px;
+	padding: 0;
+	width: auto;
+	border-radius: 4px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: auto;
+	box-shadow: none;
+	color: #FFFFFF;
+	&:hover {
+		box-shadow: none;
+		opacity: 1;
+		cursor: pointer;
+	}
+}
