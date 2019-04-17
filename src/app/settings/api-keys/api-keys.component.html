@@ -1,0 +1,30 @@
+<button (click)="toggleKeyCreatedPopup(true)">open</button>
+
+<div class="api-key-content">
+  <div class="create-key-container">
+   <div class="create-title"></div>
+    <div class="wrap-input wrap-input--fix230">
+      <input
+        class="wrap-input__input"
+        type="text"
+        required>
+      <label class="wrap-input__label">{{'Enter API key name' | translate}}</label>
+      <div class="wrap-input__line"></div>
+    </div>
+      <button
+        (click)="open2FAPopup()"
+      class="btn settings__form-btn settings__password-btn settings__form-btn--active">
+        {{'Create new key' | translate}}
+      </button>
+    </div>
+</div>
+
+<app-api-key-created
+  [showPopup]="showKeyCreatedPopup"
+  (closeCreatedKeyPopup)="toggleKeyCreatedPopup(false)">
+</app-api-key-created>
+
+<app-api-key-popup
+*ngIf="show2FAPopup"
+(close2FAPopup)="close2FAPopup()">
+</app-api-key-popup>

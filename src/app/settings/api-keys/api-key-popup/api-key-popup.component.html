@@ -1,0 +1,47 @@
+<div class="overlay">
+  <div class="popup popup-login">
+    <div class="popup__close" (click)="close2FAPopup.emit(true)"></div>
+
+    <h6 class="popup__title">{{'2FA' | translate}}</h6>
+    <h4 class="popup__subtitle popup_title--dm"
+        [innerHTML]="twoFaAuthModeMessage" [ngClass]="{'msg-error' : false}">
+    </h4>
+
+    <form class="popup__form">
+      <div>
+
+        <div class="wrap-input popup__wrap-input">
+          <input
+            required
+            class="wrap-input__input"
+            type="text"
+            [ngClass]="{'wrap-input__input--error': false}"
+          >
+          <label class="wrap-input__label" for="" [ngClass]="{'wrap-input__label--error': false}">
+            {{'Google Authentication Code' | translate}}
+          </label>
+          <div class="wrap-input__line" [ngClass]="{'wrap-input__line--error': false}"></div>
+          <!--Input error section starts-->
+          <div>
+            <div class="input-hint-wrapper">
+            <span *ngIf="false" class=" wrap-input__message wrap-input__message--error">
+              {{'This field is required.' | translate}}
+            </span>
+            </div>
+          </div>
+          <!--Input error section ends-->
+        </div>
+
+      </div>
+      <button class="btn popup__btn"
+              [disabled]="false"
+              [ngClass]="{'popup__btn--active': true}">
+        {{'Submit' | translate}}
+      </button>
+    </form>
+    <div class="popup__links-wrap  popup__links-wrap--center">
+      <!--<a class="popup__link" >{{'test link' | translate}}</a>-->
+    </div>
+
+  </div>
+</div>

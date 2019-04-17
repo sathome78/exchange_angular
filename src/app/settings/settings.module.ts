@@ -23,6 +23,9 @@ import {SettingsEffects} from './store/effects/settings.effects';
 import {reducer} from './store/reducers/settings.reducer';
 import {SharedModule} from 'app/shared/shared.module';
 import {MyDatePickerModule} from 'mydatepicker';
+import { ApiKeysComponent } from './api-keys/api-keys.component';
+import { ApiKeyCreatedComponent } from './api-keys/api-key-created/api-key-created.component';
+import { ApiKeyPopupComponent } from './api-keys/api-key-popup/api-key-popup.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.settings, translateInfo.suffix);
@@ -56,7 +59,10 @@ export function createTranslateLoader(http: HttpClient) {
     SettingsComponent,
     TwoFactorAuthenticationComponent,
     VerificationComponent,
-    ViewComponent
+    ViewComponent,
+    ApiKeysComponent,
+    ApiKeyCreatedComponent,
+    ApiKeyPopupComponent
   ],
   providers: [
     SettingsService
