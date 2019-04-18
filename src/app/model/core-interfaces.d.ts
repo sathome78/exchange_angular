@@ -8,6 +8,7 @@ interface ParsedToken {
   username: string;
   publicId: string;
   token_id: number;
+  userRole: string;
   value: string
 }
 
