@@ -7,6 +7,7 @@ export interface State {
   GAEnabled: boolean;
   GALoading: boolean;
   sessionTime: number;
+  apiKeys: any[];
 }
 
 export const INIT_STATE: State = {
@@ -14,6 +15,7 @@ export const INIT_STATE: State = {
   GAEnabled: false,
   GALoading: false,
   sessionTime: 20,
+  apiKeys: []
 };
 
 /**
@@ -51,6 +53,17 @@ export function reducer(state: State = INIT_STATE, action: settingsActions.Actio
         loading: false,
       };
 
+    case settingsActions.LOAD_API_KEYS:
+      return {...state, loading: true};
+    case settingsActions.SET_API_KEYS:
+      return {
+        ...state,
+        loading: false,
+        apiKeys: action.payload,
+      }
+    case settingsActions.FAIL_LOAD_API_KEYS:
+      return {...state, loading: false}
+
     default :
       return state;
   }
@@ -59,4 +72,5 @@ export function reducer(state: State = INIT_STATE, action: settingsActions.Actio
 export const getGAStatusSelector = (state: State): boolean => state.GAEnabled;
 export const getGALoadingSelector = (state: State): boolean => state.GALoading;
 export const getSessionTimeSelector = (state: State): number => state.sessionTime;
+export const getApiKeysSelector = (state: State): any[] => state.apiKeys;
 

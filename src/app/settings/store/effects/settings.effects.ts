@@ -8,6 +8,9 @@ import {SettingsService} from '../../settings.service';
 import * as settingsActions from '../actions/settings.actions';
 import * as fromCore from '../../../core/reducers';
 import { UserService } from 'app/shared/services/user.service';
+import * as fundsActions from '../../../funds/store/actions/funds.actions';
+import {MyBalanceItem} from '../../../model/my-balance-item.model';
+import {ApiKeysService} from '../../api-keys/api-keys.service';
 
 @Injectable()
 export class SettingsEffects {
@@ -22,6 +25,7 @@ export class SettingsEffects {
     private store$: Store<fromCore.State>,
     private settingsService: SettingsService,
     private userService: UserService,
+    private apiKeysService: ApiKeysService,
 
   ) {
   }
@@ -54,5 +58,19 @@ export class SettingsEffects {
           catchError(error => of(new settingsActions.FailLoadSessionTimeAction(error)))
         )
     }))
+
+  /**
+   * Load api keys
+   */
+  @Effect()
+  loadApiKeys$: Observable<Action> = this.actions$
+    .pipe(ofType<settingsActions.LoadApiKeysAction>(settingsActions.LOAD_API_KEYS))
+    .pipe(switchMap(() => {
+      return this.apiKeysService.getApiKeys()
+        .pipe(
+          map((res: any[]) => (new settingsActions.SetApiKeysAction(res))),
+          catchError(error => of(new settingsActions.FailLoadApiKeysAction(error)))
+        );
+    }));
 
 }

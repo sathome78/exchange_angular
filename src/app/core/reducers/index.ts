@@ -83,3 +83,4 @@ export const getIEOList = createSelector(getCoreState, fromCore.getIEOListSelect
 export const getGAStatus = createSelector(getSettingsState, fromSettings.getGAStatusSelector);
 export const getGALoading = createSelector(getSettingsState, fromSettings.getGALoadingSelector);
 export const getSessionTime = createSelector(getSettingsState, fromSettings.getSessionTimeSelector);
+export const getApiKeys = createSelector(getSettingsState, fromSettings.getApiKeysSelector);
