@@ -32,6 +32,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public currencyPairs$: Observable<SimpleCurrencyPair[]>;
   public loading$: Observable<boolean>;
   public isLast15Items$: Observable<boolean>;
+  public isVipUser;
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -85,6 +86,8 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isVipUser = this.authService.isVipUser;
+
     this.isMobile = window.innerWidth < 1200;
     if(this.isMobile) {
       this.countPerPage = 30;

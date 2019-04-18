@@ -13,6 +13,7 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
   @Input() makeHeight;
   public currentPage = 1;
   public countPerPage = 7;
+  public isVipUser;
 
   constructor(
     private utils: UtilsService,
@@ -21,6 +22,7 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.isVipUser = this.authService.isVipUser;
   }
 
   filterOpenOrders(page) {
