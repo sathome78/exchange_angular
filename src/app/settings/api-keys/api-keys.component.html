@@ -12,11 +12,40 @@
       <div class="wrap-input__line"></div>
     </div>
       <button
-        (click)="createApiKey()"
+        (click)="open2FAPopup()"
       class="btn settings__form-btn settings__password-btn settings__form-btn--active">
         {{'Create new key' | translate}}
       </button>
     </div>
+
+
+  <div class="api-key-container">
+
+    <div class="api-key-item" *ngFor="let item of [1,2,3,4]">
+      <div class="key-name">API-key name</div>
+      <div class="api-key">LKLDKSJLJD98845JGLDFLKG949539KFDLG</div>
+      <div class="key-controls">
+        <div class="api-key-checkbox">
+          <input type="checkbox">
+          <span>Trading allowed</span>
+        </div>
+        <div class="api-key-delete-btn">
+          <button class="btn btn--small btn--empty-blue ">
+          {{'delete' | translate}}
+          </button>
+          <div class="revoke-request" *ngIf="true">
+            <div class="revoke-request__title">{{'Are you sure you want to cancel this order?' | translate}}</div>
+            <div class="revoke-request__button-wrap">
+              <button class="btn btn--small" >{{'Yes' | translate}}</button>
+              <button class="btn btn--small" >{{'No' | translate}}</button>
+            </div>
+            <div class="revoke-request__triangle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <app-api-key-created
@@ -25,6 +54,7 @@
 </app-api-key-created>
 
 <app-api-key-popup
-*ngIf="show2FAPopup"
-(close2FAPopup)="close2FAPopup()">
+  [isPinFomGA]="GAEnabled$ | async"
+  *ngIf="show2FAPopup"
+  (close2FAPopup)="close2FAPopup()">
 </app-api-key-popup>

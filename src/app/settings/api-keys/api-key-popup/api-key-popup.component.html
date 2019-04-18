@@ -2,9 +2,10 @@
   <div class="popup popup-login">
     <div class="popup__close" (click)="close2FAPopup.emit(true)"></div>
 
-    <h6 class="popup__title">{{'2FA' | translate}}</h6>
-    <h4 class="popup__subtitle popup_title--dm"
-        [innerHTML]="twoFaAuthModeMessage" [ngClass]="{'msg-error' : false}">
+    <h6 class="popup__title">2FA</h6>
+    <h4 class="popup__subtitle popup_title--dm" [ngClass]="{'msg-error' : !!serverPinErrorForView}">
+      <span *ngIf="!serverPinErrorForView">{{isPinFomGA ? titlesPopup[1] : titlesPopup[0]}}</span>
+      <span *ngIf="!!serverPinErrorForView">{{serverPinErrorForView}}</span>
     </h4>
 
     <form class="popup__form">
@@ -15,10 +16,9 @@
             required
             class="wrap-input__input"
             type="text"
-            [ngClass]="{'wrap-input__input--error': false}"
-          >
+            [ngClass]="{'wrap-input__input--error': false}">
           <label class="wrap-input__label" for="" [ngClass]="{'wrap-input__label--error': false}">
-            {{'Google Authentication Code' | translate}}
+            {{'Authentication Code' | translate}}
           </label>
           <div class="wrap-input__line" [ngClass]="{'wrap-input__line--error': false}"></div>
           <!--Input error section starts-->

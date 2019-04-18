@@ -15,7 +15,8 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public showKeyCreatedPopup = false;
-  apiKeys$: Observable<any[]>;
+  public apiKeys$: Observable<any[]>;
+  public GAEnabled$: Observable<boolean>;
   public show2FAPopup = false;
 
   constructor(
@@ -26,19 +27,12 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(new settingsActions.LoadApiKeysAction());
     this.apiKeys$ = this.store.pipe(select(fromCore.getApiKeys));
+    this.GAEnabled$ = this.store.pipe(select(fromCore.getGAStatus));
   }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-  }
-
-  createApiKey() {
-    this.apiKeysService.createApiKey('test')
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        console.log(res);
-      });
   }
 
   deleteApiKey(id: string) {
