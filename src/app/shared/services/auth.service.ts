@@ -63,6 +63,13 @@ export class AuthService implements OnDestroy {
     return false;
   }
 
+  public get isVipUser() {
+    if (this.token) {
+      return this.parsedToken.userRole === 'VIP_USER';
+    }
+    return false;
+  }
+
   private get token(): string {
     return localStorage.getItem(TOKEN);
   }
