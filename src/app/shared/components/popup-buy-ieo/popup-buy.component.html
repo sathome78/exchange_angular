@@ -1,7 +1,7 @@
 <div class="overlay ieo-popup-buy">
   <app-loader *ngIf="loading"></app-loader>
 	<div class="popup" *ngIf="IEOData && !loading">
-    <form [formGroup]="form">
+    <form [formGroup]="form" (submit)="confirmForm($event)">
       <div class="popup__close" (click)="closeMe()"></div>
       <div class="ieo-pair">
         <span>{{IEOData.currencyName}}</span>/<span>BTC</span>
@@ -50,7 +50,7 @@
             *ngIf="amountInput.errors && amountInput.errors['maxThen'] && amountInput.dirty"
           >
             <span class="wrap-input__message">
-              Maximun amount {{+(maxSumShow || 0)}} {{IEOData.currencyName}}
+              Maximum amount {{(maxSumShow || 0)}} {{IEOData.currencyName}}
             </span>
           </div>
           <!-- Input error section ends -->
@@ -68,7 +68,6 @@
       <button
         class="btn btn--active btn--center btn-ieo"
         [disabled]="!form.valid"
-        (click)="confirmForm()"
       >Confirm</button>
     </form>
 	</div>

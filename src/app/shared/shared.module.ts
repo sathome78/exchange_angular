@@ -165,6 +165,9 @@ import {TooltipDirective} from './directives/tooltip.directive';
     ConstantsService,
     RoundCurrencyPipe,
     FormatCurrencyPipe,
+  ],
+  entryComponents: [
+    TopNotificationComponent,
   ]
 })
 export class SharedModule { }
