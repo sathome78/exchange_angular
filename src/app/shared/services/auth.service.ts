@@ -65,8 +65,7 @@ export class AuthService implements OnDestroy {
 
   public get isVipUser() {
     if (this.token) {
-      return true;
-      // return this.parsedToken.userRole === 'VIP_USER';
+      return this.parsedToken.userRole === 'VIP_USER';
     }
     return false;
   }
