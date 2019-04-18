@@ -1,0 +1,194 @@
+// pagination styles start
+
+::ng-deep .ng-select {
+  .ng-select-container {
+    //width: 74px !important;
+    margin: 0 auto !important;
+    height: 45px !important;
+    background-color: transparent !important;
+    // border-bottom-right-radius: 0 !important;
+    // border-bottom-left-radius: 0 !important;
+    border-radius: 4px;
+    border-color: #94C2FF !important;
+    // border-bottom: none !important;
+    overflow: unset !important;
+  }
+  .ng-value-container {
+    height: 100% !important;
+  }
+  .ng-has-value .ng-placeholder{
+    display: block !important;
+  }
+  .ng-placeholder {
+    position: absolute;
+    top: -7px;
+    left: 7px;
+    padding: 0 2px;
+    font-size: 10px;
+    line-height: 12px;
+    z-index: 100;
+    background-color: #191A39;
+    color: #94C2FF !important;
+  }
+  .ng-value{
+    color: #fff !important;
+  }
+  .ng-input {
+    height: 100%;
+    top: 0 !important;
+    input {
+      height: 100%;
+      color: #fff !important;
+      font-size: 14px !important;
+      font-family: inherit;
+    }
+  }
+  .ng-arrow-wrapper{
+    display: none !important;
+  }
+  .ng-arrow {
+    border-color: #94C2FF transparent transparent !important;
+  }
+  .ng-select-opened > .ng-select-container .ng-arrow {
+    border-color: transparent transparent #94C2FF !important;
+  }
+  .ng-dropdown-panel{
+    border-color: #94C2FF;
+    background-color: #191A39;
+    margin-bottom: 0 !important;
+  }
+  .ng-option{
+    background-color: transparent !important;
+    color: #fff !important;
+    &-marked{
+      background-color: rgba(255,255,255,.1) !important;
+    }
+  }
+  .ng-clear-wrapper{
+    width: 10px !important;
+    margin-right: 12px !important;
+  }
+  .ng-clear{
+    content: '' !important;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 auto;
+    font-size: 0 !important;
+    vertical-align: middle;
+    background-image: url("../../../../assets/img/close-light-blue.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}
+
+// pagination styles end
+@media (min-width: 1200px){
+  ::ng-deep .ng-select {
+    .ng-select-container {
+      margin: 0 auto !important;
+      height: 45px !important;
+      background-color: transparent !important;
+      border-radius: 4px;
+      border-color: #94C2FF !important;
+      overflow: unset !important;
+
+    }
+    .ng-value-container {
+      height: 100% !important;
+    }
+    .ng-has-value .ng-placeholder{
+      display: block !important;
+    }
+    .ng-placeholder {
+      position: absolute;
+      top: -7px;
+      left: 7px;
+      padding: 0 2px;
+      font-size: 10px;
+      line-height: 12px;
+      z-index: 100;
+      background-color: #191A39;
+      color: #94C2FF !important;
+    }
+    .ng-value{
+      color: #fff !important;
+    }
+    .ng-input {
+      height: 100%;
+      top: 0 !important;
+      input {
+        height: 100%;
+        color: #fff !important;
+        font-size: 14px !important;
+        font-family: inherit;
+      }
+    }
+    .ng-arrow {
+      border-color: #94C2FF transparent transparent !important;
+    }
+    .ng-select-opened > .ng-select-container .ng-arrow {
+      border-color: transparent transparent #94C2FF !important;
+    }
+    .ng-dropdown-panel{
+      border-color: #94C2FF;
+      background-color: #191A39;
+      margin-bottom: 0 !important;
+    }
+    .ng-option{
+      background-color: transparent !important;
+      color: #fff !important;
+      &-marked{
+        background-color: rgba(255,255,255,.1) !important;
+      }
+    }
+    .ng-clear-wrapper{
+      width: 10px !important;
+    }
+    .ng-clear{
+      content: '' !important;
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 0 auto;
+      font-size: 0 !important;
+      vertical-align: middle;
+      background-image: url("../../../../assets/img/close-light-blue.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+  }
+}
+
+.button-cell{
+  .btn{
+    width: 87px;
+    padding: 3px 8px;
+    &.btn-green{
+      background-color: #00B43D;
+      border: 1px solid #00B43D;
+      &:hover{
+        background-color:  #00CA45;
+        border: 1px solid  #00CA45;
+      }
+    }
+  }
+}
+
+.status-green{
+  color: #00B43D;
+}
+.status-red{
+  color: #EB5757;
+}
+
+.ieo-table{
+ .coins-cell{
+  padding-left: 43px;
+}
+.table__row--no-hover{
+  background-color: transparent;
+}
+}

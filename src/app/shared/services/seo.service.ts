@@ -21,7 +21,7 @@ export class SEOService {
       .pipe(take(2))
       .subscribe((currencies: DetailedCurrencyPair[]) => {
         this.currencyPairs = currencies;
-        if(this.currencyPairs.length && this.currentUrl.startsWith('/markets/')) {
+        if(this.currencyPairs.length && this.currentUrl && this.currentUrl.startsWith('/markets/')) {
           const param = this.getMarketsParam(this.currentUrl);
           this.titleService.setTitle(param.title);
           this.meta.updateTag({name: 'description', content: param.description});

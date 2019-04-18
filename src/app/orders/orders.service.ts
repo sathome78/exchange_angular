@@ -7,11 +7,8 @@ import {OrderItem} from './models/order-item.model';
 
 @Injectable()
 export class OrdersService {
-
   apiUrl = environment.apiUrl;
-
   constructor(private http: HttpClient) {}
-
   // request to get open orders
   getOpenOrders({
     page,
@@ -24,7 +21,6 @@ export class OrdersService {
       currencyPairId,
       currencyPairName: '',
     };
-
     return this.http.get<ResponseModel<OrderItem[]>>(`${this.apiUrl}/api/private/v2/dashboard/orders/OPENED`, {params});
   }
 
@@ -88,6 +84,7 @@ export class OrdersService {
   deleteOrder(order: OrderItem): Observable<any> {
     const params = {
       order_id: '' + order.id,
+      type: order.orderBaseType,
     };
     return this.http.post(`${this.apiUrl}/api/private/v2/dashboard/cancel`, {}, {params});
   }

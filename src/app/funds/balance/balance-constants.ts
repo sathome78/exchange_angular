@@ -3,4 +3,5 @@ export const BALANCE_TABS = {
   FIAT: 'FIAT',
   PR: 'PR',
   QUBERA: 'QUBERA',
+  IEO: 'IEO',
 };

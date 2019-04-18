@@ -14,7 +14,7 @@ import {BalanceItem} from 'app/funds/models/balance-item.model';
 import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, INNER_TRANSFER, FIAT_DEPOSIT} from '../balance/send-money/send-money-constants';
 import {BalanceService} from 'app/funds/services/balance.service';
 import {PopupService} from '../../shared/services/popup.service';
-import { UtilsService } from 'app/shared/services/utils.service';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-balance-details',
@@ -134,25 +134,21 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
   }
 
   public goToCryptoWithdrawPopup(balance: BalanceItem): void {
-    this.popupService.demoPopupMessage = 1;
-    this.popupService.showDemoTradingPopup(true);
-    // this.showSendMoneyPopup = true;
-    // this.sendMoneyData = {
-    //   step: 2,
-    //   stepName: CRYPTO_WITHDRAWAL,
-    //   balance: balance
-    // };
+    this.showSendMoneyPopup = true;
+    this.sendMoneyData = {
+      step: 2,
+      stepName: CRYPTO_WITHDRAWAL,
+      balance: balance
+    };
   }
 
   public goToTransferPopup(balance: BalanceItem): void {
-    this.popupService.demoPopupMessage = 1;
-    this.popupService.showDemoTradingPopup(true);
-    // this.showSendMoneyPopup = true;
-    // this.sendMoneyData = {
-    //   step: 2,
-    //   stepName: INNER_TRANSFER,
-    //   stepThreeData: balance
-    // };
+    this.showSendMoneyPopup = true;
+    this.sendMoneyData = {
+      step: 2,
+      stepName: INNER_TRANSFER,
+      stepThreeData: balance
+    };
   }
 
   public openRefillBalancePopup(flag: boolean) {

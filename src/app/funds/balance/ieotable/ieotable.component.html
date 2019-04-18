@@ -1,0 +1,110 @@
+<table class="table ieo-table">
+  <thead>
+    <tr>
+      <th class="table__cell-head table__cell-head--tal coins-cell">{{'Coins' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tar">{{'Status' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tar">{{'Price' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tar">{{'Available balance ' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tar">{{'Start Time' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tar">{{'Personal Amount' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tar">{{'Amount' | translate}}</th>
+      <th class="table__cell-head table__cell-head--tac button-cell"></th>
+    </tr>
+  </thead>
+  <tbody class="table__body">
+    <tr
+      class="table__row balance__table-row"
+      *ngFor="let ieo of IEOData"
+    >
+      <td class="table__cell">
+        <div class="balance__currency">
+          <div class="balance__currency-icon">
+            <img src="assets/img/currency-icons/citrus.svg">
+          </div>
+          <span >{{ieo.currencyDescription}}</span>
+        </div>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span [ngClass]="{'status-green': ieo.status !== 'FAILED', 'status-red': ieo.status === 'FAILED'}"> {{ieo.status | showStageStatus}}</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>1 {{ieo.currencyName}} = {{ieo.rate || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>{{ieo.availableAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>{{getFormatDate(ieo.startDate)}}</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>{{(ieo.personalAmount|| 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{ieo.currencyName}}</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>{{ieo.amount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
+      </td>
+      <td class="table__cell button-cell">
+        <button
+          class="btn btn--center btn-green btn--small"
+          (click)="buyIeo(ieo)"
+          *ngIf="stage.RUNNING === ieo.status && ieo.readyToIeo"
+        >
+          {{'Buy' | translate}}
+        </button>
+        <button
+          class="btn btn--center btn--small"
+          (click)="goToIeo(ieo.id)"
+          *ngIf="stage.PENDING === ieo.status || (stage.RUNNING === ieo.status && !ieo.readyToIeo)"
+        >
+          {{'Participate' | translate}}
+        </button>
+        <button
+          class="btn btn--center btn--small"
+          (click)="goToIeoNews(ieo.currencyName)"
+          *ngIf="stage.SUCCEEDED === ieo.status || stage.FAILED === ieo.status"
+        >
+          {{'More' | translate}}
+        </button>
+      </td>
+    </tr>
+
+    <tr class="table__row balance__table-row table__row--no-hover" *ngIf="!IEOData.length">
+      <td class="table__cell table__cell--tac" colspan="10">
+        {{'No matching records found' | translate}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!--paginator start-->
+<div
+  class="row row--aic balance__paginator"
+  *ngIf="countOfEntries > countPerPage"
+>
+  <app-page-items-dropdown
+    [countPerPage]="countPerPage"
+    [countOfEntries]="countOfEntries"
+    (onChange)="changeItemsPerPage($event)"
+  ></app-page-items-dropdown>
+  <ul class="paginator" style="margin-left: auto;">
+    <pagination-controls
+      maxSize="7"
+      [previousLabel]="''"
+      [nextLabel]="''"
+      (pageChange)="changePage($event)"
+    ></pagination-controls>
+  </ul>
+</div>
+<!--paginator end-->
+
+
+<app-popup-buy
+  [IEOData]="selectedIEO"
+  *ngIf="showBuyIEO"
+  (close)="closeBuyIEO()"
+  (confirm)="confirmBuyIEO($event)"
+></app-popup-buy>
+<app-popup-success
+  *ngIf="showSuccessIEO"
+  [IEOName]="selectedIEO.currencyDescription"
+  (close)="closeSuccessIEO()"
+></app-popup-success>

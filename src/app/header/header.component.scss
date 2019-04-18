@@ -407,9 +407,8 @@
       }
     }
     .login-menu__link{
-      padding: 0;
+      padding: 0 0 16px 0;
       color: #191A39;
-      padding-top: 16px;
       transition:.3s;
       &:hover{
         color: #237BEF;
@@ -1121,4 +1120,31 @@
 .header-mob__submenu-link-text{
   color: #666679;
 }
+}
+
+// TEMP STYLES
+.d-none {
+  display: none !important;
+}
+
+.menu__link--drop{
+  span {
+    border-bottom: 2px solid transparent;
+  }
+}
+
+.head-menu__link--active {
+  .menu__link--drop{
+    span {
+      border-bottom: 2px solid #237BEF;
+    }
+  }
+}
+
+.menu__link--active {
+  .submenu__link {
+    .menu__link-text {
+      border-bottom: 2px solid #237BEF;
+    }
+  }
 }

@@ -5,6 +5,7 @@ import {UtilsService} from 'app/shared/services/utils.service';
 import * as fundsAction from '../../store/actions/funds.actions';
 import {select, Store} from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
+import {environment} from 'environments/environment';
 
 @Component({
   selector: 'app-balance-mob',
@@ -65,7 +66,7 @@ export class BalanceMobComponent implements OnInit{
 
   setScrollStyles() {
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 290) + 'px', 'overflow-x': 'scroll'};
+    this.tableScrollStyles = {'height': (componentHeight - 293) + 'px', 'overflow-x': 'scroll'};
   }
 
   public onLoadMoreTrigger(): void {
@@ -129,6 +130,9 @@ export class BalanceMobComponent implements OnInit{
         : this.store.dispatch(new fundsAction.LoadFiatBalAction(params));
     }
     this.isShowSearchPopup = flag;
+  }
+  get isProd(): boolean {
+    return environment.production
   }
 
   ngOnInit() {

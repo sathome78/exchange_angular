@@ -61,7 +61,7 @@
           <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="transferOut.emit(item)" >{{'Transfer' | translate}}</button>
         </td>
         <td class="table__cell">
-          <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="balanceService.goToTrade(item)">{{'Trade' | translate}}</button>
+          <app-balance-table-trade-btn [allPairs]="allPairs" [item]="item"></app-balance-table-trade-btn>
         </td>
         <td class="table__cell">
           <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="cryptoWithdrawOut.emit(item)">{{'Withdraw' | translate}}</button>

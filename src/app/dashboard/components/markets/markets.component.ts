@@ -144,7 +144,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
           setTimeout(() => {
             this.scrollHeight = this.mobileContainer.nativeElement.offsetHeight - 108;
             this.cdr.detectChanges();
-          }, 0);
+          }, 300);
         } else {
           this.isMobile = false;
           this.scrollHeight = 0;

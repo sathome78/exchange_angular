@@ -1,0 +1,134 @@
+.ieo-notifications{
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 9999;
+	transform: translateY(-105%);
+	pointer-events: none;
+	transition: all .3s, top 0s;
+	&.active{
+		transform: translateY(0);
+		pointer-events: auto;
+
+	}
+	&.success{
+		background: #32A071;
+		.ieo-success{
+			display: block;
+		}
+	}
+	&.error{
+		background: #EB5757;
+		.ieo-error{
+			display: block;
+		}
+	}
+	&.info{
+		background: #237BEF;
+		.ieo-info{
+			display: block;
+		}
+	}
+	.ieo-notification-wr{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 6px 12px;
+		@media(max-width: 480px){
+			justify-content: flex-start;
+		}
+		svg{
+			margin-right: 6px;
+			
+
+		}
+		p{
+			padding-top: 2px;
+			br{
+				display: none;
+			}
+		}
+	}
+	.ieo-notification-icon{
+		display: none;
+	}
+	.notification__btn{
+		background: transparent;
+		border: none;
+		outline: none;
+		position: absolute;
+		right: 30px;
+		cursor: pointer;
+		@media(max-width: 480px){
+			right: 0;
+		}
+		svg{
+			display: block;
+		}			
+	}
+
+}
+
+app-notifications-list{
+	position: relative;
+	@media(min-width: 1200px){
+		.ieo-notifications{
+			position: absolute;
+			left: auto;
+			right: 12px;
+			top: 12px;
+			min-width: 320px;
+			border-radius: 4px;
+			transform: translateY(0);
+			transform: translateX(105%);
+			&.active{
+				transform: translateX(0);
+			}
+
+			.notification__btn{
+				padding: 0;
+				width: 9px;
+				height: 9px;
+				position: absolute;
+				right: 12px;
+				margin-right: 0;
+				top: 12px;
+				svg{
+					padding: 0;
+					width: 9px;
+					height: 9px;
+					margin-right: 0;
+					
+				}
+			}
+			.ieo-notification-wr{
+				padding: 22px;
+				padding-right: 40px;
+				justify-content: flex-start;
+				p{
+					line-height: 1.3;
+					br{
+						display: block;
+					}
+				}
+				.ieo-notification-icon{
+					margin-right: 19px;
+					width: 32px;
+					height: 32px;
+				}
+			}
+		}
+	}
+}
+
+.ieo-page-header{
+	app-notifications-list{
+	.ieo-notifications{
+		@media(min-width: 1200px){
+			position: fixed;
+			top: 58px;
+		}
+}
+}
+}

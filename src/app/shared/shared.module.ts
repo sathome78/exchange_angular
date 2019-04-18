@@ -47,6 +47,13 @@ import {ExcludeSpacesDirective} from './directives/exclude-spaces.directive';
 import {ShowOrderStatusPipe} from './pipes/showOrderStatus.pipe';
 import {MerchantImageFilterPipe} from './pipes/merchant-image-filter.pipe';
 import {ReplaceCharPipe} from './pipes/replaceChar.pipe';
+import {ShowStageStatusPipe} from './pipes/stage-status.pipe';
+import {TopNotificationComponent} from './components/top-notification/top-notification.component';
+import {NotificationsListComponent} from './components/notifications-list/notifications-list.component';
+import {PopupBuyComponent} from './components/popup-buy-ieo/popup-buy.component';
+import { PopupSuccessComponent } from './components/popup-success-ieo/popup-success.component';
+import {OrderBookCutBigNumPipe} from './pipes/order-book-cut-big-num.pipe';
+import {TooltipDirective} from './directives/tooltip.directive';
 
 @NgModule({
   declarations: [
@@ -79,9 +86,16 @@ import {ReplaceCharPipe} from './pipes/replaceChar.pipe';
     LoaderComponent,
     DynamicInputComponent,
     CustomSearchInputComponent,
+    TooltipDirective,
     DynamicInputDashboardComponent,
     DynamicInputDataPipe,
     DateMaskInputComponent,
+    OrderBookCutBigNumPipe,
+    TopNotificationComponent,
+    ShowStageStatusPipe,
+    NotificationsListComponent,
+    PopupBuyComponent,
+    PopupSuccessComponent,
   ],
   imports: [
     FormsModule,
@@ -93,7 +107,7 @@ import {ReplaceCharPipe} from './pipes/replaceChar.pipe';
     InfiniteScrollModule,
     RecaptchaModule,
     ScrollingModule,
-    MomentModule
+    MomentModule,
   ],
   exports: [
     InfiniteScrollModule,
@@ -103,6 +117,7 @@ import {ReplaceCharPipe} from './pipes/replaceChar.pipe';
     RecaptchaModule,
     SafePipe,
     ExcludeSpacesDirective,
+    TooltipDirective,
     GetObjectKeysPipe,
     InfiniteScrollModule,
     DateMaskDirective,
@@ -113,6 +128,7 @@ import {ReplaceCharPipe} from './pipes/replaceChar.pipe';
     DateMaskInputComponent,
     MerchantImageFilterPipe,
     ShowOrderStatusPipe,
+    OrderBookCutBigNumPipe,
     GroupCoinPipe,
     CurrencyPipe,
     FormatCurrencyPipe,
@@ -133,7 +149,12 @@ import {ReplaceCharPipe} from './pipes/replaceChar.pipe';
     DynamicInputComponent,
     DynamicInputDashboardComponent,
     DynamicInputDataPipe,
-    AddClassDirective
+    ShowStageStatusPipe,
+    TopNotificationComponent,
+    NotificationsListComponent,
+    PopupBuyComponent,
+    PopupSuccessComponent,
+    AddClassDirective,
   ],
   providers: [
     NotificationsService,
@@ -142,6 +163,8 @@ import {ReplaceCharPipe} from './pipes/replaceChar.pipe';
     RegistrationGuard,
     RestorePasswordGuard,
     ConstantsService,
+    RoundCurrencyPipe,
+    FormatCurrencyPipe,
   ]
 })
 export class SharedModule { }

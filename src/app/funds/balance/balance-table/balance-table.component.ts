@@ -11,6 +11,7 @@ import {CurrencyPair} from '../../../model';
 import {Subject} from 'rxjs';
 import {BalanceService} from '../../services/balance.service';
 import {UtilsService} from 'app/shared/services/utils.service';
+import {DetailedCurrencyPair} from '../../../model/detailed-currency-pair';
 
 @Component({
   selector: 'app-balance-table',
@@ -21,11 +22,10 @@ import {UtilsService} from 'app/shared/services/utils.service';
 export class BalanceTableComponent {
 
   constructor(
-    public balanceService: BalanceService,
-    private utils: UtilsService,
   ) {}
 
   @Input('balances') public balances: BalanceItem[] = [];
+  @Input('allPairs') public allPairs: DetailedCurrencyPair[] = [];
   @Input('countPerPage') public countPerPage: number;
   @Input('loading') public loading: boolean;
   @Input('currentPage') public currentPage: number;
