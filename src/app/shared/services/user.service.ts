@@ -88,8 +88,7 @@ export class UserService {
   }
 
   public getUserBalanceCurr(currencies: string[]): Observable<any> {
-    const names = currencies.join(',');
-    return this.http.get(`${this.HOST}/api/private/v2/balances/myBalances`, {params: {names: names}})
+    return this.http.get(`${this.HOST}/api/private/v2/balances/myBalances`, {params: {names: currencies}})
   }
 
   public getIfConnectionSuccessful(): Observable<boolean> {
@@ -247,8 +246,9 @@ export class UserService {
   }
 
   public getNotifications(): Observable<any> {
+    const {publicId} = this.authService.parsedToken;
     return this.stompService
-      .watch(`/user/queue/personal_message`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
+      .watch(`/app/message/private/${publicId}`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 }

@@ -28,6 +28,9 @@
     [community]="ieoData.community"
   >
   </app-ieo-community>
+  <ng-container *ngIf="!isProd">
+    <button (click)="testNotif()">notification test</button>
+  </ng-container>
 
   <app-ieo-requirements
     [isAuthenticated]="isAuthenticated"
@@ -63,5 +66,4 @@
     (close)="closeSuccess()"
   >
   </app-popup-success>
-  <button (click)="testNotif()">test</button>
 </div>

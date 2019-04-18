@@ -76,6 +76,5 @@ export class TopNotificationComponent extends Toast {
     public toastPackage: ToastPackage,
   ) {
     super(toastrService, toastPackage);
-    // debugger
   }
 }

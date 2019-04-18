@@ -8,6 +8,7 @@ import {map} from 'rxjs/operators';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {Message} from '@stomp/stompjs';
 import {TOKEN} from './http.utils';
+import {AuthService} from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class IEOServiceService {
   constructor(
     private http: HttpClient,
     private stompService: RxStompService,
+    private authService: AuthService,
   ) { }
 
   public checkKYC(id): Observable<KycIEOModel> {
@@ -45,7 +47,7 @@ export class IEOServiceService {
 
   public getListIEOTab(): any {
     return this.stompService
-      .watch(`/user/queue/ieo_details`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
+      .watch(`/app/ieo_details/private/${this.authService.parsedToken.publicId}`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
