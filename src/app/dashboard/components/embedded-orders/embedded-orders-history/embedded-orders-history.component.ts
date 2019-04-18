@@ -1,5 +1,6 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import { UtilsService } from 'app/shared/services/utils.service';
+import {AuthService} from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-embedded-orders-history',
@@ -15,6 +16,7 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
 
   constructor(
     private utils: UtilsService,
+    public authService: AuthService,
   ) {
   }
 

@@ -77,7 +77,8 @@
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Fee' | translate}}</div>
-                  <div class="table__details-item-value">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  <div class="table__details-item-value" *ngIf="!authService.isVipUser">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  <div class="table__details-item-value" *ngIf="authService.isVipUser">0.0</div>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'In total' | translate}}</div>
@@ -320,10 +321,13 @@
             </span>
           </td>
           <td class="table__cell">
-            <span class="orders__comission"></span><span class="orders__comission-usd"><span>
-                {{item.commissionFixedAmount | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
-                {{item.currencyPairName | splitCurrency: 2}}
-            </span></span>
+            <span class="orders__comission"></span>
+            <span class="orders__comission-usd" *ngIf="!authService.isVipUser">
+              <span>{{item.commissionFixedAmount | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
+                    {{item.currencyPairName | splitCurrency: 2}}
+              </span>
+            </span>
+            <span *ngIf="authService.isVipUser">0.0</span>
           </td>
           <td class="table__cell table__cell--tar">
             <span>

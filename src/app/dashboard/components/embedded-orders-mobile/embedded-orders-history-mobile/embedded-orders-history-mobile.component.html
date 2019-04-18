@@ -51,7 +51,8 @@
             </div>
             <div class="table__details-item">
               <div class="table__details-item-title">{{'Fee' | translate}}</div>
-              <div class="table__details-item-value">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
+              <div class="table__details-item-value" *ngIf="!authService.isVipUser">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
+              <div class="table__details-item-value" *ngIf="authService.isVipUser">0.0</div>
             </div>
             <div class="table__details-item">
               <div class="table__details-item-title">{{'In total' | translate}}</div>
