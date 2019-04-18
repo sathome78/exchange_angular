@@ -71,14 +71,14 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   }
 
   private minCheck(amount: FormControl) {
-    if (this.minSum > (!!amount.value ? amount.value : 0)) {
+    if (this.minSum > (!!amount.value ? this.deleteSpace(amount.value) : 0)) {
       return {'minThen': true};
     }
     return null;
   }
 
   private maxCheck(amount: FormControl) {
-    if (this.maxSumValidate < (!!amount.value ? +amount.value : 0)) {
+    if (this.maxSumValidate < (!!amount.value ? +this.deleteSpace(amount.value) : 0)) {
       return {'maxThen': true};
     }
     return null;
@@ -94,17 +94,14 @@ export class PopupBuyComponent implements OnInit, OnChanges {
 
   onBlur(e) {
     if(e) {
-      console.log(e.target.value);
       const value = parseFloat(this.deleteSpace(e.target.value.toString() || '0'));
       const formated = this.formatCurrency.transform(this.roundCurrency.transform((value + ''), 'BTC'), 'short', 'BTC');
-      // this.prevValue = formated;
       this.amountInput.setValue(formated);
     }
   }
 
   onInput(e) {
     if(e) {
-      console.log(e.target.value);
       const value = parseFloat(this.deleteSpace(e.target.value.toString()));
       this.countPay(value);
     }
@@ -116,11 +113,12 @@ export class PopupBuyComponent implements OnInit, OnChanges {
     }
   }
 
-  confirmForm() {
+  confirmForm(e) {
+    e.preventDefault();
     if(this.form.invalid) {
       return;
     }
-    this.confirm.emit(this.amountInput.value)
+    this.confirm.emit(this.deleteSpace(this.amountInput.value))
   }
 
   deleteSpace(value): string {
@@ -134,13 +132,12 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   }
 
   getMaxAvailSum() {
-    debugger
     const sums = [+this.IEOData.maxAmountPerClaim, +this.IEOData.availableAmount];
     const userBalBTC = this.userBalanceBTC / this.IEOData.rate;
     sums.push(userBalBTC)
 
     if(this.IEOData.maxAmountPerUser) {
-      if(this.IEOData.maxAmountPerUser >= this.userBalanceCoin) {
+      if(this.IEOData.maxAmountPerUser <= this.userBalanceCoin) {
         sums.push(0);
       } else {
         sums.push(this.IEOData.maxAmountPerUser - this.userBalanceCoin)

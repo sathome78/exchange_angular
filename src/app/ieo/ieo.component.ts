@@ -5,12 +5,13 @@ import {State} from 'app/core/reducers';
 import {Subject, Observable, forkJoin} from 'rxjs';
 import * as fromCore from '../core/reducers'
 import {PopupService} from 'app/shared/services/popup.service';
-import {takeUntil, take} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {IEOServiceService} from '../shared/services/ieoservice.service';
 import {KycIEOModel} from './models/ieo-kyc.model';
 import {ActivatedRoute} from '@angular/router';
 import {IEOItem} from 'app/model/ieo.model';
-import { UserService } from 'app/shared/services/user.service';
+import {UserService} from 'app/shared/services/user.service';
+import {environment} from 'environments/environment';
 @Component({
   selector: 'app-ieo',
   templateUrl: './ieo.component.html',
@@ -67,13 +68,8 @@ export class IEOComponent implements OnInit, OnDestroy {
               .subscribe((res: KycIEOModel) => {
                 if(res) {
                   this.requirements = res;
-                  // this.requirements = new KycIEOModel(true, true, false);
+                  // this.requirements = new KycIEOModel(true, true, true);
                 };
-              })
-            this.userService.getUserBalanceCurr(['BTC'])
-              .pipe(takeUntil(this.ngUnsubscribe$))
-              .subscribe((res) => {
-                this.userBalanceBTC = res.data['BTC'];
               })
           }
         })
@@ -165,15 +161,24 @@ export class IEOComponent implements OnInit, OnDestroy {
   onRefreshIEOStatus() {
     this.ieoService.refreshIEOStatus()
       .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe((res) => {
-        // debugger;
-      })
+      .subscribe((res) => {});
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
     window.onscroll = () => {}
+  }
+
+  testNotif(msg = '') {
+    this.userService.sendTestNotif(msg)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((res) => {});
+  }
+
+
+  public get isProd() {
+    return environment.production;
   }
 
 }
