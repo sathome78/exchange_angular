@@ -67,13 +67,13 @@
           >
             <div class="order">
             <span>
-              {{item.total | roundCurrency | formatCurrency}}
+              {{item.total | roundCurrency | formatCurrency  | orderBookCutBigNum:maxCountCharacter}}
             </span>
             </div>
 
             <div class="price">
             <span>
-              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}
+              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]  | orderBookCutBigNum:maxCountCharacter}}
             </span>
             </div>
 
@@ -117,7 +117,7 @@
           (click)="onSelectOrder(item)">
           <div class="order">
             <span>
-              {{item.total  | roundCurrency | formatCurrency}}
+              {{item.total  | roundCurrency | formatCurrency  | orderBookCutBigNum:maxCountCharacter}}
             </span>
           </div>
 
@@ -126,7 +126,7 @@
 
           <div class="price">
             <span>
-              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}
+              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]  | orderBookCutBigNum:maxCountCharacter}}
             </span>
           </div>
 

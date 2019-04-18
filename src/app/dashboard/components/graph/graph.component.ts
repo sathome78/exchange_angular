@@ -285,7 +285,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this._tvWidget.remove();
+    try {
+      this._tvWidget.remove();
+    } catch (e) {}
   }
 
   ngAfterContentInit() {

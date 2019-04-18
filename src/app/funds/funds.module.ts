@@ -62,6 +62,7 @@ import {BalanceSearchMobComponent} from './balance/balance-search-mob/balance-se
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {IEOTableMobComponent} from './balance/ieo-table-mob/ieo-table-mob.component';
 import {IEOBalanceDetailsComponent} from './ieo-balance-details/ieo-balance-details.component';
+import { BalanceTableTradeBtnComponent } from './balance/balance-table/balance-table-trade-btn/balance-table-trade-btn.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -133,6 +134,7 @@ export function createTranslateLoader(http: HttpClient) {
     BalanceSearchMobComponent,
     IEOTableMobComponent,
     IEOBalanceDetailsComponent,
+    BalanceTableTradeBtnComponent,
   ],
   providers: [
     BalanceService,
