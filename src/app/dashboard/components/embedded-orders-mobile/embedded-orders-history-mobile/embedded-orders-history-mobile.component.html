@@ -39,7 +39,9 @@
           <td class="table__details-cell" colspan="4">
             <div class="table__details-item">
               <div class="table__details-item-title">{{'Amount' | translate}}</div>
-              <div class="table__details-item-value">{{item.amountConvert}} {{item.currencyPairName | splitCurrency: 1}}</div>
+              <div class="table__details-item-value">{{item.amountBase | roundCurrency: currency(item.currencyPairName, 1) | formatCurrency}}
+                {{item.currencyPairName | splitCurrency: 1}}
+              </div>
             </div>
             <div class="table__details-item">
               <div class="table__details-item-title">{{'Trading price' | translate}}</div>
@@ -56,7 +58,12 @@
             </div>
             <div class="table__details-item">
               <div class="table__details-item-title">{{'In total' | translate}}</div>
-              <div class="table__details-item-value"> {{item.currencyPairName | splitCurrency: 2}}</div>
+              <div class="table__details-item-value">
+                <span>
+                  {{item.amountWithCommission | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
+                  <span>{{item.currencyPairName | splitCurrency: 2}}</span>
+                </span>
+              </div>
               <!-- {{item.arrPairName}} -->
             </div>
           </td>
