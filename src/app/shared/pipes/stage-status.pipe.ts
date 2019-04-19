@@ -13,7 +13,7 @@ export class ShowStageStatusPipe  implements PipeTransform {
       case 'TERMINATED':
         return 'Ended';
       case 'SUCCEEDED':
-        return 'Succeeded';
+        return 'Success';
       case 'FAILED':
         return 'Failed';
       default:
