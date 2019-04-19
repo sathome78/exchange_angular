@@ -10,6 +10,8 @@ export class ShowStageStatusPipe  implements PipeTransform {
         return 'Upcoming'
       case 'RUNNING':
         return 'Fast Sale';
+      case 'TERMINATED':
+        return 'Ended';
       case 'SUCCEEDED':
         return 'Succeeded';
       case 'FAILED':
@@ -19,4 +21,3 @@ export class ShowStageStatusPipe  implements PipeTransform {
     }
   }
 }
-

@@ -26,6 +26,7 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
   public stage = {
     PENDING: 'PENDING',
     RUNNING: 'RUNNING',
+    TERMINATED: 'TERMINATED',
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
   }
