@@ -1,23 +1,26 @@
 <button (click)="toggleKeyCreatedPopup(true)">open</button>
 
 <div class="api-key-content">
+  <form [formGroup]="form">
   <div class="create-key-container">
    <div class="create-title"></div>
     <div class="wrap-input wrap-input--fix230">
       <input
         class="wrap-input__input"
+        name="name"
+        formControlName="name"
         type="text"
         required>
       <label class="wrap-input__label">{{'Enter API key name' | translate}}</label>
       <div class="wrap-input__line"></div>
     </div>
       <button
-        (click)="open2FAPopup()"
+        (click)="createNewKey()"
       class="btn settings__form-btn settings__password-btn settings__form-btn--active">
         {{'Create new key' | translate}}
       </button>
     </div>
-
+  </form>
 
   <div class="api-key-container">
 
@@ -26,18 +29,18 @@
       <div class="api-key">LKLDKSJLJD98845JGLDFLKG949539KFDLG</div>
       <div class="key-controls">
         <div class="api-key-checkbox">
-          <input type="checkbox">
+          <input type="checkbox" [checked]="item === 3 ? check : notCheck" (change)="onChangeTrading($event)">
           <span>Trading allowed</span>
         </div>
         <div class="api-key-delete-btn">
-          <button class="btn btn--small btn--empty-blue ">
+          <button class="btn btn--small btn--empty-blue " (click)="confirmDelete(item)">
           {{'delete' | translate}}
           </button>
-          <div class="revoke-request" *ngIf="true">
-            <div class="revoke-request__title">{{'Are you sure you want to cancel this order?' | translate}}</div>
+          <div class="revoke-request" *ngIf="confirmDeleteKeyId === item">
+            <div class="revoke-request__title">{{'Are you sure you want to delete this key?' | translate}}</div>
             <div class="revoke-request__button-wrap">
-              <button class="btn btn--small" >{{'Yes' | translate}}</button>
-              <button class="btn btn--small" >{{'No' | translate}}</button>
+              <button class="btn btn--small" (click)="deleteApiKey(item)">{{'Yes' | translate}}</button>
+              <button class="btn btn--small" (click)="cleanConfirmDeleteKeyId()">{{'No' | translate}}</button>
             </div>
             <div class="revoke-request__triangle"></div>
           </div>
@@ -55,6 +58,9 @@
 
 <app-api-key-popup
   [isPinFomGA]="GAEnabled$ | async"
+  [apiKeyName]="newKeyName"
+  [twoFAFor]="twoFAFor"
+  [keyIdForEnableTrading]=""
   *ngIf="show2FAPopup"
   (close2FAPopup)="close2FAPopup()">
 </app-api-key-popup>

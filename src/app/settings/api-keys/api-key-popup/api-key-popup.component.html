@@ -8,12 +8,14 @@
       <span *ngIf="!!serverPinErrorForView">{{serverPinErrorForView}}</span>
     </h4>
 
-    <form class="popup__form">
+    <form class="popup__form" [formGroup]="form">
       <div>
 
         <div class="wrap-input popup__wrap-input">
           <input
             required
+            name="pin"
+            formControlName="pin"
             class="wrap-input__input"
             type="text"
             [ngClass]="{'wrap-input__input--error': false}">
@@ -35,6 +37,7 @@
       </div>
       <button class="btn popup__btn"
               [disabled]="false"
+              (click)="onSubmit()"
               [ngClass]="{'popup__btn--active': true}">
         {{'Submit' | translate}}
       </button>

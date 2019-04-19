@@ -48,3 +48,8 @@ export const orderBaseType = {
   STOP_LIMIT: 'STOP_LIMIT',
   ICO: 'ICO'
 }
+
+export const API_KEY_2FA_FOR = {
+  'NEW_KEY': 'NEW_KEY',
+  'ENABLE_TRADING_FOR_KEY': 'ENABLE_TRADING_FOR_KEY',
+}
