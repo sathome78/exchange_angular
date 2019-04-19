@@ -1,5 +1,6 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import { UtilsService } from 'app/shared/services/utils.service';
+import {AuthService} from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-embedded-orders-history',
@@ -12,13 +13,16 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
   @Input() makeHeight;
   public currentPage = 1;
   public countPerPage = 7;
+  public isVipUser;
 
   constructor(
     private utils: UtilsService,
+    public authService: AuthService,
   ) {
   }
 
   ngOnInit() {
+    this.isVipUser = this.authService.isVipUser;
   }
 
   filterOpenOrders(page) {
