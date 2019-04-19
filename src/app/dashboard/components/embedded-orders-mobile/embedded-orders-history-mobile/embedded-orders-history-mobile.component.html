@@ -61,7 +61,7 @@
       <div>{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
     </td>
     <td class="table__cell table__cell--arr-mob">
-      <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
+      <img [ngClass]="{'img-rotate': selectedOrder && selectedOrder.id === item.id}" src="../../assets/img/arr-toggler-down-blue.svg">
     </td>
   </tr>
   <tr class="table__details" *ngIf="selectedOrder && selectedOrder.id === item.id">
