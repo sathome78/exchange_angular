@@ -24,6 +24,11 @@ export class EmbeddedOrdersHistoryMobileComponent implements OnInit {
     this.selectedOrder = this.selectedOrder && this.selectedOrder.id === order.id ? null : order;
   }
 
+  currency(currName: string, currIndex: number): string {
+    const curr = currName.split('/');
+    return curr[currIndex - 1];
+  }
+
   setClassForOrderTypeField (type: string): string {
     let className: string;
     if (type) {
