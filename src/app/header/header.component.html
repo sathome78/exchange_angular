@@ -342,7 +342,7 @@
         </div>
       </div>
 
-      <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
+      <div class="menu-mob__drop-wrap">
         <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(TRANSLATE_FLAG)" [ngClass]="{'menu-mob__link--active': translateList}">
           <span class="menu-mob__link-text">Google Translater</span></a>
           <div class="menu-mob__wrap-links" [ngClass]="{'d-none': !translateList}">
@@ -364,7 +364,7 @@
       </a>
 
         <a class="menu-mob__link" href="http://support.exrates.me" target="blank"><span
-          class="menu-mob__link-text">{{'Support' | translate}}</span>
+          class="menu-mob__link-text">{{'News' | translate}}</span>
         </a>
         <a class="menu-mob__link" (click)="setMobileWidget('chat')" [routerLink]="['dashboard']" [queryParams]="{widget: 'chat'}" *ngIf="isAuthenticated"><span
           class="menu-mob__link-text">{{'Chat' | translate}}</span>
