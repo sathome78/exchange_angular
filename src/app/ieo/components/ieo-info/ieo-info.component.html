@@ -34,7 +34,7 @@
           </table>
           <div class="buy-block">
 
-            <div class="progress-block" *ngIf="stage.RUNNING === currentStage">
+            <div class="progress-block" *ngIf="stage.RUNNING === currentStage || stage.TERMINATED === currentStage">
               <div class="currency-info">
                 <div class="currency-buyed">
                   <span class="buyed-value">{{boughtAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
@@ -90,6 +90,22 @@
               >
                 <span>More</span>
               </button>
+
+              <div>
+                <button
+                  class="standart-btn ieo-buy"
+                  [disabled]="true"
+                  *ngIf="isAuthenticated && currentStage === stage.TERMINATED"
+                >
+                  <span>More</span>
+                </button>
+                <div class="input-hint-wrapper" *ngIf="isAuthenticated">
+                  <span class="wrap-input__message">
+                    Sale of {{IEOData.currencyDescription}} has been ended
+                  </span>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
