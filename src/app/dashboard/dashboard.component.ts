@@ -43,8 +43,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   /** variables for resize method */
   public minWidth = 1200;
   public maxWidth = 1500;
-  public minRatio = 0.76;
-  public maxRatio = 0.94;
+  public minRatio = 0.731;
+  public maxRatio = 0.934;
   public widthStep = 5;
   /** ---------------------- */
 
