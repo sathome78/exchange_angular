@@ -119,7 +119,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     e.preventDefault();
     this.clearFilters();
     const params = {
-      offset: 0,
+      page: this.currentPage,
       limit: this.countPerPage,
     }
     this.store.dispatch(new ordersAction.LoadLastHistoryOrdersAction(params));
