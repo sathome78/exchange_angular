@@ -296,10 +296,9 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   filterPopupSubmit() {
-    if(this.isDateRangeValid()) {
+      this.currentPage = 1;
       this.closeFilterPopup();
       this.loadOrders();
-    }
   }
 
   downloadExcel() {
