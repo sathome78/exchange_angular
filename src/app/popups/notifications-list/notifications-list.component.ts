@@ -1,13 +1,13 @@
-import { Component, OnInit, AfterViewChecked, AfterViewInit } from '@angular/core';
-import { UserService } from 'app/shared/services/user.service';
-import { State } from 'app/core/reducers';
-import { Store, select } from '@ngrx/store';
-import * as fromCore from '../../../core/reducers'
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { Notification } from 'app/model/notification.model';
-import { ToastrService, IndividualConfig, GlobalConfig } from 'ngx-toastr';
-import { TopNotificationComponent } from '../top-notification/top-notification.component';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from 'app/shared/services/user.service';
+import {State} from 'app/core/reducers';
+import {Store, select} from '@ngrx/store';
+import * as fromCore from '../../core/reducers'
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {Notification} from 'app/model/notification.model';
+import {ToastrService} from 'ngx-toastr';
+import {TopNotificationComponent} from './top-notification/top-notification.component';
 
 @Component({
   selector: 'app-notifications-list',
