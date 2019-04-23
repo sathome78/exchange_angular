@@ -16,10 +16,11 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 24px;
+    position: relative;
   }
   &__select{
     width: 100%;
-    max-width: 230px;
+    max-width: unset;
     margin-bottom: 28px;
   }
 
@@ -36,6 +37,12 @@
   .refill{
     &__title{
       margin-bottom: 32px;
+      font-weight: normal;
+font-size: 24px;
+line-height: normal;
+text-align: center;
+
+color: #191A39;
     }
     &__inputs-wrap{
       flex-direction: row;
@@ -43,9 +50,9 @@
     }
     &__select{
       width: 100%;
-      max-width: 240px;
+      min-width: unset;
       margin-bottom: 0;
-      margin-right: 32px;
+      margin-right: 0;
     }
     &__crypto-refill-info{
       display: flex;
@@ -95,8 +102,8 @@
     min-width: 380px;
   }
   .modal__note{
-    width: calc(100% + 64px);
-    left: -32px;
+    width: 100%;
+    left: 0;
     margin-top: 32px;
   }
 }
@@ -107,7 +114,17 @@
 }
 
 .key-label {
-  min-width: 100px;
+  position: absolute;
+  top: -7px;
+  left: 12px;
+  background: #fff;
+  z-index: 1;
+  padding: 1px;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: normal;
+
+  color: #237BEF;
 }
 
 
@@ -120,3 +137,24 @@
 
 
 
+.key-success{
+  font-weight: normal;
+  font-size: 16px;
+  line-height: normal;
+  text-align: center;
+  color: #191A39;
+  padding: 31px;
+}
+.modal__header{
+  border: none;
+}
+
+.modal__content{
+  padding: 0;
+}
+.inputs-wr{
+  max-width: 345px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 32px;
+}
