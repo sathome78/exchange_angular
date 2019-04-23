@@ -84,3 +84,4 @@ export const getGAStatus = createSelector(getSettingsState, fromSettings.getGASt
 export const getGALoading = createSelector(getSettingsState, fromSettings.getGALoadingSelector);
 export const getSessionTime = createSelector(getSettingsState, fromSettings.getSessionTimeSelector);
 export const getApiKeys = createSelector(getSettingsState, fromSettings.getApiKeysSelector);
+export const getApiKeyLoading = createSelector(getSettingsState, fromSettings.getApiKeyLoadingSelector);

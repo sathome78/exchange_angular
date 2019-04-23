@@ -1,72 +1,55 @@
-<div class="overlay--modal" *ngIf="showPopup" [@overlayAnimation]="showPopup ? 'show' : 'hide'" appAddClass="no-scroll" to="body">
+<div class="overlay--modal" *ngIf="showPopup" [@overlayAnimation]="showPopup ? 'show' : 'hide'" appAddClass="no-scroll"
+     to="body">
   <div class="modal" [@modalAnimation]="showPopup ? 'show' : 'hide' ">
-    <!-- btn modal close -->
-    <!--<div class="modal__controls modal__controls&#45;&#45;top">-->
-      <!--<a class="modal__button modal__button&#45;&#45;close">-->
-        <!--<span>{{'close' | translate}}</span>-->
-        <!--<img class="modal__button-icon" src="../../../assets/img/close.svg">-->
-        <!--</a>-->
-        <!--</div>-->
-        <!-- modal header start -->
-        <!--<div class="modal__header-mob">-->
-          <!--<div class="steps__counter steps__counter&#45;&#45;mob">{{'step' | translate}}-->
-            <!--<span class="steps__counter-val">1</span></div>-->
-            <!--<div class="modal__header-mob-controls">-->
-              <!--<a class="modal__control-mob">-->
-                <!--<img class="modal__control-icon" src="../../../assets/img/close-blue.svg"></a>-->
-                <!--</div>-->
-                <!--</div>-->
-                <div class="modal__header">
-                  <span class="key-success">{{'Api-key successfully created' | translate}}</span>
-                </div>
-                <!-- modal header end -->
-                <div class="modal__content">
-                  <div class="inputs-wr">
-                    <div class="title refill__title">
-                      {{'New API-key' | translate}}
-                    </div>
 
-                    <div class="refill__inputs-wrap">
-                      <span class="key-label">Public key</span>
-                      <div class="select refill__select refill__select--cripto">
-                        <div class="select__value select__value--active">
-                          <span>LJLJFH988JJHH0909BBJ988KJJHG</span>
-                        </div>
-                      </div>
-                      <!--<button class="btn btn&#45;&#45;small btn&#45;&#45;empty-blue refill__crypto-copy-btn">-->
-                        <!--{{'Copy key' | translate}}-->
-                        <!--</button>-->
-                      </div>
+    <div class="modal__header">
+      <span class="key-success">{{'Api-key successfully created' | translate}}</span>
+    </div>
+    <!-- modal header end -->
+    <div class="modal__content" *ngIf="newKey">
+      <div class="inputs-wr">
+        <div class="title refill__title">
+          {{'New API-key' | translate}}
+        </div>
 
-                      <div class="refill__inputs-wrap">
-                        <span class="key-label">Private key</span>
-                        <div class="select refill__select refill__select--cripto">
-                          <div class="select__value select__value--active">
-                            <span>LJLJFH988JJHH0909BBJ988KJJHG</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <button
-                      class="btn btn--center"
-                      (click)="onCloseCreatedKeyPopup()">
-                      {{'Return' | translate}}
-                    </button>
-                  </div> 
-                  
-
-                  <div class="note modal__note">
-                    <div class="note__title">{{'Warning:' | translate}}</div>
-                    <ul class="note__list">
-                      <li class="note__list-item">
-                        Please notice that the secret key will be shown only once.
-                      </li>
-                      <li class="note__list-item">
-                        If you dont save it, you always will be able to create a new.
-                      </li>
-                    </ul>
-                  </div>
-
-                </div>
-              </div>
+        <div class="refill__inputs-wrap">
+          <span class="key-label">Public key</span>
+          <div class="select refill__select refill__select--cripto">
+            <div class="select__value select__value--active">
+              <span>{{newKey.publicKey}}</span>
             </div>
+          </div>
+        </div>
+
+        <div class="refill__inputs-wrap">
+          <span class="key-label">Private key</span>
+          <div class="select refill__select refill__select--cripto">
+            <div class="select__value select__value--active">
+              <span>{{newKey.privateKey}}</span>
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="btn btn--center"
+          (click)="onCloseCreatedKeyPopup()">
+          {{'Return' | translate}}
+        </button>
+      </div>
+
+
+      <div class="note modal__note">
+        <div class="note__title">{{'Warning:' | translate}}</div>
+        <ul class="note__list">
+          <li class="note__list-item">
+            Please notice that the secret key will be shown only once.
+          </li>
+          <li class="note__list-item">
+            If you dont save it, you always will be able to create a new.
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,4 +1,3 @@
-<button class="temp-button" (click)="toggleKeyCreatedPopup(true)">open</button>
 <div class="api-key-content">
 <div class="api-key-title">
   <h2>API Keys</h2>
@@ -15,6 +14,16 @@
       required>
       <label class="wrap-input__label">{{'Enter API key name' | translate}}</label>
       <div class="wrap-input__line"></div>
+       <div *ngIf="form.get('name')?.errors !== null">
+         <div class="input-hint-wrapper" *ngIf="form.controls['name'].errors['required'] && isSubmited">
+              <span
+                class=" wrap-input__message--show"
+                *ngIf="form.controls['name'].errors['required'] && isSubmited"
+                [ngClass]="{'wrap-input__message': form.controls['name'].errors['required'] && isSubmited}">
+                {{'Name is required.'}}
+              </span>
+         </div>
+       </div>
     </div>
     <button
     (click)="createNewKey()"
@@ -24,11 +33,21 @@
 </div>
 </form>
 
+<div style="height: 58px;">
+  <div *ngIf="loading$ | async">
+    <app-loader size="small"></app-loader>
+  </div>
+</div>
+
 <div class="api-key-container">
-  <div class="api-text" *ngIf="!(apiKeys$ | async).length">
+  <div class="api-text" *ngIf="!(loading$ | async) && !(apiKeys$ | async).length">
     <p>Tou haven’t create API-keys yet. Enter API-key name and press “Create API-key” to  produce</p>
   </div>
-  <div class="api-key-item" *ngFor="let key of apiKeys$ | async; let index=index">
+  <div class="api-key-item" *ngFor="let key of apiKeys$ | async | paginate: {
+          itemsPerPage: countPerPage,
+          currentPage: currentPage,
+          totalItems: (apiKeys$ | async).length
+        }; let index=index">
     <div class="key-name">{{key.alias}}</div>
     <div class="api-key">{{key.publicKey}}</div>
     <div class="key-controls">
@@ -60,6 +79,24 @@
     </div>
   </div>
 
+  <!--paginator start-->
+  <div class="row row--aic balance__paginator"
+       *ngIf="(apiKeys$ | async).length > countPerPage">
+    <app-page-items-dropdown
+      [countPerPage]="countPerPage"
+      [countOfEntries]="(apiKeys$ | async).length"
+      (onChange)="changeItemsPerPage($event)"
+    ></app-page-items-dropdown>
+    <ul class="paginator" style="margin-left: auto;">
+      <pagination-controls
+        [previousLabel]="''"
+        [nextLabel]="''"
+        (pageChange)="changePage($event)"
+      ></pagination-controls>
+    </ul>
+  </div>
+  <!--paginator end-->
+
 </div>
 </div>
 
@@ -70,11 +107,11 @@
 </app-api-key-created>
 
 <app-api-key-popup
-[isPinFomGA]="GAEnabled$ | async"
+[isPinFomGA]="GAEnabled"
 [apiKeyName]="newKeyName"
 [twoFAFor]="twoFAFor"
 [keyIdForEnableTrading]="keyIdForEnableTrading"
 *ngIf="show2FAPopup"
-(createdNewKey)="close2FAPopup()"
+(createdNewKey)="setNewKey($event)"
 (close2FAPopup)="close2FAPopup()">
 </app-api-key-popup>

@@ -74,6 +74,10 @@ export class ApiKeyPopupComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.createdNewKey.emit(res);
         this.close2FAPopup.emit(true);
+      }, error => {
+        if (error.status === 400) {
+          this.serverPinErrorForView = this.isPinFomGA ? this.serverPinError[0] : this.serverPinError[1];
+        }
       });
   }
 
@@ -83,7 +87,11 @@ export class ApiKeyPopupComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.store.dispatch(new settingsActions.LoadApiKeysAction());
         this.close2FAPopup.emit(true);
-    });
+    }, error => {
+        if (error.status === 400) {
+          this.serverPinErrorForView = this.isPinFomGA ? this.serverPinError[0] : this.serverPinError[1];
+        }
+      });
   }
 
   initForm() {

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {ApiKeysService} from './api-keys.service';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -8,6 +8,7 @@ import * as settingsActions from '../store/actions/settings.actions';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {API_KEY_2FA_FOR} from '../../shared/constants';
 import {ApiKeyItem, NewApiKeyItem} from '../../model/api-key.model';
+import * as fundsReducer from '../../funds/store/reducers/funds.reducer';
 
 @Component({
   selector: 'app-api-keys',
@@ -19,7 +20,7 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public showKeyCreatedPopup = false;
   public apiKeys$: Observable<ApiKeyItem[]>;
-  public GAEnabled$: Observable<boolean>;
+  public GAEnabled = false;
   public confirmDeleteKeyId: number;
   public keyIdForEnableTrading;
   public twoFAFor;
@@ -27,6 +28,11 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
   public form: FormGroup;
   public newKeyName: string;
   public newKey: NewApiKeyItem;
+  public loading$: Observable<boolean>;
+  public isSubmited = false;
+
+  public countPerPage = 5;
+  public currentPage = 1;
 
   constructor(
     public apiKeysService: ApiKeysService,
@@ -37,7 +43,11 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
     this.initForm();
     this.store.dispatch(new settingsActions.LoadApiKeysAction());
     this.apiKeys$ = this.store.pipe(select(fromCore.getApiKeys));
-    this.GAEnabled$ = this.store.pipe(select(fromCore.getGAStatus));
+    this.loading$ = this.store.pipe(select(fromCore.getApiKeyLoading));
+    this.store.pipe(select(fromCore.getGAStatus)).pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.GAEnabled = res;
+      });
   }
 
   ngOnDestroy(): void {
@@ -62,6 +72,7 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
 
   close2FAPopup() {
     this.show2FAPopup = false;
+    this.isSubmited = false;
   }
 
   confirmDelete(keyId) {
@@ -74,6 +85,8 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
 
   public toggleKeyCreatedPopup(flag: boolean) {
     this.showKeyCreatedPopup = flag;
+    this.form.reset();
+    this.isSubmited = false;
   }
 
   onChangeTrading(event, key: ApiKeyItem) {
@@ -95,6 +108,7 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
   }
 
   createNewKey() {
+    this.isSubmited = true;
     if (this.form.valid) {
       this.sendPinToEmail();
       this.newKeyName = this.form.get('name').value;
@@ -104,14 +118,30 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
   }
 
   sendPinToEmail() {
-    const tempSub = this.apiKeysService.sendPinToEmail().subscribe(res => {
-      tempSub.unsubscribe();
-    });
+    if (!this.GAEnabled) {
+      const tempSub = this.apiKeysService.sendPinToEmail().subscribe(res => {
+        tempSub.unsubscribe();
+      });
+    }
   }
 
   initForm() {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required]),
     });
+  }
+
+  setNewKey(key) {
+    this.newKey = key;
+    this.toggleKeyCreatedPopup(true);
+  }
+
+  changePage(event) {
+    this.currentPage = event;
+  }
+
+  changeItemsPerPage(event) {
+    this.currentPage = 1;
+    this.countPerPage = event;
   }
 }

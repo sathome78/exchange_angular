@@ -25,10 +25,12 @@
           <div class="wrap-input__line" [ngClass]="{'wrap-input__line--error': false}"></div>
           <!--Input error section starts-->
           <div>
-            <div class="input-hint-wrapper">
-            <span *ngIf="false" class=" wrap-input__message wrap-input__message--error">
+            <div *ngIf="form.controls['pin']?.errors !== null">
+            <div class="input-hint-wrapper" *ngIf="form.controls['pin']?.errors['required'] ">
+            <span  class=" wrap-input__message wrap-input__message--error">
               {{'This field is required.' | translate}}
             </span>
+            </div>
             </div>
           </div>
           <!--Input error section ends-->
@@ -36,7 +38,7 @@
 
       </div>
       <button class="btn popup__btn"
-              [disabled]="false"
+              [disabled]="form.invalid"
               (click)="onSubmit()"
               [ngClass]="{'popup__btn--active': true}">
         {{'Submit' | translate}}

@@ -27,6 +27,7 @@ import { ApiKeysComponent } from './api-keys/api-keys.component';
 import { ApiKeyCreatedComponent } from './api-keys/api-key-created/api-key-created.component';
 import { ApiKeyPopupComponent } from './api-keys/api-key-popup/api-key-popup.component';
 import {ApiKeysService} from './api-keys/api-keys.service';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.settings, translateInfo.suffix);
@@ -40,6 +41,7 @@ export function createTranslateLoader(http: HttpClient) {
     ReactiveFormsModule,
     SettingsRoutingModule,
     MyDatePickerModule,
+    NgxPaginationModule,
     SharedModule,
     TranslateModule.forChild({
       loader: {
