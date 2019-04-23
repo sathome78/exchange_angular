@@ -25,7 +25,7 @@ export class ApiKeysService {
   public changeAllowTrade(tokenId, allowTrade, pin = null): Observable<any> {
     const params = {tokenId, allowTrade, pin};
     const url = `${this.apiUrl}/api/private/v2/settings/token/allowTrade`;
-    return this.http.post(url, params);
+    return this.http.post(url, params, {params});
   }
 
   public sendPinToEmail() {
