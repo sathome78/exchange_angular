@@ -4,6 +4,10 @@ import {Subject} from 'rxjs';
 import {ApiKeysService} from '../api-keys.service';
 import {API_KEY_2FA_FOR} from '../../../shared/constants';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {NewApiKeyItem} from '../../../model/api-key.model';
+import {Store} from '@ngrx/store';
+import * as fromCore from '../../../core/reducers';
+import * as settingsActions from '../../store/actions/settings.actions';
 
 @Component({
   selector: 'app-api-key-popup',
@@ -19,6 +23,7 @@ export class ApiKeyPopupComponent implements OnInit, OnDestroy {
   @Input() apiKeyName;
   @Input() twoFAFor;
   @Output() close2FAPopup = new EventEmitter<boolean>();
+  @Output() createdNewKey = new EventEmitter<NewApiKeyItem>();
   public form: FormGroup;
   public validPin;
 
@@ -35,6 +40,7 @@ export class ApiKeyPopupComponent implements OnInit, OnDestroy {
 
   constructor(
     public apiKeysService: ApiKeysService,
+    private store: Store<fromCore.State>,
   ) { }
 
   ngOnInit() {
@@ -66,7 +72,8 @@ export class ApiKeyPopupComponent implements OnInit, OnDestroy {
     this.apiKeysService.createApiKey(this.apiKeyName, this.validPin)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        console.log(res);
+        this.createdNewKey.emit(res);
+        this.close2FAPopup.emit(true);
       });
   }
 
@@ -74,7 +81,8 @@ export class ApiKeyPopupComponent implements OnInit, OnDestroy {
     this.apiKeysService.changeAllowTrade(this.keyIdForEnableTrading, true, this.validPin)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-      console.log(res);
+        this.store.dispatch(new settingsActions.LoadApiKeysAction());
+        this.close2FAPopup.emit(true);
     });
   }
 

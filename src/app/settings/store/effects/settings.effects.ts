@@ -11,6 +11,7 @@ import { UserService } from 'app/shared/services/user.service';
 import * as fundsActions from '../../../funds/store/actions/funds.actions';
 import {MyBalanceItem} from '../../../model/my-balance-item.model';
 import {ApiKeysService} from '../../api-keys/api-keys.service';
+import {ApiKeyItem} from '../../../model/api-key.model';
 
 @Injectable()
 export class SettingsEffects {
@@ -68,7 +69,7 @@ export class SettingsEffects {
     .pipe(switchMap(() => {
       return this.apiKeysService.getApiKeys()
         .pipe(
-          map((res: any[]) => (new settingsActions.SetApiKeysAction(res))),
+          map((res: ApiKeyItem[]) => (new settingsActions.SetApiKeysAction(res))),
           catchError(error => of(new settingsActions.FailLoadApiKeysAction(error)))
         );
     }));

@@ -1,13 +1,14 @@
 import * as settingsActions from '../actions/settings.actions';
 import {defaultValues} from './default-values';
 import {createFeatureSelector, createSelector} from '@ngrx/store';
+import {ApiKeyItem} from '../../../model/api-key.model';
 
 export interface State {
   loading: boolean;
   GAEnabled: boolean;
   GALoading: boolean;
   sessionTime: number;
-  apiKeys: any[];
+  apiKeys: ApiKeyItem[];
 }
 
 export const INIT_STATE: State = {
@@ -72,5 +73,5 @@ export function reducer(state: State = INIT_STATE, action: settingsActions.Actio
 export const getGAStatusSelector = (state: State): boolean => state.GAEnabled;
 export const getGALoadingSelector = (state: State): boolean => state.GALoading;
 export const getSessionTimeSelector = (state: State): number => state.sessionTime;
-export const getApiKeysSelector = (state: State): any[] => state.apiKeys;
+export const getApiKeysSelector = (state: State): ApiKeyItem[] => state.apiKeys;
 

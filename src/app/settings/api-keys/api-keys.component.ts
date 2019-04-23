@@ -7,6 +7,7 @@ import * as fromCore from '../../core/reducers';
 import * as settingsActions from '../store/actions/settings.actions';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {API_KEY_2FA_FOR} from '../../shared/constants';
+import {ApiKeyItem, NewApiKeyItem} from '../../model/api-key.model';
 
 @Component({
   selector: 'app-api-keys',
@@ -17,17 +18,15 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public showKeyCreatedPopup = false;
-  public apiKeys$: Observable<any[]>;
+  public apiKeys$: Observable<ApiKeyItem[]>;
   public GAEnabled$: Observable<boolean>;
-  public confirmDeleteKeyId;
+  public confirmDeleteKeyId: number;
   public keyIdForEnableTrading;
   public twoFAFor;
   public show2FAPopup = false;
   public form: FormGroup;
   public newKeyName: string;
-
-  public check = true;  // temp var
-  public notCheck = false;  // temp var
+  public newKey: NewApiKeyItem;
 
   constructor(
     public apiKeysService: ApiKeysService,
@@ -77,17 +76,19 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
     this.showKeyCreatedPopup = flag;
   }
 
-  onChangeTrading({target}) {
-    const val = target.checked;
+  onChangeTrading(event, key: ApiKeyItem) {
+    event.target.checked = key.allowTrade;
+    const val = key.allowTrade;
     if (val) {
        this.apiKeysService
-         .changeAllowTrade(1, false)
+         .changeAllowTrade(key.id, false)
          .pipe(takeUntil(this.ngUnsubscribe))
          .subscribe(res => {
-         console.log(res);
+           this.store.dispatch(new settingsActions.LoadApiKeysAction());
        });
     } else {
-       this.keyIdForEnableTrading = 2;
+      this.sendPinToEmail();
+       this.keyIdForEnableTrading = key.id;
        this.twoFAFor = API_KEY_2FA_FOR.ENABLE_TRADING_FOR_KEY;
        this.open2FAPopup();
     }
@@ -95,10 +96,17 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
 
   createNewKey() {
     if (this.form.valid) {
+      this.sendPinToEmail();
       this.newKeyName = this.form.get('name').value;
       this.twoFAFor = API_KEY_2FA_FOR.NEW_KEY;
       this.open2FAPopup();
     }
+  }
+
+  sendPinToEmail() {
+    const tempSub = this.apiKeysService.sendPinToEmail().subscribe(res => {
+      tempSub.unsubscribe();
+    });
   }
 
   initForm() {

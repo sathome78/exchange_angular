@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Animations} from '../../../shared/animations';
+import {NewApiKeyItem} from '../../../model/api-key.model';
 
 @Component({
   selector: 'app-api-key-created',
@@ -11,7 +12,8 @@ import {Animations} from '../../../shared/animations';
 })
 export class ApiKeyCreatedComponent implements OnInit {
 
-  @Input() showPopup;
+  @Input() showPopup: boolean;
+  @Input() newKey: NewApiKeyItem;
   @Output() closeCreatedKeyPopup = new EventEmitter<boolean>();
 
   constructor() { }
