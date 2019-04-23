@@ -23,6 +23,7 @@ export class IEOTableComponent implements OnInit {
   public stage = {
     PENDING: 'PENDING',
     RUNNING: 'RUNNING',
+    TERMINATED: 'TERMINATED',
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
   }

@@ -5,12 +5,14 @@ import {State} from 'app/core/reducers';
 import {Subject, Observable, forkJoin} from 'rxjs';
 import * as fromCore from '../core/reducers'
 import {PopupService} from 'app/shared/services/popup.service';
-import {takeUntil, take} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {IEOServiceService} from '../shared/services/ieoservice.service';
 import {KycIEOModel} from './models/ieo-kyc.model';
 import {ActivatedRoute} from '@angular/router';
 import {IEOItem} from 'app/model/ieo.model';
-import { UserService } from 'app/shared/services/user.service';
+import {UserService} from 'app/shared/services/user.service';
+import {environment} from 'environments/environment';
+import * as moment from 'moment';
 @Component({
   selector: 'app-ieo',
   templateUrl: './ieo.component.html',
@@ -23,6 +25,7 @@ export class IEOComponent implements OnInit, OnDestroy {
   public stage = {
     PENDING: 'PENDING',
     RUNNING: 'RUNNING',
+    TERMINATED: 'TERMINATED',
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
   }
@@ -40,6 +43,7 @@ export class IEOComponent implements OnInit, OnDestroy {
   public IEOData: IEOItem = new IEOItem();
   public userBalanceBTC: number = 0;
   public ieoLoading: boolean = true;
+  public endTimer: any = null;
 
   constructor(
     private store: Store<State>,
@@ -55,8 +59,12 @@ export class IEOComponent implements OnInit, OnDestroy {
       this.IEOSub$.pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe((res: IEOItem) => {
           this.IEOData = res;
+          // this.IEOData.status = 'TERMINATED';
           this.ieoLoading = false;
           this.currentStage = res.status;
+          if(this.currentStage === this.stage.RUNNING) {
+            this.setEndIEOTimer();
+          }
         });
       this.AuthSub$.pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe((isAuth: boolean) => {
@@ -67,13 +75,8 @@ export class IEOComponent implements OnInit, OnDestroy {
               .subscribe((res: KycIEOModel) => {
                 if(res) {
                   this.requirements = res;
-                  // this.requirements = new KycIEOModel(true, true, false);
+                  // this.requirements = new KycIEOModel(true, true, true);
                 };
-              })
-            this.userService.getUserBalanceCurr(['BTC'])
-              .pipe(takeUntil(this.ngUnsubscribe$))
-              .subscribe((res) => {
-                this.userBalanceBTC = res.data['BTC'];
               })
           }
         })
@@ -165,15 +168,38 @@ export class IEOComponent implements OnInit, OnDestroy {
   onRefreshIEOStatus() {
     this.ieoService.refreshIEOStatus()
       .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe((res) => {
-        // debugger;
-      })
+      .subscribe((res) => {});
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
     window.onscroll = () => {}
+  }
+
+  testNotif(msg = '') {
+    this.userService.sendTestNotif(msg)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((res) => {});
+  }
+
+  setEndIEOTimer() {
+    if(this.endTimer) {
+      clearTimeout(this.endTimer);
+    }
+    const d = this.IEOData.endDate;
+    const endDate: moment.Moment = moment.utc({
+      y: d.year, M: d.monthValue - 1, d: d.dayOfMonth, h: d.hour, m: d.minute, s: d.second
+    }).local();
+    const current_date: moment.Moment = moment();
+    const diff: number = endDate.diff(current_date);
+    this.endTimer = setTimeout(() => {
+      this.onRefreshIEOStatus();
+    }, diff);
+  }
+
+  public get isProd() {
+    return environment.production;
   }
 
 }

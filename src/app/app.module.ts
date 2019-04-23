@@ -42,6 +42,7 @@ import {PopupsModule} from './popups/popups.module';
 import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from '@stomp/ng2-stompjs';
 import * as SockJS from 'sockjs-client';
 import {SEOService} from './shared/services/seo.service';
+import {ToastrModule, ToastContainerModule} from 'ngx-toastr';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -103,6 +104,8 @@ const stompConfig: InjectableRxStompConfig = {
     NgxPaginationModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    ToastContainerModule,
     PopupsModule
   ],
   providers: [

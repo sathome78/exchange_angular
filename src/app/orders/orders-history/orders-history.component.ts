@@ -12,10 +12,10 @@ import {Observable, Subject} from 'rxjs';
 import {OrdersService} from '../orders.service';
 import {takeUntil} from 'rxjs/operators';
 import saveAs from 'file-saver';
-import {UtilsService} from 'app/shared/services/utils.service';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import * as moment from 'moment';
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-orders-history',
@@ -32,6 +32,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public currencyPairs$: Observable<SimpleCurrencyPair[]>;
   public loading$: Observable<boolean>;
   public isLast15Items$: Observable<boolean>;
+  public isVipUser;
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -66,7 +67,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     private ordersService: OrdersService,
     public breakpointService: BreakpointService,
     private cdr: ChangeDetectorRef,
-    private utils: UtilsService,
+    public authService: AuthService,
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getHistoryOrdersCount));
@@ -85,6 +86,8 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isVipUser = this.authService.isVipUser;
+
     this.isMobile = window.innerWidth < 1200;
     if(this.isMobile) {
       this.countPerPage = 30;
@@ -116,7 +119,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     e.preventDefault();
     this.clearFilters();
     const params = {
-      offset: 0,
+      page: this.currentPage,
       limit: this.countPerPage,
     }
     this.store.dispatch(new ordersAction.LoadLastHistoryOrdersAction(params));
@@ -293,10 +296,9 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   filterPopupSubmit() {
-    if(this.isDateRangeValid()) {
+      this.currentPage = 1;
       this.closeFilterPopup();
       this.loadOrders();
-    }
   }
 
   downloadExcel() {
