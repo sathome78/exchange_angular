@@ -43,8 +43,8 @@
               <td class="table__cell table__cell--tal">
                 <div>{{item.currencyPairName}}</div>
                 <div class="table__date-time">
-                  <div>{{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
-                  <div>{{item.dateCreation | amDateFormat:"HH:mm:ss"}}</div>
+                  <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"DD.MM.YYYY"}}</div>
+                  <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"HH:mm:ss"}}</div>
                 </div>
               </td>
               <td class="table__cell table__cell--tal">
@@ -209,8 +209,8 @@
           </td>
           <td class="table__cell">
             <div class="table__date-time">
-              <div>{{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
-              <div>{{item.dateCreation | amDateFormat:"HH:mm:ss"}}</div>
+              <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"DD.MM.YYYY"}}</div>
+              <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"HH:mm:ss"}}</div>
             </div>
           </td>
           <td class="table__cell">

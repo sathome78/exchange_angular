@@ -23,8 +23,8 @@
   >
     <td class="table__cell">
       <div class="table__date-time">
-        <div>{{item.date | amDateFormat: 'dd DD.MM.YYYY'}}</div>
-        <div>{{item.date | amDateFormat: 'HH:mm:ss'}}</div>
+        <div>{{item.date | amFromUtc | amLocal | amDateFormat: 'dd DD.MM.YYYY'}}</div>
+        <div>{{item.date | amFromUtc | amLocal | amDateFormat: 'HH:mm:ss'}}</div>
       </div>
     </td>
     <td class="table__cell">
