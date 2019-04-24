@@ -1,0 +1,55 @@
+<div class="overlay--modal" *ngIf="showPopup" [@overlayAnimation]="showPopup ? 'show' : 'hide'" appAddClass="no-scroll"
+     to="body">
+  <div class="modal" [@modalAnimation]="showPopup ? 'show' : 'hide' ">
+
+    <div class="modal__header">
+      <span class="key-success">{{'Api-key successfully created' | translate}}</span>
+    </div>
+    <!-- modal header end -->
+    <div class="modal__content" *ngIf="newKey">
+      <div class="inputs-wr">
+        <div class="title refill__title">
+          {{'New API-key' | translate}}
+        </div>
+
+        <div class="refill__inputs-wrap">
+          <span class="key-label">Public key</span>
+          <div class="select refill__select refill__select--cripto">
+            <div class="select__value select__value--active">
+              <span>{{newKey.publicKey}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="refill__inputs-wrap">
+          <span class="key-label">Private key</span>
+          <div class="select refill__select refill__select--cripto">
+            <div class="select__value select__value--active">
+              <span>{{newKey.privateKey}}</span>
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="btn btn--center"
+          (click)="onCloseCreatedKeyPopup()">
+          {{'Return' | translate}}
+        </button>
+      </div>
+
+
+      <div class="note modal__note">
+        <div class="note__title">{{'Warning:' | translate}}</div>
+        <ul class="note__list">
+          <li class="note__list-item">
+            Please notice that the secret key will be shown only once.
+          </li>
+          <li class="note__list-item">
+            If you dont save it, you always will be able to create a new.
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
