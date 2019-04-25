@@ -2,11 +2,25 @@
   padding: 39px 0 0 32px;
   width: 100%;
   max-width: 590px;
+  @media(max-width: 620px){
+    padding: 39px 32px 0;
+
+    max-width: unset;
+  }
+  @media(max-width: 480px){
+    padding: 20px 10px 0;
+
+    max-width: unset;
+  }
 }
 
 .wrap-input {
   margin-right: 20px;
   width: 100%;
+  @media(max-width: 620px){
+    margin: 0;
+    margin-bottom: 20px;
+  }
 }
 
 .api-key-container {
@@ -59,6 +73,10 @@
 
 .create-key-container{
   display: flex;
+  @media(max-width: 620px){
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
   .wrap-input{
 
   }
@@ -112,14 +130,24 @@
     font-size: 24px;
     line-height: normal;
     color: #FFFFFF;
+    @media(max-width: 620px){
+      font-size: 20px;
+      line-height: 22px;
+      color: #DEDEFB;
+    }
   }
 }
 .btn--empty-blue{
   background-color: transparent;
   border: 1px solid #237BEF;
   color: #fff;
+  
 }
-
+.settings__form-btn{
+  @media(max-width: 620px){
+    margin: 0;
+  }
+}
 .revoke-request{
   background: #fff;
   right: 0;
@@ -152,5 +180,5 @@
   top: 20px;
 }
 .revoke-request__triangle{
-border-top: 5px solid #fff;
+  border-top: 5px solid #fff;
 }

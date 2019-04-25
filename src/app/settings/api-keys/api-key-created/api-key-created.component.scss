@@ -29,6 +29,9 @@
   width: calc(100% + 24px);
   left: -12px;
   margin-top: 24px;
+  @media(max-width: 1199px){
+    padding: 10px;
+  }
 }
 @media (min-width:1200px){
   #refill-qr{
@@ -144,6 +147,10 @@ color: #191A39;
   text-align: center;
   color: #191A39;
   padding: 31px;
+  @media(max-width: 1199px){
+    padding: 12px;
+    color: #DEDEFB;
+  }
 }
 .modal__header{
   border: none;
@@ -157,4 +164,9 @@ color: #191A39;
   margin-left: auto;
   margin-right: auto;
   padding: 0 32px;
+}
+.api-key-content{
+  @media(max-width: 1199px){
+    padding-top: 20px;
+  }
 }
