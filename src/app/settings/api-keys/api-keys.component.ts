@@ -9,6 +9,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {API_KEY_2FA_FOR} from '../../shared/constants';
 import {ApiKeyItem, NewApiKeyItem} from '../../model/api-key.model';
 import * as fundsReducer from '../../funds/store/reducers/funds.reducer';
+import {BreakpointService} from '../../shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-api-keys',
@@ -30,6 +31,7 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
   public newKey: NewApiKeyItem;
   public loading$: Observable<boolean>;
   public isSubmited = false;
+  public heightMobScrollContainer;
 
   public countPerPage = 5;
   public currentPage = 1;
@@ -37,9 +39,11 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
   constructor(
     public apiKeysService: ApiKeysService,
     private store: Store<fromCore.State>,
+    public breakpointService: BreakpointService,
   ) { }
 
   ngOnInit() {
+    this.calculateHeightScrollContainer();
     this.initForm();
     this.store.dispatch(new settingsActions.LoadApiKeysAction());
     this.apiKeys$ = this.store.pipe(select(fromCore.getApiKeys));
@@ -53,6 +57,11 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  calculateHeightScrollContainer() {
+    const componentHeight = window.innerHeight;
+    this.heightMobScrollContainer = componentHeight - 310;
   }
 
   deleteApiKey(id) {

@@ -2,17 +2,33 @@
   padding: 39px 0 0 32px;
   width: 100%;
   max-width: 590px;
+  @media(max-width: 620px){
+    padding: 39px 32px 0;
+
+    max-width: unset;
+  }
+  @media(max-width: 480px){
+    padding: 20px 0 0 10px;
+
+    max-width: unset;
+  }
 }
 
 .wrap-input {
   margin-right: 20px;
   width: 100%;
+  @media(max-width: 620px){
+    margin: 0;
+    margin-bottom: 20px;
+  }
 }
 
 .api-key-container {
   width: 100%;
-  //margin-top: 58px;
-  
+  margin-top: 58px;
+  @media(max-width: 620px){
+    margin-top: 0;
+  }
 }
 .allowed-text{
   font-weight: normal;
@@ -21,8 +37,9 @@
   color: #AAB1C4;
 }
 .api-key-item {
-  width: 100%;
+  //width: 100%;
   margin-bottom: 30px;
+  margin-right: 10px;
   padding: 14px;
   background: #1A1F42;
   border-radius: 4px;
@@ -38,7 +55,7 @@
     font-weight: normal;
     font-size: 16px;
     line-height: normal;
-
+    word-break: break-all;
     color: #FFFFFF;
   }
   .key-controls {
@@ -59,6 +76,11 @@
 
 .create-key-container{
   display: flex;
+  @media(max-width: 620px){
+    flex-direction: column;
+    margin-bottom: 20px;
+    padding-right: 10px;
+  }
   .wrap-input{
 
   }
@@ -112,18 +134,31 @@
     font-size: 24px;
     line-height: normal;
     color: #FFFFFF;
+    @media(max-width: 620px){
+      font-size: 20px;
+      line-height: 22px;
+      color: #DEDEFB;
+    }
   }
 }
 .btn--empty-blue{
   background-color: transparent;
   border: 1px solid #237BEF;
   color: #fff;
+  
 }
-
+.settings__form-btn{
+  @media(max-width: 620px){
+    margin: 0;
+  }
+}
 .revoke-request{
   background: #fff;
   right: 0;
   margin-bottom: 10px;
+  @media(max-width: 1199px){
+        bottom: 100%;
+  }
 }
 .revoke-request__title{
   font-size: 14px;
@@ -152,5 +187,5 @@
   top: 20px;
 }
 .revoke-request__triangle{
-border-top: 5px solid #fff;
+  border-top: 5px solid #fff;
 }

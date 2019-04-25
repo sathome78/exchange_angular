@@ -17,11 +17,15 @@
     align-items: center;
     margin-bottom: 24px;
     position: relative;
+    @media(max-width: 1199px){
+      margin-bottom: 0;
+    }
   }
   &__select{
     width: 100%;
     max-width: unset;
     margin-bottom: 28px;
+    overflow: hidden;
   }
 
 }
@@ -29,6 +33,12 @@
   width: calc(100% + 24px);
   left: -12px;
   margin-top: 24px;
+  @media(max-width: 1199px){
+    padding: 10px 14px;
+    width: 100%;
+    left: 0;
+    margin-top: 32px;
+  }
 }
 @media (min-width:1200px){
   #refill-qr{
@@ -125,6 +135,10 @@ color: #191A39;
   line-height: normal;
 
   color: #237BEF;
+  @media(max-width: 1199px){
+        background: #191A39;
+        color: #DEDEFB;
+  }
 }
 
 
@@ -144,6 +158,10 @@ color: #191A39;
   text-align: center;
   color: #191A39;
   padding: 31px;
+  @media(max-width: 1199px){
+    padding: 12px;
+    color: #DEDEFB;
+  }
 }
 .modal__header{
   border: none;
@@ -157,4 +175,13 @@ color: #191A39;
   margin-left: auto;
   margin-right: auto;
   padding: 0 32px;
+  @media(max-width: 1199px){
+        padding: 0 12px;
+        padding-top: 20px;
+  }
+}
+.api-key-content{
+  @media(max-width: 1199px){
+    padding-top: 20px;
+  }
 }
