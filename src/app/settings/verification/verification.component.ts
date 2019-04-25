@@ -138,10 +138,6 @@ export class VerificationComponent implements OnInit, OnDestroy {
     });
   }
 
-  showF() {
-    console.log(this.form);
-  }
-
   sendForm() {
     if (this.form.valid && !!this.modelDateTo) {
       this.dataModel.birthDay = this.modelDateTo.date.day;
