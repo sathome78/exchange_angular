@@ -8,7 +8,7 @@
     max-width: unset;
   }
   @media(max-width: 480px){
-    padding: 20px 10px 0;
+    padding: 20px 0 0 10px;
 
     max-width: unset;
   }
@@ -25,8 +25,10 @@
 
 .api-key-container {
   width: 100%;
-  //margin-top: 58px;
-  
+  margin-top: 58px;
+  @media(max-width: 620px){
+    margin-top: 0;
+  }
 }
 .allowed-text{
   font-weight: normal;
@@ -35,8 +37,9 @@
   color: #AAB1C4;
 }
 .api-key-item {
-  width: 100%;
+  //width: 100%;
   margin-bottom: 30px;
+  margin-right: 10px;
   padding: 14px;
   background: #1A1F42;
   border-radius: 4px;
@@ -76,6 +79,7 @@
   @media(max-width: 620px){
     flex-direction: column;
     margin-bottom: 20px;
+    padding-right: 10px;
   }
   .wrap-input{
 
