@@ -43,7 +43,7 @@
   <div class="api-text" *ngIf="!(loading$ | async) && !(apiKeys$ | async).length">
     <p>Tou haven’t create API-keys yet. Enter API-key name and press “Create API-key” to  produce</p>
   </div>
-  <div class="api-key-item" *ngFor="let key of apiKeys$ | async | paginate: {
+  <div class="api-key-item" *ngFor="let key of (apiKeys$ | async).reverse() | paginate: {
           itemsPerPage: countPerPage,
           currentPage: currentPage,
           totalItems: (apiKeys$ | async).length
