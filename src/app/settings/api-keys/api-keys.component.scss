@@ -52,7 +52,7 @@
     font-weight: normal;
     font-size: 16px;
     line-height: normal;
-
+    word-break: break-all;
     color: #FFFFFF;
   }
   .key-controls {
@@ -152,6 +152,9 @@
   background: #fff;
   right: 0;
   margin-bottom: 10px;
+  @media(max-width: 1199px){
+        bottom: 100%;
+  }
 }
 .revoke-request__title{
   font-size: 14px;
