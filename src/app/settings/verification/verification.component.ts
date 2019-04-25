@@ -25,6 +25,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   public isInputFocus = false;
   public showComponent;
   public modelDateTo = null;
+  public charPattern = '[a-zA-Z]+';
   public form: FormGroup;
   public dataModel;
   public openCountryDropdown = false;
@@ -132,8 +133,8 @@ export class VerificationComponent implements OnInit, OnDestroy {
 
   private initForm() {
     this.form = new FormGroup({
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('', [Validators.required]),
+      firstName: new FormControl('', [Validators.required, Validators.pattern(this.charPattern)]),
+      lastName: new FormControl('', [Validators.required, Validators.pattern(this.charPattern)]),
     });
   }
 
