@@ -23,7 +23,7 @@ export class FundsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.lang$.subscribe(lang => this.translate.use(lang));
+    this.lang$.subscribe(lang => this.translate.use(lang));
   }
 
 }

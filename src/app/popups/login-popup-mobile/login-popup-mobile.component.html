@@ -10,7 +10,7 @@
         <img src="../../assets/img/logo-exrates.svg" alt="">
       </div>
       <h6 class="popup__title">{{'Log in' | translate}}</h6>
-      <h6 class="popup__title-mob mobile-container">Login to continue</h6>
+      <h6 class="popup__title-mob mobile-container">{{'Login to continue' | translate}}</h6>
       <!-- <h4 class="popup__subtitle">{{statusMessage}}</h4> -->
 
       <form class="popup__form" [formGroup]="loginForm">
@@ -134,7 +134,7 @@
         </a>
       </div>
       <a class="popup__link-mob mobile-container" (click)="openRegistration()">
-        <span>Not registered yet? </span>
+        <span>{{'Not registered yet?' | translate}} </span>
         {{'Sing Up' | translate}}
       </a>
     </ng-template>
