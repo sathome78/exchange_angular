@@ -21,7 +21,7 @@ import {
   widget,
   IChartingLibraryWidget,
   ChartingLibraryWidgetOptions,
-  LanguageCode,
+  LanguageCode, Timezone,
 } from 'assets/js/charting_library/charting_library.min';
 import {environment} from 'environments/environment';
 import {select, Store} from '@ngrx/store';
@@ -37,6 +37,8 @@ import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import { Observable } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
+import * as moment from 'moment';
+import {GRAPH_TIME_ZONE_SUPPORT} from 'app/shared/constants';
 
 @Component({
   selector: 'app-graph',
@@ -86,6 +88,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private _containerId: ChartingLibraryWidgetOptions['container_id'] = 'tv_chart_container';
   private _tvWidget: IChartingLibraryWidget | null = null;
   private _getDataInterval = 60 * 1000;
+  public timeZoneName: string;
 
 
   @Input()
@@ -157,6 +160,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     private cdr: ChangeDetectorRef
   ) {
     super();
+    this.timeZoneName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    this.setTimeZoneToWidget();
     this.isAuthenticated$ = this.store.pipe(select(getIsAuthenticated));
   }
 
@@ -185,7 +190,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         this.currentCurrencyInfo = pair;
         this.splitPairName(this.pair);
         this.isFiat = this.getIsFiat(this.secondCurrency);
-        this.cdr.detectChanges()
+        this.cdr.detectChanges();
       });
 
     this.store
@@ -205,7 +210,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl, this._getDataInterval),
       interval: this._interval,
       container_id: this._containerId,
-      timezone: 'Etc/UTC',
+      timezone: this.setTimeZoneToWidget(),
       time_frames: [
         {text: '8m', resolution: 'D'},
         {text: '2m', resolution: 'D'},
@@ -405,11 +410,20 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
   getIsFiat(curr): boolean {
-    return this.utils.isFiat(curr)
+    return this.utils.isFiat(curr);
   }
 
   toMobileWidget(widgetName: string) {
     this.dashboardService.activeMobileWidget.next(widgetName);
+  }
+
+  private setTimeZoneToWidget(): Timezone {
+    if (!!this.timeZoneName) {
+      const indexCandidate = GRAPH_TIME_ZONE_SUPPORT.indexOf(this.timeZoneName);
+      return (indexCandidate !== -1) ? <Timezone>GRAPH_TIME_ZONE_SUPPORT[indexCandidate] : <Timezone>this.timeZoneName;
+    } else {
+      return 'Etc/UTC';
+    }
   }
 
 }

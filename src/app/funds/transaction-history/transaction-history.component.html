@@ -48,8 +48,8 @@
                 <span>{{item.sourceType === 'REFILL' ? 'Refill' : item.sourceType === 'WITHDRAW' ? 'Withdraw' : item.sourceType}}</span>
               </div>
               <div class="balance__request-mob-date">
-                <div>{{item.datetime | dateWrapper | amDateFormat: 'dd DD.MM.YYYY'}}</div>
-                <div>{{item.datetime | dateWrapper | amDateFormat: 'HH:mm:ss'}}</div>
+                <div>{{item.datetime | amFromUtc | amLocal | amDateFormat: 'dd DD.MM.YYYY'}}</div>
+                <div>{{item.datetime | amFromUtc | amLocal | amDateFormat: 'HH:mm:ss'}}</div>
               </div>
             </td>
             <td class="table__cell table__cell--tal">
@@ -274,8 +274,8 @@
           </td>
           <td class="table__cell">
             <div class="table__date-time">
-              <div>{{item.datetime | amDateFormat:"dd"}} {{item.datetime | amDateFormat:"DD.MM.YYYY"}}</div>
-              <div>{{item.datetime | amDateFormat:"HH:mm:ss"}}</div>
+              <div>{{item.datetime | amFromUtc | amLocal | amDateFormat:"dd DD.MM.YYYY"}}</div>
+              <div>{{item.datetime | amFromUtc | amLocal | amDateFormat:"HH:mm:ss"}}</div>
             </div>
           </td>
           <td class="table__cell">
