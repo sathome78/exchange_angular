@@ -23,6 +23,7 @@ const routes: Routes = [
   {path: 'funds', loadChildren: 'app/funds/funds.module#FundsModule', canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'orders', loadChildren: 'app/orders/orders.module#OrdersModule', canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'static', loadChildren: './static-pages/static-pages.module#StaticPagesModule'},
+  {path: 'ieo', loadChildren: 'app/ieo/ieo.module#IEOModule'},
 
   {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
   {path: '**', redirectTo: 'dashboard'}

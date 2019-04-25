@@ -1,7 +1,7 @@
 <!--mob-request start-->
 <ng-container>
-  <div class="balance__request-mob">
-    <div class="balance__request-mob-header">
+  <div class="balance__request-mob" >
+    <div class="balance__request-mob-header" >
       <h6>{{'Pending Requests' | translate}}</h6>
       <div *ngIf="loading$ | async">
         <app-loader size="small"></app-loader>
@@ -54,8 +54,8 @@
                   <span>{{item.operation === 'REFILL' ? 'Refill' : ''}}{{item.operation === 'WITHDRAW' ? 'Withdraw' : ''}}</span>
                 </div>
                 <div class="balance__request-mob-date">
-                  <div>{{item.date | dateWrapper | amDateFormat: 'dd DD.MM.YYYY'}}</div>
-                  <div>{{item.date | dateWrapper | amDateFormat: 'HH:mm:ss'}}</div>
+                  <div>{{item.date | amFromUtc | amLocal | amDateFormat: 'dd DD.MM.YYYY'}}</div>
+                  <div>{{item.date | amFromUtc | amLocal | amDateFormat: 'HH:mm:ss'}}</div>
                 </div>
               </td>
               <td class="table__cell table__cell--tal">

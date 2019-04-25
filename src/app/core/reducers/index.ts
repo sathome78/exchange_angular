@@ -68,11 +68,13 @@ export const getTradingType = createSelector(getDashboardState, fromDashboard.ge
 export const getLanguage = createSelector(getCoreState, fromCore.getLanguage);
 export const getVerificationStatus = createSelector(getCoreState, fromCore.getVerificationStatus);
 export const getSimpleCurrencyPairsSelector = createSelector(getCoreState, fromCore.getAllSimpleCurrencyPairs);
+export const getDetailedCurrencyPairsSelector = createSelector(getCoreState, fromCore.getAllDetailedCurrencyPairs);
 export const getAllCurrenciesForChoose = createSelector(getCoreState, fromCore.getAllCurrenciesForChoose);
 export const getCryptoCurrenciesForChoose = createSelector(getCoreState, fromCore.getCryptoCurrenciesForChoose);
 export const getFiatCurrenciesForChoose = createSelector(getCoreState, fromCore.getFiatCurrenciesForChoose);
 export const getIsAuthenticated = createSelector(getCoreState, fromCore.getIsAuthenticatedSelector);
 export const getUserInfo = createSelector(getCoreState, fromCore.getUserInfoSelector);
+export const getIEOList = createSelector(getCoreState, fromCore.getIEOListSelector);
 
 
 /**
@@ -81,3 +83,5 @@ export const getUserInfo = createSelector(getCoreState, fromCore.getUserInfoSele
 export const getGAStatus = createSelector(getSettingsState, fromSettings.getGAStatusSelector);
 export const getGALoading = createSelector(getSettingsState, fromSettings.getGALoadingSelector);
 export const getSessionTime = createSelector(getSettingsState, fromSettings.getSessionTimeSelector);
+export const getApiKeys = createSelector(getSettingsState, fromSettings.getApiKeysSelector);
+export const getApiKeyLoading = createSelector(getSettingsState, fromSettings.getApiKeyLoadingSelector);

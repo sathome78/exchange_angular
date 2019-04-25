@@ -14,8 +14,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
 import {Subscription} from 'rxjs';
-import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 import {UserService} from '../../../shared/services/user.service';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 
 @Component({
@@ -58,6 +59,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     private marketService: MarketService,
     private userService: UserService,
     private store: Store<State>,
+    private utilsService: UtilsService,
     public breakpointService: BreakpointService,
     private dashboardWebsocketService: DashboardWebSocketService,
     private route: ActivatedRoute,
@@ -142,7 +144,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
           setTimeout(() => {
             this.scrollHeight = this.mobileContainer.nativeElement.offsetHeight - 108;
             this.cdr.detectChanges();
-          }, 0);
+          }, 300);
         } else {
           this.isMobile = false;
           this.scrollHeight = 0;
@@ -188,6 +190,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       id: pair.currencyPairId,
       name: pair.currencyPairName
     };
+    this.utilsService.saveActiveCurrencyPairToSS(simplePair);
     this.userService.getUserBalance(simplePair);
     if(this.isMobile) {
       this.router.navigate(['/dashboard'], {queryParams:{widget: 'trading'}});

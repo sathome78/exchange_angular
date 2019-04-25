@@ -30,6 +30,8 @@ export class ShowTransactionsStatusPipe  implements PipeTransform {
           return 'Canceled';
         case 'REVOKED_ADMIN':
           return 'Declined';
+        case 'REVOKED_USER':
+          return 'Canceled';
         default:
           return status;
       }
@@ -44,6 +46,15 @@ export class ShowTransactionsStatusPipe  implements PipeTransform {
           return 'Canceled';
         case 'EXPIRED':
           return 'Expired';
+        default:
+          return status;
+      }
+    } else if(sourceType === 'IEO') {
+      switch (status) {
+        case 'PROCESSED_BY_CLAIM':
+          return 'Completed';
+        case 'REVOKED_BY_IEO_FAILURE':
+          return 'IEO Revoked';
         default:
           return status;
       }

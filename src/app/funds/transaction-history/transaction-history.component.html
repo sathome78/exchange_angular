@@ -45,11 +45,11 @@
                     'arr--green': item.sourceType === 'REFILL'
                   }"
                 ></span>
-                <span>{{item.sourceType === 'REFILL' ? 'Refill' : ''}}{{item.sourceType === 'WITHDRAW' ? 'Withdraw' : ''}}</span>
+                <span>{{item.sourceType === 'REFILL' ? 'Refill' : item.sourceType === 'WITHDRAW' ? 'Withdraw' : item.sourceType}}</span>
               </div>
               <div class="balance__request-mob-date">
-                <div>{{item.datetime | dateWrapper | amDateFormat: 'dd DD.MM.YYYY'}}</div>
-                <div>{{item.datetime | dateWrapper | amDateFormat: 'HH:mm:ss'}}</div>
+                <div>{{item.datetime | amFromUtc | amLocal | amDateFormat: 'dd DD.MM.YYYY'}}</div>
+                <div>{{item.datetime | amFromUtc | amLocal | amDateFormat: 'HH:mm:ss'}}</div>
               </div>
             </td>
             <td class="table__cell table__cell--tal">
@@ -134,7 +134,7 @@
         </div>
         <div class="row row--jcsb">
           <div class="wrap-input filters-popup__datepicker">
-            <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date}" >{{'From' | translate}}</label>
+            <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date || isDateInputFromFocus}" >{{'From' | translate}}</label>
             <app-date-mask-input
               [innValue]="modelDateFrom"
               (inputFocus)="focusOrBlurDateFrom($event)"
@@ -151,7 +151,7 @@
             <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
           </div>
           <div class="wrap-input filters-popup__datepicker">
-            <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date}" >{{'To' | translate}}</label>
+            <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateTo?.date || isDateInputToFocus}" >{{'To' | translate}}</label>
             <app-date-mask-input
               [innValue]="modelDateTo"
               (inputFocus)="focusOrBlurDateTo($event)"
@@ -168,7 +168,7 @@
             <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
           </div>
         </div>
-        <button class="btn filters-popup__btn"  (click)="closeFilterPopup()">{{'See results' | translate}}</button>
+        <button class="btn filters-popup__btn"  (click)="filterPopupSubmit()">{{'See results' | translate}}</button>
       </form>
     </div>
     <!--filter-popup end-->
@@ -206,7 +206,7 @@
           ></app-dynamic-input>
         </div>
         <div class="wrap-input transaction__datepicker">
-          <label class="wrap-input__label" [ngClass]="{'select-input_label': !!modelDateFrom?.date}">{{'From' | translate}}</label>
+          <label class="wrap-input__label" [ngClass]="{'select-input_label': !!modelDateFrom?.date || isDateInputFromFocus}">{{'From' | translate}}</label>
           <app-date-mask-input
             [innValue]="modelDateFrom"
             (validDate)="dateFromChanged($event)"
@@ -225,7 +225,7 @@
           <div class="wrap-input__line" style="position: absolute; bottom: 1px; width: 100%;"></div>
         </div>
         <div class="wrap-input transaction__datepicker">
-          <label class="wrap-input__label" [ngClass]="{'select-input_label': !!modelDateTo?.date}" >{{'To' | translate}}</label>
+          <label class="wrap-input__label" [ngClass]="{'select-input_label': !!modelDateTo?.date || isDateInputToFocus}" >{{'To' | translate}}</label>
           <app-date-mask-input
             [innValue]="modelDateTo"
             (validDate)="dateToChanged($event)"
@@ -274,8 +274,8 @@
           </td>
           <td class="table__cell">
             <div class="table__date-time">
-              <div>{{item.datetime | amDateFormat:"dd"}} {{item.datetime | amDateFormat:"DD.MM.YYYY"}}</div>
-              <div>{{item.datetime | amDateFormat:"HH:mm:ss"}}</div>
+              <div>{{item.datetime | amFromUtc | amLocal | amDateFormat:"dd DD.MM.YYYY"}}</div>
+              <div>{{item.datetime | amFromUtc | amLocal | amDateFormat:"HH:mm:ss"}}</div>
             </div>
           </td>
           <td class="table__cell">
@@ -289,16 +289,36 @@
             </div>
           </td>
           <td class="table__cell">
-            <span>{{item.amount | roundCurrency: item.currencyName | formatCurrency}}</span>
+            <span>{{item.commissionAmount| roundCurrency: item.currencyName | formatCurrency}}</span>
           </td>
           <td class="table__cell">
             <span>{{item.amount | roundCurrency: item.currencyName | formatCurrency}}</span>
           </td>
           <td class="table__cell">
-            <span class="txt-green" *ngIf="item.sourceType === 'REFILL'">{{item.sourceType | showTransactionsType}}</span>
-            <span class="txt-red" *ngIf="item.sourceType === 'WITHDRAW'">{{item.sourceType | showTransactionsType}}</span>
-            <span class="txt-green" *ngIf="item.sourceType === 'USER_TRANSFER' && item.accepted">{{item.sourceType | showTransactionsType}}</span>
-            <span class="txt-red" *ngIf="item.sourceType === 'USER_TRANSFER' && !item.accepted">{{item.sourceType | showTransactionsType}}</span>
+            <span
+              class="txt-green"
+              *ngIf="item.sourceType === 'REFILL'"
+            >{{item.sourceType | showTransactionsType}}</span>
+            <span
+              class="txt-red"
+              *ngIf="item.sourceType === 'WITHDRAW'"
+            >{{item.sourceType | showTransactionsType}}</span>
+            <span
+              class="txt-green"
+              *ngIf="item.sourceType === 'USER_TRANSFER' && item.accepted"
+            >{{item.sourceType | showTransactionsType: item}}</span>
+            <span
+              class="txt-red"
+              *ngIf="item.sourceType === 'USER_TRANSFER' && !item.accepted"
+            >{{item.sourceType | showTransactionsType: item}}</span>
+            <span
+              class="txt-green"
+              *ngIf="item.sourceType === 'IEO' && item.operationType === 'Input'"
+            >{{item.sourceType | showTransactionsType}}</span>
+            <span
+              class="txt-red"
+              *ngIf="item.sourceType === 'IEO' && item.operationType === 'Output'"
+            >{{item.sourceType | showTransactionsType}}</span>
           </td>
           <td class="table__cell">
             <span>{{item.transactionHash}}</span>

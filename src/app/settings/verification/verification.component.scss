@@ -192,6 +192,10 @@
   margin-top: 24px;
 }
 @media (min-width:1200px){
+  .send__select {
+    max-width: 100% !important;
+  }
+
   .send{
     &__title{
       margin-bottom: 32px;
@@ -307,4 +311,21 @@
 
 .loading-container {
   margin-top: 150px;
+}
+
+// TEMP STYLES
+perfect-scrollbar {
+  height: 160px;
+}
+
+.select__search-input {
+  color: #ffffff;
+}
+
+.select__list-searching {
+  z-index: 999;
+}
+
+.send__select {
+  margin-bottom: 0;
 }

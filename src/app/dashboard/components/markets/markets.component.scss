@@ -97,7 +97,7 @@
   // position: fixed;
   // bottom: 46px;
   width: 100%;
-  z-index: 1000;
+  //z-index: 1000;
 }
 
 .markets {
@@ -204,3 +204,12 @@ display: none;
 .markets_item {
    height: 31px;
 }
+ @media(max-width: 480px){
+  .shape{
+    display: inline-flex;
+    height: 6px;
+    svg{
+      height: 100%;
+    }
+  }
+ }

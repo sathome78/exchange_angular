@@ -733,3 +733,59 @@
     }
   }
 }
+.balance-fiat{
+  .balance__currency-icon{
+    min-width: unset;
+    max-width: unset;
+    width: auto;
+    height: 14px;
+  }
+  .balance__currency{
+    span{
+      line-height: .8;
+    }
+  }
+}
+
+.balance-detail{
+  .balance__currency-icon{
+    width: auto;
+    height: 14px;
+  }
+}
+
+.balance-ieo{
+  .table__body{
+    .table__row--mob{
+      .table__cell{
+        font-size: 13px;
+      }
+      .table__cell--arr-mob{
+        padding-right: 10px;
+        padding-left: 0;
+      }
+    }
+  }
+}
+
+.balance-ieo{
+  .table{
+    margin-bottom: 17px;
+  }
+  .ieo-b-d-button-wr{
+    width: 100%;
+    margin-top: 22px;
+    .btn{
+      &.btn-green{
+        background-color: #00B43D;
+        border: 1px solid #00B43D;
+        &:hover{
+          background-color:  #00CA45;
+          border: 1px solid  #00CA45;
+        }
+      }
+    }
+  }
+
+
+}

@@ -12,11 +12,13 @@ import {LangService} from './lang.service';
 import {AuthCandidate} from '../../model/auth-candidate.model';
 import {LoggingService} from './logging.service';
 import {TokenHolder} from '../../model/token-holder.model';
-import {CurrencyPair} from '../../model/currency-pair.model';
 import {State} from '../../dashboard/reducers/dashboard.reducer';
 import {RefreshUserBalanceAction} from '../../dashboard/actions/dashboard.actions';
 import {defaultUserBalance} from '../../dashboard/reducers/default-values';
-import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { RxStompService } from '@stomp/ng2-stompjs';
+import { Message } from '@stomp/stompjs';
+import { TOKEN } from './http.utils';
 
 
 @Injectable()
@@ -30,11 +32,12 @@ export class UserService {
     private http: HttpClient,
     private authService: AuthService,
     private langService: LangService,
+    private stompService: RxStompService,
     private logger: LoggingService,
     private router: Router) {
   }
 
-   checkIfEmailExists(email: string): Observable<boolean> {
+  checkIfEmailExists(email: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.HOST}/api/public/v2/if_email_exists?email=${email.replace('+', '%2B')}`);
   }
 
@@ -82,6 +85,10 @@ export class UserService {
     } else {
       this.store.dispatch(new RefreshUserBalanceAction(defaultUserBalance));
     }
+  }
+
+  public getUserBalanceCurr(currencies: string[]): Observable<any> {
+    return this.http.get(`${this.HOST}/api/private/v2/balances/myBalances`, {params: {names: currencies}})
   }
 
   public getIfConnectionSuccessful(): Observable<boolean> {
@@ -173,6 +180,13 @@ export class UserService {
     return this.http.get<boolean>(this.getUrl('is_google_2fa_enabled'), httpOptions);
   }
 
+  public sendTestNotif(msg: string): Observable<any> {
+    const httpOptions = {
+      params:  new HttpParams().set('message', 'Test notification'),
+    };
+    return this.http.get<boolean>(`${this.HOST}/api/private/v2/settings/jksdhfbsjfgsjdfgasj/personal/success`, httpOptions);
+  }
+
   // public getUserIp(): Observable<IpAddress> {
   //   return this.http.get<IpAddress>('http://gd.geobytes.com/GetCityDetails');
   // }
@@ -229,6 +243,13 @@ export class UserService {
   public clearTransactionsCounterForGTag(): Observable<any> {
     const url = this.HOST + '/api/private/v2/balances/refill/afgssr/gtag';
     return this.http.delete<any>(url);
+  }
+
+  public getNotifications(): Observable<any> {
+    const {publicId} = this.authService.parsedToken;
+    return this.stompService
+      .watch(`/app/message/private/${publicId}`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
+      .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 }
 

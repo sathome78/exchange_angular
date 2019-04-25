@@ -1,0 +1,143 @@
+<!-- start component -->
+<div class="ieo-requirements">
+  <div class="ieo-requirements-wr">
+    <div class="title-part">
+      <h3>Requirements for participating in this token sale</h3>
+    </div>
+    <div class="requirements-table">
+      <div class="requirement-item">
+        <div class="requirement-text">
+          <p>All users must complete identity verification to meet the requirements of this project</p>
+        </div>
+        <div *ngIf="isAuthenticated">
+          <div  class="requirement-status requirement-success" *ngIf="requirements.kycCheck">
+            <ng-component *ngTemplateOutlet="successIcon"></ng-component>
+            <p>Verification</p>
+          </div>
+          <a
+          href="#"
+          (click)="preventDefault($event)"
+          routerLink="/settings/verification"
+          class="requirement-status requirement-faild"
+          *ngIf="!requirements.kycCheck"
+          >
+          <ng-component *ngTemplateOutlet="failIcon"></ng-component>
+          <p>Proceed to verification »</p>
+        </a>
+      </div>
+      <div
+      *ngIf="!isAuthenticated"
+      class="requirement-status requirement-wait"
+      >
+      <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
+      <p>Please Log In first</p>
+    </div>
+  </div>
+  <div class="requirement-item">
+    <div class="requirement-text-wr">
+      <div class="requirement-text" id="requirement-text">
+        <div class="requirement-text-inner">
+          <p>Users from the following jurisdictions will not be able to participate in this token sale:</p>
+          <p class="requirement-description">
+            {{countries}}.
+          </p>
+        </div>
+      </div>
+      <button onclick="
+      var height = document.querySelector('.requirement-text-inner').clientHeight;
+      if(!(document.getElementById('requirement-text').classList.contains('opened'))){
+        document.getElementById('requirement-text').style.height = height + 'px';
+        document.querySelector('.requirement-item .more-btn').innerHTML = 'Show less';
+        document.getElementById('requirement-text').classList.add('opened');
+      }
+      else{
+        document.querySelector('.requirement-item .more-btn').innerHTML = 'Show more';
+        document.getElementById('requirement-text').style.height = '';
+        document.getElementById('requirement-text').classList.remove('opened');
+      }" 
+      class="more-btn">Show more</button>
+    </div>
+    <div *ngIf="isAuthenticated">
+      <div class="requirement-status requirement-success" *ngIf="requirements.countryCheck">
+        <ng-component *ngTemplateOutlet="successIcon"></ng-component>
+        <p>Verification</p>
+      </div>
+      <a
+      href="#"
+      (click)="preventDefault($event)"
+      routerLink="/settings/verification"
+      class="requirement-status requirement-wait"
+      *ngIf="!requirements.countryCheck && !requirements.kycCheck"
+      >
+      <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
+      <p>Please complete identity verification first</p>
+    </a>
+    <div
+    class="requirement-status requirement-faild"
+    *ngIf="!requirements.countryCheck && requirements.kycCheck"
+    >
+    <ng-component *ngTemplateOutlet="failIcon"></ng-component>
+    <p>Sorry, your country not allowed</p>
+  </div>
+</div>
+<div
+*ngIf="!isAuthenticated"
+class="requirement-status requirement-wait"
+>
+<ng-component *ngTemplateOutlet="waitIcon"></ng-component>
+<p>Please complete identity verification first</p>
+</div>
+</div>
+<div class="requirement-item">
+  <div class="requirement-text">
+    <p>Based on our latest terms, all users are required to accept the Token Purchase Agreement</p>
+  </div>
+  <div *ngIf="isAuthenticated">
+    <div class="requirement-status requirement-success" *ngIf="requirements.policyCheck">
+      <ng-component *ngTemplateOutlet="successIcon"></ng-component>
+      <p>Confirmed</p>
+    </div>
+    <a
+    href="#"
+    (click)="policyOpen($event)"
+    class="requirement-status requirement-faild"
+    *ngIf="!requirements.policyCheck"
+    >
+    <ng-component *ngTemplateOutlet="failIcon"></ng-component>
+    <p>Accept the terms of the agreement »</p>
+  </a>
+</div>
+<div
+*ngIf="!isAuthenticated"
+class="requirement-status requirement-wait"
+>
+<ng-component *ngTemplateOutlet="waitIcon"></ng-component>
+<p>Accept the terms of the agreement</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- end component -->
+
+
+<ng-template #successIcon>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="12" fill="#00B43D"/>
+    <rect x="16.8521" y="7" width="2" height="12" rx="1" transform="rotate(45 16.8521 7)" fill="white"/>
+    <rect x="6" y="13.0474" width="2" height="5.44775" rx="1" transform="rotate(-45 6 13.0474)" fill="white"/>
+  </svg>
+</ng-template>
+<ng-template #failIcon>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="12" fill="#EB5757"/>
+    <rect x="15.4854" y="7" width="2" height="12" rx="1" transform="rotate(45 15.4854 7)" fill="white"/>
+    <rect x="7" y="8.41425" width="2" height="12" rx="1" transform="rotate(-45 7 8.41425)" fill="white"/>
+  </svg>
+</ng-template>
+<ng-template #waitIcon>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="12" fill="#237BEF"/>
+    <path d="M10.7344 14.6562C10.7344 13.9635 10.8203 13.4115 10.9922 13C11.1641 12.5885 11.5026 12.138 12.0078 11.6484C12.5182 11.1536 12.8411 10.8021 12.9766 10.5938C13.1849 10.276 13.2891 9.93229 13.2891 9.5625C13.2891 9.07292 13.1667 8.70052 12.9219 8.44531C12.6823 8.1849 12.3281 8.05469 11.8594 8.05469C11.4115 8.05469 11.0495 8.18229 10.7734 8.4375C10.5026 8.6875 10.3672 9.02865 10.3672 9.46094H8.46875C8.47917 8.53906 8.79167 7.8099 9.40625 7.27344C10.026 6.73698 10.8438 6.46875 11.8594 6.46875C12.9062 6.46875 13.7214 6.73438 14.3047 7.26562C14.8932 7.79688 15.1875 8.53906 15.1875 9.49219C15.1875 10.3411 14.7917 11.1771 14 12L13.0391 12.9453C12.6953 13.3359 12.5182 13.9062 12.5078 14.6562H10.7344ZM10.6016 17.0859C10.6016 16.7786 10.6979 16.5312 10.8906 16.3438C11.0833 16.151 11.3438 16.0547 11.6719 16.0547C12.0052 16.0547 12.2682 16.1536 12.4609 16.3516C12.6536 16.5443 12.75 16.7891 12.75 17.0859C12.75 17.3724 12.6562 17.612 12.4688 17.8047C12.2812 17.9974 12.0156 18.0938 11.6719 18.0938C11.3281 18.0938 11.0625 17.9974 10.875 17.8047C10.6927 17.612 10.6016 17.3724 10.6016 17.0859Z" fill="white"/>
+  </svg>
+</ng-template>

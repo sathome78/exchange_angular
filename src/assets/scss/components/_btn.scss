@@ -1,10 +1,10 @@
 .dark-theme{
-.btn {
-  cursor: pointer;
-  &:hover {
-    background-color: #4590F3;
+  .btn {
+    cursor: pointer;
+    &:hover {
+      background-color: #4590F3;
+    }
   }
-}
 }
 .btn {
   display: block;
@@ -321,13 +321,16 @@
 }
 
 .btn[disabled]{
-  background-color: transparent;
-  pointer-events: none;
-  color: #91929F;
-  border-color: #91929F;
-  path{
-    fill: #91929F;
+  &:not(.widget__trading-btn){
+    background-color: transparent;
+    pointer-events: none;
+    color: #91929F;
+    border-color: #91929F;
+    path{
+      fill: #91929F;
+    }
   }
+  
 }
 
 .level-description{
@@ -352,9 +355,9 @@
     justify-content: center;
     margin: 0;
     &.active{
-          border: 1px solid #237BEF;
-          background-color: #237BEF;
-          pointer-events: auto;
+      border: 1px solid #237BEF;
+      background-color: #237BEF;
+      pointer-events: auto;
     }
     .btn-text{
       line-height: 1;

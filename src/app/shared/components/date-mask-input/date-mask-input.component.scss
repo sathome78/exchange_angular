@@ -11,9 +11,16 @@
     background: transparent;
     border: none;
     color: #94C2FF;
+    @media(max-width: 680px){
+      height: 36px;
+    }
+    @media(max-width: 380px){
+      padding-left: 3px;
+    }
     &:focus {
       outline: none;
       border: none;
     }
   }
+
 }

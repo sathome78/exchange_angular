@@ -16,6 +16,7 @@ import {CurrencyPair} from 'app/model';
 import {getMarketCurrencyPairsMap} from '../core/reducers';
 import * as dashboardActions from './actions/dashboard.actions';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 
 @Component({
@@ -42,8 +43,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   /** variables for resize method */
   public minWidth = 1200;
   public maxWidth = 1500;
-  public minRatio = 0.76;
-  public maxRatio = 0.94;
+  public minRatio = 0.731;
+  public maxRatio = 0.934;
   public widthStep = 5;
   /** ---------------------- */
 
@@ -52,6 +53,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public gridsterOptions;
   public gridsterItemOptions;
   public isDrag = false;
+
+  public resizeTimeout;
 
   public activeMobileWidget = 'markets';
   public breakPoint;
@@ -65,6 +68,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private dataService: DashboardService,
     private route: ActivatedRoute,
     private router: Router,
+    private utilsService: UtilsService,
     private popupService: PopupService,
     private store: Store<fromCore.State>) {
   }
@@ -124,6 +128,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       chat: this.chatTemplate,
       orders: this.ordersTemplate
     };
+
+    this.reloadGridOnSessionExpired();
   }
 
   checkRoute() {
@@ -161,6 +167,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
+  private reloadGridOnSessionExpired() {
+    this.popupService.getSessionExpiredPopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        if (res) setTimeout(() => { this.gridsterContainer.reload(); }, 500);
+      });
+  }
+
   findAndSetActiveCurrencyPair(pairName: string) {
     this.store
       .pipe(select(getMarketCurrencyPairsMap))
@@ -170,6 +184,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         if (pair) {
           const newActivePair = new SimpleCurrencyPair(pair.currencyPairId, pair.currencyPairName);
           this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
+          this.utilsService.saveActiveCurrencyPairToSS(newActivePair);
         }
       });
   }
@@ -215,19 +230,24 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
    * check window width for ratio (static height for dashboard items)
    */
   changeRatioByWidth(): void {
-    if (this.breakPoint === 'desktop') {
-      const winWidth = window.innerWidth;
-      const countWidthSteps = (this.maxWidth - this.minWidth) / this.widthStep;
-      const ratioStep = (this.maxRatio - this.minRatio) / countWidthSteps;
-      if (winWidth <= this.minWidth) {
-        this.changeRatio(this.minRatio);
-      } else if (winWidth > this.maxWidth) {
-        this.changeRatio(this.maxRatio);
-      } else {
-        const ratio = (((winWidth - this.minWidth) / this.widthStep) * ratioStep) + this.minRatio;
-        this.changeRatio(ratio);
-      }
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
     }
+    this.resizeTimeout = setTimeout((() => {
+      if (this.breakPoint === 'desktop') {
+        const winWidth = window.innerWidth;
+        const countWidthSteps = (this.maxWidth - this.minWidth) / this.widthStep;
+        const ratioStep = (this.maxRatio - this.minRatio) / countWidthSteps;
+        if (winWidth <= this.minWidth) {
+          this.changeRatio(this.minRatio);
+        } else if (winWidth > this.maxWidth) {
+          this.changeRatio(this.maxRatio);
+        } else {
+          const ratio = (((winWidth - this.minWidth) / this.widthStep) * ratioStep) + this.minRatio;
+          this.changeRatio(ratio);
+        }
+      }
+    }).bind(this), 500);
   }
 
   /**

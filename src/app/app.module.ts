@@ -39,11 +39,33 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import {FinalRegistrationComponent} from './popups/final-registration/final-registration.component';
 import {FinalStepRecoveryPasswordComponent} from './popups/final-step-recovery-password/final-step-recovery-password.component';
 import {PopupsModule} from './popups/popups.module';
+import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from '@stomp/ng2-stompjs';
+import * as SockJS from 'sockjs-client';
+import {SEOService} from './shared/services/seo.service';
+import {ToastrModule, ToastContainerModule} from 'ngx-toastr';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
 }
 
+export function socketProvider() {
+  return new SockJS(environment.apiUrlWS + '/public_socket');
+  // return new SockJS('http://localhost:5555/jsa-stomp-endpoint');
+}
+const stompConfig: InjectableRxStompConfig = {
+  // Which server?
+  // brokerURL: `${environment.apiUrlWS}/public_socket`,
+  heartbeatIncoming: 0, // Typical value 0 - disabled
+  heartbeatOutgoing: 20000, // Typical value 20000 - every 20 seconds
+  reconnectDelay: 5000,
+  webSocketFactory: socketProvider,
+  // Will log diagnostics on console
+  debug: (msg) => {
+    // if (!environment.production) {
+      // console.log(new Date().toLocaleString(), msg);
+    // }
+  },
+};
 
 @NgModule({
   declarations: [
@@ -82,6 +104,8 @@ export function createTranslateLoader(http: HttpClient) {
     NgxPaginationModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    ToastContainerModule,
     PopupsModule
   ],
   providers: [
@@ -97,6 +121,18 @@ export function createTranslateLoader(http: HttpClient) {
     MockDataService,
     EmbeddedOrdersService,
     CoreService,
+    RxStompService,
+
+    {
+      provide: InjectableRxStompConfig,
+      useValue: stompConfig
+    },
+    {
+      provide: RxStompService,
+      useFactory: rxStompServiceFactory,
+      deps: [InjectableRxStompConfig]
+    },
+    SEOService,
 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

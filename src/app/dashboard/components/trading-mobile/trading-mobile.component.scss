@@ -154,6 +154,9 @@
   justify-content: center;
   font-size: 16px;
   margin-top: 7px;
+  @media(max-width: 420px){
+    justify-content: space-between;
+  }
 }
 .widget__trading-title{
   font-size: 14px;
@@ -176,4 +179,10 @@
   .wrap-input__currency{
     padding-right: 8px;
   }
+}
+
+.trading-notification {
+  position: fixed;
+  bottom: 115px;
+  z-index: 100;
 }

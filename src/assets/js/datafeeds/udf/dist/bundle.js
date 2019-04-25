@@ -609,6 +609,11 @@ var UDFCompatibleDatafeedBase = /** @class */ (function () {
         logMessage('Resolve requested');
         var resolveRequestStartTime = Date.now();
         function onResultReady(symbolInfo) {
+
+            // custom intercept chart data and change
+            symbolInfo.pricescale = symbolInfo.pricescale === 1000000000 ? 100000000 : symbolInfo.pricescale;
+            symbolInfo.description = symbolInfo.description === 'description' ? symbolInfo.name : symbolInfo.description;
+
             logMessage("Symbol resolved: " + (Date.now() - resolveRequestStartTime) + "ms");
             onResolve(symbolInfo);
         }

@@ -179,8 +179,4 @@ export class BalanceService {
     return this.http.get(url);
   }
 
-  goToTrade(balance: BalanceItem): void {
-    this.router.navigate([`/markets/${balance.currencyName}-BTC`]);
-  }
-
 }

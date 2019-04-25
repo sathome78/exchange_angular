@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild, OnDestroy, ElementRef} from '@angular/core';
 import {PopupService} from '../../shared/services/popup.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {TokenHolder} from '../../model/token-holder.model';
@@ -31,7 +31,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public recaptchaKey = keys.recaptchaKey;
   public isPasswordVisible = false;
-  public twoFaAuthModeMessage = 'Please enter two-factor <br> authentication code';
+  public twoFaAuthModeMessage = 'Please enter two-factor authentication code that was sent to your email';
   public pincodeAttempts = 0;
   public isError = false;
   public statusMessage = '';
@@ -46,6 +46,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   @ViewChild('logInTemplate') public logInTemplate: TemplateRef<any>;
   @ViewChild('pinCodeTemplate') public pinCodeTemplate: TemplateRef<any>;
   @ViewChild('captchaTemplate') public captchaTemplate: TemplateRef<any>;
+  @ViewChild('pinInput') public pinInput: ElementRef<any>;
   public loginForm: FormGroup;
   public pinForm: FormGroup;
   public isPinEmpty;
@@ -118,6 +119,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
         break;
       case 'pinCodeTemplate':
         this.currentTemplate = this.pinCodeTemplate;
+        setTimeout(() => this.pinInput.nativeElement.focus(), 500);
         break;
       case 'captchaTemplate':
         this.currentTemplate = this.captchaTemplate;
@@ -232,7 +234,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
         this.store.dispatch(new coreActions.SetOnLoginAction(parsedToken));
         this.popupService.closeMobileLoginPopup();
         this.userService.getUserBalance(this.currencyPair);
-        this.router.navigate(['/']);
+        // this.router.navigate(['/']);
 
         // TODO: just for promo state, remove after
         // location.reload();

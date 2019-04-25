@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, Input} from '@angular/core';
-import {Subject, Observable} from 'rxjs';
+import {Subject, Observable, of} from 'rxjs';
 import {Store, select} from '@ngrx/store';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
@@ -25,7 +25,11 @@ import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.ser
 import {Router} from '@angular/router';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import {KYC_STATUS, PENDING} from '../../shared/constants';
-import {environment} from 'environments/environment.prod';
+import {environment} from 'environments/environment';
+import {IEOServiceService} from 'app/shared/services/ieoservice.service';
+import {IEOItem} from 'app/model/ieo.model';
+import {BALANCE_TABS} from './balance-constants';
+import {DetailedCurrencyPair} from '../../model/detailed-currency-pair';
 
 
 @Component({
@@ -36,12 +40,7 @@ import {environment} from 'environments/environment.prod';
 export class BalanceComponent implements OnInit, OnDestroy {
 
   /** */
-  public Tab = {
-    CRYPTO: 'CRYPTO',
-    FIAT: 'FIAT',
-    PR: 'PR',
-    QUBERA: 'QUBERA',
-  };
+  public Tab = BALANCE_TABS;
 
   public balanceItems: BalanceItem [] = [];
   public currTab: string = this.Tab.CRYPTO;
@@ -65,14 +64,15 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public allCurrenciesForChoose$: Observable<CurrencyChoose[]>;
   public cryptoCurrenciesForChoose: CurrencyChoose[] = [];
   public fiatCurrenciesForChoose: CurrencyChoose[] = [];
+  public detailedCurrencyPairs$: Observable<DetailedCurrencyPair[]>;
   public loading$: Observable<boolean>;
   public currValue: string = '';
   public kycStatus: string = '';
 
+  public IEOData: IEOItem[] = [];
   public sendMoneyData = {};
   public refillBalanceData = {};
   public currencyForChoose: string = null;
-
   public currentPage = 1;
   public countPerPage = 15;
   public loading: boolean = false;
@@ -82,6 +82,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     private store: Store<fromCore.State>,
     private dashboardWS: DashboardWebSocketService,
     public breakpointService: BreakpointService,
+    public ieoService: IEOServiceService,
     private router: Router
   ) {
     this.quberaBalances$ = store.pipe(select(fundsReducer.getQuberaBalancesSelector));
@@ -96,6 +97,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.fiatCurrenciesForChoose$ = store.pipe(select(fromCore.getFiatCurrenciesForChoose));
     this.allCurrenciesForChoose$ = store.pipe(select(fromCore.getAllCurrenciesForChoose));
     this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
+    this.detailedCurrencyPairs$ = store.pipe(select(fromCore.getDetailedCurrencyPairsSelector));
 
     this.cryptoCurrenciesForChoose$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -144,6 +146,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.openSendMoneyPopup(res);
       });
+
+    this.getIEOTable();
   }
 
   public get isMobile(): boolean {
@@ -208,6 +212,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
         return this.countOfFiatEntries$;
       case this.Tab.PR :
         return this.countOfPendingRequests$;
+      case this.Tab.IEO :
+        return of(0);
       default:
         return this.countOfCryptoEntries$;
     }
@@ -264,7 +270,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     };
   }
 
-  public filterByCurrencyForMobile({currency, currTab}): void {
+  public filterByCurrencyForMobile(currency): void {
     this.currencyForChoose = currency;
     this.currentPage = 1;
     this.loadBalances(this.currTab);
@@ -313,6 +319,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public onGoToBalanceDetails({currencyId, priceIn}) {
     this.router.navigate([`/funds/balances/${currencyId}`], {queryParams: {priceIn}})
   }
+  public onGoToIEOBalanceDetails({currencyId, priceIn}) {
+    this.router.navigate([`/funds/balances/ieo/${currencyId}`], {queryParams: {priceIn}})
+  }
 
   public onChangeCurrPair(val: string): void {
     this.currValue = val;
@@ -329,6 +338,15 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
   public get getFiatDynamicIData(): DIOptions[] {
     return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
+  }
+
+  public getIEOTable() {
+    this.ieoService.getListIEOTab()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res: IEOItem[]) => {
+        this.IEOData = res;
+        this.store.dispatch(new fundsAction.SetIEOBalancesAction(this.IEOData))
+      })
   }
 
 }
