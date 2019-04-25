@@ -43,6 +43,7 @@ import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from '@s
 import * as SockJS from 'sockjs-client';
 import {SEOService} from './shared/services/seo.service';
 import {ToastrModule, ToastContainerModule} from 'ngx-toastr';
+import { NewsComponent } from './news/news.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -76,6 +77,7 @@ const stompConfig: InjectableRxStompConfig = {
     ReferralChargesComponent,
     FinalRegistrationComponent,
     FinalStepRecoveryPasswordComponent,
+    NewsComponent,
   ],
   imports: [
     StoreModule.forRoot(reducers),

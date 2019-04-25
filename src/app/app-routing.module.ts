@@ -8,6 +8,7 @@ import {RegistrationGuard} from './shared/guards/registaration.guard';
 import {RestorePasswordGuard} from './shared/guards/restore-password.guard';
 import {FinalRegistrationComponent} from './popups/final-registration/final-registration.component';
 import {FinalStepRecoveryPasswordComponent} from './popups/final-step-recovery-password/final-step-recovery-password.component';
+import {NewsComponent} from './news/news.component';
 
 const routes: Routes = [
   // permit all
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path: 'login', component: DashboardComponent},
   {path: 'markets/:currency-pair', component: DashboardComponent},
   {path: 'dashboard', component: DashboardComponent},
+  {path: 'news', component: NewsComponent},
   {path: 'final-registration/token', component: FinalRegistrationComponent, canActivate: [RegistrationGuard]},
   {path: 'referral-structure', component: ReferralStructureComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'referral-charges', component: ReferralChargesComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
