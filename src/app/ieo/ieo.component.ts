@@ -1,9 +1,9 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {data} from './JSONData';
 import {Store, select} from '@ngrx/store';
-import {State} from 'app/core/reducers';
+import {getLanguage, State} from 'app/core/reducers';
 import {Subject, Observable, forkJoin} from 'rxjs';
-import * as fromCore from '../core/reducers'
+import * as fromCore from '../core/reducers';
 import {PopupService} from 'app/shared/services/popup.service';
 import {takeUntil} from 'rxjs/operators';
 import {IEOServiceService} from '../shared/services/ieoservice.service';
@@ -13,6 +13,7 @@ import {IEOItem} from 'app/model/ieo.model';
 import {UserService} from 'app/shared/services/user.service';
 import {environment} from 'environments/environment';
 import * as moment from 'moment';
+import {TranslateService} from '@ngx-translate/core';
 @Component({
   selector: 'app-ieo',
   templateUrl: './ieo.component.html',
@@ -30,6 +31,7 @@ export class IEOComponent implements OnInit, OnDestroy {
     FAILED: 'FAILED',
   }
 
+  public lang$: Observable<string>;
   public IEOSub$: Observable<IEOItem>;
   public AuthSub$: Observable<boolean>;
   public currentStage: string = this.stage.PENDING;
@@ -47,11 +49,14 @@ export class IEOComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<State>,
+    private readonly translate: TranslateService,
     private popupService: PopupService,
     private route: ActivatedRoute,
     private ieoService: IEOServiceService,
     private userService: UserService,
   ) {
+    this.lang$ = this.store.pipe(select(getLanguage));
+
     this.route.paramMap.subscribe(params => {
       this.IEOId = params.get("id");
       this.IEOSub$ = this.ieoService.getIEO(this.IEOId);
@@ -85,7 +90,9 @@ export class IEOComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    this.lang$
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(lang => this.translate.use(lang));
   }
 
   onLogin() {
