@@ -96,7 +96,7 @@
   <div class="note__title">{{'Please note:' | translate}}</div>
   <ul class="note__list">
     <li class="note__list-item" *ngIf="!!cryptoDataByName">
-      Coins will be deposited immediately after <b>{{cryptoDataByName.minConfirmations}}</b> network confirmations
+      {{'Coins will be deposited immediately after' | translate}} <b>{{cryptoDataByName.minConfirmations}}</b> {{'network confirmations' | translate}}
     </li>
     <li class="note__list-item">{{'Send only' | translate}} <b>{{activeCrypto.name}} </b>{{'to this deposit address.'}}{{' Sending any other coin or token to this address may result in the loss of your deposit.' | translate}}
     </li>

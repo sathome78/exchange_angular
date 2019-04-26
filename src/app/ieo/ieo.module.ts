@@ -10,12 +10,19 @@ import {IEOHowItWorksComponent} from './components/ieo-how-it-works/ieo-how-it-w
 import {IEODescriptionsComponent} from './components/ieo-descriptions/ieo-descriptions.component';
 import {IeoHeaderComponent} from './components/ieo-header/ieo-header.component';
 import {IEOServiceService} from '../shared/services/ieoservice.service';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS, HttpClient} from '@angular/common/http';
 import {AuthInterceptor} from 'app/core/interceptors/auth.interceptor';
 import {JwtInterceptor} from 'app/core/interceptors/jwt.interceptor';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {PopupPolicyComponent} from './components/popup-policy/popup-policy.component';
 import {PopupFailedComponent} from './components/popup-failed/popup-failed.component';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {translateInfo} from '../shared/configs/translate-options';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
+}
 
 @NgModule({
   declarations: [
@@ -36,6 +43,14 @@ import {PopupFailedComponent} from './components/popup-failed/popup-failed.compo
     ReactiveFormsModule,
     SharedModule,
     IEORoutingModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      },
+      isolate: true
+    }),
   ],
   providers: [
     IEOServiceService,

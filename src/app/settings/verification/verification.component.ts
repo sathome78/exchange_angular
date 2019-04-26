@@ -11,6 +11,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {KYC_STATUS} from '../../shared/constants';
 import * as moment from 'moment';
 import {KycCountry} from '../../shared/interfaces/kyc-country-interface';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-verification',
@@ -38,8 +39,8 @@ export class VerificationComponent implements OnInit, OnDestroy {
   public selectedCountry: KycCountry;
 
   public docTypes = [
-    {name: 'Passport', value: 'P'},
-    {name: 'ID card', value: 'ID'},
+    {name: this.translateService.instant('Passport'), value: 'P'},
+    {name: this.translateService.instant('ID card'), value: 'ID'},
   ]
 
   public currentDocType = this.docTypes[0]
@@ -76,6 +77,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   }
   constructor(private popupService: PopupService,
               private verificationService: UserVerificationService,
+              private translateService: TranslateService,
               private authService: AuthService,
               private cdr: ChangeDetectorRef,
               private store: Store<State>,

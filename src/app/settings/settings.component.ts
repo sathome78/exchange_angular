@@ -23,11 +23,11 @@ export class SettingsComponent implements OnInit {
               private readonly translate: TranslateService,
               private store: Store<fromCore.State>) {
     this.translate.setDefaultLang('en');
-    // this.lang$ = this.store.pipe(select(fromCore.getLanguage));
+    this.lang$ = this.store.pipe(select(fromCore.getLanguage));
   }
 
   ngOnInit() {
-    // this.lang$.subscribe(lang => this.translate.use(lang));
+    this.lang$.subscribe(lang => this.translate.use(lang));
     this.store.dispatch(new settingsActions.LoadGAStatusAction());
     this.store.dispatch(new settingsActions.LoadSessionTimeAction());
   }
