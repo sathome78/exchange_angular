@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {PopupService} from '../shared/services/popup.service';
 
 @Component({
   selector: 'app-news',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public popupService: PopupService,
+  ) { }
 
   ngOnInit() {
   }
+
+  // temp method
+  openSubPopup() {
+    this.popupService.toggleNewsSubscribePopup(true);
+  }
+
 
 }
