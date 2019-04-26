@@ -107,13 +107,13 @@
         <ul class="community-wr">
           <li class="menu__item menu__item--with-submenu">
             <a class="menu__link menu__link--drop">
-              <span class="menu__link-text">Community</span>
+              <span class="menu__link-text">{{'Community' | translate}}</span>
             </a>
             <div class="submenu">
               <ul class="menu submenu__list">
                 <li class="submenu__item">
                   <a class="submenu__link" href="https://t.me/exrates_official" target="blank">
-                    <span class="menu__link-text">Community World</span>
+                    <span class="menu__link-text">{{'Community World' | translate}}</span>
                   </a>
                 </li>
             <!-- <li class="submenu__item">
@@ -123,27 +123,27 @@
             </li> -->
             <li class="submenu__item">
               <a class="submenu__link" href="https://t.me/exrates_official_cn" target="blank">
-                <span class="menu__link-text">Community China</span>
+                <span class="menu__link-text">{{'Community China' | translate}}</span>
               </a>
             </li>
             <li class="submenu__item">
               <a class="submenu__link" href="https://t.me/exrates_official_id" target="blank">
-                <span class="menu__link-text">Community Indonesia</span>
+                <span class="menu__link-text">{{'Community Indonesia' | translate}}</span>
               </a>
             </li>
             <li class="submenu__item">
               <a class="submenu__link" href="https://t.me/exrates_official_ru" target="blank">
-                <span class="menu__link-text"> Community Russia</span>
+                <span class="menu__link-text"> {{'Community Russia' | translate}}</span>
               </a>
             </li>
             <li class="submenu__item">
               <a class="submenu__link" href="https://t.me/exrates_official_ko" target="blank">
-                <span class="menu__link-text">Community Korea</span>
+                <span class="menu__link-text">{{'Community Korea' | translate}}</span>
               </a>
             </li>
             <li class="submenu__item">
               <a class="submenu__link" href="https://twitter.com/Exrates_Me" target="blank">
-                <span class="menu__link-text">Twitter</span>
+                <span class="menu__link-text">{{'Twitter' | translate}}</span>
               </a>
             </li>
 
@@ -213,26 +213,29 @@
       </ng-template>
     </div>
 
-    <!-- <ul class="menu language">
-      <li class="menu__item menu__item--with-submenu menu__item--disabled">
-        <a class="menu__link">
-          <span class="menu__link-text"> -->
-            <!-- <img class="language__flag" [src]="lang.icon_url" alt="ru"> -->
-            <!-- <span>{{lang.fullName}}</span>
-          </span>
-        </a> -->
-        <!-- <div class="submenu submenu--language">
-          <ul class="menu__list submenu__list submenu__list--language"> -->
+    <!--uncomment when the translation is ready-->
+
+     <!--<ul class="menu language">-->
+      <!--<li class="menu__item menu__item&#45;&#45;with-submenu menu__item&#45;&#45;disabled">-->
+        <!--<a class="menu__link">-->
+          <!--<span class="menu__link-text">-->
+             <!--<img class="language__flag" [src]="lang.icon_url" alt="ru">-->
+             <!--<span>{{lang.fullName}}</span>-->
+          <!--</span>-->
+        <!--</a>-->
+         <!--<div class="submenu submenu&#45;&#45;language">-->
+          <!--<ul class="menu__list submenu__list submenu__list&#45;&#45;language">-->
             <!--<li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">-->
               <!--<a class="submenu__link" (click)="changeLocalization(lang.name)" >-->
                 <!--<img class="language__flag" [src]="lang.icon_url" alt="">-->
                 <!--<span class="language__text">{{lang.fullName | translate}}</span>-->
                 <!--</a>-->
                 <!--</li>-->
-<!--           </ul>
-        </div>
-      </li>
-    </ul> -->
+          <!--</ul>-->
+        <!--</div>-->
+      <!--</li>-->
+    <!--</ul>-->
+
     <div class="translate">
       <button class="translate__trigger">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -254,7 +257,7 @@
   <div class="header-mob__top">
     <div [ngClass]="{'header-mob__burger-content': !isMobileMenuOpen, 'header-mob__burger-content--open': isMobileMenuOpen }">
       <div class="mobile-title">
-        <h3>Account</h3>
+        <h3>{{'Account' | translate}}</h3>
       </div>
       <div class="header-mob__controls-row">
         <!-- <a class="header-mob__controls-btn" (click)="tempPopup()">
@@ -268,7 +271,7 @@
         <div class="account-info__text">
           <!-- <div class="account-info__title">{{'New user' | translate}}</div> -->
           <a class="account-info__email cursor-pointer no-auth" (click)="onMobileLogin()">{{'Login' | translate}}</a>
-          <span class="slash">or</span>
+          <span class="slash">{{'or' | translate}}</span>
           <a class="account-info__email cursor-pointer no-auth" (click)="openRegistration()">{{'Register' | translate}}</a>
         </div>
         <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
@@ -300,7 +303,7 @@
           <span class="menu-mob__link-holdings-inf">${{(myBalance | async)?.data.USD || 0 | roundCurrency:'USD' | formatCurrency}}</span>
         </a>
         <div class="e-h-descritption" *ngIf="isAuthenticated">
-          <p>Pleace do not disclose SMS and Goodle Authentication codes to ahyone, including Exrates customer support</p>
+          <p>{{'Pleace do not disclose SMS and Goodle Authentication codes to ahyone, including Exrates customer support' | translate}}</p>
         </div>
       </div>
 
@@ -329,7 +332,7 @@
         (click)="mobileLinkClick()"
         >
 
-        <span class="menu-mob__link-text">Settings</span>
+        <span class="menu-mob__link-text">{{'Settings' | translate}}</span>
       </a>
       <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
         <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(FUNDS_FLAG)" [ngClass]="{'menu-mob__link--active': showFundsList}"
@@ -344,7 +347,7 @@
 
       <div class="menu-mob__drop-wrap">
         <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(TRANSLATE_FLAG)" [ngClass]="{'menu-mob__link--active': translateList}">
-          <span class="menu-mob__link-text">Google Translater</span></a>
+          <span class="menu-mob__link-text">{{'Google Translater' | translate}}</span></a>
           <div class="menu-mob__wrap-links" [ngClass]="{'d-none': !translateList}">
             <a class="menu-mob__link">
               <ng-template [ngTemplateOutlet]="translateTemplate">
@@ -360,7 +363,7 @@
         (click)="mobileLinkClick()"
         >
 
-        <span class="menu-mob__link-text">Order history</span>
+        <span class="menu-mob__link-text">{{'Order history' | translate}}</span>
       </a>
 
         <a class="menu-mob__link" href="http://support.exrates.me" target="blank"><span
@@ -378,7 +381,7 @@
           </div>
         </div>
         <a class="menu-mob__link" onclick="openChat()">
-          <span class="menu-mob__link-text">Support</span>
+          <span class="menu-mob__link-text">{{'Support' | translate}}</span>
         </a>
         <a class="account-info__email cursor-pointer menu-mob__link" (click)="onLogout()" *ngIf="isAuthenticated">{{'logout' | translate}}</a>
         </nav>
@@ -451,11 +454,11 @@ routerLinkActive="header-mob__submenu-link--active"
    <style type="text/css">.st0{fill:#666679;}</style>
 
    <g>
-    <title>background</title>
+    <title>{{'background' | translate}}</title>
     <rect fill="none" id="canvas_background" height="18" width="17" y="-1" x="-1"/>
   </g>
   <g>
-    <title>Layer 1</title>
+    <title>{{'Layer 1' | translate}}</title>
     <g stroke="null" id="svg_1">
      <g stroke="null" id="svg_2">
       <path stroke="null" id="svg_3" d="m14.053073,0.210845l-8.215125,0c-0.69916,0 -1.398319,0.902299 -1.398319,1.624138l0,0.541379l6.292436,0c0.69916,0 1.223529,0.36092 1.223529,1.082759l0,10.647127l2.097479,0c0.69916,0 0.873949,-0.18046 0.873949,-0.902299l0,-11.368966c0,-0.721839 -0.17479,-1.624138 -0.873949,-1.624138z" class="st0"/>

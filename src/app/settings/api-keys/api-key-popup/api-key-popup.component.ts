@@ -8,6 +8,7 @@ import {NewApiKeyItem} from '../../../model/api-key.model';
 import {Store} from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
 import * as settingsActions from '../../store/actions/settings.actions';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-api-key-popup',
@@ -28,19 +29,20 @@ export class ApiKeyPopupComponent implements OnInit, OnDestroy {
   public validPin;
 
   public titlesPopup = [
-    'Please enter two-factor authentication code that was sent to your email',
-    'Use Google Authenticator to generate pincode'
+    this.translateService.instant('Please enter two-factor authentication code that was sent to your email'),
+    this.translateService.instant('Use Google Authenticator to generate pincode')
   ];
 
   public serverPinError = [
-    'Code is wrong!',
-    'Code is wrong! New code was sent to your email.',
-    'Code is wrong! Please, check you code in Google Authenticator application.'
+    this.translateService.instant('Code is wrong!'),
+    this.translateService.instant('Code is wrong! New code was sent to your email.'),
+    this.translateService.instant('Code is wrong! Please, check you code in Google Authenticator application.')
   ];
 
   constructor(
     public apiKeysService: ApiKeysService,
     private store: Store<fromCore.State>,
+    private translateService: TranslateService,
   ) { }
 
   ngOnInit() {

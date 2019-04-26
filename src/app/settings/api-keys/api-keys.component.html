@@ -1,6 +1,6 @@
 <div class="api-key-content">
   <div class="api-key-title">
-    <h2>API Keys</h2>
+    <h2>{{'API Keys' | translate}}</h2>
   </div>
   <form [formGroup]="form">
     <div class="create-key-container">
@@ -41,7 +41,7 @@
 
   <div class="api-key-container">
     <div class="api-text" *ngIf="!(loading$ | async) && !(apiKeys$ | async).length">
-      <p>Tou haven’t create API-keys yet. Enter API-key name and press “Create API-key” to produce</p>
+      <p>{{'Tou haven’t create API-keys yet. Enter API-key name and press “Create API-key” to produce' | translate}}</p>
     </div>
 
     <ng-container *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">

@@ -1,7 +1,7 @@
 <!-- start component -->
 <div class="community">
   <div class="community-wr">
-    <p class="community__text">Community:</p>
+    <p class="community__text">{{'Community:' | translate}}</p>
     <ul class="social-wr">
       <li class="social-item" *ngFor="let com of community">
         <a [href]="com.url" [ngSwitch]="com.type">
