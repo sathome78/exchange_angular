@@ -29,9 +29,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.lang$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(lang => this.translate.use(lang));
+    // uncomment when the translation is ready
+    // this.lang$
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe(lang => this.translate.use(lang));
 
     this.store.dispatch(new settingsActions.LoadGAStatusAction());
     this.store.dispatch(new settingsActions.LoadSessionTimeAction());

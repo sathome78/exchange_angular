@@ -90,9 +90,11 @@ export class IEOComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.lang$
-      .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe(lang => this.translate.use(lang));
+
+    // uncomment when the translation is ready
+    // this.lang$
+    //   .pipe(takeUntil(this.ngUnsubscribe$))
+    //   .subscribe(lang => this.translate.use(lang));
   }
 
   onLogin() {

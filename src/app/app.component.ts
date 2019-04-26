@@ -52,10 +52,12 @@ export class AppComponent implements OnInit, OnDestroy {
     // translate.setDefaultLang('en');
     // const browserLang = translate.getBrowserLang();
     // this.store.dispatch(new ChangeLanguageAction(browserLang.match(/en|ru|uk|pl/) ? browserLang : 'en'));
-    this.store
-      .pipe(select(getLanguage))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => this.translate.use(res));
+
+    // uncomment when the translation is ready
+    // this.store
+    //   .pipe(select(getLanguage))
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe(res => this.translate.use(res));
 
     this.setIp();
 

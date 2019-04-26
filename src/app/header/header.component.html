@@ -213,26 +213,28 @@
       </ng-template>
     </div>
 
-     <ul class="menu language">
-      <li class="menu__item menu__item--with-submenu menu__item--disabled">
-        <a class="menu__link">
-          <span class="menu__link-text">
-             <img class="language__flag" [src]="lang.icon_url" alt="ru">
-             <span>{{lang.fullName}}</span>
-          </span>
-        </a>
-         <div class="submenu submenu--language">
-          <ul class="menu__list submenu__list submenu__list--language">
-            <li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">
-              <a class="submenu__link" (click)="changeLocalization(lang.name)" >
-                <img class="language__flag" [src]="lang.icon_url" alt="">
-                <span class="language__text">{{lang.fullName | translate}}</span>
-                </a>
-                </li>
-          </ul>
-        </div>
-      </li>
-    </ul>
+    <!--uncomment when the translation is ready-->
+
+     <!--<ul class="menu language">-->
+      <!--<li class="menu__item menu__item&#45;&#45;with-submenu menu__item&#45;&#45;disabled">-->
+        <!--<a class="menu__link">-->
+          <!--<span class="menu__link-text">-->
+             <!--<img class="language__flag" [src]="lang.icon_url" alt="ru">-->
+             <!--<span>{{lang.fullName}}</span>-->
+          <!--</span>-->
+        <!--</a>-->
+         <!--<div class="submenu submenu&#45;&#45;language">-->
+          <!--<ul class="menu__list submenu__list submenu__list&#45;&#45;language">-->
+            <!--<li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">-->
+              <!--<a class="submenu__link" (click)="changeLocalization(lang.name)" >-->
+                <!--<img class="language__flag" [src]="lang.icon_url" alt="">-->
+                <!--<span class="language__text">{{lang.fullName | translate}}</span>-->
+                <!--</a>-->
+                <!--</li>-->
+          <!--</ul>-->
+        <!--</div>-->
+      <!--</li>-->
+    <!--</ul>-->
 
     <div class="translate">
       <button class="translate__trigger">
