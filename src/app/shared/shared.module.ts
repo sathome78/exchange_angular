@@ -52,6 +52,7 @@ import {PopupBuyComponent} from './components/popup-buy-ieo/popup-buy.component'
 import {PopupSuccessComponent} from './components/popup-success-ieo/popup-success.component';
 import {OrderBookCutBigNumPipe} from './pipes/order-book-cut-big-num.pipe';
 import {TooltipDirective} from './directives/tooltip.directive';
+import {GetDateStringPipe} from './pipes/parse-date-utc.pipe';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import {TooltipDirective} from './directives/tooltip.directive';
     GetObjectKeysPipe,
     SafePipe,
     FormatCurrencyPipe,
+    GetDateStringPipe,
     SplitCurrencyPipe,
     ReplaceCharPipe,
     PageItemsDropdownComponent,
@@ -122,6 +124,7 @@ import {TooltipDirective} from './directives/tooltip.directive';
     SortPipe,
     ReplaceNumberPipe,
     DateMaskInputComponent,
+    GetDateStringPipe,
     MerchantImageFilterPipe,
     ShowOrderStatusPipe,
     OrderBookCutBigNumPipe,
