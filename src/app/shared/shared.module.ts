@@ -52,6 +52,7 @@ import {PopupBuyComponent} from './components/popup-buy-ieo/popup-buy.component'
 import {PopupSuccessComponent} from './components/popup-success-ieo/popup-success.component';
 import {OrderBookCutBigNumPipe} from './pipes/order-book-cut-big-num.pipe';
 import {TooltipDirective} from './directives/tooltip.directive';
+import {GetCountConfirmationsPipe} from './pipes/get-count-confirmations.pipe';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import {TooltipDirective} from './directives/tooltip.directive';
     RoundCurrencyPipe,
     ExponentToNumberPipe,
     ShowOrderStatusPipe,
+    GetCountConfirmationsPipe,
     GetObjectKeysPipe,
     SafePipe,
     FormatCurrencyPipe,
@@ -123,6 +125,7 @@ import {TooltipDirective} from './directives/tooltip.directive';
     ReplaceNumberPipe,
     DateMaskInputComponent,
     MerchantImageFilterPipe,
+    GetCountConfirmationsPipe,
     ShowOrderStatusPipe,
     OrderBookCutBigNumPipe,
     GroupCoinPipe,
