@@ -542,6 +542,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * on click submit button
    */
   onSubmit(type: string): void {
+    console.log((window as any).dataLayer)
     if (!this.isAuthenticated) {
       this.popupService.showMobileLoginPopup(true);
       return;

@@ -43,6 +43,7 @@ import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from '@s
 import * as SockJS from 'sockjs-client';
 import {SEOService} from './shared/services/seo.service';
 import {ToastrModule, ToastContainerModule} from 'ngx-toastr';
+import {GtagService} from './shared/services/gtag.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -119,6 +120,7 @@ const stompConfig: InjectableRxStompConfig = {
     UserVerificationService,
     ThemeService,
     MockDataService,
+    GtagService,
     EmbeddedOrdersService,
     CoreService,
     RxStompService,
