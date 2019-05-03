@@ -302,9 +302,9 @@
           <span class="menu-mob__link-text">{{'Estimated holdings' | translate}}</span>
           <span class="menu-mob__link-holdings-inf">${{(myBalance | async)?.data.USD || 0 | roundCurrency:'USD' | formatCurrency}}</span>
         </a>
-        <div class="e-h-descritption" *ngIf="isAuthenticated">
-          <p>{{'Pleace do not disclose SMS and Goodle Authentication codes to ahyone, including Exrates customer support' | translate}}</p>
-        </div>
+        <!--<div class="e-h-descritption" *ngIf="isAuthenticated">-->
+          <!--<p>{{'Pleace do not disclose SMS and Goodle Authentication codes to ahyone, including Exrates customer support' | translate}}</p>-->
+        <!--</div>-->
       </div>
 
       <nav class="menu-mob">
