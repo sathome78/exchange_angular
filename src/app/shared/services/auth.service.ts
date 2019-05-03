@@ -12,8 +12,7 @@ import * as coreActions from '../../core/actions/core.actions';
 import {PopupService} from './popup.service';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
-
-declare var encodePassword: Function;
+import {UtilsService} from './utils.service';
 
 @Injectable()
 export class AuthService implements OnDestroy {
@@ -35,6 +34,7 @@ export class AuthService implements OnDestroy {
     private location: Location,
     private popupService: PopupService,
     private store: Store<fromCore.State>,
+    private utilsService: UtilsService
   ) {
   }
 
@@ -81,7 +81,7 @@ export class AuthService implements OnDestroy {
   }
 
   public encodePassword(password: string) {
-    return encodePassword(password, this.ENCODE_KEY);
+    return this.utilsService.encodePassword(password, this.ENCODE_KEY);
   }
 
   public onLogOut() {

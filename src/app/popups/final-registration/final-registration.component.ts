@@ -13,7 +13,6 @@ import {Store} from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as coreActions from '../../core/actions/core.actions';
 
-declare var encodePassword: Function;
 declare var sendConfirmationPasswordGtag: Function;
 
 @Component({
@@ -158,6 +157,6 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
   }
 
   private encryptPass(pass: string): string {
-    return encodePassword(pass, environment.encodeKey);
+    return this.utilsService.encodePassword(pass, environment.encodeKey);
   }
 }
