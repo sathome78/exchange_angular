@@ -46,7 +46,7 @@
         (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
       ></app-balance-mob>
 
-      <ng-container *ngIf="!isProd">
+      <ng-container *ngIf="showContent">
         <app-ieo-table-mob
           *ngSwitchCase="Tab.IEO"
           [IEOData]="IEOData"
@@ -127,7 +127,7 @@
           (onSelect)="onSelectPair($event.id)"
           [showNotFoundTip]="true"
         ></app-dynamic-input>
-        <ng-container *ngIf="!isProd">
+        <ng-container *ngIf="showContent">
           <app-dynamic-input
             *ngSwitchCase="Tab.QUBERA"
             [value]="currValue"
@@ -137,7 +137,7 @@
             [showNotFoundTip]="existQuberaAccounts"
           ></app-dynamic-input>
         </ng-container>
-        <ng-container  *ngIf="!isProd">
+        <ng-container  *ngIf="showContent">
           <app-dynamic-input
             *ngSwitchCase="Tab.IEO"
             [value]="currValue"
@@ -178,7 +178,7 @@
         </button>
 
         <button
-          *ngIf="!isProd"
+          *ngIf="showContent"
           class="tabs__item"
           [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
           (click)="onSelectTab(Tab.QUBERA)"
@@ -201,7 +201,7 @@
         </button>
 
         <button
-          *ngIf="!isProd"
+          *ngIf="showContent"
           [disabled]="loading$ | async"
           class="tabs__item"
           [ngClass]="{'tabs__item--active': currTab === Tab.IEO}"
@@ -287,7 +287,7 @@
         (onRevokePendingRequest)="onRevokePendingRequest($event)"
         *ngSwitchCase="Tab.PR"
       ></app-pending-request-table>
-      <ng-container *ngIf="!isProd">
+      <ng-container *ngIf="showContent">
         <app-qubera-table
           *ngSwitchCase="Tab.QUBERA"
           [balances]="quberaBalances$ | async"
@@ -298,7 +298,7 @@
           (cryptoDepositOut)="goToCryptoDepositPopup($event)">
         </app-qubera-table>
       </ng-container>
-      <ng-container *ngIf="!isProd">
+      <ng-container *ngIf="showContent">
         <app-ieo-table
           *ngSwitchCase="Tab.IEO"
           [countPerPage]="countPerPage"

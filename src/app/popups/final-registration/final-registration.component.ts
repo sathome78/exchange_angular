@@ -12,8 +12,7 @@ import {Subject} from 'rxjs';
 import {Store} from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as coreActions from '../../core/actions/core.actions';
-
-declare var sendConfirmationPasswordGtag: Function;
+import {GtagService} from '../../shared/services/gtag.service';
 
 @Component({
   selector: 'app-final-registration',
@@ -41,7 +40,8 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
     private utilsService: UtilsService,
     private location: Location,
     private store: Store<fromCore.State>,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private gtagService: GtagService
   ) {
   }
 
@@ -84,7 +84,7 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
           const parsedToken = this.authService.parseToken(tokenHolder.token);
           this.store.dispatch(new coreActions.SetOnLoginAction(parsedToken));
           this.router.navigate(['/funds/balances']);
-          sendConfirmationPasswordGtag();
+          this.gtagService.sendConfirmationPasswordGtag();
           this.loading = false;
         }, err => {
           this.message = this.translateService.instant('Service is temporary unavailable, please try again later.');

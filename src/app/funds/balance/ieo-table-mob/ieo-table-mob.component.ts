@@ -83,8 +83,8 @@ export class IEOTableMobComponent implements OnInit{
     this.currValue = val;
   }
 
-  get isProd(): boolean {
-    return environment.production;
+  get showContent(): boolean {
+    return environment.showContent;
   }
 
 

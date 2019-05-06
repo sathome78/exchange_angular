@@ -31,7 +31,7 @@
         {{'Fiat' | translate}}
       </button>
       <button
-        *ngIf="!isProd"
+        *ngIf="showContent"
         class="tabs__item"
         [ngClass]="{'tabs__item--active': currTab === Tab.IEO}"
         (click)="onSelectTab.emit(Tab.IEO)"

@@ -12,6 +12,7 @@ import * as coreActions from '../../core/actions/core.actions';
 import {PopupService} from './popup.service';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
+import {GtagService} from './gtag.service';
 import {UtilsService} from './utils.service';
 
 @Injectable()
@@ -34,6 +35,7 @@ export class AuthService implements OnDestroy {
     private location: Location,
     private popupService: PopupService,
     private store: Store<fromCore.State>,
+    private gtagService: GtagService,
     private utilsService: UtilsService
   ) {
   }
@@ -86,6 +88,7 @@ export class AuthService implements OnDestroy {
 
   public onLogOut() {
     localStorage.removeItem(TOKEN);
+    this.gtagService.removeUserId();
     this.parsedToken = null;
     this.store.dispatch(new coreActions.SetOnLogoutAction());
     this.redirectOnLogout();
@@ -118,6 +121,13 @@ export class AuthService implements OnDestroy {
   public getUsername(): string {
     if (this.parsedToken) {
       return this.parsedToken.username;
+    }
+    return undefined;
+  }
+
+  public getUserId(): string {
+    if (this.parsedToken) {
+      return this.parsedToken.publicId;
     }
     return undefined;
   }
