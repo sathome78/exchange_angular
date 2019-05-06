@@ -76,11 +76,12 @@
 
 .create-key-container{
   display: flex;
+  padding-right: 10px;
   @media(max-width: 620px){
     flex-direction: column;
     margin-bottom: 20px;
-    padding-right: 10px;
   }
+
   .wrap-input{
 
   }
