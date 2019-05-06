@@ -14,8 +14,6 @@ import * as fromCore from '../../core/reducers';
 import * as coreActions from '../../core/actions/core.actions';
 import {GtagService} from '../../shared/services/gtag.service';
 
-declare var encodePassword: Function;
-
 @Component({
   selector: 'app-final-registration',
   templateUrl: './final-registration.component.html',
@@ -159,6 +157,6 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
   }
 
   private encryptPass(pass: string): string {
-    return encodePassword(pass, environment.encodeKey);
+    return this.utilsService.encodePassword(pass, environment.encodeKey);
   }
 }

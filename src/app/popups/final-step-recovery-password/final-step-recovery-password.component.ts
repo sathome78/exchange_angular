@@ -10,7 +10,6 @@ import {PopupService} from 'app/shared/services/popup.service';
 import {Location} from '@angular/common';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-declare var encodePassword: Function;
 
 @Component({
   selector: 'app-final-step-recovery-password',
@@ -105,7 +104,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit, OnDestroy {
   }
 
   private encryptPass(pass: string): string {
-    return encodePassword(pass, environment.encodeKey);
+    return this.utilsService.encodePassword(pass, environment.encodeKey);
   }
 
   get getConfirmPassword() {
