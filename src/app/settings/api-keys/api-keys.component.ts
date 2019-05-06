@@ -32,6 +32,7 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
   public loading$: Observable<boolean>;
   public isSubmited = false;
   public heightMobScrollContainer;
+  public charPattern = '[a-zA-Z]+';
 
   public countPerPage = 5;
   public currentPage = 1;
@@ -136,7 +137,12 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.form = new FormGroup({
-      name: new FormControl('', [Validators.required]),
+      name: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(15),
+        Validators.pattern(this.charPattern)
+      ]),
     });
   }
 
