@@ -76,7 +76,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="kyc-banner">
-		<img src="assets/img/ieo/kyc-img.png" alt="">
+	<div class="kyc-banner" *ngIf="verificationStatus !== KYC_STATUS.SUCCESS">
+		<img src="assets/img/ieo/kyc-img.png" alt="" (click)="bannerClick()">
 	</div>
 </div>
