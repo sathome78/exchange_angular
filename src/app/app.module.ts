@@ -49,8 +49,7 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 export function socketProvider() {
-  return new SockJS(environment.apiUrlWS + '/public_socket');
-  // return new SockJS('http://localhost:5555/jsa-stomp-endpoint');
+  return new SockJS(environment.apiUrl + '/public_socket');
 }
 const stompConfig: InjectableRxStompConfig = {
   // Which server?

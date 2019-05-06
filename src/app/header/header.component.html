@@ -82,8 +82,7 @@
 
           </li>
           <li class="menu__item menu__item--with-submenu" routerLinkActive="head-menu__link--active">
-            <ng-container *ngIf="!isProduction">
-                <!-- *ngIf="!isProduction" -->
+            <ng-container *ngIf="showContent">
               <a class="menu__link menu__link--drop">
                 <span class="menu__link-text">{{'IEO' | translate}}</span>
               </a>
@@ -372,7 +371,7 @@
         <a class="menu-mob__link" (click)="setMobileWidget('chat')" [routerLink]="['dashboard']" [queryParams]="{widget: 'chat'}" *ngIf="isAuthenticated"><span
           class="menu-mob__link-text">{{'Chat' | translate}}</span>
         </a>
-        <div class="menu-mob__drop-wrap" *ngIf="!isProduction">
+        <div class="menu-mob__drop-wrap" *ngIf="showContent">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(IEO_FLAG)" [ngClass]="{'menu-mob__link--active': showIEOList}">
             <span class="menu-mob__link-text">{{'IEO' | translate}}</span>
           </a>

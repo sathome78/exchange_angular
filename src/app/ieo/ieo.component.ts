@@ -207,8 +207,8 @@ export class IEOComponent implements OnInit, OnDestroy {
     }, diff);
   }
 
-  public get isProd() {
-    return environment.production;
+  public get showContent() {
+    return environment.showContent;
   }
 
 }
