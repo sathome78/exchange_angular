@@ -54,6 +54,7 @@ import {OrderBookCutBigNumPipe} from './pipes/order-book-cut-big-num.pipe';
 import {TooltipDirective} from './directives/tooltip.directive';
 import {GetCountConfirmationsPipe} from './pipes/get-count-confirmations.pipe';
 import {ShowPageGuard} from './guards/showPage.guard';
+import {GetDateStringPipe} from './pipes/parse-date-utc.pipe';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import {ShowPageGuard} from './guards/showPage.guard';
     GetObjectKeysPipe,
     SafePipe,
     FormatCurrencyPipe,
+    GetDateStringPipe,
     SplitCurrencyPipe,
     ReplaceCharPipe,
     PageItemsDropdownComponent,
@@ -125,6 +127,7 @@ import {ShowPageGuard} from './guards/showPage.guard';
     SortPipe,
     ReplaceNumberPipe,
     DateMaskInputComponent,
+    GetDateStringPipe,
     MerchantImageFilterPipe,
     GetCountConfirmationsPipe,
     ShowOrderStatusPipe,
