@@ -9,6 +9,8 @@ import {KYC_STATUS} from '../../../shared/constants';
 import {PopupService} from '../../../shared/services/popup.service';
 import {Router} from '@angular/router';
 import {data} from '../../JSONData';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UtilsService} from '../../../shared/services/utils.service';
 
 @Component({
   selector: 'app-common-ieo',
@@ -18,7 +20,9 @@ import {data} from '../../JSONData';
 export class CommonIEOComponent implements OnInit, OnDestroy {
 
   public ieoList: IEOItem[];
+  public emailForm: FormGroup;
   public verificationStatus: string;
+  public isSubmited = false;
   public isAuthenticated: boolean;
   public AuthSub$: Observable<boolean>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -27,6 +31,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<State>,
     private popupService: PopupService,
+    private utilsService: UtilsService,
     private router: Router
   ) {
     this.AuthSub$ = this.store.pipe(select(fromCore.getIsAuthenticated));
@@ -34,6 +39,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getIEOList();
+    this.initEmailForm();
     this.getKYCVerificationStatus();
   }
 
@@ -78,4 +84,25 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.popupService.showMobileLoginPopup(true);
   }
 
+  readMore(id: number): void {
+    this.router.navigate([`/ieo/${id}`]);
+  }
+
+  initEmailForm() {
+    this.emailForm = new FormGroup({
+      email: new FormControl('', { validators: [
+          Validators.required, this.utilsService.emailValidator(),
+          this.utilsService.specialCharacterValidator(),
+          Validators.maxLength(40)
+        ]}),
+    });
+  }
+
+  subEmailNotification() {
+    this.isSubmited = true;
+  }
+
+  get emailControl() {
+    return this.emailForm.get('email');
+  }
 }

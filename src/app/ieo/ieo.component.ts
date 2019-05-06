@@ -19,7 +19,7 @@ import {TranslateService} from '@ngx-translate/core';
   templateUrl: './ieo.component.html',
   styleUrls: ['./ieo.component.scss']
 })
-export class IEOComponent implements OnInit, OnDestroy {
+export class IEOComponent implements OnInit, OnDestroy{
 
   public ieoData = data;
   public isAuthenticated: boolean;
@@ -90,7 +90,7 @@ export class IEOComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    window.scrollTo(0, 0);
     // uncomment when the translation is ready
     // this.lang$
     //   .pipe(takeUntil(this.ngUnsubscribe$))
