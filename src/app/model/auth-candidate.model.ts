@@ -1,6 +1,5 @@
 import {environment} from '../../environments/environment';
-
-declare var encodePassword: Function;
+import {UtilsService} from '../shared/services/utils.service';
 
 export class AuthCandidate {
 
@@ -42,7 +41,7 @@ export class AuthCandidate {
   }
 
   private encryptPass(pass: string): string {
-    return encodePassword(pass, environment.encodeKey);
+    return new UtilsService().encodePassword(pass, environment.encodeKey);
   }
 
 }
