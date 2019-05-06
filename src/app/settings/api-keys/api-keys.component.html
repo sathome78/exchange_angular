@@ -15,13 +15,12 @@
         <label class="wrap-input__label">{{'Enter API key name' | translate}}</label>
         <div class="wrap-input__line"></div>
         <div *ngIf="form.get('name')?.errors !== null">
-          <div class="input-hint-wrapper" *ngIf="form.controls['name'].errors['required'] && isSubmited">
-              <span
-                class=" wrap-input__message--show"
-                *ngIf="form.controls['name'].errors['required'] && isSubmited"
-                [ngClass]="{'wrap-input__message': form.controls['name'].errors['required'] && isSubmited}">
-                {{'Name is required.'}}
-              </span>
+          <div class="input-hint-wrapper" *ngIf="form.controls['name'].errors && isSubmited">
+            <span
+              class=" wrap-input__message--show"
+              [ngClass]="{'wrap-input__message': !!form.controls['name'].errors && isSubmited}">
+              {{'API key name cannot be less than 4 and more than 15 characters long and should contain of letters (a-z A-Z).' | translate}}
+            </span>
           </div>
         </div>
       </div>
@@ -45,7 +44,7 @@
     </div>
 
     <ng-container *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
-      <div class="api-key-item" *ngFor="let key of (apiKeys$ | async).reverse() | paginate: {
+      <div class="api-key-item" *ngFor="let key of (apiKeys$ | async) | paginate: {
           itemsPerPage: countPerPage,
           currentPage: currentPage,
           totalItems: (apiKeys$ | async).length
@@ -61,7 +60,7 @@
     <cdk-virtual-scroll-viewport
       [ngStyle]="{'height.px': heightMobScrollContainer}" itemSize="135"
       *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
-      <ng-container *cdkVirtualFor="let key of (apiKeys$ | async).reverse(); let index=index">
+      <ng-container *cdkVirtualFor="let key of (apiKeys$ | async); let index=index">
         <div class="api-key-item">
           <ng-template
             [ngTemplateOutlet]="singleTemplate"

@@ -131,11 +131,10 @@ export class BalanceMobComponent implements OnInit{
     }
     this.isShowSearchPopup = flag;
   }
-  get isProd(): boolean {
-    return environment.production
+  get showContent(): boolean {
+    return environment.showContent;
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 }

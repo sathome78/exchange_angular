@@ -4,12 +4,12 @@
 // ng build --configuration=staging
 
 // test
-import {STAGING_HOST, STAGING_HOST_WS} from '../app/shared/services/http.utils';
+import {STAGING_HOST} from '../app/shared/services/http.utils';
 
 export const environment = {
   production: false,
   apiUrl: STAGING_HOST,
-  apiUrlWS: STAGING_HOST_WS,
+  showContent: true,
   encodeKey: '3255c246-4b9f-43a5-b2dd-63524f959953',
 };
 

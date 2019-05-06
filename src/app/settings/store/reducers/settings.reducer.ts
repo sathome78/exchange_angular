@@ -62,7 +62,7 @@ export function reducer(state: State = INIT_STATE, action: settingsActions.Actio
       return {
         ...state,
         apiKeyLoading: false,
-        apiKeys: action.payload,
+        apiKeys: action.payload.reverse(),
       }
     case settingsActions.FAIL_LOAD_API_KEYS:
       return {...state, apiKeyLoading: false}

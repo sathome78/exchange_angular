@@ -109,6 +109,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.selectMerchantName = merchantImage.image_name || merchant.name;
     this.selectedMerchant = merchant;
     this.setMinWithdrawSum();
+    if (this.form.controls['amount'].valid) this.calculateCommission(this.amountValue);
   }
 
   currencyDropdownToggle() {
@@ -176,7 +177,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   calculateCommission(amount) {
     if (this.selectedMerchant.merchantId) {
       this.balanceService
-        .getCommissionToWithdraw(amount, this.activeFiat.id, this.fiatInfoByName.merchantCurrencyData[0].merchantId)
+        .getCommissionToWithdraw(amount, this.activeFiat.id, this.selectedMerchant.merchantId)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           this.calculateData = res as CommissionData;

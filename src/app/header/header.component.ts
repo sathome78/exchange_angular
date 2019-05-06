@@ -213,15 +213,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     window.open(`https://news.exrates.me?data=${encodeData}`);
   }
 
-// temp solution
-  tempPopup() {
-    if (environment.production) {
-      this.popupService.demoPopupMessage = 1;
-      this.popupService.showDemoTradingPopup(true);
-    }
-  }
+  // temp solution
+  // tempPopup() {
+  //   if (environment.production) {
+  //     this.popupService.demoPopupMessage = 1;
+  //     this.popupService.showDemoTradingPopup(true);
+  //   }
+  // }
 
-  get isProduction() {
-    return environment.production
+  get showContent() {
+    return environment.showContent
   }
 }

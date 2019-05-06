@@ -17,16 +17,16 @@
     <!-- t-row start-->
     <tbody class="table__body table__body--none-shadow">
 
-    <ng-container *ngIf="historyOrders?.length !== 1">
-      <ng-container *cdkVirtualFor="let item of historyOrders">
-        <ng-template
-          [ngTemplateOutlet]="singleTemplate"
-          [ngTemplateOutletContext]="{ $implicit: item }">
-        </ng-template>
-      </ng-container>
-    </ng-container>
+    <!--<ng-container *ngIf="historyOrders?.length !== 1">-->
+      <!--<ng-container *cdkVirtualFor="let item of historyOrders">-->
+        <!--<ng-template-->
+          <!--[ngTemplateOutlet]="singleTemplate"-->
+          <!--[ngTemplateOutletContext]="{ $implicit: item }">-->
+        <!--</ng-template>-->
+      <!--</ng-container>-->
+    <!--</ng-container>-->
 
-    <ng-container *ngIf="historyOrders?.length === 1">
+    <ng-container>
       <ng-container *ngFor="let item of historyOrders">
         <ng-template
           [ngTemplateOutlet]="singleTemplate"
