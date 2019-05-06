@@ -10,8 +10,7 @@ import {UserService} from '../../shared/services/user.service';
 import {UtilsService} from '../../shared/services/utils.service';
 import {keys} from '../../shared/constants';
 import {AUTH_MESSAGES} from '../../shared/constants';
-
-declare var sendRecoveryPasswordGtag: Function;
+import {GtagService} from '../../shared/services/gtag.service';
 
 @Component({
   selector: 'app-recovery-pass',
@@ -36,7 +35,8 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
     private popupService: PopupService,
     private userService: UserService,
     private translateService: TranslateService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    private gtagService: GtagService
   ) { }
 
   ngOnInit() {
@@ -100,7 +100,7 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
         this.afterCaptchaMessage = `${this.translateService.instant('We sent the confirmation link to')}
           ${email} <br> ${this.translateService.instant('Please check your email and follow instructions.')}`;
         this.setTemplate('emailConfirmLinkTemplate');
-        sendRecoveryPasswordGtag();
+        this.gtagService.sendRecoveryPasswordGtag();
         this.loading = false;
       }, error => {
         this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later.');

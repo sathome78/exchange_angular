@@ -10,8 +10,7 @@ import {BalanceItem} from '../../../../models/balance-item.model';
 import {RefillData} from '../../../../../shared/interfaces/refill-data-interface';
 import {RefreshAddress} from '../../../../../shared/interfaces/refresh-address-interface';
 import {TranslateService} from '@ngx-translate/core';
-
-declare var sendGenerateWalletGtag: Function;
+import {GtagService} from '../../../../../shared/services/gtag.service';
 
 @Component({
   selector: 'app-refill-crypto',
@@ -51,6 +50,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     private store: Store<State>,
     public balanceService: BalanceService,
     private translateService: TranslateService,
+    private gtagService: GtagService
   ) {
   }
 
@@ -160,7 +160,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
               this.additionalAddress = '';
             }
           }
-          sendGenerateWalletGtag();
+          this.gtagService.sendGenerateWalletGtag(undefined);
           this.loading = false;
         }, error => {
           if (this.currentMerchant) {
