@@ -1,6 +1,7 @@
 .common-ieo-container{
 	font-size: calc(.656rem + .66vw);
 	position: relative;
+	padding-bottom: 4em;
 	.fs-image-container{
 		overflow: hidden;
 		position: absolute;
@@ -310,6 +311,87 @@
 				line-height: 1.15;
 				text-align: center;
 				color: #AAB1C4;
+			}
+		}
+	}
+	.aditional-info-block{
+		.a-i-b-wr{
+			max-width: calc(51.2em + 40px);
+			margin: 0 auto;
+			padding: 1.3em 20px;
+		}
+		.security-block{
+			margin-bottom: 1.6em;
+		}
+		.s-title{
+			margin-bottom: .5em;
+			h5{
+				font-weight: 400;
+				font-size: .9em;
+				line-height: 1.15;
+				color: #FFFFFF;
+			}
+		}
+		.s-list{
+			padding: 0;
+			margin: 0;
+		}
+		.s-item{
+			list-style: none;
+			position: relative;
+			padding-left: 1em;
+			&::before{
+				content: "";
+				display: block;
+				position: absolute;
+				top: .3em;
+				left: 0;
+				background: #237BEF;
+				height: 6px;
+				width: 6px;
+				border-radius: 50%;
+
+			}
+			span{
+				font-weight: 400;
+				font-size: .9em;
+				line-height: 1.7;
+				color: #AAB1C4;
+			}
+		}
+		.adittional-block{
+			margin-bottom: .9em;
+		}
+		.a-title{
+			margin-bottom: .9em;
+			h5{
+				font-weight: 400;
+				font-size: .9em;
+				line-height: 1.15;
+				color: #FFFFFF;
+			}
+		}
+		.a-block-item{
+			margin-bottom: .4em;
+			a{
+				font-weight: 400;
+				font-size: .9em;
+				line-height: 1.15;
+				color: #AAB1C4;
+				text-decoration: none;
+			}
+		}
+		.warning-block{
+			padding: .8em;
+			border: 1px dashed #FFD76F;
+			border-radius: 2px;
+			max-width: 23em;
+			p{
+				font-weight: normal;
+				font-size: .65em;
+				line-height: 1.5;
+				color: #FFD76F;
+
 			}
 		}
 	}
