@@ -165,6 +165,35 @@
 			margin-bottom: 1em;
 			background-color: #fff;
 			display: flex;
+			position: relative;
+			&.upcoming{
+				&::before{
+					content: "Upсomming";
+					background: #FF3A44;
+					color: #000;
+
+				}
+			}
+			&.success{
+				&::before{
+					content: "Sucessfull";
+					background: #15CF74;
+					color: #000;
+				}
+			}
+			&::before{
+					display: block;
+				content: "";
+				background: transparent;
+				color: transparent;
+				position: absolute;
+				padding: .5em .6em;
+				left: 0;
+				top: 0;
+				width: 6.3em;
+				text-align: center;
+				font-weight: 400;
+			}
 		}
 		.img-part{
 			width: 17em;
