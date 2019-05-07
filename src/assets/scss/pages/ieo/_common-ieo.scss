@@ -1,7 +1,7 @@
 .common-ieo-container{
 	font-size: calc(.656rem + .66vw);
 	position: relative;
-	padding-bottom: 4em;
+	padding-bottom: 7em;
 	.fs-image-container{
 		overflow: hidden;
 		position: absolute;
@@ -20,10 +20,10 @@
 		position: relative;
 		.fs-wr{
 			position: relative;
-			padding: 3.4em 20px 3.4em;
+			padding: 2.55em 20px 2.55em;
 		}
 		.title-wr{
-			margin-bottom: 1em;
+			margin-bottom: .8em;
 			h2{
 				font-weight: 400;
 				font-size: 1.8em;
@@ -46,12 +46,18 @@
 		.button-wr{
 			max-width: 14.65em;
 			margin: 0 auto;
+			.standart-btn{
+				padding: 17px .7em;
+				span{
+					font-size: 1.4em;
+				}
+			}
 		}
 	}
 	.common-subscribe{
 		max-width: calc(51.2em + 40px);
 		margin: 0 auto;
-		padding: 1.3em 20px;
+		padding: 1.1em 20px 1.2em;
 		.comunication-block{
 
 		}
@@ -61,8 +67,9 @@
 		}
 		.link-wr{
 			padding-left: 3.75em;
+			padding-top: .4em;
 			a{
-				font-weight: 400;
+				font-weight: 500;
 				font-size: 1.4em;
 				line-height: .9;
 				color: #237BEF;
@@ -76,18 +83,20 @@
 		}
 		.top-part{
 			display: flex;
-			justify-content: space-between;
+			// justify-content: space-between;
 			margin-bottom: 1.5em;
-			align-items: center;
+			// align-items: center;
 		}
 		.icon-wr{
 			height: 2.25em;
+			width: 3.6em;
 			svg{
 				height: 100%;
 			}
 		}
 		.description-wr{
-			width: calc(100% - 3.75em);
+			width: calc(100% - 6em);
+			padding-top: .24em;
 			p{
 				font-weight: 400;
 				font-size: .9em;
@@ -114,12 +123,22 @@
 			width: 9.3em;
 		}
 	}
+	.wrap-input__label{
+		color: #5E5F74;	
+	}
+	.wrap-input__input:valid {
+		border-color: #94C2FF;
+	}
 	.popup .wrap-input__input:valid {
 		border: 1px solid #237BEF;
 	}
 	.popup .wrap-input__input {
 		margin-bottom: 0;
 		color: #000000;
+	}
+	.wrap-input__label{
+		left: 19px;
+		font-size: 16px;
 	}
 	.wrap-input__input {
 		border-color: #94C2FF;
@@ -132,10 +151,10 @@
 		width: 100%;
 		height: 36px;
 		margin: 0 auto;
-		padding: 0 12px;
-		border: 1px solid #94C2FF;
+		padding: 0 16px;
+		border: 1px solid #5E5F74;
 		border-radius: 4px;
-		font-size: 14px;
+		font-size: 16px;
 		background-color: transparent;
 	}
 	@media (min-width: 600px){
@@ -149,7 +168,7 @@
 	.kyc-banner{
 		max-width: calc(51.2em + 40px);
 		margin: 0 auto;
-		padding: 1.3em 20px;
+		padding: 0 20px 1.1em;
 		img{
 			width: 100%;
 		}
@@ -159,10 +178,10 @@
 		.ieo-list-wr{
 			max-width: calc(51.2em + 40px);
 			margin: 0 auto;
-			padding: 1.3em 20px;
+			padding: 0 20px 1.1em;
 		}
 		.ieo-list-item{
-			margin-bottom: 1em;
+			margin-bottom: 1.25em;
 			background-color: #fff;
 			display: flex;
 			position: relative;
@@ -182,21 +201,23 @@
 				}
 			}
 			&::before{
-					display: block;
+				display: block;
 				content: "";
 				background: transparent;
 				color: transparent;
 				position: absolute;
-				padding: .5em .6em;
+				padding: .8em .62em;
 				left: 0;
 				top: 0;
-				width: 6.3em;
+				width: 7.8em;
 				text-align: center;
-				font-weight: 400;
+				font-weight: 500;
+				font-size: .7em;
+				line-height: .85;
 			}
 		}
 		.img-part{
-			width: 17em;
+			width: 17.2em;
 			img{
 				width: 100%;
 				display: block;
@@ -218,7 +239,7 @@
 		.coin-info{
 			display: flex;
 			justify-content: space-between;
-			margin-bottom: 1em;
+			margin-bottom: .9em;
 		}
 		.coin-info-item{
 			display: flex;
@@ -226,13 +247,14 @@
 			width: calc(50% - .4em);
 			background: #E5EBF5;
 			border-radius: 4px;
+			align-items: center;
 		}
 		.name-info{
-			padding: .5em .65em;
+			padding: .7em .65em;
 			span{
 				font-weight: 400;
 				font-size: .6em;
-				line-height: 1.15;
+				line-height: .9;
 				display: block;
 				color: #747B8D;
 			}
@@ -243,7 +265,7 @@
 				display: block;
 				font-weight: 500;
 				font-size: .65em;
-				line-height: 1.15;
+				line-height: .9;
 				color: #24253F;
 
 			}
@@ -253,7 +275,7 @@
 			p{
 				font-weight: 400;
 				font-size: .65em;
-				line-height: 1.15;
+				line-height: 1.27;
 				color: #747B8D;
 			}
 		}
@@ -263,9 +285,10 @@
 		.button-wr{
 			margin-right: .65em;
 			.standart-btn{
-				padding: 7px 1em;
+				padding: 7px 1.1em;
+				font-size: inherit;
 				span{
-					font-size: 1.05em;
+					font-size: .75em;
 				}
 				&.reverse{
 					&:hover{
@@ -285,11 +308,11 @@
 			max-width: calc(51.2em + 40px);
 			margin: 0 auto;
 			padding: 1.3em 20px;
-			padding-top: 4em;
+			    padding-top: 3.5em;
 			padding-bottom: 4em;
 		}
 		.title-wr{
-			margin-bottom: 3em;
+			    margin-bottom: 3.7em;
 			h3{
 				text-align: center;
 				font-weight: 500;
@@ -308,10 +331,10 @@
 			padding: 1.8em;
 			padding-top: 3em;
 			border: 1px solid #5E5F74;
-			padding-bottom: 2.5em;
+			padding-bottom: 3.2em;
 		}
 		.pic-wr{
-			margin-bottom: 2em;
+			    margin-bottom: 2.5em;
 			display: flex;
 			justify-content: center;
 			height: 4.8em;
@@ -323,7 +346,7 @@
 			}
 		}
 		.h-w-title{
-			margin-bottom: 1em;
+			margin-bottom: .8em;
 			h4{
 				font-weight: 500;
 				font-size: .9em;
@@ -347,7 +370,7 @@
 		.a-i-b-wr{
 			max-width: calc(51.2em + 40px);
 			margin: 0 auto;
-			padding: 1.3em 20px;
+			    padding: 0.55em 20px;
 		}
 		.security-block{
 			margin-bottom: 1.6em;
@@ -368,17 +391,17 @@
 		.s-item{
 			list-style: none;
 			position: relative;
-			padding-left: 1em;
+			padding-left: .7em;
 			&::before{
-				content: "";
-				display: block;
-				position: absolute;
-				top: .3em;
-				left: 0;
-				background: #237BEF;
-				height: 6px;
-				width: 6px;
-				border-radius: 50%;
+				    content: "";
+    display: block;
+    position: absolute;
+    top: .52em;
+    left: 0;
+    background: #237BEF;
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
 
 			}
 			span{
@@ -389,7 +412,7 @@
 			}
 		}
 		.adittional-block{
-			margin-bottom: .9em;
+			    margin-bottom: 2.4em;
 		}
 		.a-title{
 			margin-bottom: .9em;
@@ -401,7 +424,7 @@
 			}
 		}
 		.a-block-item{
-			margin-bottom: .4em;
+			    margin-bottom: .75em;
 			a{
 				font-weight: 400;
 				font-size: .9em;
@@ -411,7 +434,7 @@
 			}
 		}
 		.warning-block{
-			padding: .8em;
+			    padding: .85em;
 			border: 1px dashed #FFD76F;
 			border-radius: 2px;
 			max-width: 23em;
