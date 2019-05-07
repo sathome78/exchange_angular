@@ -2,17 +2,17 @@
 <div class="ieo-requirements">
   <div class="ieo-requirements-wr">
     <div class="title-part">
-      <h3>Requirements for participating in this token sale</h3>
+      <h3>{{'Requirements for participating in this token sale' | translate}}</h3>
     </div>
     <div class="requirements-table">
       <div class="requirement-item">
         <div class="requirement-text">
-          <p>All users must complete identity verification to meet the requirements of this project</p>
+          <p>{{'All users must complete identity verification to meet the requirements of this project' | translate}}</p>
         </div>
         <div *ngIf="isAuthenticated">
           <div  class="requirement-status requirement-success" *ngIf="requirements.kycCheck">
             <ng-component *ngTemplateOutlet="successIcon"></ng-component>
-            <p>Verification</p>
+            <p>{{'Verification' | translate}}</p>
           </div>
           <a
           href="#"
@@ -22,7 +22,7 @@
           *ngIf="!requirements.kycCheck"
           >
           <ng-component *ngTemplateOutlet="failIcon"></ng-component>
-          <p>Proceed to verification »</p>
+          <p>{{'Proceed to verification' | translate}} »</p>
         </a>
       </div>
       <div
@@ -30,14 +30,14 @@
       class="requirement-status requirement-wait"
       >
       <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-      <p>Please Log In first</p>
+      <p>{{'Please Log In first' | translate}}</p>
     </div>
   </div>
   <div class="requirement-item">
     <div class="requirement-text-wr">
       <div class="requirement-text" id="requirement-text">
         <div class="requirement-text-inner">
-          <p>Users from the following jurisdictions will not be able to participate in this token sale:</p>
+          <p>{{'Users from the following jurisdictions will not be able to participate in this token sale:' | translate}}</p>
           <p class="requirement-description">
             {{countries}}.
           </p>
@@ -55,12 +55,12 @@
         document.getElementById('requirement-text').style.height = '';
         document.getElementById('requirement-text').classList.remove('opened');
       }" 
-      class="more-btn">Show more</button>
+      class="more-btn">{{'Show more' | translate}}</button>
     </div>
     <div *ngIf="isAuthenticated">
       <div class="requirement-status requirement-success" *ngIf="requirements.countryCheck">
         <ng-component *ngTemplateOutlet="successIcon"></ng-component>
-        <p>Verification</p>
+        <p>{{'Verification' | translate}}</p>
       </div>
       <a
       href="#"
@@ -70,14 +70,14 @@
       *ngIf="!requirements.countryCheck && !requirements.kycCheck"
       >
       <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-      <p>Please complete identity verification first</p>
+      <p>{{'Please complete identity verification first' | translate}}</p>
     </a>
     <div
     class="requirement-status requirement-faild"
     *ngIf="!requirements.countryCheck && requirements.kycCheck"
     >
     <ng-component *ngTemplateOutlet="failIcon"></ng-component>
-    <p>Sorry, your country not allowed</p>
+    <p>{{'Sorry, your country not allowed' | translate}}</p>
   </div>
 </div>
 <div
@@ -85,17 +85,17 @@
 class="requirement-status requirement-wait"
 >
 <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-<p>Please complete identity verification first</p>
+<p>{{'Please complete identity verification first' | translate}}</p>
 </div>
 </div>
 <div class="requirement-item">
   <div class="requirement-text">
-    <p>Based on our latest terms, all users are required to accept the Token Purchase Agreement</p>
+    <p>{{'Based on our latest terms, all users are required to accept the Token Purchase Agreement' | translate}}</p>
   </div>
   <div *ngIf="isAuthenticated">
     <div class="requirement-status requirement-success" *ngIf="requirements.policyCheck">
       <ng-component *ngTemplateOutlet="successIcon"></ng-component>
-      <p>Confirmed</p>
+      <p>{{'Confirmed' | translate}}</p>
     </div>
     <a
     href="#"
@@ -104,7 +104,7 @@ class="requirement-status requirement-wait"
     *ngIf="!requirements.policyCheck"
     >
     <ng-component *ngTemplateOutlet="failIcon"></ng-component>
-    <p>Accept the terms of the agreement »</p>
+    <p>{{'Accept the terms of the agreement' | translate}} »</p>
   </a>
 </div>
 <div
@@ -112,7 +112,7 @@ class="requirement-status requirement-wait"
 class="requirement-status requirement-wait"
 >
 <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-<p>Accept the terms of the agreement</p>
+<p>{{'Accept the terms of the agreement' | translate}}</p>
 </div>
 </div>
 </div>

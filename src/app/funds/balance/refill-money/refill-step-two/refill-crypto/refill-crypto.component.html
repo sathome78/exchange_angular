@@ -95,10 +95,16 @@
 <div class="note modal__note">
   <div class="note__title">{{'Please note:' | translate}}</div>
   <ul class="note__list">
-    <li class="note__list-item"
-        [innerHTML]="'Coins will be deposited immediately after <b>2</b> network confirmations' | translate">
+    <li class="note__list-item" *ngIf="!!cryptoDataByName">
+      {{'Coins will be deposited immediately after' | translate}}
+      <b>
+        {{cryptoDataByName.minConfirmations | countConfirmations:activeCrypto.name}}
+      </b>
+      {{'network confirmations' | translate}}
     </li>
-    <li class="note__list-item">{{'Send only' | translate}} <b>{{activeCrypto.name}} </b>{{'to this deposit address.'}}{{' Sending any other coin or token to this address may result in the loss of your deposit.' | translate}}
+    <li class="note__list-item">
+      {{'Send only' | translate}} <b>{{activeCrypto.name}} </b>
+      {{'to this deposit address.'  | translate}}{{' Sending any other coin or token to this address may result in the loss of your deposit.' | translate}}
     </li>
   </ul>
 </div>

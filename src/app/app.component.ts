@@ -17,9 +17,10 @@ import {SEOService} from './shared/services/seo.service';
 import {UtilsService} from './shared/services/utils.service';
 import {IEOServiceService} from './shared/services/ieoservice.service';
 import { IEOItem } from './model/ieo.model';
+import {ChangeLanguageAction} from './core/actions/core.actions';
+import {getLanguage} from './core/reducers';
+import {GtagService} from './shared/services/gtag.service';
 
-
-declare var sendTransactionSuccessGtag: Function;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -41,7 +42,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private seoService: SEOService,
     private store: Store<fromCore.State>,
     private http: HttpClient,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private gtagService: GtagService
   ) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
 
@@ -50,7 +52,12 @@ export class AppComponent implements OnInit, OnDestroy {
     // translate.setDefaultLang('en');
     // const browserLang = translate.getBrowserLang();
     // this.store.dispatch(new ChangeLanguageAction(browserLang.match(/en|ru|uk|pl/) ? browserLang : 'en'));
-    // this.store.pipe(select(getLanguage)).subscribe(res => this.translate.use(res));
+
+    // uncomment when the translation is ready
+    // this.store
+    //   .pipe(select(getLanguage))
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe(res => this.translate.use(res));
 
     this.setIp();
 
@@ -84,6 +91,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (this.authService.isAuthenticated() && !!this.authService.getUserId()) {
+      this.gtagService.setUserId(this.authService.getUserId());
+    }
+    this.gtagService.initGtag();
+
+
     this.seoService.subscribeToRouter(); // SEO optimization
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
     if (this.authService.isAuthenticated()) {
@@ -172,7 +185,7 @@ export class AppComponent implements OnInit, OnDestroy {
         .subscribe((res) => {
           if(res.count > 0) {
             for(let i = 0; i < res.count; i++) {
-              sendTransactionSuccessGtag();
+              this.gtagService.sendTransactionSuccessGtag();
             }
             this.userService.clearTransactionsCounterForGTag()
               .pipe(takeUntil(this.ngUnsubscribe))

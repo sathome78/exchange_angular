@@ -29,7 +29,7 @@
         {{'Fiat' | translate}}
       </button>
       <button
-        *ngIf="!isProd"
+        *ngIf="showContent"
         class="tabs__item"
         [ngClass]="{'tabs__item--active': currTab === Tab.IEO}"
         (click)="onSelectTab.emit(Tab.IEO)"
@@ -140,7 +140,7 @@
       (click)="onGoToPendingReq()"
     >
       <span class="indicate">{{countOfPendingRequests}}</span>
-      Pending  requests
+      {{'Pending  requests' | translate}}
       <span class="arrow">
         <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M5.24264 1.12064L9.48528 5.36328L5.24264 9.60592" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>

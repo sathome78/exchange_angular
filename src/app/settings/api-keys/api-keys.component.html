@@ -1,0 +1,143 @@
+<div class="api-key-content">
+  <div class="api-key-title">
+    <h2>{{'API Keys' | translate}}</h2>
+  </div>
+  <form [formGroup]="form">
+    <div class="create-key-container">
+      <div class="create-title"></div>
+      <div class="wrap-input">
+        <input
+          class="wrap-input__input"
+          name="name"
+          formControlName="name"
+          type="text"
+          required>
+        <label class="wrap-input__label">{{'Enter API key name' | translate}}</label>
+        <div class="wrap-input__line"></div>
+        <div *ngIf="form.get('name')?.errors !== null">
+          <div class="input-hint-wrapper" *ngIf="form.controls['name'].errors && isSubmited">
+            <span
+              class=" wrap-input__message--show"
+              [ngClass]="{'wrap-input__message': !!form.controls['name'].errors && isSubmited}">
+              {{'API key name cannot be less than 4 and more than 15 characters long and should contain of letters (a-z A-Z).' | translate}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <button
+        (click)="createNewKey()"
+        class="btn settings__form-btn settings__password-btn settings__form-btn--active">
+        {{'Create new key' | translate}}
+      </button>
+    </div>
+  </form>
+
+  <div>
+    <div style="height: 58px;" *ngIf="loading$ | async">
+      <app-loader size="small"></app-loader>
+    </div>
+  </div>
+
+  <div class="api-key-container">
+    <div class="api-text" *ngIf="!(loading$ | async) && !(apiKeys$ | async).length">
+      <p>{{'Tou haven’t create API-keys yet. Enter API-key name and press “Create API-key” to produce' | translate}}</p>
+    </div>
+
+    <ng-container *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
+      <div class="api-key-item" *ngFor="let key of (apiKeys$ | async) | paginate: {
+          itemsPerPage: countPerPage,
+          currentPage: currentPage,
+          totalItems: (apiKeys$ | async).length
+        };
+         let index=index">
+        <ng-template
+          [ngTemplateOutlet]="singleTemplate"
+          [ngTemplateOutletContext]="{ $implicit: key, index: index}">
+        </ng-template>
+      </div>
+    </ng-container>
+
+    <cdk-virtual-scroll-viewport
+      [ngStyle]="{'height.px': heightMobScrollContainer}" itemSize="135"
+      *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
+      <ng-container *cdkVirtualFor="let key of (apiKeys$ | async); let index=index">
+        <div class="api-key-item">
+          <ng-template
+            [ngTemplateOutlet]="singleTemplate"
+            [ngTemplateOutletContext]="{ $implicit: key, index: index}">
+          </ng-template>
+        </div>
+      </ng-container>
+    </cdk-virtual-scroll-viewport>
+
+    <ng-template #singleTemplate let-key let-index>
+      <div class="key-name">{{key.alias}}</div>
+      <div class="api-key">{{key.publicKey}}</div>
+      <div class="key-controls">
+        <div class="api-key-checkbox">
+          <div class="input-wr">
+            <input class="hidden-content" [id]="'allowed'+index" type="checkbox" [checked]="key.allowTrade"
+                   (change)="onChangeTrading($event, key)">
+            <label [for]="'allowed'+index">
+              <svg width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.618652" y="4.51746" width="1.64933" height="4.948" rx="0.824666"
+                      transform="rotate(-45 0.618652 4.51746)" fill="#2560F2"/>
+                <rect x="8.83374" y="0.967583" width="1.64933" height="8.31887" rx="0.824666"
+                      transform="rotate(45 8.83374 0.967583)" fill="#2560F2"/>
+              </svg>
+            </label>
+          </div>
+          <label [for]="'allowed'+index" class="allowed-text">Trading allowed</label>
+        </div>
+        <div class="api-key-delete-btn">
+          <button class="btn btn--small btn--empty-blue " (click)="confirmDelete(key.id)">
+            {{'delete' | translate}}
+          </button>
+          <div class="revoke-request" *ngIf="confirmDeleteKeyId === key.id">
+            <div class="revoke-request__title">{{'Are you sure you want to delete this key?' | translate}}</div>
+            <div class="revoke-request__button-wrap">
+              <button class="btn btn--small" (click)="deleteApiKey(key.id)">{{'Yes' | translate}}</button>
+              <button class="btn btn--small" (click)="cleanConfirmDeleteKeyId()">{{'No' | translate}}</button>
+            </div>
+            <div class="revoke-request__triangle"></div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <!--paginator start-->
+    <div class="row row--aic balance__paginator"
+         *ngIf="(breakpointService.breakpoint$ | async) === 'desktop' && (apiKeys$ | async).length > countPerPage">
+      <app-page-items-dropdown
+        [countPerPage]="countPerPage"
+        [countOfEntries]="(apiKeys$ | async).length"
+        (onChange)="changeItemsPerPage($event)"
+      ></app-page-items-dropdown>
+      <ul class="paginator" style="margin-left: auto;">
+        <pagination-controls
+          [previousLabel]="''"
+          [nextLabel]="''"
+          (pageChange)="changePage($event)"
+        ></pagination-controls>
+      </ul>
+    </div>
+    <!--paginator end-->
+
+  </div>
+</div>
+
+<app-api-key-created
+  [showPopup]="showKeyCreatedPopup"
+  [newKey]="newKey"
+  (closeCreatedKeyPopup)="toggleKeyCreatedPopup(false)">
+</app-api-key-created>
+
+<app-api-key-popup
+  [isPinFomGA]="GAEnabled"
+  [apiKeyName]="newKeyName"
+  [twoFAFor]="twoFAFor"
+  [keyIdForEnableTrading]="keyIdForEnableTrading"
+  *ngIf="show2FAPopup"
+  (createdNewKey)="setNewKey($event)"
+  (close2FAPopup)="close2FAPopup()">
+</app-api-key-popup>

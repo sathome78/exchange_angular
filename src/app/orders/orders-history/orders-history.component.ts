@@ -119,7 +119,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     e.preventDefault();
     this.clearFilters();
     const params = {
-      offset: 0,
+      page: this.currentPage,
       limit: this.countPerPage,
     }
     this.store.dispatch(new ordersAction.LoadLastHistoryOrdersAction(params));
@@ -296,10 +296,9 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   filterPopupSubmit() {
-    if(this.isDateRangeValid()) {
+      this.currentPage = 1;
       this.closeFilterPopup();
       this.loadOrders();
-    }
   }
 
   downloadExcel() {

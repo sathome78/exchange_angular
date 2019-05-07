@@ -18,8 +18,7 @@ import * as coreActions from '../../core/actions/core.actions';
 import {Location} from '@angular/common';
 import {CurrencyPair} from '../../model';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
-
-declare var sendLoginSuccessGtag: Function;
+import {GtagService} from '../../shared/services/gtag.service';
 
 @Component({
   selector: 'app-login-popup-mobile',
@@ -66,7 +65,8 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-    private store: Store<fromCore.State>
+    private store: Store<fromCore.State>,
+    private gtagService: GtagService
   ) {
   }
 
@@ -227,10 +227,11 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
     this.userService.authenticateUser(this.email, this.password, this.pin, this.pincodeAttempts)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((tokenHolder: TokenHolder) => {
-        sendLoginSuccessGtag();
         this.logger.debug(this, 'User { login: ' + this.email + ', pass: ' + this.password + '}' + ' signed in and obtained' + tokenHolder);
         this.authService.setToken(tokenHolder.token);
         const parsedToken = this.authService.parseToken(tokenHolder.token);
+        this.gtagService.setUserId(parsedToken.publicId);
+        this.gtagService.sendLoginSuccessGtag();
         this.store.dispatch(new coreActions.SetOnLoginAction(parsedToken));
         this.popupService.closeMobileLoginPopup();
         this.userService.getUserBalance(this.currencyPair);
