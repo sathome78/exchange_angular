@@ -15,13 +15,7 @@ export class NewsThankYouPopupComponent implements OnInit {
   ngOnInit() {
   }
 
-  // temp method
   closeThankPopup() {
     this.popupService.toggleNewsThankYouPopup(false);
   }
-
-  closeSubPopup() {
-
-  }
-
 }
