@@ -7,7 +7,7 @@
 		</div>
 		<div class="ieo-header-item">
 			<div class="current-ieo-text">
-				<p>{{IEOData.currencyDescription}} - BTC Session</p>
+				<p>{{IEOData.currencyDescription}} - BTC {{'Session' | translate}}</p>
 			</div>
 		</div>
 		<div class="ieo-header-item" *ngIf="currentStage === stage.RUNNING">
@@ -27,7 +27,7 @@
 		</div>
 		<div class="ieo-header-item">
 			<div class="ieo-amount">
-				<span class="field-description">Amount: </span>
+				<span class="field-description">{{'Amount: ' | translate}}</span>
 				<span class="amount-value">{{(IEOData.amount || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}</span>
 			</div>
 			<div class="ieo-buy-button">
@@ -39,11 +39,11 @@
             *ngIf="isAuthenticated && (currentStage === stage.RUNNING || currentStage === stage.PENDING)"
             [disabled]="ieoLoading || (currentStage === stage.PENDING) || (currentStage !== stage.RUNNING) || (requirements.kycCheck && !requirements.countryCheck)"
           >
-            <span>Buy Now</span>
+            <span>{{'Buy Now' | translate}}</span>
           </button>
           <div class="input-hint-wrapper" *ngIf="isAuthenticated">
             <span class="wrap-input__message">
-              Sorry, your country not allowed
+              {{'Sorry, your country not allowed' | translate}}
             </span>
           </div>
         </div>
@@ -52,14 +52,14 @@
           (click)="onLogin.emit()"
           *ngIf="!isAuthenticated"
         >
-          <span>Log In</span>
+          <span>{{'Log In' | translate}}</span>
         </button>
         <button
           class="btn btn-blue btn-ieo"
           (click)="goToNewsPage()"
           *ngIf="isAuthenticated && (currentStage === stage.SUCCEEDED || currentStage === stage.FAILED)"
         >
-          <span>More</span>
+          <span>{{'More' | translate}}</span>
         </button>
 	    </div>
       <div class="ieo-price">

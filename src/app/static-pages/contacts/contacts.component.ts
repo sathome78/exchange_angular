@@ -5,6 +5,7 @@ import {StaticPagesService} from '../static-pages.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {PopupService} from '../../shared/services/popup.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-contacts',
@@ -20,6 +21,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
   constructor(
     private utilsService: UtilsService,
     private staticPagesService: StaticPagesService,
+    private translateService: TranslateService,
     private popupService: PopupService
   ) {
   }
@@ -74,8 +76,8 @@ export class ContactsComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           const popupData = {
-            title: 'Your message was sent successfully!',
-            description: 'Exrates team will contact you next 8 hours.',
+            title: this.translateService.instant('Your message was sent successfully!'),
+            description: this.translateService.instant('Exrates team will contact you next 8 hours.'),
           };
           this.popupService.toggleInfoPopup(popupData);
           this.sendForm.reset();

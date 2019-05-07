@@ -2,7 +2,7 @@
   <div class="popup popup-login">
     <div class="popup__close" (click)="close2FAPopup.emit(true)"></div>
 
-    <h6 class="popup__title">2FA</h6>
+    <h6 class="popup__title">{{'2FA' | translate}}</h6>
     <h4 class="popup__subtitle popup_title--dm" [ngClass]="{'msg-error' : !!serverPinErrorForView}">
       <span *ngIf="!serverPinErrorForView">{{isPinFomGA ? titlesPopup[1] : titlesPopup[0]}}</span>
       <span *ngIf="!!serverPinErrorForView">{{serverPinErrorForView}}</span>

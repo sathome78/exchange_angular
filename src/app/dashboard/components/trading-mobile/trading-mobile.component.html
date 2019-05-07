@@ -24,7 +24,9 @@
           {{'Buy' | translate}} {{arrPairName[0]}}
         </p>
         <div class="widget__trading-fee">
-          <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
+          <span>
+            {{'Fee:' | translate}} {{buyOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}
+          </span>
         </div>
       </div>
 
@@ -78,7 +80,9 @@
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div class="avaliable avaliable--aifl">
           <span>{{'Available:' | translate}} </span>
-          <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(BUY)">{{userBalance?.cur2?.balance || 0 | roundCurrency:userBalance?.cur2?.name | formatCurrency}} {{userBalance?.cur2?.name || ''}}</a>
+          <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(BUY)">
+            {{userBalance?.cur2?.balance || 0 | roundCurrency:userBalance?.cur2?.name | formatCurrency}} {{userBalance?.cur2?.name || ''}}
+          </a>
         </div>
       </div>
       <div class="row row__percent">
@@ -165,7 +169,9 @@
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div class="avaliable avaliable--aifl">
           <span>{{'Available:' | translate}} </span>
-          <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(SELL)">{{userBalance?.cur1?.balance || 0 | roundCurrency:userBalance?.cur1?.name | formatCurrency}} {{userBalance?.cur1?.name}}</a>
+          <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(SELL)">
+            {{userBalance?.cur1?.balance || 0 | roundCurrency:userBalance?.cur1?.name | formatCurrency}} {{userBalance?.cur1?.name}}
+          </a>
         </div>
       </div>
       <div class="row row__percent">
@@ -202,14 +208,14 @@
     class="btn btn--active widget__trading-btn widget__trading-btn--buy"
     (click)="onSubmit(BUY)"
   >
-    Buy {{arrPairName[0]}}
+    {{'Buy' | translate}} {{arrPairName[0]}}
   </button>
   <button
     [disabled]="loading"
     class="btn btn--active widget__trading-btn widget__trading-btn--sell"
     (click)="onSubmit(SELL)"
   >
-    Sell {{arrPairName[0]}}
+    {{'Sell' | translate}} {{arrPairName[0]}}
   </button>
 </div>
 
@@ -232,7 +238,9 @@
       </svg>
     </div>
     <div class="trading-notification__text">
-      <div class="trading-notification__title">{{showLimit(createdOrder?.baseType, true)}} {{createdOrder?.orderType}} {{' Order created!' | translate}}</div>
+      <div class="trading-notification__title">
+        {{showLimit(createdOrder?.baseType, true)}} {{createdOrder?.orderType}} {{' Order created!' | translate}}
+      </div>
       <!-- <p>{{'Status:' | translate}} {{message}}</p> -->
       <!--<p>Submitted exchange limit sell order for 9 ZRX by using BTC</p>-->
     </div>
@@ -256,7 +264,9 @@
       </svg>
     </div>
     <div class="trading-notification__text">
-      <div class="trading-notification__title">{{showLimit(createdOrder?.baseType, true)}} {{createdOrder?.orderType}} {{' Order not created!' | translate}}</div>
+      <div class="trading-notification__title">
+        {{showLimit(createdOrder?.baseType, true)}} {{createdOrder?.orderType}} {{' Order not created!' | translate}}
+      </div>
       <!-- <p> {{'Status:' | translate}} {{message}}</p> -->
       <!--<p>Submitted exchange limit sell order for 9 ZRX by using BTC</p>-->
     </div>

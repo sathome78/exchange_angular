@@ -91,7 +91,7 @@ export class BalanceMobComponent implements OnInit{
     this.priceIn = this.currencies[element.innerText];
   }
   public onGoToPendingReq(): void {
-    this.router.navigate(['/funds/pending-requests'])
+    this.router.navigate(['/funds/pending-requests']);
   }
 
   public isFiat(currName: string): boolean {
@@ -131,11 +131,10 @@ export class BalanceMobComponent implements OnInit{
     }
     this.isShowSearchPopup = flag;
   }
-  get isProd(): boolean {
-    return environment.production
+  get showContent(): boolean {
+    return environment.showContent;
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 }
