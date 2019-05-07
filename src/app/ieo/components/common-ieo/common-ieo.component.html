@@ -119,6 +119,8 @@
         <div class="ieo-list-item">
           <div class="img-part">
             <img src="assets/img/ieo/celler.png" alt="">
+            <div class="ieo-item-status {{item.status | lowercase}}"
+            [ngClass]="{'red': item.status}">{{item.status | showStageStatus}}</div>
           </div>
           <div class="info-coin-part">
             <div class="title-wr">
@@ -151,7 +153,11 @@
             </div>
             <div class="button-part">
               <div class="button-wr">
-                <button class="standart-btn"><span>Buy {{item.currencyDescription}}</span></button>
+                <button
+                  class="standart-btn"
+                  *ngIf="isAuthenticated"
+                  (click)="buyIeo(item)"
+                ><span>Buy {{item.currencyDescription}}</span></button>
               </div>
               <div class="button-wr">
                 <button class="standart-btn reverse" (click)="readMore(item.id)"><span>Read More</span></button>
@@ -244,3 +250,29 @@
 		</div>
 	</div>
 </div>
+
+
+<app-popup-buy
+  [IEOData]="buyIEOData"
+  *ngIf="showBuyIEO"
+  (close)="closeBuyIEO()"
+  (confirm)="confirmBuyIEO($event)"
+></app-popup-buy>
+
+<app-popup-success
+  *ngIf="showSuccessIEO"
+  [IEOName]="buyIEOData.currencyDescription"
+  (close)="closeSuccessIEO()"
+></app-popup-success>
+
+<app-popup-policy
+  *ngIf="showPolicy"
+  (close)="togglePolicy()"
+  (onAgree)="agreeWithPolicy()"
+></app-popup-policy>
+
+<app-popup-failed
+  *ngIf="showNoReqs"
+  (close)="toggleNoReqs(false)"
+  [IEOData]="buyIEOData"
+></app-popup-failed>
