@@ -62,185 +62,185 @@
 						<div class="form-wr">
 							<form [formGroup]="emailForm">
 								<div class="wrap-input popup__wrap-input"
-                     [ngClass]="{'wrap-input--error': !emailControl.valid
-                      && emailControl.touched
-                       && isSubmited
-                        && emailControl.errors != null}">
-									<input
-                    class="wrap-input__input ng-dirty ng-valid ng-touched"
-                    formControlName="email"
-                    required=""
-                    type="text">
-									<label class="wrap-input__label" for=""> Email </label>
-                  <div class="input-hint-wrapper">
-                    <div *ngIf="!emailControl.valid && emailControl.touched && isSubmited">
-                      <span class="wrap-input__message"
-                            *ngIf="emailControl.errors['required'] && emailControl.touched">
-                        {{'Email is required' | translate}}
-                      </span>
-                      <span class="wrap-input__message"
-                            *ngIf="emailControl.errors['emailInvalid']
-                                   && emailControl.touched
-                                    && !emailControl.errors['required']
-                                     && !emailControl.errors['specialCharacter']">
-                        {{'Wrong email' | translate}}
-                      </span>
-                      <span class="wrap-input__message"
-                            *ngIf="emailControl.errors['specialCharacter']
-                                  && !emailControl.errors['required']">
-                        {{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
-                      </span>
-                      <span class="wrap-input__message"
-                            *ngIf="emailControl.errors['maxlength']
-                                   && !emailControl.errors['required']
-                                    && !emailControl.errors['emailInvalid']">
-                        {{'Email cannot be more than 40 characters long' | translate}}
-                      </span>
-                    </div>
-                  </div>
-								</div>
-								<div class="button-wr">
-									<button class="standart-btn reverse" (click)="subEmailNotification()"><span>Get mail notification</span></button>
-								</div>
-							</form>
+								[ngClass]="{'wrap-input--error': !emailControl.valid
+								&& emailControl.touched
+								&& isSubmited
+								&& emailControl.errors != null}">
+								<input
+								class="wrap-input__input ng-dirty ng-valid ng-touched"
+								formControlName="email"
+								required=""
+								type="text">
+								<label class="wrap-input__label" for="">Enter your mail</label>
+								<div class="input-hint-wrapper">
+									<div *ngIf="!emailControl.valid && emailControl.touched && isSubmited">
+										<span class="wrap-input__message"
+										*ngIf="emailControl.errors['required'] && emailControl.touched">
+										{{'Email is required' | translate}}
+									</span>
+									<span class="wrap-input__message"
+									*ngIf="emailControl.errors['emailInvalid']
+									&& emailControl.touched
+									&& !emailControl.errors['required']
+									&& !emailControl.errors['specialCharacter']">
+									{{'Wrong email' | translate}}
+								</span>
+								<span class="wrap-input__message"
+								*ngIf="emailControl.errors['specialCharacter']
+								&& !emailControl.errors['required']">
+								{{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
+							</span>
+							<span class="wrap-input__message"
+							*ngIf="emailControl.errors['maxlength']
+							&& !emailControl.errors['required']
+							&& !emailControl.errors['emailInvalid']">
+							{{'Email cannot be more than 40 characters long' | translate}}
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="button-wr">
+				<button class="standart-btn reverse" (click)="subEmailNotification()"><span>Get mail notification</span></button>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<div class="kyc-banner" *ngIf="verificationStatus !== KYC_STATUS.SUCCESS">
+	<img src="assets/img/ieo/kyc-img.png" alt="" (click)="bannerClick()">
+</div>
+<div class="ieo-list">
+	<div class="ieo-list-wr">
+		<ng-container *ngFor="let item of ieoList">
+			<div class="ieo-list-item">
+				<div class="img-part">
+					<img src="assets/img/ieo/celler.png" alt="">
+				</div>
+				<div class="info-coin-part">
+					<div class="title-wr">
+						<h3>{{item.currencyDescription}} - BNB Session</h3>
+					</div>
+					<div class="coin-info">
+						<div class="coin-info-item">
+							<div class="name-info">
+								<span>Session Supply</span>
+							</div>
+							<div class="info-value">
+								<span>{{(item.amount * item.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</span>
+							</div>
+						</div>
+						<div class="coin-info-item">
+							<div class="name-info">
+								<span>Start Time</span>
+							</div>
+							<div class="info-value">
+								<span>{{item.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="description-wr">
+						<p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain
+							transactions for not only payment transactions, but also generalized off-chain smart contract. Founded
+							by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build,
+						operate, and use...</p>
+					</div>
+					<div class="button-part">
+						<div class="button-wr">
+							<button class="standart-btn"><span>Buy {{item.currencyDescription}}</span></button>
+						</div>
+						<div class="button-wr">
+							<button class="standart-btn reverse" (click)="readMore(item.id)"><span>Read More</span></button>
 						</div>
 					</div>
 				</div>
-
 			</div>
-		</div>
-	</div>
-  <div class="kyc-banner" *ngIf="verificationStatus !== KYC_STATUS.SUCCESS">
-    <img src="assets/img/ieo/kyc-img.png" alt="" (click)="bannerClick()">
-  </div>
-	<div class="ieo-list">
-		<div class="ieo-list-wr">
-      <ng-container *ngFor="let item of ieoList">
-        <div class="ieo-list-item">
-          <div class="img-part">
-            <img src="assets/img/ieo/celler.png" alt="">
-          </div>
-          <div class="info-coin-part">
-            <div class="title-wr">
-              <h3>{{item.currencyDescription}} - BNB Session</h3>
-            </div>
-            <div class="coin-info">
-              <div class="coin-info-item">
-                <div class="name-info">
-                  <span>Session Supply</span>
-                </div>
-                <div class="info-value">
-                  <span>{{(item.amount * item.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</span>
-                </div>
-              </div>
-              <div class="coin-info-item">
-                <div class="name-info">
-                  <span>Start Time</span>
-                </div>
-                <div class="info-value">
-                  <span>{{item.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
-                </div>
-              </div>
-
-            </div>
-            <div class="description-wr">
-              <p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain
-                transactions for not only payment transactions, but also generalized off-chain smart contract. Founded
-                by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build,
-                operate, and use...</p>
-            </div>
-            <div class="button-part">
-              <div class="button-wr">
-                <button class="standart-btn"><span>Buy {{item.currencyDescription}}</span></button>
-              </div>
-              <div class="button-wr">
-                <button class="standart-btn reverse" (click)="readMore(item.id)"><span>Read More</span></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-
-		</div>
+		</ng-container>
 
 	</div>
-	<div class="how-work">
-		<div class="how-work-wr">
-			<div class="title-wr">
-				<h3>How it work?</h3>
-			</div>
-			<div class="how-work-item-wr">
-				<div class="how-work-item">
-					<div class="pic-wr">
-						<img src="assets/img/ieo/how-work1.svg" alt="">
-					</div>
-					<div class="h-w-title">
-						<h4>Verify account</h4>
-					</div>
-					<div class="h-w-description">
-						<p>Only verified accounts can access to IEO. Verification is needed only one time.</p>
-					</div>
-				</div>
-				<div class="how-work-item">
-					<div class="pic-wr">
-						<img src="assets/img/ieo/how-work2.svg" alt="">
-					</div>
-					<div class="h-w-title">
-						<h4>Buy coins in IEO</h4>
-					</div>
-					<div class="h-w-description">
-						<p>IEO starts in a specific time <br>and can end any time after coins are sold.</p>
-					</div>
-				</div>
-				<div class="how-work-item">
-					<div class="pic-wr">
-						<img src="assets/img/ieo/how-work3.svg" alt="">
-					</div>
-					<div class="h-w-title">
-						<h4>Hold or trade</h4>
-					</div>
-					<div class="h-w-description">
-						<p>After sucessfull finishing of IEO coins are delivered to your balance.</p>
-					</div>
-				</div>
 
+</div>
+<div class="how-work">
+	<div class="how-work-wr">
+		<div class="title-wr">
+			<h3>How it work?</h3>
+		</div>
+		<div class="how-work-item-wr">
+			<div class="how-work-item">
+				<div class="pic-wr">
+					<img src="assets/img/ieo/how-work1.svg" alt="">
+				</div>
+				<div class="h-w-title">
+					<h4>Verify account</h4>
+				</div>
+				<div class="h-w-description">
+					<p>Only verified accounts can access to IEO. Verification is needed only one time.</p>
+				</div>
 			</div>
+			<div class="how-work-item">
+				<div class="pic-wr">
+					<img src="assets/img/ieo/how-work2.svg" alt="">
+				</div>
+				<div class="h-w-title">
+					<h4>Buy coins in IEO</h4>
+				</div>
+				<div class="h-w-description">
+					<p>IEO starts in a specific time <br>and can end any time after coins are sold.</p>
+				</div>
+			</div>
+			<div class="how-work-item">
+				<div class="pic-wr">
+					<img src="assets/img/ieo/how-work3.svg" alt="">
+				</div>
+				<div class="h-w-title">
+					<h4>Hold or trade</h4>
+				</div>
+				<div class="h-w-description">
+					<p>After sucessfull finishing of IEO coins are delivered to your balance.</p>
+				</div>
+			</div>
+
 		</div>
 	</div>
-	<div class="aditional-info-block">
-		<div class="a-i-b-wr">
-			<div class="security-block">
-				<div class="s-title">
-					<h5>Security</h5>
-				</div>
-				<ul class="s-list">
-					<li class="s-item">
-						<span>In case of unseccessfull IEO all funds will be backed to all participants automatically.</span>
-					</li>
-					<li class="s-item">
-						<span>In case of sucessfull IEO coin will listed on Exchange as soon as   </span>
-					</li>
-					<li class="s-item">
-						<span>Please, remeber that all risks are on your side.</span>
-					</li>
+</div>
+<div class="aditional-info-block">
+	<div class="a-i-b-wr">
+		<div class="security-block">
+			<div class="s-title">
+				<h5>Security</h5>
+			</div>
+			<ul class="s-list">
+				<li class="s-item">
+					<span>In case of unseccessfull IEO all funds will be backed to all participants automatically.</span>
+				</li>
+				<li class="s-item">
+					<span>In case of sucessfull IEO coin will listed on Exchange as soon as   </span>
+				</li>
+				<li class="s-item">
+					<span>Please, remeber that all risks are on your side.</span>
+				</li>
 
-				</ul>
+			</ul>
+		</div>
+		<div class="adittional-block">
+			<div class="a-title">
+				<h5>Aditional information</h5>
 			</div>
-			<div class="adittional-block">
-				<div class="a-title">
-					<h5>Aditional information</h5>
-				</div>
-				<div class="a-block-item">
-					<a href="#">What are demends to Projects that whant to have IEO?</a>
-				</div>
-				<div class="a-block-item">
-					<a href="#">Why IEO is considered more safe than ICO?</a>
-				</div>
+			<div class="a-block-item">
+				<a href="#">What are demends to Projects that whant to have IEO?</a>
+			</div>
+			<div class="a-block-item">
+				<a href="#">Why IEO is considered more safe than ICO?</a>
+			</div>
 
-			</div>
-			<div class="warning-block">
-				<p>Awerness: Please remeber that crypto is high risky investments. Ofcourse we do all best to filter projects but all responsibility is still on your syde. </p>
-			</div>
+		</div>
+		<div class="warning-block">
+			<p>Awerness: Please remeber that crypto is high risky investments. Ofcourse we do all best to filter projects but all responsibility is still on your syde. </p>
 		</div>
 	</div>
+</div>
 </div>
