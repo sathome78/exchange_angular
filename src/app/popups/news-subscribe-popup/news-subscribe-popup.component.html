@@ -23,38 +23,19 @@
 			<div>
 				<div class="wrap-input popup__wrap-input">
 					<input class="wrap-input__input" type="text"
-					required
-					(input)="emailInput()"
-					formControlName="email"
-					[ngClass]="{'wrap-input__input--error':
-					!loginForm.get('email').valid
-					&& loginForm.get('email').touched
-					|| statusMessage}">
-					<label class="wrap-input__label" for=""
-					[ngClass]="{'wrap-input__label--error':
-					!loginForm.get('email').valid
-					&& loginForm.get('email').touched
-					|| statusMessage}">
+					required>
+					<label class="wrap-input__label" for="">
 					{{'Email' | translate}}
 				</label>
-				<div class="wrap-input__line"
-				[ngClass]="{'wrap-input__line--error':
-				!loginForm.get('email').valid
-				&& loginForm.get('email').touched
-				|| statusMessage}">
+				<div class="wrap-input__line">
 			</div>
-			<div
-			*ngIf="loginForm.get('email').touched
-			&& loginForm.get('email').errors != null
-			|| !statusMessage
-			&& loginForm.get('email').errors != null">
+			<div>
 			<div class="input-hint-wrapper">
 				<span
-				class="wrap-input__message wrap-input__message--error"
-				*ngIf="loginForm.get('email').errors['required']">
+				class="wrap-input__message wrap-input__message--error">
 				{{'This field is required.' | translate}}
 			</span>
-			<span *ngIf="loginForm.get('email').invalid && !loginForm.get('email').errors['required']"
+			<span
 			class=" wrap-input__message wrap-input__message--error">
 			{{'Please, enter valid email address.' | translate}}
 		</span>

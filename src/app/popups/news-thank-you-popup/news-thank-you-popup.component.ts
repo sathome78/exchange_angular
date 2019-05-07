@@ -20,4 +20,8 @@ export class NewsThankYouPopupComponent implements OnInit {
     this.popupService.toggleNewsThankYouPopup(false);
   }
 
+  closeSubPopup() {
+
+  }
+
 }
