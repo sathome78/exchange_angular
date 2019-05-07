@@ -49,7 +49,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public showSendMoneyPopup: boolean = false;
   public hideAllZero: boolean = false;
   public existQuberaAccounts: string = PENDING;
-  public isProd: boolean = environment.production;
+  public showContent: boolean = environment.showContent;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
   public quberaBalances$: Observable<any[]>;

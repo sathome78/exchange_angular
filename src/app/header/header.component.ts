@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public isMobileMenuOpen = false;
   public mobileView = 'markets';
   public userInfo$: Observable<ParsedToken>;
-  public ieoList$: Observable<IEOItem[]>;
+  // public ieoList$: Observable<IEOItem[]>;
   public showFundsList: boolean;
   public showOrdersList: boolean;
   public translateList: boolean;
@@ -64,7 +64,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public translate: TranslateService
   ) {
     this.userInfo$ = this.store.pipe(select(fromCore.getUserInfo));
-    this.ieoList$ = this.store.pipe(select(fromCore.getIEOList));
+    // this.ieoList$ = this.store.pipe(select(fromCore.getIEOList));
   }
 
   ngOnInit() {
@@ -213,15 +213,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     window.open(`https://news.exrates.me?data=${encodeData}`);
   }
 
-// temp solution
-  tempPopup() {
-    if (environment.production) {
-      this.popupService.demoPopupMessage = 1;
-      this.popupService.showDemoTradingPopup(true);
-    }
-  }
+  // temp solution
+  // tempPopup() {
+  //   if (environment.production) {
+  //     this.popupService.demoPopupMessage = 1;
+  //     this.popupService.showDemoTradingPopup(true);
+  //   }
+  // }
 
-  get isProduction() {
-    return environment.production
+  get showContent() {
+    return environment.showContent
   }
 }

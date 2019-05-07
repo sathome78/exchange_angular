@@ -60,13 +60,47 @@
 					</div>
 					<div class="bottom-part">
 						<div class="form-wr">
-							<form action="#">
-								<div class="wrap-input popup__wrap-input">
-									<input class="wrap-input__input ng-dirty ng-valid ng-touched" required="" type="text">
-									<label class="wrap-input__label" for="">Enter your mail</label>
-								</div>		
+							<form [formGroup]="emailForm">
+								<div class="wrap-input popup__wrap-input"
+                     [ngClass]="{'wrap-input--error': !emailControl.valid
+                      && emailControl.touched
+                       && isSubmited
+                        && emailControl.errors != null}">
+									<input
+                    class="wrap-input__input ng-dirty ng-valid ng-touched"
+                    formControlName="email"
+                    required=""
+                    type="text">
+									<label class="wrap-input__label" for=""> Email </label>
+                  <div class="input-hint-wrapper">
+                    <div *ngIf="!emailControl.valid && emailControl.touched && isSubmited">
+                      <span class="wrap-input__message"
+                            *ngIf="emailControl.errors['required'] && emailControl.touched">
+                        {{'Email is required' | translate}}
+                      </span>
+                      <span class="wrap-input__message"
+                            *ngIf="emailControl.errors['emailInvalid']
+                                   && emailControl.touched
+                                    && !emailControl.errors['required']
+                                     && !emailControl.errors['specialCharacter']">
+                        {{'Wrong email' | translate}}
+                      </span>
+                      <span class="wrap-input__message"
+                            *ngIf="emailControl.errors['specialCharacter']
+                                  && !emailControl.errors['required']">
+                        {{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
+                      </span>
+                      <span class="wrap-input__message"
+                            *ngIf="emailControl.errors['maxlength']
+                                   && !emailControl.errors['required']
+                                    && !emailControl.errors['emailInvalid']">
+                        {{'Email cannot be more than 40 characters long' | translate}}
+                      </span>
+                    </div>
+                  </div>
+								</div>
 								<div class="button-wr">
-									<button class="standart-btn reverse"><span>Get mail notification</span></button>
+									<button class="standart-btn reverse" (click)="subEmailNotification()"><span>Get mail notification</span></button>
 								</div>
 							</form>
 						</div>
@@ -76,88 +110,57 @@
 			</div>
 		</div>
 	</div>
-	<div class="kyc-banner">
-		<img src="assets/img/ieo/kyc-img.png" alt="">
-	</div>
+  <div class="kyc-banner" *ngIf="verificationStatus !== KYC_STATUS.SUCCESS">
+    <img src="assets/img/ieo/kyc-img.png" alt="" (click)="bannerClick()">
+  </div>
 	<div class="ieo-list">
 		<div class="ieo-list-wr">
-			<div class="ieo-list-item upcoming">
-				<div class="img-part">
-					<img src="assets/img/ieo/celler.png" alt="">
-				</div>
-				<div class="info-coin-part">
-					<div class="title-wr">
-						<h3>Celer - BNB Session</h3>
-					</div>
-					<div class="coin-info">
-						<div class="coin-info-item">
-							<div class="name-info">
-								<span>Session Supply</span>
-							</div>
-							<div class="info-value">
-								<span>190,000,000 CELR</span>
-							</div>
-						</div>
-						<div class="coin-info-item">
-							<div class="name-info">
-								<span>Start Time</span>
-							</div>
-							<div class="info-value">
-								<span>1970-01-01 03:00:00</span>
-							</div>
-						</div>
+      <ng-container *ngFor="let item of ieoList">
+        <div class="ieo-list-item">
+          <div class="img-part">
+            <img src="assets/img/ieo/celler.png" alt="">
+          </div>
+          <div class="info-coin-part">
+            <div class="title-wr">
+              <h3>{{item.currencyDescription}} - BNB Session</h3>
+            </div>
+            <div class="coin-info">
+              <div class="coin-info-item">
+                <div class="name-info">
+                  <span>Session Supply</span>
+                </div>
+                <div class="info-value">
+                  <span>{{(item.amount * item.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</span>
+                </div>
+              </div>
+              <div class="coin-info-item">
+                <div class="name-info">
+                  <span>Start Time</span>
+                </div>
+                <div class="info-value">
+                  <span>{{item.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
+                </div>
+              </div>
 
-					</div>
-					<div class="description-wr">
-						<p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain transactions for not only payment transactions, but also generalized off-chain smart contract. Founded by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build, operate, and use...</p>
-					</div>	
-					<div class="button-part">
-						<div class="button-wr">
-							<button class="standart-btn"><span>Buy Celer</span></button>
-						</div>
-						<div class="button-wr">
-							<button class="standart-btn reverse"><span>Read More</span></button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="ieo-list-item success">
-				<div class="img-part">
-					<img src="assets/img/ieo/matic.png" alt="">
-				</div>
-				<div class="info-coin-part">
-					<div class="title-wr">
-						<h3>MATIC - BNB Session</h3>
-					</div>
-					<div class="coin-info">
-						<div class="coin-info-item">
-							<div class="name-info">
-								<span>Session Supply</span>
-							</div>
-							<div class="info-value">
-								<span>190,000,000 CELR</span>
-							</div>
-						</div>
-						<div class="coin-info-item">
-							<div class="name-info">
-								<span>Start Time</span>
-							</div>
-							<div class="info-value">
-								<span>1970-01-01 03:00:00</span>
-							</div>
-						</div>
+            </div>
+            <div class="description-wr">
+              <p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain
+                transactions for not only payment transactions, but also generalized off-chain smart contract. Founded
+                by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build,
+                operate, and use...</p>
+            </div>
+            <div class="button-part">
+              <div class="button-wr">
+                <button class="standart-btn"><span>Buy {{item.currencyDescription}}</span></button>
+              </div>
+              <div class="button-wr">
+                <button class="standart-btn reverse" (click)="readMore(item.id)"><span>Read More</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
 
-					</div>
-					<div class="description-wr">
-						<p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain transactions for not only payment transactions, but also generalized off-chain smart contract. Founded by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build, operate, and use...</p>
-					</div>	
-					<div class="button-part">
-						<div class="button-wr">
-							<button class="standart-btn reverse"><span>Read More</span></button>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 
 	</div>

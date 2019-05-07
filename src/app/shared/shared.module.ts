@@ -52,6 +52,10 @@ import {PopupBuyComponent} from './components/popup-buy-ieo/popup-buy.component'
 import {PopupSuccessComponent} from './components/popup-success-ieo/popup-success.component';
 import {OrderBookCutBigNumPipe} from './pipes/order-book-cut-big-num.pipe';
 import {TooltipDirective} from './directives/tooltip.directive';
+import {GetCountConfirmationsPipe} from './pipes/get-count-confirmations.pipe';
+import {ShowPageGuard} from './guards/showPage.guard';
+import {GetDateStringPipe} from './pipes/parse-date-utc.pipe';
+import {DateFromISO8601Pipe} from './pipes/dateFromISO8601.pipe';
 
 @NgModule({
   declarations: [
@@ -74,13 +78,16 @@ import {TooltipDirective} from './directives/tooltip.directive';
     RoundCurrencyPipe,
     ExponentToNumberPipe,
     ShowOrderStatusPipe,
+    GetCountConfirmationsPipe,
     GetObjectKeysPipe,
     SafePipe,
     FormatCurrencyPipe,
+    GetDateStringPipe,
     SplitCurrencyPipe,
     ReplaceCharPipe,
     PageItemsDropdownComponent,
     DateWrapper,
+    DateFromISO8601Pipe,
     LoaderComponent,
     DynamicInputComponent,
     CustomSearchInputComponent,
@@ -122,7 +129,10 @@ import {TooltipDirective} from './directives/tooltip.directive';
     SortPipe,
     ReplaceNumberPipe,
     DateMaskInputComponent,
+    GetDateStringPipe,
+    DateFromISO8601Pipe,
     MerchantImageFilterPipe,
+    GetCountConfirmationsPipe,
     ShowOrderStatusPipe,
     OrderBookCutBigNumPipe,
     GroupCoinPipe,
@@ -159,6 +169,7 @@ import {TooltipDirective} from './directives/tooltip.directive';
     ConstantsService,
     RoundCurrencyPipe,
     FormatCurrencyPipe,
+    ShowPageGuard,
   ]
 })
 export class SharedModule { }

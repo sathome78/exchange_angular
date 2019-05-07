@@ -85,27 +85,10 @@
            <!--TEMP LINK for strap-->
           <li class="menu__item" routerLinkActive="menu__link--active">
             <a class="menu__link" routerLink="/ieo">
-              <span class="menu__link-text">{{'IEO common' | translate}}</span>
+              <span class="menu__link-text">{{'IEO' | translate}}</span>
             </a>
           </li>
 
-          <li class="menu__item menu__item--with-submenu" routerLinkActive="head-menu__link--active">
-            <ng-container *ngIf="!isProduction">
-                <!-- *ngIf="!isProduction" -->
-              <a class="menu__link menu__link--drop">
-                <span class="menu__link-text">{{'IEO' | translate}}</span>
-              </a>
-              <div class="submenu">
-                <ul class="menu submenu__list">
-                  <li class="submenu__item" *ngFor="let ieo of (ieoList$ | async)" routerLinkActive="menu__link--active">
-                    <a class="submenu__link" [routerLink]="'/ieo/' + ieo.id">
-                      <span class="menu__link-text">{{ieo.currencyDescription}} ({{ieo.status | showStageStatus}})</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </ng-container>
-          </li>
           <li class="menu__item">
             <a class="menu__link" href="https://predictionlab.exrates.me" target="blank">
               <span class="menu__link-text">{{'Prediction' | translate}}</span>
@@ -310,9 +293,9 @@
           <span class="menu-mob__link-text">{{'Estimated holdings' | translate}}</span>
           <span class="menu-mob__link-holdings-inf">${{(myBalance | async)?.data.USD || 0 | roundCurrency:'USD' | formatCurrency}}</span>
         </a>
-        <div class="e-h-descritption" *ngIf="isAuthenticated">
-          <p>{{'Pleace do not disclose SMS and Goodle Authentication codes to ahyone, including Exrates customer support' | translate}}</p>
-        </div>
+        <!--<div class="e-h-descritption" *ngIf="isAuthenticated">-->
+          <!--<p>{{'Pleace do not disclose SMS and Goodle Authentication codes to ahyone, including Exrates customer support' | translate}}</p>-->
+        <!--</div>-->
       </div>
 
       <nav class="menu-mob">
@@ -380,7 +363,7 @@
         <a class="menu-mob__link" (click)="setMobileWidget('chat')" [routerLink]="['dashboard']" [queryParams]="{widget: 'chat'}" *ngIf="isAuthenticated"><span
           class="menu-mob__link-text">{{'Chat' | translate}}</span>
         </a>
-        <div class="menu-mob__drop-wrap" *ngIf="!isProduction">
+        <div class="menu-mob__drop-wrap" *ngIf="showContent">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(IEO_FLAG)" [ngClass]="{'menu-mob__link--active': showIEOList}">
             <span class="menu-mob__link-text">{{'IEO' | translate}}</span>
           </a>
