@@ -12,14 +12,14 @@
 
 		<h6 class="popup__title popup_title--dm">Subscribe to news</h6>
 		<!-- login user -->
-		<h4 class="popup__subtitle popup_title--dm" *ngIf="!resErrorMesage">Mailing will be made to the email specified during registration</h4>
+		<h4 class="popup__subtitle popup_title--dm" *ngIf="!resErrorMesage && isAuthenticated">Mailing will be made to the email specified during registration</h4>
 		<!-- end login user -->
 		<!-- not login user -->
-		<h4 class="popup__subtitle popup_title--dm">{{!resErrorMesage ? 'Enter email to subscribe to news' : resErrorMesage}}</h4>
+		<h4 class="popup__subtitle popup_title--dm">{{(!resErrorMesage && !isAuthenticated) ? 'Enter email to subscribe to news' : resErrorMesage}}</h4>
 		<!-- end not login user -->
 
 		<!-- login user -->
-		<form class="popup__form" [formGroup]="emailForm">
+		<form class="popup__form" [formGroup]="emailForm" *ngIf="!isAuthenticated">
 			<div>
 				<div class="wrap-input popup__wrap-input">
 					<input class="wrap-input__input"
@@ -67,7 +67,7 @@
 </form>
 <!-- login user -->
 <button class="btn popup__btn popup__btn--active"
-(click)="sendEmail()"
+(click)="emailSubscribe()"
 >Subscribe</button>
 </div>
 </div>

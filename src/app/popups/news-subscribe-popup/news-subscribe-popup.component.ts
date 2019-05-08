@@ -5,6 +5,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {takeUntil} from 'rxjs/operators';
 import {NewsService} from '../../shared/services/news.service';
 import {Subject} from 'rxjs';
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-news-subscribe-popup',
@@ -15,13 +16,17 @@ export class NewsSubscribePopupComponent implements OnInit, OnDestroy {
 
   public emailForm: FormGroup;
   public resErrorMesage = '';
+  public isAuthenticated = false;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(
     public popupService: PopupService,
     private utilsService: UtilsService,
+    private authService: AuthService,
     private newsService: NewsService
-  ) { }
+  ) {
+    this.isAuthenticated = this.authService.isAuthenticated();
+  }
 
   ngOnInit() {
     this.initEmailForm();
@@ -32,13 +37,6 @@ export class NewsSubscribePopupComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  // temp method
-  openThankPopup() {
-    this.popupService.toggleNewsThankYouPopup(true);
-    this.closeSubPopup();
-  }
-
-  // temp method
   closeSubPopup() {
     this.popupService.toggleNewsSubscribePopup(false);
   }
@@ -57,20 +55,27 @@ export class NewsSubscribePopupComponent implements OnInit, OnDestroy {
     return this.emailForm.get('email');
   }
 
-  sendEmail() {
-    if (this.emailForm.valid) {
-      this.resErrorMesage = '';
-      this.newsService.subscribeToPartnerNews(this.emailControl.value)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(res => {
-          this.popupService.toggleNewsSubscribePopup(false);
-          this.popupService.toggleNewsThankYouPopup(true);
-        }, error => {
-          if (error.status !== 400) {
-            this.resErrorMesage = 'Service is temporary unavailable, please try again later.';
-          }
-        });
+  emailSubscribe() {
+    this.resErrorMesage = '';
+    if (this.isAuthenticated) {
+      this.sendEmail(this.authService.getUsername());
+    } else {
+      if (this.emailForm.valid) {
+        this.sendEmail(this.emailControl.value);
+      }
     }
   }
 
+  sendEmail(email: string) {
+    this.newsService.subscribeToPartnerNews(email)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.popupService.toggleNewsSubscribePopup(false);
+        this.popupService.toggleNewsThankYouPopup(true);
+      }, error => {
+        if (error.status !== 400) {
+          this.resErrorMesage = 'Service is temporary unavailable, please try again later.';
+        }
+      });
+  }
 }
