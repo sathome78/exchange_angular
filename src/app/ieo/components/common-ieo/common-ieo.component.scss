@@ -1,0 +1,23 @@
+
+// Temp style
+.ieo-item-status {
+  width: 140px;
+  position: absolute;
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+  color: black;
+  font-weight: bold;
+  top: 0;
+  &.pending, &.terminated{
+    background-color: #237BEF;
+  }
+  &.running, &.succeeded{
+    background-color: #00B43D;
+  }
+  &.failed{
+    background-color: #EB5757;
+  }
+}
+
+

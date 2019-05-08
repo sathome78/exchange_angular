@@ -19,6 +19,8 @@ import {PopupFailedComponent} from './components/popup-failed/popup-failed.compo
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {translateInfo} from '../shared/configs/translate-options';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import { CommonIEOComponent } from './components/common-ieo/common-ieo.component';
+import {MomentModule} from 'ngx-moment';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -35,6 +37,7 @@ export function createTranslateLoader(http: HttpClient) {
     PopupFailedComponent,
     IeoHeaderComponent,
     PopupPolicyComponent,
+    CommonIEOComponent,
   ],
   imports: [
     CommonModule,
@@ -42,6 +45,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    MomentModule,
     IEORoutingModule,
     TranslateModule.forChild({
       loader: {
