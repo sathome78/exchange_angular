@@ -9,11 +9,13 @@ import {RestorePasswordGuard} from './shared/guards/restore-password.guard';
 import {FinalRegistrationComponent} from './popups/final-registration/final-registration.component';
 import {FinalStepRecoveryPasswordComponent} from './popups/final-step-recovery-password/final-step-recovery-password.component';
 import {ShowPageGuard} from './shared/guards/showPage.guard';
+import {AdviserComponent} from './adviser/adviser.component';
 
 const routes: Routes = [
   // permit all
   {path: 'registration', component: DashboardComponent},
   {path: 'login', component: DashboardComponent},
+  {path: 'adviser', component: AdviserComponent},
   {path: 'markets/:currency-pair', component: DashboardComponent},
   {path: 'dashboard', component: DashboardComponent},
   {path: 'final-registration/token', component: FinalRegistrationComponent, canActivate: [RegistrationGuard]},

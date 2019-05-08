@@ -102,6 +102,13 @@
               <span class="menu__link-text">{{'Prediction' | translate}}</span>
             </a>
           </li>
+          <li class="menu__item">
+            <ng-container *ngIf="showContent">
+              <a class="menu__link" routerLink="/adviser">
+                <span class="menu__link-text">{{'Adviser page' | translate}}</span>
+              </a>
+            </ng-container>
+          </li>
         </ul>
         <ul class="community-wr">
           <li class="menu__item menu__item--with-submenu">
