@@ -143,11 +143,16 @@
           </ul>
         </div>
       </li>
-      <li class="menu__item">
-        <a class="menu__link" (click)="supportRedirect()" target="blank">
+      <li class="menu__item" routerLinkActive="menu__link--active">
+        <a class="menu__link" routerLink="/news">
           <span class="menu__link-text">{{'News' | translate}}</span>
         </a>
-      </li>
+      <!--</li>-->
+          <!--<li class="menu__item">-->
+        <!--<a class="menu__link" (click)="supportRedirect()" target="blank">-->
+          <!--<span class="menu__link-text">{{'News' | translate}}</span>-->
+        <!--</a>-->
+      <!--</li>-->
     </ul>
     <!-- <a class="menu__link" href="https://t.me/exrates_community" target="blank"> -->
 
