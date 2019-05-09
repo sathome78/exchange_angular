@@ -185,59 +185,65 @@
 </div>
 </div>
 
-</div>
-</div>
-</div>
-<div class="kyc-banner" *ngIf="verificationStatus !== KYC_STATUS.SUCCESS">
-	<img src="assets/img/ieo/kyc-img.png" alt="" (click)="bannerClick()">
-</div>
-<div class="ieo-list">
-	<div class="ieo-list-wr">
-		<ng-container *ngFor="let item of ieoList">
-			<div class="ieo-list-item">
-				<div class="img-part">
-					<img src="assets/img/ieo/celler.png" alt="">
-				</div>
-				<div class="info-coin-part">
-					<div class="title-wr">
-						<h3>{{item.currencyDescription}} - BNB Session</h3>
-					</div>
-					<div class="coin-info">
-						<div class="coin-info-item">
-							<div class="name-info">
-								<span>Session Supply</span>
-							</div>
-							<div class="info-value">
-								<span>{{(item.amount * item.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</span>
-							</div>
-						</div>
-						<div class="coin-info-item">
-							<div class="name-info">
-								<span>Start Time</span>
-							</div>
-							<div class="info-value">
-								<span>{{item.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="description-wr">
-						<p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain
-							transactions for not only payment transactions, but also generalized off-chain smart contract. Founded
-							by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build,
-						operate, and use...</p>
-					</div>
-					<div class="button-part">
-						<div class="button-wr">
-							<button class="standart-btn"><span>Buy {{item.currencyDescription}}</span></button>
-						</div>
-						<div class="button-wr">
-							<button class="standart-btn reverse" (click)="readMore(item.id)"><span>Read More</span></button>
-						</div>
-					</div>
-				</div>
 			</div>
-		</ng-container>
+		</div>
+	</div>
+  <div class="kyc-banner" *ngIf="verificationStatus !== KYC_STATUS.SUCCESS">
+    <img src="assets/img/ieo/kyc-img.png" alt="" (click)="bannerClick()">
+  </div>
+	<div class="ieo-list">
+		<div class="ieo-list-wr">
+      <ng-container *ngFor="let item of ieoList">
+        <div class="ieo-list-item">
+          <div class="img-part">
+            <img src="assets/img/ieo/celler.png" alt="">
+            <div class="ieo-item-status {{item.status | lowercase}}"
+            [ngClass]="{'red': item.status}">{{item.status | showStageStatus}}</div>
+          </div>
+          <div class="info-coin-part">
+            <div class="title-wr">
+              <h3>{{item.currencyDescription}} - BNB Session</h3>
+            </div>
+            <div class="coin-info">
+              <div class="coin-info-item">
+                <div class="name-info">
+                  <span>Session Supply</span>
+                </div>
+                <div class="info-value">
+                  <span>{{(item.amount * item.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</span>
+                </div>
+              </div>
+              <div class="coin-info-item">
+                <div class="name-info">
+                  <span>Start Time</span>
+                </div>
+                <div class="info-value">
+                  <span>{{item.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
+                </div>
+              </div>
+
+            </div>
+            <div class="description-wr">
+              <p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain
+                transactions for not only payment transactions, but also generalized off-chain smart contract. Founded
+                by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build,
+                operate, and use...</p>
+            </div>
+            <div class="button-part">
+              <div class="button-wr">
+                <button
+                  class="standart-btn"
+                  *ngIf="isAuthenticated"
+                  (click)="buyIeo(item)"
+                ><span>Buy {{item.currencyDescription}}</span></button>
+              </div>
+              <div class="button-wr">
+                <button class="standart-btn reverse" (click)="readMore(item.id)"><span>Read More</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
 
 	</div>
 
@@ -322,3 +328,29 @@
 	</div>
 </div>
 </div>
+
+
+<app-popup-buy
+  [IEOData]="buyIEOData"
+  *ngIf="showBuyIEO"
+  (close)="closeBuyIEO()"
+  (confirm)="confirmBuyIEO($event)"
+></app-popup-buy>
+
+<app-popup-success
+  *ngIf="showSuccessIEO"
+  [IEOName]="buyIEOData.currencyDescription"
+  (close)="closeSuccessIEO()"
+></app-popup-success>
+
+<app-popup-policy
+  *ngIf="showPolicy"
+  (close)="togglePolicy()"
+  (onAgree)="agreeWithPolicy()"
+></app-popup-policy>
+
+<app-popup-failed
+  *ngIf="showNoReqs"
+  (close)="toggleNoReqs(false)"
+  [IEOData]="buyIEOData"
+></app-popup-failed>

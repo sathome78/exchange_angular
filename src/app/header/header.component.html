@@ -84,9 +84,11 @@
 
            <!--TEMP LINK for strap-->
           <li class="menu__item" routerLinkActive="menu__link--active">
-            <a class="menu__link" routerLink="/ieo">
-              <span class="menu__link-text">{{'IEO' | translate}}</span>
-            </a>
+            <ng-container *ngIf="showContent">
+               <a class="menu__link" routerLink="/ieo">
+                 <span class="menu__link-text">{{'IEO' | translate}}</span>
+               </a>
+            </ng-container>
           </li>
 
           <li class="menu__item">
