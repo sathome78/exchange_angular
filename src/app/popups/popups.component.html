@@ -82,3 +82,8 @@
   [notification]="notification"
   (notificationClosed)="onNotificationMessageClose(i)">
 </app-notification>
+
+<app-thank-you-popup
+  *ngIf="!!(popupService.getThankYouPopupListener() | async)?.isOpen"
+  [popupData]="popupService.getThankYouPopupListener() | async">
+</app-thank-you-popup>

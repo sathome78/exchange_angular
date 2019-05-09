@@ -3,6 +3,7 @@ import {ReplaySubject, Subject} from 'rxjs';
 import {LoggingService} from './logging.service';
 import {PopupData} from '../interfaces/popup-data-interface';
 import {KycSubjectInterface} from '../interfaces/kyc-subject-interface';
+import {ThankPopupModel} from '../models/thank-popup-model';
 
 @Injectable()
 export class PopupService {
@@ -24,6 +25,7 @@ export class PopupService {
   private onSessionExpiredPopupListener = new Subject<boolean>();
   private onNewsSubscribePopupListener = new Subject<boolean>();
   private onNewsThankYouPopupListener = new Subject<boolean>();
+  private onThankYouPopupListener = new ReplaySubject<ThankPopupModel>();
   private stepListener = new Subject<number>();
   private currentStep = 1;
   private tfaProvider = '';
@@ -105,6 +107,10 @@ export class PopupService {
 
   public getNewsThankYouPopupListener(): Subject<boolean> {
     return this.onNewsThankYouPopupListener;
+  }
+
+  public getThankYouPopupListener(): Subject<ThankPopupModel> {
+    return this.onThankYouPopupListener;
   }
 
   public getTFAPopupListener(): Subject<string> {
