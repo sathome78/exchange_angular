@@ -474,7 +474,7 @@
 							opacity: 1;
 						}
 					}
-					&~.label-txt{
+					&:checked~.label-txt{
 						color: #fff;
 					}
 				}

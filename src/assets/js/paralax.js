@@ -17,7 +17,6 @@ setTimeout(function() {
 				}
 				TweenMax.to(element, transition, {y: -scrollSize / (animationSpeed * sizeCalc)});
 			}
-			console.log(document.querySelector(".content").offsetTop)
 		}
 		if(!(window.innerWidth > adaptiveMod)){
 			element.setAttribute("style", "top:" + "" + "transform:" + "");
@@ -32,5 +31,35 @@ setTimeout(function() {
 	
 	document.addEventListener('scroll', function (e) {
 		Paralax(ParalaxParent, ParalaxElement, 0.1, 6, false,1);
+		var currentSection;
+		if(document.querySelector(".scroll-block") !== null){
+			document.querySelectorAll(".scroll-block").forEach(function(i){
+				if(i.offsetTop - 330 < window.pageYOffset && i.offsetTop + i.clientHeight > window.pageYOffset){
+					currentSection = i.getAttribute("id");
+
+					if(!(document.querySelector(".advisor-navigation-item a[href='#" + currentSection + "']").closest(".advisor-navigation-item").classList.contains("active"))){
+						document.querySelectorAll(".advisor-navigation-item").forEach(function(nav){
+							nav.classList.remove("active")
+						})
+						document.querySelector(".advisor-navigation-item a[href='#" + currentSection + "']").closest(".advisor-navigation-item").classList.add("active")
+					}
+				}
+			})
+		}
 	});
+
+
+
+	document.querySelectorAll("a[href*='#']").forEach(function(userItem) {
+		userItem.addEventListener('click', function (e) {
+			e.preventDefault();
+			var anchor = this;
+			const blockID = anchor.getAttribute('href')
+			var elPos =document.querySelector(blockID).offsetTop;
+			window.scroll({top: elPos, left: 0, behavior: 'smooth' });
+		});
+	});
+
 },1000)
+
+
