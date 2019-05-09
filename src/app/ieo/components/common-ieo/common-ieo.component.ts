@@ -13,6 +13,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UtilsService} from '../../../shared/services/utils.service';
 import {IEOServiceService} from '../../../shared/services/ieoservice.service';
 import {KycIEOModel} from '../../models/ieo-kyc.model';
+import {ThankPopupModel} from '../../../shared/models/thank-popup-model';
+import {AuthService} from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-common-ieo',
@@ -28,6 +30,8 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   public isSubmited = false;
   public showPolicy = false;
   public showNoReqs = false;
+  public isEmailSubscribe = false;
+  public isRedirectToTelegram = false;
   public isAuthenticated: boolean;
   public AuthSub$: Observable<boolean>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -35,12 +39,14 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   public requirements: KycIEOModel = new KycIEOModel(null, null, null);
   public buyIEOData;
   public showSuccessIEO = false;
+  private thakPopupOpen: ThankPopupModel;
 
   constructor(
     private store: Store<State>,
     private popupService: PopupService,
     private utilsService: UtilsService,
     private ieoService: IEOServiceService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.AuthSub$ = this.store.pipe(select(fromCore.getIsAuthenticated));
@@ -50,6 +56,11 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.getIEOList();
     this.initEmailForm();
     this.getKYCVerificationStatus();
+    this.thakPopupOpen = {
+      isOpen: true,
+      title: 'Thanks for Subscription!',
+      subTitle: ''
+    };
   }
 
   ngOnDestroy() {
@@ -108,6 +119,29 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
 
   subEmailNotification() {
     this.isSubmited = true;
+    if (this.emailForm.valid) {
+       this.ieoService.ieoEmailSubscription(this.emailControl.value)
+         .pipe(takeUntil(this.ngUnsubscribe))
+         .subscribe(res => {
+           this.emailForm.reset();
+           this.popupService.getThankYouPopupListener().next(this.thakPopupOpen);
+           this.checkSubscribe();
+         }, error => {
+           this.emailForm.reset();
+         });
+    }
+  }
+
+  redirectToTelegram() {
+    if (this.isAuthenticated) {
+      this.ieoService.ieoTelegramRedirect(this.authService.getUsername())
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+           if (!this.isRedirectToTelegram) {
+              this.checkSubscribe();
+           }
+        });
+    }
   }
 
   get emailControl() {
@@ -142,6 +176,19 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.buyIEOData = ieoItem;
     if (this.isAuthenticated) {
       this.checkKYCStatus(ieoItem.id);
+    }
+  }
+
+  checkSubscribe() {
+    if (this.isAuthenticated) {
+      this.ieoService.ieoCheckSubscribe(this.authService.getUsername())
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          try {
+            this.isEmailSubscribe = (res as any).data.email;
+            this.isRedirectToTelegram = (res as any).data.telegram;
+          } catch (e) {}
+        });
     }
   }
 
