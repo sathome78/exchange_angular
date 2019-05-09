@@ -262,7 +262,7 @@
 			&.upcoming{
 				&::before{
 					content: "Upсomming";
-					background: #FF3A44;
+					background: #237BEF;
 					color: #000;
 
 				}
@@ -271,6 +271,27 @@
 				&::before{
 					content: "Sucessfull";
 					background: #15CF74;
+					color: #000;
+				}
+			}
+			&.fast-sale{
+				&::before{
+					content: "Fast Sale";
+					background: #15CF74;
+					color: #000;
+				}
+			}
+			&.failed{
+				&::before{
+					content: "Failed";
+					background: #FF3A44;
+					color: #000;
+				}
+			}
+			&.ended{
+				&::before{
+					content: "Ended";
+					background: #237BEF;
 					color: #000;
 				}
 			}
