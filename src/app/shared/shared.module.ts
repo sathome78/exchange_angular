@@ -55,6 +55,7 @@ import {TooltipDirective} from './directives/tooltip.directive';
 import {GetCountConfirmationsPipe} from './pipes/get-count-confirmations.pipe';
 import {ShowPageGuard} from './guards/showPage.guard';
 import {GetDateStringPipe} from './pipes/parse-date-utc.pipe';
+import {DateFromISO8601Pipe} from './pipes/dateFromISO8601.pipe';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import {GetDateStringPipe} from './pipes/parse-date-utc.pipe';
     ReplaceCharPipe,
     PageItemsDropdownComponent,
     DateWrapper,
+    DateFromISO8601Pipe,
     LoaderComponent,
     DynamicInputComponent,
     CustomSearchInputComponent,
@@ -128,6 +130,7 @@ import {GetDateStringPipe} from './pipes/parse-date-utc.pipe';
     ReplaceNumberPipe,
     DateMaskInputComponent,
     GetDateStringPipe,
+    DateFromISO8601Pipe,
     MerchantImageFilterPipe,
     GetCountConfirmationsPipe,
     ShowOrderStatusPipe,
