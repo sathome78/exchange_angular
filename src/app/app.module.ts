@@ -46,6 +46,7 @@ import {ToastrModule, ToastContainerModule} from 'ngx-toastr';
 import {GtagService} from './shared/services/gtag.service';
 import { NewsComponent } from './news/news.component';
 import {NewsService} from './shared/services/news.service';
+import {MomentModule} from 'ngx-moment';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -83,6 +84,7 @@ const stompConfig: InjectableRxStompConfig = {
   imports: [
     StoreModule.forRoot(reducers),
     ScrollingModule,
+    MomentModule,
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: !environment.production,
