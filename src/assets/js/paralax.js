@@ -34,7 +34,7 @@ setTimeout(function() {
 		var currentSection;
 		if(document.querySelector(".scroll-block") !== null){
 			document.querySelectorAll(".scroll-block").forEach(function(i){
-				if(i.offsetTop - 330 < window.pageYOffset && i.offsetTop + i.clientHeight > window.pageYOffset){
+				if(i.offsetTop - 80 < window.pageYOffset && i.offsetTop + i.clientHeight > window.pageYOffset){
 					currentSection = i.getAttribute("id");
 
 					if(!(document.querySelector(".advisor-navigation-item a[href='#" + currentSection + "']").closest(".advisor-navigation-item").classList.contains("active"))){
