@@ -1,8 +1,8 @@
 
 export class ThankPopupModel {
   constructor(
-    title: string,
-    subTitle: string,
-    isOpen: boolean
+    public title: string,
+    public subTitle: string,
+    public isOpen: boolean
   ) {}
 }

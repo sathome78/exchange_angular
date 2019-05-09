@@ -19,7 +19,7 @@ export class ThankYouPopupComponent implements OnInit {
   }
 
   closeMe() {
-    this.popupService.getThankYouPopupListener().next({title: '', subtitle: '', isOpen: false});
+    this.popupService.getThankYouPopupListener().next({title: '', subTitle: '', isOpen: false});
   }
 
 }
