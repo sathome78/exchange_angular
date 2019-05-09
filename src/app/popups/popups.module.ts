@@ -42,6 +42,8 @@ import {GoogleDisableComponent} from './two-factor-popup/google/google-disable/g
 import {ThankYouPopupComponent} from './thank-you-popup/thank-you-popup.component';
 import {TopNotificationComponent} from './notifications-list/top-notification/top-notification.component';
 import {NotificationsListComponent} from './notifications-list/notifications-list.component';
+import { NewsSubscribePopupComponent } from './news-subscribe-popup/news-subscribe-popup.component';
+import { NewsThankYouPopupComponent } from './news-thank-you-popup/news-thank-you-popup.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +82,8 @@ import {NotificationsListComponent} from './notifications-list/notifications-lis
     ThankYouPopupComponent,
     TopNotificationComponent,
     NotificationsListComponent,
+    NewsSubscribePopupComponent,
+    NewsThankYouPopupComponent,
   ],
   imports: [
     CommonModule,
