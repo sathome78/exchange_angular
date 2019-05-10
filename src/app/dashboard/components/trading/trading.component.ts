@@ -175,11 +175,11 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.buyForm.reset(this.defaultFormValues);
     if (!!price) {
       this.buyOrder.rate = price;
-      this.buyForm.get('price').setValue(price.toString());
+      this.setPriceInValue(price, this.BUY);
     }
     if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
       this.buyOrder.stop = price;
-      this.buyForm.get('stop').setValue(stopPrice.toString());
+      this.setStopValue(stopPrice, this.BUY);
     }
   }
 
@@ -189,11 +189,11 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.sellForm.reset(this.defaultFormValues);
     if (!!price) {
       this.sellOrder.rate = price;
-      this.sellForm.get('price').setValue(price.toString());
+      this.setPriceInValue(price, this.SELL);
     }
     if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
       this.sellOrder.stop = stopPrice;
-      this.sellForm.get('stop').setValue(stopPrice.toString());
+      this.setStopValue(stopPrice, this.SELL);
     }
   }
 
@@ -266,7 +266,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * set form value (priceIn/limit)
    * @param value
    */
-    setPriceInValue(value, orderType: string): void {
+  setPriceInValue(value, orderType: string): void {
     value = typeof value === 'string' ? value : !value ? '0' : this.exponentToNumber(value).toString();
     orderType === this.BUY ?
       this.buyForm.controls['price'].setValue(value) :
