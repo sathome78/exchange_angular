@@ -58,8 +58,8 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.getKYCVerificationStatus();
     this.thakPopupOpen = {
       isOpen: true,
-      title: 'Thanks for Subscription!',
-      subTitle: ''
+      title: 'Thank you!',
+      subTitle: 'You have successfully subscribed for IEO news'
     };
   }
 
