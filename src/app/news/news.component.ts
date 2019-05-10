@@ -1,52 +1,69 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {PopupService} from '../shared/services/popup.service';
-import {NgxXml2jsonService} from 'ngx-xml2json';
 import {NewsService} from '../shared/services/news.service';
 import * as moment from 'moment';
-import {RssNews} from '../shared/models/rss-news.model';
+import {RssNews, RssNewsResponsse} from '../shared/models/rss-news.model';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
   styleUrls: ['./news.component.scss']
 })
-export class NewsComponent implements OnInit {
+export class NewsComponent implements OnInit, OnDestroy {
 
   public allNews: RssNews[] = [];
+  public currentPage = 0;
+  public countPerPage = 20;
+  public countNews = 0;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public newsScrollStyles: any = {};
+  public isLoading = false;
 
-  private parser;
+
   constructor(
     public popupService: PopupService,
-    private ngxXml2jsonService: NgxXml2jsonService,
-    private newsService: NewsService
+    private newsService: NewsService,
+    private cdr: ChangeDetectorRef,
   ) {
-    this.parser = new DOMParser();
+    const componentHeight = window.innerHeight;
+    this.newsScrollStyles = {'max-height': (componentHeight - (window.innerWidth > 1200 ? 290 : 190)) + 'px'};
+
   }
 
   ngOnInit() {
-    const xml = this.parser.parseFromString(this.newsService.mockXml, 'text/xml');
-    this.fetchAmbcrypto(this.ngxXml2jsonService.xmlToJson(xml))
-    this.newsService.getRssNews().subscribe(res => console.log(res));
+    this.getNewsFeed();
   }
 
-  makeSubscription() {
-      this.popupService.toggleNewsSubscribePopup(true);
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
+  getNewsFeed(concat = false) {
+    this.isLoading = true;
+     const offset = this.countPerPage * this.currentPage;
+     this.newsService
+       .getRssNewsFeed(this.countPerPage, 0, offset)
+       .pipe(takeUntil(this.ngUnsubscribe))
+       .subscribe(res => {
+         this.countNews = (res as RssNewsResponsse).data.count;
+         this.allNews = concat ? this.concatNews((res as RssNewsResponsse).data.feeds) : (res as RssNewsResponsse).data.feeds;
+         this.isLoading = this.allNews.length !== this.countNews;
+         this.cdr.detectChanges();
+       }, error => {
+         console.log(error);
+       });
+  }
 
-  fetchAmbcrypto(obj) {
-    try {
-      const arrItems = obj.rss.channel.item;
-      arrItems.map(item => {
-        const candidat: RssNews = {
-          date: item.pubDate,
-          title: item.title,
-          redirectionUrl: item.link
-        };
-        this.allNews.push(candidat);
-      });
-      console.log(this.allNews);
-    } catch (e) {}
+  concatNews(arr: RssNews[]) {
+    return this.allNews.concat(arr);
+  }
+
+  loadMoreNews() {
+    this.currentPage += 1;
+    this.getNewsFeed(true);
   }
 
 }

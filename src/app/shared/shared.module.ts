@@ -56,6 +56,7 @@ import {GetCountConfirmationsPipe} from './pipes/get-count-confirmations.pipe';
 import {ShowPageGuard} from './guards/showPage.guard';
 import {GetDateStringPipe} from './pipes/parse-date-utc.pipe';
 import {DateFromISO8601Pipe} from './pipes/dateFromISO8601.pipe';
+import {RefactUrlByNewsPipe} from './pipes/refact-url-by-news.pipe';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import {DateFromISO8601Pipe} from './pipes/dateFromISO8601.pipe';
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     MerchantImageFilterPipe,
+    RefactUrlByNewsPipe,
     ExcludeSpacesDirective,
     RoundCurrencyPipe,
     ExponentToNumberPipe,
@@ -133,6 +135,7 @@ import {DateFromISO8601Pipe} from './pipes/dateFromISO8601.pipe';
     DateFromISO8601Pipe,
     MerchantImageFilterPipe,
     GetCountConfirmationsPipe,
+    RefactUrlByNewsPipe,
     ShowOrderStatusPipe,
     OrderBookCutBigNumPipe,
     GroupCoinPipe,
