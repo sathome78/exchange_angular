@@ -117,7 +117,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   }
 
   subEmailNotification() {
-    this.popupService.getThankYouPopupListener().next(this.thakPopupOpen);
+    // this.popupService.getThankYouPopupListener().next(this.thakPopupOpen);
     this.isSubmited = true;
     if (this.emailForm.valid) {
        this.ieoService.ieoEmailSubscription(this.emailControl.value)
