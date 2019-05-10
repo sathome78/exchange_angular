@@ -90,7 +90,13 @@
                </a>
             </ng-container>
           </li>
-
+          <li class="menu__item" routerLinkActive="menu__link--active">
+            <ng-container *ngIf="showContent">
+               <a class="menu__link" href="https://support.exrates.me" target="blank">
+                 <span class="menu__link-text">{{'Support' | translate}}</span>
+               </a>
+            </ng-container>
+          </li>
           <li class="menu__item">
             <a class="menu__link" href="https://predictionlab.exrates.me" target="blank">
               <span class="menu__link-text">{{'Prediction' | translate}}</span>

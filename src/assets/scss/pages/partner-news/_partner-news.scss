@@ -41,8 +41,12 @@
 
 .partners-main{
 	font-size: calc(.581rem + .582vw);
+
 	padding-top: 1.4em;
 	padding-bottom: 1.5em;
+	@media(min-width: 1440px){
+		font-size: 20px;
+	}
 	button{
 		border: none;
 		background: none;
@@ -261,6 +265,7 @@
 	&.active{
 		opacity: 1;
 	}
+
 	.preloader-item{
 		max-width: 31.8em;
 		width: 48%;
@@ -283,6 +288,21 @@
 		// background: rgba(196, 196, 196, .1);
 		position: relative;
 		overflow: hidden;
+		&:nth-child(2){
+			&::after{
+				animation: preloader-animate 1.8s linear infinite .03s;
+			}
+		}
+		&:nth-child(3){
+			&::after{
+				animation: preloader-animate 1.8s linear infinite .06s;
+			}
+		}
+		&:nth-child(4){
+			&::after{
+				animation: preloader-animate 1.8s linear infinite .09s;
+			}
+		}
 		@media(max-width: 720px){
 			width: 100%;
 		}
@@ -313,9 +333,9 @@
 			bottom: 0;
 			width: 3.5em;
 			transition: 1.5s;
-			background-image: linear-gradient(to right, rgba(196, 196, 196, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(196, 196, 196, 0) 100%);
+			background-image: linear-gradient(129deg, rgba(196, 196, 196, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(196, 196, 196, 0) 100%);
 			left: 0;
-			animation: preloader-animate 3.8s infinite;
+			animation: preloader-animate 1.8s linear infinite;
 		}
 		&.small-height{
 			height: .6em;
@@ -331,30 +351,14 @@
 
 @keyframes preloader-animate{
 	0%{
-		left: 0;
+		left: -3.5em;
 	}
-	48%{
-		left: calc(100% - 3.5em);
-	}
-	52%{
-		left: calc(100% - 3.5em);
+	98%{
+		left: 100%;
 	}
 	100%{
-		left: 0;
+		left: 100%;
 	}
+	
 }
 
-@keyframes small-preloader-animate{
-	0%{
-		left: 0;
-	}
-	10%{
-		left: 100%;
-	}
-	90%{
-		left: 100%;
-	}
-	100%{
-		left: 0;
-	}
-}
