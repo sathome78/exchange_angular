@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {PopupService} from '../shared/services/popup.service';
 import {NewsService} from '../shared/services/news.service';
 import * as moment from 'moment';
@@ -21,12 +21,14 @@ export class NewsComponent implements OnInit, OnDestroy {
   public newsScrollStyles: any = {};
   public isLoading = false;
 
+
   constructor(
     public popupService: PopupService,
-    private newsService: NewsService
+    private newsService: NewsService,
+    private cdr: ChangeDetectorRef,
   ) {
     const componentHeight = window.innerHeight;
-    this.newsScrollStyles = {'height': (componentHeight - 290) + 'px', 'overflow-y': 'scroll'};
+    this.newsScrollStyles = {'max-height': (componentHeight - (window.innerWidth > 1200 ? 290 : 190)) + 'px'};
 
   }
 
@@ -49,6 +51,7 @@ export class NewsComponent implements OnInit, OnDestroy {
          this.isLoading = false;
          this.countNews = (res as RssNewsResponsse).data.count;
         this.allNews = concat ? this.concatNews((res as RssNewsResponsse).data.feeds) : (res as RssNewsResponsse).data.feeds;
+        this.cdr.detectChanges();
        }, error => {
          console.log(error);
        });
