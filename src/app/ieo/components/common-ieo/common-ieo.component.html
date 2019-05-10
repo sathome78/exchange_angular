@@ -226,7 +226,7 @@
       <ng-container *ngFor="let item of ieoList">
         <div class="ieo-list-item {{item.status  | showStageStatus:true | lowercase}}">
           <div class="img-part">
-            <img src="assets/img/ieo/celler.png" alt="">
+            <img [src]="item.logo || 'assets/img/ieo/celler.png'" alt="">
           </div>
           <div class="info-coin-part">
             <div class="title-wr">
@@ -253,10 +253,11 @@
 
             </div>
             <div class="description-wr">
-              <p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain
-                transactions for not only payment transactions, but also generalized off-chain smart contract. Founded
-                by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build,
-                operate, and use...</p>
+              <!--<p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain-->
+                <!--transactions for not only payment transactions, but also generalized off-chain smart contract. Founded-->
+                <!--by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build,-->
+                <!--operate, and use...</p>-->
+              <p>{{item?.description}}</p>
             </div>
             <div class="button-part">
               <div class="button-wr">
