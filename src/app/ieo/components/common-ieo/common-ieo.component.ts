@@ -72,6 +72,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.store.pipe(select(fromCore.getIEOList))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
+        console.log(res)
         this.ieoList = (res as IEOItem[] || []).reverse();
       });
   }
