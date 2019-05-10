@@ -107,6 +107,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
     this.unsubscribeCurrInfo();
+    this.cdr.detach();
   }
 
   flagForArrow(s: string) {
