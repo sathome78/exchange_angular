@@ -6,6 +6,7 @@
 
 html {
   height: 100%;
+  font-size: 20px;
 }
 
 body {
@@ -16,6 +17,7 @@ body {
   font-size: 14px;
   font-weight: 300;
   min-width: 320px;
+  top: 0!important;
 }
 input, textarea, select, button{
 font-weight: 300;
@@ -138,3 +140,24 @@ app-settings, app-dashboard {
   width: 100%;
 }
 
+.skiptranslate {
+    display: none;
+}
+
+.goog-text-highlight {
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position: relative;
+}
+
+.skiptranslate{
+  display: none!important;
+}
+.goog-te-gadget{
+  display: block!important;
+}

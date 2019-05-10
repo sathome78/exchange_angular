@@ -40,6 +40,10 @@ import {TelegramStepOneComponent} from './two-factor-popup/telegram/telegram-ste
 import {TelegramStepTwoComponent} from './two-factor-popup/telegram/telegram-step-two/telegram-step-two.component';
 import {GoogleDisableComponent} from './two-factor-popup/google/google-disable/google-disable.component';
 import {ThankYouPopupComponent} from './thank-you-popup/thank-you-popup.component';
+import {TopNotificationComponent} from './notifications-list/top-notification/top-notification.component';
+import {NotificationsListComponent} from './notifications-list/notifications-list.component';
+import { NewsSubscribePopupComponent } from './news-subscribe-popup/news-subscribe-popup.component';
+import { NewsThankYouPopupComponent } from './news-thank-you-popup/news-thank-you-popup.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +80,10 @@ import {ThankYouPopupComponent} from './thank-you-popup/thank-you-popup.componen
     TelegramStepTwoComponent,
     GoogleDisableComponent,
     ThankYouPopupComponent,
+    TopNotificationComponent,
+    NotificationsListComponent,
+    NewsSubscribePopupComponent,
+    NewsThankYouPopupComponent,
   ],
   imports: [
     CommonModule,
@@ -99,6 +107,9 @@ import {ThankYouPopupComponent} from './thank-you-popup/thank-you-popup.componen
   ],
   exports: [
     PopupsComponent,
+  ],
+  entryComponents: [
+    TopNotificationComponent,
   ]
 })
 export class PopupsModule {}

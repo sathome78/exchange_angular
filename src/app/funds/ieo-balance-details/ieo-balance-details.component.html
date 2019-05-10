@@ -99,6 +99,13 @@
               >
                 {{'More' | translate}}
               </button>
+              <button
+                class="btn btn--center"
+                (click)="goToIeo(IEOData.id)"
+                *ngIf="stage.TERMINATED === IEOData.status"
+              >
+                {{'More' | translate}}
+              </button>
             </div>
           </div>
         </div>

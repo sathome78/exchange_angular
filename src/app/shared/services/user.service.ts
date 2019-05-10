@@ -180,9 +180,9 @@ export class UserService {
     return this.http.get<boolean>(this.getUrl('is_google_2fa_enabled'), httpOptions);
   }
 
-  public sendTestNotif(msg: string = 'Hello'): Observable<any> {
+  public sendTestNotif(msg: string): Observable<any> {
     const httpOptions = {
-      params:  new HttpParams().set('message', 'Hello'),
+      params:  new HttpParams().set('message', 'Test notification'),
     };
     return this.http.get<boolean>(`${this.HOST}/api/private/v2/settings/jksdhfbsjfgsjdfgasj/personal/success`, httpOptions);
   }

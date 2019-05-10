@@ -81,10 +81,14 @@
               <!--Input error section starts-->
               <div *ngIf="form.get('firstName').errors != null && !openCountryDropdown && !openDocTypeDropdown">
                 <div class="input-hint-wrapper">
-             <span class="wrap-input__message wrap-input__message--show"
-                   *ngIf="form.get('firstName').errors['required'] && (form.get('firstName').touched )">
-               {{'First Name is required.' | translate}}
-             </span>
+                   <span class="wrap-input__message wrap-input__message--show"
+                        *ngIf="form.get('firstName').errors['required'] && (form.get('firstName').touched )">
+                        {{'First Name is required.' | translate}}
+                   </span>
+                  <span class="wrap-input__message wrap-input__message--show"
+                        *ngIf="form.get('firstName').errors['pattern'] && (form.get('firstName').touched )">
+                        {{'Only latin characters(a-z) are allowed.' | translate}}
+                  </span>
                 </div>
               </div>
               <!--Input error section ends-->
@@ -97,10 +101,14 @@
               <!--Input error section starts-->
               <div *ngIf="form.get('lastName').errors != null && form.get('firstName').valid">
                 <div class="input-hint-wrapper">
-            <span class="wrap-input__message wrap-input__message--show"
-                  *ngIf="form.get('lastName').errors['required'] && (form.get('lastName').touched )">
-              {{'Last Name is required.' | translate}}
-            </span>
+                   <span class="wrap-input__message wrap-input__message--show"
+                       *ngIf="form.get('lastName').errors['required'] && (form.get('lastName').touched )">
+                       {{'Last Name is required.' | translate}}
+                   </span>
+                   <span class="wrap-input__message wrap-input__message--show"
+                        *ngIf="form.get('lastName').errors['pattern'] && (form.get('lastName').touched )">
+                        {{'Only latin characters(a-z) are allowed.' | translate}}
+                   </span>
                 </div>
               </div>
               <!--Input error section ends-->
@@ -154,11 +162,11 @@
     </div>
     <div
       class="subtitle settings__content-subtitle">{{'Your KYC procedure is processing, press ' | translate}}
-      <a class="standart-link" style="cursor: pointer" (click)="restartProcedure()">Restart</a>
+      <a class="standart-link" style="cursor: pointer" (click)="restartProcedure()">{{'Restart' | translate}}</a>
       {{' to restart procedure' | translate}}</div>
     <div class="row settings__buttons-row checkbox-outher">
-      <button class="btn settings__form-btn settings__password-btn settings__form-btn--active" routerLink="/">Go to
-        dashboard
+      <button class="btn settings__form-btn settings__password-btn settings__form-btn--active" routerLink="/">
+        {{'Go to dashboard' | translate}}
       </button>
     </div>
   </div>
@@ -171,8 +179,8 @@
     <div
       class="subtitle settings__content-subtitle">{{'Your ID information has been verified.' | translate}}</div>
     <div class="row settings__buttons-row checkbox-outher">
-      <button class="btn settings__form-btn settings__password-btn settings__form-btn--active" routerLink="/">Go to
-        dashboard
+      <button class="btn settings__form-btn settings__password-btn settings__form-btn--active" routerLink="/">
+        {{'Go to dashboard' | translate}}
       </button>
     </div>
   </div>

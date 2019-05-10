@@ -1,5 +1,5 @@
 <div style="display: block;" *ngIf="!!activeFiat && !!fiatDataByName">
-  <div class="title refill__title" *ngIf="!submitSuccess">Fiat Deposit <span>{{activeFiat.name}}</span></div>
+  <div class="title refill__title" *ngIf="!submitSuccess">{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></div>
   <form [formGroup]="form">
     <div class="refill__inputs-wrap" *ngIf="!submitSuccess">
       <!-- TODO add styles to select--error -->
@@ -12,7 +12,7 @@
           <img [src]="activeFiat.name | getIconUrl" class="select__list-item-icon select__list-item-icon--destop">
           {{activeFiat.name}}
         </div>
-        <div class="select__label">Currency</div>
+        <div class="select__label">{{'Currency' | translate}}</div>
         <div class="select__line"></div>
         <div class="select__triangle"></div>
         <ul class="select__list"
@@ -31,7 +31,7 @@
           <img [src]="selectMerchantName | getIconUrl" class="select__list-item-icon">
           {{selectMerchantName}}
         </div>
-        <div class="select__label">Payment system</div>
+        <div class="select__label">{{'Payment system' | translate}}</div>
         <div class="select__line"></div>
         <div class="select__triangle"></div>
         <div class="select__list-searching"
@@ -79,14 +79,14 @@
         <!--Input error section starts-->
         <div class="input-hint-wrapper" *ngIf="!form.valid && isSubmited">
           <span class="wrap-input__message">
-            Should be at least {{+(minRefillSum || 0) | roundCurrency: 'USD' | formatCurrency: 'short': 'USD'}}
+            {{'Should be at least' | translate}} {{+(minRefillSum || 0) | roundCurrency: 'USD' | formatCurrency: 'short': 'USD'}}
           </span>
         </div>
         <!--Input error section ends-->
       </div>
 
       <div class="refill__closed-error" *ngIf="fiatDataByName && !selectedMerchant">
-        Sorry, refill is closed for current moment!
+        {{'Sorry, refill is closed for current moment!' | translate}}
       </div>
 
     </div>
@@ -98,7 +98,7 @@
     (click)="submitRefill()"
     [disabled]="loading"
   >
-    Refill
+    {{'Refill' | translate}}
   </button>
 
   <!-- показывать после успешного создания заявки-->
@@ -111,15 +111,15 @@
           fill="#237BEF"/>
       </svg>
     </div>
-    <div class="title refill__fiat-successful-title">Request was created!</div>
+    <div class="title refill__fiat-successful-title">{{'Request was created!' | translate}}</div>
     <div class="subtitle refill__fiat-successful-subtitle">
-      Please go to
+      {{'Please go to' | translate}}
       <a class="standart-link" #redirectionLink href="{{redirectionUrl}}" (click)="hideSend()">{{selectMerchantName}}</a>
-      to make a payment
+      {{'to make a payment' | translate}}
       <b>{{refillData.params.ok_item_1_price}} {{refillData.params.ok_currency}}</b>
     </div>
     <div class="subtitle refill__fiat-successful-subtitle">
-      You can track the progress in history section on <a class="standart-link" (click)="goToBalances()">funds</a> page
+      {{'You can track the progress in history section on' | translate}} <a class="standart-link" (click)="goToBalances()">{{'funds' | translate}}</a> {{'page' | translate}}
     </div>
 
     <form name="hideForm" method="post" [action]="refillData.redirectionUrl"
@@ -130,10 +130,9 @@
   </div>
 
   <div class="note modal__note">
-    <div class="note__title">Please note:</div>
+    <div class="note__title">{{'Please note:' | translate}}</div>
     <ul class="note__list">
-      <li class="note__list-item">We have good news for you! It’s more then 24 currencies available for deposit right
-        now:
+      <li class="note__list-item">{{'We have good news for you! It’s more then 24 currencies available for deposit right now:' | translate}}
       </li>
     </ul>
   </div>

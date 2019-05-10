@@ -12,7 +12,6 @@
   <!-- we connect tradingView chart -->
   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
   <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-75711135-3"></script> -->
-  <script src="./assets/js/encoder.js"></script>
   <script src="./assets/js/datafeeds/udf/dist/polyfills.js"></script>
   <script src="./assets/js/datafeeds/udf/dist/bundle.js"></script>
   <script src="./assets/js/gtag/gtag_handler"></script>
@@ -25,7 +24,7 @@
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-TZTXSSP');
+  })(window,document,'script','dataLayer','GTM-TPR6SBC');
 </script>
 <!-- End Google Tag Manager -->
 
@@ -33,15 +32,21 @@
 <body>
 
   <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TPR6SBC"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <noscript>
+    <iframe
+      src="https://www.googletagmanager.com/ns.html?id=GTM-TPR6SBC"
+      height="0"
+      width="0"
+      style="display:none;visibility:hidden"
+    ></iframe>
+  </noscript>
     <!-- End Google Tag Manager (noscript) -->
 
 
   <app-root></app-root>
   <script type="text/javascript">
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+      new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
     }
   </script>
   <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async=""></script>
@@ -59,13 +64,6 @@
       },1000)
     },20000)
   </script> -->
-  <script>
-    var openChat = function(){
-      var chatEl = document.getElementById("launcher");
-      var iframeDoc = chatEl.contentWindow.document.body.getElementsByTagName("button")[0];
-      iframeDoc.click();
-    }
-
-  </script>
+  <script src="assets/js/zopimChat.js"></script>
 </body>
 </html>

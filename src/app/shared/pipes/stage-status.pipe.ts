@@ -4,14 +4,16 @@ import {Pipe, PipeTransform} from '@angular/core';
   name: 'showStageStatus'
 })
 export class ShowStageStatusPipe  implements PipeTransform {
-  transform(status: string): string {
+  transform(status: string, forStyle: boolean = false): string {
     switch (status) {
       case 'PENDING':
         return 'Upcoming'
       case 'RUNNING':
-        return 'Fast Sale';
+        return forStyle ? 'fast-sale' : 'Fast Sale';
+      case 'TERMINATED':
+        return 'Ended';
       case 'SUCCEEDED':
-        return 'Succeeded';
+        return 'Success';
       case 'FAILED':
         return 'Failed';
       default:
@@ -19,4 +21,3 @@ export class ShowStageStatusPipe  implements PipeTransform {
     }
   }
 }
-

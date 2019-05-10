@@ -2,21 +2,21 @@
 <div class="ieo_info">
   <div class="ieo_info-wrapper" *ngIf="description">
     <div class="text-info-block">
-      <h4>project introduction</h4>
+      <h4>{{'project introduction' | translate}}</h4>
       <p>{{description.introduction}}</p>
     </div>
     <div class="text-info-block" *ngIf="description.keyFeatures.length">
-      <h4>Key features</h4>
+      <h4>{{'Key features' | translate}}</h4>
       <ul class="features-list">
         <li class="features-list-item" *ngFor="let feature of description.keyFeatures">
-          <span>{{feature}}</span>
+          <span>{{'feature' | translate}}</span>
         </li>
       </ul>
     </div>
 
     <div class="rating">
       <div class="rating-title">
-        <h4>Rating for Bittorent</h4>
+        <h4>{{'Rating for Bittorent' | translate}}</h4>
       </div>
       <div class="rating-item-wr">
         <div class="rating-item">
@@ -26,7 +26,7 @@
             </div>
             <div class="rating-text">
               <div class="rating-title-item">
-                <span>Rating</span>
+                <span>{{'Rating' | translate}}</span>
               </div>
               <div class="rating-value">
                 <span class="current-rating">9.8</span>
@@ -43,7 +43,7 @@
             </div>
             <div class="rating-text">
               <div class="rating-title-item">
-                <span>Rating</span>
+                <span>{{'Rating' | translate}}</span>
               </div>
               <div class="rating-value">
                 <span class="current-rating">4.9</span>
@@ -61,7 +61,7 @@
             </div>
             <div class="rating-text">
               <div class="rating-title-item">
-                <span>Rating</span>
+                <span>{{'Rating' | translate}}</span>
               </div>
               <div class="rating-value">
                 <span class="current-rating">A2</span>
@@ -76,7 +76,7 @@
     <div class="economics standart-pg">
       <div class="economics-inner">
         <div class="text-info-block">
-          <h4>Cerl Token sale and economics</h4>
+          <h4>{{'Cerl Token sale and economics' | translate}}</h4>
         </div>
         <div class="economics-table">
           <div class="economics-table-wr">
@@ -95,7 +95,7 @@
 
     <div class="allocation standart-pg">
       <div class="text-info-block">
-        <h4>Token Allocaation</h4>
+        <h4>{{'Token Allocaation' | translate}}</h4>
       </div>
       <div class="allocation-graph" id="allocation-graph">
         <img src="assets/img/ieo/graph1.png" alt="">
@@ -104,7 +104,7 @@
 
     <div class="schedule standart-pg">
       <div class="text-info-block">
-        <h4>Cerl token release schedule</h4>
+        <h4>{{'Cerl token release schedule' | translate}}</h4>
       </div>
       <div class="schedule-graph" id="schedule-graph">
         <img src="assets/img/ieo/graph2.png" alt="">

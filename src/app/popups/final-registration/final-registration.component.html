@@ -56,8 +56,8 @@
           <div class="input-hint-wrapper" style="height: 15px;">
             <ng-container *ngIf="passwordConfirm.value && passwordConfirm.touched && passwordConfirm.errors != null">
           <span *ngIf="passwordConfirm.errors['passwordsNotMatch']"
-                class="wrap-input__message msg-error" translate>
-              Passwords you provided do not match.
+                class="wrap-input__message msg-error">
+              {{'Passwords you provided do not match.' | translate}}
             </span>
             </ng-container>
           </div>
@@ -70,8 +70,9 @@
         (click)="createUser()"
         style="margin-top: 22px;"
         [ngClass]="{'bg-none': passwordForm.valid, 'cursor-none': !passwordForm.valid }"
-        [disabled]="loading"
-      >{{'Finish registration' | translate}}</button>
+        [disabled]="loading">
+        {{'Finish registration' | translate}}
+      </button>
     </form>
   </div>
 </div>
