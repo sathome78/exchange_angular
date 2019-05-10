@@ -48,10 +48,10 @@ export class NewsComponent implements OnInit, OnDestroy {
        .getRssNewsFeed(this.countPerPage, 0, offset)
        .pipe(takeUntil(this.ngUnsubscribe))
        .subscribe(res => {
-         this.isLoading = false;
          this.countNews = (res as RssNewsResponsse).data.count;
-        this.allNews = concat ? this.concatNews((res as RssNewsResponsse).data.feeds) : (res as RssNewsResponsse).data.feeds;
-        this.cdr.detectChanges();
+         this.allNews = concat ? this.concatNews((res as RssNewsResponsse).data.feeds) : (res as RssNewsResponsse).data.feeds;
+         this.isLoading = this.allNews.length !== this.countNews;
+         this.cdr.detectChanges();
        }, error => {
          console.log(error);
        });
