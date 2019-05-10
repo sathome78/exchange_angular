@@ -45,7 +45,7 @@
 
 			</div>
 
-			<div class="preloader-container" [ngClass]="{'active': isLoading}">
+			<div class="preloader-container active" *ngIf="isLoading">
 				<div class="preloader-item">
 					<div class="preloader-line small-height">
 						<span></span>
