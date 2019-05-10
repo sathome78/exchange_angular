@@ -7,7 +7,6 @@ interface ParsedToken {
   expiration: number;
   username: string;
   token_id: number;
-  userRole: string;
   value: string
 }
 
