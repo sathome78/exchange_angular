@@ -56,6 +56,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.getIEOList();
     this.initEmailForm();
     this.getKYCVerificationStatus();
+    this.checkSubscribe();
     this.thakPopupOpen = {
       isOpen: true,
       title: 'Thank you!',
