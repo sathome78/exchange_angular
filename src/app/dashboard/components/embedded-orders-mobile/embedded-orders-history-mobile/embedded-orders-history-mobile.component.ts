@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AuthService} from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-embedded-orders-history-mobile',
@@ -10,15 +9,10 @@ export class EmbeddedOrdersHistoryMobileComponent implements OnInit {
 
   @Input() historyOrders = [];
   public selectedOrder = null;
-  public isVipUser;
 
-  constructor(
-    public authService: AuthService
-  ) {}
+  constructor() {}
 
-  ngOnInit() {
-    this.isVipUser = this.authService.isVipUser;
-  }
+  ngOnInit() {}
 
   toggleDetails(order) {
     this.selectedOrder = this.selectedOrder && this.selectedOrder.id === order.id ? null : order;

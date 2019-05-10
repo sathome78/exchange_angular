@@ -16,7 +16,6 @@ import {UtilsService} from 'app/shared/services/utils.service';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import * as moment from 'moment';
-import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-orders-history',
@@ -33,8 +32,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public currencyPairs$: Observable<SimpleCurrencyPair[]>;
   public loading$: Observable<boolean>;
   public isLast15Items$: Observable<boolean>;
-  public isVipUser;
-
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -70,7 +67,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     public breakpointService: BreakpointService,
     private cdr: ChangeDetectorRef,
     private utils: UtilsService,
-    public authService: AuthService,
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getHistoryOrdersCount));
@@ -89,8 +85,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isVipUser = this.authService.isVipUser;
-
     this.isMobile = window.innerWidth < 1200;
     if(this.isMobile) {
       this.countPerPage = 30;

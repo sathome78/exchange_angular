@@ -89,11 +89,10 @@
       </span>
     </td>
     <td class="table__cell txt-grey">
-      <span *ngIf="!isVipUser">
+      <span>
         {{item.commissionFixedAmount | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
         {{item.currencyPairName | splitCurrency: 2}}
       </span>
-      <span *ngIf="isVipUser">0.0</span>
     </td>
     <td class="table__cell">
       <span>
