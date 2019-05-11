@@ -9,8 +9,8 @@ import {COPY_ADDRESS} from '../../../send-money/send-money-constants';
 import {BalanceItem} from '../../../../models/balance-item.model';
 import {RefillData} from '../../../../../shared/interfaces/refill-data-interface';
 import {RefreshAddress} from '../../../../../shared/interfaces/refresh-address-interface';
-
-declare var sendGenerateWalletGtag: Function;
+import {TranslateService} from '@ngx-translate/core';
+import {GtagService} from '../../../../../shared/services/gtag.service';
 
 @Component({
   selector: 'app-refill-crypto',
@@ -49,6 +49,8 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<State>,
     public balanceService: BalanceService,
+    private translateService: TranslateService,
+    private gtagService: GtagService
   ) {
   }
 
@@ -112,7 +114,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         }, error => {
           this.isGenerateNewAddress = false;
           this.cryptoDataByName = null;
-          const msg = 'Sorry, refill is unavailable for current moment!';
+          const msg = this.translateService.instant('Sorry, refill is unavailable for current moment!');
           this.setError(msg);
         }
       );
@@ -158,7 +160,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
               this.additionalAddress = '';
             }
           }
-          sendGenerateWalletGtag();
+          this.gtagService.sendGenerateWalletGtag(undefined);
           this.loading = false;
         }, error => {
           if (this.currentMerchant) {
@@ -171,7 +173,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
             }
           }
           if (!this.address) {
-            const msg = 'Sorry, refill is unavailable for current moment!';
+            const msg = this.translateService.instant('Sorry, refill is unavailable for current moment!');
             this.setError(msg);
           }
           this.loading = false;

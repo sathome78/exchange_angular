@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {ThankPopupModel} from '../../shared/models/thank-popup-model';
+import {PopupService} from '../../shared/services/popup.service';
 
 @Component({
   selector: 'app-thank-you-popup',
@@ -7,13 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThankYouPopupComponent implements OnInit {
 
-  constructor() { }
+  @Input('popupData') public popupData: ThankPopupModel;
+
+  constructor(
+    public popupService: PopupService
+  ) { }
 
   ngOnInit() {
   }
 
   closeMe() {
-    // console.log('');
+    this.popupService.getThankYouPopupListener().next({title: '', subTitle: '', isOpen: false});
   }
 
 }

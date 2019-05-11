@@ -1,144 +1,154 @@
 <div class="settings__content id-verification" *ngIf="showComponent">
   <div *ngIf="verificationStatus === KYC_STATUS.NONE && countryList.length">
-  <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>
-  <div
-    class="subtitle settings__content-subtitle">{{'You must pass identity verification to access your withdrawal' | translate}}</div>
-  <div class="row settings__buttons-row checkbox-outher">
+    <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>
+    <div
+      class="subtitle settings__content-subtitle">{{'You must pass identity verification to access your withdrawal' | translate}}</div>
+    <div class="row settings__buttons-row checkbox-outher">
 
-  <!-- ================= NEW KYC start ==================== -->
+      <!-- ================= NEW KYC start ==================== -->
 
-  <div class="formWraper">
-    <form [formGroup]="form">
-      <div class="send__inputs-wrap kyc-wr">
-
-
-        <div class="wrap-input  send__wrap-input">
-          <div class="select send__select send__select--custom">
-            <div class="select__value select__value--active" (click)="documentTypeDropdownToggle()">
-              {{ currentDocType.name }}
-            </div>
-            <div class="select__label">{{'Document Type' | translate}}</div>
-            <div class="select__line"></div>
-            <div class="select__triangle"></div>
-            <div class="select__list-searching"
-                 [ngClass]="{'select__list-searching--open': openDocTypeDropdown}"
-                 *ngIf="openDocTypeDropdown">
-              <div class="select__list-searching-body">
-                  <div class="select__searching-items-wrap" style="min-height: 70px">
-                    <div class="select__searching-item" *ngFor="let doc of docTypes"
-                         (click)="selectDocType(doc)">
-                      <span>{{ doc.name }}</span>
-                    </div>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="formWraper">
+        <form [formGroup]="form">
+          <div class="send__inputs-wrap kyc-wr">
 
 
-        <div class="wrap-input  send__wrap-input">
-          <div class="select send__select send__select--custom">
-            <div class="select__value select__value--active" (click)="countryDropdownToggle()">
-              {{ selectedCountry?.countryName }}
-            </div>
-            <div class="select__label">{{'Country' | translate}}</div>
-            <div class="select__line"></div>
-            <div class="select__triangle"></div>
-            <!--add select__list-searching--open for looking open state-->
-            <div class="select__list-searching"
-                 [ngClass]="{'select__list-searching--open': openCountryDropdown}"
-                 *ngIf="openCountryDropdown">
-              <div class="select__search">
-                <input class="select__search-input" type="text" placeholder="Search" (input)="searchCountry($event)">
-                <div class="select__search-icon">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                          d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
-                  </svg>
+            <div class="wrap-input  send__wrap-input">
+              <div class="select send__select send__select--custom">
+                <div class="select__value select__value--active" (click)="documentTypeDropdownToggle()">
+                  {{ currentDocType.name }}
                 </div>
-              </div>
-              <div class="select__list-searching-body">
-
-                <perfect-scrollbar>
-                    <div class="select__searching-items-wrap">
-                      <div class="select__searching-item" *ngFor="let country of countryListView"
-                           (click)="selectCountry(country)">
-                        <span>{{ country.countryName }}</span>
+                <div class="select__label">{{'Document Type' | translate}}</div>
+                <div class="select__line"></div>
+                <div class="select__triangle"></div>
+                <div class="select__list-searching"
+                     [ngClass]="{'select__list-searching--open': openDocTypeDropdown}"
+                     *ngIf="openDocTypeDropdown">
+                  <div class="select__list-searching-body">
+                    <div class="select__searching-items-wrap" style="min-height: 70px">
+                      <div class="select__searching-item" *ngFor="let doc of docTypes"
+                           (click)="selectDocType(doc)">
+                        <span>{{ doc.name }}</span>
                       </div>
                     </div>
-                </perfect-scrollbar>
-
+                  </div>
+                </div>
               </div>
             </div>
+
+
+            <div class="wrap-input  send__wrap-input">
+              <div class="select send__select send__select--custom">
+                <div class="select__value select__value--active" (click)="countryDropdownToggle()">
+                  {{ selectedCountry?.countryName }}
+                </div>
+                <div class="select__label">{{'Country' | translate}}</div>
+                <div class="select__line"></div>
+                <div class="select__triangle"></div>
+                <!--add select__list-searching--open for looking open state-->
+                <div class="select__list-searching"
+                     [ngClass]="{'select__list-searching--open': openCountryDropdown}"
+                     *ngIf="openCountryDropdown">
+                  <div class="select__search">
+                    <input class="select__search-input" type="text" placeholder="Search"
+                           (input)="searchCountry($event)">
+                    <div class="select__search-icon">
+                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="select__list-searching-body">
+
+                    <perfect-scrollbar>
+                      <div class="select__searching-items-wrap">
+                        <div class="select__searching-item" *ngFor="let country of countryListView"
+                             (click)="selectCountry(country)">
+                          <span>{{ country.countryName }}</span>
+                        </div>
+                      </div>
+                    </perfect-scrollbar>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="wrap-input  send__wrap-input">
+              <input class="wrap-input__input" name="firstName" formControlName="firstName" required>
+              <label class="wrap-input__label">{{'First Name' | translate}}</label>
+              <div class="wrap-input__line"></div>
+              <!--Input error section starts-->
+              <div *ngIf="form.get('firstName').errors != null && !openCountryDropdown && !openDocTypeDropdown">
+                <div class="input-hint-wrapper">
+                   <span class="wrap-input__message wrap-input__message--show"
+                        *ngIf="form.get('firstName').errors['required'] && (form.get('firstName').touched )">
+                        {{'First Name is required.' | translate}}
+                   </span>
+                  <span class="wrap-input__message wrap-input__message--show"
+                        *ngIf="form.get('firstName').errors['pattern'] && (form.get('firstName').touched )">
+                        {{'Only latin characters(a-z) are allowed.' | translate}}
+                  </span>
+                </div>
+              </div>
+              <!--Input error section ends-->
+            </div>
+
+            <div class="wrap-input  send__wrap-input">
+              <input class="wrap-input__input" name="lastName" formControlName="lastName" required>
+              <label class="wrap-input__label">{{'Last Name' | translate}}</label>
+              <div class="wrap-input__line"></div>
+              <!--Input error section starts-->
+              <div *ngIf="form.get('lastName').errors != null && form.get('firstName').valid">
+                <div class="input-hint-wrapper">
+                   <span class="wrap-input__message wrap-input__message--show"
+                       *ngIf="form.get('lastName').errors['required'] && (form.get('lastName').touched )">
+                       {{'Last Name is required.' | translate}}
+                   </span>
+                   <span class="wrap-input__message wrap-input__message--show"
+                        *ngIf="form.get('lastName').errors['pattern'] && (form.get('lastName').touched )">
+                        {{'Only latin characters(a-z) are allowed.' | translate}}
+                   </span>
+                </div>
+              </div>
+              <!--Input error section ends-->
+            </div>
+          </div>
+        </form>
+
+        <div class="send__inputs-wrap">
+          <div class="wrap-input  filters-popup__datepicker">
+            <label class="wrap-input__label"
+                   [ngClass]="{'select-input_label': isInputFocus || !!modelDateTo?.date}">
+              {{'Date of Birth' | translate}}
+            </label>
+            <app-date-mask-input
+              [limitDate]="false"
+              [innValue]="modelDateTo"
+              (validDate)="checkAge($event)"
+              (inputEmpty)="clearModelDateTo()"
+              (inputFocus)="inputFocus($event)"
+            ></app-date-mask-input>
+            <my-date-picker
+              [defaultMonth]="defaultMonth"
+              [options]="myDatePickerOptions"
+              [(ngModel)]="modelDateTo"
+              (dateChanged)="checkAge($event)"
+            >
+            </my-date-picker>
+            <div class="wrap-input__line"></div>
           </div>
         </div>
 
-        <div class="wrap-input  send__wrap-input">
-          <input class="wrap-input__input" name="firstName" formControlName="firstName" required>
-          <label class="wrap-input__label">{{'First Name' | translate}}</label>
-          <div class="wrap-input__line"></div>
-          <!--Input error section starts-->
-            <div *ngIf="form.get('firstName').errors != null && !openCountryDropdown && !openDocTypeDropdown">
-          <div class="input-hint-wrapper">
-             <span class="wrap-input__message wrap-input__message--show"
-             *ngIf="form.get('firstName').errors['required'] && (form.get('firstName').touched )">
-               {{'First Name is required.' | translate}}
-             </span>
-          </div>
-          </div>
-          <!--Input error section ends-->
-        </div>
 
-        <div class="wrap-input  send__wrap-input">
-          <input class="wrap-input__input" name="lastName" formControlName="lastName" required>
-          <label class="wrap-input__label">{{'Last Name' | translate}}</label>
-          <div class="wrap-input__line"></div>
-          <!--Input error section starts-->
-            <div *ngIf="form.get('lastName').errors != null && form.get('firstName').valid">
-          <div class="input-hint-wrapper">
-            <span class="wrap-input__message wrap-input__message--show"
-                  *ngIf="form.get('lastName').errors['required'] && (form.get('lastName').touched )">
-              {{'Last Name is required.' | translate}}
-            </span>
-          </div>
-          </div>
-          <!--Input error section ends-->
-        </div>
+        <button
+          class="btn settings__form-btn settings__password-btn"
+          (click)="sendForm()"
+          [disabled]="form.invalid || !modelDateTo?.date || loading"
+          [ngClass]="{'settings__form-btn--active': form.valid && !!modelDateTo?.date}"
+        >{{'Send'  | translate}}</button>
       </div>
-    </form>
-
-      <div class="send__inputs-wrap">
-        <div class="wrap-input  filters-popup__datepicker">
-          <label class="wrap-input__label"
-                 [ngClass]="{'select-input_label': isInputFocus || !!modelDateTo?.date}">
-            {{'Date of Birth' | translate}}
-          </label>
-          <app-date-mask-input
-            [limitDate]="false"
-            [innValue]="modelDateTo"
-            (validDate)="checkAge($event)"
-            (inputEmpty)="clearModelDateTo()"
-            (inputFocus)="inputFocus($event)"
-          ></app-date-mask-input>
-          <my-date-picker
-            [defaultMonth]="defaultMonth"
-            [options]="myDatePickerOptions"
-            [(ngModel)]="modelDateTo"
-            (dateChanged)="checkAge($event)"
-          >
-          </my-date-picker>
-          <div class="wrap-input__line"></div>
-        </div>
-      </div>
-
-
-    <button
-      class="btn settings__form-btn settings__password-btn"
-      (click)="sendForm()"
-      [disabled]="form.invalid || !modelDateTo?.date || loading"
-      [ngClass]="{'settings__form-btn--active': form.valid && !!modelDateTo?.date}"
-    >{{'Send'  | translate}}</button>
-  </div>
+    </div>
   </div>
 
   <div *ngIf="!!verificationStatus
@@ -147,27 +157,31 @@
      && verificationStatus
       !== KYC_STATUS.SUCCESS">
     <div class="img-h3-wrapper">
-    <img src="assets/img/IconTime.svg" alt="">
-    <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>
-  </div>
+      <img src="assets/img/IconTime.svg" alt="">
+      <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>
+    </div>
     <div
       class="subtitle settings__content-subtitle">{{'Your KYC procedure is processing, press ' | translate}}
-      <a class="standart-link" style="cursor: pointer" (click)="restartProcedure()">Restart</a>
+      <a class="standart-link" style="cursor: pointer" (click)="restartProcedure()">{{'Restart' | translate}}</a>
       {{' to restart procedure' | translate}}</div>
     <div class="row settings__buttons-row checkbox-outher">
-      <button class="btn settings__form-btn settings__password-btn settings__form-btn--active" routerLink="/">Go to dashboard</button>
+      <button class="btn settings__form-btn settings__password-btn settings__form-btn--active" routerLink="/">
+        {{'Go to dashboard' | translate}}
+      </button>
     </div>
   </div>
 
   <div *ngIf="verificationStatus === KYC_STATUS.SUCCESS">
     <div class="img-h3-wrapper">
-    <img src="assets/img/IconChack.svg" alt="">
-    <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>
+      <img src="assets/img/IconChack.svg" alt="">
+      <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>
     </div>
     <div
       class="subtitle settings__content-subtitle">{{'Your ID information has been verified.' | translate}}</div>
     <div class="row settings__buttons-row checkbox-outher">
-      <button class="btn settings__form-btn settings__password-btn settings__form-btn--active" routerLink="/">Go to dashboard</button>
+      <button class="btn settings__form-btn settings__password-btn settings__form-btn--active" routerLink="/">
+        {{'Go to dashboard' | translate}}
+      </button>
     </div>
   </div>
   <!--  ================= NEW KYC end ==================== -->

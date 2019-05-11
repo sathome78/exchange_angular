@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from 'environments/environment';
 import {KycIEOModel} from '../../ieo/models/ieo-kyc.model';
@@ -8,6 +8,7 @@ import {map} from 'rxjs/operators';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {Message} from '@stomp/stompjs';
 import {TOKEN} from './http.utils';
+import {AuthService} from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class IEOServiceService {
   constructor(
     private http: HttpClient,
     private stompService: RxStompService,
+    private authService: AuthService,
   ) { }
 
   public checkKYC(id): Observable<KycIEOModel> {
@@ -45,7 +47,7 @@ export class IEOServiceService {
 
   public getListIEOTab(): any {
     return this.stompService
-      .watch(`/user/queue/ieo_details`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
+      .watch(`/app/ieo_details/private/${this.authService.parsedToken.publicId}`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
@@ -53,5 +55,22 @@ export class IEOServiceService {
     return this.stompService
       .watch(`/app/ieo/ieo_details/${id}`)
       .pipe(map((message: Message) => JSON.parse(message.body)));
+  }
+
+  ieoEmailSubscription(email: string) {
+    const data = {email: email}
+    return this.http.post(`${this.apiUrl}/api/public/v2/ieo/subscribe/email`, data);
+  }
+
+  ieoTelegramRedirect(email: string) {
+    const data = {email: email}
+    return this.http.post(`${this.apiUrl}/api/public/v2/ieo/subscribe/telegram`, data);
+  }
+
+  ieoCheckSubscribe(email: string) {
+    const httpOptions = {
+      params: new HttpParams().set('email', email)
+    };
+    return this.http.get(`${this.apiUrl}/api/public/v2/ieo/subscribe`, httpOptions);
   }
 }

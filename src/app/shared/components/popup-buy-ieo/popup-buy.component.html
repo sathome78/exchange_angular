@@ -1,7 +1,7 @@
 <div class="overlay ieo-popup-buy">
   <app-loader *ngIf="loading"></app-loader>
 	<div class="popup" *ngIf="IEOData && !loading">
-    <form [formGroup]="form">
+    <form [formGroup]="form" (submit)="confirmForm($event)">
       <div class="popup__close" (click)="closeMe()"></div>
       <div class="ieo-pair">
         <span>{{IEOData.currencyName}}</span>/<span>BTC</span>
@@ -9,12 +9,12 @@
       <h6 class="popup__title tnx-head">1 {{IEOData.currencyName}} =
         {{(IEOData.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</h6>
       <div class="balance-txt">
-        <span>Available to purchase:
+        <span>{{'Available to purchase:' | translate}}
           {{(IEOData.availableAmount || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}
         </span>
       </div>
       <div class="input-part">
-        <div class="avaliable">Balance:
+        <div class="avaliable">{{'Balance:' | translate}}
           <a class="link" style="pointer-events: auto;">{{(userBalanceBTC || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</a>
         </div>
         <div class="wrap-input" [ngClass]="{'wrap-input--error': !form.valid && form.dirty}">
@@ -29,7 +29,7 @@
             (input)="onInput($event)"
             (blur)="onBlur($event)"
           >
-          <label class="wrap-input__label" for="">Quantity</label>
+          <label class="wrap-input__label" for="">{{'Quantity' | translate}}</label>
           <label class="wrap-input__currency" for="" >{{IEOData.currencyName}}</label>
           <div class="wrap-input__line"></div>
 
@@ -42,7 +42,7 @@
                   amountInput.dirty"
           >
             <span class="wrap-input__message">
-              Minimum amount {{+(minSum || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}
+              {{'Minimum amount' | translate}} {{+(minSum || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}
             </span>
           </div>
           <div
@@ -50,7 +50,7 @@
             *ngIf="amountInput.errors && amountInput.errors['maxThen'] && amountInput.dirty"
           >
             <span class="wrap-input__message">
-              Maximun amount {{+(maxSumShow || 0)}} {{IEOData.currencyName}}
+              {{'Maximum amount' | translate}} {{(maxSumShow || 0)}} {{IEOData.currencyName}}
             </span>
           </div>
           <!-- Input error section ends -->
@@ -58,18 +58,17 @@
         </div>
       </div>
       <div class="max-value">
-        <span class="temp-style">Max Available To Buy:</span>
+        <span class="temp-style">{{'Max Available To Buy:' | translate}}</span>
         <a href="#" (click)="insertMax($event)"> {{(maxSumShow || 0)}} </a>
         <span class="temp-style">{{IEOData.currencyName}}</span>
       </div>
       <div class="pay">
-        <p>Pay: {{((pay || 0) * IEOData.rate ) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</p>
+        <p>{{'Pay:' | translate}} {{((pay || 0) * IEOData.rate ) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</p>
       </div>
       <button
         class="btn btn--active btn--center btn-ieo"
         [disabled]="!form.valid"
-        (click)="confirmForm()"
-      >Confirm</button>
+      >{{'Confirm' | translate}}</button>
     </form>
 	</div>
 </div>

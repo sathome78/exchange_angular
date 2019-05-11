@@ -16,51 +16,24 @@
 
     <!-- t-row start-->
     <tbody class="table__body table__body--none-shadow">
-      <ng-container *cdkVirtualFor="let item of historyOrders">
-        <tr class="table__row--mob"  (click)="toggleDetails(item)">
-          <td class="table__cell table__cell--tal">
-            <div>{{item.currencyPairName}}</div>
-            <div class="table__date-time">
-              <div>{{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
-              <div>{{item.dateCreation | amDateFormat:"HH:mm:ss"}}</div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType | replaceChar: '_': ' '}}</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <div>{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
-          </td>
-        </tr>
-        <tr class="table__details" *ngIf="selectedOrder && selectedOrder.id === item.id">
-          <td class="table__details-cell" colspan="4">
-            <div class="table__details-item">
-              <div class="table__details-item-title">{{'Amount' | translate}}</div>
-              <div class="table__details-item-value">{{item.amountConvert}} {{item.currencyPairName | splitCurrency: 1}}</div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">{{'Trading price' | translate}}</div>
-              <div class="table__details-item-value">{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">{{'Filled' | translate}}</div>
-              <div class="table__details-item-value">{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">{{'Fee' | translate}}</div>
-              <div class="table__details-item-value">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
-            </div>
-            <div class="table__details-item">
-              <div class="table__details-item-title">{{'In total' | translate}}</div>
-              <div class="table__details-item-value"> {{item.currencyPairName | splitCurrency: 2}}</div>
-              <!-- {{item.arrPairName}} -->
-            </div>
-          </td>
-        </tr>
+
+    <!--<ng-container *ngIf="historyOrders?.length !== 1">-->
+      <!--<ng-container *cdkVirtualFor="let item of historyOrders">-->
+        <!--<ng-template-->
+          <!--[ngTemplateOutlet]="singleTemplate"-->
+          <!--[ngTemplateOutletContext]="{ $implicit: item }">-->
+        <!--</ng-template>-->
+      <!--</ng-container>-->
+    <!--</ng-container>-->
+
+    <ng-container>
+      <ng-container *ngFor="let item of historyOrders">
+        <ng-template
+          [ngTemplateOutlet]="singleTemplate"
+          [ngTemplateOutletContext]="{ $implicit: item }">
+        </ng-template>
       </ng-container>
+    </ng-container>
 
       <tr class="table__row" *ngIf="!historyOrders?.length">
         <td class="table__cell table__cell--tac" colspan="3">
@@ -71,3 +44,56 @@
     <!-- t-row end-->
   </table>
 </cdk-virtual-scroll-viewport>
+
+<ng-template  #singleTemplate let-item>
+  <tr class="table__row--mob"  (click)="toggleDetails(item)">
+    <td class="table__cell table__cell--tal">
+      <div>{{item.currencyPairName}}</div>
+      <div class="table__date-time">
+        <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"DD.MM.YYYY"}}</div>
+        <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"HH:mm:ss"}}</div>
+      </div>
+    </td>
+    <td class="table__cell table__cell--tal">
+      <span [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType | replaceChar: '_': ' '}}</span>
+    </td>
+    <td class="table__cell table__cell--tar">
+      <div>{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
+    </td>
+    <td class="table__cell table__cell--arr-mob">
+      <img [ngClass]="{'img-rotate': selectedOrder && selectedOrder.id === item.id}" src="../../assets/img/arr-toggler-down-blue.svg">
+    </td>
+  </tr>
+  <tr class="table__details" *ngIf="selectedOrder && selectedOrder.id === item.id">
+    <td class="table__details-cell" colspan="4">
+      <div class="table__details-item">
+        <div class="table__details-item-title">{{'Amount' | translate}}</div>
+        <div class="table__details-item-value">{{item.amountBase | roundCurrency: currency(item.currencyPairName, 1) | formatCurrency}}
+          {{item.currencyPairName | splitCurrency: 1}}
+        </div>
+      </div>
+      <div class="table__details-item">
+        <div class="table__details-item-title">{{'Trading price' | translate}}</div>
+        <div class="table__details-item-value">{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
+      </div>
+      <div class="table__details-item">
+        <div class="table__details-item-title">{{'Filled' | translate}}</div>
+        <div class="table__details-item-value">{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
+      </div>
+      <div class="table__details-item">
+        <div class="table__details-item-title">{{'Fee' | translate}}</div>
+        <div class="table__details-item-value" *ngIf="!isVipUser">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
+        <div class="table__details-item-value" *ngIf="isVipUser">0.0</div>
+      </div>
+      <div class="table__details-item">
+        <div class="table__details-item-title">{{'In total' | translate}}</div>
+        <div class="table__details-item-value">
+                <span>
+                  {{item.amountWithCommission | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
+                  <span>{{item.currencyPairName | splitCurrency: 2}}</span>
+                </span>
+        </div>
+      </div>
+    </td>
+  </tr>
+</ng-template>

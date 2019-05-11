@@ -20,6 +20,7 @@ export class OrdersService {
       limit: limit + '',
       currencyPairId,
       currencyPairName: '',
+      scope: 'ALL'
     };
     return this.http.get<ResponseModel<OrderItem[]>>(`${this.apiUrl}/api/private/v2/dashboard/orders/OPENED`, {params});
   }
@@ -40,6 +41,7 @@ export class OrdersService {
       hideCanceled: hideCanceled.toString(),
       currencyPairName,
       currencyPairId,
+      scope: 'ALL',
     };
     if (dateFrom) {
       params.dateFrom = encodeURIComponent(dateFrom);
@@ -54,6 +56,7 @@ export class OrdersService {
     const params: any = {
       page: page + '',
       limit: limit + '',
+      scope: 'ALL',
     };
     return this.http.get<ResponseModel<OrderItem[]>>(`${this.apiUrl}/api/private/v2/dashboard/last/orders/CLOSED`, {params});
   }
@@ -69,6 +72,7 @@ export class OrdersService {
     const params = {
       hideCanceled: hideCanceled.toString(),
       currencyPairId,
+      scope: 'ALL',
       currencyPairName
     };
     if (dateFrom) {

@@ -11,6 +11,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {KYC_STATUS} from '../../shared/constants';
 import * as moment from 'moment';
 import {KycCountry} from '../../shared/interfaces/kyc-country-interface';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-verification',
@@ -25,6 +26,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   public isInputFocus = false;
   public showComponent;
   public modelDateTo = null;
+  public charPattern = '[a-zA-Z]+';
   public form: FormGroup;
   public dataModel;
   public openCountryDropdown = false;
@@ -38,8 +40,8 @@ export class VerificationComponent implements OnInit, OnDestroy {
   public selectedCountry: KycCountry;
 
   public docTypes = [
-    {name: 'Passport', value: 'P'},
-    {name: 'ID card', value: 'ID'},
+    {name: this.translateService.instant('Passport'), value: 'P'},
+    {name: this.translateService.instant('ID card'), value: 'ID'},
   ]
 
   public currentDocType = this.docTypes[0]
@@ -76,6 +78,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   }
   constructor(private popupService: PopupService,
               private verificationService: UserVerificationService,
+              private translateService: TranslateService,
               private authService: AuthService,
               private cdr: ChangeDetectorRef,
               private store: Store<State>,
@@ -132,8 +135,8 @@ export class VerificationComponent implements OnInit, OnDestroy {
 
   private initForm() {
     this.form = new FormGroup({
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('', [Validators.required]),
+      firstName: new FormControl('', [Validators.required, Validators.pattern(this.charPattern)]),
+      lastName: new FormControl('', [Validators.required, Validators.pattern(this.charPattern)]),
     });
   }
 

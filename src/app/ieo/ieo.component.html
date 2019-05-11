@@ -28,6 +28,9 @@
     [community]="ieoData.community"
   >
   </app-ieo-community>
+  <ng-container *ngIf="showContent">
+    <button (click)="testNotif()">notification test</button>
+  </ng-container>
 
   <app-ieo-requirements
     [isAuthenticated]="isAuthenticated"

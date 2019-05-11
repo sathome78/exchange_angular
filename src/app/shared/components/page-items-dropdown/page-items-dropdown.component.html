@@ -1,10 +1,10 @@
 <div class="show-filter">
-  Showing <span>1</span> to
+  {{'Showing' | translate}} <span>1</span> {{'to' | translate}}
   <div class="dropdown" #dropdown (click)="toggleDropdown()">
     <div class="dropdown__btn">{{countPerPage}}</div>
     <ul class="dropdown__list" (click)="onChangeItemsPerPage($event)">
       <li class="dropdown__item" *ngFor="let item of (pageCountsConfig || defaultPageCountsConfig)">{{item}}</li>
     </ul>
   </div>
-  of <span>{{countOfEntries}}</span> entries.
+  {{'of' | translate}} <span>{{countOfEntries}}</span> {{'entries' | translate}}.
 </div>

@@ -43,8 +43,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   /** variables for resize method */
   public minWidth = 1200;
   public maxWidth = 1500;
-  public minRatio = 0.76;
-  public maxRatio = 0.94;
+  public minRatio = 0.731;
+  public maxRatio = 0.934;
   public widthStep = 5;
   /** ---------------------- */
 
@@ -53,6 +53,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public gridsterOptions;
   public gridsterItemOptions;
   public isDrag = false;
+
+  public resizeTimeout;
 
   public activeMobileWidget = 'markets';
   public breakPoint;
@@ -228,19 +230,24 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
    * check window width for ratio (static height for dashboard items)
    */
   changeRatioByWidth(): void {
-    if (this.breakPoint === 'desktop') {
-      const winWidth = window.innerWidth;
-      const countWidthSteps = (this.maxWidth - this.minWidth) / this.widthStep;
-      const ratioStep = (this.maxRatio - this.minRatio) / countWidthSteps;
-      if (winWidth <= this.minWidth) {
-        this.changeRatio(this.minRatio);
-      } else if (winWidth > this.maxWidth) {
-        this.changeRatio(this.maxRatio);
-      } else {
-        const ratio = (((winWidth - this.minWidth) / this.widthStep) * ratioStep) + this.minRatio;
-        this.changeRatio(ratio);
-      }
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
     }
+    this.resizeTimeout = setTimeout((() => {
+      if (this.breakPoint === 'desktop') {
+        const winWidth = window.innerWidth;
+        const countWidthSteps = (this.maxWidth - this.minWidth) / this.widthStep;
+        const ratioStep = (this.maxRatio - this.minRatio) / countWidthSteps;
+        if (winWidth <= this.minWidth) {
+          this.changeRatio(this.minRatio);
+        } else if (winWidth > this.maxWidth) {
+          this.changeRatio(this.maxRatio);
+        } else {
+          const ratio = (((winWidth - this.minWidth) / this.widthStep) * ratioStep) + this.minRatio;
+          this.changeRatio(ratio);
+        }
+      }
+    }).bind(this), 500);
   }
 
   /**

@@ -12,8 +12,8 @@ import * as coreActions from '../../core/actions/core.actions';
 import {PopupService} from './popup.service';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
-
-declare var encodePassword: Function;
+import {GtagService} from './gtag.service';
+import {UtilsService} from './utils.service';
 
 @Injectable()
 export class AuthService implements OnDestroy {
@@ -35,6 +35,8 @@ export class AuthService implements OnDestroy {
     private location: Location,
     private popupService: PopupService,
     private store: Store<fromCore.State>,
+    private gtagService: GtagService,
+    private utilsService: UtilsService
   ) {
   }
 
@@ -63,6 +65,13 @@ export class AuthService implements OnDestroy {
     return false;
   }
 
+  public get isVipUser() {
+    if (this.token) {
+      return this.parsedToken.userRole === 'VIP_USER';
+    }
+    return false;
+  }
+
   private get token(): string {
     return localStorage.getItem(TOKEN);
   }
@@ -74,11 +83,12 @@ export class AuthService implements OnDestroy {
   }
 
   public encodePassword(password: string) {
-    return encodePassword(password, this.ENCODE_KEY);
+    return this.utilsService.encodePassword(password, this.ENCODE_KEY);
   }
 
   public onLogOut() {
     localStorage.removeItem(TOKEN);
+    this.gtagService.removeUserId();
     this.parsedToken = null;
     this.store.dispatch(new coreActions.SetOnLogoutAction());
     this.redirectOnLogout();
@@ -111,6 +121,13 @@ export class AuthService implements OnDestroy {
   public getUsername(): string {
     if (this.parsedToken) {
       return this.parsedToken.username;
+    }
+    return undefined;
+  }
+
+  public getUserId(): string {
+    if (this.parsedToken) {
+      return this.parsedToken.publicId;
     }
     return undefined;
   }

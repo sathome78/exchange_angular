@@ -64,6 +64,13 @@
         >
           {{'More' | translate}}
         </button>
+        <button
+          class="btn btn--center btn--small"
+          (click)="goToIeo(ieo.id)"
+          *ngIf="stage.TERMINATED === ieo.status"
+        >
+          {{'More' | translate}}
+        </button>
       </td>
     </tr>
 

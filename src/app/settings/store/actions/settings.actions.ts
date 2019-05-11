@@ -8,6 +8,11 @@ export const LOAD_SESSION_TIME = '[Orders] Load session time';
 export const FAIL_LOAD_SESSION_TIME = '[Orders] Fail load session time';
 export const SET_SESSION_TIME = '[Orders] Set session time';
 
+
+export const LOAD_API_KEYS = '[Orders] Load api keys';
+export const FAIL_LOAD_API_KEYS = '[Orders] Fail load api keys';
+export const SET_API_KEYS = '[Orders] Set api keys';
+
 /**
  * GA status actions
  */
@@ -38,6 +43,21 @@ export class FailLoadSessionTimeAction implements Action {
   constructor(public payload?) {}
 }
 
+/**
+ * API Keys actions
+ */
+export class LoadApiKeysAction implements Action {
+  readonly type = LOAD_API_KEYS;
+}
+export class SetApiKeysAction implements Action {
+  readonly type = SET_API_KEYS;
+  constructor(public payload: any[]) {}
+}
+export class FailLoadApiKeysAction implements Action {
+  readonly type = FAIL_LOAD_API_KEYS;
+  constructor(public payload?) {}
+}
+
 
 /**
  * Exports possible action types
@@ -49,3 +69,6 @@ export type Actions
   | LoadSessionTimeAction
   | SetSessionTimeAction
   | FailLoadSessionTimeAction
+  | LoadApiKeysAction
+  | SetApiKeysAction
+  | FailLoadApiKeysAction

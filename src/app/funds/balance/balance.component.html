@@ -46,7 +46,7 @@
         (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
       ></app-balance-mob>
 
-      <ng-container *ngIf="!isProd">
+      <ng-container *ngIf="showContent">
         <app-ieo-table-mob
           *ngSwitchCase="Tab.IEO"
           [IEOData]="IEOData"
@@ -106,10 +106,10 @@
     </div>
     <!--filters start-->
     <!--<form action="">-->
-      <div
+    <div
       class="balance__filters"
       [ngClass]="{'balance__filters--pending-open': currTab === Tab.PR}"
-      >
+    >
       <ng-container [ngSwitch]="currTab">
         <app-dynamic-input
           *ngSwitchCase="Tab.CRYPTO"
@@ -127,7 +127,7 @@
           (onSelect)="onSelectPair($event.id)"
           [showNotFoundTip]="true"
         ></app-dynamic-input>
-        <ng-container *ngIf="!isProd">
+        <ng-container *ngIf="showContent">
           <app-dynamic-input
             *ngSwitchCase="Tab.QUBERA"
             [value]="currValue"
@@ -137,7 +137,7 @@
             [showNotFoundTip]="existQuberaAccounts"
           ></app-dynamic-input>
         </ng-container>
-        <ng-container  *ngIf="!isProd">
+        <ng-container  *ngIf="showContent">
           <app-dynamic-input
             *ngSwitchCase="Tab.IEO"
             [value]="currValue"
@@ -165,63 +165,51 @@
           (click)="onSelectTab(Tab.CRYPTO)"
           [disabled]="loading$ | async"
         >
-        {{'Crypto Balances' | translate}}
-      </button>
-      <button
-        [disabled]="loading$ | async"
-        class="tabs__item"
-        [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}"
-        (click)="onSelectTab(Tab.FIAT)"
-      >
-        {{'Fiat Balances' | translate}}
-      </button>
-    <!--<button-->
-    <!--class="tabs__item qubera-tab">-->
-    <!--<div class="qubera-icon">-->
-      <!--<svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-        <!--<path d="M4.14605 7.02734H6.0973L6.39013 16.003H3.90234L4.14605 7.02734Z" fill="white"/>-->
-        <!--<path-->
-        <!--d="M2.48779 16.4883H21.5124V17.5126H22.9757V18.9761H24V20.0005H0V18.9761H1.02427V17.5126H2.48779V16.4883Z"-->
-        <!--fill="white"/>-->
-        <!--<path d="M22.4872 4.39023L11.9994 0L1.51172 4.39023V5.02454H22.4872V4.39023Z" fill="white"/>-->
-        <!--<path d="M20.4873 5.51172H3.51172V6.48702H20.4873V5.51172Z" fill="white"/>-->
-        <!--<path d="M17.8534 7.02734H19.8043L20.0972 16.003H17.6094L17.8534 7.02734Z" fill="white"/>-->
-        <!--<path d="M13.2694 7.02734H15.2693L15.5621 16.003H13.0254L13.2694 7.02734Z" fill="white"/>-->
-        <!--<path d="M8.73017 7.02734H10.6814L10.9741 16.003H8.4375L8.73017 7.02734Z" fill="white"/>-->
-        <!--</svg>-->
-        <!--</div>-->
-        <!--<span>{{'Qubera Balance' | translate}}</span>-->
-        <!--</button>-->
-         <!--  <button
-            class="tabs__item"
-            [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
-            (click)="onSelectTab(Tab.QUBERA)"
-            [disabled]="loading$ | async"
-          >
-            <div class="qubera-icon">
-              <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4.14605 7.02734H6.0973L6.39013 16.003H3.90234L4.14605 7.02734Z" fill="white"/>
-                <path
-                  d="M2.48779 16.4883H21.5124V17.5126H22.9757V18.9761H24V20.0005H0V18.9761H1.02427V17.5126H2.48779V16.4883Z"
-                  fill="white"/>
-                <path d="M22.4872 4.39023L11.9994 0L1.51172 4.39023V5.02454H22.4872V4.39023Z" fill="white"/>
-                <path d="M20.4873 5.51172H3.51172V6.48702H20.4873V5.51172Z" fill="white"/>
-                <path d="M17.8534 7.02734H19.8043L20.0972 16.003H17.6094L17.8534 7.02734Z" fill="white"/>
-                <path d="M13.2694 7.02734H15.2693L15.5621 16.003H13.0254L13.2694 7.02734Z" fill="white"/>
-                <path d="M8.73017 7.02734H10.6814L10.9741 16.003H8.4375L8.73017 7.02734Z" fill="white"/>
-              </svg>
-            </div>
-            <span>{{'Qubera Balance' | translate}}</span>
-          </button> -->
-          <button
-            *ngIf="!isProd"
-            [disabled]="loading$ | async"
-            class="tabs__item"
-            [ngClass]="{'tabs__item--active': currTab === Tab.IEO}"
-            (click)="onSelectTab(Tab.IEO)"
-          >
-            {{'IEO' | translate}}
-          </button>
+          {{'Crypto Balances' | translate}}
+        </button>
+
+        <button
+          [disabled]="loading$ | async"
+          class="tabs__item"
+          [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}"
+          (click)="onSelectTab(Tab.FIAT)"
+        >
+          {{'Fiat Balances' | translate}}
+        </button>
+
+        <button
+          *ngIf="showContent"
+          class="tabs__item"
+          [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
+          (click)="onSelectTab(Tab.QUBERA)"
+          [disabled]="loading$ | async"
+        >
+          <div class="qubera-icon">
+            <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4.14605 7.02734H6.0973L6.39013 16.003H3.90234L4.14605 7.02734Z" fill="white"/>
+              <path
+                d="M2.48779 16.4883H21.5124V17.5126H22.9757V18.9761H24V20.0005H0V18.9761H1.02427V17.5126H2.48779V16.4883Z"
+                fill="white"/>
+              <path d="M22.4872 4.39023L11.9994 0L1.51172 4.39023V5.02454H22.4872V4.39023Z" fill="white"/>
+              <path d="M20.4873 5.51172H3.51172V6.48702H20.4873V5.51172Z" fill="white"/>
+              <path d="M17.8534 7.02734H19.8043L20.0972 16.003H17.6094L17.8534 7.02734Z" fill="white"/>
+              <path d="M13.2694 7.02734H15.2693L15.5621 16.003H13.0254L13.2694 7.02734Z" fill="white"/>
+              <path d="M8.73017 7.02734H10.6814L10.9741 16.003H8.4375L8.73017 7.02734Z" fill="white"/>
+            </svg>
+          </div>
+          <span>{{'Qubera Balance' | translate}}</span>
+        </button>
+
+        <button
+          *ngIf="showContent"
+          [disabled]="loading$ | async"
+          class="tabs__item"
+          [ngClass]="{'tabs__item--active': currTab === Tab.IEO}"
+          (click)="onSelectTab(Tab.IEO)"
+        >
+          {{'IEO' | translate}}
+        </button>
+
         <button
           class="tabs__item"
           [ngClass]="{'tabs__item--active': currTab === Tab.PR}"
@@ -232,96 +220,100 @@
           <span class="indicate">{{countOfPendingRequests$ | async}}</span>
         </button>
 
+      </div>
+      <div class="balance__hide-zero" *ngIf="currTab !== Tab.PR">
+        <label for="" class="toggler">
+          <input type="checkbox" name="hideZero" [(ngModel)]="hideAllZero" (change)="onToggleAllZero()">
+          <span class="toggler__indicate"></span>
+        </label>
+        <span>{{'Hide zero balances' | translate}}</span>
+      </div>
+
+
+      <!-- <div class="balance__show-all">
+        <label class="toggler">
+          <input type="checkbox" name="">
+          <span class="toggler__indicate"></span>
+        </label>
+        <span>Show all in</span>
+        <div class="dropdown">
+          <div class="dropdown__btn">USD</div>
+          <ul class="dropdown__list">
+            <li class="dropdown__item">RUB</li>
+            <li class="dropdown__item">EUR</li>
+            <li class="dropdown__item">UAH</li>
+          </ul>
+        </div>
+      </div> -->
+
     </div>
-    <div class="balance__hide-zero" *ngIf="currTab !== Tab.PR">
-      <label for="" class="toggler">
-        <input type="checkbox" name="hideZero" [(ngModel)]="hideAllZero" (change)="onToggleAllZero()">
-        <span class="toggler__indicate"></span>
-      </label>
-      <span>{{'Hide zero balances' | translate}}</span>
-    </div>
-    <!--<div class="balance__show-all">-->
-      <!--<label class="toggler">-->
-        <!--<input type="checkbox" name="">-->
-        <!--<span class="toggler__indicate"></span>-->
-        <!--</label>-->
-        <!--<span>Show all in</span>-->
-        <!--<div class="dropdown">-->
-          <!--<div class="dropdown__btn">USD</div>-->
-          <!--<ul class="dropdown__list">-->
-            <!--<li class="dropdown__item">RUB</li>-->
-            <!--<li class="dropdown__item">EUR</li>-->
-            <!--<li class="dropdown__item">UAH</li>-->
-            <!--</ul>-->
-            <!--</div>-->
-            <!--</div>-->
+    <!--</form>-->
+    <!--filters end-->
 
-          </div>
-          <!--</form>-->
-          <!--filters end-->
-          <ng-container [ngSwitch]="currTab">
-            <app-balance-table
-              *ngSwitchCase="Tab.CRYPTO"
-              [balances]="cryptoBalances$ | async"
-              [countPerPage]="countPerPage"
-              [countOfEntries]="getCountOfEntries() | async"
-              [currentPage]="currentPage"
-              [loading]="loading$ | async"
-              (onPaginate)="onPageChanged($event)"
-              (transferOut)="goToTransferPopup($event)"
-              (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
-              (cryptoDepositOut)="goToCryptoDepositPopup($event)"
-            ></app-balance-table>
-            <app-balance-table
-              *ngSwitchCase="Tab.FIAT"
-              [balances]="fiatBalances$ | async"
-              [countPerPage]="countPerPage"
-              [countOfEntries]="getCountOfEntries() | async"
-              [currentPage]="currentPage"
-              [loading]="loading$ | async"
-              (onPaginate)="onPageChanged($event)"
-              (transferOut)="goToTransferPopup($event)"
-              (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
-              (cryptoDepositOut)="goToCryptoDepositPopup($event)"
-            ></app-balance-table>
-            <app-pending-request-table
-              [pendingRequests]="pendingRequests$ | async"
-              [countPerPage]="countPerPage"
-              [countOfEntries]="getCountOfEntries() | async"
-              [currentPage]="currentPage"
-              [loading]="loading$ | async"
-              (onPaginate)="onPageChanged($event)"
-              (onRevokePendingRequest)="onRevokePendingRequest($event)"
-              *ngSwitchCase="Tab.PR"
-            ></app-pending-request-table>
-            <ng-container *ngIf="!isProd">
-              <app-qubera-table
-                *ngSwitchCase="Tab.QUBERA"
-                [balances]="quberaBalances$ | async"
-                [existQuberaAccounts]="existQuberaAccounts"
-                [kycStatus]="kycStatus"
-                (transferOut)="goToTransferPopup($event)"
-                (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
-                (cryptoDepositOut)="goToCryptoDepositPopup($event)">
-              </app-qubera-table>
-            </ng-container>
+    <ng-container [ngSwitch]="currTab">
+      <app-balance-table
+        *ngSwitchCase="Tab.CRYPTO"
+        [allPairs]="detailedCurrencyPairs$ | async"
+        [balances]="cryptoBalances$ | async"
+        [countPerPage]="countPerPage"
+        [countOfEntries]="getCountOfEntries() | async"
+        [currentPage]="currentPage"
+        [loading]="loading$ | async"
+        (onPaginate)="onPageChanged($event)"
+        (transferOut)="goToTransferPopup($event)"
+        (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+        (cryptoDepositOut)="goToCryptoDepositPopup($event)"
+      ></app-balance-table>
+      <app-balance-table
+        *ngSwitchCase="Tab.FIAT"
+        [allPairs]="detailedCurrencyPairs$ | async"
+        [balances]="fiatBalances$ | async"
+        [countPerPage]="countPerPage"
+        [countOfEntries]="getCountOfEntries() | async"
+        [currentPage]="currentPage"
+        [loading]="loading$ | async"
+        (onPaginate)="onPageChanged($event)"
+        (transferOut)="goToTransferPopup($event)"
+        (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+        (cryptoDepositOut)="goToCryptoDepositPopup($event)"
+      ></app-balance-table>
+      <app-pending-request-table
+        [pendingRequests]="pendingRequests$ | async"
+        [countPerPage]="countPerPage"
+        [countOfEntries]="getCountOfEntries() | async"
+        [currentPage]="currentPage"
+        [loading]="loading$ | async"
+        (onPaginate)="onPageChanged($event)"
+        (onRevokePendingRequest)="onRevokePendingRequest($event)"
+        *ngSwitchCase="Tab.PR"
+      ></app-pending-request-table>
+      <ng-container *ngIf="showContent">
+        <app-qubera-table
+          *ngSwitchCase="Tab.QUBERA"
+          [balances]="quberaBalances$ | async"
+          [existQuberaAccounts]="existQuberaAccounts"
+          [kycStatus]="kycStatus"
+          (transferOut)="goToTransferPopup($event)"
+          (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
+          (cryptoDepositOut)="goToCryptoDepositPopup($event)">
+        </app-qubera-table>
+      </ng-container>
+      <ng-container *ngIf="showContent">
+        <app-ieo-table
+          *ngSwitchCase="Tab.IEO"
+          [countPerPage]="countPerPage"
+          [countOfEntries]="getCountOfEntries() | async"
+          [currentPage]="currentPage"
+          [IEOData]="IEOData"
+          [loading]="loading$ | async"
+          (onPaginate)="onPageChanged($event)"
+        ></app-ieo-table>
+      </ng-container>
+    </ng-container>
 
-            <ng-container *ngIf="!isProd">
-              <app-ieo-table
-                *ngSwitchCase="Tab.IEO"
-                [countPerPage]="countPerPage"
-                [countOfEntries]="getCountOfEntries() | async"
-                [currentPage]="currentPage"
-                [IEOData]="IEOData"
-                [loading]="loading$ | async"
-                (onPaginate)="onPageChanged($event)"
-              ></app-ieo-table>
-            </ng-container>
-          </ng-container>
-
-         </div>
-        <!--balance-desktop end-->
-       </div>
+  </div>
+<!--balance-desktop end-->
+</div>
 
 <div>
   <app-refill-money

@@ -4,6 +4,7 @@ import {BalanceService} from '../../../../services/balance.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {BY_PRIVATE_CODE, CODE_FROM_EMAIL, CODE_FROM_GOOGLE, SEND_CRYPTO, SEND_FIAT, TRANSFER_INSTANT} from '../../send-money-constants';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-send-tfa',
@@ -26,7 +27,8 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   public CODE_FROM_GOOGLE = CODE_FROM_GOOGLE;
 
   constructor(
-    public balanceService: BalanceService
+    public balanceService: BalanceService,
+    private translateService: TranslateService,
   ) {
   }
 
@@ -40,7 +42,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.pincodeFrom = res.status === 201 ? CODE_FROM_EMAIL : CODE_FROM_GOOGLE;
-        this.subtitleMessage = this.pincodeFrom ? '' : 'Put the code';
+        this.subtitleMessage = this.pincodeFrom ? '' : this.translateService.instant('Put the code');
       });
 
     this.form = new FormGroup({
@@ -125,11 +127,11 @@ export class SendTfaComponent implements OnInit, OnDestroy {
         if (this.pincodeTries === 3) {
           this.pincodeTries = 0;
           this.subtitleMessage = this.pincodeFrom === CODE_FROM_GOOGLE ?
-            'Code is wrong! Please, check you code in Google Authenticator application.' :
-            'Code is wrong! New code was sent to your email.';
+            this.translateService.instant('Code is wrong! Please, check you code in Google Authenticator application.') :
+            this.translateService.instant('Code is wrong! New code was sent to your email.');
         } else {
           this.data.data.tries = this.pincodeTries;
-          this.subtitleMessage = 'Code is wrong!';
+          this.subtitleMessage = this.translateService.instant('Code is wrong!');
         }
         break;
     }

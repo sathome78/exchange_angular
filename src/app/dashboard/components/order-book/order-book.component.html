@@ -36,12 +36,12 @@
             {{'Total' | translate}} ({{splitCurrencyName[1]}})
           </span>
         </div>
-        <div class="price table__cell-head table__cell-head--tal table__cell-head--p4">
+        <div class="price table__cell-head table__cell-head--tal table__cell-head--p4 jc-center">
           <span>
             {{'Price' | translate}} ({{splitCurrencyName[1]}})
           </span>
         </div>
-        <div class="total table__cell-head table__cell-head--tal table__cell-head--p4">
+        <div class="total table__cell-head table__cell-head--tal table__cell-head--p4 jc-end">
           <span>
             {{'Amount' | translate}} ({{splitCurrencyName[0]}})
           </span>
@@ -67,17 +67,17 @@
           >
             <div class="order">
             <span>
-              {{item.total | roundCurrency | formatCurrency}}
+              {{item.total | roundCurrency | formatCurrency  | orderBookCutBigNum:maxCountCharacter}}
             </span>
             </div>
 
-            <div class="price">
+            <div class="price jc-center">
             <span>
-              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}
+              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]  | orderBookCutBigNum:maxCountCharacter}}
             </span>
             </div>
 
-            <div class="total">
+            <div class="total jc-end">
             <span>
               {{item.amount | roundCurrency | formatCurrency}}
             </span>
@@ -117,20 +117,20 @@
           (click)="onSelectOrder(item)">
           <div class="order">
             <span>
-              {{item.total  | roundCurrency | formatCurrency}}
+              {{item.total  | roundCurrency | formatCurrency  | orderBookCutBigNum:maxCountCharacter}}
             </span>
           </div>
 
           <div class="info">
           </div>
 
-          <div class="price">
+          <div class="price jc-center">
             <span>
-              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}
+              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]  | orderBookCutBigNum:maxCountCharacter}}
             </span>
           </div>
 
-          <div class="total">
+          <div class="total jc-end">
             <span>
               {{item.amount | roundCurrency | formatCurrency}}
             </span>

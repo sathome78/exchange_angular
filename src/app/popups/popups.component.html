@@ -1,4 +1,14 @@
 
+<div *ngIf="popupService.getNewsSubscribePopupListener() | async">
+  <app-news-subscribe-popup></app-news-subscribe-popup>
+</div>
+
+<div *ngIf="popupService.getNewsThankYouPopupListener() | async">
+  <app-news-thank-you-popup></app-news-thank-you-popup>
+</div>
+
+<app-notifications-list></app-notifications-list>
+
 <div *ngIf="popupService.getLoginMobilePopupListener() | async">
   <app-login-popup-mobile></app-login-popup-mobile>
 </div>
@@ -72,3 +82,8 @@
   [notification]="notification"
   (notificationClosed)="onNotificationMessageClose(i)">
 </app-notification>
+
+<app-thank-you-popup
+  *ngIf="!!(popupService.getThankYouPopupListener() | async)?.isOpen"
+  [popupData]="popupService.getThankYouPopupListener() | async">
+</app-thank-you-popup>

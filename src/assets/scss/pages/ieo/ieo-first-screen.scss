@@ -100,12 +100,21 @@
 		margin-left: 15px;
 		font-weight: 400;
 		font-size: .5em;
-		color: #237BEF;
+		
 		display: flex;
 		align-items: center;
 		top: .4em;
 		bottom: 0;
 		white-space: nowrap;
+		&.pending, &.terminated{
+			color: #237BEF;
+		}
+		&.running, &.succeeded{
+			color: #00B43D;
+		}
+		&.failed{
+			color: #EB5757;
+		}
 		@media(max-width: 992px){
 			position: static;
 			padding-top: .25em;

@@ -48,10 +48,15 @@ import {ShowOrderStatusPipe} from './pipes/showOrderStatus.pipe';
 import {MerchantImageFilterPipe} from './pipes/merchant-image-filter.pipe';
 import {ReplaceCharPipe} from './pipes/replaceChar.pipe';
 import {ShowStageStatusPipe} from './pipes/stage-status.pipe';
-import {TopNotificationComponent} from './components/top-notification/top-notification.component';
-import {NotificationsListComponent} from './components/notifications-list/notifications-list.component';
 import {PopupBuyComponent} from './components/popup-buy-ieo/popup-buy.component';
-import { PopupSuccessComponent } from './components/popup-success-ieo/popup-success.component';
+import {PopupSuccessComponent} from './components/popup-success-ieo/popup-success.component';
+import {OrderBookCutBigNumPipe} from './pipes/order-book-cut-big-num.pipe';
+import {TooltipDirective} from './directives/tooltip.directive';
+import {GetCountConfirmationsPipe} from './pipes/get-count-confirmations.pipe';
+import {ShowPageGuard} from './guards/showPage.guard';
+import {GetDateStringPipe} from './pipes/parse-date-utc.pipe';
+import {DateFromISO8601Pipe} from './pipes/dateFromISO8601.pipe';
+import {RefactUrlByNewsPipe} from './pipes/refact-url-by-news.pipe';
 
 @NgModule({
   declarations: [
@@ -70,26 +75,30 @@ import { PopupSuccessComponent } from './components/popup-success-ieo/popup-succ
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     MerchantImageFilterPipe,
+    RefactUrlByNewsPipe,
     ExcludeSpacesDirective,
     RoundCurrencyPipe,
     ExponentToNumberPipe,
     ShowOrderStatusPipe,
+    GetCountConfirmationsPipe,
     GetObjectKeysPipe,
     SafePipe,
     FormatCurrencyPipe,
+    GetDateStringPipe,
     SplitCurrencyPipe,
     ReplaceCharPipe,
     PageItemsDropdownComponent,
     DateWrapper,
+    DateFromISO8601Pipe,
     LoaderComponent,
     DynamicInputComponent,
     CustomSearchInputComponent,
+    TooltipDirective,
     DynamicInputDashboardComponent,
     DynamicInputDataPipe,
     DateMaskInputComponent,
-    TopNotificationComponent,
+    OrderBookCutBigNumPipe,
     ShowStageStatusPipe,
-    NotificationsListComponent,
     PopupBuyComponent,
     PopupSuccessComponent,
   ],
@@ -113,6 +122,7 @@ import { PopupSuccessComponent } from './components/popup-success-ieo/popup-succ
     RecaptchaModule,
     SafePipe,
     ExcludeSpacesDirective,
+    TooltipDirective,
     GetObjectKeysPipe,
     InfiniteScrollModule,
     DateMaskDirective,
@@ -121,8 +131,13 @@ import { PopupSuccessComponent } from './components/popup-success-ieo/popup-succ
     SortPipe,
     ReplaceNumberPipe,
     DateMaskInputComponent,
+    GetDateStringPipe,
+    DateFromISO8601Pipe,
     MerchantImageFilterPipe,
+    GetCountConfirmationsPipe,
+    RefactUrlByNewsPipe,
     ShowOrderStatusPipe,
+    OrderBookCutBigNumPipe,
     GroupCoinPipe,
     CurrencyPipe,
     FormatCurrencyPipe,
@@ -144,8 +159,6 @@ import { PopupSuccessComponent } from './components/popup-success-ieo/popup-succ
     DynamicInputDashboardComponent,
     DynamicInputDataPipe,
     ShowStageStatusPipe,
-    TopNotificationComponent,
-    NotificationsListComponent,
     PopupBuyComponent,
     PopupSuccessComponent,
     AddClassDirective,
@@ -159,6 +172,7 @@ import { PopupSuccessComponent } from './components/popup-success-ieo/popup-succ
     ConstantsService,
     RoundCurrencyPipe,
     FormatCurrencyPipe,
+    ShowPageGuard,
   ]
 })
 export class SharedModule { }

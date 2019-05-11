@@ -15,6 +15,7 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   public stage = {
     PENDING: 'PENDING',
     RUNNING: 'RUNNING',
+    TERMINATED: 'TERMINATED',
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
   }
@@ -69,8 +70,7 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
           '<span>' + (hours < 10 ? '0' + hours : hours) + '</span>' +
           '<span>' + (minutes < 10 ? '0' + minutes : minutes) + '</span>' +
           '<span>' + (seconds < 10 ? '0' + seconds : seconds) + '</span>';
-      }
-      else{
+      } else {
         this.timer = '<span>00</span><span>00</span><span>00</span><span>00</span>';
         if( this.currentStage === this.stage.PENDING) {
           this.onRefreshIEOStatus.emit();

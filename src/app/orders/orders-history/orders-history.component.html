@@ -47,8 +47,8 @@
               <td class="table__cell table__cell--tal">
                 <div>{{item.currencyPairName}}</div>
                 <div class="table__date-time">
-                  <div>{{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
-                  <div>{{item.dateCreation | amDateFormat:"HH:mm:ss"}}</div>
+                  <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"DD.MM.YYYY"}}</div>
+                  <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"HH:mm:ss"}}</div>
                 </div>
               </td>
               <td class="table__cell table__cell--tal">
@@ -77,7 +77,8 @@
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Fee' | translate}}</div>
-                  <div class="table__details-item-value">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  <div class="table__details-item-value" *ngIf="!isVipUser">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  <div class="table__details-item-value" *ngIf="isVipUser">0.0</div>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'In total' | translate}}</div>
@@ -277,8 +278,8 @@
           </td>
           <td class="table__cell">
             <div class="table__date-time">
-              <div>{{item.dateCreation | amDateFormat:"dd"}} {{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
-              <div>{{item.dateCreation | amDateFormat:"HH:mm:ss"}}</div>
+              <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"dd"}} {{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
+              <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"HH:mm:ss"}}</div>
             </div>
           </td>
           <td class="table__cell">
@@ -320,10 +321,13 @@
             </span>
           </td>
           <td class="table__cell">
-            <span class="orders__comission"></span><span class="orders__comission-usd"><span>
-                {{item.commissionFixedAmount | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
-                {{item.currencyPairName | splitCurrency: 2}}
-            </span></span>
+            <span class="orders__comission"></span>
+            <span class="orders__comission-usd" *ngIf="!isVipUser">
+              <span>{{item.commissionFixedAmount | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
+                    {{item.currencyPairName | splitCurrency: 2}}
+              </span>
+            </span>
+            <span *ngIf="isVipUser">0.0</span>
           </td>
           <td class="table__cell table__cell--tar">
             <span>
