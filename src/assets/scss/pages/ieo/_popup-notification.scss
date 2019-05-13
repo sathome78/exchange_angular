@@ -1,29 +1,36 @@
 .ieo-notification{
+
+	
+
 	.popup{
 		min-height: unset;
 		padding-bottom: 42px;
 		@media(max-width: 1199px){
-		    overflow: auto;
-		    background-color: #191A39;
-	}
+			overflow: auto;
+			background-color: #191A39;
+		}
 	}
 	.popup__title{
 		margin-bottom: 1.3em;
-    font-size: 24px;
-    font-weight: 500;
+		font-size: 24px;
+		font-weight: 500;
 		@media(max-width: 1199px) {
 			color: #DEDEFB;
 		}
 	}
 	.popup__subtitle{
-		    font-size: 18px;
-    text-align: center;
-    margin-bottom: 2em;
-    color: #000000;
-    line-height: 1.57;
-    font-weight: 400;
+		font-size: 18px;
+		text-align: center;
+		margin-bottom: 2em;
+		color: #000000;
+		line-height: 1.57;
+		font-weight: 400;
 		@media(max-width: 1199px) {
 			color: #DEDEFB;
+		}
+		.ieoname{
+			display: inline;
+			font-weight: 600;
 		}
 		span{
 			display: block;

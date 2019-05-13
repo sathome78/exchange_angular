@@ -2,7 +2,7 @@
 	<div class="popup">
 		<div class="popup__close" (click)="closeMe()"></div>
 		<h6 class="popup__title tnx-head">{{'Your purchase order has been successfully created and added to the queue.' | translate}}</h6>
-		<p class="popup__subtitle tnx-description">{{'Tokens will be credited upon completion IEO' | translate}} {{IEOName}}</p>
+		<p class="popup__subtitle tnx-description">{{"You'll receive your tokens after the end of IEO" | translate}} <span class="ieoname">{{IEOName}}</span></p>
     <button class="btn btn--active btn--center" (click)="closeMe()">{{'Go to Balance' | translate}}</button>
   </div>
 </div>
