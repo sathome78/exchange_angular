@@ -219,7 +219,7 @@
     </div>
   </div>
   <!--<div class="kyc-banner" *ngIf="verificationStatus !== KYC_STATUS.SUCCESS">-->
-  <div class="kyc-banner" *ngIf="false">
+  <div class="kyc-banner" *ngIf="true">
     <img src="assets/img/ieo/kyc-img.png" alt="" (click)="bannerClick()">
   </div>
   <div class="ieo-list">
@@ -254,17 +254,14 @@
 
             </div>
             <div class="description-wr">
-              <!--<p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain-->
-                <!--transactions for not only payment transactions, but also generalized off-chain smart contract. Founded-->
-                <!--by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build,-->
-                <!--operate, and use...</p>-->
-              <p>{{item?.description}}</p>
+              <p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain transactions for not only payment transactions, but also generalized off-chain smart contract. Founded by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build, operate, and use...</p>
+              <!-- <p>{{item?.description}}</p> -->
             </div>
             <div class="button-part">
-              <div class="button-wr">
+              <div class="button-wr" *ngIf="isAuthenticated && item.status === 'RUNNING'">
                 <button
                   class="standart-btn"
-                  *ngIf="isAuthenticated && item.status === 'RUNNING'"
+
                   (click)="buyIeo(item)"
                 ><span>{{'Buy' | translate}} {{item.currencyDescription}}</span></button>
               </div>
