@@ -2,6 +2,10 @@
 	font-size: calc(.656rem + .66vw);
 	position: relative;
 	padding-bottom: 7em;
+	.top-info{
+		display: flex;
+		justify-content: space-between;
+	}
 	.fs-image-container{
 		overflow: hidden;
 		position: absolute;
@@ -23,6 +27,7 @@
 		}
 		.title-wr{
 			margin-bottom: .7em;
+			    width: calc(50% - .4em);
 			h2{
 				font-weight: 400;
 				font-size: 1.6em;
@@ -457,7 +462,7 @@
 			padding: 1.8em;
 			padding-top: 3em;
 			border: 1px solid #5E5F74;
-			    padding-bottom: 2.7em;
+			padding-bottom: 2.7em;
 			position: relative;
 			@media(max-width: 780px){
 				width: 100%;
@@ -580,7 +585,7 @@
 			}
 		}
 		.a-block-item{
-			    margin-bottom: .5em;
+			margin-bottom: .5em;
 			a{
 				font-weight: 400;
 				font-size: .8em;
@@ -593,7 +598,7 @@
 			padding: .85em;
 			border: 1px dashed #FFD76F;
 			border-radius: 2px;
-			    max-width: 20.2em;
+			max-width: 20.2em;
 			@media(max-width: 992px) {
 				font-size: 1.5em;
 			}
@@ -603,6 +608,60 @@
 				line-height: 1.5;
 				color: #FFD76F;
 
+			}
+		}
+	}
+
+
+
+	.progress-block{
+		    width: calc(50% - .4em);
+		.currency-info{
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-end;
+			margin-bottom: .3em;
+		}
+		.currency-buyed{
+
+		}
+		.buyed-value{
+			font-weight: 500;
+			font-size: .7em;
+			line-height: 1.15;
+			color: #AAB1C4;
+			margin-right: .4em;
+		}
+		.currency-name{
+			font-weight: 500;
+			font-size: .6em;
+			line-height: 1.15;
+			color: #AAB1C4;
+		}
+		.percentage{
+			font-weight: 500;
+			font-size: .6em;
+			line-height: 1.15;
+			color: #237BEF;
+			span{
+	
+			}
+		}
+		.currency-bar{
+			height: 4px;
+			width: 100%;
+			position: relative;
+			background: #E5EBF5;
+			border-radius: 3px;
+			overflow: hidden;
+			// margin-bottom: 1.3em;
+			.currency-bar-progress{
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				background: #237BEF;
 			}
 		}
 	}
