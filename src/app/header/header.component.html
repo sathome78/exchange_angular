@@ -84,14 +84,14 @@
 
            <!--TEMP LINK for strap-->
           <li class="menu__item" routerLinkActive="menu__link--active">
-            <ng-container *ngIf="showContent">
+            <ng-container>
                <a class="menu__link" routerLink="/ieo">
                  <span class="menu__link-text">{{'IEO' | translate}}</span>
                </a>
             </ng-container>
           </li>
           <li class="menu__item" routerLinkActive="menu__link--active">
-            <ng-container *ngIf="showContent">
+            <ng-container>
                <a class="menu__link" href="https://support.exrates.me" target="blank">
                  <span class="menu__link-text">{{'Support' | translate}}</span>
                </a>
@@ -370,21 +370,25 @@
         <span class="menu-mob__link-text">{{'Order history' | translate}}</span>
       </a>
 
-        <a class="menu-mob__link" href="http://support.exrates.me" target="blank"><span
+        <a class="menu-mob__link" routerLink="/news" (click)="mobileLinkClick()"><span
           class="menu-mob__link-text">{{'News' | translate}}</span>
         </a>
         <a class="menu-mob__link" (click)="setMobileWidget('chat')" [routerLink]="['dashboard']" [queryParams]="{widget: 'chat'}" *ngIf="isAuthenticated"><span
           class="menu-mob__link-text">{{'Chat' | translate}}</span>
         </a>
-        <div class="menu-mob__drop-wrap" *ngIf="showContent">
+
+        <a class="menu-mob__link" routerLink="/ieo" (click)="mobileLinkClick()"><span
+          class="menu-mob__link-text">{{'IEO' | translate}}</span>
+        </a>
+        <!-- <div class="menu-mob__drop-wrap" *ngIf="showContent">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(IEO_FLAG)" [ngClass]="{'menu-mob__link--active': showIEOList}">
             <span class="menu-mob__link-text">{{'IEO' | translate}}</span>
           </a>
           <div class="menu-mob__wrap-links" *ngIf="showIEOList">
             <a class="menu-mob__link" (click)="mobileLinkClick()" [routerLink]="'/ieo/' + ieo.id" *ngFor="let ieo of (ieoList$ | async)">{{ieo.currencyDescription}} ({{ieo.status | showStageStatus}})</a>
           </div>
-        </div>
-        <a class="menu-mob__link" onclick="openChat()">
+        </div> -->
+        <a class="menu-mob__link" href="https://support.exrates.me">
           <span class="menu-mob__link-text">{{'Support' | translate}}</span>
         </a>
         <a class="account-info__email cursor-pointer menu-mob__link" (click)="onLogout()" *ngIf="isAuthenticated">{{'logout' | translate}}</a>
