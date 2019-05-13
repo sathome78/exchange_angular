@@ -5,13 +5,13 @@
     </div>
     <div class="fs-wr">
       <div class="title-wr">
-        <h2>Exrates X-Platform</h2>
+        <h2>{{'Exrates X-Platform' | translate}}</h2>
       </div>
       <div class="description-wr">
-        <p>A Token X-platform for transformative projects</p>
+        <p>{{'A Token X-platform for transformative projects' | translate}}</p>
       </div>
       <div class="button-wr">
-        <a href="https://forms.gle/Y18qX3Na3WmWiRnw9" class="standart-btn" target="blank"><span>Apply project to X-Platform</span></a>
+        <a href="https://forms.gle/Y18qX3Na3WmWiRnw9" class="standart-btn" target="blank"><span>{{'Apply project to X-Platform' | translate}}</span></a>
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@
           </svg>
         </div>
         <div class="description-wr">
-          <p>Notify me about upcoming projects in telegram chanel </p>
+          <p>{{'Notify me about upcoming projects in telegram chanel' | translate}}</p>
         </div>
         <div class="link-wr">
           <a href="tg://resolve?domain=exratesme" (click)="redirectToTelegram()">@botExratesme</a>
@@ -63,7 +63,7 @@
           </svg>
         </div>
         <div class="description-wr">
-          <p>Notify me about upcoming projects in email</p>
+          <p>{{'Notify me about upcoming projects in email' | translate}}</p>
         </div>
         <form [formGroup]="emailForm">
           <div class="wrap-input popup__wrap-input"
@@ -76,7 +76,7 @@
               formControlName="email"
               required=""
               type="text">
-            <label class="wrap-input__label" for="">Enter your mail</label>
+            <label class="wrap-input__label" for="">{{'Enter your mail' | translate}}</label>
             <div class="input-hint-wrapper">
               <div *ngIf="!emailControl.valid && emailControl.touched && isSubmited">
 							<span class="wrap-input__message"
@@ -105,7 +105,7 @@
             </div>
           </div>
           <div class="button-wr">
-            <button class="standart-btn reverse" (click)="subEmailNotification()"><span>Get mail notification</span>
+            <button class="standart-btn reverse" (click)="subEmailNotification()"><span>{{'Get mail notification' | translate}}</span>
             </button>
           </div>
         </form>
@@ -137,7 +137,7 @@
               </svg>
             </div>
             <div class="description-wr">
-              <p>Notify me about upcoming projects in telegram chanel </p>
+              <p>{{'Notify me about upcoming projects in telegram chanel' | translate}} </p>
             </div>
           </div>
           <div class="bottom-part">
@@ -162,7 +162,7 @@
               </svg>
             </div>
             <div class="description-wr">
-              <p>Notify me about upcoming projects <br>in email</p>
+              <p>{{'Notify me about upcoming projects ' | translate}}<br>{{'in email' | translate}}</p>
             </div>
           </div>
           <div class="bottom-part">
@@ -178,7 +178,7 @@
                     formControlName="email"
                     required=""
                     type="text">
-                  <label class="wrap-input__label" for="">Enter your mail</label>
+                  <label class="wrap-input__label" for="">{{'Enter your mail' | translate}}</label>
                   <div class="input-hint-wrapper">
                     <div *ngIf="!emailControl.valid && emailControl.touched && isSubmited">
 							<span class="wrap-input__message"
@@ -208,7 +208,7 @@
                 </div>
                 <div class="button-wr">
                   <button class="standart-btn reverse" (click)="subEmailNotification()">
-                    <span>Get mail notification</span></button>
+                    <span>{{'Get mail notification' | translate}}</span></button>
                 </div>
               </form>
             </div>
@@ -236,7 +236,7 @@
             <div class="coin-info">
               <div class="coin-info-item">
                 <div class="name-info">
-                  <span>Session Supply</span>
+                  <span>{{'Session Supply' | translate}}</span>
                 </div>
                 <div class="info-value">
                   <span>{{(item.amount * item.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}
@@ -245,7 +245,7 @@
               </div>
               <div class="coin-info-item">
                 <div class="name-info">
-                  <span>Start Time</span>
+                  <span>{{'Start Time' | translate}}</span>
                 </div>
                 <div class="info-value">
                   <span>{{item.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
@@ -266,10 +266,10 @@
                   class="standart-btn"
                   *ngIf="isAuthenticated && item.status === 'RUNNING'"
                   (click)="buyIeo(item)"
-                ><span>Buy {{item.currencyDescription}}</span></button>
+                ><span>{{'Buy' | translate}} {{item.currencyDescription}}</span></button>
               </div>
               <div class="button-wr">
-                <button class="standart-btn reverse" (click)="readMore(item.id)"><span>Read More</span></button>
+                <button class="standart-btn reverse" (click)="readMore(item.id)"><span>{{'Read More' | translate}}</span></button>
               </div>
             </div>
           </div>
@@ -282,7 +282,7 @@
   <div class="how-work">
     <div class="how-work-wr">
       <div class="title-wr">
-        <h3>How it work?</h3>
+        <h3>{{'How it work?' | translate}}</h3>
       </div>
       <div class="how-work-item-wr">
         <div class="how-work-item">
@@ -290,10 +290,10 @@
             <img src="assets/img/ieo/how-work1.svg" alt="">
           </div>
           <div class="h-w-title">
-            <h4>Verify account</h4>
+            <h4>{{'Verify account' | translate}}</h4>
           </div>
           <div class="h-w-description">
-            <p>Only verified accounts can access to IEO. Verification is needed only one time.</p>
+            <p>{{'Only verified accounts can access to IEO. Verification is needed only one time.' | translate}}</p>
           </div>
         </div>
         <div class="how-work-item">
@@ -301,10 +301,10 @@
             <img src="assets/img/ieo/how-work2.svg" alt="">
           </div>
           <div class="h-w-title">
-            <h4>Buy coins in IEO</h4>
+            <h4>{{'Buy coins in IEO' | translate}}</h4>
           </div>
           <div class="h-w-description">
-            <p>IEO starts in a specific time <br>and can end any time after coins are sold.</p>
+            <p>{{'IEO starts in a specific time ' | translate}}<br>{{'and can end any time after coins are sold.' | translate}}</p>
           </div>
         </div>
         <div class="how-work-item">
@@ -312,10 +312,10 @@
             <img src="assets/img/ieo/how-work3.svg" alt="">
           </div>
           <div class="h-w-title">
-            <h4>Hold or trade</h4>
+            <h4>{{'Hold or trade' | translate}}</h4>
           </div>
           <div class="h-w-description">
-            <p>After sucessfull finishing of IEO coins are delivered to your balance.</p>
+            <p>{{'After sucessfull finishing of IEO coins are delivered to your balance.' | translate}}</p>
           </div>
         </div>
 
@@ -326,36 +326,35 @@
     <div class="a-i-b-wr">
       <div class="security-block">
         <div class="s-title">
-          <h5>Security</h5>
+          <h5>{{'Security' | translate}}</h5>
         </div>
         <ul class="s-list">
           <li class="s-item">
-            <span>In case of unseccessfull IEO all funds will be backed to all participants automatically.</span>
+            <span>{{'In case of unseccessfull IEO all funds will be backed to all participants automatically.' | translate}}</span>
           </li>
           <li class="s-item">
-            <span>In case of sucessfull IEO coin will listed on Exchange as soon as   </span>
+            <span>{{'In case of sucessfull IEO coin will listed on Exchange as soon as ' | translate}}  </span>
           </li>
           <li class="s-item">
-            <span>Please, remeber that all risks are on your side.</span>
+            <span>{{'Please, remeber that all risks are on your side.' | translate}}</span>
           </li>
 
         </ul>
       </div>
       <div class="adittional-block">
         <div class="a-title">
-          <h5>Aditional information</h5>
+          <h5>{{'Aditional information' | translate}}</h5>
         </div>
         <div class="a-block-item">
-          <a href="#">What are demends to Projects that whant to have IEO?</a>
+          <a href="#">{{'What are demends to Projects that whant to have IEO?' | translate}}</a>
         </div>
         <div class="a-block-item">
-          <a href="#">Why IEO is considered more safe than ICO?</a>
+          <a href="#">{{'Why IEO is considered more safe than ICO?' | translate}}</a>
         </div>
 
       </div>
       <div class="warning-block">
-        <p>Awerness: Please remeber that crypto is high risky investments. Ofcourse we do all best to filter projects
-          but all responsibility is still on your syde. </p>
+        <p>{{'Awerness: Please remeber that crypto is high risky investments. Ofcourse we do all best to filter projects but all responsibility is still on your syde.' | translate}} </p>
       </div>
     </div>
   </div>
