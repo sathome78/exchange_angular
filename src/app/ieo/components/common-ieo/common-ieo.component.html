@@ -219,186 +219,189 @@
 </div>
 </div>
 <div class="kyc-banner" *ngIf="verificationStatus !== KYC_STATUS.SUCCESS" (click)="bannerClick()">
-    <div class="kyc-banner-inner">
-        <div class="banner-img">
-          <img src="assets/img/ieo/kyc-img.png" alt="">
-        </div>
-      <div class="content-wr">
-        <div class="kyc-title">
-          <h4>Get ready for launch</h4>
-        </div>
-        <div class="kyc-description">
-          <p>Verify your account id participate</p>
-        </div>
-        <div class="button-wr">
-          <button class="standart-btn" (click)="bannerClick()">
-            <span>Verify account now</span>
-          </button> 
-        </div>
-      </div>
+  <div class="kyc-banner-inner">
+    <div class="banner-img">
+      <img src="assets/img/ieo/kyc-img.png" alt="">
     </div>
-    
-  </div>
-  <div class="ieo-list" *ngIf="ieoList.length">
-    <div class="ieo-list-wr">
-      <ng-container *ngFor="let item of ieoList">
-        <div class="ieo-list-item {{item.status  | showStageStatus:true | lowercase}}">
-          <div class="img-part">
-            <img [src]="item.logo || 'assets/img/ieo/celler.png'" alt="">
-          </div>
-          <div class="info-coin-part">
-            <div class="top-info">
-              <div class="title-wr">
-                <h3>{{item.currencyDescription}} - BTC Session</h3>
-              </div>
-              <div class="progress-block" *ngIf="item.status === 'RUNNING' || item.status === 'TERMINATED'">
-                <div class="currency-info">
-                  <div class="currency-buyed">
-                    <span class="buyed-value">{{boughtAmount(item) || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
-                    <span class="currency-name">{{item.currencyName}}</span>
-                  </div>
-                  <div class="percentage">
-                    <span>{{boughtAmountPer(item)}}%</span>
-                  </div>
-                </div>
-                <div class="currency-bar">
-                  <div class="currency-bar-progress" [style.width.%]="boughtAmountPer(item)">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="coin-info">
-              <div class="coin-info-item">
-                <div class="name-info">
-                  <span>{{'Session Supply' | translate}}</span>
-                </div>
-                <div class="info-value">
-                  <span>{{(item.amount * item.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}
-                  BTC</span>
-                </div>
-              </div>
-
-              <div class="coin-info-item" *ngIf="item.status === 'RUNNING' || item.status === 'PENDING'">
-                <div class="name-info">
-                  <span>{{'Start Time' | translate}}</span>
-                </div>
-                <div class="info-value">
-                  <span>{{item.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
-                </div>
-              </div>
-
-              <div class="coin-info-item" *ngIf="item.status === 'TERMINATED' || item.status === 'SUCCEEDED' || item.status === 'FAILED'">
-                <div class="name-info">
-                  <span>End Time</span>
-                </div>
-                <div class="info-value">
-                  <span>{{item.endDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
-                </div>
-              </div>
-            </div>
-            <div class="description-wr">
-              <!-- <p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain transactions for not only payment transactions, but also generalized off-chain smart contract. Founded by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build, operate, and use...</p> -->
-              <p>{{item?.description}}</p>
-            </div>
-            <div class="button-part">
-              <div class="button-wr" *ngIf="isAuthenticated && item.status === 'RUNNING'">
-                <button
-                  class="standart-btn"
-                  (click)="buyIeo(item)"
-                ><span>{{'Buy' | translate}} {{item.currencyDescription}}</span></button>
-              </div>
-              <div class="button-wr">
-                <button class="standart-btn reverse" (click)="readMore(item.id)"><span>{{'Read More' | translate}}</span></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-
-    </div>
-
-  </div>
-  <div class="how-work">
-    <div class="how-work-wr">
-      <div class="title-wr">
-        <h3>{{'How it work?' | translate}}</h3>
+    <div class="content-wr">
+      <div class="kyc-title">
+        <h4>Get ready for launch</h4>
       </div>
-      <div class="how-work-item-wr">
-        <div class="how-work-item">
-          <div class="pic-wr">
-            <img src="assets/img/ieo/how-work1.svg" alt="">
-          </div>
-          <div class="h-w-title">
-            <h4>{{'Verify account' | translate}}</h4>
-          </div>
-          <div class="h-w-description">
-            <p>{{'Only verified accounts can access to IEO. Verification is needed only one time.' | translate}}</p>
-          </div>
-        </div>
-        <div class="how-work-item">
-          <div class="pic-wr">
-            <img src="assets/img/ieo/how-work2.svg" alt="">
-          </div>
-          <div class="h-w-title">
-            <h4>{{'Buy coins in IEO' | translate}}</h4>
-          </div>
-          <div class="h-w-description">
-            <p>{{'IEO starts in a specific time ' | translate}}<br>{{'and can end any time after coins are sold.' | translate}}</p>
-          </div>
-        </div>
-        <div class="how-work-item">
-          <div class="pic-wr">
-            <img src="assets/img/ieo/how-work3.svg" alt="">
-          </div>
-          <div class="h-w-title">
-            <h4>{{'Hold or trade' | translate}}</h4>
-          </div>
-          <div class="h-w-description">
-            <p>{{'After successful finishing of IEO coins are delivered to your balance.' | translate}}</p>
-          </div>
-        </div>
-
+      <div class="kyc-description">
+        <p>Verify your account id participate</p>
+      </div>
+      <div class="button-wr">
+        <button class="standart-btn" (click)="bannerClick()">
+          <span>Verify account now</span>
+        </button>
       </div>
     </div>
   </div>
-  <div class="aditional-info-block">
-    <div class="a-i-b-wr">
-      <div class="security-block">
-        <div class="s-title">
-          <h5>{{'Security' | translate}}</h5>
-        </div>
-        <ul class="s-list">
-          <li class="s-item">
-            <span>{{'In case of unsuccessful IEO all funds will be backed to all participants automatically.' | translate}}</span>
-          </li>
-          <li class="s-item">
-            <span>{{'In case of successful IEO coin will listed on Exchange as soon as ' | translate}}  </span>
-          </li>
-          <li class="s-item">
-            <span>{{'Please, remember that all risks are on your side.' | translate}}</span>
-          </li>
 
-        </ul>
-      </div>
-      <div class="adittional-block">
-        <div class="a-title">
-          <h5>{{'Additional information' | translate}}</h5>
+</div>
+<div class="ieo-list" *ngIf="ieoList.length">
+  <div class="ieo-list-wr">
+    <ng-container *ngFor="let item of ieoList">
+      <div class="ieo-list-item {{item.status  | showStageStatus:true | lowercase}}">
+        <div class="img-part">
+          <img [src]="item.logo || 'assets/img/ieo/celler.png'" alt="">
         </div>
-        <div class="a-block-item">
-          <a href="#">{{'What are demands to Projects that want to have IEO?' | translate}}</a>
-        </div>
-        <div class="a-block-item">
-          <a href="#">{{'Why IEO is considered more safe than ICO?' | translate}}</a>
-        </div>
+        <div class="info-coin-part">
+          <div class="top-info">
+            <div class="title-wr">
+              <h3>{{item.currencyDescription}} - BTC Session</h3>
+            </div>
+            <div class="progress-block" *ngIf="item.status === 'RUNNING' || item.status === 'TERMINATED'">
+              <div class="currency-info">
+                <div class="currency-buyed">
+                  <span class="buyed-value">{{boughtAmount(item) || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
+                  <span class="currency-name">{{item.currencyName}}</span>
+                </div>
+                <div class="percentage">
+                  <span>{{boughtAmountPer(item)}}%</span>
+                </div>
+              </div>
+              <div class="currency-bar">
+                <div class="currency-bar-progress" [style.width.%]="boughtAmountPer(item)">
+                </div>
+              </div>
+            </div>
+          </div>
 
+
+          <div class="coin-info">
+            <div class="coin-info-item">
+              <div class="name-info">
+                <span>{{'Session Supply' | translate}}</span>
+              </div>
+              <div class="info-value">
+                <span>{{(item.amount * item.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}
+                BTC</span>
+              </div>
+            </div>
+
+            <div class="coin-info-item" *ngIf="item.status === 'RUNNING' || item.status === 'PENDING'">
+              <div class="name-info">
+                <span>{{'Start Time' | translate}}</span>
+              </div>
+              <div class="info-value">
+                <span>{{item.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
+              </div>
+            </div>
+
+            <div class="coin-info-item" *ngIf="item.status === 'TERMINATED' || item.status === 'SUCCEEDED' || item.status === 'FAILED'">
+              <div class="name-info">
+                <span>{{'End Time' | translate}}</span>
+              </div>
+              <div class="info-value">
+                <span>{{item.endDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="description-wr">
+            <p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain transactions for not only payment transactions, but also generalized off-chain smart contract. Founded by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build, operate,
+              Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain transactions for not only payment transactions, but also generalized off-chain smart contract. Founded by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build, operate, and use...
+            </p>
+            <!-- <p>{{item.description}}</p> -->
+          </div>
+          <div class="button-part">
+            <div class="button-wr" *ngIf="isAuthenticated && item.status === 'RUNNING'">
+              <button
+              class="standart-btn"
+
+              (click)="buyIeo(item)"
+              ><span>Buy {{item.currencyDescription}}</span></button>
+            </div>
+            <div class="button-wr">
+              <button class="standart-btn reverse" (click)="readMore(item.id)"><span>{{'Read More' | translate}}</span></button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="warning-block">
-        <p>{{'Awareness: Please remember that crypto is high risky investments. Of course we do all best to filter projects but all responsibility is still on your side.' | translate}} </p>
+    </ng-container>
+
+  </div>
+
+</div>
+<div class="how-work">
+  <div class="how-work-wr">
+    <div class="title-wr">
+      <h3>{{'How it work?' | translate}}</h3>
+    </div>
+    <div class="how-work-item-wr">
+      <div class="how-work-item">
+        <div class="pic-wr">
+          <img src="assets/img/ieo/how-work1.svg" alt="">
+        </div>
+        <div class="h-w-title">
+          <h4>{{'Verify account' | translate}}</h4>
+        </div>
+        <div class="h-w-description">
+          <p>{{'Only verified accounts can access to IEO. Verification is needed only one time.' | translate}}</p>
+        </div>
       </div>
+      <div class="how-work-item">
+        <div class="pic-wr">
+          <img src="assets/img/ieo/how-work2.svg" alt="">
+        </div>
+        <div class="h-w-title">
+          <h4>{{'Buy coins in IEO' | translate}}</h4>
+        </div>
+        <div class="h-w-description">
+          <p>{{'IEO starts in a specific time ' | translate}}<br>{{'and can end any time after coins are sold.' | translate}}</p>
+        </div>
+      </div>
+      <div class="how-work-item">
+        <div class="pic-wr">
+          <img src="assets/img/ieo/how-work3.svg" alt="">
+        </div>
+        <div class="h-w-title">
+          <h4>{{'Hold or trade' | translate}}</h4>
+        </div>
+        <div class="h-w-description">
+          <p>{{'After successful finishing of IEO coins are delivered to your balance.' | translate}}</p>
+        </div>
+      </div>
+
     </div>
   </div>
+</div>
+<div class="aditional-info-block">
+  <div class="a-i-b-wr">
+    <div class="security-block">
+      <div class="s-title">
+        <h5>{{'Security' | translate}}</h5>
+      </div>
+      <ul class="s-list">
+        <li class="s-item">
+          <span>{{'In case of unsuccessful IEO all funds will be backed to all participants automatically.' | translate}}</span>
+        </li>
+        <li class="s-item">
+          <span>{{'In case of successful IEO coin will listed on Exchange as soon as ' | translate}}</span>
+        </li>
+        <li class="s-item">
+          <span>{{'Please, remember that all risks are on your side.' | translate}}</span>
+        </li>
+
+      </ul>
+    </div>
+    <div class="adittional-block">
+      <div class="a-title">
+        <h5>{{'Additional information' | translate}}</h5>
+      </div>
+      <div class="a-block-item">
+        <a href="#">{{'What are demands to Projects that want to have IEO?' | translate}}</a>
+      </div>
+      <div class="a-block-item">
+        <a href="#">{{'Why IEO is considered more safe than ICO?' | translate}}</a>
+      </div>
+
+    </div>
+    <div class="warning-block">
+      <p>{{'Awareness: Please remember that crypto is high risky investments. Of course we do all best to filter projects but all responsibility is still on your side.' | translate}}</p>
+    </div>
+  </div>
+</div>
 </div>
 
 
