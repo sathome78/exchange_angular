@@ -47,7 +47,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
 
   public showFilterPopup = false;
   public tableScrollStyles: any = {};
-  public initialRequest: boolean = false;
 
   public isDateInputFromFocus = false;
   public isDateInputToFocus = false;
@@ -92,10 +91,9 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     if(this.isMobile) {
       this.countPerPage = 30;
     }
-    this.initDate();
+    // this.initDate();
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
-    this.loadOrders();
-    this.initialRequest = true;
+    this.loadLastOrders();
 
     this.store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr)).pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((items) => console.log(items))
@@ -112,18 +110,15 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       currencyPairName: this.currencyPairValue || '',
     }
     this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
-    this.initialRequest = false;
   }
 
-  loadLastOrders(e) {
-    e.preventDefault();
+  loadLastOrders() {
     this.clearFilters();
     const params = {
       page: this.currentPage,
       limit: this.countPerPage,
     }
     this.store.dispatch(new ordersAction.LoadLastHistoryOrdersAction(params));
-    this.initialRequest = false;
   }
 
   loadMoreOrders(): void {
@@ -140,7 +135,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
         concat: true,
       }
       this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
-      this.initialRequest = false;
     }
   }
 
@@ -266,26 +260,26 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.modelDateFrom = null;
   }
 
-  initDate() {
-    /** Initialized to current date */
-    const currentDate = new Date();
+  // initDate() {
+  //   /** Initialized to current date */
+  //   const currentDate = new Date();
 
-    this.modelDateTo = {
-      date: {
-        year: currentDate.getFullYear(),
-        month: currentDate.getMonth() + 1,
-        day: currentDate.getDate()
-      }
-    };
+  //   this.modelDateTo = {
+  //     date: {
+  //       year: currentDate.getFullYear(),
+  //       month: currentDate.getMonth() + 1,
+  //       day: currentDate.getDate()
+  //     }
+  //   };
 
-    this.modelDateFrom = {
-      date: {
-        year: currentDate.getFullYear(),
-        month: currentDate.getMonth() + 1,
-        day: currentDate.getDate()
-      }
-    };
-  }
+  //   this.modelDateFrom = {
+  //     date: {
+  //       year: currentDate.getFullYear(),
+  //       month: currentDate.getMonth() + 1,
+  //       day: currentDate.getDate()
+  //     }
+  //   };
+  // }
 
   openFilterPopup() {
     this.showFilterPopup = true;
