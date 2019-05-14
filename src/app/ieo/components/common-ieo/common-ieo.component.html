@@ -105,7 +105,7 @@
  </div>
 </div>
 <div class="button-wr">
-  <button class="standart-btn reverse" (click)="subEmailNotification()"><span>Get mail notification</span>
+  <button class="standart-btn reverse" (click)="subEmailNotification()"><span>{{'Get mail notification' | translate}}</span>
   </button>
 </div>
 </form>
@@ -162,7 +162,7 @@
         </svg>
       </div>
       <div class="description-wr">
-        <p>Notify me about upcoming projects in email</p>
+        <p>{{'Notify me about upcoming projects in email' | translate}}</p>
       </div>
     </div>
     <div class="bottom-part">
@@ -178,7 +178,7 @@
           formControlName="email"
           required=""
           type="text">
-          <label class="wrap-input__label" for="">Enter your mail</label>
+          <label class="wrap-input__label" for="">{{'Enter your mail' | translate}}</label>
           <div class="input-hint-wrapper">
             <div *ngIf="!emailControl.valid && emailControl.touched && isSubmited">
              <span class="wrap-input__message"
@@ -208,7 +208,7 @@
 </div>
 <div class="button-wr">
   <button class="standart-btn reverse" (click)="subEmailNotification()">
-    <span>Get mail notification</span></button>
+    <span>{{'Get mail notification' | translate}}</span></button>
   </div>
 </form>
 </div>
@@ -225,14 +225,14 @@
     </div>
     <div class="content-wr">
       <div class="kyc-title">
-        <h4>Get ready for launch</h4>
+        <h4>{{'Get ready for launch' | translate}}</h4>
       </div>
       <div class="kyc-description">
-        <p>Verify your account id participate</p>
+        <p>{{'Verify your account id participate' | translate}}</p>
       </div>
       <div class="button-wr">
         <button class="standart-btn" (click)="bannerClick()">
-          <span>Verify account now</span>
+          <span>{{'Verify account now' | translate}}</span>
         </button>
       </div>
     </div>
