@@ -3,7 +3,7 @@
 	margin: 0 auto;
 	padding: 1em 20px;
 	@media (max-width: 992px) {
-		font-size: 1.25em;
+		font-size: 1.1em;
 	}
 	.ieo_info-wrapper{
 		background: #FFFFFF;
@@ -171,11 +171,11 @@
     padding-bottom: 1.8em;
 }
 .allocation-graph{
-	overflow: hidden;
+	// overflow: hidden;
 	img{
-		max-width: 120%;
+		max-width: 100%;
+
 		position: relative;
-		left: -4%;
 	}
 }
 .schedule{
@@ -185,5 +185,6 @@
 .schedule-graph{
 	img{
 		max-width: 100%;
+		width: 100%;
 	}
 }

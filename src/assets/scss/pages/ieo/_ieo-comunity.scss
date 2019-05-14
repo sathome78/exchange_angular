@@ -21,7 +21,9 @@
 		align-items: center;
 		justify-content: space-between;
 		position: relative;
-		margin-right: 1.6em;
+		@media(max-width: 992px){
+			margin-right: 1.6em;
+		}
 		// &::after{
 		// 	content: "";
 		// 	position: absolute;
