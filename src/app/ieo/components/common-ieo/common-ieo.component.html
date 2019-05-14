@@ -232,25 +232,25 @@
           <div class="info-coin-part">
             <div class="top-info">
               <div class="title-wr">
-                <h3>{{item.currencyDescription}} - BNB Session</h3>
+                <h3>{{item.currencyDescription}} - BTC Session</h3>
               </div>
-              <div class="progress-block" *ngIf="item.status === 'RUNNING'">
+              <div class="progress-block" *ngIf="item.status === 'RUNNING' || item.status === 'TERMINATED'">
                 <div class="currency-info">
                   <div class="currency-buyed">
-                    <span class="buyed-value">502 000.9312323</span>
-                    <span class="currency-name">BTT</span>
+                    <span class="buyed-value">{{boughtAmount(item) || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
+                    <span class="currency-name">{{item.currencyName}}</span>
                   </div>
                   <div class="percentage">
-                    <span>50.20%</span>
+                    <span>{{boughtAmountPer(item)}}%</span>
                   </div>
                 </div>
                 <div class="currency-bar">
-                  <div class="currency-bar-progress" style="width: 50.2%;">
+                  <div class="currency-bar-progress" [style.width.%]="boughtAmountPer(item)">
                   </div>
                 </div>
               </div>
-            </div>   
-            
+            </div>
+
 
             <div class="coin-info">
               <div class="coin-info-item">
@@ -262,7 +262,8 @@
                   BTC</span>
                 </div>
               </div>
-              <div class="coin-info-item">
+
+              <div class="coin-info-item" *ngIf="item.status === 'RUNNING' || item.status === 'PENDING'">
                 <div class="name-info">
                   <span>Start Time</span>
                 </div>
@@ -271,10 +272,18 @@
                 </div>
               </div>
 
+              <div class="coin-info-item" *ngIf="item.status === 'TERMINATED' || item.status === 'SUCCEEDED' || item.status === 'FAILED'">
+                <div class="name-info">
+                  <span>End Time</span>
+                </div>
+                <div class="info-value">
+                  <span>{{item.endDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
+                </div>
+              </div>
             </div>
             <div class="description-wr">
-              <p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain transactions for not only payment transactions, but also generalized off-chain smart contract. Founded by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build, operate, and use...</p>
-              <!-- <p>{{item?.description}}</p> -->
+              <!-- <p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain transactions for not only payment transactions, but also generalized off-chain smart contract. Founded by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build, operate, and use...</p> -->
+              <p>{{item?.description}}</p>
             </div>
             <div class="button-part">
               <div class="button-wr" *ngIf="isAuthenticated && item.status === 'RUNNING'">
@@ -331,7 +340,7 @@
             <h4>Hold or trade</h4>
           </div>
           <div class="h-w-description">
-            <p>After sucessfull finishing of IEO coins are delivered to your balance.</p>
+            <p>After successful finishing of IEO coins are delivered to your balance.</p>
           </div>
         </div>
 
@@ -346,23 +355,23 @@
         </div>
         <ul class="s-list">
           <li class="s-item">
-            <span>In case of unseccessfull IEO all funds will be backed to all participants automatically.</span>
+            <span>In case of unsuccessful IEO all funds will be backed to all participants automatically.</span>
           </li>
           <li class="s-item">
-            <span>In case of sucessfull IEO coin will listed on Exchange as soon as   </span>
+            <span>In case of successful IEO coin will listed on Exchange as soon as   </span>
           </li>
           <li class="s-item">
-            <span>Please, remeber that all risks are on your side.</span>
+            <span>Please, remember that all risks are on your side.</span>
           </li>
 
         </ul>
       </div>
       <div class="adittional-block">
         <div class="a-title">
-          <h5>Aditional information</h5>
+          <h5>Additional information</h5>
         </div>
         <div class="a-block-item">
-          <a href="#">What are demends to Projects that whant to have IEO?</a>
+          <a href="#">What are demands to Projects that want to have IEO?</a>
         </div>
         <div class="a-block-item">
           <a href="#">Why IEO is considered more safe than ICO?</a>
@@ -370,8 +379,8 @@
 
       </div>
       <div class="warning-block">
-        <p>Awerness: Please remeber that crypto is high risky investments. Ofcourse we do all best to filter projects
-        but all responsibility is still on your syde. </p>
+        <p>Awareness: Please remember that crypto is high risky investments. Of course we do all best to filter projects
+        but all responsibility is still on your side. </p>
       </div>
     </div>
   </div>
@@ -379,28 +388,28 @@
 
 
 <app-popup-buy
-[IEOData]="buyIEOData"
-*ngIf="showBuyIEO"
-(close)="closeBuyIEO()"
-(confirm)="confirmBuyIEO($event)"
+  [IEOData]="buyIEOData"
+  *ngIf="showBuyIEO"
+  (close)="closeBuyIEO()"
+  (confirm)="confirmBuyIEO($event)"
 ></app-popup-buy>
 
 <app-popup-success
-*ngIf="showSuccessIEO"
-[IEOName]="buyIEOData.currencyDescription"
-(close)="closeSuccessIEO()"
+  *ngIf="showSuccessIEO"
+  [IEOName]="buyIEOData.currencyDescription"
+  (close)="closeSuccessIEO()"
 ></app-popup-success>
 
 <app-popup-policy
-*ngIf="showPolicy"
-(close)="togglePolicy()"
-(onAgree)="agreeWithPolicy()"
+  *ngIf="showPolicy"
+  (close)="togglePolicy()"
+  (onAgree)="agreeWithPolicy()"
 ></app-popup-policy>
 
 <app-popup-failed
-*ngIf="showNoReqs"
-(close)="toggleNoReqs(false)"
-[IEOData]="buyIEOData"
+  *ngIf="showNoReqs"
+  (close)="toggleNoReqs(false)"
+  [IEOData]="buyIEOData"
 ></app-popup-failed>
 
 
