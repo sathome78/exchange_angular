@@ -5,7 +5,7 @@ import {takeUntil} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as settingsActions from '../store/actions/settings.actions';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {API_KEY_2FA_FOR} from '../../shared/constants';
 import {ApiKeyItem, NewApiKeyItem} from '../../model/api-key.model';
 import * as fundsReducer from '../../funds/store/reducers/funds.reducer';
@@ -20,7 +20,7 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public showKeyCreatedPopup = false;
-  public apiKeys$: Observable<ApiKeyItem[]>;
+  public apiKeys: ApiKeyItem[] = [];
   public GAEnabled = false;
   public confirmDeleteKeyId: number;
   public keyIdForEnableTrading;
@@ -47,7 +47,12 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
     this.calculateHeightScrollContainer();
     this.initForm();
     this.store.dispatch(new settingsActions.LoadApiKeysAction());
-    this.apiKeys$ = this.store.pipe(select(fromCore.getApiKeys));
+
+    this.store.pipe(select(fromCore.getApiKeys))
+      .subscribe(res => {
+        this.apiKeys = res as ApiKeyItem[];
+      })
+
     this.loading$ = this.store.pipe(select(fromCore.getApiKeyLoading));
     this.store.pipe(select(fromCore.getGAStatus)).pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -141,8 +146,9 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(4),
         Validators.maxLength(15),
-        Validators.pattern(this.charPattern)
-      ]),
+        Validators.pattern(this.charPattern),
+        this.existingName()
+      ])
     });
   }
 
@@ -158,5 +164,12 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
   changeItemsPerPage(event) {
     this.currentPage = 1;
     this.countPerPage = event;
+  }
+
+  existingName(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value;
+      return !!this.apiKeys.filter(item => item.alias.toLowerCase() === value.toLowerCase()).length ? {'existKeyName': true} : null;
+    };
   }
 }
