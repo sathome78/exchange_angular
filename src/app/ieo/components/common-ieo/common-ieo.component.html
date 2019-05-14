@@ -299,10 +299,7 @@
             </div>
           </div>
           <div class="description-wr">
-            <p>Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain transactions for not only payment transactions, but also generalized off-chain smart contract. Founded by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build, operate,
-              Celer Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain transactions for not only payment transactions, but also generalized off-chain smart contract. Founded by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build, operate, and use...
-            </p>
-            <!-- <p>{{item.description}}</p> -->
+            <p>{{(item.description && item.description.length > 300) ? (item.description | slice:0: 300)+'...': (item.description)}}</p>
           </div>
           <div class="button-part">
             <div class="button-wr" *ngIf="item.status === 'RUNNING'">
