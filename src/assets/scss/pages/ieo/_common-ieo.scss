@@ -5,6 +5,9 @@
 	.top-info{
 		display: flex;
 		justify-content: space-between;
+		@media (max-width: 620px) {
+			flex-wrap: wrap;
+		}
 	}
 	.fs-image-container{
 		overflow: hidden;
@@ -16,6 +19,16 @@
 		img{
 			min-height: 125%;
 			min-width: 100%;
+			@media(max-width: 992px){
+				height: 100%;
+				min-height: unset;
+				position: absolute;
+				top: -100%;
+				bottom: -100%;
+				right: -100%;
+				left: -100%;
+				margin: auto;
+			}
 		}
 	}
 	.common-ieo-fs{
@@ -24,10 +37,26 @@
 		.fs-wr{
 			position: relative;
 			padding: 2.15em 20px 2.55em;
+			.standart-btn{
+				span{
+					
+				}
+			}
+			.title-wr{
+				margin: 0 auto .7em;
+				width: 100%;
+				h2{
+					text-align: center;
+					text-shadow: 0px 4px 21px rgba(0, 0, 0, 0.55);
+				}
+			}
 		}
 		.title-wr{
 			margin-bottom: .7em;
-			    width: calc(50% - .4em);
+			width: calc(50% - .4em);
+			@media (max-width: 620px) {
+				width: 100%;
+			}
 			h2{
 				font-weight: 400;
 				font-size: 1.6em;
@@ -46,6 +75,24 @@
 				color: #94C2FF;
 				letter-spacing: .25px;
 
+			}
+		}
+		.fs-wr{
+			.button-wr{
+
+				.standart-btn{
+					@media(max-width: 480px){
+						
+						padding: 13px .7em;
+					}
+					span{
+						@media(max-width: 480px){
+
+							font-size: 1.3em;
+
+						}
+					}
+				}
 			}
 		}
 		.button-wr{
@@ -417,6 +464,7 @@
 				font-size: inherit;
 				span{
 					font-size: .65em;
+					font-weight: 400;
 				}
 				&.reverse{
 					&:hover{
@@ -615,7 +663,11 @@
 
 
 	.progress-block{
-		    width: calc(50% - .4em);
+		width: calc(50% - .4em);
+		@media (max-width: 620px) {
+			width: 100%;
+			margin-bottom: 1em;
+		}
 		.currency-info{
 			display: flex;
 			justify-content: space-between;
@@ -644,7 +696,7 @@
 			line-height: 1.15;
 			color: #237BEF;
 			span{
-	
+
 			}
 		}
 		.currency-bar{
@@ -662,6 +714,7 @@
 				left: 0;
 				right: 0;
 				background: #237BEF;
+				border-radius: 3px;
 			}
 		}
 	}

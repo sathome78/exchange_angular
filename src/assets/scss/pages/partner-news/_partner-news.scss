@@ -137,6 +137,7 @@
 			font-size: 1.3em;
 			max-width: unset;
 			width: 100%;
+			padding-right: 12px;
 		}
 	}
 	.partnters__lnk-part{
@@ -275,6 +276,7 @@
 		@media(max-width: 720px){
 			// max-width: unset;
 			width: 100%;
+			padding-right: 12px;
 			&:last-child{
 				display: none;
 			}
@@ -345,6 +347,8 @@
 			}
 		}
 	} 
+
+	
 }
 
 
@@ -362,3 +366,8 @@
 	
 }
 
+@media (max-width: 720px){
+		.partners-main perfect-scrollbar > .ps.ps--active-y > .ps__rail-y{
+			margin-right: 0;
+		}
+	}
