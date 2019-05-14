@@ -142,26 +142,18 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   calculateCommission(amount) {
-    if (this.activeCrypto && amount !== 0) {
+    if (this.activeCrypto) {
       this.loadingBalance = true;
       this.balanceService
         .getCommissionToWithdraw(amount, this.activeCrypto.id, this.cryptoInfoByName.merchantCurrencyData[0].merchantId)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           this.calculateData = res as CommissionData;
-          const compCommission = parseFloat(this.calculateData.companyCommissionRate.replace('%)', '').replace('(', ''));
-          this.calculateData.commission_rates_sum = +this.cryptoInfoByName.merchantCurrencyData[0].outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
           this.loadingBalance = false;
         }, err => {
           this.loadingBalance = false;
           console.error(err);
         });
-    }  else {
-      try {
-        this.calculateData.merchantCommissionRate =
-          `(${this.cryptoInfoByName.merchantCurrencyData[0].outputCommission}%, but not less than ${this.cryptoInfoByName.merchantCurrencyData[0].fixedMinCommission} USD)`;
-      } catch (e) {}
-
     }
   }
 
@@ -170,7 +162,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     this.activeCrypto = currency;
     this.currencyDropdownToggle();
     this.getCryptoInfoByName(currency.name);
-    this.calculateCommission(0);
   }
 
   currencyDropdownToggle() {
@@ -197,12 +188,11 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.cryptoInfoByName = res;
-          this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalTagForWithdrawAddressIsUsed;
-          this.memoName = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;
-          this.activeBalance = this.cryptoInfoByName.activeBalance;
-          this.minWithdrawSum = this.cryptoInfoByName.minWithdrawSum > parseFloat(this.cryptoInfoByName.merchantCurrencyData[0].minSum)
-            ? this.cryptoInfoByName.minWithdrawSum : parseFloat(this.cryptoInfoByName.merchantCurrencyData[0].minSum);
-          this.calculateCommission(0);
+        this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalTagForWithdrawAddressIsUsed;
+        this.memoName = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;
+        this.activeBalance = this.cryptoInfoByName.activeBalance;
+        this.minWithdrawSum = this.cryptoInfoByName.minWithdrawSum > parseFloat(this.cryptoInfoByName.merchantCurrencyData[0].minSum)
+        ? this.cryptoInfoByName.minWithdrawSum : parseFloat(this.cryptoInfoByName.merchantCurrencyData[0].minSum);
       });
   }
 

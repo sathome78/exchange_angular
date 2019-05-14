@@ -8,7 +8,7 @@ export class CommissionData {
     public merchantCommissionRate: string,
     public resultAmount: string,
     public totalCommissionAmount: string,
-    public commission_rates_sum: number,
+    public commission_rates_sum: string,
   ) {}
 
 }

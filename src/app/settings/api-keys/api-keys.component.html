@@ -16,15 +16,10 @@
         <div class="wrap-input__line"></div>
         <div *ngIf="form.get('name')?.errors !== null">
           <div class="input-hint-wrapper" *ngIf="form.controls['name'].errors && isSubmited">
-            <span *ngIf="!form.controls['name'].errors['existKeyName']"
+            <span
               class=" wrap-input__message--show"
               [ngClass]="{'wrap-input__message': !!form.controls['name'].errors && isSubmited}">
               {{'API key name cannot be less than 4 and more than 15 characters long and should contain of letters (a-z A-Z).' | translate}}
-            </span>
-            <span *ngIf="form.controls['name'].errors['existKeyName']"
-              class=" wrap-input__message--show"
-              [ngClass]="{'wrap-input__message': !!form.controls['name'].errors && isSubmited && form.controls['name'].errors['existKeyName']}">
-              {{'Please, use unique API key name' | translate}}
             </span>
           </div>
         </div>
@@ -44,15 +39,15 @@
   </div>
 
   <div class="api-key-container">
-    <div class="api-text" *ngIf="!(loading$ | async) && !apiKeys.length">
+    <div class="api-text" *ngIf="!(loading$ | async) && !(apiKeys$ | async).length">
       <p>{{'Tou haven’t create API-keys yet. Enter API-key name and press “Create API-key” to produce' | translate}}</p>
     </div>
 
     <ng-container *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
-      <div class="api-key-item" *ngFor="let key of apiKeys | paginate: {
+      <div class="api-key-item" *ngFor="let key of (apiKeys$ | async) | paginate: {
           itemsPerPage: countPerPage,
           currentPage: currentPage,
-          totalItems: apiKeys.length
+          totalItems: (apiKeys$ | async).length
         };
          let index=index">
         <ng-template
@@ -65,7 +60,7 @@
     <cdk-virtual-scroll-viewport
       [ngStyle]="{'height.px': heightMobScrollContainer}" itemSize="135"
       *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
-      <ng-container *cdkVirtualFor="let key of apiKeys; let index=index">
+      <ng-container *cdkVirtualFor="let key of (apiKeys$ | async); let index=index">
         <div class="api-key-item">
           <ng-template
             [ngTemplateOutlet]="singleTemplate"
@@ -112,10 +107,10 @@
 
     <!--paginator start-->
     <div class="row row--aic balance__paginator"
-         *ngIf="(breakpointService.breakpoint$ | async) === 'desktop' && apiKeys.length > countPerPage">
+         *ngIf="(breakpointService.breakpoint$ | async) === 'desktop' && (apiKeys$ | async).length > countPerPage">
       <app-page-items-dropdown
         [countPerPage]="countPerPage"
-        [countOfEntries]="apiKeys.length"
+        [countOfEntries]="(apiKeys$ | async).length"
         (onChange)="changeItemsPerPage($event)"
       ></app-page-items-dropdown>
       <ul class="paginator" style="margin-left: auto;">

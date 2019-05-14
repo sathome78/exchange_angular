@@ -15,7 +15,7 @@
     "to-csv-contacts": "ngx-translate-extract-csv -i ./translate/baseJSON -o translate/csv/contacts.csv -l contacts_base",
     "to-csv-terms-and-conditions": "ngx-translate-extract-csv -i ./translate/baseJSON -o translate/csv/terms-and-conditions.csv -l terms-and-conditions_base",
     "to-extract-all-csv": " npm run to-csv-app && npm run to-csv-about-us && npm run to-csv-privacy-policy && npm run to-csv-contacts && npm run to-csv-terms-and-conditions",
-    "extract-dashboard": "ngx-translate-extract --input ./src/app/settings ./src/app/orders ./src/app/funds ./src/app/dashboard ./src/app/popups ./src/app/ieo ./src/app/news ./src/app/header ./src/app/footer --output ./translate/baseJSON/_app.json --clean --sort --format json",
+    "extract-dashboard": "ngx-translate-extract --input ./src/app/settings ./src/app/orders ./src/app/funds ./src/app/dashboard ./src/app/popups ./src/app/ieo ./src/app/header ./src/app/footer --output ./translate/baseJSON/_app.json --clean --sort --format json",
     "extract-privacy-policy": "ngx-translate-extract --input ./src/app/static-pages/privacy-policy --output ./translate/baseJSON/privacy-policy_base.json --clean --sort --format json",
     "extract-about-us": "ngx-translate-extract --input ./src/app/static-pages/about-us --output ./translate/baseJSON/about-us_base.json --clean --sort --format json",
     "extract-contacts": "ngx-translate-extract --input ./src/app/static-pages/contacts --output ./translate/baseJSON/contacts_base.json --clean --sort --format  json",

@@ -234,7 +234,6 @@ export type Actions
   | LoadMaxCurrencyPairByCurrencyName
   | FailLoadMaxCurrencyPairByCurrencyName
   | LoadTransactionsHistoryAction
-  | LoadLastTransactionsHistoryAction
   | SetTransactionsHistoryAction
   | SetMoreTransactionsHistoryAction
   | FailLoadTransactionsHistoryAction

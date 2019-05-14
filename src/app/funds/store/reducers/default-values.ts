@@ -24,5 +24,5 @@ export const defaultCommissionData = {
   merchantCommissionRate: '(0%, but not less than 0)',
   resultAmount: '0',
   totalCommissionAmount: '0',
-  commission_rates_sum: 0,
+  commission_rates_sum: '0',
 }

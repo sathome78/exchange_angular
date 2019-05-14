@@ -65,7 +65,7 @@
               <td class="table__details-cell" colspan="4">
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Amount' | translate}}</div>
-                  <div class="table__details-item-value">{{item.amountBase}} {{item.currencyPairName | splitCurrency: 1}}</div>
+                  <div class="table__details-item-value">{{item.amountConvert}} {{item.currencyPairName | splitCurrency: 1}}</div>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Trading price' | translate}}</div>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'In total' | translate}}</div>
-                  <div class="table__details-item-value">{{item.amountWithCommission}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  <div class="table__details-item-value"> {{item.currencyPairName | splitCurrency: 2}}</div>
                   <!-- {{item.arrPairName}} -->
                 </div>
               </td>
@@ -339,9 +339,22 @@
             <span>{{item.status | showOrderStatus}}</span>
           </td>
         </tr>
-        <tr class="table__row" *ngIf="!(orderItems$ | async).length && !(loading$ | async)">
+        <tr class="table__row" *ngIf="!(orderItems$ | async).length && !(loading$ | async) && !initialRequest">
           <td class="table__cell table__cell--tac" colspan="10">
             {{'No matching records found' | translate}}
+          </td>
+        </tr>
+
+        <tr class="table__row" *ngIf="!(orderItems$ | async).length && !(loading$ | async) && initialRequest">
+          <td class="table__cell table__cell--tac" colspan="10">
+            {{'No matching records found' | translate}}
+            <a
+              href=""
+              (click)="loadLastOrders($event)"
+              class="standart-lnk"
+            >
+              {{'Loading last' | translate}}{{' ' + countPerPage + ' '}}{{'orders' | translate}}
+            </a>
           </td>
         </tr>
       </tbody>
