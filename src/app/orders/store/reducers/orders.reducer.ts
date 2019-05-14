@@ -50,6 +50,8 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
 
     case ordersActions.LOAD_HISTORY_ORDERS:
       return {...state, loading: true};
+    case ordersActions.LOAD_LAST_HISTORY_ORDERS:
+      return {...state, loading: true};
     case ordersActions.SET_HISTORY_ORDERS:
       return {
         ...state,
