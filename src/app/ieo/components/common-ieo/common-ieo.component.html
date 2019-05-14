@@ -251,7 +251,7 @@
             <div class="title-wr">
               <h3>{{item.currencyDescription}} - BTC Session</h3>
             </div>
-            <div class="progress-block" *ngIf="item.status === 'RUNNING' || item.status === 'TERMINATED'">
+            <div class="progress-block" *ngIf="item.status === 'RUNNING'">
               <div class="currency-info">
                 <div class="currency-buyed">
                   <span class="buyed-value">{{boughtAmount(item) || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
@@ -305,7 +305,7 @@
             <!-- <p>{{item.description}}</p> -->
           </div>
           <div class="button-part">
-            <div class="button-wr" *ngIf="isAuthenticated && item.status === 'RUNNING'">
+            <div class="button-wr" *ngIf="item.status === 'RUNNING'">
               <button
               class="standart-btn"
 
