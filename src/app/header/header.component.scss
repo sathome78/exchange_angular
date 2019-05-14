@@ -74,6 +74,7 @@
         &:hover {
           .submenu {
             display: block;
+            top: 45px;
           }
           .menu__link{
             &:hover{
@@ -1123,6 +1124,10 @@
 }
 
 // TEMP STYLES
+.submenu__link {
+  color: #191A39;
+}
+
 .d-none {
   display: none !important;
 }

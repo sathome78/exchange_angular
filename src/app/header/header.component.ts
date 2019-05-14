@@ -123,6 +123,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   changeLocalization(lang: string) {
+    lang = 'en';
     this.lang = this.langArray.filter(item => item.name === lang.toLowerCase())[0];
     this.store.dispatch(new ChangeLanguageAction(lang));
 }
