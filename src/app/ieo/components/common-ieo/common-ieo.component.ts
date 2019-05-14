@@ -83,7 +83,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.ieoList = (res as IEOItem[] || []).reverse();
-      });
+      })
   }
 
   getKYCVerificationStatus() {
