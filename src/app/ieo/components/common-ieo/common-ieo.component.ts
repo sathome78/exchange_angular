@@ -83,7 +83,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.ieoList = (res as IEOItem[] || []).reverse();
-      });
+      })
   }
 
   getKYCVerificationStatus() {
@@ -186,6 +186,8 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.buyIEOData = ieoItem;
     if (this.isAuthenticated) {
       this.checkKYCStatus(ieoItem.id);
+    } else {
+      this.popupService.showMobileLoginPopup(true);
     }
   }
 
