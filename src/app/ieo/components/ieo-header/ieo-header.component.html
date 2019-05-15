@@ -57,7 +57,7 @@
         <button
           class="btn btn-blue btn-ieo"
           (click)="goToNewsPage()"
-          *ngIf="isAuthenticated && (currentStage === stage.SUCCEEDED || currentStage === stage.FAILED)"
+          *ngIf="isAuthenticated && (currentStage === stage.SUCCEEDED || currentStage === stage.FAILED || currentStage === stage.TERMINATED)"
         >
           <span>{{'More' | translate}}</span>
         </button>
