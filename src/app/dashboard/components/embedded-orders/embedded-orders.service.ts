@@ -24,7 +24,7 @@ export class EmbeddedOrdersService {
 
   getHistory(currencyPairId, status: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/api/private/v2/dashboard/orders/${status}`,
-      {params: {currencyPairId, limit: '100', scope: 'ALL'}});
+      {params: {currencyPairId, limit: '15', scope: 'ALL'}});
   }
 
   updateOrder(order): Observable<any> {
