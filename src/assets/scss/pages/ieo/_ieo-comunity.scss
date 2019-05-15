@@ -1,10 +1,18 @@
 .community{
+	@media(min-width: 1201px){
+		font-size: .85em;
+	}
 	.community-wr{
 		display: flex;
 		align-items: center;
-		padding: 1em 20px;
-		max-width: calc(73.7em + 40px);
+		padding: 1em 30px 1em 94px;
+		max-width: 1464px;
+		// width: calc(73.7em + 40px);
 		margin: 0 auto;
+		@media(max-width: 1200px){
+
+			padding: 1em 15px;
+		}
 		@media(max-width: 992px){
 			font-size: 1.05em;
 			justify-content: center;
@@ -22,7 +30,7 @@
 		justify-content: space-between;
 		position: relative;
 		@media(max-width: 992px){
-			margin-right: 1.6em;
+			margin-right: 0;
 		}
 		// &::after{
 		// 	content: "";

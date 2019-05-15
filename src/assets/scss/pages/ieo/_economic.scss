@@ -3,7 +3,7 @@
 
 	}
 	.text-info-block{
-		margin-bottom: 2.2em;
+		margin-bottom: 1.5em;
 		h4{
 
 		}
@@ -56,8 +56,10 @@
 	}
 	.table-item-value{
 		flex-grow: 1;
+		max-width: calc(100% - 21.7em);
 		@media (max-width: 992px) {
 			width: 30em;
+			max-width: unset;
 		}
 		padding: .67em 1em .68em 2em;
 		p{
