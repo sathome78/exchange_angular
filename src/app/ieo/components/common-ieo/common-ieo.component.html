@@ -304,7 +304,7 @@
             </div>
           </div>
           <div class="description-wr">
-            <p>{{(item.description && item.description.length > 300) ? (item.description | slice:0: 300)+'...': (item.description)}}</p>
+            <p>{{item.description | cutAndAddEllipsis}}</p>
           </div>
           <div class="button-part">
             <div class="button-wr" *ngIf="item.status === 'RUNNING'">
