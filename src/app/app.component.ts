@@ -20,6 +20,7 @@ import { IEOItem } from './model/ieo.model';
 import {ChangeLanguageAction} from './core/actions/core.actions';
 import {getLanguage} from './core/reducers';
 import {GtagService} from './shared/services/gtag.service';
+import {lang} from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -47,13 +48,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
 
-
-    // translate.addLangs(['en', 'ru', 'uk', 'pl']);
-    // translate.setDefaultLang('en');
-    // const browserLang = translate.getBrowserLang();
-    // this.store.dispatch(new ChangeLanguageAction(browserLang.match(/en|ru|uk|pl/) ? browserLang : 'en'));
-
     // uncomment when the translation is ready
+    // const langCandidate = localStorage.getItem('language');
+    // this.store.dispatch(new ChangeLanguageAction(!!langCandidate ? langCandidate : 'en'));
     // this.store
     //   .pipe(select(getLanguage))
     //   .pipe(takeUntil(this.ngUnsubscribe))
@@ -102,12 +99,6 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.authService.isAuthenticated()) {
       this.store.dispatch(new coreAction.SetOnLoginAction(this.authService.parsedToken));
     }
-
-    this.ieoService.getListIEO()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res: IEOItem[]) => {
-        this.store.dispatch(new coreAction.SetIEOListAction(res))
-      })
   }
 
   setSavedCurrencyPair() {

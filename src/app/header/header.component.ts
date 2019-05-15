@@ -125,6 +125,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   changeLocalization(lang: string) {
     this.lang = this.langArray.filter(item => item.name === lang.toLowerCase())[0];
     this.store.dispatch(new ChangeLanguageAction(lang));
+    localStorage.setItem('language', lang);
 }
 
   onLogin() {

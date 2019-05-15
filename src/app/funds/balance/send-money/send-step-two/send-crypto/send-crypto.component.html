@@ -70,7 +70,7 @@
           >
           </app-price-input>
 
-          <span class=" wrap-input__message--show"
+          <span class="bottom-tooltip wrap-input__message--show"
                 *ngIf="form.controls['amount'].errors && !form.controls['amount'].errors['isMinThenMinWithdraw']">
             {{
               'Minimum sum for withdrawal' | translate
