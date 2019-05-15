@@ -174,10 +174,7 @@ export class UserService {
   }
 
   public getUserGoogleLoginEnabled(email: string): Observable<boolean> {
-    const httpOptions = {
-      params:  new HttpParams().set('email', email)
-    };
-    return this.http.get<boolean>(this.getUrl('is_google_2fa_enabled'), httpOptions);
+    return this.http.get<boolean>(`${this.HOST}/is_google_2fa_enabled?email=${email.replace('+', '%2B')}`);
   }
 
   public sendTestNotif(msg: string): Observable<any> {
