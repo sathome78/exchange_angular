@@ -1,7 +1,7 @@
 .ieo_info{
 	max-width: 1464px;
 	margin: 0 auto;
-	    padding: 1em 31px 1em 95px;
+	    padding: 1em 40px 1.5em 53px;
 	@media(max-width: 1200px){
 		padding: 1em 15px 1em;
 	}
@@ -173,8 +173,14 @@
 	padding-bottom: 1.7em;
 }
 .allocation{
-	padding-top: 2.8em;
-	padding-bottom: 1.8em;
+	padding-top: 2.4em;
+	padding-bottom: 1.2em;
+	.text-info-block{
+		margin-bottom: 0;
+		h4{
+			margin-bottom: .5em;
+		}
+	}
 }
 .allocation-graph{
 	text-align: center;
