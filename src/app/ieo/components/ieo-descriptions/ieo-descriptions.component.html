@@ -3,14 +3,40 @@
   <div class="ieo_info-wrapper" *ngIf="description">
     <div class="text-info-block">
       <h4>{{'project introduction' | translate}}</h4>
-      <p>{{description.introduction}}</p>
+      <!-- <p>{{description.introduction}}</p> -->
+      <p>E-Tao Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain transactions for not only payment transactions, but also generalized off-chain smart contract. Founded by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build, operate, and use highly scalable decentralized applications through innovations in off-chain scaling techniques and incentive-aligned cryptoeconomics mechanism designs. Celer Network is on a mission to fully unleash the power of blockchain and revolutionize how decentralized applications are built and used.</p>
     </div>
     <div class="text-info-block" *ngIf="description.keyFeatures.length">
       <h4>{{'Key features' | translate}}</h4>
       <ul class="features-list">
-        <li class="features-list-item" *ngFor="let feature of description.keyFeatures">
+        <!-- <li class="features-list-item" *ngFor="let feature of description.keyFeatures">
           <span>{{'feature' | translate}}</span>
+        </li> -->
+         <li class="features-list-item">
+          <span>Already archived 10,000X transaction latency reduction</span>
         </li>
+        <li class="features-list-item">
+          <span>Zero off-chain small contract transaction fees</span>
+        </li>
+        <li class="features-list-item">
+          <span>Accelerates both paymant and smart contracts</span>
+        </li>
+        <li class="features-list-item">
+          <span>100X fee reduction for micro paymant</span>
+        </li>
+        <li class="features-list-item">
+          <span>Horizontaly scalable as more nodes joining</span>
+        </li>
+        <li class="features-list-item">
+          <span>Provably optimal off-chain payment ruiting algorithm</span>
+        </li>
+        <li class="features-list-item">
+          <span>The world's first off-chain cripto economics model to ensure sufety and high liquidity</span>
+        </li>
+        <li class="features-list-item">
+          <span>Blockchain agnostic (already support Ethereum? DFINITY and all EVM based blockchains)</span>
+        </li>
+
       </ul>
     </div>
 

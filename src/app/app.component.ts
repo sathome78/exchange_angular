@@ -99,12 +99,6 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.authService.isAuthenticated()) {
       this.store.dispatch(new coreAction.SetOnLoginAction(this.authService.parsedToken));
     }
-
-    this.ieoService.getListIEO()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res: IEOItem[]) => {
-        this.store.dispatch(new coreAction.SetIEOListAction(res))
-      })
   }
 
   setSavedCurrencyPair() {
