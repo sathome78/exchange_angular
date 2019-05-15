@@ -1,11 +1,21 @@
 .ieo-requirements{
+	.requirement-text-wr{
+		@media(min-width: 1201px){
+		width: calc(100% - 20em);
+	}
+	}
 	.ieo-requirements-wr{
-		max-width: calc(73.7em + 40px);
+		// width: calc(73.7em + 40px);
 		margin: 0 auto;
-		padding: 1.3em 20px;
+		max-width: 1464px;
+		padding: 1.15em 40px 1.3em 51px;
+
+		@media(max-width: 1200px){
+			padding: 1em 15px;
+		}
+
 		@media(max-width: 992px){
-			font-size: 1.4em;
-			padding-top: 1em;
+			font-size: 1.1em;
 		}
 	}
 	.title-part{
@@ -15,7 +25,7 @@
 			margin-bottom: 1.5em;
 		}
 		h3{
-			font-size: 1.37em;
+			font-size: 1.22em;
 		}
 	}
 	.requirements-table{
@@ -27,11 +37,11 @@
 	
 	.requirement-item {
 		display: flex;
-		padding: 1.5em 1.6em;
+		padding: 1.7em 1.6em;
 		justify-content: space-between;
 		align-items: center;
 		@media(max-width: 992px){
-			padding: .9em 1.1em;
+			padding: 1.3em 1.1em;
 			flex-direction: column;
 			align-items: flex-start;
 		}
@@ -63,22 +73,36 @@
 			padding: 0;
 			font-weight: 500;
 			cursor: pointer;
+			@media(max-width: 992px){
+				font-size: .9em;
+				margin-top: .8em;
+				margin-bottom: .8em;
+			}
 		}
 	}
 	.requirement-text-wr{
 		.requirement-text{
 			overflow: hidden;
-			    height: 7.3em;
+			height: 7.45em;
 			transition: .3s;
+			@media(max-width: 992px){
+				height: 8.3em;
+			}
 		}
 	}
 	.requirement-text{
 		max-width: 44em;
 		margin-right: 20px;
 		width: 100%;
+		&:not(#requirement-text){
+			@media(min-width: 1201px){
+
+			width: calc(100% - 20em);
+			}
+		}
 		@media(max-width: 992px){
 			max-width: unset;
-			margin-bottom: .65em;
+			margin-bottom: 0;
 		}
 		p{
 			font-size: .91em;
@@ -88,6 +112,9 @@
 			margin-top: 1em;
 			line-height: 1.37;
 			color: #5E5F74;
+			@media(max-width: 992px){
+				font-size: .9em;
+			}
 		}
 	}
 	.requirement-status{
@@ -95,12 +122,18 @@
 		display: flex;
 		align-items: center;
 		text-decoration: none;
+		@media(max-width: 992px){
+			margin-top: .7em;
+		}
 		svg{
 			display: block;
 			margin-right: 7px;
 		}
 		p{
 			font-size: .8em;
+			@media(max-width: 992px){
+				font-size: .9em;
+			}
 		}
 	}
 }

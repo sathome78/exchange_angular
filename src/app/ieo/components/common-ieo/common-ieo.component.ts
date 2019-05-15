@@ -15,6 +15,7 @@ import {IEOServiceService} from '../../../shared/services/ieoservice.service';
 import {KycIEOModel} from '../../models/ieo-kyc.model';
 import {ThankPopupModel} from '../../../shared/models/thank-popup-model';
 import {AuthService} from '../../../shared/services/auth.service';
+import * as coreAction from '../../../core/actions/core.actions';
 
 @Component({
   selector: 'app-common-ieo',
@@ -53,6 +54,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.subscribeToIEOList();
     this.getIEOList();
     this.initEmailForm();
     this.getKYCVerificationStatus();
@@ -69,12 +71,19 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
+  subscribeToIEOList(): void {
+    this.ieoService.getListIEO()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res: IEOItem[]) => {
+        this.store.dispatch(new coreAction.SetIEOListAction(res))
+      });
+  }
   getIEOList(): void {
     this.store.pipe(select(fromCore.getIEOList))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.ieoList = (res as IEOItem[] || []).reverse();
-      });
+      })
   }
 
   getKYCVerificationStatus() {
@@ -177,6 +186,8 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.buyIEOData = ieoItem;
     if (this.isAuthenticated) {
       this.checkKYCStatus(ieoItem.id);
+    } else {
+      this.popupService.showMobileLoginPopup(true);
     }
   }
 
@@ -230,5 +241,20 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
         this.requirements = {...this.requirements, policyCheck: true};
         this.openBuyPopup();
       });
+  }
+
+  get boughtAmount() {
+    return (IEOData) => (IEOData.amount - IEOData.availableAmount) || 0;
+  }
+
+  get sessionSupply() {
+    return (IEOData) => (IEOData.amount * IEOData.rate) || 0;
+  }
+
+  get boughtAmountPer() {
+    return  (IEOData) => {
+      const a = (this.boughtAmount(IEOData) / (IEOData.amount / 100)) || 0
+      return a.toFixed(2);
+    }
   }
 }

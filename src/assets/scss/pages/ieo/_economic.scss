@@ -3,7 +3,7 @@
 
 	}
 	.text-info-block{
-		margin-bottom: 2.2em;
+		margin-bottom: 1.5em;
 		h4{
 
 		}
@@ -23,9 +23,9 @@
 	.economics-table-item{
 		display: flex;
 		p{
-			font-size: .95em;
+			font-size: .85em;
 			color: #000;
-			line-height: 1.37;
+			line-height: 1.2;
 		}
 		&:nth-child(odd){
 			.table-item-description{
@@ -45,7 +45,7 @@
 		}
 	}
 	.table-item-description{
-		width: 21.7em;
+		width: 19.7em;
 		padding: .67em 1em .68em 2em;
 		@media (max-width: 992px) {
 			width: 15em;
@@ -56,8 +56,10 @@
 	}
 	.table-item-value{
 		flex-grow: 1;
+		max-width: calc(100% - 19.7em);
 		@media (max-width: 992px) {
 			width: 30em;
+			max-width: unset;
 		}
 		padding: .67em 1em .68em 2em;
 		p{

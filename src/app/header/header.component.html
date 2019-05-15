@@ -44,7 +44,6 @@
           <a class="menu__link menu__link--drop">
             <span class="menu__link-text">{{'Funds' | translate}}</span>
           </a>
-          <!-- <li class="menu__item menu__item--with-submenu" ><a class="menu__link menu__link--drop"><span class="menu__link-text">Funds</span></a> -->
             <div class="submenu">
               <ul class="menu submenu__list">
                 <li class="submenu__item" routerLinkActive="menu__link--active">
@@ -64,7 +63,6 @@
             <a class="menu__link menu__link--drop">
               <span class="menu__link-text">{{'Orders' | translate}}</span>
             </a>
-            <!-- <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" ><span class="menu__link-text">Orders</span></a> -->
               <div class="submenu">
                 <ul class="menu submenu__list">
                   <li class="submenu__item" routerLinkActive="menu__link--active">
@@ -337,6 +335,15 @@
         >
 
         <span class="menu-mob__link-text">{{'Settings' | translate}}</span>
+      </a>
+      <a
+        *ngIf="isAuthenticated"
+        class="menu-mob__link"
+        routerLink="/settings/api-keys"
+        (click)="mobileLinkClick()"
+        >
+
+        <span class="menu-mob__link-text">{{'API Keys' | translate}}</span>
       </a>
       <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
         <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(FUNDS_FLAG)" [ngClass]="{'menu-mob__link--active': showFundsList}"

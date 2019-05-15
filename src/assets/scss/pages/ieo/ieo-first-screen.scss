@@ -8,6 +8,9 @@
 	line-height: 1.37;
 
 	color: var(--main-txt-color);
+	@media(min-width: 1440px){
+		font-size: 20px;
+	}
 }
 
 .first-screen{
@@ -17,14 +20,14 @@
 	background-position: 100% 100%;
 	background-repeat: no-repeat;
 	@media(max-width: 992px){
-		font-size: 1.3em;
+		font-size: 1.1em;
 	}
 	.fs-wr{
-		max-width: calc(73.7em + 40px);
+		max-width: 1464px;
 		margin: 0 auto;
-		padding: 3.8em 20px 3.6em;
-		@media(max-width: 992px){
-			padding: 2.4em 20px 2.4em;
+		padding: 3.3em 38px 3.1em 38px;
+		@media(max-width: 1200px){
+			padding: 2.4em 15px 2.4em;
 		}
 	}
 	.fs-wr-inner{}
@@ -52,16 +55,20 @@
 
 	}
 	.bittorrent{
-		margin-right: 5.7em;
+		margin-right: 5em;
+		width: 11.2em;
+		margin-left: 16px;
+
+		@media(max-width: 1200px){
+			margin-left: 0;
+		}
 		@media(max-width: 992px){
 			margin-right: 0;
 			margin-bottom: 2em;
-			width: 11em;
 		}
 		img{
-			@media(max-width: 992px){
-				width: 100%;
-			}
+			width: 100%;
+
 		}
 	}
 	.btc-session{
@@ -76,7 +83,10 @@
 	}
 	.b-s-title{
 		width: 100%;
-		margin-bottom: 1.5em;
+		margin-bottom: 1.3em;
+		@media(min-width: 1200px){
+			font-size: .9em;
+		}
 		@media(max-width: 992px){
 			text-align: center;
 			margin-bottom: .6em;
@@ -127,17 +137,18 @@
 
 	}
 	.b-s-table{
-		width: 17.5em;
+		width: 16em;
 		@media(max-width: 992px){
 			width: 100%;
 			max-width: 507px;
-			margin: 0 auto 1em;
+			margin: 0 auto 0;
+			font-size: 1.1em;
 		}
 		td{
 			font-weight: 500;
 			font-size: .8em;
 			color: #5E5F74;
-			padding: 1.35em 0;
+			padding: 1.15em 0;
 			@media (max-width: 992px){
 				padding: .75em 0;
 			}
@@ -171,6 +182,10 @@
 		// justify-content: space-between;
 		padding-top: .8em;
 		width: 19em;
+		@media(min-width: 993px){
+			margin-right: auto;
+			margin-left: 2.4em;
+		}
 		@media (max-width: 992px){
 			width: 100%;
 			max-width: 507px;
@@ -179,6 +194,10 @@
 	}
 	.amount{
 		margin-bottom: 1em;
+		@media (max-width: 992px) {
+			margin-bottom: 2em;
+
+		}
 		p{
 
 			font-weight: 500;
@@ -186,6 +205,7 @@
 			color: #5E5F74;
 			@media(max-width: 992px){
 				text-align: center;
+				font-size: 1.1em;
 			}
 			span{
 				font-size: 1.125em;
@@ -286,6 +306,7 @@
 
 		@media (max-width: 992px) {
 			bottom: 0;
+			width: 100%;
 		}
 		@media(max-width: 992px){
 			margin-right: auto;
@@ -323,7 +344,11 @@
 	}
 	.progress-block{
 		max-width: 11.5em;
-		padding-top: .3em;
+		padding-top: .1em;
+		@media(max-width: 992px){
+			width: 100%;
+			max-width: unset;
+		}
 		.currency-info{
 
 			display: flex;
@@ -338,12 +363,20 @@
 			font-size: 1em;
 			line-height: .8;
 			margin-right: 3px;
+			@media (max-width: 992px) {
+				font-size: 1.1em;
+				margin-right: 6px;
+
+			}
 		}
 		.currency-name{
 			font-weight: 500;
 			font-size: .6em;
 			color: #5E5F74;
 			line-height: 1;
+			@media (max-width: 992px) {
+				font-size: 1em;
+			}
 		}
 		.percentage{
 			margin-left: auto;
@@ -355,6 +388,9 @@
 				line-height: 1;
 
 				color: #237BEF;
+				@media (max-width: 992px) {
+					font-size: .9em;
+				}
 			}
 		}
 		.currency-bar{
