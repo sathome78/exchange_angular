@@ -63,6 +63,8 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import {IEOTableMobComponent} from './balance/ieo-table-mob/ieo-table-mob.component';
 import {IEOBalanceDetailsComponent} from './ieo-balance-details/ieo-balance-details.component';
 import { BalanceTableTradeBtnComponent } from './balance/balance-table/balance-table-trade-btn/balance-table-trade-btn.component';
+import { CreateAccountFugComponent } from './balance/create-account-fug/create-account-fug.component';
+import { StepOneQuestionnaireComponent } from './balance/create-account-fug/step-one-questionnaire/step-one-questionnaire.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -135,6 +137,8 @@ export function createTranslateLoader(http: HttpClient) {
     IEOTableMobComponent,
     IEOBalanceDetailsComponent,
     BalanceTableTradeBtnComponent,
+    CreateAccountFugComponent,
+    StepOneQuestionnaireComponent,
   ],
   providers: [
     BalanceService,

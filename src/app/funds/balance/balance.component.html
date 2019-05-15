@@ -295,7 +295,8 @@
           [kycStatus]="kycStatus"
           (transferOut)="goToTransferPopup($event)"
           (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
-          (cryptoDepositOut)="goToCryptoDepositPopup($event)">
+          (cryptoDepositOut)="goToCryptoDepositPopup($event)"
+          (openCreateFUGPopup)="openCreateFUGPopup($event)">
         </app-qubera-table>
       </ng-container>
       <ng-container *ngIf="showContent">
@@ -332,4 +333,12 @@
     (closeSendMoneyPopup)="openSendMoneyPopup(false)"
     (toggleBalanceTab)="onSelectTab($event)"
   ></app-send-money>
+</div>
+
+<div>
+  <app-create-account-fug
+    *ngIf="showCreateFUGPopup"
+    [showPopup]="showCreateFUGPopup"
+    (closeCreateFUGPopup)="openCreateFUGPopup(false)"
+  ></app-create-account-fug>
 </div>

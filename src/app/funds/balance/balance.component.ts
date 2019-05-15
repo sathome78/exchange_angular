@@ -47,6 +47,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public showRefillBalancePopup: boolean = false;
   public showSendMoneyPopup: boolean = false;
+  public showCreateFUGPopup: boolean = false;
   public hideAllZero: boolean = false;
   public existQuberaAccounts: string = PENDING;
   public showContent: boolean = environment.showContent;
@@ -237,6 +238,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public openSendMoneyPopup(flag: boolean) {
     this.sendMoneyData = {};
     this.showSendMoneyPopup = flag;
+  }
+
+  public openCreateFUGPopup(flag: boolean) {
+    this.showCreateFUGPopup = flag;
   }
 
   public onToggleAllZero(): void {

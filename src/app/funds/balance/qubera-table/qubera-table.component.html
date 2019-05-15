@@ -64,7 +64,10 @@
       <p>{{'To create an account, click the button below' | translate}}</p>
     </div>
     <div class="qubera-btn-wr">
-      <button class="btn btn--active balance__title-btn">{{'Create Account Qubera' | translate}}</button>
+      <button class="btn btn--active balance__title-btn"
+      (click)="openCreateFUGPopup.emit(true)">
+        {{'Create Account Qubera' | translate}}
+      </button>
     </div>
     
   </div>
