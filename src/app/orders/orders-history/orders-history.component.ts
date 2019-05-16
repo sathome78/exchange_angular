@@ -102,7 +102,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   loadOrders() {
     const params = {
       page: this.currentPage,
-      limit:this.countPerPage,
+      limit: 0,
       dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
       dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
       hideCanceled: this.hideAllCanceled,
@@ -126,7 +126,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       this.currentPage += 1;
       const params = {
         page: this.currentPage,
-        limit:this.countPerPage,
+        limit: this.countPerPage,
         dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
         dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
         hideCanceled: this.hideAllCanceled,

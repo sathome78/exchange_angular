@@ -25,9 +25,9 @@ export class StaticPagesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // uncomment when the translation is ready
-    // this.lang$
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe(lang => this.translate.use(lang));
+    this.lang$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(lang => this.translate.use(lang));
   }
 
   ngOnDestroy() {

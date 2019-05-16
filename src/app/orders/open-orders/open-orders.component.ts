@@ -99,7 +99,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   loadOrders(isMobile: boolean = false): void {
     const params = {
       page: isMobile ? 1 : this.currentPage,
-      limit: this.countPerPage,
+      limit: 0,
       currencyPairId: this.currencyPairId || 0,
     }
     this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
@@ -109,7 +109,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       this.currentPage += 1;
       const params = {
         page: this.currentPage,
-        limit:this.countPerPage,
+        limit: 0,
         currencyPairId: this.currencyPairId || 0,
         concat: true,
       }
@@ -195,7 +195,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       order,
       loadOrders: {
         page: this.currentPage,
-        limit:this.countPerPage,
+        limit: 0,
         currencyPairId: this.currencyPairId || 0,
         isMobile: this.isMobile,
       }
