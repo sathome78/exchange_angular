@@ -1,5 +1,5 @@
 <div class="ieo-container">
-  <div class="ieo-header" *ngIf="currentStage !== stage.PENDING">
+  <div class="ieo-header" *ngIf="currentStage !== stage.PENDING && requirements">
     <app-ieo-header
       [IEOData]="IEOData"
       [userBalanceBTC]="userBalanceBTC"
@@ -12,6 +12,7 @@
     ></app-ieo-header>
   </div>
   <app-ieo-info
+    *ngIf="requirements"
     [isAuthenticated]="isAuthenticated"
     [currentStage]="currentStage"
     [userBalanceBTC]="userBalanceBTC"
@@ -26,14 +27,19 @@
   <app-ieo-community
     *ngIf="ieoData.community && ieoData.community.length"
     [community]="ieoData.community"
-  >
-  </app-ieo-community>
+  ></app-ieo-community>
 
   <app-ieo-requirements
+    *ngIf="stage.RUNNING === currentStage && requirements"
     [isAuthenticated]="isAuthenticated"
     [requirements]="requirements"
     (showPolicy)="openPolicy()"
   ></app-ieo-requirements>
+
+  <app-get-ready-banner
+    *ngIf="stage.RUNNING !== currentStage && !requirements?.kycCheck"
+    (onClick)="bannerClick()"
+  ></app-get-ready-banner>
 
   <app-ieo-how-it-works></app-ieo-how-it-works>
 
