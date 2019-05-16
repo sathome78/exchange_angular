@@ -201,7 +201,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         this.cdr.detectChanges();
       });
 
-    this.lang = this.langService.getLanguage();
+    // this.lang = this.langService.getLanguage();
+    this.lang = '';
     this.formattingCurrentPairName(this.currencyPairName);
 
 
