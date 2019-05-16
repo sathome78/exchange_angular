@@ -8,7 +8,7 @@ import {UserService} from '../shared/services/user.service';
 import {SettingsService} from '../settings/settings.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 import {environment} from '../../environments/environment';
-import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG, LANG_ARRAY, TRANSLATE_FLAG, IEO_FLAG} from './header.constants';
+import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG, LANG_ARRAY, TRANSLATE_FLAG, IEO_FLAG, NGX_TRANSLATE_FLAG} from './header.constants';
 import {MyBalanceItem} from '../model/my-balance-item.model';
 import {Observable, Subject} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
@@ -35,10 +35,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public showFundsList: boolean;
   public showOrdersList: boolean;
   public translateList: boolean;
+  public ngxTranslateList: boolean;
   public showReferralList: boolean;
   public showIEOList: boolean;
   public isAuthenticated: boolean = false;
   public FUNDS_FLAG = FUNDS_FLAG;
+  public NGX_TRANSLATE_FLAG = NGX_TRANSLATE_FLAG;
   public TRANSLATE_FLAG = TRANSLATE_FLAG;
   public REFERRAL_FLAG = REFERRAL_FLAG;
   public ORDERS_FLAG = ORDERS_FLAG;
@@ -177,6 +179,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.showFundsList = false;
     this.showOrdersList = false;
     this.showReferralList = false;
+    this.ngxTranslateList = false;
     this.showIEOList = false;
   }
 
@@ -186,10 +189,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       case FUNDS_FLAG:
         this.showFundsList = !this.showFundsList;
         break;
+      case NGX_TRANSLATE_FLAG:
+        this.ngxTranslateList = !this.ngxTranslateList;
+        break;
       case ORDERS_FLAG:
         this.showOrdersList = !this.showOrdersList;
         break;
-        case TRANSLATE_FLAG:
+      case TRANSLATE_FLAG:
         this.translateList = !this.translateList;
         break;
       case REFERRAL_FLAG:
@@ -201,7 +207,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  mobileLinkClick() {
+  mobileLinkClick(lang: string = null) {
+    if (!!lang) this.changeLocalization(lang);
     this.resetDropdowns();
     this.mobileView = '';
     this.isMobileMenuOpen = false;
@@ -223,6 +230,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // }
 
   get showContent() {
-    return environment.showContent
+    return environment.showContent;
   }
 }
