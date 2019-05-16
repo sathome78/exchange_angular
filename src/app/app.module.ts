@@ -47,6 +47,7 @@ import {GtagService} from './shared/services/gtag.service';
 import { NewsComponent } from './news/news.component';
 import {NewsService} from './shared/services/news.service';
 import {MomentModule} from 'ngx-moment';
+import { FiatComponent } from './fiat/fiat.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -80,6 +81,7 @@ const stompConfig: InjectableRxStompConfig = {
     FinalRegistrationComponent,
     FinalStepRecoveryPasswordComponent,
     NewsComponent,
+    FiatComponent,
   ],
   imports: [
     StoreModule.forRoot(reducers),

@@ -10,6 +10,7 @@ import {FinalRegistrationComponent} from './popups/final-registration/final-regi
 import {FinalStepRecoveryPasswordComponent} from './popups/final-step-recovery-password/final-step-recovery-password.component';
 import {ShowPageGuard} from './shared/guards/showPage.guard';
 import {NewsComponent} from './news/news.component';
+import {FiatComponent} from './fiat/fiat.component';
 
 const routes: Routes = [
   // permit all
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: 'markets/:currency-pair', component: DashboardComponent},
   {path: 'dashboard', component: DashboardComponent},
   {path: 'news', component: NewsComponent},
+  {path: 'fiat', component: FiatComponent},
   {path: 'final-registration/token', component: FinalRegistrationComponent, canActivate: [RegistrationGuard]},
   {path: 'referral-structure', component: ReferralStructureComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
   {path: 'referral-charges', component: ReferralChargesComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
