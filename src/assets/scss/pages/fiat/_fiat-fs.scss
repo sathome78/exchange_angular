@@ -2,7 +2,10 @@
 	font-size: calc(.5815rem + .5815vw);
 	position: relative;
 
-	padding-bottom: 4.7em;
+	padding-bottom: 4.7em;	
+	a{
+		text-decoration: none;
+	}
 	@media(min-width: 1440px){
 		font-size: 20px;
 	}
