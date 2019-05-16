@@ -116,7 +116,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.clearFilters();
     const params = {
       page: this.currentPage,
-      limit: 0,
+      limit: this.countPerPage,
     }
     this.store.dispatch(new ordersAction.LoadLastHistoryOrdersAction(params));
   }
@@ -126,7 +126,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       this.currentPage += 1;
       const params = {
         page: this.currentPage,
-        limit:this.countPerPage,
+        limit: this.countPerPage,
         dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
         dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
         hideCanceled: this.hideAllCanceled,
