@@ -49,12 +49,12 @@ export class AppComponent implements OnInit, OnDestroy {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
 
     // uncomment when the translation is ready
-    // const langCandidate = localStorage.getItem('language');
-    // this.store.dispatch(new ChangeLanguageAction(!!langCandidate ? langCandidate : 'en'));
-    // this.store
-    //   .pipe(select(getLanguage))
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe(res => this.translate.use(res));
+    const langCandidate = localStorage.getItem('language');
+    this.store.dispatch(new ChangeLanguageAction(!!langCandidate ? langCandidate : 'en'));
+    this.store
+      .pipe(select(getLanguage))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => this.translate.use(res));
 
     this.setIp();
 
