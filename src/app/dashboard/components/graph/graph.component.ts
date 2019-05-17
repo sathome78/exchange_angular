@@ -72,6 +72,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private lang;
   /** current active pair */
   public pair: SimpleCurrencyPair;
+  public chartReady: boolean = false;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
   private _interval: ChartingLibraryWidgetOptions['interval'] = '10'; // 3
@@ -217,6 +218,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this._tvWidget = tvWidget;
 
     tvWidget.onChartReady(() => {
+      this.chartReady = true;
       const button = tvWidget.createButton()
         .attr('title', 'Click to show a notification popup')
         .addClass('apply-common-tooltip')
@@ -234,7 +236,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    if (this._tvWidget !== null) {
+    // debugger
+    if (this._tvWidget !== null && this.chartReady) {
       this._tvWidget.remove();
       this._tvWidget = null;
     }
