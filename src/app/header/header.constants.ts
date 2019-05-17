@@ -10,7 +10,7 @@ export const LANG_ARRAY = [
   {name: 'ko', fullName: 'Korean', icon_url: 'assets/img/flag-cn.svg'},
   {name: 'id', fullName: 'Indonesian', icon_url: 'assets/img/flag-cn.svg'},
   {name: 'en', fullName: 'English', icon_url: 'assets/img/flag-en.svg'},
-  // {name: 'pl', fullName: 'Polish', icon_url: 'assets/img/flag-pl.svg'},
-  // {name: 'hi', fullName: 'Hindi', icon_url: 'assets/img/flag-ru.svg'},
-  // {name: 'uk', fullName: 'Ukrainian', icon_url: 'assets/img/flag-en.svg'},
+  // {name: 'pt', fullName: 'Portuguese', icon_url: 'assets/img/flag-en.svg'},
+  // {name: 'ja', fullName: 'Japanese', icon_url: 'assets/img/flag-en.svg'},
+  // {name: 'es', fullName: 'Spanish', icon_url: 'assets/img/flag-en.svg'},
 ]
