@@ -221,7 +221,6 @@
       <li class="menu__item menu__item--with-submenu menu__item--disabled">
         <a class="menu__link">
           <span class="menu__link-text">
-             <img class="language__flag" [src]="lang.icon_url" alt="ru">
              <span>{{lang.fullName}}</span>
           </span>
         </a>
@@ -229,7 +228,6 @@
           <ul class="menu__list submenu__list submenu__list--language">
             <li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">
               <a class="submenu__link" (click)="changeLocalization(lang.name)" >
-                <img class="language__flag" [src]="lang.icon_url" alt="">
                 <span class="language__text">{{lang.fullName | translate}}</span>
                 </a>
                 </li>
@@ -360,13 +358,11 @@
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(NGX_TRANSLATE_FLAG)" [ngClass]="{'menu-mob__link--active': ngxTranslateList}"
              routerLink="/funds/balances">
             <span class="menu-mob__link-text">
-              <img class="language__flag" [src]="lang.icon_url" alt="ru">
              <span>{{lang.fullName}}</span>
             </span>
           </a>
           <div class="menu-mob__wrap-links" *ngIf="ngxTranslateList">
             <a class="menu-mob__link" (click)="mobileLinkClick(lang.name)" *ngFor="let lang of langArray | excludeByField:'name':lang.name">
-              <img class="language__flag" [src]="lang.icon_url" alt="">
               <span class="language__text">{{lang.fullName | translate}}</span>
             </a>
           </div>
