@@ -31,8 +31,7 @@
   <app-ieo-requirements
     *ngIf="
       (stage.RUNNING === currentStage ||
-      stage.PENDING === currentStage) &&
-      isAuthenticated
+      stage.PENDING === currentStage)
     "
     [isAuthenticated]="isAuthenticated"
     [requirements]="requirements"
@@ -43,8 +42,7 @@
     *ngIf="
       (stage.TERMINATED === currentStage ||
       stage.SUCCEEDED === currentStage ||
-      stage.FAILED === currentStage) ||
-      !isAuthenticated ||
+      stage.FAILED === currentStage) &&
       (isAuthenticated &&
       requirements &&
       !requirements.kycCheck)

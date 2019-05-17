@@ -15,108 +15,90 @@
             <p>{{'Verification' | translate}}</p>
           </div>
           <a
-          href="#"
-          (click)="preventDefault($event)"
-          routerLink="/settings/verification"
-          class="requirement-status requirement-faild"
-          *ngIf="!requirements.kycCheck"
+            href="#"
+            (click)="preventDefault($event)"
+            routerLink="/settings/verification"
+            class="requirement-status requirement-faild"
+            *ngIf="!requirements.kycCheck"
+            >
+            <ng-component *ngTemplateOutlet="failIcon"></ng-component>
+            <p>{{'Proceed to verification' | translate}} »</p>
+          </a>
+        </div>
+        <div
+          *ngIf="!isAuthenticated"
+          class="requirement-status requirement-wait"
           >
-          <ng-component *ngTemplateOutlet="failIcon"></ng-component>
-          <p>{{'Proceed to verification' | translate}} »</p>
-        </a>
-      </div>
-      <div
-      *ngIf="!isAuthenticated"
-      class="requirement-status requirement-wait"
-      >
-      <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-      <p>{{'Please Log In first' | translate}}</p>
-    </div>
-  </div>
-  <div class="requirement-item">
-    <div class="requirement-text-wr">
-      <div class="requirement-text" id="requirement-text">
-        <div class="requirement-text-inner">
-          <p>{{'Users from the following jurisdictions will not be able to participate in this token sale:' | translate}}</p>
-          <p class="requirement-description">
-            {{countries}}.
-          </p>
+          <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
+          <p>{{'Please Log In first' | translate}}</p>
         </div>
       </div>
-      <button onclick="
-      var height = document.querySelector('.requirement-text-inner').clientHeight;
-      if(!(document.getElementById('requirement-text').classList.contains('opened'))){
-        document.getElementById('requirement-text').style.height = height + 'px';
-        document.querySelector('.requirement-item .more-btn').innerHTML = 'Show less';
-        document.getElementById('requirement-text').classList.add('opened');
-      }
-      else{
-        document.querySelector('.requirement-item .more-btn').innerHTML = 'Show more';
-        document.getElementById('requirement-text').style.height = '';
-        document.getElementById('requirement-text').classList.remove('opened');
-      }" 
-      class="more-btn">{{'Show more' | translate}}</button>
-    </div>
-    <div *ngIf="isAuthenticated">
-      <div class="requirement-status requirement-success" *ngIf="requirements.countryCheck">
-        <ng-component *ngTemplateOutlet="successIcon"></ng-component>
-        <p>{{'Verification' | translate}}</p>
+      <div class="requirement-item">
+        <div class="requirement-text-wr">
+          <div class="requirement-text" id="requirement-text">
+            <div class="requirement-text-inner">
+              <p>{{'Users from the following jurisdictions will not be able to participate in this token sale:' | translate}}</p>
+              <p class="requirement-description">{{countries}}.</p>
+            </div>
+          </div>
+          <button (click)="onToggleText()" class="more-btn">{{'Show more' | translate}}</button>
+        </div>
+        <div *ngIf="isAuthenticated">
+          <div class="requirement-status requirement-success" *ngIf="requirements.countryCheck">
+            <ng-component *ngTemplateOutlet="successIcon"></ng-component>
+            <p>{{'Verification' | translate}}</p>
+          </div>
+          <a
+            href="#"
+            (click)="preventDefault($event)"
+            routerLink="/settings/verification"
+            class="requirement-status requirement-wait"
+            *ngIf="!requirements.countryCheck && !requirements.kycCheck">
+            <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
+            <p>{{'Please complete identity verification first' | translate}}</p>
+          </a>
+          <div
+            class="requirement-status requirement-faild"
+            *ngIf="!requirements.countryCheck && requirements.kycCheck">
+            <ng-component *ngTemplateOutlet="failIcon"></ng-component>
+            <p>{{'Sorry, your country not allowed' | translate}}</p>
+          </div>
+        </div>
+        <div
+          *ngIf="!isAuthenticated"
+          class="requirement-status requirement-wait"
+        >
+          <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
+          <p>{{'Please complete identity verification first' | translate}}</p>
+        </div>
       </div>
-      <a
-      href="#"
-      (click)="preventDefault($event)"
-      routerLink="/settings/verification"
-      class="requirement-status requirement-wait"
-      *ngIf="!requirements.countryCheck && !requirements.kycCheck"
-      >
-      <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-      <p>{{'Please complete identity verification first' | translate}}</p>
-    </a>
-    <div
-    class="requirement-status requirement-faild"
-    *ngIf="!requirements.countryCheck && requirements.kycCheck"
-    >
-    <ng-component *ngTemplateOutlet="failIcon"></ng-component>
-    <p>{{'Sorry, your country not allowed' | translate}}</p>
-  </div>
-</div>
-<div
-*ngIf="!isAuthenticated"
-class="requirement-status requirement-wait"
->
-<ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-<p>{{'Please complete identity verification first' | translate}}</p>
-</div>
-</div>
-<div class="requirement-item">
-  <div class="requirement-text">
-    <p>{{'Based on our latest terms, all users are required to accept the Token Purchase Agreement' | translate}}</p>
-  </div>
-  <div *ngIf="isAuthenticated">
-    <div class="requirement-status requirement-success" *ngIf="requirements.policyCheck">
-      <ng-component *ngTemplateOutlet="successIcon"></ng-component>
-      <p>{{'Confirmed' | translate}}</p>
+      <div class="requirement-item">
+        <div class="requirement-text">
+          <p>{{'Based on our latest terms, all users are required to accept the Token Purchase Agreement' | translate}}</p>
+        </div>
+        <div *ngIf="isAuthenticated">
+          <div class="requirement-status requirement-success" *ngIf="requirements.policyCheck">
+            <ng-component *ngTemplateOutlet="successIcon"></ng-component>
+            <p>{{'Confirmed' | translate}}</p>
+          </div>
+          <a
+            href="#"
+            (click)="policyOpen($event)"
+            class="requirement-status requirement-faild"
+            *ngIf="!requirements.policyCheck">
+            <ng-component *ngTemplateOutlet="failIcon"></ng-component>
+            <p>{{'Accept the terms of the agreement' | translate}} »</p>
+          </a>
+        </div>
+        <div
+          *ngIf="!isAuthenticated"
+          class="requirement-status requirement-wait">
+          <ng-component *ngTemplateOutlet="waitIcon"></ng-component>
+          <p>{{'Accept the terms of the agreement' | translate}}</p>
+        </div>
+      </div>
     </div>
-    <a
-    href="#"
-    (click)="policyOpen($event)"
-    class="requirement-status requirement-faild"
-    *ngIf="!requirements.policyCheck"
-    >
-    <ng-component *ngTemplateOutlet="failIcon"></ng-component>
-    <p>{{'Accept the terms of the agreement' | translate}} »</p>
-  </a>
-</div>
-<div
-*ngIf="!isAuthenticated"
-class="requirement-status requirement-wait"
->
-<ng-component *ngTemplateOutlet="waitIcon"></ng-component>
-<p>{{'Accept the terms of the agreement' | translate}}</p>
-</div>
-</div>
-</div>
-</div>
+  </div>
 </div>
 <!-- end component -->
 
