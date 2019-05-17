@@ -42,7 +42,7 @@
 
     <div class="rating">
       <div class="rating-title">
-        <h4>{{'Rating for (ieo)' | translate}}</h4>
+        <h4>{{'Rating for ' | translate}}{{ieoToken || 'Token'}}</h4>
       </div>
       <div class="rating-item-wr">
         <div class="rating-item">
@@ -102,7 +102,7 @@
     <div class="economics standart-pg">
       <div class="economics-inner">
         <div class="text-info-block">
-          <h4>{{'(ieo) Token sale and economics' | translate}}</h4>
+          <h4>{{ieoToken || ''}}{{' Token sale and economics' | translate}}</h4>
         </div>
         <div class="economics-table">
           <div class="economics-table-wr">
@@ -130,7 +130,7 @@
 
     <div class="schedule standart-pg">
       <div class="text-info-block">
-        <h4>{{'(ieo) token release schedule' | translate}}</h4>
+        <h4>{{ieoToken || ''}}{{' token release schedule' | translate}}</h4>
       </div>
       <div class="schedule-graph" id="schedule-graph">
         <img src="assets/img/ieo/graph2.png" alt="">
