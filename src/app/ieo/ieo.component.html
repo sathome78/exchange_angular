@@ -1,18 +1,17 @@
 <div class="ieo-container">
-  <div class="ieo-header" *ngIf="currentStage !== stage.PENDING && requirements">
+  <div class="ieo-header" *ngIf="currentStage !== stage.PENDING">
     <app-ieo-header
       [IEOData]="IEOData"
       [userBalanceBTC]="userBalanceBTC"
       [currentStage]="currentStage"
       [isAuthenticated]="isAuthenticated"
       [ieoLoading]="ieoLoading"
-      [requirements]="requirements"
+      [requirements]="requirements || {}"
       (onLogin)="onLogin()"
       (onBuy)="onBuy()"
     ></app-ieo-header>
   </div>
   <app-ieo-info
-    *ngIf="requirements"
     [isAuthenticated]="isAuthenticated"
     [currentStage]="currentStage"
     [userBalanceBTC]="userBalanceBTC"
@@ -21,7 +20,7 @@
     (onBuy)="onBuy()"
     [IEOData]="IEOData"
     [ieoLoading]="ieoLoading"
-    [requirements]="requirements"
+    [requirements]="requirements || {}"
   ></app-ieo-info>
 
   <app-ieo-community
