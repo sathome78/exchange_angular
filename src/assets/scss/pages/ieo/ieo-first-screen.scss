@@ -11,6 +11,23 @@
 	@media(min-width: 1440px){
 		font-size: 20px;
 	}
+	.kyc-banner{
+		max-width: 1464px;
+		padding: 1em 40px 1em 51px;
+		margin-top: 1em;
+		@media (max-width: 1200px) {
+			padding: 1em 15px 1em 15px;
+		}
+		.kyc-banner-inner {
+			padding: 3.2em 0;
+
+			.button-wr{
+				@media (max-width: 1200px) {
+					width: 13.6em;
+				}
+			}
+		}
+	}
 }
 
 .first-screen{
