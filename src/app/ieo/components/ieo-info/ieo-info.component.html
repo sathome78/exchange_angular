@@ -86,12 +86,12 @@
               <button
                 class="standart-btn"
                 (click)="goToNewsPage()"
-                *ngIf="isAuthenticated && (currentStage === stage.SUCCEEDED || currentStage === stage.FAILED || currentStage === stage.TERMINATED)"
+                *ngIf="isAuthenticated && (currentStage === stage.SUCCEEDED || currentStage === stage.FAILED)"
               >
                 <span>{{'More' | translate}}</span>
               </button>
 
-              <!-- <div>
+              <div>
                 <button
                   class="standart-btn ieo-buy"
                   [disabled]="true"
@@ -99,12 +99,12 @@
                 >
                   <span>{{'More' | translate}}</span>
                 </button>
-                <div class="input-hint-wrapper" *ngIf="isAuthenticated">
+                <!-- <div class="input-hint-wrapper" *ngIf="isAuthenticated">
                   <span class="wrap-input__message">
                     {{'Sale of' | translate}} {{IEOData.currencyDescription}} {{'has been ended' | translate}}
                   </span>
-                </div>
-              </div> -->
+                </div> -->
+              </div>
 
             </div>
           </div>
