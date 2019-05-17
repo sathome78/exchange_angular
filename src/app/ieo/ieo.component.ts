@@ -34,7 +34,7 @@ export class IEOComponent implements OnInit, OnDestroy{
   public lang$: Observable<string>;
   public IEOSub$: Observable<IEOItem>;
   public AuthSub$: Observable<boolean>;
-  public currentStage: string = this.stage.PENDING;
+  public currentStage: string = null
   public showNoReqs: boolean = false;
   public showBuy: boolean = false;
   public showPolicy: boolean = false;

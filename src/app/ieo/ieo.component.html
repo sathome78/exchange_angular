@@ -30,14 +30,26 @@
   ></app-ieo-community>
 
   <app-ieo-requirements
-    *ngIf="stage.RUNNING === currentStage && requirements"
+    *ngIf="
+      (stage.RUNNING === currentStage ||
+      stage.PENDING === currentStage) &&
+      isAuthenticated
+    "
     [isAuthenticated]="isAuthenticated"
     [requirements]="requirements"
     (showPolicy)="openPolicy()"
   ></app-ieo-requirements>
 
   <app-get-ready-banner
-    *ngIf="stage.RUNNING !== currentStage && !requirements?.kycCheck"
+    *ngIf="
+      (stage.TERMINATED === currentStage ||
+      stage.SUCCEEDED === currentStage ||
+      stage.FAILED === currentStage) ||
+      !isAuthenticated ||
+      (isAuthenticated &&
+      requirements &&
+      !requirements.kycCheck)
+    "
     (onClick)="bannerClick()"
   ></app-get-ready-banner>
 
