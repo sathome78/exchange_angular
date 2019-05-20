@@ -54,6 +54,36 @@ export const API_KEY_2FA_FOR = {
   'ENABLE_TRADING_FOR_KEY': 'ENABLE_TRADING_FOR_KEY',
 }
 
+export const LANG_SUPPORT = [
+  'ar',
+  'zh',
+  'cs',
+  'da_DK',
+  'nl_NL',
+  'en',
+  'et_EE',
+  'fr',
+  'de',
+  'el',
+  'he_IL',
+  'hu_HU',
+  'id_ID',
+  'it',
+  'ja',
+  'ko',
+  'fa',
+  'pl',
+  'pt',
+  'ro',
+  'ru',
+  'sk_SK',
+  'es',
+  'sv',
+  'th',
+  'tr',
+  'vi'
+]
+
 export const GRAPH_TIME_ZONE_SUPPORT = [
   'America/New_York',
   'America/Los_Angeles',

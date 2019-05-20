@@ -3,7 +3,7 @@ const path = require('path');
 
 const config = {
   dir: './baseJSON', // <-- your json translations directory
-  outDir: './baseJSONWithEngKeys'
+  outDir: './lastKeysJson'
 };
 
 fs.readdirSync(config.dir).forEach(file => {

@@ -25,7 +25,7 @@ import {
 } from 'assets/js/charting_library/charting_library.min';
 import {environment} from 'environments/environment';
 import {select, Store} from '@ngrx/store';
-import {getActiveCurrencyPair, State, getIsAuthenticated} from 'app/core/reducers/index';
+import {getActiveCurrencyPair, State, getIsAuthenticated, getLanguage} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {getCurrencyPairArray, getCurrencyPairInfo} from '../../../core/reducers';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
@@ -38,7 +38,7 @@ import { Observable } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
 import * as moment from 'moment';
-import {GRAPH_TIME_ZONE_SUPPORT} from 'app/shared/constants';
+import {GRAPH_TIME_ZONE_SUPPORT, LANG_SUPPORT} from 'app/shared/constants';
 
 @Component({
   selector: 'app-graph',
@@ -90,6 +90,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private _tvWidget: IChartingLibraryWidget | null = null;
   private _getDataInterval = 60 * 1000;
   public timeZoneName: string;
+  private language: any;
 
   private widgetOptions: ChartingLibraryWidgetOptions;
 
@@ -111,6 +112,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
   ngOnInit() {
+
+
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -146,9 +149,16 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         this.cdr.detectChanges();
       });
 
-    this.lang = this.langService.getLanguage();
     this.formattingCurrentPairName(this.currencyPairName);
 
+    this.store.pipe(select(getLanguage))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(lang => {
+        this.lang = lang;
+        if (!!this._tvWidget) {
+          this._tvWidget.setLanguage(this.setLang());
+        }
+      });
 
     this.widgetOptions = {
       symbol: this.currencyPairName,
@@ -164,7 +174,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         {text: '3d', resolution: '30'},
       ],
       library_path: this._libraryPath,
-      locale: (this.lang as LanguageCode) || 'en',
+      locale: this.setLang(),
       disabled_features: [
         'use_localstorage_for_settings',
         'cl_feed_return_all_data',
@@ -372,6 +382,11 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     } else {
       return 'Etc/UTC';
     }
+  }
+
+  private setLang(): LanguageCode {
+    const indexCandidate = LANG_SUPPORT.indexOf(this.lang);
+    return (indexCandidate !== -1) ? <LanguageCode>LANG_SUPPORT[indexCandidate] : <LanguageCode>'en';
   }
 
 }
