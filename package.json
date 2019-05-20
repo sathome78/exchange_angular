@@ -1,6 +1,6 @@
 {
   "name": "exrates-front-new",
-  "version": "${VERSION}",
+  "version": "VERSION",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --configuration=dev --aot",
