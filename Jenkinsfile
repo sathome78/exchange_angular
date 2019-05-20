@@ -8,7 +8,7 @@ pipeline {
       agent any      
       steps {
         echo XCODE_BUILD_NUMBER
-        sh "sed -i s/${${VERSION}}/${XCODE_BUILD_NUMBER}/g package.json"
+        //sh "sed -i s/${${VERSION}}/${XCODE_BUILD_NUMBER}/g package.json"
         sh 'docker build --build-arg ENVIRONMENT -t roadtomoon/exrates_angular:$ENVIRONMENT .'
       }
     } 
