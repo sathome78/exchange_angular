@@ -58,6 +58,7 @@ import {GetDateStringPipe} from './pipes/parse-date-utc.pipe';
 import {DateFromISO8601Pipe} from './pipes/dateFromISO8601.pipe';
 import {RefactUrlByNewsPipe} from './pipes/refact-url-by-news.pipe';
 import {CutAddEllipsisPipe} from './pipes/cut-add-ellipsis.pipe';
+import {CurrencyFormatPipe} from './pipes/currencyFormat.pipe';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import {CutAddEllipsisPipe} from './pipes/cut-add-ellipsis.pipe';
     ShowStageStatusPipe,
     PopupBuyComponent,
     PopupSuccessComponent,
+    CurrencyFormatPipe,
   ],
   imports: [
     FormsModule,
@@ -165,6 +167,7 @@ import {CutAddEllipsisPipe} from './pipes/cut-add-ellipsis.pipe';
     PopupBuyComponent,
     PopupSuccessComponent,
     AddClassDirective,
+    CurrencyFormatPipe,
   ],
   providers: [
     NotificationsService,

@@ -11,8 +11,8 @@
         *ngFor="let item of showBuyDataReverse; let i = index"
         (click)="onSelectOrder(item)"
       >
-        <div class="td">{{item.total | roundCurrency | formatCurrency}}</div>
-        <div class="td">{{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</div>
+        <div class="td">{{item.total | currencyFormat:'full':splitCurrencyName[1]:true}}</div>
+        <div class="td">{{item.exrate | currencyFormat:'full':splitCurrencyName[1]:true}}</div>
         <div class="bg-bar" [style.width]="buyVisualizationArray[i] + '%'"></div>
       </div>
     </div>
@@ -29,8 +29,8 @@
           *ngFor="let item of showSellDataReverse; let i = index"
           (click)="onSelectOrder(item)"
         >
-          <div class="td">{{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1] | orderBookCutBigNum}}</div>
-          <div class="td">{{item.total | roundCurrency | formatCurrency  | orderBookCutBigNum}}</div>
+          <div class="td">{{item.exrate | currencyFormat:'full':splitCurrencyName[1]:true | orderBookCutBigNum}}</div>
+          <div class="td">{{item.total | currencyFormat:'full':splitCurrencyName[1]:true  | orderBookCutBigNum}}</div>
           <!-- <div class="td">{{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</div> -->
           <div class="bg-bar" [style.width]="sellVisualizationArray[i] + '%'"></div>
         </div>

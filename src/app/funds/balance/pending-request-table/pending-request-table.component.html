@@ -32,10 +32,10 @@
       <span>{{item.currency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>{{item.amount | roundCurrency:item.currency | formatCurrency}}</span>
+      <span>{{item.amount | currencyFormat:'short':item.currency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>{{item.commission | roundCurrency:item.currency | formatCurrency}}</span>
+      <span>{{item.commission | currencyFormat:'short':item.currency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
       <span>{{item.system | showPendingSystem: item.currency}}</span>

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AuthService} from '../../../../shared/services/auth.service';
+import {SimpleCurrencyPair} from '../../../../model/simple-currency-pair';
 
 @Component({
   selector: 'app-embedded-orders-history-mobile',
@@ -9,6 +10,8 @@ import {AuthService} from '../../../../shared/services/auth.service';
 export class EmbeddedOrdersHistoryMobileComponent implements OnInit {
 
   @Input() historyOrders = [];
+  @Input() currentPair: SimpleCurrencyPair ;
+  public arrPairName = ['', ''];
   public selectedOrder = null;
   public isVipUser;
 
@@ -18,6 +21,7 @@ export class EmbeddedOrdersHistoryMobileComponent implements OnInit {
 
   ngOnInit() {
     this.isVipUser = this.authService.isVipUser;
+    this.arrPairName = this.currentPair.name.split('/');
   }
 
   toggleDetails(order) {

@@ -52,7 +52,7 @@
               </div>
             </td>
             <td class="table__cell table__cell--tar">
-              {{detailsItem.amount | roundCurrency: detailsItem.currency | formatCurrency}}
+              {{detailsItem.amount | currencyFormat:'short':detailsItem.currency}}
             </td>
           </tr>
           <tr>
@@ -64,7 +64,7 @@
         </table>
         <div class="open-mob-request__item">
           <div class="open-mob-request__item-title">{{'Comission' | translate}}</div>
-          <div class="open-mob-request__item-value">{{detailsItem.commission | roundCurrency: detailsItem.currency | formatCurrency}}</div>
+          <div class="open-mob-request__item-value">{{detailsItem.commission | currencyFormat:'short':detailsItem.currency}}</div>
         </div>
         <div class="open-mob-request__item">
           <div class="open-mob-request__item-title">{{'Payment system' | translate}}</div>

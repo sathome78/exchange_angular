@@ -34,19 +34,19 @@
           </div>
         </td>
         <td class="table__cell table__cell--tal">
-          <span>{{(+item.activeBalance + +item.reservedByOrders + +item.reservedByMerchant + +item.onConfirmation) | roundCurrency:item.currencyName | formatCurrency}}</span>
+          <span>{{(+item.activeBalance + +item.reservedByOrders + +item.reservedByMerchant + +item.onConfirmation) | currencyFormat:'short':item.currencyName}}</span>
         </td>
         <td class="table__cell table__cell--tar">
-          <span>{{item.activeBalance | roundCurrency:item.currencyName | formatCurrency}}</span>
+          <span>{{item.activeBalance | currencyFormat:'short':item.currencyName}}</span>
         </td>
         <td class="table__cell table__cell--tar">
-          <span>{{item.onConfirmation | roundCurrency:item.currencyName | formatCurrency}}</span>
+          <span>{{item.onConfirmation | currencyFormat:'short':item.currencyName}}</span>
         </td>
         <td class="table__cell table__cell--tar">
-          <span>{{item.reservedByMerchant | roundCurrency:item.currencyName | formatCurrency}}</span>
+          <span>{{item.reservedByMerchant | currencyFormat:'short':item.currencyName}}</span>
         </td>
         <td class="table__cell table__cell--tar">
-          <span>{{item.reservedByOrders | roundCurrency:item.currencyName | formatCurrency}}</span>
+          <span>{{item.reservedByOrders | currencyFormat:'short':item.currencyName}}</span>
         </td>
         <!-- <td class="table__cell table__cell--tar">
           <div class="balance__change">

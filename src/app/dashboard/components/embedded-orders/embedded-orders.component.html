@@ -86,13 +86,15 @@
       *ngIf="mainTab === 'open'"
       (refreshOpenOrders)="refreshOpenOrders()"
       [makeHeight]="makeHeight"
-      [openOrders]="openOrders">
+      [openOrders]="openOrders"
+      [currentPair]="activeCurrencyPair">
     </app-embedded-open-orders>
 
     <app-embedded-orders-history
       *ngIf="mainTab === 'history'"
       [makeHeight]="makeHeight"
-      [historyOrders]="historyOrders">
+      [historyOrders]="historyOrders"
+      [currentPair]="activeCurrencyPair">
     </app-embedded-orders-history>
 
 

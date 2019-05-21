@@ -38,19 +38,19 @@
       <!--<span class="orders__type-sell">Sell <span>(Limit)</span></span>-->
     </td>
     <td class="table__cell">
-      <span>{{(item.exExchangeRate || item.limitRate)  | roundCurrency: arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
+      <span>{{(item.exExchangeRate || item.limitRate)  | currencyFormat:'short':arrPairName[1]}} {{arrPairName[1]}}</span>
     </td>
     <td class="table__cell">
-      <span>{{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | roundCurrency: arrPairName[1] | formatCurrency}} {{item.orderBaseType !== 'STOP_LIMIT' ? '' : arrPairName[1]}}</span>
+      <span>{{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | currencyFormat:'short':arrPairName[1]}} {{item.orderBaseType !== 'STOP_LIMIT' ? '' : arrPairName[1]}}</span>
     </td>
     <td class="table__cell">
-      <span>{{item.amountBase | roundCurrency: arrPairName[0] | formatCurrency}} {{arrPairName[0]}}</span>
+      <span>{{item.amountBase | currencyFormat:'short':arrPairName[0]}} {{arrPairName[0]}}</span>
     </td>
     <td class="table__cell txt-grey">
-      <span>{{item.commissionFixedAmount | roundCurrency: arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
+      <span>{{item.commissionFixedAmount | currencyFormat:'short':arrPairName[1]}} {{arrPairName[1]}}</span>
     </td>
     <td class="table__cell">
-      <span>{{item.amountWithCommission | roundCurrency: arrPairName[1] | formatCurrency}} {{arrPairName[1]}}</span>
+      <span>{{item.amountWithCommission | currencyFormat:'short':arrPairName[1]}} {{arrPairName[1]}}</span>
     </td>
     <td class="table__cell">
       <button class="btn btn--small btn--empty-red btn--hidden"
@@ -83,130 +83,3 @@
     <pagination-controls (pageChange)="changePage($event)" [previousLabel]="''" [nextLabel]="''"></pagination-controls>
   </ul>
 </div>
-
-<!--popup start-->
-<!--<div class="order-edit-popup" *ngIf="editOrderPopup">-->
-  <!--<div class="order-edit-popup__content order-edit-popup__content&#45;&#45;mob"></div>-->
-  <!--<div class="order-edit-popup__content">-->
-    <!--<div class="order-edit-popup__title">{{'Edit order' | translate}} <span>#{{order.orderId}}</span></div>-->
-    <!--<div class="order-edit-popup__close" (click)="closePopup()">-->
-      <!--<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-        <!--<path-->
-          <!--d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"/>-->
-      <!--</svg>-->
-    <!--</div>-->
-
-
-    <!--<form [formGroup]="limitForm" *ngIf="dropdownLimitValue === 'LIMIT' || dropdownLimitValue === 'ICO'">-->
-
-      <!--<div class="row row&#45;&#45;jcsb widget__trading-row">-->
-
-        <!--<div class="wrap-input widget__input widget__input&#45;&#45;mr32">-->
-          <!--&lt;!&ndash;<input class="wrap-input__input no-spinners" type="number"&ndash;&gt;-->
-                 <!--&lt;!&ndash;formControlName="quantityOf"&ndash;&gt;-->
-                 <!--&lt;!&ndash;(input)="quantityInput($event)"&ndash;&gt;-->
-                 <!--&lt;!&ndash;name="quantityOf">&ndash;&gt;-->
-          <!--&lt;!&ndash;<label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>&ndash;&gt;-->
-          <!--<app-price-input [placeholder]="'Quantity of ' + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>-->
-          <!--<div class="wrap-input__line"></div>-->
-        <!--</div>-->
-
-        <!--<div class="wrap-input widget__input">-->
-          <!--&lt;!&ndash;<input class="wrap-input__input no-spinners" type="number"&ndash;&gt;-->
-                 <!--&lt;!&ndash;(input)="rateInput($event)"&ndash;&gt;-->
-                 <!--&lt;!&ndash;formControlName="priceIn"&ndash;&gt;-->
-                 <!--&lt;!&ndash;name="priceIn">&ndash;&gt;-->
-          <!--&lt;!&ndash;<label class="wrap-input__label" for="">Price in {{arrPairName[1]}}</label>&ndash;&gt;-->
-          <!--<app-price-input [placeholder]="'Price in ' + arrPairName[1]" (customInput)="rateInput($event)" name="priceIn" formControlName="priceIn"></app-price-input>-->
-          <!--<div class="wrap-input__line"></div>-->
-        <!--</div>-->
-
-      <!--</div>-->
-
-      <!--<div class="row row&#45;&#45;jcsb widget__trading-row">-->
-        <!--<div class="wrap-input widget__input">-->
-          <!--&lt;!&ndash;<input class="wrap-input__input no-spinners" type="number"&ndash;&gt;-->
-                 <!--&lt;!&ndash;formControlName="totalIn"&ndash;&gt;-->
-                 <!--&lt;!&ndash;(input)="totalInput($event)"&ndash;&gt;-->
-                 <!--&lt;!&ndash;name="totalIn">&ndash;&gt;-->
-          <!--&lt;!&ndash;<label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>&ndash;&gt;-->
-          <!--<app-price-input [placeholder]="'Total in ' + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>-->
-          <!--<div class="wrap-input__line"></div>-->
-        <!--</div>-->
-      <!--</div>-->
-
-    <!--</form>-->
-    <!--<form [formGroup]="stopForm" *ngIf="dropdownLimitValue === 'STOP_LIMIT'">-->
-      <!--<div class="row row&#45;&#45;jcsb widget__trading-row">-->
-        <!--<div class="wrap-input widget__input widget__input&#45;&#45;mr32">-->
-          <!--<input class="wrap-input__input no-spinners" type="number"-->
-                 <!--(input)="stopInput($event)"-->
-                 <!--formControlName="stop"-->
-                 <!--name="stop">-->
-          <!--<label class="wrap-input__label" for="">{{'Stop' | translate}}</label>-->
-          <!--<div class="wrap-input__line"></div>-->
-        <!--</div>-->
-        <!--<div class="wrap-input widget__input">-->
-          <!--&lt;!&ndash;<input class="wrap-input__input no-spinners" type="number"&ndash;&gt;-->
-                 <!--&lt;!&ndash;(input)="rateInput($event)"&ndash;&gt;-->
-                 <!--&lt;!&ndash;formControlName="limit"&ndash;&gt;-->
-                 <!--&lt;!&ndash;name="limit">&ndash;&gt;-->
-          <!--&lt;!&ndash;<label class="wrap-input__label" for="">Limit</label>&ndash;&gt;-->
-          <!--<app-price-input [placeholder]="'Limit ' + arrPairName[1]" (customInput)="rateInput($event)" name="limit" formControlName="limit"></app-price-input>-->
-          <!--<div class="wrap-input__line"></div>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<div class="row row&#45;&#45;jcsb widget__trading-row">-->
-        <!--<div class="wrap-input widget__input widget__input&#45;&#45;mr32">-->
-          <!--&lt;!&ndash;<input class="wrap-input__input no-spinners" type="number"&ndash;&gt;-->
-                 <!--&lt;!&ndash;formControlName="quantityOf"&ndash;&gt;-->
-                 <!--&lt;!&ndash;(input)="quantityInput($event)"&ndash;&gt;-->
-                 <!--&lt;!&ndash;name="quantityOf">&ndash;&gt;-->
-          <!--&lt;!&ndash;<label class="wrap-input__label" for="">Quantity of {{arrPairName[0]}}</label>&ndash;&gt;-->
-          <!--<app-price-input [placeholder]="'Quantity of ' + arrPairName[0]" (customInput)="quantityInput($event)" name="quantityOf" formControlName="quantityOf"></app-price-input>-->
-          <!--<div class="wrap-input__line"></div>-->
-        <!--</div>-->
-        <!--<div class="wrap-input widget__input">-->
-          <!--&lt;!&ndash;<input class="wrap-input__input no-spinners" type="number"&ndash;&gt;-->
-                 <!--&lt;!&ndash;formControlName="totalIn"&ndash;&gt;-->
-                 <!--&lt;!&ndash;(input)="totalInput($event)"&ndash;&gt;-->
-                 <!--&lt;!&ndash;name="totalIn">&ndash;&gt;-->
-          <!--&lt;!&ndash;<label class="wrap-input__label" for="">Total in {{arrPairName[1]}}</label>&ndash;&gt;-->
-          <!--<app-price-input [placeholder]="'Total in ' + arrPairName[1]" (customInput)="totalInput($event)" name="totalIn" formControlName="totalIn"></app-price-input>-->
-          <!--<div class="wrap-input__line"></div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</form>-->
-
-    <!--<div class="row row&#45;&#45;jcsb txt-light-grey widget__trading-row-txt">-->
-    <!--<div class="avaliable" style="margin-top: 0;">-->
-    <!--<span>-->
-    <!--<svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-    <!--<path d="M7.23181 6.84126V8.72983C7.23181 9.08029 7.41189 9.35214 7.56677 9.35214H12V6.21888H7.56677C7.41189 6.21888 7.23181 6.4908 7.23181 6.84126ZM9.05815 7.05851C9.43365 7.05851 9.73913 7.38464 9.73913 7.78551C9.73913 8.18639 9.43365 8.51251 9.05815 8.51251C8.68266 8.51251 8.37718 8.18639 8.37718 7.78551C8.37718 7.38464 8.68266 7.05851 9.05815 7.05851ZM7.56677 10.3633C6.85985 10.3633 6.2847 9.63047 6.2847 8.72983V6.84126C6.2847 5.94062 6.85979 5.20783 7.56677 5.20783H12V3.97574C12 3.35222 11.6172 2.82286 11.0894 2.63991L10.2623 0.325323C10.2155 0.194484 10.12 0.0902034 9.99851 0.0373555C9.87702 -0.0154251 9.74051 -0.0121895 9.6213 0.046523L4.49908 2.57102H1.31579C0.590302 2.57102 0 3.20122 0 3.97574V11.5952C0 12.3698 0.590302 13 1.31579 13H10.6842C11.4097 13 12 12.3698 12 11.5952V10.3633H7.56677ZM9.5581 1.19138L10.0511 2.57109H6.75876L9.5581 1.19138Z"/>-->
-    <!--</svg>-->
-    <!--</span>-->
-    <!--<span style="vertical-align: middle; color:#A0A0A0;">{{'Available:' | translate}} </span>-->
-    <!--&lt;!&ndash; <a href="#">{{userBalance | roundCurrency: isFiat(0) | formatCurrency}} {{arrPairName[0]}}</a> &ndash;&gt;-->
-    <!--</div>-->
-    <!--<div>-->
-    <!--{{'Fee:' | translate}} {{order.commission | roundCurrency: arrPairName[0] | formatCurrency}} {{arrPairName[0]}}-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="row row&#45;&#45;jcsb row&#45;&#45;aic widget__trading-row">-->
-    <!--<div class="dropdown widget__limit-dropdown" [ngClass]="{'dropdown&#45;&#45;open': isDropdownOpen}"-->
-         <!--(click)="toggleLimitDropdown()">-->
-    <!--<div class="dropdown__btn">{{showLimit(dropdownLimitValue)}}</div>-->
-    <!--<ul class="dropdown__list">-->
-      <!--<ng-template ngFor let-limit [ngForOf]="limitsData" , let-index = index>-->
-        <!--<li class="dropdown__item" (click)="selectedLimit(limit)" *ngIf="limit !== dropdownLimitValue">{{showLimit(limit)}}</li>-->
-      <!--</ng-template>-->
-    <!--</ul>-->
-    <!--</div>-->
-    <!--<div class="order-edit-popup__btns-wrap">-->
-    <!--<button class="btn btn&#45;&#45;small btn&#45;&#45;empty-red" (click)="deleteOrder(order)" [disabled]="loading">{{'Delete' | translate}}</button>-->
-    <!--<button class="btn btn&#45;&#45;small btn&#45;&#45;empty-blue" (click)="saveOrder()" [disabled]="loading">{{'Save' | translate}}</button>-->
-    <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
-<!--popup end-->
