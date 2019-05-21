@@ -104,7 +104,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   initForm() {
     this.loginForm = new FormGroup({
       email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator()]}),
-      password: new FormControl('', {validators: Validators.required})
+      password: new FormControl('', {validators: [Validators.required, this.utilsService.passwordCombinationValidator()]})
     });
     this.pinForm = new FormGroup({
       pin: new FormControl('', { validators: Validators.required })
