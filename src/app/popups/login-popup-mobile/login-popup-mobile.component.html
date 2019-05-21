@@ -104,7 +104,7 @@
 
             <div *ngIf="statusMessage && loginForm.get('email').valid">
               <span class="wrap-input__message wrap-input__message--error">
-                {{statusMessage}}
+                {{statusMessage | translate}}
               </span>
             </div>
             <div class="popup__links-wrap  popup__links-wrap--center" *ngIf="showSendAgainBtn">

@@ -8,7 +8,7 @@ import {PopupService} from 'app/shared/services/popup.service';
 import {takeUntil} from 'rxjs/operators';
 import {IEOServiceService} from '../shared/services/ieoservice.service';
 import {KycIEOModel} from './models/ieo-kyc.model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {IEOItem} from 'app/model/ieo.model';
 import {UserService} from 'app/shared/services/user.service';
 import {environment} from 'environments/environment';
@@ -34,13 +34,14 @@ export class IEOComponent implements OnInit, OnDestroy{
   public lang$: Observable<string>;
   public IEOSub$: Observable<IEOItem>;
   public AuthSub$: Observable<boolean>;
-  public currentStage: string = this.stage.PENDING;
+  public currentStage: string = null
   public showNoReqs: boolean = false;
   public showBuy: boolean = false;
   public showPolicy: boolean = false;
   public showSuccess: boolean = false;
   private ngUnsubscribe$: Subject<void> = new Subject<void>();
-  public requirements: KycIEOModel = new KycIEOModel(null, null, null);
+  public requirements: KycIEOModel = null;
+  public verificationStatus: boolean = false;
   private IEOId: string;
   public IEOData: IEOItem = new IEOItem();
   public userBalanceBTC: number = 0;
@@ -52,6 +53,7 @@ export class IEOComponent implements OnInit, OnDestroy{
     private readonly translate: TranslateService,
     private popupService: PopupService,
     private route: ActivatedRoute,
+    private router: Router,
     private ieoService: IEOServiceService,
     private userService: UserService,
   ) {
@@ -80,6 +82,7 @@ export class IEOComponent implements OnInit, OnDestroy{
               .subscribe((res: KycIEOModel) => {
                 if(res) {
                   this.requirements = res;
+                  this.verificationStatus = Object.values(res).every((i) => i);
                   // this.requirements = new KycIEOModel(true, true, true);
                 };
               })
@@ -92,9 +95,9 @@ export class IEOComponent implements OnInit, OnDestroy{
   ngOnInit() {
     window.scrollTo(0, 0);
     // uncomment when the translation is ready
-    // this.lang$
-    //   .pipe(takeUntil(this.ngUnsubscribe$))
-    //   .subscribe(lang => this.translate.use(lang));
+    this.lang$
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(lang => this.translate.use(lang));
   }
 
   onLogin() {
@@ -199,6 +202,14 @@ export class IEOComponent implements OnInit, OnDestroy{
     this.endTimer = setTimeout(() => {
       this.onRefreshIEOStatus();
     }, diff);
+  }
+
+  bannerClick() {
+    if (!this.isAuthenticated) {
+      this.onLogin();
+    } else {
+       this.router.navigate(['/settings/verification']);
+    }
   }
 
   public get showContent() {

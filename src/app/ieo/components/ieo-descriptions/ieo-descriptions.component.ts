@@ -9,10 +9,12 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 export class IEODescriptionsComponent implements OnInit {
 
   @Input('description') public description = null;
+  @Input('ieoToken') public ieoToken = null;
 
   constructor() { }
 
   ngOnInit() {
+    console.log(this.description);
   }
 
 }

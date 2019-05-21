@@ -21,6 +21,7 @@ import {translateInfo} from '../shared/configs/translate-options';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import { CommonIEOComponent } from './components/common-ieo/common-ieo.component';
 import {MomentModule} from 'ngx-moment';
+import { GetReadyBannerComponent } from './components/get-ready-banner/get-ready-banner.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -38,6 +39,7 @@ export function createTranslateLoader(http: HttpClient) {
     IeoHeaderComponent,
     PopupPolicyComponent,
     CommonIEOComponent,
+    GetReadyBannerComponent,
   ],
   imports: [
     CommonModule,

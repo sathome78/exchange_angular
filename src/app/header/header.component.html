@@ -90,6 +90,13 @@
           </li>
           <li class="menu__item" routerLinkActive="menu__link--active">
             <ng-container>
+              <a class="menu__link" routerLink="/fiat">
+                <span class="menu__link-text">{{'FIAT' | translate}}</span>
+             </a>
+            </ng-container>
+          </li>
+          <li class="menu__item" routerLinkActive="menu__link--active">
+            <ng-container>
                <a class="menu__link" href="https://support.exrates.me" target="blank">
                  <span class="menu__link-text">{{'Support' | translate}}</span>
                </a>
@@ -217,26 +224,24 @@
 
     <!--uncomment when the translation is ready-->
 
-     <!--<ul class="menu language">-->
-      <!--<li class="menu__item menu__item&#45;&#45;with-submenu menu__item&#45;&#45;disabled">-->
-        <!--<a class="menu__link">-->
-          <!--<span class="menu__link-text">-->
-             <!--<img class="language__flag" [src]="lang.icon_url" alt="ru">-->
-             <!--<span>{{lang.fullName}}</span>-->
-          <!--</span>-->
-        <!--</a>-->
-         <!--<div class="submenu submenu&#45;&#45;language">-->
-          <!--<ul class="menu__list submenu__list submenu__list&#45;&#45;language">-->
-            <!--<li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">-->
-              <!--<a class="submenu__link" (click)="changeLocalization(lang.name)" >-->
-                <!--<img class="language__flag" [src]="lang.icon_url" alt="">-->
-                <!--<span class="language__text">{{lang.fullName | translate}}</span>-->
-                <!--</a>-->
-                <!--</li>-->
-          <!--</ul>-->
-        <!--</div>-->
-      <!--</li>-->
-    <!--</ul>-->
+     <ul class="menu language" *ngIf="showContent">
+      <li class="menu__item menu__item--with-submenu menu__item--disabled">
+        <a class="menu__link">
+          <span class="menu__link-text">
+             <span>{{lang.fullName}}</span>
+          </span>
+        </a>
+         <div class="submenu submenu--language">
+          <ul class="menu__list submenu__list submenu__list--language">
+            <li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">
+              <a class="submenu__link" (click)="changeLocalization(lang.name)" >
+                <span class="language__text">{{lang.fullName | translate}}</span>
+                </a>
+                </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
 
     <div class="translate">
       <button class="translate__trigger">
@@ -356,6 +361,21 @@
         </div>
       </div>
 
+        <div class="menu-mob__drop-wrap" *ngIf="showContent">
+          <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(NGX_TRANSLATE_FLAG)" [ngClass]="{'menu-mob__link--active': ngxTranslateList}"
+             routerLink="/funds/balances">
+            <span class="menu-mob__link-text">
+             <span>{{lang.fullName}}</span>
+            </span>
+          </a>
+          <div class="menu-mob__wrap-links" *ngIf="ngxTranslateList">
+            <a class="menu-mob__link" (click)="mobileLinkClick(lang.name)" *ngFor="let lang of langArray | excludeByField:'name':lang.name">
+              <span class="language__text">{{lang.fullName | translate}}</span>
+            </a>
+          </div>
+        </div>
+
+
       <div class="menu-mob__drop-wrap">
         <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(TRANSLATE_FLAG)" [ngClass]="{'menu-mob__link--active': translateList}">
           <span class="menu-mob__link-text">{{'Google Translater' | translate}}</span></a>
@@ -387,6 +407,7 @@
         <a class="menu-mob__link" routerLink="/ieo" (click)="mobileLinkClick()"><span
           class="menu-mob__link-text">{{'IEO' | translate}}</span>
         </a>
+
         <!-- <div class="menu-mob__drop-wrap" *ngIf="showContent">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(IEO_FLAG)" [ngClass]="{'menu-mob__link--active': showIEOList}">
             <span class="menu-mob__link-text">{{'IEO' | translate}}</span>
@@ -395,6 +416,7 @@
             <a class="menu-mob__link" (click)="mobileLinkClick()" [routerLink]="'/ieo/' + ieo.id" *ngFor="let ieo of (ieoList$ | async)">{{ieo.currencyDescription}} ({{ieo.status | showStageStatus}})</a>
           </div>
         </div> -->
+
         <a class="menu-mob__link" href="https://support.exrates.me">
           <span class="menu-mob__link-text">{{'Support' | translate}}</span>
         </a>

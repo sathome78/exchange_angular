@@ -6,7 +6,7 @@
       [currentStage]="currentStage"
       [isAuthenticated]="isAuthenticated"
       [ieoLoading]="ieoLoading"
-      [requirements]="requirements"
+      [requirements]="requirements || {}"
       (onLogin)="onLogin()"
       (onBuy)="onBuy()"
     ></app-ieo-header>
@@ -20,24 +20,42 @@
     (onBuy)="onBuy()"
     [IEOData]="IEOData"
     [ieoLoading]="ieoLoading"
-    [requirements]="requirements"
+    [requirements]="requirements || {}"
   ></app-ieo-info>
 
   <app-ieo-community
     *ngIf="ieoData.community && ieoData.community.length"
     [community]="ieoData.community"
-  >
-  </app-ieo-community>
+  ></app-ieo-community>
 
   <app-ieo-requirements
+    *ngIf="
+      (stage.RUNNING === currentStage ||
+      stage.PENDING === currentStage)
+    "
     [isAuthenticated]="isAuthenticated"
     [requirements]="requirements"
     (showPolicy)="openPolicy()"
   ></app-ieo-requirements>
 
+  <app-get-ready-banner
+    *ngIf="
+      (stage.TERMINATED === currentStage ||
+      stage.SUCCEEDED === currentStage ||
+      stage.FAILED === currentStage) &&
+      (isAuthenticated &&
+      requirements &&
+      !requirements.kycCheck)
+    "
+    (onClick)="bannerClick()"
+  ></app-get-ready-banner>
+
   <app-ieo-how-it-works></app-ieo-how-it-works>
 
-  <app-ieo-descriptions [description]="ieoData.description"></app-ieo-descriptions>
+  <app-ieo-descriptions
+    [description]="ieoData.description"
+    [ieoToken]="IEOData.currencyDescription"
+  ></app-ieo-descriptions>
 
   <app-popup-failed
     *ngIf="showNoReqs"
