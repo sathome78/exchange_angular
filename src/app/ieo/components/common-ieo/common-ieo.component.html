@@ -255,7 +255,7 @@
               <div class="progress-block" *ngIf="item.status === 'RUNNING'">
                 <div class="currency-info">
                   <div class="currency-buyed">
-                    <span class="buyed-value">{{boughtAmount(item) || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
+                    <span class="buyed-value">{{boughtAmount(item) | currencyFormat}}</span>
                     <span class="currency-name">{{item.currencyName}}</span>
                   </div>
                   <div class="percentage">
@@ -276,7 +276,7 @@
                   <span>{{'Session Supply' | translate}}</span>
                 </div>
                 <div class="info-value">
-                  <span>{{(item.amount * item.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</span>
+                  <span>{{item.amount * item.rate | currencyFormat}} BTC</span>
                 </div>
               </div>
 

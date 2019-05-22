@@ -21,10 +21,12 @@
   <app-embedded-open-orders-mobile
     *ngIf="mainTab === 'open'"
     (refreshOpenOrders)="toOpenOrders()"
-  [openOrders]="openOrders"
-  ></app-embedded-open-orders-mobile>
+    [openOrders]="openOrders"
+    [currentPair]="activeCurrencyPair">
+  </app-embedded-open-orders-mobile>
 
   <app-embedded-orders-history-mobile
     *ngIf="mainTab === 'history'"
-  [historyOrders]="historyOrders">
+    [historyOrders]="historyOrders"
+    [currentPair]="activeCurrencyPair">
   </app-embedded-orders-history-mobile>

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IEODescriptionsComponent } from './ieo-descriptions.component';
+import { IeoDescription4Component } from './ieo-description4.component';
 
-describe('IEODescriptionsComponent', () => {
-  let component: IEODescriptionsComponent;
-  let fixture: ComponentFixture<IEODescriptionsComponent>;
+describe('IeoDescription4Component', () => {
+  let component: IeoDescription4Component;
+  let fixture: ComponentFixture<IeoDescription4Component>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IEODescriptionsComponent ]
+      declarations: [ IeoDescription4Component ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IEODescriptionsComponent);
+    fixture = TestBed.createComponent(IeoDescription4Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

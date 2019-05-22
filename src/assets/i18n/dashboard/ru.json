@@ -383,8 +383,8 @@
   "Settings": "Настройки",
   "Should be at least": "Должно быть минимум",
   "Show more": "Показать больше",
-  "Sign up": "Подписаться",
-  "Sing Up": "Подписаться",
+  "Sign up": "Зарегистрироваться",
+  "Sing Up": "Зарегистрироваться",
   "Sorry but you dont have enough USD on your balance to connect two factor authorisation by sms": "Извините, но на вашем балансе недостаточно USD, чтобы установить двухфакторную авторизацию по SMS",
   "Sorry, refill is closed for current moment!": "Извините, на данный момент пополнение закрыто!",
   "Sorry, refill is unavailable for current moment!": "Извините, на данный момент пополнение недоступно!",
@@ -404,8 +404,8 @@
   "Submit": "Отправить",
   "Submit a coin for listing": "Отправить заявку на листинг",
   "Support": "Помощь",
-  "Terms and Conditions": "Условия и Положения",
-  "Terms and conditions": "Условия и положения",
+  "Terms and conditions": "Условиями и Положениями",
+  "Terms and Conditions": "Условия и положения",
   "Terms of use": "Условия использования",
   "Thank you!": "Спасибо!",
   "Thanks for contacting Exrates! Our support team will contact you as soon as possible. Stay tuned and have a profitable trading!": "Спасибо, что связались с нами! Наша служба поддержки свяжется с вами. Оставайтесь с нами, удачных торгов!",
@@ -426,6 +426,7 @@
   "To the next step": "Следующий шаг",
   "Token Allocaation": "Распределение токенов",
   "Tools": "Инструменты",
+  "Tool": "Инструменты",
   "Total": "Всего",
   "Total Price": "Общая сумма",
   "Total balance": "Общий баланс",
@@ -537,4 +538,5 @@
   "© 2019 EXRATES LTD trade marks belong to their corresponding owners. All rights are reserved": "© 2019 EXRATES LTD trademarks belong to their corresponding owners. All rights are reserved",
   "Аvailable": "Доступно",
   "Сonfirm your details": "Подтвердите"
+
 }

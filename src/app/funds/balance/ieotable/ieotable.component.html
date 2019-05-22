@@ -28,19 +28,19 @@
         <span [ngClass]="{'status-green': ieo.status !== 'FAILED', 'status-red': ieo.status === 'FAILED'}"> {{ieo.status | showStageStatus}}</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>1 {{ieo.currencyName}} = {{ieo.rate || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</span>
+        <span>1 {{ieo.currencyName}} = {{ieo.rate | currencyFormat}} BTC</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{ieo.availableAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
+        <span>{{ieo.availableAmount | currencyFormat}}</span>
       </td>
       <td class="table__cell table__cell--tar">
         <span>{{getFormatDate(ieo.startDate)}}</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{(ieo.personalAmount|| 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{ieo.currencyName}}</span>
+        <span>{{ieo.personalAmount | currencyFormat}} {{ieo.currencyName}}</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{ieo.amount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
+        <span>{{ieo.amount | currencyFormat}}</span>
       </td>
       <td class="table__cell button-cell">
         <button

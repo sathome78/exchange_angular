@@ -1,5 +1,5 @@
 
-<div class="dashboard-tools" style="min-width: 103px" (mouseenter)="showOverlay()" (mouseleave)="hideOverlay()" *ngIf="visibleToolsItems.length">
+<div class="dashboard-tools" style="width: 103px" (mouseenter)="showOverlay()" (mouseleave)="hideOverlay()" *ngIf="visibleToolsItems.length">
 
   <div class="dashboard-tools__header">
     {{"Tools" | translate}}
@@ -10,14 +10,14 @@
     <div class="dashboard-tools__item-icon">
       <img class="" src="{{item.imgUrl}}">
     </div>
-    <span>{{item.name | translate}}</span>
+    <span class="dashboard-tools__item-name">{{item.name | translate}}</span>
   </div>
   </perfect-scrollbar>
   <div class="info-tools">
     <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    <div class="tools-label" >{{visibleToolsItems.length}} Tool{{visibleToolsItems.length > 1 ? 's' : ''}}</div>
+    <div class="tools-label" >{{visibleToolsItems.length}} {{visibleToolsItems.length > 1 ? ("Tools" | translate) : ("Tool" | translate)}}</div>
   </div>
 </div>
 
