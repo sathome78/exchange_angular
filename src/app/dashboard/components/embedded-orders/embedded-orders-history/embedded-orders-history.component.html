@@ -72,28 +72,28 @@
     </td>
     <td class="table__cell">
       <span>
-        {{(item.exExchangeRate || item.limitRate)  | currencyFormat:'short':arrPairName[1]}} {{arrPairName[1]}}
+        {{(item.exExchangeRate || item.limitRate)  | currencyFormat:arrPairName[1]}} {{arrPairName[1]}}
       </span>
     </td>
     <td class="table__cell">
       <span>
-        {{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | currencyFormat:'short':arrPairName[1]}} {{item.orderBaseType !== 'STOP_LIMIT' ? '' : arrPairName[1]}}
+        {{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | currencyFormat:arrPairName[1]}} {{item.orderBaseType !== 'STOP_LIMIT' ? '' : arrPairName[1]}}
       </span>
     </td>
     <td class="table__cell">
       <span>
-        {{item.amountBase | currencyFormat:'short':arrPairName[0]}} {{arrPairName[0]}}
+        {{item.amountBase | currencyFormat:arrPairName[0]}} {{arrPairName[0]}}
       </span>
     </td>
     <td class="table__cell txt-grey">
       <span *ngIf="!isVipUser">
-        {{item.commissionFixedAmount | currencyFormat:'short':arrPairName[1]}} {{arrPairName[1]}}
+        {{item.commissionFixedAmount | currencyFormat:arrPairName[1]}} {{arrPairName[1]}}
       </span>
       <span *ngIf="isVipUser">0.0</span>
     </td>
     <td class="table__cell">
       <span>
-        {{item.amountWithCommission | currencyFormat:'short':arrPairName[1]}} {{arrPairName[1]}}
+        {{item.amountWithCommission | currencyFormat:arrPairName[1]}} {{arrPairName[1]}}
       </span>
     </td>
     <td class="table__cell">

@@ -57,7 +57,7 @@
       </div>
     </td>
     <td class="table__cell table__cell--tal">
-      <div>{{item.amountBase | currencyFormat:'short':arrPairName[0]}}</div>
+      <div>{{item.amountBase | currencyFormat:arrPairName[0]}}</div>
       <span
         [ngClass]="{'orders__type-sell': item.operationTypeEnum === 'SELL',
          'orders__type-buy': item.operationTypeEnum === 'BUY' }">
@@ -65,7 +65,7 @@
       </span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>{{item.exExchangeRate | currencyFormat:'short':arrPairName[1]}}</span>
+      <span>{{item.exExchangeRate | currencyFormat:arrPairName[1]}}</span>
     </td>
     <td class="table__cell table__cell--arr-mob">
       <img [ngClass]="{'img-rotate': selectedOrder && selectedOrder.id === item.id}" src="../../assets/img/arr-toggler-down-blue.svg">
@@ -80,7 +80,7 @@
       </div>
       <div class="table__details-item">
         <div class="table__details-item-title">{{'Total Price' | translate}}</div>
-        <div class="table__details-item-value">{{item.amountWithCommission | currencyFormat:'short':arrPairName[1]}}</div>
+        <div class="table__details-item-value">{{item.amountWithCommission | currencyFormat:arrPairName[1]}}</div>
       </div>
       <div class="table__details-item">
         <div class="table__details-item-title">{{'Type' | translate}}</div>
@@ -91,7 +91,7 @@
         <div class="table__details-item-title">{{'Fee' | translate}}</div>
         <div
           class="table__details-item-value">
-          {{item.commissionFixedAmount| currencyFormat:'short':arrPairName[1]}} {{arrPairName[1]}}
+          {{item.commissionFixedAmount| currencyFormat:arrPairName[1]}} {{arrPairName[1]}}
         </div>
       </div>
       <div class="table__details-item">

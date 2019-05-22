@@ -67,19 +67,19 @@
           >
             <div class="order">
             <span>
-              {{item.total | currencyFormat:'full':splitCurrencyName[1]:true  | orderBookCutBigNum:maxCountCharacter}}
+              {{item.total | currencyFormat:splitCurrencyName[1]:'full':true | orderBookCutBigNum:maxCountCharacter}}
             </span>
             </div>
 
             <div class="price jc-center">
             <span>
-              {{item.exrate | currencyFormat:'full':splitCurrencyName[1]:true  | orderBookCutBigNum:maxCountCharacter}}
+              {{item.exrate | currencyFormat:splitCurrencyName[1]:'full':true | orderBookCutBigNum:maxCountCharacter}}
             </span>
             </div>
 
             <div class="total jc-end">
             <span>
-              {{item.amount | currencyFormat:'short':splitCurrencyName[0]}}
+              {{item.amount | currencyFormat:splitCurrencyName[0]}}
             </span>
             </div>
 
@@ -89,12 +89,12 @@
       <div class="separator">
         <span
           [ngClass]="{'color-red': !isExratePositive, 'color-green': isExratePositive}">
-          {{!+lastExrate ? 0 : +lastExrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}
+          {{!+lastExrate ? 0 : +lastExrate | currencyFormat:splitCurrencyName[1]:'full':true}}
         </span>
         <img *ngIf="+preLastExrate < +lastExrate" class="arr arr--ml4" src="../assets/img/arr-up-green.svg">
         <img *ngIf="+preLastExrate > +lastExrate" class="arr arr--ml4" src="../assets/img/arr-down-red.svg">
         <div class="hr"></div>
-        <span>{{!+preLastExrate ? 0 : +preLastExrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</span>
+        <span>{{!+preLastExrate ? 0 : +preLastExrate | currencyFormat:splitCurrencyName[1]:'full':true}}</span>
       </div>
       <div class="items items--buy">
 
@@ -117,7 +117,7 @@
           (click)="onSelectOrder(item)">
           <div class="order">
             <span>
-              {{item.total  | currencyFormat:'full':splitCurrencyName[1]:true | orderBookCutBigNum:maxCountCharacter}}
+              {{item.total  | currencyFormat:splitCurrencyName[1]:'full':true | orderBookCutBigNum:maxCountCharacter}}
             </span>
           </div>
 
@@ -126,13 +126,13 @@
 
           <div class="price jc-center">
             <span>
-              {{item.exrate | currencyFormat:'full':splitCurrencyName[1]:true  | orderBookCutBigNum:maxCountCharacter}}
+              {{item.exrate | currencyFormat:splitCurrencyName[1]:'full':true  | orderBookCutBigNum:maxCountCharacter}}
             </span>
           </div>
 
           <div class="total jc-end">
             <span>
-              {{item.amount | currencyFormat:'short':splitCurrencyName[0]}}
+              {{item.amount | currencyFormat:splitCurrencyName[0]}}
             </span>
           </div>
 

@@ -45,7 +45,7 @@
         <!--<span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>-->
       <!--</ng-template>-->
 
-      <span class="txt-indicate">{{pair.lastOrderRate | currencyFormat:'full':pair.market:true}}</span>
+      <span class="txt-indicate">{{pair.lastOrderRate | currencyFormat:pair.market:'full':true}}</span>
 
     </div>
     <div class="table__cell table__cell--p4" style="width: 25%">

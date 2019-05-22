@@ -8,7 +8,7 @@ import {UtilsService} from '../services/utils.service';
 export class CurrencyFormatPipe implements PipeTransform {
   constructor(private utils: UtilsService) {}
 
-  transform(value: number | string, format: 'full' | 'short' = 'short', currencyName: string = 'BTC', setCurrencyNameNONE: boolean = false): string {
-    return this.utils.currencyFormat(value, format, currencyName, setCurrencyNameNONE);
+  transform(value: number | string, currencyName: string = 'BTC', format: 'full' | 'short' = 'short', setNoneForFiat: boolean = false): string {
+    return this.utils.currencyFormat(value, currencyName, format, setNoneForFiat);
   }
 }

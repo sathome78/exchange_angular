@@ -135,12 +135,12 @@ export class UtilsService {
   }
 
   // this method is used in pipe (currencyFormat)
-  currencyFormat(value: number | string, format: 'full' | 'short' = 'short', currencyName: string = 'BTC', setCurrencyNameNONE: boolean = false): string {
+  currencyFormat(value: number | string, currencyName: string = 'BTC', format: 'full' | 'short' = 'short', setNoneForFiat: boolean = false): string {
     if (Number.isNaN(parseFloat(typeof value === 'string' ? value : value.toString()))) {
       return '0.0';
     }
 
-    if (setCurrencyNameNONE) {
+    if (setNoneForFiat) {
       this.fraction = this.isFiat(currencyName) ? 0 : 8;
     } else {
       this.fraction = !currencyName || currencyName === 'NONE' ? 0 : this.isFiat(currencyName) ? 2 : 8;

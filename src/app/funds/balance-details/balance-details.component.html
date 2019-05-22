@@ -44,7 +44,7 @@
                 </td>
                 <td class="table__cell table__cell--tar">
                   <div *ngIf="priceIn === currencies.BTC">BTC {{selectedItem.btcAmount | currencyFormat}}</div>
-                  <div *ngIf="priceIn === currencies.USD">$ {{selectedItem.usdAmount | currencyFormat:'short':'USD'}}</div>
+                  <div *ngIf="priceIn === currencies.USD">$ {{selectedItem.usdAmount | currencyFormat:'USD'}}</div>
                   <!-- <span class="txt-small txt-red">–0.24%</span> -->
                 </td>
               </tr>
