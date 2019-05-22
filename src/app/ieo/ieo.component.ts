@@ -42,7 +42,7 @@ export class IEOComponent implements OnInit, OnDestroy{
   private ngUnsubscribe$: Subject<void> = new Subject<void>();
   public requirements: KycIEOModel = null;
   public verificationStatus: boolean = false;
-  private IEOId: string;
+  public IEOId: string;
   public IEOData: IEOItem = new IEOItem();
   public userBalanceBTC: number = 0;
   public ieoLoading: boolean = true;
