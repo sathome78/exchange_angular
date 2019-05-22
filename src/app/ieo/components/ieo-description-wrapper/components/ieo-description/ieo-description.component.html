@@ -1,12 +1,12 @@
 <!-- start component -->
 <div class="ieo_info">
-  <div class="ieo_info-wrapper" *ngIf="description">
+  <div class="ieo_info-wrapper">
     <div class="text-info-block">
       <h4>{{'project introduction' | translate}}</h4>
       <!-- <p>{{description.introduction}}</p> -->
       <p>E-Tao Network is a leading layer 2 scaling platform that enables fast, easy and secure off-chain transactions for not only payment transactions, but also generalized off-chain smart contract. Founded by four PhDs from MIT, Princeton, UC Berkeley and UIUC, the network enables everyone to quickly build, operate, and use highly scalable decentralized applications through innovations in off-chain scaling techniques and incentive-aligned cryptoeconomics mechanism designs. Celer Network is on a mission to fully unleash the power of blockchain and revolutionize how decentralized applications are built and used.</p>
     </div>
-    <div class="text-info-block" *ngIf="description.keyFeatures.length">
+    <div class="text-info-block" >
       <h4>{{'Key features' | translate}}</h4>
       <ul class="features-list">
         <!-- <li class="features-list-item" *ngFor="let feature of description.keyFeatures">
@@ -106,12 +106,12 @@
         </div>
         <div class="economics-table">
           <div class="economics-table-wr">
-            <div class="economics-table-item" *ngFor="let item of description.table">
+            <div class="economics-table-item">
               <div class="table-item-description">
-                <p>{{item.name}}</p>
+                <p>Name</p>
               </div>
               <div class="table-item-value">
-                <p>{{item.desc}}</p>
+                <p>description</p>
               </div>
             </div>
           </div>

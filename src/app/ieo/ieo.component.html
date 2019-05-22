@@ -52,10 +52,10 @@
 
   <app-ieo-how-it-works></app-ieo-how-it-works>
 
-  <app-ieo-descriptions
-    [description]="ieoData.description"
+  <app-ieo-description-wrapper
+    [IEOId]="IEOId"
     [ieoToken]="IEOData.currencyDescription"
-  ></app-ieo-descriptions>
+  ></app-ieo-description-wrapper>
 
   <app-popup-failed
     *ngIf="showNoReqs"
