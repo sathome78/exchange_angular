@@ -1,5 +1,5 @@
 .ieo_info{
-	    max-width: 1409px;
+	max-width: 1409px;
 	margin: 0 auto;
 	padding: 1em 40px 1.5em 53px;
 	@media(max-width: 1200px){
@@ -47,6 +47,10 @@
 		display: flex;
 		align-items: center;
 		margin-bottom: 1.3em;
+		@media(max-width: 992px){
+			flex-direction: column;
+
+		}
 		&+.key-features-wr{
 			margin-bottom: 0;
 		}
@@ -54,118 +58,157 @@
 	.graph-wr{
 		
 		img{
-		margin-right: -3em;
-			// width: 100%;
+				max-width: 100%;
+			@media(min-width: 1201px){
+				margin-right: -3em;
+			}
 		}
 	}
 	.infogr-wr{
 		width: 16.3em;
 		margin-right: .7em;
+		@media(max-width: 992px){
+			margin-right: 0;
+			margin-bottom: .6em;
+			
+		}
 		img{
 			width: 100%;
-			    margin-right: -3em;
+
 		}
+
 	}
 	.eco-gr-wr{
 		display: flex;
 		align-items: center;
+		@media(max-width: 1200px){
+			flex-direction: column-reverse;
+
+		}
 		.economics-table{
-		width: calc(100% - 20em);
-	}
+			width: calc(100% - 20em);
+			@media(max-width: 1200px){
+				width: 100%;
+
+			}
+		}
 		.table-item-description{
 			&:first-of-type{
 				width: 14.2em;
+				@media(max-width: 1200px){
+					width: 30em;
+					    max-width: 33.333%;
+
+				}
 			}
 			&:last-of-type{
-				    width: 12.3em;
+				width: 12.3em;
+				@media(max-width: 1200px){
+					width: 30em;
+					    max-width: 33.333%;
+
+				}
 			}
 		}
 		.table-item-description{
 
 			width: 11.7em;
+			@media(max-width: 1200px){
+				width: 30em;
+				    max-width: 33.333%;
+
+			}
 		}
 	}
 	.last-block{
 		margin-bottom: 0;
 		p{
 			margin-bottom: 1em;
-			    line-height: 1.27;
-			    color: #000000;
+			line-height: 1.27;
+			color: #000000;
 		}
 	}
 
-.last-block{
+	.last-block{
 
-}
-.features-list{
-	margin-top: .6em;
-	width: calc(100% - 17em);
-}
-.features-list-item{
-	position: relative;
-	margin-bottom: 1.95em;
-	p{
-		font-weight: 600;
-		font-size: .7em;
-		line-height: 1.29;
-		text-transform: uppercase;
-		color: #000000;
 	}
-	span{
-		font-weight: 400;
-		font-size: .7em;
-		display: block;
-		line-height: 1.29;
-		color: #000000;
-	}
-}
-.rating{
-	max-width: 48em;
-	margin: 0 auto;
-	padding-top: 0;
-	padding-bottom: 2.15em;
-	@media(max-width: 992px){
-		padding-bottom: 0;
-		padding-top: 1em;
-	}
-	.rating-title{
-		margin-bottom: 3.65em;
-		@media(max-width: 992px){
-			margin-bottom: 1em;
-		}
-		h4{
-			text-align: center;
-		}
-	}
-	.rating-item-wr{
-		display: flex;
-		justify-content: space-between;
-		@media(max-width: 992px){
-			flex-direction: column;
-			align-items:center;
-			justify-content: center;
+	.features-list{
+		margin-top: .6em;
+		@media(min-width: 993px){
 
+			width: calc(100% - 17em);
 		}
 	}
-	.rating-item{
+	.features-list-item{
 		position: relative;
+		margin-bottom: 1.95em;
 		@media(max-width: 992px){
-			margin-bottom: 1.5em;
+			text-align: center;
+			font-size: 1.3em;
 		}
-		@media (min-width: 993px) {
-
-			&:first-child{
-				padding-right: 4.2em;
+		p{
+			font-weight: 600;
+			font-size: .7em;
+			line-height: 1.29;
+			text-transform: uppercase;
+			color: #000000;
+		}
+		span{
+			font-weight: 400;
+			font-size: .7em;
+			display: block;
+			line-height: 1.29;
+			color: #000000;
+		}
+	}
+	.rating{
+		max-width: 48em;
+		margin: 0 auto;
+		padding-top: 0;
+		padding-bottom: 2.15em;
+		@media(max-width: 992px){
+			padding-bottom: 0;
+			padding-top: 1em;
+		}
+		.rating-title{
+			margin-bottom: 3.65em;
+			@media(max-width: 992px){
+				margin-bottom: 1em;
+			}
+			h4{
+				text-align: center;
+			}
+		}
+		.rating-item-wr{
+			display: flex;
+			justify-content: space-between;
+			@media(max-width: 992px){
+				flex-direction: column;
+				align-items:center;
+				justify-content: center;
 
 			}
-			&:nth-child(2){
-				padding-right: 4.2em;
-				padding-left: 4.2em;
-				&::before, &::after{
-					content: "";
-					position: absolute;
-					top: 0;
-					bottom: 1em;
+		}
+		.rating-item{
+			position: relative;
+			@media(max-width: 992px){
+				margin-bottom: 1.5em;
+				text-align: center;
+			}
+			@media (min-width: 993px) {
+
+				&:first-child{
+					padding-right: 4.2em;
+
+				}
+				&:nth-child(2){
+					padding-right: 4.2em;
+					padding-left: 4.2em;
+					&::before, &::after{
+						content: "";
+						position: absolute;
+						top: 0;
+						bottom: 1em;
 					// height: 100%;
 					width: 1px;
 					background-color: #ECECEC;
