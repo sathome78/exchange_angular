@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import { UtilsService } from 'app/shared/services/utils.service';
 import {AuthService} from '../../../../shared/services/auth.service';
+import {SimpleCurrencyPair} from '../../../../model/simple-currency-pair';
 
 @Component({
   selector: 'app-embedded-orders-history',
@@ -11,9 +12,11 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
 
   @Input() historyOrders;
   @Input() makeHeight;
+  @Input() currentPair: SimpleCurrencyPair;
   public currentPage = 1;
   public countPerPage = 7;
   public isVipUser;
+  public arrPairName = ['', ''];
 
   constructor(
     private utils: UtilsService,
@@ -23,6 +26,7 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.isVipUser = this.authService.isVipUser;
+    this.arrPairName = this.currentPair.name.split('/');
   }
 
   filterOpenOrders(page) {

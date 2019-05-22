@@ -304,26 +304,26 @@
           </td>
           <td class="table__cell">
             <span>
-              {{(item.exExchangeRate || item.limitRate) | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
+              {{(item.exExchangeRate || item.limitRate)  | currencyFormat:currency(item.currencyPairName, 2)}}
               {{item.currencyPairName | splitCurrency: 2}}
             </span>
           </td>
           <td class="table__cell">
             <span>
-              {{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
+              {{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | currencyFormat:currency(item.currencyPairName, 2)}}
               {{item.orderBaseType !== 'STOP_LIMIT' ? '' : item.currencyPairName | splitCurrency: 2}}
             </span>
           </td>
           <td class="table__cell">
             <span>
-              {{item.amountBase | roundCurrency: currency(item.currencyPairName, 1) | formatCurrency}}
+              {{item.amountBase  | currencyFormat:currency(item.currencyPairName, 1)}}
               {{item.currencyPairName | splitCurrency: 1}}
             </span>
           </td>
           <td class="table__cell">
             <span class="orders__comission"></span>
             <span class="orders__comission-usd" *ngIf="!isVipUser">
-              <span>{{item.commissionFixedAmount | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
+              <span>{{item.commissionFixedAmount  | currencyFormat:currency(item.currencyPairName, 2)}}
                     {{item.currencyPairName | splitCurrency: 2}}
               </span>
             </span>
@@ -331,7 +331,7 @@
           </td>
           <td class="table__cell table__cell--tar">
             <span>
-              {{item.amountWithCommission | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
+              {{item.amountWithCommission  | currencyFormat:currency(item.currencyPairName, 2)}}
               <span>{{item.currencyPairName | splitCurrency: 2}}</span>
             </span>
           </td>

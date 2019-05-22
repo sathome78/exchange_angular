@@ -8,12 +8,12 @@
     </div>
     <div class="table__cell table__cell--tal" style="width: 36%;">
       <span class="txt-indicate">
-        {{trade.rate | roundCurrency | formatCurrency}}
+        {{trade.rate | currencyFormat}}
       </span>
     </div>
     <div class="table__cell table__cell--tar" style="width: 36%;">
       <span [ngClass]="{'txt-red': trade.operationType === 'SELL', 'txt-green': trade.operationType === 'BUY'}">
-        {{trade.amountBase | roundCurrency | formatCurrency}}
+        {{trade.amountBase | currencyFormat}}
       </span>
     </div>
   </div>
