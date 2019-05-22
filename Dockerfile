@@ -4,16 +4,10 @@
 FROM node:9-alpine as builder
 ARG APP_PATH=/webapp/
 ARG ENVIRONMENT
+ARG PROFILE
 
 RUN apk update && apk upgrade && \
   apk add build-base  curl dpkg python2
-
-#RUN curl -L -O http://172.50.50.9:8081/artifactory/elk-libs/filebeat-6.5.3-amd64.deb
-
-#RUN dpkg -i ./filebeat-6.5.3-amd64.deb
-#RUN rm -f ./filebeat-6.5.3-amd64.deb 
-#RUN curl -L -O http://172.50.50.9:8081/artifactory/elk-libs/filebeat.yml \ mv ./filebeat.yml /etc/filebeat/ 
-#RUN systemctl enable filebeat
 
 WORKDIR ${APP_PATH}
 
@@ -29,7 +23,7 @@ EXPOSE 80
 ##CMD /etc/init.d/filebeat start
 
 ## Build the angular app in production mode and store the artifacts in dist folder
-RUN $(npm bin)/ng build --prod
+RUN $(npm bin)/ng build --aot -c $PROFILE
 
 ### STAGE 2: Setup ###
 
