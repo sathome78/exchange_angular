@@ -1,7 +1,7 @@
 .ieo_info{
-	max-width: 1464px;
+	max-width: 1416px;
 	margin: 0 auto;
-	    padding: 1em 40px 1.5em 53px;
+	padding: 1em 40px 1.5em 53px;
 	@media(max-width: 1200px){
 		padding: 1em 15px 1em;
 	}
@@ -13,15 +13,15 @@
 		box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
 		border-radius: 4px;
 		color: #191A39;
-		        padding: 4.2em 4.8em 0;
+		padding: 4.4em 4.2em 0;
 		@media (max-width: 992px) {
 			padding: 1.5em 1em;
 		}
 	}
 	.text-info-block{
-		margin-bottom: 3.05em;
+		    margin-bottom: 3.65em;
 		&+.text-info-block{
-			    margin-bottom: 2.4em;
+			margin-bottom: 2.4em;
 		}
 		@media (max-width: 992px) {
 			margin-bottom: 2em;
@@ -31,7 +31,7 @@
 		font-size: 1.75em;
 		text-transform: uppercase;
 		color: #000000;
-		letter-spacing: .03em;
+		letter-spacing: .05em;
 		font-weight: 600;
 		text-align: center;
 		margin-bottom: .8em;
@@ -40,30 +40,41 @@
 		}
 	}
 	p{
-		line-height: 1.67;
-		    font-size: .89em;
+		line-height: 1.37;
+		font-size: .89em;
+	}
+	.key-features-wr{
+		display: flex;
+		align-items: center;
+		margin-bottom: 1.3em;
+	}
+	.infogr-wr{
+		width: 16.3em;
+		margin-right: .7em;
+		img{
+			width: 100%;
+		}
 	}
 	.features-list{
-		margin-top: 2em;
+		margin-top: .6em;
+		width: calc(100% - 17em);
 	}
 	.features-list-item{
-		padding-left: .9em;
 		position: relative;
-		margin-bottom: .46em;
-		&::before{
-			content: "";
-			position: absolute;
-			left: 0;
-			top: .45em;
-			width: 6px;
-			height: 6px;
-			border-radius: 50%;
-			background-color: #272727;
-			margin: auto;
-
+		margin-bottom: 1.95em;
+		p{
+			font-weight: 600;
+			font-size: .7em;
+			line-height: 1.29;
+			text-transform: uppercase;
+			color: #000000;
 		}
 		span{
-
+			font-weight: 400;
+			font-size: .7em;
+			display: block;
+			line-height: 1.29;
+			color: #000000;
 		}
 	}
 	.rating{
