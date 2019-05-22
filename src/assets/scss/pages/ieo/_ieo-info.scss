@@ -1,5 +1,5 @@
 .ieo_info{
-	max-width: 1416px;
+	    max-width: 1409px;
 	margin: 0 auto;
 	padding: 1em 40px 1.5em 53px;
 	@media(max-width: 1200px){
@@ -13,15 +13,15 @@
 		box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
 		border-radius: 4px;
 		color: #191A39;
-		padding: 4.4em 4.2em 0;
+		padding: 4.4em 4.5em 4.4em 4.3em;
 		@media (max-width: 992px) {
 			padding: 1.5em 1em;
 		}
 	}
 	.text-info-block{
-		    margin-bottom: 3.65em;
+		margin-bottom: 3.65em;
 		&+.text-info-block{
-			margin-bottom: 2.4em;
+			margin-bottom: 0;
 		}
 		@media (max-width: 992px) {
 			margin-bottom: 2em;
@@ -47,83 +47,125 @@
 		display: flex;
 		align-items: center;
 		margin-bottom: 1.3em;
+		&+.key-features-wr{
+			margin-bottom: 0;
+		}
+	}
+	.graph-wr{
+		
+		img{
+		margin-right: -3em;
+			// width: 100%;
+		}
 	}
 	.infogr-wr{
 		width: 16.3em;
 		margin-right: .7em;
 		img{
 			width: 100%;
+			    margin-right: -3em;
 		}
 	}
-	.features-list{
-		margin-top: .6em;
-		width: calc(100% - 17em);
+	.eco-gr-wr{
+		display: flex;
+		align-items: center;
+		.economics-table{
+		width: calc(100% - 20em);
 	}
-	.features-list-item{
-		position: relative;
-		margin-bottom: 1.95em;
+		.table-item-description{
+			&:first-of-type{
+				width: 14.2em;
+			}
+			&:last-of-type{
+				    width: 12.3em;
+			}
+		}
+		.table-item-description{
+
+			width: 11.7em;
+		}
+	}
+	.last-block{
+		margin-bottom: 0;
 		p{
-			font-weight: 600;
-			font-size: .7em;
-			line-height: 1.29;
-			text-transform: uppercase;
-			color: #000000;
-		}
-		span{
-			font-weight: 400;
-			font-size: .7em;
-			display: block;
-			line-height: 1.29;
-			color: #000000;
+			margin-bottom: 1em;
+			    line-height: 1.27;
+			    color: #000000;
 		}
 	}
-	.rating{
-		max-width: 48em;
-		margin: 0 auto;
-		padding-top: 0;
-		padding-bottom: 2.15em;
+
+.last-block{
+
+}
+.features-list{
+	margin-top: .6em;
+	width: calc(100% - 17em);
+}
+.features-list-item{
+	position: relative;
+	margin-bottom: 1.95em;
+	p{
+		font-weight: 600;
+		font-size: .7em;
+		line-height: 1.29;
+		text-transform: uppercase;
+		color: #000000;
+	}
+	span{
+		font-weight: 400;
+		font-size: .7em;
+		display: block;
+		line-height: 1.29;
+		color: #000000;
+	}
+}
+.rating{
+	max-width: 48em;
+	margin: 0 auto;
+	padding-top: 0;
+	padding-bottom: 2.15em;
+	@media(max-width: 992px){
+		padding-bottom: 0;
+		padding-top: 1em;
+	}
+	.rating-title{
+		margin-bottom: 3.65em;
 		@media(max-width: 992px){
-			padding-bottom: 0;
-			padding-top: 1em;
+			margin-bottom: 1em;
 		}
-		.rating-title{
-			margin-bottom: 3.65em;
-			@media(max-width: 992px){
-				margin-bottom: 1em;
-			}
-			h4{
-				text-align: center;
-			}
+		h4{
+			text-align: center;
 		}
-		.rating-item-wr{
-			display: flex;
-			justify-content: space-between;
-			@media(max-width: 992px){
-				flex-direction: column;
-				align-items:center;
-				justify-content: center;
+	}
+	.rating-item-wr{
+		display: flex;
+		justify-content: space-between;
+		@media(max-width: 992px){
+			flex-direction: column;
+			align-items:center;
+			justify-content: center;
+
+		}
+	}
+	.rating-item{
+		position: relative;
+		@media(max-width: 992px){
+			margin-bottom: 1.5em;
+		}
+		@media (min-width: 993px) {
+
+			&:first-child{
+				padding-right: 4.2em;
 
 			}
-		}
-		.rating-item{
-			position: relative;
-			@media(max-width: 992px){
-				margin-bottom: 1.5em;
-			}
-			@media (min-width: 993px) {
-
-				&:first-child{
-					padding-right: 4.2em;
-
-				}
-				&:nth-child(2){
-					padding-right: 4.2em;
-					padding-left: 4.2em;
-					&::before, &::after{
-						content: "";
-						position: absolute;
-						top: 0;
-						bottom: 1em;
+			&:nth-child(2){
+				padding-right: 4.2em;
+				padding-left: 4.2em;
+				&::before, &::after{
+					content: "";
+					position: absolute;
+					top: 0;
+					bottom: 1em;
 					// height: 100%;
 					width: 1px;
 					background-color: #ECECEC;
@@ -181,7 +223,7 @@
 
 .standart-pg{
 	padding-top: 1.7em;
-	padding-bottom: 1.7em;
+	padding-bottom: 2.35em;
 }
 .allocation{
 	padding-top: 2.4em;
