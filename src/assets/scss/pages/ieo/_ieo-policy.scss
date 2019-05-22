@@ -2,13 +2,16 @@
 
 	.popup{
 
-	max-width: 720px;
-	padding: 2.5em 3.5em 3.5em;
-	@media(max-width: 1199px){
-		    overflow: auto;
-		    background-color: #191A39;
-		        justify-content: flex-start;
-	}
+		max-width: 720px;
+		padding: 2.5em 3.5em 3.5em;
+		max-height: calc(100% - 80px);
+		overflow: auto;
+		justify-content: flex-start;
+		@media(max-width: 1199px){
+			overflow: auto;
+			background-color: #191A39;
+			justify-content: flex-start;
+		}
 	}
 	.popup__title{
 		font-size: 24px;
@@ -27,7 +30,7 @@
 	.policy-button-wr{
 		max-width: 600px;
 		margin: 0 auto;
-		    width: 100%;
+		width: 100%;
 		display: flex;
 		justify-content: center;
 
