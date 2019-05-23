@@ -8,7 +8,7 @@
 		// width: calc(73.7em + 40px);
 		margin: 0 auto;
 		    max-width: 1411px;
-		padding: 1.15em 40px 1.3em 51px;
+		padding: 1.15em 40px 1.1em 51px;
 
 		@media(max-width: 1200px){
 			padding: 1em 15px;
@@ -37,7 +37,7 @@
 	
 	.requirement-item {
 		display: flex;
-		padding: 1.7em 1.6em;
+		padding: 1.3em 1.6em;
 		justify-content: space-between;
 		align-items: center;
 		@media(max-width: 992px){
