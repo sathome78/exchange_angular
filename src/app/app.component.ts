@@ -69,11 +69,11 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isAuthenticated = isAuth;
         if(isAuth && userInfo) {
           this.store.dispatch(new coreAction.LoadVerificationStatusAction());
-          this.authService.setSessionFinishListener(userInfo.expiration);
+          // this.authService.setSessionFinishListener(userInfo.expiration);
           this.sendTransactionsAnalytics();
           this.setNameEmailToZenChat(userInfo.username);
         } else {
-          this.authService.removeSessionFinishListener();
+          // this.authService.removeSessionFinishListener();
           this.clearNameEmailFromZenChat();
         }
       });
@@ -91,9 +91,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.authService.isAuthenticated() && !!this.authService.getUserId()) {
-      this.gtagService.setUserId(this.authService.getUserId());
-    }
+    // if (this.authService.isAuthenticated() && !!this.authService.getUserId()) {
+    //   this.gtagService.setUserId(this.authService.getUserId());
+    // } else {
+      const token = localStorage.getItem('token')
+      if(token) {
+        const parsedToken = this.authService.parseToken(token);
+        this.gtagService.setUserId(parsedToken.publicId);
+        this.store.dispatch(new coreAction.SetOnLoginAction(parsedToken));
+      }
+    // }
     this.gtagService.initGtag();
 
 

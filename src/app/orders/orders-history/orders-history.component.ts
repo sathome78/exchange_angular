@@ -97,8 +97,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.loadOrders();
     this.initialRequest = true;
 
-    this.store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr)).pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((items) => console.log(items))
   }
 
   loadOrders() {
