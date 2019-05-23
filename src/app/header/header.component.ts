@@ -232,4 +232,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   get showContent() {
     return environment.showContent;
   }
+
+  get isAdvisor(): boolean {
+    return window.location.href.indexOf('advisor') >= 0;
+  }
 }
