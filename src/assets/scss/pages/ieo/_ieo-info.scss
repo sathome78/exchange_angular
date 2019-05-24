@@ -1,7 +1,7 @@
 .ieo_info{
 	max-width: 1409px;
 	margin: 0 auto;
-	padding: 1em 40px 1.5em 53px;
+	padding: 1.3em 40px 1.5em 53px;
 	@media(max-width: 1200px){
 		padding: 1em 15px 1em;
 	}
@@ -58,9 +58,12 @@
 	.graph-wr{
 		
 		img{
-				max-width: 100%;
+			max-width: 100%;
 			@media(min-width: 1201px){
-				margin-right: -3em;
+				width: 17.8em;
+				top: -1.6em;
+				position: relative;
+				left: 3.2em;
 			}
 		}
 	}
@@ -97,7 +100,7 @@
 				width: 14.2em;
 				@media(max-width: 1200px){
 					width: 30em;
-					    max-width: 33.333%;
+					max-width: 33.333%;
 
 				}
 			}
@@ -105,7 +108,7 @@
 				width: 12.3em;
 				@media(max-width: 1200px){
 					width: 30em;
-					    max-width: 33.333%;
+					max-width: 33.333%;
 
 				}
 			}
@@ -115,7 +118,7 @@
 			width: 11.7em;
 			@media(max-width: 1200px){
 				width: 30em;
-				    max-width: 33.333%;
+				max-width: 33.333%;
 
 			}
 		}
