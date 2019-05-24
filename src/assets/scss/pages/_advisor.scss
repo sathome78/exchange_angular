@@ -112,6 +112,9 @@ header.header.transparent-header{
 		max-width: 1370px;
 		margin: 0 auto;
 		padding: 1.2em 15px 3.05em;
+		@media(max-width: 568px){
+			padding: 1.2em 15px 1.55em;
+		}
 		.title{
 			margin-bottom: 2.15em;
 			font-size: inherit;
@@ -140,10 +143,11 @@ header.header.transparent-header{
 			align-items: center;
 			justify-content: center;
 			transition: .3s;
-			&:hover{
-				background: #1F2035;
-				border: 1px solid #237BEF;
-				box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.41);
+			&.hover{
+				//     position: relative;
+				// background: #1F2035;
+				// border: 1px solid #237BEF;
+				// box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.41);
 				.head-item{
 					max-height: 4em;
 					padding-bottom: .6em;
@@ -165,12 +169,20 @@ header.header.transparent-header{
 			}
 			@media(max-width: 568px){
 				width: 100%;
+				border: none;
+				max-width: 17em;
+				margin: 0 auto;
+				min-height: unset;
+				margin-bottom: 1em;
 			}
 		}
 		.head-item{
 			max-height: 1em;
 			display: flex;
 			transition: .27s;
+			@media(max-width: 568px){
+				max-height: unset;
+			}
 			h5{
 				font-weight: 500;
 				font-size: .9em;
@@ -180,6 +192,7 @@ header.header.transparent-header{
 				@media(max-width: 992px){
 					max-width: 22em;
 				}
+
 			}
 		}
 		.description-item{
