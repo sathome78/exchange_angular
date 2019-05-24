@@ -1,26 +1,26 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {IEOItem} from '../../../model/ieo.model';
-import {Observable, Subject} from 'rxjs';
-import {select, Store} from '@ngrx/store';
-import {getVerificationStatus, State} from '../../../core/reducers';
-import {takeUntil} from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { IEOItem } from '../../../model/ieo.model';
+import { Observable, Subject } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { getVerificationStatus, State } from '../../../core/reducers';
+import { takeUntil } from 'rxjs/operators';
 import * as fromCore from '../../../core/reducers';
-import {KYC_STATUS} from '../../../shared/constants';
-import {PopupService} from '../../../shared/services/popup.service';
-import {Router} from '@angular/router';
-import {data} from '../../JSONData';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UtilsService} from '../../../shared/services/utils.service';
-import {IEOServiceService} from '../../../shared/services/ieoservice.service';
-import {KycIEOModel} from '../../models/ieo-kyc.model';
-import {ThankPopupModel} from '../../../shared/models/thank-popup-model';
-import {AuthService} from '../../../shared/services/auth.service';
+import { KYC_STATUS } from '../../../shared/constants';
+import { PopupService } from '../../../shared/services/popup.service';
+import { Router } from '@angular/router';
+import { data } from '../../JSONData';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UtilsService } from '../../../shared/services/utils.service';
+import { IEOServiceService } from '../../../shared/services/ieoservice.service';
+import { KycIEOModel } from '../../models/ieo-kyc.model';
+import { ThankPopupModel } from '../../../shared/models/thank-popup-model';
+import { AuthService } from '../../../shared/services/auth.service';
 import * as coreAction from '../../../core/actions/core.actions';
 
 @Component({
   selector: 'app-common-ieo',
   templateUrl: './common-ieo.component.html',
-  styleUrls: ['./common-ieo.component.scss']
+  styleUrls: ['./common-ieo.component.scss'],
 })
 export class CommonIEOComponent implements OnInit, OnDestroy {
 
@@ -48,7 +48,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     private utilsService: UtilsService,
     private ieoService: IEOServiceService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {
     this.AuthSub$ = this.store.pipe(select(fromCore.getIsAuthenticated));
   }
@@ -62,7 +62,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.thakPopupOpen = {
       isOpen: true,
       title: 'Thank you!',
-      subTitle: 'You have successfully subscribed for IEO news'
+      subTitle: 'You have successfully subscribed for IEO news',
     };
   }
 
@@ -75,7 +75,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.ieoService.getListIEO()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: IEOItem[]) => {
-        this.store.dispatch(new coreAction.SetIEOListAction(res))
+        this.store.dispatch(new coreAction.SetIEOListAction(res));
       });
   }
   getIEOList(): void {
@@ -83,7 +83,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.ieoList = (res as IEOItem[] || []).reverse();
-      })
+      });
   }
 
   getKYCVerificationStatus() {
@@ -104,7 +104,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     if (!this.isAuthenticated) {
       this.onLogin();
     } else {
-       this.router.navigate(['/settings/verification']);
+      this.router.navigate(['/settings/verification']);
     }
   }
 
@@ -119,10 +119,10 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   initEmailForm() {
     this.emailForm = new FormGroup({
       email: new FormControl('', { validators: [
-          Validators.required, this.utilsService.emailValidator(),
-          this.utilsService.specialCharacterValidator(),
-          Validators.maxLength(40)
-        ]}),
+        Validators.required, this.utilsService.emailValidator(),
+        this.utilsService.specialCharacterValidator(),
+        Validators.maxLength(40),
+      ]}),
     });
   }
 
@@ -130,13 +130,13 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.isSubmited = true;
     this.emailForm.get('email').markAsTouched();
     if (this.emailForm.valid) {
-       this.ieoService.ieoEmailSubscription(this.emailControl.value)
+      this.ieoService.ieoEmailSubscription(this.emailControl.value)
          .pipe(takeUntil(this.ngUnsubscribe))
          .subscribe(res => {
            this.emailForm.reset();
            this.popupService.getThankYouPopupListener().next(this.thakPopupOpen);
            this.checkSubscribe();
-         }, error => {
+         },         error => {
            this.emailForm.reset();
          });
     }
@@ -147,9 +147,9 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       this.ieoService.ieoTelegramRedirect(this.authService.getUsername())
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
-           if (!this.isRedirectToTelegram) {
-              this.checkSubscribe();
-           }
+          if (!this.isRedirectToTelegram) {
+            this.checkSubscribe();
+          }
         });
     }
   }
@@ -238,7 +238,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res) => {
         this.togglePolicy(false);
-        this.requirements = {...this.requirements, policyCheck: true};
+        this.requirements = { ...this.requirements, policyCheck: true };
         this.openBuyPopup();
       });
   }
@@ -253,8 +253,8 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
 
   get boughtAmountPer() {
     return  (IEOData) => {
-      const a = (this.boughtAmount(IEOData) / (IEOData.amount / 100)) || 0
+      const a = (this.boughtAmount(IEOData) / (IEOData.amount / 100)) || 0;
       return a.toFixed(2);
-    }
+    };
   }
 }

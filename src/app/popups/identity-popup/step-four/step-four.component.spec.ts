@@ -8,7 +8,7 @@ describe('StepFourComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StepFourComponent ]
+      declarations: [StepFourComponent],
     })
     .compileComponents();
   }));

@@ -1,19 +1,18 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BalanceService} from '../../../../services/balance.service';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {environment} from '../../../../../../environments/environment';
-import {PopupService} from '../../../../../shared/services/popup.service';
-import {RefillInnerTransferResponse} from '../../../../models/refill-inner-transfer-response.model';
-import {select, Store} from '@ngrx/store';
-import {getAllCurrenciesForChoose, State} from '../../../../../core/reducers';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BalanceService } from '../../../../services/balance.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { environment } from '../../../../../../environments/environment';
+import { PopupService } from '../../../../../shared/services/popup.service';
+import { RefillInnerTransferResponse } from '../../../../models/refill-inner-transfer-response.model';
+import { select, Store } from '@ngrx/store';
+import { getAllCurrenciesForChoose, State } from '../../../../../core/reducers';
 
 @Component({
   selector: 'app-refill-inner-transfer',
   templateUrl: './refill-inner-transfer.component.html',
-  styleUrls: ['./refill-inner-transfer.component.scss']
+  styleUrls: ['./refill-inner-transfer.component.scss'],
 })
 export class RefillInnerTransferComponent implements OnInit, OnDestroy {
 
@@ -68,7 +67,7 @@ export class RefillInnerTransferComponent implements OnInit, OnDestroy {
           this.sendSuccessRes = res as RefillInnerTransferResponse;
           this.setCurrencyName(this.sendSuccessRes.currencyId);
           this.loading = false;
-        }, error => {
+        },         error => {
           const status = error['status'];
           // console.log('status: ' + status);
           this.isSendTransferCodeFail = true;
@@ -80,7 +79,7 @@ export class RefillInnerTransferComponent implements OnInit, OnDestroy {
   }
 
   setCurrencyName(id) {
-    const currency = this.allCurrencies.filter( item => item.id === id);
+    const currency = this.allCurrencies.filter(item => item.id === id);
     this.currencyName = currency[0] ? currency[0].name : '';
   }
 

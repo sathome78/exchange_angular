@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-restored-password-popup',
   templateUrl: './restored-password-popup.component.html',
-  styleUrls: ['./restored-password-popup.component.scss']
+  styleUrls: ['./restored-password-popup.component.scss'],
 })
 export class RestoredPasswordPopupComponent implements OnInit {
 

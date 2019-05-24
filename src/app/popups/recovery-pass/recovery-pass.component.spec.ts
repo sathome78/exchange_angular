@@ -8,7 +8,7 @@ describe('RecoveryPassComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RecoveryPassComponent ]
+      declarations: [RecoveryPassComponent],
     })
     .compileComponents();
   }));

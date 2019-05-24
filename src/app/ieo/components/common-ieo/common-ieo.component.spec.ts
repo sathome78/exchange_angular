@@ -8,7 +8,7 @@ describe('CommonIEOComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommonIEOComponent ]
+      declarations: [CommonIEOComponent],
     })
     .compileComponents();
   }));

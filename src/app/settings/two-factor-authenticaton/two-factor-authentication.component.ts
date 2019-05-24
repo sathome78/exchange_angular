@@ -1,18 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {PopupService} from '../../shared/services/popup.service';
-import {LoggingService} from '../../shared/services/logging.service';
-import {SettingsService} from '../settings.service';
-import {UserService} from '../../shared/services/user.service';
-import {AuthService} from '../../shared/services/auth.service';
-import {GoogleAuthenticatorService} from '../../popups/two-factor-popup/google/google-authenticator.service';
-import {Observable} from 'rxjs';
-import {select, Store} from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
+import { PopupService } from '../../shared/services/popup.service';
+import { LoggingService } from '../../shared/services/logging.service';
+import { SettingsService } from '../settings.service';
+import { UserService } from '../../shared/services/user.service';
+import { AuthService } from '../../shared/services/auth.service';
+import { GoogleAuthenticatorService } from '../../popups/two-factor-popup/google/google-authenticator.service';
+import { Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 
 @Component({
   selector: 'app-two-factor-authentication',
   templateUrl: './two-factor-authentication.component.html',
-  styleUrls: ['./two-factor-authentication.component.css']
+  styleUrls: ['./two-factor-authentication.component.css'],
 })
 export class TwoFactorAuthenticationComponent implements OnInit {
 

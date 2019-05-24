@@ -1,14 +1,14 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
-import {Observable, Subject} from 'rxjs';
-import {UserVerificationService} from '../../../shared/services/user-verification.service';
-import {UserDocVerificationModel} from '../user-doc-verification.model';
-import {takeUntil} from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
+import { Observable, Subject } from 'rxjs';
+import { UserVerificationService } from '../../../shared/services/user-verification.service';
+import { UserDocVerificationModel } from '../user-doc-verification.model';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-webcam',
   templateUrl: './webcam.component.html',
-  styleUrls: ['./webcam.component.scss']
+  styleUrls: ['./webcam.component.scss'],
 })
 export class WebcamComponent implements OnInit, OnDestroy {
 
@@ -20,8 +20,8 @@ export class WebcamComponent implements OnInit, OnDestroy {
   public multipleWebcamsAvailable = false;
   public deviceId: string;
   public videoOptions: MediaTrackConstraints = {
-    width: {ideal: 244},
-    height: {ideal: 136}
+    width: { ideal: 244 },
+    height: { ideal: 136 },
   };
   public errors: WebcamInitError[] = [];
 
@@ -63,9 +63,9 @@ export class WebcamComponent implements OnInit, OnDestroy {
       .subscribe(ok => {
         // console.log('OK: fail to upload file');
       },
-      err => {
-        console.error(err);
-      });
+                 err => {
+                   console.error(err);
+                 });
 
   }
 
@@ -112,7 +112,7 @@ export class WebcamComponent implements OnInit, OnDestroy {
     }
     const imageName = date + '.' + text + '.jpeg';
     const imageBlob = this.dataURItoBlob(base64);
-    return new File([imageBlob], imageName, {type: 'image/jpeg'});
+    return new File([imageBlob], imageName, { type: 'image/jpeg' });
   }
 
   private dataURItoBlob(dataURI: string) {
@@ -122,14 +122,13 @@ export class WebcamComponent implements OnInit, OnDestroy {
     for (let i = 0; i < byteString.length; i++) {
       int8Array[i] = byteString.charCodeAt(i);
     }
-    const blob = new Blob([arrayBuffer], {type: 'image/jpeg'});
+    const blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
     return blob;
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next()
-    this.ngUnsubscribe.complete()
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
-
 
 }

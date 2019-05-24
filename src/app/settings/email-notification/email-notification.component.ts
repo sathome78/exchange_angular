@@ -1,12 +1,12 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {SettingsService} from '../settings.service';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SettingsService } from '../settings.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-email-notification',
   templateUrl: './email-notification.component.html',
-  styleUrls: ['./email-notification.component.scss']
+  styleUrls: ['./email-notification.component.scss'],
 })
 export class EmailNotificationComponent implements OnInit, OnDestroy {
 
@@ -43,12 +43,12 @@ export class EmailNotificationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(resp => {
           // console.log('updated');
-          this.loading = false;
-        },
-        err => {
-          console.error(err);
-          this.loading = false;
-        });
+        this.loading = false;
+      },
+                 err => {
+                   console.error(err);
+                   this.loading = false;
+                 });
   }
 
   updateInOuts() {

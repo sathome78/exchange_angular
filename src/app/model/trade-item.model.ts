@@ -10,13 +10,13 @@ export class TradeItem {
               public rate: string) { }
 
   static deepCopy(other: TradeItem): TradeItem {
-    return new TradeItem( other.acceptionTime,
-      other.amountBase,
-      other.dateAcceptionTime,
-      other.needRefresh,
-      other.operationType,
-      other.orderId,
-      other.page,
-      other.rate);
+    return new TradeItem(other.acceptionTime,
+                         other.amountBase,
+                         other.dateAcceptionTime,
+                         other.needRefresh,
+                         other.operationType,
+                         other.orderId,
+                         other.page,
+                         other.rate);
   }
 }

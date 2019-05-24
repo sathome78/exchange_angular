@@ -8,7 +8,7 @@ describe('IdentityPopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IdentityPopupComponent ]
+      declarations: [IdentityPopupComponent],
     })
     .compileComponents();
   }));

@@ -1,21 +1,21 @@
-import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
-import {CurrencyBalanceModel} from 'app/model';
-import {Subject} from 'rxjs';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BalanceService} from '../../../../services/balance.service';
-import {debounceTime, takeUntil} from 'rxjs/operators';
-import {keys} from '../../../../../shared/constants';
-import {getFiatCurrenciesForChoose, State} from 'app/core/reducers';
-import {select, Store} from '@ngrx/store';
-import {SEND_FIAT} from '../../send-money-constants';
-import {CommissionData} from '../../../../models/commission-data.model';
-import {defaultCommissionData} from '../../../../store/reducers/default-values';
-import {PopupService} from 'app/shared/services/popup.service';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { CurrencyBalanceModel } from 'app/model';
+import { Subject } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BalanceService } from '../../../../services/balance.service';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import { keys } from '../../../../../shared/constants';
+import { getFiatCurrenciesForChoose, State } from 'app/core/reducers';
+import { select, Store } from '@ngrx/store';
+import { SEND_FIAT } from '../../send-money-constants';
+import { CommissionData } from '../../../../models/commission-data.model';
+import { defaultCommissionData } from '../../../../store/reducers/default-values';
+import { PopupService } from 'app/shared/services/popup.service';
 
 @Component({
   selector: 'app-send-fiat',
   templateUrl: './send-fiat.component.html',
-  styleUrls: ['./send-fiat.component.scss']
+  styleUrls: ['./send-fiat.component.scss'],
 })
 export class SendFiatComponent implements OnInit, OnDestroy {
 
@@ -48,7 +48,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     destination: '',
     destinationTag: '',
     merchantImage: '',
-    securityCode: ''
+    securityCode: '',
   };
 
   /** Are listening click in document */
@@ -110,7 +110,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.selectedMerchant = merchant;
     this.setMinWithdrawSum();
     this.calculateData.commission_rates_sum = this.selectedMerchant.outputCommission;
-      this.calculateCommission(this.amountValue);
+    this.calculateCommission(this.amountValue);
   }
 
   currencyDropdownToggle() {
@@ -215,7 +215,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
       const data = {
         operation: SEND_FIAT,
-        data: this.model
+        data: this.model,
       };
 
       this.balanceService.goToPinCode$.next(data);
@@ -225,7 +225,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
     this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(merchant =>
-      !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
+      !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length,
     );
   }
 
@@ -239,28 +239,27 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       amount: new FormControl('', [
         Validators.required,
         this.isMaxThenActiveBalance.bind(this),
-        this.isMinThenMinWithdraw.bind(this)
+        this.isMinThenMinWithdraw.bind(this),
       ]),
     });
   }
 
-
   isMaxThenActiveBalance(): {[key: string]: any} | null {
     if (+this.activeBalance < +this.amountValue) {
-      return {'isMaxThenActiveBalance': true};
+      return { isMaxThenActiveBalance: true };
     }
     return null;
   }
 
   isMinThenMinWithdraw(): {[key: string]: any} | null {
     if (+this.minWithdrawSum > +this.amountValue) {
-      return {'isMinThenMinWithdraw': true};
+      return { isMinThenMinWithdraw: true };
     }
     return null;
   }
 
   get currName() {
-    return this.activeFiat ? this.activeFiat.name : ''
+    return this.activeFiat ? this.activeFiat.name : '';
   }
 
 }

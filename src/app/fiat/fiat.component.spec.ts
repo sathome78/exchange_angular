@@ -8,7 +8,7 @@ describe('FiatComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FiatComponent ]
+      declarations: [FiatComponent],
     })
     .compileComponents();
   }));

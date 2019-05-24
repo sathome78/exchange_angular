@@ -8,7 +8,7 @@ describe('AlreadyRestoredPasswordPopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlreadyRestoredPasswordPopupComponent ]
+      declarations: [AlreadyRestoredPasswordPopupComponent],
     })
     .compileComponents();
   }));

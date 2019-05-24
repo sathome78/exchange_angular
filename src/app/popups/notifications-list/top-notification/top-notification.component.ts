@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {Toast, ToastrService, ToastPackage} from 'ngx-toastr';
+import { Component } from '@angular/core';
+import { Toast, ToastrService, ToastPackage } from 'ngx-toastr';
 import {
   animate,
   keyframes,
@@ -58,11 +58,11 @@ import {
           keyframes([
             style({
               opacity: 1,
-              transform: 'translateY(0)'
+              transform: 'translateY(0)',
             }),
             style({
               opacity: 0,
-              transform: 'translateY(25%)'
+              transform: 'translateY(25%)',
             }),
           ]),
         ),

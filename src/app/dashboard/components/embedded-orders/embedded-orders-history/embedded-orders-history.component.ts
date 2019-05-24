@@ -1,12 +1,12 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { UtilsService } from 'app/shared/services/utils.service';
-import {AuthService} from '../../../../shared/services/auth.service';
-import {SimpleCurrencyPair} from '../../../../model/simple-currency-pair';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { SimpleCurrencyPair } from '../../../../model/simple-currency-pair';
 
 @Component({
   selector: 'app-embedded-orders-history',
   templateUrl: './embedded-orders-history.component.html',
-  styleUrls: ['./embedded-orders-history.component.scss']
+  styleUrls: ['./embedded-orders-history.component.scss'],
 })
 export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
 
@@ -50,6 +50,5 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
     const curr = currName.split('/');
     return curr[currIndex - 1];
   }
-
 
 }

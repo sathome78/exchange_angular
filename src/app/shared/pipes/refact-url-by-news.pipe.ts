@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'refactUrlByNews' })
 export class RefactUrlByNewsPipe implements PipeTransform {

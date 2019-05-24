@@ -8,7 +8,7 @@ describe('IeoCommunityComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IeoCommunityComponent ]
+      declarations: [IeoCommunityComponent],
     })
     .compileComponents();
   }));

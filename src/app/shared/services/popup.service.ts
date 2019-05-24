@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {ReplaySubject, Subject} from 'rxjs';
-import {LoggingService} from './logging.service';
-import {PopupData} from '../interfaces/popup-data-interface';
-import {KycSubjectInterface} from '../interfaces/kyc-subject-interface';
-import {ThankPopupModel} from '../models/thank-popup-model';
+import { Injectable } from '@angular/core';
+import { ReplaySubject, Subject } from 'rxjs';
+import { LoggingService } from './logging.service';
+import { PopupData } from '../interfaces/popup-data-interface';
+import { KycSubjectInterface } from '../interfaces/kyc-subject-interface';
+import { ThankPopupModel } from '../models/thank-popup-model';
 
 @Injectable()
 export class PopupService {
@@ -34,7 +34,6 @@ export class PopupService {
   public demoPopupMessage = 0;
   stepsMap: Map<number, string> = new Map<number, string>();
 
-
   constructor(private logger: LoggingService) {
     this.stepsMap.set(1, 'By passport');
     this.stepsMap.set(2, 'Submit ID');
@@ -49,7 +48,7 @@ export class PopupService {
 
   showKYCPopup(step: number, url: string = '') {
     this.kycStep = step;
-    this.onOpenKYCPopupListener.next({step: step, url: url});
+    this.onOpenKYCPopupListener.next({ step, url });
   }
 
   toggleNewsSubscribePopup(state: boolean) {
@@ -76,7 +75,6 @@ export class PopupService {
     this.onRecoveryPasswordListener.next(state);
   }
 
-
   showMobileRegistrationPopup(state: boolean) {
     this.onMobileRegistrationPopupListener.next(state);
   }
@@ -98,7 +96,7 @@ export class PopupService {
   }
 
   closeKYCPopup() {
-    this.onOpenKYCPopupListener.next({step: undefined, url: ''});
+    this.onOpenKYCPopupListener.next({ step: undefined, url: '' });
   }
 
   public getNewsSubscribePopupListener(): Subject<boolean> {
@@ -180,7 +178,6 @@ export class PopupService {
     return this.tfaProvider;
   }
 
-
   public getIdentityDocumentType(): string {
     return this.identityDocumentType;
   }
@@ -206,15 +203,15 @@ export class PopupService {
   getStepsMap(provider: string) {
     switch (provider) {
       case 'GOOGLE':
-      return this.getGoogleStepsMap();
+        return this.getGoogleStepsMap();
       case 'GOOGLE_DISABLED':
-      return this.getGoogleDisableStepsMap();
+        return this.getGoogleDisableStepsMap();
       case 'SMS':
-      return this.getSmsStepsMap();
+        return this.getSmsStepsMap();
       case 'TELEGRAM':
-      return this.getTelegramStepsMap();
+        return this.getTelegramStepsMap();
       default:
-      return new Map<number, string>();
+        return new Map<number, string>();
     }
   }
 
@@ -305,4 +302,3 @@ export interface OnNextStep {
 
   onNextStep();
 }
-

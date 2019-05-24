@@ -1,17 +1,17 @@
-import {Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {BalanceService} from '../../services/balance.service';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {QUBERA, WITH_CODE, INNER_TRANSFER} from './send-money-constants';
-import {Animations} from '../../../shared/animations';
+import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { BalanceService } from '../../services/balance.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { QUBERA, WITH_CODE, INNER_TRANSFER } from './send-money-constants';
+import { Animations } from '../../../shared/animations';
 
 @Component({
   selector: 'app-send-money',
   templateUrl: './send-money.component.html',
   styleUrls: ['./send-money.component.scss'],
   animations: [
-    Animations.popupOverlayTrigger, Animations.popupModalTrigger
-  ]
+    Animations.popupOverlayTrigger, Animations.popupModalTrigger,
+  ],
 })
 export class SendMoneyComponent implements OnInit, OnDestroy {
 
@@ -34,7 +34,7 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    public balanceService: BalanceService
+    public balanceService: BalanceService,
   ) {
   }
 
@@ -42,7 +42,7 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
     this.showPopup = false;
     setTimeout(() => {
       this.closeSendMoneyPopup.emit(true);
-    }, 1000);
+    },         1000);
   }
 
   ngOnInit() {
@@ -85,7 +85,6 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
     this.stepTwoName = this.optionData.stepName ? this.optionData.stepName : '';
     this.stepThreeData = this.optionData.stepThreeData ? this.optionData.stepThreeData : null;
   }
-
 
   activeStepThreeInnerTransfer(name: string) {
     this.step = 3;

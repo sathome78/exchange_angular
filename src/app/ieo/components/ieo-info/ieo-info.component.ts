@@ -6,7 +6,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-ieo-info',
   templateUrl: './ieo-info.component.html',
-  styleUrls: ['./ieo-info.component.scss']
+  styleUrls: ['./ieo-info.component.scss'],
 })
 export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -18,7 +18,7 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
     TERMINATED: 'TERMINATED',
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
-  }
+  };
 
   @Input('isAuthenticated') public isAuthenticated: boolean = false;
   @Input('currentStage') public currentStage: string;
@@ -36,11 +36,11 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(c) {
-    if(c.IEOData && c.IEOData.currentValue) {
+    if (c.IEOData && c.IEOData.currentValue) {
       const d = this.IEOData.startDate;
-      if(!d) return;
+      if (!d) return;
       const date = moment.utc({
-        y: d.year, M: d.monthValue - 1, d: d.dayOfMonth, h: d.hour, m: d.minute, s: d.second
+        y: d.year, M: d.monthValue - 1, d: d.dayOfMonth, h: d.hour, m: d.minute, s: d.second,
       }).local();
       this.startTimer(date);
     }
@@ -51,7 +51,7 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public startTimer(date: moment.Moment): void {
-    if(this.interval) {
+    if (this.interval) {
       clearInterval(this.interval);
     }
 
@@ -64,7 +64,7 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
       const minutes = Math.floor(((diff % 86400000) % 3600000) / 60000);
       const seconds = Math.floor((((diff % 86400000) % 3600000) % 60000) / 1000);
 
-      if(diff > 0){
+      if (diff > 0) {
         this.timer =
           '<span>' + (days < 10 ? '0' + days : days) + '</span>' +
           '<span>' + (hours < 10 ? '0' + hours : hours) + '</span>' +
@@ -72,15 +72,15 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
           '<span>' + (seconds < 10 ? '0' + seconds : seconds) + '</span>';
       } else {
         this.timer = '<span>00</span><span>00</span><span>00</span><span>00</span>';
-        if( this.currentStage === this.stage.PENDING) {
+        if (this.currentStage === this.stage.PENDING) {
           this.onRefreshIEOStatus.emit();
-          if(this.interval) {
+          if (this.interval) {
             clearInterval(this.interval);
           }
         }
       }
 
-    }
+    };
     getCountdown();
     this.interval = setInterval(() => getCountdown(), 1000);
   }
@@ -93,8 +93,8 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public getFormatDate(d) {
-    if(!d) {
-      return '0000-00-00 00:00:00'
+    if (!d) {
+      return '0000-00-00 00:00:00';
     }
     return moment.utc({
       y: d.year,
@@ -114,12 +114,12 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
     return (this.IEOData.amount * this.IEOData.rate) || 0;
   }
 
-   get boughtAmountPer () {
-    const a = (this.boughtAmount / (this.IEOData.amount / 100)) || 0
+  get boughtAmountPer () {
+    const a = (this.boughtAmount / (this.IEOData.amount / 100)) || 0;
     return a.toFixed(2);
   }
 
   goToNewsPage() {
-    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`)
+    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`);
   }
 }

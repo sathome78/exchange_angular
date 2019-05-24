@@ -1,22 +1,22 @@
-import {Component, OnInit, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {of, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/internal/operators';
+import { Component, OnInit, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { of, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/internal/operators';
 
-import {PopupService} from '../../shared/services/popup.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserService} from '../../shared/services/user.service';
-import {keys} from '../../shared/constants';
-import {UtilsService} from 'app/shared/services/utils.service';
-import {Router} from '@angular/router';
-import {Location} from '@angular/common';
-import {AUTH_MESSAGES} from '../../shared/constants';
-import {GtagService} from '../../shared/services/gtag.service';
+import { PopupService } from '../../shared/services/popup.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../../shared/services/user.service';
+import { keys } from '../../shared/constants';
+import { UtilsService } from 'app/shared/services/utils.service';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { AUTH_MESSAGES } from '../../shared/constants';
+import { GtagService } from '../../shared/services/gtag.service';
 
 @Component({
   selector: 'app-registration-mobile-popup',
   templateUrl: './registration-mobile-popup.component.html',
-  styleUrls: ['./registration-mobile-popup.component.scss']
+  styleUrls: ['./registration-mobile-popup.component.scss'],
 })
 export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -49,7 +49,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private utilsService: UtilsService,
     private location: Location,
-    private gtagService: GtagService
+    private gtagService: GtagService,
   ) {
   }
 
@@ -100,7 +100,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
         this.setTemplate('emailConfirmLinkTemplate');
         this.gtagService.sendRegistrationGtag();
         this.loading = false;
-      }, error => {
+      },         error => {
         console.error(error);
         this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later');
         this.setTemplate('emailConfirmLinkTemplate');
@@ -113,25 +113,23 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     this.popupService.showMobileLoginPopup(true);
   }
 
-
   initForm() {
     this.emailForm = new FormGroup({
       email: new FormControl('', {
         validators: [
           Validators.required,
           this.utilsService.emailValidator(),
-          this.utilsService.specialCharacterValidator()
-        ]
-      })
-    }, {updateOn: 'blur'});
+          this.utilsService.specialCharacterValidator(),
+        ],
+      }),
+    },                             { updateOn: 'blur' });
     this.passwordForm = new FormGroup({
-      password: new FormControl('', {validators: [Validators.required]}),
+      password: new FormControl('', { validators: [Validators.required] }),
     });
     this.nameForm = new FormGroup({
-      username: new FormControl('', {validators: Validators.required}),
+      username: new FormControl('', { validators: Validators.required }),
     });
   }
-
 
   emailBlur() {
     this.pendingCheckEmail = true;
@@ -143,7 +141,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
         .subscribe(res => {
           this.emailServerError = res ? 'EMAIL_EXIST' : '';
           this.pendingCheckEmail = false;
-        }, error => {
+        },         error => {
           if (error.status === 400) {
             this.emailServerError = error.error.title === 'USER_EMAIL_NOT_FOUND' ?
               '' :
@@ -155,7 +153,6 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
         });
     }
   }
-
 
   emailSubmit() {
     if (this.emailForm.valid && !this.pendingCheckEmail) {

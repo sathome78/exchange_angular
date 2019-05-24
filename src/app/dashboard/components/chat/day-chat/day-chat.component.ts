@@ -1,12 +1,12 @@
-import {Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import {DateChatItem} from '../date-chat-item.model';
-import {ChatItem} from '../chat-item.model';
-import {ChatService} from '../chat.service';
-import {Subject} from 'rxjs';
-import {SimpleChat} from '../simple-chat.model';
-import {ChatComponent} from '../chat.component';
-import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
-import {takeUntil} from 'rxjs/operators';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { DateChatItem } from '../date-chat-item.model';
+import { ChatItem } from '../chat-item.model';
+import { ChatService } from '../chat.service';
+import { Subject } from 'rxjs';
+import { SimpleChat } from '../simple-chat.model';
+import { ChatComponent } from '../chat.component';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
 
 @Component({
@@ -17,8 +17,8 @@ import * as moment from 'moment';
 })
 export class DayChatComponent implements OnInit, OnDestroy {
 
-  @Input () dateChatItem: DateChatItem;
-  @Input () scrollWrapper: PerfectScrollbarComponent;
+  @Input() dateChatItem: DateChatItem;
+  @Input() scrollWrapper: PerfectScrollbarComponent;
 
   public messages: SimpleChat[];
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -38,24 +38,23 @@ export class DayChatComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
           setTimeout(() => {
             this.onScrollToBottom();
-          }, 200);
+          },         200);
         });
     }
   }
 
   onScrollToBottom() {
-    this.scrollWrapper.directiveRef.scrollToBottom(0,300);
+    this.scrollWrapper.directiveRef.scrollToBottom(0, 300);
   }
 
   ngOnDestroy(): void {
-    this.ngUnsubscribe.next()
-    this.ngUnsubscribe.complete()
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   public isToday(date: Date): boolean {
     const today = new Date();
     return moment(date).isSame(today, 'day');
   }
-
 
 }

@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {UtilsService} from '../services/utils.service';
+import { UtilsService } from '../services/utils.service';
 
 @Pipe({
-  name: 'getIconUrl'
+  name: 'getIconUrl',
 })
 export class GetIconUrl  implements PipeTransform {
 
@@ -62,7 +62,7 @@ export class GetIconUrl  implements PipeTransform {
       case 'GNY':
       case 'NOVA':
       case 'TSL':
-      
+
       case 'ZUBE':
         name = 'no_icon';
         break;

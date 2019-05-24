@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-doc-upload',
   templateUrl: './doc-upload.component.html',
-  styleUrls: ['./doc-upload.component.scss']
+  styleUrls: ['./doc-upload.component.scss'],
 })
 export class DocUploadComponent implements OnInit, OnDestroy {
 
@@ -25,11 +25,11 @@ export class DocUploadComponent implements OnInit, OnDestroy {
     this.events
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(mode => {
-      if (mode === 'FILE') {
+        if (mode === 'FILE') {
         // todo smth useful
         // console.log('submit clicked for file');
-      }
-    });
+        }
+      });
   }
 
   onSelectFile(event) {
@@ -67,7 +67,7 @@ export class DocUploadComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next()
-    this.ngUnsubscribe.complete()
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

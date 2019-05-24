@@ -8,7 +8,7 @@ describe('RefillFiatComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RefillFiatComponent ]
+      declarations: [RefillFiatComponent],
     })
     .compileComponents();
   }));

@@ -1,5 +1,4 @@
 
-
 export class OpenOrders {
   constructor(
   public orderType: string,
@@ -10,6 +9,6 @@ export class OpenOrders {
   public rate: number,
   public commission: number,
   public total: number,
-  public status: string
+  public status: string,
   ) {}
 }

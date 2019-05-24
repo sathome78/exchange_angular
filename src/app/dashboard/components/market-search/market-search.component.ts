@@ -1,12 +1,12 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
-import {CurrencyPair} from '../../../model/currency-pair.model';
-import {MarketService} from '../../services/market.service';
+import { CurrencyPair } from '../../../model/currency-pair.model';
+import { MarketService } from '../../services/market.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
-import {Store} from '@ngrx/store';
-import {State} from '../../../core/reducers';
-import {UtilsService} from 'app/shared/services/utils.service';
-import {DashboardService} from '../../dashboard.service';
+import { Store } from '@ngrx/store';
+import { State } from '../../../core/reducers';
+import { UtilsService } from 'app/shared/services/utils.service';
+import { DashboardService } from '../../dashboard.service';
 
 @Component({
   selector: 'app-market-search',
@@ -41,7 +41,7 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.scrollHeight = this.container.nativeElement.offsetHeight - 109;
       this.cdr.detectChanges();
-    }, 0);
+    },         0);
   }
 
   splitPairName(name: string): string[] {
@@ -58,9 +58,9 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
 
   setCurrentPair(pair: CurrencyPair) {
     this.store.dispatch(
-      new dashboardActions.ChangeActiveCurrencyPairAction({name: pair.currencyPairName, id: pair.currencyPairId})
+      new dashboardActions.ChangeActiveCurrencyPairAction({ name: pair.currencyPairName, id: pair.currencyPairId }),
     );
-    this.utils.saveActiveCurrencyPairToSS({name: pair.currencyPairName, id: pair.currencyPairId});
+    this.utils.saveActiveCurrencyPairToSS({ name: pair.currencyPairName, id: pair.currencyPairId });
     this.toMobileWidget('trading');
     this.onCloseModal();
   }

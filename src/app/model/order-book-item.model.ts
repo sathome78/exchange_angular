@@ -1,4 +1,4 @@
-import {OrderItem} from "app/orders/models/order-item.model";
+import { OrderItem } from 'app/orders/models/order-item.model';
 
 export class OrderBookItem {
   constructor(

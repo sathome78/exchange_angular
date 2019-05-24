@@ -1,9 +1,9 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-custom-search-input',
   templateUrl: './custom-search-input.component.html',
-  styleUrls: ['./custom-search-input.component.scss']
+  styleUrls: ['./custom-search-input.component.scss'],
 })
 export class CustomSearchInputComponent implements OnInit {
 

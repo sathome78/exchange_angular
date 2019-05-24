@@ -1,15 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {Observable, Subject} from 'rxjs';
-import {select, Store} from '@ngrx/store';
-import {getLanguage, State} from '../core/reducers';
-import {takeUntil} from 'rxjs/operators';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable, Subject } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { getLanguage, State } from '../core/reducers';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-funds',
   templateUrl: './funds.component.html',
-  styleUrls: ['./funds.component.scss']
+  styleUrls: ['./funds.component.scss'],
 })
 export class FundsComponent implements OnInit, OnDestroy {
 
@@ -35,6 +34,5 @@ export class FundsComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
 
 }

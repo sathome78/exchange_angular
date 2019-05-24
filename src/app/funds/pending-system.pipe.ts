@@ -1,8 +1,8 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {UtilsService} from 'app/shared/services/utils.service';
+import { Pipe, PipeTransform } from '@angular/core';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Pipe({
-  name: 'showPendingSystem'
+  name: 'showPendingSystem',
 })
 export class ShowPendingSystemPipe  implements PipeTransform {
   constructor(
@@ -12,4 +12,3 @@ export class ShowPendingSystemPipe  implements PipeTransform {
     return this.utils.isFiat(currencyName) ? system : '-';
   }
 }
-

@@ -8,7 +8,7 @@ describe('RefillStepOneComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RefillStepOneComponent ]
+      declarations: [RefillStepOneComponent],
     })
     .compileComponents();
   }));

@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {PopupService} from '../shared/services/popup.service';
-import {NotificationMessage} from '../shared/models/notification-message-model';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {NotificationsService} from '../shared/components/notification/notifications.service';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { PopupService } from '../shared/services/popup.service';
+import { NotificationMessage } from '../shared/models/notification-message-model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { NotificationsService } from '../shared/components/notification/notifications.service';
 
 @Component({
   selector: 'app-popups',

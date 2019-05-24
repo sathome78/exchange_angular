@@ -1,13 +1,13 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, OnDestroy} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, OnDestroy } from '@angular/core';
 import { EmbeddedOrdersService } from '../../embedded-orders/embedded-orders.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import {SimpleCurrencyPair} from '../../../../model/simple-currency-pair';
+import { SimpleCurrencyPair } from '../../../../model/simple-currency-pair';
 
 @Component({
   selector: 'app-embedded-open-orders-mobile',
   templateUrl: './embedded-open-orders-mobile.component.html',
-  styleUrls: ['./embedded-open-orders-mobile.component.scss']
+  styleUrls: ['./embedded-open-orders-mobile.component.scss'],
 })
 export class EmbeddedOpenOrdersMobileComponent implements OnInit, OnDestroy {
 
@@ -36,7 +36,6 @@ export class EmbeddedOpenOrdersMobileComponent implements OnInit, OnDestroy {
     this.showCancelOrderConfirm = id;
   }
 
-
   cancelOrder(order) {
     this.showCancelOrderConfirm = null;
     this.loading = true;
@@ -45,7 +44,7 @@ export class EmbeddedOpenOrdersMobileComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.refreshOpenOrders.emit(true);
         this.loading = false;
-      }, (err) => {
+      },         (err) => {
         this.loading = false;
         console.error(err);
       });

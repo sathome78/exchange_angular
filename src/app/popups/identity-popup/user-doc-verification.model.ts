@@ -24,7 +24,6 @@ export class UserDocVerificationModel {
     return this;
   }
 
-
   public build(): UserDocVerificationModel {
     return this;
   }

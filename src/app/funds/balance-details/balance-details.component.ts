@@ -1,32 +1,32 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {BalanceDetailsItem} from 'app/funds/models/balance-details-item.model';
-import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
-import {Router, ActivatedRoute} from '@angular/router';
-import {Store, select} from '@ngrx/store';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { BalanceDetailsItem } from 'app/funds/models/balance-details-item.model';
+import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Store, select } from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
-import {Observable, Subject} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
 import * as coreAction from '../../core/actions/core.actions';
-import {takeUntil} from 'rxjs/operators';
-import {Location} from '@angular/common';
-import {BalanceItem} from 'app/funds/models/balance-item.model';
-import {CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, INNER_TRANSFER, FIAT_DEPOSIT} from '../balance/send-money/send-money-constants';
-import {BalanceService} from 'app/funds/services/balance.service';
-import {PopupService} from '../../shared/services/popup.service';
-import {UtilsService} from 'app/shared/services/utils.service';
+import { takeUntil } from 'rxjs/operators';
+import { Location } from '@angular/common';
+import { BalanceItem } from 'app/funds/models/balance-item.model';
+import { CRYPTO_DEPOSIT, CRYPTO_WITHDRAWAL, INNER_TRANSFER, FIAT_DEPOSIT } from '../balance/send-money/send-money-constants';
+import { BalanceService } from 'app/funds/services/balance.service';
+import { PopupService } from '../../shared/services/popup.service';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-balance-details',
   templateUrl: './balance-details.component.html',
-  styleUrls: ['./balance-details.component.scss']
+  styleUrls: ['./balance-details.component.scss'],
 })
 export class BalanceDetailsComponent implements OnInit, OnDestroy {
 
   public currencies = {
     BTC: 'BTC',
     USD: 'USD',
-  }
+  };
   constructor(
     private store: Store<fromCore.State>,
     private dashboardWS: DashboardWebSocketService,
@@ -35,7 +35,7 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
     private location: Location,
     private balanceService: BalanceService,
     private utils: UtilsService,
-    private popupService: PopupService
+    private popupService: PopupService,
   ) {
     this.selectedBalance$ = store.pipe(select(fundsReducer.getSelectedBalance));
     this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
@@ -44,13 +44,13 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(params => {
         const currencyId = +params['id'];
-        this.store.dispatch(new fundsAction.LoadBalanceDetailsAction(currencyId))
+        this.store.dispatch(new fundsAction.LoadBalanceDetailsAction(currencyId));
       });
-      this.route.queryParams
+    this.route.queryParams
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(params => {
         this.priceIn = params['priceIn'];
-        this.location.replaceState(this.location.path().split('?')[0], '')
+        this.location.replaceState(this.location.path().split('?')[0], '');
       });
 
     this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
@@ -86,12 +86,12 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
   }
 
   public onGoBackToMain(): void {
-    this.store.dispatch(new fundsAction.SetBalanceDetailsAction(null))
+    this.store.dispatch(new fundsAction.SetBalanceDetailsAction(null));
     this.location.back();
   }
 
   public onTogglePanels(panel): void {
-    switch(panel){
+    switch (panel){
       case 'on_confirmation':
         this.showOnConfirmation = !this.showOnConfirmation;
         break;
@@ -105,7 +105,7 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
     const splitName = marketPair.split('-');
     this.dashboardWS.isNeedChangeCurretPair = false;
     this.dashboardWS.findPairByCurrencyPairName(`${splitName[0]}/${splitName[1]}`);
-    this.router.navigate(['/'], {queryParams: {widget: 'trading'}});
+    this.router.navigate(['/'], { queryParams: { widget: 'trading' } });
   }
 
   ngOnDestroy(): void {
@@ -117,15 +117,15 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
     return (currencyName): string => {
       if (currencyName === 'BTC') {
         return 'BTC-USD';
-      } else {
-        return `${currencyName}-BTC`
       }
-    }
+      return `${currencyName}-BTC`;
+
+    };
   }
 
   public goToCryptoDepositPopup(balance: BalanceItem): void {
     this.showRefillBalancePopup = true;
-    let stepName = this.utils.isFiat(balance.currencyName) ? FIAT_DEPOSIT : CRYPTO_DEPOSIT;
+    const stepName = this.utils.isFiat(balance.currencyName) ? FIAT_DEPOSIT : CRYPTO_DEPOSIT;
     this.refillBalanceData = {
       step: 2,
       stepName,
@@ -138,7 +138,7 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
     this.sendMoneyData = {
       step: 2,
       stepName: CRYPTO_WITHDRAWAL,
-      balance: balance
+      balance,
     };
   }
 
@@ -147,7 +147,7 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
     this.sendMoneyData = {
       step: 2,
       stepName: INNER_TRANSFER,
-      stepThreeData: balance
+      stepThreeData: balance,
     };
   }
 

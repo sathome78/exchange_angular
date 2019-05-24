@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../../environments/environment';
-import {Observable} from 'rxjs';
-import {ITwoFaResponseDto} from './2fa-response-dto.model';
-import {UtilsService} from '../../../shared/services/utils.service';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
+import { Observable } from 'rxjs';
+import { ITwoFaResponseDto } from './2fa-response-dto.model';
+import { UtilsService } from '../../../shared/services/utils.service';
 
 @Injectable()
 export class GoogleAuthenticatorService {
@@ -27,14 +27,14 @@ export class GoogleAuthenticatorService {
   submitGoogleAuthSecret(secret: string, password: string, pin: string): Observable<number> {
     const encodedPassword = this.utilsService.encodePassword(password, this.ENCODE_KEY);
     const body: { 'SECRET': string, 'PASSWORD': string, 'PINCODE': string }
-      = {'SECRET': secret, 'PASSWORD': encodedPassword, 'PINCODE': pin};
+      = { SECRET: secret, PASSWORD: encodedPassword, PINCODE: pin };
     return this.http.post<number>(this.getUrl('google2fa/submit'), body);
   }
 
-  disableGoogleAuthentication( password: string, pin: string): Observable<number> {
+  disableGoogleAuthentication(password: string, pin: string): Observable<number> {
     const encodedPassword = this.utilsService.encodePassword(password, this.ENCODE_KEY);
     const body: { 'PASSWORD': string, 'PINCODE': string }
-      = { 'PASSWORD': encodedPassword, 'PINCODE': pin};
+      = { PASSWORD: encodedPassword, PINCODE: pin };
     return this.http.put<number>(this.getUrl('google2fa/disable'), body);
   }
 

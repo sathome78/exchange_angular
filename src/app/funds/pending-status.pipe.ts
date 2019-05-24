@@ -1,11 +1,11 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'showPendingStatus'
+  name: 'showPendingStatus',
 })
 export class ShowPendingStatusPipe  implements PipeTransform {
   transform(status: string, operationType: string): string {
-    if(operationType === 'WITHDRAW') {
+    if (operationType === 'WITHDRAW') {
       switch (status) {
         case 'CREATED_USER':
         case 'WAITING_MANUAL_POSTING':
@@ -21,7 +21,7 @@ export class ShowPendingStatusPipe  implements PipeTransform {
         default:
           return status;
       }
-    } else if(operationType === 'REFILL') {
+    }  if (operationType === 'REFILL') {
       switch (status) {
         case 'CREATED_USER':
           return 'Awaits deposit';
@@ -40,16 +40,15 @@ export class ShowPendingStatusPipe  implements PipeTransform {
         default:
           return status;
       }
-    } else if(operationType === 'TRANSFER') {
+    }  if (operationType === 'TRANSFER') {
       switch (status) {
         case 'POSTPONED_AS_VOUCHER':
           return 'Awaits deposit';
         default:
           return status;
       }
-    } else {
-      return status;
     }
+    return status;
+
   }
 }
-

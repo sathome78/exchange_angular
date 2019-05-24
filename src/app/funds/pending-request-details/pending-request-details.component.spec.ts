@@ -8,7 +8,7 @@ describe('PendingRequestDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PendingRequestDetailsComponent ]
+      declarations: [PendingRequestDetailsComponent],
     })
     .compileComponents();
   }));

@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {KYC_STATUS, PENDING} from 'app/shared/constants';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { KYC_STATUS, PENDING } from 'app/shared/constants';
 
 @Component({
   selector: 'app-qubera-table',
   templateUrl: './qubera-table.component.html',
-  styleUrls: ['./qubera-table.component.scss']
+  styleUrls: ['./qubera-table.component.scss'],
 })
 export class QuberaTableComponent implements OnInit {
 

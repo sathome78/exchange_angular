@@ -1,23 +1,22 @@
-import {Component, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef, Input} from '@angular/core';
-import {takeUntil} from 'rxjs/internal/operators';
-import {Subject} from 'rxjs/Subject';
-import {Store, select} from '@ngrx/store';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef, Input } from '@angular/core';
+import { takeUntil } from 'rxjs/internal/operators';
+import { Subject } from 'rxjs/Subject';
+import { Store, select } from '@ngrx/store';
 
-import {State, getMarketCurrencyPairsMap, getIsAuthenticated, getFavoritesCurrencyPair} from 'app/core/reducers/index';
-import {CurrencyPair} from '../../../model/currency-pair.model';
-import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {MarketService} from '../../services/market.service';
+import { State, getMarketCurrencyPairsMap, getIsAuthenticated, getFavoritesCurrencyPair } from 'app/core/reducers/index';
+import { CurrencyPair } from '../../../model/currency-pair.model';
+import { AbstractDashboardItems } from '../../abstract-dashboard-items';
+import { MarketService } from '../../services/market.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
-import {getActiveCurrencyPair} from '../../../core/reducers';
+import { getActiveCurrencyPair } from '../../../core/reducers';
 
-import {ActivatedRoute, Router} from '@angular/router';
-import {BreakpointService} from 'app/shared/services/breakpoint.service';
-import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
-import {Subscription} from 'rxjs';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
-import {UserService} from '../../../shared/services/user.service';
-import {UtilsService} from 'app/shared/services/utils.service';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { BreakpointService } from 'app/shared/services/breakpoint.service';
+import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
+import { Subscription } from 'rxjs';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { UserService } from '../../../shared/services/user.service';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-markets',
@@ -91,10 +90,10 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((isAuthenticated: boolean) => {
         this.isAuthenticated = isAuthenticated;
-        if(isAuthenticated) {
+        if (isAuthenticated) {
           this.getUserFavoritesCurrencyPairs();
         } else {
-          this.store.dispatch(new dashboardActions.SetUserFavoritesCurrencyPairsAction([]))
+          this.store.dispatch(new dashboardActions.SetUserFavoritesCurrencyPairsAction([]));
         }
       });
 
@@ -105,7 +104,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         this.currencyPairs = Object.values(currencyPairs);
         this.pairs = this.choosePair(this.currencyDisplayMode, this.searchInput);
         this.cdr.detectChanges();
-      }, (err) => {
+      },         (err) => {
         console.error(err);
         this.cdr.detectChanges();
       });
@@ -122,14 +121,14 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe((data) => {
         const parsedData = JSON.parse(data[0]);
         // console.log('markets', parsedData);
-        this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(parsedData.data))
+        this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(parsedData.data));
         this.loadingFinished();
         this.cdr.detectChanges();
-      })
+      });
   }
 
   unsubscribeMarkets() {
-    if(this.marketsSub$) {
+    if (this.marketsSub$) {
       this.marketsSub$.unsubscribe();
     }
   }
@@ -139,25 +138,25 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.breakpointService.breakpoint$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res) => {
-        if(res === 'mobile') {
+        if (res === 'mobile') {
           this.isMobile = true;
           setTimeout(() => {
             this.scrollHeight = this.mobileContainer.nativeElement.offsetHeight - 108;
             this.cdr.detectChanges();
-          }, 300);
+          },         300);
         } else {
           this.isMobile = false;
           this.scrollHeight = 0;
         }
-      })
+      });
   }
 
   getUserFavoritesCurrencyPairs() {
     this.marketService.getUserFavoriteCurrencyPairIds()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((favoriteIds: number[]) => {
-        this.store.dispatch(new dashboardActions.SetUserFavoritesCurrencyPairsAction(favoriteIds))
-      })
+        this.store.dispatch(new dashboardActions.SetUserFavoritesCurrencyPairsAction(favoriteIds));
+      });
   }
 
   ngOnDestroy(): void {
@@ -188,14 +187,14 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
     const simplePair = {
       id: pair.currencyPairId,
-      name: pair.currencyPairName
+      name: pair.currencyPairName,
     };
     this.utilsService.saveActiveCurrencyPairToSS(simplePair);
     this.userService.getUserBalance(simplePair);
-    if(this.isMobile) {
-      this.router.navigate(['/dashboard'], {queryParams:{widget: 'trading'}});
+    if (this.isMobile) {
+      this.router.navigate(['/dashboard'], { queryParams:{ widget: 'trading' } });
     } else if (this.route.snapshot.paramMap.get('currency-pair')) {
-       this.router.navigate(['/']);
+      this.router.navigate(['/']);
     }
   }
 
@@ -245,11 +244,10 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         && f.currencyPairName.toUpperCase().startsWith(searchValue.toUpperCase()));
   }
 
-
   /** Filter markets data by search-data*/
   searchPair(value: string): void {
     this.searchInput = value;
-    this.pairs = this.choosePair(this.currencyDisplayMode, value)
+    this.pairs = this.choosePair(this.currencyDisplayMode, value);
   }
 
   /**
@@ -266,7 +264,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   toggleFavorite(pair: CurrencyPair) {
-    if(!this.isAuthenticated) {
+    if (!this.isAuthenticated) {
       return;
     }
     this.marketService.manageUserFavoriteCurrencyPair(pair.currencyPairId, this.getIsFavorite(pair.currencyPairId))
@@ -291,18 +289,18 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
 
     let target = e.target;
 
-    while(target.id !== 'markets-container' || null) {
-      if(target.dataset.favorite) {
-        const pair = this.getPairById(+target.dataset.favorite)
-        if(pair) {
+    while (target.id !== 'markets-container' || null) {
+      if (target.dataset.favorite) {
+        const pair = this.getPairById(+target.dataset.favorite);
+        if (pair) {
           this.toggleFavorite(pair);
         }
         target = null;
         return;
       }
-      if(target.dataset.marketitem) {
-        const pair = this.getPairById(+target.dataset.marketitem)
-        if(pair) {
+      if (target.dataset.marketitem) {
+        const pair = this.getPairById(+target.dataset.marketitem);
+        if (pair) {
           this.onSelectCurrencyPair(pair);
         }
         target = null;

@@ -6,19 +6,19 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  HostListener
+  HostListener,
 } from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {takeUntil} from 'rxjs/internal/operators';
-import {Subject} from 'rxjs/Subject';
-import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {State, getActiveCurrencyPair, getCurrencyPairInfo} from 'app/core/reducers/index';
-import {OrderItem} from 'app/model/order-item.model';
-import {SelectedOrderBookOrderAction, SetLastPriceAction} from '../../actions/dashboard.actions';
-import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
-import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
-import {OrderBookItem} from 'app/model';
-import {Subscription} from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/internal/operators';
+import { Subject } from 'rxjs/Subject';
+import { AbstractDashboardItems } from '../../abstract-dashboard-items';
+import { State, getActiveCurrencyPair, getCurrencyPairInfo } from 'app/core/reducers/index';
+import { OrderItem } from 'app/model/order-item.model';
+import { SelectedOrderBookOrderAction, SetLastPriceAction } from '../../actions/dashboard.actions';
+import { CurrencyPairInfo } from '../../../model/currency-pair-info.model';
+import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
+import { OrderBookItem } from 'app/model';
+import { Subscription } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 @Component({
@@ -78,7 +78,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     [1270, 1340, 16],
     [1340, 1410, 17],
     [1410, 1480, 18],
-  ]
+  ];
 
   constructor(
     private store: Store<State>,
@@ -93,7 +93,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
     this.withForChartLineElements = {
       sell: [],
-      buy: []
+      buy: [],
     };
     this.store
       .pipe(select(getCurrencyPairInfo))
@@ -109,10 +109,10 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       .subscribe((pair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = pair;
         this.splitCurrencyName = pair.name.split('/');
-        if(pair.id !== 0) {
-          this.subscribeOrderBook(pair.name, this.precisionOut)
+        if (pair.id !== 0) {
+          this.subscribeOrderBook(pair.name, this.precisionOut);
         }
-        this.cdr.detectChanges()
+        this.cdr.detectChanges();
       });
   }
 
@@ -123,7 +123,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     }
     this.resizeTimeout = setTimeout((() => {
      this.calculateMaxNumberLength();
-    }).bind(this), 500);
+    }).bind(this),                  500);
   }
 
   ngOnDestroy() {
@@ -159,11 +159,11 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.initData(data);
         this.loadingFinished();
         this.cdr.detectChanges();
-      })
+      });
   }
 
   unsubscribeOrderBook() {
-    if(this.orderBookSub$) {
+    if (this.orderBookSub$) {
       this.orderBookSub$.unsubscribe();
     }
   }
@@ -183,14 +183,14 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private initData(orders: OrderBookItem[]) {
-    if(!orders[0]) {
+    if (!orders[0]) {
       return;
     }
-      this.calculateVisualizationWidth(this.lastBuyTotal, this.lastSellTotal);
+    this.calculateVisualizationWidth(this.lastBuyTotal, this.lastSellTotal);
 
     orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) :
     orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : null;
-    if(orders[1]) {
+    if (orders[1]) {
       orders[1].orderType === 'SELL' ? this.setSellOrders(orders[1]) :
       orders[1].orderType === 'BUY' ? this.setBuyOrders(orders[1]) : null;
     }
@@ -199,11 +199,11 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.lastExrate = +orders[0].lastExrate;
     this.preLastExrate = +orders[0].preLastExrate;
     this.isExratePositive = orders[0].positive;
-      const lastPrice = {
-        flag: this.isExratePositive,
-        price: this.lastExrate
-      }
-      this.store.dispatch(new SetLastPriceAction(lastPrice));
+    const lastPrice = {
+      flag: this.isExratePositive,
+      price: this.lastExrate,
+    };
+    this.store.dispatch(new SetLastPriceAction(lastPrice));
     this.setData();
   }
 
@@ -261,7 +261,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     if (this.precision <= 0.01) {
       this.precision *= 10;
       this.precisionOut--;
-      this.subscribeOrderBook(this.activeCurrencyPair.name, this.precisionOut)
+      this.subscribeOrderBook(this.activeCurrencyPair.name, this.precisionOut);
     }
   }
 
@@ -272,7 +272,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     if (this.precision >= 0.0001) {
       this.precision /= 10;
       this.precisionOut++;
-      this.subscribeOrderBook(this.activeCurrencyPair.name, this.precisionOut)
+      this.subscribeOrderBook(this.activeCurrencyPair.name, this.precisionOut);
 
     }
   }
@@ -336,7 +336,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     const coefficient = isBuy ? (this.commonBuyTotal / number) : (this.commonSellTotal / number);
     return (isBuy ? this.maxBuyVisualizationWidth / coefficient : this.maxSellVisualizationWidth / coefficient);
   }
-
 
   private setData(): void {
     this.sortBuyData();

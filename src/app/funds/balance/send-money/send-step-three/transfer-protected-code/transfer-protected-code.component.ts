@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BalanceService} from '../../../../services/balance.service';
-import {State} from '../../../../../core/reducers';
-import {Store} from '@ngrx/store';
-import {BY_PRIVATE_CODE} from '../../send-money-constants';
-import {AbstractTransfer} from '../abstract-transfer';
-import {PopupService} from '../../../../../shared/services/popup.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BalanceService } from '../../../../services/balance.service';
+import { State } from '../../../../../core/reducers';
+import { Store } from '@ngrx/store';
+import { BY_PRIVATE_CODE } from '../../send-money-constants';
+import { AbstractTransfer } from '../abstract-transfer';
+import { PopupService } from '../../../../../shared/services/popup.service';
 
 @Component({
   selector: 'app-transfer-protected-code',
   templateUrl: './transfer-protected-code.component.html',
-  styleUrls: ['./transfer-protected-code.component.scss']
+  styleUrls: ['./transfer-protected-code.component.scss'],
 })
 export class TransferProtectedCodeComponent extends AbstractTransfer implements OnInit, OnDestroy {
 
@@ -20,7 +20,7 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
     sum: '',
     pin: '',
     currencyName: '',
-    type: 'VOUCHER'
+    type: 'VOUCHER',
   };
 
   constructor(
@@ -56,7 +56,7 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
     this.model.currencyName = this.activeCrypto.name;
     const data = {
       operation: BY_PRIVATE_CODE,
-      data: this.model
+      data: this.model,
     };
     this.balanceService.goToPinCode$.next(data);
   }
@@ -64,10 +64,10 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
   private initForm() {
     this.form = new FormGroup({
       amount: new FormControl('', {validators: [
-          Validators.required,
-          this.isMaxThenActiveBalance.bind(this),
-          this.isMinThenMinWithdraw.bind(this)
-        ]}),
+        Validators.required,
+        this.isMaxThenActiveBalance.bind(this),
+        this.isMinThenMinWithdraw.bind(this),
+      ]}),
     });
   }
 }

@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Subject, Observable, ReplaySubject} from 'rxjs';
-import {environment} from 'environments/environment';
-import {MyBalanceItem} from 'app/model/my-balance-item.model';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Subject, Observable, ReplaySubject } from 'rxjs';
+import { environment } from 'environments/environment';
+import { MyBalanceItem } from 'app/model/my-balance-item.model';
 
 @Injectable()
 export class DashboardService {
@@ -14,10 +14,8 @@ export class DashboardService {
 
   public selectedOrderTrading$ = new ReplaySubject();
 
-
   /** mock data for currencies which used at currency-pair-info/currency-search */
   // currencies: BehaviorSubject<Currency[]> = new BehaviorSubject<Currency[]>(mockPairs);
-
 
   /** Array of dashboard item options*/
   public widgetPositions = [
@@ -36,7 +34,7 @@ export class DashboardService {
       hLg: 1,
       dragAndDrop: true,
       resizable: true,
-      type: 'graph'
+      type: 'graph',
     },
     {
       x: 1,
@@ -53,7 +51,7 @@ export class DashboardService {
       hLg: 1,
       dragAndDrop: true,
       resizable: true,
-      type: 'markets'
+      type: 'markets',
     },
     {
       x: 1,
@@ -70,7 +68,7 @@ export class DashboardService {
       hLg: 1,
       dragAndDrop: true,
       resizable: true,
-      type: 'trading'
+      type: 'trading',
     },
     {
       x: 1,
@@ -87,7 +85,7 @@ export class DashboardService {
       hLg: 1,
       dragAndDrop: true,
       resizable: true,
-      type: 'order-book'
+      type: 'order-book',
     },
     {
       x: 1,
@@ -104,7 +102,7 @@ export class DashboardService {
       hLg: 1,
       dragAndDrop: true,
       resizable: true,
-      type: 'trade-history'
+      type: 'trade-history',
     },
     {
       x: 1,
@@ -121,7 +119,7 @@ export class DashboardService {
       hLg: 1,
       dragAndDrop: true,
       resizable: true,
-      type: 'orders'
+      type: 'orders',
     },
     {
       x: 1,
@@ -138,7 +136,7 @@ export class DashboardService {
       hLg: 1,
       dragAndDrop: true,
       resizable: true,
-      type: 'chat'
+      type: 'chat',
     },
   ];
   /** Array of dashboard tools item */
@@ -146,37 +144,37 @@ export class DashboardService {
     {
       imgUrl: '../../assets/img/graph.svg',
       name: 'Graph',
-      type: 'graph'
+      type: 'graph',
     },
     {
       imgUrl: '../../assets/img/markets.svg',
       name: 'Markets',
-      type: 'markets'
+      type: 'markets',
     },
     {
       imgUrl: '../../assets/img/trade.svg',
       name: 'Trading',
-      type: 'trading'
+      type: 'trading',
     },
     {
       imgUrl: '../../assets/img/order-book.svg',
       name: 'Order book',
-      type: 'order-book'
+      type: 'order-book',
     },
     {
       imgUrl: '../../assets/img/history.svg',
       name: 'Trade history',
-      type: 'trade-history'
+      type: 'trade-history',
     },
     {
       imgUrl: '../../assets/img/orders.svg',
       name: 'My orders',
-      type: 'orders'
+      type: 'orders',
     },
     {
       imgUrl: '../../assets/img/header-sumbenu-link6.svg',
       name: 'Chat',
-      type: 'chat'
+      type: 'chat',
     },
   ];
 

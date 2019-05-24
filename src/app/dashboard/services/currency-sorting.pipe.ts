@@ -1,7 +1,7 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'currencySort'
+  name: 'currencySort',
 })
 export class CurrencySortingPipe implements PipeTransform {
 
@@ -11,11 +11,11 @@ export class CurrencySortingPipe implements PipeTransform {
       const right = +b[field];
       if (left < right) {
         return 1;
-      } else if (left > right) {
+      }  if (left > right) {
         return -1;
-      } else {
-        return 0;
       }
+      return 0;
+
     });
     return array;
   }

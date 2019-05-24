@@ -1,7 +1,7 @@
-import {Directive, ElementRef, HostListener} from '@angular/core';
+import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appExcludeInputSpaces]'
+  selector: '[appExcludeInputSpaces]',
 })
 export class ExcludeSpacesDirective {
 

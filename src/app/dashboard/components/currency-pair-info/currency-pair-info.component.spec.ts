@@ -8,7 +8,7 @@ describe('CurrencyPairInfoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CurrencyPairInfoComponent ]
+      declarations: [CurrencyPairInfoComponent],
     })
     .compileComponents();
   }));

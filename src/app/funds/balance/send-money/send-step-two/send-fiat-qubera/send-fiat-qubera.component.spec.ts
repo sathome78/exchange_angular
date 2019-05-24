@@ -8,7 +8,7 @@ describe('SendFiatQuberaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SendFiatQuberaComponent ]
+      declarations: [SendFiatQuberaComponent],
     })
     .compileComponents();
   }));

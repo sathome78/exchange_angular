@@ -1,4 +1,4 @@
-import {HttpHeaders} from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
 export const MEDIA_TYPE_JSON: HttpHeaders = new HttpHeaders()
   .set('Content-Type', 'application/json');
@@ -16,5 +16,3 @@ export const PRE_PROD_HOST = 'http://preprod.exapp';
 export const STAGING_HOST = 'http://dev1.exrates.tech';
 export const LOCAL_HOST = 'http://dev1.exrates.tech';
 export const DEV_HOST = 'http://localhost:8080';
-
-

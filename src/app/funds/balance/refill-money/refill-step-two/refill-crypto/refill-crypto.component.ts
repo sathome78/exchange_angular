@@ -1,21 +1,21 @@
-import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
-import {BalanceService} from '../../../../services/balance.service';
-import {select, Store} from '@ngrx/store';
-import {State, getCryptoCurrenciesForChoose} from 'app/core/reducers';
-import {COPY_ADDRESS} from '../../../send-money/send-money-constants';
-import {BalanceItem} from '../../../../models/balance-item.model';
-import {RefillData} from '../../../../../shared/interfaces/refill-data-interface';
-import {RefreshAddress} from '../../../../../shared/interfaces/refresh-address-interface';
-import {TranslateService} from '@ngx-translate/core';
-import {GtagService} from '../../../../../shared/services/gtag.service';
+import { BalanceService } from '../../../../services/balance.service';
+import { select, Store } from '@ngrx/store';
+import { State, getCryptoCurrenciesForChoose } from 'app/core/reducers';
+import { COPY_ADDRESS } from '../../../send-money/send-money-constants';
+import { BalanceItem } from '../../../../models/balance-item.model';
+import { RefillData } from '../../../../../shared/interfaces/refill-data-interface';
+import { RefreshAddress } from '../../../../../shared/interfaces/refresh-address-interface';
+import { TranslateService } from '@ngx-translate/core';
+import { GtagService } from '../../../../../shared/services/gtag.service';
 
 @Component({
   selector: 'app-refill-crypto',
   templateUrl: './refill-crypto.component.html',
-  styleUrls: ['./refill-crypto.component.scss']
+  styleUrls: ['./refill-crypto.component.scss'],
 })
 export class RefillCryptoComponent implements OnInit, OnDestroy {
 
@@ -38,7 +38,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public loading: boolean = false;
 
   /** Are listening click in document */
-  @HostListener('document:click', ['$event']) clickout({target}) {
+  @HostListener('document:click', ['$event']) clickout({ target }) {
     if (target.className !== 'select__value select__value--active' &&
       target.className !== 'select__search-input' &&
       target.className !== 'select__triangle') {
@@ -50,7 +50,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     private store: Store<State>,
     public balanceService: BalanceService,
     private translateService: TranslateService,
-    private gtagService: GtagService
+    private gtagService: GtagService,
   ) {
   }
 
@@ -109,14 +109,14 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     this.balanceService.getCurrencyRefillData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-          this.cryptoDataByName = res;
-          this.identifyCrypto();
-        }, error => {
-          this.isGenerateNewAddress = false;
-          this.cryptoDataByName = null;
-          const msg = this.translateService.instant('Sorry, refill is unavailable for current moment!');
-          this.setError(msg);
-        }
+        this.cryptoDataByName = res;
+        this.identifyCrypto();
+      },         error => {
+        this.isGenerateNewAddress = false;
+        this.cryptoDataByName = null;
+        const msg = this.translateService.instant('Sorry, refill is unavailable for current moment!');
+        this.setError(msg);
+      },
       );
   }
 
@@ -140,7 +140,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         operationType: this.cryptoDataByName.payment.operationType,
         currency: this.cryptoDataByName.merchantCurrencyData[0].currencyId,
         merchant: this.cryptoDataByName.merchantCurrencyData[0].merchantId,
-        sum: 0
+        sum: 0,
       };
 
       if (this.cryptoDataByName && this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable) {
@@ -162,7 +162,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
           }
           this.gtagService.sendGenerateWalletGtag(undefined);
           this.loading = false;
-        }, error => {
+        },         error => {
           if (this.currentMerchant) {
             if (this.currentMerchant.additionalTagForWithdrawAddressIsUsed) {
               this.address = this.currentMerchant.mainAddress;
@@ -242,5 +242,3 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     }
   }
 }
-
-

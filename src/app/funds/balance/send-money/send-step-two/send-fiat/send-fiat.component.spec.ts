@@ -8,7 +8,7 @@ describe('SendFiatComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SendFiatComponent ]
+      declarations: [SendFiatComponent],
     })
     .compileComponents();
   }));

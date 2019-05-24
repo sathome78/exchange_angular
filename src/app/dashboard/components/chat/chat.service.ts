@@ -1,14 +1,14 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {RxStompService} from '@stomp/ng2-stompjs';
-import {Subject, Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { RxStompService } from '@stomp/ng2-stompjs';
+import { Subject, Observable } from 'rxjs';
 
-import {ChatItem} from './chat-item.model';
-import {environment} from 'environments/environment';
-import {LangService} from 'app/shared/services/lang.service';
-import {TOKEN} from 'app/shared/services/http.utils';
-import {SimpleChat} from './simple-chat.model';
-import {map} from 'rxjs/operators';
+import { ChatItem } from './chat-item.model';
+import { environment } from 'environments/environment';
+import { LangService } from 'app/shared/services/lang.service';
+import { TOKEN } from 'app/shared/services/http.utils';
+import { SimpleChat } from './simple-chat.model';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ChatService {
@@ -32,7 +32,7 @@ export class ChatService {
   setStompSubscription(lang: string) {
     return this.stompService
       .watch('/topic/chat/' + lang)
-      .pipe(map((msg) => JSON.parse(msg.body)))
+      .pipe(map((msg) => JSON.parse(msg.body)));
   }
 
   /**
@@ -43,9 +43,8 @@ export class ChatService {
   private sendMessage(message: ChatItem) {
     const that = this;
     const destination = '/topic/chat/' + that.langService.getLanguage();
-    this.stompService.publish({destination, body: JSON.stringify(message), headers: {EXRATES_REST_TOKEN: localStorage.getItem(TOKEN)}});
+    this.stompService.publish({ destination, body: JSON.stringify(message), headers: { EXRATES_REST_TOKEN: localStorage.getItem(TOKEN) } });
   }
-
 
   /**
    * Returns all massages from backend (limit not supported now) and sets to chatItems
@@ -75,9 +74,9 @@ export class ChatService {
   sendNewMessage(message: string, email?: string): Observable<ChatItem> {
     const url = this.HOST + '/api/public/v2/chat';
     const body = {
-      'EMAIL': email ? email : '',
-      'LANG': this.langService.getLanguage().toUpperCase(),
-      'MESSAGE': message
+      EMAIL: email ? email : '',
+      LANG: this.langService.getLanguage().toUpperCase(),
+      MESSAGE: message,
     };
     return this.httpClient.post<ChatItem>(url, body);
   }
@@ -92,4 +91,3 @@ export interface IDateChat {
   date: Date;
   messages: SimpleChat[];
 }
-

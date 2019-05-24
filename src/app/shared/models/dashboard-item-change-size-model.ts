@@ -5,6 +5,6 @@ export class DashboardItemChangeSize {
   constructor(
     public itemName: string,
     public widthOrHeight: string,
-    public isIncrement: boolean
+    public isIncrement: boolean,
   ) {}
 }

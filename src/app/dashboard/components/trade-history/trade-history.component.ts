@@ -1,17 +1,16 @@
-import {Component, OnInit, ChangeDetectorRef, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
-import {takeUntil} from 'rxjs/internal/operators';
-import {Subject} from 'rxjs/Subject';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { takeUntil } from 'rxjs/internal/operators';
+import { Subject } from 'rxjs/Subject';
 
-import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {CurrencyPair} from '../../../model/currency-pair.model';
-import {select, Store} from '@ngrx/store';
-import {State, getActiveCurrencyPair, getAllTrades} from 'app/core/reducers/index';
-import {TradeItem} from '../../../model/trade-item.model';
-import {Subscription} from 'rxjs';
-import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
-import {SetAllTradesAction} from 'app/dashboard/actions/dashboard.actions';
+import { AbstractDashboardItems } from '../../abstract-dashboard-items';
+import { CurrencyPair } from '../../../model/currency-pair.model';
+import { select, Store } from '@ngrx/store';
+import { State, getActiveCurrencyPair, getAllTrades } from 'app/core/reducers/index';
+import { TradeItem } from '../../../model/trade-item.model';
+import { Subscription } from 'rxjs';
+import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
+import { SetAllTradesAction } from 'app/dashboard/actions/dashboard.actions';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
-
 
 @Component({
   selector: 'app-trade-history',
@@ -46,9 +45,8 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
     private dashboardWebsocketService: DashboardWebSocketService,
     private cdr: ChangeDetectorRef,
 ) {
-  super();
+    super();
   }
-
 
   ngOnInit() {
     this.itemName = 'trade-history';
@@ -81,7 +79,7 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.unsubscribeTrades()
+    this.unsubscribeTrades();
   }
 
   subscribeTrades(currName: string): void {
@@ -94,11 +92,11 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
         this.store.dispatch(new SetAllTradesAction(data));
         this.loadingFinished();
         this.cdr.detectChanges();
-      })
+      });
   }
 
   unsubscribeTrades() {
-    if(this.tradesSub$) {
+    if (this.tradesSub$) {
       this.tradesSub$.unsubscribe();
     }
   }

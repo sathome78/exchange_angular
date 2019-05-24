@@ -8,7 +8,7 @@ describe('BalanceTableTradeBtnComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BalanceTableTradeBtnComponent ]
+      declarations: [BalanceTableTradeBtnComponent],
     })
     .compileComponents();
   }));

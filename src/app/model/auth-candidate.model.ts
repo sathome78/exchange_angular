@@ -1,5 +1,5 @@
-import {environment} from '../../environments/environment';
-import {UtilsService} from '../shared/services/utils.service';
+import { environment } from '../../environments/environment';
+import { UtilsService } from '../shared/services/utils.service';
 
 export class AuthCandidate {
 

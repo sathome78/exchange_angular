@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
-import {environment} from '../../../environments/environment';
-import {BalanceItem} from '../models/balance-item.model';
-import {MyBalanceItem} from '../../model/my-balance-item.model';
-import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
-import {Router} from '@angular/router';
-import {PendingRequestsItem} from '../models/pending-requests-item.model';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { BalanceItem } from '../models/balance-item.model';
+import { MyBalanceItem } from '../../model/my-balance-item.model';
+import { DashboardWebSocketService } from '../../dashboard/dashboard-websocket.service';
+import { Router } from '@angular/router';
+import { PendingRequestsItem } from '../models/pending-requests-item.model';
 
 @Injectable()
 export class BalanceService {
@@ -32,7 +32,7 @@ export class BalanceService {
                 currencyName,
                 offset,
                 limit,
-                excludeZero
+                excludeZero,
               }): Observable<ResponseModel<BalanceItem[]>> {
 
     const params = {
@@ -43,19 +43,18 @@ export class BalanceService {
       limit: limit + '',
       excludeZero: (!!excludeZero).toString(),
     };
-    return this.http.get<ResponseModel<BalanceItem[]>>(`${this.apiUrl}/api/private/v2/balances`, {params});
+    return this.http.get<ResponseModel<BalanceItem[]>>(`${this.apiUrl}/api/private/v2/balances`, { params });
   }
 
   // request to get balances
-  getPendingRequests({offset, limit, currencyName}): Observable<ResponseModel<PendingRequestsItem[]>> {
+  getPendingRequests({ offset, limit, currencyName }): Observable<ResponseModel<PendingRequestsItem[]>> {
     const params = {
       offset: offset + '',
       limit: limit + '',
       currencyName: currencyName || '',
     };
-    return this.http.get<ResponseModel<PendingRequestsItem[]>>(`${this.apiUrl}/api/private/v2/balances/pendingRequests`, {params});
+    return this.http.get<ResponseModel<PendingRequestsItem[]>>(`${this.apiUrl}/api/private/v2/balances/pendingRequests`, { params });
   }
-
 
   getBalanceItems(): Observable<BalanceItem[]> {
     const url = this.apiUrl + '/api/private/v2/balances/';
@@ -64,7 +63,7 @@ export class BalanceService {
 
   getCurrencyRefillData(cryptoName: string) {
     const httpOptions = {
-      params: new HttpParams().set('currency', cryptoName)
+      params: new HttpParams().set('currency', cryptoName),
     };
     const url = `${this.apiUrl}/api/private/v2/balances/refill/merchants/input`;
     return this.http.get<string[]>(url, httpOptions);
@@ -77,7 +76,7 @@ export class BalanceService {
 
   getCurrencyData(cryptoName: string) {
     const httpOptions = {
-      params: new HttpParams().set('currency', cryptoName)
+      params: new HttpParams().set('currency', cryptoName),
     };
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/merchants/output`;
     return this.http.get<string[]>(url, httpOptions);
@@ -90,7 +89,7 @@ export class BalanceService {
 
   getCryptoMerchants(cryptoName) {
     const httpOptions = {
-      params: new HttpParams().set('currency', cryptoName)
+      params: new HttpParams().set('currency', cryptoName),
     };
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/merchants/output`;
     return this.http.get(url, httpOptions);
@@ -103,11 +102,11 @@ export class BalanceService {
     httpOptions = httpOptions.append('merchant', merchant);
 
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/commission`;
-    return this.http.get(url, {params: httpOptions});
+    return this.http.get(url, { params: httpOptions });
   }
 
   sendTransferCode(code: string) {
-    const data = {CODE: code};
+    const data = { CODE: code };
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/accept`;
     return this.http.post(url, data);
   }
@@ -139,12 +138,12 @@ export class BalanceService {
     httpOptions = httpOptions.append('type', ty);
 
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/voucher/commission`;
-    return this.http.get(url, {params: httpOptions});
+    return this.http.get(url, { params: httpOptions });
   }
 
   checkEmail(email: string) {
     const httpOptions = {
-      params: new HttpParams().set('email', email)
+      params: new HttpParams().set('email', email),
     };
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/check_email`;
     return this.http.get(url, httpOptions);
@@ -156,7 +155,7 @@ export class BalanceService {
     httpOptions = httpOptions.append('type', typ);
 
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/get_minimal_sum`;
-    return this.http.get(url, {params: httpOptions});
+    return this.http.get(url, { params: httpOptions });
   }
 
   createTransferInstant(data) {
@@ -164,7 +163,7 @@ export class BalanceService {
     return this.http.post(url, data);
   }
 
-  revokePendingRequest({requestId, operation}) {
+  revokePendingRequest({ requestId, operation }) {
     const url = `${this.apiUrl}/api/private/v2/balances/pending/revoke/${requestId}/${operation}`;
     return this.http.delete(url);
   }

@@ -8,7 +8,7 @@ describe('SendInnerTransferComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SendInnerTransferComponent ]
+      declarations: [SendInnerTransferComponent],
     })
     .compileComponents();
   }));

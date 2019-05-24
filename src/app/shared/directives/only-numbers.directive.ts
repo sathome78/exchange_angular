@@ -1,7 +1,7 @@
 import { Directive, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appOnlyNumbers]'
+  selector: '[appOnlyNumbers]',
 })
 export class OnlyNumbersDirective {
 
@@ -12,8 +12,8 @@ export class OnlyNumbersDirective {
   }
 
   @HostListener('keydown', ['$event']) onKeyDown(event) {
-    let e = <KeyboardEvent> event;
-    if (e.keyCode === 38 ) {
+    const e = <KeyboardEvent> event;
+    if (e.keyCode === 38) {
       e.preventDefault();
     }
     if ([46, 8, 9, 27, 13, 110, 190, 191].indexOf(e.keyCode) !== -1 ||

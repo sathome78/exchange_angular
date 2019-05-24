@@ -5,7 +5,7 @@ import { KycIEOModel } from 'app/ieo/models/ieo-kyc.model';
 @Component({
   selector: 'app-ieo-header',
   templateUrl: './ieo-header.component.html',
-  styleUrls: ['./ieo-header.component.scss']
+  styleUrls: ['./ieo-header.component.scss'],
 })
 export class IeoHeaderComponent implements OnInit {
 
@@ -26,32 +26,32 @@ export class IeoHeaderComponent implements OnInit {
     TERMINATED: 'TERMINATED',
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
-  }
+  };
 
   ngOnInit() {
-    if(window.innerWidth > 992){
-      var startChangeHeader = 5;
-      var currentPosition = window.pageYOffset;
-      if(currentPosition > startChangeHeader){
-        document.querySelector(".page-wrap").classList.add("ieo-page-header");
+    if (window.innerWidth > 992) {
+      const startChangeHeader = 5;
+      let currentPosition = window.pageYOffset;
+      if (currentPosition > startChangeHeader) {
+        document.querySelector('.page-wrap').classList.add('ieo-page-header');
       }
-      else{
-        document.querySelector(".page-wrap").classList.remove("ieo-page-header");
+      else {
+        document.querySelector('.page-wrap').classList.remove('ieo-page-header');
       }
-      window.onscroll = function(){
+      window.onscroll = function () {
         currentPosition = window.pageYOffset;
-        if(currentPosition > startChangeHeader){
-          document.querySelector(".page-wrap").classList.add("ieo-page-header");
+        if (currentPosition > startChangeHeader) {
+          document.querySelector('.page-wrap').classList.add('ieo-page-header');
         }
-        else{
-          document.querySelector(".page-wrap").classList.remove("ieo-page-header");
+        else {
+          document.querySelector('.page-wrap').classList.remove('ieo-page-header');
         }
-      }
+      };
     }
   }
 
   goToNewsPage() {
-    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`)
+    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`);
   }
 
   get boughtAmount () {
@@ -63,12 +63,12 @@ export class IeoHeaderComponent implements OnInit {
   }
 
   get boughtAmountPer () {
-    const a = (this.boughtAmount / (this.IEOData.amount / 100)) || 0
+    const a = (this.boughtAmount / (this.IEOData.amount / 100)) || 0;
     return a.toFixed(2);
   }
 
   get dashOffset () {
-    return 127 - (127 * +this.boughtAmountPer / 100)
+    return 127 - (127 * +this.boughtAmountPer / 100);
   }
 
 }

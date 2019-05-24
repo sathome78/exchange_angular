@@ -18,6 +18,3 @@ export const FIAT_DEPOSIT_QUBERA = 'Fiat deposit qubera';
 
 export const CODE_FROM_EMAIL = 'Code from email';
 export const CODE_FROM_GOOGLE = 'Code from Google';
-
-
-

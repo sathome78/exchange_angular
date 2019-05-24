@@ -1,11 +1,11 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {INNER_TRANSFER, FIAT_WITHDRAWAL, CRYPTO_WITHDRAWAL} from '../send-money-constants';
-import {PopupService} from '../../../../shared/services/popup.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { INNER_TRANSFER, FIAT_WITHDRAWAL, CRYPTO_WITHDRAWAL } from '../send-money-constants';
+import { PopupService } from '../../../../shared/services/popup.service';
 
 @Component({
   selector: 'app-send-step-one',
   templateUrl: './send-step-one.component.html',
-  styleUrls: ['./send-step-one.component.scss']
+  styleUrls: ['./send-step-one.component.scss'],
 })
 export class SendStepOneComponent implements OnInit {
 
@@ -16,7 +16,7 @@ export class SendStepOneComponent implements OnInit {
   public CRYPTO_WITHDRAWAL = CRYPTO_WITHDRAWAL;
 
   constructor(
-    private popupService: PopupService
+    private popupService: PopupService,
   ) {
   }
 

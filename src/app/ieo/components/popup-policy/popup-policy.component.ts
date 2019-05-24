@@ -1,9 +1,9 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-popup-policy',
   templateUrl: './popup-policy.component.html',
-  styleUrls: ['./popup-policy.component.scss']
+  styleUrls: ['./popup-policy.component.scss'],
 })
 export class PopupPolicyComponent implements OnInit {
 

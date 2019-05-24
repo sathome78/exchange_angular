@@ -1,11 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {PopupService} from '../../shared/services/popup.service';
-import {TranslateService} from '@ngx-translate/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { PopupService } from '../../shared/services/popup.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-session-expired-popup',
   templateUrl: './session-expired-popup.component.html',
-  styleUrls: ['./session-expired-popup.component.scss']
+  styleUrls: ['./session-expired-popup.component.scss'],
 })
 export class SessionExpiredPopupComponent implements OnInit {
 
@@ -17,7 +17,7 @@ export class SessionExpiredPopupComponent implements OnInit {
 
   constructor(
     private popupService: PopupService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
   ) {}
 
   ngOnInit() {

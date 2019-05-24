@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PopupService} from '../../shared/services/popup.service';
-import {UtilsService} from '../../shared/services/utils.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {takeUntil} from 'rxjs/operators';
-import {NewsService} from '../../shared/services/news.service';
-import {Subject} from 'rxjs';
-import {AuthService} from '../../shared/services/auth.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PopupService } from '../../shared/services/popup.service';
+import { UtilsService } from '../../shared/services/utils.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
+import { NewsService } from '../../shared/services/news.service';
+import { Subject } from 'rxjs';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-news-subscribe-popup',
   templateUrl: './news-subscribe-popup.component.html',
-  styleUrls: ['./news-subscribe-popup.component.scss']
+  styleUrls: ['./news-subscribe-popup.component.scss'],
 })
 export class NewsSubscribePopupComponent implements OnInit, OnDestroy {
 
@@ -23,7 +23,7 @@ export class NewsSubscribePopupComponent implements OnInit, OnDestroy {
     public popupService: PopupService,
     private utilsService: UtilsService,
     private authService: AuthService,
-    private newsService: NewsService
+    private newsService: NewsService,
   ) {
     this.isAuthenticated = this.authService.isAuthenticated();
   }
@@ -44,10 +44,10 @@ export class NewsSubscribePopupComponent implements OnInit, OnDestroy {
   initEmailForm() {
     this.emailForm = new FormGroup({
       email: new FormControl('', { validators: [
-          Validators.required, this.utilsService.emailValidator(),
-          this.utilsService.specialCharacterValidator(),
-          Validators.maxLength(40)
-        ]}),
+        Validators.required, this.utilsService.emailValidator(),
+        this.utilsService.specialCharacterValidator(),
+        Validators.maxLength(40),
+      ]}),
     });
   }
 
@@ -72,7 +72,7 @@ export class NewsSubscribePopupComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.popupService.toggleNewsSubscribePopup(false);
         this.popupService.toggleNewsThankYouPopup(true);
-      }, error => {
+      },         error => {
         if (error.status !== 400) {
           this.resErrorMesage = 'Service is temporary unavailable, please try again later.';
         }

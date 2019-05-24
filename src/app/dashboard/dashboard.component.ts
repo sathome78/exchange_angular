@@ -1,23 +1,22 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ChangeDetectorRef} from '@angular/core';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 
-import {gridsterItemOptions, gridsterOptions} from '../shared/configs/gridster-options';
-import {DashboardService} from './dashboard.service';
-import {DashboardItemChangeSize} from '../shared/models/dashboard-item-change-size-model';
-import {BreakpointService} from '../shared/services/breakpoint.service';
-import {Subject} from 'rxjs';
-import {OnDestroy} from '@angular/core';
-import {takeUntil} from 'rxjs/internal/operators';
-import {ActivatedRoute, Router} from '@angular/router';
-import {DashboardWebSocketService} from './dashboard-websocket.service';
-import {Store, select} from '@ngrx/store';
+import { gridsterItemOptions, gridsterOptions } from '../shared/configs/gridster-options';
+import { DashboardService } from './dashboard.service';
+import { DashboardItemChangeSize } from '../shared/models/dashboard-item-change-size-model';
+import { BreakpointService } from '../shared/services/breakpoint.service';
+import { Subject } from 'rxjs';
+import { OnDestroy } from '@angular/core';
+import { takeUntil } from 'rxjs/internal/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DashboardWebSocketService } from './dashboard-websocket.service';
+import { Store, select } from '@ngrx/store';
 import * as fromCore from '../core/reducers';
-import {PopupService} from 'app/shared/services/popup.service';
-import {CurrencyPair} from 'app/model';
-import {getMarketCurrencyPairsMap} from '../core/reducers';
+import { PopupService } from 'app/shared/services/popup.service';
+import { CurrencyPair } from 'app/model';
+import { getMarketCurrencyPairsMap } from '../core/reducers';
 import * as dashboardActions from './actions/dashboard.actions';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
-
 
 @Component({
   selector: 'app-dashboard',
@@ -58,7 +57,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public activeMobileWidget = 'markets';
   public breakPoint;
-  public currencyPair: SimpleCurrencyPair = null
+  public currencyPair: SimpleCurrencyPair = null;
   public isAuthenticated: boolean = false;
   public widgetTemplate;
 
@@ -115,7 +114,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.widgets = [];
         setTimeout(() => {
           this.widgets = this.dataService.getWidgetPositions();
-        })
+        });
         this.gridsterContainer && this.gridsterContainer.reload();
       });
 
@@ -126,7 +125,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       'order-book': this.orderBookTemplate,
       'trade-history': this.tradeHistoryTemplate,
       chat: this.chatTemplate,
-      orders: this.ordersTemplate
+      orders: this.ordersTemplate,
     };
 
     this.reloadGridOnSessionExpired();
@@ -136,15 +135,15 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.route.url
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((segments) => {
-        const url = segments.map((u) => u.path).join('/')
+        const url = segments.map((u) => u.path).join('/');
         setTimeout(() => {  // added to fix ExpressionChangedAfterItHasBeenCheckedError
           if (url === 'registration') {
             this.popupService.showMobileRegistrationPopup(true);
           }
-          if(url === 'login') {
+          if (url === 'login') {
             this.popupService.showMobileLoginPopup(true);
           }
-        })
+        });
       });
 
     this.route.params
@@ -152,7 +151,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(params => {
         if (params && params['currency-pair']) {
           const currencyPair: string = params['currency-pair'];
-         this.findAndSetActiveCurrencyPair(currencyPair.replace('-', '/'));
+          this.findAndSetActiveCurrencyPair(currencyPair.replace('-', '/'));
         }
       });
   }
@@ -247,7 +246,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           this.changeRatio(ratio);
         }
       }
-    }).bind(this), 500);
+    }).bind(this),                  500);
   }
 
   /**

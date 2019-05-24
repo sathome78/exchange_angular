@@ -1,17 +1,17 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Action, Store, select} from '@ngrx/store';
-import {map, switchMap, catchError, withLatestFrom} from 'rxjs/internal/operators';
-import {of} from 'rxjs';
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {SettingsService} from '../../settings.service';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Action, Store, select } from '@ngrx/store';
+import { map, switchMap, catchError, withLatestFrom } from 'rxjs/internal/operators';
+import { of } from 'rxjs';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { SettingsService } from '../../settings.service';
 import * as settingsActions from '../actions/settings.actions';
 import * as fromCore from '../../../core/reducers';
 import { UserService } from 'app/shared/services/user.service';
 import * as fundsActions from '../../../funds/store/actions/funds.actions';
-import {MyBalanceItem} from '../../../model/my-balance-item.model';
-import {ApiKeysService} from '../../api-keys/api-keys.service';
-import {ApiKeyItem} from '../../../model/api-key.model';
+import { MyBalanceItem } from '../../../model/my-balance-item.model';
+import { ApiKeysService } from '../../api-keys/api-keys.service';
+import { ApiKeyItem } from '../../../model/api-key.model';
 
 @Injectable()
 export class SettingsEffects {
@@ -42,9 +42,9 @@ export class SettingsEffects {
       return this.userService.getUserGoogleLoginEnabled(userInfo.username)
         .pipe(
           map(status => new settingsActions.SetGAStatusAction(status)),
-          catchError(error => of(new settingsActions.FailLoadGAStatusAction(error)))
-        )
-    }))
+          catchError(error => of(new settingsActions.FailLoadGAStatusAction(error))),
+        );
+    }));
 
   /**
    * Load session time
@@ -56,9 +56,9 @@ export class SettingsEffects {
       return this.settingsService.getSessionInterval()
         .pipe(
           map(time => new settingsActions.SetSessionTimeAction(time.data)),
-          catchError(error => of(new settingsActions.FailLoadSessionTimeAction(error)))
-        )
-    }))
+          catchError(error => of(new settingsActions.FailLoadSessionTimeAction(error))),
+        );
+    }));
 
   /**
    * Load api keys
@@ -70,7 +70,7 @@ export class SettingsEffects {
       return this.apiKeysService.getApiKeys()
         .pipe(
           map((res: ApiKeyItem[]) => (new settingsActions.SetApiKeysAction(res))),
-          catchError(error => of(new settingsActions.FailLoadApiKeysAction(error)))
+          catchError(error => of(new settingsActions.FailLoadApiKeysAction(error))),
         );
     }));
 

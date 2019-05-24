@@ -1,19 +1,19 @@
-import {Component, forwardRef, Input, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
+import { Component, forwardRef, Input, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import {UtilsService} from '../../services/utils.service';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
+import { UtilsService } from '../../services/utils.service';
+import { el } from '@angular/platform-browser/testing/src/browser_util';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => PriceInputComponent),
-  multi: true
+  multi: true,
 };
 
 @Component({
   selector: 'app-price-input',
   templateUrl: './price-input.component.html',
   styleUrls: ['./price-input.component.scss'],
-  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
+  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
 })
 export class PriceInputComponent implements ControlValueAccessor, AfterViewInit {
   private _innerValue: any;
@@ -23,14 +23,14 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   @Input('forTrading') public forTrading = false;
   @Input('currencyName') public currencyName = '';
   @ViewChild('inputEl') inputEl: ElementRef;
-  @Output('customInput') customInput: EventEmitter<any>
-  @Output('customBlur') customBlur: EventEmitter<boolean>
+  @Output('customInput') customInput: EventEmitter<any>;
+  @Output('customBlur') customBlur: EventEmitter<boolean>;
   private patternInput = /^\d+\.(\.\d+)*$|^\d+(\.\d+)*$/;
   private onTouched: Function;
   private thousands_separator: string;
 
   constructor(
-    private utils: UtilsService
+    private utils: UtilsService,
   ) {
     this.onTouched = () => {};
     this.customInput = new EventEmitter<any>();
@@ -60,18 +60,18 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     if (digitParts[0] && digitParts[1] && digitParts[1].length > count) {
       const fraction = digitParts[1].slice(0, count);
       return `${digitParts[0]}.${fraction}`;
-    } else {
-      this.customInput.emit(e);
-      return value;
     }
+    this.customInput.emit(e);
+    return value;
+
   }
 
   excludeDoubleZero(value) {
     if (value[0] && value[1]) {
       return value[0] === '0' && value[1] !== '.' ? value.slice(1) : value;
-    } else {
-      return value;
     }
+    return value;
+
   }
 
   get value() {
@@ -83,14 +83,15 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   writeValue(value: any) {
-    if (value == 'N/A')
+    if (value == 'N/A') {
       return this._innerValue = value;
+    }
     this._innerValue = this.priceFormat(value, this.currencyName);
     this.propagateChanges(parseFloat(value));
   }
 
   propagateChanges = (...any) => {
-  };
+  }
 
   registerOnChange(fn: any): void {
     this.propagateChanges = fn;
@@ -111,7 +112,6 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     this.customBlur.emit(true);
   }
 
-
   priceFormat(value: string, currencyName: string = ''): string | number {
     const num = value;
     if (num) {
@@ -119,15 +119,15 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
         return this.sliceFraction(num, 2);
       }
       return this.sliceFraction(num, 8);
-    } else {
-      return '';
     }
+    return '';
+
   }
 
   sliceFraction(value: string, count: number): string {
     const index = value.indexOf('.');
-    if(index >= 0) {
-      const temp = value.substr(0, index + 1 + count)
+    if (index >= 0) {
+      const temp = value.substr(0, index + 1 + count);
       return this.thousandsFormat(temp, true);
     }
     return this.thousandsFormat(value);
@@ -138,13 +138,13 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
       const parts = value.split('.');
       const integer = this.addThousandsSpace(parts[0]);
       return `${integer}.${parts[1]}`;
-    } else {
-      return this.addThousandsSpace(value);
     }
+    return this.addThousandsSpace(value);
+
   }
 
   addThousandsSpace(decimal: string): string {
-    decimal = this.utils.deleteSpace(decimal)
+    decimal = this.utils.deleteSpace(decimal);
     let i = decimal.length % 3;
     const parts = i ? [decimal.substr(0, i)] : [];
     for (; i < decimal.length; i += 3) {

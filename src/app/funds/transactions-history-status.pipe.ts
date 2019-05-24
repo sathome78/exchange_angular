@@ -1,11 +1,11 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'showTransactionsStatus'
+  name: 'showTransactionsStatus',
 })
 export class ShowTransactionsStatusPipe  implements PipeTransform {
   transform(status: string, sourceType: string): string {
-    if(sourceType === 'WITHDRAW') {
+    if (sourceType === 'WITHDRAW') {
       switch (status) {
         case 'ON_BCH_EXAM':
           return 'On pending';
@@ -20,7 +20,7 @@ export class ShowTransactionsStatusPipe  implements PipeTransform {
         default:
           return status;
       }
-    } else if(sourceType === 'USER_TRANSFER') {
+    }  if (sourceType === 'USER_TRANSFER') {
       switch (status) {
         case 'POSTED':
           return 'Completed';
@@ -35,7 +35,7 @@ export class ShowTransactionsStatusPipe  implements PipeTransform {
         default:
           return status;
       }
-    } else if(sourceType === 'REFILL') {
+    }  if (sourceType === 'REFILL') {
       switch (status) {
         case 'DECLINED_ADMIN':
           return 'Declined';
@@ -49,7 +49,7 @@ export class ShowTransactionsStatusPipe  implements PipeTransform {
         default:
           return status;
       }
-    } else if(sourceType === 'IEO') {
+    }  if (sourceType === 'IEO') {
       switch (status) {
         case 'PROCESSED_BY_CLAIM':
           return 'Completed';
@@ -58,8 +58,8 @@ export class ShowTransactionsStatusPipe  implements PipeTransform {
         default:
           return status;
       }
-    } else {
-      return status;
     }
+    return status;
+
   }
 }

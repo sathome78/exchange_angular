@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {BalanceService} from '../../../../services/balance.service';
+import { BalanceService } from '../../../../services/balance.service';
 
 @Component({
   selector: 'app-send-inner-transfer',
   templateUrl: './send-inner-transfer.component.html',
-  styleUrls: ['./send-inner-transfer.component.scss']
+  styleUrls: ['./send-inner-transfer.component.scss'],
 })
 export class SendInnerTransferComponent implements OnInit {
 
   constructor(
-    public balanceServce: BalanceService
+    public balanceServce: BalanceService,
   ) { }
 
   ngOnInit() {

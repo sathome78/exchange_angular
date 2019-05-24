@@ -8,7 +8,7 @@ describe('GoogleStepFourComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GoogleStepFourComponent ]
+      declarations: [GoogleStepFourComponent],
     })
     .compileComponents();
   }));

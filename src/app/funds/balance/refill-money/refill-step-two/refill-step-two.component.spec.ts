@@ -8,7 +8,7 @@ describe('RefillStepTwoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RefillStepTwoComponent ]
+      declarations: [RefillStepTwoComponent],
     })
     .compileComponents();
   }));

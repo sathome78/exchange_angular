@@ -1,7 +1,6 @@
-import {Injectable} from '@angular/core';
-import {CanActivate, CanActivateChild, Router} from '@angular/router';
-import {Observable} from 'rxjs';
-
+import { Injectable } from '@angular/core';
+import { CanActivate, CanActivateChild, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class BalanceMobileRoutesGuard implements CanActivate, CanActivateChild {

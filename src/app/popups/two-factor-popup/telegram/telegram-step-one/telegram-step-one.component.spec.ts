@@ -8,7 +8,7 @@ describe('TelegramStepOneComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TelegramStepOneComponent ]
+      declarations: [TelegramStepOneComponent],
     })
     .compileComponents();
   }));

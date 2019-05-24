@@ -8,7 +8,7 @@ describe('IEODescriptionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IEODescriptionComponent ]
+      declarations: [IEODescriptionComponent],
     })
     .compileComponents();
   }));

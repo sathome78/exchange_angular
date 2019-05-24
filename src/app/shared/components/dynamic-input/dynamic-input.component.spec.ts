@@ -8,7 +8,7 @@ describe('DynamicInputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DynamicInputComponent ]
+      declarations: [DynamicInputComponent],
     })
     .compileComponents();
   }));

@@ -8,7 +8,7 @@ describe('CustomSearchInputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CustomSearchInputComponent ]
+      declarations: [CustomSearchInputComponent],
     })
     .compileComponents();
   }));

@@ -8,7 +8,7 @@ describe('TopNotificationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TopNotificationComponent ]
+      declarations: [TopNotificationComponent],
     })
     .compileComponents();
   }));

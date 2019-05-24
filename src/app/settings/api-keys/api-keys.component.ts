@@ -1,20 +1,20 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {ApiKeysService} from './api-keys.service';
-import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {select, Store} from '@ngrx/store';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { ApiKeysService } from './api-keys.service';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as settingsActions from '../store/actions/settings.actions';
-import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import {API_KEY_2FA_FOR} from '../../shared/constants';
-import {ApiKeyItem, NewApiKeyItem} from '../../model/api-key.model';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { API_KEY_2FA_FOR } from '../../shared/constants';
+import { ApiKeyItem, NewApiKeyItem } from '../../model/api-key.model';
 import * as fundsReducer from '../../funds/store/reducers/funds.reducer';
-import {BreakpointService} from '../../shared/services/breakpoint.service';
+import { BreakpointService } from '../../shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-api-keys',
   templateUrl: './api-keys.component.html',
-  styleUrls: ['./api-keys.component.scss']
+  styleUrls: ['./api-keys.component.scss'],
 })
 export class ApiKeysComponent implements OnInit, OnDestroy {
 
@@ -51,7 +51,7 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
     this.store.pipe(select(fromCore.getApiKeys))
       .subscribe(res => {
         this.apiKeys = res as ApiKeyItem[];
-      })
+      });
 
     this.loading$ = this.store.pipe(select(fromCore.getApiKeyLoading));
     this.store.pipe(select(fromCore.getGAStatus)).pipe(takeUntil(this.ngUnsubscribe))
@@ -76,7 +76,7 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.store.dispatch(new settingsActions.LoadApiKeysAction());
         this.cleanConfirmDeleteKeyId();
-      }, error => {
+      },         error => {
         this.cleanConfirmDeleteKeyId();
       });
   }
@@ -108,17 +108,17 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
     event.target.checked = key.allowTrade;
     const val = key.allowTrade;
     if (val) {
-       this.apiKeysService
+      this.apiKeysService
          .changeAllowTrade(key.id, false)
          .pipe(takeUntil(this.ngUnsubscribe))
          .subscribe(res => {
            this.store.dispatch(new settingsActions.LoadApiKeysAction());
-       });
+         });
     } else {
       this.sendPinToEmail();
-       this.keyIdForEnableTrading = key.id;
-       this.twoFAFor = API_KEY_2FA_FOR.ENABLE_TRADING_FOR_KEY;
-       this.open2FAPopup();
+      this.keyIdForEnableTrading = key.id;
+      this.twoFAFor = API_KEY_2FA_FOR.ENABLE_TRADING_FOR_KEY;
+      this.open2FAPopup();
     }
   }
 
@@ -147,8 +147,8 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
         Validators.minLength(4),
         Validators.maxLength(15),
         Validators.pattern(this.charPattern),
-        this.existingName()
-      ])
+        this.existingName(),
+      ]),
     });
   }
 
@@ -169,7 +169,7 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
   existingName(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
       const value = control.value;
-      return !!this.apiKeys.filter(item => item.alias.toLowerCase() === value.toLowerCase()).length ? {'existKeyName': true} : null;
+      return !!this.apiKeys.filter(item => item.alias.toLowerCase() === value.toLowerCase()).length ? { existKeyName: true } : null;
     };
   }
 }

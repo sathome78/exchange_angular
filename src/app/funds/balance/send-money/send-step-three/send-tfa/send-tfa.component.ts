@@ -1,15 +1,15 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BalanceService} from '../../../../services/balance.service';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
-import {BY_PRIVATE_CODE, CODE_FROM_EMAIL, CODE_FROM_GOOGLE, SEND_CRYPTO, SEND_FIAT, TRANSFER_INSTANT} from '../../send-money-constants';
-import {TranslateService} from '@ngx-translate/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BalanceService } from '../../../../services/balance.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { BY_PRIVATE_CODE, CODE_FROM_EMAIL, CODE_FROM_GOOGLE, SEND_CRYPTO, SEND_FIAT, TRANSFER_INSTANT } from '../../send-money-constants';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-send-tfa',
   templateUrl: './send-tfa.component.html',
-  styleUrls: ['./send-tfa.component.scss']
+  styleUrls: ['./send-tfa.component.scss'],
 })
 export class SendTfaComponent implements OnInit, OnDestroy {
 
@@ -35,8 +35,8 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const pinData = {
       amount: this.data.data.sum || 0,
-      currencyName: this.data.data.currencyName
-    }
+      currencyName: this.data.data.currencyName,
+    };
 
     this.balanceService.sendPinCode(pinData)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -55,7 +55,6 @@ export class SendTfaComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
 
   onSubmit() {
     if (this.form.valid) {
@@ -87,11 +86,11 @@ export class SendTfaComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         const data = {
           operation: this.data.operation,
-          successData: res
+          successData: res,
         };
         this.balanceService.goToSendMoneySuccess$.next(data);
         this.loading = false;
-      }, error => {
+      },         error => {
         this.catchStatus(error['status']);
         this.loading = false;
       });
@@ -107,11 +106,11 @@ export class SendTfaComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         const data = {
           operation: this.data.operation,
-          successData: res
+          successData: res,
         };
         this.balanceService.goToSendMoneySuccess$.next(data);
         this.loading = false;
-      }, error => {
+      },         error => {
         this.catchStatus(error['status']);
         this.loading = false;
       });

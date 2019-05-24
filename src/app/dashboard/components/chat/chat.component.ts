@@ -1,12 +1,12 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
-import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {ChatService} from './chat.service';
-import {DateChatItem} from './date-chat-item.model';
-import {AuthService} from 'app/shared/services/auth.service';
-import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { AbstractDashboardItems } from '../../abstract-dashboard-items';
+import { ChatService } from './chat.service';
+import { DateChatItem } from './date-chat-item.model';
+import { AuthService } from 'app/shared/services/auth.service';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
 
 @Component({
@@ -35,7 +35,7 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
   constructor(
     private chatService: ChatService,
     private cdr: ChangeDetectorRef,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     super();
     this.setScrollStylesForMobile();
@@ -53,13 +53,13 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
 
   setScrollStylesForMobile() {
     const componentHeight = window.innerHeight;
-    if(this.isMobile) {
-      this.scrollStyles = {'height': (componentHeight - 104) + 'px'}
+    if (this.isMobile) {
+      this.scrollStyles = { height: (componentHeight - 104) + 'px' };
     }
   }
 
   get isMobile(): boolean {
-    return window.innerWidth < 1200
+    return window.innerWidth < 1200;
   }
 
   getFirstMessages() {
@@ -72,7 +72,7 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
           this.cdr.detectChanges();
           setTimeout(() => {
             this.onScrollToBottom();
-          }, 200);
+          },         200);
         }
       });
   }
@@ -96,13 +96,13 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
             // console.log(res);
-            message.value = '';
-            this.cdr.detectChanges();
-          },
-          error1 => {
+          message.value = '';
+          this.cdr.detectChanges();
+        },
+                   error1 => {
             // console.log(error1);
-            this.cdr.detectChanges();
-          });
+                     this.cdr.detectChanges();
+                   });
     }
   }
 
@@ -114,6 +114,5 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
     this.scrollWrapper.directiveRef.update();
     this.scrollWrapper.directiveRef.scrollToBottom(0, 300);
   }
-
 
 }

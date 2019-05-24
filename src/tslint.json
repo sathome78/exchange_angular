@@ -1,17 +1,35 @@
 {
-    "extends": "../tslint.json",
-    "rules": {
-        "directive-selector": [
-            true,
-            "attribute",
-            "app",
-            "camelCase"
-        ],
-        "component-selector": [
-            true,
-            "element",
-            "app",
-            "kebab-case"
-        ]
-    }
+  "rulesDirectory": [
+    "../node_modules/codelyzer"
+  ],
+  "extends": "tslint-config-airbnb",
+  "linterOptions": {
+    "exclude": [
+      "assets",
+      "../translate",
+      "../dist",
+      "../.vscode",
+      "../node_modules"
+    ]
+  },
+  "rules": {
+    "directive-selector": [
+      true,
+      "attribute",
+      "app",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "app",
+      "kebab-case"
+    ],
+    "ter-arrow-parens": [
+      true,
+      "as-needed",
+      { "requireForBlockBody": false }
+    ]
+
+  }
 }

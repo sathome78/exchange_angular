@@ -1,15 +1,15 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {SettingsService} from '../../../settings/settings.service';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {KycCountry} from '../../../shared/interfaces/kyc-country-interface';
-import {KycLanguage} from '../../../shared/interfaces/kyc-language-interface';
-import {LEVEL_ONE, LEVEL_TWO} from '../../../shared/constants';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { SettingsService } from '../../../settings/settings.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { KycCountry } from '../../../shared/interfaces/kyc-country-interface';
+import { KycLanguage } from '../../../shared/interfaces/kyc-language-interface';
+import { LEVEL_ONE, LEVEL_TWO } from '../../../shared/constants';
 
 @Component({
   selector: 'app-kyc-level1-step-one',
   templateUrl: './kyc-level1-step-one.component.html',
-  styleUrls: ['./kyc-level1-step-one.component.scss']
+  styleUrls: ['./kyc-level1-step-one.component.scss'],
 })
 export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
 
@@ -31,7 +31,7 @@ export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
   public selectedCountry;
 
   /** Are listening click in document */
-  @HostListener('document:click', ['$event']) clickout({target}) {
+  @HostListener('document:click', ['$event']) clickout({ target }) {
     if (target.className !== 'select__value select__value--active' &&
       target.className !== 'select__search-input no-line' &&
       target.className !== 'select__triangle') {
@@ -43,7 +43,7 @@ export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) { }
 
   ngOnInit() {
@@ -114,7 +114,7 @@ export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.load = false;
         this.goToSecondStep.emit(res);
-      }, error => {
+      },         error => {
         console.error(error);
         this.load = false;
       });

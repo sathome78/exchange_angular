@@ -1,21 +1,21 @@
 import * as dashboard from '../actions/dashboard.actions';
-import {CurrencyPair} from '../../model/currency-pair.model';
-import {UserBalance} from '../../model/user-balance.model';
+import { CurrencyPair } from '../../model/currency-pair.model';
+import { UserBalance } from '../../model/user-balance.model';
 import {
   defaultCurrencyPairInfo, defaultLastCreatedrder,
   defaultLastPrice,
   defaultLastSellBuyOrder,
   defaultOrderItem,
   defaultUserBalance,
-  defaultValues
+  defaultValues,
 } from './default-values';
-import {OrderItem} from '../../model/order-item.model';
-import {CurrencyPairInfo} from '../../model/currency-pair-info.model';
-import {LastSellBuyOrder} from '../../model/last-sell-buy-order.model';
-import {TradeItem} from '../../model/trade-item.model';
-import {LastPrice} from '../../model/last-price.model';
-import {Order} from '../../model/order.model';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import { OrderItem } from '../../model/order-item.model';
+import { CurrencyPairInfo } from '../../model/currency-pair-info.model';
+import { LastSellBuyOrder } from '../../model/last-sell-buy-order.model';
+import { TradeItem } from '../../model/trade-item.model';
+import { LastPrice } from '../../model/last-price.model';
+import { Order } from '../../model/order.model';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 export interface State {
   activeCurrencyPair: SimpleCurrencyPair;
@@ -29,7 +29,7 @@ export interface State {
   lastPrice: LastPrice;
   allTrades: TradeItem[];
   tradingType: string;
-  userFavoritesCurrencyPairsIds: number[],
+  userFavoritesCurrencyPairsIds: number[];
 }
 
 export const INIT_STATE: State = {
@@ -55,12 +55,12 @@ export const INIT_STATE: State = {
 export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
   switch (action.type) {
     case dashboard.CHANGE_ACTIVE_CURRENCY_PAIR:
-      if(action.payload.id === state.activeCurrencyPair.id) {
+      if (action.payload.id === state.activeCurrencyPair.id) {
         return state;
       }
       return {
         ...state,
-        activeCurrencyPair: action.payload
+        activeCurrencyPair: action.payload,
       };
     case dashboard.SET_CURRENCY_PAIRS_FOR_MARKET:
       return {
@@ -83,20 +83,20 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
         userFavoritesCurrencyPairsIds: toggleUserFavorites(state, action.payload),
       };
     case  dashboard.REFRESH_USER_BALANCE:
-      return {...state, userBalance: action.payload};
+      return { ...state, userBalance: action.payload };
     case dashboard.SELECTED_ORDERBOOK_ORDER:
-      return {...state, selectedOrderBookOrder: action.payload};
+      return { ...state, selectedOrderBookOrder: action.payload };
     case dashboard.SET_LAST_CREATED_ORDER:
-      return {...state, lastCreatedOrder: action.payload};
-      case dashboard.SET_TRADING_TYPE:
-      return {...state, tradingType: action.payload};
+      return { ...state, lastCreatedOrder: action.payload };
+    case dashboard.SET_TRADING_TYPE:
+      return { ...state, tradingType: action.payload };
     case dashboard.REFRESH_CURRENCY_PAIR_INFO:
-      return {...state, currencyPairInfo: action.payload};
+      return { ...state, currencyPairInfo: action.payload };
     case dashboard.SET_LAST_PRICE:
-      return {...state, lastPrice: action.payload};
+      return { ...state, lastPrice: action.payload };
     case dashboard.SET_LAST_SELL_BUY_ORDER:
-      return {...state, lastSellBuyOrder: action.payload};
-      case dashboard.SET_ALL_TRADES:
+      return { ...state, lastSellBuyOrder: action.payload };
+    case dashboard.SET_ALL_TRADES:
       return {
         ...state,
         allTrades: action.payload,
@@ -107,24 +107,24 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
 }
 
 function createMarketsCurrencyPairsMap(state: State, newPairs: CurrencyPair[]): MapModel<CurrencyPair> {
-  let map = {
+  const map = {
     ...state.marketsCurrencyPairsMap,
-  }
+  };
   newPairs.forEach((cp) => {
-    if(map[cp.currencyPairId]) {
+    if (map[cp.currencyPairId]) {
       map[cp.currencyPairId] = {
         ...map[cp.currencyPairId],
         ...cp,
-      }
+      };
     } else {
       map[cp.currencyPairId] = cp;
     }
-  })
+  });
   return map;
 }
 
 function toggleUserFavorites(state: State, currencyPairId: number) {
-  const newArr = [...state.userFavoritesCurrencyPairsIds]
+  const newArr = [...state.userFavoritesCurrencyPairsIds];
   const index = newArr.indexOf(currencyPairId);
   if (index < 0) {
     newArr.push(currencyPairId);
@@ -133,7 +133,6 @@ function toggleUserFavorites(state: State, currencyPairId: number) {
   }
   return newArr;
 }
-
 
 /** Selector returns current currency pair*/
 export const getActiveCurrencyPairSelector = (state: State): SimpleCurrencyPair => state.activeCurrencyPair;

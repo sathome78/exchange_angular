@@ -9,13 +9,12 @@ interface ParsedToken {
   publicId: string;
   token_id: number;
   userRole: string;
-  value: string
+  value: string;
 }
 
 interface MapModel<T>{
   [key: string]: T;
 }
-
 
 interface ResponseModelIEO<T> {
   error: any;

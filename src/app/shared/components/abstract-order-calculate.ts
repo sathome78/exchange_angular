@@ -1,5 +1,4 @@
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 /**
  * Class with common logic for calculate orders
@@ -22,22 +21,21 @@ export abstract class AbstractOrderCalculate {
 
   }
 
-
   /**
    * init forms
    */
   initForms(): void {
     this.limitForm = new FormGroup({
-      quantityOf: new FormControl('', Validators.required ),
-      priceIn: new FormControl('', Validators.required ),
-      totalIn: new FormControl('', Validators.required ),
+      quantityOf: new FormControl('', Validators.required),
+      priceIn: new FormControl('', Validators.required),
+      totalIn: new FormControl('', Validators.required),
     });
 
     this.stopForm = new FormGroup({
-      quantityOf: new FormControl('', Validators.required ),
-      stop: new FormControl('', ),
-      limit: new FormControl('', Validators.required ),
-      totalIn: new FormControl('', Validators.required ),
+      quantityOf: new FormControl('', Validators.required),
+      stop: new FormControl(''),
+      limit: new FormControl('', Validators.required),
+      totalIn: new FormControl('', Validators.required),
     });
   }
 
@@ -66,7 +64,7 @@ export abstract class AbstractOrderCalculate {
   /**
    * split pair name for showing
    */
-   splitPairName() {
+  splitPairName() {
     if (this.currentPair.currencyPairName) {
       this.arrPairName = this.currentPair.currencyPairName.split('/');
     }
@@ -182,7 +180,7 @@ export abstract class AbstractOrderCalculate {
   /**
    * calculate commission
    */
-   getCommission(operationType: string): void {
+  getCommission(operationType: string): void {
     if (this.order.rate && this.order.rate >= 0) {
       this.order.total = parseFloat(this.order.amount) * parseFloat(this.order.rate);
       this.order.commission = (this.order.rate * this.order.amount) * (this.commissionIndex / 100);

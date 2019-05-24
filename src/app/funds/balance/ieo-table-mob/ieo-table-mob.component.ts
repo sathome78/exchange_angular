@@ -1,9 +1,9 @@
-import {Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef} from '@angular/core';
-import {BalanceItem} from '../../models/balance-item.model';
-import {Router} from '@angular/router';
-import {UtilsService} from 'app/shared/services/utils.service';
+import { Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { BalanceItem } from '../../models/balance-item.model';
+import { Router } from '@angular/router';
+import { UtilsService } from 'app/shared/services/utils.service';
 import * as fundsAction from '../../store/actions/funds.actions';
-import {select, Store} from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
 import { IEOItem } from 'app/model/ieo.model';
 import { environment } from 'environments/environment';
@@ -22,7 +22,7 @@ export class IEOTableMobComponent implements OnInit{
   public currencies = {
     BTC: 'BTC',
     USD: 'USD',
-  }
+  };
 
   public tableScrollStyles: any = {};
   public get currenciesArr() {
@@ -55,12 +55,11 @@ export class IEOTableMobComponent implements OnInit{
 
   setScrollStyles() {
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 293) + 'px', 'overflow-x': 'scroll'};
+    this.tableScrollStyles = { height: (componentHeight - 293) + 'px', 'overflow-x': 'scroll' };
   }
 
-
   public onShowIEOMobDetails(item: IEOItem): void {
-    this.onGoToBalanceDetails.emit({currencyId: item.id, priceIn: this.priceIn});
+    this.onGoToBalanceDetails.emit({ currencyId: item.id, priceIn: this.priceIn });
   }
 
   public onToggleDropdown(): void {
@@ -72,7 +71,7 @@ export class IEOTableMobComponent implements OnInit{
     this.priceIn = this.currencies[element.innerText];
   }
   public onGoToPendingReq(): void {
-    this.router.navigate(['/funds/pending-requests'])
+    this.router.navigate(['/funds/pending-requests']);
   }
 
   public isFiat(currName: string): boolean {
@@ -86,8 +85,6 @@ export class IEOTableMobComponent implements OnInit{
   get showContent(): boolean {
     return environment.showContent;
   }
-
-
 
   ngOnInit() {
   }

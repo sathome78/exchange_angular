@@ -1,7 +1,7 @@
 import * as ordersActions from '../actions/orders.actions';
-import {defaultValues} from './default-values';
-import {OrderItem} from '../../models/order-item.model';
-import {createFeatureSelector, createSelector} from '@ngrx/store';
+import { defaultValues } from './default-values';
+import { OrderItem } from '../../models/order-item.model';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface State {
   openOrders: OrderItem[];
@@ -27,7 +27,7 @@ export const INIT_STATE: State = {
 export function reducer(state: State = INIT_STATE, action: ordersActions.Actions) {
   switch (action.type) {
     case ordersActions.LOAD_OPEN_ORDERS:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case ordersActions.SET_OPEN_ORDERS:
       return {
         ...state,
@@ -49,9 +49,9 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
       };
 
     case ordersActions.LOAD_HISTORY_ORDERS:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case ordersActions.LOAD_LAST_HISTORY_ORDERS:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case ordersActions.SET_HISTORY_ORDERS:
       return {
         ...state,
@@ -73,7 +73,7 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
       };
 
     case ordersActions.CANCEL_OPEN_ORDER:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case ordersActions.CROP_CANCELED_ORDER:
       return {
         ...state,
@@ -137,5 +137,5 @@ export const getLoading = (state: State): boolean => state.loading;
 /** Selector returns array of open orders filtered by currency*/
 export const getLoadingSelector = createSelector(
   getOrdersState,
-  getLoading
+  getLoading,
 );

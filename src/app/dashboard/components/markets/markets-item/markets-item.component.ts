@@ -1,12 +1,12 @@
-import {Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
-import {CurrencyPair} from 'app/model';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { CurrencyPair } from 'app/model';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-markets-item',
   templateUrl: './markets-item.component.html',
   styleUrls: ['./markets-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketsItemComponent implements OnInit {
 

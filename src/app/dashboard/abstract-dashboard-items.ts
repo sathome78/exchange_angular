@@ -1,6 +1,6 @@
-import {EventEmitter, Output} from '@angular/core';
+import { EventEmitter, Output } from '@angular/core';
 
-import {DashboardItemChangeSize} from '../shared/models/dashboard-item-change-size-model';
+import { DashboardItemChangeSize } from '../shared/models/dashboard-item-change-size-model';
 
 /**
  * Class with common logic for dashboard items

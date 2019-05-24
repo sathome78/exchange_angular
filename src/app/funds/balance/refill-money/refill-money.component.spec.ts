@@ -8,7 +8,7 @@ describe('RefillMoneyComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RefillMoneyComponent ]
+      declarations: [RefillMoneyComponent],
     })
     .compileComponents();
   }));

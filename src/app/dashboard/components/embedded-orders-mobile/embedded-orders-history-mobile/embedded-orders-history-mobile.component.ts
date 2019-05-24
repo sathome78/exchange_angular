@@ -1,11 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {AuthService} from '../../../../shared/services/auth.service';
-import {SimpleCurrencyPair} from '../../../../model/simple-currency-pair';
+import { Component, Input, OnInit } from '@angular/core';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { SimpleCurrencyPair } from '../../../../model/simple-currency-pair';
 
 @Component({
   selector: 'app-embedded-orders-history-mobile',
   templateUrl: './embedded-orders-history-mobile.component.html',
-  styleUrls: ['./embedded-orders-history-mobile.component.scss']
+  styleUrls: ['./embedded-orders-history-mobile.component.scss'],
 })
 export class EmbeddedOrdersHistoryMobileComponent implements OnInit {
 
@@ -16,7 +16,7 @@ export class EmbeddedOrdersHistoryMobileComponent implements OnInit {
   public isVipUser;
 
   constructor(
-    public authService: AuthService
+    public authService: AuthService,
   ) {}
 
   ngOnInit() {

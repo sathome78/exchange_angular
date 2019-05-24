@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {OnNextStep, PopupService} from '../../../../shared/services/popup.service';
-
+import { OnNextStep, PopupService } from '../../../../shared/services/popup.service';
 
 @Component({
   selector: 'app-google-step-one',
   templateUrl: './google-step-one.component.html',
-  styleUrls: ['./google-step-one.component.scss']
+  styleUrls: ['./google-step-one.component.scss'],
 })
 export class GoogleStepOneComponent implements OnInit, OnNextStep {
 

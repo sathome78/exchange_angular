@@ -8,7 +8,7 @@ describe('DynamicInputDashboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DynamicInputDashboardComponent ]
+      declarations: [DynamicInputDashboardComponent],
     })
     .compileComponents();
   }));

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ConstantsService {
@@ -88,8 +88,8 @@ export class ConstantsService {
         operationType: 'Deposit',
         status: 'Expired',
       },
-    }
-  }
+    },
+  };
 
   public getTrStatus(operationType: string, backendStatus: string) {
     return this.transactionsHistoryStatuses[operationType][backendStatus].status;
@@ -98,4 +98,4 @@ export class ConstantsService {
     return this.transactionsHistoryStatuses[operationType][backendStatus].operationType;
   }
 
-};
+}

@@ -1,18 +1,18 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {takeUntil} from 'rxjs/operators';
-import {select, Store} from '@ngrx/store';
-import {getActiveCurrencyPair, getLastCreatedOrder, State} from '../../../core/reducers';
-import {CurrencyPair} from '../../../model';
-import {AuthService} from '../../../shared/services/auth.service';
-import {EmbeddedOrdersService} from '../embedded-orders/embedded-orders.service';
-import {Subject} from 'rxjs';
-import {Order} from '../../../model/order.model';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { getActiveCurrencyPair, getLastCreatedOrder, State } from '../../../core/reducers';
+import { CurrencyPair } from '../../../model';
+import { AuthService } from '../../../shared/services/auth.service';
+import { EmbeddedOrdersService } from '../embedded-orders/embedded-orders.service';
+import { Subject } from 'rxjs';
+import { Order } from '../../../model/order.model';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-embedded-orders-mobile',
   templateUrl: './embedded-orders-mobile.component.html',
-  styleUrls: ['./embedded-orders-mobile.component.scss']
+  styleUrls: ['./embedded-orders-mobile.component.scss'],
 })
 export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
 
@@ -28,7 +28,7 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
     private store: Store<State>,
     private authService: AuthService,
     private ordersService: EmbeddedOrdersService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -71,7 +71,7 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
         this.openOrdersCount = data.count;
         this.cdr.detectChanges();
         this.loading = false;
-      }, err => {
+      },         err => {
         console.error(err);
         this.loading = false;
         this.cdr.detectChanges();
@@ -86,7 +86,7 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
         this.historyOrders = data.items;
         this.cdr.detectChanges();
         this.loading = false;
-      }, err => {
+      },         err => {
         console.error(err);
         this.loading = false;
         this.cdr.detectChanges();

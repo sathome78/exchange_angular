@@ -8,7 +8,7 @@ describe('GoogleStepOneComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GoogleStepOneComponent ]
+      declarations: [GoogleStepOneComponent],
     })
     .compileComponents();
   }));

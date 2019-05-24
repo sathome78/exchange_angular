@@ -1,18 +1,18 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Options} from 'ng5-slider';
-import {SettingsService} from '../settings.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Observable, Subject} from 'rxjs';
-import {PopupService} from 'app/shared/services/popup.service';
-import {takeUntil} from 'rxjs/operators';
-import {select, Store} from '@ngrx/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Options } from 'ng5-slider';
+import { SettingsService } from '../settings.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable, Subject } from 'rxjs';
+import { PopupService } from 'app/shared/services/popup.service';
+import { takeUntil } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as settingsActions from '../store/actions/settings.actions';
 
 @Component({
   selector: 'app-session',
   templateUrl: './session.component.html',
-  styleUrls: ['./session.component.css']
+  styleUrls: ['./session.component.css'],
 })
 export class SessionComponent implements OnInit, OnDestroy {
 
@@ -23,7 +23,7 @@ export class SessionComponent implements OnInit, OnDestroy {
   options: Options = {
     floor: this.MIN_VALUE,
     ceil: this.MAX_VALUE,
-    showSelectionBar: true
+    showSelectionBar: true,
   };
 
   statusMessage = '';
@@ -45,7 +45,7 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.setForm();
-    this.sessionTime$ = this.store.pipe(select(fromCore.getSessionTime))
+    this.sessionTime$ = this.store.pipe(select(fromCore.getSessionTime));
     this.sessionTime$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((interval) => {
@@ -55,7 +55,7 @@ export class SessionComponent implements OnInit, OnDestroy {
         this.oldValue = interval;
         this.validateHours();
         this.validateMinutes();
-      })
+      });
   }
 
   onSubmit() {
@@ -64,28 +64,28 @@ export class SessionComponent implements OnInit, OnDestroy {
       this.settingsService.updateSessionInterval(this.value)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(resp => {
-            this.popupService.toggleSessionTimeSavedPopup(true);
-            this.store.dispatch(new settingsActions.SetSessionTimeAction(this.value));
-            this.oldValue = this.value;
-            this.loading = false;
-          },
-          err => {
-            console.error(err)
-            this.loading = false;
-          });
+          this.popupService.toggleSessionTimeSavedPopup(true);
+          this.store.dispatch(new settingsActions.SetSessionTimeAction(this.value));
+          this.oldValue = this.value;
+          this.loading = false;
+        },
+                   err => {
+                     console.error(err);
+                     this.loading = false;
+                   });
     }
   }
 
   setForm() {
     this.hoursInput = new FormControl(this.getHours(this.value), {
-      validators: [Validators.min(0), Validators.max(2)]
+      validators: [Validators.min(0), Validators.max(2)],
     });
     this.minutesInput = new FormControl(this.getMinutes(this.value), {
-      validators: [Validators.min(0), Validators.max(59)]
+      validators: [Validators.min(0), Validators.max(59)],
     });
     this.form = new FormGroup({
-      'hours': this.hoursInput,
-      'minutes': this.minutesInput,
+      hours: this.hoursInput,
+      minutes: this.minutesInput,
     });
   }
 
@@ -107,7 +107,7 @@ export class SessionComponent implements OnInit, OnDestroy {
 
   validateMinutes() {
     if (this.minutesInput.value && this.minutesInput.value.length > 2) {
-      this.minutesInput.setValue(this.minutesInput.value.substr(0, 2))
+      this.minutesInput.setValue(this.minutesInput.value.substr(0, 2));
     }
     if (+this.minutesInput.value) {
       if (this.minutesInput.value < 0) {
@@ -171,12 +171,12 @@ export class SessionComponent implements OnInit, OnDestroy {
   }
 
   formatInputs() {
-    this.formatHours()
-    this.formatMinutes()
+    this.formatHours();
+    this.formatMinutes();
   }
   validateInputs() {
-    this.validateHours()
-    this.validateMinutes()
+    this.validateHours();
+    this.validateMinutes();
   }
 
   updateValue() {

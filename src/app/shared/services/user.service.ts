@@ -1,31 +1,29 @@
-import {Router} from '@angular/router';
-import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {AsyncValidatorFn, AbstractControl} from '@angular/forms';
-import {tap, map, catchError} from 'rxjs/internal/operators';
-import {Store} from '@ngrx/store';
-import {Observable, of} from 'rxjs';
+import { Router } from '@angular/router';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { AsyncValidatorFn, AbstractControl } from '@angular/forms';
+import { tap, map, catchError } from 'rxjs/internal/operators';
+import { Store } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
 
-import {environment} from '../../../environments/environment';
-import {AuthService} from './auth.service';
-import {LangService} from './lang.service';
-import {AuthCandidate} from '../../model/auth-candidate.model';
-import {LoggingService} from './logging.service';
-import {TokenHolder} from '../../model/token-holder.model';
-import {State} from '../../dashboard/reducers/dashboard.reducer';
-import {RefreshUserBalanceAction} from '../../dashboard/actions/dashboard.actions';
-import {defaultUserBalance} from '../../dashboard/reducers/default-values';
-import {SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { environment } from '../../../environments/environment';
+import { AuthService } from './auth.service';
+import { LangService } from './lang.service';
+import { AuthCandidate } from '../../model/auth-candidate.model';
+import { LoggingService } from './logging.service';
+import { TokenHolder } from '../../model/token-holder.model';
+import { State } from '../../dashboard/reducers/dashboard.reducer';
+import { RefreshUserBalanceAction } from '../../dashboard/actions/dashboard.actions';
+import { defaultUserBalance } from '../../dashboard/reducers/default-values';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { RxStompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
 import { TOKEN } from './http.utils';
-
 
 @Injectable()
 export class UserService {
 
   HOST = environment.apiUrl;
-
 
   constructor(
     private store: Store<State>,
@@ -45,7 +43,7 @@ export class UserService {
     return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
       return this.checkIfEmailExists(control.value.trim())
         .pipe(map((isExist: boolean) => recovery ? !isExist : isExist))
-        .pipe(map((isExist: boolean) => isExist ? {'emailExists': true} : null))
+        .pipe(map((isExist: boolean) => isExist ? { emailExists: true } : null))
         .pipe(catchError((err) =>  of(this.checkError(err, recovery))));
     };
   }
@@ -54,20 +52,20 @@ export class UserService {
     if (error['status'] === 400) {
       switch (error.error.title) {
         case 'USER_REGISTRATION_NOT_COMPLETED':
-          return {'USER_REGISTRATION_NOT_COMPLETED': true};
+          return { USER_REGISTRATION_NOT_COMPLETED: true };
         case 'USER_NOT_ACTIVE':
-          return {'USER_NOT_ACTIVE': true};
+          return { USER_NOT_ACTIVE: true };
         case 'USER_EMAIL_NOT_FOUND':
-          return !recovery ? null : {'USER_EMAIL_NOT_FOUND': true};
+          return !recovery ? null : { USER_EMAIL_NOT_FOUND: true };
       }
     } else {
-      return {'checkEmailCrash': true};
+      return { checkEmailCrash: true };
     }
   }
 
   checkIfUsernameExists(username: string): Observable<any> {
     const httpOptions = {
-      params:  new HttpParams().set('username', username)
+      params:  new HttpParams().set('username', username),
     };
     return this.http.get<string[]>(this.getUrl('if_username_exists'), httpOptions);
   }
@@ -78,7 +76,7 @@ export class UserService {
         .subscribe(info => {
           this.store.dispatch(new RefreshUserBalanceAction(info));
           sub.unsubscribe();
-        }, err => {
+        },         err => {
           console.error(err);
           sub.unsubscribe();
         });
@@ -88,7 +86,7 @@ export class UserService {
   }
 
   public getUserBalanceCurr(currencies: string[]): Observable<any> {
-    return this.http.get(`${this.HOST}/api/private/v2/balances/myBalances`, {params: {names: currencies}})
+    return this.http.get(`${this.HOST}/api/private/v2/balances/myBalances`, { params: { names: currencies } });
   }
 
   public getIfConnectionSuccessful(): Observable<boolean> {
@@ -96,15 +94,15 @@ export class UserService {
   }
 
   public createNewUser(username: string, email: string,
-                password: string, language: string,
-                sponsor?: string): Promise<number> {
+                       password: string, language: string,
+                       sponsor?: string): Promise<number> {
 
     const registrate = {
-      'nickname': username,
-      'email': email,
-      'password': this.authService.encodePassword(password),
-      'language': this.langService.getLanguage(),
-      'sponsor': (sponsor) ? sponsor : ''
+      nickname: username,
+      email,
+      password: this.authService.encodePassword(password),
+      language: this.langService.getLanguage(),
+      sponsor: (sponsor) ? sponsor : '',
     };
     return this.http.post<number>(this.getUrl('register'), JSON.stringify(registrate))
       .toPromise()
@@ -135,7 +133,7 @@ export class UserService {
     const httpOptions = {
       params: mParams,
       withCredentials: true,
-      headers
+      headers,
     };
 
     authCandidate.tries = tries;
@@ -145,12 +143,12 @@ export class UserService {
   }
 
   sendToEmailConfirmation(email: string) {
-    const data = {'email': email};
+    const data = { email };
     return this.http.post<TokenHolder>(this.getUrl('users/register'), data);
   }
 
   sendToEmailForRecovery(email: string) {
-    const data = {'email': email};
+    const data = { email };
     return this.http.post<TokenHolder>(this.getUrl('users/password/recovery/reset'), data);
   }
 
@@ -243,9 +241,9 @@ export class UserService {
   }
 
   public getNotifications(): Observable<any> {
-    const {publicId} = this.authService.parsedToken;
+    const { publicId } = this.authService.parsedToken;
     return this.stompService
-      .watch(`/app/message/private/${publicId}`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
+      .watch(`/app/message/private/${publicId}`, { 'Exrates-Rest-Token': localStorage.getItem(TOKEN) || '' })
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 }

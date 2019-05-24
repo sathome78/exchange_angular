@@ -8,7 +8,7 @@ describe('SmsStepTwoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SmsStepTwoComponent ]
+      declarations: [SmsStepTwoComponent],
     })
     .compileComponents();
   }));

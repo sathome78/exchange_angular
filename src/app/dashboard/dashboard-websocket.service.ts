@@ -1,19 +1,18 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { Injectable, OnDestroy } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-import {map, takeUntil} from 'rxjs/internal/operators';
-import {Message} from '@stomp/stompjs';
-import {select, Store} from '@ngrx/store';
-import {Subject} from 'rxjs';
-import {RxStompService} from '@stomp/ng2-stompjs';
-import {CurrencyPair} from '../model/currency-pair.model';
-import {environment} from '../../environments/environment';
-import {getCurrencyPairArray, State} from '../core/reducers';
+import { map, takeUntil } from 'rxjs/internal/operators';
+import { Message } from '@stomp/stompjs';
+import { select, Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
+import { RxStompService } from '@stomp/ng2-stompjs';
+import { CurrencyPair } from '../model/currency-pair.model';
+import { environment } from '../../environments/environment';
+import { getCurrencyPairArray, State } from '../core/reducers';
 import * as dashboardActions from './actions/dashboard.actions';
-import {UserService} from '../shared/services/user.service';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
-import {UtilsService} from 'app/shared/services/utils.service';
-
+import { UserService } from '../shared/services/user.service';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Injectable()
 export class DashboardWebSocketService implements OnDestroy {
@@ -24,17 +23,16 @@ export class DashboardWebSocketService implements OnDestroy {
   public pairFromDashboard = '';
   public isNeedChangeCurretPair = true;
 
-
   constructor(
     private stompService: RxStompService,
     private userService: UserService,
     private utilsService: UtilsService,
-    private store: Store<State>
+    private store: Store<State>,
   ) { }
 
   marketsSubscription(): any {
     return this.stompService
-      .watch(`/app/statisticsNew`)
+      .watch('/app/statisticsNew')
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
@@ -73,7 +71,6 @@ export class DashboardWebSocketService implements OnDestroy {
 //     }
 //   }
 
-
   /**
    * find pair by currency-pair-name and emit
    * @param {string} pairName
@@ -91,7 +88,6 @@ export class DashboardWebSocketService implements OnDestroy {
       }
     });
   }
-
 
   // addOrUpdate(currencyPair: CurrencyPair, favouritePairsId: number[]) {
   //   let found = false;

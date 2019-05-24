@@ -8,7 +8,7 @@ describe('TransferInstantComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TransferInstantComponent ]
+      declarations: [TransferInstantComponent],
     })
     .compileComponents();
   }));

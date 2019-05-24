@@ -1,7 +1,7 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'merchantImageFilter'
+  name: 'merchantImageFilter',
 })
 export class MerchantImageFilterPipe  implements PipeTransform {
   transform(array: any[], query: string): any[] {

@@ -1,4 +1,4 @@
-import {Action} from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { IEOItem } from 'app/model/ieo.model';
 
 export const SAVE_TO_STORE = '[Core] Saves data to app store';
@@ -44,7 +44,6 @@ export class ChangeLanguageAction implements Action {
   constructor(public payload: string) {}
 }
 
-
 export class LoadVerificationStatusAction implements Action {
   readonly type = LOAD_VERIFICATION_STATUS;
   constructor(public payload?) {}
@@ -83,7 +82,6 @@ export class RehydrateAction implements Action {
   readonly type = REHYDRATE;
   constructor(public payload) {}
 }
-
 
 /**
  * Load currency pairs
@@ -124,11 +122,10 @@ export class LoadFiatCurrenciesForChoose implements Action {
   constructor(public payload?) {}
 }
 
-
   /**
   * Change currency pair 'BTC/USD'
   */
- export class SetAllCurrenciesForChoose implements Action {
+export class SetAllCurrenciesForChoose implements Action {
   readonly type = SET_ALL_CURRENCIES_FOR_CHOOSE;
   constructor(public payload) {}
 }
@@ -184,4 +181,4 @@ export type Actions
   | FailLoadVerificationStatusAction
   | SetOnLoginAction
   | SetOnLogoutAction
-  | SetIEOListAction
+  | SetIEOListAction;

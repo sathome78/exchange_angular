@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BY_PRIVATE_CODE, COPY_ADDRESS, TRANSFER_INSTANT, SEND_CRYPTO, SEND_FIAT} from '../send-money-constants';
-import {BALANCE_TABS} from '../../balance-constants';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { BY_PRIVATE_CODE, COPY_ADDRESS, TRANSFER_INSTANT, SEND_CRYPTO, SEND_FIAT } from '../send-money-constants';
+import { BALANCE_TABS } from '../../balance-constants';
 
 @Component({
   selector: 'app-send-successful',
   templateUrl: './send-successful.component.html',
-  styleUrls: ['./send-successful.component.scss']
+  styleUrls: ['./send-successful.component.scss'],
 })
 export class SendSuccessfulComponent implements OnInit {
 

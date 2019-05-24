@@ -1,13 +1,13 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
-import {Animations} from 'app/shared/animations';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-refill-money',
   templateUrl: './refill-money.component.html',
   styleUrls: ['./refill-money.component.scss'],
   animations: [
-    Animations.popupOverlayTrigger, Animations.popupModalTrigger
-  ]
+    Animations.popupOverlayTrigger, Animations.popupModalTrigger,
+  ],
 })
 export class RefillMoneyComponent implements OnInit {
 
@@ -40,7 +40,7 @@ export class RefillMoneyComponent implements OnInit {
     this.showPopup = false;
     setTimeout(() => {
       this.closeRefillBalancePopup.emit(true);
-    }, 1000);
+    },         1000);
   }
 
   chooseRefil(name: string) {

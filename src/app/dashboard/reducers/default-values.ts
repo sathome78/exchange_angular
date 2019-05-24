@@ -1,4 +1,4 @@
-import {SimpleCurrencyPair} from "app/model/simple-currency-pair";
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 export const defaultValues: SimpleCurrencyPair = {
   id: 1,
@@ -8,15 +8,15 @@ export const defaultValues: SimpleCurrencyPair = {
 export const defaultUserBalance = {
   cur1: null,
   cur2: null,
-}
+};
 
 export const defaultOrderItem = {
   amount: '0',
   currencyPairId: 1,
   exrate: '0',
   orderType: 'BUY',
-  total: '0'
-}
+  total: '0',
+};
 
 export const defaultCurrencyPairInfo = {
   changedValue: 0,
@@ -26,13 +26,12 @@ export const defaultCurrencyPairInfo = {
   rateHigh: 0,
   rateLow: 0,
   volume24h: 0,
-}
+};
 
 export const defaultLastPrice = {
   flag: true,
-  price: 0
-}
-
+  price: 0,
+};
 
 export const defaultTradeItem = {
   acceptionTime: '0',
@@ -42,8 +41,8 @@ export const defaultTradeItem = {
   operationType: 'SELL',
   orderId: 0,
   page: 0,
-  rate: '0'
-}
+  rate: '0',
+};
 
 export const defaultLastCreatedrder = {
   orderType: '',
@@ -55,12 +54,11 @@ export const defaultLastCreatedrder = {
   baseType: '',
   total: 0,
   status: '',
-  stop: 0
-}
+  stop: 0,
+};
 
 export const defaultLastSellBuyOrder = {
   lastOrder: defaultTradeItem,
   lastSellOrder: defaultTradeItem,
-  lastBuyOrder: defaultTradeItem
-}
-
+  lastBuyOrder: defaultTradeItem,
+};

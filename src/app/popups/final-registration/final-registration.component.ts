@@ -1,23 +1,23 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {UserService} from '../../shared/services/user.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../../shared/services/auth.service';
-import {environment} from '../../../environments/environment';
-import {TranslateService} from '@ngx-translate/core';
-import {Location} from '@angular/common';
-import {UtilsService} from '../../shared/services/utils.service';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
-import {Store} from '@ngrx/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../../shared/services/user.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../shared/services/auth.service';
+import { environment } from '../../../environments/environment';
+import { TranslateService } from '@ngx-translate/core';
+import { Location } from '@angular/common';
+import { UtilsService } from '../../shared/services/utils.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as coreActions from '../../core/actions/core.actions';
-import {GtagService} from '../../shared/services/gtag.service';
+import { GtagService } from '../../shared/services/gtag.service';
 
 @Component({
   selector: 'app-final-registration',
   templateUrl: './final-registration.component.html',
-  styleUrls: ['./final-registration.component.scss']
+  styleUrls: ['./final-registration.component.scss'],
 })
 export class FinalRegistrationComponent implements OnInit, OnDestroy {
 
@@ -41,7 +41,7 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
     private location: Location,
     private store: Store<fromCore.State>,
     private translateService: TranslateService,
-    private gtagService: GtagService
+    private gtagService: GtagService,
   ) {
   }
 
@@ -86,7 +86,7 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
           this.router.navigate(['/funds/balances']);
           this.gtagService.sendConfirmationPasswordGtag();
           this.loading = false;
-        }, err => {
+        },         err => {
           this.message = this.translateService.instant('Service is temporary unavailable, please try again later.');
           this.loading = false;
         });
@@ -131,15 +131,15 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
         Validators.minLength(8),
         Validators.maxLength(20),
         this.utilsService.passwordCombinationValidator(),
-      ]
+      ],
     });
     this.newConfirmPassword = new FormControl('', {validators: [
-        this.utilsService.passwordMatchValidator(this.newPassword)
-      ]});
+      this.utilsService.passwordMatchValidator(this.newPassword),
+    ]});
 
     this.passwordForm = new FormGroup({
-      'password': this.newPassword,
-      'confirmPassword': this.newConfirmPassword
+      password: this.newPassword,
+      confirmPassword: this.newConfirmPassword,
     });
 
     this.observeForm();

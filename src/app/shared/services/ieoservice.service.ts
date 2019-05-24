@@ -1,17 +1,17 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {environment} from 'environments/environment';
-import {KycIEOModel} from '../../ieo/models/ieo-kyc.model';
-import {IEOSuccessBuyModel} from '../../ieo/models/ieo-success-buy';
-import {map} from 'rxjs/operators';
-import {RxStompService} from '@stomp/ng2-stompjs';
-import {Message} from '@stomp/stompjs';
-import {TOKEN} from './http.utils';
-import {AuthService} from './auth.service';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from 'environments/environment';
+import { KycIEOModel } from '../../ieo/models/ieo-kyc.model';
+import { IEOSuccessBuyModel } from '../../ieo/models/ieo-success-buy';
+import { map } from 'rxjs/operators';
+import { RxStompService } from '@stomp/ng2-stompjs';
+import { Message } from '@stomp/stompjs';
+import { TOKEN } from './http.utils';
+import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IEOServiceService {
   private  apiUrl = environment.apiUrl;
@@ -38,7 +38,7 @@ export class IEOServiceService {
   public getListIEO(): Observable<any> {
     // return this.http.get<any>(`${this.apiUrl}/api/public/v2/ieo`);
     return this.stompService
-      .watch(`/app/ieo/ieo_details`)
+      .watch('/app/ieo/ieo_details')
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
   public refreshIEOStatus(): Observable<any> {
@@ -47,7 +47,7 @@ export class IEOServiceService {
 
   public getListIEOTab(): any {
     return this.stompService
-      .watch(`/app/ieo_details/private/${this.authService.parsedToken.publicId}`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
+      .watch(`/app/ieo_details/private/${this.authService.parsedToken.publicId}`, { 'Exrates-Rest-Token': localStorage.getItem(TOKEN) || '' })
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
@@ -58,18 +58,18 @@ export class IEOServiceService {
   }
 
   ieoEmailSubscription(email: string) {
-    const data = {email: email}
+    const data = { email };
     return this.http.post(`${this.apiUrl}/api/public/v2/ieo/subscribe/email`, data);
   }
 
   ieoTelegramRedirect(email: string) {
-    const data = {email: email}
+    const data = { email };
     return this.http.post(`${this.apiUrl}/api/public/v2/ieo/subscribe/telegram`, data);
   }
 
   ieoCheckSubscribe(email: string) {
     const httpOptions = {
-      params: new HttpParams().set('email', email)
+      params: new HttpParams().set('email', email),
     };
     return this.http.get(`${this.apiUrl}/api/public/v2/ieo/subscribe`, httpOptions);
   }

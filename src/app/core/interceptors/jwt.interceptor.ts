@@ -1,11 +1,10 @@
 import 'rxjs/add/operator/do';
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
-import {TOKEN} from 'app/shared/services/http.utils';
-import {AuthService} from 'app/shared/services/auth.service';
-import {Observable} from 'rxjs';
-import {tap} from 'rxjs/operators';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import { TOKEN } from 'app/shared/services/http.utils';
+import { AuthService } from 'app/shared/services/auth.service';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { PopupService } from 'app/shared/services/popup.service';
-
 
 export class JwtInterceptor implements HttpInterceptor {
 
@@ -36,11 +35,11 @@ export class JwtInterceptor implements HttpInterceptor {
           } else if (err.status === 403) {
             // cause: "TokenException"   detail:"Token not found" - happens when token expires
             // clear token remove user from local storage to log out user
-            this.authService.onLogOut()
-            this.popupService.toggleSessionExpiredPopup(true)
+            this.authService.onLogOut();
+            this.popupService.toggleSessionExpiredPopup(true);
           }
         }
-      })
+      }),
     );
   }
 }

@@ -8,7 +8,7 @@ describe('ApiKeyPopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ApiKeyPopupComponent ]
+      declarations: [ApiKeyPopupComponent],
     })
     .compileComponents();
   }));

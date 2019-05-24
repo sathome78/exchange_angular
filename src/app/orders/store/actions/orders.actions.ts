@@ -1,4 +1,4 @@
-import {Action} from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
 export const LOAD_OPEN_ORDERS = '[Orders] Load open orders';
 export const FAIL_LOAD_OPEN_ORDERS = '[Orders] Fail load open orders';
@@ -156,8 +156,6 @@ export class CropCanceledOrderAction implements Action {
   constructor(public payload?) {}
 }
 
-
-
 /**
  * Exports possible action types
  */
@@ -173,4 +171,4 @@ export type Actions
   | FailLoadHistoryOrdersAction
   | CancelOrderAction
   | FailAction
-  | CropCanceledOrderAction
+  | CropCanceledOrderAction;

@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {takeUntil} from 'rxjs/internal/operators';
-import {Subject} from 'rxjs/Subject';
-import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {CurrencyPair} from 'app/model/currency-pair.model';
-import {State, getActiveCurrencyPair, getCurrencyPairInfo} from 'app/core/reducers/index';
-import {OrderItem} from 'app/model/order-item.model';
-import {SelectedOrderBookOrderAction, SetLastPriceAction} from '../../actions/dashboard.actions';
-import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
-import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
-import {OrderBookItem} from 'app/model';
-import {Subscription} from 'rxjs';
+import { Component, OnDestroy, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/internal/operators';
+import { Subject } from 'rxjs/Subject';
+import { AbstractDashboardItems } from '../../abstract-dashboard-items';
+import { CurrencyPair } from 'app/model/currency-pair.model';
+import { State, getActiveCurrencyPair, getCurrencyPairInfo } from 'app/core/reducers/index';
+import { OrderItem } from 'app/model/order-item.model';
+import { SelectedOrderBookOrderAction, SetLastPriceAction } from '../../actions/dashboard.actions';
+import { CurrencyPairInfo } from '../../../model/currency-pair-info.model';
+import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
+import { OrderBookItem } from 'app/model';
+import { Subscription } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 @Component({
@@ -73,7 +73,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   ngOnInit() {
     this.withForChartLineElements = {
       sell: [],
-      buy: []
+      buy: [],
     };
     this.store
       .pipe(select(getCurrencyPairInfo))
@@ -89,8 +89,8 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
       .subscribe((pair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = pair;
         this.splitCurrencyName = pair.name.split('/');
-        if(pair.id !== 0) {
-          this.subscribeOrderBook(pair.name, this.precisionOut)
+        if (pair.id !== 0) {
+          this.subscribeOrderBook(pair.name, this.precisionOut);
         }
       });
   }
@@ -102,14 +102,14 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   }
 
   private initData(orders: OrderBookItem[]) {
-    if(!orders[0]) {
+    if (!orders[0]) {
       return;
     }
     this.calculateVisualizationWidth(this.lastBuyTotal, this.lastSellTotal);
 
     orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) :
     orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : null;
-    if(orders[1]) {
+    if (orders[1]) {
       orders[1].orderType === 'SELL' ? this.setSellOrders(orders[1]) :
       orders[1].orderType === 'BUY' ? this.setBuyOrders(orders[1]) : null;
     }
@@ -118,11 +118,11 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
     this.lastExrate = +orders[0].lastExrate;
     this.preLastExrate = +orders[0].preLastExrate;
     this.isExratePositive = orders[0].positive;
-    if(this.canSetLastPrice) {
+    if (this.canSetLastPrice) {
       const lastPrice = {
         flag: this.isExratePositive,
-        price: this.lastExrate
-      }
+        price: this.lastExrate,
+      };
       this.store.dispatch(new SetLastPriceAction(lastPrice));
       this.canSetLastPrice = false;
     }
@@ -139,11 +139,11 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
         this.initData(data);
         this.loadingFinished();
         this.cdr.detectChanges();
-      })
+      });
   }
 
   unsubscribeOrderBook() {
-    if(this.orderBookSub$) {
+    if (this.orderBookSub$) {
       this.orderBookSub$.unsubscribe();
     }
   }

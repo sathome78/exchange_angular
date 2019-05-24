@@ -8,7 +8,7 @@ describe('MarketSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MarketSearchComponent ]
+      declarations: [MarketSearchComponent],
     })
     .compileComponents();
   }));

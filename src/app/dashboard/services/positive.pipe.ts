@@ -1,7 +1,6 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
-
-@Pipe({name: 'positivePipe'})
+@Pipe({ name: 'positivePipe' })
 export class PositivePipe implements PipeTransform {
 
   transform(value: number): any {

@@ -1,11 +1,11 @@
-import {HostListener, Input} from '@angular/core';
-import {keys} from '../../../../shared/constants';
-import {Subject} from 'rxjs';
-import {FormGroup} from '@angular/forms';
-import {takeUntil} from 'rxjs/operators';
-import {select} from '@ngrx/store';
+import { HostListener, Input } from '@angular/core';
+import { keys } from '../../../../shared/constants';
+import { Subject } from 'rxjs';
+import { FormGroup } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
+import { select } from '@ngrx/store';
 import * as _uniq from 'lodash/uniq';
-import {getAllCurrenciesForChoose} from '../../../../core/reducers';
+import { getAllCurrenciesForChoose } from '../../../../core/reducers';
 
 export abstract class AbstractTransfer {
 
@@ -35,10 +35,10 @@ export abstract class AbstractTransfer {
     amount: '0',
     totalCommissionAmount: '0',
     companyCommissionRate: '0',
-    merchantCommissionRate: `(0%, but not less than 0)`,
+    merchantCommissionRate: '(0%, but not less than 0)',
     merchantCommissionAmount: '0',
     resultAmount: '0',
-    addition: '0'
+    addition: '0',
   };
 
   /** Are listening click in document */
@@ -103,7 +103,7 @@ export abstract class AbstractTransfer {
         .subscribe(res => {
           this.responseCommission = res as any;
           this.loadingBalance = false;
-        }, err => {
+        },         err => {
           console.error(err);
           this.loadingBalance = false;
         });
@@ -162,14 +162,14 @@ export abstract class AbstractTransfer {
 
   isMaxThenActiveBalance(): {[key: string]: any} | null {
     if (+this.activeBalance < +this.amountValue) {
-      return {'isMaxThenActiveBalance': true};
+      return { isMaxThenActiveBalance: true };
     }
     return null;
   }
 
   isMinThenMinWithdraw(): {[key: string]: any} | null {
     if (+this.minWithdrawSum > +this.amountValue) {
-      return {'isMinThenMinWithdraw': true};
+      return { isMinThenMinWithdraw: true };
     }
     return null;
   }
@@ -181,16 +181,16 @@ export abstract class AbstractTransfer {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           email.setErrors(null);
-        }, error => {
+        },         error => {
           if (error['status'] === 400) {
-            email.setErrors({'USER_EMAIL_NOT_FOUND': true});
+            email.setErrors({ USER_EMAIL_NOT_FOUND: true });
           } else {
-            email.setErrors({'checkEmailCrash': true});
+            email.setErrors({ checkEmailCrash: true });
           }
         });
     }
     if (email.value === this.userEmail) {
-      email.setErrors({'ownEmail': true});
+      email.setErrors({ ownEmail: true });
     }
   }
 

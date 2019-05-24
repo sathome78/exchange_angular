@@ -24,13 +24,13 @@ export class IEORequirementsComponent implements OnInit {
   public countries = NotAllowedCountries.join(', ');
 
   onToggleText() {
-    var height = document.querySelector('.requirement-text-inner').clientHeight;
-    if(!(document.getElementById('requirement-text').classList.contains('opened'))){
+    const height = document.querySelector('.requirement-text-inner').clientHeight;
+    if (!(document.getElementById('requirement-text').classList.contains('opened'))) {
       document.getElementById('requirement-text').style.height = height + 'px';
       document.querySelector('.requirement-item .more-btn').innerHTML = 'Show less';
       document.getElementById('requirement-text').classList.add('opened');
     }
-    else{
+    else {
       document.querySelector('.requirement-item .more-btn').innerHTML = 'Show more';
       document.getElementById('requirement-text').style.height = '';
       document.getElementById('requirement-text').classList.remove('opened');

@@ -1,19 +1,19 @@
-import {Component, OnInit, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
-import {Store, select} from '@ngrx/store';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 
-import {OrderItem} from '../models/order-item.model';
+import { OrderItem } from '../models/order-item.model';
 import * as ordersReducer from '../store/reducers/orders.reducer';
 import * as ordersAction from '../store/actions/orders.actions';
 import * as coreAction from '../../core/actions/core.actions';
 import * as fromCore from '../../core/reducers';
-import {State} from '../../core/reducers';
-import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
-import {CurrencyChoose} from 'app/model/currency-choose.model';
-import {OrdersService} from '../orders.service';
-import {BreakpointService} from 'app/shared/services/breakpoint.service';
-import {UserService} from 'app/shared/services/user.service';
+import { State } from '../../core/reducers';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { CurrencyChoose } from 'app/model/currency-choose.model';
+import { OrdersService } from '../orders.service';
+import { BreakpointService } from 'app/shared/services/breakpoint.service';
+import { UserService } from 'app/shared/services/user.service';
 
 @Component({
   selector: 'app-open-orders',
@@ -71,21 +71,21 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((activePair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = activePair;
-      })
+      });
 
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
+    this.tableScrollStyles = { height: (componentHeight - 112) + 'px', overflow: 'scroll' };
     this.orderItems$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((items) => this.orderItems = items)
+      .subscribe((items) => this.orderItems = items);
     this.countOfEntries$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((items) => this.countOfEntries = items)
+      .subscribe((items) => this.countOfEntries = items);
   }
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 1200;
-    if(this.isMobile) {
+    if (this.isMobile) {
       this.countPerPage = 10;
     }
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
@@ -101,22 +101,21 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       page: isMobile ? 1 : this.currentPage,
       limit: 0,
       currencyPairId: this.currencyPairId || 0,
-    }
+    };
     this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
   }
   loadMoreOrders(): void {
-    if(this.orderItems.length !== this.countOfEntries) {
+    if (this.orderItems.length !== this.countOfEntries) {
       this.currentPage += 1;
       const params = {
         page: this.currentPage,
         limit: 0,
         currencyPairId: this.currencyPairId || 0,
         concat: true,
-      }
+      };
       this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
     }
   }
-
 
   changeItemsPerPage(items: number) {
     this.countPerPage = items;
@@ -144,15 +143,13 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.currentPage = 1;
         this.loadOrders();
-        this.userService.getUserBalance(this.activeCurrencyPair)
+        this.userService.getUserBalance(this.activeCurrencyPair);
       });
   }
 
   toggleShowCancelAllOrdersConfirm() {
     this.isShowCancelAllOrdersConfirm = !this.isShowCancelAllOrdersConfirm;
   }
-
-
 
   /**
    * open submenu in the mobile version of the table
@@ -185,7 +182,6 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     return className;
   }
 
-
   /**
    * set status order canceled
    * @param order
@@ -198,8 +194,8 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
         limit: 0,
         currencyPairId: this.currencyPairId || 0,
         isMobile: this.isMobile,
-      }
-    }
+      },
+    };
 
     this.store.dispatch(new ordersAction.CancelOrderAction(params));
     this.showCancelOrderConfirm = null;

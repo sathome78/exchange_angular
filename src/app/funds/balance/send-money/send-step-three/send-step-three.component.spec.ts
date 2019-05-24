@@ -8,7 +8,7 @@ describe('SendStepThreeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SendStepThreeComponent ]
+      declarations: [SendStepThreeComponent],
     })
     .compileComponents();
   }));

@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 const padding = '000000';
 
 @Pipe({
-  name: 'currency'
+  name: 'currency',
 })
 export class CurrencyPipe implements PipeTransform {
   private prefix: string;
@@ -16,14 +16,12 @@ export class CurrencyPipe implements PipeTransform {
     this.decimal_separator = '.';
     this.thousands_separator = ' ';
   }
-  transform(value: string, fractionSize: number = 0 ): string {
-    let parsed = value ? parseFloat(value.replace(/[^0-9-.]/g, '')) : 0;
+  transform(value: string, fractionSize: number = 0): string {
+    const parsed = value ? parseFloat(value.replace(/[^0-9-.]/g, '')) : 0;
     if (parsed % 1 != 0) {
       fractionSize = 8;
     }
-    let [ integer, fraction = ''] = (parsed.toString() || '').toString().split('.');
-
-
+    let [integer, fraction = ''] = (parsed.toString() || '').toString().split('.');
 
     fraction = fractionSize > 0
       ? this.decimal_separator + (fraction).substring(0, fractionSize) : '';
@@ -40,7 +38,7 @@ export class CurrencyPipe implements PipeTransform {
   }
 
   parse(value: string, fractionSize: number = 2): string {
-    let [ integer, fraction = '' ] = (value || '').replace(this.prefix, '')
+    let [integer, fraction = ''] = (value || '').replace(this.prefix, '')
       .replace(this.suffix, '')
       .split(this.decimal_separator);
 

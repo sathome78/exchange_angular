@@ -8,6 +8,6 @@ export class RefillInnerTransferResponse {
     public commission: any,
     public notyAmount: string,
     public initialAmount: string,
-    public comissionAmount: string
+    public comissionAmount: string,
   ) {}
 }

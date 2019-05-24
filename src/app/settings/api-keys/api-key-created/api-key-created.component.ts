@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Animations} from '../../../shared/animations';
-import {NewApiKeyItem} from '../../../model/api-key.model';
-import {Store} from '@ngrx/store';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Animations } from '../../../shared/animations';
+import { NewApiKeyItem } from '../../../model/api-key.model';
+import { Store } from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
 import * as settingsActions from '../../store/actions/settings.actions';
 
@@ -10,8 +10,8 @@ import * as settingsActions from '../../store/actions/settings.actions';
   templateUrl: './api-key-created.component.html',
   styleUrls: ['./api-key-created.component.scss'],
   animations: [
-    Animations.popupOverlayTrigger, Animations.popupModalTrigger
-  ]
+    Animations.popupOverlayTrigger, Animations.popupModalTrigger,
+  ],
 })
 export class ApiKeyCreatedComponent implements OnInit {
 
@@ -31,6 +31,6 @@ export class ApiKeyCreatedComponent implements OnInit {
     this.store.dispatch(new settingsActions.LoadApiKeysAction());
     setTimeout(() => {
       this.closeCreatedKeyPopup.emit(true);
-    }, 1000);
+    },         1000);
   }
 }

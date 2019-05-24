@@ -1,7 +1,7 @@
 import { Directive, Input, ElementRef, HostListener, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[tooltip]'
+  selector: '[tooltip]',
 })
 export class TooltipDirective {
   @Input('tooltip') tooltipTitle: string;
@@ -38,7 +38,7 @@ export class TooltipDirective {
     window.setTimeout(() => {
       this.renderer.removeChild(document.body, this.tooltip);
       this.tooltip = null;
-    }, +this.delay);
+    },                +this.delay);
   }
 
   create() {
@@ -46,7 +46,7 @@ export class TooltipDirective {
 
     this.renderer.appendChild(
       this.tooltip,
-      this.renderer.createText(this.tooltipTitle)
+      this.renderer.createText(this.tooltipTitle),
     );
 
     this.renderer.appendChild(document.body, this.tooltip);

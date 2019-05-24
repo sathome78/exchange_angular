@@ -1,31 +1,31 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PopupService} from './shared/services/popup.service';
-import {ThemeService} from './shared/services/theme.service';
-import {IpAddress, UserService} from './shared/services/user.service';
-import {IP_CHECKER_URL, USER_IP} from './shared/services/http.utils';
-import {HttpClient} from '@angular/common/http';
-import {AuthService} from './shared/services/auth.service';
-import {Subject} from 'rxjs/Subject';
-import {takeUntil, withLatestFrom, take} from 'rxjs/internal/operators';
-import {TranslateService} from '@ngx-translate/core';
-import {select, Store} from '@ngrx/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PopupService } from './shared/services/popup.service';
+import { ThemeService } from './shared/services/theme.service';
+import { IpAddress, UserService } from './shared/services/user.service';
+import { IP_CHECKER_URL, USER_IP } from './shared/services/http.utils';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from './shared/services/auth.service';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil, withLatestFrom, take } from 'rxjs/internal/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { select, Store } from '@ngrx/store';
 import * as fromCore from './core/reducers';
 import * as coreAction from './core/actions/core.actions';
 import * as dashboardAction from './dashboard/actions/dashboard.actions';
-import {SimpleCurrencyPair} from './model/simple-currency-pair';
-import {SEOService} from './shared/services/seo.service';
-import {UtilsService} from './shared/services/utils.service';
-import {IEOServiceService} from './shared/services/ieoservice.service';
+import { SimpleCurrencyPair } from './model/simple-currency-pair';
+import { SEOService } from './shared/services/seo.service';
+import { UtilsService } from './shared/services/utils.service';
+import { IEOServiceService } from './shared/services/ieoservice.service';
 import { IEOItem } from './model/ieo.model';
-import {ChangeLanguageAction} from './core/actions/core.actions';
-import {getLanguage} from './core/reducers';
-import {GtagService} from './shared/services/gtag.service';
-import {lang} from 'moment';
+import { ChangeLanguageAction } from './core/actions/core.actions';
+import { getLanguage } from './core/reducers';
+import { GtagService } from './shared/services/gtag.service';
+import { lang } from 'moment';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private store: Store<fromCore.State>,
     private http: HttpClient,
     public translate: TranslateService,
-    private gtagService: GtagService
+    private gtagService: GtagService,
   ) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
 
@@ -64,7 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(([isAuth, userInfo]: [boolean, ParsedToken]) => {
         this.isAuthenticated = isAuth;
-        if(isAuth && userInfo) {
+        if (isAuth && userInfo) {
           this.store.dispatch(new coreAction.LoadVerificationStatusAction());
           // this.authService.setSessionFinishListener(userInfo.expiration);
           this.sendTransactionsAnalytics();
@@ -81,7 +81,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(select(fromCore.getSimpleCurrencyPairsSelector))
       .pipe(take(2))
       .subscribe((currencies: SimpleCurrencyPair[]) => {
-        if(this.shouldSetDefaultCurrPair) {
+        if (this.shouldSetDefaultCurrPair) {
           this.setDefaultCurrencyPair(currencies);
         }
       });
@@ -91,15 +91,14 @@ export class AppComponent implements OnInit, OnDestroy {
     // if (this.authService.isAuthenticated() && !!this.authService.getUserId()) {
     //   this.gtagService.setUserId(this.authService.getUserId());
     // } else {
-      const token = localStorage.getItem('token')
-      if(token) {
-        const parsedToken = this.authService.parseToken(token);
-        this.gtagService.setUserId(parsedToken.publicId);
-        this.store.dispatch(new coreAction.SetOnLoginAction(parsedToken));
-      }
+    const token = localStorage.getItem('token');
+    if (token) {
+      const parsedToken = this.authService.parseToken(token);
+      this.gtagService.setUserId(parsedToken.publicId);
+      this.store.dispatch(new coreAction.SetOnLoginAction(parsedToken));
+    }
     // }
     this.gtagService.initGtag();
-
 
     this.seoService.subscribeToRouter(); // SEO optimization
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
@@ -121,35 +120,35 @@ export class AppComponent implements OnInit, OnDestroy {
 
   setDefaultCurrencyPair(currencies: SimpleCurrencyPair[]) {
     const pair = currencies.find((item) => (item.name === 'BTC/USD'));
-    if(pair) {
+    if (pair) {
       this.store.dispatch(new dashboardAction.ChangeActiveCurrencyPairAction(pair));
       this.utilsService.saveActiveCurrencyPairToSS(pair);
       this.userService.getUserBalance(pair);
     }
   }
   setNameEmailToZenChat(userEmail: string): void {
-    if(!userEmail) {
+    if (!userEmail) {
       return;
     }
     const name = userEmail.split('@')[0];
     const interval = setInterval(() => {
-      if(!(<any>window).$zopim) {
+      if (!(<any>window).$zopim) {
         return;
       }
       clearInterval(interval); // waiting for initializing chat widget
       (<any>window).$zopim(() => {
         (<any>window).$zopim.livechat.setName(name);
         (<any>window).$zopim.livechat.setEmail(userEmail);
-      })
-    }, 500);
+      });
+    },                           500);
   }
   clearNameEmailFromZenChat(): void {
-    if(!(<any>window).$zopim) {
+    if (!(<any>window).$zopim) {
       return;
     }
     (<any>window).$zopim(() => {
       (<any>window).$zopim.livechat.clearAll();
-    })
+    });
   }
 
   isCurrentThemeDark(): boolean {
@@ -175,14 +174,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private sendTransactionsAnalytics() {
     setTimeout(() => {
-      if(!this.isAuthenticated) {
+      if (!this.isAuthenticated) {
         return;
       }
       this.userService.getTransactionsCounterForGTag()
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((res) => {
-          if(res.count > 0) {
-            for(let i = 0; i < res.count; i++) {
+          if (res.count > 0) {
+            for (let i = 0; i < res.count; i++) {
               this.gtagService.sendTransactionSuccessGtag();
             }
             this.userService.clearTransactionsCounterForGTag()
@@ -190,6 +189,6 @@ export class AppComponent implements OnInit, OnDestroy {
               .subscribe(() => {});
           }
         });
-    }, 3000);
+    },         3000);
   }
 }

@@ -1,19 +1,19 @@
-import {Injectable, OnDestroy, NgZone} from '@angular/core';
-import {environment} from '../../../environments/environment';
-import {LoggingService} from './logging.service';
+import { Injectable, OnDestroy, NgZone } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { LoggingService } from './logging.service';
 
 import * as jwt_decode from 'jwt-decode';
-import {TOKEN} from './http.utils';
-import {Subject, Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
-import {Store} from '@ngrx/store';
+import { TOKEN } from './http.utils';
+import { Subject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as coreActions from '../../core/actions/core.actions';
-import {PopupService} from './popup.service';
-import {Router} from '@angular/router';
-import {Location} from '@angular/common';
-import {GtagService} from './gtag.service';
-import {UtilsService} from './utils.service';
+import { PopupService } from './popup.service';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { GtagService } from './gtag.service';
+import { UtilsService } from './utils.service';
 
 @Injectable()
 export class AuthService implements OnDestroy {
@@ -36,10 +36,9 @@ export class AuthService implements OnDestroy {
     private popupService: PopupService,
     private store: Store<fromCore.State>,
     private gtagService: GtagService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
   ) {
   }
-
 
   public isAuthenticated(): boolean {
     return !!localStorage.getItem('token');
@@ -92,7 +91,7 @@ export class AuthService implements OnDestroy {
   public redirectOnLogout() {
     const url = this.router.url;
     const isProtected = this.PROTECTED_ROUTES.some((r) => url.indexOf(r) >= 0);
-    if(isProtected) {
+    if (isProtected) {
       this.router.navigateByUrl('/dashboard');
     }
   }
@@ -103,7 +102,7 @@ export class AuthService implements OnDestroy {
       this.timeOutSub = setTimeout(() => {
         this.onLogOut();
         this.popupService.toggleSessionExpiredPopup(true);
-      }, +tokenExpiresIn)
+      },                           +tokenExpiresIn);
     });
   }
 

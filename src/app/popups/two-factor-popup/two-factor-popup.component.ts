@@ -1,17 +1,17 @@
-import {Component, OnDestroy, OnInit, Input, HostListener} from '@angular/core';
-import {PopupService} from '../../shared/services/popup.service';
-import {Subscription, Subject} from 'rxjs';
-import {LoggingService} from '../../shared/services/logging.service';
-import {Animations} from 'app/shared/animations';
-import {takeUntil} from 'rxjs/operators';
+import { Component, OnDestroy, OnInit, Input, HostListener } from '@angular/core';
+import { PopupService } from '../../shared/services/popup.service';
+import { Subscription, Subject } from 'rxjs';
+import { LoggingService } from '../../shared/services/logging.service';
+import { Animations } from 'app/shared/animations';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-two-factor-popup',
   templateUrl: './two-factor-popup.component.html',
   styleUrls: ['./two-factor-popup.component.scss'],
   animations: [
-    Animations .popupOverlayTrigger, Animations.popupModalTrigger
-  ]
+    Animations .popupOverlayTrigger, Animations.popupModalTrigger,
+  ],
 })
 export class TwoFactorPopupComponent implements OnInit, OnDestroy {
 
@@ -28,7 +28,7 @@ export class TwoFactorPopupComponent implements OnInit, OnDestroy {
   private currentStepSubscription: Subscription;
 
    /** Are listening click in document */
-   @HostListener('document:click', ['$event']) clickout($event) {
+  @HostListener('document:click', ['$event']) clickout($event) {
     if ($event.target.classList.contains('overlay--modal')) {
       this.closePopup();
     }

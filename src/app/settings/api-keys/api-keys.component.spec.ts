@@ -8,7 +8,7 @@ describe('ApiKeysComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ApiKeysComponent ]
+      declarations: [ApiKeysComponent],
     })
     .compileComponents();
   }));

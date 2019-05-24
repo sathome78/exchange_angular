@@ -1,15 +1,15 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {PopupService} from '../shared/services/popup.service';
-import {NewsService} from '../shared/services/news.service';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { PopupService } from '../shared/services/popup.service';
+import { NewsService } from '../shared/services/news.service';
 import * as moment from 'moment';
-import {RssNews, RssNewsResponsse} from '../shared/models/rss-news.model';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { RssNews, RssNewsResponsse } from '../shared/models/rss-news.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
-  styleUrls: ['./news.component.scss']
+  styleUrls: ['./news.component.scss'],
 })
 export class NewsComponent implements OnInit, OnDestroy {
 
@@ -21,14 +21,13 @@ export class NewsComponent implements OnInit, OnDestroy {
   public newsScrollStyles: any = {};
   public isLoading = false;
 
-
   constructor(
     public popupService: PopupService,
     private newsService: NewsService,
     private cdr: ChangeDetectorRef,
   ) {
     const componentHeight = window.innerHeight;
-    this.newsScrollStyles = {'max-height': (componentHeight - (window.innerWidth > 1200 ? 290 : 190)) + 'px'};
+    this.newsScrollStyles = { 'max-height': (componentHeight - (window.innerWidth > 1200 ? 290 : 190)) + 'px' };
 
   }
 
@@ -43,8 +42,8 @@ export class NewsComponent implements OnInit, OnDestroy {
 
   getNewsFeed(concat = false) {
     this.isLoading = true;
-     const offset = this.countPerPage * this.currentPage;
-     this.newsService
+    const offset = this.countPerPage * this.currentPage;
+    this.newsService
        .getRssNewsFeed(this.countPerPage, 0, offset)
        .pipe(takeUntil(this.ngUnsubscribe))
        .subscribe(res => {
@@ -52,7 +51,7 @@ export class NewsComponent implements OnInit, OnDestroy {
          this.allNews = concat ? this.concatNews((res as RssNewsResponsse).data.feeds) : (res as RssNewsResponsse).data.feeds;
          this.isLoading = this.allNews.length !== this.countNews;
          this.cdr.detectChanges();
-       }, error => {
+       },         error => {
          console.log(error);
        });
   }

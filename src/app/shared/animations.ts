@@ -1,33 +1,33 @@
-import {trigger, state, style, animate, transition} from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 export const Animations = {
   popupOverlayTrigger: trigger('overlayAnimation', [
     state('show', style({
-      backgroundColor: 'rgba(0, 0, 0, 0.85)'
+      backgroundColor: 'rgba(0, 0, 0, 0.85)',
     })),
     state('hide', style({
-      backgroundColor: 'transparent'
+      backgroundColor: 'transparent',
     })),
     transition(':enter', [
-      animate('0s linear')
+      animate('0s linear'),
     ]),
     transition(':leave', [
-      animate('0.2s linear')
+      animate('0.2s linear'),
     ]),
   ]),
   popupModalTrigger: trigger('modalAnimation', [
     // ...
     state('show', style({
-      right: 0
+      right: 0,
     })),
     state('hide', style({
-      right: '-900px'
+      right: '-900px',
     })),
     transition('*=>show', [
-      animate('0.4s linear')
+      animate('0.4s linear'),
     ]),
     transition('*=>hide', [
-      animate('0.4s linear')
+      animate('0.4s linear'),
     ]),
   ]),
-}
+};

@@ -1,11 +1,11 @@
 import * as fromActions from '../actions/funds.actions';
-import {defaultValues} from './default-values';
-import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {BalanceItem} from 'app/funds/models/balance-item.model';
-import {PendingRequestsItem} from 'app/funds/models/pending-requests-item.model';
-import {MyBalanceItem, MyBalanceItemSimple} from 'app/model/my-balance-item.model';
-import {BalanceDetailsItem} from '../../models/balance-details-item.model';
-import {TransactionHistoryItem} from 'app/funds/models/transactions-history-item.model';
+import { defaultValues } from './default-values';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { BalanceItem } from 'app/funds/models/balance-item.model';
+import { PendingRequestsItem } from 'app/funds/models/pending-requests-item.model';
+import { MyBalanceItem, MyBalanceItemSimple } from 'app/model/my-balance-item.model';
+import { BalanceDetailsItem } from '../../models/balance-details-item.model';
+import { TransactionHistoryItem } from 'app/funds/models/transactions-history-item.model';
 import { IEOItem } from 'app/model/ieo.model';
 
 export interface State {
@@ -48,7 +48,7 @@ export const INIT_STATE: State = {
 export function reducer(state: State = INIT_STATE, action: fromActions.Actions) {
   switch (action.type) {
     case fromActions.LOAD_CRYPTO_BAL:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case fromActions.SET_CRYPTO_BAL:
       return {
         ...state,
@@ -70,7 +70,7 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
       };
 
     case fromActions.LOAD_FIAT_BAL:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case fromActions.SET_FIAT_BAL:
       return {
         ...state,
@@ -92,7 +92,7 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
       };
 
     case fromActions.LOAD_QUBERA_BAL:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case fromActions.SET_QUBERA_BAL:
       return {
         ...state,
@@ -106,7 +106,7 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
       };
 
     case fromActions.LOAD_PENDING_REQ:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case fromActions.SET_PENDING_REQ:
       return {
         ...state,
@@ -128,7 +128,7 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
       };
 
     case fromActions.LOAD_MY_BALANCES:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case fromActions.SET_MY_BALANCES:
       return {
         ...state,
@@ -142,7 +142,7 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
       };
 
     case fromActions.LOAD_BALANCE_DETAILS_INFO:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case fromActions.SET_BALANCE_DETAILS_INFO:
       return {
         ...state,
@@ -150,14 +150,14 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         balanceDetailsInfo: action.payload,
       };
     case fromActions.FAIL_LOAD_BALANCE_DETAILS_INFO:
-      return {...state, loading: false};
+      return { ...state, loading: false };
 
     // Transactions History
 
     case fromActions.LOAD_TRANSACTIONS_HISTORY:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case fromActions.LOAD_LAST_TRANSACTIONS_HISTORY:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case fromActions.SET_TRANSACTIONS_HISTORY:
       return {
         ...state,
@@ -235,9 +235,7 @@ export const getMyBalancesSelector = createSelector(getFundsState, getMyBalances
 export const getBalanceDetails = (state: State): any => state.balanceDetailsInfo;
 export const getSelectedBalance = createSelector(getFundsState, getBalanceDetails);
 
-
 // /** Orders currencies pairs finish */
-
 
 /** Transactions History */
 
@@ -253,5 +251,5 @@ export const getLoading = (state: State): boolean => state.loading;
 /** Selector returns array of open orders filtered by currency*/
 export const getLoadingSelector = createSelector(
   getFundsState,
-  getLoading
+  getLoading,
 );

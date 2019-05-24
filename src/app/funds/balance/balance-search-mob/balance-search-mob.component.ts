@@ -7,14 +7,14 @@ import {
   Input, OnDestroy,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
-import {select, Store} from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
 import * as fundsReducer from '../../store/reducers/funds.reducer';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {BalanceItem} from '../../models/balance-item.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { BalanceItem } from '../../models/balance-item.model';
 
 @Component({
   selector: 'app-balance-search-mob',
@@ -23,8 +23,8 @@ import {BalanceItem} from '../../models/balance-item.model';
 })
 export class BalanceSearchMobComponent implements OnInit, AfterViewInit, OnDestroy {
 
-   private _currTab: any;
-   private _Tab: any;
+  private _currTab: any;
+  private _Tab: any;
 
   @Input() set currTab(val) {
     this._currTab = val;
@@ -56,7 +56,7 @@ export class BalanceSearchMobComponent implements OnInit, AfterViewInit, OnDestr
     setTimeout(() => {
       this.scrollHeight = this.container.nativeElement.offsetHeight - 143;
       this.cdr.detectChanges();
-    }, 0);
+    },         0);
   }
 
   ngOnDestroy(): void {

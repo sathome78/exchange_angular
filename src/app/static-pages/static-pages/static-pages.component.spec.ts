@@ -8,7 +8,7 @@ describe('StaticPagesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StaticPagesComponent ]
+      declarations: [StaticPagesComponent],
     })
     .compileComponents();
   }));

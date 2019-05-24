@@ -8,7 +8,7 @@ describe('TwoFactorPopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TwoFactorPopupComponent ]
+      declarations: [TwoFactorPopupComponent],
     })
     .compileComponents();
   }));

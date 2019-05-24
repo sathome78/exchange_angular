@@ -8,7 +8,7 @@ describe('GetReadyBannerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GetReadyBannerComponent ]
+      declarations: [GetReadyBannerComponent],
     })
     .compileComponents();
   }));

@@ -1,16 +1,16 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {SettingsService} from '../settings.service';
-import {LoggingService} from '../../shared/services/logging.service';
-import {HttpEvent, HttpEventType} from '@angular/common/http';
-import {TranslateService} from '@ngx-translate/core';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { SettingsService } from '../settings.service';
+import { LoggingService } from '../../shared/services/logging.service';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-nickname',
   templateUrl: './nickname.component.html',
-  styleUrls: ['./nickname.component.css']
+  styleUrls: ['./nickname.component.css'],
 })
 export class NicknameComponent implements OnInit, OnDestroy {
 
@@ -30,10 +30,10 @@ export class NicknameComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.form = new FormGroup({
-      'nickname': new FormControl(null, {
+      nickname: new FormControl(null, {
         validators: [Validators.required, Validators.pattern(this.nameRegex)],
-        updateOn: 'blur'
-      })
+        updateOn: 'blur',
+      }),
     });
     this.loadNickname();
   }
@@ -47,17 +47,17 @@ export class NicknameComponent implements OnInit, OnDestroy {
     this.settingsService.getNickname()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-          const nickname = res[this.NICK];
-          this.nickname = nickname;
-          if (nickname) {
-            this.form.get(this.NICK).patchValue(nickname);
-            this.isUpdateDisabled = true;
-          }
-        },
-        err => {
-          this.logger.info(this, err);
+        const nickname = res[this.NICK];
+        this.nickname = nickname;
+        if (nickname) {
+          this.form.get(this.NICK).patchValue(nickname);
+          this.isUpdateDisabled = true;
+        }
+      },
+                 err => {
+                   this.logger.info(this, err);
           // this.statusMessage = 'Failed to update your nickname!';
-        });
+                 });
 
   }
 
@@ -67,18 +67,18 @@ export class NicknameComponent implements OnInit, OnDestroy {
       this.settingsService.updateNickname(nickname)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((event: HttpEvent<Object>) => {
-            if (event.type === HttpEventType.Sent) {
-              this.logger.debug(this, 'Nickname is successfully updated: ' + nickname);
-              this.statusMessage = this.translateService.instant('Your nickname is successfully updated!');
-            }
-          },
-          err => {
-            const status = err['status'];
-            if (status >= 400) {
-              this.logger.info(this, 'Failed to update user nickname: ' + nickname);
-              this.statusMessage = this.translateService.instant('Failed to update your nickname!');
-            }
-          });
+          if (event.type === HttpEventType.Sent) {
+            this.logger.debug(this, 'Nickname is successfully updated: ' + nickname);
+            this.statusMessage = this.translateService.instant('Your nickname is successfully updated!');
+          }
+        },
+                   err => {
+                     const status = err['status'];
+                     if (status >= 400) {
+                       this.logger.info(this, 'Failed to update user nickname: ' + nickname);
+                       this.statusMessage = this.translateService.instant('Failed to update your nickname!');
+                     }
+                   });
     }
   }
 

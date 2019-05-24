@@ -4,7 +4,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
       ],
     }).compileComponents();
   }));
@@ -13,7 +13,7 @@ describe('AppComponent', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
-  it(`should have as title 'exrates-front-new'`, async(() => {
+  it("should have as title 'exrates-front-new'", async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('exrates-front-new');

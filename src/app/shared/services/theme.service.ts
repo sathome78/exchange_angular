@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {LoggingService} from './logging.service';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
+import { Injectable } from '@angular/core';
+import { LoggingService } from './logging.service';
+import { el } from '@angular/platform-browser/testing/src/browser_util';
 
 @Injectable()
 export class ThemeService {

@@ -1,12 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {PopupService} from '../../shared/services/popup.service';
-import {Router} from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { PopupService } from '../../shared/services/popup.service';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-session-time-saved-popup',
   templateUrl: './session-time-saved-popup.component.html',
-  styleUrls: ['./session-time-saved-popup.component.scss']
+  styleUrls: ['./session-time-saved-popup.component.scss'],
 })
 export class SessionTimeSavedPopupComponent implements OnInit {
 
@@ -18,7 +18,7 @@ export class SessionTimeSavedPopupComponent implements OnInit {
 
   constructor(
     private popupService: PopupService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
   ) {}
 
   ngOnInit() {

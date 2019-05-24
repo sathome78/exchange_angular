@@ -1,14 +1,14 @@
-import {Component, OnDestroy, OnInit, Input} from '@angular/core';
-import {Subject, Observable, of} from 'rxjs';
-import {Store, select} from '@ngrx/store';
+import { Component, OnDestroy, OnInit, Input } from '@angular/core';
+import { Subject, Observable, of } from 'rxjs';
+import { Store, select } from '@ngrx/store';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
 import * as coreAction from '../../core/actions/core.actions';
-import {BalanceItem} from '../models/balance-item.model';
-import {PendingRequestsItem} from '../models/pending-requests-item.model';
-import {MyBalanceItem} from '../../model/my-balance-item.model';
-import {BalanceService} from '../services/balance.service';
-import {takeUntil} from 'rxjs/operators';
+import { BalanceItem } from '../models/balance-item.model';
+import { PendingRequestsItem } from '../models/pending-requests-item.model';
+import { MyBalanceItem } from '../../model/my-balance-item.model';
+import { BalanceService } from '../services/balance.service';
+import { takeUntil } from 'rxjs/operators';
 import {
   CRYPTO_DEPOSIT,
   CRYPTO_WITHDRAWAL,
@@ -17,25 +17,24 @@ import {
   INNER_TRANSFER,
   FIAT_DEPOSIT_QUBERA,
   FIAT_WITHDRAWAL_QUBERA,
-  QUBERA
+  QUBERA,
 } from './send-money/send-money-constants';
-import {CurrencyChoose} from '../../model/currency-choose.model';
+import { CurrencyChoose } from '../../model/currency-choose.model';
 import * as fromCore from '../../core/reducers';
-import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
-import {Router} from '@angular/router';
-import {BreakpointService} from 'app/shared/services/breakpoint.service';
-import {KYC_STATUS, PENDING} from '../../shared/constants';
-import {environment} from 'environments/environment';
-import {IEOServiceService} from 'app/shared/services/ieoservice.service';
-import {IEOItem} from 'app/model/ieo.model';
-import {BALANCE_TABS} from './balance-constants';
-import {DetailedCurrencyPair} from '../../model/detailed-currency-pair';
-
+import { DashboardWebSocketService } from '../../dashboard/dashboard-websocket.service';
+import { Router } from '@angular/router';
+import { BreakpointService } from 'app/shared/services/breakpoint.service';
+import { KYC_STATUS, PENDING } from '../../shared/constants';
+import { environment } from 'environments/environment';
+import { IEOServiceService } from 'app/shared/services/ieoservice.service';
+import { IEOItem } from 'app/model/ieo.model';
+import { BALANCE_TABS } from './balance-constants';
+import { DetailedCurrencyPair } from '../../model/detailed-currency-pair';
 
 @Component({
   selector: 'app-balance',
   templateUrl: './balance.component.html',
-  styleUrls: ['./balance.component.scss']
+  styleUrls: ['./balance.component.scss'],
 })
 export class BalanceComponent implements OnInit, OnDestroy {
 
@@ -83,7 +82,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     private dashboardWS: DashboardWebSocketService,
     public breakpointService: BreakpointService,
     public ieoService: IEOServiceService,
-    private router: Router
+    private router: Router,
   ) {
     this.quberaBalances$ = store.pipe(select(fundsReducer.getQuberaBalancesSelector));
     this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
@@ -139,7 +138,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
         } else {
           this.existQuberaAccounts = null;
         }
-      })
+      });
 
     this.balanceService.closeSendMoneyPopup$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -162,7 +161,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.loadBalances(this.currTab);
   }
 
-  public onPageChanged({currentPage, countPerPage}): void {
+  public onPageChanged({ currentPage, countPerPage }): void {
     this.countPerPage = countPerPage;
     this.currentPage = currentPage;
     this.loadBalances(this.currTab);
@@ -249,7 +248,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.loadBalances(this.currTab);
   }
 
-
   public goToCryptoWithdrawPopup(balance: BalanceItem): void {
     // this.popupService.demoPopupMessage = 1;
     // this.popupService.showDemoTradingPopup(true);
@@ -257,7 +255,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.sendMoneyData = {
       step: 2,
       stepName: this.currTab === 'CRYPTO' ? CRYPTO_WITHDRAWAL : FIAT_WITHDRAWAL,
-      balance: balance
+      balance,
     };
   }
 
@@ -266,7 +264,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.refillBalanceData = {
       step: 2,
       stepName: this.currTab === 'CRYPTO' ? CRYPTO_DEPOSIT : FIAT_DEPOSIT,
-      balance: balance
+      balance,
     };
   }
 
@@ -283,11 +281,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.sendMoneyData = {
       step: 2,
       stepName: INNER_TRANSFER,
-      stepThreeData: balance
+      stepThreeData: balance,
     };
   }
 
-  public loadMoreBalancesForMobile({currentPage, countPerPage, concat}): void {
+  public loadMoreBalancesForMobile({ currentPage, countPerPage, concat }): void {
     this.countPerPage = countPerPage;
     this.currentPage = currentPage;
     this.loadBalances(this.currTab, concat);
@@ -297,10 +295,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
     const splitName = marketPair.split('-');
     this.dashboardWS.isNeedChangeCurretPair = false;
     this.dashboardWS.findPairByCurrencyPairName(`${splitName[0]}/${splitName[1]}`);
-    this.router.navigate(['/'], {queryParams: {widget: 'trading'}});
+    this.router.navigate(['/'], { queryParams: { widget: 'trading' } });
   }
 
-  public onRevokePendingRequest({requestId, operation}): void {
+  public onRevokePendingRequest({ requestId, operation }): void {
     this.currentPage = 1;
     const params = {
       revoke: {
@@ -311,16 +309,16 @@ export class BalanceComponent implements OnInit, OnDestroy {
         offset: (this.currentPage - 1) * this.countPerPage,
         limit: this.countPerPage,
         concat: false,
-      }
-    }
-    this.store.dispatch(new fundsAction.RevokePendingReqAction(params))
+      },
+    };
+    this.store.dispatch(new fundsAction.RevokePendingReqAction(params));
   }
 
-  public onGoToBalanceDetails({currencyId, priceIn}) {
-    this.router.navigate([`/funds/balances/${currencyId}`], {queryParams: {priceIn}})
+  public onGoToBalanceDetails({ currencyId, priceIn }) {
+    this.router.navigate([`/funds/balances/${currencyId}`], { queryParams: { priceIn } });
   }
-  public onGoToIEOBalanceDetails({currencyId, priceIn}) {
-    this.router.navigate([`/funds/balances/ieo/${currencyId}`], {queryParams: {priceIn}})
+  public onGoToIEOBalanceDetails({ currencyId, priceIn }) {
+    this.router.navigate([`/funds/balances/ieo/${currencyId}`], { queryParams: { priceIn } });
   }
 
   public onChangeCurrPair(val: string): void {
@@ -334,10 +332,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public get getCryptoDynamicIData(): DIOptions[] {
-    return this.cryptoCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
+    return this.cryptoCurrenciesForChoose.map((item) => ({ text: `${item.name}; ${item.description}`, id: item.id }));
   }
   public get getFiatDynamicIData(): DIOptions[] {
-    return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
+    return this.fiatCurrenciesForChoose.map((item) => ({ text: `${item.name}; ${item.description}`, id: item.id }));
   }
 
   public getIEOTable() {
@@ -345,8 +343,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: IEOItem[]) => {
         this.IEOData = res;
-        this.store.dispatch(new fundsAction.SetIEOBalancesAction(this.IEOData))
-      })
+        this.store.dispatch(new fundsAction.SetIEOBalancesAction(this.IEOData));
+      });
   }
 
 }

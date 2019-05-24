@@ -1,16 +1,16 @@
-import {Component, Input, OnInit, Output, EventEmitter, OnChanges, ViewChild, ElementRef} from '@angular/core';
-import {IEOItem} from 'app/model/ieo.model';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {UserService} from 'app/shared/services/user.service';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, ViewChild, ElementRef } from '@angular/core';
+import { IEOItem } from 'app/model/ieo.model';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UserService } from 'app/shared/services/user.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { RoundCurrencyPipe } from 'app/shared/pipes/round-currency.pipe';
 import { FormatCurrencyPipe } from 'app/shared/pipes/format-currency.pipe';
 
 @Component({
   selector: 'app-popup-buy',
   templateUrl: './popup-buy.component.html',
-  styleUrls: ['./popup-buy.component.scss']
+  styleUrls: ['./popup-buy.component.scss'],
 })
 export class PopupBuyComponent implements OnInit, OnChanges {
 
@@ -22,7 +22,7 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() confirm: EventEmitter<any> = new EventEmitter();
   public minSum: number = 0;
-  public maxSumValidate: number= 1;
+  public maxSumValidate: number = 1;
   public maxSumShow: string = '';
   public pay: number = 0;
   public loading: boolean = true;
@@ -44,14 +44,14 @@ export class PopupBuyComponent implements OnInit, OnChanges {
         this.userBalanceCoin = +res.data[this.IEOData.currencyName];
         this.getMaxAvailSum();
         this.loading = false;
-      })
+      });
   }
 
   ngOnChanges(c) {
-    if(c.IEOData && c.IEOData.currentValue) {
-      this.minSum = c.IEOData.currentValue.minAmount
+    if (c.IEOData && c.IEOData.currentValue) {
+      this.minSum = c.IEOData.currentValue.minAmount;
     }
-    if(c.show && c.show.currentValue) {
+    if (c.show && c.show.currentValue) {
       this.form.reset();
     }
   }
@@ -59,7 +59,7 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   initForm() {
     this.form = new FormGroup({
       amount: new FormControl('', [Validators.required, this.minCheck.bind(this), this.maxCheck.bind(this)]),
-    },);
+    });
 
     // this.amountInput.valueChanges
     //   .pipe(takeUntil(this.ngUnsubscribe$))
@@ -72,14 +72,14 @@ export class PopupBuyComponent implements OnInit, OnChanges {
 
   private minCheck(amount: FormControl) {
     if (this.minSum > (!!amount.value ? this.deleteSpace(amount.value) : 0)) {
-      return {'minThen': true};
+      return { minThen: true };
     }
     return null;
   }
 
   private maxCheck(amount: FormControl) {
     if (this.maxSumValidate < (!!amount.value ? +this.deleteSpace(amount.value) : 0)) {
-      return {'maxThen': true};
+      return { maxThen: true };
     }
     return null;
   }
@@ -93,7 +93,7 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   }
 
   onBlur(e) {
-    if(e) {
+    if (e) {
       const value = parseFloat(this.deleteSpace(e.target.value.toString() || '0'));
       const formated = this.formatCurrency.transform(this.roundCurrency.transform((value + ''), 'BTC'), 'short', 'BTC');
       this.amountInput.setValue(formated);
@@ -101,24 +101,24 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   }
 
   onInput(e) {
-    if(e) {
+    if (e) {
       const value = parseFloat(this.deleteSpace(e.target.value.toString()));
       this.countPay(value);
     }
   }
 
   onFocus(e) {
-    if(e) {
-      this.input.nativeElement.setSelectionRange(0, this.input.nativeElement.value.length)
+    if (e) {
+      this.input.nativeElement.setSelectionRange(0, this.input.nativeElement.value.length);
     }
   }
 
   confirmForm(e) {
     e.preventDefault();
-    if(this.form.invalid) {
+    if (this.form.invalid) {
       return;
     }
-    this.confirm.emit(this.deleteSpace(this.amountInput.value))
+    this.confirm.emit(this.deleteSpace(this.amountInput.value));
   }
 
   deleteSpace(value): string {
@@ -132,20 +132,20 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   }
 
   getMaxAvailSum() {
-    if(!(+this.IEOData.maxAmountPerClaim) && !(+this.IEOData.maxAmountPerUser)) {
+    if (!(+this.IEOData.maxAmountPerClaim) && !(+this.IEOData.maxAmountPerUser)) {
       this.maxSumValidate = +this.roundCurrency.transform(+this.IEOData.availableAmount + '', 'BTC');
       this.maxSumShow = this.formatCurrency.transform(this.maxSumValidate, 'short', 'BTC');
       return;
     }
     const sums = [+this.IEOData.maxAmountPerClaim, +this.IEOData.availableAmount];
     const userBalBTC = this.userBalanceBTC / this.IEOData.rate;
-    sums.push(userBalBTC)
+    sums.push(userBalBTC);
 
-    if(this.IEOData.maxAmountPerUser) {
-      if(this.IEOData.maxAmountPerUser <= this.userBalanceCoin) {
+    if (this.IEOData.maxAmountPerUser) {
+      if (this.IEOData.maxAmountPerUser <= this.userBalanceCoin) {
         sums.push(0);
       } else {
-        sums.push(this.IEOData.maxAmountPerUser - this.userBalanceCoin)
+        sums.push(this.IEOData.maxAmountPerUser - this.userBalanceCoin);
       }
     }
     this.maxSumValidate = +this.roundCurrency.transform(Math.min(...sums) + '', 'BTC');

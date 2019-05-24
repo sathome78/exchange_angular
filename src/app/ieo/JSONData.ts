@@ -9,7 +9,7 @@ export const data = {
       'Horizontally scalables as more nodes joining',
       'Provably optimal off-chain payment routing algorithm',
       'The world\'s first off-chain crypto economics model to ensure safety and ligh liquidity',
-      'Blockchain agnostic (already support Ethereum, DFINITY and EVM based blockchains)'
+      'Blockchain agnostic (already support Ethereum, DFINITY and EVM based blockchains)',
     ],
     table: [
       {
@@ -84,24 +84,23 @@ export const data = {
         name: 'Token Distribution',
         desc: 'Within 15 days after the token sale ends',
       },
-    ]
+    ],
   },
   community: [
     {
       type: 'telegram',
-      url: '#'
+      url: '#',
     },
     {
       type: 'twitter',
-      url: '#'
+      url: '#',
     },
     {
       type: 'facebook',
-      url: '#'
+      url: '#',
     },
   ],
-}
-
+};
 
 export const NotAllowedCountries = [
   'Afghanistan',
@@ -203,5 +202,5 @@ export const NotAllowedCountries = [
   'Eritrea',
   'Ethiopia',
   'South Georgia and the South Sandwich Islands',
-  'South Sudan'
-]
+  'South Sudan',
+];

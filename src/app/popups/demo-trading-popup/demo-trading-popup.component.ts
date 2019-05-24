@@ -1,12 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {PopupService} from '../../shared/services/popup.service';
-import {Router} from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { PopupService } from '../../shared/services/popup.service';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-demo-trading-popup',
   templateUrl: './demo-trading-popup.component.html',
-  styleUrls: ['./demo-trading-popup.component.scss']
+  styleUrls: ['./demo-trading-popup.component.scss'],
 })
 export class DemoTradingPopupComponent implements OnInit {
 
@@ -19,7 +19,7 @@ export class DemoTradingPopupComponent implements OnInit {
 
   constructor(
     private popupService: PopupService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
   ) {
   }
 

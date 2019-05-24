@@ -8,7 +8,7 @@ describe('SendCryptoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SendCryptoComponent ]
+      declarations: [SendCryptoComponent],
     })
     .compileComponents();
   }));

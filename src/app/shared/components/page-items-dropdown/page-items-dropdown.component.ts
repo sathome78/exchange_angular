@@ -1,9 +1,9 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-page-items-dropdown',
   templateUrl: './page-items-dropdown.component.html',
-  styleUrls: ['./page-items-dropdown.component.scss']
+  styleUrls: ['./page-items-dropdown.component.scss'],
 })
 export class PageItemsDropdownComponent implements OnInit {
 
@@ -13,8 +13,8 @@ export class PageItemsDropdownComponent implements OnInit {
   @Input('countPerPage') public countPerPage: number;
   @Input('pageCountsConfig') public pageCountsConfig: Array<number>;
   @Output() onChange = new EventEmitter<number>();
-  
-  public defaultPageCountsConfig = [15,30,45,60];
+
+  public defaultPageCountsConfig = [15, 30, 45, 60];
 
   public toggleDropdown() {
     this.dropdownElement.nativeElement.classList.toggle('dropdown--open');

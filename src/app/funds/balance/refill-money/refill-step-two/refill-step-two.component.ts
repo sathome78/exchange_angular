@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BalanceItem} from '../../../models/balance-item.model';
-import {FIAT_DEPOSIT, CRYPTO_DEPOSIT, INNER_TRANSFER, FIAT_DEPOSIT_QUBERA} from '../../send-money/send-money-constants';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { BalanceItem } from '../../../models/balance-item.model';
+import { FIAT_DEPOSIT, CRYPTO_DEPOSIT, INNER_TRANSFER, FIAT_DEPOSIT_QUBERA } from '../../send-money/send-money-constants';
 
 @Component({
   selector: 'app-refill-step-two',
   templateUrl: './refill-step-two.component.html',
-  styleUrls: ['./refill-step-two.component.scss']
+  styleUrls: ['./refill-step-two.component.scss'],
 })
 export class RefillStepTwoComponent implements OnInit {
 

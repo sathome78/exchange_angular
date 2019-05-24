@@ -1,4 +1,4 @@
-import {Action} from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { IEOItem } from 'app/model/ieo.model';
 
 export const LOAD_CRYPTO_BAL = '[Funds] Load crypto balances';
@@ -41,7 +41,6 @@ export const FAIL_LOAD_TRANSACTIONS_HISTORY = '[Funds] Fail load transactions hi
 export const SET_TRANSACTIONS_HISTORY = '[Funds] Set transactions history';
 export const SET_MORE_TRANSACTIONS_HISTORY = '[Funds] Concat transactions history';
 export const SET_IEO_BALANCES = '[Funds] Set IEO balances';
-
 
 /**
  * Loading crypto balances
@@ -201,7 +200,6 @@ export class FailLoadTransactionsHistoryAction implements Action {
   constructor(public payload?) {}
 }
 
-
 export class SetIEOBalancesAction implements Action {
   readonly type = SET_IEO_BALANCES;
   constructor(public payload: IEOItem[]) {}
@@ -241,4 +239,4 @@ export type Actions
   | LoadQuberaBalAction
   | SetQuberaBalAction
   | FailLoadQuberaBalAction
-  | SetIEOBalancesAction
+  | SetIEOBalancesAction;

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {OnNextStep, PopupService} from '../../../../shared/services/popup.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { OnNextStep, PopupService } from '../../../../shared/services/popup.service';
 
 @Component({
   selector: 'app-sms-step-one',
   templateUrl: './sms-step-one.component.html',
-  styleUrls: ['./sms-step-one.component.scss']
+  styleUrls: ['./sms-step-one.component.scss'],
 })
 export class SmsStepOneComponent implements OnInit, OnNextStep {
   dropDownOpen: boolean;
@@ -20,8 +20,8 @@ export class SmsStepOneComponent implements OnInit, OnNextStep {
   ngOnInit() {
     this.region = this.getRegions().slice()[3];
     this.form = new FormGroup({
-      'phone': new FormControl('',
-        {validators: [Validators.required, Validators.pattern(this.phoneRegex)], updateOn: 'blur'}),
+      phone: new FormControl('',
+                             { validators: [Validators.required, Validators.pattern(this.phoneRegex)], updateOn: 'blur' }),
     });
   }
 
@@ -35,10 +35,10 @@ export class SmsStepOneComponent implements OnInit, OnNextStep {
 
   getRegions(): {country: string, iconPath: string}[] {
     const regions: {country: string, iconPath: string}[] = [];
-    regions.push({country: 'Poland', iconPath: '../../../../assets/img/flag-pl.svg'});
-    regions.push({country: 'Russia', iconPath: '../../../../assets/img/flag-ru.svg'});
-    regions.push({country: 'USA', iconPath: '../../../../assets/img/flag-en.svg'});
-    regions.push({country: 'China', iconPath: '../../../../assets/img/flag-cn.svg'});
+    regions.push({ country: 'Poland', iconPath: '../../../../assets/img/flag-pl.svg' });
+    regions.push({ country: 'Russia', iconPath: '../../../../assets/img/flag-ru.svg' });
+    regions.push({ country: 'USA', iconPath: '../../../../assets/img/flag-en.svg' });
+    regions.push({ country: 'China', iconPath: '../../../../assets/img/flag-cn.svg' });
     return regions;
   }
 

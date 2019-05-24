@@ -1,8 +1,8 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {TransactionHistoryItem} from './models/transactions-history-item.model';
+import { Pipe, PipeTransform } from '@angular/core';
+import { TransactionHistoryItem } from './models/transactions-history-item.model';
 
 @Pipe({
-  name: 'showTransactionsType'
+  name: 'showTransactionsType',
 })
 export class ShowTransactionsTypePipe  implements PipeTransform {
   transform(sourceType: string, item: TransactionHistoryItem = null): string {
@@ -29,7 +29,7 @@ export class ShowTransactionsTypePipe  implements PipeTransform {
         case 'SimpleTransfer':
           return 'Transfer';
         case 'VoucherFreeTransfer':
-          return 'Voucher'
+          return 'Voucher';
         case 'VoucherTransfer':
           return 'Voucher free';
         default:

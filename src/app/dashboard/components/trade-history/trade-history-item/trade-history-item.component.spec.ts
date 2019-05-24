@@ -8,7 +8,7 @@ describe('TradeHistoryItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TradeHistoryItemComponent ]
+      declarations: [TradeHistoryItemComponent],
     })
     .compileComponents();
   }));

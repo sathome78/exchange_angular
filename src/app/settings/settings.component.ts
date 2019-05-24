@@ -1,13 +1,13 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {AuthService} from '../shared/services/auth.service';
-import {TranslateService} from '@ngx-translate/core';
-import {select, Store} from '@ngrx/store';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../shared/services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
+import { select, Store } from '@ngrx/store';
 import * as fromCore from '../core/reducers';
-import {Observable, Subject} from 'rxjs';
-import * as settingsActions from './store/actions/settings.actions'
+import { Observable, Subject } from 'rxjs';
+import * as settingsActions from './store/actions/settings.actions';
 import * as coreAction from '../core/actions/core.actions';
-import {takeUntil} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-settings',

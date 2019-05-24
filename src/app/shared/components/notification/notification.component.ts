@@ -1,11 +1,11 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import {NotificationMessage} from '../../models/notification-message-model';
+import { NotificationMessage } from '../../models/notification-message-model';
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss']
+  styleUrls: ['./notification.component.scss'],
 })
 export class NotificationComponent implements OnInit {
 
@@ -21,7 +21,7 @@ export class NotificationComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.notificationClosed.emit();
-    }, this.defaultTimeout);
+    },         this.defaultTimeout);
   }
 
   /**

@@ -8,7 +8,7 @@ describe('SendSuccessfulComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SendSuccessfulComponent ]
+      declarations: [SendSuccessfulComponent],
     })
     .compileComponents();
   }));

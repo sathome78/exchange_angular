@@ -1,22 +1,22 @@
-import {ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {PopupService} from '../../shared/services/popup.service';
-import {UserVerificationService} from '../../shared/services/user-verification.service';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {AuthService} from '../../shared/services/auth.service';
-import {select, Store} from '@ngrx/store';
-import {getVerificationStatus, State} from '../../core/reducers';
-import {IMyDpOptions, IMyDefaultMonth} from 'mydatepicker';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {KYC_STATUS} from '../../shared/constants';
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { PopupService } from '../../shared/services/popup.service';
+import { UserVerificationService } from '../../shared/services/user-verification.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AuthService } from '../../shared/services/auth.service';
+import { select, Store } from '@ngrx/store';
+import { getVerificationStatus, State } from '../../core/reducers';
+import { IMyDpOptions, IMyDefaultMonth } from 'mydatepicker';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { KYC_STATUS } from '../../shared/constants';
 import * as moment from 'moment';
-import {KycCountry} from '../../shared/interfaces/kyc-country-interface';
-import {TranslateService} from '@ngx-translate/core';
+import { KycCountry } from '../../shared/interfaces/kyc-country-interface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-verification',
   templateUrl: './verification.component.html',
-  styleUrls: ['./verification.component.scss']
+  styleUrls: ['./verification.component.scss'],
 })
 export class VerificationComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -32,7 +32,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   public openCountryDropdown = false;
   public openDocTypeDropdown = false;
   public defaultMonth: IMyDefaultMonth = {
-    defMonth: `01/${moment().subtract(16, 'years').year()}`
+    defMonth: `01/${moment().subtract(16, 'years').year()}`,
   };
   public loading: boolean = false;
   private countryList: KycCountry[] = [];
@@ -40,12 +40,11 @@ export class VerificationComponent implements OnInit, OnDestroy {
   public selectedCountry: KycCountry;
 
   public docTypes = [
-    {name: this.translateService.instant('Passport'), value: 'P'},
-    {name: this.translateService.instant('ID card'), value: 'ID'},
-  ]
+    { name: this.translateService.instant('Passport'), value: 'P' },
+    { name: this.translateService.instant('ID card'), value: 'ID' },
+  ];
 
-  public currentDocType = this.docTypes[0]
-
+  public currentDocType = this.docTypes[0];
 
   defaultModel = {
     docType: '',
@@ -54,7 +53,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
     birthYear: '',
     firstNames: [],
     lastName: '',
-    country: ''
+    country: '',
   };
 
   public myDatePickerOptions: IMyDpOptions = {
@@ -63,9 +62,9 @@ export class VerificationComponent implements OnInit, OnDestroy {
     markCurrentDay: false,
     markCurrentMonth: false,
     markCurrentYear: false,
-    disableUntil: {year: +moment().subtract(100, 'years').year(), month: 1, day: 1},
+    disableUntil: { year: +moment().subtract(100, 'years').year(), month: 1, day: 1 },
     dateFormat: 'dd.mm.yyyy',
-    disableSince: {year: +moment().subtract(15, 'years').year(), month: 1, day: 1}
+    disableSince: { year: +moment().subtract(15, 'years').year(), month: 1, day: 1 },
   };
 
   /** Are listening click in document */
@@ -88,7 +87,6 @@ export class VerificationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dataModel = this.defaultModel;
     this.initForm();
-
 
     this.store.pipe(select(getVerificationStatus))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -159,7 +157,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
           this.form.reset();
           this.dataModel = this.defaultModel;
           this.loading = false;
-        }, err => {
+        },         err => {
           this.dataModel.firstNames = [];
           console.error(err);
           this.loading = false;
@@ -177,16 +175,16 @@ export class VerificationComponent implements OnInit, OnDestroy {
         date: {
           year: +arrDate[2],
           month: +arrDate[1],
-          day: +arrDate[0]
-        }
-      }
+          day: +arrDate[0],
+        },
+      };
       if (checkDate.unix() > moment().subtract(16, 'years').unix()) {
         this.modelDateTo = {
           date: {
             year: +moment().subtract(16, 'years').year(),
             month: +arrDate[1],
-            day: +arrDate[0]
-          }
+            day: +arrDate[0],
+          },
         };
       }
       if (checkDate.unix() < moment().subtract(100, 'years').unix()) {
@@ -194,8 +192,8 @@ export class VerificationComponent implements OnInit, OnDestroy {
           date: {
             year: +moment().subtract(100, 'years').year(),
             month: +arrDate[1],
-            day: +arrDate[0]
-          }
+            day: +arrDate[0],
+          },
         };
       }
     }

@@ -1,6 +1,6 @@
-import {Params} from '@angular/router';
-import {ActionReducerMap} from '@ngrx/store';
-import {createSelector} from 'reselect';
+import { Params } from '@angular/router';
+import { ActionReducerMap } from '@ngrx/store';
+import { createSelector } from 'reselect';
 
 // Imports from reducers
 import * as fromDashboard from '../../dashboard/reducers/dashboard.reducer';
@@ -59,8 +59,6 @@ export const getTradingType = createSelector(getDashboardState, fromDashboard.ge
  * Selectors from funds module
  */
 
-
-
 /**
  * Selectors from Core module
  */
@@ -75,7 +73,6 @@ export const getFiatCurrenciesForChoose = createSelector(getCoreState, fromCore.
 export const getIsAuthenticated = createSelector(getCoreState, fromCore.getIsAuthenticatedSelector);
 export const getUserInfo = createSelector(getCoreState, fromCore.getUserInfoSelector);
 export const getIEOList = createSelector(getCoreState, fromCore.getIEOListSelector);
-
 
 /**
  * Selectors from Settings module

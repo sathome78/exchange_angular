@@ -16,14 +16,14 @@ const routes: Routes = [
       { path: 'about-us', component: AboutUsComponent },
       { path: 'privacy-policy', component: PrivacyPolicyComponent },
       { path: '', pathMatch: 'full', redirectTo: '/static/contacts' },
-      { path: '**', redirectTo: 'contacts' }
-    ]
-  }
+      { path: '**', redirectTo: 'contacts' },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class StaticPagesRoutingModule {
 }

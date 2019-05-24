@@ -15,12 +15,12 @@ export const gridsterOptions = {
     w: true,
   },
     // widthHeightRatio: .97
-    widthHeightRatio: .78
+  widthHeightRatio: .78
   , // proportion between item width and height
   lines: {
     visible: false,
     color: '#9f7f6d',
-    width: 1
+    width: 1,
   },
   shrink: true,
   useCSSTransforms: true,
@@ -47,9 +47,9 @@ export const gridsterOptions = {
       breakpoint: 'lg',
       minWidth: 1180,
       minHeight: 500,
-      celWidth: '30px'
-    }
-  ]
+      celWidth: '30px',
+    },
+  ],
 };
 
 /** size limits for all dashboard gidster items */
@@ -57,5 +57,5 @@ export const gridsterItemOptions = {
   minWidth: 1,
   minHeight: 1,
   maxWidth: 3,
-  maxHeight: 2
+  maxHeight: 2,
 };

@@ -1,17 +1,17 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {LoggingService} from '../../shared/services/logging.service';
-import {SettingsService} from '../settings.service';
-import {TranslateService} from '@ngx-translate/core';
-import {UtilsService} from 'app/shared/services/utils.service';
-import {PopupService} from 'app/shared/services/popup.service';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LoggingService } from '../../shared/services/logging.service';
+import { SettingsService } from '../settings.service';
+import { TranslateService } from '@ngx-translate/core';
+import { UtilsService } from 'app/shared/services/utils.service';
+import { PopupService } from 'app/shared/services/popup.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-password',
   templateUrl: './password.component.html',
-  styleUrls: ['./password.component.css']
+  styleUrls: ['./password.component.css'],
 })
 export class PasswordComponent implements OnInit, OnDestroy {
 
@@ -43,7 +43,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
         // Validators.minLength(8),
         // Validators.maxLength(40),
         // this.utilsService.passwordCombinationValidator()
-      ]
+      ],
     });
     this.passwordFirst = new FormControl('', {
       validators: [
@@ -51,7 +51,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
         Validators.minLength(8),
         Validators.maxLength(20),
         this.utilsService.passwordCombinationValidator(),
-      ]
+      ],
     });
     this.passwordSecond = new FormControl('', {
       validators: [
@@ -59,14 +59,14 @@ export class PasswordComponent implements OnInit, OnDestroy {
         // Validators.minLength(8),
         // Validators.maxLength(40),
         // this.utilsService.passwordCombinationValidator(),
-        this.utilsService.passwordMatchValidator(this.passwordFirst)
-      ]
+        this.utilsService.passwordMatchValidator(this.passwordFirst),
+      ],
     });
 
     this.form = new FormGroup({
-      'current_password': this.passwordCurrent,
-      'password_1': this.passwordFirst,
-      'password_2': this.passwordSecond,
+      current_password: this.passwordCurrent,
+      password_1: this.passwordFirst,
+      password_2: this.passwordSecond,
     });
     this.observeForm();
   }
@@ -92,10 +92,10 @@ export class PasswordComponent implements OnInit, OnDestroy {
             const status = err['status'];
             if (status === 400) {
               this.logger.info(this, 'Failed to update user password: ' + password);
-              this.passwordCurrent.setErrors({'wrong_password': true})
+              this.passwordCurrent.setErrors({ wrong_password: true });
             }
             this.loading = false;
-          }
+          },
         );
     }
   }
@@ -108,7 +108,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
           return;
         }
         this.secondPassword.updateValueAndValidity();
-      })
+      });
   }
 
   showFormErrors() {

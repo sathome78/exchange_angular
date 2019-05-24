@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-already-restored-password-popup',
   templateUrl: './already-restored-password-popup.component.html',
-  styleUrls: ['./already-restored-password-popup.component.scss']
+  styleUrls: ['./already-restored-password-popup.component.scss'],
 })
 export class AlreadyRestoredPasswordPopupComponent implements OnInit {
 
@@ -18,7 +18,7 @@ export class AlreadyRestoredPasswordPopupComponent implements OnInit {
 
   constructor(
     private popupService: PopupService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
   ) {}
 
   ngOnInit() {

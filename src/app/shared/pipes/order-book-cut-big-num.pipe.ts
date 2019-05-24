@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'orderBookCutBigNum'
+  name: 'orderBookCutBigNum',
 })
 export class OrderBookCutBigNumPipe  implements PipeTransform {
 
@@ -11,6 +11,6 @@ export class OrderBookCutBigNumPipe  implements PipeTransform {
       const lastCharacter = maxString[maxString.length - 1];
       return `${maxString.substr(0, countChar - 1)}${!Number.isInteger(+lastCharacter) ? '' : +lastCharacter !== 9 ? +lastCharacter + 1 : lastCharacter}`;
     }
-   return value;
+    return value;
   }
 }

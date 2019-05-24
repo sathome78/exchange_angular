@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UtilsService} from '../../shared/services/utils.service';
-import {StaticPagesService} from '../static-pages.service';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {PopupService} from '../../shared/services/popup.service';
-import {TranslateService} from '@ngx-translate/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UtilsService } from '../../shared/services/utils.service';
+import { StaticPagesService } from '../static-pages.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { PopupService } from '../../shared/services/popup.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
-  styleUrls: ['./contacts.component.scss']
+  styleUrls: ['./contacts.component.scss'],
 })
 export class ContactsComponent implements OnInit, OnDestroy {
 
@@ -22,7 +22,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
     private utilsService: UtilsService,
     private staticPagesService: StaticPagesService,
     private translateService: TranslateService,
-    private popupService: PopupService
+    private popupService: PopupService,
   ) {
   }
 
@@ -30,19 +30,19 @@ export class ContactsComponent implements OnInit, OnDestroy {
     this.sendForm = new FormGroup({
       name: new FormControl('', { validators: [
         Validators.required,
-          Validators.maxLength(30)
-        ]}),
+        Validators.maxLength(30),
+      ]}),
       email: new FormControl('', { validators: [
         Validators.required, this.utilsService.emailValidator(),
-          this.utilsService.specialCharacterValidator(),
-          Validators.maxLength(40)
-        ]}),
+        this.utilsService.specialCharacterValidator(),
+        Validators.maxLength(40),
+      ]}),
       telegram: new FormControl('', Validators.maxLength(30)),
       text: new FormControl('', { validators: [
         Validators.required,
-          Validators.maxLength(400)
-        ]}),
-    }, {updateOn: 'blur'});
+        Validators.maxLength(400),
+      ]}),
+    },                            { updateOn: 'blur' });
   }
 
   ngOnDestroy(): void {
@@ -69,7 +69,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
         name: this.nameControl.value,
         email: this.emailControl.value,
         telegram: this.telegramControl.value,
-        text: this.textControl.value
+        text: this.textControl.value,
       };
       this.loading = true;
       this.staticPagesService.sendContactForm(data)
@@ -82,7 +82,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
           this.popupService.toggleInfoPopup(popupData);
           this.sendForm.reset();
           this.loading = false;
-        }, err => {
+        },         err => {
           console.error(err);
           this.loading = false;
         });

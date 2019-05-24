@@ -1,13 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {DetailedCurrencyPair} from '../../../../model/detailed-currency-pair';
-import {BalanceItem} from '../../../models/balance-item.model';
-import {UtilsService} from '../../../../shared/services/utils.service';
-import {Router} from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DetailedCurrencyPair } from '../../../../model/detailed-currency-pair';
+import { BalanceItem } from '../../../models/balance-item.model';
+import { UtilsService } from '../../../../shared/services/utils.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-balance-table-trade-btn',
   templateUrl: './balance-table-trade-btn.component.html',
-  styleUrls: ['./balance-table-trade-btn.component.scss']
+  styleUrls: ['./balance-table-trade-btn.component.scss'],
 })
 export class BalanceTableTradeBtnComponent implements OnInit {
 
@@ -20,14 +20,14 @@ export class BalanceTableTradeBtnComponent implements OnInit {
 
   constructor(
     private utilsService: UtilsService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
     this.isFiat = this.utilsService.isFiat(this.item.currencyName);
 
     this.pairsCandidat = this.allPairs.filter(f => !f.hidden && f.name.split('/')[this.isFiat ? 1 : 0] === this.item.currencyName);
-     this.searchCandidat();
+    this.searchCandidat();
   }
 
   searchCandidat(): void {

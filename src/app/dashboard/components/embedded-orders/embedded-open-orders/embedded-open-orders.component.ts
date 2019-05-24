@@ -1,21 +1,20 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, HostListener} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/internal/operators';
-import {EmbeddedOrdersService} from '../embedded-orders.service';
-import {select, Store} from '@ngrx/store';
-import {State, getActiveCurrencyPair} from 'app/core/reducers/index';
-import {AbstractOrderCalculate} from '../../../../shared/components/abstract-order-calculate';
-import {UserBalance} from '../../../../model/user-balance.model';
-import {getUserBalance} from '../../../../core/reducers';
-import {Order} from 'app/model/order.model';
-import {TradingService} from 'app/dashboard/services/trading.service';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
-
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, HostListener } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/internal/operators';
+import { EmbeddedOrdersService } from '../embedded-orders.service';
+import { select, Store } from '@ngrx/store';
+import { State, getActiveCurrencyPair } from 'app/core/reducers/index';
+import { AbstractOrderCalculate } from '../../../../shared/components/abstract-order-calculate';
+import { UserBalance } from '../../../../model/user-balance.model';
+import { getUserBalance } from '../../../../core/reducers';
+import { Order } from 'app/model/order.model';
+import { TradingService } from 'app/dashboard/services/trading.service';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-embedded-open-orders',
   templateUrl: './embedded-open-orders.component.html',
-  styleUrls: ['./embedded-open-orders.component.scss']
+  styleUrls: ['./embedded-open-orders.component.scss'],
 })
 export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
   @Output() refreshOpenOrders: EventEmitter<boolean> = new EventEmitter();
@@ -37,7 +36,7 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
   constructor(
     private store: Store<State>,
     private ordersService: EmbeddedOrdersService,
-    public tradingService: TradingService
+    public tradingService: TradingService,
   ) {}
 
   ngOnInit() {
@@ -73,7 +72,7 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
       .subscribe(res => {
         this.refreshOpenOrders.emit(true);
         this.loading = false;
-      }, err => {
+      },         err => {
         this.loading = false;
       });
   }

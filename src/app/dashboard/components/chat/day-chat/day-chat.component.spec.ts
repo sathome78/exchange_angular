@@ -8,7 +8,7 @@ describe('DayChatComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DayChatComponent ]
+      declarations: [DayChatComponent],
     })
     .compileComponents();
   }));

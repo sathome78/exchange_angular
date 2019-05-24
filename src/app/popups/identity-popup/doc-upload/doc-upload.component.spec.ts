@@ -8,7 +8,7 @@ describe('DocUploadComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DocUploadComponent ]
+      declarations: [DocUploadComponent],
     })
     .compileComponents();
   }));

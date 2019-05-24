@@ -1,19 +1,19 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
-import {ApiKeysService} from '../api-keys.service';
-import {API_KEY_2FA_FOR} from '../../../shared/constants';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {NewApiKeyItem} from '../../../model/api-key.model';
-import {Store} from '@ngrx/store';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { ApiKeysService } from '../api-keys.service';
+import { API_KEY_2FA_FOR } from '../../../shared/constants';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NewApiKeyItem } from '../../../model/api-key.model';
+import { Store } from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
 import * as settingsActions from '../../store/actions/settings.actions';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-api-key-popup',
   templateUrl: './api-key-popup.component.html',
-  styleUrls: ['./api-key-popup.component.scss']
+  styleUrls: ['./api-key-popup.component.scss'],
 })
 export class ApiKeyPopupComponent implements OnInit, OnDestroy {
 
@@ -30,13 +30,13 @@ export class ApiKeyPopupComponent implements OnInit, OnDestroy {
 
   public titlesPopup = [
     this.translateService.instant('Please enter two-factor authentication code that was sent to your email'),
-    this.translateService.instant('Use Google Authenticator to generate pincode')
+    this.translateService.instant('Use Google Authenticator to generate pincode'),
   ];
 
   public serverPinError = [
     this.translateService.instant('Code is wrong!'),
     this.translateService.instant('Code is wrong! New code was sent to your email.'),
-    this.translateService.instant('Code is wrong! Please, check you code in Google Authenticator application.')
+    this.translateService.instant('Code is wrong! Please, check you code in Google Authenticator application.'),
   ];
 
   constructor(
@@ -48,7 +48,6 @@ export class ApiKeyPopupComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initForm();
   }
-
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -76,7 +75,7 @@ export class ApiKeyPopupComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.createdNewKey.emit(res);
         this.close2FAPopup.emit(true);
-      }, error => {
+      },         error => {
         if (error.status === 400) {
           this.serverPinErrorForView = this.isPinFomGA ? this.serverPinError[0] : this.serverPinError[1];
         }
@@ -89,7 +88,7 @@ export class ApiKeyPopupComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.store.dispatch(new settingsActions.LoadApiKeysAction());
         this.close2FAPopup.emit(true);
-    }, error => {
+      },         error => {
         if (error.status === 400) {
           this.serverPinErrorForView = this.isPinFomGA ? this.serverPinError[0] : this.serverPinError[1];
         }

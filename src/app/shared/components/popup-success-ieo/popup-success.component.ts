@@ -1,10 +1,10 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-popup-success',
   templateUrl: './popup-success.component.html',
-  styleUrls: ['./popup-success.component.scss']
+  styleUrls: ['./popup-success.component.scss'],
 })
 export class PopupSuccessComponent implements OnInit {
 

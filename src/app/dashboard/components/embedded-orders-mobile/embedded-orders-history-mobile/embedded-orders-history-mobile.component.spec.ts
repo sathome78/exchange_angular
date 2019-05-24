@@ -8,7 +8,7 @@ describe('EmbeddedOrdersHistoryMobileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EmbeddedOrdersHistoryMobileComponent ]
+      declarations: [EmbeddedOrdersHistoryMobileComponent],
     })
     .compileComponents();
   }));

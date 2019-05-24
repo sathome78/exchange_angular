@@ -1,13 +1,13 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Action, Store, select} from '@ngrx/store';
-import {map, switchMap, catchError, withLatestFrom} from 'rxjs/internal/operators';
-import {of} from 'rxjs';
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import * as fromCore from '../../../core/reducers'
-import {OrdersService} from '../../orders.service';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Action, Store, select } from '@ngrx/store';
+import { map, switchMap, catchError, withLatestFrom } from 'rxjs/internal/operators';
+import { of } from 'rxjs';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import * as fromCore from '../../../core/reducers';
+import { OrdersService } from '../../orders.service';
 import * as ordersActions from '../actions/orders.actions';
-import {UserService} from 'app/shared/services/user.service';
+import { UserService } from 'app/shared/services/user.service';
 
 @Injectable()
 export class OrdersEffects {
@@ -35,14 +35,14 @@ export class OrdersEffects {
       return this.ordersService.getOpenOrders(action.payload)
         .pipe(
           map(orders => {
-            if(action.payload.concat) {
-              return new ordersActions.SetMoreOpenOrdersAction({openOrders: orders.items, count: orders.count})
+            if (action.payload.concat) {
+              return new ordersActions.SetMoreOpenOrdersAction({ openOrders: orders.items, count: orders.count });
             }
-            return new ordersActions.SetOpenOrdersAction({openOrders: orders.items, count: orders.count})
+            return new ordersActions.SetOpenOrdersAction({ openOrders: orders.items, count: orders.count });
           }),
-          catchError(error => of(new ordersActions.FailLoadOpenOrdersAction(error)))
-        )
-    }))
+          catchError(error => of(new ordersActions.FailLoadOpenOrdersAction(error))),
+        );
+    }));
 
     // if(action.payload.concat) {
     //   return new fundsActions.SetMoreCryptoBalAction({items: bal.items, count: bal.count})
@@ -58,14 +58,14 @@ export class OrdersEffects {
       return this.ordersService.getClosedOrders(action.payload)
         .pipe(
           map(orders => {
-            if(action.payload.concat) {
-              return new ordersActions.SetMoreHistoryOrdersAction({historyOrders: orders.items, count: orders.count})
+            if (action.payload.concat) {
+              return new ordersActions.SetMoreHistoryOrdersAction({ historyOrders: orders.items, count: orders.count });
             }
-            return new ordersActions.SetHistoryOrdersAction({historyOrders: orders.items, count: orders.count})
+            return new ordersActions.SetHistoryOrdersAction({ historyOrders: orders.items, count: orders.count });
           }),
-          catchError(error => of(new ordersActions.FailLoadHistoryOrdersAction(error)))
-        )
-    }))
+          catchError(error => of(new ordersActions.FailLoadHistoryOrdersAction(error))),
+        );
+    }));
   /**
    * Load last history orders
    */
@@ -76,11 +76,11 @@ export class OrdersEffects {
       return this.ordersService.getLastClosedOrders(action.payload)
         .pipe(
           map(orders => {
-            return new ordersActions.SetHistoryOrdersAction({historyOrders: orders.items, count: orders.count})
+            return new ordersActions.SetHistoryOrdersAction({ historyOrders: orders.items, count: orders.count });
           }),
-          catchError(error => of(new ordersActions.FailLoadHistoryOrdersAction(error)))
-        )
-    }))
+          catchError(error => of(new ordersActions.FailLoadHistoryOrdersAction(error))),
+        );
+    }));
 
   /**
    * Load open orders
@@ -97,10 +97,10 @@ export class OrdersEffects {
             if (action.payload.loadOrders.isMobile) {
               return new ordersActions.CropCanceledOrderAction(action.payload.order.id);
             }
-            return new ordersActions.LoadOpenOrdersAction(action.payload.loadOrders)
+            return new ordersActions.LoadOpenOrdersAction(action.payload.loadOrders);
           }),
-          catchError(error => of(new ordersActions.FailLoadOpenOrdersAction(error)))
-        )
-    }))
+          catchError(error => of(new ordersActions.FailLoadOpenOrdersAction(error))),
+        );
+    }));
 
 }

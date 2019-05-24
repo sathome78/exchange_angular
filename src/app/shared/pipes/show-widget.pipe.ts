@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'showWidgetPipe'
+  name: 'showWidgetPipe',
 })
 export class ShowWidgetPipe  implements PipeTransform {
   transform(widgetName: string, isAuthenticated: boolean): boolean {
@@ -12,6 +12,6 @@ export class ShowWidgetPipe  implements PipeTransform {
           return false;
       }
     }
-      return true;
+    return true;
   }
 }

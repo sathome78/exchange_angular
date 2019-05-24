@@ -8,4 +8,4 @@ export class UserBalance {
 export class UserBalanceItem {
   name: string;
   balance: number;
-};
+}

@@ -1,15 +1,15 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {Router} from '@angular/router';
-import {IEOItem} from 'app/model/ieo.model';
-import {Subject} from 'rxjs';
-import {IEOServiceService} from 'app/shared/services/ieoservice.service';
-import {takeUntil} from 'rxjs/operators';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+import { IEOItem } from 'app/model/ieo.model';
+import { Subject } from 'rxjs';
+import { IEOServiceService } from 'app/shared/services/ieoservice.service';
+import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
 
 @Component({
   selector: 'app-ieo-table',
   templateUrl: './ieotable.component.html',
-  styleUrls: ['./ieotable.component.scss']
+  styleUrls: ['./ieotable.component.scss'],
 })
 export class IEOTableComponent implements OnInit {
 
@@ -26,7 +26,7 @@ export class IEOTableComponent implements OnInit {
     TERMINATED: 'TERMINATED',
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
-  }
+  };
 
   public selectedIEO: IEOItem;
   public showBuyIEO: boolean = false;
@@ -45,16 +45,16 @@ export class IEOTableComponent implements OnInit {
   }
 
   public changeItemsPerPage(items: number) {
-    this.onPaginate.emit({currentPage: this.currentPage, countPerPage: items});
+    this.onPaginate.emit({ currentPage: this.currentPage, countPerPage: items });
   }
 
   public changePage(page: number): void {
-    this.onPaginate.emit({currentPage: page, countPerPage: this.countPerPage});
+    this.onPaginate.emit({ currentPage: page, countPerPage: this.countPerPage });
   }
 
   public getFormatDate(d) {
-    if(!d) {
-      return '0000-00-00 00:00:00'
+    if (!d) {
+      return '0000-00-00 00:00:00';
     }
     return moment.utc({
       y: d.year,
@@ -66,9 +66,8 @@ export class IEOTableComponent implements OnInit {
     }).local().format('YYYY-MM-DD HH:mm:ss');
   }
 
-
   public goToIeo(id) {
-    this.router.navigate([`/ieo/${id}`])
+    this.router.navigate([`/ieo/${id}`]);
   }
   public goToIeoNews(name) {
     window.open(`https://news.exrates.me/article/${name}`, '_blank');
@@ -100,7 +99,7 @@ export class IEOTableComponent implements OnInit {
       .subscribe((res) => {
         this.closeBuyIEO();
         this.openSuccessIEO();
-      })
+      });
   }
 
 }
