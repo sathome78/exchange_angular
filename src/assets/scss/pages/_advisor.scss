@@ -1,10 +1,14 @@
+header.header.transparent-header{
+	background-color: transparent;
+}
+
 .advisor-page{
 	font-size: calc(.5815rem + .5815vw);
 	position: relative;
 	background-color: #000;
-	background-image: url(/assets/img/advisor-page.png);
-	background-repeat: no-repeat;
-	background-size: cover;
+	// background-image: url(/assets/img/advisor-page.png);
+	// background-repeat: no-repeat;
+	// background-size: cover;
 	// background-position: center;
 	padding-bottom: 4.7em;	
 	a{
@@ -19,30 +23,28 @@
 	.advisor-fs{
 		position: relative;
 	}
-	// .fs-image-container{
-	// 	overflow: hidden;
-	// 	position: absolute;
-	// 	top: 0;
-	// 	bottom: 0;
-	// 	right: 0;
-	// 	left: 0;
-	// 	img{
-	// 		min-height: 125%;
-	// 		min-width: 100%;
-	// 		top: -20%;
-	// 		position: relative;
-	// 		@media(max-width: 992px){
-	// 			// height: 100%;
-	// 			min-height: unset;
-	// 			position: absolute;
-	// 			top: -100%;
-	// 			bottom: -100%;
-	// 			right: -100%;
-	// 			left: -100%;
-	// 			margin: auto;
-	// 		}
-	// 	}
-	// }
+	.fs-image-container{
+		position: absolute;
+		overflow: hidden;
+		top: -49px;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		width: 100%;
+		img{
+			width: 100%;
+			@media(max-width: 992px){
+				// height: 100%;
+				min-height: unset;
+				position: absolute;
+				top: -100%;
+				bottom: -100%;
+				right: -100%;
+				left: -100%;
+				margin: auto;
+			}
+		}
+	}
 
 
 	.fs-wr{
@@ -57,7 +59,7 @@
 			margin: 0 auto;
 			width: 100%;
 			margin-bottom: 2em;
-	
+
 			h2{
 				font-weight: 400;
 				font-size: 1.6em;
