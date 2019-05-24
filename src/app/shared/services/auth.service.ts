@@ -42,12 +42,7 @@ export class AuthService implements OnDestroy {
 
 
   public isAuthenticated(): boolean {
-    if (this.token) {
-      this.logger.debug(this, 'Token from local storage: ' + this.token.substring(0, 6));
-      this.parseToken(this.token);
-      return this.isTokenExpired(this.parsedToken);
-    }
-    return false;
+    return !!localStorage.getItem('token');
   }
 
   public parseToken(token: string): ParsedToken {
@@ -56,14 +51,14 @@ export class AuthService implements OnDestroy {
     return this.parsedToken;
   }
 
-  private isTokenExpired(token: ParsedToken): boolean {
-    if (token.expiration) {
-      const tokenExpiresAt = new Date(token.expiration);
-      this.logger.debug(this, 'Token expires at: ' + this.logger.formatDate(tokenExpiresAt));
-      return tokenExpiresAt >= new Date();
-    }
-    return false;
-  }
+  // private isTokenExpired(token: ParsedToken): boolean {
+  //   if (token.expiration) {
+  //     const tokenExpiresAt = new Date(token.expiration);
+  //     this.logger.debug(this, 'Token expires at: ' + this.logger.formatDate(tokenExpiresAt));
+  //     return tokenExpiresAt >= new Date();
+  //   }
+  //   return false;
+  // }
 
   public get isVipUser() {
     if (this.token) {

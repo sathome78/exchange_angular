@@ -11,11 +11,13 @@ import {FinalStepRecoveryPasswordComponent} from './popups/final-step-recovery-p
 import {ShowPageGuard} from './shared/guards/showPage.guard';
 import {NewsComponent} from './news/news.component';
 import {FiatComponent} from './fiat/fiat.component';
+import {AdvisorComponent} from './advisor/advisor.component';
 
 const routes: Routes = [
   // permit all
   {path: 'registration', component: DashboardComponent},
   {path: 'login', component: DashboardComponent},
+  {path: 'advisor', component: AdvisorComponent},
   {path: 'markets/:currency-pair', component: DashboardComponent},
   {path: 'dashboard', component: DashboardComponent},
   {path: 'news', component: NewsComponent},

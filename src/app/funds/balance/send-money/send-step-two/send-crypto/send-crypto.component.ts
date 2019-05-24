@@ -130,10 +130,12 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   balanceClick() {
-    if (this.activeBalance >= this.minWithdrawSum) {
+    if (this.activeBalance && this.activeBalance > 0) {
       this.form.controls['amount'].setValue(this.activeBalance.toString());
       this.calculateCommission(this.activeBalance);
       this.amountValue = this.activeBalance;
+      this.form.controls['amount'].updateValueAndValidity();
+      this.form.controls['amount'].markAsTouched();
     }
   }
 
@@ -197,12 +199,14 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.cryptoInfoByName = res;
+        this.activeBalance = this.cryptoInfoByName.activeBalance;
+        if (this.cryptoInfoByName.merchantCurrencyData.length) {
           this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalTagForWithdrawAddressIsUsed;
           this.memoName = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;
-          this.activeBalance = this.cryptoInfoByName.activeBalance;
           this.minWithdrawSum = this.cryptoInfoByName.minWithdrawSum > parseFloat(this.cryptoInfoByName.merchantCurrencyData[0].minSum)
             ? this.cryptoInfoByName.minWithdrawSum : parseFloat(this.cryptoInfoByName.merchantCurrencyData[0].minSum);
           this.calculateCommission(0);
+        }
       });
   }
 

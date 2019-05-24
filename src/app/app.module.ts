@@ -48,6 +48,7 @@ import { NewsComponent } from './news/news.component';
 import {NewsService} from './shared/services/news.service';
 import {MomentModule} from 'ngx-moment';
 import { FiatComponent } from './fiat/fiat.component';
+import { AdvisorComponent } from './advisor/advisor.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -82,6 +83,7 @@ const stompConfig: InjectableRxStompConfig = {
     FinalStepRecoveryPasswordComponent,
     NewsComponent,
     FiatComponent,
+    AdvisorComponent,
   ],
   imports: [
     StoreModule.forRoot(reducers),
