@@ -23,7 +23,7 @@ export class SessionTimeSavedPopupComponent implements OnInit {
 
   ngOnInit() {
     this.buttonText = this.translateService.instant('Ok');
-    this.defaultMessage = `<p style="text-align: center;">${this.translateService.instant('Changes will take effect after re-login.<br>Session duration does not depend on time user’s last activity')}</p>`;
+    this.defaultMessage = `<p style="text-align: center;">${this.translateService.instant('Session time was changed')}</p>`;
     this.showHtml = this.defaultMessage;
   }
 
