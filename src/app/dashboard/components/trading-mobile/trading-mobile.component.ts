@@ -68,6 +68,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   public createdOrder: Order;
   private updateCurrentCurrencyViaWebsocket = false;
   public loading: boolean = false;
+  public isAuthenticated: boolean = false;
   private successTimeout;
   private failTimeout;
 
@@ -103,10 +104,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   constructor(
     private store: Store<State>,
     public tradingService: TradingService,
-    private dashboardWebsocketService: DashboardWebSocketService,
     private popupService: PopupService,
     private userService: UserService,
-    private authService: AuthService,
     private cdr: ChangeDetectorRef,
     public translateService: TranslateService
   ) {
@@ -125,6 +124,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       .pipe(withLatestFrom(this.store.pipe(select(getActiveCurrencyPair))))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(([isAuth, pair]: [boolean, SimpleCurrencyPair]) => {
+        this.isAuthenticated = isAuth;
         this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you login
         this.cdr.detectChanges();
       });
@@ -562,7 +562,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    */
   onSubmit(type: string): void {
     // window.open('https://exrates.me/dashboard', '_blank');
-    if (!this.isAuthenticated()) {
+    if (!this.isAuthenticated) {
       this.popupService.showMobileLoginPopup(true);
       return;
     }
@@ -656,9 +656,5 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       this.createdOrder = null;
       this.cdr.detectChanges();
     }, 5000);
-  }
-
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
   }
 }

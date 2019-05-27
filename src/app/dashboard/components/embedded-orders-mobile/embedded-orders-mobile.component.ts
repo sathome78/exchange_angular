@@ -1,13 +1,11 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
-import {getActiveCurrencyPair, getLastCreatedOrder, State} from '../../../core/reducers';
-import {CurrencyPair} from '../../../model';
-import {AuthService} from '../../../shared/services/auth.service';
+import {getActiveCurrencyPair, getLastCreatedOrder, State, getUserInfo} from '../../../core/reducers';
 import {EmbeddedOrdersService} from '../embedded-orders/embedded-orders.service';
 import {Subject} from 'rxjs';
 import {Order} from '../../../model/order.model';
-import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-embedded-orders-mobile',
@@ -23,13 +21,18 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
   public activeCurrencyPair: SimpleCurrencyPair;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public loading: boolean = false;
+  public userInfo: ParsedToken;
 
   constructor(
     private store: Store<State>,
-    private authService: AuthService,
     private ordersService: EmbeddedOrdersService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    this.store.pipe(select(getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+      })
+  }
 
   ngOnInit() {
     this.store
@@ -55,6 +58,13 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
+  public get isVipUser() {
+    if (this.userInfo) {
+      return this.userInfo.userRole === 'VIP_USER';
+    }
+    return false;
+  }
+
   toggleMainTab(tabName: string): void {
     this.mainTab = tabName;
     this.mainTab === 'open' ?
@@ -69,12 +79,10 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.openOrders = data.items;
         this.openOrdersCount = data.count;
-        this.cdr.detectChanges();
         this.loading = false;
       }, err => {
         console.error(err);
         this.loading = false;
-        this.cdr.detectChanges();
       });
   }
 
@@ -84,12 +92,10 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
         this.historyOrders = data.items;
-        this.cdr.detectChanges();
         this.loading = false;
       }, err => {
         console.error(err);
         this.loading = false;
-        this.cdr.detectChanges();
       });
 
   }

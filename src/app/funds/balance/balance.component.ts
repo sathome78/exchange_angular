@@ -15,9 +15,6 @@ import {
   FIAT_DEPOSIT,
   FIAT_WITHDRAWAL,
   INNER_TRANSFER,
-  FIAT_DEPOSIT_QUBERA,
-  FIAT_WITHDRAWAL_QUBERA,
-  QUBERA
 } from './send-money/send-money-constants';
 import {CurrencyChoose} from '../../model/currency-choose.model';
 import * as fromCore from '../../core/reducers';
@@ -50,6 +47,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public hideAllZero: boolean = false;
   public existQuberaAccounts: string = PENDING;
   public showContent: boolean = environment.showContent;
+  public userInfo: ParsedToken;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
   public quberaBalances$: Observable<any[]>;
@@ -105,6 +103,16 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.fiatCurrenciesForChoose$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((currs) => this.fiatCurrenciesForChoose = currs);
+    this.store.pipe(select(fromCore.getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+        if(this.userInfo && this.userInfo.publicId) {
+          this.getIEOTable(this.userInfo.publicId);
+        } else {
+          console.error('publicId = ', this.userInfo.publicId)
+        }
+      })
   }
 
   ngOnInit() {
@@ -147,7 +155,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
         this.openSendMoneyPopup(res);
       });
 
-    this.getIEOTable();
+
   }
 
   public get isMobile(): boolean {
@@ -340,8 +348,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
     return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
   }
 
-  public getIEOTable() {
-    this.ieoService.getListIEOTab()
+  public getIEOTable(publicId) {
+    this.ieoService.getListIEOTab(publicId)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: IEOItem[]) => {
         this.IEOData = res;

@@ -4,7 +4,7 @@ import {takeUntil} from 'rxjs/internal/operators';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {select, Store} from '@ngrx/store';
-import {State, getActiveCurrencyPair, getLastCreatedOrder} from 'app/core/reducers/index';
+import {State, getActiveCurrencyPair, getLastCreatedOrder, getUserInfo} from 'app/core/reducers/index';
 import {EmbeddedOrdersService} from './embedded-orders.service';
 import {Order} from 'app/model/order.model';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
@@ -14,7 +14,6 @@ import {UserService} from 'app/shared/services/user.service';
   selector: 'app-embedded-orders',
   templateUrl: './embedded-orders.component.html',
   styleUrls: ['./embedded-orders.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmbeddedOrdersComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   /** dashboard item name (field for base class)*/
@@ -30,6 +29,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   public historyOrders;
   public openOrders;
   public loading: boolean = false;
+  public userInfo: ParsedToken;
 
 
   constructor(
@@ -39,6 +39,11 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
     private cdr: ChangeDetectorRef
   ) {
     super();
+    this.store.pipe(select(getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+      })
   }
 
   ngOnInit() {
@@ -60,13 +65,6 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
         this.toOpenOrders();
         this.toHistory();
       });
-
-      // if (this.authService.isAuthenticated()) {
-      //   this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
-      //   this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
-      //   this.toOpenOrders();
-      //   });
-      // }
   }
 
   ngOnDestroy() {
@@ -74,6 +72,13 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
     this.ngUnsubscribe.complete();
     this.ordersService.unsubscribeStomp();
     this.refreshOrdersSubscription.unsubscribe();
+  }
+
+  public get isVipUser() {
+    if (this.userInfo) {
+      return this.userInfo.userRole === 'VIP_USER';
+    }
+    return false;
   }
 
   /**

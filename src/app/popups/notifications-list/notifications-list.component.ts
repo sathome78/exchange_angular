@@ -3,7 +3,7 @@ import {UserService} from 'app/shared/services/user.service';
 import {State} from 'app/core/reducers';
 import {Store, select} from '@ngrx/store';
 import * as fromCore from '../../core/reducers'
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil, withLatestFrom} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {Notification} from 'app/model/notification.model';
 import {ToastrService} from 'ngx-toastr';
@@ -33,10 +33,13 @@ export class NotificationsListComponent implements OnInit {
 
   ngOnInit() {
     let sub
-    this.store.pipe(select(fromCore.getIsAuthenticated))
-      .subscribe((isAuth: boolean) => {
-        if(isAuth) {
-          sub = this.userService.getNotifications()
+    this.store
+      .pipe(select(fromCore.getIsAuthenticated))
+      .pipe(withLatestFrom(this.store.pipe(select(fromCore.getUserInfo))))
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(([isAuth, userInfo]: [boolean, ParsedToken]) => {
+        if(isAuth && userInfo) {
+          sub = this.userService.getNotifications(userInfo.publicId)
             .pipe(takeUntil(this.ngUnsubscribe$))
             .subscribe((res) => {
               if(res.typeEnum) {
