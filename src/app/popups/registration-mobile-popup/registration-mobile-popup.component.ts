@@ -1,7 +1,7 @@
 import {Component, OnInit, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {of, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/internal/operators';
+import {debounceTime, takeUntil} from 'rxjs/internal/operators';
 
 import {PopupService} from '../../shared/services/popup.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -123,19 +123,28 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
           this.utilsService.specialCharacterValidator()
         ]
       })
-    }, {updateOn: 'blur'});
+    });
     this.passwordForm = new FormGroup({
       password: new FormControl('', {validators: [Validators.required]}),
     });
+
     this.nameForm = new FormGroup({
       username: new FormControl('', {validators: Validators.required}),
     });
+
+    this.emailForm.get('email').valueChanges
+      .pipe(debounceTime(1500))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(value => {
+        this.checkEmailOfServer();
+      });
   }
 
 
-  emailBlur() {
+  checkEmailOfServer() {
     this.pendingCheckEmail = true;
     const email = this.emailForm.get('email');
+    email.markAsTouched();
     if (email.valid && email.value !== this.previousEmail) {
       this.previousEmail = email.value;
       this.userService.checkIfEmailExists(email.value)
