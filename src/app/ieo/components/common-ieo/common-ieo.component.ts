@@ -8,7 +8,6 @@ import * as fromCore from '../../../core/reducers';
 import {KYC_STATUS} from '../../../shared/constants';
 import {PopupService} from '../../../shared/services/popup.service';
 import {Router} from '@angular/router';
-import {data} from '../../JSONData';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UtilsService} from '../../../shared/services/utils.service';
 import {IEOServiceService} from '../../../shared/services/ieoservice.service';
@@ -41,6 +40,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   public buyIEOData;
   public showSuccessIEO = false;
   private thakPopupOpen: ThankPopupModel;
+  public userInfo: ParsedToken;
 
   constructor(
     private store: Store<State>,
@@ -51,6 +51,11 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.AuthSub$ = this.store.pipe(select(fromCore.getIsAuthenticated));
+    this.store.pipe(select(fromCore.getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+      })
   }
 
   ngOnInit() {
@@ -144,7 +149,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
 
   redirectToTelegram() {
     if (this.isAuthenticated) {
-      this.ieoService.ieoTelegramRedirect(this.authService.getUsername())
+      this.ieoService.ieoTelegramRedirect((this.userInfo && this.userInfo.username))
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
            if (!this.isRedirectToTelegram) {
@@ -193,7 +198,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
 
   checkSubscribe() {
     if (this.isAuthenticated) {
-      this.ieoService.ieoCheckSubscribe(this.authService.getUsername())
+      this.ieoService.ieoCheckSubscribe((this.userInfo && this.userInfo.username))
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           try {

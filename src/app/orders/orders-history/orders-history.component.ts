@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {IMyDpOptions, IMyDateModel, IMyDate} from 'mydatepicker';
 import {Store, select} from '@ngrx/store';
 
@@ -7,7 +7,7 @@ import * as ordersReducer from '../store/reducers/orders.reducer';
 import * as ordersAction from '../store/actions/orders.actions';
 import * as coreAction from '../../core/actions/core.actions';
 import * as mainSelectors from '../../core/reducers';
-import {State} from '../../core/reducers';
+import {State, getUserInfo} from '../../core/reducers';
 import {Observable, Subject} from 'rxjs';
 import {OrdersService} from '../orders.service';
 import {takeUntil} from 'rxjs/operators';
@@ -32,7 +32,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public currencyPairs$: Observable<SimpleCurrencyPair[]>;
   public loading$: Observable<boolean>;
   public isLast15Items$: Observable<boolean>;
-  public isVipUser;
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -44,6 +43,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public hideAllCanceled: boolean = false;
   public isMobile: boolean = false;
   public loadingExcel: boolean = false;
+  public userInfo: ParsedToken;
 
   public showFilterPopup = false;
   public tableScrollStyles: any = {};
@@ -82,11 +82,15 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.countOfEntries$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((items) => this.countOfEntries = items)
+
+      this.store.pipe(select(getUserInfo))
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((userInfo: ParsedToken) => {
+          this.userInfo = userInfo;
+        })
   }
 
   ngOnInit() {
-    this.isVipUser = this.authService.isVipUser;
-
     this.isMobile = window.innerWidth < 1200;
     if(this.isMobile) {
       this.countPerPage = 30;
@@ -95,6 +99,13 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
     this.loadLastOrders();
 
+  }
+
+  public get isVipUser() {
+    if (this.userInfo) {
+      return this.userInfo.userRole === 'VIP_USER';
+    }
+    return false;
   }
 
   loadOrders() {

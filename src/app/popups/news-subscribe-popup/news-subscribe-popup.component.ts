@@ -6,6 +6,9 @@ import {takeUntil} from 'rxjs/operators';
 import {NewsService} from '../../shared/services/news.service';
 import {Subject} from 'rxjs';
 import {AuthService} from '../../shared/services/auth.service';
+import {Store, select} from '@ngrx/store';
+import {State} from '../../core/reducers';
+import * as fromCore from '../../core/reducers';
 
 @Component({
   selector: 'app-news-subscribe-popup',
@@ -17,15 +20,29 @@ export class NewsSubscribePopupComponent implements OnInit, OnDestroy {
   public emailForm: FormGroup;
   public resErrorMesage = '';
   public isAuthenticated = false;
+  public userInfo: ParsedToken;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(
     public popupService: PopupService,
     private utilsService: UtilsService,
     private authService: AuthService,
+    private store: Store<State>,
     private newsService: NewsService
   ) {
-    this.isAuthenticated = this.authService.isAuthenticated();
+
+    this.store
+      .pipe(select(fromCore.getIsAuthenticated))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((isAuthenticated: boolean) => {
+        this.isAuthenticated = isAuthenticated;
+      });
+    this.store.pipe(select(fromCore.getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+      })
+
   }
 
   ngOnInit() {
@@ -57,8 +74,8 @@ export class NewsSubscribePopupComponent implements OnInit, OnDestroy {
 
   emailSubscribe() {
     this.resErrorMesage = '';
-    if (this.isAuthenticated) {
-      this.sendEmail(this.authService.getUsername());
+    if (this.isAuthenticated && this.userInfo && this.userInfo.username) {
+      this.sendEmail(this.userInfo.username);
     } else {
       if (this.emailForm.valid) {
         this.sendEmail(this.emailControl.value);

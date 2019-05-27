@@ -81,7 +81,7 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
             referralReference: res.referralReference,
           };
           this.authService.setToken(tokenHolder.token);
-          const parsedToken = this.authService.parseToken(tokenHolder.token);
+          const parsedToken = this.authService.parseToken();
           this.store.dispatch(new coreActions.SetOnLoginAction(parsedToken));
           this.router.navigate(['/funds/balances']);
           this.gtagService.sendConfirmationPasswordGtag();
