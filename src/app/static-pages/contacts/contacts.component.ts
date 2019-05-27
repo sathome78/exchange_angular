@@ -1,17 +1,18 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UtilsService} from '../../shared/services/utils.service';
-import {StaticPagesService} from '../static-pages.service';
+import {ContactsService} from '../services/contacts.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {PopupService} from '../../shared/services/popup.service';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-contacts',
-  templateUrl: './contacts.component.html',
-  styleUrls: ['./contacts.component.scss']
-})
+             selector: 'app-contacts',
+             templateUrl: './contacts.component.html',
+             styleUrls: ['./contacts.component.scss'],
+             changeDetection: ChangeDetectionStrategy.OnPush
+           })
 export class ContactsComponent implements OnInit, OnDestroy {
 
   public sendForm: FormGroup;
@@ -20,7 +21,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
 
   constructor(
     private utilsService: UtilsService,
-    private staticPagesService: StaticPagesService,
+    private staticPagesService: ContactsService,
     private translateService: TranslateService,
     private popupService: PopupService
   ) {

@@ -4,7 +4,7 @@ import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-co
 import { ContactsComponent } from './contacts/contacts.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
-import { StaticPagesComponent } from './static-pages/static-pages.component';
+import { StaticPagesComponent } from './static-pages.component';
 
 const routes: Routes = [
   {
