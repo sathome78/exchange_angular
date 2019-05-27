@@ -71,15 +71,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.resetDropdowns();
-    if (this.authService.isAuthenticated()) {
-      // this.userService.getUserColorScheme()
-      //   .pipe(takeUntil(this.ngUnsubscribe))
-      //   .subscribe(scheme => {
-      //     if (scheme && scheme === 'DARK') {
-      //       this.themeService.setDarkTheme();
-      //     }
-      //   });
-    }
+    // if (this.authService.isAuthenticated()) {
+    //   // this.userService.getUserColorScheme()
+    //   //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   //   .subscribe(scheme => {
+    //   //     if (scheme && scheme === 'DARK') {
+    //   //       this.themeService.setDarkTheme();
+    //   //     }
+    //   //   });
+    // }
     this.dashboardService.activeMobileWidget
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -108,7 +108,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public openMenu() {
-    if (!this.authService.isAuthenticated()) {
+    if (!this.isAuthenticated) {
       this.popupService.showMobileLoginPopup(true);
     }
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
@@ -118,10 +118,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public navigateToSettings() {
     this.isMobileMenuOpen = false;
     this.router.navigate(['/settings']);
-  }
-
-  public getUsername() {
-    return this.authService.getUsername();
   }
 
   changeLocalization(lang: string) {
@@ -152,7 +148,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   toggleTheme() {
     this.themeService.toggleTheme();
-    if (this.authService.isAuthenticated()) {
+    if (this.isAuthenticated) {
       // console.log('Hi: ' + this.themeService.getColorScheme());
       this.settingsService.updateUserColorScheme(this.themeService.getColorScheme())
         .pipe(takeUntil(this.ngUnsubscribe))
@@ -216,7 +212,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   supportRedirect() {
     const encodeData = btoa(JSON.stringify({
-      login: this.authService.isAuthenticated()
+      login: this.isAuthenticated
     }));
     window.open(`https://news.exrates.me?data=${encodeData}`);
   }

@@ -45,9 +45,9 @@ export class IEOServiceService {
     return this.http.get<any>(`${this.apiUrl}/api/public/v2/ieo/refresh`);
   }
 
-  public getListIEOTab(): any {
+  public getListIEOTab(publicId): any {
     return this.stompService
-      .watch(`/app/ieo_details/private/${this.authService.parsedToken.publicId}`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
+      .watch(`/app/ieo_details/private/${publicId}`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 

@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {ChatService} from './chat.service';
@@ -8,6 +8,8 @@ import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
+import {Store, select} from '@ngrx/store';
+import * as fromCore from '../../../core/reducers';
 
 @Component({
   selector: 'app-chat',
@@ -26,25 +28,32 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
   // retrive Element to handle scroll in chat
   @ViewChild('scrollWrapper') scrollWrapper: PerfectScrollbarComponent;
   public scrollStyles: any = null;
+  public userInfo: ParsedToken;
 
-  public isToday(date: Date): boolean {
-    const today = new Date();
-    return moment(date).isSame(today, 'day');
-  }
 
   constructor(
     private chatService: ChatService,
     private cdr: ChangeDetectorRef,
-    private authService: AuthService
+    private store: Store<fromCore.State>,
   ) {
     super();
     this.setScrollStylesForMobile();
+    this.store.pipe(select(fromCore.getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+      })
   }
 
-  ngOnInit() {
-    this.itemName = 'chat';
-    this.getFirstMessages();
-  }
+    ngOnInit() {
+      this.itemName = 'chat';
+      this.getFirstMessages();
+    }
+
+    public isToday(date: Date): boolean {
+      const today = new Date();
+      return moment(date).isSame(today, 'day');
+    }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
@@ -90,7 +99,7 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
 
   onSendChatMessage(message: HTMLInputElement) {
     const body = message.value;
-    const email = this.authService.getUsername();
+    const email = this.userInfo && this.userInfo.username;
     if (body) {
       this.chatService.sendNewMessage(body, email)
         .pipe(takeUntil(this.ngUnsubscribe))

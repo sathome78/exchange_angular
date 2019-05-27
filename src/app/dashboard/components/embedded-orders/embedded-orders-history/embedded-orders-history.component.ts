@@ -12,10 +12,10 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
 
   @Input() historyOrders;
   @Input() makeHeight;
+  @Input() isVipUser: boolean = false;
   @Input() currentPair: SimpleCurrencyPair;
   public currentPage = 1;
   public countPerPage = 7;
-  public isVipUser;
   public arrPairName = ['', ''];
 
   constructor(
@@ -25,7 +25,6 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.isVipUser = this.authService.isVipUser;
     this.arrPairName = this.currentPair.name.split('/');
   }
 
