@@ -164,11 +164,11 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
-        if (!!this.selectedMerchant) {
+        if (this.selectedMerchant) {
           this.calculateData.commission_rates_sum = this.selectedMerchant.outputCommission;
           this.calculateCommission(0);
+          this.setMinWithdrawSum();
         }
-        this.setMinWithdrawSum();
       });
   }
 
