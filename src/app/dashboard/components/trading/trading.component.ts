@@ -86,7 +86,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
    /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
-    this.notifyFail = false;
+    if (!$event.target.className.includes('widget__trading-btn')) {
+      this.notifyFail = false;
+    }
     this.notifySuccess = false;
     if ($event.target.className !== 'dropdown__btn') {
       this.isDropdownOpen = false;
@@ -613,6 +615,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         }, err => {
           this.createOrderFail();
         });
+    } else {
+      this.createOrderFail();
     }
   }
 

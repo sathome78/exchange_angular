@@ -10,17 +10,16 @@ import {SimpleCurrencyPair} from '../../../../model/simple-currency-pair';
 export class EmbeddedOrdersHistoryMobileComponent implements OnInit {
 
   @Input() historyOrders = [];
+  @Input() isVipUser: boolean = false;
   @Input() currentPair: SimpleCurrencyPair ;
   public arrPairName = ['', ''];
   public selectedOrder = null;
-  public isVipUser;
 
   constructor(
     public authService: AuthService
   ) {}
 
   ngOnInit() {
-    this.isVipUser = this.authService.isVipUser;
     this.arrPairName = this.currentPair.name.split('/');
   }
 

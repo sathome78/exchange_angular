@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {select, Store} from '@ngrx/store';
-import {getLanguage, State} from '../../core/reducers';
+import {getLanguage, State} from '../core/reducers';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 

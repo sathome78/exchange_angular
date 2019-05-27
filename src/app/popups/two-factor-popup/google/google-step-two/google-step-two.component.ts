@@ -7,6 +7,8 @@ import {TranslateService} from '@ngx-translate/core';
 import {environment} from '../../../../../environments/environment';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import * as fromCore from '../../../../core/reducers';
 
 @Component({
   selector: 'app-google-step-two',
@@ -18,11 +20,20 @@ export class GoogleStepTwoComponent implements OnInit, OnNextStep, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   secretCode = '';
   statusMessage = '';
+  public userInfo: ParsedToken;
 
-  constructor(private popupService: PopupService,
-              private googleService: GoogleAuthenticatorService,
-              private translateService: TranslateService,
-              private authService: AuthService) {
+  constructor(
+    private popupService: PopupService,
+    private googleService: GoogleAuthenticatorService,
+    private translateService: TranslateService,
+    private store: Store<fromCore.State>,
+    private authService: AuthService
+  ) {
+    this.store.pipe(select(fromCore.getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+      })
   }
 
   ngOnInit() {
@@ -51,10 +62,14 @@ export class GoogleStepTwoComponent implements OnInit, OnNextStep, OnDestroy {
   }
 
   getGoogleAuthenticatorUrl(): string {
-    const test = environment.production ? '' : ` (Use api ${environment.apiUrl}) `;
-    return 'https://zxing.org/w/chart?cht=qr&chs=250x250&chld=M&choe=UTF-8&chl=otpauth://totp/Exrates:'
-      + test + this.authService.getUsername()
-      + '?secret=' + this.secretCode;
+    if(this.userInfo && this.userInfo.username) {
+      const test = environment.production ? '' : ` (Use api ${environment.apiUrl}) `;
+      return 'https://zxing.org/w/chart?cht=qr&chs=250x250&chld=M&choe=UTF-8&chl=otpauth://totp/Exrates:'
+        + test + this.userInfo.username
+        + '?secret=' + this.secretCode;
+    } else {
+      console.error('username = ', this.userInfo.username);
+    }
     // return 'otpauth://totp/%s:%s?secret=%s&issuer=%s'
   }
 }

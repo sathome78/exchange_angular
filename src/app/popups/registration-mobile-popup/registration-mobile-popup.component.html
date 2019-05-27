@@ -18,7 +18,6 @@
               appExcludeInputSpaces
               class="wrap-input__input"
               formControlName="email"
-              (blur)="emailBlur()"
               [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched }"
             >
             <label class="wrap-input__label" for="">{{'Email' | translate}}</label>

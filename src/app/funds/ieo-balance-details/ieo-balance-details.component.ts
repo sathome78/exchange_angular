@@ -36,6 +36,7 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
   public IEOData: IEOItem;
   public showBuyIEO: boolean = false;
   public showSuccessIEO: boolean = false;
+  public userInfo: ParsedToken;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   constructor(
     private store: Store<fromCore.State>,
@@ -45,7 +46,6 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
   ) {
     this.ieoBalances$ = this.store.pipe(select(fundsReducer.getIEOBalancesSelector));
-    this.getIEOTable();
 
     this.route.params
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -58,6 +58,16 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
             }
           })
       });
+      this.store.pipe(select(fromCore.getUserInfo))
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((userInfo: ParsedToken) => {
+          this.userInfo = userInfo;
+          if(this.userInfo && this.userInfo.publicId) {
+            this.getIEOTable(this.userInfo.publicId);
+          } else {
+            console.error('publicId = ', this.userInfo.publicId)
+          }
+        })
   }
 
 
@@ -74,8 +84,8 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
     window.open(`https://news.exrates.me/article/${name}`, '_blank');
   }
 
-  public getIEOTable() {
-    this.ieoService.getListIEOTab()
+  public getIEOTable(publicId) {
+    this.ieoService.getListIEOTab(publicId)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: IEOItem[]) => {
         this.store.dispatch(new fundsAction.SetIEOBalancesAction(res))

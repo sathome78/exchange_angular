@@ -92,6 +92,7 @@
 
     <app-embedded-orders-history
       *ngIf="mainTab === 'history'"
+      [isVipUser]="isVipUser"
       [makeHeight]="makeHeight"
       [historyOrders]="historyOrders"
       [currentPair]="activeCurrencyPair">

@@ -16,7 +16,6 @@ import {SimpleCurrencyPair} from './model/simple-currency-pair';
 import {SEOService} from './shared/services/seo.service';
 import {UtilsService} from './shared/services/utils.service';
 import {IEOServiceService} from './shared/services/ieoservice.service';
-import { IEOItem } from './model/ieo.model';
 import {ChangeLanguageAction} from './core/actions/core.actions';
 import {getLanguage} from './core/reducers';
 import {GtagService} from './shared/services/gtag.service';
@@ -39,10 +38,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private utilsService: UtilsService,
     private authService: AuthService,
-    private ieoService: IEOServiceService,
     private seoService: SEOService,
     private store: Store<fromCore.State>,
-    private http: HttpClient,
     public translate: TranslateService,
     private gtagService: GtagService
   ) {
@@ -66,11 +63,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isAuthenticated = isAuth;
         if(isAuth && userInfo) {
           this.store.dispatch(new coreAction.LoadVerificationStatusAction());
-          // this.authService.setSessionFinishListener(userInfo.expiration);
           this.sendTransactionsAnalytics();
           this.setNameEmailToZenChat(userInfo.username);
         } else {
-          // this.authService.removeSessionFinishListener();
           this.clearNameEmailFromZenChat();
         }
       });
@@ -88,24 +83,20 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // if (this.authService.isAuthenticated() && !!this.authService.getUserId()) {
-    //   this.gtagService.setUserId(this.authService.getUserId());
-    // } else {
-      const token = localStorage.getItem('token')
-      if(token) {
-        const parsedToken = this.authService.parseToken(token);
-        this.gtagService.setUserId(parsedToken.publicId);
-        this.store.dispatch(new coreAction.SetOnLoginAction(parsedToken));
-      }
-    // }
+    this.authService.isSessionValid()
+      .subscribe((res) => {
+        if(res) {
+          const parsedToken = this.authService.parseToken();
+          this.gtagService.setUserId(parsedToken.publicId);
+          this.store.dispatch(new coreAction.SetOnLoginAction(parsedToken));
+        }
+      })
+
     this.gtagService.initGtag();
 
 
     this.seoService.subscribeToRouter(); // SEO optimization
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
-    if (this.authService.isAuthenticated()) {
-      this.store.dispatch(new coreAction.SetOnLoginAction(this.authService.parsedToken));
-    }
   }
 
   setSavedCurrencyPair() {

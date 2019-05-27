@@ -27,6 +27,7 @@
 
   <app-embedded-orders-history-mobile
     *ngIf="mainTab === 'history'"
+    [isVipUser]="isVipUser"
     [historyOrders]="historyOrders"
     [currentPair]="activeCurrencyPair">
   </app-embedded-orders-history-mobile>

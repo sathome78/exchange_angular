@@ -1,21 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {select, Store} from '@ngrx/store';
-import {getLanguage, State} from '../../core/reducers';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-terms-and-conditions',
-  templateUrl: './terms-and-conditions.component.html',
-  styleUrls: ['./terms-and-conditions.component.scss']
-})
+             selector: 'app-terms-and-conditions',
+             templateUrl: './terms-and-conditions.component.html',
+             styleUrls: ['./terms-and-conditions.component.scss'],
+             changeDetection: ChangeDetectionStrategy.OnPush
+           })
 export class TermsAndConditionsComponent implements OnInit {
 
   constructor(
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
   }
-
 }
