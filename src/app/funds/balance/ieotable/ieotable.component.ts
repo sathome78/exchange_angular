@@ -26,11 +26,11 @@ export class IEOTableComponent implements OnInit {
     TERMINATED: 'TERMINATED',
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
-  }
+  };
 
   public selectedIEO: IEOItem;
-  public showBuyIEO: boolean = false;
-  public showSuccessIEO: boolean = false;
+  public showBuyIEO = false;
+  public showSuccessIEO = false;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(
@@ -53,8 +53,8 @@ export class IEOTableComponent implements OnInit {
   }
 
   public getFormatDate(d) {
-    if(!d) {
-      return '0000-00-00 00:00:00'
+    if (!d) {
+      return '0000-00-00 00:00:00';
     }
     return moment.utc({
       y: d.year,
@@ -68,7 +68,7 @@ export class IEOTableComponent implements OnInit {
 
 
   public goToIeo(id) {
-    this.router.navigate([`/ieo/${id}`])
+    this.router.navigate([`/ieo/${id}`]);
   }
   public goToIeoNews(name) {
     window.open(`https://news.exrates.me/article/${name}`, '_blank');
@@ -76,19 +76,17 @@ export class IEOTableComponent implements OnInit {
 
   public closeBuyIEO() {
     this.showBuyIEO = false;
-    this.selectedIEO = null;
   }
   public closeSuccessIEO() {
     this.showSuccessIEO = false;
   }
   public buyIeo(IEOData) {
     this.selectedIEO = null;
-    this.showBuyIEO = true;
     this.selectedIEO = IEOData;
+    this.showBuyIEO = true;
   }
   public openSuccessIEO() {
     this.showSuccessIEO = true;
-
   }
 
   public confirmBuyIEO(amount) {
@@ -100,7 +98,7 @@ export class IEOTableComponent implements OnInit {
       .subscribe((res) => {
         this.closeBuyIEO();
         this.openSuccessIEO();
-      })
+      });
   }
 
 }
