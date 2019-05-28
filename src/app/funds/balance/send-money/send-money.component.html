@@ -88,10 +88,9 @@
       ></app-send-step-three>
 
       <app-send-successful
-        *ngIf="step === 4"
+        *ngIf="true"
         [data]="stepFourData"
         (closeMe)="onCloseSendMoneyPopup()"
-        (toggleBalanceTab)="toggleBalanceTab.emit($event)"
       ></app-send-successful>
 
     </div>

@@ -12,7 +12,6 @@ export class SendSuccessfulComponent implements OnInit {
   @Input() data;
   @Input() choosedName: string;
   @Output() closeMe = new EventEmitter();
-  @Output() toggleBalanceTab = new EventEmitter();
   public BY_PRIVATE_CODE = BY_PRIVATE_CODE;
   public TRANSFER_INSTANT = TRANSFER_INSTANT;
   public COPY_ADDRESS = COPY_ADDRESS;
@@ -28,11 +27,6 @@ export class SendSuccessfulComponent implements OnInit {
 
   onClose() {
     this.closeMe.emit();
-  }
-
-  goToPendingRequest() {
-    this.toggleBalanceTab.emit(this.BALANCE_TABS.PR);
-    this.onClose();
   }
 
   /**
