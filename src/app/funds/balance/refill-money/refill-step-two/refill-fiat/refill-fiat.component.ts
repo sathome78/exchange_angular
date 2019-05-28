@@ -215,7 +215,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   goToBalances() {
-    this.router.navigate(['/funds/balances']);
+    this.router.navigate(['/funds/balances?tab=pr']);
     this.closePopup.emit(true);
   }
 
