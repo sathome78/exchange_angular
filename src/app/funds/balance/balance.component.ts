@@ -368,9 +368,21 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.ieoService.getListIEOTab(publicId)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: IEOItem[]) => {
-        this.IEOData = res;
-        this.store.dispatch(new fundsAction.SetIEOBalancesAction(this.IEOData))
-      })
+        if (this.IEOData.length) {
+          res.map( it => {
+            const index = this.IEOData.indexOf(this.IEOData.filter(f => f.id === it.id)[0]);
+            if (index === -1) {
+              this.IEOData.push(res[0]);
+            } else {
+              this.IEOData[index] = res[0];
+            }
+          });
+          this.store.dispatch(new fundsAction.SetIEOBalancesAction([...this.IEOData]));
+        } else {
+          this.IEOData = res;
+          this.store.dispatch(new fundsAction.SetIEOBalancesAction(this.IEOData));
+        }
+      });
   }
 
 }
