@@ -136,7 +136,7 @@ export class UtilsService {
 
   // this method is used in pipe (currencyFormat)
   currencyFormat(value: number | string, currencyName: string = 'BTC', format: 'full' | 'short' = 'short', setNoneForFiat: boolean = false): string {
-    if (Number.isNaN(parseFloat(typeof value === 'string' ? value : value.toString()))) {
+    if (!value || Number.isNaN(parseFloat(typeof value === 'string' ? value : value.toString()))) {
       return '0.0';
     }
 
