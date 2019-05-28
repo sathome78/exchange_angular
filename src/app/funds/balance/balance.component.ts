@@ -19,7 +19,7 @@ import {
 import {CurrencyChoose} from '../../model/currency-choose.model';
 import * as fromCore from '../../core/reducers';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import {KYC_STATUS, PENDING} from '../../shared/constants';
 import {environment} from 'environments/environment';
@@ -81,6 +81,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     private dashboardWS: DashboardWebSocketService,
     public breakpointService: BreakpointService,
     public ieoService: IEOServiceService,
+    private route: ActivatedRoute,
     private router: Router
   ) {
     this.quberaBalances$ = store.pipe(select(fundsReducer.getQuberaBalancesSelector));
@@ -120,6 +121,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
       this.countPerPage = 30;
     }
 
+    this.currTab = this.setCurrTab(this.route.snapshot.queryParamMap.get('tab'));
+
     this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
     this.store.dispatch(new coreAction.LoadCryptoCurrenciesForChoose());
     this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
@@ -154,8 +157,21 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.openSendMoneyPopup(res);
       });
+  }
 
-
+  private setCurrTab(tab: string): string {
+    switch (tab) {
+      case 'ieo':
+        return this.Tab.IEO;
+      case 'fiat':
+        return this.Tab.FIAT;
+      case 'pr':
+        return this.Tab.PR;
+      case 'qubera':
+        return this.Tab.QUBERA;
+      default:
+        return this.Tab.CRYPTO;
+    }
   }
 
   public get isMobile(): boolean {
