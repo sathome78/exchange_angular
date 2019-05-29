@@ -117,6 +117,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store.dispatch(new fundsAction.SetIEOBalancesAction([]));
+
     if (this.isMobile) {
       this.countPerPage = 30;
     }
@@ -150,6 +152,13 @@ export class BalanceComponent implements OnInit, OnDestroy {
         } else {
           this.existQuberaAccounts = null;
         }
+      })
+
+    this.store
+      .pipe(select(fundsReducer.getIEOBalancesSelector))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data: IEOItem[]) => {
+        this.IEOData = data;
       })
 
     this.balanceService.closeSendMoneyPopup$
@@ -368,9 +377,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.ieoService.getListIEOTab(publicId)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: IEOItem[]) => {
-        this.IEOData = res;
-        this.store.dispatch(new fundsAction.SetIEOBalancesAction(this.IEOData))
-      })
+          this.store.dispatch(new fundsAction.SetIEOBalancesAction(res));
+      });
   }
 
 }
