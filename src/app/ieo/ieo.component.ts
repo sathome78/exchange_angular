@@ -14,6 +14,7 @@ import {UserService} from 'app/shared/services/user.service';
 import {environment} from 'environments/environment';
 import * as moment from 'moment';
 import {TranslateService} from '@ngx-translate/core';
+
 @Component({
   selector: 'app-ieo',
   templateUrl: './ieo.component.html',

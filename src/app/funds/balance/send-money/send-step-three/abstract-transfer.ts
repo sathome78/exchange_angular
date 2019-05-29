@@ -1,4 +1,4 @@
-import {HostListener, Input} from '@angular/core';
+import {HostListener, Input, OnDestroy} from '@angular/core';
 import {keys} from '../../../../shared/constants';
 import {Subject} from 'rxjs';
 import {FormGroup} from '@angular/forms';
@@ -7,7 +7,7 @@ import {select} from '@ngrx/store';
 import * as _uniq from 'lodash/uniq';
 import {getAllCurrenciesForChoose} from '../../../../core/reducers';
 
-export abstract class AbstractTransfer {
+export abstract class AbstractTransfer implements OnDestroy {
 
   @Input() balanceData;
   @Input() userEmail = '';
@@ -18,6 +18,7 @@ export abstract class AbstractTransfer {
   protected ngUnsubscribe: Subject<void> = new Subject<void>();
   public activeCrypto;
   public isSubmited = false;
+  public pendingCheckEmail = false;
   public activeBalance = 0;
   public isEnterData = true;
   public amountValue = 0;
@@ -174,24 +175,33 @@ export abstract class AbstractTransfer {
     return null;
   }
 
-  emailBlur() {
+  checkEmailOfServer() {
     const email = this.form.controls['email'];
+    if (email.value) email.markAsTouched();
+
+    if (email.value === this.userEmail) {
+      email.setErrors({'ownEmail': true});
+    }
+
     if (email.valid && email.value !== this.userEmail) {
+      this.pendingCheckEmail = true;
       this.balanceService.checkEmail(email.value)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           email.setErrors(null);
+          this.pendingCheckEmail = false;
         }, error => {
           if (error['status'] === 400) {
             email.setErrors({'USER_EMAIL_NOT_FOUND': true});
           } else {
             email.setErrors({'checkEmailCrash': true});
           }
+          this.pendingCheckEmail = false;
         });
+    } else {
+      this.pendingCheckEmail = false;
     }
-    if (email.value === this.userEmail) {
-      email.setErrors({'ownEmail': true});
-    }
+
   }
 
   ngOnDestroy() {
