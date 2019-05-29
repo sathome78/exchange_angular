@@ -14,6 +14,7 @@ import {UserService} from 'app/shared/services/user.service';
 import {environment} from 'environments/environment';
 import * as moment from 'moment';
 import {TranslateService} from '@ngx-translate/core';
+import * as fundsAction from '../funds/store/actions/funds.actions';
 @Component({
   selector: 'app-ieo',
   templateUrl: './ieo.component.html',
@@ -215,5 +216,4 @@ export class IEOComponent implements OnInit, OnDestroy{
   public get showContent() {
     return environment.showContent;
   }
-
 }
