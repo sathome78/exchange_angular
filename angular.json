@@ -99,6 +99,14 @@
                   "with": "src/environments/environment.dev.ts"
                 }
               ]
+            },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ]
             }
           }
         },
@@ -119,6 +127,9 @@
             },
             "dev": {
               "browserTarget": "exrates-front-new:build:dev"
+            },
+            "local": {
+              "browserTarget": "exrates-front-new:build:local"
             }
           }
         },
