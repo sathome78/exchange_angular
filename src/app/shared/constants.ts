@@ -28,7 +28,7 @@ export const AUTH_MESSAGES = {
 }
 
 export const KYC_STATUS = {
-  'NONE': 'none',
+  'NONE': 'NONE',
   'CREATED': 'CREATED',
   'CLICKED': 'CLICKED',
   'CAPTURE_ONGOING': 'CAPTURE_ONGOING',
