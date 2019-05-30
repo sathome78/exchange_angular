@@ -1,0 +1,20 @@
+.overlay.ieo-loading {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.ieo-loading {
+  .loading-popup {
+    width: 400px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    padding: 1rem;
+    text-align: center;
+    .loader {
+      padding: 2rem;
+    }
+    .description {
+      font-size: 0.8em;
+      color: #1EAFFC
+    }
+  }
+}

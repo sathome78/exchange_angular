@@ -59,6 +59,7 @@ import {DateFromISO8601Pipe} from './pipes/dateFromISO8601.pipe';
 import {RefactUrlByNewsPipe} from './pipes/refact-url-by-news.pipe';
 import {CutAddEllipsisPipe} from './pipes/cut-add-ellipsis.pipe';
 import {CurrencyFormatPipe} from './pipes/currencyFormat.pipe';
+import {PopupWaitIEOComponent} from './components/popup-wait-ieo/popup-wait-ieo.component';
 
 @NgModule({
   declarations: [
@@ -105,6 +106,7 @@ import {CurrencyFormatPipe} from './pipes/currencyFormat.pipe';
     PopupBuyComponent,
     PopupSuccessComponent,
     CurrencyFormatPipe,
+    PopupWaitIEOComponent,
   ],
   imports: [
     FormsModule,
@@ -168,6 +170,7 @@ import {CurrencyFormatPipe} from './pipes/currencyFormat.pipe';
     PopupSuccessComponent,
     AddClassDirective,
     CurrencyFormatPipe,
+    PopupWaitIEOComponent,
   ],
   providers: [
     NotificationsService,
