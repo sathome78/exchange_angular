@@ -57,7 +57,12 @@ export class NotificationsListComponent implements OnInit {
 
   showNotification(notification: Notification): void {
     this.toastOption.toastComponent = TopNotificationComponent;
-    this.toastOption.disableTimeOut = true
+    this.toastOption.disableTimeOut = true;
+    if (notification.title === 'SUCCESS') {
+      this.toastOption.disableTimeOut = false;
+      this.toastOption.timeOut = 3000;
+      this.toastOption.extendedTimeOut = 3000;
+    }
     this.toastr.show(notification.message, notification.title, this.toastOption);
   }
 
