@@ -83,4 +83,10 @@
   </app-popup-success>
 
   <app-popup-wait-ieo *ngIf="showWait"></app-popup-wait-ieo>
+
+  <app-popup-sorry-ieo
+    *ngIf="showSorry"
+    (close)="closeSorry()"
+  >
+  </app-popup-sorry-ieo>
 </div>

@@ -40,6 +40,7 @@ export class IEOComponent implements OnInit, OnDestroy {
   public showPolicy = false;
   public showSuccess = false;
   public showWait = false;
+  public showSorry = false;
   private ngUnsubscribe$: Subject<void> = new Subject<void>();
   public requirements: KycIEOModel = null;
   public verificationStatus = false;
@@ -48,6 +49,7 @@ export class IEOComponent implements OnInit, OnDestroy {
   public userBalanceBTC = 0;
   public ieoLoading = true;
   public endTimer: any = null;
+  private _firstLoadedStatus: string = null;
 
   constructor(
     private store: Store<State>,
@@ -65,15 +67,36 @@ export class IEOComponent implements OnInit, OnDestroy {
       this.AuthSub$ = this.store.pipe(select(fromCore.getIsAuthenticated));
       this.IEOSub$.pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe((res: IEOItem) => {
+          res.testIeo = true;
           this.IEOData = res;
-          // this.IEOData.status = 'TERMINATED';
           this.ieoLoading = false;
           this.currentStage = res.status;
+          if (!this._firstLoadedStatus) {
+            this._firstLoadedStatus = res.status;
+          }
           if (this.currentStage === this.stage.RUNNING) {
             this.setEndIEOTimer();
           }
-          if (res.testIeo && res.status === this.stage.TERMINATED) {
+          // only for testing
+          setTimeout(() => {
+            res.status = this.stage.TERMINATED;
+            if (
+              res.testIeo &&
+              res.status === this.stage.TERMINATED &&
+              this._firstLoadedStatus !== this.stage.TERMINATED
+            ) {
+              this.closeWait();
+              this.openSorry();
+            }
+          }, 2000);
+          //
+          if (
+            res.testIeo &&
+            res.status === this.stage.TERMINATED &&
+            this._firstLoadedStatus !== this.stage.TERMINATED
+          ) {
             this.closeWait();
+            this.openSorry();
           }
         });
       this.AuthSub$.pipe(takeUntil(this.ngUnsubscribe$))
@@ -94,7 +117,6 @@ export class IEOComponent implements OnInit, OnDestroy {
     });
 
   }
-
   ngOnInit() {
     window.scrollTo(0, 0);
     // uncomment when the translation is ready
@@ -102,26 +124,21 @@ export class IEOComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(lang => this.translate.use(lang));
   }
-
   onLogin() {
     this.popupService.showMobileLoginPopup(true);
   }
-
   openNoReqs() {
     this.showNoReqs = true;
   }
-
   closeNoReqs() {
     this.showNoReqs = false;
   }
-
   openBuy() {
     this.showBuy = true;
   }
   closeBuy() {
     this.showBuy = false;
   }
-
   openPolicy() {
     this.showPolicy = true;
   }
@@ -140,6 +157,12 @@ export class IEOComponent implements OnInit, OnDestroy {
   closeWait() {
     this.showWait = false;
   }
+  openSorry() {
+    this.showSorry = true;
+  }
+  closeSorry() {
+    this.showSorry = false;
+  }
 
   confirmBuy(amount) {
     this.ieoService.buyTokens({
@@ -149,7 +172,7 @@ export class IEOComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((res) => {
         this.closeBuy();
-        if (this.IEOData.testIeo) {
+        if (this.IEOData.testIeo && this.currentStage === this.stage.RUNNING) {
           this.openWait();
         } else {
           this.openSuccess();
@@ -162,7 +185,7 @@ export class IEOComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((res) => {
         this.closePolicy();
-        this.requirements = {...this.requirements, policyCheck: true}
+        this.requirements = {...this.requirements, policyCheck: true};
       });
   }
 
@@ -170,7 +193,7 @@ export class IEOComponent implements OnInit, OnDestroy {
     if (this.stage.PENDING === this.currentStage) {
 
     } else if (this.stage.RUNNING === this.currentStage) {
-      if(!this.requirements.kycCheck) {
+      if (!this.requirements.kycCheck) {
         this.openNoReqs();
       } else if (!this.requirements.policyCheck) {
         this.openPolicy();
@@ -199,7 +222,7 @@ export class IEOComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
-    window.onscroll = () => {}
+    window.onscroll = () => {};
   }
 
   setEndIEOTimer() {

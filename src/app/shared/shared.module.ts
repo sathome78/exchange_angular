@@ -60,6 +60,7 @@ import {RefactUrlByNewsPipe} from './pipes/refact-url-by-news.pipe';
 import {CutAddEllipsisPipe} from './pipes/cut-add-ellipsis.pipe';
 import {CurrencyFormatPipe} from './pipes/currencyFormat.pipe';
 import {PopupWaitIEOComponent} from './components/popup-wait-ieo/popup-wait-ieo.component';
+import {PopupSorryIEOComponent} from './components/popup-sorry-ieo/popup-sorry-ieo.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import {PopupWaitIEOComponent} from './components/popup-wait-ieo/popup-wait-ieo.
     PopupSuccessComponent,
     CurrencyFormatPipe,
     PopupWaitIEOComponent,
+    PopupSorryIEOComponent,
   ],
   imports: [
     FormsModule,
@@ -171,6 +173,7 @@ import {PopupWaitIEOComponent} from './components/popup-wait-ieo/popup-wait-ieo.
     AddClassDirective,
     CurrencyFormatPipe,
     PopupWaitIEOComponent,
+    PopupSorryIEOComponent,
   ],
   providers: [
     NotificationsService,
