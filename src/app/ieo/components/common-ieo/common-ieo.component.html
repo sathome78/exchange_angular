@@ -236,7 +236,7 @@
 
 
   <app-get-ready-banner
-    *ngIf="verificationStatus.toUpperCase() !== KYC_STATUS.SUCCESS"
+    *ngIf="(verificationStatus && verificationStatus.toUpperCase()) !== KYC_STATUS.SUCCESS"
     (onClick)="bannerClick()"
   ></app-get-ready-banner>
 
