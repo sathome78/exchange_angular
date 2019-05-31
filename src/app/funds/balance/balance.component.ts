@@ -108,12 +108,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
-        if(this.userInfo && this.userInfo.publicId) {
+        if (this.userInfo && this.userInfo.publicId) {
           this.getIEOTable(this.userInfo.publicId);
         } else {
-          console.error('publicId = ', this.userInfo.publicId)
+          console.error('publicId = ', this.userInfo && this.userInfo.publicId);
         }
-      })
+      });
   }
 
   ngOnInit() {
