@@ -58,12 +58,12 @@ export class IEOServiceService {
   }
 
   ieoEmailSubscription(email: string) {
-    const data = {email: email}
+    const data = {email: email};
     return this.http.post(`${this.apiUrl}/api/public/v2/ieo/subscribe/email`, data);
   }
 
   ieoTelegramRedirect(email: string) {
-    const data = {email: email}
+    const data = {email: email};
     return this.http.post(`${this.apiUrl}/api/public/v2/ieo/subscribe/telegram`, data);
   }
 
