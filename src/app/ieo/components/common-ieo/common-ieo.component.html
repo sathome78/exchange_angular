@@ -428,5 +428,12 @@
   [IEOData]="buyIEOData"
 ></app-popup-failed>
 
+<app-popup-wait-ieo *ngIf="showWait"></app-popup-wait-ieo>
+
+<app-popup-sorry-ieo
+  *ngIf="showSorry"
+  (close)="toggleSorry(false)"
+>
+</app-popup-sorry-ieo>
 
 

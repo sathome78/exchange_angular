@@ -67,7 +67,6 @@ export class IEOComponent implements OnInit, OnDestroy {
       this.AuthSub$ = this.store.pipe(select(fromCore.getIsAuthenticated));
       this.IEOSub$.pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe((res: IEOItem) => {
-          res.testIeo = true;
           this.IEOData = res;
           this.ieoLoading = false;
           this.currentStage = res.status;
@@ -77,27 +76,7 @@ export class IEOComponent implements OnInit, OnDestroy {
           if (this.currentStage === this.stage.RUNNING) {
             this.setEndIEOTimer();
           }
-          // only for testing
-          setTimeout(() => {
-            res.status = this.stage.TERMINATED;
-            if (
-              res.testIeo &&
-              res.status === this.stage.TERMINATED &&
-              this._firstLoadedStatus !== this.stage.TERMINATED
-            ) {
-              this.closeWait();
-              this.openSorry();
-            }
-          }, 2000);
-          //
-          if (
-            res.testIeo &&
-            res.status === this.stage.TERMINATED &&
-            this._firstLoadedStatus !== this.stage.TERMINATED
-          ) {
-            this.closeWait();
-            this.openSorry();
-          }
+          this.handleTestIEO(res);
         });
       this.AuthSub$.pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe((isAuth: boolean) => {
@@ -127,41 +106,39 @@ export class IEOComponent implements OnInit, OnDestroy {
   onLogin() {
     this.popupService.showMobileLoginPopup(true);
   }
-  openNoReqs() {
-    this.showNoReqs = true;
+
+  handleTestIEO(data: IEOItem) {
+    if (
+      data.testIeo &&
+      data.status === this.stage.TERMINATED &&
+      this._firstLoadedStatus !== this.stage.TERMINATED
+    ) {
+      this.toggleWait(false);
+      this.toggleSorry(true);
+    }
   }
-  closeNoReqs() {
-    this.showNoReqs = false;
+
+  toggleNoReqs(flag: boolean) {
+    this.showNoReqs = flag;
   }
-  openBuy() {
-    this.showBuy = true;
+
+  toggleBuy(flag: boolean) {
+    this.showBuy = flag;
   }
-  closeBuy() {
-    this.showBuy = false;
+
+  togglePolicy(flag: boolean) {
+    this.showPolicy = flag;
   }
-  openPolicy() {
-    this.showPolicy = true;
+
+  toggleSuccess(flag: boolean) {
+    this.showSuccess = flag;
   }
-  closePolicy() {
-    this.showPolicy = false;
+  toggleWait(flag: boolean) {
+    this.showWait = flag;
   }
-  openSuccess() {
-    this.showSuccess = true;
-  }
-  closeSuccess() {
-    this.showSuccess = false;
-  }
-  openWait() {
-    this.showWait = true;
-  }
-  closeWait() {
-    this.showWait = false;
-  }
-  openSorry() {
-    this.showSorry = true;
-  }
-  closeSorry() {
-    this.showSorry = false;
+
+  toggleSorry(flag: boolean) {
+    this.showSorry = flag;
   }
 
   confirmBuy(amount) {
@@ -171,11 +148,11 @@ export class IEOComponent implements OnInit, OnDestroy {
     })
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((res) => {
-        this.closeBuy();
+        this.toggleBuy(false);
         if (this.IEOData.testIeo && this.currentStage === this.stage.RUNNING) {
-          this.openWait();
+          this.toggleWait(true);
         } else {
-          this.openSuccess();
+          this.toggleSuccess(true);
         }
       });
   }
@@ -184,7 +161,7 @@ export class IEOComponent implements OnInit, OnDestroy {
     this.ieoService.setPolicy()
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((res) => {
-        this.closePolicy();
+        this.togglePolicy(false);
         this.requirements = {...this.requirements, policyCheck: true};
       });
   }
@@ -194,13 +171,12 @@ export class IEOComponent implements OnInit, OnDestroy {
 
     } else if (this.stage.RUNNING === this.currentStage) {
       if (!this.requirements.kycCheck) {
-        this.openNoReqs();
+        this.toggleNoReqs(true);
       } else if (!this.requirements.policyCheck) {
-        this.openPolicy();
+        this.togglePolicy(true);
       } else {
-        this.openBuy();
+        this.toggleBuy(true);
       }
-      // this.openBuy();
     } else if (this.stage.SUCCEEDED === this.currentStage || this.stage.FAILED === this.currentStage) {
 
     }

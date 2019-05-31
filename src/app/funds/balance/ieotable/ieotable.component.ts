@@ -13,12 +13,19 @@ import * as moment from 'moment';
 })
 export class IEOTableComponent implements OnInit {
 
-  @Input('countPerPage') public countPerPage: number;
-  @Input('IEOData') public IEOData: any;
-  @Input('loading') public loading: boolean;
-  @Input('currentPage') public currentPage: number;
-  @Input('countOfEntries') public countOfEntries: number;
-  @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();
+  @Input() public countPerPage: number;
+
+  @Input('IEOData')
+  set IEOData(data: IEOItem[]) {
+    this._IEOData = data;
+    this.handleTestIEO(data);
+  }
+  get IEOData() { return this._IEOData; }
+
+  @Input() public loading: boolean;
+  @Input() public currentPage: number;
+  @Input() public countOfEntries: number;
+  @Output() public onPaginate: EventEmitter<any> = new EventEmitter();
   public icoBalances = [];
   public stage = {
     PENDING: 'PENDING',
@@ -27,10 +34,13 @@ export class IEOTableComponent implements OnInit {
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
   };
-
+  public _IEOData;
   public selectedIEO: IEOItem;
   public showBuyIEO = false;
+  public showWait = false;
+  public showSorry = false;
   public showSuccessIEO = false;
+  public _firstLoadedStatus;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(
@@ -40,8 +50,19 @@ export class IEOTableComponent implements OnInit {
 
   ngOnInit() { }
 
-  func() {
-
+  public handleTestIEO(data) {
+    if (this.selectedIEO && data && data.length) {
+      const ieo = data.find((i) => i.id === this.selectedIEO.id);
+      if (
+        ieo &&
+        ieo.testIeo &&
+        ieo.status === this.stage.TERMINATED &&
+        this._firstLoadedStatus !== this.stage.TERMINATED
+      ) {
+        this.toggleWait(false);
+        this.toggleSorry(true);
+      }
+    }
   }
 
   public changeItemsPerPage(items: number) {
@@ -89,6 +110,14 @@ export class IEOTableComponent implements OnInit {
     this.showSuccessIEO = true;
   }
 
+  toggleWait(flag: boolean) {
+    this.showWait = flag;
+  }
+
+  toggleSorry(flag: boolean) {
+    this.showSorry = flag;
+  }
+
   public confirmBuyIEO(amount) {
     this.ieoService.buyTokens({
       currencyName: this.selectedIEO.currencyName,
@@ -96,8 +125,13 @@ export class IEOTableComponent implements OnInit {
     })
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res) => {
+        this._firstLoadedStatus = this.selectedIEO.status;
         this.closeBuyIEO();
-        this.openSuccessIEO();
+        if (this.selectedIEO.testIeo && this.selectedIEO.status === this.stage.RUNNING) {
+          this.toggleWait(true);
+        } else {
+          this.openSuccessIEO();
+        }
       });
   }
 
