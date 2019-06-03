@@ -61,7 +61,6 @@ import {CutAddEllipsisPipe} from './pipes/cut-add-ellipsis.pipe';
 import {CurrencyFormatPipe} from './pipes/currencyFormat.pipe';
 import {PopupWaitIEOComponent} from './components/popup-wait-ieo/popup-wait-ieo.component';
 import {PopupSorryIEOComponent} from './components/popup-sorry-ieo/popup-sorry-ieo.component';
-import {VirtualScrollWrapDirective} from './directives/virtualScrollWrap.directive';
 
 @NgModule({
   declarations: [
@@ -78,7 +77,6 @@ import {VirtualScrollWrapDirective} from './directives/virtualScrollWrap.directi
     AddClassDirective,
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
-    VirtualScrollWrapDirective,
     SellTotalCalculatePipe,
     MerchantImageFilterPipe,
     RefactUrlByNewsPipe,
@@ -154,7 +152,6 @@ import {VirtualScrollWrapDirective} from './directives/virtualScrollWrap.directi
     FormatCurrencyPipe,
     DropdownDirective,
     OnlyNumbersDirective,
-    VirtualScrollWrapDirective,
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     ExponentToNumberPipe,

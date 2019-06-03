@@ -233,41 +233,27 @@
       <!-- <cdk-virtual-scroll-viewport [itemSize]="31" style="height: 353px;"></cdk-virtual-scroll-viewport> -->
 
       <div class="markets__tbody" id="markets-container" (click)="onClickMarketItem($event)">
-
-        <!--<perfect-scrollbar style="max-height: 353px;">-->
-          <!--<div style="margin-right: 24px;">-->
-            <!--<app-markets-item-->
-              <!--*ngFor="let pair of (pairs | currencySort :'currencyVolume'); trackBy: trackByFn"-->
-              <!--[pair]="pair"-->
-              <!--[isFiat]="isFiat"-->
-              <!--[isFavorite]="pair | isFavoritePipe: userFavorites"-->
-              <!--[currentCurrencyPair]="currentCurrencyPair"-->
-              <!--[isAuthenticated]="isAuthenticated"-->
-            <!--&gt;-->
-            <!--</app-markets-item>-->
-          <!--</div>-->
-        <!--</perfect-scrollbar>-->
-
         <div class="scroll-wp">
           <div class="ex-rail">
             <div class="ex-thumb" [style.height.px]="tumbHeight" [style.top.px]="tumbPosition"></div>
           </div>
-            <cdk-virtual-scroll-viewport [style.height.px]="353" [itemSize]="37" (scrolledIndexChange)="calculateCustomScroll($event)">
-              <ng-container *cdkVirtualFor="let pair of (pairs | currencySort :'currencyVolume')" class="markets_item">
+          <cdk-virtual-scroll-viewport [style.height.px]="353" [itemSize]="37"
+                                       (scrolledIndexChange)="calculateCustomScroll($event)">
+            <ng-container *cdkVirtualFor="let pair of (pairs | currencySort :'currencyVolume')" class="markets_item">
 
-                <div style="margin-right: 24px;">
-                  <app-markets-item
-                    [pair]="pair"
-                    [isFiat]="isFiat"
-                    [isFavorite]="pair | isFavoritePipe: userFavorites"
-                    [currentCurrencyPair]="currentCurrencyPair"
-                    [isAuthenticated]="isAuthenticated"
-                  >
-                  </app-markets-item>
-                </div>
+              <div style="margin-right: 24px;">
+                <app-markets-item
+                  [pair]="pair"
+                  [isFiat]="isFiat"
+                  [isFavorite]="pair | isFavoritePipe: userFavorites"
+                  [currentCurrencyPair]="currentCurrencyPair"
+                  [isAuthenticated]="isAuthenticated"
+                >
+                </app-markets-item>
+              </div>
 
-              </ng-container>
-            </cdk-virtual-scroll-viewport>
+            </ng-container>
+          </cdk-virtual-scroll-viewport>
         </div>
       </div>
     </div>

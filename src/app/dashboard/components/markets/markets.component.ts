@@ -48,8 +48,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   public isMobile: boolean = false;
   public userFavorites: number[] = [];
 
-  public tumbHeight: number = 20;
-  public tumbPosition: number = 50;
+  public tumbHeight: number = 13;
+  public tumbPosition: number = 0;
+  private maxThumbHeight = 13;
 
   public volumeOrderDirection = 'NONE';
   public selectedCurrencyPair: CurrencyPair;
@@ -137,6 +138,13 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     }
   }
 
+  calculateCustomScroll(event) {
+    const tempHeight = 353 / (this.pairs.length * 37 / 353);
+    this.tumbHeight = tempHeight < this.maxThumbHeight ? this.maxThumbHeight : tempHeight;
+    const tempPosition = 353 / this.pairs.length * event;
+    this.tumbPosition = tempPosition;
+  }
+
   breakpointSub() {
     const that = this;
     this.breakpointService.breakpoint$
@@ -166,13 +174,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-  }
-
-  calculateCustomScroll(event) {
-     const tempHeight = 353 / (this.pairs.length * 37 / 353);
-     this.tumbHeight = tempHeight < 13 ? 13 : tempHeight;
-     const tempPosition = 353 / this.pairs.length * event;
-     this.tumbPosition = tempPosition;
   }
 
   toggleSearchModal(event) {
