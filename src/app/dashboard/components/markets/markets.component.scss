@@ -191,6 +191,39 @@ display: none;
   }
 }
 
+.scroll-wp {
+  height: 353px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  .ex-rail {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    bottom: 0;
+    width: 5px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 3px 0;
+    border-radius: 3px;
+    .ex-thumb {
+      position: absolute;
+      background: #191A39;
+      border-radius: 3px;
+      left: 1px;
+      width: 3px;
+    }
+  }
+  .cdk-virtual-scroll-viewport {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: -17px; /* Increase/Decrease this value for cross-browser compatibility */
+    overflow-y: scroll;
+  }
+}
+
+
 .loading-container {
   display: flex;
   justify-content: center;
@@ -201,6 +234,7 @@ display: none;
 .widget__content--mob perfect-scrollbar{
     padding: 6px 14px 6px 8px;
 }
+
 
 .markets_item {
    height: 31px;
