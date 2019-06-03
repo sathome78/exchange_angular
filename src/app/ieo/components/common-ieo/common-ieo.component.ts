@@ -24,6 +24,7 @@ import * as coreAction from '../../../core/actions/core.actions';
 export class CommonIEOComponent implements OnInit, OnDestroy {
 
   public ieoList: IEOItem[];
+  public cacheIeoList: IEOItem[] = [];
   public emailForm: FormGroup;
   public showBuyIEO = false;
   public verificationStatus: string;
@@ -39,8 +40,19 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   public requirements: KycIEOModel = new KycIEOModel(null, null, null);
   public buyIEOData;
   public showSuccessIEO = false;
+  public showWait = false;
+  public showSorry = false;
   private thakPopupOpen: ThankPopupModel;
   public userInfo: ParsedToken;
+  public _firstLoadedStatus;
+  public stage = {
+    PENDING: 'PENDING',
+    RUNNING: 'RUNNING',
+    TERMINATED: 'TERMINATED',
+    SUCCEEDED: 'SUCCEEDED',
+    FAILED: 'FAILED',
+  };
+
 
   constructor(
     private store: Store<State>,
@@ -55,7 +67,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
-      })
+      });
   }
 
   ngOnInit() {
@@ -80,15 +92,39 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.ieoService.getListIEO()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: IEOItem[]) => {
-        this.store.dispatch(new coreAction.SetIEOListAction(res))
+        this.store.dispatch(new coreAction.SetIEOListAction(res));
       });
   }
   getIEOList(): void {
     this.store.pipe(select(fromCore.getIEOList))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.ieoList = (res as IEOItem[] || []).reverse();
-      })
+        // res.forEach((i) => i.testIeo = true);
+
+        res.forEach((i) => {
+          const itemIndex = this.cacheIeoList.findIndex((ci) => ci.id === i.id);
+          if (itemIndex >= 0) {
+            this.cacheIeoList[itemIndex] = i;
+          } else {
+            this.cacheIeoList.push(i);
+          }
+        });
+
+        this.ieoList = ([...this.cacheIeoList] as IEOItem[]).reverse();
+
+        // for test only
+        // if (this.ieoList) {
+        //   const ieoTestInd = this.ieoList.findIndex((i) => i.id == 17);
+        //   if (ieoTestInd >= 0) {
+        //     setTimeout(() => {
+        //       this.ieoList[ieoTestInd].status = this.stage.TERMINATED;
+        //       this.handleTestIEO();
+        //     }, 2000);
+        //   }
+        // }
+
+        this.handleTestIEO();
+      });
   }
 
   getKYCVerificationStatus() {
@@ -174,9 +210,29 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     })
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res) => {
+        this._firstLoadedStatus = this.buyIEOData.status;
         this.closeBuyIEO();
-        this.openSuccessIEO();
+        if (this.buyIEOData.testIeo && this.buyIEOData.status === this.stage.RUNNING) {
+          this.toggleWait(true);
+        } else {
+          this.openSuccessIEO();
+        }
       });
+  }
+
+  public handleTestIEO() {
+    if (this.buyIEOData && this.ieoList && this.ieoList.length) {
+      const ieo = this.ieoList.find((i) => i.id === this.buyIEOData.id);
+      if (
+        ieo &&
+        ieo.testIeo &&
+        ieo.status === this.stage.TERMINATED &&
+        this._firstLoadedStatus !== this.stage.TERMINATED
+      ) {
+        this.toggleWait(false);
+        this.toggleSorry(true);
+      }
+    }
   }
 
   public openSuccessIEO() {
@@ -238,6 +294,14 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.showNoReqs = flag;
   }
 
+  toggleWait(flag: boolean) {
+    this.showWait = flag;
+  }
+
+  toggleSorry(flag: boolean) {
+    this.showSorry = flag;
+  }
+
   agreeWithPolicy() {
     this.ieoService.setPolicy()
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -258,8 +322,8 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
 
   get boughtAmountPer() {
     return  (IEOData) => {
-      const a = (this.boughtAmount(IEOData) / (IEOData.amount / 100)) || 0
+      const a = (this.boughtAmount(IEOData) / (IEOData.amount / 100)) || 0;
       return a.toFixed(2);
-    }
+    };
   }
 }

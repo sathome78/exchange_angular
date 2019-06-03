@@ -35,7 +35,7 @@
     "
     [isAuthenticated]="isAuthenticated"
     [requirements]="requirements"
-    (showPolicy)="openPolicy()"
+    (showPolicy)="togglePolicy(true)"
   ></app-ieo-requirements>
 
   <app-get-ready-banner
@@ -59,26 +59,37 @@
 
   <app-popup-failed
     *ngIf="showNoReqs"
-    (close)="closeNoReqs()"
+    (close)="toggleNoReqs(false)"
     [IEOData]="IEOData"
   ></app-popup-failed>
   <app-popup-buy
     [IEOData]="IEOData"
     *ngIf="showBuy"
-    (close)="closeBuy()"
+    (close)="toggleBuy(false)"
     (confirm)="confirmBuy($event)"
   ></app-popup-buy>
 
   <app-popup-policy
     *ngIf="showPolicy"
-    (close)="closePolicy()"
+    (close)="togglePolicy(false)"
     (onAgree)="agreeWithPolicy()"
   ></app-popup-policy>
 
   <app-popup-success
     [IEOName]="IEOData.currencyDescription"
     *ngIf="showSuccess"
-    (close)="closeSuccess()"
+    (close)="toggleSuccess(false)"
   >
   </app-popup-success>
+
+  <app-popup-wait-ieo
+    *ngIf="showWait"
+  >
+  </app-popup-wait-ieo>
+
+  <app-popup-sorry-ieo
+    *ngIf="showSorry"
+    (close)="toggleSorry(false)"
+  >
+  </app-popup-sorry-ieo>
 </div>
