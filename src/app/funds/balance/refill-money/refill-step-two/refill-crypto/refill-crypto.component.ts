@@ -30,6 +30,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public openCurrencyDropdown = false;
   public isGenerateNewAddress = false;
   public address;
+  public qrAddress;
   public additionalAddress;
   public alphabet;
   public reqError = '';
@@ -62,7 +63,9 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         this.defaultCryptoNames = currencies;
         this.cryptoNames = this.defaultCryptoNames;
         this.setActiveCrypto();
-        if (this.activeCrypto) this.getDataByCurrency(this.activeCrypto.name);
+        if (this.activeCrypto) {
+          this.getDataByCurrency(this.activeCrypto.name);
+        }
         this.prepareAlphabet();
       });
   }
@@ -154,9 +157,11 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
           if (this.currentMerchant) {
             if (this.currentMerchant.additionalTagForWithdrawAddressIsUsed) {
               this.address = this.currentMerchant.mainAddress;
+              this.qrAddress = this.currentMerchant.mainAddress;
               this.additionalAddress = temp.params.address || this.currentMerchant.address;
             } else {
               this.address = temp.params.address || this.currentMerchant.address;
+              this.qrAddress = temp.params.address || this.currentMerchant.address;
               this.additionalAddress = '';
             }
           }
@@ -166,9 +171,11 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
           if (this.currentMerchant) {
             if (this.currentMerchant.additionalTagForWithdrawAddressIsUsed) {
               this.address = this.currentMerchant.mainAddress;
+              this.qrAddress = this.currentMerchant.mainAddress;
               this.additionalAddress = this.currentMerchant.address;
             } else {
               this.address = this.currentMerchant.address;
+              this.qrAddress = this.currentMerchant.address;
               this.additionalAddress = '';
             }
           }
@@ -225,13 +232,18 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     if (this.currentMerchant) {
       if (this.currentMerchant.additionalTagForWithdrawAddressIsUsed) {
         this.address = this.currentMerchant.mainAddress;
+        this.qrAddress = this.currentMerchant.mainAddress;
         this.additionalAddress = this.currentMerchant.address;
         if (!this.additionalAddress && !!this.address && this.cryptoGenerateAddress !== this.cryptoDataByName.currency.name) {
           this.cryptoGenerateAddress = this.cryptoDataByName.currency.name;
           this.generateNewAddress();
         }
+        if (this.cryptoDataByName.currency.name === 'LHT') {
+          this.qrAddress = `usdx:${this.currentMerchant.mainAddress}?currency=${'LHT'}&memo=${this.currentMerchant.address}T&ro=true`;
+        }
       } else {
         this.address = this.currentMerchant.address;
+        this.qrAddress = this.currentMerchant.address;
         this.additionalAddress = '';
       }
       this.showGenerateAddressBtn(this.cryptoDataByName.merchantCurrencyData[0].address === '' ?
