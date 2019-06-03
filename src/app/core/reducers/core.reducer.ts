@@ -35,7 +35,7 @@ export const INIT_STATE: State = {
   loading: false,
   isAuthenticated: false,
   userInfo: null,
-  ieoList: null,
+  ieoList: [],
 };
 
 /**
