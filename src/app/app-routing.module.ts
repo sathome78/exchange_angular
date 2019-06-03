@@ -32,8 +32,8 @@ const routes: Routes = [
   {path: 'static', loadChildren: './static-pages/static-pages.module#StaticPagesModule'},
   {path: 'ieo', loadChildren: 'app/ieo/ieo.module#IEOModule'},
 
-  {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
-  {path: '**', redirectTo: 'dashboard'}
+  {path: '', pathMatch: 'full', redirectTo: '/dashboard'},
+  {path: '**', redirectTo: '/dashboard'}
 ];
 
 @NgModule({

@@ -111,7 +111,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
         if (this.userInfo && this.userInfo.publicId) {
           this.getIEOTable(this.userInfo.publicId);
         } else {
-          console.error('publicId = ', this.userInfo.publicId);
+          console.error('publicId = ', this.userInfo && this.userInfo.publicId);
         }
       });
   }
