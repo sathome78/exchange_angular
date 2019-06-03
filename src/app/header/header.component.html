@@ -1,8 +1,300 @@
+<!-- NEW HEADER START -->
+<header
+  class="header"
+  [ngClass]="{'transparent-header': isAdvisor}"
+  *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
+>
+  <div class="header-inner">
+      <div class="logo-wr" routerLink="/dashboard">
+          <img src="assets/img/logo-header.svg" alt="logo">
+      </div>
+      <div class="menu-wr">
+          <div class="left-part">
+              <div class="nav main-nav-left">
+                  <ul>
+                      <li>
+                          <a routerLink="/dashboard"><span>trade</span></a>
+                      </li>
+                      <li>
+                          <div class="drop">
+                              <a routerLinkActive="active"><span>Funds</span></a>
+                              <div class="submenu">
+                                  <ul class="menu submenu__list">
+                                      <li class="submenu__item">
+                                          <a class="submenu__link" routerLink="/funds/balances" target="blank">
+                                              <span class="menu__link-text">Balances</span>
+                                          </a>
+                                      </li>
+                                      <li class="submenu__item">
+                                          <a class="submenu__link" routerLink="/funds/transaction-history" target="blank">
+                                              <span class="menu__link-text">Transaction history</span>
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </li>
+                      <li>
+                          <div class="drop">
+                              <a routerLinkActive="active"><span>Orders</span></a>
+                              <div class="submenu">
+                                  <ul class="menu submenu__list">
+                                      <li class="submenu__item">
+                                          <a class="submenu__link" routerLinkActive="active" routerLink="/orders/open" target="blank">
+                                              <span class="menu__link-text">Open orders</span>
+                                          </a>
+                                      </li>
+                                      <li class="submenu__item">
+                                          <a class="submenu__link" routerLinkActive="active" routerLink="/orders/closed" target="blank">
+                                              <span class="menu__link-text">Orders history</span>
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </li>
+                      <li>
+                          <a href="/index.html" routerLinkActive="active"><span>About us</span></a>
+                      </li>
+                      <li>
+                          <a href="/form-listing.html" routerLinkActive="active"><span>Apply to list</span></a>
+                      </li>
+                      <li>
+                          <a routerLink="/ieo" routerLinkActive="active"><span>Token Sale</span></a>
+                      </li>
+                      <li>
+                          <a routerLink="/fiat" routerLinkActive="active"><span>Fiat</span><span class="label">new</span></a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+          <div class="right-part">
+              <div class="nav main-nav-right">
+                  <ul>
+                      <li>
+                          <a routerLink="/news" routerLinkActive="active"><span>News</span></a>
+                      </li>
+                      <!-- <li>
+            <a href="#"><span>Announcments</span></a>
+          </li> -->
+                      <li>
+                          <div class="drop">
+                              <a routerLinkActive="active"><span>Community</span></a>
+                              <div class="submenu">
+                                  <ul class="menu submenu__list">
+                                      <li class="submenu__item">
+                                          <a class="submenu__link" href="https://t.me/exrates_official" target="blank">
+                                              <span class="menu__link-text">Community World</span>
+                                          </a>
+                                      </li>
+                                      <li class="submenu__item">
+                                          <a class="submenu__link" href="https://t.me/exrates_official_cn" target="blank">
+                                              <span class="menu__link-text">Community China</span>
+                                          </a>
+                                      </li>
+                                      <li class="submenu__item">
+                                          <a class="submenu__link" href="https://t.me/exrates_official_id" target="blank">
+                                              <span class="menu__link-text">Community Indonesia</span>
+                                          </a>
+                                      </li>
+                                      <li class="submenu__item">
+                                          <a class="submenu__link" href="https://t.me/exrates_official_ru" target="blank">
+                                              <span class="menu__link-text"> Community Russia</span>
+                                          </a>
+                                      </li>
+                                      <li class="submenu__item">
+                                          <a class="submenu__link" href="https://t.me/exrates_official_ko" target="blank">
+                                              <span class="menu__link-text">Community Korea</span>
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </li>
+                  </ul>
+                  <!-- start not auth user -->
+                  <div class="login">
+                      <button><span>Login</span></button>
+                  </div>
+                  <div class="register">
+                      <button><span>Register</span></button>
+                  </div>
+                  <!-- end not auth user -->
+                  <!-- start auth user -->
+                  <!-- <div class="account">
+          <span class="login-menu__icon">
+            <svg fill="none" height="18" viewBox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0)">
+                <path d="M9.0002 9.53152C11.229 9.53152 13.036 7.41659 13.036 4.80773C13.036 1.18995 11.2291 0.0839844 9.0002 0.0839844C6.7712 0.0839844 4.96436 1.18995 4.96436 4.80773C4.9644 7.41659 6.77125 9.53152 9.0002 9.53152Z" fill="#a0a0a0"></path>
+                <path d="M17.912 16.4849L15.8759 11.8981C15.7827 11.6882 15.6191 11.5142 15.4155 11.4081L12.2555 9.76318C12.1859 9.72698 12.1015 9.73402 12.0388 9.78144C11.1451 10.4574 10.0943 10.8147 9.00005 10.8147C7.90566 10.8147 6.85491 10.4574 5.96117 9.78144C5.89835 9.73402 5.81397 9.72698 5.74429 9.76318L2.58456 11.4081C2.38083 11.5142 2.2174 11.6881 2.12418 11.8981L0.0880542 16.4849C-0.0523244 16.8011 -0.0235536 17.1629 0.16504 17.4529C0.353546 17.7429 0.672576 17.916 1.01849 17.916H16.9815C17.3274 17.916 17.6465 17.7428 17.835 17.4529C18.0235 17.1629 18.0524 16.8009 17.912 16.4849Z" fill="#a0a0a0"></path>
+              </g>
+              <defs>
+                <clipPath id="clip0">
+                  <rect fill="#AAB1C4" height="18" width="18"></rect>
+                </clipPath>
+              </defs>
+            </svg>
+          </span>
+          <div class="login-menu__submenu">
+            <div class="login-menu__submenu-item">
+              <div class="item-title">Account</div>
+              <span>lexesss64@gmail.com</span>
+            </div>
+            <div class="login-menu__submenu-item">
+              <div class="item-title">Estimated Holdings</div>
+              <span> $0.0 </span>
+            </div>
+            <a class="menu__link login-menu__link" href="https://exrates.me/settings"><span class="menu__link-text">Settings</span></a>
+            <a class="menu__link login-menu__link menu__link--auth--log"><span class="menu__link-text">Log out</span></a>
+          </div>
+        </div> -->
+                  <!-- end auth user -->
+                  <!-- <div class="lang drop"> -->
+                  <!-- <button><span class="cur-lang">English</span></button> -->
+                  <!-- <div class="submenu">
+            <ul class="menu submenu__list">
+              <li class="submenu__item">
+                <a class="submenu__link">
+                  <span class="menu__link-text lang-variant">English</span>
+                </a>
+              </li>
+              <li class="submenu__item">
+                <a class="submenu__link">
+                  <span class="menu__link-text lang-variant">Russian</span>
+                </a>
+              </li>
+            </ul>
+          </div> -->
+                  <!-- </div> -->
+                  <div class="translate">
+                      <button class="translate__trigger">
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M14.4 2.4H7.10399L6.40001 0H1.60001C0.719999 0 0 0.719999 0 1.60001V12C0 12.88 0.719999 13.6 1.60001 13.6H7.19999L7.99998 16H14.4C15.28 16 16 15.28 16 14.4V4.00001C16 3.12 15.28 2.4 14.4 2.4ZM4.13201 10.068C2.328 10.068 0.863999 8.59998 0.863999 6.79998C0.863999 4.99998 2.33201 3.53197 4.13201 3.53197C4.96402 3.53197 5.72002 3.82796 6.32002 4.38397L6.37203 4.43598L5.39602 5.37997L5.34802 5.33598C5.12002 5.11998 4.72402 4.86798 4.13201 4.86798C3.084 4.86798 2.232 5.736 2.232 6.804C2.232 7.87199 3.084 8.74001 4.13201 8.74001C5.22802 8.74001 5.70401 8.03999 5.832 7.57199H4.06398V6.33198H7.22399L7.23599 6.38797C7.26798 6.55597 7.27998 6.70398 7.27998 6.87198C7.27601 8.75598 5.98398 10.068 4.13201 10.068ZM8.53998 7.25999H11.736C11.736 7.25999 11.464 8.31198 10.488 9.44801C10.06 8.95601 9.76398 8.47601 9.57599 8.09201H8.78399L8.53998 7.25999ZM9.91199 10.068L9.484 10.492L8.96002 8.70802C9.22799 9.18798 9.55199 9.64799 9.91199 10.068ZM15.2 14.4C15.2 14.84 14.84 15.2 14.4 15.2H8.80001L10.4 13.6L9.748 11.388L10.484 10.6519L12.632 12.7999L13.216 12.216L11.052 10.068C11.772 9.23996 12.332 8.26796 12.584 7.26397H13.6V6.432H10.692V5.59998H9.85998V6.432H8.29199L7.33998 3.19999H14.4C14.84 3.19999 15.2 3.55998 15.2 3.99997V14.4Z" fill="#AAB1C4" />
+                          </svg>
+                      </button>
+                      <div class="translate__container">
+                          <div id="google_translate_element"></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="burger">
+          <span></span>
+      </div>
+      <div class="mobile-menu">
+          <div class="mobile-menu-inner">
+              <div class="close-trigger">
+                  <span></span>
+              </div>
+              <div class="menu-title">
+                  <p>Account</p>
+              </div>
+              <!-- start not auth user -->
+              <div class="account-info">
+                  <div class="account-info__text">
+                      <a class="account-info__email">Login</a>
+                      <span class="slash">or</span>
+                      <a class="account-info__email">Register</a>
+                  </div>
+              </div>
+              <!-- end not auth user	 -->
+              <!-- start auth user  -->
+              <div class="account-info account-info--auth">
+                  <div class="account-info__img account-info__img--auth">
+                      <svg fill="none" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8.00147 8.48178C9.98264 8.48178 11.5889 6.60185 11.5889 4.28286C11.5889 1.06706 9.98272 0.0839844 8.00147 0.0839844C6.02015 0.0839844 4.41406 1.06706 4.41406 4.28286C4.4141 6.60185 6.02018 8.48178 8.00147 8.48178Z" fill="#666679"></path>
+                          <path d="M15.9218 14.6632L14.1119 10.5861C14.0291 10.3995 13.8837 10.2448 13.7026 10.1505L10.8938 8.68837C10.8319 8.65618 10.7569 8.66244 10.7012 8.7046C9.90674 9.30547 8.97266 9.62307 8.00003 9.62307C7.02724 9.62307 6.09324 9.30547 5.29881 8.7046C5.24297 8.66244 5.16797 8.65618 5.10602 8.68837L2.29738 10.1505C2.11629 10.2448 1.97102 10.3994 1.88816 10.5861L0.0782702 14.6632C-0.0465105 14.9443 -0.0209365 15.2659 0.146702 15.5237C0.314263 15.7814 0.597845 15.9353 0.905319 15.9353H15.0946C15.4021 15.9353 15.6858 15.7814 15.8533 15.5236C16.0209 15.2659 16.0465 14.9441 15.9218 14.6632Z" fill="#666679"></path>
+                      </svg>
+                  </div>
+                  <div class="account-info__text">
+                      <div class="account-info__title account-info__title--auth">lexesss64@gmail.com</div>
+                  </div>
+              </div>
+              <!-- end not auth user	 -->
+              <a class="menu-mob__link" href="https://exrates.me/dashboard">
+                  <span class="menu-mob__link-text">Trade</span>
+              </a>
+              <div class="menu-mob__drop-wrap">
+                  <a class="menu-mob__link menu-mob__link--drop menu-mob__link--active">
+                      <span class="menu-mob__link-text">Funds</span>
+                  </a>
+                  <div class="menu-mob__wrap-links">
+                      <a class="menu-mob__link" href="https://exrates.me/funds/balances">Balances</a>
+                      <a class="menu-mob__link" href="https://exrates.me/funds/transaction-history" target="blank">Transaction history</a>
+                  </div>
+              </div>
+              <div class="menu-mob__drop-wrap">
+                  <a class="menu-mob__link menu-mob__link--drop menu-mob__link--active">
+                      <span class="menu-mob__link-text">Orders</span>
+                  </a>
+                  <div class="menu-mob__wrap-links">
+                      <a class="menu-mob__link" href="https://exrates.me/orders/open">Open orders</a>
+                      <a class="menu-mob__link" href="https://exrates.me/funds/orders/closed">Orders history</a>
+                  </div>
+              </div>
+              <a class="menu-mob__link" href="/">
+                  <span class="menu-mob__link-text">About us</span>
+              </a>
+              <a class="menu-mob__link" href="/form-listing.html">
+                  <span class="menu-mob__link-text">Apply to list</span>
+              </a>
+              <a class="menu-mob__link" href="/form-listing.html">
+                  <span class="menu-mob__link-text">Token Sale</span>
+              </a>
+              <a class="menu-mob__link" href="/fiat.html">
+                  <span class="menu-mob__link-text">Fiat</span>
+              </a>
+              <a class="menu-mob__link" href="https://exrates.me/news">
+                  <span class="menu-mob__link-text">News</span>
+              </a>
+              <!-- <a class="menu-mob__link" href="#">
+        <span class="menu-mob__link-text">Announcments</span>
+      </a> -->
+              <div class="menu-mob__drop-wrap">
+                  <a class="menu-mob__link menu-mob__link--drop menu-mob__link--active">
+                      <span class="menu-mob__link-text">Community</span>
+                  </a>
+                  <div class="menu-mob__wrap-links">
+                      <a class="menu-mob__link" href="https://t.me/exrates_official" target="blank">Community World</a>
+                      <a class="menu-mob__link" href="https://t.me/exrates_official_cn" target="blank">Community China</a>
+                      <a class="menu-mob__link" href="https://t.me/exrates_official_id" target="blank">Community Indonesia</a>
+                      <a class="menu-mob__link" href="https://t.me/exrates_official_ru" target="blank">Community Russia</a>
+                      <a class="menu-mob__link" href="https://t.me/exrates_official_ko" target="blank">Community Korea</a>
+                  </div>
+              </div>
+              <div class="menu-mob__drop-wrap">
+                  <a class="menu-mob__link menu-mob__link--drop menu-mob__link--active">
+                      <span class="menu-mob__link-text cur-lang">English</span>
+                  </a>
+                  <div class="menu-mob__wrap-links">
+                      <a class="menu-mob__link lang-variant">English</a>
+                      <a class="menu-mob__link lang-variant">Russian</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</header>
+<!-- NEW HEADER END -->
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- HEADER START-->
 <header
   class="header"
   [ngClass]="{'transparent-header': isAdvisor}"
-  *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
+  *ngIf="(breakpointService.breakpoint$ | async) === 'desktop' && false">
   <div class="header__inner">
     <div class="logo">
       <a class="logo__link" href="/">
