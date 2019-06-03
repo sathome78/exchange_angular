@@ -236,7 +236,7 @@
 
 
   <app-get-ready-banner
-    *ngIf="verificationStatus.toUpperCase() !== KYC_STATUS.SUCCESS"
+    *ngIf="(verificationStatus && verificationStatus.toUpperCase()) !== KYC_STATUS.SUCCESS"
     (onClick)="bannerClick()"
   ></app-get-ready-banner>
 
@@ -428,5 +428,12 @@
   [IEOData]="buyIEOData"
 ></app-popup-failed>
 
+<app-popup-wait-ieo *ngIf="showWait"></app-popup-wait-ieo>
+
+<app-popup-sorry-ieo
+  *ngIf="showSorry"
+  (close)="toggleSorry(false)"
+>
+</app-popup-sorry-ieo>
 
 

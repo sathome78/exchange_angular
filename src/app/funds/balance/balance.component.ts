@@ -42,9 +42,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public balanceItems: BalanceItem [] = [];
   public currTab: string = this.Tab.CRYPTO;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public showRefillBalancePopup: boolean = false;
-  public showSendMoneyPopup: boolean = false;
-  public hideAllZero: boolean = false;
+  public showRefillBalancePopup = false;
+  public showSendMoneyPopup = false;
+  public hideAllZero = false;
   public existQuberaAccounts: string = PENDING;
   public showContent: boolean = environment.showContent;
   public userInfo: ParsedToken;
@@ -64,8 +64,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public fiatCurrenciesForChoose: CurrencyChoose[] = [];
   public detailedCurrencyPairs$: Observable<DetailedCurrencyPair[]>;
   public loading$: Observable<boolean>;
-  public currValue: string = '';
-  public kycStatus: string = '';
+  public currValue = '';
+  public kycStatus = '';
 
   public IEOData: IEOItem[] = [];
   public sendMoneyData = {};
@@ -73,7 +73,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public currencyForChoose: string = null;
   public currentPage = 1;
   public countPerPage = 15;
-  public loading: boolean = false;
+  public loading = false;
 
   constructor(
     public balanceService: BalanceService,
@@ -108,12 +108,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
-        if(this.userInfo && this.userInfo.publicId) {
+        if (this.userInfo && this.userInfo.publicId) {
           this.getIEOTable(this.userInfo.publicId);
         } else {
-          console.error('publicId = ', this.userInfo.publicId)
+          console.error('publicId = ', this.userInfo.publicId);
         }
-      })
+      });
   }
 
   ngOnInit() {
@@ -152,14 +152,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
         } else {
           this.existQuberaAccounts = null;
         }
-      })
+      });
 
     this.store
       .pipe(select(fundsReducer.getIEOBalancesSelector))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data: IEOItem[]) => {
         this.IEOData = data;
-      })
+      });
 
     this.balanceService.closeSendMoneyPopup$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -345,15 +345,15 @@ export class BalanceComponent implements OnInit, OnDestroy {
         limit: this.countPerPage,
         concat: false,
       }
-    }
+    };
     this.store.dispatch(new fundsAction.RevokePendingReqAction(params))
   }
 
   public onGoToBalanceDetails({currencyId, priceIn}) {
-    this.router.navigate([`/funds/balances/${currencyId}`], {queryParams: {priceIn}})
+    this.router.navigate([`/funds/balances/${currencyId}`], {queryParams: {priceIn}});
   }
   public onGoToIEOBalanceDetails({currencyId, priceIn}) {
-    this.router.navigate([`/funds/balances/ieo/${currencyId}`], {queryParams: {priceIn}})
+    this.router.navigate([`/funds/balances/ieo/${currencyId}`], {queryParams: {priceIn}});
   }
 
   public onChangeCurrPair(val: string): void {
@@ -367,10 +367,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public get getCryptoDynamicIData(): DIOptions[] {
-    return this.cryptoCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
+    return this.cryptoCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}));
   }
   public get getFiatDynamicIData(): DIOptions[] {
-    return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
+    return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}));
   }
 
   public getIEOTable(publicId) {

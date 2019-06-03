@@ -36,23 +36,23 @@ export const KYC_STATUS = {
   'TECHNICAL_ERROR': 'TECHNICAL_ERROR',
   'TOO_MANY_ANALYSIS': 'TOO_MANY_ANALYSIS',
   'EXPIRED': 'EXPIRED',
-}
+};
 
 export const keys = {
   recaptchaKey: '6LdNln0UAAAAAH4nyBX7Wh4YKpqujc0-a66xssjp',
-}
+};
 
 export const orderBaseType = {
   LIMIT: 'LIMIT',
   MARKET_PRICE: 'MARKET_PRICE',
   STOP_LIMIT: 'STOP_LIMIT',
   ICO: 'ICO'
-}
+};
 
 export const API_KEY_2FA_FOR = {
   'NEW_KEY': 'NEW_KEY',
   'ENABLE_TRADING_FOR_KEY': 'ENABLE_TRADING_FOR_KEY',
-}
+};
 
 export const LANG_SUPPORT = [
   'ar',
@@ -140,4 +140,4 @@ export const GRAPH_TIME_ZONE_SUPPORT = [
   'Asia/Kathmandu',
   'US/Mountain',
   'Europe/Kiev'
-]
+];
