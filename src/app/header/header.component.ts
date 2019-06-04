@@ -176,6 +176,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.showFundsList = false;
     this.showOrdersList = false;
     this.showReferralList = false;
+    this.translateList = false;
     this.showIEOList = false;
   }
 

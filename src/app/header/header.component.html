@@ -82,15 +82,36 @@
 
           </li>
 
-           <!--TEMP LINK for strap-->
+          <li class="menu__item">
+            <ng-container>
+              <a class="menu__link" href="https://about.exrates.me/about-us"  target="_blank">
+                <span class="menu__link-text">{{'About us' | translate}}</span>
+              </a>
+            </ng-container>
+          </li>
+          <li class="menu__item">
+            <ng-container>
+              <a class="menu__link" href="https://about.exrates.me/form-listing"  target="_blank">
+                <span class="menu__link-text">{{'Apply to list' | translate}}</span>
+              </a>
+            </ng-container>
+          </li>
+          <!--TEMP LINK for strap-->
           <li class="menu__item" routerLinkActive="menu__link--active">
             <ng-container>
                <a class="menu__link" routerLink="/ieo">
-                 <span class="menu__link-text">{{'IEO' | translate}}</span>
+                 <span class="menu__link-text">{{'Token sale' | translate}}</span>
                </a>
             </ng-container>
           </li>
           <li class="menu__item" routerLinkActive="menu__link--active">
+            <ng-container>
+               <a class="menu__link" href="https://about.exrates.me/fiat"  target="_blank">
+                 <span class="menu__link-text">{{'Fiat' | translate}}</span>
+               </a>
+            </ng-container>
+          </li>
+          <!-- <li class="menu__item" routerLinkActive="menu__link--active">
             <ng-container>
                <a class="menu__link" href="https://support.exrates.me" target="blank">
                  <span class="menu__link-text">{{'Support' | translate}}</span>
@@ -101,7 +122,7 @@
             <a class="menu__link" href="https://predictionlab.exrates.me" target="blank">
               <span class="menu__link-text">{{'Prediction' | translate}}</span>
             </a>
-          </li>
+          </li> -->
         </ul>
         <ul class="community-wr">
           <li class="menu__item menu__item--with-submenu">
@@ -329,29 +350,11 @@
 
           <span class="menu-mob__link-text">Identity Authentication</span>
         </a> -->
-        <a
-        *ngIf="isAuthenticated"
-        class="menu-mob__link"
-        routerLink="/settings"
-        (click)="mobileLinkClick()"
-        >
 
-        <span class="menu-mob__link-text">{{'Settings' | translate}}</span>
-      </a>
-      <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
-        <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(FUNDS_FLAG)" [ngClass]="{'menu-mob__link--active': showFundsList}"
-        routerLink="/funds/balances">
-        <span class="menu-mob__link-text">{{'Funds' | translate}}</span></a>
-        <div class="menu-mob__wrap-links" *ngIf="showFundsList">
-          <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/transaction-history">
-          {{'Transaction history' | translate}}</a>
-          <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">{{'Balance' | translate}}</a>
-        </div>
-      </div>
-
-      <div class="menu-mob__drop-wrap">
-        <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(TRANSLATE_FLAG)" [ngClass]="{'menu-mob__link--active': translateList}">
-          <span class="menu-mob__link-text">{{'Google Translater' | translate}}</span></a>
+        <div class="menu-mob__drop-wrap">
+          <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(TRANSLATE_FLAG)" [ngClass]="{'menu-mob__link--active': translateList}">
+            <span class="menu-mob__link-text">{{'Google Translator' | translate}}</span>
+          </a>
           <div class="menu-mob__wrap-links" [ngClass]="{'d-none': !translateList}">
             <a class="menu-mob__link">
               <ng-template [ngTemplateOutlet]="translateTemplate">
@@ -360,26 +363,81 @@
           </div>
 
         </div>
-        <a
-        *ngIf="isAuthenticated"
-        class="menu-mob__link"
-        routerLink="/orders/closed"
-        (click)="mobileLinkClick()"
-        >
 
-        <span class="menu-mob__link-text">{{'Order history' | translate}}</span>
-      </a>
+        <a class="menu-mob__link" [routerLink]="['dashboard']" [queryParams]="{widget: 'trading'}" (click)="setMobileWidget('trading')"><span
+          class="menu-mob__link-text">{{'Trade' | translate}}</span>
+        </a>
+
+        <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
+          <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(FUNDS_FLAG)" [ngClass]="{'menu-mob__link--active': showFundsList}"
+          routerLink="/funds/balances">
+          <span class="menu-mob__link-text">{{'Funds' | translate}}</span></a>
+          <div class="menu-mob__wrap-links" *ngIf="showFundsList">
+            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/transaction-history">
+            {{'Transaction history' | translate}}</a>
+            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">{{'Balance' | translate}}</a>
+          </div>
+        </div>
+
+        <a
+          *ngIf="isAuthenticated"
+          class="menu-mob__link"
+          routerLink="/orders/closed"
+          (click)="mobileLinkClick()"
+        >
+          <span class="menu-mob__link-text">{{'Order history' | translate}}</span>
+        </a>
+
+        <!-- <a class="menu-mob__link" href="https://about.exrates.me/about-us" target="_blank"><span
+          class="menu-mob__link-text">{{'News' | translate}}</span>
+        </a> -->
+
+        <a class="menu-mob__link" routerLink="/ieo" (click)="mobileLinkClick()"><span
+          class="menu-mob__link-text">{{'Token sale' | translate}}</span>
+        </a>
+
+        <a class="menu-mob__link" href="https://about.exrates.me/fiat/" target="_blank"><span
+          class="menu-mob__link-text">{{'Fiat' | translate}}</span>
+        </a>
+
+        <a class="menu-mob__link" href="https://about.exrates.me/form-listing" target="_blank"><span
+          class="menu-mob__link-text">{{'Apply to list' | translate}}</span>
+        </a>
+
+        <a class="menu-mob__link" href="https://about.exrates.me/become-advisor" target="_blank"><span
+          class="menu-mob__link-text">{{'Become Advisor' | translate}}</span>
+        </a>
+
+        <a class="menu-mob__link" href="https://about.exrates.me/support-center"  target="_blank">
+          <span class="menu-mob__link-text">{{'Support' | translate}}</span>
+        </a>
+
+        <a class="menu-mob__link" href="https://about.exrates.me/client-center"  target="_blank">
+          <span class="menu-mob__link-text">{{'Contacts' | translate}}</span>
+        </a>
+
+        <a class="menu-mob__link" href="https://about.exrates.me/terms-of-use"  target="_blank">
+          <span class="menu-mob__link-text">{{'Terms and Conditions' | translate}}</span>
+        </a>
+
+        <a class="menu-mob__link" href="https://about.exrates.me/privacy-policy"  target="_blank">
+          <span class="menu-mob__link-text">{{'Privacy Policy' | translate}}</span>
+        </a>
+
+        <a class="menu-mob__link" href="https://support.exrates.me/article/fees-pairs"  target="_blank">
+          <span class="menu-mob__link-text">{{'Fees' | translate}}</span>
+        </a>
+
 
         <a class="menu-mob__link" routerLink="/news" (click)="mobileLinkClick()"><span
           class="menu-mob__link-text">{{'News' | translate}}</span>
         </a>
-        <a class="menu-mob__link" (click)="setMobileWidget('chat')" [routerLink]="['dashboard']" [queryParams]="{widget: 'chat'}" *ngIf="isAuthenticated"><span
-          class="menu-mob__link-text">{{'Chat' | translate}}</span>
-        </a>
 
-        <a class="menu-mob__link" routerLink="/ieo" (click)="mobileLinkClick()"><span
-          class="menu-mob__link-text">{{'IEO' | translate}}</span>
-        </a>
+        <!-- <a class="menu-mob__link" (click)="setMobileWidget('chat')" [routerLink]="['dashboard']" [queryParams]="{widget: 'chat'}" *ngIf="isAuthenticated"><span
+          class="menu-mob__link-text">{{'Chat' | translate}}</span>
+        </a> -->
+
+
         <!-- <div class="menu-mob__drop-wrap" *ngIf="showContent">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(IEO_FLAG)" [ngClass]="{'menu-mob__link--active': showIEOList}">
             <span class="menu-mob__link-text">{{'IEO' | translate}}</span>
@@ -388,10 +446,18 @@
             <a class="menu-mob__link" (click)="mobileLinkClick()" [routerLink]="'/ieo/' + ieo.id" *ngFor="let ieo of (ieoList$ | async)">{{ieo.currencyDescription}} ({{ieo.status | showStageStatus}})</a>
           </div>
         </div> -->
-        <a class="menu-mob__link" href="https://support.exrates.me">
-          <span class="menu-mob__link-text">{{'Support' | translate}}</span>
+
+        <a
+          *ngIf="isAuthenticated"
+          class="menu-mob__link"
+          routerLink="/settings"
+          (click)="mobileLinkClick()"
+        >
+          <span class="menu-mob__link-text">{{'Settings' | translate}}</span>
         </a>
+
         <a class="account-info__email cursor-pointer menu-mob__link" (click)="onLogout()" *ngIf="isAuthenticated">{{'logout' | translate}}</a>
+
         </nav>
       </div>
     </div>
