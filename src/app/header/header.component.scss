@@ -17,7 +17,7 @@
 	&.active{
 		opacity: 1;
 		pointer-events: auto;
-	}
+  }
 	.mobile-menu-inner{
 		display: flex;
 		flex-direction: column;
@@ -224,7 +224,7 @@ header{
 			display: flex;
 			align-items: center;
 			height: 100%;
-		}
+    }
 		li{
 			margin-right: .8em;
 			height: 100%;
@@ -234,7 +234,7 @@ header{
 				align-items: center;
 				height: 100%;
 				padding-bottom: .2em;
-				&:hover, &.active{
+				&:hover, &.active {
 					span{
 						color: #fff;
 
@@ -264,9 +264,16 @@ header{
 					padding: 4px 4px 3px;
 					right: -28px;
 					top: 8px;
-				}
-			}
-		}
+        }
+      }
+    }
+    li.active-parent {
+      a.active-child {
+        span{
+          color: #fff;
+        }
+      }
+    }
 	}
 	.right-part{
 		display: flex;
