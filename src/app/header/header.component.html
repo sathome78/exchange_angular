@@ -230,6 +230,9 @@
   *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'"
 >
   <div class="header-inner">
+    <div class="logo-wr">
+        <img src="assets/img/logo-exrates.svg" alt="logo">
+    </div>
     <div class="burger" (click)="openMenu()">
         <span></span>
     </div>
@@ -641,29 +644,29 @@
 
 
 <!-- HEADER MOBILE START-->
-<!-- <header class="header-mob" [ngClass]="{'header-mob--open': isMobileMenuOpen }" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile' && false" >
+<header class="header-mob" [ngClass]="{'header-mob--open': isMobileMenuOpen }" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile' && false" >
   <div class="header-mob__top">
     <div [ngClass]="{'header-mob__burger-content': !isMobileMenuOpen, 'header-mob__burger-content--open': isMobileMenuOpen }">
       <div class="mobile-title">
         <h3>{{'Account' | translate}}</h3>
       </div>
-      <div class="header-mob__controls-row"> -->
-        <!-- <a class="header-mob__controls-btn" (click)="tempPopup()">
+      <!-- <div class="header-mob__controls-row">
+        <a class="header-mob__controls-btn" (click)="tempPopup()">
           <img class="header-mob__controls-icon" src="../../assets/img/header-mob-settings.svg">
-        </a> -->
-      <!-- </div>
+        </a>
+      </div> -->
 
 
-      <div class="account-info" *ngIf="!(userInfo$ | async)"> -->
-        <!-- <div class="account-info__img"><span class="info__img-empty">?</span></div> -->
-        <!-- <div class="account-info__text"> -->
-          <!-- <div class="account-info__title">{{'New user' | translate}}</div> -->
-          <!-- <a class="account-info__email cursor-pointer no-auth" (click)="onMobileLogin()">{{'Login' | translate}}</a>
+      <div class="account-info" *ngIf="!(userInfo$ | async)">
+        <div class="account-info__img"><span class="info__img-empty">?</span></div>
+        <div class="account-info__text">
+          <div class="account-info__title">{{'New user' | translate}}</div>
+          <a class="account-info__email cursor-pointer no-auth" (click)="onMobileLogin()">{{'Login' | translate}}</a>
           <span class="slash">{{'or' | translate}}</span>
           <a class="account-info__email cursor-pointer no-auth" (click)="openRegistration()">{{'Register' | translate}}</a>
-        </div> -->
-        <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
-      <!-- </div>
+        </div>
+        <div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>
+      </div>
 
       <div class="account-info account-info--auth" *ngIf="userInfo$ | async">
         <div class="account-info__img account-info__img--auth">
@@ -675,28 +678,28 @@
         </div>
         <div class="account-info__text">
           <div class="account-info__title account-info__title--auth">{{(userInfo$ | async).username}}</div>
- -->
+
 
           <!-- change position on page. remember!!!!!! -->
-          <!-- <a class="account-info__email cursor-pointer" (click)="onLogout()">{{'logout' | translate}}</a> -->
-        <!-- </div> -->
+          <a class="account-info__email cursor-pointer" (click)="onLogout()">{{'logout' | translate}}</a>
+        </div>
 
 
-        <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
+        <div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>
 
-      <!-- </div>
+      </div>
       <div class="est-holding-wr">
         <a class="menu-mob__link menu-mob__link--next-page" *ngIf="isAuthenticated">
           <span class="menu-mob__link-text">{{'Estimated holdings' | translate}}</span>
           <span class="menu-mob__link-holdings-inf">${{(myBalance | async)?.data.USD || 0 | roundCurrency:'USD' | formatCurrency}}</span>
-        </a> -->
-        <!--<div class="e-h-descritption" *ngIf="isAuthenticated">-->
-          <!--<p>{{'Pleace do not disclose SMS and Goodle Authentication codes to ahyone, including Exrates customer support' | translate}}</p>-->
-        <!--</div>-->
-      <!-- </div>
+        </a>
+        <div class="e-h-descritption" *ngIf="isAuthenticated">
+          <p>{{'Pleace do not disclose SMS and Goodle Authentication codes to ahyone, including Exrates customer support' | translate}}</p>
+        </div>
+      </div>
 
-      <nav class="menu-mob"> -->
-        <!-- <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
+      <nav class="menu-mob">
+        <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(REFERRAL_FLAG)" [ngClass]="{'menu-mob__link--active' : showReferralList}">
             <span class="menu-mob__link-text">Referral</span>
           </a>
@@ -705,15 +708,15 @@
             {{'Transaction history' | translate}}</a>
             <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">{{'Balance' | translate}}</a>
           </div>
-        </div> -->
-        <!-- <a
+        </div>
+        <a
           *ngIf="isAuthenticated"
           class="menu-mob__link"
           >
 
           <span class="menu-mob__link-text">Identity Authentication</span>
-        </a> -->
-        <!-- <a
+        </a>
+        <a
         *ngIf="isAuthenticated"
         class="menu-mob__link"
         routerLink="/settings"
@@ -787,24 +790,24 @@
 
         <a class="menu-mob__link" routerLink="/ieo" (click)="mobileLinkClick()"><span
           class="menu-mob__link-text">{{'IEO' | translate}}</span>
-        </a> -->
+        </a>
 
-        <!-- <div class="menu-mob__drop-wrap" *ngIf="showContent">
+        <div class="menu-mob__drop-wrap" *ngIf="showContent">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(IEO_FLAG)" [ngClass]="{'menu-mob__link--active': showIEOList}">
             <span class="menu-mob__link-text">{{'IEO' | translate}}</span>
           </a>
           <div class="menu-mob__wrap-links" *ngIf="showIEOList">
             <a class="menu-mob__link" (click)="mobileLinkClick()" [routerLink]="'/ieo/' + ieo.id" *ngFor="let ieo of (ieoList$ | async)">{{ieo.currencyDescription}} ({{ieo.status | showStageStatus}})</a>
           </div>
-        </div> -->
+        </div>
 
-        <!-- <a class="menu-mob__link" href="https://support.exrates.me">
+        <a class="menu-mob__link" href="https://support.exrates.me">
           <span class="menu-mob__link-text">{{'Support' | translate}}</span>
         </a>
         <a class="account-info__email cursor-pointer menu-mob__link" (click)="onLogout()" *ngIf="isAuthenticated">{{'logout' | translate}}</a>
         </nav>
-      </div>
-    </div>
+      <!-- </div>
+    </div> -->
     <div class="header-mob__inner">
       <div class="header-mob__submenu">
         <a class="header-mob__submenu-link" [routerLink]="['dashboard']" [queryParams]="{widget: 'trading'}"
@@ -849,8 +852,8 @@
       </svg>
     </div>
     <span class="header-mob__submenu-link-text">{{'Balances' | translate}}</span>
-  </a> -->
-<!-- <a class="header-mob__submenu-link"
+  </a>
+<a class="header-mob__submenu-link"
 [routerLink]="['dashboard']"
 [queryParams]="{widget: 'trade-history'}"
 routerLinkActive="header-mob__submenu-link--active"
@@ -862,8 +865,8 @@ routerLinkActive="header-mob__submenu-link--active"
 </svg>
 
 <span class="header-mob__submenu-link-text">{{'History' | translate}}</span>
-</a> -->
-<!-- <a class="header-mob__submenu-link"
+</a>
+<a class="header-mob__submenu-link"
 [routerLink]="['orders/open']"
 routerLinkActive="header-mob__submenu-link--active"
 (click)="setMobileWidget('open')" *ngIf="isAuthenticated">
@@ -909,16 +912,16 @@ routerLinkActive="header-mob__submenu-link--active"
   </svg>
 </div>
 <span class="header-mob__submenu-link-text">{{'Markets' | translate}}</span>
-</a> -->
-   <!--  <a class="header-mob__submenu-link"
+</a>
+    <a class="header-mob__submenu-link"
     [routerLink]="['dashboard']"
     [queryParams]="{widget: 'chat'}"
     [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'chat' }"
     (click)="setMobileWidget('chat')">
     <img class="header-mob__submenu-link-img" src="../../assets/img/header-sumbenu-link6.svg">
     <span class="header-mob__submenu-link-text">{{'Chat' | translate}}</span>
-  </a> -->
-  <!-- <a class="header-mob__submenu-link"
+  </a>
+  <a class="header-mob__submenu-link"
   (click)="openMenu()">
   <div class="menu-item-ico">
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -935,14 +938,14 @@ routerLinkActive="header-mob__submenu-link--active"
   </div>
   <span class="header-mob__submenu-link-text">{{'Account' | translate}}</span>
 </a>
-</div> -->
-<!-- <a class="header-mob__link header-mob__link-burger">
+</div>
+<a class="header-mob__link header-mob__link-burger">
   <div class="header-mob__link-inner" (click)="openMenu()">
     <img class="header-mob__link-img" src="../../assets/img/header-mob-burger.svg">
   </div>
-</a> -->
-<!-- </div>
-</header> -->
+</a>
+</div>
+</header>
 <!-- HEADER MOBILE END-->
 
 

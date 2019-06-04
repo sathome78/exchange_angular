@@ -37,7 +37,7 @@ import { IEOItem } from 'app/model/ieo.model';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  public isMobileMenuOpen = true;
+  public isMobileMenuOpen = false;
   public mobileView = 'markets';
   public userInfo$: Observable<ParsedToken>;
   // public ieoList$: Observable<IEOItem[]>;
