@@ -1,4 +1,5 @@
 export const FUNDS_FLAG = 'fundsFlag';
+export const COMMUNITY_FLAG = 'communityFlag';
 export const ORDERS_FLAG = 'ordersFlag';
 export const TRANSLATE_FLAG = 'translateFlag';
 export const NGX_TRANSLATE_FLAG = 'ngx translate flag';
