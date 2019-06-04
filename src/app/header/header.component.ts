@@ -8,7 +8,16 @@ import {UserService} from '../shared/services/user.service';
 import {SettingsService} from '../settings/settings.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 import {environment} from '../../environments/environment';
-import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG, LANG_ARRAY, TRANSLATE_FLAG, IEO_FLAG, NGX_TRANSLATE_FLAG} from './header.constants';
+import {
+  FUNDS_FLAG,
+  REFERRAL_FLAG,
+   ORDERS_FLAG,
+   LANG_ARRAY,
+   TRANSLATE_FLAG,
+   IEO_FLAG,
+   NGX_TRANSLATE_FLAG,
+   COMMUNITY_FLAG
+} from './header.constants';
 import {MyBalanceItem} from '../model/my-balance-item.model';
 import {Observable, Subject} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
@@ -33,6 +42,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public userInfo$: Observable<ParsedToken>;
   // public ieoList$: Observable<IEOItem[]>;
   public showFundsList: boolean;
+  public showCommunityList: boolean;
   public showOrdersList: boolean;
   public translateList: boolean;
   public ngxTranslateList: boolean;
@@ -40,6 +50,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public showIEOList: boolean;
   public isAuthenticated: boolean = false;
   public FUNDS_FLAG = FUNDS_FLAG;
+  public COMMUNITY_FLAG = COMMUNITY_FLAG;
   public NGX_TRANSLATE_FLAG = NGX_TRANSLATE_FLAG;
   public TRANSLATE_FLAG = TRANSLATE_FLAG;
   public REFERRAL_FLAG = REFERRAL_FLAG;
@@ -173,6 +184,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   resetDropdowns() {
     this.showFundsList = false;
+    this.showCommunityList = false;
     this.showOrdersList = false;
     this.showReferralList = false;
     this.ngxTranslateList = false;
@@ -184,6 +196,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     switch (showList) {
       case FUNDS_FLAG:
         this.showFundsList = !this.showFundsList;
+        break;
+      case COMMUNITY_FLAG:
+        this.showCommunityList = !this.showCommunityList;
         break;
       case NGX_TRANSLATE_FLAG:
         this.ngxTranslateList = !this.ngxTranslateList;
