@@ -1,5 +1,5 @@
 
-<footer class="footer">
+<footer class="footer" *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
   <div class="footer-inner">
     <div class="top-part">
       <div class="social-wr">
@@ -62,7 +62,7 @@
           <div class="info-page-item">
               <a href="#"><span>API</span></a>
           </div>
-      </div> -->
+      </div> -->*ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
       <div class="inside-page-wr">
         <div class="inside-page-item">
           <a href="https://about.exrates.me/support-center" target="blank"><span>Support</span></a>
