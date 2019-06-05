@@ -287,16 +287,16 @@
                 </div>
             </div>
             <div class="menu-mob__drop-wrap" [ngClass]="{'active': showOrdersList}">
-                <a
-                  class="menu-mob__link menu-mob__link--drop menu-mob__link--active"
-                  (click)="toggleMenuDropdowns(ORDERS_FLAG)"
-                >
-                    <span class="menu-mob__link-text">{{'Orders' | translate}}</span>
-                </a>
-                <div class="menu-mob__wrap-links" >
-                    <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/orders/open">Open orders</a>
-                    <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/orders/closed">Orders history</a>
-                </div>
+              <a
+                class="menu-mob__link menu-mob__link--drop menu-mob__link--active"
+                (click)="toggleMenuDropdowns(ORDERS_FLAG)"
+              >
+                  <span class="menu-mob__link-text">{{'Orders' | translate}}</span>
+              </a>
+              <div class="menu-mob__wrap-links" >
+                  <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/orders/open">Open orders</a>
+                  <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/orders/closed">Orders history</a>
+              </div>
             </div>
             <a class="menu-mob__link" href="https://about.exrates.me/about-us">
                 <span class="menu-mob__link-text">{{'About us' | translate }}</span>
