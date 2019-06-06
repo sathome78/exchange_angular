@@ -109,7 +109,6 @@ export class PopupBuyComponent implements OnInit, OnChanges {
       this.form.get('amount').setValue(val.toString().substr(0, val.length - 1));
     }
     if(e) {
-      val.toString()
       const value = parseFloat(this.deleteSpace(val.toString()));
       this.countPay(value);
     }
