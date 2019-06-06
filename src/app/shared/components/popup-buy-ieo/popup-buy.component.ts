@@ -26,6 +26,8 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   public maxSumShow: string = '';
   public pay: number = 0;
   public loading: boolean = true;
+  public inputValue = 0;
+  private checkCyrilic = /[а-яА-ЯёЁ]/ig;
   public prevValue;
   private ngUnsubscribe$: Subject<void> = new Subject<void>();
 
@@ -101,8 +103,14 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   }
 
   onInput(e) {
+      const val = e.target.value;
+      this.inputValue = parseFloat(val);
+    if (new RegExp(this.checkCyrilic).test(val.toString())) {
+      this.form.get('amount').setValue(val.toString().substr(0, val.length - 1));
+    }
     if(e) {
-      const value = parseFloat(this.deleteSpace(e.target.value.toString()));
+      val.toString()
+      const value = parseFloat(this.deleteSpace(val.toString()));
       this.countPay(value);
     }
   }
