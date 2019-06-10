@@ -36,14 +36,9 @@ export class SendTfaComponent implements OnInit, OnDestroy {
     const pinData = {
       amount: this.data.data.sum || 0,
       currencyName: this.data.data.currencyName
-    }
+    };
 
-    this.balanceService.sendPinCode(pinData)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.pincodeFrom = res.status === 201 ? CODE_FROM_EMAIL : CODE_FROM_GOOGLE;
-        this.subtitleMessage = this.pincodeFrom ? '' : this.translateService.instant('Put the code');
-      });
+    this.choosePinMethod(this.data.operation, pinData);
 
     this.form = new FormGroup({
       pin: new FormControl('', [Validators.required]),
@@ -56,6 +51,37 @@ export class SendTfaComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
+  choosePinMethod(operation: string, pinData) {
+    switch (operation) {
+      case SEND_FIAT:
+      case SEND_CRYPTO:
+        this.sendWithdrawalPin(pinData);
+        break;
+      case TRANSFER_INSTANT:
+      case BY_PRIVATE_CODE:
+        this.sendTransferPin(pinData);
+        break;
+    }
+
+  }
+
+  sendWithdrawalPin(pinData) {
+    this.balanceService.sendWithdrawalPinCode(pinData)
+    .pipe(takeUntil(this.ngUnsubscribe))
+    .subscribe(res => {
+      this.pincodeFrom = res.status === 201 ? CODE_FROM_EMAIL : CODE_FROM_GOOGLE;
+      this.subtitleMessage = this.pincodeFrom ? '' : this.translateService.instant('Put the code');
+    });
+  }
+
+  sendTransferPin(pinData) {
+    this.balanceService.sendTransferPinCode(pinData)
+    .pipe(takeUntil(this.ngUnsubscribe))
+    .subscribe(res => {
+      this.pincodeFrom = res.status === 201 ? CODE_FROM_EMAIL : CODE_FROM_GOOGLE;
+      this.subtitleMessage = this.pincodeFrom ? '' : this.translateService.instant('Put the code');
+    });
+  }
 
   onSubmit() {
     if (this.form.valid) {
