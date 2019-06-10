@@ -67,7 +67,7 @@
       </div>
       <button
         class="btn btn--active btn--center btn-ieo"
-        [disabled]="!form.valid"
+        [disabled]="!form.valid || inputValue <= 0"
       >{{'Confirm' | translate}}</button>
     </form>
 	</div>
