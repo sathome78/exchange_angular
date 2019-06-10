@@ -113,7 +113,7 @@ export class BalanceService {
   }
 
   sendPinCode(data) {
-    const url = `${this.apiUrl}/api/private/v2/balances/withdraw/request/pin`;
+    const url = `${this.apiUrl}/api/private/v2/balances/transfer/request/pin`;
     return this.http.post(url, data, { observe: 'response' });
   }
 
