@@ -239,7 +239,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
           this.generateNewAddress();
         }
         if (this.cryptoDataByName.currency.name === 'LHT') {
-          this.qrAddress = `usdx:${this.currentMerchant.mainAddress}?currency=${'LHT'}&memo=${this.currentMerchant.address}T&ro=true`;
+          this.qrAddress = `usdx:${this.currentMerchant.mainAddress}?currency=${'LHT'}&memo=${this.currentMerchant.address}&ro=true`;
         }
       } else {
         this.address = this.currentMerchant.address;
