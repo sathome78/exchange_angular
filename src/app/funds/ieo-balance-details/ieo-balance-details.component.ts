@@ -21,7 +21,7 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
   public currencies = {
     BTC: 'BTC',
     USD: 'USD',
-  }
+  };
 
   public stage = {
     PENDING: 'PENDING',
@@ -29,13 +29,13 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
     TERMINATED: 'TERMINATED',
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
-  }
+  };
 
   public selectedItem: any = {};
   public ieoBalances$: Observable<IEOItem[]>
   public IEOData: IEOItem;
-  public showBuyIEO: boolean = false;
-  public showSuccessIEO: boolean = false;
+  public showBuyIEO = false;
+  public showSuccessIEO = false;
   public userInfo: ParsedToken;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   constructor(
@@ -53,21 +53,21 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
         const currencyId = +params['id'];
         this.ieoBalances$.pipe(takeUntil(this.ngUnsubscribe))
           .subscribe((balances) => {
-            if(balances && balances.length) {
+            if (balances && balances.length) {
               this.IEOData = balances.find((res) => res.id == currencyId);
             }
-          })
+          });
       });
       this.store.pipe(select(fromCore.getUserInfo))
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((userInfo: ParsedToken) => {
           this.userInfo = userInfo;
-          if(this.userInfo && this.userInfo.publicId) {
+          if (this.userInfo && this.userInfo.publicId) {
             this.getIEOTable(this.userInfo.publicId);
           } else {
-            console.error('publicId = ', this.userInfo.publicId)
+            console.error('publicId = ', this.userInfo.publicId);
           }
-        })
+        });
   }
 
 
@@ -78,7 +78,7 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
   }
 
   public goToIeo(id) {
-    this.router.navigate([`/ieo/${id}`])
+    this.router.navigate([`/ieo/${id}`]);
   }
   public goToIeoNews(name) {
     window.open(`https://news.exrates.me/article/${name}`, '_blank');
@@ -88,13 +88,13 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
     this.ieoService.getListIEOTab(publicId)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: IEOItem[]) => {
-        this.store.dispatch(new fundsAction.SetIEOBalancesAction(res))
-      })
+        this.store.dispatch(new fundsAction.SetIEOBalancesAction(res));
+      });
   }
 
   public getFormatDate(d) {
-    if(!d) {
-      return '0000-00-00 00:00:00'
+    if (!d) {
+      return '0000-00-00 00:00:00';
     }
     return moment.utc({
       y: d.year,
@@ -126,12 +126,13 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
     this.ieoService.buyTokens({
       currencyName: this.IEOData.currencyName,
       amount: amount + '',
+      test: this.IEOData.testIeo,
     })
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res) => {
         this.closeBuyIEO();
         this.openSuccessIEO();
-      })
+      });
   }
 
   ngOnDestroy(): void {
