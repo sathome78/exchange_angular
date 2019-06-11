@@ -6,17 +6,24 @@ import {takeUntil, withLatestFrom} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {State, getActiveCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getIsAuthenticated, getUserBalance} from 'app/core/reducers/index';
-import {UserService} from 'app/shared/services/user.service';
-import {OrderItem, UserBalance} from 'app/model';
-import {PopupService} from 'app/shared/services/popup.service';
+import {
+  State,
+  getActiveCurrencyPair,
+  getLastPrice,
+  getSelectedOrderBookOrder,
+  getIsAuthenticated,
+  getUserBalance
+} from '../../../core/reducers/index';
+import {UserService} from '../../../shared/services/user.service';
+import {OrderItem, UserBalance} from '../../../model';
+import {PopupService} from '../../../shared/services/popup.service';
 import {TranslateService} from '@ngx-translate/core';
-import {LastPrice} from 'app/model/last-price.model';
-import {BUY, orderBaseType, SELL} from 'app/shared/constants';
-import {Order} from 'app/model/order.model';
-import {TradingService} from 'app/dashboard/services/trading.service';
-import {BreakpointService} from 'app/shared/services/breakpoint.service';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import {LastPrice} from '../../../model/last-price.model';
+import {BUY, orderBaseType, SELL} from '../../../shared/constants';
+import {Order} from '../../../model/order.model';
+import {TradingService} from '../../../dashboard/services/trading.service';
+import {BreakpointService} from '../../../shared/services/breakpoint.service';
+import {SimpleCurrencyPair} from '../../../model/simple-currency-pair';
 import {SetLastCreatedOrderAction} from '../../actions/dashboard.actions';
 
 @Component({
@@ -29,7 +36,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public isAuthenticated: boolean = false;
+  public isAuthenticated = false;
   /** dashboard item name (field for base class)*/
   public itemName: string = 'trading';
   /** toggle for limits-dropdown */
@@ -60,8 +67,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public SELL = SELL;
   public BUY = BUY;
   public createdOrder: Order;
-  private updateCurrentCurrencyViaWebsocket = false;
-  public loading: boolean = false;
+
+  public loading = false;
   private successTimeout;
   private failTimeout;
 
@@ -146,21 +153,23 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(select(getLastPrice))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((lastPrice: LastPrice) => {
-        if (!this.updateCurrentCurrencyViaWebsocket && this.isPossibleSetPrice) {
+        if (this.isPossibleSetPrice) {
           this.setPriceInValue(lastPrice.price, this.BUY);
           this.setPriceInValue(lastPrice.price, this.SELL);
           this.sellOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
           this.buyOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
           this.resetStopValue();
         }
-        this.updateCurrentCurrencyViaWebsocket = false;
         this.cdr.detectChanges();
       });
 
     this.store
       .pipe(select(getSelectedOrderBookOrder))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (order) => {
+      .subscribe((order) => {
+        if (order.exrate !== '0') {
+          this.isPossibleSetPrice = false;
+        }
         this.orderFromOrderBook(order);
         this.cdr.detectChanges();
       });
@@ -360,7 +369,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.resetSellModel();
     this.resetBuyModel();
     this.splitPairName();
-    if(isAuth) {
+    if (isAuth) {
       this.getCommissionIndex(this.BUY, this.currentPair.id);
       this.getCommissionIndex(this.SELL, this.currentPair.id);
     }
@@ -454,6 +463,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   quantityInput(e, type: string): void {
     this.isTotalWithCommission = false;
+    this.isPossibleSetPrice = false;
     const value = e.target.value === '' ? 0 : e.target.value;
     if (type === this.BUY) {
       this.buyOrder.amount = parseFloat(this.deleteSpace(value.toString()));
@@ -486,7 +496,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param event
    */
   stopInput(event, type: string): void {
-
+    this.isPossibleSetPrice = false;
     if (type === this.BUY) {
       this.buyStopValue = event.target.value;
       this.setStopValue(event.target.value, type);
@@ -502,6 +512,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   totalInput(event, type: string): void {
     this.isTotalWithCommission = false;
+    this.isPossibleSetPrice = false;
     type === this.BUY ?
       this.inputTotalNested(event, type, this.buyOrder) :
       this.inputTotalNested(event, type, this.sellOrder);
@@ -524,13 +535,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   private exponentToNumber(x) {
     if (Math.abs(x) < 1.0) {
-      let e = parseInt(x.toString().split('e-')[1]);
+      const e = parseInt(x.toString().split('e-')[1], 10);
       if (e) {
         x *= Math.pow(10, e - 1);
         x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
       }
     } else {
-      let e = parseInt(x.toString().split('+')[1]);
+      let e = parseInt(x.toString().split('+')[1], 10);
       if (e > 20) {
         e -= 20;
         x /= Math.pow(10, e);
@@ -606,7 +617,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.tradingService.createOrder(order)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
-          this.isPossibleSetPrice = false;
           type === this.BUY
             ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
             : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
@@ -624,6 +634,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.userService.getUserBalance(this.currentPair);
     this.notifySuccess = true;
     this.loading = false;
+    this.isPossibleSetPrice = true;
     this.cdr.detectChanges();
     this.successTimeout = setTimeout(() => {
       this.notifySuccess = false;
