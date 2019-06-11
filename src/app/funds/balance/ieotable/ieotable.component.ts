@@ -122,6 +122,7 @@ export class IEOTableComponent implements OnInit {
     this.ieoService.buyTokens({
       currencyName: this.selectedIEO.currencyName,
       amount: amount + '',
+      test: this.selectedIEO.testIeo,
     })
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res) => {
