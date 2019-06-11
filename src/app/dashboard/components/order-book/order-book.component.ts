@@ -32,7 +32,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   @ViewChild('mainContent') public orderBookContainer: ElementRef;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
-  public itemName: string = 'order-book';
+  public itemName = 'order-book';
   private orderBookSub$: Subscription;
   public currencyPairInfo: CurrencyPairInfo = null;
 
@@ -40,10 +40,10 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   private sellOrders: OrderItem [] = [];
   private buyOrders: OrderItem [] = [];
-  public lastExrate: number = 0;
-  public preLastExrate:number = 0;
+  public lastExrate = 0;
+  public preLastExrate = 0;
   public isExratePositive = true;
-  public loading: boolean = true;
+  public loading = true;
 
   public sellVisualizationArray = [];
   public buyVisualizationArray = [];
@@ -78,7 +78,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     [1270, 1340, 16],
     [1340, 1410, 17],
     [1410, 1480, 18],
-  ]
+  ];
 
   constructor(
     private store: Store<State>,
@@ -109,10 +109,10 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       .subscribe((pair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = pair;
         this.splitCurrencyName = pair.name.split('/');
-        if(pair.id !== 0) {
-          this.subscribeOrderBook(pair.name, this.precisionOut)
+        if (pair.id !== 0) {
+          this.subscribeOrderBook(pair.name, this.precisionOut);
         }
-        this.cdr.detectChanges()
+        this.cdr.detectChanges();
       });
   }
 
@@ -159,11 +159,11 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.initData(data);
         this.loadingFinished();
         this.cdr.detectChanges();
-      })
+      });
   }
 
   unsubscribeOrderBook() {
-    if(this.orderBookSub$) {
+    if (this.orderBookSub$) {
       this.orderBookSub$.unsubscribe();
     }
   }
@@ -183,14 +183,14 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   private initData(orders: OrderBookItem[]) {
-    if(!orders[0]) {
+    if (!orders[0]) {
       return;
     }
-      this.calculateVisualizationWidth(this.lastBuyTotal, this.lastSellTotal);
+    this.calculateVisualizationWidth(this.lastBuyTotal, this.lastSellTotal);
 
     orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) :
     orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : null;
-    if(orders[1]) {
+    if (orders[1]) {
       orders[1].orderType === 'SELL' ? this.setSellOrders(orders[1]) :
       orders[1].orderType === 'BUY' ? this.setBuyOrders(orders[1]) : null;
     }
@@ -199,11 +199,11 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.lastExrate = +orders[0].lastExrate;
     this.preLastExrate = +orders[0].preLastExrate;
     this.isExratePositive = orders[0].positive;
-      const lastPrice = {
-        flag: this.isExratePositive,
-        price: this.lastExrate
-      }
-      this.store.dispatch(new SetLastPriceAction(lastPrice));
+    const lastPrice = {
+      flag: this.isExratePositive,
+      price: this.lastExrate
+    };
+    this.store.dispatch(new SetLastPriceAction(lastPrice));
     this.setData();
   }
 
@@ -261,7 +261,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     if (this.precision <= 0.01) {
       this.precision *= 10;
       this.precisionOut--;
-      this.subscribeOrderBook(this.activeCurrencyPair.name, this.precisionOut)
+      this.subscribeOrderBook(this.activeCurrencyPair.name, this.precisionOut);
     }
   }
 
@@ -272,7 +272,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     if (this.precision >= 0.0001) {
       this.precision /= 10;
       this.precisionOut++;
-      this.subscribeOrderBook(this.activeCurrencyPair.name, this.precisionOut)
+      this.subscribeOrderBook(this.activeCurrencyPair.name, this.precisionOut);
 
     }
   }
@@ -320,9 +320,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         if (this.sellOrders[i] && this.sellOrders[i + 1]) {
           const tempElementSell = this.getPercentageOfTheMuxBuyOrSell(+this.sellOrders[i].total, false);
           const nextElementSell = this.getPercentageOfTheMuxBuyOrSell(+this.sellOrders[i + 1].total, false);
-          const valueforSell = tempElementSell - nextElementSell;
+          const valueForSell = tempElementSell - nextElementSell;
 
-          sell[i] = (((containerWidth / 100) * valueforSell) * -1) + 'px';
+          sell[i] = (((containerWidth / 100) * valueForSell) * -1) + 'px';
         }
       }
       this.withForChartLineElements = {
