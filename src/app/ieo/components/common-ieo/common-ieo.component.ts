@@ -207,7 +207,6 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.ieoService.buyTokens({
       currencyName: this.buyIEOData.currencyName,
       amount: amount + '',
-      test: this.buyIEOData.testIeo,
     })
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res) => {

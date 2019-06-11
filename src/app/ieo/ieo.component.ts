@@ -145,7 +145,6 @@ export class IEOComponent implements OnInit, OnDestroy {
     this.ieoService.buyTokens({
       currencyName: this.IEOData.currencyName,
       amount: amount + '',
-      test: this.IEOData.testIeo,
     })
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((res) => {

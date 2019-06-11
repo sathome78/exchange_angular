@@ -31,7 +31,7 @@ export class IEOServiceService {
     return this.http.put<ResponseModelIEO<boolean>>(`${this.apiUrl}/api/private/v2/dashboard/policy/IEO`, {});
   }
 
-  public buyTokens(data: {currencyName: string, amount: string, test: boolean}): Observable<ResponseModelIEO<IEOSuccessBuyModel>> {
+  public buyTokens(data: {currencyName: string, amount: string}): Observable<ResponseModelIEO<IEOSuccessBuyModel>> {
     return this.http.post<ResponseModelIEO<IEOSuccessBuyModel>>(`${this.apiUrl}/api/private/v2/ieo/claim`, data);
   }
 
