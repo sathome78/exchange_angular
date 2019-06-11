@@ -16,7 +16,7 @@ export class IEOItem {
   public endDate: any;
   public version: number;
   public readyToIeo: boolean;
-  public testIeo: boolean;
+  public multiplyProcessing: boolean;
   public description: string;
   public logo: string;
 }

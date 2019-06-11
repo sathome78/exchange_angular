@@ -109,7 +109,7 @@ export class IEOComponent implements OnInit, OnDestroy {
 
   handleTestIEO(data: IEOItem) {
     if (
-      data.testIeo &&
+      data.multiplyProcessing &&
       data.status === this.stage.TERMINATED &&
       this._firstLoadedStatus !== this.stage.TERMINATED
     ) {
@@ -149,7 +149,7 @@ export class IEOComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((res) => {
         this.toggleBuy(false);
-        if (this.IEOData.testIeo && this.currentStage === this.stage.RUNNING) {
+        if (this.IEOData.multiplyProcessing && this.currentStage === this.stage.RUNNING) {
           this.toggleWait(true);
         } else {
           this.toggleSuccess(true);
