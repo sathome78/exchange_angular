@@ -55,7 +55,7 @@ export class IEOTableComponent implements OnInit {
       const ieo = data.find((i) => i.id === this.selectedIEO.id);
       if (
         ieo &&
-        ieo.testIeo &&
+        ieo.multiplyProcessing &&
         ieo.status === this.stage.TERMINATED &&
         this._firstLoadedStatus !== this.stage.TERMINATED
       ) {
@@ -127,7 +127,7 @@ export class IEOTableComponent implements OnInit {
       .subscribe((res) => {
         this._firstLoadedStatus = this.selectedIEO.status;
         this.closeBuyIEO();
-        if (this.selectedIEO.testIeo && this.selectedIEO.status === this.stage.RUNNING) {
+        if (this.selectedIEO.multiplyProcessing && this.selectedIEO.status === this.stage.RUNNING) {
           this.toggleWait(true);
         } else {
           this.openSuccessIEO();

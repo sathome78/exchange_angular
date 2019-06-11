@@ -99,7 +99,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.store.pipe(select(fromCore.getIEOList))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        // res.forEach((i) => i.testIeo = true);
+        // res.forEach((i) => i.multiplyProcessing = true);
 
         res.forEach((i) => {
           const itemIndex = this.cacheIeoList.findIndex((ci) => ci.id === i.id);
@@ -212,7 +212,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this._firstLoadedStatus = this.buyIEOData.status;
         this.closeBuyIEO();
-        if (this.buyIEOData.testIeo && this.buyIEOData.status === this.stage.RUNNING) {
+        if (this.buyIEOData.multiplyProcessing && this.buyIEOData.status === this.stage.RUNNING) {
           this.toggleWait(true);
         } else {
           this.openSuccessIEO();
@@ -225,7 +225,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       const ieo = this.ieoList.find((i) => i.id === this.buyIEOData.id);
       if (
         ieo &&
-        ieo.testIeo &&
+        ieo.multiplyProcessing &&
         ieo.status === this.stage.TERMINATED &&
         this._firstLoadedStatus !== this.stage.TERMINATED
       ) {
