@@ -165,7 +165,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
           this.setPriceInValue(lastPrice.price, this.SELL);
           this.sellOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
           this.buyOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
-          this.resetStopValue();
+          // this.resetStopValue();
         }
         this.updateCurrentCurrencyViaWebsocket = false;
         this.cdr.detectChanges();
@@ -194,7 +194,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       this.buyForm.get('price').setValue(price.toString());
     }
     if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
-      this.buyOrder.stop = price;
+      this.buyStopValue = price;
       this.buyForm.get('stop').setValue(stopPrice.toString());
     }
   }
@@ -208,7 +208,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       this.sellForm.get('price').setValue(price.toString());
     }
     if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
-      this.sellOrder.stop = stopPrice;
+      this.sellStopValue = stopPrice;
       this.sellForm.get('stop').setValue(stopPrice.toString());
     }
   }
@@ -262,10 +262,12 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     this.isDropdownOpen = false;
   }
 
-  private resetStopValue(): void {
-    this.buyStopValue = 0;
-    this.sellStopValue = 0;
-  }
+  // private resetStopValue(): void {
+  //   this.buyStopValue = 0;
+  //   this.sellStopValue = 0;
+  //   this.setStopValue('0', 'BUY');
+  //   this.setStopValue('0', 'SELL');
+  // }
 
   /**
    * set form value (quantityOf)
@@ -371,6 +373,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   private onGetCurrentCurrencyPair(pair: SimpleCurrencyPair, isAuth: boolean): void {
     this.isPossibleSetPrice = true;
     this.currentPair = pair;
+    this.userService.getUserBalance(this.currentPair);
     this.resetSellModel();
     this.resetBuyModel();
     this.splitPairName();
