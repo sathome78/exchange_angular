@@ -65,7 +65,7 @@
 
 <div class="refill__crypto-refill-info" *ngIf="cryptoDataByName?.merchantCurrencyData?.length">
   <div class="refill__qr-code">
-    <qr-code [value]="address" *ngIf="address" [size]="150"></qr-code>
+    <qr-code [value]="qrAddress" *ngIf="qrAddress && address" [size]="150"></qr-code>
   </div>
   <div>
     <div class="refill__crypto-address" *ngIf="address">
