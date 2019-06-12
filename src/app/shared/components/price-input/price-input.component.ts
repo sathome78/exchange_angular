@@ -128,7 +128,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   sliceFraction(value: string, count: number): string {
-    const index = value.indexOf('.');
+    const index = value.toString().indexOf('.');
     if (index >= 0) {
       const temp = value.substr(0, index + 1 + count);
       return this.thousandsFormat(temp, true);
