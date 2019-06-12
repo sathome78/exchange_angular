@@ -15,6 +15,7 @@ import {KycIEOModel} from '../../models/ieo-kyc.model';
 import {ThankPopupModel} from '../../../shared/models/thank-popup-model';
 import {AuthService} from '../../../shared/services/auth.service';
 import * as coreAction from '../../../core/actions/core.actions';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-common-ieo',
@@ -99,30 +100,18 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.store.pipe(select(fromCore.getIEOList))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        // res.forEach((i) => i.multiplyProcessing = true);
-
-        res.forEach((i) => {
-          const itemIndex = this.cacheIeoList.findIndex((ci) => ci.id === i.id);
-          if (itemIndex >= 0) {
-            this.cacheIeoList[itemIndex] = i;
+        this.ieoList = [...(res as IEOItem[]).sort((a, b) => {
+          const aT = this.getDateValue(a.startDate);
+          const bT = this.getDateValue(b.startDate);
+          const diff = aT - bT;
+          if (diff < 0 ) {
+            return 1;
+          } else if (diff > 0) {
+            return -1;
           } else {
-            this.cacheIeoList.push(i);
+            return 0;
           }
-        });
-
-        this.ieoList = ([...this.cacheIeoList] as IEOItem[]).reverse();
-
-        // for test only
-        // if (this.ieoList) {
-        //   const ieoTestInd = this.ieoList.findIndex((i) => i.id == 17);
-        //   if (ieoTestInd >= 0) {
-        //     setTimeout(() => {
-        //       this.ieoList[ieoTestInd].status = this.stage.TERMINATED;
-        //       this.handleTestIEO();
-        //     }, 2000);
-        //   }
-        // }
-
+        })];
         this.handleTestIEO();
       });
   }
@@ -325,5 +314,19 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       const a = (this.boughtAmount(IEOData) / (IEOData.amount / 100)) || 0;
       return a.toFixed(2);
     };
+  }
+
+  public getDateValue(d) {
+    if (!d) {
+      return 0;
+    }
+    return moment.utc({
+      y: d.year,
+      M: d.monthValue - 1,
+      d: d.dayOfMonth,
+      h: d.hour,
+      m: d.minute,
+      s: d.second,
+    }).valueOf();
   }
 }
