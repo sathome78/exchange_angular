@@ -498,10 +498,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   stopInput(event, type: string): void {
     this.isPossibleSetPrice = false;
     if (type === this.BUY) {
-      this.buyStopValue = event.target.value;
+      this.buyStopValue = parseFloat(this.deleteSpace(event.target.value.toString()));
       this.setStopValue(event.target.value, type);
     } else {
-      this.sellStopValue = event.target.value;
+      this.sellStopValue = parseFloat(this.deleteSpace(event.target.value.toString()));
       this.setStopValue(event.target.value, type);
     }
   }
