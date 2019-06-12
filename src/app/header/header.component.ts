@@ -219,7 +219,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   mobileLinkClick(lang: string = null) {
-    if (!!lang) this.changeLocalization(lang);
+    if (!!lang) {
+      this.changeLocalization(lang);
+    }
     this.resetDropdowns();
     this.mobileView = '';
     this.isMobileMenuOpen = false;

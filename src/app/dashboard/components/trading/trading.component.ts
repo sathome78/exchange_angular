@@ -38,7 +38,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public isAuthenticated = false;
   /** dashboard item name (field for base class)*/
-  public itemName: string = 'trading';
+  public itemName = 'trading';
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dropdown limit data */
@@ -93,7 +93,11 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
    /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
-    if (!$event.target.className.includes('widget__trading-btn')) {
+    if (
+      $event.target.nodeName === 'svg' && !$event.target.parentNode.className.includes('widget__trading-btn') ||
+      $event.target.nodeName === 'path' && !$event.target.parentNode.parentNode.className.includes('widget__trading-btn') ||
+      !$event.target.className.includes('widget__trading-btn')
+    ) {
       this.notifyFail = false;
     }
     this.notifySuccess = false;
@@ -158,7 +162,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
           this.setPriceInValue(lastPrice.price, this.SELL);
           this.sellOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
           this.buyOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
-          this.resetStopValue();
+          // this.resetStopValue();
         }
         this.cdr.detectChanges();
       });
@@ -189,7 +193,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.setPriceInValue(price, this.BUY);
     }
     if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
-      this.buyOrder.stop = price;
+      this.buyStopValue = stopPrice;
       this.setStopValue(stopPrice, this.BUY);
     }
   }
@@ -203,7 +207,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.setPriceInValue(price, this.SELL);
     }
     if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
-      this.sellOrder.stop = stopPrice;
+      this.sellStopValue = stopPrice;
       this.setStopValue(stopPrice, this.SELL);
     }
   }
@@ -257,10 +261,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.isDropdownOpen = false;
   }
 
-  private resetStopValue(): void {
-    this.buyStopValue = 0;
-    this.sellStopValue = 0;
-  }
+  // private resetStopValue(): void {
+  //   this.buyStopValue = 0;
+  //   this.sellStopValue = 0;
+  //   this.setStopValue('0', 'BUY');
+  //   this.setStopValue('0', 'SELL');
+  // }
 
   /**
    * set form value (quantityOf)
@@ -366,6 +372,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   private onGetCurrentCurrencyPair(pair: SimpleCurrencyPair, isAuth: boolean): void {
     this.isPossibleSetPrice = true;
     this.currentPair = pair;
+    this.userService.getUserBalance(this.currentPair);
     this.resetSellModel();
     this.resetBuyModel();
     this.splitPairName();

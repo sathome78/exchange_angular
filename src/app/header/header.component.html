@@ -216,7 +216,7 @@
         <div class="login-menu__submenu">
           <div class="login-menu__submenu-item">
             <div class="item-title">{{'Account' | translate}}</div>
-            <span>{{ getUsername() }}</span>
+            <span>{{ (userInfo$ | async).username }}</span>
           </div>
           <div class="login-menu__submenu-item">
             <div class="item-title">{{'Estimated Holdings' | translate}}</div>
