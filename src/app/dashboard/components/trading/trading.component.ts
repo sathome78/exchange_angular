@@ -6,7 +6,14 @@ import {takeUntil, withLatestFrom} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {State, getActiveCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getIsAuthenticated, getUserBalance} from 'app/core/reducers/index';
+import {
+  State,
+  getActiveCurrencyPair,
+  getLastPrice,
+  getSelectedOrderBookOrder,
+  getIsAuthenticated,
+  getUserBalance
+} from 'app/core/reducers/index';
 import {UserService} from 'app/shared/services/user.service';
 import {OrderItem, UserBalance} from 'app/model';
 import {PopupService} from 'app/shared/services/popup.service';
@@ -17,7 +24,7 @@ import {Order} from 'app/model/order.model';
 import {TradingService} from 'app/dashboard/services/trading.service';
 import {BreakpointService} from 'app/shared/services/breakpoint.service';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
-import {SetLastCreatedOrderAction} from '../../actions/dashboard.actions';
+import {LoadOpenOrdersAction} from '../../actions/dashboard.actions';
 
 @Component({
   selector: 'app-trading',
@@ -29,7 +36,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public isAuthenticated: boolean = false;
+  public isAuthenticated = false;
   /** dashboard item name (field for base class)*/
   public itemName = 'trading';
   /** toggle for limits-dropdown */
@@ -61,7 +68,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public BUY = BUY;
   public createdOrder: Order;
   private updateCurrentCurrencyViaWebsocket = false;
-  public loading: boolean = false;
+  public loading = false;
   private successTimeout;
   private failTimeout;
 
@@ -367,7 +374,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.resetSellModel();
     this.resetBuyModel();
     this.splitPairName();
-    if(isAuth) {
+    if (isAuth) {
       this.getCommissionIndex(this.BUY, this.currentPair.id);
       this.getCommissionIndex(this.SELL, this.currentPair.id);
     }
@@ -531,13 +538,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   private exponentToNumber(x) {
     if (Math.abs(x) < 1.0) {
-      let e = parseInt(x.toString().split('e-')[1]);
+      const e = parseInt(x.toString().split('e-')[1], 10);
       if (e) {
         x *= Math.pow(10, e - 1);
         x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
       }
     } else {
-      let e = parseInt(x.toString().split('+')[1]);
+      let e = parseInt(x.toString().split('+')[1], 10);
       if (e > 20) {
         e -= 20;
         x /= Math.pow(10, e);
@@ -617,7 +624,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
           type === this.BUY
             ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
             : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
-          this.store.dispatch(new SetLastCreatedOrderAction(order));
           this.createOrderSuccess();
         }, err => {
           this.createOrderFail();
@@ -626,6 +632,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private createOrderSuccess() {
+    this.store.dispatch(new LoadOpenOrdersAction(this.currentPair.id));
     this.userService.getUserBalance(this.currentPair);
     this.notifySuccess = true;
     this.loading = false;

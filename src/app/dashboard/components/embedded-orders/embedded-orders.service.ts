@@ -8,7 +8,6 @@ import {environment} from 'environments/environment';
 export class EmbeddedOrdersService {
 
   private baseUrl;
-  private stompSubscription: any;
   personalOrderListener: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -43,9 +42,4 @@ export class EmbeddedOrdersService {
     return this.http.post(`${this.baseUrl}/api/private/v2/dashboard/order`, order);
   }
 
-  unsubscribeStomp() {
-    if (this.stompSubscription) {
-      this.stompSubscription.unsubscribe();
-    }
-  }
 }

@@ -18,13 +18,13 @@ import {
 import {UserService} from 'app/shared/services/user.service';
 import {OrderItem, UserBalance} from 'app/model';
 import {PopupService} from 'app/shared/services/popup.service';
-import { SetLastCreatedOrderAction } from '../../actions/dashboard.actions';
+import {LoadOpenOrdersAction} from '../../actions/dashboard.actions';
 import {AuthService} from 'app/shared/services/auth.service';
 import {TranslateService} from '@ngx-translate/core';
 import {LastPrice} from 'app/model/last-price.model';
 import {BUY, orderBaseType, SELL} from 'app/shared/constants';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
-import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-trading-mobile',
@@ -146,15 +146,6 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
         this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you change currency pair
         this.cdr.detectChanges();
       });
-
-
-    // this.dashboardWebsocketService.setRabbitStompSubscription()
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe(() => {
-    //     this.updateCurrentCurrencyViaWebsocket = true;
-    //     this.cdr.detectChanges();
-    //   })
-
 
     this.store
       .pipe(select(getLastPrice))
@@ -630,7 +621,6 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
         type === this.BUY
           ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
           : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
-        this.store.dispatch(new SetLastCreatedOrderAction(order));
         this.createOrderSuccess();
       }, err => {
         this.createOrderFail();
@@ -639,6 +629,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   }
 
   private createOrderSuccess() {
+    this.store.dispatch(new LoadOpenOrdersAction(this.currentPair.id));
     this.userService.getUserBalance(this.currentPair);
     this.notifySuccess = true;
     this.loading = false;
