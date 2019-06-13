@@ -11,7 +11,7 @@
         <p>A Token X-platform for transformative projects</p>
       </div>
       <div class="button-wr">
-        <a href="https://forms.gle/Y18qX3Na3WmWiRnw9" class="standart-btn" target="blank"><span>Apply project to X-Platform</span></a>
+        <a href="https://forms.gle/Y18qX3Na3WmWiRnw9" class="standart-btn" target="blank"><span>Apply to launch IEO to X-Platform</span></a>
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@
           </svg>
         </div>
         <div class="description-wr">
-          <p>Notify me about upcoming projects in telegram chanel </p>
+          <p>Notify me about upcoming projects through Telegram </p>
         </div>
         <div class="link-wr">
           <a href="tg://resolve?domain=exratesme" (click)="redirectToTelegram()">@botExratesme</a>
@@ -63,7 +63,7 @@
           </svg>
         </div>
         <div class="description-wr">
-          <p>Notify me about upcoming projects in email</p>
+          <p>Notify me about upcoming projects by email</p>
         </div>
         <form [formGroup]="emailForm">
           <div class="wrap-input popup__wrap-input"
@@ -76,7 +76,7 @@
               formControlName="email"
               required=""
               type="text">
-            <label class="wrap-input__label" for="">Enter your mail</label>
+            <label class="wrap-input__label" for="">Enter your email</label>
             <div class="input-hint-wrapper">
               <div *ngIf="!emailControl.valid && emailControl.touched && isSubmited">
 							<span class="wrap-input__message"
@@ -105,7 +105,7 @@
             </div>
           </div>
           <div class="button-wr">
-            <button class="standart-btn reverse" (click)="subEmailNotification()"><span>Get mail notification</span>
+            <button class="standart-btn reverse" (click)="subEmailNotification()"><span>Get email notifications</span>
             </button>
           </div>
         </form>
@@ -137,7 +137,7 @@
               </svg>
             </div>
             <div class="description-wr">
-              <p>Notify me about upcoming projects in telegram chanel </p>
+              <p>Notify me about upcoming projects through Telegram</p>
             </div>
           </div>
           <div class="bottom-part">
@@ -162,53 +162,53 @@
               </svg>
             </div>
             <div class="description-wr">
-              <p>Notify me about upcoming projects <br>in email</p>
+              <p>Notify me about upcoming projects<br>by email</p>
             </div>
           </div>
           <div class="bottom-part">
             <div class="form-wr">
               <form [formGroup]="emailForm">
                 <div class="wrap-input popup__wrap-input"
-                     [ngClass]="{'wrap-input--error': !emailControl.valid
-					&& emailControl.touched
-					&& isSubmited
-					&& emailControl.errors != null}">
+                    [ngClass]="{'wrap-input--error': !emailControl.valid
+                      && emailControl.touched
+                      && isSubmited
+                      && emailControl.errors != null}">
                   <input
                     class="wrap-input__input ng-dirty ng-valid ng-touched"
                     formControlName="email"
                     required=""
                     type="text">
-                  <label class="wrap-input__label" for="">Enter your mail</label>
+                  <label class="wrap-input__label" for="">Enter your email</label>
                   <div class="input-hint-wrapper">
                     <div *ngIf="!emailControl.valid && emailControl.touched && isSubmited">
-							<span class="wrap-input__message"
-                    *ngIf="emailControl.errors['required'] && emailControl.touched">
-							{{'Email is required' | translate}}
-						</span>
+                      <span class="wrap-input__message"
+                            *ngIf="emailControl.errors['required'] && emailControl.touched">
+                        {{'Email is required' | translate}}
+                      </span>
                       <span class="wrap-input__message"
                             *ngIf="emailControl.errors['emailInvalid']
-						&& emailControl.touched
-						&& !emailControl.errors['required']
-						&& !emailControl.errors['specialCharacter']">
-						{{'Wrong email' | translate}}
-					</span>
+                        && emailControl.touched
+                        && !emailControl.errors['required']
+                        && !emailControl.errors['specialCharacter']">
+                        {{'Wrong email' | translate}}
+                      </span>
                       <span class="wrap-input__message"
                             *ngIf="emailControl.errors['specialCharacter']
-					&& !emailControl.errors['required']">
-					{{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
-				</span>
+                        && !emailControl.errors['required']">
+                        {{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
+                      </span>
                       <span class="wrap-input__message"
                             *ngIf="emailControl.errors['maxlength']
-				&& !emailControl.errors['required']
-				&& !emailControl.errors['emailInvalid']">
-				{{'Email cannot be more than 40 characters long' | translate}}
-			</span>
+                        && !emailControl.errors['required']
+                        && !emailControl.errors['emailInvalid']">
+                        {{'Email cannot be more than 40 characters long' | translate}}
+                      </span>
                     </div>
                   </div>
                 </div>
                 <div class="button-wr">
                   <button class="standart-btn reverse" (click)="subEmailNotification()">
-                    <span>Get mail notification</span></button>
+                    <span>Get email notifications</span></button>
                 </div>
               </form>
             </div>
@@ -282,7 +282,7 @@
   <div class="how-work">
     <div class="how-work-wr">
       <div class="title-wr">
-        <h3>How it work?</h3>
+        <h3>How does it work?</h3>
       </div>
       <div class="how-work-item-wr">
         <div class="how-work-item">
@@ -293,7 +293,7 @@
             <h4>Verify account</h4>
           </div>
           <div class="h-w-description">
-            <p>Only verified accounts can access to IEO. Verification is needed only one time.</p>
+            <p>Only verified accounts can participate in IEO. Verification is needed only once.</p>
           </div>
         </div>
         <div class="how-work-item">
@@ -301,10 +301,10 @@
             <img src="assets/img/ieo/how-work2.svg" alt="">
           </div>
           <div class="h-w-title">
-            <h4>Buy coins in IEO</h4>
+            <h4>Buy coins during IEO</h4>
           </div>
           <div class="h-w-description">
-            <p>IEO starts in a specific time <br>and can end any time after coins are sold.</p>
+            <p>IEO starts in a specific time <br>and ends right after all coins are sold.</p>
           </div>
         </div>
         <div class="how-work-item">
@@ -315,7 +315,7 @@
             <h4>Hold or trade</h4>
           </div>
           <div class="h-w-description">
-            <p>After sucessfull finishing of IEO coins are delivered to your balance.</p>
+            <p>IEO tokens will appear in your account right after the event is successfully concluded</p>
           </div>
         </div>
 
@@ -330,32 +330,32 @@
         </div>
         <ul class="s-list">
           <li class="s-item">
-            <span>In case of unseccessfull IEO all funds will be backed to all participants automatically.</span>
+            <span>In case of an unsuccessful IEO, all funds are returned to all participants automatically.</span>
           </li>
           <li class="s-item">
-            <span>In case of sucessfull IEO coin will listed on Exchange as soon as   </span>
+            <span>In case of a successful IEO coin will listed on exchange </span>
           </li>
           <li class="s-item">
-            <span>Please, remeber that all risks are on your side.</span>
+            <span>Please make sure you are aware of all risk involved</span>
           </li>
 
         </ul>
       </div>
       <div class="adittional-block">
         <div class="a-title">
-          <h5>Aditional information</h5>
+          <h5>Additional information</h5>
         </div>
         <div class="a-block-item">
-          <a href="#">What are demends to Projects that whant to have IEO?</a>
+          <a href="#">What are the demands to Projects that want to conduct an IEO?</a>
         </div>
         <div class="a-block-item">
-          <a href="#">Why IEO is considered more safe than ICO?</a>
+          <a href="#">Why IEO is considered safer than ICO?</a>
         </div>
 
       </div>
       <div class="warning-block">
-        <p>Awerness: Please remeber that crypto is high risky investments. Ofcourse we do all best to filter projects
-          but all responsibility is still on your syde. </p>
+        <p>Awareness: Please remember that cryptocurrencies are high-risk investments.
+          Of course we do all our best to filter all projects but all responsibilities rest at your side </p>
       </div>
     </div>
   </div>
