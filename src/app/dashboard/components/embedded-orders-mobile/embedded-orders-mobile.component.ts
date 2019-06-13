@@ -1,11 +1,18 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
-import {getActiveCurrencyPair, getLastCreatedOrder, State, getUserInfo} from '../../../core/reducers';
-import {EmbeddedOrdersService} from '../embedded-orders/embedded-orders.service';
-import {Subject} from 'rxjs';
-import {Order} from '../../../model/order.model';
+import {
+  getActiveCurrencyPair,
+  State,
+  getOpenOrders,
+  getHistoryOrders,
+  getOrdersLoading,
+  getOpenOrdersCount,
+  getUserInfo
+} from '../../../core/reducers';
+import {Subject, Observable} from 'rxjs';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import {LoadOpenOrdersAction, LoadHistoryOrdersAction} from 'app/dashboard/actions/dashboard.actions';
 
 @Component({
   selector: 'app-embedded-orders-mobile',
@@ -15,17 +22,16 @@ import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
 
   public mainTab = 'open';
-  public openOrdersCount = 0;
-  public historyOrders;
-  public openOrders;
   public activeCurrencyPair: SimpleCurrencyPair;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public loading: boolean = false;
+  public historyOrders$: Observable<any>;
+  public openOrders$: Observable<any>;
+  public openOrdersCount$: Observable<number>;
+  public loading$: Observable<boolean>;
   public userInfo: ParsedToken;
 
   constructor(
     private store: Store<State>,
-    private ordersService: EmbeddedOrdersService,
   ) {
     this.store.pipe(select(getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -35,19 +41,16 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.loading$ = this.store.pipe(select(getOrdersLoading));
+    this.openOrders$ = this.store.pipe(select(getOpenOrders));
+    this.openOrdersCount$ = this.store.pipe(select(getOpenOrdersCount));
+    this.historyOrders$ = this.store.pipe(select(getHistoryOrders));
+
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = pair;
-        this.toOpenOrders();
-        this.toHistory();
-      });
-
-    this.store
-      .pipe(select(getLastCreatedOrder))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((order: Order) => {
         this.toOpenOrders();
         this.toHistory();
       });
@@ -73,31 +76,11 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
   }
 
   toOpenOrders(): void {
-    this.loading = true;
-    this.ordersService.getOpenOrders(this.activeCurrencyPair.id)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(data => {
-        this.openOrders = data.items;
-        this.openOrdersCount = data.count;
-        this.loading = false;
-      }, err => {
-        console.error(err);
-        this.loading = false;
-      });
+    this.store.dispatch(new LoadOpenOrdersAction(this.activeCurrencyPair.id));
   }
 
   toHistory(): void {
-    this.loading = true;
-    this.ordersService.getHistory(this.activeCurrencyPair.id, 'CLOSED')
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((data) => {
-        this.historyOrders = data.items;
-        this.loading = false;
-      }, err => {
-        console.error(err);
-        this.loading = false;
-      });
-
+    this.store.dispatch(new LoadHistoryOrdersAction(this.activeCurrencyPair.id));
   }
 
 }

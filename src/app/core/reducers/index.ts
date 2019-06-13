@@ -54,6 +54,10 @@ export const getAllTrades = createSelector(getDashboardState, fromDashboard.getA
 export const getLastPrice = createSelector(getDashboardState, fromDashboard.getLastPrice);
 export const getLastCreatedOrder = createSelector(getDashboardState, fromDashboard.getLastCreatedOrder);
 export const getTradingType = createSelector(getDashboardState, fromDashboard.getTradingType);
+export const getOpenOrders = createSelector(getDashboardState, fromDashboard.getOpenOrders);
+export const getOpenOrdersCount = createSelector(getDashboardState, fromDashboard.getOpenOrdersCount);
+export const getHistoryOrders = createSelector(getDashboardState, fromDashboard.getHistoryOrders);
+export const getOrdersLoading = createSelector(getDashboardState, fromDashboard.getOrdersLoading);
 
 /**
  * Selectors from funds module

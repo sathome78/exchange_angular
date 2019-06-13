@@ -24,7 +24,7 @@ import {Order} from '../../../model/order.model';
 import {TradingService} from '../../../dashboard/services/trading.service';
 import {BreakpointService} from '../../../shared/services/breakpoint.service';
 import {SimpleCurrencyPair} from '../../../model/simple-currency-pair';
-import {SetLastCreatedOrderAction} from '../../actions/dashboard.actions';
+import {LoadOpenOrdersAction} from '../../actions/dashboard.actions';
 
 @Component({
   selector: 'app-trading',
@@ -67,7 +67,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public SELL = SELL;
   public BUY = BUY;
   public createdOrder: Order;
-
   public loading = false;
   private successTimeout;
   private failTimeout;
@@ -627,7 +626,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
           type === this.BUY
             ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
             : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
-          this.store.dispatch(new SetLastCreatedOrderAction(order));
           this.createOrderSuccess();
         }, err => {
           this.createOrderFail();
@@ -638,6 +636,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private createOrderSuccess() {
+    this.store.dispatch(new LoadOpenOrdersAction(this.currentPair.id));
     this.userService.getUserBalance(this.currentPair);
     this.notifySuccess = true;
     this.loading = false;
