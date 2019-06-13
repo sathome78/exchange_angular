@@ -86,11 +86,6 @@ export class SEOService {
           title: 'Privacy Policy',
           description: 'Thinking of using the Exrates Cryptocurrency Exchange? Just check the privacy policy and register on Exrates in one click!'
         };
-      case url.startsWith('/static/contacts'):
-        return {
-          title: 'Contact Us',
-          description: 'Our support team is online 24/7 to help you to solve any issues. Visit our representative offices all aroud the world.'
-        };
       case url.startsWith('/static/about-us'):
         return {
           title: 'About Us',
