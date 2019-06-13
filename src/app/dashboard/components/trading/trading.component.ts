@@ -25,6 +25,7 @@ import {TradingService} from '../../../dashboard/services/trading.service';
 import {BreakpointService} from '../../../shared/services/breakpoint.service';
 import {SimpleCurrencyPair} from '../../../model/simple-currency-pair';
 import {LoadOpenOrdersAction} from '../../actions/dashboard.actions';
+import { messages } from '../../constants'
 
 @Component({
   selector: 'app-trading',
@@ -62,6 +63,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public notifySuccess = false;
   public notifyFail = false;
   public message = '';
+  public errorMessages = [];
   public order;
   public isTotalWithCommission = false;
   public SELL = SELL;
@@ -90,7 +92,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     total: '0',
   };
 
-   /** Are listening click in document */
+  /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
     if (
       $event.target.nodeName === 'svg' && !$event.target.parentNode.className.includes('widget__trading-btn') ||
@@ -184,7 +186,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private resetBuyModel(price: number = null, stopPrice: number = null) {
-    this.buyOrder = {...this.defaultOrder};
+    this.buyOrder = { ...this.defaultOrder };
     this.buyOrder.orderType = this.BUY;
     this.buyForm.reset(this.defaultFormValues);
     if (!!price) {
@@ -198,7 +200,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private resetSellModel(price: number = null, stopPrice: number = null) {
-    this.sellOrder = {...this.defaultOrder};
+    this.sellOrder = { ...this.defaultOrder };
     this.sellOrder.orderType = this.SELL;
     this.sellForm.reset(this.defaultFormValues);
     if (!!price) {
@@ -216,16 +218,16 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   private initForms(): void {
     this.buyForm = new FormGroup({
-      quantity: new FormControl('', Validators.required ),
-      stop: new FormControl('', ),
-      price: new FormControl('', Validators.required ),
-      total: new FormControl('', Validators.required ),
+      quantity: new FormControl('', Validators.required),
+      stop: new FormControl(''),
+      price: new FormControl('', Validators.required),
+      total: new FormControl('', Validators.required),
     });
     this.sellForm = new FormGroup({
-      quantity: new FormControl('', Validators.required ),
-      stop: new FormControl('', ),
-      price: new FormControl('', Validators.required ),
-      total: new FormControl('', Validators.required ),
+      quantity: new FormControl('', Validators.required),
+      stop: new FormControl(''),
+      price: new FormControl('', Validators.required),
+      total: new FormControl('', Validators.required),
     });
   }
 
@@ -274,8 +276,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   setQuantityValue(value, orderType: string): void {
     value = typeof value === 'string' ? value : this.exponentToNumber(value).toString();
     orderType === this.BUY ?
-    this.buyForm.controls['quantity'].setValue(value) :
-    this.sellForm.controls['quantity'].setValue(value);
+      this.buyForm.controls['quantity'].setValue(value) :
+      this.sellForm.controls['quantity'].setValue(value);
   }
 
   /**
@@ -442,25 +444,25 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private getCommissionNested(order: Order, type: string, setTotal: boolean) {
-      if (setTotal) {
-        if (!!order.rate && !!order.amount) {
-          order.total = (((order.amount * order.rate) * 100) / 100);
-          order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
-          this.setTotalInValue(order.total, type);
-        } else {
-          order.commission = 0;
-          this.setTotalInValue(0, type);
-        }
+    if (setTotal) {
+      if (!!order.rate && !!order.amount) {
+        order.total = (((order.amount * order.rate) * 100) / 100);
+        order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
+        this.setTotalInValue(order.total, type);
       } else {
-        if (order.rate && order.rate >= 0) {
-          order.amount = order.total / order.rate;
-          order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
-          this.setQuantityValue(order.amount, type);
-        } else {
-          order.commission = 0;
-          this.setQuantityValue(0, type);
-        }
+        order.commission = 0;
+        this.setTotalInValue(0, type);
       }
+    } else {
+      if (order.rate && order.rate >= 0) {
+        order.amount = order.total / order.rate;
+        order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
+        this.setQuantityValue(order.amount, type);
+      } else {
+        order.commission = 0;
+        this.setQuantityValue(0, type);
+      }
+    }
   }
 
   /**
@@ -476,7 +478,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     } else {
       this.sellOrder.amount = parseFloat(this.deleteSpace(value.toString()));
     }
-      this.getCommission(type);
+    this.getCommission(type);
   }
 
 
@@ -529,7 +531,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     order.total = parseFloat(this.deleteSpace(value));
     if (order.rate) {
       order.amount = order.total / order.rate;
-      order.commission =  value > 0 ? order.total * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100) : 0;
+      order.commission = value > 0 ? order.total * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100) : 0;
       this.setQuantityValue(order.amount, type);
     }
   }
@@ -628,6 +630,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
             : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
           this.createOrderSuccess();
         }, err => {
+          this.checkErrorCode(err)
           this.createOrderFail();
         });
     } else {
@@ -660,7 +663,28 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     }, 5000);
   }
 
+  private checkErrorCode(err) {
+    this.errorMessages = [];
+    if (err.status === 406) {
+      if (err.error.cause === 'NgOrderValidationException') {
+        const errors = err.error.validationResults.errors;
+        const errorParams = err.error.validationResults.errorParams;
+        this.defineMessage(errors, errorParams);
+      }
+    } else if (err.error.cause === 'OpenApiException') {
+      this.errorMessages.push(err.error.detail);
+    }
+  }
+
+  defineMessage(errors, errorParams) {
+    Object.keys(errors).forEach(key => {
+      const path = errors[key].split('.');
+      let message = messages[path[0]][path[1]];
+      if (errorParams[key]) {
+        message = message.replace('{0}', errorParams[key][0]);
+        message = message.replace('{1}', errorParams[key][1]);
+      }
+      this.errorMessages.push(message);
+    });
+  }
 }
-
-
-
