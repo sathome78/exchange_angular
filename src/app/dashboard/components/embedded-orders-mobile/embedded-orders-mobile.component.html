@@ -4,15 +4,15 @@
       class="tabs__item "
       (click)="toggleMainTab('open')"
       [ngClass]="{'tabs__item--active': mainTab === 'open', 'tab-no-active': mainTab !== 'open'}"
-      [disabled]="loading"
+      [disabled]="loading$ | async"
     >
-      {{'Open orders' | translate}} <span class="orders-count">{{openOrdersCount}}</span>
+      {{'Open orders' | translate}} <span class="orders-count">{{openOrdersCount$ | async}}</span>
     </button>
     <button
       class="tabs__item "
       (click)="toggleMainTab('history')"
       [ngClass]="{'tabs__item--active': mainTab === 'history', 'tab-no-active': mainTab !== 'history'}"
-      [disabled]="loading"
+      [disabled]="loading$ | async"
     >
       {{'Order history' | translate}}
     </button>
@@ -21,13 +21,13 @@
   <app-embedded-open-orders-mobile
     *ngIf="mainTab === 'open'"
     (refreshOpenOrders)="toOpenOrders()"
-    [openOrders]="openOrders"
+    [openOrders]="openOrders$ | async"
     [currentPair]="activeCurrencyPair">
   </app-embedded-open-orders-mobile>
 
   <app-embedded-orders-history-mobile
     *ngIf="mainTab === 'history'"
     [isVipUser]="isVipUser"
-    [historyOrders]="historyOrders"
+    [historyOrders]="historyOrders$ | async"
     [currentPair]="activeCurrencyPair">
   </app-embedded-orders-history-mobile>
