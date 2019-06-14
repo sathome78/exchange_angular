@@ -138,7 +138,7 @@ export class DashboardService {
       hLg: 1,
       dragAndDrop: true,
       resizable: true,
-      type: 'chat'
+      type: 'prediction'
     },
   ];
   /** Array of dashboard tools item */
@@ -175,8 +175,8 @@ export class DashboardService {
     },
     {
       imgUrl: '../../assets/img/header-sumbenu-link6.svg',
-      name: 'Chat',
-      type: 'chat'
+      name: 'Prediction',
+      type: 'prediction'
     },
   ];
 

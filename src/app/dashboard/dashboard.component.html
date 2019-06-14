@@ -77,8 +77,11 @@
   </app-trade-history>
 </ng-template>
 
-<ng-template #chat let-index>
-</ng-template>
+<ng-template #prediction let-index>
+    <!-- <app-chat (changeItemSize)="changeItemSize($event)"
+              (removeItem)="removeItem(index)">
+    </app-chat> -->
+    <app-prediction > </app-prediction>
 
 <ng-template #orders let-index>
   <app-embedded-orders (changeItemSize)="changeItemSize($event)"
