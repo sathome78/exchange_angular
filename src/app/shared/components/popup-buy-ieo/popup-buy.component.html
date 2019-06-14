@@ -63,11 +63,11 @@
         <span class="temp-style">{{IEOData.currencyName}}</span>
       </div>
       <div class="pay">
-        <p>{{'Pay:' | translate}} {{((pay || 0) * IEOData.rate ) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</p>
+        <p>{{'Pay:' | translate}} {{((pay || 0)) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</p>
       </div>
       <button
         class="btn btn--active btn--center btn-ieo"
-        [disabled]="!form.valid"
+        [disabled]="!form.valid || inputValue <= 0"
       >{{'Confirm' | translate}}</button>
     </form>
 	</div>

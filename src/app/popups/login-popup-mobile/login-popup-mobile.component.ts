@@ -104,7 +104,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   initForm() {
     this.loginForm = new FormGroup({
       email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator()]}),
-      password: new FormControl('', {validators: Validators.required})
+      password: new FormControl('', {validators: [Validators.required, this.utilsService.passwordCombinationValidator()]})
     });
     this.pinForm = new FormGroup({
       pin: new FormControl('', { validators: Validators.required })
@@ -229,7 +229,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
       .subscribe((tokenHolder: TokenHolder) => {
         this.logger.debug(this, 'User { login: ' + this.email + ', pass: ' + this.password + '}' + ' signed in and obtained' + tokenHolder);
         this.authService.setToken(tokenHolder.token);
-        const parsedToken = this.authService.parseToken(tokenHolder.token);
+        const parsedToken = this.authService.parseToken();
         this.gtagService.setUserId(parsedToken.publicId);
         this.gtagService.sendLoginSuccessGtag();
         this.store.dispatch(new coreActions.SetOnLoginAction(parsedToken));

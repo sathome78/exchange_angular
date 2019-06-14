@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import { EmbeddedOrdersService } from '../../embedded-orders/embedded-orders.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import {SimpleCurrencyPair} from '../../../../model/simple-currency-pair';
 
 @Component({
   selector: 'app-embedded-open-orders-mobile',
@@ -13,15 +14,19 @@ export class EmbeddedOpenOrdersMobileComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   @Output() refreshOpenOrders: EventEmitter<boolean> = new EventEmitter();
   @Input() openOrders = [];
+  @Input() currentPair: SimpleCurrencyPair ;
   public selectedOrder = null;
   public showCancelOrderConfirm = null;
   public loading: boolean = false;
+  public arrPairName = ['', ''];
 
   constructor(
     private ordersService: EmbeddedOrdersService,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.arrPairName = this.currentPair.name.split('/');
+  }
 
   toggleDetails(order) {
     this.selectedOrder = this.selectedOrder && this.selectedOrder.id === order.id ? null : order;

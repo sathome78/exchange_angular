@@ -57,6 +57,10 @@ import {ShowPageGuard} from './guards/showPage.guard';
 import {GetDateStringPipe} from './pipes/parse-date-utc.pipe';
 import {DateFromISO8601Pipe} from './pipes/dateFromISO8601.pipe';
 import {RefactUrlByNewsPipe} from './pipes/refact-url-by-news.pipe';
+import {CutAddEllipsisPipe} from './pipes/cut-add-ellipsis.pipe';
+import {CurrencyFormatPipe} from './pipes/currencyFormat.pipe';
+import {PopupWaitIEOComponent} from './components/popup-wait-ieo/popup-wait-ieo.component';
+import {PopupSorryIEOComponent} from './components/popup-sorry-ieo/popup-sorry-ieo.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +89,7 @@ import {RefactUrlByNewsPipe} from './pipes/refact-url-by-news.pipe';
     SafePipe,
     FormatCurrencyPipe,
     GetDateStringPipe,
+    CutAddEllipsisPipe,
     SplitCurrencyPipe,
     ReplaceCharPipe,
     PageItemsDropdownComponent,
@@ -101,6 +106,9 @@ import {RefactUrlByNewsPipe} from './pipes/refact-url-by-news.pipe';
     ShowStageStatusPipe,
     PopupBuyComponent,
     PopupSuccessComponent,
+    CurrencyFormatPipe,
+    PopupWaitIEOComponent,
+    PopupSorryIEOComponent,
   ],
   imports: [
     FormsModule,
@@ -134,6 +142,7 @@ import {RefactUrlByNewsPipe} from './pipes/refact-url-by-news.pipe';
     GetDateStringPipe,
     DateFromISO8601Pipe,
     MerchantImageFilterPipe,
+    CutAddEllipsisPipe,
     GetCountConfirmationsPipe,
     RefactUrlByNewsPipe,
     ShowOrderStatusPipe,
@@ -162,6 +171,9 @@ import {RefactUrlByNewsPipe} from './pipes/refact-url-by-news.pipe';
     PopupBuyComponent,
     PopupSuccessComponent,
     AddClassDirective,
+    CurrencyFormatPipe,
+    PopupWaitIEOComponent,
+    PopupSorryIEOComponent,
   ],
   providers: [
     NotificationsService,

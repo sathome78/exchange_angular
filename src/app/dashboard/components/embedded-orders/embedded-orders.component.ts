@@ -1,48 +1,60 @@
 import {Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import {Subject, Subscription} from 'rxjs';
+import {Subject, Observable} from 'rxjs';
 import {takeUntil} from 'rxjs/internal/operators';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {select, Store} from '@ngrx/store';
-import {State, getActiveCurrencyPair, getLastCreatedOrder} from 'app/core/reducers/index';
-import {EmbeddedOrdersService} from './embedded-orders.service';
-import {Order} from 'app/model/order.model';
+import {
+  State,
+  getActiveCurrencyPair,
+  getOpenOrders,
+  getOpenOrdersCount,
+  getHistoryOrders,
+  getOrdersLoading,
+  getUserInfo
+} from 'app/core/reducers/index';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 import {UserService} from 'app/shared/services/user.service';
+import {LoadOpenOrdersAction, LoadHistoryOrdersAction} from 'app/dashboard/actions/dashboard.actions';
 
 @Component({
   selector: 'app-embedded-orders',
   templateUrl: './embedded-orders.component.html',
   styleUrls: ['./embedded-orders.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmbeddedOrdersComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   /** dashboard item name (field for base class)*/
   public itemName: string;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  refreshOrdersSubscription = new Subscription();
-
-
   public mainTab = 'open';
-  public openOrdersCount = 0;
   public activeCurrencyPair: SimpleCurrencyPair;
-  public historyOrders;
-  public openOrders;
-  public loading: boolean = false;
+  public userInfo: ParsedToken;
+  public historyOrders$: Observable<any>;
+  public openOrders$: Observable<any>;
+  public openOrdersCount$: Observable<number>;
+  public loading$: Observable<boolean>;
+
 
 
   constructor(
     private store: Store<State>,
     private userService: UserService,
-    private ordersService: EmbeddedOrdersService,
-    private cdr: ChangeDetectorRef
   ) {
     super();
+    this.store.pipe(select(getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+      });
   }
 
   ngOnInit() {
     this.itemName = 'orders';
+    this.loading$ = this.store.pipe(select(getOrdersLoading));
+    this.openOrders$ = this.store.pipe(select(getOpenOrders));
+    this.openOrdersCount$ = this.store.pipe(select(getOpenOrdersCount));
+    this.historyOrders$ = this.store.pipe(select(getHistoryOrders));
 
     this.store
       .pipe(select(getActiveCurrencyPair))
@@ -52,28 +64,18 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
         this.toOpenOrders();
         this.toHistory();
       });
-
-    this.store
-      .pipe(select(getLastCreatedOrder))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((order: Order) => {
-        this.toOpenOrders();
-        this.toHistory();
-      });
-
-      // if (this.authService.isAuthenticated()) {
-      //   this.ordersService.setFreshOpenOrdersSubscription(this.authService.getUsername());
-      //   this.refreshOrdersSubscription = this.ordersService.personalOrderListener.subscribe(msg => {
-      //   this.toOpenOrders();
-      //   });
-      // }
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.ordersService.unsubscribeStomp();
-    this.refreshOrdersSubscription.unsubscribe();
+  }
+
+  public get isVipUser() {
+    if (this.userInfo) {
+      return this.userInfo.userRole === 'VIP_USER';
+    }
+    return false;
   }
 
   /**
@@ -87,42 +89,12 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
       this.toHistory();
   }
 
-  /**
-   * request to get open-orders data
-   */
   toOpenOrders(): void {
-    this.loading = true;
-    this.ordersService.getOpenOrders(this.activeCurrencyPair.id)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(data => {
-        this.openOrders = data.items;
-        this.openOrdersCount = data.count;
-        this.loading = false;
-        this.cdr.detectChanges();
-      }, err => {
-        console.error(err);
-        this.loading = false;
-        this.cdr.detectChanges();
-      });
+    this.store.dispatch(new LoadOpenOrdersAction(this.activeCurrencyPair.id));
   }
 
-  /**
-   * request to get history data with status (CLOSED and CANCELED)
-   */
   toHistory(): void {
-    this.loading = true;
-    this.ordersService.getHistory(this.activeCurrencyPair.id, 'CLOSED')
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((data) => {
-        this.historyOrders = data.items;
-        this.loading = false;
-        this.cdr.detectChanges();
-      }, err => {
-        console.error(err);
-        this.loading = false;
-        this.cdr.detectChanges();
-      });
-
+    this.store.dispatch(new LoadHistoryOrdersAction(this.activeCurrencyPair.id));
   }
 
   refreshOpenOrders() {

@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {AuthService} from '../../shared/services/auth.service';
 import {select, Store} from '@ngrx/store';
-import {getVerificationStatus, State} from '../../core/reducers';
+import {getVerificationStatus, State, getUserInfo} from '../../core/reducers';
 import {IMyDpOptions, IMyDefaultMonth} from 'mydatepicker';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {KYC_STATUS} from '../../shared/constants';
@@ -44,7 +44,8 @@ export class VerificationComponent implements OnInit, OnDestroy {
     {name: this.translateService.instant('ID card'), value: 'ID'},
   ]
 
-  public currentDocType = this.docTypes[0]
+  public currentDocType = this.docTypes[0];
+  public userInfo: ParsedToken;
 
 
   defaultModel = {
@@ -83,6 +84,11 @@ export class VerificationComponent implements OnInit, OnDestroy {
               private cdr: ChangeDetectorRef,
               private store: Store<State>,
   ) {
+    this.store.pipe(select(getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+      })
   }
 
   ngOnInit() {
@@ -113,8 +119,9 @@ export class VerificationComponent implements OnInit, OnDestroy {
   }
 
   isUpholding(): boolean {
-    return !!this.authService.getUsername().match(this.pattern);
+    return !!(this.userInfo && this.userInfo.username).match(this.pattern);
   }
+
   isDemo() {
     return window.location.hostname.indexOf('demo.exrates') >= 0;
   }

@@ -1,0 +1,19 @@
+
+<div [ngSwitch]="IEOId">
+  <app-ieo-description
+    *ngSwitchCase="1"
+    [ieoToken]="ieoToken"
+  ></app-ieo-description>
+  <app-ieo-description2
+    *ngSwitchCase="2"
+    [ieoToken]="ieoToken"
+  ></app-ieo-description2>
+  <app-ieo-description3
+    *ngSwitchCase="3"
+    [ieoToken]="ieoToken"
+  ></app-ieo-description3>
+  <app-ieo-description4
+    *ngSwitchCase="4"
+    [ieoToken]="ieoToken"
+  ></app-ieo-description4>
+</div>

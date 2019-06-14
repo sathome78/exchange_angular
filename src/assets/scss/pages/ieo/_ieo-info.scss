@@ -1,34 +1,37 @@
 .ieo_info{
-	max-width: calc(73.7em + 40px);
+	max-width: 1409px;
 	margin: 0 auto;
-	padding: 1em 20px;
+	padding: 1.3em 40px 1.5em 53px;
+	@media(max-width: 1200px){
+		padding: 1em 15px 1em;
+	}
 	@media (max-width: 992px) {
-		font-size: 1.25em;
+		font-size: 1.1em;
 	}
 	.ieo_info-wrapper{
 		background: #FFFFFF;
 		box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
 		border-radius: 4px;
 		color: #191A39;
-		padding: 5em 5.5em 0;
+		padding: 4.4em 4.5em 4.4em 4.3em;
 		@media (max-width: 992px) {
 			padding: 1.5em 1em;
 		}
 	}
 	.text-info-block{
-		margin-bottom: 3.05em;
+		margin-bottom: 3.65em;
 		&+.text-info-block{
-			margin-bottom: 2.7em;
+			margin-bottom: 0;
 		}
 		@media (max-width: 992px) {
 			margin-bottom: 2em;
 		}
 	}
 	h4{
-		font-size: 2em;
+		font-size: 1.75em;
 		text-transform: uppercase;
 		color: #000000;
-		letter-spacing: .03em;
+		letter-spacing: .05em;
 		font-weight: 600;
 		text-align: center;
 		margin-bottom: .8em;
@@ -37,29 +40,128 @@
 		}
 	}
 	p{
-		line-height: 1.67;
+		line-height: 1.37;
+		font-size: .89em;
 	}
-	.features-list{
-		margin-top: 2.45em;
-	}
-	.features-list-item{
-		padding-left: .9em;
-		position: relative;
-		margin-bottom: .66em;
-		&::before{
-			content: "";
-			position: absolute;
-			left: 0;
-			top: .45em;
-			width: 6px;
-			height: 6px;
-			border-radius: 50%;
-			background-color: #272727;
-			margin: auto;
+	.key-features-wr{
+		display: flex;
+		align-items: center;
+		margin-bottom: 1.3em;
+		@media(max-width: 992px){
+			flex-direction: column;
 
 		}
-		span{
+		&+.key-features-wr{
+			margin-bottom: 0;
+		}
+	}
+	.graph-wr{
+		
+		img{
+			max-width: 100%;
+			@media(min-width: 1201px){
+				width: 17.8em;
+				top: -1.6em;
+				position: relative;
+				left: 3.2em;
+			}
+		}
+	}
+	.infogr-wr{
+		width: 16.3em;
+		margin-right: .7em;
+		@media(max-width: 992px){
+			margin-right: 0;
+			margin-bottom: .6em;
+			
+		}
+		img{
+			width: 100%;
 
+		}
+
+	}
+	.eco-gr-wr{
+		display: flex;
+		align-items: center;
+		@media(max-width: 1200px){
+			flex-direction: column-reverse;
+
+		}
+		.economics-table{
+			width: calc(100% - 20em);
+			@media(max-width: 1200px){
+				width: 100%;
+
+			}
+		}
+		.table-item-description{
+			&:first-of-type{
+				width: 14.2em;
+				@media(max-width: 1200px){
+					width: 30em;
+					max-width: 33.333%;
+
+				}
+			}
+			&:last-of-type{
+				width: 12.3em;
+				@media(max-width: 1200px){
+					width: 30em;
+					max-width: 33.333%;
+
+				}
+			}
+		}
+		.table-item-description{
+
+			width: 11.7em;
+			@media(max-width: 1200px){
+				width: 30em;
+				max-width: 33.333%;
+
+			}
+		}
+	}
+	.last-block{
+		margin-bottom: 0;
+		p{
+			margin-bottom: 1em;
+			line-height: 1.27;
+			color: #000000;
+		}
+	}
+
+	.last-block{
+
+	}
+	.features-list{
+		margin-top: .6em;
+		@media(min-width: 993px){
+
+			width: calc(100% - 17em);
+		}
+	}
+	.features-list-item{
+		position: relative;
+		margin-bottom: 1.95em;
+		@media(max-width: 992px){
+			text-align: center;
+			font-size: 1.3em;
+		}
+		p{
+			font-weight: 600;
+			font-size: .7em;
+			line-height: 1.29;
+			text-transform: uppercase;
+			color: #000000;
+		}
+		span{
+			font-weight: 400;
+			font-size: .7em;
+			display: block;
+			line-height: 1.29;
+			color: #000000;
 		}
 	}
 	.rating{
@@ -72,7 +174,7 @@
 			padding-top: 1em;
 		}
 		.rating-title{
-			margin-bottom: 4em;
+			margin-bottom: 3.65em;
 			@media(max-width: 992px){
 				margin-bottom: 1em;
 			}
@@ -94,6 +196,7 @@
 			position: relative;
 			@media(max-width: 992px){
 				margin-bottom: 1.5em;
+				text-align: center;
 			}
 			@media (min-width: 993px) {
 
@@ -137,8 +240,9 @@
 	}
 	.rating-title-item{
 		text-align: center;
+		line-height: 1.1;
 		span{
-			font-size: .7em;
+			font-size: .6em;
 			line-height: normal;
 			text-transform: uppercase;
 			font-variant: small-caps;
@@ -148,10 +252,11 @@
 	}
 	.rating-value{
 		font-weight: 500;
-		font-size: 2em;
+		font-size: 1.8em;
 		text-transform: uppercase;
 		color: #C4C4C4;
 		text-align: center;
+		line-height: 1.2em;
 	}
 	.current-rating{
 
@@ -164,18 +269,24 @@
 
 .standart-pg{
 	padding-top: 1.7em;
-	padding-bottom: 1.7em;
+	padding-bottom: 2.35em;
 }
 .allocation{
-	    padding-top: 2.8em;
-    padding-bottom: 1.8em;
+	padding-top: 2.4em;
+	padding-bottom: 1.2em;
+	.text-info-block{
+		margin-bottom: 0;
+		h4{
+			margin-bottom: .5em;
+		}
+	}
 }
 .allocation-graph{
-	overflow: hidden;
+	text-align: center;
 	img{
-		max-width: 120%;
+		max-width: 100%;
+
 		position: relative;
-		left: -4%;
 	}
 }
 .schedule{
@@ -185,5 +296,6 @@
 .schedule-graph{
 	img{
 		max-width: 100%;
+		width: 100%;
 	}
 }

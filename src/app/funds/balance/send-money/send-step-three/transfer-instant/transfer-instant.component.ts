@@ -7,6 +7,7 @@ import {TRANSFER_INSTANT} from '../../send-money-constants';
 import {AbstractTransfer} from '../abstract-transfer';
 import {PopupService} from '../../../../../shared/services/popup.service';
 import {UtilsService} from '../../../../../shared/services/utils.service';
+import {debounceTime, takeUntil, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-transfer-instant',
@@ -40,11 +41,6 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
     this.getAllNames();
   }
 
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
   submitTransfer() {
     this.form.get('amount').updateValueAndValidity();
     this.isSubmited = true;
@@ -74,5 +70,11 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
           this.isMinThenMinWithdraw.bind(this)
         ]}),
     });
+
+    this.form.get('email').valueChanges
+      .pipe(tap(() => this.pendingCheckEmail = true))
+      .pipe(debounceTime(1000))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(value => this.checkEmailOfServer());
   }
 }

@@ -111,6 +111,15 @@
                </a>
             </ng-container>
           </li>
+
+          <!-- <li class="menu__item" routerLinkActive="menu__link--active">
+            <ng-container>
+               <a class="menu__link" href="https://about.exrates.me/become-ambassador" >
+                 <span class="menu__link-text">{{'Ambassador Program' | translate}}</span>
+               </a>
+            </ng-container>
+          </li> -->
+
           <!-- <li class="menu__item" routerLinkActive="menu__link--active">
             <ng-container>
                <a class="menu__link" href="https://support.exrates.me" target="blank">
@@ -208,7 +217,7 @@
         <div class="login-menu__submenu">
           <div class="login-menu__submenu-item">
             <div class="item-title">{{'Account' | translate}}</div>
-            <span>{{ getUsername() }}</span>
+            <span>{{ (userInfo$ | async).username }}</span>
           </div>
           <div class="login-menu__submenu-item">
             <div class="item-title">{{'Estimated Holdings' | translate}}</div>
@@ -400,12 +409,12 @@
           class="menu-mob__link-text">{{'Fiat' | translate}}</span>
         </a>
 
+        <!-- <a class="menu-mob__link" href="https://about.exrates.me/become-ambassador"><span
+          class="menu-mob__link-text">{{'Ambassador Program' | translate}}</span>
+        </a> -->
+
         <a class="menu-mob__link" href="https://about.exrates.me/form-listing" ><span
           class="menu-mob__link-text">{{'Apply to list' | translate}}</span>
-        </a>
-
-        <a class="menu-mob__link" href="https://about.exrates.me/become-ambassador/" ><span
-          class="menu-mob__link-text">{{'Become Ambassador' | translate}}</span>
         </a>
 
         <a class="menu-mob__link" href="https://about.exrates.me/support-center" >

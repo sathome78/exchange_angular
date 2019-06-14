@@ -53,9 +53,9 @@
         </div>
 
         <div class="wrap-input send__wrap-input"
-             [ngClass]="{'wrap-input--error': form.get('amount').invalid
-                          && (form.get('amount').touched || isSubmited)}"
-             *ngIf="cryptoInfoByName && cryptoInfoByName.merchantCurrencyData.length">
+             [ngClass]="{
+                'wrap-input--error': form.get('amount').invalid&& (form.get('amount').touched || isSubmited),
+                'd-none': !(cryptoInfoByName && cryptoInfoByName.merchantCurrencyData.length)}">
           <div class="avaliable">{{'Available:' | translate}}
             <a (click)="balanceClick()" class="link" [ngStyle]="{'pointer-events': loadingBalance ? 'none' : 'auto'}">
               {{activeBalance | roundCurrency: currName | formatCurrency: 'short': currName}} {{currName}}
@@ -66,18 +66,17 @@
             [currencyName]="activeCrypto.name"
             (customInput)="amountInput($event)"
             (customBlur)="amountBlur($event)"
-            name="amount" formControlName="amount"
-          >
+            name="amount" formControlName="amount">
           </app-price-input>
 
-          <span class=" wrap-input__message--show"
+          <span class="bottom-tooltip wrap-input__message--show"
                 *ngIf="form.controls['amount'].errors && !form.controls['amount'].errors['isMinThenMinWithdraw']">
             {{
-              'Minimum sum for withdrawal' | translate
+            'Minimum sum for withdrawal' | translate
             }} {{
-              minWithdrawSum  | roundCurrency: currName | formatCurrency: 'short': currName
+            minWithdrawSum  | roundCurrency: currName | formatCurrency: 'short': currName
             }} {{
-              currName
+            currName
             }}
           </span>
 
@@ -161,7 +160,7 @@
 
     <div class="send__line"></div>
 
-    <ng-container *ngIf="cryptoInfoByName.maxDailyRequestSum > 0">
+    <ng-container *ngIf="cryptoInfoByName.leftRequestSum > 0">
       <div class="send__info">
         <div class="send__info-row">
           <div class="send__info-title">{{'You want to withdraw:' | translate}}</div>
@@ -202,7 +201,7 @@
         <span> {{currName}}</span>
       </button>
     </ng-container>
-    <ng-container *ngIf="cryptoInfoByName.maxDailyRequestSum == 0">
+    <ng-container *ngIf="cryptoInfoByName.leftRequestSum == 0">
       <div class="withdraw-limit-error">
         {{'Your daily output limit for this currency has been exceeded. Please try again tomorrow.' | translate}}
       </div>

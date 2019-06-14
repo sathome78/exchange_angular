@@ -325,21 +325,9 @@
           </td>
         </tr>
 
-        <tr class="table__row no-hover" *ngIf="!(transactionsItems$ | async).length && !(loading$ | async) && !initialRequest">
+        <tr class="table__row no-hover" *ngIf="!(transactionsItems$ | async).length && !(loading$ | async)">
           <td class="table__cell table__cell--tac" colspan="7">
             {{'No matching records found' | translate}}
-          </td>
-        </tr>
-        <tr class="table__row no-hover" *ngIf="!(transactionsItems$ | async).length && !(loading$ | async) && initialRequest">
-          <td class="table__cell table__cell--tac" colspan="7">
-            {{'No matching records found!' | translate}}
-            <a
-              href=""
-              (click)="loadLastTransactions($event)"
-              class="standart-lnk"
-            >
-              {{'Loading last' | translate}}{{' ' + countPerPage + ' '}}{{'transactions' | translate}}
-            </a>
           </td>
         </tr>
       </tbody>

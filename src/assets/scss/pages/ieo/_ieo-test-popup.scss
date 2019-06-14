@@ -1,0 +1,23 @@
+
+.loading-popup {
+  .popup {
+    min-height: auto;
+    .popup__subtitle.tnx-description {
+      margin-bottom: 1em;
+      padding-top: 1em;
+    }
+    .loader {
+      padding: 1em 0 2em 0;
+    }
+  }
+}
+
+.sorry-popup {
+  .popup {
+    min-height: auto;
+    .popup__subtitle.tnx-description {
+      margin-bottom: 1em;
+      padding-top: 1em;
+    }
+  }
+}

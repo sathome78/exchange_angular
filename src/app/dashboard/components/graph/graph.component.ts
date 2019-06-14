@@ -25,7 +25,7 @@ import {
 } from 'assets/js/charting_library/charting_library.min';
 import {environment} from 'environments/environment';
 import {select, Store} from '@ngrx/store';
-import {getActiveCurrencyPair, State, getIsAuthenticated} from 'app/core/reducers/index';
+import {getActiveCurrencyPair, State, getIsAuthenticated, getLanguage} from 'app/core/reducers/index';
 import {CurrencyPair} from '../../../model/currency-pair.model';
 import {getCurrencyPairArray, getCurrencyPairInfo} from '../../../core/reducers';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
@@ -38,7 +38,7 @@ import { Observable } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
 import * as moment from 'moment';
-import {GRAPH_TIME_ZONE_SUPPORT} from 'app/shared/constants';
+import {GRAPH_TIME_ZONE_SUPPORT, LANG_SUPPORT} from 'app/shared/constants';
 
 @Component({
   selector: 'app-graph',
@@ -52,9 +52,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public isAuthenticated$: Observable<boolean>;
-  currencyPairName = 'BTC/USD';
-  firstCurrency: string;
-  secondCurrency: string;
+  public currencyPairName = 'BTC/USD';
+  public firstCurrency: string;
+  public secondCurrency: string;
   /** show currency search bar */
   public showCurrencySearch: boolean;
   public marketDropdown = false;
@@ -72,6 +72,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private lang;
   /** current active pair */
   public pair: SimpleCurrencyPair;
+  public chartReady: boolean = false;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
   private _interval: ChartingLibraryWidgetOptions['interval'] = '10'; // 3
@@ -89,62 +90,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private _tvWidget: IChartingLibraryWidget | null = null;
   private _getDataInterval = 60 * 1000;
   public timeZoneName: string;
-
-
-  @Input()
-  set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
-    this._symbol = symbol || this._symbol;
-  }
-
-  @Input()
-  set interval(interval: ChartingLibraryWidgetOptions['interval']) {
-    this._interval = interval || this._interval;
-  }
-
-  @Input()
-  set datafeedUrl(datafeedUrl: string) {
-    this._datafeedUrl = datafeedUrl || this._datafeedUrl;
-  }
-
-  @Input()
-  set libraryPath(libraryPath: ChartingLibraryWidgetOptions['library_path']) {
-    this._libraryPath = libraryPath || this._libraryPath;
-  }
-
-  @Input()
-  set chartsStorageUrl(chartsStorageUrl: ChartingLibraryWidgetOptions['charts_storage_url']) {
-    this._chartsStorageUrl = chartsStorageUrl || this._chartsStorageUrl;
-  }
-
-  @Input()
-  set chartsStorageApiVersion(chartsStorageApiVersion: ChartingLibraryWidgetOptions['charts_storage_api_version']) {
-    this._chartsStorageApiVersion = chartsStorageApiVersion || this._chartsStorageApiVersion;
-  }
-
-  @Input()
-  set clientId(clientId: ChartingLibraryWidgetOptions['client_id']) {
-    this._clientId = clientId || this._clientId;
-  }
-
-  @Input()
-  set userId(userId: ChartingLibraryWidgetOptions['user_id']) {
-    this._userId = userId || this._userId;
-  }
-
-  @Input()
-  set fullscreen(fullscreen: ChartingLibraryWidgetOptions['fullscreen']) {
-    this._fullscreen = fullscreen || this._fullscreen;
-  }
-
-  @Input()
-  set autosize(autosize: ChartingLibraryWidgetOptions['autosize']) {
-    this._autosize = autosize || this._autosize;
-  }
-
-  @Input()
-  set containerId(containerId: ChartingLibraryWidgetOptions['container_id']) {
-    this._containerId = containerId || this._containerId;
-  }
+  private language: any;
 
   private widgetOptions: ChartingLibraryWidgetOptions;
 
@@ -166,6 +112,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
   ngOnInit() {
+
+
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -201,9 +149,16 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         this.cdr.detectChanges();
       });
 
-    this.lang = this.langService.getLanguage();
     this.formattingCurrentPairName(this.currencyPairName);
 
+    this.store.pipe(select(getLanguage))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(lang => {
+        this.lang = lang;
+        if (!!this._tvWidget) {
+          this._tvWidget.setLanguage(this.setLang());
+        }
+      });
 
     this.widgetOptions = {
       symbol: this.currencyPairName,
@@ -219,7 +174,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         {text: '3d', resolution: '30'},
       ],
       library_path: this._libraryPath,
-      locale: (this.lang as LanguageCode) || 'en',
+      locale: this.setLang(),
       disabled_features: [
         'use_localstorage_for_settings',
         'cl_feed_return_all_data',
@@ -272,27 +227,30 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     const tvWidget = new widget(this.widgetOptions);
     this._tvWidget = tvWidget;
 
-    // tvWidget.onChartReady(() => {
-    //   const button = tvWidget.createButton()
-    //     .attr('title', 'Click to show a notification popup')
-    //     .addClass('apply-common-tooltip')
-    //     .on('click', () => tvWidget.showNoticeDialog({
-    //       title: 'Notification',
-    //       body: 'TradingView Charting Library API works correctly',
-    //       callback: () => {
-    //         // console.log('Noticed!');
-    //       },
-    //     }));
-    //   button[0].innerHTML = 'Check API';
-    // });
+    tvWidget.onChartReady(() => {
+      this.chartReady = true;
+      const button = tvWidget.createButton()
+        .attr('title', 'Click to show a notification popup')
+        .addClass('apply-common-tooltip')
+        .on('click', () => tvWidget.showNoticeDialog({
+          title: 'Notification',
+          body: 'TradingView Charting Library API works correctly',
+          callback: () => {
+            // console.log('Noticed!');
+          },
+        }));
+      button[0].innerHTML = 'Check API';
+    });
   }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    try {
+    // debugger
+    if (this._tvWidget !== null && this.chartReady) {
       this._tvWidget.remove();
-    } catch (e) {}
+      this._tvWidget = null;
+    }
   }
 
   ngAfterContentInit() {
@@ -424,6 +382,11 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     } else {
       return 'Etc/UTC';
     }
+  }
+
+  private setLang(): LanguageCode {
+    const indexCandidate = LANG_SUPPORT.indexOf(this.lang);
+    return (indexCandidate !== -1) ? <LanguageCode>LANG_SUPPORT[indexCandidate] : <LanguageCode>'en';
   }
 
 }

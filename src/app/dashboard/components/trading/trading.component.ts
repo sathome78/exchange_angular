@@ -6,18 +6,26 @@ import {takeUntil, withLatestFrom} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
 
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {State, getActiveCurrencyPair, getLastPrice, getSelectedOrderBookOrder, getIsAuthenticated, getUserBalance} from 'app/core/reducers/index';
-import {UserService} from 'app/shared/services/user.service';
-import {OrderItem, UserBalance} from 'app/model';
-import {PopupService} from 'app/shared/services/popup.service';
+import {
+  State,
+  getActiveCurrencyPair,
+  getLastPrice,
+  getSelectedOrderBookOrder,
+  getIsAuthenticated,
+  getUserBalance
+} from '../../../core/reducers/index';
+import {UserService} from '../../../shared/services/user.service';
+import {OrderItem, UserBalance} from '../../../model';
+import {PopupService} from '../../../shared/services/popup.service';
 import {TranslateService} from '@ngx-translate/core';
-import {LastPrice} from 'app/model/last-price.model';
-import {BUY, orderBaseType, SELL} from 'app/shared/constants';
-import {Order} from 'app/model/order.model';
-import {TradingService} from 'app/dashboard/services/trading.service';
-import {BreakpointService} from 'app/shared/services/breakpoint.service';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
-import {SetLastCreatedOrderAction} from '../../actions/dashboard.actions';
+import {LastPrice} from '../../../model/last-price.model';
+import {BUY, orderBaseType, SELL} from '../../../shared/constants';
+import {Order} from '../../../model/order.model';
+import {TradingService} from '../../../dashboard/services/trading.service';
+import {BreakpointService} from '../../../shared/services/breakpoint.service';
+import {SimpleCurrencyPair} from '../../../model/simple-currency-pair';
+import {LoadOpenOrdersAction} from '../../actions/dashboard.actions';
+import { messages } from '../../constants'
 
 @Component({
   selector: 'app-trading',
@@ -29,7 +37,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public isAuthenticated: boolean = false;
+  public isAuthenticated = false;
   /** dashboard item name (field for base class)*/
   public itemName = 'trading';
   /** toggle for limits-dropdown */
@@ -55,13 +63,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public notifySuccess = false;
   public notifyFail = false;
   public message = '';
+  public errorMessages = [];
   public order;
   public isTotalWithCommission = false;
   public SELL = SELL;
   public BUY = BUY;
   public createdOrder: Order;
-  private updateCurrentCurrencyViaWebsocket = false;
-  public loading: boolean = false;
+  public loading = false;
   private successTimeout;
   private failTimeout;
 
@@ -84,7 +92,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     total: '0',
   };
 
-   /** Are listening click in document */
+  /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
     if (
       $event.target.nodeName === 'svg' && !$event.target.parentNode.className.includes('widget__trading-btn') ||
@@ -150,21 +158,23 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(select(getLastPrice))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((lastPrice: LastPrice) => {
-        if (!this.updateCurrentCurrencyViaWebsocket && this.isPossibleSetPrice) {
+        if (this.isPossibleSetPrice) {
           this.setPriceInValue(lastPrice.price, this.BUY);
           this.setPriceInValue(lastPrice.price, this.SELL);
           this.sellOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
           this.buyOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
           // this.resetStopValue();
         }
-        this.updateCurrentCurrencyViaWebsocket = false;
         this.cdr.detectChanges();
       });
 
     this.store
       .pipe(select(getSelectedOrderBookOrder))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( (order) => {
+      .subscribe((order) => {
+        if (order.exrate !== '0') {
+          this.isPossibleSetPrice = false;
+        }
         this.orderFromOrderBook(order);
         this.cdr.detectChanges();
       });
@@ -176,7 +186,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private resetBuyModel(price: number = null, stopPrice: number = null) {
-    this.buyOrder = {...this.defaultOrder};
+    this.buyOrder = { ...this.defaultOrder };
     this.buyOrder.orderType = this.BUY;
     this.buyForm.reset(this.defaultFormValues);
     if (!!price) {
@@ -190,7 +200,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private resetSellModel(price: number = null, stopPrice: number = null) {
-    this.sellOrder = {...this.defaultOrder};
+    this.sellOrder = { ...this.defaultOrder };
     this.sellOrder.orderType = this.SELL;
     this.sellForm.reset(this.defaultFormValues);
     if (!!price) {
@@ -208,16 +218,16 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   private initForms(): void {
     this.buyForm = new FormGroup({
-      quantity: new FormControl('', Validators.required ),
-      stop: new FormControl('', ),
-      price: new FormControl('', Validators.required ),
-      total: new FormControl('', Validators.required ),
+      quantity: new FormControl('', Validators.required),
+      stop: new FormControl(''),
+      price: new FormControl('', Validators.required),
+      total: new FormControl('', Validators.required),
     });
     this.sellForm = new FormGroup({
-      quantity: new FormControl('', Validators.required ),
-      stop: new FormControl('', ),
-      price: new FormControl('', Validators.required ),
-      total: new FormControl('', Validators.required ),
+      quantity: new FormControl('', Validators.required),
+      stop: new FormControl(''),
+      price: new FormControl('', Validators.required),
+      total: new FormControl('', Validators.required),
     });
   }
 
@@ -266,8 +276,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   setQuantityValue(value, orderType: string): void {
     value = typeof value === 'string' ? value : this.exponentToNumber(value).toString();
     orderType === this.BUY ?
-    this.buyForm.controls['quantity'].setValue(value) :
-    this.sellForm.controls['quantity'].setValue(value);
+      this.buyForm.controls['quantity'].setValue(value) :
+      this.sellForm.controls['quantity'].setValue(value);
   }
 
   /**
@@ -367,7 +377,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.resetSellModel();
     this.resetBuyModel();
     this.splitPairName();
-    if(isAuth) {
+    if (isAuth) {
       this.getCommissionIndex(this.BUY, this.currentPair.id);
       this.getCommissionIndex(this.SELL, this.currentPair.id);
     }
@@ -434,25 +444,25 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private getCommissionNested(order: Order, type: string, setTotal: boolean) {
-      if (setTotal) {
-        if (!!order.rate && !!order.amount) {
-          order.total = (((order.amount * order.rate) * 100) / 100);
-          order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
-          this.setTotalInValue(order.total, type);
-        } else {
-          order.commission = 0;
-          this.setTotalInValue(0, type);
-        }
+    if (setTotal) {
+      if (!!order.rate && !!order.amount) {
+        order.total = (((order.amount * order.rate) * 100) / 100);
+        order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
+        this.setTotalInValue(order.total, type);
       } else {
-        if (order.rate && order.rate >= 0) {
-          order.amount = order.total / order.rate;
-          order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
-          this.setQuantityValue(order.amount, type);
-        } else {
-          order.commission = 0;
-          this.setQuantityValue(0, type);
-        }
+        order.commission = 0;
+        this.setTotalInValue(0, type);
       }
+    } else {
+      if (order.rate && order.rate >= 0) {
+        order.amount = order.total / order.rate;
+        order.commission = (order.rate * order.amount) * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
+        this.setQuantityValue(order.amount, type);
+      } else {
+        order.commission = 0;
+        this.setQuantityValue(0, type);
+      }
+    }
   }
 
   /**
@@ -461,13 +471,14 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   quantityInput(e, type: string): void {
     this.isTotalWithCommission = false;
+    this.isPossibleSetPrice = false;
     const value = e.target.value === '' ? 0 : e.target.value;
     if (type === this.BUY) {
       this.buyOrder.amount = parseFloat(this.deleteSpace(value.toString()));
     } else {
       this.sellOrder.amount = parseFloat(this.deleteSpace(value.toString()));
     }
-      this.getCommission(type);
+    this.getCommission(type);
   }
 
 
@@ -493,7 +504,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param event
    */
   stopInput(event, type: string): void {
-
+    this.isPossibleSetPrice = false;
     if (type === this.BUY) {
       this.buyStopValue = parseFloat(this.deleteSpace(event.target.value.toString()));
       this.setStopValue(event.target.value, type);
@@ -509,6 +520,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   totalInput(event, type: string): void {
     this.isTotalWithCommission = false;
+    this.isPossibleSetPrice = false;
     type === this.BUY ?
       this.inputTotalNested(event, type, this.buyOrder) :
       this.inputTotalNested(event, type, this.sellOrder);
@@ -519,7 +531,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     order.total = parseFloat(this.deleteSpace(value));
     if (order.rate) {
       order.amount = order.total / order.rate;
-      order.commission =  value > 0 ? order.total * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100) : 0;
+      order.commission = value > 0 ? order.total * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100) : 0;
       this.setQuantityValue(order.amount, type);
     }
   }
@@ -531,13 +543,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   private exponentToNumber(x) {
     if (Math.abs(x) < 1.0) {
-      let e = parseInt(x.toString().split('e-')[1]);
+      const e = parseInt(x.toString().split('e-')[1], 10);
       if (e) {
         x *= Math.pow(10, e - 1);
         x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
       }
     } else {
-      let e = parseInt(x.toString().split('+')[1]);
+      let e = parseInt(x.toString().split('+')[1], 10);
       if (e > 20) {
         e -= 20;
         x /= Math.pow(10, e);
@@ -613,22 +625,25 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.tradingService.createOrder(order)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
-          this.isPossibleSetPrice = false;
           type === this.BUY
             ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
             : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
-          this.store.dispatch(new SetLastCreatedOrderAction(order));
           this.createOrderSuccess();
         }, err => {
+          this.checkErrorCode(err)
           this.createOrderFail();
         });
+    } else {
+      this.createOrderFail();
     }
   }
 
   private createOrderSuccess() {
+    this.store.dispatch(new LoadOpenOrdersAction(this.currentPair.id));
     this.userService.getUserBalance(this.currentPair);
     this.notifySuccess = true;
     this.loading = false;
+    this.isPossibleSetPrice = true;
     this.cdr.detectChanges();
     this.successTimeout = setTimeout(() => {
       this.notifySuccess = false;
@@ -648,7 +663,28 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     }, 5000);
   }
 
+  private checkErrorCode(err) {
+    this.errorMessages = [];
+    if (err.status === 406) {
+      if (err.error.cause === 'NgOrderValidationException') {
+        const errors = err.error.validationResults.errors;
+        const errorParams = err.error.validationResults.errorParams;
+        this.defineMessage(errors, errorParams);
+      }
+    } else if (err.error.cause === 'OpenApiException') {
+      this.errorMessages.push(err.error.detail);
+    }
+  }
+
+  defineMessage(errors, errorParams) {
+    Object.keys(errors).forEach(key => {
+      const path = errors[key].split('.');
+      let message = messages[path[0]][path[1]];
+      if (errorParams[key]) {
+        message = message.replace('{0}', errorParams[key][0]);
+        message = message.replace('{1}', errorParams[key][1]);
+      }
+      this.errorMessages.push(message);
+    });
+  }
 }
-
-
-

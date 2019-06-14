@@ -13,12 +13,19 @@ import * as moment from 'moment';
 })
 export class IEOTableComponent implements OnInit {
 
-  @Input('countPerPage') public countPerPage: number;
-  @Input('IEOData') public IEOData: any;
-  @Input('loading') public loading: boolean;
-  @Input('currentPage') public currentPage: number;
-  @Input('countOfEntries') public countOfEntries: number;
-  @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();
+  @Input() public countPerPage: number;
+
+  @Input('IEOData')
+  set IEOData(data: IEOItem[]) {
+    this._IEOData = data;
+    this.handleTestIEO(data);
+  }
+  get IEOData() { return this._IEOData; }
+
+  @Input() public loading: boolean;
+  @Input() public currentPage: number;
+  @Input() public countOfEntries: number;
+  @Output() public onPaginate: EventEmitter<any> = new EventEmitter();
   public icoBalances = [];
   public stage = {
     PENDING: 'PENDING',
@@ -26,11 +33,14 @@ export class IEOTableComponent implements OnInit {
     TERMINATED: 'TERMINATED',
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
-  }
-
+  };
+  public _IEOData;
   public selectedIEO: IEOItem;
-  public showBuyIEO: boolean = false;
-  public showSuccessIEO: boolean = false;
+  public showBuyIEO = false;
+  public showWait = false;
+  public showSorry = false;
+  public showSuccessIEO = false;
+  public _firstLoadedStatus;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(
@@ -40,8 +50,19 @@ export class IEOTableComponent implements OnInit {
 
   ngOnInit() { }
 
-  func() {
-
+  public handleTestIEO(data) {
+    if (this.selectedIEO && data && data.length) {
+      const ieo = data.find((i) => i.id === this.selectedIEO.id);
+      if (
+        ieo &&
+        ieo.multiplyProcessing &&
+        ieo.status === this.stage.TERMINATED &&
+        this._firstLoadedStatus !== this.stage.TERMINATED
+      ) {
+        this.toggleWait(false);
+        this.toggleSorry(true);
+      }
+    }
   }
 
   public changeItemsPerPage(items: number) {
@@ -53,8 +74,8 @@ export class IEOTableComponent implements OnInit {
   }
 
   public getFormatDate(d) {
-    if(!d) {
-      return '0000-00-00 00:00:00'
+    if (!d) {
+      return '0000-00-00 00:00:00';
     }
     return moment.utc({
       y: d.year,
@@ -68,7 +89,7 @@ export class IEOTableComponent implements OnInit {
 
 
   public goToIeo(id) {
-    this.router.navigate([`/ieo/${id}`])
+    this.router.navigate([`/ieo/${id}`]);
   }
   public goToIeoNews(name) {
     window.open(`https://news.exrates.me/article/${name}`, '_blank');
@@ -76,31 +97,42 @@ export class IEOTableComponent implements OnInit {
 
   public closeBuyIEO() {
     this.showBuyIEO = false;
-    this.selectedIEO = null;
   }
   public closeSuccessIEO() {
     this.showSuccessIEO = false;
   }
   public buyIeo(IEOData) {
     this.selectedIEO = null;
-    this.showBuyIEO = true;
     this.selectedIEO = IEOData;
+    this.showBuyIEO = true;
   }
   public openSuccessIEO() {
     this.showSuccessIEO = true;
+  }
 
+  toggleWait(flag: boolean) {
+    this.showWait = flag;
+  }
+
+  toggleSorry(flag: boolean) {
+    this.showSorry = flag;
   }
 
   public confirmBuyIEO(amount) {
     this.ieoService.buyTokens({
       currencyName: this.selectedIEO.currencyName,
-      amount: amount + '',
+      amount: amount + ''
     })
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res) => {
+        this._firstLoadedStatus = this.selectedIEO.status;
         this.closeBuyIEO();
-        this.openSuccessIEO();
-      })
+        if (this.selectedIEO.multiplyProcessing && this.selectedIEO.status === this.stage.RUNNING) {
+          this.toggleWait(true);
+        } else {
+          this.openSuccessIEO();
+        }
+      });
   }
 
 }

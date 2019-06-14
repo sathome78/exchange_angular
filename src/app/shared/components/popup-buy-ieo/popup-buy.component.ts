@@ -21,11 +21,13 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   public userBalanceCoin: number;
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() confirm: EventEmitter<any> = new EventEmitter();
-  public minSum: number = 0;
-  public maxSumValidate: number= 1;
-  public maxSumShow: string = '';
-  public pay: number = 0;
-  public loading: boolean = true;
+  public minSum = 0;
+  public maxSumValidate = 1;
+  public maxSumShow = '';
+  public pay = 0;
+  public loading = true;
+  public inputValue = 0;
+  private checkCyrilic = /[а-яА-ЯёЁ]/ig;
   public prevValue;
   private ngUnsubscribe$: Subject<void> = new Subject<void>();
 
@@ -44,14 +46,14 @@ export class PopupBuyComponent implements OnInit, OnChanges {
         this.userBalanceCoin = +res.data[this.IEOData.currencyName];
         this.getMaxAvailSum();
         this.loading = false;
-      })
+      });
   }
 
   ngOnChanges(c) {
-    if(c.IEOData && c.IEOData.currentValue) {
-      this.minSum = c.IEOData.currentValue.minAmount
+    if (c.IEOData && c.IEOData.currentValue) {
+      this.minSum = c.IEOData.currentValue.minAmount;
     }
-    if(c.show && c.show.currentValue) {
+    if (c.show && c.show.currentValue) {
       this.form.reset();
     }
   }
@@ -59,7 +61,7 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   initForm() {
     this.form = new FormGroup({
       amount: new FormControl('', [Validators.required, this.minCheck.bind(this), this.maxCheck.bind(this)]),
-    },);
+    });
 
     // this.amountInput.valueChanges
     //   .pipe(takeUntil(this.ngUnsubscribe$))
@@ -93,7 +95,7 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   }
 
   onBlur(e) {
-    if(e) {
+    if (e) {
       const value = parseFloat(this.deleteSpace(e.target.value.toString() || '0'));
       const formated = this.formatCurrency.transform(this.roundCurrency.transform((value + ''), 'BTC'), 'short', 'BTC');
       this.amountInput.setValue(formated);
@@ -101,24 +103,29 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   }
 
   onInput(e) {
-    if(e) {
-      const value = parseFloat(this.deleteSpace(e.target.value.toString()));
+      const val = e.target.value;
+      this.inputValue = parseFloat(val);
+    if (new RegExp(this.checkCyrilic).test(val.toString())) {
+      this.form.get('amount').setValue(val.toString().substr(0, val.length - 1));
+    }
+    if (e) {
+      const value = parseFloat(this.deleteSpace(val.toString()));
       this.countPay(value);
     }
   }
 
   onFocus(e) {
-    if(e) {
-      this.input.nativeElement.setSelectionRange(0, this.input.nativeElement.value.length)
+    if (e) {
+      this.input.nativeElement.setSelectionRange(0, this.input.nativeElement.value.length);
     }
   }
 
   confirmForm(e) {
     e.preventDefault();
-    if(this.form.invalid) {
+    if (this.form.invalid) {
       return;
     }
-    this.confirm.emit(this.deleteSpace(this.amountInput.value))
+    this.confirm.emit(this.deleteSpace(this.amountInput.value));
   }
 
   deleteSpace(value): string {
@@ -132,15 +139,20 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   }
 
   getMaxAvailSum() {
+    if (!(+this.IEOData.maxAmountPerClaim) && !(+this.IEOData.maxAmountPerUser)) {
+      this.maxSumValidate = +this.roundCurrency.transform(+this.IEOData.availableAmount + '', 'BTC');
+      this.maxSumShow = this.formatCurrency.transform(this.maxSumValidate, 'short', 'BTC');
+      return;
+    }
     const sums = [+this.IEOData.maxAmountPerClaim, +this.IEOData.availableAmount];
     const userBalBTC = this.userBalanceBTC / this.IEOData.rate;
-    sums.push(userBalBTC)
+    sums.push(userBalBTC);
 
-    if(this.IEOData.maxAmountPerUser) {
-      if(this.IEOData.maxAmountPerUser <= this.userBalanceCoin) {
+    if (this.IEOData.maxAmountPerUser) {
+      if (this.IEOData.maxAmountPerUser <= this.userBalanceCoin) {
         sums.push(0);
       } else {
-        sums.push(this.IEOData.maxAmountPerUser - this.userBalanceCoin)
+        sums.push(this.IEOData.maxAmountPerUser - this.userBalanceCoin);
       }
     }
     this.maxSumValidate = +this.roundCurrency.transform(Math.min(...sums) + '', 'BTC');

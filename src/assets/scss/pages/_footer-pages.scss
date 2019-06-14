@@ -49,78 +49,10 @@
     }
   }
 
-  .contacts {
-    display: flex;
-    flex-direction: column;
-    &__row {
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 12px;
-
-      svg {
-        vertical-align: middle;
-        margin-right: 8px;
-        margin-top: 2px;
-      }
-
-      &--blue {
-        svg {
-          fill: $darker-blue;
-        }
-
-        color: $darker-blue;
-      }
-
-      &--grey {
-        svg {
-          fill:  rgba(255,255,255,.7);
-        }
-
-        color:  rgba(255,255,255,.7);
-      }
-
-      a {
-        color: rgba(255,255,255,.7);
-        text-decoration: none;
-
-        &:hover {
-          color:  rgba(255,255,255,.7);
-          text-decoration: underline;
-        }
-      }
-    }
-    &__form{
-      margin-bottom: 32px;
-    }
-    &__wrap-input{
-      margin-bottom: 20px;
-    }
-    &__wrap-textarea{
-      margin-bottom: 20px;
-      .wrap-textarea__textarea{
-        min-height: 160px;
-        width: 100%;
-        resize: none;
-      }
-    }
-    &__form-btn{
-      width: 100%;
-      max-width: none;
-    }
-  }
-
   /*--- elements end ---*/
 }
 
-/*--- media start ---*/
-@media (min-width: 600px){
-  .contacts{
-    &__info-wrap{
-      display: flex;
-      justify-content: space-between;
-    }
-  }
-}
+
 @media (min-width: 1200px) {
   .static-pages {
     padding: 32px 0 0;
@@ -128,33 +60,6 @@
     .page-title {
       padding: 0;
       margin-bottom: 32px;
-    }
-    .contacts{
-      flex-direction: row;
-      justify-content: space-between;
-      &__info{
-        width: 100%;
-        max-width: 684px;
-      }
-      &__info-wrap{
-        display: flex;
-        justify-content: space-between;
-      }
-      &__form{
-        width: 100%;
-        max-width: 404px;
-        margin-bottom: 0;
-      }
-      &__wrap-input{
-        margin-bottom: 28px;
-      }
-      &__wrap-textarea{
-        margin-bottom: 28px;
-        .wrap-textarea__textarea{
-          min-height: 200px;
-        }
-      }
-
     }
   }
 }
@@ -176,18 +81,6 @@
       li {
         &:before {
           background-color: #fff;
-        }
-      }
-    }
-
-    .contacts {
-      &__row {
-        &--blue {
-          svg {
-            fill: $light-blue;
-          }
-
-          color: $light-blue;
         }
       }
     }
