@@ -1,7 +1,6 @@
 import {Component, forwardRef, Input, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import {UtilsService} from '../../services/utils.service';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -90,8 +89,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     this.propagateChanges(parseFloat(value));
   }
 
-  propagateChanges = (...any) => {
-  }
+  propagateChanges = (...any) => { };
 
   registerOnChange(fn: any): void {
     this.propagateChanges = fn;
@@ -128,9 +126,9 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   sliceFraction(value: string, count: number): string {
-    const index = value.indexOf('.');
+    const index = value.toString().indexOf('.');
     if (index >= 0) {
-      const temp = value.substr(0, index + 1 + count);
+      const temp = value.toString().substr(0, index + 1 + count);
       return this.thousandsFormat(temp, true);
     }
     return this.thousandsFormat(value);

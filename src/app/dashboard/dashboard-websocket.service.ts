@@ -18,11 +18,8 @@ import {UtilsService} from 'app/shared/services/utils.service';
 @Injectable()
 export class DashboardWebSocketService implements OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  currencyPairs: CurrencyPair [] = [];
-  private stompSubscription: any;
-  private baseUrl = environment.apiUrl;
+  public currencyPairs: CurrencyPair [] = [];
   public pairFromDashboard = '';
-  public isNeedChangeCurretPair = true;
 
 
   constructor(
@@ -61,18 +58,6 @@ export class DashboardWebSocketService implements OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-//  processCurrencyPairs (array: CurrencyPair[]) {
-//     if (this.authService.isAuthenticated()) {
-//       this.getUserFavouriteCurrencyPairIds()
-//         // .pipe(takeUntil(ngUnsubscribe))
-//         .subscribe(rs => {
-//           this.managePairs(array, rs);
-//         });
-//     } else {
-//       this.managePairs(array, []);
-//     }
-//   }
-
 
   /**
    * find pair by currency-pair-name and emit
@@ -91,50 +76,4 @@ export class DashboardWebSocketService implements OnDestroy {
       }
     });
   }
-
-
-  // addOrUpdate(currencyPair: CurrencyPair, favouritePairsId: number[]) {
-  //   let found = false;
-  //   this.currencyPairs.forEach(item => {
-  //     if (currencyPair.currencyPairId === item.currencyPairId) {
-  //       found = true;
-  //       item = CurrencyPair.fromJSON(currencyPair);
-  //     }
-  //   });
-  //   if (!found) {
-  //     this.currencyPairs.push(currencyPair);
-  //   }
-  // }
-
-  // trimZeroedAndRemainFavourite(pairs: CurrencyPair[], ids: number[]) {
-  //   pairs = pairs.filter(pair => this.isFavourite(pair, ids) || this.isNotZeroed(pair));
-  // }
-
-  // private isFavourite(pair: CurrencyPair, ids: number[]) {
-  //   let found = false;
-  //   ids.forEach(id => {
-  //     if (id === pair.currencyPairId) {
-  //       pair.isFavourite = true;
-  //       found = true;
-  //     }
-  //   });
-  //   return found;
-  // }
-
-  /**
-   * this method simply gets pairs from cache and when subscription is on we should drop data
-   */
-  // makeItFast() {
-  //   const url = this.baseUrl + '/api/public/v2/currencies/fast';
-  //   this.http.get<CurrencyPair []>(url).subscribe(items => {
-  //     this.processCurrencyPairs(items);
-  //   });
-  // }
-
-  // private isNotZeroed(pair: CurrencyPair) {
-  //   return pair.predLastOrderRate > 0
-  //     && pair.lastOrderRate > 0
-  //     && pair.volume > 0;
-  // }
-
 }

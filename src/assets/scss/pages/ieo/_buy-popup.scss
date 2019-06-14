@@ -1,5 +1,5 @@
 .ieo-popup-buy{
-	
+
 	@media (min-width: 600px){
 		.wrap-input__label {
 			top: 16px;
@@ -23,7 +23,8 @@
 		}
 	}
 	.wrap-input--error .wrap-input__input {
-		margin-bottom: 7px;
+    margin-bottom: 7px;
+    color: #DEDEFB;
 	}
 
 	.wrap-input__currency {
