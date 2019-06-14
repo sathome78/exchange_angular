@@ -2,7 +2,7 @@ import * as dashboard from '../actions/dashboard.actions';
 import {CurrencyPair} from '../../model/currency-pair.model';
 import {UserBalance} from '../../model/user-balance.model';
 import {
-  defaultCurrencyPairInfo, defaultLastCreatedrder,
+  defaultCurrencyPairInfo, defaultLastCreatedOrder,
   defaultLastPrice,
   defaultLastSellBuyOrder,
   defaultOrderItem,
@@ -29,7 +29,12 @@ export interface State {
   lastPrice: LastPrice;
   allTrades: TradeItem[];
   tradingType: string;
-  userFavoritesCurrencyPairsIds: number[],
+  userFavoritesCurrencyPairsIds: number[];
+  openOrders;
+  openOrdersCount: number;
+  historyOrders;
+  historyOrdersCount: number;
+  ordersLoading: boolean;
 }
 
 export const INIT_STATE: State = {
@@ -39,12 +44,17 @@ export const INIT_STATE: State = {
   selectedOrderBookOrder: defaultOrderItem as OrderItem,
   currencyPairInfo: defaultCurrencyPairInfo,
   lastSellBuyOrder: defaultLastSellBuyOrder,
-  lastCreatedOrder: defaultLastCreatedrder,
+  lastCreatedOrder: defaultLastCreatedOrder,
   allTrades: [],
   lastPrice: defaultLastPrice,
   tradingType: 'BUY',
   marketsCurrencyPairsMap: {},
   userFavoritesCurrencyPairsIds: [],
+  openOrders: [],
+  openOrdersCount: 0,
+  historyOrders: [],
+  historyOrdersCount: 0,
+  ordersLoading: false,
 };
 
 /**
@@ -55,7 +65,7 @@ export const INIT_STATE: State = {
 export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
   switch (action.type) {
     case dashboard.CHANGE_ACTIVE_CURRENCY_PAIR:
-      if(action.payload.id === state.activeCurrencyPair.id) {
+      if (action.payload.id === state.activeCurrencyPair.id) {
         return state;
       }
       return {
@@ -96,10 +106,36 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
       return {...state, lastPrice: action.payload};
     case dashboard.SET_LAST_SELL_BUY_ORDER:
       return {...state, lastSellBuyOrder: action.payload};
-      case dashboard.SET_ALL_TRADES:
+    case dashboard.SET_ALL_TRADES:
       return {
         ...state,
         allTrades: action.payload,
+      };
+    case dashboard.LOAD_OPEN_ORDERS:
+    case dashboard.LOAD_HISTORY_ORDERS:
+      return {
+        ...state,
+        ordersLoading: true,
+      };
+    case dashboard.FAIL_OPEN_ORDERS:
+    case dashboard.FAIL_HISTORY_ORDERS:
+      return {
+        ...state,
+        ordersLoading: false,
+      };
+    case dashboard.SET_HISTORY_ORDERS:
+      return {
+        ...state,
+        historyOrders: action.payload.historyOrders,
+        historyOrdersCount: action.payload.count,
+        ordersLoading: false,
+      };
+    case dashboard.SET_OPEN_ORDERS:
+      return {
+        ...state,
+        openOrders: action.payload.openOrders,
+        openOrdersCount: action.payload.count,
+        ordersLoading: false,
       };
     default :
       return state;
@@ -107,24 +143,24 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
 }
 
 function createMarketsCurrencyPairsMap(state: State, newPairs: CurrencyPair[]): MapModel<CurrencyPair> {
-  let map = {
+  const map = {
     ...state.marketsCurrencyPairsMap,
-  }
+  };
   newPairs.forEach((cp) => {
-    if(map[cp.currencyPairId]) {
+    if (map[cp.currencyPairId]) {
       map[cp.currencyPairId] = {
         ...map[cp.currencyPairId],
         ...cp,
-      }
+      };
     } else {
       map[cp.currencyPairId] = cp;
     }
-  })
+  });
   return map;
 }
 
 function toggleUserFavorites(state: State, currencyPairId: number) {
-  const newArr = [...state.userFavoritesCurrencyPairsIds]
+  const newArr = [...state.userFavoritesCurrencyPairsIds];
   const index = newArr.indexOf(currencyPairId);
   if (index < 0) {
     newArr.push(currencyPairId);
@@ -168,3 +204,15 @@ export const getLastPrice = (state: State): LastPrice => state.lastPrice;
 
 /** Selector returns last created order*/
 export const getLastCreatedOrder = (state: State): Order => state.lastCreatedOrder;
+
+/** Selector returns open orders*/
+export const getOpenOrders = (state: State) => state.openOrders;
+
+/** Selector returns open orders*/
+export const getOpenOrdersCount = (state: State) => state.openOrdersCount;
+
+/** Selector returns open orders*/
+export const getHistoryOrders = (state: State) => state.historyOrders;
+
+/** Selector returns open orders*/
+export const getOrdersLoading = (state: State) => state.ordersLoading;

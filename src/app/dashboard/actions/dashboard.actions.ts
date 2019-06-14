@@ -17,6 +17,39 @@ export const SET_TRADING_TYPE = '[Dashboard] Set trading type';
 export const SET_LAST_PRICE = '[Dashboard] Set last price';
 export const SET_LAST_CREATED_ORDER = '[Dashboard] Set last created';
 
+// orders
+export const LOAD_OPEN_ORDERS = '[Dashboard] load open orders';
+export const SET_OPEN_ORDERS = '[Dashboard] set open orders';
+export const FAIL_OPEN_ORDERS = '[Dashboard] fail open orders';
+export const LOAD_HISTORY_ORDERS = '[Dashboard] load history orders';
+export const SET_HISTORY_ORDERS = '[Dashboard] set history orders';
+export const FAIL_HISTORY_ORDERS = '[Dashboard] fail history orders';
+
+export class LoadOpenOrdersAction implements Action {
+  readonly type = LOAD_OPEN_ORDERS;
+  constructor(public payload) {}
+}
+export class LoadHistoryOrdersAction implements Action {
+  readonly type = LOAD_HISTORY_ORDERS;
+  constructor(public payload) {}
+}
+export class SetOpenOrdersAction implements Action {
+  readonly type = SET_OPEN_ORDERS;
+  constructor(public payload) {}
+}
+export class SetHistoryOrdersAction implements Action {
+  readonly type = SET_HISTORY_ORDERS;
+  constructor(public payload) {}
+}
+export class FailOpenOrdersAction implements Action {
+  readonly type = FAIL_OPEN_ORDERS;
+  constructor(public payload) {}
+}
+export class FailHistoryOrdersAction implements Action {
+  readonly type = FAIL_HISTORY_ORDERS;
+  constructor(public payload) {}
+}
+
 /**
  * Change currency pair 'BTC/USD'
  */
@@ -135,4 +168,10 @@ export type Actions
   | SetTradingTypeAction
   | SetLastCreatedOrderAction
   | SetLastPriceAction
-  | SetAllTradesAction;
+  | SetAllTradesAction
+  | LoadOpenOrdersAction
+  | LoadHistoryOrdersAction
+  | SetOpenOrdersAction
+  | SetHistoryOrdersAction
+  | FailOpenOrdersAction
+  | FailHistoryOrdersAction;

@@ -49,6 +49,9 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   public maxSellVisualizationWidth = 0;
   public maxBuyVisualizationWidth = 0;
 
+  private lastSellTotal = 0;
+  private lastBuyTotal = 0;
+
   /** stores data for drawing a border for a chart */
   public withForChartLineElements: {
     sell: string[];
@@ -102,17 +105,16 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
     if(!orders[0]) {
       return;
     }
-    if (orders[0].orderType === 'SELL') {
-      this.calculateVisualizationWidth(!!orders[1] ? parseFloat(orders[1].total) : 0, parseFloat(orders[0].total) || 0);
-    } else {
-      this.calculateVisualizationWidth(parseFloat(orders[0].total) || 0, !!orders[1] ? parseFloat(orders[1].total) : 0);
-    }
+    this.calculateVisualizationWidth(this.lastBuyTotal, this.lastSellTotal);
+
     orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) :
     orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : null;
     if(orders[1]) {
       orders[1].orderType === 'SELL' ? this.setSellOrders(orders[1]) :
       orders[1].orderType === 'BUY' ? this.setBuyOrders(orders[1]) : null;
     }
+    this.buyCalculateVisualization();
+    this.sellCalculateVisualization();
     this.lastExrate = +orders[0].lastExrate;
     this.preLastExrate = +orders[0].preLastExrate;
     this.isExratePositive = orders[0].positive;
@@ -133,6 +135,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
     this.orderBookSub$ = this.dashboardWebsocketService.orderBookSubscription(pairName, precision)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
+        this.setLastTotals(data);
         this.initData(data);
         this.loadingFinished();
         this.cdr.detectChanges();
@@ -145,12 +148,33 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
     }
   }
 
+  private setLastTotals(orders: OrderBookItem[]): void {
+    this.lastBuyTotal = !!orders[0] && orders[0].orderType === 'BUY'
+      ? parseFloat(orders[0].total)
+      : orders[1] && orders[1].orderType === 'BUY'
+        ? parseFloat(orders[1].total)
+        : this.lastBuyTotal;
+
+    this.lastSellTotal = !!orders[0] && orders[0].orderType === 'SELL'
+      ? parseFloat(orders[0].total)
+      : orders[1] && orders[1].orderType === 'SELL'
+        ? parseFloat(orders[1].total)
+        : this.lastSellTotal;
+  }
+
   private calculateVisualizationWidth(buy, sell) {
     const widthItem = (buy + sell) / 98;
     const buyWidth = buy / widthItem ;
     const sellWidth = sell / widthItem ;
-    this.maxBuyVisualizationWidth = buyWidth > sellWidth ? (buyWidth + sellWidth) : buyWidth;
-    this.maxSellVisualizationWidth = buyWidth < sellWidth ? (buyWidth + sellWidth) : sellWidth;
+    this.maxBuyVisualizationWidth = buyWidth > sellWidth ? (buyWidth + sellWidth) : this.getRelativeWidth(sellWidth, buyWidth);
+    this.maxSellVisualizationWidth = buyWidth < sellWidth ? (buyWidth + sellWidth) : this.getRelativeWidth(sellWidth, buyWidth);
+  }
+
+  getRelativeWidth(sellWidth: number, buyWidth: number): number {
+    const bigWidth = sellWidth > buyWidth ? sellWidth : buyWidth;
+    const smallWidth = sellWidth < buyWidth ? sellWidth : buyWidth;
+
+    return smallWidth / bigWidth * 98;
   }
 
   public sellCalculateVisualization(): void {
@@ -168,7 +192,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
       const coefficient = (+this.commonBuyTotal / +this.buyOrders[i].total);
       visArr.push(((this.maxBuyVisualizationWidth / coefficient)));
     }
-    this.buyVisualizationArray = [...visArr];
+    this.buyVisualizationArray = visArr[0] > visArr[visArr.length - 1] ? [...visArr.reverse()] : [...visArr];
   }
 
   private setBuyOrders(orders): void {

@@ -86,11 +86,6 @@ export class SEOService {
           title: 'Privacy Policy',
           description: 'Thinking of using the Exrates Cryptocurrency Exchange? Just check the privacy policy and register on Exrates in one click!'
         };
-      case url.startsWith('/static/contacts'):
-        return {
-          title: 'Contact Us',
-          description: 'Our support team is online 24/7 to help you to solve any issues. Visit our representative offices all aroud the world.'
-        };
       case url.startsWith('/static/about-us'):
         return {
           title: 'About Us',
@@ -113,7 +108,7 @@ export class SEOService {
         };
       case url.startsWith('/orders/closed'):
         return {
-          title: 'Closed Orders',
+          title: 'Orders History',
           description: 'View all of your  closed orders in the Order History. '
         };
       case url.startsWith('/settings/two-factor-auth'):
@@ -130,6 +125,21 @@ export class SEOService {
         return {
           title: 'Security Settings',
           description: 'Check all your active sessions in your account\'s security settings. Exrates saves login data and analyzes it for any unusual activity'
+        };
+      case url.startsWith('/news'):
+        return {
+          title: 'News',
+          description: ''
+        };
+      case url.startsWith('/ieo'):
+        return {
+          title: 'IEO',
+          description: ''
+        };
+      case url.startsWith('/fiat'):
+        return {
+          title: 'FIAT',
+          description: ''
         };
       case url.startsWith('/'):
         return {

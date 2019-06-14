@@ -1,4 +1,13 @@
 .ieo-popup-buy{
+
+	@media (min-width: 600px){
+		.wrap-input__label {
+			top: 16px;
+		}
+	}
+	.btn{
+		line-height: 46px;
+	}
 	.temp-style{
 		font-size: 14px;
 		color: #000;
@@ -7,15 +16,16 @@
 		}
 	}
 	.wrap-input__input{
-		height: 49px;
-		margin-bottom: 7px;
+		height: 48px;
+		margin-bottom: 14px;
 		@media(max-width: 1199px) {
 			color: #DEDEFB;
-    }
-  }
-  .wrap-input--error .wrap-input__input {
+		}
+	}
+	.wrap-input--error .wrap-input__input {
     margin-bottom: 7px;
-  }
+    color: #DEDEFB;
+	}
 
 	.wrap-input__currency {
 		@media (max-width: 992px){
@@ -49,7 +59,7 @@
 		}
 	}
 	.ieo-pair{
-		padding: 7px;
+		padding: 10px 7px;
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -80,10 +90,10 @@
 		}
 	}
 	.balance-txt{
-
-		font-size: 14px;
+		margin-top: 6px;
+		font-size: 12px;
 		text-align: center;
-		margin-bottom: 17px;
+		margin-bottom: 20px;
 		color: #A0A0A0;
 		// @media(max-width: 1199px) {
 		// 	    color: #DEDEFB;
@@ -106,7 +116,7 @@
 		font-size: 12px;
 		text-align: right;
 		color: #191A39;
-		margin-bottom: 1px;
+		margin-bottom: 4px;
 		@media(max-width: 1199px) {
 			color: #DEDEFB;
 		}
@@ -127,7 +137,7 @@
 		margin-left: auto;
 		margin-right: auto;
 		width: 100%;
-		margin-bottom: 25px;
+		margin-bottom: 31px;
 		padding-left: 3px;
 		@media(max-width: 1199px) {
 			color: #DEDEFB;

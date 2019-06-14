@@ -156,6 +156,8 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
 
     case fromActions.LOAD_TRANSACTIONS_HISTORY:
       return {...state, loading: true};
+    case fromActions.LOAD_LAST_TRANSACTIONS_HISTORY:
+      return {...state, loading: true};
     case fromActions.SET_TRANSACTIONS_HISTORY:
       return {
         ...state,
@@ -178,12 +180,25 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
     case fromActions.SET_IEO_BALANCES:
       return {
         ...state,
-        ieoBalances: action.payload,
+        ieoBalances: setIEOBalances(state, action.payload),
       };
 
     default :
       return state;
   }
+}
+
+function setIEOBalances(state: State, newArr: IEOItem[]): IEOItem[] {
+  const ieoData = [...state.ieoBalances];
+  if (!newArr.length || !ieoData.length) return newArr;
+
+  const index = ieoData.indexOf(ieoData.filter(f => f.id === newArr[0].id)[0]);
+  if (index === -1) {
+    ieoData.push(newArr[0]);
+  } else {
+    ieoData[index] = newArr[0];
+  }
+  return ieoData;
 }
 
 export const getFundsState = createFeatureSelector<State>('funds');

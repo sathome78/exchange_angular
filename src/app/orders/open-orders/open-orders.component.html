@@ -48,11 +48,11 @@
                 </div>
               </td>
               <td class="table__cell table__cell--tal">
-                <div>{{item.exExchangeRate}}</div>
+                <div>{{item.amountBase}}</div>
                 <span class="txt-small" [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType | replaceChar: '_': ' '}}</span>
               </td>
               <td class="table__cell table__cell--tar">
-                <span>{{item.amountConvert}}</span>
+                <span>{{item.exExchangeRate}}</span>
               </td>
               <td class="table__cell table__cell--arr-mob">
                 <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
@@ -197,7 +197,7 @@
           <th class="table__cell-head table__cell-head--tal" style="width: 60px;"></th>
           <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Limit price'| translate}}</th>
           <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Stop price'| translate}}</th>
-          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Comission'| translate}}</th>
+          <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Commission'| translate}}</th>
           <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Total'| translate}}</th>
           <th class="table__cell-head table__cell-head--tal" style="width: 80px;"></th>
         </tr>
@@ -221,7 +221,7 @@
           </td>
           <td class="table__cell">
             <span>
-              {{item.amountBase | roundCurrency: currency(item.currencyPairName, 1) | formatCurrency}}
+              {{item.amountBase | currencyFormat:currency(item.currencyPairName, 1)}}
               {{item.currencyPairName | splitCurrency: 1}}
             </span>
           </td>
@@ -230,24 +230,24 @@
           </td>
           <td class="table__cell">
             <span>
-              {{(item.exExchangeRate || item.limitRate) | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
+              {{(item.exExchangeRate || item.limitRate) | currencyFormat:currency(item.currencyPairName, 2)}}
               {{item.currencyPairName | splitCurrency: 2}}
             </span>
           </td>
           <td class="table__cell">
             <span>
-              {{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
+              {{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | currencyFormat:currency(item.currencyPairName, 2)}}
               {{item.orderBaseType !== 'STOP_LIMIT' ? '' : item.currencyPairName | splitCurrency: 2}}
             </span>
           </td>
           <td class="table__cell">
             <span class="orders__comission"></span><span class="orders__comission-usd"><span>
-              {{item.commissionFixedAmount | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
+              {{item.commissionFixedAmount  | currencyFormat:currency(item.currencyPairName, 2)}}
               {{item.currencyPairName | splitCurrency: 2}}</span></span>
           </td>
           <td class="table__cell">
             <span>
-              {{item.amountWithCommission | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
+              {{item.amountWithCommission  | currencyFormat:currency(item.currencyPairName, 2)}}
               {{item.currencyPairName | splitCurrency: 2}}
             </span>
           </td>

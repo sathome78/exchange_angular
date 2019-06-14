@@ -31,7 +31,6 @@
         {{'Fiat' | translate}}
       </button>
       <button
-        *ngIf="showContent"
         class="tabs__item"
         [ngClass]="{'tabs__item--active': currTab === Tab.IEO}"
         (click)="onSelectTab.emit(Tab.IEO)"
@@ -127,11 +126,11 @@
               </div>
             </td>
             <td class="table__cell table__cell--tal">
-              <span>{{item.activeBalance  | roundCurrency:item.currencyName | formatCurrency}}</span>
+              <span>{{item.activeBalance  | currencyFormat:item.currencyName}}</span>
             </td>
             <td class="table__cell table__cell--tar">
-              <div *ngIf="priceIn === currencies.BTC">BTC {{item.btcAmount | roundCurrency | formatCurrency}}</div>
-              <div *ngIf="priceIn === currencies.USD">$ {{item.usdAmount | roundCurrency:'USD' | formatCurrency}}</div>
+              <div *ngIf="priceIn === currencies.BTC">BTC {{item.btcAmount | currencyFormat}}</div>
+              <div *ngIf="priceIn === currencies.USD">$ {{item.usdAmount | currencyFormat:'USD'}}</div>
               <!-- <span class="txt-small txt-red">–0.24%</span> -->
             </td>
             <td class="table__cell table__cell--arr-mob">

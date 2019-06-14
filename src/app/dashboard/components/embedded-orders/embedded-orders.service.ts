@@ -8,7 +8,6 @@ import {environment} from 'environments/environment';
 export class EmbeddedOrdersService {
 
   private baseUrl;
-  private stompSubscription: any;
   personalOrderListener: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -24,7 +23,7 @@ export class EmbeddedOrdersService {
 
   getHistory(currencyPairId, status: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/api/private/v2/dashboard/orders/${status}`,
-      {params: {currencyPairId, limit: '100', scope: 'ALL'}});
+      {params: {currencyPairId, limit: '15', scope: 'ALL'}});
   }
 
   updateOrder(order): Observable<any> {
@@ -43,9 +42,4 @@ export class EmbeddedOrdersService {
     return this.http.post(`${this.baseUrl}/api/private/v2/dashboard/order`, order);
   }
 
-  unsubscribeStomp() {
-    if (this.stompSubscription) {
-      this.stompSubscription.unsubscribe();
-    }
-  }
 }

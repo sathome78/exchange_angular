@@ -1,6 +1,9 @@
 import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
-import {AuthService} from '../../../../shared/services/auth.service';
 import {SimpleChat} from '../simple-chat.model';
+import {Store, select} from '@ngrx/store';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import * as fromCore from '../../../../core/reducers';
 
 @Component({
   selector: 'app-chat-message',
@@ -11,14 +14,24 @@ import {SimpleChat} from '../simple-chat.model';
 export class ChatMessageComponent implements OnInit {
 
   @Input() message: SimpleChat;
+  public userInfo: ParsedToken;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private store: Store<fromCore.State>,
+  ) {
+    this.store.pipe(select(fromCore.getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+      })
+  }
 
   ngOnInit() {
   }
 
   isMine(): boolean {
-    return this.message.email === this.authService.getUsername();
+    return this.message.email === (this.userInfo && this.userInfo.username);
   }
 
   getDate(value: string): Date {

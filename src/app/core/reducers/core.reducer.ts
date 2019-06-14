@@ -35,7 +35,7 @@ export const INIT_STATE: State = {
   loading: false,
   isAuthenticated: false,
   userInfo: null,
-  ieoList: null,
+  ieoList: [],
 };
 
 /**
@@ -88,7 +88,16 @@ export function reducer(state: State = INIT_STATE, action: coreActions.Actions) 
     case coreActions.ON_LOGOUT:
       return {...state, userInfo: null, isAuthenticated: false};
     case coreActions.SET_IEO_LIST:
-      return {...state, ieoList: action.payload};
+      const cacheIeoList = [...state.ieoList];
+      action.payload.forEach((i) => {
+        const itemIndex = cacheIeoList.findIndex((ci) => ci.id === i.id);
+        if (itemIndex >= 0) {
+          cacheIeoList[itemIndex] = i;
+        } else {
+          cacheIeoList.push(i);
+        }
+      });
+      return {...state, ieoList: cacheIeoList};
 
     default:
       return state;

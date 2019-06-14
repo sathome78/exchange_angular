@@ -20,6 +20,10 @@ export class PopupSuccessComponent implements OnInit {
 
   closeMe() {
     this.close.emit();
-    this.router.navigateByUrl('/funds/balances');
+  }
+
+  closeMeAndRedirect() {
+    this.closeMe();
+    this.router.navigateByUrl('/funds/balances?tab=ieo');
   }
 }

@@ -6,7 +6,7 @@
       [currentStage]="currentStage"
       [isAuthenticated]="isAuthenticated"
       [ieoLoading]="ieoLoading"
-      [requirements]="requirements"
+      [requirements]="requirements || {}"
       (onLogin)="onLogin()"
       (onBuy)="onBuy()"
     ></app-ieo-header>
@@ -20,50 +20,76 @@
     (onBuy)="onBuy()"
     [IEOData]="IEOData"
     [ieoLoading]="ieoLoading"
-    [requirements]="requirements"
+    [requirements]="requirements || {}"
   ></app-ieo-info>
 
   <app-ieo-community
     *ngIf="ieoData.community && ieoData.community.length"
     [community]="ieoData.community"
-  >
-  </app-ieo-community>
-  <ng-container *ngIf="showContent">
-    <button (click)="testNotif()">notification test</button>
-  </ng-container>
+  ></app-ieo-community>
 
   <app-ieo-requirements
+    *ngIf="
+      (stage.RUNNING === currentStage ||
+      stage.PENDING === currentStage)
+    "
     [isAuthenticated]="isAuthenticated"
     [requirements]="requirements"
-    (showPolicy)="openPolicy()"
+    (showPolicy)="togglePolicy(true)"
   ></app-ieo-requirements>
+
+  <app-get-ready-banner
+    *ngIf="
+      (stage.TERMINATED === currentStage ||
+      stage.SUCCEEDED === currentStage ||
+      stage.FAILED === currentStage) &&
+      (isAuthenticated &&
+      requirements &&
+      !requirements.kycCheck)
+    "
+    (onClick)="bannerClick()"
+  ></app-get-ready-banner>
 
   <app-ieo-how-it-works></app-ieo-how-it-works>
 
-  <app-ieo-descriptions [description]="ieoData.description"></app-ieo-descriptions>
+  <app-ieo-description-wrapper
+    [IEOId]="IEOId"
+    [ieoToken]="IEOData.currencyDescription"
+  ></app-ieo-description-wrapper>
 
   <app-popup-failed
     *ngIf="showNoReqs"
-    (close)="closeNoReqs()"
+    (close)="toggleNoReqs(false)"
     [IEOData]="IEOData"
   ></app-popup-failed>
   <app-popup-buy
     [IEOData]="IEOData"
     *ngIf="showBuy"
-    (close)="closeBuy()"
+    (close)="toggleBuy(false)"
     (confirm)="confirmBuy($event)"
   ></app-popup-buy>
 
   <app-popup-policy
     *ngIf="showPolicy"
-    (close)="closePolicy()"
+    (close)="togglePolicy(false)"
     (onAgree)="agreeWithPolicy()"
   ></app-popup-policy>
 
   <app-popup-success
     [IEOName]="IEOData.currencyDescription"
     *ngIf="showSuccess"
-    (close)="closeSuccess()"
+    (close)="toggleSuccess(false)"
   >
   </app-popup-success>
+
+  <app-popup-wait-ieo
+    *ngIf="showWait"
+  >
+  </app-popup-wait-ieo>
+
+  <app-popup-sorry-ieo
+    *ngIf="showSorry"
+    (close)="toggleSorry(false)"
+  >
+  </app-popup-sorry-ieo>
 </div>

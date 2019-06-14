@@ -1,21 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {select, Store} from '@ngrx/store';
-import {getLanguage, State} from '../../core/reducers';
-import {Observable} from 'rxjs';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-privacy-policy',
-  templateUrl: './privacy-policy.component.html',
-  styleUrls: ['./privacy-policy.component.scss']
-})
+             selector: 'app-privacy-policy',
+             templateUrl: './privacy-policy.component.html',
+             styleUrls: ['./privacy-policy.component.scss'],
+             changeDetection: ChangeDetectionStrategy.OnPush
+           })
 export class PrivacyPolicyComponent implements OnInit {
 
   constructor(
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
   }
-
 }

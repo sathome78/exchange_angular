@@ -2,8 +2,8 @@ import {Router} from '@angular/router';
 import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {AsyncValidatorFn, AbstractControl} from '@angular/forms';
-import {tap, map, catchError} from 'rxjs/internal/operators';
-import {Store} from '@ngrx/store';
+import {map, catchError} from 'rxjs/internal/operators';
+import {Store, select} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
@@ -15,26 +15,33 @@ import {TokenHolder} from '../../model/token-holder.model';
 import {State} from '../../dashboard/reducers/dashboard.reducer';
 import {RefreshUserBalanceAction} from '../../dashboard/actions/dashboard.actions';
 import {defaultUserBalance} from '../../dashboard/reducers/default-values';
-import {SimpleCurrencyPair } from 'app/model/simple-currency-pair';
-import { RxStompService } from '@stomp/ng2-stompjs';
-import { Message } from '@stomp/stompjs';
-import { TOKEN } from './http.utils';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import {RxStompService} from '@stomp/ng2-stompjs';
+import {Message} from '@stomp/stompjs';
+import * as fromCore from '../../core/reducers';
 
 
 @Injectable()
 export class UserService {
 
   HOST = environment.apiUrl;
+  public isAuthenticated: boolean = false;
 
 
   constructor(
-    private store: Store<State>,
+    private store: Store<fromCore.State>,
     private http: HttpClient,
     private authService: AuthService,
     private langService: LangService,
     private stompService: RxStompService,
     private logger: LoggingService,
     private router: Router) {
+
+    this.store
+      .pipe(select(fromCore.getIsAuthenticated))
+      .subscribe((isAuth: boolean) => {
+        this.isAuthenticated = isAuth;
+      });
   }
 
   checkIfEmailExists(email: string): Observable<boolean> {
@@ -73,7 +80,7 @@ export class UserService {
   }
 
   public getUserBalance(pair: SimpleCurrencyPair) {
-    if (this.authService.isAuthenticated() && pair.id) {
+    if (this.isAuthenticated && pair.id) {
       const sub = this.http.get(`${this.HOST}/api/private/v2/dashboard/info/${pair.id}`)
         .subscribe(info => {
           this.store.dispatch(new RefreshUserBalanceAction(info));
@@ -174,10 +181,7 @@ export class UserService {
   }
 
   public getUserGoogleLoginEnabled(email: string): Observable<boolean> {
-    const httpOptions = {
-      params:  new HttpParams().set('email', email)
-    };
-    return this.http.get<boolean>(this.getUrl('is_google_2fa_enabled'), httpOptions);
+    return this.http.get<boolean>(`${this.HOST}/is_google_2fa_enabled?email=${email.replace('+', '%2B')}`);
   }
 
   public sendTestNotif(msg: string): Observable<any> {
@@ -186,42 +190,6 @@ export class UserService {
     };
     return this.http.get<boolean>(`${this.HOST}/api/private/v2/settings/jksdhfbsjfgsjdfgasj/personal/success`, httpOptions);
   }
-
-  // public getUserIp(): Observable<IpAddress> {
-  //   return this.http.get<IpAddress>('http://gd.geobytes.com/GetCityDetails');
-  // }
-
-  // restorePassword(email: string, password: string): Observable<any> {
-  //     const encodedPassword = this.authService.encodePassword(password);
-  //   const url = this.HOST + '/rest/user/restorePassword';
-  //   const mHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-  //
-  //   const httpOptions = {
-  //     headers: mHeaders
-  //   };
-  //
-  //   return this.http.post<User>(url, {email: email, password: encodedPassword}, httpOptions)
-  //     .pipe(catchError(this.resetPasswordFailureHandler.bind(this)));
-  // }
-  //
-  //   updateUserLanguage(lang: string) {
-  //     const url = this.HOST + '/api/private/settings/userLanguage/update';
-  //     return this.httpClient.put(url, {lang: lang}, {observe: 'events'});
-  //   }
-  //
-  //   getUserLanguage(): Observable<string> {
-  //     return this.http.get<Map<string, string>>(this.HOST + '/api/private/settings/userLanguage')
-  //       .map(map => {
-  //         return map['lang'];
-  //       });
-  // }
-  //
-  //   isAuthenticated(user: User) {
-  //     if (user) {
-  //       this.authService.setCurrentUser(user);
-  //     }
-  //     return user;
-  // }
 
   extractId(body: number) {
     return body;
@@ -245,10 +213,9 @@ export class UserService {
     return this.http.delete<any>(url);
   }
 
-  public getNotifications(): Observable<any> {
-    const {publicId} = this.authService.parsedToken;
+  public getNotifications(publicId: string): Observable<any> {
     return this.stompService
-      .watch(`/app/message/private/${publicId}`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
+      .watch(`/app/message/private/${publicId}`, {'Exrates-Rest-Token': this.authService.token || ''})
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 }
