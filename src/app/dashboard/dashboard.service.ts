@@ -173,11 +173,11 @@ export class DashboardService {
       name: 'My orders',
       type: 'orders'
     },
-    {
-      imgUrl: '../../assets/img/header-sumbenu-link6.svg',
-      name: 'Prediction',
-      type: 'prediction'
-    },
+    // {
+    //   imgUrl: '../../assets/img/header-sumbenu-link6.svg',
+    //   name: 'Prediction',
+    //   type: 'prediction'
+    // },
   ];
 
   constructor(private http: HttpClient) {
