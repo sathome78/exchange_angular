@@ -123,23 +123,23 @@ export class DashboardService {
       resizable: true,
       type: 'orders'
     },
-    {
-      x: 1,
-      y: 0,
-      w: 3,
-      h: 2,
-      xMd: 0,
-      yMd: 1,
-      wMd: 3,
-      hMd: 1,
-      xLg: 2,
-      yLg: 1,
-      wLg: 1,
-      hLg: 1,
-      dragAndDrop: true,
-      resizable: true,
-      type: 'prediction'
-    },
+    // {
+    //   x: 1,
+    //   y: 0,
+    //   w: 3,
+    //   h: 2,
+    //   xMd: 0,
+    //   yMd: 1,
+    //   wMd: 3,
+    //   hMd: 1,
+    //   xLg: 2,
+    //   yLg: 1,
+    //   wLg: 1,
+    //   hLg: 1,
+    //   dragAndDrop: true,
+    //   resizable: true,
+    //   type: 'prediction'
+    // },
   ];
   /** Array of dashboard tools item */
   public dashboardToolsItems = [
