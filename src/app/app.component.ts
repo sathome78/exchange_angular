@@ -31,7 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public isAuthenticated = false;
   public shouldSetDefaultCurrPair = true;
-  public technicalWorks = true;
+  public technicalWorks = false;
 
   constructor(
     public popupService: PopupService,
