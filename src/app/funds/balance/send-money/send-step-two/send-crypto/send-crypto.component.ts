@@ -77,7 +77,9 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
         this.cryptoNames = this.defaultCryptoNames;
         this.setActiveCrypto();
         this.prepareAlphabet();
-        if (this.activeCrypto) this.getCryptoInfoByName(this.activeCrypto.name);
+        if (this.activeCrypto) {
+          this.getCryptoInfoByName(this.activeCrypto.name);
+        }
       });
   }
 
