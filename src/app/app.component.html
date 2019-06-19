@@ -1,4 +1,4 @@
-<div class="page-wrap" [ngClass]="{'dark-theme': isCurrentThemeDark()}"  *ngIf="!technicalWorks">
+<div class="page-wrap" [ngClass]="{'dark-theme': isCurrentThemeDark()}">
 
   <!--<h3>{{'built: 27.10.2018 10:17:12' }}</h3>-->
   <!-- <a href="https://t.me/exrates_official" target="_blank" class="banner-wrap" id="banner">
@@ -21,7 +21,7 @@
     </button>
     </span>
   </a> -->
-  <article class="banner-wr" id="banner-wr">
+  <article class="banner-wr" id="banner-wr"  *ngIf="!technicalWorks">
     <style>
 
     .banner-wr {
@@ -103,6 +103,10 @@
     </button>
   </div>
 </article>
+<!-- *ngIf="technicalWorks" -->
+<div class="tech-banner" *ngIf="technicalWorks">
+  <div class="banner-content">TECHNICAL WORKS</div>
+</div>
 
 <app-header></app-header>
 
@@ -120,6 +124,3 @@
 </div>
 
 
-<div class="tech-banner" *ngIf="technicalWorks">
-  TECHNICAL WORKS
-</div>
