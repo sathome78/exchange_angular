@@ -20,7 +20,20 @@ export class IEOTableComponent implements OnInit {
     this._IEOData = data;
     this.handleTestIEO(data);
   }
-  get IEOData() { return this._IEOData; }
+  get IEOData() {
+    return [...(this._IEOData as IEOItem[]).sort((a, b) => {
+      const aT = this.getDateValue(a.startDate);
+      const bT = this.getDateValue(b.startDate);
+      const diff = aT - bT;
+      if (diff < 0) {
+        return 1;
+      } else if (diff > 0) {
+        return -1;
+      } else {
+        return 0;
+      }
+    })];
+  }
 
   @Input() public loading: boolean;
   @Input() public currentPage: number;
@@ -73,21 +86,6 @@ export class IEOTableComponent implements OnInit {
     this.onPaginate.emit({currentPage: page, countPerPage: this.countPerPage});
   }
 
-  public getFormatDate(d) {
-    if (!d) {
-      return '0000-00-00 00:00:00';
-    }
-    return moment.utc({
-      y: d.year,
-      M: d.monthValue - 1,
-      d: d.dayOfMonth,
-      h: d.hour,
-      m: d.minute,
-      s: d.second,
-    }).local().format('YYYY-MM-DD HH:mm:ss');
-  }
-
-
   public goToIeo(id) {
     this.router.navigate([`/ieo/${id}`]);
   }
@@ -133,6 +131,26 @@ export class IEOTableComponent implements OnInit {
           this.openSuccessIEO();
         }
       });
+  }
+
+  public getDateValue(d) {
+    if (!d) {
+      return 0;
+    }
+    if (typeof d === 'object') {
+      return moment.utc({
+        y: d.year,
+        M: d.monthValue - 1,
+        d: d.dayOfMonth,
+        h: d.hour,
+        m: d.minute,
+        s: d.second,
+      }).valueOf();
+    }
+
+    if (typeof d === 'string') {
+      return moment.utc(d).valueOf();
+    }
   }
 
 }

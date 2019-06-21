@@ -6,12 +6,20 @@ import * as moment from 'moment';
 })
 export class DateFromISO8601Pipe  implements PipeTransform {
   transform(value) {
-    return moment({
-      y: value.year,
-      M: value.monthValue - 1,
-      d: value.dayOfMonth,
-      h: value.hour,
-      m: value.minute,
-      s: value.second});
+
+    if (typeof value === 'object') {
+      return moment({
+        y: value.year,
+        M: value.monthValue - 1,
+        d: value.dayOfMonth,
+        h: value.hour,
+        m: value.minute,
+        s: value.second
+      });
+    }
+
+    if (typeof value === 'string') {
+      return moment(value);
+    }
   }
 }
