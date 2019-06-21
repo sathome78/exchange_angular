@@ -7,7 +7,6 @@ export class ShowWidgetPipe  implements PipeTransform {
   transform(widgetName: string, isAuthenticated: boolean): boolean {
     if (!isAuthenticated) {
       switch (widgetName) {
-        case 'trade-history':
         case 'orders':
           return false;
       }
