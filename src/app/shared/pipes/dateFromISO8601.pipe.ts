@@ -8,7 +8,7 @@ export class DateFromISO8601Pipe  implements PipeTransform {
   transform(value) {
 
     if (typeof value === 'object') {
-      return moment({
+      return moment.utc({
         y: value.year,
         M: value.monthValue - 1,
         d: value.dayOfMonth,
@@ -19,7 +19,7 @@ export class DateFromISO8601Pipe  implements PipeTransform {
     }
 
     if (typeof value === 'string') {
-      return moment(value);
+      return moment.utc(value);
     }
   }
 }

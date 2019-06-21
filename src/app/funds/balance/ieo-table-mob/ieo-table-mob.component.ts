@@ -92,7 +92,7 @@ export class IEOTableMobComponent implements OnInit{
     this.priceIn = this.currencies[element.innerText];
   }
   public onGoToPendingReq(): void {
-    this.router.navigate(['/funds/pending-requests'])
+    this.router.navigate(['/funds/pending-requests']);
   }
 
   public isFiat(currName: string): boolean {
