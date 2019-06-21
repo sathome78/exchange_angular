@@ -163,6 +163,7 @@ export class PopupBuyComponent implements OnInit, OnChanges {
     e.preventDefault();
     this.amountInput.setValue(this.maxSumShow);
     this.amountInput.updateValueAndValidity();
+    this.inputValue = this.maxSumValidate;
     this.countPay(this.maxSumValidate);
   }
 
