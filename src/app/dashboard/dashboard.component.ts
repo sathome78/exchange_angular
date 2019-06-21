@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('trading') tradingTemplate: TemplateRef<any>;
   @ViewChild('orderBook') orderBookTemplate: TemplateRef<any>;
   @ViewChild('tradeHistory') tradeHistoryTemplate: TemplateRef<any>;
-  @ViewChild('chat') chatTemplate: TemplateRef<any>;
+  @ViewChild('prediction') predictionTemplate: TemplateRef<any>;
   @ViewChild('orders') ordersTemplate: TemplateRef<any>;
 
   /** variables for resize method */
@@ -120,12 +120,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     this.widgetTemplate = {
-      graph: this.graphTemplate,
       markets: this.marketsTemplate,
+      graph: this.graphTemplate,
       trading: this.tradingTemplate,
       'order-book': this.orderBookTemplate,
       'trade-history': this.tradeHistoryTemplate,
-      chat: this.chatTemplate,
+      prediction: this.predictionTemplate,
       orders: this.ordersTemplate
     };
 
