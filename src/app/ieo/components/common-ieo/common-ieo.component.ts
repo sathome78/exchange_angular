@@ -35,7 +35,6 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   public isEmailSubscribe = false;
   public isRedirectToTelegram = false;
   public isAuthenticated: boolean;
-  public AuthSub$: Observable<boolean>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public KYC_STATUS = KYC_STATUS;
   public requirements: KycIEOModel = new KycIEOModel(null, null, null);
@@ -63,11 +62,24 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router
   ) {
-    this.AuthSub$ = this.store.pipe(select(fromCore.getIsAuthenticated));
     this.store.pipe(select(fromCore.getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
+      });
+    this.store.pipe(select(fromCore.getIsAuthenticated))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((isAuth: boolean) => {
+        this.isAuthenticated = isAuth;
+        if (isAuth) {
+          this.checkSubscribe();
+
+          this.store.pipe(select(getVerificationStatus))
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+              this.verificationStatus = res;
+            });
+        }
       });
   }
 
@@ -75,7 +87,6 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.subscribeToIEOList();
     this.getIEOList();
     this.initEmailForm();
-    this.getKYCVerificationStatus();
     this.thakPopupOpen = {
       isOpen: true,
       title: 'Thank you!',
@@ -112,21 +123,6 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
           }
         })];
         this.handleTestIEO();
-      });
-  }
-
-  getKYCVerificationStatus() {
-    this.AuthSub$.pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((isAuth: boolean) => {
-        this.isAuthenticated = isAuth;
-        if (isAuth) {
-          this.checkSubscribe();
-          this.store.pipe(select(getVerificationStatus))
-            .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe(res => {
-              this.verificationStatus = res;
-            });
-        }
       });
   }
 
