@@ -294,7 +294,7 @@
                   <span>{{'End Time' | translate}}</span>
                 </div>
                 <div class="info-value">
-                  <span>{{item.endDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
+                  <span>{{(item.soldOutAt || item.endDate) | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
                 </div>
               </div>
             </div>
