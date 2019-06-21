@@ -1,19 +1,19 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {IEOItem} from '../../../model/ieo.model';
-import {Observable, Subject} from 'rxjs';
-import {select, Store} from '@ngrx/store';
-import {getVerificationStatus, State} from '../../../core/reducers';
-import {takeUntil} from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { IEOItem } from '../../../model/ieo.model';
+import { Observable, Subject } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { getVerificationStatus, State } from '../../../core/reducers';
+import { takeUntil } from 'rxjs/operators';
 import * as fromCore from '../../../core/reducers';
-import {KYC_STATUS} from '../../../shared/constants';
-import {PopupService} from '../../../shared/services/popup.service';
-import {Router} from '@angular/router';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UtilsService} from '../../../shared/services/utils.service';
-import {IEOServiceService} from '../../../shared/services/ieoservice.service';
-import {KycIEOModel} from '../../models/ieo-kyc.model';
-import {ThankPopupModel} from '../../../shared/models/thank-popup-model';
-import {AuthService} from '../../../shared/services/auth.service';
+import { KYC_STATUS } from '../../../shared/constants';
+import { PopupService } from '../../../shared/services/popup.service';
+import { Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UtilsService } from '../../../shared/services/utils.service';
+import { IEOServiceService } from '../../../shared/services/ieoservice.service';
+import { KycIEOModel } from '../../models/ieo-kyc.model';
+import { ThankPopupModel } from '../../../shared/models/thank-popup-model';
+import { AuthService } from '../../../shared/services/auth.service';
 import * as coreAction from '../../../core/actions/core.actions';
 import * as moment from 'moment';
 
@@ -35,7 +35,6 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   public isEmailSubscribe = false;
   public isRedirectToTelegram = false;
   public isAuthenticated: boolean;
-  public AuthSub$: Observable<boolean>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public KYC_STATUS = KYC_STATUS;
   public requirements: KycIEOModel = new KycIEOModel(null, null, null);
@@ -63,11 +62,24 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router
   ) {
-    this.AuthSub$ = this.store.pipe(select(fromCore.getIsAuthenticated));
     this.store.pipe(select(fromCore.getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
+      });
+    this.store.pipe(select(fromCore.getIsAuthenticated))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((isAuth: boolean) => {
+        this.isAuthenticated = isAuth;
+        if (isAuth) {
+          this.checkSubscribe();
+
+          this.store.pipe(select(getVerificationStatus))
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+              this.verificationStatus = res;
+            });
+        }
       });
   }
 
@@ -75,8 +87,6 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.subscribeToIEOList();
     this.getIEOList();
     this.initEmailForm();
-    this.getKYCVerificationStatus();
-    this.checkSubscribe();
     this.thakPopupOpen = {
       isOpen: true,
       title: 'Thank you!',
@@ -104,7 +114,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
           const aT = this.getDateValue(a.startDate);
           const bT = this.getDateValue(b.startDate);
           const diff = aT - bT;
-          if (diff < 0 ) {
+          if (diff < 0) {
             return 1;
           } else if (diff > 0) {
             return -1;
@@ -116,25 +126,11 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       });
   }
 
-  getKYCVerificationStatus() {
-    this.AuthSub$.pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((isAuth: boolean) => {
-        this.isAuthenticated = isAuth;
-        if (isAuth) {
-          this.store.pipe(select(getVerificationStatus))
-            .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe(res => {
-              this.verificationStatus = res;
-            });
-        }
-      });
-  }
-
   bannerClick() {
     if (!this.isAuthenticated) {
       this.onLogin();
     } else {
-       this.router.navigate(['/settings/verification']);
+      this.router.navigate(['/settings/verification']);
     }
   }
 
@@ -148,11 +144,13 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
 
   initEmailForm() {
     this.emailForm = new FormGroup({
-      email: new FormControl('', { validators: [
+      email: new FormControl('', {
+        validators: [
           Validators.required, this.utilsService.emailValidator(),
           this.utilsService.specialCharacterValidator(),
           Validators.maxLength(40)
-        ]}),
+        ]
+      }),
     });
   }
 
@@ -160,15 +158,15 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.isSubmited = true;
     this.emailForm.get('email').markAsTouched();
     if (this.emailForm.valid) {
-       this.ieoService.ieoEmailSubscription(this.emailControl.value)
-         .pipe(takeUntil(this.ngUnsubscribe))
-         .subscribe(res => {
-           this.emailForm.reset();
-           this.popupService.getThankYouPopupListener().next(this.thakPopupOpen);
-           this.checkSubscribe();
-         }, error => {
-           this.emailForm.reset();
-         });
+      this.ieoService.ieoEmailSubscription(this.emailControl.value)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.emailForm.reset();
+          this.popupService.getThankYouPopupListener().next(this.thakPopupOpen);
+          this.checkSubscribe();
+        }, error => {
+          this.emailForm.reset();
+        });
     }
   }
 
@@ -177,9 +175,9 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       this.ieoService.ieoTelegramRedirect((this.userInfo && this.userInfo.username))
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
-           if (!this.isRedirectToTelegram) {
-              this.checkSubscribe();
-           }
+          if (!this.isRedirectToTelegram) {
+            this.checkSubscribe();
+          }
         });
     }
   }
@@ -249,7 +247,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
           try {
             this.isEmailSubscribe = (res as any).data.email;
             this.isRedirectToTelegram = (res as any).data.telegram;
-          } catch (e) {}
+          } catch (e) { }
         });
     }
   }
@@ -296,7 +294,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res) => {
         this.togglePolicy(false);
-        this.requirements = {...this.requirements, policyCheck: true};
+        this.requirements = { ...this.requirements, policyCheck: true };
         this.openBuyPopup();
       });
   }
@@ -310,7 +308,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   }
 
   get boughtAmountPer() {
-    return  (IEOData) => {
+    return (IEOData) => {
       const a = (this.boughtAmount(IEOData) / (IEOData.amount / 100)) || 0;
       return a.toFixed(2);
     };
@@ -320,13 +318,19 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     if (!d) {
       return 0;
     }
-    return moment.utc({
-      y: d.year,
-      M: d.monthValue - 1,
-      d: d.dayOfMonth,
-      h: d.hour,
-      m: d.minute,
-      s: d.second,
-    }).valueOf();
+    if (typeof d === 'object') {
+      return moment.utc({
+        y: d.year,
+        M: d.monthValue - 1,
+        d: d.dayOfMonth,
+        h: d.hour,
+        m: d.minute,
+        s: d.second,
+      }).valueOf();
+    }
+
+    if (typeof d === 'string') {
+      return moment.utc(d).valueOf();
+    }
   }
 }

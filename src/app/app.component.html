@@ -21,7 +21,7 @@
     </button>
     </span>
   </a> -->
-  <article class="banner-wr" id="banner-wr">
+  <article class="banner-wr" id="banner-wr"  *ngIf="!technicalWorks">
     <style>
 
     .banner-wr {
@@ -103,6 +103,10 @@
     </button>
   </div>
 </article>
+<!-- *ngIf="technicalWorks" -->
+<div class="tech-banner" *ngIf="technicalWorks">
+  <div class="banner-content">TECHNICAL WORKS</div>
+</div>
 
 <app-header></app-header>
 
@@ -118,3 +122,5 @@
 </div>
 <app-footer></app-footer>
 </div>
+
+

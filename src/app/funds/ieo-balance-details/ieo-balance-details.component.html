@@ -63,7 +63,7 @@
             </div>
             <div class="open-mob-balance__row">
               <div class="open-mob-balance__title">{{'Start Time' | translate}}</div>
-              <div class="open-mob-balance__value">{{getFormatDate(IEOData.startDate)}}</div>
+              <div class="open-mob-balance__value">{{IEOData.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</div>
             </div>
             <div class="open-mob-balance__row">
               <div class="open-mob-balance__title">{{'Personal Amount' | translate}}</div>

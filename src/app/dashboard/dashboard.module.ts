@@ -48,6 +48,7 @@ import {IsFavoritePipe} from './services/isFavorite.pipe';
 import {EmbeddedOrdersMobileComponent} from './components/embedded-orders-mobile/embedded-orders-mobile.component';
 import {EmbeddedOpenOrdersMobileComponent} from './components/embedded-orders-mobile/embedded-open-orders-mobile/embedded-open-orders-mobile.component';
 import {EmbeddedOrdersHistoryMobileComponent} from './components/embedded-orders-mobile/embedded-orders-history-mobile/embedded-orders-history-mobile.component';
+import { PredictionComponent } from './components/prediction/prediction.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -87,6 +88,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     EmbeddedOrdersMobileComponent,
     EmbeddedOpenOrdersMobileComponent,
     EmbeddedOrdersHistoryMobileComponent,
+    PredictionComponent,
 
     // PIPES END
   ],

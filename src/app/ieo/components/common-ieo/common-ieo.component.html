@@ -11,13 +11,13 @@
         <p>{{'IEO platform for transformative projects' | translate}}</p>
       </div>
       <div class="button-wr">
-        <a href="https://forms.gle/Y18qX3Na3WmWiRnw9" class="standart-btn" target="blank"><span>{{'Apply to launch IEO to X-Platform' | translate}}</span></a>
+        <a href="https://forms.gle/Y18qX3Na3WmWiRnw9" class="standart-btn" target="blank"><span>{{'Apply to launch IEO on X-Platform' | translate}}</span></a>
       </div>
     </div>
   </div>
   <div class="common-subscribe">
     <div class="comunication-block">
-      <div class="different-comunication" *ngIf="isEmailSubscribe && !isRedirectToTelegram">
+      <!-- <div class="different-comunication" *ngIf="!isRedirectToTelegram">
         <div class="different-comunication-left">
           <div class="icon-wr">
             <svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,7 +50,7 @@
           <a href="tg://resolve?domain=exratesme" (click)="redirectToTelegram()">@botExratesme</a>
         </div>
       </div>
-      <div class="different-comunication" *ngIf="!isEmailSubscribe && isRedirectToTelegram">
+      <div class="different-comunication" *ngIf="!isEmailSubscribe">
         <div class="different-comunication-left">
           <div class="icon-wr">
             <svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -119,9 +119,9 @@
             </button>
           </div>
         </form>
-      </div>
-      <div class="comunication-item-wr" *ngIf="!isEmailSubscribe && !isRedirectToTelegram">
-        <div class="comunication-item">
+      </div> -->
+      <div class="comunication-item-wr">
+        <div class="comunication-item" *ngIf="!isRedirectToTelegram">
           <div class="top-part">
             <div class="icon-wr">
               <svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -156,7 +156,7 @@
             </div>
           </div>
         </div>
-        <div class="comunication-item">
+        <div class="comunication-item" *ngIf="!isEmailSubscribe">
           <div class="top-part">
             <div class="icon-wr">
               <svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg">
