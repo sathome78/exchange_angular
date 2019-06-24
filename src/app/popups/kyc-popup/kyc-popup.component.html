@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="modal__header">
-      <ul class="steps" *ngIf="!isKYC2">
+      <ul class="steps">
         <li class="steps__item" [ngClass]="{'steps__item--current': step === 1}"  *ngIf="step > 0">
           <a class="steps__link">
             <span class="steps__number" [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
@@ -35,17 +35,7 @@
           </a>
         </li>
       </ul>
-      <ul class="steps" *ngIf="isKYC2">
-        <li class="steps__item" [ngClass]="{'steps__item--current': step === 2}"  *ngIf="step === 2">
-          <a class="steps__link">
-            <span class="steps__number" [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }">1</span>
-            <span class="steps__number-mob-current">1. {{'Verification' | translate}}</span>
-            <span class="steps__title">{{'Verification' | translate}}</span>
-          </a>
-        </li>
-      </ul>
-      <div class="steps__counter" *ngIf="!isKYC2">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/2</div>
-      <div class="steps__counter" *ngIf="isKYC2">{{'step' | translate}} <span class="steps__counter-val">1</span>/1</div>
+      <div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/2</div>
     </div>
     <div class="modal__content">
 
