@@ -34,7 +34,7 @@
         <span>{{ieo.availableAmount | currencyFormat}}</span>
       </td>
       <td class="table__cell table__cell--tar">
-        <span>{{getFormatDate(ieo.startDate)}}</span>
+        <span>{{ieo.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
       </td>
       <td class="table__cell table__cell--tar">
         <span>{{ieo.personalAmount | currencyFormat}} {{ieo.currencyName}}</span>

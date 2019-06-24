@@ -29,8 +29,9 @@ import {lang} from 'moment';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public isAuthenticated: boolean = false;
-  public shouldSetDefaultCurrPair: boolean = true;
+  public isAuthenticated = false;
+  public shouldSetDefaultCurrPair = true;
+  public technicalWorks = false;
 
   constructor(
     public popupService: PopupService,

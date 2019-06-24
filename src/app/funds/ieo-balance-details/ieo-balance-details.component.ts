@@ -92,20 +92,6 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getFormatDate(d) {
-    if (!d) {
-      return '0000-00-00 00:00:00';
-    }
-    return moment.utc({
-      y: d.year,
-      M: d.monthValue - 1,
-      d: d.dayOfMonth,
-      h: d.hour,
-      m: d.minute,
-      s: d.second,
-    }).local().format('YYYY-MM-DD HH:mm:ss');
-  }
-
   public buyIeo(IEOData) {
     this.showBuyIEO = true;
   }

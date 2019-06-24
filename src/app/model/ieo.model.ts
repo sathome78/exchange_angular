@@ -14,6 +14,7 @@ export class IEOItem {
   public maxAmountPerUser: number;
   public startDate: any;
   public endDate: any;
+  public soldOutAt: any;
   public version: number;
   public readyToIeo: boolean;
   public multiplyProcessing: boolean;
