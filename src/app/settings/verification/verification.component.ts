@@ -25,6 +25,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   public userInfo: ParsedToken;
   public pattern = 'upholding.biz'
   public showComponent = false;
+  public isPublicIdCopied = false;
 
   constructor(private popupService: PopupService,
     private verificationService: UserVerificationService,
@@ -50,13 +51,13 @@ export class VerificationComponent implements OnInit, OnDestroy {
         }
       });;
 
-      this.store.pipe(select(getUserInfo))
+    this.store.pipe(select(getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
       })
 
-     this.showComponent = this.isUpholding();
+    this.showComponent = this.isUpholding();
   }
 
   ngOnDestroy(): void {
@@ -71,11 +72,25 @@ export class VerificationComponent implements OnInit, OnDestroy {
 
   onOpenKYCPopup(level: number, ) {
     if (level === 1 && this.verificationStatus === NOT_VERIFIED || level === 2 && this.verificationStatus === LEVEL_ONE) {
-    this.popupService.showKYCPopup(1);
+      this.popupService.showKYCPopup(1);
     }
   }
 
-  
+  copyPublicId(value) {
+    let selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = value;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    this.isPublicIdCopied = true;
+    document.body.removeChild(selBox);
+  }
+
 
   isUpholding(): boolean {
     return !!(this.userInfo && this.userInfo.username).match(this.pattern);
