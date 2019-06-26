@@ -1,15 +1,15 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, HostListener} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/internal/operators';
-import {EmbeddedOrdersService} from '../embedded-orders.service';
-import {select, Store} from '@ngrx/store';
-import {State, getActiveCurrencyPair} from 'app/core/reducers/index';
-import {AbstractOrderCalculate} from '../../../../shared/components/abstract-order-calculate';
-import {UserBalance} from '../../../../model/user-balance.model';
-import {getUserBalance} from '../../../../core/reducers';
-import {Order} from 'app/model/order.model';
-import {TradingService} from 'app/dashboard/services/trading.service';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, HostListener } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/internal/operators';
+import { EmbeddedOrdersService } from '../embedded-orders.service';
+import { select, Store } from '@ngrx/store';
+import { State, getActiveCurrencyPair } from 'app/core/reducers/index';
+import { AbstractOrderCalculate } from '../../../../shared/components/abstract-order-calculate';
+import { UserBalance } from '../../../../model/user-balance.model';
+import { getUserBalance } from '../../../../core/reducers';
+import { Order } from 'app/model/order.model';
+import { TradingService } from 'app/dashboard/services/trading.service';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 
 @Component({
@@ -19,8 +19,8 @@ import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 })
 export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
   @Output() refreshOpenOrders: EventEmitter<boolean> = new EventEmitter();
-  @Input() makeHeight ;
-  @Input() currentPair: SimpleCurrencyPair ;
+  @Input() makeHeight;
+  @Input() currentPair: SimpleCurrencyPair;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   @Input() openOrders;
   @Input() countPerPage = 7;
@@ -38,7 +38,7 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
     private store: Store<State>,
     private ordersService: EmbeddedOrdersService,
     public tradingService: TradingService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.arrPairName = this.currentPair.name.split('/');
@@ -57,6 +57,9 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
    * @param changes
    */
   ngOnChanges(changes): void {
+    if (changes.openOrders) {
+      this.arrPairName = this.currentPair.name.split('/');
+    }
     if (!changes.makeHeight) { return; }
     // change count orders perPage
     this.countPerPage = changes.makeHeight.currentValue === true ? 7 : 18;

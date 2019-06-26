@@ -14,10 +14,10 @@
               fill="white" />
           </svg>
         </span>
-        <span class="button__text">Level 1 <br>Verification ID Document</span>
+        <span class="button__text">{{'Level' | translate}} 1<br>{{'Verification ID Document' | translate}}</span>
       </button>
       <div class="level-description">
-        <span *ngIf="verificationStatus === NOT_VERIFIED">Пройдите варификацию ID <br>и получи аккаунт Level 1</span>
+        <span *ngIf="verificationStatus === NOT_VERIFIED">{{'Pass ID verification' | translate}} <br>{{'and get a Level 1 account' | translate}}</span>
       </div>
     </div>
     <div class="settings-button-wr">
@@ -30,13 +30,12 @@
               fill="white" />
           </svg>
         </span>
-        <span class="button__text">Level 2 <br>Utility Bill</span>
+        <span class="button__text">{{'Level' | translate}} 2 <br>{{'Utility Bill' | translate}}</span>
       </button>
       <div class="level-description">
-        <span *ngIf="verificationStatus === NOT_VERIFIED">Доступно после варификации ID</span>
+        <span *ngIf="verificationStatus === NOT_VERIFIED">{{'Available after ID verification' | translate}}</span>
         <!-- когда выполнен степ 1 выводить это описание -->
-        <span class="l2" *ngIf="verificationStatus === LEVEL_ONE">Пройдите варификацию Utility Bill <br>и получи аккаунт
-          Level 2 <br>(доступно после варификации ID)</span>
+         <span class="l2" *ngIf="verificationStatus === LEVEL_ONE">{{'Utility Bill' | translate}}<br>{{'and get a Level 2 account' | translate}} <br>({{'available after ID verification' | translate}})</span>
       </div>
     </div>
 
