@@ -89,9 +89,4 @@ export class VerificationComponent implements OnInit, OnDestroy {
     document.body.removeChild(selBox);
   }
 
-
-  isUpholding(): boolean {
-    return !!(this.userInfo && this.userInfo.username).match(this.pattern);
-  }
-
 }
