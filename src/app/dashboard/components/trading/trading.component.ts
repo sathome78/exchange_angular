@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit, HostListener, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { Component, OnDestroy, OnInit, HostListener, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import {Subject} from 'rxjs/Subject';
-import {takeUntil, withLatestFrom} from 'rxjs/internal/operators';
-import {select, Store} from '@ngrx/store';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil, withLatestFrom } from 'rxjs/internal/operators';
+import { select, Store } from '@ngrx/store';
 
-import {AbstractDashboardItems} from '../../abstract-dashboard-items';
+import { AbstractDashboardItems } from '../../abstract-dashboard-items';
 import {
   State,
   getActiveCurrencyPair,
@@ -14,17 +14,17 @@ import {
   getIsAuthenticated,
   getUserBalance
 } from '../../../core/reducers/index';
-import {UserService} from '../../../shared/services/user.service';
-import {OrderItem, UserBalance} from '../../../model';
-import {PopupService} from '../../../shared/services/popup.service';
-import {TranslateService} from '@ngx-translate/core';
-import {LastPrice} from '../../../model/last-price.model';
-import {BUY, orderBaseType, SELL} from '../../../shared/constants';
-import {Order} from '../../../model/order.model';
-import {TradingService} from '../../../dashboard/services/trading.service';
-import {BreakpointService} from '../../../shared/services/breakpoint.service';
-import {SimpleCurrencyPair} from '../../../model/simple-currency-pair';
-import {LoadOpenOrdersAction} from '../../actions/dashboard.actions';
+import { UserService } from '../../../shared/services/user.service';
+import { OrderItem, UserBalance } from '../../../model';
+import { PopupService } from '../../../shared/services/popup.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LastPrice } from '../../../model/last-price.model';
+import { BUY, orderBaseType, SELL } from '../../../shared/constants';
+import { Order } from '../../../model/order.model';
+import { TradingService } from '../../../dashboard/services/trading.service';
+import { BreakpointService } from '../../../shared/services/breakpoint.service';
+import { SimpleCurrencyPair } from '../../../model/simple-currency-pair';
+import { LoadOpenOrdersAction } from '../../actions/dashboard.actions';
 import { messages } from '../../constants'
 
 @Component({
@@ -161,8 +161,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         if (this.isPossibleSetPrice) {
           this.setPriceInValue(lastPrice.price, this.BUY);
           this.setPriceInValue(lastPrice.price, this.SELL);
-          this.sellOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
-          this.buyOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
+          this.sellOrder.rate = lastPrice.price ? parseFloat(lastPrice.price.toString()) : 0;
+          this.buyOrder.rate = lastPrice.price ? parseFloat(lastPrice.price.toString()) : 0;
           // this.resetStopValue();
         }
         this.cdr.detectChanges();
@@ -340,13 +340,18 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param order
    */
   orderFromOrderBook(order: OrderItem): void {
+    this.resetBuyModel();
+    this.resetSellModel();
     const rate = parseFloat(order.exrate.toString());
     this.sellOrder.rate = rate;
     this.setPriceInValue(rate, this.SELL);
     this.buyOrder.rate = rate;
     this.setPriceInValue(rate, this.BUY);
+    const amount = parseFloat(order.amount.toString());
+    this.setQuantityValue(amount, order.orderType);
     this.getCommission(this.SELL);
     this.getCommission(this.BUY);
+    this.quantityInput({ target: { value: amount} }, order.orderType);
   }
 
   /**
