@@ -6,7 +6,7 @@
   <div class="row settings__buttons-row">
     <div class="settings-button-wr">
       <button class="btn settings__btn" (click)="onOpenKYCPopup(1)"
-        [ngClass]="{'active': verificationStatus === NOT_VERIFIED, 'success': verificationStatus === LEVEL_ONE || verificationStatus === LEVEL_TWO}">
+        [ngClass]="{'active': verificationStatus === NOT_VERIFIED}">
         <span class="btn__icon btn__icon--blue btn__icon--hover-white">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
             <rect y="10.6953" width="2" height="7.94554" rx="1" transform="rotate(-45 0 10.6953)" fill="white" />
@@ -14,28 +14,10 @@
               fill="white" />
           </svg>
         </span>
-        <span class="button__text">{{'Level' | translate}} 1<br>{{'Verification ID Document' | translate}}</span>
+        <span class="button__text">{{'Verification ID Document' | translate}}</span>
       </button>
       <div class="level-description">
         <span *ngIf="verificationStatus === NOT_VERIFIED">{{'Pass ID verification' | translate}} <br>{{'and get a Level 1 account' | translate}}</span>
-      </div>
-    </div>
-    <div class="settings-button-wr">
-      <button class="btn settings__btn" (click)="onOpenKYCPopup(2)"
-        [ngClass]="{'active': verificationStatus === LEVEL_ONE, 'success': verificationStatus === LEVEL_TWO}">
-        <span class="btn__icon btn__icon--blue btn__icon--hover-white">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
-            <rect y="10.6953" width="2" height="7.94554" rx="1" transform="rotate(-45 0 10.6953)" fill="white" />
-            <rect x="5.73438" y="16.3984" width="2" height="14.3423" rx="1" transform="rotate(-135 5.73438 16.3984)"
-              fill="white" />
-          </svg>
-        </span>
-        <span class="button__text">{{'Level' | translate}} 2 <br>{{'Utility Bill' | translate}}</span>
-      </button>
-      <div class="level-description">
-        <span *ngIf="verificationStatus === NOT_VERIFIED">{{'Available after ID verification' | translate}}</span>
-        <!-- когда выполнен степ 1 выводить это описание -->
-         <span class="l2" *ngIf="verificationStatus === LEVEL_ONE">{{'Utility Bill' | translate}}<br>{{'and get a Level 2 account' | translate}} <br>({{'available after ID verification' | translate}})</span>
       </div>
     </div>
 
