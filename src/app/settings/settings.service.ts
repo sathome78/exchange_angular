@@ -69,13 +69,13 @@ export class SettingsService {
     return this.http.get<{data: string}>(`${this.apiUrl}/api/private/v2/kyc/status`);
   }
   public getCountriesKYC() {
-    return this.http.get(`${this.apiUrl}/api/private/v2/shufti-pro/countries`);
+    return this.http.get(`${this.apiUrl}/api/private/v2/kyc/countries`);
   }
   public getLanguagesKYC() {
-    return this.http.get(`${this.apiUrl}/api/private/v2/shufti-pro/languages`);
+    return this.http.get(`${this.apiUrl}/api/private/v2/kyc/languages`);
   }
-  public getIframeUrlForKYC(step: string, lang: string, country: string) {
-    return this.http.get(`${this.apiUrl}/api/private/v2/shufti-pro/verification-url/${step}`, {
+  public getIframeUrlForKYC(lang: string, country: string) {
+    return this.http.get(`${this.apiUrl}/api/private/v2/kyc/verification-url`, {
      responseType: 'text',
       params: {
         language_code: lang,

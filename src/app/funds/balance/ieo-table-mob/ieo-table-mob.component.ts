@@ -7,6 +7,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
 import { IEOItem } from 'app/model/ieo.model';
 import { environment } from 'environments/environment';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-ieo-table-mob',
@@ -35,8 +36,27 @@ export class IEOTableMobComponent implements OnInit{
   public currencyForChoose: string = '';
   public currValue: string = '';
   public isShowSearchPopup = false;
+  public _IEOData;
 
-  @Input('IEOData') public IEOData: IEOItem[] = [];
+  // @Input('IEOData') public IEOData: IEOItem[] = [];
+  @Input('IEOData')
+  set IEOData(data: IEOItem[]) {
+    this._IEOData = data;
+  }
+  get IEOData() {
+    return [...(this._IEOData as IEOItem[]).sort((a, b) => {
+      const aT = this.getDateValue(a.startDate);
+      const bT = this.getDateValue(b.startDate);
+      const diff = aT - bT;
+      if (diff < 0) {
+        return 1;
+      } else if (diff > 0) {
+        return -1;
+      } else {
+        return 0;
+      }
+    })];
+  }
   @Input('countOfPendingRequests') public countOfPendingRequests: number = 0;
   @Input('Tab') public Tab;
   @Input('currTab') public currTab;
@@ -72,7 +92,7 @@ export class IEOTableMobComponent implements OnInit{
     this.priceIn = this.currencies[element.innerText];
   }
   public onGoToPendingReq(): void {
-    this.router.navigate(['/funds/pending-requests'])
+    this.router.navigate(['/funds/pending-requests']);
   }
 
   public isFiat(currName: string): boolean {
@@ -87,6 +107,25 @@ export class IEOTableMobComponent implements OnInit{
     return environment.showContent;
   }
 
+  public getDateValue(d) {
+    if (!d) {
+      return 0;
+    }
+    if (typeof d === 'object') {
+      return moment.utc({
+        y: d.year,
+        M: d.monthValue - 1,
+        d: d.dayOfMonth,
+        h: d.hour,
+        m: d.minute,
+        s: d.second,
+      }).valueOf();
+    }
+
+    if (typeof d === 'string') {
+      return moment.utc(d).valueOf();
+    }
+  }
 
 
   ngOnInit() {

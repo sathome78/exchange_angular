@@ -25,7 +25,7 @@
             </tr>
             <tr>
               <td>{{'Start Time' | translate}}：</td>
-              <td class="right-text"><span>{{getFormatDate(IEOData.startDate)}}</span></td>
+              <td class="right-text"><span>{{IEOData.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span></td>
             </tr>
             <tr>
               <td>{{'Session Supply' | translate}}：</td>

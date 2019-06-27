@@ -17,6 +17,9 @@
     display: block;
     margin-bottom: 4px;
     line-height: 21px;
+    &__warning {
+      color: #eb5757;
+    }
 
     &:before {
       display: inline-block;

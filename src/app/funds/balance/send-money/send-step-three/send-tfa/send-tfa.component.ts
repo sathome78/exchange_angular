@@ -33,21 +33,10 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const pinData = {
-      amount: this.data.data.sum || 0,
-      currencyName: this.data.data.currencyName
-    }
-
-    this.balanceService.sendPinCode(pinData)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.pincodeFrom = res.status === 201 ? CODE_FROM_EMAIL : CODE_FROM_GOOGLE;
-        this.subtitleMessage = this.pincodeFrom ? '' : this.translateService.instant('Put the code');
-      });
-
     this.form = new FormGroup({
       pin: new FormControl('', [Validators.required]),
     });
+    this.choosePinMethod(this.data.operation);
     this.data.data.tries = this.pincodeTries;
   }
 
@@ -61,6 +50,41 @@ export class SendTfaComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
       this.chooseSubmitMethod(this.data.operation);
     }
+  }
+
+  choosePinMethod(operation: string) {
+    const pinData = {
+      amount: this.data.data.sum || 0,
+      currencyName: this.data.data.currencyName
+    };
+    switch (operation) {
+      case SEND_FIAT:
+      case SEND_CRYPTO:
+        this.sendWithdrawalPin(pinData);
+        break;
+      case TRANSFER_INSTANT:
+      case BY_PRIVATE_CODE:
+        this.sendTransferPin(pinData);
+        break;
+    }
+  }
+
+  sendWithdrawalPin(pinData) {
+    this.balanceService.sendWithdrawalPinCode(pinData)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.pincodeFrom = res.status === 201 ? CODE_FROM_EMAIL : CODE_FROM_GOOGLE;
+        this.subtitleMessage = this.pincodeFrom ? '' : this.translateService.instant('Put the code');
+      });
+  }
+
+  sendTransferPin(pinData) {
+    this.balanceService.sendTransferPinCode(pinData)
+    .pipe(takeUntil(this.ngUnsubscribe))
+    .subscribe(res => {
+      this.pincodeFrom = res.status === 201 ? CODE_FROM_EMAIL : CODE_FROM_GOOGLE;
+      this.subtitleMessage = this.pincodeFrom ? '' : this.translateService.instant('Put the code');
+    });
   }
 
   chooseSubmitMethod(operation: string) {
