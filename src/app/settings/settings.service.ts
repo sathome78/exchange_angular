@@ -74,8 +74,8 @@ export class SettingsService {
   public getLanguagesKYC() {
     return this.http.get(`${this.apiUrl}/api/private/v2/kyc/languages`);
   }
-  public getIframeUrlForKYC(step: string, lang: string, country: string) {
-    return this.http.get(`${this.apiUrl}/api/private/v2/kyc/verification-url/${step}`, {
+  public getIframeUrlForKYC(lang: string, country: string) {
+    return this.http.get(`${this.apiUrl}/api/private/v2/kyc/verification-url`, {
      responseType: 'text',
       params: {
         language_code: lang,
