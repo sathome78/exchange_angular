@@ -24,7 +24,6 @@ export class VerificationComponent implements OnInit, OnDestroy {
   public verificationStatus = NOT_VERIFIED;
   public userInfo: ParsedToken;
   public pattern = 'upholding.biz'
-  public showComponent = false;
   public isPublicIdCopied = false;
 
   constructor(private popupService: PopupService,
@@ -57,7 +56,6 @@ export class VerificationComponent implements OnInit, OnDestroy {
         this.userInfo = userInfo;
       })
 
-    this.showComponent = this.isUpholding();
   }
 
   ngOnDestroy(): void {
@@ -89,11 +87,6 @@ export class VerificationComponent implements OnInit, OnDestroy {
     document.execCommand('copy');
     this.isPublicIdCopied = true;
     document.body.removeChild(selBox);
-  }
-
-
-  isUpholding(): boolean {
-    return !!(this.userInfo && this.userInfo.username).match(this.pattern);
   }
 
 }
