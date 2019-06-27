@@ -1,195 +1,110 @@
-<div class="settings__content id-verification" *ngIf="showComponent">
-  <div *ngIf="verificationStatus === KYC_STATUS.NONE && countryList.length">
-    <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>
-    <div
-      class="subtitle settings__content-subtitle">{{'You must pass identity verification to access your withdrawal' | translate}}</div>
-    <div class="row settings__buttons-row checkbox-outher">
-
-      <!-- ================= NEW KYC start ==================== -->
-
-      <div class="formWraper">
-        <form [formGroup]="form">
-          <div class="send__inputs-wrap kyc-wr">
-
-
-            <div class="wrap-input  send__wrap-input">
-              <div class="select send__select send__select--custom">
-                <div class="select__value select__value--active" (click)="documentTypeDropdownToggle()">
-                  {{ currentDocType.name }}
-                </div>
-                <div class="select__label">{{'Document Type' | translate}}</div>
-                <div class="select__line"></div>
-                <div class="select__triangle"></div>
-                <div class="select__list-searching"
-                     [ngClass]="{'select__list-searching--open': openDocTypeDropdown}"
-                     *ngIf="openDocTypeDropdown">
-                  <div class="select__list-searching-body">
-                    <div class="select__searching-items-wrap" style="min-height: 70px">
-                      <div class="select__searching-item" *ngFor="let doc of docTypes"
-                           (click)="selectDocType(doc)">
-                        <span>{{ doc.name }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="wrap-input  send__wrap-input">
-              <div class="select send__select send__select--custom">
-                <div class="select__value select__value--active" (click)="countryDropdownToggle()">
-                  {{ selectedCountry?.countryName }}
-                </div>
-                <div class="select__label">{{'Country' | translate}}</div>
-                <div class="select__line"></div>
-                <div class="select__triangle"></div>
-                <!--add select__list-searching--open for looking open state-->
-                <div class="select__list-searching"
-                     [ngClass]="{'select__list-searching--open': openCountryDropdown}"
-                     *ngIf="openCountryDropdown">
-                  <div class="select__search">
-                    <input class="select__search-input" type="text" placeholder="Search"
-                           (input)="searchCountry($event)">
-                    <div class="select__search-icon">
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                              d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="select__list-searching-body">
-
-                    <perfect-scrollbar>
-                      <div class="select__searching-items-wrap">
-                        <div class="select__searching-item" *ngFor="let country of countryListView"
-                             (click)="selectCountry(country)">
-                          <span>{{ country.countryName }}</span>
-                        </div>
-                      </div>
-                    </perfect-scrollbar>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="wrap-input  send__wrap-input">
-              <input class="wrap-input__input" name="firstName" formControlName="firstName" required>
-              <label class="wrap-input__label">{{'First Name' | translate}}</label>
-              <div class="wrap-input__line"></div>
-              <!--Input error section starts-->
-              <div *ngIf="form.get('firstName').errors != null && !openCountryDropdown && !openDocTypeDropdown">
-                <div class="input-hint-wrapper">
-                   <span class="wrap-input__message wrap-input__message--show"
-                        *ngIf="form.get('firstName').errors['required'] && (form.get('firstName').touched )">
-                        {{'First Name is required.' | translate}}
-                   </span>
-                  <span class="wrap-input__message wrap-input__message--show"
-                        *ngIf="form.get('firstName').errors['pattern'] && (form.get('firstName').touched )">
-                        {{'Only latin characters(a-z) are allowed.' | translate}}
-                  </span>
-                </div>
-              </div>
-              <!--Input error section ends-->
-            </div>
-
-            <div class="wrap-input  send__wrap-input">
-              <input class="wrap-input__input" name="lastName" formControlName="lastName" required>
-              <label class="wrap-input__label">{{'Last Name' | translate}}</label>
-              <div class="wrap-input__line"></div>
-              <!--Input error section starts-->
-              <div *ngIf="form.get('lastName').errors != null && form.get('firstName').valid">
-                <div class="input-hint-wrapper">
-                   <span class="wrap-input__message wrap-input__message--show"
-                       *ngIf="form.get('lastName').errors['required'] && (form.get('lastName').touched )">
-                       {{'Last Name is required.' | translate}}
-                   </span>
-                   <span class="wrap-input__message wrap-input__message--show"
-                        *ngIf="form.get('lastName').errors['pattern'] && (form.get('lastName').touched )">
-                        {{'Only latin characters(a-z) are allowed.' | translate}}
-                   </span>
-                </div>
-              </div>
-              <!--Input error section ends-->
-            </div>
-          </div>
-        </form>
-
-        <div class="send__inputs-wrap">
-          <div class="wrap-input  filters-popup__datepicker">
-            <label class="wrap-input__label"
-                   [ngClass]="{'select-input_label': isInputFocus || !!modelDateTo?.date}">
-              {{'Date of Birth' | translate}}
-            </label>
-            <app-date-mask-input
-              [limitDate]="false"
-              [innValue]="modelDateTo"
-              (validDate)="checkAge($event)"
-              (inputEmpty)="clearModelDateTo()"
-              (inputFocus)="inputFocus($event)"
-            ></app-date-mask-input>
-            <my-date-picker
-              [defaultMonth]="defaultMonth"
-              [options]="myDatePickerOptions"
-              [(ngModel)]="modelDateTo"
-              (dateChanged)="checkAge($event)"
-            >
-            </my-date-picker>
-            <div class="wrap-input__line"></div>
-          </div>
-        </div>
-
-
-        <button
-          class="btn settings__form-btn settings__password-btn"
-          (click)="sendForm()"
-          [disabled]="form.invalid || !modelDateTo?.date || loading"
-          [ngClass]="{'settings__form-btn--active': form.valid && !!modelDateTo?.date}"
-        >{{'Send'  | translate}}</button>
+<div class="settings__content id-verification">
+  <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>
+  <div class="subtitle settings__content-subtitle">
+    {{'You should pass identity verification to achive something usefull and important.' | translate}}
+    {{'We dont know what exactly, but we will!' | translate}} {{'For sure.' | translate}}</div>
+  <div class="row settings__buttons-row">
+    <div class="settings-button-wr">
+      <button class="btn settings__btn" (click)="onOpenKYCPopup(1)"
+        [ngClass]="{'active': verificationStatus === NOT_VERIFIED, 'success': verificationStatus === LEVEL_ONE || verificationStatus === LEVEL_TWO}">
+        <span class="btn__icon btn__icon--blue btn__icon--hover-white">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
+            <rect y="10.6953" width="2" height="7.94554" rx="1" transform="rotate(-45 0 10.6953)" fill="white" />
+            <rect x="5.73438" y="16.3984" width="2" height="14.3423" rx="1" transform="rotate(-135 5.73438 16.3984)"
+              fill="white" />
+          </svg>
+        </span>
+        <span class="button__text">{{'Level' | translate}} 1<br>{{'Verification ID Document' | translate}}</span>
+      </button>
+      <div class="level-description">
+        <span *ngIf="verificationStatus === NOT_VERIFIED">{{'Pass ID verification' | translate}} <br>{{'and get a Level 1 account' | translate}}</span>
       </div>
     </div>
-  </div>
-
-  <div *ngIf="!!verificationStatus
-   && verificationStatus
-    !== KYC_STATUS.NONE
-     && verificationStatus
-      !== KYC_STATUS.SUCCESS">
-    <div class="img-h3-wrapper">
-      <img src="assets/img/IconTime.svg" alt="">
-      <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>
-    </div>
-    <div
-      class="subtitle settings__content-subtitle">{{'Your KYC procedure is processing, press ' | translate}}
-      <a class="standart-link" style="cursor: pointer" (click)="restartProcedure()">{{'Restart' | translate}}</a>
-      {{' to restart procedure' | translate}}</div>
-    <div class="row settings__buttons-row checkbox-outher">
-      <button class="btn settings__form-btn settings__password-btn settings__form-btn--active" routerLink="/">
-        {{'Go to dashboard' | translate}}
+    <div class="settings-button-wr">
+      <button class="btn settings__btn" (click)="onOpenKYCPopup(2)"
+        [ngClass]="{'active': verificationStatus === LEVEL_ONE, 'success': verificationStatus === LEVEL_TWO}">
+        <span class="btn__icon btn__icon--blue btn__icon--hover-white">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
+            <rect y="10.6953" width="2" height="7.94554" rx="1" transform="rotate(-45 0 10.6953)" fill="white" />
+            <rect x="5.73438" y="16.3984" width="2" height="14.3423" rx="1" transform="rotate(-135 5.73438 16.3984)"
+              fill="white" />
+          </svg>
+        </span>
+        <span class="button__text">{{'Level' | translate}} 2 <br>{{'Utility Bill' | translate}}</span>
       </button>
+      <div class="level-description">
+        <span *ngIf="verificationStatus === NOT_VERIFIED">{{'Available after ID verification' | translate}}</span>
+        <!-- когда выполнен степ 1 выводить это описание -->
+         <span class="l2" *ngIf="verificationStatus === LEVEL_ONE">{{'Utility Bill' | translate}}<br>{{'and get a Level 2 account' | translate}} <br>({{'available after ID verification' | translate}})</span>
+      </div>
     </div>
-  </div>
 
-  <div *ngIf="verificationStatus === KYC_STATUS.SUCCESS">
-    <div class="img-h3-wrapper">
-      <img src="assets/img/IconChack.svg" alt="">
-      <h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>
-    </div>
-    <div
-      class="subtitle settings__content-subtitle">{{'Your ID information has been verified.' | translate}}</div>
-    <div class="row settings__buttons-row checkbox-outher">
-      <button class="btn settings__form-btn settings__password-btn settings__form-btn--active" routerLink="/">
-        {{'Go to dashboard' | translate}}
-      </button>
-    </div>
   </div>
-  <!--  ================= NEW KYC end ==================== -->
-  <div class="loading-container"
-       *ngIf="!verificationStatus
-        || (verificationStatus === KYC_STATUS.NONE && !countryList.length)">
-    <app-loader></app-loader>
+  <div class="public-id">
+    <div class="title-block">
+      <h4>Your Public ID</h4>
+    </div>
+    <div class="id-wr">
+      <div class="id-text">
+        <p>{{userInfo.publicId}}</p>
+      </div>
+      <div class="copy-button">
+        <button (click)="copyPublicId(userInfo.publicId)" *ngIf="!isPublicIdCopied">
+          <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            x="0px" y="0px" viewBox="0 0 488.3 488.3" style="enable-background:new 0 0 488.3 488.3;"
+            xml:space="preserve">
+            <g>
+              <g>
+                <path d="M314.25,85.4h-227c-21.3,0-38.6,17.3-38.6,38.6v325.7c0,21.3,17.3,38.6,38.6,38.6h227c21.3,0,38.6-17.3,38.6-38.6V124
+              C352.75,102.7,335.45,85.4,314.25,85.4z M325.75,449.6c0,6.4-5.2,11.6-11.6,11.6h-227c-6.4,0-11.6-5.2-11.6-11.6V124
+              c0-6.4,5.2-11.6,11.6-11.6h227c6.4,0,11.6,5.2,11.6,11.6V449.6z" />
+                <path d="M401.05,0h-227c-21.3,0-38.6,17.3-38.6,38.6c0,7.5,6,13.5,13.5,13.5s13.5-6,13.5-13.5c0-6.4,5.2-11.6,11.6-11.6h227
+              c6.4,0,11.6,5.2,11.6,11.6v325.7c0,6.4-5.2,11.6-11.6,11.6c-7.5,0-13.5,6-13.5,13.5s6,13.5,13.5,13.5c21.3,0,38.6-17.3,38.6-38.6
+              V38.6C439.65,17.3,422.35,0,401.05,0z" />
+              </g>
+            </g>
+          </svg>
+          <span>Copy ID</span>
+        </button>
+
+      </div>
+      <div class="copy-button" *ngIf="isPublicIdCopied">
+        <button (click)="copyPublicId(userInfo.publicId)">
+          <svg class="success" width="15" height="11" viewBox="0 0 15 11" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.42383 7.38525L4.16746 9.89641L13.4752 1" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          <span class="success-txt">Copied</span>
+        </button>
+      </div>
+      <!-- copied -->
+    </div>
   </div>
 </div>
 
 
+<!--<div class="settings__content">-->
+<!--<h3 class="title settings__content-title">{{'Identity Verification' | translate}}</h3>-->
+<!--<div class="subtitle settings__content-subtitle">{{'You should pass identity verification to achive something usefull and important.' | translate}} {{'We dont know what exactly, but we will!' | translate}} {{'For sure.' | translate}}</div>-->
+<!--<div class="row settings__buttons-row">-->
+<!---->
+<!--<button class="btn settings__btn" (click)="onOpenKYCPopup(1)">-->
+<!--<span class="btn__icon btn__icon&#45;&#45;blue btn__icon&#45;&#45;hover-white">-->
+<!--<svg width="29"  viewBox="0 0 29 23" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--<path d="M25.8422 0H3.15778C1.41778 0 0 1.43343 0 3.19263V19.8074C0 21.5666 1.41778 23 3.15778 23H25.8422C27.5822 23 29 21.5666 29 19.8074V3.19263C29 1.43343 27.5822 0 25.8422 0ZM6.28333 7.5255C6.57333 6.09207 7.95889 5.14731 9.37667 5.44051C10.7944 5.73371 11.7289 7.13456 11.4389 8.56799C11.2456 9.61048 10.4078 10.4575 9.37667 10.653C7.95889 10.9462 6.57333 10.0014 6.28333 8.56799C6.21889 8.24221 6.21889 7.88385 6.28333 7.5255ZM13.34 16.9079C13.34 17.2989 13.0178 17.6246 12.6311 17.6246H5.09111C4.70444 17.6246 4.38222 17.2989 4.38222 16.9079V16.0609C4.35 13.7153 6.05778 11.7606 8.34556 11.4348C10.7944 11.1416 13.05 12.9334 13.3078 15.4093C13.34 15.5722 13.34 15.7677 13.34 15.9306V16.9079ZM24.36 14.2365C24.36 14.8303 23.8787 15.3116 23.2849 15.3116H16.9928C16.3991 15.3116 15.9178 14.8303 15.9178 14.2365C15.9178 13.6428 16.3991 13.1615 16.9928 13.1615H23.2849C23.8787 13.1615 24.36 13.6428 24.36 14.2365ZM24.36 8.76346C24.36 9.3572 23.8787 9.83853 23.2849 9.83853H16.9928C16.3991 9.83853 15.9178 9.3572 15.9178 8.76346C15.9178 8.16971 16.3991 7.68839 16.9928 7.68839H23.2849C23.8787 7.68839 24.36 8.16971 24.36 8.76346Z"/>-->
+<!--</svg>-->
+<!--</span>-->
+<!--<span class="button__text">{{'KYC step 1' | translate}}</span>-->
+<!--</button>-->
+
+<!--<button class="btn settings__btn" (click)="onOpenKYCPopup(2)">-->
+<!--<span class="btn__icon btn__icon&#45;&#45;blue btn__icon&#45;&#45;hover-white">-->
+<!--<svg width="29"  viewBox="0 0 29 23" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--<path d="M25.8422 0H3.15778C1.41778 0 0 1.43343 0 3.19263V19.8074C0 21.5666 1.41778 23 3.15778 23H25.8422C27.5822 23 29 21.5666 29 19.8074V3.19263C29 1.43343 27.5822 0 25.8422 0ZM6.28333 7.5255C6.57333 6.09207 7.95889 5.14731 9.37667 5.44051C10.7944 5.73371 11.7289 7.13456 11.4389 8.56799C11.2456 9.61048 10.4078 10.4575 9.37667 10.653C7.95889 10.9462 6.57333 10.0014 6.28333 8.56799C6.21889 8.24221 6.21889 7.88385 6.28333 7.5255ZM13.34 16.9079C13.34 17.2989 13.0178 17.6246 12.6311 17.6246H5.09111C4.70444 17.6246 4.38222 17.2989 4.38222 16.9079V16.0609C4.35 13.7153 6.05778 11.7606 8.34556 11.4348C10.7944 11.1416 13.05 12.9334 13.3078 15.4093C13.34 15.5722 13.34 15.7677 13.34 15.9306V16.9079ZM24.36 14.2365C24.36 14.8303 23.8787 15.3116 23.2849 15.3116H16.9928C16.3991 15.3116 15.9178 14.8303 15.9178 14.2365C15.9178 13.6428 16.3991 13.1615 16.9928 13.1615H23.2849C23.8787 13.1615 24.36 13.6428 24.36 14.2365ZM24.36 8.76346C24.36 9.3572 23.8787 9.83853 23.2849 9.83853H16.9928C16.3991 9.83853 15.9178 9.3572 15.9178 8.76346C15.9178 8.16971 16.3991 7.68839 16.9928 7.68839H23.2849C23.8787 7.68839 24.36 8.16971 24.36 8.76346Z"/>-->
+<!--</svg>-->
+<!--</span>-->
+<!--<span class="button__text">{{'KYC step 2' | translate}}</span>-->
+<!--</button>-->
+<!--</div>-->
+<!--</div>-->

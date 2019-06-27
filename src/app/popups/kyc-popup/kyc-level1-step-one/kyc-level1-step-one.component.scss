@@ -25,10 +25,6 @@
   .select__searching-item{
     margin: 0;
     padding: 10px;
-    width: 100%;
-  }
-  .select__list-searching-body{
-    padding-left: 0;
   }
   .select__label{
     background-color: #fff;
@@ -60,4 +56,8 @@ perfect-scrollbar{
   }
 }
 
-
+@media (max-width: 1200px) {
+  .refill__select--cripto {
+    margin: 0 auto;
+  }
+}
