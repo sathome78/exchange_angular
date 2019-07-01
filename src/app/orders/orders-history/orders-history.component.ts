@@ -97,7 +97,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     }
     // this.initDate();
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
-    this.loadLastOrders();
+    this.loadOrders();
 
   }
 
@@ -128,6 +128,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       limit: this.countPerPage,
     }
     this.store.dispatch(new ordersAction.LoadLastHistoryOrdersAction(params));
+    this.orderItems$.subscribe(res=>console.log(res));
   }
 
   loadMoreOrders(): void {
