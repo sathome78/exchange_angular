@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public resizeTimeout;
 
-  public activeMobileWidget = 'markets';
+  public activeMobileWidget = 'trading';
   public breakPoint;
   public currencyPair: SimpleCurrencyPair = null
   public isAuthenticated: boolean = false;

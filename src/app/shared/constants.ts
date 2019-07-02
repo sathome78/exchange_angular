@@ -36,6 +36,7 @@ export const KYC_STATUS = {
   'TECHNICAL_ERROR': 'TECHNICAL_ERROR',
   'TOO_MANY_ANALYSIS': 'TOO_MANY_ANALYSIS',
   'EXPIRED': 'EXPIRED',
+  'ACCEPTED': 'ACCEPTED'
 };
 
 export const keys = {
