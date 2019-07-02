@@ -56,7 +56,7 @@
                          [currencyName]="activeCrypto.name"
                          (customBlur)="amountBlur($event)"
                          (customInput)="amountInput($event)"
-                         name="amount" formControlName="amount">
+                         name="amount" formControlName="amount" autocomplete="off">
         </app-price-input>
         <span class=" wrap-input__message--show"
               >
@@ -83,7 +83,7 @@
       <div class="wrap-input  send__wrap-input"
            [ngClass]="{'wrap-input--error': !form.controls['email'].valid &&
             (form.controls['email'].touched || isSubmited)}">
-        <input class="wrap-input__input" name="email" formControlName="email" required>
+        <input class="wrap-input__input" name="email" formControlName="email" autocomplete="off" required>
         <label class="wrap-input__label">{{'Email' | translate}}</label>
         <div class="wrap-input__line"></div>
         <!--Input error section starts-->
