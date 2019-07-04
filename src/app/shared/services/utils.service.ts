@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ValidatorFn, AbstractControl} from '@angular/forms';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import prettyNum from 'pretty-num';
 // import {CoreService} from 'app/core/services/core.service';
 
 @Injectable()
@@ -25,6 +26,7 @@ export class UtilsService {
   // private passwordPattern = /(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9\@\*\%\!\#\^\&\$\<\>\.\'\(\)\-\_\=\+]{8,40})$/ig;
   private passwordPattern = /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z][!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\'\d]{8,40}/ig;
   private checkCyrilic = /[а-яА-ЯёЁ]/ig;
+  private fraction: number;
 
   isFiat(currencyName: string): boolean {
     if (typeof this.cache[currencyName] !== 'undefined') {
@@ -68,7 +70,7 @@ export class UtilsService {
   }
 
   deleteSpace(value): string {
-    if (value) {
+    if (!!value) {
       const replaceMask = '';
       const searchMask = ' ';
       const regex = new RegExp(searchMask, 'ig');
@@ -84,5 +86,94 @@ export class UtilsService {
     return sessionStorage.getItem('activePair');
   }
 
+  encodePassword(password, key) {
+    const pass = this.strToByteArray(password);
+    const keys = this.strToByteArray(key);
+    const encoded = [pass.length];
+    for (let z = 0; z < pass.length; z++) {
+      encoded[z] = this.implementXor(pass[z], keys[z % keys.length]);
+    }
+    return btoa(String.fromCharCode.apply(null, encoded));
+  }
+
+  private strToByteArray(str) {
+    const arr = [];
+    for (let i = 0; i < str.length; i++) {
+      arr.push(str.charCodeAt(i));
+    }
+    return arr;
+  }
+
+  private implementXor(left, right) {
+    let one = (left).toString(2);
+    let two = (right).toString(2);
+    let result = '';
+    if (one.length > two.length)  {
+      while (one.length > two.length) {
+        two = '0' + two;
+      }
+      for (let x = 0; x < one.length; x++) {
+        if (one[x] === two[x]) {
+          result += '0';
+        } else {
+          result += '1';
+        }
+      }
+    } else {
+      while (two.length > one.length) {
+        one = '0' + one;
+      }
+      for (let y = 0; y < one.length; y++) {
+        if (one[y] === two[y]) {
+          result += '0';
+        } else {
+          result += '1';
+        }
+      }
+    }
+    return parseInt(result, 2);
+  }
+
+  // this method is used in pipe (currencyFormat)
+  currencyFormat(value: number | string, currencyName: string = 'BTC', format: 'full' | 'short' = 'short', setNoneForFiat: boolean = false): string {
+    if (!value || Number.isNaN(parseFloat(typeof value === 'string' ? value : value.toString()))) {
+      return '0.0';
+    }
+
+    if (setNoneForFiat) {
+      this.fraction = this.isFiat(currencyName) ? 0 : 8;
+    } else {
+      this.fraction = !currencyName || currencyName === 'NONE' ? 0 : this.isFiat(currencyName) ? 2 : 8;
+    }
+
+    if (this.fraction === 0) {
+      const exponentFree = prettyNum(value);
+      const valueParts: Array<string> = exponentFree.split('.');
+      const valuePart = this.makeValueFiatPart(valueParts[1] || '');
+      const integerPart = prettyNum(valueParts[0], {thousandsSeparator: ' '});
+      return `${integerPart}.${valuePart}`;
+    } else {
+      return format === 'full' ? prettyNum(value, {thousandsSeparator: ' ', precision: this.fraction, rounding: 'fixed'})
+        : this.addFractionIfNeed(prettyNum(value, {thousandsSeparator: ' ', precision: this.fraction}));
+    }
+  }
+
+  private addFractionIfNeed(value: string) {
+    return value.indexOf('.') === -1 ? `${value}.0` : value;
+  }
+
+
+  private makeValueFiatPart(value: string) {
+    if (!value) {
+      return '00';
+    } else {
+      return value.length < 2 ? (value + '0') : value.slice(0, 8);
+    }
+  }
+
+  currencyNumberFromStringFormat(value: string): number {
+    const candidate = parseFloat(this.deleteSpace(value));
+    return !!candidate ? candidate : 0;
+  }
 }
 

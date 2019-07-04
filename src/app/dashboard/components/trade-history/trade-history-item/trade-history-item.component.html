@@ -4,16 +4,16 @@
         [ngClass]="{'widget__table-row-hover--red': trade.operationType === 'SELL', 'widget__table-row-hover--green': trade.operationType === 'BUY'}">
     <div class="table__cell table__cell--tal trade-history-time" style="width: 28%;">
       <!-- {{trade.dateAcceptionTime | date:"dd/MM/yyyy"}} -->
-      {{trade.dateAcceptionTime}}
+      {{trade.dateAcceptionTime | getDateString:'HH:mm:ss':'YYYY-MM-DD HH:mm:ss' | amFromUtc | amLocal | amDateFormat:"HH:mm:ss"}}
     </div>
     <div class="table__cell table__cell--tal" style="width: 36%;">
       <span class="txt-indicate">
-        {{trade.rate | roundCurrency | formatCurrency}}
+        {{trade.rate | currencyFormat}}
       </span>
     </div>
     <div class="table__cell table__cell--tar" style="width: 36%;">
       <span [ngClass]="{'txt-red': trade.operationType === 'SELL', 'txt-green': trade.operationType === 'BUY'}">
-        {{trade.amountBase | roundCurrency | formatCurrency}}
+        {{trade.amountBase | currencyFormat}}
       </span>
     </div>
   </div>

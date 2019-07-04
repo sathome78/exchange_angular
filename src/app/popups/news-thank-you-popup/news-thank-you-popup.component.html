@@ -1,0 +1,27 @@
+<!-- 
+<div style="position: absolute; background: blue;">
+  <p>
+    news-thank-you-popup works!
+  </p>
+  <button (click)="closeThankPopup()">close</button>
+</div>
+-->
+
+ <!-- <div style="position: absolute; background: red;">
+  <p>
+    news-subscribe-popup works!
+  </p>
+  <button (click)="openThankPopup()">Thank</button>
+  <button (click)="closeSubPopup()">close</button>
+</div> -->
+
+<div class="overlay">
+	<div class="popup popup-subscribe-thank">
+		<div class="popup__close" (click)="closeThankPopup()"></div>
+		<h6 class="popup__title popup_title--dm">Thanks for subscribing!</h6>
+		<h4 class="popup__subtitle popup_title--dm">News will be sent to the specified email</h4>
+		<button class="btn popup__btn popup__btn--active"
+		(click)="closeThankPopup()"
+		>Cancel</button>
+	</div>
+</div>

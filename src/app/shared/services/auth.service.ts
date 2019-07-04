@@ -1,19 +1,17 @@
 import {Injectable, OnDestroy, NgZone} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from './logging.service';
-
 import * as jwt_decode from 'jwt-decode';
 import {TOKEN} from './http.utils';
-import {Subject, Observable} from 'rxjs';
+import {Subject, Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Store} from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as coreActions from '../../core/actions/core.actions';
 import {PopupService} from './popup.service';
 import {Router} from '@angular/router';
-import {Location} from '@angular/common';
-
-declare var encodePassword: Function;
+import {GtagService} from './gtag.service';
+import {UtilsService} from './utils.service';
 
 @Injectable()
 export class AuthService implements OnDestroy {
@@ -24,7 +22,6 @@ export class AuthService implements OnDestroy {
   public simpleToken: { expiration: number, token_id: number, username: string, value: string };
   public ngUnsubscribe$ = new Subject<any>();
   public timeOutSub;
-  public parsedToken: ParsedToken = null;
   public PROTECTED_ROUTES = ['/funds', '/orders', '/settings'];
 
   constructor(
@@ -32,45 +29,32 @@ export class AuthService implements OnDestroy {
     private http: HttpClient,
     private ngZone: NgZone,
     private router: Router,
-    private location: Location,
     private popupService: PopupService,
     private store: Store<fromCore.State>,
+    private gtagService: GtagService,
+    private utilsService: UtilsService
   ) {
   }
 
-
-  public isAuthenticated(): boolean {
-    if (this.token) {
-      this.logger.debug(this, 'Token from local storage: ' + this.token.substring(0, 6));
-      this.parseToken(this.token);
-      return this.isTokenExpired(this.parsedToken);
+  public parseToken(): ParsedToken {
+    const token = this.token;
+    if(token) {
+      const parsedToken = jwt_decode(token);
+      this.logger.debug(this, 'Simple token: ' + JSON.stringify(parsedToken));
+      return parsedToken;
     }
-    return false;
+    return null;
   }
 
-  public parseToken(token: string): ParsedToken {
-    this.parsedToken = jwt_decode(token);
-    this.logger.debug(this, 'Simple token: ' + JSON.stringify(this.parsedToken));
-    return this.parsedToken;
-  }
-
-  private isTokenExpired(token: ParsedToken): boolean {
-    if (token.expiration) {
-      const tokenExpiresAt = new Date(token.expiration);
-      this.logger.debug(this, 'Token expires at: ' + this.logger.formatDate(tokenExpiresAt));
-      return tokenExpiresAt >= new Date();
+  public isSessionValid() {
+    const token = localStorage.getItem('token');
+    if(token) {
+      return this.http.get<any>(`${this.apiUrl}/api/private/v2/settings/isValid`)
     }
-    return false;
+    return of(false);
   }
 
-  public get isVipUser() {
-    if (this.token) {
-      return this.parsedToken.userRole === 'VIP_USER';
-    }
-    return false;
-  }
-
-  private get token(): string {
+  public get token(): string {
     return localStorage.getItem(TOKEN);
   }
 
@@ -81,12 +65,12 @@ export class AuthService implements OnDestroy {
   }
 
   public encodePassword(password: string) {
-    return encodePassword(password, this.ENCODE_KEY);
+    return this.utilsService.encodePassword(password, this.ENCODE_KEY);
   }
 
   public onLogOut() {
     localStorage.removeItem(TOKEN);
-    this.parsedToken = null;
+    this.gtagService.removeUserId();
     this.store.dispatch(new coreActions.SetOnLogoutAction());
     this.redirectOnLogout();
   }
@@ -115,12 +99,6 @@ export class AuthService implements OnDestroy {
     }
   }
 
-  public getUsername(): string {
-    if (this.parsedToken) {
-      return this.parsedToken.username;
-    }
-    return undefined;
-  }
 
   public checkTempToken(token: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/api/public/v2/users/validateTempToken/${token}`);

@@ -54,6 +54,10 @@ export const getAllTrades = createSelector(getDashboardState, fromDashboard.getA
 export const getLastPrice = createSelector(getDashboardState, fromDashboard.getLastPrice);
 export const getLastCreatedOrder = createSelector(getDashboardState, fromDashboard.getLastCreatedOrder);
 export const getTradingType = createSelector(getDashboardState, fromDashboard.getTradingType);
+export const getOpenOrders = createSelector(getDashboardState, fromDashboard.getOpenOrders);
+export const getOpenOrdersCount = createSelector(getDashboardState, fromDashboard.getOpenOrdersCount);
+export const getHistoryOrders = createSelector(getDashboardState, fromDashboard.getHistoryOrders);
+export const getOrdersLoading = createSelector(getDashboardState, fromDashboard.getOrdersLoading);
 
 /**
  * Selectors from funds module
@@ -83,3 +87,5 @@ export const getIEOList = createSelector(getCoreState, fromCore.getIEOListSelect
 export const getGAStatus = createSelector(getSettingsState, fromSettings.getGAStatusSelector);
 export const getGALoading = createSelector(getSettingsState, fromSettings.getGALoadingSelector);
 export const getSessionTime = createSelector(getSettingsState, fromSettings.getSessionTimeSelector);
+export const getApiKeys = createSelector(getSettingsState, fromSettings.getApiKeysSelector);
+export const getApiKeyLoading = createSelector(getSettingsState, fromSettings.getApiKeyLoadingSelector);

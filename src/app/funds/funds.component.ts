@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {getLanguage, State} from '../core/reducers';
+import {takeUntil} from 'rxjs/operators';
 
 
 @Component({
@@ -10,8 +11,9 @@ import {getLanguage, State} from '../core/reducers';
   templateUrl: './funds.component.html',
   styleUrls: ['./funds.component.scss']
 })
-export class FundsComponent implements OnInit {
+export class FundsComponent implements OnInit, OnDestroy {
 
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   lang$: Observable<string>;
 
   constructor(
@@ -23,7 +25,16 @@ export class FundsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.lang$.subscribe(lang => this.translate.use(lang));
+    // uncomment when the translation is ready
+    this.lang$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(lang => this.translate.use(lang));
   }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
 
 }

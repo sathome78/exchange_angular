@@ -9,8 +9,8 @@ import {COPY_ADDRESS} from '../../../send-money/send-money-constants';
 import {BalanceItem} from '../../../../models/balance-item.model';
 import {RefillData} from '../../../../../shared/interfaces/refill-data-interface';
 import {RefreshAddress} from '../../../../../shared/interfaces/refresh-address-interface';
-
-declare var sendGenerateWalletGtag: Function;
+import {TranslateService} from '@ngx-translate/core';
+import {GtagService} from '../../../../../shared/services/gtag.service';
 
 @Component({
   selector: 'app-refill-crypto',
@@ -30,6 +30,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public openCurrencyDropdown = false;
   public isGenerateNewAddress = false;
   public address;
+  public qrAddress;
   public additionalAddress;
   public alphabet;
   public reqError = '';
@@ -49,6 +50,8 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<State>,
     public balanceService: BalanceService,
+    private translateService: TranslateService,
+    private gtagService: GtagService
   ) {
   }
 
@@ -60,7 +63,9 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         this.defaultCryptoNames = currencies;
         this.cryptoNames = this.defaultCryptoNames;
         this.setActiveCrypto();
-        if (this.activeCrypto) this.getDataByCurrency(this.activeCrypto.name);
+        if (this.activeCrypto) {
+          this.getDataByCurrency(this.activeCrypto.name);
+        }
         this.prepareAlphabet();
       });
   }
@@ -112,7 +117,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         }, error => {
           this.isGenerateNewAddress = false;
           this.cryptoDataByName = null;
-          const msg = 'Sorry, refill is unavailable for current moment!';
+          const msg = this.translateService.instant('Sorry, refill is unavailable for current moment!');
           this.setError(msg);
         }
       );
@@ -152,26 +157,30 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
           if (this.currentMerchant) {
             if (this.currentMerchant.additionalTagForWithdrawAddressIsUsed) {
               this.address = this.currentMerchant.mainAddress;
+              this.qrAddress = this.currentMerchant.mainAddress;
               this.additionalAddress = temp.params.address || this.currentMerchant.address;
             } else {
               this.address = temp.params.address || this.currentMerchant.address;
+              this.qrAddress = temp.params.address || this.currentMerchant.address;
               this.additionalAddress = '';
             }
           }
-          sendGenerateWalletGtag();
+          this.gtagService.sendGenerateWalletGtag(undefined);
           this.loading = false;
         }, error => {
           if (this.currentMerchant) {
             if (this.currentMerchant.additionalTagForWithdrawAddressIsUsed) {
               this.address = this.currentMerchant.mainAddress;
+              this.qrAddress = this.currentMerchant.mainAddress;
               this.additionalAddress = this.currentMerchant.address;
             } else {
               this.address = this.currentMerchant.address;
+              this.qrAddress = this.currentMerchant.address;
               this.additionalAddress = '';
             }
           }
           if (!this.address) {
-            const msg = 'Sorry, refill is unavailable for current moment!';
+            const msg = this.translateService.instant('Sorry, refill is unavailable for current moment!');
             this.setError(msg);
           }
           this.loading = false;
@@ -223,13 +232,18 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     if (this.currentMerchant) {
       if (this.currentMerchant.additionalTagForWithdrawAddressIsUsed) {
         this.address = this.currentMerchant.mainAddress;
+        this.qrAddress = this.currentMerchant.mainAddress;
         this.additionalAddress = this.currentMerchant.address;
         if (!this.additionalAddress && !!this.address && this.cryptoGenerateAddress !== this.cryptoDataByName.currency.name) {
           this.cryptoGenerateAddress = this.cryptoDataByName.currency.name;
           this.generateNewAddress();
         }
+        if (this.cryptoDataByName.currency.name === 'LHT') {
+          this.qrAddress = `usdx:${this.currentMerchant.mainAddress}?currency=${'LHT'}&memo=${this.currentMerchant.address}&ro=true`;
+        }
       } else {
         this.address = this.currentMerchant.address;
+        this.qrAddress = this.currentMerchant.address;
         this.additionalAddress = '';
       }
       this.showGenerateAddressBtn(this.cryptoDataByName.merchantCurrencyData[0].address === '' ?

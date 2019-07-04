@@ -23,8 +23,8 @@
   >
     <td class="table__cell">
       <div class="table__date-time">
-        <div>{{item.date | amDateFormat: 'dd DD.MM.YYYY'}}</div>
-        <div>{{item.date | amDateFormat: 'HH:mm:ss'}}</div>
+        <div>{{item.date | amFromUtc | amLocal | amDateFormat: 'dd DD.MM.YYYY'}}</div>
+        <div>{{item.date | amFromUtc | amLocal | amDateFormat: 'HH:mm:ss'}}</div>
       </div>
     </td>
     <td class="table__cell">
@@ -32,10 +32,10 @@
       <span>{{item.currency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>{{item.amount | roundCurrency:item.currency | formatCurrency}}</span>
+      <span>{{item.amount | currencyFormat:item.currency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <span>{{item.commission | roundCurrency:item.currency | formatCurrency}}</span>
+      <span>{{item.commission | currencyFormat:item.currency}}</span>
     </td>
     <td class="table__cell table__cell--tar">
       <span>{{item.system | showPendingSystem: item.currency}}</span>

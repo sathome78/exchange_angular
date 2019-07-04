@@ -54,8 +54,8 @@
                   <span>{{item.operation === 'REFILL' ? 'Refill' : ''}}{{item.operation === 'WITHDRAW' ? 'Withdraw' : ''}}</span>
                 </div>
                 <div class="balance__request-mob-date">
-                  <div>{{item.date | dateWrapper | amDateFormat: 'dd DD.MM.YYYY'}}</div>
-                  <div>{{item.date | dateWrapper | amDateFormat: 'HH:mm:ss'}}</div>
+                  <div>{{item.date | amFromUtc | amLocal | amDateFormat: 'dd DD.MM.YYYY'}}</div>
+                  <div>{{item.date | amFromUtc | amLocal | amDateFormat: 'HH:mm:ss'}}</div>
                 </div>
               </td>
               <td class="table__cell table__cell--tal">
@@ -69,7 +69,7 @@
                 </div>
               </td>
               <td class="table__cell table__cell--tar">
-                {{item.amount | roundCurrency: isFiat(item.currency) | formatCurrency}}
+                {{item.amount | currencyFormat:item.currency}}
               </td>
               <td class="table__cell table__cell--arr-mob">
                 <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">

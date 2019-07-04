@@ -9,7 +9,7 @@
     <!--Input error section starts-->
     <div class="input-hint-wrapper" *ngIf="!form.valid && form.get('code').touched">
           <span class="wrap-input__message">
-            This field is required.
+            {{'This field is required.' | translate}}
           </span>
     </div>
     <!--Input error section ends-->

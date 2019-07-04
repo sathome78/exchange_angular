@@ -44,7 +44,6 @@ export class GetIconUrl  implements PipeTransform {
       case 'HNI':
       case 'HOT':
       case 'MET':
-      case 'OWC':
       case 'PLTC':
       case 'PPY':
       case 'QKC':
@@ -60,6 +59,9 @@ export class GetIconUrl  implements PipeTransform {
       case 'TTT':
       case 'uDOOOO':
       case 'VRA':
+      case 'GNY':
+      case 'NOVA':
+      case 'TSL':
       
       case 'ZUBE':
         name = 'no_icon';

@@ -13,23 +13,47 @@ import * as moment from 'moment';
 })
 export class IEOTableComponent implements OnInit {
 
-  @Input('countPerPage') public countPerPage: number;
-  @Input('IEOData') public IEOData: any;
-  @Input('loading') public loading: boolean;
-  @Input('currentPage') public currentPage: number;
-  @Input('countOfEntries') public countOfEntries: number;
-  @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();
+  @Input() public countPerPage: number;
+
+  @Input('IEOData')
+  set IEOData(data: IEOItem[]) {
+    this._IEOData = data;
+    this.handleTestIEO(data);
+  }
+  get IEOData() {
+    return [...(this._IEOData as IEOItem[]).sort((a, b) => {
+      const aT = this.getDateValue(a.startDate);
+      const bT = this.getDateValue(b.startDate);
+      const diff = aT - bT;
+      if (diff < 0) {
+        return 1;
+      } else if (diff > 0) {
+        return -1;
+      } else {
+        return 0;
+      }
+    })];
+  }
+
+  @Input() public loading: boolean;
+  @Input() public currentPage: number;
+  @Input() public countOfEntries: number;
+  @Output() public onPaginate: EventEmitter<any> = new EventEmitter();
   public icoBalances = [];
   public stage = {
     PENDING: 'PENDING',
     RUNNING: 'RUNNING',
+    TERMINATED: 'TERMINATED',
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
-  }
-
+  };
+  public _IEOData;
   public selectedIEO: IEOItem;
-  public showBuyIEO: boolean = false;
-  public showSuccessIEO: boolean = false;
+  public showBuyIEO = false;
+  public showWait = false;
+  public showSorry = false;
+  public showSuccessIEO = false;
+  public _firstLoadedStatus;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(
@@ -39,8 +63,19 @@ export class IEOTableComponent implements OnInit {
 
   ngOnInit() { }
 
-  func() {
-
+  public handleTestIEO(data) {
+    if (this.selectedIEO && data && data.length) {
+      const ieo = data.find((i) => i.id === this.selectedIEO.id);
+      if (
+        ieo &&
+        ieo.multiplyProcessing &&
+        ieo.status === this.stage.TERMINATED &&
+        this._firstLoadedStatus !== this.stage.TERMINATED
+      ) {
+        this.toggleWait(false);
+        this.toggleSorry(true);
+      }
+    }
   }
 
   public changeItemsPerPage(items: number) {
@@ -51,23 +86,8 @@ export class IEOTableComponent implements OnInit {
     this.onPaginate.emit({currentPage: page, countPerPage: this.countPerPage});
   }
 
-  public getFormatDate(d) {
-    if(!d) {
-      return '0000-00-00 00:00:00'
-    }
-    return moment.utc({
-      y: d.year,
-      M: d.monthValue - 1,
-      d: d.dayOfMonth,
-      h: d.hour,
-      m: d.minute,
-      s: d.second,
-    }).local().format('YYYY-MM-DD HH:mm:ss');
-  }
-
-
   public goToIeo(id) {
-    this.router.navigate([`/ieo/${id}`])
+    this.router.navigate([`/ieo/${id}`]);
   }
   public goToIeoNews(name) {
     window.open(`https://news.exrates.me/article/${name}`, '_blank');
@@ -75,31 +95,62 @@ export class IEOTableComponent implements OnInit {
 
   public closeBuyIEO() {
     this.showBuyIEO = false;
-    this.selectedIEO = null;
   }
   public closeSuccessIEO() {
     this.showSuccessIEO = false;
   }
   public buyIeo(IEOData) {
     this.selectedIEO = null;
-    this.showBuyIEO = true;
     this.selectedIEO = IEOData;
+    this.showBuyIEO = true;
   }
   public openSuccessIEO() {
     this.showSuccessIEO = true;
+  }
 
+  toggleWait(flag: boolean) {
+    this.showWait = flag;
+  }
+
+  toggleSorry(flag: boolean) {
+    this.showSorry = flag;
   }
 
   public confirmBuyIEO(amount) {
     this.ieoService.buyTokens({
       currencyName: this.selectedIEO.currencyName,
-      amount: amount + '',
+      amount: amount + ''
     })
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res) => {
+        this._firstLoadedStatus = this.selectedIEO.status;
         this.closeBuyIEO();
-        this.openSuccessIEO();
-      })
+        if (this.selectedIEO.multiplyProcessing && this.selectedIEO.status === this.stage.RUNNING) {
+          this.toggleWait(true);
+        } else {
+          this.openSuccessIEO();
+        }
+      });
+  }
+
+  public getDateValue(d) {
+    if (!d) {
+      return 0;
+    }
+    if (typeof d === 'object') {
+      return moment.utc({
+        y: d.year,
+        M: d.monthValue - 1,
+        d: d.dayOfMonth,
+        h: d.hour,
+        m: d.minute,
+        s: d.second,
+      }).valueOf();
+    }
+
+    if (typeof d === 'string') {
+      return moment.utc(d).valueOf();
+    }
   }
 
 }

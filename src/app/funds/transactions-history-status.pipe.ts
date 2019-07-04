@@ -30,6 +30,8 @@ export class ShowTransactionsStatusPipe  implements PipeTransform {
           return 'Canceled';
         case 'REVOKED_ADMIN':
           return 'Declined';
+        case 'REVOKED_USER':
+          return 'Canceled';
         default:
           return status;
       }

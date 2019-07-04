@@ -48,6 +48,10 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   public isMobile: boolean = false;
   public userFavorites: number[] = [];
 
+  public tumbHeight: number = 13;
+  public tumbPosition: number = 0;
+  private maxThumbHeight = 13;
+
   public volumeOrderDirection = 'NONE';
   public selectedCurrencyPair: CurrencyPair;
   public scrollHeight: number = 0;
@@ -132,6 +136,13 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     if(this.marketsSub$) {
       this.marketsSub$.unsubscribe();
     }
+  }
+
+  calculateCustomScroll(event) {
+    const tempHeight = 353 / (this.pairs.length * 37 / 353);
+    this.tumbHeight = tempHeight < this.maxThumbHeight ? this.maxThumbHeight : tempHeight;
+    const tempPosition = 353 / this.pairs.length * event;
+    this.tumbPosition = tempPosition;
   }
 
   breakpointSub() {

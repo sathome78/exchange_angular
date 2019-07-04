@@ -61,8 +61,8 @@
     </td>
     <td class="table__cell">
       <div class="table__date-time">
-        <div>{{item.dateCreation | amDateFormat:"DD.MM.YYYY"}}</div>
-        <div>{{item.dateCreation | amDateFormat:"HH:mm:ss"}}</div>
+        <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"DD.MM.YYYY"}}</div>
+        <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"HH:mm:ss"}}</div>
       </div>
     </td>
     <td class="table__cell">
@@ -72,33 +72,28 @@
     </td>
     <td class="table__cell">
       <span>
-        {{(item.exExchangeRate || item.limitRate) | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
-        {{item.currencyPairName | splitCurrency: 2}}
+        {{(item.exExchangeRate || item.limitRate)  | currencyFormat:arrPairName[1]}} {{arrPairName[1]}}
       </span>
     </td>
     <td class="table__cell">
       <span>
-        {{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
-        {{item.orderBaseType !== 'STOP_LIMIT' ? '' : item.currencyPairName | splitCurrency: 2}}
+        {{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | currencyFormat:arrPairName[1]}} {{item.orderBaseType !== 'STOP_LIMIT' ? '' : arrPairName[1]}}
       </span>
     </td>
     <td class="table__cell">
       <span>
-        {{item.amountBase | roundCurrency: currency(item.currencyPairName, 1 ) | formatCurrency}}
-        {{item.currencyPairName | splitCurrency: 1}}
+        {{item.amountBase | currencyFormat:arrPairName[0]}} {{arrPairName[0]}}
       </span>
     </td>
     <td class="table__cell txt-grey">
       <span *ngIf="!isVipUser">
-        {{item.commissionFixedAmount | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
-        {{item.currencyPairName | splitCurrency: 2}}
+        {{item.commissionFixedAmount | currencyFormat:arrPairName[1]}} {{arrPairName[1]}}
       </span>
       <span *ngIf="isVipUser">0.0</span>
     </td>
     <td class="table__cell">
       <span>
-        {{item.amountWithCommission | roundCurrency: currency(item.currencyPairName, 2) | formatCurrency}}
-        {{item.currencyPairName | splitCurrency: 2}}
+        {{item.amountWithCommission | currencyFormat:arrPairName[1]}} {{arrPairName[1]}}
       </span>
     </td>
     <td class="table__cell">

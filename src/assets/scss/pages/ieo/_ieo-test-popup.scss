@@ -1,0 +1,29 @@
+
+.loading-popup {
+  .popup {
+    height: auto;
+    width: 85vw;
+    border-radius: 4px;
+    margin: auto auto;
+    .popup__subtitle.tnx-description {
+      margin-bottom: 1em;
+      padding-top: 1em;
+    }
+    .loader {
+      padding: 1em 0 2em 0;
+    }
+  }
+}
+
+.sorry-popup {
+  .popup {    
+    height: auto;
+    width: 85vw;
+    border-radius: 4px;
+    margin: auto auto;
+    .popup__subtitle.tnx-description {
+      margin-bottom: 1em;
+      padding-top: 1em;
+    }
+  }
+}

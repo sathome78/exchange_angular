@@ -46,11 +46,11 @@
                 </div>
               </td>
               <td class="table__cell table__cell--tal">
-                <span>{{currency.activeBalance  | roundCurrency:currency.currencyName | formatCurrency}}</span>
+                <span>{{currency.activeBalance  | currencyFormat:currency.currencyName}}</span>
               </td>
               <td class="table__cell table__cell--tar">
                 <!-- <div *ngIf="priceIn === currencies.BTC">BTC {{item.btcAmount | roundCurrency | formatCurrency}}</div> -->
-                <div>$ {{currency.usdAmount | roundCurrency:'USD' | formatCurrency}}</div>
+                <div>$ {{currency.usdAmount | currencyFormat:'USD'}}</div>
               </td>
             </tr>
             <tr style="height: 10px;"></tr>

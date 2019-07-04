@@ -1,7 +1,6 @@
 import {Component, forwardRef, Input, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import {UtilsService} from '../../services/utils.service';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -18,13 +17,13 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 export class PriceInputComponent implements ControlValueAccessor, AfterViewInit {
   private _innerValue: any;
   private el: any;
-  @Input('placeholder') public placeholder: any;
-  @Input('currencyLabel') public currencyLabel = '';
-  @Input('forTrading') public forTrading = false;
-  @Input('currencyName') public currencyName = '';
+  @Input() public placeholder: any;
+  @Input() public currencyLabel = '';
+  @Input() public forTrading = false;
+  @Input() public currencyName = '';
   @ViewChild('inputEl') inputEl: ElementRef;
-  @Output('customInput') customInput: EventEmitter<any>
-  @Output('customBlur') customBlur: EventEmitter<boolean>
+  @Output() customInput: EventEmitter<any>;
+  @Output() customBlur: EventEmitter<boolean>;
   private patternInput = /^\d+\.(\.\d+)*$|^\d+(\.\d+)*$/;
   private onTouched: Function;
   private thousands_separator: string;
@@ -83,14 +82,14 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   writeValue(value: any) {
-    if (value == 'N/A')
+    if (value === 'N/A') {
       return this._innerValue = value;
+    }
     this._innerValue = this.priceFormat(value, this.currencyName);
     this.propagateChanges(parseFloat(value));
   }
 
-  propagateChanges = (...any) => {
-  };
+  propagateChanges = (...any) => { };
 
   registerOnChange(fn: any): void {
     this.propagateChanges = fn;
@@ -107,7 +106,9 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   onBlur($event) {
     this.onTouched();
     this.writeValue($event.target.value);
-    if ($event.target.value === '') this.inputEl.nativeElement.value = '0';
+    if ($event.target.value === '') {
+      this.inputEl.nativeElement.value = '0';
+    }
     this.customBlur.emit(true);
   }
 
@@ -125,9 +126,9 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   sliceFraction(value: string, count: number): string {
-    const index = value.indexOf('.');
-    if(index >= 0) {
-      const temp = value.substr(0, index + 1 + count)
+    const index = value.toString().indexOf('.');
+    if (index >= 0) {
+      const temp = value.toString().substr(0, index + 1 + count);
       return this.thousandsFormat(temp, true);
     }
     return this.thousandsFormat(value);
@@ -144,7 +145,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   addThousandsSpace(decimal: string): string {
-    decimal = this.utils.deleteSpace(decimal)
+    decimal = this.utils.deleteSpace(decimal);
     let i = decimal.length % 3;
     const parts = i ? [decimal.substr(0, i)] : [];
     for (; i < decimal.length; i += 3) {

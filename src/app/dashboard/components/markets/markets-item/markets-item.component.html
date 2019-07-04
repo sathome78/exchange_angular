@@ -36,13 +36,17 @@
       <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
     </div>
     <div class="table__cell table__cell--p4" style="width: 28%;">
-      <span
-        class="txt-indicate"
-        *ngIf="pair.lastOrderRate < 0.01 && pair.lastOrderRate > 0; else lastOrderRate"
-      >{{pair.lastOrderRate | replaceNumber:false}}</span>
-      <ng-template #lastOrderRate>
-        <span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>
-      </ng-template>
+
+      <!--<span-->
+        <!--class="txt-indicate"-->
+        <!--*ngIf="pair.lastOrderRate < 0.01 && pair.lastOrderRate > 0; else lastOrderRate"-->
+      <!--&gt;{{pair.lastOrderRate | replaceNumber:false}}</span>-->
+      <!--<ng-template #lastOrderRate>-->
+        <!--<span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>-->
+      <!--</ng-template>-->
+
+      <span class="txt-indicate">{{pair.lastOrderRate | currencyFormat:pair.market:'full':true}}</span>
+
     </div>
     <div class="table__cell table__cell--p4" style="width: 25%">
       <span

@@ -17,7 +17,7 @@ setTimeout(function() {
 				}
 				TweenMax.to(element, transition, {y: -scrollSize / (animationSpeed * sizeCalc)});
 			}
-			console.log(document.querySelector(".content").offsetTop)
+			// console.log(document.querySelector(".content").offsetTop)
 		}
 		if(!(window.innerWidth > adaptiveMod)){
 			element.setAttribute("style", "top:" + "" + "transform:" + "");
@@ -25,12 +25,9 @@ setTimeout(function() {
 		}
 	}
 
-
+	document.addEventListener('scroll', function (e) {
 	var ParalaxParent = document.querySelector(".fs-image-container");
 	var ParalaxElement = document.querySelector(".fs-image-container img");
-
-	
-	document.addEventListener('scroll', function (e) {
 		Paralax(ParalaxParent, ParalaxElement, 0.1, 6, false,1);
 	});
 },1000)

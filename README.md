@@ -60,3 +60,7 @@ https://github.com/angular/angular-cli/blob/master/docs/documentation/stories/ap
 
 gridster info:
 https://github.com/swiety85/angular2gridster
+
+## Build Dockerfile on local host
+## For build docker environent you should use next available profiles - production, staging, test, pre-prod, dev
+docker build . --build-arg PROFILE=XXXX

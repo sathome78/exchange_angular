@@ -48,12 +48,19 @@ import {ShowOrderStatusPipe} from './pipes/showOrderStatus.pipe';
 import {MerchantImageFilterPipe} from './pipes/merchant-image-filter.pipe';
 import {ReplaceCharPipe} from './pipes/replaceChar.pipe';
 import {ShowStageStatusPipe} from './pipes/stage-status.pipe';
-import {TopNotificationComponent} from './components/top-notification/top-notification.component';
-import {NotificationsListComponent} from './components/notifications-list/notifications-list.component';
 import {PopupBuyComponent} from './components/popup-buy-ieo/popup-buy.component';
-import { PopupSuccessComponent } from './components/popup-success-ieo/popup-success.component';
+import {PopupSuccessComponent} from './components/popup-success-ieo/popup-success.component';
 import {OrderBookCutBigNumPipe} from './pipes/order-book-cut-big-num.pipe';
 import {TooltipDirective} from './directives/tooltip.directive';
+import {GetCountConfirmationsPipe} from './pipes/get-count-confirmations.pipe';
+import {ShowPageGuard} from './guards/showPage.guard';
+import {GetDateStringPipe} from './pipes/parse-date-utc.pipe';
+import {DateFromISO8601Pipe} from './pipes/dateFromISO8601.pipe';
+import {RefactUrlByNewsPipe} from './pipes/refact-url-by-news.pipe';
+import {CutAddEllipsisPipe} from './pipes/cut-add-ellipsis.pipe';
+import {CurrencyFormatPipe} from './pipes/currencyFormat.pipe';
+import {PopupWaitIEOComponent} from './components/popup-wait-ieo/popup-wait-ieo.component';
+import {PopupSorryIEOComponent} from './components/popup-sorry-ieo/popup-sorry-ieo.component';
 
 @NgModule({
   declarations: [
@@ -72,17 +79,22 @@ import {TooltipDirective} from './directives/tooltip.directive';
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
     MerchantImageFilterPipe,
+    RefactUrlByNewsPipe,
     ExcludeSpacesDirective,
     RoundCurrencyPipe,
     ExponentToNumberPipe,
     ShowOrderStatusPipe,
+    GetCountConfirmationsPipe,
     GetObjectKeysPipe,
     SafePipe,
     FormatCurrencyPipe,
+    GetDateStringPipe,
+    CutAddEllipsisPipe,
     SplitCurrencyPipe,
     ReplaceCharPipe,
     PageItemsDropdownComponent,
     DateWrapper,
+    DateFromISO8601Pipe,
     LoaderComponent,
     DynamicInputComponent,
     CustomSearchInputComponent,
@@ -91,11 +103,12 @@ import {TooltipDirective} from './directives/tooltip.directive';
     DynamicInputDataPipe,
     DateMaskInputComponent,
     OrderBookCutBigNumPipe,
-    TopNotificationComponent,
     ShowStageStatusPipe,
-    NotificationsListComponent,
     PopupBuyComponent,
     PopupSuccessComponent,
+    CurrencyFormatPipe,
+    PopupWaitIEOComponent,
+    PopupSorryIEOComponent,
   ],
   imports: [
     FormsModule,
@@ -126,7 +139,12 @@ import {TooltipDirective} from './directives/tooltip.directive';
     SortPipe,
     ReplaceNumberPipe,
     DateMaskInputComponent,
+    GetDateStringPipe,
+    DateFromISO8601Pipe,
     MerchantImageFilterPipe,
+    CutAddEllipsisPipe,
+    GetCountConfirmationsPipe,
+    RefactUrlByNewsPipe,
     ShowOrderStatusPipe,
     OrderBookCutBigNumPipe,
     GroupCoinPipe,
@@ -150,11 +168,12 @@ import {TooltipDirective} from './directives/tooltip.directive';
     DynamicInputDashboardComponent,
     DynamicInputDataPipe,
     ShowStageStatusPipe,
-    TopNotificationComponent,
-    NotificationsListComponent,
     PopupBuyComponent,
     PopupSuccessComponent,
     AddClassDirective,
+    CurrencyFormatPipe,
+    PopupWaitIEOComponent,
+    PopupSorryIEOComponent,
   ],
   providers: [
     NotificationsService,
@@ -165,9 +184,7 @@ import {TooltipDirective} from './directives/tooltip.directive';
     ConstantsService,
     RoundCurrencyPipe,
     FormatCurrencyPipe,
-  ],
-  entryComponents: [
-    TopNotificationComponent,
+    ShowPageGuard,
   ]
 })
 export class SharedModule { }

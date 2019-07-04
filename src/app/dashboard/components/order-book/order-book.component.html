@@ -36,12 +36,12 @@
             {{'Total' | translate}} ({{splitCurrencyName[1]}})
           </span>
         </div>
-        <div class="price table__cell-head table__cell-head--tal table__cell-head--p4">
+        <div class="price table__cell-head table__cell-head--tal table__cell-head--p4 jc-center">
           <span>
             {{'Price' | translate}} ({{splitCurrencyName[1]}})
           </span>
         </div>
-        <div class="total table__cell-head table__cell-head--tal table__cell-head--p4">
+        <div class="total table__cell-head table__cell-head--tal table__cell-head--p4 jc-end">
           <span>
             {{'Amount' | translate}} ({{splitCurrencyName[0]}})
           </span>
@@ -67,19 +67,19 @@
           >
             <div class="order">
             <span>
-              {{item.total | roundCurrency | formatCurrency  | orderBookCutBigNum:maxCountCharacter}}
+              {{item.total | currencyFormat:splitCurrencyName[1]:'full':true | orderBookCutBigNum:maxCountCharacter}}
             </span>
             </div>
 
-            <div class="price">
+            <div class="price jc-center">
             <span>
-              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]  | orderBookCutBigNum:maxCountCharacter}}
+              {{item.exrate | currencyFormat:splitCurrencyName[1]:'full':true | orderBookCutBigNum:maxCountCharacter}}
             </span>
             </div>
 
-            <div class="total">
+            <div class="total jc-end">
             <span>
-              {{item.amount | roundCurrency | formatCurrency}}
+              {{item.amount | currencyFormat:splitCurrencyName[0]}}
             </span>
             </div>
 
@@ -89,12 +89,12 @@
       <div class="separator">
         <span
           [ngClass]="{'color-red': !isExratePositive, 'color-green': isExratePositive}">
-          {{!+lastExrate ? 0 : +lastExrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}
+          {{!+lastExrate ? 0 : +lastExrate | currencyFormat:splitCurrencyName[1]:'full':true}}
         </span>
         <img *ngIf="+preLastExrate < +lastExrate" class="arr arr--ml4" src="../assets/img/arr-up-green.svg">
         <img *ngIf="+preLastExrate > +lastExrate" class="arr arr--ml4" src="../assets/img/arr-down-red.svg">
         <div class="hr"></div>
-        <span>{{!+preLastExrate ? 0 : +preLastExrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</span>
+        <span>{{!+preLastExrate ? 0 : +preLastExrate | currencyFormat:splitCurrencyName[1]:'full':true}}</span>
       </div>
       <div class="items items--buy">
 
@@ -117,22 +117,22 @@
           (click)="onSelectOrder(item)">
           <div class="order">
             <span>
-              {{item.total  | roundCurrency | formatCurrency  | orderBookCutBigNum:maxCountCharacter}}
+              {{item.total  | currencyFormat:splitCurrencyName[1]:'full':true | orderBookCutBigNum:maxCountCharacter}}
             </span>
           </div>
 
           <div class="info">
           </div>
 
-          <div class="price">
+          <div class="price jc-center">
             <span>
-              {{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]  | orderBookCutBigNum:maxCountCharacter}}
+              {{item.exrate | currencyFormat:splitCurrencyName[1]:'full':true  | orderBookCutBigNum:maxCountCharacter}}
             </span>
           </div>
 
-          <div class="total">
+          <div class="total jc-end">
             <span>
-              {{item.amount | roundCurrency | formatCurrency}}
+              {{item.amount | currencyFormat:splitCurrencyName[0]}}
             </span>
           </div>
 

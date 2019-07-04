@@ -8,7 +8,16 @@ import {UserService} from '../shared/services/user.service';
 import {SettingsService} from '../settings/settings.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 import {environment} from '../../environments/environment';
-import {FUNDS_FLAG, REFERRAL_FLAG, ORDERS_FLAG, LANG_ARRAY, TRANSLATE_FLAG, IEO_FLAG} from './header.constants';
+import {
+  FUNDS_FLAG,
+  REFERRAL_FLAG,
+   ORDERS_FLAG,
+   LANG_ARRAY,
+   TRANSLATE_FLAG,
+   IEO_FLAG,
+   NGX_TRANSLATE_FLAG,
+   COMMUNITY_FLAG
+} from './header.constants';
 import {MyBalanceItem} from '../model/my-balance-item.model';
 import {Observable, Subject} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
@@ -31,14 +40,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public isMobileMenuOpen = false;
   public mobileView = 'markets';
   public userInfo$: Observable<ParsedToken>;
-  public ieoList$: Observable<IEOItem[]>;
+  // public ieoList$: Observable<IEOItem[]>;
   public showFundsList: boolean;
+  public showCommunityList: boolean;
   public showOrdersList: boolean;
   public translateList: boolean;
+  public ngxTranslateList: boolean;
   public showReferralList: boolean;
   public showIEOList: boolean;
   public isAuthenticated: boolean = false;
   public FUNDS_FLAG = FUNDS_FLAG;
+  public COMMUNITY_FLAG = COMMUNITY_FLAG;
+  public NGX_TRANSLATE_FLAG = NGX_TRANSLATE_FLAG;
   public TRANSLATE_FLAG = TRANSLATE_FLAG;
   public REFERRAL_FLAG = REFERRAL_FLAG;
   public ORDERS_FLAG = ORDERS_FLAG;
@@ -64,20 +77,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public translate: TranslateService
   ) {
     this.userInfo$ = this.store.pipe(select(fromCore.getUserInfo));
-    this.ieoList$ = this.store.pipe(select(fromCore.getIEOList));
+    // this.ieoList$ = this.store.pipe(select(fromCore.getIEOList));
   }
 
   ngOnInit() {
     this.resetDropdowns();
-    if (this.authService.isAuthenticated()) {
-      // this.userService.getUserColorScheme()
-      //   .pipe(takeUntil(this.ngUnsubscribe))
-      //   .subscribe(scheme => {
-      //     if (scheme && scheme === 'DARK') {
-      //       this.themeService.setDarkTheme();
-      //     }
-      //   });
-    }
+    // if (this.authService.isAuthenticated()) {
+    //   // this.userService.getUserColorScheme()
+    //   //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   //   .subscribe(scheme => {
+    //   //     if (scheme && scheme === 'DARK') {
+    //   //       this.themeService.setDarkTheme();
+    //   //     }
+    //   //   });
+    // }
     this.dashboardService.activeMobileWidget
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -106,9 +119,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public openMenu() {
-    if (!this.authService.isAuthenticated()) {
-      this.popupService.showMobileLoginPopup(true);
-    }
+    // if (!this.isAuthenticated) {
+    //   this.popupService.showMobileLoginPopup(true);
+    // }
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
     // console.log('Open mobile menu');
   }
@@ -118,13 +131,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/settings']);
   }
 
-  public getUsername() {
-    return this.authService.getUsername();
-  }
-
   changeLocalization(lang: string) {
     this.lang = this.langArray.filter(item => item.name === lang.toLowerCase())[0];
     this.store.dispatch(new ChangeLanguageAction(lang));
+    localStorage.setItem('language', lang);
+}
+openLogin(){
+  if (!this.isAuthenticated) {
+      this.popupService.showMobileLoginPopup(true);
+   }
 }
 
   onLogin() {
@@ -149,7 +164,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   toggleTheme() {
     this.themeService.toggleTheme();
-    if (this.authService.isAuthenticated()) {
+    if (this.isAuthenticated) {
       // console.log('Hi: ' + this.themeService.getColorScheme());
       this.settingsService.updateUserColorScheme(this.themeService.getColorScheme())
         .pipe(takeUntil(this.ngUnsubscribe))
@@ -174,8 +189,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   resetDropdowns() {
     this.showFundsList = false;
+    this.showCommunityList = false;
     this.showOrdersList = false;
     this.showReferralList = false;
+    this.ngxTranslateList = false;
     this.showIEOList = false;
   }
 
@@ -185,10 +202,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       case FUNDS_FLAG:
         this.showFundsList = !this.showFundsList;
         break;
+      case COMMUNITY_FLAG:
+        this.showCommunityList = !this.showCommunityList;
+        break;
+      case NGX_TRANSLATE_FLAG:
+        this.ngxTranslateList = !this.ngxTranslateList;
+        break;
       case ORDERS_FLAG:
         this.showOrdersList = !this.showOrdersList;
         break;
-        case TRANSLATE_FLAG:
+      case TRANSLATE_FLAG:
         this.translateList = !this.translateList;
         break;
       case REFERRAL_FLAG:
@@ -200,7 +223,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  mobileLinkClick() {
+  mobileLinkClick(lang: string = null) {
+    if (!!lang) {
+      this.changeLocalization(lang);
+    }
     this.resetDropdowns();
     this.mobileView = '';
     this.isMobileMenuOpen = false;
@@ -208,20 +234,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   supportRedirect() {
     const encodeData = btoa(JSON.stringify({
-      login: this.authService.isAuthenticated()
+      login: this.isAuthenticated
     }));
     window.open(`https://news.exrates.me?data=${encodeData}`);
   }
 
-// temp solution
-  tempPopup() {
-    if (environment.production) {
-      this.popupService.demoPopupMessage = 1;
-      this.popupService.showDemoTradingPopup(true);
-    }
+  // temp solution
+  // tempPopup() {
+  //   if (environment.production) {
+  //     this.popupService.demoPopupMessage = 1;
+  //     this.popupService.showDemoTradingPopup(true);
+  //   }
+  // }
+
+  get showContent() {
+    return environment.showContent;
   }
 
-  get isProduction() {
-    return environment.production
+  get isAdvisor(): boolean {
+    return window.location.href.indexOf('advisor') >= 0;
   }
 }

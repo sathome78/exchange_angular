@@ -1,0 +1,187 @@
+.btn__icon{
+  width: 12px;
+  height: 12px;
+  margin-right: 4px;
+}
+#refill-qr{
+  display: none;
+}
+.refill{
+  &__title{
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  &__inputs-wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+    position: relative;
+    @media(max-width: 1199px){
+      margin-bottom: 0;
+    }
+  }
+  &__select{
+    width: 100%;
+    max-width: unset;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+
+}
+.modal__note{
+  width: calc(100% + 24px);
+  left: -12px;
+  margin-top: 24px;
+  @media(max-width: 1199px){
+    padding: 10px 14px;
+    width: 100%;
+    left: 0;
+    margin-top: 32px;
+  }
+}
+@media (min-width:1200px){
+  #refill-qr{
+    display: block;
+  }
+  .refill{
+    &__title{
+      margin-bottom: 32px;
+      font-weight: normal;
+font-size: 24px;
+line-height: normal;
+text-align: center;
+
+color: #191A39;
+    }
+    &__inputs-wrap{
+      flex-direction: row;
+      align-items: center;
+    }
+    &__select{
+      width: 100%;
+      min-width: unset;
+      margin-bottom: 0;
+      margin-right: 0;
+    }
+    &__crypto-refill-info{
+      display: flex;
+      //justify-content: center;
+    }
+    &__qr-code{
+      display: block;
+      width: 100%;
+      max-width: 240px;
+      text-align: center;
+      margin-right: 32px;
+      img{
+        max-width: 140px;
+        max-height: 140px;
+      }
+    }
+    &__crypto-address{
+      margin-top: 33px;
+    }
+    &__crypto-memo{
+      margin-top: 24px;
+    }
+    &__crypto-title{
+      margin-bottom: 8px;
+    }
+    &__crypto-hash{
+      margin-bottom: 12px;
+      font-size: 18px;
+      width: 400px;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+    &__crypto-copy-btn{
+      margin-bottom: 12px;
+    }
+    &__crypto-comission{
+      font-size: 12px;
+      line-height: 14px;
+    }
+
+  }
+  .btn{
+    max-width: 200px;
+  }
+  .select__list-searching{
+    display: block;
+    min-width: 380px;
+  }
+  .modal__note{
+    width: 100%;
+    left: 0;
+    margin-top: 32px;
+  }
+}
+
+.btn{
+  color: white !important;
+
+}
+
+.key-label {
+  position: absolute;
+  top: -7px;
+  left: 12px;
+  background: #fff;
+  z-index: 1;
+  padding: 1px;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: normal;
+
+  color: #237BEF;
+  @media(max-width: 1199px){
+        background: #191A39;
+        color: #DEDEFB;
+  }
+}
+
+
+@media(max-width: 1320px) and (min-width:1200px) {
+  .refill__select{
+    min-width: unset;
+    max-width: calc(100% - 200px);
+  }
+}
+
+
+
+.key-success{
+  font-weight: normal;
+  font-size: 16px;
+  line-height: normal;
+  text-align: center;
+  color: #191A39;
+  padding: 31px;
+  @media(max-width: 1199px){
+    padding: 12px;
+    color: #DEDEFB;
+  }
+}
+.modal__header{
+  border: none;
+}
+
+.modal__content{
+  padding: 0;
+}
+.inputs-wr{
+  max-width: 445px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 32px;
+  @media(max-width: 1199px){
+        padding: 0 12px;
+        padding-top: 20px;
+  }
+}
+.api-key-content{
+  @media(max-width: 1199px){
+    padding-top: 20px;
+  }
+}

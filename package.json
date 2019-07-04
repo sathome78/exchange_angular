@@ -1,6 +1,6 @@
 {
   "name": "exrates-front-new",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --configuration=dev --aot",
@@ -12,15 +12,13 @@
     "to-csv-app": "ngx-translate-extract-csv -i ./translate/baseJSON -o translate/csv/app.csv -l _app",
     "to-csv-about-us": "ngx-translate-extract-csv -i ./translate/baseJSON -o translate/csv/about-us.csv -l about-us_base",
     "to-csv-privacy-policy": "ngx-translate-extract-csv -i ./translate/baseJSON -o translate/csv/privacy-policy.csv -l privacy-policy_base",
-    "to-csv-contacts": "ngx-translate-extract-csv -i ./translate/baseJSON -o translate/csv/contacts.csv -l contacts_base",
     "to-csv-terms-and-conditions": "ngx-translate-extract-csv -i ./translate/baseJSON -o translate/csv/terms-and-conditions.csv -l terms-and-conditions_base",
-    "to-extract-all-csv": " npm run to-csv-app && npm run to-csv-about-us && npm run to-csv-privacy-policy && npm run to-csv-contacts && npm run to-csv-terms-and-conditions",
-    "extract-dashboard": "ngx-translate-extract --input ./src/app/settings ./src/app/orders ./src/app/funds ./src/app/dashboard ./src/app/referral ./src/app/popups ./src/app/header ./src/app/auth ./src/app/footer --output ./translate/baseJSON/_app.json --clean --sort --format json",
+    "to-extract-all-csv": " npm run to-csv-app && npm run to-csv-about-us && npm run to-csv-privacy-policy && npm run to-csv-terms-and-conditions",
+    "extract-dashboard": "ngx-translate-extract --input ./src/app/settings ./src/app/orders ./src/app/funds ./src/app/dashboard ./src/app/popups ./src/app/ieo ./src/app/news ./src/app/header ./src/app/footer --output ./translate/baseJSON/_app.json --clean --sort --format json",
     "extract-privacy-policy": "ngx-translate-extract --input ./src/app/static-pages/privacy-policy --output ./translate/baseJSON/privacy-policy_base.json --clean --sort --format json",
     "extract-about-us": "ngx-translate-extract --input ./src/app/static-pages/about-us --output ./translate/baseJSON/about-us_base.json --clean --sort --format json",
-    "extract-contacts": "ngx-translate-extract --input ./src/app/static-pages/contacts --output ./translate/baseJSON/contacts_base.json --clean --sort --format  json",
     "extract-terms-and-conditions": "ngx-translate-extract --input ./src/app/static-pages/terms-and-conditions --output ./translate/baseJSON/terms-and-conditions_base.json --clean --sort --format json",
-    "extract-all": "npm run extract-privacy-policy && npm run extract-about-us && npm run extract-contacts && npm run extract-terms-and-conditions && npm run extract-dashboard"
+    "extract-all": "npm run extract-privacy-policy && npm run extract-about-us && npm run extract-terms-and-conditions && npm run extract-dashboard"
   },
   "private": true,
   "dependencies": {
@@ -58,6 +56,8 @@
     "ngx-perfect-scrollbar": "^7.0.0",
     "ngx-toastr": "^10.0.2",
     "ngx-webcam": "^0.2.0",
+    "ngx-xml2json": "^1.0.2",
+    "node-sass": "^4.12.0",
     "pretty-num": "^0.2.2",
     "reselect": "^3.0.0",
     "rxjs": "^6.4.0",

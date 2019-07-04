@@ -1,7 +1,7 @@
 import {Component, OnInit, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {of, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/internal/operators';
+import {debounceTime, takeUntil} from 'rxjs/internal/operators';
 
 import {PopupService} from '../../shared/services/popup.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -11,9 +11,7 @@ import {UtilsService} from 'app/shared/services/utils.service';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {AUTH_MESSAGES} from '../../shared/constants';
-
-
-declare var sendRegistrationGtag: Function;
+import {GtagService} from '../../shared/services/gtag.service';
 
 @Component({
   selector: 'app-registration-mobile-popup',
@@ -51,6 +49,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private utilsService: UtilsService,
     private location: Location,
+    private gtagService: GtagService
   ) {
   }
 
@@ -99,7 +98,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
            <br> <span class="popup__email-link"> ${email} </span> <br>
            ${this.translateService.instant('Please check your email and follow instructions.')}`;
         this.setTemplate('emailConfirmLinkTemplate');
-        sendRegistrationGtag();
+        this.gtagService.sendRegistrationGtag();
         this.loading = false;
       }, error => {
         console.error(error);
@@ -124,19 +123,28 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
           this.utilsService.specialCharacterValidator()
         ]
       })
-    }, {updateOn: 'blur'});
+    });
     this.passwordForm = new FormGroup({
       password: new FormControl('', {validators: [Validators.required]}),
     });
+
     this.nameForm = new FormGroup({
       username: new FormControl('', {validators: Validators.required}),
     });
+
+    this.emailForm.get('email').valueChanges
+      .pipe(debounceTime(1500))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(value => {
+        this.checkEmailOfServer();
+      });
   }
 
 
-  emailBlur() {
+  checkEmailOfServer() {
     this.pendingCheckEmail = true;
     const email = this.emailForm.get('email');
+    email.markAsTouched();
     if (email.valid && email.value !== this.previousEmail) {
       this.previousEmail = email.value;
       this.userService.checkIfEmailExists(email.value)

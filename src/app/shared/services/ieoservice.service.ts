@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from 'environments/environment';
 import {KycIEOModel} from '../../ieo/models/ieo-kyc.model';
@@ -45,9 +45,9 @@ export class IEOServiceService {
     return this.http.get<any>(`${this.apiUrl}/api/public/v2/ieo/refresh`);
   }
 
-  public getListIEOTab(): any {
+  public getListIEOTab(publicId): any {
     return this.stompService
-      .watch(`/app/ieo_details/private/${this.authService.parsedToken.publicId}`, {'Exrates-Rest-Token': localStorage.getItem(TOKEN) || ''})
+      .watch(`/app/ieo_details/private/${publicId}`, {'Exrates-Rest-Token': this.authService.token || ''})
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
@@ -55,5 +55,22 @@ export class IEOServiceService {
     return this.stompService
       .watch(`/app/ieo/ieo_details/${id}`)
       .pipe(map((message: Message) => JSON.parse(message.body)));
+  }
+
+  ieoEmailSubscription(email: string) {
+    const data = {email: email};
+    return this.http.post(`${this.apiUrl}/api/public/v2/ieo/subscribe/email`, data);
+  }
+
+  ieoTelegramRedirect(email: string) {
+    const data = {email: email};
+    return this.http.post(`${this.apiUrl}/api/public/v2/ieo/subscribe/telegram`, data);
+  }
+
+  ieoCheckSubscribe(email: string) {
+    const httpOptions = {
+      params: new HttpParams().set('email', email)
+    };
+    return this.http.get(`${this.apiUrl}/api/public/v2/ieo/subscribe`, httpOptions);
   }
 }

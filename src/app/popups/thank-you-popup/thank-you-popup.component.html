@@ -1,9 +1,10 @@
+
 <div class="overlay">
   <div class="popup">
     <div class="popup__close" (click)="closeMe()"></div>
-    <h6 class="popup__title tnx-head">Your message sent</h6>
-    <h4 class="popup__subtitle tnx-description">Thanks for contacting Exrates! Our support team will contact you as soon as possible. Stay tuned and have a profitable trading!</h4>
-    <button class="btn btn--active btn--center" (click)="closeMe()">OK</button>
+    <h6 class="popup__title tnx-head">{{popupData?.title | translate}}</h6>
+    <h4 class="popup__subtitle tnx-description">{{popupData?.subTitle  | translate}}</h4>
+    <button class="btn btn--active btn--center" (click)="closeMe()">{{'OK' | translate}}</button>
 </div>
 </div>
 

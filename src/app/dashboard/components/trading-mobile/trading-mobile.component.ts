@@ -18,13 +18,13 @@ import {
 import {UserService} from 'app/shared/services/user.service';
 import {OrderItem, UserBalance} from 'app/model';
 import {PopupService} from 'app/shared/services/popup.service';
-import { SetLastCreatedOrderAction } from '../../actions/dashboard.actions';
+import {LoadOpenOrdersAction} from '../../actions/dashboard.actions';
 import {AuthService} from 'app/shared/services/auth.service';
 import {TranslateService} from '@ngx-translate/core';
 import {LastPrice} from 'app/model/last-price.model';
 import {BUY, orderBaseType, SELL} from 'app/shared/constants';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
-import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-trading-mobile',
@@ -37,7 +37,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
-  public itemName: string = 'trading';
+  public itemName = 'trading';
   /** toggle for limits-dropdown */
   public isDropdownOpen = false;
   /** dropdown limit data */
@@ -66,8 +66,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   public SELL = SELL;
   public BUY = BUY;
   public createdOrder: Order;
-  private updateCurrentCurrencyViaWebsocket = false;
-  public loading: boolean = false;
+  public loading = false;
+  public isAuthenticated = false;
   private successTimeout;
   private failTimeout;
 
@@ -103,10 +103,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   constructor(
     private store: Store<State>,
     public tradingService: TradingService,
-    private dashboardWebsocketService: DashboardWebSocketService,
     private popupService: PopupService,
     private userService: UserService,
-    private authService: AuthService,
     private cdr: ChangeDetectorRef,
     public translateService: TranslateService
   ) {
@@ -125,6 +123,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       .pipe(withLatestFrom(this.store.pipe(select(getActiveCurrencyPair))))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(([isAuth, pair]: [boolean, SimpleCurrencyPair]) => {
+        this.isAuthenticated = isAuth;
         this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you login
         this.cdr.detectChanges();
       });
@@ -147,27 +146,17 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
         this.cdr.detectChanges();
       });
 
-
-    // this.dashboardWebsocketService.setRabbitStompSubscription()
-    //   .pipe(takeUntil(this.ngUnsubscribe))
-    //   .subscribe(() => {
-    //     this.updateCurrentCurrencyViaWebsocket = true;
-    //     this.cdr.detectChanges();
-    //   })
-
-
     this.store
       .pipe(select(getLastPrice))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (lastPrice: LastPrice) => {
-        if (!this.updateCurrentCurrencyViaWebsocket  && this.isPossibleSetPrice) {
+        if (this.isPossibleSetPrice) {
           this.setPriceInValue(lastPrice.price, this.BUY);
           this.setPriceInValue(lastPrice.price, this.SELL);
           this.sellOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
           this.buyOrder.rate = lastPrice.price ?  parseFloat(lastPrice.price.toString()) : 0;
-          this.resetStopValue();
+          // this.resetStopValue();
         }
-        this.updateCurrentCurrencyViaWebsocket = false;
         this.cdr.detectChanges();
       });
 
@@ -175,6 +164,9 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       .pipe(select(getSelectedOrderBookOrder))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe( (order) => {
+        if (order.exrate !== '0') {
+          this.isPossibleSetPrice = false;
+        }
         this.orderFromOrderBook(order);
         this.cdr.detectChanges();
       });
@@ -194,7 +186,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       this.buyForm.get('price').setValue(price.toString());
     }
     if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
-      this.buyOrder.stop = price;
+      this.buyStopValue = price;
       this.buyForm.get('stop').setValue(stopPrice.toString());
     }
   }
@@ -208,7 +200,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       this.sellForm.get('price').setValue(price.toString());
     }
     if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
-      this.sellOrder.stop = stopPrice;
+      this.sellStopValue = stopPrice;
       this.sellForm.get('stop').setValue(stopPrice.toString());
     }
   }
@@ -262,10 +254,12 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     this.isDropdownOpen = false;
   }
 
-  private resetStopValue(): void {
-    this.buyStopValue = 0;
-    this.sellStopValue = 0;
-  }
+  // private resetStopValue(): void {
+  //   this.buyStopValue = 0;
+  //   this.sellStopValue = 0;
+  //   this.setStopValue('0', 'BUY');
+  //   this.setStopValue('0', 'SELL');
+  // }
 
   /**
    * set form value (quantityOf)
@@ -371,10 +365,11 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   private onGetCurrentCurrencyPair(pair: SimpleCurrencyPair, isAuth: boolean): void {
     this.isPossibleSetPrice = true;
     this.currentPair = pair;
+    this.userService.getUserBalance(this.currentPair);
     this.resetSellModel();
     this.resetBuyModel();
     this.splitPairName();
-    if(isAuth) {
+    if (isAuth) {
       this.getCommissionIndex(this.BUY, this.currentPair.id);
       this.getCommissionIndex(this.SELL, this.currentPair.id);
     }
@@ -468,6 +463,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    */
   quantityInput(e, type: string): void {
     this.isTotalWithCommission = false;
+    this.isPossibleSetPrice = false;
     const value = e.target.value === '' ? 0 : e.target.value;
     if (type === this.BUY) {
       this.buyOrder.amount = parseFloat(this.deleteSpace(value.toString()));
@@ -502,7 +498,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * @param event
    */
   stopInput(event, type: string): void {
-
+    this.isPossibleSetPrice = false;
     if (type === this.BUY) {
       this.buyStopValue = event.target.value;
       this.setStopValue(event.target.value, type);
@@ -517,6 +513,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * @param event
    */
   totalInput(event, type: string): void {
+    this.isPossibleSetPrice = false;
     this.isTotalWithCommission = false;
     type === this.BUY ?
       this.inputTotalNested(event, type, this.buyOrder) :
@@ -541,13 +538,13 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    */
   private exponentToNumber(x) {
     if (Math.abs(x) < 1.0) {
-      let e = parseInt(x.toString().split('e-')[1]);
+      const e = parseInt(x.toString().split('e-')[1], 10);
       if (e) {
         x *= Math.pow(10, e - 1);
         x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
       }
     } else {
-      let e = parseInt(x.toString().split('+')[1]);
+      let e = parseInt(x.toString().split('+')[1], 10);
       if (e > 20) {
         e -= 20;
         x /= Math.pow(10, e);
@@ -562,7 +559,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    */
   onSubmit(type: string): void {
     // window.open('https://exrates.me/dashboard', '_blank');
-    if (!this.isAuthenticated()) {
+    if (!this.isAuthenticated) {
       this.popupService.showMobileLoginPopup(true);
       return;
     }
@@ -623,11 +620,9 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     this.tradingService.createOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.isPossibleSetPrice = false;
         type === this.BUY
           ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
           : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
-        this.store.dispatch(new SetLastCreatedOrderAction(order));
         this.createOrderSuccess();
       }, err => {
         this.createOrderFail();
@@ -636,6 +631,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   }
 
   private createOrderSuccess() {
+    this.isPossibleSetPrice = true;
+    this.store.dispatch(new LoadOpenOrdersAction(this.currentPair.id));
     this.userService.getUserBalance(this.currentPair);
     this.notifySuccess = true;
     this.loading = false;
@@ -656,9 +653,5 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       this.createdOrder = null;
       this.cdr.detectChanges();
     }, 5000);
-  }
-
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
   }
 }

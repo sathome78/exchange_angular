@@ -4,68 +4,37 @@
   <meta charset="utf-8">
   <title>Exrates</title>
   <base href="/">
-
-  <!--<meta name="viewport" content="width=1200">-->
-  <!--<meta name="viewport" content="width=1200, initial-scale=1">-->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <!-- we connect tradingView chart -->
+  <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-TPR6SBC');
+</script>
   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-75711135-3"></script> -->
-  <script src="./assets/js/encoder.js"></script>
   <script src="./assets/js/datafeeds/udf/dist/polyfills.js"></script>
   <script src="./assets/js/datafeeds/udf/dist/bundle.js"></script>
   <script src="./assets/js/gtag/gtag_handler"></script>
   <script>
     var global = window;
   </script>
-  <!-- Google Tag Manager -->
-  <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-TZTXSSP');
-</script>
-<!-- End Google Tag Manager -->
 
 </head>
 <body>
-
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TPR6SBC"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
-
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TPR6SBC" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
   <app-root></app-root>
   <script type="text/javascript">
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+      new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
     }
   </script>
   <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async=""></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
   <script src="assets/js/paralax.js"></script>
-  <!-- <script>
-    setInterval(function(){
-      document.querySelector(".banner-content-inner").classList.remove("active");
-      document.querySelector(".banner-content-inner").nextElementSibling.classList.add("active");
-      setTimeout(function(){
-        var firstBanner = document.querySelector(".banner-content >.banner-content-inner:first-child");
-        var lastBanner = document.querySelector(".banner-content >.banner-content-inner:last-child");
-        var parrentBanner = document.querySelector(".banner-content");
-        parrentBanner.insertBefore(firstBanner,lastBanner.nextSibling);
-      },1000)
-    },20000)
-  </script> -->
-  <script>
-    var openChat = function(){
-      var chatEl = document.getElementById("launcher");
-      var iframeDoc = chatEl.contentWindow.document.body.getElementsByTagName("button")[0];
-      iframeDoc.click();
-    }
-
-  </script>
+  <script src="assets/js/zopimChat.js"></script>
 </body>
 </html>

@@ -109,6 +109,8 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.selectMerchantName = merchantImage.image_name || merchant.name;
     this.selectedMerchant = merchant;
     this.setMinWithdrawSum();
+    this.calculateData.commission_rates_sum = this.selectedMerchant.outputCommission;
+      this.calculateCommission(this.amountValue);
   }
 
   currencyDropdownToggle() {
@@ -162,7 +164,11 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
-        this.setMinWithdrawSum();
+        if (this.selectedMerchant) {
+          this.calculateData.commission_rates_sum = this.selectedMerchant.outputCommission;
+          this.calculateCommission(0);
+          this.setMinWithdrawSum();
+        }
       });
   }
 
@@ -174,13 +180,19 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   calculateCommission(amount) {
-    if (this.selectedMerchant.merchantId) {
+    if (this.form.controls['amount'].valid && this.selectedMerchant.merchantId) {
       this.balanceService
-        .getCommissionToWithdraw(amount, this.activeFiat.id, this.fiatInfoByName.merchantCurrencyData[0].merchantId)
+        .getCommissionToWithdraw(amount, this.activeFiat.id, this.selectedMerchant.merchantId)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           this.calculateData = res as CommissionData;
+          const compCommission = parseFloat(this.calculateData.companyCommissionRate.replace('%)', '').replace('(', ''));
+          this.calculateData.commission_rates_sum = +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
         });
+    } else {
+      const outCommission = !!this.selectedMerchant ? this.selectedMerchant.outputCommission : 0;
+      const fixCommission = !!this.selectedMerchant ? this.selectedMerchant.fixedMinCommission : 0;
+      this.calculateData.merchantCommissionRate = `(${outCommission}%, but not less than ${fixCommission} USD)`;
     }
   }
 

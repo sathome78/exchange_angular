@@ -1,21 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {select, Store} from '@ngrx/store';
-import {getLanguage, State} from '../../core/reducers';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-about-us',
   templateUrl: './about-us.component.html',
-  styleUrls: ['./about-us.component.scss']
+  styleUrls: ['./about-us.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutUsComponent implements OnInit {
 
-  constructor(
-  ) {
-  }
+  constructor() {}
 
   ngOnInit() {
   }
-
 }

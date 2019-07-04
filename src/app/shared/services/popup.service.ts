@@ -3,6 +3,7 @@ import {ReplaySubject, Subject} from 'rxjs';
 import {LoggingService} from './logging.service';
 import {PopupData} from '../interfaces/popup-data-interface';
 import {KycSubjectInterface} from '../interfaces/kyc-subject-interface';
+import {ThankPopupModel} from '../models/thank-popup-model';
 
 @Injectable()
 export class PopupService {
@@ -22,6 +23,9 @@ export class PopupService {
   private onSessionTimeSavedPopupListener = new Subject<boolean>();
   private onChangedPasswordPopupListener = new Subject<boolean>();
   private onSessionExpiredPopupListener = new Subject<boolean>();
+  private onNewsSubscribePopupListener = new Subject<boolean>();
+  private onNewsThankYouPopupListener = new Subject<boolean>();
+  private onThankYouPopupListener = new ReplaySubject<ThankPopupModel>();
   private stepListener = new Subject<number>();
   private currentStep = 1;
   private tfaProvider = '';
@@ -46,6 +50,14 @@ export class PopupService {
   showKYCPopup(step: number, url: string = '') {
     this.kycStep = step;
     this.onOpenKYCPopupListener.next({step: step, url: url});
+  }
+
+  toggleNewsSubscribePopup(state: boolean) {
+    this.onNewsSubscribePopupListener.next(state);
+  }
+
+  toggleNewsThankYouPopup(state: boolean) {
+    this.onNewsThankYouPopupListener.next(state);
   }
 
   showLoginPopup(state: boolean) {
@@ -87,6 +99,18 @@ export class PopupService {
 
   closeKYCPopup() {
     this.onOpenKYCPopupListener.next({step: undefined, url: ''});
+  }
+
+  public getNewsSubscribePopupListener(): Subject<boolean> {
+    return this.onNewsSubscribePopupListener;
+  }
+
+  public getNewsThankYouPopupListener(): Subject<boolean> {
+    return this.onNewsThankYouPopupListener;
+  }
+
+  public getThankYouPopupListener(): Subject<ThankPopupModel> {
+    return this.onThankYouPopupListener;
   }
 
   public getTFAPopupListener(): Subject<string> {

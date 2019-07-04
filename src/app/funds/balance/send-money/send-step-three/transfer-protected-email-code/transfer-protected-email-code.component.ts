@@ -7,6 +7,7 @@ import {BY_PRIVATE_CODE} from '../../send-money-constants';
 import {AbstractTransfer} from '../abstract-transfer';
 import {PopupService} from '../../../../../shared/services/popup.service';
 import {UtilsService} from '../../../../../shared/services/utils.service';
+import {debounceTime, takeUntil, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-transfer-protected-email-code',
@@ -40,11 +41,6 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
     this.getAllNames();
   }
 
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
   submitTransfer() {
     this.isSubmited = true;
     this.form.get('amount').updateValueAndValidity()
@@ -75,5 +71,11 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
           this.isMinThenMinWithdraw.bind(this)
         ]}),
     });
+
+    this.form.get('email').valueChanges
+      .pipe(tap(() => this.pendingCheckEmail = true))
+      .pipe(debounceTime(1000))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(value => this.checkEmailOfServer());
   }
 }

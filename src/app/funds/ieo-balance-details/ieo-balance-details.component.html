@@ -36,10 +36,10 @@
                     </div>
                   </td>
                   <td class="table__cell table__cell--tal">
-                    <span>{{IEOData.availableAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
+                    <span>{{IEOData.availableAmount | currencyFormat}}</span>
                   </td>
                   <td class="table__cell table__cell--tar">
-                    <div>BTC {{IEOData.rate || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</div>
+                    <div>BTC {{IEOData.rate | currencyFormat}}</div>
                   </td>
                 </tr>
 
@@ -52,29 +52,29 @@
             <div class="open-mob-balance__row">
               <div class="open-mob-balance__title">{{'Price' | translate}}</div>
               <div class="open-mob-balance__value">
-                1 {{IEOData.currencyName}} = {{IEOData.rate || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC
+                1 {{IEOData.currencyName}} = {{IEOData.rate | currencyFormat}} BTC
               </div>
             </div>
             <div class="open-mob-balance__row">
               <div class="open-mob-balance__title">{{'Аvailable' | translate}}</div>
               <div class="open-mob-balance__value">
-                {{IEOData.availableAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}
+                {{IEOData.availableAmount | currencyFormat}} {{IEOData.currencyName}}
               </div>
             </div>
             <div class="open-mob-balance__row">
               <div class="open-mob-balance__title">{{'Start Time' | translate}}</div>
-              <div class="open-mob-balance__value">{{getFormatDate(IEOData.startDate)}}</div>
+              <div class="open-mob-balance__value">{{IEOData.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</div>
             </div>
             <div class="open-mob-balance__row">
               <div class="open-mob-balance__title">{{'Personal Amount' | translate}}</div>
               <div class="open-mob-balance__value">
-                {{(IEOData.personalAmount|| 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}
+                {{IEOData.personalAmount | currencyFormat}} {{IEOData.currencyName}}
               </div>
             </div>
             <div class="open-mob-balance__row">
               <div class="open-mob-balance__title">{{'Amount' | translate}}</div>
               <div class="open-mob-balance__value">
-                {{IEOData.amount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}
+                {{IEOData.amount | currencyFormat}} {{IEOData.currencyName}}
               </div>
             </div>
             <div class="ieo-b-d-button-wr">
@@ -96,6 +96,13 @@
                 class="btn btn--center"
                 (click)="goToIeoNews(IEOData.currencyName)"
                 *ngIf="stage.SUCCEEDED === IEOData.status || stage.FAILED === IEOData.status"
+              >
+                {{'More' | translate}}
+              </button>
+              <button
+                class="btn btn--center"
+                (click)="goToIeo(IEOData.id)"
+                *ngIf="stage.TERMINATED === IEOData.status"
               >
                 {{'More' | translate}}
               </button>

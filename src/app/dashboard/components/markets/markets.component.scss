@@ -115,6 +115,7 @@
 
     .widget__table-row {
       height: auto;
+      margin-bottom: 4px;
     }
 
   }
@@ -190,6 +191,7 @@ display: none;
   }
 }
 
+
 .loading-container {
   display: flex;
   justify-content: center;
@@ -200,6 +202,7 @@ display: none;
 .widget__content--mob perfect-scrollbar{
     padding: 6px 14px 6px 8px;
 }
+
 
 .markets_item {
    height: 31px;

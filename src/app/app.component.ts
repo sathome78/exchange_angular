@@ -16,10 +16,11 @@ import {SimpleCurrencyPair} from './model/simple-currency-pair';
 import {SEOService} from './shared/services/seo.service';
 import {UtilsService} from './shared/services/utils.service';
 import {IEOServiceService} from './shared/services/ieoservice.service';
-import { IEOItem } from './model/ieo.model';
+import {ChangeLanguageAction} from './core/actions/core.actions';
+import {getLanguage} from './core/reducers';
+import {GtagService} from './shared/services/gtag.service';
+import {lang} from 'moment';
 
-
-declare var sendTransactionSuccessGtag: Function;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -28,8 +29,9 @@ declare var sendTransactionSuccessGtag: Function;
 export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public isAuthenticated: boolean = false;
-  public shouldSetDefaultCurrPair: boolean = true;
+  public isAuthenticated = false;
+  public shouldSetDefaultCurrPair = true;
+  public technicalWorks = false;
 
   constructor(
     public popupService: PopupService,
@@ -37,20 +39,20 @@ export class AppComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private utilsService: UtilsService,
     private authService: AuthService,
-    private ieoService: IEOServiceService,
     private seoService: SEOService,
     private store: Store<fromCore.State>,
-    private http: HttpClient,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private gtagService: GtagService
   ) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
 
-
-    // translate.addLangs(['en', 'ru', 'uk', 'pl']);
-    // translate.setDefaultLang('en');
-    // const browserLang = translate.getBrowserLang();
-    // this.store.dispatch(new ChangeLanguageAction(browserLang.match(/en|ru|uk|pl/) ? browserLang : 'en'));
-    // this.store.pipe(select(getLanguage)).subscribe(res => this.translate.use(res));
+    // uncomment when the translation is ready
+    const langCandidate = localStorage.getItem('language');
+    this.store.dispatch(new ChangeLanguageAction(!!langCandidate ? langCandidate : 'en'));
+    this.store
+      .pipe(select(getLanguage))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => this.translate.use(res));
 
     this.setIp();
 
@@ -62,11 +64,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isAuthenticated = isAuth;
         if(isAuth && userInfo) {
           this.store.dispatch(new coreAction.LoadVerificationStatusAction());
-          this.authService.setSessionFinishListener(userInfo.expiration);
           this.sendTransactionsAnalytics();
           this.setNameEmailToZenChat(userInfo.username);
         } else {
-          this.authService.removeSessionFinishListener();
           this.clearNameEmailFromZenChat();
         }
       });
@@ -84,17 +84,20 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.authService.isSessionValid()
+      .subscribe((res) => {
+        if(res) {
+          const parsedToken = this.authService.parseToken();
+          this.gtagService.setUserId(parsedToken.publicId);
+          this.store.dispatch(new coreAction.SetOnLoginAction(parsedToken));
+        }
+      })
+
+    this.gtagService.initGtag();
+
+
     this.seoService.subscribeToRouter(); // SEO optimization
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
-    if (this.authService.isAuthenticated()) {
-      this.store.dispatch(new coreAction.SetOnLoginAction(this.authService.parsedToken));
-    }
-
-    this.ieoService.getListIEO()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res: IEOItem[]) => {
-        this.store.dispatch(new coreAction.SetIEOListAction(res))
-      })
   }
 
   setSavedCurrencyPair() {
@@ -172,7 +175,7 @@ export class AppComponent implements OnInit, OnDestroy {
         .subscribe((res) => {
           if(res.count > 0) {
             for(let i = 0; i < res.count; i++) {
-              sendTransactionSuccessGtag();
+              this.gtagService.sendTransactionSuccessGtag();
             }
             this.userService.clearTransactionsCounterForGTag()
               .pipe(takeUntil(this.ngUnsubscribe))

@@ -10,24 +10,25 @@ import * as moment from 'moment';
 })
 export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
 
-  public timer: string = '';
+  public timer = '';
   public interval;
   public stage = {
     PENDING: 'PENDING',
     RUNNING: 'RUNNING',
+    TERMINATED: 'TERMINATED',
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
-  }
+  };
 
-  @Input('isAuthenticated') public isAuthenticated: boolean = false;
-  @Input('currentStage') public currentStage: string;
-  @Input('IEOData') public IEOData: IEOItem;
-  @Input('requirements') public requirements: KycIEOModel;
-  @Input('ieoLoading') public ieoLoading: boolean;
-  @Input('userBalanceBTC') public userBalanceBTC: number;
-  @Output('onLogin') public onLogin: EventEmitter<any> = new EventEmitter();
-  @Output('onRefreshIEOStatus') public onRefreshIEOStatus: EventEmitter<any> = new EventEmitter();
-  @Output('onBuy') public onBuy: EventEmitter<any> = new EventEmitter();
+  @Input() public isAuthenticated = false;
+  @Input() public currentStage: string;
+  @Input() public IEOData: IEOItem;
+  @Input() public requirements: KycIEOModel;
+  @Input() public ieoLoading: boolean;
+  @Input() public userBalanceBTC: number;
+  @Output() public onLogin: EventEmitter<any> = new EventEmitter();
+  @Output() public onRefreshIEOStatus: EventEmitter<any> = new EventEmitter();
+  @Output() public onBuy: EventEmitter<any> = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
@@ -35,12 +36,12 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(c) {
-    if(c.IEOData && c.IEOData.currentValue) {
+    if (c.IEOData && c.IEOData.currentValue) {
       const d = this.IEOData.startDate;
-      if(!d) return;
-      const date = moment.utc({
-        y: d.year, M: d.monthValue - 1, d: d.dayOfMonth, h: d.hour, m: d.minute, s: d.second
-      }).local();
+      if (!d) {
+        return;
+      }
+      const date = this.getLocalDateValue(d);
       this.startTimer(date);
     }
   }
@@ -50,7 +51,7 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public startTimer(date: moment.Moment): void {
-    if(this.interval) {
+    if (this.interval) {
       clearInterval(this.interval);
     }
 
@@ -63,24 +64,23 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
       const minutes = Math.floor(((diff % 86400000) % 3600000) / 60000);
       const seconds = Math.floor((((diff % 86400000) % 3600000) % 60000) / 1000);
 
-      if(diff > 0){
+      if (diff > 0) {
         this.timer =
           '<span>' + (days < 10 ? '0' + days : days) + '</span>' +
           '<span>' + (hours < 10 ? '0' + hours : hours) + '</span>' +
           '<span>' + (minutes < 10 ? '0' + minutes : minutes) + '</span>' +
           '<span>' + (seconds < 10 ? '0' + seconds : seconds) + '</span>';
-      }
-      else{
+      } else {
         this.timer = '<span>00</span><span>00</span><span>00</span><span>00</span>';
-        if( this.currentStage === this.stage.PENDING) {
+        if ( this.currentStage === this.stage.PENDING) {
           this.onRefreshIEOStatus.emit();
-          if(this.interval) {
+          if (this.interval) {
             clearInterval(this.interval);
           }
         }
       }
 
-    }
+    };
     getCountdown();
     this.interval = setInterval(() => getCountdown(), 1000);
   }
@@ -92,18 +92,21 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
     this.onBuy.emit();
   }
 
-  public getFormatDate(d) {
-    if(!d) {
-      return '0000-00-00 00:00:00'
+  public getLocalDateValue(d): moment.Moment {
+    if (typeof d === 'object') {
+      return moment.utc({
+        y: d.year,
+        M: d.monthValue - 1,
+        d: d.dayOfMonth,
+        h: d.hour,
+        m: d.minute,
+        s: d.second,
+      }).local();
     }
-    return moment.utc({
-      y: d.year,
-      M: d.monthValue - 1,
-      d: d.dayOfMonth,
-      h: d.hour,
-      m: d.minute,
-      s: d.second,
-    }).local().format('YYYY-MM-DD HH:mm:ss');
+
+    if (typeof d === 'string') {
+      return moment.utc(d).local();
+    }
   }
 
   get boughtAmount () {
@@ -115,11 +118,11 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   }
 
    get boughtAmountPer () {
-    const a = (this.boughtAmount / (this.IEOData.amount / 100)) || 0
+    const a = (this.boughtAmount / (this.IEOData.amount / 100)) || 0;
     return a.toFixed(2);
   }
 
   goToNewsPage() {
-    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`)
+    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`);
   }
 }

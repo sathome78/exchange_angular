@@ -100,7 +100,9 @@
         <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
           <div class="avaliable avaliable--aifl">
             <span>{{'Available:' | translate}} </span>
-            <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(BUY)">{{userBalance?.cur2?.balance || 0  | roundCurrency:userBalance?.cur2?.name | formatCurrency}} {{userBalance?.cur2?.name || ''}}</a>
+            <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(BUY)">
+              {{userBalance?.cur2?.balance || 0  | roundCurrency:userBalance?.cur2?.name | formatCurrency}} {{userBalance?.cur2?.name || ''}}
+            </a>
           </div>
         </div>
         <div class="row row__percent">
@@ -130,7 +132,7 @@
         (click)="onSubmit(BUY)"
         [disabled]="loading"
         >
-        Buy {{arrPairName[0]}}
+        {{'Buy' | translate}} {{arrPairName[0]}}
       </button>
     </form>
     <form class="widget__trading-form" action="" [formGroup]="sellForm">
@@ -193,7 +195,9 @@
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div class="avaliable avaliable--aifl">
           <span>{{'Available:' | translate}} </span>
-          <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(SELL)">{{userBalance?.cur1?.balance || 0  | roundCurrency:userBalance?.cur1?.name | formatCurrency}} {{userBalance?.cur1?.name}}</a>
+          <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(SELL)">
+            {{userBalance?.cur1?.balance || 0  | roundCurrency:userBalance?.cur1?.name | formatCurrency}} {{userBalance?.cur1?.name}}
+          </a>
         </div>
       </div>
       <div class="row row__percent">
@@ -223,7 +227,7 @@
       (click)="onSubmit(SELL)"
       [disabled]="loading"
       >
-      Sell {{arrPairName[0]}}
+      {{'Sell' | translate}} {{arrPairName[0]}}
     </button>
   </form>
 
@@ -232,7 +236,8 @@
 
 
 <!-- TO DO move to separate component -->
-<div class="widget__content widget__content--mob button-fixed-block" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
+<div class="widget__content widget__content--mob button-fixed-block"
+     *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'">
 
   <!-- app-currency-pair-info-mobile  start-->
   <app-currency-pair-info-mobile></app-currency-pair-info-mobile>
@@ -292,7 +297,10 @@
       </svg>
     </div>
     <div class="trading-notification__text">
-      <div class="trading-notification__title">{{showLimit(createdOrder?.baseType, true)}} {{createdOrder?.orderType}} {{' Order not created!' | translate}}</div>
+      <div class="trading-notification__title">
+        {{showLimit(createdOrder?.baseType, true)}} {{createdOrder?.orderType}} {{' Order not created!' | translate}}
+      </div>
+      <p *ngFor="let message of errorMessages"> {{message}}</p>
       <!-- <p> {{'Status:' | translate}} {{message}}</p> -->
       <!--<p>Submitted exchange limit sell order for 9 ZRX by using BTC</p>-->
     </div>

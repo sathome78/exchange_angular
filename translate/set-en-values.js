@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const config = {
-  dir: './translate/baseJSON' // <-- your json translations directory
+  dir: './baseJSON', // <-- your json translations directory
+  outDir: './lastKeysJson'
 };
 
 fs.readdirSync(config.dir).forEach(file => {
@@ -18,7 +19,7 @@ fs.readdirSync(config.dir).forEach(file => {
       }
     });
 
-    const outFile = `${config.dir}/en-${file}`;
+    const outFile = `${config.outDir}/${file}`;
     const str = JSON.stringify(obj, null, '\t');
     fs.writeFileSync(outFile, str, 'utf-8');
 

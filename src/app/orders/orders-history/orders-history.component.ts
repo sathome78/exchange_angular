@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {IMyDpOptions, IMyDateModel, IMyDate} from 'mydatepicker';
 import {Store, select} from '@ngrx/store';
 
@@ -7,7 +7,7 @@ import * as ordersReducer from '../store/reducers/orders.reducer';
 import * as ordersAction from '../store/actions/orders.actions';
 import * as coreAction from '../../core/actions/core.actions';
 import * as mainSelectors from '../../core/reducers';
-import {State} from '../../core/reducers';
+import {State, getUserInfo} from '../../core/reducers';
 import {Observable, Subject} from 'rxjs';
 import {OrdersService} from '../orders.service';
 import {takeUntil} from 'rxjs/operators';
@@ -32,7 +32,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public currencyPairs$: Observable<SimpleCurrencyPair[]>;
   public loading$: Observable<boolean>;
   public isLast15Items$: Observable<boolean>;
-  public isVipUser;
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -44,10 +43,10 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public hideAllCanceled: boolean = false;
   public isMobile: boolean = false;
   public loadingExcel: boolean = false;
+  public userInfo: ParsedToken;
 
   public showFilterPopup = false;
   public tableScrollStyles: any = {};
-  public initialRequest: boolean = false;
 
   public isDateInputFromFocus = false;
   public isDateInputToFocus = false;
@@ -83,28 +82,36 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.countOfEntries$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((items) => this.countOfEntries = items)
+
+      this.store.pipe(select(getUserInfo))
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((userInfo: ParsedToken) => {
+          this.userInfo = userInfo;
+        })
   }
 
   ngOnInit() {
-    this.isVipUser = this.authService.isVipUser;
-
     this.isMobile = window.innerWidth < 1200;
     if(this.isMobile) {
       this.countPerPage = 30;
     }
-    this.initDate();
+    // this.initDate();
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
     this.loadOrders();
-    this.initialRequest = true;
 
-    this.store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr)).pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((items) => console.log(items))
+  }
+
+  public get isVipUser() {
+    if (this.userInfo) {
+      return this.userInfo.userRole === 'VIP_USER';
+    }
+    return false;
   }
 
   loadOrders() {
     const params = {
       page: this.currentPage,
-      limit:this.countPerPage,
+      limit: 0,
       dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
       dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
       hideCanceled: this.hideAllCanceled,
@@ -112,18 +119,16 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       currencyPairName: this.currencyPairValue || '',
     }
     this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
-    this.initialRequest = false;
   }
 
-  loadLastOrders(e) {
-    e.preventDefault();
+  loadLastOrders() {
     this.clearFilters();
     const params = {
-      offset: 0,
+      page: this.currentPage,
       limit: this.countPerPage,
     }
     this.store.dispatch(new ordersAction.LoadLastHistoryOrdersAction(params));
-    this.initialRequest = false;
+    this.orderItems$.subscribe(res=>console.log(res));
   }
 
   loadMoreOrders(): void {
@@ -131,7 +136,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       this.currentPage += 1;
       const params = {
         page: this.currentPage,
-        limit:this.countPerPage,
+        limit: this.countPerPage,
         dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
         dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
         hideCanceled: this.hideAllCanceled,
@@ -140,7 +145,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
         concat: true,
       }
       this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
-      this.initialRequest = false;
     }
   }
 
@@ -266,26 +270,26 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.modelDateFrom = null;
   }
 
-  initDate() {
-    /** Initialized to current date */
-    const currentDate = new Date();
+  // initDate() {
+  //   /** Initialized to current date */
+  //   const currentDate = new Date();
 
-    this.modelDateTo = {
-      date: {
-        year: currentDate.getFullYear(),
-        month: currentDate.getMonth() + 1,
-        day: currentDate.getDate()
-      }
-    };
+  //   this.modelDateTo = {
+  //     date: {
+  //       year: currentDate.getFullYear(),
+  //       month: currentDate.getMonth() + 1,
+  //       day: currentDate.getDate()
+  //     }
+  //   };
 
-    this.modelDateFrom = {
-      date: {
-        year: currentDate.getFullYear(),
-        month: currentDate.getMonth() + 1,
-        day: currentDate.getDate()
-      }
-    };
-  }
+  //   this.modelDateFrom = {
+  //     date: {
+  //       year: currentDate.getFullYear(),
+  //       month: currentDate.getMonth() + 1,
+  //       day: currentDate.getDate()
+  //     }
+  //   };
+  // }
 
   openFilterPopup() {
     this.showFilterPopup = true;
@@ -296,10 +300,9 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   filterPopupSubmit() {
-    if(this.isDateRangeValid()) {
+      this.currentPage = 1;
       this.closeFilterPopup();
       this.loadOrders();
-    }
   }
 
   downloadExcel() {

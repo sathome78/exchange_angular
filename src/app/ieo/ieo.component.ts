@@ -1,17 +1,19 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {data} from './JSONData';
 import {Store, select} from '@ngrx/store';
-import {State} from 'app/core/reducers';
-import {Subject, Observable, forkJoin} from 'rxjs';
-import * as fromCore from '../core/reducers'
+import {getLanguage, State} from 'app/core/reducers';
+import {Subject, Observable} from 'rxjs';
+import * as fromCore from '../core/reducers';
 import {PopupService} from 'app/shared/services/popup.service';
 import {takeUntil} from 'rxjs/operators';
 import {IEOServiceService} from '../shared/services/ieoservice.service';
 import {KycIEOModel} from './models/ieo-kyc.model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {IEOItem} from 'app/model/ieo.model';
-import {UserService} from 'app/shared/services/user.service';
 import {environment} from 'environments/environment';
+import * as moment from 'moment';
+import {TranslateService} from '@ngx-translate/core';
+
 @Component({
   selector: 'app-ieo',
   templateUrl: './ieo.component.html',
@@ -24,33 +26,43 @@ export class IEOComponent implements OnInit, OnDestroy {
   public stage = {
     PENDING: 'PENDING',
     RUNNING: 'RUNNING',
+    TERMINATED: 'TERMINATED',
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
-  }
+  };
 
+  public lang$: Observable<string>;
   public IEOSub$: Observable<IEOItem>;
   public AuthSub$: Observable<boolean>;
-  public currentStage: string = this.stage.PENDING;
-  public showNoReqs: boolean = false;
-  public showBuy: boolean = false;
-  public showPolicy: boolean = false;
-  public showSuccess: boolean = false;
+  public currentStage: string = null;
+  public showNoReqs = false;
+  public showBuy = false;
+  public showPolicy = false;
+  public showSuccess = false;
+  public showWait = false;
+  public showSorry = false;
   private ngUnsubscribe$: Subject<void> = new Subject<void>();
-  public requirements: KycIEOModel = new KycIEOModel(null, null, null);
-  private IEOId: string;
+  public requirements: KycIEOModel = null;
+  public verificationStatus = false;
+  public IEOId: string;
   public IEOData: IEOItem = new IEOItem();
-  public userBalanceBTC: number = 0;
-  public ieoLoading: boolean = true;
+  public userBalanceBTC = 0;
+  public ieoLoading = true;
+  public endTimer: any = null;
+  private _firstLoadedStatus: string = null;
 
   constructor(
     private store: Store<State>,
+    private readonly translate: TranslateService,
     private popupService: PopupService,
     private route: ActivatedRoute,
+    private router: Router,
     private ieoService: IEOServiceService,
-    private userService: UserService,
   ) {
+    this.lang$ = this.store.pipe(select(getLanguage));
+
     this.route.paramMap.subscribe(params => {
-      this.IEOId = params.get("id");
+      this.IEOId = params.get('id');
       this.IEOSub$ = this.ieoService.getIEO(this.IEOId);
       this.AuthSub$ = this.store.pipe(select(fromCore.getIsAuthenticated));
       this.IEOSub$.pipe(takeUntil(this.ngUnsubscribe$))
@@ -58,59 +70,77 @@ export class IEOComponent implements OnInit, OnDestroy {
           this.IEOData = res;
           this.ieoLoading = false;
           this.currentStage = res.status;
+          if (!this._firstLoadedStatus) {
+            this._firstLoadedStatus = res.status;
+          }
+          if (this.currentStage === this.stage.RUNNING) {
+            this.setEndIEOTimer();
+          }
+          this.handleTestIEO(res);
         });
       this.AuthSub$.pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe((isAuth: boolean) => {
           this.isAuthenticated = isAuth;
-          if(isAuth) {
+          if (isAuth) {
             this.ieoService.checkKYC(this.IEOId)
               .pipe(takeUntil(this.ngUnsubscribe$))
               .subscribe((res: KycIEOModel) => {
-                if(res) {
+                if (res) {
+                  // TODO remove this hardcode after releasing contry check on backend side
+                  res.countryCheck = true;
                   this.requirements = res;
+                  this.verificationStatus = Object.values(res).every((i) => i);
                   // this.requirements = new KycIEOModel(true, true, true);
-                };
-              })
+                }
+              });
           }
-        })
-    })
+        });
+    });
 
   }
-
   ngOnInit() {
-
+    window.scrollTo(0, 0);
+    // uncomment when the translation is ready
+    this.lang$
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(lang => this.translate.use(lang));
   }
-
   onLogin() {
     this.popupService.showMobileLoginPopup(true);
   }
 
-  openNoReqs() {
-    this.showNoReqs = true;
+  handleTestIEO(data: IEOItem) {
+    if (
+      data.multiplyProcessing &&
+      data.status === this.stage.TERMINATED &&
+      this._firstLoadedStatus !== this.stage.TERMINATED
+    ) {
+      this.toggleWait(false);
+      this.toggleSorry(true);
+    }
   }
 
-  closeNoReqs() {
-    this.showNoReqs = false;
+  toggleNoReqs(flag: boolean) {
+    this.showNoReqs = flag;
   }
 
-  openBuy() {
-    this.showBuy = true;
-  }
-  closeBuy() {
-    this.showBuy = false;
+  toggleBuy(flag: boolean) {
+    this.showBuy = flag;
   }
 
-  openPolicy() {
-    this.showPolicy = true;
+  togglePolicy(flag: boolean) {
+    this.showPolicy = flag;
   }
-  closePolicy() {
-    this.showPolicy = false;
+
+  toggleSuccess(flag: boolean) {
+    this.showSuccess = flag;
   }
-  openSuccess() {
-    this.showSuccess = true;
+  toggleWait(flag: boolean) {
+    this.showWait = flag;
   }
-  closeSuccess() {
-    this.showSuccess = false;
+
+  toggleSorry(flag: boolean) {
+    this.showSorry = flag;
   }
 
   confirmBuy(amount) {
@@ -120,39 +150,42 @@ export class IEOComponent implements OnInit, OnDestroy {
     })
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((res) => {
-        this.closeBuy();
-        this.openSuccess();
-      })
+        this.toggleBuy(false);
+        if (this.IEOData.multiplyProcessing && this.currentStage === this.stage.RUNNING) {
+          this.toggleWait(true);
+        } else {
+          this.toggleSuccess(true);
+        }
+      });
   }
 
   agreeWithPolicy() {
     this.ieoService.setPolicy()
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((res) => {
-        this.closePolicy();
-        this.requirements = {...this.requirements, policyCheck: true}
-      })
+        this.togglePolicy(false);
+        this.requirements = {...this.requirements, policyCheck: true};
+      });
   }
 
   onBuy() {
-    if(this.stage.PENDING === this.currentStage) {
+    if (this.stage.PENDING === this.currentStage) {
 
     } else if (this.stage.RUNNING === this.currentStage) {
-      if(!this.requirements.kycCheck) {
-        this.openNoReqs();
+      if (!this.requirements.kycCheck) {
+        this.toggleNoReqs(true);
       } else if (!this.requirements.policyCheck) {
-        this.openPolicy();
+        this.togglePolicy(true);
       } else {
-        this.openBuy();
+        this.toggleBuy(true);
       }
-      // this.openBuy();
     } else if (this.stage.SUCCEEDED === this.currentStage || this.stage.FAILED === this.currentStage) {
 
     }
   }
 
   checkRequirements() {
-    if(!this.requirements.countryCheck || !this.requirements.kycCheck || !this.requirements.policyCheck) {
+    if (!this.requirements.countryCheck || !this.requirements.kycCheck || !this.requirements.policyCheck) {
       return false;
     }
     return true;
@@ -167,18 +200,34 @@ export class IEOComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
-    window.onscroll = () => {}
+    window.onscroll = () => {};
   }
 
-  testNotif(msg = '') {
-    this.userService.sendTestNotif(msg)
-      .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe((res) => {});
+  setEndIEOTimer() {
+    if (this.endTimer) {
+      clearTimeout(this.endTimer);
+    }
+    const d = this.IEOData.endDate;
+    const endDate: moment.Moment = moment.utc({
+      y: d.year, M: d.monthValue - 1, d: d.dayOfMonth, h: d.hour, m: d.minute, s: d.second
+    }).local();
+    const current_date: moment.Moment = moment();
+    const diff: number = endDate.diff(current_date);
+    this.endTimer = setTimeout(() => {
+      this.onRefreshIEOStatus();
+    }, diff);
   }
 
+  bannerClick() {
+    if (!this.isAuthenticated) {
+      this.onLogin();
+    } else {
+       this.router.navigate(['/settings/verification']);
+    }
+  }
 
-  public get isProd() {
-    return environment.production;
+  public get showContent() {
+    return environment.showContent;
   }
 
 }

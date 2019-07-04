@@ -26,10 +26,14 @@ perfect-scrollbar{
     margin-top: 0;
   }
   perfect-scrollbar{
-  
-  height: calc(100% - 5px);
+      height: calc(100% - 20px);
 }
 .widget__chat-btn{
   bottom: 64px;
 }
+}
+
+.btn-text {
+  white-space: normal !important;
+  padding-bottom: 3px;
 }

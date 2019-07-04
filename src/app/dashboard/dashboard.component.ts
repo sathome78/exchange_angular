@@ -37,14 +37,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('trading') tradingTemplate: TemplateRef<any>;
   @ViewChild('orderBook') orderBookTemplate: TemplateRef<any>;
   @ViewChild('tradeHistory') tradeHistoryTemplate: TemplateRef<any>;
-  @ViewChild('chat') chatTemplate: TemplateRef<any>;
+  @ViewChild('prediction') predictionTemplate: TemplateRef<any>;
   @ViewChild('orders') ordersTemplate: TemplateRef<any>;
 
   /** variables for resize method */
   public minWidth = 1200;
   public maxWidth = 1500;
-  public minRatio = 0.76;
-  public maxRatio = 0.94;
+  public minRatio = 0.731;
+  public maxRatio = 0.934;
   public widthStep = 5;
   /** ---------------------- */
 
@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public resizeTimeout;
 
-  public activeMobileWidget = 'markets';
+  public activeMobileWidget = 'trading';
   public breakPoint;
   public currencyPair: SimpleCurrencyPair = null
   public isAuthenticated: boolean = false;
@@ -120,12 +120,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     this.widgetTemplate = {
-      graph: this.graphTemplate,
       markets: this.marketsTemplate,
+      graph: this.graphTemplate,
       trading: this.tradingTemplate,
       'order-book': this.orderBookTemplate,
       'trade-history': this.tradeHistoryTemplate,
-      chat: this.chatTemplate,
+      prediction: this.predictionTemplate,
       orders: this.ordersTemplate
     };
 
