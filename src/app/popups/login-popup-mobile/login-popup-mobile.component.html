@@ -139,10 +139,10 @@
           {{'Forgot password?' | translate}}
         </a>
       </div>
-      <a class="popup__link-mob mobile-container" (click)="openRegistration()">
+      <div class="popup__link-mob mobile-container">
         <span>{{'Not registered yet?' | translate}} </span>
-        {{'Sing Up' | translate}}
-      </a>
+        <a (click)="openRegistration()">{{'Sign Up' | translate}}</a>
+      </div>
     </ng-template>
 
     <ng-template #captchaTemplate>

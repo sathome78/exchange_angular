@@ -1114,6 +1114,8 @@
     align-items: center;
     svg{
       display: block;
+          width: 100%;
+    max-width: 21px;
     }
 }
 @media(max-width: 1199px){

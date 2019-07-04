@@ -93,12 +93,12 @@
         <a class="popup__link" (click)="openLogInMobile()">{{'Log in' | translate}}</a>
       </div>
 
-      <a class="popup__link-mob mobile-container" (click)="openLogInMobile()">
+      <div class="popup__link-mob mobile-container">
         <span class="popup__link-text--mob">
           {{'Already have an account?' | translate}}
         </span>
-        {{'Log in' | translate}}
-      </a>
+        <a (click)="openLogInMobile()">{{'Log in' | translate}}</a>
+      </div>
     </ng-template>
 
 
