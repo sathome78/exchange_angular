@@ -1,19 +1,33 @@
 import {Injectable} from '@angular/core';
 import {APIError} from '../models/apiError.model';
 import {catchError} from 'rxjs/operators';
-import {of, throwError} from 'rxjs';
+import {throwError} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 import {TopNotificationReportComponent} from 'app/popups/notifications-list/top-notification-report/top-notification-report.component';
 import {Notification} from 'app/model/notification.model';
+import {HttpClient} from '@angular/common/http';
+import {environment} from 'environments/environment';
+import {Store, select} from '@ngrx/store';
+import {State} from 'app/core/reducers';
+import * as fromCore from 'app/core/reducers';
+import { APIErrorReport } from '../models/apiErrorReport.model';
 
 @Injectable()
 export class APIErrorsService {
   private toastOption;
+  private  apiUrl = environment.apiUrl;
+  public userInfo: ParsedToken;
 
   constructor(
     private toastr: ToastrService,
+    private store: Store<State>,
+    private http: HttpClient
   ) {
     this.toastOption = this.toastr.toastrConfig;
+    this.store.pipe(select(fromCore.getUserInfo))
+      .subscribe((res: ParsedToken) => {
+        this.userInfo = res;
+      });
   }
 
   extractErrorCode(error: APIError): string {
@@ -68,9 +82,12 @@ export class APIErrorsService {
 
     return catchError((error) => {
       const err = this.parseErrorCode(this.extractErrorCode(error.error));
-      const {status, url} = error;
+      const {status, url, method} = error;
       if (status !== 400) {
-        this.showErrorNotification(new Notification({notificationType: 'ERROR', text: err}));
+        this.showErrorNotification(
+          new Notification({notificationType: 'ERROR', text: err}),
+          new APIErrorReport(this.userInfo.username || '', url, method, status, JSON.stringify(error.error))
+        );
       }
       console.log(err);
       return throwError(error);
@@ -78,17 +95,43 @@ export class APIErrorsService {
   }
 
 
-  showErrorNotification(notification: Notification): void {
+  showErrorNotification(notification: Notification, report: APIErrorReport): void {
     this.toastOption.toastComponent = TopNotificationReportComponent;
     this.toastOption.disableTimeOut = true;
     this.toastOption.tapToDismiss = false;
     const tost = this.toastr.show(notification.message, notification.title, this.toastOption);
-    tost.onAction.subscribe((res) => {
-      console.log('alert');
+    const sub = tost.onAction.subscribe(() => {
+      this.postReport(report).subscribe((res) => {
+        console.log('alert', res);
+      });
+      sub.unsubscribe();
     });
   }
 
+  postReport(data: APIErrorReport) {
+    return this.http.post(`${this.apiUrl}/api/public/v2/error_report`, data);
+  }
+
 }
+
+
+// private String userEmail;
+// @NotNull
+// @Length(max = 200)
+// private String url;
+// @NotNull
+// @Length(max = 20)
+// private String method;
+// @NotNull
+// private int respStatus;
+// @NotNull
+// @Length(max = 1000)
+// private String responseBody;
+
+// POST /api/public/v2/error_report
+
+
+
 
 // error:
   // cause: "IncorrectPinException"

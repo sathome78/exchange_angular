@@ -1,9 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PopupService} from './shared/services/popup.service';
 import {ThemeService} from './shared/services/theme.service';
-import {IpAddress, UserService} from './shared/services/user.service';
-import {IP_CHECKER_URL, USER_IP} from './shared/services/http.utils';
-import {HttpClient} from '@angular/common/http';
+import {UserService} from './shared/services/user.service';
 import {AuthService} from './shared/services/auth.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil, withLatestFrom, take} from 'rxjs/internal/operators';
@@ -15,13 +13,12 @@ import * as dashboardAction from './dashboard/actions/dashboard.actions';
 import {SimpleCurrencyPair} from './model/simple-currency-pair';
 import {SEOService} from './shared/services/seo.service';
 import {UtilsService} from './shared/services/utils.service';
-import {IEOServiceService} from './shared/services/ieoservice.service';
 import {ChangeLanguageAction} from './core/actions/core.actions';
 import {getLanguage} from './core/reducers';
 import {GtagService} from './shared/services/gtag.service';
-import {lang} from 'moment';
-import { APIErrorsService } from './shared/services/apiErrors.service';
-import { Notification } from './model/notification.model';
+import {APIErrorsService} from './shared/services/apiErrors.service';
+import {Notification} from './model/notification.model';
+import {APIErrorReport} from './shared/models/apiErrorReport.model';
 
 @Component({
   selector: 'app-root',
@@ -193,7 +190,8 @@ export class AppComponent implements OnInit, OnDestroy {
       new Notification({
         text: 'test',
         notificationType: 'ERROR'
-      })
+      }),
+      new APIErrorReport('this.userInfo.username', 'url', 'method', 'status', 'JSON.stringify(error.error)')
     );
   }
 }

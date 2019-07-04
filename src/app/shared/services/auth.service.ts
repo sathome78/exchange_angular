@@ -38,7 +38,7 @@ export class AuthService implements OnDestroy {
 
   public parseToken(): ParsedToken {
     const token = this.token;
-    if(token) {
+    if (token) {
       const parsedToken = jwt_decode(token);
       this.logger.debug(this, 'Simple token: ' + JSON.stringify(parsedToken));
       return parsedToken;
@@ -48,8 +48,8 @@ export class AuthService implements OnDestroy {
 
   public isSessionValid() {
     const token = localStorage.getItem('token');
-    if(token) {
-      return this.http.get<any>(`${this.apiUrl}/api/private/v2/settings/isValid`)
+    if (token) {
+      return this.http.get<any>(`${this.apiUrl}/api/private/v2/settings/isValid`);
     }
     return of(false);
   }
@@ -89,7 +89,7 @@ export class AuthService implements OnDestroy {
       this.timeOutSub = setTimeout(() => {
         this.onLogOut();
         this.popupService.toggleSessionExpiredPopup(true);
-      }, +tokenExpiresIn)
+      }, +tokenExpiresIn);
     });
   }
 

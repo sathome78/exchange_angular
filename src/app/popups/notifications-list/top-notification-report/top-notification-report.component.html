@@ -30,7 +30,8 @@
     </button>
   </div>
   <div>
-    <button (click)="action($event)">send report</button>
+    <button (click)="action($event)" *ngIf="!sended">send report</button>
+    <span *ngIf="sended">Posted!</span>
   </div>
 </div>
 

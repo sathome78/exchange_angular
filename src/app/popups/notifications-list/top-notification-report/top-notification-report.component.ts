@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 import { ToastrService, ToastPackage, Toast } from 'ngx-toastr';
 
@@ -64,6 +64,7 @@ import { ToastrService, ToastPackage, Toast } from 'ngx-toastr';
   ],
 })
 export class TopNotificationReportComponent extends Toast {
+  sended = false;
   constructor(
     protected toastrService: ToastrService,
     public toastPackage: ToastPackage,
@@ -74,6 +75,7 @@ export class TopNotificationReportComponent extends Toast {
   action(event: Event) {
     event.stopPropagation();
     this.toastPackage.triggerAction();
+    this.sended = true;
     return false;
   }
 }
