@@ -2,9 +2,8 @@ import {Component, OnInit, OnDestroy, HostListener, Renderer2, ChangeDetectionSt
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/internal/operators';
 import {select, Store} from '@ngrx/store';
-import {CurrencyPair} from 'app/model/currency-pair.model';
 import {UserBalance} from 'app/model/user-balance.model';
-import {State, getActiveCurrencyPair, getUserBalance, getCurrencyPairInfo, getCurrencyPairArray, getSimpleCurrencyPairsSelector} from 'app/core/reducers/index';
+import {State, getActiveCurrencyPair, getUserBalance, getCurrencyPairInfo, getSimpleCurrencyPairsSelector} from 'app/core/reducers/index';
 import {DashboardWebSocketService} from '../../dashboard-websocket.service';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {UtilsService} from 'app/shared/services/utils.service';

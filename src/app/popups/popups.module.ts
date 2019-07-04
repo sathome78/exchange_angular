@@ -44,6 +44,7 @@ import {TopNotificationComponent} from './notifications-list/top-notification/to
 import {NotificationsListComponent} from './notifications-list/notifications-list.component';
 import { NewsSubscribePopupComponent } from './news-subscribe-popup/news-subscribe-popup.component';
 import { NewsThankYouPopupComponent } from './news-thank-you-popup/news-thank-you-popup.component';
+import { TopNotificationReportComponent } from './notifications-list/top-notification-report/top-notification-report.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { NewsThankYouPopupComponent } from './news-thank-you-popup/news-thank-yo
     NotificationsListComponent,
     NewsSubscribePopupComponent,
     NewsThankYouPopupComponent,
+    TopNotificationReportComponent,
   ],
   imports: [
     CommonModule,
@@ -110,6 +112,7 @@ import { NewsThankYouPopupComponent } from './news-thank-you-popup/news-thank-yo
   ],
   entryComponents: [
     TopNotificationComponent,
+    TopNotificationReportComponent,
   ]
 })
 export class PopupsModule {}

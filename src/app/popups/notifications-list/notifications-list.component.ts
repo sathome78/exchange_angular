@@ -32,24 +32,26 @@ export class NotificationsListComponent implements OnInit {
   ];
 
   ngOnInit() {
-    let sub
+    let sub;
     this.store
       .pipe(select(fromCore.getIsAuthenticated))
       .pipe(withLatestFrom(this.store.pipe(select(fromCore.getUserInfo))))
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(([isAuth, userInfo]: [boolean, ParsedToken]) => {
-        if(isAuth && userInfo) {
+        if (isAuth && userInfo) {
           sub = this.userService.getNotifications(userInfo.publicId)
             .pipe(takeUntil(this.ngUnsubscribe$))
             .subscribe((res) => {
-              if(res.typeEnum) {
+              if (res.typeEnum) {
                 return;
               }
               const n = new Notification(res);
               this.showNotification(n);
             });
         } else {
-          if(!sub) return;
+          if (!sub) {
+            return;
+          }
           sub.unsubscribe();
         }
       });

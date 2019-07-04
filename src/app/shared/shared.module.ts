@@ -61,6 +61,7 @@ import {CutAddEllipsisPipe} from './pipes/cut-add-ellipsis.pipe';
 import {CurrencyFormatPipe} from './pipes/currencyFormat.pipe';
 import {PopupWaitIEOComponent} from './components/popup-wait-ieo/popup-wait-ieo.component';
 import {PopupSorryIEOComponent} from './components/popup-sorry-ieo/popup-sorry-ieo.component';
+import {APIErrorsService} from './services/apiErrors.service';
 
 @NgModule({
   declarations: [
@@ -185,6 +186,7 @@ import {PopupSorryIEOComponent} from './components/popup-sorry-ieo/popup-sorry-i
     RoundCurrencyPipe,
     FormatCurrencyPipe,
     ShowPageGuard,
+    APIErrorsService,
   ]
 })
 export class SharedModule { }

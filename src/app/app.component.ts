@@ -20,6 +20,8 @@ import {ChangeLanguageAction} from './core/actions/core.actions';
 import {getLanguage} from './core/reducers';
 import {GtagService} from './shared/services/gtag.service';
 import {lang} from 'moment';
+import { APIErrorsService } from './shared/services/apiErrors.service';
+import { Notification } from './model/notification.model';
 
 @Component({
   selector: 'app-root',
@@ -42,6 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private seoService: SEOService,
     private store: Store<fromCore.State>,
     public translate: TranslateService,
+    public apiErrorsService: APIErrorsService,
     private gtagService: GtagService
   ) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
@@ -183,5 +186,14 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
     }, 3000);
+  }
+
+  test() {
+    this.apiErrorsService.showErrorNotification(
+      new Notification({
+        text: 'test',
+        notificationType: 'ERROR'
+      })
+    );
   }
 }

@@ -1,12 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, throwError, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {BalanceItem} from '../models/balance-item.model';
 import {MyBalanceItem} from '../../model/my-balance-item.model';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
 import {Router} from '@angular/router';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
+import { catchError } from 'rxjs/operators';
+import { APIErrorsService } from 'app/shared/services/apiErrors.service';
 
 @Injectable()
 export class BalanceService {
@@ -20,7 +22,7 @@ export class BalanceService {
 
   constructor(
     private http: HttpClient,
-    private dashboardWS: DashboardWebSocketService,
+    private apiErrorsService: APIErrorsService,
     private router: Router,
   ) {
   }
@@ -123,7 +125,8 @@ export class BalanceService {
 
   withdrawRequest(data) {
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/request/create`;
-    return this.http.post(url, data);
+    return this.http.post(url, data)
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   getMyBalances(): Observable<MyBalanceItem> {
