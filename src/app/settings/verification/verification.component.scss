@@ -318,3 +318,9 @@ perfect-scrollbar {
 .send__select {
   margin-bottom: 0;
 }
+
+.mt-20 {
+  @media (max-width: 1199px) {
+    margin-top: 20px;
+  }
+}
