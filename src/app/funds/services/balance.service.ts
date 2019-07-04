@@ -15,6 +15,7 @@ export class BalanceService {
   public goToPinCode$ = new Subject();
   public closeRefillMoneyPopup$ = new Subject<boolean>();
   public closeSendMoneyPopup$ = new Subject<boolean>();
+  public closeSendQuberaPopup$ = new Subject<boolean>();
   public goToSendMoneySuccess$ = new Subject();
   public goToSendMoneyInnerTransfer$ = new Subject();
 

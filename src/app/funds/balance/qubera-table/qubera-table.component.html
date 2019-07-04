@@ -1,5 +1,7 @@
 <table class="table qubera-table"
-       *ngIf="kycStatus === KYC_STATUS.SUCCESS && existQuberaAccounts && existQuberaAccounts !== PENDING">
+       >
+       <!-- <table class="table qubera-table"
+       *ngIf="kycStatus === KYC_STATUS.SUCCESS && existQuberaAccounts && existQuberaAccounts !== PENDING"> -->
   <thead>
     <tr>
       <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Currency' | translate}}</th>
@@ -28,13 +30,13 @@
         <span>545.23143234</span>
       </td>
       <td class="table__cell">
-        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="cryptoDepositOut.emit(true)">{{'Deposit' | translate}}</button>
+        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="cryptoDepositQuberaOut.emit(true)">{{'Deposit' | translate}}</button>
       </td>
       <td class="table__cell">
-        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="transferOut.emit(true)" >{{'Transfer' | translate}}</button>
+        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="transferQuberaOut.emit(true)" >{{'Transfer' | translate}}</button>
       </td>
       <td class="table__cell">
-        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="cryptoWithdrawOut.emit(true)">{{'Withdraw' | translate}}</button>
+        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="cryptoWithdrawQuberaOut.emit(true)">{{'Withdraw' | translate}}</button>
       </td>
     </tr>
       <tr class="table__row balance__table-row" *ngIf="!balances.length">

@@ -44,6 +44,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public showRefillBalancePopup = false;
   public showSendMoneyPopup = false;
+  public showQuberaPopup = false;
   public hideAllZero = false;
   public existQuberaAccounts: string = PENDING;
   public showContent: boolean = environment.showContent;
@@ -69,6 +70,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public IEOData: IEOItem[] = [];
   public sendMoneyData = {};
+  public QuberaData = {};
   public refillBalanceData = {};
   public currencyForChoose: string = null;
   public currentPage = 1;
@@ -165,6 +167,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.openSendMoneyPopup(res);
+      });
+    this.balanceService.closeSendQuberaPopup$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.openQuberaPopup(res);
       });
   }
 
@@ -272,6 +279,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.showSendMoneyPopup = flag;
   }
 
+  public openQuberaPopup(flag: boolean) {
+    this.QuberaData = {};
+    this.showQuberaPopup = flag;
+  }
+
   public onToggleAllZero(): void {
     this.currentPage = 1;
     this.loadBalances(this.currTab);
@@ -286,6 +298,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public goToCryptoWithdrawPopup(balance: BalanceItem): void {
     // this.popupService.demoPopupMessage = 1;
     // this.popupService.showDemoTradingPopup(true);
+    console.log(balance);
     this.showSendMoneyPopup = true;
     this.sendMoneyData = {
       step: 2,
@@ -308,6 +321,42 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.currentPage = 1;
     this.loadBalances(this.currTab);
   }
+
+  public goToTransferQuberaPopup(balance: BalanceItem): void {
+    console.log('hi transfer');
+    console.log(balance);
+    // this.popupService.demoPopupMessage = 1;
+    // this.popupService.showDemoTradingPopup(true);
+    this.showQuberaPopup = true;
+    this.QuberaData = {
+      component: "TRANSFER",
+      balance: balance
+    };
+  }
+
+  public goToQuberaWithdrawPopup(balance: BalanceItem): void {
+    console.log('hi Withdraw');
+    console.log(balance);
+    // this.popupService.demoPopupMessage = 1;
+    // this.popupService.showDemoTradingPopup(true);
+    this.showQuberaPopup = true;
+    this.QuberaData = {
+      component: "WITHDRAW",
+      balance: balance
+    };
+  }
+
+  public goToQuberaDepositPopup(balance: BalanceItem): void {
+    console.log('hi Deposit');
+    console.log(balance);
+    this.showQuberaPopup = true;
+    this.QuberaData = {
+      component: "DEPOSIT",
+      balance: balance
+    };
+  }
+
+  
 
   public goToTransferPopup(balance: BalanceItem): void {
     // this.popupService.demoPopupMessage = 1;

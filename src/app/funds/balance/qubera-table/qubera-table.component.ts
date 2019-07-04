@@ -11,9 +11,9 @@ export class QuberaTableComponent implements OnInit {
   @Input('balances') public balances: any[] = [];
   @Input('kycStatus') public kycStatus: string;
   @Input('existQuberaAccounts') public existQuberaAccounts: string;
-  @Output('cryptoWithdrawOut') public cryptoWithdrawOut: EventEmitter<any> = new EventEmitter();
-  @Output('cryptoDepositOut') public cryptoDepositOut: EventEmitter<any> = new EventEmitter();
-  @Output('transferOut') public transferOut: EventEmitter<any> = new EventEmitter();
+  @Output('cryptoWithdrawQuberaOut') public cryptoWithdrawQuberaOut: EventEmitter<any> = new EventEmitter();
+  @Output('cryptoDepositQuberaOut') public cryptoDepositQuberaOut: EventEmitter<any> = new EventEmitter();
+  @Output('transferQuberaOut') public transferQuberaOut: EventEmitter<any> = new EventEmitter();
   public 'KYC_STATUS' = KYC_STATUS;
   public 'PENDING' = PENDING;
 

@@ -63,6 +63,10 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import {IEOTableMobComponent} from './balance/ieo-table-mob/ieo-table-mob.component';
 import {IEOBalanceDetailsComponent} from './ieo-balance-details/ieo-balance-details.component';
 import { BalanceTableTradeBtnComponent } from './balance/balance-table/balance-table-trade-btn/balance-table-trade-btn.component';
+import { QuberaPopupComponent } from './balance/qubera-popup/qubera-popup.component';
+import { DepositComponent } from './balance/qubera-popup/deposit/deposit.component';
+import { TransferComponent } from './balance/qubera-popup/transfer/transfer.component';
+import { WithdrawComponent } from './balance/qubera-popup/withdraw/withdraw.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -135,6 +139,10 @@ export function createTranslateLoader(http: HttpClient) {
     IEOTableMobComponent,
     IEOBalanceDetailsComponent,
     BalanceTableTradeBtnComponent,
+    QuberaPopupComponent,
+    DepositComponent,
+    TransferComponent,
+    WithdrawComponent,
   ],
   providers: [
     BalanceService,

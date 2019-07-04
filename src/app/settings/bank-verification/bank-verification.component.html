@@ -1,0 +1,266 @@
+<div class="settings__content">
+
+    <h3 class="title settings__content-title">{{'Bank verification' | translate}}</h3>
+
+    <form class="settings-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="settings__form-row">
+        <!-- <div class="wrap-input wrap-input--fix230"
+         [ngClass]="{'wrap-input--error': !currentFirstName.valid && currentFirstName.touched && currentFirstName.errors != null}"
+        > -->
+
+        <div class="wrap-input wrap-input--fix230"
+         [ngClass]="{'wrap-input--error': !currentFirstName.valid && currentFirstName.touched && currentFirstName.errors != null}"
+        >
+  
+          <input
+            
+            class="wrap-input__input"
+            type="text"
+            formControlName="firstName"
+            autocomplete="off"
+            required
+          >
+          <label class="wrap-input__label">{{'firstName' | translate}}</label>
+          <div class="wrap-input__line"></div>
+          <!--Input error section starts-->
+          <!-- <ng-container *ngIf="currentFirstName.touched && currentFirstName.errors != null"> -->
+          <ng-container *ngIf="!currentFirstName.valid">
+              
+            <div class="input-hint-wrapper">
+               <span
+                 class="wrap-input__message"
+                 *ngIf="!currentFirstName.valid">
+                  {{'FirstName field is required.' | translate}}
+               </span>
+               <span
+                 class="wrap-input__message"
+                 *ngIf="currentFirstName.errors['minlength']">
+                  {{'Current firstName invalid.' | translate}}
+               </span>
+            </div>
+  
+           
+          </ng-container>
+
+
+          <!--Input error section ends-->
+        </div>
+      </div>
+      <div class="settings__form-row">
+        <div class="wrap-input wrap-input--fix230"
+             [ngClass]="{'wrap-input--error': currentFirstName.valid
+                          && !currentLastName.valid
+                          && currentLastName.touched
+                          && currentLastName.errors != null}"
+        >
+          <input
+            class="wrap-input__input"
+            type="text"
+            formControlName="lastName"
+            autocomplete="off"
+            required
+          >
+          <label class="wrap-input__label">{{'lastName' | translate}}</label>
+          <div class="wrap-input__line"></div>
+          <!--Input error section starts-->
+          <ng-container *ngIf="currentFirstName.valid
+                  && !currentLastName.valid
+                  && currentLastName.touched
+                  && currentLastName.errors != null">
+
+              <div class="input-hint-wrapper">
+                  <span
+                    class="wrap-input__message">
+                     {{'LastName field is required.' | translate}}
+                  </span>
+               </div>
+  
+          </ng-container>
+  
+          <!--Input error section ends-->
+        </div>
+      </div>
+      <div class="settings__form-row">
+
+        <div class="wrap-input wrap-input--fix230"
+          [ngClass]="{'wrap-input--error': currentFirstName.valid
+            && currentLastName.valid
+            && currentAddress.touched
+            && currentAddress.errors != null}"
+          >
+
+          <input
+            class="wrap-input__input"
+            type="text"
+            formControlName="address"
+            autocomplete="off"
+            required
+          >
+          <label class="wrap-input__label">{{'address' | translate}}</label>
+          <div class="wrap-input__line"></div>
+         
+          <!--Input error section starts-->
+          <ng-container *ngIf="currentFirstName.valid
+              && currentLastName.valid
+              && !currentAddress.valid
+              && currentAddress.touched
+              && currentAddress.errors != null">
+              <div class="input-hint-wrapper">
+                  <span
+                    class="wrap-input__message"
+                    *ngIf="currentAddress.errors['required']">
+                     {{'Address field is required.' | translate}}
+                  </span>
+               </div>
+  
+          </ng-container>
+
+          <!--Input error section ends-->
+        </div>
+      </div>
+
+      <div class="settings__form-row">
+        
+        <div class="wrap-input wrap-input--fix230"
+          [ngClass]="{'wrap-input--error': currentFirstName.valid
+                && currentLastName.valid
+                && currentAddress.valid
+                && currentCity.touched
+                && currentCity.errors != null}"
+          >
+          <input
+            class="wrap-input__input"
+            type="text"
+            formControlName="city"
+            autocomplete="off"
+            required
+          >
+          <label class="wrap-input__label">{{'city' | translate}}</label>
+          <div class="wrap-input__line"></div>
+          
+          <!--Input error section starts-->
+          <ng-container *ngIf="currentFirstName.valid
+                  && currentLastName.valid
+                  && currentAddress.valid
+                  && !currentCity.valid
+                  && currentCity.touched
+                  && currentCity.errors != null">
+            <div class="input-hint-wrapper">
+              <span
+                class="wrap-input__message"
+                *ngIf="currentCity.errors['required']">
+                  {{'City field is required.' | translate}}
+              </span>
+            </div>
+  
+          </ng-container>
+          <!--Input error section ends-->
+        </div>
+      </div>
+
+      <!-- <div class="settings__form-row">
+        <div class="wrap-input wrap-input--fix230"
+          [ngClass]="{'wrap-input--error': currentFirstName.valid
+                    && currentLastName.valid
+                    && currentAddress.valid
+                    && currentCity.valid
+                    && currentCountryCode.touched
+                    && currentCountryCode.errors != null}"
+        >
+          <input
+            class="wrap-input__input"
+            [type]="text"
+            formControlName="countryCode"
+            autocomplete="off"
+          >
+          <label class="wrap-input__label">{{'Country code' | translate}}</label>
+          <div class="wrap-input__line"></div> -->
+          
+          <!--Input error section starts-->
+          <!-- <ng-container *ngIf="currentFirstName.valid && currentLastName.valid && currentAddress.valid && currentCity.valid && !currentCountryCode.valid && currentCountryCode.touched && currentCountryCode.errors != null">
+            <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message"
+                  *ngIf="currentCountryCode.errors['required']">
+                    {{'Country code field is required.' | translate}}
+                </span>
+              </div>
+  
+          </ng-container> -->
+          
+          <!--Input error section ends-->
+        <!-- </div>
+      </div> -->
+
+      <div class="select refill__select refill__select--cripto">
+        <div class="select__value select__value--active" (click)="countryDropdownToggle(true)">
+          <div class="select__search">
+            <input class="select__search-input no-line"
+                    #countryInput
+                    type="text"
+                    placeholder="{{'country' | translate}}"
+                    (focus)="showCountryLabel(true)"
+                    (blur)="showCountryLabel(false)"
+                    (input)="searchCountry($event)" 
+                    required>
+          </div>
+        </div>
+        <div class="select__label" *ngIf="selectedCountry || showCountryLabelFlag">{{'country' | translate}}</div>
+        <div class="select__line"></div>
+        <div class="select__list-searching"
+              [ngClass]="{'select__list-searching--open': openCountryDropdown}"
+              *ngIf="openCountryDropdown">
+          <div class="select__list-searching-body">
+  
+            <perfect-scrollbar>
+              <div class="select__searching-items-wrap">
+                <div class="select__searching-item" *ngFor="let country of countryArray" (click)="selectCountry(country)">
+                  <span>{{country.countryName}}</span>
+                </div>
+              </div>
+            </perfect-scrollbar>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings__form-row">
+        
+        <div class="wrap-input wrap-input--fix230"
+          [ngClass]="{'wrap-input--error': currentFirstName.valid && currentLastName.valid && currentAddress.valid && currentCity.valid && currentCountryCode.valid && currentcurrencyCode.touched && currentcurrencyCode.errors != null}"
+        >
+          <input
+            class="wrap-input__input"
+            type="text"
+            formControlName="currencyCode"
+            autocomplete="off"
+            required
+          >
+          <label class="wrap-input__label">{{'currency code' | translate}}</label>
+          <div class="wrap-input__line"></div>
+          
+          <!--Input error section starts-->
+          <ng-container *ngIf="currentFirstName.valid && currentLastName.valid && currentAddress.valid && currentCity.valid && currentCountryCode.valid && !currentcurrencyCode.valid && currentcurrencyCode.touched && currentcurrencyCode.errors != null">
+            <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message"
+                  *ngIf="currentcurrencyCode.errors['required']">
+                    {{'Currency code field is required.' | translate}}
+                </span>
+              </div>
+  
+          </ng-container>
+          
+          <!--Input error section ends-->
+        </div>
+      </div>
+  
+  
+  
+      <!---->
+      <button
+        class="btn settings__form-btn settings__password-btn"
+        [ngClass]="{'settings__form-btn--active': form.valid}"
+        [disabled]="loading"
+      >{{'Verification' | translate}}</button>
+    </form>
+</div>

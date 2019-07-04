@@ -289,9 +289,9 @@
           [balances]="quberaBalances$ | async"
           [existQuberaAccounts]="existQuberaAccounts"
           [kycStatus]="kycStatus"
-          (transferOut)="goToTransferPopup($event)"
-          (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
-          (cryptoDepositOut)="goToCryptoDepositPopup($event)">
+          (transferQuberaOut)="goToTransferQuberaPopup($event)"
+          (cryptoWithdrawQuberaOut)="goToQuberaWithdrawPopup($event)"
+          (cryptoDepositQuberaOut)="goToQuberaDepositPopup($event)">
         </app-qubera-table>
       </ng-container>
 
@@ -326,4 +326,12 @@
     [optionData]="sendMoneyData"
     (closeSendMoneyPopup)="openSendMoneyPopup(false)"
   ></app-send-money>
+
+  <app-qubera-popup
+    *ngIf="showQuberaPopup"
+    [showPopup]="showQuberaPopup"
+    [optionData]="QuberaData"
+    (closeSendQuberaPopup)="openQuberaPopup(false)"
+  >
+  </app-qubera-popup>
 </div>
