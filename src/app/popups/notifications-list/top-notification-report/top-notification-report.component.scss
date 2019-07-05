@@ -18,12 +18,13 @@
       }
     }
     &.info{
-      background: #237BEF;
+      background: rgb(87, 150, 231);
       .ieo-info{
         display: block;
       }
     }
     .ieo-notification-wr{
+
       display: flex;
       align-items: center;
       justify-content: center;
@@ -41,6 +42,13 @@
           display: none;
         }
       }
+      &.api-report {
+        padding-bottom: 5px
+      }
+    }
+    .api-report-btn {
+      padding: 0 22px 22px 22px;
+      text-align: right;
     }
     .ieo-notification-icon{
       display: none;
@@ -71,13 +79,11 @@
         border-radius: 4px;
 
         .notification__btn{
-          padding: 0;
-          width: 9px;
-          height: 9px;
+          padding: 5px;
           position: absolute;
-          right: 12px;
+          right: 7px;
           margin-right: 0;
-          top: 12px;
+          top: 7px;
           svg{
             padding: 0;
             width: 9px;
@@ -117,3 +123,6 @@
       }
     }
   }
+.btn--right {
+  margin-left: auto;
+}

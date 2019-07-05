@@ -7,7 +7,7 @@
   }"
   id="ieo-notification"
 >
-	<div class="ieo-notification-wr">
+	<div class="ieo-notification-wr api-report">
     <svg class="ieo-success ieo-notification-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="12" cy="12" r="11.5" stroke="white"/>
       <rect width="1.63701" height="6.54804" transform="matrix(0.724412 -0.689367 0.724412 0.689367 6.1416 11.3856)" fill="white"/>
@@ -29,9 +29,9 @@
       </svg>
     </button>
   </div>
-  <div>
-    <button (click)="action($event)" *ngIf="!sended">send report</button>
-    <span *ngIf="sended">Posted!</span>
+  <div class="api-report-btn">
+    <button class="btn btn--right btn--empty-blue btn--small" (click)="action($event)" *ngIf="!sended">send report</button>
+    <span class="btn--right" *ngIf="sended">Posted!</span>
   </div>
 </div>
 
