@@ -678,8 +678,7 @@
 .no-veryfied-qubera{
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 45px 10px;
+  padding: 45px 10px 45px 209px;
 
   .qubera-icon{
     width: 64px;
@@ -703,9 +702,137 @@
       text-align: center;
     }
   }
+
+
+  .qubera-head{
+    margin-bottom: 38px;
+    h3{
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 1.37;
+      letter-spacing: .15px;
+
+      color: #FFFFFF;
+    }
+    span{
+      font-weight: 300;
+    }
+  }
+  .qubera-benefits{
+    margin-bottom: 55px;
+  }
+  .ben-head{
+    margin-bottom: 24px;
+    h6{
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.27;
+      color: #525F73;
+
+    }
+  }
+  .benefits-list{
+    li{
+
+    }
+    svg{
+      margin-right: 9px;
+    }
+    span{
+      font-weight: 300;
+      font-size: 18px;
+      line-height: 1.88;
+      color: #E9F2FF;
+      letter-spacing: .1px;
+    }
+    b{
+      font-weight: 400;
+    }
+  }
+  .for-vip{
+    margin-bottom: 23px;
+    min-height: 84px;
+    max-width: 457px;
+    width: 100%;
+    border: 1px dashed #FFD76F;
+    border-radius: 4px;
+    padding: 8px 18px 11px;
+
+    h6{
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.44;
+      color: #FFA500;
+    }
+    p{
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.44;
+      color: #525F73;
+    }
+  }
+  .how-work{
+    margin-bottom: 36px;
+    max-width: 457px;
+    width: 100%;
+    border: 1px dashed #94C2FF;
+    border-radius: 4px;
+    padding: 8px 18px 11px;
+    h6{
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.44;
+
+      color: #237BEF;
+    }
+    p{
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #525F73;
+      letter-spacing: .1px;
+    }
+  }
+  .detail-inf{
+    p{
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.44;
+      letter-spacing: 0.15px;
+      color: #525F73;
+    }
+    a{
+      color: #237BEF;
+      text-decoration: none;
+    }
+  }
   .qubera-btn-wr{
+    margin-bottom: 49px;
     button{
+      margin-left: 0;
       width: 227px;
+      line-height: 54px;
+    }
+  }
+  .wait-block{
+
+    display: flex;
+    max-width: 380px;
+    width: 100%;
+    align-items: center;
+    background: #30314D;
+    border-radius: 4px;
+    padding: 15px 23px;
+    margin-bottom: 34px;
+        margin-top: -15px;
+    svg{
+      margin-right: 17px;
+    }
+    span{
+font-weight: 300;
+font-size: 18px;
+line-height: .9;
+color: #FFFFFF;
     }
   }
 }

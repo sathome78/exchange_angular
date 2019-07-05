@@ -119,9 +119,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public openMenu() {
-    if (!this.isAuthenticated) {
-      this.popupService.showMobileLoginPopup(true);
-    }
+    // if (!this.isAuthenticated) {
+    //   this.popupService.showMobileLoginPopup(true);
+    // }
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
     // console.log('Open mobile menu');
   }
@@ -135,6 +135,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.lang = this.langArray.filter(item => item.name === lang.toLowerCase())[0];
     this.store.dispatch(new ChangeLanguageAction(lang));
     localStorage.setItem('language', lang);
+}
+openLogin(){
+  if (!this.isAuthenticated) {
+      this.popupService.showMobileLoginPopup(true);
+   }
 }
 
   onLogin() {
