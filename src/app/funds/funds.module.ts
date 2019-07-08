@@ -67,6 +67,7 @@ import { QuberaPopupComponent } from './balance/qubera-popup/qubera-popup.compon
 import { DepositComponent } from './balance/qubera-popup/deposit/deposit.component';
 import { TransferComponent } from './balance/qubera-popup/transfer/transfer.component';
 import { WithdrawComponent } from './balance/qubera-popup/withdraw/withdraw.component';
+import { CreateFugComponent } from './balance/qubera-popup/create-fug/create-fug.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -143,6 +144,7 @@ export function createTranslateLoader(http: HttpClient) {
     DepositComponent,
     TransferComponent,
     WithdrawComponent,
+    CreateFugComponent,
   ],
   providers: [
     BalanceService,
