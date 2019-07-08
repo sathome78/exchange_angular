@@ -11,6 +11,7 @@ export interface State {
   region: string;
   language: string;
   verificationStatus: string;
+  bankQuberaStatus: string;
   simpleCurrencyPairs: SimpleCurrencyPair[];
   detailedCurrencyPairs: DetailedCurrencyPair[];
   cryptoCurrenciesForChoose: CurrencyChoose[];
@@ -27,6 +28,7 @@ export const INIT_STATE: State = {
   region: null,
   language: 'en',
   verificationStatus: null,
+  bankQuberaStatus: null,
   simpleCurrencyPairs: [],
   detailedCurrencyPairs: [],
   cryptoCurrenciesForChoose: [],
@@ -60,6 +62,13 @@ export function reducer(state: State = INIT_STATE, action: coreActions.Actions) 
     case coreActions.SET_VERIFICATION_STATUS:
       return {...state, verificationStatus: action.payload};
     case coreActions.FAIL_LOAD_VERIFICATION_STATUS:
+      return {...state, loading: false};
+
+    case coreActions.LOAD_BANK_QUBERA_STATUS:
+      return {...state, loading: true};
+    case coreActions.SET_BANK_QUBERA_STATUS:
+      return {...state, bankQuberaStatus: action.payload};
+    case coreActions.FAIL_LOAD_BANK_QUBERA_STATUS:
       return {...state, loading: false};
 
     case coreActions.SET_SIMPLE_CURRENCY_PAIRS:
@@ -125,6 +134,7 @@ export function rehydrateState(reducer: ActionReducer<any>): ActionReducer<any> 
  */
 export const getLanguage = (state: State): string => state.language;
 export const getVerificationStatus = (state: State): string => state.verificationStatus;
+export const getBalanceQuberaStatus = (state: State): string => state.verificationStatus;
 
 /**
  * Selector returns current region

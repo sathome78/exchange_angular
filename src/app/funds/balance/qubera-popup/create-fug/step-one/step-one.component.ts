@@ -27,9 +27,10 @@ export class StepOneComponent implements OnInit {
     })
   }
 
-  gotToStepTwo(obj: any) {
-    console.log(obj);
-    // if()
+  gotToStepTwo(form: any) {
+    if(form.valid) {
+      console.log(form);
+    }
   }
 
 

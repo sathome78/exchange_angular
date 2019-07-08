@@ -141,17 +141,20 @@ export class BalanceComponent implements OnInit, OnDestroy {
       });
 
     this.store
-      .pipe(select(fromCore.getVerificationStatus))
+      .pipe(select(fromCore.getBalanceStatus))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(status => {
+        console.log(status);
         this.kycStatus = status;
         if (this.kycStatus === KYC_STATUS.SUCCESS) {
+          console.log('true');
           // todo:
           // CHECK IF EXIST QUBERA ACCOUNT by  /api/private/v2/merchants/qubera/account/check/:currencyName
           this.existQuberaAccounts = null;
           // IF EXIST ACCOUNT LOAD QUBERA BALANCE dispatch loadQuberaBal
           // this.store.dispatch(new fundsAction.LoadQuberaBalAction());
         } else {
+          console.log('false');
           this.existQuberaAccounts = null;
         }
       });

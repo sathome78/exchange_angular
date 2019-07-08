@@ -69,6 +69,10 @@ export class SettingsService {
   public getCurrentVerificationStatusKYC() {
     return this.http.get<{data: string}>(`${this.apiUrl}/api/private/v2/kyc/status`);
   }
+
+  public getCurrentQuberaBankStatusKYC() {
+    return this.http.get<{data: string}>(`${this.apiUrl}/api/private/v2/kyc/status`);
+  }
   public getCountriesKYC() {
     return this.http.get(`${this.apiUrl}/api/private/v2/kyc/countries`);
   }

@@ -32,8 +32,10 @@
     </div>
 
     <div class="action">
-      <a (click)="gotToStepTwo(form)"
-      [ngClass]="{'btn--empty-blue': !form.valid}">{{'Create account' | translate}}</a>
+      <button (click)="gotToStepTwo(form)"
+      class="btn btn--center"
+      [ngClass]="{'btn--empty-blue': !form.valid}"
+      >{{'Create account' | translate}}</button>
     </div>
 
 </form>

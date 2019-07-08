@@ -125,4 +125,15 @@ export class CoreEffects {
           catchError(error => of(new coreActions.FailLoadVerificationStatusAction(error)))
         );
     }));
+  
+  @Effect()
+    loadQuberaBankStatus$: Observable<Action> = this.actions$
+      .pipe(ofType<coreActions.LoadQuberaBankStatusAction>(coreActions.LOAD_BANK_QUBERA_STATUS))
+      .pipe(switchMap(() => {
+        return this.settingsService.getCurrentQuberaBankStatusKYC()
+          .pipe(
+            map(res => new coreActions.SetQuberaBankStatusAction(res.data)),
+            catchError(error => of(new coreActions.FailLoadQuberaBankStatusAction(error)))
+          );
+      }));
 }
