@@ -356,6 +356,16 @@ export class BalanceComponent implements OnInit, OnDestroy {
     };
   }
 
+  public goToQuberaAccountPopup(balance: BalanceItem): void {
+    console.log('hi create account');
+    console.log(balance);
+    this.showQuberaPopup = true;
+    this.QuberaData = {
+      component: "CREATEFUG",
+      balance: balance
+    };
+  }
+
   
 
   public goToTransferPopup(balance: BalanceItem): void {

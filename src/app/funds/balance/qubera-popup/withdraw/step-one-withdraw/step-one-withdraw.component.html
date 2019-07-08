@@ -1,0 +1,96 @@
+<form [formGroup]="form">
+  <div class="main-form" style="margin-bottom: 200px">
+      <div class="select refill__select" style="display: inline-block;">
+          <div class="select__value select__value--active">
+            ЕВРО
+          </div>
+          <div class="select__label">{{'Currency' | translate}}</div>
+          <div class="select__line"></div>
+          <div class="select__triangle"></div>
+          <ul class="select__list" style="display: block">
+            <li class="select__list-item">
+              name1
+            </li>
+            <li class="select__list-item">
+              name2
+            </li>
+            <li class="select__list-item">
+              name3
+            </li>
+          </ul>
+        </div>
+
+        <div class="select refill__select" style="display: inline-block;">
+          <div class="select__value select__value--active">
+              Exchange bank
+          </div>
+          <div class="select__label">{{'Currency' | translate}}</div>
+          <div class="select__line"></div>
+          <div class="select__triangle"></div>
+          <ul class="select__list" style="display: block">
+            <li class="select__list-item">
+              bank1
+            </li>
+            <li class="select__list-item">
+              bank2
+            </li>
+            <li class="select__list-item">
+              bank3
+            </li>
+          </ul>
+        </div>
+
+          <app-price-input  style="display: inline-block;"
+            [placeholder]="'Amount'"
+            formControlName="amount"
+            name="amount"
+            class="fiat-amount"
+            >
+
+          </app-price-input>
+  </div>
+
+  <div class="secundary-form">
+    <div class="input-block">
+      <input type="text" name="firstname" formControlName="firstName">
+      <label for="firstname"></label>
+    </div>
+    <div class="input-block">
+      <input type="text" name="lastname" formControlName="lastname">
+      <label for="lastname"></label>
+    </div>
+    <div class="input-block">
+      <input type="text" name="bankaddress" formControlName="bankaddress">
+      <label for="bank-address"></label>
+    </div>
+    <div class="input-block">
+      <input type="text" name="bankcountrycode" formControlName="bankcountrycode">
+      <label for="bankcountrycode"></label>
+    </div>
+    <div class="input-block">
+      <input type="text" name="bankname" formControlName="bankname">
+      <label for="bankname"></label>
+    </div>
+    <div class="input-block">
+      <input type="text" name="swift" formControlName="swift">
+      <label for="swift"></label>
+    </div>
+    <div class="input-block">
+      <input type="text" name="ibal" formControlName="ibal">
+      <label for="ibal"></label>
+    </div>
+    <div class="input-block">
+      <input type="text" name="city" formControlName="city">
+      <label for="city"></label>
+    </div>
+    <div class="input-block">
+      <input type="text" name="countryCode" formControlName="countryCode">
+      <label for="countryCode"></label>
+    </div>
+    <div class="input-block">
+      <input type="text" name="zipCode" formControlName="zipCode">
+      <label for="zipCode"></label>
+    </div>
+  </div>
+
+</form>

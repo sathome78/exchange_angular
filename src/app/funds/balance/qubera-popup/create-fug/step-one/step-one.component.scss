@@ -1,0 +1,63 @@
+h2 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+    color: #191A39;
+    margin-bottom: 14px;
+}
+
+h3 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+    color: #000;
+    margin-bottom: 24px;
+}
+
+form {
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+form .wrap-input {
+    margin-bottom: 10px;
+}
+
+form .rules {
+    margin-top: 38px;
+    margin-bottom: 50px;
+}
+
+form .rules p{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 15px;
+    color: #525F73;
+    margin-bottom: 16px;
+}
+
+form .action {
+    display: flex;
+    justify-content: center;
+}
+
+form .action a {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    text-align: center;
+    color: #FFFFFF;
+    background: #ECECEC;
+    border-radius: 4px;
+    padding: 14px 60px;
+    cursor: pointer;
+}

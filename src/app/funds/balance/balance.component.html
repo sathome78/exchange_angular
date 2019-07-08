@@ -291,6 +291,7 @@
           [kycStatus]="kycStatus"
           (transferQuberaOut)="goToTransferQuberaPopup($event)"
           (cryptoWithdrawQuberaOut)="goToQuberaWithdrawPopup($event)"
+          (createFugAccount)="goToQuberaAccountPopup($event)"
           (cryptoDepositQuberaOut)="goToQuberaDepositPopup($event)">
         </app-qubera-table>
       </ng-container>
@@ -331,6 +332,7 @@
     *ngIf="showQuberaPopup"
     [showPopup]="showQuberaPopup"
     [optionData]="QuberaData"
+    [step] = "1"
     (closeSendQuberaPopup)="openQuberaPopup(false)"
   >
   </app-qubera-popup>

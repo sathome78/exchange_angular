@@ -8,26 +8,32 @@
         <img class="modal__button-icon" src="../../../assets/img/close.svg">
       </a>
     </div>
-    <div class="modal__content">
       <app-withdraw
         *ngIf="component == 'WITHDRAW'"
+        [step]="step"
+        [qubera]="optionData"
       >
        </app-withdraw>
 
       <app-transfer
         *ngIf="component == 'TRANSFER'"
+        [step]="step"
+        [qubera]="optionData"
       >
       </app-transfer>
 
       <app-deposit
         *ngIf="component == 'DEPOSIT'"
+        [step]="step"
+        [qubera]="optionData"
       >
       </app-deposit>
       
-      <app-deposit
-        *ngIf="component == 'DEPOSIT'"
+      <app-create-fug
+        *ngIf="component == 'CREATEFUG'"
+        [step]="step"
+        [qubera]="optionData"
       >
-      </app-deposit>
-    </div>
+      </app-create-fug>
   </div>
 </div>

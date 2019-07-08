@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-transfer',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./transfer.component.scss']
 })
 export class TransferComponent implements OnInit {
+  @Input() qubera;
+  @Input() step;
 
   constructor() { }
 

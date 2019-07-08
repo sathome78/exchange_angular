@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-create-fug',
@@ -6,10 +6,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-fug.component.scss']
 })
 export class CreateFugComponent implements OnInit {
+  
+  @Input() qubera;
+  @Input() step;
 
   constructor() { }
 
   ngOnInit() {
+    this.step = 1;
+  }
+
+  setStep(step: number) {
+    this.step = step;
+  }
+  
+  onCloseSendMoneyPopup() {
+    console.log('hi');
   }
 
 }

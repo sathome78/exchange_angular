@@ -14,6 +14,7 @@ export class QuberaTableComponent implements OnInit {
   @Output('cryptoWithdrawQuberaOut') public cryptoWithdrawQuberaOut: EventEmitter<any> = new EventEmitter();
   @Output('cryptoDepositQuberaOut') public cryptoDepositQuberaOut: EventEmitter<any> = new EventEmitter();
   @Output('transferQuberaOut') public transferQuberaOut: EventEmitter<any> = new EventEmitter();
+  @Output('createFugAccount') public createFugAccount: EventEmitter<any> = new EventEmitter();
   public 'KYC_STATUS' = KYC_STATUS;
   public 'PENDING' = PENDING;
 

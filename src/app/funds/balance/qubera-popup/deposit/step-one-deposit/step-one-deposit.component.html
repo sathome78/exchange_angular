@@ -1,0 +1,72 @@
+<h2>Make fiat deposit in EUR</h2>
+
+<form [formGroup]="form">
+  <div class="main-form">
+      <div class="select refill__select" style="display: inline-block;">
+          <!-- <div class="select__value select__value--active"
+               (click)="toggleCurrencyDropdown()"
+               [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}"> -->
+          <div class="select__value select__value--active">
+            <!-- <img [src]="activeFiat.name | getIconUrl:true" class="select__list-item-icon select__list-item-icon--mobile">
+            <img [src]="activeFiat.name | getIconUrl" class="select__list-item-icon select__list-item-icon--destop"> -->
+            <!-- {{activeFiat.name}} -->
+            ЕВРО
+          </div>
+          <div class="select__label">{{'Currency' | translate}}</div>
+          <div class="select__line"></div>
+          <div class="select__triangle"></div>
+          <!-- <ul class="select__list"
+              [ngClass]="{'select__list--open': openCurrencyDropdown}"
+              *ngIf="openCurrencyDropdown"> -->
+          <ul class="select__list" style="display: block">
+            <!-- <li class="select__list-item" *ngFor="let currency of fiatNames" (click)="selectCurrency(currency)">
+              <img [src]="currency.name | getIconUrl" class="select__list-item-icon">
+              {{currency.name}}
+            </li> -->
+            <li class="select__list-item">
+              <!-- <img [src]="currency.name | getIconUrl" class="select__list-item-icon"> -->
+              <!-- {{currency.name}} -->
+              name1
+            </li>
+            <li class="select__list-item">
+              <!-- <img [src]="currency.name | getIconUrl" class="select__list-item-icon"> -->
+              <!-- {{currency.name}} -->
+              name2
+            </li>
+            <li class="select__list-item">
+              <!-- <img [src]="currency.name | getIconUrl" class="select__list-item-icon"> -->
+              <!-- {{currency.name}} -->
+              name3
+            </li>
+          </ul>
+        </div>
+
+        <div class="select refill__select" style="display: inline-block;">
+          <div class="select__value select__value--active">
+              Exchange bank
+          </div>
+          <div class="select__label">{{'Currency' | translate}}</div>
+          <div class="select__line"></div>
+          <div class="select__triangle"></div>
+          <ul class="select__list" style="display: block">
+            <li class="select__list-item">
+              bank1
+            </li>
+            <li class="select__list-item">
+              bank2
+            </li>
+            <li class="select__list-item">
+              bank3
+            </li>
+          </ul>
+        </div>
+          <app-price-input  style="display: inline-block;"
+            [placeholder]="'Amount'"
+            formControlName="amount"
+            name="amount"
+            class="fiat-amount"
+          >
+
+          </app-price-input>
+  </div>
+</form>
