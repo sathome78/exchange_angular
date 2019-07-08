@@ -491,3 +491,168 @@
 		}
 	}
 }
+
+
+
+
+//fiat ballance
+
+
+.fiat-deposit-s1{
+	h2{
+		font-weight: 400;
+		font-size: 24px;
+		line-height: 1.27;
+		text-align: center;
+		color: #191A39;
+		margin-bottom: 32px;
+	}
+
+	form{
+		border-bottom: 1px solid #ECECEC;
+		margin: 0 30px;
+	}
+
+	.main-form{
+		display: flex;
+		justify-content: space-between;
+	}
+	.refill__select{
+		width: calc(33.3333% - 15px);
+	}
+	.select__value{
+
+	}
+	.select__label{
+
+	}
+	.select__line{
+
+	}
+	.select__triangle{
+
+	}
+	.select__list{
+
+	}
+	.select__list-item{
+
+	}
+
+	.fiat-amount{
+		position: relative;
+		width: calc(33.3333% - 15px);
+	}
+
+	.info-block{
+		margin: 0 30px 32px;
+		border-bottom: 1px solid #ECECEC;
+		display: flex;
+		justify-content: space-between;
+		padding: 17px;
+		.left-part{
+			max-width: 230px;
+			width: 100%;
+			margin-right: 30px;
+		}
+		.left-block{
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+		}
+
+		.item-info{
+			&:not(:last-child){
+				margin-bottom: 11px;
+			}
+			
+			display: flex;
+			justify-content: space-between;
+		}
+		.key-info{
+			font-weight: 400;
+			font-size: 14px;
+			line-height: 1.44;
+			color: #4B4B4B;
+		}
+		.value-info{
+			font-weight: 500;
+			font-size: 14px;
+			line-height: 1.44;
+			text-align: right;
+			color: #000000;
+		}
+		.print{
+			margin: 0;
+			margin-top: auto;
+			cursor: pointer;
+			padding: 0;
+			border: none;
+			background: transparent;
+			text-align: left;
+			align-self: flex-start;
+			svg{
+				margin-right: 10px;
+				vertical-align: middle;
+			}
+			span{
+				font-weight: normal;
+				font-size: 14px;
+				line-height: 1.44;
+				color: #237BEF;
+				text-decoration: underline;
+				text-decoration-style: dashed;
+			}
+		}
+		.right-part{
+			max-width: 280px;
+			width: 100%;
+		}
+	}
+	.balance__title-btn{
+		margin: auto;
+		margin-bottom: 57px;
+	} 
+
+}
+	.notice-block{
+		padding: 27px 30px;
+		background: #E9F2FF;
+		.head-notice{
+			font-weight: 500;
+			font-size: 14px;
+			line-height: 1.15;
+			color: #000000;
+			margin-bottom: 16px;
+		}
+		ul{
+			li{
+				position: relative;
+				padding-left: 10px;
+				&:before{
+					content: "";
+					position: absolute;
+					top: 4px;
+					width: 4px;
+					height: 4px;
+					border-radius: 50%;
+					background: #237BEF;
+					left: 0;
+
+				}
+				span{
+					font-weight: 400;
+					font-size: 14px;
+					line-height: 1.15;
+					color: #4B4B4B;
+					    letter-spacing: -.15px;
+				}
+			}
+		}
+	}
+
+.modal__content{
+	&.qubera-content{
+		padding: 32px 0;
+	}
+}

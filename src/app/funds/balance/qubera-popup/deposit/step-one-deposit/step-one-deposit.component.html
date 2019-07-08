@@ -1,24 +1,25 @@
-<h2>Make fiat deposit in EUR</h2>
+<div class="fiat-deposit-s1">
+  <h2>Make fiat deposit in EUR</h2>
 
-<form [formGroup]="form">
-  <div class="main-form">
+  <form [formGroup]="form" id="d-s1">
+    <div class="main-form">
       <div class="select refill__select" style="display: inline-block;">
           <!-- <div class="select__value select__value--active"
                (click)="toggleCurrencyDropdown()"
                [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}"> -->
-          <div class="select__value select__value--active">
+               <div class="select__value select__value--active">
             <!-- <img [src]="activeFiat.name | getIconUrl:true" class="select__list-item-icon select__list-item-icon--mobile">
-            <img [src]="activeFiat.name | getIconUrl" class="select__list-item-icon select__list-item-icon--destop"> -->
-            <!-- {{activeFiat.name}} -->
-            ЕВРО
-          </div>
-          <div class="select__label">{{'Currency' | translate}}</div>
-          <div class="select__line"></div>
-          <div class="select__triangle"></div>
+              <img [src]="activeFiat.name | getIconUrl" class="select__list-item-icon select__list-item-icon--destop"> -->
+              <!-- {{activeFiat.name}} -->
+              ЕВРО
+            </div>
+            <div class="select__label">{{'Currency' | translate}}</div>
+            <div class="select__line"></div>
+            <div class="select__triangle"></div>
           <!-- <ul class="select__list"
               [ngClass]="{'select__list--open': openCurrencyDropdown}"
               *ngIf="openCurrencyDropdown"> -->
-          <ul class="select__list" style="display: block">
+              <ul class="select__list">
             <!-- <li class="select__list-item" *ngFor="let currency of fiatNames" (click)="selectCurrency(currency)">
               <img [src]="currency.name | getIconUrl" class="select__list-item-icon">
               {{currency.name}}
@@ -43,12 +44,12 @@
 
         <div class="select refill__select" style="display: inline-block;">
           <div class="select__value select__value--active">
-              Exchange bank
+            Exchange bank
           </div>
           <div class="select__label">{{'Currency' | translate}}</div>
           <div class="select__line"></div>
           <div class="select__triangle"></div>
-          <ul class="select__list" style="display: block">
+          <ul class="select__list">
             <li class="select__list-item">
               bank1
             </li>
@@ -60,13 +61,75 @@
             </li>
           </ul>
         </div>
-          <app-price-input  style="display: inline-block;"
-            [placeholder]="'Amount'"
-            formControlName="amount"
-            name="amount"
-            class="fiat-amount"
-          >
+        <app-price-input  style="display: inline-block;"
+        [placeholder]="'Amount'"
+        formControlName="amount"
+        name="amount"
+        class="fiat-amount"
+        >
 
-          </app-price-input>
+      </app-price-input>
+    </div>
+  </form>
+  <div class="info-block">
+    <div class="left-part">
+      <div class="left-block">
+        <div class="item-info">
+          <span class="key-info">Bank</span>
+          <span class="value-info">CIMB NIAGA</span>
+        </div>
+        <div class="item-info">
+          <span class="key-info">Acсount number</span>
+          <span class="value-info">704912137600</span>
+        </div>
+        <div class="item-info">
+          <span class="key-info">Recipient</span>
+          <span class="value-info">Tab Xtra</span>
+        </div>
+        <button class="print">
+          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+            <path d="M11.8748 14.25H5.9375V15.4377H11.8748V14.25Z" fill="#237BEF"/>
+            <path d="M4.75009 1.18755H14.25V3.56254H15.4373V1.18755C15.4374 0.532356 14.9062 0 14.25 0H4.75009C4.09425 0 3.5625 0.532356 3.5625 1.18755V3.56254H4.75009V1.18755Z" fill="#237BEF"/>
+            <path d="M13.0621 11.875H5.9375V13.0626H13.0621V11.875Z" fill="#237BEF"/>
+            <path d="M17.8126 4.75H1.18759C0.531746 4.75 0 5.2822 0 5.93743V13.0625C0 13.7188 0.531746 14.2498 1.18759 14.2498H3.56265V17.8124C3.56265 18.4689 4.09439 19 4.75023 19H14.2501C14.9064 19 15.4375 18.4689 15.4375 17.8124V14.2498H17.8126C18.4689 14.2498 19 13.7188 19 13.0625V5.93743C19 5.2822 18.469 4.75 17.8126 4.75ZM14.2501 17.8125H4.75023V10.6874H14.2501V17.8125ZM16.6249 8.31254C15.9686 8.31254 15.4375 7.78139 15.4375 7.12498C15.4375 6.46983 15.9686 5.93743 16.6249 5.93743C17.2814 5.93743 17.8126 6.46979 17.8126 7.12498C17.8126 7.78136 17.2814 8.31254 16.6249 8.31254Z" fill="#237BEF"/>
+          </svg>
+          <span>Print invoice</span>
+        </button>
+      </div>
+    </div>
+    <div class="right-part">
+      <div class="left-block">
+        <div class="item-info">
+          <span class="key-info">Amount</span>
+          <span class="value-info">1,111,821.00 EUR</span>
+        </div>
+        <div class="item-info">
+          <span class="key-info">Comission</span>
+          <span class="value-info">40%</span>
+        </div>
+        <div class="item-info">
+          <span class="key-info">Fee amount</span>
+          <span class="value-info">430 EUR</span>
+        </div>
+        <div class="item-info">
+          <span class="key-info">Added to payment</span>
+          <span class="value-info">710 EUR</span>
+        </div>
+        <div class="item-info">
+          <span class="key-info">Total (with comission)</span>
+          <span class="value-info">1,111,821.00 EUR</span>
+        </div>
+      </div>
+    </div>
   </div>
-</form>
+  <button class="btn btn--active balance__title-btn">OK</button>
+  <div class="notice-block">
+    <span class="head-notice">Напоминаем:</span>
+    <ul>
+      <li>
+        <span>Это реквизиты вашего личного счёта в FUG теперь вы можете пополнять свой счёт и без комиссии  переводить деньги между вашим личным счетом и торговым счетом на Exrates.
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
