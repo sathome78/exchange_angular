@@ -1,43 +1,43 @@
-<div class="fiat-deposit-s1 fiat-withdraw-s1">
+
+<div class="modal__content qubera-content">
+  <div class="fiat-deposit-s1 fiat-withdraw-s1">
    <h2>Fiat Withdrawal EUR</h2>
 <form [formGroup]="form">
   <div class="main-form">
-      <div class="select refill__select" style="display: inline-block;">
-          <div class="select__value select__value--active">
-            ЕВРО
-          </div>
-          <div class="select__label">{{'Currency' | translate}}</div>
-          <div class="select__line"></div>
-          <div class="select__triangle"></div>
-          <ul class="select__list">
-            <li class="select__list-item">
-              name1
-            </li>
-            <li class="select__list-item">
-              name2
-            </li>
-            <li class="select__list-item">
-              name3
-            </li>
-          </ul>
+    <div class="select refill__select" style="display: inline-block;">
+      <div class="select__value select__value--active"
+           (click)="toggleCurrencyDropdown()"
+           [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}">
+        <img [src]="activeFiat.name | getIconUrl:true" class="select__list-item-icon select__list-item-icon--mobile">
+          <img [src]="activeFiat.name | getIconUrl" class="select__list-item-icon select__list-item-icon--destop">
+          {{activeFiat?.name}}
         </div>
+        <div class="select__label">{{'Currency' | translate}}</div>
+        <div class="select__line"></div>
+        <div class="select__triangle"></div>
+      <ul class="select__list"
+          [ngClass]="{'select__list--open': openCurrencyDropdown}"
+          *ngIf="openCurrencyDropdown">
+        <li class="select__list-item" *ngFor="let currency of fiatNames" (click)="selectCurrency(currency)">
+          <img [src]="currency.name | getIconUrl" class="select__list-item-icon">
+          {{currency?.name}}
+        </li>
+      </ul>
+    </div>
 
         <div class="select refill__select" style="display: inline-block;">
-          <div class="select__value select__value--active">
-              Exchange bank
+          <div class="select__value select__value--active"
+            (click)="bankDropdownToggle()">
+            {{selectedBank}}
           </div>
-          <div class="select__label">{{'Currency' | translate}}</div>
+          <div class="select__label">{{'Payment system' | translate}}</div>
           <div class="select__line"></div>
           <div class="select__triangle"></div>
-          <ul class="select__list">
-            <li class="select__list-item">
-              bank1
-            </li>
-            <li class="select__list-item">
-              bank2
-            </li>
-            <li class="select__list-item">
-              bank3
+          <ul class="select__list"
+            [ngClass]="{'select__list--open': openBankSystemDropdown}"
+            *ngIf="openBankSystemDropdown">
+            <li class="select__list-item" *ngFor="let bank of banks" (click)="chooseBank(bank)">
+              {{bank?.name}}
             </li>
           </ul>
         </div>
@@ -95,8 +95,7 @@
     </div>
   </div>
 
-</form>
-<div class="info-block">
+  <div class="info-block">
     <div class="left-part">
       <div class="left-block">
         <div class="item-info">
@@ -123,8 +122,9 @@
       </div>
     </div>
   </div>
-  <button class="btn btn--active balance__title-btn">Withdrawal 550 EUR</button>
-</div>
+  <button class="btn btn--active balance__title-btn"
+      [disabled]="!form.valid" (click)="submit(form)">Withdrawal 550 EUR</button>
+</form>
 
 <div class="notice-block">
   <span class="head-notice">Please note:</span>
@@ -139,4 +139,5 @@
     </li>
 
   </ul>
+</div>
 </div>

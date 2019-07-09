@@ -55,6 +55,7 @@
 <div class="modal__content">
   <app-step-one
     *ngIf="step === 1"
+    (nextStep)="nextStep(2)"
   >
   </app-step-one>
   <app-step-two

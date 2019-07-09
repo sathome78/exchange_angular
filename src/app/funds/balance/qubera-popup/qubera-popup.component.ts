@@ -14,7 +14,7 @@ export class QuberaPopupComponent implements OnInit {
 
   @Input() showPopup;
   @Input() optionData;
-  @Input() step;
+  @Input() steper;
   @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
   component: any;
 
@@ -36,7 +36,7 @@ export class QuberaPopupComponent implements OnInit {
   ngOnInit() {
     this.setComponent();
     console.log(this.optionData);
-    console.log(this.step);
+    console.log(this.steper);
   }
 
   setComponent() {

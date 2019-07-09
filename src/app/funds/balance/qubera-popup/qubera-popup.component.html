@@ -10,28 +10,28 @@
     </div>
       <app-withdraw
         *ngIf="component == 'WITHDRAW'"
-        [step]="step"
+        [steper]="steper"
         [qubera]="optionData"
       >
        </app-withdraw>
 
       <app-transfer
         *ngIf="component == 'TRANSFER'"
-        [step]="step"
+        [steper]="steper"
         [qubera]="optionData"
       >
       </app-transfer>
 
       <app-deposit
         *ngIf="component == 'DEPOSIT'"
-        [step]="step"
+        [steper]="steper"
         [qubera]="optionData"
       >
       </app-deposit>
       
       <app-create-fug
         *ngIf="component == 'CREATEFUG'"
-        [step]="step"
+        [steper]="steper"
         [qubera]="optionData"
       >
       </app-create-fug>

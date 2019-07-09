@@ -26,7 +26,13 @@
     <div class="rules">
       <p>{{'Read terms and conditions.' | translate}} <a href="">FUG</a></p>
       <div class="check">
-        <input type="checkbox">
+        <!-- <input type="checkbox"
+            [(ngModel)]="theCheckbox"
+            [ngModelOptions]="{standalone: true}"
+            (change)="checked($event)"> -->
+            <input type="checkbox"
+                  formControlName="theCheckbox"
+                  (change)="checked($event)"/>
         <span>{{'I have read the rules' | translate}}</span>
       </div>
     </div>
@@ -34,7 +40,8 @@
     <div class="action">
       <button (click)="gotToStepTwo(form)"
       class="btn btn--center"
-      [ngClass]="{'btn--empty-blue': !form.valid}"
+      [ngClass]="{'btn--empty-blue': form.get('theCheckbox').value != true && form.invalid}"
+      [disabled]="form.get('theCheckbox').value != true && form.invalid"
       >{{'Create account' | translate}}</button>
     </div>
 

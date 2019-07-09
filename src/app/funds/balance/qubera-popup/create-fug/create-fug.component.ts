@@ -8,20 +8,27 @@ import { Component, OnInit, Input } from '@angular/core';
 export class CreateFugComponent implements OnInit {
   
   @Input() qubera;
-  @Input() step;
+  @Input() steper;
+  step: number;
 
   constructor() { }
 
   ngOnInit() {
-    this.step = 1;
+    this.setStep(this.steper);
   }
 
-  setStep(step: number) {
-    this.step = step;
+  setStep(steper: number) {
+    this.step = steper;
   }
   
   onCloseSendMoneyPopup() {
     console.log('hi');
+  }
+
+  
+  nextStep(numb) {
+    console.log('hi mf');
+    this.step = numb;
   }
 
 }

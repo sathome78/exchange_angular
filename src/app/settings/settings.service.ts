@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {AuthService} from '../shared/services/auth.service';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {NotificationOption} from './email-notification/email-notification.component';
 import {NotificationUserSetting} from './two-factor-authenticaton/notification-user-setting.model';
@@ -90,7 +90,13 @@ export class SettingsService {
   }
 
   public postBankVerification(verify: BankVerification) {
-    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/account/create`, verify);
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders({
+      'Authorization': token });
+    let options = { headers: headers };
+    console.log(options);
+
+    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/account/create`, verify, options)
   }
 
 }
