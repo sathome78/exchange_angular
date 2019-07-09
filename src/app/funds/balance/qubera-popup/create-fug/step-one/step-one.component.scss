@@ -61,3 +61,17 @@ form .action a {
     padding: 14px 60px;
     cursor: pointer;
 }
+
+
+.btn {
+    &.btn--center {
+      color: #ffffff !important;
+      &.btn--empty-blue {
+        color: #237BEF !important;
+        &:hover {
+          background-color: transparent !important;
+          border: 1px solid #237BEF !important;
+        }
+      }
+    }
+  }
