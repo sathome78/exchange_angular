@@ -690,13 +690,57 @@
 			justify-content: flex-start;
 		}
 		.key-info{
-			    margin-right: 56px;
-    min-width: 143px;
+			margin-right: 56px;
+			min-width: 143px;
 		}
 		.left-part{
 			margin-left: auto;
 			max-width: 510px;
 			margin-right: 0;
 		}
+	}
+}
+
+
+.fiat-transfer{
+	max-width: 400px;
+	margin: 0 auto;
+	padding-top: 40px;
+	.input-block{
+		position: relative;
+	}
+	p{
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 1.15;
+		text-align: center;
+		color: #000000;
+		margin-bottom: 32px;
+	}
+	h2{
+		margin-bottom: 18px;
+	}
+	form{
+		max-width: 260px;
+		margin: 0 auto;
+		input{
+			margin-bottom: 23px;
+		}
+		.balance__title-btn{
+			margin-bottom: 23px;
+			width: 100%;
+		}	
+	}
+	.change-phone{
+		text-align: center;
+		margin-bottom: 240px;
+	}
+	a{
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 1.15;
+		
+		color: #237BEF;
+		text-decoration: none;
 	}
 }
