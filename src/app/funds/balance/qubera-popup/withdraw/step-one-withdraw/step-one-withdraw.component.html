@@ -1,5 +1,7 @@
+<div class="fiat-deposit-s1 fiat-withdraw-s1">
+   <h2>Fiat Withdrawal EUR</h2>
 <form [formGroup]="form">
-  <div class="main-form" style="margin-bottom: 200px">
+  <div class="main-form">
       <div class="select refill__select" style="display: inline-block;">
           <div class="select__value select__value--active">
             ЕВРО
@@ -7,7 +9,7 @@
           <div class="select__label">{{'Currency' | translate}}</div>
           <div class="select__line"></div>
           <div class="select__triangle"></div>
-          <ul class="select__list" style="display: block">
+          <ul class="select__list">
             <li class="select__list-item">
               name1
             </li>
@@ -27,7 +29,7 @@
           <div class="select__label">{{'Currency' | translate}}</div>
           <div class="select__line"></div>
           <div class="select__triangle"></div>
-          <ul class="select__list" style="display: block">
+          <ul class="select__list">
             <li class="select__list-item">
               bank1
             </li>
@@ -52,45 +54,89 @@
 
   <div class="secundary-form">
     <div class="input-block">
-      <input type="text" name="firstname" formControlName="firstName">
-      <label for="firstname"></label>
+      <input type="text" name="firstname" class="wrap-input__input" formControlName="firstName">
+      <label class="wrap-input__label" for="firstname">First Name </label>
     </div>
     <div class="input-block">
-      <input type="text" name="lastname" formControlName="lastname">
-      <label for="lastname"></label>
+      <input class="wrap-input__input" type="text" name="lastname" formControlName="lastname">
+      <label class="wrap-input__label" for="lastname">Last Name</label>
     </div>
     <div class="input-block">
-      <input type="text" name="bankaddress" formControlName="bankaddress">
-      <label for="bank-address"></label>
+      <input class="wrap-input__input" type="text" name="bankaddress" formControlName="bankaddress">
+      <label class="wrap-input__label" for="bank-address">Bank Address</label>
     </div>
     <div class="input-block">
-      <input type="text" name="bankcountrycode" formControlName="bankcountrycode">
-      <label for="bankcountrycode"></label>
+      <input class="wrap-input__input" type="text" name="bankcountrycode" formControlName="bankcountrycode">
+      <label class="wrap-input__label" for="bankcountrycode">Bank Country Code</label>
     </div>
     <div class="input-block">
-      <input type="text" name="bankname" formControlName="bankname">
-      <label for="bankname"></label>
+      <input class="wrap-input__input" type="text" name="bankname" formControlName="bankname">
+      <label class="wrap-input__label" for="bankname">Bank Name</label>
     </div>
     <div class="input-block">
-      <input type="text" name="swift" formControlName="swift">
-      <label for="swift"></label>
+      <input class="wrap-input__input" type="text" name="swift" formControlName="swift">
+      <label class="wrap-input__label" for="swift">Swift</label>
     </div>
     <div class="input-block">
-      <input type="text" name="ibal" formControlName="ibal">
-      <label for="ibal"></label>
+      <input class="wrap-input__input" type="text" name="ibal" formControlName="ibal">
+      <label class="wrap-input__label" for="ibal">Iban</label>
     </div>
     <div class="input-block">
-      <input type="text" name="city" formControlName="city">
-      <label for="city"></label>
+      <input class="wrap-input__input" type="text" name="city" formControlName="city">
+      <label class="wrap-input__label" for="city">City</label>
     </div>
     <div class="input-block">
-      <input type="text" name="countryCode" formControlName="countryCode">
-      <label for="countryCode"></label>
+      <input class="wrap-input__input" type="text" name="countryCode" formControlName="countryCode">
+      <label class="wrap-input__label" for="countryCode">Country Code</label>
     </div>
     <div class="input-block">
-      <input type="text" name="zipCode" formControlName="zipCode">
-      <label for="zipCode"></label>
+      <input class="wrap-input__input" type="text" name="zipCode" formControlName="zipCode">
+      <label class="wrap-input__label" for="zipCode">Zip Code</label>
     </div>
   </div>
 
 </form>
+<div class="info-block">
+    <div class="left-part">
+      <div class="left-block">
+        <div class="item-info">
+          <span class="key-info">You want to withdraw:</span>
+          <span class="value-info">550 EUR</span>
+        </div>
+        <div class="item-info">
+          <span class="key-info">Exchange comission:</span>
+          <span class="value-info">3% = 15 EUR</span>
+        </div>
+        <div class="item-info">
+          <span class="key-info">Merchant comission:</span>
+          <span class="value-info">12% = 0.000005 EUR (but not less than 0.000005)</span>
+        </div>
+        <div class="item-info">
+          <span class="key-info">Total comission:</span>
+          <span class="value-info">24% = 0.000005 EUR</span>
+        </div>
+        <div class="item-info">
+          <span class="key-info">Total with comission:</span>
+          <span class="value-info">0.000005 EUR</span>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <button class="btn btn--active balance__title-btn">Withdrawal 550 EUR</button>
+</div>
+
+<div class="notice-block">
+  <span class="head-notice">Please note:</span>
+  <ul>
+    <li>
+      <span>Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email.
+      </span>
+    </li>
+    <li>
+      <span>After making a withdrawal, you can track its progress in history on funds page.
+      </span>
+    </li>
+
+  </ul>
+</div>
