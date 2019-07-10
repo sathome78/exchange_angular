@@ -744,3 +744,35 @@
 		text-decoration: none;
 	}
 }
+
+.fiat-create-acc-s2{
+    padding-top: 0;
+    margin-bottom: 0;
+    form{
+    	 input{
+    	 	margin-bottom: 10px;
+    	 }
+    }
+    .resend{
+    	margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        span{
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 1.15;
+            color: #AAB1C4;
+        }
+        button{
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 1.15;
+            text-align: center;
+            color: #237BEF;
+            border: none;
+            background: transparent;
+            outline: none;
+
+        }
+    }
+}

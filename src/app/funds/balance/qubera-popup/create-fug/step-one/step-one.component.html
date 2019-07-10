@@ -1,41 +1,44 @@
+
+
 <h2>{{'Create account FUG' | translate}}</h2>
 <h3>{{'The information you fill in must be co consistent with the information in ID documents.' | translate}}</h3>
 
 <form [formGroup]="form">
-    <div class="wrap-input">
-      <input class="wrap-input__input" name="country" formControlName="country" required>
-      <label class="wrap-input__label">{{'Country' | translate}}</label>
-    </div>
-    <div class="wrap-input">
-      <input class="wrap-input__input" name="firstName" formControlName="firstName" required>
-      <label class="wrap-input__label">{{'First name' | translate}}</label>
-    </div>
-    <div class="wrap-input">
-      <input class="wrap-input__input" name="lastName" formControlName="lastName" required>
-      <label class="wrap-input__label">{{'Last Name' | translate}}</label>
-    </div>
-    <div class="wrap-input">
-      <input class="wrap-input__input" name="birthDay" formControlName="birthDay" required>
-      <label class="wrap-input__label">{{'Date of Birthd' | translate}}</label>
-    </div>
-    <div class="wrap-input">
-      <input class="wrap-input__input" name="phone" formControlName="phone" required>
-      <label class="wrap-input__label">{{'Phone' | translate}}</label>
-    </div>
+  <div class="wrap-input">
+    <input class="wrap-input__input" name="country" formControlName="country" required>
+    <label class="wrap-input__label">{{'Country' | translate}}</label>
+  </div>
+  <div class="wrap-input">
+    <input class="wrap-input__input" name="firstName" formControlName="firstName" required>
+    <label class="wrap-input__label">{{'First name' | translate}}</label>
+  </div>
+  <div class="wrap-input">
+    <input class="wrap-input__input" name="lastName" formControlName="lastName" required>
+    <label class="wrap-input__label">{{'Last Name' | translate}}</label>
+  </div>
+  <div class="wrap-input">
+    <input class="wrap-input__input" name="birthDay" formControlName="birthDay" required>
+    <label class="wrap-input__label">{{'Date of Birthd' | translate}}</label>
+  </div>
+  <div class="wrap-input">
+    <input class="wrap-input__input" name="phone" formControlName="phone" required>
+    <label class="wrap-input__label">{{'Phone' | translate}}</label>
+  </div>
 
-    <div class="rules">
-      <p>{{'Read terms and conditions.' | translate}} <a href="">FUG</a></p>
-      <div class="check">
-        <input type="checkbox">
-        <span>{{'I have read the rules' | translate}}</span>
-      </div>
+  <div class="rules">
+    <p>{{'Read terms and conditions.' | translate}} <a href="">FUG</a></p>
+    <div class="check">
+      <input class="accessibility-content" type="checkbox" id="read" name="read">
+      <label for="read" class="read"></label>
+      <span>{{'I have read the rules' | translate}}</span>
     </div>
+  </div>
 
-    <div class="action">
-      <button (click)="gotToStepTwo(form)"
-      class="btn btn--center"
-      [ngClass]="{'btn--empty-blue': !form.valid}"
-      >{{'Create account' | translate}}</button>
-    </div>
+  <div class="action">
+    <button (click)="gotToStepTwo(form)"
+    class="btn btn--center"
+    [ngClass]="{'btn--empty-blue': !form.valid}"
+    >{{'Create account' | translate}}</button>
+  </div>
 
 </form>
