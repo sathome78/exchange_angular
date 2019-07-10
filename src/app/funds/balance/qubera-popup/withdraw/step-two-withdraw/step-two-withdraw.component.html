@@ -1,3 +1,23 @@
-<p>
-  step-two-withdraw works!
-</p>
+<div class="modal__content qubera-content">
+  <h2>{{'Transaction confirmation' | translate}}</h2>
+  <div class="inf-code">{{'To number 38 ****** 94 code has been sent enter it to the floor' | translate}}</div>
+
+  <form [formGroup]="form">
+    <div class="input-block">
+      <input class="wrap-input__input" type="text" name="code" formControlName="code">
+      <label class="wrap-input__label" for="code">{{'Code' | translate}}</label>
+    </div>
+  </form>
+  <button
+    class="btn btn--center"
+    [ngClass]="{'btn--empty-blue': !form.valid}"
+    [disabled]="form.invalid"
+    (click)="enterCode(form.value)"
+  >
+    {{'Confirm' | translate}}
+  </button>
+
+  <div class="change-number">
+    <a>Change phone number</a>
+  </div>
+</div>

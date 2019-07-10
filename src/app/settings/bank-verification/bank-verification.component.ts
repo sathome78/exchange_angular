@@ -46,7 +46,6 @@ export class BankVerificationComponent implements OnInit {
   getCountryCode() {
     this.settingsService.getCountriesKYC().pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        console.log(res);
         this.countryArrayDefault = res as KycCountry[];
         this.countryArray = this.countryArrayDefault;
       });
@@ -55,7 +54,6 @@ export class BankVerificationComponent implements OnInit {
   initFormVerificationBank() {
     this.form = new FormGroup({
       firstName: new FormControl('', {validators: [
-          Validators.minLength(5),
           Validators.required
         ]
       }),
@@ -75,10 +73,10 @@ export class BankVerificationComponent implements OnInit {
           Validators.required
         ]
       }),
-      currencyCode: new FormControl('', {validators: [
-          Validators.required
-        ]
-      })
+      // currencyCode: new FormControl('', {validators: [
+      //     Validators.required
+      //   ]
+      // })
     })
   }
 
@@ -90,13 +88,13 @@ export class BankVerificationComponent implements OnInit {
     this.currentAddress.markAsTouched();
     this.currentCity.markAsTouched();
     this.currentCountryCode.markAsTouched();
-    this.currentcurrencyCode.markAsTouched();
+    // this.currentcurrencyCode.markAsTouched();
     this.currentFirstName.updateValueAndValidity();
     this.currentLastName.updateValueAndValidity();
     this.currentAddress.updateValueAndValidity();
     this.currentCity.updateValueAndValidity();
     this.currentCountryCode.updateValueAndValidity();
-    this.currentcurrencyCode.updateValueAndValidity();
+    // this.currentcurrencyCode.updateValueAndValidity();
   }
 
   onSubmit() {
@@ -110,8 +108,8 @@ export class BankVerificationComponent implements OnInit {
       verification.address = obj.address;
       verification.city = obj.city;
       verification.countryCode = obj.countryCode;
-      verification.currencyCode = obj.currencyCode;
-      // console.log(obj);
+      // verification.currencyCode = obj.currencyCode;
+      console.log(obj);
       this.settingsService.postBankVerification(obj).subscribe((bankVerify: BankVerification) => {
         console.log(bankVerify);
       })

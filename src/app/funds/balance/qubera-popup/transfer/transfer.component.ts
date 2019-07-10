@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-transfer',
@@ -7,11 +8,29 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TransferComponent implements OnInit {
   @Input() qubera;
-  @Input() step;
+  @Input() steper;
+  step: number;
+
+  form: FormGroup;
 
   constructor() { }
 
   ngOnInit() {
+    this.initForm();
+  }
+
+  initForm() {
+    this.form = new FormGroup({
+      code: new FormControl('', Validators.required)
+    })
+  }
+
+  setStep(steper) {
+    this.step = steper;
+  }
+
+  enterCode(form) {
+    console.log(form);
   }
 
 }

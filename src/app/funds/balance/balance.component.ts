@@ -8,7 +8,7 @@ import {BalanceItem} from '../models/balance-item.model';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
 import {MyBalanceItem} from '../../model/my-balance-item.model';
 import {BalanceService} from '../services/balance.service';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil, first} from 'rxjs/operators';
 import {
   CRYPTO_DEPOSIT,
   CRYPTO_WITHDRAWAL,
@@ -342,31 +342,38 @@ export class BalanceComponent implements OnInit, OnDestroy {
     console.log(balance);
     // this.popupService.demoPopupMessage = 1;
     // this.popupService.showDemoTradingPopup(true);
-    this.showQuberaPopup = true;
-    this.QuberaData = {
-      component: "WITHDRAW",
-      balance: balance
-    };
+    this.balanceService.getCurrencyData('EUR').pipe(first()).subscribe((data: any) => {
+      console.log(data);
+      this.showQuberaPopup = true;
+      this.QuberaData = {
+        component: "WITHDRAW",
+        balance: data
+      };
+    })
   }
 
   public goToQuberaDepositPopup(balance: BalanceItem): void {
     console.log('hi Deposit');
     console.log(balance);
-    this.showQuberaPopup = true;
-    this.QuberaData = {
-      component: "DEPOSIT",
-      balance: balance
-    };
+    this.balanceService.getCurrencyData('EUR').pipe(first()).subscribe((data: any) => {
+      this.showQuberaPopup = true;
+      this.QuberaData = {
+        component: "DEPOSIT",
+        balance: data
+      };
+    });
   }
 
   public goToQuberaAccountPopup(balance: BalanceItem): void {
     console.log('hi create account');
     console.log(balance);
-    this.showQuberaPopup = true;
-    this.QuberaData = {
-      component: "CREATEFUG",
-      balance: balance
-    };
+    this.balanceService.getCurrencyData('EUR').pipe(first()).subscribe((data: any) => {
+      this.showQuberaPopup = true;
+      this.QuberaData = {
+        component: "CREATEFUG",
+        balance: data
+      };
+    });
   }
 
   

@@ -4,5 +4,5 @@ export class BankVerification {
     address: String;
     city: String;
     countryCode: String;
-    currencyCode: String;
+    // currencyCode: String;
 }

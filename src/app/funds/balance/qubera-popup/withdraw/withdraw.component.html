@@ -19,7 +19,7 @@
           <span class="steps__title">{{'Оформление заявки' | translate}}</span>
         </a>
       </li>
-      <li class="steps__item"
+      <li class="steps__item" *ngIf="step >= 2"
           [ngClass]="{'steps__item--current': step === 2}"
       >
         <a class="steps__link" (click)="setStep(2)">
@@ -28,37 +28,18 @@
           <span class="steps__title">{{'Phone verification' | translate}}</span>
         </a>
       </li>
-      <!-- <li class="steps__item" *ngIf="step >= 3"
-          [ngClass]="{'steps__item--current': step === 3}"
-      >
-        <a class="steps__link" (click)="setStep(3)">
-          <span class="steps__number" [ngClass]="{'steps__number--current': step === 3, 'steps__number--valid': step != 3 }">3</span>
-          <span class="steps__number-mob-current">3. {{'KYC Walkthrough' | translate}}</span>
-          <span class="steps__title">{{'KYC Walkthrough' | translate}}</span>
-        </a>
-      </li>
-      <li class="steps__item "
-          *ngIf="step === 4"
-          [ngClass]="{'steps__item--current': step >= 4}"
-      >
-        <a class="steps__link" (click)="setStep(4)">
-          <span class="steps__number" [ngClass]="{'steps__number--current': step === 4, 'steps__number--valid': step != 4 }">4</span>
-          <span class="steps__number-mob-current">4. {{'Bank check' | translate}}</span>
-          <span class="steps__title">{{'Bank check' | translate}}</span>
-        </a>
-      </li> -->
     </ul>
     <div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/ 2</div>
   </div>
   <!-- modal header end -->
   
-  <div class="modal__content qubera-content">
     <app-step-one-withdraw
       *ngIf="step === 1"
+      [dataQubera]="qubera"
+      (nextStep)="nextStep(2)"
     >
     </app-step-one-withdraw>
     <app-step-two-withdraw
       *ngIf="step === 2"
     >
     </app-step-two-withdraw>
-  </div>
