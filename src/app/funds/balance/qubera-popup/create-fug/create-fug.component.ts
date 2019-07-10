@@ -9,6 +9,7 @@ export class CreateFugComponent implements OnInit {
   
   @Input() qubera;
   @Input() steper;
+  @Input() email;
   step: number;
 
   constructor() { }

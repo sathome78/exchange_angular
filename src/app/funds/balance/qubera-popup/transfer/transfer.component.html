@@ -4,8 +4,17 @@
 		<p>{{'Transaction confirmation' | translate}}To send money to your Exrates trading account, confirm the operation with a code and SMS.</p>
 		<form  [formGroup]="form">
 			<div class="input-block">
-				<input type="text" name="code" class="wrap-input__input" formControlName="code">
+				<input type="text" name="code" class="wrap-input__input" formControlName="code" required>
 				<label class="wrap-input__label" for="firstname">{{'Code' | translate}}</label>
+				<ng-container *ngIf="!currentCode.valid && !currentCode.untouched">
+					<div class="input-hint-wrapper">
+					   <span
+						 class="wrap-input__message"
+						 *ngIf="!currentCode.valid">
+						  {{'Code field is required.' | translate}}
+					   </span>
+					</div>
+				</ng-container>
 			</div>
 			<button
 				class="btn btn--center"

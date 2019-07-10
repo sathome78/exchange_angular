@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {BalanceItem} from '../models/balance-item.model';
@@ -182,6 +182,10 @@ export class BalanceService {
   getMaxCurrencyPairByName(currencyName: string) {
     const url = `${this.apiUrl}/api/public/v2/info/max/${currencyName}`;
     return this.http.get(url);
+  }
+
+  getBalanceQuberaInfo() {
+    return this.http.get(`${this.apiUrl}/api/private/v2/merchants/qubera/account/info`);
   }
 
 }

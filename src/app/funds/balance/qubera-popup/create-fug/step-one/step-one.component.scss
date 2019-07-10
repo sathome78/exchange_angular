@@ -71,63 +71,7 @@ form .action a {
         &:hover {
           background-color: transparent !important;
           border: 1px solid #237BEF !important;
-      }
-  }
-}
-}
-
-.read{
-    border: 1px solid #ECECEC;
-    border-radius: 2px;
-    display: block;
-    width: 16px;
-    height: 16px;
-    margin-right: 6px;
-    margin-top: -2px;
-    position: relative;
-    &::after{
-        content: "";
-        position: absolute;
-        top: 2px;
-        right: 0;
-        display: block;
-        width: 13px;
-        height: 10px;
-        content: "";
-        background-image: url(/step-valid.svg);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 100%;
-        opacity: 0;
-        transition: .3s;
-    }
-}
-
-.check{
-    display: flex;
-    align-items: center;
-    input{
-        &:checked{
-            &+label{
-                &::after{
-
-                    opacity: 1;
-                }
-            }
         }
+      }
     }
-    span{
-        font-weight: 400;
-        font-size: 13px;
-        line-height: 1.15;
-        color: #525F73;
-    }
-}
-
-.rules{
-    a{
-        color: #237BEF;
-        text-decoration: none;
-    }
-}
-
+  }

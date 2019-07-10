@@ -1,49 +1,98 @@
-
-
 <h2>{{'Create account FUG' | translate}}</h2>
 <h3>{{'The information you fill in must be co consistent with the information in ID documents.' | translate}}</h3>
 
 <form [formGroup]="form">
-  <div class="wrap-input">
-    <input class="wrap-input__input" name="country" formControlName="country" required>
-    <label class="wrap-input__label">{{'Country' | translate}}</label>
-  </div>
-  <div class="wrap-input">
-    <input class="wrap-input__input" name="firstName" formControlName="firstName" required>
-    <label class="wrap-input__label">{{'First name' | translate}}</label>
-  </div>
-  <div class="wrap-input">
-    <input class="wrap-input__input" name="lastName" formControlName="lastName" required>
-    <label class="wrap-input__label">{{'Last Name' | translate}}</label>
-  </div>
-  <div class="wrap-input">
-    <input class="wrap-input__input" name="birthDay" formControlName="birthDay" required>
-    <label class="wrap-input__label">{{'Date of Birthd' | translate}}</label>
-  </div>
-  <div class="wrap-input">
-    <input class="wrap-input__input" name="phone" formControlName="phone" required>
-    <label class="wrap-input__label">{{'Phone' | translate}}</label>
-  </div>
+    <div class="wrap-input" [ngClass]="{'wrap-input--error': !currentCountry.valid && currentCountry.touched}">
+      <input class="wrap-input__input" name="country" formControlName="country" required>
+      <label class="wrap-input__label">{{'Country' | translate}}</label>
 
-  <div class="rules">
-    <p>{{'Read terms and conditions.' | translate}} <a href="">FUG</a></p>
-    <div class="check">
-      <input type="checkbox"
-      class="accessibility-content"
-      id="read" 
-      formControlName="theCheckbox"
-      (change)="checked($event)"/>
-      <label for="read" class="read"></label>
-      <span>{{'I have read the rules' | translate}}</span>
+      <ng-container *ngIf="currentCountry.updateOn != 'blur'">
+        <div class="input-hint-wrapper">
+           <span
+             class="wrap-input__message"
+             *ngIf="currentCountry.updateOn != 'blur' && !currentCountry.valid">
+              {{'Country field is required.' | translate}}
+           </span>
+        </div>
+      </ng-container>
     </div>
-  </div>
+    <div class="wrap-input" [ngClass]="{'wrap-input--error': !currentFirstName.valid && currentFirstName.touched}">
+      <input class="wrap-input__input" name="firstName" formControlName="firstName" required>
+      <label class="wrap-input__label">{{'First name' | translate}}</label>
 
-  <div class="action">
-    <button (click)="gotToStepTwo(form)"
-    class="btn btn--center"
-    [ngClass]="{'btn--empty-blue': form.get('theCheckbox').value != true && form.invalid}"
-    [disabled]="form.get('theCheckbox').value != true && form.invalid"
-    >{{'Create account' | translate}}</button>
-  </div>
+      <ng-container *ngIf="currentFirstName.updateOn != 'blur'">
+        <div class="input-hint-wrapper">
+           <span
+             class="wrap-input__message"
+             *ngIf="currentFirstName.updateOn != 'blur' && !currentFirstName.valid">
+              {{'Firstname field is required.' | translate}}
+           </span>
+        </div>
+      </ng-container>
+    </div>
+    <div class="wrap-input" [ngClass]="{'wrap-input--error': !currentLastName.valid && currentLastName.touched}">
+      <input class="wrap-input__input" name="lastName" formControlName="lastName" required>
+      <label class="wrap-input__label">{{'Last Name' | translate}}</label>
+
+      <ng-container *ngIf="currentLastName.updateOn != 'blur'">
+        <div class="input-hint-wrapper">
+           <span
+             class="wrap-input__message"
+             *ngIf="currentLastName.updateOn != 'blur' && !currentLastName.valid">
+              {{'Lastname field is required.' | translate}}
+           </span>
+        </div>
+      </ng-container>
+    </div>
+    <div class="wrap-input" [ngClass]="{'wrap-input--error': !currentBirthDay.valid && currentBirthDay.touched}">
+      <input class="wrap-input__input" name="birthDay" formControlName="birthDay" required>
+      <label class="wrap-input__label">{{'Date of Birthd' | translate}}</label>
+
+      <ng-container *ngIf="!currentBirthDay.valid && !currentBirthDay.untouched">
+        <div class="input-hint-wrapper">
+           <span
+             class="wrap-input__message"
+             *ngIf="!currentBirthDay.valid">
+              {{'Birthday field is required.' | translate}}
+           </span>
+        </div>
+      </ng-container>
+    </div>
+    <div class="wrap-input" [ngClass]="{'wrap-input--error': !currentPhoneCode.valid && currentPhoneCode.touched}">
+      <input class="wrap-input__input" name="phone" formControlName="phone" required>
+      <label class="wrap-input__label">{{'Phone' | translate}}</label>
+
+      <ng-container *ngIf="!currentPhoneCode.valid && !currentPhoneCode.untouched">
+        <div class="input-hint-wrapper">
+           <span
+             class="wrap-input__message"
+             *ngIf="!currentPhoneCode.valid">
+              {{'Phone field is required.' | translate}}
+           </span>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="rules">
+      <p>{{'Read terms and conditions.' | translate}} <a href="">FUG</a></p>
+      <div class="check">
+        <!-- <input type="checkbox"
+            [(ngModel)]="theCheckbox"
+            [ngModelOptions]="{standalone: true}"
+            (change)="checked($event)"> -->
+            <input type="checkbox"
+                  formControlName="theCheckbox"
+                  (change)="checked($event)"/>
+        <span>{{'I have read the rules' | translate}}</span>
+      </div>
+    </div>
+
+    <div class="action">
+      <button (click)="gotToStepTwo(form)"
+      class="btn btn--center"
+      [ngClass]="{'btn--empty-blue': !form.valid || !check}"
+      [disabled]="!form.valid || !check"
+      >{{'Create account' | translate}}</button>
+    </div>
 
 </form>

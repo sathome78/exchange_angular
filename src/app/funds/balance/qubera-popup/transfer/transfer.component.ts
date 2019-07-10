@@ -33,4 +33,9 @@ export class TransferComponent implements OnInit {
     console.log(form);
   }
 
+  
+  get currentCode(): any {
+    return this.form.get('code');
+  }
+
 }

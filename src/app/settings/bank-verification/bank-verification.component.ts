@@ -73,10 +73,10 @@ export class BankVerificationComponent implements OnInit {
           Validators.required
         ]
       }),
-      // currencyCode: new FormControl('', {validators: [
-      //     Validators.required
-      //   ]
-      // })
+      currencyCode: new FormControl('', {validators: [
+          Validators.required
+        ]
+      })
     })
   }
 
@@ -88,13 +88,13 @@ export class BankVerificationComponent implements OnInit {
     this.currentAddress.markAsTouched();
     this.currentCity.markAsTouched();
     this.currentCountryCode.markAsTouched();
-    // this.currentcurrencyCode.markAsTouched();
+    this.currentcurrencyCode.markAsTouched();
     this.currentFirstName.updateValueAndValidity();
     this.currentLastName.updateValueAndValidity();
     this.currentAddress.updateValueAndValidity();
     this.currentCity.updateValueAndValidity();
     this.currentCountryCode.updateValueAndValidity();
-    // this.currentcurrencyCode.updateValueAndValidity();
+    this.currentcurrencyCode.updateValueAndValidity();
   }
 
   onSubmit() {
@@ -108,7 +108,7 @@ export class BankVerificationComponent implements OnInit {
       verification.address = obj.address;
       verification.city = obj.city;
       verification.countryCode = obj.countryCode;
-      // verification.currencyCode = obj.currencyCode;
+      verification.currencyCode = obj.currencyCode;
       console.log(obj);
       this.settingsService.postBankVerification(obj).subscribe((bankVerify: BankVerification) => {
         console.log(bankVerify);

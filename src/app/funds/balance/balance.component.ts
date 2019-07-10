@@ -27,6 +27,7 @@ import {IEOServiceService} from 'app/shared/services/ieoservice.service';
 import {IEOItem} from 'app/model/ieo.model';
 import {BALANCE_TABS} from './balance-constants';
 import {DetailedCurrencyPair} from '../../model/detailed-currency-pair';
+import { getUserInfo } from '../../core/reducers';
 
 
 @Component({
@@ -49,6 +50,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public existQuberaAccounts: string = PENDING;
   public showContent: boolean = environment.showContent;
   public userInfo: ParsedToken;
+  public email: string;
+  private token: any;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
   public quberaBalances$: Observable<any[]>;
@@ -176,6 +179,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.openQuberaPopup(res);
       });
+      this.getBalanceInfo();
+    this.getUserInfo();
+  }
+
+  private getBalanceInfo() {
+    this.balanceService.getQuberaBalancesInfo().subscribe(data => {
+      console.log(data);
+    })
   }
 
   private setCurrTab(tab: string): string {
@@ -447,6 +458,18 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe((res: IEOItem[]) => {
           this.store.dispatch(new fundsAction.SetIEOBalancesAction(res));
       });
+  }
+
+  private getUserInfo() {
+    this.store
+      .pipe(first(),
+            select(getUserInfo),
+            takeUntil(this.ngUnsubscribe))
+      .subscribe(data => {
+        console.log(data);
+        this.email = data.username;
+        this.token = data.token_id
+      })
   }
 
 }
