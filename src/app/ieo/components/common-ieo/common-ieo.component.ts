@@ -257,6 +257,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: KycIEOModel) => {
         if (res) {
+          // console.log(res)
           this.requirements = res;
           this.openBuyPopup();
         }

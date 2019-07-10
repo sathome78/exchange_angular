@@ -107,7 +107,7 @@ export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
 
   sendStepOne() {
     this.load = true;
-    this.settingsService.getIframeUrlForKYC(this.verificationStatus === LEVEL_ONE ? LEVEL_TWO : LEVEL_ONE, this.selectedLanguage.languageCode, this.selectedCountry.countryCode)
+    this.settingsService.getIframeUrlForKYC(this.selectedLanguage.languageCode, this.selectedCountry.countryCode)
       .subscribe(res => {
         this.load = false;
         this.goToSecondStep.emit(res);

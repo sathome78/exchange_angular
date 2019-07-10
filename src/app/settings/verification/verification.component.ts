@@ -69,7 +69,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   }
 
   onOpenKYCPopup(level: number, ) {
-    if (level === 1 && this.verificationStatus === NOT_VERIFIED || level === 2 && this.verificationStatus === LEVEL_ONE) {
+    if (this.verificationStatus === NOT_VERIFIED) {
       this.popupService.showKYCPopup(1);
     }
   }
