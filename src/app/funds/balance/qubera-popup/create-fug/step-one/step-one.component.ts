@@ -1,9 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
-import { State, getUserInfo } from 'app/core/reducers';
-import { takeUntil, switchMap, first } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { State } from 'app/core/reducers';
+import { first } from 'rxjs/operators';
 import { UserService } from 'app/shared/services/user.service';
 
 @Component({
@@ -19,9 +18,6 @@ export class StepOneComponent implements OnInit {
     
     this.initForm();
   }
-
-  
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   form: FormGroup;
   check: boolean = false;
@@ -107,11 +103,9 @@ export class StepOneComponent implements OnInit {
   //   this.store
   //     .pipe(first(),
   //           select(getUserInfo),
-  //           takeUntil(this.ngUnsubscribe),
   //           switchMap(user => this.mail = user.username))
   //     .pipe(first(),
-  //           switchMap(data => {return this.userService.getUserGoogleLoginEnabled(this.mail)}),
-  //           takeUntil(this.ngUnsubscribe))
+  //           switchMap(data => {return this.userService.getUserGoogleLoginEnabled(this.mail)}))
   //     .subscribe(user => {
   //       console.log(user);
   //     });

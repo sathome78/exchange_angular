@@ -463,8 +463,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   private getUserInfo() {
     this.store
       .pipe(first(),
-            select(getUserInfo),
-            takeUntil(this.ngUnsubscribe))
+            select(getUserInfo))
       .subscribe(data => {
         console.log(data);
         this.email = data.username;

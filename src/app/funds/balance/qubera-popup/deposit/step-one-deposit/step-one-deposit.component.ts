@@ -22,11 +22,11 @@ export class StepOneDepositComponent implements OnInit {
     private store: Store<State>,
     public balanceService: BalanceService,) { }
   
-  @Input() refillData: any;
+  @Input() quberaBank: any;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public fiatNames: CurrencyBalanceModel[] = [];
   public defaultFiatNames: CurrencyBalanceModel[] = [];
-  public openBankSystemDropdown = false;
+  public openPaymentSystemDropdown = false;
   public openCurrencyDropdown = false;
   public fiatDataByName;
   public selectedMerchant;
@@ -34,21 +34,15 @@ export class StepOneDepositComponent implements OnInit {
   public selectedMerchantNested;
   public minRefillSum: number = 0;
   public merchants;
+  public searchTemplate = '';
   public activeFiat;
   public alphabet;
-
-
-  public banks = [
-    {name: "Qubera bak"}
-  ];
-
-  public selectedBank = this.banks[0].name;
-
   form: FormGroup;
   @ViewChild('content') content: ElementRef;
 
   ngOnInit() {
     this.initForm();
+    this.merchants = this.quberaBank.balance.merchantCurrencyData;
 
     this.store
       .pipe(select(getFiatCurrenciesForChoose))
@@ -68,6 +62,24 @@ export class StepOneDepositComponent implements OnInit {
     this.getDataByCurrency(currency.name);
   }
 
+  selectMerchant(merchant, merchantImage = null) {
+    this.selectedMerchantNested = merchantImage;
+    this.selectMerchantName =  merchantImage.image_name  || merchant.name;
+    this.selectedMerchant = merchant;
+    this.form.get('amount').updateValueAndValidity();
+    this.togglePaymentSystemDropdown();
+    this.setMinRefillSum();
+  }
+
+  togglePaymentSystemDropdown() {
+    this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
+    this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
+      ? this.fiatDataByName.merchantCurrencyData
+      : [];
+    this.searchTemplate = '';
+    this.openCurrencyDropdown = false;
+  }
+
   initForm() {
     this.form = new FormGroup({
       amount: new FormControl('')
@@ -78,7 +90,7 @@ export class StepOneDepositComponent implements OnInit {
     if ($event.target.className !== 'select__value select__value--active'
         && $event.target.className !== 'select__value select__value--active select__value--error'
         && $event.target.className !== 'select__search-input') {
-      this.openBankSystemDropdown = false;
+      this.openPaymentSystemDropdown = false;
       this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
         ? this.fiatDataByName.merchantCurrencyData
         : [];
@@ -106,17 +118,24 @@ export class StepOneDepositComponent implements OnInit {
       : parseFloat(this.selectedMerchant.minSum);
   }
 
+  searchMerchant(e) {
+    this.searchTemplate = e.target.value;
+    this.merchants = this.fiatDataByName.merchantCurrencyData.filter(merchant =>
+      !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
+    );
+  }
+
   
   toggleCurrencyDropdown() {
     this.openCurrencyDropdown = !this.openCurrencyDropdown;
-    this.openBankSystemDropdown = false;
+    this.openPaymentSystemDropdown = false;
     this.prepareAlphabet();
   }
 
   
   
   bankDropdownToggle() {
-    this.openBankSystemDropdown = !this.openBankSystemDropdown;
+    this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
     this.openCurrencyDropdown = false;
   }
 
@@ -124,8 +143,9 @@ export class StepOneDepositComponent implements OnInit {
 
   setActiveFiat() {
     let currency;
-    if (this.refillData && this.refillData.currencyId) {
-      currency = this.fiatNames.filter(item => +item.id === +this.refillData.currencyId);
+    console.log(this.quberaBank.balance);
+    if (this.quberaBank.balance && this.quberaBank.balance.currenciesId[0]) {
+      currency = this.fiatNames.filter(item => +item.id === +this.quberaBank.balance.currenciesId[0]);
     }
     this.activeFiat = (currency && currency.length) ? currency[0] : this.fiatNames[0];
   }
