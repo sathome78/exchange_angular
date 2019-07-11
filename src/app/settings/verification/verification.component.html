@@ -5,7 +5,11 @@
     {{'We dont know what exactly, but we will!' | translate}} {{'For sure.' | translate}}</div>
   <div class="row settings__buttons-row">
     <div class="settings-button-wr">
-      <button class="btn settings__btn" (click)="onOpenKYCPopup(1)"
+      <!-- REMOVE "DISABLED" WHEN YOU NEED UNBLOCK KYC -->
+      <button
+        [disabled]="true"
+        class="btn settings__btn"
+        (click)="onOpenKYCPopup(1)"
         [ngClass]="{'active': verificationStatus === NOT_VERIFIED}">
         <span class="btn__icon btn__icon--blue btn__icon--hover-white">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
@@ -16,6 +20,10 @@
         </span>
         <span class="button__text">{{'Verification ID Document' | translate}}</span>
       </button>
+    </div>
+    <!-- HIDE THIS  WHEN YOU NEED UNBLOCK KYC -->
+    <div class="subtitle settings__content-subtitle mt-20">
+      {{'Functional is deactivated!' | translate}}
     </div>
 
   </div>

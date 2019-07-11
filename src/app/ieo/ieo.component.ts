@@ -86,8 +86,6 @@ export class IEOComponent implements OnInit, OnDestroy {
               .pipe(takeUntil(this.ngUnsubscribe$))
               .subscribe((res: KycIEOModel) => {
                 if (res) {
-                  // TODO remove this hardcode after releasing contry check on backend side
-                  res.countryCheck = true;
                   this.requirements = res;
                   this.verificationStatus = Object.values(res).every((i) => i);
                   // this.requirements = new KycIEOModel(true, true, true);
