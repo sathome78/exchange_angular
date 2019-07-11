@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {KYC_STATUS, PENDING} from 'app/shared/constants';
+import { PopupService } from 'app/shared/services/popup.service';
 
 @Component({
   selector: 'app-qubera-table',
@@ -18,9 +19,14 @@ export class QuberaTableComponent implements OnInit {
   public 'KYC_STATUS' = KYC_STATUS;
   public 'PENDING' = PENDING;
 
-  constructor() { }
+  constructor(
+    private popupService: PopupService) { }
 
   ngOnInit() {
+  }
+
+  showPopup() {
+    this.popupService.showSomePopupQubera(true);
   }
 
 }

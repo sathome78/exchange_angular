@@ -150,14 +150,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
         console.log(status);
         this.kycStatus = status;
         if (this.kycStatus === KYC_STATUS.SUCCESS) {
-          console.log('true');
           // todo:
           // CHECK IF EXIST QUBERA ACCOUNT by  /api/private/v2/merchants/qubera/account/check/:currencyName
           this.existQuberaAccounts = null;
           // IF EXIST ACCOUNT LOAD QUBERA BALANCE dispatch loadQuberaBal
           // this.store.dispatch(new fundsAction.LoadQuberaBalAction());
         } else {
-          console.log('false');
           this.existQuberaAccounts = null;
         }
       });
@@ -185,7 +183,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   private getBalanceInfo() {
     this.balanceService.getQuberaBalancesInfo().subscribe(data => {
-      console.log(data);
+      // console.log(data);
     })
   }
 
@@ -312,7 +310,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public goToCryptoWithdrawPopup(balance: BalanceItem): void {
     // this.popupService.demoPopupMessage = 1;
     // this.popupService.showDemoTradingPopup(true);
-    console.log(balance);
     this.showSendMoneyPopup = true;
     this.sendMoneyData = {
       step: 2,
@@ -465,7 +462,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .pipe(first(),
             select(getUserInfo))
       .subscribe(data => {
-        console.log(data);
         this.email = data.username;
         this.token = data.token_id
       })

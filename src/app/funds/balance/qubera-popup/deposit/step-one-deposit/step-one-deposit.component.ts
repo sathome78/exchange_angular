@@ -9,6 +9,8 @@ import { getFiatCurrenciesForChoose, State } from 'app/core/reducers';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { BalanceService } from 'app/funds/services/balance.service';
+import { CommissionData } from 'app/funds/models/commission-data.model';
+import { defaultCommissionData } from 'app/funds/store/reducers/default-values';
 
 
 @Component({
@@ -33,10 +35,14 @@ export class StepOneDepositComponent implements OnInit {
   public selectMerchantName;
   public selectedMerchantNested;
   public minRefillSum: number = 0;
+  public amountValue: number = 0;
+  public activeBalance: number = 0;
+  public minWithdrawSum: number = 0;
   public merchants;
   public searchTemplate = '';
   public activeFiat;
   public alphabet;
+  public calculateData: CommissionData = defaultCommissionData;
   form: FormGroup;
   @ViewChild('content') content: ElementRef;
 
@@ -116,6 +122,7 @@ export class StepOneDepositComponent implements OnInit {
     this.minRefillSum = this.fiatDataByName.minRefillSum > parseFloat(this.selectedMerchant.minSum)
       ? this.fiatDataByName.minRefillSum
       : parseFloat(this.selectedMerchant.minSum);
+      console.log(this.minRefillSum);
   }
 
   searchMerchant(e) {
@@ -123,6 +130,46 @@ export class StepOneDepositComponent implements OnInit {
     this.merchants = this.fiatDataByName.merchantCurrencyData.filter(merchant =>
       !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
     );
+  }
+
+  amountBlur(event) {
+    if (event && this.form.controls['amount'].valid) this.calculateCommission(this.amountValue);
+  }
+
+  amountInput(event) {
+    this.amountValue = event.target.value;
+  }
+  isMaxThenActiveBalance(): {[key: string]: any} | null {
+    if (+this.activeBalance < +this.amountValue) {
+      return {'isMaxThenActiveBalance': true};
+    }
+    return null;
+  }
+
+  isMinThenMinWithdraw(): {[key: string]: any} | null {
+    if (+this.minWithdrawSum > +this.amountValue) {
+      return {'isMinThenMinWithdraw': true};
+    }
+    return null;
+  }
+
+  calculateCommission(amount) {
+    if (this.form.controls['amount'].valid && this.selectedMerchant.merchantId) {
+      this.balanceService
+        .getCommissionToWithdraw(amount, this.activeFiat.id, this.selectedMerchant.merchantId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.calculateData = res as CommissionData;
+          const compCommission = parseFloat(this.calculateData.companyCommissionRate.replace('%)', '').replace('(', ''));
+          this.calculateData.commission_rates_sum = +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
+          console.log(this.calculateData);
+        });
+    } else {
+      const outCommission = !!this.selectedMerchant ? this.selectedMerchant.outputCommission : 0;
+      const fixCommission = !!this.selectedMerchant ? this.selectedMerchant.fixedMinCommission : 0;
+      this.calculateData.merchantCommissionRate = `(${outCommission}%, but not less than ${fixCommission} USD)`;
+      console.log(this.calculateData);
+    }
   }
 
   
@@ -143,7 +190,6 @@ export class StepOneDepositComponent implements OnInit {
 
   setActiveFiat() {
     let currency;
-    console.log(this.quberaBank.balance);
     if (this.quberaBank.balance && this.quberaBank.balance.currenciesId[0]) {
       currency = this.fiatNames.filter(item => +item.id === +this.quberaBank.balance.currenciesId[0]);
     }

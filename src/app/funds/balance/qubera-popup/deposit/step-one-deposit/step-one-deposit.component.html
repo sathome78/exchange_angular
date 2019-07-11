@@ -57,14 +57,17 @@
             </ul>
           </div>
         </div>
-        <app-price-input  style="display: inline-block;"
-        [placeholder]="'Amount'"
-        formControlName="amount"
-        name="amount"
-        class="fiat-amount"
-        >
+        <!-- <app-price-input  style="display: inline-block;"
+          [placeholder]="'Amount'"
+          [currencyName]="activeFiat.name"
+          (customInput)="amountInput($event)"
+          (customBlur)="amountBlur($event)"
+          formControlName="amount"
+          name="amount"
+          class="fiat-amount"
+          >
 
-      </app-price-input>
+        </app-price-input> -->
     </div>
   </form>
   <div class="info-block" id="pdf-download">
@@ -94,7 +97,7 @@
       </div>
     </div>
     <div class="right-part">
-      <div class="left-block">
+      <!-- <div class="left-block">
         <div class="item-info">
           <span class="key-info">Amount</span>
           <span class="value-info">1,111,821.00 EUR</span>
@@ -115,7 +118,7 @@
           <span class="key-info">Total (with comission)</span>
           <span class="value-info">1,111,821.00 EUR</span>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <button class="btn btn--active balance__title-btn">OK</button>

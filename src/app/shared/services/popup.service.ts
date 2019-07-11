@@ -12,9 +12,11 @@ export class PopupService {
   private onOpenIdentityPopupListener = new ReplaySubject<string>();
   private onOpenKYCPopupListener = new ReplaySubject<KycSubjectInterface>();
   private onLoginPopupListener = new Subject<boolean>();
+  private onQuberaPopupListener = new Subject<boolean>();
   private onDemoTradingPopupListener = new Subject<boolean>();
   private onRecoveryPasswordListener = new Subject<boolean>();
   private onMobileLoginPopupListener = new Subject<boolean>();
+  private onQuberaBankPopupListener = new Subject<boolean>();
   private onMobileRegistrationPopupListener = new Subject<boolean>();
   private onAlreadyRegisteredPopupListener = new Subject<boolean>();
   private onInfoPopupListener = new ReplaySubject<PopupData>();
@@ -72,6 +74,10 @@ export class PopupService {
     this.onMobileLoginPopupListener.next(state);
   }
 
+  showSomePopupQubera(state: boolean) {
+    this.onQuberaBankPopupListener.next(state);
+  }
+
   showRecoveryPasswordPopup(state: boolean) {
     this.onRecoveryPasswordListener.next(state);
   }
@@ -127,6 +133,10 @@ export class PopupService {
 
   public getLoginPopupListener(): Subject<boolean> {
     return this.onLoginPopupListener;
+  }
+
+  public getQuberaPopupListener(): Subject<boolean> {
+    return this.onQuberaBankPopupListener;
   }
 
   public getRecoveryPasswordListener(): Subject<boolean> {
@@ -293,6 +303,10 @@ export class PopupService {
 
   closeMobileLoginPopup() {
     this.onMobileLoginPopupListener.next(false);
+  }
+
+  closeQuberaPopup() {
+    this.onQuberaBankPopupListener.next(false);
   }
 
   closeRegistrationPopup() {

@@ -33,7 +33,7 @@
         <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="cryptoDepositQuberaOut.emit(true)">{{'Deposit' | translate}}</button>
       </td>
       <td class="table__cell">
-        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="transferQuberaOut.emit(true)" >{{'Transfer' | translate}}</button>
+        <!-- <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="transferQuberaOut.emit(true)" >{{'Transfer' | translate}}</button> -->
       </td>
       <td class="table__cell">
         <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="cryptoWithdrawQuberaOut.emit(true)">{{'Withdraw' | translate}}</button>
@@ -141,7 +141,7 @@
               </div>
 
 
-             <button class="btn btn--active balance__title-btn">button for popup</button>
+             <button class="btn btn--active balance__title-btn" (click)="showPopup()">button for popup</button>
     <!-- <div class="qubera-icon">
       <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M4.14605 7.02734H6.0973L6.39013 16.003H3.90234L4.14605 7.02734Z" fill="white"/>
