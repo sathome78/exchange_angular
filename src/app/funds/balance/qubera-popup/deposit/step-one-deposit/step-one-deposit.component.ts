@@ -11,6 +11,7 @@ import { Subject } from 'rxjs';
 import { BalanceService } from 'app/funds/services/balance.service';
 import { CommissionData } from 'app/funds/models/commission-data.model';
 import { defaultCommissionData } from 'app/funds/store/reducers/default-values';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class StepOneDepositComponent implements OnInit {
   public defaultFiatNames: CurrencyBalanceModel[] = [];
   public openPaymentSystemDropdown = false;
   public openCurrencyDropdown = false;
+  public fiatArrayData;
   public fiatDataByName;
   public selectedMerchant;
   public selectMerchantName;
@@ -55,7 +57,8 @@ export class StepOneDepositComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(currencies => {
         this.defaultFiatNames = currencies;
-        this.fiatNames = this.defaultFiatNames;
+        // this.fiatNames = this.defaultFiatNames;
+        this.fiatNames.push(this.defaultFiatNames[2]);
         this.setActiveFiat();
         if (this.activeFiat) this.getDataByCurrency(this.activeFiat.name);
         this.prepareAlphabet();
@@ -108,8 +111,13 @@ export class StepOneDepositComponent implements OnInit {
     this.balanceService.getCurrencyRefillData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.fiatDataByName = res;
-        this.merchants = this.fiatDataByName.merchantCurrencyData;
+        // this.fiatDataByName = res;
+        this.fiatArrayData = res;
+        this.fiatDataByName = _.filter(this.fiatArrayData.merchantCurrencyData, function(item){
+          return item.name == 'Qubera';
+        });
+        // this.merchants = this.fiatDataByName.merchantCurrencyData;
+        this.merchants = this.fiatDataByName;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
@@ -122,7 +130,6 @@ export class StepOneDepositComponent implements OnInit {
     this.minRefillSum = this.fiatDataByName.minRefillSum > parseFloat(this.selectedMerchant.minSum)
       ? this.fiatDataByName.minRefillSum
       : parseFloat(this.selectedMerchant.minSum);
-      console.log(this.minRefillSum);
   }
 
   searchMerchant(e) {

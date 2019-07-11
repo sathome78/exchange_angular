@@ -19,13 +19,7 @@ export class BankVerificationComponent implements OnInit {
   public countryArray: KycCountry[] = [];
   public countryArrayDefault: KycCountry[] = [];
   @ViewChild('countryInput') countryInput: ElementRef;
-
-  isCurrentFirstName: Boolean = false;
-  isCurrentLastName: Boolean = false;
-  isCurrentAddress: Boolean = false;
-  isCurrentCity: Boolean = false;
-  isCurrentCountryCode: Boolean = false;
-  isCurrentCurrencyCode: Boolean = false;
+  
   public openCountryDropdown: Boolean = false;
   public showCountryLabelFlag: Boolean = false;
   public selectedCountry;
@@ -41,14 +35,6 @@ export class BankVerificationComponent implements OnInit {
 
   ngOnInit() {
     this.getCountryCode();
-  }
-
-  getCountryCode() {
-    this.settingsService.getCountriesKYC().pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.countryArrayDefault = res as KycCountry[];
-        this.countryArray = this.countryArrayDefault;
-      });
   }
 
   initFormVerificationBank() {
@@ -88,13 +74,13 @@ export class BankVerificationComponent implements OnInit {
     this.currentAddress.markAsTouched();
     this.currentCity.markAsTouched();
     this.currentCountryCode.markAsTouched();
-    this.currentcurrencyCode.markAsTouched();
+    // this.currentcurrencyCode.markAsTouched();
     this.currentFirstName.updateValueAndValidity();
     this.currentLastName.updateValueAndValidity();
     this.currentAddress.updateValueAndValidity();
     this.currentCity.updateValueAndValidity();
     this.currentCountryCode.updateValueAndValidity();
-    this.currentcurrencyCode.updateValueAndValidity();
+    // this.currentcurrencyCode.updateValueAndValidity();
   }
 
   onSubmit() {
@@ -108,7 +94,7 @@ export class BankVerificationComponent implements OnInit {
       verification.address = obj.address;
       verification.city = obj.city;
       verification.countryCode = obj.countryCode;
-      verification.currencyCode = obj.currencyCode;
+      // verification.currencyCode = obj.currencyCode;
       console.log(obj);
       this.settingsService.postBankVerification(obj).subscribe((bankVerify: BankVerification) => {
         console.log(bankVerify);
@@ -137,13 +123,22 @@ export class BankVerificationComponent implements OnInit {
 
     // DROPDOWN COUNTRY 
    /** Are listening click in document */
-   @HostListener('document:click', ['$event']) clickout({target}) {
+  @HostListener('document:click', ['$event']) clickout({target}) {
     if (target.className !== 'select__value select__value--active' &&
       target.className !== 'select__search-input no-line' &&
       target.className !== 'select__triangle') {
       this.countryInput.nativeElement.value = this.selectedCountry ? this.selectedCountry.countryName : '';
       this.openCountryDropdown = false;
     }
+  }
+  
+
+  getCountryCode() {
+    this.settingsService.getCountriesKYC().pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.countryArrayDefault = res as KycCountry[];
+        this.countryArray = this.countryArrayDefault;
+      });
   }
 
   countryDropdownToggle(value = null) {

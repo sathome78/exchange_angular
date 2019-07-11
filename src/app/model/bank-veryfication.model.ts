@@ -1,8 +1,8 @@
 export class BankVerification {
-    firstName: String;
-    lastName: String;
-    address: String;
-    city: String;
-    countryCode: String;
-    currencyCode: String;
+    firstName: string;
+    lastName: string;
+    address: string;
+    countryCode: string;
+    city: string;
+    currencyCode: string;
 }

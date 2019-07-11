@@ -36,8 +36,8 @@ export class QuberaPopupComponent implements OnInit {
 
   ngOnInit() {
     this.setComponent();
-    console.log(this.optionData);
-    console.log(this.steper);
+    // console.log(this.optionData);
+    // console.log(this.steper);
   }
 
   setComponent() {

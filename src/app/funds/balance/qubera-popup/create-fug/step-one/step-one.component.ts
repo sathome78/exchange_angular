@@ -1,9 +1,14 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { FormGroup, FormControl, Validators, FormControlName } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { State } from 'app/core/reducers';
-import { first } from 'rxjs/operators';
+import { first, takeUntil } from 'rxjs/operators';
 import { UserService } from 'app/shared/services/user.service';
+import { Subject } from 'rxjs';
+import { KycCountry } from 'app/shared/interfaces/kyc-country-interface';
+import { SettingsService } from 'app/settings/settings.service';
+import { BalanceService } from 'app/funds/services/balance.service';
+import { BankVerification } from 'app/model/bank-veryfication.model';
 
 @Component({
   selector: 'app-step-one',
@@ -14,6 +19,8 @@ export class StepOneComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private balanceService: BalanceService,
+    private settingsService: SettingsService,
     private store: Store<State>,) {
     
     this.initForm();
@@ -25,10 +32,22 @@ export class StepOneComponent implements OnInit {
   @Output() public nextStep: EventEmitter<any> = new EventEmitter();
   @Input() public email: string;
 
+
+  // country
+  
+  public openCountryDropdown: Boolean = false;
+  public showCountryLabelFlag: Boolean = false;
+  public selectedCountry;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public countryArray: KycCountry[] = [];
+  public countryArrayDefault: KycCountry[] = [];
+  @ViewChild('countryInput') countryInput: ElementRef;
+
   ngOnInit() {
 
     // this.checkUserInfo();
 
+    this.getCountryCode();
     this.checkEmail(this.email);
   }
 
@@ -45,6 +64,10 @@ export class StepOneComponent implements OnInit {
           Validators.required,
         ]
       }),
+      countryCode: new FormControl('', {validators: [
+          Validators.required
+        ]
+      }),
       firstName: new FormControl('', {validators: [
           Validators.required
         ]
@@ -53,18 +76,18 @@ export class StepOneComponent implements OnInit {
           Validators.required
         ]
       }),
-      birthDay: new FormControl('', {validators: [
+      address: new FormControl('', {validators: [
           Validators.required
         ]
       }),
-      phone: new FormControl('', {validators: [
+      city: new FormControl('', {validators: [
           Validators.required
         ]
       }),
       theCheckbox: new FormControl('', {validators: [
           Validators.required
         ]
-      })
+      }),
     });
     this.form.controls.theCheckbox.setValue(false);
   }
@@ -78,21 +101,77 @@ export class StepOneComponent implements OnInit {
   get currentLastName(): any {
     return this.form.get('lastName');
   }
-  get currentBirthDay(): any {
-    return this.form.get('birthDay');
+  get currentAddress(): any {
+    return this.form.get('address');
   }
-  get currentPhoneCode(): any {
-    return this.form.get('phone');
+  get currentCity(): any {
+    return this.form.get('city');
   }
 
   gotToStepTwo(form: any) {
-      console.log(form);
-      this.nextStep.emit(2);
+      if(form.valid && this.form.controls.theCheckbox.value == true) {
+        console.log(form);
+        let account: BankVerification = {
+          firstName: form.value.firstName,
+          lastName: form.value.lastName,
+          address: form.value.address,
+          countryCode: form.value.countryCode,
+          city: form.value.city,
+          currencyCode: 'euro'
+        };
+        console.log(account);
+        let obj = new Object;
+        console.log(obj);
+        this.balanceService.postFUGAccount(obj).pipe(first()).subscribe(responce => {
+          console.log(responce);
+          this.nextStep.emit(2);
+        });
+      }
   }
 
   checked(e) {
     this.check = e.target.checked;
     this.form.controls.theCheckbox.setValue(e.target.checked);
+  }
+
+
+  @HostListener('document:click', ['$event']) clickout({target}) {
+    if (target.className !== 'select__value select__value--active'
+      && target.className !== 'select__value select__value--active select__value--error'
+      && target.className !== 'select__search-input') {
+      this.countryInput.nativeElement.value = this.selectedCountry ? this.selectedCountry.countryName : '';
+      this.openCountryDropdown = false;
+    }
+  }
+  
+
+  getCountryCode() {
+    this.settingsService.getCountriesKYC().pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.countryArrayDefault = res as KycCountry[];
+        this.countryArray = this.countryArrayDefault;
+        console.log(this.countryArray);
+      });
+  }
+
+  countryDropdownToggle() {
+    this.countryInput.nativeElement.value = this.selectedCountry ? this.selectedCountry.countryName : '';
+    this.openCountryDropdown = !this.openCountryDropdown;
+    this.countryArray = this.countryArrayDefault;
+  }
+  showCountryLabel(flag: boolean) {
+    this.showCountryLabelFlag = flag;
+  }
+
+  selectCountry(country) {
+    this.selectedCountry = country;
+    this.countryDropdownToggle();
+    this.form.controls.country.setValue(country.countryName);
+    this.form.controls.countryCode.setValue(country.countryCode);
+  }
+  
+  searchCountry(e) {
+    this.countryArray = this.countryArrayDefault.filter(f => f.countryName.toUpperCase().match(e.target.value.toUpperCase()));
   }
 
 

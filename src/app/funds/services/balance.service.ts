@@ -7,6 +7,7 @@ import {MyBalanceItem} from '../../model/my-balance-item.model';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
 import {Router} from '@angular/router';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
+import { BankVerification } from 'app/model/bank-veryfication.model';
 
 @Injectable()
 export class BalanceService {
@@ -186,6 +187,10 @@ export class BalanceService {
 
   getBalanceQuberaInfo() {
     return this.http.get(`${this.apiUrl}/api/private/v2/merchants/qubera/account/info`);
+  }
+
+  postFUGAccount(body: any) {
+    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/account/create`, body);
   }
 
 }

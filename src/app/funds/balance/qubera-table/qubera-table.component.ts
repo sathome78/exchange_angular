@@ -26,7 +26,7 @@ export class QuberaTableComponent implements OnInit {
   }
 
   showPopup() {
-    this.popupService.showSomePopupQubera(true);
+    this.popupService.showSomePopupQubera("1");
   }
 
 }

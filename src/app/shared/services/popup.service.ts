@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ReplaySubject, Subject} from 'rxjs';
+import {ReplaySubject, Subject, BehaviorSubject} from 'rxjs';
 import {LoggingService} from './logging.service';
 import {PopupData} from '../interfaces/popup-data-interface';
 import {KycSubjectInterface} from '../interfaces/kyc-subject-interface';
@@ -12,11 +12,10 @@ export class PopupService {
   private onOpenIdentityPopupListener = new ReplaySubject<string>();
   private onOpenKYCPopupListener = new ReplaySubject<KycSubjectInterface>();
   private onLoginPopupListener = new Subject<boolean>();
-  private onQuberaPopupListener = new Subject<boolean>();
   private onDemoTradingPopupListener = new Subject<boolean>();
   private onRecoveryPasswordListener = new Subject<boolean>();
   private onMobileLoginPopupListener = new Subject<boolean>();
-  private onQuberaBankPopupListener = new Subject<boolean>();
+  private onQuberaBankPopupListener = new BehaviorSubject<string>('');
   private onMobileRegistrationPopupListener = new Subject<boolean>();
   private onAlreadyRegisteredPopupListener = new Subject<boolean>();
   private onInfoPopupListener = new ReplaySubject<PopupData>();
@@ -74,7 +73,7 @@ export class PopupService {
     this.onMobileLoginPopupListener.next(state);
   }
 
-  showSomePopupQubera(state: boolean) {
+  showSomePopupQubera(state: string) {
     this.onQuberaBankPopupListener.next(state);
   }
 
@@ -135,7 +134,7 @@ export class PopupService {
     return this.onLoginPopupListener;
   }
 
-  public getQuberaPopupListener(): Subject<boolean> {
+  public getQuberaPopupListener(): Subject<string> {
     return this.onQuberaBankPopupListener;
   }
 
@@ -306,7 +305,8 @@ export class PopupService {
   }
 
   closeQuberaPopup() {
-    this.onQuberaBankPopupListener.next(false);
+    this.onQuberaBankPopupListener.next('');
+    this.onQuberaBankPopupListener.complete();
   }
 
   closeRegistrationPopup() {
