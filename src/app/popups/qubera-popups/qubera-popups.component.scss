@@ -1,0 +1,110 @@
+.overlay{
+	.popup-l-s{
+		min-height: 292px;
+	}
+	.last-stage{
+		font-weight: 400;
+		font-size: 24px;
+		line-height: 1.15;
+		text-align: center;
+		color: #191A39;
+		margin-top: 48px;
+		margin-bottom: 7px;
+	}
+	p{
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 1.27;
+		text-align: center;
+		color: #191A39;
+		a{
+			color: #237BEF;
+			text-decoration: none;
+		}
+	}
+	.l-s-btn{
+		margin-top: auto;
+	}
+}
+
+
+.overlay{
+	.popup-p-b{
+		min-height: 292px;
+	}
+	.personal-ballance{
+		font-weight: 400;
+		font-size: 18px;
+		line-height: 1.27;
+		text-align: center;
+		color: #000;
+		margin-top: 23px;
+		margin-bottom: 22px;
+		b{
+			font-weight: 600;
+		}
+	}
+	p{
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 1.27;
+		text-align: center;
+		color: #191A39;
+	}
+	.p-b-btn{
+		max-width: 270px;
+		margin-top: auto;
+	}
+}
+
+
+.overlay{
+	.popup-auth{
+		min-height: 292px;
+	}
+	.auth{
+		font-weight: 400;
+		font-size: 24px;
+		line-height: 1.15;
+		text-align: center;
+		color: #191A39;
+		margin-top: 0;
+		margin-bottom: 27px;
+	}
+	p{
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 1.27;
+		text-align: center;
+		color: #191A39;
+		margin-bottom: 22px;
+	}
+	.a-btn{
+		margin-top: auto;
+	}
+	.popup__form{
+		max-width: 260px;
+		margin: 0 auto;
+		.wrap-input{
+
+		}
+		.wrap-input__input{
+
+		}
+		.wrap-input__label{
+
+		}
+
+		.input-hint-wrapper{
+
+		}
+		.wrap-input__message{
+
+		}
+		.popup__btn{
+			margin-top: 0;
+			max-width: unset;
+			margin-bottom: 12px;
+		}
+	}
+}
