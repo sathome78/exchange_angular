@@ -5,6 +5,7 @@ import { getFiatCurrenciesForChoose, State } from 'app/core/reducers';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import * as _uniq from 'lodash/uniq';
+import * as _ from 'lodash';
 import { CurrencyBalanceModel } from 'app/model';
 import { BalanceService } from 'app/funds/services/balance.service';
 
@@ -22,7 +23,9 @@ export class StepOneWithdrawComponent implements OnInit {
   public defaultFiatNames: CurrencyBalanceModel[] = [];
   public openBankSystemDropdown = false;
   public openCurrencyDropdown = false;
+  public searchTemplate: string = '';
   public fiatDataByName;
+  public fiatArrayData;
   public selectedMerchant;
   public selectMerchantName;
   public selectedMerchantNested;
@@ -30,12 +33,6 @@ export class StepOneWithdrawComponent implements OnInit {
   public merchants;
   public activeFiat;
   public alphabet;
-
-  public banks = [
-    {name: "Qubera bak"}
-  ];
-
-  public selectedBank = this.banks[0].name;
 
   constructor(
     private store: Store<State>,
@@ -50,7 +47,8 @@ export class StepOneWithdrawComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(currencies => {
         this.defaultFiatNames = currencies;
-        this.fiatNames = this.defaultFiatNames;
+        // this.fiatNames = this.defaultFiatNames;
+        this.fiatNames.push(this.defaultFiatNames[2]);
         this.setActiveFiat();
         if (this.activeFiat) this.getDataByCurrency(this.activeFiat.name);
         this.prepareAlphabet();
@@ -70,14 +68,28 @@ export class StepOneWithdrawComponent implements OnInit {
     this.balanceService.getCurrencyRefillData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.fiatDataByName = res;
-        this.merchants = this.fiatDataByName.merchantCurrencyData;
+        // this.fiatDataByName = res;
+        this.fiatArrayData = res;
+        this.fiatDataByName = _.filter(this.fiatArrayData.merchantCurrencyData, function(item){
+          return item.name == 'Qubera';
+        });
+        // this.merchants = this.fiatDataByName.merchantCurrencyData;
+        this.merchants = this.fiatDataByName;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
         this.form.get('amount').updateValueAndValidity();
         if (this.selectedMerchant) this.setMinRefillSum();
       });
+  }
+
+  togglePaymentSystemDropdown() {
+    this.openBankSystemDropdown = !this.openBankSystemDropdown;
+    this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
+      ? this.fiatDataByName.merchantCurrencyData
+      : [];
+    this.searchTemplate = '';
+    this.openCurrencyDropdown = false;
   }
 
   selectCurrency(currency) {

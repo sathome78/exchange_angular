@@ -80,3 +80,50 @@ form .select {
       }
     }
   }
+
+.read{
+    border: 1px solid #ECECEC;
+    cursor: pointer;
+    border-radius: 2px;
+    display: block;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    margin-top: -2px;
+    position: relative;
+    &::after{
+        content: "";
+        position: absolute;
+        top: 2px;
+        right: 0;
+        display: block;
+        width: 13px;
+        height: 10px;
+        content: "";
+        background-image: url(/step-valid.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100%;
+        opacity: 0;
+        transition: .3s;
+    }
+}
+
+#read {
+    display: none;
+}
+
+.check{
+    display: flex;
+    align-items: center;
+    input{
+        &:checked{
+            &+label{
+                &::after{
+
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}

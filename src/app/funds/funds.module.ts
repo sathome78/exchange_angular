@@ -75,6 +75,7 @@ import { StepFourComponent } from './balance/qubera-popup/create-fug/step-four/s
 import { StepOneDepositComponent } from './balance/qubera-popup/deposit/step-one-deposit/step-one-deposit.component';
 import { StepOneWithdrawComponent } from './balance/qubera-popup/withdraw/step-one-withdraw/step-one-withdraw.component';
 import { StepTwoWithdrawComponent } from './balance/qubera-popup/withdraw/step-two-withdraw/step-two-withdraw.component';
+import { QuberaMobComponent } from './balance/qubera-mob/qubera-mob.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -158,7 +159,8 @@ export function createTranslateLoader(http: HttpClient) {
     StepFourComponent,
     StepOneDepositComponent,
     StepOneWithdrawComponent,
-    StepTwoWithdrawComponent
+    StepTwoWithdrawComponent,
+    QuberaMobComponent
   ],
   providers: [
     BalanceService,

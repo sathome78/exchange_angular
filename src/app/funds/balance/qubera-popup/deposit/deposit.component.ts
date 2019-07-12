@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup} from '@angular/forms';
 import {BalanceService} from '../../../services/balance.service';
 import {select, Store} from '@ngrx/store';
@@ -18,6 +18,7 @@ export class DepositComponent implements OnInit {
   
   @Input() qubera;
   @Input() steper;
+  @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
   step: number;
   
   ngOnInit() {
@@ -28,7 +29,11 @@ export class DepositComponent implements OnInit {
     this.step = steper;
   }
 
+  
+
   onCloseSendMoneyPopup() {
-    console.log('hi')
+    setTimeout(() => {
+      this.closeSendQuberaPopup.emit(true);
+    }, 1000);
   }
 }

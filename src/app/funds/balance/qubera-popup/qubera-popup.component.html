@@ -3,7 +3,7 @@
     <!-- btn modal close -->
     <div class="modal__controls modal__controls--top">
       <a class="modal__button modal__button--close"
-         (click)="onCloseSendQuberaPopup()">
+         (click)="onCloseSendQuberaPopupMain()">
         <span>{{'close' | translate}}</span>
         <img class="modal__button-icon" src="../../../assets/img/close.svg">
       </a>
@@ -12,6 +12,7 @@
         *ngIf="component == 'WITHDRAW'"
         [steper]="steper"
         [qubera]="optionData"
+        (closeSendQuberaPopup)="onCloseSendQuberaPopupMain()"
       >
        </app-withdraw>
 
@@ -19,6 +20,7 @@
         *ngIf="component == 'TRANSFER'"
         [steper]="steper"
         [qubera]="optionData"
+        (closeSendQuberaPopup)="onCloseSendQuberaPopupMain()"
       >
       </app-transfer>
 
@@ -26,6 +28,7 @@
         *ngIf="component == 'DEPOSIT'"
         [steper]="steper"
         [qubera]="optionData"
+        (closeSendQuberaPopup)="onCloseSendQuberaPopupMain()"
       >
       </app-deposit>
       
@@ -34,6 +37,7 @@
         [steper]="steper"
         [qubera]="optionData"
         [email]="myEmail"
+        (closeSendQuberaPopup)="onCloseSendQuberaPopupMain()"
       >
       </app-create-fug>
   </div>
