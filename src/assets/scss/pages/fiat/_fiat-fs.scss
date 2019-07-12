@@ -526,19 +526,33 @@
 		text-align: center;
 		color: #191A39;
 		margin-bottom: 32px;
+		@media(max-width: 1200px){
+			color: #DEDEFB;
+		}
 	}
 
 	form{
 		border-bottom: 1px solid #ECECEC;
 		margin: 0 30px;
+		@media(max-width: 1200px){
+			border-bottom: 1px solid #94C2FF;
+		}
 	}
 
 	.main-form{
 		display: flex;
 		justify-content: space-between;
+		@media(max-width: 640px){
+			display: block;
+		}
 	}
 	.refill__select{
-		width: calc(33.3333% - 15px);
+		width: calc(50% - 15px);
+		max-width: unset;
+		@media(max-width: 640px){
+			width: 100%;
+			margin-bottom: 25px;
+		}
 	}
 	.select__value{
 
@@ -570,10 +584,18 @@
 		display: flex;
 		justify-content: space-between;
 		padding: 17px;
+		@media(max-width: 1200px){
+			border-bottom: 1px solid #94C2FF;
+		}
+
 		.left-part{
 			max-width: 230px;
 			width: 100%;
 			margin-right: 30px;
+			@media(max-width: 640px){
+				max-width: unset;
+				margin-right: 0;
+			}
 		}
 		.left-block{
 			display: flex;
@@ -594,6 +616,9 @@
 			font-size: 14px;
 			line-height: 1.44;
 			color: #4B4B4B;
+			@media(max-width: 1200px){
+				color: #94C2FF;
+			}
 		}
 		.value-info{
 			font-weight: 500;
@@ -601,6 +626,9 @@
 			line-height: 1.44;
 			text-align: right;
 			color: #000000;
+			@media(max-width: 1200px){
+				color: #DEDEFB;
+			}
 		}
 		.print{
 			margin: 0;
@@ -746,33 +774,33 @@
 }
 
 .fiat-create-acc-s2{
-    padding-top: 0;
-    margin-bottom: 0;
-    form{
-    	 input{
-    	 	margin-bottom: 10px;
-    	 }
-    }
-    .resend{
-    	margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        span{
-            font-weight: 400;
-            font-size: 12px;
-            line-height: 1.15;
-            color: #AAB1C4;
-        }
-        button{
-            font-weight: 400;
-            font-size: 12px;
-            line-height: 1.15;
-            text-align: center;
-            color: #237BEF;
-            border: none;
-            background: transparent;
-            outline: none;
+	padding-top: 0;
+	margin-bottom: 0;
+	form{
+		input{
+			margin-bottom: 10px;
+		}
+	}
+	.resend{
+		margin-bottom: 20px;
+		display: flex;
+		align-items: center;
+		span{
+			font-weight: 400;
+			font-size: 12px;
+			line-height: 1.15;
+			color: #AAB1C4;
+		}
+		button{
+			font-weight: 400;
+			font-size: 12px;
+			line-height: 1.15;
+			text-align: center;
+			color: #237BEF;
+			border: none;
+			background: transparent;
+			outline: none;
 
-        }
-    }
+		}
+	}
 }

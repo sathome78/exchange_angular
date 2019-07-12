@@ -8,7 +8,7 @@
       <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Total balance' | translate}}</th>
       <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Available balance' | translate}}</th>
       <th class="table__cell-head table__cell-head--tac">{{'Deposit' | translate}}</th>
-      <th class="table__cell-head table__cell-head--tac">{{'Transfer' | translate}}</th>
+      <!-- <th class="table__cell-head table__cell-head--tac">{{'Transfer' | translate}}</th> -->
       <th class="table__cell-head table__cell-head--tac">{{'Withdraw' | translate}}</th>
     </tr>
   </thead>
@@ -32,9 +32,9 @@
       <td class="table__cell">
         <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="cryptoDepositQuberaOut.emit(true)">{{'Deposit' | translate}}</button>
       </td>
-      <td class="table__cell">
+      <!-- <td class="table__cell"> -->
         <!-- <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="transferQuberaOut.emit(true)" >{{'Transfer' | translate}}</button> -->
-      </td>
+      <!-- </td> -->
       <td class="table__cell">
         <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="cryptoWithdrawQuberaOut.emit(true)">{{'Withdraw' | translate}}</button>
       </td>
