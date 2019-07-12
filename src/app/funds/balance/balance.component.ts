@@ -28,6 +28,7 @@ import {IEOItem} from 'app/model/ieo.model';
 import {BALANCE_TABS} from './balance-constants';
 import {DetailedCurrencyPair} from '../../model/detailed-currency-pair';
 import { getUserInfo } from '../../core/reducers';
+import { UserService } from 'app/shared/services/user.service';
 
 
 @Component({
@@ -83,6 +84,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   constructor(
     public balanceService: BalanceService,
     private store: Store<fromCore.State>,
+    private userService: UserService,
     private dashboardWS: DashboardWebSocketService,
     public breakpointService: BreakpointService,
     public ieoService: IEOServiceService,
@@ -119,6 +121,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
           console.error('publicId = ', this.userInfo && this.userInfo.publicId);
         }
       });
+      
   }
 
   getStatusKYC() {
@@ -186,6 +189,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
       this.getBalanceInfo();
       this.getUserInfo();
       this.getStatusKYC();
+      this.checkEmail(this.email);
   }
 
   private getBalanceInfo() {
@@ -472,6 +476,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
         this.email = data.username;
         this.token = data.token_id
       })
+  }
+
+  checkEmail(email: string){
+    this.userService.getCheckTo2FAEnabled(email).pipe(first()).subscribe(data => {
+      console.log(data)
+    });
   }
 
 }

@@ -18,7 +18,6 @@ import { BankVerification } from 'app/model/bank-veryfication.model';
 export class StepOneComponent implements OnInit {
 
   constructor(
-    private userService: UserService,
     private balanceService: BalanceService,
     private settingsService: SettingsService,
     private store: Store<State>,) {
@@ -30,7 +29,6 @@ export class StepOneComponent implements OnInit {
   check: boolean = false;
   isVerify: any;
   @Output() public nextStep: EventEmitter<any> = new EventEmitter();
-  @Input() public email: string;
 
 
   // country
@@ -48,13 +46,6 @@ export class StepOneComponent implements OnInit {
     // this.checkUserInfo();
 
     this.getCountryCode();
-    this.checkEmail(this.email);
-  }
-
-  checkEmail(email: string){
-    this.userService.getCheckTo2FAEnabled(email).pipe(first()).subscribe(data => {
-      console.log(data)
-    })
   }
 
 
@@ -124,9 +115,10 @@ export class StepOneComponent implements OnInit {
         console.log(account);
         let obj = new Object;
         console.log(obj);
-        this.balanceService.postFUGAccount(account).pipe(first()).subscribe(responce => {
-          console.log(responce);
-          this.nextStep.emit(2);
+        this.balanceService.postFUGAccount(account).pipe(first()).subscribe((response: any) => {
+          console.log(response);
+          window.open(`${response.data.url}`, '_blank');
+          // this.nextStep.emit(2);
         });
       }
   }

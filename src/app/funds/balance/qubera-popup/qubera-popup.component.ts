@@ -15,7 +15,6 @@ export class QuberaPopupComponent implements OnInit {
   @Input() showPopup;
   @Input() optionData;
   @Input() steper;
-  @Input() myEmail;
   @Output() closeSendQuberaPopupMain = new EventEmitter<boolean>();
   component: any;
 

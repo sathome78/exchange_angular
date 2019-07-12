@@ -9,7 +9,6 @@ export class CreateFugComponent implements OnInit {
   
   @Input() qubera;
   @Input() steper;
-  @Input() email;
   @Output() closeSendQuberaPopup = new EventEmitter<boolean>()
   step: number;
 

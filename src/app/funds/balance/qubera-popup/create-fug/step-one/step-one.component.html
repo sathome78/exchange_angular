@@ -68,13 +68,22 @@
             </svg>
           </div>
         </div>
-        <ul class="select__list select__list--open">
+        <!-- <ul class="select__list select__list--open">
             <li class="select__list-item"
                 *ngFor="let nested of countryArray"
                 (click)="selectCountry(nested)">
               {{nested?.countryName}}
             </li>
-        </ul>
+        </ul> -->
+        <div class="select__list-searching-body">
+          <perfect-scrollbar>
+            <div class="select__searching-items-wrap">
+              <div class="select__searching-item" *ngFor="let country of countryArray" (click)="selectCountry(country)">
+                <span>{{country.countryName}}</span>
+              </div>
+            </div>
+          </perfect-scrollbar>
+        </div>
       </div>
     </div>
     
