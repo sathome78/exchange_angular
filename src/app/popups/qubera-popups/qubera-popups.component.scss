@@ -10,6 +10,9 @@
 		color: #191A39;
 		margin-top: 48px;
 		margin-bottom: 7px;
+		@media (max-width: 992px){
+    color: #DEDEFB;
+}
 	}
 	p{
 		font-weight: normal;
@@ -17,6 +20,9 @@
 		line-height: 1.27;
 		text-align: center;
 		color: #191A39;
+		@media (max-width: 992px){
+    color: #DEDEFB;
+}
 		a{
 			color: #237BEF;
 			text-decoration: none;
@@ -40,6 +46,9 @@
 		color: #000;
 		margin-top: 23px;
 		margin-bottom: 22px;
+		@media (max-width: 992px){
+    color: #DEDEFB;
+}
 		b{
 			font-weight: 600;
 		}
@@ -50,10 +59,16 @@
 		line-height: 1.27;
 		text-align: center;
 		color: #191A39;
+		@media (max-width: 992px){
+    color: #DEDEFB;
+}
 	}
 	.p-b-btn{
 		max-width: 270px;
 		margin-top: auto;
+		@media(max-width: 992px){
+			margin-top: 50px;
+		}
 	}
 }
 
@@ -70,6 +85,9 @@
 		color: #191A39;
 		margin-top: 0;
 		margin-bottom: 27px;
+		@media (max-width: 992px){
+    color: #DEDEFB;
+}
 	}
 	p{
 		font-weight: normal;
@@ -78,6 +96,9 @@
 		text-align: center;
 		color: #191A39;
 		margin-bottom: 22px;
+		@media (max-width: 992px){
+    color: #DEDEFB;
+}
 	}
 	.a-btn{
 		margin-top: auto;
@@ -107,4 +128,13 @@
 			margin-bottom: 12px;
 		}
 	}
+}
+
+@media (max-width: 992px){
+.popup {
+    background: #191A39;
+    padding: 27px;
+    padding-bottom: 65px;
+    border-radius: 0;
+}
 }

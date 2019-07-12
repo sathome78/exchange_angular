@@ -118,6 +118,9 @@ form .select {
         background-size: 100%;
         opacity: 0;
         transition: .3s;
+        @media(max-width: 1200px){
+        background-image: url(/check.svg);
+    }
     }
 }
 
