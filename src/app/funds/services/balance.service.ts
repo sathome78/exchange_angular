@@ -190,7 +190,11 @@ export class BalanceService {
   }
 
   postFUGAccount(body: any) {
-    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/account/create`, body);
+    return this.http.post(`${this.apiUrl}/api/private/v2/kyc/start`, body);
+  }
+
+  getStatusKYC() {
+    return this.http.get(`${this.apiUrl}/api/private/v2/merchants/qubera/verification_status`);
   }
 
 }

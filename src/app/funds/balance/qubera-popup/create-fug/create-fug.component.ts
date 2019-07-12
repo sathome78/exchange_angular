@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-create-fug',
@@ -10,6 +10,7 @@ export class CreateFugComponent implements OnInit {
   @Input() qubera;
   @Input() steper;
   @Input() email;
+  @Output() closeSendQuberaPopup = new EventEmitter<boolean>()
   step: number;
 
   constructor() { }
@@ -21,9 +22,12 @@ export class CreateFugComponent implements OnInit {
   setStep(steper: number) {
     this.step = steper;
   }
-  
+
   onCloseSendMoneyPopup() {
-    console.log('hi');
+    setTimeout(() => {
+      console.log('hi 1');
+      this.closeSendQuberaPopup.emit(true);
+    }, 1000);
   }
 
   

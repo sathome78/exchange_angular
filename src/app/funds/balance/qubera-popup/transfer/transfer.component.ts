@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -9,6 +9,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class TransferComponent implements OnInit {
   @Input() qubera;
   @Input() steper;
+  @Output() closeSendMoneyPopup = new EventEmitter<boolean>();
   step: number;
 
   form: FormGroup;
@@ -36,6 +37,12 @@ export class TransferComponent implements OnInit {
   
   get currentCode(): any {
     return this.form.get('code');
+  }
+
+  onCloseSendMoneyPopup() {
+    setTimeout(() => {
+      this.closeSendMoneyPopup.emit(true);
+    }, 1000);
   }
 
 }

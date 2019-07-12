@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-withdraw',
@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class WithdrawComponent implements OnInit {
   @Input() qubera;
   @Input() steper;
+  @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
   step: number;
 
   constructor() { }
@@ -17,7 +18,9 @@ export class WithdrawComponent implements OnInit {
   }
 
   onCloseSendMoneyPopup() {
-    console.log(' hi');
+    setTimeout(() => {
+      this.closeSendQuberaPopup.emit(true);
+    }, 1000);
   }
 
   setStep(obj: number) {

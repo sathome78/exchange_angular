@@ -117,12 +117,14 @@ export class StepOneComponent implements OnInit {
           address: form.value.address,
           countryCode: form.value.countryCode,
           city: form.value.city,
-          currencyCode: 'euro'
+          birthDay: "12",
+          birthMonth: "5",
+          birthYear: "1987",
         };
         console.log(account);
         let obj = new Object;
         console.log(obj);
-        this.balanceService.postFUGAccount(obj).pipe(first()).subscribe(responce => {
+        this.balanceService.postFUGAccount(account).pipe(first()).subscribe(responce => {
           console.log(responce);
           this.nextStep.emit(2);
         });
@@ -150,7 +152,6 @@ export class StepOneComponent implements OnInit {
       .subscribe(res => {
         this.countryArrayDefault = res as KycCountry[];
         this.countryArray = this.countryArrayDefault;
-        console.log(this.countryArray);
       });
   }
 

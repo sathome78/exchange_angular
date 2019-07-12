@@ -121,6 +121,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
       });
   }
 
+  getStatusKYC() {
+    this.balanceService.getStatusKYC().pipe(first()).subscribe(data => {
+      console.log(data);
+    })
+  }
+
   ngOnInit() {
     this.store.dispatch(new fundsAction.SetIEOBalancesAction([]));
 
@@ -178,7 +184,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
         this.openQuberaPopup(res);
       });
       this.getBalanceInfo();
-    this.getUserInfo();
+      this.getUserInfo();
+      this.getStatusKYC();
   }
 
   private getBalanceInfo() {

@@ -16,21 +16,22 @@ export class QuberaPopupComponent implements OnInit {
   @Input() optionData;
   @Input() steper;
   @Input() myEmail;
-  @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
+  @Output() closeSendQuberaPopupMain = new EventEmitter<boolean>();
   component: any;
 
   @HostListener('document:click', ['$event']) clickout($event) {
     if ($event.target.classList.contains('overlay--modal')) {
-      this.onCloseSendQuberaPopup();
+      this.onCloseSendQuberaPopupMain();
     }
   }
   constructor(public balanceService: BalanceService) { }
 
   
-  onCloseSendQuberaPopup() {
+  onCloseSendQuberaPopupMain() {
+    console.log('hi');
     this.showPopup = false;
     setTimeout(() => {
-      this.closeSendQuberaPopup.emit(true);
+      this.closeSendQuberaPopupMain.emit(true);
     }, 1000);
   }
 

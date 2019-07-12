@@ -46,6 +46,14 @@
         (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
       ></app-balance-mob>
 
+      <app-qubera-mob
+        *ngSwitchCase="Tab.QUBERA"
+        [Tab]="Tab"
+        [currTab]="currTab"
+        (onSelectTab)="onSelectTab($event)"
+        
+      ></app-qubera-mob>
+
       <app-ieo-table-mob
         *ngSwitchCase="Tab.IEO"
         [IEOData]="IEOData"
@@ -333,7 +341,7 @@
     [showPopup]="showQuberaPopup"
     [optionData]="QuberaData"
     [steper]="1"
-    (closeSendQuberaPopup)="openQuberaPopup(false)"
+    (closeSendQuberaPopupMain)="openQuberaPopup(false)"
     [myEmail]="email"
   >
   </app-qubera-popup>
