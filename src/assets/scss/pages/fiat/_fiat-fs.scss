@@ -537,6 +537,9 @@
 		@media(max-width: 1200px){
 			border-bottom: 1px solid #94C2FF;
 		}
+		@media(max-width: 640px){
+			margin: 0 15px;
+		}
 	}
 
 	.main-form{
@@ -580,6 +583,7 @@
 
 	.info-block{
 		margin: 0 30px 32px;
+
 		border-bottom: 1px solid #ECECEC;
 		display: flex;
 		justify-content: space-between;
@@ -587,7 +591,12 @@
 		@media(max-width: 1200px){
 			border-bottom: 1px solid #94C2FF;
 		}
-
+		@media(max-width: 1240px){
+			padding: 17px 0;
+		}
+		@media(max-width: 640px){
+			margin: 0 15px 32px;
+		}
 		.left-part{
 			max-width: 230px;
 			width: 100%;
@@ -666,6 +675,9 @@
 .notice-block{
 	padding: 27px 30px;
 	background: #E9F2FF;
+	@media(max-width: 640px){
+		padding: 27px 15px;
+	}
 	.head-notice{
 		font-weight: 500;
 		font-size: 14px;
