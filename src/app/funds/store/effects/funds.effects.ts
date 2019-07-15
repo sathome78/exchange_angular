@@ -10,8 +10,8 @@ import {BalanceDetailsItem} from 'app/funds/models/balance-details-item.model';
 import * as dashboardActions from '../../../dashboard/actions/dashboard.actions';
 import {MyBalanceItem} from '../../../model/my-balance-item.model';
 import {Location} from '@angular/common';
-import { TransactionsService } from 'app/funds/services/transaction.service';
-import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {TransactionsService} from 'app/funds/services/transaction.service';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 import {UtilsService} from 'app/shared/services/utils.service';
 
 
@@ -42,14 +42,14 @@ export class FundsEffects {
       return this.balanceService.getBalances(action.payload)
         .pipe(
           map(bal => {
-            if(action.payload.concat) {
+            if (action.payload.concat) {
               return new fundsActions.SetMoreCryptoBalAction({items: bal.items, count: bal.count})
             }
             return new fundsActions.SetCryptoBalAction({items: bal.items, count: bal.count})
           }),
           catchError(error => of(new fundsActions.FailLoadCryptoBalAction(error)))
-        )
-    }))
+        );
+    }));
 
 
   @Effect()
@@ -76,14 +76,14 @@ export class FundsEffects {
       return this.balanceService.getBalances(action.payload)
         .pipe(
           map(bal => {
-            if(action.payload.concat) {
+            if (action.payload.concat) {
               return new fundsActions.SetMoreFiatBalAction({items: bal.items, count: bal.count})
             }
             return new fundsActions.SetFiatBalAction({items: bal.items, count: bal.count})
           }),
           catchError(error => of(new fundsActions.FailLoadFiatBalAction(error)))
-        )
-    }))
+        );
+    }));
 
    /**
    * Load pending requests
@@ -95,14 +95,14 @@ export class FundsEffects {
       return this.balanceService.getPendingRequests(action.payload)
         .pipe(
           map(bal => {
-            if(action.payload.concat) {
-              return new fundsActions.SetMorePendingReqAction({items: bal.items, count: bal.count})
+            if (action.payload.concat) {
+              return new fundsActions.SetMorePendingReqAction({items: bal.items, count: bal.count});
             }
-            return new fundsActions.SetPendingReqAction({items: bal.items, count: bal.count})
+            return new fundsActions.SetPendingReqAction({items: bal.items, count: bal.count});
           }),
           catchError(error => of(new fundsActions.FailLoadPendingReqAction(error)))
-        )
-    }))
+        );
+    }));
 
    /**
    * Load my balances
@@ -130,7 +130,7 @@ export class FundsEffects {
           map((res: any) => (new fundsActions.SetQuberaBalAction(res))),
           catchError(error => of(new fundsActions.FailLoadQuberaBalAction(error)))
         );
-    }))
+    }));
 
    /**
    * Load balance confirmation info
@@ -143,8 +143,8 @@ export class FundsEffects {
         .pipe(
           map((res: BalanceDetailsItem) => (new fundsActions.SetBalanceDetailsAction(res))),
           catchError(error => of(new fundsActions.FailLoadBalanceDetailsAction(error)))
-        )
-    }))
+        );
+    }));
 
    /**
    * Revoke pending requests
@@ -157,8 +157,8 @@ export class FundsEffects {
         .pipe(
           map(() => new fundsActions.LoadPendingReqAction(action.payload.loadPR)),
           catchError(error => of(new fundsActions.FailRevokePendingReqAction(error)))
-        )
-    }))
+        );
+    }));
 
    /**
    * Revoke pending requests for mobile screen
@@ -171,8 +171,8 @@ export class FundsEffects {
         .pipe(
           tap(() => this.location.back()),
           catchError(error => of(new fundsActions.FailRevokePendingReqAction(error)))
-        )
-    }))
+        );
+    }));
 
 
   /**
@@ -185,14 +185,14 @@ export class FundsEffects {
       return this.transactionsService.getTransactionsHistory(action.payload)
         .pipe(
           map(orders => {
-            if(action.payload.concat) {
+            if (action.payload.concat) {
               return new fundsActions.SetMoreTransactionsHistoryAction({items: orders.items, count: orders.count})
             }
             return new fundsActions.SetTransactionsHistoryAction({items: orders.items, count: orders.count})
           }),
           catchError(error => of(new fundsActions.FailLoadTransactionsHistoryAction(error)))
-        )
-    }))
+        );
+    }));
   @Effect()
   loadLastHistoryTransactions$: Observable<Action> = this.actions$
     .pipe(ofType<fundsActions.LoadLastTransactionsHistoryAction>(fundsActions.LOAD_LAST_TRANSACTIONS_HISTORY))
@@ -201,8 +201,8 @@ export class FundsEffects {
         .pipe(
           map(orders => new fundsActions.SetTransactionsHistoryAction({items: orders.items, count: orders.count})),
           catchError(error => of(new fundsActions.FailLoadTransactionsHistoryAction(error)))
-        )
-    }))
+        );
+    }));
 
 
 }
