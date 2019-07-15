@@ -8,26 +8,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class StepTwoComponent implements OnInit {
 
-  form: FormGroup;
-
   constructor() { }
 
+  
   ngOnInit() {
-    this.initForm();
   }
-
-  initForm() {
-    this.form = new FormGroup({
-      code: new FormControl('', Validators.required)
-    });
-  }
-
-  enterCode(form) {
-    console.log(form);
-  }
-
-  get currentCode(): any {
-    return this.form.get('code');
-  }
-
 }

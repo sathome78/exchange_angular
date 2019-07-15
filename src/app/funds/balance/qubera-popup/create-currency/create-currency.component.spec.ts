@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StepFourComponent } from './step-four.component';
+import { CreateCurrencyComponent } from './create-currency.component';
 
-describe('StepFourComponent', () => {
-  let component: StepFourComponent;
-  let fixture: ComponentFixture<StepFourComponent>;
+describe('CreateCurrencyComponent', () => {
+  let component: CreateCurrencyComponent;
+  let fixture: ComponentFixture<CreateCurrencyComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StepFourComponent ]
+      declarations: [ CreateCurrencyComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StepFourComponent);
+    fixture = TestBed.createComponent(CreateCurrencyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -58,6 +58,29 @@ form .action {
     justify-content: center;
 }
 
+.select__list-searching-body {
+    overflow-y: auto!important;
+}
+.transaction__datepicker {
+    width: 100%!important;
+}
+
+::ng-deep .mydp{
+    display: flex !important;
+    width: 100%!important;
+    margin: 0!important;
+    border: 1px solid #237BEF!important;
+    .selectiongroup{
+        margin-left: auto !important;
+        .selbtngroup {
+            width: auto !important;
+            .section {
+                color: #237BEF!important;
+            }
+        }
+    }
+}
+
 form .action a {
     font-family: Roboto;
     font-style: normal;
@@ -165,6 +188,3 @@ form .select {
     }
 }
 
-.select__list-searching-body {
-    overflow-y: auto!important;
-}

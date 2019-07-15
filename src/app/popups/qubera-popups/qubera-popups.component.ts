@@ -23,7 +23,9 @@ export class QuberaPopupsComponent implements OnInit {
   }
 
   getSubject() {
-    this.popupService.getQuberaPopupListener().pipe(first()).subscribe((popup: string) => {
+    this.popupService.getQuberaPopupListener()
+    .pipe(first())
+    .subscribe((popup: string) => {
       this.currentPopup = popup;
     });
   }
