@@ -57,3 +57,89 @@
       </button>
     </div>
   </div>
+  <!--filters start-->
+  <form action="">
+    <div class="balance__filters">
+     
+
+      <span>{{'Price in' | translate}}</span>
+      <div class="dropdown">
+        <div class="dropdown__btn">usd</div>
+        <ul class="dropdown__list">
+          <li class="dropdown__item">usd</li>
+        </ul>
+      </div>
+      <label class="toggler">
+        <input type="checkbox" name="togglerZero">
+        <span class="toggler__indicate"></span>
+      </label>
+      <span>{{'Hide zero' | translate}}</span>
+    </div>
+  </form>
+  <!--filters end-->
+  <div>
+    <!--table-mob start-->
+    <table class="table table--mob" [ngClass]="{'balance-qubera': currTab === Tab.QUBERA}">
+      <thead class="table__head">
+        <tr class="table__head-row">
+          <th class="table__cell-head table__cell-head--tal">{{'Currency' | translate}}</th>
+          <th class="table__cell-head table__cell-head--tal">{{'Available balance' | translate}}</th>
+          <th class="table__cell-head table__cell-head--tar">{{'Price' | translate}}</th>
+        </tr>
+      </thead>
+      <tbody class="table__body table__body--none-shadow">
+          <tr class="table__row--mob" (click)="onShowMobDetails(item)">
+            <td class="table__cell table__cell--tal">
+              <div class="balance__currency">
+                <div class="balance__currency-icon">
+                  <img src="assets/img/currency-icons/usd.svg">
+                </div>
+                <div>
+                  <span>USD</span>
+                  <span class="balance__currency-name">US Dollar</span>
+                </div>
+              </div>
+            </td>
+            <td class="table__cell table__cell--tal">
+              <span>233.92837422</span>
+            </td>
+            <td class="table__cell table__cell--tar">
+              <!-- <div *ngIf="priceIn === currencies.BTC">BTC 300</div>
+              <div *ngIf="priceIn === currencies.USD">$ 300</div> -->
+              <!-- <span class="txt-small txt-red">–0.24%</span> -->
+            </td>
+            <td class="table__cell table__cell--arr-mob">
+              <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4">
+              <div class="table__row-mob-line"></div>
+            </td>
+          </tr>
+        <tr class="table__row--mob">
+          <td class="table__cell table__cell--tac" colspan="4">
+            {{'No matching records found' | translate}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <!-- table-mob end -->
+  </div>
+  <div class="pending-wr">
+    <div class="bg-btn"></div>
+    <button
+      class="tabs__item"
+    >
+      <span class="indicate">{{countOfPendingRequests}}</span>
+      {{'Pending  requests' | translate}}
+      <span class="arrow">
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.24264 1.12064L9.48528 5.36328L5.24264 9.60592" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </button>
+  </div>
+</div>
