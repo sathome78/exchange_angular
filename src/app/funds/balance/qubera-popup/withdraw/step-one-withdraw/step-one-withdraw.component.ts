@@ -57,7 +57,6 @@ export class StepOneWithdrawComponent implements OnInit {
 
   setActiveFiat() {
     let currency;
-    console.log(this.dataQubera.balance);
     if (this.dataQubera.balance && this.dataQubera.balance.currenciesId[0]) {
       currency = this.fiatNames.filter(item => +item.id === +this.dataQubera.balance.currenciesId[0]);
     }
@@ -85,8 +84,8 @@ export class StepOneWithdrawComponent implements OnInit {
 
   togglePaymentSystemDropdown() {
     this.openBankSystemDropdown = !this.openBankSystemDropdown;
-    this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-      ? this.fiatDataByName.merchantCurrencyData
+    this.merchants = this.fiatDataByName && this.fiatDataByName
+      ? this.fiatDataByName
       : [];
     this.searchTemplate = '';
     this.openCurrencyDropdown = false;
@@ -98,8 +97,7 @@ export class StepOneWithdrawComponent implements OnInit {
     this.getDataByCurrency(currency.name);
   }
 
-  chooseBank(bank: any) {
-    console.log(bank);
+  selectMerchant(bank: any) {
   }
 
   toggleCurrencyDropdown() {
@@ -161,6 +159,13 @@ export class StepOneWithdrawComponent implements OnInit {
       zipCode: new FormControl('', Validators.required),
       amount: new FormControl('', Validators.required)
     })
+  }
+
+  searchMerchant(e) {
+    this.searchTemplate = e.target.value;
+    this.merchants = this.fiatDataByName.filter(merchant =>
+      !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
+    );
   }
 
   submit(form) {

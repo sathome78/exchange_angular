@@ -110,7 +110,6 @@ export class StepOneComponent implements OnInit {
   }
 
   gotToStepTwo(form: any) {
-    console.log(this.modelDateFrom)
       if(form.valid && this.form.controls.theCheckbox.value == true) {
         let account: BankVerification = {
           firstName: form.value.firstName,
@@ -122,13 +121,11 @@ export class StepOneComponent implements OnInit {
           birthMonth: `${this.modelDateFrom.date.month}`,
           birthYear: `${this.modelDateFrom.date.year}`,
         };
-        console.log(account);
         this.balanceService.postFUGAccount(account)
           .pipe(first())
           .subscribe((response: any) => {
-            console.log(response);
             window.open(`${response.data.url}`, '_blank');
-            this.nextStep.emit(4);
+            this.nextStep.emit(2);
         });
       }
   }

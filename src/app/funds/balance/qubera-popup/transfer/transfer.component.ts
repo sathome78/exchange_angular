@@ -31,7 +31,6 @@ export class TransferComponent implements OnInit {
   }
 
   enterCode(form) {
-    console.log(form);
   }
 
   

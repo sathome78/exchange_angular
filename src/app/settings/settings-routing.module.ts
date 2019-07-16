@@ -9,7 +9,6 @@ import {VerificationComponent} from './verification/verification.component';
 import {EmailNotificationComponent} from './email-notification/email-notification.component';
 import {ViewComponent} from './view/view.component';
 import {ApiKeysComponent} from './api-keys/api-keys.component';
-import { BankVerificationComponent } from './bank-verification/bank-verification.component';
 
 const settingsRoutes: Routes = [
   { path: '',
@@ -22,7 +21,6 @@ const settingsRoutes: Routes = [
       // { path: 'nickname', component: NicknameComponent },
       { path: 'verification', component: VerificationComponent },
       { path: 'api-keys', component: ApiKeysComponent },
-      { path: 'bank-verification', component: BankVerificationComponent },
       // { path: 'e-notification', component: EmailNotificationComponent },
       // { path: 'view', component: ViewComponent },
       { path: '**', redirectTo: 'two-factor-auth'}

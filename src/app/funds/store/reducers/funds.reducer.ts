@@ -26,7 +26,7 @@ export interface State {
 
 export const INIT_STATE: State = {
   cryptoBal: defaultValues.cryptoBal,
-  quberaBal: [],
+  quberaBal: defaultValues.quberaBal,
   countCryptoBal: defaultValues.countCryptoBal,
   fiatBal: defaultValues.fiatBal,
   countFiatBal: defaultValues.countFiatBal,

@@ -28,14 +28,11 @@ export class QuberaTableComponent implements OnInit {
   constructor(
     private popupService: PopupService,
     private balanceService: BalanceService) { 
-      this.quberaBalance.push(this.balances);
     }
 
   ngOnInit() {
     this.checkInfoAboutAccount();
-    console.log(this.kycStatus);
-    console.log(this.existQuberaAccounts);
-    console.log(this.quberaBalance);
+    this.quberaBalance.push(this.balances.data);
 
   }
 
@@ -47,7 +44,6 @@ export class QuberaTableComponent implements OnInit {
     this.balanceService.checkInfoAboutAccount('EUR')
     .pipe(first())
     .subscribe((data: balanceQubera) => {
-      console.log(data);
     });
   }
 }

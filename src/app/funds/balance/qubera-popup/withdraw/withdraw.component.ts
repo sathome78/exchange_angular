@@ -28,7 +28,6 @@ export class WithdrawComponent implements OnInit {
   }
 
   nextStep(numb) {
-    console.log('hi mf');
     this.step = numb;
   }
 

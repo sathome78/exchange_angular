@@ -27,7 +27,6 @@ export class QuberaPopupComponent implements OnInit {
 
   
   onCloseSendQuberaPopupMain() {
-    console.log('hi');
     this.showPopup = false;
     setTimeout(() => {
       this.closeSendQuberaPopupMain.emit(true);
@@ -36,8 +35,6 @@ export class QuberaPopupComponent implements OnInit {
 
   ngOnInit() {
     this.setComponent();
-    // console.log(this.optionData);
-    // console.log(this.steper);
   }
 
   setComponent() {

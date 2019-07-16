@@ -12,7 +12,7 @@ export class CreateCurrencyComponent implements OnInit {
 
   @Input() qubera;
   @Input() steper;
-  @Output() closeSendMoneyPopup = new EventEmitter<boolean>();
+  @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
   step: number;
 
   form: FormGroup;
@@ -37,12 +37,13 @@ export class CreateCurrencyComponent implements OnInit {
   }
 
   enterCode(form) {
-    console.log(form);
     if(this.form.valid) {
       this.balanceService.createCurrency({pin: form.code})
         .pipe(first())
         .subscribe((data: any) => {
-          console.log(data);
+          
+        }, error => {
+          console.log(error);
         });
     }
   }
@@ -51,7 +52,7 @@ export class CreateCurrencyComponent implements OnInit {
     this.balanceService.sendCodeToMail()
       .pipe(first())
       .subscribe((code: string) => {
-        console.log(code);
+        
       }, error => {
         console.log(error);
       });
@@ -64,7 +65,7 @@ export class CreateCurrencyComponent implements OnInit {
 
   onCloseSendMoneyPopup() {
     setTimeout(() => {
-      this.closeSendMoneyPopup.emit(true);
+      this.closeSendQuberaPopup.emit(true);
     }, 1000);
   }
 

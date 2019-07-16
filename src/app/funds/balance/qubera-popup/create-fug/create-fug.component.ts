@@ -24,7 +24,6 @@ export class CreateFugComponent implements OnInit {
 
   onCloseSendMoneyPopup() {
     setTimeout(() => {
-      console.log('hi 1');
       this.closeSendQuberaPopup.emit(true);
     }, 1000);
   }

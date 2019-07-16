@@ -1,5 +1,6 @@
 export const defaultValues = {
   cryptoBal: [],
+  quberaBal: [],
   countCryptoBal: 0,
   fiatBal: [],
   countFiatBal: 0,

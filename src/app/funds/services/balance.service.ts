@@ -8,6 +8,7 @@ import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.ser
 import {Router} from '@angular/router';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
 import { BankVerification } from 'app/model/bank-veryfication.model';
+import { bankInfo } from '../models/bank-info.model';
 
 @Injectable()
 export class BalanceService {
@@ -207,6 +208,10 @@ export class BalanceService {
 
   createCurrency(body: any) {
     return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/account/create`, body);
+  }
+
+  getBankInfo() {
+    return this.http.get(`${this.apiUrl}/api/private/v2/merchants/qubera/info`);
   }
 
 }

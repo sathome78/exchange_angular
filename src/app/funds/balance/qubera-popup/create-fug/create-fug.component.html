@@ -1,7 +1,7 @@
 <!-- modal header start -->
 <div class="modal__header-mob">
   <div class="steps__counter steps__counter--mob">{{'step' | translate}}
-    <span class="steps__counter-val">{{step}}</span>/4
+    <span class="steps__counter-val">{{step}}</span>/2
   </div>
   <div class="modal__header-mob-controls">
     <a class="modal__control-mob" (click)="onCloseSendMoneyPopup()">
@@ -28,38 +28,20 @@
         <span class="steps__title">{{'Phone verification' | translate}}</span>
       </a>
     </li>
-    <li class="steps__item" *ngIf="step >= 3"
-        [ngClass]="{'steps__item--current': step === 3}"
-    >
-      <a class="steps__link" (click)="setStep(3)">
-        <span class="steps__number" [ngClass]="{'steps__number--current': step === 3, 'steps__number--valid': step != 3 }">3</span>
-        <span class="steps__number-mob-current">3. {{'KYC Walkthrough' | translate}}</span>
-        <span class="steps__title">{{'KYC Walkthrough' | translate}}</span>
-      </a>
-    </li>
-    <li class="steps__item "
-        *ngIf="step === 4"
-        [ngClass]="{'steps__item--current': step >= 4}"
-    >
-      <a class="steps__link" (click)="setStep(4)">
-        <span class="steps__number" [ngClass]="{'steps__number--current': step === 4, 'steps__number--valid': step != 4 }">4</span>
-        <span class="steps__number-mob-current">4. {{'Bank check' | translate}}</span>
-        <span class="steps__title">{{'Bank check' | translate}}</span>
-      </a>
-    </li>
   </ul>
-  <div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/ 4</div>
+  <div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/ 2</div>
 </div>
 <!-- modal header end -->
 
 <div class="modal__content">
   <app-step-one
-    *ngIf="step === 2"
-    (nextStep)="nextStep(4)"
+    *ngIf="step === 1"
+    (nextStep)="nextStep(2)"
   >
   </app-step-one>
   <app-step-two
-    *ngIf="step === 1"
+    *ngIf="step === 2"
+    (closeSendQuberaPopup)="onCloseSendMoneyPopup()"
   >
   </app-step-two>
 </div>

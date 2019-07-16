@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -9,6 +9,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class StepTwoComponent implements OnInit {
 
   constructor() { }
+
+  
+  @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
 
   
   ngOnInit() {

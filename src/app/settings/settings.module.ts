@@ -29,7 +29,6 @@ import { ApiKeyPopupComponent } from './api-keys/api-key-popup/api-key-popup.com
 import {ApiKeysService} from './api-keys/api-keys.service';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {ScrollingModule} from '@angular/cdk/scrolling';
-import { BankVerificationComponent } from './bank-verification/bank-verification.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.settings, translateInfo.suffix);
@@ -68,8 +67,7 @@ export function createTranslateLoader(http: HttpClient) {
     ViewComponent,
     ApiKeysComponent,
     ApiKeyCreatedComponent,
-    ApiKeyPopupComponent,
-    BankVerificationComponent
+    ApiKeyPopupComponent
   ],
   providers: [
     SettingsService,

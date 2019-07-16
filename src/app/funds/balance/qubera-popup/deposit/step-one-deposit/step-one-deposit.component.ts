@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as jspdf from 'jspdf';
 import * as _uniq from 'lodash/uniq';
@@ -6,26 +6,26 @@ import html2canvas from 'html2canvas';
 import { CurrencyBalanceModel } from 'app/model';
 import { select, Store } from '@ngrx/store';
 import { getFiatCurrenciesForChoose, State } from 'app/core/reducers';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, first } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { BalanceService } from 'app/funds/services/balance.service';
 import { CommissionData } from 'app/funds/models/commission-data.model';
 import { defaultCommissionData } from 'app/funds/store/reducers/default-values';
 import * as _ from 'lodash';
 
-
 @Component({
   selector: 'app-step-one-deposit',
   templateUrl: './step-one-deposit.component.html',
   styleUrls: ['./step-one-deposit.component.scss']
 })
-export class StepOneDepositComponent implements OnInit {
+export class StepOneDepositComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<State>,
     public balanceService: BalanceService,) { }
   
   @Input() quberaBank: any;
+  @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public fiatNames: CurrencyBalanceModel[] = [];
   public defaultFiatNames: CurrencyBalanceModel[] = [];
@@ -45,7 +45,9 @@ export class StepOneDepositComponent implements OnInit {
   public activeFiat;
   public alphabet;
   public calculateData: CommissionData = defaultCommissionData;
-  form: FormGroup;
+  public form: FormGroup;
+  public bankInfo: any = undefined;
+
   @ViewChild('content') content: ElementRef;
 
   ngOnInit() {
@@ -63,6 +65,12 @@ export class StepOneDepositComponent implements OnInit {
         if (this.activeFiat) this.getDataByCurrency(this.activeFiat.name);
         this.prepareAlphabet();
       });
+    this.depositBankInfo();
+  }
+
+  
+  ngOnDestroy(){
+    this.bankInfo = undefined;
   }
 
   selectCurrency(currency) {
@@ -82,8 +90,8 @@ export class StepOneDepositComponent implements OnInit {
 
   togglePaymentSystemDropdown() {
     this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
-    this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-      ? this.fiatDataByName.merchantCurrencyData
+    this.merchants = this.fiatDataByName && this.fiatDataByName
+      ? this.fiatDataByName
       : [];
     this.searchTemplate = '';
     this.openCurrencyDropdown = false;
@@ -134,7 +142,7 @@ export class StepOneDepositComponent implements OnInit {
 
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
-    this.merchants = this.fiatDataByName.merchantCurrencyData.filter(merchant =>
+    this.merchants = this.fiatDataByName.filter(merchant =>
       !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
     );
   }
@@ -169,13 +177,11 @@ export class StepOneDepositComponent implements OnInit {
           this.calculateData = res as CommissionData;
           const compCommission = parseFloat(this.calculateData.companyCommissionRate.replace('%)', '').replace('(', ''));
           this.calculateData.commission_rates_sum = +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
-          console.log(this.calculateData);
         });
     } else {
       const outCommission = !!this.selectedMerchant ? this.selectedMerchant.outputCommission : 0;
       const fixCommission = !!this.selectedMerchant ? this.selectedMerchant.fixedMinCommission : 0;
       this.calculateData.merchantCommissionRate = `(${outCommission}%, but not less than ${fixCommission} USD)`;
-      console.log(this.calculateData);
     }
   }
 
@@ -233,6 +239,15 @@ export class StepOneDepositComponent implements OnInit {
       pdf.save('kp.pdf'); // Generated PDF
     });
 
+  }
+
+  depositBankInfo() {
+    
+    this.balanceService.getBankInfo()
+      .pipe(first())
+      .subscribe((data: any) => {
+        this.bankInfo = data.data;
+      })
   }
 
 }
