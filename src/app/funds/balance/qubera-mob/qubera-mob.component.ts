@@ -27,5 +27,8 @@ export class QuberaMobComponent implements OnInit {
   @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
   @Output('openRefillBalancePopup') public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
   @Output('openSendMoneyPopup') public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
-
+  @Output('createFugAccount') createFugAccount: EventEmitter<any> = new EventEmitter<boolean>();
+  showPopup() {
+    
+  }
 }
