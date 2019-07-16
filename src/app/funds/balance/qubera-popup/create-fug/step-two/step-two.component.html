@@ -1,33 +1,9 @@
 <div class="modal__content qubera-content">
-    <!-- <h2>{{'Transaction confirmation' | translate}}</h2>
-    <div class="inf-code">{{'To number 38 ****** 94 code has been sent enter it to the floor' | translate}}</div>
-  
-    <form [formGroup]="form">
-      <div class="input-block"  [ngClass]="{'wrap-input--error': !currentCode.valid && currentCode.touched}">
-        <input class="wrap-input__input" type="text" name="code" formControlName="code" required>
-        <label class="wrap-input__label" for="code">{{'Code' | translate}}</label>
-        <ng-container *ngIf="!currentCode.valid && !currentCode.untouched">
-          <div class="input-hint-wrapper">
-             <span
-               class="wrap-input__message"
-               *ngIf="!currentCode.valid">
-                {{'Code field is required.' | translate}}
-             </span>
-          </div>
-        </ng-container>
-      </div>
-    </form>
+    <h2>{{'После подтверждения KYC' | translate}} <br> {{'Вы получите уведомление на почту ' | translate}}</h2>
+    <div class="inf-code">{{' В течении 2 часов ваш KYC будет проверен  компанией FUG.После успешного подтверждения  KYC ваш счёт будет открыт и вы получите уведомление об успешном открытии счета. Пользование счетом возможно будет прямо в акаунте Exrates”.
+' | translate}}</div>
     <button
-      class="btn btn--center"
-      [ngClass]="{'btn--empty-blue': !form.valid}"
-      [disabled]="form.invalid"
-      (click)="enterCode(form.value)"
-    >
-      {{'Confirm' | translate}}
+      class="btn btn--center">
+      {{'Вернуться на главную' | translate}}
     </button>
-  
-    <div class="change-number">
-      <a>Change phone number</a>
-    </div> -->
-    <iframe width="560" height="315" src="https://sdkweb-test.idcheck.io/AriadNEXT/5d283daf03ae9d7915f284a0/welcome" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </div>

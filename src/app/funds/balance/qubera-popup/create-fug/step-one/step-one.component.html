@@ -2,50 +2,6 @@
 <h3>{{'The information you fill in must be co consistent with the information in ID documents.' | translate}}</h3>
 
 <form [formGroup]="form">
-    <!-- <div class="wrap-input" [ngClass]="{'wrap-input--error': !currentCountry.valid && currentCountry.touched}">
-      <input class="wrap-input__input" name="country" formControlName="country" required>
-      <label class="wrap-input__label">{{'Country' | translate}}</label>
-
-      <ng-container *ngIf="currentCountry.updateOn != 'blur'">
-        <div class="input-hint-wrapper">
-           <span
-             class="wrap-input__message"
-             *ngIf="currentCountry.updateOn != 'blur' && !currentCountry.valid">
-              {{'Country field is required.' | translate}}
-           </span>
-        </div>
-      </ng-container>
-    </div> -->
-    <!-- <div class="select refill__select refill__select--cripto">
-      <div class="select__value select__value--active" (click)="countryDropdownToggle(true)">
-        <div class="select__search">
-          <input class="select__search-input no-line"
-                  #countryInput
-                  type="text"
-                  placeholder="{{'country' | translate}}"
-                  (focus)="showCountryLabel(true)"
-                  (blur)="showCountryLabel(false)"
-                  (input)="searchCountry($event)" 
-                  required style="display:none">
-        </div>
-      </div>
-      <div class="select__label" *ngIf="selectedCountry || showCountryLabelFlag">{{'country' | translate}}</div>
-      <div class="select__line"></div>
-      <div class="select__list-searching"
-            [ngClass]="{'select__list-searching--open': openCountryDropdown}"
-            *ngIf="openCountryDropdown">
-        <div class="select__list-searching-body">
-
-          <perfect-scrollbar>
-            <div class="select__searching-items-wrap">
-              <div class="select__searching-item" *ngFor="let country of countryArray" (click)="selectCountry(country)">
-                <span>{{country.countryName}}</span>
-              </div>
-            </div>
-          </perfect-scrollbar>
-        </div>
-      </div>
-    </div> -->
 
     <div class="select">
       <div class="select__value select__value--active" #countryInput
@@ -68,13 +24,6 @@
             </svg>
           </div>
         </div>
-        <!-- <ul class="select__list select__list--open">
-            <li class="select__list-item"
-                *ngFor="let nested of countryArray"
-                (click)="selectCountry(nested)">
-              {{nested?.countryName}}
-            </li>
-        </ul> -->
         <div class="select__list-searching-body">
           <perfect-scrollbar>
             <div class="select__searching-items-wrap">
@@ -142,6 +91,22 @@
            </span>
         </div>
       </ng-container>
+    </div>
+    <div class="wrap-input transaction__datepicker">
+      <app-date-mask-input
+        [innValue]="modelDateFrom"
+        (inputFocus)="focusOrBlurDateFrom($event)"
+        (inputEmpty)="clearModelDateFrom()"
+        (validDate)="onDateChanged($event)"
+        [disableAutoFocus]="true"
+      ></app-date-mask-input>
+      <my-date-picker
+        name="datepicker"
+        [options]="myDatePickerOptions"
+        formControlName="datepicker"
+        (dateChanged)="onDateChanged($event)"
+      >
+      </my-date-picker>
     </div>
 
     <div class="rules">

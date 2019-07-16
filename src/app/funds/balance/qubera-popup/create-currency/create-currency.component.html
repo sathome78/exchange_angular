@@ -1,0 +1,50 @@
+<!-- modal header start -->
+<div class="modal__header-mob">
+	<div class="steps__counter steps__counter--mob">
+	</div>
+	<div class="modal__header-mob-controls">
+		<a class="modal__control-mob" (click)="onCloseSendMoneyPopup()">
+		<img class="modal__control-icon" src="../../../assets/img/close-blue.svg"></a>
+	</div>
+</div>
+<div class="modal__content qubera-content">
+	<div class="fiat-deposit-s1 fiat-transfer">
+		<h2>{{'Confirmation account creation' | translate}}</h2>
+		<p>{{'To open an Exrates account, confirm the transaction with a code and email.' | translate}}</p>
+		<form  [formGroup]="form">
+			<div class="input-block">
+				<input type="text" name="code" class="wrap-input__input" formControlName="code" required>
+				<label class="wrap-input__label" for="firstname">{{'Code' | translate}}</label>
+				<ng-container *ngIf="!currentCode.valid && !currentCode.untouched">
+					<div class="input-hint-wrapper">
+					   <span
+						 class="wrap-input__message"
+						 *ngIf="!currentCode.valid">
+						  {{'Code field is required.' | translate}}
+					   </span>
+					</div>
+				</ng-container>
+			</div>
+			<button
+				class="btn btn--center"
+				[ngClass]="{'btn--empty-blue': !form.valid}"
+				[disabled]="form.invalid"
+				(click)="enterCode(form.value)">{{'Confirm' | translate}}</button>
+			
+		</form>
+	</div>
+		<div class="notice-block">
+			<span class="head-notice">{{'Please note' | translate}}:</span>
+			<ul>
+				<li>
+					<span>{{'Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email.' | translate}}
+					</span>
+				</li>
+				<li>
+					<span>{{'After making a withdrawal, you can track its progress in history on funds page.' | translate}}
+					</span>
+				</li>
+
+			</ul>
+		</div>
+</div>

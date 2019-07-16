@@ -71,6 +71,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public loading$: Observable<boolean>;
   public currValue = '';
   public kycStatus = '';
+  public kycStatusQubera = '';
 
   public IEOData: IEOItem[] = [];
   public sendMoneyData = {};
@@ -125,14 +126,15 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   getStatusKYC() {
-    this.balanceService.getStatusKYC().pipe(first()).subscribe(data => {
-      console.log(data);
-    })
+    this.balanceService.getStatusKYC()
+      .pipe(first())
+      .subscribe((data: any) => {
+        this.kycStatusQubera = data.data;
+      });
   }
 
   ngOnInit() {
     this.store.dispatch(new fundsAction.SetIEOBalancesAction([]));
-
     if (this.isMobile) {
       this.countPerPage = 30;
     }
@@ -143,6 +145,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.store.dispatch(new coreAction.LoadCryptoCurrenciesForChoose());
     this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
     this.store.dispatch(new fundsAction.LoadMyBalancesAction());
+    this.store.dispatch(new fundsAction.LoadQuberaBalAction());
     this.loadBalances(this.currTab);
     this.loadBalances(this.Tab.PR);
 
@@ -156,7 +159,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .pipe(select(fromCore.getBalanceStatus))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(status => {
-        console.log(status);
         this.kycStatus = status;
         if (this.kycStatus === KYC_STATUS.SUCCESS) {
           // todo:
@@ -186,16 +188,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.openQuberaPopup(res);
       });
-      this.getBalanceInfo();
       this.getUserInfo();
       this.getStatusKYC();
       this.checkEmail(this.email);
-  }
-
-  private getBalanceInfo() {
-    this.balanceService.getQuberaBalancesInfo().subscribe(data => {
-      // console.log(data);
-    })
   }
 
   private setCurrTab(tab: string): string {
@@ -263,6 +258,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
           concat: concat || false,
         };
         return this.store.dispatch(new fundsAction.LoadPendingReqAction(paramsP));
+      case this.Tab.QUBERA :
+        const paramsQ = {
+          currencyName: this.currencyForChoose || '',
+          offset: (this.currentPage - 1) * this.countPerPage,
+          limit: this.countPerPage,
+          concat: concat || false,
+        };
+        return this.store.dispatch(new fundsAction.LoadQuberaBalAction(paramsQ));
     }
 
   }
@@ -361,38 +364,50 @@ export class BalanceComponent implements OnInit, OnDestroy {
     console.log(balance);
     // this.popupService.demoPopupMessage = 1;
     // this.popupService.showDemoTradingPopup(true);
-    this.balanceService.getCurrencyData('EUR').pipe(first()).subscribe((data: any) => {
-      console.log(data);
-      this.showQuberaPopup = true;
-      this.QuberaData = {
-        component: "WITHDRAW",
-        balance: data
-      };
-    })
+    this.balanceService.getCurrencyData('EUR')
+      .pipe(first())
+      .subscribe((data: any) => {
+        console.log(data);
+        this.showQuberaPopup = true;
+        this.QuberaData = {
+          component: "WITHDRAW",
+          balance: data
+        };
+      });
   }
 
   public goToQuberaDepositPopup(balance: BalanceItem): void {
     console.log('hi Deposit');
     console.log(balance);
-    this.balanceService.getCurrencyData('EUR').pipe(first()).subscribe((data: any) => {
-      this.showQuberaPopup = true;
-      this.QuberaData = {
-        component: "DEPOSIT",
-        balance: data
-      };
-    });
+    this.balanceService.getCurrencyData('EUR')
+      .pipe(first())
+      .subscribe((data: any) => {
+        this.showQuberaPopup = true;
+        this.QuberaData = {
+          component: "DEPOSIT",
+          balance: data
+        };
+      });
   }
 
   public goToQuberaAccountPopup(balance: BalanceItem): void {
     console.log('hi create account');
     console.log(balance);
-    this.balanceService.getCurrencyData('EUR').pipe(first()).subscribe((data: any) => {
       this.showQuberaPopup = true;
       this.QuberaData = {
         component: "CREATEFUG",
-        balance: data
+        balance: balance
       };
-    });
+  }
+
+  public goToCreateCurrencyPopup(balance: BalanceItem): void {
+    console.log('hi create account');
+    console.log(balance);
+      this.showQuberaPopup = true;
+      this.QuberaData = {
+        component: "CREATECURRENCY",
+        balance: balance
+      };
   }
 
   
@@ -479,8 +494,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   checkEmail(email: string){
-    this.userService.getCheckTo2FAEnabled(email).pipe(first()).subscribe(data => {
-      console.log(data)
+    this.userService.getCheckTo2FAEnabled(email)
+    .pipe(first())
+    .subscribe(data => {
+      console.log(data);
     });
   }
 

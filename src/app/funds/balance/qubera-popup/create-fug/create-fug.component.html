@@ -54,20 +54,12 @@
 
 <div class="modal__content">
   <app-step-one
-    *ngIf="step === 1"
-    (nextStep)="nextStep(2)"
+    *ngIf="step === 2"
+    (nextStep)="nextStep(4)"
   >
   </app-step-one>
   <app-step-two
-    *ngIf="step === 2"
+    *ngIf="step === 1"
   >
   </app-step-two>
-  <app-step-three
-    *ngIf="step === 3"
-  >
-  </app-step-three>
-  <app-step-four
-    *ngIf="step === 4"
-  >
-  </app-step-four>
 </div>

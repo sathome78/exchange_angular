@@ -39,5 +39,13 @@
         (closeSendQuberaPopup)="onCloseSendQuberaPopupMain()"
       >
       </app-create-fug>
+
+      <app-create-currency
+        *ngIf="component == 'CREATECURRENCY'"
+        [steper]="steper"
+        [qubera]="optionData"
+        (closeSendQuberaPopup)="onCloseSendQuberaPopupMain()"
+      >
+      </app-create-currency>
   </div>
 </div>

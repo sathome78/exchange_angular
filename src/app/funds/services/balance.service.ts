@@ -197,4 +197,16 @@ export class BalanceService {
     return this.http.get(`${this.apiUrl}/api/private/v2/merchants/qubera/verification_status`);
   }
 
+  checkInfoAboutAccount(currency: string) {
+    return this.http.get(`${this.apiUrl}/api/private/v2/merchants/qubera/account/check/${currency}`);
+  }
+
+  sendCodeToMail() {
+    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/request/pin`, {});
+  }
+
+  createCurrency(body: any) {
+    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/account/create`, body);
+  }
+
 }

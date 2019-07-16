@@ -70,12 +70,11 @@ import { WithdrawComponent } from './balance/qubera-popup/withdraw/withdraw.comp
 import { CreateFugComponent } from './balance/qubera-popup/create-fug/create-fug.component';
 import { StepOneComponent } from './balance/qubera-popup/create-fug/step-one/step-one.component';
 import { StepTwoComponent } from './balance/qubera-popup/create-fug/step-two/step-two.component';
-import { StepThreeComponent } from './balance/qubera-popup/create-fug/step-three/step-three.component';
-import { StepFourComponent } from './balance/qubera-popup/create-fug/step-four/step-four.component';
 import { StepOneDepositComponent } from './balance/qubera-popup/deposit/step-one-deposit/step-one-deposit.component';
 import { StepOneWithdrawComponent } from './balance/qubera-popup/withdraw/step-one-withdraw/step-one-withdraw.component';
 import { StepTwoWithdrawComponent } from './balance/qubera-popup/withdraw/step-two-withdraw/step-two-withdraw.component';
 import { QuberaMobComponent } from './balance/qubera-mob/qubera-mob.component';
+import { CreateCurrencyComponent } from './balance/qubera-popup/create-currency/create-currency.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -155,12 +154,11 @@ export function createTranslateLoader(http: HttpClient) {
     CreateFugComponent,
     StepOneComponent,
     StepTwoComponent,
-    StepThreeComponent,
-    StepFourComponent,
     StepOneDepositComponent,
     StepOneWithdrawComponent,
     StepTwoWithdrawComponent,
-    QuberaMobComponent
+    QuberaMobComponent,
+    CreateCurrencyComponent
   ],
   providers: [
     BalanceService,

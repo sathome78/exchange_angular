@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef, HostListener, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormControlName } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { State } from 'app/core/reducers';
@@ -9,6 +9,7 @@ import { KycCountry } from 'app/shared/interfaces/kyc-country-interface';
 import { SettingsService } from 'app/settings/settings.service';
 import { BalanceService } from 'app/funds/services/balance.service';
 import { BankVerification } from 'app/model/bank-veryfication.model';
+import { IMyDpOptions, IMyDateModel } from 'mydatepicker';
 
 @Component({
   selector: 'app-step-one',
@@ -20,14 +21,19 @@ export class StepOneComponent implements OnInit {
   constructor(
     private balanceService: BalanceService,
     private settingsService: SettingsService,
+    private cdr: ChangeDetectorRef,
     private store: Store<State>,) {
     
     this.initForm();
   }
 
-  form: FormGroup;
-  check: boolean = false;
-  isVerify: any;
+  public form: FormGroup;
+  public check: boolean = false;
+  public modelDateFrom: any;
+  public isDateInputFromFocus = false;
+
+  public dateChoose: any;
+  public isVerify: any;
   @Output() public nextStep: EventEmitter<any> = new EventEmitter();
 
 
@@ -75,6 +81,10 @@ export class StepOneComponent implements OnInit {
           Validators.required
         ]
       }),
+      datepicker: new FormControl('', {validators: [
+          Validators.required
+        ]
+      }),
       theCheckbox: new FormControl('', {validators: [
           Validators.required
         ]
@@ -100,25 +110,25 @@ export class StepOneComponent implements OnInit {
   }
 
   gotToStepTwo(form: any) {
+    console.log(this.modelDateFrom)
       if(form.valid && this.form.controls.theCheckbox.value == true) {
-        console.log(form);
         let account: BankVerification = {
           firstName: form.value.firstName,
           lastName: form.value.lastName,
           address: form.value.address,
           countryCode: form.value.countryCode,
           city: form.value.city,
-          birthDay: "12",
-          birthMonth: "5",
-          birthYear: "1987",
+          birthDay: `${this.modelDateFrom.date.day}`,
+          birthMonth: `${this.modelDateFrom.date.month}`,
+          birthYear: `${this.modelDateFrom.date.year}`,
         };
         console.log(account);
-        let obj = new Object;
-        console.log(obj);
-        this.balanceService.postFUGAccount(account).pipe(first()).subscribe((response: any) => {
-          console.log(response);
-          window.open(`${response.data.url}`, '_blank');
-          // this.nextStep.emit(2);
+        this.balanceService.postFUGAccount(account)
+          .pipe(first())
+          .subscribe((response: any) => {
+            console.log(response);
+            window.open(`${response.data.url}`, '_blank');
+            this.nextStep.emit(4);
         });
       }
   }
@@ -140,7 +150,8 @@ export class StepOneComponent implements OnInit {
   
 
   getCountryCode() {
-    this.settingsService.getCountriesKYC().pipe(takeUntil(this.ngUnsubscribe))
+    this.settingsService.getCountriesKYC()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.countryArrayDefault = res as KycCountry[];
         this.countryArray = this.countryArrayDefault;
@@ -165,6 +176,33 @@ export class StepOneComponent implements OnInit {
   
   searchCountry(e) {
     this.countryArray = this.countryArrayDefault.filter(f => f.countryName.toUpperCase().match(e.target.value.toUpperCase()));
+  }
+
+  public myDatePickerOptions: IMyDpOptions = {
+    showInputField: false,
+    openSelectorTopOfInput: true,
+    dateFormat: 'dd.mm.yyyy',
+    disableSince: {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate() + 1,
+    }
+  };
+
+  clearModelDateFrom() {
+    this.modelDateFrom = null;
+  }
+
+  
+  focusOrBlurDateFrom(event) {
+    this.isDateInputFromFocus = event;
+    this.cdr.detectChanges();
+  }
+
+  onDateChanged(event: any) {
+    console.log(event);
+    this.modelDateFrom = {date: event.date};
+    this.form.controls.datepicker.setValue(this.modelDateFrom);
   }
 
 
