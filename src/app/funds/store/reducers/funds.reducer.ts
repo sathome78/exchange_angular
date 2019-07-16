@@ -19,6 +19,7 @@ export interface State {
   myBalances: MyBalanceItemSimple | null;
   balanceDetailsInfo: BalanceDetailsItem;
   loading: boolean;
+  bankQuberaStatus: string;
   ieoBalances: IEOItem[];
   transactionsHistory: TransactionHistoryItem[];
   countTrHistory: number;
@@ -29,6 +30,7 @@ export const INIT_STATE: State = {
   quberaBal: defaultValues.quberaBal,
   countCryptoBal: defaultValues.countCryptoBal,
   fiatBal: defaultValues.fiatBal,
+  bankQuberaStatus: null,
   countFiatBal: defaultValues.countFiatBal,
   pendingRequests: defaultValues.pendingRequests,
   countPendingRequests: defaultValues.countPendingRequests,
@@ -104,6 +106,13 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
         ...state,
         loading: false,
       };
+
+    case fromActions.LOAD_BANK_QUBERA_STATUS:
+      return {...state, loading: true};
+    case fromActions.SET_BANK_QUBERA_STATUS:
+      return {...state, bankQuberaStatus: action.payload};
+    case fromActions.FAIL_LOAD_BANK_QUBERA_STATUS:
+      return {...state, loading: false};
 
     case fromActions.LOAD_PENDING_REQ:
       return {...state, loading: true};
@@ -231,6 +240,10 @@ export const getQuberaBalances = (state: State): any[] => state.quberaBal;
 export const getQuberaBalancesSelector = createSelector(getFundsState, getQuberaBalances);
 
 /** Pending requests */
+
+export const getBalanceQuberaStatus = (state: State): string => state.bankQuberaStatus;
+
+export const getBalanceStatus = createSelector(getFundsState, getBalanceQuberaStatus);
 
 export const getPendingRequests = (state: State): PendingRequestsItem[] => state.pendingRequests;
 export const getCountPendingReq = (state: State): number => state.countPendingRequests;

@@ -1,7 +1,7 @@
-<table class="table qubera-table"
-       >
-       <!-- <table class="table qubera-table"
-       *ngIf="kycStatus === KYC_STATUS.SUCCESS && existQuberaAccounts && existQuberaAccounts !== PENDING"> -->
+<!-- <table class="table qubera-table"
+       *ngIf="kycStatus === KYC_STATUS.SUCCESS && quberaBalance.balance > 0"> -->
+    <table class="table qubera-table"
+       *ngIf="quberaBalance.length > 0">
   <thead>
     <tr>
       <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Currency' | translate}}</th>
@@ -13,32 +13,6 @@
     </tr>
   </thead>
   <tbody class="table__body" *ngIf="balances != undefined">
-    <!-- <tr class="table__row">
-      <td class="table__cell">
-        <div class="balance__currency">
-          <div class="balance__currency-icon">
-            <img src="assets/img/currency-icons/usd.svg">
-          </div>
-          <span style="min-width: 70px;">USD</span>
-          <span class="balance__currency-name">{{'US Dollar' | translate}}</span>
-        </div>
-      </td>
-      <td class="table__cell table__cell--tal">
-        <span>233.92837422</span>
-      </td>
-      <td class="table__cell table__cell--tal">
-        <span>545.23143234</span>
-      </td>
-      <td class="table__cell">
-        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="cryptoDepositQuberaOut.emit(true)">{{'Deposit' | translate}}</button>
-      </td> -->
-      <!-- <td class="table__cell"> -->
-        <!-- <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="transferQuberaOut.emit(true)" >{{'Transfer' | translate}}</button> -->
-      <!-- </td> -->
-      <!-- <td class="table__cell">
-        <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="cryptoWithdrawQuberaOut.emit(true)">{{'Withdraw' | translate}}</button>
-      </td>
-    </tr> -->
     <tr class="table__row" *ngFor="let balance of quberaBalance">
       <td class="table__cell">
         <div class="balance__currency">
@@ -73,8 +47,8 @@
     </tbody>
   </table>
 
-<div class="no-veryfied-qubera" *ngIf="!existQuberaAccounts && existQuberaAccounts !== PENDING">
-  <div class="qubera-head">
+<div class="no-veryfied-qubera">
+  <div class="qubera-head" *ngIf="quberaBalance.length < 1">
     <h3>Open account for $20 and get 0% commission <br><span>on outgoing payments in the Singapore Bank</span>
     </h3>
   </div>
@@ -83,9 +57,9 @@
 
   <!-- <div class="qubera-btn-wr" *ngIf="kycStatus !== 'SUCCESS' && kycStatus !== 'Pending'"> -->
 
-      <div [ngSwitch]="kycStatus">
+      <div [ngSwitch]="kycStatus" *ngIf="quberaBalance.length < 1">
         <div class="qubera-btn-wr" *ngSwitchCase="'SUCCESS'">
-            <button class="btn btn--active balance__title-btn" (click)="createCurrency.emit(true)">{{'Create currency' | translate}}</button>
+            <button class="btn btn--active balance__title-btn" (click)="createCurrency.emit(true)" *ngIf="quberaBalance.length < 1">{{'Create currency' | translate}}</button>
         </div>
         <div class="qubera-btn-wr" *ngSwitchCase="'Failed'">
           <button class="btn btn--active balance__title-btn" (click)="createFugAccount.emit(true)">{{'Create KYC' | translate}}</button>
@@ -127,59 +101,64 @@
 
 
   <div class="qubera-benefits">
-    <div class="ben-head">
+    <div class="ben-head" *ngIf="quberaBalance.length < 1">
       <h6>Benefits</h6>
     </div>
-    <ul class="benefits-list">
+    <ul class="benefits-list" *ngIf="quberaBalance.length < 1">
       <li>
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 15 11" fill="none">
           <rect y="5.53174" width="2.57013" height="7.7104" rx="1" transform="rotate(-45 0 5.53174)" fill="#2560F2"/>
           <rect x="12.8013" width="2.57013" height="12.9632" rx="1" transform="rotate(45 12.8013 0)" fill="#2560F2"/>
         </svg>
-        <span><b>Deposits and withdrawals via SWIFT / SEPA for 24 fiat currencies</b></span></li>
+        <span><b>Deposits and withdrawals via SWIFT / SEPA for 24 fiat currencies</b></span>
+      </li>
         <li>
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 15 11" fill="none">
             <rect y="5.53174" width="2.57013" height="7.7104" rx="1" transform="rotate(-45 0 5.53174)" fill="#2560F2"/>
             <rect x="12.8013" width="2.57013" height="12.9632" rx="1" transform="rotate(45 12.8013 0)" fill="#2560F2"/>
           </svg>
-          <span><b>$50,000</b> deposit limit for a day</span></li>
-          <li>
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 15 11" fill="none">
-              <rect y="5.53174" width="2.57013" height="7.7104" rx="1" transform="rotate(-45 0 5.53174)" fill="#2560F2"/>
-              <rect x="12.8013" width="2.57013" height="12.9632" rx="1" transform="rotate(45 12.8013 0)" fill="#2560F2"/>
-            </svg>
-            <span><b>$50,000</b> withdrawal limit for a day</span></li>
-            <li>
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 15 11" fill="none">
-                <rect y="5.53174" width="2.57013" height="7.7104" rx="1" transform="rotate(-45 0 5.53174)" fill="#2560F2"/>
-                <rect x="12.8013" width="2.57013" height="12.9632" rx="1" transform="rotate(45 12.8013 0)" fill="#2560F2"/>
-              </svg>
-              <span>We work with <b>231</b> countries</span></li>
-              <li>
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 15 11" fill="none">
-                  <rect y="5.53174" width="2.57013" height="7.7104" rx="1" transform="rotate(-45 0 5.53174)" fill="#2560F2"/>
-                  <rect x="12.8013" width="2.57013" height="12.9632" rx="1" transform="rotate(45 12.8013 0)" fill="#2560F2"/>
-                </svg>
-                <span><b>1% commission</b> on account deposits</span></li>
-                <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 15 11" fill="none">
-                    <rect y="5.53174" width="2.57013" height="7.7104" rx="1" transform="rotate(-45 0 5.53174)" fill="#2560F2"/>
-                    <rect x="12.8013" width="2.57013" height="12.9632" rx="1" transform="rotate(45 12.8013 0)" fill="#2560F2"/>
-                  </svg>
-                  <span><b>0% transfer fee</b> between personal and trading account at Exrates</span></li>
-                </ul>  
-              </div>
-              <div class="for-vip">
-                <h6>For VIP clients</h6>
-                <p>Up to $ 150,000 limit for deposits and withdrawals.</p>
-              </div>
-              <div class="how-work">
-                <h6>How does it work?</h6>
-                <p>Через ваш акаунт Exrates вы открываете счёт в Банке. Данный счёт является вашим персональным счетом с которого вы можете в любом момент переводить фиат на ваш торговый счёт в Exrates.</p>
-              </div>
-              <div class="detail-inf">
-                <p>Более детальное описание условий доступно на странице финансового партнёра <a href="#">FUG</a>.</p>
-              </div>
+          <span><b>$50,000</b> deposit limit for a day</span>
+        </li>
+        <li>
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 15 11" fill="none">
+            <rect y="5.53174" width="2.57013" height="7.7104" rx="1" transform="rotate(-45 0 5.53174)" fill="#2560F2"/>
+            <rect x="12.8013" width="2.57013" height="12.9632" rx="1" transform="rotate(45 12.8013 0)" fill="#2560F2"/>
+          </svg>
+          <span><b>$50,000</b> withdrawal limit for a day</span>
+        </li>
+        <li>
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 15 11" fill="none">
+            <rect y="5.53174" width="2.57013" height="7.7104" rx="1" transform="rotate(-45 0 5.53174)" fill="#2560F2"/>
+            <rect x="12.8013" width="2.57013" height="12.9632" rx="1" transform="rotate(45 12.8013 0)" fill="#2560F2"/>
+          </svg>
+          <span>We work with <b>231</b> countries</span></li>
+        <li>
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 15 11" fill="none">
+            <rect y="5.53174" width="2.57013" height="7.7104" rx="1" transform="rotate(-45 0 5.53174)" fill="#2560F2"/>
+            <rect x="12.8013" width="2.57013" height="12.9632" rx="1" transform="rotate(45 12.8013 0)" fill="#2560F2"/>
+          </svg>
+          <span><b>1% commission</b> on account deposits</span>
+        </li>
+        <li>
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 15 11" fill="none">
+            <rect y="5.53174" width="2.57013" height="7.7104" rx="1" transform="rotate(-45 0 5.53174)" fill="#2560F2"/>
+            <rect x="12.8013" width="2.57013" height="12.9632" rx="1" transform="rotate(45 12.8013 0)" fill="#2560F2"/>
+          </svg>
+          <span><b>0% transfer fee</b> between personal and trading account at Exrates</span>
+        </li>
+      </ul>  
+    </div>
+    <div class="for-vip">
+      <h6>For VIP clients</h6>
+      <p>Up to $ 150,000 limit for deposits and withdrawals.</p>
+    </div>
+    <div class="how-work">
+      <h6>How does it work?</h6>
+      <p>Через ваш акаунт Exrates вы открываете счёт в Банке. Данный счёт является вашим персональным счетом с которого вы можете в любом момент переводить фиат на ваш торговый счёт в Exrates.</p>
+    </div>
+    <div class="detail-inf">
+      <p>Более детальное описание условий доступно на странице финансового партнёра <a href="#">FUG</a>.</p>
+    </div>
 
 
              <!-- <button class="btn btn--active balance__title-btn" (click)="showPopup()">button for popup</button> -->

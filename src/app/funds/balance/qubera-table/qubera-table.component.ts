@@ -33,6 +33,8 @@ export class QuberaTableComponent implements OnInit {
   ngOnInit() {
     this.checkInfoAboutAccount();
     this.quberaBalance.push(this.balances.data);
+    console.log(this.kycStatus);
+    console.log(this.quberaBalance);
 
   }
 

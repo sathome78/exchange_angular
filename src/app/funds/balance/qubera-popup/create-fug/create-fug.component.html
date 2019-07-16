@@ -37,6 +37,7 @@
   <app-step-one
     *ngIf="step === 1"
     (nextStep)="nextStep(2)"
+    (closeSendQuberaPopup)="onCloseSendMoneyPopup()"
   >
   </app-step-one>
   <app-step-two

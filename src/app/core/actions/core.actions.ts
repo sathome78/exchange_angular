@@ -11,10 +11,6 @@ export const LOAD_VERIFICATION_STATUS = '[Core] Load verification status';
 export const FAIL_LOAD_VERIFICATION_STATUS = '[Core] Fail load verification status';
 export const SET_VERIFICATION_STATUS = '[Core] Set verification status';
 
-export const LOAD_BANK_QUBERA_STATUS = '[Core] Load qubera bank status';
-export const FAIL_LOAD_BANK_QUBERA_STATUS = '[Core] Fail load qubera bank status';
-export const SET_BANK_QUBERA_STATUS = '[Core] Set qubera bank status';
-
 export const LOAD_SIMPLE_CURRENCY_PAIRS = '[Core] Load simple currency pairs';
 export const FAIL_LOAD_SIMPLE_CURRENCY_PAIRS = '[Core] Fail load simple currency pairs';
 export const SET_SIMPLE_CURRENCY_PAIRS = '[Core] Set simple currency pairs';
@@ -67,22 +63,7 @@ export class FailLoadVerificationStatusAction implements Action {
 }
 
 
-// check bank qubera status
 
-export class LoadQuberaBankStatusAction implements Action {
-  readonly type = LOAD_BANK_QUBERA_STATUS;
-  constructor(public payload?) {}
-}
-
-export class SetQuberaBankStatusAction implements Action {
-  readonly type = SET_BANK_QUBERA_STATUS;
-  constructor(public payload: string) {}
-}
-
-export class FailLoadQuberaBankStatusAction implements Action {
-  readonly type = FAIL_LOAD_BANK_QUBERA_STATUS;
-  constructor(public payload?) {}
-}
 
 /**
  * Save token to local storage
@@ -206,9 +187,6 @@ export type Actions
   | SetVerificationStatusAction
   | LoadVerificationStatusAction
   | FailLoadVerificationStatusAction
-  | SetQuberaBankStatusAction
-  | LoadQuberaBankStatusAction
-  | FailLoadQuberaBankStatusAction
   | SetOnLoginAction
   | SetOnLogoutAction
   | SetIEOListAction

@@ -15,6 +15,10 @@ export const LOAD_QUBERA_BAL = '[Funds] Load qubera balances';
 export const FAIL_LOAD_QUBERA_BAL = '[Funds] Fail load qubera balances';
 export const SET_QUBERA_BAL = '[Funds] Set qubera balances';
 
+export const LOAD_BANK_QUBERA_STATUS = '[Core] Load qubera bank status';
+export const FAIL_LOAD_BANK_QUBERA_STATUS = '[Core] Fail load qubera bank status';
+export const SET_BANK_QUBERA_STATUS = '[Core] Set qubera bank status';
+
 export const LOAD_PENDING_REQ = '[Funds] Load pending requests';
 export const FAIL_LOAD_PENDING_REQ = '[Funds] Fail load pending requests';
 export const SET_PENDING_REQ = '[Funds] Set pending requests';
@@ -95,6 +99,24 @@ export class SetQuberaBalAction implements Action {
 }
 export class FailLoadQuberaBalAction implements Action {
   readonly type = FAIL_LOAD_QUBERA_BAL;
+  constructor(public payload?) {}
+}
+
+
+// check bank qubera status
+
+export class LoadQuberaBankStatusAction implements Action {
+  readonly type = LOAD_BANK_QUBERA_STATUS;
+  constructor(public payload?) {}
+}
+
+export class SetQuberaBankStatusAction implements Action {
+  readonly type = SET_BANK_QUBERA_STATUS;
+  constructor(public payload: string) {}
+}
+
+export class FailLoadQuberaBankStatusAction implements Action {
+  readonly type = FAIL_LOAD_BANK_QUBERA_STATUS;
   constructor(public payload?) {}
 }
 
@@ -234,6 +256,9 @@ export type Actions
   | LoadMaxCurrencyPairByCurrencyName
   | FailLoadMaxCurrencyPairByCurrencyName
   | LoadTransactionsHistoryAction
+  | SetQuberaBankStatusAction
+  | LoadQuberaBankStatusAction
+  | FailLoadQuberaBankStatusAction
   | LoadLastTransactionsHistoryAction
   | SetTransactionsHistoryAction
   | SetMoreTransactionsHistoryAction

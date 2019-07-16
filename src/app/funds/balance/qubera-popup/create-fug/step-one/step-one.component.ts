@@ -35,6 +35,8 @@ export class StepOneComponent implements OnInit {
   public dateChoose: any;
   public isVerify: any;
   @Output() public nextStep: EventEmitter<any> = new EventEmitter();
+  
+  @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
 
 
   // country
