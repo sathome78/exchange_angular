@@ -17,7 +17,6 @@ export class GetIconUrl  implements PipeTransform {
       case 'DOR':
       case 'CMS_X':
       case 'EXR':
-      case 'GRS':
       case 'KOD':
       case 'TAO':
       case 'WaBi':
@@ -40,7 +39,6 @@ export class GetIconUrl  implements PipeTransform {
       case 'Qubera':
       case 'DIM.EUR':
       case 'DIM.USD':
-      case 'HCXP':
       case 'HNI':
       case 'HOT':
       case 'MET':
@@ -51,12 +49,14 @@ export class GetIconUrl  implements PipeTransform {
       case 'REN':
       case 'VRBS':
       case 'BSV':
-      case 'CRON':
       case 'RBC':
       case 'RVC':
       case 'TTT':
       case 'uDOOOO':
       case 'VRA':
+      // case 'GNY':
+      // case 'NOVA':
+      // case 'TSL':
       
       case 'ZUBE':
         name = 'no_icon';
