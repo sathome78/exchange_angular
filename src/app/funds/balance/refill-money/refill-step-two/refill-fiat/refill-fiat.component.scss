@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     @media(max-width:1199px) {
       margin-bottom: 0;
     }
@@ -49,12 +49,12 @@
     &__inputs-wrap {
       flex-direction: row;
       align-items: flex-start;
-      margin-bottom: 32px;
+      margin-bottom: 12px;
     }
     &__select {
       width: 100%;
       margin-bottom: 0;
-      margin-right: 32px;
+      margin-right: 16px;
     }
     &__wrap-input {
       margin-bottom: 0;
@@ -128,23 +128,62 @@
 // TEMP STYLE
 .wrap-input__message--show {
   min-height: 30px;
+  font-size: 12px;
 }
-.btn--empty-blue{
-  &:hover, &:focus{
-    background-color: transparent !important;
-  }
-}
+// .btn--empty-blue{
+//   &:hover, &:focus{
+//     background-color: transparent !important;
+//   }
+// }
 
-.btn {
-  &.btn--center {
-    color: #ffffff !important;
-    &.btn--empty-blue {
-      color: #237BEF !important;
-      &:hover {
+// .btn {
+//   &.btn--center {
+//     color: #ffffff !important;
+//     &.btn--empty-blue {
+//       color: #237BEF !important;
+//       &:hover {
+//         &:not(:disabled){
+//           background-color: transparent !important;
+//         border: 1px solid #237BEF !important;
+//         }
+
+//       }
+//       &:disabled{
+//           background-color: transparent !important;
+//           pointer-events: none;
+//           color: #91929F !important;
+//           border-color: #91929F !important;
+//         }
+//     }
+//   }
+// }
+
+
+.btn{
+  color: #fff!important;
+  border: 1px solid #237BEF!important;
+  background-color: #237BEF!important;
+  &.btn--empty-blue {
+    color: #237BEF !important;
+    background-color: transparent !important;
+    &:hover {
+      &:not(:disabled){
         background-color: transparent !important;
         border: 1px solid #237BEF !important;
       }
+
     }
+  }
+  &:hover{
+    &:not(:disabled){
+      background-color: #4590F3!important;
+    }
+  }
+  &:disabled{
+    background-color: transparent!important;
+    pointer-events: none;
+    color: #91929F!important;
+    border-color: #91929F!important;
   }
 }
 
