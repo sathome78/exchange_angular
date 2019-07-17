@@ -1,6 +1,7 @@
 <div class="modal__content qubera-content">
+  <div class="fiat-deposit-s1 fiat-withdraw-s1">
   <h2>{{'Transaction confirmation' | translate}}</h2>
-  <div class="inf-code">{{'To number 38 ****** 94 code has been sent enter it to the floor' | translate}}</div>
+  <div class="inf-code">{{'Please enter two-factor authentication code that was sent to your email' | translate}}</div>
 
   <form [formGroup]="form">
     <div class="input-block">
@@ -8,16 +9,39 @@
       <label class="wrap-input__label" for="code">{{'Code' | translate}}</label>
     </div>
   </form>
+  <div class="info-block">
+    <div class="left-part">
+      <div class="left-block">
+        <div class="item-info">
+          <span class="key-info">You want to withdraw:</span>
+          <span class="value-info">550 EUR</span>
+        </div>
+        <div class="item-info">
+          <span class="key-info">Exchange comission:</span>
+          <span class="value-info">3% = 15 EUR</span>
+        </div>
+        <div class="item-info">
+          <span class="key-info">Merchant comission:</span>
+          <span class="value-info">12% = 0.000005 EUR (but not less than 0.000005)</span>
+        </div>
+        <div class="item-info">
+          <span class="key-info">Total comission:</span>
+          <span class="value-info">24% = 0.000005 EUR</span>
+        </div>
+        <div class="item-info">
+          <span class="key-info">Total with comission:</span>
+          <span class="value-info">0.000005 EUR</span>
+        </div>
+        
+      </div>
+    </div>
+  </div>
   <button
     class="btn btn--center"
-    [ngClass]="{'btn--empty-blue': !form.valid}"
     [disabled]="form.invalid"
     (click)="enterCode(form.value)"
   >
     {{'Confirm' | translate}}
   </button>
-
-  <div class="change-number">
-    <a>Change phone number</a>
-  </div>
+</div>
 </div>

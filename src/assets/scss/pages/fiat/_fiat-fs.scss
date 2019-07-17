@@ -748,6 +748,7 @@
 		}
 	}
 	.secundary-form{
+		margin-bottom: 16px;
 		.input-block{
 			max-width: unset;
 			@media(max-width: 640px){
@@ -756,6 +757,9 @@
 				margin-bottom: 20px;
 			}
 		}
+	}
+	.balance__title-btn{
+		margin-bottom: 47px;
 	}
 	.info-block {
 		margin: 0 0 32px;
@@ -780,7 +784,8 @@
 		.left-part{
 			margin-left: auto;
 			max-width: 510px;
-			margin-right: 0;
+			// margin-right: 0;
+			margin-right: auto;
 			@media(max-width: 1200px){
 				margin-left: 0;
 			}
@@ -863,3 +868,29 @@
 		}
 	}
 }
+
+
+.dark-theme {
+	.modal {
+		.qubera-content {
+			.btn{
+				color: #fff;
+				border: 1px solid #237BEF;
+				background-color: #237BEF;
+				&:hover{
+					&:not(:disabled){
+						background-color: #4590F3;
+					}
+				}
+				&:disabled{
+					background-color: transparent;
+					pointer-events: none;
+					color: #91929F;
+					border-color: #91929F;
+				}
+			}
+		}
+	}
+}
+
+
