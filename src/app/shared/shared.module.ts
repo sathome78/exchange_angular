@@ -61,6 +61,7 @@ import {CutAddEllipsisPipe} from './pipes/cut-add-ellipsis.pipe';
 import {CurrencyFormatPipe} from './pipes/currencyFormat.pipe';
 import {PopupWaitIEOComponent} from './components/popup-wait-ieo/popup-wait-ieo.component';
 import {PopupSorryIEOComponent} from './components/popup-sorry-ieo/popup-sorry-ieo.component';
+import { BirthdayMaskInputComponent } from './components/birthday-mask-input/birthday-mask-input.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import {PopupSorryIEOComponent} from './components/popup-sorry-ieo/popup-sorry-i
     CurrencyFormatPipe,
     PopupWaitIEOComponent,
     PopupSorryIEOComponent,
+    BirthdayMaskInputComponent,
   ],
   imports: [
     FormsModule,
@@ -139,6 +141,7 @@ import {PopupSorryIEOComponent} from './components/popup-sorry-ieo/popup-sorry-i
     SortPipe,
     ReplaceNumberPipe,
     DateMaskInputComponent,
+    BirthdayMaskInputComponent,
     GetDateStringPipe,
     DateFromISO8601Pipe,
     MerchantImageFilterPipe,

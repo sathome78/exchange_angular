@@ -92,14 +92,14 @@
         </div>
       </ng-container>
     </div>
-    <div class="wrap-input transaction__datepicker">
-      <app-date-mask-input
+    <div class="wrap-input filters-popup__datepicker">
+      <label class="wrap-input__label" [ngClass]="{'select-input_label': modelDateFrom?.date || isDateInputFromFocus}" >{{'Date of Birth' | translate}}</label>
+      <app-birthday-mask-input
         [innValue]="modelDateFrom"
         (inputFocus)="focusOrBlurDateFrom($event)"
         (inputEmpty)="clearModelDateFrom()"
         (validDate)="onDateChanged($event)"
-        [disableAutoFocus]="true"
-      ></app-date-mask-input>
+      ></app-birthday-mask-input>
       <my-date-picker
         name="datepicker"
         [options]="myDatePickerOptions"

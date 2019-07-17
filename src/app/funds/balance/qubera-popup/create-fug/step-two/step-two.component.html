@@ -3,7 +3,7 @@
     <div class="inf-code">{{' В течении 2 часов ваш KYC будет проверен  компанией FUG.После успешного подтверждения  KYC ваш счёт будет открыт и вы получите уведомление об успешном открытии счета. Пользование счетом возможно будет прямо в акаунте Exrates”.
 ' | translate}}</div>
     <button
-      class="btn btn--center" (click)="closeSendQuberaPopup.emit(true)">
+      class="btn btn--center" (click)="closeSendQuberaPopup.emit(true);getStatusKYC()">
       {{'Вернуться на главную' | translate}}
     </button>
   </div>

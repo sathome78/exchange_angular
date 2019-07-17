@@ -1,15 +1,14 @@
-import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef, HostListener, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormControlName } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, HostListener, ChangeDetectorRef } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { State } from 'app/core/reducers';
 import { first, takeUntil } from 'rxjs/operators';
-import { UserService } from 'app/shared/services/user.service';
 import { Subject } from 'rxjs';
 import { KycCountry } from 'app/shared/interfaces/kyc-country-interface';
 import { SettingsService } from 'app/settings/settings.service';
 import { BalanceService } from 'app/funds/services/balance.service';
 import { BankVerification } from 'app/model/bank-veryfication.model';
-import { IMyDpOptions, IMyDateModel } from 'mydatepicker';
+import { IMyDpOptions } from 'mydatepicker';
 
 @Component({
   selector: 'app-step-one',
@@ -56,6 +55,21 @@ export class StepOneComponent implements OnInit {
     this.getCountryCode();
   }
 
+  
+  
+  public myDatePickerOptions: IMyDpOptions = {
+    showInputField: false,
+    openSelectorTopOfInput: true,
+    minYear: new Date().getFullYear() - 90,
+    maxYear: new Date().getFullYear() - 18,
+    dateFormat: 'dd.mm.yyyy',
+    disableSince: {
+      year: new Date().getFullYear() - 18,
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate() + 1,
+    }
+  };
+
 
   initForm() {
     this.form = new FormGroup({
@@ -93,6 +107,11 @@ export class StepOneComponent implements OnInit {
       }),
     });
     this.form.controls.theCheckbox.setValue(false);
+    this.form.controls.datepicker.setValue({ date: { 
+      year: new Date().getFullYear() - 18,
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate() + 1,
+     } });
   }
 
   get currentCountry(): any {
@@ -176,17 +195,6 @@ export class StepOneComponent implements OnInit {
   searchCountry(e) {
     this.countryArray = this.countryArrayDefault.filter(f => f.countryName.toUpperCase().match(e.target.value.toUpperCase()));
   }
-
-  public myDatePickerOptions: IMyDpOptions = {
-    showInputField: false,
-    openSelectorTopOfInput: true,
-    dateFormat: 'dd.mm.yyyy',
-    disableSince: {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth() + 1,
-      day: new Date().getDate() + 1,
-    }
-  };
 
   clearModelDateFrom() {
     this.modelDateFrom = null;

@@ -12,8 +12,12 @@ export class StepTwoComponent implements OnInit {
 
   
   @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
+  @Output() getKYCStatus = new EventEmitter<boolean>();
 
   
   ngOnInit() {
+  }
+  getStatusKYC() {
+    this.getKYCStatus.emit(true);
   }
 }

@@ -9,7 +9,8 @@ export class CreateFugComponent implements OnInit {
   
   @Input() qubera;
   @Input() steper;
-  @Output() closeSendQuberaPopup = new EventEmitter<boolean>()
+  @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
+  @Output() getKYCStatus = new EventEmitter<boolean>();
   step: number;
 
   constructor() { }
@@ -26,6 +27,10 @@ export class CreateFugComponent implements OnInit {
     setTimeout(() => {
       this.closeSendQuberaPopup.emit(true);
     }, 1000);
+  }
+
+  getStatusKYC() {
+    this.getKYCStatus.emit(true);
   }
 
   
