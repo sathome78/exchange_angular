@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { BalanceService } from 'app/funds/services/balance.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-step-two-withdraw',
@@ -9,8 +11,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class StepTwoWithdrawComponent implements OnInit {
 
   form: FormGroup;
+  @Output() public nextStep: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor(
+    public balanceService: BalanceService) { }
 
   ngOnInit() {
     this.initForm();
@@ -23,7 +27,12 @@ export class StepTwoWithdrawComponent implements OnInit {
   }
 
   enterCode(form) {
-    console.log(form);
+      // this.balanceService.confirmSendWithdraw(form)
+      //   .pipe(first())
+      //   .subscribe((data: any) => {
+      //     console.log(data);
+      //   });
+      this.nextStep.emit(3);
   }
 
 

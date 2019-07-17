@@ -68,54 +68,129 @@
 
           </app-price-input>
   </div>
+</form>
 
+<div class="choose-block">
+  <label *ngFor="let radiobutton of radioItems">
+      <input type="radio" name="options" (click)="checkForm(radiobutton)"
+      [checked]="radiobutton === model">{{radiobutton}}
+  </label>
+</div>
+
+<form [formGroup]="formSepa" *ngIf="model == 'sepa'">
   <div class="secundary-form">
     <div class="input-block">
       <input type="text" name="firstname" class="wrap-input__input" formControlName="firstName" required>
-      <label class="wrap-input__label" for="firstname">First Name </label>
+      <label class="wrap-input__label" for="firstname">{{'First name' | translate}}</label>
     </div>
     <div class="input-block">
-      <input class="wrap-input__input" type="text" name="lastname" formControlName="lastname" required>
-      <label class="wrap-input__label" for="lastname">Last Name</label>
+      <input class="wrap-input__input" type="text" name="lastname" formControlName="lastName" required>
+      <label class="wrap-input__label" for="lastname">{{'Last name' | translate}}</label>
     </div>
     <div class="input-block">
-      <input class="wrap-input__input" type="text" name="bankaddress" formControlName="bankaddress" required>
-      <label class="wrap-input__label" for="bank-address">Bank Address</label>
+      <input class="wrap-input__input" type="text" name="companyName" formControlName="companyName" required>
+      <label class="wrap-input__label" for="companyName">{{'Company name' | translate}}</label>
     </div>
     <div class="input-block">
-      <input class="wrap-input__input" type="text" name="bankcountrycode" formControlName="bankcountrycode" required>
-      <label class="wrap-input__label" for="bankcountrycode">Bank Country Code</label>
+      <input class="wrap-input__input" type="text" name="narrative" formControlName="narrative" required>
+      <label class="wrap-input__label" for="narrative">{{'Narrative' | translate}}</label>
     </div>
     <div class="input-block">
-      <input class="wrap-input__input" type="text" name="bankname" formControlName="bankname" required>
-      <label class="wrap-input__label" for="bankname">Bank Name</label>
+      <input class="wrap-input__input" type="text" name="iban" formControlName="iban" required>
+      <label class="wrap-input__label" for="iban">{{'Iban' | translate}}</label>
+    </div>
+  </div>
+  <button class="btn balance__title-btn"
+    [disabled]="!form.valid || !formSepa.valid"
+    (click)="submit(form, formSepa)">
+      Withdrawal 550 EUR
+  </button>
+</form>
+
+
+<form [formGroup]="formSwift" *ngIf="model == 'swift'">
+  <div class="secundary-form">
+    <div class="input-block">
+      <input type="text" name="firstname" class="wrap-input__input" formControlName="firstName" required>
+      <label class="wrap-input__label" for="firstname">{{'First name' | translate}}</label>
+    </div>
+    <div class="input-block">
+      <input class="wrap-input__input" type="text" name="lastname" formControlName="lastName" required>
+      <label class="wrap-input__label" for="lastname">{{'Last name' | translate}}</label>
+    </div>
+    <div class="input-block">
+      <input class="wrap-input__input" type="text" name="companyName" formControlName="companyName" required>
+      <label class="wrap-input__label" for="companyName">{{'Company name' | translate}}</label>
+    </div>
+    <div class="input-block">
+      <input class="wrap-input__input" type="text" name="accountNumber" formControlName="accountNumber" required>
+      <label class="wrap-input__label" for="accountNumber">{{'Account number' | translate}}</label>
     </div>
     <div class="input-block">
       <input class="wrap-input__input" type="text" name="swift" formControlName="swift" required>
-      <label class="wrap-input__label" for="swift">Swift</label>
+      <label class="wrap-input__label" for="swift">{{'Swift' | translate}}</label>
     </div>
     <div class="input-block">
-      <input class="wrap-input__input" type="text" name="ibal" formControlName="ibal" required>
-      <label class="wrap-input__label" for="ibal">Iban</label>
+      <input class="wrap-input__input" type="text" name="narrative" formControlName="narrative" required>
+      <label class="wrap-input__label" for="narrative">{{'Narrative' | translate}}</label>
+    </div>
+    <div class="input-block">
+      <input class="wrap-input__input" type="text" name="address" formControlName="address" required>
+      <label class="wrap-input__label" for="address">{{'Address' | translate}}</label>
     </div>
     <div class="input-block">
       <input class="wrap-input__input" type="text" name="city" formControlName="city" required>
-      <label class="wrap-input__label" for="city">City</label>
-    </div>
-    <div class="input-block">
-      <input class="wrap-input__input" type="text" name="countryCode" formControlName="countryCode" required>
-      <label class="wrap-input__label" for="countryCode">Country Code</label>
-    </div>
-    <div class="input-block">
-      <input class="wrap-input__input" type="text" name="zipCode" formControlName="zipCode" required>
-      <label class="wrap-input__label" for="zipCode">Zip Code</label>
+      <label class="wrap-input__label" for="city">{{'City' | translate}}</label>
     </div>
   </div>
 
-  
+  <div class="select" style="margin-bottom: 20px;">
+    <div class="select__value select__value--active" #countryInput
+          (click)="countryDropdownToggle()">
+          {{this.selectedCountry?.countryName}}
+    </div>
+    <div class="select__label">{{'Country' | translate}}</div>
+    <div class="select__line"></div>
+    <div class="select__triangle"></div>
+    <div class="select__list-searching"
+          [ngClass]="{'select__list-searching--open': openCountryDropdown}"
+          *ngIf="openCountryDropdown">
+      <input formControlName="countryCode" style="display: none" [disabled]>
+      <div class="select__search">
+        <input class="select__search-input" type="text" placeholder="Search" (input)="searchCountry($event)">
+        <div class="select__search-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="select__list-searching-body">
+        <perfect-scrollbar>
+          <div class="select__searching-items-wrap">
+            <div class="select__searching-item" *ngFor="let country of countryArray" (click)="selectCountry(country)">
+              <span>{{country.countryName}}</span>
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </div>
+  </div>
+
   <button class="btn balance__title-btn"
-      [disabled]="!form.valid" (click)="submit(form)">Withdrawal 550 EUR</button>
+    [disabled]="!form.valid || !formSwift.valid"
+    (click)="submit(form, formSwift)">
+      Withdrawal 550 EUR
+  </button>
 </form>
+
+
+  
+  
+
+
+
+
 
 <div class="notice-block">
   <span class="head-notice">Please note:</span>

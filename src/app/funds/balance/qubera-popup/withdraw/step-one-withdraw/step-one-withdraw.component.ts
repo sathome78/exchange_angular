@@ -1,13 +1,17 @@
-import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, HostListener, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { getFiatCurrenciesForChoose, State } from 'app/core/reducers';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, switchMap, first } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import * as _uniq from 'lodash/uniq';
 import * as _ from 'lodash';
 import { CurrencyBalanceModel } from 'app/model';
 import { BalanceService } from 'app/funds/services/balance.service';
+import { Sepa } from 'app/funds/models/sepa.model';
+import { Swift } from 'app/funds/models/swift.model';
+import { KycCountry } from 'app/shared/interfaces/kyc-country-interface';
+import { SettingsService } from 'app/settings/settings.service';
 
 @Component({
   selector: 'app-step-one-withdraw',
@@ -16,6 +20,9 @@ import { BalanceService } from 'app/funds/services/balance.service';
 })
 export class StepOneWithdrawComponent implements OnInit {
   form: FormGroup;
+  formSepa: FormGroup;
+  formSwift: FormGroup;
+
   @Input() dataQubera: any;
   @Output() public nextStep: EventEmitter<any> = new EventEmitter();
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -34,13 +41,41 @@ export class StepOneWithdrawComponent implements OnInit {
   public activeFiat;
   public alphabet;
 
+
+  // country
+  
+  public openCountryDropdown: Boolean = false;
+  public showCountryLabelFlag: Boolean = false;
+  public selectedCountry;
+  public countryArray: KycCountry[] = [];
+  public countryArrayDefault: KycCountry[] = [];
+  @ViewChild('countryInput') countryInput: ElementRef;
+
+  radioItems: Array<string>;
+  model: string = '';
+
   constructor(
     private store: Store<State>,
-    public balanceService: BalanceService) { }
+    private settingsService: SettingsService,
+    public balanceService: BalanceService) {
+      this.radioItems = ['sepa', 'swift'];
+      this.model = 'sepa';
+    }
+
+  checkForm(value) {
+    this.model = value;
+    if(this.model == 'sepa') {
+      this.initSepaForm();
+    } else if(this.model == 'swift') {
+      this.initSwiftForm();
+    }
+  }
 
   ngOnInit() {
-    this.initForm();
-    console.log(this.dataQubera);
+    this.initMainForm();
+
+    this.initSepaForm();
+    this.getCountryCode();
 
     this.store
       .pipe(select(getFiatCurrenciesForChoose))
@@ -103,6 +138,7 @@ export class StepOneWithdrawComponent implements OnInit {
   toggleCurrencyDropdown() {
     this.openCurrencyDropdown = !this.openCurrencyDropdown;
     this.openBankSystemDropdown = false;
+    this.openCountryDropdown = false;
     this.prepareAlphabet();
   }
 
@@ -127,6 +163,7 @@ export class StepOneWithdrawComponent implements OnInit {
   bankDropdownToggle() {
     this.openBankSystemDropdown = !this.openBankSystemDropdown;
     this.openCurrencyDropdown = false;
+    this.openCountryDropdown = false;
   }
 
 
@@ -137,28 +174,45 @@ export class StepOneWithdrawComponent implements OnInit {
         && $event.target.className !== 'select__value select__value--active select__value--error'
         && $event.target.className !== 'select__search-input') {
       this.openBankSystemDropdown = false;
+      this.openCurrencyDropdown = false;
+      this.openCountryDropdown = false;
       this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
         ? this.fiatDataByName.merchantCurrencyData
         : [];
-      this.openCurrencyDropdown = false;
     }
   }
 
+  
 
-  initForm() {
+
+  initMainForm() {
     this.form = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      lastname: new FormControl('', Validators.required),
-      bankaddress: new FormControl('', Validators.required),
-      bankcountrycode: new FormControl('', Validators.required),
-      bankname: new FormControl('', Validators.required),
-      swift: new FormControl('', Validators.required),
-      ibal: new FormControl('', Validators.required),
-      city: new FormControl('', Validators.required),
-      countryCode: new FormControl('', Validators.required),
-      zipCode: new FormControl('', Validators.required),
       amount: new FormControl('', Validators.required)
     })
+  }
+
+  initSwiftForm() {
+    this.formSwift = new FormGroup({
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      companyName: new FormControl('', Validators.required),
+      accountNumber: new FormControl('', Validators.required),
+      swift: new FormControl('', Validators.required),
+      narrative: new FormControl('', Validators.required),
+      address: new FormControl('', Validators.required),
+      city: new FormControl('', Validators.required),
+      countryCode: new FormControl('', Validators.required)
+    });
+  }
+
+  initSepaForm() {
+    this.formSepa = new FormGroup({
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      companyName: new FormControl('', Validators.required),
+      iban: new FormControl('', Validators.required),
+      narrative: new FormControl('', Validators.required)
+    });
   }
 
   searchMerchant(e) {
@@ -168,13 +222,81 @@ export class StepOneWithdrawComponent implements OnInit {
     );
   }
 
-  submit(form) {
-    console.log(form.value.valid);
-    console.log(this.activeFiat);
-    console.log(form);
-    if(form.valid) {
-      this.nextStep.emit(2);
+  submit(form, secform) {
+    // console.log(this.activeFiat);
+    // console.log(form);
+    // console.log(secform);
+    if(form.valid && secform.valid) {
+      let obj;
+      if(this.model == 'sepa') {
+        const withdraw = new Sepa();
+        withdraw.amount = `${form.value.amount}`;
+        withdraw.currencyCode = `${this.activeFiat.name}`;
+        withdraw.firstName = secform.value.firstName;
+        withdraw.lastName = secform.value.lastName;
+        withdraw.companyName = secform.value.companyName;
+        withdraw.narrative = secform.value.narrative;
+        withdraw.iban = secform.value.iban;
+        withdraw.type = "sepa";
+        obj = withdraw;
+      } else if(this.model == 'swift') {
+        const withdraw = new Swift();
+        withdraw.amount = `${form.value.amount}`;
+        withdraw.currencyCode = `${this.activeFiat.name}`;
+        withdraw.firstName = secform.value.firstName;
+        withdraw.lastName = secform.value.lastName;
+        withdraw.companyName = secform.value.companyName;
+        withdraw.accountNumber = secform.value.accountNumber;
+        withdraw.swift = secform.value.swift;
+        withdraw.narrative = secform.value.narrative;
+        withdraw.type = "swift";
+        withdraw.address = secform.value.address;
+        withdraw.city = secform.value.city;
+        withdraw.countryCode = this.selectedCountry.countryCode;
+        obj = withdraw;
+      }
+      console.log(obj);
+      // this.balanceService.sendWithdraw(obj)
+      //   .pipe(first())
+      //   .subscribe(data => {
+      //     console.log(data);
+      //     this.nextStep.emit(2);
+      //   });
+        this.nextStep.emit(2);
     }
+
+      
+  }
+
+
+  getCountryCode() {
+    this.settingsService.getCountriesKYC()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.countryArrayDefault = res as KycCountry[];
+        this.countryArray = this.countryArrayDefault;
+      });
+  }
+
+  countryDropdownToggle() {
+    this.countryInput.nativeElement.value = this.selectedCountry ? this.selectedCountry.countryName : '';
+    this.openCountryDropdown = !this.openCountryDropdown;
+    this.openBankSystemDropdown = false;
+    this.openCurrencyDropdown = false;
+    this.countryArray = this.countryArrayDefault;
+  }
+  showCountryLabel(flag: boolean) {
+    this.showCountryLabelFlag = flag;
+  }
+
+  selectCountry(country) {
+    this.selectedCountry = country;
+    this.countryDropdownToggle();
+    this.formSwift.controls.countryCode.setValue(country.countryCode);
+  }
+  
+  searchCountry(e) {
+    this.countryArray = this.countryArrayDefault.filter(f => f.countryName.toUpperCase().match(e.target.value.toUpperCase()));
   }
 
 }

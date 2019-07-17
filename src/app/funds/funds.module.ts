@@ -78,6 +78,7 @@ import { CreateCurrencyComponent } from './balance/qubera-popup/create-currency/
 import { StepOneCurrencyComponent } from './balance/qubera-popup/create-currency/step-one-currency/step-one-currency.component';
 import { StepTwoCurrencyComponent } from './balance/qubera-popup/create-currency/step-two-currency/step-two-currency.component';
 import { RefillStepThreeComponent } from './balance/refill-money/refill-step-three/refill-step-three.component';
+import { StepThreeWithdrawComponent } from './balance/qubera-popup/withdraw/step-three-withdraw/step-three-withdraw.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -164,7 +165,8 @@ export function createTranslateLoader(http: HttpClient) {
     CreateCurrencyComponent,
     StepOneCurrencyComponent,
     StepTwoCurrencyComponent,
-    RefillStepThreeComponent
+    RefillStepThreeComponent,
+    StepThreeWithdrawComponent
   ],
   providers: [
     BalanceService,

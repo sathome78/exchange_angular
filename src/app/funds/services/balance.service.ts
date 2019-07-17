@@ -214,4 +214,12 @@ export class BalanceService {
     return this.http.get(`${this.apiUrl}/api/private/v2/merchants/qubera/info`);
   }
 
+  sendWithdraw(body: any) {
+    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/info`, body);
+  }
+
+  confirmSendWithdraw(body: any) {
+    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/info`, body)
+  }
+
 }
