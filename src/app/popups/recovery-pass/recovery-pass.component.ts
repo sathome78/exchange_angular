@@ -23,13 +23,14 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
   @ViewChild('emailInputTemplate') emailInputTemplate: TemplateRef<any>;
   @ViewChild('captchaTemplate') captchaTemplate: TemplateRef<any>;
   @ViewChild('emailConfirmLinkTemplate') emailConfirmLinkTemplate: TemplateRef<any>;
+  @ViewChild('devCaptchaTemplate') public devCaptchaTemplate: TemplateRef<any>;
   public currentTemplate: TemplateRef<any>;
   public emailForm: FormGroup;
   public afterCaptchaMessage = '';
   public recaptchaKey = keys.recaptchaKey;
   public AUTH_MESSAGES = AUTH_MESSAGES;
   public serverError = '';
-  public loading: boolean = false;
+  public loading = false;
 
   constructor(
     private popupService: PopupService,
@@ -73,6 +74,11 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
   }
 
   emailSubmit() {
+    const email = this.emailForm.get('email').value;
+    if (this.utilsService.isDevCaptcha(email)) {
+      this.setTemplate('devCaptchaTemplate');
+      return;
+    }
     this.setTemplate('captchaTemplate');
   }
 
@@ -119,6 +125,9 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
         break;
       case 'emailConfirmLinkTemplate':
         this.currentTemplate = this.emailConfirmLinkTemplate;
+        break;
+      case 'devCaptchaTemplate':
+        this.currentTemplate = this.devCaptchaTemplate;
         break;
     }
   }

@@ -110,6 +110,12 @@
       <!--</div>-->
     </ng-template>
 
+    <ng-template #devCaptchaTemplate>
+      <h6 class="popup__title popup_title--dm">{{'Registration' | translate}}</h6>
+      <h4 class="popup__subtitle popup_title--dm">Captcha emulation for developers and QA</h4>
+      <button class="btn popup__btn popup__btn--active" (click)="resolvedCaptcha($event)">Resolve</button>
+    </ng-template>
+
     <ng-template #emailConfirmLinkTemplate>
       <h6 class="popup__title popup_title--dm">{{'Confirm the email' | translate}}</h6>
       <h4 class="popup__subtitle popup_title--dm" [innerHtml]="afterCaptchaMessage"></h4>
