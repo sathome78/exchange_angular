@@ -56,9 +56,9 @@
 <!-- если не зареган на fug -->
 
   <!-- <div class="qubera-btn-wr" *ngIf="kycStatus !== 'SUCCESS' && kycStatus !== 'Pending'"> -->
-      <div class="qubera-btn-wr">
+      <!-- <div class="qubera-btn-wr">
         <button class="btn btn--active balance__title-btn" (click)="createFugAccount.emit(true)">{{'Create KYC' | translate}}</button>
-      </div>
+      </div> -->
       <div [ngSwitch]="kycStatus">
         <div class="qubera-btn-wr" *ngSwitchCase="'SUCCESS'">
             <button class="btn btn--active balance__title-btn" (click)="createCurrency.emit(true)" *ngIf="quberaBalance.length > 0 && quberaBalance[0] !== undefined">{{'Create Account' | translate}}</button>
