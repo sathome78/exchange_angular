@@ -156,7 +156,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
       });
 
     this.store
-      .pipe(select(fromCore.getBalanceStatus))
+      .pipe(select(fundsReducer.getBalanceStatus))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(status => {
         this.kycStatus = status;

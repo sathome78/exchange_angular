@@ -71,7 +71,6 @@ export const getOrdersLoading = createSelector(getDashboardState, fromDashboard.
 
 export const getLanguage = createSelector(getCoreState, fromCore.getLanguage);
 export const getVerificationStatus = createSelector(getCoreState, fromCore.getVerificationStatus);
-export const getBalanceStatus = createSelector(getCoreState, fromCore.getBalanceQuberaStatus);
 export const getSimpleCurrencyPairsSelector = createSelector(getCoreState, fromCore.getAllSimpleCurrencyPairs);
 export const getDetailedCurrencyPairsSelector = createSelector(getCoreState, fromCore.getAllDetailedCurrencyPairs);
 export const getAllCurrenciesForChoose = createSelector(getCoreState, fromCore.getAllCurrenciesForChoose);

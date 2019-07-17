@@ -1,7 +1,4 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { BalanceService } from 'app/funds/services/balance.service';
-import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-currency',
@@ -15,52 +12,21 @@ export class CreateCurrencyComponent implements OnInit {
   @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
   step: number;
 
-  form: FormGroup;
 
   constructor(
-    private balanceService: BalanceService
   ) { }
 
   ngOnInit() {
-    this.initForm();
-    this.getCodeToCreateCurrency();
-  }
-
-  initForm() {
-    this.form = new FormGroup({
-      code: new FormControl('', Validators.required)
-    })
+    this.step = 1;
   }
 
   setStep(steper) {
     this.step = steper;
   }
 
-  enterCode(form) {
-    if(this.form.valid) {
-      this.balanceService.createCurrency({pin: form.code})
-        .pipe(first())
-        .subscribe((data: any) => {
-          
-        }, error => {
-          console.log(error);
-        });
-    }
-  }
-
-  getCodeToCreateCurrency() {
-    this.balanceService.sendCodeToMail()
-      .pipe(first())
-      .subscribe((code: string) => {
-        
-      }, error => {
-        console.log(error);
-      });
-  }
-
   
-  get currentCode(): any {
-    return this.form.get('code');
+  nextStep(numb) {
+    this.step = numb;
   }
 
   onCloseSendMoneyPopup() {
