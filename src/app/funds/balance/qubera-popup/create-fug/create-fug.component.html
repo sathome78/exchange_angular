@@ -42,6 +42,7 @@
   </app-step-one>
   <app-step-two
     *ngIf="step === 2"
+    (getKYCStatus)="getStatusKYC()"
     (closeSendQuberaPopup)="onCloseSendMoneyPopup()"
   >
   </app-step-two>
