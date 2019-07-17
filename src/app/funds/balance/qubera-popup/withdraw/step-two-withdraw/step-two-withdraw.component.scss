@@ -6,7 +6,7 @@
     line-height: 28px;
     text-align: center;
     color: #191A39;
-    margin-bottom: 30px;
+        margin-bottom: 18px;
 }
 
 .qubera-content .inf-code {
@@ -20,7 +20,6 @@
     margin-bottom: 30px;
 }
 .qubera-content form {
-    max-width: 400px;
     width: 100%;
     margin: 0 auto;
 }
@@ -28,7 +27,7 @@
 .qubera-content form .input-block {
     max-width: 260px;
     position: relative;
-    margin: 0 auto 20px;
+        margin: 0 auto 33px;
 }
 
 .change-number {
@@ -110,7 +109,7 @@
   
   .btn--empty-blue{
     &:hover, &:focus{
-      background-color: transparent !important;
+      // background-color: transparent !important;
     }
   }
   
@@ -118,12 +117,12 @@
     &.btn--center {
       max-width: 260px!important;
       margin-bottom: 20px;
-      color: #ffffff !important;
+      // color: #ffffff !important;
       &.btn--empty-blue {
-        color: #237BEF !important;
+        // color: #237BEF !important;
         &:hover {
-          background-color: transparent !important;
-          border: 1px solid #237BEF !important;
+          // background-color: transparent !important;
+          // border: 1px solid #237BEF !important;
         }
       }
     }

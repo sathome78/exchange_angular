@@ -61,10 +61,10 @@
       </div>
       <div [ngSwitch]="kycStatus">
         <div class="qubera-btn-wr" *ngSwitchCase="'SUCCESS'">
-            <button class="btn btn--active balance__title-btn" (click)="createCurrency.emit(true)" *ngIf="quberaBalance.length > 0 && quberaBalance[0] == undefined">{{'Create currency' | translate}}</button>
+            <button class="btn btn--active balance__title-btn" (click)="createCurrency.emit(true)" *ngIf="quberaBalance.length < 1">{{'Create Account' | translate}}</button>
         </div>
-        <div class="qubera-btn-wr" *ngSwitchCase="'none'">
-          <button class="btn btn--active balance__title-btn" (click)="createFugAccount.emit(true)">{{'Create KYC' | translate}}</button>
+        <div class="qubera-btn-wr" *ngSwitchCase="'Failed'">
+          <button class="btn btn--active balance__title-btn" (click)="createFugAccount.emit(true)">{{'Proceed Verification' | translate}}</button>
         </div>
         <!-- если заявка на подтверждении -->
 
@@ -89,7 +89,7 @@
         </div>
 
         <div class="qubera-btn-wr" *ngSwitchDefault>
-          <button class="btn btn--active balance__title-btn" (click)="createFugAccount.emit(true)">{{'Create KYC' | translate}}</button>
+          <button class="btn btn--active balance__title-btn" (click)="createFugAccount.emit(true)">{{'Proceed Verification' | translate}}</button>
         </div>
       <!-- end 'если заявка на подтверждении' -->
       </div>
