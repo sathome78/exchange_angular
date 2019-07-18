@@ -321,13 +321,13 @@
             </span>
           </td>
           <td class="table__cell">
-            <span class="orders__comission"></span>
-            <span class="orders__comission-usd" *ngIf="!isVipUser">
-              <span>{{item.commissionFixedAmount  | currencyFormat:currency(item.currencyPairName, 2)}}
-                    {{item.currencyPairName | splitCurrency: 2}}
+            <ng-container *ngIf="item.status !== 'CANCELLED'; else commisionCanceled">
+              <span class="orders__comission-usd" *ngIf="!isVipUser; else vipUser">
+                <span>{{item.commissionFixedAmount  | currencyFormat:currency(item.currencyPairName, 2)}}
+                      {{item.currencyPairName | splitCurrency: 2}}
+                </span>
               </span>
-            </span>
-            <span *ngIf="isVipUser">0.0</span>
+            </ng-container>
           </td>
           <td class="table__cell table__cell--tar">
             <span>
@@ -369,3 +369,13 @@
   </div>
   <!--orders-desktop end-->
 </div>
+
+
+
+<ng-template #commisionCanceled>
+  <span>-</span>
+</ng-template>
+
+<ng-template #vipUser>
+  <span>0.0</span>
+</ng-template>
