@@ -5,12 +5,13 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import {keys} from '../../../../../shared/constants';
-import {getFiatCurrenciesForChoose, State} from 'app/core/reducers';
+import {getFiatCurrenciesForChoose, getUserInfo, State} from 'app/core/reducers';
 import {select, Store} from '@ngrx/store';
 import {SEND_FIAT} from '../../send-money-constants';
 import {CommissionData} from '../../../../models/commission-data.model';
 import {defaultCommissionData} from '../../../../store/reducers/default-values';
 import {PopupService} from 'app/shared/services/popup.service';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-send-fiat',
@@ -39,6 +40,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public selectMerchantName;
   public selectedMerchantNested;
   public calculateData: CommissionData = defaultCommissionData;
+  public userInfo: ParsedToken;
 
   public model = {
     currency: 0,
@@ -62,6 +64,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
+    public utilsService: UtilsService,
     private store: Store<State>,
   ) {
   }
@@ -80,6 +83,12 @@ export class SendFiatComponent implements OnInit, OnDestroy {
           this.getFiatInfoByName(this.activeFiat.name);
           this.getBalance(this.activeFiat.name);
         }
+      });
+
+    this.store.pipe(select(getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
       });
   }
 
@@ -187,7 +196,8 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         .subscribe(res => {
           this.calculateData = res as CommissionData;
           const compCommission = parseFloat(this.calculateData.companyCommissionRate.replace('%)', '').replace('(', ''));
-          this.calculateData.commission_rates_sum = +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
+          this.calculateData.commission_rates_sum =
+            +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
         });
     } else {
       const outCommission = !!this.selectedMerchant ? this.selectedMerchant.outputCommission : 0;
@@ -197,7 +207,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   amountBlur(event) {
-    if (event && this.form.controls['amount'].valid) this.calculateCommission(this.amountValue);
+    if (event && this.form.controls['amount'].valid) {
+      this.calculateCommission(this.amountValue);
+    }
   }
 
   amountInput(event) {
@@ -260,7 +272,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   get currName() {
-    return this.activeFiat ? this.activeFiat.name : ''
+    return this.activeFiat ? this.activeFiat.name : '';
   }
 
 }

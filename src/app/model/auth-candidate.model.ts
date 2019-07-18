@@ -1,5 +1,6 @@
 import {environment} from '../../environments/environment';
 import {UtilsService} from '../shared/services/utils.service';
+import {Store} from '@ngrx/store';
 
 export class AuthCandidate {
 
