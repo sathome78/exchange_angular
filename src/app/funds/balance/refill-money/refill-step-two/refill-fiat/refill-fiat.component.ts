@@ -1,6 +1,6 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil, first} from 'rxjs/operators';
 import {CurrencyBalanceModel} from '../../../../../model/currency-balance.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
@@ -174,7 +174,23 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   submitRefill() {
     this.isSubmited = true;
     if(this.selectedMerchant.name == 'Qubera' && this.activeFiat.name == 'EUR') {
-      this.goToThirdStep.emit(true);
+      const deposit: Object = { "currencyName": this.activeFiat.name, "amount": this.form.controls.amount.value};
+      const obj: Object = {
+        currency: this.selectedMerchant.currencyId,
+        merchant: this.selectedMerchant.merchantId,
+        destination: "",
+        merchantImage: 1108,
+        sum: `${this.form.controls.amount.value}`,
+        destinationTag: ""
+      }
+      this.balanceService.fiatDepositQubera(deposit)
+        .pipe(first())
+        .subscribe((data: any) => {
+          this.balanceService.setRefillTransfer(obj);
+          this.goToThirdStep.emit(true);
+        }, error => {
+          console.log(error);
+        });
     } else {
       if (this.form.valid && this.selectedMerchant.name) {
         this.isSubmited = false;

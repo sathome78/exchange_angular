@@ -42,8 +42,8 @@
             [ngClass]="{'steps__item--current': step === 3}">
           <a class="steps__link" (click)="setStep(3)">
             <span class="steps__number" [ngClass]="{'steps__number--current': step === 3, 'steps__number--valid': step != 3 }">3</span>
-            <span class="steps__number-mob-current">3. {{stepTwoName}}</span>
-            <span class="steps__title">{{stepTwoName}}</span>
+            <span class="steps__number-mob-current">3. {{'Transaction' | translate}}</span>
+            <span class="steps__title">{{'Transaction' | translate}}</span>
           </a>
         </li>
         <li class="steps__item"

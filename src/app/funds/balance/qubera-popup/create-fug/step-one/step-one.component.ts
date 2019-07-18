@@ -26,6 +26,7 @@ export class StepOneComponent implements OnInit {
     this.initForm();
   }
 
+  public disable: boolean = false;
   public form: FormGroup;
   public check: boolean = false;
   public modelDateFrom: any;
@@ -142,11 +143,15 @@ export class StepOneComponent implements OnInit {
           birthMonth: `${this.modelDateFrom.date.month}`,
           birthYear: `${this.modelDateFrom.date.year}`,
         };
+        this.disable = true;
         this.balanceService.postFUGAccount(account)
           .pipe(first())
           .subscribe((response: any) => {
             window.open(`${response.data.url}`, '_blank');
+            this.disable = false;
             this.nextStep.emit(2);
+        }, error => {
+          this.disable = false;
         });
       }
   }
@@ -207,7 +212,6 @@ export class StepOneComponent implements OnInit {
   }
 
   onDateChanged(event: any) {
-    console.log(event);
     this.modelDateFrom = {date: event.date};
     this.form.controls.datepicker.setValue(this.modelDateFrom);
   }

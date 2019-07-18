@@ -70,8 +70,8 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.initForm();
 
     this.store
-      .pipe(select(getFiatCurrenciesForChoose))
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(select(getFiatCurrenciesForChoose),
+            takeUntil(this.ngUnsubscribe))
       .subscribe(currencies => {
         this.fiatNames = currencies;
         this.activeFiat = this.fiatNames[0];
@@ -81,6 +81,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
           this.getBalance(this.activeFiat.name);
         }
       });
+      if(this.selectMerchantName == "Qubera") {
+        this.form.removeControl('address');
+      }
   }
 
   ngOnDestroy(): void {
@@ -111,6 +114,12 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.setMinWithdrawSum();
     this.calculateData.commission_rates_sum = this.selectedMerchant.outputCommission;
       this.calculateCommission(this.amountValue);
+    if(merchant.name == "Qubera"){
+      this.form.removeControl('address');
+    } else {
+      this.form.addControl('address', this.form);
+    }
+
   }
 
   currencyDropdownToggle() {
@@ -211,7 +220,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       this.model.merchantImage = this.selectedMerchantNested.id;
       this.model.currencyName = this.activeFiat.name || '';
       this.model.sum = this.form.controls['amount'].value;
-      this.model.destination = this.form.controls['address'].value;
+      if(this.selectedMerchant.name !== "Qubera"){
+        this.model.destination = this.form.controls['address'].value;
+      }
 
       const data = {
         operation: SEND_FIAT,

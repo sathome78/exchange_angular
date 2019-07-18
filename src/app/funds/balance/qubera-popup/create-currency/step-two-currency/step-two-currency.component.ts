@@ -9,6 +9,7 @@ export class StepTwoCurrencyComponent implements OnInit {
 
   
   @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
+  @Output() getKYCStatus = new EventEmitter<boolean>();
 
   constructor() { }
 

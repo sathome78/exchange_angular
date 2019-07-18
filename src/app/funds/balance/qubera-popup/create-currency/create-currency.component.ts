@@ -10,6 +10,7 @@ export class CreateCurrencyComponent implements OnInit {
   @Input() qubera;
   @Input() steper;
   @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
+  @Output() getKYCStatus = new EventEmitter<boolean>();
   step: number;
 
 
@@ -31,6 +32,7 @@ export class CreateCurrencyComponent implements OnInit {
 
   onCloseSendMoneyPopup() {
     setTimeout(() => {
+      this.getKYCStatus.emit(true);
       this.closeSendQuberaPopup.emit(true);
     }, 1000);
   }

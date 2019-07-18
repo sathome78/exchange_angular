@@ -2,7 +2,8 @@ import { Component, OnInit, Input, HostListener, Output, EventEmitter, ViewChild
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { getFiatCurrenciesForChoose, State } from 'app/core/reducers';
-import { takeUntil, switchMap, first } from 'rxjs/operators';
+import * as fromCore from '../../../../../core/reducers';
+import { takeUntil, first } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import * as _uniq from 'lodash/uniq';
 import * as _ from 'lodash';
@@ -12,6 +13,7 @@ import { Sepa } from 'app/funds/models/sepa.model';
 import { Swift } from 'app/funds/models/swift.model';
 import { KycCountry } from 'app/shared/interfaces/kyc-country-interface';
 import { SettingsService } from 'app/settings/settings.service';
+import * as settingsActions from '../../../../../settings/store/actions/settings.actions'
 
 @Component({
   selector: 'app-step-one-withdraw',
@@ -56,17 +58,18 @@ export class StepOneWithdrawComponent implements OnInit {
 
   constructor(
     private store: Store<State>,
+    private stores: Store<fromCore.State>,
     private settingsService: SettingsService,
     public balanceService: BalanceService) {
-      this.radioItems = ['sepa', 'swift'];
-      this.model = 'sepa';
+      this.radioItems = ['Qubera SEPA', 'Qubera SWIFT'];
+      this.model = 'Qubera SEPA';
     }
 
   checkForm(value) {
     this.model = value;
-    if(this.model == 'sepa') {
+    if(this.model == 'Qubera SEPA') {
       this.initSepaForm();
-    } else if(this.model == 'swift') {
+    } else if(this.model == 'Qubera SWIFT') {
       this.initSwiftForm();
     }
   }
@@ -76,6 +79,7 @@ export class StepOneWithdrawComponent implements OnInit {
 
     this.initSepaForm();
     this.getCountryCode();
+    this.stores.dispatch(new settingsActions.LoadGAStatusAction())
 
     this.store
       .pipe(select(getFiatCurrenciesForChoose))
@@ -223,49 +227,49 @@ export class StepOneWithdrawComponent implements OnInit {
   }
 
   submit(form, secform) {
-    // console.log(this.activeFiat);
-    // console.log(form);
-    // console.log(secform);
     if(form.valid && secform.valid) {
-      let obj;
-      if(this.model == 'sepa') {
-        const withdraw = new Sepa();
-        withdraw.amount = `${form.value.amount}`;
-        withdraw.currencyCode = `${this.activeFiat.name}`;
-        withdraw.firstName = secform.value.firstName;
-        withdraw.lastName = secform.value.lastName;
-        withdraw.companyName = secform.value.companyName;
-        withdraw.narrative = secform.value.narrative;
-        withdraw.iban = secform.value.iban;
-        withdraw.type = "sepa";
-        obj = withdraw;
-      } else if(this.model == 'swift') {
-        const withdraw = new Swift();
-        withdraw.amount = `${form.value.amount}`;
-        withdraw.currencyCode = `${this.activeFiat.name}`;
-        withdraw.firstName = secform.value.firstName;
-        withdraw.lastName = secform.value.lastName;
-        withdraw.companyName = secform.value.companyName;
-        withdraw.accountNumber = secform.value.accountNumber;
-        withdraw.swift = secform.value.swift;
-        withdraw.narrative = secform.value.narrative;
-        withdraw.type = "swift";
-        withdraw.address = secform.value.address;
-        withdraw.city = secform.value.city;
-        withdraw.countryCode = this.selectedCountry.countryCode;
-        obj = withdraw;
-      }
+      const obj = this.createObject(form, secform);
       console.log(obj);
-      // this.balanceService.sendWithdraw(obj)
-      //   .pipe(first())
-      //   .subscribe(data => {
-      //     console.log(data);
-      //     this.nextStep.emit(2);
-      //   });
-        this.nextStep.emit(2);
+      this.balanceService.sendWithdraw(obj)
+        .pipe(first())
+        .subscribe(data => {
+          this.balanceService.setWithdrawQubera(data);
+          this.nextStep.emit(2);
+        });
     }
 
       
+  }
+
+
+  createObject(form, secform) {
+    if(this.model == 'Qubera SEPA') {
+      const withdraw = new Sepa();
+      withdraw.amount = `${form.value.amount}`;
+      withdraw.currencyCode = `${this.activeFiat.name}`;
+      withdraw.firstName = secform.value.firstName;
+      withdraw.lastName = secform.value.lastName;
+      withdraw.companyName = secform.value.companyName;
+      withdraw.narrative = secform.value.narrative;
+      withdraw.iban = secform.value.iban;
+      withdraw.type = "SEPA";
+      return withdraw;
+    } else if(this.model == 'Qubera SWIFT') {
+      const withdraw = new Swift();
+      withdraw.amount = `${form.value.amount}`;
+      withdraw.currencyCode = `${this.activeFiat.name}`;
+      withdraw.firstName = secform.value.firstName;
+      withdraw.lastName = secform.value.lastName;
+      withdraw.companyName = secform.value.companyName;
+      withdraw.accountNumber = secform.value.accountNumber;
+      withdraw.swift = secform.value.swift;
+      withdraw.narrative = secform.value.narrative;
+      withdraw.type = "SWIFT";
+      withdraw.address = secform.value.address;
+      withdraw.city = secform.value.city;
+      withdraw.countryCode = this.selectedCountry.countryCode;
+      return withdraw;
+    }
   }
 
 

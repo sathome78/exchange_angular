@@ -3,13 +3,13 @@
   <h2>{{'Transaction confirmation' | translate}}</h2>
   <div class="inf-code">{{'Please enter two-factor authentication code that was sent to your email' | translate}}</div>
 
-  <form>
+  <form [formGroup]="form">
     <div class="input-block">
-      <input class="wrap-input__input" type="text" name="code" required>
+      <input class="wrap-input__input" type="text" name="code" formControlName="code" required>
       <label class="wrap-input__label" for="code">{{'Code' | translate}}</label>
     </div>
   </form>
-  <button class="btn btn--center" >
+  <button class="btn btn--center" (click)="submit(form)">
     {{'Confirm' | translate}}
   </button>
 </div>

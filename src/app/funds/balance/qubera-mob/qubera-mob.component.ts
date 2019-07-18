@@ -23,6 +23,8 @@ export class QuberaMobComponent implements OnInit {
   }
 
   @Input('Tab') public Tab;
+  
+  @Input('loading') public loading: boolean;
   @Input('currTab') public currTab;
   @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
   @Output('openRefillBalancePopup') public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();

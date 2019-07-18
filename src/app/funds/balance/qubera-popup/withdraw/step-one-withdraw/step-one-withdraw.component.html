@@ -1,210 +1,232 @@
 
 <div class="modal__content qubera-content">
-  <div class="fiat-deposit-s1 fiat-withdraw-s1">
-   <h2>Fiat Withdrawal EUR</h2>
-<form [formGroup]="form">
-  <div class="main-form">
-    <div class="select refill__select" style="display: inline-block;">
-      <div class="select__value select__value--active"
-           (click)="toggleCurrencyDropdown()"
-           [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}">
-        <img [src]="activeFiat.name | getIconUrl:true" class="select__list-item-icon select__list-item-icon--mobile">
-          <img [src]="activeFiat.name | getIconUrl" class="select__list-item-icon select__list-item-icon--destop">
-          {{activeFiat?.name}}
+  <div class="fiat-deposit-s1 fiat-withdraw-s1" *ngIf="!!activeFiat && !!fiatDataByName">
+    <h2>Fiat Withdrawal EUR</h2>
+    <form [formGroup]="form">
+      <div class="main-form">
+        <div class="select refill__select" style="display: inline-block;">
+          <div class="select__value select__value--active"
+              (click)="toggleCurrencyDropdown()"
+              [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}">
+            <img [src]="activeFiat.name | getIconUrl:true" class="select__list-item-icon select__list-item-icon--mobile">
+              <img [src]="activeFiat.name | getIconUrl" class="select__list-item-icon select__list-item-icon--destop">
+              {{activeFiat?.name}}
+            </div>
+            <div class="select__label">{{'Currency' | translate}}</div>
+            <div class="select__line"></div>
+            <div class="select__triangle"></div>
+          <ul class="select__list"
+              [ngClass]="{'select__list--open': openCurrencyDropdown}"
+              *ngIf="openCurrencyDropdown">
+            <li class="select__list-item" *ngFor="let currency of fiatNames" (click)="selectCurrency(currency)">
+              <img [src]="currency.name | getIconUrl" class="select__list-item-icon">
+              {{currency?.name}}
+            </li>
+          </ul>
         </div>
-        <div class="select__label">{{'Currency' | translate}}</div>
+
+        <div class="select refill__select" style="display: inline-block;">
+            <div class="select__value select__value--active"
+                (click)="togglePaymentSystemDropdown()"
+                
+                >
+                {{this.model}}
+              </div>
+              <div class="select__label">{{'Payment system' | translate}}</div>
+              <div class="select__line"></div>
+              <div class="select__triangle"></div>
+            <ul class="select__list"
+                [ngClass]="{'select__list--open': openBankSystemDropdown}"
+                *ngIf="openBankSystemDropdown">
+              <li class="select__list-item" *ngFor="let currency of radioItems" (click)="checkForm(currency)">
+                {{currency}}
+              </li>
+            </ul>
+          </div>
+
+        <!-- <div class="select refill__select" *ngIf="selectedMerchant">
+          <div class="select__value select__value--active"
+                (click)="togglePaymentSystemDropdown()">
+            <img [src]="selectMerchantName | getIconUrl" class="select__list-item-icon">
+            {{selectMerchantName}}
+          </div>
+          <div class="select__label">{{'Payment system' | translate}}</div>
+          <div class="select__line"></div>
+          <div class="select__triangle"></div>
+          <div class="select__list-searching"
+                [ngClass]="{'select__list-searching--open': openBankSystemDropdown}"
+                *ngIf="openBankSystemDropdown">
+            <div class="select__search">
+              <input class="select__search-input" type="text" placeholder="Search" (input)="searchMerchant($event)">
+              <div class="select__search-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
+                </svg>
+              </div>
+            </div>
+            <ul class="select__list select__list--open">
+              <ng-template ngFor let-merchant [ngForOf]="merchants">
+                <li class="select__list-item"
+                    *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
+                    (click)="selectMerchant(merchant, nested)">
+                  <img [src]="nested.image_name | getIconUrl" class="select__list-item-icon">
+                  {{nested.image_name}}
+                </li>
+              </ng-template>
+            </ul>
+          </div>
+        </div> -->
+
+        <app-price-input  style="display: inline-block;"
+          [placeholder]="'Amount'"
+          formControlName="amount"
+          name="amount"
+          class="fiat-amount"
+          >
+
+        </app-price-input>
+      </div>
+    </form>
+
+    <!-- <div class="choose-block">
+      <label *ngFor="let radiobutton of radioItems">
+          <input type="radio" name="options" (click)="checkForm(radiobutton)"
+          [checked]="radiobutton === model">{{radiobutton}}
+      </label>
+    </div> -->
+
+    <form [formGroup]="formSepa" *ngIf="model == 'Qubera SEPA'">
+      <div class="secundary-form">
+        <div class="input-block">
+          <input type="text" name="firstname" class="wrap-input__input" formControlName="firstName" required>
+          <label class="wrap-input__label" for="firstname">{{'First name' | translate}}</label>
+        </div>
+        <div class="input-block">
+          <input class="wrap-input__input" type="text" name="lastname" formControlName="lastName" required>
+          <label class="wrap-input__label" for="lastname">{{'Last name' | translate}}</label>
+        </div>
+        <div class="input-block">
+          <input class="wrap-input__input" type="text" name="companyName" formControlName="companyName" required>
+          <label class="wrap-input__label" for="companyName">{{'Company name' | translate}}</label>
+        </div>
+        <div class="input-block">
+          <input class="wrap-input__input" type="text" name="narrative" formControlName="narrative" required>
+          <label class="wrap-input__label" for="narrative">{{'Narrative' | translate}}</label>
+        </div>
+        <div class="input-block">
+          <input class="wrap-input__input" type="text" name="iban" formControlName="iban" required>
+          <label class="wrap-input__label" for="iban">{{'Iban' | translate}}</label>
+        </div>
+      </div>
+      <button class="btn balance__title-btn"
+        [disabled]="!form.valid || !formSepa.valid"
+        (click)="submit(form, formSepa)">
+          Withdrawal 550 EUR
+      </button>
+    </form>
+
+
+    <form [formGroup]="formSwift" *ngIf="model == 'Qubera SWIFT'">
+      <div class="secundary-form">
+        <div class="input-block">
+          <input type="text" name="firstname" class="wrap-input__input" formControlName="firstName" required>
+          <label class="wrap-input__label" for="firstname">{{'First name' | translate}}</label>
+        </div>
+        <div class="input-block">
+          <input class="wrap-input__input" type="text" name="lastname" formControlName="lastName" required>
+          <label class="wrap-input__label" for="lastname">{{'Last name' | translate}}</label>
+        </div>
+        <div class="input-block">
+          <input class="wrap-input__input" type="text" name="companyName" formControlName="companyName" required>
+          <label class="wrap-input__label" for="companyName">{{'Company name' | translate}}</label>
+        </div>
+        <div class="input-block">
+          <input class="wrap-input__input" type="text" name="accountNumber" formControlName="accountNumber" required>
+          <label class="wrap-input__label" for="accountNumber">{{'Account number' | translate}}</label>
+        </div>
+        <div class="input-block">
+          <input class="wrap-input__input" type="text" name="swift" formControlName="swift" required>
+          <label class="wrap-input__label" for="swift">{{'Swift' | translate}}</label>
+        </div>
+        <div class="input-block">
+          <input class="wrap-input__input" type="text" name="narrative" formControlName="narrative" required>
+          <label class="wrap-input__label" for="narrative">{{'Narrative' | translate}}</label>
+        </div>
+        <div class="input-block">
+          <input class="wrap-input__input" type="text" name="address" formControlName="address" required>
+          <label class="wrap-input__label" for="address">{{'Address' | translate}}</label>
+        </div>
+        <div class="input-block">
+          <input class="wrap-input__input" type="text" name="city" formControlName="city" required>
+          <label class="wrap-input__label" for="city">{{'City' | translate}}</label>
+        </div>
+      </div>
+
+      <div class="select" style="margin-bottom: 20px;">
+        <div class="select__value select__value--active" #countryInput
+              (click)="countryDropdownToggle()">
+              {{this.selectedCountry?.countryName}}
+        </div>
+        <div class="select__label">{{'Country' | translate}}</div>
         <div class="select__line"></div>
         <div class="select__triangle"></div>
-      <ul class="select__list"
-          [ngClass]="{'select__list--open': openCurrencyDropdown}"
-          *ngIf="openCurrencyDropdown">
-        <li class="select__list-item" *ngFor="let currency of fiatNames" (click)="selectCurrency(currency)">
-          <img [src]="currency.name | getIconUrl" class="select__list-item-icon">
-          {{currency?.name}}
-        </li>
-      </ul>
-    </div>
-
-    <div class="select refill__select" *ngIf="selectedMerchant">
-      <div class="select__value select__value--active"
-            (click)="togglePaymentSystemDropdown()">
-        <img [src]="selectMerchantName | getIconUrl" class="select__list-item-icon">
-        {{selectMerchantName}}
-      </div>
-      <div class="select__label">{{'Payment system' | translate}}</div>
-      <div class="select__line"></div>
-      <div class="select__triangle"></div>
-      <div class="select__list-searching"
-            [ngClass]="{'select__list-searching--open': openBankSystemDropdown}"
-            *ngIf="openBankSystemDropdown">
-        <div class="select__search">
-          <input class="select__search-input" type="text" placeholder="Search" (input)="searchMerchant($event)">
-          <div class="select__search-icon">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
-            </svg>
-          </div>
-        </div>
-        <ul class="select__list select__list--open">
-          <ng-template ngFor let-merchant [ngForOf]="merchants">
-            <li class="select__list-item"
-                *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
-                (click)="selectMerchant(merchant, nested)">
-              <img [src]="nested.image_name | getIconUrl" class="select__list-item-icon">
-              {{nested.image_name}}
-            </li>
-          </ng-template>
-        </ul>
-      </div>
-    </div>
-
-          <app-price-input  style="display: inline-block;"
-            [placeholder]="'Amount'"
-            formControlName="amount"
-            name="amount"
-            class="fiat-amount"
-            >
-
-          </app-price-input>
-  </div>
-</form>
-
-<div class="choose-block">
-  <label *ngFor="let radiobutton of radioItems">
-      <input type="radio" name="options" (click)="checkForm(radiobutton)"
-      [checked]="radiobutton === model">{{radiobutton}}
-  </label>
-</div>
-
-<form [formGroup]="formSepa" *ngIf="model == 'sepa'">
-  <div class="secundary-form">
-    <div class="input-block">
-      <input type="text" name="firstname" class="wrap-input__input" formControlName="firstName" required>
-      <label class="wrap-input__label" for="firstname">{{'First name' | translate}}</label>
-    </div>
-    <div class="input-block">
-      <input class="wrap-input__input" type="text" name="lastname" formControlName="lastName" required>
-      <label class="wrap-input__label" for="lastname">{{'Last name' | translate}}</label>
-    </div>
-    <div class="input-block">
-      <input class="wrap-input__input" type="text" name="companyName" formControlName="companyName" required>
-      <label class="wrap-input__label" for="companyName">{{'Company name' | translate}}</label>
-    </div>
-    <div class="input-block">
-      <input class="wrap-input__input" type="text" name="narrative" formControlName="narrative" required>
-      <label class="wrap-input__label" for="narrative">{{'Narrative' | translate}}</label>
-    </div>
-    <div class="input-block">
-      <input class="wrap-input__input" type="text" name="iban" formControlName="iban" required>
-      <label class="wrap-input__label" for="iban">{{'Iban' | translate}}</label>
-    </div>
-  </div>
-  <button class="btn balance__title-btn"
-    [disabled]="!form.valid || !formSepa.valid"
-    (click)="submit(form, formSepa)">
-      Withdrawal 550 EUR
-  </button>
-</form>
-
-
-<form [formGroup]="formSwift" *ngIf="model == 'swift'">
-  <div class="secundary-form">
-    <div class="input-block">
-      <input type="text" name="firstname" class="wrap-input__input" formControlName="firstName" required>
-      <label class="wrap-input__label" for="firstname">{{'First name' | translate}}</label>
-    </div>
-    <div class="input-block">
-      <input class="wrap-input__input" type="text" name="lastname" formControlName="lastName" required>
-      <label class="wrap-input__label" for="lastname">{{'Last name' | translate}}</label>
-    </div>
-    <div class="input-block">
-      <input class="wrap-input__input" type="text" name="companyName" formControlName="companyName" required>
-      <label class="wrap-input__label" for="companyName">{{'Company name' | translate}}</label>
-    </div>
-    <div class="input-block">
-      <input class="wrap-input__input" type="text" name="accountNumber" formControlName="accountNumber" required>
-      <label class="wrap-input__label" for="accountNumber">{{'Account number' | translate}}</label>
-    </div>
-    <div class="input-block">
-      <input class="wrap-input__input" type="text" name="swift" formControlName="swift" required>
-      <label class="wrap-input__label" for="swift">{{'Swift' | translate}}</label>
-    </div>
-    <div class="input-block">
-      <input class="wrap-input__input" type="text" name="narrative" formControlName="narrative" required>
-      <label class="wrap-input__label" for="narrative">{{'Narrative' | translate}}</label>
-    </div>
-    <div class="input-block">
-      <input class="wrap-input__input" type="text" name="address" formControlName="address" required>
-      <label class="wrap-input__label" for="address">{{'Address' | translate}}</label>
-    </div>
-    <div class="input-block">
-      <input class="wrap-input__input" type="text" name="city" formControlName="city" required>
-      <label class="wrap-input__label" for="city">{{'City' | translate}}</label>
-    </div>
-  </div>
-
-  <div class="select" style="margin-bottom: 20px;">
-    <div class="select__value select__value--active" #countryInput
-          (click)="countryDropdownToggle()">
-          {{this.selectedCountry?.countryName}}
-    </div>
-    <div class="select__label">{{'Country' | translate}}</div>
-    <div class="select__line"></div>
-    <div class="select__triangle"></div>
-    <div class="select__list-searching"
-          [ngClass]="{'select__list-searching--open': openCountryDropdown}"
-          *ngIf="openCountryDropdown">
-      <input formControlName="countryCode" style="display: none" [disabled]>
-      <div class="select__search">
-        <input class="select__search-input" type="text" placeholder="Search" (input)="searchCountry($event)">
-        <div class="select__search-icon">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-                  d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
-          </svg>
-        </div>
-      </div>
-      <div class="select__list-searching-body">
-        <perfect-scrollbar>
-          <div class="select__searching-items-wrap">
-            <div class="select__searching-item" *ngFor="let country of countryArray" (click)="selectCountry(country)">
-              <span>{{country.countryName}}</span>
+        <div class="select__list-searching"
+              [ngClass]="{'select__list-searching--open': openCountryDropdown}"
+              *ngIf="openCountryDropdown">
+          <input formControlName="countryCode" style="display: none" [disabled]>
+          <div class="select__search">
+            <input class="select__search-input" type="text" placeholder="Search" (input)="searchCountry($event)">
+            <div class="select__search-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
+              </svg>
             </div>
           </div>
-        </perfect-scrollbar>
+          <div class="select__list-searching-body">
+            <perfect-scrollbar>
+              <div class="select__searching-items-wrap">
+                <div class="select__searching-item" *ngFor="let country of countryArray" (click)="selectCountry(country)">
+                  <span>{{country.countryName}}</span>
+                </div>
+              </div>
+            </perfect-scrollbar>
+          </div>
+        </div>
       </div>
+
+      <button class="btn balance__title-btn"
+        [disabled]="!form.valid || !formSwift.valid"
+        (click)="submit(form, formSwift)">
+          Withdrawal 550 EUR
+      </button>
+    </form>
+
+
+  
+  
+
+
+
+
+
+    <div class="notice-block">
+      <span class="head-notice">Please note:</span>
+      <ul>
+        <li>
+          <span>Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email.
+          </span>
+        </li>
+        <li>
+          <span>After making a withdrawal, you can track its progress in history on funds page.
+          </span>
+        </li>
+
+      </ul>
     </div>
   </div>
-
-  <button class="btn balance__title-btn"
-    [disabled]="!form.valid || !formSwift.valid"
-    (click)="submit(form, formSwift)">
-      Withdrawal 550 EUR
-  </button>
-</form>
-
-
-  
-  
-
-
-
-
-
-<div class="notice-block">
-  <span class="head-notice">Please note:</span>
-  <ul>
-    <li>
-      <span>Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email.
-      </span>
-    </li>
-    <li>
-      <span>After making a withdrawal, you can track its progress in history on funds page.
-      </span>
-    </li>
-
-  </ul>
-</div>
-</div>
+  <div class="loading-container" *ngIf="!activeFiat || !fiatDataByName">
+    <app-loader></app-loader>
+  </div>
 </div>

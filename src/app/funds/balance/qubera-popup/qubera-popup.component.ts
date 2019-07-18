@@ -30,6 +30,7 @@ export class QuberaPopupComponent implements OnInit {
   onCloseSendQuberaPopupMain() {
     this.showPopup = false;
     setTimeout(() => {
+      this.getKYCStatus.emit(true);
       this.closeSendQuberaPopupMain.emit(true);
     }, 1000);
   }

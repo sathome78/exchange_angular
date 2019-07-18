@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, BehaviorSubject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {BalanceItem} from '../models/balance-item.model';
 import {MyBalanceItem} from '../../model/my-balance-item.model';
@@ -20,6 +20,25 @@ export class BalanceService {
   public closeSendQuberaPopup$ = new Subject<boolean>();
   public goToSendMoneySuccess$ = new Subject();
   public goToSendMoneyInnerTransfer$ = new Subject();
+
+  public refillTransfer = new BehaviorSubject<any>(null);
+  public withdrawQubera = new BehaviorSubject<any>(null);
+
+  setRefillTransfer(body: any) {
+    this.refillTransfer.next(body);
+  }
+
+  getRefillTransfer(): Observable<any> {
+    return this.refillTransfer.asObservable();
+  }
+
+  setWithdrawQubera(body: any) {
+    this.withdrawQubera.next(body);
+  }
+
+  getWithdrawQubera(): Observable<any> {
+    return this.withdrawQubera.asObservable();
+  }
 
   constructor(
     private http: HttpClient,
@@ -215,11 +234,15 @@ export class BalanceService {
   }
 
   sendWithdraw(body: any) {
-    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/info`, body);
+    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/payment/external`, body);
   }
 
   confirmSendWithdraw(body: any) {
-    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/info`, body)
+    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/info`, body);
+  }
+
+  fiatDepositQubera(body: any) {
+    return this.http.post(`${this.apiUrl}/api/private/v2/balances/withdraw/request/pin`, body)
   }
 
 }

@@ -92,7 +92,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.quberaBalances$ = store.pipe(select(fundsReducer.getQuberaBalancesSelector));
+    this.getQuberaBalance();
     this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
     this.countOfCryptoEntries$ = store.pipe(select(fundsReducer.getCountCryptoBalSelector));
     this.fiatBalances$ = store.pipe(select(fundsReducer.getFiatBalancesSelector));
@@ -131,6 +131,16 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe((data: any) => {
         this.kycStatusQubera = data.data;
       });
+  }
+
+  getTableAndKYCStatus() {
+    this.store.dispatch(new fundsAction.LoadQuberaBalAction());
+    this.getQuberaBalance();
+  }
+
+  getQuberaBalance() {
+    this.quberaBalances$ = this.store.pipe(select(fundsReducer.getQuberaBalancesSelector));
+    console.log(this.quberaBalances$);
   }
 
   ngOnInit() {

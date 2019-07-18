@@ -45,6 +45,7 @@
         *ngIf="component == 'CREATECURRENCY'"
         [steper]="steper"
         [qubera]="optionData"
+        (getKYCStatus)="getStatusKYC()"
         (closeSendQuberaPopup)="onCloseSendQuberaPopupMain()"
       >
       </app-create-currency>

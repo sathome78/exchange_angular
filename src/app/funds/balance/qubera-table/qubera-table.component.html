@@ -61,7 +61,7 @@
       </div> -->
       <div [ngSwitch]="kycStatus">
         <div class="qubera-btn-wr" *ngSwitchCase="'SUCCESS'">
-            <button class="btn btn--active balance__title-btn" (click)="createCurrency.emit(true)" *ngIf="balances == null">{{'Create Account' | translate}}</button>
+            <button class="btn btn--active balance__title-btn" (click)="createCurrency.emit(true)" *ngIf="balances.length < 1">{{'Create Account' | translate}}</button>
         </div>
         <div class="qubera-btn-wr" *ngSwitchCase="'none'">
           <button class="btn btn--active balance__title-btn" (click)="createFugAccount.emit(true)">{{'Proceed Verification' | translate}}</button>

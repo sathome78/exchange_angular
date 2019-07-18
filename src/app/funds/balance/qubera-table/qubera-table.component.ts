@@ -35,10 +35,13 @@ export class QuberaTableComponent implements OnInit {
     console.log(this.kycStatus);
     console.log(this.quberaBalance);
     console.log(this.balances);
-    if(this.kycStatus == KYC_STATUS.SUCCESS && this.balances !== null){
+    this.checkBalance();
+
+  }
+  checkBalance() {
+    if(this.kycStatus == KYC_STATUS.SUCCESS || this.balances !== null){
       this.quberaBalance.push(this.balances.data);
     }
-
   }
 
   showPopup() {

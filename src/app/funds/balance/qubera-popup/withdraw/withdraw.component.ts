@@ -9,6 +9,8 @@ export class WithdrawComponent implements OnInit {
   @Input() qubera;
   @Input() steper;
   @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
+  @Output() getKYCStatus = new EventEmitter<boolean>();
+  
   step: number;
 
   constructor() { }

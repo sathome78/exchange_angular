@@ -1,4 +1,4 @@
-<div class="fiat-deposit-s1">
+<div class="fiat-deposit-s1" *ngIf="!!activeFiat && !!fiatDataByName">
   <h2>Make fiat deposit in EUR</h2>
 
   <form [formGroup]="form" id="d-s1">
@@ -149,4 +149,8 @@
       </li>
     </ul>
   </div>
+</div>
+
+<div class="loading-container" *ngIf="!activeFiat || !fiatDataByName">
+  <app-loader></app-loader>
 </div>

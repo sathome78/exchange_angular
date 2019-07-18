@@ -1,7 +1,8 @@
 <div class="modal__content qubera-content">
   <div class="fiat-deposit-s1 fiat-withdraw-s1">
   <h2>{{'Transaction confirmation' | translate}}</h2>
-  <div class="inf-code">{{'Please enter two-factor authentication code that was sent to your email' | translate}}</div>
+  <div class="inf-code" *ngIf="!googleAuthendefication">{{'Please enter two-factor authentication code that was sent to your email' | translate}}</div>
+  <div class="inf-code" *ngIf="googleAuthendefication">{{'Use Google Authenticator to generate pincode' | translate}}</div>
 
   <form [formGroup]="form">
     <div class="input-block">
@@ -14,7 +15,7 @@
       <div class="left-block">
         <div class="item-info">
           <span class="key-info">You want to withdraw:</span>
-          <span class="value-info">550 EUR</span>
+          <span class="value-info">{{payments?.paymentAmount?.amount}} {{payments?.paymentAmount?.currencyCode}}</span>
         </div>
         <div class="item-info">
           <span class="key-info">Exchange comission:</span>
@@ -22,16 +23,16 @@
         </div>
         <div class="item-info">
           <span class="key-info">Merchant comission:</span>
-          <span class="value-info">12% = 0.000005 EUR (but not less than 0.000005)</span>
+          <span class="value-info">{{payments?.feeAmount?.amount}} {{payments?.feeAmount?.currencyCode}}</span>
         </div>
-        <div class="item-info">
+        <!-- <div class="item-info">
           <span class="key-info">Total comission:</span>
           <span class="value-info">24% = 0.000005 EUR</span>
         </div>
         <div class="item-info">
           <span class="key-info">Total with comission:</span>
           <span class="value-info">0.000005 EUR</span>
-        </div>
+        </div> -->
         
       </div>
     </div>
