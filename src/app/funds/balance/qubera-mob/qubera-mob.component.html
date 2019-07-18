@@ -18,6 +18,7 @@
         class="tabs__item"
         [ngClass]="{'tabs__item--active': currTab === Tab.CRYPTO}"
         (click)="onSelectTab.emit(Tab.CRYPTO)"
+        [disabled]="loading"
       >
         {{'Crypto' | translate}}
       </button>
@@ -25,22 +26,26 @@
         class="tabs__item"
         [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}"
         (click)="onSelectTab.emit(Tab.FIAT)"
+        [disabled]="loading"
       >
-        {{'Fiat' | translate}}
+        {{'Exchange wallet' | translate}}
       </button>
+      
 
       <button
         class="tabs__item"
         [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
         (click)="onSelectTab.emit(Tab.QUBERA)"
+        [disabled]="loading"
       >
-        {{'Qubera' | translate}}
+        {{'Funding wallet' | translate}}
       </button>
-
+      
       <button
         class="tabs__item"
         [ngClass]="{'tabs__item--active': currTab === Tab.IEO}"
         (click)="onSelectTab.emit(Tab.IEO)"
+        [disabled]="loading"
       >
         {{'IEO' | translate}}
       </button>
