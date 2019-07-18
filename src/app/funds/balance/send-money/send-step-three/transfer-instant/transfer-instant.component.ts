@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
-import {Store} from '@ngrx/store';
-import {State} from '../../../../../core/reducers';
+import {Store, select} from '@ngrx/store';
+import {State, getUserInfo} from '../../../../../core/reducers';
 import {TRANSFER_INSTANT} from '../../send-money-constants';
 import {AbstractTransfer} from '../abstract-transfer';
 import {PopupService} from '../../../../../shared/services/popup.service';
@@ -16,10 +16,11 @@ import {debounceTime, takeUntil, tap} from 'rxjs/operators';
 })
 export class TransferInstantComponent extends AbstractTransfer implements OnInit, OnDestroy {
 
+  public userInfo: ParsedToken;
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
-    private utilsService: UtilsService,
+    public utilsService: UtilsService,
     protected store: Store<State>,
   ) {
     super();
@@ -39,6 +40,11 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
     this.responseCommission = this.responseDefaultCommission;
     this.initForm();
     this.getAllNames();
+    this.store.pipe(select(getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+      });
   }
 
   submitTransfer() {
