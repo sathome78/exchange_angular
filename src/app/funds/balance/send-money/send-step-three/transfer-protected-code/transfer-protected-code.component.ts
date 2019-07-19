@@ -1,11 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
-import {State} from '../../../../../core/reducers';
-import {Store} from '@ngrx/store';
+import {State, getUserInfo} from '../../../../../core/reducers';
+import {Store, select} from '@ngrx/store';
 import {BY_PRIVATE_CODE} from '../../send-money-constants';
 import {AbstractTransfer} from '../abstract-transfer';
 import {PopupService} from '../../../../../shared/services/popup.service';
+import {UtilsService} from 'app/shared/services/utils.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-transfer-protected-code',
@@ -22,11 +24,13 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
     currencyName: '',
     type: 'VOUCHER'
   };
+  public userInfo: ParsedToken;
 
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
     protected store: Store<State>,
+    public utilsService: UtilsService,
   ) {
     super();
   }
@@ -35,6 +39,11 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
     this.initForm();
     this.responseCommission = this.responseDefaultCommission;
     this.getAllNames();
+    this.store.pipe(select(getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+      });
   }
 
   ngOnDestroy(): void {

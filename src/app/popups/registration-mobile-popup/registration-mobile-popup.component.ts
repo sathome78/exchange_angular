@@ -25,6 +25,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   @ViewChild('emailInputTemplate') emailInputTemplate: TemplateRef<any>;
   @ViewChild('nameInputTemplate') nameInputTemplate: TemplateRef<any>;
   @ViewChild('captchaTemplate') captchaTemplate: TemplateRef<any>;
+  @ViewChild('devCaptchaTemplate') devCaptchaTemplate: TemplateRef<any>;
   @ViewChild('emailConfirmLinkTemplate') emailConfirmLinkTemplate: TemplateRef<any>;
   @ViewChild('passwordTemplate') passwordTemplate: TemplateRef<any>;
 
@@ -36,7 +37,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   public AUTH_MESSAGES = AUTH_MESSAGES;
   public emailServerError = 'start';
   public pendingCheckEmail = false;
-  public loading: boolean = false;
+  public loading = false;
   public previousEmail = '';
 
   public email;
@@ -79,6 +80,9 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
         break;
       case 'passwordTemplate':
         this.currentTemplate = this.passwordTemplate;
+        break;
+      case 'devCaptchaTemplate':
+        this.currentTemplate = this.devCaptchaTemplate;
         break;
     }
   }
@@ -167,6 +171,11 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
 
 
   emailSubmit() {
+    const email = this.emailForm.get('email').value;
+    if (this.utilsService.isDevCaptcha(email)) {
+      this.setTemplate('devCaptchaTemplate');
+      return;
+    }
     if (this.emailForm.valid && !this.pendingCheckEmail) {
       this.setTemplate('captchaTemplate');
     }

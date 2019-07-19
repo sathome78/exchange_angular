@@ -23,7 +23,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   public LEVEL_TWO = LEVEL_TWO;
   public verificationStatus = NOT_VERIFIED;
   public userInfo: ParsedToken;
-  public pattern = 'upholding.biz'
+  public pattern = 'upholding.biz';
   public isPublicIdCopied = false;
 
   constructor(private popupService: PopupService,
@@ -36,7 +36,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
     this.store.pipe(select(getVerificationStatus))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        if (res && res != 'none') {
+        if (res && res !== 'none') {
           this.verificationStatus = res as string;
         }
       });
@@ -48,13 +48,13 @@ export class VerificationComponent implements OnInit, OnDestroy {
         if (!value) {
           this.store.dispatch(new coreAction.LoadVerificationStatusAction());
         }
-      });;
+      });
 
     this.store.pipe(select(getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
-      })
+      });
 
   }
 
@@ -75,7 +75,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   }
 
   copyPublicId(value) {
-    let selBox = document.createElement('textarea');
+    const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
     selBox.style.top = '0';

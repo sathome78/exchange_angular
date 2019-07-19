@@ -5,12 +5,13 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import {keys} from '../../../../../shared/constants';
-import {getFiatCurrenciesForChoose, State} from 'app/core/reducers';
+import {getFiatCurrenciesForChoose, getUserInfo, State} from 'app/core/reducers';
 import {select, Store} from '@ngrx/store';
 import {SEND_FIAT} from '../../send-money-constants';
 import {CommissionData} from '../../../../models/commission-data.model';
 import {defaultCommissionData} from '../../../../store/reducers/default-values';
 import {PopupService} from 'app/shared/services/popup.service';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-send-fiat',
@@ -39,6 +40,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public selectMerchantName;
   public selectedMerchantNested;
   public calculateData: CommissionData = defaultCommissionData;
+  public userInfo: ParsedToken;
 
   public model = {
     currency: 0,
@@ -62,6 +64,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
+    public utilsService: UtilsService,
     private store: Store<State>,
   ) {
   }
@@ -70,8 +73,8 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.initForm();
 
     this.store
-      .pipe(select(getFiatCurrenciesForChoose),
-            takeUntil(this.ngUnsubscribe))
+      .pipe(select(getFiatCurrenciesForChoose))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(currencies => {
         this.fiatNames = currencies;
         this.activeFiat = this.fiatNames[0];
@@ -81,9 +84,15 @@ export class SendFiatComponent implements OnInit, OnDestroy {
           this.getBalance(this.activeFiat.name);
         }
       });
-      if(this.selectMerchantName == "Qubera") {
-        this.form.removeControl('address');
-      }
+    if(this.selectMerchantName == 'Qubera') {
+      this.form.removeControl('address');
+    }
+
+    this.store.pipe(select(getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+      });
   }
 
   ngOnDestroy(): void {
@@ -114,7 +123,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.setMinWithdrawSum();
     this.calculateData.commission_rates_sum = this.selectedMerchant.outputCommission;
       this.calculateCommission(this.amountValue);
-    if(merchant.name == "Qubera"){
+    if (merchant.name === 'Qubera'){
       this.form.removeControl('address');
     } else {
       this.form.addControl('address', this.form);
@@ -196,7 +205,8 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         .subscribe(res => {
           this.calculateData = res as CommissionData;
           const compCommission = parseFloat(this.calculateData.companyCommissionRate.replace('%)', '').replace('(', ''));
-          this.calculateData.commission_rates_sum = +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
+          this.calculateData.commission_rates_sum =
+            +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
         });
     } else {
       const outCommission = !!this.selectedMerchant ? this.selectedMerchant.outputCommission : 0;
@@ -206,7 +216,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   amountBlur(event) {
-    if (event && this.form.controls['amount'].valid) this.calculateCommission(this.amountValue);
+    if (event && this.form.controls['amount'].valid) {
+      this.calculateCommission(this.amountValue);
+    }
   }
 
   amountInput(event) {
@@ -220,7 +232,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       this.model.merchantImage = this.selectedMerchantNested.id;
       this.model.currencyName = this.activeFiat.name || '';
       this.model.sum = this.form.controls['amount'].value;
-      if(this.selectedMerchant.name !== "Qubera"){
+      if(this.selectedMerchant.name !== 'Qubera'){
         this.model.destination = this.form.controls['address'].value;
       }
 
@@ -271,7 +283,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   get currName() {
-    return this.activeFiat ? this.activeFiat.name : ''
+    return this.activeFiat ? this.activeFiat.name : '';
   }
 
 }

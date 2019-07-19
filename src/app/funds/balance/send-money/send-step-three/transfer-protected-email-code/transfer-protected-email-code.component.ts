@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
-import {State} from '../../../../../core/reducers';
-import {Store} from '@ngrx/store';
+import {State, getUserInfo} from '../../../../../core/reducers';
+import {Store, select} from '@ngrx/store';
 import {BY_PRIVATE_CODE} from '../../send-money-constants';
 import {AbstractTransfer} from '../abstract-transfer';
 import {PopupService} from '../../../../../shared/services/popup.service';
@@ -26,11 +26,13 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
     recipient: ''
   };
 
+  public userInfo: ParsedToken;
+
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
     protected store: Store<State>,
-    private utilsService: UtilsService
+    public utilsService: UtilsService
   ) {
     super();
   }
@@ -39,11 +41,16 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
     this.responseCommission = this.responseDefaultCommission;
     this.initForm();
     this.getAllNames();
+    this.store.pipe(select(getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+      });
   }
 
   submitTransfer() {
     this.isSubmited = true;
-    this.form.get('amount').updateValueAndValidity()
+    this.form.get('amount').updateValueAndValidity();
     if (this.form.valid) {
       this.isEnterData = false;
     }

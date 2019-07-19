@@ -32,16 +32,11 @@ export class QuberaTableComponent implements OnInit {
   public 'KYC_STATUS' = KYC_STATUS;
   public 'PENDING' = PENDING;
 
-  constructor(
-    private popupService: PopupService,
-    private balanceService: BalanceService) {
+  constructor(private balanceService: BalanceService) {
     }
 
   ngOnInit() {
     this.checkQuberaAccount();
-    console.log(this.kycStatus);
-    console.log(this.quberaBalance);
-    console.log(this.balances);
   }
 
   checkBalance(balance) {
