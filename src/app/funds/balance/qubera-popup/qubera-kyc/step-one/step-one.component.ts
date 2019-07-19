@@ -134,6 +134,10 @@ export class StepOneComponent implements OnInit, OnDestroy {
     return this.form.get('city');
   }
 
+  get currentDatePicker(): any {
+    return this.form.get('datepicker');
+  }
+
   gotToStepTwo(form: any) {
       if (form.valid && this.form.controls.theCheckbox.value === true) {
         const account: BankVerification = {

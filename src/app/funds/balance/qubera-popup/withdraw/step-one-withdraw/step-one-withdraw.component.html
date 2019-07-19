@@ -87,25 +87,70 @@
 
     <form [formGroup]="formSepa" *ngIf="selectedWithdraw === withdrawOptions[0]">
       <div class="secundary-form">
-        <div class="input-block">
-          <input type="text" name="firstname" class="wrap-input__input" formControlName="firstName" required>
-          <label class="wrap-input__label" for="firstname">{{'First name' | translate}}</label>
+        <div class="input-block wrap-input"  [ngClass]="{'wrap-input--error': !currentSEPAFirstName.valid && currentSEPAFirstName.touched}">
+          <input type="text" name="firstName" class="wrap-input__input" formControlName="firstName" required>
+          <label class="wrap-input__label" for="firstName">{{'First name' | translate}}</label>
+          <ng-container *ngIf="!currentSEPAFirstName.valid && !currentSEPAFirstName.untouched">
+            <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message"
+                  *ngIf="!currentSEPAFirstName.valid">
+                  {{'First Name field is required.' | translate}}
+                </span>
+            </div>
+          </ng-container>
         </div>
-        <div class="input-block">
-          <input class="wrap-input__input" type="text" name="lastname" formControlName="lastName" required>
-          <label class="wrap-input__label" for="lastname">{{'Last name' | translate}}</label>
+        <div class="input-block wrap-input"  [ngClass]="{'wrap-input--error': !currentSEPALastName.valid && currentSEPALastName.touched}">
+          <input class="wrap-input__input" type="text" name="lastName" formControlName="lastName" required>
+          <label class="wrap-input__label" for="lastName">{{'Last name' | translate}}</label>
+          <ng-container *ngIf="!currentSEPALastName.valid && !currentSEPALastName.untouched">
+            <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message"
+                  *ngIf="!currentSEPALastName.valid">
+                  {{'Last Name field is required.' | translate}}
+                </span>
+            </div>
+          </ng-container>
         </div>
-        <div class="input-block">
+        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSEPAACompanyName.valid && currentSEPAACompanyName.touched}">
           <input class="wrap-input__input" type="text" name="companyName" formControlName="companyName" required>
           <label class="wrap-input__label" for="companyName">{{'Company name' | translate}}</label>
+          <ng-container *ngIf="!currentSEPAACompanyName.valid && !currentSEPAACompanyName.untouched">
+          <div class="input-hint-wrapper">
+              <span
+                class="wrap-input__message"
+                *ngIf="!currentSEPAACompanyName.valid">
+                  {{'Company name field is required.' | translate}}
+              </span>
+            </div>
+          </ng-container>
         </div>
-        <div class="input-block">
+        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSEPANarrative.valid && currentSEPANarrative.touched}">
           <input class="wrap-input__input" type="text" name="narrative" formControlName="narrative" required>
           <label class="wrap-input__label" for="narrative">{{'Narrative' | translate}}</label>
+          <ng-container *ngIf="!currentSEPANarrative.valid && !currentSEPANarrative.untouched">
+            <div class="input-hint-wrapper">
+              <span
+                class="wrap-input__message"
+                *ngIf="!currentSEPANarrative.valid">
+                  {{'Narrative field is required.' | translate}}
+              </span>
+            </div>
+          </ng-container>
         </div>
-        <div class="input-block">
+        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSEPAIban.valid && currentSEPAIban.touched}">
           <input class="wrap-input__input" type="text" name="iban" formControlName="iban" required>
           <label class="wrap-input__label" for="iban">{{'Iban' | translate}}</label>
+          <ng-container *ngIf="!currentSEPAIban.valid && !currentSEPAIban.untouched">
+        <div class="input-hint-wrapper">
+           <span
+             class="wrap-input__message"
+             *ngIf="!currentSEPAIban.valid">
+              {{'Iban field is required.' | translate}}
+           </span>
+        </div>
+      </ng-container>
         </div>
       </div>
       <button class="btn balance__title-btn"
@@ -117,37 +162,109 @@
 
     <form [formGroup]="formSwift" *ngIf="selectedWithdraw === withdrawOptions[1]">
       <div class="secundary-form">
-        <div class="input-block">
+        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSWIFTFirstName.valid && currentSWIFTFirstName.touched}">
           <input type="text" name="firstname" class="wrap-input__input" formControlName="firstName" required>
           <label class="wrap-input__label" for="firstname">{{'First name' | translate}}</label>
+          <ng-container *ngIf="!currentSWIFTFirstName.valid && !currentSWIFTFirstName.untouched">
+            <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message"
+                  *ngIf="!currentSWIFTFirstName.valid">
+                  {{'City field is required.' | translate}}
+                </span>
+            </div>
+          </ng-container>
         </div>
-        <div class="input-block">
+        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSWIFTLastName.valid && currentSWIFTLastName.touched}">
           <input class="wrap-input__input" type="text" name="lastname" formControlName="lastName" required>
           <label class="wrap-input__label" for="lastname">{{'Last name' | translate}}</label>
+          <ng-container *ngIf="!currentSWIFTLastName.valid && !currentSWIFTLastName.untouched">
+            <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message"
+                  *ngIf="!currentSWIFTLastName.valid">
+                  {{'City field is required.' | translate}}
+                </span>
+            </div>
+          </ng-container>
         </div>
-        <div class="input-block">
+        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSWIFTACompanyName.valid && currentSWIFTACompanyName.touched}">
           <input class="wrap-input__input" type="text" name="companyName" formControlName="companyName" required>
           <label class="wrap-input__label" for="companyName">{{'Company name' | translate}}</label>
+          <ng-container *ngIf="!currentSWIFTACompanyName.valid && !currentSWIFTACompanyName.untouched">
+            <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message"
+                  *ngIf="!currentSWIFTACompanyName.valid">
+                  {{'City field is required.' | translate}}
+                </span>
+            </div>
+          </ng-container>
         </div>
-        <div class="input-block">
+        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSWIFTAccountNumbere.valid && currentSWIFTAccountNumbere.touched}">
           <input class="wrap-input__input" type="text" name="accountNumber" formControlName="accountNumber" required>
           <label class="wrap-input__label" for="accountNumber">{{'Account number' | translate}}</label>
+          <ng-container *ngIf="!currentSWIFTAccountNumbere.valid && !currentSWIFTAccountNumbere.untouched">
+            <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message"
+                  *ngIf="!currentSWIFTAccountNumbere.valid">
+                  {{'City field is required.' | translate}}
+                </span>
+            </div>
+          </ng-container>
         </div>
-        <div class="input-block">
+        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSWIFTNumber.valid && currentSWIFTNumber.touched}">
           <input class="wrap-input__input" type="text" name="swift" formControlName="swift" required>
           <label class="wrap-input__label" for="swift">{{'Swift' | translate}}</label>
+          <ng-container *ngIf="!currentSWIFTNumber.valid && !currentSWIFTNumber.untouched">
+            <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message"
+                  *ngIf="!currentSWIFTNumber.valid">
+                  {{'City field is required.' | translate}}
+                </span>
+            </div>
+          </ng-container>
         </div>
-        <div class="input-block">
+        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSWIFTNarrative.valid && currentSWIFTNarrative.touched}">
           <input class="wrap-input__input" type="text" name="narrative" formControlName="narrative" required>
           <label class="wrap-input__label" for="narrative">{{'Narrative' | translate}}</label>
+          <ng-container *ngIf="!currentSWIFTNarrative.valid && !currentSWIFTNarrative.untouched">
+            <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message"
+                  *ngIf="!currentSWIFTNarrative.valid">
+                  {{'City field is required.' | translate}}
+                </span>
+            </div>
+          </ng-container>
         </div>
-        <div class="input-block">
+        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSWIFTAddress.valid && currentSWIFTAddress.touched}">
           <input class="wrap-input__input" type="text" name="address" formControlName="address" required>
           <label class="wrap-input__label" for="address">{{'Address' | translate}}</label>
+          <ng-container *ngIf="!currentSWIFTAddress.valid && !currentSWIFTAddress.untouched">
+            <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message"
+                  *ngIf="!currentSWIFTAddress.valid">
+                  {{'City field is required.' | translate}}
+                </span>
+            </div>
+          </ng-container>
         </div>
-        <div class="input-block">
+        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSWIFTCity.valid && currentSWIFTCity.touched}">
           <input class="wrap-input__input" type="text" name="city" formControlName="city" required>
           <label class="wrap-input__label" for="city">{{'City' | translate}}</label>
+          <ng-container *ngIf="!currentSWIFTCity.valid && !currentSWIFTCity.untouched">
+            <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message"
+                  *ngIf="!currentSWIFTCity.valid">
+                  {{'City field is required.' | translate}}
+                </span>
+            </div>
+          </ng-container>
         </div>
       </div>
 

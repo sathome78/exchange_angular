@@ -47,11 +47,11 @@
     </tbody>
   </table>
 
-  <div class="no-veryfied-qubera" *ngIf="!quberaBalance.length">
-    <div class="qubera-head">
-      <h3>{{'Open account for $20 and get 0% commission' | translate}} <br><span>{{'on outgoing payments in the Singapore Bank' | translate}}</span>
-      </h3>
-    </div>
+<div class="no-veryfied-qubera" *ngIf="!balances.length">
+  <div class="qubera-head" *ngIf="balances.length > 0">
+    <h3>{{'Open account for $20 and get 0% commission' | translate}} <br><span>{{'on outgoing payments in the Singapore Bank' | translate}}</span>
+    </h3>
+  </div>
 
 <!-- если не зареган на fug -->
 
@@ -61,7 +61,7 @@
       </div> -->
       <div [ngSwitch]="kycStatus">
         <div class="qubera-btn-wr" *ngSwitchCase="'SUCCESS'">
-            <button class="btn btn--active balance__title-btn" (click)="createQuberaAccount.emit(true)" *ngIf="balances.length < 1">{{'Create Account' | translate}}</button>
+            <button class="btn btn--active balance__title-btn" (click)="createQuberaAccount.emit(true)" *ngIf="kycStatus == 'SUCCESS' && !balances">{{'Create Account' | translate}}</button>
         </div>
         <!-- если заявка на подтверждении -->
 
@@ -100,10 +100,10 @@
 
 
   <div class="qubera-benefits">
-    <div class="ben-head">
+    <div class="ben-head" *ngIf="balances.length > 0">
       <h6>{{'Benefits' | translate}}</h6>
     </div>
-    <ul class="benefits-list">
+    <ul class="benefits-list" *ngIf="balances.length > 0">
       <li>
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 15 11" fill="none">
           <rect y="5.53174" width="2.57013" height="7.7104" rx="1" transform="rotate(-45 0 5.53174)" fill="#2560F2"/>
