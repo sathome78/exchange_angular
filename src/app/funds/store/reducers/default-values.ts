@@ -10,6 +10,7 @@ export const defaultValues = {
     'BTC': 0,
     'USD': 0,
   },
+  kycStatus: '',
 
   transactionsHistory: [],
   countTrHistory: 0,

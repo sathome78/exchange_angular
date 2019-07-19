@@ -71,7 +71,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public loading$: Observable<boolean>;
   public currValue = '';
   public kycStatus = '';
-  public kycStatusQubera = '';
+  public quberaKycStatus$: Observable<string>;
 
   public IEOData: IEOItem[] = [];
   public sendMoneyData = {};
@@ -92,7 +92,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.getQuberaBalance();
     this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
     this.countOfCryptoEntries$ = store.pipe(select(fundsReducer.getCountCryptoBalSelector));
     this.fiatBalances$ = store.pipe(select(fundsReducer.getFiatBalancesSelector));
@@ -105,6 +104,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.allCurrenciesForChoose$ = store.pipe(select(fromCore.getAllCurrenciesForChoose));
     this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
     this.detailedCurrencyPairs$ = store.pipe(select(fromCore.getDetailedCurrencyPairsSelector));
+    this.quberaBalances$ = this.store.pipe(select(fundsReducer.getQuberaBalancesSelector));
+    this.quberaKycStatus$ = this.store.pipe(select(fundsReducer.getQuberaKycStatusSelector));
 
     this.cryptoCurrenciesForChoose$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -125,26 +126,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   }
 
-  getStatusKYC() {
-    this.balanceService.getStatusKYC()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((data: any) => {
-        this.kycStatusQubera = data.data;
-      });
-  }
-
   getTableAndKYCStatus() {
     this.store.dispatch(new fundsAction.LoadQuberaBalAction());
-    this.getStatusKYC();
-    this.getQuberaBalance();
-  }
-
-  getQuberaBalance() {
-    this.quberaBalances$ = this.store.pipe(select(fundsReducer.getQuberaBalancesSelector));
+    this.store.dispatch(new fundsAction.LoadQuberaKycStatusAction());
   }
 
   ngOnInit() {
     this.store.dispatch(new fundsAction.SetIEOBalancesAction([]));
+    this.store.dispatch(new fundsAction.LoadQuberaKycStatusAction());
     if (this.isMobile) {
       this.countPerPage = 30;
     }
@@ -199,7 +188,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
         this.openQuberaPopup(res);
       });
       this.getUserInfo();
-      this.getStatusKYC();
       this.checkEmail(this.email);
   }
 

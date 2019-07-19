@@ -15,6 +15,10 @@ export const LOAD_QUBERA_BAL = '[Funds] Load qubera balances';
 export const FAIL_LOAD_QUBERA_BAL = '[Funds] Fail load qubera balances';
 export const SET_QUBERA_BAL = '[Funds] Set qubera balances';
 
+export const LOAD_QUBERA_KYC_STATUS = '[Funds] Load qubera KYC status';
+export const FAIL_LOAD_QUBERA_KYC_STATUS = '[Funds] Fail load qubera KYC status';
+export const SET_QUBERA_KYC_STATUS = '[Funds] Set qubera KYC status';
+
 export const LOAD_BANK_QUBERA_STATUS = '[Core] Load qubera bank status';
 export const FAIL_LOAD_BANK_QUBERA_STATUS = '[Core] Fail load qubera bank status';
 export const SET_BANK_QUBERA_STATUS = '[Core] Set qubera bank status';
@@ -102,6 +106,23 @@ export class FailLoadQuberaBalAction implements Action {
   constructor(public payload?) {}
 }
 
+/**
+ * Loading qubera KYC status
+ */
+export class LoadQuberaKycStatusAction implements Action {
+  readonly type = LOAD_QUBERA_KYC_STATUS;
+  constructor(public payload?) {}
+}
+
+export class FailLoadQuberaKycStatusAction implements Action {
+  readonly type = FAIL_LOAD_QUBERA_KYC_STATUS;
+  constructor(public payload?) {}
+}
+
+export class SetQuberaKycStatusAction implements Action {
+  readonly type = SET_QUBERA_KYC_STATUS;
+  constructor(public payload?) {}
+}
 
 // check bank qubera status
 
@@ -259,6 +280,9 @@ export type Actions
   | SetQuberaBankStatusAction
   | LoadQuberaBankStatusAction
   | FailLoadQuberaBankStatusAction
+  | LoadQuberaKycStatusAction
+  | FailLoadQuberaKycStatusAction
+  | SetQuberaKycStatusAction
   | LoadLastTransactionsHistoryAction
   | SetTransactionsHistoryAction
   | SetMoreTransactionsHistoryAction

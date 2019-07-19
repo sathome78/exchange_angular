@@ -40,10 +40,6 @@ export class QuberaPopupComponent implements OnInit {
     this.setComponent();
   }
 
-  getStatusKYC() {
-    this.getKYCStatus.emit(true);
-  }
-
   setComponent() {
     this.component = this.optionData.component;
   }

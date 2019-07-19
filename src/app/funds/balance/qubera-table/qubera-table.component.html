@@ -1,5 +1,6 @@
 <!-- <table class="table qubera-table"
        *ngIf="kycStatus === KYC_STATUS.SUCCESS && quberaBalance.balance > 0"> -->
+<ng-container *ngIf="!loading">
   <table class="table qubera-table" *ngIf="quberaBalance.length > 0">
     <thead>
       <tr>
@@ -46,11 +47,11 @@
     </tbody>
   </table>
 
-<div class="no-veryfied-qubera" *ngIf="!balances.length">
-  <div class="qubera-head">
-    <h3>{{'Open account for $20 and get 0% commission' | translate}} <br><span>{{'on outgoing payments in the Singapore Bank' | translate}}</span>
-    </h3>
-  </div>
+  <div class="no-veryfied-qubera" *ngIf="!quberaBalance.length">
+    <div class="qubera-head">
+      <h3>{{'Open account for $20 and get 0% commission' | translate}} <br><span>{{'on outgoing payments in the Singapore Bank' | translate}}</span>
+      </h3>
+    </div>
 
 <!-- если не зареган на fug -->
 
@@ -181,7 +182,7 @@
     </div> -->
 
   </div>
-
+</ng-container>
   <!--paginator start-->
 <!--   <div
     class="row row--aic balance__paginator"
@@ -202,8 +203,3 @@
     </ul>
   </div> -->
   <!--paginator end-->
-
-
-  <div class="loading-container" *ngIf="existQuberaAccounts === PENDING">
-    <app-loader></app-loader>
-  </div>

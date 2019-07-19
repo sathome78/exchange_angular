@@ -27,13 +27,13 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public orderItems$: Observable<OrderItem[]>;
   public orderItems: OrderItem[] = [];
   public countOfEntries$: Observable<number>;
-  public countOfEntries: number = 0;
+  public countOfEntries = 0;
   public currencyPairs$: Observable<SimpleCurrencyPair[]>;
   public allCurrenciesForChoose$: Observable<CurrencyChoose[]>;
   public loading$: Observable<boolean>;
   public currentPage = 1;
   public countPerPage = 15;
-  public isMobile: boolean = false;
+  public isMobile = false;
   public showCancelOrderConfirm: number | null = null;
   public isShowCancelAllOrdersConfirm = false;
   public activeCurrencyPair: SimpleCurrencyPair;
@@ -50,10 +50,10 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   // public modelDateFrom: any;
   // public modelDateTo: any;
   public currencyPairId: string = null;
-  public currencyPairValue: string = '';
-  public currValue: string = '';
+  public currencyPairValue = '';
+  public currValue = '';
 
-  public showFilterPopup: boolean = false;
+  public showFilterPopup = false;
   public tableScrollStyles: any = {};
 
   constructor(
@@ -71,21 +71,21 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((activePair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = activePair;
-      })
+      });
 
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
+    this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'};
     this.orderItems$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((items) => this.orderItems = items)
+      .subscribe((items) => this.orderItems = items);
     this.countOfEntries$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((items) => this.countOfEntries = items)
+      .subscribe((items) => this.countOfEntries = items);
   }
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 1200;
-    if(this.isMobile) {
+    if (this.isMobile) {
       this.countPerPage = 10;
     }
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
@@ -101,18 +101,18 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       page: isMobile ? 1 : this.currentPage,
       limit: 0,
       currencyPairId: this.currencyPairId || 0,
-    }
+    };
     this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
   }
   loadMoreOrders(): void {
-    if(this.orderItems.length !== this.countOfEntries) {
+    if (this.orderItems.length !== this.countOfEntries) {
       this.currentPage += 1;
       const params = {
         page: this.currentPage,
         limit: 0,
         currencyPairId: this.currencyPairId || 0,
         concat: true,
-      }
+      };
       this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
     }
   }
@@ -144,7 +144,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.currentPage = 1;
         this.loadOrders();
-        this.userService.getUserBalance(this.activeCurrencyPair)
+        this.userService.getUserBalance(this.activeCurrencyPair);
       });
   }
 
@@ -191,6 +191,12 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
    * @param order
    */
   cancelOrder(order): void {
+    if (!this.isMobile) {
+      this.currentPage =
+        (this.orderItems.length - ((this.currentPage - 1) * this.countPerPage)) > 0 ?
+        this.currentPage :
+        this.currentPage - 1;
+    }
     const params = {
       order,
       loadOrders: {
@@ -199,7 +205,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
         currencyPairId: this.currencyPairId || 0,
         isMobile: this.isMobile,
       }
-    }
+    };
 
     this.store.dispatch(new ordersAction.CancelOrderAction(params));
     this.showCancelOrderConfirm = null;
