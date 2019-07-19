@@ -347,10 +347,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public goToTransferQuberaPopup(balance: BalanceItem): void {
-    console.log('hi transfer');
-    console.log(balance);
-    // this.popupService.demoPopupMessage = 1;
-    // this.popupService.showDemoTradingPopup(true);
     this.showQuberaPopup = true;
     this.quberaData = {
       component: "TRANSFER",
@@ -359,14 +355,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public goToQuberaWithdrawPopup(balance: BalanceItem): void {
-    console.log('hi Withdraw');
-    console.log(balance);
-    // this.popupService.demoPopupMessage = 1;
-    // this.popupService.showDemoTradingPopup(true);
     this.balanceService.getCurrencyData('EUR')
       .pipe(first())
       .subscribe((data: any) => {
-        console.log(data);
         this.showQuberaPopup = true;
         this.quberaData = {
           component: "WITHDRAW",
@@ -376,8 +367,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public goToQuberaDepositPopup(balance: BalanceItem): void {
-    console.log('hi Deposit');
-    console.log(balance);
     this.balanceService.getCurrencyData('EUR')
       .pipe(first())
       .subscribe((data: any) => {
@@ -390,8 +379,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public goToQuberaKYCPopup(balance: BalanceItem): void {
-    console.log('hi create account');
-    console.log(balance);
     this.showQuberaPopup = true;
     this.quberaData = {
       component: "QUBERAKYC",
@@ -400,8 +387,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public goToCreateQuberaAccountPopup(balance: BalanceItem): void {
-    console.log('hi create account');
-    console.log(balance);
       this.showQuberaPopup = true;
       this.quberaData = {
         component: "CREATEQUBERA",
@@ -497,7 +482,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.userService.getCheckTo2FAEnabled(email)
     .pipe(first())
     .subscribe(data => {
-      console.log(data);
     });
   }
 

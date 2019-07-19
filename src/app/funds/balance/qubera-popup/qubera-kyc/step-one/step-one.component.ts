@@ -223,7 +223,6 @@ export class StepOneComponent implements OnInit, OnDestroy {
   //     .pipe(first(),
   //           switchMap(data => {return this.userService.getUserGoogleLoginEnabled(this.mail)}))
   //     .subscribe(user => {
-  //       console.log(user);
   //     });
   // }
 }

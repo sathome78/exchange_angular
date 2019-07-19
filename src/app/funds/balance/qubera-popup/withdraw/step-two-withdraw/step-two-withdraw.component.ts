@@ -36,7 +36,6 @@ export class StepTwoWithdrawComponent implements OnInit {
     this.store.pipe(select(fromCore.getGAStatus))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((GA: any) => {
-        console.log(GA);
         this.googleAuthenticator = GA;
       });
   }
