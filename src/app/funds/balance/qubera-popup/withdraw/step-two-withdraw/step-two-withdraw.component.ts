@@ -18,7 +18,7 @@ export class StepTwoWithdrawComponent implements OnInit {
   @Output() public nextStep: EventEmitter<any> = new EventEmitter();
 
   payments: any;
-  googleAuthendefication: any;
+  googleAuthenticator: any;
 
   constructor(
     public balanceService: BalanceService,
@@ -36,7 +36,7 @@ export class StepTwoWithdrawComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((GA: any) => {
         console.log(GA);
-        this.googleAuthendefication = GA;
+        this.googleAuthenticator = GA;
       });
   }
 
@@ -50,13 +50,11 @@ export class StepTwoWithdrawComponent implements OnInit {
       const obj: Object = {
         pin: `${form.code}`,
         paymentId: this.payments.id
-      }
+      };
       this.balanceService.confirmSendWithdraw(obj)
         .pipe(first())
         .subscribe((data: any) => {
           this.nextStep.emit(3);
         });
   }
-
-
 }

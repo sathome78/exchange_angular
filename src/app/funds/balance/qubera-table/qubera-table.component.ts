@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {KYC_STATUS, PENDING} from 'app/shared/constants';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { KYC_STATUS, PENDING } from 'app/shared/constants';
 import { PopupService } from 'app/shared/services/popup.service';
 import { BalanceService } from 'app/funds/services/balance.service';
 import { first } from 'rxjs/operators';
@@ -14,44 +14,46 @@ export class QuberaTableComponent implements OnInit {
 
   quberaBalance: balanceQubera[] = [];
 
-  @Input('balances') public balances: any;
+  @Input('balances') set balances(balances) {
+    this.checkBalance(balances);
+    this._balances = balances;
+  }
+  get balances() {
+    return this._balances;
+  }
+  private _balances;
   @Input('kycStatus') public kycStatus: string;
   @Input('existQuberaAccounts') public existQuberaAccounts: string;
   @Output('cryptoWithdrawQuberaOut') public cryptoWithdrawQuberaOut: EventEmitter<any> = new EventEmitter();
   @Output('cryptoDepositQuberaOut') public cryptoDepositQuberaOut: EventEmitter<any> = new EventEmitter();
   @Output('transferQuberaOut') public transferQuberaOut: EventEmitter<any> = new EventEmitter();
-  @Output('createFugAccount') public createFugAccount: EventEmitter<any> = new EventEmitter();
-  @Output('createCurrency') public createCurrency: EventEmitter<any> = new EventEmitter();
+  @Output('quberaKycVerification') public quberaKycVerification: EventEmitter<any> = new EventEmitter();
+  @Output('createQuberaAccount') public createQuberaAccount: EventEmitter<any> = new EventEmitter();
   public 'KYC_STATUS' = KYC_STATUS;
   public 'PENDING' = PENDING;
 
   constructor(
     private popupService: PopupService,
-    private balanceService: BalanceService) { 
+    private balanceService: BalanceService) {
     }
 
   ngOnInit() {
-    this.checkInfoAboutAccount();
+    this.checkQuberaAccount();
     console.log(this.kycStatus);
     console.log(this.quberaBalance);
     console.log(this.balances);
-    this.checkBalance();
-
   }
-  checkBalance() {
-    if(this.kycStatus == KYC_STATUS.SUCCESS || this.balances !== null){
-      this.quberaBalance.push(this.balances.data);
+
+  checkBalance(balance) {
+    if (this.kycStatus === KYC_STATUS.SUCCESS && !balance.length) {
+      this.quberaBalance.push(balance.data);
     }
   }
 
-  showPopup() {
-    this.popupService.showSomePopupQubera("1");
-  }
-
-  checkInfoAboutAccount() {
-    this.balanceService.checkInfoAboutAccount('EUR')
-    .pipe(first())
-    .subscribe((data: balanceQubera) => {
-    });
+  checkQuberaAccount() {
+    this.balanceService.checkQuberaAccount('EUR')
+      .pipe(first())
+      .subscribe((data: balanceQubera) => {
+      });
   }
 }

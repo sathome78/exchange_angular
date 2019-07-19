@@ -67,16 +67,16 @@ import { QuberaPopupComponent } from './balance/qubera-popup/qubera-popup.compon
 import { DepositComponent } from './balance/qubera-popup/deposit/deposit.component';
 import { TransferComponent } from './balance/qubera-popup/transfer/transfer.component';
 import { WithdrawComponent } from './balance/qubera-popup/withdraw/withdraw.component';
-import { CreateFugComponent } from './balance/qubera-popup/create-fug/create-fug.component';
-import { StepOneComponent } from './balance/qubera-popup/create-fug/step-one/step-one.component';
-import { StepTwoComponent } from './balance/qubera-popup/create-fug/step-two/step-two.component';
+import { QuberaKycComponent } from './balance/qubera-popup/qubera-kyc/qubera-kyc.component';
+import { StepOneComponent } from './balance/qubera-popup/qubera-kyc/step-one/step-one.component';
+import { StepTwoComponent } from './balance/qubera-popup/qubera-kyc/step-two/step-two.component';
 import { StepOneDepositComponent } from './balance/qubera-popup/deposit/step-one-deposit/step-one-deposit.component';
 import { StepOneWithdrawComponent } from './balance/qubera-popup/withdraw/step-one-withdraw/step-one-withdraw.component';
 import { StepTwoWithdrawComponent } from './balance/qubera-popup/withdraw/step-two-withdraw/step-two-withdraw.component';
 import { QuberaMobComponent } from './balance/qubera-mob/qubera-mob.component';
-import { CreateCurrencyComponent } from './balance/qubera-popup/create-currency/create-currency.component';
-import { StepOneCurrencyComponent } from './balance/qubera-popup/create-currency/step-one-currency/step-one-currency.component';
-import { StepTwoCurrencyComponent } from './balance/qubera-popup/create-currency/step-two-currency/step-two-currency.component';
+import { CreateQuberaComponent } from './balance/qubera-popup/create-qubera/create-qubera.component';
+import { StepOneQuberaComponent } from './balance/qubera-popup/create-qubera/step-one-qubera/step-one-qubera.component';
+import { StepTwoQuberaComponent } from './balance/qubera-popup/create-qubera/step-two-qubera/step-two-qubera.component';
 import { RefillStepThreeComponent } from './balance/refill-money/refill-step-three/refill-step-three.component';
 import { StepThreeWithdrawComponent } from './balance/qubera-popup/withdraw/step-three-withdraw/step-three-withdraw.component';
 
@@ -155,16 +155,16 @@ export function createTranslateLoader(http: HttpClient) {
     DepositComponent,
     TransferComponent,
     WithdrawComponent,
-    CreateFugComponent,
+    QuberaKycComponent,
     StepOneComponent,
     StepTwoComponent,
     StepOneDepositComponent,
     StepOneWithdrawComponent,
     StepTwoWithdrawComponent,
     QuberaMobComponent,
-    CreateCurrencyComponent,
-    StepOneCurrencyComponent,
-    StepTwoCurrencyComponent,
+    CreateQuberaComponent,
+    StepOneQuberaComponent,
+    StepTwoQuberaComponent,
     RefillStepThreeComponent,
     StepThreeWithdrawComponent
   ],

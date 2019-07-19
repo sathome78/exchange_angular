@@ -1,4 +1,3 @@
-
 <div class="modal__content qubera-content">
   <div class="fiat-deposit-s1 fiat-withdraw-s1" *ngIf="!!activeFiat && !!fiatDataByName">
     <h2>Fiat Withdrawal EUR</h2>
@@ -26,20 +25,17 @@
         </div>
 
         <div class="select refill__select" style="display: inline-block;">
-            <div class="select__value select__value--active"
-                (click)="togglePaymentSystemDropdown()"
-                
-                >
+            <div class="select__value select__value--active" (click)="togglePaymentSystemDropdown()">
                 {{this.model}}
-              </div>
-              <div class="select__label">{{'Payment system' | translate}}</div>
-              <div class="select__line"></div>
-              <div class="select__triangle"></div>
+            </div>
+            <div class="select__label">{{'Payment system' | translate}}</div>
+            <div class="select__line"></div>
+            <div class="select__triangle"></div>
             <ul class="select__list"
                 [ngClass]="{'select__list--open': openBankSystemDropdown}"
                 *ngIf="openBankSystemDropdown">
-              <li class="select__list-item" *ngFor="let currency of radioItems" (click)="checkForm(currency)">
-                {{currency}}
+              <li class="select__list-item" *ngFor="let withdrawOption of withdrawOptions" (click)="checkForm(withdrawOption)">
+                {{withdrawOption}}
               </li>
             </ul>
           </div>
@@ -89,14 +85,7 @@
       </div>
     </form>
 
-    <!-- <div class="choose-block">
-      <label *ngFor="let radiobutton of radioItems">
-          <input type="radio" name="options" (click)="checkForm(radiobutton)"
-          [checked]="radiobutton === model">{{radiobutton}}
-      </label>
-    </div> -->
-
-    <form [formGroup]="formSepa" *ngIf="model == 'Qubera SEPA'">
+    <form [formGroup]="formSepa" *ngIf="selectedWithdraw === withdrawOptions[0]">
       <div class="secundary-form">
         <div class="input-block">
           <input type="text" name="firstname" class="wrap-input__input" formControlName="firstName" required>
@@ -122,12 +111,11 @@
       <button class="btn balance__title-btn"
         [disabled]="!form.valid || !formSepa.valid"
         (click)="submit(form, formSepa)">
-          Withdrawal 550 EUR
+          Withdrawal
       </button>
     </form>
 
-
-    <form [formGroup]="formSwift" *ngIf="model == 'Qubera SWIFT'">
+    <form [formGroup]="formSwift" *ngIf="selectedWithdraw === withdrawOptions[1]">
       <div class="secundary-form">
         <div class="input-block">
           <input type="text" name="firstname" class="wrap-input__input" formControlName="firstName" required>
@@ -199,13 +187,10 @@
       <button class="btn balance__title-btn"
         [disabled]="!form.valid || !formSwift.valid"
         (click)="submit(form, formSwift)">
-          Withdrawal 550 EUR
+          Withdrawal
       </button>
     </form>
 
-
-  
-  
 
 
 

@@ -163,7 +163,7 @@ form .select {
             color: #DEDEFB;
         }
     }
-    
+
     input{
         &:checked{
             &+label{
@@ -195,5 +195,5 @@ form .select {
     line-height: 12px;
     z-index: 100;
     background-color: #fff;
-  }
+}
 

@@ -1,12 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormControl, FormGroup} from '@angular/forms';
-import {BalanceService} from '../../../services/balance.service';
-import {select, Store} from '@ngrx/store';
-import {State, getCryptoCurrenciesForChoose} from 'app/core/reducers';
-import {BalanceItem} from '../../../models/balance-item.model';
-import {RefillData} from '../../../../shared/interfaces/refill-data-interface';
-import {RefreshAddress} from '../../../../shared/interfaces/refresh-address-interface';
-import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-deposit',
@@ -15,12 +7,12 @@ import {TranslateService} from '@ngx-translate/core';
 })
 
 export class DepositComponent implements OnInit {
-  
+
   @Input() qubera;
   @Input() steper;
   @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
   step: number;
-  
+
   ngOnInit() {
     this.setStep(this.steper);
   }
@@ -28,8 +20,6 @@ export class DepositComponent implements OnInit {
   setStep(steper: number) {
     this.step = steper;
   }
-
-  
 
   onCloseSendMoneyPopup() {
     setTimeout(() => {

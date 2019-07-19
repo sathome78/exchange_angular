@@ -208,7 +208,7 @@ export class FundsEffects {
     loadQuberaBankStatus$: Observable<Action> = this.actions$
       .pipe(ofType<fundsActions.LoadQuberaBankStatusAction>(fundsActions.LOAD_BANK_QUBERA_STATUS))
       .pipe(switchMap(() => {
-        return this.balanceService.checkInfoAboutAccount('EUR')
+        return this.balanceService.checkQuberaAccount('EUR')
           .pipe(
             map((res: any) => new fundsActions.SetQuberaBankStatusAction(res.data)),
             catchError(error => of(new fundsActions.FailLoadQuberaBankStatusAction(error)))

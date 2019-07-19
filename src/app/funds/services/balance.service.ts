@@ -217,7 +217,7 @@ export class BalanceService {
     return this.http.get(`${this.apiUrl}/api/private/v2/merchants/qubera/verification_status`);
   }
 
-  checkInfoAboutAccount(currency: string) {
+  checkQuberaAccount(currency: string) {
     return this.http.get(`${this.apiUrl}/api/private/v2/merchants/qubera/account/check/${currency}`);
   }
 
@@ -225,7 +225,7 @@ export class BalanceService {
     return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/request/pin`, {});
   }
 
-  createCurrency(body: any) {
+  createQuberaAccount(body: any) {
     return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/account/create`, body);
   }
 

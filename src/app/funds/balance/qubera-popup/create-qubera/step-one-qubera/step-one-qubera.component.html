@@ -3,7 +3,7 @@
     <div class="steps__counter steps__counter--mob">
     </div>
     <div class="modal__header-mob-controls">
-      <a class="modal__control-mob" (click)="onCloseSendMoneyPopup()">
+      <a class="modal__control-mob" (click)="onCloseQuberaPopup()">
       <img class="modal__control-icon" src="../../../assets/img/close-blue.svg"></a>
     </div>
   </div>
@@ -17,9 +17,7 @@
           <label class="wrap-input__label" for="firstname">{{'Code' | translate}}</label>
           <ng-container *ngIf="!currentCode.valid && !currentCode.untouched">
             <div class="input-hint-wrapper">
-               <span
-               class="wrap-input__message"
-               *ngIf="!currentCode.valid">
+               <span class="wrap-input__message" *ngIf="!currentCode.valid">
                 {{'Code field is required.' | translate}}
                </span>
             </div>
@@ -30,7 +28,6 @@
           [ngClass]="{'btn--empty-blue': !form.valid}"
           [disabled]="form.invalid"
           (click)="enterCode(form.value)">{{'Confirm' | translate}}</button>
-        
       </form>
     </div>
       <div class="notice-block">
@@ -44,7 +41,6 @@
             <span>{{'After making a withdrawal, you can track its progress in history on funds page.' | translate}}
             </span>
           </li>
-  
         </ul>
       </div>
   </div>

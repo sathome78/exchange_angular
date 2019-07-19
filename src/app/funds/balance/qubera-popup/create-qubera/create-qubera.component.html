@@ -4,7 +4,7 @@
 		<span class="steps__counter-val">{{step}}</span>/2
 	</div>
 	<div class="modal__header-mob-controls">
-		<a class="modal__control-mob" (click)="onCloseSendMoneyPopup()">
+		<a class="modal__control-mob" (click)="onCloseQuberaPopup()">
 		<img class="modal__control-icon" src="../../../assets/img/close-blue.svg"></a>
 	</div>
 	</div>
@@ -32,16 +32,16 @@
 	<div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/ 2</div>
 </div>
 	<!-- modal header end -->
-	
+
 <div class="modal__content">
-	<app-step-one-currency
+	<app-step-one-qubera
 		*ngIf="step === 1"
 		(nextStep)="nextStep(2)"
 	>
-	</app-step-one-currency>
-	<app-step-two-currency
+	</app-step-one-qubera>
+	<app-step-two-qubera
 		*ngIf="step === 2"
-		(closeSendQuberaPopup)="onCloseSendMoneyPopup()"
+		(closeQuberaPopup)="onCloseQuberaPopup()"
 	>
-	</app-step-two-currency>
+	</app-step-two-qubera>
 </div>

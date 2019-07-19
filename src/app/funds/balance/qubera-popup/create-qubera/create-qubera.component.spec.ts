@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateFugComponent } from './create-fug.component';
+import { CreateQuberaComponent } from './create-qubera.component';
 
-describe('CreateFugComponent', () => {
-  let component: CreateFugComponent;
-  let fixture: ComponentFixture<CreateFugComponent>;
+describe('CreateQuberaComponent', () => {
+  let component: CreateQuberaComponent;
+  let fixture: ComponentFixture<CreateQuberaComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateFugComponent ]
+      declarations: [ CreateQuberaComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateFugComponent);
+    fixture = TestBed.createComponent(CreateQuberaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

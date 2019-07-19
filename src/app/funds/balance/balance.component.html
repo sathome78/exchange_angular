@@ -51,7 +51,7 @@
         [Tab]="Tab"
         [currTab]="currTab"
         (onSelectTab)="onSelectTab($event)"
-        
+
       ></app-qubera-mob>
 
       <app-ieo-table-mob
@@ -299,8 +299,8 @@
           [kycStatus]="kycStatusQubera"
           (transferQuberaOut)="goToTransferQuberaPopup($event)"
           (cryptoWithdrawQuberaOut)="goToQuberaWithdrawPopup($event)"
-          (createFugAccount)="goToQuberaAccountPopup($event)"
-          (createCurrency)="goToCreateCurrencyPopup($event)"
+          (quberaKycVerification)="goToQuberaKYCPopup($event)"
+          (createQuberaAccount)="goToCreateQuberaAccountPopup($event)"
           (cryptoDepositQuberaOut)="goToQuberaDepositPopup($event)">
         </app-qubera-table>
       </ng-container>
@@ -340,9 +340,9 @@
   <app-qubera-popup
     *ngIf="showQuberaPopup"
     [showPopup]="showQuberaPopup"
-    [optionData]="QuberaData"
+    [optionData]="quberaData"
     [steper]="1"
-    (closeSendQuberaPopupMain)="openQuberaPopup(false)"
+    (closeQuberaPopupMain)="openQuberaPopup(false)"
     (getKYCStatus)="getTableAndKYCStatus()"
   >
   </app-qubera-popup>

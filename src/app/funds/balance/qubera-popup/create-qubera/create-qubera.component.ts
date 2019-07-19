@@ -1,18 +1,17 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-create-currency',
-  templateUrl: './create-currency.component.html',
-  styleUrls: ['./create-currency.component.scss']
+  selector: 'app-create-qubera',
+  templateUrl: 'create-qubera.component.html',
+  styleUrls: ['create-qubera.component.scss']
 })
-export class CreateCurrencyComponent implements OnInit {
+export class CreateQuberaComponent implements OnInit {
 
   @Input() qubera;
   @Input() steper;
-  @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
+  @Output() closeQuberaPopup = new EventEmitter<boolean>();
   @Output() getKYCStatus = new EventEmitter<boolean>();
   step: number;
-
 
   constructor(
   ) { }
@@ -25,15 +24,14 @@ export class CreateCurrencyComponent implements OnInit {
     this.step = steper;
   }
 
-  
-  nextStep(numb) {
-    this.step = numb;
+  nextStep(step: number) {
+    this.step = step;
   }
 
-  onCloseSendMoneyPopup() {
+  onCloseQuberaPopup() {
     setTimeout(() => {
       this.getKYCStatus.emit(true);
-      this.closeSendQuberaPopup.emit(true);
+      this.closeQuberaPopup.emit(true);
     }, 1000);
   }
 

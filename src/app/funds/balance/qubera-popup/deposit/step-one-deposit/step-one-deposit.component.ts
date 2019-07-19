@@ -6,12 +6,13 @@ import html2canvas from 'html2canvas';
 import { CurrencyBalanceModel } from 'app/model';
 import { select, Store } from '@ngrx/store';
 import { getFiatCurrenciesForChoose, State } from 'app/core/reducers';
-import { takeUntil, first } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import * as _ from 'lodash';
+
 import { BalanceService } from 'app/funds/services/balance.service';
 import { CommissionData } from 'app/funds/models/commission-data.model';
 import { defaultCommissionData } from 'app/funds/store/reducers/default-values';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'app-step-one-deposit',
@@ -20,10 +21,6 @@ import * as _ from 'lodash';
 })
 export class StepOneDepositComponent implements OnInit, OnDestroy {
 
-  constructor(
-    private store: Store<State>,
-    public balanceService: BalanceService,) { }
-  
   @Input() quberaBank: any;
   @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -50,6 +47,23 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
 
   @ViewChild('content') content: ElementRef;
 
+  @HostListener('document:click', ['$event']) clickout($event) {
+    if ($event.target.className !== 'select__value select__value--active'
+      && $event.target.className !== 'select__value select__value--active select__value--error'
+      && $event.target.className !== 'select__search-input') {
+      this.openPaymentSystemDropdown = false;
+      this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
+        ? this.fiatDataByName.merchantCurrencyData
+        : [];
+      this.openCurrencyDropdown = false;
+    }
+  }
+
+  constructor(
+    private store: Store<State>,
+    public balanceService: BalanceService
+  ) { }
+
   ngOnInit() {
     this.initForm();
     this.merchants = this.quberaBank.balance.merchantCurrencyData;
@@ -68,9 +82,10 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
     this.depositBankInfo();
   }
 
-  
   ngOnDestroy(){
     this.bankInfo = undefined;
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   selectCurrency(currency) {
@@ -101,18 +116,6 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       amount: new FormControl('')
     });
-  }
-
-  @HostListener('document:click', ['$event']) clickout($event) {
-    if ($event.target.className !== 'select__value select__value--active'
-        && $event.target.className !== 'select__value select__value--active select__value--error'
-        && $event.target.className !== 'select__search-input') {
-      this.openPaymentSystemDropdown = false;
-      this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-        ? this.fiatDataByName.merchantCurrencyData
-        : [];
-      this.openCurrencyDropdown = false;
-    }
   }
 
   private getDataByCurrency(currencyName) {
@@ -148,12 +151,15 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
   }
 
   amountBlur(event) {
-    if (event && this.form.controls['amount'].valid) this.calculateCommission(this.amountValue);
+    if (event && this.form.controls['amount'].valid) {
+      this.calculateCommission(this.amountValue);
+    }
   }
 
   amountInput(event) {
     this.amountValue = event.target.value;
   }
+
   isMaxThenActiveBalance(): {[key: string]: any} | null {
     if (+this.activeBalance < +this.amountValue) {
       return {'isMaxThenActiveBalance': true};
@@ -185,21 +191,16 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
     }
   }
 
-  
   toggleCurrencyDropdown() {
     this.openCurrencyDropdown = !this.openCurrencyDropdown;
     this.openPaymentSystemDropdown = false;
     this.prepareAlphabet();
   }
 
-  
-  
   bankDropdownToggle() {
     this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
     this.openCurrencyDropdown = false;
   }
-
-  
 
   setActiveFiat() {
     let currency;
@@ -208,8 +209,6 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
     }
     this.activeFiat = (currency && currency.length) ? currency[0] : this.fiatNames[0];
   }
-
-  
 
   prepareAlphabet() {
     const temp = [];
@@ -223,7 +222,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
     this.alphabet = _uniq(temp.filter(unique).sort());
   }
 
-  download() { 
+  download() {
     let data = document.getElementById('pdf-download');
     html2canvas(data).then(canvas => {
       // Few necessary setting options
@@ -231,7 +230,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
       let pageHeight = 295;
       let imgHeight = canvas.height * imgWidth / canvas.width;
       let heightLeft = imgHeight;
-      
+
       const contentDataURL = canvas.toDataURL('image/png')
       let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
       let position = 0;
@@ -242,9 +241,8 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
   }
 
   depositBankInfo() {
-    
     this.balanceService.getBankInfo()
-      .pipe(first())
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data: any) => {
         this.bankInfo = data.data;
       })

@@ -9,8 +9,7 @@ export class WithdrawComponent implements OnInit {
   @Input() qubera;
   @Input() steper;
   @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
-  @Output() getKYCStatus = new EventEmitter<boolean>();
-  
+
   step: number;
 
   constructor() { }
@@ -29,8 +28,8 @@ export class WithdrawComponent implements OnInit {
     this.step = obj;
   }
 
-  nextStep(numb) {
-    this.step = numb;
+  nextStep(step: number) {
+    this.step = step;
   }
 
 }

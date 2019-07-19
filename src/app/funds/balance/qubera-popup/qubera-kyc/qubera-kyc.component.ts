@@ -1,15 +1,15 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-create-fug',
-  templateUrl: './create-fug.component.html',
-  styleUrls: ['./create-fug.component.scss']
+  selector: 'app-qubera-kyc',
+  templateUrl: 'qubera-kyc.component.html',
+  styleUrls: ['qubera-kyc.component.scss']
 })
-export class CreateFugComponent implements OnInit {
-  
+export class QuberaKycComponent implements OnInit {
+
   @Input() qubera;
   @Input() steper;
-  @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
+  @Output() closeQuberaKycPopup = new EventEmitter<boolean>();
   @Output() getKYCStatus = new EventEmitter<boolean>();
   step: number;
 
@@ -23,9 +23,9 @@ export class CreateFugComponent implements OnInit {
     this.step = steper;
   }
 
-  onCloseSendMoneyPopup() {
+  onCloseQuberaKycPopup() {
     setTimeout(() => {
-      this.closeSendQuberaPopup.emit(true);
+      this.closeQuberaKycPopup.emit(true);
     }, 1000);
   }
 
@@ -33,9 +33,7 @@ export class CreateFugComponent implements OnInit {
     this.getKYCStatus.emit(true);
   }
 
-  
-  nextStep(numb) {
-    this.step = numb;
+  nextStep(step: number) {
+    this.step = step;
   }
-
 }

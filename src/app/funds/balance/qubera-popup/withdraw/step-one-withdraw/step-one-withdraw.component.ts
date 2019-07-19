@@ -6,7 +6,6 @@ import * as fromCore from '../../../../../core/reducers';
 import { takeUntil, first } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import * as _uniq from 'lodash/uniq';
-import * as _ from 'lodash';
 import { CurrencyBalanceModel } from 'app/model';
 import { BalanceService } from 'app/funds/services/balance.service';
 import { Sepa } from 'app/funds/models/sepa.model';
@@ -24,6 +23,9 @@ export class StepOneWithdrawComponent implements OnInit {
   form: FormGroup;
   formSepa: FormGroup;
   formSwift: FormGroup;
+
+  withdrawOptions = ['Qubera SEPA', 'Qubera SWIFT'];
+  selectedWithdraw: string = '';
 
   @Input() dataQubera: any;
   @Output() public nextStep: EventEmitter<any> = new EventEmitter();
@@ -45,31 +47,41 @@ export class StepOneWithdrawComponent implements OnInit {
 
 
   // country
-  
+
   public openCountryDropdown: Boolean = false;
   public showCountryLabelFlag: Boolean = false;
   public selectedCountry;
   public countryArray: KycCountry[] = [];
   public countryArrayDefault: KycCountry[] = [];
+
   @ViewChild('countryInput') countryInput: ElementRef;
 
-  radioItems: Array<string>;
-  model: string = '';
+  @HostListener('document:click', ['$event']) clickout($event) {
+    if ($event.target.className !== 'select__value select__value--active'
+      && $event.target.className !== 'select__value select__value--active select__value--error'
+      && $event.target.className !== 'select__search-input') {
+      this.openBankSystemDropdown = false;
+      this.openCurrencyDropdown = false;
+      this.openCountryDropdown = false;
+      this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
+        ? this.fiatDataByName.merchantCurrencyData
+        : [];
+    }
+  }
 
   constructor(
     private store: Store<State>,
     private stores: Store<fromCore.State>,
     private settingsService: SettingsService,
     public balanceService: BalanceService) {
-      this.radioItems = ['Qubera SEPA', 'Qubera SWIFT'];
-      this.model = 'Qubera SEPA';
+      this.selectedWithdraw = this.withdrawOptions[0];
     }
 
   checkForm(value) {
-    this.model = value;
-    if(this.model == 'Qubera SEPA') {
+    this.selectedWithdraw = value;
+    if (this.selectedWithdraw === this.withdrawOptions[0]) {
       this.initSepaForm();
-    } else if(this.model == 'Qubera SWIFT') {
+    } else {
       this.initSwiftForm();
     }
   }
@@ -79,7 +91,7 @@ export class StepOneWithdrawComponent implements OnInit {
 
     this.initSepaForm();
     this.getCountryCode();
-    this.stores.dispatch(new settingsActions.LoadGAStatusAction())
+    this.stores.dispatch(new settingsActions.LoadGAStatusAction());
 
     this.store
       .pipe(select(getFiatCurrenciesForChoose))
@@ -108,9 +120,7 @@ export class StepOneWithdrawComponent implements OnInit {
       .subscribe(res => {
         // this.fiatDataByName = res;
         this.fiatArrayData = res;
-        this.fiatDataByName = _.filter(this.fiatArrayData.merchantCurrencyData, function(item){
-          return item.name == 'Qubera';
-        });
+        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter(item => (item.name === 'Qubera'));
         // this.merchants = this.fiatDataByName.merchantCurrencyData;
         this.merchants = this.fiatDataByName;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
@@ -134,9 +144,6 @@ export class StepOneWithdrawComponent implements OnInit {
     this.activeFiat = currency;
     this.toggleCurrencyDropdown();
     this.getDataByCurrency(currency.name);
-  }
-
-  selectMerchant(bank: any) {
   }
 
   toggleCurrencyDropdown() {
@@ -163,31 +170,6 @@ export class StepOneWithdrawComponent implements OnInit {
       ? this.fiatDataByName.minRefillSum
       : parseFloat(this.selectedMerchant.minSum);
   }
-
-  bankDropdownToggle() {
-    this.openBankSystemDropdown = !this.openBankSystemDropdown;
-    this.openCurrencyDropdown = false;
-    this.openCountryDropdown = false;
-  }
-
-
-  
-
-  @HostListener('document:click', ['$event']) clickout($event) {
-    if ($event.target.className !== 'select__value select__value--active'
-        && $event.target.className !== 'select__value select__value--active select__value--error'
-        && $event.target.className !== 'select__search-input') {
-      this.openBankSystemDropdown = false;
-      this.openCurrencyDropdown = false;
-      this.openCountryDropdown = false;
-      this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-        ? this.fiatDataByName.merchantCurrencyData
-        : [];
-    }
-  }
-
-  
-
 
   initMainForm() {
     this.form = new FormGroup({
@@ -226,52 +208,53 @@ export class StepOneWithdrawComponent implements OnInit {
     );
   }
 
-  submit(form, secform) {
-    if(form.valid && secform.valid) {
-      const obj = this.createObject(form, secform);
-      console.log(obj);
-      this.balanceService.sendWithdraw(obj)
+  submit(mainForm, withdrawForm) {
+    if (mainForm.valid && withdrawForm.valid) {
+      const withdraw = this.createWithdrawObject(mainForm, withdrawForm);
+      this.balanceService.sendWithdraw(withdraw)
         .pipe(first())
         .subscribe(data => {
           this.balanceService.setWithdrawQubera(data);
           this.nextStep.emit(2);
         });
     }
-
-      
   }
 
-
-  createObject(form, secform) {
-    if(this.model == 'Qubera SEPA') {
-      const withdraw = new Sepa();
-      withdraw.amount = `${form.value.amount}`;
-      withdraw.currencyCode = `${this.activeFiat.name}`;
-      withdraw.firstName = secform.value.firstName;
-      withdraw.lastName = secform.value.lastName;
-      withdraw.companyName = secform.value.companyName;
-      withdraw.narrative = secform.value.narrative;
-      withdraw.iban = secform.value.iban;
-      withdraw.type = "SEPA";
-      return withdraw;
-    } else if(this.model == 'Qubera SWIFT') {
-      const withdraw = new Swift();
-      withdraw.amount = `${form.value.amount}`;
-      withdraw.currencyCode = `${this.activeFiat.name}`;
-      withdraw.firstName = secform.value.firstName;
-      withdraw.lastName = secform.value.lastName;
-      withdraw.companyName = secform.value.companyName;
-      withdraw.accountNumber = secform.value.accountNumber;
-      withdraw.swift = secform.value.swift;
-      withdraw.narrative = secform.value.narrative;
-      withdraw.type = "SWIFT";
-      withdraw.address = secform.value.address;
-      withdraw.city = secform.value.city;
-      withdraw.countryCode = this.selectedCountry.countryCode;
-      return withdraw;
+  createWithdrawObject(mainForm, withdrawForm) {
+    if (this.selectedWithdraw === this.withdrawOptions[0]) {
+      return this.fillSepaForm(mainForm, withdrawForm);
     }
+    return this.fillSwiftForm(mainForm, withdrawForm);
   }
 
+  fillSepaForm(mainForm, withdrawForm) {
+    const withdraw = new Sepa();
+    withdraw.amount = `${mainForm.value.amount}`;
+    withdraw.currencyCode = `${this.activeFiat.name}`;
+    withdraw.firstName = withdrawForm.value.firstName;
+    withdraw.lastName = withdrawForm.value.lastName;
+    withdraw.companyName = withdrawForm.value.companyName;
+    withdraw.narrative = withdrawForm.value.narrative;
+    withdraw.iban = withdrawForm.value.iban;
+    withdraw.type = 'SEPA';
+  }
+
+  fillSwiftForm(mainForm, withdrawForm) {
+    const withdraw = new Swift();
+    withdraw.amount = `${mainForm.value.amount}`;
+    withdraw.currencyCode = `${this.activeFiat.name}`;
+    withdraw.firstName = withdrawForm.value.firstName;
+    withdraw.lastName = withdrawForm.value.lastName;
+    withdraw.companyName = withdrawForm.value.companyName;
+    withdraw.accountNumber = withdrawForm.value.accountNumber;
+    withdraw.swift = withdrawForm.value.swift;
+    withdraw.narrative = withdrawForm.value.narrative;
+    withdraw.type = 'SWIFT';
+    withdraw.address = withdrawForm.value.address;
+    withdraw.city = withdrawForm.value.city;
+    withdraw.countryCode = this.selectedCountry.countryCode;
+    return withdraw;
+  }
 
   getCountryCode() {
     this.settingsService.getCountriesKYC()
@@ -289,16 +272,13 @@ export class StepOneWithdrawComponent implements OnInit {
     this.openCurrencyDropdown = false;
     this.countryArray = this.countryArrayDefault;
   }
-  showCountryLabel(flag: boolean) {
-    this.showCountryLabelFlag = flag;
-  }
 
   selectCountry(country) {
     this.selectedCountry = country;
     this.countryDropdownToggle();
     this.formSwift.controls.countryCode.setValue(country.countryCode);
   }
-  
+
   searchCountry(e) {
     this.countryArray = this.countryArrayDefault.filter(f => f.countryName.toUpperCase().match(e.target.value.toUpperCase()));
   }

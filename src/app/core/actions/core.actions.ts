@@ -45,7 +45,6 @@ export class ChangeLanguageAction implements Action {
 }
 
 
-
 // Verification
 export class LoadVerificationStatusAction implements Action {
   readonly type = LOAD_VERIFICATION_STATUS;

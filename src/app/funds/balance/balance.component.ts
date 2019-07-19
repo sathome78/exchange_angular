@@ -75,7 +75,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public IEOData: IEOItem[] = [];
   public sendMoneyData = {};
-  public QuberaData = {};
+  public quberaData = {};
   public refillBalanceData = {};
   public currencyForChoose: string = null;
   public currentPage = 1;
@@ -122,12 +122,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
           console.error('publicId = ', this.userInfo && this.userInfo.publicId);
         }
       });
-      
+
   }
 
   getStatusKYC() {
     this.balanceService.getStatusKYC()
-      .pipe(first())
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data: any) => {
         this.kycStatusQubera = data.data;
       });
@@ -135,12 +135,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   getTableAndKYCStatus() {
     this.store.dispatch(new fundsAction.LoadQuberaBalAction());
+    this.getStatusKYC();
     this.getQuberaBalance();
   }
 
   getQuberaBalance() {
     this.quberaBalances$ = this.store.pipe(select(fundsReducer.getQuberaBalancesSelector));
-    console.log(this.quberaBalances$);
   }
 
   ngOnInit() {
@@ -316,7 +316,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public openQuberaPopup(flag: boolean) {
-    this.QuberaData = {};
+    this.quberaData = {};
     this.showQuberaPopup = flag;
   }
 
@@ -363,7 +363,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     // this.popupService.demoPopupMessage = 1;
     // this.popupService.showDemoTradingPopup(true);
     this.showQuberaPopup = true;
-    this.QuberaData = {
+    this.quberaData = {
       component: "TRANSFER",
       balance: balance
     };
@@ -379,7 +379,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe((data: any) => {
         console.log(data);
         this.showQuberaPopup = true;
-        this.QuberaData = {
+        this.quberaData = {
           component: "WITHDRAW",
           balance: data
         };
@@ -393,34 +393,33 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .pipe(first())
       .subscribe((data: any) => {
         this.showQuberaPopup = true;
-        this.QuberaData = {
+        this.quberaData = {
           component: "DEPOSIT",
           balance: data
         };
       });
   }
 
-  public goToQuberaAccountPopup(balance: BalanceItem): void {
+  public goToQuberaKYCPopup(balance: BalanceItem): void {
+    console.log('hi create account');
+    console.log(balance);
+    this.showQuberaPopup = true;
+    this.quberaData = {
+      component: "QUBERAKYC",
+      balance: balance
+    };
+  }
+
+  public goToCreateQuberaAccountPopup(balance: BalanceItem): void {
     console.log('hi create account');
     console.log(balance);
       this.showQuberaPopup = true;
-      this.QuberaData = {
-        component: "CREATEFUG",
+      this.quberaData = {
+        component: "CREATEQUBERA",
         balance: balance
       };
   }
 
-  public goToCreateCurrencyPopup(balance: BalanceItem): void {
-    console.log('hi create account');
-    console.log(balance);
-      this.showQuberaPopup = true;
-      this.QuberaData = {
-        component: "CREATECURRENCY",
-        balance: balance
-      };
-  }
-
-  
 
   public goToTransferPopup(balance: BalanceItem): void {
     // this.popupService.demoPopupMessage = 1;
@@ -495,8 +494,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   private getUserInfo() {
     this.store
-      .pipe(first(),
-            select(getUserInfo))
+      .pipe(first(), select(getUserInfo))
       .subscribe(data => {
         this.email = data.username;
         this.token = data.token_id

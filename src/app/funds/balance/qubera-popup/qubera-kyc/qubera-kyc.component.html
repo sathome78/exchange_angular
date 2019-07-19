@@ -4,7 +4,7 @@
     <span class="steps__counter-val">{{step}}</span>/2
   </div>
   <div class="modal__header-mob-controls">
-    <a class="modal__control-mob" (click)="onCloseSendMoneyPopup()">
+    <a class="modal__control-mob" (click)="onCloseQuberaKycPopup()">
       <img class="modal__control-icon" src="../../../assets/img/close-blue.svg"></a>
   </div>
 </div>
@@ -37,13 +37,13 @@
   <app-step-one
     *ngIf="step === 1"
     (nextStep)="nextStep(2)"
-    (closeSendQuberaPopup)="onCloseSendMoneyPopup()"
+    (closeQuberaKycPopup)="onCloseQuberaKycPopup()"
   >
   </app-step-one>
   <app-step-two
     *ngIf="step === 2"
     (getKYCStatus)="getStatusKYC()"
-    (closeSendQuberaPopup)="onCloseSendMoneyPopup()"
+    (closeQuberaKycPopup)="onCloseQuberaKycPopup()"
   >
   </app-step-two>
 </div>

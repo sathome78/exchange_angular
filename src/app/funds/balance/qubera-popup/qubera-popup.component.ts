@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
-import {Animations} from '../../../shared/animations';
+import { Animations } from '../../../shared/animations';
 import { BalanceService } from 'app/funds/services/balance.service';
 
 @Component({
@@ -12,35 +12,33 @@ import { BalanceService } from 'app/funds/services/balance.service';
 })
 export class QuberaPopupComponent implements OnInit {
 
+  component: any;
+
   @Input() showPopup;
   @Input() optionData;
   @Input() steper;
-  @Output() closeSendQuberaPopupMain = new EventEmitter<boolean>();
+  @Output() closeQuberaPopupMain = new EventEmitter<boolean>();
   @Output() getKYCStatus = new EventEmitter<boolean>();
-  component: any;
 
   @HostListener('document:click', ['$event']) clickout($event) {
     if ($event.target.classList.contains('overlay--modal')) {
-      this.onCloseSendQuberaPopupMain();
+      this.onCloseQuberaPopupMain();
     }
   }
+
   constructor(public balanceService: BalanceService) { }
 
-  
-  onCloseSendQuberaPopupMain() {
+  onCloseQuberaPopupMain() {
     this.showPopup = false;
     setTimeout(() => {
       this.getKYCStatus.emit(true);
-      this.closeSendQuberaPopupMain.emit(true);
+      this.closeQuberaPopupMain.emit(true);
     }, 1000);
   }
 
   ngOnInit() {
     this.setComponent();
   }
-
-  
-
 
   getStatusKYC() {
     this.getKYCStatus.emit(true);

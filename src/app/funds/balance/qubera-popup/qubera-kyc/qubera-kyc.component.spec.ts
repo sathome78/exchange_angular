@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateCurrencyComponent } from './create-currency.component';
+import { QuberaKycComponent } from './qubera-kyc.component';
 
-describe('CreateCurrencyComponent', () => {
-  let component: CreateCurrencyComponent;
-  let fixture: ComponentFixture<CreateCurrencyComponent>;
+describe('QuberaKycComponent', () => {
+  let component: QuberaKycComponent;
+  let fixture: ComponentFixture<QuberaKycComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateCurrencyComponent ]
+      declarations: [ QuberaKycComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateCurrencyComponent);
+    fixture = TestBed.createComponent(QuberaKycComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

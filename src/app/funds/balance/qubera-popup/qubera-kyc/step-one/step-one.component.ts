@@ -1,8 +1,6 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, HostListener, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, HostListener, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { State } from 'app/core/reducers';
-import { first, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { KycCountry } from 'app/shared/interfaces/kyc-country-interface';
 import { SettingsService } from 'app/settings/settings.service';
@@ -15,16 +13,8 @@ import { IMyDpOptions } from 'mydatepicker';
   templateUrl: './step-one.component.html',
   styleUrls: ['./step-one.component.scss']
 })
-export class StepOneComponent implements OnInit {
-
-  constructor(
-    private balanceService: BalanceService,
-    private settingsService: SettingsService,
-    private cdr: ChangeDetectorRef,
-    private store: Store<State>,) {
-    
-    this.initForm();
-  }
+export class StepOneComponent implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   public disable: boolean = false;
   public form: FormGroup;
@@ -32,32 +22,46 @@ export class StepOneComponent implements OnInit {
   public modelDateFrom: any;
   public isDateInputFromFocus = false;
 
-  public dateChoose: any;
-  public isVerify: any;
-  @Output() public nextStep: EventEmitter<any> = new EventEmitter();
-  
-  @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
-
-
   // country
-  
+
   public openCountryDropdown: Boolean = false;
   public showCountryLabelFlag: Boolean = false;
   public selectedCountry;
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
   public countryArray: KycCountry[] = [];
   public countryArrayDefault: KycCountry[] = [];
+
+  @Output() public nextStep: EventEmitter<any> = new EventEmitter();
+  @Output() closeQuberaKycPopup = new EventEmitter<boolean>();
+
   @ViewChild('countryInput') countryInput: ElementRef;
 
+  @HostListener('document:click', ['$event']) clickout({target}) {
+    if (target.className !== 'select__value select__value--active'
+      && target.className !== 'select__value select__value--active select__value--error'
+      && target.className !== 'select__search-input') {
+      this.countryInput.nativeElement.value = this.selectedCountry ? this.selectedCountry.countryName : '';
+      this.openCountryDropdown = false;
+    }
+  }
+
+  constructor(
+    private balanceService: BalanceService,
+    private settingsService: SettingsService,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.initForm();
+  }
+
   ngOnInit() {
-
     // this.checkUserInfo();
-
     this.getCountryCode();
   }
 
-  
-  
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
   public myDatePickerOptions: IMyDpOptions = {
     showInputField: false,
     openSelectorTopOfInput: true,
@@ -70,7 +74,6 @@ export class StepOneComponent implements OnInit {
       day: new Date().getDate() + 1,
     }
   };
-
 
   initForm() {
     this.form = new FormGroup({
@@ -108,7 +111,7 @@ export class StepOneComponent implements OnInit {
       }),
     });
     this.form.controls.theCheckbox.setValue(false);
-    this.form.controls.datepicker.setValue({ date: { 
+    this.form.controls.datepicker.setValue({ date: {
       year: new Date().getFullYear() - 18,
       month: new Date().getMonth() + 1,
       day: new Date().getDate() + 1,
@@ -132,8 +135,8 @@ export class StepOneComponent implements OnInit {
   }
 
   gotToStepTwo(form: any) {
-      if(form.valid && this.form.controls.theCheckbox.value == true) {
-        let account: BankVerification = {
+      if (form.valid && this.form.controls.theCheckbox.value === true) {
+        const account: BankVerification = {
           firstName: form.value.firstName,
           lastName: form.value.lastName,
           address: form.value.address,
@@ -145,7 +148,7 @@ export class StepOneComponent implements OnInit {
         };
         this.disable = true;
         this.balanceService.postFUGAccount(account)
-          .pipe(first())
+          .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe((response: any) => {
             window.open(`${response.data.url}`, '_blank');
             this.disable = false;
@@ -161,17 +164,6 @@ export class StepOneComponent implements OnInit {
     this.form.controls.theCheckbox.setValue(e.target.checked);
   }
 
-
-  @HostListener('document:click', ['$event']) clickout({target}) {
-    if (target.className !== 'select__value select__value--active'
-      && target.className !== 'select__value select__value--active select__value--error'
-      && target.className !== 'select__search-input') {
-      this.countryInput.nativeElement.value = this.selectedCountry ? this.selectedCountry.countryName : '';
-      this.openCountryDropdown = false;
-    }
-  }
-  
-
   getCountryCode() {
     this.settingsService.getCountriesKYC()
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -186,6 +178,7 @@ export class StepOneComponent implements OnInit {
     this.openCountryDropdown = !this.openCountryDropdown;
     this.countryArray = this.countryArrayDefault;
   }
+
   showCountryLabel(flag: boolean) {
     this.showCountryLabelFlag = flag;
   }
@@ -196,7 +189,7 @@ export class StepOneComponent implements OnInit {
     this.form.controls.country.setValue(country.countryName);
     this.form.controls.countryCode.setValue(country.countryCode);
   }
-  
+
   searchCountry(e) {
     this.countryArray = this.countryArrayDefault.filter(f => f.countryName.toUpperCase().match(e.target.value.toUpperCase()));
   }
@@ -205,7 +198,6 @@ export class StepOneComponent implements OnInit {
     this.modelDateFrom = null;
   }
 
-  
   focusOrBlurDateFrom(event) {
     this.isDateInputFromFocus = event;
     this.cdr.detectChanges();
@@ -215,7 +207,6 @@ export class StepOneComponent implements OnInit {
     this.modelDateFrom = {date: event.date};
     this.form.controls.datepicker.setValue(this.modelDateFrom);
   }
-
 
 
 
