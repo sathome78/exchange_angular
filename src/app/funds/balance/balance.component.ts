@@ -8,7 +8,7 @@ import {BalanceItem} from '../models/balance-item.model';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
 import {MyBalanceItem} from '../../model/my-balance-item.model';
 import {BalanceService} from '../services/balance.service';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil, first} from 'rxjs/operators';
 import {
   CRYPTO_DEPOSIT,
   CRYPTO_WITHDRAWAL,
@@ -27,6 +27,8 @@ import {IEOServiceService} from 'app/shared/services/ieoservice.service';
 import {IEOItem} from 'app/model/ieo.model';
 import {BALANCE_TABS} from './balance-constants';
 import {DetailedCurrencyPair} from '../../model/detailed-currency-pair';
+import { getUserInfo } from '../../core/reducers';
+import { UserService } from 'app/shared/services/user.service';
 
 
 @Component({
@@ -44,10 +46,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public showRefillBalancePopup = false;
   public showSendMoneyPopup = false;
+  public showQuberaPopup = false;
   public hideAllZero = false;
   public existQuberaAccounts: string = PENDING;
   public showContent: boolean = environment.showContent;
   public userInfo: ParsedToken;
+  public email: string;
+  private token: any;
+  public isInternalUser: boolean;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
   public quberaBalances$: Observable<any[]>;
@@ -66,9 +72,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public loading$: Observable<boolean>;
   public currValue = '';
   public kycStatus = '';
+  public quberaKycStatus$: Observable<string>;
 
   public IEOData: IEOItem[] = [];
   public sendMoneyData = {};
+  public quberaData = {};
   public refillBalanceData = {};
   public currencyForChoose: string = null;
   public currentPage = 1;
@@ -78,13 +86,13 @@ export class BalanceComponent implements OnInit, OnDestroy {
   constructor(
     public balanceService: BalanceService,
     private store: Store<fromCore.State>,
+    private userService: UserService,
     private dashboardWS: DashboardWebSocketService,
     public breakpointService: BreakpointService,
     public ieoService: IEOServiceService,
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.quberaBalances$ = store.pipe(select(fundsReducer.getQuberaBalancesSelector));
     this.cryptoBalances$ = store.pipe(select(fundsReducer.getCryptoBalancesSelector));
     this.countOfCryptoEntries$ = store.pipe(select(fundsReducer.getCountCryptoBalSelector));
     this.fiatBalances$ = store.pipe(select(fundsReducer.getFiatBalancesSelector));
@@ -97,6 +105,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.allCurrenciesForChoose$ = store.pipe(select(fromCore.getAllCurrenciesForChoose));
     this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
     this.detailedCurrencyPairs$ = store.pipe(select(fromCore.getDetailedCurrencyPairsSelector));
+    this.quberaBalances$ = this.store.pipe(select(fundsReducer.getQuberaBalancesSelector));
+    this.quberaKycStatus$ = this.store.pipe(select(fundsReducer.getQuberaKycStatusSelector));
 
     this.cryptoCurrenciesForChoose$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -114,11 +124,17 @@ export class BalanceComponent implements OnInit, OnDestroy {
           console.error('publicId = ', this.userInfo && this.userInfo.publicId);
         }
       });
+
+  }
+
+  getTableAndKYCStatus() {
+    this.store.dispatch(new fundsAction.LoadQuberaBalAction());
+    this.store.dispatch(new fundsAction.LoadQuberaKycStatusAction());
   }
 
   ngOnInit() {
     this.store.dispatch(new fundsAction.SetIEOBalancesAction([]));
-
+    this.store.dispatch(new fundsAction.LoadQuberaKycStatusAction());
     if (this.isMobile) {
       this.countPerPage = 30;
     }
@@ -129,6 +145,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.store.dispatch(new coreAction.LoadCryptoCurrenciesForChoose());
     this.store.dispatch(new coreAction.LoadFiatCurrenciesForChoose());
     this.store.dispatch(new fundsAction.LoadMyBalancesAction());
+    this.store.dispatch(new fundsAction.LoadQuberaBalAction());
     this.loadBalances(this.currTab);
     this.loadBalances(this.Tab.PR);
 
@@ -139,7 +156,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
       });
 
     this.store
-      .pipe(select(fromCore.getVerificationStatus))
+      .pipe(select(fundsReducer.getBalanceStatus))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(status => {
         this.kycStatus = status;
@@ -166,6 +183,13 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.openSendMoneyPopup(res);
       });
+    this.balanceService.closeSendQuberaPopup$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.openQuberaPopup(res);
+      });
+      this.getUserInfo();
+      this.checkEmail(this.email);
   }
 
   private setCurrTab(tab: string): string {
@@ -233,6 +257,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
           concat: concat || false,
         };
         return this.store.dispatch(new fundsAction.LoadPendingReqAction(paramsP));
+      case this.Tab.QUBERA :
+        const paramsQ = {
+          currencyName: this.currencyForChoose || '',
+          offset: (this.currentPage - 1) * this.countPerPage,
+          limit: this.countPerPage,
+          concat: concat || false,
+        };
+        return this.store.dispatch(new fundsAction.LoadQuberaBalAction(paramsQ));
     }
 
   }
@@ -272,6 +304,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.showSendMoneyPopup = flag;
   }
 
+  public openQuberaPopup(flag: boolean) {
+    this.quberaData = {};
+    this.showQuberaPopup = flag;
+  }
+
   public onToggleAllZero(): void {
     this.currentPage = 1;
     this.loadBalances(this.currTab);
@@ -308,6 +345,55 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.currentPage = 1;
     this.loadBalances(this.currTab);
   }
+
+  public goToTransferQuberaPopup(balance: BalanceItem): void {
+    this.showQuberaPopup = true;
+    this.quberaData = {
+      component: "TRANSFER",
+      balance: balance
+    };
+  }
+
+  public goToQuberaWithdrawPopup(balance: BalanceItem): void {
+    this.balanceService.getCurrencyData('EUR')
+      .pipe(first())
+      .subscribe((data: any) => {
+        this.showQuberaPopup = true;
+        this.quberaData = {
+          component: "WITHDRAW",
+          balance: data
+        };
+      });
+  }
+
+  public goToQuberaDepositPopup(balance: BalanceItem): void {
+    this.balanceService.getCurrencyData('EUR')
+      .pipe(first())
+      .subscribe((data: any) => {
+        this.showQuberaPopup = true;
+        this.quberaData = {
+          component: "DEPOSIT",
+          balance: data
+        };
+      });
+  }
+
+  public goToQuberaKYCPopup(balance: BalanceItem): void {
+    this.showQuberaPopup = true;
+    this.quberaData = {
+      component: "QUBERAKYC",
+      balance: balance
+    };
+  }
+
+  public goToCreateQuberaAccountPopup(balance: BalanceItem): void {
+      this.showQuberaPopup = true;
+      this.quberaData = {
+        component: "CREATEQUBERA",
+        balance: balance
+      };
+  }
+
 
   public goToTransferPopup(balance: BalanceItem): void {
     // this.popupService.demoPopupMessage = 1;
@@ -379,6 +465,24 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe((res: IEOItem[]) => {
           this.store.dispatch(new fundsAction.SetIEOBalancesAction(res));
       });
+  }
+
+  private getUserInfo() {
+    this.store
+      .pipe(first(), select(getUserInfo))
+      .subscribe(data => {
+        this.email = data.username;
+        this.token = data.token_id;
+        // delete after tests
+        this.isInternalUser = this.email.split('@')[1] === 'upholding.biz';
+      })
+  }
+
+  checkEmail(email: string){
+    this.userService.getCheckTo2FAEnabled(email)
+    .pipe(first())
+    .subscribe(data => {
+    });
   }
 
 }

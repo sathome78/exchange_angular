@@ -30,7 +30,7 @@ export class CoreEffects {
     private actions$: Actions,
     private coreService: CoreService,
     private store: Store<State>,
-    private settingsService: SettingsService,
+    private settingsService: SettingsService
   ) {
   }
 

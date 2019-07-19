@@ -84,6 +84,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
           this.getBalance(this.activeFiat.name);
         }
       });
+    if(this.selectMerchantName == 'Qubera') {
+      this.form.removeControl('address');
+    }
 
     this.store.pipe(select(getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -120,6 +123,12 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.setMinWithdrawSum();
     this.calculateData.commission_rates_sum = this.selectedMerchant.outputCommission;
       this.calculateCommission(this.amountValue);
+    if (merchant.name === 'Qubera'){
+      this.form.removeControl('address');
+    } else {
+      this.form.addControl('address', this.form);
+    }
+
   }
 
   currencyDropdownToggle() {
@@ -178,6 +187,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
           this.calculateCommission(0);
           this.setMinWithdrawSum();
         }
+        if(this.selectMerchantName == "Qubera") {
+          this.form.removeControl('address');
+        }
       });
   }
 
@@ -223,7 +235,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       this.model.merchantImage = this.selectedMerchantNested.id;
       this.model.currencyName = this.activeFiat.name || '';
       this.model.sum = this.form.controls['amount'].value;
-      this.model.destination = this.form.controls['address'].value;
+      if(this.selectedMerchant.name !== 'Qubera'){
+        this.model.destination = this.form.controls['address'].value;
+      }
 
       const data = {
         operation: SEND_FIAT,
