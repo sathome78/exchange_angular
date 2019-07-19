@@ -70,3 +70,23 @@
 #read {
 	display: none;
 }
+
+.fiat-deposit-s1{
+	.main-form{
+		.wrap-input{
+			width: calc(33.3333% - 15px);
+			&>.fiat-amount{
+				width: 100%;
+			}
+			.avaliable{
+				    font-size: 12px;
+    line-height: 14px;
+				position: absolute;
+				top: -17px;
+				right: 0;
+
+			}
+		}
+		
+	}
+}
