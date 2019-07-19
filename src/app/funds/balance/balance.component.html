@@ -295,13 +295,13 @@
         <app-qubera-table
           *ngSwitchCase="Tab.QUBERA"
           [balances]="quberaBalances$ | async"
-          [existQuberaAccounts]="existQuberaAccounts"
-          [kycStatus]="kycStatusQubera"
+          [kycStatus]="quberaKycStatus$ | async"
           (transferQuberaOut)="goToTransferQuberaPopup($event)"
           (cryptoWithdrawQuberaOut)="goToQuberaWithdrawPopup($event)"
           (quberaKycVerification)="goToQuberaKYCPopup($event)"
           (createQuberaAccount)="goToCreateQuberaAccountPopup($event)"
-          (cryptoDepositQuberaOut)="goToQuberaDepositPopup($event)">
+          (cryptoDepositQuberaOut)="goToQuberaDepositPopup($event)"
+          [loading]="loading$ | async">
         </app-qubera-table>
       </ng-container>
 

@@ -237,6 +237,7 @@ export class StepOneWithdrawComponent implements OnInit {
     withdraw.narrative = withdrawForm.value.narrative;
     withdraw.iban = withdrawForm.value.iban;
     withdraw.type = 'SEPA';
+    return withdraw;
   }
 
   fillSwiftForm(mainForm, withdrawForm) {

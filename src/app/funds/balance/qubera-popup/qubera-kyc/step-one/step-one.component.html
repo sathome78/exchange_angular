@@ -5,9 +5,7 @@
 
     <div class="select">
       <div class="select__value select__value--active" #countryInput
-            (click)="countryDropdownToggle()">
-            {{this.selectedCountry?.countryName}}
-      </div>
+            (click)="countryDropdownToggle()">{{this.selectedCountry?.countryName}}</div>
       <div class="select__label">{{'Country' | translate}}</div>
       <div class="select__line"></div>
       <div class="select__triangle"></div>

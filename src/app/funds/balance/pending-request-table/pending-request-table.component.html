@@ -51,6 +51,7 @@
     </td> -->
     <td class="table__cell table__cell--tar">
       <button
+        *ngIf="item.operation !== 'REFILL'"
         class="btn btn--center btn--empty-blue btn--small btn--hidden"
         (click)="toggleRevokeModal(true, i)">
         {{'Revoke' | translate}}

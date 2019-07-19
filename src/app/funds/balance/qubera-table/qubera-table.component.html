@@ -1,5 +1,6 @@
 <!-- <table class="table qubera-table"
        *ngIf="kycStatus === KYC_STATUS.SUCCESS && quberaBalance.balance > 0"> -->
+<ng-container *ngIf="!loading">
   <table class="table qubera-table" *ngIf="quberaBalance.length > 0">
     <thead>
       <tr>
@@ -181,7 +182,7 @@
     </div> -->
 
   </div>
-
+</ng-container>
   <!--paginator start-->
 <!--   <div
     class="row row--aic balance__paginator"
@@ -202,8 +203,3 @@
     </ul>
   </div> -->
   <!--paginator end-->
-
-
-  <div class="loading-container" *ngIf="existQuberaAccounts === PENDING">
-    <app-loader></app-loader>
-  </div>

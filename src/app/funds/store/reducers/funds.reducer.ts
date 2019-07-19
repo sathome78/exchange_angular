@@ -19,6 +19,7 @@ export interface State {
   myBalances: MyBalanceItemSimple | null;
   balanceDetailsInfo: BalanceDetailsItem;
   loading: boolean;
+  kycStatus: string;
   bankQuberaStatus: string;
   ieoBalances: IEOItem[];
   transactionsHistory: TransactionHistoryItem[];
@@ -37,6 +38,7 @@ export const INIT_STATE: State = {
   myBalances: defaultValues.myBalances,
   transactionsHistory: defaultValues.transactionsHistory,
   countTrHistory: defaultValues.countTrHistory,
+  kycStatus: defaultValues.kycStatus,
   ieoBalances: [],
   balanceDetailsInfo: null,
   loading: false,
@@ -112,6 +114,13 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
     case fromActions.SET_BANK_QUBERA_STATUS:
       return {...state, bankQuberaStatus: action.payload};
     case fromActions.FAIL_LOAD_BANK_QUBERA_STATUS:
+      return {...state, loading: false};
+
+    case fromActions.LOAD_QUBERA_KYC_STATUS:
+      return {...state, loading: true};
+    case fromActions.SET_QUBERA_KYC_STATUS:
+      return {...state, kycStatus: action.payload.data};
+    case fromActions.FAIL_LOAD_QUBERA_KYC_STATUS:
       return {...state, loading: false};
 
     case fromActions.LOAD_PENDING_REQ:
@@ -238,6 +247,12 @@ export const getIEOBalancesSelector = createSelector(getFundsState, getIEOBalanc
 export const getQuberaBalances = (state: State): any[] => state.quberaBal;
 
 export const getQuberaBalancesSelector = createSelector(getFundsState, getQuberaBalances);
+
+/** Qubera KYC status */
+
+export const getQuberaKycStatus = (state: State): string => state.kycStatus;
+
+export const getQuberaKycStatusSelector = createSelector(getFundsState, getQuberaKycStatus);
 
 /** Pending requests */
 

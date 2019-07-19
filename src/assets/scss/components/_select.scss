@@ -35,7 +35,8 @@
 
     &--active {
       border-color: $darker-blue;
-      ~ .select__label {
+      &:not(:empty){
+        ~ .select__label {
         top: -5px;
         padding: 0 2px;
         color: $darker-blue;
@@ -43,6 +44,8 @@
         font-size: 10px;
         line-height: 12px;
       }
+      }
+      
       ~ .select__line {
         background-color: $darker-blue;
       }
