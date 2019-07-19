@@ -36,8 +36,7 @@
         *ngIf="component == 'QUBERAKYC'"
         [steper]="steper"
         [qubera]="optionData"
-        (closeSendQuberaPopup)="onCloseQuberaPopupMain()"
-        (getKYCStatus)="getStatusKYC()"
+        (closeQuberaKycPopup)="onCloseQuberaPopupMain()"
       >
       </app-qubera-kyc>
 
@@ -45,7 +44,6 @@
         *ngIf="component == 'CREATEQUBERA'"
         [steper]="steper"
         [qubera]="optionData"
-        (getKYCStatus)="getStatusKYC()"
         (closeQuberaPopup)="onCloseQuberaPopupMain()"
       >
       </app-create-qubera>

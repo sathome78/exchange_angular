@@ -23,7 +23,7 @@ export class QuberaTableComponent implements OnInit {
   }
   private _balances;
   @Input('kycStatus') public kycStatus: string;
-  @Input('existQuberaAccounts') public existQuberaAccounts: string;
+  @Input('loading') public loading: boolean;
   @Output('cryptoWithdrawQuberaOut') public cryptoWithdrawQuberaOut: EventEmitter<any> = new EventEmitter();
   @Output('cryptoDepositQuberaOut') public cryptoDepositQuberaOut: EventEmitter<any> = new EventEmitter();
   @Output('transferQuberaOut') public transferQuberaOut: EventEmitter<any> = new EventEmitter();
@@ -46,7 +46,7 @@ export class QuberaTableComponent implements OnInit {
 
   checkBalance(balance) {
     if (this.kycStatus === KYC_STATUS.SUCCESS && !balance.length) {
-      this.quberaBalance.push(balance.data);
+      this.quberaBalance = [balance.data];
     }
   }
 

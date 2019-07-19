@@ -10,7 +10,6 @@ export class QuberaKycComponent implements OnInit {
   @Input() qubera;
   @Input() steper;
   @Output() closeQuberaKycPopup = new EventEmitter<boolean>();
-  @Output() getKYCStatus = new EventEmitter<boolean>();
   step: number;
 
   constructor() { }
@@ -27,10 +26,6 @@ export class QuberaKycComponent implements OnInit {
     setTimeout(() => {
       this.closeQuberaKycPopup.emit(true);
     }, 1000);
-  }
-
-  getStatusKYC() {
-    this.getKYCStatus.emit(true);
   }
 
   nextStep(step: number) {

@@ -9,14 +9,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class StepTwoComponent implements OnInit {
 
   @Output() closeQuberaKycPopup = new EventEmitter<boolean>();
-  @Output() getKYCStatus = new EventEmitter<boolean>();
 
   constructor() { }
 
   ngOnInit() {
-  }
-
-  getStatusKYC() {
-    this.getKYCStatus.emit(true);
   }
 }
