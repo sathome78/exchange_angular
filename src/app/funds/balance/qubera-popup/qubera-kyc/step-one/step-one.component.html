@@ -107,6 +107,15 @@
         (dateChanged)="onDateChanged($event)"
       >
       </my-date-picker>
+      <ng-container *ngIf="!currentDatePicker.valid && !currentDatePicker.untouched">
+        <div class="input-hint-wrapper">
+            <span
+              class="wrap-input__message"
+              *ngIf="!currentDatePicker.valid">
+              {{'Date of Birth field is required.' | translate}}
+            </span>
+        </div>
+      </ng-container>
     </div>
 
     <div class="rules">

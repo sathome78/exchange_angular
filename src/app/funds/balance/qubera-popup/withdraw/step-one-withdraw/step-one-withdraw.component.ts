@@ -283,4 +283,53 @@ export class StepOneWithdrawComponent implements OnInit {
     this.countryArray = this.countryArrayDefault.filter(f => f.countryName.toUpperCase().match(e.target.value.toUpperCase()));
   }
 
+
+// getters form Sepa
+  get currentSEPAFirstName(): any {
+    return this.formSepa.get('firstName');
+  }
+  get currentSEPALastName(): any {
+    return this.formSepa.get('lastName');
+  }
+  get currentSEPAACompanyName(): any {
+    return this.formSepa.get('companyName');
+  }
+  get currentSEPANarrative(): any {
+    return this.formSepa.get('narrative');
+  }
+
+  get currentSEPAIban(): any {
+    return this.formSepa.get('iban');
+  }
+
+// getters form SWIFT
+  get currentSWIFTFirstName(): any {
+    return this.formSwift.get('firstName');
+  }
+  get currentSWIFTLastName(): any {
+    return this.formSwift.get('lastName');
+  }
+  get currentSWIFTACompanyName(): any {
+    return this.formSwift.get('companyName');
+  }
+  
+  get currentSWIFTAccountNumbere(): any {
+    return this.formSwift.get('accountNumber');
+  }
+  
+  get currentSWIFTNumber(): any {
+    return this.formSwift.get('swift');
+  }
+  get currentSWIFTNarrative(): any {
+    return this.formSwift.get('narrative');
+  }
+
+  get currentSWIFTAddress(): any {
+    return this.formSwift.get('address');
+  }
+
+  get currentSWIFTCity(): any {
+    return this.formSwift.get('city');
+  }
+
 }

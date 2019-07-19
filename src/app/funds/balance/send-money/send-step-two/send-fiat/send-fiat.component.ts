@@ -81,9 +81,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
           this.getBalance(this.activeFiat.name);
         }
       });
-      if(this.selectMerchantName == "Qubera") {
-        this.form.removeControl('address');
-      }
   }
 
   ngOnDestroy(): void {
@@ -177,6 +174,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
           this.calculateData.commission_rates_sum = this.selectedMerchant.outputCommission;
           this.calculateCommission(0);
           this.setMinWithdrawSum();
+        }
+        if(this.selectMerchantName == "Qubera") {
+          this.form.removeControl('address');
         }
       });
   }
