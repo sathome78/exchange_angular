@@ -83,6 +83,13 @@
 
         </app-price-input>
       </div>
+      <div class="check">
+            <input type="checkbox"
+                  id="read"
+                  />
+            <label for="read" class="read"></label>
+        <span>{{'For Company' | translate}}</span>
+      </div>
     </form>
 
     <form [formGroup]="formSepa" *ngIf="selectedWithdraw === withdrawOptions[0]">
