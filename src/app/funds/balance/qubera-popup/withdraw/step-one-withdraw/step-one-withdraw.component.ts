@@ -13,6 +13,8 @@ import { Swift } from 'app/funds/models/swift.model';
 import { KycCountry } from 'app/shared/interfaces/kyc-country-interface';
 import { SettingsService } from 'app/settings/settings.service';
 import * as settingsActions from '../../../../../settings/store/actions/settings.actions'
+import { CommissionData } from 'app/funds/models/commission-data.model';
+import {defaultCommissionData} from '../../../../store/reducers/default-values';
 
 @Component({
   selector: 'app-step-one-withdraw',
@@ -44,6 +46,12 @@ export class StepOneWithdrawComponent implements OnInit {
   public merchants;
   public activeFiat;
   public alphabet;
+
+
+  public minWithdrawSum = 0;
+  public activeBalance = 0;
+  public amountValue = 0;
+  public calculateData: CommissionData = defaultCommissionData;
 
 
   // country
@@ -173,8 +181,62 @@ export class StepOneWithdrawComponent implements OnInit {
 
   initMainForm() {
     this.form = new FormGroup({
-      amount: new FormControl('', Validators.required)
+      amount: new FormControl('', [
+        Validators.required,
+        this.isMaxThenActiveBalance.bind(this),
+        this.isMinThenMinWithdraw.bind(this)
+      ])
     })
+  }
+
+  isMaxThenActiveBalance(): {[key: string]: any} | null {
+    if (+this.activeBalance < +this.amountValue) {
+      return {'isMaxThenActiveBalance': true};
+    }
+    return null;
+  }
+
+  isMinThenMinWithdraw(): {[key: string]: any} | null {
+    if (+this.minWithdrawSum > +this.amountValue) {
+      return {'isMinThenMinWithdraw': true};
+    }
+    return null;
+  }
+
+  balanceClick() {
+    if (this.activeBalance > this.minWithdrawSum) {
+      this.form.controls['amount'].setValue(this.activeBalance.toString());
+      this.calculateCommission(this.activeBalance);
+      this.amountValue = this.activeBalance;
+    }
+  }
+
+  calculateCommission(amount) {
+    if (this.form.controls['amount'].valid && this.selectedMerchant.merchantId) {
+      this.balanceService
+        .getCommissionToWithdraw(amount, this.activeFiat.id, this.selectedMerchant.merchantId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          this.calculateData = res as CommissionData;
+          const compCommission = parseFloat(this.calculateData.companyCommissionRate.replace('%)', '').replace('(', ''));
+          this.calculateData.commission_rates_sum =
+            +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
+        });
+    } else {
+      const outCommission = !!this.selectedMerchant ? this.selectedMerchant.outputCommission : 0;
+      const fixCommission = !!this.selectedMerchant ? this.selectedMerchant.fixedMinCommission : 0;
+      this.calculateData.merchantCommissionRate = `(${outCommission}%, but not less than ${fixCommission} USD)`;
+    }
+  }
+
+  amountBlur(event) {
+    if (event && this.form.controls['amount'].valid) {
+      this.calculateCommission(this.amountValue);
+    }
+  }
+
+  amountInput(event) {
+    this.amountValue = event.target.value;
   }
 
   initSwiftForm() {
