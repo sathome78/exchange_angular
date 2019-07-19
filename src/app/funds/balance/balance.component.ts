@@ -475,6 +475,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public onSelectPair(currId: string): void {
     this.currencyForChoose = currId;
+    this.currentPage = 1;
     this.loadBalances(this.currTab);
   }
 
