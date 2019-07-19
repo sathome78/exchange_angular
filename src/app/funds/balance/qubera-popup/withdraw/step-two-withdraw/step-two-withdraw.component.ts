@@ -19,6 +19,7 @@ export class StepTwoWithdrawComponent implements OnInit {
 
   payments: any;
   googleAuthenticator: any;
+  statusMessage: string = '';
 
   constructor(
     public balanceService: BalanceService,
@@ -46,6 +47,10 @@ export class StepTwoWithdrawComponent implements OnInit {
     });
   }
 
+  get currentCode(): any {
+    return this.form.get('code');
+  }
+
   enterCode(form) {
       const obj: Object = {
         pin: `${form.code}`,
@@ -56,5 +61,12 @@ export class StepTwoWithdrawComponent implements OnInit {
         .subscribe((data: any) => {
           this.nextStep.emit(3);
         });
+  }
+
+  setStatusMessage(err) {
+    if (err['status'] === 400) {
+        this.form.reset();
+        this.statusMessage = "Wrong code";
+    }
   }
 }

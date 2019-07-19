@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BalanceService } from 'app/funds/services/balance.service';
 import { first } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { AUTH_MESSAGES } from 'app/shared/constants';
 
 @Component({
   selector: 'app-step-one-qubera',
@@ -16,8 +18,10 @@ export class StepOneQuberaComponent implements OnInit {
   step: number;
 
   form: FormGroup;
+  statusMessage: string = '';
 
   constructor(
+    private translateService: TranslateService,
     private balanceService: BalanceService
   ) { }
 
@@ -40,7 +44,15 @@ export class StepOneQuberaComponent implements OnInit {
           this.nextStep.emit(2);
         }, error => {
           console.log(error);
+          this.setStatusMessage(error);
         });
+    }
+  }
+
+  setStatusMessage(err) {
+    if (err['status'] === 400) {
+        this.form.reset();
+        this.statusMessage = "Wrong code";
     }
   }
 

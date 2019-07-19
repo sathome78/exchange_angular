@@ -187,6 +187,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
           this.calculateCommission(0);
           this.setMinWithdrawSum();
         }
+        if(this.selectMerchantName == "Qubera") {
+          this.form.removeControl('address');
+        }
       });
   }
 

@@ -1,12 +1,27 @@
 <div class="modal__content qubera-content">
   <div class="fiat-deposit-s1 fiat-withdraw-s1">
   <h2>{{'Transaction confirmation' | translate}}</h2>
-  <div class="inf-code">{{'Please enter two-factor authentication code that was sent to your email' | translate}}</div>
+  <!-- <div class="inf-code" *ngIf="!googleAuthenticator">{{'Please enter two-factor authentication code that was sent to your email' | translate}}</div>
+  <div class="inf-code" *ngIf="googleAuthenticator">{{'Use Google Authenticator to generate pincode' | translate}}</div> -->
 
   <form [formGroup]="form">
     <div class="input-block">
       <input class="wrap-input__input" type="text" name="code" formControlName="code" required>
       <label class="wrap-input__label" for="code">{{'Code' | translate}}</label>
+      <ng-container *ngIf="!currentCode.valid && !currentCode.untouched && !statusMessage">
+          <div class="input-hint-wrapper">
+              <span class="wrap-input__message" *ngIf="!currentCode.valid">
+              {{'Code field is required.' | translate}}
+              </span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="statusMessage">
+          <div class="input-hint-wrapper">
+            <span class="wrap-input__message">
+              {{statusMessage | translate}}
+            </span>
+          </div>
+        </ng-container>
     </div>
   </form>
   <button class="btn btn--center" (click)="submit(form)">
