@@ -16,17 +16,13 @@
     <div class="tabs balance__tabs-mob">
       <button
         class="tabs__item"
-        [ngClass]="{'tabs__item--active': currTab === Tab.CRYPTO}"
-        (click)="onSelectTab.emit(Tab.CRYPTO)"
-        [disabled]="loading"
+        
       >
         {{'Crypto' | translate}}
       </button>
       <button
         class="tabs__item"
-        [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}"
-        (click)="onSelectTab.emit(Tab.FIAT)"
-        [disabled]="loading"
+        
       >
         {{'Exchange wallet' | translate}}
       </button>
@@ -34,18 +30,14 @@
 
       <button
         class="tabs__item"
-        [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
-        (click)="onSelectTab.emit(Tab.QUBERA)"
-        [disabled]="loading"
+        
       >
         {{'Funding wallet' | translate}}
       </button>
       
       <button
         class="tabs__item"
-        [ngClass]="{'tabs__item--active': currTab === Tab.IEO}"
-        (click)="onSelectTab.emit(Tab.IEO)"
-        [disabled]="loading"
+        
       >
         {{'IEO' | translate}}
       </button>
@@ -240,7 +232,7 @@
                 <p>Через ваш акаунт Exrates вы открываете счёт в Банке. Данный счёт является вашим персональным счетом с которого вы можете в любом момент переводить фиат на ваш торговый счёт в Exrates.</p>
               </div>
               <div class="detail-inf">
-                <p>Более детальное описание условий доступно на странице финансового партнёра <a href="http://fug.sg">FUG</a>.</p>
+                <p>Более детальное описание условий доступно на странице финансового партнёра <a href="http://fug.sg" target="_blank">FUG</a>.</p>
               </div>
 
 
