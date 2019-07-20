@@ -1,5 +1,6 @@
 export const defaultValues = {
   cryptoBal: [],
+  quberaBal: [],
   countCryptoBal: 0,
   fiatBal: [],
   countFiatBal: 0,
@@ -9,6 +10,7 @@ export const defaultValues = {
     'BTC': 0,
     'USD': 0,
   },
+  kycStatus: '',
 
   transactionsHistory: [],
   countTrHistory: 0,

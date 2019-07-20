@@ -17,6 +17,8 @@ export class RefillMoneyComponent implements OnInit {
   public stepTwoName: string;
   public step: number;
 
+  showStepThree: boolean = false;
+
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
     if ($event.target.classList.contains('overlay--modal')) {
@@ -51,6 +53,15 @@ export class RefillMoneyComponent implements OnInit {
   private initFields() {
     this.step = this.optionData.step ? this.optionData.step : 1;
     this.stepTwoName = this.optionData.stepName ? this.optionData.stepName : '';
+  }
+
+  changeSteps() {
+    this.showStepThree = true;
+  }
+
+  hideStep() {
+    console.log('hi');
+    this.showStepThree = false;
   }
 
 }

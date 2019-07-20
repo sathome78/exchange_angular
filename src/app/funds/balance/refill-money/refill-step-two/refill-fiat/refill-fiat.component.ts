@@ -1,6 +1,6 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil, first} from 'rxjs/operators';
 import {CurrencyBalanceModel} from '../../../../../model/currency-balance.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BalanceService} from '../../../../services/balance.service';
@@ -21,6 +21,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   @Input() refillData: any;
   @Output() closePopup = new EventEmitter();
+  @Output() goToThirdStep = new EventEmitter();
+  @Output() selectQuberaBank = new EventEmitter();
+  @Output() hideSteps = new EventEmitter();
   @ViewChild('simpleMerchant') simpleMerchantTemplate: TemplateRef<any>;
   @ViewChild('listMerchant') listMerchantTemplate: TemplateRef<any>;
   @ViewChild('sendF') sendFTemplate: TemplateRef<any>;
@@ -149,6 +152,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   selectMerchant(merchant, merchantImage = null) {
+    if(merchant.name == 'Qubera') {
+      this.selectQuberaBank.emit(true);
+    } else {
+      this.hideSteps.emit(true);
+    }
     this.selectedMerchantNested = merchantImage;
     this.selectMerchantName =  merchantImage.image_name  || merchant.name;
     this.selectedMerchant = merchant;
@@ -165,33 +173,53 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   submitRefill() {
     this.isSubmited = true;
-    if (this.form.valid && this.selectedMerchant.name) {
-      this.isSubmited = false;
-      this.amount = this.form.controls['amount'].value;
-      const data: RefillData = {
-        operationType: this.fiatDataByName.payment.operationType,
-        currency: this.fiatDataByName.currency.id,
+    if(this.selectedMerchant.name == 'Qubera' && this.activeFiat.name == 'EUR') {
+      const deposit: Object = { "currencyName": this.activeFiat.name, "amount": this.form.controls.amount.value};
+      const obj: Object = {
+        currency: this.selectedMerchant.currencyId,
         merchant: this.selectedMerchant.merchantId,
-        destination: this.selectedMerchant.description,
-        merchantImage: this.selectedMerchantNested.id,
-        sum: +this.amount
-      };
-      this.loading = true;
-      this.balanceService.refill(data)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe((res: RefillResponse) => {
-          this.refillData = res;
-          this.redirectionUrl = this.refillData.redirectionUrl;
-          // this.redirectionUrl = this.getRefillRedirectionUrl(res);
-          this.submitSuccess = true;
-          setTimeout(() => {
-            this.redirectionLink.nativeElement.click();
-          }, 1000);
-          this.loading = false;
-        }, (err) => {
-          this.loading = false;
-          console.error(err);
+        destination: "",
+        merchantImage: 1108,
+        sum: `${this.form.controls.amount.value}`,
+        destinationTag: ""
+      }
+      this.balanceService.fiatDepositQubera(deposit)
+        .pipe(first())
+        .subscribe((data: any) => {
+          this.balanceService.setRefillTransfer(obj);
+          this.goToThirdStep.emit(true);
+        }, error => {
+          console.log(error);
         });
+    } else {
+      if (this.form.valid && this.selectedMerchant.name) {
+        this.isSubmited = false;
+        this.amount = this.form.controls['amount'].value;
+        const data: RefillData = {
+          operationType: this.fiatDataByName.payment.operationType,
+          currency: this.fiatDataByName.currency.id,
+          merchant: this.selectedMerchant.merchantId,
+          destination: this.selectedMerchant.description,
+          merchantImage: this.selectedMerchantNested.id,
+          sum: +this.amount
+        };
+        this.loading = true;
+        this.balanceService.refill(data)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe((res: RefillResponse) => {
+            this.refillData = res;
+            this.redirectionUrl = this.refillData.redirectionUrl;
+            // this.redirectionUrl = this.getRefillRedirectionUrl(res);
+            this.submitSuccess = true;
+            setTimeout(() => {
+              this.redirectionLink.nativeElement.click();
+            }, 1000);
+            this.loading = false;
+          }, (err) => {
+            this.loading = false;
+            console.error(err);
+          });
+      }
     }
   }
 

@@ -55,7 +55,6 @@ export class GetIconUrl  implements PipeTransform {
       case 'uDOOOO':
       case 'VRA':
 
-      
       case 'ZUBE':
         name = 'no_icon';
         break;

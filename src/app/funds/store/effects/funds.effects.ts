@@ -132,6 +132,20 @@ export class FundsEffects {
         );
     }));
 
+  /**
+   * Load qubera KYC status
+   */
+  @Effect()
+  loadQuberaKycStatus$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadQuberaKycStatusAction>(fundsActions.LOAD_QUBERA_KYC_STATUS))
+    .pipe(switchMap(() => {
+      return this.balanceService.getStatusKYC()
+        .pipe(
+          map((res: any) => (new fundsActions.SetQuberaKycStatusAction(res))),
+          catchError(error => of(new fundsActions.FailLoadQuberaKycStatusAction(error)))
+        );
+    }))
+
    /**
    * Load balance confirmation info
    */
@@ -203,6 +217,17 @@ export class FundsEffects {
           catchError(error => of(new fundsActions.FailLoadTransactionsHistoryAction(error)))
         );
     }));
+
+    @Effect()
+    loadQuberaBankStatus$: Observable<Action> = this.actions$
+      .pipe(ofType<fundsActions.LoadQuberaBankStatusAction>(fundsActions.LOAD_BANK_QUBERA_STATUS))
+      .pipe(switchMap(() => {
+        return this.balanceService.checkQuberaAccount('EUR')
+          .pipe(
+            map((res: any) => new fundsActions.SetQuberaBankStatusAction(res.data)),
+            catchError(error => of(new fundsActions.FailLoadQuberaBankStatusAction(error)))
+          );
+      }));
 
 
 }

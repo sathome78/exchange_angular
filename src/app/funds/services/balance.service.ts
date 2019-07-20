@@ -1,12 +1,14 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
+import {Observable, Subject, BehaviorSubject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {BalanceItem} from '../models/balance-item.model';
 import {MyBalanceItem} from '../../model/my-balance-item.model';
 import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
 import {Router} from '@angular/router';
 import {PendingRequestsItem} from '../models/pending-requests-item.model';
+import { BankVerification } from 'app/model/bank-veryfication.model';
+import { bankInfo } from '../models/bank-info.model';
 
 @Injectable()
 export class BalanceService {
@@ -15,8 +17,28 @@ export class BalanceService {
   public goToPinCode$ = new Subject();
   public closeRefillMoneyPopup$ = new Subject<boolean>();
   public closeSendMoneyPopup$ = new Subject<boolean>();
+  public closeSendQuberaPopup$ = new Subject<boolean>();
   public goToSendMoneySuccess$ = new Subject();
   public goToSendMoneyInnerTransfer$ = new Subject();
+
+  public refillTransfer = new BehaviorSubject<any>(null);
+  public withdrawQubera = new BehaviorSubject<any>(null);
+
+  setRefillTransfer(body: any) {
+    this.refillTransfer.next(body);
+  }
+
+  getRefillTransfer(): Observable<any> {
+    return this.refillTransfer.asObservable();
+  }
+
+  setWithdrawQubera(body: any) {
+    this.withdrawQubera.next(body);
+  }
+
+  getWithdrawQubera(): Observable<any> {
+    return this.withdrawQubera.asObservable();
+  }
 
   constructor(
     private http: HttpClient,
@@ -181,6 +203,46 @@ export class BalanceService {
   getMaxCurrencyPairByName(currencyName: string) {
     const url = `${this.apiUrl}/api/public/v2/info/max/${currencyName}`;
     return this.http.get(url);
+  }
+
+  getBalanceQuberaInfo() {
+    return this.http.get(`${this.apiUrl}/api/private/v2/merchants/qubera/account/info`);
+  }
+
+  postFUGAccount(body: any) {
+    return this.http.post(`${this.apiUrl}/api/private/v2/kyc/start`, body);
+  }
+
+  getStatusKYC() {
+    return this.http.get(`${this.apiUrl}/api/private/v2/merchants/qubera/verification_status`);
+  }
+
+  checkQuberaAccount(currency: string) {
+    return this.http.get(`${this.apiUrl}/api/private/v2/merchants/qubera/account/check/${currency}`);
+  }
+
+  sendCodeToMail() {
+    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/request/pin`, {});
+  }
+
+  createQuberaAccount(body: any) {
+    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/account/create`, body);
+  }
+
+  getBankInfo() {
+    return this.http.get(`${this.apiUrl}/api/private/v2/merchants/qubera/info`);
+  }
+
+  sendWithdraw(body: any) {
+    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/payment/external`, body);
+  }
+
+  confirmSendWithdraw(body: any) {
+    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/info`, body);
+  }
+
+  fiatDepositQubera(body: any) {
+    return this.http.post(`${this.apiUrl}/api/private/v2/balances/withdraw/request/pin`, body)
   }
 
 }

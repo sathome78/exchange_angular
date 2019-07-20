@@ -63,6 +63,22 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import {IEOTableMobComponent} from './balance/ieo-table-mob/ieo-table-mob.component';
 import {IEOBalanceDetailsComponent} from './ieo-balance-details/ieo-balance-details.component';
 import { BalanceTableTradeBtnComponent } from './balance/balance-table/balance-table-trade-btn/balance-table-trade-btn.component';
+import { QuberaPopupComponent } from './balance/qubera-popup/qubera-popup.component';
+import { DepositComponent } from './balance/qubera-popup/deposit/deposit.component';
+import { TransferComponent } from './balance/qubera-popup/transfer/transfer.component';
+import { WithdrawComponent } from './balance/qubera-popup/withdraw/withdraw.component';
+import { QuberaKycComponent } from './balance/qubera-popup/qubera-kyc/qubera-kyc.component';
+import { StepOneComponent } from './balance/qubera-popup/qubera-kyc/step-one/step-one.component';
+import { StepTwoComponent } from './balance/qubera-popup/qubera-kyc/step-two/step-two.component';
+import { StepOneDepositComponent } from './balance/qubera-popup/deposit/step-one-deposit/step-one-deposit.component';
+import { StepOneWithdrawComponent } from './balance/qubera-popup/withdraw/step-one-withdraw/step-one-withdraw.component';
+import { StepTwoWithdrawComponent } from './balance/qubera-popup/withdraw/step-two-withdraw/step-two-withdraw.component';
+import { QuberaMobComponent } from './balance/qubera-mob/qubera-mob.component';
+import { CreateQuberaComponent } from './balance/qubera-popup/create-qubera/create-qubera.component';
+import { StepOneQuberaComponent } from './balance/qubera-popup/create-qubera/step-one-qubera/step-one-qubera.component';
+import { StepTwoQuberaComponent } from './balance/qubera-popup/create-qubera/step-two-qubera/step-two-qubera.component';
+import { RefillStepThreeComponent } from './balance/refill-money/refill-step-three/refill-step-three.component';
+import { StepThreeWithdrawComponent } from './balance/qubera-popup/withdraw/step-three-withdraw/step-three-withdraw.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -135,6 +151,22 @@ export function createTranslateLoader(http: HttpClient) {
     IEOTableMobComponent,
     IEOBalanceDetailsComponent,
     BalanceTableTradeBtnComponent,
+    QuberaPopupComponent,
+    DepositComponent,
+    TransferComponent,
+    WithdrawComponent,
+    QuberaKycComponent,
+    StepOneComponent,
+    StepTwoComponent,
+    StepOneDepositComponent,
+    StepOneWithdrawComponent,
+    StepTwoWithdrawComponent,
+    QuberaMobComponent,
+    CreateQuberaComponent,
+    StepOneQuberaComponent,
+    StepTwoQuberaComponent,
+    RefillStepThreeComponent,
+    StepThreeWithdrawComponent
   ],
   providers: [
     BalanceService,

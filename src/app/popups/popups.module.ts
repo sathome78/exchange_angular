@@ -44,6 +44,7 @@ import {TopNotificationComponent} from './notifications-list/top-notification/to
 import {NotificationsListComponent} from './notifications-list/notifications-list.component';
 import { NewsSubscribePopupComponent } from './news-subscribe-popup/news-subscribe-popup.component';
 import { NewsThankYouPopupComponent } from './news-thank-you-popup/news-thank-you-popup.component';
+import { QuberaPopupsComponent } from './qubera-popups/qubera-popups.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { NewsThankYouPopupComponent } from './news-thank-you-popup/news-thank-yo
     NotificationsListComponent,
     NewsSubscribePopupComponent,
     NewsThankYouPopupComponent,
+    QuberaPopupsComponent,
   ],
   imports: [
     CommonModule,
