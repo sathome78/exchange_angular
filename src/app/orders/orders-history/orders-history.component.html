@@ -72,8 +72,8 @@
                   <div class="table__details-item-value">{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
                 </div>
                 <div class="table__details-item">
-                  <div class="table__details-item-title">{{'Filled' | translate}}</div>
-                  <div class="table__details-item-value">{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  <div class="table__details-item-title">{{'Status' | translate}}</div>
+                  <div class="table__details-item-value">{{item.status | showOrderStatus}}</div>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Fee' | translate}}</div>
