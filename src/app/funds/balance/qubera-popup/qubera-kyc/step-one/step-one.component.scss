@@ -135,14 +135,14 @@ form .select {
         width: 13px;
         height: 10px;
         content: "";
-        background-image: url(/step-valid.svg);
+        background-image: url(./assets/img/step-valid.svg);
         background-repeat: no-repeat;
         background-position: center;
         background-size: 100%;
         opacity: 0;
         transition: .3s;
         @media(max-width: 1200px){
-        background-image: url(/check.svg);
+        background-image: url(./assets/img/check.svg);
     }
     }
 }
