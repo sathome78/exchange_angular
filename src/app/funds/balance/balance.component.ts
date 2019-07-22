@@ -53,6 +53,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public userInfo: ParsedToken;
   public email: string;
   private token: any;
+  public isInternalUser: boolean;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
   public quberaBalances$: Observable<any[]>;
@@ -346,64 +347,49 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public goToTransferQuberaPopup(balance: BalanceItem): void {
-    console.log('hi transfer');
-    console.log(balance);
-    // this.popupService.demoPopupMessage = 1;
-    // this.popupService.showDemoTradingPopup(true);
     this.showQuberaPopup = true;
     this.quberaData = {
-      component: "TRANSFER",
+      component: 'TRANSFER',
       balance: balance
     };
   }
 
   public goToQuberaWithdrawPopup(balance: BalanceItem): void {
-    console.log('hi Withdraw');
-    console.log(balance);
-    // this.popupService.demoPopupMessage = 1;
-    // this.popupService.showDemoTradingPopup(true);
     this.balanceService.getCurrencyData('EUR')
       .pipe(first())
       .subscribe((data: any) => {
-        console.log(data);
         this.showQuberaPopup = true;
         this.quberaData = {
-          component: "WITHDRAW",
+          component: 'WITHDRAW',
           balance: data
         };
       });
   }
 
   public goToQuberaDepositPopup(balance: BalanceItem): void {
-    console.log('hi Deposit');
-    console.log(balance);
     this.balanceService.getCurrencyData('EUR')
       .pipe(first())
       .subscribe((data: any) => {
         this.showQuberaPopup = true;
         this.quberaData = {
-          component: "DEPOSIT",
+          component: 'DEPOSIT',
           balance: data
         };
       });
   }
 
   public goToQuberaKYCPopup(balance: BalanceItem): void {
-    console.log('hi create account');
-    console.log(balance);
     this.showQuberaPopup = true;
     this.quberaData = {
-      component: "QUBERAKYC",
+      component: 'QUBERAKYC',
       balance: balance
     };
   }
 
   public goToCreateQuberaAccountPopup(balance: BalanceItem): void {
-    console.log('hi create account');
-    console.log(balance);
       this.showQuberaPopup = true;
       this.quberaData = {
-        component: "CREATEQUBERA",
+        component: 'CREATEQUBERA',
         balance: balance
       };
   }
@@ -486,7 +472,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .pipe(first(), select(getUserInfo))
       .subscribe(data => {
         this.email = data.username;
-        this.token = data.token_id
+        this.token = data.token_id;
+        // delete after tests
+        this.isInternalUser = this.email.split('@')[1] === 'upholding.biz';
       })
   }
 
@@ -494,7 +482,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.userService.getCheckTo2FAEnabled(email)
     .pipe(first())
     .subscribe(data => {
-      console.log(data);
     });
   }
 

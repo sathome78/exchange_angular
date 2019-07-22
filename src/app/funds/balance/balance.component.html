@@ -133,7 +133,7 @@
           (onSelect)="onSelectPair($event.id)"
           [showNotFoundTip]="true"
         ></app-dynamic-input>
-        <ng-container *ngIf="showContent">
+        <ng-container *ngIf="isInternalUser">
           <app-dynamic-input
             *ngSwitchCase="Tab.QUBERA"
             [value]="currValue"
@@ -183,7 +183,7 @@
         </button>
 
         <button
-          *ngIf="showContent"
+          *ngIf="isInternalUser"
           class="tabs__item"
           [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
           (click)="onSelectTab(Tab.QUBERA)"
@@ -291,7 +291,7 @@
         (onRevokePendingRequest)="onRevokePendingRequest($event)"
         *ngSwitchCase="Tab.PR"
       ></app-pending-request-table>
-      <ng-container *ngIf="showContent">
+      <ng-container *ngIf="isInternalUser">
         <app-qubera-table
           *ngSwitchCase="Tab.QUBERA"
           [balances]="quberaBalances$ | async"

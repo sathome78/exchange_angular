@@ -43,7 +43,6 @@ export class StepOneQuberaComponent implements OnInit {
         .subscribe((data: any) => {
           this.nextStep.emit(2);
         }, error => {
-          console.log(error);
           this.setStatusMessage(error);
         });
     }
@@ -62,7 +61,6 @@ export class StepOneQuberaComponent implements OnInit {
       .subscribe((code: string) => {
 
       }, error => {
-        console.log(error);
       });
   }
 
