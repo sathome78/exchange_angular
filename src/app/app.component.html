@@ -1,106 +1,27 @@
 <div class="page-wrap" [ngClass]="{'dark-theme': isCurrentThemeDark()}">
 
-  <!--<h3>{{'built: 27.10.2018 10:17:12' }}</h3>-->
-  <!-- <a href="https://t.me/exrates_official" target="_blank" class="banner-wrap" id="banner">
-    <span class="banner">
-        <span class="banner__logo">
-        <div class="text">Exrates lab</div>
-    </span>
-    <span class="banner__text">Get the pump-and-dump monthly prediction of BTC rate</span>
-    <span class="banner__link">Join</span>
-    <span class="banner__nommo">
-        <img src="../../assets/img/nommo.png">
-    </span>
-    <button class="banner__btn"onclick="document.getElementById('banner').style.display='none';return false;">Close
-        <span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="12px" height="13px">
-                <path fill-rule="evenodd" fill="rgb(255, 255, 255)"
-                      d="M12.010,10.740 L10.243,12.509 L6.000,8.263 L1.757,12.509 L-0.010,10.740 L4.232,6.495 L-0.010,2.249 L1.757,0.480 L6.000,4.726 L10.243,0.480 L12.010,2.249 L7.768,6.495 L12.010,10.740 Z"/>
-            </svg>
-        </span>
-    </button>
-    </span>
-  </a> -->
   <article class="banner-wr" id="banner-wr"  *ngIf="!technicalWorks">
     <style>
-
-    .banner-wr {
-
+    .banner-content{
       width: 100%;
-      font-size: 20px;
-      background-color: #262151;
-      font-family: Roboto;
-      font-weight: 500;
-      padding-left: 20px;
-      padding-right: 20px;
-      height: 1.8em;
       overflow: hidden;
       position: relative;
-
-    }
-    @media(max-width: 1199px){
-      .banner-wr {
-        padding: 0 11px;
-      }
-    }
-    .banner-wr p {
-      margin: 0;
-      font-size: 12px;
-      line-height: 15px;
-      color: #666679;
-
-    }
-    .banner-wr p a{
-      margin: 0;
-      font-size: 12px;
-      line-height: 15px;
-      text-decoration-line: underline;
-      color: #666679;
-      transition: .3s;
-      margin-right: 2px;
-    }
-    .banner-wr p a:hover{
-      color: #fff;
-    }
-    .banner-content{
+      height: 36px;
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: 100%;
     }
-
-    .banner__btn{
+    .banner-content img{
       position: absolute;
       top: 0;
       bottom: 0;
-      right: 31px;
-      margin: 0;
-      color: #fff;
-      font-weight: 500;
-      font-size: 10px;
-      font-family: 'Roboto';
-      background-color: transparent;
-      border: none;
-    }
-     @media(max-width: 680px){
-      .banner-content{
-        justify-content: flex-start;
-      }
-      .banner__btn{
-        right: 6px;
-      }
-    }
-    .banner__btn span:hover path{
-      fill: #fff;
+
+      margin: 0 auto;
+      min-width: 100%;
+      display: block;
     }
   </style>
   <div class="banner-content">
-    <p><a href="https://old.exrates.me/" target="_blank">Click here</a>to switch back to the old version of Exrates</p>
-    <button class="banner__btn" onclick="document.getElementById('banner-wr').style.display='none';return false;">
-      <span>
-        <svg fill="#a0a0a0" height="8" viewBox="0 0 8 8" width="8" xmlns="http://www.w3.org/2000/svg"><path d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"></path></svg>
-      </span>
-    </button>
+    <img src="assets/img/apply-by-listing.png" alt="">
   </div>
 </article>
 <!-- *ngIf="technicalWorks" -->

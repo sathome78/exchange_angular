@@ -39,17 +39,18 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   public isGACheck = false;
   public currencyPair: SimpleCurrencyPair;
   public afterCaptchaMessage;
-  public loading: boolean = false;
+  public loading = false;
 
   public currentTemplate: TemplateRef<any>;
   @ViewChild('logInTemplate') public logInTemplate: TemplateRef<any>;
   @ViewChild('pinCodeTemplate') public pinCodeTemplate: TemplateRef<any>;
   @ViewChild('captchaTemplate') public captchaTemplate: TemplateRef<any>;
+  @ViewChild('devCaptchaTemplate') public devCaptchaTemplate: TemplateRef<any>;
   @ViewChild('pinInput') public pinInput: ElementRef<any>;
   public loginForm: FormGroup;
   public pinForm: FormGroup;
   public isPinEmpty;
-  public showSendAgainBtn: boolean = false;
+  public showSendAgainBtn = false;
 
   private email;
   private password;
@@ -79,13 +80,13 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
       .subscribe((segments) => {
         const url = segments.map((u) => u.path).join('/')
         setTimeout(() => {  // added to fix ExpressionChangedAfterItHasBeenCheckedError
-          if(url === 'registration') {
+          if (url === 'registration') {
             this.popupService.showMobileRegistrationPopup(true);
           }
-          if(url === 'login') {
+          if (url === 'login') {
             this.popupService.showMobileLoginPopup(true);
           }
-        })
+        });
       });
 
     this.store
@@ -123,6 +124,9 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
         break;
       case 'captchaTemplate':
         this.currentTemplate = this.captchaTemplate;
+        break;
+      case 'devCaptchaTemplate':
+        this.currentTemplate = this.devCaptchaTemplate;
         break;
     }
   }
@@ -190,6 +194,11 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    const email = this.loginForm.get('email').value;
+    if (this.utilsService.isDevCaptcha(email)) {
+      this.setTemplate('devCaptchaTemplate');
+      return;
+    }
     this.setTemplate('captchaTemplate');
   }
 
@@ -208,17 +217,6 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
       this.sendToServer();
     }
   }
-
-  // afterResolvedCaptcha(event) {
-  //   this.userService.sendToEmailConfirmation(this.email).subscribe(res => {
-  //     console.log(res);
-  //     this.setTemplate('emailConfirmLinkTemplate');
-  //   }, error => {
-  //     this.afterCaptchaMessage = `server error`;
-  //     this.setTemplate('emailConfirmLinkTemplate');
-  //   });
-  //
-  // }
 
   sendToServer() {
     // console.log(this.email, this.password, this.pin);

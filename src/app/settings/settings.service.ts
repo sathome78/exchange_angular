@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {AuthService} from '../shared/services/auth.service';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {NotificationOption} from './email-notification/email-notification.component';
 import {NotificationUserSetting} from './two-factor-authenticaton/notification-user-setting.model';
+import { BankVerification } from 'app/model/bank-veryfication.model';
 
 @Injectable()
 export class SettingsService {
@@ -68,6 +69,10 @@ export class SettingsService {
   public getCurrentVerificationStatusKYC() {
     return this.http.get<{data: string}>(`${this.apiUrl}/api/private/v2/kyc/status`);
   }
+
+  public getCurrentQuberaBankStatusKYC() {
+    return this.http.get<{data: string}>(`${this.apiUrl}/api/private/v2/kyc/status`);
+  }
   public getCountriesKYC() {
     return this.http.get(`${this.apiUrl}/api/private/v2/kyc/countries`);
   }
@@ -82,6 +87,16 @@ export class SettingsService {
         country_code: country
       }
     });
+  }
+
+  public postBankVerification(verify: BankVerification) {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders({
+      'Authorization': token });
+    let options = { headers: headers };
+    console.log(options);
+
+    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/account/create`, verify, options)
   }
 
 }

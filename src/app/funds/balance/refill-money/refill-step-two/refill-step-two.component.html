@@ -6,6 +6,9 @@
 
 <app-refill-fiat
   (closePopup)="closePopup.emit(true)"
+  (goToThirdStep)="goToThird()"
+  (selectQuberaBank)="selectBank()"
+  (hideSteps)="hideStep()"
   [refillData]="refillData"
   *ngIf="choosedName === FIAT_DEPOSIT"
 ></app-refill-fiat>

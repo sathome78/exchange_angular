@@ -181,7 +181,7 @@ export class UserService {
   }
 
   public getUserGoogleLoginEnabled(email: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.HOST}/is_google_2fa_enabled?email=${email.replace('+', '%2B')}`);
+    return this.http.get<boolean>(`${this.HOST}/api/public/v2/is_google_2fa_enabled?email=${email.replace('+', '%2B')}`);
   }
 
   public sendTestNotif(msg: string): Observable<any> {
@@ -217,6 +217,9 @@ export class UserService {
     return this.stompService
       .watch(`/app/message/private/${publicId}`, {'Exrates-Rest-Token': this.authService.token || ''})
       .pipe(map((message: Message) => JSON.parse(message.body)));
+  }
+  public getCheckTo2FAEnabled(email: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.HOST}/api/public/v2/is_google_2fa_enabled?email=${email.replace('+', '%2B')}`);
   }
 }
 

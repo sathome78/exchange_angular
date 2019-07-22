@@ -45,6 +45,7 @@ export class ChangeLanguageAction implements Action {
 }
 
 
+// Verification
 export class LoadVerificationStatusAction implements Action {
   readonly type = LOAD_VERIFICATION_STATUS;
   constructor(public payload?) {}
@@ -59,6 +60,9 @@ export class FailLoadVerificationStatusAction implements Action {
   readonly type = FAIL_LOAD_VERIFICATION_STATUS;
   constructor(public payload?) {}
 }
+
+
+
 
 /**
  * Save token to local storage

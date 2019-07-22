@@ -1,0 +1,62 @@
+<div class="overlay" *ngIf="currentPopup == '1'">
+	<div class="popup popup-login popup-l-s">
+		<div class="popup__close" (click)="closeMe()"></div>
+		<h2 class="last-stage">Остался последний шаг</h2>
+		<p>для открытия счета - это<br>пройти KYC банка.</p>
+		<button
+      class="btn btn--center l-s-btn">
+      {{'Я готов' | translate}}
+    </button>
+	</div>
+</div>
+
+
+
+<div class="overlay" *ngIf="currentPopup == '2'">
+	<div class="popup popup-login popup-p-b">
+		<div class="popup__close" (click)="closeMe()"></div>
+		<h2 class="personal-ballance">Ваш личный счет пополнен <br>на <b>$334,234.43</b></h2>
+		<p>Мы можете перевести деньги на торговый <br>счет и начать торговать. </p>
+		<button
+      class="btn btn--center p-b-btn">
+      {{'Перевести деньги на торговый счет' | translate}}
+    </button>
+	</div>
+</div>
+
+
+
+<div class="overlay" *ngIf="currentPopup == 'TRANSFER'">
+	<div class="popup popup-login popup-auth">
+		<div class="popup__close" (click)="closeMe()"></div>
+		<h2 class="auth">Подтверждение транзакции</h2>
+		<p>Please enter two-factor authentication code that was sent to your email</p>
+		<form class="popup__form">
+			<div>
+				<div class="wrap-input popup__wrap-input">
+					<input class="wrap-input__input" formcontrolname="pin" required="" type="text">
+					<label class="wrap-input__label" for="">code</label>
+					<div>
+						<div class="input-hint-wrapper"><span class=" wrap-input__message wrap-input__message--error"> This field is required. </span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button class="btn popup__btn">Submit </button>
+		</form>
+	</div>
+</div>
+
+<div class="overlay" *ngIf="currentPopup == '3'">
+	<div class="popup popup-login popup-p-b">
+		<div class="popup__close" (click)="closeMe()"></div>
+		<h2 class="personal-ballance">Ваш торговый счет пополнен<br>на <b>$334,234.43</b></h2>
+		<p>Вы можете перейти в раздел<br><a href="#">Trading Fiat balance</a></p>
+		<button
+      class="btn btn--center p-b-btn">
+      {{'OK' | translate}}
+    </button>
+	</div>
+</div>
+
+

@@ -2,35 +2,29 @@ import {Injectable} from '@angular/core';
 import {ValidatorFn, AbstractControl} from '@angular/forms';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 import prettyNum from 'pretty-num';
+import { Observable } from 'rxjs';
+import * as fromCore from '../../core/reducers';
+import {select, Store} from '@ngrx/store';
+import {State} from '../../core/reducers';
+import { takeUntil } from 'rxjs/operators';
 // import {CoreService} from 'app/core/services/core.service';
 
 @Injectable()
 export class UtilsService {
 
-  // constructor(
-  //   private coreService: CoreService
-  // ) {
-  //   coreService.getSimpleCurrencyPairs()
-  //     .subscribe((currs) => {
-  //       if(!currs.length) {
-  //         return
-  //       }
-  //       this.fiatCurrencies = currs.map((c) => c.name)
-  //     });;
-  // }
-
   private fiatCurrencies: Array<string> = ['USD', 'EUR', 'CNY', 'IDR', 'NGN', 'TRY', 'UAH', 'VND', 'AED', 'RUB'];
-  private cache = {}
+  private cache = {};
+  // tslint:disable-next-line: max-line-length
   private pattern = /(^$|(^([^<>()\[\]\\,;:\s@"]+(\.[^<>()\[\]\\,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
   private forbiddenSymbolsEmailRegex = /[~`{}/|?!№#$%^&*":;,[\]<>()=']/ig;
-  // private passwordPattern = /(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9\@\*\%\!\#\^\&\$\<\>\.\'\(\)\-\_\=\+]{8,40})$/ig;
+  // tslint:disable-next-line: max-line-length
   private passwordPattern = /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z][!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\'\d]{8,40}/ig;
   private checkCyrilic = /[а-яА-ЯёЁ]/ig;
   private fraction: number;
 
   isFiat(currencyName: string): boolean {
     if (typeof this.cache[currencyName] !== 'undefined') {
-      return this.cache[currencyName]
+      return this.cache[currencyName];
     }
     const res = this.fiatCurrencies.indexOf(currencyName || '') >= 0;
     this.cache[currencyName] = res;
@@ -135,7 +129,12 @@ export class UtilsService {
   }
 
   // this method is used in pipe (currencyFormat)
-  currencyFormat(value: number | string, currencyName: string = 'BTC', format: 'full' | 'short' = 'short', setNoneForFiat: boolean = false): string {
+  currencyFormat(
+    value: number | string,
+    currencyName: string = 'BTC',
+    format: 'full' | 'short' = 'short',
+    setNoneForFiat: boolean = false
+  ): string {
     if (!value || Number.isNaN(parseFloat(typeof value === 'string' ? value : value.toString()))) {
       return '0.0';
     }
@@ -174,6 +173,28 @@ export class UtilsService {
   currencyNumberFromStringFormat(value: string): number {
     const candidate = parseFloat(this.deleteSpace(value));
     return !!candidate ? candidate : 0;
+  }
+
+  isDeveloper(userInfo: ParsedToken): boolean {
+    return userInfo && userInfo.username && userInfo.username.indexOf('@upholding.biz') !== -1;
+  }
+
+  get isDisabledCaptcha(): boolean {
+    return localStorage.getItem('captcha') === 'false';
+  }
+
+  checkIsDeveloper(name: string = '') {
+    return name.indexOf('@upholding.biz') !== -1;
+  }
+
+  get isProdHost() {
+    return window.location.hostname === 'exrates.me';
+  }
+
+  isDevCaptcha(name: string = '') {
+    // UNCOMMENT WHEN NEED USER UPHOLDING CHECK
+    // return this.checkIsDeveloper(name) && this.isDisabledCaptcha && !this.isProdHost;
+    return this.isDisabledCaptcha && !this.isProdHost;
   }
 }
 

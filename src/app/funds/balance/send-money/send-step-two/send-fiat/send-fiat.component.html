@@ -143,7 +143,7 @@
           class="wrap-input send__wrap-input"
           [ngClass]="{'wrap-input--error': (!form.controls['address'].valid &&
           (form.controls['address'].touched || isSubmited)) && form.controls['amount'].valid}"
-          *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length"
+          *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length && selectedMerchant.name !== 'Qubera'"
         >
           <input class="wrap-input__input" name="address" formControlName="address" required>
           <label class="wrap-input__label">{{'Payment system' | translate}}
@@ -151,7 +151,6 @@
             {{'address' | translate}}
           </label>
           <div class="wrap-input__line"></div>
-          <!--Input error section starts-->
           <div
             class="input-hint-wrapper"
             *ngIf="(!form.controls['address'].valid &&
@@ -161,8 +160,18 @@
               {{'Set merchant address for withdrawal' | translate}}
             </span>
           </div>
-          <!--Input error section ends-->
         </div>
+
+
+
+        <!-- if qubera -->
+        <div class="notice-for-withdraw" *ngIf="selectedMerchant.name == 'Qubera'">
+          <p>Funds will be transferred to your personal account</p>
+        </div>
+        <!-- end if qubera -->
+
+
+
 
 
       </div>
@@ -235,11 +244,21 @@
 <div class="loading-container" *ngIf="!activeFiat || !fiatInfoByName">
   <app-loader></app-loader>
 </div>
-
-<div *ngIf="!isEnterData" class="captcha-wrapper">
-  <h6 class="popup__title">{{'Enter the captcha' | translate}}</h6>
-  <re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
-  <div class="popup__links-wrap  popup__links-wrap--center">
-    <a class="popup__link" (click)="goToWithdrawal()">{{'Back to withdrawal form' | translate}}</a>
+<ng-container *ngIf="!isEnterData">
+  <div *ngIf="!utilsService.isDevCaptcha(userInfo.username); else devCaptchaTemplate" class="captcha-wrapper">
+    <h6 class="popup__title">{{'Enter the captcha' | translate}}</h6>
+    <re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
+    <div class="popup__links-wrap  popup__links-wrap--center">
+      <a class="popup__link" (click)="goToWithdrawal()">{{'Back to withdrawal form' | translate}}</a>
+    </div>
   </div>
-</div>
+</ng-container>
+
+
+<ng-template #devCaptchaTemplate>
+  <div class="captcha-wrapper">
+    <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
+    <h4 class="popup__subtitle popup_title--dm">Captcha emulation for developers and QA</h4>
+    <button class="btn btn--center" (click)="afterResolvedCaptcha($event)">Resolve</button>
+  </div>
+</ng-template>

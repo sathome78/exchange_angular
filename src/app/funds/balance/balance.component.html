@@ -46,6 +46,14 @@
         (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
       ></app-balance-mob>
 
+      <app-qubera-mob
+        *ngSwitchCase="Tab.QUBERA"
+        [Tab]="Tab"
+        [currTab]="currTab"
+        (onSelectTab)="onSelectTab($event)"
+
+      ></app-qubera-mob>
+
       <app-ieo-table-mob
         *ngSwitchCase="Tab.IEO"
         [IEOData]="IEOData"
@@ -125,7 +133,7 @@
           (onSelect)="onSelectPair($event.id)"
           [showNotFoundTip]="true"
         ></app-dynamic-input>
-        <ng-container *ngIf="showContent">
+        <ng-container *ngIf="isInternalUser">
           <app-dynamic-input
             *ngSwitchCase="Tab.QUBERA"
             [value]="currValue"
@@ -171,11 +179,11 @@
           [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}"
           (click)="onSelectTab(Tab.FIAT)"
         >
-          {{'Fiat Balances' | translate}}
+          {{'Exchange wallet' | translate}}
         </button>
 
         <button
-          *ngIf="showContent"
+          *ngIf="isInternalUser"
           class="tabs__item"
           [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
           (click)="onSelectTab(Tab.QUBERA)"
@@ -194,7 +202,7 @@
               <path d="M8.73017 7.02734H10.6814L10.9741 16.003H8.4375L8.73017 7.02734Z" fill="white"/>
             </svg>
           </div>
-          <span>{{'Qubera Balance' | translate}}</span>
+          <span>{{'Funding wallet' | translate}}</span>
         </button>
 
         <button
@@ -283,15 +291,17 @@
         (onRevokePendingRequest)="onRevokePendingRequest($event)"
         *ngSwitchCase="Tab.PR"
       ></app-pending-request-table>
-      <ng-container *ngIf="showContent">
+      <ng-container *ngIf="isInternalUser">
         <app-qubera-table
           *ngSwitchCase="Tab.QUBERA"
           [balances]="quberaBalances$ | async"
-          [existQuberaAccounts]="existQuberaAccounts"
-          [kycStatus]="kycStatus"
-          (transferOut)="goToTransferPopup($event)"
-          (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
-          (cryptoDepositOut)="goToCryptoDepositPopup($event)">
+          [kycStatus]="quberaKycStatus$ | async"
+          (transferQuberaOut)="goToTransferQuberaPopup($event)"
+          (cryptoWithdrawQuberaOut)="goToQuberaWithdrawPopup($event)"
+          (quberaKycVerification)="goToQuberaKYCPopup($event)"
+          (createQuberaAccount)="goToCreateQuberaAccountPopup($event)"
+          (cryptoDepositQuberaOut)="goToQuberaDepositPopup($event)"
+          [loading]="loading$ | async">
         </app-qubera-table>
       </ng-container>
 
@@ -326,4 +336,14 @@
     [optionData]="sendMoneyData"
     (closeSendMoneyPopup)="openSendMoneyPopup(false)"
   ></app-send-money>
+
+  <app-qubera-popup
+    *ngIf="showQuberaPopup"
+    [showPopup]="showQuberaPopup"
+    [optionData]="quberaData"
+    [steper]="1"
+    (closeQuberaPopupMain)="openQuberaPopup(false)"
+    (getKYCStatus)="getTableAndKYCStatus()"
+  >
+  </app-qubera-popup>
 </div>

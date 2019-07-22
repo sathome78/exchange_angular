@@ -7,12 +7,13 @@ import {CurrencyBalanceModel} from '../../../../../model/index';
 import {BalanceService} from '../../../../services/balance.service';
 import {keys} from '../../../../../shared/constants';
 import {select, Store} from '@ngrx/store';
-import {getCryptoCurrenciesForChoose, State} from 'app/core/reducers';
+import {getCryptoCurrenciesForChoose, getUserInfo, State} from 'app/core/reducers';
 import {SEND_CRYPTO} from '../../send-money-constants';
 import {CommissionData} from '../../../../models/commission-data.model';
 import {defaultCommissionData} from '../../../../store/reducers/default-values';
 import {PopupService} from 'app/shared/services/popup.service';
 import {BalanceItem} from '../../../../models/balance-item.model';
+import {UtilsService} from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-send-crypto',
@@ -39,7 +40,8 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public activeCrypto;
   public form: FormGroup;
   public calculateData: CommissionData = defaultCommissionData;
-  public loadingBalance: boolean = false;
+  public loadingBalance = false;
+  public userInfo: ParsedToken;
 
   public model = {
     currency: 0,
@@ -62,6 +64,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
+    public utilsService: UtilsService,
     private store: Store<State>,
   ) {
   }
@@ -80,6 +83,12 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
         if (this.activeCrypto) {
           this.getCryptoInfoByName(this.activeCrypto.name);
         }
+      });
+
+    this.store.pipe(select(getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
       });
   }
 

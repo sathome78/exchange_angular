@@ -72,7 +72,7 @@
 
         <div class="wrap-input__message--show">
           <span *ngIf="!form.valid">
-          {{'Minimum sum for deposit' | translate}} {{+(minRefillSum || 0) | roundCurrency: 'USD' | formatCurrency: 'short': 'USD'}} {{activeFiat ? activeFiat.name : ''}}
+          {{'Min. sum for deposit' | translate}} {{+(minRefillSum || 0) | roundCurrency: 'USD' | formatCurrency: 'short': 'USD'}} {{activeFiat ? activeFiat.name : ''}}
         </span>
         </div>
 
