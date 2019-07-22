@@ -214,13 +214,15 @@
 }
 .orders__datepicker{
   @media(max-width: 1200px){
-    .mydp .selectorarrowleft:after, .mydp .selectorarrowleft:before {
-      right: 24px;
-    }
+
     &:nth-of-type(2){
       .mydp {
         margin: 0;
         width: 100%;
+        .selectorarrowleft:after, .selectorarrowleft:before{
+right: 24px;
+      left: auto;
+        }
         .selector{
 
 
