@@ -349,7 +349,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public goToTransferQuberaPopup(balance: BalanceItem): void {
     this.showQuberaPopup = true;
     this.quberaData = {
-      component: "TRANSFER",
+      component: 'TRANSFER',
       balance: balance
     };
   }
@@ -360,7 +360,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe((data: any) => {
         this.showQuberaPopup = true;
         this.quberaData = {
-          component: "WITHDRAW",
+          component: 'WITHDRAW',
           balance: data
         };
       });
@@ -372,7 +372,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
       .subscribe((data: any) => {
         this.showQuberaPopup = true;
         this.quberaData = {
-          component: "DEPOSIT",
+          component: 'DEPOSIT',
           balance: data
         };
       });
@@ -381,7 +381,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public goToQuberaKYCPopup(balance: BalanceItem): void {
     this.showQuberaPopup = true;
     this.quberaData = {
-      component: "QUBERAKYC",
+      component: 'QUBERAKYC',
       balance: balance
     };
   }
@@ -389,7 +389,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public goToCreateQuberaAccountPopup(balance: BalanceItem): void {
       this.showQuberaPopup = true;
       this.quberaData = {
-        component: "CREATEQUBERA",
+        component: 'CREATEQUBERA',
         balance: balance
       };
   }
