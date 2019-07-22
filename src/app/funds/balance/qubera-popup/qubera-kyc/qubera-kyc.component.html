@@ -15,8 +15,8 @@
     >
       <a class="steps__link" (click)="setStep(1)">
         <span class="steps__number" [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
-        <span class="steps__number-mob-current">1. {{'Submission of the questionnaire' | translate}}</span>
-        <span class="steps__title">{{'Submission of the questionnaire' | translate}}</span>
+        <span class="steps__number-mob-current">1. {{'Proceed Verification' | translate}}</span>
+        <span class="steps__title">{{'Proceed Verification' | translate}}</span>
       </a>
     </li>
     <li class="steps__item" *ngIf="step >= 2"
@@ -24,8 +24,8 @@
     >
       <a class="steps__link" (click)="setStep(2)">
         <span class="steps__number" [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }">2</span>
-        <span class="steps__number-mob-current">2. {{'Phone verification' | translate}}</span>
-        <span class="steps__title">{{'Phone verification' | translate}}</span>
+        <span class="steps__number-mob-current">2. {{'Finished' | translate}}</span>
+        <span class="steps__title">{{'Finished' | translate}}</span>
       </a>
     </li>
   </ul>

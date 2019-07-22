@@ -121,6 +121,9 @@
       color: #ffffff !important;
       &.btn--empty-blue {
         color: #237BEF !important;
+        &:disabled{
+              color: #91929F!important;
+        }
         &:hover {
           background-color: transparent !important;
           border: 1px solid #237BEF !important;
@@ -128,6 +131,15 @@
       }
     }
   }
+
+
+.notice-block{
+  margin-top: 50px;
+}
+
+.fiat-deposit-s1 form{
+  border: none;
+}
 
   .wrap-input__message {
     margin-bottom: 10px;
