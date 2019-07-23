@@ -142,18 +142,26 @@
         </div>
       </div>
       <!-- </div> -->
+    </form>
+    <div class="form-wr">
       <div class="check">
-            <input type="checkbox"
-                  id="read"
-                  />
-            <label for="read" class="read"></label>
+        <input
+          type="checkbox"
+          id="read"
+          [(ngModel)]='forCompany'
+        />
+        <label for="read" class="read"></label>
         <span>{{'For Company' | translate}}</span>
       </div>
-    </form>
+    </div>
 
     <form [formGroup]="formSepa" *ngIf="selectedWithdraw === withdrawOptions[0]">
       <div class="secundary-form">
-        <div class="input-block wrap-input"  [ngClass]="{'wrap-input--error': !currentSEPAFirstName.valid && currentSEPAFirstName.touched}">
+        <div
+          *ngIf="!forCompany"
+          class="input-block wrap-input"
+          [ngClass]="{'wrap-input--error': !currentSEPAFirstName.valid && currentSEPAFirstName.touched}"
+        >
           <input type="text" name="firstName" class="wrap-input__input" formControlName="firstName" required>
           <label class="wrap-input__label" for="firstName">{{'First name' | translate}}</label>
           <ng-container *ngIf="!currentSEPAFirstName.valid && !currentSEPAFirstName.untouched">
@@ -166,7 +174,11 @@
             </div>
           </ng-container>
         </div>
-        <div class="input-block wrap-input"  [ngClass]="{'wrap-input--error': !currentSEPALastName.valid && currentSEPALastName.touched}">
+        <div
+          *ngIf="!forCompany"
+          class="input-block wrap-input"
+          [ngClass]="{'wrap-input--error': !currentSEPALastName.valid && currentSEPALastName.touched}"
+        >
           <input class="wrap-input__input" type="text" name="lastName" formControlName="lastName" required>
           <label class="wrap-input__label" for="lastName">{{'Last name' | translate}}</label>
           <ng-container *ngIf="!currentSEPALastName.valid && !currentSEPALastName.untouched">
@@ -179,7 +191,11 @@
             </div>
           </ng-container>
         </div>
-        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSEPAACompanyName.valid && currentSEPAACompanyName.touched}">
+        <div
+          *ngIf="forCompany"
+          class="input-block wrap-input"
+          [ngClass]="{'wrap-input--error': !currentSEPAACompanyName.valid && currentSEPAACompanyName.touched}"
+        >
           <input class="wrap-input__input" type="text" name="companyName" formControlName="companyName" required>
           <label class="wrap-input__label" for="companyName">{{'Company name' | translate}}</label>
           <ng-container *ngIf="!currentSEPAACompanyName.valid && !currentSEPAACompanyName.untouched">
@@ -228,7 +244,11 @@
 
     <form [formGroup]="formSwift" *ngIf="selectedWithdraw === withdrawOptions[1]">
       <div class="secundary-form">
-        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSWIFTFirstName.valid && currentSWIFTFirstName.touched}">
+        <div
+          *ngIf="!forCompany"
+          class="input-block wrap-input"
+          [ngClass]="{'wrap-input--error': !currentSWIFTFirstName.valid && currentSWIFTFirstName.touched}"
+        >
           <input type="text" name="firstname" class="wrap-input__input" formControlName="firstName" required>
           <label class="wrap-input__label" for="firstname">{{'First name' | translate}}</label>
           <ng-container *ngIf="!currentSWIFTFirstName.valid && !currentSWIFTFirstName.untouched">
@@ -236,34 +256,42 @@
                 <span
                   class="wrap-input__message"
                   *ngIf="!currentSWIFTFirstName.valid">
-                  {{'City field is required.' | translate}}
+                  {{'First name is required.' | translate}}
                 </span>
             </div>
           </ng-container>
         </div>
-        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSWIFTLastName.valid && currentSWIFTLastName.touched}">
+        <div
+          *ngIf="!forCompany"
+          class="input-block wrap-input"
+          [ngClass]="{'wrap-input--error': !currentSWIFTLastName.valid && currentSWIFTLastName.touched}"
+        >
           <input class="wrap-input__input" type="text" name="lastname" formControlName="lastName" required>
           <label class="wrap-input__label" for="lastname">{{'Last name' | translate}}</label>
           <ng-container *ngIf="!currentSWIFTLastName.valid && !currentSWIFTLastName.untouched">
             <div class="input-hint-wrapper">
-                <span
-                  class="wrap-input__message"
-                  *ngIf="!currentSWIFTLastName.valid">
-                  {{'City field is required.' | translate}}
-                </span>
+              <span
+                class="wrap-input__message"
+                *ngIf="!currentSWIFTLastName.valid">
+                {{'Last name is required.' | translate}}
+              </span>
             </div>
           </ng-container>
         </div>
-        <div class="input-block wrap-input" [ngClass]="{'wrap-input--error': !currentSWIFTACompanyName.valid && currentSWIFTACompanyName.touched}">
+        <div
+          *ngIf="forCompany"
+          class="input-block wrap-input"
+          [ngClass]="{'wrap-input--error': !currentSWIFTACompanyName.valid && currentSWIFTACompanyName.touched}"
+        >
           <input class="wrap-input__input" type="text" name="companyName" formControlName="companyName" required>
           <label class="wrap-input__label" for="companyName">{{'Company name' | translate}}</label>
           <ng-container *ngIf="!currentSWIFTACompanyName.valid && !currentSWIFTACompanyName.untouched">
             <div class="input-hint-wrapper">
-                <span
-                  class="wrap-input__message"
-                  *ngIf="!currentSWIFTACompanyName.valid">
-                  {{'City field is required.' | translate}}
-                </span>
+              <span
+                class="wrap-input__message"
+                *ngIf="!currentSWIFTACompanyName.valid">
+                {{'Company name is required.' | translate}}
+              </span>
             </div>
           </ng-container>
         </div>
@@ -275,7 +303,7 @@
                 <span
                   class="wrap-input__message"
                   *ngIf="!currentSWIFTAccountNumbere.valid">
-                  {{'City field is required.' | translate}}
+                  {{'Account number is required.' | translate}}
                 </span>
             </div>
           </ng-container>
@@ -288,7 +316,7 @@
                 <span
                   class="wrap-input__message"
                   *ngIf="!currentSWIFTNumber.valid">
-                  {{'City field is required.' | translate}}
+                  {{'Swift field is required.' | translate}}
                 </span>
             </div>
           </ng-container>
@@ -301,7 +329,7 @@
                 <span
                   class="wrap-input__message"
                   *ngIf="!currentSWIFTNarrative.valid">
-                  {{'City field is required.' | translate}}
+                  {{'Narrative field is required.' | translate}}
                 </span>
             </div>
           </ng-container>
@@ -314,7 +342,7 @@
                 <span
                   class="wrap-input__message"
                   *ngIf="!currentSWIFTAddress.valid">
-                  {{'City field is required.' | translate}}
+                  {{'Address field is required.' | translate}}
                 </span>
             </div>
           </ng-container>
@@ -373,11 +401,6 @@
           Withdrawal
       </button>
     </form>
-
-
-
-
-
 
     <div class="notice-block">
       <span class="head-notice">Please note:</span>

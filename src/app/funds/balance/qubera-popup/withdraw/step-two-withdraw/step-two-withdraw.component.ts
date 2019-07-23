@@ -19,7 +19,7 @@ export class StepTwoWithdrawComponent implements OnInit {
 
   payments: any;
   googleAuthenticator: any;
-  statusMessage: string = '';
+  statusMessage = '';
 
   constructor(
     public balanceService: BalanceService,
@@ -28,7 +28,7 @@ export class StepTwoWithdrawComponent implements OnInit {
         .pipe(first())
         .subscribe((data: any) => {
           this.payments = data;
-        })
+        });
     }
 
   ngOnInit() {

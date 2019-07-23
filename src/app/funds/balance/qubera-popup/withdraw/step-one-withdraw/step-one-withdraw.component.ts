@@ -12,7 +12,7 @@ import { Sepa } from 'app/funds/models/sepa.model';
 import { Swift } from 'app/funds/models/swift.model';
 import { KycCountry } from 'app/shared/interfaces/kyc-country-interface';
 import { SettingsService } from 'app/settings/settings.service';
-import * as settingsActions from '../../../../../settings/store/actions/settings.actions'
+import * as settingsActions from '../../../../../settings/store/actions/settings.actions';
 import { CommissionData } from 'app/funds/models/commission-data.model';
 import {defaultCommissionData} from '../../../../store/reducers/default-values';
 
@@ -26,8 +26,10 @@ export class StepOneWithdrawComponent implements OnInit {
   formSepa: FormGroup;
   formSwift: FormGroup;
 
-  withdrawOptions = ['Qubera SEPA', 'Qubera SWIFT'];
-  selectedWithdraw: string = '';
+  withdrawOptions = ['FUG SEPA', 'FUG SWIFT'];
+  selectedWithdraw = '';
+  currName = 'EUR';
+  forCompany = false;
 
   @Input() dataQubera: any;
   @Output() public nextStep: EventEmitter<any> = new EventEmitter();
@@ -36,13 +38,13 @@ export class StepOneWithdrawComponent implements OnInit {
   public defaultFiatNames: CurrencyBalanceModel[] = [];
   public openBankSystemDropdown = false;
   public openCurrencyDropdown = false;
-  public searchTemplate: string = '';
+  public searchTemplate = '';
   public fiatDataByName;
   public fiatArrayData;
   public selectedMerchant;
   public selectMerchantName;
   public selectedMerchantNested;
-  public minRefillSum: number = 0;
+  public minRefillSum = 0;
   public merchants;
   public activeFiat;
   public alphabet;
@@ -109,7 +111,9 @@ export class StepOneWithdrawComponent implements OnInit {
         // this.fiatNames = this.defaultFiatNames;
         this.fiatNames.push(this.defaultFiatNames[2]);
         this.setActiveFiat();
-        if (this.activeFiat) this.getDataByCurrency(this.activeFiat.name);
+        if (this.activeFiat) {
+          this.getDataByCurrency(this.activeFiat.name);
+        }
         this.prepareAlphabet();
       });
   }
@@ -135,7 +139,9 @@ export class StepOneWithdrawComponent implements OnInit {
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
         this.form.get('amount').updateValueAndValidity();
-        if (this.selectedMerchant) this.setMinRefillSum();
+        if (this.selectedMerchant) {
+          this.setMinRefillSum();
+        }
       });
   }
 
@@ -186,7 +192,7 @@ export class StepOneWithdrawComponent implements OnInit {
         this.isMaxThenActiveBalance.bind(this),
         this.isMinThenMinWithdraw.bind(this)
       ])
-    })
+    });
   }
 
   isMaxThenActiveBalance(): {[key: string]: any} | null {
@@ -241,9 +247,9 @@ export class StepOneWithdrawComponent implements OnInit {
 
   initSwiftForm() {
     this.formSwift = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      companyName: new FormControl('', Validators.required),
+      firstName: new FormControl(''),
+      lastName: new FormControl(''),
+      companyName: new FormControl(''),
       accountNumber: new FormControl('', Validators.required),
       swift: new FormControl('', Validators.required),
       narrative: new FormControl('', Validators.required),
@@ -255,9 +261,9 @@ export class StepOneWithdrawComponent implements OnInit {
 
   initSepaForm() {
     this.formSepa = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      companyName: new FormControl('', Validators.required),
+      firstName: new FormControl(''),
+      lastName: new FormControl(''),
+      companyName: new FormControl(''),
       iban: new FormControl('', Validators.required),
       narrative: new FormControl('', Validators.required)
     });
@@ -375,11 +381,11 @@ export class StepOneWithdrawComponent implements OnInit {
   get currentSWIFTACompanyName(): any {
     return this.formSwift.get('companyName');
   }
-  
+
   get currentSWIFTAccountNumbere(): any {
     return this.formSwift.get('accountNumber');
   }
-  
+
   get currentSWIFTNumber(): any {
     return this.formSwift.get('swift');
   }
