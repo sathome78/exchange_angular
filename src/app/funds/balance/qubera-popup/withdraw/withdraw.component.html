@@ -41,10 +41,11 @@
     <div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/ 3</div>
   </div>
   <!-- modal header end -->
-  
+
     <app-step-one-withdraw
       *ngIf="step === 1"
       [dataQubera]="qubera"
+      [quberaBalances]="quberaBalances"
       (nextStep)="nextStep(2)"
     >
     </app-step-one-withdraw>

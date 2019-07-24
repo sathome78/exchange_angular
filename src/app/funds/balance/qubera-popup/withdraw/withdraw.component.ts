@@ -7,6 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class WithdrawComponent implements OnInit {
   @Input() qubera;
+  @Input() quberaBalances;
   @Input() steper;
   @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
 

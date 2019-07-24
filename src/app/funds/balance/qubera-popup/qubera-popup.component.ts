@@ -16,6 +16,7 @@ export class QuberaPopupComponent implements OnInit {
 
   @Input() showPopup;
   @Input() optionData;
+  @Input() balances;
   @Input() steper;
   @Output() closeQuberaPopupMain = new EventEmitter<boolean>();
   @Output() getKYCStatus = new EventEmitter<boolean>();

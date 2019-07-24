@@ -12,7 +12,7 @@ import { Sepa } from 'app/funds/models/sepa.model';
 import { Swift } from 'app/funds/models/swift.model';
 import { KycCountry } from 'app/shared/interfaces/kyc-country-interface';
 import { SettingsService } from 'app/settings/settings.service';
-import * as settingsActions from '../../../../../settings/store/actions/settings.actions'
+import * as settingsActions from '../../../../../settings/store/actions/settings.actions';
 import { CommissionData } from 'app/funds/models/commission-data.model';
 import {defaultCommissionData} from '../../../../store/reducers/default-values';
 
@@ -26,23 +26,26 @@ export class StepOneWithdrawComponent implements OnInit {
   formSepa: FormGroup;
   formSwift: FormGroup;
 
-  withdrawOptions = ['Qubera SEPA', 'Qubera SWIFT'];
-  selectedWithdraw: string = '';
+  withdrawOptions = ['FUG SEPA', 'FUG SWIFT'];
+  selectedWithdraw = '';
+  currName = 'EUR';
+  forCompany = false;
 
   @Input() dataQubera: any;
+  @Input() quberaBalances: any;
   @Output() public nextStep: EventEmitter<any> = new EventEmitter();
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public fiatNames: CurrencyBalanceModel[] = [];
   public defaultFiatNames: CurrencyBalanceModel[] = [];
   public openBankSystemDropdown = false;
   public openCurrencyDropdown = false;
-  public searchTemplate: string = '';
+  public searchTemplate = '';
   public fiatDataByName;
   public fiatArrayData;
   public selectedMerchant;
   public selectMerchantName;
   public selectedMerchantNested;
-  public minRefillSum: number = 0;
+  public minRefillSum = 0;
   public merchants;
   public activeFiat;
   public alphabet;
@@ -109,9 +112,12 @@ export class StepOneWithdrawComponent implements OnInit {
         // this.fiatNames = this.defaultFiatNames;
         this.fiatNames.push(this.defaultFiatNames[2]);
         this.setActiveFiat();
-        if (this.activeFiat) this.getDataByCurrency(this.activeFiat.name);
+        if (this.activeFiat) {
+          this.getDataByCurrency(this.activeFiat.name);
+        }
         this.prepareAlphabet();
       });
+    // this.activeBalance = this.quberaBalances.availableBalance.amount;
   }
 
   setActiveFiat() {
@@ -135,7 +141,10 @@ export class StepOneWithdrawComponent implements OnInit {
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
         this.form.get('amount').updateValueAndValidity();
-        if (this.selectedMerchant) this.setMinRefillSum();
+        if (this.selectedMerchant) {
+          this.setMinRefillSum();
+          this.setMinWithdrawSum();
+        }
       });
   }
 
@@ -179,6 +188,13 @@ export class StepOneWithdrawComponent implements OnInit {
       : parseFloat(this.selectedMerchant.minSum);
   }
 
+  private setMinWithdrawSum() {
+    this.minWithdrawSum = this.fiatDataByName.minWithdrawSum > parseFloat(this.selectedMerchant.minSum)
+      ? this.fiatDataByName.minWithdrawSum
+      : parseFloat(this.selectedMerchant.minSum);
+    this.form.controls['amount'].updateValueAndValidity();
+  }
+
   initMainForm() {
     this.form = new FormGroup({
       amount: new FormControl('', [
@@ -186,7 +202,7 @@ export class StepOneWithdrawComponent implements OnInit {
         this.isMaxThenActiveBalance.bind(this),
         this.isMinThenMinWithdraw.bind(this)
       ])
-    })
+    });
   }
 
   isMaxThenActiveBalance(): {[key: string]: any} | null {
@@ -203,11 +219,11 @@ export class StepOneWithdrawComponent implements OnInit {
     return null;
   }
 
-  balanceClick() {
-    if (this.activeBalance > this.minWithdrawSum) {
-      this.form.controls['amount'].setValue(this.activeBalance.toString());
-      this.calculateCommission(this.activeBalance);
-      this.amountValue = this.activeBalance;
+  balanceClick(bal) {
+    if (bal > this.minWithdrawSum) {
+      this.form.controls['amount'].setValue(bal.toString());
+      this.calculateCommission(bal);
+      this.amountValue = bal;
     }
   }
 
@@ -241,9 +257,9 @@ export class StepOneWithdrawComponent implements OnInit {
 
   initSwiftForm() {
     this.formSwift = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      companyName: new FormControl('', Validators.required),
+      firstName: new FormControl(''),
+      lastName: new FormControl(''),
+      companyName: new FormControl(''),
       accountNumber: new FormControl('', Validators.required),
       swift: new FormControl('', Validators.required),
       narrative: new FormControl('', Validators.required),
@@ -255,9 +271,9 @@ export class StepOneWithdrawComponent implements OnInit {
 
   initSepaForm() {
     this.formSepa = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      companyName: new FormControl('', Validators.required),
+      firstName: new FormControl(''),
+      lastName: new FormControl(''),
+      companyName: new FormControl(''),
       iban: new FormControl('', Validators.required),
       narrative: new FormControl('', Validators.required)
     });
@@ -375,11 +391,11 @@ export class StepOneWithdrawComponent implements OnInit {
   get currentSWIFTACompanyName(): any {
     return this.formSwift.get('companyName');
   }
-  
+
   get currentSWIFTAccountNumbere(): any {
     return this.formSwift.get('accountNumber');
   }
-  
+
   get currentSWIFTNumber(): any {
     return this.formSwift.get('swift');
   }

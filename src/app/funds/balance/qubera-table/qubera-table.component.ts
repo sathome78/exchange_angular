@@ -16,7 +16,7 @@ export class QuberaTableComponent implements OnInit {
 
   @Input('balances') set balances(balances) {
     this.checkBalance(balances);
-    this._balances = balances;
+    this._balances = balances.data;
   }
   get balances() {
     return this._balances;
