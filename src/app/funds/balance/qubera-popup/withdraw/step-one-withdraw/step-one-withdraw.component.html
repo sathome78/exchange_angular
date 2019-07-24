@@ -78,8 +78,8 @@
         [ngClass]="{'wrap-input--error': form.get('amount').invalid && (form.get('amount').touched || isSubmited)}"
         >
         <div class="avaliable">{{'Available:' | translate}}
-          <a (click)="balanceClick()" class="link">
-            {{activeBalance | roundCurrency: true | formatCurrency: 'short': true}} {{currName}}
+          <a (click)="balanceClick(quberaBalances.availableBalance.amount)" class="link">
+            {{quberaBalances.availableBalance.amount | roundCurrency: true | formatCurrency: 'short': true}} {{quberaBalances.availableBalance.currencyCode}}
           </a>
         </div>
         <app-price-input  style="display: inline-block;"
@@ -92,6 +92,9 @@
           >
 
         </app-price-input>
+        <span class=" wrap-input__message--show">
+          {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{currName}}
+        </span>
         <span
             class=" wrap-input__message--show"
             *ngIf="form.controls['amount'].errors &&

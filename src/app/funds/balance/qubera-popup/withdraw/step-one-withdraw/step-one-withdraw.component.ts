@@ -32,6 +32,7 @@ export class StepOneWithdrawComponent implements OnInit {
   forCompany = false;
 
   @Input() dataQubera: any;
+  @Input() quberaBalances: any;
   @Output() public nextStep: EventEmitter<any> = new EventEmitter();
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public fiatNames: CurrencyBalanceModel[] = [];
@@ -116,6 +117,7 @@ export class StepOneWithdrawComponent implements OnInit {
         }
         this.prepareAlphabet();
       });
+    // this.activeBalance = this.quberaBalances.availableBalance.amount;
   }
 
   setActiveFiat() {
@@ -141,6 +143,7 @@ export class StepOneWithdrawComponent implements OnInit {
         this.form.get('amount').updateValueAndValidity();
         if (this.selectedMerchant) {
           this.setMinRefillSum();
+          this.setMinWithdrawSum();
         }
       });
   }
@@ -185,6 +188,13 @@ export class StepOneWithdrawComponent implements OnInit {
       : parseFloat(this.selectedMerchant.minSum);
   }
 
+  private setMinWithdrawSum() {
+    this.minWithdrawSum = this.fiatDataByName.minWithdrawSum > parseFloat(this.selectedMerchant.minSum)
+      ? this.fiatDataByName.minWithdrawSum
+      : parseFloat(this.selectedMerchant.minSum);
+    this.form.controls['amount'].updateValueAndValidity();
+  }
+
   initMainForm() {
     this.form = new FormGroup({
       amount: new FormControl('', [
@@ -209,11 +219,11 @@ export class StepOneWithdrawComponent implements OnInit {
     return null;
   }
 
-  balanceClick() {
-    if (this.activeBalance > this.minWithdrawSum) {
-      this.form.controls['amount'].setValue(this.activeBalance.toString());
-      this.calculateCommission(this.activeBalance);
-      this.amountValue = this.activeBalance;
+  balanceClick(bal) {
+    if (bal > this.minWithdrawSum) {
+      this.form.controls['amount'].setValue(bal.toString());
+      this.calculateCommission(bal);
+      this.amountValue = bal;
     }
   }
 

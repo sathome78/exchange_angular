@@ -125,7 +125,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
         // this.fiatDataByName = res;
         this.fiatArrayData = res;
         this.fiatDataByName = _.filter(this.fiatArrayData.merchantCurrencyData, function(item){
-          return item.name == 'Qubera';
+          return item.name === 'Qubera';
         });
         // this.merchants = this.fiatDataByName.merchantCurrencyData;
         this.merchants = this.fiatDataByName;
@@ -133,7 +133,9 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
         this.form.get('amount').updateValueAndValidity();
-        if (this.selectedMerchant) this.setMinRefillSum();
+        if (this.selectedMerchant) {
+          this.setMinRefillSum();
+        }
       });
   }
 

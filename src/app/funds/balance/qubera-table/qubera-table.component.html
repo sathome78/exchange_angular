@@ -12,22 +12,22 @@
         <th class="table__cell-head table__cell-head--tac">{{'Withdraw' | translate}}</th>
       </tr>
     </thead>
-    <tbody class="table__body" *ngIf="balances != undefined">
+    <tbody class="table__body" *ngIf="balances">
       <tr class="table__row" *ngFor="let balance of quberaBalance">
         <td class="table__cell">
           <div class="balance__currency">
             <div class="balance__currency-icon">
               <img src="assets/img/currency-icons/eur-white.svg">
             </div>
-            <span style="min-width: 70px;">{{balance?.availableBalance?.currencyCode}}</span>
-            <span class="balance__currency-name">{{balance?.currentBalance?.currencyCode}}</span>
+            <span style="min-width: 70px;">{{balances.availableBalance?.currencyCode}}</span>
+            <!-- <span class="balance__currency-name">{{balances.currentBalance?.currencyCode}}</span> -->
           </div>
         </td>
         <td class="table__cell table__cell--tal">
-          <span>{{balance?.availableBalance?.amount}}</span>
+          <span>{{balances.availableBalance?.amount}}</span>
         </td>
         <td class="table__cell table__cell--tal">
-          <span>{{balance?.currentBalance?.amount}}</span>
+          <span>{{balances.currentBalance?.amount}}</span>
         </td>
         <td class="table__cell">
           <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="cryptoDepositQuberaOut.emit(true)">{{'Deposit' | translate}}</button>
@@ -64,7 +64,7 @@
           <button
             class="btn btn--active balance__title-btn"
             (click)="createQuberaAccount.emit(true)"
-            *ngIf="!(balances && balances.data && balances.data.accountState === 'ACTIVE')"
+            *ngIf="!(balances && balances.accountState === 'ACTIVE')"
           >{{'Create Account' | translate}}
           </button>
         </div>

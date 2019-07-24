@@ -340,6 +340,7 @@
   <app-qubera-popup
     *ngIf="showQuberaPopup"
     [showPopup]="showQuberaPopup"
+    [balances]="quberaBalances$ | async"
     [optionData]="quberaData"
     [steper]="1"
     (closeQuberaPopupMain)="openQuberaPopup(false)"
