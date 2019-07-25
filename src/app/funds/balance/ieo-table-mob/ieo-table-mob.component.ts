@@ -23,18 +23,18 @@ export class IEOTableMobComponent implements OnInit{
   public currencies = {
     BTC: 'BTC',
     USD: 'USD',
-  }
+  };
 
   public tableScrollStyles: any = {};
   public get currenciesArr() {
     return Object.keys(this.currencies);
   }
 
-  public loadModeDisabled: boolean = false;
+  public loadModeDisabled = false;
   public priceIn: string = this.currencies.USD;
-  public hideAllZero: boolean = false;
-  public currencyForChoose: string = '';
-  public currValue: string = '';
+  public hideAllZero = false;
+  public currencyForChoose = '';
+  public currValue = '';
   public isShowSearchPopup = false;
   public _IEOData;
 
@@ -57,13 +57,13 @@ export class IEOTableMobComponent implements OnInit{
       }
     })];
   }
-  @Input('countOfPendingRequests') public countOfPendingRequests: number = 0;
-  @Input('Tab') public Tab;
-  @Input('currTab') public currTab;
-  @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
-  @Output('openRefillBalancePopup') public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
-  @Output('openSendMoneyPopup') public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
-  @Output('onGoToBalanceDetails') public onGoToBalanceDetails: EventEmitter<any> = new EventEmitter();
+  @Input() public countOfPendingRequests = 0;
+  @Input() public Tab;
+  @Input() public currTab;
+  @Output() public onSelectTab: EventEmitter<any> = new EventEmitter();
+  @Output() public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
+  @Output() public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
+  @Output() public onGoToBalanceDetails: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private router: Router,
