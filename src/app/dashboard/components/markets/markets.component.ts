@@ -203,7 +203,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     };
     this.utilsService.saveActiveCurrencyPairToSS(simplePair);
     this.userService.getUserBalance(simplePair);
-    if(this.isMobile) {
+    if (this.isMobile) {
       this.router.navigate(['/dashboard'], {queryParams:{widget: 'trading'}});
     } else if (this.route.snapshot.paramMap.get('currency-pair')) {
        this.router.navigate(['/']);
