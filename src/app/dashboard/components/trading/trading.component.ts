@@ -44,7 +44,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public isDropdownOpen = false;
   /** dropdown limit data */
   public baseType = orderBaseType;
-  public limitsData = [this.baseType.LIMIT, this.baseType.STOP_LIMIT];
+  public limitsData = [this.baseType.LIMIT, this.baseType.MARKET_PRICE, this.baseType.STOP_LIMIT];
   /** selected limit */
   public dropdownLimitValue: string;
   public buyOrder: Order;
@@ -242,7 +242,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         return popup ? this.translateService.instant('Limit') : this.translateService.instant('Limit order');
       }
       case this.baseType.MARKET_PRICE: {
-        return this.translateService.instant('Market price');
+        return this.translateService.instant('Market');
       }
       case this.baseType.STOP_LIMIT: {
         return popup ? this.translateService.instant('Stop limit') : this.translateService.instant('Stop limit');
