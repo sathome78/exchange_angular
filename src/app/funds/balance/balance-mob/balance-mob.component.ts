@@ -70,13 +70,13 @@ export class BalanceMobComponent implements OnInit{
   }
 
   public onLoadMoreTrigger(): void {
-    if(this.balances.length !== this.countOfEntries){
+    if(this.balances.length !== this.countOfEntries) {
       this.onLoadMore.emit({currentPage: +this.currentPage + 1, countPerPage: this.countPerPage, concat: true});
     }
   }
   public onToggleAllZeroTrigger(): void {
     this.scrollContainer.nativeElement.scrollTop = 0;
-    this.onToggleAllZero.emit(this.hideAllZero)
+    this.onToggleAllZero.emit(this.hideAllZero);
   }
   public onShowMobDetails(item: BalanceItem): void {
     this.onGoToBalanceDetails.emit({currencyId: item.currencyId, priceIn: this.priceIn});
@@ -114,7 +114,7 @@ export class BalanceMobComponent implements OnInit{
     return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
   }
 
-  toggleShowSearchPopup(flag: boolean) {
+  public toggleShowSearchPopup(flag: boolean) {
     if (flag && this.balances.length < this.countEntries) {
       const params = {
         type: this.currTab === this.Tab.CRYPTO ? this.Tab.CRYPTO : this.Tab.FIAT,

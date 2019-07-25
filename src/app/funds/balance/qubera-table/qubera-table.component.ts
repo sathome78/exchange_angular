@@ -15,20 +15,24 @@ export class QuberaTableComponent implements OnInit {
   quberaBalance: balanceQubera[] = [];
 
   @Input('balances') set balances(balances) {
-    this.checkBalance(balances);
-    this._balances = balances.data;
+    if (balances && balances.data) {
+      this.checkBalance(balances);
+      this._balances = balances.data;
+    } else {
+      this._balances = [];
+    }
   }
   get balances() {
     return this._balances;
   }
   private _balances;
-  @Input('kycStatus') public kycStatus: string;
-  @Input('loading') public loading: boolean;
-  @Output('cryptoWithdrawQuberaOut') public cryptoWithdrawQuberaOut: EventEmitter<any> = new EventEmitter();
-  @Output('cryptoDepositQuberaOut') public cryptoDepositQuberaOut: EventEmitter<any> = new EventEmitter();
-  @Output('transferQuberaOut') public transferQuberaOut: EventEmitter<any> = new EventEmitter();
-  @Output('quberaKycVerification') public quberaKycVerification: EventEmitter<any> = new EventEmitter();
-  @Output('createQuberaAccount') public createQuberaAccount: EventEmitter<any> = new EventEmitter();
+  @Input() public kycStatus: string;
+  @Input() public loading: boolean;
+  @Output() public cryptoWithdrawQuberaOut: EventEmitter<any> = new EventEmitter();
+  @Output() public cryptoDepositQuberaOut: EventEmitter<any> = new EventEmitter();
+  @Output() public transferQuberaOut: EventEmitter<any> = new EventEmitter();
+  @Output() public quberaKycVerification: EventEmitter<any> = new EventEmitter();
+  @Output() public createQuberaAccount: EventEmitter<any> = new EventEmitter();
   public 'KYC_STATUS' = KYC_STATUS;
   public 'PENDING' = PENDING;
 
@@ -40,7 +44,7 @@ export class QuberaTableComponent implements OnInit {
   }
 
   checkBalance(balance) {
-    if (this.kycStatus === KYC_STATUS.SUCCESS && !balance.length) {
+    if (this.kycStatus === KYC_STATUS.SUCCESS) {
       this.quberaBalance = [balance.data];
     }
   }

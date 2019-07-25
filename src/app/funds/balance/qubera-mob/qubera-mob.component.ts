@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { balanceQubera } from 'app/funds/models/balance-qubera.model';
+import { KYC_STATUS } from 'app/shared/constants';
 
 @Component({
   selector: 'app-qubera-mob',
@@ -7,10 +9,32 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class QuberaMobComponent implements OnInit {
 
-  
-  public tableScrollStyles: any = {};
+  tableScrollStyles: any = {};
+  quberaBalance: balanceQubera[] = [];
 
-  constructor() { 
+  @Input('balances') set balances(balances) {
+    if (balances && balances.data) {
+      this.checkBalance(balances);
+      this._balances = balances.data;
+    } else {
+      this._balances = [];
+    }
+  }
+  get balances() {
+    return this._balances;
+  }
+  private _balances;
+  @Input() public kycStatus: string;
+  @Input() public countOfPendingRequests = 0;
+  @Input() public Tab;
+  @Input() public loading: boolean;
+  @Input() public currTab;
+  @Output() public selectTab: EventEmitter<any> = new EventEmitter();
+  @Output() createQuberaAccount: EventEmitter<any> = new EventEmitter<boolean>();
+  @Output() public quberaKycVerification: EventEmitter<any> = new EventEmitter();
+
+
+  constructor() {
     this.setScrollStyles();
   }
 
@@ -22,15 +46,9 @@ export class QuberaMobComponent implements OnInit {
   ngOnInit() {
   }
 
-  @Input('Tab') public Tab;
-  
-  @Input('loading') public loading: boolean;
-  @Input('currTab') public currTab;
-  @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
-  @Output('openRefillBalancePopup') public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
-  @Output('openSendMoneyPopup') public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
-  @Output('createFugAccount') createFugAccount: EventEmitter<any> = new EventEmitter<boolean>();
-  showPopup() {
-    
+  checkBalance(balance) {
+    if (this.kycStatus === KYC_STATUS.SUCCESS) {
+      this.quberaBalance = [balance.data];
+    }
   }
 }

@@ -193,7 +193,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   cancelOrder(order): void {
     if (!this.isMobile) {
       this.currentPage =
-        (this.orderItems.length - ((this.currentPage - 1) * this.countPerPage)) > 0 ?
+      (this.currentPage === 1 || ((this.orderItems.length - 1) - ((this.currentPage - 1) * this.countPerPage))) > 0 ?
         this.currentPage :
         this.currentPage - 1;
     }
