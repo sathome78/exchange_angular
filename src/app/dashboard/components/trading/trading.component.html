@@ -50,7 +50,7 @@
           </div>
         </div>
 
-        <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue == baseType.MARKET_PRICE}">
+        <div class="row row--jcsb widget__trading-row  input-row">
           <div class="wrap-input widget__input no-line">
             <app-price-input
             [placeholder]="translateService.instant('Quantity')"
@@ -85,7 +85,7 @@
             ></app-price-input>
           </div>
         </div>
-        <div class="row row--jcsb widget__trading-row  input-row">
+        <div class="row row--jcsb widget__trading-row  input-row"  [ngClass]="{'d-none': dropdownLimitValue == baseType.MARKET_PRICE}">
           <div class="wrap-input widget__input no-line">
             <app-price-input
             [placeholder]="translateService.instant('Total')"
@@ -145,7 +145,7 @@
         </div>
       </div>
 
-      <div class="row row--jcsb widget__trading-row input-row" [ngClass]="{'d-none': dropdownLimitValue == baseType.MARKET_PRICE}">
+      <div class="row row--jcsb widget__trading-row input-row">
         <div class="wrap-input widget__input no-line" >
           <app-price-input
           [placeholder]="translateService.instant('Quantity')"
@@ -180,7 +180,7 @@
           ></app-price-input>
         </div>
       </div>
-      <div class="row row--jcsb widget__trading-row input-row">
+      <div class="row row--jcsb widget__trading-row input-row"  [ngClass]="{'d-none': dropdownLimitValue == baseType.MARKET_PRICE}">
         <div class="wrap-input widget__input no-line">
           <app-price-input
           [placeholder]="translateService.instant('Total')"
