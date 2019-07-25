@@ -42,7 +42,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   public isDropdownOpen = false;
   /** dropdown limit data */
   public baseType = orderBaseType;
-  public limitsData = [this.baseType.LIMIT, this.baseType.STOP_LIMIT];
+  public limitsData = [this.baseType.LIMIT, this.baseType.MARKET_PRICE, this.baseType.STOP_LIMIT];
   /** selected limit */
   public dropdownLimitValue: string;
   public buyOrder: Order;
