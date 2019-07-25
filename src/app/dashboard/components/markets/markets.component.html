@@ -21,7 +21,7 @@
       <button class="tabs__item"
         [ngClass]="{'tabs__item--active': currencyDisplayMode === 'ETH','tab-no-active': currencyDisplayMode !== 'ETH'}"
         (click)="selectedTab('ETH')">
-        Junior Market
+        {{'Junior Market' | translate}}
       </button>
     </div>
     <div class="tabs widget__tabs widget__tabs--mob widget__markets-tabs" *ngIf="!marketSearch">
@@ -42,10 +42,16 @@
         USD
       </button>
       <button class="tabs__item"
+        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USDT','tab-no-active': currencyDisplayMode !== 'USDT'}"
+        (click)="selectedTab('USDT')"
+      >
+        USDT
+      </button>
+      <button class="tabs__item"
         [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
         (click)="selectedTab('LOC')"
       >
-        {{'LOC' | translate}}
+        LOC
       </button>
       <button class="tabs__item"
         *ngIf="isAuthenticated"
