@@ -50,8 +50,12 @@
         *ngSwitchCase="Tab.QUBERA"
         [Tab]="Tab"
         [currTab]="currTab"
-        (onSelectTab)="onSelectTab($event)"
-
+        [balances]="quberaBalances$ | async"
+        [countOfPendingRequests]="countOfPendingRequests$ | async"
+        [kycStatus]="quberaKycStatus$ | async"
+        (selectTab)="onSelectTab($event)"
+        (quberaKycVerification)="goToQuberaKYCPopup($event)"
+        (createQuberaAccount)="goToCreateQuberaAccountPopup($event)"
       ></app-qubera-mob>
 
       <app-ieo-table-mob
@@ -59,6 +63,7 @@
         [IEOData]="IEOData"
         [Tab]="Tab"
         [currTab]="currTab"
+        [countOfPendingRequests]="countOfPendingRequests$ | async"
         (openRefillBalancePopup)="openRefillBalancePopup($event)"
         (openSendMoneyPopup)="openSendMoneyPopup($event)"
         (onSelectTab)="onSelectTab($event)"
