@@ -30,7 +30,8 @@
 		}
 	}
 	.txt{
-		line-height: 39px;
+    line-height: 39px;
+    user-select: none;
 		@media(max-width: 1199px){
 			line-height: 31px;
 		}

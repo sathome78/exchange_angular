@@ -25,7 +25,7 @@ import { TradingService } from '../../../dashboard/services/trading.service';
 import { BreakpointService } from '../../../shared/services/breakpoint.service';
 import { SimpleCurrencyPair } from '../../../model/simple-currency-pair';
 import { LoadOpenOrdersAction } from '../../actions/dashboard.actions';
-import { messages } from '../../constants'
+import { messages } from '../../constants';
 
 @Component({
   selector: 'app-trading',
@@ -635,7 +635,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
             : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
           this.createOrderSuccess();
         }, err => {
-          this.checkErrorCode(err)
+          this.checkErrorCode(err);
           this.createOrderFail();
         });
     } else {

@@ -43,10 +43,12 @@
         </div>
       </div>
 
-
-      <!-- TODO make cheating input for price market -->
-      <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== baseType.MARKET_PRICE}">
-        <app-cheating-input></app-cheating-input>
+      <div class="row row--jcsb widget__trading-row  input-row d-none" [ngClass]="{'d-flex': dropdownLimitValue === baseType.MARKET_PRICE}">
+        <app-cheating-input
+          [placeholder]="translateService.instant('Market')"
+          [label]="translateService.instant('Price')"
+          [currencyLabel]="arrPairName[1]"
+        ></app-cheating-input>
       </div>
 
       <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue === baseType.MARKET_PRICE}">
@@ -138,7 +140,16 @@
           ></app-price-input>
         </div>
       </div>
-      <div class="row row--jcsb widget__trading-row input-row">
+
+      <div class="row row--jcsb widget__trading-row  input-row d-none" [ngClass]="{'d-flex': dropdownLimitValue === baseType.MARKET_PRICE}">
+        <app-cheating-input
+          [placeholder]="translateService.instant('Market')"
+          [label]="translateService.instant('Price')"
+          [currencyLabel]="arrPairName[1]"
+        ></app-cheating-input>
+      </div>
+
+      <div class="row row--jcsb widget__trading-row input-row" [ngClass]="{'d-none': dropdownLimitValue === baseType.MARKET_PRICE}">
         <div class="wrap-input widget__input no-line">
           <app-price-input
             [placeholder]="translateService.instant('Limit Price')"
@@ -161,7 +172,7 @@
           ></app-price-input>
         </div>
       </div>
-      <div class="row row--jcsb widget__trading-row input-row">
+      <div class="row row--jcsb widget__trading-row input-row" [ngClass]="{'d-none': dropdownLimitValue === baseType.MARKET_PRICE}">
         <div class="wrap-input widget__input no-line">
           <app-price-input
             [placeholder]="translateService.instant('Total')"
