@@ -156,7 +156,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         if (res === 'mobile') {
           this.isMobile = true;
           setTimeout(() => {
-            this.scrollHeight = this.mobileContainer.nativeElement.offsetHeight - 108;
+            this.scrollHeight = this.mobileContainer.nativeElement.offsetHeight - 144;
             this.cdr.detectChanges();
           }, 300);
         } else {
@@ -251,6 +251,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
           && f.market.toUpperCase() !== 'USD'
           && f.market.toUpperCase() !== 'BTC'
           && f.market.toUpperCase() !== 'ETH'
+          && f.market.toUpperCase() !== 'USDT'
           && f.currencyPairName.toUpperCase().startsWith(searchValue.toUpperCase()));
     }
     return this.currencyPairs

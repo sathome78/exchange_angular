@@ -14,13 +14,13 @@
     </div>
     <div class="tabs widget__tabs widget__tabs--mob widget__markets-tabs markets-type-tabs">
       <button class="tabs__item  tabs__item--active"
-        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'BTC','tab-no-active': currencyDisplayMode !== 'BTC'}"
-        (click)="selectedTab('BTC')">
+        [ngClass]="{'tabs__item--active': isTopMarket,'tab-no-active': !isTopMarket}"
+        (click)="toggleIsTopMarket(true)">
         {{'Top Market' | translate}}
       </button>
       <button class="tabs__item"
-        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'ETH','tab-no-active': currencyDisplayMode !== 'ETH'}"
-        (click)="selectedTab('ETH')">
+        [ngClass]="{'tabs__item--active': !isTopMarket,'tab-no-active': isTopMarket}"
+        (click)="toggleIsTopMarket(false)">
         {{'Junior Market' | translate}}
       </button>
     </div>
