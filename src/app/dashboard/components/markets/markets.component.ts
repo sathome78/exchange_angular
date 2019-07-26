@@ -142,9 +142,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   calculateCustomScroll(event) {
-    const tempHeight = 367 / (this.pairs.length * 32 / 367);
+    const tempHeight = 341 / (this.pairs.length * 32 / 341);
     this.tumbHeight = tempHeight < this.maxThumbHeight ? this.maxThumbHeight : tempHeight;
-    const tempPosition = 367 / this.pairs.length * event;
+    const tempPosition = 341 / this.pairs.length * event;
     this.tumbPosition = tempPosition;
   }
 

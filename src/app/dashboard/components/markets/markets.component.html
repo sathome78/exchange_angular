@@ -279,12 +279,11 @@
             <div class="ex-thumb" [style.height.px]="tumbHeight" [style.top.px]="tumbPosition"></div>
           </div>
           <cdk-virtual-scroll-viewport
-            [style.height.px]="367"
+            [style.height.px]="341"
             [itemSize]="32"
             (scrolledIndexChange)="calculateCustomScroll($event)"
           >
             <ng-container *cdkVirtualFor="let pair of (pairs | currencySort :'currencyVolume')" class="markets_item">
-
               <div style="margin-right: 24px;">
                 <app-markets-item
                   [pair]="pair"
@@ -295,7 +294,6 @@
                 >
                 </app-markets-item>
               </div>
-
             </ng-container>
           </cdk-virtual-scroll-viewport>
         </div>
