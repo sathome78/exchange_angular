@@ -30,7 +30,9 @@ export class QuberaMobComponent implements OnInit {
   @Input() public loading: boolean;
   @Input() public currTab;
   @Output() public selectTab: EventEmitter<any> = new EventEmitter();
-  @Output() createQuberaAccount: EventEmitter<any> = new EventEmitter<boolean>();
+  @Output() public createQuberaAccount: EventEmitter<any> = new EventEmitter<boolean>();
+  @Output() public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
+  @Output() public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
   @Output() public quberaKycVerification: EventEmitter<any> = new EventEmitter();
 
 
