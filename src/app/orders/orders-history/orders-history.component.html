@@ -323,7 +323,7 @@
           <td class="table__cell">
             <ng-container *ngIf="item.status !== 'CANCELLED'; else commisionCanceled">
               <span class="orders__comission-usd" *ngIf="!isVipUser; else vipUser">
-                <span>{{item.commissionFixedAmount  | currencyFormat:currency(item.currencyPairName, 2)}}
+                <span>{{item.commissionFixedAmount  | currencyFormat: 'ВТС'}}
                       {{item.currencyPairName | splitCurrency: 2}}
                 </span>
               </span>
