@@ -72,7 +72,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private lang;
   /** current active pair */
   public pair: SimpleCurrencyPair;
-  public chartReady: boolean = false;
+  public chartReady = false;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
   private _interval: ChartingLibraryWidgetOptions['interval'] = '10'; // 3
