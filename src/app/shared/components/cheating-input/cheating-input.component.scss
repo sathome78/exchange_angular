@@ -10,6 +10,9 @@
 	font-size: 14px;
 	background-color: transparent;
 	position: relative;
+	@media(max-width: 1199px){
+		height: 33px;
+	}
 	.label{
 		top: -5px;
 		left: 12px;
@@ -21,9 +24,16 @@
 		position: absolute;
 		transition: 0.2s ease all;
 		pointer-events: none;
+		@media(max-width: 1199px){
+			background-color: #191A39;
+
+		}
 	}
 	.txt{
 		line-height: 39px;
+		@media(max-width: 1199px){
+			line-height: 31px;
+		}
 	}
 	.currency{
 		position: absolute;
@@ -37,5 +47,8 @@
 		text-transform: uppercase;
 		min-width: 35px;
 		color: #a0a0a0;
+		@media(max-width: 1199px){
+			right: 0;
+		}
 	}
 }
