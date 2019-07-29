@@ -48,11 +48,11 @@
                 </div>
               </td>
               <td class="table__cell table__cell--tal">
-                <div>{{item.amountBase}}</div>
+                <div>{{item.amountBase | currencyFormat}}</div>
                 <span class="txt-small" [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType | replaceChar: '_': ' '}}</span>
               </td>
               <td class="table__cell table__cell--tar">
-                <span>{{item.exExchangeRate}}</span>
+                <span>{{(item.exExchangeRate || item.limitRate) | currencyFormat}}</span>
               </td>
               <td class="table__cell table__cell--arr-mob">
                 <img class="" src="../../assets/img/arr-toggler-down-blue.svg">
@@ -66,6 +66,14 @@
                   <div class="table__details-item-value">{{item.id}}</div>
                 </div>
                 <div class="table__details-item">
+                  <div class="table__details-item-title">{{'Limit Price' | translate}}</div>
+                  <div class="table__details-item-value">{{(item.exExchangeRate || item.limitRate) | currencyFormat}}</div>
+                </div>
+                <div class="table__details-item" *ngIf="item.stopRate">
+                  <div class="table__details-item-title">{{'Stop Price' | translate}}</div>
+                  <div class="table__details-item-value">{{item.stopRate | currencyFormat}}</div>
+                </div>
+                <div class="table__details-item">
                   <div class="table__details-item-title">{{'Total Price' | translate}}</div>
                   <div class="table__details-item-value">{{item.amountWithCommission}}</div>
                 </div>
@@ -75,7 +83,7 @@
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Fee' | translate}}</div>
-                  <div class="table__details-item-value">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  <div class="table__details-item-value">{{item.commissionFixedAmount | currencyFormat}} {{item.currencyPairName | splitCurrency: 2}}</div>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">
@@ -83,7 +91,9 @@
                       class="btn btn--small btn--empty-red"
                       style="width: 100%; max-width: 58px;"
                       (click)="onShowCancelOrderConfirm(item.id)"
-                    >{{'Cancel' | translate}}</button>
+                    >
+                      {{'Cancel' | translate}}
+                    </button>
                     <div class="revoke-request" *ngIf="showCancelOrderConfirm === item.id">
                       <div class="revoke-request__title">{{'Are you sure you want to cancel selected order?' | translate}}</div>
                       <div class="revoke-request__button-wrap">
