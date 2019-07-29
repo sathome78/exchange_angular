@@ -13,7 +13,7 @@ import {takeUntil} from 'rxjs/internal/operators';
 import {Subject} from 'rxjs/Subject';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {State, getActiveCurrencyPair, getCurrencyPairInfo} from 'app/core/reducers/index';
-import {OrderItem} from 'app/model/order-item.model';
+import {OrderItemOB} from 'app/model/order-item-orders-book.model';
 import {SelectedOrderBookOrderAction, SetLastPriceAction} from '../../actions/dashboard.actions';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
@@ -38,8 +38,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   public maxCountCharacter = 18;
 
-  private sellOrders: OrderItem [] = [];
-  private buyOrders: OrderItem [] = [];
+  private sellOrders: OrderItemOB [] = [];
+  private buyOrders: OrderItemOB [] = [];
   public lastExrate = 0;
   public preLastExrate = 0;
   public isExratePositive = true;
@@ -296,7 +296,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.loading = true;
   }
 
-  public onSelectOrder(item: OrderItem): void {
+  public onSelectOrder(item: OrderItemOB): void {
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
   }
 

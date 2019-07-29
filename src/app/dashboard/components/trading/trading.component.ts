@@ -15,7 +15,7 @@ import {
   getUserBalance
 } from '../../../core/reducers/index';
 import { UserService } from '../../../shared/services/user.service';
-import { OrderItem, UserBalance } from '../../../model';
+import { OrderItemOB, UserBalance } from '../../../model';
 import { PopupService } from '../../../shared/services/popup.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LastPrice } from '../../../model/last-price.model';
@@ -339,7 +339,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * fill model according to order-book order
    * @param order
    */
-  orderFromOrderBook(order: OrderItem): void {
+  orderFromOrderBook(order: OrderItemOB): void {
     this.resetBuyModel();
     this.resetSellModel();
     const rate = parseFloat(order.exrate.toString());
@@ -635,7 +635,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
             : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
           this.createOrderSuccess();
         }, err => {
-          this.checkErrorCode(err)
+          this.checkErrorCode(err);
           this.createOrderFail();
         });
     } else {
