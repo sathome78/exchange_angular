@@ -65,11 +65,11 @@
               <td class="table__details-cell" colspan="4">
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Amount' | translate}}</div>
-                  <div class="table__details-item-value">{{item.amountBase}} {{item.currencyPairName | splitCurrency: 1}}</div>
+                  <div class="table__details-item-value">{{item.amountBase | currencyFormat:'BTC'}} {{item.currencyPairName | splitCurrency: 1}}</div>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Trading price' | translate}}</div>
-                  <div class="table__details-item-value">{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  <div class="table__details-item-value">{{item.exExchangeRate | currencyFormat:'BTC'}} {{item.currencyPairName | splitCurrency: 2}}</div>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Status' | translate}}</div>
@@ -77,12 +77,12 @@
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Fee' | translate}}</div>
-                  <div class="table__details-item-value" *ngIf="!isVipUser">{{item.commissionFixedAmount}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  <div class="table__details-item-value" *ngIf="!isVipUser">{{item.commissionFixedAmount | currencyFormat:'BTC'}} {{item.currencyPairName | splitCurrency: 2}}</div>
                   <div class="table__details-item-value" *ngIf="isVipUser">0.0</div>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'In total' | translate}}</div>
-                  <div class="table__details-item-value">{{item.amountWithCommission}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  <div class="table__details-item-value">{{item.amountWithCommission | currencyFormat:'BTC'}} {{item.currencyPairName | splitCurrency: 2}}</div>
                   <!-- {{item.arrPairName}} -->
                 </div>
               </td>
@@ -304,26 +304,26 @@
           </td>
           <td class="table__cell">
             <span>
-              {{(item.exExchangeRate || item.limitRate)  | currencyFormat:currency(item.currencyPairName, 2)}}
+              {{(item.exExchangeRate || item.limitRate)  | currencyFormat:'BTC'}}
               {{item.currencyPairName | splitCurrency: 2}}
             </span>
           </td>
           <td class="table__cell">
             <span>
-              {{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | currencyFormat:currency(item.currencyPairName, 2)}}
+              {{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | currencyFormat:'BTC'}}
               {{item.orderBaseType !== 'STOP_LIMIT' ? '' : item.currencyPairName | splitCurrency: 2}}
             </span>
           </td>
           <td class="table__cell">
             <span>
-              {{item.amountBase  | currencyFormat:currency(item.currencyPairName, 1)}}
+              {{item.amountBase  | currencyFormat:'BTC'}}
               {{item.currencyPairName | splitCurrency: 1}}
             </span>
           </td>
           <td class="table__cell">
             <ng-container *ngIf="item.status !== 'CANCELLED'; else commisionCanceled">
               <span class="orders__comission-usd" *ngIf="!isVipUser; else vipUser">
-                <span>{{item.commissionFixedAmount  | currencyFormat: 'ВТС'}}
+                <span>{{item.commissionFixedAmount  | currencyFormat:'BTC'}}
                       {{item.currencyPairName | splitCurrency: 2}}
                 </span>
               </span>
@@ -331,7 +331,7 @@
           </td>
           <td class="table__cell table__cell--tar">
             <span>
-              {{item.amountWithCommission  | currencyFormat:currency(item.currencyPairName, 2)}}
+              {{item.amountWithCommission  | currencyFormat:'BTC'}}
               <span>{{item.currencyPairName | splitCurrency: 2}}</span>
             </span>
           </td>
