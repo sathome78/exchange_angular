@@ -23,6 +23,9 @@ export class UtilsService {
   private fraction: number;
 
   isFiat(currencyName: string): boolean {
+    if (currencyName === 'BTC') {
+      return false;
+    }
     if (typeof this.cache[currencyName] !== 'undefined') {
       return this.cache[currencyName];
     }
