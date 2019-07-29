@@ -5,7 +5,7 @@ import {Subject} from 'rxjs/Subject';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {State, getActiveCurrencyPair, getCurrencyPairInfo} from 'app/core/reducers/index';
-import {OrderItem} from 'app/model/order-item.model';
+import {OrderItemOB} from 'app/model/order-item-orders-book.model';
 import {SelectedOrderBookOrderAction, SetLastPriceAction} from '../../actions/dashboard.actions';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
@@ -24,17 +24,17 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   @ViewChild('mainContent') public orderBookContainer: ElementRef;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
-  public itemName: string = 'order-book';
+  public itemName = 'order-book';
   public currencyPairInfo: CurrencyPairInfo = null;
 
-  private sellOrders: OrderItem [] = [];
-  private buyOrders: OrderItem [] = [];
-  public lastExrate: number = 0;
-  public preLastExrate:number = 0;
+  private sellOrders: OrderItemOB [] = [];
+  private buyOrders: OrderItemOB [] = [];
+  public lastExrate = 0;
+  public preLastExrate = 0;
   public isExratePositive = true;
-  public loading: boolean = true;
+  public loading = true;
   private orderBookSub$: Subscription;
-  private canSetLastPrice: boolean = true;
+  private canSetLastPrice = true;
 
   public sellVisualizationArray = [];
   public buyVisualizationArray = [];
@@ -89,8 +89,8 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
       .subscribe((pair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = pair;
         this.splitCurrencyName = pair.name.split('/');
-        if(pair.id !== 0) {
-          this.subscribeOrderBook(pair.name, this.precisionOut)
+        if (pair.id !== 0) {
+          this.subscribeOrderBook(pair.name, this.precisionOut);
         }
       });
   }
@@ -102,14 +102,14 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   }
 
   private initData(orders: OrderBookItem[]) {
-    if(!orders[0]) {
+    if (!orders[0]) {
       return;
     }
     this.calculateVisualizationWidth(this.lastBuyTotal, this.lastSellTotal);
 
     orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) :
     orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : null;
-    if(orders[1]) {
+    if (orders[1]) {
       orders[1].orderType === 'SELL' ? this.setSellOrders(orders[1]) :
       orders[1].orderType === 'BUY' ? this.setBuyOrders(orders[1]) : null;
     }
@@ -118,7 +118,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
     this.lastExrate = +orders[0].lastExrate;
     this.preLastExrate = +orders[0].preLastExrate;
     this.isExratePositive = orders[0].positive;
-    if(this.canSetLastPrice) {
+    if (this.canSetLastPrice) {
       const lastPrice = {
         flag: this.isExratePositive,
         price: this.lastExrate
@@ -139,11 +139,11 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
         this.initData(data);
         this.loadingFinished();
         this.cdr.detectChanges();
-      })
+      });
   }
 
   unsubscribeOrderBook() {
-    if(this.orderBookSub$) {
+    if (this.orderBookSub$) {
       this.orderBookSub$.unsubscribe();
     }
   }
@@ -247,7 +247,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
     this.loading = false;
   }
 
-  public onSelectOrder(item: OrderItem): void {
+  public onSelectOrder(item: OrderItemOB): void {
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
   }
 

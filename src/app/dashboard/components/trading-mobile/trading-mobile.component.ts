@@ -16,7 +16,7 @@ import {
   getDashboardState,
   getIsAuthenticated} from 'app/core/reducers/index';
 import {UserService} from 'app/shared/services/user.service';
-import {OrderItem, UserBalance} from 'app/model';
+import {OrderItemOB, UserBalance} from 'app/model';
 import {PopupService} from 'app/shared/services/popup.service';
 import {LoadOpenOrdersAction} from '../../actions/dashboard.actions';
 import {AuthService} from 'app/shared/services/auth.service';
@@ -331,7 +331,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * fill model according to order-book order
    * @param order
    */
-  orderFromOrderBook(order: OrderItem): void {
+  orderFromOrderBook(order: OrderItemOB): void {
     const rate = parseFloat(order.exrate.toString());
     this.sellOrder.rate = rate;
     this.setPriceInValue(rate, this.SELL);
