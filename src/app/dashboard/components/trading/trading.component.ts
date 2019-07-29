@@ -172,7 +172,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(select(getSelectedOrderBookOrder))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((order) => {
-        if (order.exrate !== '0') {
+        if (+order.exrate !== 0) {
           this.isPossibleSetPrice = false;
         }
         this.orderFromOrderBook(order);
@@ -648,7 +648,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.userService.getUserBalance(this.currentPair);
     this.notifySuccess = true;
     this.loading = false;
-    this.isPossibleSetPrice = true;
     this.cdr.detectChanges();
     this.successTimeout = setTimeout(() => {
       this.notifySuccess = false;
