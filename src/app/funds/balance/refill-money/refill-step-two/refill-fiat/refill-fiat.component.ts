@@ -43,11 +43,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public openCurrencyDropdown = false;
   public openPaymentSystemDropdown = false;
   public activeFiat;
-  public minRefillSum: number = 0;
+  public minRefillSum = 0;
   public alphabet;
   public redirectionUrl;
   public selectMerchantName;
-  public loading: boolean = false;
+  public loading = false;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
@@ -79,7 +79,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.defaultFiatNames = currencies;
         this.fiatNames = this.defaultFiatNames;
         this.setActiveFiat();
-        if (this.activeFiat) this.getDataByCurrency(this.activeFiat.name);
+        if (this.activeFiat) {
+          this.getDataByCurrency(this.activeFiat.name);
+        }
         this.prepareAlphabet();
       });
   }
@@ -141,7 +143,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
         this.form.get('amount').updateValueAndValidity();
-        if (this.selectedMerchant) this.setMinRefillSum();
+        if (this.selectedMerchant) {
+          this.setMinRefillSum();
+        }
       });
   }
 
@@ -152,7 +156,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   selectMerchant(merchant, merchantImage = null) {
-    if(merchant.name == 'Qubera') {
+    if (merchant.name === 'FUG') {
       this.selectQuberaBank.emit(true);
     } else {
       this.hideSteps.emit(true);
@@ -173,16 +177,16 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   submitRefill() {
     this.isSubmited = true;
-    if(this.selectedMerchant.name == 'Qubera' && this.activeFiat.name == 'EUR') {
-      const deposit: Object = { "currencyName": this.activeFiat.name, "amount": this.form.controls.amount.value};
+    if (this.selectedMerchant.name === 'FUG' && this.activeFiat.name === 'EUR') {
+      const deposit: Object = {'currencyName': this.activeFiat.name, 'amount': this.form.controls.amount.value};
       const obj: Object = {
         currency: this.selectedMerchant.currencyId,
         merchant: this.selectedMerchant.merchantId,
-        destination: "",
+        destination: '',
         merchantImage: 1108,
         sum: `${this.form.controls.amount.value}`,
-        destinationTag: ""
-      }
+        destinationTag: ''
+      };
       this.balanceService.fiatDepositQubera(deposit)
         .pipe(first())
         .subscribe((data: any) => {

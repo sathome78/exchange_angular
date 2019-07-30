@@ -66,7 +66,10 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
-    this.merchants = this.quberaBank.balance.merchantCurrencyData;
+    this.merchants =
+      this.quberaBank &&
+      this.quberaBank.balance &&
+      this.quberaBank.balance.merchantCurrencyData;
 
     this.store
       .pipe(select(getFiatCurrenciesForChoose))
@@ -126,10 +129,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         // this.fiatDataByName = res;
         this.fiatArrayData = res;
-        this.fiatDataByName = _.filter(this.fiatArrayData.merchantCurrencyData, function(item) {
-          return item.name === 'Qubera';
-        });
-        // this.merchants = this.fiatDataByName.merchantCurrencyData;
+        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter((item) => item.name === 'FUG');
         this.merchants = this.fiatDataByName;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
@@ -236,10 +236,10 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
       const imgHeight = canvas.height * imgWidth / canvas.width;
       const heightLeft = imgHeight;
 
-      const contentDataURL = canvas.toDataURL('image/png')
+      const contentDataURL = canvas.toDataURL('image/png');
       const pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
       const position = 0;
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
       pdf.save('kp.pdf'); // Generated PDF
     });
 
@@ -250,7 +250,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data: any) => {
         this.bankInfo = data.data;
-      })
+      });
   }
 
 }
