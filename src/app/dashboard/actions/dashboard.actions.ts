@@ -25,6 +25,10 @@ export const LOAD_HISTORY_ORDERS = '[Dashboard] load history orders';
 export const SET_HISTORY_ORDERS = '[Dashboard] set history orders';
 export const FAIL_HISTORY_ORDERS = '[Dashboard] fail history orders';
 
+// orders book
+export const SET_ORDERS_BOOK_BUY_DATA = '[Order book] set orders book buy data';
+export const SET_ORDERS_BOOK_SELL_DATA = '[Order book] set orders book sell data';
+
 export class LoadOpenOrdersAction implements Action {
   readonly type = LOAD_OPEN_ORDERS;
   constructor(public payload) {}
@@ -153,10 +157,24 @@ export class SetTradingTypeAction implements Action {
 }
 
 /**
+ * When set Orders book data
+ */
+export class SetOrdersBookBuyDataAction implements Action {
+  readonly type = SET_ORDERS_BOOK_BUY_DATA;
+  constructor(public payload) {}
+}
+export class SetOrdersBookSellDataAction implements Action {
+  readonly type = SET_ORDERS_BOOK_SELL_DATA;
+  constructor(public payload) {}
+}
+
+/**
  * Exports possible action types
  */
 export type Actions
   = ChangeActiveCurrencyPairAction
+  | SetOrdersBookBuyDataAction
+  | SetOrdersBookSellDataAction
   | SetMarketsCurrencyPairsAction
   | SetCurrencyPairsAction
   | SetUserFavoritesCurrencyPairsAction

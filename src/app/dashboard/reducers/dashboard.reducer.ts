@@ -35,6 +35,8 @@ export interface State {
   historyOrders;
   historyOrdersCount: number;
   ordersLoading: boolean;
+  ordersBookBuyOrders: OrderItemOB[];
+  ordersBookSellOrders: OrderItemOB[];
 }
 
 export const INIT_STATE: State = {
@@ -55,6 +57,8 @@ export const INIT_STATE: State = {
   historyOrders: [],
   historyOrdersCount: 0,
   ordersLoading: false,
+  ordersBookBuyOrders: [],
+  ordersBookSellOrders: [],
 };
 
 /**
@@ -137,6 +141,16 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
         openOrdersCount: action.payload.count,
         ordersLoading: false,
       };
+    case dashboard.SET_ORDERS_BOOK_BUY_DATA:
+      return {
+        ...state,
+        ordersBookBuyOrders: action.payload,
+      };
+    case dashboard.SET_ORDERS_BOOK_SELL_DATA:
+      return {
+        ...state,
+        ordersBookSellOrders: action.payload,
+      };
     default :
       return state;
   }
@@ -216,3 +230,9 @@ export const getHistoryOrders = (state: State) => state.historyOrders;
 
 /** Selector returns open orders*/
 export const getOrdersLoading = (state: State) => state.ordersLoading;
+
+
+/** Selector returns orders book buy item*/
+export const getOrdersBookBuy = (state: State) => state.ordersBookBuyOrders;
+/** Selector returns orders book sell item*/
+export const getOrdersBookSell = (state: State) => state.ordersBookSellOrders;

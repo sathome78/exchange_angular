@@ -58,6 +58,8 @@ export const getOpenOrders = createSelector(getDashboardState, fromDashboard.get
 export const getOpenOrdersCount = createSelector(getDashboardState, fromDashboard.getOpenOrdersCount);
 export const getHistoryOrders = createSelector(getDashboardState, fromDashboard.getHistoryOrders);
 export const getOrdersLoading = createSelector(getDashboardState, fromDashboard.getOrdersLoading);
+export const getOrdersBookBuyOrders = createSelector(getDashboardState, fromDashboard.getOrdersBookBuy);
+export const getOrdersBookSellOrders = createSelector(getDashboardState, fromDashboard.getOrdersBookSell);
 
 /**
  * Selectors from funds module

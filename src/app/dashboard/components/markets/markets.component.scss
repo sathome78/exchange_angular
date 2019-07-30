@@ -52,8 +52,8 @@
 .tab-no-active {
   // border-bottom: 2px solid transparent;
   @media(max-width: 1199px){
-        border: none;
-      }
+    border: none;
+  }
 }
 
 //scroll style start
@@ -137,15 +137,15 @@
     background-color: rgba(35, 123, 239, 0.1);
   }
 }
-  .widget__tabs--mob{
-display: flex;
-    position: relative;
-    bottom: auto;
+.widget__tabs--mob{
+  display: flex;
+  position: relative;
+  bottom: auto;
 }
 @media (min-width: 1200px) {
   .widget__tabs--mob{
-display: none;
-}
+    display: none;
+  }
   .markets {
     &__table {
       position: relative;
@@ -171,48 +171,68 @@ display: none;
     &__tbody {
       //margin-right: 24px;
           // padding: 0 14px 0 8px;
-    }
+        }
 
-    &__row {
-      width: 100%;
-      min-height: 27px;
+        &__row {
+          width: 100%;
+          min-height: 27px;
 
-      &:hover {
-        background-color: rgba(35, 123, 239, 0.1);
-        cursor: pointer;
+          &:hover {
+            background-color: rgba(35, 123, 239, 0.1);
+            cursor: pointer;
 
-        .table__row-star {
-          svg {
-            display: inline-block;
+            .table__row-star {
+              svg {
+                display: inline-block;
+              }
+            }
           }
         }
       }
     }
-  }
-}
 
 
-.loading-container {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
-}
-.widget__content--mob perfect-scrollbar{
-    padding: 6px 14px 6px 8px;
-}
+    .loading-container {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+    }
+    .widget__content--mob perfect-scrollbar{
+      padding: 6px 14px 6px 8px;
+    }
 
 
-.markets_item {
-   height: 31px;
-}
- @media(max-width: 480px){
-  .shape{
-    display: inline-flex;
-    height: 6px;
-    svg{
-      height: 100%;
+    .markets_item {
+     height: 31px;
+   }
+   @media(max-width: 480px){
+    .shape{
+      display: inline-flex;
+      height: 6px;
+      svg{
+        height: 100%;
+      }
     }
   }
- }
+
+
+  .markets-type-tabs{
+    margin-bottom: 11px;
+    &::after{
+      display: none;
+    }
+    .tabs__item{
+      color: #fff;
+      font-weight: 500;
+      font-size: 14px;
+      padding: 0 0 5px;
+      line-height: .9;
+    }
+  }
+@media(min-width: 1200px){
+  .scroll-wp {
+    height: 341px;
+  }
+}

@@ -6,12 +6,17 @@ import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {State, getActiveCurrencyPair, getCurrencyPairInfo} from 'app/core/reducers/index';
 import {OrderItemOB} from 'app/model/order-item-orders-book.model';
-import {SelectedOrderBookOrderAction, SetLastPriceAction} from '../../actions/dashboard.actions';
+import {
+  SelectedOrderBookOrderAction,
+  SetLastPriceAction,
+  SetOrdersBookSellDataAction,
+  SetOrdersBookBuyDataAction
+} from '../../actions/dashboard.actions';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
 import {OrderBookItem} from 'app/model';
 import {Subscription} from 'rxjs';
-import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-order-book-mobile',
@@ -122,7 +127,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
       const lastPrice = {
         flag: this.isExratePositive,
         price: this.lastExrate
-      }
+      };
       this.store.dispatch(new SetLastPriceAction(lastPrice));
       this.canSetLastPrice = false;
     }
@@ -197,6 +202,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
 
   private setBuyOrders(orders): void {
     this.buyOrders = orders.orderBookItems;
+    this.store.dispatch(new SetOrdersBookBuyDataAction(orders.orderBookItems));
     this.showBuyDataReverse = [...this.buyOrders];
     this.commonBuyTotal = +orders.total;
     this.buyCalculateVisualization();
@@ -204,6 +210,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
 
   private setSellOrders(orders): void {
     this.sellOrders = orders.orderBookItems;
+    this.store.dispatch(new SetOrdersBookSellDataAction(orders.orderBookItems));
     this.showSellDataReverse = [...this.sellOrders];
     this.commonSellTotal = +orders.total;
     this.sellCalculateVisualization();

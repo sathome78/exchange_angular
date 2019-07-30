@@ -11,7 +11,8 @@ export class CurrencyPair {
     public priceInUsd: number,
     public currencyVolume: number,
     public market: string,
-    public volume: number
+    public volume: number,
+    public isTopMarket: boolean,
   ) { }
 
 
