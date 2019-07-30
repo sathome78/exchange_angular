@@ -75,7 +75,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   public chartReady = false;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
-  private _interval: ChartingLibraryWidgetOptions['interval'] = '10'; // 3
+  private _interval: ChartingLibraryWidgetOptions['interval'] = '30'; // 3
   // BEWARE: no trailing slash is expected in feed URL
   // private _datafeedUrl = 'https://demo_feed.tradingview.com';
   private _datafeedUrl = environment.apiUrl + '/api/public/v2/graph';
@@ -183,6 +183,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         'header_compare',
         'header_undo_redo',
         'header_indicators',
+        'header_resolutions', // hidden by DEVEX-3308
         'save_chart_properties_to_local_storage',
         'header_saveload',
         'border_around_the_chart'
