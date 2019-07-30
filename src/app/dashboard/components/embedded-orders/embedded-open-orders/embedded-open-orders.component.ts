@@ -2,12 +2,8 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, H
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/internal/operators';
 import { EmbeddedOrdersService } from '../embedded-orders.service';
-import { select, Store } from '@ngrx/store';
-import { State, getActiveCurrencyPair } from 'app/core/reducers/index';
-import { AbstractOrderCalculate } from '../../../../shared/components/abstract-order-calculate';
-import { UserBalance } from '../../../../model/user-balance.model';
-import { getUserBalance } from '../../../../core/reducers';
-import { Order } from 'app/model/order.model';
+import { Store } from '@ngrx/store';
+import { State } from 'app/core/reducers/index';
 import { TradingService } from 'app/dashboard/services/trading.service';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
@@ -32,7 +28,7 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
 
   public currentPage = 1;
   public showCancelOrderConfirm = null;
-  public loading: boolean = false;
+  public loading = false;
 
   constructor(
     private store: Store<State>,
