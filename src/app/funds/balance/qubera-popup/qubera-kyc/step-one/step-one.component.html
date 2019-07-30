@@ -131,7 +131,7 @@
     <div class="action">
       <button (click)="gotToStepTwo(form)"
       class="btn btn--center"
-      [ngClass]="{'btn--empty-blue': !form.valid || !check || disable}"
+      
       [disabled]="!form.valid || !check || disable"
       >{{'Create account' | translate}}</button>
     </div>

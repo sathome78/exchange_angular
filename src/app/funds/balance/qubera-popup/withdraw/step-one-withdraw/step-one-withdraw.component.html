@@ -1,4 +1,4 @@
-<div class="modal__content qubera-content">
+<div class="modal__content qubera-content side-popups">
   <div class="fiat-deposit-s1 fiat-withdraw-s1" *ngIf="!!activeFiat && !!fiatDataByName">
     <h2>Fiat Withdrawal EUR</h2>
     <form [formGroup]="form">
@@ -78,9 +78,9 @@
         [ngClass]="{'wrap-input--error': form.get('amount').invalid && (form.get('amount').touched || isSubmited)}"
         >
         <div class="avaliable">{{'Available:' | translate}}
-          <a (click)="balanceClick(quberaBalances.availableBalance.amount)" class="link">
-            {{quberaBalances.availableBalance.amount | roundCurrency: true | formatCurrency: 'short': true}} {{quberaBalances.availableBalance.currencyCode}}
-          </a>
+          <!-- <a (click)="balanceClick(quberaBalances.availableBalance.amount)" class="link"> -->
+            <!-- {{quberaBalances.availableBalance.amount | roundCurrency: true | formatCurrency: 'short': true}} {{quberaBalances.availableBalance.currencyCode}} -->
+          <!-- </a> -->
         </div>
         <app-price-input  style="display: inline-block;"
           [placeholder]="'Amount'"
@@ -363,13 +363,12 @@
             </div>
           </ng-container>
         </div>
-      </div>
+      
 
       <div class="select" style="margin-bottom: 20px;">
         <div class="select__value select__value--active" #countryInput
-              (click)="countryDropdownToggle()">
-              {{this.selectedCountry?.countryName}}
-        </div>
+              (click)="countryDropdownToggle()"
+              >{{this.selectedCountry?.countryName}}</div>
         <div class="select__label">{{'Country' | translate}}</div>
         <div class="select__line"></div>
         <div class="select__triangle"></div>
@@ -397,7 +396,7 @@
           </div>
         </div>
       </div>
-
+</div>
       <button class="btn balance__title-btn"
         [disabled]="!form.valid || !formSwift.valid"
         (click)="submit(form, formSwift)">

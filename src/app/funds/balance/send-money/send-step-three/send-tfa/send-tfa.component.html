@@ -1,4 +1,4 @@
-<div *ngIf="pincodeFrom === CODE_FROM_GOOGLE">
+<div *ngIf="pincodeFrom === CODE_FROM_GOOGLE" class="side-popups">
   <div class="title send__title">{{'Two factor authentication' | translate}}</div>
   <!--if google 2fa enabled start-->
   <form [formGroup]="form">
@@ -19,7 +19,7 @@
 <!--if google 2fa enabled end-->
 
 <!--pin code from email start-->
-<div *ngIf="pincodeFrom === CODE_FROM_EMAIL">
+<div *ngIf="pincodeFrom === CODE_FROM_EMAIL" class="side-popups">
   <div class="subtitle send__subtitle">{{'Put the pincode from your email' | translate}}</div>
   <form [formGroup]="form">
     <div class="wrap-input send__wrap-input"
