@@ -5,7 +5,7 @@ import {Subject} from 'rxjs/Subject';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {CurrencyPair} from 'app/model/currency-pair.model';
 import {State, getActiveCurrencyPair, getCurrencyPairInfo} from 'app/core/reducers/index';
-import {OrderItem} from 'app/model/order-item.model';
+import {OrderItemOB} from 'app/model/order-item-orders-book.model';
 import {
   SelectedOrderBookOrderAction,
   SetLastPriceAction,
@@ -32,8 +32,8 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   public itemName = 'order-book';
   public currencyPairInfo: CurrencyPairInfo = null;
 
-  private sellOrders: OrderItem [] = [];
-  private buyOrders: OrderItem [] = [];
+  private sellOrders: OrderItemOB [] = [];
+  private buyOrders: OrderItemOB [] = [];
   public lastExrate = 0;
   public preLastExrate = 0;
   public isExratePositive = true;
@@ -254,7 +254,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
     this.loading = false;
   }
 
-  public onSelectOrder(item: OrderItem): void {
+  public onSelectOrder(item: OrderItemOB): void {
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
   }
 

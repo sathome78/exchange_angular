@@ -9,7 +9,7 @@ import {
   defaultUserBalance,
   defaultValues
 } from './default-values';
-import {OrderItem} from '../../model/order-item.model';
+import {OrderItemOB} from '../../model/order-item-orders-book.model';
 import {CurrencyPairInfo} from '../../model/currency-pair-info.model';
 import {LastSellBuyOrder} from '../../model/last-sell-buy-order.model';
 import {TradeItem} from '../../model/trade-item.model';
@@ -22,7 +22,7 @@ export interface State {
   currencyPairArray: CurrencyPair[];
   marketsCurrencyPairsMap: MapModel<CurrencyPair>;
   userBalance: UserBalance;
-  selectedOrderBookOrder: OrderItem;
+  selectedOrderBookOrder: OrderItemOB;
   currencyPairInfo: CurrencyPairInfo;
   lastSellBuyOrder: LastSellBuyOrder;
   lastCreatedOrder: Order;
@@ -35,15 +35,15 @@ export interface State {
   historyOrders;
   historyOrdersCount: number;
   ordersLoading: boolean;
-  ordersBookBuyOrders: OrderItem[];
-  ordersBookSellOrders: OrderItem[];
+  ordersBookBuyOrders: OrderItemOB[];
+  ordersBookSellOrders: OrderItemOB[];
 }
 
 export const INIT_STATE: State = {
   activeCurrencyPair: defaultValues as SimpleCurrencyPair,
   currencyPairArray: [],
   userBalance: defaultUserBalance,
-  selectedOrderBookOrder: defaultOrderItem as OrderItem,
+  selectedOrderBookOrder: defaultOrderItem as OrderItemOB,
   currencyPairInfo: defaultCurrencyPairInfo,
   lastSellBuyOrder: defaultLastSellBuyOrder,
   lastCreatedOrder: defaultLastCreatedOrder,
@@ -199,7 +199,7 @@ export const getMarketCurrencyPairsArraySelector = (state: State): MapModel<Curr
 export const getUserBalance = (state: State): UserBalance => state.userBalance;
 
 /** Selector returns selected order-book order */
-export const getSelectedOrderBookOrder = (state: State): OrderItem => state.selectedOrderBookOrder;
+export const getSelectedOrderBookOrder = (state: State): OrderItemOB => state.selectedOrderBookOrder;
 
 /** Selector returns currency pair info */
 export const getCurrencyPairInfo = (state: State): CurrencyPairInfo => state.currencyPairInfo;

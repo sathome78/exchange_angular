@@ -1,5 +1,5 @@
 
-export class OrderItem {
+export class OrderItemOB {
   constructor(
     public amount: string,
     public currencyPairId: number,

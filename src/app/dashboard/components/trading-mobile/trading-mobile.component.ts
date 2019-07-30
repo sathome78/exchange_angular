@@ -61,7 +61,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   public currentPair: SimpleCurrencyPair;
 
   public maxMarketOrder = 0;
-  public ordersBookSellOrders = [];
+  public ordersBookSellOrders: OrderItemOB[] = [];
   public notifySuccess = false;
   public notifyFail = false;
   public message = '';
