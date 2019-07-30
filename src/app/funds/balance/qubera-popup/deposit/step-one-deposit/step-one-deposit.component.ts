@@ -33,10 +33,10 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
   public selectedMerchant;
   public selectMerchantName;
   public selectedMerchantNested;
-  public minRefillSum: number = 0;
-  public amountValue: number = 0;
-  public activeBalance: number = 0;
-  public minWithdrawSum: number = 0;
+  public minRefillSum = 0;
+  public amountValue = 0;
+  public activeBalance = 0;
+  public minWithdrawSum = 0;
   public merchants;
   public searchTemplate = '';
   public activeFiat;
@@ -76,13 +76,15 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
         // this.fiatNames = this.defaultFiatNames;
         this.fiatNames.push(this.defaultFiatNames[2]);
         this.setActiveFiat();
-        if (this.activeFiat) this.getDataByCurrency(this.activeFiat.name);
+        if (this.activeFiat) {
+          this.getDataByCurrency(this.activeFiat.name);
+        }
         this.prepareAlphabet();
       });
     this.depositBankInfo();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.bankInfo = undefined;
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -124,7 +126,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         // this.fiatDataByName = res;
         this.fiatArrayData = res;
-        this.fiatDataByName = _.filter(this.fiatArrayData.merchantCurrencyData, function(item){
+        this.fiatDataByName = _.filter(this.fiatArrayData.merchantCurrencyData, function(item) {
           return item.name === 'Qubera';
         });
         // this.merchants = this.fiatDataByName.merchantCurrencyData;
@@ -184,7 +186,8 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
         .subscribe(res => {
           this.calculateData = res as CommissionData;
           const compCommission = parseFloat(this.calculateData.companyCommissionRate.replace('%)', '').replace('(', ''));
-          this.calculateData.commission_rates_sum = +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
+          this.calculateData.commission_rates_sum =
+            +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
         });
     } else {
       const outCommission = !!this.selectedMerchant ? this.selectedMerchant.outputCommission : 0;
@@ -225,17 +228,17 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
   }
 
   download() {
-    let data = document.getElementById('pdf-download');
+    const data = document.getElementById('pdf-download');
     html2canvas(data).then(canvas => {
       // Few necessary setting options
-      let imgWidth = 208;
-      let pageHeight = 295;
-      let imgHeight = canvas.height * imgWidth / canvas.width;
-      let heightLeft = imgHeight;
+      const imgWidth = 208;
+      const pageHeight = 295;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+      const heightLeft = imgHeight;
 
       const contentDataURL = canvas.toDataURL('image/png')
-      let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
-      let position = 0;
+      const pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
+      const position = 0;
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
       pdf.save('kp.pdf'); // Generated PDF
     });
