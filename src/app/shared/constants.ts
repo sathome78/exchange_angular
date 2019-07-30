@@ -45,7 +45,7 @@ export const keys = {
 
 export const orderBaseType = {
   LIMIT: 'LIMIT',
-  MARKET_PRICE: 'MARKET_PRICE',
+  MARKET: 'MARKET',
   STOP_LIMIT: 'STOP_LIMIT',
   ICO: 'ICO'
 };

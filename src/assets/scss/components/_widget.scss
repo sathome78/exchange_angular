@@ -24,7 +24,7 @@
     margin-right: 8px;
   }
 
-  
+
   .input-row{
     margin-top: 17px;
   }
@@ -205,6 +205,9 @@
     }
     .tabs__item {
       margin-right: 23px;
+      &:last-child {
+        margin-right: 0px;
+      }
     }
     .tabs__item--big {
       margin: 0;
@@ -368,7 +371,7 @@
     @media(max-width: 1199px){
      .markets__tbody{
       padding: 0 14px 0 8px;
-    } 
+    }
   }
 
   .table__cell,.table__cell-head{
@@ -924,7 +927,7 @@
         display: none;
       }
     }
-    
+
     &__trading-row {
       margin-top: 13px;
     }
@@ -1288,7 +1291,7 @@
           }
         }
       }
-      
+
       .wrap-input__input {
         &:not([value=""]) {
           ~ .wrap-input__label {
@@ -1340,7 +1343,7 @@
       background: #191a39!important;
     }
   }
-  
+
   .wrap-input__currency{
     top: 1px;
     right: 0px;
@@ -1365,7 +1368,7 @@ app-embedded-orders-mobile{
     .table__cell--tar{
       vertical-align: top;
     }
-    
+
     .table__cell-head--tal{
       &:first-child{
         padding-left: 15px;
@@ -1374,7 +1377,7 @@ app-embedded-orders-mobile{
     }
     .table__cell--tal{
       vertical-align: top;
-      
+
     }
     .table__cell{
       padding: 3px 10px 8px;

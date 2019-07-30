@@ -14,12 +14,17 @@ import {Subject} from 'rxjs/Subject';
 import {AbstractDashboardItems} from '../../abstract-dashboard-items';
 import {State, getActiveCurrencyPair, getCurrencyPairInfo} from 'app/core/reducers/index';
 import {OrderItem} from 'app/model/order-item.model';
-import {SelectedOrderBookOrderAction, SetLastPriceAction} from '../../actions/dashboard.actions';
+import {
+  SelectedOrderBookOrderAction,
+  SetLastPriceAction,
+  SetOrdersBookSellDataAction,
+  SetOrdersBookBuyDataAction
+} from '../../actions/dashboard.actions';
 import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
 import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
 import {OrderBookItem} from 'app/model';
 import {Subscription} from 'rxjs';
-import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 
 @Component({
   selector: 'app-order-book',
@@ -154,7 +159,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.orderBookSub$ = this.dashboardWebsocketService.orderBookSubscription(pairName, precision)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
-        // console.log('order books', data);
+        console.log('order books', data);
+
         this.setLastTotals(data);
         this.initData(data);
         this.loadingFinished();
@@ -227,12 +233,14 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   private setBuyOrders(orders): void {
     this.buyOrders = orders.orderBookItems;
+    this.store.dispatch(new SetOrdersBookBuyDataAction(orders.orderBookItems));
     this.showBuyDataReverse = [...this.buyOrders];
     this.commonBuyTotal = +orders.total;
 
   }
 
   private setSellOrders(orders): void {
+    this.store.dispatch(new SetOrdersBookSellDataAction(orders.orderBookItems));
     this.sellOrders = orders.orderBookItems;
     this.showSellDataReverse = [...this.sellOrders].reverse();
     this.commonSellTotal = +orders.total;
