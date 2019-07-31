@@ -5,3 +5,7 @@ export const BALANCE_TABS = {
   QUBERA: 'QUBERA',
   IEO: 'IEO',
 };
+
+
+export const FUG = 'FUG';
+export const EUR = 'EUR';

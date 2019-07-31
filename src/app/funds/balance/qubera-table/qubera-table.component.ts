@@ -4,6 +4,7 @@ import { PopupService } from 'app/shared/services/popup.service';
 import { BalanceService } from 'app/funds/services/balance.service';
 import { first } from 'rxjs/operators';
 import { balanceQubera } from 'app/funds/models/balance-qubera.model';
+import { EUR } from '../balance-constants';
 
 @Component({
   selector: 'app-qubera-table',
@@ -50,7 +51,7 @@ export class QuberaTableComponent implements OnInit {
   }
 
   checkQuberaAccount() {
-    this.balanceService.checkQuberaAccount('EUR')
+    this.balanceService.checkQuberaAccount(EUR)
       .pipe(first())
       .subscribe((data: balanceQubera) => {
       });

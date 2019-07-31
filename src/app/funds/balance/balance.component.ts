@@ -25,10 +25,10 @@ import {KYC_STATUS, PENDING} from '../../shared/constants';
 import {environment} from 'environments/environment';
 import {IEOServiceService} from 'app/shared/services/ieoservice.service';
 import {IEOItem} from 'app/model/ieo.model';
-import {BALANCE_TABS} from './balance-constants';
+import {BALANCE_TABS, EUR} from './balance-constants';
 import {DetailedCurrencyPair} from '../../model/detailed-currency-pair';
-import { getUserInfo } from '../../core/reducers';
-import { UserService } from 'app/shared/services/user.service';
+import {getUserInfo} from '../../core/reducers';
+import {UserService} from 'app/shared/services/user.service';
 
 
 @Component({
@@ -355,7 +355,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public goToQuberaWithdrawPopup(balance: BalanceItem): void {
-    this.balanceService.getCurrencyData('EUR')
+    this.balanceService.getCurrencyData(EUR)
       .pipe(first())
       .subscribe((data: any) => {
         this.showQuberaPopup = true;
@@ -367,7 +367,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public goToQuberaDepositPopup(balance: BalanceItem): void {
-    this.balanceService.getCurrencyData('EUR')
+    this.balanceService.getCurrencyData(EUR)
       .pipe(first())
       .subscribe((data: any) => {
         this.showQuberaPopup = true;
@@ -431,12 +431,13 @@ export class BalanceComponent implements OnInit, OnDestroy {
         concat: false,
       }
     };
-    this.store.dispatch(new fundsAction.RevokePendingReqAction(params))
+    this.store.dispatch(new fundsAction.RevokePendingReqAction(params));
   }
 
   public onGoToBalanceDetails({currencyId, priceIn}) {
     this.router.navigate([`/funds/balances/${currencyId}`], {queryParams: {priceIn}});
   }
+
   public onGoToIEOBalanceDetails({currencyId, priceIn}) {
     this.router.navigate([`/funds/balances/ieo/${currencyId}`], {queryParams: {priceIn}});
   }
@@ -475,14 +476,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
         this.token = data.token_id;
         // delete after tests
         this.isInternalUser = this.email.split('@')[1] === 'upholding.biz';
-      })
+      });
   }
 
-  checkEmail(email: string){
-    this.userService.getCheckTo2FAEnabled(email)
-    .pipe(first())
-    .subscribe(data => {
-    });
+  checkEmail(email: string) {
+    // this.userService.getCheckTo2FAEnabled(email)
+    // .pipe(first())
+    // .subscribe(data => {
+    // });
   }
 
 }

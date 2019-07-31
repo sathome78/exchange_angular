@@ -143,7 +143,7 @@
           class="wrap-input send__wrap-input"
           [ngClass]="{'wrap-input--error': (!form.controls['address'].valid &&
           (form.controls['address'].touched || isSubmited)) && form.controls['amount'].valid}"
-          *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length && selectedMerchant.name !== 'Qubera'"
+          *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length && selectedMerchant.name !== FUG"
         >
           <input class="wrap-input__input" name="address" formControlName="address" required>
           <label class="wrap-input__label">{{'Payment system' | translate}}
@@ -165,7 +165,7 @@
 
 
         <!-- if qubera -->
-        <div class="notice-for-withdraw" *ngIf="selectedMerchant.name == 'Qubera'">
+        <div class="notice-for-withdraw" *ngIf="selectedMerchant.name == FUG">
           <p>Funds will be transferred to your personal account</p>
         </div>
         <!-- end if qubera -->
