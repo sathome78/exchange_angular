@@ -1,11 +1,41 @@
-<div class="container container--dashboard" *ngIf="breakPoint === 'desktop'">
-  <div class="dashboard" (window:resize)="changeRatioByWidth()">
+<div
+  class="container container--dashboard"
+  *ngIf="breakPoint === 'desktop'"
+>
+  <div
+    class="dashboard"
+    (window:resize)="changeRatioByWidth()"
+  >
     <app-currency-pair-info></app-currency-pair-info>
     <div class="dashboard__widget-wrap">
-      <ngx-gridster #gridsterContainer [options]="gridsterOptions" [draggableOptions]="{ handlerClass: 'panel-heading' }">
-        <ng-template ngFor let-widget [ngForOf]="widgets" , let-index=index>
-          <ngx-gridster-item [options]="gridsterItemOptions" *ngIf="widget.type | showWidgetPipe: isAuthenticated" [(xLg)]="widget.xLg" [(yLg)]="widget.yLg" [(wLg)]="widget.wLg" [(hLg)]="widget.hLg" [(dragAndDrop)]="widget.dragAndDrop" [(resizable)]="widget.resizable" class="gridster-item" (start)="DragStart($event)" (end)="DragEnd($event)">
-            <ng-template [ngTemplateOutlet]="widgetTemplate[widget.type]" [ngTemplateOutletContext]="{ $implicit: index}">
+      <ngx-gridster
+        #gridsterContainer
+        [options]="gridsterOptions"
+        [draggableOptions]="{ handlerClass: 'panel-heading' }"
+      >
+        <ng-template
+          ngFor
+          let-widget
+          [ngForOf]="widgets"
+          let-index=index
+        >
+          <ngx-gridster-item
+            [options]="gridsterItemOptions"
+            *ngIf="widget.type | showWidgetPipe: isAuthenticated"
+            [(xLg)]="widget.xLg"
+            [(yLg)]="widget.yLg"
+            [(wLg)]="widget.wLg"
+            [(hLg)]="widget.hLg"
+            [(dragAndDrop)]="widget.dragAndDrop"
+            [(resizable)]="widget.resizable"
+            class="gridster-item"
+            (start)="DragStart($event)"
+            (end)="DragEnd($event)"
+          >
+            <ng-template
+              [ngTemplateOutlet]="widgetTemplate[widget.type]"
+              [ngTemplateOutletContext]="{ $implicit: index}"
+            >
             </ng-template>
           </ngx-gridster-item>
         </ng-template>
@@ -17,46 +47,95 @@
 </div>
 
 
-<div class="container container--dashboard" *ngIf="breakPoint === 'mobile'">
+<div
+  class="container container--dashboard"
+  *ngIf="breakPoint === 'mobile'"
+>
   <div class="dashboard__widget-wrap">
-    <ng-template [ngTemplateOutlet]="widgetTemplate[activeMobileWidget]" [ngTemplateOutletContext]="{ $implicit: 1}">
+    <ng-template
+      [ngTemplateOutlet]="widgetTemplate[activeMobileWidget]"
+      [ngTemplateOutletContext]="{ $implicit: 1}"
+    >
     </ng-template>
   </div>
 </div>
 
 
-<ng-template #graph let-index>
-  <app-graph (changeItemSize)="changeItemSize($event)" (removeItem)="removeItem(index)">
+<ng-template
+  #graph
+  let-index
+>
+  <app-graph
+    (changeItemSize)="changeItemSize($event)"
+    (removeItem)="removeItem(index)"
+  >
   </app-graph>
-  <div class="graph_overlay" *ngIf="isDrag"></div>
+  <div
+    class="graph_overlay"
+    *ngIf="isDrag"
+  ></div>
 </ng-template>
 
-<ng-template #markets let-index>
+<ng-template
+  #markets
+  let-index
+>
   <!--<button (click)="cl = true">+</button>-->
-  <app-markets (changeItemSize)="changeItemSize($event)" (removeItem)="removeItem(index)">
+  <app-markets
+    (changeItemSize)="changeItemSize($event)"
+    (removeItem)="removeItem(index)"
+  >
   </app-markets>
 </ng-template>
 
-<ng-template #trading let-index>
-  <app-trading (changeItemSize)="changeItemSize($event)" (removeItem)="removeItem(index)">
+<ng-template
+  #trading
+  let-index
+>
+  <app-trading
+    (changeItemSize)="changeItemSize($event)"
+    (removeItem)="removeItem(index)"
+  >
   </app-trading>
 </ng-template>
 
-<ng-template #orderBook let-index>
-  <app-order-book (changeItemSize)="changeItemSize($event)" (removeItem)="removeItem(index)" class="dashboard-item">
+<ng-template
+  #orderBook
+  let-index
+>
+  <app-order-book
+    (changeItemSize)="changeItemSize($event)"
+    (removeItem)="removeItem(index)"
+    class="dashboard-item"
+  >
   </app-order-book>
 </ng-template>
 
-<ng-template #tradeHistory let-index>
-  <app-trade-history (changeItemSize)="changeItemSize($event)" (removeItem)="removeItem(index)">
+<ng-template
+  #tradeHistory
+  let-index
+>
+  <app-trade-history
+    (changeItemSize)="changeItemSize($event)"
+    (removeItem)="removeItem(index)"
+  >
   </app-trade-history>
 </ng-template>
 
-<ng-template #prediction let-index>
+<ng-template
+  #prediction
+  let-index
+>
   <app-prediction></app-prediction>
 </ng-template>
 
-<ng-template #orders let-index>
-  <app-embedded-orders (changeItemSize)="changeItemSize($event)" (removeItem)="removeItem(index)">
+<ng-template
+  #orders
+  let-index
+>
+  <app-embedded-orders
+    (changeItemSize)="changeItemSize($event)"
+    (removeItem)="removeItem(index)"
+  >
   </app-embedded-orders>
 </ng-template>
