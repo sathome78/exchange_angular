@@ -167,11 +167,11 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       container_id: this._containerId,
       timezone: this.setTimeZoneToWidget(),
       time_frames: [
-        {text: '8m', resolution: 'D'},
-        {text: '2m', resolution: 'D'},
-        {text: '7d', resolution: '60'},
-        {text: '5d', resolution: '30'},
-        {text: '3d', resolution: '30'},
+        // {text: '8m', resolution: 'D'},
+        // {text: '2m', resolution: 'D'},
+        // {text: '7d', resolution: '60'},
+        // {text: '5d', resolution: '30'},
+        // {text: '3d', resolution: '30'},
       ],
       library_path: this._libraryPath,
       locale: this.setLang(),
@@ -186,7 +186,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         'header_resolutions', // hidden by DEVEX-3308
         'save_chart_properties_to_local_storage',
         'header_saveload',
-        'border_around_the_chart'
+        'border_around_the_chart',
+
+        'symbol_info',
       ],
       charts_storage_url: this._chartsStorageUrl,
       charts_storage_api_version: this._chartsStorageApiVersion,
@@ -211,7 +213,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       },
       overrides: {
         'paneProperties.background': '#252543',
-         'paneProperties.vertGridProperties.color': '#1A1F42',
+        'paneProperties.vertGridProperties.color': '#1A1F42',
         'paneProperties.horzGridProperties.color': '#1A1F42',
         'symbolWatermarkProperties.transparency': 90,
         'scalesProperties.textColor': '#aaa',
