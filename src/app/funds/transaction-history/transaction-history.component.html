@@ -361,21 +361,21 @@
       class="row row--aic orders__paginator"
       *ngIf="(countOfEntries$ | async) > countPerPage"
     >
-        <app-page-items-dropdown
-          [countPerPage]="countPerPage"
-          [countOfEntries]="countOfEntries$ | async"
-          (onChange)="changeItemsPerPage($event)"
-        ></app-page-items-dropdown>
-        <ul class="paginator" style="margin-left: auto;">
-          <pagination-controls
-            maxSize="7"
-            [previousLabel]="''"
-            [nextLabel]="''"
-            (pageChange)="changePage($event)"
-          ></pagination-controls>
-        </ul>
-      </div>
-      <!--paginator end-->
+      <app-page-items-dropdown
+        [countPerPage]="countPerPage"
+        [countOfEntries]="countOfEntries$ | async"
+        (onChange)="changeItemsPerPage($event)"
+      ></app-page-items-dropdown>
+      <ul class="paginator" style="margin-left: auto;">
+        <pagination-controls
+          maxSize="7"
+          [previousLabel]="''"
+          [nextLabel]="''"
+          (pageChange)="changePage($event)"
+        ></pagination-controls>
+      </ul>
+    </div>
+    <!--paginator end-->
   </div>
   <!--transaction-history-desktop end-->
 </div>
