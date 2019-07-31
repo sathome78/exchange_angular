@@ -13,6 +13,7 @@ import * as _ from 'lodash';
 import { BalanceService } from 'app/funds/services/balance.service';
 import { CommissionData } from 'app/funds/models/commission-data.model';
 import { defaultCommissionData } from 'app/funds/store/reducers/default-values';
+import { FUG } from 'app/funds/balance/balance-constants';
 
 @Component({
   selector: 'app-step-one-deposit',
@@ -129,7 +130,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         // this.fiatDataByName = res;
         this.fiatArrayData = res;
-        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter((item) => item.name === 'FUG');
+        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter((item) => item.name === FUG);
         this.merchants = this.fiatDataByName;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;

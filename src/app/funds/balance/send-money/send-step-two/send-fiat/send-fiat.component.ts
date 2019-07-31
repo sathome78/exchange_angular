@@ -12,6 +12,7 @@ import {CommissionData} from '../../../../models/commission-data.model';
 import {defaultCommissionData} from '../../../../store/reducers/default-values';
 import {PopupService} from 'app/shared/services/popup.service';
 import {UtilsService} from 'app/shared/services/utils.service';
+import {FUG} from 'app/funds/balance/balance-constants';
 
 @Component({
   selector: 'app-send-fiat',
@@ -41,6 +42,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public selectedMerchantNested;
   public calculateData: CommissionData = defaultCommissionData;
   public userInfo: ParsedToken;
+  public FUG = FUG;
 
   public model = {
     currency: 0,
@@ -84,7 +86,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
           this.getBalance(this.activeFiat.name);
         }
       });
-    if(this.selectMerchantName == 'Qubera') {
+    if(this.selectMerchantName === FUG) {
       this.form.removeControl('address');
     }
 
@@ -123,7 +125,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.setMinWithdrawSum();
     this.calculateData.commission_rates_sum = this.selectedMerchant.outputCommission;
       this.calculateCommission(this.amountValue);
-    if (merchant.name === 'Qubera'){
+    if (merchant.name === FUG) {
       this.form.removeControl('address');
     } else {
       this.form.addControl('address', this.form);
@@ -187,7 +189,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
           this.calculateCommission(0);
           this.setMinWithdrawSum();
         }
-        if(this.selectMerchantName == "Qubera") {
+        if (this.selectMerchantName === FUG) {
           this.form.removeControl('address');
         }
       });
@@ -235,7 +237,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       this.model.merchantImage = this.selectedMerchantNested.id;
       this.model.currencyName = this.activeFiat.name || '';
       this.model.sum = this.form.controls['amount'].value;
-      if(this.selectedMerchant.name !== 'Qubera'){
+      if(this.selectedMerchant.name !== FUG) {
         this.model.destination = this.form.controls['address'].value;
       }
 

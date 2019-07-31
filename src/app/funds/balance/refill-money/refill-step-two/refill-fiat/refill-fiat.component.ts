@@ -11,6 +11,7 @@ import * as _uniq from 'lodash/uniq';
 import {RefillResponse} from '../../../../../model/refill-response';
 import {RefillData} from '../../../../../shared/interfaces/refill-data-interface';
 import {Router} from '@angular/router';
+import {FUG, EUR} from 'app/funds/balance/balance-constants';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -156,7 +157,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   selectMerchant(merchant, merchantImage = null) {
-    if (merchant.name === 'FUG') {
+    if (merchant.name === FUG) {
       this.selectQuberaBank.emit(true);
     } else {
       this.hideSteps.emit(true);
@@ -177,7 +178,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   submitRefill() {
     this.isSubmited = true;
-    if (this.selectedMerchant.name === 'FUG' && this.activeFiat.name === 'EUR') {
+    if (this.selectedMerchant.name === FUG && this.activeFiat.name === EUR) {
       const deposit: Object = {'currencyName': this.activeFiat.name, 'amount': this.form.controls.amount.value};
       const obj: Object = {
         currency: this.selectedMerchant.currencyId,

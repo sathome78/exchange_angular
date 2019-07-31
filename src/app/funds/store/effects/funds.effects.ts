@@ -13,6 +13,7 @@ import {Location} from '@angular/common';
 import {TransactionsService} from 'app/funds/services/transaction.service';
 import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
 import {UtilsService} from 'app/shared/services/utils.service';
+import {EUR} from 'app/funds/balance/balance-constants';
 
 
 interface ResData {
@@ -222,7 +223,7 @@ export class FundsEffects {
     loadQuberaBankStatus$: Observable<Action> = this.actions$
       .pipe(ofType<fundsActions.LoadQuberaBankStatusAction>(fundsActions.LOAD_BANK_QUBERA_STATUS))
       .pipe(switchMap(() => {
-        return this.balanceService.checkQuberaAccount('EUR')
+        return this.balanceService.checkQuberaAccount(EUR)
           .pipe(
             map((res: any) => new fundsActions.SetQuberaBankStatusAction(res.data)),
             catchError(error => of(new fundsActions.FailLoadQuberaBankStatusAction(error)))
