@@ -72,40 +72,40 @@
         </app-price-input> -->
     </div>
   </form>
-  <div class="info-block" *ngIf="bankInfo !== undefined">
+  <div class="info-block" *ngIf="bankInfo">
     <div class="left-part">
       <div class="left-block">
         <div class="print-block" id="pdf-download">
           <div class="item-info">
             <span class="key-info">{{'Bank' | translate}}</span>
-            <span class="value-info">{{bankInfo?.bankName}}</span>
+            <span class="value-info">{{bankInfo.bankName}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'IBAN' | translate}}</span>
-            <span class="value-info">{{bankInfo?.iban}}</span>
+            <span class="value-info">{{bankInfo.iban}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'BIC' | translate}}</span>
-            <span class="value-info">{{bankInfo?.bic}}</span>
+            <span class="value-info">{{bankInfo.bic}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'Country' | translate}}</span>
-            <span class="value-info">{{bankInfo?.country}}</span>
+            <span class="value-info">{{bankInfo.country}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'City' | translate}}</span>
-            <span class="value-info">{{bankInfo?.city}}</span>
+            <span class="value-info">{{bankInfo.city}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'Address' | translate}}</span>
-            <span class="value-info">{{bankInfo?.address}}</span>
+            <span class="value-info">{{bankInfo.address}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'Swift code' | translate}}</span>
-            <span class="value-info">{{bankInfo?.swiftCode}}</span>
+            <span class="value-info">{{bankInfo.swiftCode}}</span>
           </div>
         </div>
-        <a class="print" (click)="download()">
+        <a class="print" [href]="bankInfo.downloadUrl">
           <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
             <path d="M11.8748 14.25H5.9375V15.4377H11.8748V14.25Z" fill="#237BEF"/>
             <path d="M4.75009 1.18755H14.25V3.56254H15.4373V1.18755C15.4374 0.532356 14.9062 0 14.25 0H4.75009C4.09425 0 3.5625 0.532356 3.5625 1.18755V3.56254H4.75009V1.18755Z" fill="#237BEF"/>
@@ -116,30 +116,6 @@
         </a>
       </div>
     </div>
-    <!-- <div class="right-part"> -->
-      <!-- <div class="left-block">
-        <div class="item-info">
-          <span class="key-info">Amount</span>
-          <span class="value-info">1,111,821.00 EUR</span>
-        </div>
-        <div class="item-info">
-          <span class="key-info">Comission</span>
-          <span class="value-info">40%</span>
-        </div>
-        <div class="item-info">
-          <span class="key-info">Fee amount</span>
-          <span class="value-info">430 EUR</span>
-        </div>
-        <div class="item-info">
-          <span class="key-info">Added to payment</span>
-          <span class="value-info">710 EUR</span>
-        </div>
-        <div class="item-info">
-          <span class="key-info">Total (with comission)</span>
-          <span class="value-info">1,111,821.00 EUR</span>
-        </div>
-      </div> -->
-    <!-- </div> -->
   </div>
   <button class="btn btn--active balance__title-btn" (click)="closeSendQuberaPopup.emit(true)">OK</button>
   <div class="notice-block">

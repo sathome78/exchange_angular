@@ -43,7 +43,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
   public alphabet;
   public calculateData: CommissionData = defaultCommissionData;
   public form: FormGroup;
-  public bankInfo: any = undefined;
+  public bankInfo;
 
   @ViewChild('content') content: ElementRef;
 
@@ -88,7 +88,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.bankInfo = undefined;
+    this.bankInfo = null;
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
