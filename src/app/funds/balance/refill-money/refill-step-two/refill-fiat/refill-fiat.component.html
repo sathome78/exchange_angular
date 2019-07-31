@@ -1,4 +1,4 @@
-<div style="display: block;" *ngIf="!!activeFiat && !!fiatDataByName">
+<div style="display: block;" *ngIf="!!activeFiat && !!fiatDataByName" class="refil-fiat">
   <div class="title refill__title" *ngIf="!submitSuccess">{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></div>
   <form [formGroup]="form">
     <div class="refill__inputs-wrap" *ngIf="!submitSuccess">

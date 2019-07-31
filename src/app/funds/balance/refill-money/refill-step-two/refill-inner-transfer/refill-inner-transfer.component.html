@@ -1,27 +1,28 @@
-<div class="title refill__title">{{'Get inner transfer' | translate}}</div>
-<div class="subtitle refill__subtitle">{{'Please enter the transfer code to get money' | translate}}</div>
-<form [formGroup]="form">
-  <div class="wrap-input refill__wrap-input">
-    <input class="wrap-input__input" name="code" formControlName="code">
-    <label class="wrap-input__label">{{'Transfer code' | translate}}</label>
-    <div class="wrap-input__line"></div>
+<div class="refil-inner-tr">
+  <div class="title refill__title">{{'Get inner transfer' | translate}}</div>
+  <div class="subtitle refill__subtitle">{{'Please enter the transfer code to get money' | translate}}</div>
+  <form [formGroup]="form">
+    <div class="wrap-input refill__wrap-input">
+      <input class="wrap-input__input" name="code" formControlName="code">
+      <label class="wrap-input__label">{{'Transfer code' | translate}}</label>
+      <div class="wrap-input__line"></div>
 
-    <!--Input error section starts-->
-    <div class="input-hint-wrapper" *ngIf="!form.valid && form.get('code').touched">
-          <span class="wrap-input__message">
-            {{'This field is required.' | translate}}
-          </span>
+      <!--Input error section starts-->
+      <div class="input-hint-wrapper" *ngIf="!form.valid && form.get('code').touched">
+        <span class="wrap-input__message">
+          {{'This field is required.' | translate}}
+        </span>
+      </div>
+      <!--Input error section ends-->
     </div>
-    <!--Input error section ends-->
-  </div>
-</form>
+  </form>
 
-<button
+  <button
   class="btn btn--center"
   [ngClass]="{'btn--empty-blue': !form.valid}"
   [disabled]="form.invalid || loading"
   (click)="sendTransferCode()"
->
+  >
   {{'Receive transfer' | translate}}
 </button>
 
@@ -53,4 +54,4 @@
     <span>{{'This code has been used already.' | translate}}</span>
   </div>
 </div>
-
+</div>

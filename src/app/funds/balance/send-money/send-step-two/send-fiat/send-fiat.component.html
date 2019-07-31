@@ -1,5 +1,5 @@
-<div *ngIf="!!activeFiat && !!fiatInfoByName">
-  <div class="title send__title">{{'Fiat Withdrawal' | translate}} <span>{{currName}}</span></div>
+<div *ngIf="!!activeFiat && !!fiatInfoByName" class="send-fiat-s2 side-popups">
+  <h2 class="title send__title">{{'Fiat Withdrawal' | translate}} <span>{{currName}}</span></h2>
   <div class="formWraper" *ngIf="isEnterData">
     <form [formGroup]="form">
       <div class="send__inputs-wrap">
@@ -211,7 +211,8 @@
         </div>
       </div>
       <button class="btn btn--center "
-              [ngClass]="{'btn--empty-blue': !form.valid}"
+              
+              [disabled]="!form.valid"
               (click)="onSubmitWithdrawal()">{{'Withdraw' | translate}}
         <span class="value">{{calculateData.resultAmount}}</span>
         <span> {{currName}}</span>

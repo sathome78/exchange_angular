@@ -184,6 +184,28 @@
 
   .dark-theme {
     .side-popups{
+      h2 {
+        font-weight: normal;
+        font-size: 24px;
+        line-height: 28px;
+        text-align: center;
+        color: #191A39;
+        margin-bottom: 30px;
+        @media(max-width: 1200px){
+          color: #DEDEFB;
+        }
+      }
+      h3 {
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 21px;
+        text-align: center;
+        color: #000;
+        margin-bottom: 24px;
+        @media(max-width: 1200px){
+          color: #DEDEFB;
+        }
+      }
       .read{
         border: 1px solid #ECECEC;
         cursor: pointer;
@@ -308,11 +330,15 @@
       .btn {
         &.btn--center {
           color: #ffffff;
+          &:hover{
+            background-color: #4590F3;
+          }
           &:disabled {
             background-color: transparent;
             pointer-events: none;
             color: #91929F;
             border-color: #91929F;
+
           }
           &.btn--empty-blue {
             color: #237BEF;
@@ -336,40 +362,19 @@
     color: #fff;
   }
   .qubera-content{
-.inf-code {
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 16px;
-    text-align: center;
-    color: #000000;
-    margin-bottom: 30px;
-}
+    .inf-code {
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      color: #000000;
+      margin-bottom: 30px;
+    }
     .choose-block {
       margin-top: 10px;
       margin-bottom: 20px;
     }
-    h2 {
-      font-weight: normal;
-      font-size: 24px;
-      line-height: 28px;
-      text-align: center;
-      color: #191A39;
-      margin-bottom: 30px;
-      @media(max-width: 1200px){
-        color: #DEDEFB;
-      }
-    }
-    h3 {
-      font-weight: normal;
-      font-size: 14px;
-      line-height: 21px;
-      text-align: center;
-      color: #000;
-      margin-bottom: 24px;
-      @media(max-width: 1200px){
-        color: #DEDEFB;
-      }
-    }
+    
     .inf-code {
       font-size: 14px;
       line-height: 16px;
@@ -505,3 +510,58 @@
       margin: 0 30px;
     }
   }
+
+
+  .qubera-withdraw-s1 form .select {
+    width: calc(50% - 15px);
+  }
+
+  .send-fiat-s2{
+    h2.send__title{
+      margin-bottom: 44px;
+    }
+    .send__wrap-input{
+      margin-bottom: 0;
+    }
+    .send__line{
+      margin-top: 36px;
+    }
+    .btn{
+      margin-bottom: 36px;
+    }
+    .modal__note{
+      margin-top: 37px;
+    }
+  }
+
+
+  .send__info{
+    display: table;
+    margin: 28px auto;
+    .send__info-row{
+      display: table-row;
+    }
+    .send__info-title{
+      display: table-cell;
+      padding: 5px;
+      padding-right: 40px;
+      width: auto;
+    }
+    .send__info-value{
+      display: table-cell;
+      padding: 6px;
+      width: auto;
+    }
+    
+  }
+
+  @media(min-width: 1200px){
+    .dark-theme .modal .side-popups .wrap-input__input:focus ~ .wrap-input__label, .dark-theme .modal .side-popups  .wrap-input__input:valid ~ .wrap-input__label {
+      color: #237BEF;
+      background-color: #fff;
+    }
+  }
+
+  .wrap-input--error .input-hint-wrapper .wrap-input__message--show{
+    color: #EB5757;
+}
