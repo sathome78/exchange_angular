@@ -186,9 +186,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         'header_resolutions', // hidden by DEVEX-3308
         'save_chart_properties_to_local_storage',
         'header_saveload',
-        'border_around_the_chart',
-
-        'symbol_info',
+        'border_around_the_chart'
       ],
       charts_storage_url: this._chartsStorageUrl,
       charts_storage_api_version: this._chartsStorageApiVersion,
