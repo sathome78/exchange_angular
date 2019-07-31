@@ -29,7 +29,7 @@ export class ShowTransactionsTypePipe  implements PipeTransform {
         case 'SimpleTransfer':
           return 'Transfer';
         case 'VoucherFreeTransfer':
-          return 'Voucher'
+          return 'Voucher';
         case 'VoucherTransfer':
           return 'Voucher free';
         default:
