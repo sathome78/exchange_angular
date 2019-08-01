@@ -1,7 +1,7 @@
 <div *ngIf="!!activeCrypto && !!activeBalance" class="side-popups send-protected-s3">
-<div class="title send__title">{{'Make Inner transfer protected by code' | translate}}</div>
+<h2 class="title send__title">{{'Make Inner transfer protected by code' | translate}}</h2>
 <div class="formWraper" *ngIf="isEnterData">
-  <div class="subtitle send__subtitle">{{' the code will be sent to you after transaction verification ' | translate}}</div>
+  <h3 class="subtitle send__subtitle">{{' the code will be sent to you after transaction verification ' | translate}}</h3>
   <form [formGroup]="form">
     <div class="send__inputs-wrap">
       <div class="select send__select send__select--custom">
@@ -104,7 +104,7 @@
   </div>
   <button
     class="btn btn--center"
-    [ngClass]="{'btn--empty-blue': !form.valid}"
+    [disabled]="!form.valid"
     (click)="submitTransfer()"
   >
     {{'Create code' | translate}}

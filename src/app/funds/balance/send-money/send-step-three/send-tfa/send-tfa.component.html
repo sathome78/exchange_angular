@@ -1,5 +1,5 @@
 <div *ngIf="pincodeFrom === CODE_FROM_GOOGLE" class="side-popups send-tfa-s3" >
-  <div class="title send__title">{{'Two factor authentication' | translate}}</div>
+  <h2 class="title send__title">{{'Two factor authentication' | translate}}</h2>
   <!--if google 2fa enabled start-->
   <form [formGroup]="form">
     <div class="wrap-input send__wrap-input"
@@ -40,7 +40,6 @@
 <button
   class="btn btn--center"
   *ngIf="pincodeFrom"
-  [ngClass]="{'btn--empty-blue': !form.valid}"
   [disabled]="form.invalid || loading"
   (click)="onSubmit()"
 >

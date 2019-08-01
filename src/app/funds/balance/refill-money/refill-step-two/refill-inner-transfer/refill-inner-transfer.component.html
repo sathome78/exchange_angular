@@ -1,9 +1,9 @@
-<div class="refil-inner-tr">
-  <div class="title refill__title">{{'Get inner transfer' | translate}}</div>
-  <div class="subtitle refill__subtitle">{{'Please enter the transfer code to get money' | translate}}</div>
+<div class="refil-inner-tr side-popups">
+  <h2 class="title refill__title">{{'Get inner transfer' | translate}}</h2>
+  <h3 class="subtitle refill__subtitle">{{'Please enter the transfer code to get money' | translate}}</h3>
   <form [formGroup]="form">
     <div class="wrap-input refill__wrap-input">
-      <input class="wrap-input__input" name="code" formControlName="code">
+      <input class="wrap-input__input" name="code" formControlName="code" required>
       <label class="wrap-input__label">{{'Transfer code' | translate}}</label>
       <div class="wrap-input__line"></div>
 
@@ -19,7 +19,6 @@
 
   <button
   class="btn btn--center"
-  [ngClass]="{'btn--empty-blue': !form.valid}"
   [disabled]="form.invalid || loading"
   (click)="sendTransferCode()"
   >
@@ -49,7 +48,7 @@
       <line x1="12.75" y1="31.6716" x2="31.6716" y2="12.75" stroke="#EB5757" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
-  <div class="refill__transfer-message-text">
+  <div class="refill__transfer-message-text  refill__transfer-message-text--error">
     <h6>{{'Sorry.' | translate}}</h6>
     <span>{{'This code has been used already.' | translate}}</span>
   </div>

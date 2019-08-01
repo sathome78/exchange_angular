@@ -1,7 +1,7 @@
 <div *ngIf="!!activeCrypto && !!cryptoInfoByName" class="side-popups send-cripto-s2">
-  <div class="title send__title">{{'Crypto Withdrawal' | translate}}
+  <h2 class="title send__title">{{'Crypto Withdrawal' | translate}}
     <span>{{currName}}</span>
-  </div>
+  </h2>
   <div class="formWraper" *ngIf="isEnterData">
     <form [formGroup]="form">
       <div class="send__inputs-wrap" *ngIf="!!cryptoInfoByName">
@@ -194,7 +194,7 @@
       </div>
       <button
         class="btn btn--center"
-        [ngClass]="{'btn--empty-blue': !form.valid}"
+        [disabled]="!form.valid"
         (click)="onSubmitWithdrawal()"
       >{{'Withdraw' | translate}}
         <span class="value">{{calculateData.resultAmount}}</span>

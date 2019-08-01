@@ -1,5 +1,5 @@
-<div style="display: block;" *ngIf="!!activeFiat && !!fiatDataByName" class="refil-fiat">
-  <div class="title refill__title" *ngIf="!submitSuccess">{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></div>
+<div style="display: block;" *ngIf="!!activeFiat && !!fiatDataByName" class="refil-fiat side-popups">
+  <h2 class="title refill__title" *ngIf="!submitSuccess">{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></h2>
   <form [formGroup]="form">
     <div class="refill__inputs-wrap" *ngIf="!submitSuccess">
       <!-- TODO add styles to select--error -->
@@ -94,9 +94,8 @@
   <button
     class="btn btn--center"
     *ngIf="!submitSuccess && selectedMerchant"
-    [ngClass]="{'btn--empty-blue': !form.valid || !selectedMerchant.name}"
     (click)="submitRefill()"
-    [disabled]="loading"
+    [disabled]="!form.valid || !selectedMerchant.name || loading"
   >
     {{'Refill' | translate}}
   </button>

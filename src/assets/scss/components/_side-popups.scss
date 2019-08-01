@@ -7,12 +7,12 @@
   margin-bottom: 32px;
   color:#A0A0A0;
 }
-.send__inputs-wrap {
+.send__inputs-wrap, .refill__inputs-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.send__select {
+.send__select .refill__select {
   width: 100%;
   max-width: 230px;
   margin-bottom: 24px;
@@ -80,13 +80,13 @@
 
 @media (min-width: 1200px) {
 
-  .send__inputs-wrap {
+  .send__inputs-wrap, .refill__inputs-wrap {
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
     margin-bottom: 24px;
   }
-  .send__select {
+  .send__select, .refill__select {
     max-width: none;
     margin-bottom: 0;
     margin-right: 32px;
@@ -197,7 +197,7 @@
       }
       h3 {
         font-weight: normal;
-        font-size: 14px;
+        font-size: 17px;
         line-height: 21px;
         text-align: center;
         color: #000;
@@ -323,7 +323,7 @@
 
       .btn--empty-blue{
         &:hover, &:focus{
-          background-color: transparent !important;
+          // background-color: transparent !important;
         }
       }
 
@@ -564,4 +564,284 @@
 
   .wrap-input--error .input-hint-wrapper .wrap-input__message--show{
     color: #EB5757;
-}
+  }
+
+
+  .refil-s1{
+    .btn{
+      margin-bottom: 24px;
+    }
+    @media (min-width:1200px){
+      .btn{
+        margin-bottom: 32px;
+      }
+    }
+  }
+
+
+  .refill-cripto{
+    .btn__icon{
+      width: 12px;
+      height: 12px;
+      margin-right: 4px;
+    }
+    #refill-qr{
+      display: none;
+    }
+
+    @media (min-width:1200px){
+      #refill-qr{
+        display: block;
+      }
+      .refill{
+        &__title{
+          margin-bottom: 32px;
+        }
+        
+        &__crypto-refill-info{
+          display: flex;
+        }
+        &__qr-code{
+          display: block;
+          width: 100%;
+          max-width: 240px;
+          text-align: center;
+          margin-right: 32px;
+          img{
+            max-width: 140px;
+            max-height: 140px;
+          }
+        }
+        
+        &__crypto-memo{
+          margin-top: 24px;
+        }
+        &__crypto-title{
+          margin-bottom: 8px;
+        }
+        &__crypto-hash{
+          margin-bottom: 12px;
+          font-size: 18px;
+          width: 400px;
+          overflow-wrap: break-word;
+          word-wrap: break-word;
+        }
+        &__crypto-copy-btn{
+          margin-bottom: 12px;
+        }
+        &__crypto-comission{
+          font-size: 12px;
+          line-height: 14px;
+        }
+
+      }
+      .btn{
+        max-width: 200px;
+      }
+      .select__list-searching{
+        display: block;
+        min-width: 380px;
+      }
+    }
+
+    .select__searching-item {
+      &:hover{
+        background-color: rgba(53, 124, 225, 0.1);
+        span{
+          color: #237BEF;
+        }
+      }
+      span {
+        color: #000;
+      }
+    }
+
+    .request-errors {
+      color: #EB5757;
+    }
+
+    .select__search-input {
+      color: #ccc !important;
+    }
+
+
+
+    @media(max-width: 1320px) and (min-width:1200px) {
+      .refill__select{
+        min-width: unset;
+        max-width: calc(100% - 200px);
+      }
+      .select__list-searching{
+        min-width: unset;
+      }
+    }
+  }
+
+
+  .refil-fiat, .refil-inner-tr{
+    .refill {
+
+      &__inputs-wrap {
+        margin-bottom: 12px;
+        @media(max-width:1199px) {
+          margin-bottom: 0;
+        }
+      }
+
+      &__fiat-successful-icon {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 16px;
+      }
+      &__fiat-successful-title {
+        text-align: center;
+        margin-bottom: 16px;
+      }
+      &__fiat-successful-subtitle {
+        text-align: center;
+        margin-bottom: 16px;
+        .link {
+          text-decoration: underline;
+        }
+      }
+      &__closed-error{
+        align-self: center;
+        color: #EB5757;
+      }
+      &__transfer-message{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 24px 0 0;
+      }
+      &__transfer-message-icon{
+        width: 45px;
+        height: 45px;
+        margin-right: 16px;
+        svg{
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &__transfer-message-text{
+        &--error{
+          color: #EB5757;
+        }
+        h6{
+          font-size: 18px;
+          margin-bottom: 4px;
+        }
+      }
+    }
+
+
+    @media (min-width: 1200px) {
+      .refill {
+        &__transfer-message-text{
+          color: #237BEF;
+          &--error{
+            color: #EB5757;
+          }
+
+        }
+        &__inputs-wrap {
+          flex-direction: column;
+          align-items: flex-start;
+          margin-bottom: 12px;
+        }
+        &__select {
+          width: 100%;
+          max-width: 270px;
+          margin: 0 auto 26px;
+        }
+        &__wrap-input {
+          margin: 0 auto;
+          max-width: 270px;
+        }
+        &__fiat-successful-title {
+          margin-bottom: 16px;
+        }
+        &__fiat-successful-subtitle {
+          margin-bottom: 16px;
+        }
+        &__transfer-message{
+          margin: 32px 0 0;
+        }
+        &__transfer-message-icon{
+          width: 60px;
+          height: 60px;
+        }
+      }
+
+
+    }
+
+
+    .standart-link {
+      cursor: pointer;
+    }
+
+    .wrap-input__message--show {
+      min-height: 30px;
+      font-size: 12px;
+    }
+
+    .btn{
+      max-width: 270px;
+    }
+  }
+
+
+  .refil-inner-tr{
+    .refill__wrap-input{
+      margin: 0 auto 28px;
+    }
+  }
+
+
+  .refill{
+    &__crypto-address{
+      margin-top: 33px;
+    }
+  }
+
+  .send-cripto-s2{
+
+    .send__select, .send__wrap-input{
+      width: calc(50% - 15px);
+      margin-bottom: 0;
+    }
+
+  }
+
+  .send-fiat-s2{
+    .send__select, .send__wrap-input{
+      width: calc(50% - 15px);
+      margin-bottom: 0;
+      
+    }
+    .send__inputs-wrap{
+      align-items: center;
+    }
+    .withdrawal__closed-error{
+      color: #EB5757;
+    }
+  }
+
+  .send-tfa-s3, .send-instant-s3, .send-email-s3, .send-protected-s3{
+    .send__inputs-wrap{
+      flex-direction: column;
+      max-width: 360px;
+      margin: 0 auto 14px;
+    }
+    .send__select{
+      width: 100%;
+      margin-right: 0;
+          margin-bottom: 35px;
+    }
+    .send__wrap-input{
+      width: 100%;
+      margin-right: 0;
+          margin-bottom: 35px;
+    }
+  }
