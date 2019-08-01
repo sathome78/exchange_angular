@@ -9,6 +9,7 @@ import {PendingRequestInfoComponent} from './pending-request-info/pending-reques
 import {BalanceMobileRoutesGuard} from 'app/shared/guards/balance-mobile-routes.guard';
 import {TransactionHistoryComponent} from './transaction-history/transaction-history.component';
 import {IEOBalanceDetailsComponent} from './ieo-balance-details/ieo-balance-details.component';
+import {QuberaMobDetailsComponent} from './qubera-mob-details/qubera-mob-details.component';
 
 const routers: Routes = [
   { path: '',
@@ -16,6 +17,7 @@ const routers: Routes = [
     children: [
       { path: 'balances', component: BalanceComponent },
       { path: 'balances/ieo/:id', component: IEOBalanceDetailsComponent, canActivate: [BalanceMobileRoutesGuard] },
+      { path: 'balances/fiat/:id', component: QuberaMobDetailsComponent, canActivate: [BalanceMobileRoutesGuard] },
       { path: 'balances/:id', component: BalanceDetailsComponent, canActivate: [BalanceMobileRoutesGuard] },
       { path: 'pending-requests', component: PendingRequestMobComponent, canActivate: [BalanceMobileRoutesGuard] },
       { path: 'pending-requests/:id', component: PendingRequestDetailsComponent, canActivate: [BalanceMobileRoutesGuard] },
