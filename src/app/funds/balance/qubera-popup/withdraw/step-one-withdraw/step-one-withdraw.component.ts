@@ -15,6 +15,7 @@ import { SettingsService } from 'app/settings/settings.service';
 import * as settingsActions from '../../../../../settings/store/actions/settings.actions';
 import { CommissionData } from 'app/funds/models/commission-data.model';
 import { defaultCommissionData } from '../../../../store/reducers/default-values';
+import { FUG, EUR } from 'app/funds/balance/balance-constants';
 
 @Component({
   selector: 'app-step-one-withdraw',
@@ -28,7 +29,7 @@ export class StepOneWithdrawComponent implements OnInit {
 
   withdrawOptions = ['FUG SEPA', 'FUG SWIFT'];
   selectedWithdraw = '';
-  currName = 'EUR';
+  currName = EUR;
   forCompany = false;
 
   @Input() dataQubera: any;
@@ -49,6 +50,7 @@ export class StepOneWithdrawComponent implements OnInit {
   public merchants;
   public activeFiat;
   public alphabet;
+  public isSubmited = false;
 
   public minWithdrawSum = 0;
   public activeBalance = 0;
@@ -134,7 +136,7 @@ export class StepOneWithdrawComponent implements OnInit {
       .subscribe(res => {
         // this.fiatDataByName = res;
         this.fiatArrayData = res;
-        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter(item => item.name === 'Qubera');
+        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter(item => (item.name === FUG));
         // this.merchants = this.fiatDataByName.merchantCurrencyData;
         this.merchants = this.fiatDataByName;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
@@ -283,12 +285,14 @@ export class StepOneWithdrawComponent implements OnInit {
   }
 
   submit(mainForm, withdrawForm) {
+    this.isSubmited = true;
     if (mainForm.valid && withdrawForm.valid) {
       const withdraw = this.createWithdrawObject(mainForm, withdrawForm);
       this.balanceService
         .sendWithdraw(withdraw)
         .pipe(first())
         .subscribe(data => {
+          this.isSubmited = false;
           this.balanceService.setWithdrawQubera(data);
           this.nextStep.emit(2);
         });

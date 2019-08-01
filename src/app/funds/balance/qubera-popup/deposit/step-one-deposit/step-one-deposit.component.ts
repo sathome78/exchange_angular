@@ -1,4 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  HostListener,
+  Input,
+  OnDestroy,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as jspdf from 'jspdf';
 import * as _uniq from 'lodash/uniq';
@@ -13,6 +23,7 @@ import * as _ from 'lodash';
 import { BalanceService } from 'app/funds/services/balance.service';
 import { CommissionData } from 'app/funds/models/commission-data.model';
 import { defaultCommissionData } from 'app/funds/store/reducers/default-values';
+import { FUG } from 'app/funds/balance/balance-constants';
 
 @Component({
   selector: 'app-step-one-deposit',
@@ -53,7 +64,8 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
       $event.target.className !== 'select__search-input'
     ) {
       this.openPaymentSystemDropdown = false;
-      this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData ? this.fiatDataByName.merchantCurrencyData : [];
+      this.merchants =
+        this.fiatDataByName && this.fiatDataByName.merchantCurrencyData ? this.fiatDataByName.merchantCurrencyData : [];
       this.openCurrencyDropdown = false;
     }
   }
@@ -121,7 +133,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         // this.fiatDataByName = res;
         this.fiatArrayData = res;
-        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter(item => item.name === 'FUG');
+        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter(item => item.name === FUG);
         this.merchants = this.fiatDataByName;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
@@ -143,7 +155,9 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
     this.merchants = this.fiatDataByName.filter(
-      merchant => !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
+      merchant =>
+        !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
+          .length
     );
   }
 
@@ -178,7 +192,9 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           this.calculateData = res as CommissionData;
-          const compCommission = parseFloat(this.calculateData.companyCommissionRate.replace('%)', '').replace('(', ''));
+          const compCommission = parseFloat(
+            this.calculateData.companyCommissionRate.replace('%)', '').replace('(', '')
+          );
           this.calculateData.commission_rates_sum =
             +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
         });

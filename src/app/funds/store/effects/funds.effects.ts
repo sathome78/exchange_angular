@@ -13,6 +13,7 @@ import { Location } from '@angular/common';
 import { TransactionsService } from 'app/funds/services/transaction.service';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { EUR } from 'app/funds/balance/balance-constants';
 
 interface ResData {
   data: any;
@@ -33,25 +34,27 @@ export class FundsEffects {
    * Load crypto balances
    */
   @Effect()
-  loadCryptoBalances$: Observable<Action> = this.actions$.pipe(ofType<fundsActions.LoadCryptoBalAction>(fundsActions.LOAD_CRYPTO_BAL)).pipe(
-    switchMap(action => {
-      return this.balanceService.getBalances(action.payload).pipe(
-        map(bal => {
-          if (action.payload.concat) {
-            return new fundsActions.SetMoreCryptoBalAction({
+  loadCryptoBalances$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadCryptoBalAction>(fundsActions.LOAD_CRYPTO_BAL))
+    .pipe(
+      switchMap(action => {
+        return this.balanceService.getBalances(action.payload).pipe(
+          map(bal => {
+            if (action.payload.concat) {
+              return new fundsActions.SetMoreCryptoBalAction({
+                items: bal.items,
+                count: bal.count,
+              });
+            }
+            return new fundsActions.SetCryptoBalAction({
               items: bal.items,
               count: bal.count,
             });
-          }
-          return new fundsActions.SetCryptoBalAction({
-            items: bal.items,
-            count: bal.count,
-          });
-        }),
-        catchError(error => of(new fundsActions.FailLoadCryptoBalAction(error)))
-      );
-    })
-  );
+          }),
+          catchError(error => of(new fundsActions.FailLoadCryptoBalAction(error)))
+        );
+      })
+    );
 
   @Effect()
   loadMaxCurrencyPair$: Observable<Action> = this.actions$
@@ -72,25 +75,27 @@ export class FundsEffects {
    * Load fiat balances
    */
   @Effect()
-  loadFiatBalances$: Observable<Action> = this.actions$.pipe(ofType<fundsActions.LoadFiatBalAction>(fundsActions.LOAD_FIAT_BAL)).pipe(
-    switchMap(action => {
-      return this.balanceService.getBalances(action.payload).pipe(
-        map(bal => {
-          if (action.payload.concat) {
-            return new fundsActions.SetMoreFiatBalAction({
+  loadFiatBalances$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadFiatBalAction>(fundsActions.LOAD_FIAT_BAL))
+    .pipe(
+      switchMap(action => {
+        return this.balanceService.getBalances(action.payload).pipe(
+          map(bal => {
+            if (action.payload.concat) {
+              return new fundsActions.SetMoreFiatBalAction({
+                items: bal.items,
+                count: bal.count,
+              });
+            }
+            return new fundsActions.SetFiatBalAction({
               items: bal.items,
               count: bal.count,
             });
-          }
-          return new fundsActions.SetFiatBalAction({
-            items: bal.items,
-            count: bal.count,
-          });
-        }),
-        catchError(error => of(new fundsActions.FailLoadFiatBalAction(error)))
-      );
-    })
-  );
+          }),
+          catchError(error => of(new fundsActions.FailLoadFiatBalAction(error)))
+        );
+      })
+    );
 
   /**
    * Load pending requests
@@ -122,27 +127,31 @@ export class FundsEffects {
    * Load my balances
    */
   @Effect()
-  loadMyBalances$: Observable<Action> = this.actions$.pipe(ofType<fundsActions.LoadMyBalancesAction>(fundsActions.LOAD_MY_BALANCES)).pipe(
-    switchMap(() => {
-      return this.balanceService.getMyBalances().pipe(
-        map((res: MyBalanceItem) => new fundsActions.SetMyBalancesAction(res)),
-        catchError(error => of(new fundsActions.FailLoadMyBalancesAction(error)))
-      );
-    })
-  );
+  loadMyBalances$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadMyBalancesAction>(fundsActions.LOAD_MY_BALANCES))
+    .pipe(
+      switchMap(() => {
+        return this.balanceService.getMyBalances().pipe(
+          map((res: MyBalanceItem) => new fundsActions.SetMyBalancesAction(res)),
+          catchError(error => of(new fundsActions.FailLoadMyBalancesAction(error)))
+        );
+      })
+    );
 
   /**
    * Load qubera balances
    */
   @Effect()
-  loadQuberaBalances$: Observable<Action> = this.actions$.pipe(ofType<fundsActions.LoadQuberaBalAction>(fundsActions.LOAD_QUBERA_BAL)).pipe(
-    switchMap(() => {
-      return this.balanceService.getQuberaBalancesInfo().pipe(
-        map((res: any) => new fundsActions.SetQuberaBalAction(res)),
-        catchError(error => of(new fundsActions.FailLoadQuberaBalAction(error)))
-      );
-    })
-  );
+  loadQuberaBalances$: Observable<Action> = this.actions$
+    .pipe(ofType<fundsActions.LoadQuberaBalAction>(fundsActions.LOAD_QUBERA_BAL))
+    .pipe(
+      switchMap(() => {
+        return this.balanceService.getQuberaBalancesInfo().pipe(
+          map((res: any) => new fundsActions.SetQuberaBalAction(res)),
+          catchError(error => of(new fundsActions.FailLoadQuberaBalAction(error)))
+        );
+      })
+    );
 
   /**
    * Load qubera KYC status
@@ -252,7 +261,7 @@ export class FundsEffects {
     .pipe(ofType<fundsActions.LoadQuberaBankStatusAction>(fundsActions.LOAD_BANK_QUBERA_STATUS))
     .pipe(
       switchMap(() => {
-        return this.balanceService.checkQuberaAccount('EUR').pipe(
+        return this.balanceService.checkQuberaAccount(EUR).pipe(
           map((res: any) => new fundsActions.SetQuberaBankStatusAction(res.data)),
           catchError(error => of(new fundsActions.FailLoadQuberaBankStatusAction(error)))
         );

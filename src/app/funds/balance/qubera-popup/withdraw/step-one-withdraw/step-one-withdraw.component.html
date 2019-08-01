@@ -67,7 +67,7 @@
           >
             <li
               class="select__list-item"
-              *ngFor="let withdrawOption of withdrawOptions; trackBy: trackByWithdrawOptions"
+              *ngFor="let withdrawOption of withdrawOptions"
               (click)="checkForm(withdrawOption)"
             >
               {{withdrawOption}}
@@ -95,26 +95,14 @@
             (customBlur)="amountBlur($event)"
             name="amount"
             class="fiat-amount"
-          >
-
-          </app-price-input>
-          <span class=" wrap-input__message--show">
-            {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{currName}}
-          </span>
+          ></app-price-input>
           <span
-            class=" wrap-input__message--show"
-            *ngIf="form.controls['amount'].errors &&
-                  !form.controls['amount'].errors['isMinThenMinWithdraw'] &&
-                  !form.controls['amount'].errors['isMaxThenActiveBalance']"
+            class="wrap-input__message--show"
+            *ngIf="form.get('amount').errors != null"
           >
-            {{
-              'Minimum sum for withdrawal' | translate
-            }} {{
-              minWithdrawSum | roundCurrency: true | formatCurrency: 'short': true
-            }} {{
-              currName
-            }}
+            {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum | currencyFormat: currName}} {{currName}}
           </span>
+
 
           <!--Input error section starts-->
           <div *ngIf="form.get('amount').errors != null">
@@ -122,13 +110,14 @@
               <span
                 class=" wrap-input__message--show"
                 *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
-                [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] &&
-                            (form.controls['amount'].touched || isSubmited)}"
+                [ngClass]="
+                  {'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] &&
+                    (form.controls['amount'].touched || isSubmited)}"
               >
                 {{
                   'Minimum sum for withdrawal' | translate
                 }} {{
-                  minWithdrawSum | roundCurrency: currName | formatCurrency: 'short': currName
+                  minWithdrawSum | currencyFormat: currName
                 }} {{
                   currName
                 }}
@@ -140,7 +129,7 @@
                 {{
                   'Your available balance:' | translate
                 }} {{
-                  activeBalance | roundCurrency: currName | formatCurrency: 'short': currName
+                  activeBalance | currencyFormat: currName
                 }} {{
                   currName
                 }}

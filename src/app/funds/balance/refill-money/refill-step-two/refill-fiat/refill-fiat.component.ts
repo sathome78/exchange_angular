@@ -1,4 +1,15 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil, first } from 'rxjs/operators';
 import { CurrencyBalanceModel } from '../../../../../model/currency-balance.model';
@@ -11,6 +22,7 @@ import * as _uniq from 'lodash/uniq';
 import { RefillResponse } from '../../../../../model/refill-response';
 import { RefillData } from '../../../../../shared/interfaces/refill-data-interface';
 import { Router } from '@angular/router';
+import { FUG, EUR } from 'app/funds/balance/balance-constants';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -56,7 +68,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       $event.target.className !== 'select__search-input'
     ) {
       this.openPaymentSystemDropdown = false;
-      this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData ? this.fiatDataByName.merchantCurrencyData : [];
+      this.merchants =
+        this.fiatDataByName && this.fiatDataByName.merchantCurrencyData ? this.fiatDataByName.merchantCurrencyData : [];
       this.searchTemplate = '';
       this.openCurrencyDropdown = false;
     }
@@ -118,7 +131,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   togglePaymentSystemDropdown() {
     this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
-    this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData ? this.fiatDataByName.merchantCurrencyData : [];
+    this.merchants =
+      this.fiatDataByName && this.fiatDataByName.merchantCurrencyData ? this.fiatDataByName.merchantCurrencyData : [];
     this.searchTemplate = '';
     this.openCurrencyDropdown = false;
   }
@@ -155,7 +169,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   selectMerchant(merchant, merchantImage = null) {
-    if (merchant.name === 'FUG') {
+    if (merchant.name === FUG) {
       this.selectQuberaBank.emit(true);
     } else {
       this.hideSteps.emit(true);
@@ -176,11 +190,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   submitRefill() {
     this.isSubmited = true;
-    if (this.selectedMerchant.name === 'FUG' && this.activeFiat.name === 'EUR') {
-      const deposit: Object = {
-        currencyName: this.activeFiat.name,
-        amount: this.form.controls.amount.value,
-      };
+    if (this.selectedMerchant.name === FUG && this.activeFiat.name === EUR) {
+      const deposit: Object = { currencyName: this.activeFiat.name, amount: this.form.controls.amount.value };
       const obj: Object = {
         currency: this.selectedMerchant.currencyId,
         merchant: this.selectedMerchant.merchantId,
@@ -240,7 +251,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
     this.merchants = this.fiatDataByName.merchantCurrencyData.filter(
-      merchant => !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
+      merchant =>
+        !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
+          .length
     );
   }
 
