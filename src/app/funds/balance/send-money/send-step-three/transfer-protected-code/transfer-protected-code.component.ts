@@ -79,4 +79,12 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
         ]}),
     });
   }
+
+  trackByAlphabet(index, item) {
+    return item;
+  }
+
+  trackByCryptoNames(index, item) {
+    return item.id;
+  }
 }

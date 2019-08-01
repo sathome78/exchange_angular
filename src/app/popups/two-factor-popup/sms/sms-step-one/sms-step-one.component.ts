@@ -46,4 +46,8 @@ export class SmsStepOneComponent implements OnInit, OnNextStep {
     this.region = lRegion;
   }
 
+  trackByCountry(index, item) {
+    return item.country;
+  }
+
 }

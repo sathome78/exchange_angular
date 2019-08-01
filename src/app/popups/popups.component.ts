@@ -40,4 +40,8 @@ export class PopupsComponent implements OnInit {
     this.notificationMessages.splice(index, 1);
   }
 
+  trackByIndex(index, item) {
+    return index;
+  }
+
 }

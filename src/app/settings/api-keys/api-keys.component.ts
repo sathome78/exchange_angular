@@ -172,4 +172,8 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
       return !!this.apiKeys.filter(item => item.alias.toLowerCase() === value.toLowerCase()).length ? {'existKeyName': true} : null;
     };
   }
+
+  trackByFn(index, item) {
+    return item.id;
+  }
 }

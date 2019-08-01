@@ -27,4 +27,8 @@ export class CustomSearchInputComponent implements OnInit {
     this.showCoins = [];
   }
 
+  trackByCoin(index, item) {
+    return item.name;
+  }
+
 }

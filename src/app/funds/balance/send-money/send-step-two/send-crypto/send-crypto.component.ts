@@ -261,4 +261,12 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   get currName() {
     return this.activeCrypto ? this.activeCrypto.name : ''
   }
+
+  trackByAlphabet(index, item) {
+    return item;
+  }
+
+  trackByCryptoNames(index, item) {
+    return item.id;
+  }
 }

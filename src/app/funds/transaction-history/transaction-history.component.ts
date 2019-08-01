@@ -304,5 +304,9 @@ export class TransactionHistoryComponent implements OnInit {
     this.ngUnsubscribe.complete();
   }
 
+  trackByFn(index, item) {
+    return item.transactionsId;
+  }
+
 
 }

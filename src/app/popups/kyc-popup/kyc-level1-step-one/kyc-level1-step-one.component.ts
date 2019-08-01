@@ -116,4 +116,10 @@ export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
         this.load = false;
       });
   }
+  trackByCountry(index, item) {
+    return item.countryName;
+  }
+  trackByLanguage(index, item) {
+    return item.languageName;
+  }
 }

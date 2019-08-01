@@ -85,4 +85,12 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => this.checkEmailOfServer());
   }
+
+  trackByAlphabet(index, item) {
+    return item;
+  }
+
+  trackByCryptoNames(index, item) {
+    return item.id;
+  }
 }

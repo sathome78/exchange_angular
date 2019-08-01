@@ -334,4 +334,8 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       return moment.utc(d).valueOf();
     }
   }
+
+  trackByIeo(index, item) {
+    return item.id
+  }
 }

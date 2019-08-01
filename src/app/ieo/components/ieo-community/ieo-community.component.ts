@@ -15,4 +15,8 @@ export class IEOCommunityComponent implements OnInit {
   ngOnInit() {
   }
 
+  trackByCommunity(index) {
+    return index;
+  }
+
 }

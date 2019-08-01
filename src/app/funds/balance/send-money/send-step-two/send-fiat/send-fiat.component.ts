@@ -289,4 +289,12 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     return this.activeFiat ? this.activeFiat.name : '';
   }
 
+  trackByFiatNames(index, item) {
+    return item.id;
+  }
+
+  trackByIndex(index, item) {
+    return index;
+  }
+
 }

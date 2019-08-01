@@ -345,4 +345,8 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
+
+  trackByOrders(index, item) {
+    return item.id;
+  }
 }

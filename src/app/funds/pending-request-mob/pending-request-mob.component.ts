@@ -102,4 +102,8 @@ export class PendingRequestMobComponent implements OnInit {
     this.loadPendingRequests();
   }
 
+  trackByFn(index, item) {
+    return item.requestId;
+  }
+
 }
