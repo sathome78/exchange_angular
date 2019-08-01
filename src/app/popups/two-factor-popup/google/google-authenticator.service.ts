@@ -1,20 +1,16 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../../environments/environment';
-import {Observable} from 'rxjs';
-import {ITwoFaResponseDto} from './2fa-response-dto.model';
-import {UtilsService} from '../../../shared/services/utils.service';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
+import { Observable } from 'rxjs';
+import { ITwoFaResponseDto } from './2fa-response-dto.model';
+import { UtilsService } from '../../../shared/services/utils.service';
 
 @Injectable()
 export class GoogleAuthenticatorService {
-
   HOST = environment.apiUrl;
   ENCODE_KEY = environment.encodeKey;
 
-  constructor(
-    private http: HttpClient,
-    private utilsService: UtilsService) {
-  }
+  constructor(private http: HttpClient, private utilsService: UtilsService) {}
 
   getGoogleTwoFaSecretHash(): Observable<ITwoFaResponseDto> {
     return this.http.get<ITwoFaResponseDto>(this.getUrl('google2fa/hash'));
@@ -26,20 +22,24 @@ export class GoogleAuthenticatorService {
 
   submitGoogleAuthSecret(secret: string, password: string, pin: string): Observable<number> {
     const encodedPassword = this.utilsService.encodePassword(password, this.ENCODE_KEY);
-    const body: { 'SECRET': string, 'PASSWORD': string, 'PINCODE': string }
-      = {'SECRET': secret, 'PASSWORD': encodedPassword, 'PINCODE': pin};
+    const body: { SECRET: string; PASSWORD: string; PINCODE: string } = {
+      SECRET: secret,
+      PASSWORD: encodedPassword,
+      PINCODE: pin,
+    };
     return this.http.post<number>(this.getUrl('google2fa/submit'), body);
   }
 
-  disableGoogleAuthentication( password: string, pin: string): Observable<number> {
+  disableGoogleAuthentication(password: string, pin: string): Observable<number> {
     const encodedPassword = this.utilsService.encodePassword(password, this.ENCODE_KEY);
-    const body: { 'PASSWORD': string, 'PINCODE': string }
-      = { 'PASSWORD': encodedPassword, 'PINCODE': pin};
+    const body: { PASSWORD: string; PINCODE: string } = {
+      PASSWORD: encodedPassword,
+      PINCODE: pin,
+    };
     return this.http.put<number>(this.getUrl('google2fa/disable'), body);
   }
 
   getUrl(end: string): string {
     return this.HOST + '/api/private/v2/2FaOptions/' + end;
   }
-
 }

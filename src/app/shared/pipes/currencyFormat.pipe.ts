@@ -1,15 +1,15 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {UtilsService} from '../services/utils.service';
-
+import { Pipe, PipeTransform } from '@angular/core';
+import { UtilsService } from '../services/utils.service';
 
 @Pipe({
-  name: 'currencyFormat'
+  name: 'currencyFormat',
 })
 export class CurrencyFormatPipe implements PipeTransform {
   constructor(private utils: UtilsService) {}
 
   transform(
-    value: number | string, currencyName: string = 'BTC',
+    value: number | string,
+    currencyName: string = 'BTC',
     format: 'full' | 'short' = 'short',
     setNoneForFiat: boolean = false
   ): string {

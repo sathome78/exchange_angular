@@ -8,9 +8,8 @@ describe('IeoCommunityComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IeoCommunityComponent ]
-    })
-    .compileComponents();
+      declarations: [IeoCommunityComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

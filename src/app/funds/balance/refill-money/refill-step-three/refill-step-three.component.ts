@@ -9,21 +9,17 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-refill-step-three',
   templateUrl: './refill-step-three.component.html',
-  styleUrls: ['./refill-step-three.component.scss']
+  styleUrls: ['./refill-step-three.component.scss'],
 })
 export class RefillStepThreeComponent implements OnInit {
-
   form: FormGroup;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   googleAuthenticator: any;
   statusMessage: string = '';
 
-  constructor(
-    public balanceService: BalanceService,
-    private store: Store<fromCore.State>
-  ) { 
-
-    balanceService.getRefillTransfer()
+  constructor(public balanceService: BalanceService, private store: Store<fromCore.State>) {
+    balanceService
+      .getRefillTransfer()
       .pipe(first())
       .subscribe((data: any) => {
         this.sendRefillBalance = data;
@@ -35,7 +31,8 @@ export class RefillStepThreeComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.store.pipe(select(fromCore.getGAStatus))
+    this.store
+      .pipe(select(fromCore.getGAStatus))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((GA: any) => {
         console.log(GA);
@@ -43,38 +40,39 @@ export class RefillStepThreeComponent implements OnInit {
       });
   }
 
-
   initForm() {
     this.form = new FormGroup({
-      code: new FormControl('', Validators.required)
+      code: new FormControl('', Validators.required),
     });
   }
 
   submit(form) {
-    if(form.valid){
+    if (form.valid) {
       this.sendRefillBalance.securityCode = `${form.value.code}`;
 
-      this.balanceService.withdrawRequest(this.sendRefillBalance)
+      this.balanceService
+        .withdrawRequest(this.sendRefillBalance)
         .pipe(first())
-        .subscribe((data: any) => {
-          console.log(data);
-        }, error => {
-          this.setStatusMessage(error);
-          console.log(error);
-        });
+        .subscribe(
+          (data: any) => {
+            console.log(data);
+          },
+          error => {
+            this.setStatusMessage(error);
+            console.log(error);
+          }
+        );
     }
   }
 
-  
   get currentCode(): any {
     return this.form.get('code');
   }
 
   setStatusMessage(err) {
     if (err['status'] === 400) {
-        this.form.reset();
-        this.statusMessage = "Wrong code";
+      this.form.reset();
+      this.statusMessage = 'Wrong code';
     }
   }
-
 }

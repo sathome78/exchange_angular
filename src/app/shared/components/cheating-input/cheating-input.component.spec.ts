@@ -8,9 +8,8 @@ describe('CheatingInputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CheatingInputComponent ]
-    })
-    .compileComponents();
+      declarations: [CheatingInputComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

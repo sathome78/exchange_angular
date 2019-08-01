@@ -6,9 +6,7 @@ import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from
   styleUrls: ['./get-ready-banner.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GetReadyBannerComponent{
-
+export class GetReadyBannerComponent {
   @Output('onClick') public onClick: EventEmitter<any> = new EventEmitter();
-  constructor() { }
-
+  constructor() {}
 }

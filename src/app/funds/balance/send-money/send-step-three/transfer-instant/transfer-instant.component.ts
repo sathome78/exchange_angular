@@ -1,27 +1,26 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BalanceService} from '../../../../services/balance.service';
-import {Store, select} from '@ngrx/store';
-import {State, getUserInfo} from '../../../../../core/reducers';
-import {TRANSFER_INSTANT} from '../../send-money-constants';
-import {AbstractTransfer} from '../abstract-transfer';
-import {PopupService} from '../../../../../shared/services/popup.service';
-import {UtilsService} from '../../../../../shared/services/utils.service';
-import {debounceTime, takeUntil, tap} from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BalanceService } from '../../../../services/balance.service';
+import { Store, select } from '@ngrx/store';
+import { State, getUserInfo } from '../../../../../core/reducers';
+import { TRANSFER_INSTANT } from '../../send-money-constants';
+import { AbstractTransfer } from '../abstract-transfer';
+import { PopupService } from '../../../../../shared/services/popup.service';
+import { UtilsService } from '../../../../../shared/services/utils.service';
+import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-transfer-instant',
   templateUrl: './transfer-instant.component.html',
-  styleUrls: ['./transfer-instant.component.scss']
+  styleUrls: ['./transfer-instant.component.scss'],
 })
 export class TransferInstantComponent extends AbstractTransfer implements OnInit, OnDestroy {
-
   public userInfo: ParsedToken;
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
     public utilsService: UtilsService,
-    protected store: Store<State>,
+    protected store: Store<State>
   ) {
     super();
   }
@@ -33,14 +32,15 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
     pin: '',
     currencyName: '',
     type: 'TRANSFER',
-    recipient: ''
+    recipient: '',
   };
 
   ngOnInit() {
     this.responseCommission = this.responseDefaultCommission;
     this.initForm();
     this.getAllNames();
-    this.store.pipe(select(getUserInfo))
+    this.store
+      .pipe(select(getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
@@ -62,23 +62,24 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
     this.model.currencyName = this.activeCrypto.name;
     const data = {
       operation: TRANSFER_INSTANT,
-      data: this.model
+      data: this.model,
     };
     this.balanceService.goToPinCode$.next(data);
   }
 
   private initForm() {
     this.form = new FormGroup({
-      email: new FormControl('', {validators: [Validators.required, this.utilsService.emailValidator()]}),
-      amount: new FormControl('', {validators: [
-          Validators.required,
-          this.isMaxThenActiveBalance.bind(this),
-          this.isMinThenMinWithdraw.bind(this)
-        ]}),
+      email: new FormControl('', {
+        validators: [Validators.required, this.utilsService.emailValidator()],
+      }),
+      amount: new FormControl('', {
+        validators: [Validators.required, this.isMaxThenActiveBalance.bind(this), this.isMinThenMinWithdraw.bind(this)],
+      }),
     });
 
-    this.form.get('email').valueChanges
-      .pipe(tap(() => this.pendingCheckEmail = true))
+    this.form
+      .get('email')
+      .valueChanges.pipe(tap(() => (this.pendingCheckEmail = true)))
       .pipe(debounceTime(1000))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => this.checkEmailOfServer());

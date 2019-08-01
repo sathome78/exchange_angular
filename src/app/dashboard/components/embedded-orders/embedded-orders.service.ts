@@ -1,29 +1,28 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
 
-import {environment} from 'environments/environment';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class EmbeddedOrdersService {
-
   private baseUrl;
   personalOrderListener: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private http: HttpClient,
-  ) {
+  constructor(private http: HttpClient) {
     this.baseUrl = environment.apiUrl;
   }
 
   getOpenOrders(currencyPairId): Observable<any> {
-    return this.http.get(`${this.baseUrl}/api/private/v2/dashboard/orders/OPENED`,
-      {params: {currencyPairId: currencyPairId, scope: 'ALL'}});
+    return this.http.get(`${this.baseUrl}/api/private/v2/dashboard/orders/OPENED`, {
+      params: { currencyPairId: currencyPairId, scope: 'ALL' },
+    });
   }
 
   getHistory(currencyPairId, status: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/api/private/v2/dashboard/orders/${status}`,
-      {params: {currencyPairId, limit: '15', scope: 'ALL'}});
+    return this.http.get(`${this.baseUrl}/api/private/v2/dashboard/orders/${status}`, {
+      params: { currencyPairId, limit: '15', scope: 'ALL' },
+    });
   }
 
   updateOrder(order): Observable<any> {
@@ -33,13 +32,12 @@ export class EmbeddedOrdersService {
   deleteOrder(order): Observable<any> {
     const params = {
       order_id: order.id,
-      type: order.orderBaseType
+      type: order.orderBaseType,
     };
-    return this.http.post(`${this.baseUrl}/api/private/v2/dashboard/cancel`, {}, {params});
+    return this.http.post(`${this.baseUrl}/api/private/v2/dashboard/cancel`, {}, { params });
   }
 
   createOrder(order): Observable<any> {
     return this.http.post(`${this.baseUrl}/api/private/v2/dashboard/order`, order);
   }
-
 }

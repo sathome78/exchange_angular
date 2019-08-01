@@ -7,14 +7,13 @@ export const defaultValues = {
   pendingRequests: [],
   countPendingRequests: 0,
   myBalances: {
-    'BTC': 0,
-    'USD': 0,
+    BTC: 0,
+    USD: 0,
   },
   kycStatus: '',
 
   transactionsHistory: [],
   countTrHistory: 0,
-
 };
 
 export const defaultCommissionData = {
@@ -27,4 +26,4 @@ export const defaultCommissionData = {
   resultAmount: '0',
   totalCommissionAmount: '0',
   commission_rates_sum: 0,
-}
+};

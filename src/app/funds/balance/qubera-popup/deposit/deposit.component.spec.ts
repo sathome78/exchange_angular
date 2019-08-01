@@ -8,9 +8,8 @@ describe('DepositComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DepositComponent ]
-    })
-    .compileComponents();
+      declarations: [DepositComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

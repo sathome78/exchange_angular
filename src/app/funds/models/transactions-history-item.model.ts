@@ -1,6 +1,4 @@
-
 export class TransactionHistoryItem {
-
   public datetime: string;
   public currencyName: string;
   public amount: number;

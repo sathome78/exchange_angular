@@ -13,7 +13,6 @@ export class BalanceCrypto {
     public onConfirmationCount: string,
     public reservedBalance: string,
     public reservedByOrders: string,
-    public reservedByMerchant: string,
-  ) {
-  }
+    public reservedByMerchant: string
+  ) {}
 }

@@ -1,4 +1,4 @@
-export interface  KycSubjectInterface {
+export interface KycSubjectInterface {
   step: number;
   url: string;
 }

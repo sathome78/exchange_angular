@@ -1,5 +1,4 @@
 export class NotificationUserSetting {
-
   private static LOGIN = 'LOGIN';
   private static WITHDRAW = 'WITHDRAW';
   private static TRANSFER = 'TRANSFER';
@@ -22,17 +21,17 @@ export class NotificationUserSetting {
     return this;
   }
 
-  public withLogin(): NotificationUserSetting  {
+  public withLogin(): NotificationUserSetting {
     this.notificationMessageEventEnum = NotificationUserSetting.LOGIN;
     return this;
   }
 
-  public withWithdraw(): NotificationUserSetting  {
+  public withWithdraw(): NotificationUserSetting {
     this.notificationMessageEventEnum = NotificationUserSetting.WITHDRAW;
     return this;
   }
 
-  public withTransfer(): NotificationUserSetting  {
+  public withTransfer(): NotificationUserSetting {
     this.notificationMessageEventEnum = NotificationUserSetting.TRANSFER;
     return this;
   }
@@ -61,5 +60,4 @@ export class NotificationUserSetting {
   public disable() {
     this.notificatorId = null;
   }
-
 }

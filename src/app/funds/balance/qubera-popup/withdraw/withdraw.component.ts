@@ -3,7 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-withdraw',
   templateUrl: './withdraw.component.html',
-  styleUrls: ['./withdraw.component.scss']
+  styleUrls: ['./withdraw.component.scss'],
 })
 export class WithdrawComponent implements OnInit {
   @Input() qubera;
@@ -13,7 +13,7 @@ export class WithdrawComponent implements OnInit {
 
   step: number;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.setStep(this.steper);
@@ -32,5 +32,4 @@ export class WithdrawComponent implements OnInit {
   nextStep(step: number) {
     this.step = step;
   }
-
 }

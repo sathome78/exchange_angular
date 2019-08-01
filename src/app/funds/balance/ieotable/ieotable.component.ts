@@ -1,18 +1,17 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {Router} from '@angular/router';
-import {IEOItem} from 'app/model/ieo.model';
-import {Subject} from 'rxjs';
-import {IEOServiceService} from 'app/shared/services/ieoservice.service';
-import {takeUntil} from 'rxjs/operators';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+import { IEOItem } from 'app/model/ieo.model';
+import { Subject } from 'rxjs';
+import { IEOServiceService } from 'app/shared/services/ieoservice.service';
+import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
 
 @Component({
   selector: 'app-ieo-table',
   templateUrl: './ieotable.component.html',
-  styleUrls: ['./ieotable.component.scss']
+  styleUrls: ['./ieotable.component.scss'],
 })
 export class IEOTableComponent implements OnInit {
-
   @Input() public countPerPage: number;
 
   @Input('IEOData')
@@ -21,18 +20,20 @@ export class IEOTableComponent implements OnInit {
     this.handleTestIEO(data);
   }
   get IEOData() {
-    return [...(this._IEOData as IEOItem[]).sort((a, b) => {
-      const aT = this.getDateValue(a.startDate);
-      const bT = this.getDateValue(b.startDate);
-      const diff = aT - bT;
-      if (diff < 0) {
-        return 1;
-      } else if (diff > 0) {
-        return -1;
-      } else {
-        return 0;
-      }
-    })];
+    return [
+      ...(this._IEOData as IEOItem[]).sort((a, b) => {
+        const aT = this.getDateValue(a.startDate);
+        const bT = this.getDateValue(b.startDate);
+        const diff = aT - bT;
+        if (diff < 0) {
+          return 1;
+        } else if (diff > 0) {
+          return -1;
+        } else {
+          return 0;
+        }
+      }),
+    ];
   }
 
   @Input() public loading: boolean;
@@ -56,22 +57,14 @@ export class IEOTableComponent implements OnInit {
   public _firstLoadedStatus;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  constructor(
-    private router: Router,
-    private ieoService: IEOServiceService,
-  ) { }
+  constructor(private router: Router, private ieoService: IEOServiceService) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   public handleTestIEO(data) {
     if (this.selectedIEO && data && data.length) {
-      const ieo = data.find((i) => i.id === this.selectedIEO.id);
-      if (
-        ieo &&
-        ieo.multiplyProcessing &&
-        ieo.status === this.stage.TERMINATED &&
-        this._firstLoadedStatus !== this.stage.TERMINATED
-      ) {
+      const ieo = data.find(i => i.id === this.selectedIEO.id);
+      if (ieo && ieo.multiplyProcessing && ieo.status === this.stage.TERMINATED && this._firstLoadedStatus !== this.stage.TERMINATED) {
         this.toggleWait(false);
         this.toggleSorry(true);
       }
@@ -79,11 +72,17 @@ export class IEOTableComponent implements OnInit {
   }
 
   public changeItemsPerPage(items: number) {
-    this.onPaginate.emit({currentPage: this.currentPage, countPerPage: items});
+    this.onPaginate.emit({
+      currentPage: this.currentPage,
+      countPerPage: items,
+    });
   }
 
   public changePage(page: number): void {
-    this.onPaginate.emit({currentPage: page, countPerPage: this.countPerPage});
+    this.onPaginate.emit({
+      currentPage: page,
+      countPerPage: this.countPerPage,
+    });
   }
 
   public goToIeo(id) {
@@ -117,12 +116,13 @@ export class IEOTableComponent implements OnInit {
   }
 
   public confirmBuyIEO(amount) {
-    this.ieoService.buyTokens({
-      currencyName: this.selectedIEO.currencyName,
-      amount: amount + ''
-    })
+    this.ieoService
+      .buyTokens({
+        currencyName: this.selectedIEO.currencyName,
+        amount: amount + '',
+      })
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res) => {
+      .subscribe(res => {
         this._firstLoadedStatus = this.selectedIEO.status;
         this.closeBuyIEO();
         if (this.selectedIEO.multiplyProcessing && this.selectedIEO.status === this.stage.RUNNING) {
@@ -138,14 +138,16 @@ export class IEOTableComponent implements OnInit {
       return 0;
     }
     if (typeof d === 'object') {
-      return moment.utc({
-        y: d.year,
-        M: d.monthValue - 1,
-        d: d.dayOfMonth,
-        h: d.hour,
-        m: d.minute,
-        s: d.second,
-      }).valueOf();
+      return moment
+        .utc({
+          y: d.year,
+          M: d.monthValue - 1,
+          d: d.dayOfMonth,
+          h: d.hour,
+          m: d.minute,
+          s: d.second,
+        })
+        .valueOf();
     }
 
     if (typeof d === 'string') {
@@ -153,8 +155,7 @@ export class IEOTableComponent implements OnInit {
     }
   }
 
-  trackByFn (index, item) {
+  trackByFn(index, item) {
     return item.id;
   }
-
 }

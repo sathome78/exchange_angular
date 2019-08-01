@@ -11,7 +11,7 @@ import { IMyDpOptions } from 'mydatepicker';
 @Component({
   selector: 'app-step-one',
   templateUrl: './step-one.component.html',
-  styleUrls: ['./step-one.component.scss']
+  styleUrls: ['./step-one.component.scss'],
 })
 export class StepOneComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -35,20 +35,18 @@ export class StepOneComponent implements OnInit, OnDestroy {
 
   @ViewChild('countryInput') countryInput: ElementRef;
 
-  @HostListener('document:click', ['$event']) clickout({target}) {
-    if (target.className !== 'select__value select__value--active'
-      && target.className !== 'select__value select__value--active select__value--error'
-      && target.className !== 'select__search-input') {
+  @HostListener('document:click', ['$event']) clickout({ target }) {
+    if (
+      target.className !== 'select__value select__value--active' &&
+      target.className !== 'select__value select__value--active select__value--error' &&
+      target.className !== 'select__search-input'
+    ) {
       this.countryInput.nativeElement.value = this.selectedCountry ? this.selectedCountry.countryName : '';
       this.openCountryDropdown = false;
     }
   }
 
-  constructor(
-    private balanceService: BalanceService,
-    private settingsService: SettingsService,
-    private cdr: ChangeDetectorRef
-  ) {
+  constructor(private balanceService: BalanceService, private settingsService: SettingsService, private cdr: ChangeDetectorRef) {
     this.initForm();
   }
 
@@ -72,50 +70,28 @@ export class StepOneComponent implements OnInit, OnDestroy {
       year: new Date().getFullYear() - 18,
       month: new Date().getMonth() + 1,
       day: new Date().getDate() + 1,
-    }
+    },
   };
 
   initForm() {
     this.form = new FormGroup({
-      country: new FormControl('', {validators: [
-          Validators.required,
-        ]
-      }),
-      countryCode: new FormControl('', {validators: [
-          Validators.required
-        ]
-      }),
-      firstName: new FormControl('', {validators: [
-          Validators.required
-        ]
-      }),
-      lastName: new FormControl('', {validators: [
-          Validators.required
-        ]
-      }),
-      address: new FormControl('', {validators: [
-          Validators.required
-        ]
-      }),
-      city: new FormControl('', {validators: [
-          Validators.required
-        ]
-      }),
-      datepicker: new FormControl('', {validators: [
-          Validators.required
-        ]
-      }),
-      theCheckbox: new FormControl('', {validators: [
-          Validators.required
-        ]
-      }),
+      country: new FormControl('', { validators: [Validators.required] }),
+      countryCode: new FormControl('', { validators: [Validators.required] }),
+      firstName: new FormControl('', { validators: [Validators.required] }),
+      lastName: new FormControl('', { validators: [Validators.required] }),
+      address: new FormControl('', { validators: [Validators.required] }),
+      city: new FormControl('', { validators: [Validators.required] }),
+      datepicker: new FormControl('', { validators: [Validators.required] }),
+      theCheckbox: new FormControl('', { validators: [Validators.required] }),
     });
     this.form.controls.theCheckbox.setValue(false);
-    this.form.controls.datepicker.setValue({ date: {
-      year: new Date().getFullYear() - 18,
-      month: new Date().getMonth() + 1,
-      day: new Date().getDate() + 1,
-     } });
+    this.form.controls.datepicker.setValue({
+      date: {
+        year: new Date().getFullYear() - 18,
+        month: new Date().getMonth() + 1,
+        day: new Date().getDate() + 1,
+      },
+    });
   }
 
   get currentCountry(): any {
@@ -139,28 +115,32 @@ export class StepOneComponent implements OnInit, OnDestroy {
   }
 
   gotToStepTwo(form: any) {
-      if (form.valid && this.form.controls.theCheckbox.value === true) {
-        const account: BankVerification = {
-          firstName: form.value.firstName,
-          lastName: form.value.lastName,
-          address: form.value.address,
-          countryCode: form.value.countryCode,
-          city: form.value.city,
-          birthDay: `${this.modelDateFrom.date.day}`,
-          birthMonth: `${this.modelDateFrom.date.month}`,
-          birthYear: `${this.modelDateFrom.date.year}`,
-        };
-        this.disable = true;
-        this.balanceService.postFUGAccount(account)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe((response: any) => {
+    if (form.valid && this.form.controls.theCheckbox.value === true) {
+      const account: BankVerification = {
+        firstName: form.value.firstName,
+        lastName: form.value.lastName,
+        address: form.value.address,
+        countryCode: form.value.countryCode,
+        city: form.value.city,
+        birthDay: `${this.modelDateFrom.date.day}`,
+        birthMonth: `${this.modelDateFrom.date.month}`,
+        birthYear: `${this.modelDateFrom.date.year}`,
+      };
+      this.disable = true;
+      this.balanceService
+        .postFUGAccount(account)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(
+          (response: any) => {
             window.open(`${response.data.url}`, '_blank');
             this.disable = false;
             this.nextStep.emit(2);
-        }, error => {
-          this.disable = false;
-        });
-      }
+          },
+          error => {
+            this.disable = false;
+          }
+        );
+    }
   }
 
   checked(e) {
@@ -169,7 +149,8 @@ export class StepOneComponent implements OnInit, OnDestroy {
   }
 
   getCountryCode() {
-    this.settingsService.getCountriesKYC()
+    this.settingsService
+      .getCountriesKYC()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.countryArrayDefault = res as KycCountry[];
@@ -208,11 +189,9 @@ export class StepOneComponent implements OnInit, OnDestroy {
   }
 
   onDateChanged(event: any) {
-    this.modelDateFrom = {date: event.date};
+    this.modelDateFrom = { date: event.date };
     this.form.controls.datepicker.setValue(this.modelDateFrom);
   }
-
-
 
   // old method for check mail don't delete
   // checkUserInfo() {

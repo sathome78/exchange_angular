@@ -1,15 +1,14 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { UtilsService } from 'app/shared/services/utils.service';
-import {AuthService} from '../../../../shared/services/auth.service';
-import {SimpleCurrencyPair} from '../../../../model/simple-currency-pair';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { SimpleCurrencyPair } from '../../../../model/simple-currency-pair';
 
 @Component({
   selector: 'app-embedded-orders-history',
   templateUrl: './embedded-orders-history.component.html',
-  styleUrls: ['./embedded-orders-history.component.scss']
+  styleUrls: ['./embedded-orders-history.component.scss'],
 })
 export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
-
   @Input() historyOrders;
   @Input() makeHeight;
   @Input() isVipUser: boolean = false;
@@ -18,11 +17,7 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
   public countPerPage = 7;
   public arrPairName = ['', ''];
 
-  constructor(
-    private utils: UtilsService,
-    public authService: AuthService,
-  ) {
-  }
+  constructor(private utils: UtilsService, public authService: AuthService) {}
 
   ngOnInit() {
     this.arrPairName = this.currentPair.name.split('/');
@@ -40,7 +35,9 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
    * @param changes
    */
   ngOnChanges(changes): void {
-    if (!changes.makeHeight) { return; }
+    if (!changes.makeHeight) {
+      return;
+    }
     // change count orders perPage
     this.countPerPage = changes.makeHeight.currentValue === true ? 7 : 18;
   }

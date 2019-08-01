@@ -1,19 +1,19 @@
-import {Component, ElementRef, Input, OnInit, ViewChild, OnDestroy} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import * as _difference from 'lodash/difference';
 import * as _differenceBy from 'lodash/differenceBy';
 
-import {DashboardService} from '../../dashboard.service';
-import {ToolsItem} from 'app/shared/interfaces/dashboard-tools-interface';
-import {DashboardWidgetItemModel} from 'app/shared/models/dashboard-widget-item.model';
-import {DashboardToolsItemModel} from 'app/shared/models/dashboard-tools-item.model';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {BreakpointService} from 'app/shared/services/breakpoint.service';
+import { DashboardService } from '../../dashboard.service';
+import { ToolsItem } from 'app/shared/interfaces/dashboard-tools-interface';
+import { DashboardWidgetItemModel } from 'app/shared/models/dashboard-widget-item.model';
+import { DashboardToolsItemModel } from 'app/shared/models/dashboard-tools-item.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { BreakpointService } from 'app/shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-tools',
   templateUrl: 'tools.component.html',
-  styleUrls: ['tools.component.scss']
+  styleUrls: ['tools.component.scss'],
 })
 export class ToolsComponent implements OnInit, OnDestroy {
   /** get existing dashboard items */
@@ -27,28 +27,20 @@ export class ToolsComponent implements OnInit, OnDestroy {
   public visibleToolsItems: DashboardToolsItemModel[] = [];
   public overlayShow = false;
 
-  constructor(
-    private dataService: DashboardService,
-    private breakpointService: BreakpointService,
-  ) { }
+  constructor(private dataService: DashboardService, private breakpointService: BreakpointService) {}
 
   ngOnInit() {
     this.allWidgets = [...this.dataService.getWidgetPositions()];
     this.allToolsItems = [...this.dataService.getToolsItems()];
     // TODO: takeUntil
-    this.dataService.dashboardToTools$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe( res => {
-        this.updateVisibleToolsItems(res as DashboardWidgetItemModel[]);
-      });
-    this.breakpointService.breakpoint$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res) => {
-        if(res === 'desktop') {
-          this.checkVisibleToolsItems(this.allWidgets);
-        }
-      });
-
+    this.dataService.dashboardToTools$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
+      this.updateVisibleToolsItems(res as DashboardWidgetItemModel[]);
+    });
+    this.breakpointService.breakpoint$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
+      if (res === 'desktop') {
+        this.checkVisibleToolsItems(this.allWidgets);
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -68,9 +60,9 @@ export class ToolsComponent implements OnInit, OnDestroy {
    * @param widgets
    */
   updateVisibleToolsItems(widgets: DashboardWidgetItemModel[]): void {
-    const difference = _difference(this.allWidgets , widgets);
+    const difference = _difference(this.allWidgets, widgets);
     const differenceTools = _differenceBy(this.allToolsItems, difference, 'type');
-    this.visibleToolsItems = _difference( this.allToolsItems, differenceTools);
+    this.visibleToolsItems = _difference(this.allToolsItems, differenceTools);
   }
 
   /**
@@ -102,5 +94,4 @@ export class ToolsComponent implements OnInit, OnDestroy {
   trackByFn(index, item) {
     return item.name;
   }
-
 }

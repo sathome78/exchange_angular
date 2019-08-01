@@ -8,10 +8,9 @@ import { AUTH_MESSAGES } from 'app/shared/constants';
 @Component({
   selector: 'app-step-one-qubera',
   templateUrl: './step-one-qubera.component.html',
-  styleUrls: ['./step-one-qubera.component.scss']
+  styleUrls: ['./step-one-qubera.component.scss'],
 })
 export class StepOneQuberaComponent implements OnInit {
-
   @Input() qubera;
   @Output() closeQuberaPopup = new EventEmitter<boolean>();
   @Output() public nextStep: EventEmitter<any> = new EventEmitter();
@@ -20,10 +19,7 @@ export class StepOneQuberaComponent implements OnInit {
   form: FormGroup;
   statusMessage: string = '';
 
-  constructor(
-    private translateService: TranslateService,
-    private balanceService: BalanceService
-  ) { }
+  constructor(private translateService: TranslateService, private balanceService: BalanceService) {}
 
   ngOnInit() {
     this.initForm();
@@ -32,36 +28,38 @@ export class StepOneQuberaComponent implements OnInit {
 
   initForm() {
     this.form = new FormGroup({
-      code: new FormControl('', Validators.required)
-    })
+      code: new FormControl('', Validators.required),
+    });
   }
 
   enterCode(form) {
-    if(this.form.valid) {
-      this.balanceService.createQuberaAccount({pin: form.code})
+    if (this.form.valid) {
+      this.balanceService
+        .createQuberaAccount({ pin: form.code })
         .pipe(first())
-        .subscribe((data: any) => {
-          this.nextStep.emit(2);
-        }, error => {
-          this.setStatusMessage(error);
-        });
+        .subscribe(
+          (data: any) => {
+            this.nextStep.emit(2);
+          },
+          error => {
+            this.setStatusMessage(error);
+          }
+        );
     }
   }
 
   setStatusMessage(err) {
     if (err['status'] === 400) {
-        this.form.reset();
-        this.statusMessage = "Wrong code";
+      this.form.reset();
+      this.statusMessage = 'Wrong code';
     }
   }
 
   getCodeToCreateQuberaAccount() {
-    this.balanceService.sendCodeToMail()
+    this.balanceService
+      .sendCodeToMail()
       .pipe(first())
-      .subscribe((code: string) => {
-
-      }, error => {
-      });
+      .subscribe((code: string) => {}, error => {});
   }
 
   get currentCode(): any {
@@ -73,5 +71,4 @@ export class StepOneQuberaComponent implements OnInit {
       this.closeQuberaPopup.emit(true);
     }, 1000);
   }
-
 }

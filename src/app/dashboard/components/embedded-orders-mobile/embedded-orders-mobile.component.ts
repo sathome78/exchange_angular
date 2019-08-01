@@ -1,6 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {takeUntil} from 'rxjs/operators';
-import {select, Store} from '@ngrx/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
 import {
   getActiveCurrencyPair,
   State,
@@ -8,19 +8,18 @@ import {
   getHistoryOrders,
   getOrdersLoading,
   getOpenOrdersCount,
-  getUserInfo
+  getUserInfo,
 } from '../../../core/reducers';
-import {Subject, Observable} from 'rxjs';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
-import {LoadOpenOrdersAction, LoadHistoryOrdersAction} from 'app/dashboard/actions/dashboard.actions';
+import { Subject, Observable } from 'rxjs';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { LoadOpenOrdersAction, LoadHistoryOrdersAction } from 'app/dashboard/actions/dashboard.actions';
 
 @Component({
   selector: 'app-embedded-orders-mobile',
   templateUrl: './embedded-orders-mobile.component.html',
-  styleUrls: ['./embedded-orders-mobile.component.scss']
+  styleUrls: ['./embedded-orders-mobile.component.scss'],
 })
 export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
-
   public mainTab = 'open';
   public activeCurrencyPair: SimpleCurrencyPair;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -30,14 +29,13 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
   public loading$: Observable<boolean>;
   public userInfo: ParsedToken;
 
-  constructor(
-    private store: Store<State>,
-  ) {
-    this.store.pipe(select(getUserInfo))
+  constructor(private store: Store<State>) {
+    this.store
+      .pipe(select(getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
-      })
+      });
   }
 
   ngOnInit() {
@@ -70,9 +68,7 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
 
   toggleMainTab(tabName: string): void {
     this.mainTab = tabName;
-    this.mainTab === 'open' ?
-      this.toOpenOrders() :
-      this.toHistory();
+    this.mainTab === 'open' ? this.toOpenOrders() : this.toHistory();
   }
 
   toOpenOrders(): void {
@@ -82,5 +78,4 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
   toHistory(): void {
     this.store.dispatch(new LoadHistoryOrdersAction(this.activeCurrencyPair.id));
   }
-
 }

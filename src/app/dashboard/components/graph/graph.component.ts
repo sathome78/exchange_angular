@@ -6,14 +6,14 @@ import {
   Input,
   ChangeDetectorRef,
   HostListener,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
-import {takeUntil} from 'rxjs/internal/operators';
-import {Subject} from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/internal/operators';
+import { Subject } from 'rxjs/Subject';
 
-import {LangService} from 'app/shared/services/lang.service';
-import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {DashboardService} from '../../dashboard.service';
+import { LangService } from 'app/shared/services/lang.service';
+import { AbstractDashboardItems } from '../../abstract-dashboard-items';
+import { DashboardService } from '../../dashboard.service';
 
 declare const TradingView: any;
 
@@ -21,24 +21,25 @@ import {
   widget,
   IChartingLibraryWidget,
   ChartingLibraryWidgetOptions,
-  LanguageCode, Timezone,
+  LanguageCode,
+  Timezone,
 } from 'assets/js/charting_library/charting_library.min';
-import {environment} from 'environments/environment';
-import {select, Store} from '@ngrx/store';
-import {getActiveCurrencyPair, State, getIsAuthenticated, getLanguage} from 'app/core/reducers/index';
-import {CurrencyPair} from '../../../model/currency-pair.model';
-import {getCurrencyPairArray, getCurrencyPairInfo} from '../../../core/reducers';
-import {DashboardWebSocketService} from '../../dashboard-websocket.service';
-import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
-import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
-import {Router} from '@angular/router';
-import {Currency} from 'app/model/currency.model';
-import {BreakpointService} from 'app/shared/services/breakpoint.service';
+import { environment } from 'environments/environment';
+import { select, Store } from '@ngrx/store';
+import { getActiveCurrencyPair, State, getIsAuthenticated, getLanguage } from 'app/core/reducers/index';
+import { CurrencyPair } from '../../../model/currency-pair.model';
+import { getCurrencyPairArray, getCurrencyPairInfo } from '../../../core/reducers';
+import { DashboardWebSocketService } from '../../dashboard-websocket.service';
+import { CurrencyPairInfo } from '../../../model/currency-pair-info.model';
+import { SelectedOrderBookOrderAction } from '../../actions/dashboard.actions';
+import { Router } from '@angular/router';
+import { Currency } from 'app/model/currency.model';
+import { BreakpointService } from 'app/shared/services/breakpoint.service';
 import { Observable } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
 import * as moment from 'moment';
-import {GRAPH_TIME_ZONE_SUPPORT, LANG_SUPPORT} from 'app/shared/constants';
+import { GRAPH_TIME_ZONE_SUPPORT, LANG_SUPPORT } from 'app/shared/constants';
 
 @Component({
   selector: 'app-graph',
@@ -62,11 +63,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   /** available currencies */
   public currencies: Currency[];
   public isFiat = false;
-  public marketsArray = [
-    {name: 'USD'},
-    {name: 'ETH'},
-    {name: 'BTC'},
-  ];
+  public marketsArray = [{ name: 'USD' }, { name: 'ETH' }, { name: 'BTC' }];
   public allCurrencyPairs;
   public currentCurrencyInfo;
   private lang;
@@ -94,7 +91,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   private widgetOptions: ChartingLibraryWidgetOptions;
 
-
   constructor(
     private store: Store<State>,
     private router: Router,
@@ -112,8 +108,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
   ngOnInit() {
-
-
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -123,7 +117,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         if (this.currencyPairName) {
           this.formattingCurrentPairName(pair.name as string);
           try {
-            this._tvWidget.setSymbol(pair.name, '15', () => { });  // 5
+            this._tvWidget.setSymbol(pair.name, '15', () => {}); // 5
           } catch (e) {
             // console.log(e);
           }
@@ -151,7 +145,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
     this.formattingCurrentPairName(this.currencyPairName);
 
-    this.store.pipe(select(getLanguage))
+    this.store
+      .pipe(select(getLanguage))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(lang => {
         this.lang = lang;
@@ -167,11 +162,11 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       container_id: this._containerId,
       timezone: this.setTimeZoneToWidget(),
       time_frames: [
-        {text: '8m', resolution: 'D'},
-        {text: '2m', resolution: 'D'},
-        {text: '7d', resolution: '60'},
-        {text: '5d', resolution: '30'},
-        {text: '3d', resolution: '30'},
+        { text: '8m', resolution: 'D' },
+        { text: '2m', resolution: 'D' },
+        { text: '7d', resolution: '60' },
+        { text: '5d', resolution: '30' },
+        { text: '3d', resolution: '30' },
       ],
       library_path: this._libraryPath,
       locale: this.setLang(),
@@ -186,7 +181,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         'header_resolutions', // hidden by DEVEX-3308
         'save_chart_properties_to_local_storage',
         'header_saveload',
-        'border_around_the_chart'
+        'border_around_the_chart',
       ],
       charts_storage_url: this._chartsStorageUrl,
       charts_storage_api_version: this._chartsStorageApiVersion,
@@ -202,7 +197,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       // },
       studies_overrides: {
         'volume.volume.color.0': '#EB5757',
-        'volume.volume.color.1':  '#00B43D',
+        'volume.volume.color.1': '#00B43D',
         'volume.volume ma.color': '#FF0000',
         'volume.volume ma.linewidth': 5,
         // 'volume.show ma': true,
@@ -211,7 +206,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       },
       overrides: {
         'paneProperties.background': '#252543',
-         'paneProperties.vertGridProperties.color': '#1A1F42',
+        'paneProperties.vertGridProperties.color': '#1A1F42',
         'paneProperties.horzGridProperties.color': '#1A1F42',
         'symbolWatermarkProperties.transparency': 90,
         'scalesProperties.textColor': '#aaa',
@@ -221,7 +216,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         'mainSeriesProperties.areaStyle.color2': 'rgba(35, 123, 239, 0)',
 
         'mainSeriesProperties.candleStyle.wickUpColor': '#53B987',
-        'mainSeriesProperties.candleStyle.wickDownColor': '#EB5757'
+        'mainSeriesProperties.candleStyle.wickDownColor': '#EB5757',
       },
     };
 
@@ -230,16 +225,19 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
     tvWidget.onChartReady(() => {
       this.chartReady = true;
-      const button = tvWidget.createButton()
+      const button = tvWidget
+        .createButton()
         .attr('title', 'Click to show a notification popup')
         .addClass('apply-common-tooltip')
-        .on('click', () => tvWidget.showNoticeDialog({
-          title: 'Notification',
-          body: 'TradingView Charting Library API works correctly',
-          callback: () => {
-            // console.log('Noticed!');
-          },
-        }));
+        .on('click', () =>
+          tvWidget.showNoticeDialog({
+            title: 'Notification',
+            body: 'TradingView Charting Library API works correctly',
+            callback: () => {
+              // console.log('Noticed!');
+            },
+          })
+        );
       button[0].innerHTML = 'Check API';
     });
   }
@@ -254,8 +252,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     }
   }
 
-  ngAfterContentInit() {
-  }
+  ngAfterContentInit() {}
 
   formattingCurrentPairName(currentPair: string): void {
     /** search slash position */
@@ -266,19 +263,21 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   setMobileWidget(widgetName: string, type: string): void {
     const item = {
-      'needRefresh': true,
-      'page': 0,
-      'id': 0,
-      'userId': 0,
-      'orderType': type,
-      'exrate': '0',
-      'amountBase': '0',
-      'amountConvert': '0',
-      'ordersIds': '0'
+      needRefresh: true,
+      page: 0,
+      id: 0,
+      userId: 0,
+      orderType: type,
+      exrate: '0',
+      amountBase: '0',
+      amountConvert: '0',
+      ordersIds: '0',
     };
 
     this.dashboardService.selectedOrderTrading$.next(item);
-    this.router.navigate(['/dashboard'], {queryParams: {widget: widgetName}});
+    this.router.navigate(['/dashboard'], {
+      queryParams: { widget: widgetName },
+    });
     this.dashboardService.activeMobileWidget.next(widgetName);
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
     // this.store.dispatch(new SetTradingTypeAction(type));
@@ -309,7 +308,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.currencies = [];
     for (let i = 0; i < temp.length; i++) {
       const name = temp[i].currencyPairName.split('/')[0];
-      this.currencies.push({name: name});
+      this.currencies.push({ name: name });
     }
     this.marketDropdown = false;
     this.showCurrencySearch = !this.showCurrencySearch;
@@ -356,7 +355,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
    */
   splitPairName(pair: SimpleCurrencyPair) {
     if (pair) {
-      [ this.firstCurrency, this.secondCurrency ] = this.pair.name.split('/');
+      [this.firstCurrency, this.secondCurrency] = this.pair.name.split('/');
     }
   }
 
@@ -379,7 +378,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private setTimeZoneToWidget(): Timezone {
     if (!!this.timeZoneName) {
       const indexCandidate = GRAPH_TIME_ZONE_SUPPORT.indexOf(this.timeZoneName);
-      return (indexCandidate !== -1) ? <Timezone>GRAPH_TIME_ZONE_SUPPORT[indexCandidate] : <Timezone>this.timeZoneName;
+      return indexCandidate !== -1 ? <Timezone>GRAPH_TIME_ZONE_SUPPORT[indexCandidate] : <Timezone>this.timeZoneName;
     } else {
       return 'Etc/UTC';
     }
@@ -387,7 +386,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   private setLang(): LanguageCode {
     const indexCandidate = LANG_SUPPORT.indexOf(this.lang);
-    return (indexCandidate !== -1) ? <LanguageCode>LANG_SUPPORT[indexCandidate] : <LanguageCode>'en';
+    return indexCandidate !== -1 ? <LanguageCode>LANG_SUPPORT[indexCandidate] : <LanguageCode>'en';
   }
-
 }

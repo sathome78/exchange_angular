@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {PopupService} from '../shared/services/popup.service';
-import {NotificationMessage} from '../shared/models/notification-message-model';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {NotificationsService} from '../shared/components/notification/notifications.service';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { PopupService } from '../shared/services/popup.service';
+import { NotificationMessage } from '../shared/models/notification-message-model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { NotificationsService } from '../shared/components/notification/notifications.service';
 
 @Component({
   selector: 'app-popups',
@@ -11,15 +11,11 @@ import {NotificationsService} from '../shared/components/notification/notificati
   styleUrls: ['./popups.component.scss'],
 })
 export class PopupsComponent implements OnInit {
-
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** notification messages array */
   notificationMessages: NotificationMessage[];
 
-  constructor(
-    public popupService: PopupService,
-    private notificationService: NotificationsService,
-  ) { }
+  constructor(public popupService: PopupService, private notificationService: NotificationsService) {}
 
   ngOnInit() {
     this.subscribeForNotifications();
@@ -29,11 +25,9 @@ export class PopupsComponent implements OnInit {
    * Subscription for app notifications
    */
   private subscribeForNotifications(): void {
-    this.notificationService.message
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((message: NotificationMessage) => {
-        this.notificationMessages.push(message);
-      });
+    this.notificationService.message.pipe(takeUntil(this.ngUnsubscribe)).subscribe((message: NotificationMessage) => {
+      this.notificationMessages.push(message);
+    });
   }
 
   onNotificationMessageClose(index: number): void {
@@ -43,5 +37,4 @@ export class PopupsComponent implements OnInit {
   trackByIndex(index, item) {
     return index;
   }
-
 }

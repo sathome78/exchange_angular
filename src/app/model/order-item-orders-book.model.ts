@@ -1,4 +1,3 @@
-
 export class OrderItemOB {
   constructor(
     public amount: string,
@@ -7,6 +6,6 @@ export class OrderItemOB {
     public orderType: string,
     public sumAmount: string,
     public total: string,
-    public id?: string,
+    public id?: string
   ) {}
 }

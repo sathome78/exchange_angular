@@ -8,9 +8,8 @@ describe('IeoHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IeoHeaderComponent ]
-    })
-    .compileComponents();
+      declarations: [IeoHeaderComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

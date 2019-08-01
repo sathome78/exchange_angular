@@ -5,10 +5,9 @@ import { KYC_STATUS } from 'app/shared/constants';
 @Component({
   selector: 'app-qubera-mob',
   templateUrl: './qubera-mob.component.html',
-  styleUrls: ['./qubera-mob.component.scss']
+  styleUrls: ['./qubera-mob.component.scss'],
 })
 export class QuberaMobComponent implements OnInit {
-
   tableScrollStyles: any = {};
   quberaBalance: balanceQubera[] = [];
 
@@ -35,18 +34,19 @@ export class QuberaMobComponent implements OnInit {
   @Output() public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
   @Output() public quberaKycVerification: EventEmitter<any> = new EventEmitter();
 
-
   constructor() {
     this.setScrollStyles();
   }
 
   setScrollStyles() {
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 293) + 'px', 'overflow-x': 'scroll'};
+    this.tableScrollStyles = {
+      height: componentHeight - 293 + 'px',
+      'overflow-x': 'scroll',
+    };
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   checkBalance(balance) {
     if (this.kycStatus === KYC_STATUS.SUCCESS) {

@@ -5,10 +5,9 @@ import { KycIEOModel } from 'app/ieo/models/ieo-kyc.model';
 @Component({
   selector: 'app-ieo-header',
   templateUrl: './ieo-header.component.html',
-  styleUrls: ['./ieo-header.component.scss']
+  styleUrls: ['./ieo-header.component.scss'],
 })
 export class IeoHeaderComponent implements OnInit {
-
   @Input() public IEOData: IEOItem;
   @Input() public requirements: KycIEOModel;
   @Input() public userBalanceBTC: number;
@@ -18,7 +17,7 @@ export class IeoHeaderComponent implements OnInit {
   @Output() public onBuy: EventEmitter<any> = new EventEmitter();
   @Output() public onLogin: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
   public stage = {
     PENDING: 'PENDING',
@@ -26,49 +25,46 @@ export class IeoHeaderComponent implements OnInit {
     TERMINATED: 'TERMINATED',
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
-  }
+  };
 
   ngOnInit() {
-    if(window.innerWidth > 992){
+    if (window.innerWidth > 992) {
       var startChangeHeader = 5;
       var currentPosition = window.pageYOffset;
-      if(currentPosition > startChangeHeader){
-        document.querySelector(".page-wrap").classList.add("ieo-page-header");
+      if (currentPosition > startChangeHeader) {
+        document.querySelector('.page-wrap').classList.add('ieo-page-header');
+      } else {
+        document.querySelector('.page-wrap').classList.remove('ieo-page-header');
       }
-      else{
-        document.querySelector(".page-wrap").classList.remove("ieo-page-header");
-      }
-      window.onscroll = function(){
+      window.onscroll = function() {
         currentPosition = window.pageYOffset;
-        if(currentPosition > startChangeHeader){
-          document.querySelector(".page-wrap").classList.add("ieo-page-header");
+        if (currentPosition > startChangeHeader) {
+          document.querySelector('.page-wrap').classList.add('ieo-page-header');
+        } else {
+          document.querySelector('.page-wrap').classList.remove('ieo-page-header');
         }
-        else{
-          document.querySelector(".page-wrap").classList.remove("ieo-page-header");
-        }
-      }
+      };
     }
   }
 
   goToNewsPage() {
-    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`)
+    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`);
   }
 
-  get boughtAmount () {
-    return (this.IEOData.amount - this.IEOData.availableAmount) || 0;
+  get boughtAmount() {
+    return this.IEOData.amount - this.IEOData.availableAmount || 0;
   }
 
-  get sessionSupply () {
-    return (this.IEOData.amount * this.IEOData.rate) || 0;
+  get sessionSupply() {
+    return this.IEOData.amount * this.IEOData.rate || 0;
   }
 
-  get boughtAmountPer () {
-    const a = (this.boughtAmount / (this.IEOData.amount / 100)) || 0
+  get boughtAmountPer() {
+    const a = this.boughtAmount / (this.IEOData.amount / 100) || 0;
     return a.toFixed(2);
   }
 
-  get dashOffset () {
-    return 127 - (127 * +this.boughtAmountPer / 100)
+  get dashOffset() {
+    return 127 - (127 * +this.boughtAmountPer) / 100;
   }
-
 }

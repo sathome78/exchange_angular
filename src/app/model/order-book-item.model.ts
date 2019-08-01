@@ -7,6 +7,6 @@ export class OrderBookItem {
     public orderType: 'BUY' | 'SELL',
     public positive: boolean,
     public preLastExrate: string,
-    public total: string,
+    public total: string
   ) {}
 }

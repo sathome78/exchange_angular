@@ -1,10 +1,9 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'currencySort'
+  name: 'currencySort',
 })
 export class CurrencySortingPipe implements PipeTransform {
-
   transform(array: any[], field: string): any {
     array.sort((a: any, b: any) => {
       const left = +a[field];
@@ -19,5 +18,4 @@ export class CurrencySortingPipe implements PipeTransform {
     });
     return array;
   }
-
 }

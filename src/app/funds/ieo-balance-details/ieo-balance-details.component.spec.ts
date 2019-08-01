@@ -8,9 +8,8 @@ describe('IEOBalanceDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IEOBalanceDetailsComponent ]
-    })
-    .compileComponents();
+      declarations: [IEOBalanceDetailsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,4 +1,4 @@
-import {BalanceConfirmationInfoItem} from "./balance-confirmation-info.model";
+import { BalanceConfirmationInfoItem } from './balance-confirmation-info.model';
 
 export class BalanceDetailsItem {
   public currencyId: number;

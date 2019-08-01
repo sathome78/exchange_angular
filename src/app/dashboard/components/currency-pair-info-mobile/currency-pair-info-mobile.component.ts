@@ -1,17 +1,24 @@
-import {Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/internal/operators';
-import {select, Store} from '@ngrx/store';
-import {UserBalance} from 'app/model/user-balance.model';
-import {State, getActiveCurrencyPair, getUserBalance, getCurrencyPairInfo, getCurrencyPairArray, getSimpleCurrencyPairsSelector} from 'app/core/reducers/index';
-import {DashboardWebSocketService} from '../../dashboard-websocket.service';
-import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
-import {UtilsService} from 'app/shared/services/utils.service';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/internal/operators';
+import { select, Store } from '@ngrx/store';
+import { UserBalance } from 'app/model/user-balance.model';
+import {
+  State,
+  getActiveCurrencyPair,
+  getUserBalance,
+  getCurrencyPairInfo,
+  getCurrencyPairArray,
+  getSimpleCurrencyPairsSelector,
+} from 'app/core/reducers/index';
+import { DashboardWebSocketService } from '../../dashboard-websocket.service';
+import { CurrencyPairInfo } from '../../../model/currency-pair-info.model';
+import { UtilsService } from 'app/shared/services/utils.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
-import {Subscription} from 'rxjs';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
-import {UserService} from 'app/shared/services/user.service';
-import {Router, ActivatedRoute} from '@angular/router';
+import { Subscription } from 'rxjs';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { UserService } from 'app/shared/services/user.service';
+import { Router, ActivatedRoute } from '@angular/router';
 /**
  * Dashboard currency pair information component
  */
@@ -25,7 +32,7 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   public pair: SimpleCurrencyPair = null;
-  public pairInput: string = ''
+  public pairInput: string = '';
   public currentCurrencyInfo: CurrencyPairInfo = null;
   public userBalanceInfo: UserBalance;
   public allCurrencyPairs: SimpleCurrencyPair[] = [];
@@ -40,8 +47,8 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private utils: UtilsService,
-  ) { }
+    private utils: UtilsService
+  ) {}
 
   ngOnInit() {
     this.store
@@ -68,7 +75,7 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: SimpleCurrencyPair[]) => {
         this.allCurrencyPairs = pair;
-        this.DIOptions = pair.map((item) => ({text: item.name, id: item.id}));
+        this.DIOptions = pair.map(item => ({ text: item.name, id: item.id }));
         this.cdr.detectChanges();
       });
 
@@ -88,16 +95,17 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
   subscribeCurrInfo(currName: string): void {
     this.unsubscribeCurrInfo();
     const pairName = currName.toLowerCase().replace(/\//i, '_');
-    this.pairInfoSub$ = this.dashboardWebsocketService.pairInfoSubscription(pairName)
+    this.pairInfoSub$ = this.dashboardWebsocketService
+      .pairInfoSubscription(pairName)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((data) => {
-        this.store.dispatch(new dashboardActions.RefreshCurrencyPairInfoAction(data))
+      .subscribe(data => {
+        this.store.dispatch(new dashboardActions.RefreshCurrencyPairInfoAction(data));
         this.cdr.detectChanges();
-      })
+      });
   }
 
   unsubscribeCurrInfo() {
-    if(this.pairInfoSub$) {
+    if (this.pairInfoSub$) {
       this.pairInfoSub$.unsubscribe();
     }
   }
@@ -118,7 +126,7 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
 
   onSelectPair(pairName: string): void {
     const p = this.findCurrencyPair(pairName);
-    if(p) {
+    if (p) {
       this.selectNewCurrencyPair(p);
     } else {
       this.pairInput = this.pair.name;
@@ -126,7 +134,7 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
   }
   onBlurInput() {
     const p = this.findCurrencyPair(this.pairInput);
-    if(p && p.name !== this.pair.name) {
+    if (p && p.name !== this.pair.name) {
       this.selectNewCurrencyPair(p);
     } else {
       this.pairInput = this.pair.name;
@@ -134,7 +142,7 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
   }
 
   findCurrencyPair(val: string): SimpleCurrencyPair | null {
-    return this.allCurrencyPairs.find((item) => item.name === val) || null;
+    return this.allCurrencyPairs.find(item => item.name === val) || null;
   }
 
   selectNewCurrencyPair(pair: SimpleCurrencyPair) {
@@ -150,5 +158,4 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
     const currs = this.pair.name.split('/');
     return this.utils.isFiat(currs[currNum - 1]);
   }
-
 }

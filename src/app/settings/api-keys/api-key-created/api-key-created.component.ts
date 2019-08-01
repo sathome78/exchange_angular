@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Animations} from '../../../shared/animations';
-import {NewApiKeyItem} from '../../../model/api-key.model';
-import {Store} from '@ngrx/store';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Animations } from '../../../shared/animations';
+import { NewApiKeyItem } from '../../../model/api-key.model';
+import { Store } from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
 import * as settingsActions from '../../store/actions/settings.actions';
 
@@ -9,22 +9,16 @@ import * as settingsActions from '../../store/actions/settings.actions';
   selector: 'app-api-key-created',
   templateUrl: './api-key-created.component.html',
   styleUrls: ['./api-key-created.component.scss'],
-  animations: [
-    Animations.popupOverlayTrigger, Animations.popupModalTrigger
-  ]
+  animations: [Animations.popupOverlayTrigger, Animations.popupModalTrigger],
 })
 export class ApiKeyCreatedComponent implements OnInit {
-
   @Input() showPopup: boolean;
   @Input() newKey: NewApiKeyItem;
   @Output() closeCreatedKeyPopup = new EventEmitter<boolean>();
 
-  constructor(
-    private store: Store<fromCore.State>,
-  ) { }
+  constructor(private store: Store<fromCore.State>) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onCloseCreatedKeyPopup() {
     this.showPopup = false;

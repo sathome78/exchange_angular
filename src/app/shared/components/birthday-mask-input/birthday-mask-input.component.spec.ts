@@ -8,9 +8,8 @@ describe('BirthdayMaskInputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BirthdayMaskInputComponent ]
-    })
-    .compileComponents();
+      declarations: [BirthdayMaskInputComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,4 +1,3 @@
-
 export class SimpleCurrencyPair {
   public id: number;
   public name: string;

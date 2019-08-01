@@ -7,11 +7,10 @@ import * as ordersReducer from '../store/reducers/orders.reducer';
 import * as ordersAction from '../store/actions/orders.actions';
 import * as coreAction from '../../core/actions/core.actions';
 import * as mainSelectors from '../../core/reducers';
-import { State, getUserInfo } from '../../core/reducers';
 import { Observable, Subject } from 'rxjs';
 import { OrdersService } from '../orders.service';
 import { takeUntil } from 'rxjs/operators';
-import saveAs from 'file-saver';
+import fileSaver from 'file-saver';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { BreakpointService } from 'app/shared/services/breakpoint.service';
 import * as moment from 'moment';
@@ -20,18 +19,17 @@ import { AuthService } from '../../shared/services/auth.service';
 @Component({
   selector: 'app-orders-history',
   templateUrl: './orders-history.component.html',
-  styleUrls: ['./orders-history.component.scss']
+  styleUrls: ['./orders-history.component.scss'],
 })
 export class OrdersHistoryComponent implements OnInit, OnDestroy {
-
-  private ngUnsubscribe: Subject < void > = new Subject < void > ();
-  public orderItems$: Observable < OrderItem[] > ;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  public orderItems$: Observable<OrderItem[]>;
   public orderItems: OrderItem[] = [];
-  public countOfEntries$: Observable < number > ;
-  public countOfEntries: number = 0;
-  public currencyPairs$: Observable < SimpleCurrencyPair[] > ;
-  public loading$: Observable < boolean > ;
-  public isLast15Items$: Observable < boolean > ;
+  public countOfEntries$: Observable<number>;
+  public countOfEntries = 0;
+  public currencyPairs$: Observable<SimpleCurrencyPair[]>;
+  public loading$: Observable<boolean>;
+  public isLast15Items$: Observable<boolean>;
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -39,10 +37,10 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public modelDateFrom: any;
   public modelDateTo: any;
   public currencyPairId: string = null;
-  public currencyPairValue: string = '';
-  public hideAllCanceled: boolean = false;
-  public isMobile: boolean = false;
-  public loadingExcel: boolean = false;
+  public currencyPairValue = '';
+  public hideAllCanceled = false;
+  public isMobile = false;
+  public loadingExcel = false;
   public userInfo: ParsedToken;
 
   public showFilterPopup = false;
@@ -58,15 +56,15 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       year: new Date().getFullYear(),
       month: new Date().getMonth() + 1,
       day: new Date().getDate() + 1,
-    }
+    },
   };
 
   constructor(
-    private store: Store < State > ,
+    private store: Store<mainSelectors.State>,
     private ordersService: OrdersService,
     public breakpointService: BreakpointService,
     private cdr: ChangeDetectorRef,
-    public authService: AuthService,
+    public authService: AuthService
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getHistoryOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getHistoryOrdersCount));
@@ -75,19 +73,23 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     this.loading$ = store.pipe(select(ordersReducer.getLoadingSelector));
 
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = { 'height': (componentHeight - 112) + 'px', 'overflow': 'scroll' }
+    this.tableScrollStyles = {
+      height: componentHeight - 112 + 'px',
+      overflow: 'scroll',
+    };
     this.orderItems$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((items) => this.orderItems = items)
+      .subscribe(items => (this.orderItems = items));
     this.countOfEntries$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((items) => this.countOfEntries = items)
+      .subscribe(items => (this.countOfEntries = items));
 
-    this.store.pipe(select(getUserInfo))
+    this.store
+      .pipe(select(mainSelectors.getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
-      })
+      });
   }
 
   ngOnInit() {
@@ -98,7 +100,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     // this.initDate();
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
     this.loadOrders();
-
   }
 
   public get isVipUser() {
@@ -117,7 +118,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       hideCanceled: this.hideAllCanceled,
       currencyPairId: this.currencyPairId || 0,
       currencyPairName: this.currencyPairValue || '',
-    }
+    };
     this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
   }
 
@@ -126,7 +127,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
     const params = {
       page: this.currentPage,
       limit: this.countPerPage,
-    }
+    };
     this.store.dispatch(new ordersAction.LoadLastHistoryOrdersAction(params));
     this.orderItems$.subscribe(res => console.log(res));
   }
@@ -143,7 +144,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
         currencyPairId: this.currencyPairId || 0,
         currencyPairName: this.currencyPairValue || '',
         concat: true,
-      }
+      };
       this.store.dispatch(new ordersAction.LoadHistoryOrdersAction(params));
     }
   }
@@ -175,7 +176,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
    * @param event
    */
   toggleDetails(event: MouseEvent): void {
-    const element: HTMLElement = < HTMLElement > event.currentTarget;
+    const element: HTMLElement = <HTMLElement>event.currentTarget;
     const idDetails = element.dataset.id;
     if (idDetails) {
       const detailsElement = document.getElementById(idDetails + '');
@@ -225,11 +226,24 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
    * @returns { boolean }
    */
   isDateRangeValid(): boolean {
-    if (!this.modelDateFrom || !this.modelDateFrom.date || !this.modelDateTo || !this.modelDateTo.date) {
+    if (
+      !this.modelDateFrom ||
+      !this.modelDateFrom.date ||
+      !this.modelDateTo ||
+      !this.modelDateTo.date
+    ) {
       return false;
     }
-    const dateFrom = new Date(this.modelDateFrom.date.year, this.modelDateFrom.date.month - 1, this.modelDateFrom.date.day);
-    const dateTo = new Date(this.modelDateTo.date.year, this.modelDateTo.date.month - 1, this.modelDateTo.date.day);
+    const dateFrom = new Date(
+      this.modelDateFrom.date.year,
+      this.modelDateFrom.date.month - 1,
+      this.modelDateFrom.date.day
+    );
+    const dateTo = new Date(
+      this.modelDateTo.date.year,
+      this.modelDateTo.date.month - 1,
+      this.modelDateTo.date.day
+    );
     const diff = dateTo.getTime() - dateFrom.getTime();
     return diff >= 0;
   }
@@ -240,10 +254,10 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
    * @returns { string } returns string in format yyyy-mm-dd: example 2018-09-28
    */
   formatDate(date: IMyDate): string {
-    if (!date || date.year === 0 && date.day === 0) {
+    if (!date || (date.year === 0 && date.day === 0)) {
       return null;
     }
-    return moment([date.year, date.month - 1, date.day]).format()
+    return moment([date.year, date.month - 1, date.day]).format();
   }
 
   /**
@@ -312,18 +326,22 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       hideCanceled: this.hideAllCanceled,
       currencyPairId: this.currencyPairId || 0,
       currencyPairName: this.currencyPairValue || '',
-    }
+    };
     this.loadingExcel = true;
-    this.ordersService.downloadExcel(params)
+    this.ordersService
+      .downloadExcel(params)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(data => {
-        const blob = new Blob([data], { type: 'text/ms-excel' });
-        saveAs(blob, 'history-orders.xlsx');
-        this.loadingExcel = false;
-      }, err => {
-        console.error(err);
-        this.loadingExcel = false;
-      });
+      .subscribe(
+        data => {
+          const blob = new Blob([data], { type: 'text/ms-excel' });
+          fileSaver(blob, 'history-orders.xlsx');
+          this.loadingExcel = false;
+        },
+        err => {
+          console.error(err);
+          this.loadingExcel = false;
+        }
+      );
   }
 
   onChangeCurrPair(val: string): void {

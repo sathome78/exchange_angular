@@ -4,10 +4,8 @@
     "align": [true, "statements"],
     "prefer-template": [true, "allow-single-concat"],
     "ter-arrow-parens": [true, "as-needed"],
-    "max-line-length": [
-      true,
-      140
-    ],
+    "max-line-length": [true, {"limit": 120, "ignore-pattern": "^import |^export {(.*?)}"}],
+    "no-trailing-whitespace": [true, "ignore-comments"],
     "trailing-comma": [
       true,
       {

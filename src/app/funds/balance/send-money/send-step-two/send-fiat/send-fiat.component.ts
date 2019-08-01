@@ -1,26 +1,25 @@
-import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
-import {CurrencyBalanceModel} from 'app/model';
-import {Subject} from 'rxjs';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BalanceService} from '../../../../services/balance.service';
-import {debounceTime, takeUntil} from 'rxjs/operators';
-import {keys} from '../../../../../shared/constants';
-import {getFiatCurrenciesForChoose, getUserInfo, State} from 'app/core/reducers';
-import {select, Store} from '@ngrx/store';
-import {SEND_FIAT} from '../../send-money-constants';
-import {CommissionData} from '../../../../models/commission-data.model';
-import {defaultCommissionData} from '../../../../store/reducers/default-values';
-import {PopupService} from 'app/shared/services/popup.service';
-import {UtilsService} from 'app/shared/services/utils.service';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { CurrencyBalanceModel } from 'app/model';
+import { Subject } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BalanceService } from '../../../../services/balance.service';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import { keys } from '../../../../../shared/constants';
+import { getFiatCurrenciesForChoose, getUserInfo, State } from 'app/core/reducers';
+import { select, Store } from '@ngrx/store';
+import { SEND_FIAT } from '../../send-money-constants';
+import { CommissionData } from '../../../../models/commission-data.model';
+import { defaultCommissionData } from '../../../../store/reducers/default-values';
+import { PopupService } from 'app/shared/services/popup.service';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-send-fiat',
   templateUrl: './send-fiat.component.html',
-  styleUrls: ['./send-fiat.component.scss']
+  styleUrls: ['./send-fiat.component.scss'],
 })
 export class SendFiatComponent implements OnInit, OnDestroy {
-
-  @Input()balanceData;
+  @Input() balanceData;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public fiatNames: CurrencyBalanceModel[] = [];
   public recaptchaKey = keys.recaptchaKey;
@@ -50,7 +49,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     destination: '',
     destinationTag: '',
     merchantImage: '',
-    securityCode: ''
+    securityCode: '',
   };
 
   /** Are listening click in document */
@@ -65,9 +64,8 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     public balanceService: BalanceService,
     public popupService: PopupService,
     public utilsService: UtilsService,
-    private store: Store<State>,
-  ) {
-  }
+    private store: Store<State>
+  ) {}
 
   ngOnInit() {
     this.initForm();
@@ -84,11 +82,12 @@ export class SendFiatComponent implements OnInit, OnDestroy {
           this.getBalance(this.activeFiat.name);
         }
       });
-    if(this.selectMerchantName == 'Qubera') {
+    if (this.selectMerchantName == 'Qubera') {
       this.form.removeControl('address');
     }
 
-    this.store.pipe(select(getUserInfo))
+    this.store
+      .pipe(select(getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
@@ -105,7 +104,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     if (this.balanceData && this.balanceData.currencyId) {
       currency = this.fiatNames.filter(item => +item.id === +this.balanceData.currencyId);
     }
-    this.activeFiat = (currency && currency.length) ? currency[0] : this.fiatNames[0];
+    this.activeFiat = currency && currency.length ? currency[0] : this.fiatNames[0];
   }
 
   selectCurrency(currency) {
@@ -122,13 +121,12 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.selectedMerchant = merchant;
     this.setMinWithdrawSum();
     this.calculateData.commission_rates_sum = this.selectedMerchant.outputCommission;
-      this.calculateCommission(this.amountValue);
-    if (merchant.name === 'Qubera'){
+    this.calculateCommission(this.amountValue);
+    if (merchant.name === 'Qubera') {
       this.form.removeControl('address');
     } else {
       this.form.addControl('address', this.form);
     }
-
   }
 
   currencyDropdownToggle() {
@@ -146,9 +144,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   togglePaymentSystemDropdown() {
     this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
-    this.merchants = this.fiatInfoByName && this.fiatInfoByName.merchantCurrencyData
-      ? this.fiatInfoByName.merchantCurrencyData
-      : [];
+    this.merchants = this.fiatInfoByName && this.fiatInfoByName.merchantCurrencyData ? this.fiatInfoByName.merchantCurrencyData : [];
     this.searchTemplate = '';
     this.openCurrencyDropdown = false;
   }
@@ -156,17 +152,18 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   onSubmitWithdrawal() {
     this.isSubmited = true;
     this.form.get('amount').updateValueAndValidity();
-    if (this.form.valid  && this.selectedMerchant.name) {
+    if (this.form.valid && this.selectedMerchant.name) {
       this.isSubmited = false;
       this.isEnterData = false;
     }
   }
 
   getBalance(name: string) {
-    this.balanceService.getTotalBalance()
+    this.balanceService
+      .getTotalBalance()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        const allBalances = res as { sumTotalUSD: any, mapWallets: any };
+        const allBalances = res as { sumTotalUSD: any; mapWallets: any };
         const needBalance = allBalances.mapWallets.filter(item => item.currencyName === name);
         this.activeBalance = needBalance[0].activeBalance;
       });
@@ -174,7 +171,8 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   private getFiatInfoByName(name: string) {
     this.calculateData = defaultCommissionData;
-    this.balanceService.getCurrencyData(name)
+    this.balanceService
+      .getCurrencyData(name)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.fiatInfoByName = res;
@@ -187,16 +185,17 @@ export class SendFiatComponent implements OnInit, OnDestroy {
           this.calculateCommission(0);
           this.setMinWithdrawSum();
         }
-        if(this.selectMerchantName == "Qubera") {
+        if (this.selectMerchantName == 'Qubera') {
           this.form.removeControl('address');
         }
       });
   }
 
   private setMinWithdrawSum() {
-    this.minWithdrawSum = this.fiatInfoByName.minWithdrawSum > parseFloat(this.selectedMerchant.minSum)
-      ? this.fiatInfoByName.minWithdrawSum
-      : parseFloat(this.selectedMerchant.minSum);
+    this.minWithdrawSum =
+      this.fiatInfoByName.minWithdrawSum > parseFloat(this.selectedMerchant.minSum)
+        ? this.fiatInfoByName.minWithdrawSum
+        : parseFloat(this.selectedMerchant.minSum);
     this.form.controls['amount'].updateValueAndValidity();
   }
 
@@ -235,13 +234,13 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       this.model.merchantImage = this.selectedMerchantNested.id;
       this.model.currencyName = this.activeFiat.name || '';
       this.model.sum = this.form.controls['amount'].value;
-      if(this.selectedMerchant.name !== 'Qubera'){
+      if (this.selectedMerchant.name !== 'Qubera') {
         this.model.destination = this.form.controls['address'].value;
       }
 
       const data = {
         operation: SEND_FIAT,
-        data: this.model
+        data: this.model,
       };
 
       this.balanceService.goToPinCode$.next(data);
@@ -250,8 +249,8 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
-    this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(merchant =>
-      !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
+    this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(
+      merchant => !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
     );
   }
 
@@ -262,25 +261,20 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   private initForm() {
     this.form = new FormGroup({
       address: new FormControl('', [Validators.required]),
-      amount: new FormControl('', [
-        Validators.required,
-        this.isMaxThenActiveBalance.bind(this),
-        this.isMinThenMinWithdraw.bind(this)
-      ]),
+      amount: new FormControl('', [Validators.required, this.isMaxThenActiveBalance.bind(this), this.isMinThenMinWithdraw.bind(this)]),
     });
   }
 
-
-  isMaxThenActiveBalance(): {[key: string]: any} | null {
+  isMaxThenActiveBalance(): { [key: string]: any } | null {
     if (+this.activeBalance < +this.amountValue) {
-      return {'isMaxThenActiveBalance': true};
+      return { isMaxThenActiveBalance: true };
     }
     return null;
   }
 
-  isMinThenMinWithdraw(): {[key: string]: any} | null {
+  isMinThenMinWithdraw(): { [key: string]: any } | null {
     if (+this.minWithdrawSum > +this.amountValue) {
-      return {'isMinThenMinWithdraw': true};
+      return { isMinThenMinWithdraw: true };
     }
     return null;
   }
@@ -296,5 +290,4 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   trackByIndex(index, item) {
     return index;
   }
-
 }

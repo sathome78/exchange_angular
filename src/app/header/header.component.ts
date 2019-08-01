@@ -1,42 +1,41 @@
-import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
-import {PopupService} from '../shared/services/popup.service';
-import {AuthService} from '../shared/services/auth.service';
-import {LoggingService} from '../shared/services/logging.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ThemeService} from '../shared/services/theme.service';
-import {UserService} from '../shared/services/user.service';
-import {SettingsService} from '../settings/settings.service';
-import {DashboardService} from '../dashboard/dashboard.service';
-import {environment} from '../../environments/environment';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { PopupService } from '../shared/services/popup.service';
+import { AuthService } from '../shared/services/auth.service';
+import { LoggingService } from '../shared/services/logging.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ThemeService } from '../shared/services/theme.service';
+import { UserService } from '../shared/services/user.service';
+import { SettingsService } from '../settings/settings.service';
+import { DashboardService } from '../dashboard/dashboard.service';
+import { environment } from '../../environments/environment';
 import {
   FUNDS_FLAG,
   REFERRAL_FLAG,
-   ORDERS_FLAG,
-   LANG_ARRAY,
-   TRANSLATE_FLAG,
-   IEO_FLAG,
-   NGX_TRANSLATE_FLAG,
-   COMMUNITY_FLAG
+  ORDERS_FLAG,
+  LANG_ARRAY,
+  TRANSLATE_FLAG,
+  IEO_FLAG,
+  NGX_TRANSLATE_FLAG,
+  COMMUNITY_FLAG,
 } from './header.constants';
-import {MyBalanceItem} from '../model/my-balance-item.model';
-import {Observable, Subject} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {select, Store} from '@ngrx/store';
-import {getLanguage, State} from '../core/reducers';
-import {ChangeLanguageAction} from '../core/actions/core.actions';
-import {takeUntil, withLatestFrom} from 'rxjs/operators';
+import { MyBalanceItem } from '../model/my-balance-item.model';
+import { Observable, Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { select, Store } from '@ngrx/store';
+import { getLanguage, State } from '../core/reducers';
+import { ChangeLanguageAction } from '../core/actions/core.actions';
+import { takeUntil, withLatestFrom } from 'rxjs/operators';
 import * as fromCore from '../core/reducers';
 import * as coreActions from '../core/actions/core.actions';
-import {BreakpointService} from 'app/shared/services/breakpoint.service';
+import { BreakpointService } from 'app/shared/services/breakpoint.service';
 import { IEOItem } from 'app/model/ieo.model';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-
   public isMobileMenuOpen = false;
   public mobileView = 'markets';
   public userInfo$: Observable<ParsedToken>;
@@ -60,7 +59,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public langArray = LANG_ARRAY;
   public lang;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-
 
   constructor(
     private popupService: PopupService,
@@ -91,14 +89,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //   //     }
     //   //   });
     // }
-    this.dashboardService.activeMobileWidget
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.mobileView = res;
-      });
+    this.dashboardService.activeMobileWidget.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
+      this.mobileView = res;
+    });
     this.myBalance = this.dashboardService.getMyBalances();
 
-    this.store.pipe(select(getLanguage))
+    this.store
+      .pipe(select(getLanguage))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.lang = this.langArray.filter(lang => lang.name === res)[0];
@@ -135,12 +132,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.lang = this.langArray.filter(item => item.name === lang.toLowerCase())[0];
     this.store.dispatch(new ChangeLanguageAction(lang));
     localStorage.setItem('language', lang);
-}
-openLogin(){
-  if (!this.isAuthenticated) {
+  }
+  openLogin() {
+    if (!this.isAuthenticated) {
       this.popupService.showMobileLoginPopup(true);
-   }
-}
+    }
+  }
 
   onLogin() {
     this.logger.debug(this, 'Sign in attempt');
@@ -166,14 +163,17 @@ openLogin(){
     this.themeService.toggleTheme();
     if (this.isAuthenticated) {
       // console.log('Hi: ' + this.themeService.getColorScheme());
-      this.settingsService.updateUserColorScheme(this.themeService.getColorScheme())
+      this.settingsService
+        .updateUserColorScheme(this.themeService.getColorScheme())
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(result => {
+        .subscribe(
+          result => {
             // console.log(result);
           },
           err => {
             // console.error(err);
-          });
+          }
+        );
     }
   }
 
@@ -195,7 +195,6 @@ openLogin(){
     this.ngxTranslateList = false;
     this.showIEOList = false;
   }
-
 
   toggleMenuDropdowns(showList: string) {
     switch (showList) {
@@ -233,9 +232,11 @@ openLogin(){
   }
 
   supportRedirect() {
-    const encodeData = btoa(JSON.stringify({
-      login: this.isAuthenticated
-    }));
+    const encodeData = btoa(
+      JSON.stringify({
+        login: this.isAuthenticated,
+      })
+    );
     window.open(`https://news.exrates.me?data=${encodeData}`);
   }
 
