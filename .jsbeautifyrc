@@ -1,5 +1,5 @@
 {
-  "brace_style": "collapse",
+  "brace_style": "none,preserve-inline",
   "break_chained_methods": true,
   "end_with_newline": true,
   "eval_code": false,
@@ -10,7 +10,8 @@
   "jslint_happy": false,
   "keep_array_indentation": false,
   "keep_function_indentation": false,
-  "max_preserve_newlines": 10,
+  "max_preserve_newlines": 2,
+  "break-chained-methods": false,
   "preserve_newlines": true,
   "space_after_anon_function": true,
   "space_before_conditional": true,
