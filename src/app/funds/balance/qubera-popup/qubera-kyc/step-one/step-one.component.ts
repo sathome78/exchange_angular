@@ -225,4 +225,8 @@ export class StepOneComponent implements OnInit, OnDestroy {
   //     .subscribe(user => {
   //     });
   // }
+
+  trackByFn(index, item) {
+    return item.countryName;
+  }
 }

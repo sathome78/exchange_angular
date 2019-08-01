@@ -1,86 +1,105 @@
 <table class="table">
   <thead>
-  <tr>
-    <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Date' | translate}}</th>
-    <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Currency' | translate}}</th>
-    <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Amount' | translate}}</th>
-    <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Comission' | translate}}</th>
-    <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Payment system' | translate}}</th>
-    <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Operation type' | translate}}</th>
-    <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Status' | translate}}</th>
-    <!-- <th class="table__cell-head table__cell-head--tac"></th> -->
-    <th class="table__cell-head table__cell-head--tac"></th>
-  </tr>
+    <tr>
+      <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Date' | translate}}</th>
+      <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Currency' | translate}}</th>
+      <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Amount' | translate}}</th>
+      <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Comission' | translate}}</th>
+      <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Payment system' | translate}}</th>
+      <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Operation type' | translate}}</th>
+      <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Status' | translate}}</th>
+      <!-- <th class="table__cell-head table__cell-head--tac"></th> -->
+      <th class="table__cell-head table__cell-head--tac"></th>
+    </tr>
   </thead>
   <tbody class="table__body">
-  <tr
-    class="table__row"
-    *ngFor="let item of pendingRequests | paginate: {
+    <tr
+      class="table__row"
+      *ngFor="let item of pendingRequests | paginate: {
       itemsPerPage: countPerPage,
       currentPage: currentPage,
       totalItems: countOfEntries
-    }; let i = index"
-  >
-    <td class="table__cell">
-      <div class="table__date-time">
-        <div>{{item.date | amFromUtc | amLocal | amDateFormat: 'dd DD.MM.YYYY'}}</div>
-        <div>{{item.date | amFromUtc | amLocal | amDateFormat: 'HH:mm:ss'}}</div>
-      </div>
-    </td>
-    <td class="table__cell">
-      <img [src]="item.currency | getIconUrl:true" class="select__list-item-icon">
-      <span>{{item.currency}}</span>
-    </td>
-    <td class="table__cell table__cell--tar">
-      <span>{{item.amount | currencyFormat:item.currency}}</span>
-    </td>
-    <td class="table__cell table__cell--tar">
-      <span>{{item.commission | currencyFormat:item.currency}}</span>
-    </td>
-    <td class="table__cell table__cell--tar">
-      <span>{{item.system | showPendingSystem: item.currency}}</span>
-    </td>
-    <td class="table__cell table__cell--tar">
-      <span>{{item.operation | showTransactionsType: item.operation}}</span>
-    </td>
-    <td class="table__cell table__cell--tar">
-      <span>{{item.status | showPendingStatus: item.operation}}</span>
-    </td>
-    <!-- <td class="table__cell">
+    }; let i = index; trackBy: trackByFn"
+    >
+      <td class="table__cell">
+        <div class="table__date-time">
+          <div>{{item.date | amFromUtc | amLocal | amDateFormat: 'dd DD.MM.YYYY'}}</div>
+          <div>{{item.date | amFromUtc | amLocal | amDateFormat: 'HH:mm:ss'}}</div>
+        </div>
+      </td>
+      <td class="table__cell">
+        <img
+          [src]="item.currency | getIconUrl:true"
+          class="select__list-item-icon"
+        >
+        <span>{{item.currency}}</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>{{item.amount | currencyFormat:item.currency}}</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>{{item.commission | currencyFormat:item.currency}}</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>{{item.system | showPendingSystem: item.currency}}</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>{{item.operation | showTransactionsType: item.operation}}</span>
+      </td>
+      <td class="table__cell table__cell--tar">
+        <span>{{item.status | showPendingStatus: item.operation}}</span>
+      </td>
+      <!-- <td class="table__cell">
       <button class="btn btn--center btn--small btn--hidden">I paid</button>
     </td> -->
-    <td class="table__cell table__cell--tar">
-      <button
-        *ngIf="item.operation !== 'REFILL'"
-        class="btn btn--center btn--empty-blue btn--small btn--hidden"
-        (click)="toggleRevokeModal(true, i)">
-        {{'Revoke' | translate}}
-      </button>
+      <td class="table__cell table__cell--tar">
+        <button
+          *ngIf="item.operation !== 'REFILL'"
+          class="btn btn--center btn--empty-blue btn--small btn--hidden"
+          (click)="toggleRevokeModal(true, i)"
+        >
+          {{'Revoke' | translate}}
+        </button>
 
-      <!-- revoke modal start-->
-      <div class="revoke-request" *ngIf="showRevokeModal && revokeModalId == i">
-        <div class="revoke-request__title">
-          {{'Are you sure you want to revoke this request?' | translate}}
+        <!-- revoke modal start-->
+        <div
+          class="revoke-request"
+          *ngIf="showRevokeModal && revokeModalId == i"
+        >
+          <div class="revoke-request__title">
+            {{'Are you sure you want to revoke this request?' | translate}}
+          </div>
+          <div class="revoke-request__button-wrap">
+            <button
+              class="btn btn--small"
+              (click)="onRevoke(item)"
+            >{{'Yes' | translate}}</button>
+            <button
+              class="btn btn--small"
+              (click)="toggleRevokeModal(false, i)"
+            >{{'No' | translate}}</button>
+          </div>
+          <div class="revoke-request__triangle"></div>
         </div>
-        <div class="revoke-request__button-wrap">
-          <button class="btn btn--small" (click)="onRevoke(item)">{{'Yes' | translate}}</button>
-          <button class="btn btn--small" (click)="toggleRevokeModal(false, i)">{{'No' | translate}}</button>
-        </div>
-        <div class="revoke-request__triangle"></div>
-      </div>
-      <!-- revoke modal end -->
-    </td>
-  </tr>
+        <!-- revoke modal end -->
+      </td>
+    </tr>
 
-  <tr class="table__row" *ngIf="!pendingRequests.length && !loading">
-    <td class="table__cell  table__cell--tac" colspan="10">
-      {{'No matching records found' | translate}}
-    </td>
-  </tr>
+    <tr
+      class="table__row"
+      *ngIf="!pendingRequests.length && !loading"
+    >
+      <td
+        class="table__cell  table__cell--tac"
+        colspan="10"
+      >
+        {{'No matching records found' | translate}}
+      </td>
+    </tr>
   </tbody>
 </table>
 
- <!--paginator start-->
+<!--paginator start-->
 <div
   class="row row--aic balance__paginator"
   *ngIf="countOfEntries > countPerPage"
@@ -90,7 +109,10 @@
     [countOfEntries]="countOfEntries"
     (onChange)="changeItemsPerPage($event)"
   ></app-page-items-dropdown>
-  <ul class="paginator" style="margin-left: auto;">
+  <ul
+    class="paginator"
+    style="margin-left: auto;"
+  >
     <pagination-controls
       maxSize="7"
       [previousLabel]="''"

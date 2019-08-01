@@ -131,4 +131,8 @@ export class IEOTableMobComponent implements OnInit{
   ngOnInit() {
   }
 
+  trackByFn (index, item) {
+    return item.id;
+  }
+
 }

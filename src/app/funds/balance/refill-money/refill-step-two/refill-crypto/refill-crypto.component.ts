@@ -36,7 +36,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public reqError = '';
   public currentMerchant;
   public cryptoGenerateAddress = '';
-  public loading: boolean = false;
+  public loading = false;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout({target}) {
@@ -252,6 +252,13 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     } else {
       this.showGenerateAddressBtn(false);
     }
+  }
+
+  trackByAlphabet(index, item) {
+    return item;
+  }
+  trackByCryptoNames(index, item) {
+    return item.name;
   }
 }
 

@@ -153,4 +153,8 @@ export class IEOTableComponent implements OnInit {
     }
   }
 
+  trackByFn (index, item) {
+    return item.id;
+  }
+
 }

@@ -50,5 +50,7 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
     return curr[currIndex - 1];
   }
 
-
+  trackByFn(index, item) {
+    return item.id;
+  }
 }

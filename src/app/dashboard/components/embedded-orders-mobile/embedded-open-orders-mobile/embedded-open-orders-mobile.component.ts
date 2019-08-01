@@ -17,7 +17,7 @@ export class EmbeddedOpenOrdersMobileComponent implements OnInit, OnDestroy {
   @Input() currentPair: SimpleCurrencyPair ;
   public selectedOrder = null;
   public showCancelOrderConfirm = null;
-  public loading: boolean = false;
+  public loading = false;
   public arrPairName = ['', ''];
 
   constructor(
@@ -53,5 +53,9 @@ export class EmbeddedOpenOrdersMobileComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  trackByFn(index, item) {
+    return item.id;
   }
 }

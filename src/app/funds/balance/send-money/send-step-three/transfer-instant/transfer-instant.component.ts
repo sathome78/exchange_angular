@@ -83,4 +83,12 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => this.checkEmailOfServer());
   }
+
+  trackByAlpabet(index, item) {
+    return item;
+  }
+
+  trackByCryptoNames(index, item) {
+    return item.id;
+  }
 }

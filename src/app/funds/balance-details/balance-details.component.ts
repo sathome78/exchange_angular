@@ -159,4 +159,8 @@ export class BalanceDetailsComponent implements OnInit, OnDestroy {
     this.showSendMoneyPopup = flag;
   }
 
+  public trackByFn (index) {
+    return index;
+  }
+
 }

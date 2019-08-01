@@ -42,4 +42,8 @@ export class EmbeddedOrdersHistoryMobileComponent implements OnInit {
 
     return className;
   }
+
+  trackByFn(index, item) {
+    return item.id;
+  }
 }

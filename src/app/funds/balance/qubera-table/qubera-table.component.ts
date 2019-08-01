@@ -55,4 +55,8 @@ export class QuberaTableComponent implements OnInit {
       .subscribe((data: balanceQubera) => {
       });
   }
+
+  trackByFn(index, item) {
+    return index;
+  }
 }

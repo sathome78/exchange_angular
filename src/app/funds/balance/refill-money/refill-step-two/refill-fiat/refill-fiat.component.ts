@@ -266,5 +266,13 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   //   }
   //   return null;
   // }
+
+  trackByFiatNames(index, item) {
+    return item.id;
+  }
+
+  trackByIndex(index) {
+    return index;
+  }
 }
 

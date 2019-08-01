@@ -40,12 +40,16 @@ export class PendingRequestTableComponent implements OnInit {
   }
   public onRevoke(item): void {
     this.showRevokeModal = false;
-    this.onRevokePendingRequest.emit({requestId: item.requestId, operation: item.operation})
+    this.onRevokePendingRequest.emit({requestId: item.requestId, operation: item.operation});
   }
 
 
 
   ngOnInit() {
+  }
+
+  trackByFn (index, item) {
+    return item.requestId;
   }
 
 }

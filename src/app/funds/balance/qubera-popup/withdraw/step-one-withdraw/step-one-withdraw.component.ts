@@ -411,4 +411,11 @@ export class StepOneWithdrawComponent implements OnInit {
     return this.formSwift.get('city');
   }
 
+
+  trackByFiatNames(index, item) {
+    return item.id;
+  }
+  trackByWithdrawOptions(index, item) {
+    return item;
+  }
 }

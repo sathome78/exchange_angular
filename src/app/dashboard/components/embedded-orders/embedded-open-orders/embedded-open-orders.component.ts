@@ -85,4 +85,8 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
+
+  trackByFn(index, item) {
+    return item.id;
+  }
 }

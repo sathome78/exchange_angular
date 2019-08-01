@@ -44,4 +44,8 @@ export class BalanceTableComponent {
     this.onPaginate.emit({currentPage: page, countPerPage: this.countPerPage});
   }
 
+  trackByFn (index, item) {
+    return item.currencyId;
+  }
+
 }

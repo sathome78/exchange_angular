@@ -99,5 +99,8 @@ export class ToolsComponent implements OnInit, OnDestroy {
     this.overlayShow = false;
   }
 
+  trackByFn(index, item) {
+    return item.name;
+  }
 
 }

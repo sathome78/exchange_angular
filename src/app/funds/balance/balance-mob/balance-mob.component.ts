@@ -137,4 +137,8 @@ export class BalanceMobComponent implements OnInit{
 
   ngOnInit() {}
 
+  trackByFn (index, item) {
+    return item.currencyId;
+  }
+
 }

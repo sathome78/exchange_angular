@@ -253,4 +253,11 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
       });
   }
 
+  trackByFiatName(index, item) {
+    return item.id;
+  }
+  trackByMerchants(index, item) {
+    return index;
+  }
+
 }
