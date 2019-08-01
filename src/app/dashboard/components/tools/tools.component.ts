@@ -32,7 +32,6 @@ export class ToolsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.allWidgets = [...this.dataService.getWidgetPositions()];
     this.allToolsItems = [...this.dataService.getToolsItems()];
-    // TODO: takeUntil
     this.dataService.dashboardToTools$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
       this.updateVisibleToolsItems(res as DashboardWidgetItemModel[]);
     });

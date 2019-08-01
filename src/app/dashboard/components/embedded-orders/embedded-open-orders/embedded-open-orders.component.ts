@@ -29,7 +29,11 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
   public showCancelOrderConfirm = null;
   public loading = false;
 
-  constructor(private store: Store<State>, private ordersService: EmbeddedOrdersService, public tradingService: TradingService) {}
+  constructor(
+    private store: Store<State>,
+    private ordersService: EmbeddedOrdersService,
+    public tradingService: TradingService
+  ) {}
 
   ngOnInit() {
     this.arrPairName = this.currentPair.name.split('/');

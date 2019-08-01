@@ -15,7 +15,7 @@ import {
   getSelectedOrderBookOrder,
   getDashboardState,
   getIsAuthenticated,
-  getOrdersBookSellOrders,
+  getOrdersBookSellOrders
 } from 'app/core/reducers/index';
 import { UserService } from 'app/shared/services/user.service';
 import { OrderItemOB, UserBalance } from 'app/model';
@@ -279,8 +279,10 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * @param value
    */
   setQuantityValue(value, orderType: string): void {
-    value = typeof value === 'string' ? value : this.exponentToNumber(value).toString();
-    orderType === this.BUY ? this.buyForm.controls['quantity'].setValue(value) : this.sellForm.controls['quantity'].setValue(value);
+    const newValue = typeof value === 'string' ? value : this.exponentToNumber(value).toString();
+    orderType === this.BUY
+      ? this.buyForm.controls['quantity'].setValue(newValue)
+      : this.sellForm.controls['quantity'].setValue(newValue);
   }
 
   /**
@@ -288,8 +290,10 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * @param value
    */
   setPriceInValue(value, orderType: string): void {
-    value = typeof value === 'string' ? value : !value ? '0' : this.exponentToNumber(value).toString();
-    orderType === this.BUY ? this.buyForm.controls['price'].setValue(value) : this.sellForm.controls['price'].setValue(value);
+    const newValue = typeof value === 'string' ? value : !value ? '0' : this.exponentToNumber(value).toString();
+    orderType === this.BUY
+      ? this.buyForm.controls['price'].setValue(newValue)
+      : this.sellForm.controls['price'].setValue(newValue);
   }
 
   /**
@@ -297,8 +301,10 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * @param value
    */
   setTotalInValue(value, orderType: string): void {
-    value = typeof value === 'string' ? value : this.exponentToNumber(value).toString();
-    orderType === this.BUY ? this.buyForm.controls['total'].setValue(value) : this.sellForm.controls['total'].setValue(value);
+    const newValue = typeof value === 'string' ? value : this.exponentToNumber(value).toString();
+    orderType === this.BUY
+      ? this.buyForm.controls['total'].setValue(newValue)
+      : this.sellForm.controls['total'].setValue(newValue);
   }
 
   /**
@@ -306,7 +312,9 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * @param value
    */
   setStopValue(value, orderType: string): void {
-    orderType === this.BUY ? this.buyForm.controls['stop'].setValue(value) : this.sellForm.controls['stop'].setValue(value);
+    orderType === this.BUY
+      ? this.buyForm.controls['stop'].setValue(value)
+      : this.sellForm.controls['stop'].setValue(value);
   }
 
   /**
@@ -361,7 +369,9 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
         .getCommission(type, currencyPairId)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
-          type === this.BUY ? (this.buyCommissionIndex = res.commissionValue) : (this.sellCommissionIndex = res.commissionValue);
+          type === this.BUY
+            ? (this.buyCommissionIndex = res.commissionValue)
+            : (this.sellCommissionIndex = res.commissionValue);
           this.cdr.detectChanges();
         });
     }
@@ -441,14 +451,17 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * calculate commission
    */
   private getCommission(type: string, setTotal = true): void {
-    type === this.BUY ? this.getCommissionNested(this.buyOrder, type, setTotal) : this.getCommissionNested(this.sellOrder, type, setTotal);
+    type === this.BUY
+      ? this.getCommissionNested(this.buyOrder, type, setTotal)
+      : this.getCommissionNested(this.sellOrder, type, setTotal);
   }
 
   private getCommissionNested(order: Order, type: string, setTotal: boolean) {
     if (setTotal) {
       if (order.rate && order.rate >= 0) {
         order.total = (order.amount * order.rate * 100) / 100;
-        order.commission = order.rate * order.amount * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
+        order.commission =
+          order.rate * order.amount * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
         this.setTotalInValue(order.total, type);
       } else {
         order.commission = 0;
@@ -457,7 +470,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     } else {
       if (order.rate && order.rate >= 0) {
         order.amount = order.total / order.rate;
-        order.commission = order.rate * order.amount * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
+        order.commission =
+          order.rate * order.amount * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100);
         this.setQuantityValue(order.amount, type);
       } else {
         order.commission = 0;
@@ -523,7 +537,9 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   totalInput(event, type: string): void {
     this.isPossibleSetPrice = false;
     this.isTotalWithCommission = false;
-    type === this.BUY ? this.inputTotalNested(event, type, this.buyOrder) : this.inputTotalNested(event, type, this.sellOrder);
+    type === this.BUY
+      ? this.inputTotalNested(event, type, this.buyOrder)
+      : this.inputTotalNested(event, type, this.sellOrder);
   }
 
   private inputTotalNested(event, type: string, order: Order) {
@@ -532,7 +548,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     order.total = parseFloat(this.deleteSpace(value));
     if (order.rate) {
       order.amount = order.total / order.rate;
-      order.commission = value > 0 ? order.total * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100) : 0;
+      order.commission =
+        value > 0 ? order.total * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100) : 0;
       this.setQuantityValue(order.amount, type);
     }
   }
@@ -543,21 +560,24 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * @returns {any}
    */
   private exponentToNumber(x) {
-    if (Math.abs(x) < 1.0) {
-      const e = parseInt(x.toString().split('e-')[1], 10);
+    let res = x;
+    if (Math.abs(res) < 1.0) {
+      const e = parseInt(res.toString().split('e-')[1], 10);
       if (e) {
-        x *= Math.pow(10, e - 1);
-        x = '0.' + new Array(e).join('0') + x.toString().substring(2);
+        res *= Math.pow(10, e - 1);
+        // tslint:disable-next-line: prefer-array-literal
+        res = `0. ${new Array(e).join('0')}${res.toString().substring(2)}`;
       }
     } else {
-      let e = parseInt(x.toString().split('+')[1], 10);
+      let e = parseInt(res.toString().split('+')[1], 10);
       if (e > 20) {
         e -= 20;
-        x /= Math.pow(10, e);
-        x += new Array(e + 1).join('0');
+        res /= Math.pow(10, e);
+        // tslint:disable-next-line: prefer-array-literal
+        res += new Array(e + 1).join('0');
       }
     }
-    return x;
+    return res;
   }
 
   /**
@@ -590,7 +610,9 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
         ? (this.sellOrder.stop = parseFloat(this.sellStopValue.toString()))
         : delete this.sellOrder.stop;
 
-      this.sellOrder.total = !this.isTotalWithCommission ? this.sellOrder.total - this.sellOrder.commission : this.sellOrder.total;
+      this.sellOrder.total = !this.isTotalWithCommission
+        ? this.sellOrder.total - this.sellOrder.commission
+        : this.sellOrder.total;
 
       this.createNewOrder(type);
     }
@@ -598,7 +620,10 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
 
   private onBuySubmit(type: string) {
     if (this.dropdownLimitValue === this.baseType.MARKET) {
-      this.buyForm.controls['quantity'].setValidators([Validators.required, this.marketOrderValidation(this.maxMarketOrder)]);
+      this.buyForm.controls['quantity'].setValidators([
+        Validators.required,
+        this.marketOrderValidation(this.maxMarketOrder),
+      ]);
       this.buyForm.controls['quantity'].updateValueAndValidity();
     }
     if (this.buyForm.valid) {
@@ -619,7 +644,9 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
         ? (this.buyOrder.stop = parseFloat(this.buyStopValue.toString()))
         : delete this.buyOrder.stop;
 
-      this.buyOrder.total = !this.isTotalWithCommission ? this.buyOrder.total + this.buyOrder.commission : this.buyOrder.total;
+      this.buyOrder.total = !this.isTotalWithCommission
+        ? this.buyOrder.total + this.buyOrder.commission
+        : this.buyOrder.total;
 
       this.createNewOrder(type);
     }
@@ -672,7 +699,10 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
           res => {
             type === this.BUY
               ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
-              : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
+              : this.resetSellModel(
+                  order.rate,
+                  this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null
+                );
             this.createOrderSuccess();
           },
           err => {

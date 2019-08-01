@@ -12,10 +12,10 @@ export class IeoHeaderComponent implements OnInit {
   @Input() public requirements: KycIEOModel;
   @Input() public userBalanceBTC: number;
   @Input() public currentStage: string;
-  @Input() public isAuthenticated: boolean = false;
+  @Input() public isAuthenticated = false;
   @Input() public ieoLoading: boolean;
-  @Output() public onBuy: EventEmitter<any> = new EventEmitter();
-  @Output() public onLogin: EventEmitter<any> = new EventEmitter();
+  @Output() public buy: EventEmitter<any> = new EventEmitter();
+  @Output() public login: EventEmitter<any> = new EventEmitter();
 
   constructor() {}
 
@@ -29,14 +29,14 @@ export class IeoHeaderComponent implements OnInit {
 
   ngOnInit() {
     if (window.innerWidth > 992) {
-      var startChangeHeader = 5;
-      var currentPosition = window.pageYOffset;
+      const startChangeHeader = 5;
+      let currentPosition = window.pageYOffset;
       if (currentPosition > startChangeHeader) {
         document.querySelector('.page-wrap').classList.add('ieo-page-header');
       } else {
         document.querySelector('.page-wrap').classList.remove('ieo-page-header');
       }
-      window.onscroll = function() {
+      window.onscroll = function () {
         currentPosition = window.pageYOffset;
         if (currentPosition > startChangeHeader) {
           document.querySelector('.page-wrap').classList.add('ieo-page-header');

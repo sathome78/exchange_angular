@@ -8,7 +8,7 @@ import {
   ElementRef,
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
+  ChangeDetectorRef
 } from '@angular/core';
 
 import { CurrencyPair } from '../../../model/currency-pair.model';
@@ -28,9 +28,9 @@ import { DashboardService } from '../../dashboard.service';
 export class MarketSearchComponent implements OnInit, AfterViewInit {
   @Input() pairs: CurrencyPair[];
   @Input() currency: string;
-  @Input('isAuthenticated') public isAuthenticated: boolean = false;
+  @Input() public isAuthenticated = false;
   public showPairs: CurrencyPair[];
-  public scrollHeight: number = 0;
+  public scrollHeight = 0;
 
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter<boolean>();
   @ViewChild('input') input: ElementRef;

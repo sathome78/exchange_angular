@@ -219,7 +219,7 @@ export class DashboardService {
   }
 
   getMarketsForCurrency(currencyName): Observable<any> {
-    return this.http.get<any>(this.apiUrl + '/api/public/v2/pair/first/' + currencyName);
+    return this.http.get<any>(`${this.apiUrl}/api/public/v2/pair/first/${currencyName}`);
   }
 
   getCryptoCurrencies() {

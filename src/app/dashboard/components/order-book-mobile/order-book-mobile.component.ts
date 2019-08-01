@@ -1,4 +1,12 @@
-import { Component, OnDestroy, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
@@ -10,7 +18,7 @@ import {
   SelectedOrderBookOrderAction,
   SetLastPriceAction,
   SetOrdersBookSellDataAction,
-  SetOrdersBookBuyDataAction,
+  SetOrdersBookBuyDataAction
 } from '../../actions/dashboard.actions';
 import { CurrencyPairInfo } from '../../../model/currency-pair-info.model';
 import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
@@ -66,7 +74,11 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   public precision = 0.00001;
   public precisionOut = 5;
 
-  constructor(private store: Store<State>, private dashboardWebsocketService: DashboardWebSocketService, private cdr: ChangeDetectorRef) {
+  constructor(
+    private store: Store<State>,
+    private dashboardWebsocketService: DashboardWebSocketService,
+    private cdr: ChangeDetectorRef
+  ) {
     super();
   }
 
@@ -107,9 +119,9 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
     }
     this.calculateVisualizationWidth(this.lastBuyTotal, this.lastSellTotal);
 
-    orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) : orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : null;
+    orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) : this.setBuyOrders(orders[0]);
     if (orders[1]) {
-      orders[1].orderType === 'SELL' ? this.setSellOrders(orders[1]) : orders[1].orderType === 'BUY' ? this.setBuyOrders(orders[1]) : null;
+      orders[1].orderType === 'SELL' ? this.setSellOrders(orders[1]) : this.setBuyOrders(orders[1]);
     }
     this.buyCalculateVisualization();
     this.sellCalculateVisualization();
@@ -167,8 +179,10 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
     const widthItem = (buy + sell) / 98;
     const buyWidth = buy / widthItem;
     const sellWidth = sell / widthItem;
-    this.maxBuyVisualizationWidth = buyWidth > sellWidth ? buyWidth + sellWidth : this.getRelativeWidth(sellWidth, buyWidth);
-    this.maxSellVisualizationWidth = buyWidth < sellWidth ? buyWidth + sellWidth : this.getRelativeWidth(sellWidth, buyWidth);
+    this.maxBuyVisualizationWidth =
+      buyWidth > sellWidth ? buyWidth + sellWidth : this.getRelativeWidth(sellWidth, buyWidth);
+    this.maxSellVisualizationWidth =
+      buyWidth < sellWidth ? buyWidth + sellWidth : this.getRelativeWidth(sellWidth, buyWidth);
   }
 
   getRelativeWidth(sellWidth: number, buyWidth: number): number {
@@ -180,7 +194,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
 
   public sellCalculateVisualization(): void {
     const visArr = [];
-    for (let i = 0; i < this.sellOrders.length; i++) {
+    for (let i = 0; i < this.sellOrders.length; i += 1) {
       const coefficient = +this.commonSellTotal / +this.sellOrders[i].total;
       visArr.push(this.maxSellVisualizationWidth / coefficient);
     }
@@ -189,7 +203,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
 
   public buyCalculateVisualization(): void {
     const visArr = [];
-    for (let i = 0; i < this.buyOrders.length; i++) {
+    for (let i = 0; i < this.buyOrders.length; i += 1) {
       const coefficient = +this.commonBuyTotal / +this.buyOrders[i].total;
       visArr.push(this.maxBuyVisualizationWidth / coefficient);
     }
@@ -218,7 +232,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   public decPrecision(): void {
     if (this.precision <= 0.01) {
       this.precision *= 10;
-      this.precisionOut--;
+      this.precisionOut -= 1;
       this.subscribeOrderBook(this.activeCurrencyPair.name, this.precisionOut);
     }
   }
@@ -229,7 +243,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   public incPrecision(): void {
     if (this.precision >= 0.0001) {
       this.precision /= 10;
-      this.precisionOut++;
+      this.precisionOut += 1;
       this.subscribeOrderBook(this.activeCurrencyPair.name, this.precisionOut);
     }
   }

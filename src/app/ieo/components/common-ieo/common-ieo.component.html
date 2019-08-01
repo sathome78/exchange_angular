@@ -290,7 +290,7 @@
     *ngIf="
       !((verificationStatus && verificationStatus.toUpperCase()) === KYC_STATUS.ACCEPTED ||
       (verificationStatus && verificationStatus.toUpperCase()) === KYC_STATUS.SUCCESS)"
-    (onClick)="bannerClick()"
+    (click)="bannerClick()"
   ></app-get-ready-banner>
 
   <div
@@ -506,7 +506,7 @@
 <app-popup-policy
   *ngIf="showPolicy"
   (close)="togglePolicy()"
-  (onAgree)="agreeWithPolicy()"
+  (agree)="agreeWithPolicy()"
 ></app-popup-policy>
 
 <app-popup-failed

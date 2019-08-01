@@ -15,7 +15,7 @@ export class EmbeddedOrdersService {
 
   getOpenOrders(currencyPairId): Observable<any> {
     return this.http.get(`${this.baseUrl}/api/private/v2/dashboard/orders/OPENED`, {
-      params: { currencyPairId: currencyPairId, scope: 'ALL' },
+      params: { currencyPairId, scope: 'ALL' },
     });
   }
 

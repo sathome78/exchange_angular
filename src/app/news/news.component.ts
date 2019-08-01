@@ -45,7 +45,9 @@ export class NewsComponent implements OnInit, OnDestroy {
       .subscribe(
         res => {
           this.countNews = (res as RssNewsResponsse).data.count;
-          this.allNews = concat ? this.concatNews((res as RssNewsResponsse).data.feeds) : (res as RssNewsResponsse).data.feeds;
+          this.allNews = concat
+            ? this.concatNews((res as RssNewsResponsse).data.feeds)
+            : (res as RssNewsResponsse).data.feeds;
           this.isLoading = this.allNews.length !== this.countNews;
           this.cdr.detectChanges();
         },

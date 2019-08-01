@@ -59,17 +59,21 @@ export class SEOService {
       };
     }
 
-    const title = `${pair}| ${detailedPair.currency1.description} to ${detailedPair.currency2.description} | Crypto trading at Exrates`;
+    const title = `${pair}| ${detailedPair.currency1.description} to ${
+      detailedPair.currency2.description
+    } | Crypto trading at Exrates`;
     const description =
-      `${pair} - buy ${detailedPair.currency1.description} for ${detailedPair.currency2.description} at Exrates cryptocurrency exchange.` +
+      `${pair} - buy ${detailedPair.currency1.description} for ${
+        detailedPair.currency2.description
+      } at Exrates cryptocurrency exchange.` +
       `${detailedPair.currency1.description} to ${
         detailedPair.currency2.description
       } market at Exrates - ${currs[0].toUpperCase()} price, ` +
       `${currs[0].toUpperCase()} price charts, ${currs[0].toUpperCase()} market cap. The lowest transaction fees.`;
 
     return {
-      title: title,
-      description: description,
+      title,
+      description,
     };
   }
 
@@ -107,7 +111,8 @@ export class SEOService {
       case url.startsWith('/funds/transaction-history'):
         return {
           title: 'Transaction History',
-          description: 'Check your transaction history on Exrates.  All your deposit, withdrawal, and transfer records in one place.',
+          description:
+            'Check your transaction history on Exrates.  All your deposit, withdrawal, and transfer records in one place.',
         };
       case url.startsWith('/orders/open'):
         return {
@@ -134,7 +139,7 @@ export class SEOService {
         return {
           title: 'Security Settings',
           description:
-            "Check all your active sessions in your account's security settings. Exrates saves login data and analyzes it for any unusual activity",
+            'Check all your active sessions in your account\'s security settings. Exrates saves login data and analyzes it for any unusual activity',
         };
       case url.startsWith('/news'):
         return {
@@ -154,7 +159,8 @@ export class SEOService {
       case url.startsWith('/'):
         return {
           title: 'Exrates',
-          description: 'Exartes Cryptocurrency Exchange - more than 500 trading pairs, minimum commissions and maximum security',
+          description:
+            'Exartes Cryptocurrency Exchange - more than 500 trading pairs, minimum commissions and maximum security',
         };
       default:
         return {

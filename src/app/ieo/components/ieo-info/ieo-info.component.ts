@@ -25,9 +25,9 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public requirements: KycIEOModel;
   @Input() public ieoLoading: boolean;
   @Input() public userBalanceBTC: number;
-  @Output() public onLogin: EventEmitter<any> = new EventEmitter();
-  @Output() public onRefreshIEOStatus: EventEmitter<any> = new EventEmitter();
-  @Output() public onBuy: EventEmitter<any> = new EventEmitter();
+  @Output() public login: EventEmitter<any> = new EventEmitter();
+  @Output() public refreshIEOStatus: EventEmitter<any> = new EventEmitter();
+  @Output() public buy: EventEmitter<any> = new EventEmitter();
   constructor() {}
 
   ngOnInit() {}
@@ -63,6 +63,7 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
 
       if (diff > 0) {
         this.timer =
+          // tslint:disable-next-line: prefer-template
           '<span>' +
           (days < 10 ? '0' + days : days) +
           '</span>' +
@@ -78,7 +79,7 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
       } else {
         this.timer = '<span>00</span><span>00</span><span>00</span><span>00</span>';
         if (this.currentStage === this.stage.PENDING) {
-          this.onRefreshIEOStatus.emit();
+          this.refreshIEOStatus.emit();
           if (this.interval) {
             clearInterval(this.interval);
           }
@@ -88,12 +89,12 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
     getCountdown();
     this.interval = setInterval(() => getCountdown(), 1000);
   }
-  public login() {
-    this.onLogin.emit();
+  public onLogin() {
+    this.login.emit();
   }
 
   public onBuyEvent() {
-    this.onBuy.emit();
+    this.buy.emit();
   }
 
   public getLocalDateValue(d): moment.Moment {

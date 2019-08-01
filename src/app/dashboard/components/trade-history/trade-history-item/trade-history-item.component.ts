@@ -8,7 +8,7 @@ import { TradeItem } from 'app/model/trade-item.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradeHistoryItemComponent implements OnInit {
-  @Input('trade') public trade: TradeItem;
+  @Input() public trade: TradeItem;
 
   constructor() {}
 

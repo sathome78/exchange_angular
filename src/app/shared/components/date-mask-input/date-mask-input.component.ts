@@ -8,7 +8,7 @@ import {
   OnChanges,
   Output,
   SimpleChanges,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IMyDateModel } from 'mydatepicker';
@@ -16,6 +16,7 @@ import * as moment from 'moment';
 
 export const CUSTOM_INPUT_DATE_MASK_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
+  // tslint:disable-next-line: no-use-before-declare
   useExisting: forwardRef(() => DateMaskInputComponent),
   multi: true,
 };
@@ -29,15 +30,15 @@ export const CUSTOM_INPUT_DATE_MASK_ACCESSOR: any = {
 export class DateMaskInputComponent implements ControlValueAccessor, AfterViewInit, OnChanges {
   private _innerValue: any;
   private el: any;
-  @Input('innValue') innValue: any;
-  @Input('limitDate') limitDate = true;
-  @Input('setOnInput') setOnInput = false;
-  @Input('disableAutoFocus') disableAutoFocus: boolean = false;
+  @Input() innValue: any;
+  @Input() limitDate = true;
+  @Input() setOnInput = false;
+  @Input() disableAutoFocus = false;
   @ViewChild('inputEl') inputEl: ElementRef;
-  @Output('customInputMask') customInputMask: EventEmitter<any>;
-  @Output('validDate') validDate: EventEmitter<IMyDateModel>;
-  @Output('inputFocus') inputFocus: EventEmitter<boolean>;
-  @Output('inputEmpty') inputEmpty: EventEmitter<boolean>;
+  @Output() customInputMask: EventEmitter<any>;
+  @Output() validDate: EventEmitter<IMyDateModel>;
+  @Output() inputFocus: EventEmitter<boolean>;
+  @Output() inputEmpty: EventEmitter<boolean>;
 
   private validDatePattern = /\d{2}.\d{2}.\d{4}$/;
   private onTouched: any = () => {};
@@ -57,11 +58,13 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
     if (changes.hasOwnProperty('innValue')) {
       const value = !this.innValue ? null : this.innValue.date;
       if (value) {
-        this.writeValue(`${this.addZeroIfNeed(value.day.toString())}.${this.addZeroIfNeed(value.month.toString())}.${value.year}`);
+        this.writeValue(
+          `${this.addZeroIfNeed(value.day.toString())}.${this.addZeroIfNeed(value.month.toString())}.${value.year}`
+        );
       } else {
         this.writeValue('');
-        if (!this.disableAutoFocus) {
-          this.el ? this.el.focus() : null;
+        if (!this.disableAutoFocus && this.el) {
+          this.el.focus();
         }
       }
     }
@@ -100,12 +103,12 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
       };
       this.validDate.emit(date);
     }
-    if (this.setOnInput) this.writeValue(target.value);
-    if (target.value === '') this.inputEmpty.emit(true);
+    if (this.setOnInput) { this.writeValue(target.value); }
+    if (target.value === '') { this.inputEmpty.emit(true); }
   }
 
   writeValue(value: any) {
-    if (value == 'N/A') {
+    if (value === 'N/A') {
       return (this._innerValue = value);
     }
     this._innerValue = value;
@@ -124,7 +127,7 @@ export class DateMaskInputComponent implements ControlValueAccessor, AfterViewIn
 
   onBlur(event) {
     this.onTouched();
-    if (!this.el.value) this.inputFocus.emit(false);
+    if (!this.el.value) { this.inputFocus.emit(false); }
     this.writeValue(event.target.value);
   }
 

@@ -1,4 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener, OnChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  HostListener,
+  OnChanges
+} from '@angular/core';
 
 @Component({
   selector: 'app-dynamic-input-dashboard',
@@ -24,7 +34,7 @@ export class DynamicInputDashboardComponent implements OnChanges {
   @ViewChild('list') listElement: ElementRef;
 
   public filteredOptions: DIOptions[] = [];
-  public showDropdown: boolean = false;
+  public showDropdown = false;
   public arrowKeyLocation = 0;
 
   keyDown(event: KeyboardEvent) {

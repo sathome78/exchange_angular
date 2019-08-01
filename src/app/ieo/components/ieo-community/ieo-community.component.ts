@@ -7,7 +7,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IEOCommunityComponent implements OnInit {
-  @Input('community') public community = null;
+  @Input() public community = null;
 
   constructor() {}
 

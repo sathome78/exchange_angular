@@ -6,6 +6,7 @@
     "ter-arrow-parens": [true, "as-needed"],
     "max-line-length": [true, {"limit": 120, "ignore-pattern": "^import |^export {(.*?)}"}],
     "no-trailing-whitespace": [true, "ignore-comments"],
+    "increment-decrement": false,
     "trailing-comma": [
       true,
       {

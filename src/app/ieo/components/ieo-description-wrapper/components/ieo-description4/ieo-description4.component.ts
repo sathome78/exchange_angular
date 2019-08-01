@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./ieo-description4.component.scss'],
 })
 export class IeoDescription4Component implements OnInit {
-  @Input('ieoToken') public ieoToken = null;
+  @Input() public ieoToken = null;
 
   constructor() {}
 

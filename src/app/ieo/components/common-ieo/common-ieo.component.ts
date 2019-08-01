@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IEOItem } from '../../../model/ieo.model';
 import { Observable, Subject } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import { getVerificationStatus, State } from '../../../core/reducers';
 import { takeUntil } from 'rxjs/operators';
 import * as fromCore from '../../../core/reducers';
 import { KYC_STATUS } from '../../../shared/constants';
@@ -53,7 +52,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private store: Store<State>,
+    private store: Store<fromCore.State>,
     private popupService: PopupService,
     private utilsService: UtilsService,
     private ieoService: IEOServiceService,
@@ -75,7 +74,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
           this.checkSubscribe();
 
           this.store
-            .pipe(select(getVerificationStatus))
+            .pipe(select(fromCore.getVerificationStatus))
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
               this.verificationStatus = res;
@@ -120,11 +119,11 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
             const diff = aT - bT;
             if (diff < 0) {
               return 1;
-            } else if (diff > 0) {
-              return -1;
-            } else {
-              return 0;
             }
+            if (diff > 0) {
+              return -1;
+            }
+            return 0;
           }),
         ];
         this.handleTestIEO();
@@ -222,7 +221,12 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   public handleTestIEO() {
     if (this.buyIEOData && this.ieoList && this.ieoList.length) {
       const ieo = this.ieoList.find(i => i.id === this.buyIEOData.id);
-      if (ieo && ieo.multiplyProcessing && ieo.status === this.stage.TERMINATED && this._firstLoadedStatus !== this.stage.TERMINATED) {
+      if (
+        ieo &&
+        ieo.multiplyProcessing &&
+        ieo.status === this.stage.TERMINATED &&
+        this._firstLoadedStatus !== this.stage.TERMINATED
+      ) {
         this.toggleWait(false);
         this.toggleSorry(true);
       }

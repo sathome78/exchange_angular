@@ -32,15 +32,21 @@ export class DashboardWebSocketService implements OnDestroy {
   }
 
   pairInfoSubscription(pairName: string): any {
-    return this.stompService.watch(`/app/statistics/pairInfo/${pairName}`).pipe(map((message: Message) => JSON.parse(message.body)));
+    return this.stompService
+      .watch(`/app/statistics/pairInfo/${pairName}`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
   allTradesSubscription(pairName: string): any {
-    return this.stompService.watch(`/app/all_trades/${pairName}`).pipe(map((message: Message) => JSON.parse(message.body)));
+    return this.stompService
+      .watch(`/app/all_trades/${pairName}`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
   orderBookSubscription(pairName: string, precision: number): any {
-    return this.stompService.watch(`/app/order_book/${pairName}/${precision}`).pipe(map((message: Message) => JSON.parse(message.body)));
+    return this.stompService
+      .watch(`/app/order_book/${pairName}/${precision}`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
   ngOnDestroy(): void {

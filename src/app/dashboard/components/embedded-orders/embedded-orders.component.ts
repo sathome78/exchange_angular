@@ -11,7 +11,7 @@ import {
   getOpenOrdersCount,
   getHistoryOrders,
   getOrdersLoading,
-  getUserInfo,
+  getUserInfo
 } from 'app/core/reducers/index';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UserService } from 'app/shared/services/user.service';

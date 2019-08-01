@@ -17,15 +17,15 @@ export class DynamicInputComponent implements OnChanges {
   @Input('value') public value: string;
   // @Input('label') public label: string = '';
   @Input('icon') public icon: any = null;
-  @Input('showNotFoundTip') public showNotFoundTip: boolean = false;
-  @Input('setNullValue') public setNullValue: boolean = false;
+  @Input('showNotFoundTip') public showNotFoundTip = false;
+  @Input('setNullValue') public setNullValue = false;
   @Output('onSelect') public onSelect: EventEmitter<DIOptions> = new EventEmitter();
   @Output('onChange') public onChange: EventEmitter<string> = new EventEmitter();
   @ViewChild('input') inputElement: ElementRef;
   @ViewChild('list') listElement: ElementRef;
 
   public filteredOptions: DIOptions[] = [];
-  public showDropdown: boolean = false;
+  public showDropdown = false;
   public arrowKeyLocation = 0;
 
   keyDown(event: KeyboardEvent) {

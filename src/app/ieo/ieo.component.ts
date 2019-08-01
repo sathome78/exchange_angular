@@ -103,7 +103,11 @@ export class IEOComponent implements OnInit, OnDestroy {
   }
 
   handleTestIEO(data: IEOItem) {
-    if (data.multiplyProcessing && data.status === this.stage.TERMINATED && this._firstLoadedStatus !== this.stage.TERMINATED) {
+    if (
+      data.multiplyProcessing &&
+      data.status === this.stage.TERMINATED &&
+      this._firstLoadedStatus !== this.stage.TERMINATED
+    ) {
       this.toggleWait(false);
       this.toggleSorry(true);
     }

@@ -7,6 +7,6 @@ import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GetReadyBannerComponent {
-  @Output('onClick') public onClick: EventEmitter<any> = new EventEmitter();
+  @Output() public click: EventEmitter<any> = new EventEmitter();
   constructor() {}
 }

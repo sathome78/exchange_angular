@@ -40,7 +40,11 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
 
   userInSystem: boolean;
 
-  constructor(private store: Store<State>, private dashboardWebsocketService: DashboardWebSocketService, private cdr: ChangeDetectorRef) {
+  constructor(
+    private store: Store<State>,
+    private dashboardWebsocketService: DashboardWebSocketService,
+    private cdr: ChangeDetectorRef
+  ) {
     super();
   }
 
@@ -63,7 +67,8 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
         this.addOrUpdate(this.allTrades, orders);
         /** sort items */
         this.allTrades.sort((a, b) => {
-          let timeA, timeB;
+          let timeA;
+          let timeB;
           timeA = parseInt(a.acceptionTime, 10);
           timeB = parseInt(b.acceptionTime, 10);
           return timeB - timeA;
@@ -107,6 +112,7 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
       let found = false;
       oldItems.forEach(oldItem => {
         if (oldItem.orderId === newItem.orderId) {
+          // tslint:disable-next-line: no-parameter-reassignment
           oldItem = TradeItem.deepCopy(newItem);
           found = true;
         }

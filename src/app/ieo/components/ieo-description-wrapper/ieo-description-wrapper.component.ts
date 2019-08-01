@@ -6,8 +6,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./ieo-description-wrapper.component.scss'],
 })
 export class IeoDescriptionWrapperComponent implements OnInit {
-  @Input('IEOId') public IEOId: string;
-  @Input('ieoToken') public ieoToken = null;
+  @Input() public IEOId: string;
+  @Input() public ieoToken = null;
 
   constructor() {}
 

@@ -36,17 +36,6 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   public isShowCancelAllOrdersConfirm = false;
   public activeCurrencyPair: SimpleCurrencyPair;
 
-  // public myDatePickerOptions: IMyDpOptions = {
-  //   dateFormat: 'dd.mm.yyyy',
-  //   disableSince: {
-  //     year: new Date().getFullYear(),
-  //     month: new Date().getMonth() + 1,
-  //     day: new Date().getDate()
-  //   }
-  // };
-
-  // public modelDateFrom: any;
-  // public modelDateTo: any;
   public currencyPairId: string = null;
   public currencyPairValue = '';
   public currValue = '';

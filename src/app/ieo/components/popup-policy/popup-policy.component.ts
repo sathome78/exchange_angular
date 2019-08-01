@@ -7,7 +7,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class PopupPolicyComponent implements OnInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
-  @Output() onAgree: EventEmitter<any> = new EventEmitter();
+  @Output() agree: EventEmitter<any> = new EventEmitter();
 
   constructor() {}
 

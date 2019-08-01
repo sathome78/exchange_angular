@@ -36,8 +36,7 @@ export class ChatService {
    * @param {ChatItem} message
    */
   private sendMessage(message: ChatItem) {
-    const that = this;
-    const destination = '/topic/chat/' + that.langService.getLanguage();
+    const destination = '/topic/chat/' + this.langService.getLanguage();
     this.stompService.publish({
       destination,
       body: JSON.stringify(message),

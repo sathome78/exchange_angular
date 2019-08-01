@@ -7,7 +7,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IEODescriptionComponent implements OnInit {
-  @Input('ieoToken') public ieoToken = null;
+  @Input() public ieoToken = null;
 
   constructor() {}
 

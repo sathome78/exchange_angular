@@ -16,14 +16,12 @@ import {
   TRANSLATE_FLAG,
   IEO_FLAG,
   NGX_TRANSLATE_FLAG,
-  COMMUNITY_FLAG,
+  COMMUNITY_FLAG
 } from './header.constants';
 import { MyBalanceItem } from '../model/my-balance-item.model';
 import { Observable, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { select, Store } from '@ngrx/store';
-import { getLanguage, State } from '../core/reducers';
-import { ChangeLanguageAction } from '../core/actions/core.actions';
 import { takeUntil, withLatestFrom } from 'rxjs/operators';
 import * as fromCore from '../core/reducers';
 import * as coreActions from '../core/actions/core.actions';
@@ -47,7 +45,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public ngxTranslateList: boolean;
   public showReferralList: boolean;
   public showIEOList: boolean;
-  public isAuthenticated: boolean = false;
+  public isAuthenticated = false;
   public FUNDS_FLAG = FUNDS_FLAG;
   public COMMUNITY_FLAG = COMMUNITY_FLAG;
   public NGX_TRANSLATE_FLAG = NGX_TRANSLATE_FLAG;
@@ -69,7 +67,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private settingsService: SettingsService,
     private dashboardService: DashboardService,
     private userService: UserService,
-    private store: Store<State>,
+    private store: Store<fromCore.State>,
     private cdr: ChangeDetectorRef,
     public breakpointService: BreakpointService,
     public translate: TranslateService
@@ -95,7 +93,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.myBalance = this.dashboardService.getMyBalances();
 
     this.store
-      .pipe(select(getLanguage))
+      .pipe(select(fromCore.getLanguage))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.lang = this.langArray.filter(lang => lang.name === res)[0];
@@ -130,7 +128,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   changeLocalization(lang: string) {
     this.lang = this.langArray.filter(item => item.name === lang.toLowerCase())[0];
-    this.store.dispatch(new ChangeLanguageAction(lang));
+    this.store.dispatch(new coreActions.ChangeLanguageAction(lang));
     localStorage.setItem('language', lang);
   }
   openLogin() {

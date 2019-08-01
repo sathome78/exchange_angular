@@ -11,7 +11,7 @@ import { SimpleCurrencyPair } from '../../../../model/simple-currency-pair';
 export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
   @Input() historyOrders;
   @Input() makeHeight;
-  @Input() isVipUser: boolean = false;
+  @Input() isVipUser = false;
   @Input() currentPair: SimpleCurrencyPair;
   public currentPage = 1;
   public countPerPage = 7;

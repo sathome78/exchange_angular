@@ -6,7 +6,7 @@ import {
   Input,
   ChangeDetectorRef,
   HostListener,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
@@ -22,7 +22,7 @@ import {
   IChartingLibraryWidget,
   ChartingLibraryWidgetOptions,
   LanguageCode,
-  Timezone,
+  Timezone
 } from 'assets/js/charting_library/charting_library.min';
 import { environment } from 'environments/environment';
 import { select, Store } from '@ngrx/store';
@@ -306,9 +306,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   toggleCurrencySearch(): void {
     const temp = this.allCurrencyPairs.filter(pair => pair.market === this.secondCurrency);
     this.currencies = [];
-    for (let i = 0; i < temp.length; i++) {
+    for (let i = 0; i < temp.length; i += 1) {
       const name = temp[i].currencyPairName.split('/')[0];
-      this.currencies.push({ name: name });
+      this.currencies.push({ name });
     }
     this.marketDropdown = false;
     this.showCurrencySearch = !this.showCurrencySearch;
@@ -361,10 +361,13 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   flarForArrow(s: string) {
     if (s === 'up') {
-      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate >= 0 : false;
-    } else {
-      return this.currentCurrencyInfo ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate < 0 : false;
+      return this.currentCurrencyInfo
+        ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate >= 0
+        : false;
     }
+    return this.currentCurrencyInfo
+      ? this.currentCurrencyInfo.currencyRate - this.currentCurrencyInfo.lastCurrencyRate < 0
+      : false;
   }
 
   getIsFiat(curr): boolean {
@@ -379,9 +382,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     if (!!this.timeZoneName) {
       const indexCandidate = GRAPH_TIME_ZONE_SUPPORT.indexOf(this.timeZoneName);
       return indexCandidate !== -1 ? <Timezone>GRAPH_TIME_ZONE_SUPPORT[indexCandidate] : <Timezone>this.timeZoneName;
-    } else {
-      return 'Etc/UTC';
     }
+    return 'Etc/UTC';
   }
 
   private setLang(): LanguageCode {

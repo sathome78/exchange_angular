@@ -9,7 +9,7 @@ import {
   getUserBalance,
   getCurrencyPairInfo,
   getCurrencyPairArray,
-  getSimpleCurrencyPairsSelector,
+  getSimpleCurrencyPairsSelector
 } from 'app/core/reducers/index';
 import { DashboardWebSocketService } from '../../dashboard-websocket.service';
 import { CurrencyPairInfo } from '../../../model/currency-pair-info.model';
@@ -32,12 +32,12 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   public pair: SimpleCurrencyPair = null;
-  public pairInput: string = '';
+  public pairInput = '';
   public currentCurrencyInfo: CurrencyPairInfo = null;
   public userBalanceInfo: UserBalance;
   public allCurrencyPairs: SimpleCurrencyPair[] = [];
   public DIOptions: DIOptions[] = [];
-  public isIncrease: boolean = false;
+  public isIncrease = false;
   private pairInfoSub$: Subscription;
 
   constructor(
