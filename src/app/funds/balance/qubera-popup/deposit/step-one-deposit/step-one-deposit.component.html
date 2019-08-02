@@ -127,7 +127,7 @@
   </form>
   <div
     class="info-block"
-    *ngIf="bankInfo !== undefined"
+    *ngIf="bankInfo"
   >
     <div class="left-part">
       <div class="left-block">
@@ -137,36 +137,36 @@
         >
           <div class="item-info">
             <span class="key-info">{{'Bank' | translate}}</span>
-            <span class="value-info">{{bankInfo?.bankName}}</span>
+            <span class="value-info">{{bankInfo.bankName}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'IBAN' | translate}}</span>
-            <span class="value-info">{{bankInfo?.iban}}</span>
+            <span class="value-info">{{bankInfo.iban}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'BIC' | translate}}</span>
-            <span class="value-info">{{bankInfo?.bic}}</span>
+            <span class="value-info">{{bankInfo.bic}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'Country' | translate}}</span>
-            <span class="value-info">{{bankInfo?.country}}</span>
+            <span class="value-info">{{bankInfo.country}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'City' | translate}}</span>
-            <span class="value-info">{{bankInfo?.city}}</span>
+            <span class="value-info">{{bankInfo.city}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'Address' | translate}}</span>
-            <span class="value-info">{{bankInfo?.address}}</span>
+            <span class="value-info">{{bankInfo.address}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'Swift code' | translate}}</span>
-            <span class="value-info">{{bankInfo?.swiftCode}}</span>
+            <span class="value-info">{{bankInfo.swiftCode}}</span>
           </div>
         </div>
         <a
           class="print"
-          (click)="download()"
+          [href]="bankInfo.url"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -196,30 +196,6 @@
         </a>
       </div>
     </div>
-    <!-- <div class="right-part"> -->
-    <!-- <div class="left-block">
-        <div class="item-info">
-          <span class="key-info">Amount</span>
-          <span class="value-info">1,111,821.00 EUR</span>
-        </div>
-        <div class="item-info">
-          <span class="key-info">Comission</span>
-          <span class="value-info">40%</span>
-        </div>
-        <div class="item-info">
-          <span class="key-info">Fee amount</span>
-          <span class="value-info">430 EUR</span>
-        </div>
-        <div class="item-info">
-          <span class="key-info">Added to payment</span>
-          <span class="value-info">710 EUR</span>
-        </div>
-        <div class="item-info">
-          <span class="key-info">Total (with comission)</span>
-          <span class="value-info">1,111,821.00 EUR</span>
-        </div>
-      </div> -->
-    <!-- </div> -->
   </div>
   <button
     class="btn btn--active balance__title-btn"

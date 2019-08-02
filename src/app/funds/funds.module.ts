@@ -79,6 +79,7 @@ import { StepOneQuberaComponent } from './balance/qubera-popup/create-qubera/ste
 import { StepTwoQuberaComponent } from './balance/qubera-popup/create-qubera/step-two-qubera/step-two-qubera.component';
 import { RefillStepThreeComponent } from './balance/refill-money/refill-step-three/refill-step-three.component';
 import { StepThreeWithdrawComponent } from './balance/qubera-popup/withdraw/step-three-withdraw/step-three-withdraw.component';
+import { QuberaMobDetailsComponent } from './qubera-mob-details/qubera-mob-details.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -167,6 +168,7 @@ export function createTranslateLoader(http: HttpClient) {
     StepTwoQuberaComponent,
     RefillStepThreeComponent,
     StepThreeWithdrawComponent,
+    QuberaMobDetailsComponent,
   ],
   providers: [
     BalanceService,

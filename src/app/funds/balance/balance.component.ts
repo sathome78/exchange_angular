@@ -430,6 +430,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
     });
   }
 
+  public onGoToQuberaDetails({ currencyCode }) {
+    this.router.navigate([`/funds/balances/fiat/${currencyCode}`]);
+  }
+
   public onGoToIEOBalanceDetails({ currencyId, priceIn }) {
     this.router.navigate([`/funds/balances/ieo/${currencyId}`], { queryParams: { priceIn } });
   }

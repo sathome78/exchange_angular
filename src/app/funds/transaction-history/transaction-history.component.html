@@ -64,11 +64,103 @@
                     'arr--green': item.sourceType === 'REFILL'
                   }"
                   ></span>
-                  <span>{{item.sourceType === 'REFILL' ? 'Refill' : item.sourceType === 'WITHDRAW' ? 'Withdraw' : item.sourceType}}</span>
+                  <span
+                    class="txt-green"
+                    *ngIf="item.sourceType === 'REFILL'"
+                  >{{item.sourceType | showTransactionsType: item}}</span>
+                  <span
+                    class="txt-red"
+                    *ngIf="item.sourceType === 'WITHDRAW'"
+                  >{{item.sourceType | showTransactionsType: item}}</span>
+                  <span
+                    class="txt-green"
+                    *ngIf="item.sourceType === 'USER_TRANSFER' && item.accepted"
+                  >{{item.sourceType | showTransactionsType: item}}</span>
+                  <span
+                    class="txt-red"
+                    *ngIf="item.sourceType === 'USER_TRANSFER' && !item.accepted"
+                  >{{item.sourceType | showTransactionsType: item}}</span>
+                  <span
+                    class="txt-green"
+                    *ngIf="item.sourceType === 'IEO' && item.operationType === 'Input'"
+                  >{{item.sourceType | showTransactionsType: item}}</span>
+                  <span
+                    class="txt-red"
+                    *ngIf="item.sourceType === 'IEO' && item.operationType === 'Output'"
+                  >{{item.sourceType | showTransactionsType: item}}</span>
                 </div>
                 <div class="balance__request-mob-date">
                   <div>{{item.datetime | amFromUtc | amLocal | amDateFormat: 'dd DD.MM.YYYY'}}</div>
                   <div>{{item.datetime | amFromUtc | amLocal | amDateFormat: 'HH:mm:ss'}}</div>
+                </div>
+              </td>
+              <td class="table__cell table__cell--tal">
+                <div>{{item.currencyName}}</div>
+                <div class="transaction__currency-type">
+                  {{isFiat(item.currencyName) ? 'Fiat' : 'Crypto'}}
+                </div>
+              </td>
+              <td class="table__cell table__cell--tar">
+                <div class="txt-red">{{item.amount | currencyFormat:item.currencyName}}</div>
+              </td>
+              <td class="table__cell table__cell--arr-mob">
+                <svg
+                  width="10"
+                  height="6"
+                  viewBox="0 0 15 9"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13.7272 1.36396L7.36328 7.72792L0.99932 1.36396"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4">
+                <div class="table__row-mob-line"></div>
+              </td>
+            </tr>
+            <tr
+              class="table__details"
+              [id]="item.id"
+            >
+              <td
+                class="table__details-cell"
+                colspan="4"
+              >
+                <div class="table__details-item">
+                  <div class="table__details-item-title">{{'Comission' | translate}}</div>
+                  <div class="table__details-item-value">{{item.commissionAmount | currencyFormat: item.currencyName}}</div>
+                </div>
+                <div class="table__details-item">
+                  <div class="table__details-item-title">{{'Payment system' | translate}}</div>
+                  <div class="table__details-item-value">{{item.merchantName}}</div>
+                </div>
+                <div class="table__details-item">
+                  <div class="table__details-item-title">{{'Transaction id' | translate}}</div>
+                  <div class="table__details-item-value">{{item.transactionsId}}</div>
+                </div>
+                <div class="table__details-item">
+                  <div class="table__details-item-title">{{'Transaction hash' | translate}}</div>
+                  <div class="table__details-item-value">{{item.transactionHash}}</div>
+                </div>
+                <div class="table__details-item">
+                  <div class="row">
+                    <!-- <button class="btn btn--small btn--empty-blue">I paid</button> -->
+                    <button
+                      class="btn btn--small btn--empty-blue"
+                      style="margin-left: 20px;"
+                    >{{'Revoke' | translate}}</button>
+                  </div>
+                  <div class="balance__request-mob-date">
+                    <div>{{item.datetime | amFromUtc | amLocal | amDateFormat: 'dd DD.MM.YYYY'}}</div>
+                    <div>{{item.datetime | amFromUtc | amLocal | amDateFormat: 'HH:mm:ss'}}</div>
+                  </div>
                 </div>
               </td>
               <td class="table__cell table__cell--tal">
@@ -353,7 +445,7 @@
           <!-- <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
           </svg> -->
-          <span>Search</span>
+          <span>{{'Search' | translate}}</span>
         </button>
       </div>
 
@@ -396,20 +488,20 @@
             </div>
           </td>
           <td class="table__cell">
-            <span>{{item.commissionAmount| roundCurrency: item.currencyName | formatCurrency}}</span>
+            <span>{{item.commissionAmount| currencyFormat: item.currencyName}}</span>
           </td>
           <td class="table__cell">
-            <span>{{item.amount | roundCurrency: item.currencyName | formatCurrency}}</span>
+            <span>{{item.amount | currencyFormat: item.currencyName}}</span>
           </td>
           <td class="table__cell">
             <span
               class="txt-green"
               *ngIf="item.sourceType === 'REFILL'"
-            >{{item.sourceType | showTransactionsType}}</span>
+            >{{item.sourceType | showTransactionsType: item}}</span>
             <span
               class="txt-red"
               *ngIf="item.sourceType === 'WITHDRAW'"
-            >{{item.sourceType | showTransactionsType}}</span>
+            >{{item.sourceType | showTransactionsType: item}}</span>
             <span
               class="txt-green"
               *ngIf="item.sourceType === 'USER_TRANSFER' && item.accepted"
@@ -421,11 +513,11 @@
             <span
               class="txt-green"
               *ngIf="item.sourceType === 'IEO' && item.operationType === 'Input'"
-            >{{item.sourceType | showTransactionsType}}</span>
+            >{{item.sourceType | showTransactionsType: item}}</span>
             <span
               class="txt-red"
               *ngIf="item.sourceType === 'IEO' && item.operationType === 'Output'"
-            >{{item.sourceType | showTransactionsType}}</span>
+            >{{item.sourceType | showTransactionsType: item}}</span>
           </td>
           <td class="table__cell">
             <span>{{item.transactionHash}}</span>
