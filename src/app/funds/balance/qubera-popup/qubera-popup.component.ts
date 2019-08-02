@@ -6,16 +6,14 @@ import { BalanceService } from 'app/funds/services/balance.service';
   selector: 'app-qubera-popup',
   templateUrl: './qubera-popup.component.html',
   styleUrls: ['./qubera-popup.component.scss'],
-  animations: [
-    Animations.popupOverlayTrigger, Animations.popupModalTrigger
-  ]
+  animations: [Animations.popupOverlayTrigger, Animations.popupModalTrigger],
 })
 export class QuberaPopupComponent implements OnInit {
-
   component: any;
 
   @Input() showPopup;
   @Input() optionData;
+  @Input() balances;
   @Input() steper;
   @Output() closeQuberaPopupMain = new EventEmitter<boolean>();
   @Output() getKYCStatus = new EventEmitter<boolean>();
@@ -26,7 +24,7 @@ export class QuberaPopupComponent implements OnInit {
     }
   }
 
-  constructor(public balanceService: BalanceService) { }
+  constructor(public balanceService: BalanceService) {}
 
   onCloseQuberaPopupMain() {
     this.showPopup = false;
@@ -43,5 +41,4 @@ export class QuberaPopupComponent implements OnInit {
   setComponent() {
     this.component = this.optionData.component;
   }
-
 }

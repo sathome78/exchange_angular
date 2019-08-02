@@ -8,9 +8,8 @@ describe('BalanceTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BalanceTableComponent ]
-    })
-    .compileComponents();
+      declarations: [BalanceTableComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

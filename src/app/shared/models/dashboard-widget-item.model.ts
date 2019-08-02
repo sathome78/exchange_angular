@@ -14,5 +14,4 @@ export interface DashboardWidgetItemModel {
   dragAndDrop: boolean;
   resizable: boolean;
   type: string;
-
 }

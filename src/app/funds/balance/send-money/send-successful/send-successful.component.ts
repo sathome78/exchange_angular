@@ -1,14 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BY_PRIVATE_CODE, COPY_ADDRESS, TRANSFER_INSTANT, SEND_CRYPTO, SEND_FIAT} from '../send-money-constants';
-import {BALANCE_TABS} from '../../balance-constants';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { BY_PRIVATE_CODE, COPY_ADDRESS, TRANSFER_INSTANT, SEND_CRYPTO, SEND_FIAT } from '../send-money-constants';
+import { BALANCE_TABS } from '../../balance-constants';
 
 @Component({
   selector: 'app-send-successful',
   templateUrl: './send-successful.component.html',
-  styleUrls: ['./send-successful.component.scss']
+  styleUrls: ['./send-successful.component.scss'],
 })
 export class SendSuccessfulComponent implements OnInit {
-
   @Input() data;
   @Input() choosedName: string;
   @Output() closeMe = new EventEmitter();
@@ -20,10 +19,9 @@ export class SendSuccessfulComponent implements OnInit {
   public BALANCE_TABS = BALANCE_TABS;
   public operationName;
   public isSowCopyAddress = false;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onClose() {
     this.closeMe.emit();
@@ -48,11 +46,11 @@ export class SendSuccessfulComponent implements OnInit {
     document.body.removeChild(selBox);
   }
 
-  private changeCopyBtn (name: string) {
+  private changeCopyBtn(name: string) {
     switch (name) {
       case COPY_ADDRESS:
         this.isSowCopyAddress = true;
-        setTimeout(() => this.isSowCopyAddress = false, 1000);
+        setTimeout(() => (this.isSowCopyAddress = false), 1000);
         break;
     }
   }

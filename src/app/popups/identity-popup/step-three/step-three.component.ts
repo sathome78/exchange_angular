@@ -1,14 +1,13 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Subject} from 'rxjs';
-import {UserVerificationService} from '../../../shared/services/user-verification.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
+import { UserVerificationService } from '../../../shared/services/user-verification.service';
 
 @Component({
   selector: 'app-step-three',
   templateUrl: './step-three.component.html',
-  styleUrls: ['./step-three.component.scss']
+  styleUrls: ['./step-three.component.scss'],
 })
 export class StepThreeComponent implements OnInit {
-
   WEBCAM = 'WEBCAM';
   FILE = 'FILE';
   STEP = 'STEP';
@@ -17,8 +16,7 @@ export class StepThreeComponent implements OnInit {
   @Output() onNextStep = new EventEmitter<number>();
   displayMode = this.STEP;
 
-  constructor(private verificationService: UserVerificationService) {
-  }
+  constructor(private verificationService: UserVerificationService) {}
 
   ngOnInit() {
     this.verificationService.setVerificationMode('PHOTO');
@@ -45,8 +43,5 @@ export class StepThreeComponent implements OnInit {
     }
   }
 
-
-  processSubmitResult(code: any) {
-
-  }
+  processSubmitResult(code: any) {}
 }

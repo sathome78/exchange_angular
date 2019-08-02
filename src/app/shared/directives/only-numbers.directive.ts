@@ -1,22 +1,22 @@
 import { Directive, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appOnlyNumbers]'
+  selector: '[appOnlyNumbers]',
 })
 export class OnlyNumbersDirective {
-
-  constructor() { }
+  constructor() {}
 
   @HostListener('wheel', ['$event']) onWheel(event) {
     event.preventDefault();
   }
 
   @HostListener('keydown', ['$event']) onKeyDown(event) {
-    let e = <KeyboardEvent> event;
-    if (e.keyCode === 38 ) {
+    let e = <KeyboardEvent>event;
+    if (e.keyCode === 38) {
       e.preventDefault();
     }
-    if ([46, 8, 9, 27, 13, 110, 190, 191].indexOf(e.keyCode) !== -1 ||
+    if (
+      [46, 8, 9, 27, 13, 110, 190, 191].indexOf(e.keyCode) !== -1 ||
       // Allow: Ctrl+A
       (e.keyCode === 65 && (e.ctrlKey || e.metaKey)) ||
       // Allow: Ctrl+C
@@ -26,7 +26,8 @@ export class OnlyNumbersDirective {
       // Allow: Ctrl+X
       (e.keyCode === 88 && (e.ctrlKey || e.metaKey)) ||
       // Allow: home, end, left, right
-      (e.keyCode >= 35 && e.keyCode <= 39)) {
+      (e.keyCode >= 35 && e.keyCode <= 39)
+    ) {
       // let it happen, don't do anything
       return;
     }

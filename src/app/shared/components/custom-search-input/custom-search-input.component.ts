@@ -1,21 +1,19 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-custom-search-input',
   templateUrl: './custom-search-input.component.html',
-  styleUrls: ['./custom-search-input.component.scss']
+  styleUrls: ['./custom-search-input.component.scss'],
 })
 export class CustomSearchInputComponent implements OnInit {
-
-  @Input() coins ;
+  @Input() coins;
   @Output() selectedCoin: EventEmitter<any> = new EventEmitter();
   @ViewChild('searchInput') searchInput: ElementRef;
   public showCoins = [];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   searchCoin(e) {
     this.showCoins = e.target.value ? this.coins.filter(f => f.name.toUpperCase().match(e.target.value.toUpperCase())) : [];
@@ -27,4 +25,7 @@ export class CustomSearchInputComponent implements OnInit {
     this.showCoins = [];
   }
 
+  trackByCoin(index, item) {
+    return item.name;
+  }
 }

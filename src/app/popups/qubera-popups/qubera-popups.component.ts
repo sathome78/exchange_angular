@@ -7,14 +7,11 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-qubera-popups',
   templateUrl: './qubera-popups.component.html',
-  styleUrls: ['./qubera-popups.component.scss']
+  styleUrls: ['./qubera-popups.component.scss'],
 })
 export class QuberaPopupsComponent implements OnInit {
-  
   public currentTemplate: TemplateRef<any>;
-  constructor(
-    private popupService: PopupService,
-    private route: ActivatedRoute) { }
+  constructor(private popupService: PopupService, private route: ActivatedRoute) {}
 
   currentPopup: string;
 
@@ -23,15 +20,15 @@ export class QuberaPopupsComponent implements OnInit {
   }
 
   getSubject() {
-    this.popupService.getQuberaPopupListener()
-    .pipe(first())
-    .subscribe((popup: string) => {
-      this.currentPopup = popup;
-    });
+    this.popupService
+      .getQuberaPopupListener()
+      .pipe(first())
+      .subscribe((popup: string) => {
+        this.currentPopup = popup;
+      });
   }
 
   closeMe() {
     this.popupService.closeQuberaPopup();
   }
-
 }

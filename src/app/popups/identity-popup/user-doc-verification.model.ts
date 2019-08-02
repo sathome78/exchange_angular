@@ -1,7 +1,6 @@
 import { FormGroup } from '@angular/forms';
 
 export class UserDocVerificationModel {
-
   userId: number;
   documentType: string;
   encoded: string;
@@ -14,7 +13,7 @@ export class UserDocVerificationModel {
     return new UserDocVerificationModel(0);
   }
 
-  public withDocumentType(docType: string): UserDocVerificationModel  {
+  public withDocumentType(docType: string): UserDocVerificationModel {
     this.documentType = docType;
     return this;
   }
@@ -23,7 +22,6 @@ export class UserDocVerificationModel {
     this.encoded = encoded;
     return this;
   }
-
 
   public build(): UserDocVerificationModel {
     return this;

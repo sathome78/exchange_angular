@@ -8,9 +8,8 @@ describe('QuberaPopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QuberaPopupComponent ]
-    })
-    .compileComponents();
+      declarations: [QuberaPopupComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

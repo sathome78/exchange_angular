@@ -8,9 +8,8 @@ describe('StepOneQuberaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StepOneQuberaComponent ]
-    })
-    .compileComponents();
+      declarations: [StepOneQuberaComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

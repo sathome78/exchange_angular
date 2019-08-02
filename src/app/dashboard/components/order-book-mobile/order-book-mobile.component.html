@@ -13,27 +13,33 @@
       >
         <div class="td">{{item.total | currencyFormat:splitCurrencyName[1]:'full':true}}</div>
         <div class="td">{{item.exrate | currencyFormat:splitCurrencyName[1]:'full':true}}</div>
-        <div class="bg-bar" [style.width]="buyVisualizationArray[i] + '%'"></div>
+        <div
+          class="bg-bar"
+          [style.width]="buyVisualizationArray[i] + '%'"
+        ></div>
       </div>
     </div>
   </div>
   <div class="order-book-part order-book-sell">
     <div class="table">
-        <div class="tr">
-          <div class="td">{{'Price' | translate}} ({{splitCurrencyName[1]}})</div>
-          <div class="td">{{'Total' | translate}} ({{splitCurrencyName[1]}})</div>
-          <!-- <div class="td">{{'Sell' | translate}}</div> -->
-        </div>
+      <div class="tr">
+        <div class="td">{{'Price' | translate}} ({{splitCurrencyName[1]}})</div>
+        <div class="td">{{'Total' | translate}} ({{splitCurrencyName[1]}})</div>
+        <!-- <div class="td">{{'Sell' | translate}}</div> -->
+      </div>
+      <div
+        class="tr"
+        *ngFor="let item of showSellDataReverse; let i = index"
+        (click)="onSelectOrder(item)"
+      >
+        <div class="td">{{item.exrate | currencyFormat:splitCurrencyName[1]:'full':true | orderBookCutBigNum}}</div>
+        <div class="td">{{item.total | currencyFormat:splitCurrencyName[1]:'full':true  | orderBookCutBigNum}}</div>
+        <!-- <div class="td">{{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</div> -->
         <div
-          class="tr"
-          *ngFor="let item of showSellDataReverse; let i = index"
-          (click)="onSelectOrder(item)"
-        >
-          <div class="td">{{item.exrate | currencyFormat:splitCurrencyName[1]:'full':true | orderBookCutBigNum}}</div>
-          <div class="td">{{item.total | currencyFormat:splitCurrencyName[1]:'full':true  | orderBookCutBigNum}}</div>
-          <!-- <div class="td">{{item.exrate | roundCurrency | formatCurrency:'full':splitCurrencyName[1]}}</div> -->
-          <div class="bg-bar" [style.width]="sellVisualizationArray[i] + '%'"></div>
-        </div>
+          class="bg-bar"
+          [style.width]="sellVisualizationArray[i] + '%'"
+        ></div>
+      </div>
     </div>
   </div>
 </div>

@@ -1,23 +1,20 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ChangeDetectorRef} from '@angular/core';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
 
-import {gridsterItemOptions, gridsterOptions} from '../shared/configs/gridster-options';
-import {DashboardService} from './dashboard.service';
-import {DashboardItemChangeSize} from '../shared/models/dashboard-item-change-size-model';
-import {BreakpointService} from '../shared/services/breakpoint.service';
-import {Subject} from 'rxjs';
-import {OnDestroy} from '@angular/core';
-import {takeUntil} from 'rxjs/internal/operators';
-import {ActivatedRoute, Router} from '@angular/router';
-import {DashboardWebSocketService} from './dashboard-websocket.service';
-import {Store, select} from '@ngrx/store';
+import { gridsterItemOptions, gridsterOptions } from '../shared/configs/gridster-options';
+import { DashboardService } from './dashboard.service';
+import { DashboardItemChangeSize } from '../shared/models/dashboard-item-change-size-model';
+import { BreakpointService } from '../shared/services/breakpoint.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/internal/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DashboardWebSocketService } from './dashboard-websocket.service';
+import { Store, select } from '@ngrx/store';
 import * as fromCore from '../core/reducers';
-import {PopupService} from 'app/shared/services/popup.service';
-import {CurrencyPair} from 'app/model';
-import {getMarketCurrencyPairsMap} from '../core/reducers';
+import { PopupService } from 'app/shared/services/popup.service';
+import { CurrencyPair } from 'app/model';
 import * as dashboardActions from './actions/dashboard.actions';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
-
 
 @Component({
   selector: 'app-dashboard',
@@ -25,7 +22,6 @@ import { UtilsService } from 'app/shared/services/utils.service';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
-
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   /** retrieve gridster container*/
@@ -58,8 +54,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public activeMobileWidget = 'trading';
   public breakPoint;
-  public currencyPair: SimpleCurrencyPair = null
-  public isAuthenticated: boolean = false;
+  public currencyPair: SimpleCurrencyPair = null;
+  public isAuthenticated = false;
   public widgetTemplate;
 
   constructor(
@@ -70,32 +66,30 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private utilsService: UtilsService,
     private popupService: PopupService,
-    private store: Store<fromCore.State>) {
-  }
+    private store: Store<fromCore.State>
+  ) {}
 
   ngOnInit() {
-    this.route.queryParams
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(params => {
-        const widget = params['widget'];
-        if (widget) {
-          this.activeMobileWidget = widget;
-        }
-      });
+    this.route.queryParams.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
+      const widget = params['widget'];
+      if (widget) {
+        this.activeMobileWidget = widget;
+      }
+    });
 
     this.breakPointService.breakpoint$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => this.breakPoint = res);
+      .subscribe(res => (this.breakPoint = res));
 
     this.dataService.activeMobileWidget
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => this.activeMobileWidget = res);
+      .subscribe(res => (this.activeMobileWidget = res));
 
     this.widgets = this.dataService.getWidgetPositions();
     this.defauldWidgets = [...this.widgets];
     this.gridsterOptions = gridsterOptions;
     this.gridsterItemOptions = gridsterItemOptions;
-    // TODO: takeUntil
+
     this.dataService.toolsToDashboard$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.addItemToDashboard(res));
@@ -115,8 +109,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.widgets = [];
         setTimeout(() => {
           this.widgets = this.dataService.getWidgetPositions();
-        })
-        this.gridsterContainer && this.gridsterContainer.reload();
+        });
+        if (this.gridsterContainer) {
+          this.gridsterContainer.reload();
+        }
       });
 
     this.widgetTemplate = {
@@ -126,35 +122,32 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       'order-book': this.orderBookTemplate,
       'trade-history': this.tradeHistoryTemplate,
       prediction: this.predictionTemplate,
-      orders: this.ordersTemplate
+      orders: this.ordersTemplate,
     };
 
     this.reloadGridOnSessionExpired();
   }
 
   checkRoute() {
-    this.route.url
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((segments) => {
-        const url = segments.map((u) => u.path).join('/')
-        setTimeout(() => {  // added to fix ExpressionChangedAfterItHasBeenCheckedError
-          if (url === 'registration') {
-            this.popupService.showMobileRegistrationPopup(true);
-          }
-          if(url === 'login') {
-            this.popupService.showMobileLoginPopup(true);
-          }
-        })
-      });
-
-    this.route.params
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(params => {
-        if (params && params['currency-pair']) {
-          const currencyPair: string = params['currency-pair'];
-         this.findAndSetActiveCurrencyPair(currencyPair.replace('-', '/'));
+    this.route.url.pipe(takeUntil(this.ngUnsubscribe)).subscribe(segments => {
+      const url = segments.map(u => u.path).join('/');
+      setTimeout(() => {
+        // added to fix ExpressionChangedAfterItHasBeenCheckedError
+        if (url === 'registration') {
+          this.popupService.showMobileRegistrationPopup(true);
+        }
+        if (url === 'login') {
+          this.popupService.showMobileLoginPopup(true);
         }
       });
+    });
+
+    this.route.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
+      if (params && params['currency-pair']) {
+        const currencyPair: string = params['currency-pair'];
+        this.findAndSetActiveCurrencyPair(currencyPair.replace('-', '/'));
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -168,19 +161,26 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private reloadGridOnSessionExpired() {
-    this.popupService.getSessionExpiredPopupListener()
+    this.popupService
+      .getSessionExpiredPopupListener()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        if (res) setTimeout(() => { this.gridsterContainer.reload(); }, 500);
+        if (res) {
+          setTimeout(() => {
+            this.gridsterContainer.reload();
+          }, 500);
+        }
       });
   }
 
   findAndSetActiveCurrencyPair(pairName: string) {
     this.store
-      .pipe(select(getMarketCurrencyPairsMap))
+      .pipe(select(fromCore.getMarketCurrencyPairsMap))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((currencyPairs: MapModel<CurrencyPair>) => {
-        const pair = Object.values(currencyPairs).filter(item => item.currencyPairName.toLowerCase() === pairName.toLowerCase())[0];
+        const pair = Object.values(currencyPairs).filter(
+          item => item.currencyPairName.toLowerCase() === pairName.toLowerCase()
+        )[0];
         if (pair) {
           const newActivePair = new SimpleCurrencyPair(pair.currencyPairId, pair.currencyPairName);
           this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
@@ -196,15 +196,25 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   changeItemSize(event: DashboardItemChangeSize): void {
     const widget = this.widgets.filter(item => item.type === event.itemName);
     if (event.widthOrHeight === 'height') {
-      event.isIncrement ?
-        widget[0].hLg === this.gridsterItemOptions.maxHeight ? widget[0].hLg = this.gridsterItemOptions.maxHeight : widget[0].hLg += 1 :
-        widget[0].hLg === this.gridsterItemOptions.minHeight ? widget[0].hLg = this.gridsterItemOptions.minHeight : widget[0].hLg -= 1;
+      event.isIncrement
+        ? widget[0].hLg === this.gridsterItemOptions.maxHeight
+          ? (widget[0].hLg = this.gridsterItemOptions.maxHeight)
+          : (widget[0].hLg += 1)
+        : widget[0].hLg === this.gridsterItemOptions.minHeight
+        ? (widget[0].hLg = this.gridsterItemOptions.minHeight)
+        : (widget[0].hLg -= 1);
     } else {
-      event.isIncrement ?
-        widget[0].wLg === this.gridsterItemOptions.maxWidth ? widget[0].wLg = this.gridsterItemOptions.maxWidth : widget[0].wLg += 1 :
-        widget[0].wLg === 2 ? widget[0].wLg = 2 : widget[0].wLg -= 1;
+      event.isIncrement
+        ? widget[0].wLg === this.gridsterItemOptions.maxWidth
+          ? (widget[0].wLg = this.gridsterItemOptions.maxWidth)
+          : (widget[0].wLg += 1)
+        : widget[0].wLg === 2
+        ? (widget[0].wLg = 2)
+        : (widget[0].wLg -= 1);
     }
-    this.gridsterContainer && this.gridsterContainer.reload();
+    if (this.gridsterContainer) {
+      this.gridsterContainer.reload();
+    }
   }
 
   /**
@@ -223,7 +233,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   addItemToDashboard(itemType): void {
     const widget = this.defauldWidgets.find(item => item.type === itemType);
     this.widgets.push(widget);
-    this.gridsterContainer && this.gridsterContainer.reload();
+    if (this.gridsterContainer) {
+      this.gridsterContainer.reload();
+    }
   }
 
   /**
@@ -233,21 +245,24 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.resizeTimeout) {
       clearTimeout(this.resizeTimeout);
     }
-    this.resizeTimeout = setTimeout((() => {
-      if (this.breakPoint === 'desktop') {
-        const winWidth = window.innerWidth;
-        const countWidthSteps = (this.maxWidth - this.minWidth) / this.widthStep;
-        const ratioStep = (this.maxRatio - this.minRatio) / countWidthSteps;
-        if (winWidth <= this.minWidth) {
-          this.changeRatio(this.minRatio);
-        } else if (winWidth > this.maxWidth) {
-          this.changeRatio(this.maxRatio);
-        } else {
-          const ratio = (((winWidth - this.minWidth) / this.widthStep) * ratioStep) + this.minRatio;
-          this.changeRatio(ratio);
+    this.resizeTimeout = setTimeout(
+      (() => {
+        if (this.breakPoint === 'desktop') {
+          const winWidth = window.innerWidth;
+          const countWidthSteps = (this.maxWidth - this.minWidth) / this.widthStep;
+          const ratioStep = (this.maxRatio - this.minRatio) / countWidthSteps;
+          if (winWidth <= this.minWidth) {
+            this.changeRatio(this.minRatio);
+          } else if (winWidth > this.maxWidth) {
+            this.changeRatio(this.maxRatio);
+          } else {
+            const ratio = ((winWidth - this.minWidth) / this.widthStep) * ratioStep + this.minRatio;
+            this.changeRatio(ratio);
+          }
         }
-      }
-    }).bind(this), 500);
+      }).bind(this),
+      500
+    );
   }
 
   /**
@@ -255,12 +270,16 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param {number} value
    */
   private changeRatio(value: number) {
-    this.gridsterContainer && this.gridsterContainer.setOption('widthHeightRatio', value).reload();
+    if (this.gridsterContainer) {
+      this.gridsterContainer.setOption('widthHeightRatio', value).reload();
+    }
   }
 
+  // tslint:disable-next-line: function-name
   DragStart(event) {
     this.isDrag = true;
   }
+  // tslint:disable-next-line: function-name
   DragEnd(event) {
     this.isDrag = false;
   }

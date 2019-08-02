@@ -8,29 +8,25 @@ import { NotAllowedCountries } from 'app/ieo/JSONData';
   styleUrls: ['./ieo-requirements.component.scss'],
 })
 export class IEORequirementsComponent implements OnInit {
-
-  @Input('isAuthenticated') public isAuthenticated: boolean = false;
-  @Input('requirements') public requirements: KycIEOModel;
-  @Output('showPolicy') public showPolicy: EventEmitter<any> = new EventEmitter();
-  constructor(
-
-  ) { }
-
-  ngOnInit() { }
+  constructor() {}
+  @Input() public isAuthenticated = false;
+  @Input() public requirements: KycIEOModel;
+  @Output() public showPolicy: EventEmitter<any> = new EventEmitter();
 
   // isBoolean(val) {
   //   return typeof val === 'boolean';
   // }
   public countries = NotAllowedCountries.join(', ');
 
+  ngOnInit() {}
+
   onToggleText() {
-    var height = document.querySelector('.requirement-text-inner').clientHeight;
-    if(!(document.getElementById('requirement-text').classList.contains('opened'))){
+    const height = document.querySelector('.requirement-text-inner').clientHeight;
+    if (!document.getElementById('requirement-text').classList.contains('opened')) {
       document.getElementById('requirement-text').style.height = height + 'px';
       document.querySelector('.requirement-item .more-btn').innerHTML = 'Show less';
       document.getElementById('requirement-text').classList.add('opened');
-    }
-    else{
+    } else {
       document.querySelector('.requirement-item .more-btn').innerHTML = 'Show more';
       document.getElementById('requirement-text').style.height = '';
       document.getElementById('requirement-text').classList.remove('opened');
@@ -45,5 +41,4 @@ export class IEORequirementsComponent implements OnInit {
     this.preventDefault(e);
     this.showPolicy.emit();
   }
-
 }

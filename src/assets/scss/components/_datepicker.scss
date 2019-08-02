@@ -112,20 +112,20 @@
 }
 /*--- DARK THEME END---*/
 .mydp .daycell, .mydp .monthcell, .mydp .weekdaytitle, .mydp .yearcell {
-    padding: 4px;
-    text-align: center;
-    vertical-align: middle;
+  padding: 4px;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .mydp .selector .highlight.currmonth {
-    color: #EB5757;
+  color: #EB5757;
 }
 .mydp .selector .currmonth {
-    color: #237BEF;
+  color: #237BEF;
 }
 
 .mydp .selector .nextmonth, .mydp .selector .prevmonth {
-    color: #191A39;
+  color: #191A39;
 }
 
 .mydp thead .weekdaytitle{
@@ -135,18 +135,18 @@
 
 
 .mydp .headertodaybtn {
-    display: flex;
+  display: flex;
 }
 
 .mydp .headertodaybtn .icon-mydptoday{
-    margin-right: 2px;
+  margin-right: 2px;
 }
 .mydp table .currmonth{
   background-color: transparent;
 }
 
 .mydp table .tablesingleday:hover, .mydp table .tablesinglemonth:hover, .mydp table .tablesingleyear:hover {
-    background-color: #F1F3F4;
+  background-color: #F1F3F4;
 }
 
 .mydp table .header{
@@ -163,14 +163,14 @@
 }
 
 .mydp .header td:not(:nth-child(2)) .mydpicon:before{
-    font-size: 15px;
-    line-height: .8;
-    color: #94C2FF;
-    transition:.3s;
+  font-size: 15px;
+  line-height: .8;
+  color: #94C2FF;
+  transition:.3s;
 }
 
 .mydp .header td:not(:nth-child(2)) .headerbtndisabled:before{
-    color: #191A39;
+  color: #191A39;
 }
 
 
@@ -185,7 +185,7 @@
 }
 
 .mydp table .caltable, .mydp table .monthtable, .mydp table .yeartable{
-      height: calc(100% - 10px);
+  height: calc(100% - 10px);
 }
 
 .mydp table .daycell .datevalue{
@@ -194,4 +194,49 @@
 
 .mydp table .selectedday .datevalue, .mydp table .selectedmonth .monthvalue, .mydp table .selectedyear .yearvalue{
   background-color: #94C2FF;
+}
+
+
+
+.orders__datepicker{
+  @media(max-width: 1200px){
+    &:nth-of-type(1){
+      .mydp {
+        margin: 0;
+        width: 100%;
+        .selector{
+          left: -1px;
+          top: 40px;
+        }
+      }
+    }
+  }
+}
+.orders__datepicker{
+  @media(max-width: 1200px){
+
+    &:nth-of-type(2){
+      .mydp {
+        margin: 0;
+        width: 100%;
+        .selectorarrowleft:after, .selectorarrowleft:before{
+right: 24px;
+      left: auto;
+        }
+        .selector{
+
+
+          right: -1px;
+          top: 40px;
+        }
+      }
+    }
+  }
+}
+
+
+div.filters-popup__datepicker:first-child{
+  @media(max-width: 480px){
+    margin-right: 15px;
+  }
 }

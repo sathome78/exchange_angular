@@ -8,9 +8,8 @@ describe('SendTfaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SendTfaComponent ]
-    })
-    .compileComponents();
+      declarations: [SendTfaComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

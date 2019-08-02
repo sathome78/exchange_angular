@@ -8,9 +8,8 @@ describe('WebcamComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WebcamComponent ]
-    })
-    .compileComponents();
+      declarations: [WebcamComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

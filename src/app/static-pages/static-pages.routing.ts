@@ -13,13 +13,12 @@ const routes: Routes = [
       { path: 'terms-and-conditions', component: TermsAndConditionsComponent },
       { path: 'about-us', component: AboutUsComponent },
       { path: 'privacy-policy', component: PrivacyPolicyComponent },
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class StaticPagesRoutingModule {
-}
+export class StaticPagesRoutingModule {}

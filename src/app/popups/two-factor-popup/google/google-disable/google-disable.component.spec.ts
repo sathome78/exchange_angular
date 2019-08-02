@@ -8,9 +8,8 @@ describe('GoogleDisableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GoogleDisableComponent ]
-    })
-    .compileComponents();
+      declarations: [GoogleDisableComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

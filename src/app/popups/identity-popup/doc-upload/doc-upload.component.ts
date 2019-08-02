@@ -1,14 +1,13 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-doc-upload',
   templateUrl: './doc-upload.component.html',
-  styleUrls: ['./doc-upload.component.scss']
+  styleUrls: ['./doc-upload.component.scss'],
 })
 export class DocUploadComponent implements OnInit, OnDestroy {
-
   @Output() showFile = new EventEmitter<boolean>();
   @Output() submitResult = new EventEmitter<number>();
 
@@ -17,14 +16,10 @@ export class DocUploadComponent implements OnInit, OnDestroy {
   fileToUpload: File = null;
   url = '';
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
-
-    this.events
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(mode => {
+    this.events.pipe(takeUntil(this.ngUnsubscribe)).subscribe(mode => {
       if (mode === 'FILE') {
         // todo smth useful
         // console.log('submit clicked for file');
@@ -40,13 +35,13 @@ export class DocUploadComponent implements OnInit, OnDestroy {
       if (this.isFileValid()) {
         reader.readAsDataURL(this.fileToUpload); // read file as data url
 
-        reader.onload = (ev: any) => { // called once readAsDataURL is completed
+        reader.onload = (ev: any) => {
+          // called once readAsDataURL is completed
           this.url = ev.target.result;
         };
       } else {
         this.fileToUpload = null;
       }
-
     }
   }
 
@@ -55,11 +50,13 @@ export class DocUploadComponent implements OnInit, OnDestroy {
       return false;
     }
     const fileName = this.fileToUpload.name.toLowerCase();
-    return fileName.endsWith('.png'.toLowerCase())
-      || fileName.endsWith('.jpg'.toLowerCase())
-      || fileName.endsWith('.jpeg'.toLowerCase())
-      || fileName.endsWith('.tif'.toLowerCase())
-      || fileName.endsWith('.gif'.toLowerCase());
+    return (
+      fileName.endsWith('.png'.toLowerCase()) ||
+      fileName.endsWith('.jpg'.toLowerCase()) ||
+      fileName.endsWith('.jpeg'.toLowerCase()) ||
+      fileName.endsWith('.tif'.toLowerCase()) ||
+      fileName.endsWith('.gif'.toLowerCase())
+    );
   }
 
   notifyResult() {
@@ -67,7 +64,7 @@ export class DocUploadComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next()
-    this.ngUnsubscribe.complete()
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

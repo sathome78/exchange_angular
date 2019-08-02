@@ -8,9 +8,8 @@ describe('StepOneDepositComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StepOneDepositComponent ]
-    })
-    .compileComponents();
+      declarations: [StepOneDepositComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

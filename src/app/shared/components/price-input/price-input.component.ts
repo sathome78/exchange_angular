@@ -1,18 +1,18 @@
-import {Component, forwardRef, Input, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
+import { Component, forwardRef, Input, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import {UtilsService} from '../../services/utils.service';
+import { UtilsService } from '../../services/utils.service';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => PriceInputComponent),
-  multi: true
+  multi: true,
 };
 
 @Component({
   selector: 'app-price-input',
   templateUrl: './price-input.component.html',
   styleUrls: ['./price-input.component.scss'],
-  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
+  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
 })
 export class PriceInputComponent implements ControlValueAccessor, AfterViewInit {
   private _innerValue: any;
@@ -28,9 +28,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   private onTouched: Function;
   private thousands_separator: string;
 
-  constructor(
-    private utils: UtilsService
-  ) {
+  constructor(private utils: UtilsService) {
     this.onTouched = () => {};
     this.customInput = new EventEmitter<any>();
     this.customBlur = new EventEmitter<boolean>();
@@ -83,13 +81,13 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
 
   writeValue(value: any) {
     if (value === 'N/A') {
-      return this._innerValue = value;
+      return (this._innerValue = value);
     }
     this._innerValue = this.priceFormat(value, this.currencyName);
     this.propagateChanges(parseFloat(value));
   }
 
-  propagateChanges = (...any) => { };
+  propagateChanges = (...any) => {};
 
   registerOnChange(fn: any): void {
     this.propagateChanges = fn;
@@ -111,7 +109,6 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     }
     this.customBlur.emit(true);
   }
-
 
   priceFormat(value: string, currencyName: string = ''): string | number {
     const num = value;
@@ -153,5 +150,4 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     }
     return parts.join(' ');
   }
-
 }
