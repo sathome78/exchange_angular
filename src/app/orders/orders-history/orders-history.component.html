@@ -112,14 +112,12 @@
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Fee' | translate}}</div>
-                  <div
-                    class="table__details-item-value"
-                    *ngIf="!isVipUser"
-                  >{{item.commissionFixedAmount | currencyFormat:'BTC'}} {{item.currencyPairName | splitCurrency: 2}}</div>
-                  <div
-                    class="table__details-item-value"
-                    *ngIf="isVipUser"
-                  >0.0</div>
+                  <ng-container *ngIf="item.status !== 'CANCELLED'; else commisionCanceledMob">
+                    <div
+                      class="table__details-item-value"
+                      *ngIf="!isVipUser; else vipUserMob"
+                    >{{item.commissionFixedAmount | currencyFormat:'BTC'}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  </ng-container>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'In total' | translate}}</div>
@@ -508,4 +506,12 @@
 
 <ng-template #vipUser>
   <span>0.0</span>
+</ng-template>
+
+<ng-template #commisionCanceledMob>
+  <div class="table__details-item-value">-</div>
+</ng-template>
+
+<ng-template #vipUserMob>
+  <div class="table__details-item-value">0.0</div>
 </ng-template>
