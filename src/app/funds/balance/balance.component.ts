@@ -438,6 +438,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.router.navigate([`/funds/balances/${currencyId}`], {queryParams: {priceIn}});
   }
 
+  public onGoToQuberaDetails({currencyCode}) {
+    this.router.navigate([`/funds/balances/fiat/${currencyCode}`]);
+  }
+
   public onGoToIEOBalanceDetails({currencyId, priceIn}) {
     this.router.navigate([`/funds/balances/ieo/${currencyId}`], {queryParams: {priceIn}});
   }

@@ -39,7 +39,7 @@
           <button class="btn btn--center btn--empty-blue btn--small btn--hidden" (click)="cryptoWithdrawQuberaOut.emit(true)">{{'Withdraw' | translate}}</button>
         </td>
       </tr>
-      <tr class="table__row balance__table-row" *ngIf="quberaBalance.length < 1">
+      <tr class="table__row balance__table-row" *ngIf="!quberaBalance.length">
         <td class="table__cell table__cell--tac" colspan="10">
           {{'No matching records found' | translate}}
         </td>
@@ -163,7 +163,7 @@
       <h6>{{'For VIP clients' | translate}}</h6>
       <p>{{'Up to $ 150,000 limit for deposits and withdrawals.' | translate}}</p>
     </div> -->
-    <div class="how-work">
+    <div class="how-work" *ngIf="kycStatus !== 'SUCCESS'">
       <h6>{{'How does it work?' | translate}}</h6>
       <p>{{'Through your account Exrates you open an account in the Bank. This account is your personal account from which you can at any time transfer Fiat to your Exrates trading account.' | translate}}</p>
     </div>
@@ -171,47 +171,6 @@
       <p>{{'A more detailed description of the conditions is available on the financial partner page.' | translate}} <a href="http://fug.sg" target="_blank">FUG</a>.</p>
     </div>
 
-
-    <!-- <div class="qubera-icon">
-      <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4.14605 7.02734H6.0973L6.39013 16.003H3.90234L4.14605 7.02734Z" fill="white"/>
-        <path
-        d="M2.48779 16.4883H21.5124V17.5126H22.9757V18.9761H24V20.0005H0V18.9761H1.02427V17.5126H2.48779V16.4883Z"
-        fill="white"/>
-        <path d="M22.4872 4.39023L11.9994 0L1.51172 4.39023V5.02454H22.4872V4.39023Z" fill="white"/>
-        <path d="M20.4873 5.51172H3.51172V6.48702H20.4873V5.51172Z" fill="white"/>
-        <path d="M17.8534 7.02734H19.8043L20.0972 16.003H17.6094L17.8534 7.02734Z" fill="white"/>
-        <path d="M13.2694 7.02734H15.2693L15.5621 16.003H13.0254L13.2694 7.02734Z" fill="white"/>
-        <path d="M8.73017 7.02734H10.6814L10.9741 16.003H8.4375L8.73017 7.02734Z" fill="white"/>
-      </svg>
-    </div>
-    <div class="qubera-txt">
-      <p>{{'You do not have an account in Qubera Bank' | translate}}</p>
-      <p>{{'To create an account, click the button below' | translate}}</p>
-    </div>
-    <div class="qubera-btn-wr">
-      <button class="btn btn--active balance__title-btn">{{'Create Account Qubera' | translate}}</button>
-    </div> -->
-
   </div>
 </ng-container>
-  <!--paginator start-->
-<!--   <div
-    class="row row--aic balance__paginator"
-    *ngIf="countOfEntries > countPerPage"
-  >
-    <app-page-items-dropdown
-      [countPerPage]="countPerPage"
-      [countOfEntries]="countOfEntries"
-      (onChange)="changeItemsPerPage($event)"
-    ></app-page-items-dropdown>
-    <ul class="paginator" style="margin-left: auto;">
-      <pagination-controls
-        maxSize="7"
-        [previousLabel]="''"
-        [nextLabel]="''"
-        (pageChange)="changePage($event)"
-      ></pagination-controls>
-    </ul>
-  </div> -->
-  <!--paginator end-->
+

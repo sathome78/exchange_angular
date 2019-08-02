@@ -6,12 +6,6 @@
           {{'Balances' | translate}}
         </h1>
       </div>
-      <!-- <div class="widget__search-btn" (click)="toggleShowSearchPopup(true)">
-        <svg fill="none" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg">
-          <path d="M7.22222 13.6444C8.78354 13.6444 10.2149 13.0869 11.3278 12.1605L14.1947 15.0275C14.4247 15.2575 14.7975 15.2575 15.0275 15.0275C15.2575 14.7975 15.2575 14.4247 15.0275 14.1947L12.1605 11.3278C13.0869 10.2149 13.6444 8.78354 13.6444 7.22222C13.6444 3.67557 10.7689 0.8 7.22222 0.8C3.67557 0.8 0.8 3.67557 0.8 7.22222C0.8 10.7689 3.67557 13.6444 7.22222 13.6444ZM12.4667 7.22222C12.4667 10.1188 10.1188 12.4667 7.22222 12.4667C4.32563 12.4667 1.97778 10.1188 1.97778 7.22222C1.97778 4.32563 4.32563 1.97778 7.22222 1.97778C10.1188 1.97778 12.4667 4.32563 12.4667 7.22222Z" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.4"></path>
-        </svg>
-        Search
-      </div> -->
     </div>
     <div class="tabs balance__tabs-mob">
       <button
@@ -20,6 +14,7 @@
       >
         {{'Crypto' | translate}}
       </button>
+
       <button
         class="tabs__item"
         (click)="selectTab.emit(Tab.FIAT)"
@@ -57,8 +52,6 @@
   <!--filters start-->
   <!-- <form action="">
     <div class="balance__filters">
-
-
       <span>{{'Price in' | translate}}</span>
       <div class="dropdown">
         <div class="dropdown__btn">usd</div>
@@ -85,42 +78,43 @@
         <tr class="table__head-row">
           <th class="table__cell-head table__cell-head--tal">{{'Currency' | translate}}</th>
           <th class="table__cell-head table__cell-head--tal">{{'Available balance' | translate}}</th>
-          <th class="table__cell-head table__cell-head--tar">{{'Price' | translate}}</th>
+          <th class="table__cell-head table__cell-head--tar">{{'Total balance' | translate}}</th>
         </tr>
       </thead>
       <tbody class="table__body table__body--none-shadow">
-          <tr class="table__row--mob">
-            <td class="table__cell table__cell--tal">
-              <div class="balance__currency">
-                <div class="balance__currency-icon">
-                  <img src="assets/img/currency-icons/usd.svg">
-                </div>
-                <div>
-                  <span>{{balances.availableBalance?.currencyCode}}</span>
-                  <span class="balance__currency-name">Euro</span>
-                </div>
+        <tr class="table__row--mob" (click)="onShowMobDetails(EUR)">
+          <td class="table__cell table__cell--tal" >
+            <div class="balance__currency">
+              <div class="balance__currency-icon">
+                <img src="assets/img/currency-icons/eur-white.svg">
               </div>
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span>{{balances.currentBalance?.amount}}</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <!-- <div *ngIf="priceIn === currencies.BTC">BTC 300</div>
-              <div *ngIf="priceIn === currencies.USD">$ 300</div> -->
-              <!-- <span class="txt-small txt-red">–0.24%</span> -->
-            </td>
-            <td class="table__cell table__cell--arr-mob">
-              <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </td>
+              <div>
+                <span>{{balances.availableBalance?.currencyCode}}</span>
+                <span class="balance__currency-name">Euro</span>
+              </div>
+            </div>
+          </td>
+          <td class="table__cell table__cell--tal">
+            <span>{{balances.availableBalance?.amount}}</span>
+          </td>
+          <td class="table__cell table__cell--tar">
+            <span>{{balances.currentBalance?.amount}}</span>
+            <!-- <div *ngIf="priceIn === currencies.BTC">BTC 300</div>
+            <div *ngIf="priceIn === currencies.USD">$ 300</div> -->
+            <!-- <span class="txt-small txt-red">–0.24%</span> -->
+          </td>
+          <td class="table__cell table__cell--arr-mob">
+            <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </td>
           </tr>
           <tr>
             <td colspan="4">
               <div class="table__row-mob-line"></div>
             </td>
           </tr>
-        <tr class="table__row--mob">
+        <tr class="table__row--mob" *ngIf="!quberaBalance.length">
           <td class="table__cell table__cell--tac" colspan="4">
             {{'No matching records found' | translate}}
           </td>
@@ -147,7 +141,7 @@
 
 
   <div class="no-veryfied-qubera" *ngIf="!balances.length">
-    <div class="qubera-head">
+    <div class="qubera-head" *ngIf="balances.length > 0">
       <h3>
         {{'Open account for $20 and get 0% commission' | translate}} <br>
         <span>{{'on outgoing payments in the Singapore Bank' | translate}}</span>
@@ -253,7 +247,7 @@
       <h6>For VIP clients</h6>
       <p>Up to $ 150,000 limit for deposits and withdrawals.</p>
     </div> -->
-    <div class="how-work">
+    <div class="how-work" *ngIf="kycStatus !== 'SUCCESS'">
       <h6>{{'How does it work?' | translate}}</h6>
       <p>{{'Through your account Exrates you open an account in the Bank. This account is your personal account from which you can at any time transfer Fiat to your Exrates trading account.' | translate}}</p>
     </div>
