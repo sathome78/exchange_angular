@@ -349,7 +349,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   filterTopMarket() {
-    this.currencyPairs = this.currencyPairsCache.filter(pair => !!pair.isTopMarket === this.isTopMarket);
+    this.currencyPairs = this.currencyPairsCache.filter(pair => !!pair.topMarket === this.isTopMarket);
   }
 
   filterByMarket(market: string, searchInput: string) {
