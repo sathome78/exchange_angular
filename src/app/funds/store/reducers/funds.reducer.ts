@@ -208,7 +208,9 @@ export function reducer(state: State = INIT_STATE, action: fromActions.Actions) 
 
 function setIEOBalances(state: State, newArr: IEOItem[]): IEOItem[] {
   const ieoData = [...state.ieoBalances];
-  if (!newArr.length || !ieoData.length) return newArr;
+  if (!newArr.length || !ieoData.length) {
+    return newArr;
+  }
 
   const index = ieoData.indexOf(ieoData.filter(f => f.id === newArr[0].id)[0]);
   if (index === -1) {

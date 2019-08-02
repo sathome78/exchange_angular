@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { IMyDpOptions, IMyDateModel, IMyDate } from 'mydatepicker';
 import { Store, select } from '@ngrx/store';
@@ -6,12 +6,11 @@ import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
 import * as coreAction from '../../core/actions/core.actions';
 import * as mainSelectors from '../../core/reducers';
-import { State } from '../../core/reducers';
 import { TransactionsService } from '../services/transaction.service';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { TransactionHistoryItem } from '../models/transactions-history-item.model';
 import { takeUntil } from 'rxjs/operators';
-import saveAs from 'file-saver';
+import fileSaver from 'file-saver';
 import { CurrencyChoose } from 'app/model/currency-choose.model';
 import { ConstantsService } from 'app/shared/services/constants.service';
 import { BreakpointService } from 'app/shared/services/breakpoint.service';
@@ -22,16 +21,16 @@ import * as moment from 'moment';
   templateUrl: './transaction-history.component.html',
   styleUrls: ['./transaction-history.component.scss'],
 })
-export class TransactionHistoryComponent implements OnInit {
+export class TransactionHistoryComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public transactionsItems$: Observable<TransactionHistoryItem[]>;
   public transactionsItems: TransactionHistoryItem[] = [];
   public countOfEntries$: Observable<number>;
-  public countOfEntries: number = 0;
+  public countOfEntries = 0;
   public currencyForChoose$: Observable<CurrencyChoose[]>;
   public loading$: Observable<boolean>;
-  public loadingExcel: boolean = false;
-  public currValue: string = '';
+  public loadingExcel = false;
+  public currValue = '';
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -39,8 +38,8 @@ export class TransactionHistoryComponent implements OnInit {
   public modelDateFrom: any;
   public modelDateTo: any;
   public currencyId: string = null;
-  public hideAllCanceled: boolean = false;
-  public isMobile: boolean = false;
+  public hideAllCanceled = false;
+  public isMobile = false;
 
   public showFilterPopup = false;
   public tableScrollStyles: any = {};
@@ -59,7 +58,7 @@ export class TransactionHistoryComponent implements OnInit {
   };
 
   constructor(
-    private store: Store<State>,
+    private store: Store<mainSelectors.State>,
     private transactionsService: TransactionsService,
     public constantsService: ConstantsService,
     public breakpointService: BreakpointService,
@@ -210,7 +209,11 @@ export class TransactionHistoryComponent implements OnInit {
     if (!this.modelDateFrom || !this.modelDateFrom.date || !this.modelDateTo || !this.modelDateTo.date) {
       return false;
     }
-    const dateFrom = new Date(this.modelDateFrom.date.year, this.modelDateFrom.date.month - 1, this.modelDateFrom.date.day);
+    const dateFrom = new Date(
+      this.modelDateFrom.date.year,
+      this.modelDateFrom.date.month - 1,
+      this.modelDateFrom.date.day
+    );
     const dateTo = new Date(this.modelDateTo.date.year, this.modelDateTo.date.month - 1, this.modelDateTo.date.day);
     const diff = dateTo.getTime() - dateFrom.getTime();
     return diff >= 0;
@@ -244,7 +247,7 @@ export class TransactionHistoryComponent implements OnInit {
       .subscribe(
         data => {
           const blob = new Blob([data], { type: 'text/ms-excel' });
-          saveAs(blob, 'history-transactions.xlsx');
+          fileSaver(blob, 'history-transactions.xlsx');
           this.loadingExcel = false;
         },
         err => {
