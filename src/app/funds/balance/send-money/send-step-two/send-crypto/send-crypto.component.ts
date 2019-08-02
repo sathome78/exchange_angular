@@ -55,7 +55,10 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
-    if ($event.target.className !== 'select__value select__value--active' && $event.target.className !== 'select__search-input') {
+    if (
+      $event.target.className !== 'select__value select__value--active' &&
+      $event.target.className !== 'select__search-input'
+    ) {
       this.openCurrencyDropdown = false;
     }
   }
@@ -150,7 +153,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   amountBlur(event) {
-    if (event && this.form.controls['amount'].valid) this.calculateCommission(this.amountValue);
+    if (event && this.form.controls['amount'].valid) { this.calculateCommission(this.amountValue); }
   }
 
   calculateCommission(amount) {
@@ -162,9 +165,12 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
         .subscribe(
           res => {
             this.calculateData = res as CommissionData;
-            const compCommission = parseFloat(this.calculateData.companyCommissionRate.replace('%)', '').replace('(', ''));
+            const compCommission = parseFloat(
+              this.calculateData.companyCommissionRate.replace('%)', '').replace('(', '')
+            );
             this.calculateData.commission_rates_sum =
-              +this.cryptoInfoByName.merchantCurrencyData[0].outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
+              +this.cryptoInfoByName.merchantCurrencyData[0].outputCommission +
+              (Number.isNaN(compCommission) ? compCommission : 0);
             this.loadingBalance = false;
           },
           err => {
@@ -174,7 +180,9 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
         );
     } else {
       try {
-        this.calculateData.merchantCommissionRate = `(${this.cryptoInfoByName.merchantCurrencyData[0].outputCommission}%, but not less than ${this.cryptoInfoByName.merchantCurrencyData[0].fixedMinCommission} USD)`;
+        this.calculateData.merchantCommissionRate = `(${
+          this.cryptoInfoByName.merchantCurrencyData[0].outputCommission
+        }%, but not less than ${this.cryptoInfoByName.merchantCurrencyData[0].fixedMinCommission} USD)`;
       } catch (e) {}
     }
   }
@@ -197,7 +205,11 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       memo: new FormControl(''),
       address: new FormControl('', [Validators.required]),
-      amount: new FormControl('', [Validators.required, this.isMaxThenActiveBalance.bind(this), this.isMinThenMinWithdraw.bind(this)]),
+      amount: new FormControl('', [
+        Validators.required,
+        this.isMaxThenActiveBalance.bind(this),
+        this.isMinThenMinWithdraw.bind(this),
+      ]),
     });
   }
 

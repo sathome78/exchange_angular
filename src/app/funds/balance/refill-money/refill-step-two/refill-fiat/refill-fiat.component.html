@@ -97,10 +97,15 @@
             </div>
           </div>
           <ul class="select__list select__list--open">
-            <ng-template *ngFor="let merchant of merchants; trackBy: trackByIndex">
+            <ng-template
+              ngFor
+              [ngForOf]="merchants"
+              let-merchant
+              [ngForTrackBy]="trackByIndex"
+            >
               <li
                 class="select__list-item"
-                *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate; trackBy: trackByIndex1"
+                *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate; trackBy: trackByIndex"
                 (click)="selectMerchant(merchant, nested)"
               >
                 <img
