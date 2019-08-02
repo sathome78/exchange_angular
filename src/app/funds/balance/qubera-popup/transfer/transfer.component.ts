@@ -4,7 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-transfer',
   templateUrl: './transfer.component.html',
-  styleUrls: ['./transfer.component.scss']
+  styleUrls: ['./transfer.component.scss'],
 })
 export class TransferComponent implements OnInit {
   @Input() qubera;
@@ -14,7 +14,7 @@ export class TransferComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.initForm();
@@ -22,18 +22,16 @@ export class TransferComponent implements OnInit {
 
   initForm() {
     this.form = new FormGroup({
-      code: new FormControl('', Validators.required)
-    })
+      code: new FormControl('', Validators.required),
+    });
   }
 
   setStep(steper) {
     this.step = steper;
   }
 
-  enterCode(form) {
-  }
+  enterCode(form) {}
 
-  
   get currentCode(): any {
     return this.form.get('code');
   }
@@ -43,5 +41,4 @@ export class TransferComponent implements OnInit {
       this.closeSendMoneyPopup.emit(true);
     }, 1000);
   }
-
 }

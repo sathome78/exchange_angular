@@ -6,6 +6,5 @@ export const BALANCE_TABS = {
   IEO: 'IEO',
 };
 
-
 export const FUG = 'FUG';
 export const EUR = 'EUR';

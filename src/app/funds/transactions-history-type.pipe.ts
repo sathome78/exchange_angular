@@ -1,12 +1,11 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {TransactionHistoryItem} from './models/transactions-history-item.model';
+import { Pipe, PipeTransform } from '@angular/core';
+import { TransactionHistoryItem } from './models/transactions-history-item.model';
 
 @Pipe({
-  name: 'showTransactionsType'
+  name: 'showTransactionsType',
 })
-export class ShowTransactionsTypePipe  implements PipeTransform {
+export class ShowTransactionsTypePipe implements PipeTransform {
   transform(sourceType: string, item: TransactionHistoryItem = null): string {
-
     switch (sourceType) {
       case 'WITHDRAW':
         return 'Withdraw';

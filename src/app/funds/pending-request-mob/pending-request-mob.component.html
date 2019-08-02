@@ -1,15 +1,22 @@
 <!--mob-request start-->
 <ng-container>
-  <div class="balance__request-mob" >
-    <div class="balance__request-mob-header" >
+  <div class="balance__request-mob">
+    <div class="balance__request-mob-header">
       <h6>{{'Pending Requests' | translate}}</h6>
       <div *ngIf="loading$ | async">
         <app-loader size="small"></app-loader>
       </div>
       <span (click)="onGoBack()">
-        <svg width="15" height="15" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 17 17"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
-            d="M1.70711 0.292894C1.31658 -0.0976307 0.683419 -0.0976313 0.292894 0.292893C-0.0976307 0.683416 -0.0976313 1.31658 0.292893 1.70711L1.70711 0.292894ZM15.2929 16.7071C15.6834 17.0976 16.3166 17.0976 16.7071 16.7071C17.0976 16.3166 17.0976 15.6834 16.7071 15.2929L15.2929 16.7071ZM16.7071 1.70711C17.0976 1.31658 17.0976 0.683416 16.7071 0.292893C16.3166 -0.0976313 15.6834 -0.0976307 15.2929 0.292894L16.7071 1.70711ZM0.292921 15.2929C-0.097603 15.6834 -0.0976024 16.3166 0.292922 16.7071C0.683447 17.0976 1.31661 17.0976 1.70714 16.7071L0.292921 15.2929ZM0.292893 1.70711L7.79289 9.20712L9.20711 7.79291L1.70711 0.292894L0.292893 1.70711ZM7.79289 9.20712L15.2929 16.7071L16.7071 15.2929L9.20711 7.79291L7.79289 9.20712ZM15.2929 0.292894L7.79289 7.79291L9.20711 9.20712L16.7071 1.70711L15.2929 0.292894ZM7.79289 7.79291L0.292921 15.2929L1.70714 16.7071L9.20711 9.20712L7.79289 7.79291Z"/>
+            d="M1.70711 0.292894C1.31658 -0.0976307 0.683419 -0.0976313 0.292894 0.292893C-0.0976307 0.683416 -0.0976313 1.31658 0.292893 1.70711L1.70711 0.292894ZM15.2929 16.7071C15.6834 17.0976 16.3166 17.0976 16.7071 16.7071C17.0976 16.3166 17.0976 15.6834 16.7071 15.2929L15.2929 16.7071ZM16.7071 1.70711C17.0976 1.31658 17.0976 0.683416 16.7071 0.292893C16.3166 -0.0976313 15.6834 -0.0976307 15.2929 0.292894L16.7071 1.70711ZM0.292921 15.2929C-0.097603 15.6834 -0.0976024 16.3166 0.292922 16.7071C0.683447 17.0976 1.31661 17.0976 1.70714 16.7071L0.292921 15.2929ZM0.292893 1.70711L7.79289 9.20712L9.20711 7.79291L1.70711 0.292894L0.292893 1.70711ZM7.79289 9.20712L15.2929 16.7071L16.7071 15.2929L9.20711 7.79291L7.79289 9.20712ZM15.2929 0.292894L7.79289 7.79291L9.20711 9.20712L16.7071 1.70711L15.2929 0.292894ZM7.79289 7.79291L0.292921 15.2929L1.70714 16.7071L9.20711 9.20712L7.79289 7.79291Z"
+          />
         </svg>
       </span>
     </div>
@@ -33,19 +40,23 @@
     >
       <table class="table table--mob">
         <thead class="table__head">
-        <tr class="table__head-row">
-          <th class="table__cell-head table__cell-head--tal">{{'Date / Type' | translate}}</th>
-          <th class="table__cell-head table__cell-head--tal">{{'Currency' | translate}}</th>
-          <th class="table__cell-head table__cell-head--tar">{{'Amount' | translate}}</th>
-        </tr>
+          <tr class="table__head-row">
+            <th class="table__cell-head table__cell-head--tal">{{'Date / Type' | translate}}</th>
+            <th class="table__cell-head table__cell-head--tal">{{'Currency' | translate}}</th>
+            <th class="table__cell-head table__cell-head--tar">{{'Amount' | translate}}</th>
+          </tr>
         </thead>
         <tbody class="table__body table__body--none-shadow">
 
-          <ng-container *ngFor="let item of pendingRequests; let i = index" >
-            <tr class="table__row--mob" (click)="onShowDetails(item)">
+          <ng-container *ngFor="let item of pendingRequests; let i = index; trackBy: trackByFn">
+            <tr
+              class="table__row--mob"
+              (click)="onShowDetails(item)"
+            >
               <td class="table__cell table__cell--tal">
                 <div>
-                  <span class="arr arr--mr4 "
+                  <span
+                    class="arr arr--mr4 "
                     [ngClass]="{
                       'arr--red': item.operation === 'WITHDRAW',
                       'arr--green': item.operation === 'REFILL'
@@ -72,8 +83,19 @@
                 {{item.amount | currencyFormat:item.currency}}
               </td>
               <td class="table__cell table__cell--arr-mob">
-                <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg
+                  width="12"
+                  height="11"
+                  viewBox="0 0 17 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
               </td>
             </tr>
@@ -83,8 +105,14 @@
               </td>
             </tr>
           </ng-container>
-          <tr class="table__row--mob" *ngIf="!pendingRequests.length">
-            <td class="table__cell table__cell--taс" colspan="4">
+          <tr
+            class="table__row--mob"
+            *ngIf="!pendingRequests.length"
+          >
+            <td
+              class="table__cell table__cell--taс"
+              colspan="4"
+            >
               {{'No matching records found' | translate}}
             </td>
           </tr>

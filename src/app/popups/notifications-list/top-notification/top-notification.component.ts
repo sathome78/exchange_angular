@@ -1,13 +1,6 @@
-import {Component} from '@angular/core';
-import {Toast, ToastrService, ToastPackage} from 'ngx-toastr';
-import {
-  animate,
-  keyframes,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { Component } from '@angular/core';
+import { Toast, ToastrService, ToastPackage } from 'ngx-toastr';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-top-notification',
@@ -39,8 +32,8 @@ import {
               'margin-top': '12px',
               'max-width': '400px',
             }),
-          ]),
-        ),
+          ])
+        )
       ),
       state(
         'active',
@@ -49,7 +42,7 @@ import {
           'max-height': '200px',
           'margin-top': '12px',
           'max-width': '400px',
-        }),
+        })
       ),
       transition(
         'active => removed',
@@ -58,23 +51,20 @@ import {
           keyframes([
             style({
               opacity: 1,
-              transform: 'translateY(0)'
+              transform: 'translateY(0)',
             }),
             style({
               opacity: 0,
-              transform: 'translateY(25%)'
+              transform: 'translateY(25%)',
             }),
-          ]),
-        ),
+          ])
+        )
       ),
     ]),
   ],
 })
 export class TopNotificationComponent extends Toast {
-  constructor(
-    protected toastrService: ToastrService,
-    public toastPackage: ToastPackage,
-  ) {
+  constructor(protected toastrService: ToastrService, public toastPackage: ToastPackage) {
     super(toastrService, toastPackage);
   }
 }

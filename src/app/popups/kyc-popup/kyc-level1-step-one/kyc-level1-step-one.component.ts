@@ -1,18 +1,17 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {SettingsService} from '../../../settings/settings.service';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {KycCountry} from '../../../shared/interfaces/kyc-country-interface';
-import {KycLanguage} from '../../../shared/interfaces/kyc-language-interface';
-import {LEVEL_ONE, LEVEL_TWO} from '../../../shared/constants';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { SettingsService } from '../../../settings/settings.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { KycCountry } from '../../../shared/interfaces/kyc-country-interface';
+import { KycLanguage } from '../../../shared/interfaces/kyc-language-interface';
+import { LEVEL_ONE, LEVEL_TWO } from '../../../shared/constants';
 
 @Component({
   selector: 'app-kyc-level1-step-one',
   templateUrl: './kyc-level1-step-one.component.html',
-  styleUrls: ['./kyc-level1-step-one.component.scss']
+  styleUrls: ['./kyc-level1-step-one.component.scss'],
 })
 export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
-
   @ViewChild('countryInput') countryInput: ElementRef;
   @ViewChild('languageInput') languageInput: ElementRef;
   @Output() goToSecondStep = new EventEmitter<string>();
@@ -31,10 +30,12 @@ export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
   public selectedCountry;
 
   /** Are listening click in document */
-  @HostListener('document:click', ['$event']) clickout({target}) {
-    if (target.className !== 'select__value select__value--active' &&
+  @HostListener('document:click', ['$event']) clickout({ target }) {
+    if (
+      target.className !== 'select__value select__value--active' &&
       target.className !== 'select__search-input no-line' &&
-      target.className !== 'select__triangle') {
+      target.className !== 'select__triangle'
+    ) {
       this.countryInput.nativeElement.value = this.selectedCountry ? this.selectedCountry.countryName : '';
       this.languageInput.nativeElement.value = this.selectedLanguage ? this.selectedLanguage.languageName : '';
       this.openLanguageDropdown = false;
@@ -42,17 +43,19 @@ export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(
-    private settingsService: SettingsService
-  ) { }
+  constructor(private settingsService: SettingsService) {}
 
   ngOnInit() {
-    this.settingsService.getLanguagesKYC().pipe(takeUntil(this.ngUnsubscribe))
+    this.settingsService
+      .getLanguagesKYC()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.languageArrayDefault = res as KycLanguage[];
         this.languageArray = this.languageArrayDefault;
       });
-    this.settingsService.getCountriesKYC().pipe(takeUntil(this.ngUnsubscribe))
+    this.settingsService
+      .getCountriesKYC()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.countryArrayDefault = res as KycCountry[];
         this.countryArray = this.countryArrayDefault;
@@ -102,18 +105,25 @@ export class KycLevel1StepOneComponent implements OnInit, OnDestroy {
   selectLanguage(lang) {
     this.selectedLanguage = lang;
     this.languageDropdownToggle();
-
   }
 
   sendStepOne() {
     this.load = true;
-    this.settingsService.getIframeUrlForKYC(this.selectedLanguage.languageCode, this.selectedCountry.countryCode)
-      .subscribe(res => {
+    this.settingsService.getIframeUrlForKYC(this.selectedLanguage.languageCode, this.selectedCountry.countryCode).subscribe(
+      res => {
         this.load = false;
         this.goToSecondStep.emit(res);
-      }, error => {
+      },
+      error => {
         console.log(error);
         this.load = false;
-      });
+      }
+    );
+  }
+  trackByCountry(index, item) {
+    return item.countryName;
+  }
+  trackByLanguage(index, item) {
+    return item.languageName;
   }
 }

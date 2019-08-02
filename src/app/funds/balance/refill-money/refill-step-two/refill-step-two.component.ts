@@ -1,14 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BalanceItem} from '../../../models/balance-item.model';
-import {FIAT_DEPOSIT, CRYPTO_DEPOSIT, INNER_TRANSFER, FIAT_DEPOSIT_QUBERA} from '../../send-money/send-money-constants';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { BalanceItem } from '../../../models/balance-item.model';
+import { FIAT_DEPOSIT, CRYPTO_DEPOSIT, INNER_TRANSFER, FIAT_DEPOSIT_QUBERA } from '../../send-money/send-money-constants';
 
 @Component({
   selector: 'app-refill-step-two',
   templateUrl: './refill-step-two.component.html',
-  styleUrls: ['./refill-step-two.component.scss']
+  styleUrls: ['./refill-step-two.component.scss'],
 })
 export class RefillStepTwoComponent implements OnInit {
-
   @Input() choosedName: string;
   @Input() refillData: BalanceItem;
   @Output() closePopup = new EventEmitter();
@@ -21,10 +20,9 @@ export class RefillStepTwoComponent implements OnInit {
   public INNER_TRANSFER = INNER_TRANSFER;
   public FIAT_DEPOSIT_QUBERA = FIAT_DEPOSIT_QUBERA;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   goToThird() {
     this.goToThirdStep.emit(true);
@@ -36,5 +34,4 @@ export class RefillStepTwoComponent implements OnInit {
   hideStep() {
     this.hideSteps.emit(true);
   }
-
 }

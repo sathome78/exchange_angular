@@ -1,6 +1,6 @@
-import {Params} from '@angular/router';
-import {ActionReducerMap} from '@ngrx/store';
-import {createSelector} from 'reselect';
+import { Params } from '@angular/router';
+import { ActionReducerMap } from '@ngrx/store';
+import { createSelector } from 'reselect';
 
 // Imports from reducers
 import * as fromDashboard from '../../dashboard/reducers/dashboard.reducer';
@@ -42,52 +42,148 @@ export const getSettingsState = (state: State) => state.settings;
 /**
  * Selectors from dashboard module
  */
-export const getActiveCurrencyPair = createSelector(getDashboardState, fromDashboard.getActiveCurrencyPairSelector);
-export const getCurrencyPairArray = createSelector(getDashboardState, fromDashboard.getCurrencyPairArray);
-export const getMarketCurrencyPairsMap = createSelector(getDashboardState, fromDashboard.getMarketCurrencyPairsArraySelector);
-export const getFavoritesCurrencyPair = createSelector(getDashboardState, fromDashboard.getFavoritesCurrencyPairSelector);
-export const getUserBalance = createSelector(getDashboardState, fromDashboard.getUserBalance);
-export const getSelectedOrderBookOrder = createSelector(getDashboardState, fromDashboard.getSelectedOrderBookOrder);
-export const getCurrencyPairInfo = createSelector(getDashboardState, fromDashboard.getCurrencyPairInfo);
-export const getLastSellBuyOrder = createSelector(getDashboardState, fromDashboard.getLastSellBuyOrder);
-export const getAllTrades = createSelector(getDashboardState, fromDashboard.getAllTrades);
-export const getLastPrice = createSelector(getDashboardState, fromDashboard.getLastPrice);
-export const getLastCreatedOrder = createSelector(getDashboardState, fromDashboard.getLastCreatedOrder);
-export const getTradingType = createSelector(getDashboardState, fromDashboard.getTradingType);
-export const getOpenOrders = createSelector(getDashboardState, fromDashboard.getOpenOrders);
-export const getOpenOrdersCount = createSelector(getDashboardState, fromDashboard.getOpenOrdersCount);
-export const getHistoryOrders = createSelector(getDashboardState, fromDashboard.getHistoryOrders);
-export const getOrdersLoading = createSelector(getDashboardState, fromDashboard.getOrdersLoading);
-export const getOrdersBookBuyOrders = createSelector(getDashboardState, fromDashboard.getOrdersBookBuy);
-export const getOrdersBookSellOrders = createSelector(getDashboardState, fromDashboard.getOrdersBookSell);
+export const getActiveCurrencyPair = createSelector(
+  getDashboardState,
+  fromDashboard.getActiveCurrencyPairSelector
+);
+export const getCurrencyPairArray = createSelector(
+  getDashboardState,
+  fromDashboard.getCurrencyPairArray
+);
+export const getMarketCurrencyPairsMap = createSelector(
+  getDashboardState,
+  fromDashboard.getMarketCurrencyPairsArraySelector
+);
+export const getFavoritesCurrencyPair = createSelector(
+  getDashboardState,
+  fromDashboard.getFavoritesCurrencyPairSelector
+);
+export const getUserBalance = createSelector(
+  getDashboardState,
+  fromDashboard.getUserBalance
+);
+export const getSelectedOrderBookOrder = createSelector(
+  getDashboardState,
+  fromDashboard.getSelectedOrderBookOrder
+);
+export const getCurrencyPairInfo = createSelector(
+  getDashboardState,
+  fromDashboard.getCurrencyPairInfo
+);
+export const getLastSellBuyOrder = createSelector(
+  getDashboardState,
+  fromDashboard.getLastSellBuyOrder
+);
+export const getAllTrades = createSelector(
+  getDashboardState,
+  fromDashboard.getAllTrades
+);
+export const getLastPrice = createSelector(
+  getDashboardState,
+  fromDashboard.getLastPrice
+);
+export const getLastCreatedOrder = createSelector(
+  getDashboardState,
+  fromDashboard.getLastCreatedOrder
+);
+export const getTradingType = createSelector(
+  getDashboardState,
+  fromDashboard.getTradingType
+);
+export const getOpenOrders = createSelector(
+  getDashboardState,
+  fromDashboard.getOpenOrders
+);
+export const getOpenOrdersCount = createSelector(
+  getDashboardState,
+  fromDashboard.getOpenOrdersCount
+);
+export const getHistoryOrders = createSelector(
+  getDashboardState,
+  fromDashboard.getHistoryOrders
+);
+export const getOrdersLoading = createSelector(
+  getDashboardState,
+  fromDashboard.getOrdersLoading
+);
+export const getOrdersBookBuyOrders = createSelector(
+  getDashboardState,
+  fromDashboard.getOrdersBookBuy
+);
+export const getOrdersBookSellOrders = createSelector(
+  getDashboardState,
+  fromDashboard.getOrdersBookSell
+);
 
 /**
  * Selectors from funds module
  */
 
-
-
 /**
  * Selectors from Core module
  */
 
-export const getLanguage = createSelector(getCoreState, fromCore.getLanguage);
-export const getVerificationStatus = createSelector(getCoreState, fromCore.getVerificationStatus);
-export const getSimpleCurrencyPairsSelector = createSelector(getCoreState, fromCore.getAllSimpleCurrencyPairs);
-export const getDetailedCurrencyPairsSelector = createSelector(getCoreState, fromCore.getAllDetailedCurrencyPairs);
-export const getAllCurrenciesForChoose = createSelector(getCoreState, fromCore.getAllCurrenciesForChoose);
-export const getCryptoCurrenciesForChoose = createSelector(getCoreState, fromCore.getCryptoCurrenciesForChoose);
-export const getFiatCurrenciesForChoose = createSelector(getCoreState, fromCore.getFiatCurrenciesForChoose);
-export const getIsAuthenticated = createSelector(getCoreState, fromCore.getIsAuthenticatedSelector);
-export const getUserInfo = createSelector(getCoreState, fromCore.getUserInfoSelector);
-export const getIEOList = createSelector(getCoreState, fromCore.getIEOListSelector);
-
+export const getLanguage = createSelector(
+  getCoreState,
+  fromCore.getLanguage
+);
+export const getVerificationStatus = createSelector(
+  getCoreState,
+  fromCore.getVerificationStatus
+);
+export const getSimpleCurrencyPairsSelector = createSelector(
+  getCoreState,
+  fromCore.getAllSimpleCurrencyPairs
+);
+export const getDetailedCurrencyPairsSelector = createSelector(
+  getCoreState,
+  fromCore.getAllDetailedCurrencyPairs
+);
+export const getAllCurrenciesForChoose = createSelector(
+  getCoreState,
+  fromCore.getAllCurrenciesForChoose
+);
+export const getCryptoCurrenciesForChoose = createSelector(
+  getCoreState,
+  fromCore.getCryptoCurrenciesForChoose
+);
+export const getFiatCurrenciesForChoose = createSelector(
+  getCoreState,
+  fromCore.getFiatCurrenciesForChoose
+);
+export const getIsAuthenticated = createSelector(
+  getCoreState,
+  fromCore.getIsAuthenticatedSelector
+);
+export const getUserInfo = createSelector(
+  getCoreState,
+  fromCore.getUserInfoSelector
+);
+export const getIEOList = createSelector(
+  getCoreState,
+  fromCore.getIEOListSelector
+);
 
 /**
  * Selectors from Settings module
  */
-export const getGAStatus = createSelector(getSettingsState, fromSettings.getGAStatusSelector);
-export const getGALoading = createSelector(getSettingsState, fromSettings.getGALoadingSelector);
-export const getSessionTime = createSelector(getSettingsState, fromSettings.getSessionTimeSelector);
-export const getApiKeys = createSelector(getSettingsState, fromSettings.getApiKeysSelector);
-export const getApiKeyLoading = createSelector(getSettingsState, fromSettings.getApiKeyLoadingSelector);
+export const getGAStatus = createSelector(
+  getSettingsState,
+  fromSettings.getGAStatusSelector
+);
+export const getGALoading = createSelector(
+  getSettingsState,
+  fromSettings.getGALoadingSelector
+);
+export const getSessionTime = createSelector(
+  getSettingsState,
+  fromSettings.getSessionTimeSelector
+);
+export const getApiKeys = createSelector(
+  getSettingsState,
+  fromSettings.getApiKeysSelector
+);
+export const getApiKeyLoading = createSelector(
+  getSettingsState,
+  fromSettings.getApiKeyLoadingSelector
+);

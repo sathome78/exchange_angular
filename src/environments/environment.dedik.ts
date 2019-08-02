@@ -4,7 +4,7 @@
 // ng build --configuration=staging
 
 // test
-import {DEDIK_HOST} from '../app/shared/services/http.utils';
+import { DEDIK_HOST } from '../app/shared/services/http.utils';
 
 export const environment = {
   production: false,

@@ -8,9 +8,8 @@ describe('QuberaTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QuberaTableComponent ]
-    })
-    .compileComponents();
+      declarations: [QuberaTableComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

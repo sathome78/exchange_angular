@@ -1,4 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  HostListener,
+  Input,
+  OnDestroy,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as jspdf from 'jspdf';
 import * as _uniq from 'lodash/uniq';
@@ -18,10 +28,9 @@ import { FUG } from 'app/funds/balance/balance-constants';
 @Component({
   selector: 'app-step-one-deposit',
   templateUrl: './step-one-deposit.component.html',
-  styleUrls: ['./step-one-deposit.component.scss']
+  styleUrls: ['./step-one-deposit.component.scss'],
 })
 export class StepOneDepositComponent implements OnInit, OnDestroy {
-
   @Input() quberaBank: any;
   @Output() closeSendQuberaPopup = new EventEmitter<boolean>();
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -49,28 +58,23 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
   @ViewChild('content') content: ElementRef;
 
   @HostListener('document:click', ['$event']) clickout($event) {
-    if ($event.target.className !== 'select__value select__value--active'
-      && $event.target.className !== 'select__value select__value--active select__value--error'
-      && $event.target.className !== 'select__search-input') {
+    if (
+      $event.target.className !== 'select__value select__value--active' &&
+      $event.target.className !== 'select__value select__value--active select__value--error' &&
+      $event.target.className !== 'select__search-input'
+    ) {
       this.openPaymentSystemDropdown = false;
-      this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-        ? this.fiatDataByName.merchantCurrencyData
-        : [];
+      this.merchants =
+        this.fiatDataByName && this.fiatDataByName.merchantCurrencyData ? this.fiatDataByName.merchantCurrencyData : [];
       this.openCurrencyDropdown = false;
     }
   }
 
-  constructor(
-    private store: Store<State>,
-    public balanceService: BalanceService
-  ) { }
+  constructor(private store: Store<State>, public balanceService: BalanceService) {}
 
   ngOnInit() {
     this.initForm();
-    this.merchants =
-      this.quberaBank &&
-      this.quberaBank.balance &&
-      this.quberaBank.balance.merchantCurrencyData;
+    this.merchants = this.quberaBank && this.quberaBank.balance && this.quberaBank.balance.merchantCurrencyData;
 
     this.store
       .pipe(select(getFiatCurrenciesForChoose))
@@ -102,7 +106,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
 
   selectMerchant(merchant, merchantImage = null) {
     this.selectedMerchantNested = merchantImage;
-    this.selectMerchantName =  merchantImage.image_name  || merchant.name;
+    this.selectMerchantName = merchantImage.image_name || merchant.name;
     this.selectedMerchant = merchant;
     this.form.get('amount').updateValueAndValidity();
     this.togglePaymentSystemDropdown();
@@ -111,26 +115,25 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
 
   togglePaymentSystemDropdown() {
     this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
-    this.merchants = this.fiatDataByName && this.fiatDataByName
-      ? this.fiatDataByName
-      : [];
+    this.merchants = this.fiatDataByName && this.fiatDataByName ? this.fiatDataByName : [];
     this.searchTemplate = '';
     this.openCurrencyDropdown = false;
   }
 
   initForm() {
     this.form = new FormGroup({
-      amount: new FormControl('')
+      amount: new FormControl(''),
     });
   }
 
   private getDataByCurrency(currencyName) {
-    this.balanceService.getCurrencyRefillData(currencyName)
+    this.balanceService
+      .getCurrencyRefillData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         // this.fiatDataByName = res;
         this.fiatArrayData = res;
-        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter((item) => item.name === FUG);
+        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter(item => item.name === FUG);
         this.merchants = this.fiatDataByName;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
@@ -143,15 +146,18 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
   }
 
   private setMinRefillSum() {
-    this.minRefillSum = this.fiatDataByName.minRefillSum > parseFloat(this.selectedMerchant.minSum)
-      ? this.fiatDataByName.minRefillSum
-      : parseFloat(this.selectedMerchant.minSum);
+    this.minRefillSum =
+      this.fiatDataByName.minRefillSum > parseFloat(this.selectedMerchant.minSum)
+        ? this.fiatDataByName.minRefillSum
+        : parseFloat(this.selectedMerchant.minSum);
   }
 
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
-    this.merchants = this.fiatDataByName.filter(merchant =>
-      !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
+    this.merchants = this.fiatDataByName.filter(
+      merchant =>
+        !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
+          .length
     );
   }
 
@@ -165,16 +171,16 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
     this.amountValue = event.target.value;
   }
 
-  isMaxThenActiveBalance(): {[key: string]: any} | null {
+  isMaxThenActiveBalance(): { [key: string]: any } | null {
     if (+this.activeBalance < +this.amountValue) {
-      return {'isMaxThenActiveBalance': true};
+      return { isMaxThenActiveBalance: true };
     }
     return null;
   }
 
-  isMinThenMinWithdraw(): {[key: string]: any} | null {
+  isMinThenMinWithdraw(): { [key: string]: any } | null {
     if (+this.minWithdrawSum > +this.amountValue) {
-      return {'isMinThenMinWithdraw': true};
+      return { isMinThenMinWithdraw: true };
     }
     return null;
   }
@@ -186,7 +192,9 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           this.calculateData = res as CommissionData;
-          const compCommission = parseFloat(this.calculateData.companyCommissionRate.replace('%)', '').replace('(', ''));
+          const compCommission = parseFloat(
+            this.calculateData.companyCommissionRate.replace('%)', '').replace('(', '')
+          );
           this.calculateData.commission_rates_sum =
             +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
         });
@@ -213,7 +221,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
     if (this.quberaBank.balance && this.quberaBank.balance.currenciesId[0]) {
       currency = this.fiatNames.filter(item => +item.id === +this.quberaBank.balance.currenciesId[0]);
     }
-    this.activeFiat = (currency && currency.length) ? currency[0] : this.fiatNames[0];
+    this.activeFiat = currency && currency.length ? currency[0] : this.fiatNames[0];
   }
 
   prepareAlphabet() {
@@ -234,7 +242,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
       // Few necessary setting options
       const imgWidth = 208;
       const pageHeight = 295;
-      const imgHeight = canvas.height * imgWidth / canvas.width;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
       const heightLeft = imgHeight;
 
       const contentDataURL = canvas.toDataURL('image/png');
@@ -243,15 +251,21 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
       pdf.save('kp.pdf'); // Generated PDF
     });
-
   }
 
   depositBankInfo() {
-    this.balanceService.getBankInfo()
+    this.balanceService
+      .getBankInfo()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data: any) => {
         this.bankInfo = data.data;
       });
   }
 
+  trackByFiatName(index, item) {
+    return item.id;
+  }
+  trackByMerchants(index, item) {
+    return index;
+  }
 }

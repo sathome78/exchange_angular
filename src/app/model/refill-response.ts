@@ -4,4 +4,3 @@ export class RefillResponse {
   message: string;
   redirectionUrl: string;
 }
-

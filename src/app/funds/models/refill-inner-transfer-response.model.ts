@@ -1,5 +1,4 @@
 export class RefillInnerTransferResponse {
-
   constructor(
     public userToNickName: string,
     public currencyId: number,

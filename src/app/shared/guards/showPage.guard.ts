@@ -1,16 +1,13 @@
-import {Injectable} from '@angular/core';
-import {CanActivate, CanActivateChild, Router} from '@angular/router';
-import {environment} from 'environments/environment';
+import { Injectable } from '@angular/core';
+import { CanActivate, CanActivateChild, Router } from '@angular/router';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class ShowPageGuard implements CanActivate, CanActivateChild {
-
-  constructor(
-    private router: Router,
-  ) { }
+  constructor(private router: Router) {}
 
   canActivate(): boolean {
-    if(environment.showContent) {
+    if (environment.showContent) {
       return environment.showContent;
     } else {
       this.router.navigate(['/dashboard']);
@@ -19,7 +16,7 @@ export class ShowPageGuard implements CanActivate, CanActivateChild {
   }
 
   canActivateChild(): boolean {
-    if(environment.showContent) {
+    if (environment.showContent) {
       return environment.showContent;
     } else {
       this.router.navigate(['/dashboard']);

@@ -1,7 +1,7 @@
-import {Action} from '@ngrx/store';
-import {CurrencyPair} from 'app/model';
-import {Order} from 'app/model/order.model';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import { Action } from '@ngrx/store';
+import { CurrencyPair } from 'app/model';
+import { Order } from 'app/model/order.model';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 export const CHANGE_ACTIVE_CURRENCY_PAIR = '[Dashboard] Change currency pair';
 export const SET_CURRENCY_PAIRS_FOR_MARKET = '[Dashboard] Set currency pairs for market';
@@ -171,8 +171,8 @@ export class SetOrdersBookSellDataAction implements Action {
 /**
  * Exports possible action types
  */
-export type Actions
-  = ChangeActiveCurrencyPairAction
+export type Actions =
+  | ChangeActiveCurrencyPairAction
   | SetOrdersBookBuyDataAction
   | SetOrdersBookSellDataAction
   | SetMarketsCurrencyPairsAction

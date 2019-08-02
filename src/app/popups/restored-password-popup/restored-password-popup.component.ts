@@ -5,14 +5,10 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-restored-password-popup',
   templateUrl: './restored-password-popup.component.html',
-  styleUrls: ['./restored-password-popup.component.scss']
+  styleUrls: ['./restored-password-popup.component.scss'],
 })
 export class RestoredPasswordPopupComponent implements OnInit {
-
-  constructor(
-    private popupService: PopupService,
-    private router: Router,
-  ) { }
+  constructor(private popupService: PopupService, private router: Router) {}
 
   ngOnInit() {
     // console.log('inited');
@@ -26,5 +22,4 @@ export class RestoredPasswordPopupComponent implements OnInit {
     this.popupService.toggleRestoredPasswordPopup(false);
     this.router.navigate(['/login']);
   }
-
 }

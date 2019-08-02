@@ -82,7 +82,7 @@
 </div>
 
 <app-notification
-  *ngFor="let notification of notificationMessages; let i = index;"
+  *ngFor="let notification of notificationMessages; let i = index; trackBy: trackByIndex"
   [notification]="notification"
   (notificationClosed)="onNotificationMessageClose(i)">
 </app-notification>

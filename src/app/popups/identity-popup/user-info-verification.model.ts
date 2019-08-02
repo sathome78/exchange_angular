@@ -1,7 +1,6 @@
 import { FormGroup } from '@angular/forms';
 
 export class UserInfoVerificationModel {
-
   userId: number;
   firstName: string;
   lastName: string;

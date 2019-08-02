@@ -5,11 +5,11 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { StaticPagesRoutingModule } from './static-pages.routing';
-import {HttpClient} from '@angular/common/http';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {translateInfo} from '../shared/configs/translate-options';
-import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { translateInfo } from '../shared/configs/translate-options';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.staticPages, translateInfo.suffix);
@@ -24,18 +24,12 @@ export function createTranslateLoader(http: HttpClient) {
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
+      },
     }),
   ],
-  declarations: [
-    StaticPagesComponent,
-    AboutUsComponent,
-    PrivacyPolicyComponent,
-    TermsAndConditionsComponent
-  ],
-  providers: []
+  declarations: [StaticPagesComponent, AboutUsComponent, PrivacyPolicyComponent, TermsAndConditionsComponent],
+  providers: [],
 })
-export class StaticPagesModule {
-}
+export class StaticPagesModule {}

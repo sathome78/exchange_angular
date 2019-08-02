@@ -1,17 +1,16 @@
-import {Component, OnInit, ChangeDetectorRef, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
-import {takeUntil} from 'rxjs/internal/operators';
-import {Subject} from 'rxjs/Subject';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { takeUntil } from 'rxjs/internal/operators';
+import { Subject } from 'rxjs/Subject';
 
-import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {CurrencyPair} from '../../../model/currency-pair.model';
-import {select, Store} from '@ngrx/store';
-import {State, getActiveCurrencyPair, getAllTrades} from 'app/core/reducers/index';
-import {TradeItem} from '../../../model/trade-item.model';
-import {Subscription} from 'rxjs';
-import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
-import {SetAllTradesAction} from 'app/dashboard/actions/dashboard.actions';
+import { AbstractDashboardItems } from '../../abstract-dashboard-items';
+import { CurrencyPair } from '../../../model/currency-pair.model';
+import { select, Store } from '@ngrx/store';
+import { State, getActiveCurrencyPair, getAllTrades } from 'app/core/reducers/index';
+import { TradeItem } from '../../../model/trade-item.model';
+import { Subscription } from 'rxjs';
+import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
+import { SetAllTradesAction } from 'app/dashboard/actions/dashboard.actions';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
-
 
 @Component({
   selector: 'app-trade-history',
@@ -24,8 +23,8 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   public itemName: string;
   private tradesSub$: Subscription;
 
-  allTrades: TradeItem [] = [];
-  personalTrades: TradeItem [] = [];
+  allTrades: TradeItem[] = [];
+  personalTrades: TradeItem[] = [];
 
   activeCurrencyPair: SimpleCurrencyPair;
   currencySubscription: any;
@@ -44,23 +43,22 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   constructor(
     private store: Store<State>,
     private dashboardWebsocketService: DashboardWebSocketService,
-    private cdr: ChangeDetectorRef,
-) {
-  super();
+    private cdr: ChangeDetectorRef
+  ) {
+    super();
   }
-
 
   ngOnInit() {
     this.itemName = 'trade-history';
 
     this.store
-    .pipe(select(getActiveCurrencyPair))
-    .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe((pair: SimpleCurrencyPair) => {
-      if (pair.id) {
-        this.onGetCurrentCurrencyPair(pair);
-      }
-    });
+      .pipe(select(getActiveCurrencyPair))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((pair: SimpleCurrencyPair) => {
+        if (pair.id) {
+          this.onGetCurrentCurrencyPair(pair);
+        }
+      });
 
     this.store
       .pipe(select(getAllTrades))
@@ -69,7 +67,8 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
         this.addOrUpdate(this.allTrades, orders);
         /** sort items */
         this.allTrades.sort((a, b) => {
-          let timeA, timeB;
+          let timeA;
+          let timeB;
           timeA = parseInt(a.acceptionTime, 10);
           timeB = parseInt(b.acceptionTime, 10);
           return timeB - timeA;
@@ -81,24 +80,25 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.unsubscribeTrades()
+    this.unsubscribeTrades();
   }
 
   subscribeTrades(currName: string): void {
     this.unsubscribeTrades();
     this.loadingStarted();
     const pairName = currName.toLowerCase().replace(/\//i, '_');
-    this.tradesSub$ = this.dashboardWebsocketService.allTradesSubscription(pairName)
+    this.tradesSub$ = this.dashboardWebsocketService
+      .allTradesSubscription(pairName)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((data) => {
+      .subscribe(data => {
         this.store.dispatch(new SetAllTradesAction(data));
         this.loadingFinished();
         this.cdr.detectChanges();
-      })
+      });
   }
 
   unsubscribeTrades() {
-    if(this.tradesSub$) {
+    if (this.tradesSub$) {
       this.tradesSub$.unsubscribe();
     }
   }
@@ -112,6 +112,7 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
       let found = false;
       oldItems.forEach(oldItem => {
         if (oldItem.orderId === newItem.orderId) {
+          // tslint:disable-next-line: no-parameter-reassignment
           oldItem = TradeItem.deepCopy(newItem);
           found = true;
         }
@@ -152,5 +153,4 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   private loadingStarted(): void {
     this.loading = true;
   }
-
 }

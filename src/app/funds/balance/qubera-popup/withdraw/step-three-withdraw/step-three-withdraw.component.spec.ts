@@ -8,9 +8,8 @@ describe('StepThreeWithdrawComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StepThreeWithdrawComponent ]
-    })
-    .compileComponents();
+      declarations: [StepThreeWithdrawComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

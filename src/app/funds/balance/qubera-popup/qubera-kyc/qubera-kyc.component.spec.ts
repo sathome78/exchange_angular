@@ -8,9 +8,8 @@ describe('QuberaKycComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QuberaKycComponent ]
-    })
-    .compileComponents();
+      declarations: [QuberaKycComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

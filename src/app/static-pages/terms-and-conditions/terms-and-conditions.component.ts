@@ -1,16 +1,13 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
-             selector: 'app-terms-and-conditions',
-             templateUrl: './terms-and-conditions.component.html',
-             styleUrls: ['./terms-and-conditions.component.scss'],
-             changeDetection: ChangeDetectionStrategy.OnPush
-           })
+  selector: 'app-terms-and-conditions',
+  templateUrl: './terms-and-conditions.component.html',
+  styleUrls: ['./terms-and-conditions.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class TermsAndConditionsComponent implements OnInit {
+  constructor() {}
 
-  constructor(
-  ) {}
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

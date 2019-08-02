@@ -8,9 +8,8 @@ describe('TransferProtectedCodeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TransferProtectedCodeComponent ]
-    })
-    .compileComponents();
+      declarations: [TransferProtectedCodeComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -8,9 +8,8 @@ describe('CurrencyPairInfoMobileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CurrencyPairInfoMobileComponent ]
-    })
-    .compileComponents();
+      declarations: [CurrencyPairInfoMobileComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,4 +1,3 @@
-
 <div class="title title-id modal__title">{{'Identity Verification' | translate}}</div>
 <div class="subtitle subtitle-id modal__subtitle">
   <p>{{'The information you fill in must be co consistent with the information in ID documents.' | translate}}</p>
@@ -6,27 +5,41 @@
 <form class="country-form">
   <div class="input-wr">
     <div class="select refill__select refill__select--cripto">
-      <div class="select__value select__value--active" (click)="countryDropdownToggle(true)">
+      <div
+        class="select__value select__value--active"
+        (click)="countryDropdownToggle(true)"
+      >
         <div class="select__search">
-          <input class="select__search-input no-line"
-                 #countryInput
-                 type="text"
-                 [placeholder]="'Country' | translate"
-                 (focus)="showCountryLabel(true)"
-                 (blur)="showCountryLabel(false)"
-                 (input)="searchCountry($event)" >
+          <input
+            class="select__search-input no-line"
+            #countryInput
+            type="text"
+            [placeholder]="'Country' | translate"
+            (focus)="showCountryLabel(true)"
+            (blur)="showCountryLabel(false)"
+            (input)="searchCountry($event)"
+          >
         </div>
       </div>
-      <div class="select__label" *ngIf="selectedCountry || showCountryLabelFlag">{{'Country' | translate}}</div>
+      <div
+        class="select__label"
+        *ngIf="selectedCountry || showCountryLabelFlag"
+      >{{'Country' | translate}}</div>
       <div class="select__line"></div>
-      <div class="select__list-searching"
-           [ngClass]="{'select__list-searching--open': openCountryDropdown}"
-           *ngIf="openCountryDropdown">
+      <div
+        class="select__list-searching"
+        [ngClass]="{'select__list-searching--open': openCountryDropdown}"
+        *ngIf="openCountryDropdown"
+      >
         <div class="select__list-searching-body">
 
           <perfect-scrollbar>
             <div class="select__searching-items-wrap">
-              <div class="select__searching-item" *ngFor="let country of countryArray" (click)="selectCountry(country)">
+              <div
+                class="select__searching-item"
+                *ngFor="let country of countryArray; trackBy: trackByCountry"
+                (click)="selectCountry(country)"
+              >
                 <span>{{country.countryName}}</span>
               </div>
             </div>
@@ -39,26 +52,41 @@
 
   <div class="input-wr">
     <div class="select refill__select refill__select--cripto">
-      <div class="select__value select__value--active" (click)="languageDropdownToggle(true)">
+      <div
+        class="select__value select__value--active"
+        (click)="languageDropdownToggle(true)"
+      >
         <div class="select__search">
-          <input class="select__search-input no-line"
-                 #languageInput type="text"
-                 [placeholder]="'Language' | translate"
-                 (focus)="showLanguageLabel(true)"
-                 (blur)="showLanguageLabel(false)"
-                 (input)="searchLanguage($event)" >
+          <input
+            class="select__search-input no-line"
+            #languageInput
+            type="text"
+            [placeholder]="'Language' | translate"
+            (focus)="showLanguageLabel(true)"
+            (blur)="showLanguageLabel(false)"
+            (input)="searchLanguage($event)"
+          >
         </div>
       </div>
-      <div class="select__label" *ngIf="selectedLanguage || showLanguageLabelFlag">{{'Language' | translate}}</div>
+      <div
+        class="select__label"
+        *ngIf="selectedLanguage || showLanguageLabelFlag"
+      >{{'Language' | translate}}</div>
       <div class="select__line"></div>
-      <div class="select__list-searching"
-           [ngClass]="{'select__list-searching--open': openLanguageDropdown}"
-           *ngIf="openLanguageDropdown">
+      <div
+        class="select__list-searching"
+        [ngClass]="{'select__list-searching--open': openLanguageDropdown}"
+        *ngIf="openLanguageDropdown"
+      >
         <div class="select__list-searching-body">
 
           <perfect-scrollbar>
             <div class="select__searching-items-wrap">
-              <div class="select__searching-item" *ngFor="let lang of languageArray" (click)="selectLanguage(lang)">
+              <div
+                class="select__searching-item"
+                *ngFor="let lang of languageArray; trackBy: trackByLanguage"
+                (click)="selectLanguage(lang)"
+              >
                 <span>{{lang.languageName}}</span>
               </div>
             </div>
@@ -69,9 +97,12 @@
     <!-- выпадающий список -->
   </div>
   <div class="button-wr">
-    <button class="btn btn--center verification-btn" [disabled]="load"
-            [ngClass]="{'active': (selectedCountry && selectedLanguage) && !load}"
-            (click)="sendStepOne()">
+    <button
+      class="btn btn--center verification-btn"
+      [disabled]="load"
+      [ngClass]="{'active': (selectedCountry && selectedLanguage) && !load}"
+      (click)="sendStepOne()"
+    >
       <span class="btn-text">
         {{'Verification' | translate}}
       </span>
@@ -79,6 +110,9 @@
   </div>
 
 </form>
-<div class="widget__content loading-container" *ngIf="load">
+<div
+  class="widget__content loading-container"
+  *ngIf="load"
+>
   <app-loader></app-loader>
 </div>

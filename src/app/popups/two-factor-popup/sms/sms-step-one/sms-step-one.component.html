@@ -1,19 +1,35 @@
-<div class="title modal__title" >{{'Two-Factor authentication by phone number' | translate}}</div>
+<div class="title modal__title">{{'Two-Factor authentication by phone number' | translate}}</div>
 <div class="subtitle modal__subtitle">
   <p>{{'Enter the phone number' | translate}}</p>
 </div>
 <div class="modal__row modal__row--mb32 modal__row--mob-column">
-  <div class="select select--fix230 select--country" (click)="openDropdown()">
+  <div
+    class="select select--fix230 select--country"
+    (click)="openDropdown()"
+  >
     <div class="select__value select__value--active">
-      <img [src]="region.iconPath" class="select__list-item-icon">
+      <img
+        [src]="region.iconPath"
+        class="select__list-item-icon"
+      >
       {{ region.country }}
     </div>
     <div class="select__label">{{'Inner transfer' | translate}}</div>
     <div class="select__line"></div>
     <div class="select__triangle"></div>
-    <ul class="select__list" [ngClass]="{'select__list--open': dropDownOpen }">
-      <li *ngFor="let reg of getRegions()" class="select__list-item" (click)="onSelect(reg)">
-        <img [src]="reg.iconPath" class="select__list-item-icon">
+    <ul
+      class="select__list"
+      [ngClass]="{'select__list--open': dropDownOpen }"
+    >
+      <li
+        *ngFor="let reg of getRegions(); trackBy: trackByCountry"
+        class="select__list-item"
+        (click)="onSelect(reg)"
+      >
+        <img
+          [src]="reg.iconPath"
+          class="select__list-item-icon"
+        >
         {{ reg.country }}
       </li>
     </ul>
@@ -23,19 +39,28 @@
       <input
         class="wrap-input__input"
         [ngClass]="{'input--error': !form.get('phone').valid && form.get('phone').touched }"
-        type="text" formControlName="phone">
-      <label class="wrap-input__label" for="">{{'Phone number' | translate}}</label>
+        type="text"
+        formControlName="phone"
+      >
+      <label
+        class="wrap-input__label"
+        for=""
+      >{{'Phone number' | translate}}</label>
       <div class="wrap-input__line"></div>
       <!--Input error section starts-->
       <div *ngIf="form.get('phone').touched && form.get('phone').errors != null">
-         <span
-           *ngIf="form.get('phone').errors['required']"
-           class="wrap-input__message" translate>
+        <span
+          *ngIf="form.get('phone').errors['required']"
+          class="wrap-input__message"
+          translate
+        >
           Please enter the phone number.
         </span>
         <span
           *ngIf="form.get('phone').invalid && !form.get('phone').errors['required']"
-          class="wrap-input__message" translate>
+          class="wrap-input__message"
+          translate
+        >
           Only numbers are allowed.
         </span>
       </div>
@@ -43,5 +68,8 @@
     </div>
   </form>
 </div>
-<button class="btn btn--active btn--center " (click)="onNextStep()" [disabled]="form.invalid">{{'Get verification code' | translate}}</button>
-
+<button
+  class="btn btn--active btn--center "
+  (click)="onNextStep()"
+  [disabled]="form.invalid"
+>{{'Get verification code' | translate}}</button>

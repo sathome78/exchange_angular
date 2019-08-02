@@ -1,20 +1,20 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {AuthService} from '../../shared/services/auth.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {UserService} from '../../shared/services/user.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {environment} from '../../../environments/environment';
-import {TranslateService} from '@ngx-translate/core';
-import {UtilsService} from 'app/shared/services/utils.service';
-import {PopupService} from 'app/shared/services/popup.service';
-import {Location} from '@angular/common';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AuthService } from '../../shared/services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../../shared/services/user.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { environment } from '../../../environments/environment';
+import { TranslateService } from '@ngx-translate/core';
+import { UtilsService } from 'app/shared/services/utils.service';
+import { PopupService } from 'app/shared/services/popup.service';
+import { Location } from '@angular/common';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-final-step-recovery-password',
   templateUrl: './final-step-recovery-password.component.html',
-  styleUrls: ['./final-step-recovery-password.component.scss']
+  styleUrls: ['./final-step-recovery-password.component.scss'],
 })
 export class FinalStepRecoveryPasswordComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -35,7 +35,7 @@ export class FinalStepRecoveryPasswordComponent implements OnInit, OnDestroy {
     private popupService: PopupService,
     private location: Location,
     private translateService: TranslateService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.location.replaceState('recovery-password');
@@ -63,8 +63,8 @@ export class FinalStepRecoveryPasswordComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(20),
-        this.utilsService.passwordCombinationValidator()
-      ]
+        this.utilsService.passwordCombinationValidator(),
+      ],
     });
     this.passwordSecond = new FormControl('', {
       validators: [
@@ -72,12 +72,12 @@ export class FinalStepRecoveryPasswordComponent implements OnInit, OnDestroy {
         Validators.minLength(8),
         Validators.maxLength(20),
         this.utilsService.passwordCombinationValidator(),
-        this.utilsService.passwordMatchValidator(this.passwordFirst)
-      ]
+        this.utilsService.passwordMatchValidator(this.passwordFirst),
+      ],
     });
     this.passwordForm = new FormGroup({
-      'password': this.passwordFirst,
-      'confirmPassword': this.passwordSecond,
+      password: this.passwordFirst,
+      confirmPassword: this.passwordSecond,
     });
   }
 
@@ -90,16 +90,20 @@ export class FinalStepRecoveryPasswordComponent implements OnInit, OnDestroy {
         password: this.encryptPass(pass.value),
       };
       this.loading = true;
-      this.userService.recoveryPassword(sendData)
+      this.userService
+        .recoveryPassword(sendData)
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(res => {
-          this.router.navigate(['/dashboard']);
-          this.popupService.toggleRestoredPasswordPopup(true);
-          this.loading = false;
-        }, err => {
-          this.message = this.translateService.instant('Server error. Try again.');
-          this.loading = false;
-        });
+        .subscribe(
+          res => {
+            this.router.navigate(['/dashboard']);
+            this.popupService.toggleRestoredPasswordPopup(true);
+            this.loading = false;
+          },
+          err => {
+            this.message = this.translateService.instant('Server error. Try again.');
+            this.loading = false;
+          }
+        );
     }
   }
 
@@ -113,5 +117,4 @@ export class FinalStepRecoveryPasswordComponent implements OnInit, OnDestroy {
   get getFirstPassword() {
     return this.passwordForm.get('password');
   }
-
 }

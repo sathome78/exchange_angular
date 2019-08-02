@@ -1,9 +1,9 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'showTransactionsStatus'
+  name: 'showTransactionsStatus',
 })
-export class ShowTransactionsStatusPipe  implements PipeTransform {
+export class ShowTransactionsStatusPipe implements PipeTransform {
   transform(status: string, sourceType: string): string {
     if (sourceType === 'WITHDRAW') {
       switch (status) {

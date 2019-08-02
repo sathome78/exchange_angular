@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import {Subject, Observable} from 'rxjs';
-import {takeUntil} from 'rxjs/internal/operators';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Subject, Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/internal/operators';
 
-import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {select, Store} from '@ngrx/store';
+import { AbstractDashboardItems } from '../../abstract-dashboard-items';
+import { select, Store } from '@ngrx/store';
 import {
   State,
   getActiveCurrencyPair,
@@ -13,9 +13,9 @@ import {
   getOrdersLoading,
   getUserInfo
 } from 'app/core/reducers/index';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
-import {UserService} from 'app/shared/services/user.service';
-import {LoadOpenOrdersAction, LoadHistoryOrdersAction} from 'app/dashboard/actions/dashboard.actions';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { UserService } from 'app/shared/services/user.service';
+import { LoadOpenOrdersAction, LoadHistoryOrdersAction } from 'app/dashboard/actions/dashboard.actions';
 
 @Component({
   selector: 'app-embedded-orders',
@@ -35,14 +35,10 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   public openOrdersCount$: Observable<number>;
   public loading$: Observable<boolean>;
 
-
-
-  constructor(
-    private store: Store<State>,
-    private userService: UserService,
-  ) {
+  constructor(private store: Store<State>, private userService: UserService) {
     super();
-    this.store.pipe(select(getUserInfo))
+    this.store
+      .pipe(select(getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
@@ -84,9 +80,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
    */
   toggleMainTab(tabName: string): void {
     this.mainTab = tabName;
-    this.mainTab === 'open' ?
-      this.toOpenOrders() :
-      this.toHistory();
+    this.mainTab === 'open' ? this.toOpenOrders() : this.toHistory();
   }
 
   toOpenOrders(): void {
@@ -102,7 +96,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
     this.userService.getUserBalance(this.activeCurrencyPair);
   }
 
-  public pairNames(): string [] {
+  public pairNames(): string[] {
     if (this.activeCurrencyPair && this.activeCurrencyPair.name) {
       return this.activeCurrencyPair.name.split('/');
     }

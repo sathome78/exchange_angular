@@ -8,9 +8,8 @@ describe('ReferralChargesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReferralChargesComponent ]
-    })
-    .compileComponents();
+      declarations: [ReferralChargesComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

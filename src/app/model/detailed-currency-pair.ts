@@ -1,4 +1,3 @@
-
 export class DetailedCurrencyPair {
   currency1: SimpleCurrency;
   currency2: SimpleCurrency;

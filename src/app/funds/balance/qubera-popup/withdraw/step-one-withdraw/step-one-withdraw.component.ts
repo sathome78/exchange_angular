@@ -20,7 +20,7 @@ import { FUG, EUR } from 'app/funds/balance/balance-constants';
 @Component({
   selector: 'app-step-one-withdraw',
   templateUrl: './step-one-withdraw.component.html',
-  styleUrls: ['./step-one-withdraw.component.scss']
+  styleUrls: ['./step-one-withdraw.component.scss'],
 })
 export class StepOneWithdrawComponent implements OnInit {
   form: FormGroup;
@@ -52,12 +52,10 @@ export class StepOneWithdrawComponent implements OnInit {
   public alphabet;
   public isSubmited = false;
 
-
   public minWithdrawSum = 0;
   public activeBalance = 0;
   public amountValue = 0;
   public calculateData: CommissionData = defaultCommissionData;
-
 
   // country
 
@@ -70,15 +68,15 @@ export class StepOneWithdrawComponent implements OnInit {
   @ViewChild('countryInput') countryInput: ElementRef;
 
   @HostListener('document:click', ['$event']) clickout($event) {
-    if ($event.target.className !== 'select__value select__value--active'
-      && $event.target.className !== 'select__value select__value--active select__value--error'
-      && $event.target.className !== 'select__search-input') {
+    if (
+      $event.target.className !== 'select__value select__value--active' &&
+      $event.target.className !== 'select__value select__value--active select__value--error' &&
+      $event.target.className !== 'select__search-input'
+    ) {
       this.openBankSystemDropdown = false;
       this.openCurrencyDropdown = false;
       this.openCountryDropdown = false;
-      this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-        ? this.fiatDataByName.merchantCurrencyData
-        : [];
+      this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData ? this.fiatDataByName.merchantCurrencyData : [];
     }
   }
 
@@ -86,9 +84,10 @@ export class StepOneWithdrawComponent implements OnInit {
     private store: Store<State>,
     private stores: Store<fromCore.State>,
     private settingsService: SettingsService,
-    public balanceService: BalanceService) {
-      this.selectedWithdraw = this.withdrawOptions[0];
-    }
+    public balanceService: BalanceService
+  ) {
+    this.selectedWithdraw = this.withdrawOptions[0];
+  }
 
   checkForm(value) {
     this.selectedWithdraw = value;
@@ -127,11 +126,12 @@ export class StepOneWithdrawComponent implements OnInit {
     if (this.dataQubera.balance && this.dataQubera.balance.currenciesId[0]) {
       currency = this.fiatNames.filter(item => +item.id === +this.dataQubera.balance.currenciesId[0]);
     }
-    this.activeFiat = (currency && currency.length) ? currency[0] : this.fiatNames[0];
+    this.activeFiat = currency && currency.length ? currency[0] : this.fiatNames[0];
   }
 
   private getDataByCurrency(currencyName) {
-    this.balanceService.getCurrencyRefillData(currencyName)
+    this.balanceService
+      .getCurrencyRefillData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         // this.fiatDataByName = res;
@@ -152,9 +152,7 @@ export class StepOneWithdrawComponent implements OnInit {
 
   togglePaymentSystemDropdown() {
     this.openBankSystemDropdown = !this.openBankSystemDropdown;
-    this.merchants = this.fiatDataByName && this.fiatDataByName
-      ? this.fiatDataByName
-      : [];
+    this.merchants = this.fiatDataByName && this.fiatDataByName ? this.fiatDataByName : [];
     this.searchTemplate = '';
     this.openCurrencyDropdown = false;
   }
@@ -185,38 +183,36 @@ export class StepOneWithdrawComponent implements OnInit {
   }
 
   private setMinRefillSum() {
-    this.minRefillSum = this.fiatDataByName.minRefillSum > parseFloat(this.selectedMerchant.minSum)
-      ? this.fiatDataByName.minRefillSum
-      : parseFloat(this.selectedMerchant.minSum);
+    this.minRefillSum =
+      this.fiatDataByName.minRefillSum > parseFloat(this.selectedMerchant.minSum)
+        ? this.fiatDataByName.minRefillSum
+        : parseFloat(this.selectedMerchant.minSum);
   }
 
   private setMinWithdrawSum() {
-    this.minWithdrawSum = this.fiatDataByName.minWithdrawSum > parseFloat(this.selectedMerchant.minSum)
-      ? this.fiatDataByName.minWithdrawSum
-      : parseFloat(this.selectedMerchant.minSum);
+    this.minWithdrawSum =
+      this.fiatDataByName.minWithdrawSum > parseFloat(this.selectedMerchant.minSum)
+        ? this.fiatDataByName.minWithdrawSum
+        : parseFloat(this.selectedMerchant.minSum);
     this.form.controls['amount'].updateValueAndValidity();
   }
 
   initMainForm() {
     this.form = new FormGroup({
-      amount: new FormControl('', [
-        Validators.required,
-        this.isMaxThenActiveBalance.bind(this),
-        this.isMinThenMinWithdraw.bind(this)
-      ])
+      amount: new FormControl('', [Validators.required, this.isMaxThenActiveBalance.bind(this), this.isMinThenMinWithdraw.bind(this)]),
     });
   }
 
-  isMaxThenActiveBalance(): {[key: string]: any} | null {
+  isMaxThenActiveBalance(): { [key: string]: any } | null {
     if (+this.activeBalance < +this.amountValue) {
-      return {'isMaxThenActiveBalance': true};
+      return { isMaxThenActiveBalance: true };
     }
     return null;
   }
 
-  isMinThenMinWithdraw(): {[key: string]: any} | null {
+  isMinThenMinWithdraw(): { [key: string]: any } | null {
     if (+this.minWithdrawSum > +this.amountValue) {
-      return {'isMinThenMinWithdraw': true};
+      return { isMinThenMinWithdraw: true };
     }
     return null;
   }
@@ -267,7 +263,7 @@ export class StepOneWithdrawComponent implements OnInit {
       narrative: new FormControl('', Validators.required),
       address: new FormControl('', Validators.required),
       city: new FormControl('', Validators.required),
-      countryCode: new FormControl('', Validators.required)
+      countryCode: new FormControl('', Validators.required),
     });
   }
 
@@ -277,14 +273,14 @@ export class StepOneWithdrawComponent implements OnInit {
       lastName: new FormControl(''),
       companyName: new FormControl(''),
       iban: new FormControl('', Validators.required),
-      narrative: new FormControl('', Validators.required)
+      narrative: new FormControl('', Validators.required),
     });
   }
 
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
-    this.merchants = this.fiatDataByName.filter(merchant =>
-      !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
+    this.merchants = this.fiatDataByName.filter(
+      merchant => !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
     );
   }
 
@@ -292,7 +288,8 @@ export class StepOneWithdrawComponent implements OnInit {
     this.isSubmited = true;
     if (mainForm.valid && withdrawForm.valid) {
       const withdraw = this.createWithdrawObject(mainForm, withdrawForm);
-      this.balanceService.sendWithdraw(withdraw)
+      this.balanceService
+        .sendWithdraw(withdraw)
         .pipe(first())
         .subscribe(data => {
           this.isSubmited = false;
@@ -340,7 +337,8 @@ export class StepOneWithdrawComponent implements OnInit {
   }
 
   getCountryCode() {
-    this.settingsService.getCountriesKYC()
+    this.settingsService
+      .getCountriesKYC()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.countryArrayDefault = res as KycCountry[];
@@ -366,8 +364,7 @@ export class StepOneWithdrawComponent implements OnInit {
     this.countryArray = this.countryArrayDefault.filter(f => f.countryName.toUpperCase().match(e.target.value.toUpperCase()));
   }
 
-
-// getters form Sepa
+  // getters form Sepa
   get currentSEPAFirstName(): any {
     return this.formSepa.get('firstName');
   }
@@ -385,7 +382,7 @@ export class StepOneWithdrawComponent implements OnInit {
     return this.formSepa.get('iban');
   }
 
-// getters form SWIFT
+  // getters form SWIFT
   get currentSWIFTFirstName(): any {
     return this.formSwift.get('firstName');
   }
@@ -415,4 +412,10 @@ export class StepOneWithdrawComponent implements OnInit {
     return this.formSwift.get('city');
   }
 
+  trackByFiatNames(index, item) {
+    return item.id;
+  }
+  trackByWithdrawOptions(index, item) {
+    return item;
+  }
 }
