@@ -64,8 +64,14 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
       $event.target.className !== 'select__search-input'
     ) {
       this.openPaymentSystemDropdown = false;
+      // FUG BLOCK
       this.merchants =
-        this.fiatDataByName && this.fiatDataByName.merchantCurrencyData ? this.fiatDataByName.merchantCurrencyData : [];
+        this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
+          ? this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG)
+          : [];
+      // this.merchants =
+      //   this.fiatDataByName &&
+      //   this.fiatDataByName.merchantCurrencyData ? this.fiatDataByName.merchantCurrencyData : [];
       this.openCurrencyDropdown = false;
     }
   }
@@ -74,7 +80,12 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
-    this.merchants = this.quberaBank && this.quberaBank.balance && this.quberaBank.balance.merchantCurrencyData;
+    // this.merchants = this.quberaBank && this.quberaBank.balance && this.quberaBank.balance.merchantCurrencyData
+    // FUG BLOCK
+    this.merchants =
+      this.quberaBank &&
+      this.quberaBank.balance &&
+      this.quberaBank.balance.merchantCurrencyData.filter(item => item.name !== FUG);
 
     this.store
       .pipe(select(getFiatCurrenciesForChoose))

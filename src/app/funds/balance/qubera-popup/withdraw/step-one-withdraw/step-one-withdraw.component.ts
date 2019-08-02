@@ -76,7 +76,15 @@ export class StepOneWithdrawComponent implements OnInit {
       this.openBankSystemDropdown = false;
       this.openCurrencyDropdown = false;
       this.openCountryDropdown = false;
-      this.merchants = this.fiatDataByName && this.fiatDataByName.merchantCurrencyData ? this.fiatDataByName.merchantCurrencyData : [];
+      // this.merchants =
+      //   this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
+      //     ? this.fiatDataByName.merchantCurrencyData
+      //     : [];
+      // FUG BLOCK
+      this.merchants =
+        this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
+          ? this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG)
+          : [];
     }
   }
 
@@ -136,7 +144,7 @@ export class StepOneWithdrawComponent implements OnInit {
       .subscribe(res => {
         // this.fiatDataByName = res;
         this.fiatArrayData = res;
-        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter(item => (item.name === FUG));
+        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter(item => item.name === FUG);
         // this.merchants = this.fiatDataByName.merchantCurrencyData;
         this.merchants = this.fiatDataByName;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
@@ -199,7 +207,11 @@ export class StepOneWithdrawComponent implements OnInit {
 
   initMainForm() {
     this.form = new FormGroup({
-      amount: new FormControl('', [Validators.required, this.isMaxThenActiveBalance.bind(this), this.isMinThenMinWithdraw.bind(this)]),
+      amount: new FormControl('', [
+        Validators.required,
+        this.isMaxThenActiveBalance.bind(this),
+        this.isMinThenMinWithdraw.bind(this),
+      ]),
     });
   }
 
@@ -232,7 +244,9 @@ export class StepOneWithdrawComponent implements OnInit {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           this.calculateData = res as CommissionData;
-          const compCommission = parseFloat(this.calculateData.companyCommissionRate.replace('%)', '').replace('(', ''));
+          const compCommission = parseFloat(
+            this.calculateData.companyCommissionRate.replace('%)', '').replace('(', '')
+          );
           this.calculateData.commission_rates_sum =
             +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
         });
@@ -280,7 +294,9 @@ export class StepOneWithdrawComponent implements OnInit {
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
     this.merchants = this.fiatDataByName.filter(
-      merchant => !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase())).length
+      merchant =>
+        !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
+          .length
     );
   }
 
@@ -361,7 +377,9 @@ export class StepOneWithdrawComponent implements OnInit {
   }
 
   searchCountry(e) {
-    this.countryArray = this.countryArrayDefault.filter(f => f.countryName.toUpperCase().match(e.target.value.toUpperCase()));
+    this.countryArray = this.countryArrayDefault.filter(f =>
+      f.countryName.toUpperCase().match(e.target.value.toUpperCase())
+    );
   }
 
   // getters form Sepa

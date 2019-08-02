@@ -149,8 +149,15 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   togglePaymentSystemDropdown() {
     this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
+    // FUG BLOCK
     this.merchants =
-      this.fiatInfoByName && this.fiatInfoByName.merchantCurrencyData ? this.fiatInfoByName.merchantCurrencyData : [];
+      this.fiatInfoByName && this.fiatInfoByName.merchantCurrencyData
+        ? this.fiatInfoByName.merchantCurrencyData.filter(item => item.name !== FUG)
+        : [];
+    // this.merchants =
+    //   this.fiatInfoByName && this.fiatInfoByName.merchantCurrencyData
+    //     ? this.fiatInfoByName.merchantCurrencyData
+    //     : [];
     this.searchTemplate = '';
     this.openCurrencyDropdown = false;
   }
@@ -182,7 +189,10 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.fiatInfoByName = res;
-        this.merchants = this.fiatInfoByName.merchantCurrencyData;
+        // this.merchants = this.fiatInfoByName.merchantCurrencyData;
+        // FUG BLOCK
+        this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(item => item.name !== FUG);
+
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
@@ -257,11 +267,17 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
-    this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(
+    // FUG BLOCK
+    this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(item => item.name !== FUG).filter(
       merchant =>
         !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
           .length
     );
+    // this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(
+    //   merchant =>
+    //     !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
+    //       .length
+    // );
   }
 
   goToWithdrawal() {
