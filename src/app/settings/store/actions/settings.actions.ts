@@ -1,4 +1,4 @@
-import {Action} from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
 export const LOAD_GA_STATUS = '[Orders] Load GA status';
 export const FAIL_LOAD_GA_STATUS = '[Orders] Fail load GA status';
@@ -7,7 +7,6 @@ export const SET_GA_STATUS = '[Orders] Set GA status';
 export const LOAD_SESSION_TIME = '[Orders] Load session time';
 export const FAIL_LOAD_SESSION_TIME = '[Orders] Fail load session time';
 export const SET_SESSION_TIME = '[Orders] Set session time';
-
 
 export const LOAD_API_KEYS = '[Orders] Load api keys';
 export const FAIL_LOAD_API_KEYS = '[Orders] Fail load api keys';
@@ -58,12 +57,11 @@ export class FailLoadApiKeysAction implements Action {
   constructor(public payload?) {}
 }
 
-
 /**
  * Exports possible action types
  */
-export type Actions
-  = LoadGAStatusAction
+export type Actions =
+  | LoadGAStatusAction
   | SetGAStatusAction
   | FailLoadGAStatusAction
   | LoadSessionTimeAction
@@ -71,4 +69,4 @@ export type Actions
   | FailLoadSessionTimeAction
   | LoadApiKeysAction
   | SetApiKeysAction
-  | FailLoadApiKeysAction
+  | FailLoadApiKeysAction;

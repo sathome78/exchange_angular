@@ -8,9 +8,8 @@ describe('RefillInnerTransferComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RefillInnerTransferComponent ]
-    })
-    .compileComponents();
+      declarations: [RefillInnerTransferComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,19 +1,18 @@
-import {Component, OnInit, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
-import {Store, select} from '@ngrx/store';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 
-import {OrderItem} from '../models/order-item.model';
+import { OrderItem } from '../models/order-item.model';
 import * as ordersReducer from '../store/reducers/orders.reducer';
 import * as ordersAction from '../store/actions/orders.actions';
 import * as coreAction from '../../core/actions/core.actions';
 import * as fromCore from '../../core/reducers';
-import {State} from '../../core/reducers';
-import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
-import {CurrencyChoose} from 'app/model/currency-choose.model';
-import {OrdersService} from '../orders.service';
-import {BreakpointService} from 'app/shared/services/breakpoint.service';
-import {UserService} from 'app/shared/services/user.service';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { CurrencyChoose } from 'app/model/currency-choose.model';
+import { OrdersService } from '../orders.service';
+import { BreakpointService } from 'app/shared/services/breakpoint.service';
+import { UserService } from 'app/shared/services/user.service';
 
 @Component({
   selector: 'app-open-orders',
@@ -22,70 +21,58 @@ import {UserService} from 'app/shared/services/user.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpenOrdersComponent implements OnInit, OnDestroy {
-
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public orderItems$: Observable<OrderItem[]>;
   public orderItems: OrderItem[] = [];
   public countOfEntries$: Observable<number>;
-  public countOfEntries: number = 0;
+  public countOfEntries = 0;
   public currencyPairs$: Observable<SimpleCurrencyPair[]>;
   public allCurrenciesForChoose$: Observable<CurrencyChoose[]>;
   public loading$: Observable<boolean>;
   public currentPage = 1;
   public countPerPage = 15;
-  public isMobile: boolean = false;
+  public isMobile = false;
   public showCancelOrderConfirm: number | null = null;
   public isShowCancelAllOrdersConfirm = false;
   public activeCurrencyPair: SimpleCurrencyPair;
 
-  // public myDatePickerOptions: IMyDpOptions = {
-  //   dateFormat: 'dd.mm.yyyy',
-  //   disableSince: {
-  //     year: new Date().getFullYear(),
-  //     month: new Date().getMonth() + 1,
-  //     day: new Date().getDate()
-  //   }
-  // };
-
-  // public modelDateFrom: any;
-  // public modelDateTo: any;
   public currencyPairId: string = null;
-  public currencyPairValue: string = '';
-  public currValue: string = '';
+  public currencyPairValue = '';
+  public currValue = '';
 
-  public showFilterPopup: boolean = false;
+  public showFilterPopup = false;
   public tableScrollStyles: any = {};
 
   constructor(
-    private store: Store<State>,
+    private store: Store<fromCore.State>,
     private ordersService: OrdersService,
     public breakpointService: BreakpointService,
-    private userService: UserService,
+    private userService: UserService
   ) {
     this.orderItems$ = store.pipe(select(ordersReducer.getOpenOrdersFilterCurr));
     this.countOfEntries$ = store.pipe(select(ordersReducer.getOpenOrdersCount));
     this.currencyPairs$ = store.pipe(select(fromCore.getSimpleCurrencyPairsSelector));
     this.loading$ = store.pipe(select(ordersReducer.getLoadingSelector));
     this.allCurrenciesForChoose$ = store.pipe(select(fromCore.getAllCurrenciesForChoose));
-    store.pipe(select(fromCore.getActiveCurrencyPair))
+    store
+      .pipe(select(fromCore.getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((activePair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = activePair;
-      })
+      });
 
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
-    this.orderItems$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((items) => this.orderItems = items)
-    this.countOfEntries$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((items) => this.countOfEntries = items)
+    this.tableScrollStyles = {
+      height: componentHeight - 112 + 'px',
+      overflow: 'scroll',
+    };
+    this.orderItems$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(items => (this.orderItems = items));
+    this.countOfEntries$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(items => (this.countOfEntries = items));
   }
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 1200;
-    if(this.isMobile) {
+    if (this.isMobile) {
       this.countPerPage = 10;
     }
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
@@ -101,22 +88,21 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
       page: isMobile ? 1 : this.currentPage,
       limit: 0,
       currencyPairId: this.currencyPairId || 0,
-    }
+    };
     this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
   }
   loadMoreOrders(): void {
-    if(this.orderItems.length !== this.countOfEntries) {
+    if (this.orderItems.length !== this.countOfEntries) {
       this.currentPage += 1;
       const params = {
         page: this.currentPage,
         limit: 0,
         currencyPairId: this.currencyPairId || 0,
         concat: true,
-      }
+      };
       this.store.dispatch(new ordersAction.LoadOpenOrdersAction(params));
     }
   }
-
 
   changeItemsPerPage(items: number) {
     this.countPerPage = items;
@@ -129,7 +115,7 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     this.loadOrders();
   }
 
-   /**
+  /**
    * filter history orders by clicking on Filter button
    */
   onFilterOrders() {
@@ -139,20 +125,19 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
 
   cancelAllOrders() {
     this.isShowCancelAllOrdersConfirm = false;
-    this.ordersService.cancelAllOrders(this.currencyPairValue)
+    this.ordersService
+      .cancelAllOrders(this.currencyPairValue)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.currentPage = 1;
         this.loadOrders();
-        this.userService.getUserBalance(this.activeCurrencyPair)
+        this.userService.getUserBalance(this.activeCurrencyPair);
       });
   }
 
   toggleShowCancelAllOrdersConfirm() {
     this.isShowCancelAllOrdersConfirm = !this.isShowCancelAllOrdersConfirm;
   }
-
-
 
   /**
    * open submenu in the mobile version of the table
@@ -170,10 +155,10 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   }
 
   /**
- * sets class for order type field
- * @param {string} type ordert type: examples: 'buy', 'sell', 'stop'
- * @returns {string}
- */
+   * sets class for order type field
+   * @param {string} type ordert type: examples: 'buy', 'sell', 'stop'
+   * @returns {string}
+   */
   setClassForOrderTypeField(type: string): string {
     let className: string;
     if (type) {
@@ -185,12 +170,17 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
     return className;
   }
 
-
   /**
    * set status order canceled
    * @param order
    */
   cancelOrder(order): void {
+    if (!this.isMobile) {
+      this.currentPage =
+        (this.currentPage === 1 || this.orderItems.length - 1 - (this.currentPage - 1) * this.countPerPage) > 0
+          ? this.currentPage
+          : this.currentPage - 1;
+    }
     const params = {
       order,
       loadOrders: {
@@ -198,8 +188,8 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
         limit: 0,
         currencyPairId: this.currencyPairId || 0,
         isMobile: this.isMobile,
-      }
-    }
+      },
+    };
 
     this.store.dispatch(new ordersAction.CancelOrderAction(params));
     this.showCancelOrderConfirm = null;
@@ -235,5 +225,9 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  trackByOrders(index, item) {
+    return item.id;
   }
 }

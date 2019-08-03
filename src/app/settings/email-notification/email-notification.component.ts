@@ -1,15 +1,14 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {SettingsService} from '../settings.service';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SettingsService } from '../settings.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-email-notification',
   templateUrl: './email-notification.component.html',
-  styleUrls: ['./email-notification.component.scss']
+  styleUrls: ['./email-notification.component.scss'],
 })
 export class EmailNotificationComponent implements OnInit, OnDestroy {
-
   ORDER_TYPE = 'ORDER';
   IN_OUT_TYPE = 'IN_OUT';
   CUSTOM_TYPE = 'CUSTOM';
@@ -25,8 +24,7 @@ export class EmailNotificationComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  constructor(private settingsService: SettingsService) {
-  }
+  constructor(private settingsService: SettingsService) {}
 
   ngOnInit() {
     this.loadNotifications();
@@ -39,16 +37,19 @@ export class EmailNotificationComponent implements OnInit, OnDestroy {
 
   update() {
     this.loading = true;
-    this.settingsService.updateEmailNotifications(this.getOptions())
+    this.settingsService
+      .updateEmailNotifications(this.getOptions())
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(resp => {
+      .subscribe(
+        resp => {
           // console.log('updated');
           this.loading = false;
         },
         err => {
           console.error(err);
           this.loading = false;
-        });
+        }
+      );
   }
 
   updateInOuts() {
@@ -76,7 +77,7 @@ export class EmailNotificationComponent implements OnInit, OnDestroy {
     this.update();
   }
 
-  getOptions(): NotificationOption [] {
+  getOptions(): NotificationOption[] {
     const options = [];
     options.push(NotificationOption.create(this.ORDER_TYPE, this.isOrdersNotificationEnabled));
     options.push(NotificationOption.create(this.IN_OUT_TYPE, this.isInOutNotificationEnabled));
@@ -87,7 +88,8 @@ export class EmailNotificationComponent implements OnInit, OnDestroy {
   }
 
   private loadNotifications() {
-    this.settingsService.getEmailNotifications()
+    this.settingsService
+      .getEmailNotifications()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(map => {
         this.isInOutNotificationEnabled = map[this.IN_OUT_TYPE];
@@ -100,15 +102,13 @@ export class EmailNotificationComponent implements OnInit, OnDestroy {
 }
 
 export class NotificationOption {
-
   public event: string;
   public userId = 0;
   public sendNotification = false;
   public sendEmail: boolean;
   public eventLocalized = '';
 
-  constructor() {
-  }
+  constructor() {}
 
   public static create(eventType: string, emailValue: boolean): NotificationOption {
     const option = new NotificationOption();
@@ -116,5 +116,4 @@ export class NotificationOption {
     option.sendEmail = emailValue;
     return option;
   }
-
 }

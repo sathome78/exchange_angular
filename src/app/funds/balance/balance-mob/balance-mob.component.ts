@@ -1,11 +1,11 @@
-import {Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef} from '@angular/core';
-import {BalanceItem} from '../../models/balance-item.model';
-import {Router} from '@angular/router';
-import {UtilsService} from 'app/shared/services/utils.service';
+import { Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { BalanceItem } from '../../models/balance-item.model';
+import { Router } from '@angular/router';
+import { UtilsService } from 'app/shared/services/utils.service';
 import * as fundsAction from '../../store/actions/funds.actions';
-import {select, Store} from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
-import {environment} from 'environments/environment';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-balance-mob',
@@ -13,15 +13,14 @@ import {environment} from 'environments/environment';
   styleUrls: ['./balance-mob.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BalanceMobComponent implements OnInit{
-
+export class BalanceMobComponent implements OnInit {
   @ViewChild('dropdown') dropdownElement: ElementRef;
   @ViewChild('scrollContainer') public scrollContainer: ElementRef;
 
   public currencies = {
     BTC: 'BTC',
     USD: 'USD',
-  }
+  };
 
   public tableScrollStyles: any = {};
   public get currenciesArr() {
@@ -49,37 +48,43 @@ export class BalanceMobComponent implements OnInit{
 
   @Output('openRefillBalancePopup') public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
   @Output('openSendMoneyPopup') public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
-  @Output('filterByCurrencyForMobile') public filterByCurrencyForMobile: EventEmitter<any> = new EventEmitter();
+  @Output('filterByCurrencyForMobile')
+  public filterByCurrencyForMobile: EventEmitter<any> = new EventEmitter();
   @Output('onToggleAllZero') public onToggleAllZero: EventEmitter<any> = new EventEmitter();
   @Output('onLoadMore') public onLoadMore: EventEmitter<any> = new EventEmitter();
   @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
   @Output('onGoToBalanceDetails') public onGoToBalanceDetails: EventEmitter<any> = new EventEmitter();
 
-
-  constructor(
-    private router: Router,
-    private utils: UtilsService,
-    private store: Store<fromCore.State>,
-  ) {
+  constructor(private router: Router, private utils: UtilsService, private store: Store<fromCore.State>) {
     this.setScrollStyles();
   }
 
   setScrollStyles() {
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 293) + 'px', 'overflow-x': 'scroll'};
+    this.tableScrollStyles = {
+      height: componentHeight - 293 + 'px',
+      'overflow-x': 'scroll',
+    };
   }
 
   public onLoadMoreTrigger(): void {
-    if(this.balances.length !== this.countOfEntries){
-      this.onLoadMore.emit({currentPage: +this.currentPage + 1, countPerPage: this.countPerPage, concat: true});
+    if (this.balances.length !== this.countOfEntries) {
+      this.onLoadMore.emit({
+        currentPage: +this.currentPage + 1,
+        countPerPage: this.countPerPage,
+        concat: true,
+      });
     }
   }
   public onToggleAllZeroTrigger(): void {
     this.scrollContainer.nativeElement.scrollTop = 0;
-    this.onToggleAllZero.emit(this.hideAllZero)
+    this.onToggleAllZero.emit(this.hideAllZero);
   }
   public onShowMobDetails(item: BalanceItem): void {
-    this.onGoToBalanceDetails.emit({currencyId: item.currencyId, priceIn: this.priceIn});
+    this.onGoToBalanceDetails.emit({
+      currencyId: item.currencyId,
+      priceIn: this.priceIn,
+    });
   }
 
   public onToggleDropdown(): void {
@@ -100,7 +105,10 @@ export class BalanceMobComponent implements OnInit{
 
   public onSearchCoin(event) {
     this.currencyForChoose = event;
-    this.filterByCurrencyForMobile.emit({currTab: this.currTab, currency: this.currencyForChoose});
+    this.filterByCurrencyForMobile.emit({
+      currTab: this.currTab,
+      currency: this.currencyForChoose,
+    });
   }
 
   public onChangeCurrPair(val: string): void {
@@ -108,13 +116,19 @@ export class BalanceMobComponent implements OnInit{
   }
 
   public get getCryptoDynamicIData(): DIOptions[] {
-    return this.cryptoCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
+    return this.cryptoCurrenciesForChoose.map(item => ({
+      text: `${item.name}; ${item.description}`,
+      id: item.id,
+    }));
   }
   public get getFiatDynamicIData(): DIOptions[] {
-    return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}))
+    return this.fiatCurrenciesForChoose.map(item => ({
+      text: `${item.name}; ${item.description}`,
+      id: item.id,
+    }));
   }
 
-  toggleShowSearchPopup(flag: boolean) {
+  public toggleShowSearchPopup(flag: boolean) {
     if (flag && this.balances.length < this.countEntries) {
       const params = {
         type: this.currTab === this.Tab.CRYPTO ? this.Tab.CRYPTO : this.Tab.FIAT,
@@ -137,4 +151,7 @@ export class BalanceMobComponent implements OnInit{
 
   ngOnInit() {}
 
+  trackByFn(index, item) {
+    return item.currencyId;
+  }
 }

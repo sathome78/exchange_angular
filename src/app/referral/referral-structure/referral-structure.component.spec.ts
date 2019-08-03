@@ -8,9 +8,8 @@ describe('ReferralStructureComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReferralStructureComponent ]
-    })
-    .compileComponents();
+      declarations: [ReferralStructureComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

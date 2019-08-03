@@ -162,6 +162,18 @@ app-settings, app-dashboard {
   display: block!important;
 }
 
+
+.accessibility-content{
+  position: absolute;
+  height: 0;
+  width: 0;
+  font-size: 0;
+  overflow: hidden;
+  line-height: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+}
 #launcher{
       bottom: 4px!important;
 }

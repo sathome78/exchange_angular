@@ -1,9 +1,9 @@
-import {Action} from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { IEOItem } from 'app/model/ieo.model';
 
 export const SAVE_TO_STORE = '[Core] Saves data to app store';
 export const SAVE_COMPLETE = '[Core] Saving user location data to cookie is complete';
-export const SAVE_TOKEN = '[Core] Saves user\'s auth token';
+export const SAVE_TOKEN = "[Core] Saves user's auth token";
 export const CHANGE_LANGUAGE = '[Core] Change language';
 export const REHYDRATE = '[Core] Rehydrate store';
 
@@ -33,7 +33,7 @@ export const SET_IEO_LIST = '[Core] Set IEO list';
  */
 export class SaveToStoreAction implements Action {
   readonly type = SAVE_TO_STORE;
-  constructor(public payload: {currency?: string; region?: string, language?: string }) {}
+  constructor(public payload: { currency?: string; region?: string; language?: string }) {}
 }
 
 /**
@@ -44,7 +44,7 @@ export class ChangeLanguageAction implements Action {
   constructor(public payload: string) {}
 }
 
-
+// Verification
 export class LoadVerificationStatusAction implements Action {
   readonly type = LOAD_VERIFICATION_STATUS;
   constructor(public payload?) {}
@@ -83,7 +83,6 @@ export class RehydrateAction implements Action {
   readonly type = REHYDRATE;
   constructor(public payload) {}
 }
-
 
 /**
  * Load currency pairs
@@ -124,11 +123,10 @@ export class LoadFiatCurrenciesForChoose implements Action {
   constructor(public payload?) {}
 }
 
-
-  /**
-  * Change currency pair 'BTC/USD'
-  */
- export class SetAllCurrenciesForChoose implements Action {
+/**
+ * Change currency pair 'BTC/USD'
+ */
+export class SetAllCurrenciesForChoose implements Action {
   readonly type = SET_ALL_CURRENCIES_FOR_CHOOSE;
   constructor(public payload) {}
 }
@@ -164,8 +162,8 @@ export class SetIEOListAction implements Action {
 /**
  * Exports possible action types
  */
-export type Actions
-  = SaveToStoreAction
+export type Actions =
+  | SaveToStoreAction
   | SaveTokenAction
   | SaveCompleteAction
   | LoadCurrencyPairsAction
@@ -184,4 +182,4 @@ export type Actions
   | FailLoadVerificationStatusAction
   | SetOnLoginAction
   | SetOnLogoutAction
-  | SetIEOListAction
+  | SetIEOListAction;

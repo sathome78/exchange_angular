@@ -8,9 +8,8 @@ describe('TransferQuberaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TransferQuberaComponent ]
-    })
-    .compileComponents();
+      declarations: [TransferQuberaComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

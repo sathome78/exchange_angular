@@ -1,10 +1,10 @@
 import * as coreActions from '../actions/core.actions';
 // import {ActionReducer, createSelector} from '@ngrx/store';
 // import {REHYDRATE, RehydrateAction} from '../actions/core.actions';
-import {SimpleCurrencyPair} from '../../model/simple-currency-pair';
-import {CurrencyChoose} from '../../model/currency-choose.model';
-import {IEOItem} from 'app/model/ieo.model';
-import {DetailedCurrencyPair} from 'app/model/detailed-currency-pair';
+import { SimpleCurrencyPair } from '../../model/simple-currency-pair';
+import { CurrencyChoose } from '../../model/currency-choose.model';
+import { IEOItem } from 'app/model/ieo.model';
+import { DetailedCurrencyPair } from 'app/model/detailed-currency-pair';
 
 export interface State {
   currency: string;
@@ -46,21 +46,21 @@ export const INIT_STATE: State = {
 export function reducer(state: State = INIT_STATE, action: coreActions.Actions) {
   switch (action.type) {
     case coreActions.SAVE_COMPLETE:
-      return {...state, ...action.payload};
+      return { ...state, ...action.payload };
 
     case coreActions.SAVE_TO_STORE:
-      return {...state, ...action.payload};
+      return { ...state, ...action.payload };
 
     case coreActions.CHANGE_LANGUAGE:
       // console.log(action.payload)
-      return {...state, language: action.payload};
+      return { ...state, language: action.payload };
 
     case coreActions.LOAD_VERIFICATION_STATUS:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case coreActions.SET_VERIFICATION_STATUS:
-      return {...state, verificationStatus: action.payload};
+      return { ...state, verificationStatus: action.payload };
     case coreActions.FAIL_LOAD_VERIFICATION_STATUS:
-      return {...state, loading: false};
+      return { ...state, loading: false };
 
     case coreActions.SET_SIMPLE_CURRENCY_PAIRS:
       return {
@@ -69,35 +69,35 @@ export function reducer(state: State = INIT_STATE, action: coreActions.Actions) 
         detailedCurrencyPairs: action.payload.detailedItems,
       };
     case coreActions.LOAD_ALL_CURRENCIES_FOR_CHOOSE:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case coreActions.LOAD_CRYPTO_CURRENCIES_FOR_CHOOSE:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case coreActions.LOAD_FIAT_CURRENCIES_FOR_CHOOSE:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case coreActions.SET_ALL_CURRENCIES_FOR_CHOOSE:
-      return {...state, allCurrenciesForChoose: action.payload};
+      return { ...state, allCurrenciesForChoose: action.payload };
     case coreActions.SET_CRYPTO_CURRENCIES_FOR_CHOOSE:
-      return {...state, cryptoCurrenciesForChoose: action.payload};
+      return { ...state, cryptoCurrenciesForChoose: action.payload };
     case coreActions.SET_FIAT_CURRENCIES_FOR_CHOOSE:
-      return {...state, fiatCurrenciesForChoose: action.payload};
+      return { ...state, fiatCurrenciesForChoose: action.payload };
     case coreActions.FAIL_LOAD_CURRENCIES_FOR_CHOOSE:
-      return {...state, loading: false};
+      return { ...state, loading: false };
 
     case coreActions.ON_LOGIN:
-      return {...state, userInfo: action.payload, isAuthenticated: true};
+      return { ...state, userInfo: action.payload, isAuthenticated: true };
     case coreActions.ON_LOGOUT:
-      return {...state, userInfo: null, isAuthenticated: false};
+      return { ...state, userInfo: null, isAuthenticated: false };
     case coreActions.SET_IEO_LIST:
       const cacheIeoList = [...state.ieoList];
-      action.payload.forEach((i) => {
-        const itemIndex = cacheIeoList.findIndex((ci) => ci.id === i.id);
+      action.payload.forEach(i => {
+        const itemIndex = cacheIeoList.findIndex(ci => ci.id === i.id);
         if (itemIndex >= 0) {
           cacheIeoList[itemIndex] = i;
         } else {
           cacheIeoList.push(i);
         }
       });
-      return {...state, ieoList: cacheIeoList};
+      return { ...state, ieoList: cacheIeoList };
 
     default:
       return state;
@@ -130,7 +130,6 @@ export const getVerificationStatus = (state: State): string => state.verificatio
  * Selector returns current region
  */
 export const getRegion = (state: State): string => state.region;
-
 
 export const getAllSimpleCurrencyPairs = (state: State): SimpleCurrencyPair[] => state.simpleCurrencyPairs;
 export const getAllDetailedCurrencyPairs = (state: State): DetailedCurrencyPair[] => state.detailedCurrencyPairs;

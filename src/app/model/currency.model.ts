@@ -1,5 +1,3 @@
 export class Currency {
-  constructor(
-    public name: string,
-  ) {}
+  constructor(public name: string) {}
 }

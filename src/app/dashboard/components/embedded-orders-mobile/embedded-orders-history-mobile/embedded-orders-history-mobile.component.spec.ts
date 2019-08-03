@@ -8,9 +8,8 @@ describe('EmbeddedOrdersHistoryMobileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EmbeddedOrdersHistoryMobileComponent ]
-    })
-    .compileComponents();
+      declarations: [EmbeddedOrdersHistoryMobileComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

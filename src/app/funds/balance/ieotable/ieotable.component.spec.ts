@@ -8,9 +8,8 @@ describe('IEOTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IEOTableComponent ]
-    })
-    .compileComponents();
+      declarations: [IEOTableComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

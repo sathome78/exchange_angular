@@ -1,4 +1,7 @@
-<div class="dynamic-input" [class.dynamic-input--open]="showDropdown">
+<div
+  class="dynamic-input"
+  [class.dynamic-input--open]="showDropdown"
+>
   <div class="dynamic-input__wrap">
     <input
       #input
@@ -19,8 +22,15 @@
   </div>
 
   <!--<div class="wrap-input__icon" *ngIf="icon" [innerHTML]="icon"></div>-->
-  <div class="dynamic-input__list dropdown search" [class.dropdown--open]="showDropdown">
-    <ul class="dropdown__list" [ngClass]="{'select__list--open': showDropdown && filteredOptions.length}" #list>
+  <div
+    class="dynamic-input__list dropdown search"
+    [class.dropdown--open]="showDropdown"
+  >
+    <ul
+      class="dropdown__list"
+      [ngClass]="{'select__list--open': showDropdown && filteredOptions.length}"
+      #list
+    >
       <perfect-scrollbar style="max-height: 285px;">
         <li
           *ngFor="let item of filteredOptions; let i = index; trackBy: trackByFn"

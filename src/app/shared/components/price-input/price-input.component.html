@@ -1,17 +1,18 @@
-<input class="wrap-input__input"
-       [(ngModel)]='value'
-       [class.dirty]="price.dirty"
-       [ngClass]="{'wrap-input__input--small': forTrading}"
-       type="text"
-       #price="ngModel"
-       name="price"
-       required
-       #inputEl
-       autocomplete="off"
-       (input)="onInput($event)"
-       (blur)="onBlur($event)"
-       (focus)="onFocus()"
-      >
+<input
+  class="wrap-input__input"
+  [(ngModel)]='value'
+  [class.dirty]="price.dirty"
+  [ngClass]="{'wrap-input__input--small': forTrading}"
+  type="text"
+  #price="ngModel"
+  name="price"
+  required
+  #inputEl
+  autocomplete="off"
+  (input)="onInput($event)"
+  (blur)="onBlur($event)"
+  (focus)="onFocus()"
+>
 <label class="wrap-input__label" for="">{{placeholder}}</label>
 <label class="wrap-input__currency" for="" *ngIf="forTrading">{{currencyLabel}}</label>
 <div class="wrap-input__line" *ngIf="!forTrading"></div>

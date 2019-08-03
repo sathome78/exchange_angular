@@ -1,10 +1,9 @@
-import {Directive, AfterViewInit, OnDestroy, Input} from '@angular/core';
+import { Directive, AfterViewInit, OnDestroy, Input } from '@angular/core';
 
 @Directive({
-  selector: '[appAddClass]'
+  selector: '[appAddClass]',
 })
-export class AddClassDirective  implements AfterViewInit, OnDestroy {
-
+export class AddClassDirective implements AfterViewInit, OnDestroy {
   @Input('appAddClass') className: string;
   @Input('to') selector: string;
 

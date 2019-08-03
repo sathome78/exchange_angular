@@ -1,12 +1,10 @@
-import {Directive, ElementRef, HostListener} from '@angular/core';
+import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appExcludeInputSpaces]'
+  selector: '[appExcludeInputSpaces]',
 })
 export class ExcludeSpacesDirective {
-
-  constructor(private el: ElementRef) {
-  }
+  constructor(private el: ElementRef) {}
 
   @HostListener('input', ['$event']) onInput(event) {
     if (event.data === ' ' || event.inputType === 'insertFromPaste') {

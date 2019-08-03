@@ -1,0 +1,215 @@
+<h2>{{'Create account FUG' | translate}}</h2>
+<h3>{{'The information you fill in must be co consistent with the information in ID documents.' | translate}}</h3>
+
+<form [formGroup]="form">
+
+  <div class="select">
+    <div
+      class="select__value select__value--active"
+      #countryInput
+      (click)="countryDropdownToggle()"
+    >{{this.selectedCountry?.countryName}}</div>
+    <div class="select__label">{{'Country' | translate}}</div>
+    <div class="select__line"></div>
+    <div class="select__triangle"></div>
+    <div
+      class="select__list-searching"
+      [ngClass]="{'select__list-searching--open': openCountryDropdown}"
+      *ngIf="openCountryDropdown"
+    >
+      <input
+        formControlName="countryCode"
+        style="display: none"
+        [disabled]
+      >
+      <div class="select__search">
+        <input
+          class="select__search-input"
+          type="text"
+          placeholder="Search"
+          (input)="searchCountry($event)"
+        >
+        <div class="select__search-icon">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"
+            />
+          </svg>
+        </div>
+      </div>
+      <div class="select__list-searching-body">
+        <perfect-scrollbar>
+          <div class="select__searching-items-wrap">
+            <div
+              class="select__searching-item"
+              *ngFor="let country of countryArray; trackBy: trackByFn"
+              (click)="selectCountry(country)"
+            >
+              <span>{{country.countryName}}</span>
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="wrap-input"
+    [ngClass]="{'wrap-input--error': !currentFirstName.valid && currentFirstName.touched}"
+  >
+    <input
+      class="wrap-input__input"
+      name="firstName"
+      formControlName="firstName"
+      required
+    >
+    <label class="wrap-input__label">{{'First name' | translate}}</label>
+
+    <ng-container *ngIf="currentFirstName.updateOn != 'blur'">
+      <div class="input-hint-wrapper">
+        <span
+          class="wrap-input__message"
+          *ngIf="currentFirstName.updateOn != 'blur' && !currentFirstName.valid"
+        >
+          {{'Firstname field is required.' | translate}}
+        </span>
+      </div>
+    </ng-container>
+  </div>
+  <div
+    class="wrap-input"
+    [ngClass]="{'wrap-input--error': !currentLastName.valid && currentLastName.touched}"
+  >
+    <input
+      class="wrap-input__input"
+      name="lastName"
+      formControlName="lastName"
+      required
+    >
+    <label class="wrap-input__label">{{'Last Name' | translate}}</label>
+
+    <ng-container *ngIf="currentLastName.updateOn != 'blur'">
+      <div class="input-hint-wrapper">
+        <span
+          class="wrap-input__message"
+          *ngIf="currentLastName.updateOn != 'blur' && !currentLastName.valid"
+        >
+          {{'Lastname field is required.' | translate}}
+        </span>
+      </div>
+    </ng-container>
+  </div>
+  <div
+    class="wrap-input"
+    [ngClass]="{'wrap-input--error': !currentAddress.valid && currentAddress.touched}"
+  >
+    <input
+      class="wrap-input__input"
+      name="address"
+      formControlName="address"
+      required
+    >
+    <label class="wrap-input__label">{{'Address' | translate}}</label>
+
+    <ng-container *ngIf="!currentAddress.valid && !currentAddress.untouched">
+      <div class="input-hint-wrapper">
+        <span
+          class="wrap-input__message"
+          *ngIf="!currentAddress.valid"
+        >
+          {{'Address field is required.' | translate}}
+        </span>
+      </div>
+    </ng-container>
+  </div>
+  <div
+    class="wrap-input"
+    [ngClass]="{'wrap-input--error': !currentCity.valid && currentCity.touched}"
+  >
+    <input
+      class="wrap-input__input"
+      name="city"
+      formControlName="city"
+      required
+    >
+    <label class="wrap-input__label">{{'City' | translate}}</label>
+
+    <ng-container *ngIf="!currentCity.valid && !currentCity.untouched">
+      <div class="input-hint-wrapper">
+        <span
+          class="wrap-input__message"
+          *ngIf="!currentCity.valid"
+        >
+          {{'City field is required.' | translate}}
+        </span>
+      </div>
+    </ng-container>
+  </div>
+  <div class="wrap-input filters-popup__datepicker">
+    <label
+      class="wrap-input__label"
+      [ngClass]="{'select-input_label': modelDateFrom?.date || isDateInputFromFocus}"
+    >{{'Date of Birth' | translate}}</label>
+    <app-birthday-mask-input
+      [innValue]="modelDateFrom"
+      (inputFocus)="focusOrBlurDateFrom($event)"
+      (inputEmpty)="clearModelDateFrom()"
+      (validDate)="onDateChanged($event)"
+    ></app-birthday-mask-input>
+    <my-date-picker
+      name="datepicker"
+      [options]="myDatePickerOptions"
+      formControlName="datepicker"
+      (dateChanged)="onDateChanged($event)"
+    >
+    </my-date-picker>
+    <ng-container *ngIf="!currentDatePicker.valid && !currentDatePicker.untouched">
+      <div class="input-hint-wrapper">
+        <span
+          class="wrap-input__message"
+          *ngIf="!currentDatePicker.valid"
+        >
+          {{'Date of Birth field is required.' | translate}}
+        </span>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="rules">
+    <p>{{'Read terms and conditions.' | translate}} <a
+        href="http://fug.sg"
+        target="_blank"
+      >FUG</a></p>
+    <div class="check">
+      <input
+        type="checkbox"
+        id="read"
+        formControlName="theCheckbox"
+        (change)="checked($event)"
+      />
+      <label
+        for="read"
+        class="read"
+      ></label>
+      <span>{{'I have read the rules' | translate}}</span>
+    </div>
+  </div>
+
+  <div class="action">
+    <button
+      (click)="gotToStepTwo(form)"
+      class="btn btn--center"
+      [ngClass]="{'btn--empty-blue': !form.valid || !check || disable}"
+      [disabled]="!form.valid || !check || disable"
+    >{{'Create account' | translate}}</button>
+  </div>
+
+</form>

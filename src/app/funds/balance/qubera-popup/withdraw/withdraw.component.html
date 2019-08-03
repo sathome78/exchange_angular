@@ -1,0 +1,60 @@
+<!-- modal header start -->
+<div class="modal__header-mob">
+    <div class="steps__counter steps__counter--mob">{{'step' | translate}}
+      <span class="steps__counter-val">{{step}}</span>/2
+    </div>
+    <div class="modal__header-mob-controls">
+      <a class="modal__control-mob" (click)="onCloseSendMoneyPopup()">
+        <img class="modal__control-icon" src="../../../assets/img/close-blue.svg"></a>
+    </div>
+  </div>
+  <div class="modal__header">
+    <ul class="steps">
+      <li class="steps__item"
+          [ngClass]="{'steps__item--current': step === 1}"
+      >
+        <a class="steps__link" (click)="setStep(1)">
+          <span class="steps__number" [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
+          <span class="steps__number-mob-current">1. {{'Apply For Withdrawal' | translate}}</span>
+          <span class="steps__title">{{'Apply For Withdrawal' | translate}}</span>
+        </a>
+      </li>
+      <li class="steps__item" *ngIf="step >= 2"
+          [ngClass]="{'steps__item--current': step === 2}"
+      >
+        <a class="steps__link" (click)="setStep(2)">
+          <span class="steps__number" [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }">2</span>
+          <span class="steps__number-mob-current">2. {{'Verification' | translate}}</span>
+          <span class="steps__title">{{'Verification' | translate}}</span>
+        </a>
+      </li>
+      <li class="steps__item" *ngIf="step >= 3"
+          [ngClass]="{'steps__item--current': step === 3}"
+      >
+        <a class="steps__link" (click)="setStep(3)">
+          <span class="steps__number" [ngClass]="{'steps__number--current': step === 3, 'steps__number--valid': step != 3 }">3</span>
+          <span class="steps__number-mob-current">3. {{'Success' | translate}}</span>
+          <span class="steps__title">{{'Success' | translate}}</span>
+        </a>
+      </li>
+    </ul>
+    <div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/ 3</div>
+  </div>
+  <!-- modal header end -->
+
+    <app-step-one-withdraw
+      *ngIf="step === 1"
+      [dataQubera]="qubera"
+      [quberaBalances]="quberaBalances"
+      (nextStep)="nextStep(2)"
+    >
+    </app-step-one-withdraw>
+    <app-step-two-withdraw
+      *ngIf="step === 2"
+      (nextStep)="nextStep(3)"
+    >
+    </app-step-two-withdraw>
+    <app-step-three-withdraw
+      *ngIf="step === 3"
+    >
+    </app-step-three-withdraw>

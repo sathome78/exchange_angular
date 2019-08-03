@@ -5,10 +5,11 @@
         class="dropdown__btn"
         *ngFor="let limit of limitsData"
         [ngClass]="{'selectedButton': dropdownLimitValue === limit}"
-        (click)="selectedLimit(limit)">
+        (click)="selectedLimit(limit)"
+      >
         {{showLimit(limit, true)}}
       </div>
-  </div>
+    </div>
     <!-- <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
       <div style="margin-left: auto;">
         {{'Pay no fees:' | translate}}
@@ -17,8 +18,18 @@
       </div>
     </div> -->
   </div>
+  <!-- <div
+    class="row row__info"
+    *ngIf="dropdownLimitValue === baseType.MARKET"
+  >
+    Max available to buy market order: {{maxMarketOrder | currencyFormat}} {{arrPairName[0]}}
+  </div> -->
   <div class="widget__trading-form--wr">
-    <form class="widget__trading-form" action="" [formGroup]="buyForm">
+    <form
+      class="widget__trading-form"
+      action=""
+      [formGroup]="buyForm"
+    >
       <div class="widget__trading-title-wr">
         <p class="widget__trading-title">
           {{'Buy' | translate}} {{arrPairName[0]}}
@@ -42,7 +53,32 @@
           ></app-price-input>
         </div>
       </div>
-      <div class="row row--jcsb widget__trading-row  input-row">
+      <div *ngIf="buyForm.get('quantity').touched && buyForm.get('quantity').errors">
+        <div>
+          <span
+            class="wrap-input__message wrap-input__message--error"
+            *ngIf="buyForm.get('quantity').errors['maxMarketOrder']"
+          >
+            {{'Max. available to buy' | translate}} {{maxMarketOrder | currencyFormat}} {{arrPairName[0]}}
+          </span>
+        </div>
+      </div>
+
+      <div
+        class="row row--jcsb widget__trading-row  input-row d-none"
+        [ngClass]="{'d-flex': dropdownLimitValue === baseType.MARKET}"
+      >
+        <app-cheating-input
+          [placeholder]="translateService.instant('Market')"
+          [label]="translateService.instant('Price')"
+          [currencyLabel]="arrPairName[1]"
+        ></app-cheating-input>
+      </div>
+
+      <div
+        class="row row--jcsb widget__trading-row  input-row"
+        [ngClass]="{'d-none': dropdownLimitValue === baseType.MARKET}"
+      >
         <div class="wrap-input widget__input no-line">
           <app-price-input
             [placeholder]="translateService.instant('Limit Price')"
@@ -54,7 +90,10 @@
           ></app-price-input>
         </div>
       </div>
-      <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== baseType.STOP_LIMIT}">
+      <div
+        class="row row--jcsb widget__trading-row  input-row"
+        [ngClass]="{'d-none': dropdownLimitValue !== baseType.STOP_LIMIT}"
+      >
         <div class="wrap-input widget__input no-line">
           <app-price-input
             [placeholder]="translateService.instant('Stop limit')"
@@ -65,7 +104,10 @@
           ></app-price-input>
         </div>
       </div>
-      <div class="row row--jcsb widget__trading-row  input-row">
+      <div
+        class="row row--jcsb widget__trading-row  input-row"
+        [ngClass]="{'d-none': dropdownLimitValue === baseType.MARKET}"
+      >
         <div class="wrap-input widget__input no-line">
           <app-price-input
             [placeholder]="translateService.instant('Total')"
@@ -80,36 +122,55 @@
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div class="avaliable avaliable--aifl">
           <span>{{'Available:' | translate}} </span>
-          <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(BUY)">
+          <a
+            style="cursor: pointer"
+            (click)="calculateAmountByTotalWithCommission(BUY)"
+          >
             {{userBalance?.cur2?.balance || 0 | roundCurrency:userBalance?.cur2?.name | formatCurrency}} {{userBalance?.cur2?.name || ''}}
           </a>
         </div>
       </div>
       <div class="row row__percent">
         <label class="radio">
-          <span class="radio__text radio__text--rectangle" (click)="selectedPercent(5, BUY)">
+          <span
+            class="radio__text radio__text--rectangle"
+            (click)="selectedPercent(5, BUY)"
+          >
             5%
           </span>
         </label>
         <label class="radio">
-          <span class="radio__text radio__text--rectangle" (click)="selectedPercent(25, BUY)">
+          <span
+            class="radio__text radio__text--rectangle"
+            (click)="selectedPercent(25, BUY)"
+          >
             25%
           </span>
         </label>
         <label class="radio">
-          <span class="radio__text radio__text--rectangle" (click)="selectedPercent(50, BUY)">
+          <span
+            class="radio__text radio__text--rectangle"
+            (click)="selectedPercent(50, BUY)"
+          >
             50%
           </span>
         </label>
         <label class="radio">
-          <span class="radio__text radio__text--rectangle" (click)="calculateAmountByTotalWithCommission(BUY)">
+          <span
+            class="radio__text radio__text--rectangle"
+            (click)="calculateAmountByTotalWithCommission(BUY)"
+          >
             100%
           </span>
         </label>
       </div>
 
     </form>
-    <form class="widget__trading-form" action="" [formGroup]="sellForm">
+    <form
+      class="widget__trading-form"
+      action=""
+      [formGroup]="sellForm"
+    >
       <div class="widget__trading-title-wr">
         <p class="widget__trading-title">
           {{'Sell' | translate}} {{arrPairName[0]}}
@@ -131,7 +192,22 @@
           ></app-price-input>
         </div>
       </div>
-      <div class="row row--jcsb widget__trading-row input-row">
+
+      <div
+        class="row row--jcsb widget__trading-row  input-row d-none"
+        [ngClass]="{'d-flex': dropdownLimitValue === baseType.MARKET}"
+      >
+        <app-cheating-input
+          [placeholder]="translateService.instant('Market')"
+          [label]="translateService.instant('Price')"
+          [currencyLabel]="arrPairName[1]"
+        ></app-cheating-input>
+      </div>
+
+      <div
+        class="row row--jcsb widget__trading-row input-row"
+        [ngClass]="{'d-none': dropdownLimitValue === baseType.MARKET}"
+      >
         <div class="wrap-input widget__input no-line">
           <app-price-input
             [placeholder]="translateService.instant('Limit Price')"
@@ -143,7 +219,10 @@
           ></app-price-input>
         </div>
       </div>
-      <div class="row row--jcsb widget__trading-row  input-row" [ngClass]="{'d-none': dropdownLimitValue !== baseType.STOP_LIMIT}">
+      <div
+        class="row row--jcsb widget__trading-row  input-row"
+        [ngClass]="{'d-none': dropdownLimitValue !== baseType.STOP_LIMIT}"
+      >
         <div class="wrap-input widget__input no-line">
           <app-price-input
             [placeholder]="translateService.instant('Stop limit')"
@@ -154,7 +233,10 @@
           ></app-price-input>
         </div>
       </div>
-      <div class="row row--jcsb widget__trading-row input-row">
+      <div
+        class="row row--jcsb widget__trading-row input-row"
+        [ngClass]="{'d-none': dropdownLimitValue === baseType.MARKET}"
+      >
         <div class="wrap-input widget__input no-line">
           <app-price-input
             [placeholder]="translateService.instant('Total')"
@@ -169,29 +251,44 @@
       <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
         <div class="avaliable avaliable--aifl">
           <span>{{'Available:' | translate}} </span>
-          <a style="cursor: pointer" (click)="calculateAmountByTotalWithCommission(SELL)">
+          <a
+            style="cursor: pointer"
+            (click)="calculateAmountByTotalWithCommission(SELL)"
+          >
             {{userBalance?.cur1?.balance || 0 | roundCurrency:userBalance?.cur1?.name | formatCurrency}} {{userBalance?.cur1?.name}}
           </a>
         </div>
       </div>
       <div class="row row__percent">
         <label class="radio">
-          <span class="radio__text radio__text--rectangle" (click)="selectedPercent(5, SELL)">
+          <span
+            class="radio__text radio__text--rectangle"
+            (click)="selectedPercent(5, SELL)"
+          >
             5%
           </span>
         </label>
         <label class="radio">
-          <span class="radio__text radio__text--rectangle" (click)="selectedPercent(25, SELL)">
+          <span
+            class="radio__text radio__text--rectangle"
+            (click)="selectedPercent(25, SELL)"
+          >
             25%
           </span>
         </label>
         <label class="radio">
-          <span class="radio__text radio__text--rectangle" (click)="selectedPercent(50, SELL)">
+          <span
+            class="radio__text radio__text--rectangle"
+            (click)="selectedPercent(50, SELL)"
+          >
             50%
           </span>
         </label>
         <label class="radio">
-          <span class="radio__text radio__text--rectangle" (click)="calculateAmountByTotalWithCommission(SELL)">
+          <span
+            class="radio__text radio__text--rectangle"
+            (click)="calculateAmountByTotalWithCommission(SELL)"
+          >
             100%
           </span>
         </label>
@@ -222,19 +319,44 @@
 <!-- trading mobile end -->
 
 <!--notif success start-->
-<div class="trading-notification trading-notification--success" *ngIf="notifySuccess">
-  <div class="trading-notification__close" (click)="notifySuccess = false">
-    <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+<div
+  class="trading-notification trading-notification--success"
+  *ngIf="notifySuccess"
+>
+  <div
+    class="trading-notification__close"
+    (click)="notifySuccess = false"
+  >
+    <svg
+      width="8"
+      height="8"
+      viewBox="0 0 8 8"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
-        d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"/>
+        d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"
+      />
     </svg>
   </div>
   <div class="trading-notification__content">
     <div class="trading-notification__icon trading-notification__icon--success">
-      <svg viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path class="icon-center"
-              d="M27.4876 11.9846C27.1385 11.6354 26.5723 11.6354 26.2231 11.9846L15.5104 22.6973L11.3927 18.5796C11.0435 18.2303 10.4774 18.2304 10.1281 18.5796C9.77891 18.9287 9.77891 19.4949 10.1281 19.8441L14.8782 24.594C15.2272 24.9432 15.7938 24.943 16.1427 24.594L27.4876 13.2491C27.8369 12.8999 27.8368 12.3338 27.4876 11.9846Z"/>
-        <circle class="icon-circle" cx="18.5" cy="18.5" r="17.5" stroke-width="2"/>
+      <svg
+        viewBox="0 0 37 37"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          class="icon-center"
+          d="M27.4876 11.9846C27.1385 11.6354 26.5723 11.6354 26.2231 11.9846L15.5104 22.6973L11.3927 18.5796C11.0435 18.2303 10.4774 18.2304 10.1281 18.5796C9.77891 18.9287 9.77891 19.4949 10.1281 19.8441L14.8782 24.594C15.2272 24.9432 15.7938 24.943 16.1427 24.594L27.4876 13.2491C27.8369 12.8999 27.8368 12.3338 27.4876 11.9846Z"
+        />
+        <circle
+          class="icon-circle"
+          cx="18.5"
+          cy="18.5"
+          r="17.5"
+          stroke-width="2"
+        />
       </svg>
     </div>
     <div class="trading-notification__text">
@@ -248,19 +370,44 @@
 </div>
 <!--notif success end-->
 <!--notif error stat-->
-<div class="trading-notification trading-notification--error" *ngIf="notifyFail">
-  <div class="trading-notification__close" (click)="notifyFail = false">
-    <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+<div
+  class="trading-notification trading-notification--error"
+  *ngIf="notifyFail"
+>
+  <div
+    class="trading-notification__close"
+    (click)="notifyFail = false"
+  >
+    <svg
+      width="8"
+      height="8"
+      viewBox="0 0 8 8"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
-        d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"/>
+        d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"
+      />
     </svg>
   </div>
   <div class="trading-notification__content">
     <div class="trading-notification__icon trading-notification__icon--error">
-      <svg viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle class="icon-circle" cx="18.5" cy="18.5" r="17.5" stroke-width="2"/>
-        <path class="icon-center"
-              d="M11.729 10.3155C11.351 9.91289 10.7182 9.89294 10.3155 10.271C9.91289 10.649 9.89294 11.2818 10.271 11.6845L11.729 10.3155ZM25.2709 27.6608C25.649 28.0634 26.2818 28.0834 26.6845 27.7054C27.0871 27.3273 27.107 26.6945 26.729 26.2919L25.2709 27.6608ZM26.729 11.6845C27.1071 11.2818 27.0871 10.649 26.6845 10.271C26.2818 9.89294 25.649 9.91289 25.271 10.3155L26.729 11.6845ZM10.271 26.2919C9.89297 26.6945 9.91292 27.3273 10.3155 27.7054C10.7182 28.0834 11.351 28.0634 11.7291 27.6608L10.271 26.2919ZM10.271 11.6845L17.771 19.6727L19.229 18.3037L11.729 10.3155L10.271 11.6845ZM17.771 19.6727L25.2709 27.6608L26.729 26.2919L19.229 18.3037L17.771 19.6727ZM25.271 10.3155L17.771 18.3037L19.229 19.6727L26.729 11.6845L25.271 10.3155ZM17.771 18.3037L10.271 26.2919L11.7291 27.6608L19.229 19.6727L17.771 18.3037Z"/>
+      <svg
+        viewBox="0 0 37 37"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          class="icon-circle"
+          cx="18.5"
+          cy="18.5"
+          r="17.5"
+          stroke-width="2"
+        />
+        <path
+          class="icon-center"
+          d="M11.729 10.3155C11.351 9.91289 10.7182 9.89294 10.3155 10.271C9.91289 10.649 9.89294 11.2818 10.271 11.6845L11.729 10.3155ZM25.2709 27.6608C25.649 28.0634 26.2818 28.0834 26.6845 27.7054C27.0871 27.3273 27.107 26.6945 26.729 26.2919L25.2709 27.6608ZM26.729 11.6845C27.1071 11.2818 27.0871 10.649 26.6845 10.271C26.2818 9.89294 25.649 9.91289 25.271 10.3155L26.729 11.6845ZM10.271 26.2919C9.89297 26.6945 9.91292 27.3273 10.3155 27.7054C10.7182 28.0834 11.351 28.0634 11.7291 27.6608L10.271 26.2919ZM10.271 11.6845L17.771 19.6727L19.229 18.3037L11.729 10.3155L10.271 11.6845ZM17.771 19.6727L25.2709 27.6608L26.729 26.2919L19.229 18.3037L17.771 19.6727ZM25.271 10.3155L17.771 18.3037L19.229 19.6727L26.729 11.6845L25.271 10.3155ZM17.771 18.3037L10.271 26.2919L11.7291 27.6608L19.229 19.6727L17.771 18.3037Z"
+        />
       </svg>
     </div>
     <div class="trading-notification__text">

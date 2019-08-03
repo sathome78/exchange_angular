@@ -1,22 +1,21 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PopupService} from '../../shared/services/popup.service';
-import {UtilsService} from '../../shared/services/utils.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {takeUntil} from 'rxjs/operators';
-import {NewsService} from '../../shared/services/news.service';
-import {Subject} from 'rxjs';
-import {AuthService} from '../../shared/services/auth.service';
-import {Store, select} from '@ngrx/store';
-import {State} from '../../core/reducers';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PopupService } from '../../shared/services/popup.service';
+import { UtilsService } from '../../shared/services/utils.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
+import { NewsService } from '../../shared/services/news.service';
+import { Subject } from 'rxjs';
+import { AuthService } from '../../shared/services/auth.service';
+import { Store, select } from '@ngrx/store';
+import { State } from '../../core/reducers';
 import * as fromCore from '../../core/reducers';
 
 @Component({
   selector: 'app-news-subscribe-popup',
   templateUrl: './news-subscribe-popup.component.html',
-  styleUrls: ['./news-subscribe-popup.component.scss']
+  styleUrls: ['./news-subscribe-popup.component.scss'],
 })
 export class NewsSubscribePopupComponent implements OnInit, OnDestroy {
-
   public emailForm: FormGroup;
   public resErrorMesage = '';
   public isAuthenticated = false;
@@ -30,19 +29,18 @@ export class NewsSubscribePopupComponent implements OnInit, OnDestroy {
     private store: Store<State>,
     private newsService: NewsService
   ) {
-
     this.store
       .pipe(select(fromCore.getIsAuthenticated))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((isAuthenticated: boolean) => {
         this.isAuthenticated = isAuthenticated;
       });
-    this.store.pipe(select(fromCore.getUserInfo))
+    this.store
+      .pipe(select(fromCore.getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
-      })
-
+      });
   }
 
   ngOnInit() {
@@ -60,11 +58,14 @@ export class NewsSubscribePopupComponent implements OnInit, OnDestroy {
 
   initEmailForm() {
     this.emailForm = new FormGroup({
-      email: new FormControl('', { validators: [
-          Validators.required, this.utilsService.emailValidator(),
+      email: new FormControl('', {
+        validators: [
+          Validators.required,
+          this.utilsService.emailValidator(),
           this.utilsService.specialCharacterValidator(),
-          Validators.maxLength(40)
-        ]}),
+          Validators.maxLength(40),
+        ],
+      }),
     });
   }
 
@@ -84,15 +85,19 @@ export class NewsSubscribePopupComponent implements OnInit, OnDestroy {
   }
 
   sendEmail(email: string) {
-    this.newsService.subscribeToPartnerNews(email)
+    this.newsService
+      .subscribeToPartnerNews(email)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.popupService.toggleNewsSubscribePopup(false);
-        this.popupService.toggleNewsThankYouPopup(true);
-      }, error => {
-        if (error.status !== 400) {
-          this.resErrorMesage = 'Service is temporary unavailable, please try again later.';
+      .subscribe(
+        res => {
+          this.popupService.toggleNewsSubscribePopup(false);
+          this.popupService.toggleNewsThankYouPopup(true);
+        },
+        error => {
+          if (error.status !== 400) {
+            this.resErrorMesage = 'Service is temporary unavailable, please try again later.';
+          }
         }
-      });
+      );
   }
 }

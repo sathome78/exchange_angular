@@ -1,0 +1,52 @@
+<div class="overlay--modal" *ngIf="showPopup" [@overlayAnimation]="showPopup ? 'show' : 'hide'" appAddClass="no-scroll" to="body">
+  <div class="modal" [@modalAnimation]="showPopup ? 'show' : 'hide' ">
+    <!-- btn modal close -->
+    <div class="modal__controls modal__controls--top">
+      <a class="modal__button modal__button--close"
+         (click)="onCloseQuberaPopupMain()">
+        <span>{{'close' | translate}}</span>
+        <img class="modal__button-icon" src="../../../assets/img/close.svg">
+      </a>
+    </div>
+      <app-withdraw
+        *ngIf="component == 'WITHDRAW'"
+        [steper]="steper"
+        [qubera]="optionData"
+        [quberaBalances]="balances.data"
+        (closeSendQuberaPopup)="onCloseQuberaPopupMain()"
+      >
+       </app-withdraw>
+
+      <app-transfer
+        *ngIf="component == 'TRANSFER'"
+        [steper]="steper"
+        [qubera]="optionData"
+        (closeSendQuberaPopup)="onCloseQuberaPopupMain()"
+      >
+      </app-transfer>
+
+      <app-deposit
+        *ngIf="component == 'DEPOSIT'"
+        [steper]="steper"
+        [qubera]="optionData"
+        (closeSendQuberaPopup)="onCloseQuberaPopupMain()"
+      >
+      </app-deposit>
+
+      <app-qubera-kyc
+        *ngIf="component == 'QUBERAKYC'"
+        [steper]="steper"
+        [qubera]="optionData"
+        (closeQuberaKycPopup)="onCloseQuberaPopupMain()"
+      >
+      </app-qubera-kyc>
+
+      <app-create-qubera
+        *ngIf="component == 'CREATEQUBERA'"
+        [steper]="steper"
+        [qubera]="optionData"
+        (closeQuberaPopup)="onCloseQuberaPopupMain()"
+      >
+      </app-create-qubera>
+  </div>
+</div>

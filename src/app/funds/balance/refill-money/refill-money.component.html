@@ -37,8 +37,27 @@
             <span class="steps__title">{{stepTwoName}}</span>
           </a>
         </li>
+        <li class="steps__item"
+            *ngIf="step >= 3 && showStepThree == true"
+            [ngClass]="{'steps__item--current': step === 3}">
+          <a class="steps__link" (click)="setStep(3)">
+            <span class="steps__number" [ngClass]="{'steps__number--current': step === 3, 'steps__number--valid': step != 3 }">3</span>
+            <span class="steps__number-mob-current">3. {{'Transaction' | translate}}</span>
+            <span class="steps__title">{{'Transaction' | translate}}</span>
+          </a>
+        </li>
+        <li class="steps__item"
+            *ngIf="step >= 4 && showStepThree == true"
+            [ngClass]="{'steps__item--current': step === 4}">
+          <a class="steps__link" (click)="setStep(4)">
+            <span class="steps__number" [ngClass]="{'steps__number--current': step === 4, 'steps__number--valid': step != 4 }">4</span>
+            <span class="steps__number-mob-current">4. {{stepTwoName}}</span>
+            <span class="steps__title">{{stepTwoName}}</span>
+          </a>
+        </li>
       </ul>
-      <div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/ 2</div>
+      <div class="steps__counter" *ngIf="showStepThree == false">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/ 2</div>
+      <div class="steps__counter" *ngIf="showStepThree == true">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/ 4</div>
     </div>
     <!-- modal header end -->
     <div class="modal__content">
@@ -51,8 +70,16 @@
       *ngIf="step === 2"
       [choosedName]="stepTwoName"
       (closePopup)="onCloseRefillBalancePopup()"
+      (selectQuberaBank)="changeSteps()"
+      (goToThirdStep)="setStep(3)"
+      (hideSteps)="hideStep()"
       [refillData]="optionData.balance"
       ></app-refill-step-two>
+
+      <app-refill-step-three
+      *ngIf="step === 3">
+
+      </app-refill-step-three>
 
     </div>
   </div>
