@@ -8,9 +8,8 @@ describe('RefillStepThreeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RefillStepThreeComponent ]
-    })
-    .compileComponents();
+      declarations: [RefillStepThreeComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

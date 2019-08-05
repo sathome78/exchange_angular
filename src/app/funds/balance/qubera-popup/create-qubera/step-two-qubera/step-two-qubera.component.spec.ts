@@ -8,9 +8,8 @@ describe('StepTwoQuberaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StepTwoQuberaComponent ]
-    })
-    .compileComponents();
+      declarations: [StepTwoQuberaComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

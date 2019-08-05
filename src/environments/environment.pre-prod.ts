@@ -1,4 +1,4 @@
-import {PRE_PROD_HOST} from '../app/shared/services/http.utils';
+import { PRE_PROD_HOST } from '../app/shared/services/http.utils';
 
 export const environment = {
   production: true,

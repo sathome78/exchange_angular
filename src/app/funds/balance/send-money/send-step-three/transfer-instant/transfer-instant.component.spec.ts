@@ -8,9 +8,8 @@ describe('TransferInstantComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TransferInstantComponent ]
-    })
-    .compileComponents();
+      declarations: [TransferInstantComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

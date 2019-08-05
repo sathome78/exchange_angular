@@ -1,7 +1,7 @@
 import { Directive, Input, ElementRef, HostListener, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[tooltip]'
+  selector: '[tooltip]',
 })
 export class TooltipDirective {
   @Input('tooltip') tooltipTitle: string;
@@ -11,11 +11,13 @@ export class TooltipDirective {
   tooltip: HTMLElement;
   offset = 10;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) { }
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   @HostListener('mouseenter') onMouseEnter() {
     if (this.showTooltip) {
-      if (!this.tooltip) { this.show(); }
+      if (!this.tooltip) {
+        this.show();
+      }
     }
   }
 
@@ -44,10 +46,7 @@ export class TooltipDirective {
   create() {
     this.tooltip = this.renderer.createElement('span');
 
-    this.renderer.appendChild(
-      this.tooltip,
-      this.renderer.createText(this.tooltipTitle)
-    );
+    this.renderer.appendChild(this.tooltip, this.renderer.createText(this.tooltipTitle));
 
     this.renderer.appendChild(document.body, this.tooltip);
 

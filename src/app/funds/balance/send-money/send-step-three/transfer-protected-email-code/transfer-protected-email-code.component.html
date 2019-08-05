@@ -24,116 +24,169 @@
                       d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
               </svg>
             </div>
-          </div>
-          <div class="select__list-searching-body">
+            <div class="select__list-searching-body">
 
-            <perfect-scrollbar>
-              <ng-container *ngFor="let letter of alphabet">
-                <h6 class="select__searching-items-title">{{letter.toUpperCase()}}</h6>
-                <div class="select__searching-items-wrap">
-                  <div class="select__searching-item" *ngFor="let name of cryptoNames | groupCoin:letter"
-                       (click)="selectCurrency(name)">
-                    <img [src]="name.name | getIconUrl" class="select__list-item-icon">
-                    <span>{{name.name}}</span>
+              <perfect-scrollbar>
+                <ng-container *ngFor="let letter of alphabet; trackBy: trackByAlphabet">
+                  <h6 class="select__searching-items-title">{{letter.toUpperCase()}}</h6>
+                  <div class="select__searching-items-wrap">
+                    <div
+                      class="select__searching-item"
+                      *ngFor="let name of cryptoNames | groupCoin:letter; trackBy: trackByCryptoNames"
+                      (click)="selectCurrency(name)"
+                    >
+                      <img
+                        [src]="name.name | getIconUrl"
+                        class="select__list-item-icon"
+                      >
+                      <span>{{name.name}}</span>
+                    </div>
                   </div>
-                </div>
-              </ng-container>
-            </perfect-scrollbar>
+                </ng-container>
+              </perfect-scrollbar>
 
+            </div>
           </div>
         </div>
-      </div>
 
 
 
-      <div class="wrap-input send__wrap-input"
-           [ngClass]="{'wrap-input--error': form.get('amount').invalid &&
-            (form.get('amount').touched || isSubmited)}">
-        <div class="avaliable">
-          {{'Available:' | translate}}
-          <a (click)="balanceClick()" class="link" [ngStyle]="{'pointer-events': loadingBalance ? 'none' : 'auto'}">
-            {{activeBalance | number:'1.1-8' | replaceNumber}} {{activeCrypto ? activeCrypto.name : ''}}
-          </a>
-        </div>
-        <app-price-input [placeholder]="(activeCrypto ? activeCrypto.name : '') + ' Amount'"
-                         [currencyName]="activeCrypto.name"
-                         (customBlur)="amountBlur($event)"
-                         (customInput)="amountInput($event)"
-                         name="amount" formControlName="amount">
-        </app-price-input>
+        <div
+          class="wrap-input send__wrap-input"
+          [ngClass]="{'wrap-input--error': form.get('amount').invalid &&
+            (form.get('amount').touched || isSubmited)}"
+        >
+          <div class="avaliable">
+            {{'Available:' | translate}}
+            <a
+              (click)="balanceClick()"
+              class="link"
+              [ngStyle]="{'pointer-events': loadingBalance ? 'none' : 'auto'}"
+            >
+              {{activeBalance | number:'1.1-8' | replaceNumber}} {{activeCrypto ? activeCrypto.name : ''}}
+            </a>
+          </div>
+          <app-price-input
+            [placeholder]="(activeCrypto ? activeCrypto.name : '') + ' Amount'"
+            [currencyName]="activeCrypto.name"
+            (customBlur)="amountBlur($event)"
+            (customInput)="amountInput($event)"
+            name="amount"
+            formControlName="amount"
+          >
+          </app-price-input>
 
-        <span class=" wrap-input__message--show"
+          <span class=" wrap-input__message--show">
+            {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}
+          </span>
+
+          <!--Input error section starts-->
+          <div *ngIf="form.get('amount').errors != null">
+            <div class="input-hint-wrapper">
+              <span
+                class=" wrap-input__message--show"
+                *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
+                [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] &&
+               (form.controls['amount'].touched || isSubmited)}"
               >
-           {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}
-        </span>
-
-        <!--Input error section starts-->
-        <div *ngIf="form.get('amount').errors != null">
-          <div class="input-hint-wrapper">
-        <span class=" wrap-input__message--show" *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
-              [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] &&
-               (form.controls['amount'].touched || isSubmited)}">
-           {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}
-        </span>
-          <span class="wrap-input__message wrap-input__message--show"
+                {{'Minimum sum for withdrawal' | translate}} {{minWithdrawSum}} {{activeCrypto ? activeCrypto.name : ''}}
+              </span>
+              <span
+                class="wrap-input__message wrap-input__message--show"
                 *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] &&
-                 (form.controls['amount'].touched || isSubmited)">
-      {{'Max sum for withdrawal' | translate}} {{activeBalance}}</span>
+                 (form.controls['amount'].touched || isSubmited)"
+              >
+                {{'Max sum for withdrawal' | translate}} {{activeBalance}}</span>
+            </div>
+          </div>
         </div>
-      </div>
-      </div>
 
 
 
 
-      <div class="wrap-input  send__wrap-input"
-           [ngClass]="{'wrap-input--error': !form.controls['email'].valid &&
-            (form.controls['email'].touched || isSubmited)}">
-        <input class="wrap-input__input" name="email" formControlName="email" required>
-        <label class="wrap-input__label">{{'Email' | translate}}</label>
-        <div class="wrap-input__line"></div>
-        <!--Input error section starts-->
-        <div *ngIf="form.controls['email'].invalid && form.controls['email'].errors && !pendingCheckEmail">
-          <div class="input-hint-wrapper">
-        <span class="wrap-input__message"
-              *ngIf="form.controls['email'].errors['emailInvalid'] ||
+        <div
+          class="wrap-input  send__wrap-input"
+          [ngClass]="{'wrap-input--error': !form.controls['email'].valid &&
+            (form.controls['email'].touched || isSubmited)}"
+        >
+          <input
+            class="wrap-input__input"
+            name="email"
+            formControlName="email"
+            required
+          >
+          <label class="wrap-input__label">{{'Email' | translate}}</label>
+          <div class="wrap-input__line"></div>
+          <!--Input error section starts-->
+          <div *ngIf="form.controls['email'].invalid && form.controls['email'].errors && !pendingCheckEmail">
+            <div class="input-hint-wrapper">
+              <span
+                class="wrap-input__message"
+                *ngIf="form.controls['email'].errors['emailInvalid'] ||
                form.controls['email'].errors['required'] &&
-                (form.controls['email'].touched || isSubmited)">
-          {{'Enter valid email to transfer' | translate}}
-        </span>
+                (form.controls['email'].touched || isSubmited)"
+              >
+                {{'Enter valid email to transfer' | translate}}
+              </span>
 
-        <span class="wrap-input__message"
-              *ngIf="form.controls['email'].errors['checkEmailCrash'] &&
-               (form.controls['email'].touched || isSubmited)">
+              <span
+                class="wrap-input__message"
+                *ngIf="form.controls['email'].errors['checkEmailCrash'] &&
+               (form.controls['email'].touched || isSubmited)"
+              >
                 {{'Service is temporary unavailable, please try again later' | translate}}
               </span>
-          <span class="wrap-input__message" *ngIf="form.controls['email'].errors['USER_EMAIL_NOT_FOUND']">
+              <span
+                class="wrap-input__message"
+                *ngIf="form.controls['email'].errors['USER_EMAIL_NOT_FOUND']"
+              >
                 {{'User email not found.' | translate}}
               </span>
-            <span class="wrap-input__message" *ngIf="form.controls['email'].errors['ownEmail']">
+              <span
+                class="wrap-input__message"
+                *ngIf="form.controls['email'].errors['ownEmail']"
+              >
                 {{'You can not send the transfer to your current user.' | translate}}
               </span>
+            </div>
+          </div>
+          <!--Input error section ends-->
         </div>
       </div>
-        <!--Input error section ends-->
+    </form>
+    <div class="send__line"></div>
+    <div class="send__info">
+      <div class="send__info-row">
+        <div class="send__info-title">{{'You want to transfer:' | translate}}</div>
+        <div class="send__info-value">{{responseCommission.amount}} {{activeCrypto ? activeCrypto.name : ''}}</div>
+      </div>
+      <div class="send__info-row">
+        <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
+        <div class="send__info-value">{{responseCommission.companyCommissionRate}} =
+          {{responseCommission.totalCommissionAmount}} {{activeCrypto ? activeCrypto.name : ''}}
+        </div>
+      </div>
+      <div class="send__info-row">
+        <div class="send__info-title">{{'Total with comission:' | translate}}</div>
+        <div class="send__info-value">{{responseCommission.resultAmount}} {{activeCrypto ? activeCrypto.name : ''}}</div>
       </div>
     </div>
-  </form>
-  <div class="send__line"></div>
-  <div class="send__info">
-    <div class="send__info-row">
-      <div class="send__info-title">{{'You want to transfer:' | translate}}</div>
-      <div class="send__info-value">{{responseCommission.amount}} {{activeCrypto ? activeCrypto.name : ''}}</div>
-    </div>
-    <div class="send__info-row">
-      <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
-      <div class="send__info-value">{{responseCommission.companyCommissionRate}} =
-        {{responseCommission.totalCommissionAmount}} {{activeCrypto ? activeCrypto.name : ''}}
-      </div>
-    </div>
-    <div class="send__info-row">
-      <div class="send__info-title">{{'Total with comission:' | translate}}</div>
-      <div class="send__info-value">{{responseCommission.resultAmount}} {{activeCrypto ? activeCrypto.name : ''}}</div>
+    <button
+      class="btn btn--center"
+      [ngClass]="{'btn--empty-blue': !form.valid || pendingCheckEmail}"
+      (click)="submitTransfer()"
+    >
+      {{'Create code' | translate}}
+    </button>
+    <div class="send__line"></div>
+    <div class="note modal__note">
+      <div class="note__title">{{'Please note:' | translate}}</div>
+      <ul class="note__list">
+        <li class="note__list-item">
+          {{'Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email' | translate}}.
+        </li>
+        <li class="note__list-item">{{'After making a withdrawal, you can track its progress in history on funds page' | translate}}.</li>
+      </ul>
     </div>
   </div>
   <button
@@ -153,9 +206,11 @@
     </ul>
   </div>
 </div>
-</div>
 
-<div class="loading-container" *ngIf="!activeCrypto || !activeBalance">
+<div
+  class="loading-container"
+  *ngIf="!activeCrypto || !activeBalance"
+>
   <app-loader></app-loader>
 </div>
 
@@ -163,9 +218,15 @@
 <ng-container *ngIf="!isEnterData">
   <div *ngIf="!utilsService.isDevCaptcha(userInfo.username); else devCaptchaTemplate" class="captcha-wrapper side-popups send-protected-s3">
     <h6 class="popup__title">{{'Enter the captcha' | translate}}</h6>
-    <re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
+    <re-captcha
+      (resolved)="afterResolvedCaptcha($event)"
+      [siteKey]="recaptchaKey"
+    ></re-captcha>
     <div class="popup__links-wrap  popup__links-wrap--center">
-      <a class="popup__link" (click)="goToForm()">{{'Back to transfer form' | translate}}</a>
+      <a
+        class="popup__link"
+        (click)="goToForm()"
+      >{{'Back to transfer form' | translate}}</a>
     </div>
   </div>
 </ng-container>
@@ -175,6 +236,9 @@
   <div class="captcha-wrapper side-popups send-protected-s3">
     <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
     <h4 class="popup__subtitle popup_title--dm">Captcha emulation for developers and QA</h4>
-    <button class="btn btn--center" (click)="afterResolvedCaptcha($event)">Resolve</button>
+    <button
+      class="btn btn--center"
+      (click)="afterResolvedCaptcha($event)"
+    >Resolve</button>
   </div>
 </ng-template>

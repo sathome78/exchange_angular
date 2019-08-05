@@ -1,13 +1,13 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'showStageStatus'
+  name: 'showStageStatus',
 })
-export class ShowStageStatusPipe  implements PipeTransform {
+export class ShowStageStatusPipe implements PipeTransform {
   transform(status: string, forStyle: boolean = false): string {
     switch (status) {
       case 'PENDING':
-        return 'Upcoming'
+        return 'Upcoming';
       case 'RUNNING':
         return forStyle ? 'fast-sale' : 'Fast Sale';
       case 'TERMINATED':

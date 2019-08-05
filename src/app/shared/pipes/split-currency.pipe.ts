@@ -9,11 +9,11 @@ import * as _reduce from 'lodash/reduce';
  */
 
 @Pipe({
-  name: 'splitCurrency'
+  name: 'splitCurrency',
 })
-export class SplitCurrencyPipe  implements PipeTransform {
+export class SplitCurrencyPipe implements PipeTransform {
   transform(value: string, arg: number): string {
-    const pos = arg ? arg - 1 : 0
+    const pos = arg ? arg - 1 : 0;
     return value.split('/')[pos];
   }
 }

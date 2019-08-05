@@ -8,9 +8,8 @@ describe('PageItemDropdownComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PageItemsDropdownComponent ]
-    })
-    .compileComponents();
+      declarations: [PageItemsDropdownComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

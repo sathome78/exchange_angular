@@ -1,8 +1,7 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class LoggingService {
-
   private LEVEL_DEBUG = 1;
   private LEVEL_INFO = 2;
   private LEVEL_ERROR = 3;

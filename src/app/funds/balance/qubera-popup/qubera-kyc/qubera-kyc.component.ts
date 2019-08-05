@@ -3,16 +3,15 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-qubera-kyc',
   templateUrl: 'qubera-kyc.component.html',
-  styleUrls: ['qubera-kyc.component.scss']
+  styleUrls: ['qubera-kyc.component.scss'],
 })
 export class QuberaKycComponent implements OnInit {
-
   @Input() qubera;
   @Input() steper;
   @Output() closeQuberaKycPopup = new EventEmitter<boolean>();
   step: number;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.setStep(this.steper);

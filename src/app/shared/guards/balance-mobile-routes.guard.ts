@@ -1,14 +1,12 @@
-import {Injectable} from '@angular/core';
-import {CanActivate, CanActivateChild, Router} from '@angular/router';
-import {Observable} from 'rxjs';
-
+import { Injectable } from '@angular/core';
+import { CanActivate, CanActivateChild, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class BalanceMobileRoutesGuard implements CanActivate, CanActivateChild {
+  constructor(private router: Router) {}
 
-  constructor(private router: Router) { }
-
-  canActivate(): Observable<boolean>|Promise<boolean>|boolean {
+  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (this.isMobile) {
       return true;
     }
@@ -29,5 +27,4 @@ export class BalanceMobileRoutesGuard implements CanActivate, CanActivateChild {
   public get isMobile(): boolean {
     return window.innerWidth <= 1200;
   }
-
 }

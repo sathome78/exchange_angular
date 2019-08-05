@@ -87,8 +87,15 @@
   justify-content: space-between;
 }
 
+.row__info {
+  margin-top: 8px;
+}
+
 .d-none {
   display: none;
+}
+.d-flex {
+  display: flex;
 }
 
 
@@ -170,3 +177,6 @@
   }
 }
 
+app-cheating-input{
+  width: 100%;
+}

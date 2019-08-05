@@ -8,9 +8,8 @@ describe('EmbeddedOpenOrdersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EmbeddedOpenOrdersComponent ]
-    })
-    .compileComponents();
+      declarations: [EmbeddedOpenOrdersComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

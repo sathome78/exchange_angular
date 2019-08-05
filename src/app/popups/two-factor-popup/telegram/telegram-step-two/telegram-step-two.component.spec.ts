@@ -8,9 +8,8 @@ describe('TelegramStepTwoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TelegramStepTwoComponent ]
-    })
-    .compileComponents();
+      declarations: [TelegramStepTwoComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

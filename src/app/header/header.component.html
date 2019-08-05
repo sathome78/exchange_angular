@@ -1,118 +1,203 @@
 <!-- HEADER START-->
-<header class="header" *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
+<header
+  class="header"
+  *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
+>
   <div class="header__inner">
     <div class="logo">
-      <a class="logo__link" href="/">
-        <svg width="139" height="32" viewBox="0 0 139 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <a
+        class="logo__link"
+        href="/"
+      >
+        <svg
+          width="139"
+          height="32"
+          viewBox="0 0 139 32"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
-          d="M0.360778 19.4325C-0.120259 17.1175 -0.120259 14.8326 0.360778 12.5176C0.450972 12.5176 0.541167 12.5176 0.631361 12.5176C6.73452 12.5176 12.8677 12.5176 18.9709 12.5176C19.1513 12.5176 19.2715 12.5476 19.3918 12.698C20.4441 13.7202 21.4663 14.7424 22.5185 15.7646C22.729 15.975 22.729 16.0051 22.5185 16.2155C21.4663 17.2378 20.414 18.29 19.3617 19.3122C19.2715 19.4024 19.1513 19.4325 19.031 19.4325C12.8978 19.4325 6.73452 19.4325 0.601296 19.4325C0.541167 19.4325 0.450972 19.4325 0.360778 19.4325Z"
-          fill="white"/>
+            d="M0.360778 19.4325C-0.120259 17.1175 -0.120259 14.8326 0.360778 12.5176C0.450972 12.5176 0.541167 12.5176 0.631361 12.5176C6.73452 12.5176 12.8677 12.5176 18.9709 12.5176C19.1513 12.5176 19.2715 12.5476 19.3918 12.698C20.4441 13.7202 21.4663 14.7424 22.5185 15.7646C22.729 15.975 22.729 16.0051 22.5185 16.2155C21.4663 17.2378 20.414 18.29 19.3617 19.3122C19.2715 19.4024 19.1513 19.4325 19.031 19.4325C12.8978 19.4325 6.73452 19.4325 0.601296 19.4325C0.541167 19.4325 0.450972 19.4325 0.360778 19.4325Z"
+            fill="white"
+          />
           <path
-          d="M17.7384 31.9699C16.175 31.9699 14.6417 31.7595 13.1384 31.3085C12.5973 31.1582 12.2966 30.7072 12.447 30.2262C12.5973 29.7451 13.0783 29.5046 13.5894 29.6549C15.2129 30.1059 16.8665 30.3164 18.5501 30.2262C22.4886 29.9857 25.8559 28.4223 28.5617 25.5361C30.5159 23.4315 31.7486 20.9361 32.1695 18.08C32.7708 13.931 31.7185 10.203 29.0127 6.98608C26.5774 4.06979 23.4507 2.38616 19.6926 1.87506C17.588 1.57441 15.5436 1.7548 13.4992 2.35609C13.1986 2.44629 12.928 2.44629 12.6574 2.2659C12.3568 2.05545 12.2365 1.78486 12.2666 1.42409C12.3267 1.06331 12.5071 0.822789 12.8679 0.732594C13.5594 0.552206 14.2508 0.371817 14.9123 0.251557C18.7305 -0.379804 22.3683 0.161363 25.7356 2.05545C30.0048 4.43057 32.7708 8.00828 33.7629 12.7886C34.8152 17.9297 33.5224 22.4995 30.0649 26.438C27.5696 29.2942 24.3827 31.0079 20.6546 31.6693C19.6926 31.8497 18.7004 31.8797 17.7384 32C17.7684 32 17.7684 31.9699 17.7384 31.9699Z"
-          fill="white"/>
+            d="M17.7384 31.9699C16.175 31.9699 14.6417 31.7595 13.1384 31.3085C12.5973 31.1582 12.2966 30.7072 12.447 30.2262C12.5973 29.7451 13.0783 29.5046 13.5894 29.6549C15.2129 30.1059 16.8665 30.3164 18.5501 30.2262C22.4886 29.9857 25.8559 28.4223 28.5617 25.5361C30.5159 23.4315 31.7486 20.9361 32.1695 18.08C32.7708 13.931 31.7185 10.203 29.0127 6.98608C26.5774 4.06979 23.4507 2.38616 19.6926 1.87506C17.588 1.57441 15.5436 1.7548 13.4992 2.35609C13.1986 2.44629 12.928 2.44629 12.6574 2.2659C12.3568 2.05545 12.2365 1.78486 12.2666 1.42409C12.3267 1.06331 12.5071 0.822789 12.8679 0.732594C13.5594 0.552206 14.2508 0.371817 14.9123 0.251557C18.7305 -0.379804 22.3683 0.161363 25.7356 2.05545C30.0048 4.43057 32.7708 8.00828 33.7629 12.7886C34.8152 17.9297 33.5224 22.4995 30.0649 26.438C27.5696 29.2942 24.3827 31.0079 20.6546 31.6693C19.6926 31.8497 18.7004 31.8797 17.7384 32C17.7684 32 17.7684 31.9699 17.7384 31.9699Z"
+            fill="white"
+          />
           <path
-          d="M0.962036 21.5371C6.34364 21.5371 11.6651 21.5371 17.0467 21.5371C16.9866 21.6273 16.9265 21.6574 16.8964 21.7175C14.6415 23.9122 12.3867 26.107 10.1619 28.3017C10.0717 28.3919 9.95142 28.422 9.83116 28.422C8.41811 28.422 6.975 28.422 5.56195 28.422C5.47176 28.422 5.3515 28.3919 5.2613 28.3017C3.36722 26.4677 1.92411 24.273 1.02217 21.7776C0.992101 21.7175 0.992101 21.6273 0.962036 21.5371Z"
-          fill="white"/>
+            d="M0.962036 21.5371C6.34364 21.5371 11.6651 21.5371 17.0467 21.5371C16.9866 21.6273 16.9265 21.6574 16.8964 21.7175C14.6415 23.9122 12.3867 26.107 10.1619 28.3017C10.0717 28.3919 9.95142 28.422 9.83116 28.422C8.41811 28.422 6.975 28.422 5.56195 28.422C5.47176 28.422 5.3515 28.3919 5.2613 28.3017C3.36722 26.4677 1.92411 24.273 1.02217 21.7776C0.992101 21.7175 0.992101 21.6273 0.962036 21.5371Z"
+            fill="white"
+          />
           <path
-          d="M17.0467 10.4141C11.6651 10.4141 6.31357 10.4141 0.962036 10.4141C0.992101 10.3239 1.02217 10.2338 1.05223 10.1436C1.95417 7.64818 3.36722 5.48351 5.2613 3.64956C5.3515 3.55936 5.47176 3.5293 5.59202 3.5293C7.00506 3.5293 8.44817 3.5293 9.86122 3.5293C9.95142 3.5293 10.0717 3.55936 10.1619 3.64956C12.4468 5.87435 14.7017 8.06908 16.9866 10.2939C16.9565 10.3239 16.9866 10.354 17.0467 10.4141Z"
-          fill="white"/>
-          <path d="M53.0642 20.8168V21.8991H44.7664V10.1738H52.8237V11.2562H46.0291V15.4352H52.1022V16.4874H46.0291V20.8468H53.0642V20.8168Z" fill="white"/>
+            d="M17.0467 10.4141C11.6651 10.4141 6.31357 10.4141 0.962036 10.4141C0.992101 10.3239 1.02217 10.2338 1.05223 10.1436C1.95417 7.64818 3.36722 5.48351 5.2613 3.64956C5.3515 3.55936 5.47176 3.5293 5.59202 3.5293C7.00506 3.5293 8.44817 3.5293 9.86122 3.5293C9.95142 3.5293 10.0717 3.55936 10.1619 3.64956C12.4468 5.87435 14.7017 8.06908 16.9866 10.2939C16.9565 10.3239 16.9866 10.354 17.0467 10.4141Z"
+            fill="white"
+          />
           <path
-          d="M66.5332 21.8686L62.745 16.6975L58.9869 21.8686H57.5739L62.0234 15.8256L57.8444 10.1133H59.2575L62.8051 14.9537L66.3227 10.1734H67.6756L63.5267 15.8256L68.0063 21.8987H66.5332V21.8686Z"
-          fill="white"/>
+            d="M53.0642 20.8168V21.8991H44.7664V10.1738H52.8237V11.2562H46.0291V15.4352H52.1022V16.4874H46.0291V20.8468H53.0642V20.8168Z"
+            fill="white"
+          />
           <path
-          d="M81.1447 21.869L78.4389 18.1109C78.1383 18.141 77.8376 18.1711 77.5069 18.1711H74.3501V21.8991H73.1174V10.1738H77.5069C80.4833 10.1738 82.2872 11.6771 82.2872 14.2025C82.2872 16.0365 81.3251 17.3293 79.6114 17.9005L82.4676 21.9292H81.1447V21.869ZM81.0545 14.1724C81.0545 12.3084 79.8219 11.2261 77.4768 11.2261H74.3501V17.1188H77.4768C79.8219 17.1188 81.0545 16.0064 81.0545 14.1724Z"
-          fill="white"/>
+            d="M66.5332 21.8686L62.745 16.6975L58.9869 21.8686H57.5739L62.0234 15.8256L57.8444 10.1133H59.2575L62.8051 14.9537L66.3227 10.1734H67.6756L63.5267 15.8256L68.0063 21.8987H66.5332V21.8686Z"
+            fill="white"
+          />
           <path
-          d="M95.9367 18.7431H89.4126L87.9996 21.8698H86.7068L92.0583 10.1445H93.291L98.6425 21.8698H97.3497L95.9367 18.7431ZM95.4857 17.7509L92.6596 11.4373L89.8335 17.7509H95.4857Z"
-          fill="white"/>
-          <path d="M105.648 11.2269H101.529V10.1445H110.999V11.2269H106.88V21.8999H105.648V11.2269Z" fill="white"/>
-          <path d="M124.648 20.8168V21.8991H116.351V10.1738H124.408V11.2562H117.613V15.4352H123.686V16.4874H117.613V20.8468H124.648V20.8168Z" fill="white"/>
+            d="M81.1447 21.869L78.4389 18.1109C78.1383 18.141 77.8376 18.1711 77.5069 18.1711H74.3501V21.8991H73.1174V10.1738H77.5069C80.4833 10.1738 82.2872 11.6771 82.2872 14.2025C82.2872 16.0365 81.3251 17.3293 79.6114 17.9005L82.4676 21.9292H81.1447V21.869ZM81.0545 14.1724C81.0545 12.3084 79.8219 11.2261 77.4768 11.2261H74.3501V17.1188H77.4768C79.8219 17.1188 81.0545 16.0064 81.0545 14.1724Z"
+            fill="white"
+          />
           <path
-          d="M129.79 20.4559L130.271 19.4939C131.113 20.3056 132.586 20.9069 134.149 20.9069C136.344 20.9069 137.306 19.9749 137.306 18.8324C137.306 15.6155 130.09 17.5998 130.09 13.2404C130.09 11.5267 131.443 10.0234 134.42 10.0234C135.743 10.0234 137.126 10.4143 138.058 11.0757L137.637 12.0678C136.645 11.4064 135.472 11.1058 134.42 11.1058C132.285 11.1058 131.323 12.0678 131.323 13.2404C131.323 16.4573 138.539 14.5031 138.539 18.8024C138.539 20.5161 137.156 21.9892 134.179 21.9892C132.375 21.9892 130.662 21.3579 129.79 20.4559Z"
-          fill="white"/>
+            d="M95.9367 18.7431H89.4126L87.9996 21.8698H86.7068L92.0583 10.1445H93.291L98.6425 21.8698H97.3497L95.9367 18.7431ZM95.4857 17.7509L92.6596 11.4373L89.8335 17.7509H95.4857Z"
+            fill="white"
+          />
+          <path
+            d="M105.648 11.2269H101.529V10.1445H110.999V11.2269H106.88V21.8999H105.648V11.2269Z"
+            fill="white"
+          />
+          <path
+            d="M124.648 20.8168V21.8991H116.351V10.1738H124.408V11.2562H117.613V15.4352H123.686V16.4874H117.613V20.8468H124.648V20.8168Z"
+            fill="white"
+          />
+          <path
+            d="M129.79 20.4559L130.271 19.4939C131.113 20.3056 132.586 20.9069 134.149 20.9069C136.344 20.9069 137.306 19.9749 137.306 18.8324C137.306 15.6155 130.09 17.5998 130.09 13.2404C130.09 11.5267 131.443 10.0234 134.42 10.0234C135.743 10.0234 137.126 10.4143 138.058 11.0757L137.637 12.0678C136.645 11.4064 135.472 11.1058 134.42 11.1058C132.285 11.1058 131.323 12.0678 131.323 13.2404C131.323 16.4573 138.539 14.5031 138.539 18.8024C138.539 20.5161 137.156 21.9892 134.179 21.9892C132.375 21.9892 130.662 21.3579 129.79 20.4559Z"
+            fill="white"
+          />
         </svg>
       </a>
     </div>
     <ul class="menu menu--header-menu">
-      <li class="menu__item" routerLinkActive="menu__link--active">
-        <a class="menu__link" routerLink="/dashboard">
+      <li
+        class="menu__item"
+        routerLinkActive="menu__link--active"
+      >
+        <a
+          class="menu__link"
+          routerLink="/dashboard"
+        >
           <span class="menu__link-text">{{'Trade' | translate}}</span>
         </a>
       </li>
-      <li class="menu__item menu__item--with-submenu" routerLinkActive="head-menu__link--active"  [ngClass]="{'d-none': !isAuthenticated}">
+      <li
+        class="menu__item menu__item--with-submenu"
+        routerLinkActive="head-menu__link--active"
+        [ngClass]="{'d-none': !isAuthenticated}"
+      >
         <a class="menu__link menu__link--drop">
           <span class="menu__link-text">{{'Funds' | translate}}</span>
         </a>
         <!-- <li class="menu__item menu__item--with-submenu" ><a class="menu__link menu__link--drop"><span class="menu__link-text">Funds</span></a> -->
-          <div class="submenu">
-            <ul class="menu submenu__list">
-              <li class="submenu__item" routerLinkActive="menu__link--active">
-                <a class="submenu__link" routerLink="/funds/balances">
-                  <span class="menu__link-text">{{'Balances' | translate}}</span>
-                </a>
-              </li>
-              <li class="submenu__item" routerLinkActive="menu__link--active">
-                <a class="submenu__link" routerLink="/funds/transaction-history"  >
-                  <span class="menu__link-text">{{'Transaction history' | translate}}</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <li class="menu__item menu__item--with-submenu" routerLinkActive="head-menu__link--active" [ngClass]="{'d-none': !isAuthenticated}">
-          <a class="menu__link menu__link--drop">
-            <span class="menu__link-text">{{'Orders' | translate}}</span>
+        <div class="submenu">
+          <ul class="menu submenu__list">
+            <li
+              class="submenu__item"
+              routerLinkActive="menu__link--active"
+            >
+              <a
+                class="submenu__link"
+                routerLink="/funds/balances"
+              >
+                <span class="menu__link-text">{{'Balances' | translate}}</span>
+              </a>
+            </li>
+            <li
+              class="submenu__item"
+              routerLinkActive="menu__link--active"
+            >
+              <a
+                class="submenu__link"
+                routerLink="/funds/transaction-history"
+              >
+                <span class="menu__link-text">{{'Transaction history' | translate}}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li
+        class="menu__item menu__item--with-submenu"
+        routerLinkActive="head-menu__link--active"
+        [ngClass]="{'d-none': !isAuthenticated}"
+      >
+        <a class="menu__link menu__link--drop">
+          <span class="menu__link-text">{{'Orders' | translate}}</span>
+        </a>
+        <!-- <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" ><span class="menu__link-text">Orders</span></a> -->
+        <div class="submenu">
+          <ul class="menu submenu__list">
+            <li
+              class="submenu__item"
+              routerLinkActive="menu__link--active"
+            >
+              <a
+                class="submenu__link"
+                routerLink="/orders/open"
+              >
+                <span class="menu__link-text">{{'Open orders' | translate}}</span>
+              </a>
+            </li>
+            <li
+              class="submenu__item"
+              routerLinkActive="menu__link--active"
+            >
+              <a
+                class="submenu__link"
+                routerLink="/orders/closed"
+              >
+                <span class="menu__link-text">{{'Orders history' | translate}}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </li>
+
+      <li class="menu__item">
+        <ng-container>
+          <a
+            class="menu__link"
+            href="https://about.exrates.me/about-us"
+          >
+            <span class="menu__link-text">{{'About us' | translate}}</span>
           </a>
-          <!-- <li class="menu__item menu__item--with-submenu"><a class="menu__link menu__link--drop" ><span class="menu__link-text">Orders</span></a> -->
-            <div class="submenu">
-              <ul class="menu submenu__list">
-                <li class="submenu__item" routerLinkActive="menu__link--active">
-                  <a class="submenu__link" routerLink="/orders/open">
-                    <span class="menu__link-text">{{'Open orders' | translate}}</span>
-                  </a>
-                </li>
-                <li class="submenu__item" routerLinkActive="menu__link--active">
-                  <a class="submenu__link" routerLink="/orders/closed">
-                    <span class="menu__link-text">{{'Orders history' | translate}}</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
+        </ng-container>
+      </li>
+      <li class="menu__item">
+        <ng-container>
+          <a
+            class="menu__link"
+            href="https://about.exrates.me/form-listing"
+          >
+            <span class="menu__link-text">{{'Apply to list' | translate}}</span>
+          </a>
+        </ng-container>
+      </li>
+      <!--TEMP LINK for strap-->
+      <li
+        class="menu__item"
+        routerLinkActive="menu__link--active"
+      >
+        <ng-container>
+          <a
+            class="menu__link"
+            routerLink="/ieo"
+          >
+            <span class="menu__link-text">{{'Token sale' | translate}}</span>
+          </a>
+        </ng-container>
+      </li>
+      <li
+        class="menu__item"
+        routerLinkActive="menu__link--active"
+      >
+        <ng-container>
+          <a
+            class="menu__link"
+            href="https://about.exrates.me/en/analytics/"
+          >
+            <span class="menu__link-text">{{'Analytics' | translate}}</span>
+          </a>
+        </ng-container>
+      </li>
 
-          </li>
-
-          <li class="menu__item">
-            <ng-container>
-              <a class="menu__link" href="https://about.exrates.me/about-us" >
-                <span class="menu__link-text">{{'About us' | translate}}</span>
-              </a>
-            </ng-container>
-          </li>
-          <li class="menu__item">
-            <ng-container>
-              <a class="menu__link" href="https://about.exrates.me/form-listing" >
-                <span class="menu__link-text">{{'Apply to list' | translate}}</span>
-              </a>
-            </ng-container>
-          </li>
-          <!--TEMP LINK for strap-->
-          <li class="menu__item" routerLinkActive="menu__link--active">
-            <ng-container>
-             <a class="menu__link" routerLink="/ieo">
-               <span class="menu__link-text">{{'Token sale' | translate}}</span>
-             </a>
-           </ng-container>
-         </li>
-         <li class="menu__item" routerLinkActive="menu__link--active">
-          <ng-container>
-           <a class="menu__link" href="https://about.exrates.me/fiat" >
-             <span class="menu__link-text">{{'Fiat' | translate}}</span>
-           </a>
-         </ng-container>
-       </li>
-
-          <!-- <li class="menu__item" routerLinkActive="menu__link--active">
+      <!-- <li class="menu__item" routerLinkActive="menu__link--active">
             <ng-container>
                <a class="menu__link" href="https://about.exrates.me/become-ambassador" >
                  <span class="menu__link-text">{{'Ambassador Program' | translate}}</span>
@@ -120,58 +205,86 @@
             </ng-container>
           </li> -->
 
-          <!-- <li class="menu__item" routerLinkActive="menu__link--active">
+      <!-- <li class="menu__item" routerLinkActive="menu__link--active">
             <ng-container>
                <a class="menu__link" href="https://support.exrates.me" target="blank">
                  <span class="menu__link-text">{{'Support' | translate}}</span>
                </a>
             </ng-container>
           </li> -->
-          <li class="menu__item">
-            <a class="menu__link" href="https://predictionlab.exrates.me" target="blank">
-              <span class="menu__link-text">{{'Prediction' | translate}}</span>
-            </a>
-          </li>
-        </ul>
-        <ul class="community-wr">
-          <li class="menu__item menu__item--with-submenu">
-            <a class="menu__link menu__link--drop">
-              <span class="menu__link-text">{{'Community' | translate}}</span>
-            </a>
-            <div class="submenu">
-              <ul class="menu submenu__list">
-                <li class="submenu__item">
-                  <a class="submenu__link" href="https://t.me/exrates_official" target="blank">
-                    <span class="menu__link-text">{{'Community World' | translate}}</span>
-                  </a>
-                </li>
+      <li class="menu__item">
+        <a
+          class="menu__link"
+          href="https://predictionlab.exrates.me"
+          target="blank"
+        >
+          <span class="menu__link-text">{{'Prediction' | translate}}</span>
+        </a>
+      </li>
+    </ul>
+    <ul class="community-wr">
+      <li class="menu__item menu__item--with-submenu">
+        <a class="menu__link menu__link--drop">
+          <span class="menu__link-text">{{'Community' | translate}}</span>
+        </a>
+        <div class="submenu">
+          <ul class="menu submenu__list">
+            <li class="submenu__item">
+              <a
+                class="submenu__link"
+                href="https://t.me/exrates_official"
+                target="blank"
+              >
+                <span class="menu__link-text">{{'Community World' | translate}}</span>
+              </a>
+            </li>
             <!-- <li class="submenu__item">
               <a class="submenu__link" href="#" target="blank">
                 <span class="menu__link-text">Telegramm</span>
               </a>
             </li> -->
             <li class="submenu__item">
-              <a class="submenu__link" href="https://t.me/exrates_official_cn" target="blank">
+              <a
+                class="submenu__link"
+                href="https://t.me/exrates_official_cn"
+                target="blank"
+              >
                 <span class="menu__link-text">{{'Community China' | translate}}</span>
               </a>
             </li>
             <li class="submenu__item">
-              <a class="submenu__link" href="https://t.me/exrates_official_id" target="blank">
+              <a
+                class="submenu__link"
+                href="https://t.me/exrates_official_id"
+                target="blank"
+              >
                 <span class="menu__link-text">{{'Community Indonesia' | translate}}</span>
               </a>
             </li>
             <li class="submenu__item">
-              <a class="submenu__link" href="https://t.me/exrates_official_ru" target="blank">
+              <a
+                class="submenu__link"
+                href="https://t.me/exrates_official_ru"
+                target="blank"
+              >
                 <span class="menu__link-text"> {{'Community Russia' | translate}}</span>
               </a>
             </li>
             <li class="submenu__item">
-              <a class="submenu__link" href="https://t.me/exrates_official_ko" target="blank">
+              <a
+                class="submenu__link"
+                href="https://t.me/exrates_official_ko"
+                target="blank"
+              >
                 <span class="menu__link-text">{{'Community Korea' | translate}}</span>
               </a>
             </li>
             <li class="submenu__item">
-              <a class="submenu__link" href="https://twitter.com/Exrates_Me" target="blank">
+              <a
+                class="submenu__link"
+                href="https://twitter.com/Exrates_Me"
+                target="blank"
+              >
                 <span class="menu__link-text">{{'Twitter' | translate}}</span>
               </a>
             </li>
@@ -179,18 +292,24 @@
           </ul>
         </div>
       </li>
-      <li class="menu__item" routerLinkActive="menu__link--active">
-        <a class="menu__link" routerLink="/news">
+      <li
+        class="menu__item"
+        routerLinkActive="menu__link--active"
+      >
+        <a
+          class="menu__link"
+          routerLink="/news"
+        >
           <span class="menu__link-text">{{'News' | translate}}</span>
         </a>
         <!--</li>-->
         <!--<li class="menu__item">-->
-          <!--<a class="menu__link" (click)="supportRedirect()" target="blank">-->
-            <!--<span class="menu__link-text">{{'News' | translate}}</span>-->
-            <!--</a>-->
-            <!--</li>-->
-          </ul>
-          <!-- <a class="menu__link" href="https://t.me/exrates_community" target="blank"> -->
+        <!--<a class="menu__link" (click)="supportRedirect()" target="blank">-->
+        <!--<span class="menu__link-text">{{'News' | translate}}</span>-->
+        <!--</a>-->
+        <!--</li>-->
+    </ul>
+    <!-- <a class="menu__link" href="https://t.me/exrates_community" target="blank"> -->
 
     <!-- <a class="menu__link" href="https://twitter.com/Exrates_Me" target="blank">
       <span class="menu__link-text">{{'News' | translate}}</span>
@@ -198,18 +317,30 @@
     <div class="login-menu">
       <ng-container *ngIf="isAuthenticated; else login">
         <span class="login-menu__icon">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <g clip-path="url(#clip0)">
               <path
-              d="M9.0002 9.53152C11.229 9.53152 13.036 7.41659 13.036 4.80773C13.036 1.18995 11.2291 0.0839844 9.0002 0.0839844C6.7712 0.0839844 4.96436 1.18995 4.96436 4.80773C4.9644 7.41659 6.77125 9.53152 9.0002 9.53152Z"
-              fill="#a0a0a0"/>
+                d="M9.0002 9.53152C11.229 9.53152 13.036 7.41659 13.036 4.80773C13.036 1.18995 11.2291 0.0839844 9.0002 0.0839844C6.7712 0.0839844 4.96436 1.18995 4.96436 4.80773C4.9644 7.41659 6.77125 9.53152 9.0002 9.53152Z"
+                fill="#a0a0a0"
+              />
               <path
-              d="M17.912 16.4849L15.8759 11.8981C15.7827 11.6882 15.6191 11.5142 15.4155 11.4081L12.2555 9.76318C12.1859 9.72698 12.1015 9.73402 12.0388 9.78144C11.1451 10.4574 10.0943 10.8147 9.00005 10.8147C7.90566 10.8147 6.85491 10.4574 5.96117 9.78144C5.89835 9.73402 5.81397 9.72698 5.74429 9.76318L2.58456 11.4081C2.38083 11.5142 2.2174 11.6881 2.12418 11.8981L0.0880542 16.4849C-0.0523244 16.8011 -0.0235536 17.1629 0.16504 17.4529C0.353546 17.7429 0.672576 17.916 1.01849 17.916H16.9815C17.3274 17.916 17.6465 17.7428 17.835 17.4529C18.0235 17.1629 18.0524 16.8009 17.912 16.4849Z"
-              fill="#a0a0a0"/>
+                d="M17.912 16.4849L15.8759 11.8981C15.7827 11.6882 15.6191 11.5142 15.4155 11.4081L12.2555 9.76318C12.1859 9.72698 12.1015 9.73402 12.0388 9.78144C11.1451 10.4574 10.0943 10.8147 9.00005 10.8147C7.90566 10.8147 6.85491 10.4574 5.96117 9.78144C5.89835 9.73402 5.81397 9.72698 5.74429 9.76318L2.58456 11.4081C2.38083 11.5142 2.2174 11.6881 2.12418 11.8981L0.0880542 16.4849C-0.0523244 16.8011 -0.0235536 17.1629 0.16504 17.4529C0.353546 17.7429 0.672576 17.916 1.01849 17.916H16.9815C17.3274 17.916 17.6465 17.7428 17.835 17.4529C18.0235 17.1629 18.0524 16.8009 17.912 16.4849Z"
+                fill="#a0a0a0"
+              />
             </g>
             <defs>
               <clipPath id="clip0">
-                <rect width="18" height="18" fill="#AAB1C4"/>
+                <rect
+                  width="18"
+                  height="18"
+                  fill="#AAB1C4"
+                />
               </clipPath>
             </defs>
           </svg>
@@ -225,22 +356,36 @@
               ${{(myBalance | async)?.data.USD || 0 | roundCurrency: 'USD' | formatCurrency}}
             </span>
           </div>
-          <a class="menu__link login-menu__link" routerLink="/settings" *ngIf="isAuthenticated" style="padding-top: 16px;">
+          <a
+            class="menu__link login-menu__link"
+            routerLink="/settings"
+            *ngIf="isAuthenticated"
+            style="padding-top: 16px;"
+          >
             <span class="menu__link-text">{{'Settings' | translate}}</span>
           </a>
-          <a class="menu__link login-menu__link menu__link--auth--log" (click)="onLogout()">
+          <a
+            class="menu__link login-menu__link menu__link--auth--log"
+            (click)="onLogout()"
+          >
             <span class="menu__link-text">{{'Log out' | translate}}</span>
           </a>
         </div>
       </ng-container>
       <ng-template #login>
         <li class="menu__item">
-          <a class="menu__link menu__link--auth--log" (click)="onMobileLogin()">
+          <a
+            class="menu__link menu__link--auth--log"
+            (click)="onMobileLogin()"
+          >
             <span class="menu__link-text">{{'Log In' | translate}}</span>
           </a>
         </li>
         <li class="menu__item">
-          <a class="menu__link menu__link--auth--reg" (click)="openRegistration()">
+          <a
+            class="menu__link menu__link--auth--reg"
+            (click)="openRegistration()"
+          >
             <span class="menu__link-text">{{'Register' | translate}}</span>
           </a>
         </li>
@@ -250,72 +395,109 @@
     <!--uncomment when the translation is ready-->
 
     <!--<ul class="menu language">-->
-      <!--<li class="menu__item menu__item&#45;&#45;with-submenu menu__item&#45;&#45;disabled">-->
-        <!--<a class="menu__link">-->
-          <!--<span class="menu__link-text">-->
-           <!--<img class="language__flag" [src]="lang.icon_url" alt="ru">-->
-           <!--<span>{{lang.fullName}}</span>-->
-           <!--</span>-->
-           <!--</a>-->
-           <!--<div class="submenu submenu&#45;&#45;language">-->
-            <!--<ul class="menu__list submenu__list submenu__list&#45;&#45;language">-->
-              <!--<li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">-->
-                <!--<a class="submenu__link" (click)="changeLocalization(lang.name)" >-->
-                  <!--<img class="language__flag" [src]="lang.icon_url" alt="">-->
-                  <!--<span class="language__text">{{lang.fullName | translate}}</span>-->
-                  <!--</a>-->
-                  <!--</li>-->
-                  <!--</ul>-->
-                  <!--</div>-->
-                  <!--</li>-->
-                  <!--</ul>-->
+    <!--<li class="menu__item menu__item&#45;&#45;with-submenu menu__item&#45;&#45;disabled">-->
+    <!--<a class="menu__link">-->
+    <!--<span class="menu__link-text">-->
+    <!--<img class="language__flag" [src]="lang.icon_url" alt="ru">-->
+    <!--<span>{{lang.fullName}}</span>-->
+    <!--</span>-->
+    <!--</a>-->
+    <!--<div class="submenu submenu&#45;&#45;language">-->
+    <!--<ul class="menu__list submenu__list submenu__list&#45;&#45;language">-->
+    <!--<li class="submenu__item" *ngFor="let lang of langArray | excludeByField:'name':lang.name">-->
+    <!--<a class="submenu__link" (click)="changeLocalization(lang.name)" >-->
+    <!--<img class="language__flag" [src]="lang.icon_url" alt="">-->
+    <!--<span class="language__text">{{lang.fullName | translate}}</span>-->
+    <!--</a>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--</li>-->
+    <!--</ul>-->
 
-                  <div class="translate">
-                    <button class="translate__trigger">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14.4 2.4H7.10399L6.40001 0H1.60001C0.719999 0 0 0.719999 0 1.60001V12C0 12.88 0.719999 13.6 1.60001 13.6H7.19999L7.99998 16H14.4C15.28 16 16 15.28 16 14.4V4.00001C16 3.12 15.28 2.4 14.4 2.4ZM4.13201 10.068C2.328 10.068 0.863999 8.59998 0.863999 6.79998C0.863999 4.99998 2.33201 3.53197 4.13201 3.53197C4.96402 3.53197 5.72002 3.82796 6.32002 4.38397L6.37203 4.43598L5.39602 5.37997L5.34802 5.33598C5.12002 5.11998 4.72402 4.86798 4.13201 4.86798C3.084 4.86798 2.232 5.736 2.232 6.804C2.232 7.87199 3.084 8.74001 4.13201 8.74001C5.22802 8.74001 5.70401 8.03999 5.832 7.57199H4.06398V6.33198H7.22399L7.23599 6.38797C7.26798 6.55597 7.27998 6.70398 7.27998 6.87198C7.27601 8.75598 5.98398 10.068 4.13201 10.068ZM8.53998 7.25999H11.736C11.736 7.25999 11.464 8.31198 10.488 9.44801C10.06 8.95601 9.76398 8.47601 9.57599 8.09201H8.78399L8.53998 7.25999ZM9.91199 10.068L9.484 10.492L8.96002 8.70802C9.22799 9.18798 9.55199 9.64799 9.91199 10.068ZM15.2 14.4C15.2 14.84 14.84 15.2 14.4 15.2H8.80001L10.4 13.6L9.748 11.388L10.484 10.6519L12.632 12.7999L13.216 12.216L11.052 10.068C11.772 9.23996 12.332 8.26796 12.584 7.26397H13.6V6.432H10.692V5.59998H9.85998V6.432H8.29199L7.33998 3.19999H14.4C14.84 3.19999 15.2 3.55998 15.2 3.99997V14.4Z" fill="#AAB1C4"/>
-                      </svg>
-                    </button>
-                    <div class="translate__container">
-                      <ng-template [ngTemplateOutlet]="translateTemplate">
-                      </ng-template>
-                    </div>
-                  </div>
-                </div>
-              </header>
-              <!-- HEADER END-->
+    <div class="translate">
+      <button class="translate__trigger">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.4 2.4H7.10399L6.40001 0H1.60001C0.719999 0 0 0.719999 0 1.60001V12C0 12.88 0.719999 13.6 1.60001 13.6H7.19999L7.99998 16H14.4C15.28 16 16 15.28 16 14.4V4.00001C16 3.12 15.28 2.4 14.4 2.4ZM4.13201 10.068C2.328 10.068 0.863999 8.59998 0.863999 6.79998C0.863999 4.99998 2.33201 3.53197 4.13201 3.53197C4.96402 3.53197 5.72002 3.82796 6.32002 4.38397L6.37203 4.43598L5.39602 5.37997L5.34802 5.33598C5.12002 5.11998 4.72402 4.86798 4.13201 4.86798C3.084 4.86798 2.232 5.736 2.232 6.804C2.232 7.87199 3.084 8.74001 4.13201 8.74001C5.22802 8.74001 5.70401 8.03999 5.832 7.57199H4.06398V6.33198H7.22399L7.23599 6.38797C7.26798 6.55597 7.27998 6.70398 7.27998 6.87198C7.27601 8.75598 5.98398 10.068 4.13201 10.068ZM8.53998 7.25999H11.736C11.736 7.25999 11.464 8.31198 10.488 9.44801C10.06 8.95601 9.76398 8.47601 9.57599 8.09201H8.78399L8.53998 7.25999ZM9.91199 10.068L9.484 10.492L8.96002 8.70802C9.22799 9.18798 9.55199 9.64799 9.91199 10.068ZM15.2 14.4C15.2 14.84 14.84 15.2 14.4 15.2H8.80001L10.4 13.6L9.748 11.388L10.484 10.6519L12.632 12.7999L13.216 12.216L11.052 10.068C11.772 9.23996 12.332 8.26796 12.584 7.26397H13.6V6.432H10.692V5.59998H9.85998V6.432H8.29199L7.33998 3.19999H14.4C14.84 3.19999 15.2 3.55998 15.2 3.99997V14.4Z"
+            fill="#AAB1C4"
+          />
+        </svg>
+      </button>
+      <div class="translate__container">
+        <ng-template [ngTemplateOutlet]="translateTemplate">
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- HEADER END-->
 
 
-              <!-- HEADER MOBILE START-->
-              <header class="header-mob" [ngClass]="{'header-mob--open': isMobileMenuOpen }" *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'" >
-                <div class="header-mob__top">
-                  <div [ngClass]="{'header-mob__burger-content': !isMobileMenuOpen, 'header-mob__burger-content--open': isMobileMenuOpen }">
-                    <div class="mobile-title">
-                      <h3>{{'Account' | translate}}</h3>
-                    </div>
-                    <div class="header-mob__controls-row">
+<!-- HEADER MOBILE START-->
+<header
+  class="header-mob"
+  [ngClass]="{'header-mob--open': isMobileMenuOpen }"
+  *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'"
+>
+  <div class="header-mob__top">
+    <div [ngClass]="{'header-mob__burger-content': !isMobileMenuOpen, 'header-mob__burger-content--open': isMobileMenuOpen }">
+      <div class="mobile-title">
+        <h3>{{'Account' | translate}}</h3>
+      </div>
+      <div class="header-mob__controls-row">
         <!-- <a class="header-mob__controls-btn" (click)="tempPopup()">
           <img class="header-mob__controls-icon" src="../../assets/img/header-mob-settings.svg">
         </a> -->
       </div>
 
 
-      <div class="account-info" *ngIf="!(userInfo$ | async)">
+      <div
+        class="account-info"
+        *ngIf="!(userInfo$ | async)"
+      >
         <!-- <div class="account-info__img"><span class="info__img-empty">?</span></div> -->
         <div class="account-info__text">
           <!-- <div class="account-info__title">{{'New user' | translate}}</div> -->
-          <a class="account-info__email cursor-pointer no-auth" (click)="onMobileLogin()">{{'Login' | translate}}</a>
+          <a
+            class="account-info__email cursor-pointer no-auth"
+            (click)="onMobileLogin()"
+          >{{'Login' | translate}}</a>
           <span class="slash">{{'or' | translate}}</span>
-          <a class="account-info__email cursor-pointer no-auth" (click)="openRegistration()">{{'Register' | translate}}</a>
+          <a
+            class="account-info__email cursor-pointer no-auth"
+            (click)="openRegistration()"
+          >{{'Register' | translate}}</a>
         </div>
         <!--<div class="account-info__title">John Doe</div><a class="account-info__email" href="#">john.doe@exrates.com</a></div>-->
       </div>
 
-      <div class="account-info account-info--auth" *ngIf="userInfo$ | async">
+      <div
+        class="account-info account-info--auth"
+        *ngIf="userInfo$ | async"
+      >
         <div class="account-info__img account-info__img--auth">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8.00147 8.48178C9.98264 8.48178 11.5889 6.60185 11.5889 4.28286C11.5889 1.06706 9.98272 0.0839844 8.00147 0.0839844C6.02015 0.0839844 4.41406 1.06706 4.41406 4.28286C4.4141 6.60185 6.02018 8.48178 8.00147 8.48178Z" fill="#666679"/>
-            <path d="M15.9218 14.6632L14.1119 10.5861C14.0291 10.3995 13.8837 10.2448 13.7026 10.1505L10.8938 8.68837C10.8319 8.65618 10.7569 8.66244 10.7012 8.7046C9.90674 9.30547 8.97266 9.62307 8.00003 9.62307C7.02724 9.62307 6.09324 9.30547 5.29881 8.7046C5.24297 8.66244 5.16797 8.65618 5.10602 8.68837L2.29738 10.1505C2.11629 10.2448 1.97102 10.3994 1.88816 10.5861L0.0782702 14.6632C-0.0465105 14.9443 -0.0209365 15.2659 0.146702 15.5237C0.314263 15.7814 0.597845 15.9353 0.905319 15.9353H15.0946C15.4021 15.9353 15.6858 15.7814 15.8533 15.5236C16.0209 15.2659 16.0465 14.9441 15.9218 14.6632Z" fill="#666679"/>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M8.00147 8.48178C9.98264 8.48178 11.5889 6.60185 11.5889 4.28286C11.5889 1.06706 9.98272 0.0839844 8.00147 0.0839844C6.02015 0.0839844 4.41406 1.06706 4.41406 4.28286C4.4141 6.60185 6.02018 8.48178 8.00147 8.48178Z"
+              fill="#666679"
+            />
+            <path
+              d="M15.9218 14.6632L14.1119 10.5861C14.0291 10.3995 13.8837 10.2448 13.7026 10.1505L10.8938 8.68837C10.8319 8.65618 10.7569 8.66244 10.7012 8.7046C9.90674 9.30547 8.97266 9.62307 8.00003 9.62307C7.02724 9.62307 6.09324 9.30547 5.29881 8.7046C5.24297 8.66244 5.16797 8.65618 5.10602 8.68837L2.29738 10.1505C2.11629 10.2448 1.97102 10.3994 1.88816 10.5861L0.0782702 14.6632C-0.0465105 14.9443 -0.0209365 15.2659 0.146702 15.5237C0.314263 15.7814 0.597845 15.9353 0.905319 15.9353H15.0946C15.4021 15.9353 15.6858 15.7814 15.8533 15.5236C16.0209 15.2659 16.0465 14.9441 15.9218 14.6632Z"
+              fill="#666679"
+            />
           </svg>
 
         </div>
@@ -332,16 +514,19 @@
 
       </div>
       <div class="est-holding-wr">
-        <a class="menu-mob__link menu-mob__link--next-page" *ngIf="isAuthenticated">
+        <a
+          class="menu-mob__link menu-mob__link--next-page"
+          *ngIf="isAuthenticated"
+        >
           <span class="menu-mob__link-text">{{'Estimated holdings' | translate}}</span>
           <span class="menu-mob__link-holdings-inf">${{(myBalance | async)?.data.USD || 0 | roundCurrency:'USD' | formatCurrency}}</span>
         </a>
         <!--<div class="e-h-descritption" *ngIf="isAuthenticated">-->
-          <!--<p>{{'Pleace do not disclose SMS and Goodle Authentication codes to ahyone, including Exrates customer support' | translate}}</p>-->
-          <!--</div>-->
-        </div>
+        <!--<p>{{'Pleace do not disclose SMS and Goodle Authentication codes to ahyone, including Exrates customer support' | translate}}</p>-->
+        <!--</div>-->
+      </div>
 
-        <nav class="menu-mob">
+      <nav class="menu-mob">
         <!-- <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
           <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(REFERRAL_FLAG)" [ngClass]="{'menu-mob__link--active' : showReferralList}">
             <span class="menu-mob__link-text">Referral</span>
@@ -361,10 +546,17 @@
         </a> -->
 
         <div class="menu-mob__drop-wrap">
-          <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(TRANSLATE_FLAG)" [ngClass]="{'menu-mob__link--active': translateList}">
+          <a
+            class="menu-mob__link menu-mob__link--drop"
+            (click)="toggleMenuDropdowns(TRANSLATE_FLAG)"
+            [ngClass]="{'menu-mob__link--active': translateList}"
+          >
             <span class="menu-mob__link-text">{{'Google Translator' | translate}}</span>
           </a>
-          <div class="menu-mob__wrap-links" [ngClass]="{'d-none': !translateList}">
+          <div
+            class="menu-mob__wrap-links"
+            [ngClass]="{'d-none': !translateList}"
+          >
             <a class="menu-mob__link">
               <ng-template [ngTemplateOutlet]="translateTemplate">
               </ng-template>
@@ -373,73 +565,121 @@
 
         </div>
 
-        <a class="menu-mob__link" [routerLink]="['dashboard']" [queryParams]="{widget: 'trading'}" (click)="setMobileWidget('trading')"><span
-          class="menu-mob__link-text">{{'Trade' | translate}}</span>
+        <a
+          class="menu-mob__link"
+          [routerLink]="['dashboard']"
+          [queryParams]="{widget: 'trading'}"
+          (click)="setMobileWidget('trading')"
+        ><span class="menu-mob__link-text">{{'Trade' | translate}}</span>
         </a>
 
-        <div class="menu-mob__drop-wrap" *ngIf="isAuthenticated">
-          <a class="menu-mob__link menu-mob__link--drop" (click)="toggleMenuDropdowns(FUNDS_FLAG)" [ngClass]="{'menu-mob__link--active': showFundsList}"
-          routerLink="/funds/balances">
-          <span class="menu-mob__link-text">{{'Funds' | translate}}</span></a>
-          <div class="menu-mob__wrap-links" *ngIf="showFundsList">
-            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/transaction-history">
-            {{'Transaction History' | translate}}</a>
-            <a class="menu-mob__link" (click)="mobileLinkClick()" routerLink="/funds/balances">{{'Balance' | translate}}</a>
+        <div
+          class="menu-mob__drop-wrap"
+          *ngIf="isAuthenticated"
+        >
+          <a
+            class="menu-mob__link menu-mob__link--drop"
+            (click)="toggleMenuDropdowns(FUNDS_FLAG)"
+            [ngClass]="{'menu-mob__link--active': showFundsList}"
+            routerLink="/funds/balances"
+          >
+            <span class="menu-mob__link-text">{{'Funds' | translate}}</span></a>
+          <div
+            class="menu-mob__wrap-links"
+            *ngIf="showFundsList"
+          >
+            <a
+              class="menu-mob__link"
+              (click)="mobileLinkClick()"
+              routerLink="/funds/transaction-history"
+            >
+              {{'Transaction History' | translate}}</a>
+            <a
+              class="menu-mob__link"
+              (click)="mobileLinkClick()"
+              routerLink="/funds/balances"
+            >{{'Balance' | translate}}</a>
           </div>
         </div>
 
         <a
-        *ngIf="isAuthenticated"
-        class="menu-mob__link"
-        routerLink="/orders/closed"
-        (click)="mobileLinkClick()"
+          *ngIf="isAuthenticated"
+          class="menu-mob__link"
+          routerLink="/orders/closed"
+          (click)="mobileLinkClick()"
         >
-        <span class="menu-mob__link-text">{{'Order History' | translate}}</span>
-      </a>
+          <span class="menu-mob__link-text">{{'Order History' | translate}}</span>
+        </a>
 
         <!-- <a class="menu-mob__link" href="https://about.exrates.me/about-us" target="_blank"><span
           class="menu-mob__link-text">{{'News' | translate}}</span>
         </a> -->
 
-        <a class="menu-mob__link" routerLink="/ieo" (click)="mobileLinkClick()"><span
-          class="menu-mob__link-text">{{'Token Sale' | translate}}</span>
+        <a
+          class="menu-mob__link"
+          routerLink="/ieo"
+          (click)="mobileLinkClick()"
+        ><span class="menu-mob__link-text">{{'Token Sale' | translate}}</span>
         </a>
 
-        <a class="menu-mob__link" href="https://about.exrates.me/fiat/"><span
-          class="menu-mob__link-text">{{'Fiat' | translate}}</span>
+        <a
+          class="menu-mob__link"
+          href="https://about.exrates.me/en/analytics/"
+        ><span class="menu-mob__link-text">{{'Analytics' | translate}}</span>
         </a>
 
         <!-- <a class="menu-mob__link" href="https://about.exrates.me/become-ambassador"><span
           class="menu-mob__link-text">{{'Ambassador Program' | translate}}</span>
         </a> -->
 
-        <a class="menu-mob__link" href="https://about.exrates.me/form-listing" ><span
-          class="menu-mob__link-text">{{'Apply to List' | translate}}</span>
+        <a
+          class="menu-mob__link"
+          href="https://about.exrates.me/form-listing"
+        ><span class="menu-mob__link-text">{{'Apply to List' | translate}}</span>
         </a>
 
-        <a class="menu-mob__link" href="https://about.exrates.me/support-center" >
+        <a
+          class="menu-mob__link"
+          href="https://about.exrates.me/support-center"
+        >
           <span class="menu-mob__link-text">{{'Support' | translate}}</span>
         </a>
 
-        <a class="menu-mob__link" href="https://about.exrates.me/client-center">
+        <a
+          class="menu-mob__link"
+          href="https://about.exrates.me/client-center"
+        >
           <span class="menu-mob__link-text">{{'Contacts' | translate}}</span>
         </a>
 
-        <a class="menu-mob__link" href="https://about.exrates.me/terms-of-use" >
+        <a
+          class="menu-mob__link"
+          href="https://about.exrates.me/terms-of-use"
+        >
           <span class="menu-mob__link-text">{{'Terms and Conditions' | translate}}</span>
         </a>
 
-        <a class="menu-mob__link" href="https://about.exrates.me/privacy-policy" >
+        <a
+          class="menu-mob__link"
+          href="https://about.exrates.me/privacy-policy"
+        >
           <span class="menu-mob__link-text">{{'Privacy Policy' | translate}}</span>
         </a>
 
-        <a class="menu-mob__link" href="https://support.exrates.me/article/fees-pairs"  target="_blank">
+        <a
+          class="menu-mob__link"
+          href="https://support.exrates.me/article/fees-pairs"
+          target="_blank"
+        >
           <span class="menu-mob__link-text">{{'Fees' | translate}}</span>
         </a>
 
 
-        <a class="menu-mob__link" routerLink="/news" (click)="mobileLinkClick()"><span
-          class="menu-mob__link-text">{{'News' | translate}}</span>
+        <a
+          class="menu-mob__link"
+          routerLink="/news"
+          (click)="mobileLinkClick()"
+        ><span class="menu-mob__link-text">{{'News' | translate}}</span>
         </a>
 
         <!-- <a class="menu-mob__link" (click)="setMobileWidget('chat')" [routerLink]="['dashboard']" [queryParams]="{widget: 'chat'}" *ngIf="isAuthenticated"><span
@@ -457,65 +697,141 @@
         </div> -->
 
         <a
-        *ngIf="isAuthenticated"
-        class="menu-mob__link"
-        routerLink="/settings"
-        (click)="mobileLinkClick()"
+          *ngIf="isAuthenticated"
+          class="menu-mob__link"
+          routerLink="/settings"
+          (click)="mobileLinkClick()"
         >
-        <span class="menu-mob__link-text">{{'Settings' | translate}}</span>
+          <span class="menu-mob__link-text">{{'Settings' | translate}}</span>
+        </a>
+
+        <a
+          class="account-info__email cursor-pointer menu-mob__link"
+          (click)="onLogout()"
+          *ngIf="isAuthenticated"
+        >{{'Logout' | translate}}</a>
+
+      </nav>
+    </div>
+  </div>
+  <div class="header-mob__inner">
+    <div class="header-mob__submenu">
+      <a
+        class="header-mob__submenu-link"
+        [routerLink]="['dashboard']"
+        [queryParams]="{widget: 'trading'}"
+        [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'trading' }"
+        (click)="setMobileWidget('trading')"
+      >
+        <div class="menu-item-ico">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15.8596 2.66667C15.8596 1.26316 14.7368 0 13.193 0H2.66667C1.26316 0 0 1.12281 0 2.66667V12.6316C0 14.0351 1.12281 15.2982 2.66667 15.2982H13.3333C14.7368 15.2982 16 14.1754 16 12.6316V2.66667H15.8596ZM14.3158 12.6316C14.3158 13.193 13.8947 13.7544 13.193 13.7544H2.66667C2.10526 13.7544 1.54386 13.3333 1.54386 12.6316V2.66667C1.54386 2.10526 1.96491 1.54386 2.66667 1.54386H13.3333C13.8947 1.54386 14.4561 1.96491 14.4561 2.66667V12.6316H14.3158Z"
+              fill="#666679"
+            />
+            <path
+              d="M4.0712 10.949V9.82617H2.52734V10.949C2.52734 12.0718 3.36945 12.9139 4.49226 12.9139H5.75541V11.37H4.49226C4.21155 11.37 4.0712 11.0893 4.0712 10.949Z"
+              fill="#666679"
+            />
+            <path
+              d="M11.7875 10.949C11.7875 11.2297 11.6471 11.37 11.3664 11.37H9.96289V12.9139H11.3664C12.4892 12.9139 13.3313 12.0718 13.3313 10.949V9.82617H11.7875V10.949Z"
+              fill="#666679"
+            />
+            <path
+              d="M2.52734 4.77155V5.89436H4.0712V4.77155C4.0712 4.49085 4.21155 4.3505 4.49226 4.3505H5.75541V2.80664H4.49226C3.36945 2.80664 2.52734 3.64875 2.52734 4.77155Z"
+              fill="#666679"
+            />
+            <path
+              d="M11.3664 2.80664H9.96289V4.3505H11.3664C11.6471 4.3505 11.7875 4.49085 11.7875 4.77155V5.89436H13.3313V4.77155C13.3313 3.64875 12.4892 2.80664 11.3664 2.80664Z"
+              fill="#666679"
+            />
+          </svg>
+        </div>
+        <span class="header-mob__submenu-link-text">{{'Trade' | translate}}</span>
+      </a>
+      <a
+        class="header-mob__submenu-link"
+        [routerLink]="['dashboard']"
+        [queryParams]="{widget: 'graph'}"
+        [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'graph' }"
+        (click)="setMobileWidget('graph')"
+      >
+        <div class="menu-item-ico">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 16H0V0H0.735632V15.0805H16V16Z"
+              fill="#666679"
+            />
+            <path
+              d="M3.67666 7.90782H3.12493V6.98828H2.57321V7.90782H2.02148V12.6894H2.57321V13.609H3.12493V12.6894H3.67666V7.90782Z"
+              fill="#666679"
+            />
+            <path
+              d="M6.61806 4.96642H6.06634V4.04688H5.51462V4.96642H4.96289V9.74803H5.51462V10.6676H6.06634V9.74803H6.61806V4.96642Z"
+              fill="#666679"
+            />
+            <path
+              d="M9.56533 1.65618H9.0136V0.552734H8.46188V1.65618H7.91016V6.43779H8.46188V7.35733H9.0136V6.43779H9.56533V1.65618Z"
+              fill="#666679"
+            />
+            <path
+              d="M12.5067 6.25384H11.955V5.15039H11.4033V6.25384H10.8516V11.0354H11.4033V11.955H11.955V11.0354H12.5067V6.25384Z"
+              fill="#666679"
+            />
+            <path
+              d="M15.4501 3.31017H14.8984V2.39062H14.3466V3.31017H13.7949V8.09178H14.3466V9.19522H14.8984V8.09178H15.4501V3.31017Z"
+              fill="#666679"
+            />
+          </svg>
+        </div>
+        <span class="header-mob__submenu-link-text">{{'Graph' | translate}}</span>
       </a>
 
-      <a class="account-info__email cursor-pointer menu-mob__link" (click)="onLogout()" *ngIf="isAuthenticated">{{'Logout' | translate}}</a>
 
-    </nav>
-  </div>
-</div>
-<div class="header-mob__inner">
-  <div class="header-mob__submenu">
-    <a class="header-mob__submenu-link" [routerLink]="['dashboard']" [queryParams]="{widget: 'trading'}"
-    [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'trading' }"
-    (click)="setMobileWidget('trading')">
-    <div class="menu-item-ico">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M15.8596 2.66667C15.8596 1.26316 14.7368 0 13.193 0H2.66667C1.26316 0 0 1.12281 0 2.66667V12.6316C0 14.0351 1.12281 15.2982 2.66667 15.2982H13.3333C14.7368 15.2982 16 14.1754 16 12.6316V2.66667H15.8596ZM14.3158 12.6316C14.3158 13.193 13.8947 13.7544 13.193 13.7544H2.66667C2.10526 13.7544 1.54386 13.3333 1.54386 12.6316V2.66667C1.54386 2.10526 1.96491 1.54386 2.66667 1.54386H13.3333C13.8947 1.54386 14.4561 1.96491 14.4561 2.66667V12.6316H14.3158Z" fill="#666679"/>
-        <path d="M4.0712 10.949V9.82617H2.52734V10.949C2.52734 12.0718 3.36945 12.9139 4.49226 12.9139H5.75541V11.37H4.49226C4.21155 11.37 4.0712 11.0893 4.0712 10.949Z" fill="#666679"/>
-        <path d="M11.7875 10.949C11.7875 11.2297 11.6471 11.37 11.3664 11.37H9.96289V12.9139H11.3664C12.4892 12.9139 13.3313 12.0718 13.3313 10.949V9.82617H11.7875V10.949Z" fill="#666679"/>
-        <path d="M2.52734 4.77155V5.89436H4.0712V4.77155C4.0712 4.49085 4.21155 4.3505 4.49226 4.3505H5.75541V2.80664H4.49226C3.36945 2.80664 2.52734 3.64875 2.52734 4.77155Z" fill="#666679"/>
-        <path d="M11.3664 2.80664H9.96289V4.3505H11.3664C11.6471 4.3505 11.7875 4.49085 11.7875 4.77155V5.89436H13.3313V4.77155C13.3313 3.64875 12.4892 2.80664 11.3664 2.80664Z" fill="#666679"/>
-      </svg>
-    </div>
-    <span class="header-mob__submenu-link-text">{{'Trade' | translate}}</span>
-  </a>
-  <a class="header-mob__submenu-link" [routerLink]="['dashboard']" [queryParams]="{widget: 'graph'}"
-  [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'graph' }"
-  (click)="setMobileWidget('graph')">
-  <div class="menu-item-ico">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M16 16H0V0H0.735632V15.0805H16V16Z" fill="#666679"/>
-      <path d="M3.67666 7.90782H3.12493V6.98828H2.57321V7.90782H2.02148V12.6894H2.57321V13.609H3.12493V12.6894H3.67666V7.90782Z" fill="#666679"/>
-      <path d="M6.61806 4.96642H6.06634V4.04688H5.51462V4.96642H4.96289V9.74803H5.51462V10.6676H6.06634V9.74803H6.61806V4.96642Z" fill="#666679"/>
-      <path d="M9.56533 1.65618H9.0136V0.552734H8.46188V1.65618H7.91016V6.43779H8.46188V7.35733H9.0136V6.43779H9.56533V1.65618Z" fill="#666679"/>
-      <path d="M12.5067 6.25384H11.955V5.15039H11.4033V6.25384H10.8516V11.0354H11.4033V11.955H11.955V11.0354H12.5067V6.25384Z" fill="#666679"/>
-      <path d="M15.4501 3.31017H14.8984V2.39062H14.3466V3.31017H13.7949V8.09178H14.3466V9.19522H14.8984V8.09178H15.4501V3.31017Z" fill="#666679"/>
-    </svg>
-  </div>
-  <span class="header-mob__submenu-link-text">{{'Graph' | translate}}</span>
-</a>
-
-
-<a class="header-mob__submenu-link" routerLink="funds/balances"
-routerLinkActive="header-mob__submenu-link--active"
-(click)="setMobileWidget('balance')" *ngIf="isAuthenticated">
-<div class="menu-item-ico">
-  <svg width="16" height="13" viewBox="0 0 16 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12.4115 4.78514C15.5517 4.78514 15.4022 4.78514 15.4022 4.78514V2.39257C15.4022 1.04675 14.0564 0 12.561 0H2.84118C1.19629 0 0 1.04675 0 2.39257V10.318C0 11.6638 1.34582 12.7105 2.84118 12.7105H12.561C14.2059 12.7105 15.4022 11.6638 15.4022 10.318V7.77586C15.4022 7.77586 15.5517 7.77586 12.4115 7.77586C11.5142 7.77586 10.9161 7.02818 10.9161 6.2805C10.9161 5.53282 11.6638 4.78514 12.4115 4.78514ZM14.505 2.99072V3.88793C14.505 4.03747 14.505 4.03747 14.3554 4.03747C14.2059 4.03747 14.2059 4.03747 14.2059 3.88793V2.99072C14.2059 2.84118 14.2059 2.84118 14.3554 2.84118C14.3554 2.84118 14.505 2.99072 14.505 2.99072ZM13.4582 1.34582C13.4582 1.19629 13.6077 1.19629 13.6077 1.34582C13.9068 1.49536 14.2059 1.79443 14.3554 2.0935C14.3554 2.24304 14.3554 2.39257 14.2059 2.39257C14.2059 2.39257 14.0564 2.39257 14.0564 2.24304C13.9068 1.94396 13.7573 1.79443 13.4582 1.64489C13.3087 1.49536 13.3087 1.34582 13.4582 1.34582ZM11.6638 1.04675H12.561C12.7105 1.04675 12.7105 1.04675 12.7105 1.19629C12.7105 1.34582 12.561 1.34582 12.561 1.34582H11.6638C11.5142 1.34582 11.5143 1.34582 11.5143 1.19629C11.5143 1.04675 11.5142 1.04675 11.6638 1.04675ZM14.0564 8.82261C14.0564 8.67307 14.0564 8.67307 14.2059 8.67307C14.3554 8.67307 14.3554 8.67307 14.3554 8.82261V9.71982C14.3554 9.86936 14.3554 9.86936 14.2059 9.86936C14.0564 9.86936 14.0564 9.86936 14.0564 9.71982V8.82261ZM13.3087 11.2152C13.6077 11.0656 13.9068 10.9161 13.9068 10.617C13.9068 10.4675 14.0564 10.4675 14.2059 10.617C14.3554 10.617 14.3554 10.7666 14.2059 10.9161C14.0564 11.2152 13.7573 11.5143 13.4582 11.6638C13.3087 11.5143 13.1591 11.2152 13.3087 11.2152ZM11.5143 11.3647H12.4115C12.561 11.3647 12.561 11.3647 12.561 11.5143C12.561 11.6638 12.561 11.6638 12.4115 11.6638H11.5143C11.3647 11.6638 11.3647 11.6638 11.3647 11.5143C11.3647 11.3647 11.3647 11.3647 11.5143 11.3647ZM0.897214 3.88793C0.897214 3.73839 0.897214 3.73839 1.04675 3.73839C1.19629 3.73839 1.19629 3.73839 1.19629 3.88793V4.78514C1.19629 4.93468 1.19629 4.93468 1.04675 4.93468C0.897214 4.93468 0.897214 4.93468 0.897214 4.78514V3.88793ZM0.897214 5.83189C0.897214 5.68236 0.897214 5.68236 1.04675 5.68236C1.19629 5.68236 1.19629 5.68236 1.19629 5.83189V6.72911C1.19629 6.87864 1.19629 6.87864 1.04675 6.87864C0.897214 6.87864 0.897214 6.87864 0.897214 6.72911V5.83189ZM0.897214 7.77586C0.897214 7.62632 0.897214 7.62632 1.04675 7.62632C1.19629 7.62632 1.19629 7.62632 1.19629 7.77586V8.67307C1.19629 8.82261 1.19629 8.82261 1.04675 8.82261C0.897214 8.82261 0.897214 8.82261 0.897214 8.67307V7.77586ZM1.19629 10.7666C1.19629 10.7666 1.04675 10.7666 1.04675 10.617C0.897214 10.4675 0.897214 10.318 0.897214 9.71982C0.897214 9.57029 0.897214 9.57029 1.04675 9.57029C1.19629 9.57029 1.19629 9.71982 1.19629 9.71982C1.19629 10.4675 1.19629 10.4675 1.19629 10.617C1.34582 10.617 1.34582 10.7666 1.19629 10.7666ZM1.34582 2.0935C1.34582 2.24304 1.19629 2.39257 1.19629 2.39257V2.84118C1.19629 2.99072 1.19629 2.99072 1.04675 2.99072C0.897214 2.99072 0.897214 2.99072 0.897214 2.84118V2.39257C0.897214 2.24304 0.897214 2.0935 1.04675 1.94397C1.04675 1.79443 1.19629 1.79443 1.34582 1.94397C1.34582 1.79443 1.49536 1.94396 1.34582 2.0935ZM2.84118 11.6638C2.54211 11.6638 2.0935 11.5143 1.79443 11.3647C1.64489 11.3647 1.64489 11.2152 1.64489 11.2152C1.79443 11.0656 1.79443 11.0656 1.94396 11.0656C2.24304 11.2152 2.54211 11.2152 2.84118 11.2152C2.99071 11.2152 2.99071 11.2152 2.99071 11.3647C2.99071 11.6638 2.84118 11.6638 2.84118 11.6638ZM2.99071 1.34582C2.84118 1.34582 2.54211 1.34582 2.0935 1.49536C1.94396 1.49536 1.94396 1.49536 1.94396 1.34582C1.94396 1.19629 1.94396 1.19629 2.0935 1.19629C2.39257 1.04675 2.69164 1.04675 3.14025 1.04675C3.28979 1.04675 3.28979 1.04675 3.28979 1.19629C3.14025 1.19629 2.99071 1.34582 2.99071 1.34582ZM4.78514 11.6638H3.73839C3.58886 11.6638 3.58886 11.6638 3.58886 11.5143C3.58886 11.3647 3.58886 11.3647 3.73839 11.3647H4.63561C4.78514 11.3647 4.78514 11.3647 4.78514 11.5143C4.93468 11.6638 4.78514 11.6638 4.78514 11.6638ZM4.78514 1.34582H3.88793C3.73839 1.34582 3.73839 1.34582 3.73839 1.19629C3.73839 1.04675 3.88793 1.04675 3.88793 1.04675H4.78514C4.93468 1.04675 4.93468 1.04675 4.93468 1.19629C5.08421 1.19629 4.93468 1.34582 4.78514 1.34582ZM6.72911 11.6638H5.68236C5.53282 11.6638 5.53282 11.6638 5.53282 11.5143C5.53282 11.3647 5.53282 11.3647 5.68236 11.3647H6.57957C6.72911 11.3647 6.72911 11.3647 6.72911 11.5143C6.87864 11.6638 6.72911 11.6638 6.72911 11.6638ZM6.72911 1.34582H5.83189C5.68236 1.34582 5.68236 1.34582 5.68236 1.19629C5.68236 1.04675 5.68236 1.04675 5.83189 1.04675H6.72911C6.87864 1.04675 6.87864 1.04675 6.87864 1.19629C7.02818 1.19629 6.87864 1.34582 6.72911 1.34582ZM8.67307 11.6638H7.62632C7.47679 11.6638 7.47679 11.6638 7.47679 11.5143C7.47679 11.3647 7.47679 11.3647 7.62632 11.3647H8.52354C8.67307 11.3647 8.67307 11.3647 8.67307 11.5143C8.82261 11.6638 8.67307 11.6638 8.67307 11.6638ZM8.67307 1.34582H7.77586C7.62632 1.34582 7.62632 1.34582 7.62632 1.19629C7.62632 1.04675 7.62632 1.04675 7.77586 1.04675H8.67307C8.82261 1.04675 8.82261 1.04675 8.82261 1.19629C8.82261 1.19629 8.82261 1.34582 8.67307 1.34582ZM10.617 11.6638H9.57029C9.42075 11.6638 9.42075 11.6638 9.42075 11.5143C9.42075 11.3647 9.57029 11.3647 9.57029 11.3647H10.4675C10.617 11.3647 10.617 11.3647 10.617 11.5143C10.7666 11.6638 10.617 11.6638 10.617 11.6638ZM10.617 1.34582H9.71982C9.57029 1.34582 9.57029 1.19629 9.57029 1.19629C9.57029 1.04675 9.57029 1.04675 9.71982 1.04675H10.617C10.7666 1.04675 10.7666 1.04675 10.7666 1.19629C10.7666 1.19629 10.7666 1.34582 10.617 1.34582Z" fill="#666679"/>
-    <path d="M15.4018 5.08398C15.2523 5.08398 12.5607 5.08398 12.4111 5.08398C11.813 5.08398 11.2148 5.53259 11.2148 6.28027C11.2148 7.02795 11.813 7.47656 12.4111 7.47656C15.5514 7.47656 15.4018 7.47656 15.4018 7.47656C15.7009 7.47656 16 7.17748 16 6.87841V5.68213C16 5.38306 15.7009 5.08398 15.4018 5.08398ZM12.5607 7.02795C12.2616 7.02795 11.813 6.57934 11.813 6.28027C11.813 5.9812 12.2616 5.53259 12.5607 5.53259C13.0093 5.53259 13.3083 5.83166 13.3083 6.28027C13.3083 6.72888 13.0093 7.02795 12.5607 7.02795Z" fill="#666679"/>
-    <path d="M12.5599 5.68359C12.4104 5.68359 12.2609 5.83313 12.1113 5.98266C12.4104 5.68359 13.0085 5.83313 13.0085 6.28174C13.0085 6.43127 13.0085 6.43127 12.859 6.58081C13.3076 6.28174 13.0085 5.68359 12.5599 5.68359Z" fill="#666679"/>
-  </svg>
-</div>
-<span class="header-mob__submenu-link-text">{{'Balances' | translate}}</span>
-</a>
-<!-- <a class="header-mob__submenu-link"
+      <a
+        class="header-mob__submenu-link"
+        routerLink="funds/balances"
+        routerLinkActive="header-mob__submenu-link--active"
+        (click)="setMobileWidget('balance')"
+        *ngIf="isAuthenticated"
+      >
+        <div class="menu-item-ico">
+          <svg
+            width="16"
+            height="13"
+            viewBox="0 0 16 13"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12.4115 4.78514C15.5517 4.78514 15.4022 4.78514 15.4022 4.78514V2.39257C15.4022 1.04675 14.0564 0 12.561 0H2.84118C1.19629 0 0 1.04675 0 2.39257V10.318C0 11.6638 1.34582 12.7105 2.84118 12.7105H12.561C14.2059 12.7105 15.4022 11.6638 15.4022 10.318V7.77586C15.4022 7.77586 15.5517 7.77586 12.4115 7.77586C11.5142 7.77586 10.9161 7.02818 10.9161 6.2805C10.9161 5.53282 11.6638 4.78514 12.4115 4.78514ZM14.505 2.99072V3.88793C14.505 4.03747 14.505 4.03747 14.3554 4.03747C14.2059 4.03747 14.2059 4.03747 14.2059 3.88793V2.99072C14.2059 2.84118 14.2059 2.84118 14.3554 2.84118C14.3554 2.84118 14.505 2.99072 14.505 2.99072ZM13.4582 1.34582C13.4582 1.19629 13.6077 1.19629 13.6077 1.34582C13.9068 1.49536 14.2059 1.79443 14.3554 2.0935C14.3554 2.24304 14.3554 2.39257 14.2059 2.39257C14.2059 2.39257 14.0564 2.39257 14.0564 2.24304C13.9068 1.94396 13.7573 1.79443 13.4582 1.64489C13.3087 1.49536 13.3087 1.34582 13.4582 1.34582ZM11.6638 1.04675H12.561C12.7105 1.04675 12.7105 1.04675 12.7105 1.19629C12.7105 1.34582 12.561 1.34582 12.561 1.34582H11.6638C11.5142 1.34582 11.5143 1.34582 11.5143 1.19629C11.5143 1.04675 11.5142 1.04675 11.6638 1.04675ZM14.0564 8.82261C14.0564 8.67307 14.0564 8.67307 14.2059 8.67307C14.3554 8.67307 14.3554 8.67307 14.3554 8.82261V9.71982C14.3554 9.86936 14.3554 9.86936 14.2059 9.86936C14.0564 9.86936 14.0564 9.86936 14.0564 9.71982V8.82261ZM13.3087 11.2152C13.6077 11.0656 13.9068 10.9161 13.9068 10.617C13.9068 10.4675 14.0564 10.4675 14.2059 10.617C14.3554 10.617 14.3554 10.7666 14.2059 10.9161C14.0564 11.2152 13.7573 11.5143 13.4582 11.6638C13.3087 11.5143 13.1591 11.2152 13.3087 11.2152ZM11.5143 11.3647H12.4115C12.561 11.3647 12.561 11.3647 12.561 11.5143C12.561 11.6638 12.561 11.6638 12.4115 11.6638H11.5143C11.3647 11.6638 11.3647 11.6638 11.3647 11.5143C11.3647 11.3647 11.3647 11.3647 11.5143 11.3647ZM0.897214 3.88793C0.897214 3.73839 0.897214 3.73839 1.04675 3.73839C1.19629 3.73839 1.19629 3.73839 1.19629 3.88793V4.78514C1.19629 4.93468 1.19629 4.93468 1.04675 4.93468C0.897214 4.93468 0.897214 4.93468 0.897214 4.78514V3.88793ZM0.897214 5.83189C0.897214 5.68236 0.897214 5.68236 1.04675 5.68236C1.19629 5.68236 1.19629 5.68236 1.19629 5.83189V6.72911C1.19629 6.87864 1.19629 6.87864 1.04675 6.87864C0.897214 6.87864 0.897214 6.87864 0.897214 6.72911V5.83189ZM0.897214 7.77586C0.897214 7.62632 0.897214 7.62632 1.04675 7.62632C1.19629 7.62632 1.19629 7.62632 1.19629 7.77586V8.67307C1.19629 8.82261 1.19629 8.82261 1.04675 8.82261C0.897214 8.82261 0.897214 8.82261 0.897214 8.67307V7.77586ZM1.19629 10.7666C1.19629 10.7666 1.04675 10.7666 1.04675 10.617C0.897214 10.4675 0.897214 10.318 0.897214 9.71982C0.897214 9.57029 0.897214 9.57029 1.04675 9.57029C1.19629 9.57029 1.19629 9.71982 1.19629 9.71982C1.19629 10.4675 1.19629 10.4675 1.19629 10.617C1.34582 10.617 1.34582 10.7666 1.19629 10.7666ZM1.34582 2.0935C1.34582 2.24304 1.19629 2.39257 1.19629 2.39257V2.84118C1.19629 2.99072 1.19629 2.99072 1.04675 2.99072C0.897214 2.99072 0.897214 2.99072 0.897214 2.84118V2.39257C0.897214 2.24304 0.897214 2.0935 1.04675 1.94397C1.04675 1.79443 1.19629 1.79443 1.34582 1.94397C1.34582 1.79443 1.49536 1.94396 1.34582 2.0935ZM2.84118 11.6638C2.54211 11.6638 2.0935 11.5143 1.79443 11.3647C1.64489 11.3647 1.64489 11.2152 1.64489 11.2152C1.79443 11.0656 1.79443 11.0656 1.94396 11.0656C2.24304 11.2152 2.54211 11.2152 2.84118 11.2152C2.99071 11.2152 2.99071 11.2152 2.99071 11.3647C2.99071 11.6638 2.84118 11.6638 2.84118 11.6638ZM2.99071 1.34582C2.84118 1.34582 2.54211 1.34582 2.0935 1.49536C1.94396 1.49536 1.94396 1.49536 1.94396 1.34582C1.94396 1.19629 1.94396 1.19629 2.0935 1.19629C2.39257 1.04675 2.69164 1.04675 3.14025 1.04675C3.28979 1.04675 3.28979 1.04675 3.28979 1.19629C3.14025 1.19629 2.99071 1.34582 2.99071 1.34582ZM4.78514 11.6638H3.73839C3.58886 11.6638 3.58886 11.6638 3.58886 11.5143C3.58886 11.3647 3.58886 11.3647 3.73839 11.3647H4.63561C4.78514 11.3647 4.78514 11.3647 4.78514 11.5143C4.93468 11.6638 4.78514 11.6638 4.78514 11.6638ZM4.78514 1.34582H3.88793C3.73839 1.34582 3.73839 1.34582 3.73839 1.19629C3.73839 1.04675 3.88793 1.04675 3.88793 1.04675H4.78514C4.93468 1.04675 4.93468 1.04675 4.93468 1.19629C5.08421 1.19629 4.93468 1.34582 4.78514 1.34582ZM6.72911 11.6638H5.68236C5.53282 11.6638 5.53282 11.6638 5.53282 11.5143C5.53282 11.3647 5.53282 11.3647 5.68236 11.3647H6.57957C6.72911 11.3647 6.72911 11.3647 6.72911 11.5143C6.87864 11.6638 6.72911 11.6638 6.72911 11.6638ZM6.72911 1.34582H5.83189C5.68236 1.34582 5.68236 1.34582 5.68236 1.19629C5.68236 1.04675 5.68236 1.04675 5.83189 1.04675H6.72911C6.87864 1.04675 6.87864 1.04675 6.87864 1.19629C7.02818 1.19629 6.87864 1.34582 6.72911 1.34582ZM8.67307 11.6638H7.62632C7.47679 11.6638 7.47679 11.6638 7.47679 11.5143C7.47679 11.3647 7.47679 11.3647 7.62632 11.3647H8.52354C8.67307 11.3647 8.67307 11.3647 8.67307 11.5143C8.82261 11.6638 8.67307 11.6638 8.67307 11.6638ZM8.67307 1.34582H7.77586C7.62632 1.34582 7.62632 1.34582 7.62632 1.19629C7.62632 1.04675 7.62632 1.04675 7.77586 1.04675H8.67307C8.82261 1.04675 8.82261 1.04675 8.82261 1.19629C8.82261 1.19629 8.82261 1.34582 8.67307 1.34582ZM10.617 11.6638H9.57029C9.42075 11.6638 9.42075 11.6638 9.42075 11.5143C9.42075 11.3647 9.57029 11.3647 9.57029 11.3647H10.4675C10.617 11.3647 10.617 11.3647 10.617 11.5143C10.7666 11.6638 10.617 11.6638 10.617 11.6638ZM10.617 1.34582H9.71982C9.57029 1.34582 9.57029 1.19629 9.57029 1.19629C9.57029 1.04675 9.57029 1.04675 9.71982 1.04675H10.617C10.7666 1.04675 10.7666 1.04675 10.7666 1.19629C10.7666 1.19629 10.7666 1.34582 10.617 1.34582Z"
+              fill="#666679"
+            />
+            <path
+              d="M15.4018 5.08398C15.2523 5.08398 12.5607 5.08398 12.4111 5.08398C11.813 5.08398 11.2148 5.53259 11.2148 6.28027C11.2148 7.02795 11.813 7.47656 12.4111 7.47656C15.5514 7.47656 15.4018 7.47656 15.4018 7.47656C15.7009 7.47656 16 7.17748 16 6.87841V5.68213C16 5.38306 15.7009 5.08398 15.4018 5.08398ZM12.5607 7.02795C12.2616 7.02795 11.813 6.57934 11.813 6.28027C11.813 5.9812 12.2616 5.53259 12.5607 5.53259C13.0093 5.53259 13.3083 5.83166 13.3083 6.28027C13.3083 6.72888 13.0093 7.02795 12.5607 7.02795Z"
+              fill="#666679"
+            />
+            <path
+              d="M12.5599 5.68359C12.4104 5.68359 12.2609 5.83313 12.1113 5.98266C12.4104 5.68359 13.0085 5.83313 13.0085 6.28174C13.0085 6.43127 13.0085 6.43127 12.859 6.58081C13.3076 6.28174 13.0085 5.68359 12.5599 5.68359Z"
+              fill="#666679"
+            />
+          </svg>
+        </div>
+        <span class="header-mob__submenu-link-text">{{'Balances' | translate}}</span>
+      </a>
+      <!-- <a class="header-mob__submenu-link"
 [routerLink]="['dashboard']"
 [queryParams]="{widget: 'trade-history'}"
 routerLinkActive="header-mob__submenu-link--active"
@@ -528,54 +844,118 @@ routerLinkActive="header-mob__submenu-link--active"
 
 <span class="header-mob__submenu-link-text">{{'History' | translate}}</span>
 </a> -->
-<a class="header-mob__submenu-link"
-[routerLink]="['orders/open']"
-routerLinkActive="header-mob__submenu-link--active"
-(click)="setMobileWidget('open')" *ngIf="isAuthenticated">
-<div class="menu-item-ico">
-  <svg width="15" height="16" xmlns="http://www.w3.org/2000/svg">
-   <style type="text/css">.st0{fill:#666679;}</style>
+      <a
+        class="header-mob__submenu-link"
+        [routerLink]="['orders/open']"
+        routerLinkActive="header-mob__submenu-link--active"
+        (click)="setMobileWidget('open')"
+        *ngIf="isAuthenticated"
+      >
+        <div class="menu-item-ico">
+          <svg
+            width="15"
+            height="16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <style type="text/css">
+              .st0 {
+                fill: #666679;
+              }
 
-   <g>
-    <title>{{'background' | translate}}</title>
-    <rect fill="none" id="canvas_background" height="18" width="17" y="-1" x="-1"/>
-  </g>
-  <g>
-    <title>{{'Layer 1' | translate}}</title>
-    <g stroke="null" id="svg_1">
-     <g stroke="null" id="svg_2">
-      <path stroke="null" id="svg_3" d="m14.053073,0.210845l-8.215125,0c-0.69916,0 -1.398319,0.902299 -1.398319,1.624138l0,0.541379l6.292436,0c0.69916,0 1.223529,0.36092 1.223529,1.082759l0,10.647127l2.097479,0c0.69916,0 0.873949,-0.18046 0.873949,-0.902299l0,-11.368966c0,-0.721839 -0.17479,-1.624138 -0.873949,-1.624138z" class="st0"/>
-    </g>
-    <g stroke="null" id="svg_4">
-      <path stroke="null" id="svg_5" d="m9.858115,2.917741l-8.215125,0c-0.69916,0 -1.573109,0.721839 -1.573109,1.263218l0,10.466667c0,0.721839 0.873949,1.263218 1.573109,1.263218l8.215125,0c0.69916,0 1.398319,-0.541379 1.398319,-1.263218l0,-10.466667c-0.17479,-0.541379 -0.69916,-1.263218 -1.398319,-1.263218zm-1.398319,9.564368l-5.418487,0c-1.223529,0 -1.223529,-1.263218 0,-1.263218l5.418487,0c1.223529,0 1.398319,1.263218 0,1.263218zm0,-2.526437l-5.418487,0c-1.223529,0 -1.223529,-1.263218 0,-1.263218l5.418487,0c1.223529,-0.18046 1.398319,1.263218 0,1.263218zm0,-2.706897l-5.418487,0c-1.223529,0 -1.223529,-1.263218 0,-1.263218l5.418487,0c1.223529,0 1.398319,1.263218 0,1.263218z" class="st0"/>
-    </g>
-  </g>
-</g>
-</svg>
-</div>
+            </style>
 
-<span class="header-mob__submenu-link-text">{{'Open' | translate}}</span>
-</a>
+            <g>
+              <title>{{'background' | translate}}</title>
+              <rect
+                fill="none"
+                id="canvas_background"
+                height="18"
+                width="17"
+                y="-1"
+                x="-1"
+              />
+            </g>
+            <g>
+              <title>{{'Layer 1' | translate}}</title>
+              <g
+                stroke="null"
+                id="svg_1"
+              >
+                <g
+                  stroke="null"
+                  id="svg_2"
+                >
+                  <path
+                    stroke="null"
+                    id="svg_3"
+                    d="m14.053073,0.210845l-8.215125,0c-0.69916,0 -1.398319,0.902299 -1.398319,1.624138l0,0.541379l6.292436,0c0.69916,0 1.223529,0.36092 1.223529,1.082759l0,10.647127l2.097479,0c0.69916,0 0.873949,-0.18046 0.873949,-0.902299l0,-11.368966c0,-0.721839 -0.17479,-1.624138 -0.873949,-1.624138z"
+                    class="st0"
+                  />
+                </g>
+                <g
+                  stroke="null"
+                  id="svg_4"
+                >
+                  <path
+                    stroke="null"
+                    id="svg_5"
+                    d="m9.858115,2.917741l-8.215125,0c-0.69916,0 -1.573109,0.721839 -1.573109,1.263218l0,10.466667c0,0.721839 0.873949,1.263218 1.573109,1.263218l8.215125,0c0.69916,0 1.398319,-0.541379 1.398319,-1.263218l0,-10.466667c-0.17479,-0.541379 -0.69916,-1.263218 -1.398319,-1.263218zm-1.398319,9.564368l-5.418487,0c-1.223529,0 -1.223529,-1.263218 0,-1.263218l5.418487,0c1.223529,0 1.398319,1.263218 0,1.263218zm0,-2.526437l-5.418487,0c-1.223529,0 -1.223529,-1.263218 0,-1.263218l5.418487,0c1.223529,-0.18046 1.398319,1.263218 0,1.263218zm0,-2.706897l-5.418487,0c-1.223529,0 -1.223529,-1.263218 0,-1.263218l5.418487,0c1.223529,0 1.398319,1.263218 0,1.263218z"
+                    class="st0"
+                  />
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+
+        <span class="header-mob__submenu-link-text">{{'Open' | translate}}</span>
+      </a>
 
 
-<a class="header-mob__submenu-link"
-[routerLink]="['dashboard']"
-[queryParams]="{widget: 'markets'}"
-routerLinkActive="header-mob__submenu-link--active"
-(click)="setMobileWidget('markets')">
-<div class="menu-item-ico">
-  <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M5.48333 3.32603H15.6512C16.2493 3.32603 16.8474 2.72792 16.8474 2.12981C16.8474 1.5317 16.3988 0.933594 15.6512 0.933594H5.48333C4.73569 1.08312 4.28711 1.5317 4.28711 2.27934C4.28711 2.87745 4.73569 3.32603 5.48333 3.32603Z" fill="#666679"/>
-    <path d="M15.6512 6.01758H5.48333C4.73569 6.01758 4.28711 6.61569 4.28711 7.2138C4.28711 7.81191 4.73569 8.41002 5.48333 8.41002H15.6512C16.2493 8.41002 16.8474 7.81191 16.8474 7.2138C16.8474 6.61569 16.2493 6.01758 15.6512 6.01758Z" fill="#666679"/>
-    <path d="M15.6512 10.9512H5.48333C4.88522 10.9512 4.28711 11.5493 4.28711 12.1474C4.28711 12.7455 4.73569 13.3436 5.48333 13.3436H15.6512C16.2493 13.3436 16.8474 12.7455 16.8474 12.1474C16.8474 11.3998 16.2493 10.9512 15.6512 10.9512Z" fill="#666679"/>
-    <path d="M1.59529 2.27825C1.59529 2.27825 1.74482 2.42778 1.74482 2.72683V4.07258H2.34293V1.08203H1.74482C1.59529 1.23156 1.44577 1.68014 0.847656 1.82967V2.12872H0.997184C1.14671 2.12872 1.29624 2.12872 1.44577 2.12872C1.44577 2.12872 1.59529 2.27825 1.59529 2.27825Z" fill="#666679"/>
-    <path d="M0.996094 8.56064V9.00922H2.79042V8.41111H1.89326C2.34184 7.66347 2.6409 7.36442 2.6409 7.21489C2.79042 7.06536 2.79042 6.91583 2.79042 6.61678C2.79042 6.31772 2.6409 6.1682 2.49137 6.01867C2.34184 6.01867 2.19231 5.86914 1.89326 5.86914C1.74373 5.86914 1.5942 5.86914 1.44468 5.86914C1.29515 6.01867 1.29515 6.01867 1.14562 6.1682C1.14562 6.31772 0.996094 6.31772 0.996094 6.46725C0.996094 6.61678 0.996094 6.76631 0.996094 6.91583V7.06536H1.89326V6.61678C1.89326 6.46725 1.74373 6.46725 1.89326 6.31772C1.89326 6.31772 1.89326 6.31772 2.04279 6.31772V6.46725C2.04279 6.61678 2.04279 6.76631 1.89326 6.91583C1.89326 7.21489 1.5942 7.66347 0.996094 8.56064Z" fill="#666679"/>
-    <path d="M2.49137 11.6993C2.6409 11.6993 2.6409 11.5497 2.79042 11.5497C2.79042 11.4002 2.79042 11.4002 2.79042 11.2507C2.79042 10.9516 2.79042 10.8021 2.6409 10.6526C2.49137 10.503 2.19231 10.3535 1.89326 10.3535C1.5942 10.3535 1.44468 10.3535 1.29515 10.503C1.14562 10.6526 0.996094 10.8021 0.996094 11.1012V11.6993H1.89326V11.1012C1.89326 10.9516 1.89326 10.9516 1.89326 10.8021H2.04279V10.9516V11.1012C2.04279 11.2507 2.04279 11.2507 2.04279 11.2507V11.4002C2.04279 11.4002 1.89326 11.4002 1.74373 11.4002V11.9983C1.89326 11.9983 1.89326 11.9983 2.04279 11.9983C2.04279 11.9983 2.19231 11.9983 2.19231 12.1478C2.19231 12.1478 2.19231 12.2974 2.19231 12.4469V12.5964C2.19231 12.746 2.19231 12.8955 2.19231 12.8955C2.19231 12.8955 2.19231 12.8955 2.04279 12.8955C2.04279 12.8955 2.04279 12.746 2.04279 12.5964V12.1478H0.996094V12.2974C0.996094 12.5964 0.996094 12.746 0.996094 12.8955C0.996094 13.045 1.14562 13.045 1.29515 13.1945C1.5942 13.4936 1.74373 13.4936 1.89326 13.4936C2.04279 13.4936 2.34184 13.4936 2.34184 13.3441C2.49137 13.3441 2.6409 13.1945 2.6409 13.045C2.6409 12.8955 2.79042 12.746 2.79042 12.4469C2.79042 12.1478 2.79042 11.8488 2.6409 11.8488C2.6409 11.8488 2.6409 11.8488 2.49137 11.6993Z" fill="#666679"/>
-  </svg>
-</div>
-<span class="header-mob__submenu-link-text">{{'Markets' | translate}}</span>
-</a>
-   <!--  <a class="header-mob__submenu-link"
+      <a
+        class="header-mob__submenu-link"
+        [routerLink]="['dashboard']"
+        [queryParams]="{widget: 'markets'}"
+        routerLinkActive="header-mob__submenu-link--active"
+        (click)="setMobileWidget('markets')"
+      >
+        <div class="menu-item-ico">
+          <svg
+            width="17"
+            height="14"
+            viewBox="0 0 17 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5.48333 3.32603H15.6512C16.2493 3.32603 16.8474 2.72792 16.8474 2.12981C16.8474 1.5317 16.3988 0.933594 15.6512 0.933594H5.48333C4.73569 1.08312 4.28711 1.5317 4.28711 2.27934C4.28711 2.87745 4.73569 3.32603 5.48333 3.32603Z"
+              fill="#666679"
+            />
+            <path
+              d="M15.6512 6.01758H5.48333C4.73569 6.01758 4.28711 6.61569 4.28711 7.2138C4.28711 7.81191 4.73569 8.41002 5.48333 8.41002H15.6512C16.2493 8.41002 16.8474 7.81191 16.8474 7.2138C16.8474 6.61569 16.2493 6.01758 15.6512 6.01758Z"
+              fill="#666679"
+            />
+            <path
+              d="M15.6512 10.9512H5.48333C4.88522 10.9512 4.28711 11.5493 4.28711 12.1474C4.28711 12.7455 4.73569 13.3436 5.48333 13.3436H15.6512C16.2493 13.3436 16.8474 12.7455 16.8474 12.1474C16.8474 11.3998 16.2493 10.9512 15.6512 10.9512Z"
+              fill="#666679"
+            />
+            <path
+              d="M1.59529 2.27825C1.59529 2.27825 1.74482 2.42778 1.74482 2.72683V4.07258H2.34293V1.08203H1.74482C1.59529 1.23156 1.44577 1.68014 0.847656 1.82967V2.12872H0.997184C1.14671 2.12872 1.29624 2.12872 1.44577 2.12872C1.44577 2.12872 1.59529 2.27825 1.59529 2.27825Z"
+              fill="#666679"
+            />
+            <path
+              d="M0.996094 8.56064V9.00922H2.79042V8.41111H1.89326C2.34184 7.66347 2.6409 7.36442 2.6409 7.21489C2.79042 7.06536 2.79042 6.91583 2.79042 6.61678C2.79042 6.31772 2.6409 6.1682 2.49137 6.01867C2.34184 6.01867 2.19231 5.86914 1.89326 5.86914C1.74373 5.86914 1.5942 5.86914 1.44468 5.86914C1.29515 6.01867 1.29515 6.01867 1.14562 6.1682C1.14562 6.31772 0.996094 6.31772 0.996094 6.46725C0.996094 6.61678 0.996094 6.76631 0.996094 6.91583V7.06536H1.89326V6.61678C1.89326 6.46725 1.74373 6.46725 1.89326 6.31772C1.89326 6.31772 1.89326 6.31772 2.04279 6.31772V6.46725C2.04279 6.61678 2.04279 6.76631 1.89326 6.91583C1.89326 7.21489 1.5942 7.66347 0.996094 8.56064Z"
+              fill="#666679"
+            />
+            <path
+              d="M2.49137 11.6993C2.6409 11.6993 2.6409 11.5497 2.79042 11.5497C2.79042 11.4002 2.79042 11.4002 2.79042 11.2507C2.79042 10.9516 2.79042 10.8021 2.6409 10.6526C2.49137 10.503 2.19231 10.3535 1.89326 10.3535C1.5942 10.3535 1.44468 10.3535 1.29515 10.503C1.14562 10.6526 0.996094 10.8021 0.996094 11.1012V11.6993H1.89326V11.1012C1.89326 10.9516 1.89326 10.9516 1.89326 10.8021H2.04279V10.9516V11.1012C2.04279 11.2507 2.04279 11.2507 2.04279 11.2507V11.4002C2.04279 11.4002 1.89326 11.4002 1.74373 11.4002V11.9983C1.89326 11.9983 1.89326 11.9983 2.04279 11.9983C2.04279 11.9983 2.19231 11.9983 2.19231 12.1478C2.19231 12.1478 2.19231 12.2974 2.19231 12.4469V12.5964C2.19231 12.746 2.19231 12.8955 2.19231 12.8955C2.19231 12.8955 2.19231 12.8955 2.04279 12.8955C2.04279 12.8955 2.04279 12.746 2.04279 12.5964V12.1478H0.996094V12.2974C0.996094 12.5964 0.996094 12.746 0.996094 12.8955C0.996094 13.045 1.14562 13.045 1.29515 13.1945C1.5942 13.4936 1.74373 13.4936 1.89326 13.4936C2.04279 13.4936 2.34184 13.4936 2.34184 13.3441C2.49137 13.3441 2.6409 13.1945 2.6409 13.045C2.6409 12.8955 2.79042 12.746 2.79042 12.4469C2.79042 12.1478 2.79042 11.8488 2.6409 11.8488C2.6409 11.8488 2.6409 11.8488 2.49137 11.6993Z"
+              fill="#666679"
+            />
+          </svg>
+        </div>
+        <span class="header-mob__submenu-link-text">{{'Markets' | translate}}</span>
+      </a>
+      <!--  <a class="header-mob__submenu-link"
     [routerLink]="['dashboard']"
     [queryParams]="{widget: 'chat'}"
     [ngClass]="{ 'header-mob__submenu-link--active': mobileView === 'chat' }"
@@ -583,56 +963,99 @@ routerLinkActive="header-mob__submenu-link--active"
     <img class="header-mob__submenu-link-img" src="../../assets/img/header-sumbenu-link6.svg">
     <span class="header-mob__submenu-link-text">{{'Chat' | translate}}</span>
   </a> -->
-  <a class="header-mob__submenu-link"
-  (click)="openLogin()" *ngIf="!isAuthenticated">
-  <div class="menu-item-ico">
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g clip-path="url(#clip0)">
-        <path d="M8.00147 8.48178C9.98264 8.48178 11.5889 6.60185 11.5889 4.28286C11.5889 1.06706 9.98272 0.0839844 8.00147 0.0839844C6.02015 0.0839844 4.41406 1.06706 4.41406 4.28286C4.4141 6.60185 6.02018 8.48178 8.00147 8.48178Z" fill="#666679"/>
-        <path d="M15.9218 14.6632L14.1119 10.5861C14.0291 10.3995 13.8837 10.2448 13.7026 10.1505L10.8938 8.68837C10.8319 8.65618 10.7569 8.66244 10.7012 8.7046C9.90674 9.30547 8.97266 9.62307 8.00003 9.62307C7.02724 9.62307 6.09324 9.30547 5.29881 8.7046C5.24297 8.66244 5.16797 8.65618 5.10602 8.68837L2.29738 10.1505C2.11629 10.2448 1.97102 10.3994 1.88816 10.5861L0.0782702 14.6632C-0.0465105 14.9443 -0.0209365 15.2659 0.146702 15.5237C0.314263 15.7814 0.597845 15.9353 0.905319 15.9353H15.0946C15.4021 15.9353 15.6858 15.7814 15.8533 15.5236C16.0209 15.2659 16.0465 14.9441 15.9218 14.6632Z" fill="#666679"/>
-      </g>
-      <defs>
-        <clipPath id="clip0">
-          <rect width="18" height="18" fill="white"/>
-        </clipPath>
-      </defs>
-    </svg>
-  </div>
-  <span class="header-mob__submenu-link-text">{{'Account' | translate}}</span>
-</a>
-<a class="header-mob__submenu-link"
-(click)="openMenu()">
-<div class="menu-item-ico">
-  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
-    <style type="text/css">
-    .st0{fill:#7E849A;}
-  </style>
-  <g>
-    <g>
-      <path class="st0" d="M491.3,235.3H20.7C9.3,235.3,0,244.6,0,256c0,11.4,9.3,20.7,20.7,20.7h470.6c11.4,0,20.7-9.3,20.7-20.7    C512,244.6,502.7,235.3,491.3,235.3z"/>
-    </g>
-  </g>
-  <g>
-    <g>
-      <path class="st0" d="M491.3,78.4H20.7C9.3,78.4,0,87.7,0,99.1s9.3,20.7,20.7,20.7h470.6c11.4,0,20.7-9.3,20.7-20.7    S502.7,78.4,491.3,78.4z"/>
-    </g>
-  </g>
-  <g>
-    <g>
-      <path class="st0" d="M491.3,392.2H20.7C9.3,392.2,0,401.5,0,412.9s9.3,20.7,20.7,20.7h470.6c11.4,0,20.7-9.3,20.7-20.7    S502.7,392.2,491.3,392.2z"/>
-    </g>
-  </g>
-</svg>
-</div>
-<span class="header-mob__submenu-link-text">{{'Menu' | translate}}</span>
-</a>
-</div>
-<!-- <a class="header-mob__link header-mob__link-burger">
+      <a
+        class="header-mob__submenu-link"
+        (click)="openLogin()"
+        *ngIf="!isAuthenticated"
+      >
+        <div class="menu-item-ico">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0)">
+              <path
+                d="M8.00147 8.48178C9.98264 8.48178 11.5889 6.60185 11.5889 4.28286C11.5889 1.06706 9.98272 0.0839844 8.00147 0.0839844C6.02015 0.0839844 4.41406 1.06706 4.41406 4.28286C4.4141 6.60185 6.02018 8.48178 8.00147 8.48178Z"
+                fill="#666679"
+              />
+              <path
+                d="M15.9218 14.6632L14.1119 10.5861C14.0291 10.3995 13.8837 10.2448 13.7026 10.1505L10.8938 8.68837C10.8319 8.65618 10.7569 8.66244 10.7012 8.7046C9.90674 9.30547 8.97266 9.62307 8.00003 9.62307C7.02724 9.62307 6.09324 9.30547 5.29881 8.7046C5.24297 8.66244 5.16797 8.65618 5.10602 8.68837L2.29738 10.1505C2.11629 10.2448 1.97102 10.3994 1.88816 10.5861L0.0782702 14.6632C-0.0465105 14.9443 -0.0209365 15.2659 0.146702 15.5237C0.314263 15.7814 0.597845 15.9353 0.905319 15.9353H15.0946C15.4021 15.9353 15.6858 15.7814 15.8533 15.5236C16.0209 15.2659 16.0465 14.9441 15.9218 14.6632Z"
+                fill="#666679"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0">
+                <rect
+                  width="18"
+                  height="18"
+                  fill="white"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+        <span class="header-mob__submenu-link-text">{{'Account' | translate}}</span>
+      </a>
+      <a
+        class="header-mob__submenu-link"
+        (click)="openMenu()"
+      >
+        <div class="menu-item-ico">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            version="1.1"
+            id="Layer_1"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512 512"
+            style="enable-background:new 0 0 512 512;"
+            xml:space="preserve"
+          >
+            <style type="text/css">
+              .st0 {
+                fill: #7E849A;
+              }
+
+            </style>
+            <g>
+              <g>
+                <path
+                  class="st0"
+                  d="M491.3,235.3H20.7C9.3,235.3,0,244.6,0,256c0,11.4,9.3,20.7,20.7,20.7h470.6c11.4,0,20.7-9.3,20.7-20.7    C512,244.6,502.7,235.3,491.3,235.3z"
+                />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  class="st0"
+                  d="M491.3,78.4H20.7C9.3,78.4,0,87.7,0,99.1s9.3,20.7,20.7,20.7h470.6c11.4,0,20.7-9.3,20.7-20.7    S502.7,78.4,491.3,78.4z"
+                />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  class="st0"
+                  d="M491.3,392.2H20.7C9.3,392.2,0,401.5,0,412.9s9.3,20.7,20.7,20.7h470.6c11.4,0,20.7-9.3,20.7-20.7    S502.7,392.2,491.3,392.2z"
+                />
+              </g>
+            </g>
+          </svg>
+        </div>
+        <span class="header-mob__submenu-link-text">{{'Menu' | translate}}</span>
+      </a>
+    </div>
+    <!-- <a class="header-mob__link header-mob__link-burger">
   <div class="header-mob__link-inner" (click)="openMenu()">
     <img class="header-mob__link-img" src="../../assets/img/header-mob-burger.svg">
   </div>
 </a> -->
-</div>
+  </div>
 </header>
 <!-- HEADER MOBILE END-->
 

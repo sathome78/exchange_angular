@@ -1,22 +1,22 @@
-import {Component, OnInit, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {of, Subject} from 'rxjs';
-import {debounceTime, takeUntil} from 'rxjs/internal/operators';
+import { Component, OnInit, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { of, Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/internal/operators';
 
-import {PopupService} from '../../shared/services/popup.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserService} from '../../shared/services/user.service';
-import {keys} from '../../shared/constants';
-import {UtilsService} from 'app/shared/services/utils.service';
-import {Router} from '@angular/router';
-import {Location} from '@angular/common';
-import {AUTH_MESSAGES} from '../../shared/constants';
-import {GtagService} from '../../shared/services/gtag.service';
+import { PopupService } from '../../shared/services/popup.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../../shared/services/user.service';
+import { keys } from '../../shared/constants';
+import { UtilsService } from 'app/shared/services/utils.service';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { AUTH_MESSAGES } from '../../shared/constants';
+import { GtagService } from '../../shared/services/gtag.service';
 
 @Component({
   selector: 'app-registration-mobile-popup',
   templateUrl: './registration-mobile-popup.component.html',
-  styleUrls: ['./registration-mobile-popup.component.scss']
+  styleUrls: ['./registration-mobile-popup.component.scss'],
 })
 export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -51,8 +51,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     private utilsService: UtilsService,
     private location: Location,
     private gtagService: GtagService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.setTemplate('emailInputTemplate');
@@ -95,21 +94,25 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   resolvedCaptcha(event) {
     const email = this.emailForm.get('email').value;
     this.loading = true;
-    this.userService.sendToEmailConfirmation(email)
+    this.userService
+      .sendToEmailConfirmation(email)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.afterCaptchaMessage = `${this.translateService.instant('We sent the confirmation link to')}
+      .subscribe(
+        res => {
+          this.afterCaptchaMessage = `${this.translateService.instant('We sent the confirmation link to')}
            <br> <span class="popup__email-link"> ${email} </span> <br>
            ${this.translateService.instant('Please check your email and follow instructions.')}`;
-        this.setTemplate('emailConfirmLinkTemplate');
-        this.gtagService.sendRegistrationGtag();
-        this.loading = false;
-      }, error => {
-        console.error(error);
-        this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later');
-        this.setTemplate('emailConfirmLinkTemplate');
-        this.loading = false;
-      });
+          this.setTemplate('emailConfirmLinkTemplate');
+          this.gtagService.sendRegistrationGtag();
+          this.loading = false;
+        },
+        error => {
+          console.error(error);
+          this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later');
+          this.setTemplate('emailConfirmLinkTemplate');
+          this.loading = false;
+        }
+      );
   }
 
   openLogInMobile() {
@@ -117,33 +120,28 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     this.popupService.showMobileLoginPopup(true);
   }
 
-
   initForm() {
     this.emailForm = new FormGroup({
       email: new FormControl('', {
-        validators: [
-          Validators.required,
-          this.utilsService.emailValidator(),
-          this.utilsService.specialCharacterValidator()
-        ]
-      })
+        validators: [Validators.required, this.utilsService.emailValidator(), this.utilsService.specialCharacterValidator()],
+      }),
     });
     this.passwordForm = new FormGroup({
-      password: new FormControl('', {validators: [Validators.required]}),
+      password: new FormControl('', { validators: [Validators.required] }),
     });
 
     this.nameForm = new FormGroup({
-      username: new FormControl('', {validators: Validators.required}),
+      username: new FormControl('', { validators: Validators.required }),
     });
 
-    this.emailForm.get('email').valueChanges
-      .pipe(debounceTime(1500))
+    this.emailForm
+      .get('email')
+      .valueChanges.pipe(debounceTime(1500))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
         this.checkEmailOfServer();
       });
   }
-
 
   checkEmailOfServer() {
     this.pendingCheckEmail = true;
@@ -151,24 +149,25 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     email.markAsTouched();
     if (email.valid && email.value !== this.previousEmail) {
       this.previousEmail = email.value;
-      this.userService.checkIfEmailExists(email.value)
+      this.userService
+        .checkIfEmailExists(email.value)
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(res => {
-          this.emailServerError = res ? 'EMAIL_EXIST' : '';
-          this.pendingCheckEmail = false;
-        }, error => {
-          if (error.status === 400) {
-            this.emailServerError = error.error.title === 'USER_EMAIL_NOT_FOUND' ?
-              '' :
-              error.error.title;
-          } else {
-            this.emailServerError = 'OTHER_HTTP_ERROR';
+        .subscribe(
+          res => {
+            this.emailServerError = res ? 'EMAIL_EXIST' : '';
+            this.pendingCheckEmail = false;
+          },
+          error => {
+            if (error.status === 400) {
+              this.emailServerError = error.error.title === 'USER_EMAIL_NOT_FOUND' ? '' : error.error.title;
+            } else {
+              this.emailServerError = 'OTHER_HTTP_ERROR';
+            }
+            this.pendingCheckEmail = false;
           }
-          this.pendingCheckEmail = false;
-        });
+        );
     }
   }
-
 
   emailSubmit() {
     const email = this.emailForm.get('email').value;

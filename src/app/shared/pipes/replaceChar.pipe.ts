@@ -1,7 +1,6 @@
-import {Pipe, PipeTransform} from "@angular/core";
+import { Pipe, PipeTransform } from '@angular/core';
 
-
-@Pipe({name: "replaceChar"})
+@Pipe({ name: 'replaceChar' })
 export class ReplaceCharPipe implements PipeTransform {
   transform(value: string, oldChar: string = '', newChar: string = ''): string {
     const reg = new RegExp(oldChar, 'g');

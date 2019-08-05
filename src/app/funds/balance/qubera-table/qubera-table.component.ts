@@ -4,14 +4,14 @@ import { PopupService } from 'app/shared/services/popup.service';
 import { BalanceService } from 'app/funds/services/balance.service';
 import { first } from 'rxjs/operators';
 import { balanceQubera } from 'app/funds/models/balance-qubera.model';
+import { EUR } from '../balance-constants';
 
 @Component({
   selector: 'app-qubera-table',
   templateUrl: './qubera-table.component.html',
-  styleUrls: ['./qubera-table.component.scss']
+  styleUrls: ['./qubera-table.component.scss'],
 })
 export class QuberaTableComponent implements OnInit {
-
   quberaBalance: balanceQubera[] = [];
 
   @Input('balances') set balances(balances) {
@@ -36,8 +36,7 @@ export class QuberaTableComponent implements OnInit {
   public 'KYC_STATUS' = KYC_STATUS;
   public 'PENDING' = PENDING;
 
-  constructor(private balanceService: BalanceService) {
-    }
+  constructor(private balanceService: BalanceService) {}
 
   ngOnInit() {
     this.checkQuberaAccount();
@@ -50,9 +49,13 @@ export class QuberaTableComponent implements OnInit {
   }
 
   checkQuberaAccount() {
-    this.balanceService.checkQuberaAccount('EUR')
+    this.balanceService
+      .checkQuberaAccount(EUR)
       .pipe(first())
-      .subscribe((data: balanceQubera) => {
-      });
+      .subscribe((data: balanceQubera) => {});
+  }
+
+  trackByFn(index, item) {
+    return index;
   }
 }

@@ -1,21 +1,20 @@
-import {Component, OnInit, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {TranslateService} from '@ngx-translate/core';
-import {takeUntil} from 'rxjs/internal/operators';
-import {Subject} from 'rxjs';
+import { Component, OnInit, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { takeUntil } from 'rxjs/internal/operators';
+import { Subject } from 'rxjs';
 
-
-import {PopupService} from '../../shared/services/popup.service';
-import {UserService} from '../../shared/services/user.service';
-import {UtilsService} from '../../shared/services/utils.service';
-import {keys} from '../../shared/constants';
-import {AUTH_MESSAGES} from '../../shared/constants';
-import {GtagService} from '../../shared/services/gtag.service';
+import { PopupService } from '../../shared/services/popup.service';
+import { UserService } from '../../shared/services/user.service';
+import { UtilsService } from '../../shared/services/utils.service';
+import { keys } from '../../shared/constants';
+import { AUTH_MESSAGES } from '../../shared/constants';
+import { GtagService } from '../../shared/services/gtag.service';
 
 @Component({
   selector: 'app-recovery-pass',
   templateUrl: './recovery-pass.component.html',
-  styleUrls: ['./recovery-pass.component.scss']
+  styleUrls: ['./recovery-pass.component.scss'],
 })
 export class RecoveryPassComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -38,7 +37,7 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private utilsService: UtilsService,
     private gtagService: GtagService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.setTemplate('emailInputTemplate');
@@ -54,11 +53,7 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
   initForm() {
     this.emailForm = new FormGroup({
       email: new FormControl('', {
-        validators: [
-          Validators.required,
-          this.utilsService.emailValidator(),
-          this.utilsService.specialCharacterValidator()
-        ],
+        validators: [Validators.required, this.utilsService.emailValidator(), this.utilsService.specialCharacterValidator()],
         // asyncValidators: [this.userService.emailValidator(true)]
       }),
     });
@@ -85,34 +80,41 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
   resolvedCaptcha() {
     const email = this.emailForm.get('email').value;
     this.loading = true;
-    this.userService.checkIfEmailExists(email)
+    this.userService
+      .checkIfEmailExists(email)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
+      .subscribe(
+        () => {
           this.sendEmail(email);
-
-        }, error => {
+        },
+        error => {
           this.serverError = error.status === 400 ? error.error.title : 'OTHER_HTTP_ERROR';
           this.emailForm.markAsPristine();
           this.emailForm.markAsUntouched();
           this.setTemplate('emailInputTemplate');
           this.loading = false;
-        });
+        }
+      );
   }
 
   private sendEmail(email: string) {
-    this.userService.sendToEmailForRecovery(email)
+    this.userService
+      .sendToEmailForRecovery(email)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.afterCaptchaMessage = `${this.translateService.instant('We sent the confirmation link to')}
+      .subscribe(
+        res => {
+          this.afterCaptchaMessage = `${this.translateService.instant('We sent the confirmation link to')}
           ${email} <br> ${this.translateService.instant('Please check your email and follow instructions.')}`;
-        this.setTemplate('emailConfirmLinkTemplate');
-        this.gtagService.sendRecoveryPasswordGtag();
-        this.loading = false;
-      }, error => {
-        this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later.');
-        this.setTemplate('emailConfirmLinkTemplate');
-        this.loading = false;
-      });
+          this.setTemplate('emailConfirmLinkTemplate');
+          this.gtagService.sendRecoveryPasswordGtag();
+          this.loading = false;
+        },
+        error => {
+          this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later.');
+          this.setTemplate('emailConfirmLinkTemplate');
+          this.loading = false;
+        }
+      );
   }
 
   setTemplate(template: string) {
@@ -131,5 +133,4 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
         break;
     }
   }
-
 }

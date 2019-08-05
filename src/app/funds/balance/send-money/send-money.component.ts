@@ -1,20 +1,17 @@
-import {Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {BalanceService} from '../../services/balance.service';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {QUBERA, WITH_CODE, INNER_TRANSFER} from './send-money-constants';
-import {Animations} from '../../../shared/animations';
+import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { BalanceService } from '../../services/balance.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { QUBERA, WITH_CODE, INNER_TRANSFER } from './send-money-constants';
+import { Animations } from '../../../shared/animations';
 
 @Component({
   selector: 'app-send-money',
   templateUrl: './send-money.component.html',
   styleUrls: ['./send-money.component.scss'],
-  animations: [
-    Animations.popupOverlayTrigger, Animations.popupModalTrigger
-  ]
+  animations: [Animations.popupOverlayTrigger, Animations.popupModalTrigger],
 })
 export class SendMoneyComponent implements OnInit, OnDestroy {
-
   @Output() closeSendMoneyPopup = new EventEmitter<boolean>();
   @Output() toggleBalanceTab = new EventEmitter<string>();
   @Input() optionData;
@@ -33,10 +30,7 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(
-    public balanceService: BalanceService
-  ) {
-  }
+  constructor(public balanceService: BalanceService) {}
 
   onCloseSendMoneyPopup() {
     this.showPopup = false;
@@ -47,23 +41,17 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initFields();
-    this.balanceService.goToPinCode$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.activeStepThree(WITH_CODE, res);
-      });
+    this.balanceService.goToPinCode$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
+      this.activeStepThree(WITH_CODE, res);
+    });
 
-    this.balanceService.goToSendMoneyInnerTransfer$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.activeStepThreeInnerTransfer(res as string);
-      });
+    this.balanceService.goToSendMoneyInnerTransfer$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
+      this.activeStepThreeInnerTransfer(res as string);
+    });
 
-    this.balanceService.goToSendMoneySuccess$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.activeSendSuccess(res);
-      });
+    this.balanceService.goToSendMoneySuccess$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
+      this.activeSendSuccess(res);
+    });
   }
 
   setStep(step: number) {
@@ -86,7 +74,6 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
     this.stepThreeData = this.optionData.stepThreeData ? this.optionData.stepThreeData : null;
   }
 
-
   activeStepThreeInnerTransfer(name: string) {
     this.step = 3;
     this.stepThreeName = name;
@@ -106,5 +93,4 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
   public get isMobile(): boolean {
     return window.innerWidth <= 1200;
   }
-
 }

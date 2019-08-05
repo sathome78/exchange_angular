@@ -1,33 +1,27 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {select, Store} from '@ngrx/store';
-import {getLanguage, State} from '../core/reducers';
-import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { select, Store } from '@ngrx/store';
+import { getLanguage, State } from '../core/reducers';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-static-pages',
   templateUrl: './static-pages.component.html',
-  styleUrls: ['./static-pages.component.scss']
+  styleUrls: ['./static-pages.component.scss'],
 })
 export class StaticPagesComponent implements OnInit, OnDestroy {
-
-  lang$: Observable<string>
+  lang$: Observable<string>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  constructor(
-    private readonly translate: TranslateService,
-    private store: Store<State>,
-  ) {
+  constructor(private readonly translate: TranslateService, private store: Store<State>) {
     this.translate.setDefaultLang('en');
     this.lang$ = this.store.pipe(select(getLanguage));
   }
 
   ngOnInit() {
     // uncomment when the translation is ready
-    this.lang$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(lang => this.translate.use(lang));
+    this.lang$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(lang => this.translate.use(lang));
   }
 
   ngOnDestroy() {

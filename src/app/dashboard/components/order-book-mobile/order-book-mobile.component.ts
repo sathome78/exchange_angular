@@ -1,16 +1,29 @@
-import {Component, OnDestroy, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {takeUntil} from 'rxjs/internal/operators';
-import {Subject} from 'rxjs/Subject';
-import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {CurrencyPair} from 'app/model/currency-pair.model';
-import {State, getActiveCurrencyPair, getCurrencyPairInfo} from 'app/core/reducers/index';
-import {OrderItem} from 'app/model/order-item.model';
-import {SelectedOrderBookOrderAction, SetLastPriceAction} from '../../actions/dashboard.actions';
-import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
-import {DashboardWebSocketService} from 'app/dashboard/dashboard-websocket.service';
-import {OrderBookItem} from 'app/model';
-import {Subscription} from 'rxjs';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/internal/operators';
+import { Subject } from 'rxjs/Subject';
+import { AbstractDashboardItems } from '../../abstract-dashboard-items';
+import { CurrencyPair } from 'app/model/currency-pair.model';
+import { State, getActiveCurrencyPair, getCurrencyPairInfo } from 'app/core/reducers/index';
+import { OrderItemOB } from 'app/model/order-item-orders-book.model';
+import {
+  SelectedOrderBookOrderAction,
+  SetLastPriceAction,
+  SetOrdersBookSellDataAction,
+  SetOrdersBookBuyDataAction
+} from '../../actions/dashboard.actions';
+import { CurrencyPairInfo } from '../../../model/currency-pair-info.model';
+import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
+import { OrderBookItem } from 'app/model';
+import { Subscription } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 @Component({
@@ -20,21 +33,20 @@ import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderBookMobileComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
-
   @ViewChild('mainContent') public orderBookContainer: ElementRef;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
-  public itemName: string = 'order-book';
+  public itemName = 'order-book';
   public currencyPairInfo: CurrencyPairInfo = null;
 
-  private sellOrders: OrderItem [] = [];
-  private buyOrders: OrderItem [] = [];
-  public lastExrate: number = 0;
-  public preLastExrate:number = 0;
+  private sellOrders: OrderItemOB[] = [];
+  private buyOrders: OrderItemOB[] = [];
+  public lastExrate = 0;
+  public preLastExrate = 0;
   public isExratePositive = true;
-  public loading: boolean = true;
+  public loading = true;
   private orderBookSub$: Subscription;
-  private canSetLastPrice: boolean = true;
+  private canSetLastPrice = true;
 
   public sellVisualizationArray = [];
   public buyVisualizationArray = [];
@@ -65,7 +77,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   constructor(
     private store: Store<State>,
     private dashboardWebsocketService: DashboardWebSocketService,
-    private cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef
   ) {
     super();
   }
@@ -73,7 +85,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   ngOnInit() {
     this.withForChartLineElements = {
       sell: [],
-      buy: []
+      buy: [],
     };
     this.store
       .pipe(select(getCurrencyPairInfo))
@@ -89,8 +101,8 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
       .subscribe((pair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = pair;
         this.splitCurrencyName = pair.name.split('/');
-        if(pair.id !== 0) {
-          this.subscribeOrderBook(pair.name, this.precisionOut)
+        if (pair.id !== 0) {
+          this.subscribeOrderBook(pair.name, this.precisionOut);
         }
       });
   }
@@ -102,27 +114,25 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   }
 
   private initData(orders: OrderBookItem[]) {
-    if(!orders[0]) {
+    if (!orders[0]) {
       return;
     }
     this.calculateVisualizationWidth(this.lastBuyTotal, this.lastSellTotal);
 
-    orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) :
-    orders[0].orderType === 'BUY' ? this.setBuyOrders(orders[0]) : null;
-    if(orders[1]) {
-      orders[1].orderType === 'SELL' ? this.setSellOrders(orders[1]) :
-      orders[1].orderType === 'BUY' ? this.setBuyOrders(orders[1]) : null;
+    orders[0].orderType === 'SELL' ? this.setSellOrders(orders[0]) : this.setBuyOrders(orders[0]);
+    if (orders[1]) {
+      orders[1].orderType === 'SELL' ? this.setSellOrders(orders[1]) : this.setBuyOrders(orders[1]);
     }
     this.buyCalculateVisualization();
     this.sellCalculateVisualization();
     this.lastExrate = +orders[0].lastExrate;
     this.preLastExrate = +orders[0].preLastExrate;
     this.isExratePositive = orders[0].positive;
-    if(this.canSetLastPrice) {
+    if (this.canSetLastPrice) {
       const lastPrice = {
         flag: this.isExratePositive,
-        price: this.lastExrate
-      }
+        price: this.lastExrate,
+      };
       this.store.dispatch(new SetLastPriceAction(lastPrice));
       this.canSetLastPrice = false;
     }
@@ -132,55 +142,60 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   subscribeOrderBook(currName: string, precision: number): void {
     this.unsubscribeOrderBook();
     const pairName = currName.toLowerCase().replace(/\//i, '_');
-    this.orderBookSub$ = this.dashboardWebsocketService.orderBookSubscription(pairName, precision)
+    this.orderBookSub$ = this.dashboardWebsocketService
+      .orderBookSubscription(pairName, precision)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((data) => {
+      .subscribe(data => {
         this.setLastTotals(data);
         this.initData(data);
         this.loadingFinished();
         this.cdr.detectChanges();
-      })
+      });
   }
 
   unsubscribeOrderBook() {
-    if(this.orderBookSub$) {
+    if (this.orderBookSub$) {
       this.orderBookSub$.unsubscribe();
     }
   }
 
   private setLastTotals(orders: OrderBookItem[]): void {
-    this.lastBuyTotal = !!orders[0] && orders[0].orderType === 'BUY'
-      ? parseFloat(orders[0].total)
-      : orders[1] && orders[1].orderType === 'BUY'
+    this.lastBuyTotal =
+      !!orders[0] && orders[0].orderType === 'BUY'
+        ? parseFloat(orders[0].total)
+        : orders[1] && orders[1].orderType === 'BUY'
         ? parseFloat(orders[1].total)
         : this.lastBuyTotal;
 
-    this.lastSellTotal = !!orders[0] && orders[0].orderType === 'SELL'
-      ? parseFloat(orders[0].total)
-      : orders[1] && orders[1].orderType === 'SELL'
+    this.lastSellTotal =
+      !!orders[0] && orders[0].orderType === 'SELL'
+        ? parseFloat(orders[0].total)
+        : orders[1] && orders[1].orderType === 'SELL'
         ? parseFloat(orders[1].total)
         : this.lastSellTotal;
   }
 
   private calculateVisualizationWidth(buy, sell) {
     const widthItem = (buy + sell) / 98;
-    const buyWidth = buy / widthItem ;
-    const sellWidth = sell / widthItem ;
-    this.maxBuyVisualizationWidth = buyWidth > sellWidth ? (buyWidth + sellWidth) : this.getRelativeWidth(sellWidth, buyWidth);
-    this.maxSellVisualizationWidth = buyWidth < sellWidth ? (buyWidth + sellWidth) : this.getRelativeWidth(sellWidth, buyWidth);
+    const buyWidth = buy / widthItem;
+    const sellWidth = sell / widthItem;
+    this.maxBuyVisualizationWidth =
+      buyWidth > sellWidth ? buyWidth + sellWidth : this.getRelativeWidth(sellWidth, buyWidth);
+    this.maxSellVisualizationWidth =
+      buyWidth < sellWidth ? buyWidth + sellWidth : this.getRelativeWidth(sellWidth, buyWidth);
   }
 
   getRelativeWidth(sellWidth: number, buyWidth: number): number {
     const bigWidth = sellWidth > buyWidth ? sellWidth : buyWidth;
     const smallWidth = sellWidth < buyWidth ? sellWidth : buyWidth;
 
-    return smallWidth / bigWidth * 98;
+    return (smallWidth / bigWidth) * 98;
   }
 
   public sellCalculateVisualization(): void {
     const visArr = [];
-    for (let i = 0; i < this.sellOrders.length; i++) {
-      const coefficient = (+this.commonSellTotal / +this.sellOrders[i].total);
+    for (let i = 0; i < this.sellOrders.length; i += 1) {
+      const coefficient = +this.commonSellTotal / +this.sellOrders[i].total;
       visArr.push(this.maxSellVisualizationWidth / coefficient);
     }
     this.sellVisualizationArray = [...visArr];
@@ -188,15 +203,16 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
 
   public buyCalculateVisualization(): void {
     const visArr = [];
-    for (let i = 0; i < this.buyOrders.length; i++) {
-      const coefficient = (+this.commonBuyTotal / +this.buyOrders[i].total);
-      visArr.push(((this.maxBuyVisualizationWidth / coefficient)));
+    for (let i = 0; i < this.buyOrders.length; i += 1) {
+      const coefficient = +this.commonBuyTotal / +this.buyOrders[i].total;
+      visArr.push(this.maxBuyVisualizationWidth / coefficient);
     }
     this.buyVisualizationArray = visArr[0] > visArr[visArr.length - 1] ? [...visArr.reverse()] : [...visArr];
   }
 
   private setBuyOrders(orders): void {
     this.buyOrders = orders.orderBookItems;
+    this.store.dispatch(new SetOrdersBookBuyDataAction(orders.orderBookItems));
     this.showBuyDataReverse = [...this.buyOrders];
     this.commonBuyTotal = +orders.total;
     this.buyCalculateVisualization();
@@ -204,6 +220,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
 
   private setSellOrders(orders): void {
     this.sellOrders = orders.orderBookItems;
+    this.store.dispatch(new SetOrdersBookSellDataAction(orders.orderBookItems));
     this.showSellDataReverse = [...this.sellOrders];
     this.commonSellTotal = +orders.total;
     this.sellCalculateVisualization();
@@ -215,7 +232,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   public decPrecision(): void {
     if (this.precision <= 0.01) {
       this.precision *= 10;
-      this.precisionOut--;
+      this.precisionOut -= 1;
       this.subscribeOrderBook(this.activeCurrencyPair.name, this.precisionOut);
     }
   }
@@ -226,7 +243,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
   public incPrecision(): void {
     if (this.precision >= 0.0001) {
       this.precision /= 10;
-      this.precisionOut++;
+      this.precisionOut += 1;
       this.subscribeOrderBook(this.activeCurrencyPair.name, this.precisionOut);
     }
   }
@@ -247,7 +264,7 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
     this.loading = false;
   }
 
-  public onSelectOrder(item: OrderItem): void {
+  public onSelectOrder(item: OrderItemOB): void {
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
   }
 
@@ -255,5 +272,4 @@ export class OrderBookMobileComponent extends AbstractDashboardItems implements 
     this.sortBuyData();
     this.sortSellData();
   }
-
 }

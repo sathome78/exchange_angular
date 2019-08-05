@@ -1,24 +1,20 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {PopupService} from '../../shared/services/popup.service';
-import {TranslateService} from '@ngx-translate/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { PopupService } from '../../shared/services/popup.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-session-expired-popup',
   templateUrl: './session-expired-popup.component.html',
-  styleUrls: ['./session-expired-popup.component.scss']
+  styleUrls: ['./session-expired-popup.component.scss'],
 })
 export class SessionExpiredPopupComponent implements OnInit {
-
   @Input() message;
   public showHtml;
   public buttonText;
 
   private defaultMessage;
 
-  constructor(
-    private popupService: PopupService,
-    private translateService: TranslateService
-  ) {}
+  constructor(private popupService: PopupService, private translateService: TranslateService) {}
 
   ngOnInit() {
     this.buttonText = this.translateService.instant('Ok');
@@ -33,5 +29,4 @@ export class SessionExpiredPopupComponent implements OnInit {
   closeMe() {
     this.popupService.toggleSessionExpiredPopup(false);
   }
-
 }

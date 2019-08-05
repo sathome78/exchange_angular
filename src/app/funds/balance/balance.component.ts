@@ -1,47 +1,44 @@
-import {Component, OnDestroy, OnInit, Input} from '@angular/core';
-import {Subject, Observable, of} from 'rxjs';
-import {Store, select} from '@ngrx/store';
+import { Component, OnDestroy, OnInit, Input } from '@angular/core';
+import { Subject, Observable, of } from 'rxjs';
+import { Store, select } from '@ngrx/store';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
 import * as coreAction from '../../core/actions/core.actions';
-import {BalanceItem} from '../models/balance-item.model';
-import {PendingRequestsItem} from '../models/pending-requests-item.model';
-import {MyBalanceItem} from '../../model/my-balance-item.model';
-import {BalanceService} from '../services/balance.service';
-import {takeUntil, first} from 'rxjs/operators';
+import { BalanceItem } from '../models/balance-item.model';
+import { PendingRequestsItem } from '../models/pending-requests-item.model';
+import { MyBalanceItem } from '../../model/my-balance-item.model';
+import { BalanceService } from '../services/balance.service';
+import { takeUntil, first } from 'rxjs/operators';
 import {
   CRYPTO_DEPOSIT,
   CRYPTO_WITHDRAWAL,
   FIAT_DEPOSIT,
   FIAT_WITHDRAWAL,
-  INNER_TRANSFER,
+  INNER_TRANSFER
 } from './send-money/send-money-constants';
-import {CurrencyChoose} from '../../model/currency-choose.model';
+import { CurrencyChoose } from '../../model/currency-choose.model';
 import * as fromCore from '../../core/reducers';
-import {DashboardWebSocketService} from '../../dashboard/dashboard-websocket.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {BreakpointService} from 'app/shared/services/breakpoint.service';
-import {KYC_STATUS, PENDING} from '../../shared/constants';
-import {environment} from 'environments/environment';
-import {IEOServiceService} from 'app/shared/services/ieoservice.service';
-import {IEOItem} from 'app/model/ieo.model';
-import {BALANCE_TABS} from './balance-constants';
-import {DetailedCurrencyPair} from '../../model/detailed-currency-pair';
-import { getUserInfo } from '../../core/reducers';
+import { DashboardWebSocketService } from '../../dashboard/dashboard-websocket.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BreakpointService } from 'app/shared/services/breakpoint.service';
+import { KYC_STATUS, PENDING } from '../../shared/constants';
+import { environment } from 'environments/environment';
+import { IEOServiceService } from 'app/shared/services/ieoservice.service';
+import { IEOItem } from 'app/model/ieo.model';
+import { BALANCE_TABS, EUR } from './balance-constants';
+import { DetailedCurrencyPair } from '../../model/detailed-currency-pair';
 import { UserService } from 'app/shared/services/user.service';
-
 
 @Component({
   selector: 'app-balance',
   templateUrl: './balance.component.html',
-  styleUrls: ['./balance.component.scss']
+  styleUrls: ['./balance.component.scss'],
 })
 export class BalanceComponent implements OnInit, OnDestroy {
-
   /** */
   public Tab = BALANCE_TABS;
 
-  public balanceItems: BalanceItem [] = [];
+  public balanceItems: BalanceItem[] = [];
   public currTab: string = this.Tab.CRYPTO;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public showRefillBalancePopup = false;
@@ -110,11 +107,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
     this.cryptoCurrenciesForChoose$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((currs) => this.cryptoCurrenciesForChoose = currs);
+      .subscribe(currs => (this.cryptoCurrenciesForChoose = currs));
     this.fiatCurrenciesForChoose$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((currs) => this.fiatCurrenciesForChoose = currs);
-    this.store.pipe(select(fromCore.getUserInfo))
+      .subscribe(currs => (this.fiatCurrenciesForChoose = currs));
+    this.store
+      .pipe(select(fromCore.getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
@@ -124,7 +122,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
           console.error('publicId = ', this.userInfo && this.userInfo.publicId);
         }
       });
-
   }
 
   getTableAndKYCStatus() {
@@ -149,11 +146,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.loadBalances(this.currTab);
     this.loadBalances(this.Tab.PR);
 
-    this.balanceService.closeRefillMoneyPopup$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.openRefillBalancePopup(res);
-      });
+    this.balanceService.closeRefillMoneyPopup$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
+      this.openRefillBalancePopup(res);
+    });
 
     this.store
       .pipe(select(fundsReducer.getBalanceStatus))
@@ -178,18 +173,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
         this.IEOData = data;
       });
 
-    this.balanceService.closeSendMoneyPopup$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.openSendMoneyPopup(res);
-      });
-    this.balanceService.closeSendQuberaPopup$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this.openQuberaPopup(res);
-      });
-      this.getUserInfo();
-      this.checkEmail(this.email);
+    this.balanceService.closeSendMoneyPopup$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
+      this.openSendMoneyPopup(res);
+    });
+    this.balanceService.closeSendQuberaPopup$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
+      this.openQuberaPopup(res);
+    });
+    this.getUserInfo();
+    this.checkEmail(this.email);
   }
 
   private setCurrTab(tab: string): string {
@@ -219,7 +210,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.loadBalances(this.currTab);
   }
 
-  public onPageChanged({currentPage, countPerPage}): void {
+  public onPageChanged({ currentPage, countPerPage }): void {
     this.countPerPage = countPerPage;
     this.currentPage = currentPage;
     this.loadBalances(this.currTab);
@@ -227,7 +218,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public loadBalances(type: string, concat?: boolean) {
     switch (type) {
-      case this.Tab.CRYPTO :
+      case this.Tab.CRYPTO:
         const paramsC = {
           type,
           currencyId: this.currencyForChoose || 0,
@@ -238,7 +229,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
           concat: concat || false,
         };
         return this.store.dispatch(new fundsAction.LoadCryptoBalAction(paramsC));
-      case this.Tab.FIAT :
+      case this.Tab.FIAT:
         const paramsF = {
           type,
           currencyId: this.currencyForChoose || 0,
@@ -249,7 +240,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
           concat: concat || false,
         };
         return this.store.dispatch(new fundsAction.LoadFiatBalAction(paramsF));
-      case this.Tab.PR :
+      case this.Tab.PR:
         const paramsP = {
           currencyName: this.currencyForChoose || '',
           offset: (this.currentPage - 1) * this.countPerPage,
@@ -257,7 +248,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
           concat: concat || false,
         };
         return this.store.dispatch(new fundsAction.LoadPendingReqAction(paramsP));
-      case this.Tab.QUBERA :
+      case this.Tab.QUBERA:
         const paramsQ = {
           currencyName: this.currencyForChoose || '',
           offset: (this.currentPage - 1) * this.countPerPage,
@@ -266,18 +257,17 @@ export class BalanceComponent implements OnInit, OnDestroy {
         };
         return this.store.dispatch(new fundsAction.LoadQuberaBalAction(paramsQ));
     }
-
   }
 
   public getCountOfEntries() {
     switch (this.currTab) {
-      case this.Tab.CRYPTO :
+      case this.Tab.CRYPTO:
         return this.countOfCryptoEntries$;
-      case this.Tab.FIAT :
+      case this.Tab.FIAT:
         return this.countOfFiatEntries$;
-      case this.Tab.PR :
+      case this.Tab.PR:
         return this.countOfPendingRequests$;
-      case this.Tab.IEO :
+      case this.Tab.IEO:
         return of(0);
       default:
         return this.countOfCryptoEntries$;
@@ -319,24 +309,23 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.loadBalances(this.currTab);
   }
 
-
   public goToCryptoWithdrawPopup(balance: BalanceItem): void {
     // this.popupService.demoPopupMessage = 1;
     // this.popupService.showDemoTradingPopup(true);
     this.showSendMoneyPopup = true;
     this.sendMoneyData = {
+      balance,
       step: 2,
       stepName: this.currTab === 'CRYPTO' ? CRYPTO_WITHDRAWAL : FIAT_WITHDRAWAL,
-      balance: balance
     };
   }
 
   public goToCryptoDepositPopup(balance: BalanceItem): void {
     this.showRefillBalancePopup = true;
     this.refillBalanceData = {
+      balance,
       step: 2,
       stepName: this.currTab === 'CRYPTO' ? CRYPTO_DEPOSIT : FIAT_DEPOSIT,
-      balance: balance
     };
   }
 
@@ -349,31 +338,33 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public goToTransferQuberaPopup(balance: BalanceItem): void {
     this.showQuberaPopup = true;
     this.quberaData = {
+      balance,
       component: 'TRANSFER',
-      balance: balance
     };
   }
 
   public goToQuberaWithdrawPopup(balance: BalanceItem): void {
-    this.balanceService.getCurrencyData('EUR')
+    this.balanceService
+      .getCurrencyData(EUR)
       .pipe(first())
       .subscribe((data: any) => {
         this.showQuberaPopup = true;
         this.quberaData = {
           component: 'WITHDRAW',
-          balance: data
+          balance: data,
         };
       });
   }
 
   public goToQuberaDepositPopup(balance: BalanceItem): void {
-    this.balanceService.getCurrencyData('EUR')
+    this.balanceService
+      .getCurrencyData(EUR)
       .pipe(first())
       .subscribe((data: any) => {
         this.showQuberaPopup = true;
         this.quberaData = {
           component: 'DEPOSIT',
-          balance: data
+          balance: data,
         };
       });
   }
@@ -381,19 +372,18 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public goToQuberaKYCPopup(balance: BalanceItem): void {
     this.showQuberaPopup = true;
     this.quberaData = {
+      balance,
       component: 'QUBERAKYC',
-      balance: balance
     };
   }
 
   public goToCreateQuberaAccountPopup(balance: BalanceItem): void {
-      this.showQuberaPopup = true;
-      this.quberaData = {
-        component: 'CREATEQUBERA',
-        balance: balance
-      };
+    this.showQuberaPopup = true;
+    this.quberaData = {
+      balance,
+      component: 'CREATEQUBERA',
+    };
   }
-
 
   public goToTransferPopup(balance: BalanceItem): void {
     // this.popupService.demoPopupMessage = 1;
@@ -402,11 +392,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.sendMoneyData = {
       step: 2,
       stepName: INNER_TRANSFER,
-      stepThreeData: balance
+      stepThreeData: balance,
     };
   }
 
-  public loadMoreBalancesForMobile({currentPage, countPerPage, concat}): void {
+  public loadMoreBalancesForMobile({ currentPage, countPerPage, concat }): void {
     this.countPerPage = countPerPage;
     this.currentPage = currentPage;
     this.loadBalances(this.currTab, concat);
@@ -415,10 +405,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public onBuyCurrency(marketPair) {
     const splitName = marketPair.split('-');
     this.dashboardWS.findPairByCurrencyPairName(`${splitName[0]}/${splitName[1]}`);
-    this.router.navigate(['/'], {queryParams: {widget: 'trading'}});
+    this.router.navigate(['/'], { queryParams: { widget: 'trading' } });
   }
 
-  public onRevokePendingRequest({requestId, operation}): void {
+  public onRevokePendingRequest({ requestId, operation }): void {
     this.currentPage = 1;
     const params = {
       revoke: {
@@ -429,16 +419,23 @@ export class BalanceComponent implements OnInit, OnDestroy {
         offset: (this.currentPage - 1) * this.countPerPage,
         limit: this.countPerPage,
         concat: false,
-      }
+      },
     };
-    this.store.dispatch(new fundsAction.RevokePendingReqAction(params))
+    this.store.dispatch(new fundsAction.RevokePendingReqAction(params));
   }
 
-  public onGoToBalanceDetails({currencyId, priceIn}) {
-    this.router.navigate([`/funds/balances/${currencyId}`], {queryParams: {priceIn}});
+  public onGoToBalanceDetails({ currencyId, priceIn }) {
+    this.router.navigate([`/funds/balances/${currencyId}`], {
+      queryParams: { priceIn },
+    });
   }
-  public onGoToIEOBalanceDetails({currencyId, priceIn}) {
-    this.router.navigate([`/funds/balances/ieo/${currencyId}`], {queryParams: {priceIn}});
+
+  public onGoToQuberaDetails({ currencyCode }) {
+    this.router.navigate([`/funds/balances/fiat/${currencyCode}`]);
+  }
+
+  public onGoToIEOBalanceDetails({ currencyId, priceIn }) {
+    this.router.navigate([`/funds/balances/ieo/${currencyId}`], { queryParams: { priceIn } });
   }
 
   public onChangeCurrPair(val: string): void {
@@ -453,36 +450,45 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public get getCryptoDynamicIData(): DIOptions[] {
-    return this.cryptoCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}));
+    return this.cryptoCurrenciesForChoose.map(item => ({
+      text: `${item.name}; ${item.description}`,
+      id: item.id,
+    }));
   }
   public get getFiatDynamicIData(): DIOptions[] {
-    return this.fiatCurrenciesForChoose.map((item) => ({text: `${item.name}; ${item.description}`, id: item.id}));
+    return this.fiatCurrenciesForChoose.map(item => ({
+      text: `${item.name}; ${item.description}`,
+      id: item.id,
+    }));
   }
 
   public getIEOTable(publicId) {
-    this.ieoService.getListIEOTab(publicId)
+    this.ieoService
+      .getListIEOTab(publicId)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: IEOItem[]) => {
-          this.store.dispatch(new fundsAction.SetIEOBalancesAction(res));
+        this.store.dispatch(new fundsAction.SetIEOBalancesAction(res));
       });
   }
 
   private getUserInfo() {
     this.store
-      .pipe(first(), select(getUserInfo))
+      .pipe(
+        first(),
+        select(fromCore.getUserInfo)
+      )
       .subscribe(data => {
         this.email = data.username;
         this.token = data.token_id;
         // delete after tests
         this.isInternalUser = this.email.split('@')[1] === 'upholding.biz';
-      })
+      });
   }
 
-  checkEmail(email: string){
-    this.userService.getCheckTo2FAEnabled(email)
-    .pipe(first())
-    .subscribe(data => {
-    });
+  checkEmail(email: string) {
+    // this.userService.getCheckTo2FAEnabled(email)
+    // .pipe(first())
+    // .subscribe(data => {
+    // });
   }
-
 }

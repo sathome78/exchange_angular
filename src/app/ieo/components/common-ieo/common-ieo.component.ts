@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IEOItem } from '../../../model/ieo.model';
 import { Observable, Subject } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import { getVerificationStatus, State } from '../../../core/reducers';
 import { takeUntil } from 'rxjs/operators';
 import * as fromCore from '../../../core/reducers';
 import { KYC_STATUS } from '../../../shared/constants';
@@ -20,10 +19,9 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-common-ieo',
   templateUrl: './common-ieo.component.html',
-  styleUrls: ['./common-ieo.component.scss']
+  styleUrls: ['./common-ieo.component.scss'],
 })
 export class CommonIEOComponent implements OnInit, OnDestroy {
-
   public ieoList: IEOItem[];
   public cacheIeoList: IEOItem[] = [];
   public emailForm: FormGroup;
@@ -53,28 +51,30 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     FAILED: 'FAILED',
   };
 
-
   constructor(
-    private store: Store<State>,
+    private store: Store<fromCore.State>,
     private popupService: PopupService,
     private utilsService: UtilsService,
     private ieoService: IEOServiceService,
     private authService: AuthService,
     private router: Router
   ) {
-    this.store.pipe(select(fromCore.getUserInfo))
+    this.store
+      .pipe(select(fromCore.getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
       });
-    this.store.pipe(select(fromCore.getIsAuthenticated))
+    this.store
+      .pipe(select(fromCore.getIsAuthenticated))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((isAuth: boolean) => {
         this.isAuthenticated = isAuth;
         if (isAuth) {
           this.checkSubscribe();
 
-          this.store.pipe(select(getVerificationStatus))
+          this.store
+            .pipe(select(fromCore.getVerificationStatus))
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
               this.verificationStatus = res;
@@ -90,7 +90,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.thakPopupOpen = {
       isOpen: true,
       title: 'Thank you!',
-      subTitle: 'You have successfully subscribed for IEO news'
+      subTitle: 'You have successfully subscribed for IEO news',
     };
   }
 
@@ -100,28 +100,32 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   }
 
   subscribeToIEOList(): void {
-    this.ieoService.getListIEO()
+    this.ieoService
+      .getListIEO()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: IEOItem[]) => {
         this.store.dispatch(new coreAction.SetIEOListAction(res));
       });
   }
   getIEOList(): void {
-    this.store.pipe(select(fromCore.getIEOList))
+    this.store
+      .pipe(select(fromCore.getIEOList))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.ieoList = [...(res as IEOItem[]).sort((a, b) => {
-          const aT = this.getDateValue(a.startDate);
-          const bT = this.getDateValue(b.startDate);
-          const diff = aT - bT;
-          if (diff < 0) {
-            return 1;
-          } else if (diff > 0) {
-            return -1;
-          } else {
+        this.ieoList = [
+          ...(res as IEOItem[]).sort((a, b) => {
+            const aT = this.getDateValue(a.startDate);
+            const bT = this.getDateValue(b.startDate);
+            const diff = aT - bT;
+            if (diff < 0) {
+              return 1;
+            }
+            if (diff > 0) {
+              return -1;
+            }
             return 0;
-          }
-        })];
+          }),
+        ];
         this.handleTestIEO();
       });
   }
@@ -146,10 +150,11 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.emailForm = new FormGroup({
       email: new FormControl('', {
         validators: [
-          Validators.required, this.utilsService.emailValidator(),
+          Validators.required,
+          this.utilsService.emailValidator(),
           this.utilsService.specialCharacterValidator(),
-          Validators.maxLength(40)
-        ]
+          Validators.maxLength(40),
+        ],
       }),
     });
   }
@@ -158,21 +163,26 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     this.isSubmited = true;
     this.emailForm.get('email').markAsTouched();
     if (this.emailForm.valid) {
-      this.ieoService.ieoEmailSubscription(this.emailControl.value)
+      this.ieoService
+        .ieoEmailSubscription(this.emailControl.value)
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(res => {
-          this.emailForm.reset();
-          this.popupService.getThankYouPopupListener().next(this.thakPopupOpen);
-          this.checkSubscribe();
-        }, error => {
-          this.emailForm.reset();
-        });
+        .subscribe(
+          res => {
+            this.emailForm.reset();
+            this.popupService.getThankYouPopupListener().next(this.thakPopupOpen);
+            this.checkSubscribe();
+          },
+          error => {
+            this.emailForm.reset();
+          }
+        );
     }
   }
 
   redirectToTelegram() {
     if (this.isAuthenticated) {
-      this.ieoService.ieoTelegramRedirect((this.userInfo && this.userInfo.username))
+      this.ieoService
+        .ieoTelegramRedirect(this.userInfo && this.userInfo.username)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           if (!this.isRedirectToTelegram) {
@@ -191,12 +201,13 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   }
 
   public confirmBuyIEO(amount) {
-    this.ieoService.buyTokens({
-      currencyName: this.buyIEOData.currencyName,
-      amount: amount + '',
-    })
+    this.ieoService
+      .buyTokens({
+        currencyName: this.buyIEOData.currencyName,
+        amount: amount + '',
+      })
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res) => {
+      .subscribe(res => {
         this._firstLoadedStatus = this.buyIEOData.status;
         this.closeBuyIEO();
         if (this.buyIEOData.multiplyProcessing && this.buyIEOData.status === this.stage.RUNNING) {
@@ -209,7 +220,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
 
   public handleTestIEO() {
     if (this.buyIEOData && this.ieoList && this.ieoList.length) {
-      const ieo = this.ieoList.find((i) => i.id === this.buyIEOData.id);
+      const ieo = this.ieoList.find(i => i.id === this.buyIEOData.id);
       if (
         ieo &&
         ieo.multiplyProcessing &&
@@ -241,19 +252,21 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
 
   checkSubscribe() {
     if (this.isAuthenticated) {
-      this.ieoService.ieoCheckSubscribe((this.userInfo && this.userInfo.username))
+      this.ieoService
+        .ieoCheckSubscribe(this.userInfo && this.userInfo.username)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           try {
             this.isEmailSubscribe = (res as any).data.email;
             this.isRedirectToTelegram = (res as any).data.telegram;
-          } catch (e) { }
+          } catch (e) {}
         });
     }
   }
 
   checkKYCStatus(id) {
-    this.ieoService.checkKYC(id)
+    this.ieoService
+      .checkKYC(id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: KycIEOModel) => {
         if (res) {
@@ -291,9 +304,10 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   }
 
   agreeWithPolicy() {
-    this.ieoService.setPolicy()
+    this.ieoService
+      .setPolicy()
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res) => {
+      .subscribe(res => {
         this.togglePolicy(false);
         this.requirements = { ...this.requirements, policyCheck: true };
         this.openBuyPopup();
@@ -301,16 +315,16 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   }
 
   get boughtAmount() {
-    return (IEOData) => (IEOData.amount - IEOData.availableAmount) || 0;
+    return IEOData => IEOData.amount - IEOData.availableAmount || 0;
   }
 
   get sessionSupply() {
-    return (IEOData) => (IEOData.amount * IEOData.rate) || 0;
+    return IEOData => IEOData.amount * IEOData.rate || 0;
   }
 
   get boughtAmountPer() {
-    return (IEOData) => {
-      const a = (this.boughtAmount(IEOData) / (IEOData.amount / 100)) || 0;
+    return IEOData => {
+      const a = this.boughtAmount(IEOData) / (IEOData.amount / 100) || 0;
       return a.toFixed(2);
     };
   }
@@ -320,18 +334,24 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
       return 0;
     }
     if (typeof d === 'object') {
-      return moment.utc({
-        y: d.year,
-        M: d.monthValue - 1,
-        d: d.dayOfMonth,
-        h: d.hour,
-        m: d.minute,
-        s: d.second,
-      }).valueOf();
+      return moment
+        .utc({
+          y: d.year,
+          M: d.monthValue - 1,
+          d: d.dayOfMonth,
+          h: d.hour,
+          m: d.minute,
+          s: d.second,
+        })
+        .valueOf();
     }
 
     if (typeof d === 'string') {
       return moment.utc(d).valueOf();
     }
+  }
+
+  trackByIeo(index, item) {
+    return item.id;
   }
 }

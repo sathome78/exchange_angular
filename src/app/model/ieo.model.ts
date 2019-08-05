@@ -1,5 +1,5 @@
 export class IEOItem {
-  constructor( ) { }
+  constructor() {}
   public id: number;
   public currencyName: string;
   public currencyDescription: string;

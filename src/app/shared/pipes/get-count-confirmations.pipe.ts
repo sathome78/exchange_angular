@@ -1,16 +1,15 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'countConfirmations'
+  name: 'countConfirmations',
 })
-export class GetCountConfirmationsPipe  implements PipeTransform {
+export class GetCountConfirmationsPipe implements PipeTransform {
   transform(value: number, currencyName: string): number {
     switch (currencyName) {
       case 'ADK':
-       return value === 0 ? 0 : 1;
+        return value === 0 ? 0 : 1;
       default:
         return value;
     }
   }
 }
-

@@ -1,5 +1,3 @@
-
-
 export interface RssNews {
   date: number;
   url: string;

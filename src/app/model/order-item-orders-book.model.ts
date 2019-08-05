@@ -1,5 +1,4 @@
-
-export class OrderItem {
+export class OrderItemOB {
   constructor(
     public amount: string,
     public currencyPairId: number,
@@ -7,6 +6,6 @@ export class OrderItem {
     public orderType: string,
     public sumAmount: string,
     public total: string,
-    public id?: string,
+    public id?: string
   ) {}
 }

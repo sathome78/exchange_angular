@@ -1,9 +1,9 @@
-import {Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef} from '@angular/core';
-import {BalanceItem} from '../../models/balance-item.model';
-import {Router} from '@angular/router';
-import {UtilsService} from 'app/shared/services/utils.service';
+import { Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { BalanceItem } from '../../models/balance-item.model';
+import { Router } from '@angular/router';
+import { UtilsService } from 'app/shared/services/utils.service';
 import * as fundsAction from '../../store/actions/funds.actions';
-import {select, Store} from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
 import { IEOItem } from 'app/model/ieo.model';
 import { environment } from 'environments/environment';
@@ -15,8 +15,7 @@ import * as moment from 'moment';
   styleUrls: ['./ieo-table-mob.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IEOTableMobComponent implements OnInit{
-
+export class IEOTableMobComponent implements OnInit {
   @ViewChild('dropdown') dropdownElement: ElementRef;
   @ViewChild('scrollContainer') public scrollContainer: ElementRef;
 
@@ -44,18 +43,20 @@ export class IEOTableMobComponent implements OnInit{
     this._IEOData = data;
   }
   get IEOData() {
-    return [...(this._IEOData as IEOItem[]).sort((a, b) => {
-      const aT = this.getDateValue(a.startDate);
-      const bT = this.getDateValue(b.startDate);
-      const diff = aT - bT;
-      if (diff < 0) {
-        return 1;
-      } else if (diff > 0) {
-        return -1;
-      } else {
-        return 0;
-      }
-    })];
+    return [
+      ...(this._IEOData as IEOItem[]).sort((a, b) => {
+        const aT = this.getDateValue(a.startDate);
+        const bT = this.getDateValue(b.startDate);
+        const diff = aT - bT;
+        if (diff < 0) {
+          return 1;
+        } else if (diff > 0) {
+          return -1;
+        } else {
+          return 0;
+        }
+      }),
+    ];
   }
   @Input() public countOfPendingRequests = 0;
   @Input() public Tab;
@@ -65,22 +66,23 @@ export class IEOTableMobComponent implements OnInit{
   @Output() public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
   @Output() public onGoToBalanceDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(
-    private router: Router,
-    private utils: UtilsService,
-    private store: Store<fromCore.State>,
-  ) {
+  constructor(private router: Router, private utils: UtilsService, private store: Store<fromCore.State>) {
     this.setScrollStyles();
   }
 
   setScrollStyles() {
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 293) + 'px', 'overflow-x': 'scroll'};
+    this.tableScrollStyles = {
+      height: componentHeight - 293 + 'px',
+      'overflow-x': 'scroll',
+    };
   }
 
-
   public onShowIEOMobDetails(item: IEOItem): void {
-    this.onGoToBalanceDetails.emit({currencyId: item.id, priceIn: this.priceIn});
+    this.onGoToBalanceDetails.emit({
+      currencyId: item.id,
+      priceIn: this.priceIn,
+    });
   }
 
   public onToggleDropdown(): void {
@@ -112,14 +114,16 @@ export class IEOTableMobComponent implements OnInit{
       return 0;
     }
     if (typeof d === 'object') {
-      return moment.utc({
-        y: d.year,
-        M: d.monthValue - 1,
-        d: d.dayOfMonth,
-        h: d.hour,
-        m: d.minute,
-        s: d.second,
-      }).valueOf();
+      return moment
+        .utc({
+          y: d.year,
+          M: d.monthValue - 1,
+          d: d.dayOfMonth,
+          h: d.hour,
+          m: d.minute,
+          s: d.second,
+        })
+        .valueOf();
     }
 
     if (typeof d === 'string') {
@@ -127,8 +131,9 @@ export class IEOTableMobComponent implements OnInit{
     }
   }
 
+  ngOnInit() {}
 
-  ngOnInit() {
+  trackByFn(index, item) {
+    return item.id;
   }
-
 }

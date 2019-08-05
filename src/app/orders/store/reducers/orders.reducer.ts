@@ -1,7 +1,7 @@
 import * as ordersActions from '../actions/orders.actions';
-import {defaultValues} from './default-values';
-import {OrderItem} from '../../models/order-item.model';
-import {createFeatureSelector, createSelector} from '@ngrx/store';
+import { defaultValues } from './default-values';
+import { OrderItem } from '../../models/order-item.model';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface State {
   openOrders: OrderItem[];
@@ -27,7 +27,7 @@ export const INIT_STATE: State = {
 export function reducer(state: State = INIT_STATE, action: ordersActions.Actions) {
   switch (action.type) {
     case ordersActions.LOAD_OPEN_ORDERS:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case ordersActions.SET_OPEN_ORDERS:
       return {
         ...state,
@@ -49,9 +49,9 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
       };
 
     case ordersActions.LOAD_HISTORY_ORDERS:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case ordersActions.LOAD_LAST_HISTORY_ORDERS:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case ordersActions.SET_HISTORY_ORDERS:
       return {
         ...state,
@@ -73,11 +73,11 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
       };
 
     case ordersActions.CANCEL_OPEN_ORDER:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case ordersActions.CROP_CANCELED_ORDER:
       return {
         ...state,
-        openOrders: state.openOrders.filter((item) => item.id !== action.payload),
+        openOrders: state.openOrders.filter(item => item.id !== action.payload),
         loading: false,
       };
     case ordersActions.FAIL_ORDERS:
@@ -86,7 +86,7 @@ export function reducer(state: State = INIT_STATE, action: ordersActions.Actions
         loading: false,
       };
 
-    default :
+    default:
       return state;
   }
 }
@@ -101,13 +101,13 @@ export const getOpenOrdersCountSelector = (state: State): number => state.countO
 /** Selector returns count of open orders */
 export const getOpenOrdersCount = createSelector(
   getOrdersState,
-  getOpenOrdersCountSelector,
+  getOpenOrdersCountSelector
 );
 
 /** Selector returns array of open orders filtered by currency*/
 export const getOpenOrdersFilterCurr = createSelector(
   getOrdersState,
-  getOpenOrdersSelectorFilterCurr,
+  getOpenOrdersSelectorFilterCurr
 );
 
 /** Open orders finish */
@@ -120,13 +120,13 @@ export const getHistoryOrdersCountSelector = (state: State): number => state.cou
 /** Selector returns count of open orders */
 export const getHistoryOrdersCount = createSelector(
   getOrdersState,
-  getHistoryOrdersCountSelector,
+  getHistoryOrdersCountSelector
 );
 
 /** Selector returns array of open orders filtered by currency*/
 export const getHistoryOrdersFilterCurr = createSelector(
   getOrdersState,
-  getHistoryOrdersSelectorFilterCurr,
+  getHistoryOrdersSelectorFilterCurr
 );
 
 /** History orders finish */
