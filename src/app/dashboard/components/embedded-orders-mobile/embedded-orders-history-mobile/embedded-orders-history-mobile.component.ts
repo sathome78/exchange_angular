@@ -9,7 +9,7 @@ import { SimpleCurrencyPair } from '../../../../model/simple-currency-pair';
 })
 export class EmbeddedOrdersHistoryMobileComponent implements OnInit {
   @Input() historyOrders = [];
-  @Input() isVipUser: boolean = false;
+  @Input() isVipUser = false;
   @Input() currentPair: SimpleCurrencyPair;
   public arrPairName = ['', ''];
   public selectedOrder = null;
@@ -42,5 +42,12 @@ export class EmbeddedOrdersHistoryMobileComponent implements OnInit {
 
   trackByFn(index, item) {
     return item.id;
+  }
+
+  isMarketOrder(operationType: string): boolean {
+    return operationType === 'BUY MARKET' || operationType === 'SELL MARKET';
+  }
+  isStopOrder(operationType: string): boolean {
+    return operationType === 'BUY STOP_LIMIT' || operationType === 'SELL STOP_LIMIT';
   }
 }

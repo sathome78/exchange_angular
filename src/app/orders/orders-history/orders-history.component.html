@@ -81,7 +81,7 @@
                 <span [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType | replaceChar: '_': ' '}}</span>
               </td>
               <td class="table__cell table__cell--tar">
-                <div>{{item.exExchangeRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                <div>{{item.exExchangeRate || item.limitRate}} {{item.currencyPairName | splitCurrency: 2}}</div>
               </td>
               <td class="table__cell table__cell--arr-mob">
                 <img
@@ -102,9 +102,26 @@
                   <div class="table__details-item-title">{{'Amount' | translate}}</div>
                   <div class="table__details-item-value">{{item.amountBase | currencyFormat:'BTC'}} {{item.currencyPairName | splitCurrency: 1}}</div>
                 </div>
-                <div class="table__details-item">
+                <div
+                  class="table__details-item"
+                  *ngIf="!isMarketOrder(item.operationType)"
+                >
+                  <div class="table__details-item-title">{{'Limit price' | translate}}</div>
+                  <div class="table__details-item-value">{{item.exExchangeRate || item.limitRate | currencyFormat}}</div>
+                </div>
+                <div
+                  class="table__details-item"
+                  *ngIf="isStopOrder(item.operationType)"
+                >
+                  <div class="table__details-item-title">{{'Stop-limit price' | translate}}</div>
+                  <div class="table__details-item-value">{{item.stopRate | currencyFormat}}</div>
+                </div>
+                <div
+                  class="table__details-item"
+                  *ngIf="isMarketOrder(item.operationType)"
+                >
                   <div class="table__details-item-title">{{'Trading price' | translate}}</div>
-                  <div class="table__details-item-value">{{item.exExchangeRate | currencyFormat:'BTC'}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                  <div class="table__details-item-value">{{item.exExchangeRate | currencyFormat}}</div>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Status' | translate}}</div>
@@ -116,13 +133,12 @@
                     <div
                       class="table__details-item-value"
                       *ngIf="!isVipUser; else vipUserMob"
-                    >{{item.commissionFixedAmount | currencyFormat:'BTC'}} {{item.currencyPairName | splitCurrency: 2}}</div>
+                    >{{item.commissionFixedAmount | currencyFormat}} {{item.currencyPairName | splitCurrency: 2}}</div>
                   </ng-container>
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'In total' | translate}}</div>
-                  <div class="table__details-item-value">{{item.amountWithCommission | currencyFormat:'BTC'}} {{item.currencyPairName | splitCurrency: 2}}</div>
-                  <!-- {{item.arrPairName}} -->
+                  <div class="table__details-item-value">{{item.amountWithCommission | currencyFormat}} {{item.currencyPairName | splitCurrency: 2}}</div>
                 </div>
               </td>
             </tr>
