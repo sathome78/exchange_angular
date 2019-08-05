@@ -855,6 +855,13 @@
     .send__info-title{
       color: #94C2FF;
     }
+    .send__select{
+
+      margin-bottom: 25px;
+    }
+    .send__wrap-input{
+      margin-bottom: 15px;
+    }
   }
 }
 
@@ -876,29 +883,47 @@
 .dark-theme{
   .side-popups{
     &.qubera-withdraw-s1{
-      .main-form{}
-       form .select {
-        margin-bottom: 35px;
-      }
-      .wrap-input__message--show{
-        position: static;
-      }
-      @media(max-width: 1199px){
-        form .select {
-        margin-bottom: 10px;
-      }
-        .wrap-input{
-          width: 100%;
-        }
-        .refill__select, .refill__wrap-input {
-          max-width: unset;
-        }
-        
-      }
+
+     form .select {
+      margin-bottom: 35px;
     }
     .wrap-input__message--show{
-      position: absolute;
+      position: static;
     }
+    @media(max-width: 1199px){
+      .main-form{
+        flex-direction: column;
+
+        .select, .wrap-input {
+          margin-bottom: 20px;
+        }
+        .avaliable{
+          color: #DEDEFB;
+        }
+        .fiat-amount{
+          margin-bottom: 0;
+        }
+      }
+      .secundary-form{
+
+        .select{
+          width: 100%;
+        }
+        
+
+      }
+      .wrap-input{
+        width: 100%;
+      }
+      .refill__select, .refill__wrap-input {
+        max-width: unset;
+      }
+
+    }
+  }
+    // .wrap-input__message--show{
+    //   position: absolute;
+    // }
     @media(max-width: 1199px){
       .popup__title{
         color: #94C2FF;
@@ -1058,8 +1083,14 @@
   .main-form{
     @media(max-width: 1199px){
       padding: 0 20px;
+
     }
   }
 
 }
 
+.side-popups{
+  .btn.btn--center{
+    max-width: 260px;
+  }
+}
