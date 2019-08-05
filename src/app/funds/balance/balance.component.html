@@ -140,16 +140,14 @@
           (onSelect)="onSelectPair($event.id)"
           [showNotFoundTip]="true"
         ></app-dynamic-input>
-        <ng-container *ngIf="isInternalUser">
-          <app-dynamic-input
-            *ngSwitchCase="Tab.QUBERA"
-            [value]="currValue"
-            [options]="!existQuberaAccounts ? [] : fiatCurrenciesForChoose && getFiatDynamicIData"
-            (onChange)="onChangeCurrPair($event)"
-            (onSelect)="onSelectPair($event.id)"
-            [showNotFoundTip]="existQuberaAccounts"
-          ></app-dynamic-input>
-        </ng-container>
+        <app-dynamic-input
+          *ngSwitchCase="Tab.QUBERA"
+          [value]="currValue"
+          [options]="!existQuberaAccounts ? [] : fiatCurrenciesForChoose && getFiatDynamicIData"
+          (onChange)="onChangeCurrPair($event)"
+          (onSelect)="onSelectPair($event.id)"
+          [showNotFoundTip]="existQuberaAccounts"
+        ></app-dynamic-input>
 
         <app-dynamic-input
           *ngSwitchCase="Tab.IEO"
