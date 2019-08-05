@@ -1,3 +1,4 @@
+<div class="qubera-kyc-s1">
 <h2>{{'Create account FUG' | translate}}</h2>
 <h3>{{'The information you fill in must be co consistent with the information in ID documents.' | translate}}</h3>
 
@@ -207,9 +208,10 @@
     <button
       (click)="gotToStepTwo(form)"
       class="btn btn--center"
-      [ngClass]="{'btn--empty-blue': !form.valid || !check || disable}"
+      
       [disabled]="!form.valid || !check || disable"
     >{{'Create account' | translate}}</button>
   </div>
 
 </form>
+</div>
