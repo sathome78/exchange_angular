@@ -105,39 +105,64 @@
           {{item.amountBase | currencyFormat:arrPairName[0]}} {{arrPairName[0]}}
         </div>
       </div>
-      <div class="table__details-item">
+      <div
+        class="table__details-item"
+        *ngIf="!isMarketOrder(item.operationType)"
+      >
+        <div class="table__details-item-title">{{'Limit price' | translate}}</div>
+        <div class="table__details-item-value">{{item.exExchangeRate || item.limitRate | currencyFormat}}</div>
+      </div>
+      <div
+        class="table__details-item"
+        *ngIf="isStopOrder(item.operationType)"
+      >
+        <div class="table__details-item-title">{{'Stop-limit price' | translate}}</div>
+        <div class="table__details-item-value">{{item.stopRate | currencyFormat}}</div>
+      </div>
+      <div
+        class="table__details-item"
+        *ngIf="isMarketOrder(item.operationType)"
+      >
         <div class="table__details-item-title">{{'Trading price' | translate}}</div>
-        <div class="table__details-item-value">{{item.exExchangeRate | currencyFormat:arrPairName[1]}} {{arrPairName[1]}}</div>
+        <div class="table__details-item-value">{{item.exExchangeRate | currencyFormat}}</div>
       </div>
       <div class="table__details-item">
+        <div class="table__details-item-title">{{'Status' | translate}}</div>
+        <div class="table__details-item-value">{{item.status | showOrderStatus}}</div>
+      </div>
+      <!-- <div class="table__details-item">
         <div class="table__details-item-title">{{'Type' | translate}}</div>
         <div class="table__details-item-value">
           <span [ngClass]="{'txt-red': item.operationTypeEnum === 'SELL', 'txt-green': item.operationTypeEnum === 'BUY' }">
             {{item.operationType | replaceChar: '_': ' '}}
           </span>
         </div>
-      </div>
+      </div> -->
       <div class="table__details-item">
         <div class="table__details-item-title">{{'Fee' | translate}}</div>
-        <div
-          class="table__details-item-value"
-          *ngIf="!isVipUser"
-        >
-          {{item.commissionFixedAmount | currencyFormat:arrPairName[1]}} {{arrPairName[1]}}
-        </div>
-        <div
-          class="table__details-item-value"
-          *ngIf="isVipUser"
-        >0.0 {{arrPairName[1]}}</div>
+        <ng-container *ngIf="item.status !== 'CANCELLED'; else commisionCanceledMob">
+          <div
+            class="table__details-item-value"
+            *ngIf="!isVipUser; else vipUserMob"
+          >{{item.commissionFixedAmount | currencyFormat}} {{item.currencyPairName | splitCurrency: 2}}</div>
+        </ng-container>
       </div>
       <div class="table__details-item">
         <div class="table__details-item-title">{{'In total' | translate}}</div>
         <div class="table__details-item-value">
           <span>
-            {{item.amountWithCommission | currencyFormat:arrPairName[1]}} {{arrPairName[1]}}
+            {{item.amountWithCommission | currencyFormat}} {{arrPairName[1]}}
           </span>
         </div>
       </div>
     </td>
   </tr>
+</ng-template>
+
+<ng-template #commisionCanceledMob>
+  <div class="table__details-item-value">-</div>
+</ng-template>
+
+<ng-template #vipUserMob>
+  <div class="table__details-item-value">0.0</div>
 </ng-template>

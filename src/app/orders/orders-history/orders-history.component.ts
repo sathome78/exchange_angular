@@ -367,4 +367,12 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   trackByOrders(index, item) {
     return item.id;
   }
+
+  isMarketOrder(operationType: string): boolean {
+    return operationType === 'BUY MARKET' || operationType === 'SELL MARKET';
+  }
+  isStopOrder(operationType: string): boolean {
+    return operationType === 'BUY STOP_LIMIT' || operationType === 'SELL STOP_LIMIT';
+  }
+
 }
