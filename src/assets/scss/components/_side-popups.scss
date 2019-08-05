@@ -545,7 +545,10 @@
       display: table-cell;
       padding: 5px;
       padding-right: 40px;
-      width: auto;
+      @media(min-width: 1200px){
+        width: auto;
+      }
+      
     }
     .send__info-value{
       display: table-cell;
@@ -829,6 +832,7 @@
   }
 
   .send-tfa-s3, .send-instant-s3, .send-email-s3, .send-protected-s3{
+
     .send__inputs-wrap{
       flex-direction: column;
       max-width: 360px;
@@ -837,11 +841,217 @@
     .send__select{
       width: 100%;
       margin-right: 0;
-          margin-bottom: 35px;
+      margin-bottom: 35px;
     }
     .send__wrap-input{
       width: 100%;
       margin-right: 0;
-          margin-bottom: 35px;
+      margin-bottom: 35px;
+    }
+    @media(max-width: 1199px){
+     .send__select, .send__wrap-input, .btn{
+      max-width: 270px;
+    }
+    .send__info-title{
+      color: #94C2FF;
     }
   }
+}
+
+
+.refil-s3{
+  h2{
+    margin-bottom: 24px;
+  }
+  form{
+   .input-block{
+     margin: 0 auto 31px;
+   }
+ }
+ .btn{
+  max-width: 260px;
+}
+}
+
+.dark-theme{
+  .side-popups{
+    &.qubera-withdraw-s1{
+      .main-form{}
+       form .select {
+        margin-bottom: 35px;
+      }
+      .wrap-input__message--show{
+        position: static;
+      }
+      @media(max-width: 1199px){
+        form .select {
+        margin-bottom: 10px;
+      }
+        .wrap-input{
+          width: 100%;
+        }
+        .refill__select, .refill__wrap-input {
+          max-width: unset;
+        }
+        
+      }
+    }
+    .wrap-input__message--show{
+      position: absolute;
+    }
+    @media(max-width: 1199px){
+      .popup__title{
+        color: #94C2FF;
+        font-size: 20px;
+      }
+      .refill__select, .refill__wrap-input {
+        width: 100%;
+        max-width: 268px;
+        margin-bottom: 28px;
+      }
+      .popup__link {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+
+.send-fiat-s2, .send-cripto-s2, .qubera-withdraw-s1{
+  @media(max-width: 1199px){
+    h2.send__title {
+      margin-bottom: 38px;
+    }
+    &.captcha-wrapper{
+      h2.send__title {
+        margin-bottom: 20px;
+      }
+    }
+    
+    .send__line{
+      margin-top: 0;
+    }
+    .send__select, .send__wrap-input, .refill__select, .refill__wrap-input {
+      width: 100%;
+      max-width: 270px;
+      margin-bottom: 28px;
+    }
+    .btn{
+      max-width: 270px;
+    }    
+    
+  }
+}
+@media(max-width: 1199px){
+  .send__info{ 
+    .send__info-title {
+      padding-right: 8px;
+      color: #94C2FF;
+      line-height: 1.44;
+    }
+    .send__info-value{
+      line-height: 1.44;
+    }
+  }
+}
+
+
+.refill-cripto{
+  @media(max-width: 1199px){
+    .btn{
+      max-width: 270px;
+    }
+  }
+}
+.dark-theme{
+  .refil-fiat{
+    .select__value--error ~ .select__triangle{
+      border-top-color: #237BEF;
+    }
+  }
+}
+
+
+
+.send {
+  &__successful{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+  }
+  &__title{
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  &__successful-icon{
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 16px;
+  }
+  &__successful-title{
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  &__successful-subtitle{
+    text-align: center;
+    margin-bottom: 16px;
+    .link{
+      text-decoration:underline;
+    }
+  }
+  &__code-wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    .btn{
+      flex-grow: 0;
+      margin: 0;
+    }
+  }
+  &__code-title{
+    font-size: 14px;
+    line-height: 16px;
+    color:#A0A0A0;
+    margin-bottom: 12px;
+  }
+  &__code{
+    width: 100%;
+    max-width: 370px;
+    margin-bottom: 12px;
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: bold;
+    text-align: center;
+    word-wrap: break-word;
+  }
+}
+.send__successful{
+  .btn{
+    margin-top: 8px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .send {
+    &__successful-title{
+      margin-bottom: 16px;
+    }
+    &__successful-subtitle{
+      text-align: center;
+      margin-bottom: 16px;
+    }
+  }
+  .send__successful{
+    .btn{
+      margin-top: 16px;
+    }
+  }
+}
+.qubera-kyc-s1{
+  padding: 15px;
+}
+
+

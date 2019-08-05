@@ -24,7 +24,11 @@
         </ng-container>
     </div>
   </form>
-  <button class="btn btn--center" (click)="submit(form)">
+  <button 
+    class="btn btn--center" 
+    (click)="submit(form)"
+    [disabled]="!form.valid"
+  >
     {{'Confirm' | translate}}
   </button>
 </div>

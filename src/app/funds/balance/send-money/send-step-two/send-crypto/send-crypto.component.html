@@ -234,7 +234,7 @@
 </div>
 
 <ng-container *ngIf="!isEnterData">
-  <div *ngIf="!utilsService.isDevCaptcha(userInfo.username); else devCaptchaTemplate" class="captcha-wrapper">
+  <div *ngIf="!utilsService.isDevCaptcha(userInfo.username); else devCaptchaTemplate" class="captcha-wrapper side-popups send-cripto-s2">
     <h6 class="popup__title">{{'Enter the captcha' | translate}}</h6>
     <re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
     <div class="popup__links-wrap  popup__links-wrap--center">
@@ -245,7 +245,7 @@
 
 
 <ng-template #devCaptchaTemplate>
-  <div class="captcha-wrapper">
+  <div class="captcha-wrapper side-popups send-cripto-s2">
     <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
     <h4 class="popup__subtitle popup_title--dm">Captcha emulation for developers and QA</h4>
     <button class="btn btn--center" (click)="afterResolvedCaptcha($event)">Resolve</button>
