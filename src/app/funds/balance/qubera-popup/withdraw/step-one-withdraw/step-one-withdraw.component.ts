@@ -76,15 +76,15 @@ export class StepOneWithdrawComponent implements OnInit {
       this.openBankSystemDropdown = false;
       this.openCurrencyDropdown = false;
       this.openCountryDropdown = false;
-      // this.merchants =
-      //   this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-      //     ? this.fiatDataByName.merchantCurrencyData
-      //     : [];
-      // FUG BLOCK
       this.merchants =
         this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-          ? this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG)
+          ? this.fiatDataByName.merchantCurrencyData
           : [];
+      // FUG BLOCK
+      // this.merchants =
+      //   this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
+      //     ? this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG)
+      //     : [];
     }
   }
 
