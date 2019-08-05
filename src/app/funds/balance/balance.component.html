@@ -187,8 +187,14 @@
           {{'Exchange wallet' | translate}}
         </button>
 
+<!--        <button-->
+<!--          *ngIf="isInternalUser"-->
+<!--          class="tabs__item"-->
+<!--          [ngClass]="{'tabs__item&#45;&#45;active': currTab === Tab.QUBERA}"-->
+<!--          (click)="onSelectTab(Tab.QUBERA)"-->
+<!--          [disabled]="loading$ | async"-->
+<!--        >-->
         <button
-          *ngIf="isInternalUser"
           class="tabs__item"
           [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
           (click)="onSelectTab(Tab.QUBERA)"
