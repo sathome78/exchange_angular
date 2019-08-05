@@ -68,14 +68,14 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       $event.target.className !== 'select__search-input'
     ) {
       this.openPaymentSystemDropdown = false;
-      // this.merchants =
-      //   this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-      //     ? this.fiatDataByName.merchantCurrencyData : [];
-      // FUG BLOCK
       this.merchants =
         this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-          ? this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG)
-          : [];
+          ? this.fiatDataByName.merchantCurrencyData : [];
+      // FUG BLOCK
+      // this.merchants =
+      //   this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
+      //     ? this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG)
+      //     : [];
       this.searchTemplate = '';
       this.openCurrencyDropdown = false;
     }
@@ -137,15 +137,15 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   togglePaymentSystemDropdown() {
     this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
-    // this.merchants =
-    //   this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-    //     ? this.fiatDataByName.merchantCurrencyData
-    //     : [];
-    // FUG BLOCK
     this.merchants =
       this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-        ? this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG)
+        ? this.fiatDataByName.merchantCurrencyData
         : [];
+    // FUG BLOCK
+    // this.merchants =
+    //   this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
+    //     ? this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG)
+    //     : [];
     this.searchTemplate = '';
     this.openCurrencyDropdown = false;
   }
@@ -164,9 +164,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.fiatDataByName = res;
 
-        // this.merchants = this.fiatDataByName.merchantCurrencyData;
+        this.merchants = this.fiatDataByName.merchantCurrencyData;
         // FUG BLOCK
-        this.merchants = this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG);
+        // this.merchants = this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG);
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
@@ -267,16 +267,16 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
     // FUG BLOCK
-    this.merchants = this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG).filter(
-      merchant =>
-        !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
-          .length
-    );
-    // this.merchants = this.fiatDataByName.merchantCurrencyData.filter(
+    // this.merchants = this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG).filter(
     //   merchant =>
     //     !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
     //       .length
     // );
+    this.merchants = this.fiatDataByName.merchantCurrencyData.filter(
+      merchant =>
+        !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
+          .length
+    );
   }
 
   private minCheck(amount: FormControl) {
