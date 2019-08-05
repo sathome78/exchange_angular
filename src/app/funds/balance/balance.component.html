@@ -219,7 +219,7 @@
         </button>
 
         <!-- FUG BLOCK -->
-        <!-- <button
+        <button
           *ngIf="isInternalUser"
           class="tabs__item funding-tabs"
           [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
@@ -227,21 +227,46 @@
           [disabled]="loading$ | async"
         >
           <div class="qubera-icon">
-            <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4.14605 7.02734H6.0973L6.39013 16.003H3.90234L4.14605 7.02734Z" fill="white"/>
+            <svg
+              width="24"
+              height="21"
+              viewBox="0 0 24 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4.14605 7.02734H6.0973L6.39013 16.003H3.90234L4.14605 7.02734Z"
+                fill="white"
+              />
               <path
                 d="M2.48779 16.4883H21.5124V17.5126H22.9757V18.9761H24V20.0005H0V18.9761H1.02427V17.5126H2.48779V16.4883Z"
-                fill="white"/>
-              <path d="M22.4872 4.39023L11.9994 0L1.51172 4.39023V5.02454H22.4872V4.39023Z" fill="white"/>
-              <path d="M20.4873 5.51172H3.51172V6.48702H20.4873V5.51172Z" fill="white"/>
-              <path d="M17.8534 7.02734H19.8043L20.0972 16.003H17.6094L17.8534 7.02734Z" fill="white"/>
-              <path d="M13.2694 7.02734H15.2693L15.5621 16.003H13.0254L13.2694 7.02734Z" fill="white"/>
-              <path d="M8.73017 7.02734H10.6814L10.9741 16.003H8.4375L8.73017 7.02734Z" fill="white"/>
+                fill="white"
+              />
+              <path
+                d="M22.4872 4.39023L11.9994 0L1.51172 4.39023V5.02454H22.4872V4.39023Z"
+                fill="white"
+              />
+              <path
+                d="M20.4873 5.51172H3.51172V6.48702H20.4873V5.51172Z"
+                fill="white"
+              />
+              <path
+                d="M17.8534 7.02734H19.8043L20.0972 16.003H17.6094L17.8534 7.02734Z"
+                fill="white"
+              />
+              <path
+                d="M13.2694 7.02734H15.2693L15.5621 16.003H13.0254L13.2694 7.02734Z"
+                fill="white"
+              />
+              <path
+                d="M8.73017 7.02734H10.6814L10.9741 16.003H8.4375L8.73017 7.02734Z"
+                fill="white"
+              />
             </svg>
           </div>
           <span>{{'Funding wallet' | translate}}</span>
           <a href="https://support.exrates.me/article/kyc-fiat-account" class="hint-link" target="_blank">?</a>
-        </button> -->
+        </button>
 
         <button
           [disabled]="loading$ | async"
@@ -281,23 +306,6 @@
         </label>
         <span>{{'Hide zero balances' | translate}}</span>
       </div>
-
-
-      <!-- <div class="balance__show-all">
-        <label class="toggler">
-          <input type="checkbox" name="">
-          <span class="toggler__indicate"></span>
-        </label>
-        <span>Show all in</span>
-        <div class="dropdown">
-          <div class="dropdown__btn">USD</div>
-          <ul class="dropdown__list">
-            <li class="dropdown__item">RUB</li>
-            <li class="dropdown__item">EUR</li>
-            <li class="dropdown__item">UAH</li>
-          </ul>
-        </div>
-      </div> -->
 
     </div>
     <!--</form>-->
