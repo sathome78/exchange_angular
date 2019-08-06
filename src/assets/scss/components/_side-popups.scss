@@ -1094,3 +1094,14 @@
     max-width: 260px;
   }
 }
+
+
+.dark-theme{ 
+  .side-popups {
+    &.twofa{
+      .title{
+        margin-bottom: 14px;
+      }
+    }
+  }
+}
