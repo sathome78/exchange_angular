@@ -1,7 +1,7 @@
-import {Action} from '@ngrx/store';
-import {CurrencyPair} from 'app/model';
-import {Order} from 'app/model/order.model';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import { Action } from '@ngrx/store';
+import { CurrencyPair } from 'app/model';
+import { Order } from 'app/model/order.model';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 export const CHANGE_ACTIVE_CURRENCY_PAIR = '[Dashboard] Change currency pair';
 export const SET_CURRENCY_PAIRS_FOR_MARKET = '[Dashboard] Set currency pairs for market';
@@ -24,6 +24,10 @@ export const FAIL_OPEN_ORDERS = '[Dashboard] fail open orders';
 export const LOAD_HISTORY_ORDERS = '[Dashboard] load history orders';
 export const SET_HISTORY_ORDERS = '[Dashboard] set history orders';
 export const FAIL_HISTORY_ORDERS = '[Dashboard] fail history orders';
+
+// orders book
+export const SET_ORDERS_BOOK_BUY_DATA = '[Order book] set orders book buy data';
+export const SET_ORDERS_BOOK_SELL_DATA = '[Order book] set orders book sell data';
 
 export class LoadOpenOrdersAction implements Action {
   readonly type = LOAD_OPEN_ORDERS;
@@ -153,10 +157,24 @@ export class SetTradingTypeAction implements Action {
 }
 
 /**
+ * When set Orders book data
+ */
+export class SetOrdersBookBuyDataAction implements Action {
+  readonly type = SET_ORDERS_BOOK_BUY_DATA;
+  constructor(public payload) {}
+}
+export class SetOrdersBookSellDataAction implements Action {
+  readonly type = SET_ORDERS_BOOK_SELL_DATA;
+  constructor(public payload) {}
+}
+
+/**
  * Exports possible action types
  */
-export type Actions
-  = ChangeActiveCurrencyPairAction
+export type Actions =
+  | ChangeActiveCurrencyPairAction
+  | SetOrdersBookBuyDataAction
+  | SetOrdersBookSellDataAction
   | SetMarketsCurrencyPairsAction
   | SetCurrencyPairsAction
   | SetUserFavoritesCurrencyPairsAction

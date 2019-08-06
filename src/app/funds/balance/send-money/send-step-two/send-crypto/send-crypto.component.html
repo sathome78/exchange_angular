@@ -1,7 +1,7 @@
-<div *ngIf="!!activeCrypto && !!cryptoInfoByName">
-  <div class="title send__title">{{'Crypto Withdrawal' | translate}}
+<div *ngIf="!!activeCrypto && !!cryptoInfoByName" class="side-popups send-cripto-s2">
+  <h2 class="title send__title">{{'Crypto Withdrawal' | translate}}
     <span>{{currName}}</span>
-  </div>
+  </h2>
   <div class="formWraper" *ngIf="isEnterData">
     <form [formGroup]="form">
       <div class="send__inputs-wrap" *ngIf="!!cryptoInfoByName">
@@ -194,7 +194,7 @@
       </div>
       <button
         class="btn btn--center"
-        [ngClass]="{'btn--empty-blue': !form.valid}"
+        [disabled]="!form.valid"
         (click)="onSubmitWithdrawal()"
       >{{'Withdraw' | translate}}
         <span class="value">{{calculateData.resultAmount}}</span>
@@ -233,10 +233,21 @@
   <app-loader></app-loader>
 </div>
 
-<div *ngIf="!isEnterData" class="captcha-wrapper">
-  <h6 class="popup__subtitle">{{'Enter the captcha' | translate}}</h6>
-  <re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
-  <div class="popup__links-wrap  popup__links-wrap--center">
-    <a class="popup__link" (click)="goToWithdrawal()">{{'Back to withdrawal form' | translate}}</a>
+<ng-container *ngIf="!isEnterData">
+  <div *ngIf="!utilsService.isDevCaptcha(userInfo.username); else devCaptchaTemplate" class="captcha-wrapper side-popups send-cripto-s2">
+    <h6 class="popup__title">{{'Enter the captcha' | translate}}</h6>
+    <re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
+    <div class="popup__links-wrap  popup__links-wrap--center">
+      <a class="popup__link" (click)="goToWithdrawal()">{{'Back to withdrawal form' | translate}}</a>
+    </div>
   </div>
-</div>
+</ng-container>
+
+
+<ng-template #devCaptchaTemplate>
+  <div class="captcha-wrapper side-popups send-cripto-s2">
+    <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
+    <h4 class="popup__subtitle popup_title--dm">Captcha emulation for developers and QA</h4>
+    <button class="btn btn--center" (click)="afterResolvedCaptcha($event)">Resolve</button>
+  </div>
+</ng-template>

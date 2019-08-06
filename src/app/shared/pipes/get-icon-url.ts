@@ -1,17 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {UtilsService} from '../services/utils.service';
+import { UtilsService } from '../services/utils.service';
 
 @Pipe({
-  name: 'getIconUrl'
+  name: 'getIconUrl',
 })
-export class GetIconUrl  implements PipeTransform {
-
-  constructor(
-    private utilService: UtilsService,
-  ) {}
+export class GetIconUrl implements PipeTransform {
+  constructor(private utilService: UtilsService) {}
 
   transform(name: string, isWhite: boolean = false): string {
-
     switch (name) {
       case '':
       case 'DOR':
@@ -36,7 +32,7 @@ export class GetIconUrl  implements PipeTransform {
       case 'Mir Payment':
       case 'Yandex Money':
       case 'Alfaclick Payment':
-      case 'Qubera':
+      // case 'Qubera':
       case 'DIM.EUR':
       case 'DIM.USD':
       case 'HNI':
@@ -54,10 +50,7 @@ export class GetIconUrl  implements PipeTransform {
       case 'TTT':
       case 'uDOOOO':
       case 'VRA':
-      case 'GNY':
-      case 'NOVA':
-      case 'TSL':
-      
+
       case 'ZUBE':
         name = 'no_icon';
         break;

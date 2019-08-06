@@ -1,28 +1,29 @@
 import * as dashboard from '../actions/dashboard.actions';
-import {CurrencyPair} from '../../model/currency-pair.model';
-import {UserBalance} from '../../model/user-balance.model';
+import { CurrencyPair } from '../../model/currency-pair.model';
+import { UserBalance } from '../../model/user-balance.model';
 import {
-  defaultCurrencyPairInfo, defaultLastCreatedOrder,
+  defaultCurrencyPairInfo,
+  defaultLastCreatedOrder,
   defaultLastPrice,
   defaultLastSellBuyOrder,
   defaultOrderItem,
   defaultUserBalance,
-  defaultValues
+  defaultValues,
 } from './default-values';
-import {OrderItem} from '../../model/order-item.model';
-import {CurrencyPairInfo} from '../../model/currency-pair-info.model';
-import {LastSellBuyOrder} from '../../model/last-sell-buy-order.model';
-import {TradeItem} from '../../model/trade-item.model';
-import {LastPrice} from '../../model/last-price.model';
-import {Order} from '../../model/order.model';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import { OrderItemOB } from '../../model/order-item-orders-book.model';
+import { CurrencyPairInfo } from '../../model/currency-pair-info.model';
+import { LastSellBuyOrder } from '../../model/last-sell-buy-order.model';
+import { TradeItem } from '../../model/trade-item.model';
+import { LastPrice } from '../../model/last-price.model';
+import { Order } from '../../model/order.model';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 export interface State {
   activeCurrencyPair: SimpleCurrencyPair;
   currencyPairArray: CurrencyPair[];
   marketsCurrencyPairsMap: MapModel<CurrencyPair>;
   userBalance: UserBalance;
-  selectedOrderBookOrder: OrderItem;
+  selectedOrderBookOrder: OrderItemOB;
   currencyPairInfo: CurrencyPairInfo;
   lastSellBuyOrder: LastSellBuyOrder;
   lastCreatedOrder: Order;
@@ -35,13 +36,15 @@ export interface State {
   historyOrders;
   historyOrdersCount: number;
   ordersLoading: boolean;
+  ordersBookBuyOrders: OrderItemOB[];
+  ordersBookSellOrders: OrderItemOB[];
 }
 
 export const INIT_STATE: State = {
   activeCurrencyPair: defaultValues as SimpleCurrencyPair,
   currencyPairArray: [],
   userBalance: defaultUserBalance,
-  selectedOrderBookOrder: defaultOrderItem as OrderItem,
+  selectedOrderBookOrder: defaultOrderItem as OrderItemOB,
   currencyPairInfo: defaultCurrencyPairInfo,
   lastSellBuyOrder: defaultLastSellBuyOrder,
   lastCreatedOrder: defaultLastCreatedOrder,
@@ -55,6 +58,8 @@ export const INIT_STATE: State = {
   historyOrders: [],
   historyOrdersCount: 0,
   ordersLoading: false,
+  ordersBookBuyOrders: [],
+  ordersBookSellOrders: [],
 };
 
 /**
@@ -70,7 +75,7 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
       }
       return {
         ...state,
-        activeCurrencyPair: action.payload
+        activeCurrencyPair: action.payload,
       };
     case dashboard.SET_CURRENCY_PAIRS_FOR_MARKET:
       return {
@@ -92,20 +97,20 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
         ...state,
         userFavoritesCurrencyPairsIds: toggleUserFavorites(state, action.payload),
       };
-    case  dashboard.REFRESH_USER_BALANCE:
-      return {...state, userBalance: action.payload};
+    case dashboard.REFRESH_USER_BALANCE:
+      return { ...state, userBalance: action.payload };
     case dashboard.SELECTED_ORDERBOOK_ORDER:
-      return {...state, selectedOrderBookOrder: action.payload};
+      return { ...state, selectedOrderBookOrder: action.payload };
     case dashboard.SET_LAST_CREATED_ORDER:
-      return {...state, lastCreatedOrder: action.payload};
-      case dashboard.SET_TRADING_TYPE:
-      return {...state, tradingType: action.payload};
+      return { ...state, lastCreatedOrder: action.payload };
+    case dashboard.SET_TRADING_TYPE:
+      return { ...state, tradingType: action.payload };
     case dashboard.REFRESH_CURRENCY_PAIR_INFO:
-      return {...state, currencyPairInfo: action.payload};
+      return { ...state, currencyPairInfo: action.payload };
     case dashboard.SET_LAST_PRICE:
-      return {...state, lastPrice: action.payload};
+      return { ...state, lastPrice: action.payload };
     case dashboard.SET_LAST_SELL_BUY_ORDER:
-      return {...state, lastSellBuyOrder: action.payload};
+      return { ...state, lastSellBuyOrder: action.payload };
     case dashboard.SET_ALL_TRADES:
       return {
         ...state,
@@ -137,7 +142,17 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
         openOrdersCount: action.payload.count,
         ordersLoading: false,
       };
-    default :
+    case dashboard.SET_ORDERS_BOOK_BUY_DATA:
+      return {
+        ...state,
+        ordersBookBuyOrders: action.payload,
+      };
+    case dashboard.SET_ORDERS_BOOK_SELL_DATA:
+      return {
+        ...state,
+        ordersBookSellOrders: action.payload,
+      };
+    default:
       return state;
   }
 }
@@ -146,7 +161,7 @@ function createMarketsCurrencyPairsMap(state: State, newPairs: CurrencyPair[]): 
   const map = {
     ...state.marketsCurrencyPairsMap,
   };
-  newPairs.forEach((cp) => {
+  newPairs.forEach(cp => {
     if (map[cp.currencyPairId]) {
       map[cp.currencyPairId] = {
         ...map[cp.currencyPairId],
@@ -170,7 +185,6 @@ function toggleUserFavorites(state: State, currencyPairId: number) {
   return newArr;
 }
 
-
 /** Selector returns current currency pair*/
 export const getActiveCurrencyPairSelector = (state: State): SimpleCurrencyPair => state.activeCurrencyPair;
 
@@ -185,7 +199,7 @@ export const getMarketCurrencyPairsArraySelector = (state: State): MapModel<Curr
 export const getUserBalance = (state: State): UserBalance => state.userBalance;
 
 /** Selector returns selected order-book order */
-export const getSelectedOrderBookOrder = (state: State): OrderItem => state.selectedOrderBookOrder;
+export const getSelectedOrderBookOrder = (state: State): OrderItemOB => state.selectedOrderBookOrder;
 
 /** Selector returns currency pair info */
 export const getCurrencyPairInfo = (state: State): CurrencyPairInfo => state.currencyPairInfo;
@@ -216,3 +230,8 @@ export const getHistoryOrders = (state: State) => state.historyOrders;
 
 /** Selector returns open orders*/
 export const getOrdersLoading = (state: State) => state.ordersLoading;
+
+/** Selector returns orders book buy item*/
+export const getOrdersBookBuy = (state: State) => state.ordersBookBuyOrders;
+/** Selector returns orders book sell item*/
+export const getOrdersBookSell = (state: State) => state.ordersBookSellOrders;

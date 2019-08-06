@@ -1,6 +1,4 @@
-
 export class PendingRequestsItem {
-
   constructor(
     public requestId: number,
     public date: string,
@@ -9,7 +7,6 @@ export class PendingRequestsItem {
     public commission: number,
     public system: string,
     public status: string,
-    public operation: string,
-  ) { }
-
+    public operation: string
+  ) {}
 }

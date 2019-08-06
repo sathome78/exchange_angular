@@ -1,8 +1,8 @@
-import {environment} from '../../environments/environment';
-import {UtilsService} from '../shared/services/utils.service';
+import { environment } from '../../environments/environment';
+import { UtilsService } from '../shared/services/utils.service';
+import { Store } from '@ngrx/store';
 
 export class AuthCandidate {
-
   public email;
   public password;
   public appKey = 'f966d047-75fb-4458-b9c3-3bd444e452b8';
@@ -11,8 +11,7 @@ export class AuthCandidate {
   public clientIp;
   public tries;
 
-  constructor() {
-  }
+  constructor() {}
 
   public static builder(): AuthCandidate {
     return new AuthCandidate();
@@ -43,5 +42,4 @@ export class AuthCandidate {
   private encryptPass(pass: string): string {
     return new UtilsService().encodePassword(pass, environment.encodeKey);
   }
-
 }

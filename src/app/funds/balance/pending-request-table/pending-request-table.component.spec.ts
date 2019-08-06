@@ -8,9 +8,8 @@ describe('PendingRequestTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PendingRequestTableComponent ]
-    })
-    .compileComponents();
+      declarations: [PendingRequestTableComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

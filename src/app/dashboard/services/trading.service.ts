@@ -1,27 +1,24 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
 
-import {environment} from 'environments/environment';
-import {Order} from '../../model/order.model';
+import { environment } from 'environments/environment';
+import { Order } from '../../model/order.model';
 
 @Injectable()
 export class TradingService {
-
   /** emit on change tabs sell/buy in trading-component */
   public tradingChangeSellBuy$ = new Subject();
   /** emit order when created in trading-component */
   public tradingCreateOrder$ = new Subject();
   private apiUrl;
 
-  constructor(
-    private http: HttpClient
-  ) {
+  constructor(private http: HttpClient) {
     this.apiUrl = environment.apiUrl;
   }
 
   createOrder(order: Order): Observable<any> {
-     return this.http.post(`${this.apiUrl}/api/private/v2/dashboard/order`, order );
+    return this.http.post(`${this.apiUrl}/api/private/v2/dashboard/order`, order);
   }
 
   getCommission(orderType: string, currencyPairId: number): Observable<any> {

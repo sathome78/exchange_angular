@@ -8,9 +8,8 @@ describe('SendStepTwoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SendStepTwoComponent ]
-    })
-    .compileComponents();
+      declarations: [SendStepTwoComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

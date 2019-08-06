@@ -8,9 +8,8 @@ describe('FinalStepRecoveryPasswordComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FinalStepRecoveryPasswordComponent ]
-    })
-    .compileComponents();
+      declarations: [FinalStepRecoveryPasswordComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,16 +1,15 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {DetailedCurrencyPair} from '../../../../model/detailed-currency-pair';
-import {BalanceItem} from '../../../models/balance-item.model';
-import {UtilsService} from '../../../../shared/services/utils.service';
-import {Router} from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DetailedCurrencyPair } from '../../../../model/detailed-currency-pair';
+import { BalanceItem } from '../../../models/balance-item.model';
+import { UtilsService } from '../../../../shared/services/utils.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-balance-table-trade-btn',
   templateUrl: './balance-table-trade-btn.component.html',
-  styleUrls: ['./balance-table-trade-btn.component.scss']
+  styleUrls: ['./balance-table-trade-btn.component.scss'],
 })
 export class BalanceTableTradeBtnComponent implements OnInit {
-
   @Input('allPairs') public allPairs: DetailedCurrencyPair[] = [];
   @Input('item') public item: BalanceItem;
 
@@ -18,16 +17,11 @@ export class BalanceTableTradeBtnComponent implements OnInit {
   public pairsCandidat = [];
   public isFiat: boolean;
 
-  constructor(
-    private utilsService: UtilsService,
-    private router: Router
-  ) { }
+  constructor(private utilsService: UtilsService, private router: Router) {}
 
   ngOnInit() {
-    this.pairsCandidat = this.allPairs.filter((f) => {
-      return !f.hidden &&
-        (f.name.split('/')[0] === this.item.currencyName) ||
-        (f.name.split('/')[1] === this.item.currencyName);
+    this.pairsCandidat = this.allPairs.filter(f => {
+      return (!f.hidden && f.name.split('/')[0] === this.item.currencyName) || f.name.split('/')[1] === this.item.currencyName;
     });
     this.searchCandidat();
   }
@@ -56,15 +50,12 @@ export class BalanceTableTradeBtnComponent implements OnInit {
   }
 
   searchByMarket(market: string): DetailedCurrencyPair[] {
-    return this.pairsCandidat.filter((f) => {
-      return !f.hidden &&
-        (f.name.split('/')[0] === market) ||
-        (f.name.split('/')[1] === market);
+    return this.pairsCandidat.filter(f => {
+      return (!f.hidden && f.name.split('/')[0] === market) || f.name.split('/')[1] === market;
     });
   }
 
   btnClick(): void {
     this.router.navigate([`/markets/${this.redirectToPair.replace('/', '-')}`]);
   }
-
 }

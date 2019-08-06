@@ -13,6 +13,10 @@
   <app-login-popup-mobile></app-login-popup-mobile>
 </div>
 
+<div *ngIf="popupService.getQuberaPopupListener() | async">
+  <app-qubera-popups></app-qubera-popups>
+</div>
+
 <div *ngIf="popupService.getRegistrationMobilePopupListener() | async">
   <app-registration-mobile-popup></app-registration-mobile-popup>
 </div>
@@ -78,7 +82,7 @@
 </div>
 
 <app-notification
-  *ngFor="let notification of notificationMessages; let i = index;"
+  *ngFor="let notification of notificationMessages; let i = index; trackBy: trackByIndex"
   [notification]="notification"
   (notificationClosed)="onNotificationMessageClose(i)">
 </app-notification>

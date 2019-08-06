@@ -1,27 +1,27 @@
-<div class="title refill__title">{{'Get inner transfer' | translate}}</div>
-<div class="subtitle refill__subtitle">{{'Please enter the transfer code to get money' | translate}}</div>
-<form [formGroup]="form">
-  <div class="wrap-input refill__wrap-input">
-    <input class="wrap-input__input" name="code" formControlName="code">
-    <label class="wrap-input__label">{{'Transfer code' | translate}}</label>
-    <div class="wrap-input__line"></div>
+<div class="refil-inner-tr side-popups">
+  <h2 class="title refill__title">{{'Get inner transfer' | translate}}</h2>
+  <h3 class="subtitle refill__subtitle">{{'Please enter the transfer code to get money' | translate}}</h3>
+  <form [formGroup]="form">
+    <div class="wrap-input refill__wrap-input">
+      <input class="wrap-input__input" name="code" formControlName="code" required>
+      <label class="wrap-input__label">{{'Transfer code' | translate}}</label>
+      <div class="wrap-input__line"></div>
 
-    <!--Input error section starts-->
-    <div class="input-hint-wrapper" *ngIf="!form.valid && form.get('code').touched">
-          <span class="wrap-input__message">
-            {{'This field is required.' | translate}}
-          </span>
+      <!--Input error section starts-->
+      <div class="input-hint-wrapper" *ngIf="!form.valid && form.get('code').touched">
+        <span class="wrap-input__message">
+          {{'This field is required.' | translate}}
+        </span>
+      </div>
+      <!--Input error section ends-->
     </div>
-    <!--Input error section ends-->
-  </div>
-</form>
+  </form>
 
-<button
+  <button
   class="btn btn--center"
-  [ngClass]="{'btn--empty-blue': !form.valid}"
   [disabled]="form.invalid || loading"
   (click)="sendTransferCode()"
->
+  >
   {{'Receive transfer' | translate}}
 </button>
 
@@ -48,9 +48,9 @@
       <line x1="12.75" y1="31.6716" x2="31.6716" y2="12.75" stroke="#EB5757" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
-  <div class="refill__transfer-message-text">
+  <div class="refill__transfer-message-text  refill__transfer-message-text--error">
     <h6>{{'Sorry.' | translate}}</h6>
     <span>{{'This code has been used already.' | translate}}</span>
   </div>
 </div>
-
+</div>

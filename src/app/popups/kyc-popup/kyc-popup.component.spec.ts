@@ -8,9 +8,8 @@ describe('KycPopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ KycPopupComponent ]
-    })
-    .compileComponents();
+      declarations: [KycPopupComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

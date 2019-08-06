@@ -4,17 +4,18 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input, OnDestroy,
+  Input,
+  OnDestroy,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
-import {select, Store} from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
 import * as fundsReducer from '../../store/reducers/funds.reducer';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {BalanceItem} from '../../models/balance-item.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { BalanceItem } from '../../models/balance-item.model';
 
 @Component({
   selector: 'app-balance-search-mob',
@@ -22,9 +23,8 @@ import {BalanceItem} from '../../models/balance-item.model';
   styleUrls: ['./balance-search-mob.component.scss'],
 })
 export class BalanceSearchMobComponent implements OnInit, AfterViewInit, OnDestroy {
-
-   private _currTab: any;
-   private _Tab: any;
+  private _currTab: any;
+  private _Tab: any;
 
   @Input() set currTab(val) {
     this._currTab = val;
@@ -42,10 +42,7 @@ export class BalanceSearchMobComponent implements OnInit, AfterViewInit, OnDestr
   public viewCurrencies = [];
   public defaultCurrencies = [];
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private store: Store<fromCore.State>,
-    ) {}
+  constructor(private cdr: ChangeDetectorRef, private store: Store<fromCore.State>) {}
 
   ngOnInit() {
     this._currTab === this._Tab.CRYPTO ? this.getCryptoBalances() : this.getFiatBalances();
@@ -81,7 +78,6 @@ export class BalanceSearchMobComponent implements OnInit, AfterViewInit, OnDestr
         this.defaultCurrencies = res;
         this.viewCurrencies = this.defaultCurrencies;
       });
-
   }
 
   private getFiatBalances() {
@@ -93,5 +89,4 @@ export class BalanceSearchMobComponent implements OnInit, AfterViewInit, OnDestr
         this.viewCurrencies = this.defaultCurrencies;
       });
   }
-
 }

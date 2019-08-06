@@ -1,8 +1,7 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ConstantsService {
-
   private transactionsHistoryStatuses = {
     WITHDRAW: {
       REVOKED_USER: {
@@ -88,8 +87,8 @@ export class ConstantsService {
         operationType: 'Deposit',
         status: 'Expired',
       },
-    }
-  }
+    },
+  };
 
   public getTrStatus(operationType: string, backendStatus: string) {
     return this.transactionsHistoryStatuses[operationType][backendStatus].status;
@@ -97,5 +96,4 @@ export class ConstantsService {
   public getTrOperationType(operationType: string, backendStatus: string) {
     return this.transactionsHistoryStatuses[operationType][backendStatus].operationType;
   }
-
-};
+}

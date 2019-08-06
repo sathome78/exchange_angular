@@ -1,6 +1,4 @@
-
 export class BalanceItem {
-
   public currencyId: number;
   public currencyName: string;
   public currencyDescription: string;
@@ -13,5 +11,4 @@ export class BalanceItem {
   public reservedByMerchant: number;
   public btcAmount: number;
   public usdAmount: number;
-
 }

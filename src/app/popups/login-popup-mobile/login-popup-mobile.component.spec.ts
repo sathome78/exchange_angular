@@ -8,9 +8,8 @@ describe('LoginPopupMobileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginPopupMobileComponent ]
-    })
-    .compileComponents();
+      declarations: [LoginPopupMobileComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

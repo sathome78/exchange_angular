@@ -8,9 +8,8 @@ describe('DateMaskInputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DateMaskInputComponent ]
-    })
-    .compileComponents();
+      declarations: [DateMaskInputComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

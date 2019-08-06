@@ -1,12 +1,23 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 
-import {CurrencyPair} from '../../../model/currency-pair.model';
-import {MarketService} from '../../services/market.service';
+import { CurrencyPair } from '../../../model/currency-pair.model';
+import { MarketService } from '../../services/market.service';
 import * as dashboardActions from '../../actions/dashboard.actions';
-import {Store} from '@ngrx/store';
-import {State} from '../../../core/reducers';
-import {UtilsService} from 'app/shared/services/utils.service';
-import {DashboardService} from '../../dashboard.service';
+import { Store } from '@ngrx/store';
+import { State } from '../../../core/reducers';
+import { UtilsService } from 'app/shared/services/utils.service';
+import { DashboardService } from '../../dashboard.service';
 
 @Component({
   selector: 'app-market-search',
@@ -15,12 +26,11 @@ import {DashboardService} from '../../dashboard.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketSearchComponent implements OnInit, AfterViewInit {
-
   @Input() pairs: CurrencyPair[];
   @Input() currency: string;
-  @Input('isAuthenticated') public isAuthenticated: boolean = false;
+  @Input() public isAuthenticated = false;
   public showPairs: CurrencyPair[];
-  public scrollHeight: number = 0;
+  public scrollHeight = 0;
 
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter<boolean>();
   @ViewChild('input') input: ElementRef;
@@ -30,11 +40,11 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
     private utils: UtilsService,
     private store: Store<State>,
     private dashboardService: DashboardService,
-    private cdr: ChangeDetectorRef,
-  ) { }
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
-    this.showPairs = [...this.pairs || []];
+    this.showPairs = [...(this.pairs || [])];
   }
   ngAfterViewInit() {
     this.input.nativeElement.focus();
@@ -58,9 +68,15 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
 
   setCurrentPair(pair: CurrencyPair) {
     this.store.dispatch(
-      new dashboardActions.ChangeActiveCurrencyPairAction({name: pair.currencyPairName, id: pair.currencyPairId})
+      new dashboardActions.ChangeActiveCurrencyPairAction({
+        name: pair.currencyPairName,
+        id: pair.currencyPairId,
+      })
     );
-    this.utils.saveActiveCurrencyPairToSS({name: pair.currencyPairName, id: pair.currencyPairId});
+    this.utils.saveActiveCurrencyPairToSS({
+      name: pair.currencyPairName,
+      id: pair.currencyPairId,
+    });
     this.toMobileWidget('trading');
     this.onCloseModal();
   }

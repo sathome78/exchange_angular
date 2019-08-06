@@ -1,7 +1,7 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'cutAndAddEllipsis'
+  name: 'cutAndAddEllipsis',
 })
 export class CutAddEllipsisPipe implements PipeTransform {
   transform(value: string, count: number = 300): string {

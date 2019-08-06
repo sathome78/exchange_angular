@@ -1,11 +1,10 @@
-import {Directive, ElementRef, HostListener, Input} from '@angular/core';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: '[appDateMask]'
+  selector: '[appDateMask]',
 })
 export class DateMaskDirective {
-
-  constructor(private el: ElementRef) { }
+  constructor(private el: ElementRef) {}
 
   @Input() appDateMask: boolean;
 
@@ -14,7 +13,8 @@ export class DateMaskDirective {
       if (e.target.value[e.target.value.length - 1] === '.') {
         this.el.nativeElement.value = e.target.value.slice(0, e.target.value.length - 1);
       }
-      if ([46, 8, 9, 27, 13, 110, 190].indexOf(e.keyCode) !== -1 ||
+      if (
+        [46, 8, 9, 27, 13, 110, 190].indexOf(e.keyCode) !== -1 ||
         // Allow: Ctrl+A
         (e.keyCode === 65 && (e.ctrlKey || e.metaKey)) ||
         // Allow: Ctrl+C
@@ -24,7 +24,8 @@ export class DateMaskDirective {
         // Allow: Ctrl+X
         (e.keyCode === 88 && (e.ctrlKey || e.metaKey)) ||
         // Allow: home, end, left, right
-        (e.keyCode >= 35 && e.keyCode <= 39)) {
+        (e.keyCode >= 35 && e.keyCode <= 39)
+      ) {
         // let it happen, don't do anything
         return;
       }
@@ -40,29 +41,27 @@ export class DateMaskDirective {
     let changeValue = value;
     switch (value.length) {
       case 1:
-        changeValue = +value > 3
-          ? ''
-          : value;
+        changeValue = +value > 3 ? '' : value;
         break;
       case 2:
-        changeValue = +value[0] === 3 && +value[1] > 1
-          ? value[0]
-          : value;
+        changeValue = +value[0] === 3 && +value[1] > 1 ? value[0] : value;
         break;
       case 3:
-        changeValue = +value[2] > 1
-          ? value.slice(0, value.length - 1)
-          : value[2] === '.'
+        changeValue =
+          +value[2] > 1
+            ? value.slice(0, value.length - 1)
+            : value[2] === '.'
             ? `${value.slice(0, 2)}.`
             : `${value.slice(0, 2)}.${value[2]}`;
         break;
       case 5:
-        changeValue = +value[3] === 1 && +value[4] > 2 ?  value.slice(0, value.length - 1) : value;
+        changeValue = +value[3] === 1 && +value[4] > 2 ? value.slice(0, value.length - 1) : value;
         break;
       case 6:
-        changeValue = +value[5] < 1 || +value[5] > 2
-          ? value.slice(0, value.length - 1)
-          : value[5] === '.'
+        changeValue =
+          +value[5] < 1 || +value[5] > 2
+            ? value.slice(0, value.length - 1)
+            : value[5] === '.'
             ? `${value.slice(0, 5)}.`
             : `${value.slice(0, 5)}.${value[5]}`;
         break;

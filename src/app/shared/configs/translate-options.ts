@@ -6,5 +6,5 @@ export const translateInfo = {
     settings: './assets/i18n/dashboard/',
     staticPages: './assets/i18n/static-files/',
   },
-  suffix: '.json'
+  suffix: '.json',
 };

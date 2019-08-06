@@ -6,6 +6,6 @@ export class CurrencyPairInfo {
     public percentChange: number,
     public rateHigh: number,
     public rateLow: number,
-    public volume24h: number,
+    public volume24h: number
   ) {}
 }

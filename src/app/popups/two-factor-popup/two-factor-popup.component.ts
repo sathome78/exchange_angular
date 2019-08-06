@@ -1,20 +1,17 @@
-import {Component, OnDestroy, OnInit, Input, HostListener} from '@angular/core';
-import {PopupService} from '../../shared/services/popup.service';
-import {Subscription, Subject} from 'rxjs';
-import {LoggingService} from '../../shared/services/logging.service';
-import {Animations} from 'app/shared/animations';
-import {takeUntil} from 'rxjs/operators';
+import { Component, OnDestroy, OnInit, Input, HostListener } from '@angular/core';
+import { PopupService } from '../../shared/services/popup.service';
+import { Subscription, Subject } from 'rxjs';
+import { LoggingService } from '../../shared/services/logging.service';
+import { Animations } from 'app/shared/animations';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-two-factor-popup',
   templateUrl: './two-factor-popup.component.html',
   styleUrls: ['./two-factor-popup.component.scss'],
-  animations: [
-    Animations .popupOverlayTrigger, Animations.popupModalTrigger
-  ]
+  animations: [Animations.popupOverlayTrigger, Animations.popupModalTrigger],
 })
 export class TwoFactorPopupComponent implements OnInit, OnDestroy {
-
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   google = 'GOOGLE';
   sms = 'SMS';
@@ -27,25 +24,24 @@ export class TwoFactorPopupComponent implements OnInit, OnDestroy {
 
   private currentStepSubscription: Subscription;
 
-   /** Are listening click in document */
-   @HostListener('document:click', ['$event']) clickout($event) {
+  /** Are listening click in document */
+  @HostListener('document:click', ['$event']) clickout($event) {
     if ($event.target.classList.contains('overlay--modal')) {
       this.closePopup();
     }
   }
 
-  constructor(private popupService: PopupService,
-              private logger: LoggingService) {
-  }
+  constructor(private popupService: PopupService, private logger: LoggingService) {}
 
   ngOnInit() {
     this.provider = this.popupService.getTFAProvider();
     this.logger.debug(this, 'Provider on init is: ' + this.provider);
     this.popupService.loadDefault();
     this.stepsSize = this.popupService.getStepsMap(this.provider).size;
-    this.popupService.getCurrentStepListener()
+    this.popupService
+      .getCurrentStepListener()
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(currentStep => this.step = currentStep);
+      .subscribe(currentStep => (this.step = currentStep));
   }
 
   closePopup() {

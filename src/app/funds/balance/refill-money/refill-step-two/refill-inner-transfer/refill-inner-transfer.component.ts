@@ -1,22 +1,20 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BalanceService} from '../../../../services/balance.service';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {environment} from '../../../../../../environments/environment';
-import {PopupService} from '../../../../../shared/services/popup.service';
-import {RefillInnerTransferResponse} from '../../../../models/refill-inner-transfer-response.model';
-import {select, Store} from '@ngrx/store';
-import {getAllCurrenciesForChoose, State} from '../../../../../core/reducers';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BalanceService } from '../../../../services/balance.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { environment } from '../../../../../../environments/environment';
+import { PopupService } from '../../../../../shared/services/popup.service';
+import { RefillInnerTransferResponse } from '../../../../models/refill-inner-transfer-response.model';
+import { select, Store } from '@ngrx/store';
+import { getAllCurrenciesForChoose, State } from '../../../../../core/reducers';
 
 @Component({
   selector: 'app-refill-inner-transfer',
   templateUrl: './refill-inner-transfer.component.html',
-  styleUrls: ['./refill-inner-transfer.component.scss']
+  styleUrls: ['./refill-inner-transfer.component.scss'],
 })
 export class RefillInnerTransferComponent implements OnInit, OnDestroy {
-
   public form: FormGroup;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public isSendTransferCodeSuccess = false;
@@ -26,12 +24,7 @@ export class RefillInnerTransferComponent implements OnInit, OnDestroy {
   public currencyName = '';
   public loading: boolean = false;
 
-  constructor(
-    private balanceService: BalanceService,
-    public popupService: PopupService,
-    private store: Store<State>,
-  ) {
-  }
+  constructor(private balanceService: BalanceService, public popupService: PopupService, private store: Store<State>) {}
 
   ngOnInit() {
     this.initForm();
@@ -60,28 +53,30 @@ export class RefillInnerTransferComponent implements OnInit, OnDestroy {
       const data = this.form.controls['code'].value;
       this.form.reset();
       this.loading = true;
-      this.balanceService.sendTransferCode(data)
+      this.balanceService
+        .sendTransferCode(data)
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(res => {
-          this.isSendTransferCodeSuccess = true;
-          this.isSendTransferCodeFail = false;
-          this.sendSuccessRes = res as RefillInnerTransferResponse;
-          this.setCurrencyName(this.sendSuccessRes.currencyId);
-          this.loading = false;
-        }, error => {
-          const status = error['status'];
-          // console.log('status: ' + status);
-          this.isSendTransferCodeFail = true;
-          this.isSendTransferCodeSuccess = false;
-          this.loading = false;
-        });
+        .subscribe(
+          res => {
+            this.isSendTransferCodeSuccess = true;
+            this.isSendTransferCodeFail = false;
+            this.sendSuccessRes = res as RefillInnerTransferResponse;
+            this.setCurrencyName(this.sendSuccessRes.currencyId);
+            this.loading = false;
+          },
+          error => {
+            const status = error['status'];
+            // console.log('status: ' + status);
+            this.isSendTransferCodeFail = true;
+            this.isSendTransferCodeSuccess = false;
+            this.loading = false;
+          }
+        );
     }
-
   }
 
   setCurrencyName(id) {
-    const currency = this.allCurrencies.filter( item => item.id === id);
+    const currency = this.allCurrencies.filter(item => item.id === id);
     this.currencyName = currency[0] ? currency[0].name : '';
   }
-
 }

@@ -8,9 +8,8 @@ describe('SendSuccessfulComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SendSuccessfulComponent ]
-    })
-    .compileComponents();
+      declarations: [SendSuccessfulComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

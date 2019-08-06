@@ -1,5 +1,4 @@
-
-export class TwoFaResponseDto implements ITwoFaResponseDto{
+export class TwoFaResponseDto implements ITwoFaResponseDto {
   error: string;
   message: string;
 
@@ -12,5 +11,4 @@ export class TwoFaResponseDto implements ITwoFaResponseDto{
 export interface ITwoFaResponseDto {
   message: string;
   error: string;
-
 }

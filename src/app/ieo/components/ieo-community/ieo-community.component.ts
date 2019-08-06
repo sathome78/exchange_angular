@@ -7,12 +7,13 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IEOCommunityComponent implements OnInit {
+  @Input() public community = null;
 
-  @Input('community') public community = null;
+  constructor() {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  trackByCommunity(index) {
+    return index;
   }
-
 }

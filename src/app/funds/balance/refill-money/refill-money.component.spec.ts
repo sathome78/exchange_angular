@@ -8,9 +8,8 @@ describe('RefillMoneyComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RefillMoneyComponent ]
-    })
-    .compileComponents();
+      declarations: [RefillMoneyComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

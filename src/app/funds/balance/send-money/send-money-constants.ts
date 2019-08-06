@@ -1,4 +1,3 @@
-
 export const SEND_FIAT = 'Send Fiat';
 export const SEND_CRYPTO = 'Send Crypto';
 export const COPY_ADDRESS = 'Copy address';
@@ -18,6 +17,3 @@ export const FIAT_DEPOSIT_QUBERA = 'Fiat deposit qubera';
 
 export const CODE_FROM_EMAIL = 'Code from email';
 export const CODE_FROM_GOOGLE = 'Code from Google';
-
-
-

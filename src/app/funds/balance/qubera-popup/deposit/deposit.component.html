@@ -1,0 +1,31 @@
+<div class="modal__header-mob">
+    <div class="steps__counter steps__counter--mob">{{'step' | translate}}
+      <span class="steps__counter-val">{{step}}</span>/1
+    </div>
+    <div class="modal__header-mob-controls">
+      <a class="modal__control-mob" (click)="onCloseSendMoneyPopup()">
+        <img class="modal__control-icon" src="../../../assets/img/close-blue.svg"></a>
+    </div>
+  </div>
+  <div class="modal__header">
+    <ul class="steps">
+      <li class="steps__item"
+          [ngClass]="{'steps__item--current': step === 1}"
+      >
+        <a class="steps__link" (click)="setStep(1)">
+          <span class="steps__number" [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
+          <span class="steps__number-mob-current">{{'fiat deposit' | translate}}</span>
+          <span class="steps__title">{{'fiat deposit' | translate}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="modal__content qubera-content">
+    <app-step-one-deposit
+      *ngIf="step === 1"
+      [quberaBank]="qubera"
+      (closeSendQuberaPopup)="onCloseSendMoneyPopup()"
+    >
+    </app-step-one-deposit>
+  </div>

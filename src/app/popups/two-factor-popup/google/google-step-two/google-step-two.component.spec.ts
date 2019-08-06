@@ -8,9 +8,8 @@ describe('GoogleStepTwoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GoogleStepTwoComponent ]
-    })
-    .compileComponents();
+      declarations: [GoogleStepTwoComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
