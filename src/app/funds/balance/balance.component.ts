@@ -50,7 +50,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public userInfo: ParsedToken;
   public email: string;
   private token: any;
-  public isInternalUser: boolean;
+  // public isInternalUser: boolean;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
   public quberaBalances$: Observable<any[]>;
@@ -481,7 +481,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
         this.email = data.username;
         this.token = data.token_id;
         // delete after tests
-        this.isInternalUser = this.email.split('@')[1] === 'upholding.biz';
+        // this.isInternalUser = this.email.split('@')[1] === 'upholding.biz';
       });
   }
 

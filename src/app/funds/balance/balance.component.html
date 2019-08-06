@@ -113,7 +113,11 @@
       <button class="btn btn--active balance__title-btn" (click)="openRefillBalancePopup(true)">
         {{'Refill balance' | translate}}
       </button>
-      <button class="btn balance__title-btn" style="margin-left: 32px;" (click)="openSendMoneyPopup(true)">
+      <button
+        class="btn balance__title-btn"
+        style="margin-left: 32px;"
+        (click)="openSendMoneyPopup(true)"
+      >
         {{'Send money' | translate}}
       </button>
     </div>
@@ -140,16 +144,14 @@
           (onSelect)="onSelectPair($event.id)"
           [showNotFoundTip]="true"
         ></app-dynamic-input>
-        <ng-container *ngIf="isInternalUser">
-          <app-dynamic-input
-            *ngSwitchCase="Tab.QUBERA"
-            [value]="currValue"
-            [options]="!existQuberaAccounts ? [] : fiatCurrenciesForChoose && getFiatDynamicIData"
-            (onChange)="onChangeCurrPair($event)"
-            (onSelect)="onSelectPair($event.id)"
-            [showNotFoundTip]="existQuberaAccounts"
-          ></app-dynamic-input>
-        </ng-container>
+        <app-dynamic-input
+          *ngSwitchCase="Tab.QUBERA"
+          [value]="currValue"
+          [options]="!existQuberaAccounts ? [] : fiatCurrenciesForChoose && getFiatDynamicIData"
+          (onChange)="onChangeCurrPair($event)"
+          (onSelect)="onSelectPair($event.id)"
+          [showNotFoundTip]="existQuberaAccounts"
+        ></app-dynamic-input>
 
         <app-dynamic-input
           *ngSwitchCase="Tab.IEO"
@@ -190,7 +192,6 @@
         </button>
 
         <button
-          *ngIf="isInternalUser"
           class="tabs__item"
           [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
           (click)="onSelectTab(Tab.QUBERA)"
@@ -298,7 +299,7 @@
         (onRevokePendingRequest)="onRevokePendingRequest($event)"
         *ngSwitchCase="Tab.PR"
       ></app-pending-request-table>
-      <ng-container *ngIf="isInternalUser">
+      <ng-container>
         <app-qubera-table
           *ngSwitchCase="Tab.QUBERA"
           [balances]="quberaBalances$ | async"
