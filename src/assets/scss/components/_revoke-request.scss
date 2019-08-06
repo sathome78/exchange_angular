@@ -77,8 +77,11 @@
     }
   }
   .open-orders--mob{
+    .table__details-item-title{
+      position: relative;
+    }
     .revoke-request{
-    top: 16px;
+    bottom: 38px;
     &__triangle{
       left: 16px;
       right: auto;
