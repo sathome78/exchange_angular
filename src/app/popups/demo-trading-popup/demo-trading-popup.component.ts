@@ -38,7 +38,8 @@ export class DemoTradingPopupComponent implements OnInit {
         this.closeMe();
         break;
       case 1:
-        window.open('https://exrates.me', '_blank');
+        const newWnd = window.open('https://exrates.me', '_blank');
+        newWnd.opener = null;
         this.closeMe();
         break;
     }

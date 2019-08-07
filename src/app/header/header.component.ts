@@ -235,7 +235,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         login: this.isAuthenticated,
       })
     );
-    window.open(`https://news.exrates.me?data=${encodeData}`);
+    const newWnd = window.open(`https://news.exrates.me?data=${encodeData}`);
+    newWnd.opener = null;
   }
 
   // temp solution

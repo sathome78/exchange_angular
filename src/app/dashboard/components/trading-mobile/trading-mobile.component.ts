@@ -582,7 +582,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * on click submit button
    */
   onSubmit(type: string): void {
-    // window.open('https://exrates.me/dashboard', '_blank');
+    // const newWnd = window.open('https://exrates.me/dashboard', '_blank');
+    // newWnd.opener = null;
     if (!this.isAuthenticated) {
       this.popupService.showMobileLoginPopup(true);
       return;
