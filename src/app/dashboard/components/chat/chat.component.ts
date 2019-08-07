@@ -116,7 +116,8 @@ export class ChatComponent extends AbstractDashboardItems implements OnInit, OnD
   }
 
   welcomeToOurChannel() {
-    window.open('https://t.me/exrates_official', '_blank');
+    const newWnd = window.open('https://t.me/exrates_official', '_blank');
+    newWnd.opener = null;
   }
 
   onScrollToBottom() {
