@@ -147,46 +147,8 @@
                 </div>
                 <div class="table__details-item">
                   <div class="table__details-item-title">{{'Transaction hash' | translate}}</div>
-                  <div class="table__details-item-value">{{item.transactionHash}}</div>
+                  <div class="table__details-item-value" style="word-break: break-all;">{{item.transactionHash}}</div>
                 </div>
-                <div class="table__details-item">
-                  <div class="row">
-                    <!-- <button class="btn btn--small btn--empty-blue">I paid</button> -->
-                    <button
-                      class="btn btn--small btn--empty-blue"
-                      style="margin-left: 20px;"
-                    >{{'Revoke' | translate}}</button>
-                  </div>
-                  <div class="balance__request-mob-date">
-                    <div>{{item.datetime | amFromUtc | amLocal | amDateFormat: 'dd DD.MM.YYYY'}}</div>
-                    <div>{{item.datetime | amFromUtc | amLocal | amDateFormat: 'HH:mm:ss'}}</div>
-                  </div>
-                </div>
-              </td>
-              <td class="table__cell table__cell--tal">
-                <div>{{item.currencyName}}</div>
-                <div class="transaction__currency-type">
-                  {{isFiat(item.currencyName) ? 'Fiat' : 'Crypto'}}
-                </div>
-              </td>
-              <td class="table__cell table__cell--tar">
-                <div class="txt-red">{{item.amount | roundCurrency:item.currencyName | formatCurrency}}</div>
-              </td>
-              <td class="table__cell table__cell--arr-mob">
-                <svg
-                  width="10"
-                  height="6"
-                  viewBox="0 0 15 9"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M13.7272 1.36396L7.36328 7.72792L0.99932 1.36396"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
               </td>
             </tr>
             <tr>
