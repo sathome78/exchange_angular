@@ -1,0 +1,45 @@
+.balance-fiat{
+  padding-bottom: 32px;
+  .balance__currency-icon{
+    min-width: unset;
+    max-width: unset;
+    height: 14px;
+  }
+}
+
+
+.ieo-table{
+  .descr-txt{
+    max-width: 180px;
+    overflow: hidden;
+  }
+.button-cell{
+  .btn{
+    width: 87px;
+    padding: 3px 8px;
+    &.btn-green{
+      background-color: #00B43D;
+      border: 1px solid #00B43D;
+      &:hover{
+        background-color:  #00CA45;
+        border: 1px solid  #00CA45;
+      }
+    }
+  }
+}
+
+.status-green{
+  color: #00B43D;
+}
+.status-red{
+  color: #EB5757;
+}
+
+
+ .coins-cell{
+  padding-left: 43px;
+}
+.table__row--no-hover{
+  background-color: transparent;
+}
+}
