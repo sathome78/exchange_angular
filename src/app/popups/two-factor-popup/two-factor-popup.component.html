@@ -55,7 +55,7 @@
       <div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/ {{ stepsSize  }}</div>
     </div>
     <!-- modal header end -->
-    <div class="modal__content" [ngSwitch]="provider">
+    <div class="modal__content side-popups twofa" [ngSwitch]="provider">
       <div *ngSwitchCase="google" [ngSwitch]="step">
         <div *ngSwitchCase="1">
           <app-google-step-one></app-google-step-one>

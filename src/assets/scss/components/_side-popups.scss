@@ -1,0 +1,1107 @@
+.send__title {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.send__subtitle{
+  text-align: center;
+  margin-bottom: 32px;
+  color:#A0A0A0;
+}
+.send__inputs-wrap, .refill__inputs-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.send__select .refill__select {
+  width: 100%;
+  max-width: 230px;
+  margin-bottom: 24px;
+  &--custom {
+    margin-bottom: 38px;
+  }
+}
+.send__wrap-input {
+  width: 100%;
+  max-width: 230px;
+  margin-bottom: 24px;
+  .avaliable {
+    position: absolute;
+    right: 0;
+    top: -16px;
+    font-size: 12px;
+    line-height: 14px;
+    @media(max-width: 1199px){
+      color:#DEDEFB;
+    }
+  }
+}
+.send__line {
+  height: 1px;
+  background-color: #ECECEC;
+}
+.send__info {
+  margin-top: 28px;
+}
+.send__info-row {
+  display: flex;
+  margin-bottom: 12px;
+  &:last-child {
+    margin-bottom: 24px;
+  }
+}
+.send__info-title {
+  width: 50%;
+  text-align: left;
+  color: #4B4B4B;
+  font-weight: 400;
+}
+.send__info-value {
+  width: 50%;
+  text-align: right;
+  font-weight: bold;
+  @media(max-width: 1199px){
+    color:#DEDEFB;
+  }
+}
+.send__merchant-comission {
+  display: block;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+
+
+
+.modal__note {
+  width: calc(100% + 24px);
+  left: -12px;
+  margin-top: 24px;
+}
+
+@media (min-width: 1200px) {
+
+  .send__inputs-wrap, .refill__inputs-wrap {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .send__select, .refill__select {
+    max-width: none;
+    margin-bottom: 0;
+    margin-right: 32px;
+  }
+  .send__wrap-input {
+    max-width: none;
+      // margin-bottom: 0;
+      margin-right: 32px;
+      &:last-child{
+        margin-right: 0;
+      }
+    }
+    .send__info-row{
+      justify-content: space-between;
+    }
+    .send__info-title{
+      width: auto;
+      margin-left: 19.5%;
+      margin-right: 32px;
+    }
+    .send__info-value {
+      text-align: left;
+    }
+    .send__merchant-comission {
+      display: inline-block;
+      font-size: inherit;
+      line-height: inherit;
+    }
+    
+
+
+    .modal__note {
+      width: calc(100% + 64px);
+      left: -32px;
+      margin-top: 32px;
+    }
+  }
+
+
+
+  .captcha-wrapper{
+    display: flex;
+    flex-direction: column;
+    re-captcha{
+      margin: 0 auto;
+    }
+  }
+
+  .select__searching-item span {
+    color: #525F73;
+    font-weight: normal;
+  }
+
+
+
+  ::ng-deep div.wrap-input.send__wrap-input {
+    .wrap-input__message{
+      color: #EB5757 !important;
+    }
+    app-price-input {
+      label {
+        background: #191A39 !important;
+      }
+    }
+    &.wrap-input--error {
+      app-price-input {
+        label {
+          color: #EB5757 !important;
+        }
+        input:focus {
+          &+label{
+            color: #94C2FF !important;
+          }
+        }
+      }
+    }
+  }
+
+
+
+  ::ng-deep .send__inputs-wrap {
+    div.wrap-input {
+      &.send__wrap-input {
+        app-price-input {
+          label {
+            @media(min-width: 1200px){
+
+              background-color: #fff !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .dark-theme {
+    .side-popups{
+      h2 {
+        font-weight: normal;
+        font-size: 24px;
+        line-height: 28px;
+        text-align: center;
+        color: #191A39;
+        margin-bottom: 30px;
+        @media(max-width: 1200px){
+          color: #DEDEFB;
+        }
+      }
+      h3 {
+        font-weight: normal;
+        font-size: 17px;
+        line-height: 21px;
+        text-align: center;
+        color: #000;
+        margin-bottom: 24px;
+        @media(max-width: 1200px){
+          color: #DEDEFB;
+        }
+      }
+      .read{
+        border: 1px solid #ECECEC;
+        cursor: pointer;
+        border-radius: 2px;
+        display: block;
+        width: 16px;
+        height: 16px;
+        margin-right: 6px;
+        margin-top: -2px;
+        position: relative;
+        @media(max-width: 1200px){
+          border: 1px solid #DEDEFB;
+        }
+        &::after{
+          content: "";
+          position: absolute;
+          top: 2px;
+          right: 0;
+          display: block;
+          width: 13px;
+          height: 10px;
+          content: "";
+          background-image: url(/assets/img/step-valid.svg);
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 100%;
+          opacity: 0;
+          transition: .3s;
+          @media(max-width: 1200px){
+            background-image: url(/assets/img/check.svg);
+          }
+        }
+      }
+
+      #read {
+        display: none;
+      }
+
+      .check{
+        display: flex;
+        align-items: center;
+        span{
+          font-weight: 500;
+          font-size: 13px;
+          line-height: 1.15;
+          color: #525F73;
+          @media(max-width: 1200px){
+            color: #DEDEFB;
+          }
+        }
+
+        input{
+          &:checked{
+            &+label{
+              &::after{
+
+                opacity: 1;
+              }
+            }
+          }
+        }
+      }
+
+      .rules{
+        p{
+          a{
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 1.15;
+            color: #237BEF;
+            text-decoration: none;
+          }
+        }
+      }
+
+      .select-input_label {
+        top: -5px;
+        padding: 0 2px;
+        font-size: 10px;
+        line-height: 12px;
+        z-index: 100;
+        background-color: #fff;
+      }
+      .wrap-input__message--show{
+        color: #237BEF;
+        font-size: 13px;
+      }
+
+      perfect-scrollbar{
+        height: 160px;
+      }
+      .loading-container {
+        margin-top: 40%;
+      }
+      .wrap-input--error {
+        .wrap-input__label {
+          color: #EB5757 !important;
+        }
+      }
+
+      .btn {
+        margin-bottom: 24px;
+        .value {
+          display: none;
+        }
+      }
+      @media (min-width: 1200px) {
+        .btn {
+          margin-bottom: 28px;
+          .value {
+            display: inline-block;
+          }
+        }
+      }
+
+      .btn--empty-blue{
+        &:hover, &:focus{
+          // background-color: transparent !important;
+        }
+      }
+
+      .btn {
+        &.btn--center {
+          color: #ffffff;
+          &:hover{
+            background-color: #4590F3;
+          }
+          &:disabled {
+            background-color: transparent;
+            pointer-events: none;
+            color: #91929F;
+            border-color: #91929F;
+
+          }
+          &.btn--empty-blue {
+            color: #237BEF;
+            &:disabled {
+              background-color: transparent;
+              pointer-events: none;
+              color: #91929F;
+              border-color: #91929F;
+            }
+            &:hover {
+              background-color: transparent !important;
+              border: 1px solid #237BEF !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  .btn-active {
+    background-color: #237BEF;
+    color: #fff;
+  }
+  .qubera-content{
+    .inf-code {
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      color: #000000;
+      margin-bottom: 30px;
+    }
+    .choose-block {
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .inf-code {
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      color: #000000;
+      margin-bottom: 30px;
+    }
+    form {
+      max-width: 400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    form .input-block {
+      max-width: 260px;
+      position: relative;
+      margin: 0 auto 20px;
+    }
+
+    .change-number {
+      text-align: center;
+    }
+
+    .change-number a {
+      font-size: 12px;
+      color: #237BEF;
+    }
+
+    .notice-block{
+      margin-top: 50px;
+    }
+
+    .fiat-deposit-s1 form{
+      border: none;
+    }
+
+    .wrap-input__message {
+      margin-bottom: 10px;
+    }
+
+
+    form .action a {
+      font-weight: normal;
+      font-size: 16px;
+      text-align: center;
+      color: #FFFFFF;
+      background: #ECECEC;
+      border-radius: 4px;
+      padding: 14px 60px;
+      cursor: pointer;
+    }
+
+    form .select {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    form .wrap-input {
+      margin-bottom: 10px;
+    }
+
+    form .rules {
+      margin-top: 38px;
+      margin-bottom: 50px;
+    }
+
+    form .rules p{
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 15px;
+      color: #525F73;
+      margin-bottom: 16px;
+      @media(max-width: 1200px){
+        color: #DEDEFB;
+      }
+    }
+
+    form .action {
+      display: flex;
+      justify-content: center;
+    }
+
+    .select__list-searching-body {
+      overflow-y: auto!important;
+    }
+    .transaction__datepicker {
+      width: 100%!important;
+    }
+
+
+  }
+
+
+  .fiat-withdraw-s1{
+    form{
+      max-width: unset;
+      width: auto;
+      margin: 0 30px;
+
+    }
+    .main-form{
+      align-items: flex-start;
+      .select{
+        width: calc(33.333% - 15px);
+      }
+      .wrap-input{
+        width: calc(33.3333% - 15px);
+        &>.fiat-amount{
+          width: 100%;
+        }
+        .avaliable{
+          font-size: 12px;
+          line-height: 14px;
+          position: absolute;
+          top: -17px;
+          right: 0;
+
+        }
+      }
+
+    }
+    .secundary-form {
+      .input-block{
+        margin: 0 0 20px;
+      }
+      &+.select{
+        width: calc(50% - 15px);
+      }
+    }
+    .form-wr {
+      margin: 0 30px;
+    }
+  }
+
+
+  .qubera-withdraw-s1 form .select {
+    width: calc(50% - 15px);
+  }
+
+  .send-fiat-s2{
+    h2.send__title{
+      margin-bottom: 44px;
+    }
+    .send__wrap-input{
+      margin-bottom: 0;
+    }
+    .send__line{
+      margin-top: 36px;
+    }
+    .btn{
+      margin-bottom: 36px;
+    }
+    .modal__note{
+      margin-top: 37px;
+    }
+  }
+
+
+  .send__info{
+    display: table;
+    margin: 28px auto;
+    .send__info-row{
+      display: table-row;
+    }
+    .send__info-title{
+      display: table-cell;
+      padding: 5px;
+      padding-right: 40px;
+      @media(min-width: 1200px){
+        width: auto;
+      }
+      
+    }
+    .send__info-value{
+      display: table-cell;
+      padding: 6px;
+      width: auto;
+    }
+    
+  }
+
+  @media(min-width: 1200px){
+    .dark-theme .modal .side-popups .wrap-input__input:focus ~ .wrap-input__label, .dark-theme .modal .side-popups  .wrap-input__input:valid ~ .wrap-input__label {
+      color: #237BEF;
+      background-color: #fff;
+    }
+  }
+
+  .wrap-input--error .input-hint-wrapper .wrap-input__message--show{
+    color: #EB5757;
+  }
+
+
+  .refil-s1{
+    .btn{
+      margin-bottom: 24px;
+    }
+    @media (min-width:1200px){
+      .btn{
+        margin-bottom: 32px;
+      }
+    }
+  }
+
+
+  .refill-cripto{
+    .btn__icon{
+      width: 12px;
+      height: 12px;
+      margin-right: 4px;
+    }
+    #refill-qr{
+      display: none;
+    }
+
+    @media (min-width:1200px){
+      #refill-qr{
+        display: block;
+      }
+      .refill{
+        &__title{
+          margin-bottom: 32px;
+        }
+        
+        &__crypto-refill-info{
+          display: flex;
+        }
+        &__qr-code{
+          display: block;
+          width: 100%;
+          max-width: 240px;
+          text-align: center;
+          margin-right: 32px;
+          img{
+            max-width: 140px;
+            max-height: 140px;
+          }
+        }
+        
+        &__crypto-memo{
+          margin-top: 24px;
+        }
+        &__crypto-title{
+          margin-bottom: 8px;
+        }
+        &__crypto-hash{
+          margin-bottom: 12px;
+          font-size: 18px;
+          width: 400px;
+          overflow-wrap: break-word;
+          word-wrap: break-word;
+        }
+        &__crypto-copy-btn{
+          margin-bottom: 12px;
+        }
+        &__crypto-comission{
+          font-size: 12px;
+          line-height: 14px;
+        }
+
+      }
+      .btn{
+        max-width: 200px;
+      }
+      .select__list-searching{
+        display: block;
+        min-width: 380px;
+      }
+    }
+
+    .select__searching-item {
+      &:hover{
+        background-color: rgba(53, 124, 225, 0.1);
+        span{
+          color: #237BEF;
+        }
+      }
+      span {
+        color: #000;
+      }
+    }
+
+    .request-errors {
+      color: #EB5757;
+    }
+
+    .select__search-input {
+      color: #ccc !important;
+    }
+
+
+
+    @media(max-width: 1320px) and (min-width:1200px) {
+      .refill__select{
+        min-width: unset;
+        max-width: calc(100% - 200px);
+      }
+      .select__list-searching{
+        min-width: unset;
+      }
+    }
+  }
+
+
+  .refil-fiat, .refil-inner-tr{
+    .refill {
+
+      &__inputs-wrap {
+        margin-bottom: 12px;
+        @media(max-width:1199px) {
+          margin-bottom: 0;
+        }
+      }
+
+      &__fiat-successful-icon {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 16px;
+      }
+      &__fiat-successful-title {
+        text-align: center;
+        margin-bottom: 16px;
+      }
+      &__fiat-successful-subtitle {
+        text-align: center;
+        margin-bottom: 16px;
+        .link {
+          text-decoration: underline;
+        }
+      }
+      &__closed-error{
+        align-self: center;
+        color: #EB5757;
+      }
+      &__transfer-message{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 24px 0 0;
+      }
+      &__transfer-message-icon{
+        width: 45px;
+        height: 45px;
+        margin-right: 16px;
+        svg{
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &__transfer-message-text{
+        &--error{
+          color: #EB5757;
+        }
+        h6{
+          font-size: 18px;
+          margin-bottom: 4px;
+        }
+      }
+    }
+
+
+    @media (min-width: 1200px) {
+      .refill {
+        &__transfer-message-text{
+          color: #237BEF;
+          &--error{
+            color: #EB5757;
+          }
+
+        }
+        &__inputs-wrap {
+          flex-direction: column;
+          align-items: flex-start;
+          margin-bottom: 12px;
+        }
+        &__select {
+          width: 100%;
+          max-width: 270px;
+          margin: 0 auto 26px;
+        }
+        &__wrap-input {
+          margin: 0 auto;
+          max-width: 270px;
+        }
+        &__fiat-successful-title {
+          margin-bottom: 16px;
+        }
+        &__fiat-successful-subtitle {
+          margin-bottom: 16px;
+        }
+        &__transfer-message{
+          margin: 32px 0 0;
+        }
+        &__transfer-message-icon{
+          width: 60px;
+          height: 60px;
+        }
+      }
+
+
+    }
+
+
+    .standart-link {
+      cursor: pointer;
+    }
+
+    .wrap-input__message--show {
+      min-height: 30px;
+      font-size: 12px;
+    }
+
+    .btn{
+      max-width: 270px;
+    }
+  }
+
+
+  .refil-inner-tr{
+    .refill__wrap-input{
+      margin: 0 auto 28px;
+    }
+  }
+
+
+  .refill{
+    &__crypto-address{
+      margin-top: 33px;
+    }
+  }
+
+  .send-cripto-s2{
+
+    .send__select, .send__wrap-input{
+      width: calc(50% - 15px);
+      margin-bottom: 0;
+    }
+
+  }
+
+  .send-fiat-s2{
+    .send__select, .send__wrap-input{
+      width: calc(50% - 15px);
+      margin-bottom: 0;
+      
+    }
+    .send__inputs-wrap{
+      align-items: center;
+    }
+    .withdrawal__closed-error{
+      color: #EB5757;
+    }
+  }
+
+  .send-tfa-s3, .send-instant-s3, .send-email-s3, .send-protected-s3{
+
+    .send__inputs-wrap{
+      flex-direction: column;
+      max-width: 360px;
+      margin: 0 auto 14px;
+    }
+    .send__select{
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 35px;
+    }
+    .send__wrap-input{
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 35px;
+    }
+    @media(max-width: 1199px){
+     .send__select, .send__wrap-input, .btn{
+      max-width: 270px;
+    }
+    .send__info-title{
+      color: #94C2FF;
+    }
+    .send__select{
+
+      margin-bottom: 25px;
+    }
+    .send__wrap-input{
+      margin-bottom: 15px;
+    }
+  }
+}
+
+
+.refil-s3{
+  h2{
+    margin-bottom: 24px;
+  }
+  form{
+   .input-block{
+     margin: 0 auto 31px;
+   }
+ }
+ .btn{
+  max-width: 260px;
+}
+}
+
+.dark-theme{
+  .side-popups{
+    &.qubera-withdraw-s1{
+
+     form .select {
+      margin-bottom: 35px;
+    }
+    .wrap-input__message--show{
+      position: static;
+    }
+    @media(max-width: 1199px){
+      .main-form{
+        flex-direction: column;
+
+        .select, .wrap-input {
+          margin-bottom: 20px;
+        }
+        .avaliable{
+          color: #DEDEFB;
+        }
+        .fiat-amount{
+          margin-bottom: 0;
+        }
+      }
+      .secundary-form{
+
+        .select{
+          width: 100%;
+        }
+        
+
+      }
+      .wrap-input{
+        width: 100%;
+      }
+      .refill__select, .refill__wrap-input {
+        max-width: unset;
+      }
+
+    }
+  }
+    // .wrap-input__message--show{
+    //   position: absolute;
+    // }
+    @media(max-width: 1199px){
+      .popup__title{
+        color: #94C2FF;
+        font-size: 20px;
+      }
+      .refill__select, .refill__wrap-input {
+        width: 100%;
+        max-width: 268px;
+        margin-bottom: 28px;
+      }
+      .popup__link {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+
+.send-fiat-s2, .send-cripto-s2, .qubera-withdraw-s1{
+  @media(max-width: 1199px){
+    h2.send__title {
+      margin-bottom: 38px;
+    }
+    &.captcha-wrapper{
+      h2.send__title {
+        margin-bottom: 20px;
+      }
+    }
+    
+    .send__line{
+      margin-top: 0;
+    }
+    .send__select, .send__wrap-input, .refill__select, .refill__wrap-input {
+      width: 100%;
+      max-width: 270px;
+      margin-bottom: 28px;
+    }
+    .btn{
+      max-width: 270px;
+    }    
+    
+  }
+}
+@media(max-width: 1199px){
+  .send__info{ 
+    .send__info-title {
+      padding-right: 8px;
+      color: #94C2FF;
+      line-height: 1.44;
+    }
+    .send__info-value{
+      line-height: 1.44;
+    }
+  }
+}
+
+
+.refill-cripto{
+  @media(max-width: 1199px){
+    .btn{
+      max-width: 270px;
+    }
+  }
+}
+.dark-theme{
+  .refil-fiat{
+    .select__value--error ~ .select__triangle{
+      border-top-color: #237BEF;
+    }
+  }
+}
+
+
+
+.send {
+  &__successful{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+  }
+  &__title{
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  &__successful-icon{
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 16px;
+  }
+  &__successful-title{
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  &__successful-subtitle{
+    text-align: center;
+    margin-bottom: 16px;
+    .link{
+      text-decoration:underline;
+    }
+  }
+  &__code-wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    .btn{
+      flex-grow: 0;
+      margin: 0;
+    }
+  }
+  &__code-title{
+    font-size: 14px;
+    line-height: 16px;
+    color:#A0A0A0;
+    margin-bottom: 12px;
+  }
+  &__code{
+    width: 100%;
+    max-width: 370px;
+    margin-bottom: 12px;
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: bold;
+    text-align: center;
+    word-wrap: break-word;
+  }
+}
+.send__successful{
+  .btn{
+    margin-top: 8px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .send {
+    &__successful-title{
+      margin-bottom: 16px;
+    }
+    &__successful-subtitle{
+      text-align: center;
+      margin-bottom: 16px;
+    }
+  }
+  .send__successful{
+    .btn{
+      margin-top: 16px;
+    }
+  }
+}
+.qubera-kyc-s1{
+  padding: 15px;
+}
+
+.qubera-deposite-s1{
+  .main-form{
+    @media(max-width: 1199px){
+      padding: 0 20px;
+
+    }
+  }
+
+}
+
+.side-popups{
+  .btn.btn--center{
+    max-width: 260px;
+  }
+}
+
+
+.dark-theme{ 
+  .side-popups {
+    &.twofa{
+      .title{
+        margin-bottom: 14px;
+      }
+    }
+  }
+}

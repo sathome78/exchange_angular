@@ -9,3 +9,17 @@
 		font-weight: 600;
 	}	
 }
+
+@media (min-width: 600px){
+	.modal__content {
+		padding: 32px; 
+	}
+}
+
+.warning-txt{
+	color: #EB5757;
+}
+
+.note__list-item{
+	font-size: 15px;
+}

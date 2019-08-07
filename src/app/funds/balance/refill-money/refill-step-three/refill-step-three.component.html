@@ -1,18 +1,43 @@
-<div class="modal__content qubera-content">
+<div class="modal__content qubera-content refil-s3">
   <div class="fiat-deposit-s1 fiat-withdraw-s1">
-  <h2>{{'Transaction confirmation' | translate}}</h2>
-  <!-- <div class="inf-code" *ngIf="!googleAuthenticator">{{'Please enter two-factor authentication code that was sent to your email' | translate}}</div>
-  <div class="inf-code" *ngIf="googleAuthenticator">{{'Use Google Authenticator to generate pincode' | translate}}</div> -->
+    <!-- <h2>{{'Transaction confirmation' | translate}}</h2> -->
+    <h4
+      class="popup__subtitle popup_title--dm"
+      [ngClass]="{'msg-error' : isError}"
+    >
+      {{twoFaTitle}}
+    </h4>
+    <!-- <h4
+      class="popup__subtitle popup_title--dm"
+      *ngIf="googleAuthenticator"
+    >
+      {{'Use Google Authenticator to generate pincode' | translate}}
+    </h4> -->
 
-  <form [formGroup]="form">
-    <div class="input-block">
-      <input class="wrap-input__input" type="text" name="code" formControlName="code" required>
-      <label class="wrap-input__label" for="code">{{'Code' | translate}}</label>
-      <ng-container *ngIf="!currentCode.valid && !currentCode.untouched && !statusMessage">
+    <form
+      [formGroup]="form"
+      (submit)="submit(form)"
+    >
+      <div class="input-block">
+        <input
+          class="wrap-input__input"
+          type="text"
+          name="code"
+          formControlName="code"
+          required
+        >
+        <label
+          class="wrap-input__label"
+          for="code"
+        >{{'Code' | translate}}</label>
+        <ng-container *ngIf="!currentCode.valid && !currentCode.untouched && !statusMessage">
           <div class="input-hint-wrapper">
-              <span class="wrap-input__message" *ngIf="!currentCode.valid">
+            <span
+              class="wrap-input__message"
+              *ngIf="!currentCode.valid"
+            >
               {{'Code field is required.' | translate}}
-              </span>
+            </span>
           </div>
         </ng-container>
         <ng-container *ngIf="statusMessage">
@@ -22,10 +47,14 @@
             </span>
           </div>
         </ng-container>
-    </div>
-  </form>
-  <button class="btn btn--center" (click)="submit(form)">
-    {{'Confirm' | translate}}
-  </button>
-</div>
+      </div>
+      <button
+        class="btn btn--center"
+        type="submit"
+        [disabled]="!form.valid"
+      >
+        {{'Confirm' | translate}}
+      </button>
+    </form>
+  </div>
 </div>
