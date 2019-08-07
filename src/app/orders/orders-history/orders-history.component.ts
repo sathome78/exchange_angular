@@ -129,7 +129,7 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
       limit: this.countPerPage,
     };
     this.store.dispatch(new ordersAction.LoadLastHistoryOrdersAction(params));
-    this.orderItems$.subscribe(res => console.log(res));
+    this.orderItems$.subscribe(res => {});
   }
 
   loadMoreOrders(): void {

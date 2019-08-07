@@ -238,7 +238,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
             this.goToThirdStep.emit(true);
           },
           error => {
-            console.log(error);
+            console.error(error);
           }
         );
     } else {

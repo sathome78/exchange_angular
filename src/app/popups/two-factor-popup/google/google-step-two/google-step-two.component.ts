@@ -42,7 +42,6 @@ export class GoogleStepTwoComponent implements OnInit, OnNextStep, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (dto: TwoFaResponseDto) => {
-          console.log(dto);
           this.secretCode = dto.message;
           if (dto.error) {
             this.statusMessage = dto.error;
