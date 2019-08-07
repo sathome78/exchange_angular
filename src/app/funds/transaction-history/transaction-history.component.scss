@@ -24,3 +24,13 @@
     }
   }
 }
+@media(max-width: 1199px){
+  ::ng-deep .dynamic-input{
+    padding: 0 12px!important;
+
+  }
+
+  ::ng-deep .wrap-input__label{
+    left: 11px!important;
+  }
+}
