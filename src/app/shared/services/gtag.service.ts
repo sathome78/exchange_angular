@@ -11,7 +11,7 @@ export class GtagService {
       event_category: 'registration-form',
       event_label: 'successe-form-sent',
     });
-    console.log('Successfully send registration gtag');
+    // console.log('Successfully send registration gtag');
   }
 
   sendConfirmationPasswordGtag() {
@@ -19,7 +19,7 @@ export class GtagService {
       event_category: 'password-confirm',
       event_label: 'finish-registration',
     });
-    console.log('Successfully send confirmation password gtag');
+    // console.log('Successfully send confirmation password gtag');
   }
 
   sendLoginSuccessGtag() {
@@ -27,12 +27,12 @@ export class GtagService {
       event_category: 'login-form',
       event_label: 'login-success',
     });
-    console.log('successfully send login gtag');
+    // console.log('successfully send login gtag');
   }
 
   sendTransactionSuccessGtag() {
     this.gtag({ event: 'transaction' });
-    console.log('successfully send transactions gtag');
+    // console.log('successfully send transactions gtag');
   }
 
   sendRecoveryPasswordGtag() {
@@ -40,7 +40,7 @@ export class GtagService {
       event_category: 'recovered-pass',
       event_label: 'recovered-success',
     });
-    console.log('Successfully send password recovery gtag');
+    // console.log('Successfully send password recovery gtag');
   }
 
   sendGenerateWalletGtag(id) {
@@ -48,7 +48,7 @@ export class GtagService {
       event_category: 'recharge-ballance',
       event_label: id,
     });
-    console.log('Successfully send generate wallet send');
+    // console.log('Successfully send generate wallet send');
   }
 
   setUserId(id: string) {
@@ -56,7 +56,7 @@ export class GtagService {
       this.isSetUserId = true;
       this.gtag('set', { user_id: id });
       this.gtag('config', 'GTM-TPR6SBC');
-      console.log('Set user id gtag');
+      // console.log('Set user id gtag');
     }
   }
 
@@ -65,14 +65,14 @@ export class GtagService {
       this.isSetUserId = false;
       this.gtag('set', { user_id: '' });
       this.gtag('config', 'GTM-TPR6SBC');
-      console.log('Remove user id gtag');
+      // console.log('Remove user id gtag');
     }
   }
 
   initGtag() {
     this.gtag('js', new Date());
     this.gtag('config', 'GTM-TPR6SBC');
-    console.log('Init gtag');
+    // console.log('Init gtag');
   }
 
   private gtag(...argument) {

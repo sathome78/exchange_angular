@@ -13,7 +13,6 @@ export class NewsService {
 
   subscribeToPartnerNews(email: string) {
     // send email to back-end
-    console.log('send to back' + email);
     return of(true);
   }
 

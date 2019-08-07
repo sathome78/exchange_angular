@@ -132,7 +132,8 @@ export class StepOneComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(
           (response: any) => {
-            window.open(`${response.data.url}`, '_blank');
+            const newWnd = window.open(`${response.data.url}`, '_blank');
+            newWnd.opener = null;
             this.disable = false;
             this.nextStep.emit(2);
           },

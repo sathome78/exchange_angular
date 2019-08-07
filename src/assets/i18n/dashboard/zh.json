@@ -456,7 +456,7 @@
   "Type": "类型",
   "US Dollar": "美元",
   "Unfortunately now you are not able to trade on this version of the website.": "抱歉，目前您无法在此版本网站上进行交易",
-  "Unfortunately, for this moment there is no opportunity to continue desired action on current version of site. Please, go to <a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\">exrates.me</a> to proceed your action.": "抱歉，目前您无法在此版本网站上继续操作。请转到<a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\">exrates.me</a>继续",
+  "Unfortunately, for this moment there is no opportunity to continue desired action on current version of site. Please, go to <a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">exrates.me</a> to proceed your action.": "抱歉，目前您无法在此版本网站上继续操作。请转到<a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">exrates.me</a>继续",
   "Update password": "更新密码",
   "Upload image of your face": "请上传您的照片",
   "Use Google Authenticator to generate pincode": "使用谷歌身份验证器创建PIN码",
