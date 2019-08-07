@@ -216,7 +216,7 @@
         </button>
 
         <button
-          class="tabs__item"
+          class="tabs__item funding-tabs"
           [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
           (click)="onSelectTab(Tab.QUBERA)"
           [disabled]="loading$ | async"
@@ -260,6 +260,7 @@
             </svg>
           </div>
           <span>{{'Funding wallet' | translate}}</span>
+          <a href="https://support.exrates.me/article/kyc-fiat-account" class="hint-link" target="_blank">?</a>
         </button>
 
         <button
