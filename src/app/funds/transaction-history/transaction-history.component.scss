@@ -35,17 +35,6 @@
   }
 }
 
-
-::ng-deep .filters-popup__datepicker:first-child{
- .mydp{
-  @media(max-width: 1199px){
-    .selector{
-
-    }
-  }
-}
-}
-
 ::ng-deep .filters-popup__datepicker:last-child{
  .mydp{
   @media(max-width: 1199px){
