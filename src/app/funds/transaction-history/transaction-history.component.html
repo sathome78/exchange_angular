@@ -163,31 +163,6 @@
                   </div>
                 </div>
               </td>
-              <td class="table__cell table__cell--tal">
-                <div>{{item.currencyName}}</div>
-                <div class="transaction__currency-type">
-                  {{isFiat(item.currencyName) ? 'Fiat' : 'Crypto'}}
-                </div>
-              </td>
-              <td class="table__cell table__cell--tar">
-                <div class="txt-red">{{item.amount | roundCurrency:item.currencyName | formatCurrency}}</div>
-              </td>
-              <td class="table__cell table__cell--arr-mob">
-                <svg
-                  width="10"
-                  height="6"
-                  viewBox="0 0 15 9"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M13.7272 1.36396L7.36328 7.72792L0.99932 1.36396"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </td>
             </tr>
             <tr>
               <td colspan="4">
