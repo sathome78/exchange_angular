@@ -1,11 +1,12 @@
 <div
   style="display: block;"
   *ngIf="!!activeFiat && !!fiatDataByName"
+  class="refil-fiat side-popups"
 >
-  <div
+  <h2
     class="title refill__title"
     *ngIf="!submitSuccess"
-  >{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></div>
+  >{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></h2>
   <form [formGroup]="form">
     <div
       class="refill__inputs-wrap"
@@ -39,7 +40,7 @@
         >
           <li
             class="select__list-item"
-            *ngFor="let currency of fiatNames; trackBy: trackByFiatNames"
+            *ngFor="let currency of fiatNames"
             (click)="selectCurrency(currency)"
           >
             <img
@@ -99,13 +100,12 @@
           <ul class="select__list select__list--open">
             <ng-template
               ngFor
-              [ngForOf]="merchants"
               let-merchant
-              [ngForTrackBy]="trackByIndex"
+              [ngForOf]="merchants"
             >
               <li
                 class="select__list-item"
-                *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate; trackBy: trackByIndex"
+                *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
                 (click)="selectMerchant(merchant, nested)"
               >
                 <img
@@ -165,9 +165,8 @@
   <button
     class="btn btn--center"
     *ngIf="!submitSuccess && selectedMerchant"
-    [ngClass]="{'btn--empty-blue': !form.valid || !selectedMerchant.name}"
     (click)="submitRefill()"
-    [disabled]="loading"
+    [disabled]="!form.valid || !selectedMerchant.name || loading"
   >
     {{'Refill' | translate}}
   </button>
@@ -223,13 +222,14 @@
       method="post"
       [action]="refillData.redirectionUrl"
       target="_blank"
+      rel="nofollow noopener noreferrer"
       *ngIf="refillData"
     >
       <input
         type="hidden"
         [name]="key"
         [value]="refillData.params[key]"
-        *ngFor="let key of refillData.params | keys; trackBy: trackByIndex"
+        *ngFor="let key of refillData.params | keys"
       >
     </form>
 

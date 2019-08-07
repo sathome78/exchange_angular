@@ -5,43 +5,43 @@
 	</div>
 	<div class="modal__header-mob-controls">
 		<a class="modal__control-mob" (click)="onCloseQuberaPopup()">
-		<img class="modal__control-icon" src="../../../assets/img/close-blue.svg"></a>
-	</div>
+			<img class="modal__control-icon" src="../../../assets/img/close-blue.svg"></a>
+		</div>
 	</div>
 	<div class="modal__header">
-	<ul class="steps">
-		<li class="steps__item"
+		<ul class="steps">
+			<li class="steps__item"
 			[ngClass]="{'steps__item--current': step === 1}"
-		>
-		<a class="steps__link" (click)="setStep(1)">
-			<span class="steps__number" [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
-			<span class="steps__number-mob-current">1. {{'Create Account' | translate}}</span>
-			<span class="steps__title">{{'Create Account' | translate}}</span>
-		</a>
+			>
+			<a class="steps__link" (click)="setStep(1)">
+				<span class="steps__number" [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
+				<span class="steps__number-mob-current">1. {{'Create Account' | translate}}</span>
+				<span class="steps__title">{{'Create Account' | translate}}</span>
+			</a>
 		</li>
 		<li class="steps__item" *ngIf="step >= 2"
 			[ngClass]="{'steps__item--current': step === 2}"
-		>
-		<a class="steps__link" (click)="setStep(2)">
-			<span class="steps__number" [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }">2</span>
-			<span class="steps__number-mob-current">2. {{'Finished' | translate}}</span>
-			<span class="steps__title">{{'Finished' | translate}}</span>
-		</a>
+			>
+			<a class="steps__link" (click)="setStep(2)">
+				<span class="steps__number" [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }">2</span>
+				<span class="steps__number-mob-current">2. {{'Finished' | translate}}</span>
+				<span class="steps__title">{{'Finished' | translate}}</span>
+			</a>
 		</li>
 	</ul>
 	<div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/ 2</div>
 </div>
-	<!-- modal header end -->
+<!-- modal header end -->
 
-<div class="modal__content">
+<div class="modal__content side-popups">
 	<app-step-one-qubera
-		*ngIf="step === 1"
-		(nextStep)="nextStep(2)"
+	*ngIf="step === 1"
+	(nextStep)="nextStep(2)"
 	>
-	</app-step-one-qubera>
-	<app-step-two-qubera
-		*ngIf="step === 2"
-		(closeQuberaPopup)="onCloseQuberaPopup()"
-	>
-	</app-step-two-qubera>
+</app-step-one-qubera>
+<app-step-two-qubera
+*ngIf="step === 2"
+(closeQuberaPopup)="onCloseQuberaPopup()"
+>
+</app-step-two-qubera>
 </div>

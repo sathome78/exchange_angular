@@ -96,8 +96,6 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
-    this.notifyFail = false;
-    this.notifySuccess = false;
     if ($event.target.className !== 'dropdown__btn') {
       this.isDropdownOpen = false;
     }
@@ -584,7 +582,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * on click submit button
    */
   onSubmit(type: string): void {
-    // window.open('https://exrates.me/dashboard', '_blank');
+    // const newWnd = window.open('https://exrates.me/dashboard', '_blank');
+    // newWnd.opener = null;
     if (!this.isAuthenticated) {
       this.popupService.showMobileLoginPopup(true);
       return;
@@ -607,7 +606,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       }
 
       this.dropdownLimitValue === this.baseType.STOP_LIMIT
-        ? (this.sellOrder.stop = parseFloat(this.sellStopValue.toString()))
+        ? (this.sellOrder.stop = parseFloat(this.sellStopValue ? this.sellStopValue.toString() : '0'))
         : delete this.sellOrder.stop;
 
       this.sellOrder.total = !this.isTotalWithCommission
@@ -641,7 +640,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       }
 
       this.dropdownLimitValue === this.baseType.STOP_LIMIT
-        ? (this.buyOrder.stop = parseFloat(this.buyStopValue.toString()))
+        ? (this.buyOrder.stop = parseFloat(this.buyStopValue ? this.buyStopValue.toString() : '0'))
         : delete this.buyOrder.stop;
 
       this.buyOrder.total = !this.isTotalWithCommission
@@ -662,21 +661,31 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     const order = type === this.BUY ? this.buyOrder : this.sellOrder;
     this.createdOrder = order;
     this.loading = true;
-    this.tradingService
-      .createOrder(order)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(
-        res => {
-          type === this.BUY
-            ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
-            : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
-          this.createOrderSuccess();
-        },
-        err => {
-          this.checkErrorCode(err);
-          this.createOrderFail();
-        }
-      );
+    const isDataValid = this.checkIsDataForOrderValid(order);
+
+    if (isDataValid) {
+      this.tradingService
+        .createOrder(order)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(
+          res => {
+            type === this.BUY
+              ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
+              : this.resetSellModel(
+                  order.rate,
+                  this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null
+                );
+            this.createOrderSuccess();
+          },
+          err => {
+            this.checkErrorCode(err);
+            this.createOrderFail();
+          }
+        );
+    } else {
+      this.checkValidationCode(order);
+      this.createOrderFail();
+    }
   }
 
   /**
@@ -690,7 +699,9 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
 
     const order = type === this.BUY ? this.buyOrder : this.sellOrder;
     this.createdOrder = order;
-    if (order.total > 0) {
+
+    const isDataValid = this.checkIsDataForOrderValid(order);
+    if (isDataValid) {
       this.loading = true;
       this.tradingService
         .createOrder(order)
@@ -706,9 +717,13 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
             this.createOrderSuccess();
           },
           err => {
+            this.checkErrorCode(err);
             this.createOrderFail();
           }
         );
+    } else {
+      this.checkValidationCode(order);
+      this.createOrderFail();
     }
   }
 
@@ -747,6 +762,58 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       }
     } else if (err.error.cause === 'OpenApiException') {
       this.errorMessages.push(err.error.detail);
+    }
+  }
+
+  private checkIsDataForOrderValid(order) {
+    let isValid = false;
+    if (this.dropdownLimitValue === this.baseType.MARKET) {
+      isValid = order.amount > 0.00000001;
+    } else if (this.dropdownLimitValue === this.baseType.STOP_LIMIT) {
+      isValid =
+        order.total > 0.00000001 && order.stop > 0.00000001 && order.amount > 0.00000001 && order.rate > 0.00000001;
+    } else if (this.dropdownLimitValue === this.baseType.LIMIT) {
+      isValid = order.total > 0.00000001 && order.amount > 0.00000001 && order.rate > 0.00000001;
+    }
+    return isValid;
+  }
+
+  private checkValidationCode(order) {
+    this.errorMessages = [];
+    if (this.dropdownLimitValue === this.baseType.MARKET) {
+      if (order.amount <= 0.00000001) {
+        this.errorMessages.push('The quantity must be greater than 0.00000001.');
+      }
+    } else if (this.dropdownLimitValue === this.baseType.STOP_LIMIT) {
+      if (order.amount <= 0.00000001) {
+        this.errorMessages.push('The quantity must be greater than 0.00000001.');
+      }
+      if (order.rate <= 0.00000001) {
+        this.errorMessages.push('The limit price must be greater than 0.00000001.');
+      }
+      if (order.stop <= 0.00000001) {
+        this.errorMessages.push('The stop limit must be greater than 0.00000001.');
+      }
+      if (order.total <= 0.00000001) {
+        this.errorMessages.push('The total must be greater than 0.00000001.');
+      }
+    } else if (this.dropdownLimitValue === this.baseType.LIMIT) {
+      if (order.amount <= 0.00000001) {
+        this.errorMessages.push('The quantity must be greater than 0.00000001.');
+      }
+      if (order.rate <= 0.00000001) {
+        this.errorMessages.push('The limit price must be greater than 0.00000001.');
+      }
+      if (order.total <= 0.00000001) {
+        this.errorMessages.push('The total must be greater than 0.00000001.');
+      }
+    }
+    if (this.errorMessages.length) {
+      if (this.errorMessages.length === 1) {
+        this.errorMessages.push('Complete the feald');
+      } else {
+        this.errorMessages.push('Complete the fealds');
+      }
     }
   }
 

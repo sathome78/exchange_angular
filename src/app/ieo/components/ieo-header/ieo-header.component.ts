@@ -48,7 +48,8 @@ export class IeoHeaderComponent implements OnInit {
   }
 
   goToNewsPage() {
-    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`);
+    const newWnd = window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`);
+    newWnd.opener = null;
   }
 
   get boughtAmount() {
