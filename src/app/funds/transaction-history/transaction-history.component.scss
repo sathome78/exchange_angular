@@ -34,3 +34,29 @@
     left: 11px!important;
   }
 }
+
+
+::ng-deep .filters-popup__datepicker:first-child{
+ .mydp{
+  @media(max-width: 1199px){
+    .selector{
+
+    }
+  }
+}
+}
+
+::ng-deep .filters-popup__datepicker:last-child{
+ .mydp{
+  @media(max-width: 1199px){
+    .selector{
+      left: auto;
+      right: 0;
+    }
+    .selectorarrowleft:after, .selectorarrowleft:before{
+      right: 10px;
+      left: auto;
+    }
+  }
+}
+}
