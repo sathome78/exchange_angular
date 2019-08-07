@@ -69,8 +69,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     ) {
       this.openPaymentSystemDropdown = false;
       this.merchants =
-        this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-          ? this.fiatDataByName.merchantCurrencyData : [];
+        this.fiatDataByName && this.fiatDataByName.merchantCurrencyData ? this.fiatDataByName.merchantCurrencyData : [];
       // FUG BLOCK
       // this.merchants =
       //   this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
@@ -138,9 +137,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   togglePaymentSystemDropdown() {
     this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
     this.merchants =
-      this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-        ? this.fiatDataByName.merchantCurrencyData
-        : [];
+      this.fiatDataByName && this.fiatDataByName.merchantCurrencyData ? this.fiatDataByName.merchantCurrencyData : [];
     // FUG BLOCK
     // this.merchants =
     //   this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
@@ -199,9 +196,12 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    this.form = new FormGroup({
-      amount: new FormControl('', [Validators.required, this.minCheck.bind(this)]),
-    });
+    this.form = new FormGroup(
+      {
+        amount: new FormControl('', [Validators.required, this.minCheck.bind(this)]),
+      },
+      { updateOn: 'change' }
+    );
   }
 
   submitRefill() {
@@ -295,22 +295,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.router.navigate(['/funds/balances?tab=pr']);
     this.closePopup.emit(true);
   }
-
-  // getRefillRedirectionUrl(response: RefillResponse): string {
-  //   if (response && response.method === 'POST') {
-  //     let url = response.redirectionUrl + '?';
-  //     for (const key in response.params) {
-  //       // console.log('K: ' + key + ' V: ' + response.params[key]);
-  //       url += key + '=' + response.params[key] + '&';
-  //     }
-  //     console.log(url);
-  //     return url;
-  //   }
-  //   if (response && !response.method) {
-  //     return response.redirectionUrl;
-  //   }
-  //   return null;
-  // }
 
   trackByFiatNames(index, item) {
     return item.id;
