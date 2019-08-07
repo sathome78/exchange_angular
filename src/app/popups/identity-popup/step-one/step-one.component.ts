@@ -52,13 +52,11 @@ export class StepOneComponent implements OnInit, OnDestroy {
     const entity = UserInfoVerificationModel.builder()
       .withFormGroup(this.form)
       .build();
-    console.log(JSON.stringify(entity));
     this.verificationService
       .uploadVerificationInfo(entity)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         res => {
-          console.log(res);
           this.nextStep.emit(2);
         },
         error1 => {

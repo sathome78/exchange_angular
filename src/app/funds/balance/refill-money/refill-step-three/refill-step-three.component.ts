@@ -30,7 +30,6 @@ export class RefillStepThreeComponent implements OnInit {
       .pipe(first())
       .subscribe((data: any) => {
         this.sendRefillBalance = data;
-        console.log(this.sendRefillBalance);
       });
   }
 
@@ -69,11 +68,9 @@ export class RefillStepThreeComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (data: any) => {
-            console.log(data);
           },
           error => {
             this.setStatusMessage(error);
-            console.log(error);
           }
         );
     }
