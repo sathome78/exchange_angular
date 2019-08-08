@@ -26,6 +26,7 @@ import { defaultCommissionData } from 'app/funds/store/reducers/default-values';
 import { FUG } from 'app/funds/balance/balance-constants';
 import * as fundsReducer from 'app/funds/store/reducers/funds.reducer';
 import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
+import fileSaver from 'file-saver';
 
 @Component({
   selector: 'app-step-one-deposit',
@@ -264,21 +265,19 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
     this.alphabet = _uniq(temp.filter(unique).sort());
   }
 
-  download() {
-    const data = document.getElementById('pdf-download');
-    html2canvas(data).then(canvas => {
-      // Few necessary setting options
-      const imgWidth = 208;
-      const pageHeight = 295;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      const heightLeft = imgHeight;
-
-      const contentDataURL = canvas.toDataURL('image/png');
-      const pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
-      const position = 0;
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-      pdf.save('kp.pdf'); // Generated PDF
-    });
+  download(url) {
+    this.balanceService
+      .downloadQuberaInvoice(url)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (data: any) => {
+          const blob = new Blob([data], { type: 'application/pdf' });
+          fileSaver(blob, 'invoice.pdf');
+        },
+        err => {
+          console.error(err);
+        }
+      );
   }
 
   depositBankInfo() {
