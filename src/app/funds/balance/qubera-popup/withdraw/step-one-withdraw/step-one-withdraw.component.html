@@ -599,19 +599,20 @@
         [disabled]="!form.valid || !formSwift.valid"
         (click)="submit(form, formSwift)"
       >
-        Withdrawal
+        {{'Withdrawal' | translate}}
       </button>
     </form>
 
     <div class="notice-block">
-      <span class="head-notice">Please note:</span>
+      <span class="head-notice">{{'Please note:' | translate}}</span>
       <ul>
         <li>
-          <span>Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email.
+          <span>
+            {{'Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email.' | translate}}
           </span>
         </li>
         <li>
-          <span>After making a withdrawal, you can track its progress in history on funds page.
+          <span>{{'After making a withdrawal, you can track its progress in history on funds page.' | translate}}
           </span>
         </li>
 
