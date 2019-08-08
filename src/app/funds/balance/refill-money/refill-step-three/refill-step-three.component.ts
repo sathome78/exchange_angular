@@ -61,10 +61,9 @@ export class RefillStepThreeComponent implements OnInit {
 
   submit(form) {
     if (form.valid) {
-      this.sendRefillBalance.securityCode = `${form.value.code}`;
-
+      this.sendRefillBalance.pin = `${form.value.code}`;
       this.balanceService
-        .withdrawRequest(this.sendRefillBalance)
+        .refill(this.sendRefillBalance)
         .pipe(first())
         .subscribe(
           (data: any) => {
