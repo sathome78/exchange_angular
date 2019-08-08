@@ -1,34 +1,67 @@
-<div class="fiat-deposit-s1 qubera-deposite-s1" *ngIf="!!activeFiat && !!fiatDataByName">
+<div
+  class="fiat-deposit-s1 qubera-deposite-s1"
+  *ngIf="!!activeFiat && !!fiatDataByName"
+>
   <h2>Make fiat deposit in EUR</h2>
 
-  <form [formGroup]="form" id="d-s1">
+  <form
+    [formGroup]="form"
+    id="d-s1"
+  >
     <div class="main-form">
-      <div class="select refill__select" style="display: inline-block;">
+      <div
+        class="select refill__select"
+        style="display: inline-block;"
+      >
         <div
           class="select__value select__value--active"
           (click)="toggleCurrencyDropdown()"
-          [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}">
-          <img [src]="activeFiat.name | getIconUrl:true" class="select__list-item-icon select__list-item-icon--mobile">
-          <img [src]="activeFiat.name | getIconUrl" class="select__list-item-icon select__list-item-icon--destop">
+          [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}"
+        >
+          <img
+            [src]="activeFiat.name | getIconUrl:true"
+            class="select__list-item-icon select__list-item-icon--mobile"
+          >
+          <img
+            [src]="activeFiat.name | getIconUrl"
+            class="select__list-item-icon select__list-item-icon--destop"
+          >
           {{activeFiat.name}}
         </div>
         <div class="select__label">{{'Currency' | translate}}</div>
         <div class="select__line"></div>
         <div class="select__triangle"></div>
-        <ul class="select__list"
-            [ngClass]="{'select__list--open': openCurrencyDropdown}"
-            *ngIf="openCurrencyDropdown">
-          <li class="select__list-item" *ngFor="let currency of fiatNames" (click)="selectCurrency(currency)">
-            <img [src]="currency.name | getIconUrl" class="select__list-item-icon">
+        <ul
+          class="select__list"
+          [ngClass]="{'select__list--open': openCurrencyDropdown}"
+          *ngIf="openCurrencyDropdown"
+        >
+          <li
+            class="select__list-item"
+            *ngFor="let currency of fiatNames"
+            (click)="selectCurrency(currency)"
+          >
+            <img
+              [src]="currency.name | getIconUrl"
+              class="select__list-item-icon"
+            >
             {{currency.name}}
           </li>
         </ul>
       </div>
 
-      <div class="select refill__select" *ngIf="selectedMerchant">
-        <div class="select__value select__value--active"
-              (click)="togglePaymentSystemDropdown()">
-          <img [src]="selectMerchantName | getIconUrl" class="select__list-item-icon">
+      <div
+        class="select refill__select"
+        *ngIf="selectedMerchant"
+      >
+        <div
+          class="select__value select__value--active"
+          (click)="togglePaymentSystemDropdown()"
+        >
+          <img
+            [src]="selectMerchantName | getIconUrl"
+            class="select__list-item-icon"
+          >
           {{selectMerchantName}}
         </div>
         <div class="select__label">{{'Payment system' | translate}}</div>
@@ -37,29 +70,53 @@
         <div
           class="select__list-searching"
           [ngClass]="{'select__list-searching--open': openPaymentSystemDropdown}"
-          *ngIf="openPaymentSystemDropdown">
+          *ngIf="openPaymentSystemDropdown"
+        >
           <div class="select__search">
-            <input class="select__search-input" type="text" placeholder="Search" (input)="searchMerchant($event)">
+            <input
+              class="select__search-input"
+              type="text"
+              placeholder="Search"
+              (input)="searchMerchant($event)"
+            >
             <div class="select__search-icon">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"
+                />
               </svg>
             </div>
           </div>
           <ul class="select__list select__list--open">
-            <ng-template ngFor let-merchant [ngForOf]="merchants">
-              <li class="select__list-item"
-                  *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
-                  (click)="selectMerchant(merchant, nested)">
-                <img [src]="nested.image_name | getIconUrl" class="select__list-item-icon">
+            <ng-template
+              ngFor
+              let-merchant
+              [ngForOf]="merchants"
+            >
+              <li
+                class="select__list-item"
+                *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
+                (click)="selectMerchant(merchant, nested)"
+              >
+                <img
+                  [src]="nested.image_name | getIconUrl"
+                  class="select__list-item-icon"
+                >
                 {{nested.image_name}}
               </li>
             </ng-template>
           </ul>
         </div>
       </div>
-        <!-- <app-price-input  style="display: inline-block;"
+      <!-- <app-price-input  style="display: inline-block;"
           [placeholder]="'Amount'"
           [currencyName]="activeFiat.name"
           (customInput)="amountInput($event)"
@@ -72,52 +129,79 @@
         </app-price-input> -->
     </div>
   </form>
-  <div class="info-block" *ngIf="bankInfo !== undefined">
+  <div
+    class="info-block"
+    *ngIf="bankInfo"
+  >
     <div class="left-part">
       <div class="left-block">
-        <div class="print-block" id="pdf-download">
+        <div
+          class="print-block"
+          id="pdf-download"
+        >
           <div class="item-info">
             <span class="key-info">{{'Bank' | translate}}</span>
-            <span class="value-info">{{bankInfo?.bankName}}</span>
+            <span class="value-info">{{bankInfo.bankName}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'IBAN' | translate}}</span>
-            <span class="value-info">{{bankInfo?.iban}}</span>
+            <span class="value-info">{{bankInfo.iban}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'BIC' | translate}}</span>
-            <span class="value-info">{{bankInfo?.bic}}</span>
+            <span class="value-info">{{bankInfo.bic}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'Country' | translate}}</span>
-            <span class="value-info">{{bankInfo?.country}}</span>
+            <span class="value-info">{{bankInfo.country}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'City' | translate}}</span>
-            <span class="value-info">{{bankInfo?.city}}</span>
+            <span class="value-info">{{bankInfo.city}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'Address' | translate}}</span>
-            <span class="value-info">{{bankInfo?.address}}</span>
+            <span class="value-info">{{bankInfo.address}}</span>
           </div>
           <div class="item-info">
             <span class="key-info">{{'Swift code' | translate}}</span>
-            <span class="value-info">{{bankInfo?.swiftCode}}</span>
+            <span class="value-info">{{bankInfo.swiftCode}}</span>
           </div>
         </div>
-        <button class="print" (click)="download()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
-            <path d="M11.8748 14.25H5.9375V15.4377H11.8748V14.25Z" fill="#237BEF"/>
-            <path d="M4.75009 1.18755H14.25V3.56254H15.4373V1.18755C15.4374 0.532356 14.9062 0 14.25 0H4.75009C4.09425 0 3.5625 0.532356 3.5625 1.18755V3.56254H4.75009V1.18755Z" fill="#237BEF"/>
-            <path d="M13.0621 11.875H5.9375V13.0626H13.0621V11.875Z" fill="#237BEF"/>
-            <path d="M17.8126 4.75H1.18759C0.531746 4.75 0 5.2822 0 5.93743V13.0625C0 13.7188 0.531746 14.2498 1.18759 14.2498H3.56265V17.8124C3.56265 18.4689 4.09439 19 4.75023 19H14.2501C14.9064 19 15.4375 18.4689 15.4375 17.8124V14.2498H17.8126C18.4689 14.2498 19 13.7188 19 13.0625V5.93743C19 5.2822 18.469 4.75 17.8126 4.75ZM14.2501 17.8125H4.75023V10.6874H14.2501V17.8125ZM16.6249 8.31254C15.9686 8.31254 15.4375 7.78139 15.4375 7.12498C15.4375 6.46983 15.9686 5.93743 16.6249 5.93743C17.2814 5.93743 17.8126 6.46979 17.8126 7.12498C17.8126 7.78136 17.2814 8.31254 16.6249 8.31254Z" fill="#237BEF"/>
+        <button
+          class="print"
+          (click)="download(bankInfo.url)"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="19"
+            height="19"
+            viewBox="0 0 19 19"
+            fill="none"
+          >
+            <path
+              d="M11.8748 14.25H5.9375V15.4377H11.8748V14.25Z"
+              fill="#237BEF"
+            />
+            <path
+              d="M4.75009 1.18755H14.25V3.56254H15.4373V1.18755C15.4374 0.532356 14.9062 0 14.25 0H4.75009C4.09425 0 3.5625 0.532356 3.5625 1.18755V3.56254H4.75009V1.18755Z"
+              fill="#237BEF"
+            />
+            <path
+              d="M13.0621 11.875H5.9375V13.0626H13.0621V11.875Z"
+              fill="#237BEF"
+            />
+            <path
+              d="M17.8126 4.75H1.18759C0.531746 4.75 0 5.2822 0 5.93743V13.0625C0 13.7188 0.531746 14.2498 1.18759 14.2498H3.56265V17.8124C3.56265 18.4689 4.09439 19 4.75023 19H14.2501C14.9064 19 15.4375 18.4689 15.4375 17.8124V14.2498H17.8126C18.4689 14.2498 19 13.7188 19 13.0625V5.93743C19 5.2822 18.469 4.75 17.8126 4.75ZM14.2501 17.8125H4.75023V10.6874H14.2501V17.8125ZM16.6249 8.31254C15.9686 8.31254 15.4375 7.78139 15.4375 7.12498C15.4375 6.46983 15.9686 5.93743 16.6249 5.93743C17.2814 5.93743 17.8126 6.46979 17.8126 7.12498C17.8126 7.78136 17.2814 8.31254 16.6249 8.31254Z"
+              fill="#237BEF"
+            />
           </svg>
           <span>{{'Print invoice' | translate}}</span>
         </button>
       </div>
     </div>
     <!-- <div class="right-part"> -->
-      <!-- <div class="left-block">
+    <!-- <div class="left-block">
         <div class="item-info">
           <span class="key-info">Amount</span>
           <span class="value-info">1,111,821.00 EUR</span>
@@ -141,18 +225,25 @@
       </div> -->
     <!-- </div> -->
   </div>
-  <button class="btn btn--active balance__title-btn" (click)="closeSendQuberaPopup.emit(true)">OK</button>
+  <button
+    class="btn btn--active balance__title-btn"
+    (click)="closeSendQuberaPopup.emit(true)"
+  >OK</button>
   <div class="notice-block">
     <span class="head-notice">Напоминаем:</span>
     <ul>
       <li>
-        <span>Это реквизиты вашего личного счёта в FUG теперь вы можете пополнять свой счёт и без комиссии  переводить деньги между вашим личным счетом и торговым счетом на Exrates.
+        <span>Это реквизиты вашего личного счёта в FUG теперь вы можете пополнять свой счёт и без комиссии переводить деньги между вашим личным счетом и
+          торговым счетом на Exrates.
         </span>
       </li>
     </ul>
   </div>
 </div>
 
-<div class="loading-container" *ngIf="!activeFiat || !fiatDataByName">
+<div
+  class="loading-container"
+  *ngIf="!activeFiat || !fiatDataByName"
+>
   <app-loader></app-loader>
 </div>
