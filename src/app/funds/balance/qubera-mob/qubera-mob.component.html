@@ -267,6 +267,7 @@
       </div>
 
       <button
+        *ngSwitchCase="'Pending'"
         class="print"
         (click)="quberaKycVerification.emit(true)"
       >
