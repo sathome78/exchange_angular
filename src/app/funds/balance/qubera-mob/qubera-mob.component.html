@@ -13,7 +13,6 @@
     <div class="tabs balance__tabs-mob">
       <button
         class="tabs__item"
-
         (click)="selectTab.emit(Tab.CRYPTO)"
       >
         {{'Crypto' | translate}}
@@ -266,6 +265,13 @@
         </svg>
         <span>{{'KYC application on confirmation' | translate}}</span>
       </div>
+
+      <button
+        class="print"
+        (click)="quberaKycVerification.emit(true)"
+      >
+        <span>{{'Start again' | translate}}</span>
+      </button>
 
       <div
         class="qubera-btn-wr"
