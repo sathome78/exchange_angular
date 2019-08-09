@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, Subject, BehaviorSubject, throwError, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { BalanceItem } from '../models/balance-item.model';
 import { MyBalanceItem } from '../../model/my-balance-item.model';
-import { DashboardWebSocketService } from '../../dashboard/dashboard-websocket.service';
-import { Router } from '@angular/router';
 import { PendingRequestsItem } from '../models/pending-requests-item.model';
-import { BankVerification } from 'app/model/bank-veryfication.model';
-import { bankInfo } from '../models/bank-info.model';
 import { APIErrorsService } from 'app/shared/services/apiErrors.service';
+import { mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class BalanceService {
@@ -23,7 +20,7 @@ export class BalanceService {
   public refillTransfer = new BehaviorSubject<any>(null);
   public withdrawQubera = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient, private apiErrorsService: APIErrorsService, private router: Router) {}
+  constructor(private http: HttpClient, private apiErrorsService: APIErrorsService) {}
 
   setRefillTransfer(body: any) {
     this.refillTransfer.next(body);
@@ -97,7 +94,7 @@ export class BalanceService {
       params: new HttpParams().set('currency', cryptoName),
     };
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/merchants/output`;
-    return this.http.get<string[]>(url, httpOptions);
+    return this.http.get<string[]>(url, httpOptions).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   refill(data) {
@@ -110,7 +107,7 @@ export class BalanceService {
       params: new HttpParams().set('currency', cryptoName),
     };
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/merchants/output`;
-    return this.http.get(url, httpOptions);
+    return this.http.get(url, httpOptions).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   getCommissionToWithdraw(amount: string, currency: string, merchant: string) {
@@ -120,22 +117,26 @@ export class BalanceService {
     httpOptions = httpOptions.append('merchant', merchant);
 
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/commission`;
-    return this.http.get(url, { params: httpOptions });
+    return this.http.get(url, { params: httpOptions }).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   sendTransferCode(code: string) {
     const data = { CODE: code };
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/accept`;
-    return this.http.post(url, data);
+    return this.http.post(url, data).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   sendWithdrawalPinCode(data) {
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/request/pin`;
-    return this.http.post(url, data, { observe: 'response' });
+    return this.http
+      .post(url, data, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
   sendTransferPinCode(data) {
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/request/pin`;
-    return this.http.post(url, data, { observe: 'response' });
+    return this.http
+      .post(url, data, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   withdrawRequest(data) {
@@ -159,7 +160,7 @@ export class BalanceService {
     httpOptions = httpOptions.append('type', ty);
 
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/voucher/commission`;
-    return this.http.get(url, { params: httpOptions });
+    return this.http.get(url, { params: httpOptions }).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   checkEmail(email: string) {
@@ -167,7 +168,7 @@ export class BalanceService {
       params: new HttpParams().set('email', email),
     };
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/check_email`;
-    return this.http.get(url, httpOptions);
+    return this.http.get(url, httpOptions).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   getMinSumInnerTranfer(currency_id: string, typ: string) {
@@ -176,12 +177,12 @@ export class BalanceService {
     httpOptions = httpOptions.append('type', typ);
 
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/get_minimal_sum`;
-    return this.http.get(url, { params: httpOptions });
+    return this.http.get(url, { params: httpOptions }).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   createTransferInstant(data) {
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/voucher/request/create`;
-    return this.http.post(url, data);
+    return this.http.post(url, data).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   revokePendingRequest({ requestId, operation }) {

@@ -21,6 +21,7 @@ import { GtagService } from './shared/services/gtag.service';
 import { lang } from 'moment';
 import { APIErrorsService } from './shared/services/apiErrors.service';
 import { APIErrorReport } from './shared/models/apiErrorReport.model';
+import { Notification } from 'app/model/notification.model';
 
 @Component({
   selector: 'app-root',
@@ -188,12 +189,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   test() {
-    // this.apiErrorsService.showErrorNotification(
-    //   // new Notification({
-    //   //   text: 'test',
-    //   //   notificationType: 'ERROR',
-    //   // }),
-    //   // new APIErrorReport('this.userInfo.username', 'url', 'method', 'status', 'JSON.stringify(error.error)')
-    // );
+    this.apiErrorsService.showErrorNotification(
+      new Notification({
+        text: 'test',
+        notificationType: 'ERROR',
+      }),
+      new APIErrorReport('this.userInfo.username', 'url', 'method', 'status', 'JSON.stringify(error.error)')
+    );
   }
 }

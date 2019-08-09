@@ -32,8 +32,8 @@ import { ToastrService, ToastPackage, Toast } from 'ngx-toastr';
               'margin-top': '12px',
               'max-width': '400px',
             }),
-          ]),
-        ),
+          ])
+        )
       ),
       state(
         'active',
@@ -42,7 +42,7 @@ import { ToastrService, ToastPackage, Toast } from 'ngx-toastr';
           'max-height': '200px',
           'margin-top': '12px',
           'max-width': '400px',
-        }),
+        })
       ),
       transition(
         'active => removed',
@@ -51,24 +51,21 @@ import { ToastrService, ToastPackage, Toast } from 'ngx-toastr';
           keyframes([
             style({
               opacity: 1,
-              transform: 'translateY(0)'
+              transform: 'translateY(0)',
             }),
             style({
               opacity: 0,
-              transform: 'translateY(25%)'
+              transform: 'translateY(25%)',
             }),
-          ]),
-        ),
+          ])
+        )
       ),
     ]),
   ],
 })
 export class TopNotificationReportComponent extends Toast {
   sended = false;
-  constructor(
-    protected toastrService: ToastrService,
-    public toastPackage: ToastPackage,
-  ) {
+  constructor(protected toastrService: ToastrService, public toastPackage: ToastPackage) {
     super(toastrService, toastPackage);
   }
 

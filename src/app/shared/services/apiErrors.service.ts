@@ -1,33 +1,29 @@
-import {Injectable} from '@angular/core';
-import {APIError} from '../models/apiError.model';
-import {catchError} from 'rxjs/operators';
-import {throwError} from 'rxjs';
-import {ToastrService} from 'ngx-toastr';
-import {TopNotificationReportComponent} from 'app/popups/notifications-list/top-notification-report/top-notification-report.component';
-import {Notification} from 'app/model/notification.model';
-import {HttpClient} from '@angular/common/http';
-import {environment} from 'environments/environment';
-import {Store, select} from '@ngrx/store';
-import {State} from 'app/core/reducers';
+import { Injectable } from '@angular/core';
+import { APIError } from '../models/apiError.model';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { TopNotificationReportComponent } from 'app/popups/notifications-list/top-notification-report/top-notification-report.component';
+import { Notification } from 'app/model/notification.model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'environments/environment';
+import { Store, select } from '@ngrx/store';
+import { State } from 'app/core/reducers';
 import * as fromCore from 'app/core/reducers';
 import { APIErrorReport } from '../models/apiErrorReport.model';
+import { TopNotificationComponent } from 'app/popups/notifications-list/top-notification/top-notification.component';
 
 @Injectable()
 export class APIErrorsService {
   private toastOption;
-  private  apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl;
   public userInfo: ParsedToken;
 
-  constructor(
-    private toastr: ToastrService,
-    private store: Store<State>,
-    private http: HttpClient
-  ) {
+  constructor(private toastr: ToastrService, private store: Store<State>, private http: HttpClient) {
     this.toastOption = this.toastr.toastrConfig;
-    this.store.pipe(select(fromCore.getUserInfo))
-      .subscribe((res: ParsedToken) => {
-        this.userInfo = res;
-      });
+    this.store.pipe(select(fromCore.getUserInfo)).subscribe((res: ParsedToken) => {
+      this.userInfo = res;
+    });
   }
 
   extractErrorCode(error: APIError): string {
@@ -38,7 +34,7 @@ export class APIErrorsService {
       const text = error.detail;
       if (error.args && error.args.length) {
         error.args.forEach((err, i) => {
-          text.replace('&{' + i + '}', err);
+          text.replace(`&{${i}}`, err);
         });
       }
       return text;
@@ -79,41 +75,37 @@ export class APIErrorsService {
   }
 
   catchAPIErrorWithNotification() {
-
-    return catchError((error) => {
-      const err = this.parseErrorCode(this.extractErrorCode(error.error));
-      const {status, url, method} = error;
-      if (status !== 400) {
+    return catchError(error => {
+      const err = this.parseErrorCode(this.extractErrorCode(error.error)) ;
+      const { status, url, method } = error;
+      if (status === 400) {
         this.showErrorNotification(
-          new Notification({notificationType: 'ERROR', text: err}),
+          new Notification({ notificationType: 'ERROR', text: err }),
           new APIErrorReport(this.userInfo.username || '', url, method, status, JSON.stringify(error.error))
         );
       }
-      console.log(err);
+      // console.log(err);
       return throwError(error);
     });
   }
 
-
   showErrorNotification(notification: Notification, report: APIErrorReport): void {
-    this.toastOption.toastComponent = TopNotificationReportComponent;
+    this.toastOption.toastComponent = TopNotificationComponent;
     this.toastOption.disableTimeOut = true;
     this.toastOption.tapToDismiss = false;
     const tost = this.toastr.show(notification.message, notification.title, this.toastOption);
-    const sub = tost.onAction.subscribe(() => {
-      this.postReport(report).subscribe((res) => {
-        console.log('alert', res);
-      });
-      sub.unsubscribe();
-    });
+    // const sub = tost.onAction.subscribe(() => {
+    //   this.postReport(report).subscribe(res => {
+    //     console.log('alert', res);
+    //   });
+    //   sub.unsubscribe();
+    // });
   }
 
   postReport(data: APIErrorReport) {
     return this.http.post(`${this.apiUrl}/api/public/v2/error_report`, data);
   }
-
 }
-
 
 // private String userEmail;
 // @NotNull
@@ -130,17 +122,14 @@ export class APIErrorsService {
 
 // POST /api/public/v2/error_report
 
-
-
-
 // error:
-  // cause: "IncorrectPinException"
-  // code: null
-  // detail: "Incorrect pin: adasdfasdf"
-  // title: null
-  // url: "http://dev1.exrates.tech/api/private/v2/balances/withdraw/request/create"
-  // uuid: "a21f92d1-225c-4ffc-aaf6-3d6e6042e0c3"
-  // __proto__: Object
+// cause: "IncorrectPinException"
+// code: null
+// detail: "Incorrect pin: adasdfasdf"
+// title: null
+// url: "http://dev1.exrates.tech/api/private/v2/balances/withdraw/request/create"
+// uuid: "a21f92d1-225c-4ffc-aaf6-3d6e6042e0c3"
+// __proto__: Object
 // headers: HttpHeaders {normalizedNames: Map(0), lazyUpdate: null, lazyInit: ƒ}
 // message: "Http failure response for http://dev1.exrates.tech/api/private/v2/balances/withdraw/request/create: 400 Bad Request"
 // name: "HttpErrorResponse"
