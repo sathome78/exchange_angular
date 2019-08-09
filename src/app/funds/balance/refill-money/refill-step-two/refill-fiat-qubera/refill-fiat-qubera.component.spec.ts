@@ -8,9 +8,8 @@ describe('RefillFiatQuberaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RefillFiatQuberaComponent ]
-    })
-    .compileComponents();
+      declarations: [RefillFiatQuberaComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,38 +1,34 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { Injectable, OnDestroy } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-import {map, takeUntil} from 'rxjs/internal/operators';
-import {Message} from '@stomp/stompjs';
-import {select, Store} from '@ngrx/store';
-import {Subject} from 'rxjs';
-import {RxStompService} from '@stomp/ng2-stompjs';
-import {CurrencyPair} from '../model/currency-pair.model';
-import {environment} from '../../environments/environment';
-import {getCurrencyPairArray, State} from '../core/reducers';
+import { map, takeUntil } from 'rxjs/internal/operators';
+import { Message } from '@stomp/stompjs';
+import { select, Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
+import { RxStompService } from '@stomp/ng2-stompjs';
+import { CurrencyPair } from '../model/currency-pair.model';
+import { environment } from '../../environments/environment';
+import { getCurrencyPairArray, State } from '../core/reducers';
 import * as dashboardActions from './actions/dashboard.actions';
-import {UserService} from '../shared/services/user.service';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
-import {UtilsService} from 'app/shared/services/utils.service';
-
+import { UserService } from '../shared/services/user.service';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Injectable()
 export class DashboardWebSocketService implements OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public currencyPairs: CurrencyPair [] = [];
+  public currencyPairs: CurrencyPair[] = [];
   public pairFromDashboard = '';
-
 
   constructor(
     private stompService: RxStompService,
     private userService: UserService,
     private utilsService: UtilsService,
     private store: Store<State>
-  ) { }
+  ) {}
 
   marketsSubscription(): any {
-    return this.stompService
-      .watch(`/app/statisticsNew`)
-      .pipe(map((message: Message) => JSON.parse(message.body)));
+    return this.stompService.watch(`/app/statisticsNew`).pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
   pairInfoSubscription(pairName: string): any {
@@ -57,7 +53,6 @@ export class DashboardWebSocketService implements OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
 
   /**
    * find pair by currency-pair-name and emit

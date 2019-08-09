@@ -1,23 +1,22 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Store, select} from '@ngrx/store';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store, select } from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
-import {Observable, Subject} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
-import {takeUntil} from 'rxjs/operators';
-import {Location} from '@angular/common';
-import {IEOItem} from 'app/model/ieo.model';
-import {IEOServiceService} from 'app/shared/services/ieoservice.service';
+import { takeUntil } from 'rxjs/operators';
+import { Location } from '@angular/common';
+import { IEOItem } from 'app/model/ieo.model';
+import { IEOServiceService } from 'app/shared/services/ieoservice.service';
 import * as moment from 'moment';
 
 @Component({
   selector: 'app-ieo-balance-details',
   templateUrl: './ieo-balance-details.component.html',
-  styleUrls: ['./ieo-balance-details.component.scss']
+  styleUrls: ['./ieo-balance-details.component.scss'],
 })
 export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
-
   public currencies = {
     BTC: 'BTC',
     USD: 'USD',
@@ -32,7 +31,7 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
   };
 
   public selectedItem: any = {};
-  public ieoBalances$: Observable<IEOItem[]>
+  public ieoBalances$: Observable<IEOItem[]>;
   public IEOData: IEOItem;
   public showBuyIEO = false;
   public showSuccessIEO = false;
@@ -43,33 +42,30 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private location: Location,
     private ieoService: IEOServiceService,
-    private router: Router,
+    private router: Router
   ) {
     this.ieoBalances$ = this.store.pipe(select(fundsReducer.getIEOBalancesSelector));
 
-    this.route.params
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(params => {
-        const currencyId = +params['id'];
-        this.ieoBalances$.pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe((balances) => {
-            if (balances && balances.length) {
-              this.IEOData = balances.find((res) => res.id == currencyId);
-            }
-          });
+    this.route.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
+      const currencyId = +params['id'];
+      this.ieoBalances$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(balances => {
+        if (balances && balances.length) {
+          this.IEOData = balances.find(res => res.id == currencyId);
+        }
       });
-      this.store.pipe(select(fromCore.getUserInfo))
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe((userInfo: ParsedToken) => {
-          this.userInfo = userInfo;
-          if (this.userInfo && this.userInfo.publicId) {
-            this.getIEOTable(this.userInfo.publicId);
-          } else {
-            console.error('publicId = ', this.userInfo.publicId);
-          }
-        });
+    });
+    this.store
+      .pipe(select(fromCore.getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
+        if (this.userInfo && this.userInfo.publicId) {
+          this.getIEOTable(this.userInfo.publicId);
+        } else {
+          console.error('publicId = ', this.userInfo.publicId);
+        }
+      });
   }
-
 
   ngOnInit() {}
 
@@ -81,11 +77,13 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate([`/ieo/${id}`]);
   }
   public goToIeoNews(name) {
-    window.open(`https://news.exrates.me/article/${name}`, '_blank');
+    const newWnd = window.open(`https://news.exrates.me/article/${name}`, '_blank');
+    newWnd.opener = null;
   }
 
   public getIEOTable(publicId) {
-    this.ieoService.getListIEOTab(publicId)
+    this.ieoService
+      .getListIEOTab(publicId)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: IEOItem[]) => {
         this.store.dispatch(new fundsAction.SetIEOBalancesAction(res));
@@ -105,16 +103,16 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
 
   public openSuccessIEO() {
     this.showSuccessIEO = true;
-
   }
 
   public confirmBuyIEO(amount) {
-    this.ieoService.buyTokens({
-      currencyName: this.IEOData.currencyName,
-      amount: amount + '',
-    })
+    this.ieoService
+      .buyTokens({
+        currencyName: this.IEOData.currencyName,
+        amount: amount + '',
+      })
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res) => {
+      .subscribe(res => {
         this.closeBuyIEO();
         this.openSuccessIEO();
       });

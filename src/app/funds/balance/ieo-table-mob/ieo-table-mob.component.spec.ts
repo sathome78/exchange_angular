@@ -8,9 +8,8 @@ describe('IEOTableMobComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IEOTableMobComponent ]
-    })
-    .compileComponents();
+      declarations: [IEOTableMobComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

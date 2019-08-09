@@ -1,10 +1,7 @@
-
 export class User {
-
-  username: string
+  username: string;
   email: string;
   token: string;
-
 
   constructor(username: string, email: string, token: string) {
     this.username = username;

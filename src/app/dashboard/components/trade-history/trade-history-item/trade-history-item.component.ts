@@ -8,12 +8,9 @@ import { TradeItem } from 'app/model/trade-item.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradeHistoryItemComponent implements OnInit {
+  @Input() public trade: TradeItem;
 
-  @Input('trade') public trade: TradeItem;
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

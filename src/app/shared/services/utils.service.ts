@@ -1,36 +1,27 @@
-import {Injectable} from '@angular/core';
-import {ValidatorFn, AbstractControl} from '@angular/forms';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import { Injectable } from '@angular/core';
+import { ValidatorFn, AbstractControl } from '@angular/forms';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import prettyNum from 'pretty-num';
 // import {CoreService} from 'app/core/services/core.service';
 
 @Injectable()
 export class UtilsService {
-
-  // constructor(
-  //   private coreService: CoreService
-  // ) {
-  //   coreService.getSimpleCurrencyPairs()
-  //     .subscribe((currs) => {
-  //       if(!currs.length) {
-  //         return
-  //       }
-  //       this.fiatCurrencies = currs.map((c) => c.name)
-  //     });;
-  // }
-
-  private fiatCurrencies: Array<string> = ['USD', 'EUR', 'CNY', 'IDR', 'NGN', 'TRY', 'UAH', 'VND', 'AED', 'RUB'];
-  private cache = {}
+  private fiatCurrencies: string[] = ['USD', 'EUR', 'CNY', 'IDR', 'NGN', 'TRY', 'UAH', 'VND', 'AED', 'RUB'];
+  private cache = {};
+  // tslint:disable-next-line: max-line-length
   private pattern = /(^$|(^([^<>()\[\]\\,;:\s@"]+(\.[^<>()\[\]\\,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
-  private forbiddenSymbolsEmailRegex = /[~`{}/|?!№#$%^&*":;,[\]<>()=']/ig;
-  // private passwordPattern = /(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9\@\*\%\!\#\^\&\$\<\>\.\'\(\)\-\_\=\+]{8,40})$/ig;
-  private passwordPattern = /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z][!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\'\d]{8,40}/ig;
-  private checkCyrilic = /[а-яА-ЯёЁ]/ig;
+  private forbiddenSymbolsEmailRegex = /[~`{}/|?!№#$%^&*":;,[\]<>()=']/gi;
+  // tslint:disable-next-line: max-line-length
+  private passwordPattern = /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z][!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\'\d]{8,40}/gi;
+  private checkCyrilic = /[а-яА-ЯёЁ]/gi;
   private fraction: number;
 
   isFiat(currencyName: string): boolean {
+    if (currencyName === 'BTC') {
+      return false;
+    }
     if (typeof this.cache[currencyName] !== 'undefined') {
-      return this.cache[currencyName]
+      return this.cache[currencyName];
     }
     const res = this.fiatCurrencies.indexOf(currencyName || '') >= 0;
     this.cache[currencyName] = res;
@@ -39,33 +30,35 @@ export class UtilsService {
   }
 
   emailValidator(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
+    return (control: AbstractControl): { [key: string]: any } | null => {
       const forbidden = new RegExp(this.pattern).test(control.value ? control.value.trim() : '');
-      const excludeCyrilic = new RegExp(this.checkCyrilic).test(control.value ? control.value.trim() : '')
-      return forbidden && !excludeCyrilic ? null : {'emailInvalid': {value: control.value.trim()}} ;
+      const excludeCyrilic = new RegExp(this.checkCyrilic).test(control.value ? control.value.trim() : '');
+      return forbidden && !excludeCyrilic ? null : { emailInvalid: { value: control.value.trim() } };
     };
   }
 
   specialCharacterValidator(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
+    return (control: AbstractControl): { [key: string]: any } | null => {
       const forbidden = new RegExp(this.forbiddenSymbolsEmailRegex).test(control.value ? control.value.trim() : '');
-      return !forbidden ? null : {'specialCharacter': {value: control.value.trim()}} ;
+      return !forbidden ? null : { specialCharacter: { value: control.value.trim() } };
     };
   }
 
   passwordCombinationValidator(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
-      const value = control.value ? control.value.trim() : ''
-      const result  = new RegExp(this.passwordPattern).test(value);
-      const excludeCyrilic = new RegExp(this.checkCyrilic).test(value)
-      return result && !excludeCyrilic ? null : {'passwordValidation': true};
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value ? control.value.trim() : '';
+      const result = new RegExp(this.passwordPattern).test(value);
+      const excludeCyrilic = new RegExp(this.checkCyrilic).test(value);
+      return result && !excludeCyrilic ? null : { passwordValidation: true };
     };
   }
 
   passwordMatchValidator(firstFieldValue): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
+    return (control: AbstractControl): { [key: string]: any } | null => {
       const value = control.value ? control.value.trim() : '';
-      return value === firstFieldValue.value && value.length === firstFieldValue.value.length ? null : {'passwordsNotMatch': true};
+      return value === firstFieldValue.value && value.length === firstFieldValue.value.length
+        ? null
+        : { passwordsNotMatch: true };
     };
   }
 
@@ -90,7 +83,7 @@ export class UtilsService {
     const pass = this.strToByteArray(password);
     const keys = this.strToByteArray(key);
     const encoded = [pass.length];
-    for (let z = 0; z < pass.length; z++) {
+    for (let z = 0; z < pass.length; z += 1) {
       encoded[z] = this.implementXor(pass[z], keys[z % keys.length]);
     }
     return btoa(String.fromCharCode.apply(null, encoded));
@@ -98,21 +91,21 @@ export class UtilsService {
 
   private strToByteArray(str) {
     const arr = [];
-    for (let i = 0; i < str.length; i++) {
+    for (let i = 0; i < str.length; i += 1) {
       arr.push(str.charCodeAt(i));
     }
     return arr;
   }
 
   private implementXor(left, right) {
-    let one = (left).toString(2);
-    let two = (right).toString(2);
+    let one = left.toString(2);
+    let two = right.toString(2);
     let result = '';
-    if (one.length > two.length)  {
+    if (one.length > two.length) {
       while (one.length > two.length) {
         two = '0' + two;
       }
-      for (let x = 0; x < one.length; x++) {
+      for (let x = 0; x < one.length; x += 1) {
         if (one[x] === two[x]) {
           result += '0';
         } else {
@@ -123,7 +116,7 @@ export class UtilsService {
       while (two.length > one.length) {
         one = '0' + one;
       }
-      for (let y = 0; y < one.length; y++) {
+      for (let y = 0; y < one.length; y += 1) {
         if (one[y] === two[y]) {
           result += '0';
         } else {
@@ -135,7 +128,12 @@ export class UtilsService {
   }
 
   // this method is used in pipe (currencyFormat)
-  currencyFormat(value: number | string, currencyName: string = 'BTC', format: 'full' | 'short' = 'short', setNoneForFiat: boolean = false): string {
+  currencyFormat(
+    value: number | string,
+    currencyName: string = 'BTC',
+    format: 'full' | 'short' = 'short',
+    setNoneForFiat: boolean = false
+  ): string {
     if (!value || Number.isNaN(parseFloat(typeof value === 'string' ? value : value.toString()))) {
       return '0.0';
     }
@@ -148,32 +146,60 @@ export class UtilsService {
 
     if (this.fraction === 0) {
       const exponentFree = prettyNum(value);
-      const valueParts: Array<string> = exponentFree.split('.');
+      const valueParts: string[] = exponentFree.split('.');
       const valuePart = this.makeValueFiatPart(valueParts[1] || '');
-      const integerPart = prettyNum(valueParts[0], {thousandsSeparator: ' '});
+      const integerPart = prettyNum(valueParts[0], { thousandsSeparator: ' ' });
       return `${integerPart}.${valuePart}`;
-    } else {
-      return format === 'full' ? prettyNum(value, {thousandsSeparator: ' ', precision: this.fraction, rounding: 'fixed'})
-        : this.addFractionIfNeed(prettyNum(value, {thousandsSeparator: ' ', precision: this.fraction}));
     }
+    return format === 'full'
+      ? prettyNum(value, {
+        thousandsSeparator: ' ',
+        precision: this.fraction,
+        rounding: 'fixed',
+      })
+      : this.addFractionIfNeed(
+          prettyNum(value, {
+            thousandsSeparator: ' ',
+            precision: this.fraction,
+          })
+        );
   }
 
   private addFractionIfNeed(value: string) {
     return value.indexOf('.') === -1 ? `${value}.0` : value;
   }
 
-
   private makeValueFiatPart(value: string) {
     if (!value) {
       return '00';
-    } else {
-      return value.length < 2 ? (value + '0') : value.slice(0, 8);
     }
+    return value.length < 2 ? value + '0' : value.slice(0, 8);
   }
 
   currencyNumberFromStringFormat(value: string): number {
     const candidate = parseFloat(this.deleteSpace(value));
     return !!candidate ? candidate : 0;
   }
-}
 
+  isDeveloper(userInfo: ParsedToken): boolean {
+    return userInfo && userInfo.username && userInfo.username.indexOf('@upholding.biz') !== -1;
+  }
+
+  get isDisabledCaptcha(): boolean {
+    return localStorage.getItem('captcha') === 'false';
+  }
+
+  checkIsDeveloper(name: string = '') {
+    return name.indexOf('@upholding.biz') !== -1;
+  }
+
+  get isProdHost() {
+    return window.location.hostname === 'exrates.me';
+  }
+
+  isDevCaptcha(name: string = '') {
+    // UNCOMMENT WHEN NEED USER UPHOLDING CHECK
+    // return this.checkIsDeveloper(name) && this.isDisabledCaptcha && !this.isProdHost;
+    return this.isDisabledCaptcha && !this.isProdHost;
+  }
+}

@@ -8,9 +8,8 @@ describe('TransactionHistoryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TransactionHistoryComponent ]
-    })
-    .compileComponents();
+      declarations: [TransactionHistoryComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

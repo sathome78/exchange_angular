@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { IMyDpOptions, IMyDateModel, IMyDate } from 'mydatepicker';
 import { Store, select } from '@ngrx/store';
@@ -6,12 +6,11 @@ import * as fundsReducer from '../store/reducers/funds.reducer';
 import * as fundsAction from '../store/actions/funds.actions';
 import * as coreAction from '../../core/actions/core.actions';
 import * as mainSelectors from '../../core/reducers';
-import {State} from '../../core/reducers';
 import { TransactionsService } from '../services/transaction.service';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { TransactionHistoryItem } from '../models/transactions-history-item.model';
 import { takeUntil } from 'rxjs/operators';
-import saveAs from 'file-saver'
+import fileSaver from 'file-saver';
 import { CurrencyChoose } from 'app/model/currency-choose.model';
 import { ConstantsService } from 'app/shared/services/constants.service';
 import { BreakpointService } from 'app/shared/services/breakpoint.service';
@@ -20,19 +19,18 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-transaction-history',
   templateUrl: './transaction-history.component.html',
-  styleUrls: ['./transaction-history.component.scss']
+  styleUrls: ['./transaction-history.component.scss'],
 })
-export class TransactionHistoryComponent implements OnInit {
-
+export class TransactionHistoryComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public transactionsItems$: Observable<TransactionHistoryItem[]>;
   public transactionsItems: TransactionHistoryItem[] = [];
   public countOfEntries$: Observable<number>;
-  public countOfEntries: number = 0;
+  public countOfEntries = 0;
   public currencyForChoose$: Observable<CurrencyChoose[]>;
   public loading$: Observable<boolean>;
-  public loadingExcel: boolean = false;
-  public currValue: string = '';
+  public loadingExcel = false;
+  public currValue = '';
 
   public currentPage = 1;
   public countPerPage = 15;
@@ -40,8 +38,8 @@ export class TransactionHistoryComponent implements OnInit {
   public modelDateFrom: any;
   public modelDateTo: any;
   public currencyId: string = null;
-  public hideAllCanceled: boolean = false;
-  public isMobile: boolean = false;
+  public hideAllCanceled = false;
+  public isMobile = false;
 
   public showFilterPopup = false;
   public tableScrollStyles: any = {};
@@ -56,16 +54,16 @@ export class TransactionHistoryComponent implements OnInit {
       year: new Date().getFullYear(),
       month: new Date().getMonth() + 1,
       day: new Date().getDate() + 1,
-    }
+    },
   };
 
   constructor(
-    private store: Store<State>,
+    private store: Store<mainSelectors.State>,
     private transactionsService: TransactionsService,
     public constantsService: ConstantsService,
     public breakpointService: BreakpointService,
     private cdr: ChangeDetectorRef,
-    private utils: UtilsService,
+    private utils: UtilsService
   ) {
     this.transactionsItems$ = store.pipe(select(fundsReducer.getTrHistorySelector));
     this.countOfEntries$ = store.pipe(select(fundsReducer.getCountTrHistorySelector));
@@ -73,13 +71,12 @@ export class TransactionHistoryComponent implements OnInit {
     this.loading$ = store.pipe(select(fundsReducer.getLoadingSelector));
 
     const componentHeight = window.innerHeight;
-    this.tableScrollStyles = {'height': (componentHeight - 112) + 'px', 'overflow': 'scroll'}
-    this.transactionsItems$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((items) => this.transactionsItems = items)
-    this.countOfEntries$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((items) => this.countOfEntries = items)
+    this.tableScrollStyles = {
+      height: componentHeight - 112 + 'px',
+      overflow: 'scroll',
+    };
+    this.transactionsItems$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(items => (this.transactionsItems = items));
+    this.countOfEntries$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(items => (this.countOfEntries = items));
   }
 
   ngOnInit() {
@@ -91,12 +88,12 @@ export class TransactionHistoryComponent implements OnInit {
   loadTransactions() {
     const params = {
       offset: (this.currentPage - 1) * this.countPerPage,
-      limit:this.countPerPage,
-      dateFrom:  this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
-      dateTo:  this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
+      limit: this.countPerPage,
+      dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
+      dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
       currencyId: this.currencyId || 0,
       currencyName: this.currValue || '',
-    }
+    };
     this.store.dispatch(new fundsAction.LoadTransactionsHistoryAction(params));
   }
 
@@ -112,22 +109,22 @@ export class TransactionHistoryComponent implements OnInit {
     const params = {
       offset: 0,
       limit: this.countPerPage,
-    }
+    };
     this.store.dispatch(new fundsAction.LoadLastTransactionsHistoryAction(params));
   }
 
   loadMoreTransactions(): void {
-    if(this.transactionsItems.length !== this.countOfEntries) {
+    if (this.transactionsItems.length !== this.countOfEntries) {
       this.currentPage += 1;
       const params = {
         offset: (this.currentPage - 1) * this.countPerPage,
-        limit:this.countPerPage,
-        dateFrom:  this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
-        dateTo:  this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
+        limit: this.countPerPage,
+        dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
+        dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
         currencyId: this.currencyId || 0,
         currencyName: this.currValue || '',
         concat: true,
-      }
+      };
       this.store.dispatch(new fundsAction.LoadTransactionsHistoryAction(params));
     }
   }
@@ -139,7 +136,6 @@ export class TransactionHistoryComponent implements OnInit {
     this.currentPage = 1;
     this.loadTransactions();
   }
-
 
   // initDate() {
   //   /** Initialized to current date */
@@ -161,7 +157,6 @@ export class TransactionHistoryComponent implements OnInit {
   //     }
   //   };
   // }
-
 
   changeItemsPerPage(items: number) {
     this.countPerPage = items;
@@ -193,16 +188,16 @@ export class TransactionHistoryComponent implements OnInit {
 
   /** tracks input changes in a my-date-picker component */
   dateFromChanged(event: IMyDateModel): void {
-    this.modelDateFrom = {date: event.date};
+    this.modelDateFrom = { date: event.date };
     if (!this.isDateRangeValid() && !(event.date.year === 0 && event.date.day === 0)) {
-      this.modelDateTo = {date: event.date};
+      this.modelDateTo = { date: event.date };
     }
   }
   /** tracks input changes in a my-date-picker component */
   dateToChanged(event: IMyDateModel): void {
-    this.modelDateTo = {date: event.date};
+    this.modelDateTo = { date: event.date };
     if (!this.isDateRangeValid() && !(event.date.year === 0 && event.date.day === 0)) {
-      this.modelDateFrom = {date: event.date};
+      this.modelDateFrom = { date: event.date };
     }
   }
 
@@ -211,10 +206,14 @@ export class TransactionHistoryComponent implements OnInit {
    * @returns { boolean }
    */
   isDateRangeValid(): boolean {
-    if(!this.modelDateFrom || !this.modelDateFrom.date || !this.modelDateTo || !this.modelDateTo.date) {
+    if (!this.modelDateFrom || !this.modelDateFrom.date || !this.modelDateTo || !this.modelDateTo.date) {
       return false;
     }
-    const dateFrom = new Date(this.modelDateFrom.date.year, this.modelDateFrom.date.month - 1, this.modelDateFrom.date.day);
+    const dateFrom = new Date(
+      this.modelDateFrom.date.year,
+      this.modelDateFrom.date.month - 1,
+      this.modelDateFrom.date.day
+    );
     const dateTo = new Date(this.modelDateTo.date.year, this.modelDateTo.date.month - 1, this.modelDateTo.date.day);
     const diff = dateTo.getTime() - dateFrom.getTime();
     return diff >= 0;
@@ -226,32 +225,36 @@ export class TransactionHistoryComponent implements OnInit {
    * @returns { string } returns string in format yyyy-mm-dd: example 2018-09-28
    */
   formatDate(date: IMyDate): string {
-    if(!date || date.year === 0 && date.day === 0) {
+    if (!date || (date.year === 0 && date.day === 0)) {
       return null;
     }
-    return moment([date.year, date.month - 1, date.day]).format()
+    return moment([date.year, date.month - 1, date.day]).format();
   }
 
   downloadExcel() {
     const params = {
       offset: (this.currentPage - 1) * this.countPerPage,
-      limit:this.countPerPage,
-      dateFrom:  this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
-      dateTo:  this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
+      limit: this.countPerPage,
+      dateFrom: this.modelDateFrom ? this.formatDate(this.modelDateFrom.date) : null,
+      dateTo: this.modelDateTo ? this.formatDate(this.modelDateTo.date) : null,
       currencyId: this.currencyId || 0,
       currencyName: this.currValue || '',
-    }
+    };
     this.loadingExcel = true;
-    this.transactionsService.downloadExcel(params)
+    this.transactionsService
+      .downloadExcel(params)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(data => {
-        const blob = new Blob([data], {type: 'text/ms-excel'});
-        saveAs(blob, 'history-transactions.xlsx');
-        this.loadingExcel = false;
-      }, err => {
-        console.error(err);
-        this.loadingExcel = false;
-      });
+      .subscribe(
+        data => {
+          const blob = new Blob([data], { type: 'text/ms-excel' });
+          fileSaver(blob, 'history-transactions.xlsx');
+          this.loadingExcel = false;
+        },
+        err => {
+          console.error(err);
+          this.loadingExcel = false;
+        }
+      );
   }
 
   /**
@@ -294,7 +297,6 @@ export class TransactionHistoryComponent implements OnInit {
     this.onFilter();
   }
 
-
   isFiat(currName: string): boolean {
     return this.utils.isFiat(currName);
   }
@@ -304,5 +306,7 @@ export class TransactionHistoryComponent implements OnInit {
     this.ngUnsubscribe.complete();
   }
 
-
+  trackByFn(index, item) {
+    return item.transactionsId;
+  }
 }

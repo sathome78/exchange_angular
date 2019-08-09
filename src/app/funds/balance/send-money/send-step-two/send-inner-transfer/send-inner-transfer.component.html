@@ -1,18 +1,18 @@
-
-<div class="title send__title">
-  {{'Make Inner transfer' | translate}}
-</div>
-<div class="send__row">
-  <button class="btn btn--empty-blue"
+<div class="side-popups inner-s2">
+  <h2 class="title send__title">
+    {{'Make Inner transfer' | translate}}
+  </h2>
+  <div class="send__row">
+    <button class="btn btn--empty-blue"
     (click)="chooseTransfer('By email')"
-  >{{'Instant transfer' | translate}}</button>
-  <div class="send__transfer-description">
-    {{'Send instant internal transfer to another account using their email' | translate}}.
+    >{{'Instant transfer' | translate}}</button>
+    <div class="send__transfer-description">
+      {{'Send instant internal transfer to another account using their email' | translate}}.
+    </div>
   </div>
-</div>
-<div class="send__row">
-  <button class="btn btn--empty-blue"
-          (click)="chooseTransfer('By code')">
+  <div class="send__row">
+    <button class="btn btn--empty-blue"
+    (click)="chooseTransfer('By code')">
     {{'Protected by code & mail' | translate}}
   </button>
   <div class="send__transfer-description" [innerHTML]="'Make <b>password-protected</b> personal transfer to another user by his <b>email</b>' | translate">
@@ -21,9 +21,11 @@
 </div>
 <div class="send__row">
   <button class="btn btn--empty-blue"
-          (click)="chooseTransfer('By private code')"
+  (click)="chooseTransfer('By private code')"
   >{{'Protected by code only' | translate}}</button>
   <div class="send__transfer-description" [innerHTML]="'Make <b>password-protected</b> transfer' | translate">
     <div class="small">{{'Anyone who knows the code may recive the transfer' | translate}}</div>
   </div>
 </div>
+</div>
+

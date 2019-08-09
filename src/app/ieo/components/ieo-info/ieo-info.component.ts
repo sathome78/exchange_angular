@@ -6,10 +6,9 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-ieo-info',
   templateUrl: './ieo-info.component.html',
-  styleUrls: ['./ieo-info.component.scss']
+  styleUrls: ['./ieo-info.component.scss'],
 })
 export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
-
   public timer = '';
   public interval;
   public stage = {
@@ -26,14 +25,12 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public requirements: KycIEOModel;
   @Input() public ieoLoading: boolean;
   @Input() public userBalanceBTC: number;
-  @Output() public onLogin: EventEmitter<any> = new EventEmitter();
-  @Output() public onRefreshIEOStatus: EventEmitter<any> = new EventEmitter();
-  @Output() public onBuy: EventEmitter<any> = new EventEmitter();
-  constructor() { }
+  @Output() public login: EventEmitter<any> = new EventEmitter();
+  @Output() public refreshIEOStatus: EventEmitter<any> = new EventEmitter();
+  @Output() public buy: EventEmitter<any> = new EventEmitter();
+  constructor() {}
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   ngOnChanges(c) {
     if (c.IEOData && c.IEOData.currentValue) {
@@ -66,42 +63,52 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
 
       if (diff > 0) {
         this.timer =
-          '<span>' + (days < 10 ? '0' + days : days) + '</span>' +
-          '<span>' + (hours < 10 ? '0' + hours : hours) + '</span>' +
-          '<span>' + (minutes < 10 ? '0' + minutes : minutes) + '</span>' +
-          '<span>' + (seconds < 10 ? '0' + seconds : seconds) + '</span>';
+          // tslint:disable-next-line: prefer-template
+          '<span>' +
+          (days < 10 ? '0' + days : days) +
+          '</span>' +
+          '<span>' +
+          (hours < 10 ? '0' + hours : hours) +
+          '</span>' +
+          '<span>' +
+          (minutes < 10 ? '0' + minutes : minutes) +
+          '</span>' +
+          '<span>' +
+          (seconds < 10 ? '0' + seconds : seconds) +
+          '</span>';
       } else {
         this.timer = '<span>00</span><span>00</span><span>00</span><span>00</span>';
-        if ( this.currentStage === this.stage.PENDING) {
-          this.onRefreshIEOStatus.emit();
+        if (this.currentStage === this.stage.PENDING) {
+          this.refreshIEOStatus.emit();
           if (this.interval) {
             clearInterval(this.interval);
           }
         }
       }
-
     };
     getCountdown();
     this.interval = setInterval(() => getCountdown(), 1000);
   }
-  public login() {
-    this.onLogin.emit();
+  public onLogin() {
+    this.login.emit();
   }
 
   public onBuyEvent() {
-    this.onBuy.emit();
+    this.buy.emit();
   }
 
   public getLocalDateValue(d): moment.Moment {
     if (typeof d === 'object') {
-      return moment.utc({
-        y: d.year,
-        M: d.monthValue - 1,
-        d: d.dayOfMonth,
-        h: d.hour,
-        m: d.minute,
-        s: d.second,
-      }).local();
+      return moment
+        .utc({
+          y: d.year,
+          M: d.monthValue - 1,
+          d: d.dayOfMonth,
+          h: d.hour,
+          m: d.minute,
+          s: d.second,
+        })
+        .local();
     }
 
     if (typeof d === 'string') {
@@ -109,20 +116,21 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  get boughtAmount () {
-    return (this.IEOData.amount - this.IEOData.availableAmount) || 0;
+  get boughtAmount() {
+    return this.IEOData.amount - this.IEOData.availableAmount || 0;
   }
 
-  get sessionSupply () {
-    return (this.IEOData.amount * this.IEOData.rate) || 0;
+  get sessionSupply() {
+    return this.IEOData.amount * this.IEOData.rate || 0;
   }
 
-   get boughtAmountPer () {
-    const a = (this.boughtAmount / (this.IEOData.amount / 100)) || 0;
+  get boughtAmountPer() {
+    const a = this.boughtAmount / (this.IEOData.amount / 100) || 0;
     return a.toFixed(2);
   }
 
   goToNewsPage() {
-    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`);
+    const newWnd = window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`);
+    newWnd.opener = null;
   }
 }

@@ -8,9 +8,8 @@ describe('IEORequirementsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IEORequirementsComponent ]
-    })
-    .compileComponents();
+      declarations: [IEORequirementsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,25 +1,29 @@
-import {Injectable, OnDestroy, NgZone} from '@angular/core';
-import {environment} from '../../../environments/environment';
-import {LoggingService} from './logging.service';
+import { Injectable, OnDestroy, NgZone } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { LoggingService } from './logging.service';
 import * as jwt_decode from 'jwt-decode';
-import {TOKEN} from './http.utils';
-import {Subject, Observable, of} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
-import {Store} from '@ngrx/store';
+import { TOKEN } from './http.utils';
+import { Subject, Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as coreActions from '../../core/actions/core.actions';
-import {PopupService} from './popup.service';
-import {Router} from '@angular/router';
-import {GtagService} from './gtag.service';
-import {UtilsService} from './utils.service';
+import { PopupService } from './popup.service';
+import { Router } from '@angular/router';
+import { GtagService } from './gtag.service';
+import { UtilsService } from './utils.service';
 
 @Injectable()
 export class AuthService implements OnDestroy {
-
   ENCODE_KEY = environment.encodeKey;
   apiUrl = environment.apiUrl;
 
-  public simpleToken: { expiration: number, token_id: number, username: string, value: string };
+  public simpleToken: {
+    expiration: number;
+    token_id: number;
+    username: string;
+    value: string;
+  };
   public ngUnsubscribe$ = new Subject<any>();
   public timeOutSub;
   public PROTECTED_ROUTES = ['/funds', '/orders', '/settings'];
@@ -33,8 +37,7 @@ export class AuthService implements OnDestroy {
     private store: Store<fromCore.State>,
     private gtagService: GtagService,
     private utilsService: UtilsService
-  ) {
-  }
+  ) {}
 
   public parseToken(): ParsedToken {
     const token = this.token;
@@ -77,8 +80,8 @@ export class AuthService implements OnDestroy {
 
   public redirectOnLogout() {
     const url = this.router.url;
-    const isProtected = this.PROTECTED_ROUTES.some((r) => url.indexOf(r) >= 0);
-    if(isProtected) {
+    const isProtected = this.PROTECTED_ROUTES.some(r => url.indexOf(r) >= 0);
+    if (isProtected) {
       this.router.navigateByUrl('/dashboard');
     }
   }
@@ -98,7 +101,6 @@ export class AuthService implements OnDestroy {
       clearInterval(this.timeOutSub);
     }
   }
-
 
   public checkTempToken(token: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/api/public/v2/users/validateTempToken/${token}`);

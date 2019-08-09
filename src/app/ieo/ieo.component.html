@@ -1,5 +1,8 @@
 <div class="ieo-container">
-  <div class="ieo-header" *ngIf="currentStage !== stage.PENDING">
+  <div
+    class="ieo-header"
+    *ngIf="currentStage !== stage.PENDING"
+  >
     <app-ieo-header
       [IEOData]="IEOData"
       [userBalanceBTC]="userBalanceBTC"
@@ -7,17 +10,17 @@
       [isAuthenticated]="isAuthenticated"
       [ieoLoading]="ieoLoading"
       [requirements]="requirements || {}"
-      (onLogin)="onLogin()"
-      (onBuy)="onBuy()"
+      (login)="onLogin()"
+      (buy)="onBuy()"
     ></app-ieo-header>
   </div>
   <app-ieo-info
     [isAuthenticated]="isAuthenticated"
     [currentStage]="currentStage"
     [userBalanceBTC]="userBalanceBTC"
-    (onLogin)="onLogin()"
-    (onRefreshIEOStatus)="onRefreshIEOStatus()"
-    (onBuy)="onBuy()"
+    (login)="onLogin()"
+    (refreshIEOStatus)="onRefreshIEOStatus()"
+    (buy)="onBuy()"
     [IEOData]="IEOData"
     [ieoLoading]="ieoLoading"
     [requirements]="requirements || {}"
@@ -47,7 +50,7 @@
       requirements &&
       !requirements.kycCheck)
     "
-    (onClick)="bannerClick()"
+    (click)="bannerClick()"
   ></app-get-ready-banner>
 
   <app-ieo-how-it-works></app-ieo-how-it-works>
@@ -62,6 +65,7 @@
     (close)="toggleNoReqs(false)"
     [IEOData]="IEOData"
   ></app-popup-failed>
+
   <app-popup-buy
     [IEOData]="IEOData"
     *ngIf="showBuy"
@@ -72,7 +76,7 @@
   <app-popup-policy
     *ngIf="showPolicy"
     (close)="togglePolicy(false)"
-    (onAgree)="agreeWithPolicy()"
+    (agree)="agreeWithPolicy()"
   ></app-popup-policy>
 
   <app-popup-success
@@ -82,9 +86,7 @@
   >
   </app-popup-success>
 
-  <app-popup-wait-ieo
-    *ngIf="showWait"
-  >
+  <app-popup-wait-ieo *ngIf="showWait">
   </app-popup-wait-ieo>
 
   <app-popup-sorry-ieo

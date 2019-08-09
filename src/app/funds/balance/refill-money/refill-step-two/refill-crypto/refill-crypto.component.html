@@ -1,8 +1,8 @@
-<div *ngIf="activeCrypto">
-<div class="title refill__title">
+<div *ngIf="activeCrypto" class="refill-cripto side-popups">
+<h2 class="title refill__title">
   {{'Crypto deposit' | translate}}
   <span>{{activeCrypto.name}}</span>
-</div>
+</h2>
 <div class="refill__inputs-wrap">
   <div class="select refill__select refill__select--cripto">
     <div class="select__value select__value--active" (click)="currencyDropdownToggle()">

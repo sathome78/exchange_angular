@@ -491,3 +491,406 @@
 		}
 	}
 }
+
+
+
+
+//fiat ballance
+
+
+.fiat-deposit-s1{
+	.secundary-form{
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		.input-block{
+			position: relative;
+			width: calc(50% - 15px);
+			max-width: 300px;
+			margin-bottom: 25px;
+		}
+		.wrap-input__input{
+
+		}
+		.wrap-input__label{
+
+		}
+	}
+
+
+
+	h2{
+		font-weight: 400;
+		font-size: 24px;
+		line-height: 1.27;
+		text-align: center;
+		color: #191A39;
+		margin-bottom: 32px;
+		@media(max-width: 1200px){
+			color: #DEDEFB;
+		}
+	}
+
+	form{
+		border-bottom: 1px solid #ECECEC;
+		margin: 0 30px;
+		@media(max-width: 1200px){
+			border-bottom: 1px solid #94C2FF;
+		}
+		@media(max-width: 640px){
+			margin: 0 15px;
+		}
+	}
+
+	.main-form{
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 20px;
+		@media(max-width: 640px){
+			display: block;
+		}
+	}
+	.refill__select{
+		width: calc(50% - 15px);
+		max-width: unset;
+		@media(max-width: 640px){
+			width: 100%;
+			margin-bottom: 25px;
+		}
+	}
+	.select__value{
+
+	}
+	.select__label{
+
+	}
+	.select__line{
+
+	}
+	.select__triangle{
+
+	}
+	.select__list{
+
+	}
+	.select__list-item{
+
+	}
+
+	.fiat-amount{
+		position: relative;
+		width: calc(33.3333% - 15px);
+	}
+
+	.info-block{
+		margin: 0 30px 32px;
+
+		border-bottom: 1px solid #ECECEC;
+		display: flex;
+		justify-content: space-between;
+		padding: 17px;
+		@media(max-width: 1200px){
+			border-bottom: 1px solid #94C2FF;
+		}
+		@media(max-width: 1240px){
+			padding: 17px 0;
+		}
+		@media(max-width: 640px){
+			margin: 0 15px 32px;
+		}
+		.left-part{
+			max-width: 370px;
+			width: 100%;
+			margin: 0 auto;
+			@media(max-width: 640px){
+				max-width: unset;
+				margin-right: 0;
+			}
+		}
+		.left-block{
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+		}
+
+		.item-info{
+			margin-bottom: 11px;
+			display: flex;
+			justify-content: space-between;
+		}
+		.key-info{
+			font-weight: 400;
+			font-size: 14px;
+			line-height: 1.44;
+			color: #4B4B4B;
+			@media(max-width: 1200px){
+				color: #94C2FF;
+			}
+		}
+		.value-info{
+			font-weight: 500;
+			font-size: 14px;
+			line-height: 1.44;
+			text-align: right;
+			color: #000000;
+			@media(max-width: 1200px){
+				color: #DEDEFB;
+			}
+		}
+		.print{
+			margin: 0;
+			margin-top: auto;
+			cursor: pointer;
+			padding: 0;
+			border: none;
+			background: transparent;
+			text-align: left;
+			align-self: center;
+			svg{
+				margin-right: 10px;
+				vertical-align: middle;
+			}
+			span{
+				font-weight: normal;
+				font-size: 14px;
+				line-height: 1.44;
+				color: #237BEF;
+				text-decoration: underline;
+				text-decoration-style: dashed;
+			}
+		}
+		.right-part{
+			max-width: 280px;
+			width: 100%;
+		}
+	}
+	.balance__title-btn{
+		margin: auto;
+		margin-bottom: 57px;
+	} 
+
+}
+.notice-block{
+	padding: 27px 30px;
+	background: #E9F2FF;
+	@media(max-width: 640px){
+		padding: 27px 15px;
+	}
+	.head-notice{
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 1.15;
+		color: #000000;
+		margin-bottom: 16px;
+		display: block;
+	}
+	ul{
+		li{
+			position: relative;
+			padding-left: 10px;
+			margin-bottom: 8px;
+			&:before{
+				content: "";
+				position: absolute;
+				top: 4px;
+				width: 4px;
+				height: 4px;
+				border-radius: 50%;
+				background: #237BEF;
+				left: 0;
+
+			}
+			span{
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 1.15;
+				color: #4B4B4B;
+				letter-spacing: -.15px;
+			}
+		}
+	}
+}
+
+.modal__content{
+	&.qubera-content{
+		padding: 32px 0;
+	}
+}
+
+
+.fiat-withdraw-s1{
+	form{
+		@media(max-width: 640px){
+			border: none;
+		}
+	}
+	.main-form{
+		margin-bottom: 28px;
+		border-bottom: 1px solid #ECECEC;
+		@media(max-width: 1200px){
+			border-bottom: 1px solid #94C2FF;
+		}
+	}
+	.fiat-amount{
+		@media(max-width: 640px){
+
+			max-width: unset;
+			margin-bottom: 25px;
+			width: 100%;
+		}
+	}
+	.refill__select{
+		width: calc(33.333% - 15px);
+		max-width: unset;
+		@media(max-width: 640px){
+			width: 100%;
+			margin-bottom: 25px;
+		}
+	}
+	.secundary-form{
+		margin-bottom: 16px;
+		.input-block{
+			max-width: unset;
+			@media(max-width: 640px){
+				max-width: unset;
+				width: 100%;
+				margin-bottom: 20px;
+			}
+		}
+	}
+	.balance__title-btn{
+		margin-bottom: 47px;
+	}
+	.info-block {
+		margin: 0 0 32px;
+		@media(max-width: 1240px){
+			padding: 17px 0;
+		}
+		.item-info{
+			justify-content: flex-start;
+		}
+		.key-info{
+			margin-right: 56px;
+			min-width: 143px;
+			@media(max-width: 640px){
+				margin-right: 26px;
+			}
+		}
+		.value-info{
+			@media(max-width: 640px){
+				text-align: left;
+			}
+		}
+		.left-part{
+			margin-left: auto;
+			max-width: 510px;
+			// margin-right: 0;
+			margin-right: auto;
+			@media(max-width: 1200px){
+				margin-left: 0;
+			}
+		}
+	}
+}
+
+
+.fiat-transfer{
+	max-width: 400px;
+	margin: 0 auto;
+	padding-top: 40px;
+	.input-block{
+		position: relative;
+	}
+	p{
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 1.15;
+		text-align: center;
+		color: #000000;
+		margin-bottom: 32px;
+	}
+	h2{
+		margin-bottom: 18px;
+	}
+	form{
+		max-width: 260px;
+		margin: 0 auto;
+		input{
+			margin-bottom: 23px;
+		}
+		.balance__title-btn{
+			margin-bottom: 23px;
+			width: 100%;
+		}	
+	}
+	.change-phone{
+		text-align: center;
+		margin-bottom: 240px;
+	}
+	a{
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 1.15;
+		
+		color: #237BEF;
+		text-decoration: none;
+	}
+}
+
+.fiat-create-acc-s2{
+	padding-top: 0;
+	margin-bottom: 0;
+	form{
+		input{
+			margin-bottom: 10px;
+		}
+	}
+	.resend{
+		margin-bottom: 20px;
+		display: flex;
+		align-items: center;
+		span{
+			font-weight: 400;
+			font-size: 12px;
+			line-height: 1.15;
+			color: #AAB1C4;
+		}
+		button{
+			font-weight: 400;
+			font-size: 12px;
+			line-height: 1.15;
+			text-align: center;
+			color: #237BEF;
+			border: none;
+			background: transparent;
+			outline: none;
+
+		}
+	}
+}
+
+
+.dark-theme {
+	.modal {
+		.qubera-content {
+			.btn{
+				color: #fff;
+				border: 1px solid #237BEF;
+				background-color: #237BEF;
+				&:hover{
+					&:not(:disabled){
+						background-color: #4590F3;
+					}
+				}
+				&:disabled{
+					background-color: transparent;
+					pointer-events: none;
+					color: #91929F;
+					border-color: #91929F;
+				}
+			}
+		}
+	}
+}
+
+

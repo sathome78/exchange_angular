@@ -1,8 +1,8 @@
-import {SimpleCurrencyPair} from "app/model/simple-currency-pair";
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 export const defaultValues: SimpleCurrencyPair = {
-  id: 1,
-  name: 'BTC/USD',
+  id: 819,
+  name: 'BTC/USDT',
 };
 
 export const defaultUserBalance = {
@@ -15,7 +15,7 @@ export const defaultOrderItem = {
   currencyPairId: 1,
   exrate: '0',
   orderType: 'BUY',
-  total: '0'
+  total: '0',
 };
 
 export const defaultCurrencyPairInfo = {
@@ -30,9 +30,8 @@ export const defaultCurrencyPairInfo = {
 
 export const defaultLastPrice = {
   flag: true,
-  price: 0
+  price: 0,
 };
-
 
 export const defaultTradeItem = {
   acceptionTime: '0',
@@ -42,7 +41,7 @@ export const defaultTradeItem = {
   operationType: 'SELL',
   orderId: 0,
   page: 0,
-  rate: '0'
+  rate: '0',
 };
 
 export const defaultLastCreatedOrder = {
@@ -55,12 +54,11 @@ export const defaultLastCreatedOrder = {
   baseType: '',
   total: 0,
   status: '',
-  stop: 0
+  stop: 0,
 };
 
 export const defaultLastSellBuyOrder = {
   lastOrder: defaultTradeItem,
   lastSellOrder: defaultTradeItem,
-  lastBuyOrder: defaultTradeItem
+  lastBuyOrder: defaultTradeItem,
 };
-

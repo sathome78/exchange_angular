@@ -1,20 +1,20 @@
 <app-refill-crypto
   [refillData]="refillData"
-*ngIf="choosedName === CRYPTO_DEPOSIT"
+  *ngIf="choosedName === CRYPTO_DEPOSIT"
 ></app-refill-crypto>
 
 
 <app-refill-fiat
   (closePopup)="closePopup.emit(true)"
+  (goToThirdStep)="goToThird()"
+  (selectQuberaBank)="selectBank()"
+  (hideSteps)="hideStep()"
   [refillData]="refillData"
   *ngIf="choosedName === FIAT_DEPOSIT"
 ></app-refill-fiat>
 
 
-<app-refill-inner-transfer
-  *ngIf="choosedName === INNER_TRANSFER"
-></app-refill-inner-transfer>
+<app-refill-inner-transfer *ngIf="choosedName === INNER_TRANSFER"></app-refill-inner-transfer>
 
-<app-refill-fiat-qubera
-  *ngIf="choosedName === FIAT_DEPOSIT_QUBERA">
+<app-refill-fiat-qubera *ngIf="choosedName === FIAT_DEPOSIT_QUBERA">
 </app-refill-fiat-qubera>

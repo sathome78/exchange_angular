@@ -1,14 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Subject} from 'rxjs';
-import {UserVerificationService} from '../../../shared/services/user-verification.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
+import { UserVerificationService } from '../../../shared/services/user-verification.service';
 
 @Component({
   selector: 'app-step-two',
   templateUrl: './step-two.component.html',
-  styleUrls: ['./step-two.component.scss']
+  styleUrls: ['./step-two.component.scss'],
 })
 export class StepTwoComponent implements OnInit {
-
   WEBCAM = 'WEBCAM';
   FILE = 'FILE';
   STEP = 'STEP';
@@ -18,12 +17,9 @@ export class StepTwoComponent implements OnInit {
 
   displayMode = this.STEP;
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   toggleWebcam() {
     this.displayMode = this.WEBCAM;
@@ -45,7 +41,6 @@ export class StepTwoComponent implements OnInit {
       this.onNextStep.emit(3);
     }
   }
-
 
   processSubmitResult(code: any) {
     //  console.log(code);

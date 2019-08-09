@@ -1,4 +1,4 @@
- export interface RefreshAddress {
+export interface RefreshAddress {
   params: {
     address: string;
     qr: string;

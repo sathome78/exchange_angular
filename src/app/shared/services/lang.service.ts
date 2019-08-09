@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Subject} from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class LangService {
-
   currentLanguage = 'en';
 
   langChangeEvent = new Subject<string>();
@@ -20,5 +19,4 @@ export class LangService {
     this.currentLanguage = language.toLowerCase();
     this.langChangeEvent.next(this.getLanguage());
   }
-
 }

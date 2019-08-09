@@ -1,21 +1,20 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
-import {Animations} from 'app/shared/animations';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-refill-money',
   templateUrl: './refill-money.component.html',
   styleUrls: ['./refill-money.component.scss'],
-  animations: [
-    Animations.popupOverlayTrigger, Animations.popupModalTrigger
-  ]
+  animations: [Animations.popupOverlayTrigger, Animations.popupModalTrigger],
 })
 export class RefillMoneyComponent implements OnInit {
-
   @Output() closeRefillBalancePopup = new EventEmitter<boolean>();
   @Input() optionData;
   @Input() showPopup;
   public stepTwoName: string;
   public step: number;
+
+  showStepThree: boolean = false;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
@@ -24,8 +23,7 @@ export class RefillMoneyComponent implements OnInit {
     }
   }
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
     this.initFields();
@@ -53,4 +51,11 @@ export class RefillMoneyComponent implements OnInit {
     this.stepTwoName = this.optionData.stepName ? this.optionData.stepName : '';
   }
 
+  changeSteps() {
+    this.showStepThree = true;
+  }
+
+  hideStep() {
+    this.showStepThree = false;
+  }
 }

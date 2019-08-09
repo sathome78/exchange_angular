@@ -14,14 +14,14 @@
   <tbody class="table__body">
     <tr
       class="table__row balance__table-row"
-      *ngFor="let ieo of IEOData"
+      *ngFor="let ieo of IEOData; trackBy: trackByFn"
     >
       <td class="table__cell">
         <div class="balance__currency">
           <div class="balance__currency-icon">
             <img src="assets/img/currency-icons/citrus.svg">
           </div>
-          <span >{{ieo.currencyDescription}}</span>
+          <span class="descr-txt">{{ieo.currencyDescription}}</span>
         </div>
       </td>
       <td class="table__cell table__cell--tar">
@@ -74,8 +74,14 @@
       </td>
     </tr>
 
-    <tr class="table__row balance__table-row table__row--no-hover" *ngIf="!IEOData.length">
-      <td class="table__cell table__cell--tac" colspan="10">
+    <tr
+      class="table__row balance__table-row table__row--no-hover"
+      *ngIf="!IEOData.length"
+    >
+      <td
+        class="table__cell table__cell--tac"
+        colspan="10"
+      >
         {{'No matching records found' | translate}}
       </td>
     </tr>
@@ -92,7 +98,10 @@
     [countOfEntries]="countOfEntries"
     (onChange)="changeItemsPerPage($event)"
   ></app-page-items-dropdown>
-  <ul class="paginator" style="margin-left: auto;">
+  <ul
+    class="paginator"
+    style="margin-left: auto;"
+  >
     <pagination-controls
       maxSize="7"
       [previousLabel]="''"

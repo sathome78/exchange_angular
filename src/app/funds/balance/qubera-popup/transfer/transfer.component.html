@@ -1,0 +1,44 @@
+<div class="modal__content qubera-content side-popups qubera-transfer">
+	<div class="fiat-deposit-s1 fiat-transfer">
+		<h2>{{'Transaction confirmation' | translate}}</h2>
+		<p>{{'Transaction confirmation' | translate}}To send money to your Exrates trading account, confirm the operation with a code and SMS.</p>
+		<form  [formGroup]="form">
+			<div class="input-block">
+				<input type="text" name="code" class="wrap-input__input" formControlName="code" required>
+				<label class="wrap-input__label" for="firstname">{{'Code' | translate}}</label>
+				<ng-container *ngIf="!currentCode.valid && !currentCode.untouched">
+					<div class="input-hint-wrapper">
+					   <span
+						 class="wrap-input__message"
+						 *ngIf="!currentCode.valid">
+						  {{'Code field is required.' | translate}}
+					   </span>
+					</div>
+				</ng-container>
+			</div>
+			<button
+				class="btn btn--center"
+				[ngClass]="{'btn--empty-blue': !form.valid}"
+				[disabled]="form.invalid"
+				(click)="enterCode(form.value)">{{'Confirm' | translate}}</button>
+			<div class="change-phone">
+			<a>{{'Change phone number' | translate}}</a>	
+			</div>
+			
+		</form>
+	</div>
+		<div class="notice-block">
+			<span class="head-notice">{{'Please note' | translate}}:</span>
+			<ul>
+				<li>
+					<span>{{'Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email.' | translate}}
+					</span>
+				</li>
+				<li>
+					<span>{{'After making a withdrawal, you can track its progress in history on funds page.' | translate}}
+					</span>
+				</li>
+
+			</ul>
+		</div>
+</div>

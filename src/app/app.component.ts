@@ -1,29 +1,31 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PopupService} from './shared/services/popup.service';
-import {ThemeService} from './shared/services/theme.service';
-import {UserService} from './shared/services/user.service';
-import {AuthService} from './shared/services/auth.service';
-import {Subject} from 'rxjs/Subject';
-import {takeUntil, withLatestFrom, take} from 'rxjs/internal/operators';
-import {TranslateService} from '@ngx-translate/core';
-import {select, Store} from '@ngrx/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PopupService } from './shared/services/popup.service';
+import { ThemeService } from './shared/services/theme.service';
+import { IpAddress, UserService } from './shared/services/user.service';
+import { IP_CHECKER_URL, USER_IP } from './shared/services/http.utils';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from './shared/services/auth.service';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil, withLatestFrom, take } from 'rxjs/internal/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { select, Store } from '@ngrx/store';
 import * as fromCore from './core/reducers';
 import * as coreAction from './core/actions/core.actions';
 import * as dashboardAction from './dashboard/actions/dashboard.actions';
-import {SimpleCurrencyPair} from './model/simple-currency-pair';
-import {SEOService} from './shared/services/seo.service';
-import {UtilsService} from './shared/services/utils.service';
-import {ChangeLanguageAction} from './core/actions/core.actions';
-import {getLanguage} from './core/reducers';
-import {GtagService} from './shared/services/gtag.service';
-import {APIErrorsService} from './shared/services/apiErrors.service';
-import {Notification} from './model/notification.model';
-import {APIErrorReport} from './shared/models/apiErrorReport.model';
+import * as settingsActions from './settings/store/actions/settings.actions';
+import { SimpleCurrencyPair } from './model/simple-currency-pair';
+import { SEOService } from './shared/services/seo.service';
+import { UtilsService } from './shared/services/utils.service';
+import { IEOServiceService } from './shared/services/ieoservice.service';
+import { GtagService } from './shared/services/gtag.service';
+import { lang } from 'moment';
+import { APIErrorsService } from './shared/services/apiErrors.service';
+import { APIErrorReport } from './shared/models/apiErrorReport.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'exrates-front-new';
@@ -48,9 +50,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // uncomment when the translation is ready
     const langCandidate = localStorage.getItem('language');
-    this.store.dispatch(new ChangeLanguageAction(!!langCandidate ? langCandidate : 'en'));
+    this.store.dispatch(new coreAction.ChangeLanguageAction(!!langCandidate ? langCandidate : 'en'));
     this.store
-      .pipe(select(getLanguage))
+      .pipe(select(fromCore.getLanguage))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.translate.use(res));
 
@@ -62,10 +64,11 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(([isAuth, userInfo]: [boolean, ParsedToken]) => {
         this.isAuthenticated = isAuth;
-        if(isAuth && userInfo) {
+        if (isAuth && userInfo) {
           this.store.dispatch(new coreAction.LoadVerificationStatusAction());
           this.sendTransactionsAnalytics();
           this.setNameEmailToZenChat(userInfo.username);
+          this.store.dispatch(new settingsActions.LoadGAStatusAction());
         } else {
           this.clearNameEmailFromZenChat();
         }
@@ -77,24 +80,22 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(select(fromCore.getSimpleCurrencyPairsSelector))
       .pipe(take(2))
       .subscribe((currencies: SimpleCurrencyPair[]) => {
-        if(this.shouldSetDefaultCurrPair) {
+        if (this.shouldSetDefaultCurrPair) {
           this.setDefaultCurrencyPair(currencies);
         }
       });
   }
 
   ngOnInit(): void {
-    this.authService.isSessionValid()
-      .subscribe((res) => {
-        if(res) {
-          const parsedToken = this.authService.parseToken();
-          this.gtagService.setUserId(parsedToken.publicId);
-          this.store.dispatch(new coreAction.SetOnLoginAction(parsedToken));
-        }
-      })
+    this.authService.isSessionValid().subscribe(res => {
+      if (res) {
+        const parsedToken = this.authService.parseToken();
+        this.gtagService.setUserId(parsedToken.publicId);
+        this.store.dispatch(new coreAction.SetOnLoginAction(parsedToken));
+      }
+    });
 
     this.gtagService.initGtag();
-
 
     this.seoService.subscribeToRouter(); // SEO optimization
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
@@ -112,36 +113,36 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   setDefaultCurrencyPair(currencies: SimpleCurrencyPair[]) {
-    const pair = currencies.find((item) => (item.name === 'BTC/USD'));
-    if(pair) {
+    const pair = currencies.find(item => item.name === 'BTC/USDT');
+    if (pair) {
       this.store.dispatch(new dashboardAction.ChangeActiveCurrencyPairAction(pair));
       this.utilsService.saveActiveCurrencyPairToSS(pair);
       this.userService.getUserBalance(pair);
     }
   }
   setNameEmailToZenChat(userEmail: string): void {
-    if(!userEmail) {
+    if (!userEmail) {
       return;
     }
     const name = userEmail.split('@')[0];
     const interval = setInterval(() => {
-      if(!(<any>window).$zopim) {
+      if (!(<any>window).$zopim) {
         return;
       }
       clearInterval(interval); // waiting for initializing chat widget
       (<any>window).$zopim(() => {
         (<any>window).$zopim.livechat.setName(name);
         (<any>window).$zopim.livechat.setEmail(userEmail);
-      })
+      });
     }, 500);
   }
   clearNameEmailFromZenChat(): void {
-    if(!(<any>window).$zopim) {
+    if (!(<any>window).$zopim) {
       return;
     }
     (<any>window).$zopim(() => {
       (<any>window).$zopim.livechat.clearAll();
-    })
+    });
   }
 
   isCurrentThemeDark(): boolean {
@@ -155,7 +156,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private setIp() {
-
     // this.http.get<IpAddress>(IP_CHECKER_URL)
     //   .pipe(takeUntil(this.ngUnsubscribe))
     //   .subscribe(response => {
@@ -167,17 +167,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private sendTransactionsAnalytics() {
     setTimeout(() => {
-      if(!this.isAuthenticated) {
+      if (!this.isAuthenticated) {
         return;
       }
-      this.userService.getTransactionsCounterForGTag()
+      this.userService
+        .getTransactionsCounterForGTag()
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe((res) => {
-          if(res.count > 0) {
-            for(let i = 0; i < res.count; i++) {
+        .subscribe(res => {
+          if (res.count > 0) {
+            for (let i = 0; i < res.count; i += 1) {
               this.gtagService.sendTransactionSuccessGtag();
             }
-            this.userService.clearTransactionsCounterForGTag()
+            this.userService
+              .clearTransactionsCounterForGTag()
               .pipe(takeUntil(this.ngUnsubscribe))
               .subscribe(() => {});
           }
@@ -186,12 +188,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   test() {
-    this.apiErrorsService.showErrorNotification(
-      new Notification({
-        text: 'test',
-        notificationType: 'ERROR'
-      }),
-      new APIErrorReport('this.userInfo.username', 'url', 'method', 'status', 'JSON.stringify(error.error)')
-    );
+    // this.apiErrorsService.showErrorNotification(
+    //   // new Notification({
+    //   //   text: 'test',
+    //   //   notificationType: 'ERROR',
+    //   // }),
+    //   // new APIErrorReport('this.userInfo.username', 'url', 'method', 'status', 'JSON.stringify(error.error)')
+    // );
   }
 }

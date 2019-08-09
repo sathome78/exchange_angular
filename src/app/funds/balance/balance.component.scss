@@ -1,13 +1,39 @@
 .border-transparent {
-  border-bottom: 2px solid transparent;
+	border-bottom: 2px solid transparent;
 }
 
 ::ng-deep div.wrap-input.wrap-input--with-icon.balance__search {
-  width: 184px !important;
-  .ng-select-container {
-    width: 184px !important;
-    .ng-value-container{
-      width: 184px !important;
-    }
-  }
+	width: 184px !important;
+	.ng-select-container {
+		width: 184px !important;
+		.ng-value-container{
+			width: 184px !important;
+		}
+	}
+}
+
+
+.hint-link{
+	position: absolute;
+    right: 14px;
+    top: 7px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid #237BEF;
+    font-size: 12px;
+    line-height: 18px;
+    color: #237BEF;
+    font-weight: 600;
+    transition: .3s;
+    text-decoration: none;
+	&:hover{
+		color: #fff;
+		background: #237BEF;
+	}
+}
+
+
+.funding-tabs{
+padding-right: 35px;
 }

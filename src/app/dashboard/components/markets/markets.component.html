@@ -1,131 +1,264 @@
-<div class="widget widget--gradient" #mobileContainer>
+<div
+  class="widget widget--gradient"
+  #mobileContainer
+>
   <!-- MOBILE START -->
-  <div *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'" style="height: 100%">
-    <div class="widget__header--mob" *ngIf="!marketSearch">
+  <div
+    *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'"
+    style="height: 100%"
+  >
+    <div
+      class="widget__header--mob"
+      *ngIf="!marketSearch"
+    >
       <div class="widget__name-mob">{{'Markets' | translate}}</div>
-      <div class="widget__search-btn" (click)="toggleSearchModal()">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <div
+        class="widget__search-btn"
+        (click)="toggleSearchModal()"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
             d="M7.22222 13.6444C8.78354 13.6444 10.2149 13.0869 11.3278 12.1605L14.1947 15.0275C14.4247 15.2575 14.7975 15.2575 15.0275 15.0275C15.2575 14.7975 15.2575 14.4247 15.0275 14.1947L12.1605 11.3278C13.0869 10.2149 13.6444 8.78354 13.6444 7.22222C13.6444 3.67557 10.7689 0.8 7.22222 0.8C3.67557 0.8 0.8 3.67557 0.8 7.22222C0.8 10.7689 3.67557 13.6444 7.22222 13.6444ZM12.4667 7.22222C12.4667 10.1188 10.1188 12.4667 7.22222 12.4667C4.32563 12.4667 1.97778 10.1188 1.97778 7.22222C1.97778 4.32563 4.32563 1.97778 7.22222 1.97778C10.1188 1.97778 12.4667 4.32563 12.4667 7.22222Z"
-            stroke-width="0.4" stroke-linecap="round" stroke-linejoin="round"/>
+            stroke-width="0.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
         {{'Search' | translate}}
       </div>
     </div>
-    <div class="tabs widget__tabs widget__tabs--mob widget__markets-tabs" *ngIf="!marketSearch">
-      <button class="tabs__item  tabs__item--active"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'BTC','tab-no-active': currencyDisplayMode !== 'BTC'}"
-              (click)="selectedTab('BTC')">
+    <div class="tabs widget__tabs widget__tabs--mob widget__markets-tabs markets-type-tabs">
+      <button
+        class="tabs__item  tabs__item--active"
+        [ngClass]="{'tabs__item--active': isTopMarket,'tab-no-active': !isTopMarket}"
+        (click)="toggleIsTopMarket(true)"
+      >
+        {{'Top Market' | translate}}
+      </button>
+      <button
+        class="tabs__item"
+        [ngClass]="{'tabs__item--active': !isTopMarket,'tab-no-active': isTopMarket}"
+        (click)="toggleIsTopMarket(false)"
+      >
+        {{'Junior Market' | translate}}
+      </button>
+    </div>
+    <div
+      class="tabs widget__tabs widget__tabs--mob widget__markets-tabs"
+      *ngIf="!marketSearch"
+    >
+      <button
+        class="tabs__item  tabs__item--active"
+        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'BTC','tab-no-active': currencyDisplayMode !== 'BTC'}"
+        (click)="selectedTab('BTC')"
+      >
         BTC
       </button>
-      <button class="tabs__item"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'ETH','tab-no-active': currencyDisplayMode !== 'ETH'}"
-              (click)="selectedTab('ETH')">
+      <button
+        class="tabs__item"
+        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'ETH','tab-no-active': currencyDisplayMode !== 'ETH'}"
+        (click)="selectedTab('ETH')"
+      >
         ETH
       </button>
-      <button class="tabs__item"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USD','tab-no-active': currencyDisplayMode !== 'USD'}"
-              (click)="selectedTab('USD')"
+      <button
+        class="tabs__item"
+        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USD','tab-no-active': currencyDisplayMode !== 'USD'}"
+        (click)="selectedTab('USD')"
       >
         USD
       </button>
-      <button class="tabs__item"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
-              (click)="selectedTab('LOC')"
+      <button
+        class="tabs__item"
+        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USDT','tab-no-active': currencyDisplayMode !== 'USDT'}"
+        (click)="selectedTab('USDT')"
       >
-      {{'LOC' | translate}}
+        USDT
       </button>
-      <button class="tabs__item"
-              *ngIf="isAuthenticated"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'FAVORITES','tab-no-active': currencyDisplayMode !== 'FAVORITES'}"
-              (click)="selectedTab('FAVORITES')"
+      <button
+        class="tabs__item"
+        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
+        (click)="selectedTab('LOC')"
+      >
+        LOC
+      </button>
+      <button
+        class="tabs__item"
+        *ngIf="isAuthenticated"
+        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'FAVORITES','tab-no-active': currencyDisplayMode !== 'FAVORITES'}"
+        (click)="selectedTab('FAVORITES')"
       >
         <span>
-          <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            width="14"
+            height="13"
+            viewBox="0 0 14 13"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"
-              fill="#E5E5E5"/>
+              fill="#E5E5E5"
+            />
           </svg>
         </span>
         {{'Fav' | translate}}
       </button>
     </div>
-    <div class="widget__content widget__content--mob" *ngIf="!marketSearch && !loading">
+    <div
+      class="widget__content widget__content--mob"
+      *ngIf="!marketSearch && !loading"
+    >
       <!--table mob start-->
       <div class="markets__table widget__table-markets-mob">
         <div class="markets__thead">
-          <div class="table__cell-head table__cell-head--tac table__cell-head--p4" style="width:0;" *ngIf="!isAuthenticated">
-          </div>
-          <div class="table__cell-head table__cell-head--tac table__cell-head--p4" style="width:20%;" *ngIf="isAuthenticated">
-          </div>
-          <div class="table__cell-head table__cell-head--tal table__cell-head--p4" style="width:88%;">{{'Pair / Vol' | translate}}
+          <div
+            class="table__cell-head table__cell-head--tac table__cell-head--p4"
+            style="width:0;"
+            *ngIf="!isAuthenticated"
+          ></div>
+          <div
+            class="table__cell-head table__cell-head--tac table__cell-head--p4"
+            style="width:20%;"
+            *ngIf="isAuthenticated"
+          ></div>
+          <div
+            class="table__cell-head table__cell-head--tal table__cell-head--p4"
+            style="width:88%;"
+          >{{'Pair / Vol' | translate}}
             <span class="shape">
-              <svg width="6" height="8" viewBox="0 0 6 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5.86338 3.74894C6.06488 3.99981 6.04068 4.38035 5.80935 4.59887L3.37001 7.84701L3.36491 7.85187C3.16243 8.04303 2.86838 8.04686 2.66309 7.87675C2.6518 7.86737 2.64073 7.85746 2.62999 7.84701L0.190654 4.59887C-0.0406818 4.38035 -0.0648789 3.99981 0.136618 3.74894C0.338115 3.49806 0.689025 3.47182 0.92047 3.69031L2.44455 6.07412L2.44455 0.602408C2.44455 0.269701 2.69325 0 3.00011 0C3.30697 0 3.55566 0.269701 3.55566 0.602408L3.55566 6.07391L5.07953 3.69031C5.31097 3.47182 5.66188 3.49806 5.86338 3.74894Z" fill="white"></path>
+              <svg
+                width="6"
+                height="8"
+                viewBox="0 0 6 8"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5.86338 3.74894C6.06488 3.99981 6.04068 4.38035 5.80935 4.59887L3.37001 7.84701L3.36491 7.85187C3.16243 8.04303 2.86838 8.04686 2.66309 7.87675C2.6518 7.86737 2.64073 7.85746 2.62999 7.84701L0.190654 4.59887C-0.0406818 4.38035 -0.0648789 3.99981 0.136618 3.74894C0.338115 3.49806 0.689025 3.47182 0.92047 3.69031L2.44455 6.07412L2.44455 0.602408C2.44455 0.269701 2.69325 0 3.00011 0C3.30697 0 3.55566 0.269701 3.55566 0.602408L3.55566 6.07391L5.07953 3.69031C5.31097 3.47182 5.66188 3.49806 5.86338 3.74894Z"
+                  fill="white"
+                ></path>
               </svg>
             </span>
           </div>
-          <div class="table__cell-head table__cell-head--tal table__cell-head--p4" style="width:88%;">{{'Last price' | translate}}
+          <div
+            class="table__cell-head table__cell-head--tal table__cell-head--p4"
+            style="width:88%;"
+          >{{'Last price' | translate}}
             <span class="shape">
-              <svg width="6" height="8" viewBox="0 0 6 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5.86338 3.74894C6.06488 3.99981 6.04068 4.38035 5.80935 4.59887L3.37001 7.84701L3.36491 7.85187C3.16243 8.04303 2.86838 8.04686 2.66309 7.87675C2.6518 7.86737 2.64073 7.85746 2.62999 7.84701L0.190654 4.59887C-0.0406818 4.38035 -0.0648789 3.99981 0.136618 3.74894C0.338115 3.49806 0.689025 3.47182 0.92047 3.69031L2.44455 6.07412L2.44455 0.602408C2.44455 0.269701 2.69325 0 3.00011 0C3.30697 0 3.55566 0.269701 3.55566 0.602408L3.55566 6.07391L5.07953 3.69031C5.31097 3.47182 5.66188 3.49806 5.86338 3.74894Z" fill="white"></path>
+              <svg
+                width="6"
+                height="8"
+                viewBox="0 0 6 8"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5.86338 3.74894C6.06488 3.99981 6.04068 4.38035 5.80935 4.59887L3.37001 7.84701L3.36491 7.85187C3.16243 8.04303 2.86838 8.04686 2.66309 7.87675C2.6518 7.86737 2.64073 7.85746 2.62999 7.84701L0.190654 4.59887C-0.0406818 4.38035 -0.0648789 3.99981 0.136618 3.74894C0.338115 3.49806 0.689025 3.47182 0.92047 3.69031L2.44455 6.07412L2.44455 0.602408C2.44455 0.269701 2.69325 0 3.00011 0C3.30697 0 3.55566 0.269701 3.55566 0.602408L3.55566 6.07391L5.07953 3.69031C5.31097 3.47182 5.66188 3.49806 5.86338 3.74894Z"
+                  fill="white"
+                ></path>
               </svg>
             </span>
           </div>
-          <div class="table__cell-head table__cell-head--tar table__cell-head--p4" style="width:100%;">
+          <div
+            class="table__cell-head table__cell-head--tar table__cell-head--p4"
+            style="width:100%;"
+          >
             <span>{{'24h chg' | translate}}</span>
           </div>
         </div>
         <div class="markets__tbody">
-          <cdk-virtual-scroll-viewport [style.height.px]="scrollHeight" [itemSize]="37" *ngIf="scrollHeight">
-            <ng-container *cdkVirtualFor="let pair of pairs" class="markets_item">
-              <div class="markets__row widget__table-row"
-                    [ngClass]="{
-                    'widget__table-row--green': isChangePositive(pair),
-                    'widget__table-row--red': !isChangePositive(pair),
-                    'markets__selected-pair': pair.currencyPairId === currentCurrencyPair?.id
-                    }">
-                <div class="table__cell table__cell--p4 table__cell--tac"  style="width: 0;" *ngIf="!isAuthenticated"></div>
+          <cdk-virtual-scroll-viewport
+            [style.height.px]="scrollHeight"
+            [itemSize]="37"
+            *ngIf="scrollHeight"
+          >
+            <ng-container
+              *cdkVirtualFor="let pair of (pairs | currencySort :'currencyVolume')"
+              class="markets_item"
+            >
+              <div
+                class="markets__row widget__table-row"
+                [ngClass]="{
+                  'widget__table-row--green': isChangePositive(pair),
+                  'widget__table-row--red': !isChangePositive(pair),
+                  'markets__selected-pair': pair.currencyPairId === currentCurrencyPair?.id
+                }"
+              >
+                <div
+                  class="table__cell table__cell--p4 table__cell--tac"
+                  style="width: 0;"
+                  *ngIf="!isAuthenticated"
+                ></div>
                 <div
                   class="table__cell table__cell--p4 table__cell--tac"
                   style="width: 20%;  display: flex; align-items: center; justify-content: center;"
                   *ngIf="isAuthenticated"
                 >
-                    <span class="table__row-star"
-                          [ngClass]="{'table__row-star--select': pair | isFavoritePipe: userFavorites}"
-                          (click)="toggleFavorite(pair)">
-                      <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
-                      </svg>
-                    </span>
+                  <span
+                    class="table__row-star"
+                    [ngClass]="{'table__row-star--select': pair | isFavoritePipe: userFavorites}"
+                    (click)="toggleFavorite(pair)"
+                  >
+                    <svg
+                      width="14"
+                      height="13"
+                      viewBox="0 0 14 13"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"
+                      />
+                    </svg>
+                  </span>
                 </div>
-                <div class="table__cell table__cell--p4" style="width: 88%;" (click)="onSelectCurrencyPair(pair)">
+                <div
+                  class="table__cell table__cell--p4"
+                  style="width: 88%;"
+                  (click)="onSelectCurrencyPair(pair)"
+                >
                   <span>{{splitPairName(pair)[0]}}</span>
                   <span style="font-size: 10px; color:#A0A0A0">/ <span>{{splitPairName(pair)[1]}}</span></span>
-                  <div class="txt-small txt-light-grey">Vol {{ +pair.currencyVolume | roundCurrency:splitPairName(pair)[1] | formatCurrency:'short':splitPairName(pair)[1]}}</div>
+                  <div class="txt-small txt-light-grey">Vol
+                    {{ +pair.currencyVolume | roundCurrency:splitPairName(pair)[1] | formatCurrency:'short':splitPairName(pair)[1]}}</div>
                 </div>
-                <div class="table__cell table__cell--p4" style="width: 88%;" (click)="onSelectCurrencyPair(pair)">
+                <div
+                  class="table__cell table__cell--p4"
+                  style="width: 88%;"
+                  (click)="onSelectCurrencyPair(pair)"
+                >
 
                   <!--<span-->
-                    <!--class="txt-indicate"-->
-                    <!--*ngIf="pair.lastOrderRate < 0.01 && pair.lastOrderRate > 0; else lastOrderRateMob"-->
+                  <!--class="txt-indicate"-->
+                  <!--*ngIf="pair.lastOrderRate < 0.01 && pair.lastOrderRate > 0; else lastOrderRateMob"-->
                   <!--&gt;-->
-                    <!--{{pair.lastOrderRate | replaceNumber:isFiat}}-->
+                  <!--{{pair.lastOrderRate | replaceNumber:isFiat}}-->
                   <!--</span>-->
                   <!--<ng-template #lastOrderRateMob>-->
-                    <!--<span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>-->
+                  <!--<span class="txt-indicate">{{pair.lastOrderRate | replaceNumber:isFiat}}</span>-->
                   <!--</ng-template>-->
 
                   <span class="txt-indicate">{{pair.lastOrderRate | currencyFormat:pair.market:'full':true}}</span>
 
-                  <div class="txt-small txt-light-grey" *ngIf="pair.market !== 'USD'">$ {{ pair.priceInUsd | number: '1.0-2' | replaceNumber:true}}</div>
+                  <div
+                    class="txt-small txt-light-grey"
+                    *ngIf="pair.market !== 'USD'"
+                  >$ {{ pair.priceInUsd | number: '1.0-2' | replaceNumber:true}}</div>
                 </div>
-                <div class="table__cell table__cell--p4 table__cell--tar" style="width: 100%;" (click)="onSelectCurrencyPair(pair)">
-                  <span
-                    [ngClass]="{'change-indicate--green': isChangePositive(pair), 'change-indicate--red': !isChangePositive(pair)}"
-                  >
-                    {{pair.percentChange  | positivePipe | replaceNumber: true}}%
+                <div
+                  class="table__cell table__cell--p4 table__cell--tar"
+                  style="width: 100%;"
+                  (click)="onSelectCurrencyPair(pair)"
+                >
+                  <span [ngClass]="{'change-indicate--green': isChangePositive(pair), 'change-indicate--red': !isChangePositive(pair)}">
+                    {{pair.percentChange | positivePipe | replaceNumber: true}}%
                   </span>
                 </div>
               </div>
@@ -134,8 +267,6 @@
           </cdk-virtual-scroll-viewport>
         </div>
       </div>
-
-
     </div>
   </div>
 
@@ -150,97 +281,189 @@
 
   <!-- MOBILE END -->
   <!-- DESKTOP START -->
-  <div class="widget__header panel-heading" *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'">
+  <div
+    class="widget__header panel-heading"
+    *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
+  >
     <span class="widget__name">{{'Markets' | translate}}</span>
-    <a href="#" class="widget__question">
+    <a
+      href="#"
+      class="widget__question"
+    >
       <span class="widget__question-img">
-        <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          width="8"
+          height="13"
+          viewBox="0 0 8 13"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
-            d="M3.00781 8.79688C3.01823 8.17708 3.08854 7.6875 3.21875 7.32812C3.34896 6.96875 3.61458 6.57031 4.01562 6.13281L5.03906 5.07812C5.47656 4.58333 5.69531 4.05208 5.69531 3.48438C5.69531 2.9375 5.55208 2.51042 5.26562 2.20312C4.97917 1.89062 4.5625 1.73438 4.01562 1.73438C3.48438 1.73438 3.05729 1.875 2.73438 2.15625C2.41146 2.4375 2.25 2.8151 2.25 3.28906H0.804688C0.815104 2.44531 1.11458 1.76562 1.70312 1.25C2.29688 0.729167 3.06771 0.46875 4.01562 0.46875C5 0.46875 5.76562 0.734375 6.3125 1.26562C6.86458 1.79167 7.14062 2.51562 7.14062 3.4375C7.14062 4.34896 6.71875 5.2474 5.875 6.13281L5.02344 6.97656C4.64323 7.39844 4.45312 8.00521 4.45312 8.79688H3.00781ZM2.94531 11.2734C2.94531 11.0391 3.01562 10.8438 3.15625 10.6875C3.30208 10.526 3.51562 10.4453 3.79688 10.4453C4.07812 10.4453 4.29167 10.526 4.4375 10.6875C4.58333 10.8438 4.65625 11.0391 4.65625 11.2734C4.65625 11.5078 4.58333 11.7031 4.4375 11.8594C4.29167 12.0104 4.07812 12.0859 3.79688 12.0859C3.51562 12.0859 3.30208 12.0104 3.15625 11.8594C3.01562 11.7031 2.94531 11.5078 2.94531 11.2734Z"/>
+            d="M3.00781 8.79688C3.01823 8.17708 3.08854 7.6875 3.21875 7.32812C3.34896 6.96875 3.61458 6.57031 4.01562 6.13281L5.03906 5.07812C5.47656 4.58333 5.69531 4.05208 5.69531 3.48438C5.69531 2.9375 5.55208 2.51042 5.26562 2.20312C4.97917 1.89062 4.5625 1.73438 4.01562 1.73438C3.48438 1.73438 3.05729 1.875 2.73438 2.15625C2.41146 2.4375 2.25 2.8151 2.25 3.28906H0.804688C0.815104 2.44531 1.11458 1.76562 1.70312 1.25C2.29688 0.729167 3.06771 0.46875 4.01562 0.46875C5 0.46875 5.76562 0.734375 6.3125 1.26562C6.86458 1.79167 7.14062 2.51562 7.14062 3.4375C7.14062 4.34896 6.71875 5.2474 5.875 6.13281L5.02344 6.97656C4.64323 7.39844 4.45312 8.00521 4.45312 8.79688H3.00781ZM2.94531 11.2734C2.94531 11.0391 3.01562 10.8438 3.15625 10.6875C3.30208 10.526 3.51562 10.4453 3.79688 10.4453C4.07812 10.4453 4.29167 10.526 4.4375 10.6875C4.58333 10.8438 4.65625 11.0391 4.65625 11.2734C4.65625 11.5078 4.58333 11.7031 4.4375 11.8594C4.29167 12.0104 4.07812 12.0859 3.79688 12.0859C3.51562 12.0859 3.30208 12.0104 3.15625 11.8594C3.01562 11.7031 2.94531 11.5078 2.94531 11.2734Z"
+          />
         </svg>
       </span>
     </a>
     <span class="widget__dots "></span>
     <div class="widget__controls">
-      <div class="widget__controls-close" (click)="remove()">
-        <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <div
+        class="widget__controls-close"
+        (click)="remove()"
+      >
+        <svg
+          width="8"
+          height="8"
+          viewBox="0 0 8 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
-            d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"/>
+            d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"
+          />
         </svg>
       </div>
     </div>
   </div>
 
 
-  <div class="widget__content" *ngIf="!loading && (breakpointService.breakpoint$ | async) === 'desktop'">
+  <div
+    class="widget__content"
+    *ngIf="!loading && (breakpointService.breakpoint$ | async) === 'desktop'"
+  >
+    <div class="tabs widget__tabs markets-type-tabs">
+      <button
+        class="tabs__item  tabs__item--active"
+        [ngClass]="{'tabs__item--active': isTopMarket,'tab-no-active': !isTopMarket}"
+        (click)="toggleIsTopMarket(true)"
+      >
+        {{'Top Market' | translate}}
+      </button>
+      <button
+        class="tabs__item"
+        [ngClass]="{'tabs__item--active': !isTopMarket,'tab-no-active': isTopMarket}"
+        (click)="toggleIsTopMarket(false)"
+      >
+        {{'Junior Market' | translate}}
+      </button>
+    </div>
+
     <div class="tabs widget__tabs">
-      <button class="tabs__item tabs__item--small"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'BTC','tab-no-active': currencyDisplayMode !== 'BTC'}"
-              (click)="selectedTab('BTC')">
+      <button
+        class="tabs__item tabs__item--small"
+        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'BTC','tab-no-active': currencyDisplayMode !== 'BTC'}"
+        (click)="selectedTab('BTC')"
+      >
         BTC
       </button>
-      <button class="tabs__item tabs__item--small"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'ETH','tab-no-active': currencyDisplayMode !== 'ETH'}"
-              (click)="selectedTab('ETH')"
+      <button
+        class="tabs__item tabs__item--small"
+        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'ETH','tab-no-active': currencyDisplayMode !== 'ETH'}"
+        (click)="selectedTab('ETH')"
       >
         ETH
       </button>
-      <button class="tabs__item tabs__item--small"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USD','tab-no-active': currencyDisplayMode !== 'USD'}"
-              (click)="selectedTab('USD')"
+      <button
+        class="tabs__item tabs__item--small"
+        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USD','tab-no-active': currencyDisplayMode !== 'USD'}"
+        (click)="selectedTab('USD')"
       >
         USD
       </button>
-      <button class="tabs__item tabs__item--small"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
-              (click)="selectedTab('LOC')"
+      <button
+        class="tabs__item tabs__item--small"
+        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'USDT','tab-no-active': currencyDisplayMode !== 'USDT'}"
+        (click)="selectedTab('USDT')"
+      >
+        USDT
+      </button>
+      <button
+        class="tabs__item tabs__item--small"
+        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'LOC','tab-no-active': currencyDisplayMode !== 'LOC'}"
+        (click)="selectedTab('LOC')"
       >
         LOC
       </button>
-      <button class="tabs__item tabs__item--small"
-              *ngIf="isAuthenticated"
-              [ngClass]="{'tabs__item--active': currencyDisplayMode === 'FAVORITES','tab-no-active': currencyDisplayMode !== 'FAVORITES'}"
-              (click)="selectedTab('FAVORITES')"
+      <button
+        class="tabs__item tabs__item--small"
+        *ngIf="isAuthenticated"
+        [ngClass]="{'tabs__item--active': currencyDisplayMode === 'FAVORITES','tab-no-active': currencyDisplayMode !== 'FAVORITES'}"
+        (click)="selectedTab('FAVORITES')"
       >
         <span>
-          <svg width="14" height="13" class="fav" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            width="14"
+            height="13"
+            class="fav"
+            viewBox="0 0 14 13"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
-              d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+              d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"
+            />
           </svg>
         </span>
-        {{'Favorites' | translate}}
+        {{'FAV' | translate}}
       </button>
     </div>
     <div class="markets__table">
       <div class="markets__thead">
-        <div class="table__cell-head table__cell-head--tac table__cell-head--p4" style="width: 7%;">
-           <!-- <span class="table__cell-head-star" (click)="uncheckFavourites()">
-                <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
-                </svg>
-              </span> -->
+        <div
+          class="table__cell-head table__cell-head--tac table__cell-head--p4"
+          style="width: 7%;"
+        >
+          <!-- <span class="table__cell-head-star" (click)="uncheckFavourites()">
+              <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M6.52447 0.463524C6.67415 0.00286841 7.32585 0.00286996 7.47553 0.463525L8.68386 4.18237C8.75079 4.38838 8.94277 4.52786 9.15938 4.52786H13.0696C13.554 4.52786 13.7554 5.14767 13.3635 5.43237L10.2001 7.73075C10.0248 7.85807 9.95149 8.08375 10.0184 8.28976L11.2268 12.0086C11.3764 12.4693 10.8492 12.8523 10.4573 12.5676L7.29389 10.2693C7.11865 10.1419 6.88135 10.1419 6.70611 10.2693L3.54267 12.5676C3.15081 12.8523 2.62357 12.4693 2.77325 12.0086L3.98157 8.28976C4.04851 8.08375 3.97518 7.85807 3.79994 7.73075L0.636495 5.43237C0.244639 5.14767 0.446028 4.52786 0.93039 4.52786H4.84062C5.05723 4.52786 5.24921 4.38838 5.31614 4.18237L6.52447 0.463524Z"/>
+              </svg>
+            </span> -->
         </div>
-        <div class="table__cell-head table__cell-head--tal table__cell-head--p4" style="width: 28%;">{{'Pair' | translate}}</div>
-        <div class="table__cell-head table__cell-head--tal table__cell-head--p4" style="width: 28%;">{{'Price' | translate}}
-        </div>
-        <div class="table__cell-head table__cell-head--tal table__cell-head--p4" style="width: 21%;">{{'Change %' | translate}}</div>
-        <div class="table__cell-head table__cell-head--tar table__cell-head--p4" style="width: 28%;" (click)="sortVolume()">
+        <div
+          class="table__cell-head table__cell-head--tal table__cell-head--p4"
+          style="width: 28%;"
+        >{{'Pair' | translate}}</div>
+        <div
+          class="table__cell-head table__cell-head--tal table__cell-head--p4"
+          style="width: 28%;"
+        >{{'Price' | translate}}</div>
+        <div
+          class="table__cell-head table__cell-head--tal table__cell-head--p4"
+          style="width: 21%;"
+        >{{'Change %' | translate}}</div>
+        <div
+          class="table__cell-head table__cell-head--tar table__cell-head--p4"
+          style="width: 28%;"
+          (click)="sortVolume()"
+        >
           {{'Volume' | translate}}
         </div>
       </div>
 
       <!-- <cdk-virtual-scroll-viewport [itemSize]="31" style="height: 353px;"></cdk-virtual-scroll-viewport> -->
 
-      <div class="markets__tbody" id="markets-container" (click)="onClickMarketItem($event)">
+      <div
+        class="markets__tbody"
+        id="markets-container"
+        (click)="onClickMarketItem($event)"
+      >
         <div class="scroll-wp">
           <div class="ex-rail">
-            <div class="ex-thumb" [style.height.px]="tumbHeight" [style.top.px]="tumbPosition"></div>
+            <div
+              class="ex-thumb"
+              [style.height.px]="tumbHeight"
+              [style.top.px]="tumbPosition"
+            ></div>
           </div>
-          <cdk-virtual-scroll-viewport [style.height.px]="353" [itemSize]="37"
-                                       (scrolledIndexChange)="calculateCustomScroll($event)">
-            <ng-container *cdkVirtualFor="let pair of (pairs | currencySort :'currencyVolume')" class="markets_item">
-
+          <cdk-virtual-scroll-viewport
+            [style.height.px]="341"
+            [itemSize]="32"
+            (scrolledIndexChange)="calculateCustomScroll($event)"
+          >
+            <ng-container
+              *cdkVirtualFor="let pair of (pairs | currencySort :'currencyVolume')"
+              class="markets_item"
+            >
               <div style="margin-right: 24px;">
                 <app-markets-item
                   [pair]="pair"
@@ -251,34 +474,45 @@
                 >
                 </app-markets-item>
               </div>
-
             </ng-container>
           </cdk-virtual-scroll-viewport>
         </div>
       </div>
     </div>
     <div class="widget__search">
-      <input class="widget__search-input"
-             type="text" required=""
-             placeholder="{{'Search' | translate}}"
-             [ngModel]="searchInput"
-             (input)="searchPair($event.target.value)">
+      <input
+        class="widget__search-input"
+        type="text"
+        required=""
+        placeholder="{{'Search' | translate}}"
+        [ngModel]="searchInput"
+        (input)="searchPair($event.target.value)"
+      >
       <span class="widget__input-img">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"/>
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 18 18"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"
+          />
         </svg>
       </span>
     </div>
   </div>
 
-    <!-- loading indicator -->
+  <!-- loading indicator -->
 
-  <div class="widget__content loading-container" *ngIf="loading">
+  <div
+    class="widget__content loading-container"
+    *ngIf="loading"
+  >
     <app-loader></app-loader>
   </div>
 
 </div>
-
-
-

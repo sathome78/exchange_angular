@@ -1,4 +1,3 @@
-
 export class ApiKeyItem {
   alias: string;
   allowTrade: boolean;

@@ -1,25 +1,24 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {OnNextStep, PopupService} from '../../../../shared/services/popup.service';
-import {TwoFaResponseDto} from '../2fa-response-dto.model';
-import {GoogleAuthenticatorService} from '../google-authenticator.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {TranslateService} from '@ngx-translate/core';
-import {Store} from '@ngrx/store';
-import * as fromCore from '../../../../core/reducers'
-import * as settingsActions from '../../../../settings/store/actions/settings.actions'
-import {AuthService} from 'app/shared/services/auth.service';
-import {UtilsService} from 'app/shared/services/utils.service';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
-import {AUTH_MESSAGES} from '../../../../shared/constants';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { OnNextStep, PopupService } from '../../../../shared/services/popup.service';
+import { TwoFaResponseDto } from '../2fa-response-dto.model';
+import { GoogleAuthenticatorService } from '../google-authenticator.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { Store } from '@ngrx/store';
+import * as fromCore from '../../../../core/reducers';
+import * as settingsActions from '../../../../settings/store/actions/settings.actions';
+import { AuthService } from 'app/shared/services/auth.service';
+import { UtilsService } from 'app/shared/services/utils.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { AUTH_MESSAGES } from '../../../../shared/constants';
 
 @Component({
   selector: 'app-google-step-three',
   templateUrl: './google-step-three.component.html',
-  styleUrls: ['./google-step-three.component.scss']
+  styleUrls: ['./google-step-three.component.scss'],
 })
 export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
-
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   secretCode = '';
   statusMessage = '';
@@ -37,22 +36,25 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.googleService.getGoogleTwoFaSecretHash()
+    this.googleService
+      .getGoogleTwoFaSecretHash()
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((dto: TwoFaResponseDto) => {
-        // console.log(dto);
-        this.secretCode = dto.message;
-        if (dto.error) {
-          this.statusMessage = dto.error;
+      .subscribe(
+        (dto: TwoFaResponseDto) => {
+          // console.log(dto);
+          this.secretCode = dto.message;
+          if (dto.error) {
+            this.statusMessage = dto.error;
+          }
+        },
+        err => {
+          this.statusMessage = this.translateService.instant('Failed to get google url');
+          console.error(err);
         }
-      },
-      err => {
-        this.statusMessage = this.translateService.instant('Failed to get google url');
-        console.error(err);
-      });
+      );
     this.form = new FormGroup({
-      'password': new FormControl('', {validators: [Validators.required]}),
-      'pincode': new FormControl('', {validators: [Validators.required]})
+      password: new FormControl('', { validators: [Validators.required] }),
+      pincode: new FormControl('', { validators: [Validators.required] }),
     });
     this.sendMePincode();
   }
@@ -62,7 +64,6 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-
   onNextStep() {
     // this.popupService.closeTFAPopup();
     // this.popupService.moveNextStep();
@@ -70,11 +71,13 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
       const password = this.form.get('password').value;
       const pin = this.form.get('pincode').value;
       this.loading = true;
-      this.googleService.submitGoogleAuthSecret(this.secretCode, password, pin)
+      this.googleService
+        .submitGoogleAuthSecret(this.secretCode, password, pin)
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(res => {
+        .subscribe(
+          res => {
             // console.log(res);
-            this.store.dispatch(new settingsActions.LoadGAStatusAction())
+            this.store.dispatch(new settingsActions.LoadGAStatusAction());
             this.popupService.closeTFAPopup();
             this.loading = false;
           },
@@ -85,19 +88,23 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
               this.statusMessage = AUTH_MESSAGES.OTHER_HTTP_ERROR;
             }
             this.loading = false;
-          });
+          }
+        );
     }
   }
 
   sendMePincode() {
-    this.googleService.sendMePincode()
+    this.googleService
+      .sendMePincode()
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        console.log(res);
-      },
-      error1 => {
-        console.error(error1);
-      });
+      .subscribe(
+        res => {
+          console.log(res);
+        },
+        error1 => {
+          console.error(error1);
+        }
+      );
   }
 
   get passwordControl() {
@@ -106,5 +113,4 @@ export class GoogleStepThreeComponent implements OnInit, OnNextStep, OnDestroy {
   get pinCodeControl() {
     return this.form.get('pincode');
   }
-
 }

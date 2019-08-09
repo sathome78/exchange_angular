@@ -1,20 +1,19 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {LoggingService} from '../../shared/services/logging.service';
-import {SettingsService} from '../settings.service';
-import {TranslateService} from '@ngx-translate/core';
-import {UtilsService} from 'app/shared/services/utils.service';
-import {PopupService} from 'app/shared/services/popup.service';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LoggingService } from '../../shared/services/logging.service';
+import { SettingsService } from '../settings.service';
+import { TranslateService } from '@ngx-translate/core';
+import { UtilsService } from 'app/shared/services/utils.service';
+import { PopupService } from 'app/shared/services/popup.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-password',
   templateUrl: './password.component.html',
-  styleUrls: ['./password.component.css']
+  styleUrls: ['./password.component.css'],
 })
 export class PasswordComponent implements OnInit, OnDestroy {
-
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   form: FormGroup;
   passwordCurrent: FormControl;
@@ -28,12 +27,13 @@ export class PasswordComponent implements OnInit, OnDestroy {
   statusMessage: string;
   loading: boolean = false;
 
-  constructor(private logger: LoggingService,
-              private popupService: PopupService,
-              private settingsService: SettingsService,
-              private utilsService: UtilsService,
-              private translateService: TranslateService) {
-  }
+  constructor(
+    private logger: LoggingService,
+    private popupService: PopupService,
+    private settingsService: SettingsService,
+    private utilsService: UtilsService,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit() {
     this.statusMessage = '';
@@ -43,7 +43,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
         // Validators.minLength(8),
         // Validators.maxLength(40),
         // this.utilsService.passwordCombinationValidator()
-      ]
+      ],
     });
     this.passwordFirst = new FormControl('', {
       validators: [
@@ -51,7 +51,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
         Validators.minLength(8),
         Validators.maxLength(20),
         this.utilsService.passwordCombinationValidator(),
-      ]
+      ],
     });
     this.passwordSecond = new FormControl('', {
       validators: [
@@ -59,14 +59,14 @@ export class PasswordComponent implements OnInit, OnDestroy {
         // Validators.minLength(8),
         // Validators.maxLength(40),
         // this.utilsService.passwordCombinationValidator(),
-        this.utilsService.passwordMatchValidator(this.passwordFirst)
-      ]
+        this.utilsService.passwordMatchValidator(this.passwordFirst),
+      ],
     });
 
     this.form = new FormGroup({
-      'current_password': this.passwordCurrent,
-      'password_1': this.passwordFirst,
-      'password_2': this.passwordSecond,
+      current_password: this.passwordCurrent,
+      password_1: this.passwordFirst,
+      password_2: this.passwordSecond,
     });
     this.observeForm();
   }
@@ -79,10 +79,11 @@ export class PasswordComponent implements OnInit, OnDestroy {
       const password = this.passwordFirst.value;
       this.logger.debug(this, 'Attempt to submit new password: ' + password);
       this.loading = true;
-      this.settingsService.updateMainPassword(cur_password, password)
+      this.settingsService
+        .updateMainPassword(cur_password, password)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(
-          (event) => {
+          event => {
             this.logger.debug(this, 'Password is successfully updated: ' + password);
             this.form.reset();
             this.popupService.toggleChangedPasswordPopup(true);
@@ -92,7 +93,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
             const status = err['status'];
             if (status === 400) {
               this.logger.info(this, 'Failed to update user password: ' + password);
-              this.passwordCurrent.setErrors({'wrong_password': true})
+              this.passwordCurrent.setErrors({ wrong_password: true });
             }
             this.loading = false;
           }
@@ -101,14 +102,12 @@ export class PasswordComponent implements OnInit, OnDestroy {
   }
 
   observeForm() {
-    this.firstPassword.valueChanges
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((value) => {
-        if (!this.secondPassword.touched) {
-          return;
-        }
-        this.secondPassword.updateValueAndValidity();
-      })
+    this.firstPassword.valueChanges.pipe(takeUntil(this.ngUnsubscribe)).subscribe(value => {
+      if (!this.secondPassword.touched) {
+        return;
+      }
+      this.secondPassword.updateValueAndValidity();
+    });
   }
 
   showFormErrors() {
@@ -132,12 +131,12 @@ export class PasswordComponent implements OnInit, OnDestroy {
   }
 
   currentPasswordInput() {
-    if (this.firstPassword.touched)  this.form.get('password_1').markAsUntouched();
-    if (this.secondPassword.touched)  this.form.get('password_2').markAsUntouched();
+    if (this.firstPassword.touched) this.form.get('password_1').markAsUntouched();
+    if (this.secondPassword.touched) this.form.get('password_2').markAsUntouched();
   }
 
   firstPasswordInput() {
-    if (this.secondPassword.touched)  this.form.get('password_2').markAsUntouched();
+    if (this.secondPassword.touched) this.form.get('password_2').markAsUntouched();
   }
 
   ngOnDestroy() {

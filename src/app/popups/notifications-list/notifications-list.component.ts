@@ -1,34 +1,31 @@
-import {Component, OnInit} from '@angular/core';
-import {UserService} from 'app/shared/services/user.service';
-import {State} from 'app/core/reducers';
-import {Store, select} from '@ngrx/store';
-import * as fromCore from '../../core/reducers'
-import {takeUntil, withLatestFrom} from 'rxjs/operators';
-import {Subject} from 'rxjs';
-import {Notification} from 'app/model/notification.model';
-import {ToastrService} from 'ngx-toastr';
-import {TopNotificationComponent} from './top-notification/top-notification.component';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from 'app/shared/services/user.service';
+import { State } from 'app/core/reducers';
+import { Store, select } from '@ngrx/store';
+import * as fromCore from '../../core/reducers';
+import { takeUntil, withLatestFrom } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { Notification } from 'app/model/notification.model';
+import { ToastrService } from 'ngx-toastr';
+import { TopNotificationComponent } from './top-notification/top-notification.component';
 
 @Component({
   selector: 'app-notifications-list',
   templateUrl: './notifications-list.component.html',
-  styleUrls: ['./notifications-list.component.scss']
+  styleUrls: ['./notifications-list.component.scss'],
 })
 export class NotificationsListComponent implements OnInit {
-
   private ngUnsubscribe$: Subject<void> = new Subject<void>();
-  private toastOption: any
-  constructor(
-    private userService: UserService,
-    private store: Store<State>,
-    private toastr: ToastrService,
-  ) {
+  private toastOption: any;
+  constructor(private userService: UserService, private store: Store<State>, private toastr: ToastrService) {
     this.toastOption = this.toastr.toastrConfig;
-
   }
 
   public list: Notification[] = [
-    new Notification({text: 'success notification', notificationType: 'ERROR'}),
+    new Notification({
+      text: 'success notification',
+      notificationType: 'ERROR',
+    }),
   ];
 
   ngOnInit() {
@@ -39,9 +36,10 @@ export class NotificationsListComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(([isAuth, userInfo]: [boolean, ParsedToken]) => {
         if (isAuth && userInfo) {
-          sub = this.userService.getNotifications(userInfo.publicId)
+          sub = this.userService
+            .getNotifications(userInfo.publicId)
             .pipe(takeUntil(this.ngUnsubscribe$))
-            .subscribe((res) => {
+            .subscribe(res => {
               if (res.typeEnum) {
                 return;
               }
@@ -67,5 +65,4 @@ export class NotificationsListComponent implements OnInit {
     }
     this.toastr.show(notification.message, notification.title, this.toastOption);
   }
-
 }

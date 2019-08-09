@@ -1,6 +1,4 @@
-
 export class TransactionHistoryItem {
-
   public datetime: string;
   public currencyName: string;
   public amount: number;
@@ -13,4 +11,6 @@ export class TransactionHistoryItem {
   public confirmations: number;
   public neededConfirmations: number;
   public id: number;
+  public accepted?: boolean;
+  public operationType?: string;
 }

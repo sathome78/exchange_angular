@@ -2,3 +2,24 @@
 .loading-container {
   margin-top: 100px;
 }
+
+
+.print{
+  margin: 0 0 20px 0;
+
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  align-self: center;
+  span{
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 1.44;
+    color: #237BEF;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+  }
+}
+

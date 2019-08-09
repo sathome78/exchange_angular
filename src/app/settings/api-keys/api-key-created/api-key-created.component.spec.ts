@@ -8,9 +8,8 @@ describe('ApiKeyCreatedComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ApiKeyCreatedComponent ]
-    })
-    .compileComponents();
+      declarations: [ApiKeyCreatedComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -8,9 +8,8 @@ describe('IEOComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IEOComponent ]
-    })
-    .compileComponents();
+      declarations: [IEOComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
