@@ -110,7 +110,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   setDefaultCurrencyPair(currencies: SimpleCurrencyPair[]) {
-    const pair = currencies.find(item => item.name === 'BTC/USD');
+    const pair = currencies.find(item => item.name === 'BTC/USDT');
     if (pair) {
       this.store.dispatch(new dashboardAction.ChangeActiveCurrencyPairAction(pair));
       this.utilsService.saveActiveCurrencyPairToSS(pair);
