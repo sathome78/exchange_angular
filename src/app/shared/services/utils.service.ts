@@ -2,16 +2,11 @@ import { Injectable } from '@angular/core';
 import { ValidatorFn, AbstractControl } from '@angular/forms';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import prettyNum from 'pretty-num';
-import { Observable } from 'rxjs';
-import * as fromCore from '../../core/reducers';
-import { select, Store } from '@ngrx/store';
-import { State } from '../../core/reducers';
-import { takeUntil } from 'rxjs/operators';
 // import {CoreService} from 'app/core/services/core.service';
 
 @Injectable()
 export class UtilsService {
-  private fiatCurrencies: Array<string> = ['USD', 'EUR', 'CNY', 'IDR', 'NGN', 'TRY', 'UAH', 'VND', 'AED', 'RUB'];
+  private fiatCurrencies: string[] = ['USD', 'EUR', 'CNY', 'IDR', 'NGN', 'TRY', 'UAH', 'VND', 'AED', 'RUB'];
   private cache = {};
   // tslint:disable-next-line: max-line-length
   private pattern = /(^$|(^([^<>()\[\]\\,;:\s@"]+(\.[^<>()\[\]\\,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
@@ -61,7 +56,9 @@ export class UtilsService {
   passwordMatchValidator(firstFieldValue): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const value = control.value ? control.value.trim() : '';
-      return value === firstFieldValue.value && value.length === firstFieldValue.value.length ? null : { passwordsNotMatch: true };
+      return value === firstFieldValue.value && value.length === firstFieldValue.value.length
+        ? null
+        : { passwordsNotMatch: true };
     };
   }
 
@@ -86,7 +83,7 @@ export class UtilsService {
     const pass = this.strToByteArray(password);
     const keys = this.strToByteArray(key);
     const encoded = [pass.length];
-    for (let z = 0; z < pass.length; z++) {
+    for (let z = 0; z < pass.length; z += 1) {
       encoded[z] = this.implementXor(pass[z], keys[z % keys.length]);
     }
     return btoa(String.fromCharCode.apply(null, encoded));
@@ -94,7 +91,7 @@ export class UtilsService {
 
   private strToByteArray(str) {
     const arr = [];
-    for (let i = 0; i < str.length; i++) {
+    for (let i = 0; i < str.length; i += 1) {
       arr.push(str.charCodeAt(i));
     }
     return arr;
@@ -108,7 +105,7 @@ export class UtilsService {
       while (one.length > two.length) {
         two = '0' + two;
       }
-      for (let x = 0; x < one.length; x++) {
+      for (let x = 0; x < one.length; x += 1) {
         if (one[x] === two[x]) {
           result += '0';
         } else {
@@ -119,7 +116,7 @@ export class UtilsService {
       while (two.length > one.length) {
         one = '0' + one;
       }
-      for (let y = 0; y < one.length; y++) {
+      for (let y = 0; y < one.length; y += 1) {
         if (one[y] === two[y]) {
           result += '0';
         } else {
@@ -149,24 +146,23 @@ export class UtilsService {
 
     if (this.fraction === 0) {
       const exponentFree = prettyNum(value);
-      const valueParts: Array<string> = exponentFree.split('.');
+      const valueParts: string[] = exponentFree.split('.');
       const valuePart = this.makeValueFiatPart(valueParts[1] || '');
       const integerPart = prettyNum(valueParts[0], { thousandsSeparator: ' ' });
       return `${integerPart}.${valuePart}`;
-    } else {
-      return format === 'full'
-        ? prettyNum(value, {
+    }
+    return format === 'full'
+      ? prettyNum(value, {
+        thousandsSeparator: ' ',
+        precision: this.fraction,
+        rounding: 'fixed',
+      })
+      : this.addFractionIfNeed(
+          prettyNum(value, {
             thousandsSeparator: ' ',
             precision: this.fraction,
-            rounding: 'fixed',
           })
-        : this.addFractionIfNeed(
-            prettyNum(value, {
-              thousandsSeparator: ' ',
-              precision: this.fraction,
-            })
-          );
-    }
+        );
   }
 
   private addFractionIfNeed(value: string) {
@@ -176,9 +172,8 @@ export class UtilsService {
   private makeValueFiatPart(value: string) {
     if (!value) {
       return '00';
-    } else {
-      return value.length < 2 ? value + '0' : value.slice(0, 8);
     }
+    return value.length < 2 ? value + '0' : value.slice(0, 8);
   }
 
   currencyNumberFromStringFormat(value: string): number {
