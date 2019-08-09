@@ -13,6 +13,7 @@
     <div class="tabs balance__tabs-mob">
       <button
         class="tabs__item"
+
         (click)="selectTab.emit(Tab.CRYPTO)"
       >
         {{'Crypto' | translate}}
@@ -22,15 +23,16 @@
         class="tabs__item"
         (click)="selectTab.emit(Tab.FIAT)"
       >
-        {{'Exchange wallet' | translate}}
+        {{'Exchange Wallet' | translate}}
       </button>
 
 
       <button
         class="tabs__item"
         (click)="selectTab.emit(Tab.QUBERA)"
+        [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
       >
-        {{'Funding wallet' | translate}}
+        {{'Funding Wallet' | translate}}
       </button>
 
       <button
@@ -49,7 +51,7 @@
         {{'Refill balance' | translate}}
       </button>
       <button
-        class="btn btn--empty-blue balance__title-btn"
+        class="btn balance__title-btn"
         (click)="openSendMoneyPopup.emit(true)"
       >
         {{'Send money' | translate}}
