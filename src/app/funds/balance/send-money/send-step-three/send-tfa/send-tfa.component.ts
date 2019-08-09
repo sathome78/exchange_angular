@@ -3,8 +3,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BalanceService } from '../../../../services/balance.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { BY_PRIVATE_CODE, CODE_FROM_EMAIL, CODE_FROM_GOOGLE, SEND_CRYPTO, SEND_FIAT, TRANSFER_INSTANT } from '../../send-money-constants';
+import {
+  BY_PRIVATE_CODE,
+  CODE_FROM_EMAIL,
+  CODE_FROM_GOOGLE,
+  SEND_CRYPTO,
+  SEND_FIAT,
+  TRANSFER_INSTANT
+} from '../../send-money-constants';
 import { TranslateService } from '@ngx-translate/core';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-send-tfa',
@@ -20,7 +28,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   public subtitleMessage = '';
   public pincodeFrom = '';
   public pincodeTries = 0;
-  public loading: boolean = false;
+  public loading = false;
 
   public CODE_FROM_EMAIL = CODE_FROM_EMAIL;
   public CODE_FROM_GOOGLE = CODE_FROM_GOOGLE;
@@ -67,7 +75,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
     this.balanceService
       .sendWithdrawalPinCode(pinData)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
+      .subscribe((res: HttpResponse<any>) => {
         this.pincodeFrom = res.status === 201 ? CODE_FROM_EMAIL : CODE_FROM_GOOGLE;
         this.subtitleMessage = this.pincodeFrom ? '' : this.translateService.instant('Put the code');
       });
@@ -77,7 +85,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
     this.balanceService
       .sendTransferPinCode(pinData)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
+      .subscribe((res: HttpResponse<any>) => {
         this.pincodeFrom = res.status === 201 ? CODE_FROM_EMAIL : CODE_FROM_GOOGLE;
         this.subtitleMessage = this.pincodeFrom ? '' : this.translateService.instant('Put the code');
       });
@@ -97,7 +105,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   }
 
   sendWithdaraw() {
-    this.pincodeTries++;
+    this.pincodeTries += 1;
     this.data.data.tries = this.pincodeTries;
     this.data.data.securityCode = this.form.controls['pin'].value;
     this.loading = true;
@@ -121,7 +129,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   }
 
   sendTransferInstant() {
-    this.pincodeTries++;
+    this.pincodeTries += 1;
     this.data.data.tries = this.pincodeTries;
     this.data.data.pin = this.form.controls['pin'].value;
     this.loading = true;
@@ -155,7 +163,9 @@ export class SendTfaComponent implements OnInit, OnDestroy {
           this.pincodeTries = 0;
           this.subtitleMessage =
             this.pincodeFrom === CODE_FROM_GOOGLE
-              ? this.translateService.instant('Code is wrong! Please, check you code in Google Authenticator application.')
+              ? this.translateService.instant(
+                  'Code is wrong! Please, check you code in Google Authenticator application.'
+                )
               : this.translateService.instant('Code is wrong! New code was sent to your email.');
         } else {
           this.data.data.tries = this.pincodeTries;
