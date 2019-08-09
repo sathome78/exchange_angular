@@ -42,10 +42,17 @@ export class BalanceService {
   constructor(private http: HttpClient, private dashboardWS: DashboardWebSocketService, private router: Router) {}
 
   // request to get balances
-  getBalances({ type, currencyId, currencyName, offset, limit, excludeZero }): Observable<ResponseModel<BalanceItem[]>> {
+  getBalances({
+    type,
+    currencyId,
+    currencyName,
+    offset,
+    limit,
+    excludeZero,
+  }): Observable<ResponseModel<BalanceItem[]>> {
     const params = {
-      currencyType: type,
       currencyId,
+      currencyType: type,
       currencyName: currencyName || '',
       offset: offset + '',
       limit: limit + '',
@@ -61,7 +68,10 @@ export class BalanceService {
       limit: limit + '',
       currencyName: currencyName || '',
     };
-    return this.http.get<ResponseModel<PendingRequestsItem[]>>(`${this.apiUrl}/api/private/v2/balances/pendingRequests`, { params });
+    return this.http.get<ResponseModel<PendingRequestsItem[]>>(
+      `${this.apiUrl}/api/private/v2/balances/pendingRequests`,
+      { params }
+    );
   }
 
   getBalanceItems(): Observable<BalanceItem[]> {
@@ -226,6 +236,10 @@ export class BalanceService {
   }
 
   fiatDepositQubera(body: any) {
-    return this.http.post(`${this.apiUrl}/api/private/v2/balances/withdraw/request/pin`, body);
+    return this.http.post(`${this.apiUrl}/api/private/v2/balances/transfer/request/pin`, body);
+  }
+
+  downloadQuberaInvoice(url) {
+    return this.http.get(`${url}`, { responseType: 'blob' });
   }
 }

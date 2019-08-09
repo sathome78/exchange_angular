@@ -62,7 +62,7 @@
                       'arr--green': item.operation === 'REFILL'
                     }"
                   ></span>
-                  <span>{{item.operation === 'REFILL' ? 'Refill' : ''}}{{item.operation === 'WITHDRAW' ? 'Withdraw' : ''}}</span>
+                  <span>{{item.operation | showTransactionsType: item.operation}}</span>
                 </div>
                 <div class="balance__request-mob-date">
                   <div>{{item.date | amFromUtc | amLocal | amDateFormat: 'dd DD.MM.YYYY'}}</div>
