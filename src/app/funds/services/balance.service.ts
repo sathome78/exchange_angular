@@ -51,8 +51,8 @@ export class BalanceService {
     excludeZero,
   }): Observable<ResponseModel<BalanceItem[]>> {
     const params = {
-      currencyType: type,
       currencyId,
+      currencyType: type,
       currencyName: currencyName || '',
       offset: offset + '',
       limit: limit + '',
@@ -236,7 +236,7 @@ export class BalanceService {
   }
 
   fiatDepositQubera(body: any) {
-    return this.http.post(`${this.apiUrl}/api/private/v2/balances/withdraw/request/pin`, body);
+    return this.http.post(`${this.apiUrl}/api/private/v2/balances/transfer/request/pin`, body);
   }
 
   downloadQuberaInvoice(url) {
