@@ -53,7 +53,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public isAuthenticated$: Observable<boolean>;
-  public currencyPairName = 'BTC/USD';
+  public currencyPairName = 'BTC/USDT';
   public firstCurrency: string;
   public secondCurrency: string;
   /** show currency search bar */
