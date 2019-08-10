@@ -1,4 +1,4 @@
-<div class="widget widget--graph-color">
+<div class="widget widget--graph-color graph-widget">
   <div
     class="widget__header panel-heading"
     *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
@@ -176,9 +176,6 @@
       class="widget__graph--mob"
       *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'"
     >
-      <!-- <div class="amcharts-stock_chart_div" id="tv_chart_container"></div> -->
-
-
       <div class="trade-buttons-wr">
         <a
           class="btn btn--active widget__trading-btn widget__trading-btn--buy"

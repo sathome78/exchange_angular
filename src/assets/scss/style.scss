@@ -61,7 +61,13 @@
 @import "pages/settings/nickname/settings-nickname";
 @import "pages/settings/kyc/settings-kyc";
 @import "pages/footer-pages";
+
+//dashboard
 @import "pages/dashboard/_orders";
+@import "pages/dashboard/_trade-history";
+@import "pages/dashboard/_graph";
+@import "pages/dashboard/_trading";
+@import "pages/dashboard/_markets";
 
 // ieo
 @import "pages/ieo/ieo-first-screen.scss";
