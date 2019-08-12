@@ -2,8 +2,8 @@
   <div
     class="markets__row widget__table-row"
     [ngClass]="{
-      'widget__table-row--green': !isChangePositive(pair),
-      'widget__table-row--red': isChangePositive(pair),
+      'widget__table-row--green': isChangePositive(pair),
+      'widget__table-row--red': !isChangePositive(pair),
       'markets__selected-pair': pair.currencyPairId === currentCurrencyPair?.id
     }"
     [attr.data-marketItem]="pair.currencyPairId"
@@ -57,13 +57,13 @@
     >
       <span
         style="margin-right: 2px;"
-        [ngClass]="{'txt-green': !isChangePositive(pair), 'txt-red': isChangePositive(pair)}"
+        [ngClass]="{'txt-green': isChangePositive(pair), 'txt-red': !isChangePositive(pair)}"
       >
         {{(pair.percentChange || '0') | positivePipe | replaceNumber: true}}
       </span>
       <span
         class="arr"
-        [ngClass]="{'arr--green': !isChangePositive(pair), 'arr--red': isChangePositive(pair)}"
+        [ngClass]="{'arr--green': isChangePositive(pair), 'arr--red': !isChangePositive(pair)}"
       >
       </span>
     </div>
