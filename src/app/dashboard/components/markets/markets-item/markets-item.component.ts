@@ -19,11 +19,6 @@ export class MarketsItemComponent implements OnInit {
 
   ngOnInit() {}
 
-  /**
-   * Split currency pair name
-   * @param {CurrencyPair} pair
-   * @returns {string[]}
-   */
   splitPairName(pair: CurrencyPair): string[] {
     return pair.currencyPairName.split('/');
   }
