@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { APIError } from '../models/apiError.model';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { throwError, pipe } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { TopNotificationReportComponent } from 'app/popups/notifications-list/top-notification-report/top-notification-report.component';
 import { Notification } from 'app/model/notification.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { Store, select } from '@ngrx/store';
-import { State } from 'app/core/reducers';
 import * as fromCore from 'app/core/reducers';
 import { APIErrorReport } from '../models/apiErrorReport.model';
 import { TopNotificationComponent } from 'app/popups/notifications-list/top-notification/top-notification.component';
@@ -19,7 +18,7 @@ export class APIErrorsService {
   private apiUrl = environment.apiUrl;
   public userInfo: ParsedToken;
 
-  constructor(private toastr: ToastrService, private store: Store<State>, private http: HttpClient) {
+  constructor(private toastr: ToastrService, private store: Store<fromCore.State>, private http: HttpClient) {
     this.toastOption = this.toastr.toastrConfig;
     this.store.pipe(select(fromCore.getUserInfo)).subscribe((res: ParsedToken) => {
       this.userInfo = res;
@@ -74,32 +73,70 @@ export class APIErrorsService {
     }
   }
 
-  catchAPIErrorWithNotification() {
-    return catchError(error => {
-      const err = this.parseErrorCode(this.extractErrorCode(error.error)) ;
-      const { status, url, method } = error;
-      if (status === 400) {
-        this.showErrorNotification(
-          new Notification({ notificationType: 'ERROR', text: err }),
-          new APIErrorReport(this.userInfo.username || '', url, method, status, JSON.stringify(error.error))
-        );
-      }
-      // console.log(err);
-      return throwError(error);
-    });
+  catchAPIErrorWithNotification(showReportBtn: boolean = false, login: boolean = false) {
+    return pipe(
+      catchError(error => {
+        const err = this.parseErrorCode(this.extractErrorCode(error.error));
+        const { status, url, method = 'POST' } = error;
+        const username = this.userInfo ? this.userInfo.username : '';
+        if (status >= 400 && !login) {
+          this.showErrorNotification(
+            new Notification({ notificationType: 'ERROR', text: err }),
+            new APIErrorReport(username, url, method, status, JSON.stringify(error.error)),
+            showReportBtn
+          );
+        }
+        if (status > 400 && login) {
+          this.showErrorNotification(
+            new Notification({ notificationType: 'ERROR', text: err }),
+            new APIErrorReport(username, url, method, status, JSON.stringify(error.error)),
+            showReportBtn
+          );
+        }
+        // console.log(err);
+        return throwError(error);
+      }),
+      map((res: HttpResponse<any>) =>  res.body)
+    );
+  }
+  catchAPIErrorWithNotificationRes(showReportBtn: boolean = false) {
+    return pipe(
+      catchError(error => {
+        const err = this.parseErrorCode(this.extractErrorCode(error.error));
+        const { status, url, method } = error;
+        const username = this.userInfo ? this.userInfo.username : '';
+        if (status >= 400) {
+          const isReportBtn = status >= 500 || showReportBtn;
+          this.showErrorNotification(
+            new Notification({ notificationType: 'ERROR', text: err }),
+            new APIErrorReport(username, url, method, status, JSON.stringify(error.error)),
+            isReportBtn
+          );
+        }
+        // console.log(err);
+        return throwError(error);
+      }),
+      map((res: HttpResponse<any>) =>  res)
+    );
   }
 
-  showErrorNotification(notification: Notification, report: APIErrorReport): void {
-    this.toastOption.toastComponent = TopNotificationComponent;
+  showErrorNotification(notification: Notification, report: APIErrorReport, showReportBtn: boolean = false): void {
+    if (showReportBtn) {
+      this.toastOption.toastComponent = TopNotificationReportComponent;
+    } else {
+      this.toastOption.toastComponent = TopNotificationComponent;
+    }
     this.toastOption.disableTimeOut = true;
     this.toastOption.tapToDismiss = false;
     const tost = this.toastr.show(notification.message, notification.title, this.toastOption);
-    // const sub = tost.onAction.subscribe(() => {
-    //   this.postReport(report).subscribe(res => {
-    //     console.log('alert', res);
-    //   });
-    //   sub.unsubscribe();
-    // });
+    if (showReportBtn) {
+      const sub = tost.onAction.subscribe(() => {
+        this.postReport(report).subscribe(res => {
+          console.log('alert', res);
+        });
+        sub.unsubscribe();
+      });
+    }
   }
 
   postReport(data: APIErrorReport) {
@@ -131,7 +168,8 @@ export class APIErrorsService {
 // uuid: "a21f92d1-225c-4ffc-aaf6-3d6e6042e0c3"
 // __proto__: Object
 // headers: HttpHeaders {normalizedNames: Map(0), lazyUpdate: null, lazyInit: ƒ}
-// message: "Http failure response for http://dev1.exrates.tech/api/private/v2/balances/withdraw/request/create: 400 Bad Request"
+// message: "Http failure response for http://dev1.exrates.tech/api/private/v2/balances/withdraw/request/create:
+// 400 Bad Request"
 // name: "HttpErrorResponse"
 // ok: false
 // status: 400
