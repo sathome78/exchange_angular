@@ -108,7 +108,9 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
         },
         error => {
           console.error(error);
-          this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later');
+          this.afterCaptchaMessage = this.translateService.instant(
+            'Service is temporary unavailable, please try again later'
+          );
           this.setTemplate('emailConfirmLinkTemplate');
           this.loading = false;
         }
@@ -123,7 +125,11 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   initForm() {
     this.emailForm = new FormGroup({
       email: new FormControl('', {
-        validators: [Validators.required, this.utilsService.emailValidator(), this.utilsService.specialCharacterValidator()],
+        validators: [
+          Validators.required,
+          this.utilsService.emailValidator(),
+          this.utilsService.specialCharacterValidator(),
+        ],
       }),
     });
     this.passwordForm = new FormGroup({

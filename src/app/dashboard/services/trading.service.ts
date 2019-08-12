@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 
 import { environment } from 'environments/environment';
 import { Order } from '../../model/order.model';
+import { APIErrorsService } from 'app/shared/services/apiErrors.service';
 
 @Injectable()
 export class TradingService {
@@ -13,12 +14,14 @@ export class TradingService {
   public tradingCreateOrder$ = new Subject();
   private apiUrl;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private apiErrorsService: APIErrorsService) {
     this.apiUrl = environment.apiUrl;
   }
 
   createOrder(order: Order): Observable<any> {
-    return this.http.post(`${this.apiUrl}/api/private/v2/dashboard/order`, order);
+    return this.http
+      .post(`${this.apiUrl}/api/private/v2/dashboard/order`, order, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   getCommission(orderType: string, currencyPairId: number): Observable<any> {

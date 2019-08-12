@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable, Subject, BehaviorSubject, throwError, of } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { BalanceItem } from '../models/balance-item.model';
 import { MyBalanceItem } from '../../model/my-balance-item.model';
 import { PendingRequestsItem } from '../models/pending-requests-item.model';
 import { APIErrorsService } from 'app/shared/services/apiErrors.service';
-import { mergeMap, map } from 'rxjs/operators';
-import { HttpParamsOptions } from '@angular/common/http/src/params';
 
 @Injectable()
 export class BalanceService {
@@ -141,6 +139,7 @@ export class BalanceService {
       .post(url, data, { observe: 'response' })
       .pipe(this.apiErrorsService.catchAPIErrorWithNotificationRes());
   }
+
   sendTransferPinCode(data) {
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/request/pin`;
     return this.http
@@ -173,7 +172,7 @@ export class BalanceService {
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/voucher/commission`;
     return this.http
       .get(url, { params: httpOptions, observe: 'response' })
-      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   checkEmail(email: string) {
@@ -182,7 +181,7 @@ export class BalanceService {
       observe: 'response',
     };
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/check_email`;
-    return this.http.get(url, httpOptions).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+    return this.http.get(url, httpOptions).pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   getMinSumInnerTranfer(currency_id: string, typ: string) {
@@ -193,14 +192,14 @@ export class BalanceService {
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/get_minimal_sum`;
     return this.http
       .get(url, { params: httpOptions, observe: 'response' })
-      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   createTransferInstant(data) {
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/voucher/request/create`;
     return this.http
       .post(url, data, { observe: 'response' })
-      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   revokePendingRequest({ requestId, operation }) {
@@ -223,7 +222,9 @@ export class BalanceService {
   }
 
   postFUGAccount(body: any) {
-    return this.http.post(`${this.apiUrl}/api/private/v2/kyc/start`, body);
+    return this.http
+      .post(`${this.apiUrl}/api/private/v2/kyc/start`, body, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   getStatusKYC() {
@@ -235,11 +236,15 @@ export class BalanceService {
   }
 
   sendCodeToMail() {
-    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/request/pin`, {});
+    return this.http
+      .post(`${this.apiUrl}/api/private/v2/merchants/qubera/request/pin`, {}, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   createQuberaAccount(body: any) {
-    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/account/create`, body);
+    return this.http
+      .post(`${this.apiUrl}/api/private/v2/merchants/qubera/account/create`, body, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   getBankInfo() {
@@ -247,15 +252,21 @@ export class BalanceService {
   }
 
   sendWithdraw(body: any) {
-    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/payment/external`, body);
+    return this.http
+      .post(`${this.apiUrl}/api/private/v2/merchants/qubera/payment/external`, body, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   confirmSendWithdraw(body: any) {
-    return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/info`, body);
+    return this.http
+      .post(`${this.apiUrl}/api/private/v2/merchants/qubera/info`, body, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   fiatDepositQubera(body: any) {
-    return this.http.post(`${this.apiUrl}/api/private/v2/balances/transfer/request/pin`, body);
+    return this.http
+      .post(`${this.apiUrl}/api/private/v2/balances/transfer/request/pin`, body, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   downloadQuberaInvoice(url) {

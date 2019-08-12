@@ -73,15 +73,23 @@ export class APIErrorsService {
     }
   }
 
-  catchAPIErrorWithNotification(showReportBtn: boolean = false) {
+  catchAPIErrorWithNotification(showReportBtn: boolean = false, login: boolean = false) {
     return pipe(
       catchError(error => {
         const err = this.parseErrorCode(this.extractErrorCode(error.error));
-        const { status, url, method } = error;
-        if (status >= 400) {
+        const { status, url, method = 'POST' } = error;
+        const username = this.userInfo ? this.userInfo.username : '';
+        if (status >= 400 && !login) {
           this.showErrorNotification(
             new Notification({ notificationType: 'ERROR', text: err }),
-            new APIErrorReport(this.userInfo.username || '', url, method, status, JSON.stringify(error.error)),
+            new APIErrorReport(username, url, method, status, JSON.stringify(error.error)),
+            showReportBtn
+          );
+        }
+        if (status > 400 && login) {
+          this.showErrorNotification(
+            new Notification({ notificationType: 'ERROR', text: err }),
+            new APIErrorReport(username, url, method, status, JSON.stringify(error.error)),
             showReportBtn
           );
         }
@@ -96,11 +104,12 @@ export class APIErrorsService {
       catchError(error => {
         const err = this.parseErrorCode(this.extractErrorCode(error.error));
         const { status, url, method } = error;
+        const username = this.userInfo ? this.userInfo.username : '';
         if (status >= 400) {
           const isReportBtn = status >= 500 || showReportBtn;
           this.showErrorNotification(
             new Notification({ notificationType: 'ERROR', text: err }),
-            new APIErrorReport(this.userInfo.username || '', url, method, status, JSON.stringify(error.error)),
+            new APIErrorReport(username, url, method, status, JSON.stringify(error.error)),
             isReportBtn
           );
         }
@@ -121,7 +130,6 @@ export class APIErrorsService {
     this.toastOption.tapToDismiss = false;
     const tost = this.toastr.show(notification.message, notification.title, this.toastOption);
     if (showReportBtn) {
-      // this.toastOption.toastComponent = TopNotificationReportComponent;
       const sub = tost.onAction.subscribe(() => {
         this.postReport(report).subscribe(res => {
           console.log('alert', res);
