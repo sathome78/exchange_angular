@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, Subject, BehaviorSubject, throwError, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { BalanceItem } from '../models/balance-item.model';
 import { MyBalanceItem } from '../../model/my-balance-item.model';
 import { PendingRequestsItem } from '../models/pending-requests-item.model';
 import { APIErrorsService } from 'app/shared/services/apiErrors.service';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, map } from 'rxjs/operators';
+import { HttpParamsOptions } from '@angular/common/http/src/params';
 
 @Injectable()
 export class BalanceService {
@@ -90,8 +91,9 @@ export class BalanceService {
   }
 
   getCurrencyData(cryptoName: string) {
-    const httpOptions = {
+    const httpOptions: any = {
       params: new HttpParams().set('currency', cryptoName),
+      observe: 'response',
     };
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/merchants/output`;
     return this.http.get<string[]>(url, httpOptions).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
@@ -99,12 +101,15 @@ export class BalanceService {
 
   refill(data) {
     const url = `${this.apiUrl}/api/private/v2/balances/refill/request/create`;
-    return this.http.post(url, data);
+    return this.http
+      .post(url, data, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   getCryptoMerchants(cryptoName) {
-    const httpOptions = {
+    const httpOptions: any = {
       params: new HttpParams().set('currency', cryptoName),
+      observe: 'response',
     };
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/merchants/output`;
     return this.http.get(url, httpOptions).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
@@ -117,31 +122,37 @@ export class BalanceService {
     httpOptions = httpOptions.append('merchant', merchant);
 
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/commission`;
-    return this.http.get(url, { params: httpOptions }).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+    return this.http
+      .get(url, { params: httpOptions, observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   sendTransferCode(code: string) {
     const data = { CODE: code };
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/accept`;
-    return this.http.post(url, data).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+    return this.http
+      .post(url, data, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   sendWithdrawalPinCode(data) {
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/request/pin`;
     return this.http
       .post(url, data, { observe: 'response' })
-      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotificationRes());
   }
   sendTransferPinCode(data) {
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/request/pin`;
     return this.http
       .post(url, data, { observe: 'response' })
-      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotificationRes());
   }
 
   withdrawRequest(data) {
     const url = `${this.apiUrl}/api/private/v2/balances/withdraw/request/create`;
-    return this.http.post(url, data).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+    return this.http
+      .post(url, data, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   getMyBalances(): Observable<MyBalanceItem> {
@@ -160,12 +171,15 @@ export class BalanceService {
     httpOptions = httpOptions.append('type', ty);
 
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/voucher/commission`;
-    return this.http.get(url, { params: httpOptions }).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+    return this.http
+      .get(url, { params: httpOptions, observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   checkEmail(email: string) {
-    const httpOptions = {
+    const httpOptions: any = {
       params: new HttpParams().set('email', email),
+      observe: 'response',
     };
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/check_email`;
     return this.http.get(url, httpOptions).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
@@ -177,12 +191,16 @@ export class BalanceService {
     httpOptions = httpOptions.append('type', typ);
 
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/get_minimal_sum`;
-    return this.http.get(url, { params: httpOptions }).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+    return this.http
+      .get(url, { params: httpOptions, observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   createTransferInstant(data) {
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/voucher/request/create`;
-    return this.http.post(url, data).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+    return this.http
+      .post(url, data, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
   revokePendingRequest({ requestId, operation }) {
