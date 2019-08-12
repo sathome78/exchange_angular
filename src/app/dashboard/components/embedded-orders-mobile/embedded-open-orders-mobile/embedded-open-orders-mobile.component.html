@@ -133,7 +133,11 @@
       <div class="table__details-item">
         <div class="table__details-item-title">{{'Type' | translate}}</div>
         <div class="table__details-item-value">
-          <span class="txt-green">{{item.operationType | replaceChar: '_': ' '}}</span>
+          <span [ngClass]="{
+              'orders__type-sell': item.operationTypeEnum === 'SELL',
+              'orders__type-buy': item.operationTypeEnum === 'BUY'
+            }">{{item.operationType | replaceChar: '_': ' '}}
+          </span>
         </div>
       </div>
       <div class="table__details-item">

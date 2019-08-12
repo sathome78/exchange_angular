@@ -1,0 +1,142 @@
+.widget-trading{
+
+  .row__percent{
+    margin-top: 7px;
+    font-size: calc(.64rem + .63vw);
+    justify-content: space-between;
+    @media(min-width:1500px){
+      font-size: 20px;
+    }
+  }
+
+
+  .button-fixed-block{
+    padding-bottom: 90px;
+    @media(max-width: 1199px){
+      padding-bottom: 66px;
+    }
+  }
+
+  .widget__header {
+    background-color: transparent;
+  }
+
+  .avaliable--aifl{
+    align-items: flex-start;
+    flex-direction: row;
+    span{
+      margin-right: 3px;
+      font-size: 12px;
+      color: #bfbfbf;
+    }
+  }
+
+  .no-line{
+    input{
+      border: 1px solid #94C2FF;
+      border-radius: 4px;
+      width: 100%;
+    }
+  }
+
+  .d-none {
+    display: none;
+  }
+  .d-flex {
+    display: flex;
+  }
+
+  .widget__trading-row-txt .avaliable{
+    a{
+      font-size: 12px;
+      font-weight: 300;
+    }
+  }
+  .input-row{
+    margin-top: 14px;
+  }
+  
+  .widget__trading-form--wr{
+    display: flex;
+    justify-content: space-between;
+
+  }
+
+  .widget__trading-title{
+    font-size: 14px;
+  }
+  .radio{
+    &:not(:last-child){
+      margin-right: 4px;
+    }
+  }
+  .widget__trading-btn{
+    margin: 18px auto 0;
+  }
+
+
+
+  .widget__trading-row{
+    @media(max-width: 992px){
+      margin-top: 16px;
+    }
+  }
+}
+
+
+.widget-trading{
+
+  &.trading-wr--mobile{
+  .widget__trading-form {
+    display: block;
+    width: 50%;
+    &:nth-child(2){
+      margin-left: 15px;
+    }
+    &:nth-child(1){
+      margin-right: 15px;
+    }
+    @media(max-width: 420px){
+      &:nth-child(2){
+        margin-left: 8px;
+      }
+      &:nth-child(1){
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .widget__trading-row{
+    margin-bottom: 14px;
+  }
+    padding: 0 13px 0 13px;
+    .row__percent{
+      font-size: 16px;
+    }
+    .widget__trading-row-txt .avaliable{
+      margin-top: -5px;
+      a{
+        border: none;
+      }
+    }
+    .wrap-input__input{
+      height: 33px;
+
+    }
+
+    .radio{
+      &:not(:last-child){
+        margin-right: 4px;
+      }
+    }
+    .widget__trading-btn{
+      margin: 0 auto;
+    }
+
+    .trading-notification {
+      position: fixed;
+      bottom: 115px;
+      z-index: 100;
+    }
+  }
+}
