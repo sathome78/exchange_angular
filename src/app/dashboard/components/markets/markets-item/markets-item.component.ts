@@ -29,6 +29,6 @@ export class MarketsItemComponent implements OnInit {
   }
 
   isChangePositive(pair: CurrencyPair): boolean {
-    return pair.lastOrderRate > pair.predLastOrderRate;
+    return +pair.lastOrderRate >= +pair.predLastOrderRate;
   }
 }
