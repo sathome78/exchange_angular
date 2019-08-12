@@ -1,48 +1,60 @@
-<div class="page-wrap" [ngClass]="{'dark-theme': isCurrentThemeDark()}">
+<div
+  class="page-wrap"
+  [ngClass]="{'dark-theme': isCurrentThemeDark()}"
+>
 
-  <article class="banner-wr" id="banner-wr"  *ngIf="!technicalWorks">
+  <article
+    class="banner-wr"
+    id="banner-wr"
+    *ngIf="!technicalWorks"
+  >
     <style>
-    .banner-content{
-      width: 100%;
-      overflow: hidden;
-      position: relative;
-      height: 36px;
-      display: flex;
-      justify-content: center;
-    }
-    .banner-content img{
-      position: absolute;
-      top: 0;
-      bottom: 0;
+      .banner-content {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        height: 36px;
+        display: flex;
+        justify-content: center;
+      }
 
-      margin: 0 auto;
-      min-width: 100%;
-      display: block;
-    }
-  </style>
-  <div class="banner-content">
-    <img src="assets/img/apply-by-listing.png" alt="">
+      .banner-content img {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+
+        margin: 0 auto;
+        min-width: 100%;
+        display: block;
+      }
+
+    </style>
+    <div class="banner-content">
+      <img
+        src="assets/img/apply-by-listing.png"
+        alt=""
+      >
+    </div>
+  </article>
+  <!-- *ngIf="technicalWorks" -->
+  <div
+    class="tech-banner"
+    *ngIf="technicalWorks"
+  >
+    <div class="banner-content">TECHNICAL WORKS</div>
   </div>
-</article>
-<!-- *ngIf="technicalWorks" -->
-<div class="tech-banner" *ngIf="technicalWorks">
-  <div class="banner-content">TECHNICAL WORKS</div>
-</div>
 
-<button (click)="test()">test</button>
-<app-header></app-header>
+  <app-header></app-header>
 
-<div class="content">
-  <div style="flex-grow: 1; width: 100%;">
-    <!-- popups container -->
-    <app-popups></app-popups>
+  <div class="content">
+    <div style="flex-grow: 1; width: 100%;">
+      <!-- popups container -->
+      <app-popups></app-popups>
 
-    <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
 
-    <!--<a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>-->
+      <!--<a class="chat" href="#"> <img class="chat__icon" src="../../../assets/img/help.svg"></a>-->
+    </div>
   </div>
+  <app-footer></app-footer>
 </div>
-<app-footer></app-footer>
-</div>
-
-
