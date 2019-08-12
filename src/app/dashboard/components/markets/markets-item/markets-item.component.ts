@@ -9,11 +9,11 @@ import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketsItemComponent implements OnInit {
-  @Input('pair') public pair: CurrencyPair;
-  @Input('isFavorite') public isFavorite: boolean;
-  @Input('currentCurrencyPair') public currentCurrencyPair: SimpleCurrencyPair;
-  @Input('isFiat') public isFiat: boolean;
-  @Input('isAuthenticated') public isAuthenticated: boolean;
+  @Input() public pair: CurrencyPair;
+  @Input() public isFavorite: boolean;
+  @Input() public currentCurrencyPair: SimpleCurrencyPair;
+  @Input() public isFiat: boolean;
+  @Input() public isAuthenticated: boolean;
 
   constructor() {}
 
