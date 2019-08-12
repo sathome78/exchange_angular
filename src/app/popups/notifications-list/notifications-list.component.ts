@@ -47,7 +47,9 @@ export class NotificationsListComponent implements OnInit {
               this.showNotification(n);
             });
         } else {
-          if (!sub) return;
+          if (!sub) {
+            return;
+          }
           sub.unsubscribe();
         }
       });

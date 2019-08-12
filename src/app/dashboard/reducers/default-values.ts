@@ -1,8 +1,8 @@
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 export const defaultValues: SimpleCurrencyPair = {
-  id: 1,
-  name: 'BTC/USD',
+  id: 819,
+  name: 'BTC/USDT',
 };
 
 export const defaultUserBalance = {

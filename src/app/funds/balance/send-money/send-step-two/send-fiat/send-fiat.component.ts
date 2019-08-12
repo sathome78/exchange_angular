@@ -150,7 +150,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     if (merchant.name === FUG) {
       this.form.removeControl('address');
     } else {
-      this.form.addControl('address', this.form);
+      this.form.addControl('address', new FormControl('', [Validators.required]));
     }
   }
 

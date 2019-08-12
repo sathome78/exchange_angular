@@ -1,4 +1,12 @@
-import { Component, OnInit, OnDestroy, HostListener, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  HostListener,
+  Renderer2,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/internal/operators';
 import { select, Store } from '@ngrx/store';
@@ -10,7 +18,7 @@ import {
   getUserBalance,
   getCurrencyPairInfo,
   getCurrencyPairArray,
-  getSimpleCurrencyPairsSelector,
+  getSimpleCurrencyPairsSelector
 } from 'app/core/reducers/index';
 import { DashboardWebSocketService } from '../../dashboard-websocket.service';
 import { CurrencyPairInfo } from '../../../model/currency-pair-info.model';
@@ -33,7 +41,7 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private pairInfoSub$: Subscription;
   public pair: SimpleCurrencyPair = null;
-  public pairInput: string = '';
+  public pairInput = '';
   public currentCurrencyInfo: CurrencyPairInfo = null;
   public userBalanceInfo: UserBalance;
   public allCurrencyPairs: SimpleCurrencyPair[] = [];
@@ -119,9 +127,8 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
   flagForArrow(s: string) {
     if (s === 'up') {
       return this.currentCurrencyInfo ? this.currentCurrencyInfo.changedValue >= 0 : false;
-    } else {
-      return this.currentCurrencyInfo ? this.currentCurrencyInfo.changedValue < 0 : false;
     }
+    return this.currentCurrencyInfo ? this.currentCurrencyInfo.changedValue < 0 : false;
   }
 
   onChangeCurrPair(val: string): void {

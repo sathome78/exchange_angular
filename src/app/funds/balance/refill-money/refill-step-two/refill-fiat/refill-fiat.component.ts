@@ -107,7 +107,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       .pipe(select(fundsReducer.getQuberaBalancesSelector))
       .pipe(withLatestFrom(this.store.pipe(select(fundsReducer.getQuberaKycStatusSelector))))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(([balances, kysStatus]: [{data: QuberaBalanceModel, error: null}, string]) => {
+      .subscribe(([balances, kysStatus]: [{ data: QuberaBalanceModel; error: null }, string]) => {
         this.isQuberaBalances = balances.data && balances.data.accountState === 'ACTIVE';
         this.isQuberaKYCSuccess = kysStatus === 'SUCCESS';
       });
@@ -228,6 +228,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         merchantImage: 1108,
         sum: `${this.form.controls.amount.value}`,
         destinationTag: '',
+        operationType: 'INPUT',
       };
       this.balanceService
         .fiatDepositQubera(deposit)
@@ -280,11 +281,13 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
     // FUG BLOCK
-    this.merchants = this.fiatDataByName.merchantCurrencyData.filter(i => this.filterMerchants(i)).filter(
-      merchant =>
-        !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
-          .length
-    );
+    this.merchants = this.fiatDataByName.merchantCurrencyData
+      .filter(i => this.filterMerchants(i))
+      .filter(
+        merchant =>
+          !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
+            .length
+      );
   }
 
   private minCheck(amount: FormControl) {

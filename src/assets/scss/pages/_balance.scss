@@ -868,8 +868,7 @@
     background: #30314D;
     border-radius: 4px;
     padding: 15px 23px;
-    margin-bottom: 34px;
-    margin-top: -15px;
+    margin-bottom: 20px;
     @media(max-width: 1200px){
       margin: 0 auto 34px;
     }
@@ -908,7 +907,7 @@
         }
         button{
           margin: 0;
-          
+
         }
       }
     }
@@ -984,7 +983,7 @@
   padding: 0 12px;
   .page-title{
     padding: 0;
-    
+
   }
   .page-title__text{
     margin: 0;
@@ -1002,7 +1001,7 @@
   align-items: center;
   position: fixed;
   bottom: 55px;
-  
+
   .bg-btn{
     background: linear-gradient(90deg, #21417D 0%, #191A39 100%);
     opacity: 0.5;
