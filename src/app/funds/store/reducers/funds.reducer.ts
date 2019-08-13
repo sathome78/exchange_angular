@@ -11,7 +11,7 @@ import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
 
 export interface State {
   cryptoBal: BalanceItem[];
-  quberaBal: {data: QuberaBalanceModel, error: any};
+  quberaBal: { data: QuberaBalanceModel; error: any };
   countCryptoBal: number;
   fiatBal: BalanceItem[];
   countFiatBal: number;
