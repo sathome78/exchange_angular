@@ -4,47 +4,32 @@
     <div class="subtitle settings__content-subtitle"> {{'Use Google Authenticator to secure your account and funds operations: Withdrawals and Transfers' | translate}}</div>
   </div>
   <table class="table tfa__table">
-    <!-- <thead>
-    <tr>
-      <th class="table__cell-head" style="width:300px"></th>
-      <th class="table__cell-head" style="width:200px"><span>{{'By Google' | translate}}</span></th>
-    </tr>
-    </thead> -->
     <tr>
       <td class="table__cell" style="padding-left: 0;"><span class="tfa__method">{{'Use Google Authenticator to secure your account and funds operations: Withdrawals and Transfers' | translate}}</span></td>
       <td class="table__cell" style="text-align:center">
-        <!-- <label class="toggler settings__toggler"> -->
-          <!-- <input type="checkbox"  [checked]="GAEnabled$ | async"> -->
-          <!-- <span class="toggler__indicate"></span> -->
-        <!-- </label> -->
       </td>
     </tr>
   </table>
-
-  <!--<div class="subtitle settings__content-subtitle">Choose authentification method</div>-->
   <div class="row settings__buttons-row">
-    <!--<div >-->
-        <button class="btn settings__btn" (click)="updateAuthProviderSettings(true)" *ngIf="!(GAEnabled$ | async)">
-          <span class="btn__icon btn__icon--blue btn__icon--hover-white">
-            <svg width="22"  viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11 8.8V13.2H17.2238C16.3152 15.7608 13.8688 17.6 11 17.6C7.3612 17.6 4.4 14.6388 4.4 11C4.4 7.3612 7.3612 4.4 11 4.4C12.5774 4.4 14.0954 4.9654 15.2746 5.9928L18.1654 2.6752C16.1854 0.9504 13.6422 0 11 0C4.9346 0 0 4.9346 0 11C0 17.0654 4.9346 22 11 22C17.0654 22 22 17.0654 22 11V8.8H11Z"/>
-            </svg>
-          </span>
-          <span class="button__text">{{'Google Authenticator' | translate}}</span>
-        </button>
-    <!--</div>-->
-    <!--<div >-->
-      <button class="btn btn--error settings__btn" (click)="updateAuthProviderSettings(false)" *ngIf="GAEnabled$ | async">
-          <span class="btn__icon btn__icon--blue btn__icon--hover-white">
-            <svg width="22"  viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11 8.8V13.2H17.2238C16.3152 15.7608 13.8688 17.6 11 17.6C7.3612 17.6 4.4 14.6388 4.4 11C4.4 7.3612 7.3612 4.4 11 4.4C12.5774 4.4 14.0954 4.9654 15.2746 5.9928L18.1654 2.6752C16.1854 0.9504 13.6422 0 11 0C4.9346 0 0 4.9346 0 11C0 17.0654 4.9346 22 11 22C17.0654 22 22 17.0654 22 11V8.8H11Z"/>
-            </svg>
-          </span>
-        <span class="button__text">{{'Disable Google 2FA' | translate}}</span>
-      </button>
+    <button class="btn settings__btn" (click)="updateAuthProviderSettings(true)" *ngIf="!(GAEnabled$ | async)">
+      <span class="btn__icon btn__icon--blue btn__icon--hover-white">
+        <svg width="22"  viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11 8.8V13.2H17.2238C16.3152 15.7608 13.8688 17.6 11 17.6C7.3612 17.6 4.4 14.6388 4.4 11C4.4 7.3612 7.3612 4.4 11 4.4C12.5774 4.4 14.0954 4.9654 15.2746 5.9928L18.1654 2.6752C16.1854 0.9504 13.6422 0 11 0C4.9346 0 0 4.9346 0 11C0 17.0654 4.9346 22 11 22C17.0654 22 22 17.0654 22 11V8.8H11Z"/>
+        </svg>
+      </span>
+      <span class="button__text">{{'Google Authenticator' | translate}}</span>
+    </button>
+    <button class="btn btn--error settings__btn" (click)="updateAuthProviderSettings(false)" *ngIf="GAEnabled$ | async">
+      <span class="btn__icon btn__icon--blue btn__icon--hover-white">
+        <svg width="22"  viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11 8.8V13.2H17.2238C16.3152 15.7608 13.8688 17.6 11 17.6C7.3612 17.6 4.4 14.6388 4.4 11C4.4 7.3612 7.3612 4.4 11 4.4C12.5774 4.4 14.0954 4.9654 15.2746 5.9928L18.1654 2.6752C16.1854 0.9504 13.6422 0 11 0C4.9346 0 0 4.9346 0 11C0 17.0654 4.9346 22 11 22C17.0654 22 22 17.0654 22 11V8.8H11Z"/>
+        </svg>
+      </span>
+      <span class="button__text">{{'Disable Google 2FA' | translate}}</span>
+    </button>
 
-      <div *ngIf="loading$ | async">
-        <app-loader></app-loader>
-      </div>
+    <div *ngIf="loading$ | async">
+      <app-loader></app-loader>
+    </div>
   </div>
 </div>
