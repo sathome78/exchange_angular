@@ -5,11 +5,6 @@
     {{'This is the time period, which will hold you as logged in user after the last action. Session time may be from 5 till 120 minutes.' | translate}}
   </div>
   <form class="settings-form" [formGroup]="form" (ngSubmit)="onSubmit()">
-    <!--<div class="input-range settings__time-range">-->
-    <!--<input class="input-range__input" type="range" min="1" max="100" value="24">-->
-    <!--<span class="input-range__min">5min</span>-->
-    <!--<span class="input-range__max">24h</span>-->
-    <!--</div>-->
     <div class="settings__time-range">
       <ng5-slider [(value)]="value" [options]="options" (valueChange)="update()">
       </ng5-slider>
@@ -32,9 +27,6 @@
 
         <!--Input Error section-->
         <div *ngIf="!hoursInput.valid && hoursInput.touched">
-          <!--<span class="wrap-input__message">-->
-          <!--This value must be within 0 and 24.-->
-          <!--</span>-->
           <p>{{'This value must be within 0 and 2.' | translate}}</p>
         </div>
 
@@ -59,12 +51,6 @@
         <!--Input Error section-->
 
         <div *ngIf="!minutesInput.valid && minutesInput.touched">
-          <!--<div *ngIf="minutesInput.errors['24hoursLimit']">-->
-              <!--<p>This value must be within 0 and 59.</p>-->
-            <!--<span class="wrap-input__message">-->
-            <!--This value must be within 0 and 24.-->
-            <!--</span>-->
-          <!--</div>-->
           <ng-template #general>
             <p>{{'This value must be within 0 and 59.' | translate}}</p>
           </ng-template>
