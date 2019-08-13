@@ -23,21 +23,22 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  background: #191A39;
+  z-index: 2;
 }
 
 perfect-scrollbar{
   height: calc(100vh - 154px);
   position: relative;
-  // padding-right: 10px;
   ::ng-deep.ps__rail-y {
     margin-right: 0 !important;
   }
 }
 .widget__table .table__cell {
-    padding: 2px 1px;
+  padding: 2px 1px;
 }
 .table__row-star svg{
-      fill: #4A5D88;
+  fill: #4A5D88;
 }
 
 .table__cell--start {

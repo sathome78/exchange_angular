@@ -31,6 +31,7 @@ export const SET_MORE_PENDING_REQ = '[Funds] Concat pending requests';
 export const REVOKE_PENDING_REQ = '[Funds] Revoke pending requests';
 export const REVOKE_PENDING_REQ_MOBILE = '[Funds] Revoke pending requests mobile';
 export const FAIL_REVOKE_PENDING_REQ = '[Funds] Fail revoke pending requests';
+export const SUCCESS_REVOKE_PENDING_REQ_MOBILE = '[Funds] Success revoke pending requests mobile';
 
 export const LOAD_MY_BALANCES = '[Funds] Load my balances';
 export const FAIL_LOAD_MY_BALANCES = '[Funds] Fail load my balances';
@@ -205,6 +206,10 @@ export class FailRevokePendingReqAction implements Action {
   readonly type = FAIL_REVOKE_PENDING_REQ;
   constructor(public payload?) {}
 }
+export class SuccessRevokeAction implements Action {
+  readonly type = SUCCESS_REVOKE_PENDING_REQ_MOBILE;
+  constructor(public payload?) {}
+}
 
 export class LoadMaxCurrencyPairByCurrencyName implements Action {
   readonly type = LOAD_MAX_CURRENCY_PAIR_BY_CURRENCY_NAME;
@@ -269,6 +274,8 @@ export type Actions =
   | FailLoadMyBalancesAction
   | FailRevokePendingReqAction
   | RevokePendingReqAction
+  | RevokePendingReqMobileAction
+  | SuccessRevokeAction
   | LoadBalanceDetailsAction
   | SetBalanceDetailsAction
   | FailLoadBalanceDetailsAction
