@@ -11,7 +11,8 @@
 			margin-bottom: 24px;
 			position: relative;
 			@media(max-width: 1199px){
-				margin-bottom: 0;
+				max-width: 268px;
+				margin: 0 auto;
 			}
 		}
 		&__select{
@@ -139,49 +140,11 @@
 }
 
 .api-key-center{
-	
-	@media (min-width: 1200px){
-		.popup__links-wrap{
-			justify-content: space-between;
-			&--center{
-				justify-content: center;
-			}
-		}
-	}
-
 	.msg-error {
 		color: #d04437;
 	}
-
-
-	.logo-login-mob{
-		display: none;
-	}
-
-	.popup__title-mob{
-		display: none;
-	}
-
 	@media(max-width: 992px){
-		.logo-login-mob{
-			display: block;
-			margin-bottom: 10px;
-			img{
-				display: block;
-			}
-		}
-		.popup__title{
-			display: none;
-		}
-
-		.popup__title-mob{
-			display: block;
-			font-weight: 500;
-			line-height: 1;
-			font-size: 14px;
-			color: #576E9C;
-			margin-bottom: 51px;
-		}
+		padding: 20px;
 		.popup {
 			.wrap-input__input{
 				&:focus {
@@ -211,56 +174,9 @@
 		.popup__btn{
 			max-width: unset;
 			margin-top: 18px;
-			color: #237BEF;
-			border-color: #237BEF;
-			&.popup__btn--active{
-				color: #fff;
-			}
-		}
-		.popup__links-wrap{
-			justify-content: flex-start;
-			font-weight: 400;
-			margin: 30px auto 0;
-		}
-		.popup__link{
-			font-size: 14px;
-			margin-left: 0;
 		}
 		.popup__wrap-input{
 			margin-bottom: 10px;
-		}
-		.popup__link-mob{
-			position: absolute;
-			bottom: 38px;
-			left: 27px;
-			right: 27px;
-			display: block;
-			width: 100%;
-			height: auto;
-			text-decoration: none;
-			background-color: unset;
-			color: #237BEF;
-			font-weight: 500;
-			span{
-				color: #576E9C;
-			}
-		}
-		.popup__close{
-			top: 23px;
-			right: 19px;
-			width: 17px;
-			height: 17px;
-		}
-		.popup_title--dm{
-			display: block;
-			color: #DEDEFB;
-		}
-		.wrap-input__label{
-			background: #191A39;
-			color: rgba(148, 194, 255, .5);
-		}
-		.wrap-input__show-password{
-			opacity: .5;
 		}
 	}
 
