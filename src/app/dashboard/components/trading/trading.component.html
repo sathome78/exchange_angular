@@ -90,9 +90,9 @@
           <div class="">
             <span
               class="wrap-input__message wrap-input__message--error"
-              *ngIf="buyForm.get('quantity').errors['maxMarketOrder']"
+              *ngIf="buyForm.get('quantity').errors['maxBuyMarketOrder']"
             >
-              {{'Max. available to buy' | translate}} {{maxMarketOrder | currencyFormat}} {{arrPairName[0]}}
+              {{'Max. available to buy' | translate}} {{maxBuyMarketOrder | currencyFormat}} {{arrPairName[0]}}
             </span>
           </div>
         </div>
@@ -232,6 +232,17 @@
               name="quantity"
               formControlName="quantity"
             ></app-price-input>
+          </div>
+        </div>
+
+        <div *ngIf="sellForm.get('quantity').touched && sellForm.get('quantity').errors">
+          <div class="">
+            <span
+              class="wrap-input__message wrap-input__message--error"
+              *ngIf="sellForm.get('quantity').errors['maxBuyMarketOrder']"
+            >
+              {{'Max. available to sell' | translate}} {{maxSellMarketOrder | currencyFormat}} {{arrPairName[0]}}
+            </span>
           </div>
         </div>
 
