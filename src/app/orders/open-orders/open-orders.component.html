@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container open-orders">
   <!--orders-mob start-->
   <div
     class="orders orders--mob"
@@ -259,7 +259,7 @@
           <div class="wrap-input__line"></div>
           <div class="cancel-btn-wr">
             <button
-              class="cancel-btn btn"
+              class="btn btn--auto"
               (click)="toggleShowCancelAllOrdersConfirm()"
               type="button"
               [disabled]="!(orderItems$ | async).length"
