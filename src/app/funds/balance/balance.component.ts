@@ -28,6 +28,7 @@ import { IEOItem } from 'app/model/ieo.model';
 import { BALANCE_TABS, EUR } from './balance-constants';
 import { DetailedCurrencyPair } from '../../model/detailed-currency-pair';
 import { UserService } from 'app/shared/services/user.service';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-balance',
@@ -87,6 +88,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     private dashboardWS: DashboardWebSocketService,
     public breakpointService: BreakpointService,
     public ieoService: IEOServiceService,
+    public utilsService: UtilsService,
     private route: ActivatedRoute,
     private router: Router
   ) {

@@ -3,7 +3,7 @@ import { CurrencyBalanceModel } from 'app/model';
 import { Subject } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BalanceService } from '../../../../services/balance.service';
-import { debounceTime, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { keys } from '../../../../../shared/constants';
 import { getFiatCurrenciesForChoose, getUserInfo, State } from 'app/core/reducers';
 import { select, Store } from '@ngrx/store';
@@ -13,8 +13,6 @@ import { defaultCommissionData } from '../../../../store/reducers/default-values
 import { PopupService } from 'app/shared/services/popup.service';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { FUG } from 'app/funds/balance/balance-constants';
-import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
-import * as fundsReducer from 'app/funds/store/reducers/funds.reducer';
 
 @Component({
   selector: 'app-send-fiat',
@@ -101,22 +99,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       .subscribe((userInfo: ParsedToken) => {
         this.userInfo = userInfo;
       });
-
-    this.store
-      .pipe(select(fundsReducer.getQuberaBalancesSelector))
-      .pipe(withLatestFrom(this.store.pipe(select(fundsReducer.getQuberaKycStatusSelector))))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(([balances, kysStatus]: [{ data: QuberaBalanceModel; error: null }, string]) => {
-        this.isQuberaBalances = balances.data && balances.data.accountState === 'ACTIVE';
-        this.isQuberaKYCSuccess = kysStatus === 'SUCCESS';
-      });
-  }
-
-  filterMerchants(merch): boolean {
-    if (this.isQuberaBalances && this.isQuberaKYCSuccess) {
-      return true;
-    }
-    return merch.name !== FUG;
   }
 
   ngOnDestroy(): void {
@@ -172,7 +154,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     // FUG BLOCK
     this.merchants =
       this.fiatInfoByName && this.fiatInfoByName.merchantCurrencyData
-        ? this.fiatInfoByName.merchantCurrencyData.filter(i => this.filterMerchants(i))
+        ? this.fiatInfoByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i))
         : [];
     this.searchTemplate = '';
     this.openCurrencyDropdown = false;
@@ -206,7 +188,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.fiatInfoByName = res;
         // FUG BLOCK
-        this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(i => this.filterMerchants(i));
+        this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i));
 
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
@@ -284,7 +266,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.searchTemplate = e.target.value;
     // FUG BLOCK
     this.merchants = this.fiatInfoByName.merchantCurrencyData
-      .filter(i => this.filterMerchants(i))
+      .filter(i => this.utilsService.filterMerchants(i))
       .filter(
         merchant =>
           !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))

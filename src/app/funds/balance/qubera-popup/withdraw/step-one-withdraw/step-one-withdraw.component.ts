@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { getFiatCurrenciesForChoose, State } from 'app/core/reducers';
 import * as fromCore from '../../../../../core/reducers';
-import { takeUntil, first, withLatestFrom } from 'rxjs/operators';
+import { takeUntil, first } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import * as _uniq from 'lodash/uniq';
 import { CurrencyBalanceModel } from 'app/model';
@@ -15,9 +15,8 @@ import { SettingsService } from 'app/settings/settings.service';
 import * as settingsActions from '../../../../../settings/store/actions/settings.actions';
 import { CommissionData } from 'app/funds/models/commission-data.model';
 import { defaultCommissionData } from '../../../../store/reducers/default-values';
-import { FUG, EUR } from 'app/funds/balance/balance-constants';
-import * as fundsReducer from 'app/funds/store/reducers/funds.reducer';
-import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
+import { EUR } from 'app/funds/balance/balance-constants';
+import { UtilsService } from 'app/shared/services/utils.service';
 @Component({
   selector: 'app-step-one-withdraw',
   templateUrl: './step-one-withdraw.component.html',
@@ -65,8 +64,6 @@ export class StepOneWithdrawComponent implements OnInit {
   public selectedCountry;
   public countryArray: KycCountry[] = [];
   public countryArrayDefault: KycCountry[] = [];
-  public isQuberaBalances = false;
-  public isQuberaKYCSuccess = false;
 
   @ViewChild('countryInput') countryInput: ElementRef;
 
@@ -82,7 +79,7 @@ export class StepOneWithdrawComponent implements OnInit {
       // FUG BLOCK
       this.merchants =
         this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-          ? this.fiatDataByName.merchantCurrencyData.filter(i => this.filterMerchants(i))
+          ? this.fiatDataByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i))
           : [];
     }
   }
@@ -91,6 +88,7 @@ export class StepOneWithdrawComponent implements OnInit {
     private store: Store<State>,
     private stores: Store<fromCore.State>,
     private settingsService: SettingsService,
+    private utilsService: UtilsService,
     public balanceService: BalanceService
   ) {
     this.selectedWithdraw = this.withdrawOptions[0];
@@ -126,14 +124,7 @@ export class StepOneWithdrawComponent implements OnInit {
         this.prepareAlphabet();
       });
     // this.activeBalance = this.quberaBalances.availableBalance.amount;
-    this.store
-      .pipe(select(fundsReducer.getQuberaBalancesSelector))
-      .pipe(withLatestFrom(this.store.pipe(select(fundsReducer.getQuberaKycStatusSelector))))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(([balances, kysStatus]: [{data: QuberaBalanceModel, error: null}, string]) => {
-        this.isQuberaBalances = balances.data && balances.data.accountState === 'ACTIVE';
-        this.isQuberaKYCSuccess = kysStatus === 'SUCCESS';
-      });
+
   }
 
   setActiveFiat() {
@@ -144,13 +135,6 @@ export class StepOneWithdrawComponent implements OnInit {
     this.activeFiat = currency && currency.length ? currency[0] : this.fiatNames[0];
   }
 
-  filterMerchants(merch): boolean {
-    if (this.isQuberaBalances && this.isQuberaKYCSuccess) {
-      return true;
-    }
-    return merch.name !== FUG;
-  }
-
   private getDataByCurrency(currencyName) {
     this.balanceService
       .getCurrencyRefillData(currencyName)
@@ -158,7 +142,7 @@ export class StepOneWithdrawComponent implements OnInit {
       .subscribe(res => {
         // this.fiatDataByName = res;
         this.fiatArrayData = res;
-        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter(i => this.filterMerchants(i));
+        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i));
         this.merchants = this.fiatDataByName;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
