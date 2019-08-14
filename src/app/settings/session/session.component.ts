@@ -33,11 +33,15 @@ export class SessionComponent implements OnInit, OnDestroy {
   minutesInput: FormControl;
   sessionTime$: Observable<number>;
 
-  loading: boolean = false;
+  loading = false;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  constructor(private settingsService: SettingsService, private popupService: PopupService, private store: Store<fromCore.State>) {}
+  constructor(
+    private settingsService: SettingsService,
+    private popupService: PopupService,
+    private store: Store<fromCore.State>
+  ) {}
 
   ngOnInit() {
     this.setForm();
@@ -47,8 +51,7 @@ export class SessionComponent implements OnInit, OnDestroy {
       this.hoursInput.patchValue(this.getHours(interval));
       this.value = interval;
       this.oldValue = interval;
-      this.validateHours();
-      this.validateMinutes();
+      this.formatInputs();
     });
   }
 
@@ -99,57 +102,52 @@ export class SessionComponent implements OnInit, OnDestroy {
       this.hoursInput.setValue(0);
       this.HOURS = 0;
     }
-    this.updateValue();
   }
 
   validateMinutes() {
     if (this.minutesInput.value && this.minutesInput.value.length > 2) {
       this.minutesInput.setValue(this.minutesInput.value.substr(0, 2));
     }
-    if (+this.minutesInput.value) {
-      if (this.minutesInput.value < 0) {
-        this.MINUTES = 0;
-        this.minutesInput.setValue('0');
-      } else if (this.minutesInput.value >= 60) {
-        this.minutesInput.setValue('59');
-        this.MINUTES = 59;
-      } else {
-        this.MINUTES = +this.minutesInput.value;
-      }
-    } else {
-      this.minutesInput.setValue('00');
-    }
-
-    this.updateValue();
   }
 
   formatMinutes() {
     const minutes = +this.minutesInput.value;
     if (this.HOURS === 2) {
       this.minutesInput.setValue('00');
+      this.MINUTES = 0;
     } else if (this.HOURS === 0) {
       if (this.minutesInput.value === null) {
         this.minutesInput.setValue('05');
+        this.MINUTES = 5;
       } else if (minutes < 5) {
         this.minutesInput.setValue('05');
+        this.MINUTES = 5;
       } else if (minutes >= 5 && minutes < 10) {
         this.minutesInput.setValue('0' + minutes);
+        this.MINUTES = minutes;
       } else if (minutes >= 10 && minutes < 60) {
         this.minutesInput.setValue(minutes + '');
+        this.MINUTES = minutes;
       } else if (minutes >= 60) {
         this.minutesInput.setValue('59');
+        this.MINUTES = 59;
       }
     } else {
       if (this.minutesInput.value === null) {
         this.minutesInput.setValue('00');
+        this.MINUTES = 0;
       } else if (minutes < 0) {
         this.minutesInput.setValue('00');
+        this.MINUTES = 0;
       } else if (minutes >= 0 && minutes < 10) {
         this.minutesInput.setValue('0' + minutes);
+        this.MINUTES = minutes;
       } else if (minutes >= 10 && minutes < 60) {
         this.minutesInput.setValue(minutes + '');
+        this.MINUTES = minutes;
       } else if (minutes >= 60) {
         this.minutesInput.setValue('59');
+        this.MINUTES = minutes;
       }
     }
   }
@@ -169,6 +167,7 @@ export class SessionComponent implements OnInit, OnDestroy {
   formatInputs() {
     this.formatHours();
     this.formatMinutes();
+    this.updateValue();
   }
   validateInputs() {
     this.validateHours();

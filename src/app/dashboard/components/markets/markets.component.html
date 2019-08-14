@@ -1,5 +1,5 @@
 <div
-  class="widget widget--gradient"
+  class="widget widget--gradient markets-widget"
   #mobileContainer
 >
   <!-- MOBILE START -->
@@ -180,7 +180,7 @@
             *ngIf="scrollHeight"
           >
             <ng-container
-              *cdkVirtualFor="let pair of pairs"
+              *cdkVirtualFor="let pair of (pairs | currencySort :'currencyVolume')"
               class="markets_item"
             >
               <div

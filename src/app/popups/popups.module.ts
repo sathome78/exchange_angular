@@ -44,6 +44,7 @@ import { TopNotificationComponent } from './notifications-list/top-notification/
 import { NotificationsListComponent } from './notifications-list/notifications-list.component';
 import { NewsSubscribePopupComponent } from './news-subscribe-popup/news-subscribe-popup.component';
 import { NewsThankYouPopupComponent } from './news-thank-you-popup/news-thank-you-popup.component';
+import { TopNotificationReportComponent } from './notifications-list/top-notification-report/top-notification-report.component';
 import { QuberaPopupsComponent } from './qubera-popups/qubera-popups.component';
 
 @NgModule({
@@ -85,6 +86,7 @@ import { QuberaPopupsComponent } from './qubera-popups/qubera-popups.component';
     NotificationsListComponent,
     NewsSubscribePopupComponent,
     NewsThankYouPopupComponent,
+    TopNotificationReportComponent,
     QuberaPopupsComponent,
   ],
   imports: [
@@ -106,6 +108,6 @@ import { QuberaPopupsComponent } from './qubera-popups/qubera-popups.component';
   ],
   providers: [],
   exports: [PopupsComponent],
-  entryComponents: [TopNotificationComponent],
+  entryComponents: [TopNotificationComponent, TopNotificationReportComponent],
 })
 export class PopupsModule {}

@@ -207,11 +207,22 @@ export class FundsEffects {
     .pipe(
       switchMap(action => {
         return this.balanceService.revokePendingRequest(action.payload).pipe(
-          tap(() => this.location.back()),
+          map(() => new fundsActions.SuccessRevokeAction()),
           catchError(error => of(new fundsActions.FailRevokePendingReqAction(error)))
         );
       })
     );
+
+  /**
+   * Success revoke pending requests for mobile screen
+   */
+
+  @Effect({ dispatch: false })
+  SuccessRevokePendingRequests$: any = this.actions$
+    .pipe(ofType<fundsActions.SuccessRevokeAction>(fundsActions.SUCCESS_REVOKE_PENDING_REQ_MOBILE))
+    .pipe(tap(() => {
+      this.location.back();
+    }));
 
   /**
    * Load transactions history

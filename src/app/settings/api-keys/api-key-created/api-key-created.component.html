@@ -1,6 +1,6 @@
 <div class="overlay--modal" *ngIf="showPopup" [@overlayAnimation]="showPopup ? 'show' : 'hide'" appAddClass="no-scroll"
      to="body">
-  <div class="modal" [@modalAnimation]="showPopup ? 'show' : 'hide' ">
+  <div class="modal api-key-modal side-popups" [@modalAnimation]="showPopup ? 'show' : 'hide' ">
 
     <div class="modal__header">
       <span class="key-success">{{'Api-key successfully created' | translate}}</span>

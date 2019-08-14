@@ -1,4 +1,4 @@
-<div class="widget widget--gradient">
+<div class="widget widget--gradient widget-trading">
   <div
     class="widget__header panel-heading widget__header--trading"
     *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
@@ -58,20 +58,7 @@
           {{showLimit(limit, true)}}
         </div>
       </div>
-      <!-- <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
-        <div style="margin-left: auto;">
-          {{'Pay no fees:' | translate}}
-          <img src="../../assets/img/fire.svg" style="margin: 0 4px;">
-          <a href="#">{{'Become VIP' | translate}}</a>
-        </div>
-      </div> -->
     </div>
-    <!-- <div
-      class="row row__info"
-      *ngIf="dropdownLimitValue === baseType.MARKET"
-    >
-      Max available to buy market order: {{maxMarketOrder | currencyFormat}} {{arrPairName[0]}}
-    </div> -->
     <div class="widget__trading-form--wr">
       <form
         class="widget__trading-form"
@@ -427,8 +414,6 @@
       </div>
       <div class="trading-notification__text">
         <div class="trading-notification__title">{{showLimit(createdOrder?.baseType, true)}} {{createdOrder?.orderType}} {{' Order created!' | translate}}</div>
-        <!-- <p>{{'Status:' | translate}} {{message}}</p> -->
-        <!--<p>Submitted exchange limit sell order for 9 ZRX by using BTC</p>-->
       </div>
     </div>
   </div>
@@ -479,8 +464,6 @@
           {{showLimit(createdOrder?.baseType, true)}} {{createdOrder?.orderType}} {{' Order not created!' | translate}}
         </div>
         <p *ngFor="let message of errorMessages"> {{message}}</p>
-        <!-- <p> {{'Status:' | translate}} {{message}}</p> -->
-        <!--<p>Submitted exchange limit sell order for 9 ZRX by using BTC</p>-->
       </div>
     </div>
   </div>

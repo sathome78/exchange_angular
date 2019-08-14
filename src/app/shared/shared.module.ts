@@ -63,6 +63,7 @@ import { PopupWaitIEOComponent } from './components/popup-wait-ieo/popup-wait-ie
 import { PopupSorryIEOComponent } from './components/popup-sorry-ieo/popup-sorry-ieo.component';
 import { BirthdayMaskInputComponent } from './components/birthday-mask-input/birthday-mask-input.component';
 import { CheatingInputComponent } from './components/cheating-input/cheating-input.component';
+import { APIErrorsService } from './services/apiErrors.service';
 
 @NgModule({
   declarations: [
@@ -191,6 +192,7 @@ import { CheatingInputComponent } from './components/cheating-input/cheating-inp
     RoundCurrencyPipe,
     FormatCurrencyPipe,
     ShowPageGuard,
+    APIErrorsService,
   ],
 })
 export class SharedModule {}

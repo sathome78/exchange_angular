@@ -6,17 +6,15 @@ import { UserService } from '../../shared/services/user.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoggingService } from '../../shared/services/logging.service';
-import { keys } from '../../shared/constants';
+import { keys, AUTH_MESSAGES } from '../../shared/constants';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AUTH_MESSAGES } from '../../shared/constants';
 import { select, Store } from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as coreActions from '../../core/actions/core.actions';
 import { Location } from '@angular/common';
-import { CurrencyPair } from '../../model';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { GtagService } from '../../shared/services/gtag.service';
 
@@ -182,7 +180,9 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
           this.twoFaAuthModeMessage =
             this.pincodeAttempts === 3
               ? this.isGA
-                ? this.translateService.instant('Code is wrong! Please, check you code in Google Authenticator application.')
+                ? this.translateService.instant(
+                    'Code is wrong! Please, check you code in Google Authenticator application.'
+                  )
                 : this.translateService.instant('Code is wrong! New code was sent to your email.')
               : this.translateService.instant('Code is wrong!');
           this.pincodeAttempts = this.pincodeAttempts === 3 ? 0 : this.pincodeAttempts;
@@ -214,7 +214,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
       this.password = this.loginForm.get('password').value;
       if (this.inPineCodeMode) {
         this.pin = this.pinForm.get('pin').value;
-        this.pincodeAttempts++;
+        this.pincodeAttempts += 1;
       }
       if (this.inPineCodeMode && !this.pin) {
         return;
@@ -224,8 +224,8 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   }
 
   sendToServer() {
-    // console.log(this.email, this.password, this.pin);
-    this.logger.debug(this, 'attempt to authenticate with email: ' + this.email + ' and password: ' + this.password);
+
+    this.logger.debug(this, `attempt to authenticate with email: ${this.email} and password: ${this.password}`);
     this.loading = true;
     this.userService
       .authenticateUser(this.email, this.password, this.pin, this.pincodeAttempts)
@@ -234,7 +234,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
         (tokenHolder: TokenHolder) => {
           this.logger.debug(
             this,
-            'User { login: ' + this.email + ', pass: ' + this.password + '}' + ' signed in and obtained' + tokenHolder
+            `User { login: ${this.email}, pass: ${this.password}} signed in and obtained ${tokenHolder}`
           );
           this.authService.setToken(tokenHolder.token);
           const parsedToken = this.authService.parseToken();
@@ -243,10 +243,6 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
           this.store.dispatch(new coreActions.SetOnLoginAction(parsedToken));
           this.popupService.closeMobileLoginPopup();
           this.userService.getUserBalance(this.currencyPair);
-          // this.router.navigate(['/']);
-
-          // TODO: just for promo state, remove after
-          // location.reload();
           this.loading = false;
         },
         err => {

@@ -19,6 +19,9 @@ import { UtilsService } from './shared/services/utils.service';
 import { IEOServiceService } from './shared/services/ieoservice.service';
 import { GtagService } from './shared/services/gtag.service';
 import { lang } from 'moment';
+import { APIErrorsService } from './shared/services/apiErrors.service';
+import { APIErrorReport } from './shared/models/apiErrorReport.model';
+import { Notification } from 'app/model/notification.model';
 
 @Component({
   selector: 'app-root',
@@ -41,6 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private seoService: SEOService,
     private store: Store<fromCore.State>,
     public translate: TranslateService,
+    public apiErrorsService: APIErrorsService,
     private gtagService: GtagService
   ) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
@@ -182,5 +186,15 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
     }, 3000);
+  }
+
+  test() {
+    this.apiErrorsService.showErrorNotification(
+      new Notification({
+        text: 'test',
+        notificationType: 'ERROR',
+      }),
+      new APIErrorReport('this.userInfo.username', 'url', 'method', 'status', 'JSON.stringify(error.error)')
+    );
   }
 }

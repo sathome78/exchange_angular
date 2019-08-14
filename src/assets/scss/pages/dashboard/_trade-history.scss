@@ -1,0 +1,105 @@
+.trading-history-widget{
+  .widget__table-row {
+    &:nth-of-type(odd) {
+      background-color: unset;
+    }
+
+    &:hover {
+      cursor: default;
+    }
+  }
+
+  .widget__content {
+    height: calc(100vh - 104px);
+  }
+
+  .trade-history {
+    &__table {
+      position: relative;
+      height: 100%;
+
+      .table__cell, .table__cell-head {
+        padding: 4px;
+
+        &:first-of-type {
+          padding-left: 12px;
+        }
+
+        &:last-of-type {
+          padding-right: 12px;
+        }
+      }
+
+      .widget__table-row {
+        height: auto;
+      }
+
+    }
+
+    &__thead {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    &__tbody {
+      height: calc(100% - 22px);
+    }
+
+    &__row {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  @media (min-width: 1200px) {
+   
+    .widget__header {
+      background-color: transparent;
+    }
+    
+
+    .widget__content {
+      height: calc(100% - 41px);
+    }
+
+    .trade-history {
+      &__table {
+        margin-left: 16px;
+
+        .table__cell, .table__cell-head {
+
+          &:first-of-type {
+            padding-left: 4px;
+          }
+
+          &:last-of-type {
+            padding-right: 4px;
+          }
+        }
+
+      }
+
+      &__thead {
+        width: calc(100% - 24px);
+        margin-right: 24px;
+      }
+
+      &__tbody-inner {
+        margin-right: 24px;
+      }
+
+    }
+  }
+
+  @media(max-width: 1199px){
+    .trade-history__tbody-inner{
+      padding: 0 10px;
+    }
+  }
+  .trade_item {
+    height: 22px;
+  }
+}
