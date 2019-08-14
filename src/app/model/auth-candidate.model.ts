@@ -1,6 +1,3 @@
-import { environment } from '../../environments/environment';
-import { UtilsService } from '../shared/services/utils.service';
-import { Store } from '@ngrx/store';
 
 export class AuthCandidate {
   public email;
@@ -23,7 +20,7 @@ export class AuthCandidate {
   }
 
   public withPassword(pass: string): AuthCandidate {
-    this.password = this.encryptPass(pass);
+    this.password = pass;
     return this;
   }
 
@@ -39,7 +36,4 @@ export class AuthCandidate {
     return this;
   }
 
-  private encryptPass(pass: string): string {
-    return new UtilsService().encodePassword(pass, environment.encodeKey);
-  }
 }
