@@ -20,6 +20,7 @@ import { RxStompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
 import * as fromCore from '../../core/reducers';
 import { APIErrorsService } from './apiErrors.service';
+import { UtilsService } from './utils.service';
 
 @Injectable()
 export class UserService {
@@ -32,6 +33,7 @@ export class UserService {
     private authService: AuthService,
     private langService: LangService,
     private stompService: RxStompService,
+    private utilsService: UtilsService,
     private logger: LoggingService,
     private apiErrorsService: APIErrorsService,
     private router: Router
@@ -125,9 +127,10 @@ export class UserService {
   }
 
   public authenticateUser(email: string, password: string, pin?: string, tries?: number): Observable<{} | TokenHolder> {
+    const encryptedPassword = this.utilsService.encodePassword(password, environment.encodeKey);
     const authCandidate = AuthCandidate.builder()
       .withEmail(email)
-      .withPassword(password)
+      .withPassword(encryptedPassword)
       .withPinCode(pin)
       .build();
     // alert('encoded: ' +  authCandidate.password);
@@ -157,7 +160,7 @@ export class UserService {
         ...httpOptions,
         observe: 'response',
       })
-      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true, true));
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   sendToEmailConfirmation(email: string) {

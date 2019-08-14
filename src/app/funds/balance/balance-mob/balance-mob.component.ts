@@ -55,7 +55,7 @@ export class BalanceMobComponent implements OnInit {
   @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
   @Output('onGoToBalanceDetails') public onGoToBalanceDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(private router: Router, private utils: UtilsService, private store: Store<fromCore.State>) {
+  constructor(private router: Router, public utils: UtilsService, private store: Store<fromCore.State>) {
     this.setScrollStyles();
   }
 

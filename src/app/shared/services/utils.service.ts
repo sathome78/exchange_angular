@@ -2,7 +2,15 @@ import { Injectable } from '@angular/core';
 import { ValidatorFn, AbstractControl } from '@angular/forms';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import prettyNum from 'pretty-num';
+import { environment } from 'environments/environment';
+import { Store, select } from '@ngrx/store';
+import { State } from 'app/core/reducers';
+import { getQuberaBalancesSelector, getQuberaKycStatusSelector } from 'app/funds/store/reducers/funds.reducer';
+import { withLatestFrom, takeUntil } from 'rxjs/operators';
+import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
 // import {CoreService} from 'app/core/services/core.service';
+
+const FUG = 'FUG';
 
 @Injectable()
 export class UtilsService {
@@ -15,6 +23,18 @@ export class UtilsService {
   private passwordPattern = /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]|(?=.*[A-Za-z][!@#\$%\^&\*<>\.\(\)\-_=\+\'])[A-Za-z!@#\$%\^&\*<>\.\(\)\-_=\+\'\d]{8,40}/gi;
   private checkCyrilic = /[а-яА-ЯёЁ]/gi;
   private fraction: number;
+  private isQuberaReady = false;
+
+  constructor(private store: Store<State>) {
+    this.store
+      .pipe(select(getQuberaBalancesSelector))
+      .pipe(withLatestFrom(this.store.pipe(select(getQuberaKycStatusSelector))))
+      .subscribe(([balances, kysStatus]: [{data: QuberaBalanceModel, error: null}, string]) => {
+        const isQuberaBalances = balances && balances.data && balances.data.accountState === 'ACTIVE';
+        const isQuberaKYCSuccess = kysStatus === 'SUCCESS';
+        this.isQuberaReady = isQuberaKYCSuccess && isQuberaBalances;
+      });
+  }
 
   isFiat(currencyName: string): boolean {
     if (currencyName === 'BTC') {
@@ -197,9 +217,23 @@ export class UtilsService {
     return window.location.hostname === 'exrates.me';
   }
 
+  get showContentProd() {
+    return environment.showContent;
+  }
+
   isDevCaptcha(name: string = '') {
     // UNCOMMENT WHEN NEED USER UPHOLDING CHECK
     // return this.checkIsDeveloper(name) && this.isDisabledCaptcha && !this.isProdHost;
     return this.isDisabledCaptcha && !this.isProdHost;
+  }
+
+  filterMerchants(merch) {
+    if (!environment.showContent) {
+      return merch.name !== FUG;
+    }
+    if (this.isQuberaReady) {
+      return true;
+    }
+    return merch.name !== FUG;
   }
 }
