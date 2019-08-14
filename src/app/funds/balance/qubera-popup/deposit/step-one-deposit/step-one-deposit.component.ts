@@ -27,7 +27,6 @@ import { FUG } from 'app/funds/balance/balance-constants';
 import * as fundsReducer from 'app/funds/store/reducers/funds.reducer';
 import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
 import fileSaver from 'file-saver';
-import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-step-one-deposit',
@@ -58,6 +57,8 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
   public calculateData: CommissionData = defaultCommissionData;
   public form: FormGroup;
   public bankInfo;
+  public isQuberaBalances = false;
+  public isQuberaKYCSuccess = false;
 
   @ViewChild('content') content: ElementRef;
 
@@ -71,14 +72,14 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
       // FUG BLOCK
       this.merchants =
         this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-          ? this.fiatDataByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i))
+          ? this.fiatDataByName.merchantCurrencyData.filter(i => this.filterMerchants(i))
           : [];
 
       this.openCurrencyDropdown = false;
     }
   }
 
-  constructor(private store: Store<State>, public balanceService: BalanceService, private utilsService: UtilsService) {}
+  constructor(private store: Store<State>, public balanceService: BalanceService) {}
 
   ngOnInit() {
     this.initForm();
@@ -86,7 +87,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
     this.merchants =
       this.quberaBank &&
       this.quberaBank.balance &&
-      this.quberaBank.balance.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i));
+      this.quberaBank.balance.merchantCurrencyData.filter(i => this.filterMerchants(i));
 
     this.store
       .pipe(select(getFiatCurrenciesForChoose))
@@ -102,6 +103,15 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
         this.prepareAlphabet();
       });
     this.depositBankInfo();
+
+    this.store
+      .pipe(select(fundsReducer.getQuberaBalancesSelector))
+      .pipe(withLatestFrom(this.store.pipe(select(fundsReducer.getQuberaKycStatusSelector))))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(([balances, kysStatus]: [{data: QuberaBalanceModel, error: null}, string]) => {
+        this.isQuberaBalances = balances.data && balances.data.accountState === 'ACTIVE';
+        this.isQuberaKYCSuccess = kysStatus === 'SUCCESS';
+      });
   }
 
   ngOnDestroy() {
@@ -136,6 +146,13 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       amount: new FormControl(''),
     });
+  }
+
+  filterMerchants(merch): boolean {
+    if (this.isQuberaBalances && this.isQuberaKYCSuccess) {
+      return true;
+    }
+    return merch.name !== FUG;
   }
 
   private getDataByCurrency(currencyName) {

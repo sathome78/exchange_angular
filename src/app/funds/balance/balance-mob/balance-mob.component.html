@@ -1,7 +1,4 @@
-<div
-  class="balance__content-mob"
-  (window:resize)="setScrollStyles()"
->
+<div class="balance__content-mob" (window:resize)="setScrollStyles()">
   <div class="balance__header-mob">
     <div class="top-balance-wr">
       <div class="page-title">
@@ -9,23 +6,9 @@
           {{'Balances' | translate}}
         </h1>
       </div>
-      <div
-        class="widget__search-btn"
-        (click)="toggleShowSearchPopup(true)"
-      >
-        <svg
-          fill="none"
-          height="14"
-          viewBox="0 0 16 16"
-          width="14"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M7.22222 13.6444C8.78354 13.6444 10.2149 13.0869 11.3278 12.1605L14.1947 15.0275C14.4247 15.2575 14.7975 15.2575 15.0275 15.0275C15.2575 14.7975 15.2575 14.4247 15.0275 14.1947L12.1605 11.3278C13.0869 10.2149 13.6444 8.78354 13.6444 7.22222C13.6444 3.67557 10.7689 0.8 7.22222 0.8C3.67557 0.8 0.8 3.67557 0.8 7.22222C0.8 10.7689 3.67557 13.6444 7.22222 13.6444ZM12.4667 7.22222C12.4667 10.1188 10.1188 12.4667 7.22222 12.4667C4.32563 12.4667 1.97778 10.1188 1.97778 7.22222C1.97778 4.32563 4.32563 1.97778 7.22222 1.97778C10.1188 1.97778 12.4667 4.32563 12.4667 7.22222Z"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="0.4"
-          ></path>
+      <div class="widget__search-btn" (click)="toggleShowSearchPopup(true)">
+        <svg fill="none" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.22222 13.6444C8.78354 13.6444 10.2149 13.0869 11.3278 12.1605L14.1947 15.0275C14.4247 15.2575 14.7975 15.2575 15.0275 15.0275C15.2575 14.7975 15.2575 14.4247 15.0275 14.1947L12.1605 11.3278C13.0869 10.2149 13.6444 8.78354 13.6444 7.22222C13.6444 3.67557 10.7689 0.8 7.22222 0.8C3.67557 0.8 0.8 3.67557 0.8 7.22222C0.8 10.7689 3.67557 13.6444 7.22222 13.6444ZM12.4667 7.22222C12.4667 10.1188 10.1188 12.4667 7.22222 12.4667C4.32563 12.4667 1.97778 10.1188 1.97778 7.22222C1.97778 4.32563 4.32563 1.97778 7.22222 1.97778C10.1188 1.97778 12.4667 4.32563 12.4667 7.22222Z" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.4"></path>
         </svg>
         {{'Search' | translate}}
       </div>
@@ -48,9 +31,8 @@
       >
         {{'Exchange Wallet' | translate}}
       </button>
-      <!-- FUG BLOCK -->
+
       <button
-        *ngIf="utils.showContentProd"
         class="tabs__item"
         [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
         (click)="onSelectTab.emit(Tab.QUBERA)"
@@ -70,16 +52,12 @@
 
     </div>
     <div class="balance__header-btn-wrap">
-      <button
-        class="btn btn--active balance__title-btn"
-        (click)="openRefillBalancePopup.emit(true)"
-      >
+      <button class="btn btn--active balance__title-btn"
+        (click)="openRefillBalancePopup.emit(true)">
         {{'Refill balance' | translate}}
       </button>
-      <button
-        class="btn balance__title-btn"
-        (click)="openSendMoneyPopup.emit(true)"
-      >
+      <button class="btn balance__title-btn"
+        (click)="openSendMoneyPopup.emit(true)">
         {{'Send money' | translate}}
       </button>
 
@@ -99,7 +77,7 @@
           (onChange)="onChangeCurrPair($event)"
           (onSelect)="onSearchCoin($event.id)"
           ></app-dynamic-input> -->
-        <!--  <app-dynamic-input
+         <!--  <app-dynamic-input
           *ngSwitchCase="Tab.FIAT"
           [value]="currValue"
           [options]="fiatCurrenciesForChoose && getFiatDynamicIData"
@@ -109,29 +87,14 @@
       </ng-container>
 
       <span>{{'Price in' | translate}}</span>
-      <div
-        class="dropdown"
-        #dropdown
-        (click)="onToggleDropdown()"
-      >
+      <div class="dropdown" #dropdown (click)="onToggleDropdown()">
         <div class="dropdown__btn">{{priceIn}}</div>
-        <ul
-          class="dropdown__list"
-          (click)="onSelectCurrency($event)"
-        >
-          <li
-            class="dropdown__item"
-            *ngFor="let item of currenciesArr"
-          >{{item}}</li>
+        <ul class="dropdown__list" (click)="onSelectCurrency($event)">
+          <li class="dropdown__item" *ngFor="let item of currenciesArr">{{item}}</li>
         </ul>
       </div>
       <label class="toggler">
-        <input
-          type="checkbox"
-          name="togglerZero"
-          [(ngModel)]="hideAllZero"
-          (change)="onToggleAllZeroTrigger()"
-        >
+        <input type="checkbox" name="togglerZero" [(ngModel)]="hideAllZero" (change)="onToggleAllZeroTrigger()">
         <span class="toggler__indicate"></span>
       </label>
       <span>{{'Hide zero' | translate}}</span>
@@ -151,10 +114,7 @@
     (scrolled)="onLoadMoreTrigger()"
   >
     <!--table-mob start-->
-    <table
-      class="table table--mob"
-      [ngClass]="{'balance-fiat': currTab === Tab.FIAT}"
-    >
+    <table class="table table--mob" [ngClass]="{'balance-fiat': currTab === Tab.FIAT}">
       <thead class="table__head">
         <tr class="table__head-row">
           <th class="table__cell-head table__cell-head--tal">{{'Currency' | translate}}</th>
@@ -164,10 +124,7 @@
       </thead>
       <tbody class="table__body table__body--none-shadow">
         <ng-container *ngFor="let item of balances">
-          <tr
-            class="table__row--mob"
-            (click)="onShowMobDetails(item)"
-          >
+          <tr class="table__row--mob" (click)="onShowMobDetails(item)">
             <td class="table__cell table__cell--tal">
               <div class="balance__currency">
                 <div class="balance__currency-icon">
@@ -180,7 +137,7 @@
               </div>
             </td>
             <td class="table__cell table__cell--tal">
-              <span>{{item.activeBalance | currencyFormat:item.currencyName}}</span>
+              <span>{{item.activeBalance  | currencyFormat:item.currencyName}}</span>
             </td>
             <td class="table__cell table__cell--tar">
               <div *ngIf="priceIn === currencies.BTC">BTC {{item.btcAmount | currencyFormat}}</div>
@@ -188,19 +145,8 @@
               <!-- <span class="txt-small txt-red">–0.24%</span> -->
             </td>
             <td class="table__cell table__cell--arr-mob">
-              <svg
-                width="12"
-                height="11"
-                viewBox="0 0 17 17"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
+              <svg width="12" height="11" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </td>
           </tr>
@@ -210,20 +156,14 @@
             </td>
           </tr>
         </ng-container>
-        <tr
-          class="table__row--mob"
-          *ngIf="!balances.length && !loading"
-        >
-          <td
-            class="table__cell table__cell--tac"
-            colspan="4"
-          >
+        <tr class="table__row--mob" *ngIf="!balances.length && !loading">
+          <td class="table__cell table__cell--tac" colspan="4">
             {{'No matching records found' | translate}}
           </td>
         </tr>
       </tbody>
     </table>
-    <!-- table-mob end -->
+  <!-- table-mob end -->
   </div>
   <div class="pending-wr">
     <div class="bg-btn"></div>
@@ -233,21 +173,10 @@
       (click)="onGoToPendingReq()"
     >
       <span class="indicate">{{countOfPendingRequests}}</span>
-      {{'Pending requests' | translate}}
+      {{'Pending  requests' | translate}}
       <span class="arrow">
-        <svg
-          width="11"
-          height="11"
-          viewBox="0 0 11 11"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M5.24264 1.12064L9.48528 5.36328L5.24264 9.60592"
-            stroke="white"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.24264 1.12064L9.48528 5.36328L5.24264 9.60592" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </span>
     </button>
@@ -259,6 +188,5 @@
   [Tab]="Tab"
   (closeModal)="toggleShowSearchPopup($event)"
   (selectedCurrency)="onShowMobDetails($event)"
-  *ngIf="isShowSearchPopup"
->
+  *ngIf="isShowSearchPopup">
 </app-balance-search-mob>

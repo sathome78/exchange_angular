@@ -13,6 +13,7 @@
     <div class="tabs balance__tabs-mob">
       <button
         class="tabs__item"
+
         (click)="selectTab.emit(Tab.CRYPTO)"
       >
         {{'Crypto' | translate}}
@@ -25,9 +26,8 @@
         {{'Exchange Wallet' | translate}}
       </button>
 
-      <!-- FUG BLOCK -->
+
       <button
-        *ngIf="utilsService.showContentProd"
         class="tabs__item"
         (click)="selectTab.emit(Tab.QUBERA)"
         [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"

@@ -11,7 +11,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { Subject } from 'rxjs';
-import { takeUntil, first } from 'rxjs/operators';
+import { takeUntil, first, withLatestFrom } from 'rxjs/operators';
 import { CurrencyBalanceModel } from '../../../../../model/currency-balance.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BalanceService } from '../../../../services/balance.service';
@@ -23,7 +23,8 @@ import { RefillResponse } from '../../../../../model/refill-response';
 import { RefillData } from '../../../../../shared/interfaces/refill-data-interface';
 import { Router } from '@angular/router';
 import { FUG, EUR } from 'app/funds/balance/balance-constants';
-import { UtilsService } from 'app/shared/services/utils.service';
+import * as fundsReducer from 'app/funds/store/reducers/funds.reducer';
+import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -60,6 +61,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public redirectionUrl;
   public selectMerchantName;
   public loading = false;
+  public isQuberaBalances = false;
+  public isQuberaKYCSuccess = false;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
@@ -72,7 +75,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       // FUG BLOCK
       this.merchants =
         this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-          ? this.fiatDataByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i))
+          ? this.fiatDataByName.merchantCurrencyData.filter(i => this.filterMerchants(i))
           : [];
       this.searchTemplate = '';
       this.openCurrencyDropdown = false;
@@ -82,7 +85,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
-    public utilsService: UtilsService,
     public router: Router,
     private store: Store<State>
   ) {}
@@ -100,6 +102,14 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
           this.getDataByCurrency(this.activeFiat.name);
         }
         this.prepareAlphabet();
+      });
+    this.store
+      .pipe(select(fundsReducer.getQuberaBalancesSelector))
+      .pipe(withLatestFrom(this.store.pipe(select(fundsReducer.getQuberaKycStatusSelector))))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(([balances, kysStatus]: [{ data: QuberaBalanceModel; error: null }, string]) => {
+        this.isQuberaBalances = balances.data && balances.data.accountState === 'ACTIVE';
+        this.isQuberaKYCSuccess = kysStatus === 'SUCCESS';
       });
   }
 
@@ -123,6 +133,13 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.alphabet = _uniq(temp.filter(unique).sort());
   }
 
+  filterMerchants(merch): boolean {
+    if (this.isQuberaBalances && this.isQuberaKYCSuccess) {
+      return true;
+    }
+    return merch.name !== FUG;
+  }
+
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -139,7 +156,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     // FUG BLOCK
     this.merchants =
       this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-        ? this.fiatDataByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i))
+        ? this.fiatDataByName.merchantCurrencyData.filter(i => this.filterMerchants(i))
         : [];
     this.searchTemplate = '';
     this.openCurrencyDropdown = false;
@@ -159,7 +176,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.fiatDataByName = res;
         // FUG BLOCK
-        this.merchants = this.fiatDataByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i));
+        this.merchants = this.fiatDataByName.merchantCurrencyData.filter(i => this.filterMerchants(i));
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
@@ -265,7 +282,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.searchTemplate = e.target.value;
     // FUG BLOCK
     this.merchants = this.fiatDataByName.merchantCurrencyData
-      .filter(i => this.utilsService.filterMerchants(i))
+      .filter(i => this.filterMerchants(i))
       .filter(
         merchant =>
           !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
