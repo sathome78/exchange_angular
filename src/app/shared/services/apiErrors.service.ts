@@ -11,6 +11,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromCore from 'app/core/reducers';
 import { APIErrorReport } from '../models/apiErrorReport.model';
 import { TopNotificationComponent } from 'app/popups/notifications-list/top-notification/top-notification.component';
+import { UtilsService } from './utils.service';
 
 @Injectable()
 export class APIErrorsService {
@@ -18,7 +19,12 @@ export class APIErrorsService {
   private apiUrl = environment.apiUrl;
   public userInfo: ParsedToken;
 
-  constructor(private toastr: ToastrService, private store: Store<fromCore.State>, private http: HttpClient) {
+  constructor(
+    private toastr: ToastrService,
+    private store: Store<fromCore.State>,
+    private http: HttpClient,
+    private utilsService: UtilsService
+  ) {
     this.toastOption = this.toastr.toastrConfig;
     this.store.pipe(select(fromCore.getUserInfo)).subscribe((res: ParsedToken) => {
       this.userInfo = res;
@@ -73,20 +79,22 @@ export class APIErrorsService {
     }
   }
 
-  catchAPIErrorWithNotification(showReportBtn: boolean = false, login: boolean = false) {
+  catchAPIErrorWithNotification(showReportBtn: boolean = false) {
     return pipe(
       catchError(error => {
+        if (!this.utilsService.showContentProd) {
+          return throwError(error);
+        }
         const err = this.parseErrorCode(this.extractErrorCode(error.error));
         const { status, url, method = 'POST' } = error;
         const username = this.userInfo ? this.userInfo.username : '';
-        if (status >= 400 && !login) {
-          this.showErrorNotification(
-            new Notification({ notificationType: 'ERROR', text: err }),
-            new APIErrorReport(username, url, method, status, JSON.stringify(error.error)),
-            showReportBtn
-          );
+        if (
+          (url.indexOf('api/private/v2/dashboard/order') >= 0 && status === 406) ||
+          (url.indexOf('api/public/v2/users/authenticate') >= 0 && status === 400)
+        ) {
+          return throwError(error);
         }
-        if (status > 400 && login) {
+        if (status >= 400) {
           this.showErrorNotification(
             new Notification({ notificationType: 'ERROR', text: err }),
             new APIErrorReport(username, url, method, status, JSON.stringify(error.error)),
@@ -96,12 +104,15 @@ export class APIErrorsService {
         // console.log(err);
         return throwError(error);
       }),
-      map((res: HttpResponse<any>) =>  res.body)
+      map((res: HttpResponse<any>) => res.body)
     );
   }
   catchAPIErrorWithNotificationRes(showReportBtn: boolean = false) {
     return pipe(
       catchError(error => {
+        if (!this.utilsService.showContentProd) {
+          return throwError(error);
+        }
         const err = this.parseErrorCode(this.extractErrorCode(error.error));
         const { status, url, method } = error;
         const username = this.userInfo ? this.userInfo.username : '';
@@ -116,7 +127,7 @@ export class APIErrorsService {
         // console.log(err);
         return throwError(error);
       }),
-      map((res: HttpResponse<any>) =>  res)
+      map((res: HttpResponse<any>) => res)
     );
   }
 

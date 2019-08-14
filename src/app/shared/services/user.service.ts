@@ -160,7 +160,7 @@ export class UserService {
         ...httpOptions,
         observe: 'response',
       })
-      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true, true));
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   sendToEmailConfirmation(email: string) {
