@@ -89,6 +89,7 @@ export class APIErrorsService {
         const { status, url, method = 'POST' } = error;
         const username = this.userInfo ? this.userInfo.username : '';
         if (
+          (status === 403) ||
           (url.indexOf('api/private/v2/dashboard/order') >= 0 && status === 406) ||
           (url.indexOf('api/public/v2/users/authenticate') >= 0 && status === 400)
         ) {
