@@ -11,14 +11,11 @@ export class EmbeddedOrdersHistoryMobileComponent implements OnInit {
   @Input() historyOrders = [];
   @Input() isVipUser = false;
   @Input() currentPair: SimpleCurrencyPair;
-  public arrPairName = ['', ''];
   public selectedOrder = null;
 
   constructor(public authService: AuthService) {}
 
-  ngOnInit() {
-    this.arrPairName = this.currentPair.name.split('/');
-  }
+  ngOnInit() { }
 
   toggleDetails(order) {
     this.selectedOrder = this.selectedOrder && this.selectedOrder.id === order.id ? null : order;
