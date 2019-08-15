@@ -215,9 +215,11 @@
       <button
         (click)="gotToStepTwo(form)"
         class="btn btn--center"
-        [disabled]="!form.valid || !check || disable"
+        [disabled]="!form.valid || !check || loading"
       >{{'Create account' | translate}}</button>
     </div>
-
+    <div [hidden]="!loading">
+      <app-loader size="small"></app-loader>
+    </div>
   </form>
 </div>

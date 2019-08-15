@@ -1,4 +1,14 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, HostListener, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  HostListener,
+  ChangeDetectorRef,
+  OnDestroy
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -14,11 +24,39 @@ import { IMyDpOptions } from 'mydatepicker';
   styleUrls: ['./step-one.component.scss'],
 })
 export class StepOneComponent implements OnInit, OnDestroy {
+
+  constructor(
+    private balanceService: BalanceService,
+    private settingsService: SettingsService,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.initForm();
+  }
+
+  get currentCountry(): any {
+    return this.form.get('country');
+  }
+  get currentFirstName(): any {
+    return this.form.get('firstName');
+  }
+  get currentLastName(): any {
+    return this.form.get('lastName');
+  }
+  get currentAddress(): any {
+    return this.form.get('address');
+  }
+  get currentCity(): any {
+    return this.form.get('city');
+  }
+
+  get currentDatePicker(): any {
+    return this.form.get('datepicker');
+  }
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  public disable: boolean = false;
+  public loading = false;
   public form: FormGroup;
-  public check: boolean = false;
+  public check = false;
   public modelDateFrom: any;
   public isDateInputFromFocus = false;
 
@@ -35,31 +73,6 @@ export class StepOneComponent implements OnInit, OnDestroy {
 
   @ViewChild('countryInput') countryInput: ElementRef;
 
-  @HostListener('document:click', ['$event']) clickout({ target }) {
-    if (
-      target.className !== 'select__value select__value--active' &&
-      target.className !== 'select__value select__value--active select__value--error' &&
-      target.className !== 'select__search-input'
-    ) {
-      this.countryInput.nativeElement.value = this.selectedCountry ? this.selectedCountry.countryName : '';
-      this.openCountryDropdown = false;
-    }
-  }
-
-  constructor(private balanceService: BalanceService, private settingsService: SettingsService, private cdr: ChangeDetectorRef) {
-    this.initForm();
-  }
-
-  ngOnInit() {
-    // this.checkUserInfo();
-    this.getCountryCode();
-  }
-
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
   public myDatePickerOptions: IMyDpOptions = {
     showInputField: false,
     openSelectorTopOfInput: true,
@@ -72,6 +85,27 @@ export class StepOneComponent implements OnInit, OnDestroy {
       day: new Date().getDate() + 1,
     },
   };
+
+  @HostListener('document:click', ['$event']) clickout({ target }) {
+    if (
+      target.className !== 'select__value select__value--active' &&
+      target.className !== 'select__value select__value--active select__value--error' &&
+      target.className !== 'select__search-input'
+    ) {
+      this.countryInput.nativeElement.value = this.selectedCountry ? this.selectedCountry.countryName : '';
+      this.openCountryDropdown = false;
+    }
+  }
+
+  ngOnInit() {
+    // this.checkUserInfo();
+    this.getCountryCode();
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 
   initForm() {
     this.form = new FormGroup({
@@ -94,26 +128,6 @@ export class StepOneComponent implements OnInit, OnDestroy {
     });
   }
 
-  get currentCountry(): any {
-    return this.form.get('country');
-  }
-  get currentFirstName(): any {
-    return this.form.get('firstName');
-  }
-  get currentLastName(): any {
-    return this.form.get('lastName');
-  }
-  get currentAddress(): any {
-    return this.form.get('address');
-  }
-  get currentCity(): any {
-    return this.form.get('city');
-  }
-
-  get currentDatePicker(): any {
-    return this.form.get('datepicker');
-  }
-
   gotToStepTwo(form: any) {
     if (form.valid && this.form.controls.theCheckbox.value === true) {
       const account: BankVerification = {
@@ -126,7 +140,7 @@ export class StepOneComponent implements OnInit, OnDestroy {
         birthMonth: `${this.modelDateFrom.date.month}`,
         birthYear: `${this.modelDateFrom.date.year}`,
       };
-      this.disable = true;
+      this.loading = true;
       this.balanceService
         .postFUGAccount(account)
         .pipe(takeUntil(this.ngUnsubscribe))
@@ -134,11 +148,11 @@ export class StepOneComponent implements OnInit, OnDestroy {
           (response: any) => {
             const newWnd = window.open(`${response.data.url}`, '_blank');
             newWnd.opener = null;
-            this.disable = false;
+            this.loading = false;
             this.nextStep.emit(2);
           },
           error => {
-            this.disable = false;
+            this.loading = false;
           }
         );
     }
@@ -177,7 +191,9 @@ export class StepOneComponent implements OnInit, OnDestroy {
   }
 
   searchCountry(e) {
-    this.countryArray = this.countryArrayDefault.filter(f => f.countryName.toUpperCase().match(e.target.value.toUpperCase()));
+    this.countryArray = this.countryArrayDefault.filter(f =>
+      f.countryName.toUpperCase().match(e.target.value.toUpperCase())
+    );
   }
 
   clearModelDateFrom() {
