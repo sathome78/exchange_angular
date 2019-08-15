@@ -70,7 +70,7 @@
             {{'Buy' | translate}} {{arrPairName[0]}}
           </p>
           <div class="widget__trading-fee">
-            <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
+            <span>{{'Fee:' | translate}} {{buyOrder.commission | currencyFormat}} {{arrPairName[1]}}</span>
           </div>
         </div>
 
@@ -218,7 +218,7 @@
             {{'Sell' | translate}} {{arrPairName[0]}}
           </p>
           <div class="widget__trading-fee">
-            <span>{{'Fee:' | translate}} {{sellOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
+            <span>{{'Fee:' | translate}} {{sellOrder.commission | currencyFormat}} {{arrPairName[1]}}</span>
           </div>
         </div>
 
