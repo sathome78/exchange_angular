@@ -49,7 +49,7 @@
       class="table__cell table__cell--p4"
       style="width: 28%;"
     >
-      <span class="txt-indicate">{{pair.lastOrderRate | currencyFormat:pair.market:'full':true}}</span>
+      <span class="txt-indicate">{{pair.lastOrderRate | currencyFormat}}</span>
     </div>
     <div
       class="table__cell table__cell--p4"
@@ -71,7 +71,6 @@
       class="table__cell table__cell--p4 table__cell--tar"
       style="width: 25%;"
     >
-      <span
-        style="font-size: 10px; color:#A0A0A0">{{ +pair.currencyVolume | roundCurrency:splitPairName(pair)[1] | formatCurrency:'short':splitPairName(pair)[1]}}</span>
+      <span style="font-size: 10px; color:#A0A0A0">{{ +pair.currencyVolume | currencyFormat}}</span>
     </div>
   </div>
