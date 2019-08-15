@@ -36,7 +36,6 @@ import { DynamicInputDataPipe } from './pipes/dynamic-input-data.pipe';
 import { RestorePasswordGuard } from './guards/restore-password.guard';
 import { GetObjectKeysPipe } from './pipes/getObjectKeys.pipe';
 import { MomentModule } from 'ngx-moment';
-import { ExponentToNumberPipe } from './pipes/exponent-to-number.pipe';
 import { AddClassDirective } from './directives/add-class.directive';
 import { ConstantsService } from './services/constants.service';
 import { SafePipe } from './pipes/safe.pipe';
@@ -85,7 +84,6 @@ import { APIErrorsService } from './services/apiErrors.service';
     RefactUrlByNewsPipe,
     ExcludeSpacesDirective,
     RoundCurrencyPipe,
-    ExponentToNumberPipe,
     ShowOrderStatusPipe,
     GetCountConfirmationsPipe,
     GetObjectKeysPipe,
@@ -160,7 +158,6 @@ import { APIErrorsService } from './services/apiErrors.service';
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
-    ExponentToNumberPipe,
     ExcludeByFieldPipe,
     RoundCurrencyPipe,
     FormatCurrencyPipe,

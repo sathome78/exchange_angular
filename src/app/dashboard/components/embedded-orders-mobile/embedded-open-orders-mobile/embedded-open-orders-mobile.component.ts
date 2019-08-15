@@ -17,13 +17,10 @@ export class EmbeddedOpenOrdersMobileComponent implements OnInit, OnDestroy {
   public selectedOrder = null;
   public showCancelOrderConfirm = null;
   public loading = false;
-  public arrPairName = ['', ''];
 
   constructor(private ordersService: EmbeddedOrdersService) {}
 
-  ngOnInit() {
-    this.arrPairName = this.currentPair.name.split('/');
-  }
+  ngOnInit() {}
 
   toggleDetails(order) {
     this.selectedOrder = this.selectedOrder && this.selectedOrder.id === order.id ? null : order;
