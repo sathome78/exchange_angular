@@ -301,10 +301,12 @@
       <ng-container *ngFor="let item of ieoList; trackBy: trackByIeo">
         <div class="ieo-list-item {{item.status  | showStageStatus:true | lowercase}}">
           <div class="img-part">
-            <img
-              [src]="item.logo || 'assets/img/ieo/celler.png'"
-              alt=""
-            >
+            <div class="img-e-tao">
+              <img
+                [src]="'assets/img/ieo/e-tao.png'"
+                alt=""
+              >
+            </div>
           </div>
           <div class="info-coin-part">
             <div class="top-info">
