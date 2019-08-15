@@ -277,7 +277,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * @param value
    */
   setQuantityValue(value, orderType: string): void {
-    const newValue = typeof value === 'string' ? value : this.utilsService.currencyFormat(value);
+    const newValue = typeof value === 'string' ? value : !value ? '0' : this.utilsService.currencyFormat(value);
     orderType === this.BUY
       ? this.buyForm.controls['quantity'].setValue(newValue)
       : this.sellForm.controls['quantity'].setValue(newValue);
@@ -299,7 +299,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * @param value
    */
   setTotalInValue(value, orderType: string): void {
-    const newValue = typeof value === 'string' ? value : this.utilsService.currencyFormat(value);
+    const newValue = typeof value === 'string' ? value : !value ? '0' : this.utilsService.currencyFormat(value);
     orderType === this.BUY
       ? this.buyForm.controls['total'].setValue(newValue)
       : this.sellForm.controls['total'].setValue(newValue);
