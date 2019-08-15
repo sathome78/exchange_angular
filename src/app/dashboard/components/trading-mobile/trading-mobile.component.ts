@@ -21,13 +21,12 @@ import { UserService } from 'app/shared/services/user.service';
 import { OrderItemOB, UserBalance } from 'app/model';
 import { PopupService } from 'app/shared/services/popup.service';
 import { LoadOpenOrdersAction } from '../../actions/dashboard.actions';
-import { AuthService } from 'app/shared/services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LastPrice } from 'app/model/last-price.model';
 import { BUY, orderBaseType, SELL } from 'app/shared/constants';
-import { DashboardWebSocketService } from '../../dashboard-websocket.service';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { messages } from '../../constants';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-trading-mobile',
