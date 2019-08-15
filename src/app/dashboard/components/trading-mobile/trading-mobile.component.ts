@@ -107,6 +107,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     private popupService: PopupService,
     private userService: UserService,
     private cdr: ChangeDetectorRef,
+    private utilsService: UtilsService,
     public translateService: TranslateService
   ) {
     super();
@@ -277,7 +278,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * @param value
    */
   setQuantityValue(value, orderType: string): void {
-    const newValue = typeof value === 'string' ? value : this.exponentToNumber(value).toString();
+    const newValue = typeof value === 'string' ? value : this.utilsService.currencyFormat(value);
     orderType === this.BUY
       ? this.buyForm.controls['quantity'].setValue(newValue)
       : this.sellForm.controls['quantity'].setValue(newValue);
@@ -288,7 +289,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * @param value
    */
   setPriceInValue(value, orderType: string): void {
-    const newValue = typeof value === 'string' ? value : !value ? '0' : this.exponentToNumber(value).toString();
+    const newValue = typeof value === 'string' ? value : !value ? '0' : this.utilsService.currencyFormat(value);
     orderType === this.BUY
       ? this.buyForm.controls['price'].setValue(newValue)
       : this.sellForm.controls['price'].setValue(newValue);
@@ -299,7 +300,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * @param value
    */
   setTotalInValue(value, orderType: string): void {
-    const newValue = typeof value === 'string' ? value : this.exponentToNumber(value).toString();
+    const newValue = typeof value === 'string' ? value : this.utilsService.currencyFormat(value);
     orderType === this.BUY
       ? this.buyForm.controls['total'].setValue(newValue)
       : this.sellForm.controls['total'].setValue(newValue);
@@ -550,32 +551,6 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
         value > 0 ? order.total * ((type === this.BUY ? this.buyCommissionIndex : this.sellCommissionIndex) / 100) : 0;
       this.setQuantityValue(order.amount, type);
     }
-  }
-
-  /**
-   * Method transform exponent format to number
-   * @param x
-   * @returns {any}
-   */
-  private exponentToNumber(x) {
-    let res = x;
-    if (Math.abs(res) < 1.0) {
-      const e = parseInt(res.toString().split('e-')[1], 10);
-      if (e) {
-        res *= Math.pow(10, e - 1);
-        // tslint:disable-next-line: prefer-array-literal
-        res = `0. ${new Array(e).join('0')}${res.toString().substring(2)}`;
-      }
-    } else {
-      let e = parseInt(res.toString().split('+')[1], 10);
-      if (e > 20) {
-        e -= 20;
-        res /= Math.pow(10, e);
-        // tslint:disable-next-line: prefer-array-literal
-        res += new Array(e + 1).join('0');
-      }
-    }
-    return res;
   }
 
   /**
