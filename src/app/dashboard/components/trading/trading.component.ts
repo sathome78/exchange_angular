@@ -286,6 +286,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   selectedLimit(limit: string): void {
     this.dropdownLimitValue = limit;
+    this.resetForms();
     if (limit === this.baseType.MARKET) {
       this.maxBuyMarketOrder = this.calcMaxBuyMarketOrder(this.ordersBookSellOrders);
       this.maxSellMarketOrder = this.calcMaxSellMarketOrder(this.ordersBookBuyOrders);
@@ -293,12 +294,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.isDropdownOpen = false;
   }
 
-  // private resetStopValue(): void {
-  //   this.buyStopValue = 0;
-  //   this.sellStopValue = 0;
-  //   this.setStopValue('0', 'BUY');
-  //   this.setStopValue('0', 'SELL');
-  // }
+  private resetForms(): void {
+    this.resetBuyModel();
+    this.resetSellModel();
+  }
 
   /**
    * set form value (quantityOf)
