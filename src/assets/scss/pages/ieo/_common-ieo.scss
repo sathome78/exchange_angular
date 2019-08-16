@@ -32,14 +32,14 @@
 		}
 	}
 	.common-ieo-fs{
-		
+
 		position: relative;
 		.fs-wr{
 			position: relative;
 			padding: 2.15em 20px 2.55em;
 			.standart-btn{
 				span{
-					
+
 				}
 			}
 			.title-wr{
@@ -82,7 +82,7 @@
 
 				.standart-btn{
 					@media(max-width: 992px){
-						
+
 						padding: 13px .7em;
 					}
 					span{
@@ -128,13 +128,13 @@
 				@media (max-width: 840px) {
 
 					width: calc(100% - 9.3em);
-					
+
 				}
 				@media (max-width: 420px){
-					
+
 					width: 100%;
 				}
-				
+
 			}
 			@media (max-width: 840px){
 				flex-direction: column;
@@ -248,17 +248,17 @@
 			margin-right: .8em;
 			@media(max-width: 992px){
 				width: calc(100% - 10em);
-			}	
+			}
 			@media(max-width: 420px){
 				width: 100%;
 				margin-bottom: .8em;
-			}						
+			}
 			input{
 
 			}
 			label{
 
-			}	
+			}
 		}
 		.button-wr{
 			width: 9.3em;
@@ -282,7 +282,7 @@
 		}
 	}
 	.wrap-input__label{
-		color: #5E5F74;	
+		color: #5E5F74;
 	}
 	.wrap-input__input:valid {
 		border-color: #94C2FF;
@@ -403,10 +403,11 @@
 		.img-part{
 			width: 15.2em;
 			@media(max-width: 992px){
-				width: 100%;
+				width: 60%;
 				position: relative;
 				padding-top: 45%;
-				overflow: hidden;
+        overflow: hidden;
+        margin: auto;
 				img{
 					width: 100%;
 					display: block;
@@ -415,12 +416,19 @@
 					bottom: -100%;
 					margin: auto;
 				}
-			}	
+			}
 			img{
 				width: 100%;
 				display: block;
-			}	
-		}
+			}
+    }
+    .img-e-tao {
+      width: 11.2em;
+      margin: 85px 5em 0 25px;
+      @media(max-width: 992px){
+        margin: 0;
+      }
+    }
 		.info-coin-part{
 			width: calc(100% - 15em);
 			padding: .9em 1.1em;
@@ -440,7 +448,7 @@
 				font-size: .8em;
 				line-height: 1.15;
 				color: #191A39;
-			}	
+			}
 		}
 		.coin-info{
 			display: flex;
@@ -462,10 +470,10 @@
 				width: 100%;
 				font-size: 1.1em;
 				&:not(:last-child){
-					margin-bottom: .7em;	
+					margin-bottom: .7em;
 				}
-				
-				
+
+
 			}
 		}
 		.name-info{
@@ -491,7 +499,7 @@
 		}
 		.description-wr{
 			margin-bottom: .8em;
-			
+
 			@media(max-width: 620px){
 				font-size: 1.2em;
 			}
@@ -506,7 +514,7 @@
 				}
 				overflow: hidden;
 				// position: relative;
-				
+
 			}
 		}
 		.button-part{
@@ -616,7 +624,7 @@
 			justify-content: center;
 			height: 4.3em;
 			@media(max-width: 780px){
-				margin-bottom: 1em;	
+				margin-bottom: 1em;
 			}
 			img{
 				display: block;

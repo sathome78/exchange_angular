@@ -69,7 +69,7 @@
       <span [class]="setClassForOrderTypeField(item.operationType)">{{item.operationType | replaceChar: '_': ' '}}</span>
     </td>
     <td class="table__cell table__cell--tar">
-      <div>{{(item.exExchangeRate || item.limitRate) | currencyFormat}} {{arrPairName[1]}}</div>
+      <div>{{(item.exExchangeRate || item.limitRate) | currencyFormat}} {{item.currencyPairName | splitCurrency: 2}}</div>
     </td>
     <td class="table__cell table__cell--arr-mob">
       <img
@@ -89,7 +89,7 @@
       <div class="table__details-item">
         <div class="table__details-item-title">{{'Amount' | translate}}</div>
         <div class="table__details-item-value">
-          {{item.amountBase | currencyFormat}} {{arrPairName[0]}}
+          {{item.amountBase | currencyFormat}} {{item.currencyPairName | splitCurrency : 1}}
         </div>
       </div>
       <div
@@ -130,7 +130,7 @@
         <div class="table__details-item-title">{{'In total' | translate}}</div>
         <div class="table__details-item-value">
           <span>
-            {{item.amountWithCommission | currencyFormat}} {{arrPairName[1]}}
+            {{item.amountWithCommission | currencyFormat}} {{item.currencyPairName | splitCurrency: 2}}
           </span>
         </div>
       </div>

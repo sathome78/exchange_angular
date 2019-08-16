@@ -70,7 +70,7 @@
             {{'Buy' | translate}} {{arrPairName[0]}}
           </p>
           <div class="widget__trading-fee">
-            <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
+            <span>{{'Fee:' | translate}} {{buyOrder.commission | currencyFormat}} {{arrPairName[1]}}</span>
           </div>
         </div>
 
@@ -90,7 +90,7 @@
           <div class="">
             <span
               class="wrap-input__message wrap-input__message--error"
-              *ngIf="buyForm.get('quantity').errors['maxBuyMarketOrder']"
+              *ngIf="buyForm.get('quantity').errors['maxMarketOrder']"
             >
               {{'Max. available to buy' | translate}} {{maxBuyMarketOrder | currencyFormat}} {{arrPairName[0]}}
             </span>
@@ -218,7 +218,7 @@
             {{'Sell' | translate}} {{arrPairName[0]}}
           </p>
           <div class="widget__trading-fee">
-            <span>{{'Fee:' | translate}} {{sellOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
+            <span>{{'Fee:' | translate}} {{sellOrder.commission | currencyFormat}} {{arrPairName[1]}}</span>
           </div>
         </div>
 
@@ -239,7 +239,7 @@
           <div class="">
             <span
               class="wrap-input__message wrap-input__message--error"
-              *ngIf="sellForm.get('quantity').errors['maxBuyMarketOrder']"
+              *ngIf="sellForm.get('quantity').errors['maxMarketOrder']"
             >
               {{'Max. available to sell' | translate}} {{maxSellMarketOrder | currencyFormat}} {{arrPairName[0]}}
             </span>

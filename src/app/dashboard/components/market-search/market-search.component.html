@@ -109,8 +109,8 @@
                 <span class="txt-small txt-light-grey">/ <span>{{splitPairName(pair.currencyPairName)[1]}}</span></span>
               </td>
               <td class="table__cell table__cell--tar table__cell--end">
-                <span>{{pair.lastOrderRate | roundCurrency: currency | formatCurrency }}</span>
-                <!--<span class="txt-small txt-light-grey">/<span>$ {{+pair.priceInUsd | roundCurrency: true | formatCurrency: true}}</span></span>-->
+                <span>{{pair.lastOrderRate | currencyFormat }}</span>
+                <!--<span class="txt-small txt-light-grey">/<span>$ {{+pair.priceInUsd | currencyFormat}}</span></span>-->
               </td>
             </tr>
             <tr style="height: 10px;"></tr>

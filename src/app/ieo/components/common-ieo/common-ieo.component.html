@@ -11,7 +11,7 @@
         <h2>{{'Exrates X-Platform' | translate}}</h2>
       </div>
       <div class="description-wr">
-        <p>{{'IEO platform for transformative projects' | translate}}</p>
+        <p>{{'IEO  platform for Crypto Projects' | translate}}</p>
       </div>
       <div class="button-wr">
         <a
@@ -302,10 +302,12 @@
       <ng-container *ngFor="let item of ieoList; trackBy: trackByIeo">
         <div class="ieo-list-item {{item.status  | showStageStatus:true | lowercase}}">
           <div class="img-part">
-            <img
-              [src]="item.logo || 'assets/img/ieo/celler.png'"
-              alt=""
-            >
+            <div class="img-e-tao">
+              <img
+                [src]="'assets/img/ieo/e-tao.png'"
+                alt=""
+              >
+            </div>
           </div>
           <div class="info-coin-part">
             <div class="top-info">
@@ -339,7 +341,7 @@
             <div class="coin-info">
               <div class="coin-info-item">
                 <div class="name-info">
-                  <span>{{'Session Supply' | translate}}</span>
+                  <span>{{'IEO Goal' | translate}}</span>
                 </div>
                 <div class="info-value">
                   <span>{{item.amount * item.rate | currencyFormat}} BTC</span>
@@ -459,13 +461,13 @@
         </div>
         <ul class="s-list">
           <li class="s-item">
-            <span>{{'In case of an unsuccessful IEO, all funds are returned to all participants automatically.' | translate}}</span>
+            <span>{{'After successful IEO coin will be listed on Exchange.' | translate}}</span>
           </li>
           <li class="s-item">
-            <span>{{'In case of a successful IEO coin will listed on exchange.' | translate}}</span>
+            <span>{{'After unsuccessful IEO, all funds will be returned  to all participants automatically.' | translate}}</span>
           </li>
           <li class="s-item">
-            <span>{{'Please make sure you are aware of all risk involved.' | translate}}</span>
+            <span>{{'Please, be aware of all involved risks.' | translate}}</span>
           </li>
 
         </ul>
@@ -475,16 +477,12 @@
           <h5>{{'Additional information' | translate}}</h5>
         </div>
         <div class="a-block-item">
-          <a>{{'What are the demands to Projects that want to conduct an IEO?' | translate}}</a>
-        </div>
-        <div class="a-block-item">
-          <a>{{'Why IEO is considered safer than ICO?' | translate}}</a>
+          <a>{{'An Initial Exchange Offering (IEO) is a token sale supervised by a cryptocurrency exchange. IEOs are available exclusively to the exchange’s users, although some IEOs may take place in several exchanges. Just like ICOs, IEOs allow investors to get new cryptocurrencies (or tokens) while raising funds for promising crypto projects.' | translate}}</a>
         </div>
 
       </div>
       <div class="warning-block">
-        <p>{{'Awareness: Please remember that cryptocurrencies are high-risk investments.
-            Of course we do all our best to filter all projects but all responsibilities rest at your side.' | translate}}</p>
+        <p>{{'Awareness: Please remember that cryptocurrencies are high-risk investments!!! We are doing all our best to filter projects but all rest responsibilities are at your side.' | translate}}</p>
       </div>
     </div>
   </div>
