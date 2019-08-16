@@ -247,10 +247,10 @@
 
                   <span class="txt-indicate">{{pair.lastOrderRate | currencyFormat}}</span>
 
-                  <!-- <div
+                  <div
                     class="txt-small txt-light-grey"
-                    *ngIf="pair.market !== 'USD'"
-                  >$ {{ pair.priceInUsd | number: '1.0-2' | replaceNumber:true}}</div> -->
+                    *ngIf="!(pair.market === 'USD' || pair.market === 'USDT')"
+                  >$ {{ pair.priceInUsd | currencyFormat: 'USD'}}</div>
                 </div>
                 <div
                   class="table__cell table__cell--p4 table__cell--tar"
@@ -258,7 +258,7 @@
                   (click)="onSelectCurrencyPair(pair)"
                 >
                   <span [ngClass]="{'change-indicate--green': isChangePositive(pair), 'change-indicate--red': !isChangePositive(pair)}">
-                    {{pair.percentChange | positivePipe | replaceNumber: true}}%
+                    {{pair.percentChange | positivePipe | currencyFormat }}%
                   </span>
                 </div>
               </div>
