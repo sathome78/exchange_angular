@@ -80,6 +80,7 @@ import { StepTwoQuberaComponent } from './balance/qubera-popup/create-qubera/ste
 import { RefillStepThreeComponent } from './balance/refill-money/refill-step-three/refill-step-three.component';
 import { StepThreeWithdrawComponent } from './balance/qubera-popup/withdraw/step-three-withdraw/step-three-withdraw.component';
 import { QuberaMobDetailsComponent } from './qubera-mob-details/qubera-mob-details.component';
+import { HashToUrlPipe } from './hash-to-url.pipe';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -143,6 +144,7 @@ export function createTranslateLoader(http: HttpClient) {
     ShowPendingSystemPipe,
     ShowTransactionsStatusPipe,
     ShowTransactionsTypePipe,
+    HashToUrlPipe,
     QuberaTableComponent,
     RefillFiatQuberaComponent,
     SendFiatQuberaComponent,
