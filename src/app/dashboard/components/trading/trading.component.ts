@@ -200,9 +200,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(select(getOrdersBookBuyOrders))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(orders => {
-        this.ordersBookBuyOrders = orders;
+        this.ordersBookBuyOrders = orders.slice().reverse();
         if (this.dropdownLimitValue === this.baseType.MARKET) {
-          this.maxSellMarketOrder = this.calcMaxSellMarketOrder(orders);
+          this.maxSellMarketOrder = this.calcMaxSellMarketOrder(this.ordersBookBuyOrders);
         }
       });
   }
@@ -865,9 +865,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     if (!orders.length) {
       return 0;
     }
-    const tempOrders = [...orders].reverse();
 
-    const lastItem = tempOrders.find(el => +el.sumAmount >= +balance);
+    const lastItem = orders.find(el => +el.sumAmount >= +balance);
     if (lastItem) {
       const rate = lastItem.total / lastItem.sumAmount;
       return balance / rate;
@@ -885,10 +884,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     return this.calcSellMarketOrder(orders, bal);
   }
 
-  marketOrderValidation(maxBuyMarketOrder): ValidatorFn {
+  marketOrderValidation(maxMarketOrder): ValidatorFn {
     return (control: AbstractControl) => {
-      if (maxBuyMarketOrder !== null && control.value && control.value > maxBuyMarketOrder) {
-        return { maxBuyMarketOrder: true };
+      if (maxMarketOrder !== null && control.value && control.value > maxMarketOrder) {
+        return { maxMarketOrder: true };
       }
       return null;
     };

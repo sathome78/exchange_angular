@@ -80,21 +80,23 @@
       </div>
     </ng-container>
 
-    <cdk-virtual-scroll-viewport
-      [ngStyle]="{'height.px': heightMobScrollContainer}"
-      itemSize="135"
-      *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'"
-    >
-      <ng-container *cdkVirtualFor="let key of apiKeys; let index=index">
-        <div class="api-key-item">
-          <ng-template
-            [ngTemplateOutlet]="singleTemplate"
-            [ngTemplateOutletContext]="{ $implicit: key, index: index}"
-          >
-          </ng-template>
-        </div>
-      </ng-container>
-    </cdk-virtual-scroll-viewport>
+    <ng-container *ngIf="apiKeys.length">
+      <cdk-virtual-scroll-viewport
+        [ngStyle]="{'height.px': heightMobScrollContainer}"
+        itemSize="135"
+        *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'"
+      >
+        <ng-container *cdkVirtualFor="let key of apiKeys; let index=index">
+          <div class="api-key-item">
+            <ng-template
+              [ngTemplateOutlet]="singleTemplate"
+              [ngTemplateOutletContext]="{ $implicit: key, index: index}"
+            >
+            </ng-template>
+          </div>
+        </ng-container>
+      </cdk-virtual-scroll-viewport>
+    </ng-container>
 
     <ng-template
       #singleTemplate
