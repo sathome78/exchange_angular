@@ -127,7 +127,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   ngOnInit() {
-    this.dropdownLimitValue = this.limitsData[0];
+    this.dropdownLimitValue = this.limitsData[1];
     this.initForms();
     this.resetSellModel();
     this.resetBuyModel();
@@ -200,9 +200,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(select(getOrdersBookBuyOrders))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(orders => {
-        this.ordersBookBuyOrders = orders;
+        this.ordersBookBuyOrders = orders.slice().reverse();
         if (this.dropdownLimitValue === this.baseType.MARKET) {
-          this.maxSellMarketOrder = this.calcMaxSellMarketOrder(orders);
+          this.maxSellMarketOrder = this.calcMaxSellMarketOrder(this.ordersBookBuyOrders);
         }
       });
   }
@@ -865,9 +865,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     if (!orders.length) {
       return 0;
     }
-    const tempOrders = [...orders].reverse();
 
-    const lastItem = tempOrders.find(el => +el.sumAmount >= +balance);
+    const lastItem = orders.find(el => +el.sumAmount >= +balance);
     if (lastItem) {
       const rate = lastItem.total / lastItem.sumAmount;
       return balance / rate;
