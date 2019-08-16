@@ -46,6 +46,12 @@
 
 
 .transaction-page{
+  .transaction-hash-link{
+    color: #237BEF;
+    text-decoration: none;
+    font-weight: 400;
+    cursor: pointer;
+  }
   .filters-popup__datepicker:first-child, .filters-popup__select:first-child {
     @media(max-width: 1199px){
      margin-right: 12px;
@@ -54,7 +60,7 @@
  }
  .filters-popup__header{
   margin-bottom: 26px;
-      padding-top: 14px;
+  padding-top: 14px;
 }
 .filters-popup__btn{
   margin-top: 34px;
