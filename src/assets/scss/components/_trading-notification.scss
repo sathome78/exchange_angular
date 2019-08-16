@@ -4,6 +4,11 @@
   padding: 8px;
   bottom: 0px;
   /*--- modificators start ---*/
+  @media(max-width: 1200px){
+    bottom: 160px;
+    z-index: 50;
+    position: fixed;
+  }
   &--success{
     background-color: $green;
   }
