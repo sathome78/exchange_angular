@@ -15,7 +15,8 @@ import {
   getSelectedOrderBookOrder,
   getDashboardState,
   getIsAuthenticated,
-  getOrdersBookSellOrders
+  getOrdersBookSellOrders,
+  getOrdersBookBuyOrders
 } from 'app/core/reducers/index';
 import { UserService } from 'app/shared/services/user.service';
 import { OrderItemOB, UserBalance } from 'app/model';
@@ -57,8 +58,10 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   public userBalance: UserBalance;
   public currentPair: SimpleCurrencyPair;
 
-  public maxMarketOrder = 0;
+  public maxBuyMarketOrder = 0;
+  public maxSellMarketOrder = 0;
   public ordersBookSellOrders: OrderItemOB[] = [];
+  public ordersBookBuyOrders: OrderItemOB[] = [];
   public notifySuccess = false;
   public notifyFail = false;
   public message = '';
@@ -175,7 +178,17 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       .subscribe(orders => {
         this.ordersBookSellOrders = orders;
         if (this.dropdownLimitValue === this.baseType.MARKET) {
-          this.maxMarketOrder = this.calcMaxMarketOrder(orders);
+          this.maxBuyMarketOrder = this.calcMaxBuyMarketOrder(this.ordersBookSellOrders);
+        }
+      });
+
+    this.store
+      .pipe(select(getOrdersBookBuyOrders))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(orders => {
+        this.ordersBookBuyOrders = orders.slice().reverse();
+        if (this.dropdownLimitValue === this.baseType.MARKET) {
+          this.maxSellMarketOrder = this.calcMaxSellMarketOrder(this.ordersBookBuyOrders);
         }
       });
   }
@@ -260,7 +273,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   selectedLimit(limit: string): void {
     this.dropdownLimitValue = limit;
     if (limit === this.baseType.MARKET) {
-      this.maxMarketOrder = this.calcMaxMarketOrder(this.ordersBookSellOrders);
+      this.maxBuyMarketOrder = this.calcMaxBuyMarketOrder(this.ordersBookSellOrders);
+      this.maxSellMarketOrder = this.calcMaxSellMarketOrder(this.ordersBookBuyOrders);
     }
     this.isDropdownOpen = false;
   }
@@ -326,7 +340,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     if (orderType === this.BUY && this.dropdownLimitValue === this.baseType.MARKET) {
       total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0;
       const totalIn = (total * percent) / 100;
-      const quantityOf = this.calcMarketOrder(this.ordersBookSellOrders, totalIn);
+      const quantityOf = this.calcBuyMarketOrder(this.ordersBookSellOrders, totalIn);
       this.setQuantityValue(quantityOf, this.BUY);
       this.buyOrder.amount = quantityOf;
     } else if (orderType === this.BUY) {
@@ -335,6 +349,12 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       this.buyOrder.total = totalIn;
       this.setTotalInValue(totalIn, this.BUY);
       this.getCommission(orderType, false);
+    } else if (orderType === this.SELL && this.dropdownLimitValue === this.baseType.MARKET) {
+      total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0;
+      const totalIn = (total * percent) / 100;
+      const quantityOf = this.calcSellMarketOrder(this.ordersBookBuyOrders, totalIn);
+      this.sellOrder.amount = quantityOf;
+      this.setQuantityValue(quantityOf, this.SELL);
     } else {
       total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0;
       const quantityOf = (total * percent) / 100;
@@ -419,8 +439,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   calculateAmountByTotalWithCommission(type: string): void {
     let total = 0;
     if (type === this.BUY && this.dropdownLimitValue === this.baseType.MARKET) {
-      this.setQuantityValue(this.maxMarketOrder, this.BUY);
-      this.buyOrder.amount = this.maxMarketOrder;
+      this.setQuantityValue(this.maxBuyMarketOrder, this.BUY);
+      this.buyOrder.amount = this.maxBuyMarketOrder;
     } else if (type === this.BUY) {
       total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0;
 
@@ -437,6 +457,9 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
         this.buyOrder.amount = 0;
         this.setQuantityValue(0, this.BUY);
       }
+    } else if (type === this.SELL && this.dropdownLimitValue === this.baseType.MARKET) {
+      this.setQuantityValue(this.maxSellMarketOrder, this.SELL);
+      this.sellOrder.amount = this.maxSellMarketOrder;
     } else {
       total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0;
       this.setQuantityValue(total, this.SELL);
@@ -566,6 +589,13 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   }
 
   private onSellSubmit(type: string) {
+    if (this.dropdownLimitValue === this.baseType.MARKET) {
+      this.sellForm.controls['quantity'].setValidators([
+        Validators.required,
+        this.marketOrderValidation(this.maxSellMarketOrder),
+      ]);
+      this.sellForm.controls['quantity'].updateValueAndValidity();
+    }
     if (this.sellForm.valid) {
       this.sellOrder.currencyPairId = this.currentPair.id;
       this.sellOrder.baseType = this.dropdownLimitValue;
@@ -576,6 +606,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
         this.sellOrder.commission = 0;
         this.sellOrder.rate = 0;
         this.createMarketOrder(type);
+        this.sellForm.controls.quantity.setValidators([Validators.required]);
         return;
       }
 
@@ -589,13 +620,14 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
 
       this.createNewOrder(type);
     }
+    this.sellForm.controls.quantity.setValidators([Validators.required]);
   }
 
   private onBuySubmit(type: string) {
     if (this.dropdownLimitValue === this.baseType.MARKET) {
       this.buyForm.controls['quantity'].setValidators([
         Validators.required,
-        this.marketOrderValidation(this.maxMarketOrder),
+        this.marketOrderValidation(this.maxBuyMarketOrder),
       ]);
       this.buyForm.controls['quantity'].updateValueAndValidity();
     }
@@ -803,7 +835,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     });
   }
 
-  calcMarketOrder(orders, balance = 0) {
+  calcBuyMarketOrder(orders, balance = 0) {
     if (!orders.length) {
       return 0;
     }
@@ -816,9 +848,27 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     return orders.length && orders[orders.length - 1].sumAmount;
   }
 
-  calcMaxMarketOrder(orders): number {
+  calcSellMarketOrder(orders, balance = 0) {
+    if (!orders.length) {
+      return 0;
+    }
+
+    const lastItem = orders.find(el => +el.sumAmount >= +balance);
+    if (lastItem) {
+      const rate = lastItem.total / lastItem.sumAmount;
+      return balance / rate;
+    }
+    return orders[0].sumAmount;
+  }
+
+  calcMaxBuyMarketOrder(orders): number {
     const bal = (this.userBalance && this.userBalance.cur2 && this.userBalance.cur2.balance) || 0;
-    return this.calcMarketOrder(orders, bal);
+    return this.calcBuyMarketOrder(orders, bal);
+  }
+
+  calcMaxSellMarketOrder(orders): number {
+    const bal = (this.userBalance && this.userBalance.cur1 && this.userBalance.cur1.balance) || 0;
+    return this.calcSellMarketOrder(orders, bal);
   }
 
   marketOrderValidation(maxMarketOrder): ValidatorFn {

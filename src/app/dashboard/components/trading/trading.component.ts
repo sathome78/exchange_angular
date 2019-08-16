@@ -127,7 +127,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   ngOnInit() {
-    this.dropdownLimitValue = this.limitsData[1];
+    this.dropdownLimitValue = this.limitsData[0];
     this.initForms();
     this.resetSellModel();
     this.resetBuyModel();
@@ -884,10 +884,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     return this.calcSellMarketOrder(orders, bal);
   }
 
-  marketOrderValidation(maxBuyMarketOrder): ValidatorFn {
+  marketOrderValidation(maxMarketOrder): ValidatorFn {
     return (control: AbstractControl) => {
-      if (maxBuyMarketOrder !== null && control.value && control.value > maxBuyMarketOrder) {
-        return { maxBuyMarketOrder: true };
+      if (maxMarketOrder !== null && control.value && control.value > maxMarketOrder) {
+        return { maxMarketOrder: true };
       }
       return null;
     };
