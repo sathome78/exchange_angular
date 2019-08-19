@@ -152,7 +152,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   breakpointSub() {
-    const that = this;
     this.breakpointService.breakpoint$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
       if (res === 'mobile') {
         this.isMobile = true;
@@ -244,7 +243,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     if (market === 'FAVORITES') {
       return this.currencyPairs.filter(
         pair =>
-          this.userFavorites.indexOf(pair.currencyPairId) >= 0 && pair.currencyPairName.toUpperCase().startsWith(searchValue.toUpperCase())
+          this.userFavorites.indexOf(
+            pair.currencyPairId) >= 0 && pair.currencyPairName.toUpperCase().startsWith(searchValue.toUpperCase()
+          )
       );
     }
     if (market === 'LOC') {

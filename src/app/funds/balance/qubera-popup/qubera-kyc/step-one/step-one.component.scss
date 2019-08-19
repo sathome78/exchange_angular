@@ -34,3 +34,21 @@ h3 {
 h2 {
   margin-bottom: 11px;
 }
+.btn--center{
+  position: relative;
+}
+
+.loader-wr{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+  }
+.loaded{
+  span{
+    opacity: 0;
+  }
+
+}
