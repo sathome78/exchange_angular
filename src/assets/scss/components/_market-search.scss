@@ -103,3 +103,20 @@
   }
 }
 /*--- DARK THEME END---*/
+@media(max-width: 1200px){
+  .market-search{
+    .table__row-star svg{
+      fill: #4A5D88;
+    }
+  }
+
+  .market-search{
+    .table__row-star--select svg{
+      fill: #FFB74C;
+    }
+  }
+
+  .favorite-cell{
+    width: 30px;
+  }
+}
