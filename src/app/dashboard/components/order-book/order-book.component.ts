@@ -303,7 +303,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   public onSelectOrder(item: OrderItemOB): void {
-    this.store.dispatch(new SelectedOrderBookOrderAction(item));
+    this.store.dispatch(new SelectedOrderBookOrderAction({ ...item }));
   }
 
   public setWidthForChartBorder(): void {

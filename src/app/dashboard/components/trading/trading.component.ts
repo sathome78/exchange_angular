@@ -166,11 +166,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((lastPrice: LastPrice) => {
         if (this.isPossibleSetPrice) {
-          this.setPriceInValue(lastPrice.price, this.BUY);
-          this.setPriceInValue(lastPrice.price, this.SELL);
-          this.sellOrder.rate = lastPrice.price ? parseFloat(lastPrice.price.toString()) : 0;
-          this.buyOrder.rate = lastPrice.price ? parseFloat(lastPrice.price.toString()) : 0;
-          // this.resetStopValue();
+          const rate = parseFloat(lastPrice.price.toString());
+          this.setNewLimitAndStop(rate);
         }
         this.cdr.detectChanges();
       });
@@ -181,8 +178,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe(order => {
         if (+order.exrate !== 0) {
           this.isPossibleSetPrice = false;
+          this.orderFromOrderBook(order);
         }
-        this.orderFromOrderBook(order);
         this.cdr.detectChanges();
       });
 
@@ -337,9 +334,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param value
    */
   setStopValue(value, orderType: string): void {
+    const newValue = typeof value === 'string' ? value : !value ? '0' : this.utilsService.currencyFormat(value);
     orderType === this.BUY
-      ? this.buyForm.controls['stop'].setValue(value)
-      : this.sellForm.controls['stop'].setValue(value);
+      ? this.buyForm.controls['stop'].setValue(newValue)
+      : this.sellForm.controls['stop'].setValue(newValue);
   }
 
   /**
@@ -384,15 +382,25 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.resetBuyModel();
     this.resetSellModel();
     const rate = parseFloat(order.exrate.toString());
-    this.sellOrder.rate = rate;
-    this.setPriceInValue(rate, this.BUY);
-    this.buyOrder.rate = rate;
-    this.setPriceInValue(rate, this.SELL);
+    this.setNewLimitAndStop(rate);
     const amount = parseFloat(order.sumAmount.toString());
     this.setQuantityValue(amount, order.orderType === this.SELL ? this.BUY : this.SELL);
     this.getCommission(this.SELL);
     this.getCommission(this.BUY);
     this.quantityInput({ target: { value: amount } }, order.orderType === this.SELL ? this.BUY : this.SELL);
+  }
+
+  private setNewLimitAndStop(rate) {
+    if (this.dropdownLimitValue === this.baseType.STOP_LIMIT) {
+      this.sellOrder.stop = rate;
+      this.setStopValue(rate, this.BUY);
+      this.buyOrder.stop = rate;
+      this.setStopValue(rate, this.SELL);
+    }
+    this.sellOrder.rate = rate;
+    this.setPriceInValue(rate, this.BUY);
+    this.buyOrder.rate = rate;
+    this.setPriceInValue(rate, this.SELL);
   }
 
   /**

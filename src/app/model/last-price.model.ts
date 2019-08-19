@@ -1,3 +1,3 @@
 export class LastPrice {
-  constructor(public flag: boolean, public price: string | number) {}
+  constructor(public flag: boolean, public price: number) {}
 }
