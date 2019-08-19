@@ -215,9 +215,15 @@
       <button
         (click)="gotToStepTwo(form)"
         class="btn btn--center"
-        [disabled]="!form.valid || !check || disable"
-      >{{'Create account' | translate}}</button>
+        [ngClass]="{'loaded': loading}"
+        [disabled]="!form.valid || !check || loading"
+      >
+      <span>{{'Create account' | translate}}</span>
+      <div [hidden]="!loading">
+          <app-loader size="small" class="loader-wr"></app-loader>
+      </div>
+    </button>
     </div>
-
+    
   </form>
 </div>
