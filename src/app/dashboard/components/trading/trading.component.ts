@@ -438,6 +438,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param pair
    */
   private onGetCurrentCurrencyPair(pair: SimpleCurrencyPair, isAuth: boolean): void {
+    this.maxBuyMarketOrder = 0;
+    this.maxSellMarketOrder = 0;
     this.isPossibleSetPrice = true;
     this.currentPair = pair;
     this.userService.getUserBalance(this.currentPair);
@@ -897,7 +899,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       const rate = lastItem.total / lastItem.sumAmount;
       return balance / rate;
     }
-    return orders.length && orders[orders.length - 1].sumAmount;
+    return +orders[orders.length - 1].sumAmount;
   }
 
   calcSellMarketOrder(orders, balance = 0) {
@@ -910,7 +912,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       const rate = lastItem.total / lastItem.sumAmount;
       return balance / rate;
     }
-    return orders[0].sumAmount;
+    return +orders[0].sumAmount;
   }
 
   calcMaxBuyMarketOrder(orders): number {
