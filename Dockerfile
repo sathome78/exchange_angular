@@ -6,8 +6,10 @@ ARG APP_PATH=/webapp/
 ARG ENVIRONMENT
 ARG PROFILE
 
+#RUN apk update && apk upgrade && \
+#  apk add build-base  curl dpkg python2
 RUN apk update && apk upgrade && \
-  apk add build-base  curl dpkg python2
+    apk add --no-cache git curl dpkg g++ gcc libgcc libstdc++ linux-headers make python
 
 WORKDIR ${APP_PATH}
 
