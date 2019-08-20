@@ -894,7 +894,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       return 0;
     }
 
-    const lastItem = orders.find(el => el.total >= balance);
+    const lastItem = orders.find(el => +el.total >= +balance);
     if (lastItem) {
       const rate = lastItem.total / lastItem.sumAmount;
       return balance / rate;
