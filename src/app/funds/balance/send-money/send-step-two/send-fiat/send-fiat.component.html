@@ -14,10 +14,12 @@
             class="select__value select__value--active"
             (click)="currencyDropdownToggle()"
           >
+          <div class="icon-wr">
             <img
               [src]="(currName) | getIconUrl"
               class="select__list-item-icon"
             >
+          </div>
             {{currName}}
           </div>
           <div class="select__label">{{'Currency' | translate}}</div>
@@ -35,10 +37,12 @@
               *ngFor="let currency of fiatNames"
               (click)="selectCurrency(currency)"
             >
+            <div class="icon-wr">
               <img
                 [src]="currency.name | getIconUrl"
                 class="select__list-item-icon"
               >
+            </div>
               {{currency.name}}
             </li>
 

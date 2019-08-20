@@ -270,14 +270,17 @@
     </div>
   </div>
 
-  <app-market-search
-    (closeModal)="toggleSearchModal($event)"
-    *ngIf="marketSearch && (breakpointService.breakpoint$ | async) === 'mobile'"
-    [pairs]="currencyPairs"
-    [currency]="currencyName"
-    [isAuthenticated]="isAuthenticated"
-  >
-  </app-market-search>
+  <ng-container *ngIf="(marketSearch && (breakpointService.breakpoint$ | async) === 'mobile')">
+    <app-market-search
+      (closeModal)="toggleSearchModal($event)"
+      (clickItem)="onClickMarketItem($event)"
+      [pairs]="currencyPairsCache"
+      [currency]="currencyName"
+      [isAuthenticated]="isAuthenticated"
+      [userFavorites]="userFavorites"
+    >
+    </app-market-search>
+  </ng-container>
 
   <!-- MOBILE END -->
   <!-- DESKTOP START -->
