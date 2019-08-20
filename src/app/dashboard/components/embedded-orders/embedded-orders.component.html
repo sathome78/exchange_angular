@@ -183,7 +183,6 @@
 
     <app-embedded-open-orders
       *ngIf="mainTab === 'open'"
-      (refreshOpenOrders)="refreshOpenOrders()"
       [makeHeight]="makeHeight"
       [openOrders]="openOrders$ | async"
       [currentPair]="activeCurrencyPair"
