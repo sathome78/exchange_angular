@@ -153,11 +153,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((lastPrice: LastPrice) => {
         if (this.isPossibleSetPrice) {
-          this.setPriceInValue(lastPrice.price, this.BUY);
-          this.setPriceInValue(lastPrice.price, this.SELL);
-          this.sellOrder.rate = lastPrice.price ? parseFloat(lastPrice.price.toString()) : 0;
-          this.buyOrder.rate = lastPrice.price ? parseFloat(lastPrice.price.toString()) : 0;
-          // this.resetStopValue();
+          const rate = parseFloat(lastPrice.price.toString());
+          this.setNewLimitAndStop(rate);
         }
         this.cdr.detectChanges();
       });
@@ -168,8 +165,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       .subscribe(order => {
         if (order.exrate !== '0') {
           this.isPossibleSetPrice = false;
+          this.orderFromOrderBook(order);
         }
-        this.orderFromOrderBook(order);
         this.cdr.detectChanges();
       });
     this.store
@@ -272,6 +269,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    */
   selectedLimit(limit: string): void {
     this.dropdownLimitValue = limit;
+    this.resetForms();
     if (limit === this.baseType.MARKET) {
       this.maxBuyMarketOrder = this.calcMaxBuyMarketOrder(this.ordersBookSellOrders);
       this.maxSellMarketOrder = this.calcMaxSellMarketOrder(this.ordersBookBuyOrders);
@@ -279,12 +277,10 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     this.isDropdownOpen = false;
   }
 
-  // private resetStopValue(): void {
-  //   this.buyStopValue = 0;
-  //   this.sellStopValue = 0;
-  //   this.setStopValue('0', 'BUY');
-  //   this.setStopValue('0', 'SELL');
-  // }
+  private resetForms(): void {
+    this.resetBuyModel();
+    this.resetSellModel();
+  }
 
   /**
    * set form value (quantityOf)
@@ -324,9 +320,10 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * @param value
    */
   setStopValue(value, orderType: string): void {
+    const newValue = typeof value === 'string' ? value : !value ? '0' : this.utilsService.currencyFormat(value);
     orderType === this.BUY
-      ? this.buyForm.controls['stop'].setValue(value)
-      : this.sellForm.controls['stop'].setValue(value);
+      ? this.buyForm.controls['stop'].setValue(newValue)
+      : this.sellForm.controls['stop'].setValue(newValue);
   }
 
   /**
@@ -369,13 +366,30 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
    * @param order
    */
   orderFromOrderBook(order: OrderItemOB): void {
+    this.resetBuyModel();
+    this.resetSellModel();
     const rate = parseFloat(order.exrate.toString());
-    this.sellOrder.rate = rate;
-    this.setPriceInValue(rate, this.SELL);
-    this.buyOrder.rate = rate;
-    this.setPriceInValue(rate, this.BUY);
+    this.setNewLimitAndStop(rate);
+    const amount = this.getQuantityOfSelectedOrder(order);
+    this.setQuantityValue(amount, order.orderType === this.SELL ? this.BUY : this.SELL);
     this.getCommission(this.SELL);
     this.getCommission(this.BUY);
+    this.quantityInput({ target: { value: amount } }, order.orderType === this.SELL ? this.BUY : this.SELL);
+  }
+
+  private setNewLimitAndStop(rate) {
+    if (this.dropdownLimitValue === this.baseType.STOP_LIMIT) {
+      this.sellOrder.stop = rate;
+      this.sellStopValue = rate;
+      this.setStopValue(rate, this.BUY);
+      this.buyOrder.stop = rate;
+      this.buyStopValue = rate;
+      this.setStopValue(rate, this.SELL);
+    }
+    this.sellOrder.rate = rate;
+    this.setPriceInValue(rate, this.BUY);
+    this.buyOrder.rate = rate;
+    this.setPriceInValue(rate, this.SELL);
   }
 
   /**
@@ -833,6 +847,24 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       }
       this.errorMessages.push(message);
     });
+  }
+
+  getQuantityOfSelectedOrder(selectedOrder: OrderItemOB) {
+    let bal;
+
+    if (selectedOrder.orderType === this.BUY) {
+      bal = (this.userBalance && this.userBalance.cur1 && this.userBalance.cur1.balance) || 0;
+      if (+selectedOrder.sumAmount < bal) {
+        return selectedOrder.sumAmount;
+      }
+    } else {
+      bal = (this.userBalance && this.userBalance.cur2 && this.userBalance.cur2.balance) || 0;
+      if (+selectedOrder.total < bal) {
+        return selectedOrder.sumAmount;
+      }
+    }
+
+    return bal / +selectedOrder.exrate;
   }
 
   calcBuyMarketOrder(orders, balance = 0) {
