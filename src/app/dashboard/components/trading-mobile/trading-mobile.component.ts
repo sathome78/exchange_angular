@@ -368,6 +368,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   orderFromOrderBook(order: OrderItemOB): void {
     this.resetBuyModel();
     this.resetSellModel();
+    this.maxBuyMarketOrder = 0;
+    this.maxSellMarketOrder = 0;
     const rate = parseFloat(order.exrate.toString());
     this.setNewLimitAndStop(rate);
     const amount = this.getQuantityOfSelectedOrder(order);
@@ -872,12 +874,12 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       return 0;
     }
 
-    const lastItem = orders.find(el => el.total >= balance);
+    const lastItem = orders.find(el => +el.total >= +balance);
     if (lastItem) {
       const rate = lastItem.total / lastItem.sumAmount;
       return balance / rate;
     }
-    return orders.length && orders[orders.length - 1].sumAmount;
+    return +orders[orders.length - 1].sumAmount;
   }
 
   calcSellMarketOrder(orders, balance = 0) {
@@ -890,7 +892,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       const rate = lastItem.total / lastItem.sumAmount;
       return balance / rate;
     }
-    return orders[0].sumAmount;
+    return +orders[0].sumAmount;
   }
 
   calcMaxBuyMarketOrder(orders): number {
