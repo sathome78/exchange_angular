@@ -55,7 +55,9 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     if (this.patternInput.test(value)) {
       this.inputEl.nativeElement.value = this.currencyFormat(e, value);
     } else {
-      value === '' ? this.customInput.emit(e) : null;
+      if (value === '') {
+        this.customInput.emit(e);
+      }
       this.inputEl.nativeElement.value = value.replace(e.data, '');
     }
   }
@@ -91,7 +93,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
       return (this._innerValue = value);
     }
     this._innerValue = this.priceFormat(value, this.currencyName);
-    this.propagateChanges(parseFloat(value));
+    this.propagateChanges(parseFloat(this.utils.deleteSpace(value)));
   }
 
   propagateChanges = (...any) => {};

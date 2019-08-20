@@ -282,7 +282,6 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     this.resetSellModel();
   }
 
-
   /**
    * set form value (quantityOf)
    * @param value
