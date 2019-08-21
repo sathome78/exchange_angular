@@ -865,9 +865,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     Object.keys(errors).forEach(key => {
       const path = errors[key].split('.');
       let message = messages[path[0]][path[1]];
-      if (errorParams[key]) {
-        message = message.replace('{0}', errorParams[key][0]);
-        message = message.replace('{1}', errorParams[key][1]);
+      if (errorParams[key].length) {
+        errorParams[key].forEach((err, index) => {
+          message = message.replace(`{${index}}`, err);
+        });
       }
       this.errorMessages.push(message);
     });
