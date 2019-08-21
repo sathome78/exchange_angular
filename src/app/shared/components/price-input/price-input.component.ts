@@ -1,4 +1,13 @@
-import { Component, forwardRef, Input, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  forwardRef,
+  Input,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { UtilsService } from '../../services/utils.service';
 
@@ -46,7 +55,9 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     if (this.patternInput.test(value)) {
       this.inputEl.nativeElement.value = this.currencyFormat(e, value);
     } else {
-      value === '' ? this.customInput.emit(e) : null;
+      if (value === '') {
+        this.customInput.emit(e);
+      }
       this.inputEl.nativeElement.value = value.replace(e.data, '');
     }
   }
@@ -57,18 +68,16 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     if (digitParts[0] && digitParts[1] && digitParts[1].length > count) {
       const fraction = digitParts[1].slice(0, count);
       return `${digitParts[0]}.${fraction}`;
-    } else {
-      this.customInput.emit(e);
-      return value;
     }
+    this.customInput.emit(e);
+    return value;
   }
 
   excludeDoubleZero(value) {
     if (value[0] && value[1]) {
       return value[0] === '0' && value[1] !== '.' ? value.slice(1) : value;
-    } else {
-      return value;
     }
+    return value;
   }
 
   get value() {
@@ -84,7 +93,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
       return (this._innerValue = value);
     }
     this._innerValue = this.priceFormat(value, this.currencyName);
-    this.propagateChanges(parseFloat(value));
+    this.propagateChanges(parseFloat(this.utils.deleteSpace(value)));
   }
 
   propagateChanges = (...any) => {};
@@ -117,9 +126,8 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
         return this.sliceFraction(num, 2);
       }
       return this.sliceFraction(num, 8);
-    } else {
-      return '';
     }
+    return '';
   }
 
   sliceFraction(value: string, count: number): string {
@@ -136,18 +144,21 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
       const parts = value.split('.');
       const integer = this.addThousandsSpace(parts[0]);
       return `${integer}.${parts[1]}`;
-    } else {
-      return this.addThousandsSpace(value);
     }
+    return this.addThousandsSpace(value);
   }
 
-  addThousandsSpace(decimal: string): string {
-    decimal = this.utils.deleteSpace(decimal);
+  addThousandsSpace(decimalP: string): string {
+    const decimal = this.utils.deleteSpace(decimalP);
     let i = decimal.length % 3;
     const parts = i ? [decimal.substr(0, i)] : [];
     for (; i < decimal.length; i += 3) {
       parts.push(decimal.substr(i, 3));
     }
     return parts.join(' ');
+  }
+
+  setBlur() {
+    this.inputEl.nativeElement.blur();
   }
 }

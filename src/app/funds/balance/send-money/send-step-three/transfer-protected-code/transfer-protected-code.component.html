@@ -6,7 +6,9 @@
     <div class="send__inputs-wrap">
       <div class="select send__select send__select--custom">
         <div class="select__value select__value--active" (click)="currencyDropdownToggle()">
+          <div class="icon-wr">
           <img [src]="activeCrypto.name  | getIconUrl" class="select__list-item-icon">
+        </div>
           {{ activeCrypto.name }}
         </div>
         <div class="select__label">{{'Currency' | translate}}</div>
@@ -33,7 +35,9 @@
                 <div class="select__searching-items-wrap">
                   <div class="select__searching-item" *ngFor="let name of cryptoNames | groupCoin:letter"
                        (click)="selectCurrency(name)">
+                       <div class="icon-wr">
                     <img [src]="name.name | getIconUrl" class="select__list-item-icon">
+                  </div>
                     <span>{{name.name}}</span>
                   </div>
                 </div>

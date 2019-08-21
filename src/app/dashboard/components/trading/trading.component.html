@@ -77,6 +77,7 @@
         <div class="row row--jcsb widget__trading-row  input-row">
           <div class="wrap-input widget__input no-line">
             <app-price-input
+              #quantityBuy
               [placeholder]="translateService.instant('Quantity')"
               [currencyLabel]="arrPairName[0]"
               [forTrading]="true"
@@ -90,7 +91,7 @@
           <div class="">
             <span
               class="wrap-input__message wrap-input__message--error"
-              *ngIf="buyForm.get('quantity').errors['maxBuyMarketOrder']"
+              *ngIf="buyForm.get('quantity').errors['maxMarketOrder']"
             >
               {{'Max. available to buy' | translate}} {{maxBuyMarketOrder | currencyFormat}} {{arrPairName[0]}}
             </span>
@@ -225,6 +226,7 @@
         <div class="row row--jcsb widget__trading-row input-row">
           <div class="wrap-input widget__input no-line">
             <app-price-input
+              #quantitySell
               [placeholder]="translateService.instant('Quantity')"
               [currencyLabel]="arrPairName[0]"
               [forTrading]="true"
@@ -239,7 +241,7 @@
           <div class="">
             <span
               class="wrap-input__message wrap-input__message--error"
-              *ngIf="sellForm.get('quantity').errors['maxBuyMarketOrder']"
+              *ngIf="sellForm.get('quantity').errors['maxMarketOrder']"
             >
               {{'Max. available to sell' | translate}} {{maxSellMarketOrder | currencyFormat}} {{arrPairName[0]}}
             </span>

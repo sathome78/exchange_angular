@@ -10,15 +10,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
-
 import { CurrencyPair } from '../../../model/currency-pair.model';
-import { MarketService } from '../../services/market.service';
-import * as dashboardActions from '../../actions/dashboard.actions';
-import { Store } from '@ngrx/store';
-import { State } from '../../../core/reducers';
-import { UtilsService } from 'app/shared/services/utils.service';
-import { DashboardService } from '../../dashboard.service';
-
 @Component({
   selector: 'app-market-search',
   templateUrl: 'market-search.component.html',
@@ -28,20 +20,19 @@ import { DashboardService } from '../../dashboard.service';
 export class MarketSearchComponent implements OnInit, AfterViewInit {
   @Input() pairs: CurrencyPair[];
   @Input() currency: string;
+  @Input() userFavorites: number[] = [];
   @Input() public isAuthenticated = false;
   public showPairs: CurrencyPair[];
   public scrollHeight = 0;
 
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() clickItem: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('input') input: ElementRef;
   @ViewChild('container') container: ElementRef;
 
   constructor(
-    private utils: UtilsService,
-    private store: Store<State>,
-    private dashboardService: DashboardService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.showPairs = [...(this.pairs || [])];
@@ -66,30 +57,8 @@ export class MarketSearchComponent implements OnInit, AfterViewInit {
     this.closeModal.emit(true);
   }
 
-  setCurrentPair(pair: CurrencyPair) {
-    this.store.dispatch(
-      new dashboardActions.ChangeActiveCurrencyPairAction({
-        name: pair.currencyPairName,
-        id: pair.currencyPairId,
-      })
-    );
-    this.utils.saveActiveCurrencyPairToSS({
-      name: pair.currencyPairName,
-      id: pair.currencyPairId,
-    });
-    this.toMobileWidget('trading');
-    this.onCloseModal();
-  }
-  // refactor
   isFavorite(pair: CurrencyPair): boolean {
-    return pair.isFavorite;
+    return this.userFavorites.indexOf(pair.currencyPairId) >= 0;
   }
 
-  toMobileWidget(widgetName: string) {
-    this.dashboardService.activeMobileWidget.next(widgetName);
-  }
-
-  // isFiat(pair: string): boolean {
-  //   return this.utils.isFiat(currName);
-  // }
 }
