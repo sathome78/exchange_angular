@@ -268,21 +268,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
     // FUG BLOCK
-    // this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(item => item.name !== FUG).filter(
-    //   merchant =>
-    //     !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
-    //       .length
-    // );
-    this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(
-      merchant =>
-        !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
-          .length
-    );
-    // this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(
-    //   merchant =>
-    //     !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
-    //       .length
-    // );
+
   }
 
   goToWithdrawal() {
