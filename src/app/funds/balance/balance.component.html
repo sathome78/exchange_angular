@@ -61,7 +61,6 @@
         (createQuberaAccount)="goToCreateQuberaAccountPopup($event)"
         (openRefillBalancePopup)="openRefillBalancePopup($event)"
         (openSendMoneyPopup)="openSendMoneyPopup($event)"
-        (goToQuberaDetails)="onGoToQuberaDetails($event)"
       ></app-qubera-mob>
 
       <app-ieo-table-mob
@@ -139,7 +138,7 @@
         {{'Refill balance' | translate}}
       </button>
       <button
-        class="btn btn--empty-blue balance__title-btn"
+        class="btn balance__title-btn"
         style="margin-left: 32px;"
         (click)="openSendMoneyPopup(true)"
       >
@@ -169,16 +168,14 @@
           (onSelect)="onSelectPair($event.id)"
           [showNotFoundTip]="true"
         ></app-dynamic-input>
-        <ng-container *ngIf="isInternalUser">
-          <app-dynamic-input
-            *ngSwitchCase="Tab.QUBERA"
-            [value]="currValue"
-            [options]="!existQuberaAccounts ? [] : fiatCurrenciesForChoose && getFiatDynamicIData"
-            (onChange)="onChangeCurrPair($event)"
-            (onSelect)="onSelectPair($event.id)"
-            [showNotFoundTip]="existQuberaAccounts"
-          ></app-dynamic-input>
-        </ng-container>
+        <app-dynamic-input
+          *ngSwitchCase="Tab.QUBERA"
+          [value]="currValue"
+          [options]="!existQuberaAccounts ? [] : fiatCurrenciesForChoose && getFiatDynamicIData"
+          (onChange)="onChangeCurrPair($event)"
+          (onSelect)="onSelectPair($event.id)"
+          [showNotFoundTip]="existQuberaAccounts"
+        ></app-dynamic-input>
 
         <app-dynamic-input
           *ngSwitchCase="Tab.IEO"
@@ -220,8 +217,8 @@
 
         <!-- FUG BLOCK -->
         <button
-          *ngIf="isInternalUser"
-          class="tabs__item"
+          *ngIf="utilsService.showContentProd"
+          class="tabs__item funding-tabs"
           [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
           (click)="onSelectTab(Tab.QUBERA)"
           [disabled]="loading$ | async"
@@ -265,6 +262,11 @@
             </svg>
           </div>
           <span>{{'Funding wallet' | translate}}</span>
+          <a
+            href="https://support.exrates.me/article/kyc-fiat-account"
+            class="hint-link"
+            target="_blank"
+          >?</a>
         </button>
 
         <button
@@ -305,6 +307,23 @@
         </label>
         <span>{{'Hide zero balances' | translate}}</span>
       </div>
+
+
+      <!-- <div class="balance__show-all">
+        <label class="toggler">
+          <input type="checkbox" name="">
+          <span class="toggler__indicate"></span>
+        </label>
+        <span>Show all in</span>
+        <div class="dropdown">
+          <div class="dropdown__btn">USD</div>
+          <ul class="dropdown__list">
+            <li class="dropdown__item">RUB</li>
+            <li class="dropdown__item">EUR</li>
+            <li class="dropdown__item">UAH</li>
+          </ul>
+        </div>
+      </div> -->
 
     </div>
     <!--</form>-->
@@ -347,7 +366,7 @@
         (onRevokePendingRequest)="onRevokePendingRequest($event)"
         *ngSwitchCase="Tab.PR"
       ></app-pending-request-table>
-      <ng-container *ngIf="isInternalUser">
+      <ng-container>
         <app-qubera-table
           *ngSwitchCase="Tab.QUBERA"
           [balances]="quberaBalances$ | async"

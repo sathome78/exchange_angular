@@ -23,6 +23,7 @@ import { RefillResponse } from '../../../../../model/refill-response';
 import { RefillData } from '../../../../../shared/interfaces/refill-data-interface';
 import { Router } from '@angular/router';
 import { FUG, EUR } from 'app/funds/balance/balance-constants';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -68,14 +69,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       $event.target.className !== 'select__search-input'
     ) {
       this.openPaymentSystemDropdown = false;
+      // FUG BLOCK
       this.merchants =
         this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-          ? this.fiatDataByName.merchantCurrencyData : [];
-      // FUG BLOCK
-      // this.merchants =
-      //   this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-      //     ? this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG)
-      //     : [];
+          ? this.fiatDataByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i))
+          : [];
       this.searchTemplate = '';
       this.openCurrencyDropdown = false;
     }
@@ -84,6 +82,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
+    public utilsService: UtilsService,
     public router: Router,
     private store: Store<State>
   ) {}
@@ -137,15 +136,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   togglePaymentSystemDropdown() {
     this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
+    // FUG BLOCK
     this.merchants =
       this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-        ? this.fiatDataByName.merchantCurrencyData
+        ? this.fiatDataByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i))
         : [];
-    // FUG BLOCK
-    // this.merchants =
-    //   this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-    //     ? this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG)
-    //     : [];
     this.searchTemplate = '';
     this.openCurrencyDropdown = false;
   }
@@ -163,10 +158,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.fiatDataByName = res;
-
-        this.merchants = this.fiatDataByName.merchantCurrencyData;
         // FUG BLOCK
-        // this.merchants = this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG);
+        this.merchants = this.fiatDataByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i));
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
@@ -199,9 +192,12 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    this.form = new FormGroup({
-      amount: new FormControl('', [Validators.required, this.minCheck.bind(this)]),
-    });
+    this.form = new FormGroup(
+      {
+        amount: new FormControl('', [Validators.required, this.minCheck.bind(this)]),
+      },
+      { updateOn: 'change' }
+    );
   }
 
   submitRefill() {
@@ -215,6 +211,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         merchantImage: 1108,
         sum: `${this.form.controls.amount.value}`,
         destinationTag: '',
+        operationType: 'INPUT',
       };
       this.balanceService
         .fiatDepositQubera(deposit)
@@ -225,7 +222,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
             this.goToThirdStep.emit(true);
           },
           error => {
-            console.log(error);
+            console.error(error);
           }
         );
     } else {
@@ -267,16 +264,13 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
     // FUG BLOCK
-    // this.merchants = this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG).filter(
-    //   merchant =>
-    //     !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
-    //       .length
-    // );
-    this.merchants = this.fiatDataByName.merchantCurrencyData.filter(
-      merchant =>
-        !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
-          .length
-    );
+    this.merchants = this.fiatDataByName.merchantCurrencyData
+      .filter(i => this.utilsService.filterMerchants(i))
+      .filter(
+        merchant =>
+          !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
+            .length
+      );
   }
 
   private minCheck(amount: FormControl) {
@@ -295,22 +289,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.router.navigate(['/funds/balances?tab=pr']);
     this.closePopup.emit(true);
   }
-
-  // getRefillRedirectionUrl(response: RefillResponse): string {
-  //   if (response && response.method === 'POST') {
-  //     let url = response.redirectionUrl + '?';
-  //     for (const key in response.params) {
-  //       // console.log('K: ' + key + ' V: ' + response.params[key]);
-  //       url += key + '=' + response.params[key] + '&';
-  //     }
-  //     console.log(url);
-  //     return url;
-  //   }
-  //   if (response && !response.method) {
-  //     return response.redirectionUrl;
-  //   }
-  //   return null;
-  // }
 
   trackByFiatNames(index, item) {
     return item.id;

@@ -455,7 +455,7 @@
   "Type": "Type",
   "US Dollar": "US Dollar",
   "Unfortunately now you are not able to trade on this version of the website.": "",
-  "Unfortunately, for this moment there is no opportunity to continue desired action on current version of site. Please, go to <a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\">exrates.me</a> to proceed your action.": "Unfortunately, at this moment there is no opportunity to continue your action on current version of the website. Please, go to <a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\">exrates.me</a> to proceed your action.",
+  "Unfortunately, for this moment there is no opportunity to continue desired action on current version of site. Please, go to <a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">exrates.me</a> to proceed your action.": "Unfortunately, at this moment there is no opportunity to continue your action on current version of the website. Please, go to <a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">exrates.me</a> to proceed your action.",
   "Update password": "Update password",
   "Upload image of your face": "Upload your photo",
   "Use Google Authenticator to generate pincode": "Use Google Authenticator to generate a PIN code",

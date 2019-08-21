@@ -28,6 +28,7 @@ import { IEOItem } from 'app/model/ieo.model';
 import { BALANCE_TABS, EUR } from './balance-constants';
 import { DetailedCurrencyPair } from '../../model/detailed-currency-pair';
 import { UserService } from 'app/shared/services/user.service';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-balance',
@@ -50,7 +51,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public userInfo: ParsedToken;
   public email: string;
   private token: any;
-  public isInternalUser: boolean;
+  // public isInternalUser: boolean;
 
   public cryptoBalances$: Observable<BalanceItem[]>;
   public quberaBalances$: Observable<any[]>;
@@ -87,6 +88,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     private dashboardWS: DashboardWebSocketService,
     public breakpointService: BreakpointService,
     public ieoService: IEOServiceService,
+    public utilsService: UtilsService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -481,7 +483,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
         this.email = data.username;
         this.token = data.token_id;
         // delete after tests
-        this.isInternalUser = this.email.split('@')[1] === 'upholding.biz';
+        // this.isInternalUser = this.email.split('@')[1] === 'upholding.biz';
       });
   }
 

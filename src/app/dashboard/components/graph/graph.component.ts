@@ -53,7 +53,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public isAuthenticated$: Observable<boolean>;
-  public currencyPairName = 'BTC/USD';
+  public currencyPairName = 'BTC/USDT';
   public firstCurrency: string;
   public secondCurrency: string;
   /** show currency search bar */
@@ -117,7 +117,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         if (this.currencyPairName) {
           this.formattingCurrentPairName(pair.name as string);
           try {
-            this._tvWidget.setSymbol(pair.name, '15', () => {}); // 5
+            this._tvWidget.setSymbol(pair.name, '30', () => {}); // 5
           } catch (e) {
             // console.log(e);
           }

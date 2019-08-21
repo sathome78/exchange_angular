@@ -1,31 +1,31 @@
 function sendRegistrationGtag() {
   gtag('event', 'sent-form', {'event_category': 'registration-form', 'event_label': 'successe-form-sent'});
-  console.log("Successfully send registration gtag");
+  // console.log("Successfully send registration gtag");
 }
 
 function sendConfirmationPasswordGtag() {
   gtag('event', 'password-correct', {'event_category': 'password-confirm', 'event_label': 'finish-registration'});
-  console.log("Successfully send confirmation password gtag");
+  // console.log("Successfully send confirmation password gtag");
 }
 
 function sendLoginSuccessGtag() {
   gtag('event', 'login-success', {'event_category': 'login-form', 'event_label': 'login-success'});
-  console.log("successfully send login gtag");
+  // console.log("successfully send login gtag");
 }
 
 function sendTransactionSuccessGtag() {
   gtag({'event': 'transaction'});
-  console.log("successfully send transactions gtag");
+  // console.log("successfully send transactions gtag");
 }
 
 function sendRecoveryPasswordGtag() {
   gtag('event', 'pass-recovered', {'event_category': 'recovered-pass', 'event_label': 'recovered-success'});
-  console.log("Successfully send password recovery gtag");
+  // console.log("Successfully send password recovery gtag");
 }
 
 function sendGenerateWalletGtag(id) {
   gtag('event', 'recharge-ballance', {'event_category': 'recharge-ballance', 'event_label': id});
-  console.log("Successfully send generate wallet send");
+  // console.log("Successfully send generate wallet send");
 }
 
 function gtag(){

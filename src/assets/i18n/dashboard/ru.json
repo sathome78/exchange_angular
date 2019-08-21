@@ -456,7 +456,7 @@
   "Type": "Тип",
   "US Dollar": "Долар США",
   "Unfortunately now you are not able to trade on this version of the website.": "К сожалению, сейчас вы не можете торговать на этой версии сайта",
-  "Unfortunately, for this moment there is no opportunity to continue desired action on current version of site. Please, go to <a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\">exrates.me</a> to proceed your action.": "К сожалению, в данный момент нет возможности продолжить ваши действия на текущей версии сайта. Перейдите на <a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\">exrates.me</a> чтобы продолжить.",
+  "Unfortunately, for this moment there is no opportunity to continue desired action on current version of site. Please, go to <a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">exrates.me</a> to proceed your action.": "К сожалению, в данный момент нет возможности продолжить ваши действия на текущей версии сайта. Перейдите на <a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">exrates.me</a> чтобы продолжить.",
   "Update password": "Обновить пароль",
   "Upload image of your face": "Загрузите вашу фотографию",
   "Use Google Authenticator to generate pincode": "Используйте Google Authenticator для создания пин-кода",

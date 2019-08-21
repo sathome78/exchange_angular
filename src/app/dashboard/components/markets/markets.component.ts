@@ -152,7 +152,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   breakpointSub() {
-    const that = this;
     this.breakpointService.breakpoint$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
       if (res === 'mobile') {
         this.isMobile = true;
@@ -202,12 +201,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     this.selectedCurrencyPair = pair;
     const newActivePair = new SimpleCurrencyPair(pair.currencyPairId, pair.currencyPairName);
     this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
-    const simplePair = {
-      id: pair.currencyPairId,
-      name: pair.currencyPairName,
-    };
-    this.utilsService.saveActiveCurrencyPairToSS(simplePair);
-    this.userService.getUserBalance(simplePair);
+    this.utilsService.saveActiveCurrencyPairToSS(newActivePair);
+    this.userService.getUserBalance(newActivePair);
     if (this.isMobile) {
       this.router.navigate(['/dashboard'], {
         queryParams: { widget: 'trading' },
@@ -215,6 +210,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     } else if (this.route.snapshot.paramMap.get('currency-pair')) {
       this.router.navigate(['/']);
     }
+    this.marketSearch = false;
   }
 
   /**
@@ -247,7 +243,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     if (market === 'FAVORITES') {
       return this.currencyPairs.filter(
         pair =>
-          this.userFavorites.indexOf(pair.currencyPairId) >= 0 && pair.currencyPairName.toUpperCase().startsWith(searchValue.toUpperCase())
+          this.userFavorites.indexOf(
+            pair.currencyPairId) >= 0 && pair.currencyPairName.toUpperCase().startsWith(searchValue.toUpperCase()
+          )
       );
     }
     if (market === 'LOC') {
@@ -316,7 +314,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
 
     let target = e.target;
 
-    while (target.id !== 'markets-container' || null) {
+    while (target.id !== 'markets-container' || target.id !== 'market-search-container' || null) {
       if (target.dataset.favorite) {
         const pair = this.getPairById(+target.dataset.favorite);
         if (pair) {
@@ -342,7 +340,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   getPairById(pairId: number): CurrencyPair {
-    return this.pairs.find(item => item.currencyPairId === pairId);
+    return this.currencyPairsCache.find(item => item.currencyPairId === pairId);
   }
 
   private loadingFinished(): void {

@@ -1,8 +1,8 @@
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 
 export const defaultValues: SimpleCurrencyPair = {
-  id: 1,
-  name: 'BTC/USD',
+  id: 819,
+  name: 'BTC/USDT',
 };
 
 export const defaultUserBalance = {
@@ -16,6 +16,7 @@ export const defaultOrderItem = {
   exrate: '0',
   orderType: 'BUY',
   total: '0',
+  sumAmount: '0',
 };
 
 export const defaultCurrencyPairInfo = {

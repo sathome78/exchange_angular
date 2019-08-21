@@ -52,22 +52,27 @@
       <div class="wrap-input__line"></div>
     </div>
   </div>
-  <div class="market-search__content">
+  <div
+    class="market-search__content"
+    id="market-search-container"
+    (click)="clickItem.emit($event)"
+    *ngIf="showPairs.length && scrollHeight"
+  >
     <cdk-virtual-scroll-viewport
       [style.height.px]="scrollHeight"
       [itemSize]="30"
-      *ngIf="scrollHeight"
     >
       <table class="table widget__table widget__table--mob">
         <tbody>
           <ng-container *cdkVirtualFor="let pair of showPairs">
             <tr
               class="table__row table__row--mob "
-              (click)="setCurrentPair(pair)"
+              [attr.data-marketItem]="pair.currencyPairId"
             >
               <td
-                class="table__cell table__cell--start"
+                class="table__cell table__cell--start favorite-cell"
                 *ngIf="isAuthenticated"
+                [attr.data-favorite]="pair.currencyPairId"
               >
                 <span
                   class="table__row-star"
@@ -109,8 +114,8 @@
                 <span class="txt-small txt-light-grey">/ <span>{{splitPairName(pair.currencyPairName)[1]}}</span></span>
               </td>
               <td class="table__cell table__cell--tar table__cell--end">
-                <span>{{pair.lastOrderRate | roundCurrency: currency | formatCurrency }}</span>
-                <!--<span class="txt-small txt-light-grey">/<span>$ {{+pair.priceInUsd | roundCurrency: true | formatCurrency: true}}</span></span>-->
+                <span>{{pair.lastOrderRate | currencyFormat }}</span>
+                <!--<span class="txt-small txt-light-grey">/<span>$ {{+pair.priceInUsd | currencyFormat}}</span></span>-->
               </td>
             </tr>
             <tr style="height: 10px;"></tr>

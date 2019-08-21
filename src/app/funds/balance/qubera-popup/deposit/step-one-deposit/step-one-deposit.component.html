@@ -1,5 +1,5 @@
 <div
-  class="fiat-deposit-s1"
+  class="fiat-deposit-s1 qubera-deposite-s1"
   *ngIf="!!activeFiat && !!fiatDataByName"
 >
   <h2>Make fiat deposit in EUR</h2>
@@ -38,7 +38,7 @@
         >
           <li
             class="select__list-item"
-            *ngFor="let currency of fiatNames; trackBy: trackByFiatName"
+            *ngFor="let currency of fiatNames"
             (click)="selectCurrency(currency)"
           >
             <img
@@ -98,13 +98,12 @@
           <ul class="select__list select__list--open">
             <ng-template
               ngFor
-              [ngForOf]="merchants"
               let-merchant
-              [ngForTrackBy]="trackByMerchants"
+              [ngForOf]="merchants"
             >
               <li
                 class="select__list-item"
-                *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate; trackBy: trackByMerchants"
+                *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
                 (click)="selectMerchant(merchant, nested)"
               >
                 <img
@@ -117,17 +116,6 @@
           </ul>
         </div>
       </div>
-      <!-- <app-price-input  style="display: inline-block;"
-          [placeholder]="'Amount'"
-          [currencyName]="activeFiat.name"
-          (customInput)="amountInput($event)"
-          (customBlur)="amountBlur($event)"
-          formControlName="amount"
-          name="amount"
-          class="fiat-amount"
-          >
-
-        </app-price-input> -->
     </div>
   </form>
   <div
@@ -169,9 +157,9 @@
             <span class="value-info">{{bankInfo.swiftCode}}</span>
           </div>
         </div>
-        <a
+        <button
           class="print"
-          [href]="bankInfo.url"
+          (click)="download(bankInfo.url)"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -198,7 +186,7 @@
             />
           </svg>
           <span>{{'Print invoice' | translate}}</span>
-        </a>
+        </button>
       </div>
     </div>
   </div>

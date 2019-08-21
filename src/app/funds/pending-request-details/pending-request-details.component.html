@@ -6,9 +6,16 @@
       <div class="open-mob-request">
         <div class="open-mob-request__header">
           <div (click)="onHideDetails()">
-            <svg width="9" height="7" viewBox="0 0 9 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width="9"
+              height="7"
+              viewBox="0 0 9 7"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
-                d="M3.82596 0.119541C3.60017 -0.0567689 3.25769 -0.0355965 3.06102 0.166823L0.137687 3.17624L0.133319 3.18071C-0.0387293 3.35787 -0.0421708 3.61517 0.110923 3.7948C0.119367 3.80467 0.128289 3.81436 0.137687 3.82376L3.06102 6.83318C3.25769 7.0356 3.60017 7.05677 3.82596 6.88046C4.05175 6.70415 4.07536 6.3971 3.87872 6.19459L1.73329 3.98602H8.45783C8.75727 3.98602 9 3.76841 9 3.49991C9 3.23141 8.75727 3.0138 8.45783 3.0138H1.73348L3.87872 0.805412C4.07536 0.602898 4.05175 0.295851 3.82596 0.119541Z"/>
+                d="M3.82596 0.119541C3.60017 -0.0567689 3.25769 -0.0355965 3.06102 0.166823L0.137687 3.17624L0.133319 3.18071C-0.0387293 3.35787 -0.0421708 3.61517 0.110923 3.7948C0.119367 3.80467 0.128289 3.81436 0.137687 3.82376L3.06102 6.83318C3.25769 7.0356 3.60017 7.05677 3.82596 6.88046C4.05175 6.70415 4.07536 6.3971 3.87872 6.19459L1.73329 3.98602H8.45783C8.75727 3.98602 9 3.76841 9 3.49991C9 3.23141 8.75727 3.0138 8.45783 3.0138H1.73348L3.87872 0.805412C4.07536 0.602898 4.05175 0.295851 3.82596 0.119541Z"
+              />
             </svg>
             {{'to: Pending Requests' | translate}}
           </div>
@@ -16,50 +23,58 @@
             <app-loader size="small"></app-loader>
           </div>
           <span (click)="onGoBack()">
-            <svg width="15" height="15" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 17 17"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
-                d="M1.70711 0.292894C1.31658 -0.0976307 0.683419 -0.0976313 0.292894 0.292893C-0.0976307 0.683416 -0.0976313 1.31658 0.292893 1.70711L1.70711 0.292894ZM15.2929 16.7071C15.6834 17.0976 16.3166 17.0976 16.7071 16.7071C17.0976 16.3166 17.0976 15.6834 16.7071 15.2929L15.2929 16.7071ZM16.7071 1.70711C17.0976 1.31658 17.0976 0.683416 16.7071 0.292893C16.3166 -0.0976313 15.6834 -0.0976307 15.2929 0.292894L16.7071 1.70711ZM0.292921 15.2929C-0.097603 15.6834 -0.0976024 16.3166 0.292922 16.7071C0.683447 17.0976 1.31661 17.0976 1.70714 16.7071L0.292921 15.2929ZM0.292893 1.70711L7.79289 9.20712L9.20711 7.79291L1.70711 0.292894L0.292893 1.70711ZM7.79289 9.20712L15.2929 16.7071L16.7071 15.2929L9.20711 7.79291L7.79289 9.20712ZM15.2929 0.292894L7.79289 7.79291L9.20711 9.20712L16.7071 1.70711L15.2929 0.292894ZM7.79289 7.79291L0.292921 15.2929L1.70714 16.7071L9.20711 9.20712L7.79289 7.79291Z"/>
+                d="M1.70711 0.292894C1.31658 -0.0976307 0.683419 -0.0976313 0.292894 0.292893C-0.0976307 0.683416 -0.0976313 1.31658 0.292893 1.70711L1.70711 0.292894ZM15.2929 16.7071C15.6834 17.0976 16.3166 17.0976 16.7071 16.7071C17.0976 16.3166 17.0976 15.6834 16.7071 15.2929L15.2929 16.7071ZM16.7071 1.70711C17.0976 1.31658 17.0976 0.683416 16.7071 0.292893C16.3166 -0.0976313 15.6834 -0.0976307 15.2929 0.292894L16.7071 1.70711ZM0.292921 15.2929C-0.097603 15.6834 -0.0976024 16.3166 0.292922 16.7071C0.683447 17.0976 1.31661 17.0976 1.70714 16.7071L0.292921 15.2929ZM0.292893 1.70711L7.79289 9.20712L9.20711 7.79291L1.70711 0.292894L0.292893 1.70711ZM7.79289 9.20712L15.2929 16.7071L16.7071 15.2929L9.20711 7.79291L7.79289 9.20712ZM15.2929 0.292894L7.79289 7.79291L9.20711 9.20712L16.7071 1.70711L15.2929 0.292894ZM7.79289 7.79291L0.292921 15.2929L1.70714 16.7071L9.20711 9.20712L7.79289 7.79291Z"
+              />
             </svg>
           </span>
         </div>
         <table class="table table--mob">
           <tbody class="table__body table__body--none-shadow">
-          <tr class="table__row--mob">
-            <td class="table__cell table__cell--tal">
-              <div>
-                <span class="arr arr--mr4 "
-                  [ngClass]="{
+            <tr class="table__row--mob">
+              <td class="table__cell table__cell--tal">
+                <div>
+                  <span
+                    class="arr arr--mr4 "
+                    [ngClass]="{
                     'arr--red': detailsItem.operation === 'WITHDRAW',
                     'arr--green': detailsItem.operation === 'REFILL'
                   }"
-                ></span>
-                <span>{{detailsItem.operation === 'REFILL' ? 'Refill' : ''}}{{detailsItem.operation === 'WITHDRAW' ? 'Withdraw' : ''}}</span>
+                  ></span>
+                  <span>{{detailsItem.operation | showTransactionsType: detailsItem.operation}}</span>
 
-              </div>
-              <div class="balance__request-mob-date">
-                <div>{{detailsItem.date | dateWrapper | date: 'EEEEEE dd.MM.yyyy'}}</div>
-                <div>{{detailsItem.date | dateWrapper | date: 'HH:mm:ss'}}</div>
-              </div>
-            </td>
-            <td class="table__cell table__cell--tal">
-              <div class="balance__currency">
-                <div class="balance__currency-icon">
-                  <img [src]="detailsItem.currency | getIconUrl">
                 </div>
-                <div>
-                  <span>{{detailsItem.currency}}</span>
+                <div class="balance__request-mob-date">
+                  <div>{{detailsItem.date | dateWrapper | date: 'EEEEEE dd.MM.yyyy'}}</div>
+                  <div>{{detailsItem.date | dateWrapper | date: 'HH:mm:ss'}}</div>
                 </div>
-              </div>
-            </td>
-            <td class="table__cell table__cell--tar">
-              {{detailsItem.amount | currencyFormat:detailsItem.currency}}
-            </td>
-          </tr>
-          <tr>
-            <td colspan="4">
-              <div class="table__row-mob-line"></div>
-            </td>
-          </tr>
+              </td>
+              <td class="table__cell table__cell--tal">
+                <div class="balance__currency">
+                  <div class="balance__currency-icon">
+                    <img [src]="detailsItem.currency | getIconUrl">
+                  </div>
+                  <div>
+                    <span>{{detailsItem.currency}}</span>
+                  </div>
+                </div>
+              </td>
+              <td class="table__cell table__cell--tar">
+                {{detailsItem.amount | currencyFormat:detailsItem.currency}}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4">
+                <div class="table__row-mob-line"></div>
+              </td>
+            </tr>
           </tbody>
         </table>
         <div class="open-mob-request__item">
@@ -77,17 +92,31 @@
         <div class="open-mob-request__btn-wrap">
           <!--<button class="btn">I paid</button>-->
           <!-- <button class="btn btn--error" (click)="onShowInfo()">Rejected</button> -->
-          <button class="btn btn--empty-blue" (click)="toggleRevokeModal(true)">{{'Revoke' | translate}}</button>
+          <button
+            class="btn btn--empty-blue"
+            *ngIf="detailsItem.operation !== 'REFILL'"
+            (click)="toggleRevokeModal(true)"
+          >{{'Revoke' | translate}}</button>
           <!-- revoke modal start-->
-          <div class="revoke-request" *ngIf="showRevokeModal">
+          <div
+            class="revoke-request"
+            *ngIf="showRevokeModal"
+          >
             <div class="revoke-request__title">{{'Are you sure you want to revoke this request' | translate}}?</div>
             <div class="revoke-request__button-wrap">
-              <button class="btn btn--small" (click)="onRevoke()" [disabled]="loading$ | async">{{'Yes' | translate}}</button>
-              <button class="btn btn--small" (click)="toggleRevokeModal(false)">{{'No' | translate}}</button>
+              <button
+                class="btn btn--small"
+                (click)="onRevoke()"
+                [disabled]="loading$ | async"
+              >{{'Yes' | translate}}</button>
+              <button
+                class="btn btn--small"
+                (click)="toggleRevokeModal(false)"
+              >{{'No' | translate}}</button>
             </div>
             <div class="revoke-request__triangle"></div>
           </div>
-            <!-- revoke modal end -->
+          <!-- revoke modal end -->
         </div>
       </div>
     </ng-container>

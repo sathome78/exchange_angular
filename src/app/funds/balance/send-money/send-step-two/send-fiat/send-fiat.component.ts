@@ -3,7 +3,7 @@ import { CurrencyBalanceModel } from 'app/model';
 import { Subject } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BalanceService } from '../../../../services/balance.service';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { keys } from '../../../../../shared/constants';
 import { getFiatCurrenciesForChoose, getUserInfo, State } from 'app/core/reducers';
 import { select, Store } from '@ngrx/store';
@@ -42,6 +42,8 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public calculateData: CommissionData = defaultCommissionData;
   public userInfo: ParsedToken;
   public FUG = FUG;
+  public isQuberaBalances = false;
+  public isQuberaKYCSuccess = false;
 
   public model = {
     currency: 0,
@@ -130,7 +132,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     if (merchant.name === FUG) {
       this.form.removeControl('address');
     } else {
-      this.form.addControl('address', this.form);
+      this.form.addControl('address', new FormControl('', [Validators.required]));
     }
   }
 
@@ -150,13 +152,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   togglePaymentSystemDropdown() {
     this.openPaymentSystemDropdown = !this.openPaymentSystemDropdown;
     // FUG BLOCK
-    // this.merchants =
-    //   this.fiatInfoByName && this.fiatInfoByName.merchantCurrencyData
-    //     ? this.fiatInfoByName.merchantCurrencyData.filter(item => item.name !== FUG)
-    //     : [];
     this.merchants =
       this.fiatInfoByName && this.fiatInfoByName.merchantCurrencyData
-        ? this.fiatInfoByName.merchantCurrencyData
+        ? this.fiatInfoByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i))
         : [];
     this.searchTemplate = '';
     this.openCurrencyDropdown = false;
@@ -189,9 +187,8 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.fiatInfoByName = res;
-        this.merchants = this.fiatInfoByName.merchantCurrencyData;
         // FUG BLOCK
-        // this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(item => item.name !== FUG);
+        this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i));
 
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;

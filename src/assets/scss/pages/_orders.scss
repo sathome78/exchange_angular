@@ -4,7 +4,7 @@
   &--mob {
     display: block;
     .filters-popup__btn{
-          margin-top: 15px;
+      margin-top: 15px;
     }
   }
 
@@ -168,13 +168,12 @@
 
     &__pair-icon {
       width: 25px;
-      height: 20px;
-      //background-color: #fff;
+      height: 18px;
       margin-right: 8px;
 
       img {
-            max-height: 100%;
-    max-width: 100%;
+        height: 100%;
+        max-width: 100%;
       }
     }
 

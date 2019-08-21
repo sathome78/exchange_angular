@@ -9,16 +9,13 @@ import { SimpleCurrencyPair } from '../../../../model/simple-currency-pair';
 })
 export class EmbeddedOrdersHistoryMobileComponent implements OnInit {
   @Input() historyOrders = [];
-  @Input() isVipUser: boolean = false;
+  @Input() isVipUser = false;
   @Input() currentPair: SimpleCurrencyPair;
-  public arrPairName = ['', ''];
   public selectedOrder = null;
 
   constructor(public authService: AuthService) {}
 
-  ngOnInit() {
-    this.arrPairName = this.currentPair.name.split('/');
-  }
+  ngOnInit() { }
 
   toggleDetails(order) {
     this.selectedOrder = this.selectedOrder && this.selectedOrder.id === order.id ? null : order;
@@ -42,5 +39,12 @@ export class EmbeddedOrdersHistoryMobileComponent implements OnInit {
 
   trackByFn(index, item) {
     return item.id;
+  }
+
+  isMarketOrder(operationType: string): boolean {
+    return operationType === 'BUY MARKET' || operationType === 'SELL MARKET';
+  }
+  isStopOrder(operationType: string): boolean {
+    return operationType === 'BUY STOP_LIMIT' || operationType === 'SELL STOP_LIMIT';
   }
 }

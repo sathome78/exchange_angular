@@ -56,7 +56,6 @@ export class RefillMoneyComponent implements OnInit {
   }
 
   hideStep() {
-    console.log('hi');
     this.showStepThree = false;
   }
 }

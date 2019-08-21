@@ -103,62 +103,71 @@
       <!-- если заявка на подтверждении -->
 
       <div
-        class="wait-block"
+        class="wait-block-wr"
         *ngSwitchCase="'Pending'"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="55"
-          height="55"
-          viewBox="0 0 55 55"
-          fill="none"
-        >
-          <rect
-            x="0.5"
-            y="0.5"
-            width="54"
-            height="54"
-            rx="27"
-            stroke="#237BEF"
-          />
-          <g>
-            <path
-              d="M31.7428 24.8384C32.528 24.3144 33 23.4328 33 22.4888V18H21V22.4888C21 23.4328 21.472 24.3144 22.2572 24.8384L26.2 27.4668V28.5336L22.2572 31.162C21.472 31.6856 21 32.5672 21 33.5112V38H33V33.5112C33 32.5672 32.528 31.6856 31.7428 31.1616L27.8 28.5332V27.4664L31.7428 24.8384Z"
-              fill="#237BEF"
+        <div class="wait-block">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="55"
+            height="55"
+            viewBox="0 0 55 55"
+            fill="none"
+          >
+            <rect
+              x="0.5"
+              y="0.5"
+              width="54"
+              height="54"
+              rx="27"
+              stroke="#237BEF"
             />
-            <path
-              d="M31.077 23.8405C31.5298 23.5385 31.8002 23.0333 31.8002 22.4897C31.8002 21.9673 31.4446 21.5117 30.9378 21.3849L24.9166 19.8797C23.537 19.5345 22.2002 20.5781 22.2002 22.0005V22.4897C22.2002 23.0333 22.4706 23.5385 22.9234 23.8405L26.6002 26.5389V32.8897C26.6002 34.3417 25.0946 35.3041 23.777 34.6941C23.0674 34.3657 22.2082 34.8517 22.2006 35.6337C22.2006 35.6393 22.2006 35.6445 22.2006 35.6501V38.0005H31.8006V33.5113C31.8006 33.5057 31.8006 33.5005 31.8006 33.4949C31.793 32.7225 31.045 32.1661 30.2842 32.2985L29.4646 32.4413C28.3866 32.6289 27.4002 31.7993 27.4002 30.7057V26.5389L31.077 23.8405Z"
-              fill="#94C2FF"
-            />
-            <path
-              d="M35 38H19V39.6H35V38Z"
-              fill="#94C2FF"
-            />
-            <path
-              d="M36.6 39.2001H35.4V37.6001H18.6V39.2001H17.4C17.1792 39.2001 17 39.3789 17 39.6001C17 39.8213 17.1792 40.0001 17.4 40.0001H18.6H19H35H35.4H36.6C36.8208 40.0001 37 39.8213 37 39.6001C37 39.3789 36.8208 39.2001 36.6 39.2001ZM19.4 38.4001H34.6V39.2001H19.4V38.4001Z"
-              fill="#237BEF"
-            />
-            <path
-              d="M35 16.4001H19V18.0001H35V16.4001Z"
-              fill="#94C2FF"
-            />
-            <path
-              d="M36.6 16H35.4H35H19H18.6H17.4C17.1792 16 17 16.1788 17 16.4C17 16.6212 17.1792 16.8 17.4 16.8H18.6V18.4H35.4V16.8H36.6C36.8208 16.8 37 16.6212 37 16.4C37 16.1788 36.8208 16 36.6 16ZM34.6 17.6H19.4V16.8H34.6V17.6Z"
-              fill="#237BEF"
-            />
-          </g>
-          <defs>
-            <clipPath id="clip0">
-              <rect
-                width="24"
-                height="24"
-                fill="white"
-                transform="translate(15 16)"
+            <g>
+              <path
+                d="M31.7428 24.8384C32.528 24.3144 33 23.4328 33 22.4888V18H21V22.4888C21 23.4328 21.472 24.3144 22.2572 24.8384L26.2 27.4668V28.5336L22.2572 31.162C21.472 31.6856 21 32.5672 21 33.5112V38H33V33.5112C33 32.5672 32.528 31.6856 31.7428 31.1616L27.8 28.5332V27.4664L31.7428 24.8384Z"
+                fill="#237BEF"
               />
-            </clipPath>
-          </defs>
-        </svg>
-        <span>{{'KYC application on confirmation' | translate}}</span>
+              <path
+                d="M31.077 23.8405C31.5298 23.5385 31.8002 23.0333 31.8002 22.4897C31.8002 21.9673 31.4446 21.5117 30.9378 21.3849L24.9166 19.8797C23.537 19.5345 22.2002 20.5781 22.2002 22.0005V22.4897C22.2002 23.0333 22.4706 23.5385 22.9234 23.8405L26.6002 26.5389V32.8897C26.6002 34.3417 25.0946 35.3041 23.777 34.6941C23.0674 34.3657 22.2082 34.8517 22.2006 35.6337C22.2006 35.6393 22.2006 35.6445 22.2006 35.6501V38.0005H31.8006V33.5113C31.8006 33.5057 31.8006 33.5005 31.8006 33.4949C31.793 32.7225 31.045 32.1661 30.2842 32.2985L29.4646 32.4413C28.3866 32.6289 27.4002 31.7993 27.4002 30.7057V26.5389L31.077 23.8405Z"
+                fill="#94C2FF"
+              />
+              <path
+                d="M35 38H19V39.6H35V38Z"
+                fill="#94C2FF"
+              />
+              <path
+                d="M36.6 39.2001H35.4V37.6001H18.6V39.2001H17.4C17.1792 39.2001 17 39.3789 17 39.6001C17 39.8213 17.1792 40.0001 17.4 40.0001H18.6H19H35H35.4H36.6C36.8208 40.0001 37 39.8213 37 39.6001C37 39.3789 36.8208 39.2001 36.6 39.2001ZM19.4 38.4001H34.6V39.2001H19.4V38.4001Z"
+                fill="#237BEF"
+              />
+              <path
+                d="M35 16.4001H19V18.0001H35V16.4001Z"
+                fill="#94C2FF"
+              />
+              <path
+                d="M36.6 16H35.4H35H19H18.6H17.4C17.1792 16 17 16.1788 17 16.4C17 16.6212 17.1792 16.8 17.4 16.8H18.6V18.4H35.4V16.8H36.6C36.8208 16.8 37 16.6212 37 16.4C37 16.1788 36.8208 16 36.6 16ZM34.6 17.6H19.4V16.8H34.6V17.6Z"
+                fill="#237BEF"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0">
+                <rect
+                  width="24"
+                  height="24"
+                  fill="white"
+                  transform="translate(15 16)"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+          <span>{{'KYC application on confirmation' | translate}}</span>
+        </div>
+
+        <button
+          class="print"
+          (click)="quberaKycVerification.emit(true)"
+        >
+          <span>{{'Start again' | translate}}</span>
+        </button>
       </div>
 
       <div
@@ -363,14 +372,21 @@
     >
       <h6>{{'How does it work?' | translate}}</h6>
       <p>
-        {{'Through your account Exrates you open an account in the Bank. This account is your personal account from which you can at any time transfer Fiat to your Exrates trading account.' | translate}}
+        {{'Using your Exrates account you are able to open a Bank account. This is your personal account which you can use for instant fiat transfers directly to your Exrates trading account.' | translate}}
       </p>
     </div>
     <div class="detail-inf">
-      <p>{{'A more detailed description of the conditions is available on the financial partner page.' | translate}} <a
+      <p>
+        {{'Detailed description of the conditions is available on the page of our financial partner' | translate}}
+        <a
           href="http://fug.sg"
           target="_blank"
-        >FUG</a>.</p>
+          title="FUG"
+          rel="nofollow noopener noreferrer"
+        >
+          FUG
+        </a>.
+      </p>
     </div>
 
   </div>

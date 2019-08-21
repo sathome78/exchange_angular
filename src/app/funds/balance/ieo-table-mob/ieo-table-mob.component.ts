@@ -66,7 +66,7 @@ export class IEOTableMobComponent implements OnInit {
   @Output() public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
   @Output() public onGoToBalanceDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(private router: Router, private utils: UtilsService, private store: Store<fromCore.State>) {
+  constructor(private router: Router, public utils: UtilsService, private store: Store<fromCore.State>) {
     this.setScrollStyles();
   }
 
