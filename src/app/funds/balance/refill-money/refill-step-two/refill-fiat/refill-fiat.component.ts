@@ -60,6 +60,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public redirectionUrl;
   public selectMerchantName;
   public loading = false;
+  public calculateData: any = {};
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
