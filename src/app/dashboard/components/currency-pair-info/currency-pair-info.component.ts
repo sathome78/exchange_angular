@@ -126,9 +126,28 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
 
   flagForArrow(s: string) {
     if (s === 'up') {
-      return this.currentCurrencyInfo ? this.currentCurrencyInfo.changedValue >= 0 : false;
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.percentChange > 0 : false;
     }
-    return this.currentCurrencyInfo ? this.currentCurrencyInfo.changedValue < 0 : false;
+    if (s === 'down') {
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.percentChange < 0 : false;
+    }
+    return false;
+  }
+
+  lastPriceDir(s: string) {
+    if (s === 'up') {
+      return (
+        this.currentCurrencyInfo &&
+        this.currentCurrencyInfo.lastCurrencyRate > this.currentCurrencyInfo.preLastCurrencyRate
+      );
+    }
+    if (s === 'down') {
+      return (
+        this.currentCurrencyInfo &&
+        this.currentCurrencyInfo.lastCurrencyRate < this.currentCurrencyInfo.preLastCurrencyRate
+      );
+    }
+    return false;
   }
 
   onChangeCurrPair(val: string): void {

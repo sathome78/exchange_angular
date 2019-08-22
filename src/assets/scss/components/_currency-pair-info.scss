@@ -64,6 +64,8 @@
     justify-content: center;
     padding: 12px 0 12px 8px;
     margin-left: auto;
+    color: rgb(241, 231, 77);
+    background: radial-gradient(circle at 0% 50%, rgba(241, 231, 77, .2) 0%, rgba(241, 231, 77, 0) 100%);
     &--up {
       background: radial-gradient(circle at 0% 50%, rgba(0, 180, 60, .2) 0%, rgba(0, 180, 60, 0) 100%);
       color: $green;
@@ -87,6 +89,12 @@
     margin-right: 4px;
   }
   &__price{
+    &--up {
+      color: $green;
+    }
+    &--down {
+      color: $red;
+    }
   }
   &__item{
     display: none;
