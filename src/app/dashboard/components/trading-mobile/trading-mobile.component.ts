@@ -201,11 +201,11 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     this.buyForm.reset(this.defaultFormValues);
     if (!!price) {
       this.buyOrder.rate = price;
-      this.buyForm.get('price').setValue(price.toString());
+      this.setPriceInValue(price, this.BUY);
     }
     if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
-      this.buyStopValue = price;
-      this.buyForm.get('stop').setValue(stopPrice.toString());
+      this.buyStopValue = stopPrice;
+      this.setStopValue(stopPrice, this.BUY);
     }
   }
 
@@ -215,11 +215,11 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     this.sellForm.reset(this.defaultFormValues);
     if (!!price) {
       this.sellOrder.rate = price;
-      this.sellForm.get('price').setValue(price.toString());
+      this.setPriceInValue(price, this.SELL);
     }
     if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
       this.sellStopValue = stopPrice;
-      this.sellForm.get('stop').setValue(stopPrice.toString());
+      this.setStopValue(stopPrice, this.SELL);
     }
   }
 
