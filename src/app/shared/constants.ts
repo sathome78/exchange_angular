@@ -35,6 +35,7 @@ export const KYC_STATUS = {
   TOO_MANY_ANALYSIS: 'TOO_MANY_ANALYSIS',
   EXPIRED: 'EXPIRED',
   ACCEPTED: 'ACCEPTED',
+  PENDING: 'Pending',
 };
 
 export const keys = {
