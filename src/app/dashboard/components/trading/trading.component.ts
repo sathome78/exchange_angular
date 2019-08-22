@@ -858,6 +858,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       } else {
         this.errorMessages.push('Complete the fields');
       }
+
     }
   }
 
