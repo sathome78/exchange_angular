@@ -834,9 +834,9 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     }
     if (this.errorMessages.length) {
       if (this.errorMessages.length === 1) {
-        this.errorMessages.push('Complete the feald');
+        this.errorMessages.push('Complete the field');
       } else {
-        this.errorMessages.push('Complete the fealds');
+        this.errorMessages.push('Complete the fields');
       }
     }
   }
