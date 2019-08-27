@@ -123,13 +123,15 @@
         </div>
         <a
           class="popup__link"
-          href="https://about.exrates.me/terms-of-use"
+          routerLink="/static/terms-and-conditions"
           title="Terms and conditions"
+          (click)="popupService.closeRegistrationPopup()"
         >{{'Terms and conditions' | translate}}</a>
         <a
           class="popup__link popup__link--mob"
-          href="https://about.exrates.me/terms-of-use"
+          routerLink="/static/terms-and-conditions"
           title="Terms and conditions"
+          (click)="popupService.closeRegistrationPopup()"
         >{{'Terms and conditions' | translate}}</a>
       </div>
       <div class="popup__links-wrap popup__links-wrap--hidden-mob">
