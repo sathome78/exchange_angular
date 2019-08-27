@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { select } from '@ngrx/store';
 import * as _uniq from 'lodash/uniq';
 import { getAllCurrenciesForChoose } from '../../../../core/reducers';
+import { BalanceItem } from 'app/funds/models/balance-item.model';
 
 export abstract class AbstractTransfer implements OnDestroy {
   @Input() balanceData;
@@ -26,9 +27,10 @@ export abstract class AbstractTransfer implements OnDestroy {
   public form: FormGroup;
   public minWithdrawSum = 0;
   public abstract balanceService;
+  public abstract utilsService;
   protected abstract store;
   public abstract model;
-  public loadingBalance: boolean = false;
+  public loadingBalance = false;
 
   responseDefaultCommission = {
     companyCommissionAmount: '0',
@@ -43,7 +45,8 @@ export abstract class AbstractTransfer implements OnDestroy {
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
-    if ($event.target.className !== 'select__value select__value--active' && $event.target.className !== 'select__search-input') {
+    if ($event.target.className !== 'select__value select__value--active'
+      && $event.target.className !== 'select__search-input') {
       this.openCurrencyDropdown = false;
     }
   }
@@ -57,7 +60,9 @@ export abstract class AbstractTransfer implements OnDestroy {
         this.cryptoNames = this.defaultCryptoNames;
         this.setActiveCurrency();
         this.prepareAlphabet();
-        if (this.activeCrypto) this.getBalance(this.activeCrypto.name);
+        if (this.activeCrypto) {
+          this.getBalance(this.activeCrypto);
+        }
         this.getMinSum(this.activeCrypto);
       });
   }
@@ -81,19 +86,20 @@ export abstract class AbstractTransfer implements OnDestroy {
     }
   }
 
-  getBalance(name: string) {
+  getBalance(activeCrypto) {
+    const type = this.utilsService.isFiat(activeCrypto.name) ? 'FIAT' : 'CRYPTO';
     this.balanceService
-      .getTotalBalance()
+      .getBalanceByName(activeCrypto.id, type)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        const allBalances = res as { sumTotalUSD: any; mapWallets: any };
-        const needBalance = allBalances.mapWallets.filter(item => item.currencyName === name);
-        this.activeBalance = needBalance[0].activeBalance;
+      .subscribe((res: BalanceItem) => {
+        this.activeBalance = res.activeBalance;
       });
   }
 
   amountBlur(event) {
-    if (event && this.form.controls['amount'].valid) this.getCommissionInfo(this.amountValue);
+    if (event && this.form.controls['amount'].valid) {
+      this.getCommissionInfo(this.amountValue);
+    }
   }
 
   getCommissionInfo(amount) {
@@ -138,7 +144,7 @@ export abstract class AbstractTransfer implements OnDestroy {
     this.isSubmited = false;
     this.responseCommission = this.responseDefaultCommission;
     this.activeCrypto = currency;
-    this.getBalance(this.activeCrypto.name);
+    this.getBalance(this.activeCrypto);
     this.getMinSum(this.activeCrypto);
     this.currencyDropdownToggle();
   }
@@ -181,7 +187,9 @@ export abstract class AbstractTransfer implements OnDestroy {
 
   checkEmailOfServer() {
     const email = this.form.controls['email'];
-    if (email.value) email.markAsTouched();
+    if (email.value) {
+      email.markAsTouched();
+    }
 
     if (email.value === this.userEmail) {
       email.setErrors({ ownEmail: true });
