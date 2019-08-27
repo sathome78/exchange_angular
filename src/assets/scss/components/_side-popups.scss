@@ -25,14 +25,22 @@
   max-width: 230px;
   margin-bottom: 24px;
   .avaliable {
+    width: calc(50% - 1px);
     position: absolute;
     right: 0;
-    top: -16px;
+    bottom: 47px;
     font-size: 12px;
     line-height: 14px;
+    text-align: right;
     @media(max-width: 1199px){
       color:#DEDEFB;
     }
+  }
+  .daily-avaliable {
+    @extend .avaliable;
+    right: auto;
+    text-align: left;
+    left: 0;
   }
 }
 .send__line {
@@ -115,7 +123,7 @@
       font-size: inherit;
       line-height: inherit;
     }
-    
+
 
 
     .modal__note {
@@ -374,7 +382,7 @@
       margin-top: 10px;
       margin-bottom: 20px;
     }
-    
+
     .inf-code {
       font-size: 14px;
       line-height: 16px;
@@ -548,14 +556,14 @@
       @media(min-width: 1200px){
         width: auto;
       }
-      
+
     }
     .send__info-value{
       display: table-cell;
       padding: 6px;
       width: auto;
     }
-    
+
   }
 
   @media(min-width: 1200px){
@@ -600,7 +608,7 @@
         &__title{
           margin-bottom: 32px;
         }
-        
+
         &__crypto-refill-info{
           display: flex;
         }
@@ -615,7 +623,7 @@
             max-height: 140px;
           }
         }
-        
+
         &__crypto-memo{
           margin-top: 24px;
         }
@@ -821,7 +829,7 @@
     .send__select, .send__wrap-input{
       width: calc(50% - 15px);
       margin-bottom: 0;
-      
+
     }
     .send__inputs-wrap{
       align-items: center;
@@ -909,7 +917,7 @@
         .select{
           width: 100%;
         }
-        
+
 
       }
       .wrap-input{
@@ -952,7 +960,7 @@
         margin-bottom: 20px;
       }
     }
-    
+
     .send__line{
       margin-top: 0;
     }
@@ -963,12 +971,12 @@
     }
     .btn{
       max-width: 270px;
-    }    
-    
+    }
+
   }
 }
 @media(max-width: 1199px){
-  .send__info{ 
+  .send__info{
     .send__info-title {
       padding-right: 8px;
       color: #94C2FF;
@@ -1096,7 +1104,7 @@
 }
 
 
-.dark-theme{ 
+.dark-theme{
   .side-popups {
     &.twofa{
       .title{

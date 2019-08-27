@@ -36,6 +36,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public isSubmited = false;
   public selectedMerchant;
   public activeFiat;
+  public dailyLimit;
   public form: FormGroup;
   public searchTemplate = '';
   public selectMerchantName;
@@ -143,10 +144,25 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   balanceClick() {
-    if (this.activeBalance > this.minWithdrawSum) {
+    if (+this.activeBalance > +this.minWithdrawSum) {
       this.form.controls['amount'].setValue(this.activeBalance.toString());
       this.calculateCommission(this.activeBalance);
       this.amountValue = this.activeBalance;
+      this.form.controls['amount'].updateValueAndValidity();
+      this.form.controls['amount'].markAsTouched();
+    }
+  }
+  dailyLimitClick() {
+    if (+this.activeBalance > +this.minWithdrawSum) {
+      let amount = this.activeBalance;
+      if (+this.activeBalance > +this.dailyLimit) {
+        amount = this.dailyLimit;
+      }
+      this.form.controls['amount'].setValue(amount.toString());
+      this.calculateCommission(amount);
+      this.amountValue = amount;
+      this.form.controls['amount'].updateValueAndValidity();
+      this.form.controls['amount'].markAsTouched();
     }
   }
 
@@ -186,6 +202,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.fiatInfoByName = res;
+        this.dailyLimit = res.leftDailyWithdrawAmount;
         // FUG BLOCK
         this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i));
 
@@ -283,6 +300,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       amount: new FormControl('', [
         Validators.required,
         this.isMaxThenActiveBalance.bind(this),
+        this.isMaxThenDailyLimit.bind(this),
         this.isMinThenMinWithdraw.bind(this),
       ]),
     });
@@ -291,6 +309,13 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   isMaxThenActiveBalance(): { [key: string]: any } | null {
     if (+this.activeBalance < +this.amountValue) {
       return { isMaxThenActiveBalance: true };
+    }
+    return null;
+  }
+
+  isMaxThenDailyLimit(): { [key: string]: any } | null {
+    if (+this.dailyLimit < +this.amountValue) {
+      return { isMaxThenDailyLimit: true };
     }
     return null;
   }
