@@ -3,6 +3,7 @@ import { balanceQubera } from 'app/funds/models/balance-qubera.model';
 import { KYC_STATUS } from 'app/shared/constants';
 import { EUR } from '../balance-constants';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
 
 @Component({
   selector: 'app-qubera-mob',
@@ -11,21 +12,9 @@ import { UtilsService } from 'app/shared/services/utils.service';
 })
 export class QuberaMobComponent implements OnInit {
   tableScrollStyles: any = {};
-  quberaBalance: balanceQubera[] = [];
   EUR = EUR;
 
-  @Input('balances') set balances(balances) {
-    if (balances && balances.data) {
-      this.checkBalance(balances);
-      this._balances = balances.data;
-    } else {
-      this._balances = [];
-    }
-  }
-  get balances() {
-    return this._balances;
-  }
-  private _balances;
+  @Input() public balances: QuberaBalanceModel;
   @Input() public kycStatus: string;
   @Input() public countOfPendingRequests = 0;
   @Input() public Tab;
@@ -37,6 +26,7 @@ export class QuberaMobComponent implements OnInit {
   @Output() public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
   @Output() public quberaKycVerification: EventEmitter<any> = new EventEmitter();
   @Output() public goToQuberaDetails: EventEmitter<any> = new EventEmitter();
+  public KYC_STATUS = KYC_STATUS;
 
   constructor(public utilsService: UtilsService) {
     this.setScrollStyles();
@@ -52,13 +42,11 @@ export class QuberaMobComponent implements OnInit {
 
   ngOnInit() {}
 
-  checkBalance(balance) {
-    if (this.kycStatus === KYC_STATUS.SUCCESS) {
-      this.quberaBalance = [balance.data];
-    }
-  }
-
   onShowMobDetails(currencyCode): void {
     this.goToQuberaDetails.emit({ currencyCode });
+  }
+
+  trackByFn(index, item) {
+    return index;
   }
 }
