@@ -663,7 +663,8 @@
 
         <a
           class="menu-mob__link"
-          href="https://about.exrates.me/terms-of-use"
+          routerLink="/static/terms-and-conditions"
+          (click)="mobileLinkClick()"
         >
           <span class="menu-mob__link-text">{{'Terms and Conditions' | translate}}</span>
         </a>
