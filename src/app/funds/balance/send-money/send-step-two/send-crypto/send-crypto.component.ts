@@ -37,6 +37,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public isMemo;
   public memoName = '';
   public activeCrypto;
+  public dailyLimit;
   public form: FormGroup;
   public calculateData: CommissionData = defaultCommissionData;
   public loadingBalance = false;
@@ -151,6 +152,19 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       this.form.controls['amount'].markAsTouched();
     }
   }
+  dailyLimitClick() {
+    if (this.activeBalance && this.activeBalance > 0) {
+      let amount = this.activeBalance;
+      if (+this.activeBalance > +this.dailyLimit) {
+        amount = this.dailyLimit;
+      }
+      this.form.controls['amount'].setValue(amount.toString());
+      this.calculateCommission(amount);
+      this.amountValue = amount;
+      this.form.controls['amount'].updateValueAndValidity();
+      this.form.controls['amount'].markAsTouched();
+    }
+  }
 
   amountBlur(event) {
     if (event && this.form.controls['amount'].valid) { this.calculateCommission(this.amountValue); }
@@ -208,6 +222,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       amount: new FormControl('', [
         Validators.required,
         this.isMaxThenActiveBalance.bind(this),
+        this.isMaxThenDailyLimit.bind(this),
         this.isMinThenMinWithdraw.bind(this),
       ]),
     });
@@ -221,6 +236,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.cryptoInfoByName = res;
         this.activeBalance = this.cryptoInfoByName.activeBalance;
+        this.dailyLimit = this.cryptoInfoByName.leftDailyWithdrawAmount;
         if (this.cryptoInfoByName.merchantCurrencyData.length) {
           this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalTagForWithdrawAddressIsUsed;
           this.memoName = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;
@@ -259,6 +275,13 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   isMaxThenActiveBalance(): { [key: string]: any } | null {
     if (+this.activeBalance < +this.amountValue) {
       return { isMaxThenActiveBalance: true };
+    }
+    return null;
+  }
+
+  isMaxThenDailyLimit(): { [key: string]: any } | null {
+    if (+this.dailyLimit < +this.amountValue) {
+      return { isMaxThenDailyLimit: true };
     }
     return null;
   }
