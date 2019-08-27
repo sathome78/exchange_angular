@@ -455,7 +455,7 @@
   "Type": "유형",
   "US Dollar": "US Dollar",
   "Unfortunately now you are not able to trade on this version of the website.": "",
-  "Unfortunately, for this moment there is no opportunity to continue desired action on current version of site. Please, go to <a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\">exrates.me</a> to proceed your action.": "유감스럽게도 현재 웹 사이트에서 귀하의 조치를 계속할 수있는 기회는 없습니다. 제발, 가라. <a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\">exrates.me</a> 당신의 행동을 계속하기 위해.",
+  "Unfortunately, for this moment there is no opportunity to continue desired action on current version of site. Please, go to <a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">exrates.me</a> to proceed your action.": "유감스럽게도 현재 웹 사이트에서 귀하의 조치를 계속할 수있는 기회는 없습니다. 제발, 가라. <a href=\"https://exrates.me\" class=\"link link--underline\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">exrates.me</a> 당신의 행동을 계속하기 위해.",
   "Update password": "비밀번호 업데이트",
   "Upload image of your face": "사진 업로드",
   "Use Google Authenticator to generate pincode": "Google OTP를 사용하여 PIN 코드 생성",

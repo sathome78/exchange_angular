@@ -1,199 +1,54 @@
-h2 {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 24px;
-    line-height: 28px;
-    text-align: center;
-    color: #191A39;
-    margin-bottom: 14px;
-    @media(max-width: 1200px){
-        color: #DEDEFB;
-    }
-}
-
-h3 {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 21px;
-    text-align: center;
-    color: #000;
-    margin-bottom: 24px;
-    @media(max-width: 1200px){
-        color: #DEDEFB;
-    }
-}
-
 form {
-    max-width: 480px;
-    margin: 0 auto;
-}
-
-form .wrap-input {
-    margin-bottom: 10px;
-}
-
-form .rules {
-    margin-top: 38px;
-    margin-bottom: 50px;
-}
-
-form .rules p{
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 13px;
-    line-height: 15px;
-    color: #525F73;
-    margin-bottom: 16px;
-    @media(max-width: 1200px){
-        color: #DEDEFB;
-    }
-}
-
-form .action {
-    display: flex;
-    justify-content: center;
-}
-
-.select__list-searching-body {
-    overflow-y: auto!important;
-}
-.transaction__datepicker {
-    width: 100%!important;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 ::ng-deep .mydp{
-    display: flex !important;
-    width: 100%!important;
-    margin: 0!important;
-    border: 1px solid #237BEF!important;
-    .selectiongroup{
-        margin-left: auto !important;
-        .selbtngroup {
-            width: auto !important;
-            .section {
-                color: #237BEF!important;
-            }
-        }
-    }
-}
-
-form .action a {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    text-align: center;
-    color: #FFFFFF;
-    background: #ECECEC;
-    border-radius: 4px;
-    padding: 14px 60px;
-    cursor: pointer;
-}
-
-form .select {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-
-.btn {
-    &.btn--center {
-      color: #ffffff !important;
-      &.btn--empty-blue {
-        color: #237BEF !important;
-        &:hover {
-          background-color: transparent !important;
-          border: 1px solid #237BEF !important;
+  display: flex !important;
+  width: 100%!important;
+  margin: 0!important;
+  border: 1px solid #237BEF!important;
+  .selectiongroup{
+    margin-left: auto !important;
+    .selbtngroup {
+      width: auto !important;
+      .section {
+        color: #237BEF!important;
       }
+    }
   }
 }
+
+::ng-deep .mydp .selectorarrowleft:after,::ng-deep  .mydp .selectorarrowleft:before{
+  display: none;
 }
 
-.read{
-    border: 1px solid #ECECEC;
-    cursor: pointer;
-    border-radius: 2px;
-    display: block;
-    width: 16px;
-    height: 16px;
-    margin-right: 6px;
-    margin-top: -2px;
-    position: relative;
-    @media(max-width: 1200px){
-        border: 1px solid #DEDEFB;
-    }
-    &::after{
-        content: "";
-        position: absolute;
-        top: 2px;
-        right: 0;
-        display: block;
-        width: 13px;
-        height: 10px;
-        content: "";
-        background-image: url(/assets/img/step-valid.svg);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 100%;
-        opacity: 0;
-        transition: .3s;
-        @media(max-width: 1200px){
-        background-image: url(/assets/img/check.svg);
-    }
-    }
+::ng-deep .mydp .selector{
+  right: 15px;
 }
 
-#read {
-    display: none;
+h3 {
+  margin-bottom: 35px;
 }
 
-.check{
-    display: flex;
-    align-items: center;
-    span{
-        font-weight: 400;
-        font-size: 13px;
-        line-height: 1.15;
-        color: #525F73;
-        @media(max-width: 1200px){
-            color: #DEDEFB;
-        }
-    }
-
-    input{
-        &:checked{
-            &+label{
-                &::after{
-
-                    opacity: 1;
-                }
-            }
-        }
-    }
+h2 {
+  margin-bottom: 11px;
+}
+.btn--center{
+  position: relative;
 }
 
-.rules{
-    p{
-        a{
-            font-weight: 400;
-            font-size: 13px;
-            line-height: 1.15;
-            color: #237BEF;
-            text-decoration: none;
-        }
-    }
-}
+.loader-wr{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+  }
+.loaded{
+  span{
+    opacity: 0;
+  }
 
-.select-input_label {
-    top: -5px;
-    padding: 0 2px;
-    font-size: 10px;
-    line-height: 12px;
-    z-index: 100;
-    background-color: #fff;
 }
-

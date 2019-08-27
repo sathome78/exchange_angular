@@ -1,5 +1,8 @@
-<div *ngIf="!!activeFiat && !!fiatInfoByName">
-  <div class="title send__title">{{'Fiat Withdrawal' | translate}} <span>{{currName}}</span></div>
+<div
+  *ngIf="!!activeFiat && !!fiatInfoByName"
+  class="send-fiat-s2 side-popups"
+>
+  <h2 class="title send__title">{{'Fiat Withdrawal' | translate}} <span>{{currName}}</span></h2>
   <div
     class="formWraper"
     *ngIf="isEnterData"
@@ -11,10 +14,12 @@
             class="select__value select__value--active"
             (click)="currencyDropdownToggle()"
           >
+          <div class="icon-wr">
             <img
               [src]="(currName) | getIconUrl"
               class="select__list-item-icon"
             >
+          </div>
             {{currName}}
           </div>
           <div class="select__label">{{'Currency' | translate}}</div>
@@ -29,13 +34,15 @@
 
             <li
               class="select__list-item"
-              *ngFor="let currency of fiatNames; trackBy: trackByFiatNames"
+              *ngFor="let currency of fiatNames"
               (click)="selectCurrency(currency)"
             >
+            <div class="icon-wr">
               <img
                 [src]="currency.name | getIconUrl"
                 class="select__list-item-icon"
               >
+            </div>
               {{currency.name}}
             </li>
 
@@ -179,11 +186,10 @@
                 ngFor
                 let-merchant
                 [ngForOf]="merchants"
-                [ngForTrackBy]="trackByIndex"
               >
                 <li
                   class="select__list-item"
-                  *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate; trackBy: trackByIndex"
+                  *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
                   (click)="selectMerchant(merchant, nested)"
                 >
                   <img
@@ -203,7 +209,7 @@
           class="wrap-input send__wrap-input"
           [ngClass]="{'wrap-input--error': (!form.controls['address'].valid &&
           (form.controls['address'].touched || isSubmited)) && form.controls['amount'].valid}"
-          *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length && selectedMerchant.name !== FUG"
+          *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length && selectedMerchant.name !== 'FUG'"
         >
           <input
             class="wrap-input__input"
@@ -231,9 +237,9 @@
         <!-- if qubera -->
         <div
           class="notice-for-withdraw"
-          *ngIf="selectedMerchant.name == FUG"
+          *ngIf="selectedMerchant.name == 'FUG'"
         >
-          <p>Funds will be transferred to your personal account</p>
+          <p>{{'Funds will be transferred to your personal account' | translate}}</p>
         </div>
         <!-- end if qubera -->
 
@@ -276,7 +282,7 @@
       </div>
       <button
         class="btn btn--center "
-        [ngClass]="{'btn--empty-blue': !form.valid}"
+        [disabled]="!form.valid"
         (click)="onSubmitWithdrawal()"
       >{{'Withdraw' | translate}}
         <span class="value">{{calculateData.resultAmount}}</span>
@@ -317,7 +323,7 @@
 <ng-container *ngIf="!isEnterData">
   <div
     *ngIf="!utilsService.isDevCaptcha(userInfo.username); else devCaptchaTemplate"
-    class="captcha-wrapper"
+    class="captcha-wrapper send-fiat-s2 side-popups"
   >
     <h6 class="popup__title">{{'Enter the captcha' | translate}}</h6>
     <re-captcha
@@ -335,7 +341,7 @@
 
 
 <ng-template #devCaptchaTemplate>
-  <div class="captcha-wrapper">
+  <div class="captcha-wrapper send-fiat-s2 side-popups">
     <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
     <h4 class="popup__subtitle popup_title--dm">Captcha emulation for developers and QA</h4>
     <button

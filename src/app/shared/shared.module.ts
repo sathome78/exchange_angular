@@ -36,7 +36,6 @@ import { DynamicInputDataPipe } from './pipes/dynamic-input-data.pipe';
 import { RestorePasswordGuard } from './guards/restore-password.guard';
 import { GetObjectKeysPipe } from './pipes/getObjectKeys.pipe';
 import { MomentModule } from 'ngx-moment';
-import { ExponentToNumberPipe } from './pipes/exponent-to-number.pipe';
 import { AddClassDirective } from './directives/add-class.directive';
 import { ConstantsService } from './services/constants.service';
 import { SafePipe } from './pipes/safe.pipe';
@@ -63,6 +62,7 @@ import { PopupWaitIEOComponent } from './components/popup-wait-ieo/popup-wait-ie
 import { PopupSorryIEOComponent } from './components/popup-sorry-ieo/popup-sorry-ieo.component';
 import { BirthdayMaskInputComponent } from './components/birthday-mask-input/birthday-mask-input.component';
 import { CheatingInputComponent } from './components/cheating-input/cheating-input.component';
+import { APIErrorsService } from './services/apiErrors.service';
 
 @NgModule({
   declarations: [
@@ -84,7 +84,6 @@ import { CheatingInputComponent } from './components/cheating-input/cheating-inp
     RefactUrlByNewsPipe,
     ExcludeSpacesDirective,
     RoundCurrencyPipe,
-    ExponentToNumberPipe,
     ShowOrderStatusPipe,
     GetCountConfirmationsPipe,
     GetObjectKeysPipe,
@@ -159,7 +158,6 @@ import { CheatingInputComponent } from './components/cheating-input/cheating-inp
     OnlyNumbersDirective,
     BuyTotalCalculatePipe,
     SellTotalCalculatePipe,
-    ExponentToNumberPipe,
     ExcludeByFieldPipe,
     RoundCurrencyPipe,
     FormatCurrencyPipe,
@@ -191,6 +189,7 @@ import { CheatingInputComponent } from './components/cheating-input/cheating-inp
     RoundCurrencyPipe,
     FormatCurrencyPipe,
     ShowPageGuard,
+    APIErrorsService,
   ],
 })
 export class SharedModule {}

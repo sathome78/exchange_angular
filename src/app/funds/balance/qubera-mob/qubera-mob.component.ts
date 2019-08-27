@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { balanceQubera } from 'app/funds/models/balance-qubera.model';
 import { KYC_STATUS } from 'app/shared/constants';
 import { EUR } from '../balance-constants';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-qubera-mob',
@@ -37,7 +38,7 @@ export class QuberaMobComponent implements OnInit {
   @Output() public quberaKycVerification: EventEmitter<any> = new EventEmitter();
   @Output() public goToQuberaDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor() {
+  constructor(public utilsService: UtilsService) {
     this.setScrollStyles();
   }
 
@@ -58,6 +59,6 @@ export class QuberaMobComponent implements OnInit {
   }
 
   onShowMobDetails(currencyCode): void {
-    this.goToQuberaDetails.emit({currencyCode});
+    this.goToQuberaDetails.emit({ currencyCode });
   }
 }

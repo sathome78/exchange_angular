@@ -29,6 +29,7 @@ export class PendingRequestDetailsComponent implements OnInit, OnDestroy {
       this.detailsItem = data ? JSON.parse(data) : null;
       if (!this.detailsItem) {
         this.router.navigate(['/funds/balances']);
+        return;
       }
       this.location.replaceState(this.location.path().split('?')[0], '');
     });
@@ -38,7 +39,7 @@ export class PendingRequestDetailsComponent implements OnInit, OnDestroy {
   public loading$: Observable<boolean>;
   public pendingRequestsItem = PendingRequestsItem;
   public detailsItem: PendingRequestsItem = null;
-  public showRevokeModal: boolean = false;
+  public showRevokeModal = false;
 
   ngOnInit() {}
 

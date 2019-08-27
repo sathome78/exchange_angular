@@ -18,7 +18,12 @@ import { CurrencyChoose } from 'app/model/currency-choose.model';
   styleUrls: ['./pending-request-mob.component.scss'],
 })
 export class PendingRequestMobComponent implements OnInit {
-  constructor(private router: Router, private store: Store<fromCore.State>, private location: Location, private utils: UtilsService) {
+  constructor(
+    private router: Router,
+    private store: Store<fromCore.State>,
+    private location: Location,
+    private utils: UtilsService
+  ) {
     const componentHeight = window.innerHeight;
     this.tableScrollStyles = {
       height: componentHeight - 180 + 'px',
@@ -44,10 +49,10 @@ export class PendingRequestMobComponent implements OnInit {
   public countOfPendingRequests$: Observable<number>;
   public tableScrollStyles: any = {};
   public pendingRequests: PendingRequestsItem[] = [];
-  public countPerPage: number = 30;
-  public currentPage: number = 1;
-  public countOfEntries: number = 1;
-  public currValue: string = '';
+  public countPerPage = 30;
+  public currentPage = 1;
+  public countOfEntries = 1;
+  public currValue = '';
   public currencyForChoose: string = null;
 
   ngOnInit() {

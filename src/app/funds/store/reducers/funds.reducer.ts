@@ -7,10 +7,11 @@ import { MyBalanceItem, MyBalanceItemSimple } from 'app/model/my-balance-item.mo
 import { BalanceDetailsItem } from '../../models/balance-details-item.model';
 import { TransactionHistoryItem } from 'app/funds/models/transactions-history-item.model';
 import { IEOItem } from 'app/model/ieo.model';
+import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
 
 export interface State {
   cryptoBal: BalanceItem[];
-  quberaBal: any[];
+  quberaBal: { data: QuberaBalanceModel; error: any };
   countCryptoBal: number;
   fiatBal: BalanceItem[];
   countFiatBal: number;
@@ -261,7 +262,7 @@ export const getIEOBalancesSelector = createSelector(
 
 /** Qubera balances */
 
-export const getQuberaBalances = (state: State): any[] => state.quberaBal;
+export const getQuberaBalances = (state: State): any => state.quberaBal;
 
 export const getQuberaBalancesSelector = createSelector(
   getFundsState,

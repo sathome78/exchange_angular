@@ -8,11 +8,16 @@ import {
   getHistoryOrders,
   getOrdersLoading,
   getOpenOrdersCount,
-  getUserInfo,
+  getUserInfo
 } from '../../../core/reducers';
 import { Subject, Observable } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
-import { LoadOpenOrdersAction, LoadHistoryOrdersAction } from 'app/dashboard/actions/dashboard.actions';
+import {
+  LoadOpenOrdersAction,
+  LoadHistoryOrdersAction,
+  SetOpenOrdersAction
+} from 'app/dashboard/actions/dashboard.actions';
+import { SetHistoryOrdersAction } from 'app/orders/store/actions/orders.actions';
 
 @Component({
   selector: 'app-embedded-orders-mobile',
@@ -49,6 +54,7 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = pair;
+        this.resetOrders();
         this.toOpenOrders();
         this.toHistory();
       });
@@ -69,6 +75,21 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
   toggleMainTab(tabName: string): void {
     this.mainTab = tabName;
     this.mainTab === 'open' ? this.toOpenOrders() : this.toHistory();
+  }
+
+  resetOrders(): void {
+    this.store.dispatch(
+      new SetOpenOrdersAction({
+        openOrders: [],
+        count: 0,
+      })
+    );
+    this.store.dispatch(
+      new SetHistoryOrdersAction({
+        historyOrders: [],
+        count: 0,
+      })
+    );
   }
 
   toOpenOrders(): void {

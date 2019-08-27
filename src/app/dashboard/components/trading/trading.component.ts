@@ -1,4 +1,12 @@
-import { Component, OnDestroy, OnInit, HostListener, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  HostListener,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  ViewChild
+} from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 
 import { Subject } from 'rxjs/Subject';
@@ -13,7 +21,8 @@ import {
   getSelectedOrderBookOrder,
   getIsAuthenticated,
   getUserBalance,
-  getOrdersBookSellOrders
+  getOrdersBookSellOrders,
+  getOrdersBookBuyOrders
 } from '../../../core/reducers/index';
 import { UserService } from '../../../shared/services/user.service';
 import { OrderItemOB, UserBalance } from '../../../model';
@@ -27,6 +36,8 @@ import { BreakpointService } from '../../../shared/services/breakpoint.service';
 import { SimpleCurrencyPair } from '../../../model/simple-currency-pair';
 import { LoadOpenOrdersAction } from '../../actions/dashboard.actions';
 import { messages } from '../../constants';
+import { UtilsService } from 'app/shared/services/utils.service';
+import { PriceInputComponent } from 'app/shared/components/price-input/price-input.component';
 
 @Component({
   selector: 'app-trading',
@@ -59,8 +70,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public isPossibleSetPrice = true;
   public currentPair: SimpleCurrencyPair;
 
-  public maxMarketOrder = 0;
+  public maxBuyMarketOrder = 0;
+  public maxSellMarketOrder = 0;
   public ordersBookSellOrders = [];
+  public ordersBookBuyOrders = [];
   public notifySuccess = false;
   public notifyFail = false;
   public message = '';
@@ -73,6 +86,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public loading = false;
   private successTimeout;
   private failTimeout;
+  @ViewChild('quantitySell') public quantitySell: PriceInputComponent;
+  @ViewChild('quantityBuy') public quantityBuy: PriceInputComponent;
 
   public defaultOrder: Order = {
     orderType: '',
@@ -115,6 +130,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     public breakpointService: BreakpointService,
     private popupService: PopupService,
     private userService: UserService,
+    private utilsService: UtilsService,
     private cdr: ChangeDetectorRef,
     public translateService: TranslateService
   ) {
@@ -161,11 +177,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((lastPrice: LastPrice) => {
         if (this.isPossibleSetPrice) {
-          this.setPriceInValue(lastPrice.price, this.BUY);
-          this.setPriceInValue(lastPrice.price, this.SELL);
-          this.sellOrder.rate = lastPrice.price ? parseFloat(lastPrice.price.toString()) : 0;
-          this.buyOrder.rate = lastPrice.price ? parseFloat(lastPrice.price.toString()) : 0;
-          // this.resetStopValue();
+          const rate = parseFloat(lastPrice.price.toString());
+          this.setNewLimitAndStop(rate);
         }
         this.cdr.detectChanges();
       });
@@ -176,8 +189,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe(order => {
         if (+order.exrate !== 0) {
           this.isPossibleSetPrice = false;
+          this.orderFromOrderBook(order);
         }
-        this.orderFromOrderBook(order);
         this.cdr.detectChanges();
       });
 
@@ -187,7 +200,17 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe(orders => {
         this.ordersBookSellOrders = orders;
         if (this.dropdownLimitValue === this.baseType.MARKET) {
-          this.maxMarketOrder = this.calcMaxMarketOrder(orders);
+          this.maxBuyMarketOrder = this.calcMaxBuyMarketOrder(orders);
+        }
+      });
+
+    this.store
+      .pipe(select(getOrdersBookBuyOrders))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(orders => {
+        this.ordersBookBuyOrders = orders.slice().reverse();
+        if (this.dropdownLimitValue === this.baseType.MARKET) {
+          this.maxSellMarketOrder = this.calcMaxSellMarketOrder(this.ordersBookBuyOrders);
         }
       });
   }
@@ -271,25 +294,25 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    */
   selectedLimit(limit: string): void {
     this.dropdownLimitValue = limit;
+    this.resetForms();
     if (limit === this.baseType.MARKET) {
-      this.maxMarketOrder = this.calcMaxMarketOrder(this.ordersBookSellOrders);
+      this.maxBuyMarketOrder = this.calcMaxBuyMarketOrder(this.ordersBookSellOrders);
+      this.maxSellMarketOrder = this.calcMaxSellMarketOrder(this.ordersBookBuyOrders);
     }
     this.isDropdownOpen = false;
   }
 
-  // private resetStopValue(): void {
-  //   this.buyStopValue = 0;
-  //   this.sellStopValue = 0;
-  //   this.setStopValue('0', 'BUY');
-  //   this.setStopValue('0', 'SELL');
-  // }
+  private resetForms(): void {
+    this.resetBuyModel();
+    this.resetSellModel();
+  }
 
   /**
    * set form value (quantityOf)
    * @param value
    */
   setQuantityValue(value, orderType: string): void {
-    const newValue = typeof value === 'string' ? value : this.exponentToNumber(value).toString();
+    const newValue = typeof value === 'string' ? value : !value ? '0' : this.utilsService.currencyFormat(value);
     orderType === this.BUY
       ? this.buyForm.controls['quantity'].setValue(newValue)
       : this.sellForm.controls['quantity'].setValue(newValue);
@@ -300,7 +323,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param value
    */
   setPriceInValue(value, orderType: string): void {
-    const newValue = typeof value === 'string' ? value : !value ? '0' : this.exponentToNumber(value).toString();
+    const newValue = typeof value === 'string' ? value : !value ? '0' : this.utilsService.currencyFormat(value);
     orderType === this.BUY
       ? this.buyForm.controls['price'].setValue(newValue)
       : this.sellForm.controls['price'].setValue(newValue);
@@ -311,7 +334,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param value
    */
   setTotalInValue(value, orderType: string): void {
-    const newValue = typeof value === 'string' ? value : this.exponentToNumber(value).toString();
+    const newValue = typeof value === 'string' ? value : !value ? '0' : this.utilsService.currencyFormat(value);
     orderType === this.BUY
       ? this.buyForm.controls['total'].setValue(newValue)
       : this.sellForm.controls['total'].setValue(newValue);
@@ -322,9 +345,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param value
    */
   setStopValue(value, orderType: string): void {
+    const newValue = typeof value === 'string' ? value : !value ? '0' : this.utilsService.currencyFormat(value);
     orderType === this.BUY
-      ? this.buyForm.controls['stop'].setValue(value)
-      : this.sellForm.controls['stop'].setValue(value);
+      ? this.buyForm.controls['stop'].setValue(newValue)
+      : this.sellForm.controls['stop'].setValue(newValue);
   }
 
   /**
@@ -337,7 +361,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     if (orderType === this.BUY && this.dropdownLimitValue === this.baseType.MARKET) {
       total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0;
       const totalIn = (total * percent) / 100;
-      const quantityOf = this.calcMarketOrder(this.ordersBookSellOrders, totalIn);
+      const quantityOf = this.calcBuyMarketOrder(this.ordersBookSellOrders, totalIn);
       this.setQuantityValue(quantityOf, this.BUY);
       this.buyOrder.amount = quantityOf;
     } else if (orderType === this.BUY) {
@@ -346,6 +370,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.buyOrder.total = totalIn;
       this.setTotalInValue(totalIn, this.BUY);
       this.getCommission(orderType, false);
+    } else if (orderType === this.SELL && this.dropdownLimitValue === this.baseType.MARKET) {
+      total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0;
+      const totalIn = (total * percent) / 100;
+      const quantityOf = this.calcSellMarketOrder(this.ordersBookBuyOrders, totalIn);
+      this.sellOrder.amount = quantityOf;
+      this.setQuantityValue(quantityOf, this.SELL);
     } else {
       total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0;
       const quantityOf = (total * percent) / 100;
@@ -363,15 +393,29 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.resetBuyModel();
     this.resetSellModel();
     const rate = parseFloat(order.exrate.toString());
-    this.sellOrder.rate = rate;
-    this.setPriceInValue(rate, this.SELL);
-    this.buyOrder.rate = rate;
-    this.setPriceInValue(rate, this.BUY);
-    const amount = parseFloat(order.amount.toString());
-    this.setQuantityValue(amount, order.orderType);
+    this.setNewLimitAndStop(rate);
+    if (this.dropdownLimitValue !== this.baseType.MARKET) {
+      const amount = this.getQuantityOfSelectedOrder(order);
+      this.setQuantityValue(amount, order.orderType === this.SELL ? this.BUY : this.SELL);
+      this.quantityInput({ target: { value: amount } }, order.orderType === this.SELL ? this.BUY : this.SELL);
+    }
     this.getCommission(this.SELL);
     this.getCommission(this.BUY);
-    this.quantityInput({ target: { value: amount } }, order.orderType);
+  }
+
+  private setNewLimitAndStop(rate) {
+    if (this.dropdownLimitValue === this.baseType.STOP_LIMIT) {
+      this.sellOrder.stop = rate;
+      this.sellStopValue = rate;
+      this.setStopValue(rate, this.BUY);
+      this.buyOrder.stop = rate;
+      this.buyStopValue = rate;
+      this.setStopValue(rate, this.SELL);
+    }
+    this.sellOrder.rate = rate;
+    this.setPriceInValue(rate, this.BUY);
+    this.buyOrder.rate = rate;
+    this.setPriceInValue(rate, this.SELL);
   }
 
   /**
@@ -396,6 +440,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * @param pair
    */
   private onGetCurrentCurrencyPair(pair: SimpleCurrencyPair, isAuth: boolean): void {
+    this.maxBuyMarketOrder = 0;
+    this.maxSellMarketOrder = 0;
     this.isPossibleSetPrice = true;
     this.currentPair = pair;
     this.userService.getUserBalance(this.currentPair);
@@ -435,8 +481,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   calculateAmountByTotalWithCommission(type: string): void {
     let total = 0;
     if (type === this.BUY && this.dropdownLimitValue === this.baseType.MARKET) {
-      this.setQuantityValue(this.maxMarketOrder, this.BUY);
-      this.buyOrder.amount = this.maxMarketOrder;
+      this.setQuantityValue(this.maxBuyMarketOrder, this.BUY);
+      this.buyOrder.amount = this.maxBuyMarketOrder;
     } else if (type === this.BUY) {
       total = this.userBalance.cur2 ? +this.userBalance.cur2.balance : 0;
 
@@ -453,6 +499,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.buyOrder.amount = 0;
         this.setQuantityValue(0, this.BUY);
       }
+    } else if (type === this.SELL && this.dropdownLimitValue === this.baseType.MARKET) {
+      this.setQuantityValue(this.maxSellMarketOrder, this.SELL);
+      this.sellOrder.amount = this.maxSellMarketOrder;
     } else {
       total = this.userBalance.cur1 ? +this.userBalance.cur1.balance : 0;
       this.setQuantityValue(total, this.SELL);
@@ -566,32 +615,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   /**
-   * Method transform exponent format to number
-   * @param x
-   * @returns {any}
-   */
-  private exponentToNumber(x) {
-    let res = x;
-    if (Math.abs(res) < 1.0) {
-      const e = parseInt(res.toString().split('e-')[1], 10);
-      if (e) {
-        res *= Math.pow(10, e - 1);
-        // tslint:disable-next-line: prefer-array-literal
-        res = `0. ${new Array(e).join('0')}${res.toString().substring(2)}`;
-      }
-    } else {
-      let e = parseInt(res.toString().split('+')[1], 10);
-      if (e > 20) {
-        e -= 20;
-        res /= Math.pow(10, e);
-        // tslint:disable-next-line: prefer-array-literal
-        res += new Array(e + 1).join('0');
-      }
-    }
-    return res;
-  }
-
-  /**
    * on click submit button
    */
   onSubmit(type: string): void {
@@ -599,11 +622,18 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.popupService.showMobileLoginPopup(true);
       return;
     }
-
     type === this.BUY ? this.onBuySubmit(type) : this.onSellSubmit(type);
   }
 
   private onSellSubmit(type: string) {
+    if (this.dropdownLimitValue === this.baseType.MARKET) {
+      this.quantitySell.setBlur();
+      this.sellForm.controls['quantity'].setValidators([
+        Validators.required,
+        this.marketOrderValidation(this.maxSellMarketOrder),
+      ]);
+      this.sellForm.controls['quantity'].updateValueAndValidity();
+    }
     if (this.sellForm.valid) {
       this.sellOrder.currencyPairId = this.currentPair.id;
       this.sellOrder.baseType = this.dropdownLimitValue;
@@ -613,11 +643,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.sellOrder.total = 0;
         this.sellOrder.commission = 0;
         this.createMarketOrder(type);
+        this.sellForm.controls.quantity.setValidators([Validators.required]);
         return;
       }
 
       this.dropdownLimitValue === this.baseType.STOP_LIMIT
-        ? (this.sellOrder.stop = parseFloat(this.sellStopValue.toString()))
+        ? (this.sellOrder.stop = parseFloat(this.sellStopValue ? this.sellStopValue.toString() : '0'))
         : delete this.sellOrder.stop;
 
       this.sellOrder.total = !this.isTotalWithCommission
@@ -626,13 +657,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
       this.createNewOrder(type);
     }
+    this.sellForm.controls.quantity.setValidators([Validators.required]);
   }
 
   private onBuySubmit(type: string) {
     if (this.dropdownLimitValue === this.baseType.MARKET) {
+      this.quantityBuy.setBlur();
       this.buyForm.controls['quantity'].setValidators([
         Validators.required,
-        this.marketOrderValidation(this.maxMarketOrder),
+        this.marketOrderValidation(this.maxBuyMarketOrder),
       ]);
       this.buyForm.controls['quantity'].updateValueAndValidity();
     }
@@ -651,7 +684,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       }
 
       this.dropdownLimitValue === this.baseType.STOP_LIMIT
-        ? (this.buyOrder.stop = parseFloat(this.buyStopValue.toString()))
+        ? (this.buyOrder.stop = parseFloat(this.buyStopValue ? this.buyStopValue.toString() : '0'))
         : delete this.buyOrder.stop;
 
       this.buyOrder.total = !this.isTotalWithCommission
@@ -672,21 +705,31 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     const order = type === this.BUY ? this.buyOrder : this.sellOrder;
     this.createdOrder = order;
     this.loading = true;
-    this.tradingService
-      .createOrder(order)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(
-        res => {
-          type === this.BUY
-            ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
-            : this.resetSellModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null);
-          this.createOrderSuccess();
-        },
-        err => {
-          this.checkErrorCode(err);
-          this.createOrderFail();
-        }
-      );
+
+    const isDataValid = this.checkIsDataForOrderValid(order);
+    if (isDataValid) {
+      this.tradingService
+        .createOrder(order)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(
+          res => {
+            type === this.BUY
+              ? this.resetBuyModel(order.rate, this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null)
+              : this.resetSellModel(
+                  order.rate,
+                  this.dropdownLimitValue === orderBaseType.STOP_LIMIT ? order.stop : null
+                );
+            this.createOrderSuccess();
+          },
+          err => {
+            this.checkErrorCode(err);
+            this.createOrderFail();
+          }
+        );
+    } else {
+      this.checkValidationCode(order);
+      this.createOrderFail();
+    }
   }
 
   /**
@@ -700,7 +743,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
     const order = type === this.BUY ? this.buyOrder : this.sellOrder;
     this.createdOrder = order;
-    if (order.total > 0) {
+
+    const isDataValid = this.checkIsDataForOrderValid(order);
+
+    if (isDataValid) {
       this.loading = true;
       this.tradingService
         .createOrder(order)
@@ -721,6 +767,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
           }
         );
     } else {
+      this.checkValidationCode(order);
       this.createOrderFail();
     }
   }
@@ -762,6 +809,59 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     }
   }
 
+  private checkIsDataForOrderValid(order) {
+    let isValid = false;
+    if (this.dropdownLimitValue === this.baseType.MARKET) {
+      isValid = order.amount > 0.00000001;
+    } else if (this.dropdownLimitValue === this.baseType.STOP_LIMIT) {
+      isValid =
+        order.total > 0.00000001 && order.stop > 0.00000001 && order.amount > 0.00000001 && order.rate > 0.00000001;
+    } else if (this.dropdownLimitValue === this.baseType.LIMIT) {
+      isValid = order.total > 0.00000001 && order.amount > 0.00000001 && order.rate > 0.00000001;
+    }
+    return isValid;
+  }
+
+  private checkValidationCode(order) {
+    this.errorMessages = [];
+    if (this.dropdownLimitValue === this.baseType.MARKET) {
+      if (order.amount <= 0.00000001) {
+        this.errorMessages.push('The quantity must be greater than 0.00000001.');
+      }
+    } else if (this.dropdownLimitValue === this.baseType.STOP_LIMIT) {
+      if (order.amount <= 0.00000001) {
+        this.errorMessages.push('The quantity must be greater than 0.00000001.');
+      }
+      if (order.rate <= 0.00000001) {
+        this.errorMessages.push('The limit price must be greater than 0.00000001.');
+      }
+      if (order.stop <= 0.00000001) {
+        this.errorMessages.push('The stop limit must be greater than 0.00000001.');
+      }
+      if (order.total <= 0.00000001) {
+        this.errorMessages.push('The total must be greater than 0.00000001.');
+      }
+    } else if (this.dropdownLimitValue === this.baseType.LIMIT) {
+      if (order.amount <= 0.00000001) {
+        this.errorMessages.push('The quantity must be greater than 0.00000001.');
+      }
+      if (order.rate <= 0.00000001) {
+        this.errorMessages.push('The limit price must be greater than 0.00000001.');
+      }
+      if (order.total <= 0.00000001) {
+        this.errorMessages.push('The total must be greater than 0.00000001.');
+      }
+    }
+    if (this.errorMessages.length) {
+      if (this.errorMessages.length === 1) {
+        this.errorMessages.push('Complete the field');
+      } else {
+        this.errorMessages.push('Complete the fields');
+      }
+
+    }
+  }
+
   defineMessage(errors, errorParams) {
     Object.keys(errors).forEach(key => {
       const path = errors[key].split('.');
@@ -774,22 +874,58 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     });
   }
 
-  calcMarketOrder(orders, balance = 0) {
+  getQuantityOfSelectedOrder(selectedOrder: OrderItemOB) {
+    let bal;
+
+    if (selectedOrder.orderType === this.BUY) {
+      bal = (this.userBalance && this.userBalance.cur1 && this.userBalance.cur1.balance) || 0;
+      if (+selectedOrder.sumAmount < bal) {
+        return selectedOrder.sumAmount;
+      }
+    } else {
+      bal = (this.userBalance && this.userBalance.cur2 && this.userBalance.cur2.balance) || 0;
+      if (+selectedOrder.total < bal) {
+        return selectedOrder.sumAmount;
+      }
+    }
+
+    return bal / +selectedOrder.exrate;
+  }
+
+  calcBuyMarketOrder(orders, balance = 0) {
     if (!orders.length) {
       return 0;
     }
 
-    const lastItem = orders.find(el => el.total >= balance);
+    const lastItem = orders.find(el => +el.total >= +balance);
     if (lastItem) {
       const rate = lastItem.total / lastItem.sumAmount;
       return balance / rate;
     }
-    return orders.length && orders[orders.length - 1].sumAmount;
+    return +orders[orders.length - 1].sumAmount;
   }
 
-  calcMaxMarketOrder(orders): number {
+  calcSellMarketOrder(orders, balance = 0) {
+    if (!orders.length) {
+      return 0;
+    }
+
+    const lastItem = orders.find(el => +el.sumAmount >= +balance);
+    if (lastItem) {
+      const rate = lastItem.total / lastItem.sumAmount;
+      return balance / rate;
+    }
+    return +orders[0].sumAmount;
+  }
+
+  calcMaxBuyMarketOrder(orders): number {
     const bal = (this.userBalance && this.userBalance.cur2 && this.userBalance.cur2.balance) || 0;
-    return this.calcMarketOrder(orders, bal);
+    return this.calcBuyMarketOrder(orders, bal);
+  }
+
+  calcMaxSellMarketOrder(orders): number {
+    const bal = (this.userBalance && this.userBalance.cur1 && this.userBalance.cur1.balance) || 0;
+    return this.calcSellMarketOrder(orders, bal);
   }
 
   marketOrderValidation(maxMarketOrder): ValidatorFn {

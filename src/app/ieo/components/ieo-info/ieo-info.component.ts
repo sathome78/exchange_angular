@@ -130,6 +130,7 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   goToNewsPage() {
-    window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`);
+    const newWnd = window.open(`https://news.exrates.me/article/${this.IEOData.currencyName}`);
+    newWnd.opener = null;
   }
 }

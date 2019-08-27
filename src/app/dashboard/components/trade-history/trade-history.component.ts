@@ -136,6 +136,7 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
 
   private onGetCurrentCurrencyPair(pair: SimpleCurrencyPair) {
     this.activeCurrencyPair = pair;
+    this.store.dispatch(new SetAllTradesAction([]));
     this.subscribeTrades(pair.name);
     this.allTrades = [];
     this.personalTrades = [];

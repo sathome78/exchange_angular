@@ -12,14 +12,16 @@ import { select, Store } from '@ngrx/store';
 import * as fromCore from './core/reducers';
 import * as coreAction from './core/actions/core.actions';
 import * as dashboardAction from './dashboard/actions/dashboard.actions';
+import * as settingsActions from './settings/store/actions/settings.actions';
 import { SimpleCurrencyPair } from './model/simple-currency-pair';
 import { SEOService } from './shared/services/seo.service';
 import { UtilsService } from './shared/services/utils.service';
 import { IEOServiceService } from './shared/services/ieoservice.service';
-import { ChangeLanguageAction } from './core/actions/core.actions';
-import { getLanguage } from './core/reducers';
 import { GtagService } from './shared/services/gtag.service';
 import { lang } from 'moment';
+import { APIErrorsService } from './shared/services/apiErrors.service';
+import { APIErrorReport } from './shared/models/apiErrorReport.model';
+import { Notification } from 'app/model/notification.model';
 
 @Component({
   selector: 'app-root',
@@ -42,15 +44,16 @@ export class AppComponent implements OnInit, OnDestroy {
     private seoService: SEOService,
     private store: Store<fromCore.State>,
     public translate: TranslateService,
+    public apiErrorsService: APIErrorsService,
     private gtagService: GtagService
   ) {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
 
     // uncomment when the translation is ready
     const langCandidate = localStorage.getItem('language');
-    this.store.dispatch(new ChangeLanguageAction(!!langCandidate ? langCandidate : 'en'));
+    this.store.dispatch(new coreAction.ChangeLanguageAction(!!langCandidate ? langCandidate : 'en'));
     this.store
-      .pipe(select(getLanguage))
+      .pipe(select(fromCore.getLanguage))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.translate.use(res));
 
@@ -66,6 +69,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.store.dispatch(new coreAction.LoadVerificationStatusAction());
           this.sendTransactionsAnalytics();
           this.setNameEmailToZenChat(userInfo.username);
+          this.store.dispatch(new settingsActions.LoadGAStatusAction());
         } else {
           this.clearNameEmailFromZenChat();
         }
@@ -172,7 +176,7 @@ export class AppComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           if (res.count > 0) {
-            for (let i = 0; i < res.count; i++) {
+            for (let i = 0; i < res.count; i += 1) {
               this.gtagService.sendTransactionSuccessGtag();
             }
             this.userService
@@ -182,5 +186,15 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
     }, 3000);
+  }
+
+  test() {
+    this.apiErrorsService.showErrorNotification(
+      new Notification({
+        text: 'test',
+        notificationType: 'ERROR',
+      }),
+      new APIErrorReport('this.userInfo.username', 'url', 'method', 'status', 'JSON.stringify(error.error)')
+    );
   }
 }

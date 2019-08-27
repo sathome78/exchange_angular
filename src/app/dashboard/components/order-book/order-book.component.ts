@@ -157,8 +157,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       .orderBookSubscription(pairName, precision)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
-        console.log('order books', data);
-
         this.setLastTotals(data);
         this.initData(data);
         this.loadingFinished();
@@ -305,7 +303,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   public onSelectOrder(item: OrderItemOB): void {
-    this.store.dispatch(new SelectedOrderBookOrderAction(item));
+    this.store.dispatch(new SelectedOrderBookOrderAction({ ...item }));
   }
 
   public setWidthForChartBorder(): void {

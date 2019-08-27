@@ -1,8 +1,11 @@
-<div *ngIf="activeCrypto">
-  <div class="title refill__title">
+<div
+  *ngIf="activeCrypto"
+  class="refill-cripto side-popups"
+>
+  <h2 class="title refill__title">
     {{'Crypto deposit' | translate}}
     <span>{{activeCrypto.name}}</span>
-  </div>
+  </h2>
   <div class="refill__inputs-wrap">
     <div class="select refill__select refill__select--cripto">
       <div
@@ -49,12 +52,12 @@
         <div class="select__list-searching-body">
 
           <perfect-scrollbar>
-            <ng-container *ngFor="let letter of alphabet; trackBy: trackByAlphabet">
+            <ng-container *ngFor="let letter of alphabet">
               <h6 class="select__searching-items-title"><span>{{letter.toUpperCase()}}</span></h6>
               <div class="select__searching-items-wrap">
                 <div
                   class="select__searching-item"
-                  *ngFor="let name of cryptoNames | groupCoin:letter; trackBy: trackByCryptoNames"
+                  *ngFor="let name of cryptoNames | groupCoin:letter"
                   (click)="selectCurrency(name)"
                 >
                   <img
@@ -158,6 +161,12 @@
   <div class="note modal__note">
     <div class="note__title">{{'Please note:' | translate}}</div>
     <ul class="note__list">
+      <li
+        class="note__list-item"
+        *ngIf="activeCrypto.name === 'LSK'"
+      >
+        <b>{{' Commission for the' | translate}} {{activeCrypto.name}} {{'deposit is' | translate}} 0.1</b>
+      </li>
       <li
         class="note__list-item"
         *ngIf="!!cryptoDataByName"

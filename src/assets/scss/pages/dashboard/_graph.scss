@@ -1,0 +1,23 @@
+.graph-widget{
+  .cursorDisable {
+    cursor: default;
+  }
+
+
+  .amcharts-stock_chart_div {
+    height: calc(100% - 24px);
+    overflow: hidden;
+    @media (min-width: 1200px) {
+      height: 100%;
+    }
+  }
+
+  .ishover {
+    &:hover {
+      background: none !important;
+    }
+    svg{
+      fill: #50537c !important;
+    }
+  }
+}

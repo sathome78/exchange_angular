@@ -52,7 +52,7 @@ export class NewsComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
         },
         error => {
-          console.log(error);
+          console.error(error);
         }
       );
   }

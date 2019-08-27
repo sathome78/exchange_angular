@@ -1,11 +1,12 @@
 <div
   style="display: block;"
   *ngIf="!!activeFiat && !!fiatDataByName"
+  class="refil-fiat side-popups"
 >
-  <div
+  <h2
     class="title refill__title"
     *ngIf="!submitSuccess"
-  >{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></div>
+  >{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></h2>
   <form [formGroup]="form">
     <div
       class="refill__inputs-wrap"
@@ -19,6 +20,7 @@
           (click)="toggleCurrencyDropdown()"
           [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}"
         >
+        <div class="icon-wr">
           <img
             [src]="activeFiat.name | getIconUrl:true"
             class="select__list-item-icon select__list-item-icon--mobile"
@@ -27,6 +29,7 @@
             [src]="activeFiat.name | getIconUrl"
             class="select__list-item-icon select__list-item-icon--destop"
           >
+        </div>
           {{activeFiat.name}}
         </div>
         <div class="select__label">{{'Currency' | translate}}</div>
@@ -39,13 +42,16 @@
         >
           <li
             class="select__list-item"
-            *ngFor="let currency of fiatNames; trackBy: trackByFiatNames"
+            *ngFor="let currency of fiatNames"
             (click)="selectCurrency(currency)"
           >
+          <div class="icon-wr">
             <img
               [src]="currency.name | getIconUrl"
               class="select__list-item-icon"
             >
+          </div>
+            
             {{currency.name}}
           </li>
         </ul>
@@ -99,13 +105,12 @@
           <ul class="select__list select__list--open">
             <ng-template
               ngFor
-              [ngForOf]="merchants"
               let-merchant
-              [ngForTrackBy]="trackByIndex"
+              [ngForOf]="merchants"
             >
               <li
                 class="select__list-item"
-                *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate; trackBy: trackByIndex"
+                *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
                 (click)="selectMerchant(merchant, nested)"
               >
                 <img
@@ -165,9 +170,8 @@
   <button
     class="btn btn--center"
     *ngIf="!submitSuccess && selectedMerchant"
-    [ngClass]="{'btn--empty-blue': !form.valid || !selectedMerchant.name}"
     (click)="submitRefill()"
-    [disabled]="loading"
+    [disabled]="!form.valid || !selectedMerchant.name || loading"
   >
     {{'Refill' | translate}}
   </button>
@@ -223,13 +227,14 @@
       method="post"
       [action]="refillData.redirectionUrl"
       target="_blank"
+      rel="nofollow noopener noreferrer"
       *ngIf="refillData"
     >
       <input
         type="hidden"
         [name]="key"
         [value]="refillData.params[key]"
-        *ngFor="let key of refillData.params | keys; trackBy: trackByIndex"
+        *ngFor="let key of refillData.params | keys"
       >
     </form>
 

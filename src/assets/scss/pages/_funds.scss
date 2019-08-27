@@ -1,0 +1,130 @@
+.balance-fiat{
+  padding-bottom: 32px;
+  .balance__currency-icon{
+    min-width: unset;
+    max-width: unset;
+    height: 14px;
+  }
+}
+
+
+.ieo-table{
+  .descr-txt{
+    max-width: 180px;
+    overflow: hidden;
+  }
+  .button-cell{
+    .btn{
+      width: 87px;
+      padding: 3px 8px;
+      &.btn-green{
+        background-color: #00B43D;
+        border: 1px solid #00B43D;
+        &:hover{
+          background-color:  #00CA45;
+          border: 1px solid  #00CA45;
+        }
+      }
+    }
+  }
+
+  .status-green{
+    color: #00B43D;
+  }
+  .status-red{
+    color: #EB5757;
+  }
+
+
+  .coins-cell{
+    padding-left: 43px;
+  }
+  .table__row--no-hover{
+    background-color: transparent;
+  }
+}
+
+
+.transaction-page{
+  .transaction-hash-link{
+    color: #237BEF;
+    text-decoration: none;
+    font-weight: 400;
+    cursor: pointer;
+  }
+  .filters-popup__datepicker:first-child, .filters-popup__select:first-child {
+    @media(max-width: 1199px){
+     margin-right: 12px;
+   }
+   
+ }
+ .filters-popup__header{
+  margin-bottom: 26px;
+  padding-top: 14px;
+}
+.filters-popup__btn{
+  margin-top: 34px;
+}
+.transaction__datepicker, .transaction__search-btn{
+  @media(min-width: 1200px){
+    width: 223px;
+    max-width: unset;
+  }
+}
+.table__details {
+  height: 0;
+  transition: 0.4s;
+  display: none;
+
+  &-show {
+    display: table-row;
+    height: auto;
+  }
+  td {
+    height: 0;
+    transition: 0.4s;
+  }
+}
+
+.select-input_label {
+  top: -5px;
+  padding: 0 2px;
+  font-size: 10px;
+  line-height: 12px;
+  z-index: 100;
+  background-color: #191A39;
+}
+
+.show-filter-popup {
+  display: block !important;
+}
+
+.wrap-input__label {
+  @media(min-width: 1200px){
+    top: 17px;
+    left: 17px;
+    font-size: 14px;
+  }
+  &.select-input_label {
+    top: -5px;
+    padding: 0 2px;
+    font-size: 10px;
+    line-height: 12px;
+    z-index: 100;
+    background-color: #191A39;
+  }
+}
+}
+.dark-theme .transaction__filters .pair-popup__input .wrap-input__input .wrap-input__label{
+  top: -5px;
+  padding: 0 2px;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.balance-fiat{
+  div.balance__currency-icon{
+    min-width: 25px;
+    max-width: 25px;
+  }
+}

@@ -19,11 +19,13 @@ import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { RxStompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
 import * as fromCore from '../../core/reducers';
+import { APIErrorsService } from './apiErrors.service';
+import { UtilsService } from './utils.service';
 
 @Injectable()
 export class UserService {
   HOST = environment.apiUrl;
-  public isAuthenticated: boolean = false;
+  public isAuthenticated = false;
 
   constructor(
     private store: Store<fromCore.State>,
@@ -31,7 +33,9 @@ export class UserService {
     private authService: AuthService,
     private langService: LangService,
     private stompService: RxStompService,
+    private utilsService: UtilsService,
     private logger: LoggingService,
+    private apiErrorsService: APIErrorsService,
     private router: Router
   ) {
     this.store.pipe(select(fromCore.getIsAuthenticated)).subscribe((isAuth: boolean) => {
@@ -101,10 +105,16 @@ export class UserService {
     return this.http.get<boolean>(this.getUrl('test'));
   }
 
-  public createNewUser(username: string, email: string, password: string, language: string, sponsor?: string): Promise<number> {
+  public createNewUser(
+    username: string,
+    email: string,
+    password: string,
+    language: string,
+    sponsor?: string
+  ): Promise<number> {
     const registrate = {
+      email,
       nickname: username,
-      email: email,
       password: this.authService.encodePassword(password),
       language: this.langService.getLanguage(),
       sponsor: sponsor ? sponsor : '',
@@ -117,14 +127,15 @@ export class UserService {
   }
 
   public authenticateUser(email: string, password: string, pin?: string, tries?: number): Observable<{} | TokenHolder> {
+    const encryptedPassword = this.utilsService.encodePassword(password, environment.encodeKey);
     const authCandidate = AuthCandidate.builder()
       .withEmail(email)
-      .withPassword(password)
+      .withPassword(encryptedPassword)
       .withPinCode(pin)
       .build();
     // alert('encoded: ' +  authCandidate.password);
 
-    this.logger.debug(this, 'User password ' + password + ' is encrypted to ' + authCandidate.password);
+    this.logger.debug(this, `User password ${password} is encrypted to ${authCandidate.password}`);
     // const mHeaders = MEDIA_TYPE_JSON.append(IP_USER_HEADER, localStorage.getItem('client_ip'));
     const mParams = new HttpParams();
 
@@ -136,25 +147,34 @@ export class UserService {
     headers.set('GACookies', document.cookie);
 
     const httpOptions = {
+      headers,
       params: mParams,
       withCredentials: true,
-      headers,
     };
 
     authCandidate.tries = tries;
 
     // console.log(JSON.stringify(authCandidate));
-    return this.http.post<TokenHolder>(this.getUrl('users/authenticate'), JSON.stringify(authCandidate), httpOptions);
+    return this.http
+      .post<TokenHolder>(this.getUrl('users/authenticate'), JSON.stringify(authCandidate), {
+        ...httpOptions,
+        observe: 'response',
+      })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   sendToEmailConfirmation(email: string) {
-    const data = { email: email };
-    return this.http.post<TokenHolder>(this.getUrl('users/register'), data);
+    const data = { email };
+    return this.http
+      .post<TokenHolder>(this.getUrl('users/register'), data, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   sendToEmailForRecovery(email: string) {
-    const data = { email: email };
-    return this.http.post<TokenHolder>(this.getUrl('users/password/recovery/reset'), data);
+    const data = { email };
+    return this.http
+      .post<TokenHolder>(this.getUrl('users/password/recovery/reset'), data, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   public getUserColorScheme(): Observable<string> {
@@ -173,18 +193,25 @@ export class UserService {
 
   public recoveryPassword(data): Observable<any> {
     const url = `${this.HOST}/api/public/v2/users/password/recovery/create`;
-    return this.http.post(url, data);
+    return this.http
+      .post(url, data, { observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   public getUserGoogleLoginEnabled(email: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.HOST}/api/public/v2/is_google_2fa_enabled?email=${email.replace('+', '%2B')}`);
+    return this.http.get<boolean>(
+      `${this.HOST}/api/public/v2/is_google_2fa_enabled?email=${email.replace('+', '%2B')}`
+    );
   }
 
   public sendTestNotif(msg: string): Observable<any> {
     const httpOptions = {
       params: new HttpParams().set('message', 'Test notification'),
     };
-    return this.http.get<boolean>(`${this.HOST}/api/private/v2/settings/jksdhfbsjfgsjdfgasj/personal/success`, httpOptions);
+    return this.http.get<boolean>(
+      `${this.HOST}/api/private/v2/settings/jksdhfbsjfgsjdfgasj/personal/success`,
+      httpOptions
+    );
   }
 
   extractId(body: number) {
@@ -197,7 +224,7 @@ export class UserService {
   }
 
   getUrl(end: string) {
-    return this.HOST + '/api/public/v2/' + end;
+    return `${this.HOST}/api/public/v2/${end}`;
   }
 
   public getTransactionsCounterForGTag(): Observable<any> {
@@ -217,7 +244,9 @@ export class UserService {
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
   public getCheckTo2FAEnabled(email: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.HOST}/api/public/v2/is_google_2fa_enabled?email=${email.replace('+', '%2B')}`);
+    return this.http.get<boolean>(
+      `${this.HOST}/api/public/v2/is_google_2fa_enabled?email=${email.replace('+', '%2B')}`
+    );
   }
 }
 

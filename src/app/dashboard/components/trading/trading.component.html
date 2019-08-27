@@ -1,4 +1,4 @@
-<div class="widget widget--gradient">
+<div class="widget widget--gradient widget-trading">
   <div
     class="widget__header panel-heading widget__header--trading"
     *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
@@ -58,20 +58,7 @@
           {{showLimit(limit, true)}}
         </div>
       </div>
-      <!-- <div class="row row--jcsb txt-light-grey widget__trading-row-txt">
-        <div style="margin-left: auto;">
-          {{'Pay no fees:' | translate}}
-          <img src="../../assets/img/fire.svg" style="margin: 0 4px;">
-          <a href="#">{{'Become VIP' | translate}}</a>
-        </div>
-      </div> -->
     </div>
-    <!-- <div
-      class="row row__info"
-      *ngIf="dropdownLimitValue === baseType.MARKET"
-    >
-      Max available to buy market order: {{maxMarketOrder | currencyFormat}} {{arrPairName[0]}}
-    </div> -->
     <div class="widget__trading-form--wr">
       <form
         class="widget__trading-form"
@@ -83,13 +70,14 @@
             {{'Buy' | translate}} {{arrPairName[0]}}
           </p>
           <div class="widget__trading-fee">
-            <span>{{'Fee:' | translate}} {{buyOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
+            <span>{{'Fee:' | translate}} {{buyOrder.commission | currencyFormat}} {{arrPairName[1]}}</span>
           </div>
         </div>
 
         <div class="row row--jcsb widget__trading-row  input-row">
           <div class="wrap-input widget__input no-line">
             <app-price-input
+              #quantityBuy
               [placeholder]="translateService.instant('Quantity')"
               [currencyLabel]="arrPairName[0]"
               [forTrading]="true"
@@ -105,7 +93,7 @@
               class="wrap-input__message wrap-input__message--error"
               *ngIf="buyForm.get('quantity').errors['maxMarketOrder']"
             >
-              {{'Max. available to buy' | translate}} {{maxMarketOrder | currencyFormat}} {{arrPairName[0]}}
+              {{'Max. available to buy' | translate}} {{maxBuyMarketOrder | currencyFormat}} {{arrPairName[0]}}
             </span>
           </div>
         </div>
@@ -231,13 +219,14 @@
             {{'Sell' | translate}} {{arrPairName[0]}}
           </p>
           <div class="widget__trading-fee">
-            <span>{{'Fee:' | translate}} {{sellOrder.commission | roundCurrency:arrPairName[1] | formatCurrency | exponentToNumber}} {{arrPairName[1]}}</span>
+            <span>{{'Fee:' | translate}} {{sellOrder.commission | currencyFormat}} {{arrPairName[1]}}</span>
           </div>
         </div>
 
         <div class="row row--jcsb widget__trading-row input-row">
           <div class="wrap-input widget__input no-line">
             <app-price-input
+              #quantitySell
               [placeholder]="translateService.instant('Quantity')"
               [currencyLabel]="arrPairName[0]"
               [forTrading]="true"
@@ -245,6 +234,17 @@
               name="quantity"
               formControlName="quantity"
             ></app-price-input>
+          </div>
+        </div>
+
+        <div *ngIf="sellForm.get('quantity').touched && sellForm.get('quantity').errors">
+          <div class="">
+            <span
+              class="wrap-input__message wrap-input__message--error"
+              *ngIf="sellForm.get('quantity').errors['maxMarketOrder']"
+            >
+              {{'Max. available to sell' | translate}} {{maxSellMarketOrder | currencyFormat}} {{arrPairName[0]}}
+            </span>
           </div>
         </div>
 
@@ -427,8 +427,6 @@
       </div>
       <div class="trading-notification__text">
         <div class="trading-notification__title">{{showLimit(createdOrder?.baseType, true)}} {{createdOrder?.orderType}} {{' Order created!' | translate}}</div>
-        <!-- <p>{{'Status:' | translate}} {{message}}</p> -->
-        <!--<p>Submitted exchange limit sell order for 9 ZRX by using BTC</p>-->
       </div>
     </div>
   </div>
@@ -479,8 +477,6 @@
           {{showLimit(createdOrder?.baseType, true)}} {{createdOrder?.orderType}} {{' Order not created!' | translate}}
         </div>
         <p *ngFor="let message of errorMessages"> {{message}}</p>
-        <!-- <p> {{'Status:' | translate}} {{message}}</p> -->
-        <!--<p>Submitted exchange limit sell order for 9 ZRX by using BTC</p>-->
       </div>
     </div>
   </div>

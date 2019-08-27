@@ -16,6 +16,7 @@ export const defaultOrderItem = {
   exrate: '0',
   orderType: 'BUY',
   total: '0',
+  sumAmount: '0',
 };
 
 export const defaultCurrencyPairInfo = {

@@ -15,8 +15,8 @@ import { SettingsService } from 'app/settings/settings.service';
 import * as settingsActions from '../../../../../settings/store/actions/settings.actions';
 import { CommissionData } from 'app/funds/models/commission-data.model';
 import { defaultCommissionData } from '../../../../store/reducers/default-values';
-import { FUG, EUR } from 'app/funds/balance/balance-constants';
-
+import { EUR } from 'app/funds/balance/balance-constants';
+import { UtilsService } from 'app/shared/services/utils.service';
 @Component({
   selector: 'app-step-one-withdraw',
   templateUrl: './step-one-withdraw.component.html',
@@ -76,14 +76,10 @@ export class StepOneWithdrawComponent implements OnInit {
       this.openBankSystemDropdown = false;
       this.openCurrencyDropdown = false;
       this.openCountryDropdown = false;
-      // this.merchants =
-      //   this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-      //     ? this.fiatDataByName.merchantCurrencyData
-      //     : [];
       // FUG BLOCK
       this.merchants =
         this.fiatDataByName && this.fiatDataByName.merchantCurrencyData
-          ? this.fiatDataByName.merchantCurrencyData.filter(item => item.name !== FUG)
+          ? this.fiatDataByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i))
           : [];
     }
   }
@@ -92,6 +88,7 @@ export class StepOneWithdrawComponent implements OnInit {
     private store: Store<State>,
     private stores: Store<fromCore.State>,
     private settingsService: SettingsService,
+    private utilsService: UtilsService,
     public balanceService: BalanceService
   ) {
     this.selectedWithdraw = this.withdrawOptions[0];
@@ -127,6 +124,7 @@ export class StepOneWithdrawComponent implements OnInit {
         this.prepareAlphabet();
       });
     // this.activeBalance = this.quberaBalances.availableBalance.amount;
+
   }
 
   setActiveFiat() {
@@ -144,8 +142,7 @@ export class StepOneWithdrawComponent implements OnInit {
       .subscribe(res => {
         // this.fiatDataByName = res;
         this.fiatArrayData = res;
-        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter(item => item.name === FUG);
-        // this.merchants = this.fiatDataByName.merchantCurrencyData;
+        this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i));
         this.merchants = this.fiatDataByName;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
