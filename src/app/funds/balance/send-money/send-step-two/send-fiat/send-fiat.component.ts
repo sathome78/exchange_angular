@@ -13,6 +13,7 @@ import { defaultCommissionData } from '../../../../store/reducers/default-values
 import { PopupService } from 'app/shared/services/popup.service';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { FUG } from 'app/funds/balance/balance-constants';
+import { BalanceItem } from 'app/funds/models/balance-item.model';
 
 @Component({
   selector: 'app-send-fiat',
@@ -86,7 +87,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         this.setActiveFiat();
         if (this.activeFiat) {
           this.getFiatInfoByName(this.activeFiat.name);
-          this.getBalance(this.activeFiat.name);
+          this.getBalance(this.activeFiat.id);
         }
       });
     if (this.selectMerchantName === FUG) {
@@ -119,7 +120,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.activeFiat = currency;
     this.currencyDropdownToggle();
     this.getFiatInfoByName(this.activeFiat.name);
-    this.getBalance(this.activeFiat.name);
+    this.getBalance(this.activeFiat.id);
   }
 
   selectMerchant(merchant, merchantImage = null) {
@@ -169,14 +170,12 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     }
   }
 
-  getBalance(name: string) {
+  getBalance(id: string) {
     this.balanceService
-      .getTotalBalance()
+      .getBalanceByName(id, 'FIAT')
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        const allBalances = res as { sumTotalUSD: any; mapWallets: any };
-        const needBalance = allBalances.mapWallets.filter(item => item.currencyName === name);
-        this.activeBalance = needBalance[0].activeBalance;
+      .subscribe((res: BalanceItem) => {
+        this.activeBalance = res.activeBalance;
       });
   }
 
