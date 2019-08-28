@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, Observable, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
-
 import { AbstractDashboardItems } from '../../abstract-dashboard-items';
 import { select, Store } from '@ngrx/store';
 import {
@@ -35,7 +34,6 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   public openOrders$: Observable<any>;
   public openOrdersCount$: Observable<number>;
   public loading$: Observable<boolean>;
-  private openOrdersSub$: Subscription;
 
   constructor(
     private store: Store<State>,
@@ -70,7 +68,6 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.unsubscribeOpenOrders();
   }
 
   public get isVipUser() {
@@ -92,23 +89,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   }
 
   toOpenOrders(): void {
-    this.unsubscribeOpenOrders();
-    this.openOrdersSub$ = this.dashboardService.openOrdersSubscription(this.activeCurrencyPair.name)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(data => {
-        debugger
-
-        // return new dashboardActions.SetOpenOrdersAction({
-        //   openOrders: orders.items,
-        //   count: orders.count,
-        // });
-      });
-  }
-
-  unsubscribeOpenOrders() {
-    if (this.openOrdersSub$) {
-      this.openOrdersSub$.unsubscribe();
-    }
+    this.dashboardService.loadOpenOrdersDashboard(this.activeCurrencyPair.name);
   }
 
   toHistory(): void {

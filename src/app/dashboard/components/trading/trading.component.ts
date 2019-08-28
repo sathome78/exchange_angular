@@ -34,10 +34,10 @@ import { Order } from '../../../model/order.model';
 import { TradingService } from '../../../dashboard/services/trading.service';
 import { BreakpointService } from '../../../shared/services/breakpoint.service';
 import { SimpleCurrencyPair } from '../../../model/simple-currency-pair';
-import { LoadOpenOrdersAction } from '../../actions/dashboard.actions';
 import { messages } from '../../constants';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { PriceInputComponent } from 'app/shared/components/price-input/price-input.component';
+import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
 
 @Component({
   selector: 'app-trading',
@@ -132,6 +132,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     private userService: UserService,
     private utilsService: UtilsService,
     private cdr: ChangeDetectorRef,
+    private dashboardService: DashboardWebSocketService,
     public translateService: TranslateService
   ) {
     super();
@@ -773,7 +774,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private createOrderSuccess() {
-    this.store.dispatch(new LoadOpenOrdersAction(this.currentPair.id));
+    this.dashboardService.loadOpenOrdersDashboard(this.currentPair.name);
     this.userService.getUserBalance(this.currentPair);
     this.notifySuccess = true;
     this.loading = false;

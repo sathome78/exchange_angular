@@ -16,25 +16,6 @@ export class DashboardEffects {
    */
   constructor(private actions$: Actions, private ordersService: EmbeddedOrdersService) {}
 
-  /**
-   * Load open orders
-   */
-  @Effect()
-  loadOpenOrdersDashboard$: Observable<Action> = this.actions$
-    .pipe(ofType<dashboardActions.LoadOpenOrdersAction>(dashboardActions.LOAD_OPEN_ORDERS))
-    .pipe(
-      switchMap(action => {
-        return this.ordersService.getOpenOrders(action.payload).pipe(
-          map(orders => {
-            return new dashboardActions.SetOpenOrdersAction({
-              openOrders: orders.items,
-              count: orders.count,
-            });
-          }),
-          catchError(error => of(new dashboardActions.FailOpenOrdersAction(error)))
-        );
-      })
-    );
 
   /**
    * Load history orders
