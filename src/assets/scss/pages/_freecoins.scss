@@ -1,0 +1,45 @@
+.freecoins-container{
+	padding-top: 20px;
+	padding-bottom: 60px;
+	.page-title__text{
+		margin-bottom: 10px;
+	}
+	p{
+		font-weight: normal;
+		font-size: 18px;
+		line-height: 25px;
+		color: #AAB1C4;
+		margin-bottom: 8px;
+	}
+	.freecoins-head-container,.freecoins-table-container{
+		display: flex;
+		justify-content: space-between;
+	}
+	.table{
+		width: 82.5%;
+
+	}
+	.banner-wr{
+		margin-top: 55px;
+		width: 12.7%;
+		img{
+			width: 100%;
+		}
+	}
+	.button-wr{
+		min-width: 230px;
+		    margin-top: 15px;
+		.btn{
+			width: 100%;
+		}
+	}
+	tr{
+		th,td{
+			width: 25%;
+		}
+	}
+	.button-cont{
+		width: 129px;
+		margin-left: auto;
+	}
+}
