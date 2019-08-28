@@ -20,16 +20,16 @@
           (click)="toggleCurrencyDropdown()"
           [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}"
         >
-        <div class="icon-wr">
-          <img
-            [src]="activeFiat.name | getIconUrl:true"
-            class="select__list-item-icon select__list-item-icon--mobile"
-          >
-          <img
-            [src]="activeFiat.name | getIconUrl"
-            class="select__list-item-icon select__list-item-icon--destop"
-          >
-        </div>
+          <div class="icon-wr">
+            <img
+              [src]="activeFiat.name | getIconUrl:true"
+              class="select__list-item-icon select__list-item-icon--mobile"
+            >
+            <img
+              [src]="activeFiat.name | getIconUrl"
+              class="select__list-item-icon select__list-item-icon--destop"
+            >
+          </div>
           {{activeFiat.name}}
         </div>
         <div class="select__label">{{'Currency' | translate}}</div>
@@ -45,13 +45,13 @@
             *ngFor="let currency of fiatNames"
             (click)="selectCurrency(currency)"
           >
-          <div class="icon-wr">
-            <img
-              [src]="currency.name | getIconUrl"
-              class="select__list-item-icon"
-            >
-          </div>
-            
+            <div class="icon-wr">
+              <img
+                [src]="currency.name | getIconUrl"
+                class="select__list-item-icon"
+              >
+            </div>
+
             {{currency.name}}
           </li>
         </ul>
@@ -243,7 +243,17 @@
   <div class="note modal__note">
     <div class="note__title">{{'Please note:' | translate}}</div>
     <ul class="note__list">
-      <li class="note__list-item">{{'We have good news for you! It’s more then 24 currencies available for deposit right now:' | translate}}
+      <li class="note__list-item">
+        <b>{{'Please note that a fee is charged for depositing fiat. Size of the commission you can see here:' | translate}}</b>
+        <a
+          class="standart-link"
+          href="https://support.exrates.me/article/fees-pairs"
+        >
+          https://support.exrates.me/article/fees-pairs
+        </a>
+      </li>
+      <li class="note__list-item">
+        {{'We have good news for you! It’s more then 24 currencies available for deposit right now:' | translate}}
       </li>
     </ul>
   </div>
