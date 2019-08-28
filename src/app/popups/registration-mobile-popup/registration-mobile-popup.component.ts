@@ -45,7 +45,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   public afterCaptchaMessage;
 
   constructor(
-    private popupService: PopupService,
+    public popupService: PopupService,
     private userService: UserService,
     private translateService: TranslateService,
     private utilsService: UtilsService,
