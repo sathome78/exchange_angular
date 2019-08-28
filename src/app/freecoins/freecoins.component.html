@@ -6,7 +6,8 @@
     </div>  
     <div class="button-wr">
       <button
-      class="btn btn--active balance__title-btn"  
+        (click)="toggleFreeCoinsPopup(true)"
+        class="btn btn--active balance__title-btn"  
       >
       {{'Give away free coins' | translate}}
     </button>
@@ -451,3 +452,8 @@ class="table__row balance__table-row"
 </div>  
 </div>
 </div>
+
+<app-freecoins-popup
+  [showPopup]="showFreeCoinsPopup"
+  (closeFreeCoinsPopup)="toggleFreeCoinsPopup(false)"
+></app-freecoins-popup>
