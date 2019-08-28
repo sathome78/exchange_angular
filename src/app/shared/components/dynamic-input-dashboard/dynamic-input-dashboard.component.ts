@@ -6,7 +6,6 @@ import {
   EventEmitter,
   ViewChild,
   ElementRef,
-  HostListener,
   OnChanges
 } from '@angular/core';
 
@@ -23,13 +22,13 @@ import {
 export class DynamicInputDashboardComponent implements OnChanges {
   constructor(private _eref: ElementRef) {}
 
-  @Input('options') public options: DIOptions[] = [];
-  @Input('value') public value: string;
+  @Input() public options: DIOptions[] = [];
+  @Input() public value: string;
   // @Input('label') public label: string = '';
-  @Input('icon') public icon: any = null;
-  @Output('onSelect') public onSelect: EventEmitter<DIOptions> = new EventEmitter();
-  @Output('onChange') public onChange: EventEmitter<string> = new EventEmitter();
-  @Output('onBlur') public onBlur: EventEmitter<any> = new EventEmitter();
+  @Input() public icon: any = null;
+  @Output() public onSelect: EventEmitter<DIOptions> = new EventEmitter();
+  @Output() public onChange: EventEmitter<string> = new EventEmitter();
+  @Output() public onBlur: EventEmitter<any> = new EventEmitter();
   @ViewChild('input') inputElement: ElementRef;
   @ViewChild('list') listElement: ElementRef;
 
@@ -96,6 +95,7 @@ export class DynamicInputDashboardComponent implements OnChanges {
 
   onInput(e) {
     this.onChange.emit(e.target.value);
+    this.openDropdown();
   }
 
   onSelectItem(item: DIOptions): void {
@@ -105,7 +105,11 @@ export class DynamicInputDashboardComponent implements OnChanges {
   }
 
   filterList(val: string): void {
-    this.filteredOptions = this.options.filter(item => item.text.toUpperCase().indexOf(val.toUpperCase()) >= 0);
+    this.filteredOptions = this.options
+      .filter(item => item.text.toUpperCase().indexOf(val.toUpperCase()) >= 0)
+      .sort((a, b) => {
+        return a.text.indexOf(val.toUpperCase()) - b.text.indexOf(val.toUpperCase());
+      });
   }
 
   openDropdown(): void {

@@ -121,18 +121,16 @@
           </span>{{'By registering you agree with' | translate}}</div>
         <a
           class="popup__link"
-          [routerLink]="'/static/terms-and-conditions'"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
+          routerLink="/static/terms-and-conditions"
           title="Terms and conditions"
+          (click)="popupService.closeRegistrationPopup()"
         >{{'Terms and conditions' | translate}}</a>
         <a
           class="popup__link popup__link--mob"
-          [routerLink]="'/static/terms-and-conditions'"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          title="Terms of use"
-        >{{'Terms of use' | translate}}</a>
+          routerLink="/static/terms-and-conditions"
+          title="Terms and conditions"
+          (click)="popupService.closeRegistrationPopup()"
+        >{{'Terms and conditions' | translate}}</a>
       </div>
       <div class="popup__links-wrap popup__links-wrap--hidden-mob">
         <span>{{'Already have an account?' | translate}}</span>

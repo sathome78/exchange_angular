@@ -201,11 +201,11 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     this.buyForm.reset(this.defaultFormValues);
     if (!!price) {
       this.buyOrder.rate = price;
-      this.buyForm.get('price').setValue(price.toString());
+      this.setPriceInValue(price, this.BUY);
     }
     if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
-      this.buyStopValue = price;
-      this.buyForm.get('stop').setValue(stopPrice.toString());
+      this.buyStopValue = stopPrice;
+      this.setStopValue(stopPrice, this.BUY);
     }
   }
 
@@ -215,11 +215,11 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     this.sellForm.reset(this.defaultFormValues);
     if (!!price) {
       this.sellOrder.rate = price;
-      this.sellForm.get('price').setValue(price.toString());
+      this.setPriceInValue(price, this.SELL);
     }
     if (!!stopPrice && this.dropdownLimitValue === orderBaseType.STOP_LIMIT) {
       this.sellStopValue = stopPrice;
-      this.sellForm.get('stop').setValue(stopPrice.toString());
+      this.setStopValue(stopPrice, this.SELL);
     }
   }
 
@@ -368,13 +368,17 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   orderFromOrderBook(order: OrderItemOB): void {
     this.resetBuyModel();
     this.resetSellModel();
+    this.maxBuyMarketOrder = 0;
+    this.maxSellMarketOrder = 0;
     const rate = parseFloat(order.exrate.toString());
     this.setNewLimitAndStop(rate);
-    const amount = this.getQuantityOfSelectedOrder(order);
-    this.setQuantityValue(amount, order.orderType === this.SELL ? this.BUY : this.SELL);
+    if (this.dropdownLimitValue !== this.baseType.MARKET) {
+      const amount = this.getQuantityOfSelectedOrder(order);
+      this.setQuantityValue(amount, order.orderType === this.SELL ? this.BUY : this.SELL);
+      this.quantityInput({ target: { value: amount } }, order.orderType === this.SELL ? this.BUY : this.SELL);
+    }
     this.getCommission(this.SELL);
     this.getCommission(this.BUY);
-    this.quantityInput({ target: { value: amount } }, order.orderType === this.SELL ? this.BUY : this.SELL);
   }
 
   private setNewLimitAndStop(rate) {
@@ -830,9 +834,9 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     }
     if (this.errorMessages.length) {
       if (this.errorMessages.length === 1) {
-        this.errorMessages.push('Complete the feald');
+        this.errorMessages.push('Complete the field');
       } else {
-        this.errorMessages.push('Complete the fealds');
+        this.errorMessages.push('Complete the fields');
       }
     }
   }
@@ -872,12 +876,12 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       return 0;
     }
 
-    const lastItem = orders.find(el => el.total >= balance);
+    const lastItem = orders.find(el => +el.total >= +balance);
     if (lastItem) {
       const rate = lastItem.total / lastItem.sumAmount;
       return balance / rate;
     }
-    return orders.length && orders[orders.length - 1].sumAmount;
+    return +orders[orders.length - 1].sumAmount;
   }
 
   calcSellMarketOrder(orders, balance = 0) {
@@ -890,7 +894,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       const rate = lastItem.total / lastItem.sumAmount;
       return balance / rate;
     }
-    return orders[0].sumAmount;
+    return +orders[0].sumAmount;
   }
 
   calcMaxBuyMarketOrder(orders): number {
