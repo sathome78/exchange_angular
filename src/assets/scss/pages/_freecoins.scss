@@ -1,8 +1,18 @@
 .freecoins-container{
 	padding-top: 20px;
 	padding-bottom: 60px;
+	@media(max-width: 1200px){
+		padding-left: 15px;
+		padding-right: 15px;
+		padding-top: 30px;
+	}
 	.page-title__text{
 		margin-bottom: 10px;
+	}
+	h1{
+		@media(max-width: 640px){
+			font-weight: 400;
+		}
 	}
 	p{
 		font-weight: normal;
@@ -10,39 +20,117 @@
 		line-height: 25px;
 		color: #AAB1C4;
 		margin-bottom: 8px;
+		@media(max-width: 640px){
+			font-size: 16px;
+		}
 	}
 	.freecoins-head-container,.freecoins-table-container{
 		display: flex;
 		justify-content: space-between;
+		@media(max-width: 640px){
+			flex-direction: column;
+		}
 	}
 	.freecoins-head-container{
 		width: 82.5%;
+		@media(max-width: 1200px){
+			width: 100%;
+		}
 	}
 	.table{
 		width: 82.5%;
+		@media(max-width: 1200px){
+			width: 100%;
+		}
 
 	}
 	.banner-wr{
 		margin-top: 55px;
 		width: 12.7%;
+		@media(max-width: 1200px){
+			display: none;
+		}
 		img{
 			width: 100%;
 		}
 	}
 	.button-wr{
 		min-width: 230px;
-		    margin-top: 15px;
+		margin-top: 15px;
+		@media(max-width: 640px){
+			margin-bottom: 30px;
+		}
 		.btn{
 			width: 100%;
+
 		}
 	}
 	tr{
 		th,td{
 			width: 25%;
+			@media(max-width: 640px){
+				width: 40%;
+			}
+		}
+	}
+
+	tr{
+		th:last-child,td:last-child{
+			@media(max-width: 640px){
+				display: none;
+			}
+		}
+		th:first-child,td:first-child{
+			@media(max-width: 640px){
+				width: 20%;
+			}
+		}
+		th:nth-child(2),td:nth-child(2){
+			@media(max-width: 640px){
+				text-align: left;
+			}
+		}
+		th:nth-child(3),td:nth-child(3){
+			@media(max-width: 640px){
+				text-align: center;
+			}
 		}
 	}
 	.button-cont{
 		width: 129px;
 		margin-left: auto;
 	}
-}
+	.currency-inf{
+		display: flex;
+		align-items: center;
+		@media(max-width: 640px){
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+	.balance__currency{
+		@media(max-width: 640px){
+			// align-items: center;
+		}
+	}
+	.mobile-content{
+		@media(min-width: 641px){
+			display: none;
+		}
+	} 
+	.hide{
+
+		display: none;
+
+	}
+
+	.mobile-content{
+		.btn{
+			
+	 		// @media(max-width: 640px){
+	 		// 	margin-left: auto;
+	 		// 	margin-right: 0;
+	 		// }
+	 	}
+	 }
+	}
