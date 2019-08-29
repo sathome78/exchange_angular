@@ -181,7 +181,7 @@
     class="refill__fiat-successful"
     *ngIf="submitSuccess"
   >
-    <div [ngSwitch]="selectMerchantName">
+    <div [ngSwitch]="selectMerchantName" [class]="'refill-' + selectMerchantName"> 
       <ng-container *ngSwitchCase="'QIWI'">
         <h2 class="title refill__title">{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></h2>
         <div class="refill__crypto-refill-info">
@@ -201,7 +201,7 @@
               <div class="refill__crypto-hash">{{qiwiResData.address}}</div>
               <button
                 class="btn btn--small btn--empty-blue refill__crypto-copy-btn"
-                *ngIf="!isSowCopyAddress"
+                *ngIf="!isShowCopyAddress"
                 (click)="copyToBuffer(qiwiResData.address, 'Copy address')"
               >
                 {{'Copy address' | translate}}
