@@ -62,6 +62,9 @@
 @import "pages/settings/kyc/settings-kyc";
 @import "pages/footer-pages";
 
+//shared components
+@import "components/_shared-components";
+
 //dashboard
 @import "pages/dashboard/_orders";
 @import "pages/dashboard/_trade-history";

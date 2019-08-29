@@ -49,11 +49,6 @@ import { NewsService } from './shared/services/news.service';
 import { MomentModule } from 'ngx-moment';
 import { FiatComponent } from './fiat/fiat.component';
 import { AdvisorComponent } from './advisor/advisor.component';
-import { FreecoinsComponent } from './freecoins/freecoins.component';
-import { FreecoinsPopupComponent } from './freecoins/freecoins-popup/freecoins-popup.component';
-import { FreecoinsPopupStepOneComponent } from './freecoins/freecoins-popup/freecoins-popup-step-one/freecoins-popup-step-one.component';
-import { FreecoinsPopupStepTwoComponent } from './freecoins/freecoins-popup/freecoins-popup-step-two/freecoins-popup-step-two.component';
-import { FreecoinsPopupStepThreeComponent } from './freecoins/freecoins-popup/freecoins-popup-step-three/freecoins-popup-step-three.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -89,11 +84,6 @@ const stompConfig: InjectableRxStompConfig = {
     NewsComponent,
     FiatComponent,
     AdvisorComponent,
-    FreecoinsComponent,
-    FreecoinsPopupComponent,
-    FreecoinsPopupStepOneComponent,
-    FreecoinsPopupStepTwoComponent,
-    FreecoinsPopupStepThreeComponent,
   ],
   imports: [
     StoreModule.forRoot(reducers),

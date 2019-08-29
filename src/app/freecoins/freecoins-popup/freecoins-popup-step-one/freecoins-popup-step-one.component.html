@@ -1,4 +1,75 @@
-<p>
-  freecoins-popup-step-one works!
-</p>
-<button (click)="nextStep.emit(2)">next step</button>
+<div class="refil-fiat side-popups">
+  <h2 class="title refill__title">{{'Give away free coins' | translate}} </h2>
+  <form [formGroup]="form">
+    <div class="refill__inputs-wrap">
+      <!-- TODO add styles to select--error -->
+
+      <div class="refill__select">
+        <app-currency-select-crypto
+          [activeCurrency]="{name: 'XRM', description: 'sdfsdf', id: 1}"
+          [currencies]="[]"
+          (selectCurrency)="selectCurrency($event)"
+        ></app-currency-select-crypto>
+      </div>
+
+      <!-- <div
+          class="wrap-input send__wrap-input"
+          [ngClass]="{
+            'wrap-input--error': form.get('amount').invalid&& (form.get('amount').touched || isSubmited)
+          }"
+        >
+
+          <div class="avaliable">{{'Available:' | translate}}
+            <a
+              (click)="balanceClick()"
+              class="link"
+              [ngStyle]="{'pointer-events': loadingBalance ? 'none' : 'auto'}"
+            >
+              {{activeBalance | currencyFormat}} {{currName}}
+            </a>
+          </div>
+          <app-price-input
+            [placeholder]="'Amount'"
+            [currencyName]="activeCrypto.name"
+            (customInput)="amountInput($event)"
+            (customBlur)="amountBlur($event)"
+            name="amount"
+            formControlName="amount"
+          >
+          </app-price-input> -->
+
+      <!-- <span class="bottom-tooltip wrap-input__message--show">
+            {{
+            'Minimum sum for withdrawal' | translate
+            }} {{
+            minWithdrawSum  | currencyFormat
+            }} {{
+            currName
+            }}
+          </span> -->
+
+      <!--Input error section starts-->
+      <!-- <div *ngIf="form.get('amount').errors != null">
+            <div class="input-hint-wrapper">
+
+              <span
+                class="wrap-input__message wrap-input__message--show"
+                *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] && (form.controls['amount'].touched || isSubmited)"
+              >
+                {{
+                  'Your available balance:' | translate
+                }} {{
+                  activeBalance | currencyFormat
+                }} {{
+                  currName
+                }}
+              </span>
+            </div>
+          </div> -->
+      <!--Input error section ends-->
+      <!-- </div> -->
+    </div>
+  </form>
+  <button class="btn btn--center">
+    {{'Give away' | translate}}
+  </button>
