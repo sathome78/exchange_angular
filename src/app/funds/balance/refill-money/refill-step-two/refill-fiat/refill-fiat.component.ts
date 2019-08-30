@@ -168,6 +168,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
+        if (this.isQIWI) {
+          this.form.get('amount').setValidators([]);
+        } else {
+          this.form.get('amount').setValidators([Validators.required, this.minCheck.bind(this)]);
+        }
         this.form.get('amount').updateValueAndValidity();
         if (this.selectedMerchant) {
           this.setMinRefillSum();
@@ -191,6 +196,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.selectedMerchantNested = merchantImage;
     this.selectMerchantName = merchantImage.image_name || merchant.name;
     this.selectedMerchant = merchant;
+    if (this.isQIWI) {
+      this.form.get('amount').setValidators([]);
+    } else {
+      this.form.get('amount').setValidators([Validators.required, this.minCheck.bind(this)]);
+    }
     this.form.get('amount').updateValueAndValidity();
     this.togglePaymentSystemDropdown();
     this.setMinRefillSum();
@@ -232,7 +242,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   refillMerchant() {
     this.isSubmited = false;
-    this.amount = this.form.controls['amount'].value;
+    if (this.isQIWI) {
+      this.amount = 1000;
+    } else {
+      this.amount = this.form.controls['amount'].value;
+    }
     const data: RefillData = {
       operationType: this.fiatDataByName.payment.operationType,
       currency: this.fiatDataByName.currency.id,
@@ -247,7 +261,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (res: any) => {
-          if (this.selectMerchantName === 'QIWI') {
+          if (this.isQIWI) {
             this.qiwiResData = res.params;
           } else {
             this.refillData = res;
@@ -346,5 +360,10 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         setTimeout(() => (this.isShowCopyMemoId = false), 1000);
         break;
     }
+  }
+
+  get isQIWI(): boolean {
+    console.log(this.selectedMerchant);
+    return this.selectedMerchant && this.selectedMerchant.name === 'QIWI';
   }
 }

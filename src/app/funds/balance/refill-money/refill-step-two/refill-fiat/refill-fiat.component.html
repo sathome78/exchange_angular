@@ -126,7 +126,7 @@
 
       <div
         class="wrap-input refill__wrap-input"
-        *ngIf="selectedMerchant"
+        *ngIf="selectedMerchant && !isQIWI"
         [ngClass]="{'wrap-input--error': !form.valid && isSubmited}"
       >
 
