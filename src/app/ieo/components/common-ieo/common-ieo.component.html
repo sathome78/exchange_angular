@@ -232,8 +232,8 @@
     <div class="ieo-list-wr">
       <ng-container *ngFor="let item of ieoList; trackBy: trackByIeo">
         <div class="ieo-list-item {{item.status  | showStageStatus:true | lowercase}}">
-          <div class="img-part">
-            <div class="img-e-tao">
+          <div class="img-part" [ngSwitch]="item.currencyName">
+            <div class="img-e-tao" *ngSwitchCase="'DOM'">
               <img [src]="'assets/img/ieo/dom-blue.png'" alt="">
             </div>
           </div>
