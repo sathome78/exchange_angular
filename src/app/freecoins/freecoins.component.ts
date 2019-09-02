@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import * as coreAction from '../core/actions/core.actions';
+import { Store } from '@ngrx/store';
+import { State } from 'app/core/reducers';
 
 @Component({
   selector: 'app-freecoins',
   templateUrl: './freecoins.component.html',
-  styleUrls: ['./freecoins.component.scss']
+  styleUrls: ['./freecoins.component.scss'],
 })
 export class FreecoinsComponent implements OnInit {
-  public showFreeCoinsPopup = true;
+  public showFreeCoinsPopup = false;
 
-  constructor() { }
+  constructor(private store: Store<State>) { }
 
   ngOnInit() {
+    this.store.dispatch(new coreAction.LoadCryptoCurrenciesForChoose());
   }
 
   toggleFreeCoinsPopup(value) {

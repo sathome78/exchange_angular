@@ -1,4 +1,7 @@
-<div class="select">
+<div
+  class="select"
+  *ngIf="activeCurrency"
+>
   <div
     class="select__value select__value--active"
     (click)="currencyDropdownToggle()"

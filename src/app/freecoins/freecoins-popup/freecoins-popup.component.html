@@ -97,7 +97,7 @@
     <div class="modal__content">
       <app-freecoins-popup-step-one
         *ngIf="step === 1"
-        (nextStep)="goNextStep($event)"
+        (submitForm)="submitStep1($event)"
       ></app-freecoins-popup-step-one>
 
       <app-freecoins-popup-step-two
@@ -105,7 +105,10 @@
         (nextStep)="goNextStep($event)"
       ></app-freecoins-popup-step-two>
 
-      <app-freecoins-popup-step-three *ngIf="step === 3"></app-freecoins-popup-step-three>
+      <app-freecoins-popup-step-three
+        *ngIf="step === 3"
+        (close)="onCloseFreeCoinsPopup()"
+      ></app-freecoins-popup-step-three>
 
     </div>
   </div>

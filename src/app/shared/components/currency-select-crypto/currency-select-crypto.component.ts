@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, HostListener, ElementRe
 import { CurrencyBalanceModel } from 'app/model';
 import * as _uniq from 'lodash/uniq';
 import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
+import { CurrencyChoose } from 'app/model/currency-choose.model';
 
 @Component({
   selector: 'app-currency-select-crypto',
@@ -10,10 +11,10 @@ import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CurrencySelectCryptoComponent implements OnInit {
-  @Input() public activeCurrency: CurrencyBalanceModel;
-  @Input() public currencies: CurrencyBalanceModel[];
-  @Output() public selectCurrency: EventEmitter<CurrencyBalanceModel> = new EventEmitter();
-  public filteredList: CurrencyBalanceModel[];
+  @Input() public activeCurrency: CurrencyChoose ;
+  @Input() public currencies: CurrencyChoose[];
+  @Output() public selectCurrency: EventEmitter<CurrencyChoose> = new EventEmitter();
+  public filteredList: CurrencyChoose[];
   public openCurrencyDropdown = false;
   public alphabet: string[];
 
@@ -34,6 +35,7 @@ export class CurrencySelectCryptoComponent implements OnInit {
   currencyDropdownToggle() {
     this.openCurrencyDropdown = !this.openCurrencyDropdown;
     if (this.openCurrencyDropdown) {
+      this.filteredList = this.currencies;
       this.prepareAlphabet();
     }
   }

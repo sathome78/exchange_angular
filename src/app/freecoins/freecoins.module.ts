@@ -15,6 +15,8 @@ import { SharedModule } from 'app/shared/shared.module';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { translateInfo } from '../shared/configs/translate-options';
+import { FreecoinsService } from './freecoins.service';
+import { RouterModule } from '@angular/router';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.freecoins, translateInfo.suffix);
@@ -31,6 +33,7 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     HttpClientModule,
     ReactiveFormsModule,
     NgxPaginationModule,
@@ -47,5 +50,6 @@ export function createTranslateLoader(http: HttpClient) {
       isolate: true,
     }),
   ],
+  providers: [FreecoinsService],
 })
 export class FreecoinsModule { }

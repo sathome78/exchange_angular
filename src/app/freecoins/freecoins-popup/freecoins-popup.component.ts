@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input, HostListener } from '@angular/core';
 import { Animations } from 'app/shared/animations';
+import { GAFreeCoinsModel } from '../models/GAFreeCoins.model';
 
 @Component({
   selector: 'app-freecoins-popup',
@@ -13,6 +14,7 @@ export class FreecoinsPopupComponent implements OnInit {
   @Input() showPopup;
   public stepTwoName: string;
   public step = 1;
+  public formData: GAFreeCoinsModel;
 
   showStepThree = false;
 
@@ -55,5 +57,10 @@ export class FreecoinsPopupComponent implements OnInit {
 
   goNextStep(step) {
     this.step = step;
+  }
+
+  submitStep1(data: GAFreeCoinsModel) {
+    this.formData = data;
+    this.goNextStep(2);
   }
 }
