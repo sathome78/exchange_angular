@@ -6,9 +6,9 @@
         <img src="assets/img/ieo/bg.jpg" alt="">
       </div>
       <div class="fs-content" *ngIf="IEOData">
-        <div class="bittorrent">
-          <img src="assets/img/ieo/dom.png" alt="">
-        </div>
+          <div class="bittorrent" [ngSwitch]="IEOData.currencyName" >
+            <img src="assets/img/ieo/dom.png" alt="DOM" *ngSwitchCase="'DOM'">
+          </div>
         <div class="btc-session">
           <div class="b-s-title">
             <h3>{{IEOData.currencyDescription}} - BTC {{'Session' | translate}}<span
