@@ -7,6 +7,16 @@ import { UtilsService } from 'app/shared/services/utils.service';
 export class ShowPendingSystemPipe implements PipeTransform {
   constructor(private utils: UtilsService) {}
   transform(system: string, currencyName: string): string {
-    return this.utils.isFiat(currencyName) ? system : '-';
+    return this.utils.isFiat(currencyName) ? this.formatVoucher(system) : '-';
+  }
+
+  formatVoucher(system) {
+    if (system.indexOf('VoucherFree') >= 0) {
+      return 'Voucher Free Transfer';
+    }
+    if (system.indexOf('Voucher') >= 0) {
+      return 'Voucher Transfer';
+    }
+    return system;
   }
 }

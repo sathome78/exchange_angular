@@ -81,7 +81,7 @@
     <table
       class="table table--mob"
       [ngClass]="{'balance-qubera': currTab === Tab.QUBERA}"
-      *ngIf="quberaBalance.length > 0"
+      *ngIf="balances && (kycStatus === KYC_STATUS.SUCCESS)"
     >
       <thead class="table__head">
         <tr class="table__head-row">
@@ -91,63 +91,54 @@
         </tr>
       </thead>
       <tbody class="table__body table__body--none-shadow">
-        <tr
-          class="table__row--mob"
-          (click)="onShowMobDetails(EUR)"
-        >
-          <td class="table__cell table__cell--tal">
-            <div class="balance__currency">
-              <div class="balance__currency-icon">
-                <img src="assets/img/currency-icons/eur-white.svg">
-              </div>
-              <div>
-                <span>{{balances.availableBalance?.currencyCode}}</span>
-                <span class="balance__currency-name">Euro</span>
-              </div>
-            </div>
-          </td>
-          <td class="table__cell table__cell--tal">
-            <span>{{balances.availableBalance?.amount}}</span>
-          </td>
-          <td class="table__cell table__cell--tar">
-            <span>{{balances.currentBalance?.amount}}</span>
-            <!-- <div *ngIf="priceIn === currencies.BTC">BTC 300</div>
-            <div *ngIf="priceIn === currencies.USD">$ 300</div> -->
-            <!-- <span class="txt-small txt-red">–0.24%</span> -->
-          </td>
-          <td class="table__cell table__cell--arr-mob">
-            <svg
-              width="12"
-              height="11"
-              viewBox="0 0 17 17"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="table__row-mob-line"></div>
-          </td>
-        </tr>
-        <tr
-          class="table__row--mob"
-          *ngIf="!quberaBalance.length"
-        >
-          <td
-            class="table__cell table__cell--tac"
-            colspan="4"
+        <ng-container *ngFor="let balance of [balances]; trackBy: trackByFn">
+          <tr
+            class="table__row--mob"
+            (click)="onShowMobDetails(EUR)"
           >
-            {{'No matching records found' | translate}}
-          </td>
-        </tr>
+            <td class="table__cell table__cell--tal">
+              <div class="balance__currency">
+                <div class="balance__currency-icon">
+                  <img src="assets/img/currency-icons/eur-white.svg">
+                </div>
+                <div>
+                  <span>{{balance.availableBalance?.currencyCode}}</span>
+                  <span class="balance__currency-name">Euro</span>
+                </div>
+              </div>
+            </td>
+            <td class="table__cell table__cell--tal">
+              <span>{{balance.availableBalance?.amount}}</span>
+            </td>
+            <td class="table__cell table__cell--tar">
+              <span>{{balance.currentBalance?.amount}}</span>
+              <!-- <div *ngIf="priceIn === currencies.BTC">BTC 300</div>
+              <div *ngIf="priceIn === currencies.USD">$ 300</div> -->
+              <!-- <span class="txt-small txt-red">–0.24%</span> -->
+            </td>
+            <td class="table__cell table__cell--arr-mob">
+              <svg
+                width="12"
+                height="11"
+                viewBox="0 0 17 17"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4">
+              <div class="table__row-mob-line"></div>
+            </td>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
     <!-- table-mob end -->
@@ -179,11 +170,11 @@
 
   <div
     class="no-veryfied-qubera"
-    *ngIf="!balances.length"
+    *ngIf="!balances"
   >
     <div
       class="qubera-head"
-      *ngIf="balances.length > 0"
+      *ngIf="!(kycStatus === KYC_STATUS.SUCCESS || kycStatus === KYC_STATUS.PENDING)"
     >
       <h3>
         {{'Open account for $20 and get 0% commission' | translate}} <br>
@@ -195,7 +186,7 @@
     <div [ngSwitch]="kycStatus">
       <div
         class="qubera-btn-wr"
-        *ngSwitchCase="'SUCCESS'"
+        *ngSwitchCase="KYC_STATUS.SUCCESS"
       >
         <button
           class="btn btn--active balance__title-btn"
@@ -210,7 +201,7 @@
 
       <div
         class="wait-block"
-        *ngSwitchCase="'Pending'"
+        *ngSwitchCase="KYC_STATUS.PENDING"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -291,17 +282,14 @@
     <!-- end 'если заявка на подтверждении' -->
 
 
-    <div class="qubera-benefits">
-      <div
-        class="ben-head"
-        *ngIf="balances.length > 0"
-      >
+    <div
+      class="qubera-benefits"
+      *ngIf="!(kycStatus === KYC_STATUS.SUCCESS || kycStatus === KYC_STATUS.PENDING)"
+    >
+      <div class="ben-head">
         <h6>{{'Benefits' | translate}}</h6>
       </div>
-      <ul
-        class="benefits-list"
-        *ngIf="balances.length > 0"
-      >
+      <ul class="benefits-list">
         <li>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -472,7 +460,7 @@
     </div> -->
     <div
       class="how-work"
-      *ngIf="kycStatus !== 'SUCCESS'"
+      *ngIf="kycStatus !== KYC_STATUS.SUCCESS"
     >
       <h6>{{'How does it work?' | translate}}</h6>
       <p>
@@ -487,7 +475,27 @@
           target="_blank"
           title="FUG"
           rel="nofollow noopener noreferrer"
-        >FUG</a>.
+        >
+          FUG
+        </a>.
+      </p>
+    </div>
+  </div>
+  <div
+    class="no-veryfied-qubera"
+    *ngIf="balances"
+  >
+    <div class="detail-inf">
+      <p>
+        {{'Detailed description of the conditions is available on the page of our financial partner' | translate}}
+        <a
+          href="http://fug.sg"
+          target="_blank"
+          title="FUG"
+          rel="nofollow noopener noreferrer"
+        >
+          FUG
+        </a>.
       </p>
     </div>
   </div>

@@ -14,10 +14,12 @@
             class="select__value select__value--active"
             (click)="currencyDropdownToggle()"
           >
-            <img
-              [src]="(currName) | getIconUrl"
-              class="select__list-item-icon"
-            >
+            <div class="icon-wr">
+              <img
+                [src]="(currName) | getIconUrl"
+                class="select__list-item-icon"
+              >
+            </div>
             {{currName}}
           </div>
           <div class="select__label">{{'Currency' | translate}}</div>
@@ -35,10 +37,12 @@
               *ngFor="let currency of fiatNames"
               (click)="selectCurrency(currency)"
             >
-              <img
-                [src]="currency.name | getIconUrl"
-                class="select__list-item-icon"
-              >
+              <div class="icon-wr">
+                <img
+                  [src]="currency.name | getIconUrl"
+                  class="select__list-item-icon"
+                >
+              </div>
               {{currency.name}}
             </li>
 
@@ -59,12 +63,21 @@
           [ngClass]="{'wrap-input--error': form.get('amount').invalid && (form.get('amount').touched || isSubmited)}"
           *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length "
         >
+          <div class="daily-avaliable">{{'24h limit:' | translate}}
+            <a
+              (click)="dailyLimitClick()"
+              class="link"
+              [ngStyle]="{'pointer-events': loadingBalance ? 'none' : 'auto'}"
+            >
+              {{dailyLimit | currencyFormat}} {{currName}}
+            </a>
+          </div>
           <div class="avaliable">{{'Available:' | translate}}
             <a
               (click)="balanceClick()"
               class="link"
             >
-              {{activeBalance | roundCurrency: true | formatCurrency: 'short': true}} {{currName}}
+              {{activeBalance | currencyFormat}} {{currName}}
             </a>
           </div>
           <app-price-input
@@ -77,16 +90,11 @@
           >
           </app-price-input>
 
-          <span
-            class=" wrap-input__message--show"
-            *ngIf="form.controls['amount'].errors &&
-                  !form.controls['amount'].errors['isMinThenMinWithdraw'] &&
-                  !form.controls['amount'].errors['isMaxThenActiveBalance']"
-          >
+          <span class="bottom-tooltip wrap-input__message--show">
             {{
               'Minimum sum for withdrawal' | translate
             }} {{
-              minWithdrawSum | roundCurrency: true | formatCurrency: 'short': true
+              minWithdrawSum | currencyFormat
             }} {{
               currName
             }}
@@ -117,6 +125,18 @@
                   'Your available balance:' | translate
                 }} {{
                   activeBalance | roundCurrency: currName | formatCurrency: 'short': currName
+                }} {{
+                  currName
+                }}
+              </span>
+              <span
+                class="wrap-input__message wrap-input__message--show"
+                *ngIf="form.controls['amount'].errors['isMaxThenDailyLimit'] && (form.controls['amount'].touched || isSubmited)"
+              >
+                {{
+                  'Your 24h limit to withdrawal:' | translate
+                }} {{
+                  dailyLimit | currencyFormat
                 }} {{
                   currName
                 }}

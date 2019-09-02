@@ -49,6 +49,12 @@ export class DashboardWebSocketService implements OnDestroy {
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
+  openOrdersSubscription(pairName: string): any {
+    return this.stompService
+      .watch(`/user/queue/open_orders/${pairName}`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
+  }
+
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

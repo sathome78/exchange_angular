@@ -81,7 +81,17 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: SimpleCurrencyPair[]) => {
         this.allCurrencyPairs = pair;
-        this.DIOptions = pair.map(item => ({ text: item.name, id: item.id }));
+        this.DIOptions = pair
+          .map(item => ({ text: item.name, id: item.id }))
+          .sort((a, b) => {
+            if (a.text.toUpperCase() < b.text.toUpperCase()) {
+              return -1;
+            }
+            if (a.text.toUpperCase() > b.text.toUpperCase()) {
+              return 1;
+            }
+            return 0;
+          });
         this.cdr.detectChanges();
       });
 
