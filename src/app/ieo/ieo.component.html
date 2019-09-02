@@ -27,7 +27,7 @@
   ></app-ieo-info>
 
   <app-ieo-community
-    *ngIf="ieoData.community && ieoData.community.length"
+    *ngIf="false"
     [community]="ieoData.community"
   ></app-ieo-community>
 
@@ -56,7 +56,7 @@
   <app-ieo-how-it-works></app-ieo-how-it-works>
 
   <app-ieo-description-wrapper
-    [IEOId]="IEOId"
+    [IEOId]="IEOData.currencyName"
     [ieoToken]="IEOData.currencyDescription"
   ></app-ieo-description-wrapper>
 
