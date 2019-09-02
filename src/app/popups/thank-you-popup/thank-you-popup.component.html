@@ -1,10 +1,8 @@
-
-<div class="overlay">
+<div class="overlay thank-you-popup">
   <div class="popup">
     <div class="popup__close" (click)="closeMe()"></div>
     <h6 class="popup__title tnx-head">{{popupData?.title | translate}}</h6>
     <h4 class="popup__subtitle tnx-description">{{popupData?.subTitle  | translate}}</h4>
     <button class="btn btn--active btn--center" (click)="closeMe()">{{'OK' | translate}}</button>
+  </div>
 </div>
-</div>
-
