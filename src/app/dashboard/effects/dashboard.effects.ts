@@ -16,7 +16,6 @@ export class DashboardEffects {
    */
   constructor(private actions$: Actions, private ordersService: EmbeddedOrdersService) {}
 
-
   /**
    * Load history orders
    */

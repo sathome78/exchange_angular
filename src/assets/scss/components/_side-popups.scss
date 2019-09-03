@@ -35,6 +35,9 @@
     @media(max-width: 1199px){
       color:#DEDEFB;
     }
+    &.full-width {
+      width: 100%;
+    }
   }
   .daily-avaliable {
     @extend .avaliable;
