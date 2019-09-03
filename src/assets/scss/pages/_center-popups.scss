@@ -686,6 +686,50 @@
   .input-hint-wrapper {
     opacity: 1 !important;
   }
+  .checkbox-wr{
+    display: flex;
+    align-items: center;
+    input{
+      display: none;
+      &:checked{
+          &+label{
+            &::after{
+              opacity: 1;
+            }
+          }
+        }
+    }
+    label{
+      color: #A0A0A0;
+      position: relative;
+      padding-left: 19px;
+      &::before, &::after{
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      &::before{
+        content: "";
+        width: 10px;
+        height: 10px;
+        border: 1px solid #A0A0A0;
+        border-radius: 1px;
+      }
+  
+      &::after{
+        content: "";
+        width: 14px;
+        height: 11px;
+        top: -1px;
+        left: 2px;
+        background-image: url(assets/img/path.svg);
+        background-size: contain;
+        transition: .3s;
+        opacity: 0;
+      }
+    }
+  }
 }
 
 .thank-you-popup {
