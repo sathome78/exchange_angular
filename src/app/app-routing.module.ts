@@ -12,6 +12,7 @@ import { ShowPageGuard } from './shared/guards/showPage.guard';
 import { NewsComponent } from './news/news.component';
 import { FiatComponent } from './fiat/fiat.component';
 import { AdvisorComponent } from './advisor/advisor.component';
+import { FreecoinsComponent } from './freecoins/freecoins.component';
 
 const routes: Routes = [
   // permit all
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'news', component: NewsComponent },
   { path: 'fiat', component: FiatComponent },
+  { path: 'freecoins', component: FreecoinsComponent },
   {
     path: 'final-registration/token',
     component: FinalRegistrationComponent,

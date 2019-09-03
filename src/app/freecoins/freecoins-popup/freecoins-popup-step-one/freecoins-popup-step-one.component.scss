@@ -1,0 +1,19 @@
+.currency-select-wrapper {
+  margin-bottom: 20px;
+}
+
+.bottom-tooltip {
+  position: absolute;
+}
+.modal__note{
+  left: -12px;
+  right: 0;
+}
+
+.currency-select-wrapper, .send__wrap-input{
+  margin-bottom: 33px;
+  &.one-time{
+    margin-bottom: 23px;
+  }
+}
+
