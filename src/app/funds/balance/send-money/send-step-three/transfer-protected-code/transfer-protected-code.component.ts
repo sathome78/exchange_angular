@@ -52,7 +52,7 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
   }
 
   submitTransfer() {
-    this.form.get('amount').updateValueAndValidity();
+    this.formAmount.updateValueAndValidity();
     this.isSubmited = true;
     if (this.form.valid) {
       this.isEnterData = false;
@@ -61,7 +61,7 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
 
   afterResolvedCaptcha() {
     this.model.currency = this.activeCrypto.id;
-    this.model.sum = this.form.controls['amount'].value;
+    this.model.sum = this.formAmount.value;
     this.model.currencyName = this.activeCrypto.name;
     const data = {
       operation: BY_PRIVATE_CODE,
@@ -73,16 +73,12 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
   private initForm() {
     this.form = new FormGroup({
       amount: new FormControl('', {
-        validators: [Validators.required, this.isMaxThenActiveBalance.bind(this), this.isMinThenMinWithdraw.bind(this)],
+        validators: [
+          Validators.required,
+          this.isMaxThenActiveBalance.bind(this),
+          this.isMinThenMinWithdraw.bind(this),
+        ],
       }),
     });
-  }
-
-  trackByAlphabet(index, item) {
-    return item;
-  }
-
-  trackByCryptoNames(index, item) {
-    return item.id;
   }
 }
