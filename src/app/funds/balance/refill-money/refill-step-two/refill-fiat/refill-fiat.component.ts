@@ -24,6 +24,8 @@ import { RefillData } from '../../../../../shared/interfaces/refill-data-interfa
 import { Router } from '@angular/router';
 import { FUG, EUR } from 'app/funds/balance/balance-constants';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { QiwiRefillResponse } from 'app/model/qiwi-rifill-response.model';
+import { COPY_ADDRESS } from '../../../send-money/send-money-constants';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -60,6 +62,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public redirectionUrl;
   public selectMerchantName;
   public loading = false;
+  public qiwiResData: QiwiRefillResponse;
+  public isShowCopyAddress = false;
+  public isShowCopyMemoId = false;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
@@ -163,6 +168,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
+        if (this.isQIWI) {
+          this.form.get('amount').setValidators([]);
+        } else {
+          this.form.get('amount').setValidators([Validators.required, this.minCheck.bind(this)]);
+        }
         this.form.get('amount').updateValueAndValidity();
         if (this.selectedMerchant) {
           this.setMinRefillSum();
@@ -186,6 +196,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.selectedMerchantNested = merchantImage;
     this.selectMerchantName = merchantImage.image_name || merchant.name;
     this.selectedMerchant = merchant;
+    if (this.isQIWI) {
+      this.form.get('amount').setValidators([]);
+    } else {
+      this.form.get('amount').setValidators([Validators.required, this.minCheck.bind(this)]);
+    }
     this.form.get('amount').updateValueAndValidity();
     this.togglePaymentSystemDropdown();
     this.setMinRefillSum();
@@ -200,63 +215,79 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     );
   }
 
+  refillQubera() {
+    const deposit: Object = { currencyName: this.activeFiat.name, amount: this.form.controls.amount.value };
+    const obj: Object = {
+      currency: this.selectedMerchant.currencyId,
+      merchant: this.selectedMerchant.merchantId,
+      destination: '',
+      merchantImage: 1108,
+      sum: `${this.form.controls.amount.value}`,
+      destinationTag: '',
+      operationType: 'INPUT',
+    };
+    this.balanceService
+      .fiatDepositQubera(deposit)
+      .pipe(first())
+      .subscribe(
+        (data: any) => {
+          this.balanceService.setRefillTransfer(obj);
+          this.goToThirdStep.emit(true);
+        },
+        error => {
+          console.error(error);
+        }
+      );
+  }
+
+  refillMerchant() {
+    this.isSubmited = false;
+    if (this.isQIWI) {
+      this.amount = 1000;
+    } else {
+      this.amount = this.form.controls['amount'].value;
+    }
+    const data: RefillData = {
+      operationType: this.fiatDataByName.payment.operationType,
+      currency: this.fiatDataByName.currency.id,
+      merchant: this.selectedMerchant.merchantId,
+      destination: this.selectedMerchant.description,
+      merchantImage: this.selectedMerchantNested.id,
+      sum: +this.amount,
+    };
+    this.loading = true;
+    this.balanceService
+      .refill(data)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (res: any) => {
+          if (this.isQIWI) {
+            this.qiwiResData = res.params;
+          } else {
+            this.refillData = res;
+            this.redirectionUrl = this.refillData.redirectionUrl;
+            // this.redirectionUrl = this.getRefillRedirectionUrl(res);
+            setTimeout(() => {
+              this.redirectionLink.nativeElement.click();
+            }, 1000);
+          }
+          this.submitSuccess = true;
+          this.loading = false;
+        },
+        err => {
+          this.loading = false;
+          console.error(err);
+        }
+      );
+  }
+
   submitRefill() {
     this.isSubmited = true;
     if (this.selectedMerchant.name === FUG && this.activeFiat.name === EUR) {
-      const deposit: Object = { currencyName: this.activeFiat.name, amount: this.form.controls.amount.value };
-      const obj: Object = {
-        currency: this.selectedMerchant.currencyId,
-        merchant: this.selectedMerchant.merchantId,
-        destination: '',
-        merchantImage: 1108,
-        sum: `${this.form.controls.amount.value}`,
-        destinationTag: '',
-        operationType: 'INPUT',
-      };
-      this.balanceService
-        .fiatDepositQubera(deposit)
-        .pipe(first())
-        .subscribe(
-          (data: any) => {
-            this.balanceService.setRefillTransfer(obj);
-            this.goToThirdStep.emit(true);
-          },
-          error => {
-            console.error(error);
-          }
-        );
+      this.refillQubera();
     } else {
       if (this.form.valid && this.selectedMerchant.name) {
-        this.isSubmited = false;
-        this.amount = this.form.controls['amount'].value;
-        const data: RefillData = {
-          operationType: this.fiatDataByName.payment.operationType,
-          currency: this.fiatDataByName.currency.id,
-          merchant: this.selectedMerchant.merchantId,
-          destination: this.selectedMerchant.description,
-          merchantImage: this.selectedMerchantNested.id,
-          sum: +this.amount,
-        };
-        this.loading = true;
-        this.balanceService
-          .refill(data)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(
-            (res: RefillResponse) => {
-              this.refillData = res;
-              this.redirectionUrl = this.refillData.redirectionUrl;
-              // this.redirectionUrl = this.getRefillRedirectionUrl(res);
-              this.submitSuccess = true;
-              setTimeout(() => {
-                this.redirectionLink.nativeElement.click();
-              }, 1000);
-              this.loading = false;
-            },
-            err => {
-              this.loading = false;
-              console.error(err);
-            }
-          );
+        this.refillMerchant();
       }
     }
   }
@@ -296,5 +327,43 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   trackByIndex(index) {
     return index;
+  }
+
+  /**
+   * copy data to buffer
+   * @param {string} val
+   * @param {string} btn
+   */
+  copyToBuffer(val: string, btn: string) {
+    this.changeCopyBtn(btn);
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+  }
+
+  private changeCopyBtn(name: string) {
+    switch (name) {
+      case COPY_ADDRESS:
+        this.isShowCopyAddress = true;
+        setTimeout(() => (this.isShowCopyAddress = false), 1000);
+        break;
+      case 'Copy id':
+        this.isShowCopyMemoId = true;
+        setTimeout(() => (this.isShowCopyMemoId = false), 1000);
+        break;
+    }
+  }
+
+  get isQIWI(): boolean {
+    console.log(this.selectedMerchant);
+    return this.selectedMerchant && this.selectedMerchant.name === 'QIWI';
   }
 }
