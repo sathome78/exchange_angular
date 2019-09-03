@@ -14,6 +14,7 @@
       (buy)="onBuy()"
     ></app-ieo-header>
   </div>
+
   <app-ieo-info
     [isAuthenticated]="isAuthenticated"
     [currentStage]="currentStage"
@@ -26,10 +27,7 @@
     [requirements]="requirements || {}"
   ></app-ieo-info>
 
-  <app-ieo-community
-    *ngIf="true"
-    [IEOName]="IEOData.currencyName"
-  ></app-ieo-community>
+  <app-ieo-community [IEOName]="IEOData.currencyName"></app-ieo-community>
 
   <app-ieo-requirements
     *ngIf="
