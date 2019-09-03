@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BalanceService } from '../../../../services/balance.service';
 import { Store, select } from '@ngrx/store';
-import { State, getUserInfo } from '../../../../../core/reducers';
+import { State, getUserInfo } from 'app/core/reducers';
 import { TRANSFER_INSTANT } from '../../send-money-constants';
 import { AbstractTransfer } from '../abstract-transfer';
-import { PopupService } from '../../../../../shared/services/popup.service';
-import { UtilsService } from '../../../../../shared/services/utils.service';
+import { PopupService } from 'app/shared/services/popup.service';
+import { UtilsService } from 'app/shared/services/utils.service';
 import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
