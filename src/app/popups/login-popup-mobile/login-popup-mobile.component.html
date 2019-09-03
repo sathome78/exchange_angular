@@ -1,5 +1,5 @@
-<div class="overlay">
-  <div class="popup popup-login">
+<div class="overlay popup-login">
+  <div class="popup">
     <div
       class="popup__close"
       (click)="closeMe()"
@@ -17,8 +17,6 @@
       </div>
       <h6 class="popup__title">{{'Log in' | translate}}</h6>
       <h6 class="popup__title-mob mobile-container">{{'Login to continue' | translate}}</h6>
-      <!-- <h4 class="popup__subtitle">{{statusMessage}}</h4> -->
-
       <form
         class="popup__form"
         [formGroup]="loginForm"
@@ -54,7 +52,6 @@
                     || statusMessage}"
             >
             </div>
-            <!--Input error section starts-->
             <div *ngIf="loginForm.get('email').touched
                  && loginForm.get('email').errors != null
                   || !statusMessage
@@ -74,7 +71,6 @@
                 </span>
               </div>
             </div>
-            <!--Input error section ends-->
           </div>
 
           <div class="wrap-input popup__wrap-input">
@@ -112,7 +108,6 @@
               [ngClass]="{'wrap-input__show-password--active': isPasswordVisible}"
             >
             </span>
-            <!--Input error section starts-->
             <div *ngIf="loginForm.get('password').touched
                 && loginForm.get('password').errors != null
                 && loginForm.get('email').valid">
@@ -148,29 +143,9 @@
                 {{'Send activation email again' | translate}}
               </a>
             </div>
-            <!--Input error section ends-->
+
           </div>
         </div>
-        <!-- <div class="radio-buttons-wr">
-          <p>Are you a U.S. citizen/resident?</p>
-          <div class="radio-item">
-            <input
-              type="radio"
-              id="notusa"
-              checked
-              name="usa"
-            >
-            <label for="notusa">No, I am not</label>
-          </div>
-          <div class="radio-item">
-            <input
-              type="radio"
-              id="usa"
-              name="usa"
-            >
-            <label for="usa">Yes, I am</label>
-          </div>
-        </div> -->
         <button
           class="btn popup__btn"
           (click)="onSubmit()"
@@ -209,10 +184,7 @@
         (resolved)="afterResolvedCaptcha($event)"
         [siteKey]="recaptchaKey"
       ></re-captcha>
-      <!-- data-size="compact" -->
-      <!--<div class="popup__links-wrap  popup__links-wrap&#45;&#45;center">-->
-      <!--<a class="popup__link" (click)="openRegistration()">Go to registration form</a>-->
-      <!--</div>-->
+
     </ng-template>
 
     <ng-template #devCaptchaTemplate>
@@ -224,7 +196,7 @@
       >Resolve</button>
     </ng-template>
 
-    <!--Pin Code -->
+
     <ng-template #pinCodeTemplate>
       <h6 class="popup__title">{{'Log in' | translate}}</h6>
       <!--TODO this message is shown when user provided invalid credentials Or backEndDied-->
@@ -259,7 +231,7 @@
               class="wrap-input__line"
               [ngClass]="{'wrap-input__line--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}"
             ></div>
-            <!--Input error section starts-->
+
             <div>
               <div class="input-hint-wrapper">
                 <span
@@ -270,7 +242,7 @@
                 </span>
               </div>
             </div>
-            <!--Input error section ends-->
+
           </div>
 
         </div>
@@ -283,7 +255,6 @@
         </button>
       </form>
       <div class="popup__links-wrap  popup__links-wrap--center">
-        <!--<a class="popup__link" >{{'Lost Your Google Authenticator?' | translate}}</a>-->
       </div>
     </ng-template>
 
