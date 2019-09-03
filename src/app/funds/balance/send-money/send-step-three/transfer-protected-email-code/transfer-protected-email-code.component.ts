@@ -50,16 +50,16 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
 
   submitTransfer() {
     this.isSubmited = true;
-    this.form.get('amount').updateValueAndValidity();
+    this.formAmount.updateValueAndValidity();
     if (this.form.valid) {
       this.isEnterData = false;
     }
   }
 
   afterResolvedCaptcha(event) {
-    this.model.recipient = this.form.controls['email'].value;
+    this.model.recipient = this.formEmail.value;
     this.model.currency = this.activeCrypto ? this.activeCrypto.id : null;
-    this.model.sum = this.form.controls['amount'].value;
+    this.model.sum = this.formAmount.value;
     this.model.currencyName = this.activeCrypto.name;
     const data = {
       operation: BY_PRIVATE_CODE,
@@ -75,23 +75,17 @@ export class TransferProtectedEmailCodeComponent extends AbstractTransfer implem
         validators: [Validators.required, this.utilsService.emailValidator()],
       }),
       amount: new FormControl('', {
-        validators: [Validators.required, this.isMaxThenActiveBalance.bind(this), this.isMinThenMinWithdraw.bind(this)],
+        validators: [
+          Validators.required,
+          this.isMaxThenActiveBalance.bind(this),
+          this.isMinThenMinWithdraw.bind(this)],
       }),
     });
 
-    this.form
-      .get('email')
-      .valueChanges.pipe(tap(() => (this.pendingCheckEmail = true)))
+    this.formEmail.valueChanges
+      .pipe(tap(() => (this.pendingCheckEmail = true)))
       .pipe(debounceTime(1000))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => this.checkEmailOfServer());
-  }
-
-  trackByAlphabet(index, item) {
-    return item;
-  }
-
-  trackByCryptoNames(index, item) {
-    return item.id;
   }
 }
