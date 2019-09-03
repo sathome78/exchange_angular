@@ -26,10 +26,7 @@
     [requirements]="requirements || {}"
   ></app-ieo-info>
 
-  <app-ieo-community
-    *ngIf="true"
-    [IEOName]="IEOData.currencyName"
-  ></app-ieo-community>
+  <app-ieo-community [IEOName]="IEOData.currencyName"></app-ieo-community>
 
   <app-ieo-requirements
     *ngIf="
