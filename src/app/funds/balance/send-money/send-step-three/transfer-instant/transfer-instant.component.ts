@@ -48,7 +48,7 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
   }
 
   submitTransfer() {
-    this.form.get('amount').updateValueAndValidity();
+    this.formAmount.updateValueAndValidity();
     this.isSubmited = true;
     if (this.form.valid) {
       this.isEnterData = false;
@@ -56,9 +56,9 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
   }
 
   afterResolvedCaptcha(event) {
-    this.model.recipient = this.form.controls['email'].value;
+    this.model.recipient = this.formEmail.value;
     this.model.currency = this.activeCrypto ? this.activeCrypto.id : null;
-    this.model.sum = this.form.controls['amount'].value;
+    this.model.sum = this.formAmount.value;
     this.model.currencyName = this.activeCrypto.name;
     const data = {
       operation: TRANSFER_INSTANT,
@@ -73,23 +73,18 @@ export class TransferInstantComponent extends AbstractTransfer implements OnInit
         validators: [Validators.required, this.utilsService.emailValidator()],
       }),
       amount: new FormControl('', {
-        validators: [Validators.required, this.isMaxThenActiveBalance.bind(this), this.isMinThenMinWithdraw.bind(this)],
+        validators: [
+          Validators.required,
+          this.isMaxThenActiveBalance.bind(this),
+          this.isMinThenMinWithdraw.bind(this),
+        ],
       }),
     });
 
-    this.form
-      .get('email')
-      .valueChanges.pipe(tap(() => (this.pendingCheckEmail = true)))
+    this.formEmail.valueChanges
+      .pipe(tap(() => (this.pendingCheckEmail = true)))
       .pipe(debounceTime(1000))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => this.checkEmailOfServer());
-  }
-
-  trackByAlpabet(index, item) {
-    return item;
-  }
-
-  trackByCryptoNames(index, item) {
-    return item.id;
   }
 }

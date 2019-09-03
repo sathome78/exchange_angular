@@ -363,7 +363,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   get isQIWI(): boolean {
-    console.log(this.selectedMerchant);
     return this.selectedMerchant && this.selectedMerchant.name === 'QIWI';
   }
 }

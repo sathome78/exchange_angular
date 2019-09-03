@@ -1,27 +1,45 @@
 <div class="refil-fiat side-popups">
   <h2 class="title refill__title">{{'Give away free coins' | translate}} </h2>
-  <form [formGroup]="form" (ngSubmit)="onSubmit($event)" novalidate *ngIf="activeCurrency">
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit($event)"
+    novalidate
+    *ngIf="activeCurrency"
+  >
     <div class="refill__inputs-wrap">
       <!-- TODO add styles to select--error -->
 
       <div class="refill__select">
         <div class="currency-select-wrapper">
-          <app-currency-select-crypto [activeCurrency]="activeCurrency" [currencies]="currencies"
-            (selectCurrency)="selectCurrency($event)"></app-currency-select-crypto>
+          <app-currency-select-crypto
+            [activeCurrency]="activeCurrency"
+            [currencies]="currencies"
+            (selectCurrency)="selectCurrency($event)"
+          ></app-currency-select-crypto>
         </div>
 
-        <div class="wrap-input send__wrap-input" [ngClass]="{
+        <div
+          class="wrap-input send__wrap-input"
+          [ngClass]="{
             'wrap-input--error': formAmount.invalid&& (formAmount.touched || isSubmited)
-          }">
+          }"
+        >
 
           <div class="avaliable full-width">{{'Available:' | translate}}
-            <a (click)="balanceClick()" class="link">
+            <a
+              (click)="balanceClick()"
+              class="link"
+            >
               {{activeBalance | currencyFormat}} {{activeCurrency.name}}
             </a>
           </div>
-          <app-price-input [placeholder]="activeCurrency.name + ' give away Amount'"
-            [currencyName]="activeCurrency.name" (customInput)="onInputAmount($event)" name="amount"
-            formControlName="amount">
+          <app-price-input
+            [placeholder]="activeCurrency.name + ' give away Amount'"
+            [currencyName]="activeCurrency.name"
+            (customInput)="onInputAmount($event)"
+            name="amount"
+            formControlName="amount"
+          >
           </app-price-input>
 
           <span class="bottom-tooltip wrap-input__message--show">
@@ -35,10 +53,12 @@
           </span>
 
           <!--Input error section starts-->
-          <div *ngIf="formAmount.errors != null">
+          <div *ngIf="formAmount.errors">
             <div class="input-hint-wrapper">
-              <span class="wrap-input__message wrap-input__message--show"
-                *ngIf="formAmount.errors['maxAmount'] && (formAmount.touched || isSubmited)">
+              <span
+                class="wrap-input__message wrap-input__message--show"
+                *ngIf="formAmount.errors['maxAmount'] && (formAmount.touched || isSubmited)"
+              >
                 {{
                   'Your available balance:' | translate
                 }} {{
@@ -47,8 +67,10 @@
                   activeCurrency.name
                 }}
               </span>
-              <span class="wrap-input__message wrap-input__message--show"
-                *ngIf="formAmount.errors['minAmount'] && (formAmount.touched || isSubmited)">
+              <span
+                class="wrap-input__message wrap-input__message--show"
+                *ngIf="formAmount.errors['minAmount'] && (formAmount.touched || isSubmited)"
+              >
                 {{
                   'Min amount is:' | translate
                 }} {{
@@ -64,19 +86,40 @@
 
         <div class="wrap-input send__wrap-input one-time">
           <div class="check">
-            <input type="checkbox" id="oneTime" formControlName="isOneTime" (change)="onCheckeOneTime($event)"
-              class="accessibility-content" />
-            <label for="oneTime" class="read"></label>
+            <input
+              type="checkbox"
+              id="oneTime"
+              formControlName="isOneTime"
+              (change)="onCheckeOneTime($event)"
+              class="accessibility-content"
+            />
+            <label
+              for="oneTime"
+              class="read"
+            ></label>
             <span>{{'One-time distribution' | translate}}</span>
           </div>
         </div>
 
-        <div class="wrap-input send__wrap-input" [ngClass]="{
+        <div
+          class="wrap-input send__wrap-input"
+          [ngClass]="{
             'wrap-input--error': formPeriod.invalid && (formPeriod.touched || isSubmited)
-          }">
-          <input appOnlyNumbers="true" class="wrap-input__input" type="text" name="period" required autocomplete="off"
-            formControlName="period">
-          <label class="wrap-input__label" for="">{{'Period (minutes)' | translate}}</label>
+          }"
+        >
+          <input
+            appOnlyNumbers="true"
+            class="wrap-input__input"
+            type="text"
+            name="period"
+            required
+            autocomplete="off"
+            formControlName="period"
+          >
+          <label
+            class="wrap-input__label"
+            for=""
+          >{{'Period (minutes)' | translate}}</label>
 
           <span class="bottom-tooltip wrap-input__message--show">
             {{
@@ -91,8 +134,10 @@
           <!--Input error section starts-->
           <div *ngIf="formPeriod.errors != null">
             <div class="input-hint-wrapper">
-              <span class="wrap-input__message wrap-input__message--show"
-                *ngIf="formPeriod.errors['minPeriod'] && (formPeriod.touched || isSubmited)">
+              <span
+                class="wrap-input__message wrap-input__message--show"
+                *ngIf="formPeriod.errors['minPeriod'] && (formPeriod.touched || isSubmited)"
+              >
                 {{
                   'Min period is:' | translate
                 }} {{
@@ -106,11 +151,18 @@
           <!--Input error section ends-->
 
         </div>
-        <div class="wrap-input send__wrap-input" [ngClass]="{
+        <div
+          class="wrap-input send__wrap-input"
+          [ngClass]="{
             'wrap-input--error': formPrize.invalid && (formPrize.touched || isSubmited)
-          }">
-          <app-price-input [placeholder]="activeCurrency.name + ' prize Amount'" [currencyName]="activeCurrency.name"
-            name="prize" formControlName="prize">
+          }"
+        >
+          <app-price-input
+            [placeholder]="activeCurrency.name + ' prize Amount'"
+            [currencyName]="activeCurrency.name"
+            name="prize"
+            formControlName="prize"
+          >
           </app-price-input>
 
           <span class="bottom-tooltip wrap-input__message--show">
@@ -126,8 +178,10 @@
           <!--Input error section starts-->
           <div *ngIf="formPrize.errors != null">
             <div class="input-hint-wrapper">
-              <span class="wrap-input__message wrap-input__message--show"
-                *ngIf="formPrize.errors['maxPrize'] && (formPrize.touched || isSubmited)">
+              <span
+                class="wrap-input__message wrap-input__message--show"
+                *ngIf="formPrize.errors['maxPrize'] && (formPrize.touched || isSubmited)"
+              >
                 {{
                   'Max amount is:' | translate
                 }} {{
@@ -136,8 +190,10 @@
                   activeCurrency.name
                 }}
               </span>
-              <span class="wrap-input__message wrap-input__message--show"
-                *ngIf="formPrize.errors['minPrize'] && (formPrize.touched || isSubmited)">
+              <span
+                class="wrap-input__message wrap-input__message--show"
+                *ngIf="formPrize.errors['minPrize'] && (formPrize.touched || isSubmited)"
+              >
                 {{
                   'Min amount is:' | translate
                 }} {{
@@ -155,16 +211,25 @@
     </div>
 
     <div class="send__line"></div>
-    <div class="send__info" *ngIf="activeCurrency">
+    <div
+      class="send__info"
+      *ngIf="activeCurrency"
+    >
       <div class="send__info-row">
         <div class="send__info-title">{{'You want to give away:' | translate}}</div>
         <div class="send__info-value">{{formAmount.value || 0 | currencyFormat}} {{activeCurrency.name}}</div>
       </div>
       <div class="send__info-row">
         <div class="send__info-title">{{'Period:' | translate}}</div>
-        <div class="send__info-value" *ngIf="!formOneTime.value">{{formPeriod.value || 0}}
+        <div
+          class="send__info-value"
+          *ngIf="!formOneTime.value"
+        >{{formPeriod.value || 0}}
           {{formPeriod.value > 1 ? 'minutes': 'minute'}} </div>
-        <div class="send__info-value" *ngIf="formOneTime.value">{{'One-time distribution'}} </div>
+        <div
+          class="send__info-value"
+          *ngIf="formOneTime.value"
+        >{{'One-time distribution'}} </div>
       </div>
       <div class="send__info-row">
         <div class="send__info-title">{{activeCurrency.name}} {{'prize amount:' | translate}}</div>
@@ -176,7 +241,11 @@
       </div>
     </div>
 
-    <button class="btn btn--center" [disabled]="form.invalid" type="submit">
+    <button
+      class="btn btn--center"
+      [disabled]="form.invalid"
+      type="submit"
+    >
       {{'Give away' | translate}}
     </button>
     <div class="send__line"></div>
