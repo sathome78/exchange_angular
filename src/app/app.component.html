@@ -1,13 +1,11 @@
 <div
   class="page-wrap"
-  [ngClass]="{'dark-theme': isCurrentThemeDark()}"
->
+  [ngClass]="{'dark-theme': isCurrentThemeDark()}">
 
   <article
     class="banner-wr"
     id="banner-wr"
-    *ngIf="!technicalWorks"
-  >
+    *ngIf="!technicalWorks">
     <style>
       .banner-content {
         width: 100%;
@@ -31,19 +29,16 @@
     </style>
     <a
       class="banner-content"
-      href="https://about.exrates.me/ru/form-listing"
-    >
+      href="https://about.exrates.me/ru/form-listing">
       <img
         src="assets/img/apply-by-listing.png"
-        alt=""
-      >
+        alt="">
     </a>
   </article>
   <!-- *ngIf="technicalWorks" -->
   <div
     class="tech-banner"
-    *ngIf="technicalWorks"
-  >
+    *ngIf="technicalWorks">
     <div class="banner-content">TECHNICAL WORKS</div>
   </div>
 
