@@ -73,6 +73,7 @@
 
   <app-popup-policy
     *ngIf="showPolicy"
+    [IEOName]="IEOData.currencyName"
     (close)="togglePolicy(false)"
     (agree)="agreeWithPolicy()"
   ></app-popup-policy>
