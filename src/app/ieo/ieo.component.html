@@ -26,10 +26,7 @@
     [requirements]="requirements || {}"
   ></app-ieo-info>
 
-  <app-ieo-community
-    *ngIf="true"
-    [community]="ieoData.community"
-  ></app-ieo-community>
+  <app-ieo-community [IEOName]="IEOData.currencyName"></app-ieo-community>
 
   <app-ieo-requirements
     *ngIf="
@@ -38,6 +35,7 @@
     "
     [isAuthenticated]="isAuthenticated"
     [requirements]="requirements"
+    [IEOName]="IEOData.currencyName"
     (showPolicy)="togglePolicy(true)"
   ></app-ieo-requirements>
 
@@ -75,6 +73,7 @@
 
   <app-popup-policy
     *ngIf="showPolicy"
+    [IEOName]="IEOData.currencyName"
     (close)="togglePolicy(false)"
     (agree)="agreeWithPolicy()"
   ></app-popup-policy>
