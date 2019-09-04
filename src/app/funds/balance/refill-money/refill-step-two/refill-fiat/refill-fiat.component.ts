@@ -24,7 +24,7 @@ import { RefillData } from '../../../../../shared/interfaces/refill-data-interfa
 import { Router } from '@angular/router';
 import { FUG, EUR } from 'app/funds/balance/balance-constants';
 import { UtilsService } from 'app/shared/services/utils.service';
-import { QiwiRefillResponse } from 'app/model/qiwi-rifill-response.model';
+import { QiwiRefill } from 'app/model/qiwi-rifill-response.model';
 import { COPY_ADDRESS } from '../../../send-money/send-money-constants';
 
 @Component({
@@ -62,7 +62,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public redirectionUrl;
   public selectMerchantName;
   public loading = false;
-  public qiwiResData: QiwiRefillResponse;
+  public qiwiResData: QiwiRefill;
   public isShowCopyAddress = false;
   public isShowCopyMemoId = false;
 
@@ -242,8 +242,14 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   refillMerchant() {
     this.isSubmited = false;
+    let dataQiwi: QiwiRefill;
     if (this.isQIWI) {
       this.amount = 1000;
+      dataQiwi = {
+        address: this.selectedMerchant.mainAddress,
+        memo: this.selectedMerchant.address,
+        additionalFieldName: this.selectedMerchant.additionalFieldName,
+      };
     } else {
       this.amount = this.form.controls['amount'].value;
     }
@@ -262,14 +268,16 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: any) => {
           if (this.isQIWI) {
-            this.qiwiResData = res.params;
+            this.qiwiResData = dataQiwi;
           } else {
             this.refillData = res;
             this.redirectionUrl = this.refillData.redirectionUrl;
             // this.redirectionUrl = this.getRefillRedirectionUrl(res);
-            setTimeout(() => {
-              this.redirectionLink.nativeElement.click();
-            }, 1000);
+            if (!this.isCoinPay) {
+              setTimeout(() => {
+                this.redirectionLink.nativeElement.click();
+              }, 1000);
+            }
           }
           this.submitSuccess = true;
           this.loading = false;
@@ -312,6 +320,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
 
   hideSend() {
+    if (this.isCoinPay) {
+      return;
+    }
     document.forms['hideForm'].submit();
     return false;
   }
@@ -364,5 +375,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   get isQIWI(): boolean {
     return this.selectedMerchant && this.selectedMerchant.name === 'QIWI';
+  }
+  get isCoinPay(): boolean {
+    return this.selectedMerchant && this.selectedMerchant.name === 'CoinPay(Privat24)';
   }
 }
