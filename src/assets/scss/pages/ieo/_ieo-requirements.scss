@@ -34,7 +34,7 @@
 		border-radius: 4px;
 		color: #191A39;
 	}
-	
+
 	.requirement-item {
 		display: flex;
 		padding: 1.3em 1.6em;
@@ -83,7 +83,7 @@
 	.requirement-text-wr{
 		.requirement-text{
 			overflow: hidden;
-			height: 7.45em;
+			// height: 7.45em;
 			transition: .3s;
 			@media(max-width: 992px){
 				height: 8.3em;
