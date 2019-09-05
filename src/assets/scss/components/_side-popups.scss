@@ -35,6 +35,9 @@
     @media(max-width: 1199px){
       color:#DEDEFB;
     }
+    &.full-width {
+      width: 100%;
+    }
   }
   .daily-avaliable {
     @extend .avaliable;
@@ -90,7 +93,7 @@
 
   .send__inputs-wrap, .refill__inputs-wrap {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     margin-bottom: 24px;
   }

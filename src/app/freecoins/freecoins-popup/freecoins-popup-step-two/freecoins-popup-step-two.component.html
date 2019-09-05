@@ -1,0 +1,54 @@
+<div class="modal__content qubera-content refil-s3">
+  <div class="fiat-deposit-s1 fiat-withdraw-s1">
+    <h2 class="title refill__title">{{'Two-factor Authentications' | translate}}</h2>
+    <h4
+      class="popup__subtitle popup_title--dm"
+      [ngClass]="{'msg-error' : isError}"
+    >
+      {{twoFaTitle}}
+    </h4>
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="input-block">
+        <input
+          class="wrap-input__input"
+          type="text"
+          name="code"
+          formControlName="code"
+          required
+        >
+        <label
+          class="wrap-input__label"
+          for="code"
+        >{{'Code' | translate}}</label>
+        <ng-container *ngIf="formPin.invalid && !formPin.untouched && !statusMessage">
+          <div class="input-hint-wrapper">
+            <span
+              class="wrap-input__message"
+              *ngIf="formPin.invalid"
+            >
+              {{'Code field is required.' | translate}}
+            </span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="statusMessage">
+          <div class="input-hint-wrapper">
+            <span class="wrap-input__message">
+              {{statusMessage | translate}}
+            </span>
+          </div>
+        </ng-container>
+      </div>
+      <button
+        class="btn btn--center"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        {{'Confirm' | translate}}
+      </button>
+    </form>
+  </div>
+</div>

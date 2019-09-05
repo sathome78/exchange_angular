@@ -1,0 +1,115 @@
+<div
+  class="overlay--modal"
+  *ngIf="showPopup"
+  [@overlayAnimation]="showPopup ? 'show' : 'hide'"
+  appAddClass="no-scroll"
+  to="body"
+>
+  <div
+    class="modal"
+    [@modalAnimation]="showPopup ? 'show' : 'hide' "
+  >
+    <!-- btn modal close -->
+    <div class="modal__controls modal__controls--top">
+      <a
+        class="modal__button modal__button--close"
+        (click)="onCloseFreeCoinsPopup()"
+      >
+        <span>{{'close' | translate}}</span>
+        <img
+          class="modal__button-icon"
+          src="../../../assets/img/close.svg"
+        >
+      </a>
+    </div>
+    <!-- modal header start -->
+    <div class="modal__header-mob">
+      <div class="steps__counter steps__counter--mob">{{'step' | translate}}
+        <span class="steps__counter-val">{{step}}</span>/2</div>
+      <div class="modal__header-mob-controls">
+        <a
+          class="modal__control-mob"
+          (click)="onCloseFreeCoinsPopup()"
+        >
+          <img
+            class="modal__control-icon"
+            src="../../../assets/img/close-blue.svg"
+          ></a>
+      </div>
+    </div>
+    <div class="modal__header">
+      <ul class="steps">
+        <li
+          class="steps__item"
+          *ngIf="step >= 1"
+          [ngClass]="{'steps__item--current': step === 1}"
+        >
+          <a
+            class="steps__link"
+            (click)="setStep(1)"
+          >
+            <span
+              class="steps__number"
+              [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }"
+            >1</span>
+            <span class="steps__number-mob-current">1. {{'Give away' | translate}}</span>
+            <span class="steps__title">{{'Give away' | translate}}</span>
+          </a>
+        </li>
+        <li
+          class="steps__item"
+          *ngIf="step >= 2"
+          [ngClass]="{'steps__item--current': step === 2}"
+        >
+          <a
+            class="steps__link"
+            (click)="setStep(2)"
+          >
+            <span
+              class="steps__number"
+              [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }"
+            >2</span>
+            <span class="steps__number-mob-current">2. {{'With code' | translate}}</span>
+            <span class="steps__title">{{'With code' | translate}}</span>
+          </a>
+        </li>
+        <li
+          class="steps__item"
+          *ngIf="step >= 3"
+          [ngClass]="{'steps__item--current': step === 3}"
+        >
+          <a
+            class="steps__link"
+            (click)="setStep(3)"
+          >
+            <span
+              class="steps__number"
+              [ngClass]="{'steps__number--current': step === 3, 'steps__number--valid': step != 3 }"
+            >3</span>
+            <span class="steps__number-mob-current">3. {{'Accepted' | translate}}</span>
+            <span class="steps__title">{{'Accepted' | translate}}</span>
+          </a>
+        </li>
+      </ul>
+      <div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/ 3</div>
+    </div>
+    <!-- modal header end -->
+    <div class="modal__content">
+      <app-freecoins-popup-step-one
+        *ngIf="step === 1"
+        (submitForm)="submitStep1($event)"
+      ></app-freecoins-popup-step-one>
+
+      <app-freecoins-popup-step-two
+        *ngIf="step === 2"
+        (nextStep)="goNextStep($event)"
+      ></app-freecoins-popup-step-two>
+
+      <app-freecoins-popup-step-three
+        *ngIf="step === 3"
+        (close)="onCloseFreeCoinsPopup()"
+      ></app-freecoins-popup-step-three>
+
+    </div>
+  </div>
+</div>

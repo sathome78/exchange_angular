@@ -65,10 +65,12 @@
           class="select__value select__value--active"
           (click)="togglePaymentSystemDropdown()"
         >
-          <img
-            [src]="selectMerchantName | getIconUrl"
-            class="select__list-item-icon"
-          >
+          <div class="icon-wr">
+            <img
+              [src]="selectMerchantName | getIconUrl"
+              class="select__list-item-icon"
+            >
+          </div>
           {{selectMerchantName}}
         </div>
         <div class="select__label">{{'Payment system' | translate}}</div>
@@ -97,7 +99,14 @@
                 <path
                   fill-rule="evenodd"
                   clip-rule="evenodd"
-                  d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"
+                  d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1
+                  4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293
+                  13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0
+                  8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293
+                  15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207
+                  17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188
+                  17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465
+                  17.8535L13.293 13.999Z"
                 />
               </svg>
             </div>
@@ -110,13 +119,17 @@
             >
               <li
                 class="select__list-item"
-                *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
+                *ngFor="let nested of merchant.listMerchantImage |
+                  merchantImageFilter: searchTemplate"
                 (click)="selectMerchant(merchant, nested)"
               >
-                <img
-                  [src]="nested.image_name | getIconUrl"
-                  class="select__list-item-icon"
-                >
+                <div class="icon-wr">
+                  <img
+                    [src]="nested.image_name | getIconUrl"
+                    class="select__list-item-icon"
+                  >
+                </div>
+
                 {{nested.image_name}}
               </li>
             </ng-template>
@@ -129,7 +142,6 @@
         *ngIf="selectedMerchant && !isQIWI"
         [ngClass]="{'wrap-input--error': !form.valid && isSubmited}"
       >
-
         <app-price-input
           [placeholder]="'Amount'"
           formControlName="amount"
@@ -141,7 +153,8 @@
 
         <div class="wrap-input__message--show">
           <span *ngIf="!form.valid">
-            {{'Min. sum for deposit' | translate}} {{+(minRefillSum || 0) | roundCurrency: 'USD' | formatCurrency: 'short': 'USD'}}
+            {{'Min. sum for deposit' | translate}} {{+(minRefillSum || 0) |
+              roundCurrency: 'USD' | formatCurrency: 'short': 'USD'}}
             {{activeFiat ? activeFiat.name : ''}}
           </span>
         </div>
@@ -152,7 +165,8 @@
           *ngIf="!form.valid && isSubmited"
         >
           <span class="wrap-input__message">
-            {{'Should be at least' | translate}} {{+(minRefillSum || 0) | roundCurrency: 'USD' | formatCurrency: 'short': 'USD'}}
+            {{'Should be at least' | translate}} {{+(minRefillSum || 0) |
+              roundCurrency: 'USD' | formatCurrency: 'short': 'USD'}}
           </span>
         </div>
         <!--Input error section ends-->
@@ -181,14 +195,18 @@
     class="refill__fiat-successful"
     *ngIf="submitSuccess"
   >
-    <div [ngSwitch]="selectMerchantName" [class]="'refill-' + selectMerchantName"> 
+    <div
+      [ngSwitch]="selectMerchantName"
+      [class]="'refill-' +
+        selectMerchantName"
+    >
       <ng-container *ngSwitchCase="'QIWI'">
         <h2 class="title refill__title">{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></h2>
         <div class="refill__crypto-refill-info">
           <div class="refill__qr-code">
             <qr-code
-              [value]="qiwiResData.qr"
-              *ngIf="qiwiResData.qr && qiwiResData.address"
+              [value]="qiwiResData.address"
+              *ngIf="qiwiResData.address"
               [size]="150"
             ></qr-code>
           </div>
@@ -197,7 +215,8 @@
               class="refill__crypto-address"
               *ngIf="qiwiResData.address"
             >
-              <h6 class="refill__crypto-title"><span>{{activeFiat?.name}}</span> {{'address' | translate}}</h6>
+              <h6 class="refill__crypto-title"><span>{{activeFiat?.name}}</span>
+                {{'address' | translate}}</h6>
               <div class="refill__crypto-hash">{{qiwiResData.address}}</div>
               <button
                 class="btn btn--small btn--empty-blue refill__crypto-copy-btn"
@@ -213,28 +232,37 @@
                 {{'Copied' | translate}}
               </button>
             </div>
-            <!-- <div
+            <div
               class="refill__crypto-memo"
-              *ngIf="cryptoDataByName.merchantCurrencyData[0].additionalFieldName && !!additionalAddress"
+              *ngIf="qiwiResData.memo"
             >
-              <h6 class="refill__crypto-title">{{cryptoDataByName.merchantCurrencyData[0].additionalFieldName}}</h6>
-              <div class="refill__crypto-hash">{{additionalAddress}}</div>
+              <h6 class="refill__crypto-title">{{qiwiResData.additionalFieldName}}</h6>
+              <div class="refill__crypto-hash">{{qiwiResData.memo}}</div>
               <button
                 class="btn btn--small btn--empty-blue refill__crypto-copy-btn"
-                *ngIf="!isSowCopyMemoId"
-                (click)="copyToBuffer(additionalAddress, 'Copy id')"
+                *ngIf="!isShowCopyMemoId"
+                (click)="copyToBuffer(qiwiResData.memo, 'Copy id')"
               >
                 {{'Copy id' | translate}}
               </button>
               <button
                 class="btn btn--small btn--empty-blue refill__crypto-copy-btn"
-                *ngIf="isSowCopyMemoId"
+                *ngIf="isShowCopyMemoId"
               >{{'Copied' | translate}}</button>
-            </div> -->
+            </div>
           </div>
         </div>
       </ng-container>
 
+      <ng-container *ngSwitchCase="'CoinPay(Privat24)'">
+        <app-refill-coin-pay
+          [selectMerchantName]="selectMerchantName"
+          [refillData]="refillData"
+          [redirectionUrl]="redirectionUrl"
+          (goToBalances)="goToBalances()"
+        >
+        </app-refill-coin-pay>
+      </ng-container>
       <ng-container *ngSwitchDefault>
         <div class="refill__fiat-successful-icon">
           <svg
@@ -253,7 +281,12 @@
               stroke-width="2"
             />
             <path
-              d="M44.5753 19.4247C44.0091 18.8584 43.091 18.8584 42.5247 19.4247L25.1528 36.7968L18.4753 30.1193C17.9091 29.553 16.9911 29.5531 16.4247 30.1193C15.8584 30.6855 15.8584 31.6036 16.4247 32.1699L24.1275 39.8725C24.6936 40.4388 25.6123 40.4384 26.1781 39.8725L44.5753 21.4753C45.1416 20.9091 45.1415 19.991 44.5753 19.4247Z"
+              d="M44.5753 19.4247C44.0091 18.8584 43.091 18.8584 42.5247
+                  19.4247L25.1528 36.7968L18.4753 30.1193C17.9091 29.553 16.9911
+                  29.5531 16.4247 30.1193C15.8584 30.6855 15.8584 31.6036
+                  16.4247 32.1699L24.1275 39.8725C24.6936 40.4388 25.6123
+                  40.4384 26.1781 39.8725L44.5753 21.4753C45.1416 20.9091
+                  45.1415 19.991 44.5753 19.4247Z"
               fill="#237BEF"
             />
           </svg>
@@ -266,15 +299,21 @@
             #redirectionLink
             href="{{redirectionUrl}}"
             (click)="hideSend()"
-          >{{selectMerchantName}}</a>
+          >
+            {{selectMerchantName}}
+          </a>
           {{'to make a payment' | translate}}
           <b>{{refillData.params.ok_item_1_price}} {{refillData.params.ok_currency}}</b>
         </div>
         <div class="subtitle refill__fiat-successful-subtitle">
-          {{'You can track the progress in history section on' | translate}} <a
+          {{'You can track the progress in history section on' | translate}}
+          <a
             class="standart-link"
             (click)="goToBalances()"
-          >{{'funds' | translate}}</a> {{'page' | translate}}
+          >
+            {{'funds' | translate}}
+          </a>
+          {{'page' | translate}}
         </div>
 
         <form
@@ -301,7 +340,8 @@
     <div class="note__title">{{'Please note:' | translate}}</div>
     <ul class="note__list">
       <li class="note__list-item">
-        <b>{{'Please note that a fee is charged for depositing fiat. Size of the commission you can see here:' | translate}}</b>
+        <b>{{'Please note that a fee is charged for depositing fiat. Size
+                of the commission you can see here:' | translate}}</b>
         <a
           class="standart-link"
           href="https://support.exrates.me/article/fees-pairs"
@@ -309,8 +349,23 @@
           https://support.exrates.me/article/fees-pairs
         </a>
       </li>
+      <li
+        class="note__list-item"
+        *ngIf="isQIWI"
+      >
+        {{'Deposit coins/tokens ONLY to this address. Depositing tokens to addresses
+          other than RUB will result in your funds being lost.' | translate}}
+      </li>
+      <li
+        class="note__list-item"
+        *ngIf="isQIWI"
+      >
+        {{'Go to https://qiwi.com website and send funds to the current address, don\'t
+          forget to specify memo, otherwise - money will not be credited!' | translate}}
+      </li>
       <li class="note__list-item">
-        {{'We have good news for you! It’s more then 24 currencies available for deposit right now:' | translate}}
+        {{'We have good news for you! It’s more then 24 currencies
+              available for deposit right now:' | translate}}
       </li>
     </ul>
   </div>

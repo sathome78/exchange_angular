@@ -14,6 +14,7 @@
       (buy)="onBuy()"
     ></app-ieo-header>
   </div>
+
   <app-ieo-info
     [isAuthenticated]="isAuthenticated"
     [currentStage]="currentStage"
@@ -26,10 +27,7 @@
     [requirements]="requirements || {}"
   ></app-ieo-info>
 
-  <app-ieo-community
-    *ngIf="ieoData.community && ieoData.community.length"
-    [community]="ieoData.community"
-  ></app-ieo-community>
+  <app-ieo-community [IEOName]="IEOData.currencyName"></app-ieo-community>
 
   <app-ieo-requirements
     *ngIf="
@@ -38,6 +36,7 @@
     "
     [isAuthenticated]="isAuthenticated"
     [requirements]="requirements"
+    [IEOName]="IEOData.currencyName"
     (showPolicy)="togglePolicy(true)"
   ></app-ieo-requirements>
 
@@ -56,7 +55,7 @@
   <app-ieo-how-it-works></app-ieo-how-it-works>
 
   <app-ieo-description-wrapper
-    [IEOId]="IEOId"
+    [IEOId]="IEOData.currencyName"
     [ieoToken]="IEOData.currencyDescription"
   ></app-ieo-description-wrapper>
 
@@ -75,6 +74,7 @@
 
   <app-popup-policy
     *ngIf="showPolicy"
+    [IEOName]="IEOData.currencyName"
     (close)="togglePolicy(false)"
     (agree)="agreeWithPolicy()"
   ></app-popup-policy>

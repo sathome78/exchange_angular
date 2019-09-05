@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { IEOItem } from 'app/model/ieo.model';
 
 @Component({
   selector: 'app-popup-policy',
@@ -8,6 +9,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 export class PopupPolicyComponent implements OnInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() agree: EventEmitter<any> = new EventEmitter();
+  @Input() IEOName: string;
 
   constructor() {}
 
