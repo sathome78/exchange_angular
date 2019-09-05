@@ -2,3 +2,20 @@
   <app-fs-slider></app-fs-slider>
   <app-markets-home></app-markets-home>
 </div>
+
+<ngx-slick-carousel
+  class="carousel"
+  #slickModal="slick-carousel"
+  [config]="slideConfig"
+>
+  <div
+    ngxSlickItem
+    class="slide"
+  >
+    <img
+      src="#"
+      alt=""
+      width="100%"
+    >
+  </div>
+</ngx-slick-carousel>
