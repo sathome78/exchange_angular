@@ -85,7 +85,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private _autosize: ChartingLibraryWidgetOptions['autosize'] = true;
   private _containerId: ChartingLibraryWidgetOptions['container_id'] = 'tv_chart_container';
   private _tvWidget: IChartingLibraryWidget | null = null;
-  private _getDataInterval = 60 * 1000;
+  private _getDataInterval = 10 * 1000;
   public timeZoneName: string;
   private language: any;
 
@@ -162,11 +162,12 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       container_id: this._containerId,
       timezone: this.setTimeZoneToWidget(),
       time_frames: [
-        // {text: '8m', resolution: 'D'},
-        // {text: '2m', resolution: 'D'},
-        // {text: '7d', resolution: '60'},
-        // {text: '5d', resolution: '30'},
-        // {text: '3d', resolution: '30'},
+        { text: '1D', resolution: 'D' },
+        { text: '6h', resolution: '360' },
+        { text: '1h', resolution: '60' },
+        { text: '30m', resolution: '30' },
+        { text: '15m', resolution: '15' },
+        { text: '5m', resolution: '5' },
       ],
       library_path: this._libraryPath,
       locale: this.setLang(),
@@ -191,10 +192,10 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       autosize: this._autosize,
       toolbar_bg: '#252543',
       custom_css_url: '/assets/css/chart_style.css',
-      // favorites: {
-      //   chartTypes: ['Area'],
-      //   intervals: ['30', '60', '240', '720', '1D', '2D', '3D', '1W', '3W', '1M']
-      // },
+      favorites: {
+        chartTypes: ['Area'],
+        intervals: ['5', '15', '30', '60', '360', '1D'],
+      },
       studies_overrides: {
         'volume.volume.color.0': '#EB5757',
         'volume.volume.color.1': '#00B43D',
