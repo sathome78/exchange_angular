@@ -242,16 +242,18 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   refillMerchant() {
     this.isSubmited = false;
-    let dataQiwi: QiwiRefill;
     if (this.isQIWI) {
-      dataQiwi = {
+      this.qiwiResData = {
         address: this.selectedMerchant.mainAddress,
         memo: this.selectedMerchant.address,
         additionalFieldName: this.selectedMerchant.additionalFieldName,
       };
-    } else {
-      this.amount = this.form.controls['amount'].value;
+      this.submitSuccess = true;
+      this.loading = false;
+      return;
     }
+
+    this.amount = this.form.controls['amount'].value;
     const data: RefillData = {
       operationType: this.fiatDataByName.payment.operationType,
       currency: this.fiatDataByName.currency.id,
@@ -266,17 +268,12 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (res: any) => {
-          if (this.isQIWI) {
-            this.qiwiResData = dataQiwi;
-          } else {
-            this.refillData = res;
-            this.redirectionUrl = this.refillData.redirectionUrl;
-            // this.redirectionUrl = this.getRefillRedirectionUrl(res);
-            if (!this.isCoinPay) {
-              setTimeout(() => {
-                this.redirectionLink.nativeElement.click();
-              }, 1000);
-            }
+          this.refillData = res;
+          this.redirectionUrl = this.refillData.redirectionUrl;
+          if (!this.isCoinPay) {
+            setTimeout(() => {
+              this.redirectionLink.nativeElement.click();
+            }, 1000);
           }
           this.submitSuccess = true;
           this.loading = false;
