@@ -131,12 +131,12 @@
           {{!+lastExrate ? 0 : +lastExrate | currencyFormat:splitCurrencyName[1]:'full':true}}
         </span>
         <img
-          *ngIf="+preLastExrate < +lastExrate"
+          *ngIf="isExratePositive"
           class="arr arr--ml4"
           src="../assets/img/arr-up-green.svg"
         >
         <img
-          *ngIf="+preLastExrate > +lastExrate"
+          *ngIf="!isExratePositive"
           class="arr arr--ml4"
           src="../assets/img/arr-down-red.svg"
         >
