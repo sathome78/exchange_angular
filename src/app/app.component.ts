@@ -199,4 +199,8 @@ export class AppComponent implements OnInit, OnDestroy {
       new APIErrorReport('this.userInfo.username', 'url', 'method', 'status', 'JSON.stringify(error.error)')
     );
   }
+
+  get isMainPage(): boolean {
+    return this.utilsService.isMainPage;
+  }
 }
