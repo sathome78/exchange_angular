@@ -51,6 +51,7 @@ import { FiatComponent } from './fiat/fiat.component';
 import { AdvisorComponent } from './advisor/advisor.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { FsSliderComponent } from './main-page/fs-slider/fs-slider.component';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -120,6 +121,7 @@ const stompConfig: InjectableRxStompConfig = {
     ToastrModule.forRoot(),
     ToastContainerModule,
     PopupsModule,
+    SlickCarouselModule,
   ],
   providers: [
     AuthGuard,

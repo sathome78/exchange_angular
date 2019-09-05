@@ -1,3 +1,20 @@
 <div class="home-page-container">
   <app-fs-slider></app-fs-slider>
 </div>
+
+<ngx-slick-carousel
+  class="carousel"
+  #slickModal="slick-carousel"
+  [config]="slideConfig"
+>
+  <div
+    ngxSlickItem
+    class="slide"
+  >
+    <img
+      src="#"
+      alt=""
+      width="100%"
+    >
+  </div>
+</ngx-slick-carousel>
