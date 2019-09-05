@@ -84,7 +84,7 @@ export class IEOComponent implements OnInit, OnDestroy {
               if (res) {
                 this.requirements = res;
                 this.verificationStatus = Object.values(res).every(i => i);
-                this.requirements = new KycIEOModel(false, false, false);
+                // this.requirements = new KycIEOModel(false, false, false);
               }
             });
         }
