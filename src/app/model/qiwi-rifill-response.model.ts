@@ -1,6 +1,6 @@
 
-export class QiwiRefillResponse {
+export class QiwiRefill {
   address: string;
-  message: string;
-  qr: string;
+  memo: string;
+  additionalFieldName: string;
 }
