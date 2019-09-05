@@ -244,7 +244,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.isSubmited = false;
     let dataQiwi: QiwiRefill;
     if (this.isQIWI) {
-      this.amount = 1000;
       dataQiwi = {
         address: this.selectedMerchant.mainAddress,
         memo: this.selectedMerchant.address,
