@@ -185,3 +185,38 @@
     }
   }
 }
+
+.markets-home {
+  background-color: #e5e5e5;
+  padding: 38px 0 100px;
+  .markets-block-link {
+    display: flex;
+    max-width: 1464px;
+      margin: 0 auto;
+      padding: 0 34px;
+
+  }
+  .link-item {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    .lnk {
+    }
+    .icon-wr {
+      margin-bottom: 35px;
+      img {
+      }
+    }
+    .txt-wr {
+      span {
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 1.15;
+        text-align: center;
+        color: #0D2038;
+      }
+    }
+  }
+}
