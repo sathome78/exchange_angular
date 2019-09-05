@@ -8,7 +8,7 @@ import { State } from 'app/core/reducers';
 import { getQuberaBalancesSelector, getQuberaKycStatusSelector } from 'app/funds/store/reducers/funds.reducer';
 import { withLatestFrom, takeUntil } from 'rxjs/operators';
 import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
-// import {CoreService} from 'app/core/services/core.service';
+import { Location } from '@angular/common';
 
 const FUG = 'FUG';
 
@@ -25,7 +25,7 @@ export class UtilsService {
   private fraction: number;
   private isQuberaReady = false;
 
-  constructor(private store: Store<State>) {
+  constructor(private store: Store<State>, private location: Location) {
     this.store
       .pipe(select(getQuberaBalancesSelector))
       .pipe(withLatestFrom(this.store.pipe(select(getQuberaKycStatusSelector))))
@@ -235,5 +235,9 @@ export class UtilsService {
       return true;
     }
     return merch.name !== FUG;
+  }
+
+  get isMainPage() {
+    return this.location.isCurrentPathEqualTo('/');
   }
 }

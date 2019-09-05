@@ -1,6 +1,7 @@
 <!-- HEADER START-->
 <header
   class="header"
+  [ngClass]="{'main-header': isMainPage}"
   *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
 >
   <div class="header__inner">
