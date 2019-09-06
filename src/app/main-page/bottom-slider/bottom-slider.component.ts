@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-fs-slider',
-  templateUrl: './fs-slider.component.html',
-  styleUrls: ['./fs-slider.component.scss']
+  selector: 'app-bottom-slider',
+  templateUrl: './bottom-slider.component.html',
+  styleUrls: ['./bottom-slider.component.scss']
 })
-export class FsSliderComponent implements OnInit {
+export class BottomSliderComponent implements OnInit {
   public slides = [];
   public slideConfig = {
     slidesToShow: 1,
@@ -13,8 +13,7 @@ export class FsSliderComponent implements OnInit {
     autoplay: true,
     autoplaySpeed: 5000,
     arrows: true,
-    appendArrows: document.getElementsByClassName('arrows-container')
-    // dots: false,
+    appendArrows: document.getElementsByClassName('bottom-arrows-container')
   };
   constructor() { }
 

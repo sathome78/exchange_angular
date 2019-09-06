@@ -10,4 +10,10 @@
   height: 1.8em;
   overflow: hidden;
   position: relative;
+  
+}
+.banner-wr{
+  &.main-page{
+    display: none;
+}
 }

@@ -1,5 +1,5 @@
-<div class="fs-slider-container">
-  <div class="arrows-container"></div>
+<div class="fs-slider-container bottom-slider">
+  <div class="bottom-arrows-container"></div>
   <ngx-slick-carousel
     class="carousel run-line-inner"
     #slickModal="slick-carousel"
@@ -8,12 +8,24 @@
       ngxSlickItem
       class="slider-item">
       <div class="bg-wr">
-        <img src="assets/img/fs-sl1.jpg" alt="">
+        <img src="assets/img/b-slider1.jpg" alt="">
       </div>
       <div class="slide-txt">
         <div class="txt-inner">
-          <h2><span>172,000 </span>трейдеров</h2>
-          <p>Регистрируйся и стань частью трейдерского сообщества Exrates</p>
+          <h2>Самая популярная <br>валюта теперь в <br>торгуется на Exrates</h2>
+        </div>
+      </div>
+    </div>
+    <div
+      ngxSlickItem
+      class="slider-item">
+      <div class="bg-wr">
+        <img src="assets/img/b-slider2.jpg" alt="">
+      </div>
+      <div class="slide-txt">
+        <div class="txt-inner">
+          <h2>Самая популярная <br>валюта теперь в гейм <br>индустрии вместе
+            <br>с UBISOFT</h2>
         </div>
       </div>
     </div>
@@ -30,32 +42,5 @@
         </div>
       </div>
     </div>
-    <div
-      ngxSlickItem
-      class="slider-item">
-      <div class="bg-wr">
-        <img src="assets/img/fs-sl1.jpg" alt="">
-      </div>
-      <div class="slide-txt">
-        <div class="txt-inner">
-          <h2><span>172,000 </span>трейдеров</h2>
-          <p>Регистрируйся и стань частью трейдерского сообщества Exrates</p>
-        </div>
-      </div>
-    </div>
-
   </ngx-slick-carousel>
-
-  <div class="register-form">
-    <form action="#">
-      <div class="wrap-input popup__wrap-input">
-        <input required class="wrap-input__input"
-          placeholder="Enter email">
-      </div>
-      <button
-        class="btn balance__title-btn">
-        {{'Start Registration' | translate}}
-      </button>
-    </form>
-  </div>
 </div>
