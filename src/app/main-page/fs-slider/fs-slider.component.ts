@@ -24,6 +24,5 @@ export class FsSliderComponent implements OnInit {
   afterChange(e) {
     let currSlideNumber =  document.querySelector(".fs-slider-container .slick-current.slick-active").getAttribute('data-slick-index');
     this.currSlide = currSlideNumber;
-    console.log(currSlideNumber)
   }
 }

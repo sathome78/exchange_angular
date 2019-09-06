@@ -8,7 +8,8 @@
       .bg-wr {
         position: relative;
         overflow: hidden;
-        padding-top: 52%;
+        padding-top: 55.5%;
+        max-height: 800px;
         img {
           width: 100%;
           position: absolute;
@@ -177,7 +178,7 @@
   }
   .run-line-inner {
     display: flex;
-    padding: 31px 0;
+    padding: 37px 0;
     position: relative;
     top: -48px;
     background-color: #222133;
@@ -256,10 +257,10 @@
 
 .markets-home {
   background-color: #e5e5e5;
-  padding: 38px 0 70px;
+  padding: 26px 0 83px;
   .markets-block-link {
     display: flex;
-    max-width: 1464px;
+    max-width: 1272px;
     margin: 0 auto;
     padding: 0 34px;
   }
@@ -269,10 +270,17 @@
     align-items: center;
     text-align: center;
     flex-direction: column;
+    position: relative;
     .lnk {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 51px;
+      left: 51px;
+      cursor: pointer;
     }
     .icon-wr {
-      margin-bottom: 35px;
+      margin-bottom: 21px;
       img {
       }
     }
@@ -292,18 +300,18 @@
   background-color: #e5e5e5;
 }
 .markets-table {
-  max-width: 1200px;
+  max-width: 1160px;
   margin: 0 auto;
-  padding: 0 0 40px;
+  padding: 0 0 54px;
   background-color: #fff;
-  margin-bottom: 100px;
+  margin-bottom: 9px;
   .search-block {
     max-width: 245px;
     position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 25px 10px 0;
+    padding: 30px 10px 21px;
     margin: 0 auto;
     input {
       position: relative;
@@ -339,10 +347,11 @@
       align-items: center;
       border: none;
       background-color: transparent;
-      padding: 12px 10px;
+      padding: 12px 20px;
       outline: none;
-      padding-left: 25px;
+      padding-left: 33px;
       position: relative;
+      top: 1px;
       &:hover {
         span {
           color: #237bef;
@@ -356,15 +365,15 @@
           content: "";
           position: absolute;
           bottom: 0;
-          right: 15px;
-          left: 39px;
+          right: 20px;
+    left: 60px;
           height: 2px;
           background-color: #237bef;
         }
       }
       .f-icon {
         svg {
-          margin-right: 10px;
+          margin-right: 13px;
         }
       }
       span {
@@ -379,10 +388,11 @@
     .home-markets-tab {
       border: none;
       background-color: transparent;
-      padding: 12px 15px;
+      padding: 12px 25px;
       cursor: pointer;
       position: relative;
       outline: none;
+      top: 2px;
       &:hover {
         span {
           color: #237bef;
@@ -396,8 +406,8 @@
           content: "";
           position: absolute;
           bottom: 0;
-          right: 15px;
-          left: 15px;
+          right: 25px;
+          left: 25px;
           height: 2px;
           background-color: #237bef;
         }
@@ -421,7 +431,7 @@
         padding: 10px;
       }
       .fav {
-        width: 50px;
+        width: 56px;
       }
       .pair {
         width: 120px;
@@ -441,7 +451,7 @@
       }
       .volume {
         text-align: right;
-        padding-right: 25px;
+        padding-right: 33px;
       }
     }
     .trow {
@@ -451,10 +461,10 @@
         font-size: 15px;
         line-height: 1.15;
         color: #000000;
-        padding: 10px;
+        padding: 16px 10px 17px;
       }
       .fav {
-        padding-left: 25px;
+        padding-left: 33px;
       }
       .pair {
       }
@@ -478,7 +488,7 @@
       }
       .volume {
         text-align: right;
-        padding-right: 25px;
+        padding-right: 33px;
       }
     }
   }
@@ -486,10 +496,10 @@
 
 .info-graph {
   background: #222133;
-  padding: 100px 0;
+  padding: 110px 0 98px;
   .markets-block-link {
     display: flex;
-    max-width: 1464px;
+    max-width: 1286px;
     margin: 0 auto;
     padding: 0 34px;
     .link-item {
@@ -499,7 +509,7 @@
       text-align: center;
       flex-direction: column;
       .icon-wr {
-        margin-bottom: 35px;
+        margin-bottom: 41px;
         text-align: center;
         img {
         }
@@ -519,22 +529,22 @@
 }
 .bottom-form-home {
   background: #1f1e30;
-  padding: 100px 0;
+  padding: 112px 0 108px;
   border-bottom: 1px solid #363f4d;
 }
 .bottom-form-wr {
   display: flex;
-  max-width: 1230px;
+  max-width: 1231px;
   margin: 0 auto;
-  padding: 0 34px;
+  padding: 0 34px 0 38px;
   .left-part {
-    width: 50%;
+    width: 55%;
     .txt-wr {
       h2 {
         font-weight: 500;
         font-size: 36px;
         line-height: 1.15;
-        margin-bottom: 8px;
+        margin-bottom: 18px;
 
         color: #ffffff;
       }
@@ -547,15 +557,15 @@
     }
   }
   .right-part {
-    width: 50%;
-    margin-top: 10px;
+    width: 48%;
+
     form {
       display: flex;
       align-items: flex-start;
       width: 100%;
-      margin-left: 16px;
+
       .wrap-input {
-        margin-right: 20px;
+        margin-right: 16px;
         width: 100%;
       }
       .wrap-input__input {
@@ -576,7 +586,7 @@
       }
 
       .btn {
-        max-width: 200px;
+        max-width: 192px;
         margin-left: 0;
         font-size: 17px;
         line-height: 46px;

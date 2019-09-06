@@ -23,6 +23,5 @@ export class BottomSliderComponent implements OnInit {
   afterChange(e) {
     let currSlideNumber =  document.querySelector(".bottom-slider .slick-current.slick-active").getAttribute('data-slick-index');
     this.currSlide = currSlideNumber;
-    console.log(currSlideNumber)
   }
 }
