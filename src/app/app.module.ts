@@ -55,6 +55,8 @@ import { MarketsHomeComponent } from './main-page/markets-home/markets-home.comp
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { RunLineComponent } from './main-page/run-line/run-line.component';
 import { BottomSliderComponent } from './main-page/bottom-slider/bottom-slider.component';
+import { InfoGraficsComponent } from './main-page/info-grafics/info-grafics.component';
+import { GraphicLinksComponent } from './main-page/graphic-links/graphic-links.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -95,6 +97,8 @@ const stompConfig: InjectableRxStompConfig = {
     MarketsHomeComponent,
     RunLineComponent,
     BottomSliderComponent,
+    InfoGraficsComponent,
+    GraphicLinksComponent,
   ],
   imports: [
     StoreModule.forRoot(reducers),
