@@ -4,12 +4,94 @@
   top: -48px;
   &.bottom-slider {
     top: 0;
+    .slide-link {
+      position: absolute;
+      max-width: 1430px;
+      height: calc(40% - 83px);
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      padding: 0 134px;
+      .btn {
+        margin-left: 0;
+        max-width: 220px;
+        line-height: 54px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 18px;
+      }
+    }
     .slider-item {
+      .slide-txt {
+        flex-direction: column;
+        max-width: 1430px;
+        height: calc(60% + 48px);
+        .txt-inner {
+          margin-top: auto;
+          margin-left: 0;
+          min-height: 20.5em;
+          h2 {
+            margin-top: 0;
+            line-height: 1.35;
+            font-size: 47px;
+            margin-bottom: 17px;
+          }
+        }
+      }
+    }
+    .slider-item {
+      .top-part {
+        padding-top: 54px;
+        display: flex;
+        justify-content: space-between;
+        .coin-part {
+        }
+
+        .logo {
+          margin-bottom: 18px;
+          height: 58px;
+          img {
+            height: 100%;
+          }
+        }
+
+        .additional-info {
+          display: flex;
+          align-items: center;
+          p {
+            font-weight: 500;
+            font-size: 24px;
+            line-height: 1.15;
+            color: #ffffff;
+            span {
+              font-size: 16px;
+              opacity: 0.6;
+              margin-left: 12px;
+            }
+          }
+        }
+        .type {
+          padding-top: 16px;
+          span {
+            font-weight: 500;
+            font-size: 24px;
+            line-height: 28px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+          }
+        }
+      }
       .bg-wr {
         position: relative;
         overflow: hidden;
         padding-top: 55.5%;
-        max-height: 800px;
+        @media (min-height: 801px) {
+          padding-top: 49.5%;
+        }
+
         img {
           width: 100%;
           position: absolute;
@@ -63,7 +145,6 @@
     bottom: 0;
     right: 0;
     left: 0;
-    max-width: 1464px;
     margin: 0 auto;
     padding: 0 57px;
   }
@@ -366,7 +447,7 @@
           position: absolute;
           bottom: 0;
           right: 20px;
-    left: 60px;
+          left: 60px;
           height: 2px;
           background-color: #237bef;
         }
@@ -605,11 +686,11 @@
     max-width: 160px;
     margin-right: 8px;
     border: 2px solid transparent;
-    transition: .3s;
-    &.active{
-      border: 2px solid #237BEF;
+    transition: 0.3s;
+    &.active {
+      border: 2px solid #237bef;
     }
-    img{
+    img {
       width: 100%;
       display: block;
     }
