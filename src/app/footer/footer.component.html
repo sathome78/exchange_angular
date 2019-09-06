@@ -1,5 +1,6 @@
 <footer
   class="footer"
+  [ngClass]="{'main-page': isMainPage}"
   *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
 >
   <div class="footer-inner">
