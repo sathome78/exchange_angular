@@ -3,6 +3,7 @@
   background-color: #e5e5e5;
   top: -48px;
   &.bottom-slider {
+    top: 0;
     .slider-item {
       .bg-wr {
         position: relative;
@@ -286,9 +287,9 @@
     }
   }
 }
-.markets-table-container{
-padding-bottom: 100px;
-background-color: #e5e5e5;
+.markets-table-container {
+  padding-bottom: 100px;
+  background-color: #e5e5e5;
 }
 .markets-table {
   max-width: 1200px;
@@ -478,6 +479,106 @@ background-color: #e5e5e5;
       .volume {
         text-align: right;
         padding-right: 25px;
+      }
+    }
+  }
+}
+
+.info-graph {
+  background: #222133;
+  padding: 100px 0;
+  .markets-block-link {
+    display: flex;
+    max-width: 1464px;
+    margin: 0 auto;
+    padding: 0 34px;
+    .link-item {
+      width: 25%;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      flex-direction: column;
+      .icon-wr {
+        margin-bottom: 35px;
+        text-align: center;
+        img {
+        }
+      }
+      .txt-wr {
+        text-align: center;
+        span {
+          font-weight: bold;
+          font-size: 16px;
+          line-height: 1.15;
+
+          color: #7e849a;
+        }
+      }
+    }
+  }
+}
+.bottom-form-home {
+  background: #1f1e30;
+  padding: 100px 0;
+}
+.bottom-form-wr {
+  display: flex;
+  max-width: 1230px;
+  margin: 0 auto;
+  padding: 0 34px;
+  .left-part {
+    width: 50%;
+    .txt-wr {
+      h2 {
+        font-weight: 500;
+        font-size: 36px;
+        line-height: 1.15;
+        margin-bottom: 8px;
+
+        color: #ffffff;
+      }
+      p {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 1.15;
+        color: #7e849a;
+      }
+    }
+  }
+  .right-part {
+    width: 50%;
+    margin-top: 10px;
+    form {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+      margin-left: 16px;
+      .wrap-input {
+        margin-right: 20px;
+        width: 100%;
+      }
+      .wrap-input__input {
+        display: block;
+        background: #fff;
+        height: 48px;
+        font-size: 17px;
+        line-height: 55px;
+        color: #000;
+        &:placeholder {
+          font-weight: normal;
+          font-size: 16px;
+          line-height: 55px;
+          color: #aab1c4;
+        }
+      }
+      .wrap-input__label {
+      }
+
+      .btn {
+        max-width: 200px;
+        margin-left: 0;
+        font-size: 17px;
+        line-height: 46px;
       }
     }
   }

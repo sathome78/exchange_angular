@@ -3,9 +3,11 @@
 .header {
   &.main-header{
     background-color: transparent;
+    .menu__link{
     .menu__link-text{
       color: #fff;
     }
+  }
     .menu__link--auth--reg{
       background-color: #237BEF;
       &:hover{
