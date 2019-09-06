@@ -2,7 +2,8 @@
   <div class="bottom-arrows-container"></div>
   <ngx-slick-carousel
     class="carousel run-line-inner"
-    #slickModal="slick-carousel"
+    #slickModal2="slick-carousel"
+    (afterChange)="afterChange($event)"
     [config]="slideConfig">
     <div
       ngxSlickItem
@@ -43,4 +44,25 @@
       </div>
     </div>
   </ngx-slick-carousel>
+  <div class="slider-dots">
+    <div
+      class="dots-item"
+      [ngClass]="{'active': currSlide == '0'}"
+      (click)="slickModal2.slickGoTo(0)">
+      <img src="assets/img/prev1.jpg" alt="">
+    </div>
+    <div
+      class="dots-item"
+      [ngClass]="{'active': currSlide == '1'}"
+      (click)="slickModal2.slickGoTo(1)">
+      <img src="assets/img/prev2.jpg" alt="">
+    </div>
+    <div
+      class="dots-item"
+      [ngClass]="{'active': currSlide == '2'}"
+      (click)="slickModal2.slickGoTo(2)">
+      <img src="assets/img/prev3.jpg" alt="">
+    </div>
+
+  </div>
 </div>

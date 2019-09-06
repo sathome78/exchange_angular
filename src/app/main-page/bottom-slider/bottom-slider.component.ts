@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BottomSliderComponent implements OnInit {
   public slides = [];
+  public currSlide = '0';
   public slideConfig = {
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -19,5 +20,9 @@ export class BottomSliderComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  afterChange(e) {
+    let currSlideNumber =  document.querySelector(".bottom-slider .slick-current.slick-active").getAttribute('data-slick-index');
+    this.currSlide = currSlideNumber;
+    console.log(currSlideNumber)
+  }
 }

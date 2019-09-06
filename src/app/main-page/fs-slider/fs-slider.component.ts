@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FsSliderComponent implements OnInit {
   public slides = [];
+  public currSlide = '0';
   public slideConfig = {
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -20,5 +21,9 @@ export class FsSliderComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  afterChange(e) {
+    let currSlideNumber =  document.querySelector(".fs-slider-container .slick-current.slick-active").getAttribute('data-slick-index');
+    this.currSlide = currSlideNumber;
+    console.log(currSlideNumber)
+  }
 }
