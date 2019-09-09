@@ -6,18 +6,32 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./run-line.component.scss']
 })
 export class RunLineComponent implements OnInit {
-  // public slides = [];
-  // public slideConfig = {
-  //   slidesToShow: 6,
-  //   slidesToScroll: 1,
-  //   autoplay: true,
-  //   autoplaySpeed: 2000,
-  //   arrows: false,
-  //   dots: false,
-  // };
+
   constructor() { }
 
   ngOnInit() {
+
+    function runInit() {
+      let runItemArray = document.querySelectorAll('.run-line-item');
+      let that = this;
+      let lineLength = runItemArray.length * document.querySelector('.run-line-item').clientWidth;
+      runItemArray.forEach(function (item) {
+
+        let changePosition = item.getAttribute("data-position") - 0.7;
+        item.setAttribute("data-position", `${changePosition}`);
+        item.setAttribute("style", `transform:translateX(${changePosition}px)`);
+        if(item.getBoundingClientRect().left + item.clientWidth < 0){
+          item.setAttribute("data-position", `${changePosition + lineLength}`);
+          item.setAttribute("style", `transform:translateX(${changePosition + lineLength}px)`);
+          
+        }
+      })
+      window.requestAnimationFrame(runInit)
+    }
+    setTimeout(function () {
+      window.requestAnimationFrame(runInit);
+    }, 1500)
+
   }
 
 }
