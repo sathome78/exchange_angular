@@ -18,7 +18,6 @@ export class RunLineComponent implements OnInit {
       runItemArray.forEach(function (item) {
 
         let changePosition = parseFloat(item.getAttribute("data-position")) - 0.7;
-        console.log(changePosition)
         item.setAttribute("data-position", `${changePosition}`);
         item.setAttribute("style", `transform:translateX(${changePosition}px)`);
         if(item.getBoundingClientRect().left + item.clientWidth < 0){
