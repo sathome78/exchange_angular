@@ -83,7 +83,7 @@
               <div
                 *ngIf="(freecoinsState[fc.id] | freecoinStatePipe: 'last_received' | disableGetCoin: fc.time_range | async) ||
                   fc.single && (freecoinsState[fc.id] | freecoinStatePipe: 'received')"
-                [tooltip]="fc.single ? 'Sorry, you can recieve this only once' : 'You need to wait for the countdown to end'"
+                [tooltip]="fc.single ? 'Sorry, you can recieve this only once' : 'You need to wait for the countdown to end' | translate"
                 placement="top"
                 [showTooltip]="true"
                 delay="300"

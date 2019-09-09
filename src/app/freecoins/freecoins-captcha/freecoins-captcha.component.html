@@ -5,13 +5,13 @@
       (click)="closeMe()"
     ></div>
 
-    <ng-template *ngIf="!isDevCaptcha; else devCaptchaTemplate">
+    <ng-container *ngIf="!isDevCaptcha; else devCaptchaTemplate">
       <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
       <re-captcha
         (resolved)="afterResolvedCaptcha($event)"
         [siteKey]="recaptchaKey"
       ></re-captcha>
-    </ng-template>
+    </ng-container>
 
     <ng-template #devCaptchaTemplate>
       <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
