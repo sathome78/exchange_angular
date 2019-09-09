@@ -1,6 +1,5 @@
 .id-verification {
   @media (max-width: 1200px) {
-
     .settings-button-wr {
       &:not(:last-child) {
         margin: 0;
@@ -11,8 +10,6 @@
     display: flex;
     flex-direction: column !important;
   }
-
-
 
   &.settings__content {
     @media (max-width: 568px) {
@@ -28,10 +25,10 @@
     }
     .settings__buttons-row {
       margin: 0 0 50px 0;
-      @media(max-width: 1199px){
+      @media (max-width: 1199px) {
         margin: 0 auto;
         flex-direction: column;
-      } 
+      }
     }
   }
 
@@ -50,11 +47,43 @@
     }
   }
 
-
   .mt-20 {
     @media (max-width: 1199px) {
       margin-top: 20px;
     }
   }
+}
 
+.service-mess {
+  display: flex;
+  align-items: center;
+  @media (max-width: 1200px) {
+    justify-content: center;
+  }
+  .icon-wr {
+    margin-right: 20px;
+    img {
+    }
+  }
+  .txt-wr {
+    span {
+      font-weight: normal;
+      font-size: 24px;
+      line-height: 1.15;
+      text-align: center;
+      color: #ffffff;
+    }
+  }
+}
+
+.id-verification {
+  .settings-button-wr {
+    max-width: unset;
+    .btn {
+      max-width: 230px;
+      @media (max-width: 1200px) {
+        margin: 0 auto;
+      }
+    }
+  }
 }
