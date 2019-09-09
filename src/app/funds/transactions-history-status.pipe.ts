@@ -1,11 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { TransactionHistoryItem } from './models/transactions-history-item.model';
 
 @Pipe({
   name: 'showTransactionsStatus',
 })
 export class ShowTransactionsStatusPipe implements PipeTransform {
-  transform(status: string, sourceType: string): string {
-    if (sourceType === 'WITHDRAW') {
+  transform(status: string, item: TransactionHistoryItem): string {
+    if (item.sourceType === 'WITHDRAW') {
       switch (status) {
         case 'ON_BCH_EXAM':
           return 'On pending';
@@ -20,7 +21,8 @@ export class ShowTransactionsStatusPipe implements PipeTransform {
         default:
           return status;
       }
-    } else if (sourceType === 'USER_TRANSFER') {
+    }
+    if (item.sourceType === 'USER_TRANSFER') {
       switch (status) {
         case 'POSTED':
           return 'Completed';
@@ -35,7 +37,8 @@ export class ShowTransactionsStatusPipe implements PipeTransform {
         default:
           return status;
       }
-    } else if (sourceType === 'REFILL') {
+    }
+    if (item.sourceType === 'REFILL') {
       switch (status) {
         case 'DECLINED_ADMIN':
           return 'Declined';
@@ -49,7 +52,8 @@ export class ShowTransactionsStatusPipe implements PipeTransform {
         default:
           return status;
       }
-    } else if (sourceType === 'IEO') {
+    }
+    if (item.sourceType === 'IEO') {
       switch (status) {
         case 'PROCESSED_BY_CLAIM':
           return 'Completed';
@@ -58,8 +62,15 @@ export class ShowTransactionsStatusPipe implements PipeTransform {
         default:
           return status;
       }
-    } else {
-      return status;
     }
+    if (item.sourceType === 'FREE_COINS_TRANSFER') {
+      switch (status) {
+        case 'CREATED_BY_USER':
+          return 'Completed';
+        default:
+          return status;
+      }
+    }
+    return status;
   }
 }

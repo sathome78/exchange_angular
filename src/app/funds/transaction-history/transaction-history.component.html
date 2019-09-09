@@ -60,9 +60,15 @@
                   <span
                     class="arr arr--mr4 "
                     [ngClass]="{
-                    'arr--red': item.sourceType === 'WITHDRAW',
-                    'arr--green': item.sourceType === 'REFILL'
-                  }"
+                      'arr--red': (item.sourceType === 'WITHDRAW' ||
+                        (item.sourceType === 'FREE_COINS_TRANSFER' && item.operationType === 'Output') ||
+                        (item.sourceType === 'USER_TRANSFER' && !item.accepted) ||
+                        (item.sourceType === 'IEO' && item.operationType === 'Output')),
+                      'arr--green': (item.sourceType === 'REFILL' ||
+                        (item.sourceType === 'FREE_COINS_TRANSFER' && item.operationType === 'Input') ||
+                        (item.sourceType === 'USER_TRANSFER' && item.accepted) ||
+                        (item.sourceType === 'IEO' && item.operationType === 'Input'))
+                    }"
                   ></span>
                   <span
                     class="txt-green"
@@ -88,6 +94,14 @@
                     class="txt-red"
                     *ngIf="item.sourceType === 'IEO' && item.operationType === 'Output'"
                   >{{item.sourceType | showTransactionsType: item}}</span>
+                  <span
+                    class="txt-green"
+                    *ngIf="item.sourceType === 'FREE_COINS_TRANSFER' && item.operationType === 'Input'"
+                  >{{item.sourceType | showTransactionsType: item}}</span>
+                  <span
+                    class="txt-red"
+                    *ngIf="item.sourceType === 'FREE_COINS_TRANSFER' && item.operationType === 'Output'"
+                  >{{item.sourceType | showTransactionsType: item}}</span>
                 </div>
                 <div class="balance__request-mob-date">
                   <div>{{item.datetime | amFromUtc | amLocal | amDateFormat: 'dd DD.MM.YYYY'}}</div>
@@ -101,7 +115,7 @@
                 </div>
               </td>
               <td class="table__cell table__cell--tar">
-                <div class="txt-red">{{item.amount | currencyFormat:item.currencyName}}</div>
+                <div>{{item.amount | currencyFormat:item.currencyName}}</div>
               </td>
               <td class="table__cell table__cell--arr-mob">
                 <svg
@@ -391,7 +405,7 @@
           *ngFor="let item of transactionsItems$ | async | paginate: { itemsPerPage: countPerPage, currentPage: currentPage, totalItems: countOfEntries$ | async }"
         >
           <td class="table__cell">
-            {{item.status | showTransactionsStatus: item.sourceType | translate}}
+            {{item.status | showTransactionsStatus: item | translate}}
           </td>
           <td class="table__cell">
             <div class="table__date-time">
@@ -439,6 +453,14 @@
             <span
               class="txt-red"
               *ngIf="item.sourceType === 'IEO' && item.operationType === 'Output'"
+            >{{item.sourceType | showTransactionsType: item}}</span>
+            <span
+              class="txt-green"
+              *ngIf="item.sourceType === 'FREE_COINS_TRANSFER' && item.operationType === 'Input'"
+            >{{item.sourceType | showTransactionsType: item}}</span>
+            <span
+              class="txt-red"
+              *ngIf="item.sourceType === 'FREE_COINS_TRANSFER' && item.operationType === 'Output'"
             >{{item.sourceType | showTransactionsType: item}}</span>
           </td>
           <td
