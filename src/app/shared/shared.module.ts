@@ -65,6 +65,8 @@ import { CheatingInputComponent } from './components/cheating-input/cheating-inp
 import { APIErrorsService } from './services/apiErrors.service';
 import { CurrencySelectFiatComponent } from './components/currency-select-fiat/currency-select-fiat.component';
 import { CurrencySelectCryptoComponent } from './components/currency-select-crypto/currency-select-crypto.component';
+import { TimeLeftFreeCoinsPipe } from './pipes/time-left.pipe';
+import { DisableGetFreeCoinsPipe } from './pipes/disable-get-coins.pipe';
 
 @NgModule({
   declarations: [
@@ -116,6 +118,8 @@ import { CurrencySelectCryptoComponent } from './components/currency-select-cryp
     CheatingInputComponent,
     CurrencySelectFiatComponent,
     CurrencySelectCryptoComponent,
+    TimeLeftFreeCoinsPipe,
+    DisableGetFreeCoinsPipe,
   ],
   imports: [
     FormsModule,
@@ -184,6 +188,8 @@ import { CurrencySelectCryptoComponent } from './components/currency-select-cryp
     CheatingInputComponent,
     CurrencySelectFiatComponent,
     CurrencySelectCryptoComponent,
+    TimeLeftFreeCoinsPipe,
+    DisableGetFreeCoinsPipe,
   ],
   providers: [
     NotificationsService,

@@ -132,7 +132,7 @@
           </span>
 
           <!--Input error section starts-->
-          <div *ngIf="formPeriod.errors != null">
+          <div *ngIf="formPeriod.errors">
             <div class="input-hint-wrapper">
               <span
                 class="wrap-input__message wrap-input__message--show"
@@ -144,6 +144,18 @@
                   minPeriod
                 }} {{
                   ' minute' | translate
+                }}
+              </span>
+              <span
+                class="wrap-input__message wrap-input__message--show"
+                *ngIf="formPeriod.errors['maxPeriod'] && (formPeriod.touched || isSubmited)"
+              >
+                {{
+                  'Max period is:' | translate
+                }} {{
+                  maxPeriod
+                }} {{
+                  ' minute (one week)' | translate
                 }}
               </span>
             </div>
@@ -176,7 +188,7 @@
           </span>
 
           <!--Input error section starts-->
-          <div *ngIf="formPrize.errors != null">
+          <div *ngIf="formPrize.errors">
             <div class="input-hint-wrapper">
               <span
                 class="wrap-input__message wrap-input__message--show"

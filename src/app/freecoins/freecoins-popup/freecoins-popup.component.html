@@ -46,7 +46,7 @@
         >
           <a
             class="steps__link"
-            (click)="setStep(1)"
+            (click)="goNextStep(1)"
           >
             <span
               class="steps__number"
@@ -63,7 +63,7 @@
         >
           <a
             class="steps__link"
-            (click)="setStep(2)"
+            (click)="goNextStep(2)"
           >
             <span
               class="steps__number"
@@ -80,7 +80,7 @@
         >
           <a
             class="steps__link"
-            (click)="setStep(3)"
+            (click)="goNextStep(3)"
           >
             <span
               class="steps__number"
@@ -102,12 +102,13 @@
 
       <app-freecoins-popup-step-two
         *ngIf="step === 2"
+        [formData]="formData"
         (nextStep)="goNextStep($event)"
       ></app-freecoins-popup-step-two>
 
       <app-freecoins-popup-step-three
         *ngIf="step === 3"
-        (close)="onCloseFreeCoinsPopup()"
+        (close)="onCloseFreeCoinsPopupRefresh()"
       ></app-freecoins-popup-step-three>
 
     </div>

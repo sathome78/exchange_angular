@@ -72,7 +72,10 @@
               <td class="table__cell table__cell--tal">
                 <div class="balance__currency">
                   <div class="balance__currency-icon">
-                    <img [src]="item.currency | getIconUrl:true">
+                    <img
+                      [src]="item.currency | getIconUrl:true"
+                      onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
+                    >
                   </div>
                   <div>
                     <span>{{item.currency}}</span>
