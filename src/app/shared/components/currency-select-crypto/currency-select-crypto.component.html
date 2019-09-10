@@ -8,6 +8,7 @@
   >
     <img
       [src]="activeCurrency.name | getIconUrl"
+      onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
       class="select__list-item-icon"
     >
     {{activeCurrency.name}}
@@ -56,6 +57,7 @@
             >
               <img
                 [src]="currency.name | getIconUrl"
+                onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
                 class="select__list-item-icon"
               >
               <span>{{currency.name}}</span>
