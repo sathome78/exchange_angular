@@ -119,14 +119,14 @@
         <span>{{boughtAmountPer}}%</span>
       </div>
       <div class="available-value">
-        <span class="available-value-text">{{boughtAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
+        <span class="available-value-text">{{boughtAmount | currencyFormat}}</span>
         <span class="available-value-currency">{{IEOData.currencyName}}</span>
       </div>
     </div>
     <div class="ieo-header-item">
       <div class="ieo-amount">
         <span class="field-description">{{'Amount: ' | translate}}</span>
-        <span class="amount-value">{{(IEOData.amount || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} {{IEOData.currencyName}}</span>
+        <span class="amount-value">{{IEOData.amount | currencyFormat}} {{IEOData.currencyName}}</span>
       </div>
       <div class="ieo-buy-button">
         <div class="wrapper-ieo-btn">
