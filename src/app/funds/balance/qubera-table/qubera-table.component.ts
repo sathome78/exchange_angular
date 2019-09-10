@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ADRIAN_NEXT_KYC_STATUS } from 'app/shared/constants';
-import { BalanceService } from 'app/funds/services/balance.service';
 import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
 
 @Component({
@@ -16,11 +15,17 @@ export class QuberaTableComponent implements OnInit {
     return this._kycStatus;
   }
   set kycStatus(value) {
-    if (value === null) {
-      this._kycStatus = 'NULL';
-    } else {
-      this._kycStatus = value.toUpperCase();
-    }
+    // this._kycStatus = 'ERROR';
+    this._kycStatus = 'OK';
+    // this._kycStatus = 'WARN';
+    // this._kycStatus = 'NONE';
+    // this._kycStatus = 'NULL';
+
+    // if (value === null) {
+    //   this._kycStatus = 'NULL';
+    // } else {
+    //   this._kycStatus = value.toUpperCase();
+    // }
   }
   @Input() public loading: boolean;
   @Output() public cryptoWithdrawQuberaOut: EventEmitter<any> = new EventEmitter();
@@ -30,18 +35,9 @@ export class QuberaTableComponent implements OnInit {
   @Output() public createQuberaAccount: EventEmitter<any> = new EventEmitter();
   public KYC_STATUS = ADRIAN_NEXT_KYC_STATUS;
 
-  constructor(private balanceService: BalanceService) {}
+  constructor() {}
 
-  ngOnInit() {
-    // this.checkQuberaAccount();
-  }
-
-  // checkQuberaAccount() {
-  //   this.balanceService
-  //     .checkQuberaAccount(EUR)
-  //     .pipe(first())
-  //     .subscribe((data: balanceQubera) => {});
-  // }
+  ngOnInit() { }
 
   trackByFn(index, item) {
     return index;
