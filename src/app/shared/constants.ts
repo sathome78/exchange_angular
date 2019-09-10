@@ -42,6 +42,14 @@ export const KYC_STATUS = {
   PENDING: 'Pending',
 };
 
+export const ADRIAN_NEXT_KYC_STATUS = {
+  OK: 'OK',
+  ERROR: 'ERROR',
+  WARN: 'WARN',
+  NONE: 'NONE',
+  NULL: 'NULL',
+};
+
 export const keys = {
   recaptchaKey: '6LdNln0UAAAAAH4nyBX7Wh4YKpqujc0-a66xssjp',
 };

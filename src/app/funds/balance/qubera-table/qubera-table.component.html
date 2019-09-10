@@ -1,7 +1,7 @@
 <ng-container *ngIf="!loading">
   <table
     class="table qubera-table"
-    *ngIf="balances && (kycStatus === KYC_STATUS.SUCCESS)"
+    *ngIf="balances && (kycStatus === KYC_STATUS.OK)"
   >
     <thead>
       <tr>
@@ -57,7 +57,7 @@
   >
     <div
       class="qubera-head"
-      *ngIf="!(kycStatus === KYC_STATUS.SUCCESS || kycStatus === KYC_STATUS.PENDING)"
+      *ngIf="kycStatus === KYC_STATUS.NULL"
     >
       <h3>
         {{'Open account for $20 and get 0% commission' | translate}} <br>
@@ -70,7 +70,7 @@
     <div [ngSwitch]="kycStatus">
       <div
         class="qubera-btn-wr"
-        *ngSwitchCase="KYC_STATUS.SUCCESS"
+        *ngSwitchCase="KYC_STATUS.OK"
       >
         <button
           class="btn btn--active balance__title-btn"
@@ -83,7 +83,7 @@
 
       <div
         class="wait-block-wr"
-        *ngSwitchCase="KYC_STATUS.PENDING"
+        *ngSwitchCase="KYC_STATUS.WARN"
       >
         <div class="wait-block">
           <svg
@@ -151,7 +151,7 @@
 
       <div
         class="qubera-btn-wr"
-        *ngSwitchDefault
+        *ngSwitchCase="KYC_STATUS.NULL"
       >
         <button
           class="btn btn--active balance__title-btn"
@@ -168,7 +168,7 @@
 
     <div
       class="qubera-benefits"
-      *ngIf="!(kycStatus === KYC_STATUS.SUCCESS || kycStatus === KYC_STATUS.PENDING)"
+      *ngIf="kycStatus === KYC_STATUS.NULL"
     >
       <div class="ben-head">
         <h6>{{'Benefits' | translate}}</h6>
@@ -344,7 +344,7 @@
     </div> -->
     <div
       class="how-work"
-      *ngIf="kycStatus !== KYC_STATUS.SUCCESS"
+      *ngIf="kycStatus !== KYC_STATUS.OK"
     >
       <h6>{{'How does it work?' | translate}}</h6>
       <p>
