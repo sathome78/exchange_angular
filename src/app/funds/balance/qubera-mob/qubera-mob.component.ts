@@ -13,8 +13,25 @@ export class QuberaMobComponent implements OnInit {
   tableScrollStyles: any = {};
   EUR = EUR;
 
+  public _kycStatus: string;
   @Input() public balances: QuberaBalanceModel;
-  @Input() public kycStatus: string;
+  @Input()
+  get kycStatus() {
+    return this._kycStatus;
+  }
+  set kycStatus(value) {
+    // this._kycStatus = 'ERROR';
+    // this._kycStatus = 'OK';
+    // this._kycStatus = 'WARN';
+    // this._kycStatus = 'NONE';
+    // this._kycStatus = 'NULL';
+
+    if (value === null) {
+      this._kycStatus = 'NULL';
+    } else {
+      this._kycStatus = value.toUpperCase();
+    }
+  }
   @Input() public countOfPendingRequests = 0;
   @Input() public Tab;
   @Input() public loading: boolean;

@@ -16,16 +16,16 @@ export class QuberaTableComponent implements OnInit {
   }
   set kycStatus(value) {
     // this._kycStatus = 'ERROR';
-    this._kycStatus = 'OK';
+    // this._kycStatus = 'OK';
     // this._kycStatus = 'WARN';
     // this._kycStatus = 'NONE';
     // this._kycStatus = 'NULL';
 
-    // if (value === null) {
-    //   this._kycStatus = 'NULL';
-    // } else {
-    //   this._kycStatus = value.toUpperCase();
-    // }
+    if (value === null) {
+      this._kycStatus = 'NULL';
+    } else {
+      this._kycStatus = value.toUpperCase();
+    }
   }
   @Input() public loading: boolean;
   @Output() public cryptoWithdrawQuberaOut: EventEmitter<any> = new EventEmitter();
