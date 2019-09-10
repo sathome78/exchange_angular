@@ -2,7 +2,7 @@
   <div class="freecoins-head-container">
     <div class="txt-container">
       <h1 class="page-title__text">Free Coins</h1>
-      <p>You can collect free coins every day. Watch the counters and don't miss fre coins.</p>
+      <p>You can collect free coins every day. Watch the counters and don't miss free coins.</p>
     </div>
     <div
       class="button-wr"
@@ -94,6 +94,17 @@
                 >{{'Received' | translate}}</button>
               </div>
             </div>
+          </td>
+        </tr>
+        <tr
+          class="table__row balance__table-row"
+          *ngIf="!freecoinsList.length && !loading"
+        >
+          <td
+            class="table__cell"
+            colspan="4"
+          >
+            {{'No any free coins' | translate}}
           </td>
         </tr>
       </tbody>

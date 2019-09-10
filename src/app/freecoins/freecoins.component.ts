@@ -24,6 +24,7 @@ export class FreecoinsComponent implements OnInit, OnDestroy {
   public freecoinsStateDefault = new GAFreeCoinsPrivateResModel(1, 1, '2000-01-01 00:00:01', false);
   public isAuthenticated: boolean;
   public userInfo: ParsedToken;
+  public loading = false;
 
   constructor(
     private store: Store<fromCore.State>,
@@ -47,12 +48,16 @@ export class FreecoinsComponent implements OnInit, OnDestroy {
   }
 
   refreshCoins() {
+    this.loading = true;
     if (this.isAuthenticated) {
       forkJoin(this.freeCoinsService.getFreeCoins(), this.freeCoinsService.getFreeCoinsPublic())
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(result => {
           this.freecoinsState = result[0];
           this.freecoinsList = result[1];
+          this.loading = false;
+        }, err => {
+          this.loading = false;
         });
     } else {
       this.freeCoinsService
@@ -60,6 +65,9 @@ export class FreecoinsComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((res: GAFreeCoinsPublicResModel[]) => {
           this.freecoinsList = res;
+          this.loading = false;
+        }, err => {
+          this.loading = false;
         });
     }
   }
