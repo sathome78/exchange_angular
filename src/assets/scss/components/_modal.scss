@@ -851,3 +851,8 @@
     background-image: url("assets/img/step-valid--dark-theme.svg");
 }
 }
+
+.dark-theme .modal .wrap-input__input.wrap-input__input--error:focus ~ .wrap-input__label {
+  color:#EB5757 !important;
+
+}

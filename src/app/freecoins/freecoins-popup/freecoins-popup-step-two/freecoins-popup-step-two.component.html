@@ -3,33 +3,32 @@
     <h2 class="title refill__title">{{'Two-factor Authentications' | translate}}</h2>
     <h4
       class="popup__subtitle popup_title--dm"
-      [ngClass]="{'msg-error' : isError}"
-    >
+      [ngClass]="{'msg-error' : isError}">
       {{twoFaTitle}}
     </h4>
 
     <form
       [formGroup]="form"
-      (ngSubmit)="onSubmit()"
-    >
-      <div class="input-block">
+      (ngSubmit)="onSubmit()">
+      <div class="input-block wrap-input popup__wrap-input">
         <input
           class="wrap-input__input"
+          [ngClass]="{'wrap-input__input--error ng-invalid' : isError}"
           type="text"
           name="code"
           formControlName="code"
-          required
-        >
+          required>
         <label
           class="wrap-input__label"
-          for="code"
-        >{{'Code' | translate}}</label>
-        <ng-container *ngIf="formPin.invalid && !formPin.untouched && !statusMessage">
+          [ngClass]="{'wrap-input__label--error' : isError}"
+
+          for="code">{{'Code' | translate}}</label>
+        <ng-container *ngIf="formPin.invalid && !formPin.untouched &&
+          !statusMessage">
           <div class="input-hint-wrapper">
             <span
               class="wrap-input__message"
-              *ngIf="formPin.invalid"
-            >
+              *ngIf="formPin.invalid">
               {{'Code field is required.' | translate}}
             </span>
           </div>
@@ -45,8 +44,7 @@
       <button
         class="btn btn--center"
         type="submit"
-        [disabled]="form.invalid"
-      >
+        [disabled]="form.invalid">
         {{'Confirm' | translate}}
       </button>
     </form>
