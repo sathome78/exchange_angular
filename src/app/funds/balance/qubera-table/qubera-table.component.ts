@@ -1,10 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { KYC_STATUS, PENDING } from 'app/shared/constants';
-import { PopupService } from 'app/shared/services/popup.service';
-import { BalanceService } from 'app/funds/services/balance.service';
-import { first } from 'rxjs/operators';
-import { balanceQubera } from 'app/funds/models/balance-qubera.model';
-import { EUR } from '../balance-constants';
+import { ADRIAN_NEXT_KYC_STATUS } from 'app/shared/constants';
 import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
 
 @Component({
@@ -13,28 +8,36 @@ import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
   styleUrls: ['./qubera-table.component.scss'],
 })
 export class QuberaTableComponent implements OnInit {
+  public _kycStatus: string;
   @Input() public balances: QuberaBalanceModel;
-  @Input() public kycStatus: string;
+  @Input()
+  get kycStatus() {
+    return this._kycStatus;
+  }
+  set kycStatus(value) {
+    // this._kycStatus = 'ERROR';
+    // this._kycStatus = 'OK';
+    // this._kycStatus = 'WARN';
+    // this._kycStatus = 'NONE';
+    // this._kycStatus = 'NULL';
+
+    if (value === null) {
+      this._kycStatus = 'NULL';
+    } else {
+      this._kycStatus = value.toUpperCase();
+    }
+  }
   @Input() public loading: boolean;
   @Output() public cryptoWithdrawQuberaOut: EventEmitter<any> = new EventEmitter();
   @Output() public cryptoDepositQuberaOut: EventEmitter<any> = new EventEmitter();
   @Output() public transferQuberaOut: EventEmitter<any> = new EventEmitter();
   @Output() public quberaKycVerification: EventEmitter<any> = new EventEmitter();
   @Output() public createQuberaAccount: EventEmitter<any> = new EventEmitter();
-  public KYC_STATUS = KYC_STATUS;
+  public KYC_STATUS = ADRIAN_NEXT_KYC_STATUS;
 
-  constructor(private balanceService: BalanceService) {}
+  constructor() {}
 
-  ngOnInit() {
-    // this.checkQuberaAccount();
-  }
-
-  // checkQuberaAccount() {
-  //   this.balanceService
-  //     .checkQuberaAccount(EUR)
-  //     .pipe(first())
-  //     .subscribe((data: balanceQubera) => {});
-  // }
+  ngOnInit() { }
 
   trackByFn(index, item) {
     return index;

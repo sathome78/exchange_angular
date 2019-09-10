@@ -93,9 +93,10 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
 
   resolvedCaptcha(event) {
     const email = this.emailForm.get('email').value;
+    const isUsa = this.emailForm.get('isUsa').value;
     this.loading = true;
     this.userService
-      .sendToEmailConfirmation(email)
+      .sendToEmailConfirmation(email, isUsa)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         res => {
@@ -131,6 +132,8 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
           this.utilsService.specialCharacterValidator(),
         ],
       }),
+      isUsa: new FormControl(true),
+      terms: new FormControl(null, { validators: Validators.required }),
     });
     this.passwordForm = new FormGroup({
       password: new FormControl('', { validators: [Validators.required] }),
@@ -152,6 +155,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   checkEmailOfServer() {
     this.pendingCheckEmail = true;
     const email = this.emailForm.get('email');
+    this.emailServerError = 'start';
     email.markAsTouched();
     if (email.valid && email.value !== this.previousEmail) {
       this.previousEmail = email.value;
@@ -184,5 +188,9 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     if (this.emailForm.valid && !this.pendingCheckEmail) {
       this.setTemplate('captchaTemplate');
     }
+  }
+
+  get formDisabled(): boolean {
+    return this.emailForm.invalid || this.pendingCheckEmail || !!this.emailServerError;
   }
 }
