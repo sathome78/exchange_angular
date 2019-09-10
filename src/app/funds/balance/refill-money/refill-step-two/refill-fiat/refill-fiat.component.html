@@ -23,10 +23,12 @@
           <div class="icon-wr">
             <img
               [src]="activeFiat.name | getIconUrl:true"
+              onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
               class="select__list-item-icon select__list-item-icon--mobile"
             >
             <img
               [src]="activeFiat.name | getIconUrl"
+              onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
               class="select__list-item-icon select__list-item-icon--destop"
             >
           </div>
@@ -48,6 +50,7 @@
             <div class="icon-wr">
               <img
                 [src]="currency.name | getIconUrl"
+                onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
                 class="select__list-item-icon"
               >
             </div>
@@ -68,6 +71,7 @@
           <div class="icon-wr">
             <img
               [src]="selectMerchantName | getIconUrl"
+              onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
               class="select__list-item-icon"
             >
           </div>
@@ -126,6 +130,7 @@
                 <div class="icon-wr">
                   <img
                     [src]="nested.image_name | getIconUrl"
+                    onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
                     class="select__list-item-icon"
                   >
                 </div>

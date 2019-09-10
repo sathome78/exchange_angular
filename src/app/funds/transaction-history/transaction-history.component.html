@@ -403,7 +403,10 @@
             <div class="orders__pair-wrap">
               <div class="orders__pair">
                 <div class="orders__pair-icon">
-                  <img [src]="item.currencyName | getIconUrl:true">
+                  <img
+                    [src]="item.currencyName | getIconUrl:true"
+                    onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
+                  >
                 </div>
                 <span>{{item.currencyName}}</span>
               </div>
