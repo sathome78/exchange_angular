@@ -127,10 +127,15 @@
 	.mobile-content{
 		.btn{
 			
-	 		// @media(max-width: 640px){
-	 		// 	margin-left: auto;
-	 		// 	margin-right: 0;
-	 		// }
+	 		@media(max-width: 640px){
+	 			margin-left: auto;
+	 			margin-right: 0;
+	 		}
 	 	}
+	 }
+	 .table__row .btn--hidden{
+		 @media(max-width: 1200px){
+			visibility: visible;
+		 }
 	 }
 	}

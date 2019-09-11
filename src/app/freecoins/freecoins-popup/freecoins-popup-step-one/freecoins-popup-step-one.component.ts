@@ -169,7 +169,7 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
     return null;
   }
   private maxPeriodCheck(control: FormControl) {
-    if (+this.maxPeriod <= (+control.value ? +control.value : 0)) {
+    if (+this.maxPeriod < (+control.value ? +control.value : 0)) {
       return { maxPeriod: true };
     }
     return null;
