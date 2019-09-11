@@ -40,6 +40,7 @@ export class FreecoinsPopupStepTwoComponent implements OnInit, OnDestroy {
         if (this.googleAuthenticator) {
           this.twoFaTitle = this.translateService.instant('Use Google Authenticator to generate pincode');
         } else {
+          this.sendPin();
           this.twoFaTitle = this.translateService.instant(
             'Please enter two-factor authentication code that was sent to your email'
           );
@@ -56,6 +57,12 @@ export class FreecoinsPopupStepTwoComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       code: new FormControl('', Validators.required),
     });
+  }
+
+  sendPin() {
+    this.freecoinsService.sendPin()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {});
   }
 
   onSubmit() {
