@@ -150,14 +150,13 @@
       </li>
 
       <li class="menu__item">
-        <ng-container>
-          <a
-            class="menu__link"
-            href="https://about.exrates.me/about-us"
-          >
-            <span class="menu__link-text">{{'About us' | translate}}</span>
-          </a>
-        </ng-container>
+        <a
+          class="menu__link"
+          routerLink="/free-coins"
+          routerLinkActive="menu__link--active"
+        >
+          <span class="menu__link-text">{{'Free coins' | translate}}</span>
+        </a>
       </li>
       <li class="menu__item">
         <ng-container>
@@ -616,13 +615,13 @@
           <span class="menu-mob__link-text">{{'Order History' | translate}}</span>
         </a>
 
-        <!-- <a
+        <a
           class="menu-mob__link"
-          href="https://about.exrates.me/about-us"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-        ><span class="menu-mob__link-text">{{'News' | translate}}</span>
-        </a> -->
+          routerLink="/free-coins"
+          (click)="mobileLinkClick()"
+        >
+          <span class="menu-mob__link-text">{{'Free coins' | translate}}</span>
+        </a>
 
         <a
           class="menu-mob__link"
@@ -634,7 +633,8 @@
         <a
           class="menu-mob__link"
           href="https://about.exrates.me/en/analytics/"
-        ><span class="menu-mob__link-text">{{'Analytics' | translate}}</span>
+        >
+          <span class="menu-mob__link-text">{{'Analytics' | translate}}</span>
         </a>
 
         <!-- <a class="menu-mob__link" href="https://about.exrates.me/become-ambassador"><span
@@ -644,7 +644,8 @@
         <a
           class="menu-mob__link"
           href="https://about.exrates.me/form-listing"
-        ><span class="menu-mob__link-text">{{'Apply to List' | translate}}</span>
+        >
+          <span class="menu-mob__link-text">{{'Apply to List' | translate}}</span>
         </a>
 
         <a
@@ -663,7 +664,8 @@
 
         <a
           class="menu-mob__link"
-          href="https://about.exrates.me/terms-of-use"
+          routerLink="/static/terms-and-conditions"
+          (click)="mobileLinkClick()"
         >
           <span class="menu-mob__link-text">{{'Terms and Conditions' | translate}}</span>
         </a>
@@ -690,7 +692,8 @@
           class="menu-mob__link"
           routerLink="/news"
           (click)="mobileLinkClick()"
-        ><span class="menu-mob__link-text">{{'News' | translate}}</span>
+        >
+          <span class="menu-mob__link-text">{{'News' | translate}}</span>
         </a>
 
         <!-- <a class="menu-mob__link" (click)="setMobileWidget('chat')" [routerLink]="['dashboard']" [queryParams]="{widget: 'chat'}" *ngIf="isAuthenticated"><span

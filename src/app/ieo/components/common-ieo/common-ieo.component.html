@@ -11,7 +11,7 @@
         <h2>{{'Exrates X-Platform' | translate}}</h2>
       </div>
       <div class="description-wr">
-        <p>{{'IEO  platform for Crypto Projects' | translate}}</p>
+        <p>{{'IEO platform for Crypto Projects' | translate}}</p>
       </div>
       <div class="button-wr">
         <a
@@ -221,9 +221,9 @@
                 <div
                   class="wrap-input popup__wrap-input"
                   [ngClass]="{'wrap-input--error': !emailControl.valid
-                  && emailControl.touched
-                  && isSubmited
-                  && emailControl.errors != null}"
+                    && emailControl.touched
+                    && isSubmited
+                    && emailControl.errors != null}"
                 >
                   <input
                     class="wrap-input__input ng-dirty ng-valid ng-touched"
@@ -246,24 +246,24 @@
                       <span
                         class="wrap-input__message"
                         *ngIf="emailControl.errors['emailInvalid']
-                        && emailControl.touched
-                        && !emailControl.errors['required']
-                        && !emailControl.errors['specialCharacter']"
+                          && emailControl.touched
+                          && !emailControl.errors['required']
+                          && !emailControl.errors['specialCharacter']"
                       >
                         {{'Wrong email' | translate}}
                       </span>
                       <span
                         class="wrap-input__message"
                         *ngIf="emailControl.errors['specialCharacter']
-                        && !emailControl.errors['required']"
+                          && !emailControl.errors['required']"
                       >
                         {{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
                       </span>
                       <span
                         class="wrap-input__message"
                         *ngIf="emailControl.errors['maxlength']
-                        && !emailControl.errors['required']
-                        && !emailControl.errors['emailInvalid']"
+                          && !emailControl.errors['required']
+                          && !emailControl.errors['emailInvalid']"
                       >
                         {{'Email cannot be more than 40 characters long' | translate}}
                       </span>
@@ -292,7 +292,8 @@
       !((verificationStatus && verificationStatus.toUpperCase()) === KYC_STATUS.ACCEPTED ||
       (verificationStatus && verificationStatus.toUpperCase()) === KYC_STATUS.SUCCESS)"
     (click)="bannerClick()"
-  ></app-get-ready-banner>
+  >
+  </app-get-ready-banner>
 
   <div
     class="ieo-list"
@@ -301,10 +302,16 @@
     <div class="ieo-list-wr">
       <ng-container *ngFor="let item of ieoList; trackBy: trackByIeo">
         <div class="ieo-list-item {{item.status  | showStageStatus:true | lowercase}}">
-          <div class="img-part">
-            <div class="img-e-tao">
+          <div
+            class="img-part"
+            [ngSwitch]="item.currencyName"
+          >
+            <div
+              class="img-e-tao"
+              *ngSwitchCase="'DOM'"
+            >
               <img
-                [src]="'assets/img/ieo/e-tao.png'"
+                [src]="'assets/img/ieo/dom-blue.png'"
                 alt=""
               >
             </div>
@@ -432,7 +439,9 @@
             <h4>{{'Buy coins during IEO' | translate}}</h4>
           </div>
           <div class="h-w-description">
-            <p>{{'IEO starts in a specific time ' | translate}}<br>{{'and ends right after all coins are sold.' | translate}}</p>
+            <p>
+              {{'IEO starts in a specific time ' | translate}}<br>{{'and ends right after all coins are sold.' | translate}}
+            </p>
           </div>
         </div>
         <div class="how-work-item">
@@ -446,7 +455,8 @@
             <h4>{{'Hold or trade' | translate}}</h4>
           </div>
           <div class="h-w-description">
-            <p>{{'IEO tokens will appear in your account right after the event is successfully concluded.' | translate}}</p>
+            <p>{{'IEO tokens will appear in your account right after the event is successfully concluded.' | translate}}
+            </p>
           </div>
         </div>
 
@@ -482,7 +492,9 @@
 
       </div>
       <div class="warning-block">
-        <p>{{'Awareness: Please remember that cryptocurrencies are high-risk investments!!! We are doing all our best to filter projects but all rest responsibilities are at your side.' | translate}}</p>
+        <p>
+          {{'Awareness: Please remember that cryptocurrencies are high-risk investments!!! We are doing all our best to filter projects but all rest responsibilities are at your side.' | translate}}
+        </p>
       </div>
     </div>
   </div>
@@ -494,13 +506,15 @@
   *ngIf="showBuyIEO"
   (close)="closeBuyIEO()"
   (confirm)="confirmBuyIEO($event)"
-></app-popup-buy>
+>
+</app-popup-buy>
 
 <app-popup-success
   *ngIf="showSuccessIEO"
   [IEOName]="buyIEOData.currencyDescription"
   (close)="closeSuccessIEO()"
-></app-popup-success>
+>
+</app-popup-success>
 
 <app-popup-policy
   *ngIf="showPolicy"

@@ -1,4 +1,4 @@
-<div class="overlay">
+<div class="overlay registration-popup">
   <div class="popup popup-login">
     <div
       class="popup__close"
@@ -80,60 +80,90 @@
             <!--Input error section ends-->
           </div>
         </div>
+        <div class="radio-buttons-wr">
+          <p>Are you a U.S. citizen/resident?</p>
+          <div class="radio-item">
+            <input
+              type="radio"
+              id="notusa"
+              checked
+              name="isUsa"
+              [value]="false"
+              formControlName="isUsa"
+            >
+            <label for="notusa">No, I am not</label>
+          </div>
+          <div class="radio-item">
+            <input
+              type="radio"
+              id="usa"
+              name="isUsa"
+              [value]="true"
+              formControlName="isUsa"
+            >
+            <label for="usa">Yes, I am</label>
+          </div>
 
+        </div>
         <button
           class="btn popup__btn"
-          [disabled]="emailForm.get('email').invalid
-            && emailForm.get('email').errors
-            || (!!emailServerError && emailServerError !== 'start')
-            || pendingCheckEmail"
+          [disabled]="formDisabled"
           [ngClass]="{
-            'bg-none': !emailForm.get('email').valid&& !!emailServerError,
-            'popup__btn--active': emailForm.get('email').valid && !emailServerError
+            'bg-none': formDisabled,
+            'popup__btn--active': !formDisabled
           }"
           (click)="emailSubmit()"
         >
           {{'Create an account' | translate}}
         </button>
+        <div class="popup__links-wrap mobile-container">
+          <div class="agree-terms">
+            <!-- <span class="accept-icon">
+              <svg
+                width="17"
+                height="14"
+                viewBox="0 0 17 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M2 1.97852C1.17157 1.97852 0.5 2.65009 0.5 3.47852V11.4785C0.5 12.3069 1.17157 12.9785 2 12.9785H10C10.8284 12.9785 11.5 12.3069 11.5 11.4785V3.47852C11.5 2.65009 10.8284 1.97852 10 1.97852H2Z"
+                  stroke="#BFBFBF"
+                />
+                <path
+                  d="M3.42383 7.38525L6.16746 9.89641L15.4752 1"
+                  stroke="#BFBFBF"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span> -->
+            <div class="checkbox-wr">
+              <input
+                type="checkbox"
+                id="agreement"
+                formControlName="terms"
+                required
+              >
+              <label for="agreement">{{'I agree with' | translate}}</label>
+            </div>
+          </div>
+          <a
+            class="popup__link"
+            routerLink="/static/terms-and-conditions"
+            title="Terms and conditions"
+            (click)="popupService.closeRegistrationPopup()"
+          >{{'Terms and conditions' | translate}}</a>
+          <a
+            class="popup__link popup__link--mob"
+            routerLink="/static/terms-and-conditions"
+            title="Terms and conditions"
+            (click)="popupService.closeRegistrationPopup()"
+          >{{'Terms and conditions' | translate}}</a>
+        </div>
       </form>
 
-      <div class="popup__links-wrap mobile-container">
-        <div class="agree-terms"><span class="accept-icon">
-            <svg
-              width="17"
-              height="14"
-              viewBox="0 0 17 14"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M2 1.97852C1.17157 1.97852 0.5 2.65009 0.5 3.47852V11.4785C0.5 12.3069 1.17157 12.9785 2 12.9785H10C10.8284 12.9785 11.5 12.3069 11.5 11.4785V3.47852C11.5 2.65009 10.8284 1.97852 10 1.97852H2Z"
-                stroke="#BFBFBF"
-              />
-              <path
-                d="M3.42383 7.38525L6.16746 9.89641L15.4752 1"
-                stroke="#BFBFBF"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </span>{{'By registering you agree with' | translate}}</div>
-        <a
-          class="popup__link"
-          [routerLink]="'/static/terms-and-conditions'"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          title="Terms and conditions"
-        >{{'Terms and conditions' | translate}}</a>
-        <a
-          class="popup__link popup__link--mob"
-          [routerLink]="'/static/terms-and-conditions'"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          title="Terms of use"
-        >{{'Terms of use' | translate}}</a>
-      </div>
       <div class="popup__links-wrap popup__links-wrap--hidden-mob">
         <span>{{'Already have an account?' | translate}}</span>
         <a

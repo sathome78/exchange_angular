@@ -394,11 +394,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.resetSellModel();
     const rate = parseFloat(order.exrate.toString());
     this.setNewLimitAndStop(rate);
-    const amount = this.getQuantityOfSelectedOrder(order);
-    this.setQuantityValue(amount, order.orderType === this.SELL ? this.BUY : this.SELL);
+    if (this.dropdownLimitValue !== this.baseType.MARKET) {
+      const amount = this.getQuantityOfSelectedOrder(order);
+      this.setQuantityValue(amount, order.orderType === this.SELL ? this.BUY : this.SELL);
+      this.quantityInput({ target: { value: amount } }, order.orderType === this.SELL ? this.BUY : this.SELL);
+    }
     this.getCommission(this.SELL);
     this.getCommission(this.BUY);
-    this.quantityInput({ target: { value: amount } }, order.orderType === this.SELL ? this.BUY : this.SELL);
   }
 
   private setNewLimitAndStop(rate) {
@@ -852,9 +854,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     }
     if (this.errorMessages.length) {
       if (this.errorMessages.length === 1) {
-        this.errorMessages.push('Complete the feald');
+        this.errorMessages.push('Complete the field');
       } else {
-        this.errorMessages.push('Complete the fealds');
+        this.errorMessages.push('Complete the fields');
       }
     }
   }
@@ -863,9 +865,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     Object.keys(errors).forEach(key => {
       const path = errors[key].split('.');
       let message = messages[path[0]][path[1]];
-      if (errorParams[key]) {
-        message = message.replace('{0}', errorParams[key][0]);
-        message = message.replace('{1}', errorParams[key][1]);
+      if (errorParams[key].length) {
+        errorParams[key].forEach((err, index) => {
+          message = message.replace(`{${index}}`, err);
+        });
       }
       this.errorMessages.push(message);
     });

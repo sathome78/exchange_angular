@@ -4,8 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from 'app/shared/services/user.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { RoundCurrencyPipe } from 'app/shared/pipes/round-currency.pipe';
-import { FormatCurrencyPipe } from 'app/shared/pipes/format-currency.pipe';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-popup-buy',
@@ -16,8 +15,8 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   public form: FormGroup;
   @ViewChild('input') input: ElementRef;
   @Input() IEOData: IEOItem;
-  public userBalanceBTC: number;
-  public userBalanceCoin: number;
+  public userBalanceBTC = 0;
+  public userBalanceCoin = 0;
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() confirm: EventEmitter<any> = new EventEmitter();
   public minSum = 0;
@@ -30,7 +29,10 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   public prevValue;
   private ngUnsubscribe$: Subject<void> = new Subject<void>();
 
-  constructor(private userService: UserService, private roundCurrency: RoundCurrencyPipe, private formatCurrency: FormatCurrencyPipe) {}
+  constructor(
+    private userService: UserService,
+    private utilsService: UtilsService
+  ) {}
 
   ngOnInit() {
     this.initForm();
@@ -56,16 +58,12 @@ export class PopupBuyComponent implements OnInit, OnChanges {
 
   initForm() {
     this.form = new FormGroup({
-      amount: new FormControl('', [Validators.required, this.minCheck.bind(this), this.maxCheck.bind(this)]),
+      amount: new FormControl('', [
+        Validators.required,
+        this.minCheck.bind(this),
+        this.maxCheck.bind(this),
+      ]),
     });
-
-    // this.amountInput.valueChanges
-    //   .pipe(takeUntil(this.ngUnsubscribe$))
-    //   .subscribe((val) => {
-    //     if(val !== this.prevValue) {
-    //       this.onInput(val);
-    //     }
-    //   })
   }
 
   private minCheck(amount: FormControl) {
@@ -93,16 +91,15 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   onBlur(e) {
     if (e) {
       const value = parseFloat(this.deleteSpace(e.target.value.toString() || '0'));
-      const formated = this.formatCurrency.transform(this.roundCurrency.transform(value + '', 'BTC'), 'short', 'BTC');
+      const formated = this.utilsService.currencyFormat(value);
       this.amountInput.setValue(formated);
     }
   }
 
   onInput(e) {
     const val = e.target.value;
-    this.inputValue = parseFloat(val);
     if (new RegExp(this.checkCyrilic).test(val.toString())) {
-      this.form.get('amount').setValue(val.toString().substr(0, val.length - 1));
+      this.amountInput.setValue(val.toString().substr(0, val.length - 1));
     }
     if (e) {
       const value = parseFloat(this.deleteSpace(val.toString()));
@@ -135,13 +132,13 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   }
 
   getMaxAvailSum() {
+    const userBalBTC = this.userBalanceBTC / this.IEOData.rate;
     if (!+this.IEOData.maxAmountPerClaim && !+this.IEOData.maxAmountPerUser) {
-      this.maxSumValidate = +this.roundCurrency.transform(+this.IEOData.availableAmount + '', 'BTC');
-      this.maxSumShow = this.formatCurrency.transform(this.maxSumValidate, 'short', 'BTC');
+      this.maxSumValidate = +this.deleteSpace(Math.min(+this.IEOData.availableAmount, userBalBTC));
+      this.maxSumShow = this.utilsService.currencyFormat(this.maxSumValidate);
       return;
     }
     const sums = [+this.IEOData.maxAmountPerClaim, +this.IEOData.availableAmount];
-    const userBalBTC = this.userBalanceBTC / this.IEOData.rate;
     sums.push(userBalBTC);
 
     if (this.IEOData.maxAmountPerUser) {
@@ -151,19 +148,18 @@ export class PopupBuyComponent implements OnInit, OnChanges {
         sums.push(this.IEOData.maxAmountPerUser - this.userBalanceCoin);
       }
     }
-    this.maxSumValidate = +this.roundCurrency.transform(Math.min(...sums) + '', 'BTC');
-    this.maxSumShow = this.formatCurrency.transform(this.maxSumValidate, 'short', 'BTC');
+    this.maxSumValidate = +this.deleteSpace(Math.min(...sums) + '');
+    this.maxSumShow = this.utilsService.currencyFormat(this.maxSumValidate);
   }
 
   insertMax(e) {
     e.preventDefault();
     this.amountInput.setValue(this.maxSumShow);
     this.amountInput.updateValueAndValidity();
-    this.inputValue = this.maxSumValidate;
     this.countPay(this.maxSumValidate);
   }
 
   get amountInput() {
-    return this.form.get('amount');
+    return this.form.controls['amount'];
   }
 }

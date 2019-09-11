@@ -26,6 +26,8 @@ import { IeoDescriptionWrapperComponent } from './components/ieo-description-wra
 import { IeoDescription2Component } from './components/ieo-description-wrapper/components/ieo-description2/ieo-description2.component';
 import { IeoDescription3Component } from './components/ieo-description-wrapper/components/ieo-description3/ieo-description3.component';
 import { IeoDescription4Component } from './components/ieo-description-wrapper/components/ieo-description4/ieo-description4.component';
+import { DomPolicyComponent } from './components/popup-policy/dom-policy/dom-policy.component';
+import { EtaoPolicyComponent } from './components/popup-policy/etao-policy/etao-policy.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -48,6 +50,8 @@ export function createTranslateLoader(http: HttpClient) {
     IeoDescription2Component,
     IeoDescription3Component,
     IeoDescription4Component,
+    DomPolicyComponent,
+    EtaoPolicyComponent,
   ],
   imports: [
     CommonModule,

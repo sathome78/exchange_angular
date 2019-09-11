@@ -12,16 +12,21 @@
         class="fs-content"
         *ngIf="IEOData"
       >
-        <div class="bittorrent">
+        <div
+          class="bittorrent"
+          [ngSwitch]="IEOData.currencyName"
+        >
           <img
-            src="assets/img/ieo/e-tao.png"
-            alt=""
+            src="assets/img/ieo/dom.png"
+            alt="DOM"
+            *ngSwitchCase="'DOM'"
           >
         </div>
         <div class="btc-session">
           <div class="b-s-title">
-            <h3>{{IEOData.currencyDescription}} - BTC {{'Session' | translate}}<span
-                class="upcoming {{IEOData.status | lowercase}}">{{IEOData.status | showStageStatus}}</span></h3>
+            <h3>
+              {{IEOData.currencyDescription}} - BTC {{'Session' | translate}}
+              <span class="upcoming {{IEOData.status | lowercase}}">{{IEOData.status | showStageStatus}}</span></h3>
           </div>
           <table class="b-s-table">
             <tr>
@@ -29,17 +34,20 @@
               <td class="right-text">
                 <span *ngIf="!IEOData.rate">{{'To be determined' | translate}}</span>
                 <span *ngIf="IEOData.rate">
-                  1 {{IEOData.currencyName}} = {{(IEOData.rate || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC
+                  1 {{IEOData.currencyName}} = {{IEOData.rate | currencyFormat}} BTC
                 </span>
               </td>
             </tr>
             <tr>
               <td>{{'Start Time' | translate}}：</td>
-              <td class="right-text"><span>{{IEOData.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span></td>
+              <td class="right-text">
+                <span>{{IEOData.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
+              </td>
             </tr>
             <tr>
               <td>{{'IEO Goal' | translate}}：</td>
-              <td class="right-text"><span>{{(sessionSupply || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}} BTC</span></td>
+              <td class="right-text">
+                <span>{{sessionSupply | currencyFormat}} BTC</span></td>
             </tr>
           </table>
           <div class="buy-block">
@@ -50,7 +58,7 @@
             >
               <div class="currency-info">
                 <div class="currency-buyed">
-                  <span class="buyed-value">{{boughtAmount || 0 | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}</span>
+                  <span class="buyed-value">{{boughtAmount | currencyFormat}}</span>
                   <span class="currency-name">{{IEOData.currencyName}}</span>
                 </div>
                 <div class="percentage">
@@ -66,8 +74,9 @@
             </div>
 
             <div class="amount">
-              <p>{{'Amount' | translate}}: <span>{{(IEOData.amount || 0) | roundCurrency: 'BTC' | formatCurrency: 'short': 'BTC'}}
-                  {{IEOData.currencyName}}</span></p>
+              <p>{{'Amount' | translate}}:
+                <span>{{IEOData.amount | currencyFormat}} {{IEOData.currencyName}}</span>
+              </p>
             </div>
 
             <div
@@ -85,10 +94,10 @@
               <div>
                 <button
                   class="standart-btn"
+                  (click)="buy.emit()"
                   [ngClass]="{'ieo-buy': requirements.kycCheck && !requirements.countryCheck}"
                   [disabled]="ieoLoading || (currentStage !== stage.RUNNING) || (requirements.kycCheck && !requirements.countryCheck)"
                   *ngIf="isAuthenticated && (currentStage === stage.RUNNING || currentStage === stage.PENDING)"
-                  (click)="buy.emit()"
                 >
                   <span>{{'Buy Now' | translate}}</span>
                 </button>
@@ -113,9 +122,9 @@
                 class="standart-btn"
                 (click)="goToNewsPage()"
                 *ngIf="isAuthenticated
-                 && (currentStage === stage.SUCCEEDED
-                 || currentStage === stage.FAILED
-                  || currentStage === stage.TERMINATED)"
+                  && (currentStage === stage.SUCCEEDED
+                    || currentStage === stage.FAILED
+                    || currentStage === stage.TERMINATED)"
               >
                 <span>{{'More' | translate}}</span>
               </button>

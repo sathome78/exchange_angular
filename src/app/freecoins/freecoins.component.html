@@ -1,0 +1,132 @@
+<div class="container freecoins-container">
+  <div class="freecoins-head-container">
+    <div class="txt-container">
+      <h1 class="page-title__text">Free Coins</h1>
+      <p>You can collect free coins every day. Watch the counters and don't miss free coins.</p>
+    </div>
+    <div
+      class="button-wr"
+      *ngIf="isVipUser"
+    >
+      <button
+        (click)="onToggleFreeCoinsPopup(true)"
+        class="btn btn--active balance__title-btn"
+      >
+        {{'Give away free coins' | translate}}
+      </button>
+    </div>
+  </div>
+  <div class="freecoins-table-container">
+    <table class="table ballance-table">
+      <thead>
+        <tr>
+          <th class="table__cell-head table__cell-head--tal">{{'Coins' | translate}}</th>
+          <th class="table__cell-head table__cell-head--tar">{{'Amount' | translate}}</th>
+          <th class="table__cell-head table__cell-head--tar">{{'Time Left' | translate}}</th>
+          <th class="table__cell-head table__cell-head--tac">
+            <div class="button-cont">
+              <span>{{'Actions' | translate}}</span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="table__body">
+        <tr
+          class="table__row balance__table-row"
+          *ngFor="let fc of freecoinsList; trackBy: trackByFn"
+        >
+          <td class="table__cell">
+            <div class="balance__currency">
+              <div class="balance__currency-icon">
+                <img [src]="fc.currency_name | getIconUrl">
+              </div>
+              <div class="currency-inf">
+                <span style="min-width: 70px;">{{fc.currency_name}}</span>
+                <span class="balance__currency-name">{{fc.currency_description}}</span>
+              </div>
+
+            </div>
+          </td>
+          <td class="table__cell table__cell--tar">
+            <span>{{fc.partial_amount}}</span>
+          </td>
+          <td class="table__cell table__cell--tar">
+            <div
+              class="freecoin-message"
+              [ngClass]="{'green': !(freecoinsState[fc.id] | freecoinStatePipe: 'last_received' | disableGetCoin: fc.time_range | async)}"
+              *ngIf="!fc.single"
+            >
+              <span>{{freecoinsState[fc.id] | freecoinStatePipe: 'last_received' | timeLeftFreeCoins: fc.time_range | async}}</span>
+            </div>
+            <div
+              class="freecoin-message green"
+              *ngIf="fc.single && !(freecoinsState[fc.id] | freecoinStatePipe: 'received')"
+            >
+              <span>{{'Available' | translate}}</span>
+            </div>
+            <div
+              class="freecoin-message red"
+              *ngIf="fc.single && (freecoinsState[fc.id] | freecoinStatePipe: 'received')"
+            >
+              <span>{{'Already used' | translate}}</span>
+            </div>
+          </td>
+          <td class="table__cell">
+            <div class="button-cont">
+              <button
+                *ngIf="!((freecoinsState[fc.id] | freecoinStatePipe: 'last_received' | disableGetCoin: fc.time_range | async) ||
+                  fc.single && (freecoinsState[fc.id] | freecoinStatePipe: 'received'))"
+                class="btn btn--center btn--empty-blue btn--small btn--hidden"
+                (click)="onCheckCaptcha(fc.id)"
+              >{{'Receive' | translate}}</button>
+
+              <div
+                *ngIf="(freecoinsState[fc.id] | freecoinStatePipe: 'last_received' | disableGetCoin: fc.time_range | async) ||
+                  fc.single && (freecoinsState[fc.id] | freecoinStatePipe: 'received')"
+                [tooltip]="fc.single ? 'Sorry, you can recieve this only once' : 'You need to wait for the countdown to end' | translate"
+                placement="top"
+                [showTooltip]="true"
+                delay="300"
+              >
+                <button
+                  disabled
+                  class="btn btn--center btn--empty-blue btn--small btn--hidden"
+                >{{'Received' | translate}}</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr
+          class="table__row balance__table-row"
+          *ngIf="!freecoinsList.length && !loading"
+        >
+          <td
+            class="table__cell"
+            colspan="4"
+          >
+            {{'No any free coins' | translate}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="banner-wr">
+      <img
+        src="assets/img/banner03.png"
+        alt=""
+      >
+    </div>
+  </div>
+</div>
+
+<app-freecoins-popup
+  *ngIf="showFreeCoinsPopup"
+  [showPopup]="showFreeCoinsPopup"
+  (closeFreeCoinsPopup)="onToggleFreeCoinsPopup(false)"
+  (refreshCoins)="refreshCoins()"
+></app-freecoins-popup>
+
+<app-freecoins-captcha
+  *ngIf="showFreeCoinsCaptcha"
+  (resolve)="onResolveCaptcha($event)"
+  (close)="onToggleCaptcha(false)"
+></app-freecoins-captcha>
