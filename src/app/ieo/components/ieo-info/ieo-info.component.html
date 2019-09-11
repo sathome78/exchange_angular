@@ -95,10 +95,10 @@
                 <button
                   class="standart-btn"
                   (click)="buy.emit()"
-                >
-                  <!-- [ngClass]="{'ieo-buy': requirements.kycCheck && !requirements.countryCheck}"
+                  [ngClass]="{'ieo-buy': requirements.kycCheck && !requirements.countryCheck}"
                   [disabled]="ieoLoading || (currentStage !== stage.RUNNING) || (requirements.kycCheck && !requirements.countryCheck)"
-                  *ngIf="isAuthenticated && (currentStage === stage.RUNNING || currentStage === stage.PENDING)" -->
+                  *ngIf="isAuthenticated && (currentStage === stage.RUNNING || currentStage === stage.PENDING)"
+                >
                   <span>{{'Buy Now' | translate}}</span>
                 </button>
                 <div
