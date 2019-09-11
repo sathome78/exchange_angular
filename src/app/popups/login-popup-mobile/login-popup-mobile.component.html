@@ -1,46 +1,72 @@
 <div class="overlay popup-login">
   <div class="popup">
-    <div class="popup__close" (click)="closeMe()"></div>
+    <div
+      class="popup__close"
+      (click)="closeMe()"
+    ></div>
 
     <ng-template [ngTemplateOutlet]="currentTemplate">
     </ng-template>
 
     <ng-template #logInTemplate>
       <div class="logo-login-mob mobile-container">
-        <img src="../../assets/img/logo-exrates.svg" alt="">
+        <img
+          src="../../assets/img/logo-exrates.svg"
+          alt=""
+        >
       </div>
       <h6 class="popup__title">{{'Log in' | translate}}</h6>
       <h6 class="popup__title-mob mobile-container">{{'Login to continue' | translate}}</h6>
-      <form class="popup__form" [formGroup]="loginForm">
+      <form
+        class="popup__form"
+        [formGroup]="loginForm"
+      >
         <div>
           <div class="wrap-input popup__wrap-input">
-            <input class="wrap-input__input" type="text" required (input)="emailInput()" formControlName="email"
+            <input
+              class="wrap-input__input"
+              type="text"
+              required
+              (input)="emailInput()"
+              formControlName="email"
               [ngClass]="{'wrap-input__input--error':
                     !loginForm.get('email').valid
                      && loginForm.get('email').touched
-                      || statusMessage}">
-            <label class="wrap-input__label" for="" [ngClass]="{'wrap-input__label--error':
+                      || statusMessage}"
+            >
+            <label
+              class="wrap-input__label"
+              for=""
+              [ngClass]="{'wrap-input__label--error':
                     !loginForm.get('email').valid
                      && loginForm.get('email').touched
-                      || statusMessage}">
+                      || statusMessage}"
+            >
               {{'Email' | translate}}
             </label>
-            <div class="wrap-input__line" [ngClass]="{'wrap-input__line--error':
+            <div
+              class="wrap-input__line"
+              [ngClass]="{'wrap-input__line--error':
                   !loginForm.get('email').valid
                    && loginForm.get('email').touched
-                    || statusMessage}">
+                    || statusMessage}"
+            >
             </div>
             <div *ngIf="loginForm.get('email').touched
                  && loginForm.get('email').errors != null
                   || !statusMessage
                    && loginForm.get('email').errors != null">
               <div class="input-hint-wrapper">
-                <span class="wrap-input__message wrap-input__message--error"
-                  *ngIf="loginForm.get('email').errors['required']">
+                <span
+                  class="wrap-input__message wrap-input__message--error"
+                  *ngIf="loginForm.get('email').errors['required']"
+                >
                   {{'This field is required.' | translate}}
                 </span>
-                <span *ngIf="loginForm.get('email').invalid && !loginForm.get('email').errors['required']"
-                  class=" wrap-input__message wrap-input__message--error">
+                <span
+                  *ngIf="loginForm.get('email').invalid && !loginForm.get('email').errors['required']"
+                  class=" wrap-input__message wrap-input__message--error"
+                >
                   {{'Please, enter valid email address.' | translate}}
                 </span>
               </div>
@@ -48,34 +74,54 @@
           </div>
 
           <div class="wrap-input popup__wrap-input">
-            <input class="wrap-input__input" required [type]="getInputType()" formControlName="password" [ngClass]="{'wrap-input__input--error':
+            <input
+              class="wrap-input__input"
+              required
+              [type]="getInputType()"
+              formControlName="password"
+              [ngClass]="{'wrap-input__input--error':
                     (!loginForm.get('password').valid
                     && loginForm.get('password').touched
                     || statusMessage)
-                    && loginForm.get('email').valid}">
-            <label class="wrap-input__label" for="" [ngClass]="{'wrap-input__label--error':
+                    && loginForm.get('email').valid}"
+            >
+            <label
+              class="wrap-input__label"
+              for=""
+              [ngClass]="{'wrap-input__label--error':
                     (!loginForm.get('password').valid
                     && loginForm.get('password').touched
                     || statusMessage)
-                    && loginForm.get('email').valid}">{{'Password' | translate}}</label>
-            <div class="wrap-input__line" [ngClass]="{'wrap-input__line--error':
+                    && loginForm.get('email').valid}"
+            >{{'Password' | translate}}</label>
+            <div
+              class="wrap-input__line"
+              [ngClass]="{'wrap-input__line--error':
                   (!loginForm.get('password').valid
                   && loginForm.get('password').touched
                   || statusMessage)
-                  && loginForm.get('email').valid}"></div>
-            <span class="wrap-input__show-password" (click)="togglePasswordVisibility()"
-              [ngClass]="{'wrap-input__show-password--active': isPasswordVisible}">
+                  && loginForm.get('email').valid}"
+            ></div>
+            <span
+              class="wrap-input__show-password"
+              (click)="togglePasswordVisibility()"
+              [ngClass]="{'wrap-input__show-password--active': isPasswordVisible}"
+            >
             </span>
             <div *ngIf="loginForm.get('password').touched
                 && loginForm.get('password').errors != null
                 && loginForm.get('email').valid">
               <div class="input-hint-wrapper">
-                <span class=" wrap-input__message wrap-input__message--error"
-                  *ngIf="loginForm.get('password').errors['required']">
+                <span
+                  class=" wrap-input__message wrap-input__message--error"
+                  *ngIf="loginForm.get('password').errors['required']"
+                >
                   {{'This field is required.' | translate}}
                 </span>
-                <span class="wrap-input__message wrap-input__message--error"
-                  *ngIf="loginForm.get('password').errors['passwordValidation']">
+                <span
+                  class="wrap-input__message wrap-input__message--error"
+                  *ngIf="loginForm.get('password').errors['passwordValidation']"
+                >
                   {{'Current password invalid.' | translate}}
                 </span>
               </div>
@@ -86,27 +132,43 @@
                 {{statusMessage | translate}}
               </span>
             </div>
-            <div class="popup__links-wrap  popup__links-wrap--center" *ngIf="showSendAgainBtn">
-              <a class="popup__link" (click)="sendAgain()">
+            <div
+              class="popup__links-wrap  popup__links-wrap--center"
+              *ngIf="showSendAgainBtn"
+            >
+              <a
+                class="popup__link"
+                (click)="sendAgain()"
+              >
                 {{'Send activation email again' | translate}}
               </a>
             </div>
 
           </div>
         </div>
-        <button class="btn popup__btn" (click)="onSubmit()" [disabled]="!loginForm.valid || loading"
-          [ngClass]="{'popup__btn--active': loginForm.valid}">
+        <button
+          class="btn popup__btn"
+          (click)="onSubmit()"
+          [disabled]="!loginForm.valid || loading"
+          [ngClass]="{'popup__btn--active': loginForm.valid}"
+        >
           {{'Log in' | translate}}
         </button>
       </form>
       <div class="popup__links-wrap mobile-container">
         <span class="destop-content">
           {{'No account?' | translate}}
-          <a class="popup__link popup__link--hidden-mob" (click)="openRegistration()">
+          <a
+            class="popup__link popup__link--hidden-mob"
+            (click)="openRegistration()"
+          >
             {{'Sign up' | translate}}
           </a>
         </span>
-        <a class="popup__link" (click)="openRecoveryPasswordPopup()">
+        <a
+          class="popup__link"
+          (click)="openRecoveryPasswordPopup()"
+        >
           {{'Forgot password?' | translate}}
         </a>
       </div>
@@ -118,39 +180,64 @@
 
     <ng-template #captchaTemplate>
       <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
-      <re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
+      <re-captcha
+        (resolved)="afterResolvedCaptcha($event)"
+        [siteKey]="recaptchaKey"
+      ></re-captcha>
 
     </ng-template>
 
     <ng-template #devCaptchaTemplate>
       <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
       <h4 class="popup__subtitle popup_title--dm">Captcha emulation for developers and QA</h4>
-      <button class="btn popup__btn popup__btn--active" (click)="afterResolvedCaptcha($event)">Resolve</button>
+      <button
+        class="btn popup__btn popup__btn--active"
+        (click)="afterResolvedCaptcha($event)"
+      >Resolve</button>
     </ng-template>
 
 
     <ng-template #pinCodeTemplate>
       <h6 class="popup__title">{{'Log in' | translate}}</h6>
-
-      <h4 class="popup__subtitle popup_title--dm" [innerHTML]="twoFaAuthModeMessage"
-        [ngClass]="{'msg-error' : isError}">
+      <!--TODO this message is shown when user provided invalid credentials Or backEndDied-->
+      <h4
+        class="popup__subtitle popup_title--dm"
+        [innerHTML]="twoFaAuthModeMessage"
+        [ngClass]="{'msg-error' : isError}"
+      >
       </h4>
 
-      <form class="popup__form" [formGroup]="pinForm">
+      <form
+        class="popup__form"
+        [formGroup]="pinForm"
+      >
         <div>
 
           <div class="wrap-input popup__wrap-input">
-            <input #pinInput required class="wrap-input__input" type="text" formControlName="pin"
-              [ngClass]="{'wrap-input__input--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}">
-            <label class="wrap-input__label" for=""
-              [ngClass]="{'wrap-input__label--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}">{{'Authentication' | translate}}</label>
-            <div class="wrap-input__line"
-              [ngClass]="{'wrap-input__line--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}"></div>
+            <input
+              #pinInput
+              required
+              class="wrap-input__input"
+              type="text"
+              formControlName="pin"
+              [ngClass]="{'wrap-input__input--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}"
+            >
+            <label
+              class="wrap-input__label"
+              for=""
+              [ngClass]="{'wrap-input__label--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}"
+            >{{'Authentication' | translate}}</label>
+            <div
+              class="wrap-input__line"
+              [ngClass]="{'wrap-input__line--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}"
+            ></div>
 
             <div>
               <div class="input-hint-wrapper">
-                <span *ngIf="(pinForm.get('pin').touched && pinForm.get('pin').errors != null)"
-                  class=" wrap-input__message wrap-input__message--error">
+                <span
+                  *ngIf="(pinForm.get('pin').touched && pinForm.get('pin').errors != null)"
+                  class=" wrap-input__message wrap-input__message--error"
+                >
                   {{'This field is required.' | translate}}
                 </span>
               </div>
@@ -159,8 +246,12 @@
           </div>
 
         </div>
-        <button class="btn popup__btn" (click)="afterResolvedCaptcha()" [disabled]="!pinForm.valid || loading"
-          [ngClass]="{'popup__btn--active': pinForm.valid}">{{'Submit' | translate}}
+        <button
+          class="btn popup__btn"
+          (click)="afterResolvedCaptcha()"
+          [disabled]="!pinForm.valid || loading"
+          [ngClass]="{'popup__btn--active': pinForm.valid}"
+        >{{'Submit' | translate}}
         </button>
       </form>
       <div class="popup__links-wrap  popup__links-wrap--center">
