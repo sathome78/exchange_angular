@@ -38,3 +38,11 @@ export class GAFreeCoinsPrivateResModel {
     public received: boolean
   ) {}
 }
+
+export class GAFreeCoinsSettingsModel {
+  constructor(
+    public min_partial_amount: number,
+    public min_amount: number,
+    public currency_name: string
+  ) {}
+}
