@@ -31,12 +31,6 @@ export class FreecoinsPopupComponent implements OnInit {
   }
 
   onCloseFreeCoinsPopup() {
-    this.showPopup = false;
-    setTimeout(() => {
-      this.closeFreeCoinsPopup.emit(true);
-    }, 1000);
-  }
-  onCloseFreeCoinsPopupRefresh() {
     this.refreshCoins.emit();
     this.showPopup = false;
     setTimeout(() => {

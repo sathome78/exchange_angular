@@ -23,7 +23,7 @@ export class TimeLeftFreeCoinsPipe implements PipeTransform {
 
     if (diff > 86400) {
       return merge(
-        of(() => {
+        of((() => {
           const days = Math.floor(diff / 86400);
           if (days > 0) {
             return `${days} ${days > 1 ? 'days' : 'day'} ${moment().startOf('day')
@@ -33,7 +33,7 @@ export class TimeLeftFreeCoinsPipe implements PipeTransform {
           return moment().startOf('day')
             .seconds(diff)
             .format('HH:mm:ss');
-        }),
+        })()),
         interval(1000)
           .pipe(takeUntil(this.timerSub))
           .pipe(map(() => {
