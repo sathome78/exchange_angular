@@ -322,8 +322,7 @@
             />
           </svg>
         </div>
-        <div class="title refill__fiat-successful-title">{{'Request was
-                created!' | translate}}</div>
+        <div class="title refill__fiat-successful-title">{{'Request was created!' | translate}}</div>
         <div class="subtitle refill__fiat-successful-subtitle">
           {{'Please go to' | translate}}
           <a
@@ -335,12 +334,10 @@
             {{selectMerchantName}}
           </a>
           {{'to make a payment' | translate}}
-          <b>{{refillData.params.ok_item_1_price}}
-            {{refillData.params.ok_currency}}</b>
+          <b>{{refillData.params.ok_item_1_price}} {{refillData.params.ok_currency}}</b>
         </div>
         <div class="subtitle refill__fiat-successful-subtitle">
-          {{'You can track the progress in history section on' |
-                translate}}
+          {{'You can track the progress in history section on' | translate}}
           <a
             class="standart-link"
             (click)="goToBalances()"
@@ -374,8 +371,7 @@
     <div class="note__title">{{'Please note:' | translate}}</div>
     <ul class="note__list">
       <li class="note__list-item">
-        <b>{{'Please note that a fee is charged for depositing fiat. Size
-                of the commission you can see here:' | translate}}</b>
+        <b>{{'Please note that a fee is charged for depositing fiat. Size of the commission you can see here:' | translate}}</b>
         <a
           class="standart-link"
           href="https://support.exrates.me/article/fees-pairs"
@@ -387,10 +383,7 @@
         class="note__list-item"
         *ngIf="isQIWI"
       >
-        {{'Deposit coins/tokens ONLY to this address. Depositing tokens to
-              addresses
-              other than RUB will result in your funds being lost.' |
-              translate}}
+        {{'Deposit coins/tokens ONLY to this address. Depositing tokens to addresses other than RUB will result in your funds being lost.' | translate}}
       </li>
       <li
         class="note__list-item"
@@ -403,18 +396,14 @@
         >
           https://qiwi.com
         </a>
-        <span>{{'website and send funds to the current
-                address.' | translate}}</span>
+        <span>{{'website and send funds to the current address.' | translate}}</span>
         <span style="font-weight: 600">{{' Warning! ' | translate}}</span>
         <span>{{'don’t forget to specify ' | translate}}</span>
         <span style="font-weight: 600">{{'memo ' | translate}}</span>
-        <span>{{'in the comment to
-                transaction , otherwise - money will not be credited!' |
-                translate}}</span>
+        <span>{{'in the comment to transaction , otherwise - money will not be credited!' | translate}}</span>
       </li>
       <li class="note__list-item">
-        {{'We have good news for you! It’s more then 24 currencies
-              available for deposit right now:' | translate}}
+        {{'We have good news for you! It’s more then 24 currencies available for deposit right now:' | translate}}
       </li>
     </ul>
   </div>
