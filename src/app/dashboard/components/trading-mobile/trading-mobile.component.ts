@@ -845,7 +845,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     Object.keys(errors).forEach(key => {
       const path = errors[key].split('.');
       let message = messages[path[0]][path[1]];
-      if (errorParams[key]) {
+      if (errorParams[key] && errorParams[key]) {
         message = message.replace('{0}', errorParams[key][0]);
         message = message.replace('{1}', errorParams[key][1]);
       }
