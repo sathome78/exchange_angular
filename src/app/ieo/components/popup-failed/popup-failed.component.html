@@ -2,19 +2,17 @@
   <div class="popup">
     <div
       class="popup__close"
-      (click)="closeMe()"
-    ></div>
+      (click)="closeMe()"></div>
     <h6 class="popup__title tnx-head">{{'Proceed to verification' | translate}}</h6>
     <p
       class="popup__subtitle tnx-description"
-      translate
-    >
-      To participate in the ICO {{IEOData.currencyDescription}} Coins <br> Your account must be verified
+      translate>
+      To participate in the IEO {{IEOData.currencyDescription}} <br> Your
+      account must be verified
     </p>
     <button
       class="btn btn--active btn--center"
-      routerLink="/settings/verification"
-    >
+      routerLink="/settings/verification">
       {{'Verify account' | translate}} >>
     </button>
   </div>
