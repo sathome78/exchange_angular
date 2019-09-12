@@ -45,7 +45,7 @@ export class TimeLeftFreeCoinsPipe implements PipeTransform {
               timerSubPrivate.next();
               timerSubPrivate.complete();
             }
-            if (diff < 0) {
+            if (diff <= 0) {
               return this.available;
             }
             if (days) {
@@ -72,7 +72,7 @@ export class TimeLeftFreeCoinsPipe implements PipeTransform {
               timerSubPrivate.next();
               timerSubPrivate.complete();
             }
-            if (diff < 0) {
+            if (diff <= 0) {
               return this.available;
             }
             return moment().startOf('day')
