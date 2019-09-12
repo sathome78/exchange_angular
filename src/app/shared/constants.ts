@@ -3,9 +3,13 @@ export const SELL = 'SELL';
 export const PENDING = 'PENDING';
 
 // for KYC
-export const NOT_VERIFIED = 'NOT_VERIFIED';
-export const LEVEL_ONE = 'LEVEL_ONE';
-export const LEVEL_TWO = 'LEVEL_TWO';
+export const SHUFTI_PRO_KYC_STATUS = {
+  ACCEPTED: 'ACCEPTED', // выполнена верификация успешно
+  DECLINED: 'DECLINED', // отклонена
+  CANCELLED: 'CANCELLED', // отменена
+  CHANGED: 'CHANGED', // это интермедиэйт статус который требует проверки статуса еще раз
+  PENDING: 'PENDING',
+};
 
 // Authentication messages
 
@@ -36,6 +40,14 @@ export const KYC_STATUS = {
   EXPIRED: 'EXPIRED',
   ACCEPTED: 'ACCEPTED',
   PENDING: 'Pending',
+};
+
+export const ADRIAN_NEXT_KYC_STATUS = {
+  OK: 'OK',
+  ERROR: 'ERROR',
+  WARN: 'WARN',
+  NONE: 'NONE',
+  NULL: 'NULL',
 };
 
 export const keys = {

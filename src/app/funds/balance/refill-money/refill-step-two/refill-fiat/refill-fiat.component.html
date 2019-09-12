@@ -20,9 +20,11 @@
           <div class="icon-wr">
             <img
               [src]="activeFiat.name | getIconUrl:true"
+              onerror="this.src= 'assets/img/currency-icons/no_icon.svg'"
               class="select__list-item-icon select__list-item-icon--mobile">
             <img
               [src]="activeFiat.name | getIconUrl"
+              onerror="this.src= 'assets/img/currency-icons/no_icon.svg'"
               class="select__list-item-icon select__list-item-icon--destop">
           </div>
           {{activeFiat.name}}
@@ -41,6 +43,7 @@
             <div class="icon-wr">
               <img
                 [src]="currency.name | getIconUrl"
+                onerror="this.src= 'assets/img/currency-icons/no_icon.svg'"
                 class="select__list-item-icon">
             </div>
 
@@ -58,6 +61,7 @@
           <div class="icon-wr">
             <img
               [src]="selectMerchantName | getIconUrl"
+              onerror="this.src= 'assets/img/currency-icons/no_icon.svg'"
               class="select__list-item-icon">
           </div>
           {{selectMerchantName}}
@@ -111,6 +115,8 @@
                   <div class="icon-wr">
                     <img
                       [src]="nested.image_name | getIconUrl"
+                      onerror="this.src=
+                      'assets/img/currency-icons/no_icon.svg'"
                       class="select__list-item-icon">
                   </div>
 
@@ -173,15 +179,17 @@
     <div
       class="refill__fiat-successful"
       *ngIf="submitSuccess">
-      <div [ngSwitch]="selectMerchantName" [class]="'refill-' +
+      <div
+        [ngSwitch]="selectMerchantName"
+        [class]="'refill-' +
         selectMerchantName">
         <ng-container *ngSwitchCase="'QIWI'">
           <h2 class="title refill__title">{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></h2>
           <div class="refill__crypto-refill-info">
             <div class="refill__qr-code">
               <qr-code
-                [value]="qiwiResData.qr"
-                *ngIf="qiwiResData.qr && qiwiResData.address"
+                [value]="qiwiResData.address"
+                *ngIf="qiwiResData.address"
                 [size]="150"></qr-code>
             </div>
             <div>
@@ -203,28 +211,33 @@
                   {{'Copied' | translate}}
                 </button>
               </div>
-              <!-- <div
-              class="refill__crypto-memo"
-              *ngIf="cryptoDataByName.merchantCurrencyData[0].additionalFieldName && !!additionalAddress"
-            >
-              <h6 class="refill__crypto-title">{{cryptoDataByName.merchantCurrencyData[0].additionalFieldName}}</h6>
-              <div class="refill__crypto-hash">{{additionalAddress}}</div>
-              <button
-                class="btn btn--small btn--empty-blue refill__crypto-copy-btn"
-                *ngIf="!isSowCopyMemoId"
-                (click)="copyToBuffer(additionalAddress, 'Copy id')"
-              >
-                {{'Copy id' | translate}}
-              </button>
-              <button
-                class="btn btn--small btn--empty-blue refill__crypto-copy-btn"
-                *ngIf="isSowCopyMemoId"
-              >{{'Copied' | translate}}</button>
-            </div> -->
+              <div
+                class="refill__crypto-memo"
+                *ngIf="qiwiResData.memo">
+                <h6 class="refill__crypto-title">{{qiwiResData.additionalFieldName}}</h6>
+                <div class="refill__crypto-hash">{{qiwiResData.memo}}</div>
+                <button
+                  class="btn btn--small btn--empty-blue refill__crypto-copy-btn"
+                  *ngIf="!isShowCopyMemoId"
+                  (click)="copyToBuffer(qiwiResData.memo, 'Copy id')">
+                  {{'Copy id' | translate}}
+                </button>
+                <button
+                  class="btn btn--small btn--empty-blue refill__crypto-copy-btn"
+                  *ngIf="isShowCopyMemoId">{{'Copied' | translate}}</button>
+              </div>
             </div>
           </div>
         </ng-container>
 
+        <ng-container *ngSwitchCase="'CoinPay(Privat24)'">
+          <app-refill-coin-pay
+            [selectMerchantName]="selectMerchantName"
+            [refillData]="refillData"
+            [redirectionUrl]="redirectionUrl"
+            (goToBalances)="goToBalances()">
+          </app-refill-coin-pay>
+        </ng-container>
         <ng-container *ngSwitchDefault>
           <div class="refill__fiat-successful-icon">
             <svg
@@ -260,17 +273,22 @@
                   class="standart-link"
                   #redirectionLink
                   href="{{redirectionUrl}}"
-                  (click)="hideSend()">{{selectMerchantName}}</a>
+                  (click)="hideSend()">
+                  {{selectMerchantName}}
+                </a>
                 {{'to make a payment' | translate}}
                 <b>{{refillData.params.ok_item_1_price}}
                   {{refillData.params.ok_currency}}</b>
               </div>
               <div class="subtitle refill__fiat-successful-subtitle">
                 {{'You can track the progress in history section on' |
-                translate}} <a
+                translate}}
+                <a
                   class="standart-link"
-                  (click)="goToBalances()">{{'funds' | translate}}</a> {{'page'
-                | translate}}
+                  (click)="goToBalances()">
+                  {{'funds' | translate}}
+                </a>
+                {{'page' | translate}}
               </div>
 
               <form
@@ -302,6 +320,32 @@
                 href="https://support.exrates.me/article/fees-pairs">
                 https://support.exrates.me/article/fees-pairs
               </a>
+            </li>
+            <li
+              class="note__list-item"
+              *ngIf="isQIWI">
+              {{'Deposit coins/tokens ONLY to this address. Depositing tokens to
+              addresses
+              other than RUB will result in your funds being lost.' |
+              translate}}
+            </li>
+            <li
+              class="note__list-item"
+              *ngIf="isQIWI">
+              <span>{{'Go to' | translate}} </span>
+              <a
+                class="standart-link"
+                href="https://qiwi.com">
+                https://qiwi.com
+              </a>
+              <span>{{'website and send funds to the current
+                address.' | translate}}</span>
+              <span style="font-weight: 600">{{' Warning! ' | translate}}</span>
+              <span>{{'don’t forget to specify ' | translate}}</span>
+              <span style="font-weight: 600">{{'memo ' | translate}}</span>
+              <span>{{'in the comment to
+                transaction , otherwise - money will not be credited!' |
+                translate}}</span>
             </li>
             <li class="note__list-item">
               {{'We have good news for you! It’s more then 24 currencies
