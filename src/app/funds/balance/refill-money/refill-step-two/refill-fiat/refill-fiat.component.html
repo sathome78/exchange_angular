@@ -6,12 +6,14 @@
   <h2
     class="title refill__title"
     *ngIf="!submitSuccess"
-  >{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></h2>
-  <form [formGroup]="form">
-    <div
-      class="refill__inputs-wrap"
-      *ngIf="!submitSuccess"
-    >
+  >
+    {{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span>
+  </h2>
+  <form
+    [formGroup]="form"
+    *ngIf="!submitSuccess"
+  >
+    <div class="refill__inputs-wrap">
       <!-- TODO add styles to select--error -->
 
       <div class="select refill__select">
@@ -151,41 +153,72 @@
           formControlName="amount"
           name="amount"
           class="fiat-amount"
-        >
-
-        </app-price-input>
+          (customBlur)="amountBlur()"
+        ></app-price-input>
 
         <div class="wrap-input__message--show">
-          <span *ngIf="!form.valid">
+          <span>
             {{'Min. sum for deposit' | translate}} {{minRefillSum | currencyFormat: 'USD'}}
             {{activeFiat ? activeFiat.name : ''}}
           </span>
         </div>
-
-        <!--Input error section starts-->
-        <div
-          class="input-hint-wrapper"
-          *ngIf="!form.valid && isSubmited"
-        >
-          <span class="wrap-input__message">
-            {{'Should be at least' | translate}} {{minRefillSum | currencyFormat: 'USD'}}
-          </span>
-        </div>
-        <!--Input error section ends-->
       </div>
 
       <div
-        class="refill__closed-error"
-        *ngIf="fiatDataByName && !selectedMerchant"
+        class="input-hint-wrapper"
+        *ngIf="!form.valid && isSubmited"
       >
-        {{'Sorry, refill is closed for current moment!' | translate}}
+        <span class="wrap-input__message">
+          {{'Should be at least' | translate}} {{minRefillSum | currencyFormat: 'USD'}}
+        </span>
       </div>
-
     </div>
   </form>
+  <ng-container *ngIf="!submitSuccess && !isQIWI">
+    <div class="send__line"></div>
+
+    <ng-container>
+      <div class="send__info">
+        <div class="send__info-row">
+          <div class="send__info-title">{{'You want to refill:' | translate}}</div>
+          <div class="send__info-value">
+            {{calculateData.amount | currencyFormat: 'USD'}} {{activeFiat.name}}
+          </div>
+        </div>
+        <div class="send__info-row">
+          <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
+          <div class="send__info-value">{{calculateData.companyCommissionRate}} = {{calculateData.companyCommissionAmount}}
+            {{activeFiat.name}}
+          </div>
+        </div>
+        <div class="send__info-row">
+          <div class="send__info-title">{{'Total comission:' | translate}}</div>
+          <div class="send__info-value">{{calculateData.commission_rates_sum}}% = {{calculateData.totalCommissionAmount}}
+            {{activeFiat.name}}
+          </div>
+        </div>
+        <div class="send__info-row">
+          <div class="send__info-title">{{'Total with comission:' | translate}}</div>
+          <div class="send__info-value">{{calculateData.resultAmount}} {{activeFiat.name}}</div>
+        </div>
+      </div>
+
+      <button
+        class="btn btn--center"
+        *ngIf="!submitSuccess && selectedMerchant"
+        (click)="submitRefill()"
+        [disabled]="!form.valid || !selectedMerchant.name || loading"
+      >
+        {{'Refill' | translate}}
+      </button>
+    </ng-container>
+
+    <div class="send__line"></div>
+  </ng-container>
+
   <button
     class="btn btn--center"
-    *ngIf="!submitSuccess && selectedMerchant"
+    *ngIf="!submitSuccess && selectedMerchant && isQIWI"
     (click)="submitRefill()"
     [disabled]="!form.valid || !selectedMerchant.name || loading"
   >
@@ -292,8 +325,7 @@
             />
           </svg>
         </div>
-        <div class="title refill__fiat-successful-title">{{'Request was
-                created!' | translate}}</div>
+        <div class="title refill__fiat-successful-title">{{'Request was created!' | translate}}</div>
         <div class="subtitle refill__fiat-successful-subtitle">
           {{'Please go to' | translate}}
           <a
