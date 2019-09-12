@@ -148,13 +148,13 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
     if (s === 'up') {
       return (
         this.currentCurrencyInfo &&
-        this.currentCurrencyInfo.lastCurrencyRate > this.currentCurrencyInfo.preLastCurrencyRate
+        this.currentCurrencyInfo.currencyRate > this.currentCurrencyInfo.lastCurrencyRate
       );
     }
     if (s === 'down') {
       return (
         this.currentCurrencyInfo &&
-        this.currentCurrencyInfo.lastCurrencyRate < this.currentCurrencyInfo.preLastCurrencyRate
+        this.currentCurrencyInfo.currencyRate < this.currentCurrencyInfo.lastCurrencyRate
       );
     }
     return false;
