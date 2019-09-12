@@ -63,7 +63,7 @@
         <div
           class="wrap-input send__wrap-input"
           [ngClass]="{'wrap-input--error': form.get('amount').invalid &&
-          (form.get('amount').touched || isSubmited)}"
+            (form.get('amount').touched || isSubmited)}"
           *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length"
         >
           <div class="daily-avaliable">{{'24h limit:' | translate}}
