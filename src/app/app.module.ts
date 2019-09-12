@@ -49,6 +49,7 @@ import { NewsService } from './shared/services/news.service';
 import { MomentModule } from 'ngx-moment';
 import { FiatComponent } from './fiat/fiat.component';
 import { AdvisorComponent } from './advisor/advisor.component';
+import { UnsubscribeComponent } from './unsubscribe/unsubscribe.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -84,6 +85,7 @@ const stompConfig: InjectableRxStompConfig = {
     NewsComponent,
     FiatComponent,
     AdvisorComponent,
+    UnsubscribeComponent,
   ],
   imports: [
     StoreModule.forRoot(reducers),
