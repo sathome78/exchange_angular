@@ -153,6 +153,7 @@
           formControlName="amount"
           name="amount"
           class="fiat-amount"
+          (customBlur)="amountBlur()"
         ></app-price-input>
 
         <div class="wrap-input__message--show">
@@ -173,7 +174,7 @@
       </div>
     </div>
   </form>
-  <ng-container *ngIf="!submitSuccess">
+  <ng-container *ngIf="!submitSuccess && !isQIWI">
     <div class="send__line"></div>
 
     <ng-container>
@@ -214,6 +215,15 @@
 
     <div class="send__line"></div>
   </ng-container>
+
+  <button
+    class="btn btn--center"
+    *ngIf="!submitSuccess && selectedMerchant && isQIWI"
+    (click)="submitRefill()"
+    [disabled]="!form.valid || !selectedMerchant.name || loading"
+  >
+    {{'Refill' | translate}}
+  </button>
 
   <!-- показывать после успешного создания заявки-->
   <div
