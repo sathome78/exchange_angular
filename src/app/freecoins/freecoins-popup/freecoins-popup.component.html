@@ -7,7 +7,7 @@
 >
   <div
     class="modal"
-    [@modalAnimation]="showPopup ? 'show' : 'hide' "
+    [@modalAnimation]="showPopup ? 'show' : 'hide'"
   >
     <!-- btn modal close -->
     <div class="modal__controls modal__controls--top">
@@ -50,7 +50,8 @@
           >
             <span
               class="steps__number"
-              [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }"
+              [ngClass]="{'steps__number--current': step === 1,
+                'steps__number--valid': step != 1 }"
             >1</span>
             <span class="steps__number-mob-current">1. {{'Give away' | translate}}</span>
             <span class="steps__title">{{'Give away' | translate}}</span>
@@ -67,7 +68,8 @@
           >
             <span
               class="steps__number"
-              [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }"
+              [ngClass]="{'steps__number--current': step === 2,
+                'steps__number--valid': step != 2 }"
             >2</span>
             <span class="steps__number-mob-current">2. {{'With code' | translate}}</span>
             <span class="steps__title">{{'With code' | translate}}</span>
@@ -84,7 +86,8 @@
           >
             <span
               class="steps__number"
-              [ngClass]="{'steps__number--current': step === 3, 'steps__number--valid': step != 3 }"
+              [ngClass]="{'steps__number--current': step === 3,
+                'steps__number--valid': step != 3 }"
             >3</span>
             <span class="steps__number-mob-current">3. {{'Accepted' | translate}}</span>
             <span class="steps__title">{{'Accepted' | translate}}</span>
@@ -99,18 +102,15 @@
         *ngIf="step === 1"
         (submitForm)="submitStep1($event)"
       ></app-freecoins-popup-step-one>
-
       <app-freecoins-popup-step-two
         *ngIf="step === 2"
         [formData]="formData"
         (nextStep)="goNextStep($event)"
       ></app-freecoins-popup-step-two>
-
       <app-freecoins-popup-step-three
         *ngIf="step === 3"
-        (close)="onCloseFreeCoinsPopupRefresh()"
+        (close)="onCloseFreeCoinsPopup()"
       ></app-freecoins-popup-step-three>
-
     </div>
   </div>
 </div>

@@ -8,11 +8,11 @@
 }
 
 .red {
-  color: red;
+  color: #EB5757;
 }
 
 .green {
-  color: green;
+  color: #01B43E;
 }
 
 .tooltip-example [tooltip] {
@@ -27,11 +27,12 @@
 }
 .ng-tooltip {
   position: absolute;
-  max-width: 150px;
-  font-size: 14px;
+  max-width: 153px;
+  font-size: 13px;
+  line-height: 1.27;
   text-align: center;
   color: #237BEF;
-  padding: 5px 12px;
+  padding: 8px 12px;
   background: #ffffff;
   border-radius: 4px;
   z-index: 1000;
@@ -72,4 +73,13 @@
 }
 .ng-tooltip-show {
   opacity: 1;
+}
+re-captcha{
+  margin: 0 auto;
+}
+
+.m-d-none{
+@media(max-width: 640px){
+  display: none;
+}
 }

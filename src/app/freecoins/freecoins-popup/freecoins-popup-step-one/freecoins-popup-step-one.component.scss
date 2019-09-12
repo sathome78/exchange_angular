@@ -17,3 +17,25 @@
   }
 }
 
+
+.period-input{
+  &:disabled{
+    background-color: transparent;
+    pointer-events: none;
+    color: #91929F;
+    border-color: #91929F;
+    &~.bottom-tooltip{
+      opacity: 0;
+    }
+    &+label{
+      pointer-events: none;
+    color: #91929F;
+    }
+  }
+
+}
+
+
+.refil-fiat .wrap-input__message--show, .refil-inner-tr .wrap-input__message--show{
+  min-height: unset;
+}
