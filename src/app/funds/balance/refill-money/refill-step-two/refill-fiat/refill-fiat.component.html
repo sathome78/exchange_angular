@@ -84,8 +84,7 @@
         <div class="select__triangle"></div>
         <div
           class="select__list-searching"
-          [ngClass]="{'select__list-searching--open':
-          openPaymentSystemDropdown}"
+          [ngClass]="{'select__list-searching--open': openPaymentSystemDropdown}"
           *ngIf="openPaymentSystemDropdown"
         >
           <div class="select__search">
@@ -126,15 +125,13 @@
             >
               <li
                 class="select__list-item"
-                *ngFor="let nested of merchant.listMerchantImage |
-                  merchantImageFilter: searchTemplate"
+                *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
                 (click)="selectMerchant(merchant, nested)"
               >
                 <div class="icon-wr">
                   <img
                     [src]="nested.image_name | getIconUrl"
-                    onerror="this.src=
-                      'assets/img/currency-icons/no_icon.svg'"
+                    onerror="this.src='assets/img/currency-icons/no_icon.svg'"
                     class="select__list-item-icon"
                   >
                 </div>
@@ -164,19 +161,16 @@
             {{activeFiat ? activeFiat.name : ''}}
           </span>
         </div>
-
-        <div
-          class="input-hint-wrapper"
-          *ngIf="!form.valid && isSubmited"
-        >
-          <span class="wrap-input__message">
-            {{'Should be at least' | translate}} {{minRefillSum | currencyFormat: 'USD'}}
-          </span>
-        </div>
-
       </div>
 
-
+      <div
+        class="input-hint-wrapper"
+        *ngIf="!form.valid && isSubmited"
+      >
+        <span class="wrap-input__message">
+          {{'Should be at least' | translate}} {{minRefillSum | currencyFormat: 'USD'}}
+        </span>
+      </div>
     </div>
   </form>
   <ng-container *ngIf="!submitSuccess">
@@ -228,8 +222,7 @@
   >
     <div
       [ngSwitch]="selectMerchantName"
-      [class]="'refill-' +
-        selectMerchantName"
+      [class]="'refill-' + selectMerchantName"
     >
       <ng-container *ngSwitchCase="'QIWI'">
         <h2 class="title refill__title">{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></h2>
@@ -375,6 +368,8 @@
         <a
           class="standart-link"
           href="https://support.exrates.me/article/fees-pairs"
+          target="_blank"
+          rel="nofollow noopener noreferrer"
         >
           https://support.exrates.me/article/fees-pairs
         </a>
@@ -393,6 +388,8 @@
         <a
           class="standart-link"
           href="https://qiwi.com"
+          target="_blank"
+          rel="nofollow noopener noreferrer"
         >
           https://qiwi.com
         </a>

@@ -63,7 +63,7 @@
         <div
           class="wrap-input send__wrap-input"
           [ngClass]="{'wrap-input--error': form.get('amount').invalid &&
-          (form.get('amount').touched || isSubmited)}"
+            (form.get('amount').touched || isSubmited)}"
           *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length"
         >
           <div class="daily-avaliable">{{'24h limit:' | translate}}
@@ -97,7 +97,7 @@
             {{
             'Minimum sum for withdrawal' | translate
             }} {{
-            minWithdrawSum | currencyFormat
+            minWithdrawSum | currencyFormat: currName
             }} {{
             currName
             }}
@@ -116,8 +116,7 @@
                 {{
                 'Minimum sum for withdrawal' | translate
                 }} {{
-                minWithdrawSum | roundCurrency: currName | formatCurrency:
-                'short': currName
+                minWithdrawSum | currencyFormat: currName
                 }} {{
                 currName
                 }}
@@ -130,8 +129,7 @@
                 {{
                 'Your available balance:' | translate
                 }} {{
-                activeBalance | roundCurrency: currName | formatCurrency:
-                'short': currName
+                activeBalance | currencyFormat: currName
                 }} {{
                 currName
                 }}
@@ -144,7 +142,7 @@
                 {{
                 'Your 24h limit to withdrawal:' | translate
                 }} {{
-                dailyLimit | currencyFormat
+                dailyLimit | currencyFormat: currName
                 }} {{
                 currName
                 }}
@@ -258,7 +256,8 @@
             formControlName="address"
             required
           >
-          <label class="wrap-input__label">{{'Payment system' | translate}}
+          <label class="wrap-input__label">
+            {{'Payment system' | translate}}
             <span>{{currName}}</span>
             {{'address' | translate}}
           </label>
@@ -281,8 +280,7 @@
           class="notice-for-withdraw"
           *ngIf="selectedMerchant.name == 'FUG'"
         >
-          <p>{{'Funds will be transferred to your personal account' |
-              translate}}</p>
+          <p>{{'Funds will be transferred to your personal account' | translate}}</p>
         </div>
         <!-- end if qubera -->
 
@@ -292,48 +290,40 @@
 
     <div class="send__line"></div>
 
-    <ng-container *ngIf="fiatInfoByName.leftRequestSum> 0">
+    <ng-container *ngIf="fiatInfoByName.leftRequestSum > 0">
       <div class="send__info">
         <div class="send__info-row">
-          <div class="send__info-title">{{'You want to withdraw:' |
-              translate}}</div>
+          <div class="send__info-title">{{'You want to withdraw:' | translate}}</div>
           <div class="send__info-value">
-            {{calculateData.amount | currencyFormat: 'USD'}} {{currName}}
+            {{calculateData.amount | currencyFormat: currName}} {{currName}}
           </div>
         </div>
         <div class="send__info-row">
           <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
-          <div class="send__info-value">{{calculateData.companyCommissionRate}}
-            = {{calculateData.companyCommissionAmount}}
-            {{currName}}
+          <div class="send__info-value">{{calculateData.companyCommissionRate}} = {{calculateData.companyCommissionAmount}} {{currName}}
           </div>
         </div>
         <div class="send__info-row">
           <div class="send__info-title">{{'Merchant comission:' | translate}}</div>
-          <div class="send__info-value">{{calculateData.merchantCommissionRate}}
-            =
-            {{calculateData.merchantCommissionAmount}} {{currName}}
+          <div class="send__info-value">{{calculateData.merchantCommissionRate}} = {{calculateData.merchantCommissionAmount}} {{currName}}
           </div>
         </div>
         <div class="send__info-row">
           <div class="send__info-title">{{'Total comission:' | translate}}</div>
-          <div class="send__info-value">{{calculateData.commission_rates_sum}}%
-            = {{calculateData.totalCommissionAmount}}
-            {{currName}}
+          <div class="send__info-value">{{calculateData.commission_rates_sum}}% = {{calculateData.totalCommissionAmount}} {{currName}}
           </div>
         </div>
         <div class="send__info-row">
-          <div class="send__info-title">{{'Total with comission:' |
-              translate}}</div>
-          <div class="send__info-value">{{calculateData.resultAmount}}
-            {{currName}}</div>
+          <div class="send__info-title">{{'Total with comission:' | translate}}</div>
+          <div class="send__info-value">{{calculateData.resultAmount}} {{currName}}</div>
         </div>
       </div>
       <button
         class="btn btn--center"
         [disabled]="!form.valid"
         (click)="onSubmitWithdrawal()"
-      >{{'Withdraw' | translate}}
+      >
+        {{'Withdraw' | translate}}
         <span class="value">{{calculateData.resultAmount}}</span>
         <span> {{currName}}</span>
       </button>
@@ -341,8 +331,7 @@
 
     <ng-container *ngIf="fiatInfoByName.leftRequestSum == 0">
       <div class="withdraw-limit-error">
-        {{'Your daily output limit for this currency has been exceeded. Please
-          try again tomorrow.' | translate}}
+        {{'Your daily output limit for this currency has been exceeded. Please try again tomorrow.' | translate}}
       </div>
     </ng-container>
 
@@ -351,18 +340,16 @@
     <div class="note modal__note">
       <div class="note__title">{{'Please note:' | translate}}</div>
       <ul class="note__list">
-        <li class="note__list-item">{{'Once you have submitted your withdrawal
-            request, we will send a confirmation email' | translate}}.
-          {{'Please then click on the confirmation link in your email' |
-            translate}}.
+        <li class="note__list-item">
+          {{'Once you have submitted your withdrawal request, we will send a confirmation email' | translate}}.
+          {{'Please then click on the confirmation link in your email' | translate}}.
         </li>
-        <li class="note__list-item">{{'After making a withdrawal, you can
-            track its progress in history on funds page' | translate}}.
+        <li class="note__list-item">
+          {{'After making a withdrawal, you can track its progress in history on funds page' | translate}}.
         </li>
-        <li class="note__list-item">{{'Do not withdraw directly to a crowdfund
-            or ICO' | translate}}.
-          {{'We will not credit your account with tokens from that sale' |
-            translate}}.
+        <li class="note__list-item">
+          {{'Do not withdraw directly to a crowdfund or ICO' | translate}}.
+          {{'We will not credit your account with tokens from that sale' | translate}}.
         </li>
       </ul>
     </div>
@@ -398,10 +385,8 @@
 
 <ng-template #devCaptchaTemplate>
   <div class="captcha-wrapper send-fiat-s2 side-popups">
-    <h6 class="popup__title popup_title--dm">{{'Enter the captcha' |
-        translate}}</h6>
-    <h4 class="popup__subtitle popup_title--dm">Captcha emulation for
-      developers and QA</h4>
+    <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
+    <h4 class="popup__subtitle popup_title--dm">Captcha emulation for developers and QA</h4>
     <button
       class="btn btn--center"
       (click)="afterResolvedCaptcha($event)"
