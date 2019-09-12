@@ -77,3 +77,9 @@
 re-captcha{
   margin: 0 auto;
 }
+
+.m-d-none{
+@media(max-width: 640px){
+  display: none;
+}
+}

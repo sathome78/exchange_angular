@@ -48,18 +48,27 @@
             </div>
           </td>
           <td class="table__cell table__cell--tar">
-            <span>{{fc.partial_amount}}</span>
+            <span>{{fc.partial_amount | currencyFormat}}</span>
           </td>
           <td class="table__cell table__cell--tar">
             <div
               class="freecoin-message"
-              [ngClass]="{'green': !(freecoinsState[fc.id] | freecoinStatePipe: 'last_received' | disableGetCoin: fc.time_range | async)}"
+              [ngClass]="{'green m-d-none':
+                !(freecoinsState[fc.id] | freecoinStatePipe: 'last_received' | disableGetCoin: fc.time_range | async)}"
               *ngIf="!fc.single"
             >
               <span>{{freecoinsState[fc.id] | freecoinStatePipe: 'last_received' | timeLeftFreeCoins: fc.time_range | async}}</span>
             </div>
+            <div class="button-wr-mobile mobile-content">
+              <button
+                *ngIf="!((freecoinsState[fc.id] | freecoinStatePipe: 'last_received' | disableGetCoin: fc.time_range | async) ||
+                  fc.single && (freecoinsState[fc.id] | freecoinStatePipe: 'received'))"
+                class="btn btn--center btn--small"
+                (click)="onCheckCaptcha(fc.id)"
+              >{{'Receive' | translate}}</button>
+            </div>
             <div
-              class="freecoin-message green"
+              class="freecoin-message green m-d-none"
               *ngIf="fc.single && !(freecoinsState[fc.id] | freecoinStatePipe: 'received')"
             >
               <span>{{'Available' | translate}}</span>
@@ -79,7 +88,6 @@
                 class="btn btn--center btn--empty-blue btn--small btn--hidden"
                 (click)="onCheckCaptcha(fc.id)"
               >{{'Receive' | translate}}</button>
-
               <div
                 *ngIf="(freecoinsState[fc.id] | freecoinStatePipe: 'last_received' | disableGetCoin: fc.time_range | async) ||
                   fc.single && (freecoinsState[fc.id] | freecoinStatePipe: 'received')"
