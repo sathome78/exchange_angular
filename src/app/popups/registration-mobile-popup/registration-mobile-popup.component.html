@@ -16,15 +16,15 @@
         <div>
           <div
             class="wrap-input popup__wrap-input"
-            [ngClass]="{'wrap-input--error': emailForm.get('email').touched
-               && (!emailForm.valid || (!!emailServerError && emailServerError !== 'start'))}"
+            [ngClass]="{'wrap-input--error': formEmailGetter.touched &&
+              (formEmailGetter.invalid || (!!emailServerError && emailServerError !== 'start'))}"
           >
             <input
               required
               appExcludeInputSpaces
               class="wrap-input__input"
               formControlName="email"
-              [ngClass]="{'input--error': !emailForm.get('email').valid && emailForm.get('email').touched }"
+              [ngClass]="{'input--error': formEmailGetter.invalid && formEmailGetter.touched }"
             >
             <label
               class="wrap-input__label"
@@ -32,32 +32,30 @@
             >{{'Email' | translate}}</label>
             <div class="wrap-input__line"></div>
             <!--Input error section starts-->
-            <div *ngIf="emailForm.get('email').invalid && emailForm.get('email').errors || !!emailServerError">
+            <div *ngIf="formEmailGetter.invalid && formEmailGetter.errors || !!emailServerError">
               <div
                 class="input-hint-wrapper"
-                *ngIf="emailForm.get('email').invalid && emailForm.get('email').touched"
+                *ngIf="formEmailGetter.invalid && formEmailGetter.touched"
               >
-                <div *ngIf="emailForm.get('email').invalid && emailForm.get('email').errors">
+                <div *ngIf="formEmailGetter.invalid && formEmailGetter.errors">
                   <span
                     class="wrap-input__message"
-                    *ngIf="emailForm.get('email').errors['emailInvalid']
-                      && emailForm.get('email').touched
-                      && !emailForm.get('email').errors['required']
-                      && !emailForm.get('email').errors['specialCharacter']"
+                    *ngIf="formEmailGetter.errors['emailInvalid']
+                      && formEmailGetter.touched
+                      && !formEmailGetter.errors['required']
+                      && !formEmailGetter.errors['specialCharacter']"
                   >
                     {{'Wrong email' | translate}}
                   </span>
                   <span
                     class="wrap-input__message"
-                    *ngIf="emailForm.get('email').errors['specialCharacter']
-                    && !emailForm.get('email').errors['required']"
+                    *ngIf="formEmailGetter.errors['specialCharacter'] && !formEmailGetter.errors['required']"
                   >
                     {{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
                   </span>
                   <span
                     class="wrap-input__message"
-                    *ngIf="emailForm.get('email').errors['required']
-                        && emailForm.get('email').touched"
+                    *ngIf="formEmailGetter.errors['required'] && formEmailGetter.touched"
                   >
                     {{'Email is required' | translate}}
                   </span>
@@ -66,11 +64,9 @@
               </div>
               <div
                 class="input-hint-wrapper server-error-hint"
-                *ngIf="((emailForm.valid
-                     && !pendingCheckEmail)
-                      || (!!emailForm.get('email').value
-                       && previousEmail === emailForm.get('email').value))
-                        && !!AUTH_MESSAGES[emailServerError]"
+                *ngIf="((emailForm.valid && !pendingCheckEmail) ||
+                  (!!formEmailGetter.value && previousEmail === formEmailGetter.value)) &&
+                    !!AUTH_MESSAGES[emailServerError]"
               >
                 <span class="wrap-input__message">
                   {{AUTH_MESSAGES[emailServerError] | translate}}
