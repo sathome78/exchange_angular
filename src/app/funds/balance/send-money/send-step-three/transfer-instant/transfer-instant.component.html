@@ -20,8 +20,7 @@
 
         <div
           class="wrap-input send__wrap-input"
-          [ngClass]="{'wrap-input--error': formAmount.invalid &&
-            (formAmount.touched || isSubmited)}"
+          [ngClass]="{'wrap-input--error': formAmount.invalid && (formAmount.touched || isSubmited)}"
         >
           <div class="avaliable">
             {{'Available:' | translate}}
@@ -111,6 +110,7 @@
           </div>
         </div>
       </div>
+
     </form>
     <div class="send__line"></div>
     <div class="send__info">
@@ -145,7 +145,6 @@
         <li class="note__list-item">{{'After making a transfer, you can track its progress in history on funds page' | translate}}.</li>
       </ul>
     </div>
-
   </div>
 </div>
 

@@ -245,10 +245,8 @@
         <div
           class="wrap-input send__wrap-input"
           [ngClass]="{'wrap-input--error': (!form.controls['address'].valid &&
-            (form.controls['address'].touched || isSubmited)) &&
-            form.controls['amount'].valid}"
-          *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length
-            && selectedMerchant.name !== 'FUG'"
+          (form.controls['address'].touched || isSubmited)) && form.controls['amount'].valid}"
+          *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length && selectedMerchant.name !== 'FUG'"
         >
           <input
             class="wrap-input__input"
@@ -319,7 +317,7 @@
         </div>
       </div>
       <button
-        class="btn btn--center"
+        class="btn btn--center "
         [disabled]="!form.valid"
         (click)="onSubmitWithdrawal()"
       >
@@ -364,8 +362,7 @@
 </div>
 <ng-container *ngIf="!isEnterData">
   <div
-    *ngIf="!utilsService.isDevCaptcha(userInfo.username); else
-      devCaptchaTemplate"
+    *ngIf="!utilsService.isDevCaptcha(userInfo.username); else devCaptchaTemplate"
     class="captcha-wrapper send-fiat-s2 side-popups"
   >
     <h6 class="popup__title">{{'Enter the captcha' | translate}}</h6>
