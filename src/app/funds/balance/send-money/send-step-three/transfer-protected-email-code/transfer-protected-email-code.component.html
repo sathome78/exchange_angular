@@ -18,7 +18,6 @@
             (selectCurrency)="selectCurrency($event)"
           ></app-currency-select-crypto>
         </div>
-      </div>
 
         <div
           class="wrap-input send__wrap-input"
@@ -66,8 +65,6 @@
             </div>
           </div>
         </div>
-      </div>
-      </div>
 
         <div
           class="wrap-input  send__wrap-input"
@@ -109,8 +106,11 @@
               >
                 {{'You can not send the transfer to your current user.' | translate}}
               </span>
+            </div>
+          </div>
         </div>
       </div>
+
     </form>
     <div class="send__line"></div>
 
@@ -151,26 +151,12 @@
       </ul>
     </div>
   </div>
-  <button
-    class="btn btn--center"
-    [disabled]="!form.valid || pendingCheckEmail"
-    (click)="submitTransfer()"
-  >
-    {{'Create code' | translate}}
-  </button>
-  <div class="send__line"></div>
-  <div class="note modal__note">
-    <div class="note__title">{{'Please note:' | translate}}</div>
-    <ul class="note__list">
-      <li class="note__list-item">{{'Once you have submitted your withdrawal request, we will send a confirmation email. Please then click on the confirmation link in your email' | translate}}.
-      </li>
-      <li class="note__list-item">{{'After making a withdrawal, you can track its progress in history on funds page' | translate}}.</li>
-    </ul>
-  </div>
-</div>
 </div>
 
-<div class="loading-container" *ngIf="!activeCrypto || !activeBalance">
+<div
+  class="loading-container"
+  *ngIf="!activeCrypto || !activeBalance"
+>
   <app-loader></app-loader>
 </div>
 
@@ -181,9 +167,15 @@
     class="captcha-wrapper side-popups send-protected-s3"
   >
     <h6 class="popup__title">{{'Enter the captcha' | translate}}</h6>
-    <re-captcha (resolved)="afterResolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
+    <re-captcha
+      (resolved)="afterResolvedCaptcha($event)"
+      [siteKey]="recaptchaKey"
+    ></re-captcha>
     <div class="popup__links-wrap  popup__links-wrap--center">
-      <a class="popup__link" (click)="goToForm()">{{'Back to transfer form' | translate}}</a>
+      <a
+        class="popup__link"
+        (click)="goToForm()"
+      >{{'Back to transfer form' | translate}}</a>
     </div>
   </div>
 </ng-container>
@@ -193,6 +185,9 @@
   <div class="captcha-wrapper side-popups send-protected-s3">
     <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
     <h4 class="popup__subtitle popup_title--dm">Captcha emulation for developers and QA</h4>
-    <button class="btn btn--center" (click)="afterResolvedCaptcha($event)">Resolve</button>
+    <button
+      class="btn btn--center"
+      (click)="afterResolvedCaptcha($event)"
+    >Resolve</button>
   </div>
 </ng-template>
