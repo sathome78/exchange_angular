@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./balance-table-trade-btn.component.scss'],
 })
 export class BalanceTableTradeBtnComponent implements OnInit {
-  @Input('allPairs') public allPairs: DetailedCurrencyPair[] = [];
-  @Input('item') public item: BalanceItem;
+  @Input() public allPairs: DetailedCurrencyPair[] = [];
+  @Input() public item: BalanceItem;
 
   public redirectToPair = 'USD/BTC';
   public pairsCandidat = [];
@@ -21,7 +21,8 @@ export class BalanceTableTradeBtnComponent implements OnInit {
 
   ngOnInit() {
     this.pairsCandidat = this.allPairs.filter(f => {
-      return (!f.hidden && f.name.split('/')[0] === this.item.currencyName) || f.name.split('/')[1] === this.item.currencyName;
+      return (!f.hidden && f.name.split('/')[0] === this.item.currencyName) ||
+        f.name.split('/')[1] === this.item.currencyName;
     });
     this.searchCandidat();
   }
@@ -29,6 +30,10 @@ export class BalanceTableTradeBtnComponent implements OnInit {
   searchCandidat(): void {
     if (!this.pairsCandidat.length) {
       this.redirectToPair = null;
+      return;
+    }
+    if (this.item.currencyName === 'BTC') {
+      this.redirectToPair = 'BTC/USDT';
       return;
     }
     const btc = this.searchByMarket('BTC');

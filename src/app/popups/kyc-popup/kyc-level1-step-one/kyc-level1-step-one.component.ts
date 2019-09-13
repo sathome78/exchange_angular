@@ -4,7 +4,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { KycCountry } from '../../../shared/interfaces/kyc-country-interface';
 import { KycLanguage } from '../../../shared/interfaces/kyc-language-interface';
-import { LEVEL_ONE, LEVEL_TWO } from '../../../shared/constants';
 
 @Component({
   selector: 'app-kyc-level1-step-one',
