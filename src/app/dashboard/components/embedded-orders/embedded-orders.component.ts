@@ -13,9 +13,9 @@ import {
   getUserInfo
 } from 'app/core/reducers/index';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
-import { UserService } from 'app/shared/services/user.service';
-import { LoadHistoryOrdersAction } from 'app/dashboard/actions/dashboard.actions';
+import { LoadHistoryOrdersAction, SetHistoryOrdersAction } from 'app/dashboard/actions/dashboard.actions';
 import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
+import { SetOpenOrdersAction } from 'app/orders/store/actions/orders.actions';
 
 @Component({
   selector: 'app-embedded-orders',
@@ -60,6 +60,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = pair;
+        this.resetOrders();
         this.toOpenOrders();
         this.toHistory();
       });
@@ -75,6 +76,21 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
       return this.userInfo.userRole === 'VIP_USER';
     }
     return false;
+  }
+
+  resetOrders(): void {
+    this.store.dispatch(
+      new SetOpenOrdersAction({
+        openOrders: [],
+        count: 0,
+      })
+    );
+    this.store.dispatch(
+      new SetHistoryOrdersAction({
+        historyOrders: [],
+        count: 0,
+      })
+    );
   }
 
   /**
