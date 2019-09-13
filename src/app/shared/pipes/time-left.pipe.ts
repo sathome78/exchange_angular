@@ -14,6 +14,7 @@ export class TimeLeftFreeCoinsPipe implements PipeTransform {
   constructor(private translateService: TranslateService) {}
 
   transform(lastRecieved: string, timeRange: number) {
+    const timerSubPrivate: Subject<string> = new Subject<string>();
     if (!lastRecieved || !timeRange) {
       return of(this.available);
     }
@@ -36,13 +37,15 @@ export class TimeLeftFreeCoinsPipe implements PipeTransform {
         })()),
         interval(1000)
           .pipe(takeUntil(this.timerSub))
+          .pipe(takeUntil(timerSubPrivate))
           .pipe(map(() => {
             diff -= 1;
             const days = Math.floor(diff / 86400);
             if (diff < -1) {
-              this.stopTimer();
+              timerSubPrivate.next();
+              timerSubPrivate.complete();
             }
-            if (diff < 0) {
+            if (diff <= 0) {
               return this.available;
             }
             if (days) {
@@ -62,12 +65,14 @@ export class TimeLeftFreeCoinsPipe implements PipeTransform {
         of(moment().startOf('day').seconds(diff).format('HH:mm:ss')),
         interval(1000)
           .pipe(takeUntil(this.timerSub))
+          .pipe(takeUntil(timerSubPrivate))
           .pipe(map(() => {
             diff -= 1;
             if (diff < -1) {
-              this.stopTimer();
+              timerSubPrivate.next();
+              timerSubPrivate.complete();
             }
-            if (diff < 0) {
+            if (diff <= 0) {
               return this.available;
             }
             return moment().startOf('day')
