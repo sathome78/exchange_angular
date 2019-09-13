@@ -14,12 +14,13 @@
             class="select__value select__value--active"
             (click)="currencyDropdownToggle()"
           >
-          <div class="icon-wr">
-            <img
-              [src]="(currName) | getIconUrl"
-              class="select__list-item-icon"
-            >
-          </div>
+            <div class="icon-wr">
+              <img
+                [src]="(currName) | getIconUrl"
+                onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
+                class="select__list-item-icon"
+              >
+            </div>
             {{currName}}
           </div>
           <div class="select__label">{{'Currency' | translate}}</div>
@@ -37,12 +38,13 @@
               *ngFor="let currency of fiatNames"
               (click)="selectCurrency(currency)"
             >
-            <div class="icon-wr">
-              <img
-                [src]="currency.name | getIconUrl"
-                class="select__list-item-icon"
-              >
-            </div>
+              <div class="icon-wr">
+                <img
+                  [src]="currency.name | getIconUrl"
+                  onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
+                  class="select__list-item-icon"
+                >
+              </div>
               {{currency.name}}
             </li>
 
@@ -51,7 +53,7 @@
 
         <div
           class="wrap-input send__wrap-input"
-          *ngIf="fiatInfoByName && !fiatInfoByName.merchantCurrencyData.length "
+          *ngIf="fiatInfoByName && !fiatInfoByName.merchantCurrencyData.length"
         >
           <div class="withdrawal__closed-error">
             {{'Sorry, withdrawal is closed for current moment!' | translate}}
@@ -60,15 +62,25 @@
 
         <div
           class="wrap-input send__wrap-input"
-          [ngClass]="{'wrap-input--error': form.get('amount').invalid && (form.get('amount').touched || isSubmited)}"
-          *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length "
+          [ngClass]="{'wrap-input--error': form.get('amount').invalid &&
+            (form.get('amount').touched || isSubmited)}"
+          *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length"
         >
+          <div class="daily-avaliable">{{'24h limit:' | translate}}
+            <a
+              (click)="dailyLimitClick()"
+              class="link"
+              [ngStyle]="{'pointer-events': loadingBalance ? 'none' : 'auto'}"
+            >
+              {{dailyLimit | currencyFormat}} {{currName}}
+            </a>
+          </div>
           <div class="avaliable">{{'Available:' | translate}}
             <a
               (click)="balanceClick()"
               class="link"
             >
-              {{activeBalance | roundCurrency: true | formatCurrency: 'short': true}} {{currName}}
+              {{activeBalance | currencyFormat}} {{currName}}
             </a>
           </div>
           <app-price-input
@@ -81,18 +93,13 @@
           >
           </app-price-input>
 
-          <span
-            class=" wrap-input__message--show"
-            *ngIf="form.controls['amount'].errors &&
-                  !form.controls['amount'].errors['isMinThenMinWithdraw'] &&
-                  !form.controls['amount'].errors['isMaxThenActiveBalance']"
-          >
+          <span class="bottom-tooltip wrap-input__message--show">
             {{
-              'Minimum sum for withdrawal' | translate
+            'Minimum sum for withdrawal' | translate
             }} {{
-              minWithdrawSum | roundCurrency: true | formatCurrency: 'short': true
+            minWithdrawSum | currencyFormat: currName
             }} {{
-              currName
+            currName
             }}
           </span>
 
@@ -100,29 +107,44 @@
           <div *ngIf="form.get('amount').errors != null">
             <div class="input-hint-wrapper">
               <span
-                class=" wrap-input__message--show"
+                class="wrap-input__message--show"
                 *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
-                [ngClass]="{'wrap-input__message': form.controls['amount'].errors['isMinThenMinWithdraw'] &&
-                            (form.controls['amount'].touched || isSubmited)}"
+                [ngClass]="{'wrap-input__message':
+                form.controls['amount'].errors['isMinThenMinWithdraw'] &&
+                (form.controls['amount'].touched || isSubmited)}"
               >
                 {{
-                  'Minimum sum for withdrawal' | translate
+                'Minimum sum for withdrawal' | translate
                 }} {{
-                  minWithdrawSum | roundCurrency: currName | formatCurrency: 'short': currName
+                minWithdrawSum | currencyFormat: currName
                 }} {{
-                  currName
+                currName
                 }}
               </span>
               <span
                 class="wrap-input__message wrap-input__message--show"
-                *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance'] && (form.controls['amount'].touched || isSubmited)"
+                *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance']
+                && (form.controls['amount'].touched || isSubmited)"
               >
                 {{
-                  'Your available balance:' | translate
+                'Your available balance:' | translate
                 }} {{
-                  activeBalance | roundCurrency: currName | formatCurrency: 'short': currName
+                activeBalance | currencyFormat: currName
                 }} {{
-                  currName
+                currName
+                }}
+              </span>
+              <span
+                class="wrap-input__message wrap-input__message--show"
+                *ngIf="form.controls['amount'].errors['isMaxThenDailyLimit'] &&
+                (form.controls['amount'].touched || isSubmited)"
+              >
+                {{
+                'Your 24h limit to withdrawal:' | translate
+                }} {{
+                dailyLimit | currencyFormat: currName
+                }} {{
+                currName
                 }}
               </span>
             </div>
@@ -134,17 +156,20 @@
 
       <div
         class="send__inputs-wrap"
-        *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length "
+        *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length"
       >
         <div class="select send__select">
           <div
             class="select__value select__value--active"
             (click)="togglePaymentSystemDropdown()"
           >
-            <img
-              [src]="selectMerchantName | getIconUrl"
-              class="select__list-item-icon"
-            >
+            <div class="icon-wr">
+              <img
+                [src]="selectMerchantName | getIconUrl"
+                onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
+                class="select__list-item-icon"
+              >
+            </div>
             {{selectMerchantName}}
           </div>
           <div class="select__label">{{'Payment system' | translate}}</div>
@@ -153,7 +178,8 @@
           <!--add select__list-searching--open for looking open state-->
           <div
             class="select__list-searching"
-            [ngClass]="{'select__list-searching--open': openPaymentSystemDropdown}"
+            [ngClass]="{'select__list-searching--open':
+            openPaymentSystemDropdown}"
             *ngIf="openPaymentSystemDropdown"
           >
             <div class="select__search">
@@ -175,7 +201,14 @@
                   <path
                     fill-rule="evenodd"
                     clip-rule="evenodd"
-                    d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"
+                    d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1
+                    8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293
+                    13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0
+                    8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16
+                    10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141
+                    17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273
+                    17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418
+                    18.0488 17.1465 17.8535L13.293 13.999Z"
                   />
                 </svg>
               </div>
@@ -189,13 +222,17 @@
               >
                 <li
                   class="select__list-item"
-                  *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
+                  *ngFor="let nested of merchant.listMerchantImage |
+                    merchantImageFilter: searchTemplate"
                   (click)="selectMerchant(merchant, nested)"
                 >
-                  <img
-                    [src]="nested.image_name | getIconUrl"
-                    class="select__list-item-icon"
-                  >
+                  <div class="icon-wr">
+                    <img
+                      [src]="nested.image_name | getIconUrl"
+                      onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
+                      class="select__list-item-icon"
+                    >
+                  </div>
                   {{nested.image_name}}
                 </li>
               </ng-template>
@@ -217,7 +254,8 @@
             formControlName="address"
             required
           >
-          <label class="wrap-input__label">{{'Payment system' | translate}}
+          <label class="wrap-input__label">
+            {{'Payment system' | translate}}
             <span>{{currName}}</span>
             {{'address' | translate}}
           </label>
@@ -225,7 +263,8 @@
           <div
             class="input-hint-wrapper"
             *ngIf="(!form.controls['address'].valid &&
-                  (form.controls['address'].touched || isSubmited)) && form.controls['amount'].valid"
+              (form.controls['address'].touched || isSubmited)) &&
+              form.controls['amount'].valid"
           >
             <span class="wrap-input__message wrap-input__message--show">
               {{'Set merchant address for withdrawal' | translate}}
@@ -254,25 +293,22 @@
         <div class="send__info-row">
           <div class="send__info-title">{{'You want to withdraw:' | translate}}</div>
           <div class="send__info-value">
-            {{calculateData.amount | roundCurrency: currName | formatCurrency: 'short': currName}} {{currName}}
+            {{calculateData.amount | currencyFormat: currName}} {{currName}}
           </div>
         </div>
         <div class="send__info-row">
           <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
-          <div class="send__info-value">{{calculateData.companyCommissionRate}} = {{calculateData.companyCommissionAmount}}
-            {{currName}}
+          <div class="send__info-value">{{calculateData.companyCommissionRate}} = {{calculateData.companyCommissionAmount}} {{currName}}
           </div>
         </div>
         <div class="send__info-row">
           <div class="send__info-title">{{'Merchant comission:' | translate}}</div>
-          <div class="send__info-value">{{calculateData.merchantCommissionRate}} =
-            {{calculateData.merchantCommissionAmount}} {{currName}}
+          <div class="send__info-value">{{calculateData.merchantCommissionRate}} = {{calculateData.merchantCommissionAmount}} {{currName}}
           </div>
         </div>
         <div class="send__info-row">
           <div class="send__info-title">{{'Total comission:' | translate}}</div>
-          <div class="send__info-value">{{calculateData.commission_rates_sum}}% = {{calculateData.totalCommissionAmount}}
-            {{currName}}
+          <div class="send__info-value">{{calculateData.commission_rates_sum}}% = {{calculateData.totalCommissionAmount}} {{currName}}
           </div>
         </div>
         <div class="send__info-row">
@@ -284,7 +320,8 @@
         class="btn btn--center "
         [disabled]="!form.valid"
         (click)="onSubmitWithdrawal()"
-      >{{'Withdraw' | translate}}
+      >
+        {{'Withdraw' | translate}}
         <span class="value">{{calculateData.resultAmount}}</span>
         <span> {{currName}}</span>
       </button>
@@ -301,12 +338,15 @@
     <div class="note modal__note">
       <div class="note__title">{{'Please note:' | translate}}</div>
       <ul class="note__list">
-        <li class="note__list-item">{{'Once you have submitted your withdrawal request, we will send a confirmation email' | translate}}.
+        <li class="note__list-item">
+          {{'Once you have submitted your withdrawal request, we will send a confirmation email' | translate}}.
           {{'Please then click on the confirmation link in your email' | translate}}.
         </li>
-        <li class="note__list-item">{{'After making a withdrawal, you can track its progress in history on funds page' | translate}}.
+        <li class="note__list-item">
+          {{'After making a withdrawal, you can track its progress in history on funds page' | translate}}.
         </li>
-        <li class="note__list-item">{{'Do not withdraw directly to a crowdfund or ICO' | translate}}.
+        <li class="note__list-item">
+          {{'Do not withdraw directly to a crowdfund or ICO' | translate}}.
           {{'We will not credit your account with tokens from that sale' | translate}}.
         </li>
       </ul>
@@ -330,7 +370,7 @@
       (resolved)="afterResolvedCaptcha($event)"
       [siteKey]="recaptchaKey"
     ></re-captcha>
-    <div class="popup__links-wrap  popup__links-wrap--center">
+    <div class="popup__links-wrap popup__links-wrap--center">
       <a
         class="popup__link"
         (click)="goToWithdrawal()"

@@ -88,14 +88,14 @@ export class APIErrorsService {
         const err = this.parseErrorCode(this.extractErrorCode(error.error));
         const { status, url, method = 'POST' } = error;
         const username = this.userInfo ? this.userInfo.username : '';
-        if (
-          (status === 403) ||
-          (url.indexOf('api/private/v2/dashboard/order') >= 0 && status === 406) ||
-          (url.indexOf('api/public/v2/users/authenticate') >= 0 && status === 400)
-        ) {
-          return throwError(error);
-        }
-        if (status >= 400) {
+        // if (
+        //   (status === 403) ||
+        //   (url.indexOf('api/private/v2/dashboard/order') >= 0 && status === 406) ||
+        //   (url.indexOf('api/public/v2/users/authenticate') >= 0 && status === 400)
+        // ) {
+        //   return throwError(error);
+        // }
+        if (status >= 500) {
           this.showErrorNotification(
             new Notification({ notificationType: 'ERROR', text: err }),
             new APIErrorReport(username, url, method, status, JSON.stringify(error.error)),

@@ -1026,3 +1026,11 @@
     font-size: 14px;
   }
 }
+
+
+.no-veryfied-qubera .qubera-btn-wr button{
+  @media(max-width: 1200px){
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

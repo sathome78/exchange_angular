@@ -39,6 +39,15 @@ export const KYC_STATUS = {
   TOO_MANY_ANALYSIS: 'TOO_MANY_ANALYSIS',
   EXPIRED: 'EXPIRED',
   ACCEPTED: 'ACCEPTED',
+  PENDING: 'Pending',
+};
+
+export const ADRIAN_NEXT_KYC_STATUS = {
+  OK: 'OK',
+  ERROR: 'ERROR',
+  WARN: 'WARN',
+  NONE: 'NONE',
+  NULL: 'NULL',
 };
 
 export const keys = {

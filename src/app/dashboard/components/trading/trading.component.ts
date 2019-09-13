@@ -34,10 +34,10 @@ import { Order } from '../../../model/order.model';
 import { TradingService } from '../../../dashboard/services/trading.service';
 import { BreakpointService } from '../../../shared/services/breakpoint.service';
 import { SimpleCurrencyPair } from '../../../model/simple-currency-pair';
-import { LoadOpenOrdersAction } from '../../actions/dashboard.actions';
 import { messages } from '../../constants';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { PriceInputComponent } from 'app/shared/components/price-input/price-input.component';
+import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
 
 @Component({
   selector: 'app-trading',
@@ -132,6 +132,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     private userService: UserService,
     private utilsService: UtilsService,
     private cdr: ChangeDetectorRef,
+    private dashboardService: DashboardWebSocketService,
     public translateService: TranslateService
   ) {
     super();
@@ -773,7 +774,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private createOrderSuccess() {
-    this.store.dispatch(new LoadOpenOrdersAction(this.currentPair.id));
+    this.dashboardService.loadOpenOrdersDashboard(this.currentPair.name);
     this.userService.getUserBalance(this.currentPair);
     this.notifySuccess = true;
     this.loading = false;
@@ -858,7 +859,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       } else {
         this.errorMessages.push('Complete the fields');
       }
-
     }
   }
 
@@ -866,9 +866,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     Object.keys(errors).forEach(key => {
       const path = errors[key].split('.');
       let message = messages[path[0]][path[1]];
-      if (errorParams[key]) {
-        message = message.replace('{0}', errorParams[key][0]);
-        message = message.replace('{1}', errorParams[key][1]);
+      if (errorParams[key] && errorParams[key].length) {
+        errorParams[key].forEach((err, index) => {
+          message = message.replace(`{${index}}`, err);
+        });
       }
       this.errorMessages.push(message);
     });

@@ -1,23 +1,23 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 import { map, takeUntil } from 'rxjs/internal/operators';
 import { Message } from '@stomp/stompjs';
-import { select, Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Subject, Subscription } from 'rxjs';
 import { RxStompService } from '@stomp/ng2-stompjs';
 import { CurrencyPair } from '../model/currency-pair.model';
-import { environment } from '../../environments/environment';
-import { getCurrencyPairArray, State } from '../core/reducers';
+import { State } from '../core/reducers';
 import * as dashboardActions from './actions/dashboard.actions';
 import { UserService } from '../shared/services/user.service';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { TOKEN, EXRATES_REST_TOKEN } from 'app/shared/services/http.utils';
 
 @Injectable()
 export class DashboardWebSocketService implements OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public currencyPairs: CurrencyPair[] = [];
+  private openOrdersSub$: Subscription;
   public pairFromDashboard = '';
 
   constructor(
@@ -49,9 +49,38 @@ export class DashboardWebSocketService implements OnDestroy {
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
+  openOrdersSubscription(pairName: string): any {
+    const pn = pairName.toLowerCase().replace('/', '_');
+    const headers = {
+      [EXRATES_REST_TOKEN]: localStorage.getItem(TOKEN),
+    };
+    return this.stompService
+      .watch(`/user/queue/open_orders/${pn}`, headers)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
+  }
+
+  loadOpenOrdersDashboard(pairName) {
+    this.unsubscribeOpenOrders();
+    this.openOrdersSub$ = this.openOrdersSubscription(pairName)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(data => {
+        this.store.dispatch(new dashboardActions.SetOpenOrdersAction({
+          openOrders: data,
+          count: data.length,
+        }));
+      });
+  }
+
+  unsubscribeOpenOrders() {
+    if (this.openOrdersSub$) {
+      this.openOrdersSub$.unsubscribe();
+    }
+  }
+
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.unsubscribeOpenOrders();
   }
 
   /**

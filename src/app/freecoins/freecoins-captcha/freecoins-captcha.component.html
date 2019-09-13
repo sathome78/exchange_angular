@@ -1,0 +1,26 @@
+<div class="overlay popup-login">
+  <div class="popup">
+    <div
+      class="popup__close"
+      (click)="closeMe()"
+    ></div>
+
+    <ng-container *ngIf="!isDevCaptcha; else devCaptchaTemplate">
+      <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
+      <re-captcha
+        (resolved)="afterResolvedCaptcha($event)"
+        [siteKey]="recaptchaKey"
+      ></re-captcha>
+    </ng-container>
+
+    <ng-template #devCaptchaTemplate>
+      <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
+      <h4 class="popup__subtitle popup_title--dm">Captcha emulation for developers and QA</h4>
+      <button
+        class="btn popup__btn popup__btn--active"
+        (click)="afterResolvedCaptcha($event)"
+      >Resolve</button>
+    </ng-template>
+
+  </div>
+</div>

@@ -13,6 +13,7 @@ import { defaultCommissionData } from '../../../../store/reducers/default-values
 import { PopupService } from 'app/shared/services/popup.service';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { FUG } from 'app/funds/balance/balance-constants';
+import { BalanceItem } from 'app/funds/models/balance-item.model';
 
 @Component({
   selector: 'app-send-fiat',
@@ -35,6 +36,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public isSubmited = false;
   public selectedMerchant;
   public activeFiat;
+  public dailyLimit;
   public form: FormGroup;
   public searchTemplate = '';
   public selectMerchantName;
@@ -86,7 +88,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         this.setActiveFiat();
         if (this.activeFiat) {
           this.getFiatInfoByName(this.activeFiat.name);
-          this.getBalance(this.activeFiat.name);
+          this.getBalance(this.activeFiat.id);
         }
       });
     if (this.selectMerchantName === FUG) {
@@ -119,7 +121,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.activeFiat = currency;
     this.currencyDropdownToggle();
     this.getFiatInfoByName(this.activeFiat.name);
-    this.getBalance(this.activeFiat.name);
+    this.getBalance(this.activeFiat.id);
   }
 
   selectMerchant(merchant, merchantImage = null) {
@@ -142,10 +144,25 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   balanceClick() {
-    if (this.activeBalance > this.minWithdrawSum) {
+    if (+this.activeBalance > +this.minWithdrawSum) {
       this.form.controls['amount'].setValue(this.activeBalance.toString());
       this.calculateCommission(this.activeBalance);
       this.amountValue = this.activeBalance;
+      this.form.controls['amount'].updateValueAndValidity();
+      this.form.controls['amount'].markAsTouched();
+    }
+  }
+  dailyLimitClick() {
+    if (+this.activeBalance > +this.minWithdrawSum) {
+      let amount = this.activeBalance;
+      if (+this.activeBalance > +this.dailyLimit) {
+        amount = this.dailyLimit;
+      }
+      this.form.controls['amount'].setValue(amount.toString());
+      this.calculateCommission(amount);
+      this.amountValue = amount;
+      this.form.controls['amount'].updateValueAndValidity();
+      this.form.controls['amount'].markAsTouched();
     }
   }
 
@@ -169,14 +186,12 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     }
   }
 
-  getBalance(name: string) {
+  getBalance(id: string) {
     this.balanceService
-      .getTotalBalance()
+      .getBalanceByName(id, 'FIAT')
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        const allBalances = res as { sumTotalUSD: any; mapWallets: any };
-        const needBalance = allBalances.mapWallets.filter(item => item.currencyName === name);
-        this.activeBalance = needBalance[0].activeBalance;
+      .subscribe((res: BalanceItem) => {
+        this.activeBalance = res.activeBalance;
       });
   }
 
@@ -187,6 +202,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.fiatInfoByName = res;
+        this.dailyLimit = res.leftDailyWithdrawAmount;
         // FUG BLOCK
         this.merchants = this.fiatInfoByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i));
 
@@ -284,6 +300,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       amount: new FormControl('', [
         Validators.required,
         this.isMaxThenActiveBalance.bind(this),
+        this.isMaxThenDailyLimit.bind(this),
         this.isMinThenMinWithdraw.bind(this),
       ]),
     });
@@ -292,6 +309,13 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   isMaxThenActiveBalance(): { [key: string]: any } | null {
     if (+this.activeBalance < +this.amountValue) {
       return { isMaxThenActiveBalance: true };
+    }
+    return null;
+  }
+
+  isMaxThenDailyLimit(): { [key: string]: any } | null {
+    if (+this.dailyLimit < +this.amountValue) {
+      return { isMaxThenDailyLimit: true };
     }
     return null;
   }

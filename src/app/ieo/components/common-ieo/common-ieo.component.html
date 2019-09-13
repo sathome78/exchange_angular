@@ -8,11 +8,15 @@
         <h2>{{'Exrates X-Platform' | translate}}</h2>
       </div>
       <div class="description-wr">
-        <p>{{'IEO  platform for Crypto Projects' | translate}}</p>
+        <p>{{'IEO platform for Crypto Projects' | translate}}</p>
       </div>
       <div class="button-wr">
-        <a href="https://forms.gle/Y18qX3Na3WmWiRnw9" class="standart-btn" target="_blank"
-          rel="nofollow noopener noreferrer"><span>{{'Apply to launch IEO on X-Platform' | translate}}</span></a>
+        <a
+          href="https://forms.gle/Y18qX3Na3WmWiRnw9"
+          class="standart-btn"
+          target="_blank"
+          rel="nofollow noopener noreferrer"
+        ><span>{{'Apply to launch IEO on X-Platform' | translate}}</span></a>
       </div>
     </div>
   </div>
@@ -179,31 +183,50 @@
           <div class="bottom-part">
             <div class="form-wr">
               <form [formGroup]="emailForm">
-                <div class="wrap-input popup__wrap-input" [ngClass]="{'wrap-input--error': !emailControl.valid
-                  && emailControl.touched
-                  && isSubmited
-                  && emailControl.errors != null}">
-                  <input class="wrap-input__input ng-dirty ng-valid ng-touched" formControlName="email" required=""
-                    type="text">
-                  <label class="wrap-input__label" for="">{{'Enter your email' | translate}}</label>
+                <div
+                  class="wrap-input popup__wrap-input"
+                  [ngClass]="{'wrap-input--error': !emailControl.valid
+                    && emailControl.touched
+                    && isSubmited
+                    && emailControl.errors != null}"
+                >
+                  <input
+                    class="wrap-input__input ng-dirty ng-valid ng-touched"
+                    formControlName="email"
+                    required=""
+                    type="text"
+                  >
+                  <label
+                    class="wrap-input__label"
+                    for=""
+                  >{{'Enter your email' | translate}}</label>
                   <div class="input-hint-wrapper">
                     <div *ngIf="!emailControl.valid && emailControl.touched && isSubmited">
                       <span class="wrap-input__message" *ngIf="emailControl.errors['required'] && emailControl.touched">
                         {{'Email is required' | translate}}
                       </span>
-                      <span class="wrap-input__message" *ngIf="emailControl.errors['emailInvalid']
-                        && emailControl.touched
-                        && !emailControl.errors['required']
-                        && !emailControl.errors['specialCharacter']">
+                      <span
+                        class="wrap-input__message"
+                        *ngIf="emailControl.errors['emailInvalid']
+                          && emailControl.touched
+                          && !emailControl.errors['required']
+                          && !emailControl.errors['specialCharacter']"
+                      >
                         {{'Wrong email' | translate}}
                       </span>
-                      <span class="wrap-input__message" *ngIf="emailControl.errors['specialCharacter']
-                        && !emailControl.errors['required']">
+                      <span
+                        class="wrap-input__message"
+                        *ngIf="emailControl.errors['specialCharacter']
+                          && !emailControl.errors['required']"
+                      >
                         {{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
                       </span>
-                      <span class="wrap-input__message" *ngIf="emailControl.errors['maxlength']
-                        && !emailControl.errors['required']
-                        && !emailControl.errors['emailInvalid']">
+                      <span
+                        class="wrap-input__message"
+                        *ngIf="emailControl.errors['maxlength']
+                          && !emailControl.errors['required']
+                          && !emailControl.errors['emailInvalid']"
+                      >
                         {{'Email cannot be more than 40 characters long' | translate}}
                       </span>
                     </div>
@@ -225,16 +248,27 @@
 
   <app-get-ready-banner *ngIf="
       !((verificationStatus && verificationStatus.toUpperCase()) === KYC_STATUS.ACCEPTED ||
-      (verificationStatus && verificationStatus.toUpperCase()) === KYC_STATUS.SUCCESS)" (click)="bannerClick()">
+      (verificationStatus && verificationStatus.toUpperCase()) === KYC_STATUS.SUCCESS)"
+    (click)="bannerClick()"
+  >
   </app-get-ready-banner>
 
   <div class="ieo-list" *ngIf="ieoList.length">
     <div class="ieo-list-wr">
       <ng-container *ngFor="let item of ieoList; trackBy: trackByIeo">
         <div class="ieo-list-item {{item.status  | showStageStatus:true | lowercase}}">
-          <div class="img-part" [ngSwitch]="item.currencyName">
-            <div class="img-e-tao" *ngSwitchCase="'DOM'">
-              <img [src]="'assets/img/ieo/dom-blue.png'" alt="">
+          <div
+            class="img-part"
+            [ngSwitch]="item.currencyName"
+          >
+            <div
+              class="img-e-tao"
+              *ngSwitchCase="'DOM'"
+            >
+              <img
+                [src]="'assets/img/ieo/dom-blue.png'"
+                alt=""
+              >
             </div>
           </div>
           <div class="info-coin-part">
@@ -394,10 +428,19 @@
 </div>
 
 
-<app-popup-buy [IEOData]="buyIEOData" *ngIf="showBuyIEO" (close)="closeBuyIEO()" (confirm)="confirmBuyIEO($event)">
+<app-popup-buy
+  [IEOData]="buyIEOData"
+  *ngIf="showBuyIEO"
+  (close)="closeBuyIEO()"
+  (confirm)="confirmBuyIEO($event)"
+>
 </app-popup-buy>
 
-<app-popup-success *ngIf="showSuccessIEO" [IEOName]="buyIEOData.currencyDescription" (close)="closeSuccessIEO()">
+<app-popup-success
+  *ngIf="showSuccessIEO"
+  [IEOName]="buyIEOData.currencyDescription"
+  (close)="closeSuccessIEO()"
+>
 </app-popup-success>
 
 <app-popup-policy *ngIf="showPolicy" (close)="togglePolicy()" (agree)="agreeWithPolicy()"></app-popup-policy>

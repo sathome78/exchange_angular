@@ -92,10 +92,11 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   }
 
   resolvedCaptcha(event) {
-    const email = this.emailForm.get('email').value;
+    const email = this.formEmailGetter.value;
+    const isUsa = this.formIsUsaGetter.value;
     this.loading = true;
     this.userService
-      .sendToEmailConfirmation(email)
+      .sendToEmailConfirmation(email, isUsa)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         res => {
@@ -131,6 +132,8 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
           this.utilsService.specialCharacterValidator(),
         ],
       }),
+      isUsa: new FormControl(true),
+      terms: new FormControl(null, { validators: Validators.required }),
     });
     this.passwordForm = new FormGroup({
       password: new FormControl('', { validators: [Validators.required] }),
@@ -140,8 +143,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
       username: new FormControl('', { validators: Validators.required }),
     });
 
-    this.emailForm
-      .get('email')
+    this.formEmailGetter
       .valueChanges.pipe(debounceTime(1500))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
@@ -151,12 +153,12 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
 
   checkEmailOfServer() {
     this.pendingCheckEmail = true;
-    const email = this.emailForm.get('email');
-    email.markAsTouched();
-    if (email.valid && email.value !== this.previousEmail) {
-      this.previousEmail = email.value;
+    this.emailServerError = 'start';
+    this.formEmailGetter.markAsTouched();
+    if (this.formEmailGetter.valid && this.formEmailGetter.value !== this.previousEmail) {
+      this.previousEmail = this.formEmailGetter.value;
       this.userService
-        .checkIfEmailExists(email.value)
+        .checkIfEmailExists(this.formEmailGetter.value)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(
           res => {
@@ -176,7 +178,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   }
 
   emailSubmit() {
-    const email = this.emailForm.get('email').value;
+    const email = this.formEmailGetter.value;
     if (this.utilsService.isDevCaptcha(email)) {
       this.setTemplate('devCaptchaTemplate');
       return;
@@ -184,5 +186,16 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     if (this.emailForm.valid && !this.pendingCheckEmail) {
       this.setTemplate('captchaTemplate');
     }
+  }
+
+  get formDisabled(): boolean {
+    return this.emailForm.invalid || this.pendingCheckEmail || !!this.emailServerError;
+  }
+
+  get formEmailGetter() {
+    return this.emailForm.controls['email'];
+  }
+  get formIsUsaGetter() {
+    return this.emailForm.controls['isUsa'];
   }
 }

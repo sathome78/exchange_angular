@@ -264,7 +264,8 @@
 		padding-right: 10px;
 		@media(max-width: 620px){
 			flex-direction: column;
-			margin-bottom: 20px;
+			max-width: 241px;
+			margin: 0 auto 20px;
 		}
 
 		.wrap-input{
@@ -315,6 +316,10 @@
 	}
 	.api-key-title{
 		margin-bottom: 29px;
+		@media(max-width: 620px){
+			text-align: center;
+			margin-bottom: 15px;
+		}
 		h2{
 			font-weight: normal;
 			font-size: 24px;
@@ -331,7 +336,6 @@
 		background-color: transparent;
 		border: 1px solid #237BEF;
 		color: #fff;
-		
 	}
 	.settings__form-btn{
 		@media(max-width: 620px){

@@ -206,7 +206,7 @@ export class UtilsService {
   }
 
   get isDisabledCaptcha(): boolean {
-    return localStorage.getItem('captcha') === 'false';
+    return localStorage.getItem('captcha') === 'false' || !environment.captcha;
   }
 
   checkIsDeveloper(name: string = '') {

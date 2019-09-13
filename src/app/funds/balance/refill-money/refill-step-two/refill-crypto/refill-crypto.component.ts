@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
@@ -37,17 +37,6 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public cryptoGenerateAddress = '';
   public loading = false;
 
-  /** Are listening click in document */
-  @HostListener('document:click', ['$event']) clickout({ target }) {
-    if (
-      target.className !== 'select__value select__value--active' &&
-      target.className !== 'select__search-input' &&
-      target.className !== 'select__triangle'
-    ) {
-      this.openCurrencyDropdown = false;
-    }
-  }
-
   constructor(
     private store: Store<State>,
     public balanceService: BalanceService,
@@ -60,13 +49,11 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
       .pipe(select(getCryptoCurrenciesForChoose))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(currencies => {
-        this.defaultCryptoNames = currencies;
-        this.cryptoNames = this.defaultCryptoNames;
+        this.cryptoNames = currencies;
         this.setActiveCrypto();
         if (this.activeCrypto) {
           this.getDataByCurrency(this.activeCrypto.name);
         }
-        this.prepareAlphabet();
       });
   }
 
@@ -83,28 +70,8 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     this.activeCrypto = currency && currency.length ? currency[0] : this.cryptoNames[0];
   }
 
-  currencyDropdownToggle() {
-    this.reqError = '';
-    this.openCurrencyDropdown = !this.openCurrencyDropdown;
-    this.cryptoNames = this.defaultCryptoNames;
-    this.prepareAlphabet();
-  }
-
-  prepareAlphabet() {
-    const temp = [];
-    this.cryptoNames.forEach(currency => {
-      const letter = currency.name.toUpperCase()[0];
-      temp.push(letter);
-    });
-    const unique = (value, index, self) => {
-      return self.indexOf(value) === index;
-    };
-    this.alphabet = _uniq(temp.filter(unique).sort());
-  }
-
   selectCurrency(currency) {
     this.activeCrypto = currency;
-    this.currencyDropdownToggle();
     this.getDataByCurrency(currency.name);
   }
 
@@ -135,11 +102,6 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     }
   }
 
-  searchCoin(e) {
-    this.cryptoNames = this.defaultCryptoNames.filter(f => f.name.toUpperCase().match(e.target.value.toUpperCase()));
-    this.prepareAlphabet();
-  }
-
   generateNewAddress() {
     if (this.cryptoDataByName) {
       const data: RefillData = {
@@ -149,7 +111,9 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         sum: 0,
       };
 
-      if (this.cryptoDataByName && this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable) {
+      if (
+        this.cryptoDataByName &&
+        this.cryptoDataByName.merchantCurrencyData[0].generateAdditionalRefillAddressAvailable) {
         data.generateNewAddress = true;
       }
       this.loading = true;
@@ -240,12 +204,15 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         this.address = this.currentMerchant.mainAddress;
         this.qrAddress = this.currentMerchant.mainAddress;
         this.additionalAddress = this.currentMerchant.address;
-        if (!this.additionalAddress && !!this.address && this.cryptoGenerateAddress !== this.cryptoDataByName.currency.name) {
+        if (
+          !this.additionalAddress &&
+          !!this.address && this.cryptoGenerateAddress !== this.cryptoDataByName.currency.name) {
           this.cryptoGenerateAddress = this.cryptoDataByName.currency.name;
           this.generateNewAddress();
         }
         if (this.cryptoDataByName.currency.name === 'LHT') {
-          this.qrAddress = `usdx:${this.currentMerchant.mainAddress}?currency=${'LHT'}&memo=${this.currentMerchant.address}&ro=true`;
+          this.qrAddress =
+            `usdx:${this.currentMerchant.mainAddress}?currency=${'LHT'}&memo=${this.currentMerchant.address}&ro=true`;
         }
       } else {
         this.address = this.currentMerchant.address;
@@ -262,10 +229,4 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     }
   }
 
-  trackByAlphabet(index, item) {
-    return item;
-  }
-  trackByCryptoNames(index, item) {
-    return item.name;
-  }
 }

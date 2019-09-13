@@ -6,6 +6,7 @@ import { BalanceItem } from '../models/balance-item.model';
 import { MyBalanceItem } from '../../model/my-balance-item.model';
 import { PendingRequestsItem } from '../models/pending-requests-item.model';
 import { APIErrorsService } from 'app/shared/services/apiErrors.service';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BalanceService {
@@ -55,6 +56,20 @@ export class BalanceService {
       excludeZero: (!!excludeZero).toString(),
     };
     return this.http.get<ResponseModel<BalanceItem[]>>(`${this.apiUrl}/api/private/v2/balances`, { params });
+  }
+
+  // request to get balance of certain currency
+  getBalanceByName(currencyId, currencyType): Observable<BalanceItem> {
+    const params = {
+      currencyId,
+      currencyType,
+      currencyName: '',
+      offset: '0',
+      limit: '1',
+      excludeZero: 'false',
+    };
+    return this.http.get<ResponseModel<BalanceItem>>(`${this.apiUrl}/api/private/v2/balances`, { params })
+      .pipe(map(i => i.items[0]));
   }
 
   // request to get balances
@@ -125,6 +140,18 @@ export class BalanceService {
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
+  getCommissionToDeposit(amount: string, currency: string, merchant: string) {
+    let httpOptions = new HttpParams();
+    httpOptions = httpOptions.append('amount', amount);
+    httpOptions = httpOptions.append('currency', currency);
+    httpOptions = httpOptions.append('merchant', merchant);
+
+    const url = `${this.apiUrl}/api/private/v2/balances/refill/commission`;
+    return this.http
+      .get(url, { params: httpOptions, observe: 'response' })
+      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+  }
+
   sendTransferCode(code: string) {
     const data = { CODE: code };
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/accept`;
@@ -156,11 +183,6 @@ export class BalanceService {
 
   getMyBalances(): Observable<MyBalanceItem> {
     return this.http.get<MyBalanceItem>(this.apiUrl + '/api/private/v2/balances/myBalances');
-  }
-
-  getTotalBalance() {
-    const url = `${this.apiUrl}/api/private/v2/balances/totalBalance`;
-    return this.http.get(url);
   }
 
   getCommisionInfo(currency: string, amount: string, ty: string) {
