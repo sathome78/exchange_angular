@@ -26,10 +26,11 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
   newConfirmPassword: FormControl;
   isPasswordVisible = false;
   token: string;
+  needVerification: boolean;
   password;
   confirmPass;
   message: string;
-  loading: boolean = false;
+  loading = false;
 
   constructor(
     private router: Router,
@@ -44,10 +45,11 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.token = this.activatedRoute.snapshot.queryParamMap.get('t');
+    this.needVerification = this.activatedRoute.snapshot.queryParamMap.get('needVerification') === 'true';
     this.initForm();
     this.location.replaceState('final-registration/token');
     this.message = this.translateService.instant('Now, we need to create strong password.');
-    this.token = this.activatedRoute.snapshot.queryParamMap.get('t');
   }
 
   ngOnDestroy() {
@@ -83,7 +85,11 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
             this.authService.setToken(tokenHolder.token);
             const parsedToken = this.authService.parseToken();
             this.store.dispatch(new coreActions.SetOnLoginAction(parsedToken));
-            this.router.navigate(['/funds/balances']);
+            if (this.needVerification) {
+              this.router.navigate(['/settings/verification']);
+            } else {
+              this.router.navigate(['/funds/balances']);
+            }
             this.gtagService.sendConfirmationPasswordGtag();
             this.loading = false;
           },

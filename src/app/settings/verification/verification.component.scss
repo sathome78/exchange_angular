@@ -11,3 +11,22 @@
 perfect-scrollbar {
   height: 160px;
 }
+
+.print{
+  margin: 20px 0 0 0;
+
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  align-self: left;
+  span{
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 1.44;
+    color: #237BEF;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+  }
+}

@@ -163,8 +163,8 @@ export class UserService {
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
-  sendToEmailConfirmation(email: string) {
-    const data = { email };
+  sendToEmailConfirmation(email: string, isUsa: boolean) {
+    const data = { email, isUsa };
     return this.http
       .post<TokenHolder>(this.getUrl('users/register'), data, { observe: 'response' })
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));

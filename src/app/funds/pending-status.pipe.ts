@@ -43,7 +43,7 @@ export class ShowPendingStatusPipe implements PipeTransform {
     } else if (operationType === 'TRANSFER') {
       switch (status) {
         case 'POSTPONED_AS_VOUCHER':
-          return 'Awaits deposit';
+          return 'Awaits adoption';
         default:
           return status;
       }

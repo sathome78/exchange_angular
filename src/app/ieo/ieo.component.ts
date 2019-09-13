@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { data } from './JSONData';
 import { Store, select } from '@ngrx/store';
 import { getLanguage, State } from 'app/core/reducers';
 import { Subject, Observable } from 'rxjs';
@@ -20,7 +19,6 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./ieo.component.scss'],
 })
 export class IEOComponent implements OnInit, OnDestroy {
-  public ieoData = data;
   public isAuthenticated: boolean;
   public stage = {
     PENDING: 'PENDING',
@@ -86,7 +84,7 @@ export class IEOComponent implements OnInit, OnDestroy {
               if (res) {
                 this.requirements = res;
                 this.verificationStatus = Object.values(res).every(i => i);
-                // this.requirements = new KycIEOModel(true, true, true);
+                // this.requirements = new KycIEOModel(false, false, false);
               }
             });
         }

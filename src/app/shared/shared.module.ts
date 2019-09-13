@@ -63,6 +63,10 @@ import { PopupSorryIEOComponent } from './components/popup-sorry-ieo/popup-sorry
 import { BirthdayMaskInputComponent } from './components/birthday-mask-input/birthday-mask-input.component';
 import { CheatingInputComponent } from './components/cheating-input/cheating-input.component';
 import { APIErrorsService } from './services/apiErrors.service';
+import { CurrencySelectFiatComponent } from './components/currency-select-fiat/currency-select-fiat.component';
+import { CurrencySelectCryptoComponent } from './components/currency-select-crypto/currency-select-crypto.component';
+import { TimeLeftFreeCoinsPipe } from './pipes/time-left.pipe';
+import { DisableGetFreeCoinsPipe } from './pipes/disable-get-coins.pipe';
 
 @NgModule({
   declarations: [
@@ -112,6 +116,10 @@ import { APIErrorsService } from './services/apiErrors.service';
     PopupSorryIEOComponent,
     BirthdayMaskInputComponent,
     CheatingInputComponent,
+    CurrencySelectFiatComponent,
+    CurrencySelectCryptoComponent,
+    TimeLeftFreeCoinsPipe,
+    DisableGetFreeCoinsPipe,
   ],
   imports: [
     FormsModule,
@@ -178,6 +186,10 @@ import { APIErrorsService } from './services/apiErrors.service';
     PopupWaitIEOComponent,
     PopupSorryIEOComponent,
     CheatingInputComponent,
+    CurrencySelectFiatComponent,
+    CurrencySelectCryptoComponent,
+    TimeLeftFreeCoinsPipe,
+    DisableGetFreeCoinsPipe,
   ],
   providers: [
     NotificationsService,

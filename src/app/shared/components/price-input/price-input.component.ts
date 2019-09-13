@@ -55,10 +55,11 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     if (this.patternInput.test(value)) {
       this.inputEl.nativeElement.value = this.currencyFormat(e, value);
     } else {
-      if (value === '') {
-        this.customInput.emit(e);
+      if (value.length === 1) {
+        this.inputEl.nativeElement.value = value.replace(e.data, '0');
+      } else {
+        this.inputEl.nativeElement.value = value.replace(e.data, '');
       }
-      this.inputEl.nativeElement.value = value.replace(e.data, '');
     }
   }
 

@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BalanceService } from '../../../../services/balance.service';
-import { State, getUserInfo } from '../../../../../core/reducers';
+import { State, getUserInfo } from 'app/core/reducers';
 import { Store, select } from '@ngrx/store';
 import { BY_PRIVATE_CODE } from '../../send-money-constants';
 import { AbstractTransfer } from '../abstract-transfer';
-import { PopupService } from '../../../../../shared/services/popup.service';
+import { PopupService } from 'app/shared/services/popup.service';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { takeUntil } from 'rxjs/operators';
 
@@ -52,7 +52,7 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
   }
 
   submitTransfer() {
-    this.form.get('amount').updateValueAndValidity();
+    this.formAmount.updateValueAndValidity();
     this.isSubmited = true;
     if (this.form.valid) {
       this.isEnterData = false;
@@ -61,7 +61,7 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
 
   afterResolvedCaptcha() {
     this.model.currency = this.activeCrypto.id;
-    this.model.sum = this.form.controls['amount'].value;
+    this.model.sum = this.formAmount.value;
     this.model.currencyName = this.activeCrypto.name;
     const data = {
       operation: BY_PRIVATE_CODE,
@@ -73,16 +73,12 @@ export class TransferProtectedCodeComponent extends AbstractTransfer implements 
   private initForm() {
     this.form = new FormGroup({
       amount: new FormControl('', {
-        validators: [Validators.required, this.isMaxThenActiveBalance.bind(this), this.isMinThenMinWithdraw.bind(this)],
+        validators: [
+          Validators.required,
+          this.isMaxThenActiveBalance.bind(this),
+          this.isMinThenMinWithdraw.bind(this),
+        ],
       }),
     });
-  }
-
-  trackByAlphabet(index, item) {
-    return item;
-  }
-
-  trackByCryptoNames(index, item) {
-    return item.id;
   }
 }

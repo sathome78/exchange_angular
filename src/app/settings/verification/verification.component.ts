@@ -1,14 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PopupService } from '../../shared/services/popup.service';
 import { UserVerificationService } from '../../shared/services/user-verification.service';
-import { SettingsService } from '../settings.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { getVerificationStatus, State, getUserInfo } from '../../core/reducers';
-import { NOT_VERIFIED, LEVEL_ONE, LEVEL_TWO } from '../../shared/constants';
-import { AuthService } from '../../shared/services/auth.service';
+import { SHUFTI_PRO_KYC_STATUS } from '../../shared/constants';
 import { select, Store } from '@ngrx/store';
-import { SetVerificationStatusAction } from '../../core/actions/core.actions';
 import * as coreAction from '../../core/actions/core.actions';
 
 @Component({
@@ -18,10 +15,9 @@ import * as coreAction from '../../core/actions/core.actions';
 })
 export class VerificationComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  public NOT_VERIFIED = NOT_VERIFIED;
-  public LEVEL_ONE = LEVEL_ONE;
-  public LEVEL_TWO = LEVEL_TWO;
-  public verificationStatus = NOT_VERIFIED;
+  public ACCEPTED = SHUFTI_PRO_KYC_STATUS.ACCEPTED;
+  public PENDING = SHUFTI_PRO_KYC_STATUS.PENDING;
+  public verificationStatus: string;
   public userInfo: ParsedToken;
   public pattern = 'upholding.biz';
   public isPublicIdCopied = false;
@@ -29,7 +25,6 @@ export class VerificationComponent implements OnInit, OnDestroy {
   constructor(
     private popupService: PopupService,
     private verificationService: UserVerificationService,
-    private authService: AuthService,
     private store: Store<State>
   ) {}
 
@@ -37,10 +32,8 @@ export class VerificationComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(getVerificationStatus))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        if (res && res !== 'none') {
-          this.verificationStatus = res as string;
-        }
+      .subscribe((res: string) => {
+        this.verificationStatus = res;
       });
 
     this.popupService
@@ -71,7 +64,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   }
 
   onOpenKYCPopup(level: number) {
-    if (this.verificationStatus === NOT_VERIFIED) {
+    if (this.verificationStatus !== this.ACCEPTED) {
       this.popupService.showKYCPopup(1);
     }
   }

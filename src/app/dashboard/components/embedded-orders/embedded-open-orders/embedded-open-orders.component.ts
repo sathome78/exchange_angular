@@ -13,7 +13,6 @@ import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
   styleUrls: ['./embedded-open-orders.component.scss'],
 })
 export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
-  @Output() refreshOpenOrders: EventEmitter<boolean> = new EventEmitter();
   @Input() makeHeight;
   @Input() currentPair: SimpleCurrencyPair;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -73,7 +72,6 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         res => {
-          this.refreshOpenOrders.emit(true);
           this.loading = false;
         },
         err => {

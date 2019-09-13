@@ -47,13 +47,13 @@
           >
             <div class="requirement-text-inner">
               <p>{{'Users from the following jurisdictions will not be able to participate in this token sale:' | translate}}</p>
-              <p class="requirement-description">{{countries}}.</p>
+              <p class="requirement-description">{{countries}}{{countries.length ? '.' : ''}}</p>
             </div>
           </div>
-          <button
+          <!-- <button
             (click)="onToggleText()"
             class="more-btn"
-          >{{'Show more' | translate}}</button>
+          >{{'Show more' | translate}}</button> -->
         </div>
         <div *ngIf="isAuthenticated">
           <div

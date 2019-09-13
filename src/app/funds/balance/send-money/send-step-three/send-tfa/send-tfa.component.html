@@ -1,47 +1,103 @@
-<div *ngIf="pincodeFrom === CODE_FROM_GOOGLE" class="side-popups send-tfa-s3" >
-  <h2 class="title send__title">{{'Two factor authentication' | translate}}</h2>
+<div
+  *ngIf="pincodeFrom === CODE_FROM_GOOGLE"
+  class="side-popups send-tfa-s3"
+>
+  <h2 class="title send__title">{{'Two-factor Authentications' | translate}}</h2>
+  <h4 class="popup__subtitle popup_title--dm">
+    {{'Use Google Authenticator to generate pincode' | translate}}
+  </h4>
   <!--if google 2fa enabled start-->
-  <form [formGroup]="form">
-    <div class="wrap-input send__wrap-input"
-         [ngClass]="{'wrap-input--error': !form.valid && form.controls['pin'].touched}">
-      <input class="wrap-input__input" autofocus name="pin" formControlName="pin" autocomplete="off" required>
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
+    <div
+      class="wrap-input send__wrap-input"
+      [ngClass]="{'wrap-input--error': form.invalid && formPin.touched}"
+    >
+      <input
+        class="wrap-input__input"
+        autofocus
+        name="pin"
+        formControlName="pin"
+        autocomplete="off"
+        required
+      >
       <label class="wrap-input__label">{{'Authenticator code' | translate}}</label>
       <div class="wrap-input__line"></div>
       <!--Input error section starts-->
-       <div class="input-hint-wrapper" *ngIf="form.controls['pin'].errors !== null">
+      <div
+        class="input-hint-wrapper"
+        *ngIf="formPin.errors"
+      >
         <span class="wrap-input__message">{{subtitleMessage}}</span>
-        <span class="wrap-input__message" *ngIf="!subtitleMessage && form.controls['pin'].errors['required']">{{'Pincode is required.' | translate}}</span>
+        <span
+          class="wrap-input__message"
+          *ngIf="!subtitleMessage && formPin.errors['required']"
+        >{{'Pincode is required.' | translate}}</span>
       </div>
       <!--Input error section ends-->
     </div>
+    <button
+      class="btn btn--center"
+      *ngIf="pincodeFrom"
+      [disabled]="form.invalid || loading"
+      type="submit"
+    >
+      {{'Submit' | translate}}
+    </button>
   </form>
 </div>
 <!--if google 2fa enabled end-->
 
 <!--pin code from email start-->
-<div *ngIf="pincodeFrom === CODE_FROM_EMAIL" class="side-popups send-tfa-s3">
-  <div class="subtitle send__subtitle">{{'Put the pincode from your email' | translate}}</div>
-  <form [formGroup]="form">
-    <div class="wrap-input send__wrap-input"
-         [ngClass]="{'wrap-input--error': !form.valid && form.controls['pin'].touched}">
-      <input class="wrap-input__input" autofocus name="pin" formControlName="pin" autocomplete="off" required>
+<div
+  *ngIf="pincodeFrom === CODE_FROM_EMAIL"
+  class="side-popups send-tfa-s3"
+>
+  <h2 class="title send__title">{{'Two-factor Authentications' | translate}}</h2>
+  <h4 class="popup__subtitle popup_title--dm">
+    {{'Please enter two-factor authentication code that was sent to your email' | translate}}
+  </h4>
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
+    <div
+      class="wrap-input send__wrap-input"
+      [ngClass]="{'wrap-input--error': form.invalid && formPin.touched}"
+    >
+      <input
+        class="wrap-input__input"
+        autofocus
+        name="pin"
+        formControlName="pin"
+        autocomplete="off"
+        required
+      >
       <label class="wrap-input__label">{{'Pincode' | translate}}</label>
       <div class="wrap-input__line"></div>
       <!--Input error section starts-->
-      <div class="input-hint-wrapper" *ngIf="form.controls['pin'].errors !== null">
-      <span class="wrap-input__message">{{subtitleMessage}}</span>
-        <span class="wrap-input__message" *ngIf="!subtitleMessage && form.controls['pin'].errors['required']">{{'Pincode is required.' | translate}}</span>
+      <div
+        class="input-hint-wrapper"
+        *ngIf="formPin.errors"
+      >
+        <span class="wrap-input__message">{{subtitleMessage}}</span>
+        <span
+          class="wrap-input__message"
+          *ngIf="!subtitleMessage && formPin.errors['required']"
+        >{{'Pincode is required.' | translate}}</span>
       </div>
       <!--Input error section ends-->
     </div>
+    <button
+      class="btn btn--center"
+      *ngIf="pincodeFrom"
+      [disabled]="form.invalid || loading"
+      type="submit"
+    >
+      {{'Submit' | translate}}
+    </button>
   </form>
 </div>
 <!--pin code from email end-->
-<button
-  class="btn btn--center"
-  *ngIf="pincodeFrom"
-  [disabled]="form.invalid || loading"
-  (click)="onSubmit()"
->
-  {{'Submit' | translate}}
-</button>
