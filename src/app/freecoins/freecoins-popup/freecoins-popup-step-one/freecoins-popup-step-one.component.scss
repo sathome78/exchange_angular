@@ -1,0 +1,41 @@
+.currency-select-wrapper {
+  margin-bottom: 20px;
+}
+
+.bottom-tooltip {
+  position: absolute;
+}
+.modal__note{
+  left: -12px;
+  right: 0;
+}
+
+.currency-select-wrapper, .send__wrap-input{
+  margin-bottom: 33px;
+  &.one-time{
+    margin-bottom: 23px;
+  }
+}
+
+
+.period-input{
+  &:disabled{
+    background-color: transparent;
+    pointer-events: none;
+    color: #91929F;
+    border-color: #91929F;
+    &~.bottom-tooltip{
+      opacity: 0;
+    }
+    &+label{
+      pointer-events: none;
+    color: #91929F;
+    }
+  }
+
+}
+
+
+.refil-fiat .wrap-input__message--show, .refil-inner-tr .wrap-input__message--show{
+  min-height: unset;
+}

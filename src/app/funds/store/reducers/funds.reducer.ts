@@ -262,7 +262,7 @@ export const getIEOBalancesSelector = createSelector(
 
 /** Qubera balances */
 
-export const getQuberaBalances = (state: State): any => state.quberaBal;
+export const getQuberaBalances = (state: State): any => state.quberaBal && state.quberaBal.data;
 
 export const getQuberaBalancesSelector = createSelector(
   getFundsState,

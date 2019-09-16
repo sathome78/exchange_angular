@@ -25,18 +25,15 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public recaptchaKey = keys.recaptchaKey;
   public cryptoNames: CurrencyBalanceModel[] = [];
-  public defaultCryptoNames: CurrencyBalanceModel[] = [];
-  public openCurrencyDropdown = false;
-  public amountValue = 0;
   public cryptoInfoByName;
   public activeBalance = 0;
   public minWithdrawSum = 0;
   public isSubmited = false;
   public isEnterData = true;
-  public alphabet;
   public isMemo;
   public memoName = '';
   public activeCrypto;
+  public dailyLimit;
   public form: FormGroup;
   public calculateData: CommissionData = defaultCommissionData;
   public loadingBalance = false;
@@ -53,16 +50,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     securityCode: '',
   };
 
-  /** Are listening click in document */
-  @HostListener('document:click', ['$event']) clickout($event) {
-    if (
-      $event.target.className !== 'select__value select__value--active' &&
-      $event.target.className !== 'select__search-input'
-    ) {
-      this.openCurrencyDropdown = false;
-    }
-  }
-
   constructor(
     public balanceService: BalanceService,
     public popupService: PopupService,
@@ -77,13 +64,9 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       .pipe(select(getCryptoCurrenciesForChoose))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(currencies => {
-        this.defaultCryptoNames = currencies;
-        this.cryptoNames = this.defaultCryptoNames;
+        this.cryptoNames = currencies;
         this.setActiveCrypto();
-        this.prepareAlphabet();
-        if (this.activeCrypto) {
-          this.getCryptoInfoByName(this.activeCrypto.name);
-        }
+        this.getCryptoInfoByName(this.activeCrypto.name);
       });
 
     this.store
@@ -100,7 +83,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   onSubmitWithdrawal() {
-    this.form.get('amount').updateValueAndValidity();
+    this.formAmount.updateValueAndValidity();
     this.isSubmited = true;
     if (this.form.valid) {
       this.isEnterData = false;
@@ -120,10 +103,10 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       this.model.currency = this.cryptoInfoByName.merchantCurrencyData[0].currencyId;
       this.model.merchant = this.cryptoInfoByName.merchantCurrencyData[0].merchantId;
       this.model.merchantImage = this.cryptoInfoByName.merchantCurrencyData[0].listMerchantImage[0].id;
-      this.model.sum = this.form.controls['amount'].value;
+      this.model.sum = this.formAmount.value;
       this.model.currencyName = this.activeCrypto.name || '';
-      this.model.destination = this.form.controls['address'].value;
-      this.model.destinationTag = this.form.controls['memo'] ? this.form.controls['memo'].value : '';
+      this.model.destination = this.formAddress.value;
+      this.model.destinationTag = this.formMemo ? this.formMemo.value : '';
       const data = {
         isSentPin: false,
         operation: SEND_CRYPTO,
@@ -137,23 +120,31 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     this.isEnterData = true;
   }
 
-  searchCoin(e) {
-    this.cryptoNames = this.defaultCryptoNames.filter(f => f.name.toUpperCase().match(e.target.value.toUpperCase()));
-    this.prepareAlphabet();
-  }
-
   balanceClick() {
     if (this.activeBalance && this.activeBalance > 0) {
-      this.form.controls['amount'].setValue(this.activeBalance.toString());
+      this.formAmount.setValue(this.activeBalance.toString());
       this.calculateCommission(this.activeBalance);
-      this.amountValue = this.activeBalance;
-      this.form.controls['amount'].updateValueAndValidity();
-      this.form.controls['amount'].markAsTouched();
+      this.formAmount.updateValueAndValidity();
+      this.formAmount.markAsTouched();
+    }
+  }
+  dailyLimitClick() {
+    if (this.activeBalance && this.activeBalance > 0) {
+      let amount = this.activeBalance;
+      if (+this.activeBalance > +this.dailyLimit) {
+        amount = this.dailyLimit;
+      }
+      this.formAmount.setValue(amount.toString());
+      this.calculateCommission(amount);
+      this.formAmount.updateValueAndValidity();
+      this.formAmount.markAsTouched();
     }
   }
 
-  amountBlur(event) {
-    if (event && this.form.controls['amount'].valid) { this.calculateCommission(this.amountValue); }
+  amountBlur() {
+    if (this.formAmount.valid) {
+      this.calculateCommission(this.formAmount.value);
+    }
   }
 
   calculateCommission(amount) {
@@ -190,15 +181,8 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   selectCurrency(currency) {
     this.form.reset();
     this.activeCrypto = currency;
-    this.currencyDropdownToggle();
     this.getCryptoInfoByName(currency.name);
     this.calculateCommission(0);
-  }
-
-  currencyDropdownToggle() {
-    this.openCurrencyDropdown = !this.openCurrencyDropdown;
-    this.cryptoNames = this.defaultCryptoNames;
-    this.prepareAlphabet();
   }
 
   private initFormWithMemo() {
@@ -208,9 +192,20 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       amount: new FormControl('', [
         Validators.required,
         this.isMaxThenActiveBalance.bind(this),
+        this.isMaxThenDailyLimit.bind(this),
         this.isMinThenMinWithdraw.bind(this),
       ]),
     });
+  }
+
+  get formAmount() {
+    return this.form.controls['amount'];
+  }
+  get formAddress() {
+    return this.form.controls['address'];
+  }
+  get formMemo() {
+    return this.form.controls['memo'];
   }
 
   private getCryptoInfoByName(name: string) {
@@ -221,6 +216,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.cryptoInfoByName = res;
         this.activeBalance = this.cryptoInfoByName.activeBalance;
+        this.dailyLimit = this.cryptoInfoByName.leftDailyWithdrawAmount;
         if (this.cryptoInfoByName.merchantCurrencyData.length) {
           this.isMemo = this.cryptoInfoByName.merchantCurrencyData[0].additionalTagForWithdrawAddressIsUsed;
           this.memoName = this.cryptoInfoByName.merchantCurrencyData[0].additionalFieldName;
@@ -233,38 +229,22 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       });
   }
 
-  private prepareAlphabet() {
-    const temp = [];
-    this.cryptoNames.forEach(currency => {
-      const letter = currency.name.toUpperCase()[0];
-      temp.push(letter);
-    });
-    const unique = (value, index, self) => {
-      return self.indexOf(value) === index;
-    };
-    this.alphabet = _uniq(temp.filter(unique).sort());
-  }
-
-  private isRequired(memo: FormControl) {
-    if (this.isMemo && !memo.value) {
-      return { required: true };
-    }
-    return null;
-  }
-
-  amountInput(event) {
-    this.amountValue = event.target.value;
-  }
-
-  isMaxThenActiveBalance(): { [key: string]: any } | null {
-    if (+this.activeBalance < +this.amountValue) {
+  isMaxThenActiveBalance(control = { value: 0 }): { [key: string]: any } | null {
+    if (+this.activeBalance < +control.value) {
       return { isMaxThenActiveBalance: true };
     }
     return null;
   }
 
-  isMinThenMinWithdraw(): { [key: string]: any } | null {
-    if (+this.minWithdrawSum > +this.amountValue) {
+  isMaxThenDailyLimit(control = { value: 0 }): { [key: string]: any } | null {
+    if (+this.dailyLimit < +control.value) {
+      return { isMaxThenDailyLimit: true };
+    }
+    return null;
+  }
+
+  isMinThenMinWithdraw(control = { value: 0 }): { [key: string]: any } | null {
+    if (+this.minWithdrawSum > +control.value) {
       return { isMinThenMinWithdraw: true };
     }
     return null;
@@ -274,11 +254,8 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     return this.activeCrypto ? this.activeCrypto.name : '';
   }
 
-  trackByAlphabet(index, item) {
-    return item;
+  get isMerchantData() {
+    return this.cryptoInfoByName && this.cryptoInfoByName.merchantCurrencyData.length;
   }
 
-  trackByCryptoNames(index, item) {
-    return item.id;
-  }
 }

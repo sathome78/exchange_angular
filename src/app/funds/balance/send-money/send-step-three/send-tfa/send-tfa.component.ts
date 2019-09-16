@@ -43,6 +43,10 @@ export class SendTfaComponent implements OnInit, OnDestroy {
     this.data.data.tries = this.pincodeTries;
   }
 
+  get formPin() {
+    return this.form.controls['pin'];
+  }
+
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -107,7 +111,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   sendWithdaraw() {
     this.pincodeTries += 1;
     this.data.data.tries = this.pincodeTries;
-    this.data.data.securityCode = this.form.controls['pin'].value;
+    this.data.data.securityCode = this.formPin.value;
     this.loading = true;
     this.balanceService
       .withdrawRequest(this.data.data)
@@ -131,7 +135,7 @@ export class SendTfaComponent implements OnInit, OnDestroy {
   sendTransferInstant() {
     this.pincodeTries += 1;
     this.data.data.tries = this.pincodeTries;
-    this.data.data.pin = this.form.controls['pin'].value;
+    this.data.data.pin = this.formPin.value;
     this.loading = true;
     this.balanceService
       .createTransferInstant(this.data.data)
@@ -154,11 +158,8 @@ export class SendTfaComponent implements OnInit, OnDestroy {
 
   private catchStatus(status: number) {
     switch (status) {
-      case 500:
-        this.message = 'Server error';
-        break;
       case 400:
-        this.form.controls['pin'].patchValue('');
+        this.formPin.patchValue('');
         if (this.pincodeTries === 3) {
           this.pincodeTries = 0;
           this.subtitleMessage =

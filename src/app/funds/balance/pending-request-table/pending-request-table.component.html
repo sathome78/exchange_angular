@@ -28,11 +28,17 @@
         </div>
       </td>
       <td class="table__cell">
-        <img
-          [src]="item.currency | getIconUrl:true"
-          class="select__list-item-icon"
-        >
-        <span>{{item.currency}}</span>
+        <div class="orders__pair-wrap">
+          <div class="orders__pair">
+            <div class="orders__pair-icon">
+              <img
+                [src]="item.currency | getIconUrl:true"
+                onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
+              >
+            </div>
+            <span>{{item.currency}}</span>
+          </div>
+        </div>
       </td>
       <td class="table__cell table__cell--tar">
         <span>{{item.amount | currencyFormat:item.currency}}</span>

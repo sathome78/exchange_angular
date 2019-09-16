@@ -10,9 +10,7 @@ import {
   EventEmitter
 } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import * as jspdf from 'jspdf';
 import * as _uniq from 'lodash/uniq';
-import html2canvas from 'html2canvas';
 import { CurrencyBalanceModel } from 'app/model';
 import { select, Store } from '@ngrx/store';
 import { getFiatCurrenciesForChoose, State } from 'app/core/reducers';
@@ -24,8 +22,6 @@ import { BalanceService } from 'app/funds/services/balance.service';
 import { CommissionData } from 'app/funds/models/commission-data.model';
 import { defaultCommissionData } from 'app/funds/store/reducers/default-values';
 import { FUG } from 'app/funds/balance/balance-constants';
-import * as fundsReducer from 'app/funds/store/reducers/funds.reducer';
-import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
 import fileSaver from 'file-saver';
 import { UtilsService } from 'app/shared/services/utils.service';
 

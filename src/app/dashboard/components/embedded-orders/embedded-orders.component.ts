@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject, Observable, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
-
 import { AbstractDashboardItems } from '../../abstract-dashboard-items';
 import { select, Store } from '@ngrx/store';
 import {
@@ -14,8 +13,9 @@ import {
   getUserInfo
 } from 'app/core/reducers/index';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
-import { UserService } from 'app/shared/services/user.service';
-import { LoadOpenOrdersAction, LoadHistoryOrdersAction } from 'app/dashboard/actions/dashboard.actions';
+import { LoadHistoryOrdersAction, SetHistoryOrdersAction } from 'app/dashboard/actions/dashboard.actions';
+import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
+import { SetOpenOrdersAction } from 'app/orders/store/actions/orders.actions';
 
 @Component({
   selector: 'app-embedded-orders',
@@ -35,7 +35,10 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   public openOrdersCount$: Observable<number>;
   public loading$: Observable<boolean>;
 
-  constructor(private store: Store<State>, private userService: UserService) {
+  constructor(
+    private store: Store<State>,
+    private dashboardService: DashboardWebSocketService
+  ) {
     super();
     this.store
       .pipe(select(getUserInfo))
@@ -57,6 +60,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = pair;
+        this.resetOrders();
         this.toOpenOrders();
         this.toHistory();
       });
@@ -74,26 +78,38 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
     return false;
   }
 
+  resetOrders(): void {
+    this.store.dispatch(
+      new SetOpenOrdersAction({
+        openOrders: [],
+        count: 0,
+      })
+    );
+    this.store.dispatch(
+      new SetHistoryOrdersAction({
+        historyOrders: [],
+        count: 0,
+      })
+    );
+  }
+
   /**
    * switch main tab
    * @param {string} tabName
    */
   toggleMainTab(tabName: string): void {
     this.mainTab = tabName;
-    this.mainTab === 'open' ? this.toOpenOrders() : this.toHistory();
+    if (this.mainTab === 'history') {
+      this.toHistory();
+    }
   }
 
   toOpenOrders(): void {
-    this.store.dispatch(new LoadOpenOrdersAction(this.activeCurrencyPair.id));
+    this.dashboardService.loadOpenOrdersDashboard(this.activeCurrencyPair.name);
   }
 
   toHistory(): void {
     this.store.dispatch(new LoadHistoryOrdersAction(this.activeCurrencyPair.id));
-  }
-
-  refreshOpenOrders() {
-    this.toOpenOrders();
-    this.userService.getUserBalance(this.activeCurrencyPair);
   }
 
   public pairNames(): string[] {

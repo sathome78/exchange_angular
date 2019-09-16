@@ -8,7 +8,8 @@
       </a>
     </div>
     <div class="modal__header-mob">
-      <div class="steps__counter steps__counter--mob">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/2</div>
+      <div class="steps__counter steps__counter--mob">{{'step' | translate}} <span
+          class="steps__counter-val">{{step}}</span>/2</div>
       <div class="modal__header-mob-controls">
         <a class="modal__control-mob" href="#">
           <img class="modal__control-icon" src="../../../../assets/img/learn-blue.svg">
@@ -20,16 +21,18 @@
     </div>
     <div class="modal__header">
       <ul class="steps">
-        <li class="steps__item" [ngClass]="{'steps__item--current': step === 1}"  *ngIf="step > 0">
+        <li class="steps__item" [ngClass]="{'steps__item--current': step === 1}" *ngIf="step > 0">
           <a class="steps__link">
-            <span class="steps__number" [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
+            <span class="steps__number"
+              [ngClass]="{'steps__number--current': step === 1, 'steps__number--valid': step != 1 }">1</span>
             <span class="steps__number-mob-current">1. {{'Country' | translate}}</span>
             <span class="steps__title">{{'Country' | translate}}</span>
           </a>
         </li>
         <li class="steps__item" [ngClass]="{'steps__item--current': step === 2}" *ngIf="step > 1">
           <a class="steps__link">
-            <span class="steps__number" [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }">2</span>
+            <span class="steps__number"
+              [ngClass]="{'steps__number--current': step === 2, 'steps__number--valid': step != 2 }">2</span>
             <span class="steps__number-mob-current">2. {{'Identity' | translate}}</span>
             <span class="steps__title">{{'Identity' | translate}}</span>
           </a>
@@ -37,19 +40,15 @@
       </ul>
       <div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{step}}</span>/2</div>
     </div>
-    <div class="modal__content">
+    <div class="modal__content kyc1">
 
       <div [ngSwitch]="step">
         <div *ngSwitchCase="1">
-          <app-kyc-level1-step-one
-            [verificationStatus]="status$ | async"
-          (goToSecondStep)="goToSecondStep($event)"
-          ></app-kyc-level1-step-one>
+          <app-kyc-level1-step-one [verificationStatus]="status$ | async" (goToSecondStep)="goToSecondStep($event)">
+          </app-kyc-level1-step-one>
         </div>
         <div *ngSwitchCase="2">
-          <app-kyc-level1-step-two
-          [iframeUrl]="iframeUrl"
-          ></app-kyc-level1-step-two>
+          <app-kyc-level1-step-two [iframeUrl]="iframeUrl"></app-kyc-level1-step-two>
         </div>
       </div>
 

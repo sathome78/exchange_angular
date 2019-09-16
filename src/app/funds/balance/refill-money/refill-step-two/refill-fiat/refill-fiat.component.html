@@ -6,12 +6,14 @@
   <h2
     class="title refill__title"
     *ngIf="!submitSuccess"
-  >{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></h2>
-  <form [formGroup]="form">
-    <div
-      class="refill__inputs-wrap"
-      *ngIf="!submitSuccess"
-    >
+  >
+    {{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span>
+  </h2>
+  <form
+    [formGroup]="form"
+    *ngIf="!submitSuccess"
+  >
+    <div class="refill__inputs-wrap">
       <!-- TODO add styles to select--error -->
 
       <div class="select refill__select">
@@ -23,10 +25,12 @@
           <div class="icon-wr">
             <img
               [src]="activeFiat.name | getIconUrl:true"
+              onerror="this.src= 'assets/img/currency-icons/no_icon.svg'"
               class="select__list-item-icon select__list-item-icon--mobile"
             >
             <img
               [src]="activeFiat.name | getIconUrl"
+              onerror="this.src= 'assets/img/currency-icons/no_icon.svg'"
               class="select__list-item-icon select__list-item-icon--destop"
             >
           </div>
@@ -48,6 +52,7 @@
             <div class="icon-wr">
               <img
                 [src]="currency.name | getIconUrl"
+                onerror="this.src= 'assets/img/currency-icons/no_icon.svg'"
                 class="select__list-item-icon"
               >
             </div>
@@ -65,10 +70,13 @@
           class="select__value select__value--active"
           (click)="togglePaymentSystemDropdown()"
         >
-          <img
-            [src]="selectMerchantName | getIconUrl"
-            class="select__list-item-icon"
-          >
+          <div class="icon-wr">
+            <img
+              [src]="selectMerchantName | getIconUrl"
+              onerror="this.src= 'assets/img/currency-icons/no_icon.svg'"
+              class="select__list-item-icon"
+            >
+          </div>
           {{selectMerchantName}}
         </div>
         <div class="select__label">{{'Payment system' | translate}}</div>
@@ -97,7 +105,14 @@
                 <path
                   fill-rule="evenodd"
                   clip-rule="evenodd"
-                  d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"
+                  d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1
+                  4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293
+                  13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0
+                  8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293
+                  15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207
+                  17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188
+                  17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465
+                  17.8535L13.293 13.999Z"
                 />
               </svg>
             </div>
@@ -113,10 +128,14 @@
                 *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
                 (click)="selectMerchant(merchant, nested)"
               >
-                <img
-                  [src]="nested.image_name | getIconUrl"
-                  class="select__list-item-icon"
-                >
+                <div class="icon-wr">
+                  <img
+                    [src]="nested.image_name | getIconUrl"
+                    onerror="this.src='assets/img/currency-icons/no_icon.svg'"
+                    class="select__list-item-icon"
+                  >
+                </div>
+
                 {{nested.image_name}}
               </li>
             </ng-template>
@@ -126,50 +145,80 @@
 
       <div
         class="wrap-input refill__wrap-input"
-        *ngIf="selectedMerchant"
+        *ngIf="selectedMerchant && !isQIWI"
         [ngClass]="{'wrap-input--error': !form.valid && isSubmited}"
       >
-
         <app-price-input
           [placeholder]="'Amount'"
           formControlName="amount"
           name="amount"
           class="fiat-amount"
-        >
-
-        </app-price-input>
+          (customBlur)="amountBlur()"
+        ></app-price-input>
 
         <div class="wrap-input__message--show">
-          <span *ngIf="!form.valid">
-            {{'Min. sum for deposit' | translate}} {{+(minRefillSum || 0) | roundCurrency: 'USD' | formatCurrency: 'short': 'USD'}}
+          <span>
+            {{'Min. sum for deposit' | translate}} {{minRefillSum | currencyFormat: 'USD'}}
             {{activeFiat ? activeFiat.name : ''}}
           </span>
         </div>
-
-        <!--Input error section starts-->
-        <div
-          class="input-hint-wrapper"
-          *ngIf="!form.valid && isSubmited"
-        >
-          <span class="wrap-input__message">
-            {{'Should be at least' | translate}} {{+(minRefillSum || 0) | roundCurrency: 'USD' | formatCurrency: 'short': 'USD'}}
-          </span>
-        </div>
-        <!--Input error section ends-->
       </div>
 
       <div
-        class="refill__closed-error"
-        *ngIf="fiatDataByName && !selectedMerchant"
+        class="input-hint-wrapper"
+        *ngIf="!form.valid && isSubmited"
       >
-        {{'Sorry, refill is closed for current moment!' | translate}}
+        <span class="wrap-input__message">
+          {{'Should be at least' | translate}} {{minRefillSum | currencyFormat: 'USD'}}
+        </span>
       </div>
-
     </div>
   </form>
+  <ng-container *ngIf="!submitSuccess && !isQIWI">
+    <div class="send__line"></div>
+
+    <ng-container>
+      <div class="send__info">
+        <div class="send__info-row">
+          <div class="send__info-title">{{'You want to refill:' | translate}}</div>
+          <div class="send__info-value">
+            {{calculateData.amount | currencyFormat: 'USD'}} {{activeFiat.name}}
+          </div>
+        </div>
+        <div class="send__info-row">
+          <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
+          <div class="send__info-value">{{calculateData.companyCommissionRate}} = {{calculateData.companyCommissionAmount}}
+            {{activeFiat.name}}
+          </div>
+        </div>
+        <div class="send__info-row">
+          <div class="send__info-title">{{'Total comission:' | translate}}</div>
+          <div class="send__info-value">{{calculateData.commission_rates_sum}}% = {{calculateData.totalCommissionAmount}}
+            {{activeFiat.name}}
+          </div>
+        </div>
+        <div class="send__info-row">
+          <div class="send__info-title">{{'Total with comission:' | translate}}</div>
+          <div class="send__info-value">{{calculateData.resultAmount}} {{activeFiat.name}}</div>
+        </div>
+      </div>
+
+      <button
+        class="btn btn--center"
+        *ngIf="!submitSuccess && selectedMerchant"
+        (click)="submitRefill()"
+        [disabled]="!form.valid || !selectedMerchant.name || loading"
+      >
+        {{'Refill' | translate}}
+      </button>
+    </ng-container>
+
+    <div class="send__line"></div>
+  </ng-container>
+
   <button
     class="btn btn--center"
-    *ngIf="!submitSuccess && selectedMerchant"
+    *ngIf="!submitSuccess && selectedMerchant && isQIWI"
     (click)="submitRefill()"
     [disabled]="!form.valid || !selectedMerchant.name || loading"
   >
@@ -181,62 +230,143 @@
     class="refill__fiat-successful"
     *ngIf="submitSuccess"
   >
-    <div class="refill__fiat-successful-icon">
-      <svg
-        width="60"
-        height="60"
-        viewBox="0 0 60 60"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle
-          cx="30"
-          cy="30"
-          r="29"
-          fill="transparent"
-          stroke="#237BEF"
-          stroke-width="2"
-        />
-        <path
-          d="M44.5753 19.4247C44.0091 18.8584 43.091 18.8584 42.5247 19.4247L25.1528 36.7968L18.4753 30.1193C17.9091 29.553 16.9911 29.5531 16.4247 30.1193C15.8584 30.6855 15.8584 31.6036 16.4247 32.1699L24.1275 39.8725C24.6936 40.4388 25.6123 40.4384 26.1781 39.8725L44.5753 21.4753C45.1416 20.9091 45.1415 19.991 44.5753 19.4247Z"
-          fill="#237BEF"
-        />
-      </svg>
-    </div>
-    <div class="title refill__fiat-successful-title">{{'Request was created!' | translate}}</div>
-    <div class="subtitle refill__fiat-successful-subtitle">
-      {{'Please go to' | translate}}
-      <a
-        class="standart-link"
-        #redirectionLink
-        href="{{redirectionUrl}}"
-        (click)="hideSend()"
-      >{{selectMerchantName}}</a>
-      {{'to make a payment' | translate}}
-      <b>{{refillData.params.ok_item_1_price}} {{refillData.params.ok_currency}}</b>
-    </div>
-    <div class="subtitle refill__fiat-successful-subtitle">
-      {{'You can track the progress in history section on' | translate}} <a
-        class="standart-link"
-        (click)="goToBalances()"
-      >{{'funds' | translate}}</a> {{'page' | translate}}
-    </div>
-
-    <form
-      name="hideForm"
-      method="post"
-      [action]="refillData.redirectionUrl"
-      target="_blank"
-      rel="nofollow noopener noreferrer"
-      *ngIf="refillData"
+    <div
+      [ngSwitch]="selectMerchantName"
+      [class]="'refill-' + selectMerchantName"
     >
-      <input
-        type="hidden"
-        [name]="key"
-        [value]="refillData.params[key]"
-        *ngFor="let key of refillData.params | keys"
-      >
-    </form>
+      <ng-container *ngSwitchCase="'QIWI'">
+        <h2 class="title refill__title">{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></h2>
+        <div class="refill__crypto-refill-info">
+          <div class="refill__qr-code">
+            <qr-code
+              [value]="qiwiResData.address"
+              *ngIf="qiwiResData.address"
+              [size]="150"
+            ></qr-code>
+          </div>
+          <div>
+            <div
+              class="refill__crypto-address"
+              *ngIf="qiwiResData.address"
+            >
+              <h6 class="refill__crypto-title"><span>{{activeFiat?.name}}</span>
+                {{'address' | translate}}</h6>
+              <div class="refill__crypto-hash">{{qiwiResData.address}}</div>
+              <button
+                class="btn btn--small btn--empty-blue refill__crypto-copy-btn"
+                *ngIf="!isShowCopyAddress"
+                (click)="copyToBuffer(qiwiResData.address, 'Copy address')"
+              >
+                {{'Copy address' | translate}}
+              </button>
+              <button
+                class="btn btn--small btn--empty-blue refill__crypto-copy-btn"
+                *ngIf="isShowCopyAddress"
+              >
+                {{'Copied' | translate}}
+              </button>
+            </div>
+            <div
+              class="refill__crypto-memo"
+              *ngIf="qiwiResData.memo"
+            >
+              <h6 class="refill__crypto-title">{{qiwiResData.additionalFieldName}}</h6>
+              <div class="refill__crypto-hash">{{qiwiResData.memo}}</div>
+              <button
+                class="btn btn--small btn--empty-blue refill__crypto-copy-btn"
+                *ngIf="!isShowCopyMemoId"
+                (click)="copyToBuffer(qiwiResData.memo, 'Copy id')"
+              >
+                {{'Copy id' | translate}}
+              </button>
+              <button
+                class="btn btn--small btn--empty-blue refill__crypto-copy-btn"
+                *ngIf="isShowCopyMemoId"
+              >{{'Copied' | translate}}</button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'CoinPay(Privat24)'">
+        <app-refill-coin-pay
+          [selectMerchantName]="selectMerchantName"
+          [refillData]="refillData"
+          [redirectionUrl]="redirectionUrl"
+          (goToBalances)="goToBalances()"
+        >
+        </app-refill-coin-pay>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <div class="refill__fiat-successful-icon">
+          <svg
+            width="60"
+            height="60"
+            viewBox="0 0 60 60"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="30"
+              cy="30"
+              r="29"
+              fill="transparent"
+              stroke="#237BEF"
+              stroke-width="2"
+            />
+            <path
+              d="M44.5753 19.4247C44.0091 18.8584 43.091 18.8584 42.5247
+                  19.4247L25.1528 36.7968L18.4753 30.1193C17.9091 29.553 16.9911
+                  29.5531 16.4247 30.1193C15.8584 30.6855 15.8584 31.6036
+                  16.4247 32.1699L24.1275 39.8725C24.6936 40.4388 25.6123
+                  40.4384 26.1781 39.8725L44.5753 21.4753C45.1416 20.9091
+                  45.1415 19.991 44.5753 19.4247Z"
+              fill="#237BEF"
+            />
+          </svg>
+        </div>
+        <div class="title refill__fiat-successful-title">{{'Request was created!' | translate}}</div>
+        <div class="subtitle refill__fiat-successful-subtitle">
+          {{'Please go to' | translate}}
+          <a
+            class="standart-link"
+            #redirectionLink
+            href="{{redirectionUrl}}"
+            (click)="hideSend()"
+          >
+            {{selectMerchantName}}
+          </a>
+          {{'to make a payment' | translate}}
+          <b>{{refillData.params.ok_item_1_price}} {{refillData.params.ok_currency}}</b>
+        </div>
+        <div class="subtitle refill__fiat-successful-subtitle">
+          {{'You can track the progress in history section on' | translate}}
+          <a
+            class="standart-link"
+            (click)="goToBalances()"
+          >
+            {{'funds' | translate}}
+          </a>
+          {{'page' | translate}}
+        </div>
+
+        <form
+          name="hideForm"
+          method="post"
+          [action]="refillData.redirectionUrl"
+          target="_blank"
+          rel="nofollow noopener noreferrer"
+          *ngIf="refillData"
+        >
+          <input
+            type="hidden"
+            [name]="key"
+            [value]="refillData.params[key]"
+            *ngFor="let key of refillData.params | keys"
+          >
+        </form>
+      </ng-container>
+    </div>
 
   </div>
 
@@ -248,9 +378,36 @@
         <a
           class="standart-link"
           href="https://support.exrates.me/article/fees-pairs"
+          target="_blank"
+          rel="nofollow noopener noreferrer"
         >
           https://support.exrates.me/article/fees-pairs
         </a>
+      </li>
+      <li
+        class="note__list-item"
+        *ngIf="isQIWI"
+      >
+        {{'Deposit coins/tokens ONLY to this address. Depositing tokens to addresses other than RUB will result in your funds being lost.' | translate}}
+      </li>
+      <li
+        class="note__list-item"
+        *ngIf="isQIWI"
+      >
+        <span>{{'Go to' | translate}} </span>
+        <a
+          class="standart-link"
+          href="https://qiwi.com"
+          target="_blank"
+          rel="nofollow noopener noreferrer"
+        >
+          https://qiwi.com
+        </a>
+        <span>{{'website and send funds to the current address.' | translate}}</span>
+        <span style="font-weight: 600">{{' Warning! ' | translate}}</span>
+        <span>{{'don’t forget to specify ' | translate}}</span>
+        <span style="font-weight: 600">{{'memo ' | translate}}</span>
+        <span>{{'in the comment to transaction , otherwise - money will not be credited!' | translate}}</span>
       </li>
       <li class="note__list-item">
         {{'We have good news for you! It’s more then 24 currencies available for deposit right now:' | translate}}

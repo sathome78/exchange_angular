@@ -28,9 +28,7 @@ export class GetIconUrl implements PipeTransform {
       case 'LiqPay':
       case 'Invoice':
       case 'Interkassa':
-      case 'QIWI':
       case 'Mir Payment':
-      case 'Yandex Money':
       case 'Alfaclick Payment':
       // case 'Qubera':
       case 'DIM.EUR':

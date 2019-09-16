@@ -87,6 +87,12 @@
     margin-right: 4px;
   }
   &__price{
+    &--up {
+      color: $green;
+    }
+    &--down {
+      color: $red;
+    }
   }
   &__item{
     display: none;
