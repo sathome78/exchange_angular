@@ -13,6 +13,8 @@ import { Store } from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as coreActions from '../../core/actions/core.actions';
 import { GtagService } from '../../shared/services/gtag.service';
+import { ToastrService } from 'ngx-toastr';
+import { TopNotificationComponent } from '../notifications-list/top-notification/top-notification.component';
 
 @Component({
   selector: 'app-final-registration',
@@ -31,6 +33,7 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
   confirmPass;
   message: string;
   loading = false;
+  private toastOption;
 
   constructor(
     private router: Router,
@@ -40,11 +43,13 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
     private utilsService: UtilsService,
     private location: Location,
     private store: Store<fromCore.State>,
+    private toastr: ToastrService,
     private translateService: TranslateService,
     private gtagService: GtagService
   ) {}
 
   ngOnInit() {
+    this.toastOption = this.toastr.toastrConfig;
     this.token = this.activatedRoute.snapshot.queryParamMap.get('t');
     this.needVerification = this.activatedRoute.snapshot.queryParamMap.get('needVerification') === 'true';
     this.initForm();
@@ -87,6 +92,7 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
             this.store.dispatch(new coreActions.SetOnLoginAction(parsedToken));
             if (this.needVerification) {
               this.router.navigate(['/settings/verification']);
+              this.showNotificationToVerify();
             } else {
               this.router.navigate(['/funds/balances']);
             }
@@ -164,5 +170,12 @@ export class FinalRegistrationComponent implements OnInit, OnDestroy {
 
   private encryptPass(pass: string): string {
     return this.utilsService.encodePassword(pass, environment.encodeKey);
+  }
+
+  showNotificationToVerify() {
+    this.toastOption.toastComponent = TopNotificationComponent;
+    this.toastOption.disableTimeOut = true;
+    this.toastOption.tapToDismiss = true;
+    this.toastr.info('Please verify your account before make trading', 'INFORMATION', this.toastOption);
   }
 }
