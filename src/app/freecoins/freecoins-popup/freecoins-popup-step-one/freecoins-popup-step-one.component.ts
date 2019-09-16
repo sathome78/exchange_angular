@@ -136,7 +136,11 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
       this.formPeriod.reset();
       this.formPeriod.disable();
     } else {
-      this.formPeriod.setValidators([Validators.required, this.minPeriodCheck.bind(this)]);
+      this.formPeriod.setValidators([
+        Validators.required,
+        this.minPeriodCheck.bind(this),
+        this.maxPeriodCheck.bind(this)
+      ]);
       this.formPeriod.enable();
     }
   }
