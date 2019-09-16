@@ -774,7 +774,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private createOrderSuccess() {
-    this.dashboardService.loadOpenOrdersDashboard(this.currentPair.name);
     this.userService.getUserBalance(this.currentPair);
     this.notifySuccess = true;
     this.loading = false;
