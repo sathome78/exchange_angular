@@ -415,3 +415,55 @@
   </div>
 </div>
 <!--notif error end-->
+<!--notif restricted error stat-->
+<div
+  class="trading-notification trading-notification--error"
+  *ngIf="notifyFailRestricted"
+>
+  <div
+    class="trading-notification__close"
+    (click)="notifyFailRestricted = false"
+  >
+    <svg
+      width="8"
+      height="8"
+      viewBox="0 0 8 8"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M7.35355 1.35355C7.54882 1.15829 7.54882 0.841709 7.35355 0.646447C7.15829 0.451184 6.84171 0.451184 6.64645 0.646447L7.35355 1.35355ZM0.646447 6.64645C0.451184 6.84171 0.451184 7.15829 0.646447 7.35355C0.841709 7.54882 1.15829 7.54882 1.35355 7.35355L0.646447 6.64645ZM1.35355 0.646447C1.15829 0.451184 0.841709 0.451184 0.646447 0.646447C0.451184 0.841709 0.451184 1.15829 0.646447 1.35355L1.35355 0.646447ZM6.64645 7.35355C6.84171 7.54882 7.15829 7.54882 7.35355 7.35355C7.54882 7.15829 7.54882 6.84171 7.35355 6.64645L6.64645 7.35355ZM6.64645 0.646447L0.646447 6.64645L1.35355 7.35355L7.35355 1.35355L6.64645 0.646447ZM0.646447 1.35355L6.64645 7.35355L7.35355 6.64645L1.35355 0.646447L0.646447 1.35355Z"
+      />
+    </svg>
+  </div>
+  <div class="trading-notification__content">
+    <div class="trading-notification__icon trading-notification__icon--error">
+      <svg
+        viewBox="0 0 37 37"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          class="icon-circle"
+          cx="18.5"
+          cy="18.5"
+          r="17.5"
+          stroke-width="2"
+        />
+        <path
+          class="icon-center"
+          d="M11.729 10.3155C11.351 9.91289 10.7182 9.89294 10.3155 10.271C9.91289 10.649 9.89294 11.2818 10.271 11.6845L11.729 10.3155ZM25.2709 27.6608C25.649 28.0634 26.2818 28.0834 26.6845 27.7054C27.0871 27.3273 27.107 26.6945 26.729 26.2919L25.2709 27.6608ZM26.729 11.6845C27.1071 11.2818 27.0871 10.649 26.6845 10.271C26.2818 9.89294 25.649 9.91289 25.271 10.3155L26.729 11.6845ZM10.271 26.2919C9.89297 26.6945 9.91292 27.3273 10.3155 27.7054C10.7182 28.0834 11.351 28.0634 11.7291 27.6608L10.271 26.2919ZM10.271 11.6845L17.771 19.6727L19.229 18.3037L11.729 10.3155L10.271 11.6845ZM17.771 19.6727L25.2709 27.6608L26.729 26.2919L19.229 18.3037L17.771 19.6727ZM25.271 10.3155L17.771 18.3037L19.229 19.6727L26.729 11.6845L25.271 10.3155ZM17.771 18.3037L10.271 26.2919L11.7291 27.6608L19.229 19.6727L17.771 18.3037Z"
+        />
+      </svg>
+    </div>
+    <div class="trading-notification__text">
+      <div> {{'You are not allowed to trade this pair. You should proceed KYC!' | translate}}</div>
+      <button
+        class="btn btn--empty-blue btn--small btn-margin"
+        (click)="redirectToVerification()"
+      ><span class="menu__link-text">{{'Proceed KYC' | translate}}</span>
+      </button>
+    </div>
+  </div>
+</div>
+<!--notif restricted error end-->
