@@ -99,6 +99,7 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
 
   getDataByCurrency(activeCurrency) {
     const type = this.utilsService.isFiat(activeCurrency.name) ? 'FIAT' : 'CRYPTO';
+    this.form.reset();
     this.freecoinsService
       .getBalanceByName(activeCurrency.id, type)
       .pipe(takeUntil(this.ngUnsubscribe))
