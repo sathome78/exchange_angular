@@ -28,6 +28,7 @@ import { BUY, orderBaseType, SELL } from 'app/shared/constants';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { messages } from '../../constants';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-trading-mobile',
@@ -64,6 +65,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   public ordersBookBuyOrders: OrderItemOB[] = [];
   public notifySuccess = false;
   public notifyFail = false;
+  public notifyFailRestricted = false;
   public message = '';
   public errorMessages = [];
   public order;
@@ -110,6 +112,7 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     private userService: UserService,
     private cdr: ChangeDetectorRef,
     private utilsService: UtilsService,
+    private router: Router,
     public translateService: TranslateService
   ) {
     super();
@@ -766,6 +769,9 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   }
 
   private createOrderFail() {
+    if (this.notifyFailRestricted) {
+      return;
+    }
     this.notifyFail = true;
     this.loading = false;
     this.cdr.detectChanges();
@@ -776,6 +782,12 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     }, 5000);
   }
 
+  private createOrderRestrictedFail() {
+    this.notifyFailRestricted = true;
+    this.loading = false;
+    this.cdr.detectChanges();
+  }
+
   private checkErrorCode(err) {
     this.errorMessages = [];
     if (err.status === 406) {
@@ -783,6 +795,10 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
         const errors = err.error.validationResults.errors;
         const errorParams = err.error.validationResults.errorParams;
         this.defineMessage(errors, errorParams);
+      }
+    } else if (err.status === 451) {
+      if (err.error.errorCode === 'ORDER_CREATION_RESTRICTED') {
+        this.createOrderRestrictedFail();
       }
     } else if (err.error.cause === 'OpenApiException') {
       this.errorMessages.push(err.error.detail);
@@ -914,5 +930,9 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       }
       return null;
     };
+  }
+
+  redirectToVerification() {
+    this.router.navigate(['settings/verification']);
   }
 }
