@@ -817,7 +817,10 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         this.defineMessage(errors, errorParams);
       }
     } else if (err.status === 451) {
-      if (err.error.errorCode === 'ORDER_CREATION_RESTRICTED') {
+      if (
+        err.error.errorCode === 'ORDER_CREATION_RESTRICTED' ||
+        err.error.errorCode === 'NEED_VERIFICATION_EXCEPTION'
+      ) {
         this.createOrderRestrictedFail();
       }
     } else if (err.error.cause === 'OpenApiException') {
