@@ -109,15 +109,19 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const data = new GAFreeCoinsReqModel(
-      this.activeCurrency.name,
-      this.formAmount.value,
-      this.formPrize.value,
-      this.formOneTime.value,
-      this.formPeriod.value,
-      null
-    );
-    this.submitForm.emit(data);
+    this.form.markAsTouched();
+    this.form.updateValueAndValidity();
+    if (this.form.valid) {
+      const data = new GAFreeCoinsReqModel(
+        this.activeCurrency.name,
+        this.formAmount.value,
+        this.formPrize.value,
+        this.formOneTime.value,
+        this.formPeriod.value,
+        null
+      );
+      this.submitForm.emit(data);
+    }
   }
 
   onInputAmount(e) {
