@@ -2,7 +2,8 @@
   class="ieo-notifications active"
   [ngClass]="{
     'success': title === 'SUCCESS',
-    'error': title === 'ERROR' || title === 'WARNING',
+    'error': title === 'ERROR',
+    'warning': title === 'WARNING',
     'info': title === 'INFORMATION' || title === 'ALERT'
   }"
   id="ieo-notification"

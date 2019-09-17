@@ -171,7 +171,7 @@ export class UserService {
   }
 
   sendToEmailForRecovery(email: string) {
-    const data = { email };
+    const data = { email, isUsa: false };
     return this.http
       .post<TokenHolder>(this.getUrl('users/password/recovery/reset'), data, { observe: 'response' })
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
