@@ -220,6 +220,7 @@
               class="wrap-input__input"
               type="text"
               formControlName="pin"
+              inputmode="numeric"
               [ngClass]="{'wrap-input__input--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}"
             >
             <label
