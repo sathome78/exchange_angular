@@ -17,6 +17,12 @@
         display: block;
       }
     }
+    &.warning{
+      background: #FE9B00;
+      .ieo-warning{
+        display: block;
+      }
+    }
     &.info{
       background: rgb(87, 150, 231);
       .ieo-info{
