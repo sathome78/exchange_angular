@@ -11,7 +11,6 @@ import { SimpleCurrencyPair } from '../../../../model/simple-currency-pair';
 })
 export class EmbeddedOpenOrdersMobileComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  @Output() refreshOpenOrders: EventEmitter<boolean> = new EventEmitter();
   @Input() openOrders = [];
   @Input() currentPair: SimpleCurrencyPair;
   public selectedOrder = null;
@@ -38,7 +37,6 @@ export class EmbeddedOpenOrdersMobileComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         res => {
-          this.refreshOpenOrders.emit(true);
           this.loading = false;
         },
         err => {

@@ -28,7 +28,6 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
   public maxPeriod = 10080;
   public coinsSettings: {[key: string]: GAFreeCoinsSettingsModel};
   public isSubmited = false;
-  public inputAmount = null;
 
   constructor(
     private store: Store<State>,
@@ -47,6 +46,14 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
           this.currencies = currencies;
           this.activeCurrency = currencies[0];
           this.getDataByCurrency(this.activeCurrency);
+        }
+      });
+
+    this.formAmount.valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        if (this.formPrize.value) {
+          this.formPrize.updateValueAndValidity();
         }
       });
   }
@@ -92,6 +99,7 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
 
   getDataByCurrency(activeCurrency) {
     const type = this.utilsService.isFiat(activeCurrency.name) ? 'FIAT' : 'CRYPTO';
+    this.form.reset();
     this.freecoinsService
       .getBalanceByName(activeCurrency.id, type)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -103,25 +111,24 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
   balanceClick() {
     if (this.activeBalance > +this.minAmount) {
       this.formAmount.setValue(this.utilsService.currencyFormat(this.activeBalance));
-      this.inputAmount = this.activeBalance;
       this.formAmount.markAsTouched();
     }
   }
 
   onSubmit() {
-    const data = new GAFreeCoinsReqModel(
-      this.activeCurrency.name,
-      this.formAmount.value,
-      this.formPrize.value,
-      this.formOneTime.value,
-      this.formPeriod.value,
-      null
-    );
-    this.submitForm.emit(data);
-  }
-
-  onInputAmount(e) {
-    this.inputAmount = e.target.value;
+    this.form.markAsTouched();
+    this.form.updateValueAndValidity();
+    if (this.form.valid) {
+      const data = new GAFreeCoinsReqModel(
+        this.activeCurrency.name,
+        this.formAmount.value,
+        this.formPrize.value,
+        this.formOneTime.value,
+        this.formPeriod.value,
+        null
+      );
+      this.submitForm.emit(data);
+    }
   }
 
   onCheckeOneTime(e) {
@@ -130,7 +137,11 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
       this.formPeriod.reset();
       this.formPeriod.disable();
     } else {
-      this.formPeriod.setValidators([Validators.required, this.minPeriodCheck.bind(this)]);
+      this.formPeriod.setValidators([
+        Validators.required,
+        this.minPeriodCheck.bind(this),
+        this.maxPeriodCheck.bind(this)
+      ]);
       this.formPeriod.enable();
     }
   }
@@ -181,7 +192,7 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
     return null;
   }
   private maxPrizeCheck(control: FormControl) {
-    if ((this.inputAmount || 0) < (+control.value ? +control.value : 0)) {
+    if (this.maxPrize < (+control.value ? +control.value : 0)) {
       return { maxPrize: true };
     }
     return null;
@@ -209,6 +220,13 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
       return params ? +params.min_partial_amount || this._minPrize : this._minPrize;
     }
     return this._minPrize;
+  }
+
+  get maxPrize() {
+    if (this.form) {
+      return this.formAmount.value;
+    }
+    return 0;
   }
 
 }

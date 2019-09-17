@@ -92,7 +92,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   }
 
   resolvedCaptcha(event) {
-    const email = this.formEmailGetter.value;
+    const email = this.formEmailGetter.value.trim();
     const isUsa = this.formIsUsaGetter.value;
     this.loading = true;
     this.userService
