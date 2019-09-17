@@ -16,7 +16,6 @@ import { PopupService } from 'app/shared/services/popup.service';
 export class FreecoinsComponent implements OnInit, OnDestroy {
   public showFreeCoinsPopup = false;
   public showFreeCoinsCaptcha = false;
-
   public freecoinId: string | number;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public freecoinsList: GAFreeCoinsPublicResModel[] = [];
@@ -100,6 +99,10 @@ export class FreecoinsComponent implements OnInit, OnDestroy {
             ...this.freecoinsState,
             [res.giveaway_id]: res,
           };
+        }, err => {
+          if (err.error.title === 'FREE_COINS_RECEIVE_PROCESS_FAILED') {
+            this.refreshCoins();
+          }
         });
     }
   }
