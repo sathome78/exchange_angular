@@ -6,8 +6,10 @@ ARG APP_PATH=/webapp/
 ARG ENVIRONMENT
 ARG PROFILE
 
+#RUN apk update && apk upgrade && \
+#  apk add build-base  curl dpkg python2
 RUN apk update && apk upgrade && \
-  apk add build-base  curl dpkg python2
+    apk add --no-cache git curl dpkg g++ gcc libgcc libstdc++ linux-headers make python
 
 WORKDIR ${APP_PATH}
 
@@ -23,7 +25,8 @@ EXPOSE 80
 ##CMD /etc/init.d/filebeat start
 
 ## Build the angular app in production mode and store the artifacts in dist folder
-RUN $(npm bin)/ng build --aot -c $PROFILE
+#RUN $(npm bin)/ng build --aot -c $PROFILE
+RUN $(npm bin)/ng build --aot -c $ENVIRONMENT
 
 ### STAGE 2: Setup ###
 
