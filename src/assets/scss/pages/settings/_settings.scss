@@ -7,6 +7,7 @@
   width: 100%;
   flex-direction: column;
   justify-content: space-between;
+
   /*--- elements start ---*/
   &__sidebar {
     order: 2;
@@ -50,29 +51,37 @@
     max-width: 600px;
     margin: 0 auto;
   }
+
   &__time-range {
     max-width: 540px;
     margin: 0 auto;
+
     .ng5-slider {
       margin-top: 16px;
+
       .ng5-slider-bar {
         height: 1px;
         background-color: $darker-white;
       }
+
       .ng5-slider-selection {
         background-color: $darker-blue;
       }
+
       .ng5-slider-ceil {
         bottom: 16px;
         color: $grey;
       }
+
       .ng5-slider-floor {
         bottom: 16px;
         color: $grey;
       }
+
       .ng5-slider-model-value {
         color: $darker-blue;
       }
+
       .ng5-slider-pointer {
         width: 22px;
         height: 22px;
@@ -82,6 +91,7 @@
         -moz-border-radius: 50%;
         border-radius: 50%;
         box-shadow: 0 0 1px rgba(0, 0, 0, .3);
+
         &:after {
           background-color: $darker-blue;
           width: 12px;
@@ -92,13 +102,16 @@
           -moz-border-radius: 50%;
           border-radius: 50%;
         }
+
         &:hover {
           &:after {
             background-color: $darker-blue;
           }
         }
+
         &:focus {
           outline: none;
+
           &:after {
             background-color: $darker-blue;
           }
@@ -106,6 +119,7 @@
       }
     }
   }
+
   &__form-row {
     display: -webkit-flex;
     display: -ms-flex;
@@ -130,9 +144,8 @@
 
   &__form-btn {
     margin: 0 auto;
-    &--active{
 
-    }
+    &--active {}
   }
 
   &__note {
@@ -161,6 +174,7 @@
       color: $darker-blue;
     }
   }
+
   /*--- elements end ---*/
   /*--- modificators start ---*/
   /*--- modificators end ---*/
@@ -171,8 +185,8 @@
   .settings {
     padding-left: 0;
     padding-right: 0;
-    &__note {
-    }
+
+    &__note {}
   }
 }
 
@@ -222,10 +236,13 @@
       max-width: none;
       margin-left: 0;
     }
+
     &__time-range {
       margin-left: 0;
+
       .ng5-slider {
         margin-top: 8px;
+
         &:before {
           content: "";
           position: absolute;
@@ -235,6 +252,7 @@
           height: 5px;
           background-color: $darker-blue;
         }
+
         &:after {
           content: "";
           position: absolute;
@@ -244,11 +262,14 @@
           height: 5px;
           background-color: $darker-white;
         }
-        .ng5-slider-ceil, .ng5-slider-floor {
+
+        .ng5-slider-ceil,
+        .ng5-slider-floor {
           bottom: -20px;
         }
       }
     }
+
     &__form-row {
       flex-direction: row;
 
@@ -264,14 +285,17 @@
       margin-left: 20px;
       margin-top: 20px;
     }
-    &__password-btn{
+
+    &__password-btn {
       background-color: transparent;
       border: 1px solid #237BEF;
     }
+
     &__form-btn {
       margin-left: 0;
-      &--active{
-            background-color: #237BEF;
+
+      &--active {
+        background-color: #237BEF;
       }
     }
 
@@ -300,29 +324,37 @@
 .dark-theme {
   .settings {
 
-    &__password-btn{
+    &__password-btn {
       background-color: transparent;
       border: 1px solid #237BEF;
     }
+
     &__form-btn {
-      &--active{
-            background-color: #237BEF;
+      &--active {
+        background-color: #237BEF;
       }
     }
+
     &__sidebar {
       border-color: #24253F;
     }
+
     &__toggler-text {
       color: $light-blue;
     }
+
     &__time-range {
       .ng5-slider {
         &:before {
           background-color: $light-blue;
         }
-        .ng5-slider-ceil, .ng5-slider-floor, .ng5-slider-model-value {
+
+        .ng5-slider-ceil,
+        .ng5-slider-floor,
+        .ng5-slider-model-value {
           color: $light-blue;
         }
+
         .ng5-slider-selection {
           background-color: $light-blue;
         }
@@ -330,3 +362,86 @@
     }
   }
 }
+
+.session-tab {
+  @media(min-width: 1200px) {
+    padding: 32px 0 32px 32px;
+  }
+  .table__row:nth-of-type(odd) .additional-mobile{
+    background-color: #191f42;
+  }
+  
+  .table__row:nth-of-type(even) .additional-mobile{
+    background-color: #191A39;
+
+  }
+  .table__row:nth-of-type(even){
+    &:hover{
+      background-color: #191A39;
+    }
+  }
+  .table__row:nth-of-type(odd){
+    &:hover{
+      background-color: #191f42;
+    }
+  }
+  padding: 16px 12px 42px;
+  .row-type{
+    font-weight: 400;
+    color: #8C8C9C;
+  }
+}
+
+.session-history-table {
+  margin-top: 17px;
+  display: table;
+  .table__row{
+    display:table-row;
+    position: relative;
+  }
+  .table__cell {
+    padding: 14px 10px;
+    position: relative;
+    @media(max-width: 992px){
+      display: flex;
+    justify-content: space-between;
+    }
+  }
+.additional-mobile{
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  transition: .3s;
+  border-bottom: 1px solid #ECECEC;
+  z-index: 4;
+  padding-bottom: 12px;
+  &.active{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  @media(max-width: 640px){
+    display: block;
+  }
+  .ip-wr{
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .date-wr{
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+}
+.destop-content{
+  @media(max-width: 640px){
+    display: none;
+  }
+}
+}
+
