@@ -100,6 +100,10 @@ export class FreecoinsComponent implements OnInit, OnDestroy {
             ...this.freecoinsState,
             [res.giveaway_id]: res,
           };
+        }, err => {
+          if (err.error.title === 'FREE_COINS_RECEIVE_PROCESS_FAILED') {
+            this.refreshCoins();
+          }
         });
     }
   }
