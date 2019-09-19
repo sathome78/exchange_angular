@@ -83,6 +83,7 @@
           <td class="table__cell">
             <div class="button-cont">
               <button
+                [disabled]="(fc.id === +freecoinId) && loading"
                 *ngIf="!((freecoinsState[fc.id] | freecoinStatePipe: 'last_received' | disableGetCoin: fc.time_range | async) ||
                   fc.single && (freecoinsState[fc.id] | freecoinStatePipe: 'received'))"
                 class="btn btn--center btn--empty-blue btn--small btn--hidden"
