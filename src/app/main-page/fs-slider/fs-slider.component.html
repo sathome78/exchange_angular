@@ -1,15 +1,52 @@
 <div class="fs-slider-container">
-  <div class="slider-item">
-    <div class="bg-wr">
-      <img src="assets/img/fs-sl1.jpg" alt="">
-    </div>
-    <div class="slide-txt">
-      <div class="txt-inner">
-        <h2><span>172,000 </span>трейдеров</h2>
-        <p>Регистрируйся и стань частью трейдерского сообщества Exrates</p>
+  <div class="arrows-container"></div>
+  <ngx-slick-carousel
+    class="carousel"
+    #slickModal="slick-carousel"
+    [config]="slideConfig"
+    (afterChange)="afterChange($event)">
+    <div
+      ngxSlickItem
+      class="slider-item">
+      <div class="bg-wr">
+        <img src="assets/img/fs-sl1.jpg" alt="">
+      </div>
+      <div class="slide-txt">
+        <div class="txt-inner">
+          <h2><span>172,000 </span>трейдеров</h2>
+          <p>Регистрируйся и стань частью трейдерского сообщества Exrates</p>
+        </div>
       </div>
     </div>
-  </div>
+    <div
+      ngxSlickItem
+      class="slider-item">
+      <div class="bg-wr">
+        <img src="assets/img/fs-sl1.jpg" alt="">
+      </div>
+      <div class="slide-txt">
+        <div class="txt-inner">
+          <h2><span>172,000 </span>трейдеров</h2>
+          <p>Регистрируйся и стань частью трейдерского сообщества Exrates</p>
+        </div>
+      </div>
+    </div>
+    <div
+      ngxSlickItem
+      class="slider-item">
+      <div class="bg-wr">
+        <img src="assets/img/fs-sl1.jpg" alt="">
+      </div>
+      <div class="slide-txt">
+        <div class="txt-inner">
+          <h2><span>172,000 </span>трейдеров</h2>
+          <p>Регистрируйся и стань частью трейдерского сообщества Exrates</p>
+        </div>
+      </div>
+    </div>
+
+  </ngx-slick-carousel>
+
   <div class="register-form">
     <form action="#">
       <div class="wrap-input popup__wrap-input">
@@ -22,150 +59,25 @@
       </button>
     </form>
   </div>
-</div>
-<div class="run-line">
-  <marquee scrollamount="4">
-    <div class="run-line-inner">
-      <div class="run-line-item">
-        <div class="pair">
-          <span>ZEC/USDC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="run-line-item">
-        <div class="pair">
-          <span>ZEC/USDC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="run-line-item">
-        <div class="pair">
-          <span>ZEC/USDC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="run-line-item">
-        <div class="pair">
-          <span>ZEC/USDC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="run-line-item">
-        <div class="pair">
-          <span>ZEC/USDC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="run-line-item">
-        <div class="pair">
-          <span>ZEC/USDC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="run-line-item">
-        <div class="pair">
-          <span>ZEC/USDC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="run-line-item">
-        <div class="pair">
-          <span>ZEC/USDC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="run-line-item">
-        <div class="pair">
-          <span>ZEC/USDC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="run-line-item">
-        <div class="pair">
-          <span>ZEC/USDC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
+  <div class="slider-dots">
+    <div
+      class="dots-item"
+      [ngClass]="{'active': currSlide == '0'}"
+      (click)="slickModal.slickGoTo(0)">
+      <img src="assets/img/prev1.jpg" alt="">
     </div>
-  </marquee>
+    <div
+      class="dots-item"
+      [ngClass]="{'active': currSlide == '1'}"
+      (click)="slickModal.slickGoTo(1)">
+      <img src="assets/img/prev2.jpg" alt="">
+    </div>
+    <div
+      class="dots-item"
+      [ngClass]="{'active': currSlide == '2'}"
+      (click)="slickModal.slickGoTo(2)">
+      <img src="assets/img/prev3.jpg" alt="">
+    </div>
+
+  </div>
 </div>
