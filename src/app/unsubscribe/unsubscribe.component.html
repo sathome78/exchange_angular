@@ -1,24 +1,23 @@
 <div class="unsubscribe-block">
-
   <div class="text-part">
-    <h2>Exrates Subscription</h2>
-    <p>You have successfully unsubscribed from our news emails.
-      <br>It will take several days for your address to be unsubscribed</p>
+    <h2>{{'Exrates Subscription' | translate}}</h2>
+    <p>{{'You have successfully unsubscribed from our news emails.' | translate}}
+      <br>{{'It will take several days for your address to be unsubscribed' | translate}}
+    </p>
   </div>
   <div class="button-description">
-    <p>Unsubscribed by accident?
-      <br>Click resubscribe to restore settings</p>
+    <p>{{'Unsubscribed by accident?' | translate}}
+      <br>{{'Click resubscribe to restore settings' | translate}}
+    </p>
   </div>
   <div class="button-wr">
     <button
       class="btn btn--active balance__title-btn"
-      (click)="resubscribedTxt()"
-      [disabled]="subscribed"
+      (click)="resubscribe()"
+      [disabled]="loading || subscribed || (!token && !id)"
     >
-      <span *ngIf="!subscribed">Resubscribe</span>
-
-      <span *ngIf="subscribed">
-        Subscribed</span>
+      <span *ngIf="!subscribed">{{'Resubscribe' | translate}}</span>
+      <span *ngIf="subscribed">{{'Subscribed' | translate}}</span>
     </button>
   </div>
 </div>

@@ -8,7 +8,12 @@ import { Location } from '@angular/common';
 
 @Injectable()
 export class RestorePasswordGuard implements CanActivate {
-  constructor(private router: Router, private authService: AuthService, private location: Location, private popupService: PopupService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private location: Location,
+    private popupService: PopupService
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> | boolean {
     return this.authService
