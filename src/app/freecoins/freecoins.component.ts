@@ -17,7 +17,7 @@ export class FreecoinsComponent implements OnInit, OnDestroy {
   public showFreeCoinsPopup = false;
   public showFreeCoinsCaptcha = false;
 
-  public freecoinId: string | number;
+  public freecoinId: number;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public freecoinsList: GAFreeCoinsPublicResModel[] = [];
   public freecoinsState: { [id: string]: GAFreeCoinsPrivateResModel } = {};
@@ -92,6 +92,7 @@ export class FreecoinsComponent implements OnInit, OnDestroy {
 
   recieveCoins() {
     if (this.freecoinId) {
+      this.loading = true;
       this.freeCoinsService
         .recieveCoins(this.freecoinId)
         .pipe(takeUntil(this.ngUnsubscribe))
@@ -100,6 +101,12 @@ export class FreecoinsComponent implements OnInit, OnDestroy {
             ...this.freecoinsState,
             [res.giveaway_id]: res,
           };
+          this.loading = false;
+        }, err => {
+          if (err.error.title === 'FREE_COINS_RECEIVE_PROCESS_FAILED') {
+            this.refreshCoins();
+          }
+          this.loading = false;
         });
     }
   }

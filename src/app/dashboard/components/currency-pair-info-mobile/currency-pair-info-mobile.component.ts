@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/internal/operators';
 import { select, Store } from '@ngrx/store';
@@ -8,7 +14,6 @@ import {
   getActiveCurrencyPair,
   getUserBalance,
   getCurrencyPairInfo,
-  getCurrencyPairArray,
   getSimpleCurrencyPairsSelector
 } from 'app/core/reducers/index';
 import { DashboardWebSocketService } from '../../dashboard-websocket.service';
@@ -112,6 +117,16 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
         this.store.dispatch(new dashboardActions.RefreshCurrencyPairInfoAction(data));
         this.cdr.detectChanges();
       });
+  }
+
+  flagForArrow(s: string) {
+    if (s === 'up') {
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.percentChange >= 0 : false;
+    }
+    if (s === 'down') {
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.percentChange < 0 : false;
+    }
+    return false;
   }
 
   unsubscribeCurrInfo() {

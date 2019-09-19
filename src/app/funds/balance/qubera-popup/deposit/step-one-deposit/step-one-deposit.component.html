@@ -124,8 +124,7 @@
             >
               <li
                 class="select__list-item"
-                *ngFor="let nested of merchant.listMerchantImage |
-                  merchantImageFilter: searchTemplate"
+                *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
                 (click)="selectMerchant(merchant, nested)"
               >
                 <div class="icon-wr">

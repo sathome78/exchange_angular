@@ -4,7 +4,7 @@ import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import prettyNum from 'pretty-num';
 import { environment } from 'environments/environment';
 import { Store, select } from '@ngrx/store';
-import { State } from 'app/core/reducers';
+import { State, getUserInfo } from 'app/core/reducers';
 import { getQuberaBalancesSelector, getQuberaKycStatusSelector } from 'app/funds/store/reducers/funds.reducer';
 import { withLatestFrom, takeUntil } from 'rxjs/operators';
 import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
@@ -24,15 +24,21 @@ export class UtilsService {
   private checkCyrilic = /[а-яА-ЯёЁ]/gi;
   private fraction: number;
   private isQuberaReady = false;
+  private userInfo: ParsedToken;
 
   constructor(private store: Store<State>) {
     this.store
       .pipe(select(getQuberaBalancesSelector))
       .pipe(withLatestFrom(this.store.pipe(select(getQuberaKycStatusSelector))))
-      .subscribe(([balances, kysStatus]: [{data: QuberaBalanceModel, error: null}, string]) => {
-        const isQuberaBalances = balances && balances.data && balances.data.accountState === 'ACTIVE';
-        const isQuberaKYCSuccess = kysStatus === 'SUCCESS';
+      .subscribe(([balances, kysStatus]: [QuberaBalanceModel, string]) => {
+        const isQuberaBalances = balances && balances.accountState === 'ACTIVE';
+        const isQuberaKYCSuccess = kysStatus.toUpperCase() === 'OK';
         this.isQuberaReady = isQuberaKYCSuccess && isQuberaBalances;
+      });
+    this.store
+      .pipe(select(getUserInfo))
+      .subscribe((userInfo: ParsedToken) => {
+        this.userInfo = userInfo;
       });
   }
 
@@ -201,16 +207,15 @@ export class UtilsService {
     return !!candidate ? candidate : 0;
   }
 
-  isDeveloper(userInfo: ParsedToken): boolean {
-    return userInfo && userInfo.username && userInfo.username.indexOf('@upholding.biz') !== -1;
+  get isDeveloper(): boolean {
+    if (!this.userInfo || !this.userInfo.username) {
+      return false;
+    }
+    return this.userInfo.username.indexOf('@upholding.biz') !== -1;
   }
 
   get isDisabledCaptcha(): boolean {
     return localStorage.getItem('captcha') === 'false' || !environment.captcha;
-  }
-
-  checkIsDeveloper(name: string = '') {
-    return name.indexOf('@upholding.biz') !== -1;
   }
 
   get isProdHost() {
@@ -222,13 +227,11 @@ export class UtilsService {
   }
 
   isDevCaptcha(name: string = '') {
-    // UNCOMMENT WHEN NEED USER UPHOLDING CHECK
-    // return this.checkIsDeveloper(name) && this.isDisabledCaptcha && !this.isProdHost;
     return this.isDisabledCaptcha && !this.isProdHost;
   }
 
   filterMerchants(merch) {
-    if (!environment.showContent) {
+    if (!this.isDeveloper) {
       return merch.name !== FUG;
     }
     if (this.isQuberaReady) {

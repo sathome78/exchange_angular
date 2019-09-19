@@ -1,7 +1,4 @@
-<div
-  class="currency-pair-info"
-  *ngIf="true"
->
+<div class="currency-pair-info">
   <div class="currency-pair-info__inner">
     <app-dynamic-input-dashboard
       [value]="pairInput"
@@ -40,14 +37,14 @@
           >
 
           <span>
-            {{currentCurrencyInfo.changedValue | currencyFormat}} {{pair.name | splitCurrency : 2}}
+            {{currentCurrencyInfo.changedValue | positivePipe | currencyFormat}} {{pair.name | splitCurrency : 2}}
           </span>
         </div>
         <div
           class="currency-pair-info__price"
           [ngClass]="{
-            'currency-pair-info__price--up': lastPriceDir('up'),
-            'currency-pair-info__price--down': lastPriceDir('down')
+            'currency-pair-info__price--up': flagForArrow('up'),
+            'currency-pair-info__price--down': flagForArrow('down')
           }"
         >
           {{currentCurrencyInfo.currencyRate | currencyFormat}} {{pair.name | splitCurrency : 2}}

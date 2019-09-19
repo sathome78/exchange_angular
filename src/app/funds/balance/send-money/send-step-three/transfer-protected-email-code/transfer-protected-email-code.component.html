@@ -53,7 +53,7 @@
                 class=" wrap-input__message--show"
                 *ngIf="formAmount.errors['isMinThenMinWithdraw']"
                 [ngClass]="{'wrap-input__message': formAmount.errors['isMinThenMinWithdraw'] &&
-                  (formAmount.touched || isSubmited)}"
+                    (formAmount.touched || isSubmited)}"
               >
                 {{'Minimum sum for transfer' | translate}} {{minWithdrawSum}} {{activeCrypto.name}}
               </span>
@@ -108,9 +108,9 @@
               </span>
             </div>
           </div>
-          <!--Input error section ends-->
         </div>
       </div>
+
     </form>
     <div class="send__line"></div>
 

@@ -17,8 +17,6 @@
             (selectCurrency)="selectCurrency($event)"
           ></app-currency-select-crypto>
         </div>
-
-
         <div
           class="wrap-input send__wrap-input"
           [ngClass]="{'wrap-input--error': formAmount.invalid && (formAmount.touched || isSubmited)}"
@@ -53,22 +51,21 @@
                 class=" wrap-input__message--show"
                 *ngIf="formAmount.errors['isMinThenMinWithdraw']"
                 [ngClass]="{'wrap-input__message': formAmount.errors['isMinThenMinWithdraw'] &&
-                  (formAmount.touched || isSubmited)}"
+                        (formAmount.touched || isSubmited)}"
               >
                 {{'Minimum sum for transfer' | translate}} {{minWithdrawSum}} {{activeCrypto.name}}</span>
               <span
                 class="wrap-input__message wrap-input__message--show"
                 *ngIf="formAmount.errors['isMaxThenActiveBalance'] &&
-                  (formAmount.touched || isSubmited)"
+                        (formAmount.touched || isSubmited)"
               >
                 {{'Max sum for transfer' | translate}} {{activeBalance}} {{activeCrypto.name}}</span>
             </div>
           </div>
           <!--Input error section ends-->
         </div>
-
-
       </div>
+
     </form>
     <div class="send__line"></div>
     <div class="send__info">
@@ -81,6 +78,7 @@
         <div class="send__info-value">{{responseCommission.companyCommissionRate | currencyFormat}} =
           {{responseCommission.totalCommissionAmount | currencyFormat}} {{activeCrypto.name}}
         </div>
+        <!--Input error section ends-->
       </div>
       <div class="send__info-row">
         <div class="send__info-title">{{'Total with comission:' | translate}}</div>

@@ -61,7 +61,6 @@
         (createQuberaAccount)="goToCreateQuberaAccountPopup($event)"
         (openRefillBalancePopup)="openRefillBalancePopup($event)"
         (openSendMoneyPopup)="openSendMoneyPopup($event)"
-        (goToQuberaDetails)="onGoToQuberaDetails($event)"
       ></app-qubera-mob>
 
       <app-ieo-table-mob
@@ -218,7 +217,7 @@
 
         <!-- FUG BLOCK -->
         <button
-          *ngIf="utilsService.showContentProd"
+          *ngIf="utilsService.isDeveloper"
           class="tabs__item funding-tabs"
           [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
           (click)="onSelectTab(Tab.QUBERA)"
@@ -394,6 +393,8 @@
     </ng-container>
 
   </div>
+
+
   <!--balance-desktop end-->
 </div>
 
