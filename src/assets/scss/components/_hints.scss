@@ -29,7 +29,7 @@
 }
 
 
-.wrap-input__input--error,.ng-invalid.ng-touched{
+.wrap-input__input--error:focus,.ng-invalid.ng-touched:focus{
 	&~div .input-hint-wrapper{
 		opacity: 1;
 		pointer-events:auto;
@@ -39,8 +39,19 @@
 		}
 	}
 }
+.wrap-input--error .wrap-input__input:focus,.ng-invalid.ng-touched:focus{
+	&~div .input-hint-wrapper,.input-hint-wrapper{
+		opacity: 1;
+		pointer-events:auto;
 
-.wrap-input--error{
+		span{
+			color: #EB5757;
+		}
+	}
+}
+
+
+.wrap-input--error:focus{
 	.input-hint-wrapper{
 		opacity: 1;
 		pointer-events:auto;
